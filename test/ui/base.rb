@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -34,9 +34,7 @@ Capybara.register_driver :selenium do |app|
 end
 
 # default: 2
-Capybara.default_wait_time = 20
-
-DatabaseCleaner.strategy = :truncation
+Capybara.default_wait_time = 2
 
 module Redmine
   module UiTest
@@ -65,7 +63,6 @@ module Redmine
       teardown do
         Capybara.reset_sessions!    # Forget the (simulated) browser state
         Capybara.use_default_driver # Revert Capybara.current_driver to Capybara.default_driver
-        DatabaseCleaner.clean
       end
     end
   end

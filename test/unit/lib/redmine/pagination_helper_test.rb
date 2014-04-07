@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,7 +17,7 @@
 
 require File.expand_path('../../../../test_helper', __FILE__)
 
-class ApplicationHelperTest < ActionView::TestCase
+class PaginationHelperTest < ActionView::TestCase
   include Redmine::Pagination::Helper
 
   def test_per_page_options_should_return_usefull_values

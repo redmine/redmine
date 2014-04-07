@@ -24,7 +24,7 @@ RedmineApp::Application.configure do
   # http://m.onkey.org/2007/9/28/csrf-protection-for-your-existing-rails-application
   config.action_controller.allow_forgery_protection = false
 
-  config.active_support.deprecation = :log
+  config.active_support.deprecation = [:stderr, :log]
 
   config.secret_token = 'a secret token for running the tests'
 end

@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -183,18 +183,17 @@ class IssueRelationTest < ActiveSupport::TestCase
     assert_equal from.journals.size, (from_journals + 1)
     assert_equal to.journals.size, (to_journals + 1)
     assert_equal 'relation', from.journals.last.details.last.property
-    assert_equal 'label_precedes', from.journals.last.details.last.prop_key
+    assert_equal 'precedes', from.journals.last.details.last.prop_key
     assert_equal '2', from.journals.last.details.last.value
     assert_nil   from.journals.last.details.last.old_value
     assert_equal 'relation', to.journals.last.details.last.property
-    assert_equal 'label_follows', to.journals.last.details.last.prop_key
+    assert_equal 'follows', to.journals.last.details.last.prop_key
     assert_equal '1', to.journals.last.details.last.value
     assert_nil   to.journals.last.details.last.old_value
   end
 
   def test_delete_should_make_journal_entry
     relation = IssueRelation.find(1)
-    id = relation.id
     from = relation.issue_from
     to   = relation.issue_to
     from_journals = from.journals.size
@@ -205,11 +204,11 @@ class IssueRelationTest < ActiveSupport::TestCase
     assert_equal from.journals.size, (from_journals + 1)
     assert_equal to.journals.size, (to_journals + 1)
     assert_equal 'relation', from.journals.last.details.last.property
-    assert_equal 'label_blocks', from.journals.last.details.last.prop_key
+    assert_equal 'blocks', from.journals.last.details.last.prop_key
     assert_equal '9', from.journals.last.details.last.old_value
     assert_nil   from.journals.last.details.last.value
     assert_equal 'relation', to.journals.last.details.last.property
-    assert_equal 'label_blocked_by', to.journals.last.details.last.prop_key
+    assert_equal 'blocked', to.journals.last.details.last.prop_key
     assert_equal '10', to.journals.last.details.last.old_value
     assert_nil   to.journals.last.details.last.value
   end

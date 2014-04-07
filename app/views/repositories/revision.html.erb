@@ -96,6 +96,6 @@
 
 <%
   title = "#{l(:label_revision)} #{format_revision(@changeset)}"
-  title << " - #{truncate(@changeset.comments, :length => 80)}"
+  title << " - #{@changeset.comments.truncate(80)}"
   html_title(title)
  -%>

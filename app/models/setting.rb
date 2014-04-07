@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -83,7 +83,9 @@ class Setting < ActiveRecord::Base
 
   validates_uniqueness_of :name
   validates_inclusion_of :name, :in => @@available_settings.keys
-  validates_numericality_of :value, :only_integer => true, :if => Proc.new { |setting| @@available_settings[setting.name]['format'] == 'int' }
+  validates_numericality_of :value, :only_integer => true, :if => Proc.new { |setting|
+    (s = @@available_settings[setting.name]) && s['format'] == 'int'
+  }
 
   # Hash used to cache setting values
   @cached_settings = {}
@@ -240,9 +242,10 @@ private
   def self.find_or_default(name)
     name = name.to_s
     raise "There's no setting named #{name}" unless @@available_settings.has_key?(name)
-    setting = find_by_name(name)
+    setting = where(:name => name).first
     unless setting
-      setting = new(:name => name)
+      setting = new
+      setting.name = name
       setting.value = @@available_settings[name]['default']
     end
     setting

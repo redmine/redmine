@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -55,6 +55,20 @@ class CustomFieldTest < ActiveSupport::TestCase
   def test_default_value_should_not_be_validated_when_blank
     field = CustomField.new(:name => 'Test', :field_format => 'list', :possible_values => ['a', 'b'], :is_required => true, :default_value => '')
     assert field.valid?
+  end
+
+  def test_field_format_should_be_validated
+    field = CustomField.new(:name => 'Test', :field_format => 'foo')
+    assert !field.valid?
+  end
+
+  def test_field_format_validation_should_accept_formats_added_at_runtime
+    Redmine::FieldFormat.add 'foobar', Class.new(Redmine::FieldFormat::Base)
+
+    field = CustomField.new(:name => 'Some Custom Field', :field_format => 'foobar')
+    assert field.valid?, 'field should be valid'
+  ensure
+    Redmine::FieldFormat.delete 'foobar'
   end
 
   def test_should_not_change_field_format_of_existing_custom_field
@@ -132,6 +146,7 @@ class CustomFieldTest < ActiveSupport::TestCase
 
     assert f.valid_field_value?(nil)
     assert f.valid_field_value?('')
+    assert !f.valid_field_value?(' ')
     assert f.valid_field_value?('a' * 2)
     assert !f.valid_field_value?('a')
     assert !f.valid_field_value?('a' * 6)
@@ -142,6 +157,7 @@ class CustomFieldTest < ActiveSupport::TestCase
 
     assert f.valid_field_value?(nil)
     assert f.valid_field_value?('')
+    assert !f.valid_field_value?(' ')
     assert f.valid_field_value?('ABC')
     assert !f.valid_field_value?('abc')
   end
@@ -151,6 +167,7 @@ class CustomFieldTest < ActiveSupport::TestCase
 
     assert f.valid_field_value?(nil)
     assert f.valid_field_value?('')
+    assert !f.valid_field_value?(' ')
     assert f.valid_field_value?('1975-07-14')
     assert !f.valid_field_value?('1975-07-33')
     assert !f.valid_field_value?('abc')
@@ -161,6 +178,7 @@ class CustomFieldTest < ActiveSupport::TestCase
 
     assert f.valid_field_value?(nil)
     assert f.valid_field_value?('')
+    assert !f.valid_field_value?(' ')
     assert f.valid_field_value?('value2')
     assert !f.valid_field_value?('abc')
   end
@@ -170,6 +188,7 @@ class CustomFieldTest < ActiveSupport::TestCase
 
     assert f.valid_field_value?(nil)
     assert f.valid_field_value?('')
+    assert !f.valid_field_value?(' ')
     assert f.valid_field_value?('123')
     assert f.valid_field_value?('+123')
     assert f.valid_field_value?('-123')
@@ -181,6 +200,7 @@ class CustomFieldTest < ActiveSupport::TestCase
 
     assert f.valid_field_value?(nil)
     assert f.valid_field_value?('')
+    assert !f.valid_field_value?(' ')
     assert f.valid_field_value?('11.2')
     assert f.valid_field_value?('-6.250')
     assert f.valid_field_value?('5')
@@ -192,9 +212,11 @@ class CustomFieldTest < ActiveSupport::TestCase
 
     assert f.valid_field_value?(nil)
     assert f.valid_field_value?('')
+    assert !f.valid_field_value?(' ')
     assert f.valid_field_value?([])
     assert f.valid_field_value?([nil])
     assert f.valid_field_value?([''])
+    assert !f.valid_field_value?([' '])
 
     assert f.valid_field_value?('value2')
     assert !f.valid_field_value?('abc')
@@ -278,5 +300,19 @@ class CustomFieldTest < ActiveSupport::TestCase
     ]
 
     assert_equal [fields[0]], CustomField.visible(User.anonymous).order("id").to_a
+  end
+
+  def test_float_cast_blank_value_should_return_nil
+    field = CustomField.new(:field_format => 'float')
+    assert_equal nil, field.cast_value(nil)
+    assert_equal nil, field.cast_value('')
+  end
+
+  def test_float_cast_valid_value_should_return_float
+    field = CustomField.new(:field_format => 'float')
+    assert_equal 12.0, field.cast_value('12')
+    assert_equal 12.5, field.cast_value('12.5')
+    assert_equal 12.5, field.cast_value('+12.5')
+    assert_equal -12.5, field.cast_value('-12.5')
   end
 end

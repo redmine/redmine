@@ -408,6 +408,8 @@ en:
   setting_jsonp_enabled: Enable JSONP support
   setting_default_projects_tracker_ids: Default trackers for new projects
   setting_mail_handler_excluded_filenames: Exclude attachments by name
+  setting_force_default_language_for_anonymous: Force default language for anonymous users
+  setting_force_default_language_for_loggedin: Force default language for logged-in users
 
   permission_add_project: Create project
   permission_add_subprojects: Create subprojects
@@ -903,6 +905,12 @@ en:
   label_visibility_private: to me only
   label_visibility_roles: to these roles only
   label_visibility_public: to any users
+  label_link: Link
+  label_only: only
+  label_drop_down_list: drop-down list
+  label_checkboxes: checkboxes
+  label_link_values_to: Link values to URL
+  label_custom_field_select_type: Select the type of object to which the custom field is to be attached
 
   button_login: Login
   button_submit: Submit
@@ -1014,6 +1022,7 @@ en:
   text_file_repository_writable: Attachments directory writable
   text_plugin_assets_writable: Plugin assets directory writable
   text_rmagick_available: RMagick available (optional)
+  text_convert_available: ImageMagick convert available (optional)
   text_destroy_time_entries_question: "%{hours} hours were reported on the issues you are about to delete. What do you want to do?"
   text_destroy_time_entries: Delete reported hours
   text_assign_time_entries_to_project: Assign reported hours to the project

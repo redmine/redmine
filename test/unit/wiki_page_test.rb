@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -106,8 +106,8 @@ class WikiPageTest < ActiveSupport::TestCase
     page.destroy
     assert_nil WikiPage.find_by_id(1)
     # make sure that page content and its history are deleted
-    assert WikiContent.find_all_by_page_id(1).empty?
-    assert WikiContent.versioned_class.find_all_by_page_id(1).empty?
+    assert_equal 0, WikiContent.where(:page_id => 1).count
+    assert_equal 0, WikiContent.versioned_class.where(:page_id => 1).count
   end
 
   def test_destroy_should_not_nullify_children
@@ -117,15 +117,15 @@ class WikiPageTest < ActiveSupport::TestCase
     page.destroy
     assert_nil WikiPage.find_by_id(2)
 
-    children = WikiPage.find_all_by_id(child_ids)
-    assert_equal child_ids.size, children.size
+    children = WikiPage.where(:id => child_ids)
+    assert_equal child_ids.size, children.count
     children.each do |child|
       assert_nil child.parent_id
     end
   end
 
   def test_updated_on_eager_load
-    page = WikiPage.with_updated_on.first(:order => 'id')
+    page = WikiPage.with_updated_on.order('id').first
     assert page.is_a?(WikiPage)
     assert_not_nil page.read_attribute(:updated_on)
     assert_equal Time.gm(2007, 3, 6, 23, 10, 51), page.content.updated_on

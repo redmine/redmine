@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -90,12 +90,13 @@ class Repository::Subversion < Repository
 
   def load_entries_changesets(entries)
     return unless entries
-
-    entries_with_identifier = entries.select {|entry| entry.lastrev && entry.lastrev.identifier.present?}
+    entries_with_identifier =
+      entries.select {|entry| entry.lastrev && entry.lastrev.identifier.present?}
     identifiers = entries_with_identifier.map {|entry| entry.lastrev.identifier}.compact.uniq
-
     if identifiers.any?
-      changesets_by_identifier = changesets.where(:revision => identifiers).includes(:user, :repository).all.group_by(&:revision)
+      changesets_by_identifier =
+        changesets.where(:revision => identifiers).
+          includes(:user, :repository).group_by(&:revision)
       entries_with_identifier.each do |entry|
         if m = changesets_by_identifier[entry.lastrev.identifier]
           entry.changeset = m.first

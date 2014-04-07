@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -133,8 +133,7 @@ class ProjectTest < ActiveSupport::TestCase
   end
 
   def test_identifier_should_not_be_frozen_for_a_saved_project_with_blank_identifier
-    Project.update_all(["identifier = ''"], "id = 1")
-
+    Project.where(:id => 1).update_all(["identifier = ''"])
     assert_equal false, Project.find(1).identifier_frozen?
   end
 
@@ -203,7 +202,7 @@ class ProjectTest < ActiveSupport::TestCase
     # 2 active members
     assert_equal 2, @ecookbook.members.size
     # and 1 is locked
-    assert_equal 3, Member.where('project_id = ?', @ecookbook.id).all.size
+    assert_equal 3, Member.where(:project_id => @ecookbook.id).count
     # some boards
     assert @ecookbook.boards.any?
 
@@ -225,7 +224,7 @@ class ProjectTest < ActiveSupport::TestCase
     assert_nothing_raised do
       Project.find(1).destroy
     end
-    assert Issue.find_all_by_id(issues.map(&:id)).empty?
+    assert_equal 0, Issue.where(:id => issues.map(&:id)).count
   end
 
   def test_destroying_root_projects_should_clear_data
@@ -258,9 +257,18 @@ class ProjectTest < ActiveSupport::TestCase
     assert_equal 0, WikiPage.count
     assert_equal 0, WikiContent.count
     assert_equal 0, WikiContent::Version.count
-    assert_equal 0, Project.connection.select_all("SELECT * FROM projects_trackers").size
-    assert_equal 0, Project.connection.select_all("SELECT * FROM custom_fields_projects").size
+    assert_equal 0, Project.connection.select_all("SELECT * FROM projects_trackers").count
+    assert_equal 0, Project.connection.select_all("SELECT * FROM custom_fields_projects").count
     assert_equal 0, CustomValue.where(:customized_type => ['Project', 'Issue', 'TimeEntry', 'Version']).count
+  end
+
+  def test_destroy_should_delete_time_entries_custom_values
+    project = Project.generate!
+    time_entry = TimeEntry.generate!(:project => project, :custom_field_values => {10 => '1'})
+
+    assert_difference 'CustomValue.where(:customized_type => "TimeEntry").count', -1 do
+      assert project.destroy
+    end
   end
 
   def test_move_an_orphan_project_to_a_root_project
@@ -576,7 +584,7 @@ class ProjectTest < ActiveSupport::TestCase
     assert_equal [1,2,3], parent.version_ids.sort
     assert_equal [4], child.version_ids
     assert_equal [6], private_child.version_ids
-    assert_equal [7], Version.find_all_by_sharing('system').collect(&:id)
+    assert_equal [7], Version.where(:sharing => 'system').collect(&:id)
 
     assert_equal 6, parent.shared_versions.size
     parent.shared_versions.each do |version|
@@ -722,6 +730,7 @@ class ProjectTest < ActiveSupport::TestCase
   def test_activities_should_use_the_system_activities
     project = Project.find(1)
     assert_equal project.activities, TimeEntryActivity.where(:active => true).all
+    assert_kind_of ActiveRecord::Relation, project.activities
   end
 
 
@@ -731,6 +740,7 @@ class ProjectTest < ActiveSupport::TestCase
     assert overridden_activity.save!
 
     assert project.activities.include?(overridden_activity), "Project specific Activity not found"
+    assert_kind_of ActiveRecord::Relation, project.activities
   end
 
   def test_activities_should_not_include_the_inactive_project_specific_activities

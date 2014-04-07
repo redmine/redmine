@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -29,6 +29,11 @@ class User < Principal
       },
     :firstname_lastinitial => {
         :string => '#{firstname} #{lastname.to_s.chars.first}.',
+        :order => %w(firstname lastname id),
+        :setting_order => 2
+      },
+    :firstinitial_lastname => {
+        :string => '#{firstname.to_s.gsub(/(([[:alpha:]])[[:alpha:]]*\.?)/, \'\2.\')} #{lastname}',
         :order => %w(firstname lastname id),
         :setting_order => 2
       },
@@ -68,8 +73,10 @@ class User < Principal
     ['none', :label_user_mail_option_none]
   ]
 
-  has_and_belongs_to_many :groups, :after_add => Proc.new {|user, group| group.user_added(user)},
-                                   :after_remove => Proc.new {|user, group| group.user_removed(user)}
+  has_and_belongs_to_many :groups,
+                          :join_table   => "#{table_name_prefix}groups_users#{table_name_suffix}",
+                          :after_add    => Proc.new {|user, group| group.user_added(user)},
+                          :after_remove => Proc.new {|user, group| group.user_removed(user)}
   has_many :changesets, :dependent => :nullify
   has_one :preference, :dependent => :destroy, :class_name => 'UserPreference'
   has_one :rss_token, :class_name => 'Token', :conditions => "action='feeds'"
@@ -307,6 +314,18 @@ class User < Principal
     @time_zone ||= (self.pref.time_zone.blank? ? nil : ActiveSupport::TimeZone[self.pref.time_zone])
   end
 
+  def force_default_language?
+    Setting.force_default_language_for_loggedin?
+  end
+
+  def language
+    if force_default_language?
+      Setting.default_language
+    else
+      super
+    end
+  end
+
   def wants_comments_in_reverse_order?
     self.pref[:comments_sorting] == 'desc'
   end
@@ -365,10 +384,10 @@ class User < Principal
   # Find a user account by matching the exact login and then a case-insensitive
   # version.  Exact matches will be given priority.
   def self.find_by_login(login)
+    login = Redmine::CodesetUtil.replace_invalid_utf8(login.to_s)
     if login.present?
-      login = login.to_s
       # First look for an exact match
-      user = where(:login => login).all.detect {|u| u.login == login}
+      user = where(:login => login).detect {|u| u.login == login}
       unless user
         # Fail over to case-insensitive if none was found
         user = where("LOWER(login) = ?", login.downcase).first
@@ -664,23 +683,27 @@ class User < Principal
     return if self.id.nil?
 
     substitute = User.anonymous
-    Attachment.update_all ['author_id = ?', substitute.id], ['author_id = ?', id]
-    Comment.update_all ['author_id = ?', substitute.id], ['author_id = ?', id]
-    Issue.update_all ['author_id = ?', substitute.id], ['author_id = ?', id]
-    Issue.update_all 'assigned_to_id = NULL', ['assigned_to_id = ?', id]
-    Journal.update_all ['user_id = ?', substitute.id], ['user_id = ?', id]
-    JournalDetail.update_all ['old_value = ?', substitute.id.to_s], ["property = 'attr' AND prop_key = 'assigned_to_id' AND old_value = ?", id.to_s]
-    JournalDetail.update_all ['value = ?', substitute.id.to_s], ["property = 'attr' AND prop_key = 'assigned_to_id' AND value = ?", id.to_s]
-    Message.update_all ['author_id = ?', substitute.id], ['author_id = ?', id]
-    News.update_all ['author_id = ?', substitute.id], ['author_id = ?', id]
+    Attachment.where(['author_id = ?', id]).update_all(['author_id = ?', substitute.id]) 
+    Comment.where(['author_id = ?', id]).update_all(['author_id = ?', substitute.id])
+    Issue.where(['author_id = ?', id]).update_all(['author_id = ?', substitute.id])
+    Issue.where(['assigned_to_id = ?', id]).update_all('assigned_to_id = NULL')
+    Journal.where(['user_id = ?', id]).update_all(['user_id = ?', substitute.id]) 
+    JournalDetail.
+      where(["property = 'attr' AND prop_key = 'assigned_to_id' AND old_value = ?", id.to_s]).
+      update_all(['old_value = ?', substitute.id.to_s])
+    JournalDetail.
+      where(["property = 'attr' AND prop_key = 'assigned_to_id' AND value = ?", id.to_s]).
+      update_all(['value = ?', substitute.id.to_s]) 
+    Message.where(['author_id = ?', id]).update_all(['author_id = ?', substitute.id])
+    News.where(['author_id = ?', id]).update_all(['author_id = ?', substitute.id])
     # Remove private queries and keep public ones
     ::Query.delete_all ['user_id = ? AND visibility = ?', id, ::Query::VISIBILITY_PRIVATE]
-    ::Query.update_all ['user_id = ?', substitute.id], ['user_id = ?', id]
-    TimeEntry.update_all ['user_id = ?', substitute.id], ['user_id = ?', id]
+    ::Query.where(['user_id = ?', id]).update_all(['user_id = ?', substitute.id])
+    TimeEntry.where(['user_id = ?', id]).update_all(['user_id = ?', substitute.id])
     Token.delete_all ['user_id = ?', id]
     Watcher.delete_all ['user_id = ?', id]
-    WikiContent.update_all ['author_id = ?', substitute.id], ['author_id = ?', id]
-    WikiContent::Version.update_all ['author_id = ?', substitute.id], ['author_id = ?', id]
+    WikiContent.where(['author_id = ?', id]).update_all(['author_id = ?', substitute.id])
+    WikiContent::Version.where(['author_id = ?', id]).update_all(['author_id = ?', substitute.id])
   end
 
   # Return password digest

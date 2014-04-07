@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -235,6 +235,22 @@ class Redmine::WikiFormatting::MacrosTest < ActionView::TestCase
     assert_select_in result, 'a.collapsible', :text => 'Hide example'
   end
 
+  def test_macro_collapse_should_not_break_toc
+    text =  <<-RAW
+{{toc}}
+
+h1. Title
+
+{{collapse(Show example, Hide example)
+h2. Heading 
+}}"
+RAW
+
+    expected_toc = '<ul class="toc"><li><a href="#Title">Title</a><ul><li><a href="#Heading">Heading</a></li></ul></li></ul>'
+
+    assert_include expected_toc, textilizable(text).gsub(/[\r\n]/, '')
+  end
+
   def test_macro_child_pages
     expected =  "<p><ul class=\"pages-hierarchy\">\n" +
                  "<li><a href=\"/projects/ecookbook/wiki/Child_1\">Child 1</a>\n" +
@@ -286,18 +302,30 @@ class Redmine::WikiFormatting::MacrosTest < ActionView::TestCase
   end
 
   def test_macro_thumbnail
-    assert_equal '<p><a href="/attachments/17" class="thumbnail" title="testfile.PNG"><img alt="testfile.PNG" src="/attachments/thumbnail/17" /></a></p>',
-      textilizable("{{thumbnail(testfile.png)}}", :object => Issue.find(14))
+    link = link_to('<img alt="testfile.PNG" src="/attachments/thumbnail/17" />'.html_safe,
+                   "/attachments/17",
+                   :class => "thumbnail",
+                   :title => "testfile.PNG")
+    assert_equal "<p>#{link}</p>",
+                 textilizable("{{thumbnail(testfile.png)}}", :object => Issue.find(14))
   end
 
   def test_macro_thumbnail_with_size
-    assert_equal '<p><a href="/attachments/17" class="thumbnail" title="testfile.PNG"><img alt="testfile.PNG" src="/attachments/thumbnail/17/200" /></a></p>',
-      textilizable("{{thumbnail(testfile.png, size=200)}}", :object => Issue.find(14))
+    link = link_to('<img alt="testfile.PNG" src="/attachments/thumbnail/17/200" />'.html_safe,
+                   "/attachments/17",
+                   :class => "thumbnail",
+                   :title => "testfile.PNG")
+    assert_equal "<p>#{link}</p>",
+                 textilizable("{{thumbnail(testfile.png, size=200)}}", :object => Issue.find(14))
   end
 
   def test_macro_thumbnail_with_title
-    assert_equal '<p><a href="/attachments/17" class="thumbnail" title="Cool image"><img alt="testfile.PNG" src="/attachments/thumbnail/17" /></a></p>',
-      textilizable("{{thumbnail(testfile.png, title=Cool image)}}", :object => Issue.find(14))
+    link = link_to('<img alt="testfile.PNG" src="/attachments/thumbnail/17" />'.html_safe,
+                   "/attachments/17",
+                   :class => "thumbnail",
+                   :title => "Cool image")
+    assert_equal "<p>#{link}</p>",
+                 textilizable("{{thumbnail(testfile.png, title=Cool image)}}", :object => Issue.find(14))
   end
 
   def test_macro_thumbnail_with_invalid_filename_should_fail

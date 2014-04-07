@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -56,12 +56,12 @@ class WatcherTest < ActiveSupport::TestCase
 
   def test_watcher_users
     watcher_users = Issue.find(2).watcher_users
-    assert_kind_of Array, watcher_users
+    assert_kind_of Array, watcher_users.collect{|w| w}
     assert_kind_of User, watcher_users.first
   end
 
   def test_watcher_users_should_not_validate_user
-    User.update_all("firstname = ''", "id=1")
+    User.where(:id => 1).update_all("firstname = ''")
     @user.reload
     assert !@user.valid?
 

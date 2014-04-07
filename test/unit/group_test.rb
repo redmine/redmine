@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -126,7 +126,7 @@ class GroupTest < ActiveSupport::TestCase
 
   def test_destroy_should_unassign_issues
     group = Group.first
-    Issue.update_all(["assigned_to_id = ?", group.id], 'id = 1')
+    Issue.where(:id => 1).update_all(["assigned_to_id = ?", group.id])
 
     assert group.destroy
     assert group.destroyed?

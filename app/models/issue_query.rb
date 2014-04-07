@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -142,7 +142,7 @@ class IssueQuery < Query
       if all_projects.any?
         principals += Principal.member_of(all_projects)
       end
-      versions = Version.visible.find_all_by_sharing('system')
+      versions = Version.visible.where(:sharing => 'system').all
       issue_custom_fields = IssueCustomField.where(:is_for_all => true)
     end
     principals.uniq!
@@ -150,7 +150,7 @@ class IssueQuery < Query
     users = principals.select {|p| p.is_a?(User)}
 
     add_available_filter "status_id",
-      :type => :list_status, :values => IssueStatus.sorted.all.collect{|s| [s.name, s.id.to_s] }
+      :type => :list_status, :values => IssueStatus.sorted.collect{|s| [s.name, s.id.to_s] }
 
     if project.nil?
       project_values = []
@@ -333,8 +333,9 @@ class IssueQuery < Query
       limit(options[:limit]).
       offset(options[:offset])
 
-    if has_custom_field_column?
-      scope = scope.preload(:custom_values)
+    scope = scope.preload(:custom_values)
+    if has_column?(:author)
+      scope = scope.preload(:author)
     end
 
     issues = scope.all
@@ -409,7 +410,7 @@ class IssueQuery < Query
       groups = Group.all
       operator = '!' # Override the operator since we want to find by assigned_to
     else
-      groups = Group.find_all_by_id(value)
+      groups = Group.where(:id => value).all
     end
     groups ||= []
 

@@ -459,6 +459,7 @@ de:
   label_change_view_all: Alle Änderungen anzeigen
   label_changes_details: Details aller Änderungen
   label_changeset_plural: Changesets
+  label_checkboxes: Checkboxen
   label_child_revision: Nachfolger
   label_chronological_order: in zeitlicher Reihenfolge
   label_close_versions: Vollständige Versionen schließen
@@ -492,6 +493,7 @@ de:
   label_custom_field: Benutzerdefiniertes Feld
   label_custom_field_new: Neues Feld
   label_custom_field_plural: Benutzerdefinierte Felder
+  label_custom_field_select_type: Bitte wählen Sie den Objekttyp, zu dem das benutzerdefinierte Feld hinzugefügt werden soll
   label_date: Datum
   label_date_from: Von
   label_date_from_to: von %{start} bis %{end}
@@ -515,6 +517,7 @@ de:
   label_document_new: Neues Dokument
   label_document_plural: Dokumente
   label_downloads_abbr: D/L
+  label_drop_down_list: Dropdown-Liste
   label_duplicated_by: Dupliziert durch
   label_duplicates: Duplikat von
   label_end_to_end: Ende - Ende
@@ -598,12 +601,14 @@ de:
   label_ldap_authentication: LDAP-Authentifizierung
   label_less_or_equal: "<="
   label_less_than_ago: vor weniger als
+  label_link_values_to: Werte mit URL verknüpfen
   label_list: Liste
   label_loading: Lade...
   label_logged_as: Angemeldet als
   label_login: Anmelden
   label_login_with_open_id_option: oder mit OpenID anmelden
   label_logout: Abmelden
+  label_only: nur
   label_max_size: Maximale Größe
   label_me: ich
   label_member: Mitglied
@@ -974,6 +979,7 @@ de:
   setting_default_notification_option: Standard Benachrichtigungsoptionen
   setting_default_projects_modules: Standardmäßig aktivierte Module für neue Projekte
   setting_default_projects_public: Neue Projekte sind standardmäßig öffentlich
+  setting_default_projects_tracker_ids: Standardmäßig aktivierte Tracker für neue Projekte
   setting_diff_max_lines_displayed: Maximale Anzahl anzuzeigender Diff-Zeilen
   setting_display_subprojects_issues: Tickets von Unterprojekten im Hauptprojekt anzeigen
   setting_emails_footer: E-Mail-Fußzeile
@@ -981,6 +987,8 @@ de:
   setting_enabled_scm: Aktivierte Versionskontrollsysteme
   setting_feeds_limit: Max. Anzahl Einträge pro Atom-Feed
   setting_file_max_size_displayed: Maximale Größe inline angezeigter Textdateien
+  setting_force_default_language_for_anonymous: Standardsprache für anonyme Benutzer erzwingen
+  setting_force_default_language_for_loggedin: Standardsprache für angemeldete Benutzer erzwingen
   setting_gantt_items_limit: Maximale Anzahl von Aufgaben die im Gantt-Chart angezeigt werden
   setting_gravatar_default: Standard-Gravatar-Bild
   setting_gravatar_enabled: Gravatar-Benutzerbilder benutzen
@@ -1022,7 +1030,6 @@ de:
   setting_user_format: Benutzer-Anzeigeformat
   setting_welcome_text: Willkommenstext
   setting_wiki_compression: Wiki-Historie komprimieren
-  setting_default_projects_tracker_ids: Standardmäßig aktivierte Tracker für neue Projekte
 
   status_active: aktiv
   status_locked: gesperrt
@@ -1034,6 +1041,7 @@ de:
   text_caracters_maximum: "Max. %{count} Zeichen."
   text_caracters_minimum: "Muss mindestens %{count} Zeichen lang sein."
   text_comma_separated: Mehrere Werte erlaubt (durch Komma getrennt).
+  text_convert_available: ImageMagick Konvertierung verfügbar (optional)
   text_custom_field_possible_values_info: 'Eine Zeile pro Wert'
   text_default_administrator_account_changed: Administrator-Kennwort geändert
   text_destroy_time_entries: Gebuchte Aufwände löschen
@@ -1112,3 +1120,4 @@ de:
   version_status_open: offen
 
   warning_attachments_not_saved: "%{count} Datei(en) konnten nicht gespeichert werden."
+  label_link: Link

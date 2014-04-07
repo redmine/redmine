@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -28,6 +28,10 @@ class Redmine::WikiFormattingTest < ActiveSupport::TestCase
   def test_null_formatter
     assert_equal Redmine::WikiFormatting::NullFormatter::Formatter, Redmine::WikiFormatting.formatter_for('')
     assert_equal Redmine::WikiFormatting::NullFormatter::Helper, Redmine::WikiFormatting.helper_for('')
+  end
+
+  def test_formats_for_select
+    assert_include ['Textile', 'textile'], Redmine::WikiFormatting.formats_for_select
   end
 
   def test_should_link_urls_and_email_addresses

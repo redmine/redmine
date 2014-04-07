@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -115,7 +115,7 @@ class QueryTest < ActiveSupport::TestCase
   def assert_query_statement_includes(query, condition)
     assert_include condition, query.statement
   end
-  
+
   def assert_query_result(expected, query)
     assert_nothing_raised do
       assert_equal expected.map(&:id).sort, query.issues.map(&:id).sort
@@ -209,8 +209,7 @@ class QueryTest < ActiveSupport::TestCase
   end
 
   def test_operator_is_on_float
-    Issue.update_all("estimated_hours = 171.2", "id=2")
-
+    Issue.where(:id => 2).update_all("estimated_hours = 171.2")
     query = IssueQuery.new(:name => '_')
     query.add_filter('estimated_hours', '=', ['171.20'])
     issues = find_issues_with_query(query)
@@ -449,10 +448,24 @@ class QueryTest < ActiveSupport::TestCase
     find_issues_with_query(query)
   end
 
+  def test_operator_date_lesser_than_with_timestamp
+    query = IssueQuery.new(:name => '_')
+    query.add_filter('updated_on', '<=', ['2011-07-10T19:13:52'])
+    assert_match /issues\.updated_on <= '2011-07-10 19:13:52/, query.statement
+    find_issues_with_query(query)
+  end
+
   def test_operator_date_greater_than
     query = IssueQuery.new(:name => '_')
     query.add_filter('due_date', '>=', ['2011-07-10'])
     assert_match /issues\.due_date > '2011-07-09 23:59:59(\.9+)?'/, query.statement
+    find_issues_with_query(query)
+  end
+
+  def test_operator_date_greater_than_with_timestamp
+    query = IssueQuery.new(:name => '_')
+    query.add_filter('updated_on', '>=', ['2011-07-10T19:13:52'])
+    assert_match /issues\.updated_on > '2011-07-10 19:13:51(\.0+)?'/, query.statement
     find_issues_with_query(query)
   end
 
@@ -942,7 +955,7 @@ class QueryTest < ActiveSupport::TestCase
     assert_nil q.group_by_column
     assert_nil q.group_by_statement
   end
-  
+
   def test_sortable_columns_should_sort_assignees_according_to_user_format_setting
     with_settings :user_format => 'lastname_coma_firstname' do
       q = IssueQuery.new
@@ -950,7 +963,7 @@ class QueryTest < ActiveSupport::TestCase
       assert_equal %w(users.lastname users.firstname users.id), q.sortable_columns['assigned_to']
     end
   end
-  
+
   def test_sortable_columns_should_sort_authors_according_to_user_format_setting
     with_settings :user_format => 'lastname_coma_firstname' do
       q = IssueQuery.new
@@ -1340,7 +1353,7 @@ class QueryTest < ActiveSupport::TestCase
         User.add_to_project(@manager, @project, @manager_role)
         User.add_to_project(@developer, @project, @developer_role)
         User.add_to_project(@boss, @project, [@manager_role, @developer_role])
-        
+
         @issue1 = Issue.generate!(:project => @project, :assigned_to_id => @manager.id)
         @issue2 = Issue.generate!(:project => @project, :assigned_to_id => @developer.id)
         @issue3 = Issue.generate!(:project => @project, :assigned_to_id => @boss.id)
@@ -1358,7 +1371,7 @@ class QueryTest < ActiveSupport::TestCase
       should "search assigned to for users with the Role on the issue project" do
         other_project = Project.generate!
         User.add_to_project(@developer, other_project, @manager_role)
-        
+
         @query = IssueQuery.new(:name => '_', :project => @project)
         @query.add_filter('assigned_to_role', '=', [@manager_role.id.to_s])
 

@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -203,7 +203,7 @@ class Version < ActiveRecord::Base
     ["(CASE WHEN #{table}.effective_date IS NULL THEN 1 ELSE 0 END)", "#{table}.effective_date", "#{table}.name", "#{table}.id"]
   end
 
-  scope :sorted, order(fields_for_order_statement)
+  scope :sorted, lambda { order(fields_for_order_statement) }
 
   # Returns the sharings that +user+ can set the version to
   def allowed_sharings(user = User.current)
@@ -232,7 +232,7 @@ class Version < ActiveRecord::Base
     unless @issue_count
       @open_issues_count = 0
       @closed_issues_count = 0
-      fixed_issues.count(:all, :group => :status).each do |status, count|
+      fixed_issues.group(:status).count.each do |status, count|
         if status.is_closed?
           @closed_issues_count += count
         else

@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -18,7 +18,7 @@
 require 'SVG/Graph/Bar'
 require 'SVG/Graph/BarHorizontal'
 require 'digest/sha1'
-require 'redmine/scm/adapters/abstract_adapter'
+require 'redmine/scm/adapters'
 
 class ChangesetNotFound < Exception; end
 class InvalidRevisionParam < Exception; end
@@ -94,7 +94,7 @@ class RepositoriesController < ApplicationController
     @committers = @repository.committers
     @users = @project.users
     additional_user_ids = @committers.collect(&:last).collect(&:to_i) - @users.collect(&:id)
-    @users += User.find_all_by_id(additional_user_ids) unless additional_user_ids.empty?
+    @users += User.where(:id => additional_user_ids).all unless additional_user_ids.empty?
     @users.compact!
     @users.sort!
     if request.post? && params[:committers].is_a?(Hash)
@@ -258,7 +258,8 @@ class RepositoriesController < ApplicationController
   # Adds a related issue to a changeset
   # POST /projects/:project_id/repository/(:repository_id/)revisions/:rev/issues
   def add_related_issue
-    @issue = @changeset.find_referenced_issue_by_id(params[:issue_id])
+    issue_id = params[:issue_id].to_s.sub(/^#/,'')
+    @issue = @changeset.find_referenced_issue_by_id(issue_id)
     if @issue && (!@issue.visible? || @changeset.issues.include?(@issue))
       @issue = nil
     end

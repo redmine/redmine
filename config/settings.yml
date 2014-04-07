@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -69,6 +69,10 @@ wiki_compression:
   default: ""
 default_language:
   default: en
+force_default_language_for_anonymous:
+  default: 0
+force_default_language_for_loggedin:
+  default: 0
 host_name:
   default: localhost:3000
 protocol:

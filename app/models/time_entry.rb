@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -75,6 +75,16 @@ class TimeEntry < ActiveRecord::Base
       end
       self.hours = nil if hours == 0
     end
+  end
+
+  def safe_attributes=(attrs, user=User.current)
+    attrs = super
+    if !new_record? && issue && issue.project_id != project_id
+      if user.allowed_to?(:log_time, issue.project)
+        self.project_id = issue.project_id
+      end
+    end
+    attrs
   end
 
   def set_project_if_nil

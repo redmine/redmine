@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -339,7 +339,6 @@ class WorkflowsControllerTest < ActionController::TestCase
     WorkflowTransition.
       where(conditions).
       order('tracker_id, role_id, old_status_id, new_status_id').
-      all.
       collect {|w| [w.old_status, w.new_status_id]}
   end
 end

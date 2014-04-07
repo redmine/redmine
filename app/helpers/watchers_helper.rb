@@ -1,7 +1,7 @@
 # encoding: utf-8
 #
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -27,6 +27,7 @@ module WatchersHelper
   def watcher_link(objects, user)
     return '' unless user && user.logged?
     objects = Array.wrap(objects)
+    return '' unless objects.any?
 
     watched = Watcher.any_watched?(objects, user)
     css = [watcher_css(objects), watched ? 'icon icon-fav' : 'icon icon-fav-off'].join(' ')

@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -104,10 +104,9 @@ class IssueStatusTest < ActiveSupport::TestCase
 
   def test_update_done_ratios_with_issue_done_ratio_set_to_issue_status_should_update_issues
     IssueStatus.find(1).update_attribute(:default_done_ratio, 50)
-
     with_settings :issue_done_ratio => 'issue_status' do
       IssueStatus.update_issue_done_ratios
-      issues = Issue.where(:status_id => 1).all
+      issues = Issue.where(:status_id => 1)
       assert_equal [50], issues.map {|issue| issue.read_attribute(:done_ratio)}.uniq
     end
   end

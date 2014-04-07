@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -30,14 +30,13 @@ class IssueTransactionTest < ActiveSupport::TestCase
   self.use_transactional_fixtures = false
 
   def test_invalid_move_to_another_project
+    lft1 = new_issue_lft
     parent1 = Issue.generate!
     child =   Issue.generate!(:parent_issue_id => parent1.id)
     grandchild = Issue.generate!(:parent_issue_id => child.id, :tracker_id => 2)
     Project.find(2).tracker_ids = [1]
-
     parent1.reload
-    assert_equal [1, parent1.id, 1, 6], [parent1.project_id, parent1.root_id, parent1.lft, parent1.rgt]
-
+    assert_equal [1, parent1.id, lft1, lft1 + 5], [parent1.project_id, parent1.root_id, parent1.lft, parent1.rgt]
     # child can not be moved to Project 2 because its child is on a disabled tracker
     child = Issue.find(child.id)
     child.project = Project.find(2)
@@ -45,10 +44,9 @@ class IssueTransactionTest < ActiveSupport::TestCase
     child.reload
     grandchild.reload
     parent1.reload
-
     # no change
-    assert_equal [1, parent1.id, 1, 6], [parent1.project_id, parent1.root_id, parent1.lft, parent1.rgt]
-    assert_equal [1, parent1.id, 2, 5], [child.project_id, child.root_id, child.lft, child.rgt]
-    assert_equal [1, parent1.id, 3, 4], [grandchild.project_id, grandchild.root_id, grandchild.lft, grandchild.rgt]
+    assert_equal [1, parent1.id, lft1,     lft1 + 5], [parent1.project_id, parent1.root_id, parent1.lft, parent1.rgt]
+    assert_equal [1, parent1.id, lft1 + 1, lft1 + 4], [child.project_id, child.root_id, child.lft, child.rgt]
+    assert_equal [1, parent1.id, lft1 + 2, lft1 + 3], [grandchild.project_id, grandchild.root_id, grandchild.lft, grandchild.rgt]
   end
 end

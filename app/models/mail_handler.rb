@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -296,8 +296,9 @@ class MailHandler < ActionMailer::Base
     if user.allowed_to?("add_#{obj.class.name.underscore}_watchers".to_sym, obj.project)
       addresses = [email.to, email.cc].flatten.compact.uniq.collect {|a| a.strip.downcase}
       unless addresses.empty?
-        watchers = User.active.where('LOWER(mail) IN (?)', addresses).all
-        watchers.each {|w| obj.add_watcher(w)}
+        User.active.where('LOWER(mail) IN (?)', addresses).each do |w|
+          obj.add_watcher(w)
+        end
       end
     end
   end
@@ -405,7 +406,16 @@ class MailHandler < ActionMailer::Base
             else
               [email]
             end
-    @plain_text_body = parts.map {|p| Redmine::CodesetUtil.to_utf8(p.body.decoded, p.charset)}.join("\r\n")
+
+    parts.reject! do |part|
+      part.header[:content_disposition].try(:disposition_type) == 'attachment'
+    end
+
+    @plain_text_body = parts.map do |p|
+      body_charset = p.charset.respond_to?(:force_encoding) ?
+                       Mail::RubyVer.pick_encoding(p.charset).to_s : p.charset
+      Redmine::CodesetUtil.to_utf8(p.body.decoded, body_charset)
+    end.join("\r\n")
 
     # strip html tags and remove doctype directive
     if parts.any? {|p| p.mime_type == 'text/html'}

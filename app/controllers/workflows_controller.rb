@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -38,6 +38,7 @@ class WorkflowsController < ApplicationController
         }
       }
       if @role.save
+        flash[:notice] = l(:notice_successful_update)
         redirect_to workflows_edit_path(:role_id => @role, :tracker_id => @tracker, :used_statuses_only => params[:used_statuses_only])
         return
       end
@@ -64,6 +65,7 @@ class WorkflowsController < ApplicationController
 
     if request.post? && @role && @tracker
       WorkflowPermission.replace_permissions(@tracker, @role, params[:permissions] || {})
+      flash[:notice] = l(:notice_successful_update)
       redirect_to workflows_permissions_path(:role_id => @role, :tracker_id => @tracker, :used_statuses_only => params[:used_statuses_only])
       return
     end
@@ -77,8 +79,8 @@ class WorkflowsController < ApplicationController
     if @role && @tracker
       @fields = (Tracker::CORE_FIELDS_ALL - @tracker.disabled_core_fields).map {|field| [field, l("field_"+field.sub(/_id$/, ''))]}
       @custom_fields = @tracker.custom_fields
-
-      @permissions = WorkflowPermission.where(:tracker_id => @tracker.id, :role_id => @role.id).all.inject({}) do |h, w|
+      @permissions = WorkflowPermission.
+          where(:tracker_id => @tracker.id, :role_id => @role.id).inject({}) do |h, w|
         h[w.old_status_id] ||= {}
         h[w.old_status_id][w.field_name] = w.rule
         h
@@ -88,7 +90,6 @@ class WorkflowsController < ApplicationController
   end
 
   def copy
-
     if params[:source_tracker_id].blank? || params[:source_tracker_id] == 'any'
       @source_tracker = nil
     else
@@ -99,10 +100,10 @@ class WorkflowsController < ApplicationController
     else
       @source_role = Role.find_by_id(params[:source_role_id].to_i)
     end
-
-    @target_trackers = params[:target_tracker_ids].blank? ? nil : Tracker.find_all_by_id(params[:target_tracker_ids])
-    @target_roles = params[:target_role_ids].blank? ? nil : Role.find_all_by_id(params[:target_role_ids])
-
+    @target_trackers = params[:target_tracker_ids].blank? ?
+        nil : Tracker.where(:id => params[:target_tracker_ids]).all
+    @target_roles = params[:target_role_ids].blank? ?
+        nil : Role.where(:id => params[:target_role_ids]).all
     if request.post?
       if params[:source_tracker_id].blank? || params[:source_role_id].blank? || (@source_tracker.nil? && @source_role.nil?)
         flash.now[:error] = l(:error_workflow_copy_source)

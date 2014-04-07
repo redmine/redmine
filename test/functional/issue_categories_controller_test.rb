@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -66,7 +66,7 @@ class IssueCategoriesControllerTest < ActionController::TestCase
     assert_difference 'IssueCategory.count' do
       xhr :post, :create, :project_id => '1', :issue_category => {:name => 'New category'}
     end
-    category = IssueCategory.first(:order => 'id DESC')
+    category = IssueCategory.order('id DESC').first
     assert_equal 'New category', category.name
 
     assert_response :success

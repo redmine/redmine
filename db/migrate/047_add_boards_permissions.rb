@@ -9,8 +9,8 @@ class AddBoardsPermissions < ActiveRecord::Migration
   end
 
   def self.down
-    Permission.find_by_controller_and_action("boards", "new").destroy
-    Permission.find_by_controller_and_action("boards", "edit").destroy
-    Permission.find_by_controller_and_action("boards", "destroy").destroy
+    Permission.where(:controller => "boards", :action => "new").each {|p| p.destroy}
+    Permission.where(:controller => "boards", :action => "edit").each {|p| p.destroy}
+    Permission.where(:controller => "boards", :action => "destroy").each {|p| p.destroy}
   end
 end

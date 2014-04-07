@@ -1,0 +1,24 @@
+<p>
+  <label><%= l(:label_role) %></label>
+  <label class="block">
+    <%= radio_button_tag 'status', 1, custom_field.user_role.blank?, :id => 'custom_field_user_role_all',
+          :data => {:disables => '.custom_field_user_role input'} %>
+    <%= l(:label_all) %>
+  </label>
+  <label class="block">
+    <%= radio_button_tag 'status', 0, custom_field.user_role.present?, :id => 'custom_field_user_role_only',
+          :data => {:enables => '.custom_field_user_role input'} %>
+    <%= l(:label_only) %>:
+  </label>
+  <% Role.givable.sorted.each do |role| %>
+    <label class="block custom_field_user_role" style="padding-left:2em;">
+      <%= check_box_tag 'custom_field[user_role][]',
+            role.id, 
+            custom_field.user_role.is_a?(Array) && custom_field.user_role.include?(role.id.to_s),
+            :id => nil %>
+      <%= role.name %>
+    </label>
+  <% end %>
+  <%= hidden_field_tag 'custom_field[user_role][]', '' %>
+</p>
+<p><%= edit_tag_style_tag f %></p>

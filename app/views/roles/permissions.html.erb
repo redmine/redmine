@@ -32,13 +32,13 @@
     <% end %>
     <% perms_by_module[mod].each do |permission| %>
         <tr class="<%= cycle('odd', 'even') %> permission-<%= permission.name %>">
-        <td>
+        <td class="name">
             <%= link_to_function(image_tag('toggle_check.png'), "toggleCheckboxesBySelector('.permission-#{permission.name} input')",
                                                                 :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}") %>
             <%= l_or_humanize(permission.name, :prefix => 'permission_') %>
         </td>
         <% @roles.each do |role| %>
-        <td align="center">
+        <td>
         <% if role.setable_permissions.include? permission %>
           <%= check_box_tag "permissions[#{role.id}][]", permission.name, (role.permissions.include? permission.name), :id => nil, :class => "role-#{role.id}" %>
         <% end %>

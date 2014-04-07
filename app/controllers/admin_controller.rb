@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -77,7 +77,8 @@ class AdminController < ApplicationController
       [:text_default_administrator_account_changed, User.default_admin_account_changed?],
       [:text_file_repository_writable, File.writable?(Attachment.storage_path)],
       [:text_plugin_assets_writable,   File.writable?(Redmine::Plugin.public_directory)],
-      [:text_rmagick_available,        Object.const_defined?(:Magick)]
+      [:text_rmagick_available,        Object.const_defined?(:Magick)],
+      [:text_convert_available,        Redmine::Thumbnail.convert_available?]
     ]
   end
 end

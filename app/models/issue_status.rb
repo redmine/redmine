@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -32,7 +32,7 @@ class IssueStatus < ActiveRecord::Base
   scope :named, lambda {|arg| where("LOWER(#{table_name}.name) = LOWER(?)", arg.to_s.strip)}
 
   def update_default
-    IssueStatus.update_all({:is_default => false}, ['id <> ?', id]) if self.is_default?
+    IssueStatus.where(['id <> ?', id]).update_all({:is_default => false}) if self.is_default?
   end
 
   # Returns the default status for new issues
@@ -43,8 +43,8 @@ class IssueStatus < ActiveRecord::Base
   # Update all the +Issues+ setting their done_ratio to the value of their +IssueStatus+
   def self.update_issue_done_ratios
     if Issue.use_status_for_done_ratio?
-      IssueStatus.where("default_done_ratio >= 0").all.each do |status|
-        Issue.update_all({:done_ratio => status.default_done_ratio}, {:status_id => status.id})
+      IssueStatus.where("default_done_ratio >= 0").each do |status|
+        Issue.where({:status_id => status.id}).update_all({:done_ratio => status.default_done_ratio})
       end
     end
 

@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -48,7 +48,7 @@ class IssuePriority < Enumeration
   # Updates position_name for active priorities
   # Called from migration 20121026003537_populate_enumerations_position_name
   def self.compute_position_names
-    priorities = where(:active => true).all.sort_by(&:position)
+    priorities = where(:active => true).sort_by(&:position)
     if priorities.any?
       default = priorities.detect(&:is_default?) || priorities[(priorities.size - 1) / 2]
       priorities.each_with_index do |priority, index|
@@ -61,7 +61,7 @@ class IssuePriority < Enumeration
             index == (priorities.size - 1) ? "highest" : "high#{priorities.size - index}"
           end
 
-        update_all({:position_name => name}, :id => priority.id)
+        where(:id => priority.id).update_all({:position_name => name})
       end
     end
   end

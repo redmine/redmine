@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -116,10 +116,11 @@ class RepositoryCvsTest < ActiveSupport::TestCase
       assert_equal CHANGESETS_NUM, @repository.changesets.count
 
       # Remove changesets with revision > 3
-      @repository.changesets.all.each {|c| c.destroy if c.revision.to_i > 3}
+      @repository.changesets.each {|c| c.destroy if c.revision.to_i > 3}
       @project.reload
+      @repository.reload
       assert_equal 3, @repository.changesets.count
-      assert_equal %w|3 2 1|, @repository.changesets.all.collect(&:revision)
+      assert_equal %w|3 2 1|, @repository.changesets.collect(&:revision)
 
       rev3_commit = @repository.changesets.reorder('committed_on DESC').first
       assert_equal '3', rev3_commit.revision
@@ -132,8 +133,9 @@ class RepositoryCvsTest < ActiveSupport::TestCase
 
       @repository.fetch_changesets
       @project.reload
+      @repository.reload
       assert_equal CHANGESETS_NUM, @repository.changesets.count
-      assert_equal %w|7 6 5 4 3 2 1|, @repository.changesets.all.collect(&:revision)
+      assert_equal %w|7 6 5 4 3 2 1|, @repository.changesets.collect(&:revision)
       rev5_commit = @repository.changesets.find_by_revision('5')
       assert_equal 'HEAD-20071213-163001', rev5_commit.scmid
        # 2007-12-14 01:30:01 +0900

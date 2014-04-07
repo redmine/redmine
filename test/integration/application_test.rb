@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -66,5 +66,14 @@ class ApplicationTest < ActionController::IntegrationTest
   def test_missing_template_should_respond_with_404
     get '/login.png'
     assert_response 404
+  end
+
+  def test_invalid_token_should_call_custom_handler
+    ActionController::Base.allow_forgery_protection = true
+    post '/issues'
+    assert_response 422
+    assert_include "Invalid form authenticity token.", response.body
+  ensure
+    ActionController::Base.allow_forgery_protection = false
   end
 end

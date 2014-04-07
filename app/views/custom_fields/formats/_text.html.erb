@@ -1,0 +1,3 @@
+<%= render :partial => 'custom_fields/formats/regexp', :locals => {:f => f, :custom_field => custom_field} %>
+<p><%= f.check_box :text_formatting, {:label => :setting_text_formatting}, 'full', '' %></p>
+<p><%= f.text_area(:default_value, :rows => 5) %></p>

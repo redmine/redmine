@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -87,7 +87,7 @@ class Redmine::ApiTest::AttachmentsTest < Redmine::ApiTest::Base
     token = xml['upload']['token']
     assert_not_nil token
 
-    attachment = Attachment.first(:order => 'id DESC')
+    attachment = Attachment.order('id DESC').first
     assert_equal token, attachment.token
     assert_nil attachment.container
     assert_equal 2, attachment.author_id
@@ -112,7 +112,7 @@ class Redmine::ApiTest::AttachmentsTest < Redmine::ApiTest::Base
     token = json['upload']['token']
     assert_not_nil token
 
-    attachment = Attachment.first(:order => 'id DESC')
+    attachment = Attachment.order('id DESC').first
     assert_equal token, attachment.token
   end
 

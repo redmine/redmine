@@ -1,4 +1,4 @@
-# Update to 2.2 by Karel Picman <karel.picman@kontron.com>
+# Update to 2.2, 2.4, 2.5 by Karel Picman <karel.picman@kontron.com>
 # Update to 1.1 by Michal Gebauer <mishak@mishak.net>
 # Updated by Josef Liška <jl@chl.cz>
 # CZ translation by Maxim Krušina | Massimo Filippi, s.r.o. | maxim@mxm.cz
@@ -413,15 +413,15 @@ cs:
   permission_protect_wiki_pages: Zabezpečení Wiki stránek
   permission_manage_repository: Spravování repozitáře
   permission_browse_repository: Procházení repozitáře
-  permission_view_changesets: Zobrazování sady změn
+  permission_view_changesets: Zobrazování revizí
   permission_commit_access: Commit přístup
   permission_manage_boards: Správa diskusních fór
-  permission_view_messages: Prohlížení zpráv
-  permission_add_messages: Posílání zpráv
-  permission_edit_messages: Upravování zpráv
-  permission_edit_own_messages: Upravit vlastní zprávy
-  permission_delete_messages: Mazání zpráv
-  permission_delete_own_messages: Smazat vlastní zprávy
+  permission_view_messages: Prohlížení příspěvků
+  permission_add_messages: Posílání příspěvků
+  permission_edit_messages: Upravování příspěvků
+  permission_edit_own_messages: Upravit vlastní příspěvky
+  permission_delete_messages: Mazání příspěvků
+  permission_delete_own_messages: Smazat vlastní příspěvky
   permission_export_wiki_pages: Exportovat Wiki stránky
   permission_manage_subtasks: Spravovat dílčí úkoly
 
@@ -707,10 +707,10 @@ cs:
   label_board_locked: Zamčeno
   label_board_sticky: Nálepka
   label_topic_plural: Témata
-  label_message_plural: Zprávy
-  label_message_last: Poslední zpráva
-  label_message_new: Nová zpráva
-  label_message_posted: Zpráva přidána
+  label_message_plural: Příspěvky
+  label_message_last: Poslední příspěvek
+  label_message_new: Nový příspěvek
+  label_message_posted: Příspěvek přidán
   label_reply_plural: Odpovědi
   label_send_information: Zaslat informace o účtu uživateli
   label_year: Rok
@@ -730,7 +730,7 @@ cs:
   label_updated_time: "Aktualizováno před %{value}"
   label_jump_to_a_project: Vyberte projekt...
   label_file_plural: Soubory
-  label_changeset_plural: Sady změn
+  label_changeset_plural: Revize
   label_default_columns: Výchozí sloupce
   label_no_change_option: (beze změny)
   label_bulk_edit_selected_issues: Hromadná úprava vybraných úkolů
@@ -1093,14 +1093,24 @@ cs:
   field_generate_password: Generovat heslo
   setting_default_projects_tracker_ids: Výchozí fronta pro nové projekty
   label_total_time: Celkem
-  notice_account_not_activated_yet: You haven't activated your account yet. If you want
-    to receive a new activation email, please <a href="%{url}">click this link</a>.
-  notice_account_locked: Your account is locked.
-  label_hidden: Hidden
-  label_visibility_private: to me only
-  label_visibility_roles: to these roles only
-  label_visibility_public: to any users
-  field_must_change_passwd: Must change password at next logon
-  notice_new_password_must_be_different: The new password must be different from the
-    current password
-  setting_mail_handler_excluded_filenames: Exclude attachments by name
+  notice_account_not_activated_yet: Neaktivovali jste si dosud Váš účet. 
+    Pro opětovné zaslání aktivačního emailu <a href="%{url}">klikněte na tento odkaz</a>, prosím.
+  notice_account_locked: Váš účet je uzamčen.
+  label_hidden: Skrytý
+  label_visibility_private: pouze pro mě
+  label_visibility_roles: pouze pro tyto role
+  label_visibility_public: pro všechny uživatele
+  field_must_change_passwd: Musí změnit heslo při příštím přihlášení
+  notice_new_password_must_be_different: Nové heslo se musí lišit od stávajícího
+  setting_mail_handler_excluded_filenames: Vyřadit přílohy podle jména
+  text_convert_available: ImageMagick convert k dispozici (volitelné)
+  label_link: Odkaz 
+  label_only: jenom 
+  label_drop_down_list: rozbalovací seznam
+  label_checkboxes: zaškrtávátka
+  label_link_values_to: Propojit hodnoty s URL
+  setting_force_default_language_for_anonymous: Vynutit výchozí jazyk pro anonymní uživatele
+    users
+  setting_force_default_language_for_loggedin: Vynutit výchozí jazyk pro přihlášené uživatele
+    users
+  label_custom_field_select_type: Vybrat typ objektu, ke kterému bude přiřazeno uživatelské pole

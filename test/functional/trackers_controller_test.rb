@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -54,7 +54,7 @@ class TrackersControllerTest < ActionController::TestCase
       post :create, :tracker => { :name => 'New tracker', :project_ids => ['1', '', ''], :custom_field_ids => ['1', '6', ''] }
     end
     assert_redirected_to :action => 'index'
-    tracker = Tracker.first(:order => 'id DESC')
+    tracker = Tracker.order('id DESC').first
     assert_equal 'New tracker', tracker.name
     assert_equal [1], tracker.project_ids.sort
     assert_equal Tracker::CORE_FIELDS, tracker.core_fields
@@ -67,7 +67,7 @@ class TrackersControllerTest < ActionController::TestCase
       post :create, :tracker => { :name => 'New tracker', :core_fields => ['assigned_to_id', 'fixed_version_id', ''] }
     end
     assert_redirected_to :action => 'index'
-    tracker = Tracker.first(:order => 'id DESC')
+    tracker = Tracker.order('id DESC').first
     assert_equal 'New tracker', tracker.name
     assert_equal %w(assigned_to_id fixed_version_id), tracker.core_fields
   end
@@ -84,11 +84,12 @@ class TrackersControllerTest < ActionController::TestCase
 
   def test_create_with_failure
     assert_no_difference 'Tracker.count' do
-      post :create, :tracker => { :name => '', :project_ids => ['1', '', ''], :custom_field_ids => ['1', '6', ''] }
+      post :create, :tracker => { :name => '', :project_ids => ['1', '', ''],
+                                  :custom_field_ids => ['1', '6', ''] }
     end
     assert_response :success
     assert_template 'new'
-    assert_error_tag :content => /name can&#x27;t be blank/i
+    assert_error_tag :content => /name #{ESCAPED_CANT} be blank/i
   end
 
   def test_edit
@@ -153,7 +154,7 @@ class TrackersControllerTest < ActionController::TestCase
     put :update, :id => 1, :tracker => { :name => '' }
     assert_response :success
     assert_template 'edit'
-    assert_error_tag :content => /name can&#x27;t be blank/i
+    assert_error_tag :content => /name #{ESCAPED_CANT} be blank/i
   end
 
   def test_move_lower

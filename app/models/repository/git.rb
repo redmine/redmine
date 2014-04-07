@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 # Copyright (C) 2007  Patrick Aljord patcito@ŋmail.com
 #
 # This program is free software; you can redistribute it and/or
@@ -93,11 +93,10 @@ class Repository::Git < Repository
     end
   end
 
-  def entries(path=nil, identifier=nil)
-    entries = scm.entries(path, identifier, :report_last_commit => extra_report_last_commit)
-    load_entries_changesets(entries)
-    entries
+  def scm_entries(path=nil, identifier=nil)
+    scm.entries(path, identifier, :report_last_commit => extra_report_last_commit)
   end
+  protected :scm_entries
 
   # With SCMs that have a sequential commit numbering,
   # such as Subversion and Mercurial,
@@ -180,10 +179,13 @@ class Repository::Git < Repository
     # So, Redmine needs to scan revisions and database every time.
     #
     # This is replacing the one-after-one queries.
-    # Find all revisions, that are in the database, and then remove them from the revision array.
+    # Find all revisions, that are in the database, and then remove them
+    # from the revision array.
     # Then later we won't need any conditions for db existence.
-    # Query for several revisions at once, and remove them from the revisions array, if they are there.
-    # Do this in chunks, to avoid eventual memory problems (in case of tens of thousands of commits).
+    # Query for several revisions at once, and remove them
+    # from the revisions array, if they are there.
+    # Do this in chunks, to avoid eventual memory problems
+    # (in case of tens of thousands of commits).
     # If there are no revisions (because the original code's algorithm filtered them),
     # then this part will be stepped over.
     # We make queries, just if there is any revision.
@@ -192,13 +194,12 @@ class Repository::Git < Repository
     revisions_copy = revisions.clone # revisions will change
     while offset < revisions_copy.size
       scmids = revisions_copy.slice(offset, limit).map{|x| x.scmid}
-      recent_changesets_slice = changesets.where(:scmid => scmids).all
+      recent_changesets_slice = changesets.where(:scmid => scmids)
       # Subtract revisions that redmine already knows about
       recent_revisions = recent_changesets_slice.map{|c| c.scmid}
       revisions.reject!{|r| recent_revisions.include?(r.scmid)}
       offset += limit
     end
-
     revisions.each do |rev|
       transaction do
         # There is no search in the db for this revision, because above we ensured,
@@ -240,7 +241,6 @@ class Repository::Git < Repository
   def latest_changesets(path,rev,limit=10)
     revisions = scm.revisions(path, nil, rev, :limit => limit, :all => false)
     return [] if revisions.nil? || revisions.empty?
-
     changesets.where(:scmid => revisions.map {|c| c.scmid}).all
   end
 

@@ -1,7 +1,7 @@
 # encoding: utf-8
 #
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -171,8 +171,9 @@ module IssuesHelper
     s = "<tr>\n"
     n = 0
     ordered_values.compact.each do |value|
+      css = "cf_#{value.custom_field.id}"
       s << "</tr>\n<tr>\n" if n > 0 && (n % 2) == 0
-      s << "\t<th>#{ h(value.custom_field.name) }:</th><td>#{ simple_format_without_paragraph(h(show_value(value))) }</td>\n"
+      s << "\t<th class=\"#{css}\">#{ h(value.custom_field.name) }:</th><td class=\"#{css}\">#{ h(show_value(value)) }</td>\n"
       n += 1
     end
     s << "</tr>\n"
@@ -239,7 +240,7 @@ module IssuesHelper
       end
     end
     issue.visible_custom_field_values(user).each do |value|
-      items << "#{value.custom_field.name}: #{show_value(value)}"
+      items << "#{value.custom_field.name}: #{show_value(value, false)}"
     end
     items
   end
@@ -324,8 +325,8 @@ module IssuesHelper
       if custom_field
         multiple = custom_field.multiple?
         label = custom_field.name
-        value = format_value(detail.value, custom_field.field_format) if detail.value
-        old_value = format_value(detail.old_value, custom_field.field_format) if detail.old_value
+        value = format_value(detail.value, custom_field) if detail.value
+        old_value = format_value(detail.old_value, custom_field) if detail.old_value
       end
     when 'attachment'
       label = l(:label_attachment)
@@ -333,13 +334,14 @@ module IssuesHelper
       if detail.value && !detail.old_value
         rel_issue = Issue.visible.find_by_id(detail.value)
         value = rel_issue.nil? ? "#{l(:label_issue)} ##{detail.value}" :
-                  (no_html ? rel_issue : link_to_issue(rel_issue))
+                  (no_html ? rel_issue : link_to_issue(rel_issue, :only_path => options[:only_path]))
       elsif detail.old_value && !detail.value
         rel_issue = Issue.visible.find_by_id(detail.old_value)
         old_value = rel_issue.nil? ? "#{l(:label_issue)} ##{detail.old_value}" :
-                          (no_html ? rel_issue : link_to_issue(rel_issue))
+                          (no_html ? rel_issue : link_to_issue(rel_issue, :only_path => options[:only_path]))
       end
-      label = l(detail.prop_key.to_sym)
+      relation_type = IssueRelation::TYPES[detail.prop_key]
+      label = l(relation_type[:name]) if relation_type
     end
     call_hook(:helper_issues_show_detail_after_setting,
               {:detail => detail, :label => label, :value => value, :old_value => old_value })

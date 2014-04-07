@@ -1,0 +1,24 @@
+<p>
+  <label><%= l(:field_status) %></label>
+  <label class="block">
+    <%= radio_button_tag 'status', 1, custom_field.version_status.blank?, :id => 'custom_field_version_status_all',
+          :data => {:disables => '.custom_field_version_status input'} %>
+    <%= l(:label_all) %>
+  </label>
+  <label class="block">
+    <%= radio_button_tag 'status', 0, custom_field.version_status.present?, :id => 'custom_field_version_status_only',
+          :data => {:enables => '.custom_field_version_status input'} %>
+    <%= l(:label_only) %>:
+  </label>
+  <% Version::VERSION_STATUSES.each do |status| %>
+    <label class="block custom_field_version_status" style="padding-left:2em;">
+      <%= check_box_tag 'custom_field[version_status][]',
+            status,
+            custom_field.version_status.is_a?(Array) && custom_field.version_status.include?(status),
+            :id => nil %>
+      <%= l("version_status_#{status}") %>
+    </label>
+  <% end %>
+  <%= hidden_field_tag 'custom_field[version_status][]', '' %>
+</p>
+<p><%= edit_tag_style_tag f %></p>

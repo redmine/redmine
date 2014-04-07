@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -33,7 +33,6 @@ class Redmine::UiTest::IssuesTest < Redmine::UiTest::Base
       fill_in 'Description', :with => 'new issue'
       select '0 %', :from => 'Done'
       fill_in 'Due date', :with => ''
-      select '', :from => 'Assignee'
       fill_in 'Searchable field', :with => 'Value for field 2'
       # click_button 'Create' would match both 'Create' and 'Create and continue' buttons
       find('input[name=commit]').click
@@ -114,9 +113,8 @@ class Redmine::UiTest::IssuesTest < Redmine::UiTest::Base
     assert page.has_no_content?('Some Watcher')
     click_link 'Search for watchers to add'
     within('form#new-watcher-form') do
-      assert page.has_content?('Some One')
       fill_in 'user_search', :with => 'watch'
-      assert page.has_no_content?('Some One')
+      assert page.has_content?('Some Watcher')
       check 'Some Watcher'
       click_button 'Add'
     end
@@ -200,7 +198,7 @@ class Redmine::UiTest::IssuesTest < Redmine::UiTest::Base
     visit '/issues/1'
     assert page.has_no_content?('Form update CF')
 
-    page.first(:link, 'Update').click
+    page.first(:link, 'Edit').click
     # the custom field should show up when changing tracker
     select 'Feature request', :from => 'Tracker'
     assert page.has_content?('Form update CF')

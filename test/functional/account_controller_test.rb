@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -33,7 +33,25 @@ class AccountControllerTest < ActionController::TestCase
     assert_select 'input[name=password]'
   end
 
-  def test_get_login_while_logged_in_should_redirect_to_home
+  def test_get_login_while_logged_in_should_redirect_to_back_url_if_present
+    @request.session[:user_id] = 2
+    @request.env["HTTP_REFERER"] = 'http://test.host/issues/show/1'
+
+    get :login, :back_url => 'http://test.host/issues/show/1'
+    assert_redirected_to '/issues/show/1'
+    assert_equal 2, @request.session[:user_id]
+  end
+
+  def test_get_login_while_logged_in_should_redirect_to_referer_without_back_url
+    @request.session[:user_id] = 2
+    @request.env["HTTP_REFERER"] = 'http://test.host/issues/show/1'
+
+    get :login
+    assert_redirected_to '/issues/show/1'
+    assert_equal 2, @request.session[:user_id]
+  end
+
+  def test_get_login_while_logged_in_should_redirect_to_home_by_default
     @request.session[:user_id] = 2
 
     get :login
@@ -48,8 +66,14 @@ class AccountControllerTest < ActionController::TestCase
   end
 
   def test_login_should_not_redirect_to_another_host
-    post :login, :username => 'jsmith', :password => 'jsmith', :back_url => 'http://test.foo/fake'
-    assert_redirected_to '/my/page'
+    back_urls = [
+      'http://test.foo/fake',
+      '//test.foo/fake'
+    ]
+    back_urls.each do |back_url|
+      post :login, :username => 'jsmith', :password => 'jsmith', :back_url => back_url
+      assert_redirected_to '/my/page'
+    end
   end
 
   def test_login_with_wrong_password
@@ -185,7 +209,7 @@ class AccountControllerTest < ActionController::TestCase
         }
         assert_redirected_to '/my/account'
       end
-      user = User.first(:order => 'id DESC')
+      user = User.order('id DESC').first
       assert_equal 'register', user.login
       assert_equal 'John', user.firstname
       assert_equal 'Doe', user.lastname

@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -56,7 +56,7 @@ class Redmine::ApiTest::VersionsTest < Redmine::ApiTest::Base
       post '/projects/1/versions.xml', {:version => {:name => 'API test'}}, credentials('jsmith')
     end
 
-    version = Version.first(:order => 'id DESC')
+    version = Version.order('id DESC').first
     assert_equal 'API test', version.name
 
     assert_response :created
@@ -69,7 +69,7 @@ class Redmine::ApiTest::VersionsTest < Redmine::ApiTest::Base
       post '/projects/1/versions.xml', {:version => {:name => 'API test', :due_date => '2012-01-24'}}, credentials('jsmith')
     end
 
-    version = Version.first(:order => 'id DESC')
+    version = Version.order('id DESC').first
     assert_equal 'API test', version.name
     assert_equal Date.parse('2012-01-24'), version.due_date
 
@@ -92,7 +92,7 @@ class Redmine::ApiTest::VersionsTest < Redmine::ApiTest::Base
         }, credentials('jsmith')
     end
 
-    version = Version.first(:order => 'id DESC')
+    version = Version.order('id DESC').first
     assert_equal 'API test', version.name
     assert_equal 'Some value', version.custom_field_value(field)
 
