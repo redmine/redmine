@@ -111,20 +111,20 @@ module Redmine
                       (?=<|\s|$)
                      }x unless const_defined?(:AUTO_LINK_RE)
 
-      # Destructively remplaces urls into clickable links
+      # Destructively replaces urls into clickable links
       def auto_link!(text)
         text.gsub!(AUTO_LINK_RE) do
           all, leading, proto, url, post = $&, $1, $2, $3, $6
           if leading =~ /<a\s/i || leading =~ /![<>=]?/
-            # don't replace URL's that are already linked
-            # and URL's prefixed with ! !> !< != (textile images)
+            # don't replace URLs that are already linked
+            # and URLs prefixed with ! !> !< != (textile images)
             all
           else
-            # Idea below : an URL with unbalanced parethesis and
+            # Idea below : an URL with unbalanced parenthesis and
             # ending by ')' is put into external parenthesis
             if ( url[-1]==?) and ((url.count("(") - url.count(")")) < 0 ) )
-              url=url[0..-2] # discard closing parenth from url
-              post = ")"+post # add closing parenth to post
+              url=url[0..-2] # discard closing parenthesis from url
+              post = ")"+post # add closing parenthesis to post
             end
             content = proto + url
             href = "#{proto=="www."?"http://www.":proto}#{url}"
@@ -133,7 +133,7 @@ module Redmine
         end
       end
 
-      # Destructively remplaces email addresses into clickable links
+      # Destructively replaces email addresses into clickable links
       def auto_mailto!(text)
         text.gsub!(/([\w\.!#\$%\-+.]+@[A-Za-z0-9\-]+(\.[A-Za-z0-9\-]+)+)/) do
           mail = $1
