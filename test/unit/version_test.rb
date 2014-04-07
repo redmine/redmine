@@ -93,7 +93,7 @@ class VersionTest < ActiveSupport::TestCase
     assert_progress_equal (100.0)/3, v.closed_percent
   end
 
-  def test_progress_should_consider_estimated_hours_to_weigth_issues
+  def test_progress_should_consider_estimated_hours_to_weight_issues
     project = Project.find(1)
     v = Version.create!(:project => project, :name => 'Progress')
     add_issue(v, :estimated_hours => 10)
@@ -104,7 +104,7 @@ class VersionTest < ActiveSupport::TestCase
     assert_progress_equal 25.0/95.0*100, v.closed_percent
   end
 
-  def test_progress_should_consider_average_estimated_hours_to_weigth_unestimated_issues
+  def test_progress_should_consider_average_estimated_hours_to_weight_unestimated_issues
     project = Project.find(1)
     v = Version.create!(:project => project, :name => 'Progress')
     add_issue(v, :done_ratio => 20)
