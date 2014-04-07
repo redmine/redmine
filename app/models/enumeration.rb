@@ -73,7 +73,7 @@ class Enumeration < ActiveRecord::Base
     self.objects_count != 0
   end
 
-  # Is this enumeration overiding a system level enumeration?
+  # Is this enumeration overriding a system level enumeration?
   def is_override?
     !self.parent.nil?
   end
