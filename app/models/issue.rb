@@ -1433,7 +1433,7 @@ class Issue < ActiveRecord::Base
   def close_duplicates
     if closing?
       duplicates.each do |duplicate|
-        # Reload is need in case the duplicate was updated by a previous duplicate
+        # Reload is needed in case the duplicate was updated by a previous duplicate
         duplicate.reload
         # Don't re-close it if it's already closed
         next if duplicate.closed?
