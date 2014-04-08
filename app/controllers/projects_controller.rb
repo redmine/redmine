@@ -82,7 +82,10 @@ class ProjectsController < ApplicationController
       if isApproved?(p)
         projectDescription = p.description
         firstLine = projectDescription.lines.first.chomp
-        if (firstLine.start_with?("!") and firstLine.end_with?("!"))
+        #This is for textile
+        #if (firstLine.start_with?("!") and firstLine.end_with?("!"))
+        #This is for markdown
+        if (firstLine.start_with?("![]"))
           @galleryImages.push({:image => firstLine, :project => p})
         end  
         category=getCustomField(p,'Category')
