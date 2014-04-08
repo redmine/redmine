@@ -1556,14 +1556,14 @@ class Issue < ActiveRecord::Base
 
     where = "#{Issue.table_name}.#{select_field}=j.id"
 
-    ActiveRecord::Base.connection.select_all("select    s.id as status_id, 
-                                                s.is_closed as closed, 
+    ActiveRecord::Base.connection.select_all("select    s.id as status_id,
+                                                s.is_closed as closed,
                                                 j.id as #{select_field},
-                                                count(#{Issue.table_name}.id) as total 
-                                              from 
+                                                count(#{Issue.table_name}.id) as total
+                                              from
                                                   #{Issue.table_name}, #{Project.table_name}, #{IssueStatus.table_name} s, #{joins} j
-                                              where 
-                                                #{Issue.table_name}.status_id=s.id 
+                                              where
+                                                #{Issue.table_name}.status_id=s.id
                                                 and #{where}
                                                 and #{Issue.table_name}.project_id=#{Project.table_name}.id
                                                 and #{visible_condition(User.current, :project => project)}
