@@ -913,7 +913,7 @@
   label_general: 一般
   label_more: 更多 »
   label_scm: 版本控管
-  label_plugins: 附加元件
+  label_plugins: 外掛程式
   label_ldap_authentication: LDAP 認證
   label_downloads_abbr: 下載
   label_optional_description: 額外的說明
@@ -996,6 +996,9 @@
   label_checkboxes: 核取方塊
   label_link_values_to: 連結欄位值至此網址
   label_custom_field_select_type: 請選擇連結此自訂欄位的物件類型
+  label_check_for_updates: 檢查更新
+  label_latest_compatible_version: 最新的相容版本
+  label_unknown_plugin: 無法辨識的外掛程式
 
   button_login: 登入
   button_submit: 送出
@@ -1105,7 +1108,7 @@
   text_select_project_modules: '選擇此專案可使用之模組：'
   text_default_administrator_account_changed: 已變更預設管理員帳號內容
   text_file_repository_writable: 可寫入附加檔案目錄
-  text_plugin_assets_writable: 可寫入附加元件目錄
+  text_plugin_assets_writable: 可寫入外掛程式目錄
   text_rmagick_available: 可使用 RMagick (選配)
   text_convert_available: 可使用 ImageMagick 轉換圖片格式 (選配)
   text_destroy_time_entries_question: 您即將刪除的問題已報工 %{hours} 小時. 您的選擇是？
@@ -1189,6 +1192,3 @@
   description_date_from: 輸入起始日期
   description_date_to: 輸入結束日期
   text_repository_identifier_info: '僅允許使用小寫英文字母 (a-z), 阿拉伯數字, 虛線與底線。<br />一旦儲存之後, 代碼便無法再次被更改。'
-  label_check_for_updates: Check for updates
-  label_latest_compatible_version: Latest compatible version
-  label_unknown_plugin: Unknown plugin
