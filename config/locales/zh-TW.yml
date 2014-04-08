@@ -337,7 +337,7 @@
   field_tracker: 追蹤標籤
   field_subject: 主旨
   field_due_date: 完成日期
-  field_assigned_to: 分派給
+  field_assigned_to: 被分派者
   field_priority: 優先權
   field_fixed_version: 版本
   field_user: 用戶
