@@ -1194,13 +1194,13 @@ class Issue < ActiveRecord::Base
   end
 
   def self.by_subproject(project)
-    ActiveRecord::Base.connection.select_all("select    s.id as status_id, 
-                                                s.is_closed as closed, 
+    ActiveRecord::Base.connection.select_all("select    s.id as status_id,
+                                                s.is_closed as closed,
                                                 #{Issue.table_name}.project_id as project_id,
-                                                count(#{Issue.table_name}.id) as total 
-                                              from 
+                                                count(#{Issue.table_name}.id) as total
+                                              from
                                                 #{Issue.table_name}, #{Project.table_name}, #{IssueStatus.table_name} s
-                                              where 
+                                              where
                                                 #{Issue.table_name}.status_id=s.id
                                                 and #{Issue.table_name}.project_id = #{Project.table_name}.id
                                                 and #{visible_condition(User.current, :project => project, :with_subprojects => true)}
