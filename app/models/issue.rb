@@ -33,7 +33,7 @@ class Issue < ActiveRecord::Base
   has_many :visible_journals,
     :class_name => 'Journal',
     :as => :journalized,
-    :conditions => Proc.new { 
+    :conditions => Proc.new {
       ["(#{Journal.table_name}.private_notes = ? OR (#{Project.allowed_to_condition(User.current, :view_private_notes)}))", false]
     },
     :readonly => true
@@ -94,7 +94,7 @@ class Issue < ActiveRecord::Base
   before_create :default_assign
   before_save :close_duplicates, :update_done_ratio_from_issue_status,
               :force_updated_on_change, :update_closed_on, :set_assigned_to_was
-  after_save {|issue| issue.send :after_project_change if !issue.id_changed? && issue.project_id_changed?} 
+  after_save {|issue| issue.send :after_project_change if !issue.id_changed? && issue.project_id_changed?}
   after_save :reschedule_following_issues, :update_nested_set_attributes,
              :update_parent_attributes, :create_journal
   # Should be after_create but would be called before previous after_save callbacks
@@ -218,7 +218,7 @@ class Issue < ActiveRecord::Base
     self.status = issue.status
     self.author = User.current
     unless options[:attachments] == false
-      self.attachments = issue.attachments.map do |attachement| 
+      self.attachments = issue.attachments.map do |attachement|
         attachement.copy(:container => self)
       end
     end
@@ -394,10 +394,10 @@ class Issue < ActiveRecord::Base
     :if => lambda {|issue, user| user.allowed_to?(:add_issue_notes, issue.project)}
 
   safe_attributes 'private_notes',
-    :if => lambda {|issue, user| !issue.new_record? && user.allowed_to?(:set_notes_private, issue.project)} 
+    :if => lambda {|issue, user| !issue.new_record? && user.allowed_to?(:set_notes_private, issue.project)}
 
   safe_attributes 'watcher_user_ids',
-    :if => lambda {|issue, user| issue.new_record? && user.allowed_to?(:add_issue_watchers, issue.project)} 
+    :if => lambda {|issue, user| issue.new_record? && user.allowed_to?(:add_issue_watchers, issue.project)}
 
   safe_attributes 'is_private',
     :if => lambda {|issue, user|
@@ -762,7 +762,7 @@ class Issue < ActiveRecord::Base
       initial_status ||= status
 
       initial_assigned_to_id = assigned_to_id_changed? ? assigned_to_id_was : assigned_to_id
-      assignee_transitions_allowed = initial_assigned_to_id.present? && 
+      assignee_transitions_allowed = initial_assigned_to_id.present? &&
         (user.id == initial_assigned_to_id || user.group_ids.include?(initial_assigned_to_id))
 
       statuses = initial_status.find_new_statuses_allowed_to(
@@ -1056,7 +1056,7 @@ class Issue < ActiveRecord::Base
         if leaf.start_date
           # Only move subtask if it starts at the same date as the parent
           # or if it starts before the given date
-          if start_date == leaf.start_date || date > leaf.start_date 
+          if start_date == leaf.start_date || date > leaf.start_date
             leaf.reschedule_on!(date)
           end
         else
@@ -1491,11 +1491,11 @@ class Issue < ActiveRecord::Base
           before = @custom_values_before_change[c.custom_field_id]
           after = c.value
           next if before == after || (before.blank? && after.blank?)
-          
+
           if before.is_a?(Array) || after.is_a?(Array)
             before = [before] unless before.is_a?(Array)
             after = [after] unless after.is_a?(Array)
-            
+
             # values removed
             (before - after).reject(&:blank?).each do |value|
               @current_journal.details << JournalDetail.new(:property => 'cf',
