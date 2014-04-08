@@ -1107,7 +1107,10 @@ class Issue < ActiveRecord::Base
   def self.update_versions_from_hierarchy_change(project)
     moved_project_ids = project.self_and_descendants.reload.collect(&:id)
     # Update issues of the moved projects and issues assigned to a version of a moved project
-    Issue.update_versions(["#{Version.table_name}.project_id IN (?) OR #{Issue.table_name}.project_id IN (?)", moved_project_ids, moved_project_ids])
+    Issue.update_versions(
+            ["#{Version.table_name}.project_id IN (?) OR #{Issue.table_name}.project_id IN (?)",
+             moved_project_ids, moved_project_ids]
+          )
   end
 
   def parent_issue_id=(arg)
