@@ -1,0 +1,18 @@
+<h2>Search by custom field</h2>
+
+<p>Search by </p>
+<%= params %>
+
+<% if @projects %>
+    <dl id="search-results">
+      <% @projects.each do |p| %>
+        <dt>
+          <% url = {:controller => 'projects', :action => 'show', :id => p['id']} %>
+          <%= link_to(p['name'], url) %>
+        </dt>
+        <dd><span class="description"><%= p['description'] %></span>
+        <span class="author"><%= format_time(p['updated_on']) %></span></dd>
+      <% end %>
+    </dl>
+<% end %>
+
