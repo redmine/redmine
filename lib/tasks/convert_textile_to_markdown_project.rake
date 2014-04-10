@@ -1,7 +1,6 @@
 task :convert_textile_to_markdown_project => :environment do
   require 'tempfile'
   Project.all.each do |project|
-    print "project"
     textile = project.description
      
     src = Tempfile.new('textile')
@@ -17,7 +16,7 @@ task :convert_textile_to_markdown_project => :environment do
       "-f",
       "textile",
       "-t",
-      "markdown_strict",
+      "markdown_github",
       src.path,
       "-o",
       dst.path,

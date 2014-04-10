@@ -16,7 +16,7 @@ task :convert_textile_to_markdown_wiki => :environment do
         "-f",
         "textile",
         "-t",
-        "markdown_strict",
+        "markdown_github",
         src.path,
         "-o",
         dst.path,
