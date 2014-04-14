@@ -17,28 +17,48 @@
 
 class SearchCustomFieldController < ApplicationController
   include ApplicationHelper
+  
   def index
     search_projects_by_custom_fields()
   end
   
   def search_projects_by_custom_fields
-    conditions  = String.new
-    params.each_key do |key|
-      if key != 'action' and key != 'controller' then
-        custom_field_name = ActiveRecord::Base.connection.quote(key)
-        custom_field_value = ActiveRecord::Base.connection.quote(params[key])
+    @query = ProjectCustomField.select("id, name, possible_values, field_format")
+        
+    @projects = nil
+    
+    if !params[:op].blank? and !params[:v].blank?
+      
+      #add_filters(params[:fields] || params[:f], params[:operators] || params[:op], params[:values] || params[:v])
+      
+      conditions  = String.new
+      operator = params[:op]
+      operatorValues = params[:v]
+      operator.each do |operatorKey, operatorItem|
+        custom_field_value = ActiveRecord::Base.connection.quote(operatorValues[operatorKey].first)
         
         conditions << " AND " unless conditions.length == 0
-        conditions << "cf.name = " + custom_field_name + " AND cv.value= " + custom_field_value
-      end  
-    end
-
-    query = "SELECT p.id, p.updated_on, p.identifier, p.name, p.description FROM #{CustomField.table_name} cf INNER JOIN #{CustomValue.table_name} cv ON cf.id=cv.custom_field_id INNER JOIN #{Project.table_name} p ON cv.customized_id=p.id"
-    query << " WHERE " + conditions  
+        conditions << "cf.id = " + operatorKey + " AND cv.value " + operatorItem + custom_field_value
+      end
       
-    @projects ||= ActiveRecord::Base.connection.select(query);
+      #params.each_key do |key|
+        #if key != 'action' and key != 'controller' then
+          #custom_field_name = ActiveRecord::Base.connection.quote(key)
+          #custom_field_value = ActiveRecord::Base.connection.quote(params[key])
+          
+          #conditions << " AND " unless conditions.length == 0
+          #conditions << "cf.name = " + custom_field_name + " AND cv.value= " + custom_field_value
+        #end  
+      #end
+  
+      query = "SELECT p.id, p.updated_on, p.identifier, p.name, p.description FROM #{CustomField.table_name} cf INNER JOIN #{CustomValue.table_name} cv ON cf.id=cv.custom_field_id INNER JOIN #{Project.table_name} p ON cv.customized_id=p.id"
+      query << " WHERE " + conditions  
+      
+      print query
+          
+      @projects ||= ActiveRecord::Base.connection.select(query);
+    end
     
-    print @projects
 
   end
   

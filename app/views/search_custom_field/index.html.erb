@@ -1,6 +1,19 @@
 <h2>Search by custom field</h2>
 
-<p>Search by </p>
+<div id="search_box" class="box">
+<%= form_tag({ :controller => 'search_custom_field', :action => 'index'}, :method => :get, :id => 'search-form') do %>
+
+<fieldset id="filters">
+  <div>
+    <%= render :partial => 'filters', :locals => {:query => @query}%>
+  </div>
+</fieldset>
+
+
+<p><%= submit_tag l(:button_submit) %></p>
+<% end %>
+</div>
+
 <%= params %>
 
 <% if @projects %>

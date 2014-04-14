@@ -1,0 +1,27 @@
+<%= javascript_tag do %>
+var operatorLabels = <%= raw_json Query.operators_labels %>;
+var operatorByType = <%= raw_json Query.operators_by_filter_type %>;
+var availableFilters = <%= raw_json get_available_filters(query) %>;
+var labelDayPlural = <%= raw_json l(:label_day_plural) %>;
+
+$(document).ready(function(){
+  initFilters();
+
+});
+<% end %>
+
+
+<table style="width:100%">
+	<tr>
+		<td>
+			<table id="filters-table">
+			</table>
+		</td>
+		<td class="add-filter pull-right">
+			<%= select_tag 'add_filter_select', options_for_select(get_options(query)), :name => nil %>
+		</td>
+	</tr>
+</table>
+<%= hidden_field_tag 'f[]', '' %>
+<% include_calendar_headers_tags %>
+
