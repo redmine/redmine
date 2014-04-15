@@ -200,7 +200,7 @@ class RepositoriesCvsControllerTest < ActionController::TestCase
         assert_tag :tag => 'th', :attributes => { :class => 'filename' },
                                  :content => /test\/README/
         assert_tag :tag => 'th', :attributes => { :class => 'filename' },
-                                 :content => /test\/images\/delete.png	/
+                                 :content => /test\/images\/delete.png/
         assert_tag :tag => 'th', :attributes => { :class => 'filename' },
                                  :content => /test\/images\/edit.png/
         assert_tag :tag => 'th', :attributes => { :class => 'filename' },
