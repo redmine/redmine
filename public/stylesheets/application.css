@@ -1451,6 +1451,14 @@ iframe {
 	top: 200px;
 }
 
+#myCarouselMainPage {
+	margin-top: 80px;
+	margin-bottom: 20px;
+}
+#myCarouselMainPage .carousel-control{
+	top: 150px;
+}
+
 /* SEARCH FORM */
 #search-form .inline-element{
 	display: inline-block;	

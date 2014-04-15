@@ -17,16 +17,48 @@
 
 class WelcomeController < ApplicationController
   caches_action :robots
+  
+  include ApplicationHelper
 
   def index
+    
+    print "indexxxxxxxxxxx"
     @user = User.current
     @news = News.latest User.current
     @projects = Project.latest User.current
     @memberships = @user.memberships.all(:conditions => Project.visible_condition(User.current))
     events = Redmine::Activity::Fetcher.new(User.current, :author => @user).events(nil, nil, :limit => 10)
     @events_by_day = events.group_by(&:event_date)
+    
+    if !User.current.logged?
+      @galleryImages = getGalleryImages(@projects)
+      print "galleryImages"
+      print @galleryImages
+    end  
+      
   end
 
+  def getGalleryImages(projects)
+    scope = Project
+    scope = scope.active
+    galleryProjects = scope.visible.order('lft').all
+    
+    galleryImages=[]  
+    for p in galleryProjects
+      if isApproved?(p)
+        projectDescription = p.description
+        firstLine = projectDescription.lines.first.chomp
+        #This is for textile
+        #if (firstLine.start_with?("!") and firstLine.end_with?("!"))
+        #This is for markdown
+        if (firstLine.start_with?("![]"))
+          galleryImages.push({:image => firstLine, :project => p})
+        end  
+      end
+    end
+    return galleryImages
+  end
+  
   def robots
     @projects = Project.all_public.active
     render :layout => false, :content_type => 'text/plain'
