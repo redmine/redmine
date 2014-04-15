@@ -1474,3 +1474,9 @@ iframe {
 	padding: 20px 20px 0px 20px;
 	margin-bottom: 20px;
 }
+
+/* CAPTCHA */
+#recaptcha_area .table td, #recaptcha_area .table th{
+	 line-height: 1;
+}
+
