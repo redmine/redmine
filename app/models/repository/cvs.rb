@@ -138,9 +138,9 @@ class Repository::Cvs < Repository
         # is not exclusive at all.
         tmp_time = revision.time.clone
         unless filechanges.find_by_path_and_revision(
-	                         scm.with_leading_slash(revision.paths[0][:path]),
-	                         revision.paths[0][:revision]
-	                           )
+                                scm.with_leading_slash(revision.paths[0][:path]),
+                                revision.paths[0][:revision]
+                             )
           cmt = Changeset.normalize_comments(revision.message, repo_log_encoding)
           author_utf8 = Changeset.to_utf8(revision.author, repo_log_encoding)
           cs  = changesets.where(
