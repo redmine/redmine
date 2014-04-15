@@ -159,8 +159,8 @@ class Query < ActiveRecord::Base
 
   after_save do |query|
     if query.visibility_changed? && query.visibility != VISIBILITY_ROLES
-	    query.roles.clear
-	  end
+      query.roles.clear
+    end
   end
 
   class_attribute :operators
