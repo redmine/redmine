@@ -1447,6 +1447,9 @@ iframe {
 #myCarousel .caption  img{
 	display: none;
 }
+#myCarousel .carousel-control{
+	top: 200px;
+}
 
 /* SEARCH FORM */
 #search-form .inline-element{
