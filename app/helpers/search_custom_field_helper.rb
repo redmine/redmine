@@ -19,14 +19,6 @@
 
 module SearchCustomFieldHelper
   
-  def get_available_filters(query)
-    available_filters = {}
-    query.each do |queryRow|
-      available_filters[queryRow[:id]] = {:type => queryRow[:field_format], :name => queryRow[:name], :values => queryRow[:possible_values]}
-    end
-    return available_filters
-  end
-  
   def get_options(query)
     options = [[]]
     query.each do |queryRow|

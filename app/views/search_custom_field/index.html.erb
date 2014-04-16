@@ -5,7 +5,7 @@
 
 <fieldset id="filters">
   <div>
-    <%= render :partial => 'filters', :locals => {:query => @query}%>
+    <%= render :partial => 'filters', :locals => {:query => @query, :available_filters => @available_filters}%>
   </div>
 </fieldset>
 
