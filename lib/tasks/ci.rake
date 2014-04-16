@@ -1,4 +1,4 @@
-desc "Run the Continous Integration tests for Redmine"
+desc "Run the Continuous Integration tests for Redmine"
 task :ci do
   # RAILS_ENV and ENV[] can diverge so force them both to test
   ENV['RAILS_ENV'] = 'test'
