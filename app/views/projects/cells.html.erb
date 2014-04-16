@@ -102,6 +102,7 @@ jQuery(function()
 	// -- Add filter
 	setupFilter('#cellsfilter', '#cellslist');
 	
+	//If any tab is requested in the url, redirect to the proper tab
 	var subTabCellsList =['graph', 'listcells', 'gallery']
 	
 	var a = location.href.split("#");
@@ -109,6 +110,7 @@ jQuery(function()
 		$("#"+a[1]+"Link").trigger("click");
 	}
 	
+	//Init carousel for gallery view 
 	$('#myCarousel').carousel({
 	  pause: true,
 	  interval: false

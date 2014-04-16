@@ -21,8 +21,6 @@ class WelcomeController < ApplicationController
   include ApplicationHelper
 
   def index
-    
-    print "indexxxxxxxxxxx"
     @user = User.current
     @news = News.latest User.current
     @projects = Project.latest User.current
@@ -32,8 +30,6 @@ class WelcomeController < ApplicationController
     
     if !User.current.logged?
       @galleryImages = getGalleryImages(@projects)
-      print "galleryImages"
-      print @galleryImages
     end  
       
   end
