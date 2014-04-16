@@ -1,0 +1,49 @@
+
+<%= form_tag({}, :method => :get, :id => 'omv-form') do %>
+
+<%= error_messages_for 'user' %>
+
+<div class="box tabular">
+
+  <div id="registerForm">
+	<div class="control-group">
+		<%= label_tag 'omv_title', 'Title', :class => "control-label" %>
+		<div class="controls">
+			<%= text_field_tag 'omv_title', @omv_title, :size => 60, :id => 'omv_title' %>
+		</div>	
+	</div>
+	
+	<div class="control-group">
+		<a data-toggle="tab" href="#addExperiment1" class="control-label">Add Experiment</a>
+	</div>	
+	
+	<div class="tab-content">
+		<div class="tab-pane" id="addExperiment1">
+			<div class="control-group">
+				<%= label_tag 'experiment_title', 'Experiment Title', :class => "control-label" %>
+				<div class="controls">
+					<%= text_field_tag 'experiment_title', @experiment_title, :size => 60, :id => 'experiment_title' %>
+				</div>	
+			</div>
+			<div class="control-group">
+				<%= label_tag 'protocol_title', 'Protocol Title', :class => "control-label" %>
+				<div class="controls">
+					<%= text_field_tag 'protocol_title', @experiment_title, :size => 60, :id => 'experiment_title' %>
+				</div>	
+			</div>
+		
+		</div>	
+	</div>
+	
+	<div class="control-group">
+		<div class="nolabelcontrols">
+			<%= submit_tag l(:button_submit), :class => "btn btn-large btn-success" %>
+		</div>
+	</div>
+	
+  </div>
+
+</div>
+
+
+<% end %>
