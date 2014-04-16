@@ -705,7 +705,7 @@ RAW
           link_to("Unknown page",
                   "/projects/onlinestore/wiki/Unknown_page",
                   :class => "wiki-page new"),
-      # striked through link
+      # struck through link
       '-[[Another page|Page]]-' =>
           "<del>".html_safe +
             link_to("Page",
