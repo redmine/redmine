@@ -136,6 +136,8 @@ RedmineApp::Application.routes.draw do
     # issue form update
     match 'issues/update_form', :controller => 'issues', :action => 'update_form', :via => [:put, :post], :as => 'issue_form'
 
+    resources :omv, :only => [:index, :new, :create]  
+      
     resources :files, :only => [:index, :new, :create]
 
     resources :versions, :except => [:index, :show, :edit, :update, :destroy] do
@@ -234,7 +236,12 @@ RedmineApp::Application.routes.draw do
   get 'projects/:id/activity', :to => 'activities#index'
   get 'projects/:id/activity.:format', :to => 'activities#index'
   get 'activity', :to => 'activities#index'
-
+  
+  get 'projects/:id/omv', :to => 'omv#index'
+  get 'projects/:id/omv.:format', :to => 'omv#index'
+  get 'omv', :to => 'omv#index'
+    
+  
   # repositories routes
   get 'projects/:id/repository/:repository_id/statistics', :to => 'repositories#stats'
   get 'projects/:id/repository/:repository_id/graph', :to => 'repositories#graph'
