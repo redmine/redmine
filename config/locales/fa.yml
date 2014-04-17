@@ -719,7 +719,7 @@ fa:
   label_feeds_access_key: کلید دسترسی Atom
   label_missing_feeds_access_key: کلید دسترسی Atom در دسترس نیست
   label_feeds_access_key_created_on: "کلید دسترسی Atom %{value} پیش ساخته شده است"
-  label_module_plural: پیمانه
+  label_module_plural: پودمان ها
   label_added_time_by: "افزوده شده به دست %{author} در %{age} پیش"
   label_updated_time_by: "بروز شده به دست %{author} در %{age} پیش"
   label_updated_time: "بروز شده در %{value} پیش"
