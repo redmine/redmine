@@ -163,7 +163,7 @@ fa:
   notice_not_authorized_archived_project: پروژه درخواستی شما بایگانی شده است.
   notice_email_sent: "یک ایمیل به %{value} فرستاده شد."
   notice_email_error: "یک ایراد در فرستادن ایمیل پیش آمد (%{value})."
-  notice_feeds_access_key_reseted: کلید دسترسی Atom شما بازنشانی شد.
+  notice_feeds_access_key_reseted: کلید دسترسی RSS شما بازنشانی شد.
   notice_api_access_key_reseted: کلید دسترسی API شما بازنشانی شد.
   notice_failed_to_save_issues: "ذخیره سازی %{count} مورد از %{total} مورد گزینش شده شکست خورد: %{ids}."
   notice_failed_to_save_members: "ذخیره سازی همکاران شکست خورد: %{errors}."
