@@ -394,7 +394,6 @@ fa:
   permission_edit_own_time_entries: ویرایش زمان صرف شده خود
   permission_manage_news: مدیریت اخبار
   permission_comment_news: افزودن نظر شخصی به مجموعه اخبار
-  permission_manage_documents: مدیریت مستندات
   permission_view_documents: دیدن مستندات
   permission_manage_files: مدیریت پرونده‌ها
   permission_view_files: دیدن پرونده‌ها
