@@ -29,7 +29,7 @@ class SearchCustomFieldController < ApplicationController
     
     @projects = nil
     
-    if !params[:op].blank? and !params[:v].blank?
+    if !params[:op].blank? and !params[:f].blank?
       
       #add_filters(params[:fields] || params[:f], params[:operators] || params[:op], params[:values] || params[:v])
       
@@ -38,10 +38,15 @@ class SearchCustomFieldController < ApplicationController
       operatorValues = params[:v]
       operator.each do |operatorKey, operatorItem|
         #custom_field_value = ActiveRecord::Base.connection.quote(operatorValues[operatorKey].first)
-        
-        conditions << " AND " unless conditions.length == 0
         #conditions << "cf.id = " + operatorKey + " AND cv.value " + operatorItem + custom_field_value
-      conditions << "cf.id = " + operatorKey + " AND " + sql_for_field(operatorKey, operatorItem, operatorValues[operatorKey], @available_filters)
+        
+        #conditions << " AND " unless conditions.length == 0
+        #conditions << "cf.id = " + operatorKey + " AND " + sql_for_field(operatorKey, operatorItem, operatorValues[operatorKey], @available_filters)
+        custom_values_table_alias = "cv" + operatorKey
+        custom_fields_table_alias = "cf"+ operatorKey
+        
+        conditions << " INNER JOIN #{CustomValue.table_name} " + custom_values_table_alias + " ON " + custom_values_table_alias + ".customized_id=p.id INNER JOIN #{CustomField.table_name} " + custom_fields_table_alias + " ON " + custom_fields_table_alias + ".id =" + custom_values_table_alias + ".custom_field_id AND " + custom_fields_table_alias + ".id = " + operatorKey + " AND " + sql_for_field(operatorKey, operatorItem, (operatorValues) ? operatorValues[operatorKey] : '', @available_filters, custom_values_table_alias) 
+        
       end
       
       #params.each_key do |key|
@@ -54,8 +59,14 @@ class SearchCustomFieldController < ApplicationController
         #end  
       #end
   
-      query = "SELECT p.id, p.updated_on, p.identifier, p.name, p.description FROM #{CustomField.table_name} cf INNER JOIN #{CustomValue.table_name} cv ON cf.id=cv.custom_field_id INNER JOIN #{Project.table_name} p ON cv.customized_id=p.id"
-      query << " WHERE " + conditions  
+      #query = "SELECT p.id, p.updated_on, p.identifier, p.name, p.description FROM #{CustomField.table_name} cf INNER JOIN #{CustomValue.table_name} cv ON cf.id=cv.custom_field_id INNER JOIN #{Project.table_name} p ON cv.customized_id=p.id"
+      #query << " WHERE " + conditions  
+      
+      query = "SELECT p.id, p.updated_on, p.identifier, p.name, p.description FROM #{Project.table_name} p"
+      query << conditions
+      
+     # INNER JOIN #{CustomValue.table_name} cv ON cf.id=cv.custom_field_id INNER JOIN #{Project.table_name} p ON cv.customized_id=p.id"
+      #INNER JOIN custom_values cv2 ON cv2.customized_id=p.id INNER JOIN custom_fields cf2 ON cf2.id=cv2.custom_field_id AND cf2.id = 17 AND cv2.value IN ('-1');
       
       print query
           
@@ -80,7 +91,7 @@ class SearchCustomFieldController < ApplicationController
   end
   
 # Helper method to generate the WHERE sql for a +field+, +operator+ and a +value+
-  def sql_for_field(field, operator, value, available_filters)
+  def sql_for_field(field, operator, value, available_filters, custom_values_table_alias)
     sql = ''
     case operator
     when "="
@@ -92,16 +103,16 @@ class SearchCustomFieldController < ApplicationController
           #if is_custom_filter
             #sql = "(#{db_table}.#{db_field} <> '' AND CAST(CASE #{db_table}.#{db_field} WHEN '' THEN '0' ELSE #{db_table}.#{db_field} END AS decimal(30,3)) = #{value.first.to_i})"
           #else
-            sql = "cv.value = #{value.first.to_i}"
+            sql = custom_values_table_alias + ".value = #{value.first.to_i}"
           #end
         when :float
           #if is_custom_filter
             #sql = "(#{db_table}.#{db_field} <> '' AND CAST(CASE #{db_table}.#{db_field} WHEN '' THEN '0' ELSE #{db_table}.#{db_field} END AS decimal(30,3)) BETWEEN #{value.first.to_f - 1e-5} AND #{value.first.to_f + 1e-5})"
           #else
-            sql = "cv.value BETWEEN #{value.first.to_f - 1e-5} AND #{value.first.to_f + 1e-5}"
+            sql = custom_values_table_alias + ".value BETWEEN #{value.first.to_f - 1e-5} AND #{value.first.to_f + 1e-5}"
           #end
         else
-          sql = "cv.value IN (" + value.collect{|val| "'#{ActiveRecord::Base.connection.quote_string(val)}'"}.join(",") + ")"
+          sql = custom_values_table_alias + ".value IN (" + value.collect{|val| "'#{ActiveRecord::Base.connection.quote_string(val)}'"}.join(",") + ")"
         end
       else
         # IN an empty set
@@ -109,16 +120,16 @@ class SearchCustomFieldController < ApplicationController
       end
     when "!"
       if value.any?
-        sql = "(cv.value IS NULL OR cv.value NOT IN (" + value.collect{|val| "'#{ActiveRecord::Base.connection.quote_string(val)}'"}.join(",") + "))"
+        sql = "(" + custom_values_table_alias + ".value IS NULL OR " + custom_values_table_alias + ".value NOT IN (" + value.collect{|val| "'#{ActiveRecord::Base.connection.quote_string(val)}'"}.join(",") + "))"
       else
         # NOT IN an empty set
         sql = "1=1"
       end
     when "!*"
-      sql = "cv.value IS NULL"
+      sql = custom_values_table_alias + ".value IS NULL"
       #sql << " OR #{db_table}.#{db_field} = ''" if is_custom_filter
     when "*"
-      sql = "cv.value IS NOT NULL"
+      sql = custom_values_table_alias + ".value IS NOT NULL"
       #sql << " AND #{db_table}.#{db_field} <> ''" if is_custom_filter
     when ">="
       #if [:date, :date_past].include?(type_for(field))
@@ -127,7 +138,7 @@ class SearchCustomFieldController < ApplicationController
         #if is_custom_filter
          # sql = "(#{db_table}.#{db_field} <> '' AND CAST(CASE #{db_table}.#{db_field} WHEN '' THEN '0' ELSE #{db_table}.#{db_field} END AS decimal(30,3)) >= #{value.first.to_f})"
         #else
-          sql = "cv.value >= #{value.first.to_f}"
+          sql = custom_values_table_alias + ".value >= #{value.first.to_f}"
         #end
       #end
     when "<="
@@ -137,7 +148,7 @@ class SearchCustomFieldController < ApplicationController
         #if is_custom_filter
           #sql = "(#{db_table}.#{db_field} <> '' AND CAST(CASE #{db_table}.#{db_field} WHEN '' THEN '0' ELSE #{db_table}.#{db_field} END AS decimal(30,3)) <= #{value.first.to_f})"
         #else
-          sql = "cv.value <= #{value.first.to_f}"
+          sql = custom_values_table_alias + ".value <= #{value.first.to_f}"
         #end
       #end
     when "><"
@@ -147,7 +158,7 @@ class SearchCustomFieldController < ApplicationController
         #if is_custom_filter
           #sql = "(#{db_table}.#{db_field} <> '' AND CAST(CASE #{db_table}.#{db_field} WHEN '' THEN '0' ELSE #{db_table}.#{db_field} END AS decimal(30,3)) BETWEEN #{value[0].to_f} AND #{value[1].to_f})"
         #else
-          sql = "cv.value BETWEEN #{value[0].to_f} AND #{value[1].to_f}"
+          sql = custom_values_table_alias + ".value BETWEEN #{value[0].to_f} AND #{value[1].to_f}"
         #end
       #end
     #when "o"
@@ -215,9 +226,9 @@ class SearchCustomFieldController < ApplicationController
       #date = Date.today
       #sql = date_clause(db_table, db_field, date.beginning_of_year, date.end_of_year)
     when "~"
-      sql = "cv.value LIKE '%#{ActiveRecord::Base.connection.quote_string(value.first.to_s.downcase)}%'"
+      sql = custom_values_table_alias + ".value LIKE '%#{ActiveRecord::Base.connection.quote_string(value.first.to_s.downcase)}%'"
     when "!~"
-      sql = "cv.value NOT LIKE '%#{ActiveRecord::Base.connection.quote_string(value.first.to_s.downcase)}%'"
+      sql = custom_values_table_alias + ".value NOT LIKE '%#{ActiveRecord::Base.connection.quote_string(value.first.to_s.downcase)}%'"
     else
       raise "Unknown query operator #{operator}"
     end
