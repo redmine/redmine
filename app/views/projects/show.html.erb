@@ -78,7 +78,7 @@
 					<% end %>
 				<% end %>
 				<% if original!=nil and original!="" %>
-					<p class="lead">This model was originally developed in: <strong><%= h original %></strong></p>
+					<p class="lead">This model was originally developed in: <strong><%= h link_to_search_by_custom_field(@project, 'Original format') %></strong></p>
 				<% end %>
 				<% if ghrepo!=nil and ghrepo!="" %>
 					<p class="lead">The code for this model is hosted on GitHub: <a href="<%= h ghrepo %>"><%= h ghrepo %></a></p>

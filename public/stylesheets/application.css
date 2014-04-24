@@ -768,6 +768,10 @@ section p {
 	background-color: #37abc8;
 }
 
+.badge-default, .badge-warning, .badge-success, .badge-info {
+	margin: 0px 5px;
+}  
+
 .btn-success {
 	color: #ffffff;
 	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);

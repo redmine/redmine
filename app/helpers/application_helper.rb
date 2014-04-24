@@ -69,6 +69,15 @@ module ApplicationHelper
     return ""
   end
   
+  def getCustomFieldAndId(project, field) 
+    project.custom_field_values.each do |value| 
+      if value.custom_field.name == field
+        return [value.custom_field.id, value.value]
+      end
+    end
+    return ["", ""]
+  end
+  
   def getStars(nostars)
     stars=" <i class='icon-question-sign'></i>"
     stars=(nostars=="1")?" <i class='icon-star'></i>":stars
@@ -130,7 +139,7 @@ module ApplicationHelper
 
   def getSimulatorBadge(project, field)
     value=getCustomField(project, field)
-    return getTooltipedBadgeAlign(project, field, field, 'How well can the curated NeuroML/PyNN version of the model be run in this simulator? '+getSupport(value), 'pull-left')
+    return getTooltipedBadgeAlign(project, field, field, 'How well can the curated NeuroML/PyNN version of the model be run in this simulator? ' + getSupport(value) + ". Click here to see models with same support rate.", 'pull-left')
   end
 
   def getTooltipedBadge(project, field, text, tooltip)
@@ -139,11 +148,12 @@ module ApplicationHelper
   end
     
   def getTooltipedBadgeAlign(project, field, text, tooltip, align)
-    value=getCustomField(project, field)
+    fieldId, value = getCustomFieldAndId(project, field)
     if(value!="-1")
       stars=getStars(value).html_safe
-      badge='<span class="badge tooltiplink '+align+' '+getBadgeClass(value)+'" data-toggle="tooltip" data-placement="left" title="'+ tooltip +'">'+text+' '+stars+'</span>'
-      return badge.html_safe
+      badge='<span class="badge tooltiplink '+ align + ' ' + getBadgeClass(value) + '" data-toggle="tooltip" data-placement="left" title="'+ tooltip +'">'+text+' '+stars+'</span>'
+      badge_link = create_link_to_search_by_custom_field(fieldId, value, badge)
+      return badge_link.html_safe
     else
       return ""
     end
@@ -295,6 +305,17 @@ module ApplicationHelper
       end
     end
     return @NML2files
+  end
+  
+  #Create link to search by custom field page 
+  def link_to_search_by_custom_field(project, field)
+    fieldId, fieldValue = getCustomFieldAndId(project, field)
+    return create_link_to_search_by_custom_field(fieldId, fieldValue, fieldValue)
+  end
+  
+  def create_link_to_search_by_custom_field(fieldId, fieldValue, label)
+    url = {:controller => 'search_custom_field', :f => [fieldId], :op => {fieldId=>'='}, :v => {fieldId=>[fieldValue]}}
+    return link_to(label.html_safe, url)
   end
   
   # Displays a link to user's account page if active
