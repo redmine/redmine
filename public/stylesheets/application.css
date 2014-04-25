@@ -1484,3 +1484,10 @@ iframe {
 	 line-height: 1;
 }
 
+/* WIKI */
+.wiki table{
+	border: 1px solid black;
+}
+.wiki thead{
+	background: #ddd;	
+}
