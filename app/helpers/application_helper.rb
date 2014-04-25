@@ -310,6 +310,14 @@ module ApplicationHelper
   #Create link to search by custom field page 
   def link_to_search_by_custom_field(project, field)
     fieldId, fieldValue = getCustomFieldAndId(project, field)
+    unless fieldValue.kind_of?(String)
+      outputLink = ''
+      for fieldValueItem in fieldValue
+        outputLink << ", " unless outputLink.length == 0
+        outputLink << create_link_to_search_by_custom_field(fieldId, fieldValueItem, fieldValueItem)
+      end
+      return outputLink.html_safe
+    end   
     return create_link_to_search_by_custom_field(fieldId, fieldValue, fieldValue)
   end
   

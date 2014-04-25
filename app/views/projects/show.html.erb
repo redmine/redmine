@@ -63,6 +63,7 @@
 		<% original=getCustomField(@project,'Original format') %>
 		<% ghrepo=getCustomField(@project,'GitHub repository') %>
 		<% bbrepo=getCustomField(@project,'Bitbucket repository') %>
+		<% tags=getCustomField(@project,'Tag') %>
 		
 		<% if (modeldb!=nil and  modeldb!="") or (original!=nil and original!="") or (ghrepo!=nil and ghrepo!="")  or (bbrepo!=nil and bbrepo!="") %>
 			<section id="references">
@@ -85,6 +86,11 @@
 				<% end %>
 				<% if bbrepo!=nil and bbrepo!="" %>
 					<p class="lead">The code for this model is hosted on Bitbucket: <a href="<%= h bbrepo %>"><%= h bbrepo %></a></p>
+				<% end %>
+				<% if tags!=nil and tags!=[nil] %>
+					<p class="lead">Tags for this model are: 
+						<%= h link_to_search_by_custom_field(@project, 'Tag') %>
+					</p>
 				<% end %>
 				</section>
 		<% end %>
