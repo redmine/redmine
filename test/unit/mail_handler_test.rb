@@ -205,6 +205,14 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal user, issue.assigned_to
   end
 
+  def test_add_issue_should_set_default_start_date
+    with_settings :default_issue_start_date_to_creation_date => '1' do
+      issue = submit_email('ticket_with_cc.eml', :issue => {:project => 'ecookbook'})
+      assert issue.is_a?(Issue)
+      assert_equal Date.today, issue.start_date
+    end
+  end
+
   def test_add_issue_with_cc
     issue = submit_email('ticket_with_cc.eml', :issue => {:project => 'ecookbook'})
     assert issue.is_a?(Issue)
@@ -357,19 +365,21 @@ class MailHandlerTest < ActiveSupport::TestCase
   end
 
   def test_add_issue_with_invalid_attributes
-    issue = submit_email(
-              'ticket_with_invalid_attributes.eml',
-              :allow_override => 'tracker,category,priority'
-            )
-    assert issue.is_a?(Issue)
-    assert !issue.new_record?
-    issue.reload
-    assert_nil issue.assigned_to
-    assert_nil issue.start_date
-    assert_nil issue.due_date
-    assert_equal 0, issue.done_ratio
-    assert_equal 'Normal', issue.priority.to_s
-    assert issue.description.include?('Lorem ipsum dolor sit amet, consectetuer adipiscing elit.')
+    with_settings :default_issue_start_date_to_creation_date => '0' do
+      issue = submit_email(
+                'ticket_with_invalid_attributes.eml',
+                :allow_override => 'tracker,category,priority'
+              )
+      assert issue.is_a?(Issue)
+      assert !issue.new_record?
+      issue.reload
+      assert_nil issue.assigned_to
+      assert_nil issue.start_date
+      assert_nil issue.due_date
+      assert_equal 0, issue.done_ratio
+      assert_equal 'Normal', issue.priority.to_s
+      assert issue.description.include?('Lorem ipsum dolor sit amet, consectetuer adipiscing elit.')
+    end
   end
 
   def test_add_issue_with_invalid_project_should_be_assigned_to_default_project

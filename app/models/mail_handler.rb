@@ -198,6 +198,7 @@ class MailHandler < ActionMailer::Base
       issue.subject = '(no subject)'
     end
     issue.description = cleaned_up_text_body
+    issue.start_date ||= Date.today if Setting.default_issue_start_date_to_creation_date?
 
     # add To and Cc as watchers before saving so the watchers can reply to Redmine
     add_watchers(issue)
