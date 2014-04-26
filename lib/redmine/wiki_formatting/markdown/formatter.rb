@@ -127,7 +127,8 @@ module Redmine
             :space_after_headers => true,
             :tables => true,
             :strikethrough => true,
-            :superscript => true
+            :superscript => true,
+            :no_intra_emphasis => true
           )
         end
       end

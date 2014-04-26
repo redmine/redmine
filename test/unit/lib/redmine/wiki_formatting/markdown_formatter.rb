@@ -28,6 +28,10 @@ class Redmine::WikiFormatting::MarkdownFormatterTest < ActionView::TestCase
     assert_equal "<p><strong>foo</strong></p>", @formatter.new("**foo**").to_html.strip
   end
 
+  def test_not_set_intra_emphasis
+    assert_equal "<p>foo_bar_baz</p>", @formatter.new("foo_bar_baz").to_html.strip
+  end
+
   def test_wiki_links_should_be_preserved
     text = 'This is a wiki link: [[Foo]]'
     assert_include '[[Foo]]', @formatter.new(text).to_html
