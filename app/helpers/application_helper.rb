@@ -822,6 +822,7 @@ module ApplicationHelper
         elsif sep == ':'
           # removes the double quotes if any
           name = identifier.gsub(%r{^"(.*)"$}, "\\1")
+          name = CGI.unescapeHTML(name)
           case prefix
           when 'document'
             if project && document = project.documents.visible.find_by_title(name)
