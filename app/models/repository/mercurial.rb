@@ -155,7 +155,7 @@ class Repository::Mercurial < Repository
       # Revisions in root directory and sub directory are not equal.
       # So, in order to get correct limit, we need to get all revisions.
       # But, it is very heavy.
-      # Mercurial does not treat direcotry.
+      # Mercurial does not treat directory.
       # So, "hg log DIR" is very heavy.
       branch_limit = path.blank? ? limit : ( limit * 5 )
       args << nodes_in_branch(rev, branch_limit)
