@@ -152,7 +152,7 @@ module ApplicationHelper
     fieldId, value = getCustomFieldAndId(project, field)
     if(value!="-1")
       stars=getStars(value).html_safe
-      badge='<span class="badge tooltiplink '+ align + ' ' + getBadgeClass(value) + '" data-toggle="tooltip" data-placement="left" title="'+ tooltip +'">'+text+' '+stars+'</span>'
+      badge='<span class="badge tooltiplink '+ align + ' ' + getBadgeClass(value) + '" data-toggle="tooltip" data-placement="right" title="'+ tooltip +'">'+text+' '+stars+'</span>'
       badge_link = create_link_to_search_by_custom_field(fieldId, value, badge)
       return badge_link.html_safe
     else

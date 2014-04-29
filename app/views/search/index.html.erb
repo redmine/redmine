@@ -28,12 +28,49 @@
     <h3><%= l(:label_result_plural) %> (<%= @results_by_type.values.sum %>)</h3>
     <dl id="search-results">
       <% @results.each do |e| %>
+        <% p = e.project %>
         <dt class="<%= e.event_type %>">
           <%= content_tag('span', h(e.project), :class => 'project') unless @project == e.project %>
           <%= link_to(highlight_tokens(e.event_title.truncate(255), @tokens), e.event_url) %>
         </dt>
-        <dd><span class="description"><%= highlight_tokens(e.event_description, @tokens) %></span>
-        <span class="author"><%= format_time(e.event_datetime) %></span></dd>
+        <dd style="margin-bottom:50px;">
+        	<span class="description"><%= highlight_tokens(e.event_description, @tokens) %></span>
+        	
+        	<div style="clear:both;">
+				<div style="float:left;margin:5px 5px 0px 0px;"><i>Project description:</i><%= textilizable(p.short_description_without_image, :project => p) %></div>
+        	</div>	
+        	
+        	<div style="clear:both;">
+        		<div style="float:left;margin:5px 0px;">
+		        	<% if isEndorsed?(p) %>
+						<%= getGeneralBadge(p, 'Endorsement', 'OSB endorsed project', 'This project is endorsed by OSB and is officially supported.', '', 'label label-success') %>
+		        	<% else %>
+		        		<% category =  getCustomField(p,"Category")  %>
+						<% isAProject = (category=="Project" or category=="Showcase") %>
+			        	<% if isAProject %>
+							<%= getGeneralBadge(p, 'Endorsement', 'User project', 'This is a personal user project and has not yet been endorsed by OSB. Please get in contact (info@opensourcebrain.org) to have this project endorsed!', '', 'label label-warning') %>
+						<% end %>
+					<% end %>	
+				</div>
+        	</div>
+
+        	<div style="clear:both;">
+        		<div style="float:left;margin:5px 0px;"><%= getStatusBadges(p, false) %></div>
+        	</div>
+        	
+        	<% tags=getCustomField(p,'Tag') %>
+        	<% if tags!=nil and tags!=[nil] %>
+				<div style="clear:both;">
+					<div style="float:left;margin:5px 0px;"><%= getGeneralBadge(p, 'Tag', '', '', '', 'label label-success') %></div>
+				</div>
+			<% end %>
+
+			<div style="clear:both;">
+				<div style="float:left;margin:5px 5px 0px 0px;"><i>Last updated:</i></div>
+				<div style="float:left;margin:5px 5px 0px 0px;"><%= format_time(e.event_datetime) %></div>
+        	</div>	
+        
+        </dd>
       <% end %>
     </dl>
 <% end %>
