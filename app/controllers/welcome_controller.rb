@@ -41,7 +41,7 @@ class WelcomeController < ApplicationController
     
     galleryImages=[]  
     for p in galleryProjects
-      if isApproved?(p)
+      if isEndorsed?(p)
         projectDescription = p.description
         firstLine = projectDescription.lines.first.chomp
         #This is for textile

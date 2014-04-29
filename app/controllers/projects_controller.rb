@@ -79,7 +79,7 @@ class ProjectsController < ApplicationController
     @showcaseProjects=[]
     @galleryImages=[]  
     for p in @projects
-      if isApproved?(p)
+      if isEndorsed?(p)
         projectDescription = p.description
         firstLine = projectDescription.lines.first.chomp
         #This is for textile
@@ -139,7 +139,7 @@ class ProjectsController < ApplicationController
     
     @showcaseProjects=[]
     for p in @projects
-      if isApproved?(p)
+      if isEndorsed?(p)
         category=getCustomField(p,'Category')
         if category=='Showcase'
           @showcaseProjects.push(p)

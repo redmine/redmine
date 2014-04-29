@@ -68,9 +68,8 @@ class SearchCustomFieldController < ApplicationController
      # INNER JOIN #{CustomValue.table_name} cv ON cf.id=cv.custom_field_id INNER JOIN #{Project.table_name} p ON cv.customized_id=p.id"
       #INNER JOIN custom_values cv2 ON cv2.customized_id=p.id INNER JOIN custom_fields cf2 ON cf2.id=cv2.custom_field_id AND cf2.id = 17 AND cv2.value IN ('-1');
       
-      print query
-          
-      @projects ||= ActiveRecord::Base.connection.select(query);
+      #@projects ||= ActiveRecord::Base.connection.select(query);
+    @projects = Project.find_by_sql(query);
     end
     
 
@@ -81,8 +80,6 @@ class SearchCustomFieldController < ApplicationController
     query.each do |queryRow|
       available_filters[queryRow[:id]] = {:type => queryRow[:field_format] != 'int'  ? queryRow[:field_format] : 'integer' || b, :name => queryRow[:name], :values => queryRow[:possible_values]}
     end
-    print "available_filters"
-    print available_filters
     return available_filters
   end
   

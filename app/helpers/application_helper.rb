@@ -49,14 +49,15 @@ module ApplicationHelper
     return (category=="Project" or category=="Showcase")
   end
   
-  def isApproved?(project)
+  def isEndorsed?(project)
     project.custom_field_values.each do |value| 
-      if value.custom_field.name == 'Endorsed'
+      if value.custom_field.name == 'Endorsement'
         return value.value=="1"
       end
-      if value.custom_field.name == 'approved'
-        return value.value=="1"
-      end
+      #if value.custom_field.name == 'approved'
+        #print "approved"
+        #return value.value=="1"
+      #end
     end
   end
   
@@ -144,7 +145,7 @@ module ApplicationHelper
 
   def getTooltipedBadge(project, field, text, tooltip)
     value=getCustomField(project, field)
-    return getTooltipedBadgeAlign(project, field, text+': '+getLevel(value), tooltip, 'pull-right')
+    return getTooltipedBadgeAlign(project, field, text+': '+getLevel(value), tooltip + " Click here to see other models with same characteristics.", 'pull-right')
   end
     
   def getTooltipedBadgeAlign(project, field, text, tooltip, align)
@@ -158,13 +159,49 @@ module ApplicationHelper
       return ""
     end
   end
+  
+  def getGeneralBadge(project, field, text, tooltip, align, classes)
+    fieldId, fieldValue = getCustomFieldAndId(project, field)
+    unless fieldValue.kind_of?(String)
+      outputLink = ''
+      for fieldValueItem in fieldValue
+        #outputLink << ", " unless outputLink.length == 0
+        label = (text != '') ? text: fieldValueItem
+        tooltipLabel = (text != '') ? tooltip: fieldValueItem
+        badge='<span class="tooltiplink ' + classes+ ' ' + align + ' ' + '" data-toggle="tooltip" data-placement="right" title="'+ tooltipLabel + ' Click here to see other models with same characteristics.">'+ label  +'</span>'
+        outputLink << create_link_to_search_by_custom_field(fieldId, fieldValueItem, badge)
+      end
+      return outputLink.html_safe
+    end   
+    label = (text != '') ? text: fieldValueItem
+    tooltipLabel = (text != '') ? tooltip: fieldValueItem
+    badge='<span class="tooltiplink ' + classes+ ' ' + align + ' ' + '" data-toggle="tooltip" data-placement="right" title="'+ tooltipLabel + ' Click here to see other models with same characteristics.">' + label +'</span>'
+    badge_link = create_link_to_search_by_custom_field(fieldId, fieldValue, badge)
+    return badge_link.html_safe
+  end
 
-  def getStatusBadges(project)
+  #Create link to search by custom field page 
+  def link_to_search_by_custom_field(project, field)
+    fieldId, fieldValue = getCustomFieldAndId(project, field)
+    unless fieldValue.kind_of?(String)
+      outputLink = ''
+      for fieldValueItem in fieldValue
+        outputLink << ", " unless outputLink.length == 0
+        outputLink << create_link_to_search_by_custom_field(fieldId, fieldValueItem, fieldValueItem)
+      end
+      return outputLink.html_safe
+    end   
+    return create_link_to_search_by_custom_field(fieldId, fieldValue, fieldValue)
+  end
+  
+  def getStatusBadges(project, addBr=true)
     @badges=""
     @badges+= getSimulatorBadge(project,'NeuroML v2.x support')+"  "
     @badges+= getSimulatorBadge(project,'NeuroML v1.x support')+"  "
     @badges+= getSimulatorBadge(project,'PyNN support')+"  "
-    @badges+= "<br/><br/>" 
+    if addBr
+      @badges+= "<br/><br/>" 
+    end
     @badges+= getSimulatorBadge(project,'NEURON support')+"  "
     @badges+= getSimulatorBadge(project,'GENESIS 2 support') +"  "
     @badges+= getSimulatorBadge(project,'MOOSE support') +"  "
@@ -305,20 +342,6 @@ module ApplicationHelper
       end
     end
     return @NML2files
-  end
-  
-  #Create link to search by custom field page 
-  def link_to_search_by_custom_field(project, field)
-    fieldId, fieldValue = getCustomFieldAndId(project, field)
-    unless fieldValue.kind_of?(String)
-      outputLink = ''
-      for fieldValueItem in fieldValue
-        outputLink << ", " unless outputLink.length == 0
-        outputLink << create_link_to_search_by_custom_field(fieldId, fieldValueItem, fieldValueItem)
-      end
-      return outputLink.html_safe
-    end   
-    return create_link_to_search_by_custom_field(fieldId, fieldValue, fieldValue)
   end
   
   def create_link_to_search_by_custom_field(fieldId, fieldValue, label)

@@ -747,6 +747,7 @@ section p {
 }
 .tooltiplink {
 	cursor: help;
+	margin: 0px 5px 0px 0px;
 }
 .label-success {
 	background-color: #88aa00;
@@ -768,9 +769,7 @@ section p {
 	background-color: #37abc8;
 }
 
-.badge-default, .badge-warning, .badge-success, .badge-info {
-	margin: 0px 5px;
-}  
+
 
 .btn-success {
 	color: #ffffff;

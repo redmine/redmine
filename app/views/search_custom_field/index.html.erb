@@ -21,8 +21,43 @@
           <% url = {:controller => 'projects', :action => 'show', :id => p['id']} %>
           <%= link_to(p['name'], url) %>
         </dt>
-        <dd><span class="description"><%= p['description'] %></span>
-        <span class="author"><%= format_time(p['updated_on']) %></span></dd>
+        <dd style="margin-bottom:50px;">
+        	<span>
+        	
+        	<%= textilizable(p.short_description_without_image, :project => p) %>
+        	</span>
+        	
+        	<div>
+        		<div style="float:left;margin:5px 0px;">
+		        	<% if isEndorsed?(p) %>
+						<%= getGeneralBadge(p, 'Endorsement', 'OSB endorsed project', 'This project is endorsed by OSB and is officially supported.', '', 'label label-success') %>
+		        	<% else %>
+		        		<% category =  getCustomField(p,"Category")  %>
+						<% isAProject = (category=="Project" or category=="Showcase") %>
+			        	<% if isAProject %>
+							<%= getGeneralBadge(p, 'Endorsement', 'User project', 'This is a personal user project and has not yet been endorsed by OSB. Please get in contact (info@opensourcebrain.org) to have this project endorsed!', '', 'label label-warning') %>
+						<% end %>
+					<% end %>	
+				</div>
+        	</div>
+
+        	<div style="clear:both;">
+        		<div style="float:left;margin:5px 0px;"><%= getStatusBadges(p, false) %></div>
+        	</div>
+        	
+        	
+        	<% tags=getCustomField(p,'Tag') %>
+        	<% if tags!=nil and tags!=[nil] %>
+				<div style="clear:both;">
+					<div style="float:left;margin:5px 0px;"><%= getGeneralBadge(p, 'Tag', '', '', '', 'label label-success') %></div>
+				</div>
+			<% end %>
+			
+			<div style="clear:both;">
+					<div style="float:left;margin:5px 5px 0px 0px;"><b>Last updated:</b></div>
+        			<div style="float:left;margin:5px 5px 0px 0px;"><%= format_time(p['updated_on']) %></div>
+        	</div>		
+        </dd>
       <% end %>
     </dl>
 <% end %>

@@ -547,6 +547,19 @@ class Project < ActiveRecord::Base
     description.gsub(/^(.{#{length}}[^\n\r]*).*$/m, '\1...').strip if description
   end
 
+# Returns a short description of the projects (first lines)
+  def short_description_without_image(length = 300)
+    if description
+      description.gsub(/^(.{#{length}}[^\n\r]*).*$/m, '\1...').strip 
+      firstLine = description.lines.first.chomp
+      if (firstLine.start_with?("![]"))
+        first_newline = (description.index("\n") || description.size - 1) + 1
+        description.slice!(0, first_newline).sub("\n",'')
+      end   
+      return description
+    end
+  end
+  
   def css_classes
     s = 'project'
     s << ' root' if root?
