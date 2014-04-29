@@ -47,7 +47,7 @@
         	
         	
         	<% tags=getCustomField(p,'Tag') %>
-        	<% if tags!=nil and tags!=[nil] %>
+        	<% if tags!=nil and tags!='' and tags!=[nil] %>
 				<div style="clear:both;">
 					<div style="float:left;margin:5px 0px;"><%= getGeneralBadge(p, 'Tag', '', '', '', 'label label-success') %></div>
 				</div>
