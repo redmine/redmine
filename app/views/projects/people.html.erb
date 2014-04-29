@@ -23,7 +23,12 @@
 				<h3><a class="capitalize" href="<%= user_path(user) %>"><%= user.name %></a></h3>
 				<% unless user.pref.hide_mail %>
 				<p>
-					<%= l(:field_mail)%> <%= mail_to(h(user.mail)) %>
+					<%= l(:field_mail)%>: 
+					<% if User.current.logged? %>	
+						<%= mail_to(h(user.mail)) %>
+					<% else %>
+    					<%= link_to('(log in for contact details)'.html_safe, { :controller => 'account', :action => 'login' })%>
+					<% end %>	
 				</p>
 				<% end %>
 				<p>

@@ -9,7 +9,15 @@
 		
 	<ul class="unstyled">
 	  <% unless @user.pref.hide_mail %>
-	    <li><%=l(:field_mail)%>: <%= mail_to(h(@user.mail), nil, :encode => 'javascript') %></li>
+	    <li>
+			<%=l(:field_mail)%>:
+			<% if User.current.logged? %>	
+				<%= mail_to(h(@user.mail), nil, :encode => 'javascript') %>
+			<% else %>
+				<%= link_to('(log in for contact details)'.html_safe, { :controller => 'account', :action => 'login' })%>
+			<% end %>	
+	    	 
+	    </li>
 	  <% end %>
 	  <% @user.visible_custom_field_values.each do |custom_value| %>
 	    <% if !custom_value.value.blank? %>
