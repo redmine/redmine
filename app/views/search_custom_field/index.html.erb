@@ -1,0 +1,64 @@
+<h2>Search by custom field</h2>
+
+<div id="search_box" class="box">
+<%= form_tag({ :controller => 'search_custom_field', :action => 'index'}, :method => :get, :id => 'search-form') do %>
+
+<fieldset id="filters">
+  <div>
+    <%= render :partial => 'filters', :locals => {:query => @query, :available_filters => @available_filters}%>
+  </div>
+</fieldset>
+
+
+<p><%= submit_tag l(:button_submit) %></p>
+<% end %>
+</div>
+
+<% if @projects %>
+    <dl id="search-results">
+      <% @projects.each do |p| %>
+      	<div>
+        <dt>
+          <% url = {:controller => 'projects', :action => 'show', :id => p['id']} %>
+          <%= link_to(p['name'], url) %>
+        </dt>
+        <dd class="searchDD">
+        	<span><%= textilizable(p.short_description_without_image, :project => p) %></span>
+        	
+        	<div>
+        		<div>
+		        	<% if isEndorsed?(p) %>
+						<%= getGeneralBadge(p, 'Endorsement', 'OSB endorsed project', 'This project is endorsed by OSB and is officially supported.', '', 'label label-success') %>
+						<%= getTooltipedBadge(p,'Curation level','Curation against published models','How well does the curated NeuroML/PyNN version of this model reproduce published models? See Status for more details.') %>
+		        	<% else %>
+		        		<% category =  getCustomField(p,"Category")  %>
+						<% isAProject = (category=="Project" or category=="Showcase") %>
+			        	<% if isAProject %>
+							<%= getGeneralBadge(p, 'Endorsement', 'User project', 'This is a personal user project and has not yet been endorsed by OSB. Please get in contact (info@opensourcebrain.org) to have this project endorsed!', '', 'label label-warning') %>
+						<% end %>
+					<% end %>	
+				</div>
+        	</div>
+
+        	<div>
+        		<div><%= getStatusBadges(p, false) %></div>
+        	</div>
+        	
+        	
+        	<% tags=getCustomField(p,'Tag') %>
+        	<% if tags!=nil and tags!='' and tags!=[nil] %>
+				<div>
+					<div><%= getGeneralBadge(p, 'Tag', '', '', '', 'label label-success') %></div>
+				</div>
+			<% end %>
+			
+			<div>
+					<div><b>Last updated:</b></div>
+        			<div><%= format_time(p['updated_on']) %></div>
+        	</div>		
+        </dd>
+        </div>
+      <% end %>
+    </dl>
+<% end %>
+

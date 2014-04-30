@@ -49,14 +49,15 @@ module ApplicationHelper
     return (category=="Project" or category=="Showcase")
   end
   
-  def isApproved?(project)
+  def isEndorsed?(project)
     project.custom_field_values.each do |value| 
-      if value.custom_field.name == 'Endorsed'
+      if value.custom_field.name == 'Endorsement'
         return value.value=="1"
       end
-      if value.custom_field.name == 'approved'
-        return value.value=="1"
-      end
+      #if value.custom_field.name == 'approved'
+        #print "approved"
+        #return value.value=="1"
+      #end
     end
   end
   
@@ -67,6 +68,15 @@ module ApplicationHelper
       end
     end
     return ""
+  end
+  
+  def getCustomFieldAndId(project, field) 
+    project.custom_field_values.each do |value| 
+      if value.custom_field.name == field
+        return [value.custom_field.id, value.value]
+      end
+    end
+    return ["", ""]
   end
   
   def getStars(nostars)
@@ -130,31 +140,68 @@ module ApplicationHelper
 
   def getSimulatorBadge(project, field)
     value=getCustomField(project, field)
-    return getTooltipedBadgeAlign(project, field, field, 'How well can the curated NeuroML/PyNN version of the model be run in this simulator? '+getSupport(value), 'pull-left')
+    return getTooltipedBadgeAlign(project, field, field, 'How well can the curated NeuroML/PyNN version of the model be run in this simulator? ' + getSupport(value) + ". Click here to see models with same support rate.", 'pull-left')
   end
 
   def getTooltipedBadge(project, field, text, tooltip)
     value=getCustomField(project, field)
-    return getTooltipedBadgeAlign(project, field, text+': '+getLevel(value), tooltip, 'pull-right')
+    return getTooltipedBadgeAlign(project, field, text+': '+getLevel(value), tooltip + " Click here to see other models with same characteristics.", 'pull-right')
   end
     
   def getTooltipedBadgeAlign(project, field, text, tooltip, align)
-    value=getCustomField(project, field)
+    fieldId, value = getCustomFieldAndId(project, field)
     if(value!="-1")
       stars=getStars(value).html_safe
-      badge='<span class="badge tooltiplink '+align+' '+getBadgeClass(value)+'" data-toggle="tooltip" data-placement="left" title="'+ tooltip +'">'+text+' '+stars+'</span>'
-      return badge.html_safe
+      badge='<span class="badge tooltiplink '+ align + ' ' + getBadgeClass(value) + '" data-toggle="tooltip" data-placement="right" title="'+ tooltip +'">'+text+' '+stars+'</span>'
+      badge_link = create_link_to_search_by_custom_field(fieldId, value, badge)
+      return badge_link.html_safe
     else
       return ""
     end
   end
+  
+  def getGeneralBadge(project, field, text, tooltip, align, classes)
+    fieldId, fieldValue = getCustomFieldAndId(project, field)
+    if field == 'Tag'
+      outputLink = ''
+      for fieldValueItem in fieldValue.split(',')
+        #outputLink << ", " unless outputLink.length == 0
+        label = (text != '') ? text: fieldValueItem
+        tooltipLabel = (text != '') ? tooltip: fieldValueItem
+        badge='<span class="tooltiplink ' + classes+ ' ' + align + ' ' + '" data-toggle="tooltip" data-placement="right" title="'+ tooltipLabel + ' Click here to see other models with same characteristics.">'+ label  +'</span>'
+        outputLink << create_link_to_search_by_custom_field(fieldId, fieldValueItem, badge)
+      end
+      return outputLink.html_safe
+    end   
+    label = (text != '') ? text: fieldValueItem
+    tooltipLabel = (text != '') ? tooltip: fieldValueItem
+    badge='<span class="tooltiplink ' + classes+ ' ' + align + ' ' + '" data-toggle="tooltip" data-placement="right" title="'+ tooltipLabel + ' Click here to see other models with same characteristics.">' + label +'</span>'
+    badge_link = create_link_to_search_by_custom_field(fieldId, fieldValue, badge)
+    return badge_link.html_safe
+  end
 
-  def getStatusBadges(project)
+  #Create link to search by custom field page 
+  def link_to_search_by_custom_field(project, field)
+    fieldId, fieldValue = getCustomFieldAndId(project, field)
+    unless fieldValue.kind_of?(String)
+      outputLink = ''
+      for fieldValueItem in fieldValue
+        outputLink << ", " unless outputLink.length == 0
+        outputLink << create_link_to_search_by_custom_field(fieldId, fieldValueItem, fieldValueItem)
+      end
+      return outputLink.html_safe
+    end   
+    return create_link_to_search_by_custom_field(fieldId, fieldValue, fieldValue)
+  end
+  
+  def getStatusBadges(project, addBr=true)
     @badges=""
     @badges+= getSimulatorBadge(project,'NeuroML v2.x support')+"  "
     @badges+= getSimulatorBadge(project,'NeuroML v1.x support')+"  "
     @badges+= getSimulatorBadge(project,'PyNN support')+"  "
-    @badges+= "<br/><br/>" 
+    if addBr
+      @badges+= "<br/><br/>" 
+    end
     @badges+= getSimulatorBadge(project,'NEURON support')+"  "
     @badges+= getSimulatorBadge(project,'GENESIS 2 support') +"  "
     @badges+= getSimulatorBadge(project,'MOOSE support') +"  "
@@ -244,6 +291,19 @@ module ApplicationHelper
     end
   end  
   
+  def getGitRepoOwner(value)
+    if value != nil and value != ''
+      return value.split("github.com")[1].split('/')[1]
+    end
+  end
+
+  def getGitRepoName(value)
+    if value != nil and value != ''
+      print value.split("github.com")[1].split('/')[2].split('.')[0]
+      return value.split("github.com")[1].split('/')[2].split('.')[0]
+    end
+  end
+     
   def getHttpRepositoryURL()
     if (@project.repository != nil and @project.repository.scm_name == 'Mercurial')
       repo=getCustomField(@project,"Bitbucket repository")
@@ -277,6 +337,23 @@ module ApplicationHelper
     end
   end
 
+  # Check is file name is in repo
+  def isFileInRepo(repository, fileName)
+    if(repository)
+      if (repository.scm_name == 'Mercurial')
+        command = repository_command("manifest -r default | grep " + fileName, repository)
+      else  
+        command = repository_command("ls-tree -r master | grep " + fileName, repository)
+      end  
+      @output=exec(command)
+      if @output.length > 0 
+        return true 
+      end
+      return false
+    end 
+    return false;    
+  end
+  
   # Fetches updates from the remote repository
   def getNML2Files(repository)
     @NML2files = []
@@ -295,6 +372,11 @@ module ApplicationHelper
       end
     end
     return @NML2files
+  end
+  
+  def create_link_to_search_by_custom_field(fieldId, fieldValue, label)
+    url = {:controller => 'search_custom_field', :f => [fieldId], :op => {fieldId=>'='}, :v => {fieldId=>[fieldValue]}}
+    return link_to(label.html_safe, url)
   end
   
   # Displays a link to user's account page if active

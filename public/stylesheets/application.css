@@ -747,6 +747,7 @@ section p {
 }
 .tooltiplink {
 	cursor: help;
+	margin: 5px 5px 0px 0px;
 }
 .label-success {
 	background-color: #88aa00;
@@ -767,6 +768,8 @@ section p {
 .badge-info {
 	background-color: #37abc8;
 }
+
+
 
 .btn-success {
 	color: #ffffff;
@@ -1447,6 +1450,17 @@ iframe {
 #myCarousel .caption  img{
 	display: none;
 }
+#myCarousel .carousel-control{
+	top: 200px;
+}
+
+#myCarouselMainPage {
+	margin-top: 80px;
+	margin-bottom: 20px;
+}
+#myCarouselMainPage .carousel-control{
+	top: 150px;
+}
 
 /* SEARCH FORM */
 #search-form .inline-element{
@@ -1463,3 +1477,35 @@ iframe {
 	padding: 20px 20px 0px 20px;
 	margin-bottom: 20px;
 }
+
+/* CAPTCHA */
+#recaptcha_area .table td, #recaptcha_area .table th{
+	 line-height: 1;
+}
+
+/* WIKI */
+.wiki table{
+	border: 1px solid black;
+}
+.wiki thead{
+	background: #ddd;	
+}
+
+/* SEARCH */
+.searchDD > div{
+	clear:both;
+}
+
+.searchDD > div > div{
+	float:left;
+	margin:5px 5px 0px 0px;
+}
+
+#search-results > div:nth-child(even) {
+	background: #ddd;
+}
+
+#search-results > div{
+	padding: 10px 0px 35px 5px;	
+}
+

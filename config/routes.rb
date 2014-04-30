@@ -29,6 +29,8 @@ RedmineApp::Application.routes.draw do
   match 'projects/groups', :to => 'projects#groups'
   match 'projects/people', :to => 'projects#people'
   match 'projects/informationOSB', :to => 'projects#informationOSB'
+  #match 'searchOSB/tag', :to => 'searchOSB#tag'
+  match 'search_custom_field', :to => 'search_custom_field#index' 
   ##
 
   match 'login', :to => 'account#login', :as => 'signin', :via => [:get, :post]

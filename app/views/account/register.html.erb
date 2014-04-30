@@ -31,13 +31,21 @@
   	<% end %>
   </div>
 <% end %>
+
 <div class="control-group">
 	<div class="nolabelcontrols">
 		<%= submit_tag l(:button_submit), :class => "btn btn-large btn-success" %>
 	</div>
 </div>
-</div>
+
+<!-- Introduce for recaptcha plugin-->
+<div class="control-group">
+<%= recaptcha_tags :public_key => Setting.plugin_recaptcha['recaptcha_public_key'], :ssl => true %>
 </div>
 
+
+</div>
+</div>
 
 <% end %>
+
