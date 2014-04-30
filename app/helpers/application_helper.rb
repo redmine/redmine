@@ -162,9 +162,9 @@ module ApplicationHelper
   
   def getGeneralBadge(project, field, text, tooltip, align, classes)
     fieldId, fieldValue = getCustomFieldAndId(project, field)
-    unless fieldValue.kind_of?(String)
+    if field == 'Tag'
       outputLink = ''
-      for fieldValueItem in fieldValue
+      for fieldValueItem in fieldValue.split(',')
         #outputLink << ", " unless outputLink.length == 0
         label = (text != '') ? text: fieldValueItem
         tooltipLabel = (text != '') ? tooltip: fieldValueItem
@@ -291,6 +291,19 @@ module ApplicationHelper
     end
   end  
   
+  def getGitRepoOwner(value)
+    if value != nil and value != ''
+      return value.split("github.com")[1].split('/')[1]
+    end
+  end
+
+  def getGitRepoName(value)
+    if value != nil and value != ''
+      print value.split("github.com")[1].split('/')[2].split('.')[0]
+      return value.split("github.com")[1].split('/')[2].split('.')[0]
+    end
+  end
+     
   def getHttpRepositoryURL()
     if (@project.repository != nil and @project.repository.scm_name == 'Mercurial')
       repo=getCustomField(@project,"Bitbucket repository")
@@ -324,6 +337,23 @@ module ApplicationHelper
     end
   end
 
+  # Check is file name is in repo
+  def isFileInRepo(repository, fileName)
+    if(repository)
+      if (repository.scm_name == 'Mercurial')
+        command = repository_command("manifest -r default | grep " + fileName, repository)
+      else  
+        command = repository_command("ls-tree -r master | grep " + fileName, repository)
+      end  
+      @output=exec(command)
+      if @output.length > 0 
+        return true 
+      end
+      return false
+    end 
+    return false;    
+  end
+  
   # Fetches updates from the remote repository
   def getNML2Files(repository)
     @NML2files = []

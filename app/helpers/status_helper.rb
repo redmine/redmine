@@ -25,7 +25,7 @@ module StatusHelper
       ancestors = []
       original_project = @project
 
-      status_types = ["", "Curation", "NeuroML v1.x", "NeuroML v2.x", "PyNN", "NEURON", "GENESIS 2", "MOOSE", "PSICS", "NEST", "Brian"]
+      status_types = ["", "Curation", "NeuroML v1.x", "NeuroML v2.x", "PyNN", "NEURON", "GENESIS 2", "MOOSE", "PSICS", "NEST", "Brian", "OSB Model Validation"]
 
       s << "<table  class='list'>\n"
       s << "<thead>\n"
@@ -33,7 +33,7 @@ module StatusHelper
       status_types.each do |status_type|
         link = ""
         case status_type
-        when "Curation", "NeuroML v1.x", "NeuroML v2.x", "PyNN"
+        when "Curation", "NeuroML v1.x", "NeuroML v2.x", "PyNN", "OSB Model Validation"
           link = "#{status_type}"
         else
           link = "<a href='/projects/simulators/wiki/Wiki/##{status_type}'>#{status_type}</a>"
@@ -76,6 +76,13 @@ module StatusHelper
 
             if status_type == ""
               s << "<td>#{endorsement} <a href='/projects/#{project.identifier}'#{alt_text}=>#{project.identifier}</a></td>"
+            elsif status_type == "OSB Model Validation"
+              if isFileInRepo(project.repository, ".travis.yml") and project.repository.scm_name != 'Mercurial'
+                value = getCustomField(project, 'GitHub repository')
+                s << "<td><img src='https://api.travis-ci.org/"+ getGitRepoOwner(value) + '/'+ getGitRepoName(value)+ ".svg'/></td>"
+              else
+                s << "<td></td>"
+              end
             else
               project.visible_custom_field_values.each do |custom_value|
                 if (custom_value.custom_field.name == status_type+' support')
@@ -91,7 +98,11 @@ module StatusHelper
                 end
               end
             end
+          
           end
+          
+          
+          
           s << "</tr>\n"
 
         end
