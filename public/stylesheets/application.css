@@ -747,7 +747,7 @@ section p {
 }
 .tooltiplink {
 	cursor: help;
-	margin: 0px 5px 0px 0px;
+	margin: 5px 5px 0px 0px;
 }
 .label-success {
 	background-color: #88aa00;
@@ -1490,3 +1490,22 @@ iframe {
 .wiki thead{
 	background: #ddd;	
 }
+
+/* SEARCH */
+.searchDD > div{
+	clear:both;
+}
+
+.searchDD > div > div{
+	float:left;
+	margin:5px 5px 0px 0px;
+}
+
+#search-results > div:nth-child(even) {
+	background: #ddd;
+}
+
+#search-results > div{
+	padding: 10px 0px 35px 5px;	
+}
+

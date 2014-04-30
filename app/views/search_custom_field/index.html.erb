@@ -17,20 +17,19 @@
 <% if @projects %>
     <dl id="search-results">
       <% @projects.each do |p| %>
+      	<div>
         <dt>
           <% url = {:controller => 'projects', :action => 'show', :id => p['id']} %>
           <%= link_to(p['name'], url) %>
         </dt>
-        <dd style="margin-bottom:50px;">
-        	<span>
-        	
-        	<%= textilizable(p.short_description_without_image, :project => p) %>
-        	</span>
+        <dd class="searchDD">
+        	<span><%= textilizable(p.short_description_without_image, :project => p) %></span>
         	
         	<div>
-        		<div style="float:left;margin:5px 0px;">
+        		<div>
 		        	<% if isEndorsed?(p) %>
 						<%= getGeneralBadge(p, 'Endorsement', 'OSB endorsed project', 'This project is endorsed by OSB and is officially supported.', '', 'label label-success') %>
+						<%= getTooltipedBadge(p,'Curation level','Curation against published models','How well does the curated NeuroML/PyNN version of this model reproduce published models? See Status for more details.') %>
 		        	<% else %>
 		        		<% category =  getCustomField(p,"Category")  %>
 						<% isAProject = (category=="Project" or category=="Showcase") %>
@@ -41,23 +40,24 @@
 				</div>
         	</div>
 
-        	<div style="clear:both;">
-        		<div style="float:left;margin:5px 0px;"><%= getStatusBadges(p, false) %></div>
+        	<div>
+        		<div><%= getStatusBadges(p, false) %></div>
         	</div>
         	
         	
         	<% tags=getCustomField(p,'Tag') %>
         	<% if tags!=nil and tags!='' and tags!=[nil] %>
-				<div style="clear:both;">
-					<div style="float:left;margin:5px 0px;"><%= getGeneralBadge(p, 'Tag', '', '', '', 'label label-success') %></div>
+				<div>
+					<div><%= getGeneralBadge(p, 'Tag', '', '', '', 'label label-success') %></div>
 				</div>
 			<% end %>
 			
-			<div style="clear:both;">
-					<div style="float:left;margin:5px 5px 0px 0px;"><b>Last updated:</b></div>
-        			<div style="float:left;margin:5px 5px 0px 0px;"><%= format_time(p['updated_on']) %></div>
+			<div>
+					<div><b>Last updated:</b></div>
+        			<div><%= format_time(p['updated_on']) %></div>
         	</div>		
         </dd>
+        </div>
       <% end %>
     </dl>
 <% end %>
