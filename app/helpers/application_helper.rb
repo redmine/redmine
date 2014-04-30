@@ -341,9 +341,9 @@ module ApplicationHelper
   def isFileInRepo(repository, fileName)
     if(repository)
       if (repository.scm_name == 'Mercurial')
-        command = repository_command("manifest -r default | grep " + fileName, repository)
+        command = repository_command("manifest -r default | /bin/grep " + fileName, repository)
       else  
-        command = repository_command("ls-tree -r master | grep " + fileName, repository)
+        command = repository_command("ls-tree -r master | /bin/grep " + fileName, repository)
       end  
       @output=exec(command)
       if @output.length > 0 
