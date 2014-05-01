@@ -626,11 +626,11 @@ class User < Principal
   end
 
   def self.current=(user)
-    RequestStore.store[:current_user] = user
+    Thread.current[:current_user] = user
   end
 
   def self.current
-    RequestStore.store[:current_user] ||= User.anonymous
+    Thread.current[:current_user] ||= User.anonymous
   end
 
   # Returns the anonymous user.  If the anonymous user does not exist, it is created.  There can be only
