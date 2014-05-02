@@ -55,7 +55,9 @@ Examples:
 END_DESC
 
     task :read => :environment do
-      MailHandler.receive(STDIN.read, MailHandler.extract_options_from_env(ENV))
+      Mailer.with_synched_deliveries do
+        MailHandler.receive(STDIN.read, MailHandler.extract_options_from_env(ENV))
+      end
     end
 
     desc <<-END_DESC
@@ -122,7 +124,9 @@ END_DESC
                       :move_on_success => ENV['move_on_success'],
                       :move_on_failure => ENV['move_on_failure']}
 
-      Redmine::IMAP.check(imap_options, MailHandler.extract_options_from_env(ENV))
+      Mailer.with_synched_deliveries do
+        Redmine::IMAP.check(imap_options, MailHandler.extract_options_from_env(ENV))
+      end
     end
 
     desc <<-END_DESC
@@ -149,7 +153,9 @@ END_DESC
                       :password => ENV['password'],
                       :delete_unprocessed => ENV['delete_unprocessed']}
 
-      Redmine::POP3.check(pop_options, MailHandler.extract_options_from_env(ENV))
+      Mailer.with_synched_deliveries do
+        Redmine::POP3.check(pop_options, MailHandler.extract_options_from_env(ENV))
+      end
     end
 
     desc "Send a test email to the user with the provided login name"
