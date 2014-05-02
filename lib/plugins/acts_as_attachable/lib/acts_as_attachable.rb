@@ -87,7 +87,7 @@ module Redmine
                 a = Attachment.find_by_token(token)
                 next unless a
                 a.filename = attachment['filename'] unless attachment['filename'].blank?
-                a.content_type = attachment['content_type']
+                a.content_type = attachment['content_type'] unless attachment['content_type'].blank?
               end
               next unless a
               a.description = attachment['description'].to_s.strip

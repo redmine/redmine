@@ -241,6 +241,15 @@ class AttachmentTest < ActiveSupport::TestCase
     end
   end
 
+  test "Attachment.attach_files should preserve the content_type of attachments added by token" do
+    @project = Project.find(1)
+    attachment = Attachment.create!(:file => uploaded_test_file("testfile.txt", ""), :author_id => 1, :created_on => 2.days.ago)
+    assert_equal 'text/plain', attachment.content_type
+    Attachment.attach_files(@project, { '1' => {'token' => attachment.token } })
+    attachment.reload
+    assert_equal 'text/plain', attachment.content_type
+  end
+
   def test_latest_attach
     set_fixtures_attachments_directory
     a1 = Attachment.find(16)
