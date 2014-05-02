@@ -1,4 +1,6 @@
 require 'active_record'
+# Threadsafe addition
+require 'redmine/I18n'
 
 module ActiveRecord
   class Base

@@ -40,3 +40,5 @@
 /Gemfile.lock
 /Gemfile.local
 
+*.rb~
+Gemfile~

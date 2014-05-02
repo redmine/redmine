@@ -1,3 +1,6 @@
+# Threadsafe include addition
+require 'rails/generators'
+
 class UpgradeOpenIdAuthenticationTablesGenerator < Rails::Generator::NamedBase
   def initialize(runtime_args, runtime_options = {})
     super

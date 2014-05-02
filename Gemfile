@@ -26,7 +26,9 @@ platforms :mri, :mingw do
     # RMagick 2 supports ruby 1.9
     # RMagick 1 would be fine for ruby 1.8 but Bundler does not support
     # different requirements for the same gem on different platforms
-    gem "rmagick", ">= 2.0.0"
+    gem "rmagick", ">= 2.0.0"'\
+    # Threadsafe modifications, done on Java, suggest an alternate inclusion of rmagick as still commented below
+    # gem PLATFORM == 'java' ? 'rmagick4j' : 'rmagick'
   end
 
   # Optional Markdown support, not for JRuby

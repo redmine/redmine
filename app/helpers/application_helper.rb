@@ -19,6 +19,12 @@
 
 require 'forwardable'
 require 'cgi'
+# Threadsafe Include
+require 'redmine/pagination'
+require 'redmine/I18n'
+require 'redmine/wiki_formatting'
+require 'gravatar'
+
 
 module ApplicationHelper
   include Redmine::WikiFormatting::Macros::Definitions

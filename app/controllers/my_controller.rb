@@ -15,6 +15,9 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
+# Threadsafe Include
+require 'redmine/views/my_page_block'
+
 class MyController < ApplicationController
   before_filter :require_login
   # let user change user's password when user has to

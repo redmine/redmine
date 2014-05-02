@@ -1,3 +1,6 @@
+require 'action_controller'
+require 'action_controller/deprecated'
+
 module OpenIdAuthentication
   module Request
     def self.included(base)
