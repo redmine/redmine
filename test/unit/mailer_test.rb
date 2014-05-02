@@ -650,6 +650,12 @@ class MailerTest < ActiveSupport::TestCase
     assert ActionMailer::Base.perform_deliveries
   end
 
+  def test_token_for_should_strip_trailing_gt_from_address_with_full_name
+    with_settings :mail_from => "Redmine Mailer<no-reply@redmine.org>" do
+      assert_match /\Aredmine.issue-\d+\.\d+\.[0-9a-f]+@redmine.org\z/, Mailer.token_for(Issue.generate!)
+    end
+  end
+
   def test_layout_should_include_the_emails_header
     with_settings :emails_header => "*Header content*" do
       with_settings :plain_text_mail => 0 do
