@@ -16,6 +16,9 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 require 'fileutils'
+# Threadsafe includes
+require 'redmine/utils'
+require 'redmine/configuration'
 
 module Redmine
   module Thumbnail

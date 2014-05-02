@@ -33,6 +33,11 @@
 
 require 'tempfile'
 require 'core/rmagick'
+# Threadsafe additions
+require 'core/rfpdf'
+require 'rfpdf/math'
+
+
 
 #
 # TCPDF Class.

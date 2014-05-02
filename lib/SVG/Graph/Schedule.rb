@@ -1,4 +1,5 @@
 require 'SVG/Graph/Plot'
+# Threadsafe had deleted the below include, but I don't see why and am keeping it
 require 'parsedate'
 
 module SVG
@@ -159,6 +160,9 @@ module SVG
           if im3 == 0
             y << data[:data][i]
           else
+            # Threadsafe had a different line
+            # t = DateTime.parse( data[:data][i] ).to_time
+            # but I am not including it
             arr = ParseDate.parsedate( data[:data][i] )
             t = Time.local( *arr[0,6].compact )
             (im3 == 1 ? x_start : x_end) << t.to_i

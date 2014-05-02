@@ -17,6 +17,8 @@
 
 require 'redcloth3'
 require 'digest/md5'
+# Threadsafe include addition
+require 'redmine/wiki_formatting'
 
 module Redmine
   module WikiFormatting
