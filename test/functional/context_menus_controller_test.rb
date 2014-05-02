@@ -198,6 +198,18 @@ class ContextMenusControllerTest < ActionController::TestCase
     end
   end
 
+  def test_context_menu_should_show_enabled_custom_fields_for_the_role_only
+    enabled_cf = IssueCustomField.generate!(:field_format => 'bool', :is_for_all => true, :tracker_ids => [1], :visible => false, :role_ids => [1,2])
+    disabled_cf = IssueCustomField.generate!(:field_format => 'bool', :is_for_all => true, :tracker_ids => [1], :visible => false, :role_ids => [2])
+    issue = Issue.generate!(:project_id => 1, :tracker_id => 1)
+
+    @request.session[:user_id] = 2
+    get :issues, :ids => [issue.id]
+
+    assert_select "li.cf_#{enabled_cf.id}"
+    assert_select "li.cf_#{disabled_cf.id}", 0
+  end
+
   def test_context_menu_by_assignable_user_should_include_assigned_to_me_link
     @request.session[:user_id] = 2
     get :issues, :ids => [1]
