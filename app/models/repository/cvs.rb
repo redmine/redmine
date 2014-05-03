@@ -150,7 +150,7 @@ class Repository::Cvs < Repository
                 ).first
           # create a new changeset....
           unless cs
-            # we use a temporaray revision number here (just for inserting)
+            # we use a temporary revision number here (just for inserting)
             # later on, we calculate a continous positive number
             tmp_time2 = tmp_time.clone.gmtime
             branch    = revision.paths[0][:branch]
