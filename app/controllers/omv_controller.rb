@@ -15,12 +15,20 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
+require 'open-uri'
+require 'yaml'
+
 class OmvController < ApplicationController
   before_filter :find_project_by_project_id
   
   
   def index
-    print "okokokokok"
+    
+    
+    @expectedAnalyzerOutputs = YAML::load(open('https://raw.githubusercontent.com/borismarin/osb-model-validation/master/omv/schemata/types/base/analyzer.yaml').read)
+    @expectedDatafileOutputs = YAML::load(open('https://raw.githubusercontent.com/borismarin/osb-model-validation/master/omv/schemata/types/base/observable_datafile.yaml').read)
+    @expectedLiteralOutputs = YAML::load(open('https://raw.githubusercontent.com/borismarin/osb-model-validation/master/omv/schemata/types/base/observable_literal.yaml').read)
+    
     render
   end
 

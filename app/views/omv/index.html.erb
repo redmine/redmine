@@ -1,3 +1,14 @@
+<%= javascript_include_tag('omv.js') %>
+<%= javascript_tag do %>
+var expectedAnalyzerOutputs = <%= raw_json @expectedAnalyzerOutputs %>;
+var experiments = {};
+var expectedOutputs = {};
+$(document).ready(function(){
+	$('#expected').on('change', function() {
+  		addExpectedFields($(this).val());
+	});
+});	
+<% end %>
 
 <%= form_tag({}, :method => :get, :id => 'omv-form') do %>
 
@@ -5,45 +16,102 @@
 
 <div class="box tabular">
 
-  <div id="registerForm">
-	<div class="control-group">
-		<%= label_tag 'omv_title', 'Title', :class => "control-label" %>
-		<div class="controls">
-			<%= text_field_tag 'omv_title', @omv_title, :size => 60, :id => 'omv_title' %>
-		</div>	
+	<div class="page-header">
+		<h2>MEP CREATOR</h2>
 	</div>
-	
-	<div class="control-group">
-		<a data-toggle="tab" href="#addExperiment1" class="control-label">Add Experiment</a>
-	</div>	
-	
-	<div class="tab-content">
-		<div class="tab-pane" id="addExperiment1">
-			<div class="control-group">
-				<%= label_tag 'experiment_title', 'Experiment Title', :class => "control-label" %>
-				<div class="controls">
-					<%= text_field_tag 'experiment_title', @experiment_title, :size => 60, :id => 'experiment_title' %>
-				</div>	
+
+	<div id="registerForm">
+		<div class="control-group">
+			<%= label_tag 'omv_title', 'Title', :class => "control-label" %>
+			<div class="controls">
+				<%= text_field_tag 'omv_title', @omv_title, :size => 60, :id => 'omv_title' %>
 			</div>
-			<div class="control-group">
-				<%= label_tag 'protocol_title', 'Protocol Title', :class => "control-label" %>
-				<div class="controls">
-					<%= text_field_tag 'protocol_title', @experiment_title, :size => 60, :id => 'experiment_title' %>
-				</div>	
-			</div>
-		
-		</div>	
-	</div>
-	
-	<div class="control-group">
-		<div class="nolabelcontrols">
-			<%= submit_tag l(:button_submit), :class => "btn btn-large btn-success" %>
 		</div>
+
+		<div class="tab-content">
+			<div class="tab-pane" id="experiment">
+				<table class="borderless projecttable table table-bordered table-hover">
+					<thead>
+						<tr>
+							<td colspan="2">Experiment</td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td colspan="2">
+							<div class="control-group">
+								<%= label_tag 'experiment_title', 'Experiment Title', :class => "control-label" %>
+								<div class="controls">
+									<%= text_field_tag 'experiment_title', @experiment_title, :size => 60, :id => 'experiment_title' %>
+								</div>
+							</div>
+							</td></tr>
+							
+							<tr><td colspan="2">
+							<div class="control-group">
+								<%= label_tag 'protocol_title', 'Protocol Description', :class => "control-label" %>
+								<div class="controls">
+									<%= text_field_tag 'protocol_title', @experiment_title, :size => 60, :id => 'experiment_title' %>
+								</div>
+							</div>
+							</td></tr>
+							
+							<tr><td>
+							<div class="control-group">
+								<%= label_tag 'protocol_expected', 'Expected', :class => "control-label" %>
+								<div class="controls">
+									<%= select_tag 'expected', options_for_select([''] + @expectedAnalyzerOutputs['optional'].keys)%>
+								</div>
+							</div>
+							</td>
+							<td id="expectedFields"></td>
+							</tr>
+							
+							<tr><td colspan="2">
+								<table>
+									<thead>
+										<tr>
+											<td colspan="2">Expected Outputs</td>
+										</tr>
+										<tr>
+											<td>Name</td>
+											<td>Values</td>
+										</tr>
+									</thead>
+									<tbody id="expectedTableBody">
+										
+									</tbody>		
+								</table>
+							</tr>
+							
+							<tr><td></td>
+							<td>
+							<div class="control-group">
+								<a data-toggle="tab" href="#addExperiment1" class="control-label">Add Experiment</a>
+							</div>
+							</td></tr>
+							
+						</tr>
+					</tbody>
+				</table>
+
+			</div>
+		</div>
+
+		
+
+		<%= @expectedAnalyzerOutputs %>
+		<%= @expectedDatafileOutputs %>
+		<%= @expectedLiteralOutputs %>
+
+		<div class="control-group">
+			<div class="nolabelcontrols">
+				<%= submit_tag l(:button_submit), :class => "btn btn-large btn-success" %>
+			</div>
+		</div>
+
 	</div>
-	
-  </div>
 
 </div>
-
 
 <% end %>
