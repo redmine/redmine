@@ -233,9 +233,9 @@ module Redmine
           #Outline root
           newobj()
           @outlineRoot=self.n
-          out("<</Type /Outlines /First #{n} 0 R");
-          out("/Last #{n+lru[0]} 0 R>>");
-          out('endobj');
+          out("<</Type /Outlines /First #{n} 0 R")
+          out("/Last #{n+lru[0]} 0 R>>")
+          out('endobj')
         end
 
         def putresources()
@@ -246,8 +246,8 @@ module Redmine
         def putcatalog()
           super
           if(@outlines.size > 0)
-            out("/Outlines #{@outlineRoot} 0 R");
-            out('/PageMode /UseOutlines');
+            out("/Outlines #{@outlineRoot} 0 R")
+            out('/PageMode /UseOutlines')
           end
         end
       end
@@ -389,13 +389,13 @@ module Redmine
         base_x = pdf.GetX
         base_y = pdf.GetY
         max_height = issues_to_pdf_write_cells(pdf, query.inline_columns, col_width, row_height, true)
-        pdf.Rect(base_x, base_y, table_width, max_height, 'FD');
-        pdf.SetXY(base_x, base_y);
+        pdf.Rect(base_x, base_y, table_width, max_height, 'FD')
+        pdf.SetXY(base_x, base_y)
 
         # write the cells on page
         issues_to_pdf_write_cells(pdf, query.inline_columns, col_width, row_height, true)
         issues_to_pdf_draw_borders(pdf, base_x, base_y, base_y + max_height, 0, col_width)
-        pdf.SetY(base_y + max_height);
+        pdf.SetY(base_y + max_height)
 
         # rows
         pdf.SetFontStyle('',8)
@@ -475,7 +475,7 @@ module Redmine
           # write the cells on page
           issues_to_pdf_write_cells(pdf, col_values, col_width, row_height)
           issues_to_pdf_draw_borders(pdf, base_x, base_y, base_y + max_height, 0, col_width)
-          pdf.SetY(base_y + max_height);
+          pdf.SetY(base_y + max_height)
 
           if query.has_column?(:description) && issue.description?
             pdf.SetX(10)
@@ -504,7 +504,7 @@ module Redmine
             pdf.RDMMultiCell(col_widths[i], row_height, column, "T", 'L', 1)
           end
           max_height = (pdf.GetY - base_y) if (pdf.GetY - base_y) > max_height
-          pdf.SetXY(col_x + col_widths[i], base_y);
+          pdf.SetXY(col_x + col_widths[i], base_y)
         end
         return max_height
       end
