@@ -377,7 +377,7 @@ class RepositoriesGitControllerTest < ActionController::TestCase
                       :url           => REPOSITORY_PATH,
                       :identifier => 'test-diff-path',
                       :path_encoding => 'ISO-8859-1'
-                      );
+                      )
       assert repo
       assert_equal false, repo.is_default
       assert_equal 'test-diff-path', repo.identifier
