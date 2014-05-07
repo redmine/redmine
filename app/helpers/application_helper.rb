@@ -19,6 +19,8 @@
 
 require 'forwardable'
 require 'cgi'
+require 'open-uri'
+require 'yaml'
 
 module ApplicationHelper
   include Redmine::WikiFormatting::Macros::Definitions
@@ -354,9 +356,42 @@ module ApplicationHelper
     return false;    
   end
   
+  def getExportFunctions(repository)
+    availableExportOptions = ['Matlab', 'C']
+    exportOptions = Hash.new
+    omtFiles = getFilesWithExt(repository, ".omt")
+    repourl=getHttpRepositoryURL()
+    repopath=getHttpRepositoryPath(@project.repository)
+    for omtFile in omtFiles 
+      omtFilePath = repourl + repopath + omtFile
+      omtFileContent = YAML::load(open(omtFilePath).read)
+      engines = omtFileContent["engine"].split(',')
+      #engines = "LEMS/Matlab, LEMS/C".strip.split(',')
+      for engine in engines
+        engineFormats = engine.strip.split('/')
+        if (engineFormats.length > 1 and availableExportOptions.include? engineFormats[1])
+          targetFiles = []
+          if exportOptions.has_key?(engineFormats[1].strip)
+            targetFiles = exportOptions[engineFormats[1].strip]  
+          end   
+          targetFiles << omtFileContent["target"]
+          exportOptions[engineFormats[1].strip] = targetFiles 
+        end  
+      end    
+      print "exportOptions"
+      print exportOptions 
+    end
+    return exportOptions
+  end  
+  
   # Fetches updates from the remote repository
   def getNML2Files(repository)
-    @NML2files = []
+    @NML2files = getFilesWithExt(repository, ".nml")
+    return @NML2files 
+  end
+  
+  def getFilesWithExt(repository, ext)
+    @files = []
     if(repository)
       if (repository.scm_name == 'Mercurial')
         command = repository_command("manifest -r default", repository)
@@ -366,13 +401,13 @@ module ApplicationHelper
 
       @output=exec(command)
       for line in @output
-        if line.strip.ends_with?(".nml")
-        @NML2files.push(line.strip)
+        if line.strip.ends_with?(ext)
+        @files.push(line.strip)
         end
       end
     end
-    return @NML2files
-  end
+    return @files
+  end  
   
   def create_link_to_search_by_custom_field(fieldId, fieldValue, label)
     url = {:controller => 'search_custom_field', :f => [fieldId], :op => {fieldId=>'='}, :v => {fieldId=>[fieldValue]}}

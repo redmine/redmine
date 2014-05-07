@@ -12,6 +12,7 @@
 		</ul>
 	</div>
   
+  
 	<div id="project_overview_sections" class="span9">
 		<!-- DESCRIPTION -->
 		<section id="description">
@@ -47,6 +48,11 @@
 						</div>
 						<%= show_value(custom_value) %>	
 						<%= getStatusBadges(@project) %>
+						<br><br>
+						<% @exportOptions = getExportFunctions(@project.repository) %>
+						<% @exportOptions.keys.each do |exportOption| %>
+							<a href="" class="btn icon-download-alt" rel="nofollow"> Download as <%= exportOption %></a>
+						<% end %>	
 					</section>
 				<% end %>
 			<% end %>
