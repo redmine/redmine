@@ -18,7 +18,7 @@
 class UsersController < ApplicationController
   layout 'admin'
 
-  before_filter :require_admin, :except => :show
+  before_filter :require_admin, :except => [:show, :edit, :update]
   before_filter :find_user, :only => [:show, :edit, :update, :destroy, :edit_membership, :destroy_membership]
   accept_api_auth :index, :show, :create, :update, :destroy
 
@@ -128,11 +128,19 @@ class UsersController < ApplicationController
   end
 
   def edit
+    unless User.current == @user || User.current.admin?
+      render_403
+      return false
+    end  
     @auth_sources = AuthSource.all
     @membership ||= Member.new
   end
 
   def update
+    unless User.current == @user || User.current.admin?
+      render_403
+      return false
+    end 
     @user.admin = params[:user][:admin] if params[:user][:admin]
     @user.login = params[:user][:login] if params[:user][:login]
     if params[:user][:password].present? && (@user.auth_source_id.nil? || params[:user][:auth_source_id].blank?)
