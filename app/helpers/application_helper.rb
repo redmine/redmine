@@ -390,6 +390,36 @@ module ApplicationHelper
     return @NML2files 
   end
   
+  def getNetworkFiles()
+    @networkfiles=[]
+    for nml2file in @NML2files
+      if nml2file.ends_with?(".net.nml")
+        @networkfiles.push(nml2file)
+      end
+    end
+    return @networkfiles
+  end  
+  
+  def getChannelFiles()
+    @channelfiles=[]
+    for nml2file in @NML2files
+      if nml2file.ends_with?(".channel.nml")
+        @channelfiles.push(nml2file)
+      end
+    end
+    return @channelfiles
+  end
+  
+  def getSynapsesFiles()
+    @synapsefiles=[]
+    for nml2file in @NML2files
+      if nml2file.ends_with?(".synapse.nml")
+        @synapsefiles.push(nml2file)
+      end
+    end
+    return @synapsefiles
+  end
+  
   def getFilesWithExt(repository, ext)
     @files = []
     if(repository)

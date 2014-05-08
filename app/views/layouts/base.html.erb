@@ -73,7 +73,6 @@
 						<% category =  getCustomField(@project,"Category")  %>
 						<% isAProject = (category=="Project" or category=="Showcase") %>
 						<!-- If we are inside a project then we show the project header -->
-						<% @neuroml2files = getNML2Files(@project.repository) %>
 						<div id="mainheader" class="page-header">
 					  		<h1 id="pname"><%= @project.name %><small id="author"> </small></h1>
 					  		<script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
@@ -105,17 +104,18 @@
 								</div>
 							</div>
 						</div>
+						<% @neuroml2files = getNML2Files(@project.repository) %>
+						
 						<% if isAProject %>
+							<% @networkfiles = getNetworkFiles() %>
+							<% @channelfiles = getChannelFiles() %>
+							<% @synapsefiles = getSynapsesFiles() %>
+						
 							<% @repourl=getHttpRepositoryURL() %>
 							
 							<% if(@repourl)%>
 							<% @repopath=getHttpRepositoryPath(@project.repository) %>
-								<% @networkfiles=[] %>
-								<% for nml2file in @neuroml2files %>
-									<% if nml2file.ends_with?(".net.nml") %>
-										<% @networkfiles.push(nml2file) %>
-									<% end %>
-								<% end %>
+								
 								<% if not @networkfiles.empty? %>
 									<%= javascript_tag 'jQuery("#explorermenu").append("<li class=dropdown-submenu ><a tabindex=-1 href=#>Networks</a><ul class=dropdown-menu id=networkmenu></ul></li>");' %>
 									<% for nml2file in @networkfiles %>
@@ -123,10 +123,24 @@
 									<% end %>
 									</ul>
 								<% end %>
+								<% if not @channelfiles.empty? %>
+									<%= javascript_tag 'jQuery("#explorermenu").append("<li class=dropdown-submenu ><a tabindex=-1 href=#>Channels</a><ul class=dropdown-menu id=channelmenu></ul></li>");' %>
+									<% for nml2file in @channelfiles %>
+										<%= javascript_tag 'jQuery("#channelmenu").append("<li><a  href=# tabindex=-1 onclick=open3DExplorer(encodeURIComponent(&quot;'+ @repourl + @repopath + nml2file + '&quot;));>'+ nml2file + '</a></li>");'%>
+									<% end %>
+									</ul>
+								<% end %>
+								<% if not @synapsefiles.empty? %>
+									<%= javascript_tag 'jQuery("#explorermenu").append("<li class=dropdown-submenu ><a tabindex=-1 href=#>Synapses</a><ul class=dropdown-menu id=synapsesmenu></ul></li>");' %>
+									<% for nml2file in @synapsefiles %>
+										<%= javascript_tag 'jQuery("#synapsesmenu").append("<li><a  href=# tabindex=-1 onclick=open3DExplorer(encodeURIComponent(&quot;'+ @repourl + @repopath + nml2file + '&quot;));>'+ nml2file + '</a></li>");'%>
+									<% end %>
+									</ul>
+								<% end %>
 								<% if (not @neuroml2files.empty?) %>
 									<%= javascript_tag 'jQuery("#explorermenu").append("<li class=dropdown-submenu ><a tabindex=-1 href=#>Cells</a><ul class=dropdown-menu id=cellsmenu></ul></li>");' %>
 									<% for nml2file in @neuroml2files %>
-										<% if not nml2file.ends_with?(".net.nml") %>
+										<% if not nml2file.ends_with?(".net.nml", ".channel.nml", ".synapse.nml") %>
 											<%= javascript_tag 'jQuery("#cellsmenu").append("<li><a  href=# tabindex=-1 onclick=open3DExplorer(encodeURIComponent(&quot;'+ @repourl + @repopath + nml2file + '&quot;));>'+ nml2file + '</a></li>");'%>
 										<% end %>									
 									<% end %>
@@ -207,7 +221,7 @@ jQuery(function()
 		}
 		else
 		{
-			<% if @neuroml2file!=nil %>
+			<% if @neuroml2files!=nil %>
 				if(<%= @neuroml2files.empty? %>) {
 					disableOSBExplorer();
 					jQuery("#osbexplorermessage").html("The current project doesn't contain any NeuroML2 file. Help converting this model to be able to use OSB 3D Explorer or raise an issue to do so!");
