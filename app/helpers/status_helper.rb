@@ -79,7 +79,8 @@ module StatusHelper
             elsif status_type == "OSB Model Validation"
               if isFileInRepo(project.repository, ".travis.yml") and project.repository.scm_name != 'Mercurial'
                 value = getCustomField(project, 'GitHub repository')
-                s << "<td><img src='https://api.travis-ci.org/"+ getGitRepoOwner(value) + '/'+ getGitRepoName(value)+ ".svg'/></td>"
+                urlBase = "https://travis-ci.org/"+ getGitRepoOwner(value) + '/'+ getGitRepoName(value)
+                s << "<td><a alt='Click here for more information (Travis)' title='Click here for more information (Travis)' target='_blank' href='" + urlBase + "'><img src='" + urlBase + ".svg'/></a></td>"
               else
                 s << "<td></td>"
               end
