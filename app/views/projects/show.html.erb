@@ -19,7 +19,7 @@
 			<div class="page-header">
 				<h2>Description</h2>
 			</div>
-				<%= textilizable @project.description %>
+				<%= getProjectDescription() %>
 				<% unless @project.homepage.blank? %>
 					<% if h(@project.homepage).starts_with? 'http://opensourcebrain.org/embedded' or h(@project.homepage).starts_with? 'http://www.opensourcebrain.org/embedded'%>
 						<p><a href="<%= @project.homepage %>">More...</a></p>

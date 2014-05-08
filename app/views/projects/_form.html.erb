@@ -14,7 +14,7 @@
 	<div class="control-group">
 		<%= f.text_area :description, :class=>'input-xxlarge', :rows=>'5'%>
 		<div class="popoverform"><icon class="popoverlink icon-2x icon-lightbulb"target="_blank" data-toggle="popover" data-trigger="hover" title="" 
-  		data-content="The description will appear on the overview page of the project. Use this field to detail the purpose of the model."
+  		data-content="The description will appear on the overview page of the project. Use this field to detail the purpose of the model. If the entry for project description is: 'github:README.md' then the README.md file from the GitHub repository, where your code is hosted, should be retrieved and used for the description."
   		data-original-title="Project Description"></icon></div>
 	</div>
 	<% @project.custom_field_values.each do |value| %>

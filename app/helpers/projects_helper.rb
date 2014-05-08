@@ -17,6 +17,8 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
+require 'open-uri'
+
 module ProjectsHelper
   include ThemesHelper
   include GuidesHelper
@@ -74,6 +76,22 @@ module ProjectsHelper
     end
   end
 
+  def getProjectDescription()
+    if @project.description != nil && @project.description == 'github:README.md'
+      repourl=getHttpRepositoryURL()
+      if repourl != ''
+        repopath=getHttpRepositoryPath(@project.repository)
+        readmeFilePath = repourl + repopath + "README.md"
+        begin
+          return textilizable(open(readmeFilePath).read)
+        rescue => e
+          return ''
+        end  
+      end   
+    else  
+      return textilizable(@project.description)
+    end  
+  end  
   
   #MC - probably there's a more elegant way to do this, not a Ruby expert
   def addNode(t,c1,c2,c3,c4,c5,dname,link,category)
