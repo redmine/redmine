@@ -26,7 +26,7 @@ namespace :test do
   namespace :scm do
     namespace :setup do
       desc "Creates directory for test repositories"
-      task :create_dir do
+      task :create_dir => :environment do
         FileUtils.mkdir_p Rails.root + '/tmp/test'
       end
 
@@ -66,7 +66,7 @@ namespace :test do
     end
 
     desc "Updates installed test repositories"
-    task :update do
+    task :update => :environment do
       require 'fileutils'
       Dir.glob("tmp/test/*_repository").each do |dir|
         next unless File.basename(dir) =~ %r{^(.+)_repository$} && File.directory?(dir)
