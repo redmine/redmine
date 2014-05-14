@@ -51,13 +51,17 @@ namespace :test do
         end
       end
 
+      def extract_tar_gz(prefix)
+        unless File.exists?("tmp/test/#{prefix}_repository")
+          # system "gunzip < test/fixtures/repositories/#{prefix}_repository.tar.gz | tar -xv -C tmp/test"
+          system "tar -xvz -C tmp/test -f test/fixtures/repositories/#{prefix}_repository.tar.gz"
+        end
+      end
+
       (supported_scms - [:subversion, :mercurial]).each do |scm|
         desc "Creates a test #{scm} repository"
         task scm => :create_dir do
-          unless File.exists?("tmp/test/#{scm}_repository")
-            # system "gunzip < test/fixtures/repositories/#{scm}_repository.tar.gz | tar -xv -C tmp/test"
-            system "tar -xvz -C tmp/test -f test/fixtures/repositories/#{scm}_repository.tar.gz"
-          end
+          extract_tar_gz(scm)
         end
       end
 
