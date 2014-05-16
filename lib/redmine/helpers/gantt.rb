@@ -338,7 +338,7 @@ module Redmine
           coords = coordinates(version.start_date,
                                version.due_date, version.completed_percent,
                                options[:zoom])
-          label = "#{h version} #{h version.completed_percent.to_i.to_s}%"
+          label = "#{h(version)} #{h(version.completed_percent.to_f.round)}%"
           label = h("#{version.project} -") + label unless @project && @project == version.project
           case options[:format]
           when :html
