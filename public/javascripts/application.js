@@ -535,6 +535,17 @@ function initMyPageSortable(list, url) {
   $("#list-top, #list-left, #list-right").disableSelection();
 }
 
+function addNewTag(projectName, tag){
+	$.ajax({
+	    url: "/projects/" + projectName + "/tags?tag="+tag,
+	    cache: false,
+	    success: function(html){
+	      console.log('taka');
+	      $("#tagsContainer").replaceWith(html);
+	    }
+	});
+}
+
 var warnLeavingUnsavedMessage;
 function warnLeavingUnsaved(message) {
   warnLeavingUnsavedMessage = message;

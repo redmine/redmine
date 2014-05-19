@@ -164,7 +164,7 @@ module ApplicationHelper
   
   def getGeneralBadge(project, field, text, tooltip, align, classes)
     fieldId, fieldValue = getCustomFieldAndId(project, field)
-    if field == 'Tag'
+    if field == 'Tags'
       outputLink = ''
       for fieldValueItem in fieldValue.split(',')
         #outputLink << ", " unless outputLink.length == 0
