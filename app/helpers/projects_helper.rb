@@ -18,6 +18,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 require 'open-uri'
+require 'yaml'
 
 module ProjectsHelper
   include ThemesHelper
@@ -75,6 +76,20 @@ module ProjectsHelper
       s
     end
   end
+  
+  def getAvailableTags()
+    tagsContent = YAML::load_file('tags.yml')
+    if tagsContent != false
+      tagsContent = tagsContent.keys.sort {|a, b| tagsContent[b] <=> tagsContent[a]}
+        
+      projectsTags = getCustomField(@project, 'Tags')
+      if projectsTags!=nil and projectsTags!='' and projectsTags!=[nil] 
+          tagsContent = tagsContent - projectsTags.split(",")   
+      end  
+      return tagsContent
+    end
+    return ''
+  end  
 
   def getProjectDescription()
     if @project.description != nil && @project.description == 'github:README.md'

@@ -69,9 +69,9 @@
 		<% original=getCustomField(@project,'Original format') %>
 		<% ghrepo=getCustomField(@project,'GitHub repository') %>
 		<% bbrepo=getCustomField(@project,'Bitbucket repository') %>
-		<% tags=getCustomField(@project,'Tag') %>
-		
-		<% if (modeldb!=nil and  modeldb!="") or (original!=nil and original!="") or (ghrepo!=nil and ghrepo!="")  or (bbrepo!=nil and bbrepo!="") or (tags!=nil and tags!='' and tags!=[nil])%>
+		<% tags=getCustomField(@project,'Tags') %>
+		<% roles = User.current.roles_for_project(@project).collect(&:name) %>
+		<% if (modeldb!=nil and  modeldb!="") or (original!=nil and original!="") or (ghrepo!=nil and ghrepo!="")  or (bbrepo!=nil and bbrepo!="") or (tags!=nil and tags!='' and tags!=[nil])  or (roles.include? 'Developer' or roles.include? 'Manager' or User.current.admin?) %>
 			<section id="references">
 				<div class="page-header">
 					<h2>References</h2>
@@ -93,13 +93,13 @@
 				<% if bbrepo!=nil and bbrepo!="" %>
 					<p class="lead">The code for this model is hosted on Bitbucket: <a href="<%= h bbrepo %>"><%= h bbrepo %></a></p>
 				<% end %>
-				<% if tags!=nil and tags!='' and tags!=[nil] %>
-					<p class="lead">Tag for this model are: 
-						<%= getGeneralBadge(@project, 'Tag', '', '', '', 'label label-success') %>
-					</p>
-				<% end %>
+				
+				<%= render :partial=>'tags', :locals=>{:tags=>tags, :roles=>roles} %>
+
 				</section>
 		<% end %>
+
+					
 		<% html_title(l(:label_overview)) -%>
 	</div>
 </div>

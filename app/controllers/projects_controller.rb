@@ -21,7 +21,7 @@ class ProjectsController < ApplicationController
   menu_item :settings, :only => :settings
 
   before_filter :find_project, :except => [ :index, :list, :new, :create, :copy, :cells, :technology, :groups, :people, :informationOSB]
-  before_filter :authorize, :except => [ :index, :list, :new, :create, :copy, :archive, :unarchive, :destroy, :cells, :technology, :groups, :people, :informationOSB]
+  before_filter :authorize, :except => [ :index, :list, :new, :create, :copy, :archive, :unarchive, :destroy, :cells, :technology, :groups, :people, :informationOSB, :tags]
   before_filter :authorize_global, :only => [:new, :create]
   before_filter :require_admin, :only => [ :copy, :archive, :unarchive, :destroy ]
   accept_rss_auth :index
@@ -44,8 +44,8 @@ class ProjectsController < ApplicationController
   include RepositoriesHelper
   include ProjectsHelper
   include ApplicationHelper
-	helper :members
-	
+  helper :members
+
   # Load projects base page....
   def index
     respond_to do |format|
@@ -62,22 +62,22 @@ class ProjectsController < ApplicationController
       }
     end
   end
-  
+
   # Lists visible projects
   def cells
     respond_to do |format|
       format.html {
         scope = Project
         unless params[:closed]
-        scope = scope.active
+          scope = scope.active
         end
         @projects = scope.visible.order('lft').all
       }
     end
-    
+
     @modelProjects=[]
     @showcaseProjects=[]
-    @galleryImages=[]  
+    @galleryImages=[]
     for p in @projects
       if isEndorsed?(p)
         projectDescription = p.description
@@ -87,7 +87,7 @@ class ProjectsController < ApplicationController
         #This is for markdown
         if (firstLine.start_with?("![]"))
           @galleryImages.push({:image => firstLine, :project => p})
-        end  
+        end
         category=getCustomField(p,'Category')
         if category=='Project'
           @modelProjects.push(p)
@@ -96,17 +96,16 @@ class ProjectsController < ApplicationController
         end
       end
     end
-    
+
     render :layout => false
   end
-  
-  
+
   # Lists groups
   def groups
     @groups = Group.find(:all, :order => 'lastname')
     render :layout => false
   end
- 
+
   # Lists people
   def people
     userscope = User.logged.status(@status)
@@ -115,14 +114,14 @@ class ProjectsController < ApplicationController
     @users = userscope.find(:all, :order => 'lastname')
     render :layout => false
   end
- 
+
   # Lists showcase projects in technology tabs
   def technology
     respond_to do |format|
       format.html {
         scope = Project
         unless params[:closed]
-        scope = scope.active
+          scope = scope.active
         end
         @projects = scope.visible.order('lft').all
       }
@@ -136,7 +135,7 @@ class ProjectsController < ApplicationController
         render_feed(projects, :title => "#{Setting.app_title}: #{l(:label_project_latest)}")
       }
     end
-    
+
     @showcaseProjects=[]
     for p in @projects
       if isEndorsed?(p)
@@ -146,17 +145,17 @@ class ProjectsController < ApplicationController
         end
       end
     end
-    
+
     render :layout => false
   end
-      
+
   # Lists projects in information OSB tab
   def informationOSB
     respond_to do |format|
       format.html {
         scope = Project
         unless params[:closed]
-        scope = scope.active
+          scope = scope.active
         end
         @projects = scope.visible.order('lft').all
       }
@@ -170,26 +169,26 @@ class ProjectsController < ApplicationController
         render_feed(projects, :title => "#{Setting.app_title}: #{l(:label_project_latest)}")
       }
     end
-      
+
     render :layout => false
   end
-     
+
   def new
     @issue_custom_fields = IssueCustomField.sorted.all
     @trackers = Tracker.sorted.all
     @project = Project.new
     @project.safe_attributes = params[:project]
   end
-  
+
   def adminnew
     @issue_custom_fields = IssueCustomField.sorted.all
     @trackers = Tracker.sorted.all
     @project = Project.new
     @project.safe_attributes = params[:project]
   end
-    
+
   def validateGitHubRepo(repository)
-   
+
     if repository!=""
       #checks is valid
       #check is already cloned?
@@ -200,9 +199,9 @@ class ProjectsController < ApplicationController
             #exit_code = system("git ls-remote "+repository + " &> /dev/null")
             if url_exists(repository[0..-5])
               return true
-            else  
+            else
               @project.errors.add " ", "Can not connect to repository. Check url format (we are expecting something like https://github.com/user/myProject.git) and connectivity."
-            end  
+            end
           else
             @project.errors.add " ", "The specified URL is not a valid Git repository. We are expecting something like https://github.com/user/myProject.git"
           end
@@ -213,11 +212,11 @@ class ProjectsController < ApplicationController
         @project.errors.add " ", "You need to specify a Git repository."
       end
     else
-        return true
+      return true
     end
     return false
   end
-  
+
   def mirrorGitHubRepo(repository)
     mirroredRepo="/home/svnsvn/myGitRepositories/"+File.basename(repository)
     exec("git clone --mirror "+repository+" "+mirroredRepo)
@@ -235,7 +234,7 @@ class ProjectsController < ApplicationController
     @repository.project = @project
     @repository.save
   end
-  
+
   def getRepoAttrs(repo)
     p       = {}
     p_extra = {}
@@ -246,14 +245,14 @@ class ProjectsController < ApplicationController
     p['path_encoding'] = ''
     {:attrs => p, :attrs_extra => p_extra}
   end
-  
+
   def create
     @issue_custom_fields = IssueCustomField.sorted.all
     @trackers = Tracker.sorted.all
     @project = Project.new
     @project.safe_attributes = params[:project]
     @githubRepo=getCustomField(@project,'GitHub repository')
-      
+
     if validate_parent_id && validateGitHubRepo(@githubRepo) && @project.save
       @project.set_allowed_parent!(params[:project]['parent_id']) if params[:project].has_key?('parent_id')
       # Add current user as a project member if current user is not admin
@@ -274,12 +273,12 @@ class ProjectsController < ApplicationController
         }
         format.api  { render :action => 'show', :status => :created, :location => url_for(:controller => 'projects', :action => 'show', :id => @project.id) }
       end
-      
+
       if @githubRepo!=""
         @mirroredRepo=mirrorGitHubRepo(@githubRepo)
-        addMirroredRepo(@mirroredRepo)  
+        addMirroredRepo(@mirroredRepo)
       end
-      
+
     else
       respond_to do |format|
         format.html { render :action => 'new' }
@@ -313,7 +312,7 @@ class ProjectsController < ApplicationController
       end
     end
   rescue ActiveRecord::RecordNotFound
-  # source_project not found
+    # source_project not found
     render_404
   end
 
@@ -346,7 +345,6 @@ class ProjectsController < ApplicationController
     end
   end
 
-
   def settings
     @issue_custom_fields = IssueCustomField.sorted.all
     @issue_category ||= IssueCategory.new
@@ -356,6 +354,40 @@ class ProjectsController < ApplicationController
   end
 
   def edit
+  end
+
+  def tags
+    tag = params[:tag]
+    @project.custom_field_values.each do |value|
+      if value.custom_field.name == 'Tags'
+        tagsContent = (value.value == nil || value.value == '')?tag:value.value + "," + tag
+        @project.safe_attributes =  {"custom_field_values" => {value.custom_field.id.to_s => tagsContent}}
+        if validate_parent_id && @project.save
+          #render :nothing => true, :status => 200, :content_type => 'text/html'
+          #render :layout => false
+          tagsContent = YAML.load_file('tags.yml')
+          ocurrences = 1
+          
+          if tagsContent != false && tagsContent != ''
+            if tagsContent != false && tagsContent != '' && tagsContent.has_key?(tag)
+              ocurrences = tagsContent[tag] + 1
+            end  
+          else
+          tagsContent = {}
+          end  
+          tagsContent[tag] = ocurrences
+          
+          File.open('tags.yml','w') do |h| 
+             h.write tagsContent.to_yaml
+          end
+          
+          tags=getCustomField(@project,'Tags')
+          roles = User.current.roles_for_project(@project).collect(&:name) 
+          render :partial=>'tags', :locals=>{:tags=>tags, :roles=>roles}
+        end
+      end
+    end
+
   end
 
   def update
@@ -435,11 +467,10 @@ class ProjectsController < ApplicationController
       parent = parent_id.blank? ? nil : Project.find_by_id(parent_id.to_i)
       unless @project.allowed_parents.include?(parent)
         @project.errors.add :parent_id, :invalid
-      return false
+        return false
       end
     end
     true
   end
-  
 
 end
