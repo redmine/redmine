@@ -49,9 +49,11 @@
 						<%= show_value(custom_value) %>	
 						<%= getStatusBadges(@project) %>
 						<br><br>
-						<% @exportOptions = getExportFunctions(@project.repository) %>
-						<% @exportOptions.keys.each do |exportOption| %>
-							<a href="" class="btn icon-download-alt" rel="nofollow"> Download as <%= exportOption %></a>
+						<% if @project.repository != nil %>
+							<% @exportOptions = getExportFunctions(@project.repository) %>
+							<% @exportOptions.keys.each do |exportOption| %>
+								<a href="" class="btn icon-download-alt" rel="nofollow"> Download as <%= exportOption %></a>
+							<% end %>
 						<% end %>	
 					</section>
 				<% end %>
