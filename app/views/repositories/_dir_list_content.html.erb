@@ -1,4 +1,4 @@
-<% @repourl=getHttpRepositoryURL() %>
+<% @repourl=getHttpRepositoryURL(@project) %>
 <% @mercurialPath = @repository.scm_name == ('Mercurial') ? "raw/": "" %> 
 <% @entries.each do |entry| %>
 <% tr_id = Digest::MD5.hexdigest(entry.path)
