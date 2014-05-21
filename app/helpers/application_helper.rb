@@ -306,20 +306,20 @@ module ApplicationHelper
     end
   end
      
-  def getHttpRepositoryURL()
-    if (@project.repository != nil and @project.repository.scm_name == 'Mercurial')
-      repo=getCustomField(@project,"Bitbucket repository")
+  def getHttpRepositoryURL(project)
+    if (project.repository != nil and project.repository.scm_name == 'Mercurial')
+      repo=getCustomField(project,"Bitbucket repository")
       if(repo!=nil)
         @repourl=repo.dup
         return @repourl 
       end      
     else
-      return getHttpGitURL()
+      return getHttpGitURL(project)
     end  
   end  
   
-  def getHttpGitURL()
-    repo=getCustomField(@project,"GitHub repository")
+  def getHttpGitURL(project)
+    repo=getCustomField(project,"GitHub repository")
     if(repo!=nil)
       @repourl=repo.dup
       if @repourl.starts_with?"git:"
@@ -360,7 +360,7 @@ module ApplicationHelper
     availableExportOptions = ['Matlab', 'C']
     exportOptions = Hash.new
     omtFiles = getFilesWithExt(repository, ".omt")
-    repourl=getHttpRepositoryURL()
+    repourl=getHttpRepositoryURL(@project)
     repopath=getHttpRepositoryPath(@project.repository)
     for omtFile in omtFiles 
       omtFilePath = repourl + repopath + omtFile
@@ -1012,7 +1012,7 @@ module ApplicationHelper
 
     parse_sections(text, project, obj, attr, only_path, options)
     text = parse_non_pre_blocks(text, obj, macros) do |text|
-      [:parse_inline_attachments, :parse_wiki_links, :parse_redmine_links].each do |method_name|
+      [:parse_inline_attachments, :parse_wiki_links, :parse_redmine_links, :parse_repo_links].each do |method_name|
         send method_name, text, project, obj, attr, only_path, options
       end
     end
@@ -1078,7 +1078,32 @@ module ApplicationHelper
       end
     end
   end
-
+  
+  
+  # Parse looking 
+  def parse_repo_links(text, project, obj, attr, only_path, options)
+    text.gsub!(/(github|bitbucket):([^\/"]+\.(md|txt))/) do |m|
+      repoName, filename, ext = $1, $2, $3
+      
+      repourl=getHttpRepositoryURL(project)
+      if repourl != ''
+        repopath=getHttpRepositoryPath(project.repository)
+        readmeFilePath = repourl + repopath + filename
+        begin
+          textilizable(open(readmeFilePath).read)
+        rescue => e
+          m
+        end
+      else  
+         m
+      end  
+    end
+      
+    
+    
+  end
+    
+    
   # Wiki links
   #
   # Examples:

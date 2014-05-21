@@ -111,7 +111,7 @@
 							<% @channelfiles = getChannelFiles() %>
 							<% @synapsefiles = getSynapsesFiles() %>
 						
-							<% @repourl=getHttpRepositoryURL() %>
+							<% @repourl=getHttpRepositoryURL(@project) %>
 							
 							<% if(@repourl)%>
 							<% @repopath=getHttpRepositoryPath(@project.repository) %>
