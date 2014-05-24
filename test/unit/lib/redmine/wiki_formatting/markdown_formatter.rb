@@ -24,6 +24,18 @@ class Redmine::WikiFormatting::MarkdownFormatterTest < ActionView::TestCase
     @formatter = Redmine::WikiFormatting::Markdown::Formatter
   end
 
+  def test_syntax_error_in_image_reference_should_not_raise_exception
+    assert @formatter.new("!>[](foo.png)").to_html
+  end
+
+  # re-using the formatter after getting above error crashes the
+  # ruby interpreter. This seems to be related to
+  # https://github.com/vmg/redcarpet/issues/318
+  def test_should_not_crash_redcarpet_after_syntax_error
+    @formatter.new("!>[](foo.png)").to_html rescue nil
+    assert @formatter.new("![](foo.png)").to_html.present?
+  end
+
   def test_inline_style
     assert_equal "<p><strong>foo</strong></p>", @formatter.new("**foo**").to_html.strip
   end

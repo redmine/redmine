@@ -28,7 +28,7 @@ module Redmine
           unless link && link.starts_with?('/')
             css = 'external'
           end
-          content_tag('a', content.html_safe, :href => link, :title => title, :class => css)
+          content_tag('a', content.to_s.html_safe, :href => link, :title => title, :class => css)
         end
 
         def block_code(code, language)
