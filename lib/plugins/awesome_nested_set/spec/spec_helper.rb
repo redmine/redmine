@@ -2,6 +2,7 @@ plugin_test_dir = File.dirname(__FILE__)
 
 require 'rubygems'
 require 'bundler/setup'
+require 'pry'
 
 require 'logger'
 require 'active_record'
@@ -22,6 +23,7 @@ require 'support/models'
 
 require 'action_controller'
 require 'rspec/rails'
+require 'database_cleaner'
 RSpec.configure do |config|
   config.fixture_path = "#{plugin_test_dir}/fixtures"
   config.use_transactional_fixtures = true

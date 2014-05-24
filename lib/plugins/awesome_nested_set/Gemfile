@@ -1,4 +1,4 @@
-gem 'combustion', :github => 'pat/combustion'
+gem 'combustion', :github => 'pat/combustion', :branch => 'master'
 
 source 'https://rubygems.org'
 
@@ -7,6 +7,7 @@ gemspec :path => File.expand_path('../', __FILE__)
 platforms :jruby do
   gem 'activerecord-jdbcsqlite3-adapter'
   gem 'activerecord-jdbcmysql-adapter'
+  gem 'jdbc-mysql'
   gem 'activerecord-jdbcpostgresql-adapter'
   gem 'jruby-openssl'
 end
@@ -27,5 +28,5 @@ gem 'actionpack', RAILS_VERSION
 # gem 'activerecord-oracle_enhanced-adapter'
 
 # Debuggers
-# gem 'pry'
-# gem 'pry-nav'
+gem 'pry'
+gem 'pry-nav'
