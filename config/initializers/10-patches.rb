@@ -227,8 +227,6 @@ if Rails::VERSION::MAJOR < 4 && RUBY_VERSION >= "2.1"
   end
 end
 
-require 'awesome_nested_set/version'
-
 module CollectiveIdea
   module Acts
     module NestedSet
@@ -237,23 +235,6 @@ module CollectiveIdea
           new_record? || leaf_without_new_record?
         end
         alias_method_chain :leaf?, :new_record
-        # Reload is needed because children may have updated
-        # their parent (self) during deletion.
-        if ::AwesomeNestedSet::VERSION > "2.1.6"
-          module Prunable
-            def destroy_descendants_with_reload
-              destroy_descendants_without_reload
-              reload
-            end
-            alias_method_chain :destroy_descendants, :reload
-          end
-        else
-          def destroy_descendants_with_reload
-            destroy_descendants_without_reload
-            reload
-          end
-          alias_method_chain :destroy_descendants, :reload
-        end
       end
     end
   end
