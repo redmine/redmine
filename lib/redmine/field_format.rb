@@ -98,9 +98,10 @@ module Redmine
         if value.blank?
           nil
         elsif value.is_a?(Array)
-          value.map do |v|
+          casted = value.map do |v|
             cast_single_value(custom_field, v, customized)
-          end.sort
+          end
+          casted.compact.sort
         else
           cast_single_value(custom_field, value, customized)
         end

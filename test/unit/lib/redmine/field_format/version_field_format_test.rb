@@ -56,4 +56,11 @@ class Redmine::VersionFieldFormatTest < ActionView::TestCase
 
     assert_equal expected, field.possible_values_options(project).map(&:first)
   end
+
+  def test_cast_value_should_not_raise_error_when_array_contains_value_casted_to_nil
+    field = IssueCustomField.new(:field_format => 'version')
+    assert_nothing_raised do
+      field.cast_value([1,2, 42])
+    end
+  end
 end
