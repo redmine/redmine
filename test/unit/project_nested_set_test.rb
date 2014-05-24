@@ -176,7 +176,7 @@ class ProjectNestedSetTest < ActiveSupport::TestCase
     projects.each do |project|
       if project.children.any?
         # sibling projects sorted alphabetically
-        assert_equal project.children.map(&:name).sort, project.children.order('lft').map(&:name), "Project #{project.name}'s children were not properly sorted"
+        assert_equal project.children.map(&:name).sort, project.children.sort_by(&:lft).map(&:name), "Project #{project.name}'s children were not properly sorted"
       end
     end
   end
