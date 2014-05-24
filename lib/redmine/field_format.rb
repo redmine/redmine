@@ -498,6 +498,9 @@ module Redmine
           tag_id = nil
           s << view.content_tag('label', tag + ' ' + label) 
         end
+        if custom_value.custom_field.multiple?
+          s << view.hidden_field_tag(tag_name, '')
+        end
         css = "#{options[:class]} check_box_group"
         view.content_tag('span', s, options.merge(:class => css))
       end
