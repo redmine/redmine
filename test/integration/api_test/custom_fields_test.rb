@@ -37,6 +37,8 @@ class Redmine::ApiTest::CustomFieldsTest < Redmine::ApiTest::Base
         assert_select 'possible_values[type=array]' do
           assert_select 'possible_value>value', :text => 'PostgreSQL'
         end
+        assert_select 'trackers[type=array]'
+        assert_select 'roles[type=array]'
       end
     end
   end

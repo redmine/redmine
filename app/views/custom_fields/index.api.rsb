@@ -27,12 +27,12 @@ api.array :custom_fields do
       end
 
       if field.is_a?(IssueCustomField)
-        api.trackers do
+        api.array :trackers do
           field.trackers.each do |tracker|
             api.tracker :id => tracker.id, :name => tracker.name
           end
         end
-        api.roles do
+        api.array :roles do
           field.roles.each do |role|
             api.role :id => role.id, :name => role.name
           end
