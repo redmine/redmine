@@ -73,6 +73,18 @@ class Member < ActiveRecord::Base
     member_roles.detect {|mr| mr.inherited_from}.nil?
   end
 
+  def destroy
+    if member_roles.reload.present?
+      # destroying the last role will destroy another instance
+      # of the same Member record, #super would then trigger callbacks twice
+      member_roles.destroy_all
+      @destroyed = true
+      freeze
+    else
+      super
+    end
+  end
+
   def include?(user)
     if principal.is_a?(Group)
       !user.nil? && user.groups.include?(principal)
