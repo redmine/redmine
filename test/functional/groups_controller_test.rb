@@ -30,6 +30,12 @@ class GroupsControllerTest < ActionController::TestCase
     assert_template 'index'
   end
 
+  def test_index_should_show_user_count
+    get :index
+    assert_response :success
+    assert_select 'tr#group-11 td.user_count', :text => '1'
+  end
+
   def test_show
     get :show, :id => 10
     assert_response :success
