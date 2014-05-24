@@ -79,7 +79,7 @@ class Member < ActiveRecord::Base
       # of the same Member record, #super would then trigger callbacks twice
       member_roles.destroy_all
       @destroyed = true
-  		freeze
+      freeze
     else
       super
     end
