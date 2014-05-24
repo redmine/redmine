@@ -17,7 +17,7 @@ module CollectiveIdea
           def no_duplicates_for_columns?
             [quoted_left_column_full_name, quoted_right_column_full_name].all? do |column|
               # No duplicates
-              select("#{scope_string}#{column}, COUNT(#{column})").
+              select("#{scope_string}#{column}, COUNT(#{column}) as _count").
                 group("#{scope_string}#{column}").
                 having("COUNT(#{column}) > 1").
                 first.nil?

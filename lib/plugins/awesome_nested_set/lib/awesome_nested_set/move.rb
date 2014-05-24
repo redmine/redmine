@@ -24,8 +24,9 @@ module CollectiveIdea #:nodoc:
 
           lock_nodes_between! a, d
 
-          nested_set_scope.where(where_statement(a, d)).
-                           update_all(conditions(a, b, c, d))
+          nested_set_scope.where(where_statement(a, d)).update_all(
+            conditions(a, b, c, d)
+          )
         end
 
         private
@@ -44,11 +45,23 @@ module CollectiveIdea #:nodoc:
         end
 
         def conditions(a, b, c, d)
+          _conditions = case_condition_for_direction(:quoted_left_column_name) +
+                        case_condition_for_direction(:quoted_right_column_name) +
+                        case_condition_for_parent
+
+          # We want the record to be 'touched' if it timestamps.
+          if @instance.respond_to?(:updated_at)
+            _conditions << ", updated_at = :timestamp"
+          end
+
           [
-           case_condition_for_direction(:quoted_left_column_name) +
-           case_condition_for_direction(:quoted_right_column_name) +
-           case_condition_for_parent,
-           {:a => a, :b => b, :c => c, :d => d, :id => instance.id, :new_parent => new_parent}
+            _conditions,
+            {
+              :a => a, :b => b, :c => c, :d => d,
+              :id => instance.id,
+              :new_parent => new_parent,
+              :timestamp => Time.now.utc
+            }
           ]
         end
 

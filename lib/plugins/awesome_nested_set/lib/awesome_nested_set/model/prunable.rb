@@ -19,6 +19,9 @@ module CollectiveIdea #:nodoc:
               # update lefts and rights for remaining nodes
               update_siblings_for_remaining_nodes
 
+              # Reload is needed because children may have updated their parent (self) during deletion.
+              reload
+
               # Don't allow multiple calls to destroy to corrupt the set
               self.skip_before_destroy = true
             end
