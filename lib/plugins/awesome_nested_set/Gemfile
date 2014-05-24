@@ -23,6 +23,12 @@ gem 'railties', RAILS_VERSION
 gem 'activerecord', RAILS_VERSION
 gem 'actionpack', RAILS_VERSION
 
+platforms :rbx do
+  gem 'rubysl', '~> 2.0'
+  gem 'rubysl-test-unit'
+end
+
+
 # Add Oracle Adapters
 # gem 'ruby-oci8'
 # gem 'activerecord-oracle_enhanced-adapter'
