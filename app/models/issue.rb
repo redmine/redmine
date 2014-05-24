@@ -483,6 +483,11 @@ class Issue < ActiveRecord::Base
     end
   end
 
+  # Returns the custom fields that can be edited by the given user
+  def editable_custom_fields(user=nil)
+    editable_custom_field_values(user).map(&:custom_field).uniq
+  end
+
   # Returns the names of attributes that are read-only for user or the current user
   # For users with multiple roles, the read-only fields are the intersection of
   # read-only fields of each role

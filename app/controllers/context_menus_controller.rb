@@ -55,7 +55,7 @@ class ContextMenusController < ApplicationController
 
     @options_by_custom_field = {}
     if @can[:edit]
-      custom_fields = @issues.map(&:available_custom_fields).reduce(:&).reject(&:multiple?)
+      custom_fields = @issues.map(&:editable_custom_fields).reduce(:&).reject(&:multiple?)
       custom_fields.each do |field|
         values = field.possible_values_options(@projects)
         if values.present?
