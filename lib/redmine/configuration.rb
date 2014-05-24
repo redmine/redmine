@@ -86,6 +86,9 @@ module Redmine
         rescue ArgumentError
           $stderr.puts "Your Redmine configuration file located at #{filename} is not a valid YAML file and could not be loaded."
           exit 1
+        rescue SyntaxError => e
+          $stderr.puts "A syntax error occurred when parsing your Redmine configuration file located at #{filename} with ERB:\n#{e.message}"
+          exit 1
         end
         conf = {}
         if yaml.is_a?(Hash)
