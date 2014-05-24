@@ -159,19 +159,11 @@ module CollectiveIdea #:nodoc:
           nested_set_scope.column_names.map(&:to_s).include?(depth_column_name.to_s)
         end
 
-        def right_most_node
-          @right_most_node ||= self.class.base_class.unscoped.nested_set_scope(
-            :order => "#{quoted_right_column_full_name} desc"
-          ).first
-        end
-
         def right_most_bound
-          @right_most_bound ||= begin
-            return 0 if right_most_node.nil?
-
-            right_most_node.lock!
-            right_most_node[right_column_name] || 0
-          end
+          right_most_node =
+            self.class.base_class.unscoped.
+              order("#{quoted_right_column_full_name} desc").limit(1).lock(true).first
+          right_most_node ? (right_most_node[right_column_name] || 0) : 0
         end
 
         def set_depth!
