@@ -175,20 +175,16 @@ class AuthSourceLdap < AuthSource
     end
     attrs = {}
     search_filter = base_filter & Net::LDAP::Filter.eq(self.attr_login, login)
-
     ldap_con.search( :base => self.base_dn,
                      :filter => search_filter,
                      :attributes=> search_attributes) do |entry|
-
       if onthefly_register?
         attrs = get_user_attributes_from_ldap_entry(entry)
       else
         attrs = {:dn => entry.dn}
       end
-
       logger.debug "DN found for #{login}: #{attrs[:dn]}" if logger && logger.debug?
     end
-
     attrs
   end
 
