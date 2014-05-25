@@ -51,7 +51,7 @@ class PatchesTest < ActiveSupport::TestCase
     def test_indifferent_select
       hash = ActiveSupport::HashWithIndifferentAccess.new(@symbols).select { |_ ,v| v == 1 }
       assert_equal({ 'a' => 1 }, hash)
-      assert_instance_of (RUBY_VERSION < "2.1" ?
+      assert_instance_of ((Rails::VERSION::MAJOR < 4 && RUBY_VERSION < "2.1") ?
                             Hash : ActiveSupport::HashWithIndifferentAccess),
                           hash
     end
@@ -82,7 +82,7 @@ class PatchesTest < ActiveSupport::TestCase
       assert_equal @keys, @ordered_hash.select { true }.map(&:first)
       new_ordered_hash = @ordered_hash.select { true }
       assert_equal @keys, new_ordered_hash.map(&:first)
-      assert_instance_of (RUBY_VERSION < "2.1" ?
+      assert_instance_of ((Rails::VERSION::MAJOR < 4 && RUBY_VERSION < "2.1") ?
                             Hash : ActiveSupport::OrderedHash),
                           new_ordered_hash
     end
