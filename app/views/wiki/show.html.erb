@@ -105,11 +105,21 @@
 </div>
 <% end %>
 
-
-
-
-
-
+<div id="bibliography" style="border-top: 1px solid;">
+	<h4>Bibliography</h4>
+	
+	<% @bibliography.each do |bibliographyItem| %>
+		<div style="margin-bottom: 15px;">
+			<%= bibliographyItem[:source] %>, <%= bibliographyItem[:date] %><br> 
+			<b><%= link_to bibliographyItem[:title], bibliographyItem[:url] %></b><br>
+			<i>
+				<% bibliographyItem[:authors].each do |author| %>
+				<%= author %> ,
+				<% end %>
+			</i>
+		</div>	
+	<% end %>	
+</div>
 
 
 <% content_for :sidebar do %>
