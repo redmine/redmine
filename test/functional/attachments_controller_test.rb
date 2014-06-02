@@ -250,6 +250,13 @@ class AttachmentsControllerTest < ActionController::TestCase
     get :download, :id => 4
     assert_response :success
     assert_equal 'application/x-ruby', @response.content_type
+    etag = @response.etag
+    assert_not_nil etag
+
+    @request.env["HTTP_IF_NONE_MATCH"] = etag
+    get :download, :id => 4
+    assert_response 304
+
     set_tmp_attachments_directory
   end
 
