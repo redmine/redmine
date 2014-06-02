@@ -26,6 +26,7 @@ class ApplicationHelperTest < ActionView::TestCase
 
   fixtures :projects, :roles, :enabled_modules, :users,
            :repositories, :changesets,
+           :projects_trackers,
            :trackers, :issue_statuses, :issues, :versions, :documents,
            :wikis, :wiki_pages, :wiki_contents,
            :boards, :messages, :news,
