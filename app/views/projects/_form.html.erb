@@ -23,7 +23,7 @@
 	<%= render :partial=>'tags', :locals=>{:tags=>tags, :roles=>roles} %>
 	</div>
 	<% @project.custom_field_values.each do |value| %>
-		<% unless value.custom_field.name == 'Endorsement' or value.custom_field.name == 'Tags' or value.custom_field.name == 'approved' or value.custom_field.name == 'Metadata' or value.custom_field.name == 'Category' %>
+		<% unless value.custom_field.name == 'Endorsement' or value.custom_field.name == 'Tags' or value.custom_field.name == 'Metadata' or value.custom_field.name == 'Category' %>
 			<div class="control-group">
 				<%= custom_field_tag_with_label :project, value %>
 				<% if value.custom_field.name == 'GitHub repository' %>
