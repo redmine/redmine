@@ -368,26 +368,29 @@ module ApplicationHelper
   end
   
   def getExportFunctions(repository)
-    availableExportOptions = ['Matlab', 'C']
+    availableExportOptions = ['Matlab', 'C', 'LEMS']
     exportOptions = Hash.new
     omtFiles = getFilesWithExt(repository, ".omt")
-    repourl=getHttpRepositoryURL(@project)
-    repopath=getHttpRepositoryPath(@project.repository)
+    
+    print "omtFiles", omtFiles
+    
     for omtFile in omtFiles 
+      repourl=getHttpRepositoryURL(@project)
+      repopath=getHttpRepositoryPath(@project.repository)
       omtFilePath = repourl + repopath + omtFile
       omtFileContent = YAML::load(open(omtFilePath).read)
       engines = omtFileContent["engine"].split(',')
       #engines = "LEMS/Matlab, LEMS/C".strip.split(',')
-      for engine in engines
-        engineFormats = engine.strip.split('/')
-        if (engineFormats.length > 1 and availableExportOptions.include? engineFormats[1])
+      for engineFormat in engines
+#        engineFormats = engine.strip.split('/')
+#        if (engineFormats.length > 1 and availableExportOptions.include? engineFormats[1])
           targetFiles = []
-          if exportOptions.has_key?(engineFormats[1].strip)
-            targetFiles = exportOptions[engineFormats[1].strip]  
+          if exportOptions.has_key?(engineFormat.strip)
+            targetFiles = exportOptions[engineFormat.strip]  
           end   
           targetFiles << omtFileContent["target"]
-          exportOptions[engineFormats[1].strip] = targetFiles 
-        end  
+          exportOptions[engineFormat] = targetFiles 
+#        end    
       end    
       print "exportOptions"
       print exportOptions 
@@ -1151,7 +1154,7 @@ module ApplicationHelper
                 
                 @bibliography << doc  
                 
-                link = link_to (doc[:authors][0] + " et al " +  doc[:date].split[0]), doc[:url]
+                link = link_to (doc[:authors][0] + " et al " +  doc[:date].split[0]), doc[:url], { :title => doc[:title] } 
               end  
             end
           end  
