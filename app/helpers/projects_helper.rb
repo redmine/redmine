@@ -90,24 +90,7 @@ module ProjectsHelper
     end
     return ''
   end  
-
-  #def getProjectDescription()
-  #  if @project.description != nil && @project.description == 'github:README.md'
-  #    repourl=getHttpRepositoryURL(@project)
-  #    if repourl != ''
-  #      repopath=getHttpRepositoryPath(@project.repository)
-  #      readmeFilePath = repourl + repopath + "README.md"
-  #      begin
-  #        return textilizable(open(readmeFilePath).read)
-  #      rescue => e
-  #        return ''
-  #      end  
-  #    end   
-  #  else  
-  #    return textilizable(@project.description)
-  #  end  
-  #end  
-  
+ 
   #MC - probably there's a more elegant way to do this, not a Ruby expert
   def addNode(t,c1,c2,c3,c4,c5,dname,link,category)
     if category == 'Project'

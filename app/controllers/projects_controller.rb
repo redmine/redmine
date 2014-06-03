@@ -21,7 +21,7 @@ class ProjectsController < ApplicationController
   menu_item :settings, :only => :settings
 
   before_filter :find_project, :except => [ :index, :list, :new, :create, :copy, :cells, :technology, :groups, :people, :informationOSB]
-  before_filter :authorize, :except => [ :index, :list, :new, :create, :copy, :archive, :unarchive, :destroy, :cells, :technology, :groups, :people, :informationOSB, :tags]
+  before_filter :authorize, :except => [ :index, :list, :new, :create, :copy, :archive, :unarchive, :destroy, :cells, :technology, :groups, :people, :informationOSB, :addTag, :removeTag]
   before_filter :authorize_global, :only => [:new, :create]
   before_filter :require_admin, :only => [ :copy, :archive, :unarchive, :destroy ]
   accept_rss_auth :index
@@ -356,29 +356,29 @@ class ProjectsController < ApplicationController
   def edit
   end
 
-  def tags
+  def addTag
     tag = params[:tag]
     @project.custom_field_values.each do |value|
       if value.custom_field.name == 'Tags'
         tagsContent = (value.value == nil || value.value == '')?tag:value.value + "," + tag
-        @project.safe_attributes =  {"custom_field_values" => {value.custom_field.id.to_s => tagsContent}}
+        @project.safe_attributes =  {"name"=> @project.name, "description" => @project.description, "identifier"=>@project.to_param, "custom_field_values" => {value.custom_field.id.to_s => tagsContent}}
         if validate_parent_id && @project.save
           #render :nothing => true, :status => 200, :content_type => 'text/html'
           #render :layout => false
-          tagsContent = YAML.load_file('tags.yml')
-          ocurrences = 1
+          tagsContentFile = YAML.load_file('tags.yml')
           
-          if tagsContent != false && tagsContent != ''
-            if tagsContent != false && tagsContent != '' && tagsContent.has_key?(tag)
-              ocurrences = tagsContent[tag] + 1
+          ocurrences = 1
+          if tagsContentFile != false && tagsContentFile != '' 
+            if tagsContentFile.has_key?(tag)
+              ocurrences = tagsContentFile[tag] + 1
             end  
           else
-          tagsContent = {}
+            tagsContentFile = {}
           end  
-          tagsContent[tag] = ocurrences
+          tagsContentFile[tag] = ocurrences
           
           File.open('tags.yml','w') do |h| 
-             h.write tagsContent.to_yaml
+             h.write tagsContentFile.to_yaml
           end
           
           tags=getCustomField(@project,'Tags')
@@ -389,6 +389,45 @@ class ProjectsController < ApplicationController
     end
 
   end
+  
+  def removeTag
+    tag = params[:tag]
+    @project.custom_field_values.each do |value|
+      if value.custom_field.name == 'Tags'
+        
+        tagsContentSplit = value.value.dup.split(",")
+        tagsContentSplit.delete(tag)
+        tagsContent = tagsContentSplit.join(",")
+        
+        @project.safe_attributes =  {"name"=> @project.name, "description" => @project.description, "identifier"=>@project.to_param, "custom_field_values" => {value.custom_field.id.to_s => tagsContent}}
+        if validate_parent_id && @project.save
+          tagsContentFile = YAML.load_file('tags.yml')
+          
+          ocurrences = 0
+          if tagsContentFile != false && tagsContentFile != '' && tagsContentFile.has_key?(tag)
+            ocurrences = tagsContentFile[tag] - 1
+          else
+            tagsContentFile = {}
+          end  
+
+          if ocurrences == 0
+            tagsContentFile.delete(tag)
+          else
+            tagsContentFile[tag] = ocurrences
+          end  
+            
+          File.open('tags.yml','w') do |h| 
+             h.write tagsContentFile.to_yaml
+          end
+          
+          tags=getCustomField(@project,'Tags')
+          
+          roles = User.current.roles_for_project(@project).collect(&:name) 
+          render :partial=>'tags', :locals=>{:tags=>tags, :roles=>roles}
+        end
+      end
+    end  
+  end  
 
   def update
     @project.safe_attributes = params[:project]
