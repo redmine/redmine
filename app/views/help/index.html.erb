@@ -1,0 +1,43 @@
+<div class="row pull-right lead sidetitle ">Help <i class="icon-question-sign"></i></div>
+<br/></br/></br/><br/>
+<div>
+	<div class="marketing">        
+		What can I do
+			-Video
+		How to get on Contact
+			-info@opensourcebrain
+			-mailing list
+			-Twitter
+			-GitHub (Steps how to create an issue)
+		
+			
+		FAQ
+		Meetings
+		Research Themes
+		Development info ?        
+	</div>
+</div>
+
+
+<%= javascript_include_tag('Detector.js') %>
+
+<div class="row">
+
+	<div class="span3 bs-docs-sidebar">
+		<ul id="project_overview_list" class="nav nav-list bs-docs-sidenav">
+		</ul>
+	</div>
+  
+  
+	<div id="project_overview_sections" class="span9">
+		<% @filesDoc.each do |fileDoc| %>
+			<section id="description">
+				<div class="page-header">
+					<h2><%= customiseTitleForHelp(fileDoc) %></h2>
+				</div>
+				<p><%= textilizable(open(fileDoc).read) %></p>
+			</section>
+		<% end %>
+	</div>
+</div>
+
