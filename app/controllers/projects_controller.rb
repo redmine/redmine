@@ -365,7 +365,7 @@ class ProjectsController < ApplicationController
         if validate_parent_id && @project.save
           #render :nothing => true, :status => 200, :content_type => 'text/html'
           #render :layout => false
-          tagsContentFile = YAML.load_file('tags.yml')
+          tagsContentFile = YAML::load(File.open("#{Rails.root}/config/tags.yml"))
           
           ocurrences = 1
           if tagsContentFile != false && tagsContentFile != '' 
@@ -377,7 +377,7 @@ class ProjectsController < ApplicationController
           end  
           tagsContentFile[tag] = ocurrences
           
-          File.open('tags.yml','w') do |h| 
+          File.open("#{Rails.root}/config/tags.yml",'w') do |h| 
              h.write tagsContentFile.to_yaml
           end
           
@@ -401,7 +401,7 @@ class ProjectsController < ApplicationController
         
         @project.safe_attributes =  {"name"=> @project.name, "description" => @project.description, "identifier"=>@project.to_param, "custom_field_values" => {value.custom_field.id.to_s => tagsContent}}
         if validate_parent_id && @project.save
-          tagsContentFile = YAML.load_file('tags.yml')
+          tagsContentFile = YAML::load(File.open("#{Rails.root}/config/tags.yml"))
           
           ocurrences = 0
           if tagsContentFile != false && tagsContentFile != '' && tagsContentFile.has_key?(tag)
@@ -416,7 +416,7 @@ class ProjectsController < ApplicationController
             tagsContentFile[tag] = ocurrences
           end  
             
-          File.open('tags.yml','w') do |h| 
+          File.open("#{Rails.root}/config/tags.yml",'w') do |h| 
              h.write tagsContentFile.to_yaml
           end
           

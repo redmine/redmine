@@ -78,7 +78,7 @@ module ProjectsHelper
   end
   
   def getAvailableTags()
-    tagsContent = YAML::load_file('tags.yml')
+    tagsContent = YAML::load(File.open("#{Rails.root}/config/tags.yml"))
     if tagsContent != false
       tagsContent = tagsContent.keys.sort {|a, b| tagsContent[b] <=> tagsContent[a]}
         
