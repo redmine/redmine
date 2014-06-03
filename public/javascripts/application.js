@@ -537,10 +537,19 @@ function initMyPageSortable(list, url) {
 
 function addNewTag(projectName, tag){
 	$.ajax({
-	    url: "/projects/" + projectName + "/tags?tag="+tag,
+	    url: "/projects/" + projectName + "/addTag?tag="+tag,
 	    cache: false,
 	    success: function(html){
-	      console.log('taka');
+	      $("#tagsContainer").replaceWith(html);
+	    }
+	});
+}
+
+function deleteTag(projectName, tag){
+	$.ajax({
+	    url: "/projects/" + projectName + "/removeTag?tag="+tag,
+	    cache: false,
+	    success: function(html){
 	      $("#tagsContainer").replaceWith(html);
 	    }
 	});

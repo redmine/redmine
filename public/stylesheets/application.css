@@ -1509,3 +1509,11 @@ iframe {
 	padding: 10px 0px 35px 5px;	
 }
 
+/* TAGS */
+#references .control-label{
+	float: left;
+}
+#tagsContainer icon{
+	font-size: 14px;
+}
+

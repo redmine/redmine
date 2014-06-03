@@ -1,14 +1,17 @@
 <div id="tagsContainer">
 
 <% if tags!=nil and tags!='' and tags!=[nil] %>
-	<p class="lead">Tag for this model are: 
-		<%= getGeneralBadge(@project, 'Tags', '', '', '', 'label label-success') %>
+	<p>Tag for this model are: 
+		<%= getBadgeForTags(@project, 'Tags', '', '', '', 'label label-success',(roles.include? 'Developer' or roles.include? 'Manager' or User.current.admin?)) %>
+		<%= javascript_tag 'jQuery(".delete_tag").click(function(){deleteTag("' + @project.identifier + '",$(this).attr("id")); return false;})' %>
 	</p>
 <% end %>
 		
 <% if roles.include? 'Developer' or roles.include? 'Manager' or User.current.admin? %>
-	<%= label_tag 'omv_title', 'Add new tag:', :class => "control-label" %>
-	<%= text_field_tag 'new_tag', '', :size => 40, :class =>'input-medium', :id=>'new_tag' %>
+	<%= label_tag 'omv_title', 'New tag', :class => "control-label" %>
+	<div class="controls">
+		<%= text_field_tag 'new_tag', '', :size => 40, :class =>'input-medium', :id=>'new_tag' %>
+	</div>	
 	<a href="#" id="add_new_tag"><icon class="icon-plus-sign"/></a>
 	<%= javascript_tag 'jQuery("#add_new_tag").click(function(){addNewTag("' + @project.identifier + '",$("#new_tag").val()); return false;})' %>
 	<% availableTags = getAvailableTags() %>
