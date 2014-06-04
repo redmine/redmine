@@ -1,14 +1,14 @@
 <div id="tagsContainer">
 
 <% if tags!=nil and tags!='' and tags!=[nil] %>
-	<p>Tag for this model are: 
+	<p>Tags: 
 		<%= getBadgeForTags(@project, 'Tags', '', '', '', 'label label-success',(roles.include? 'Developer' or roles.include? 'Manager' or User.current.admin?)) %>
 		<%= javascript_tag 'jQuery(".delete_tag").click(function(){deleteTag("' + @project.identifier + '",$(this).attr("id")); return false;})' %>
 	</p>
 <% end %>
 		
 <% if roles.include? 'Developer' or roles.include? 'Manager' or User.current.admin? %>
-	<%= label_tag 'omv_title', 'New tag', :class => "control-label" %>
+	<%= label_tag 'omv_title', 'Add a tag', :class => "control-label" %>
 	<div class="controls">
 		<%= text_field_tag 'new_tag', '', :size => 40, :class =>'input-medium', :id=>'new_tag' %>
 	</div>	
