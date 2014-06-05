@@ -113,7 +113,7 @@
 						
 							<% @repourl=getHttpRepositoryURL(@project) %>
 							
-							<% if(@repourl)%>
+							<% if(@repourl && @project.repository != nil)%>
 							<% @repopath=getHttpRepositoryPath(@project.repository) %>
 								
 								<% if not @networkfiles.empty? %>
