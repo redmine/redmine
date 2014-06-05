@@ -172,7 +172,7 @@ module ApplicationHelper
         label = (text != '') ? text: fieldValueItem
         tooltipLabel = (text != '') ? tooltip: fieldValueItem
         badge='<span class="tooltiplink ' + classes+ ' ' + align + ' ' + '" data-toggle="tooltip" data-placement="right" title="'+ tooltipLabel + '. Click here to see other models with same characteristics.">'+ label  +'</span>'
-        outputLink << create_link_to_search_by_custom_field(fieldId, fieldValueItem, badge)
+        outputLink << create_link_to_search_by_custom_field(fieldId, fieldValueItem, badge, '~')
         if allowEditing
           #TODO: Substitute space in fieldValueItem with underscore
           deleteBadgeIcon='<a href="#" id="' + fieldValueItem + '" class="delete_tag"><icon class="icon-minus-sign"/></a>'
@@ -453,8 +453,8 @@ module ApplicationHelper
     return @files
   end  
   
-  def create_link_to_search_by_custom_field(fieldId, fieldValue, label)
-    url = {:controller => 'search_custom_field', :f => [fieldId], :op => {fieldId=>'='}, :v => {fieldId=>[fieldValue]}}
+  def create_link_to_search_by_custom_field(fieldId, fieldValue, label, fieldOperator = '=')
+    url = {:controller => 'search_custom_field', :f => [fieldId], :op => {fieldId=>fieldOperator}, :v => {fieldId=>[fieldValue]}}
     return link_to(label.html_safe, url)
   end
   
@@ -1098,13 +1098,7 @@ module ApplicationHelper
   # Parse looking 
   def parse_repo_links(text, project, obj, attr, only_path, options)
     text.gsub!(/(github|bitbucket):([^\"]+\.(md|txt))/) do |m|
-      
-      
       repoName, filename, ext = $1, $2, $3
-      
-      print "taka"
-      print repoName, filename, ext
-      
       
       repourl=getHttpRepositoryURL(project)
       if repourl != ''
