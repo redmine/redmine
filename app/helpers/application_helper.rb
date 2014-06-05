@@ -1097,8 +1097,14 @@ module ApplicationHelper
   
   # Parse looking 
   def parse_repo_links(text, project, obj, attr, only_path, options)
-    text.gsub!(/(github|bitbucket):([^\/"]+\.(md|txt))/) do |m|
+    text.gsub!(/(github|bitbucket):([^\"]+\.(md|txt))/) do |m|
+      
+      
       repoName, filename, ext = $1, $2, $3
+      
+      print "taka"
+      print repoName, filename, ext
+      
       
       repourl=getHttpRepositoryURL(project)
       if repourl != ''
