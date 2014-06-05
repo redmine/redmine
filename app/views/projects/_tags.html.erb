@@ -1,7 +1,7 @@
 <div id="tagsContainer">
 
 <% if tags!=nil and tags!='' and tags!=[nil] %>
-	<p>Tags: 
+	<p class="lead">Tags: 
 		<%= getBadgeForTags(@project, 'Tags', '', '', '', 'label label-success',(roles.include? 'Developer' or roles.include? 'Manager' or User.current.admin?)) %>
 		<%= javascript_tag 'jQuery(".delete_tag").click(function(){deleteTag("' + @project.identifier + '",$(this).attr("id")); return false;})' %>
 	</p>

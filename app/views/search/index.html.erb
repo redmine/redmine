@@ -35,7 +35,7 @@
           <%= link_to(highlight_tokens(e.event_title.truncate(255), @tokens), e.event_url) %>
         </dt>
         <dd class="searchDD">
-        	<span class="description"><%= highlight_tokens(e.event_description, @tokens) %></span>
+        	<span class="description"><%= textilizable(highlight_tokens(e.event_description, @tokens), :project => p) %></span>
         	
         	<div>
 				<div><i>Project description:<%= textilizable(p.short_description_without_image, :project => p) %></i></div>

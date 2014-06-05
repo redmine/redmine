@@ -1510,10 +1510,17 @@ iframe {
 }
 
 /* TAGS */
-#references .control-label{
+#tagsContainer .control-label{
 	float: left;
+	margin-top: 5px;
 }
+
 #tagsContainer icon{
 	font-size: 14px;
+	margin-top: 7px;
+}
+
+#tagsContainer .lead{ 
+	color: #5a5a5a;
 }
 

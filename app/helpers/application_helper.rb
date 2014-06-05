@@ -395,7 +395,8 @@ module ApplicationHelper
       print "exportOptions"
       print exportOptions 
     end
-    return exportOptions
+#    return exportOptions
+    return Hash.new
   end  
   
   # Fetches updates from the remote repository
