@@ -1509,3 +1509,18 @@ iframe {
 	padding: 10px 0px 35px 5px;	
 }
 
+/* TAGS */
+#tagsContainer .control-label{
+	float: left;
+	margin-top: 5px;
+}
+
+#tagsContainer icon{
+	font-size: 14px;
+	margin-top: 7px;
+}
+
+#tagsContainer .lead{ 
+	color: #5a5a5a;
+}
+

@@ -21,6 +21,7 @@ require 'forwardable'
 require 'cgi'
 require 'open-uri'
 require 'yaml'
+require 'nokogiri'
 
 module ApplicationHelper
   include Redmine::WikiFormatting::Macros::Definitions
@@ -162,19 +163,29 @@ module ApplicationHelper
     end
   end
   
-  def getGeneralBadge(project, field, text, tooltip, align, classes)
+  def getBadgeForTags(project, field, text, tooltip, align, classes, allowEditing=false)
     fieldId, fieldValue = getCustomFieldAndId(project, field)
-    if field == 'Tag'
+    if field == 'Tags'
       outputLink = ''
       for fieldValueItem in fieldValue.split(',')
         #outputLink << ", " unless outputLink.length == 0
         label = (text != '') ? text: fieldValueItem
         tooltipLabel = (text != '') ? tooltip: fieldValueItem
-        badge='<span class="tooltiplink ' + classes+ ' ' + align + ' ' + '" data-toggle="tooltip" data-placement="right" title="'+ tooltipLabel + ' Click here to see other models with same characteristics.">'+ label  +'</span>'
-        outputLink << create_link_to_search_by_custom_field(fieldId, fieldValueItem, badge)
+        badge='<span class="tooltiplink ' + classes+ ' ' + align + ' ' + '" data-toggle="tooltip" data-placement="right" title="'+ tooltipLabel + '. Click here to see other models with same characteristics.">'+ label  +'</span>'
+        outputLink << create_link_to_search_by_custom_field(fieldId, fieldValueItem, badge, '~')
+        if allowEditing
+          #TODO: Substitute space in fieldValueItem with underscore
+          deleteBadgeIcon='<a href="#" id="' + fieldValueItem + '" class="delete_tag"><icon class="icon-minus-sign"/></a>'
+          outputLink << deleteBadgeIcon
+        end  
       end
       return outputLink.html_safe
-    end   
+    end
+  end  
+    
+      
+  def getGeneralBadge(project, field, text, tooltip, align, classes)
+    fieldId, fieldValue = getCustomFieldAndId(project, field)
     label = (text != '') ? text: fieldValueItem
     tooltipLabel = (text != '') ? tooltip: fieldValueItem
     badge='<span class="tooltiplink ' + classes+ ' ' + align + ' ' + '" data-toggle="tooltip" data-placement="right" title="'+ tooltipLabel + ' Click here to see other models with same characteristics.">' + label +'</span>'
@@ -306,20 +317,20 @@ module ApplicationHelper
     end
   end
      
-  def getHttpRepositoryURL()
-    if (@project.repository != nil and @project.repository.scm_name == 'Mercurial')
-      repo=getCustomField(@project,"Bitbucket repository")
+  def getHttpRepositoryURL(project)
+    if (project.repository != nil and project.repository.scm_name == 'Mercurial')
+      repo=getCustomField(project,"Bitbucket repository")
       if(repo!=nil)
         @repourl=repo.dup
         return @repourl 
       end      
     else
-      return getHttpGitURL()
+      return getHttpGitURL(project)
     end  
   end  
   
-  def getHttpGitURL()
-    repo=getCustomField(@project,"GitHub repository")
+  def getHttpGitURL(project)
+    repo=getCustomField(project,"GitHub repository")
     if(repo!=nil)
       @repourl=repo.dup
       if @repourl.starts_with?"git:"
@@ -357,31 +368,35 @@ module ApplicationHelper
   end
   
   def getExportFunctions(repository)
-    availableExportOptions = ['Matlab', 'C']
+    availableExportOptions = ['Matlab', 'C', 'LEMS']
     exportOptions = Hash.new
     omtFiles = getFilesWithExt(repository, ".omt")
-    repourl=getHttpRepositoryURL()
-    repopath=getHttpRepositoryPath(@project.repository)
+    
+    print "omtFiles", omtFiles
+    
     for omtFile in omtFiles 
+      repourl=getHttpRepositoryURL(@project)
+      repopath=getHttpRepositoryPath(@project.repository)
       omtFilePath = repourl + repopath + omtFile
       omtFileContent = YAML::load(open(omtFilePath).read)
       engines = omtFileContent["engine"].split(',')
       #engines = "LEMS/Matlab, LEMS/C".strip.split(',')
-      for engine in engines
-        engineFormats = engine.strip.split('/')
-        if (engineFormats.length > 1 and availableExportOptions.include? engineFormats[1])
+      for engineFormat in engines
+#        engineFormats = engine.strip.split('/')
+#        if (engineFormats.length > 1 and availableExportOptions.include? engineFormats[1])
           targetFiles = []
-          if exportOptions.has_key?(engineFormats[1].strip)
-            targetFiles = exportOptions[engineFormats[1].strip]  
+          if exportOptions.has_key?(engineFormat.strip)
+            targetFiles = exportOptions[engineFormat.strip]  
           end   
           targetFiles << omtFileContent["target"]
-          exportOptions[engineFormats[1].strip] = targetFiles 
-        end  
+          exportOptions[engineFormat] = targetFiles 
+#        end    
       end    
       print "exportOptions"
       print exportOptions 
     end
-    return exportOptions
+#    return exportOptions
+    return Hash.new
   end  
   
   # Fetches updates from the remote repository
@@ -439,8 +454,8 @@ module ApplicationHelper
     return @files
   end  
   
-  def create_link_to_search_by_custom_field(fieldId, fieldValue, label)
-    url = {:controller => 'search_custom_field', :f => [fieldId], :op => {fieldId=>'='}, :v => {fieldId=>[fieldValue]}}
+  def create_link_to_search_by_custom_field(fieldId, fieldValue, label, fieldOperator = '=')
+    url = {:controller => 'search_custom_field', :f => [fieldId], :op => {fieldId=>fieldOperator}, :v => {fieldId=>[fieldValue]}}
     return link_to(label.html_safe, url)
   end
   
@@ -1010,9 +1025,10 @@ module ApplicationHelper
     @heading_anchors = {}
     @current_section = 0 if options[:edit_section_links]
 
+    @bibliography = [] 
     parse_sections(text, project, obj, attr, only_path, options)
     text = parse_non_pre_blocks(text, obj, macros) do |text|
-      [:parse_inline_attachments, :parse_wiki_links, :parse_redmine_links].each do |method_name|
+      [:parse_inline_attachments, :parse_wiki_links, :parse_redmine_links, :parse_osb_links, :parse_repo_links].each do |method_name|
         send method_name, text, project, obj, attr, only_path, options
       end
     end
@@ -1078,7 +1094,77 @@ module ApplicationHelper
       end
     end
   end
-
+  
+  
+  # Parse looking 
+  def parse_repo_links(text, project, obj, attr, only_path, options)
+    text.gsub!(/(github|bitbucket):([^\"]+\.(md|txt))/) do |m|
+      repoName, filename, ext = $1, $2, $3
+      
+      repourl=getHttpRepositoryURL(project)
+      if repourl != ''
+        repopath=getHttpRepositoryPath(project.repository)
+        readmeFilePath = repourl + repopath + filename
+        begin
+          textilizable(open(readmeFilePath).read)
+        rescue => e
+          m
+        end
+      else  
+         m
+      end  
+    end
+  end  
+    
+  def parse_osb_links(text, project, obj, attr, only_path, options)  
+    text.gsub!(%r{([\s\(,\-\[\>]|^)(!)?(([a-z0-9\-_]+):)?(osbDoc|pubmed)?(((#)|((([a-z0-9\-_]+)\|)?(r)))((\d+)((#note)?-(\d+))?)|(:)([^"\s<>][^\s<>]*?|"[^"]+?"))(?=(?=[[:punct:]][^A-Za-z0-9_/])|,|\s|\]|<|$)}) do |m|
+      leading, esc, project_prefix, project_identifier, prefix, repo_prefix, repo_identifier, sep, identifier, comment_suffix, comment_id = $1, $2, $3, $4, $5, $10, $11, $8 || $12 || $18, $14 || $19, $15, $17
+      link = nil
+      if esc.nil?
+        if sep == ':'
+          # removes the double quotes if any
+          name = identifier.gsub(%r{^"(.*)"$}, "\\1")
+          case prefix
+          when 'osbDoc'
+            print "osbDoc", name
+#                if project && document = project.documents.visible.find_by_title(name)
+#                  link = link_to h(document.title), {:only_path => only_path, :controller => 'documents', :action => 'show', :id => document},
+#                                                    :class => 'document'
+#                end
+          when 'pubmed'
+            summaryUrlBase = "http://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&retmode=xml&id=#{name}"
+            uri = URI.parse(summaryUrlBase)
+            response = Net::HTTP.get_response(uri)  
+            if response.code_type.to_s == "Net::HTTPOK"
+              parsedDoc = Nokogiri::XML(response.body)
+              parsedDoc = parsedDoc.css("eSummaryResult DocSum")
+         
+              parsedDoc.each do |pd|
+                doc = {}
+                doc[:title] =pd.css("Item[Name=Title]")[0].text
+                doc[:id] = pd.at_css("Item[Name=ArticleIds] Item[Name=pubmed]").text
+                doc[:date] =pd.css("Item[Name=PubDate]")[0].text
+                doc[:source] =pd.css("Item[Name=FullJournalName]")[0].text
+                doc[:url] = "http://www.ncbi.nlm.nih.gov/pubmed/#{doc[:id]}"
+                doc[:db] = "pubmed"
+         
+                doc[:authors] = []
+                pd.css("Item[Name=AuthorList] Item[Name=Author]").each do |author|
+                  doc[:authors] << author.text
+                end
+                
+                @bibliography << doc  
+                
+                link = link_to (doc[:authors][0] + " et al " +  doc[:date].split[0]), doc[:url], { :title => doc[:title] } 
+              end  
+            end
+          end  
+        end
+      end
+      (leading + (link || "#{project_prefix}#{prefix}#{repo_prefix}#{sep}#{identifier}#{comment_suffix}"))
+    end
+  end
+    
   # Wiki links
   #
   # Examples:

@@ -19,6 +19,7 @@ RedmineApp::Application.routes.draw do
   root :to => 'welcome#index', :as => 'home'
 
   ## OSB specific
+  match 'help', :to => 'help#index'
   match 'about', :to => 'about#index'
   match 'guides', :to => 'guides#index'
   match 'themes', :to => 'themes#index'
@@ -29,6 +30,9 @@ RedmineApp::Application.routes.draw do
   match 'projects/groups', :to => 'projects#groups'
   match 'projects/people', :to => 'projects#people'
   match 'projects/informationOSB', :to => 'projects#informationOSB'
+  match 'projects/:id/addTag', :to => 'projects#addTag'
+  match 'projects/:id/removeTag', :to => 'projects#removeTag'
+  
   #match 'searchOSB/tag', :to => 'searchOSB#tag'
   match 'search_custom_field', :to => 'search_custom_field#index' 
 

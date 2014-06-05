@@ -16,7 +16,6 @@ $(document).ready(function(){
 });
 <% end %>
 
-
 <table style="width:100%">
 	<tr>
 		<td>
@@ -24,9 +23,11 @@ $(document).ready(function(){
 			</table>
 		</td>
 		<td class="add-filter pull-right">
+			<%= label_tag('add_filter_select', l(:label_filter_add)) %>
 			<%= select_tag 'add_filter_select', options_for_select(get_options(query)), :name => nil %>
 		</td>
 	</tr>
 </table>
+
 <%= hidden_field_tag 'f[]', '' %>
 <% include_calendar_headers_tags %>

@@ -18,6 +18,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 require 'open-uri'
+require 'yaml'
 
 module ProjectsHelper
   include ThemesHelper
@@ -75,24 +76,21 @@ module ProjectsHelper
       s
     end
   end
-
-  def getProjectDescription()
-    if @project.description != nil && @project.description == 'github:README.md'
-      repourl=getHttpRepositoryURL()
-      if repourl != ''
-        repopath=getHttpRepositoryPath(@project.repository)
-        readmeFilePath = repourl + repopath + "README.md"
-        begin
-          return textilizable(open(readmeFilePath).read)
-        rescue => e
-          return ''
-        end  
-      end   
-    else  
-      return textilizable(@project.description)
-    end  
-  end  
   
+  def getAvailableTags()
+    tagsContent = YAML::load(File.open("#{Rails.root}/config/tags.yml"))
+    if tagsContent != false
+      tagsContent = tagsContent.keys.sort {|a, b| tagsContent[b] <=> tagsContent[a]}
+        
+      projectsTags = getCustomField(@project, 'Tags')
+      if projectsTags!=nil and projectsTags!='' and projectsTags!=[nil] 
+          tagsContent = tagsContent - projectsTags.split(",")   
+      end  
+      return tagsContent
+    end
+    return ''
+  end  
+ 
   #MC - probably there's a more elegant way to do this, not a Ruby expert
   def addNode(t,c1,c2,c3,c4,c5,dname,link,category)
     if category == 'Project'
