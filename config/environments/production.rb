@@ -5,7 +5,8 @@ RedmineApp::Application.configure do
   config.cache_classes = true
 
   #####
-  # Customize the default logger (http://ruby-doc.org/core/classes/Logger.html)
+  # Customize the default logger
+  # http://www.ruby-doc.org/stdlib-1.8.7/libdoc/logger/rdoc/Logger.html
   #
   # Use a different logger for distributed setups
   # config.logger        = SyslogLogger.new
