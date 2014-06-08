@@ -291,10 +291,16 @@ class AttachmentsControllerTest < ActionController::TestCase
     def test_thumbnail
       Attachment.clear_thumbnails
       @request.session[:user_id] = 2
-
       get :thumbnail, :id => 16
       assert_response :success
       assert_equal 'image/png', response.content_type
+
+      etag = @response.etag
+      assert_not_nil etag
+
+      @request.env["HTTP_IF_NONE_MATCH"] = etag
+      get :thumbnail, :id => 16
+      assert_response 304
     end
 
     def test_thumbnail_should_not_exceed_maximum_size
