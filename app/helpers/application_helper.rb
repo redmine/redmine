@@ -1155,7 +1155,7 @@ module ApplicationHelper
                 
                 @bibliography << doc  
                 
-                link = link_to (doc[:authors][0] + " et al " +  doc[:date].split[0]), doc[:url], { :title => doc[:title] } 
+                link = link_to (doc[:authors][0] + " et al " +  doc[:date].split[0]), doc[:url], { :title => doc[:title], :class => 'external' } 
               end  
             end
           end  

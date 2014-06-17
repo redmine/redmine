@@ -623,6 +623,14 @@ function toggleDisabledOnChange() {
 function toggleDisabledInit() {
   $('input[data-disables], input[data-enables]').each(toggleDisabledOnChange);
 }
+
+//Open wiki links in a different tab
+function addTargetExternalLinks() {
+	$('a.external:not([href*="http://opensourcebrain.org"],[href*="www.opensourcebrain.org"])').each(function() {
+		$(this).attr('target','_blank');
+	});
+}
+
 $(document).ready(function(){
   $('#content').on('change', 'input[data-disables], input[data-enables]', toggleDisabledOnChange);
   toggleDisabledInit();
@@ -632,4 +640,5 @@ $(document).ready(setupAjaxIndicator);
 $(document).ready(hideOnLoad);
 $(document).ready(addFormObserversForDoubleSubmit);
 $(document).ready(defaultFocus);
+$(document).ready(addTargetExternalLinks);
 
