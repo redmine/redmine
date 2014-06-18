@@ -1143,10 +1143,14 @@ module ApplicationHelper
                 doc = {}
                 doc[:title] =pd.css("Item[Name=Title]")[0].text
                 doc[:id] = pd.at_css("Item[Name=ArticleIds] Item[Name=pubmed]").text
-                doc[:date] =pd.css("Item[Name=PubDate]")[0].text
-                doc[:source] =pd.css("Item[Name=FullJournalName]")[0].text
+                doc[:date] = pd.css("Item[Name=PubDate]")[0].text
+                doc[:source] = pd.css("Item[Name=FullJournalName]")[0].text
                 doc[:url] = "http://www.ncbi.nlm.nih.gov/pubmed/#{doc[:id]}"
                 doc[:db] = "pubmed"
+                
+                doc[:volume] = pd.css("Item[Name=Volume]")[0].text
+                doc[:issue] = pd.css("Item[Name=Issue]")[0].text
+                doc[:pages] = pd.css("Item[Name=Pages]")[0].text
          
                 doc[:authors] = []
                 pd.css("Item[Name=AuthorList] Item[Name=Author]").each do |author|

@@ -105,22 +105,23 @@
 </div>
 <% end %>
 
+<% unless @bibliography.empty? %>
+
 <div id="bibliography" style="border-top: 1px solid;">
 	<h4>Bibliography</h4>
 	
 	<% @bibliography.each do |bibliographyItem| %>
 		<div style="margin-bottom: 15px;">
-			<%= bibliographyItem[:source] %>, <%= bibliographyItem[:date] %><br> 
-			<b><%= link_to bibliographyItem[:title], bibliographyItem[:url] %></b><br>
-			<i>
-				<% bibliographyItem[:authors].each do |author| %>
-				<%= author %> ,
-				<% end %>
-			</i>
+			<% bibliographyItem[:authors].each_with_index do |author, i| %>
+			<%= author %>
+				<% if i == (bibliographyItem[:authors].length - 2) %> and
+				<% else %>,<% end %> 
+			<% end %>
+			<i><%= link_to bibliographyItem[:title], bibliographyItem[:url] %></i> <%= bibliographyItem[:source] %>, <%= bibliographyItem[:date] %>, <%= bibliographyItem[:volume] %>(<%= bibliographyItem[:issue] %>): <%= bibliographyItem[:pages] %> 
 		</div>	
 	<% end %>	
 </div>
-
+<% end %>
 
 <% content_for :sidebar do %>
   <%= render :partial => 'sidebar' %>
