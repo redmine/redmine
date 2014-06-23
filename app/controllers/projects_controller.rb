@@ -75,9 +75,10 @@ class ProjectsController < ApplicationController
       }
     end
 
-    @modelProjects=[]
-    @showcaseProjects=[]
-    @galleryImages=[]
+    @modelProjects = []
+    @showcaseProjects = []
+    @galleryImages = []
+    @tagsDict = Hash.new  
     for p in @projects
       if isEndorsed?(p)
         projectDescription = p.description
@@ -94,9 +95,20 @@ class ProjectsController < ApplicationController
         elsif category=='Showcase'
           @showcaseProjects.push(p)
         end
+        
+        tags=getCustomField(p,'Tags')
+        unless tags.nil?
+          for tag in tags.split(",")
+            ocurrences = 1
+            if @tagsDict.has_key?(tag)
+              ocurrences = @tagsDict[tag] + 1
+            end
+            @tagsDict[tag]=ocurrences
+          end
+        end  
       end
     end
-
+    
     render :layout => false
   end
 

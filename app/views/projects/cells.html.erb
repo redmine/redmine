@@ -4,6 +4,7 @@
   			<button class="btn btn-large active" href="#graph" id="graphLink" data-toggle="tab"><icon class="icon-circle-blank"></icon> Graph view</button>
   			<button class="btn btn-large" href="#listcells" id="listcellsLink" data-toggle="tab"><icon class="icon-th-list"></icon> List view</button>
   			<button class="btn btn-large" href="#gallery" id="galleryLink" data-toggle="tab"><icon class="icon-th-large"></icon> Gallery view</button>
+  			<button class="btn btn-large" href="#tags" id="tagsLink" data-toggle="tab"><icon class="icon-cloud"></icon> Tags view</button>
 		</div>
 		<br/><br/><br/>
 	</div>
@@ -71,6 +72,20 @@
 		            <a data-slide="next" href="#myCarousel" class="carousel-control right">›</a>
 		        </div>
 		    </div>
+		</div>	
+		
+		<div class="tab-pane row-fluid" id="tags" style="height:500px;width:800px;">
+			<!-- Only display if html5/tagcanvas is not supported -->
+			<div id="tagsNotSupported" class="alert" style="display:none">
+			  <button type="button" class="close" data-dismiss="alert">&times;</button>
+			  <strong>Warning!</strong> Graph visualisation is not compatible with Internet Explorer. <br/> Please switch to <a href="https://www.google.com/intl/en/chrome/browser/" target="_blank">Google Chrome</a>	or <a href="http://www.mozilla.org/en-US/firefox/new/" target="_blank">Mozilla Firefox</a> for the tree view.
+			</div>
+			
+	    	<canvas width="850" height="500" id="tagCanvas">
+	    		<% @tagsDict.each do |tag, ocurrence| %> 
+				  <%= link_to(tag, {:controller => 'search_custom_field', :f => [43], :op => {43=>'~'}, :v => {43=>[tag]}}, {:style => "font-size: #{ocurrence+8}pt" }) %>
+	    		<% end %>
+			 </canvas>
 		</div>		    		
 	</div>
 </div>
@@ -79,6 +94,7 @@
 <% if !(request.env["HTTP_USER_AGENT"] =~ /MSIE/)%>
 	<%= javascript_include_tag('projectstree.js') %>
 <% end %>
+<%= javascript_include_tag('jquery.tagcanvas.min.js') %>
 
 <script>
 
@@ -103,7 +119,7 @@ jQuery(function()
 	setupFilter('#cellsfilter', '#cellslist');
 	
 	//If any tab is requested in the url, redirect to the proper tab
-	var subTabCellsList =['graph', 'listcells', 'gallery']
+	var subTabCellsList =['graph', 'listcells', 'gallery', 'tags']
 	
 	var a = location.href.split("#");
 	if ( a.length > 1 && subTabCellsList.indexOf(a[1]) > -1){
@@ -115,6 +131,22 @@ jQuery(function()
 	  pause: true,
 	  interval: false
     });
+    
+    //Init tags for tags view
+    if( ! $('#tagCanvas').tagcanvas({
+    	textColour: '#000000',
+     	// outlineThickness : 1,
+     	outlineColour: '#37abc8',
+     	outlineMethod: 'colour',
+     	maxSpeed: 0.02,
+     	depth: 0.75,
+     	weight: true
+     	// weightMode: 'both',
+   	})) {
+	    // TagCanvas failed to load
+	    $('#tagCanvas').hide();
+	    $('#tagsNotSupported').show();
+   	}
 })
 </script>
 
