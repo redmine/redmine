@@ -1524,3 +1524,22 @@ iframe {
 	color: #5a5a5a;
 }
 
+/* HELP */
+#project_overview_sections h3, #project_overview_sections h4, #project_overview_sections h5{
+	color: #5a5a5a;	
+}
+
+#docContainer section:first-child{
+	padding-top: 10px;
+}
+
+#helpTitle{
+	width: 100%;
+	text-align: right;
+	margin-bottom: 0px;
+}
+#helpIcon {
+	font-size: 35px;
+	vertical-align: middle;
+	padding-left: 15px;
+}

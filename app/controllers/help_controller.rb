@@ -20,12 +20,14 @@ require 'open-uri'
 class HelpController < ApplicationController
   include ApplicationHelper
   def index
+    @path = params[:path] || 'Help'  
+          
 #    docRepoUrl = 'https://github.com/OpenSourceBrain/OSB_Documentation'
-    docRepoFolder = '/home/adrian/code/osb-code/OSB_Documentation/doc/*'
+    docRepoFolder = '/home/adrian/code/osb-code/OSB_Documentation/' + @path + '/*'
     
 #   Read files in dir
     filesAndDirDoc = Dir[docRepoFolder]
-    dirsDoc = Dir['/home/adrian/code/osb-code/OSB_Documentation/doc/*/']
+    dirsDoc = Dir[docRepoFolder + '/']
     @filesDoc = filesAndDirDoc
     dirsDoc.each do |dirDoc|
       @filesDoc.delete(dirDoc[0..-2])
@@ -41,19 +43,6 @@ class HelpController < ApplicationController
 #    end
 
           
-#    OLD stuff
-#    @news = News.latest User.current
-#    @projects = Project.latest User.current
-#
-#    @groups = Group.find(:all, :order => 'lastname')
-#    @allprojects=[]
-#    Project.all.each do |project|
-#      if isProjectOrShowcase(project)
-#        @allprojects << project
-#      end
-#    end
-
-#    @allusers = User.find(:all)
   end
   
 end

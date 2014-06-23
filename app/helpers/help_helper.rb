@@ -20,8 +20,15 @@
 module HelpHelper
   include ApplicationHelper
 
-  def customiseTitleForHelp(fileDoc)
-    File.basename(fileDoc, ".md")[3..-1].gsub('_',' ').split.map(&:capitalize).join(' ')
+  def customiseTitle(fileDoc, removeOrderPrefix = false)
+    fileName = File.basename(fileDoc, ".md")
+    if removeOrderPrefix
+      fileName = fileName[3..-1]
+    end
+    return fileName.gsub('_',' ')
   end
-
+  
+  def getDivId(fileDoc)
+    File.basename(fileDoc, ".md")[3..-1]
+  end  
 end
