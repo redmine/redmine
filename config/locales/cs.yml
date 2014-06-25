@@ -1115,6 +1115,6 @@ cs:
     users
   label_custom_field_select_type: Vybrat typ objektu, ke kterému bude přiřazeno uživatelské pole
   label_issue_assigned_to_updated: Přiřazený uživatel aktualizován
-  label_check_for_updates: Check for updates
-  label_latest_compatible_version: Latest compatible version
-  label_unknown_plugin: Unknown plugin
+  label_check_for_updates: Zkontroluj aktualizace
+  label_latest_compatible_version: Poslední kompatibilní verze
+  label_unknown_plugin: Nezámý plugin
