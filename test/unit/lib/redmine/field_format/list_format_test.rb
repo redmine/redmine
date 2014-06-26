@@ -116,6 +116,18 @@ class Redmine::ListFieldFormatTest < ActionView::TestCase
     end
   end
 
+  def test_edit_tag_with_check_box_style_and_multiple_values_should_contain_hidden_field_to_clear_value
+    field = IssueCustomField.new(:field_format => 'list', :possible_values => ['Foo', 'Bar'], :is_required => false,
+      :edit_tag_style => 'check_box', :multiple => true)
+    value = CustomFieldValue.new(:custom_field => field, :customized => Issue.new)
+
+    tag = field.format.edit_tag(self, 'id', 'name', value)
+    assert_select_in tag, 'span' do
+      assert_select 'input[type=checkbox]', 2
+      assert_select 'input[type=hidden]', 1
+    end
+  end
+
   def test_field_with_url_pattern_should_link_value
     field = IssueCustomField.new(:field_format => 'list', :url_pattern => 'http://localhost/%value%')
     formatted = field.format.formatted_value(self, field, 'foo', Issue.new, true)
