@@ -605,7 +605,7 @@ ja:
   label_total: 合計
   label_permissions: 権限
   label_current_status: 現在のステータス
-  label_new_statuses_allowed: ステータスの移行先
+  label_new_statuses_allowed: 遷移できるステータス
   label_all: すべて
   label_none: なし
   label_nobody: 無記名
