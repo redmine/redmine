@@ -67,6 +67,7 @@ class MailHandlerTest < ActiveSupport::TestCase
     # Email notification should be sent
     mail = ActionMailer::Base.deliveries.last
     assert_not_nil mail
+    assert mail.subject.include?("##{issue.id}")
     assert mail.subject.include?('New ticket on a given project')
   end
 
