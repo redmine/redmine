@@ -15,7 +15,7 @@
 		<div class="tab-content">
 			<div class="tab-pane active" id="cells">
 				<div style="text-align:center;">
-					<icon class="icon-spinner icon-spin pagination-centered" style="font-size:70pt!important;color: #37abc8;margin: 0 auto;margin-top: 50px;"></icon>
+					<img src="/images/logo/osbcircle.png" class="icon-spin pagination-centered loading-image">
 					<br/>
 					<br/>
 					<p>
@@ -27,7 +27,7 @@
 	        <!-- This begins the technology section -->
 	        <div class="tab-pane" id="technology">
 				<div style="text-align:center;">
-					<icon class="icon-spinner icon-spin pagination-centered" style="font-size:70pt!important;color: #37abc8;margin: 0 auto;margin-top: 50px;"></icon>
+					<img src="/images/logo/osbcircle.png" class="icon-spin pagination-centered loading-image">
 					<br/>
 					<br/>
 					<p>
@@ -38,18 +38,18 @@
 	        <!-- This begins the research groups section -->
 	        <div class="tab-pane" id="groups">
 	        	<div style="text-align:center;">
-					<icon class="icon-spinner icon-spin pagination-centered" style="font-size:70pt!important;color: #37abc8;margin: 0 auto;margin-top: 50px;"></icon>
+					<img src="/images/logo/osbcircle.png" class="icon-spin pagination-centered loading-image">
 					<br/>
 					<br/>
 					<p>
 					Please be patient, the information is being retrieved from the OSB database.
 					</p>
-				</div>   		
+				</div>  		
 	        </div>
 			<!-- This begins the people section -->
 	        <div class="tab-pane" id="people">
 	        	<div style="text-align:center;">
-					<icon class="icon-spinner icon-spin pagination-centered" style="font-size:70pt!important;color: #37abc8;margin: 0 auto;margin-top: 50px;"></icon>
+					<img src="/images/logo/osbcircle.png" class="icon-spin pagination-centered loading-image">
 					<br/>
 					<br/>
 					<p>
@@ -60,13 +60,13 @@
 	        <!-- This begins the information on osb section -->
 	        <div class="tab-pane" id="informationOSB" class="span9">
         		<div style="text-align:center;">
-					<icon class="icon-spinner icon-spin pagination-centered" style="font-size:70pt!important;color: #37abc8;margin: 0 auto;margin-top: 50px;"></icon>
+					<img src="/images/logo/osbcircle.png" class="icon-spin pagination-centered loading-image">
 					<br/>
 					<br/>
 					<p>
 					Please be patient, the information is being retrieved from the OSB database.
 					</p>
-				</div>    
+				</div>   
 	        </div>
 	        <!-- This begins the osb announce -->
 	        <div class="tab-pane" id="announceOSB" class="span9" style="height: 850px">
@@ -131,7 +131,6 @@ jQuery(function()
 	    cache: false,
 	    success: function(html){
 	      $("#"+selectedTab).html(html);
-	      
 	      
 	      for (var i=0; i < tabList.length; i++) {
 			if (tabList[i] != selectedTab){

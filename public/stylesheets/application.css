@@ -769,7 +769,11 @@ section p {
 	background-color: #37abc8;
 }
 
-
+.loading-image{
+	width:100px;
+	margin-top: 50px;
+	margin: 0 auto;
+}
 
 .btn-success {
 	color: #ffffff;
