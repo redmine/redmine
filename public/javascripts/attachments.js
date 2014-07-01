@@ -131,7 +131,7 @@ function addInputFiles(inputEl) {
     }
   }
 
-  clearedFileInput.insertAfter('#attachments_fields');
+  clearedFileInput.insertAfter('#attachments_fields').on('change', function(){addInputFiles(this);});
 }
 
 function uploadAndAttachFiles(files, inputEl) {
