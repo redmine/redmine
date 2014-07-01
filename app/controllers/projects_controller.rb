@@ -20,8 +20,8 @@ class ProjectsController < ApplicationController
   menu_item :roadmap, :only => :roadmap
   menu_item :settings, :only => :settings
 
-  before_filter :find_project, :except => [ :index, :list, :new, :create, :copy, :cells, :technology, :groups, :people, :informationOSB]
-  before_filter :authorize, :except => [ :index, :list, :new, :create, :copy, :archive, :unarchive, :destroy, :cells, :technology, :groups, :people, :informationOSB, :addTag, :removeTag]
+  before_filter :find_project, :except => [ :index, :list, :new, :create, :copy, :cells_graph, :cells_list, :cells_gallery, :cells_tags, :technology, :groups, :people, :informationOSB]
+  before_filter :authorize, :except => [ :index, :list, :new, :create, :copy, :archive, :unarchive, :destroy, :cells_graph, :cells_list, :cells_gallery, :cells_tags, :technology, :groups, :people, :informationOSB, :addTag, :removeTag]
   before_filter :authorize_global, :only => [:new, :create]
   before_filter :require_admin, :only => [ :copy, :archive, :unarchive, :destroy ]
   accept_rss_auth :index
@@ -63,8 +63,45 @@ class ProjectsController < ApplicationController
     end
   end
 
-  # Lists visible projects
-  def cells
+  def cells_graph
+      respond_to do |format|
+        format.html {
+          scope = Project
+          unless params[:closed]
+            scope = scope.active
+          end
+          @projects = scope.visible.order('lft').all
+        }
+      end
+
+      render :layout => false
+  end
+  
+  def cells_list
+    respond_to do |format|
+      format.html {
+        scope = Project
+        unless params[:closed]
+          scope = scope.active
+        end
+        @projects = scope.visible.order('lft').all
+      }
+    end
+    
+    @modelProjects = []
+    for p in @projects
+      if isEndorsed?(p)
+        category=getCustomField(p,'Category')
+        if category=='Project'
+          @modelProjects.push(p)
+        end
+      end
+    end
+    
+    render :layout => false
+  end
+  
+  def cells_gallery
     respond_to do |format|
       format.html {
         scope = Project
@@ -75,10 +112,7 @@ class ProjectsController < ApplicationController
       }
     end
 
-    @modelProjects = []
-    @showcaseProjects = []
     @galleryImages = []
-    @tagsDict = Hash.new  
     for p in @projects
       if isEndorsed?(p)
         projectDescription = p.description
@@ -89,13 +123,27 @@ class ProjectsController < ApplicationController
         if (firstLine.start_with?("![]"))
           @galleryImages.push({:image => firstLine, :project => p})
         end
-        category=getCustomField(p,'Category')
-        if category=='Project'
-          @modelProjects.push(p)
-        elsif category=='Showcase'
-          @showcaseProjects.push(p)
+      end
+    end
+    
+    render :layout => false
+  end  
+    
+  def cells_tags
+    respond_to do |format|
+      format.html {
+        scope = Project
+        unless params[:closed]
+          scope = scope.active
         end
-        
+        @projects = scope.visible.order('lft').all
+      }
+    end
+
+    @tagsDict = Hash.new  
+    for p in @projects
+      if isEndorsed?(p)
+       
         tags=getCustomField(p,'Tags')
         unless tags.nil?
           for tag in tags.split(",")
@@ -110,7 +158,71 @@ class ProjectsController < ApplicationController
     end
     
     render :layout => false
-  end
+  end 
+  
+  # Lists visible projects
+#  def cells
+#    time1 = Time.now
+#    
+#    respond_to do |format|
+#      format.html {
+#        scope = Project
+#        unless params[:closed]
+#          scope = scope.active
+#        end
+#        @projects = scope.visible.order('lft').all
+#      }
+#    end
+#
+#    @modelProjects = []
+##    @showcaseProjects = []
+#    @galleryImages = []
+#    @tagsDict = Hash.new  
+#    for p in @projects
+#      if isEndorsed?(p)
+#        projectDescription = p.description
+#        firstLine = projectDescription.lines.first.chomp
+#        #This is for textile
+#        #if (firstLine.start_with?("!") and firstLine.end_with?("!"))
+#        #This is for markdown
+#        if (firstLine.start_with?("![]"))
+#          @galleryImages.push({:image => firstLine, :project => p})
+#        end
+#        category=getCustomField(p,'Category')
+#        if category=='Project'
+#          @modelProjects.push(p)
+##        elsif category=='Showcase'
+##          @showcaseProjects.push(p)
+#        end
+#        
+#        tags=getCustomField(p,'Tags')
+#        unless tags.nil?
+#          for tag in tags.split(",")
+#            ocurrences = 1
+#            if @tagsDict.has_key?(tag)
+#              ocurrences = @tagsDict[tag] + 1
+#            end
+#            @tagsDict[tag]=ocurrences
+#          end
+#        end  
+#      end
+#    end
+#    
+#    time2 = Time.now
+#    render :layout => false
+#    time3 = Time.now
+#    
+#    dif1 = (time2 - time1) * 1000
+#    dif2 = (time3 - time2) * 1000
+#    
+#    open("#{Rails.root}/config/times.yml", 'a') { |f|
+#      f.puts time1
+#      f.puts time2
+#      f.puts time3
+#      f.puts dif1
+#      f.puts dif2
+#    }
+#  end
 
   # Lists groups
   def groups

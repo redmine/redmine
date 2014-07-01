@@ -25,11 +25,16 @@ RedmineApp::Application.routes.draw do
   match 'themes', :to => 'themes#index'
   match 'status', :to => 'status#index'
   match 'projects/adminnew', :to => 'projects#adminnew', :via => :post
-  match 'projects/cells', :to => 'projects#cells'
+  
+  match 'projects/cells_graph', :to => 'projects#cells_graph'
+  match 'projects/cells_list', :to => 'projects#cells_list'
+  match 'projects/cells_gallery', :to => 'projects#cells_gallery'
+  match 'projects/cells_tags', :to => 'projects#cells_tags'
   match 'projects/technology', :to => 'projects#technology'
   match 'projects/groups', :to => 'projects#groups'
   match 'projects/people', :to => 'projects#people'
   match 'projects/informationOSB', :to => 'projects#informationOSB'
+  
   match 'projects/:id/addTag', :to => 'projects#addTag'
   match 'projects/:id/removeTag', :to => 'projects#removeTag'
   

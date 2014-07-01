@@ -1,0 +1,36 @@
+<div class="carousel slide" id="myCarousel">
+    <div class="carousel-inner">
+		<% @galleryImages.each_with_index do |galleryImage, index| %>
+			<div class="item <% if index == 0 %>active<% end %>">
+                <div class="bannerImage">
+                    <a href="#"><%= textilizable(galleryImage[:image]) %></a>
+                </div>
+                <div class="caption row-fluid">
+                    <div class="span4">
+                    	<h3><a href="<%= url_for({:controller => 'projects', :action => 'show', :id => galleryImage[:project]}) %>"><%= galleryImage[:project].name %></a></h3>
+                    </div>
+                	<div class="span8">
+                		<p><%= textilizable(galleryImage[:project].description, :project => galleryImage[:project]) %></p>
+                	</div>
+                </div>
+            </div>
+		<% end %>
+    </div>
+
+    <div class="control-box">                            
+        <a data-slide="prev" href="#myCarousel" class="carousel-control left">‹</a>
+        <a data-slide="next" href="#myCarousel" class="carousel-control right">›</a>
+    </div>
+</div>
+
+<script>
+jQuery(function()
+{
+	//Init carousel for gallery view 
+	$('#myCarousel').carousel({
+	  pause: true,
+	  interval: false
+	});
+})
+</script>
+

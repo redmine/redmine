@@ -14,13 +14,63 @@
 		<!-- This begins the cells and network section -->
 		<div class="tab-content">
 			<div class="tab-pane active" id="cells">
-				<div style="text-align:center;">
-					<img src="/images/logo/osbcircle.png" class="icon-spin pagination-centered loading-image">
-					<br/>
-					<br/>
-					<p>
-					Please be patient, the information is being retrieved from the OSB database.
-					</p>
+				<div class="tabbable">
+					<div class="row pagination-centered">
+						<div id="view-tab" class="btn-group" data-toggle="buttons-radio">
+				  			<button class="btn btn-large active" href="#cells_graph" id="cells_graphLink" data-toggle="tab"><icon class="icon-circle-blank"></icon> Graph view</button>
+				  			<button class="btn btn-large" href="#cells_list" id="cells_listLink" data-toggle="tab"><icon class="icon-th-list"></icon> List view</button>
+				  			<button class="btn btn-large" href="#cells_gallery" id="cells_galleryLink" data-toggle="tab"><icon class="icon-th-large"></icon> Gallery view</button>
+				  			<button class="btn btn-large" href="#cells_tags" id="cells_tagsLink" data-toggle="tab"><icon class="icon-cloud"></icon> Tags view</button>
+						</div>
+						<br/><br/><br/>
+					</div>
+					<!-- This begins the graph or list section -->
+					<div class="tab-content" id="cells">
+
+					    <div class="tab-pane active" id="cells_graph">
+					    	<div style="text-align:center;">
+								<img src="/images/logo/osbcircle.png" class="icon-spin pagination-centered loading-image">
+								<br/>
+								<br/>
+								<p>
+								Please be patient, the information is being retrieved from the OSB database.
+								</p>
+							</div>	
+					    </div>
+
+					    <div class="tab-pane row-fluid" id="cells_list">
+					    	<div style="text-align:center;">
+								<img src="/images/logo/osbcircle.png" class="icon-spin pagination-centered loading-image">
+								<br/>
+								<br/>
+								<p>
+								Please be patient, the information is being retrieved from the OSB database.
+								</p>
+							</div>
+						</div>
+						
+						<div class="tab-pane row-fluid" id="cells_gallery">
+							<div style="text-align:center;">
+								<img src="/images/logo/osbcircle.png" class="icon-spin pagination-centered loading-image">
+								<br/>
+								<br/>
+								<p>
+								Please be patient, the information is being retrieved from the OSB database.
+								</p>
+							</div>
+						</div>	
+						
+						<div class="tab-pane row-fluid" id="cells_tags" style="height:500px;width:800px;">
+							<div style="text-align:center;">
+								<img src="/images/logo/osbcircle.png" class="icon-spin pagination-centered loading-image">
+								<br/>
+								<br/>
+								<p>
+								Please be patient, the information is being retrieved from the OSB database.
+								</p>
+							</div>
+						</div>		    		
+					</div>
 				</div>
         	</div>
         	
@@ -110,18 +160,19 @@
 
 jQuery(function()
 {
-	var selectedTab = "cells";
-	var tabList = ['cells', 'technology', 'groups', 'people', 'informationOSB']
-	var subTabCellsList =['graph', 'listcells', 'gallery']
+	var selectedTab = "cells_graph";
+	var tabList = ['cells_graph', 'cells_list', 'cells_gallery', 'cells_tags', 'technology', 'groups', 'people', 'informationOSB']
+	// var tabList = ['cells_list', 'cells_gallery']
+	var subTabCellsList =['cells_graph', 'cells_list', 'cells_gallery', 'cells_tags']
 	
 	var a = location.href.split("#");
 	if ( a.length > 1 && tabList.indexOf(a[1]) > -1){
-		if (subTabCellsList.indexOf(a[1]) > -1){
-			selectedTab = "cells";
-		}
-		else{
+		// if (subTabCellsList.indexOf(a[1]) > -1){
+			// selectedTab = "cells";
+		// }
+		// else{
 			selectedTab = a[1];
-		}	
+		// }	
 	}
 	
 	$("#"+selectedTab+"Link").trigger("click");

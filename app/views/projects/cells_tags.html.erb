@@ -1,0 +1,36 @@
+<!-- Only display if html5/tagcanvas is not supported -->
+<div id="tagsNotSupported" class="alert" style="display:none">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <strong>Warning!</strong> Graph visualisation is not compatible with Internet Explorer. <br/> Please switch to <a href="https://www.google.com/intl/en/chrome/browser/" target="_blank">Google Chrome</a>	or <a href="http://www.mozilla.org/en-US/firefox/new/" target="_blank">Mozilla Firefox</a> for the tree view.
+</div>
+
+<canvas width="850" height="500" id="tagCanvas">
+	<% @tagsDict.each do |tag, ocurrence| %> 
+	  <%= link_to(tag, {:controller => 'search_custom_field', :f => [43], :op => {43=>'~'}, :v => {43=>[tag]}}, {:style => "font-size: #{ocurrence+8}pt" }) %>
+	<% end %>
+ </canvas>
+
+<%= javascript_include_tag('jquery.tagcanvas.min.js') %>
+
+<script>
+
+jQuery(function()
+{
+    //Init tags for tags view
+    if( ! $('#tagCanvas').tagcanvas({
+    	textColour: '#000000',
+     	// outlineThickness : 1,
+     	outlineColour: '#37abc8',
+     	outlineMethod: 'colour',
+     	maxSpeed: 0.02,
+     	depth: 0.75,
+     	weight: true
+     	// weightMode: 'both',
+   	})) {
+	    // TagCanvas failed to load
+	    $('#tagCanvas').hide();
+	    $('#tagsNotSupported').show();
+   	}
+})
+</script>
+
