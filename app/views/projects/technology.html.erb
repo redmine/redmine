@@ -15,6 +15,9 @@
 		 </div>
 	 </div>	 	
 	<div class="span8 tab-content">
+		<div id="projectsSummary" style="color:#37abc8;margin:20px auto;text-align:center;">
+			<%= @showcaseProjects.length %> showcases in OSB 
+		</div>
 		<% for p in @showcaseProjects %>
 			<div class="tab-pane" id="cell<%= p.id %>">
 				<a class="btn btn-large btn-info pull-right" href="<%= url_for({:controller => 'projects', :action => 'show', :id => p}) %>"><icon class="icon-folder-open"></icon> Open project</a>
@@ -30,5 +33,6 @@ jQuery(function()
 {
 	// -- Add filter
 	setupFilter('#technologyfilter', '#technologylist');
+	jQuery('#technologylist a').click(function(){jQuery('#projectsSummary').hide();});
 })
 </script>

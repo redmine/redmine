@@ -17,6 +17,9 @@
 		</div>
 	</div>
 	<div class="span9 tab-content">
+		<div id="groupsSummary" style="color:#37abc8;margin:20px auto;text-align:center;">
+			<%= @groups.length %> groups in OSB 
+		</div>
 		<% for group in @groups %>
 		<div class="tab-pane" id="group<%= group.id %>"">
 		<h3><a class="capitalize" href="groups/<%= group.id %>"><%= group.name %> </a></h3>
@@ -43,5 +46,6 @@ jQuery(function()
 {
 	// -- Add filter
 	setupFilter('#groupsfilter', '#groupslist');
+	jQuery('#groupslist a').click(function(){jQuery('#groupsSummary').hide();});
 })
 </script>

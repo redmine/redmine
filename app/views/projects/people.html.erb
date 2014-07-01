@@ -18,6 +18,9 @@
 			</div>
 		</div>
 		<div class="span9 tab-content">
+			<div id="peopleSummary" style="color:#37abc8;margin:20px auto;text-align:center;">
+			<%= @users.length %> users in OSB 
+			</div>
 			<% for user in @users %>
 			<div class="tab-pane" id="user<%= user.id %>">
 				<h3><a class="capitalize" href="<%= user_path(user) %>"><%= user.name %></a></h3>
@@ -60,5 +63,6 @@
 		{
 			jQuery(this).find("a").first().click();
 		});
+		jQuery('#peoplelist a').click(function(){jQuery('#peopleSummary').hide();});
 	})
 	</script>
