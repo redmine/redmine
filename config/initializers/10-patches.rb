@@ -203,6 +203,30 @@ module ActionController
   end
 end
 
+if Rails::VERSION::MAJOR < 4 && RUBY_VERSION >= "2.1"
+  module ActiveSupport
+    class HashWithIndifferentAccess
+      def select(*args, &block)
+        dup.tap { |hash| hash.select!(*args, &block) }
+      end
+
+      def reject(*args, &block)
+        dup.tap { |hash| hash.reject!(*args, &block) }
+      end
+    end
+
+    class OrderedHash
+      def select(*args, &block)
+        dup.tap { |hash| hash.select!(*args, &block) }
+      end
+
+      def reject(*args, &block)
+        dup.tap { |hash| hash.reject!(*args, &block) }
+      end
+    end
+  end
+end
+
 require 'awesome_nested_set/version'
 
 module CollectiveIdea
