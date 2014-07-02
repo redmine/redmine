@@ -157,48 +157,48 @@
 </div>
 
 <script>
-
 jQuery(function()
 {
 	var selectedTab = "cells_graph";
 	var tabList = ['cells_graph', 'cells_list', 'cells_gallery', 'cells_tags', 'technology', 'groups', 'people', 'informationOSB']
-	// var tabList = ['cells_list', 'cells_gallery']
 	var subTabCellsList =['cells_graph', 'cells_list', 'cells_gallery', 'cells_tags']
 	
+	//Read if a new tab is pass as a parameter in the url 	
 	var a = location.href.split("#");
-	if ( a.length > 1 && tabList.indexOf(a[1]) > -1){
-		// if (subTabCellsList.indexOf(a[1]) > -1){
-			// selectedTab = "cells";
-		// }
-		// else{
-			selectedTab = a[1];
-		// }	
-	}
+	if ( a.length > 1 && tabList.indexOf(a[1]) > -1){selectedTab = a[1];}
 	
+	//Display tab selected by url 	
 	$("#"+selectedTab+"Link").trigger("click");
-	
-	$.ajax({
-	    url: "/projects/"+selectedTab,
-	    cache: false,
-	    success: function(html){
-	      $("#"+selectedTab).html(html);
-	      
-	      for (var i=0; i < tabList.length; i++) {
-			if (tabList[i] != selectedTab){
-		      loadTab(tabList[i]);
-			}	
-		  };	
-	      
-	    }
-	});
-	
+
+	//If a tab is selected we load it immediately 
+	function swithTabsPriority(tabId){
+		tabName = tabId.replace("Link","");
+		index = tabList.indexOf(tabName);
+		if (index != -1){
+			tabList.splice(index, 1);
+			tabList.splice(0,0,tabName);
+		}
+	}
+	$(".nav-tabs a, #view-tab button").click(function(){swithTabsPriority($(this).attr('id'));});
+			
+	//Load tabs sequentially 	
+	loadTab(selectedTab);
 	function loadTab(tabName){
 	  $.ajax({
         url: "/projects/"+tabName,
         cache: false,
+        async: true,
         success: function(html){
            $("#"+tabName).html(html);
-        }
+           index = tabList.indexOf(tabName);
+           tabList.splice(index, 1);
+           if (tabList.length > 0){
+           	loadTab(tabList[0]);
+           }	
+        },
+        error: function( xhr, textStatus, errorThrown ) {
+	      console.log("textStatus: " + textStatus);
+	    }
       });
 	}	
 })
