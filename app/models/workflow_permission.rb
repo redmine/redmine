@@ -41,7 +41,7 @@ class WorkflowPermission < WorkflowRule
   def self.replace_permissions(trackers, roles, permissions)
     trackers = Array.wrap trackers
     roles = Array.wrap roles
-    
+
     transaction do
       permissions.each { |status_id, rule_by_field|
         rule_by_field.each { |field, rule|
