@@ -71,6 +71,22 @@ class AccountControllerTest < ActionController::TestCase
     end
   end
 
+  def test_login_with_suburi_should_redirect_to_back_url_param
+    @relative_url_root = ApplicationController.relative_url_root
+    ApplicationController.relative_url_root = '/redmine'
+
+    back_urls = [
+      'http://test.host/redmine/issues/show/1',
+      '/redmine'
+    ]
+    back_urls.each do |back_url|
+      post :login, :username => 'jsmith', :password => 'jsmith', :back_url => back_url
+      assert_redirected_to back_url
+    end
+  ensure
+    ApplicationController.relative_url_root = @relative_url_root
+  end
+
   def test_login_should_not_redirect_to_another_host
     back_urls = [
       'http://test.foo/fake',
@@ -80,6 +96,26 @@ class AccountControllerTest < ActionController::TestCase
       post :login, :username => 'jsmith', :password => 'jsmith', :back_url => back_url
       assert_redirected_to '/my/page'
     end
+  end
+
+  def test_login_with_suburi_should_not_redirect_to_another_suburi
+    @relative_url_root = ApplicationController.relative_url_root
+    ApplicationController.relative_url_root = '/redmine'
+
+    back_urls = [
+      'http://test.host/',
+      'http://test.host/fake',
+      'http://test.host/fake/issues',
+      'http://test.host/redmine/../fake',
+      'http://test.host/redmine/../fake/issues',
+      'http://test.host/redmine/%2e%2e/fake'
+    ]
+    back_urls.each do |back_url|
+      post :login, :username => 'jsmith', :password => 'jsmith', :back_url => back_url
+      assert_redirected_to '/my/page'
+    end
+  ensure
+    ApplicationController.relative_url_root = @relative_url_root
   end
 
   def test_login_with_wrong_password
