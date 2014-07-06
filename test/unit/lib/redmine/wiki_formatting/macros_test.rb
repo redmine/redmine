@@ -302,8 +302,8 @@ RAW
   end
 
   def test_macro_thumbnail
-    link = link_to('<img alt="testfile.PNG" src="/attachments/thumbnail/17" />'.html_safe,
-                   "/attachments/17",
+    link = link_to('<img alt="testfile.PNG" src="http://test.host/attachments/thumbnail/17" />'.html_safe,
+                   "http://test.host/attachments/17",
                    :class => "thumbnail",
                    :title => "testfile.PNG")
     assert_equal "<p>#{link}</p>",
@@ -311,8 +311,8 @@ RAW
   end
 
   def test_macro_thumbnail_with_size
-    link = link_to('<img alt="testfile.PNG" src="/attachments/thumbnail/17/200" />'.html_safe,
-                   "/attachments/17",
+    link = link_to('<img alt="testfile.PNG" src="http://test.host/attachments/thumbnail/17/200" />'.html_safe,
+                   "http://test.host/attachments/17",
                    :class => "thumbnail",
                    :title => "testfile.PNG")
     assert_equal "<p>#{link}</p>",
@@ -320,8 +320,8 @@ RAW
   end
 
   def test_macro_thumbnail_with_title
-    link = link_to('<img alt="testfile.PNG" src="/attachments/thumbnail/17" />'.html_safe,
-                   "/attachments/17",
+    link = link_to('<img alt="testfile.PNG" src="http://test.host/attachments/thumbnail/17" />'.html_safe,
+                   "http://test.host/attachments/17",
                    :class => "thumbnail",
                    :title => "Cool image")
     assert_equal "<p>#{link}</p>",

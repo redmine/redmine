@@ -236,8 +236,11 @@ module Redmine
         size = nil unless size > 0
         if obj && obj.respond_to?(:attachments) && attachment = Attachment.latest_attach(obj.attachments, filename)
           title = options[:title] || attachment.title
-          img = image_tag(url_for(:controller => 'attachments', :action => 'thumbnail', :id => attachment, :size => size), :alt => attachment.filename)
-          link_to(img, url_for(:controller => 'attachments', :action => 'show', :id => attachment), :class => 'thumbnail', :title => title)
+          thumbnail_url = url_for(:controller => 'attachments', :action => 'thumbnail', :id => attachment, :size => size, :only_path => false)
+          image_url = url_for(:controller => 'attachments', :action => 'show', :id => attachment, :only_path => false)
+
+          img = image_tag(thumbnail_url, :alt => attachment.filename)
+          link_to(img, image_url, :class => 'thumbnail', :title => title)
         else
           raise "Attachment #{filename} not found"
         end
