@@ -4,6 +4,18 @@ Redmine - project management software
 Copyright (C) 2006-2014  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2014-07-06 v2.4.6
+
+* Defect #13932: File upload does not work with Safari
+* Defect #16467: back_url redirection does not work for '/'
+* Defect #16511: Potentiel data leak in "Invalid form authenticity token" error screen
+* Defect #16530: back_url redirection work for non sub uri
+* Defect #16711: Non-ascii attachment file name get corrupted in IE11
+* Defect #17151: File upload broken on Chrome 36
+* Defect #17235: use test_email report can't modify frozen String
+* Defect #17391: Upgrade to Rails 3.2.19
+* Patch #17206: Fix Invalid CSS on Error-Pages
+
 == 2014-03-29 v2.4.5
 
 * Defect #16466: Fixed back url verification
