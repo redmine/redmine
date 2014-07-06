@@ -4,6 +4,34 @@ Redmine - project management software
 Copyright (C) 2006-2014  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2014-07-06 v2.5.2
+
+* Defect #3483: Relative url for source links in notifications
+* Defect #16415: Users get e-mail notification twice, if they are watchers and assignees at the same time.
+* Defect #16519: Generating a spent time report on a list type custom field with multiple values causes an invalid SQL error
+* Defect #16564: Repository identifiers can be reserved words
+* Defect #16619: Mailer.token_for generates invalid message_id when using from address with full name
+* Defect #16655: start_date not set despite settings[default_issue_start_date_to_creation_date] being set.
+* Defect #16668: Redmine links broken when object name contains special characters
+* Defect #16669: Markdown formatter should use the :no_intra_emphasis extension
+* Defect #16708: Form is submitted when swithing tab
+* Defect #16739: custom_fields.json only returns single tracker instead of array of trackers
+* Defect #16747: Remove useless settings when editing a query from the gantt
+* Defect #16755: Field set as read-only still available in the issues list context menu
+* Defect #16795: Member#destroy triggers after_destroy callbacks twice
+* Defect #16798: Custom field - list type - checkboxes - unchecking all - does not save
+* Defect #16926: Custom field referencing deleted value trigger an error on display
+* Defect #16989: Inline images in email does not appear when thumbnail macro is used.
+* Defect #17003: Option to display bool custom fields as a single checkbox
+* Feature #3177: Add "Check for updates" functionality to installed plugins
+* Feature #16194: Ruby 2.1 support
+* Patch #16566: French "text_git_repository_note" translation
+* Patch #16700: Blank content type for attachments attached via Ajax file upload
+* Patch #16710: Support for the 1.x versions of mime-types gem
+* Patch #16781: Crash in markdown formatter causes ruby process to end
+* Patch #17166: Japanese translation update (plugin update check)
+* Patch #17301: Czech plugin strings
+
 == 2014-03-29 v2.5.1
 
 * Defect #14298: Error generated on 'search for watchers to add' after clicking add without selected users
