@@ -113,10 +113,7 @@
 	<% @bibliography.each do |bibliographyItem| %>
 		<div style="margin-bottom: 15px;">
 			<% bibliographyItem[:authors].each_with_index do |author, i| %>
-			<%= author %>
-				<% if i == (bibliographyItem[:authors].length - 2) %> and
-				<% else %>,<% end %> 
-			<% end %>
+			<%= author %><% if i == (bibliographyItem[:authors].length - 2) %> and <% else %>,<% end %><% end %>
 			<i><%= link_to bibliographyItem[:title], bibliographyItem[:url] %></i> <%= bibliographyItem[:source] %>, <%= bibliographyItem[:date] %>, <%= bibliographyItem[:volume] %>(<%= bibliographyItem[:issue] %>): <%= bibliographyItem[:pages] %> 
 		</div>	
 	<% end %>	

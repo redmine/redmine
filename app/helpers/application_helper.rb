@@ -1143,7 +1143,7 @@ module ApplicationHelper
                 doc = {}
                 doc[:title] =pd.css("Item[Name=Title]")[0].text
                 doc[:id] = pd.at_css("Item[Name=ArticleIds] Item[Name=pubmed]").text
-                doc[:date] = pd.css("Item[Name=PubDate]")[0].text
+                doc[:date] = pd.css("Item[Name=PubDate]")[0].text.split(" ").first
                 doc[:source] = pd.css("Item[Name=FullJournalName]")[0].text
                 doc[:url] = "http://www.ncbi.nlm.nih.gov/pubmed/#{doc[:id]}"
                 doc[:db] = "pubmed"
@@ -1159,7 +1159,21 @@ module ApplicationHelper
                 
                 @bibliography << doc  
                 
-                link = link_to (doc[:authors][0] + " et al " +  doc[:date].split[0]), doc[:url], { :title => doc[:title], :class => 'external' } 
+                auth1 = doc[:authors][0]
+                auth1 = auth1.split(" ")[0,auth1.split(" ").length-1].join(" ")
+
+                shortForm = auth1 + " et al., " +  doc[:date]
+                
+                if doc[:authors].length == 1 
+                  shortForm = auth1 + ", " +  doc[:date]
+                elsif doc[:authors].length == 2 
+
+                  auth2 = doc[:authors][1]
+                  auth2 = auth2.split(" ")[0,auth2.split(" ").length-1].join(" ")
+                  shortForm = auth1 + " and " + auth2 + ", " +  doc[:date]
+                end
+
+                link = link_to (shortForm), doc[:url], { :title => doc[:title], :class => 'external' } 
               end  
             end
           end  
