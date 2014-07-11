@@ -994,6 +994,7 @@
   label_only: 僅於
   label_drop_down_list: 下拉式清單
   label_checkboxes: 核取方塊
+  label_radio_buttons: 選項按鈕
   label_link_values_to: 連結欄位值至此網址
   label_custom_field_select_type: 請選擇連結此自訂欄位的物件類型
   label_check_for_updates: 檢查更新
@@ -1192,4 +1193,3 @@
   description_date_from: 輸入起始日期
   description_date_to: 輸入結束日期
   text_repository_identifier_info: '僅允許使用小寫英文字母 (a-z), 阿拉伯數字, 虛線與底線。<br />一旦儲存之後, 代碼便無法再次被更改。'
-  label_radio_buttons: radio buttons
