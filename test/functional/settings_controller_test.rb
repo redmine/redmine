@@ -18,7 +18,8 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class SettingsControllerTest < ActionController::TestCase
-  fixtures :users
+  fixtures :projects, :trackers, :issue_statuses, :issues,
+           :users
 
   def setup
     User.current = nil
