@@ -21,6 +21,7 @@ class SearchControllerTest < ActionController::TestCase
   fixtures :projects, :enabled_modules, :roles, :users, :members, :member_roles,
            :issues, :trackers, :issue_statuses, :enumerations,
            :custom_fields, :custom_values,
+           :custom_fields_projects, :custom_fields_trackers,
            :repositories, :changesets
 
   def setup
