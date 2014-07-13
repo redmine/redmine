@@ -1121,7 +1121,6 @@ class Issue < ActiveRecord::Base
   def parent_issue_id=(arg)
     s = arg.to_s.strip.presence
     if s && (m = s.match(%r{\A#?(\d+)\z})) && (@parent_issue = Issue.find_by_id(m[1]))
-      @parent_issue.id
       @invalid_parent_issue_id = nil
     elsif s.blank?
       @parent_issue = nil
