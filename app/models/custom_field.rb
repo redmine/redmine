@@ -352,8 +352,8 @@ class CustomField < ActiveRecord::Base
     errs = []
     unless value.to_s == ''
       errs << ::I18n.t('activerecord.errors.messages.invalid') unless regexp.blank? or value =~ Regexp.new(regexp)
-      errs << ::I18n.t('activerecord.errors.messages.too_short', :count => min_length) if min_length > 0 and value.length < min_length
-      errs << ::I18n.t('activerecord.errors.messages.too_long', :count => max_length) if max_length > 0 and value.length > max_length
+      errs << ::I18n.t('activerecord.errors.messages.too_short', :count => min_length) if min_length && min_length > 0 && value.length < min_length
+      errs << ::I18n.t('activerecord.errors.messages.too_long', :count => max_length) if max_length && max_length > 0 && value.length > max_length
 
       # Format specific validations
       case field_format
