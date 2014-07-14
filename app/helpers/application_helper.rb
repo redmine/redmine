@@ -157,6 +157,12 @@ module ApplicationHelper
     end
   end
 
+  # Generates a link to a version
+  def link_to_version(version, options = {})
+    return '' unless version && version.is_a?(Version)
+    link_to_if version.visible?, format_version_name(version), version_path(version), options
+  end
+
   # Helper that formats object for html or text rendering
   def format_object(object, html=true, &block)
     if block_given?
