@@ -247,7 +247,7 @@ module ApplicationHelper
   end
 
   def format_version_name(version)
-    if version.project == @project
+    if !version.shared? || version.project == @project
       h(version)
     else
       h("#{version.project} - #{version}")
