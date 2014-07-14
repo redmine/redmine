@@ -1,0 +1,37 @@
+<% if request.env["HTTP_USER_AGENT"] =~ /MSIE/ %>
+	<div class="alert">
+	  <button type="button" class="close" data-dismiss="alert">&times;</button>
+	  <strong>Warning!</strong> Graph visualisation is not compatible with Internet Explorer. <br/> Please switch to <a href="https://www.google.com/intl/en/chrome/browser/" target="_blank">Google Chrome</a>	or <a href="http://www.mozilla.org/en-US/firefox/new/" target="_blank">Mozilla Firefox</a> for the tree view.</div>
+<% else %>
+	<div id="body"></div>
+	<p id="jsontree" style="display: none;"><%= createJSONProjectTree(@projects)%><p>
+<% end %>	
+
+		
+
+<!-- Create the tree unless it's IE --> 	    
+<% if !(request.env["HTTP_USER_AGENT"] =~ /MSIE/)%>
+	<%= javascript_include_tag('projectstree.js') %>
+<% end %>
+
+<script>
+jQuery(function()
+{
+	//Projects index page
+	var family=getParameterByName('family');
+	var specie=getParameterByName('specie');
+	var brain=getParameterByName('brain');
+	var cell=getParameterByName('cell');
+	var spine=getParameterByName('spine');
+	if(spine!="")
+	{
+		openSpecificTree(spine,family,specie,brain,cell);
+	}
+	else
+	{
+		standardOpening();
+	}
+
+})
+</script>
+

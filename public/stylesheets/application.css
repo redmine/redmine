@@ -769,7 +769,12 @@ section p {
 	background-color: #37abc8;
 }
 
-
+.loading-image{
+	width:100px;
+	height:100px;
+	margin-top: 50px;
+	margin: 0 auto;
+}
 
 .btn-success {
 	color: #ffffff;
@@ -795,7 +800,7 @@ section p {
 }
 
 .minwidth {
-	width: 1100px !important;
+	width: 1200px !important;
 	overflow: visible !important;
 }
 

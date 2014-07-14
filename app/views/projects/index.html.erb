@@ -14,19 +14,98 @@
 		<!-- This begins the cells and network section -->
 		<div class="tab-content">
 			<div class="tab-pane active" id="cells">
+				<div class="tabbable">
+					<div class="row pagination-centered">
+						<div id="view-tab" class="btn-group" data-toggle="buttons-radio">
+				  			<button class="btn btn-large active" href="#cells_graph" id="cells_graphLink" data-toggle="tab"><icon class="icon-circle-blank"></icon> Tree view</button>
+				  			<button class="btn btn-large" href="#cells_list" id="cells_listLink" data-toggle="tab"><icon class="icon-th-list"></icon> List view</button>
+				  			<button class="btn btn-large" href="#cells_gallery" id="cells_galleryLink" data-toggle="tab"><icon class="icon-th-large"></icon> Gallery view</button>
+				  			<button class="btn btn-large" href="#cells_tags" id="cells_tagsLink" data-toggle="tab"><icon class="icon-cloud"></icon> Tags view</button>
+						</div>
+						<br/><br/><br/>
+					</div>
+					<!-- This begins the graph or list section -->
+					<div class="tab-content" id="cells">
+
+					    <div class="tab-pane active" id="cells_graph">
+					    	<div style="text-align:center;">
+								<img src="/images/logo/osbcircle.png" class="icon-spin pagination-centered loading-image">
+								<br/>
+								<br/>
+								<p>
+								Please be patient, the information is being retrieved from the OSB database.
+								</p>
+							</div>	
+					    </div>
+
+					    <div class="tab-pane row-fluid" id="cells_list">
+					    	<div style="text-align:center;">
+								<img src="/images/logo/osbcircle.png" class="icon-spin pagination-centered loading-image">
+								<br/>
+								<br/>
+								<p>
+								Please be patient, the information is being retrieved from the OSB database.
+								</p>
+							</div>
+						</div>
+						
+						<div class="tab-pane row-fluid" id="cells_gallery">
+							<div style="text-align:center;">
+								<img src="/images/logo/osbcircle.png" class="icon-spin pagination-centered loading-image">
+								<br/>
+								<br/>
+								<p>
+								Please be patient, the information is being retrieved from the OSB database.
+								</p>
+							</div>
+						</div>	
+						
+						<div class="tab-pane row-fluid" id="cells_tags" style="height:500px;width:800px;">
+							<div style="text-align:center;">
+								<img src="/images/logo/osbcircle.png" class="icon-spin pagination-centered loading-image">
+								<br/>
+								<br/>
+								<p>
+								Please be patient, the information is being retrieved from the OSB database.
+								</p>
+							</div>
+						</div>		    		
+					</div>
+				</div>
         	</div>
         	
 	        <!-- This begins the technology section -->
 	        <div class="tab-pane" id="technology">
-					    		
+				<div style="text-align:center;">
+					<img src="/images/logo/osbcircle.png" class="icon-spin pagination-centered loading-image">
+					<br/>
+					<br/>
+					<p>
+					Please be patient, the information is being retrieved from the OSB database.
+					</p>
+				</div>	    		
 	        </div>
 	        <!-- This begins the research groups section -->
 	        <div class="tab-pane" id="groups">
-	        	    		
+	        	<div style="text-align:center;">
+					<img src="/images/logo/osbcircle.png" class="icon-spin pagination-centered loading-image">
+					<br/>
+					<br/>
+					<p>
+					Please be patient, the information is being retrieved from the OSB database.
+					</p>
+				</div>  		
 	        </div>
 			<!-- This begins the people section -->
 	        <div class="tab-pane" id="people">
-	        		    		
+	        	<div style="text-align:center;">
+					<img src="/images/logo/osbcircle.png" class="icon-spin pagination-centered loading-image">
+					<br/>
+					<br/>
+					<p>
+					Please be patient, the information is being retrieved from the OSB database.
+					</p>
+				</div>	    		
 	        </div>
 	        <!-- This begins the information on osb section -->
 	        <!-- <div class="tab-pane" id="informationOSB" class="span9">
@@ -71,49 +150,52 @@
 </div>
 
 <script>
-
 jQuery(function()
 {
-	var selectedTab = "cells";
-	// var tabList = ['cells', 'technology', 'groups', 'people', 'informationOSB']
-	var tabList = ['cells', 'technology', 'groups', 'people']
-	var subTabCellsList =['graph', 'listcells', 'gallery']
+	var selectedTab = "cells_graph";
+	var tabList = ['cells_graph', 'cells_list', 'cells_gallery', 'cells_tags', 'technology', 'groups', 'people', 'informationOSB']
+	// var subTabCellsList =['cells_graph', 'cells_list', 'cells_gallery', 'cells_tags']
 	
+	//Read if a new tab is pass as a parameter in the url 	
 	var a = location.href.split("#");
-	if ( a.length > 1 && tabList.indexOf(a[1]) > -1){
-		if (subTabCellsList.indexOf(a[1]) > -1){
-			selectedTab = "cells";
-		}
-		else{
-			selectedTab = a[1];
-		}	
-	}
+	if ( a.length > 1 && tabList.indexOf(a[1]) > -1){selectedTab = a[1];}
 	
+	//Display tab selected by url 	
 	$("#"+selectedTab+"Link").trigger("click");
-	
-	$.ajax({
-	    url: "/projects/"+selectedTab,
-	    cache: false,
-	    success: function(html){
-	      $("#"+selectedTab).append(html);
-	      
-	      
-	      for (var i=0; i < tabList.length; i++) {
-			if (tabList[i] != selectedTab){
-		      loadTab(tabList[i]);
-			}	
-		  };	
-	      
-	    }
-	});
-	
+
+	//If a tab is selected we load it immediately 
+	function swithTabsPriority(tabId){
+		tabName = tabId.replace("Link","");
+		index = tabList.indexOf(tabName);
+		if (index != -1){
+			tabList.splice(index, 1);
+			tabList.splice(0,0,tabName);
+		}
+	}
+	$(".nav-tabs a, #view-tab button").click(function(){
+		if(history.pushState) {history.pushState(null, null, $(this).attr('href'));}
+		swithTabsPriority($(this).attr('id'));});
+			 
+			 
+			 
+	//Load tabs sequentially 	
+	loadTab(selectedTab);
 	function loadTab(tabName){
 	  $.ajax({
         url: "/projects/"+tabName,
         cache: false,
+        async: true,
         success: function(html){
-          $("#"+tabName).append(html);
-        }
+           $("#"+tabName).html(html);
+           index = tabList.indexOf(tabName);
+           tabList.splice(index, 1);
+           if (tabList.length > 0){
+           	loadTab(tabList[0]);
+           }	
+        },
+        error: function( xhr, textStatus, errorThrown ) {
+	      console.log("textStatus: " + textStatus);
+	    }
       });
 	}	
 })
