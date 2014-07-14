@@ -597,6 +597,10 @@ module Redmine
       def target_class
         @target_class ||= self.class.name[/^(.*::)?(.+)Format$/, 2].constantize rescue nil
       end
+
+      def reset_target_class
+        @target_class = nil
+      end
  
       def possible_custom_value_options(custom_value)
         options = possible_values_options(custom_value.custom_field, custom_value.customized)
