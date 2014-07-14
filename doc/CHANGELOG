@@ -14,7 +14,7 @@ http://www.redmine.org/
 * Defect #16655: start_date not set despite settings[default_issue_start_date_to_creation_date] being set.
 * Defect #16668: Redmine links broken when object name contains special characters
 * Defect #16669: Markdown formatter should use the :no_intra_emphasis extension
-* Defect #16708: Form is submitted when swithing tab
+* Defect #16708: Form is submitted when switching tab
 * Defect #16739: custom_fields.json only returns single tracker instead of array of trackers
 * Defect #16747: Remove useless settings when editing a query from the gantt
 * Defect #16755: Field set as read-only still available in the issues list context menu
