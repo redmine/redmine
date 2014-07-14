@@ -160,6 +160,7 @@ module ApplicationHelper
   # Generates a link to a version
   def link_to_version(version, options = {})
     return '' unless version && version.is_a?(Version)
+    options = {:title => format_date(version.effective_date)}.merge(options)
     link_to_if version.visible?, format_version_name(version), version_path(version), options
   end
 
@@ -184,7 +185,7 @@ module ApplicationHelper
     when 'Project'
       html ? link_to_project(object) : object.to_s
     when 'Version'
-      html ? link_to(object.name, version_path(object)) : object.to_s
+      html ? link_to_version(object) : object.to_s
     when 'TrueClass'
       l(:general_text_Yes)
     when 'FalseClass'
