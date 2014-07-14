@@ -952,6 +952,7 @@ class Project < ActiveRecord::Base
       new_query.sort_criteria = query.sort_criteria if query.sort_criteria
       new_query.project = self
       new_query.user_id = query.user_id
+      new_query.role_ids = query.role_ids if query.visibility == IssueQuery::VISIBILITY_ROLES
       self.queries << new_query
     end
   end
