@@ -257,8 +257,8 @@ ja:
   field_is_for_all: 全プロジェクト向け
   field_possible_values: 選択肢
   field_regexp: 正規表現
-  field_min_length: 最小値
-  field_max_length: 最大値
+  field_min_length: 最短長
+  field_max_length: 最大長
   field_value: 値
   field_category: カテゴリ
   field_title: タイトル
@@ -313,7 +313,7 @@ ja:
   field_activity: 活動
   field_spent_on: 日付
   field_identifier: 識別子
-  field_is_filter: フィルタとして使う
+  field_is_filter: フィルタとして使用
   field_issue_to: 関連するチケット
   field_delay: 遅延
   field_assignable: このロールにチケットを割り当て可能
@@ -322,7 +322,7 @@ ja:
   field_column_names: 項目
   field_time_entries: 時間を記録
   field_time_zone: タイムゾーン
-  field_searchable: 検索条件に設定可能とする
+  field_searchable: 検索対象
   field_default_value: デフォルト値
   field_comments_sorting: コメントの表示順
   field_parent_title: 親ページ
@@ -549,7 +549,7 @@ ja:
   label_subproject_plural: サブプロジェクト
   label_subproject_new: 新しいサブプロジェクト
   label_and_its_subprojects: "%{value} とサブプロジェクト"
-  label_min_max_length: 最小値 - 最大値の長さ
+  label_min_max_length: 最短 - 最大長
   label_list: リストから選択
   label_date: 日付
   label_integer: 整数
