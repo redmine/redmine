@@ -25,7 +25,8 @@ class ChangesetTest < ActiveSupport::TestCase
            :changesets, :changes,
            :enumerations,
            :custom_fields, :custom_values,
-           :users, :members, :member_roles, :trackers,
+           :users, :members, :member_roles,
+           :trackers, :projects_trackers,
            :enabled_modules, :roles
 
   def test_ref_keywords_any
