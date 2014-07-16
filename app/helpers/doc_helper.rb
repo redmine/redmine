@@ -17,7 +17,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-module HelpHelper
+module DocHelper
   include ApplicationHelper
 
   def customiseTitle(fileDoc, removeOrderPrefix = false)
@@ -31,4 +31,17 @@ module HelpHelper
   def getDivId(fileDoc)
     File.basename(fileDoc, ".md")[3..-1]
   end  
+  
+#  def getVideoDiv(videoPath, width = 320, height = 240)
+#    #videoUrl = 'https://github.com/OpenSourceBrain/OSB_Documentation/contents'
+#    videoUrl = '/home/adrian/code/osb-code/OSB_Documentation/resources/videos/' + videoPath
+#
+#    return "<video width='" + width + "' height='" + height + "' controls>/
+#      <source src='" + videoUrl + ".mp4' type='video/mp4'>/
+#      <source src='" + videoUrl + ".ogg' type='video/ogg'>/
+#      <object data='" + videoUrl + ".mp4' width='" + width + "' height='" + height + "'>/
+#        <embed src='" + videoUrl + ".swf' width='" + width + "' height='" + height + "'>/
+#      </object> 
+#    </video>"
+#  end  
 end

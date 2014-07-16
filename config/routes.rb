@@ -19,13 +19,12 @@ RedmineApp::Application.routes.draw do
   root :to => 'welcome#index', :as => 'home'
 
   ## OSB specific
-  match 'help', :to => 'help#index'
+  get '/doc(/:path)', :to => 'doc#index', defaults: { path: 'Help' }, :constraints => {:path => /.*/}
   match 'about', :to => 'about#index'
-  match 'guides', :to => 'guides#index'
-  match 'themes', :to => 'themes#index'
   match 'status', :to => 'status#index'
   match 'projects/adminnew', :to => 'projects#adminnew', :via => :post
   
+  # OSB Explorer webs
   match 'projects/cells_graph', :to => 'projects#cells_graph'
   match 'projects/cells_list', :to => 'projects#cells_list'
   match 'projects/cells_gallery', :to => 'projects#cells_gallery'
@@ -33,7 +32,16 @@ RedmineApp::Application.routes.draw do
   match 'projects/technology', :to => 'projects#technology'
   match 'projects/groups', :to => 'projects#groups'
   match 'projects/people', :to => 'projects#people'
-  match 'projects/informationOSB', :to => 'projects#informationOSB'
+  match 'projects/informationOSB', :to => redirect('/doc')
+  
+  # Redirects to new doc pages (To be removed once the new doc is stable)
+  match 'guides', :to => redirect('/doc')
+  match 'themes', :to => redirect('/doc/Research_Themes')
+  match 'projects/feedback(/*path)', :to => redirect('/doc#How_To_Contact_Us')
+  match 'projects/gettingstarted(/*path)', :to => redirect('/doc#Getting_Started')
+  match 'embedded/osb(/*path)', :to => redirect('/projects#cells_graph')
+  match 'projects/neuroconstructprojects(/*path)', :to => redirect('/doc#Using_Neuro_Construct_Based_Projects')
+  
   
   match 'projects/:id/addTag', :to => 'projects#addTag'
   match 'projects/:id/removeTag', :to => 'projects#removeTag'

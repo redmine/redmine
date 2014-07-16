@@ -1548,3 +1548,17 @@ iframe {
 	vertical-align: middle;
 	padding-left: 15px;
 }
+
+#docContainer .page-header{
+	border-bottom-width: 5px;
+}
+
+#docContainer h4{
+	font-size: 23px;
+	border-bottom: 1px dotted;
+	padding-bottom: 5px;
+}
+
+#docContainer h5{
+	font-size: 20px;
+}

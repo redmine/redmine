@@ -1019,8 +1019,10 @@ module ApplicationHelper
 
     text = text.dup
     macros = catch_macros(text)
+    
+    
     text = Redmine::WikiFormatting.to_html(Setting.text_formatting, text, :object => obj, :attribute => attr)
-
+    
     @parsed_headings = []
     @heading_anchors = {}
     @current_section = 0 if options[:edit_section_links]
@@ -1117,7 +1119,7 @@ module ApplicationHelper
   end  
     
   def parse_osb_links(text, project, obj, attr, only_path, options)  
-    text.gsub!(%r{([\s\(,\-\[\>]|^)(!)?(([a-z0-9\-_]+):)?(osbDoc|pubmed)?(((#)|((([a-z0-9\-_]+)\|)?(r)))((\d+)((#note)?-(\d+))?)|(:)([^"\s<>][^\s<>]*?|"[^"]+?"))(?=(?=[[:punct:]][^A-Za-z0-9_/])|,|\s|\]|<|$)}) do |m|
+    text.gsub!(%r{([\s\(,\-\[\>]|^)(!)?(([a-z0-9\-_]+):)?(osbDoc|pubmed|video)?(((#)|((([a-z0-9\-_]+)\|)?(r)))((\d+)((#note)?-(\d+))?)|(:)([^"\s<>][^\s<>]*?|"[^"]+?"))(?=(?=[[:punct:]][^A-Za-z0-9_/])|,|\s|\]|<|$)}) do |m|
       leading, esc, project_prefix, project_identifier, prefix, repo_prefix, repo_identifier, sep, identifier, comment_suffix, comment_id = $1, $2, $3, $4, $5, $10, $11, $8 || $12 || $18, $14 || $19, $15, $17
       link = nil
       if esc.nil?
@@ -1131,6 +1133,36 @@ module ApplicationHelper
 #                  link = link_to h(document.title), {:only_path => only_path, :controller => 'documents', :action => 'show', :id => document},
 #                                                    :class => 'document'
 #                end
+#            print @docRepoFolder
+            
+#            link = "<div class='page-header'>" + textilizable(open(@docRepoFolder + name).read) + "</div>"
+            
+          when 'video'
+            name =~ %r{^[/\\]*(.*?)(@([^/\\@]+?))?(#(L\d+))?$}
+            #TODO: Dim attribute is not working            
+            path, repo, dim = $1, $3, $5
+            
+            width = 800
+            height = 555
+
+            if repo == 'osbDoc'
+  #            videoUrl = 'https://github.com/OpenSourceBrain/OSB_Documentation/resources/videos/' + name
+              videoUrl = 'https://raw.githubusercontent.com/OpenSourceBrain/OSB_Documentation/master/resources/videos/' + path
+  #            https://github.com/OpenSourceBrain/OSB_Documentation/blob/master/resources/videos/toolToNavigateExplorer.mp4?raw=true
+  #            videoUrl = '/home/adrian/code/osb-code/OSB_Documentation/resources/videos/' + name
+  #            videoUrl = '../../resources/videos/' + name
+            else
+              videoUrl = path
+            end
+            
+            link = "<video width='#{width}' height='#{height}' controls>
+                  <source src='" + videoUrl + "' type='video/mp4'>
+                  <source src='" + videoUrl + ".ogg' type='video/ogg'>
+                  <object data='" + videoUrl + "' width='#{width}' height='#{height}'>
+                    <embed src='" + videoUrl + ".swf' width='#{width}' height='#{height}'>
+                  </object> 
+                </video>"
+              
           when 'pubmed'
             summaryUrlBase = "http://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&retmode=xml&id=#{name}"
             uri = URI.parse(summaryUrlBase)

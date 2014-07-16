@@ -17,13 +17,14 @@
 
 require 'open-uri'
 
-class HelpController < ApplicationController
+class DocController < ApplicationController
   include ApplicationHelper
   def index
-    @path = params[:path] || 'Help'  
+#    @path = params[:path] || 'Help'
+    @path = params[:path]  
           
-#    docRepoUrl = 'https://github.com/OpenSourceBrain/OSB_Documentation'
-    docRepoFolder = '/home/adrian/code/osb-code/OSB_Documentation/' + @path + '/*'
+#    docRepoUrl = 'https://github.com/OpenSourceBrain/OSB_Documentation/contents'
+    docRepoFolder = '/home/adrian/code/osb-code/OSB_Documentation/contents/' + @path + '/*'
     
 #   Read files in dir
     filesAndDirDoc = Dir[docRepoFolder]
