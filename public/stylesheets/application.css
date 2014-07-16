@@ -823,6 +823,8 @@ section p {
 	height: 30px;
 	background-image: url("/images/osblogo.png");
 	cursor: pointer;
+	padding-right: 2px;
+	background-repeat: no-repeat;
 }
 
 @media all and (-webkit-min-device-pixel-ratio: 1.5) {
