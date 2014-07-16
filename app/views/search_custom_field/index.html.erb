@@ -14,7 +14,8 @@
 <% end %>
 </div>
 
-<% if @projects %>
+
+<% if @projects and @projects.length > 0%>
     <dl id="search-results">
       <% @projects.each do |p| %>
       	<div>
@@ -60,5 +61,9 @@
         </div>
       <% end %>
     </dl>
+<% else %>
+<div>
+<b>Your search criteria did not match any projects. Try fewer filters or different keywords.</b>
+</div>
 <% end %>
 
