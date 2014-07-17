@@ -22,6 +22,7 @@ require 'cgi'
 require 'open-uri'
 require 'yaml'
 require 'nokogiri'
+require 'json'
 
 module ApplicationHelper
   include Redmine::WikiFormatting::Macros::Definitions
@@ -165,24 +166,38 @@ module ApplicationHelper
   
   def getBadgeForTags(project, field, text, tooltip, align, classes, allowEditing=false)
     fieldId, fieldValue = getCustomFieldAndId(project, field)
-    if field == 'Tags'
-      outputLink = ''
-      for fieldValueItem in fieldValue.split(',')
-        #outputLink << ", " unless outputLink.length == 0
-        label = (text != '') ? text: fieldValueItem
-        tooltipLabel = (text != '') ? tooltip: fieldValueItem
-        badge='<span class="tooltiplink ' + classes+ ' ' + align + ' ' + '" data-toggle="tooltip" data-placement="right" title="'+ tooltipLabel + '. Click here to see other models with same characteristics.">'+ label  +'</span>'
-        outputLink << create_link_to_search_by_custom_field(fieldId, fieldValueItem, badge, '~')
-        if allowEditing
-          #TODO: Substitute space in fieldValueItem with underscore
-          deleteBadgeIcon='<a href="#" id="' + fieldValueItem + '" class="delete_tag"><icon class="icon-minus-sign"/></a>'
-          outputLink << deleteBadgeIcon
-        end  
-      end
-      return outputLink.html_safe
+    outputLink = ''
+    for fieldValueItem in fieldValue.split(',')
+      #outputLink << ", " unless outputLink.length == 0
+      label = (text != '') ? text: fieldValueItem
+      tooltipLabel = (text != '') ? tooltip: fieldValueItem
+      badge='<span class="tooltiplink ' + classes+ ' ' + align + ' ' + '" data-toggle="tooltip" data-placement="right" title="'+ tooltipLabel + '. Click here to see other models with same characteristics.">'+ label  +'</span>'
+      outputLink << create_link_to_search_by_custom_field(fieldId, fieldValueItem, badge, '~')
+      if allowEditing
+        #TODO: Substitute space in fieldValueItem with underscore
+        deleteBadgeIcon='<a href="#" id="' + fieldValueItem + '" class="delete_tag"><icon class="icon-minus-sign"/></a>'
+        outputLink << deleteBadgeIcon
+      end  
     end
+    return outputLink.html_safe
   end  
-    
+  
+  def getBadgeForNeuroLexIds(project, field, text, tooltip, align, classes)
+    fieldId, fieldValue = getCustomFieldAndId(project, field)
+    outputLink = ''
+    for fieldValueItem in fieldValue.split(';')
+      label = (text != '') ? text: fieldValueItem
+      tooltipLabel = (text != '') ? tooltip: fieldValueItem
+      #Check neuroelectro for the proper label
+      summaryUrlBase = "http://neuroelectro.org/api/1/n/?nlex_id=#{label}"
+      neuroelectroContent = JSON.parse(open(summaryUrlBase).read)
+      neuroelectroContentId = neuroelectroContent["objects"][0]["id"]
+      label = neuroelectroContent["objects"][0]["name"]
+      badge='<span class="tooltiplink ' + classes+ ' ' + align + ' ' + '" data-toggle="tooltip" data-placement="right" title="'+ tooltipLabel + '. Click here to see other models with same characteristics.">'+ label  +'</span>'
+      outputLink << create_link_to_search_by_custom_field(fieldId, fieldValueItem, badge, '~') +  link_to("See in Neuro Lex", "http://neurolex.org/wiki/#{fieldValueItem}") + link_to("See in Neuro Electro", "http://www.neuroelectro.org/neuron/#{neuroelectroContentId}") 
+    end
+    return outputLink.html_safe  
+  end    
       
   def getGeneralBadge(project, field, text, tooltip, align, classes)
     fieldId, fieldValue = getCustomFieldAndId(project, field)

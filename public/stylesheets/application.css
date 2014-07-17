@@ -1527,9 +1527,14 @@ iframe {
 	margin-top: 7px;
 }
 
-#tagsContainer .lead{ 
+#tagsContainer .lead, #neuroLexIdsContainer .lead{ 
 	color: #5a5a5a;
 }
+
+/* NEUROLEX IDS: CELLS */
+#neuroLexIdsContainer {
+	margin-top: 30px;
+} 
 
 /* HELP */
 #project_overview_sections h3, #project_overview_sections h4, #project_overview_sections h5{

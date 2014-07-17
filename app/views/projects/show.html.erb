@@ -72,8 +72,9 @@
 		<% ghrepo=getCustomField(@project,'GitHub repository') %>
 		<% bbrepo=getCustomField(@project,'Bitbucket repository') %>
 		<% tags=getCustomField(@project,'Tags') %>
+		<% neuroLexIds=getCustomField(@project,'NeuroLex Ids: Cells') %>
 		<% roles = User.current.roles_for_project(@project).collect(&:name) %>
-		<% if (modeldb!=nil and  modeldb!="") or (original!=nil and original!="") or (ghrepo!=nil and ghrepo!="")  or (bbrepo!=nil and bbrepo!="") or (tags!=nil and tags!='' and tags!=[nil])  or (roles.include? 'Developer' or roles.include? 'Manager' or User.current.admin?) %>
+		<% if (modeldb!=nil and  modeldb!="") or (original!=nil and original!="") or (ghrepo!=nil and ghrepo!="")  or (bbrepo!=nil and bbrepo!="") or (tags!=nil and tags!='' and tags!=[nil]) or (neuroLexIds!=nil and neuroLexIds!="") or (roles.include? 'Developer' or roles.include? 'Manager' or User.current.admin?) %>
 			<section id="references">
 				<div class="page-header">
 					<h2>References</h2>
@@ -97,6 +98,8 @@
 				<% end %>
 				
 				<%= render :partial=>'tags', :locals=>{:tags=>tags, :roles=>roles} %>
+				
+				<%= render :partial=>'neuroLexIds', :locals=>{:neuroLexIds=>neuroLexIds} %>
 
 				</section>
 		<% end %>
