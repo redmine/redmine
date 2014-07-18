@@ -1527,7 +1527,7 @@ iframe {
 	margin-top: 7px;
 }
 
-#tagsContainer .lead, #neuroLexIdsContainer .lead{ 
+#tagsContainer .lead{ 
 	color: #5a5a5a;
 }
 
@@ -1535,6 +1535,15 @@ iframe {
 #neuroLexIdsContainer {
 	margin-top: 30px;
 } 
+
+#neuroLexIdsContainer .lead{ 
+	color: #5a5a5a;
+	margin-bottom: 0px;
+}
+
+#neuroLexIdsContainer span{
+	margin: 0px 15px;
+}
 
 /* HELP */
 #project_overview_sections h3, #project_overview_sections h4, #project_overview_sections h5{

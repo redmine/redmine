@@ -186,15 +186,29 @@ module ApplicationHelper
     fieldId, fieldValue = getCustomFieldAndId(project, field)
     outputLink = ''
     for fieldValueItem in fieldValue.split(';')
+      fieldValueItem.strip!
       label = (text != '') ? text: fieldValueItem
       tooltipLabel = (text != '') ? tooltip: fieldValueItem
       #Check neuroelectro for the proper label
-      summaryUrlBase = "http://neuroelectro.org/api/1/n/?nlex_id=#{label}"
-      neuroelectroContent = JSON.parse(open(summaryUrlBase).read)
-      neuroelectroContentId = neuroelectroContent["objects"][0]["id"]
-      label = neuroelectroContent["objects"][0]["name"]
-      badge='<span class="tooltiplink ' + classes+ ' ' + align + ' ' + '" data-toggle="tooltip" data-placement="right" title="'+ tooltipLabel + '. Click here to see other models with same characteristics.">'+ label  +'</span>'
-      outputLink << create_link_to_search_by_custom_field(fieldId, fieldValueItem, badge, '~') +  link_to("See in Neuro Lex", "http://neurolex.org/wiki/#{fieldValueItem}") + link_to("See in Neuro Electro", "http://www.neuroelectro.org/neuron/#{neuroelectroContentId}") 
+      neuroelectroUrl = "http://neuroelectro.org/api/1/n/?nlex_id=#{label}"
+      begin
+        neuroelectroContent = open(neuroelectroUrl)
+      rescue OpenURI::HTTPError
+         print "Error requesting url: #{neuroelectroUrl}"
+      rescue => e   
+        print "Error requesting url: #{neuroelectroUrl}"
+      else
+        neuroelectroContent = JSON.parse(neuroelectroContent.read)
+        badge='<span class="tooltiplink ' + classes+ ' ' + align + ' ' + '" data-toggle="tooltip" data-placement="right" title="'+ tooltipLabel + '. Click here to see other models with same characteristics.">'+ label  +'</span>'
+        outputLinkItem = '<div>' + create_link_to_search_by_custom_field(fieldId, fieldValueItem, badge, '~') +  link_to("<span>See in Neuro Lex</span>".html_safe, "http://neurolex.org/wiki/#{fieldValueItem}")
+        
+        if (neuroelectroContent["objects"].length > 0)
+          neuroelectroContentId = neuroelectroContent["objects"][0]["id"]
+          label = neuroelectroContent["objects"][0]["name"]
+          outputLinkItem <<  link_to("<span>See in Neuro Electro</span>".html_safe, "http://www.neuroelectro.org/neuron/#{neuroelectroContentId}") 
+        end
+        outputLink << outputLinkItem + '</div>'
+      end
     end
     return outputLink.html_safe  
   end    
