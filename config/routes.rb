@@ -36,12 +36,16 @@ RedmineApp::Application.routes.draw do
   
   # Redirects to new doc pages (To be removed once the new doc is stable)
   match 'guides', :to => redirect('/doc')
+  match '/projects/gettingstarted(/*path)', :to => redirect('/doc#Getting_Started')
+  match '/projects/gitintro(/*path)', :to => redirect('/doc/Help/Some_Extra_Information#Introduction_to_Source_Control')
+  match '/projects/feedback(/*path)', :to => redirect('/doc#How_To_Contact_Us')
+  match '/projects/neuroinformatics(/*path)', :to => redirect('/doc#Interaction_With_Other_Neuroinformatics_Resources')
+  match '/projects/simulators(/*path)', :to => redirect('/doc#Simulators')
+  match '/projects/testprojecu(/*path)', :to => redirect('/doc#Creating_Your_Project')
+  match '/projects/neuroconstructprojects(/*path)', :to => redirect('/doc#Using_Neuro_Construct_Based_Projects')
+    
   match 'themes', :to => redirect('/doc/Research_Themes')
-  match 'projects/feedback(/*path)', :to => redirect('/doc#How_To_Contact_Us')
-  match 'projects/gettingstarted(/*path)', :to => redirect('/doc#Getting_Started')
   match 'embedded/osb(/*path)', :to => redirect('/projects#cells_graph')
-  match 'projects/neuroconstructprojects(/*path)', :to => redirect('/doc#Using_Neuro_Construct_Based_Projects')
-  
   
   match 'projects/:id/addTag', :to => 'projects#addTag'
   match 'projects/:id/removeTag', :to => 'projects#removeTag'
