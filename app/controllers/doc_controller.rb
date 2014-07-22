@@ -23,7 +23,7 @@ class DocController < ApplicationController
 #    @path = params[:path] || 'Help'
     @path = params[:path]  
           
-#    docRepoUrl = 'https://github.com/OpenSourceBrain/OSB_Documentation/contents'
+#    docRepoUrl = 'https://github.com/OpenSourceBrain/OSB_Documentation/contents' + @path + '/*'
     docRepoFolder = '/home/adrian/code/osb-code/OSB_Documentation/contents/' + @path + '/*'
     
 #   Read files in dir
