@@ -199,15 +199,17 @@ module ApplicationHelper
         print "Error requesting url: #{neuroelectroUrl}"
       else
         neuroelectroContent = JSON.parse(neuroelectroContent.read)
-        badge='<span class="tooltiplink ' + classes+ ' ' + align + ' ' + '" data-toggle="tooltip" data-placement="right" title="'+ tooltipLabel + '. Click here to see other models with same characteristics.">'+ label  +'</span>'
-        outputLinkItem = '<div>' + create_link_to_search_by_custom_field(fieldId, fieldValueItem, badge, '~') +  link_to("<span>See in Neuro Lex</span>".html_safe, "http://neurolex.org/wiki/#{fieldValueItem}")
+        neuroElectroLink = ''
         
         if (neuroelectroContent["objects"].length > 0)
           neuroelectroContentId = neuroelectroContent["objects"][0]["id"]
           label = neuroelectroContent["objects"][0]["name"]
-          outputLinkItem <<  link_to("<span>See in Neuro Electro</span>".html_safe, "http://www.neuroelectro.org/neuron/#{neuroelectroContentId}") 
+          neuroElectroBadge = '<span class="tooltiplink label badge-external ' + align + ' ' + '" data-toggle="tooltip" data-placement="right" title="Click here to see in NeuroElectro web.">See in NeuroElectro <i class="icon-external-link"></i></span>'.html_safe  
         end
-        outputLink << outputLinkItem + '</div>'
+        
+        badge = '<span class="tooltiplink ' + classes+ ' ' + align + ' ' + '" data-toggle="tooltip" data-placement="right" title="'+ tooltipLabel + '. Click here to see other models with same characteristics.">'+ label  +'</span>'
+        neuroLexBadge = '<span class="tooltiplink label badge-external ' + align + ' ' + '" data-toggle="tooltip" data-placement="right" title="Click here to see in NeuroLex web.">See in NeuroLex <i class="icon-external-link"></i></span>'
+        outputLink << '<div>' + create_link_to_search_by_custom_field(fieldId, fieldValueItem, badge, '~') + link_to(neuroLexBadge.html_safe, "http://neurolex.org/wiki/#{fieldValueItem}", :target => "_blank") + link_to(neuroElectroBadge.html_safe, "http://www.neuroelectro.org/neuron/#{neuroelectroContentId}", :target => "_blank") + '</div>'
       end
     end
     return outputLink.html_safe  

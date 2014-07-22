@@ -769,6 +769,10 @@ section p {
 	background-color: #37abc8;
 }
 
+.badge-external {
+	background-color: #000000;
+}
+
 .loading-image{
 	width:100px;
 	height:100px;
@@ -1542,7 +1546,11 @@ iframe {
 }
 
 #neuroLexIdsContainer span{
-	margin: 0px 15px;
+	margin: 0px 30px 0px 0px;
+}
+
+#neuroLexIdsContainer div{
+	margin: 5px 0px;	
 }
 
 /* HELP */
@@ -1578,3 +1586,8 @@ iframe {
 #docContainer h5{
 	font-size: 20px;
 }
+
+i:first-child{
+	margin-left: 5px;
+}
+
