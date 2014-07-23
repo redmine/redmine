@@ -398,6 +398,16 @@ module ApplicationHelper
     return false;    
   end
   
+  def listFolderInRepo(repository, path)
+    command = repository_command("ls-tree master --name-only " + path + "/", repository)
+    return exec(command)
+  end  
+  
+#  def getFileContentInRepo(repository, path)
+#    command = repository_command("show master:" + path, repository)
+#    return exec(command)
+#  end  
+  
   def getExportFunctions(repository)
     availableExportOptions = ['Matlab', 'C', 'LEMS']
     exportOptions = Hash.new
@@ -1153,6 +1163,11 @@ module ApplicationHelper
     text.gsub!(%r{([\s\(,\-\[\>]|^)(!)?(([a-z0-9\-_]+):)?(osbDoc|pubmed|video)?(((#)|((([a-z0-9\-_]+)\|)?(r)))((\d+)((#note)?-(\d+))?)|(:)([^"\s<>][^\s<>]*?|"[^"]+?"))(?=(?=[[:punct:]][^A-Za-z0-9_/])|,|\s|\]|<|$)}) do |m|
       leading, esc, project_prefix, project_identifier, prefix, repo_prefix, repo_identifier, sep, identifier, comment_suffix, comment_id = $1, $2, $3, $4, $5, $10, $11, $8 || $12 || $18, $14 || $19, $15, $17
       link = nil
+      print "takarrrrasinthenight"
+      print text
+      
+      
+      
       if esc.nil?
         if sep == ':'
           # removes the double quotes if any

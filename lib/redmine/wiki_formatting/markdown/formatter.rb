@@ -119,7 +119,7 @@ module Redmine
         def formatter
           @@formatter ||= Redcarpet::Markdown.new(
             Redmine::WikiFormatting::Markdown::HTML.new(
-              :filter_html => true,
+              :filter_html => false,
               :hard_wrap => true
             ),
             :autolink => true,
