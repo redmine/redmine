@@ -367,6 +367,16 @@ module ApplicationHelper
     return false;    
   end
   
+  def listFolderInRepo(repository, path)
+    command = repository_command("ls-tree master --name-only " + path + "/", repository)
+    return exec(command)
+  end  
+  
+#  def getFileContentInRepo(repository, path)
+#    command = repository_command("show master:" + path, repository)
+#    return exec(command)
+#  end  
+  
   def getExportFunctions(repository)
     availableExportOptions = ['Matlab', 'C', 'LEMS']
     exportOptions = Hash.new

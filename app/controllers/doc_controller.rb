@@ -20,31 +20,32 @@ require 'open-uri'
 class DocController < ApplicationController
   include ApplicationHelper
   def index
-#    @path = params[:path] || 'Help'
     @path = params[:path]  
           
-#    docRepoUrl = 'https://github.com/OpenSourceBrain/OSB_Documentation/contents' + @path + '/*'
+    @docRepoUrl = 'https://raw.githubusercontent.com/OpenSourceBrain/OSB_Documentation/master/'
 #    docRepoFolder = '/home/adrian/code/osb-code/OSB_Documentation/contents/' + @path + '/*'
-    docRepoFolder = '/home/documentation/OSB_Documentation/contents/' + @path + '/*'
+#    docRepoFolder = '/home/documentation/OSB_Documentation/contents/' + @path + '/*'
+#    @docRepoFolder = '/home/svnsvn/myGitRepositories/OSBDocumentation.git/contents/'
     
-#   Read files in dir
-    filesAndDirDoc = Dir[docRepoFolder]
-    dirsDoc = Dir[docRepoFolder + '/']
-    @filesDoc = filesAndDirDoc
-    dirsDoc.each do |dirDoc|
-      @filesDoc.delete(dirDoc[0..-2])
-    end    
+    @docProject = Project.find("osb_documentation")
+    filesInFolder = listFolderInRepo(@docProject.repository, "contents/" + @path)
+    
+    @filesDoc = []
+    filesInFolder.each do |file|
+      if File.extname(file).delete("\n") == ".md"
+        @filesDoc << file.delete!("\n")
+      end
+    end
     @filesDoc.sort!
     
-#    Read content for each file
-#    @helpContent = {}
-#    filesDoc.each do |fileDoc|
-#      #@helpContent[fileDoc] = textilizable(open(docRepoUrl + fileDoc).read)
-#      print "fileDoc",fileDoc
-#      @helpContent[fileDoc] = textilizable(open(fileDoc).read)
-#    end
-
+#   Read files in dir
+#    filesAndDirDoc = Dir[docRepoFolder]
+#    dirsDoc = Dir[docRepoFolder + '/']
+#    @filesDoc = filesAndDirDoc
+#    dirsDoc.each do |dirDoc|
+#      @filesDoc.delete(dirDoc[0..-2])
+#    end    
+#    @filesDoc.sort!
           
   end
-  
 end

@@ -274,15 +274,12 @@ class ApplicationController < ActionController::Base
   # Find project of id params[:id]
   def find_project
     @project = Project.find(params[:id])
-    
   rescue ActiveRecord::RecordNotFound
     render_404
   end
 
   # Find project of id params[:project_id]
   def find_project_by_project_id
-    print "taka"
-    print params[:project_id]
     @project = Project.find(params[:project_id])
   rescue ActiveRecord::RecordNotFound
     render_404

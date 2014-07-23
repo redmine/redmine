@@ -16,7 +16,7 @@
 				<div class="page-header">
 					<h2><%= customiseTitle(fileDoc, true) %></h2>
 				</div>
-				<%= textilizable(open(fileDoc).read) %>
+				<%= textilizable(open(@docRepoUrl + fileDoc).read) %>
 			</section>
 		<% end %>
 	</div>
