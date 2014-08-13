@@ -50,6 +50,8 @@ module Redmine #:nodoc:
     self.public_directory = File.join(Rails.root, 'public', 'plugin_assets')
 
     @registered_plugins = {}
+    @used_partials = {}
+
     class << self
       attr_reader :registered_plugins
       private :new
@@ -91,6 +93,15 @@ module Redmine #:nodoc:
       # Adds the app/{controllers,helpers,models} directories of the plugin to the autoload path
       Dir.glob File.expand_path(File.join(p.directory, 'app', '{controllers,helpers,models}')) do |dir|
         ActiveSupport::Dependencies.autoload_paths += [dir]
+      end
+
+      # Warn for potential settings[:partial] collisions
+      if p.configurable?
+        partial = p.settings[:partial]
+        if @used_partials[partial]
+          Rails.logger.warn "WARNING: settings partial '#{partial}' is declared in '#{p.id}' plugin but it is already used by plugin '#{@used_partials[partial]}'. Only one settings view will be used. You may want to contact those plugins authors to fix this."
+        end
+        @used_partials[partial] = p.id
       end
 
       registered_plugins[id] = p

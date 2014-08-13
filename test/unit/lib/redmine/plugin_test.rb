@@ -173,4 +173,10 @@ class Redmine::PluginTest < ActiveSupport::TestCase
       end
     end
   end
+
+  def test_settings_warns_about_possible_partial_collision
+    @klass.register(:foo) { settings :partial => 'foo/settings' }
+    Rails.logger.expects(:warn)
+    @klass.register(:bar) { settings :partial => 'foo/settings' }
+  end
 end
