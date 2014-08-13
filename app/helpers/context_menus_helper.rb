@@ -43,7 +43,7 @@ module ContextMenusHelper
 
   def bulk_update_time_entry_custom_field_context_menu_link(field, text, value)
     context_menu_link h(text),
-      bulk_update_time_entries_path(:ids => @time_entries.map(&:id), :time_entry => {'custom_field_values' => {field.id => value}}, :back_url => @back),
+      bulk_update_time_entries_path(:ids => @time_entries.map(&:id).sort, :time_entry => {'custom_field_values' => {field.id => value}}, :back_url => @back),
       :method => :post,
       :selected => (@time_entry && @time_entry.custom_field_value(field) == value)
   end
