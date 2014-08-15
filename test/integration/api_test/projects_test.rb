@@ -51,6 +51,7 @@ class Redmine::ApiTest::ProjectsTest < Redmine::ApiTest::Base
 
     assert_select 'projects>project>id', :text => '1'
     assert_select 'projects>project>status', :text => '1'
+    assert_select 'projects>project>is_public', :text => 'true'
   end
 
   test "GET /projects.json should return projects" do
@@ -72,6 +73,7 @@ class Redmine::ApiTest::ProjectsTest < Redmine::ApiTest::Base
 
     assert_select 'project>id', :text => '1'
     assert_select 'project>status', :text => '1'
+    assert_select 'project>is_public', :text => 'true'
     assert_select 'custom_field[name=Development status]', :text => 'Stable'
 
     assert_no_tag 'trackers'
