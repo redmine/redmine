@@ -1326,8 +1326,6 @@ class Issue < ActiveRecord::Base
         offset = right_most_bound + 1 - lft
         Issue.where(cond).
           update_all(["root_id = ?, lft = lft + ?, rgt = rgt + ?", root_id, offset, offset])
-        self[left_column_name]  = lft + offset
-        self[right_column_name] = rgt + offset
       end
       if @parent_issue
         move_to_child_of(@parent_issue)
