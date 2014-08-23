@@ -1101,7 +1101,7 @@ pl:
   permission_delete_documents: Usuwanie dokumentów
   label_gantt_progress_line: Linia postępu
   setting_jsonp_enabled: Uaktywnij wsparcie dla JSONP
-  field_inherit_members: Dziedziczenie członków
+  field_inherit_members: Dziedziczenie uczestników
   field_closed_on: Data zamknięcia
   field_generate_password: Wygeneruj hasło
   setting_default_projects_tracker_ids: Domyślne typy zagadnień dla nowych projektów
