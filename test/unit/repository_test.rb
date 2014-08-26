@@ -399,7 +399,7 @@ class RepositoryTest < ActiveSupport::TestCase
   def test_stats_by_author_reflect_changesets_and_changes
     repository = Repository.find(10)
 
-    expected = {"dlopper"=>{:commits_count=>10, :changes_count=>3}}
+    expected = {"Dave Lopper"=>{:commits_count=>10, :changes_count=>3}}
     assert_equal expected, repository.stats_by_author
 
     set = Changeset.create!(
@@ -411,7 +411,53 @@ class RepositoryTest < ActiveSupport::TestCase
     )
     Change.create!(:changeset => set, :action => 'A', :path => '/path/to/file1')
     Change.create!(:changeset => set, :action => 'A', :path => '/path/to/file2')
-    expected = {"dlopper"=>{:commits_count=>11, :changes_count=>5}}
+    expected = {"Dave Lopper"=>{:commits_count=>11, :changes_count=>5}}
+    assert_equal expected, repository.stats_by_author
+  end
+
+  def test_stats_by_author_honnor_committers
+    # in fact it is really tested above, but let's have a dedicated test
+    # to ensure things are dynamically linked to Users
+    User.find_by_login("dlopper").update_attribute(:firstname, "Dave's")
+    repository = Repository.find(10)
+    expected = {"Dave's Lopper"=>{:commits_count=>10, :changes_count=>3}}
+    assert_equal expected, repository.stats_by_author
+  end
+
+  def test_stats_by_author_doesnt_drop_unmapped_users
+    repository = Repository.find(10)
+    Changeset.create!(
+      :repository => repository,
+      :committer => 'unnamed <foo@bar.net>',
+      :committed_on => Time.now,
+      :revision => 101,
+      :comments => 'Another commit by foo.'
+    )
+
+    assert repository.stats_by_author.has_key?("unnamed <foo@bar.net>")
+  end
+
+  def test_stats_by_author_merge_correctly
+    # as we honnor users->committer map and it's not injective,
+    # we must be sure merges happen correctly and stats are not
+    # wiped out when two source counts map to the same user.
+    #
+    # Here we have Changeset's with committer="dlopper" and others
+    # with committer="dlopper <dlopper@somefoo.net>"
+    repository = Repository.find(10)
+
+    expected = {"Dave Lopper"=>{:commits_count=>10, :changes_count=>3}}
+    assert_equal expected, repository.stats_by_author
+
+    set = Changeset.create!(
+      :repository => repository,
+      :committer => 'dlopper <dlopper@somefoo.net>',
+      :committed_on => Time.now,
+      :revision => 101,
+      :comments => 'Another commit by foo.'
+    )
+
+    expected = {"Dave Lopper"=>{:commits_count=>11, :changes_count=>3}}
     assert_equal expected, repository.stats_by_author
   end
 end

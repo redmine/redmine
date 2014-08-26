@@ -421,9 +421,10 @@ class Repository < ActiveRecord::Base
     h = changes_by_author.inject({}) {|o, i| o[i.first] = i.last; o}
 
     commits_by_author.inject({}) do |hash, (name, commits_count)|
-      hash[name] = {}
-      hash[name][:commits_count] = commits_count
-      hash[name][:changes_count] = h[name] || 0
+      mapped_name = (find_committer_user(name) || name).to_s
+      hash[mapped_name] ||= { :commits_count => 0, :changes_count => 0 }
+      hash[mapped_name][:commits_count] += commits_count
+      hash[mapped_name][:changes_count] += h[name] || 0
       hash
     end
   end
