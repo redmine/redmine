@@ -409,8 +409,8 @@ class RepositoryTest < ActiveSupport::TestCase
       :revision => 101,
       :comments => 'Another commit by foo.'
     )
-    Change.create!(:changeset => set, :action => 'create', :path => '/path/to/file1')
-    Change.create!(:changeset => set, :action => 'create', :path => '/path/to/file2')
+    Change.create!(:changeset => set, :action => 'A', :path => '/path/to/file1')
+    Change.create!(:changeset => set, :action => 'A', :path => '/path/to/file2')
     expected = {"dlopper"=>{:commits_count=>11, :changes_count=>5}}
     assert_equal expected, repository.stats_by_author
   end
