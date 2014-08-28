@@ -34,7 +34,6 @@ module Redmine
           @@k_path_cache = Rails.root.join('tmp', 'pdf')
           FileUtils.mkdir_p @@k_path_cache unless File::exist?(@@k_path_cache)
           set_language_if_valid lang
-          pdf_encoding = l(:general_pdf_encoding).upcase
           super(orientation, 'mm', 'A4')
           set_print_header(false)
           set_rtl(l(:direction) == 'rtl')
@@ -60,14 +59,8 @@ module Redmine
             @font_for_content = 'freeserif'
             @font_for_footer  = 'freeserif'
           else
-            case pdf_encoding
-            when 'UTF-8'
-              @font_for_content = 'freesans'
-              @font_for_footer  = 'freesans'
-            else
-              @font_for_content = 'helvetica'
-              @font_for_footer  = 'helvetica'
-            end
+            @font_for_content = 'freesans'
+            @font_for_footer  = 'freesans'
           end
           set_creator(Redmine::Info.app_name)
           set_font(@font_for_content)
@@ -83,7 +76,7 @@ module Redmine
         end
 
         def fix_text_encoding(txt)
-          RDMPdfEncoding::rdm_from_utf8(txt, l(:general_pdf_encoding))
+          RDMPdfEncoding::rdm_from_utf8(txt, "UTF-8")
         end
 
         def formatted_text(text)
@@ -120,7 +113,6 @@ module Redmine
         end
 
         def get_image_filename(attrname)
-          # attrname: general_pdf_encoding string file/uri name
           atta = RDMPdfEncoding.attach(@attachments, attrname, "UTF-8")
           if atta
             return atta.diskfile
@@ -147,6 +139,15 @@ module Redmine
           end
           set_x(-30)
           RDMCell(0, 5, get_alias_num_page() + '/' + get_alias_nb_pages(), 0, 0, 'C')
+        end
+      end
+
+      def is_cjk?
+        case current_language.to_s.downcase
+        when 'ja', 'zh-tw', 'zh', 'ko'
+          true
+        else
+          false
         end
       end
 
@@ -519,8 +520,7 @@ module Redmine
               issue.description.to_s, issue.attachments, "LRB")
 
         unless issue.leaf?
-          # for CJK
-          truncate_length = ( l(:general_pdf_encoding).upcase == "UTF-8" ? 90 : 65 )
+          truncate_length = (!is_cjk? ? 90 : 65)
           pdf.SetFontStyle('B',9)
           pdf.RDMCell(35+155,5, l(:label_subtask_plural) + ":", "LTR")
           pdf.ln
@@ -538,8 +538,7 @@ module Redmine
 
         relations = issue.relations.select { |r| r.other_issue(issue).visible? }
         unless relations.empty?
-          # for CJK
-          truncate_length = ( l(:general_pdf_encoding).upcase == "UTF-8" ? 80 : 60 )
+          truncate_length = (!is_cjk? ? 80 : 60)
           pdf.SetFontStyle('B',9)
           pdf.RDMCell(35+155,5, l(:label_related_issues) + ":", "LTR")
           pdf.ln
