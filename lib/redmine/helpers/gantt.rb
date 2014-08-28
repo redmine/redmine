@@ -856,6 +856,9 @@ module Redmine
       end
 
       def pdf_task(params, coords, options={})
+        cell_height_ratio = params[:pdf].get_cell_height_ratio()
+        params[:pdf].set_cell_height_ratio(0.1)
+
         height = options[:height] || 2
         # Renders the task bar, with progress and late
         if coords[:bar_start] && coords[:bar_end]
@@ -896,6 +899,8 @@ module Redmine
           params[:pdf].SetX(params[:subject_width] + (coords[:bar_end] || 0) + 5)
           params[:pdf].RDMCell(30, 2, options[:label])
         end
+
+        params[:pdf].set_cell_height_ratio(cell_height_ratio)
       end
 
       def image_task(params, coords, options={})

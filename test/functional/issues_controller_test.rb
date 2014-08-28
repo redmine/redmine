@@ -573,15 +573,6 @@ class IssuesControllerTest < ActionController::TestCase
         assert_response :success
         assert_template 'index'
 
-        if lang == "ja"
-          if RUBY_PLATFORM != 'java'
-            assert_equal "CP932", l(:general_pdf_encoding)
-          end
-          if RUBY_PLATFORM == 'java' && l(:general_pdf_encoding) == "CP932"
-            next
-          end
-        end
-
         get :index, :format => 'pdf'
         assert_response :success
         assert_not_nil assigns(:issues)
