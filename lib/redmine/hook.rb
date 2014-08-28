@@ -108,7 +108,13 @@ module Redmine
       def self.render_on(hook, options={})
         define_method hook do |context|
           if context[:hook_caller].respond_to?(:render)
-            context[:hook_caller].send(:render, {:locals => context}.merge(options))
+            if options.has_key?(:partial) && options[:partial].kind_of?(Array)
+              options[:partial].map do |partial|
+                context[:hook_caller].send(:render, { locals: context }.merge(partial: partial))
+              end
+            else
+              context[:hook_caller].send(:render, { locals: context }.merge(options))
+            end
           elsif context[:controller].is_a?(ActionController::Base)
             context[:controller].send(:render_to_string, {:locals => context}.merge(options))
           else
