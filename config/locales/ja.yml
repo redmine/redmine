@@ -162,7 +162,6 @@ ja:
   general_csv_separator: ','
   general_csv_decimal_separator: '.'
   general_csv_encoding: CP932
-  general_pdf_encoding: UTF-8
   general_first_day_of_week: '7'
 
   notice_account_updated: アカウントが更新されました。

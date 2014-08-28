@@ -310,7 +310,6 @@ pl:
   general_csv_separator: ';'
   general_first_day_of_week: '1'
   general_lang_name: 'Polski'
-  general_pdf_encoding: UTF-8
   general_text_No: 'Nie'
   general_text_Yes: 'Tak'
   general_text_no: 'nie'

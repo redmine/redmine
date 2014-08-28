@@ -386,7 +386,6 @@ az:
   general_csv_separator: ';'
   general_first_day_of_week: '1'
   general_lang_name: 'Azerbaijanian (Azeri)'
-  general_pdf_encoding: UTF-8
   general_text_no: 'xeyr'
   general_text_No: 'Xeyr'
   general_text_yes: 'bəli'
