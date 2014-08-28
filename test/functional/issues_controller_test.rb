@@ -25,6 +25,7 @@ class IssuesControllerTest < ActionController::TestCase
            :member_roles,
            :issues,
            :issue_statuses,
+           :issue_relations,
            :versions,
            :trackers,
            :projects_trackers,
@@ -1404,6 +1405,8 @@ class IssuesControllerTest < ActionController::TestCase
   end
 
   def test_show_export_to_pdf
+    issue = Issue.find(3) 
+    assert issue.relations.select{|r| r.other_issue(issue).visible?}.present?
     get :show, :id => 3, :format => 'pdf'
     assert_response :success
     assert_equal 'application/pdf', @response.content_type
