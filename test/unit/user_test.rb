@@ -1019,6 +1019,19 @@ class UserTest < ActiveSupport::TestCase
     end
   end
 
+  # this is just a proxy method, the test only calls it to ensure it doesn't break trivially
+  context "#allowed_to_globally?" do
+    should "proxy to #allowed_to? and reflect global permissions" do
+      @dlopper2 = User.find(5) #only Developper on a project, not Manager anywhere
+      @anonymous = User.find(6)
+      assert_equal true, @jsmith.allowed_to_globally?(:delete_issue_watchers)
+      assert_equal false, @dlopper2.allowed_to_globally?(:delete_issue_watchers)
+      assert_equal true, @dlopper2.allowed_to_globally?(:add_issues)
+      assert_equal false, @anonymous.allowed_to_globally?(:add_issues)
+      assert_equal true, @anonymous.allowed_to_globally?(:view_issues)
+    end
+  end
+
   context "User#notify_about?" do
     context "Issues" do
       setup do

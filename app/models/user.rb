@@ -567,7 +567,11 @@ class User < Principal
 
   # Is the user allowed to do the specified action on any project?
   # See allowed_to? for the actions and valid options.
-  def allowed_to_globally?(action, options, &block)
+  #
+  # NB: this method is not used anywhere in the core codebase as of
+  # 2.5.2, but it's used by many plugins so if we ever want to remove
+  # it it has to be carefully deprecated for a version or two.
+  def allowed_to_globally?(action, options={}, &block)
     allowed_to?(action, nil, options.reverse_merge(:global => true), &block)
   end
 
