@@ -4,7 +4,8 @@
     <div id="note-<%= journal.indice %>">
     <h4><%= link_to "##{journal.indice}", {:anchor => "note-#{journal.indice}"}, :class => "journal-link" %>
     <%= avatar(journal.user, :size => "24") %>
-    <%= authoring journal.created_on, journal.user, :label => :label_updated_time_by %></h4>
+    <%= authoring journal.created_on, journal.user, :label => :label_updated_time_by %>
+    <%= content_tag('span', l(:field_is_private), :class => 'private') if journal.private_notes? %></h4>
 
     <% if journal.details.any? %>
     <ul class="details">
