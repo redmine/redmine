@@ -253,10 +253,38 @@ Pour commencer à l'utiliser, il ne vous faut qu'un serveur web et une base de d
 
     <p>Redmine possède les macros suivantes:</p>
 
-    <p><dl><dt><code>hello_world</code></dt><dd><p>Macro d'exemple.</p></dd><dt><code>include</code></dt><dd><p>Inclue une page Wiki. Exemple:</p>
+    <p>
+    <dl>
+      <dt><code>hello_world</code></dt>
+      <dd><p>Macro d'exemple.</p></dd>
 
-    <pre><code>{{include(Foo)}}</code></pre></dd><dt><code>macro_list</code></dt><dd><p>Affiche une liste de toute les macros disponilbes, les descriptions sont inclues si celles-ci sont disponibles.</p></dd></dl></p>
+      <dt><code>macro_list</code></dt>
+      <dd><p>Affiche une liste de toutes les macros disponibles, les descriptions sont incluses si celles-ci sont disponibles.</p></dd>
 
+      <dt><code>child_pages</code></dt>
+      <dd><p>Affiche une liste des sous-pages. Sans argument, cela affiche les sous-pages de la page courante. Exemples :</p>
+      <pre><code>!{{child_pages}} -- peut être utilisé depuis une page wiki uniquement
+!{{child_pages(depth=2)}} -- affiche deux niveaux d'arborescence seulement</code></pre></dd>
+
+      <dt><code>include</code></dt>
+      <dd><p>Inclut une page Wiki. Exemple :</p>
+      <pre><code>!{{include(Foo)}}</code></pre>
+      <p>ou pour inclure une page d'un wiki de projet spécifique :</p>
+      <pre><code>!{{include(projectname:Foo)}}</code></pre></dd>
+
+      <dt><code>collapse</code></dt>
+      <dd><p>Insère un bloc de texte enroulé. Exemple :</p>
+      <pre><code>{{collapse(Voir les détails...)
+Ceci est un bloc de texte qui est caché par défaut.
+Il peut être déroulé en cliquant sur le lien.
+}}</code></pre></dd>
+
+      <dt><code>thumbnail</code></dt>
+      <dd><p>Affiche une miniature cliquable d'une image jointe. Exemples :</p>
+      <pre>{{thumbnail(image.png)}}
+{{thumbnail(image.png, size=300, title=Miniature)}}</pre></dd>
+    </dl>
+    </p>
 
     <h2><a name="13" class="wiki-page"></a>Coloration syntaxique</h2>
 

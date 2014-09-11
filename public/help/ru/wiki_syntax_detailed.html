@@ -285,20 +285,38 @@ bq. Rails - это полноценный, многоуровневый фрей
 
 <p>В Redmine существуют следующие встроенные макросы:</p>
 
-<p>
-<dl>
-    <dt><code>hello_world</code></dt>
-    <dd><p>Некоторый макрос.</p></dd>
-    <dt><code>include</code></dt>
-    <dd><p>Вставить wiki страницу. Пример:</p>
+    <p>
+    <dl>
+      <dt><code>hello_world</code></dt>
+      <dd><p>Некоторый макрос.</p></dd>
 
-        <pre><code>{{include(Foo)}}</code></pre>
-    </dd>
-    <dt><code>macro_list</code></dt>
-    <dd><p>Выводит список доступных макросов с описаниями, если они имеются.</p></dd>
-</dl>
-</p>
+      <dt><code>macro_list</code></dt>
+      <dd><p>Выводит список доступных макросов с описаниями, если они имеются.</p></dd>
 
+      <dt><code>child_pages</code></dt>
+      <dd><p>Displays a list of child pages. With no argument, it displays the child pages of the current wiki page. Examples:</p>
+      <pre><code>!{{child_pages}} -- can be used from a wiki page only
+!{{child_pages(depth=2)}} -- display 2 levels nesting only</code></pre></dd>
+
+      <dt><code>include</code></dt>
+      <dd><p>Вставить wiki страницу. Пример:</p>
+      <pre><code>!{{include(Foo)}}</code></pre>
+      <p>or to include a page of a specific project wiki:</p>
+      <pre><code>!{{include(projectname:Foo)}}</code></pre></dd>
+
+      <dt><code>collapse</code></dt>
+      <dd><p>Inserts of collapsed block of text. Example:</p>
+      <pre><code>{{collapse(View details...)
+This is a block of text that is collapsed by default.
+It can be expanded by clicking a link.
+}}</code></pre></dd>
+
+      <dt><code>thumbnail</code></dt>
+      <dd><p>Displays a clickable thumbnail of an attached image. Examples:</p>
+      <pre>{{thumbnail(image.png)}}
+{{thumbnail(image.png, size=300, title=Thumbnail)}}</pre></dd>
+    </dl>
+    </p>
 
 <h2><a name="13" class="wiki-page"></a>Подсветка кода</h2>
 
