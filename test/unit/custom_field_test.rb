@@ -18,7 +18,7 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class CustomFieldTest < ActiveSupport::TestCase
-  fixtures :custom_fields
+  fixtures :custom_fields, :roles, :projects, :issues
 
   def test_create
     field = UserCustomField.new(:name => 'Money money money', :field_format => 'float')
