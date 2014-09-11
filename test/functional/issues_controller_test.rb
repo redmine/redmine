@@ -1405,7 +1405,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_not_nil assigns(:issue)
   end
 
-  def test_export_to_pdf_with_utf8_u_ffdd
+  def test_export_to_pdf_with_utf8_u_fffd
     # U+FFFD
     s = "\xef\xbf\xbd"
     s.force_encoding('UTF-8') if s.respond_to?(:force_encoding)
