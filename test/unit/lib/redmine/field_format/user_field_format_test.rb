@@ -19,7 +19,10 @@ require File.expand_path('../../../../../test_helper', __FILE__)
 require 'redmine/field_format'
 
 class Redmine::UserFieldFormatTest < ActionView::TestCase
-  fixtures :projects, :roles, :users, :members, :member_roles
+  fixtures :projects, :roles, :users, :members, :member_roles,
+           :trackers,
+           :issue_statuses, :issue_categories, :issue_relations, :workflows,
+           :enumerations
 
   def test_user_role_should_reject_blank_values
     field = IssueCustomField.new(:name => 'Foo', :field_format => 'user', :user_role => ["1", ""])
