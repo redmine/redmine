@@ -18,7 +18,14 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class TimeEntryQueryTest < ActiveSupport::TestCase
-  fixtures :projects, :users, :enumerations
+  fixtures :issues, :projects, :users,
+           :members, :roles, :member_roles,
+           :trackers, :issue_statuses,
+           :projects_trackers,
+           :journals, :journal_details,
+           :issue_categories, :enumerations,
+           :groups_users,
+           :enabled_modules
 
   def test_activity_filter_should_consider_system_and_project_activities
     TimeEntry.delete_all
