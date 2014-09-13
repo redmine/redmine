@@ -387,6 +387,16 @@ class AttachmentsControllerTest < ActionController::TestCase
     end
   end
 
+  def test_destroy_version_attachment_with_issue_tracking_disabled
+    Project.find(1).disable_module! :issue_tracking
+    set_tmp_attachments_directory
+    @request.session[:user_id] = 2
+    assert_difference 'Attachment.count', -1 do
+      delete :destroy, :id => 9
+      assert_response 302
+    end
+  end
+
   def test_destroy_without_permission
     set_tmp_attachments_directory
     assert_no_difference 'Attachment.count' do
