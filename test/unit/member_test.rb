@@ -94,6 +94,16 @@ class MemberTest < ActiveSupport::TestCase
     assert !member.save
   end
 
+  def test_set_issue_category_nil_should_handle_nil_values
+    m = Member.new
+    assert_nil m.user
+    assert_nil m.project
+
+    assert_nothing_raised do
+      m.set_issue_category_nil
+    end
+  end
+
   def test_destroy
     category1 = IssueCategory.find(1)
     assert_equal @jsmith.user.id, category1.assigned_to_id
