@@ -162,6 +162,11 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
     end
   end
 
+  def test_index_should_include_issue_attributes
+    get '/issues.xml'
+    assert_select 'issues>issue>is_private', :text => 'false'
+  end
+
   def test_index_should_allow_timestamp_filtering
     Issue.delete_all
     Issue.generate!(:subject => '1').update_column(:updated_on, Time.parse("2014-01-02T10:25:00Z"))
@@ -474,6 +479,11 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
         end
       end
     end
+  end
+
+  def test_show_should_include_issue_attributes
+    get '/issues/1.xml'
+    assert_select 'issue>is_private', :text => 'false'
   end
 
   test "GET /issues/:id.xml?include=watchers should include watchers" do

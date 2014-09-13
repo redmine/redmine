@@ -15,6 +15,7 @@ api.issue do
   api.start_date @issue.start_date
   api.due_date @issue.due_date
   api.done_ratio @issue.done_ratio
+  api.is_private @issue.is_private
   api.estimated_hours @issue.estimated_hours
   api.spent_hours(@issue.spent_hours) if User.current.allowed_to?(:view_time_entries, @project)
 
