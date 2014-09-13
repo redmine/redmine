@@ -61,6 +61,7 @@ class ApplicationController < ActionController::Base
   def session_expiration
     if session[:user_id]
       if session_expired? && !try_to_autologin
+        set_localization(User.active.find_by_id(session[:user_id]))
         reset_session
         flash[:error] = l(:error_session_expired)
         redirect_to signin_url
@@ -197,10 +198,10 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def set_localization
+  def set_localization(user=User.current)
     lang = nil
-    if User.current.logged?
-      lang = find_language(User.current.language)
+    if user && user.logged?
+      lang = find_language(user.language)
     end
     if lang.nil? && !Setting.force_default_language_for_anonymous? && request.env['HTTP_ACCEPT_LANGUAGE']
       accept_lang = parse_qvalues(request.env['HTTP_ACCEPT_LANGUAGE']).first
