@@ -31,5 +31,9 @@ class RoutingSysTest < ActionController::IntegrationTest
         { :method => 'get', :path => "/sys/fetch_changesets" },
         { :controller => 'sys', :action => 'fetch_changesets' }
       )
+    assert_routing(
+        { :method => 'post', :path => "/sys/fetch_changesets" },
+        { :controller => 'sys', :action => 'fetch_changesets' }
+      )
   end
 end
