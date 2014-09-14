@@ -112,7 +112,7 @@ class User < Principal
   before_create :set_mail_notification
   before_save   :generate_password_if_needed, :update_hashed_password
   before_destroy :remove_references_before_destroy
-  after_save :update_notified_project_ids
+  after_save :update_notified_project_ids, :destroy_tokens
 
   scope :in_group, lambda {|group|
     group_id = group.is_a?(Group) ? group.id : group.to_i
@@ -679,6 +679,18 @@ class User < Principal
       length = [Setting.password_min_length.to_i + 2, 10].max
       random_password(length)
     end
+  end
+
+  # Delete all outstanding password reset tokens on password or email change.
+  # Delete the autologin tokens on password change to prohibit session leakage.
+  # This helps to keep the account secure in case the associated email account
+  # was compromised.
+  def destroy_tokens
+    tokens  = []
+    tokens |= ['recovery', 'autologin'] if changes.has_key?('hashed_password')
+    tokens |= ['recovery'] if changes.has_key?('mail')
+
+    Token.delete_all(['user_id = ? AND action IN (?)', self.id, tokens]) if tokens.any?
   end
 
   # Removes references that are not handled by associations

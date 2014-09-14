@@ -403,6 +403,42 @@ class UserTest < ActiveSupport::TestCase
     end
   end
 
+  def test_password_change_should_destroy_tokens
+    recovery_token = Token.create!(:user_id => 2, :action => 'recovery')
+    autologin_token = Token.create!(:user_id => 2, :action => 'autologin')
+
+    user = User.find(2)
+    user.password, user.password_confirmation = "a new password", "a new password"
+    assert user.save
+
+    assert_nil Token.find_by_id(recovery_token.id)
+    assert_nil Token.find_by_id(autologin_token.id)
+  end
+
+  def test_mail_change_should_destroy_tokens
+    recovery_token = Token.create!(:user_id => 2, :action => 'recovery')
+    autologin_token = Token.create!(:user_id => 2, :action => 'autologin')
+
+    user = User.find(2)
+    user.mail = "user@somwehere.com"
+    assert user.save
+
+    assert_nil Token.find_by_id(recovery_token.id)
+    assert_equal autologin_token, Token.find_by_id(autologin_token.id)
+  end
+
+  def test_change_on_other_fields_should_not_destroy_tokens
+    recovery_token = Token.create!(:user_id => 2, :action => 'recovery')
+    autologin_token = Token.create!(:user_id => 2, :action => 'autologin')
+
+    user = User.find(2)
+    user.firstname = "Bobby"
+    assert user.save
+
+    assert_equal recovery_token, Token.find_by_id(recovery_token.id)
+    assert_equal autologin_token, Token.find_by_id(autologin_token.id)
+  end
+
   def test_validate_login_presence
     @admin.login = ""
     assert !@admin.save
