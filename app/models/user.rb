@@ -687,10 +687,12 @@ class User < Principal
   # was compromised.
   def destroy_tokens
     tokens  = []
-    tokens |= ['recovery', 'autologin'] if changes.has_key?('hashed_password')
-    tokens |= ['recovery'] if changes.has_key?('mail')
+    tokens |= ['recovery', 'autologin'] if hashed_password_changed?
+    tokens |= ['recovery'] if mail_changed?
 
-    Token.delete_all(['user_id = ? AND action IN (?)', self.id, tokens]) if tokens.any?
+    if tokens.any?
+      Token.where(:user_id => id, :action => tokens).delete_all
+    end
   end
 
   # Removes references that are not handled by associations
