@@ -56,8 +56,8 @@
 <%= javascript_tag do %>
 $("#search-types a").click(function(e){
   e.preventDefault();
-  $("#search-types input[type=checkbox]").attr('checked', false);
-  $(this).siblings("input[type=checkbox]").attr('checked', true);
+  $("#search-types input[type=checkbox]").prop('checked', false);
+  $(this).siblings("input[type=checkbox]").prop('checked', true);
   if ($("#search-input").val() != "") {
     $("#search-form").submit();
   }

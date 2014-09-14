@@ -165,8 +165,8 @@ function drawGanttHandler() {
   else
     draw_gantt = Raphael(folder);
   setDrawArea();
-  if ($("#draw_progress_line").attr('checked'))
+  if ($("#draw_progress_line").prop('checked'))
     drawGanttProgressLines();
-  if ($("#draw_relations").attr('checked'))
+  if ($("#draw_relations").prop('checked'))
     drawRelations();
 }

@@ -31,7 +31,7 @@ function contextMenuClick(event) {
       // a row was clicked, check if the click was on checkbox
       if (target.is('input')) {
         // a checkbox may be clicked
-        if (target.attr('checked')) {
+        if (target.prop('checked')) {
           tr.addClass('context-menu-selection');
         } else {
           tr.removeClass('context-menu-selection');
@@ -180,7 +180,7 @@ function contextMenuIsSelected(tr) {
 }
 
 function contextMenuCheckSelectionBox(tr, checked) {
-  tr.find('input[type=checkbox]').attr('checked', checked);
+  tr.find('input[type=checkbox]').prop('checked', checked);
 }
 
 function contextMenuClearDocumentSelection() {
@@ -207,13 +207,13 @@ function contextMenuInit(url) {
 function toggleIssuesSelection(el) {
   var boxes = $(el).parents('form').find('input[type=checkbox]');
   var all_checked = true;
-  boxes.each(function(){ if (!$(this).attr('checked')) { all_checked = false; } });
+  boxes.each(function(){ if (!$(this).prop('checked')) { all_checked = false; } });
   boxes.each(function(){
     if (all_checked) {
       $(this).removeAttr('checked');
       $(this).parents('tr').removeClass('context-menu-selection');
-    } else if (!$(this).attr('checked')) {
-      $(this).attr('checked', true);
+    } else if (!$(this).prop('checked')) {
+      $(this).prop('checked', true);
       $(this).parents('tr').addClass('context-menu-selection');
     }
   });

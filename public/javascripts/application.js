@@ -2,7 +2,7 @@
    Copyright (C) 2006-2014  Jean-Philippe Lang */
 
 function checkAll(id, checked) {
-  $('#'+id).find('input[type=checkbox]:enabled').attr('checked', checked);
+  $('#'+id).find('input[type=checkbox]:enabled').prop('checked', checked);
 }
 
 function toggleCheckboxesBySelector(selector) {
@@ -10,7 +10,7 @@ function toggleCheckboxesBySelector(selector) {
   $(selector).each(function(index) {
     if (!$(this).is(':checked')) { all_checked = false; }
   });
-  $(selector).attr('checked', !all_checked);
+  $(selector).prop('checked', !all_checked);
 }
 
 function showAndScrollTo(id, focus) {
@@ -100,7 +100,7 @@ function addFilter(field, operator, values) {
   } else {
     buildFilterRow(field, operator, values);
   }
-  $('#cb_'+fieldId).attr('checked', true);
+  $('#cb_'+fieldId).prop('checked', true);
   toggleFilter(field);
   $('#add_filter_select').val('').children('option').each(function() {
     if ($(this).attr('value') == field) {
@@ -555,12 +555,12 @@ function warnLeavingUnsaved(message) {
 }
 
 function setupAjaxIndicator() {
-  $('#ajax-indicator').bind('ajaxSend', function(event, xhr, settings) {
+  $(document).bind('ajaxSend', function(event, xhr, settings) {
     if ($('.ajax-loading').length === 0 && settings.contentType != 'application/octet-stream') {
       $('#ajax-indicator').show();
     }
   });
-  $('#ajax-indicator').bind('ajaxStop', function() {
+  $(document).bind('ajaxStop', function() {
     $('#ajax-indicator').hide();
   });
 }

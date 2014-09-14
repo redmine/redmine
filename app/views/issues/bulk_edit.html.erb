@@ -185,7 +185,7 @@
 <%= javascript_tag do %>
 $(window).load(function(){
   $(document).on('change', 'input[data-disables]', function(){
-    if ($(this).attr('checked')){
+    if ($(this).prop('checked')){
       $($(this).data('disables')).attr('disabled', true).val('');
     } else {
       $($(this).data('disables')).attr('disabled', false);
