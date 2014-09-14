@@ -1160,6 +1160,28 @@ class Issue < ActiveRecord::Base
     end
   end
 
+  # Returns an issue scope based on project and scope
+  def self.cross_project_scope(project, scope=nil)
+    if project.nil?
+      return Issue
+    end
+    case scope
+    when 'all', 'system'
+      Issue
+    when 'tree'
+      Issue.joins(:project).where("(#{Project.table_name}.lft >= :lft AND #{Project.table_name}.rgt <= :rgt)",
+                                  :lft => project.root.lft, :rgt => project.root.rgt)
+    when 'hierarchy'
+      Issue.joins(:project).where("(#{Project.table_name}.lft >= :lft AND #{Project.table_name}.rgt <= :rgt) OR (#{Project.table_name}.lft < :lft AND #{Project.table_name}.rgt > :rgt)",
+                                  :lft => project.lft, :rgt => project.rgt)
+    when 'descendants'
+      Issue.joins(:project).where("(#{Project.table_name}.lft >= :lft AND #{Project.table_name}.rgt <= :rgt)",
+                                  :lft => project.lft, :rgt => project.rgt)
+    else
+      Issue.where(:project_id => project.id)
+    end
+  end
+
   # Extracted from the ReportsController.
   def self.by_tracker(project)
     count_and_group_by(:project => project,
