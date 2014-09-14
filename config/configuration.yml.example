@@ -6,89 +6,65 @@
 #
 # Note that this file needs to be a valid YAML file.
 # DO NOT USE TABS! Use 2 spaces instead of tabs for identation.
-#
-# == Outgoing email settings (email_delivery setting)
-#
-# === Common configurations
-#
-# ==== Sendmail command
-#
-# production:
-#   email_delivery:
-#     delivery_method: :sendmail
-#
-# ==== Simple SMTP server at localhost
-#
-# production:
-#   email_delivery:
-#     delivery_method: :smtp
-#     smtp_settings:
-#       address: "localhost"
-#       port: 25
-#
-# ==== SMTP server at example.com using LOGIN authentication and checking HELO for foo.com
-#
-# production:
-#   email_delivery:
-#     delivery_method: :smtp
-#     smtp_settings:
-#       address: "example.com"
-#       port: 25
-#       authentication: :login
-#       domain: 'foo.com'
-#       user_name: 'myaccount'
-#       password: 'password'
-#
-# ==== SMTP server at example.com using PLAIN authentication
-#
-# production:
-#   email_delivery:
-#     delivery_method: :smtp
-#     smtp_settings:
-#       address: "example.com"
-#       port: 25
-#       authentication: :plain
-#       domain: 'example.com'
-#       user_name: 'myaccount'
-#       password: 'password'
-#
-# ==== SMTP server at using TLS (GMail)
-#
-# This might require some additional configuration. See the guides at:
-# http://www.redmine.org/projects/redmine/wiki/EmailConfiguration
-#
-# production:
-#   email_delivery:
-#     delivery_method: :smtp
-#     smtp_settings:
-#       enable_starttls_auto: true
-#       address: "smtp.gmail.com"
-#       port: 587
-#       domain: "smtp.gmail.com" # 'your.domain.com' for GoogleApps
-#       authentication: :plain
-#       user_name: "your_email@gmail.com"
-#       password: "your_password"
-#
-#
-# === More configuration options
-#
-# See following page:
-#
-# http://guides.rubyonrails.org/action_mailer_basics.html#action-mailer-configuration
-
 
 # default configuration options for all environments
 default:
-  # Outgoing emails configuration (see examples above)
+  # Outgoing emails configuration
+  # See the examples below and the Rails guide for more configuration options:
+  # http://guides.rubyonrails.org/action_mailer_basics.html#action-mailer-configuration
   email_delivery:
-    delivery_method: :smtp
-    smtp_settings:
-      address: smtp.example.net
-      port: 25
-      domain: example.net
-      authentication: :login
-      user_name: "redmine@example.net"
-      password: "redmine"
+
+  # ==== Simple SMTP server at localhost
+  #
+  #  email_delivery:
+  #    delivery_method: :smtp
+  #    smtp_settings:
+  #      address: "localhost"
+  #      port: 25
+  #
+  # ==== SMTP server at example.com using LOGIN authentication and checking HELO for foo.com
+  #
+  #  email_delivery:
+  #    delivery_method: :smtp
+  #    smtp_settings:
+  #      address: "example.com"
+  #      port: 25
+  #      authentication: :login
+  #      domain: 'foo.com'
+  #      user_name: 'myaccount'
+  #      password: 'password'
+  #
+  # ==== SMTP server at example.com using PLAIN authentication
+  #
+  #  email_delivery:
+  #    delivery_method: :smtp
+  #    smtp_settings:
+  #      address: "example.com"
+  #      port: 25
+  #      authentication: :plain
+  #      domain: 'example.com'
+  #      user_name: 'myaccount'
+  #      password: 'password'
+  #
+  # ==== SMTP server at using TLS (GMail)
+  # This might require some additional configuration. See the guides at:
+  # http://www.redmine.org/projects/redmine/wiki/EmailConfiguration
+  #
+  #  email_delivery:
+  #    delivery_method: :smtp
+  #    smtp_settings:
+  #      enable_starttls_auto: true
+  #      address: "smtp.gmail.com"
+  #      port: 587
+  #      domain: "smtp.gmail.com" # 'your.domain.com' for GoogleApps
+  #      authentication: :plain
+  #      user_name: "your_email@gmail.com"
+  #      password: "your_password"
+  #
+  # ==== Sendmail command
+  #
+  #  email_delivery:
+  #    delivery_method: :sendmail
 
   # Absolute path to the directory where attachments are stored.
   # The default is the 'files' directory in your Redmine instance.
