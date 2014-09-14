@@ -325,7 +325,7 @@ blockquote blockquote { margin-left: 0;}
 abbr  { border-bottom: 1px dotted; cursor: help; }
 textarea.wiki-edit {width:99%; resize:vertical;}
 li p {margin-top: 0;}
-div.issue {background:#ffffdd; padding:6px; margin-bottom:6px;border: 1px solid #d7d7d7;}
+div.issue {background:#ffffdd; padding:6px; margin-bottom:6px;border: 1px solid #d7d7d7; word-wrap: break-word;}
 p.breadcrumb { font-size: 0.9em; margin: 4px 0 4px 0;}
 p.subtitle { font-size: 0.9em; margin: -6px 0 12px 0; font-style: italic; }
 p.footnote { font-size: 0.9em; margin-top: 0px; margin-bottom: 0px; }
