@@ -81,13 +81,13 @@ function initFilters() {
   $('#filters-table td.field input[type=checkbox]').each(function() {
     toggleFilter($(this).val());
   });
-  $('#filters-table td.field input[type=checkbox]').live('click', function() {
+  $('#filters-table').on('click', 'td.field input[type=checkbox]', function() {
     toggleFilter($(this).val());
   });
-  $('#filters-table .toggle-multiselect').live('click', function() {
+  $('#filters-table').on('click', '.toggle-multiselect', function() {
     toggleMultiSelect($(this).siblings('select'));
   });
-  $('#filters-table input[type=text]').live('keypress', function(e) {
+  $('#filters-table').on('keypress', 'input[type=text]', function(e) {
     if (e.keyCode == 13) submit_query_form("query_form");
   });
 }
@@ -537,10 +537,10 @@ function initMyPageSortable(list, url) {
 var warnLeavingUnsavedMessage;
 function warnLeavingUnsaved(message) {
   warnLeavingUnsavedMessage = message;
-  $('form').live('submit', function(){
+  $(document).on('submit', 'form', function(){
     $('textarea').removeData('changed');
   });
-  $('textarea').live('change', function(){
+  $(document).on('change', 'textarea', function(){
     $(this).data('changed', 'changed');
   });
   window.onbeforeunload = function(){
