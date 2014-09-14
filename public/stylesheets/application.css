@@ -299,6 +299,7 @@ span.search_for_watchers a, span.add_attachment a {padding-left:16px; background
   color:#505050;
   line-height:1.5em;
   border: 1px solid #e4e4e4;
+  word-wrap: break-word;
 }
 
 div.square {
