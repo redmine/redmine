@@ -279,6 +279,7 @@ class User < Principal
   def salt_password(clear_password)
     self.salt = User.generate_salt
     self.hashed_password = User.hash_password("#{salt}#{User.hash_password clear_password}")
+    self.passwd_changed_on = Time.now
   end
 
   # Does the backend storage allow this user to change their password?

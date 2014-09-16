@@ -49,7 +49,7 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  before_filter :session_expiration, :user_setup, :check_if_login_required, :check_password_change, :set_localization
+  before_filter :session_expiration, :user_setup, :force_logout_if_password_changed, :check_if_login_required, :check_password_change, :set_localization
 
   rescue_from ::Unauthorized, :with => :deny_access
   rescue_from ::ActionView::MissingTemplate, :with => :missing_template
@@ -143,6 +143,18 @@ class ApplicationController < ActionController::Base
       end
     end
     user
+  end
+
+  def force_logout_if_password_changed
+    passwd_changed_on = User.current.passwd_changed_on || Time.at(0)
+    # Make sure we force logout only for web browser sessions, not API calls
+    # if the password was changed after the session creation.
+    if session[:user_id] && passwd_changed_on.utc.to_i > session[:ctime].to_i
+      reset_session
+      set_localization
+      flash[:error] = l(:error_session_expired)
+      redirect_to signin_url
+    end
   end
 
   def autologin_cookie_name
