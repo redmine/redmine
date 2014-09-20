@@ -319,7 +319,7 @@ class MailHandler < ActionMailer::Base
     else
       @keywords[attr] = begin
         if (options[:override] || @@handler_options[:allow_override].include?(attr.to_s)) &&
-              (v = extract_keyword!(plain_text_body, attr, options[:format]))
+              (v = extract_keyword!(cleaned_up_text_body, attr, options[:format]))
           v
         elsif !@@handler_options[:issue][attr].blank?
           @@handler_options[:issue][attr]
@@ -347,7 +347,7 @@ class MailHandler < ActionMailer::Base
     regexp = /^(#{keys.join('|')})[ \t]*:[ \t]*(#{format})\s*$/i
     if m = text.match(regexp)
       keyword = m[2].strip
-      text.gsub!(regexp, '')
+      text.sub!(regexp, '')
     end
     keyword
   end
@@ -436,7 +436,7 @@ class MailHandler < ActionMailer::Base
   end
 
   def cleaned_up_text_body
-    cleanup_body(plain_text_body)
+    @cleaned_up_text_body ||= cleanup_body(plain_text_body)
   end
 
   def cleaned_up_subject
