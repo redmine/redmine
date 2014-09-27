@@ -1190,7 +1190,7 @@ module ApplicationHelper
                      "beforeShow: beforeShowDatePicker};")
         jquery_locale = l('jquery.locale', :default => current_language.to_s)
         unless jquery_locale == 'en'
-          tags << javascript_include_tag("i18n/jquery.ui.datepicker-#{jquery_locale}.js")
+          tags << javascript_include_tag("i18n/datepicker-#{jquery_locale}.js")
         end
         tags
       end

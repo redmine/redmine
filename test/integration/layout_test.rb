@@ -73,37 +73,37 @@ class LayoutTest < ActionController::IntegrationTest
   def test_calendar_header_tags
     with_settings :default_language => 'fr' do
       get '/issues'
-      assert_include "/javascripts/i18n/jquery.ui.datepicker-fr.js", response.body
+      assert_include "/javascripts/i18n/datepicker-fr.js", response.body
     end
 
     with_settings :default_language => 'en-GB' do
       get '/issues'
-      assert_include "/javascripts/i18n/jquery.ui.datepicker-en-GB.js", response.body
+      assert_include "/javascripts/i18n/datepicker-en-GB.js", response.body
     end
 
     with_settings :default_language => 'en' do
       get '/issues'
-      assert_not_include "/javascripts/i18n/jquery.ui.datepicker", response.body
+      assert_not_include "/javascripts/i18n/datepicker", response.body
     end
 
     with_settings :default_language => 'zh' do
       get '/issues'
-      assert_include "/javascripts/i18n/jquery.ui.datepicker-zh-CN.js", response.body
+      assert_include "/javascripts/i18n/datepicker-zh-CN.js", response.body
     end
 
     with_settings :default_language => 'zh-TW' do
       get '/issues'
-      assert_include "/javascripts/i18n/jquery.ui.datepicker-zh-TW.js", response.body
+      assert_include "/javascripts/i18n/datepicker-zh-TW.js", response.body
     end
 
     with_settings :default_language => 'pt' do
       get '/issues'
-      assert_include "/javascripts/i18n/jquery.ui.datepicker-pt.js", response.body
+      assert_include "/javascripts/i18n/datepicker-pt.js", response.body
     end
 
     with_settings :default_language => 'pt-BR' do
       get '/issues'
-      assert_include "/javascripts/i18n/jquery.ui.datepicker-pt-BR.js", response.body
+      assert_include "/javascripts/i18n/datepicker-pt-BR.js", response.body
     end
   end
 
