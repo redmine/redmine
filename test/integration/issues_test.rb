@@ -65,6 +65,27 @@ class IssuesTest < ActionController::IntegrationTest
     assert_equal 1, issue.status.id
   end
 
+  def test_create_issue_by_anonymous_without_permission_should_fail
+    Role.anonymous.remove_permission! :add_issues
+
+    assert_no_difference 'Issue.count' do
+      post 'projects/1/issues', :tracker_id => "1", :issue => {:subject => "new test issue"}
+    end
+    assert_response 302
+  end
+
+  def test_create_issue_by_anonymous_with_custom_permission_should_succeed
+    Role.anonymous.remove_permission! :add_issues
+    Member.create!(:project_id => 1, :principal => Group.anonymous, :role_ids => [3])
+
+    assert_difference 'Issue.count' do
+      post 'projects/1/issues', :tracker_id => "1", :issue => {:subject => "new test issue"}
+    end
+    assert_response 302
+    issue = Issue.order("id DESC").first
+    assert_equal User.anonymous, issue.author
+  end
+
   # add then remove 2 attachments to an issue
   def test_issue_attachments
     log_user('jsmith', 'jsmith')

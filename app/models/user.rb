@@ -474,15 +474,15 @@ class User < Principal
 
   # Return user's roles for project
   def roles_for_project(project)
-    roles = []
     # No role on archived projects
-    return roles if project.nil? || project.archived?
+    return [] if project.nil? || project.archived?
     if membership = membership(project)
-      roles = membership.roles
+      membership.roles.dup
+    elsif project.is_public?
+      project.override_roles(builtin_role)
     else
-      roles << builtin_role
+      []
     end
-    roles
   end
 
   # Return true if the user is a member of project
@@ -494,20 +494,28 @@ class User < Principal
   def projects_by_role
     return @projects_by_role if @projects_by_role
 
-    @projects_by_role = Hash.new([])
-    memberships.each do |membership|
-      if membership.project
-        membership.roles.each do |role|
-          @projects_by_role[role] = [] unless @projects_by_role.key?(role)
-          @projects_by_role[role] << membership.project
+    hash = Hash.new([])
+
+    members = Member.joins(:project).
+      where("#{Project.table_name}.status <> 9").
+      where("#{Member.table_name}.user_id = ? OR (#{Project.table_name}.is_public = ? AND #{Member.table_name}.user_id = ?)", self.id, true, Group.builtin_id(self)).
+      preload(:project, :roles)
+
+    members.reject! {|member| member.user_id != id && project_ids.include?(member.project_id)}
+    members.each do |member|
+      if member.project
+        member.roles.each do |role|
+          hash[role] = [] unless hash.key?(role)
+          hash[role] << member.project
         end
       end
     end
-    @projects_by_role.each do |role, projects|
+    
+    hash.each do |role, projects|
       projects.uniq!
     end
 
-    @projects_by_role
+    @projects_by_role = hash
   end
 
   # Returns true if user is arg or belongs to arg

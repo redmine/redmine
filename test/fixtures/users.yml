@@ -161,9 +161,20 @@ groups_010:
   id: 10
   lastname: A Team
   type: Group
+  status: 1
 groups_011: 
   id: 11
   lastname: B Team
   type: Group
+  status: 1
+groups_non_member: 
+  id: 12
+  lastname: Non member users
+  type: GroupNonMember
+  status: 1
+groups_anonymous: 
+  id: 13
+  lastname: Anonymous users
+  type: GroupAnonymous
+  status: 1
 
-  

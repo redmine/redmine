@@ -248,7 +248,12 @@ sub RedmineDSN {
                 AND (
                   roles.id IN (SELECT member_roles.role_id FROM members, member_roles WHERE members.user_id = users.id AND members.project_id = projects.id AND members.id = member_roles.member_id)
                   OR
-                  (roles.builtin=1 AND cast(projects.is_public as CHAR) IN ('t', '1'))
+                  (cast(projects.is_public as CHAR) IN ('t', '1')
+                    AND (roles.builtin=1
+                         OR roles.id IN (SELECT member_roles.role_id FROM members, member_roles, users g
+                                 WHERE members.user_id = g.id AND members.project_id = projects.id AND members.id = member_roles.member_id
+                                 AND g.type = 'GroupNonMember'))
+                  )
                 )
                 AND roles.permissions IS NOT NULL";
   $self->{RedmineQuery} = trim($query);
@@ -328,7 +333,7 @@ sub access_handler {
   my $project_id = get_project_identifier($r);
 
   $r->set_handlers(PerlAuthenHandler => [\&OK])
-      if is_public_project($project_id, $r) && anonymous_role_allows_browse_repository($r);
+      if is_public_project($project_id, $r) && anonymous_allowed_to_browse_repository($project_id, $r);
 
   return OK
 }
@@ -400,15 +405,20 @@ sub is_public_project {
     $ret;
 }
 
-sub anonymous_role_allows_browse_repository {
+sub anonymous_allowed_to_browse_repository {
+  my $project_id = shift;
   my $r = shift;
 
   my $dbh = connect_database($r);
   my $sth = $dbh->prepare(
-      "SELECT permissions FROM roles WHERE builtin = 2;"
+      "SELECT permissions FROM roles WHERE permissions like '%browse_repository%'
+        AND (roles.builtin = 2
+             OR roles.id IN (SELECT member_roles.role_id FROM projects, members, member_roles, users
+                             WHERE members.user_id = users.id AND members.project_id = projects.id AND members.id = member_roles.member_id
+                             AND projects.identifier = ? AND users.type = 'GroupAnonymous'));"
   );
 
-  $sth->execute();
+  $sth->execute($project_id);
   my $ret = 0;
   if (my @row = $sth->fetchrow_array) {
     if ($row[0] =~ /:browse_repository/) {

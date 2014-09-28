@@ -65,6 +65,7 @@ module RedminePmTest
       @command = args.join(' ')
       @status = nil
       IO.popen("#{command} 2>&1") do |io|
+        io.set_encoding("ASCII-8BIT") if io.respond_to?(:set_encoding)
         @response = io.read
       end
       @status = $?.exitstatus

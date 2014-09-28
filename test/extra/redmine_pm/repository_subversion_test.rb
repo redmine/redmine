@@ -27,6 +27,12 @@ class RedminePmTest::RepositorySubversionTest < RedminePmTest::TestCase
     assert_success "ls", svn_url
   end
 
+  def test_anonymous_read_on_public_repo_with_anonymous_group_permission_should_succeed
+    Role.anonymous.remove_permission! :browse_repository
+    Member.create!(:project_id => 1, :principal => Group.anonymous, :role_ids => [2])
+    assert_success "ls", svn_url
+  end
+
   def test_anonymous_read_on_public_repo_without_permission_should_fail
     Role.anonymous.remove_permission! :browse_repository
     assert_failure "ls", svn_url
@@ -50,6 +56,15 @@ class RedminePmTest::RepositorySubversionTest < RedminePmTest::TestCase
 
   def test_non_member_read_on_public_repo_with_permission_should_succeed
     Role.anonymous.remove_permission! :browse_repository
+    with_credentials "miscuser8", "foo" do
+      assert_success "ls", svn_url
+    end
+  end
+
+  def test_non_member_read_on_public_repo_with_non_member_group_permission_should_succeed
+    Role.anonymous.remove_permission! :browse_repository
+    Role.non_member.remove_permission! :browse_repository
+    Member.create!(:project_id => 1, :principal => Group.non_member, :role_ids => [2])
     with_credentials "miscuser8", "foo" do
       assert_success "ls", svn_url
     end

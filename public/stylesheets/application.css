@@ -241,6 +241,8 @@ table p {margin:0;}
 .odd {background-color:#f6f7f8;}
 .even {background-color: #fff;}
 
+tr.builtin td.name {font-style:italic;}
+
 a.sort { padding-right: 16px; background-position: 100% 50%; background-repeat: no-repeat; }
 a.sort.asc  { background-image: url(../images/sort_asc.png); }
 a.sort.desc { background-image: url(../images/sort_desc.png); }
@@ -609,7 +611,8 @@ select.bool_cf {width:auto !important;}
 #users_for_watcher {height: 200px; overflow:auto;}
 #users_for_watcher label {display: block;}
 
-table.members td.group { padding-left: 20px; background: url(../images/group.png) no-repeat 0% 50%; }
+table.members td.name {padding-left: 20px;}
+table.members td.group, table.members td.groupnonmember, table.members td.groupanonymous {background: url(../images/group.png) no-repeat 0% 1px;}
 
 input#principal_search, input#user_search {width:90%}
 

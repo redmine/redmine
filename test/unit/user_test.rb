@@ -838,14 +838,42 @@ class UserTest < ActiveSupport::TestCase
     assert_nil membership
   end
 
-  def test_roles_for_project
-    # user with a role
+  def test_roles_for_project_with_member_on_public_project_should_return_roles_and_non_member
     roles = @jsmith.roles_for_project(Project.find(1))
     assert_kind_of Role, roles.first
-    assert_equal "Manager", roles.first.name
+    assert_equal ["Manager"], roles.map(&:name)
+  end
 
-    # user with no role
-    assert_nil @dlopper.roles_for_project(Project.find(2)).detect {|role| role.member?}
+  def test_roles_for_project_with_member_on_private_project_should_return_roles
+    Project.find(1).update_attribute :is_public, false
+
+    roles = @jsmith.roles_for_project(Project.find(1))
+    assert_kind_of Role, roles.first
+    assert_equal ["Manager"], roles.map(&:name)
+  end
+
+  def test_roles_for_project_with_non_member_with_public_project_should_return_non_member
+    roles = User.find(8).roles_for_project(Project.find(1))
+    assert_equal ["Non member"], roles.map(&:name)
+  end
+
+  def test_roles_for_project_with_non_member_with_public_project_should_return_no_roles
+    Project.find(1).update_attribute :is_public, false
+  
+    roles = User.find(8).roles_for_project(Project.find(1))
+    assert_equal [], roles.map(&:name)
+  end
+
+  def test_roles_for_project_with_anonymous_with_public_project_should_return_anonymous
+    roles = User.anonymous.roles_for_project(Project.find(1))
+    assert_equal ["Anonymous"], roles.map(&:name)
+  end
+
+  def test_roles_for_project_with_anonymous_with_public_project_should_return_no_roles
+    Project.find(1).update_attribute :is_public, false
+  
+    roles = User.anonymous.roles_for_project(Project.find(1))
+    assert_equal [], roles.map(&:name)
   end
 
   def test_projects_by_role_for_user_with_role

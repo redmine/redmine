@@ -29,15 +29,34 @@ class Redmine::ApiTest::GroupsTest < Redmine::ApiTest::Base
     assert_response 401
   end
 
-  test "GET /groups.xml should return groups" do
+  test "GET /groups.xml should return givable groups" do
     get '/groups.xml', {}, credentials('admin')
     assert_response :success
     assert_equal 'application/xml', response.content_type
 
     assert_select 'groups' do
+      assert_select 'group', Group.givable.count
       assert_select 'group' do
         assert_select 'name', :text => 'A Team'
         assert_select 'id', :text => '10'
+      end
+    end
+  end
+
+  test "GET /groups.xml?builtin=1 should return all groups" do
+    get '/groups.xml?builtin=1', {}, credentials('admin')
+    assert_response :success
+    assert_equal 'application/xml', response.content_type
+
+    assert_select 'groups' do
+      assert_select 'group', Group.givable.count + 2
+      assert_select 'group' do
+        assert_select 'builtin', :text => 'non_member'
+        assert_select 'id', :text => '12'
+      end
+      assert_select 'group' do
+        assert_select 'builtin', :text => 'anonymous'
+        assert_select 'id', :text => '13'
       end
     end
   end
@@ -60,7 +79,7 @@ class Redmine::ApiTest::GroupsTest < Redmine::ApiTest::Base
     assert_equal({'id' => 10, 'name' => 'A Team'}, group)
   end
 
-  test "GET /groups/:id.xml should return the group with its users" do
+  test "GET /groups/:id.xml should return the group" do
     get '/groups/10.xml', {}, credentials('admin')
     assert_response :success
     assert_equal 'application/xml', response.content_type
@@ -68,6 +87,17 @@ class Redmine::ApiTest::GroupsTest < Redmine::ApiTest::Base
     assert_select 'group' do
       assert_select 'name', :text => 'A Team'
       assert_select 'id', :text => '10'
+    end
+  end
+
+  test "GET /groups/:id.xml should return the builtin group" do
+    get '/groups/12.xml', {}, credentials('admin')
+    assert_response :success
+    assert_equal 'application/xml', response.content_type
+
+    assert_select 'group' do
+      assert_select 'builtin', :text => 'non_member'
+      assert_select 'id', :text => '12'
     end
   end
 

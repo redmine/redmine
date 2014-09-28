@@ -32,7 +32,7 @@ class Project < ActiveRecord::Base
   has_many :memberships, :class_name => 'Member'
   has_many :member_principals, :class_name => 'Member',
                                :include => :principal,
-                               :conditions => "#{Principal.table_name}.type='Group' OR (#{Principal.table_name}.type='User' AND #{Principal.table_name}.status=#{Principal::STATUS_ACTIVE})"
+                               :conditions => "#{Principal.table_name}.status=#{Principal::STATUS_ACTIVE}"
 
   has_many :enabled_modules, :dependent => :delete_all
   has_and_belongs_to_many :trackers, :order => "#{Tracker.table_name}.position"
@@ -191,11 +191,9 @@ class Project < ActiveRecord::Base
           statement_by_role[role] = "#{Project.table_name}.is_public = #{connection.quoted_true}"
         end
       end
-      if user.logged?
-        user.projects_by_role.each do |role, projects|
-          if role.allowed_to?(permission) && projects.any?
-            statement_by_role[role] = "#{Project.table_name}.id IN (#{projects.collect(&:id).join(',')})"
-          end
+      user.projects_by_role.each do |role, projects|
+        if role.allowed_to?(permission) && projects.any?
+          statement_by_role[role] = "#{Project.table_name}.id IN (#{projects.collect(&:id).join(',')})"
         end
       end
       if statement_by_role.empty?
@@ -211,6 +209,12 @@ class Project < ActiveRecord::Base
         "((#{base_statement}) AND (#{statement_by_role.values.join(' OR ')}))"
       end
     end
+  end
+
+  def override_roles(role)
+    @override_members ||= memberships.where(:user_id => [GroupAnonymous.instance_id, GroupNonMember.instance_id]).all
+    member = @override_members.detect {|m| role.anonymous? ^ (m.user_id == GroupNonMember.instance_id)}
+    member ? member.roles : [role]
   end
 
   def principals
@@ -305,6 +309,7 @@ class Project < ActiveRecord::Base
     @actions_allowed = nil
     @start_date = nil
     @due_date = nil
+    @override_members = nil
     base_reload(*args)
   end
 
@@ -498,8 +503,13 @@ class Project < ActiveRecord::Base
 
   # Users/groups issues can be assigned to
   def assignable_users
-    assignable = Setting.issue_group_assignment? ? member_principals : members
-    assignable.select {|m| m.roles.detect {|role| role.assignable?}}.collect {|m| m.principal}.sort
+    types = ['User']
+    types << 'Group' if Setting.issue_group_assignment?
+
+    member_principals.
+      select {|m| types.include?(m.principal.type) && m.roles.detect(&:assignable?)}.
+      map(&:principal).
+      sort
   end
 
   # Returns the mail addresses of users that should be always notified on project events

@@ -3,6 +3,7 @@ api.array :groups do
     api.group do
       api.id         group.id
       api.name       group.lastname
+      api.builtin    group.builtin_type if group.builtin_type
 
       render_api_custom_values group.visible_custom_field_values, api
     end

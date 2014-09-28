@@ -18,11 +18,12 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 module GroupsHelper
-  def group_settings_tabs
-    tabs = [{:name => 'general', :partial => 'groups/general', :label => :label_general},
-            {:name => 'users', :partial => 'groups/users', :label => :label_user_plural},
-            {:name => 'memberships', :partial => 'groups/memberships', :label => :label_project_plural}
-            ]
+  def group_settings_tabs(group)
+    tabs = []
+    tabs << {:name => 'general', :partial => 'groups/general', :label => :label_general}
+    tabs << {:name => 'users', :partial => 'groups/users', :label => :label_user_plural} if group.givable?
+    tabs << {:name => 'memberships', :partial => 'groups/memberships', :label => :label_project_plural}
+    tabs
   end
 
   def render_principals_for_new_group_users(group)

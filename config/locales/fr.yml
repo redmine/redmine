@@ -871,6 +871,8 @@ fr:
   label_group: Groupe
   label_group_plural: Groupes
   label_group_new: Nouveau groupe
+  label_group_anonymous: Utilisateurs anonymes
+  label_group_non_member: Utilisateurs non membres
   label_time_entry_plural: Temps passé
   label_version_sharing_none: Non partagé
   label_version_sharing_descendants: Avec les sous-projets

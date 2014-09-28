@@ -147,6 +147,7 @@ class IssueQuery < Query
     end
     principals.uniq!
     principals.sort!
+    principals.reject! {|p| p.is_a?(GroupBuiltin)}
     users = principals.select {|p| p.is_a?(User)}
 
     add_available_filter "status_id",
@@ -183,7 +184,7 @@ class IssueQuery < Query
       :type => :list_optional, :values => assigned_to_values
     ) unless assigned_to_values.empty?
 
-    group_values = Group.all.collect {|g| [g.name, g.id.to_s] }
+    group_values = Group.givable.collect {|g| [g.name, g.id.to_s] }
     add_available_filter("member_of_group",
       :type => :list_optional, :values => group_values
     ) unless group_values.empty?
@@ -404,10 +405,10 @@ class IssueQuery < Query
 
   def sql_for_member_of_group_field(field, operator, value)
     if operator == '*' # Any group
-      groups = Group.all
+      groups = Group.givable
       operator = '=' # Override the operator since we want to find by assigned_to
     elsif operator == "!*"
-      groups = Group.all
+      groups = Group.givable
       operator = '!' # Override the operator since we want to find by assigned_to
     else
       groups = Group.where(:id => value).all
