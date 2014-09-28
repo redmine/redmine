@@ -1121,3 +1121,5 @@ pt:
   label_latest_compatible_version: Última versão compatível
   label_unknown_plugin: Extensão desconhecida
   label_radio_buttons: radio buttons
+  label_group_anonymous: Anonymous users
+  label_group_non_member: Non member users

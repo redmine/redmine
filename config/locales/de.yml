@@ -1125,3 +1125,5 @@ de:
   version_status_open: offen
 
   warning_attachments_not_saved: "%{count} Datei(en) konnten nicht gespeichert werden."
+  label_group_anonymous: Anonymous users
+  label_group_non_member: Non member users

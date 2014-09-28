@@ -1124,3 +1124,5 @@ gl:
   label_latest_compatible_version: "Última versión compatíbel"
   label_unknown_plugin: "Complemento descoñecido"
   label_radio_buttons: "caixas de opción única"
+  label_group_anonymous: Anonymous users
+  label_group_non_member: Non member users

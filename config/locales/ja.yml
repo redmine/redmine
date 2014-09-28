@@ -1132,3 +1132,5 @@ ja:
   label_latest_compatible_version: 互換性のある最新バージョン
   label_unknown_plugin: 不明なプラグイン
   label_radio_buttons: ラジオボタン
+  label_group_anonymous: Anonymous users
+  label_group_non_member: Non member users
