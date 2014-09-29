@@ -715,8 +715,8 @@ section p {
 	color: gray;
 }
 .btn-xlarge {
-	padding: 17px 26px;
-	font-size: 34px;
+	padding: 20px 32px;
+	font-size: 30px;
 	-webkit-border-radius: 6px;
 	-moz-border-radius: 6px;
 	border-radius: 6px;
@@ -811,7 +811,7 @@ section p {
 .big-lead {
 	font-weight: 200;
 	font-size: 60px;
-	line-height: 1.2;
+	line-height: 1;
 	margin-bottom: 30px;
 	margin-top: 40px;
 }
@@ -1567,7 +1567,7 @@ div.splitcontentleft > h2 {
 	margin-bottom: 0px;
 }
 #helpIcon {
-	font-size: 35px;
+	font-size: 65px;
 	vertical-align: middle;
 	padding-left: 15px;
 }
