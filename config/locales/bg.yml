@@ -854,6 +854,8 @@ bg:
   label_group: Група
   label_group_plural: Групи
   label_group_new: Нова група
+  label_group_anonymous: Анонимни потребители
+  label_group_non_member: Потребители, които не са членове на проекта
   label_time_entry_plural: Използвано време
   label_version_sharing_none: Не споделен
   label_version_sharing_descendants: С подпроекти
@@ -1110,5 +1112,3 @@ bg:
   description_date_from: Въведете начална дата
   description_date_to: Въведете крайна дата
   text_repository_identifier_info: 'Позволени са малки букви (a-z), цифри, тирета и _.<br />Промяна след създаването му не е възможна.'
-  label_group_anonymous: Anonymous users
-  label_group_non_member: Non member users
