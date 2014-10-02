@@ -1,14 +1,23 @@
 <h2>Status</h2>
 
+<p>These status values are currently based on a manual curation process, scoring the models on 
+    the completeness of the translation of the model from the original format to NeuroML (or PyNN). </p>
+<p>For simulators, the "star" score represents <b>how well the model translates to the specific simulator from the simulator 
+    independent format, NOT the availability of original scripts in that simulator</b>. </p>
+
+<!--p OSB <%= params[:osb] %>, p user <%= params[:user] %>, params <%= params.inspect %>, inc <%= params.include?(:user) %>...-->
+
+<% showosb = params.include?(:osb) ? params[:osb] : 'true' %>
+<% showuser = params.include?(:user) ? params[:user] : 'false' %>
+
+<!--s OSB <%= showosb %>, s user <%= showuser %>-->
+
+<%= form_tag("/status", method: "get") do %>
+  <%= label_tag(:q, "Include user projects:") %> <%= check_box_tag(:user, true, false) %> <%= submit_tag("Update") %>
+<% end %>
 
 
-<p><b>Note: this table is still in development!</b></p>
-<p>These status values are currently based on a manual curation process, scoring the models on the completeness of the translation of the model from the original format to NeuroML (or PyNN). </p>
-<p>For simulators, the score represents how well the model translates to the specific simulator from the simulator independent format, NOT the availability of original scripts in that simulator. </p>
-<p>The longer term aim is to have these scores generated automatically from tests based on parsing of the NeuroML and comparison to expected model behaviour. </p>
-
-
-<%= render_status_table(@projects)%>
+<%= render_status_table(@projects, showosb, showuser)%>
 
 
 <% content_for :header_tags do %>

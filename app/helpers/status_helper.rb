@@ -19,13 +19,15 @@
 
 module StatusHelper
   # Renders a table of project statuses
-  def render_status_table(projects)
+  def render_status_table(projects, showosb, showuser)
     s = ''
     if projects.any?
       ancestors = []
       original_project = @project
 
       status_types = ["", "Curation", "NeuroML v1.x", "NeuroML v2.x", "PyNN", "NEURON", "GENESIS 2", "MOOSE", "PSICS", "NEST", "Brian", "OSB Model Validation"]
+
+      #s << "Show OSB: #{showosb}, show user: #{showuser} "
 
       s << "<table  class='list'>\n"
       s << "<thead>\n"
@@ -55,16 +57,31 @@ module StatusHelper
               show_this = 1
             end
           end
-          if (custom_value.custom_field.name == 'Endorsement')
-            if (custom_value.value == '1')
-              endorsement = "<span class='label label-success tooltiplink' data-toggle='tooltip' data-placement='right' title='This project is endorsed by OSB and is officially supported.'>OSB</span>"
-            else
-              endorsement = "<span class='label label-warning tooltiplink' data-toggle='tooltip' data-placement='right' title='This is a personal user project and has not yet been endorsed by OSB. Please get in contact (info@opensourcebrain.org) to have this project endorsed!'>User</span>"
+        end
+
+        if (show_this == 1)
+            project.visible_custom_field_values.each do |custom_value|
+              if (custom_value.custom_field.name == 'Endorsement')
+                if (custom_value.value == '1')
+                  endorsement = "<span class='label label-success tooltiplink' data-toggle='tooltip' data-placement='right' title='This project is endorsed by OSB and is officially supported.'>OSB</span>"
+                  if (show_this && (showosb == '1' || showosb == 'true'))
+                    show_this = 1
+                  else 
+                    show_this = 0
+                  end
+                else
+                  endorsement = "<span class='label label-warning tooltiplink' data-toggle='tooltip' data-placement='right' title='This is a personal user project and has not yet been endorsed by OSB. Please get in contact (info@opensourcebrain.org) to have this project endorsed!'>User</span>"
+                  if (show_this && (showuser == '1' || showuser == 'true'))
+                    show_this = 1
+                  else 
+                    show_this = 0
+                  end
+                end
+              end
+              if (custom_value.custom_field.name == 'Status info')
+                alt_text = " title='#{custom_value.value}'"  
+              end
             end
-          end
-          if (custom_value.custom_field.name == 'Status info')
-            alt_text = " title='#{custom_value.value}'"  
-          end
         end
 
         if (show_this == 1)
