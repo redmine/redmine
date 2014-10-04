@@ -89,6 +89,16 @@ class Redmine::ApiTest::MembershipsTest < Redmine::ApiTest::Base
     end
   end
 
+  test "POST /projects/:project_id/memberships.xml should create the group membership" do
+    group = Group.find(11)
+
+    assert_difference 'Member.count', 1 + group.users.count do
+      post '/projects/1/memberships.xml', {:membership => {:user_id => 11, :role_ids => [2,3]}}, credentials('jsmith')
+
+      assert_response :created
+    end
+  end
+
   test "POST /projects/:project_id/memberships.xml with invalid parameters should return errors" do
     assert_no_difference 'Member.count' do
       post '/projects/1/memberships.xml', {:membership => {:role_ids => [2,3]}}, credentials('jsmith')
