@@ -7,6 +7,12 @@ entries = timelog_items
 entries_by_day = entries.group_by(&:spent_on)
 %>
 
+<% if User.current.allowed_to?(:log_time, nil, :global => true) %>
+<div class="contextual">
+  <%= link_to l(:button_log_time), new_time_entry_path, :class => "icon icon-add" %>
+</div>
+<% end %>
+
 <div class="total-hours">
 <p><%= l(:label_total_time) %>: <%= html_hours("%.2f" % entries.sum(&:hours).to_f) %></p>
 </div>
