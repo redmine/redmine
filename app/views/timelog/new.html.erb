@@ -1,7 +1,6 @@
 <h2><%= l(:label_spent_time) %></h2>
 
 <%= labelled_form_for @time_entry, :url => time_entries_path do |f| %>
-  <%= hidden_field_tag 'project_id', params[:project_id] if params[:project_id] %>
   <%= render :partial => 'form', :locals => {:f => f} %>
   <%= submit_tag l(:button_create) %>
   <%= submit_tag l(:button_create_and_continue), :name => 'continue' %>

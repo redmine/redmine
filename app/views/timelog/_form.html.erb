@@ -3,10 +3,12 @@
 
 <div class="box tabular">
   <% if @time_entry.new_record? %>
-    <% if params[:project_id] || @time_entry.issue %>
-      <%= f.hidden_field :project_id %>
+    <% if params[:project_id] %>
+      <%= hidden_field_tag 'project_id', params[:project_id] %>
+    <% elsif params[:issue_id] %>
+      <%= hidden_field_tag 'issue_id', params[:issue_id] %>
     <% else %>
-      <p><%= f.select :project_id, project_tree_options_for_select(Project.allowed_to(:log_time).all, :selected => @time_entry.project), :required => true %></p>
+      <p><%= f.select :project_id, project_tree_options_for_select(Project.allowed_to(:log_time).all, :selected => @time_entry.project, :include_blank => true) %></p>
     <% end %>
   <% end %>
   <p>

@@ -18,14 +18,12 @@
 class TimelogController < ApplicationController
   menu_item :issues
 
-  before_filter :find_project_for_new_time_entry, :only => [:create]
   before_filter :find_time_entry, :only => [:show, :edit, :update]
   before_filter :find_time_entries, :only => [:bulk_edit, :bulk_update, :destroy]
-  before_filter :authorize, :except => [:new, :index, :report]
+  before_filter :authorize, :only => [:show, :edit, :update, :bulk_edit, :bulk_update, :destroy]
 
-  before_filter :find_optional_project, :only => [:index, :report]
-  before_filter :find_optional_project_for_new_time_entry, :only => [:new]
-  before_filter :authorize_global, :only => [:new, :index, :report]
+  before_filter :find_optional_project, :only => [:new, :create, :index, :report]
+  before_filter :authorize_global, :only => [:new, :create, :index, :report]
 
   accept_rss_auth :index
   accept_api_auth :index, :show, :create, :update, :destroy
@@ -104,6 +102,10 @@ class TimelogController < ApplicationController
   def create
     @time_entry ||= TimeEntry.new(:project => @project, :issue => @issue, :user => User.current, :spent_on => User.current.today)
     @time_entry.safe_attributes = params[:time_entry]
+    if @time_entry.project && !User.current.allowed_to?(:log_time, @time_entry.project)
+      render_403
+      return
+    end
 
     call_hook(:controller_timelog_edit_before_save, { :params => params, :time_entry => @time_entry })
 
@@ -112,21 +114,19 @@ class TimelogController < ApplicationController
         format.html {
           flash[:notice] = l(:notice_successful_create)
           if params[:continue]
-            if params[:project_id]
-              options = {
-                :time_entry => {:issue_id => @time_entry.issue_id, :activity_id => @time_entry.activity_id},
-                :back_url => params[:back_url]
-              }
-              if @time_entry.issue
-                redirect_to new_project_issue_time_entry_path(@time_entry.project, @time_entry.issue, options)
-              else
-                redirect_to new_project_time_entry_path(@time_entry.project, options)
-              end
+            options = {
+              :time_entry => {
+                :project_id => params[:time_entry][:project_id],
+                :issue_id => @time_entry.issue_id,
+                :activity_id => @time_entry.activity_id
+              },
+              :back_url => params[:back_url]
+            }
+            if params[:project_id] && @time_entry.project
+              redirect_to new_project_time_entry_path(@time_entry.project, options)
+            elsif params[:issue_id] && @time_entry.issue
+              redirect_to new_issue_time_entry_path(@time_entry.issue, options)
             else
-              options = {
-                :time_entry => {:project_id => @time_entry.project_id, :issue_id => @time_entry.issue_id, :activity_id => @time_entry.activity_id},
-                :back_url => params[:back_url]
-              }
               redirect_to new_time_entry_path(options)
             end
           else
@@ -251,32 +251,15 @@ private
     end
   end
 
-  def find_optional_project_for_new_time_entry
-    if (project_id = (params[:project_id] || params[:time_entry] && params[:time_entry][:project_id])).present?
-      @project = Project.find(project_id)
-    end
-    if (issue_id = (params[:issue_id] || params[:time_entry] && params[:time_entry][:issue_id])).present?
-      @issue = Issue.find(issue_id)
-      @project ||= @issue.project
+  def find_optional_project
+    if params[:issue_id].present?
+      @issue = Issue.find(params[:issue_id])
+      @project = @issue.project
+    elsif params[:project_id].present?
+      @project = Project.find(params[:project_id])
     end
   rescue ActiveRecord::RecordNotFound
     render_404
-  end
-
-  def find_project_for_new_time_entry
-    find_optional_project_for_new_time_entry
-    if @project.nil?
-      render_404
-    end
-  end
-
-  def find_optional_project
-    if !params[:issue_id].blank?
-      @issue = Issue.find(params[:issue_id])
-      @project = @issue.project
-    elsif !params[:project_id].blank?
-      @project = Project.find(params[:project_id])
-    end
   end
 
   # Returns the TimeEntry scope for index and report actions

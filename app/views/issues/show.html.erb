@@ -61,7 +61,7 @@
     end
   end
   if User.current.allowed_to?(:view_time_entries, @project)
-    rows.right l(:label_spent_time), (@issue.total_spent_hours > 0 ? link_to(l_hours(@issue.total_spent_hours), project_issue_time_entries_path(@project, @issue)) : "-"), :class => 'spent-time'
+    rows.right l(:label_spent_time), (@issue.total_spent_hours > 0 ? link_to(l_hours(@issue.total_spent_hours), issue_time_entries_path(@issue)) : "-"), :class => 'spent-time'
   end
 end %>
 <%= render_custom_fields_rows(@issue) %>

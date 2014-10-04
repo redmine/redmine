@@ -24,7 +24,7 @@ class TimeEntry < ActiveRecord::Base
   belongs_to :user
   belongs_to :activity, :class_name => 'TimeEntryActivity', :foreign_key => 'activity_id'
 
-  attr_protected :project_id, :user_id, :tyear, :tmonth, :tweek
+  attr_protected :user_id, :tyear, :tmonth, :tweek
 
   acts_as_customizable
   acts_as_event :title => Proc.new {|o| "#{l_hours(o.hours)} (#{(o.issue || o.project).event_title})"},
@@ -65,7 +65,7 @@ class TimeEntry < ActiveRecord::Base
     end
   }
 
-  safe_attributes 'hours', 'comments', 'issue_id', 'activity_id', 'spent_on', 'custom_field_values', 'custom_fields'
+  safe_attributes 'hours', 'comments', 'project_id', 'issue_id', 'activity_id', 'spent_on', 'custom_field_values', 'custom_fields'
 
   def initialize(attributes=nil, *args)
     super
@@ -78,10 +78,12 @@ class TimeEntry < ActiveRecord::Base
   end
 
   def safe_attributes=(attrs, user=User.current)
-    attrs = super
-    if !new_record? && issue && issue.project_id != project_id
-      if user.allowed_to?(:log_time, issue.project)
-        self.project_id = issue.project_id
+    if attrs
+      attrs = super(attrs)
+      if issue_id_changed? && attrs[:project_id].blank? && issue && issue.project_id != project_id
+        if user.allowed_to?(:log_time, issue.project)
+          self.project_id = issue.project_id
+        end
       end
     end
     attrs
