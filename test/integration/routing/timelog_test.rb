@@ -134,57 +134,6 @@ class RoutingTimelogsTest < ActionController::IntegrationTest
       )
   end
 
-  def test_timelogs_scoped_under_project_and_issues
-    assert_routing(
-        { :method => 'get',
-          :path => "/projects/ecookbook/issues/234/time_entries" },
-        { :controller => 'timelog', :action => 'index',
-          :issue_id => '234', :project_id => 'ecookbook' }
-      )
-    assert_routing(
-        { :method => 'get',
-          :path => "/projects/ecookbook/issues/234/time_entries.csv" },
-        { :controller => 'timelog', :action => 'index',
-          :issue_id => '234', :project_id => 'ecookbook', :format => 'csv' }
-      )
-    assert_routing(
-        { :method => 'get',
-          :path => "/projects/ecookbook/issues/234/time_entries.atom" },
-        { :controller => 'timelog', :action => 'index',
-          :issue_id => '234', :project_id => 'ecookbook', :format => 'atom' }
-      )
-    assert_routing(
-        { :method => 'get',
-          :path => "/projects/ecookbook/issues/234/time_entries/new" },
-        { :controller => 'timelog', :action => 'new',
-          :issue_id => '234', :project_id => 'ecookbook' }
-      )
-    assert_routing(
-        { :method => 'get',
-          :path => "/projects/ecookbook/issues/234/time_entries/22/edit" },
-        { :controller => 'timelog', :action => 'edit', :id => '22',
-          :issue_id => '234', :project_id => 'ecookbook' }
-      )
-    assert_routing(
-        { :method => 'post',
-          :path => "/projects/ecookbook/issues/234/time_entries" },
-        { :controller => 'timelog', :action => 'create',
-          :issue_id => '234', :project_id => 'ecookbook' }
-      )
-    assert_routing(
-        { :method => 'put',
-          :path => "/projects/ecookbook/issues/234/time_entries/22" },
-        { :controller => 'timelog', :action => 'update', :id => '22',
-          :issue_id => '234', :project_id => 'ecookbook' }
-      )
-    assert_routing(
-        { :method => 'delete',
-          :path => "/projects/ecookbook/issues/234/time_entries/55" },
-        { :controller => 'timelog', :action => 'destroy', :id => '55',
-          :issue_id => '234', :project_id => 'ecookbook' }
-      )
-  end
-
   def test_timelogs_report
     assert_routing(
         { :method => 'get',

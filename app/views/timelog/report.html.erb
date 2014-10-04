@@ -1,14 +1,14 @@
 <div class="contextual">
-<%= link_to_if_authorized l(:button_log_time), {:controller => 'timelog', :action => 'new', :project_id => @project, :issue_id => @issue}, :class => 'icon icon-time-add' %>
+<%= link_to l(:button_log_time), 
+            _new_time_entry_path(@project, @issue),
+            :class => 'icon icon-time-add' if User.current.allowed_to?(:log_time, @project, :global => true) %>
 </div>
 
 <%= render_timelog_breadcrumb %>
 
 <h2><%= l(:label_spent_time) %></h2>
 
-<%= form_tag({:controller => 'timelog', :action => 'report',
-              :project_id => @project, :issue_id => @issue},
-            :method => :get, :id => 'query_form') do %>
+<%= form_tag(params.slice(:project_id, :issue_id), :method => :get, :id => 'query_form') do %>
   <% @report.criteria.each do |criterion| %>
     <%= hidden_field_tag 'criteria[]', criterion, :id => nil %>
   <% end %>

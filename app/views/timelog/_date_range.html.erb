@@ -28,9 +28,9 @@
 <div class="tabs hide-when-print">
 <% query_params = params.slice(:f, :op, :v, :sort) %>
 <ul>
-    <li><%= link_to(l(:label_details), query_params.merge({:controller => 'timelog', :action => 'index', :project_id => @project, :issue_id => @issue }),
+    <li><%= link_to(l(:label_details), _time_entries_path(@project, @issue, query_params),
                                        :class => (action_name == 'index' ? 'selected' : nil)) %></li>
-    <li><%= link_to(l(:label_report), query_params.merge({:controller => 'timelog', :action => 'report', :project_id => @project, :issue_id => @issue}),
+    <li><%= link_to(l(:label_report), _report_time_entries_path(@project, @issue, query_params),
                                        :class => (action_name == 'report' ? 'selected' : nil)) %></li>
 </ul>
 </div>

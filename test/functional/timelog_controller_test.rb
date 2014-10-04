@@ -581,7 +581,7 @@ class TimelogControllerTest < ActionController::TestCase
     assert_nil assigns(:from)
     assert_nil assigns(:to)
     assert_tag :form,
-      :attributes => {:action => "/projects/ecookbook/issues/1/time_entries", :id => 'query_form'}
+      :attributes => {:action => "/issues/1/time_entries", :id => 'query_form'}
   end
 
   def test_index_should_sort_by_spent_on_and_created_on
@@ -693,11 +693,11 @@ class TimelogControllerTest < ActionController::TestCase
   end
 
   def test_index_at_issue_level_should_include_csv_export_dialog
-    get :index, :project_id => 'ecookbook', :issue_id => 3
+    get :index, :issue_id => 3
     assert_response :success
 
     assert_select '#csv-export-options' do
-      assert_select 'form[action=?][method=get]', '/projects/ecookbook/issues/3/time_entries.csv'
+      assert_select 'form[action=?][method=get]', '/issues/3/time_entries.csv'
     end
   end
 
