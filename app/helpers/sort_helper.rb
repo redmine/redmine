@@ -239,5 +239,17 @@ module SortHelper
     options[:title] = l(:label_sort_by, "\"#{caption}\"") unless options[:title]
     content_tag('th', sort_link(column, caption, default_order), options)
   end
+
+  # Returns the css classes for the current sort order
+  #
+  # Example:
+  #
+  #   sort_css_classes
+  #   # => "sort-by-created-on sort-desc"
+  def sort_css_classes
+    if @sort_criteria.first_key
+      "sort-by-#{@sort_criteria.first_key.to_s.dasherize} sort-#{@sort_criteria.first_asc? ? 'asc' : 'desc'}"
+    end
+  end
 end
 
