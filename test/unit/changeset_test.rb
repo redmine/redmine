@@ -297,6 +297,17 @@ class ChangesetTest < ActiveSupport::TestCase
     assert_equal 0, issue.done_ratio
   end
 
+  def test_2_repositories_with_same_backend_should_not_link_issue_multiple_times
+    Setting.commit_ref_keywords = '*'
+    r1 = Repository::Subversion.create!(:project_id => 1, :identifier => 'svn1', :url => 'file:///svn1')
+    r2 = Repository::Subversion.create!(:project_id => 1, :identifier => 'svn2', :url => 'file:///svn1')
+    now = Time.now
+    assert_difference 'Issue.find(1).changesets.count' do
+      c1 = Changeset.create!(:repository => r1, :committed_on => now, :comments => 'Fixes #1', :revision => '12345')
+      c1 = Changeset.create!(:repository => r2, :committed_on => now, :comments => 'Fixes #1', :revision => '12345')
+    end
+  end
+
   def test_text_tag_revision
     c = Changeset.new(:revision => '520')
     assert_equal 'r520', c.text_tag

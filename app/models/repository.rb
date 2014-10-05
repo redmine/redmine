@@ -442,6 +442,18 @@ class Repository < ActiveRecord::Base
     end
   end
 
+  # Returns a scope of changesets that come from the same commit as the given changeset
+  # in different repositories that point to the same backend
+  def same_commits_in_scope(scope, changeset)
+    scope = scope.joins(:repository).where(:repositories => {:url => url, :root_url => root_url, :type => type})
+    if changeset.scmid.present?
+      scope = scope.where(:scmid => changeset.scmid)
+    else
+      scope = scope.where(:revision => changeset.revision)
+    end
+    scope
+  end
+
   protected
 
   def check_default

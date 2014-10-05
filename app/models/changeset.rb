@@ -130,7 +130,7 @@ class Changeset < ActiveRecord::Base
 
       refs.scan(/#(\d+)(\s+@#{TIMELOG_RE})?/).each do |m|
         issue, hours = find_referenced_issue_by_id(m[0].to_i), m[2]
-        if issue
+        if issue && !issue_linked_to_same_commit?(issue)
           referenced_issues << issue
           # Don't update issues or log time when importing old commits
           unless repository.created_on && committed_on && committed_on < repository.created_on
@@ -213,6 +213,12 @@ class Changeset < ActiveRecord::Base
   end
 
   private
+
+  # Returns true if the issue is already linked to the same commit
+  # from a different repository
+  def issue_linked_to_same_commit?(issue)
+    repository.same_commits_in_scope(issue.changesets, self).any?
+  end
 
   # Updates the +issue+ according to +action+
   def fix_issue(issue, action)
