@@ -421,7 +421,7 @@ class MailHandler < ActionMailer::Base
     end
 
     @plain_text_body = parts.map do |p|
-      body_charset = p.charset.respond_to?(:force_encoding) ?
+      body_charset = Mail::RubyVer.respond_to?(:pick_encoding) ?
                        Mail::RubyVer.pick_encoding(p.charset).to_s : p.charset
       Redmine::CodesetUtil.to_utf8(p.body.decoded, body_charset)
     end.join("\r\n")
