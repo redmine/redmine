@@ -20,23 +20,33 @@ require 'open-uri'
 class DocsController < ApplicationController
   include ApplicationHelper
   def index
+    # Read the docs path, if none Help is used
     @path = params[:path]  
-          
+    
+    #URL to read content file      
     @docRepoUrl = 'https://raw.githubusercontent.com/OpenSourceBrain/OSB_Documentation/master/'
 #    docRepoFolder = '/home/adrian/code/osb-code/OSB_Documentation/contents/' + @path + '/*'
 #    docRepoFolder = '/home/documentation/OSB_Documentation/contents/' + @path + '/*'
 #    @docRepoFolder = '/home/svnsvn/myGitRepositories/OSBDocumentation.git/contents/'
     
+    
+    # Read project
     @docProject = Project.find("osb_documentation")
     filesInFolder = listFolderInRepo(@docProject.repository, "contents/" + @path)
     
+    # Read all md files in path
     @filesDoc = []
+    @helpLinks = Hash.new  
     filesInFolder.each do |file|
       if File.extname(file).delete("\n") == ".md"
         @filesDoc << file.delete!("\n")
+      elsif File.basename(file).delete("\n") == "links.yml"
+        @helpLinks = YAML::load(open(@docRepoUrl + file.delete!("\n")))
       end
     end
     @filesDoc.sort!
+  
+    
     
 #   Read files in dir
 #    filesAndDirDoc = Dir[docRepoFolder]
