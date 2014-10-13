@@ -17,7 +17,7 @@
 
 require 'open-uri'
 
-class DocController < ApplicationController
+class DocsController < ApplicationController
   include ApplicationHelper
   def index
     @path = params[:path]  

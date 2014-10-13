@@ -19,6 +19,14 @@ jQuery(function()
 	var a = location.href.split("#");
 	if ( a.length > 1){
 		enableDocSection("#"+a[1]);
+		
+		setTimeout(function() {
+		  if (location.hash) {
+		    window.scrollTo(0, 0);
+		  }
+		}, 1);
 	}
+	
+
 
 });
