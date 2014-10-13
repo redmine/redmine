@@ -1472,6 +1472,11 @@ div.splitcontentleft > h2 {
 	top: 150px;
 }
 
+.carousel-control{
+	font-family: Verdana;
+	font-size: 50px;
+}
+
 /* SEARCH FORM */
 #search-form .inline-element{
 	display: inline-block;	
