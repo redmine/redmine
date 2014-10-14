@@ -13,7 +13,7 @@
 <!--s OSB <%= showosb %>, s user <%= showuser %>-->
 
 <%= form_tag("/status", method: "get") do %>
-  <%= label_tag(:q, "Include user projects:") %> <%= check_box_tag(:user, true, false) %> <%= submit_tag("Update") %>
+  <%= label_tag(:q, "Include user projects (i.e. projects not yet endorsed/checked by the OSB team):") %> <%= check_box_tag(:user, true, false) %> <%= submit_tag("Update") %>
 <% end %>
 
 

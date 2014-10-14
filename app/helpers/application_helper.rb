@@ -204,11 +204,11 @@ module ApplicationHelper
         if (neuroelectroContent["objects"].length > 0)
           neuroelectroContentId = neuroelectroContent["objects"][0]["id"]
           label = neuroelectroContent["objects"][0]["name"]
-          neuroElectroBadge = '<span class="tooltiplink label badge-external ' + align + ' ' + '" data-toggle="tooltip" data-placement="right" title="Click here to see in NeuroElectro web.">See in NeuroElectro <i class="icon-external-link"></i></span>'.html_safe  
+          neuroElectroBadge = '<span class="tooltiplink label badge-external ' + align + ' ' + '" data-toggle="tooltip" data-placement="right" title="Click here to find experimental data related to this ID on the NeuroElectro website.">NeuroElectro<i class="icon-external-link"></i></span>'.html_safe  
         end
         
-        badge = '<span class="tooltiplink ' + classes+ ' ' + align + ' ' + '" data-toggle="tooltip" data-placement="right" title="'+ tooltipLabel + '. Click here to see other models with same characteristics.">'+ label  +'</span>'
-        neuroLexBadge = '<span class="tooltiplink label badge-external ' + align + ' ' + '" data-toggle="tooltip" data-placement="right" title="Click here to see in NeuroLex web.">See in NeuroLex <i class="icon-external-link"></i></span>'
+        badge = '<span class="tooltiplink ' + classes+ ' ' + align + ' ' + '" data-toggle="tooltip" data-placement="right" title="NeuroLex ID: '+ tooltipLabel + '. Click here to see other models in OSB using this NeuroLex ID.">'+ label  +'</span>'
+        neuroLexBadge = '<span class="tooltiplink label badge-external ' + align + ' ' + '" data-toggle="tooltip" data-placement="right" title="Click here to go to this ID on the NeuroLex website.">NeuroLex<i class="icon-external-link"></i></span>'
         outputLink << '<div>' + create_link_to_search_by_custom_field(fieldId, fieldValueItem, badge, '~') + link_to(neuroLexBadge.html_safe, "http://neurolex.org/wiki/#{fieldValueItem}", :target => "_blank") + link_to(neuroElectroBadge.html_safe, "http://www.neuroelectro.org/neuron/#{neuroelectroContentId}", :target => "_blank") + '</div>'
       end
     end
