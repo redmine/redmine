@@ -385,6 +385,10 @@ tr.open span.expander:before {
 .bs-docs-sidenav.affix {
 	top: 40px;
 }
+#project_overview_list_2.bs-docs-sidenav.affix {
+	top: 440px;
+}
+
 .bs-docs-sidenav.affix-bottom {
 	position: absolute;
 	top: auto;
