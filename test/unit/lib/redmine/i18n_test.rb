@@ -198,6 +198,11 @@ class Redmine::I18nTest < ActiveSupport::TestCase
     assert_include [ja, "ja"], options
   end
 
+  def test_languages_options_should_ignore_locales_without_general_lang_name_key
+    stubs(:valid_languages).returns([:en, :foo])
+    assert_equal [["English", "en"]], languages_options(:cache => false)
+  end
+
   def test_locales_validness
     lang_files_count = Dir["#{Rails.root}/config/locales/*.yml"].size
     assert_equal lang_files_count, valid_languages.size
