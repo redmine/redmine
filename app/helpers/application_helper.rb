@@ -589,7 +589,7 @@ module ApplicationHelper
     end
     return '' if text.blank?
     project = options[:project] || @project || (obj && obj.respond_to?(:project) ? obj.project : nil)
-    only_path = options.delete(:only_path) == false ? false : true
+    @only_path = only_path = options.delete(:only_path) == false ? false : true
 
     text = text.dup
     macros = catch_macros(text)
