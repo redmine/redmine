@@ -45,6 +45,14 @@ class HookTest < ActionController::IntegrationTest
 VIEW
   end
 
+  class SingleRenderOn < Redmine::Hook::ViewListener
+    render_on :view_welcome_index_left, :inline => 'SingleRenderOn 1'
+  end
+
+  class MultipleRenderOn < Redmine::Hook::ViewListener
+    render_on :view_welcome_index_left, {:inline => 'MultipleRenderOn 1'}, {:inline => 'MultipleRenderOn 2'}
+  end
+
   # Hooks that stores the call context
   class ContextTestHook < Redmine::Hook::ViewListener
     cattr_accessor :context
@@ -104,5 +112,12 @@ VIEW
     assert_kind_of ActionDispatch::Request, context[:request]
     assert_kind_of Hash, context[:request].params
     assert_kind_of AccountController, context[:hook_caller]
+  end
+
+  def test_multiple_hooks
+    Redmine::Hook.add_listener(SingleRenderOn)
+    Redmine::Hook.add_listener(MultipleRenderOn)
+    get '/'
+    assert_equal 1, response.body.scan("SingleRenderOn 1 MultipleRenderOn 1 MultipleRenderOn 2").size
   end
 end
