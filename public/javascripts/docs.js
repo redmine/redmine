@@ -10,7 +10,9 @@ jQuery(function()
 	//	Show/hide sections when section click in side menu
 	$("#docContainer #project_overview_list a").click(
 		function(event){
-			enableDocSection($(this).attr("href").substring());
+			enableDocSection($(this).attr("href"));
+			//Update url
+			if(history.pushState) {history.pushState(null, null, $(this).attr('href'));}
 			event.preventDefault();
 		}
 	);
@@ -25,6 +27,9 @@ jQuery(function()
 		    window.scrollTo(0, 0);
 		  }
 		}, 1);
+	}
+	else{
+		$("#docContainer #project_overview_list a").first().trigger("click");
 	}
 	
 
