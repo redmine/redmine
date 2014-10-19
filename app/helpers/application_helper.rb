@@ -204,11 +204,11 @@ module ApplicationHelper
         if (neuroelectroContent["objects"].length > 0)
           neuroelectroContentId = neuroelectroContent["objects"][0]["id"]
           label = neuroelectroContent["objects"][0]["name"]
-          neuroElectroBadge = '<span class="tooltiplink label badge-external ' + align + ' ' + '" data-toggle="tooltip" data-placement="right" title="Click here to see in NeuroElectro web.">See in NeuroElectro <i class="icon-external-link"></i></span>'.html_safe  
+          neuroElectroBadge = '<span class="tooltiplink label badge-external ' + align + ' ' + '" data-toggle="tooltip" data-placement="right" title="Click here to find experimental data related to this ID on the NeuroElectro website.">NeuroElectro<i class="icon-external-link"></i></span>'.html_safe  
         end
         
-        badge = '<span class="tooltiplink ' + classes+ ' ' + align + ' ' + '" data-toggle="tooltip" data-placement="right" title="'+ tooltipLabel + '. Click here to see other models with same characteristics.">'+ label  +'</span>'
-        neuroLexBadge = '<span class="tooltiplink label badge-external ' + align + ' ' + '" data-toggle="tooltip" data-placement="right" title="Click here to see in NeuroLex web.">See in NeuroLex <i class="icon-external-link"></i></span>'
+        badge = '<span class="tooltiplink ' + classes+ ' ' + align + ' ' + '" data-toggle="tooltip" data-placement="right" title="NeuroLex ID: '+ tooltipLabel + '. Click here to see other models in OSB using this NeuroLex ID.">'+ label  +'</span>'
+        neuroLexBadge = '<span class="tooltiplink label badge-external ' + align + ' ' + '" data-toggle="tooltip" data-placement="right" title="Click here to go to this ID on the NeuroLex website.">NeuroLex<i class="icon-external-link"></i></span>'
         outputLink << '<div>' + create_link_to_search_by_custom_field(fieldId, fieldValueItem, badge, '~') + link_to(neuroLexBadge.html_safe, "http://neurolex.org/wiki/#{fieldValueItem}", :target => "_blank") + link_to(neuroElectroBadge.html_safe, "http://www.neuroelectro.org/neuron/#{neuroelectroContentId}", :target => "_blank") + '</div>'
       end
     end
@@ -413,7 +413,7 @@ module ApplicationHelper
     exportOptions = Hash.new
     omtFiles = getFilesWithExt(repository, ".omt")
     
-    print "omtFiles", omtFiles
+   # print "omtFiles", omtFiles
     
     for omtFile in omtFiles 
       repourl=getHttpRepositoryURL(@project)
@@ -433,8 +433,8 @@ module ApplicationHelper
           exportOptions[engineFormat] = targetFiles 
 #        end    
       end    
-      print "exportOptions"
-      print exportOptions 
+    #  print "exportOptions"
+    #  print exportOptions 
     end
 #    return exportOptions
     return Hash.new
@@ -1163,10 +1163,6 @@ module ApplicationHelper
     text.gsub!(%r{([\s\(,\-\[\>]|^)(!)?(([a-z0-9\-_]+):)?(osbDoc|pubmed|video)?(((#)|((([a-z0-9\-_]+)\|)?(r)))((\d+)((#note)?-(\d+))?)|(:)([^"\s<>][^\s<>]*?|"[^"]+?"))(?=(?=[[:punct:]][^A-Za-z0-9_/])|,|\s|\]|<|$)}) do |m|
       leading, esc, project_prefix, project_identifier, prefix, repo_prefix, repo_identifier, sep, identifier, comment_suffix, comment_id = $1, $2, $3, $4, $5, $10, $11, $8 || $12 || $18, $14 || $19, $15, $17
       link = nil
-      print "takarrrrasinthenight"
-      print text
-      
-      
       
       if esc.nil?
         if sep == ':'
@@ -1174,7 +1170,7 @@ module ApplicationHelper
           name = identifier.gsub(%r{^"(.*)"$}, "\\1")
           case prefix
           when 'osbDoc'
-            print "osbDoc", name
+            #print "osbDoc", name
 #                if project && document = project.documents.visible.find_by_title(name)
 #                  link = link_to h(document.title), {:only_path => only_path, :controller => 'documents', :action => 'show', :id => document},
 #                                                    :class => 'document'
