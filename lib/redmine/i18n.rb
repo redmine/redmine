@@ -90,11 +90,19 @@ module Redmine
     # Returns an array of languages names and code sorted by names, example:
     # [["Deutsch", "de"], ["English", "en"] ...]
     #
-    # The result is cached to prevent from loading all translations files.
-    def languages_options
-      ActionController::Base.cache_store.fetch "i18n/languages_options" do
-        valid_languages.map {|lang| [ll(lang.to_s, :general_lang_name), lang.to_s]}.sort {|x,y| x.first <=> y.first }
-      end      
+    # The result is cached to prevent from loading all translations files
+    # unless :cache => false option is given
+    def languages_options(options={})
+      if options[:cache] == false
+        valid_languages.
+          select {|locale| ::I18n.exists?(:general_lang_name, locale)}.
+          map {|lang| [ll(lang.to_s, :general_lang_name), lang.to_s]}.
+          sort {|x,y| x.first <=> y.first }
+      else
+        ActionController::Base.cache_store.fetch "i18n/languages_options" do
+          languages_options :cache => false
+        end
+      end
     end
 
     def find_language(lang)
