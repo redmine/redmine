@@ -1224,7 +1224,7 @@ class Issue < ActiveRecord::Base
 
     Issue.
       visible(User.current, :project => options[:project], :with_subprojects => options[:with_subprojects]).
-      joins(:status).
+      joins(:status, assoc.name).
       group(:status_id, :is_closed, select_field).
       count.
       map do |columns, total|
