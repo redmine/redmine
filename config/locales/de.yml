@@ -1041,7 +1041,7 @@ de:
   status_locked: gesperrt
   status_registered: nicht aktivierte
 
-  text_account_destroy_confirmation: Möchten Sie wirklich fortfahren?\nIhr Benutzerkonto wird für immer gelöscht und kann nicht wiederhergestellt werden.
+  text_account_destroy_confirmation: "Möchten Sie wirklich fortfahren?\nIhr Benutzerkonto wird für immer gelöscht und kann nicht wiederhergestellt werden."
   text_are_you_sure: Sind Sie sicher?
   text_assign_time_entries_to_project: Gebuchte Aufwände dem Projekt zuweisen
   text_caracters_maximum: "Max. %{count} Zeichen."
