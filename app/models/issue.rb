@@ -1182,58 +1182,61 @@ class Issue < ActiveRecord::Base
     end
   end
 
-  # Extracted from the ReportsController.
   def self.by_tracker(project)
-    count_and_group_by(:project => project,
-                       :field => 'tracker_id',
-                       :joins => Tracker.table_name)
+    count_and_group_by(:project => project, :association => :tracker)
   end
 
   def self.by_version(project)
-    count_and_group_by(:project => project,
-                       :field => 'fixed_version_id',
-                       :joins => Version.table_name)
+    count_and_group_by(:project => project, :association => :fixed_version)
   end
 
   def self.by_priority(project)
-    count_and_group_by(:project => project,
-                       :field => 'priority_id',
-                       :joins => IssuePriority.table_name)
+    count_and_group_by(:project => project, :association => :priority)
   end
 
   def self.by_category(project)
-    count_and_group_by(:project => project,
-                       :field => 'category_id',
-                       :joins => IssueCategory.table_name)
+    count_and_group_by(:project => project, :association => :category)
   end
 
   def self.by_assigned_to(project)
-    count_and_group_by(:project => project,
-                       :field => 'assigned_to_id',
-                       :joins => User.table_name)
+    count_and_group_by(:project => project, :association => :assigned_to)
   end
 
   def self.by_author(project)
-    count_and_group_by(:project => project,
-                       :field => 'author_id',
-                       :joins => User.table_name)
+    count_and_group_by(:project => project, :association => :author)
   end
 
   def self.by_subproject(project)
-    ActiveRecord::Base.connection.select_all("select    s.id as status_id,
-                                                s.is_closed as closed,
-                                                #{Issue.table_name}.project_id as project_id,
-                                                count(#{Issue.table_name}.id) as total
-                                              from
-                                                #{Issue.table_name}, #{Project.table_name}, #{IssueStatus.table_name} s
-                                              where
-                                                #{Issue.table_name}.status_id=s.id
-                                                and #{Issue.table_name}.project_id = #{Project.table_name}.id
-                                                and #{visible_condition(User.current, :project => project, :with_subprojects => true)}
-                                                and #{Issue.table_name}.project_id <> #{project.id}
-                                              group by s.id, s.is_closed, #{Issue.table_name}.project_id") if project.descendants.active.any?
+    r = count_and_group_by(:project => project, :with_subprojects => true, :association => :project)
+    r.reject {|r| r["project_id"] == project.id.to_s}
   end
-  # End ReportsController extraction
+
+  # Query generator for selecting groups of issue counts for a project
+  # based on specific criteria
+  #
+  # Options
+  # * project - Project to search in.
+  # * with_subprojects - Includes subprojects issues if set to true.
+  # * association - Symbol. Association for grouping.
+  def self.count_and_group_by(options)
+    assoc = reflect_on_association(options[:association])
+    select_field = assoc.foreign_key
+
+    Issue.
+      visible(User.current, :project => options[:project], :with_subprojects => options[:with_subprojects]).
+      joins(:status).
+      group(:status_id, :is_closed, select_field).
+      count.
+      map do |columns, total|
+        status_id, is_closed, field_value = columns
+        {
+          "status_id" => status_id.to_s,
+          "closed" => is_closed.to_s,
+          select_field => field_value.to_s,
+          "total" => total.to_s
+        }
+      end
+  end
 
   # Returns a scope of projects that user can assign the issue to
   def allowed_target_projects(user=User.current)
@@ -1564,33 +1567,5 @@ class Issue < ActiveRecord::Base
   def clear_assigned_to_was
     @assigned_to_was = nil
     @previous_assigned_to_id = nil
-  end
-
-  # Query generator for selecting groups of issue counts for a project
-  # based on specific criteria
-  #
-  # Options
-  # * project - Project to search in.
-  # * field - String. Issue field to key off of in the grouping.
-  # * joins - String. The table name to join against.
-  def self.count_and_group_by(options)
-    project = options.delete(:project)
-    select_field = options.delete(:field)
-    joins = options.delete(:joins)
-
-    where = "#{Issue.table_name}.#{select_field}=j.id"
-
-    ActiveRecord::Base.connection.select_all("select    s.id as status_id,
-                                                s.is_closed as closed,
-                                                j.id as #{select_field},
-                                                count(#{Issue.table_name}.id) as total
-                                              from
-                                                  #{Issue.table_name}, #{Project.table_name}, #{IssueStatus.table_name} s, #{joins} j
-                                              where
-                                                #{Issue.table_name}.status_id=s.id
-                                                and #{where}
-                                                and #{Issue.table_name}.project_id=#{Project.table_name}.id
-                                                and #{visible_condition(User.current, :project => project)}
-                                              group by s.id, s.is_closed, j.id")
   end
 end
