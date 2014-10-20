@@ -25,7 +25,7 @@ class MailHandler < ActionMailer::Base
   attr_reader :email, :user
 
   def self.receive(email, options={})
-    @@handler_options = options.dup
+    @@handler_options = options.deep_dup
 
     @@handler_options[:issue] ||= {}
 
