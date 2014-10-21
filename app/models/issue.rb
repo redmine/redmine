@@ -1229,7 +1229,7 @@ class Issue < ActiveRecord::Base
       count.
       map do |columns, total|
         status_id, is_closed, field_value = columns
-        is_closed = ['t', 'true', true].include?(is_closed)
+        is_closed = ['t', 'true', '1'].include?(is_closed.to_s)
         {
           "status_id" => status_id.to_s,
           "closed" => is_closed,
