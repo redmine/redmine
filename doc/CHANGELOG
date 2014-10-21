@@ -4,6 +4,15 @@ Redmine - project management software
 Copyright (C) 2006-2014  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2014-10-21 v2.5.3
+
+* Defect #14796: Yard rake file is not updated for Redmine 2.x
+* Defect #17163: Files assigned to a version can not be deleted if Issue Tracking module is disabled
+* Defect #17486: Error when removing user from group
+* Patch #17399: German translation for r17003
+* Patch #17421: Traditional Chinese translation (to r13231)
+* Patch #17451: Bulgarian translation (r13217)
+
 == 2014-07-06 v2.5.2
 
 * Defect #3483: Relative url for source links in notifications
