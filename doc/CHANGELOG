@@ -4,6 +4,13 @@ Redmine - project management software
 Copyright (C) 2006-2014  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2014-10-21 v2.4.7
+
+* Defect #17446: Error when editing custom field with blank min_length or max_length
+* Defect #17581: Drag & Drop does not work with Safari 5.1
+* Defect #17585: Typo in Traditional Chinese detailed syntax help
+* Defect #17826: PDF export fails if there is U+FFFD in issue data or journals
+
 == 2014-07-06 v2.4.6
 
 * Defect #13932: File upload does not work with Safari
