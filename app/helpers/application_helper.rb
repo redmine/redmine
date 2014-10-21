@@ -189,6 +189,9 @@ module ApplicationHelper
       fieldValueItem.strip!
       label = (text != '') ? text: fieldValueItem
       tooltipLabel = (text != '') ? tooltip: fieldValueItem
+      print "taka"
+      print label
+      
       #Check neuroelectro for the proper label
       neuroelectroUrl = "http://neuroelectro.org/api/1/n/?nlex_id=#{label}"
       begin
@@ -204,12 +207,17 @@ module ApplicationHelper
         if (neuroelectroContent["objects"].length > 0)
           neuroelectroContentId = neuroelectroContent["objects"][0]["id"]
           label = neuroelectroContent["objects"][0]["name"]
-          neuroElectroBadge = '<span class="tooltiplink label badge-external ' + align + ' ' + '" data-toggle="tooltip" data-placement="right" title="Click here to find experimental data related to this ID on the NeuroElectro website.">NeuroElectro<i class="icon-external-link"></i></span>'.html_safe  
+          neuroElectroBadge = '<span class="tooltiplink label badge-external ' + align + ' ' + '" data-toggle="tooltip" data-placement="right" title="Click here to find experimental data related to this ID on the NeuroElectro website.">NeuroElectro<i class="icon-external-link"></i></span>'.html_safe
+          neuroElectroBadgeLink = link_to(neuroElectroBadge.html_safe, "http://www.neuroelectro.org/neuron/#{neuroelectroContentId}", :target => "_blank")  
         end
         
         badge = '<span class="tooltiplink ' + classes+ ' ' + align + ' ' + '" data-toggle="tooltip" data-placement="right" title="NeuroLex ID: '+ tooltipLabel + '. Click here to see other models in OSB using this NeuroLex ID.">'+ label  +'</span>'
         neuroLexBadge = '<span class="tooltiplink label badge-external ' + align + ' ' + '" data-toggle="tooltip" data-placement="right" title="Click here to go to this ID on the NeuroLex website.">NeuroLex<i class="icon-external-link"></i></span>'
-        outputLink << '<div>' + create_link_to_search_by_custom_field(fieldId, fieldValueItem, badge, '~') + link_to(neuroLexBadge.html_safe, "http://neurolex.org/wiki/#{fieldValueItem}", :target => "_blank") + link_to(neuroElectroBadge.html_safe, "http://www.neuroelectro.org/neuron/#{neuroelectroContentId}", :target => "_blank") + '</div>'
+        outputLink << '<div>' + create_link_to_search_by_custom_field(fieldId, fieldValueItem, badge, '~') + link_to(neuroLexBadge.html_safe, "http://neurolex.org/wiki/#{fieldValueItem}", :target => "_blank")
+        if neuroElectroBadgeLink != nil
+          outputLink << neuroElectroBadgeLink 
+        end
+        outputLink << '</div>'
       end
     end
     return outputLink.html_safe  
