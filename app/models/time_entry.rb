@@ -22,7 +22,7 @@ class TimeEntry < ActiveRecord::Base
   belongs_to :project
   belongs_to :issue
   belongs_to :user
-  belongs_to :activity, :class_name => 'TimeEntryActivity', :foreign_key => 'activity_id'
+  belongs_to :activity, :class_name => 'TimeEntryActivity'
 
   attr_protected :user_id, :tyear, :tmonth, :tweek
 

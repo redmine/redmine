@@ -18,7 +18,7 @@
 class Document < ActiveRecord::Base
   include Redmine::SafeAttributes
   belongs_to :project
-  belongs_to :category, :class_name => "DocumentCategory", :foreign_key => "category_id"
+  belongs_to :category, :class_name => "DocumentCategory"
   acts_as_attachable :delete_permission => :delete_documents
 
   acts_as_searchable :columns => ['title', "#{table_name}.description"],

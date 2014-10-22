@@ -18,7 +18,7 @@
 class News < ActiveRecord::Base
   include Redmine::SafeAttributes
   belongs_to :project
-  belongs_to :author, :class_name => 'User', :foreign_key => 'author_id'
+  belongs_to :author, :class_name => 'User'
   has_many :comments, lambda {order("created_on")}, :as => :commented, :dependent => :delete_all
 
   validates_presence_of :title, :description

@@ -19,8 +19,8 @@ require 'zlib'
 
 class WikiContent < ActiveRecord::Base
   self.locking_column = 'version'
-  belongs_to :page, :class_name => 'WikiPage', :foreign_key => 'page_id'
-  belongs_to :author, :class_name => 'User', :foreign_key => 'author_id'
+  belongs_to :page, :class_name => 'WikiPage'
+  belongs_to :author, :class_name => 'User'
   validates_presence_of :text
   validates_length_of :comments, :maximum => 255, :allow_nil => true
   attr_protected :id
@@ -54,8 +54,8 @@ class WikiContent < ActiveRecord::Base
   end
 
   class Version
-    belongs_to :page, :class_name => '::WikiPage', :foreign_key => 'page_id'
-    belongs_to :author, :class_name => '::User', :foreign_key => 'author_id'
+    belongs_to :page, :class_name => '::WikiPage'
+    belongs_to :author, :class_name => '::User'
     attr_protected :data
 
     acts_as_event :title => Proc.new {|o| "#{l(:label_wiki_edit)}: #{o.page.title} (##{o.version})"},

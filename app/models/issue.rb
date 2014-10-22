@@ -22,12 +22,12 @@ class Issue < ActiveRecord::Base
 
   belongs_to :project
   belongs_to :tracker
-  belongs_to :status, :class_name => 'IssueStatus', :foreign_key => 'status_id'
-  belongs_to :author, :class_name => 'User', :foreign_key => 'author_id'
-  belongs_to :assigned_to, :class_name => 'Principal', :foreign_key => 'assigned_to_id'
-  belongs_to :fixed_version, :class_name => 'Version', :foreign_key => 'fixed_version_id'
-  belongs_to :priority, :class_name => 'IssuePriority', :foreign_key => 'priority_id'
-  belongs_to :category, :class_name => 'IssueCategory', :foreign_key => 'category_id'
+  belongs_to :status, :class_name => 'IssueStatus'
+  belongs_to :author, :class_name => 'User'
+  belongs_to :assigned_to, :class_name => 'Principal'
+  belongs_to :fixed_version, :class_name => 'Version'
+  belongs_to :priority, :class_name => 'IssuePriority'
+  belongs_to :category, :class_name => 'IssueCategory'
 
   has_many :journals, :as => :journalized, :dependent => :destroy
   has_many :visible_journals,

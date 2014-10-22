@@ -20,7 +20,7 @@ require "fileutils"
 
 class Attachment < ActiveRecord::Base
   belongs_to :container, :polymorphic => true
-  belongs_to :author, :class_name => "User", :foreign_key => "author_id"
+  belongs_to :author, :class_name => "User"
 
   validates_presence_of :filename, :author
   validates_length_of :filename, :maximum => 255

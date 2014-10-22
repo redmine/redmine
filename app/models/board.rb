@@ -20,7 +20,7 @@ class Board < ActiveRecord::Base
   belongs_to :project
   has_many :topics, lambda {where("#{Message.table_name}.parent_id IS NULL").order("#{Message.table_name}.created_on DESC")}, :class_name => 'Message'
   has_many :messages, lambda {order("#{Message.table_name}.created_on DESC")}, :dependent => :destroy
-  belongs_to :last_message, :class_name => 'Message', :foreign_key => :last_message_id
+  belongs_to :last_message, :class_name => 'Message'
   acts_as_tree :dependent => :nullify
   acts_as_list :scope => '(project_id = #{project_id} AND parent_id #{parent_id ? "= #{parent_id}" : "IS NULL"})'
   acts_as_watchable
