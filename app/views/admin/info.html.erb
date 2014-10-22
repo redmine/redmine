@@ -5,7 +5,7 @@
 <table class="list">
 <% @checklist.each do |label, result| %>
   <tr class="<%= cycle 'odd', 'even' %>">
-    <td class="name"><%= l(label) %></td>
+    <td class="name"><%= label.is_a?(Symbol) ? l(label) : label %></td>
     <td class="tick"><%= image_tag((result ? 'true.png' : 'exclamation.png'),
                                     :style => "vertical-align:bottom;") %></td>
   </tr>
