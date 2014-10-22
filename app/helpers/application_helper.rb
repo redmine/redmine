@@ -137,8 +137,6 @@ module ApplicationHelper
   def link_to_project(project, options={}, html_options = nil)
     if project.archived?
       h(project.name)
-    elsif options.key?(:action)
-      raise "#link_to_project no longer accepts :action option in Redmine 3.0"
     else
       link_to project.name, project_path(project, options), html_options
     end
@@ -1052,14 +1050,6 @@ module ApplicationHelper
     options = args.last
     options.merge!({:builder => Redmine::Views::LabelledFormBuilder})
     fields_for(*args, &proc)
-  end
-
-  def labelled_remote_form_for(*args, &proc)
-    ActiveSupport::Deprecation.warn "ApplicationHelper#labelled_remote_form_for is deprecated and will be removed in Redmine 2.2."
-    args << {} unless args.last.is_a?(Hash)
-    options = args.last
-    options.merge!({:builder => Redmine::Views::LabelledFormBuilder, :remote => true})
-    form_for(*args, &proc)
   end
 
   def error_messages_for(*objects)

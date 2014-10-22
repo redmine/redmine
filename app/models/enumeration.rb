@@ -103,12 +103,6 @@ class Enumeration < ActiveRecord::Base
     subclasses
   end
 
-  # TODO: remove in Redmine 3.0
-  def self.overridding_change?(new, previous)
-    ActiveSupport::Deprecation.warn "Enumeration#overridding_change? is deprecated and will be removed in Redmine 3.0. Please use #overriding_change?."
-    overriding_change?(new, previous)
-  end
-
   # Does the +new+ Hash override the previous Enumeration?
   def self.overriding_change?(new, previous)
     if (same_active_state?(new['active'], previous.active)) && same_custom_values?(new,previous)

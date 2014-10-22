@@ -196,27 +196,6 @@ END_SRC
     a
   end
 
-  def self.commit_fix_keywords
-    ActiveSupport::Deprecation.warn "Setting.commit_fix_keywords is deprecated and will be removed in Redmine 3"
-    if commit_update_keywords.is_a?(Array)
-      commit_update_keywords.first && commit_update_keywords.first['keywords']
-    end
-  end
-
-  def self.commit_fix_status_id
-    ActiveSupport::Deprecation.warn "Setting.commit_fix_status_id is deprecated and will be removed in Redmine 3"
-    if commit_update_keywords.is_a?(Array)
-      commit_update_keywords.first && commit_update_keywords.first['status_id']
-    end
-  end
-
-  def self.commit_fix_done_ratio
-    ActiveSupport::Deprecation.warn "Setting.commit_fix_done_ratio is deprecated and will be removed in Redmine 3"
-    if commit_update_keywords.is_a?(Array)
-      commit_update_keywords.first && commit_update_keywords.first['done_ratio']
-    end
-  end
-
   def self.openid?
     Object.const_defined?(:OpenID) && self[:openid].to_i > 0
   end
