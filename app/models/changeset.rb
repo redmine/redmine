@@ -37,7 +37,7 @@ class Changeset < ActiveRecord::Base
   acts_as_searchable :columns => 'comments',
                      :scope => preload(:repository => :project),
                      :project_key => "#{Repository.table_name}.project_id",
-                     :date_column => 'committed_on'
+                     :date_column => "#{Changeset.table_name}.committed_on"
 
   acts_as_activity_provider :timestamp => "#{table_name}.committed_on",
                             :author_key => :user_id,
