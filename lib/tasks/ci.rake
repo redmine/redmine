@@ -33,7 +33,7 @@ namespace :ci do
     else
       Rake::Task["test"].invoke
     end
-    # Rake::Task["test:ui"].invoke if RUBY_VERSION >= '1.9.3'
+    # Rake::Task["test:ui"].invoke
   end
 
   desc "Finish the build"
@@ -52,7 +52,7 @@ file 'config/database.yml' do
 
   case database
   when 'mysql'
-    dev_conf =  {'adapter' => (RUBY_VERSION >= '1.9' ? 'mysql2' : 'mysql'),
+    dev_conf =  {'adapter' => 'mysql2',
                  'database' => dev_db_name, 'host' => 'localhost',
                  'encoding' => 'utf8'}
     if ENV['RUN_ON_NOT_OFFICIAL']

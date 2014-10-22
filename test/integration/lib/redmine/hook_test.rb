@@ -17,7 +17,7 @@
 
 require File.expand_path('../../../../test_helper', __FILE__)
 
-class HookTest < ActionController::IntegrationTest
+class HookTest < ActionDispatch::IntegrationTest
   fixtures :users, :roles, :projects, :members, :member_roles
 
   # Hooks that are manually registered later
@@ -33,6 +33,8 @@ class HookTest < ActionController::IntegrationTest
       content_tag('p', 'Sidebar hook')
     end
   end
+
+  Redmine::Hook.clear_listeners
 
   class ContentForInsideHook < Redmine::Hook::ViewListener
     render_on :view_welcome_index_left, :inline => <<-VIEW

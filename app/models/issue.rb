@@ -31,15 +31,12 @@ class Issue < ActiveRecord::Base
 
   has_many :journals, :as => :journalized, :dependent => :destroy
   has_many :visible_journals,
+    lambda {where(["(#{Journal.table_name}.private_notes = ? OR (#{Project.allowed_to_condition(User.current, :view_private_notes)}))", false])},
     :class_name => 'Journal',
-    :as => :journalized,
-    :conditions => Proc.new {
-      ["(#{Journal.table_name}.private_notes = ? OR (#{Project.allowed_to_condition(User.current, :view_private_notes)}))", false]
-    },
-    :readonly => true
+    :as => :journalized
 
   has_many :time_entries, :dependent => :destroy
-  has_and_belongs_to_many :changesets, :order => "#{Changeset.table_name}.committed_on ASC, #{Changeset.table_name}.id ASC"
+  has_and_belongs_to_many :changesets, lambda {order("#{Changeset.table_name}.committed_on ASC, #{Changeset.table_name}.id ASC")}
 
   has_many :relations_from, :class_name => 'IssueRelation', :foreign_key => 'issue_from_id', :dependent => :delete_all
   has_many :relations_to, :class_name => 'IssueRelation', :foreign_key => 'issue_to_id', :dependent => :delete_all
@@ -49,14 +46,19 @@ class Issue < ActiveRecord::Base
   acts_as_customizable
   acts_as_watchable
   acts_as_searchable :columns => ['subject', "#{table_name}.description", "#{Journal.table_name}.notes"],
-                     :include => [:project, :visible_journals],
                      # sort by id so that limited eager loading doesn't break with postgresql
-                     :order_column => "#{table_name}.id"
+                     :order_column => "#{table_name}.id",
+                     :scope => lambda { joins(:project).
+                                        joins("LEFT OUTER JOIN #{Journal.table_name} ON #{Journal.table_name}.journalized_type='Issue'" + 
+                                              " AND #{Journal.table_name}.journalized_id = #{Issue.table_name}.id" +
+                                              " AND (#{Journal.table_name}.private_notes = #{connection.quoted_false}" +
+                                                    " OR (#{Project.allowed_to_condition(User.current, :view_private_notes)}))") }
+
   acts_as_event :title => Proc.new {|o| "#{o.tracker.name} ##{o.id} (#{o.status}): #{o.subject}"},
                 :url => Proc.new {|o| {:controller => 'issues', :action => 'show', :id => o.id}},
                 :type => Proc.new {|o| 'issue' + (o.closed? ? ' closed' : '') }
 
-  acts_as_activity_provider :find_options => {:include => [:project, :author, :tracker]},
+  acts_as_activity_provider :scope => preload(:project, :author, :tracker),
                             :author_key => :author_id
 
   DONE_RATIO_OPTIONS = %w(issue_field issue_status)
@@ -72,19 +74,26 @@ class Issue < ActiveRecord::Base
   validates :start_date, :date => true
   validates :due_date, :date => true
   validate :validate_issue, :validate_required_fields
+  attr_protected :id
 
   scope :visible, lambda {|*args|
-    includes(:project).where(Issue.visible_condition(args.shift || User.current, *args))
+    joins(:project).
+    references(:project).
+    where(Issue.visible_condition(args.shift || User.current, *args))
   }
 
   scope :open, lambda {|*args|
     is_closed = args.size > 0 ? !args.first : false
-    includes(:status).where("#{IssueStatus.table_name}.is_closed = ?", is_closed)
+    joins(:status).
+    references(:status).
+    where("#{IssueStatus.table_name}.is_closed = ?", is_closed)
   }
 
   scope :recently_updated, lambda { order("#{Issue.table_name}.updated_on DESC") }
   scope :on_active_project, lambda {
-    includes(:status, :project, :tracker).where("#{Project.table_name}.status = ?", Project::STATUS_ACTIVE)
+    joins(:project).
+    references(:project).
+    where("#{Project.table_name}.status = ?", Project::STATUS_ACTIVE)
   }
   scope :fixed_version, lambda {|versions|
     ids = [versions].flatten.compact.map {|v| v.is_a?(Version) ? v.id : v}
@@ -107,7 +116,7 @@ class Issue < ActiveRecord::Base
   # Returns a SQL conditions string used to find all issues visible by the specified user
   def self.visible_condition(user, options={})
     Project.allowed_to_condition(user, :view_issues, options) do |role, user|
-      if user.logged?
+      if user.id && user.logged?
         case role.issues_visibility
         when 'all'
           nil
@@ -351,6 +360,10 @@ class Issue < ActiveRecord::Base
   # Do not redefine alias chain on reload (see #4838)
   alias_method_chain(:assign_attributes, :project_and_tracker_first) unless method_defined?(:assign_attributes_without_project_and_tracker_first)
 
+  def attributes=(new_attributes)
+    assign_attributes new_attributes
+  end
+
   def estimated_hours=(h)
     write_attribute :estimated_hours, (h.is_a?(String) ? h.to_hours : h)
   end
@@ -423,7 +436,7 @@ class Issue < ActiveRecord::Base
   def safe_attributes=(attrs, user=User.current)
     return unless attrs.is_a?(Hash)
 
-    attrs = attrs.dup
+    attrs = attrs.deep_dup
 
     # Project and Tracker must be set before since new_statuses_allowed_to depends on it.
     if (p = attrs.delete('project_id')) && safe_attribute?('project_id')
@@ -458,14 +471,12 @@ class Issue < ActiveRecord::Base
 
     if attrs['custom_field_values'].present?
       editable_custom_field_ids = editable_custom_field_values(user).map {|v| v.custom_field_id.to_s}
-      # TODO: use #select when ruby1.8 support is dropped
-      attrs['custom_field_values'] = attrs['custom_field_values'].reject {|k, v| !editable_custom_field_ids.include?(k.to_s)}
+      attrs['custom_field_values'].select! {|k, v| editable_custom_field_ids.include?(k.to_s)}
     end
 
     if attrs['custom_fields'].present?
       editable_custom_field_ids = editable_custom_field_values(user).map {|v| v.custom_field_id.to_s}
-      # TODO: use #select when ruby1.8 support is dropped
-      attrs['custom_fields'] = attrs['custom_fields'].reject {|c| !editable_custom_field_ids.include?(c['id'].to_s)}
+      attrs['custom_fields'].select! {|c| editable_custom_field_ids.include?(c['id'].to_s)}
     end
 
     # mass-assignment security bypass
@@ -733,7 +744,7 @@ class Issue < ActiveRecord::Base
   def assignable_versions
     return @assignable_versions if @assignable_versions
 
-    versions = project.shared_versions.open.all
+    versions = project.shared_versions.open.to_a
     if fixed_version
       if fixed_version_id_changed?
         # nothing to do
@@ -879,10 +890,14 @@ class Issue < ActiveRecord::Base
     if issues.any?
       issue_ids = issues.map(&:id)
       # Relations with issue_from in given issues and visible issue_to
-      relations_from = IssueRelation.includes(:issue_to => [:status, :project]).where(visible_condition(user)).where(:issue_from_id => issue_ids).all
+      relations_from = IssueRelation.joins(:issue_to => :project).
+                         references(:issue_to => :project).
+                         where(visible_condition(user)).where(:issue_from_id => issue_ids).to_a
       # Relations with issue_to in given issues and visible issue_from
-      relations_to = IssueRelation.includes(:issue_from => [:status, :project]).where(visible_condition(user)).where(:issue_to_id => issue_ids).all
-
+      relations_to = IssueRelation.joins(:issue_from => :project).
+                         references(:issue_from => :project).
+                         where(visible_condition(user)).
+                         where(:issue_to_id => issue_ids).to_a
       issues.each do |issue|
         relations =
           relations_from.select {|relation| relation.issue_from_id == issue.id} +
@@ -1121,6 +1136,7 @@ class Issue < ActiveRecord::Base
   def parent_issue_id=(arg)
     s = arg.to_s.strip.presence
     if s && (m = s.match(%r{\A#?(\d+)\z})) && (@parent_issue = Issue.find_by_id(m[1]))
+      @parent_issue.id
       @invalid_parent_issue_id = nil
     elsif s.blank?
       @parent_issue = nil
@@ -1349,7 +1365,7 @@ class Issue < ActiveRecord::Base
         self.root_id = (@parent_issue.nil? ? id : @parent_issue.root_id)
         cond = ["root_id = ? AND lft >= ? AND rgt <= ? ", old_root_id, lft, rgt]
         self.class.base_class.select('id').lock(true).where(cond)
-        offset = right_most_bound + 1 - lft
+        offset = rdm_right_most_bound + 1 - lft
         Issue.where(cond).
           update_all(["root_id = ?, lft = lft + ?, rgt = rgt + ?", root_id, offset, offset])
       end
@@ -1366,6 +1382,14 @@ class Issue < ActiveRecord::Base
     # update former parent
     recalculate_attributes_for(former_parent_id) if former_parent_id
   end
+
+  def rdm_right_most_bound
+    right_most_node =
+      self.class.base_class.unscoped.
+        order("#{quoted_right_column_full_name} desc").limit(1).lock(true).first
+      right_most_node ? (right_most_node[right_column_name] || 0 ) : 0
+  end
+  private :rdm_right_most_bound
 
   def update_parent_attributes
     recalculate_attributes_for(parent_id) if parent_id
@@ -1395,7 +1419,7 @@ class Issue < ActiveRecord::Base
           end
           done = p.leaves.joins(:status).
             sum("COALESCE(CASE WHEN estimated_hours > 0 THEN estimated_hours ELSE NULL END, #{average}) " +
-                "* (CASE WHEN is_closed = #{connection.quoted_true} THEN 100 ELSE COALESCE(done_ratio, 0) END)").to_f
+                "* (CASE WHEN is_closed = #{self.class.connection.quoted_true} THEN 100 ELSE COALESCE(done_ratio, 0) END)").to_f
           progress = done / (average * leaves_count)
           p.done_ratio = progress.round
         end
@@ -1415,7 +1439,8 @@ class Issue < ActiveRecord::Base
   def self.update_versions(conditions=nil)
     # Only need to update issues with a fixed_version from
     # a different project and that is not systemwide shared
-    Issue.includes(:project, :fixed_version).
+    Issue.joins(:project, :fixed_version).
+      references(:version, :fixed_version).
       where("#{Issue.table_name}.fixed_version_id IS NOT NULL" +
         " AND #{Issue.table_name}.project_id <> #{Version.table_name}.project_id" +
         " AND #{Version.table_name}.sharing <> 'system'").

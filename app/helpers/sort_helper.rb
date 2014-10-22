@@ -84,7 +84,8 @@ module SortHelper
     def to_sql
       sql = @criteria.collect do |k,o|
         if s = @available_criteria[k]
-          (o ? s.to_a : s.to_a.collect {|c| append_desc(c)})
+          s = [s] unless s.is_a?(Array)
+          (o ? s : s.collect {|c| append_desc(c)})
         end
       end.flatten.compact
       sql.blank? ? nil : sql

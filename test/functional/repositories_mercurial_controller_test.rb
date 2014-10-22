@@ -28,8 +28,7 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
   PRJ_ID     = 3
   NUM_REV    = 34
 
-  ruby19_non_utf8_pass =
-     (RUBY_VERSION >= '1.9' && Encoding.default_external.to_s != 'UTF-8')
+  ruby19_non_utf8_pass = Encoding.default_external.to_s != 'UTF-8'
 
   def setup
     User.current = nil
@@ -41,21 +40,15 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
                       )
     assert @repository
     @diff_c_support = true
-    @char_1        = CHAR_1_HEX.dup
-    @tag_char_1    = "tag-#{CHAR_1_HEX}-00"
-    @branch_char_0 = "branch-#{CHAR_1_HEX}-00"
-    @branch_char_1 = "branch-#{CHAR_1_HEX}-01"
-    if @char_1.respond_to?(:force_encoding)
-      @char_1.force_encoding('UTF-8')
-      @tag_char_1.force_encoding('UTF-8')
-      @branch_char_0.force_encoding('UTF-8')
-      @branch_char_1.force_encoding('UTF-8')
-    end
+    @char_1        = CHAR_1_HEX.dup.force_encoding('UTF-8')
+    @tag_char_1    = "tag-#{CHAR_1_HEX}-00".force_encoding('UTF-8')
+    @branch_char_0 = "branch-#{CHAR_1_HEX}-00".force_encoding('UTF-8')
+    @branch_char_1 = "branch-#{CHAR_1_HEX}-01".force_encoding('UTF-8')
   end
 
   if ruby19_non_utf8_pass
-    puts "TODO: Mercurial functional test fails in Ruby 1.9 " +
-         "and Encoding.default_external is not UTF-8. " +
+    puts "TODO: Mercurial functional test fails " +
+         "when Encoding.default_external is not UTF-8. " +
          "Current value is '#{Encoding.default_external.to_s}'"
     def test_fake; assert true end
   elsif File.directory?(REPOSITORY_PATH)

@@ -97,9 +97,7 @@ class WelcomeControllerTest < ActionController::TestCase
     @request.session[:user_id] = 2
 
     get :index
-    assert_tag 'script',
-      :attributes => {:type => "text/javascript"},
-      :content => %r{warnLeavingUnsaved}
+    assert_select 'script', :text => %r{warnLeavingUnsaved}
   end
 
   def test_warn_on_leaving_unsaved_turn_off

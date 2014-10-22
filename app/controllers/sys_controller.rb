@@ -19,7 +19,8 @@ class SysController < ActionController::Base
   before_filter :check_enabled
 
   def projects
-    p = Project.active.has_module(:repository).order("#{Project.table_name}.identifier").preload(:repository).all
+    p = Project.active.has_module(:repository).
+          order("#{Project.table_name}.identifier").preload(:repository).to_a
     # extra_info attribute from repository breaks activeresource client
     render :xml => p.to_xml(
                        :only => [:id, :identifier, :name, :is_public, :status],
@@ -56,7 +57,7 @@ class SysController < ActionController::Base
       raise ActiveRecord::RecordNotFound unless project
       projects << project
     else
-      projects = scope.all
+      projects = scope.to_a
     end
     projects.each do |project|
       project.repositories.each do |repository|

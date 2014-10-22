@@ -66,6 +66,7 @@ class Redmine::Hook::ManagerTest < ActionView::TestCase
 
   def setup
     @hook_module = Redmine::Hook
+    @hook_module.clear_listeners
   end
 
   def teardown

@@ -25,6 +25,7 @@ class Member < ActiveRecord::Base
   validates_presence_of :principal, :project
   validates_uniqueness_of :user_id, :scope => :project_id
   validate :validate_role
+  attr_protected :id
 
   before_destroy :set_issue_category_nil
 

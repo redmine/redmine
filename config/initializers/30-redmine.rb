@@ -1,5 +1,7 @@
 I18n.default_locale = 'en'
 I18n.backend = Redmine::I18n::Backend.new
+# Forces I18n to load available locales from the backend
+I18n.config.available_locales = nil
 
 require 'redmine'
 
@@ -19,10 +21,4 @@ end
 Redmine::Plugin.load
 unless Redmine::Configuration['mirror_plugins_assets_on_startup'] == false
   Redmine::Plugin.mirror_assets
-end
-
-Rails.application.config.to_prepare do
-  Redmine::FieldFormat::RecordList.subclasses.each do |klass|
-    klass.instance.reset_target_class
-  end
 end

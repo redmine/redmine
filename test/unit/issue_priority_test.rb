@@ -83,7 +83,7 @@ class IssuePriorityTest < ActiveSupport::TestCase
     IssuePriority.clear_position_names
 
     IssuePriority.compute_position_names
-    assert_equal %w(lowest default high3 high2 highest), IssuePriority.active.all.sort.map(&:position_name)
+    assert_equal %w(lowest default high3 high2 highest), IssuePriority.active.to_a.sort.map(&:position_name)
   end
 
   def test_compute_position_names_without_default_priority_should_split_priorities
@@ -91,16 +91,16 @@ class IssuePriorityTest < ActiveSupport::TestCase
     IssuePriority.update_all :is_default => false
 
     IssuePriority.compute_position_names
-    assert_equal %w(lowest low2 default high2 highest), IssuePriority.active.all.sort.map(&:position_name)
+    assert_equal %w(lowest low2 default high2 highest), IssuePriority.active.to_a.sort.map(&:position_name)
   end
 
   def test_adding_a_priority_should_update_position_names
     priority = IssuePriority.create!(:name => 'New')
-    assert_equal %w(lowest default high4 high3 high2 highest), IssuePriority.active.all.sort.map(&:position_name)
+    assert_equal %w(lowest default high4 high3 high2 highest), IssuePriority.active.to_a.sort.map(&:position_name)
   end
 
   def test_destroying_a_priority_should_update_position_names
     IssuePriority.find_by_position_name('highest').destroy
-    assert_equal %w(lowest default high2 highest), IssuePriority.active.all.sort.map(&:position_name)
+    assert_equal %w(lowest default high2 highest), IssuePriority.active.to_a.sort.map(&:position_name)
   end
 end

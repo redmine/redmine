@@ -25,11 +25,13 @@ class Principal < ActiveRecord::Base
   STATUS_LOCKED     = 3
 
   has_many :members, :foreign_key => 'user_id', :dependent => :destroy
-  has_many :memberships, :class_name => 'Member',
-           :foreign_key => 'user_id',
-           :include => [:project, :roles],
-           :conditions => "#{Project.table_name}.status<>#{Project::STATUS_ARCHIVED}",
-           :order => "#{Project.table_name}.name"
+  has_many :memberships,
+           lambda {preload(:project, :roles).
+                   joins(:project).
+                   where("#{Project.table_name}.status<>#{Project::STATUS_ARCHIVED}").
+                   order("#{Project.table_name}.name")},
+           :class_name => 'Member',
+           :foreign_key => 'user_id'
   has_many :projects, :through => :memberships
   has_many :issue_categories, :foreign_key => 'assigned_to_id', :dependent => :nullify
 
@@ -56,8 +58,8 @@ class Principal < ActiveRecord::Base
 
   # Principals that are members of a collection of projects
   scope :member_of, lambda {|projects|
-    projects = [projects] unless projects.is_a?(Array)
-    if projects.empty?
+    projects = [projects] if projects.is_a?(Project)
+    if projects.blank?
       where("1=0")
     else
       ids = projects.map(&:id)

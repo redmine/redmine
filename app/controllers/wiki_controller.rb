@@ -219,7 +219,7 @@ class WikiController < ApplicationController
       reorder('version DESC').
       limit(@version_pages.per_page + 1).
       offset(@version_pages.offset).
-      all
+      to_a
 
     render :layout => false if request.xhr?
   end
@@ -280,7 +280,7 @@ class WikiController < ApplicationController
     @pages = @wiki.pages.
                       order('title').
                       includes([:content, {:attachments => :author}]).
-                      all
+                      to_a
     respond_to do |format|
       format.html {
         export = render_to_string :action => 'export_multiple', :layout => false
@@ -327,7 +327,7 @@ private
   def find_existing_or_new_page
     @page = @wiki.find_or_new_page(params[:id])
     if @wiki.page_found_with_redirect?
-      redirect_to params.update(:id => @page.title)
+      redirect_to_page @page
     end
   end
 
@@ -339,8 +339,12 @@ private
       return
     end
     if @wiki.page_found_with_redirect?
-      redirect_to params.update(:id => @page.title)
+      redirect_to_page @page
     end
+  end
+
+  def redirect_to_page(page)
+    redirect_to :action => action_name, :project_id => page.wiki.project, :id => page.title
   end
 
   # Returns true if the current user is allowed to edit the page, otherwise false
@@ -360,6 +364,6 @@ private
                 reorder("#{WikiPage.table_name}.title").
                 includes(:wiki => :project).
                 includes(:parent).
-                all
+                to_a
   end
 end

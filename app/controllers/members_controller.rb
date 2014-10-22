@@ -32,7 +32,7 @@ class MembersController < ApplicationController
                     order("#{Member.table_name}.id").
                     limit(@limit).
                     offset(@offset).
-                    all
+                    to_a
     respond_to do |format|
       format.html { head 406 }
       format.api
@@ -63,7 +63,10 @@ class MembersController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to_settings_in_projects }
-      format.js { @members = members }
+      format.js {
+        @members = members
+        @member = Member.new
+      }
       format.api {
         @member = members.first
         if @member.valid?

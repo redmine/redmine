@@ -72,8 +72,8 @@ class AccountControllerTest < ActionController::TestCase
   end
 
   def test_login_with_suburi_should_redirect_to_back_url_param
-    @relative_url_root = ApplicationController.relative_url_root
-    ApplicationController.relative_url_root = '/redmine'
+    @relative_url_root = Redmine::Utils.relative_url_root
+    Redmine::Utils.relative_url_root = '/redmine'
 
     back_urls = [
       'http://test.host/redmine/issues/show/1',
@@ -84,7 +84,7 @@ class AccountControllerTest < ActionController::TestCase
       assert_redirected_to back_url
     end
   ensure
-    ApplicationController.relative_url_root = @relative_url_root
+    Redmine::Utils.relative_url_root = @relative_url_root
   end
 
   def test_login_should_not_redirect_to_another_host
@@ -99,8 +99,8 @@ class AccountControllerTest < ActionController::TestCase
   end
 
   def test_login_with_suburi_should_not_redirect_to_another_suburi
-    @relative_url_root = ApplicationController.relative_url_root
-    ApplicationController.relative_url_root = '/redmine'
+    @relative_url_root = Redmine::Utils.relative_url_root
+    Redmine::Utils.relative_url_root = '/redmine'
 
     back_urls = [
       'http://test.host/',
@@ -115,7 +115,7 @@ class AccountControllerTest < ActionController::TestCase
       assert_redirected_to '/my/page'
     end
   ensure
-    ApplicationController.relative_url_root = @relative_url_root
+    Redmine::Utils.relative_url_root = @relative_url_root
   end
 
   def test_login_with_wrong_password

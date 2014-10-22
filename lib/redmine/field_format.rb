@@ -597,18 +597,13 @@ module Redmine
       def target_class
         @target_class ||= self.class.name[/^(.*::)?(.+)Format$/, 2].constantize rescue nil
       end
-
-      def reset_target_class
-        @target_class = nil
-      end
  
       def possible_custom_value_options(custom_value)
         options = possible_values_options(custom_value.custom_field, custom_value.customized)
         missing = [custom_value.value_was].flatten.reject(&:blank?) - options.map(&:last)
         if missing.any?
           options += target_class.where(:id => missing.map(&:to_i)).map {|o| [o.to_s, o.id.to_s]}
-          #TODO: use #sort_by! when ruby1.8 support is dropped
-          options = options.sort_by(&:first)
+          options.sort_by!(&:first)
         end
         options
       end

@@ -54,10 +54,7 @@ module Redmine
             # The hg version is expressed either as a
             # release number (eg 0.9.5 or 1.0) or as a revision
             # id composed of 12 hexa characters.
-            theversion = hgversion_from_command_line.dup
-            if theversion.respond_to?(:force_encoding)
-              theversion.force_encoding('ASCII-8BIT')
-            end
+            theversion = hgversion_from_command_line.dup.force_encoding('ASCII-8BIT')
             if m = theversion.match(%r{\A(.*?)((\d+\.)+\d+)})
               m[2].scan(%r{\d+}).collect(&:to_i)
             end
@@ -130,10 +127,7 @@ module Redmine
         def summary
           return @summary if @summary
           hg 'rhsummary' do |io|
-            output = io.read
-            if output.respond_to?(:force_encoding)
-              output.force_encoding('UTF-8')
-            end
+            output = io.read.force_encoding('UTF-8')
             begin
               @summary = parse_xml(output)['rhsummary']
             rescue
@@ -146,10 +140,7 @@ module Redmine
           p1 = scm_iconv(@path_encoding, 'UTF-8', path)
           manifest = hg('rhmanifest', '-r', CGI.escape(hgrev(identifier)),
                         CGI.escape(without_leading_slash(p1.to_s))) do |io|
-            output = io.read
-            if output.respond_to?(:force_encoding)
-              output.force_encoding('UTF-8')
-            end
+            output = io.read.force_encoding('UTF-8')
             begin
               parse_xml(output)['rhmanifest']['repository']['manifest']
             rescue
@@ -193,10 +184,7 @@ module Redmine
           hg_args << '--limit' << options[:limit] if options[:limit]
           hg_args << hgtarget(path) unless path.blank?
           log = hg(*hg_args) do |io|
-            output = io.read
-            if output.respond_to?(:force_encoding)
-              output.force_encoding('UTF-8')
-            end
+            output = io.read.force_encoding('UTF-8')
             begin
               # Mercurial < 1.5 does not support footer template for '</log>'
               parse_xml("#{output}</log>")['log']
@@ -278,7 +266,7 @@ module Redmine
           blame = Annotate.new
           hg 'rhannotate', '-ncu', '-r', CGI.escape(hgrev(identifier)), hgtarget(p) do |io|
             io.each_line do |line|
-              line.force_encoding('ASCII-8BIT') if line.respond_to?(:force_encoding)
+              line.force_encoding('ASCII-8BIT')
               next unless line =~ %r{^([^:]+)\s(\d+)\s([0-9a-f]+):\s(.*)$}
               r = Revision.new(:author => $1.strip, :revision => $2, :scmid => $3,
                                :identifier => $3)

@@ -138,9 +138,7 @@ module ApplicationHelper
     if project.archived?
       h(project.name)
     elsif options.key?(:action)
-      ActiveSupport::Deprecation.warn "#link_to_project with :action option is deprecated and will be removed in Redmine 3.0."
-      url = {:controller => 'projects', :action => 'show', :id => project}.merge(options)
-      link_to project.name, url, html_options
+      raise "#link_to_project no longer accepts :action option in Redmine 3.0"
     else
       link_to project.name, project_path(project, options), html_options
     end
@@ -155,13 +153,6 @@ module ApplicationHelper
     else
       link_to project.name, project_path(project, options), html_options
     end
-  end
-
-  # Generates a link to a version
-  def link_to_version(version, options = {})
-    return '' unless version && version.is_a?(Version)
-    options = {:title => format_date(version.effective_date)}.merge(options)
-    link_to_if version.visible?, format_version_name(version), version_path(version), options
   end
 
   # Helper that formats object for html or text rendering
@@ -185,7 +176,7 @@ module ApplicationHelper
     when 'Project'
       html ? link_to_project(object) : object.to_s
     when 'Version'
-      html ? link_to_version(object) : object.to_s
+      html ? link_to(object.name, version_path(object)) : object.to_s
     when 'TrueClass'
       l(:general_text_Yes)
     when 'FalseClass'
@@ -247,7 +238,7 @@ module ApplicationHelper
   end
 
   def format_version_name(version)
-    if !version.shared? || version.project == @project
+    if version.project == @project
       h(version)
     else
       h("#{version.project} - #{version}")
@@ -502,7 +493,7 @@ module ApplicationHelper
       h(Setting.app_title)
     else
       b = []
-      ancestors = (@project.root? ? [] : @project.ancestors.visible.all)
+      ancestors = (@project.root? ? [] : @project.ancestors.visible.to_a)
       if ancestors.any?
         root = ancestors.shift
         b << link_to_project(root, {:jump => current_menu_item}, :class => 'root')
@@ -1217,7 +1208,7 @@ module ApplicationHelper
         source
       end
     end
-    super sources, options
+    super *sources, options
   end
 
   # Overrides Rails' image_tag with themes and plugins support.
@@ -1250,7 +1241,7 @@ module ApplicationHelper
         end
       end
     end
-    super sources, options
+    super *sources, options
   end
 
   # TODO: remove this in 2.5.0
@@ -1288,12 +1279,7 @@ module ApplicationHelper
   end
 
   def sanitize_anchor_name(anchor)
-    if ''.respond_to?(:encoding) || RUBY_PLATFORM == 'java'
-      anchor.gsub(%r{[^\s\-\p{Word}]}, '').gsub(%r{\s+(\-+\s*)?}, '-')
-    else
-      # TODO: remove when ruby1.8 is no longer supported
-      anchor.gsub(%r{[^\w\s\-]}, '').gsub(%r{\s+(\-+\s*)?}, '-')
-    end
+    anchor.gsub(%r{[^\s\-\p{Word}]}, '').gsub(%r{\s+(\-+\s*)?}, '-')
   end
 
   # Returns the javascript tags that are included in the html layout head

@@ -27,6 +27,7 @@ class JournalTest < ActiveSupport::TestCase
 
   def setup
     @journal = Journal.find 1
+    User.current = nil
   end
 
   def test_journalized_is_an_issue
@@ -119,12 +120,12 @@ class JournalTest < ActiveSupport::TestCase
 
   def test_visible_scope_for_anonymous
     # Anonymous user should see issues of public projects only
-    journals = Journal.visible(User.anonymous).all
+    journals = Journal.visible(User.anonymous).to_a
     assert journals.any?
     assert_nil journals.detect {|journal| !journal.issue.project.is_public?}
     # Anonymous user should not see issues without permission
     Role.anonymous.remove_permission!(:view_issues)
-    journals = Journal.visible(User.anonymous).all
+    journals = Journal.visible(User.anonymous).to_a
     assert journals.empty?
   end
 
@@ -132,18 +133,18 @@ class JournalTest < ActiveSupport::TestCase
     user = User.find(9)
     assert user.projects.empty?
     # Non member user should see issues of public projects only
-    journals = Journal.visible(user).all
+    journals = Journal.visible(user).to_a
     assert journals.any?
     assert_nil journals.detect {|journal| !journal.issue.project.is_public?}
     # Non member user should not see issues without permission
     Role.non_member.remove_permission!(:view_issues)
     user.reload
-    journals = Journal.visible(user).all
+    journals = Journal.visible(user).to_a
     assert journals.empty?
     # User should see issues of projects for which user has view_issues permissions only
     Member.create!(:principal => user, :project_id => 1, :role_ids => [1])
     user.reload
-    journals = Journal.visible(user).all
+    journals = Journal.visible(user).to_a
     assert journals.any?
     assert_nil journals.detect {|journal| journal.issue.project_id != 1}
   end
@@ -152,7 +153,7 @@ class JournalTest < ActiveSupport::TestCase
     user = User.find(1)
     user.members.each(&:destroy)
     assert user.projects.empty?
-    journals = Journal.visible(user).all
+    journals = Journal.visible(user).to_a
     assert journals.any?
     # Admin should see issues on private projects that admin does not belong to
     assert journals.detect {|journal| !journal.issue.project.is_public?}

@@ -27,6 +27,7 @@ class IssueStatus < ActiveRecord::Base
   validates_uniqueness_of :name
   validates_length_of :name, :maximum => 30
   validates_inclusion_of :default_done_ratio, :in => 0..100, :allow_nil => true
+  attr_protected :id
 
   scope :sorted, lambda { order("#{table_name}.position ASC") }
   scope :named, lambda {|arg| where("LOWER(#{table_name}.name) = LOWER(?)", arg.to_s.strip)}
@@ -79,7 +80,7 @@ class IssueStatus < ActiveRecord::Base
         includes(:new_status).
         where(["role_id IN (:role_ids) AND tracker_id = :tracker_id AND (#{conditions})",
           {:role_ids => roles.collect(&:id), :tracker_id => tracker.id, :true => true, :false => false}
-          ]).all.
+          ]).to_a.
         map(&:new_status).compact.sort
     else
       []

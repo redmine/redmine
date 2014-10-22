@@ -79,8 +79,8 @@ class User < Principal
                           :after_remove => Proc.new {|user, group| group.user_removed(user)}
   has_many :changesets, :dependent => :nullify
   has_one :preference, :dependent => :destroy, :class_name => 'UserPreference'
-  has_one :rss_token, :class_name => 'Token', :conditions => "action='feeds'"
-  has_one :api_token, :class_name => 'Token', :conditions => "action='api'"
+  has_one :rss_token, lambda {where "action='feeds'"}, :class_name => 'Token'
+  has_one :api_token, lambda {where "action='api'"}, :class_name => 'Token'
   belongs_to :auth_source
 
   scope :logged, lambda { where("#{User.table_name}.status <> #{STATUS_ANONYMOUS}") }
@@ -105,9 +105,13 @@ class User < Principal
   validates_length_of :firstname, :lastname, :maximum => 30
   validates_format_of :mail, :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i, :allow_blank => true
   validates_length_of :mail, :maximum => MAIL_LENGTH_LIMIT, :allow_nil => true
-  validates_confirmation_of :password, :allow_nil => true
   validates_inclusion_of :mail_notification, :in => MAIL_NOTIFICATION_OPTIONS.collect(&:first), :allow_blank => true
   validate :validate_password_length
+  validate do
+    if password_confirmation && password != password_confirmation
+      errors.add(:password, :confirmation)
+    end
+  end
 
   before_create :set_mail_notification
   before_save   :generate_password_if_needed, :update_hashed_password
@@ -149,6 +153,15 @@ class User < Principal
 
   def mail=(arg)
     write_attribute(:mail, arg.to_s.strip)
+  end
+
+  def self.find_or_initialize_by_identity_url(url)
+    user = where(:identity_url => url).first
+    unless user
+      user = User.new
+      user.identity_url = url
+    end
+    user
   end
 
   def identity_url=(url)
@@ -496,10 +509,12 @@ class User < Principal
 
     hash = Hash.new([])
 
-    members = Member.joins(:project).
+    group_class = anonymous? ? GroupAnonymous : GroupNonMember
+    members = Member.joins(:project, :principal).
       where("#{Project.table_name}.status <> 9").
-      where("#{Member.table_name}.user_id = ? OR (#{Project.table_name}.is_public = ? AND #{Member.table_name}.user_id = ?)", self.id, true, Group.builtin_id(self)).
-      preload(:project, :roles)
+      where("#{Member.table_name}.user_id = ? OR (#{Project.table_name}.is_public = ? AND #{Principal.table_name}.type = ?)", self.id, true, group_class.name).
+      preload(:project, :roles).
+      to_a
 
     members.reject! {|member| member.user_id != id && project_ids.include?(member.project_id)}
     members.each do |member|
@@ -558,6 +573,8 @@ class User < Principal
         # Authorize if user is authorized on every element of the array
         context.map {|project| allowed_to?(action, project, options, &block)}.reduce(:&)
       end
+    elsif context
+      raise ArgumentError.new("#allowed_to? context argument must be a Project, an Array of projects or nil")
     elsif options[:global]
       # Admin users are always authorized
       return true if admin?
@@ -710,17 +727,17 @@ class User < Principal
     return if self.id.nil?
 
     substitute = User.anonymous
-    Attachment.where(['author_id = ?', id]).update_all(['author_id = ?', substitute.id])
+    Attachment.where(['author_id = ?', id]).update_all(['author_id = ?', substitute.id]) 
     Comment.where(['author_id = ?', id]).update_all(['author_id = ?', substitute.id])
     Issue.where(['author_id = ?', id]).update_all(['author_id = ?', substitute.id])
     Issue.where(['assigned_to_id = ?', id]).update_all('assigned_to_id = NULL')
-    Journal.where(['user_id = ?', id]).update_all(['user_id = ?', substitute.id])
+    Journal.where(['user_id = ?', id]).update_all(['user_id = ?', substitute.id]) 
     JournalDetail.
       where(["property = 'attr' AND prop_key = 'assigned_to_id' AND old_value = ?", id.to_s]).
       update_all(['old_value = ?', substitute.id.to_s])
     JournalDetail.
       where(["property = 'attr' AND prop_key = 'assigned_to_id' AND value = ?", id.to_s]).
-      update_all(['value = ?', substitute.id.to_s])
+      update_all(['value = ?', substitute.id.to_s]) 
     Message.where(['author_id = ?', id]).update_all(['author_id = ?', substitute.id])
     News.where(['author_id = ?', id]).update_all(['author_id = ?', substitute.id])
     # Remove private queries and keep public ones

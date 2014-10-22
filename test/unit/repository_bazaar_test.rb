@@ -22,7 +22,7 @@ class RepositoryBazaarTest < ActiveSupport::TestCase
 
   include Redmine::I18n
 
-  REPOSITORY_PATH = Rails.root.join('tmp/test/bazaar_repository').to_s
+  REPOSITORY_PATH = repository_path('bazaar')
   REPOSITORY_PATH_TRUNK = File.join(REPOSITORY_PATH, "trunk")
   NUM_REV = 4
 
@@ -42,11 +42,10 @@ class RepositoryBazaarTest < ActiveSupport::TestCase
   # you cannot run Bazaar non ASCII path tests.
   #
   RUN_LATIN1_OUTPUT_TEST = (RUBY_PLATFORM != 'java' &&
-                             REPOSITORY_PATH.respond_to?(:force_encoding) &&
                              Encoding.locale_charmap == "ISO-8859-1")
 
-  CHAR_1_UTF8_HEX   = "\xc3\x9c"
-  CHAR_1_LATIN1_HEX = "\xdc"
+  CHAR_1_UTF8_HEX   = "\xc3\x9c".force_encoding('UTF-8')
+  CHAR_1_LATIN1_HEX = "\xdc".force_encoding('ASCII-8BIT')
 
   def setup
     @project = Project.find(3)
@@ -54,12 +53,6 @@ class RepositoryBazaarTest < ActiveSupport::TestCase
               :project => @project, :url => REPOSITORY_PATH_TRUNK,
               :log_encoding => 'UTF-8')
     assert @repository
-    @char_1_utf8      = CHAR_1_UTF8_HEX.dup
-    @char_1_ascii8bit = CHAR_1_LATIN1_HEX.dup
-    if @char_1_utf8.respond_to?(:force_encoding)
-      @char_1_utf8.force_encoding('UTF-8')
-      @char_1_ascii8bit.force_encoding('ASCII-8BIT')
-    end
   end
 
   def test_blank_path_to_repository_error_message
@@ -76,8 +69,7 @@ class RepositoryBazaarTest < ActiveSupport::TestCase
 
   def test_blank_path_to_repository_error_message_fr
     set_language_if_valid 'fr'
-    str = "Chemin du d\xc3\xa9p\xc3\xb4t doit \xc3\xaatre renseign\xc3\xa9(e)"
-    str.force_encoding('UTF-8') if str.respond_to?(:force_encoding)
+    str = "Chemin du d\xc3\xa9p\xc3\xb4t doit \xc3\xaatre renseign\xc3\xa9(e)".force_encoding('UTF-8')
     repo = Repository::Bazaar.new(
                           :project      => @project,
                           :url          => "",
@@ -178,70 +170,70 @@ class RepositoryBazaarTest < ActiveSupport::TestCase
       def test_cat_latin1_path
         latin1_repo = create_latin1_repo
         buf = latin1_repo.cat(
-                 "test-#{@char_1_utf8}-dir/test-#{@char_1_utf8}-2.txt", 2)
+                 "test-#{CHAR_1_UTF8_HEX}-dir/test-#{CHAR_1_UTF8_HEX}-2.txt", 2)
         assert buf
         lines = buf.split("\n")
         assert_equal 2, lines.length
         assert_equal 'It is written in Python.', lines[1]
 
         buf = latin1_repo.cat(
-                 "test-#{@char_1_utf8}-dir/test-#{@char_1_utf8}-1.txt", 2)
+                 "test-#{CHAR_1_UTF8_HEX}-dir/test-#{CHAR_1_UTF8_HEX}-1.txt", 2)
         assert buf
         lines = buf.split("\n")
         assert_equal 1, lines.length
-        assert_equal "test-#{@char_1_ascii8bit}.txt", lines[0]
+        assert_equal "test-#{CHAR_1_LATIN1_HEX}.txt", lines[0]
       end
 
       def test_annotate_latin1_path
         latin1_repo = create_latin1_repo
         ann1 = latin1_repo.annotate(
-                   "test-#{@char_1_utf8}-dir/test-#{@char_1_utf8}-2.txt", 2)
+                   "test-#{CHAR_1_UTF8_HEX}-dir/test-#{CHAR_1_UTF8_HEX}-2.txt", 2)
         assert_equal 2, ann1.lines.size
         assert_equal '2', ann1.revisions[0].identifier
         assert_equal 'test00@', ann1.revisions[0].author
         assert_equal 'It is written in Python.', ann1.lines[1]
         ann2 = latin1_repo.annotate(
-                   "test-#{@char_1_utf8}-dir/test-#{@char_1_utf8}-1.txt", 2)
+                   "test-#{CHAR_1_UTF8_HEX}-dir/test-#{CHAR_1_UTF8_HEX}-1.txt", 2)
         assert_equal 1, ann2.lines.size
         assert_equal '2', ann2.revisions[0].identifier
         assert_equal 'test00@', ann2.revisions[0].author
-        assert_equal "test-#{@char_1_ascii8bit}.txt", ann2.lines[0]
+        assert_equal "test-#{CHAR_1_LATIN1_HEX}.txt", ann2.lines[0]
       end
 
       def test_diff_latin1_path
         latin1_repo = create_latin1_repo
         diff1 = latin1_repo.diff(
-                  "test-#{@char_1_utf8}-dir/test-#{@char_1_utf8}-1.txt", 2, 1)
+                  "test-#{CHAR_1_UTF8_HEX}-dir/test-#{CHAR_1_UTF8_HEX}-1.txt", 2, 1)
         assert_equal 7, diff1.size
         buf =  diff1[5].gsub(/\r\n|\r|\n/, "")
-        assert_equal "+test-#{@char_1_ascii8bit}.txt", buf
+        assert_equal "+test-#{CHAR_1_LATIN1_HEX}.txt", buf
       end
 
       def test_entries_latin1_path
         latin1_repo = create_latin1_repo
-        entries = latin1_repo.entries("test-#{@char_1_utf8}-dir", 2)
+        entries = latin1_repo.entries("test-#{CHAR_1_UTF8_HEX}-dir", 2)
         assert_kind_of Redmine::Scm::Adapters::Entries, entries
         assert_equal 3, entries.size
         assert_equal 'file', entries[1].kind
-        assert_equal "test-#{@char_1_utf8}-1.txt", entries[0].name
-        assert_equal "test-#{@char_1_utf8}-dir/test-#{@char_1_utf8}-1.txt", entries[0].path
+        assert_equal "test-#{CHAR_1_UTF8_HEX}-1.txt", entries[0].name
+        assert_equal "test-#{CHAR_1_UTF8_HEX}-dir/test-#{CHAR_1_UTF8_HEX}-1.txt", entries[0].path
       end
 
       def test_entry_latin1_path
         latin1_repo = create_latin1_repo
-        ["test-#{@char_1_utf8}-dir",
-          "/test-#{@char_1_utf8}-dir",
-          "/test-#{@char_1_utf8}-dir/"
+        ["test-#{CHAR_1_UTF8_HEX}-dir",
+          "/test-#{CHAR_1_UTF8_HEX}-dir",
+          "/test-#{CHAR_1_UTF8_HEX}-dir/"
         ].each do |path|
           entry = latin1_repo.entry(path, 2)
-          assert_equal "test-#{@char_1_utf8}-dir", entry.path
+          assert_equal "test-#{CHAR_1_UTF8_HEX}-dir", entry.path
           assert_equal "dir", entry.kind
         end
-        ["test-#{@char_1_utf8}-dir/test-#{@char_1_utf8}-1.txt",
-          "/test-#{@char_1_utf8}-dir/test-#{@char_1_utf8}-1.txt"
+        ["test-#{CHAR_1_UTF8_HEX}-dir/test-#{CHAR_1_UTF8_HEX}-1.txt",
+          "/test-#{CHAR_1_UTF8_HEX}-dir/test-#{CHAR_1_UTF8_HEX}-1.txt"
         ].each do |path|
           entry = latin1_repo.entry(path, 2)
-          assert_equal "test-#{@char_1_utf8}-dir/test-#{@char_1_utf8}-1.txt",
+          assert_equal "test-#{CHAR_1_UTF8_HEX}-dir/test-#{CHAR_1_UTF8_HEX}-1.txt",
                        entry.path
           assert_equal "file", entry.kind
         end
@@ -256,35 +248,33 @@ class RepositoryBazaarTest < ActiveSupport::TestCase
 
         cs2 = latin1_repo.changesets.find_by_revision('2')
         assert_not_nil cs2
-        assert_equal "test-#{@char_1_utf8}", cs2.comments
+        assert_equal "test-#{CHAR_1_UTF8_HEX}", cs2.comments
         c2  = cs2.filechanges.sort_by(&:path)
         assert_equal 4, c2.size
         assert_equal 'A', c2[0].action
-        assert_equal "/test-#{@char_1_utf8}-dir/", c2[0].path
+        assert_equal "/test-#{CHAR_1_UTF8_HEX}-dir/", c2[0].path
         assert_equal 'A', c2[1].action
-        assert_equal "/test-#{@char_1_utf8}-dir/test-#{@char_1_utf8}-1.txt", c2[1].path
+        assert_equal "/test-#{CHAR_1_UTF8_HEX}-dir/test-#{CHAR_1_UTF8_HEX}-1.txt", c2[1].path
         assert_equal 'A', c2[2].action
-        assert_equal "/test-#{@char_1_utf8}-dir/test-#{@char_1_utf8}-2.txt", c2[2].path
+        assert_equal "/test-#{CHAR_1_UTF8_HEX}-dir/test-#{CHAR_1_UTF8_HEX}-2.txt", c2[2].path
         assert_equal 'A', c2[3].action
-        assert_equal "/test-#{@char_1_utf8}-dir/test-#{@char_1_utf8}.txt", c2[3].path
+        assert_equal "/test-#{CHAR_1_UTF8_HEX}-dir/test-#{CHAR_1_UTF8_HEX}.txt", c2[3].path
 
         cs3 = latin1_repo.changesets.find_by_revision('3')
         assert_not_nil cs3
-        assert_equal "modify, move and delete #{@char_1_utf8} files", cs3.comments
+        assert_equal "modify, move and delete #{CHAR_1_UTF8_HEX} files", cs3.comments
         c3  = cs3.filechanges.sort_by(&:path)
         assert_equal 3, c3.size
         assert_equal 'M', c3[0].action
-        assert_equal "/test-#{@char_1_utf8}-1.txt", c3[0].path
+        assert_equal "/test-#{CHAR_1_UTF8_HEX}-1.txt", c3[0].path
         assert_equal 'D', c3[1].action
-        assert_equal "/test-#{@char_1_utf8}-dir/test-#{@char_1_utf8}-2.txt", c3[1].path
+        assert_equal "/test-#{CHAR_1_UTF8_HEX}-dir/test-#{CHAR_1_UTF8_HEX}-2.txt", c3[1].path
         assert_equal 'M', c3[2].action
-        assert_equal "/test-#{@char_1_utf8}-dir/test-#{@char_1_utf8}.txt", c3[2].path
+        assert_equal "/test-#{CHAR_1_UTF8_HEX}-dir/test-#{CHAR_1_UTF8_HEX}.txt", c3[2].path
       end
     else
-      msg = "Bazaar non ASCII output test cannot run this environment." + "\n"
-      if msg.respond_to?(:force_encoding)
-        msg += "Encoding.locale_charmap: " + Encoding.locale_charmap + "\n"
-      end
+      msg = "Bazaar non ASCII output test cannot run this environment.\n"
+      msg += "Encoding.locale_charmap: " + Encoding.locale_charmap + "\n"
       puts msg
     end
 

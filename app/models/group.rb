@@ -28,6 +28,7 @@ class Group < Principal
   validates_presence_of :lastname
   validates_uniqueness_of :lastname, :case_sensitive => false
   validates_length_of :lastname, :maximum => 255
+  attr_protected :id
 
   before_destroy :remove_references_before_destroy
 
@@ -81,7 +82,8 @@ class Group < Principal
   def user_removed(user)
     members.each do |member|
       MemberRole.
-        includes(:member).
+        joins(:member).
+        references(:member).
         where("#{Member.table_name}.user_id = ? AND #{MemberRole.table_name}.inherited_from IN (?)", user.id, member.member_role_ids).
         each(&:destroy)
     end
@@ -93,10 +95,6 @@ class Group < Principal
       attr_name = "name"
     end
     super(attr_name, *args)
-  end
-
-  def self.builtin_id(arg)
-    (arg.anonymous? ? GroupAnonymous : GroupNonMember).instance_id
   end
 
   def self.anonymous

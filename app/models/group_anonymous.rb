@@ -23,8 +23,4 @@ class GroupAnonymous < GroupBuiltin
   def builtin_type
     "anonymous"
   end
-  
-  def self.instance_id
-    @@instance_id ||= load_instance.id
-  end
 end

@@ -207,12 +207,14 @@ class Redmine::WikiFormatting::MacrosTest < ActionView::TestCase
 
   def test_macro_collapse
     text = "{{collapse\n*Collapsed* block of text\n}}"
-    result = textilizable(text)
-
-    assert_select_in result, 'div.collapsed-text'
-    assert_select_in result, 'strong', :text => 'Collapsed'
-    assert_select_in result, 'a.collapsible.collapsed', :text => 'Show'
-    assert_select_in result, 'a.collapsible', :text => 'Hide'
+    with_locale 'en' do
+      result = textilizable(text)
+  
+      assert_select_in result, 'div.collapsed-text'
+      assert_select_in result, 'strong', :text => 'Collapsed'
+      assert_select_in result, 'a.collapsible.collapsed', :text => 'Show'
+      assert_select_in result, 'a.collapsible', :text => 'Hide'
+    end
   end
 
   def test_macro_collapse_with_one_arg

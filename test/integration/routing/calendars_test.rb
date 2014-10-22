@@ -17,7 +17,7 @@
 
 require File.expand_path('../../../test_helper', __FILE__)
 
-class RoutingCalendarsTest < ActionController::IntegrationTest
+class RoutingCalendarsTest < ActionDispatch::IntegrationTest
   def test_calendars
     assert_routing(
         { :method => 'get', :path => "/issues/calendar" },

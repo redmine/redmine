@@ -702,16 +702,18 @@ class TimelogControllerTest < ActionController::TestCase
   end
 
   def test_index_csv_all_projects
-    Setting.date_format = '%m/%d/%Y'
-    get :index, :format => 'csv'
-    assert_response :success
-    assert_equal 'text/csv; header=present', response.content_type
+    with_settings :date_format => '%m/%d/%Y' do
+      get :index, :format => 'csv'
+      assert_response :success
+      assert_equal 'text/csv; header=present', response.content_type
+    end
   end
 
   def test_index_csv
-    Setting.date_format = '%m/%d/%Y'
-    get :index, :project_id => 1, :format => 'csv'
-    assert_response :success
-    assert_equal 'text/csv; header=present', response.content_type
+    with_settings :date_format => '%m/%d/%Y' do
+      get :index, :project_id => 1, :format => 'csv'
+      assert_response :success
+      assert_equal 'text/csv; header=present', response.content_type
+    end
   end
 end

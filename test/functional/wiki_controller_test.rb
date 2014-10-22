@@ -58,7 +58,9 @@ class WikiControllerTest < ActionController::TestCase
   end
 
   def test_show_old_version
-    get :show, :project_id => 'ecookbook', :id => 'CookBook_documentation', :version => '2'
+    with_settings :default_language => 'en' do
+      get :show, :project_id => 'ecookbook', :id => 'CookBook_documentation', :version => '2'
+    end
     assert_response :success
     assert_template 'show'
 
@@ -89,7 +91,9 @@ class WikiControllerTest < ActionController::TestCase
   end
 
   def test_show_first_version
-    get :show, :project_id => 'ecookbook', :id => 'CookBook_documentation', :version => '1'
+    with_settings :default_language => 'en' do
+      get :show, :project_id => 'ecookbook', :id => 'CookBook_documentation', :version => '1'
+    end
     assert_response :success
     assert_template 'show'
 

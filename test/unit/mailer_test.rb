@@ -34,6 +34,7 @@ class MailerTest < ActiveSupport::TestCase
     Setting.host_name = 'mydomain.foo'
     Setting.protocol = 'http'
     Setting.plain_text_mail = '0'
+    User.current = nil
   end
 
   def test_generated_links_in_emails

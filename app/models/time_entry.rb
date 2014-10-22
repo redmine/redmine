@@ -35,7 +35,7 @@ class TimeEntry < ActiveRecord::Base
 
   acts_as_activity_provider :timestamp => "#{table_name}.created_on",
                             :author_key => :user_id,
-                            :find_options => {:include => :project}
+                            :scope => preload(:project)
 
   validates_presence_of :user_id, :activity_id, :project_id, :hours, :spent_on
   validates_numericality_of :hours, :allow_nil => true, :message => :invalid
@@ -45,13 +45,19 @@ class TimeEntry < ActiveRecord::Base
   validate :validate_time_entry
 
   scope :visible, lambda {|*args|
-    includes(:project).where(Project.allowed_to_condition(args.shift || User.current, :view_time_entries, *args))
+    joins(:project).
+    references(:project).
+    where(Project.allowed_to_condition(args.shift || User.current, :view_time_entries, *args))
   }
   scope :on_issue, lambda {|issue|
-    includes(:issue).where("#{Issue.table_name}.root_id = #{issue.root_id} AND #{Issue.table_name}.lft >= #{issue.lft} AND #{Issue.table_name}.rgt <= #{issue.rgt}")
+    joins(:issue).
+    references(:issue).
+    where("#{Issue.table_name}.root_id = #{issue.root_id} AND #{Issue.table_name}.lft >= #{issue.lft} AND #{Issue.table_name}.rgt <= #{issue.rgt}")
   }
   scope :on_project, lambda {|project, include_subprojects|
-    includes(:project).where(project.project_condition(include_subprojects))
+    joins(:project).
+    references(:project).
+    where(project.project_condition(include_subprojects))
   }
   scope :spent_between, lambda {|from, to|
     if from && to

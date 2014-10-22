@@ -17,7 +17,7 @@
 
 require File.expand_path('../../../test_helper', __FILE__)
 
-class RoutingTimelogsTest < ActionController::IntegrationTest
+class RoutingTimelogsTest < ActionDispatch::IntegrationTest
   def test_timelogs_global
     assert_routing(
         { :method => 'get', :path => "/time_entries" },

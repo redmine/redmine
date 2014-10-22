@@ -27,9 +27,8 @@ module Redmine
           return if self.included_modules.include?(Redmine::Acts::Customizable::InstanceMethods)
           cattr_accessor :customizable_options
           self.customizable_options = options
-          has_many :custom_values, :as => :customized,
-                                   :include => :custom_field,
-                                   :order => "#{CustomField.table_name}.position",
+          has_many :custom_values, lambda {includes(:custom_field).order("#{CustomField.table_name}.position")},
+                                   :as => :customized,
                                    :dependent => :delete_all,
                                    :validate => false
 
@@ -46,7 +45,7 @@ module Redmine
         end
 
         def available_custom_fields
-          CustomField.where("type = '#{self.class.name}CustomField'").sorted.all
+          CustomField.where("type = '#{self.class.name}CustomField'").sorted.to_a
         end
 
         # Sets the values of the object's custom fields

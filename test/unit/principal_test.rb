@@ -23,7 +23,7 @@ class PrincipalTest < ActiveSupport::TestCase
   fixtures :users, :projects, :members, :member_roles
 
   def test_active_scope_should_return_groups_and_active_users
-    result = Principal.active.all
+    result = Principal.active.to_a
     assert_include Group.first, result
     assert_not_nil result.detect {|p| p.is_a?(User)}
     assert_nil result.detect {|p| p.is_a?(User) && !p.active?}

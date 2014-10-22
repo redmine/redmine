@@ -26,6 +26,7 @@ class MemberRole < ActiveRecord::Base
 
   validates_presence_of :role
   validate :validate_role_member
+  attr_protected :id
 
   def validate_role_member
     errors.add :role_id, :invalid if role && !role.member?

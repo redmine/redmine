@@ -47,7 +47,7 @@ class UsersController < ApplicationController
     @user_count = scope.count
     @user_pages = Paginator.new @user_count, @limit, params['page']
     @offset ||= @user_pages.offset
-    @users =  scope.order(sort_clause).limit(@limit).offset(@offset).all
+    @users =  scope.order(sort_clause).limit(@limit).offset(@offset).to_a
 
     respond_to do |format|
       format.html {
@@ -60,7 +60,7 @@ class UsersController < ApplicationController
 
   def show
     # show projects based on current user visibility
-    @memberships = @user.memberships.where(Project.visible_condition(User.current)).all
+    @memberships = @user.memberships.where(Project.visible_condition(User.current)).to_a
 
     events = Redmine::Activity::Fetcher.new(User.current, :author => @user).events(nil, nil, :limit => 10)
     @events_by_day = events.group_by(&:event_date)
@@ -90,7 +90,7 @@ class UsersController < ApplicationController
     @user.admin = params[:user][:admin] || false
     @user.login = params[:user][:login]
     @user.password, @user.password_confirmation = params[:user][:password], params[:user][:password_confirmation] unless @user.auth_source_id
-    @user.pref.attributes = params[:pref]
+    @user.pref.attributes = params[:pref] if params[:pref]
 
     if @user.save
       Mailer.account_information(@user, @user.password).deliver if params[:send_information]
@@ -134,7 +134,7 @@ class UsersController < ApplicationController
     # Was the account actived ? (do it before User#save clears the change)
     was_activated = (@user.status_change == [User::STATUS_REGISTERED, User::STATUS_ACTIVE])
     # TODO: Similar to My#account
-    @user.pref.attributes = params[:pref]
+    @user.pref.attributes = params[:pref] if params[:pref]
 
     if @user.save
       @user.pref.save

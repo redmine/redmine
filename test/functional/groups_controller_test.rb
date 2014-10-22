@@ -201,7 +201,7 @@ class GroupsControllerTest < ActionController::TestCase
   end
 
   def test_autocomplete_for_user
-    get :autocomplete_for_user, :id => 10, :q => 'smi', :format => 'js'
+    xhr :get, :autocomplete_for_user, :id => 10, :q => 'smi', :format => 'js'
     assert_response :success
     assert_include 'John Smith', response.body
   end

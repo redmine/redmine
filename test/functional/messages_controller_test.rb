@@ -59,8 +59,8 @@ class MessagesControllerTest < ActionController::TestCase
     assert_template 'show'
     replies = assigns(:replies)
     assert_not_nil replies
-    assert !replies.include?(message.children.order('id').first)
-    assert replies.include?(message.children.order('id').last)
+    assert_not_include message.children.reorder('id').first, replies
+    assert_include message.children.reorder('id').last, replies
   end
 
   def test_show_with_reply_permission

@@ -35,20 +35,23 @@ class Changeset < ActiveRecord::Base
                 :url => Proc.new {|o| {:controller => 'repositories', :action => 'revision', :id => o.repository.project, :repository_id => o.repository.identifier_param, :rev => o.identifier}}
 
   acts_as_searchable :columns => 'comments',
-                     :include => {:repository => :project},
+                     :scope => preload(:repository => :project),
                      :project_key => "#{Repository.table_name}.project_id",
                      :date_column => 'committed_on'
 
   acts_as_activity_provider :timestamp => "#{table_name}.committed_on",
                             :author_key => :user_id,
-                            :find_options => {:include => [:user, {:repository => :project}]}
+                            :scope => preload(:user, {:repository => :project})
 
   validates_presence_of :repository_id, :revision, :committed_on, :commit_date
   validates_uniqueness_of :revision, :scope => :repository_id
   validates_uniqueness_of :scmid, :scope => :repository_id, :allow_nil => true
+  attr_protected :id
 
   scope :visible, lambda {|*args|
-    includes(:repository => :project).where(Project.allowed_to_condition(args.shift || User.current, :view_changesets, *args))
+    joins(:repository => :project).
+    references(:repository => :project).
+    where(Project.allowed_to_condition(args.shift || User.current, :view_changesets, *args))
   }
 
   after_create :scan_for_issues

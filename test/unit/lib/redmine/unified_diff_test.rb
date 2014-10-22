@@ -223,8 +223,7 @@ DIFF
 
   def test_utf8_ja
     ja = "  text_tip_issue_end_day: "
-    ja += "\xe3\x81\x93\xe3\x81\xae\xe6\x97\xa5\xe3\x81\xab\xe7\xb5\x82\xe4\xba\x86\xe3\x81\x99\xe3\x82\x8b<span>\xe3\x82\xbf\xe3\x82\xb9\xe3\x82\xaf</span>"
-    ja.force_encoding('UTF-8') if ja.respond_to?(:force_encoding)
+    ja += "\xe3\x81\x93\xe3\x81\xae\xe6\x97\xa5\xe3\x81\xab\xe7\xb5\x82\xe4\xba\x86\xe3\x81\x99\xe3\x82\x8b<span>\xe3\x82\xbf\xe3\x82\xb9\xe3\x82\xaf</span>".force_encoding('UTF-8')
     with_settings :repositories_encodings => '' do
       diff = Redmine::UnifiedDiff.new(read_diff_fixture('issue-12641-ja.diff'), :type => 'inline')
       assert_equal 1, diff.size
@@ -234,8 +233,7 @@ DIFF
   end
 
   def test_utf8_ru
-    ru = "        other: &quot;\xd0\xbe\xd0\xba\xd0\xbe\xd0\xbb\xd0\xbe %{count} \xd1\x87\xd0\xb0\xd1\x81<span>\xd0\xb0</span>&quot;"
-    ru.force_encoding('UTF-8') if ru.respond_to?(:force_encoding)
+    ru = "        other: &quot;\xd0\xbe\xd0\xba\xd0\xbe\xd0\xbb\xd0\xbe %{count} \xd1\x87\xd0\xb0\xd1\x81<span>\xd0\xb0</span>&quot;".force_encoding('UTF-8')
     with_settings :repositories_encodings => '' do
       diff = Redmine::UnifiedDiff.new(read_diff_fixture('issue-12641-ru.diff'), :type => 'inline')
       assert_equal 1, diff.size
@@ -279,10 +277,8 @@ DIFF
   end
 
   def test_offset_range_japanese_1
-    ja1 = "\xe6\x97\xa5\xe6\x9c\xac<span></span>"
-    ja1.force_encoding('UTF-8') if ja1.respond_to?(:force_encoding)
-    ja2 = "\xe6\x97\xa5\xe6\x9c\xac<span>\xe8\xaa\x9e</span>"
-    ja2.force_encoding('UTF-8') if ja2.respond_to?(:force_encoding)
+    ja1 = "\xe6\x97\xa5\xe6\x9c\xac<span></span>".force_encoding('UTF-8')
+    ja2 = "\xe6\x97\xa5\xe6\x9c\xac<span>\xe8\xaa\x9e</span>".force_encoding('UTF-8')
     with_settings :repositories_encodings => '' do
       diff = Redmine::UnifiedDiff.new(
                read_diff_fixture('issue-13644-1.diff'), :type => 'sbs')
@@ -294,10 +290,8 @@ DIFF
   end
 
   def test_offset_range_japanese_2
-    ja1 = "<span></span>\xe6\x97\xa5\xe6\x9c\xac"
-    ja1.force_encoding('UTF-8') if ja1.respond_to?(:force_encoding)
-    ja2 = "<span>\xe3\x81\xab\xe3\x81\xa3\xe3\x81\xbd\xe3\x82\x93</span>\xe6\x97\xa5\xe6\x9c\xac"
-    ja2.force_encoding('UTF-8') if ja2.respond_to?(:force_encoding)
+    ja1 = "<span></span>\xe6\x97\xa5\xe6\x9c\xac".force_encoding('UTF-8')
+    ja2 = "<span>\xe3\x81\xab\xe3\x81\xa3\xe3\x81\xbd\xe3\x82\x93</span>\xe6\x97\xa5\xe6\x9c\xac".force_encoding('UTF-8')
     with_settings :repositories_encodings => '' do
       diff = Redmine::UnifiedDiff.new(
                read_diff_fixture('issue-13644-2.diff'), :type => 'sbs')
@@ -310,10 +304,8 @@ DIFF
 
   def test_offset_range_japanese_3
     # UTF-8 The 1st byte differs.
-    ja1 = "\xe6\x97\xa5\xe6\x9c\xac<span>\xe8\xa8\x98</span>"
-    ja1.force_encoding('UTF-8') if ja1.respond_to?(:force_encoding)
-    ja2 = "\xe6\x97\xa5\xe6\x9c\xac<span>\xe5\xa8\x98</span>"
-    ja2.force_encoding('UTF-8') if ja2.respond_to?(:force_encoding)
+    ja1 = "\xe6\x97\xa5\xe6\x9c\xac<span>\xe8\xa8\x98</span>".force_encoding('UTF-8')
+    ja2 = "\xe6\x97\xa5\xe6\x9c\xac<span>\xe5\xa8\x98</span>".force_encoding('UTF-8')
     with_settings :repositories_encodings => '' do
       diff = Redmine::UnifiedDiff.new(
                read_diff_fixture('issue-13644-3.diff'), :type => 'sbs')
@@ -326,10 +318,8 @@ DIFF
 
   def test_offset_range_japanese_4
     # UTF-8 The 2nd byte differs. 
-    ja1 = "\xe6\x97\xa5\xe6\x9c\xac<span>\xe8\xa8\x98</span>"
-    ja1.force_encoding('UTF-8') if ja1.respond_to?(:force_encoding)
-    ja2 = "\xe6\x97\xa5\xe6\x9c\xac<span>\xe8\xaa\x98</span>"
-    ja2.force_encoding('UTF-8') if ja2.respond_to?(:force_encoding)
+    ja1 = "\xe6\x97\xa5\xe6\x9c\xac<span>\xe8\xa8\x98</span>".force_encoding('UTF-8')
+    ja2 = "\xe6\x97\xa5\xe6\x9c\xac<span>\xe8\xaa\x98</span>".force_encoding('UTF-8')
     with_settings :repositories_encodings => '' do
       diff = Redmine::UnifiedDiff.new(
                read_diff_fixture('issue-13644-4.diff'), :type => 'sbs')
@@ -342,10 +332,8 @@ DIFF
 
   def test_offset_range_japanese_5
     # UTF-8 The 2nd byte differs. 
-    ja1 = "\xe6\x97\xa5\xe6\x9c\xac<span>\xe8\xa8\x98</span>ok"
-    ja1.force_encoding('UTF-8') if ja1.respond_to?(:force_encoding)
-    ja2 = "\xe6\x97\xa5\xe6\x9c\xac<span>\xe8\xaa\x98</span>ok"
-    ja2.force_encoding('UTF-8') if ja2.respond_to?(:force_encoding)
+    ja1 = "\xe6\x97\xa5\xe6\x9c\xac<span>\xe8\xa8\x98</span>ok".force_encoding('UTF-8')
+    ja2 = "\xe6\x97\xa5\xe6\x9c\xac<span>\xe8\xaa\x98</span>ok".force_encoding('UTF-8')
     with_settings :repositories_encodings => '' do
       diff = Redmine::UnifiedDiff.new(
                read_diff_fixture('issue-13644-5.diff'), :type => 'sbs')

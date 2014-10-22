@@ -166,7 +166,7 @@ class Role < ActiveRecord::Base
 
   # Find all the roles that can be given to a project member
   def self.find_all_givable
-    Role.givable.all
+    Role.givable.to_a
   end
 
   # Return the builtin 'non member' role.  If the role doesn't exist,

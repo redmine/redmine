@@ -78,8 +78,7 @@ class WikiTest < ActiveSupport::TestCase
   end
 
   def test_titleize
-    ja_test = "\xe3\x83\x86\xe3\x82\xb9\xe3\x83\x88"
-    ja_test.force_encoding('UTF-8') if ja_test.respond_to?(:force_encoding)
+    ja_test = "\xe3\x83\x86\xe3\x82\xb9\xe3\x83\x88".force_encoding('UTF-8')
     assert_equal 'Page_title_with_CAPITALES', Wiki.titleize('page title with CAPITALES')
     assert_equal ja_test, Wiki.titleize(ja_test)
   end

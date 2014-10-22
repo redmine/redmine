@@ -53,7 +53,7 @@ class WatchersController < ApplicationController
   def append
     if params[:watcher].is_a?(Hash)
       user_ids = params[:watcher][:user_ids] || [params[:watcher][:user_id]]
-      @users = User.active.where(:id => user_ids).all
+      @users = User.active.where(:id => user_ids).to_a
     end
     if @users.blank?
       render :nothing => true
@@ -92,7 +92,7 @@ class WatchersController < ApplicationController
   def find_watchables
     klass = Object.const_get(params[:object_type].camelcase) rescue nil
     if klass && klass.respond_to?('watched_by')
-      @watchables = klass.where(:id => Array.wrap(params[:object_id])).all
+      @watchables = klass.where(:id => Array.wrap(params[:object_id])).to_a
       raise Unauthorized if @watchables.any? {|w|
         if w.respond_to?(:visible?)
           !w.visible?

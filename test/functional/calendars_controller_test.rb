@@ -48,10 +48,10 @@ class CalendarsControllerTest < ActionController::TestCase
   end
 
   def test_week_number_calculation
-    Setting.start_of_week = 7
-
-    get :show, :month => '1', :year => '2010'
-    assert_response :success
+    with_settings :start_of_week => 7 do
+      get :show, :month => '1', :year => '2010'
+      assert_response :success
+    end
 
     assert_select 'tr' do
       assert_select 'td.week-number', :text => '53'
@@ -65,9 +65,10 @@ class CalendarsControllerTest < ActionController::TestCase
       assert_select 'td.even', :text => '9'
     end
 
-    Setting.start_of_week = 1
-    get :show, :month => '1', :year => '2010'
-    assert_response :success
+    with_settings :start_of_week => 1 do
+      get :show, :month => '1', :year => '2010'
+      assert_response :success
+    end
 
     assert_select 'tr' do
       assert_select 'td.week-number', :text => '53'

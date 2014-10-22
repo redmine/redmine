@@ -27,8 +27,7 @@ class RepositoriesFilesystemControllerTest < ActionController::TestCase
   PRJ_ID = 3
 
   def setup
-    @ruby19_non_utf8_pass =
-        (RUBY_VERSION >= '1.9' && Encoding.default_external.to_s != 'UTF-8')
+    @ruby19_non_utf8_pass = Encoding.default_external.to_s != 'UTF-8'
     User.current = nil
     Setting.enabled_scm << 'Filesystem' unless Setting.enabled_scm.include?('Filesystem')
     @project = Project.find(PRJ_ID)
@@ -94,12 +93,11 @@ class RepositoriesFilesystemControllerTest < ActionController::TestCase
                    :attributes => { :class => 'line-num' },
                    :sibling => { :tag => 'td', :content => /japanese/ }
         if @ruby19_non_utf8_pass
-          puts "TODO: show repository file contents test fails in Ruby 1.9 " +
-               "and Encoding.default_external is not UTF-8. " +
+          puts "TODO: show repository file contents test fails " +
+               "when Encoding.default_external is not UTF-8. " +
                "Current value is '#{Encoding.default_external.to_s}'"
         else
-          str_japanese = "\xe6\x97\xa5\xe6\x9c\xac\xe8\xaa\x9e"
-          str_japanese.force_encoding('UTF-8') if str_japanese.respond_to?(:force_encoding)
+          str_japanese = "\xe6\x97\xa5\xe6\x9c\xac\xe8\xaa\x9e".force_encoding('UTF-8')
           assert_tag :tag => 'th',
                      :content => '3',
                      :attributes => { :class => 'line-num' },
@@ -109,7 +107,7 @@ class RepositoriesFilesystemControllerTest < ActionController::TestCase
     end
 
     def test_show_utf16
-      enc = (RUBY_VERSION == "1.9.2" ? 'UTF-16LE' : 'UTF-16')
+      enc = 'UTF-16'
       with_settings :repositories_encodings => enc do
         get :entry, :id => PRJ_ID,
             :path => repository_path_hash(['japanese', 'utf-16.txt'])[:param]

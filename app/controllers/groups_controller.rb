@@ -27,13 +27,13 @@ class GroupsController < ApplicationController
   def index
     respond_to do |format|
       format.html {
-        @groups = Group.sorted.all
+        @groups = Group.sorted.to_a
         @user_count_by_group_id = user_count_by_group_id
       }
       format.api {
         scope = Group.sorted
         scope = scope.givable unless params[:builtin] == '1'
-        @groups = scope.all
+        @groups = scope.to_a
       }
     end
   end
@@ -95,7 +95,7 @@ class GroupsController < ApplicationController
   end
 
   def add_users
-    @users = User.where(:id => (params[:user_id] || params[:user_ids])).all
+    @users = User.where(:id => (params[:user_id] || params[:user_ids])).to_a
     @group.users << @users if request.post?
     respond_to do |format|
       format.html { redirect_to edit_group_path(@group, :tab => 'users') }

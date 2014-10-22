@@ -30,7 +30,7 @@ class RolesController < ApplicationController
         render :action => "index", :layout => false if request.xhr?
       }
       format.api {
-        @roles = Role.givable.all
+        @roles = Role.givable.to_a
       }
     end
   end
@@ -47,7 +47,7 @@ class RolesController < ApplicationController
     if params[:copy].present? && @copy_from = Role.find_by_id(params[:copy])
       @role.copy_from(@copy_from)
     end
-    @roles = Role.sorted.all
+    @roles = Role.sorted.to_a
   end
 
   def create
@@ -60,7 +60,7 @@ class RolesController < ApplicationController
       flash[:notice] = l(:notice_successful_create)
       redirect_to roles_path
     else
-      @roles = Role.sorted.all
+      @roles = Role.sorted.to_a
       render :action => 'new'
     end
   end
@@ -69,7 +69,7 @@ class RolesController < ApplicationController
   end
 
   def update
-    if request.put? and @role.update_attributes(params[:role])
+    if @role.update_attributes(params[:role])
       flash[:notice] = l(:notice_successful_update)
       redirect_to roles_path
     else
@@ -86,7 +86,7 @@ class RolesController < ApplicationController
   end
 
   def permissions
-    @roles = Role.sorted.all
+    @roles = Role.sorted.to_a
     @permissions = Redmine::AccessControl.permissions.select { |p| !p.public? }
     if request.post?
       @roles.each do |role|

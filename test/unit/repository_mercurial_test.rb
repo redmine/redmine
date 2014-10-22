@@ -24,7 +24,9 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
 
   REPOSITORY_PATH = Rails.root.join('tmp/test/mercurial_repository').to_s
   NUM_REV = 34
-  CHAR_1_HEX = "\xc3\x9c"
+
+  CHAR_1_HEX = "\xc3\x9c".force_encoding('UTF-8')
+  BRANCH_CHAR_1 = "branch-#{CHAR_1_HEX}-01".force_encoding('UTF-8')
 
   def setup
     @project    = Project.find(3)
@@ -34,16 +36,6 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
                       :path_encoding => 'ISO-8859-1'
                       )
     assert @repository
-    @char_1        = CHAR_1_HEX.dup
-    @tag_char_1    = "tag-#{CHAR_1_HEX}-00"
-    @branch_char_0 = "branch-#{CHAR_1_HEX}-00"
-    @branch_char_1 = "branch-#{CHAR_1_HEX}-01"
-    if @char_1.respond_to?(:force_encoding)
-      @char_1.force_encoding('UTF-8')
-      @tag_char_1.force_encoding('UTF-8')
-      @branch_char_0.force_encoding('UTF-8')
-      @branch_char_1.force_encoding('UTF-8')
-    end
   end
 
   def test_blank_path_to_repository_error_message
@@ -59,8 +51,7 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
 
   def test_blank_path_to_repository_error_message_fr
     set_language_if_valid 'fr'
-    str = "Chemin du d\xc3\xa9p\xc3\xb4t doit \xc3\xaatre renseign\xc3\xa9(e)"
-    str.force_encoding('UTF-8') if str.respond_to?(:force_encoding)
+    str = "Chemin du d\xc3\xa9p\xc3\xb4t doit \xc3\xaatre renseign\xc3\xa9(e)".force_encoding('UTF-8')
     repo = Repository::Mercurial.new(
                           :project      => @project,
                           :url          => "",
@@ -362,11 +353,11 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
       assert_equal NUM_REV, @repository.changesets.count
 
       if @repository.scm.class.client_version_above?([1, 6])
-        changesets = @repository.latest_changesets('', @branch_char_1)
+        changesets = @repository.latest_changesets('', BRANCH_CHAR_1)
         assert_equal %w|27 26|, changesets.collect(&:revision)
       end
 
-      changesets = @repository.latest_changesets("latin-1-dir/test-#{@char_1}-subdir", @branch_char_1)
+      changesets = @repository.latest_changesets("latin-1-dir/test-#{CHAR_1_HEX}-subdir", BRANCH_CHAR_1)
       assert_equal %w|27|, changesets.collect(&:revision)
     end
 
@@ -429,8 +420,8 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
       scmid3 = scmid_for_assert(hex3, is_short_scmid)
       assert_equal 1, c3.size
       assert_equal 'A', c3[0].action
-      assert_equal "/latin-1-dir/test-#{@char_1}-1.txt",  c3[0].path
-      assert_equal "/latin-1-dir/test-#{@char_1}.txt",    c3[0].from_path
+      assert_equal "/latin-1-dir/test-#{CHAR_1_HEX}-1.txt",  c3[0].path
+      assert_equal "/latin-1-dir/test-#{CHAR_1_HEX}.txt",    c3[0].from_path
       assert_equal scmid3, c3[0].from_revision
     end
     private :assert_copied_files

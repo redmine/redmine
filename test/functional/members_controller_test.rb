@@ -104,7 +104,7 @@ class MembersControllerTest < ActionController::TestCase
   end
 
   def test_autocomplete
-    get :autocomplete, :project_id => 1, :q => 'mis', :format => 'js'
+    xhr :get, :autocomplete, :project_id => 1, :q => 'mis', :format => 'js'
     assert_response :success
     assert_include 'User Misc', response.body
   end

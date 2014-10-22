@@ -13,7 +13,7 @@
 <p><%= f.select :parent_id,
                 content_tag('option', '', :value => '') + 
                   wiki_page_options_for_select(
-                    @wiki.pages.includes(:parent).all - @page.self_and_descendants,
+                    @wiki.pages.includes(:parent).to_a - @page.self_and_descendants,
                     @page.parent),
                 :label => :field_parent_title %></p>
 </div>

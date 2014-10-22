@@ -496,7 +496,7 @@ class ApplicationController < ActionController::Base
   end
 
   def render_feed(items, options={})
-    @items = items || []
+    @items = (items || []).to_a
     @items.sort! {|x,y| y.event_datetime <=> x.event_datetime }
     @items = @items.slice(0, Setting.feeds_limit.to_i)
     @title = options[:title] || Setting.app_title

@@ -127,11 +127,13 @@ class ActivitiesControllerTest < ActionController::TestCase
   end
 
   def test_index_atom_feed_with_one_item_type
-    get :index, :format => 'atom', :show_issues => '1'
-    assert_response :success
-    assert_template 'common/feed'
-
-    assert_select 'title', :text => /Issues/
+    with_settings :default_language => 'en' do
+      get :index, :format => 'atom', :show_issues => '1'
+      assert_response :success
+      assert_template 'common/feed'
+  
+      assert_select 'title', :text => /Issues/
+    end
   end
 
   def test_index_should_show_private_notes_with_permission_only

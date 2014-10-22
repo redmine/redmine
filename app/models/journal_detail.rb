@@ -18,6 +18,7 @@
 class JournalDetail < ActiveRecord::Base
   belongs_to :journal
   before_save :normalize_values
+  attr_protected :id
 
   def custom_field
     if property == 'cf'

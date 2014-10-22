@@ -17,7 +17,7 @@
 
 require File.expand_path('../../../test_helper', __FILE__)
 
-class RoutingSearchTest < ActionController::IntegrationTest
+class RoutingSearchTest < ActionDispatch::IntegrationTest
   def test_search
     assert_routing(
         { :method => 'get', :path => "/search" },

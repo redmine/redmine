@@ -240,12 +240,8 @@ class TimeEntryReportsControllerTest < ActionController::TestCase
 
   def test_csv_big_5
     Setting.default_language = "zh-TW"
-    str_utf8  = "\xe4\xb8\x80\xe6\x9c\x88"
-    str_big5  = "\xa4@\xa4\xeb"
-    if str_utf8.respond_to?(:force_encoding)
-      str_utf8.force_encoding('UTF-8')
-      str_big5.force_encoding('Big5')
-    end
+    str_utf8  = "\xe4\xb8\x80\xe6\x9c\x88".force_encoding('UTF-8')
+    str_big5  = "\xa4@\xa4\xeb".force_encoding('Big5')
     user = User.find_by_id(3)
     user.firstname = str_utf8
     user.lastname  = "test-lastname"
@@ -270,21 +266,14 @@ class TimeEntryReportsControllerTest < ActionController::TestCase
     assert_equal 'text/csv; header=present', @response.content_type
     lines = @response.body.chomp.split("\n")    
     # Headers
-    s1 = "\xa5\xce\xa4\xe1,2011-11-11,\xa4u\xae\xc9\xc1`\xadp"
-    s2 = "\xa4u\xae\xc9\xc1`\xadp"
-    if s1.respond_to?(:force_encoding)
-      s1.force_encoding('Big5')
-      s2.force_encoding('Big5')
-    end
+    s1 = "\xa5\xce\xa4\xe1,2011-11-11,\xa4u\xae\xc9\xc1`\xadp".force_encoding('Big5')
+    s2 = "\xa4u\xae\xc9\xc1`\xadp".force_encoding('Big5')
     assert_equal s1, lines.first
     # Total row
     assert_equal "#{str_big5} #{user.lastname},7.30,7.30", lines[1]
     assert_equal "#{s2},7.30,7.30", lines[2]
 
-    str_tw = "Traditional Chinese (\xe7\xb9\x81\xe9\xab\x94\xe4\xb8\xad\xe6\x96\x87)"
-    if str_tw.respond_to?(:force_encoding)
-      str_tw.force_encoding('UTF-8')
-    end
+    str_tw = "Traditional Chinese (\xe7\xb9\x81\xe9\xab\x94\xe4\xb8\xad\xe6\x96\x87)".force_encoding('UTF-8')
     assert_equal str_tw, l(:general_lang_name)
     assert_equal 'Big5', l(:general_csv_encoding)
     assert_equal ',', l(:general_csv_separator)
@@ -293,10 +282,7 @@ class TimeEntryReportsControllerTest < ActionController::TestCase
 
   def test_csv_cannot_convert_should_be_replaced_big_5
     Setting.default_language = "zh-TW"
-    str_utf8  = "\xe4\xbb\xa5\xe5\x86\x85"
-    if str_utf8.respond_to?(:force_encoding)
-      str_utf8.force_encoding('UTF-8')
-    end
+    str_utf8  = "\xe4\xbb\xa5\xe5\x86\x85".force_encoding('UTF-8')
     user = User.find_by_id(3)
     user.firstname = str_utf8
     user.lastname  = "test-lastname"
@@ -321,21 +307,10 @@ class TimeEntryReportsControllerTest < ActionController::TestCase
     assert_equal 'text/csv; header=present', @response.content_type
     lines = @response.body.chomp.split("\n")    
     # Headers
-    s1 = "\xa5\xce\xa4\xe1,2011-11-11,\xa4u\xae\xc9\xc1`\xadp"
-    if s1.respond_to?(:force_encoding)
-      s1.force_encoding('Big5')
-    end
+    s1 = "\xa5\xce\xa4\xe1,2011-11-11,\xa4u\xae\xc9\xc1`\xadp".force_encoding('Big5')
     assert_equal s1, lines.first
     # Total row
-    s2 = ""
-    if s2.respond_to?(:force_encoding)
-      s2 = "\xa5H?"
-      s2.force_encoding('Big5')
-    elsif RUBY_PLATFORM == 'java'
-      s2 = "??"
-    else
-      s2 = "\xa5H???"
-    end
+    s2 = "\xa5H?".force_encoding('Big5')
     assert_equal "#{s2} #{user.lastname},7.30,7.30", lines[1]
   end
 
@@ -362,21 +337,14 @@ class TimeEntryReportsControllerTest < ActionController::TestCase
       assert_equal 'text/csv; header=present', @response.content_type
       lines = @response.body.chomp.split("\n")    
       # Headers
-      s1 = "Utilisateur;2011-11-11;Temps total"
-      s2 = "Temps total"
-      if s1.respond_to?(:force_encoding)
-        s1.force_encoding('ISO-8859-1')
-        s2.force_encoding('ISO-8859-1')
-      end
+      s1 = "Utilisateur;2011-11-11;Temps total".force_encoding('ISO-8859-1')
+      s2 = "Temps total".force_encoding('ISO-8859-1')
       assert_equal s1, lines.first
       # Total row
       assert_equal "#{user.firstname} #{user.lastname};7,30;7,30", lines[1]
       assert_equal "#{s2};7,30;7,30", lines[2]
 
-      str_fr = "Fran\xc3\xa7ais"
-      if str_fr.respond_to?(:force_encoding)
-        str_fr.force_encoding('UTF-8')
-      end
+      str_fr = "Fran\xc3\xa7ais".force_encoding('UTF-8')
       assert_equal str_fr, l(:general_lang_name)
       assert_equal 'ISO-8859-1', l(:general_csv_encoding)
       assert_equal ';', l(:general_csv_separator)

@@ -68,7 +68,7 @@ module Redmine
         end
 
         def notified_watchers
-          notified = watcher_users.active
+          notified = watcher_users.active.to_a
           notified.reject! {|user| user.mail.blank? || user.mail_notification == 'none'}
           if respond_to?(:visible?)
             notified.reject! {|user| !visible?(user)}

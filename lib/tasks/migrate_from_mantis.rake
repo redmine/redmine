@@ -18,7 +18,6 @@
 desc 'Mantis migration script'
 
 require 'active_record'
-require 'iconv' if RUBY_VERSION < '1.9'
 require 'pp'
 
 namespace :redmine do
@@ -452,12 +451,7 @@ task :migrate_from_mantis => :environment do
     end
 
     def self.encode(text)
-      if RUBY_VERSION < '1.9'
-        @ic ||= Iconv.new('UTF-8', @charset)
-        @ic.iconv text
-      else
-        text.to_s.force_encoding(@charset).encode('UTF-8')
-      end
+      text.to_s.force_encoding(@charset).encode('UTF-8')
     end
   end
 

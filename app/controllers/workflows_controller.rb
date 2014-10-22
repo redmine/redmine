@@ -86,9 +86,9 @@ class WorkflowsController < ApplicationController
       @source_role = Role.find_by_id(params[:source_role_id].to_i)
     end
     @target_trackers = params[:target_tracker_ids].blank? ?
-        nil : Tracker.where(:id => params[:target_tracker_ids]).all
+        nil : Tracker.where(:id => params[:target_tracker_ids]).to_a
     @target_roles = params[:target_role_ids].blank? ?
-        nil : Role.where(:id => params[:target_role_ids]).all
+        nil : Role.where(:id => params[:target_role_ids]).to_a
     if request.post?
       if params[:source_tracker_id].blank? || params[:source_role_id].blank? || (@source_tracker.nil? && @source_role.nil?)
         flash.now[:error] = l(:error_workflow_copy_source)
@@ -113,9 +113,9 @@ class WorkflowsController < ApplicationController
   def find_roles
     ids = Array.wrap(params[:role_id])
     if ids == ['all']
-      @roles = Role.sorted.all
+      @roles = Role.sorted.to_a
     elsif ids.present?
-      @roles = Role.where(:id => ids).all
+      @roles = Role.where(:id => ids).to_a
     end
     @roles = nil if @roles.blank?
   end
@@ -123,9 +123,9 @@ class WorkflowsController < ApplicationController
   def find_trackers
     ids = Array.wrap(params[:tracker_id])
     if ids == ['all']
-      @trackers = Tracker.sorted.all
+      @trackers = Tracker.sorted.to_a
     elsif ids.present?
-      @trackers = Tracker.where(:id => ids).all
+      @trackers = Tracker.where(:id => ids).to_a
     end
     @trackers = nil if @trackers.blank?
   end
@@ -135,6 +135,6 @@ class WorkflowsController < ApplicationController
     if @trackers && @used_statuses_only
       @statuses = @trackers.map(&:issue_statuses).flatten.uniq.sort.presence
     end
-    @statuses ||= IssueStatus.sorted.all
+    @statuses ||= IssueStatus.sorted.to_a
   end
 end

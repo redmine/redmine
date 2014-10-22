@@ -27,6 +27,7 @@ class Attachment < ActiveRecord::Base
   validates_length_of :disk_filename, :maximum => 255
   validates_length_of :description, :maximum => 255
   validate :validate_max_file_size
+  attr_protected :id
 
   acts_as_event :title => :filename,
                 :url => Proc.new {|o| {:controller => 'attachments', :action => 'download', :id => o.id, :filename => o.filename}}
@@ -34,16 +35,16 @@ class Attachment < ActiveRecord::Base
   acts_as_activity_provider :type => 'files',
                             :permission => :view_files,
                             :author_key => :author_id,
-                            :find_options => {:select => "#{Attachment.table_name}.*",
-                                              :joins => "LEFT JOIN #{Version.table_name} ON #{Attachment.table_name}.container_type='Version' AND #{Version.table_name}.id = #{Attachment.table_name}.container_id " +
-                                                        "LEFT JOIN #{Project.table_name} ON #{Version.table_name}.project_id = #{Project.table_name}.id OR ( #{Attachment.table_name}.container_type='Project' AND #{Attachment.table_name}.container_id = #{Project.table_name}.id )"}
+                            :scope => select("#{Attachment.table_name}.*").
+                                      joins("LEFT JOIN #{Version.table_name} ON #{Attachment.table_name}.container_type='Version' AND #{Version.table_name}.id = #{Attachment.table_name}.container_id " +
+                                            "LEFT JOIN #{Project.table_name} ON #{Version.table_name}.project_id = #{Project.table_name}.id OR ( #{Attachment.table_name}.container_type='Project' AND #{Attachment.table_name}.container_id = #{Project.table_name}.id )")
 
   acts_as_activity_provider :type => 'documents',
                             :permission => :view_documents,
                             :author_key => :author_id,
-                            :find_options => {:select => "#{Attachment.table_name}.*",
-                                              :joins => "LEFT JOIN #{Document.table_name} ON #{Attachment.table_name}.container_type='Document' AND #{Document.table_name}.id = #{Attachment.table_name}.container_id " +
-                                                        "LEFT JOIN #{Project.table_name} ON #{Document.table_name}.project_id = #{Project.table_name}.id"}
+                            :scope => select("#{Attachment.table_name}.*").
+                                      joins("LEFT JOIN #{Document.table_name} ON #{Attachment.table_name}.container_type='Document' AND #{Document.table_name}.id = #{Attachment.table_name}.container_id " +
+                                            "LEFT JOIN #{Project.table_name} ON #{Document.table_name}.project_id = #{Project.table_name}.id")
 
   cattr_accessor :storage_path
   @@storage_path = Redmine::Configuration['attachments_storage_path'] || File.join(Rails.root, "files")
@@ -74,7 +75,7 @@ class Attachment < ActiveRecord::Base
       if @temp_file.size > 0
         if @temp_file.respond_to?(:original_filename)
           self.filename = @temp_file.original_filename
-          self.filename.force_encoding("UTF-8") if filename.respond_to?(:force_encoding)
+          self.filename.force_encoding("UTF-8")
         end
         if @temp_file.respond_to?(:content_type)
           self.content_type = @temp_file.content_type.to_s.chomp

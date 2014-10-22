@@ -63,7 +63,7 @@ class Tracker < ActiveRecord::Base
             connection.select_rows("SELECT DISTINCT old_status_id, new_status_id FROM #{WorkflowTransition.table_name} WHERE tracker_id = #{id} AND type = 'WorkflowTransition'").
             flatten.
             uniq
-    @issue_statuses = IssueStatus.where(:id => ids).all.sort
+    @issue_statuses = IssueStatus.where(:id => ids).to_a.sort
   end
 
   def disabled_core_fields
@@ -92,7 +92,7 @@ class Tracker < ActiveRecord::Base
   # Returns the fields that are disabled for all the given trackers
   def self.disabled_core_fields(trackers)
     if trackers.present?
-      trackers.uniq.map(&:disabled_core_fields).reduce(:&)
+      trackers.map(&:disabled_core_fields).reduce(:&)
     else
       []
     end

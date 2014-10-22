@@ -46,10 +46,7 @@ module Redmine
           end
 
           def svn_binary_version
-            scm_version = scm_version_from_command_line.dup
-            if scm_version.respond_to?(:force_encoding)
-              scm_version.force_encoding('ASCII-8BIT')
-            end
+            scm_version = scm_version_from_command_line.dup.force_encoding('ASCII-8BIT')
             if m = scm_version.match(%r{\A(.*?)((\d+\.)+\d+)})
               m[2].scan(%r{\d+}).collect(&:to_i)
             end
@@ -66,10 +63,7 @@ module Redmine
           cmd << credentials_string
           info = nil
           shellout(cmd) do |io|
-            output = io.read
-            if output.respond_to?(:force_encoding)
-              output.force_encoding('UTF-8')
-            end
+            output = io.read.force_encoding('UTF-8')
             begin
               doc = parse_xml(output)
               # root_url = doc.elements["info/entry/repository/root"].text
@@ -98,10 +92,7 @@ module Redmine
           cmd = "#{self.class.sq_bin} list --xml #{target(path)}@#{identifier}"
           cmd << credentials_string
           shellout(cmd) do |io|
-            output = io.read
-            if output.respond_to?(:force_encoding)
-              output.force_encoding('UTF-8')
-            end
+            output = io.read.force_encoding('UTF-8')
             begin
               doc = parse_xml(output)
               each_xml_element(doc['lists']['list'], 'entry') do |entry|
@@ -141,10 +132,7 @@ module Redmine
           cmd << credentials_string
           properties = {}
           shellout(cmd) do |io|
-            output = io.read
-            if output.respond_to?(:force_encoding)
-              output.force_encoding('UTF-8')
-            end
+            output = io.read.force_encoding('UTF-8')
             begin
               doc = parse_xml(output)
               each_xml_element(doc['properties']['target'], 'property') do |property|
@@ -168,10 +156,7 @@ module Redmine
           cmd << " --limit #{options[:limit].to_i}" if options[:limit]
           cmd << ' ' + target(path)
           shellout(cmd) do |io|
-            output = io.read
-            if output.respond_to?(:force_encoding)
-              output.force_encoding('UTF-8')
-            end
+            output = io.read.force_encoding('UTF-8')
             begin
               doc = parse_xml(output)
               each_xml_element(doc['log'], 'logentry') do |logentry|

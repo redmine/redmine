@@ -17,7 +17,7 @@
 
 require File.expand_path('../../../test_helper', __FILE__)
 
-class RoutingRepositoriesTest < ActionController::IntegrationTest
+class RoutingRepositoriesTest < ActionDispatch::IntegrationTest
   def setup
     @path_hash  = repository_path_hash(%w[path to file.c])
     assert_equal "path/to/file.c", @path_hash[:path]

@@ -46,7 +46,7 @@ class NewsController < ApplicationController
                       order("#{News.table_name}.created_on DESC").
                       limit(@limit).
                       offset(@offset).
-                      all
+                      to_a
     respond_to do |format|
       format.html {
         @news = News.new # for adding news inline

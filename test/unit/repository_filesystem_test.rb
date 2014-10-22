@@ -47,8 +47,7 @@ class RepositoryFilesystemTest < ActiveSupport::TestCase
 
   def test_blank_root_directory_error_message_fr
     set_language_if_valid 'fr'
-    str = "R\xc3\xa9pertoire racine doit \xc3\xaatre renseign\xc3\xa9(e)"
-    str.force_encoding('UTF-8') if str.respond_to?(:force_encoding)
+    str = "R\xc3\xa9pertoire racine doit \xc3\xaatre renseign\xc3\xa9(e)".force_encoding('UTF-8')
     repo = Repository::Filesystem.new(
                           :project      => @project,
                           :url          => "",

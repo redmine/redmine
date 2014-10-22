@@ -21,16 +21,16 @@ class RoleTest < ActiveSupport::TestCase
   fixtures :roles, :workflows, :trackers
 
   def test_sorted_scope
-    assert_equal Role.all.sort, Role.sorted.all
+    assert_equal Role.all.sort, Role.sorted.to_a
   end
 
   def test_givable_scope
-    assert_equal Role.all.reject(&:builtin?).sort, Role.givable.all
+    assert_equal Role.all.reject(&:builtin?).sort, Role.givable.to_a
   end
 
   def test_builtin_scope
-    assert_equal Role.all.select(&:builtin?).sort, Role.builtin(true).all.sort
-    assert_equal Role.all.reject(&:builtin?).sort, Role.builtin(false).all.sort
+    assert_equal Role.all.select(&:builtin?).sort, Role.builtin(true).to_a.sort
+    assert_equal Role.all.reject(&:builtin?).sort, Role.builtin(false).to_a.sort
   end
 
   def test_copy_from

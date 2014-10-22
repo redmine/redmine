@@ -41,11 +41,8 @@ class Redmine::ApiTest::AuthenticationTest < Redmine::ApiTest::Base
   end
 
   def test_invalid_utf8_credentials_should_not_trigger_an_error
-    invalid_utf8 = "\x82"
-    if invalid_utf8.respond_to?(:force_encoding)
-      invalid_utf8.force_encoding('UTF-8') 
-      assert !invalid_utf8.valid_encoding?
-    end
+    invalid_utf8 = "\x82".force_encoding('UTF-8')
+    assert !invalid_utf8.valid_encoding?
     assert_nothing_raised do
       get '/users/current.xml', {}, credentials(invalid_utf8, "foo")
     end

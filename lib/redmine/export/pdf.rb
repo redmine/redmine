@@ -678,9 +678,7 @@ module Redmine
         def self.rdm_from_utf8(txt, encoding)
           txt ||= ''
           txt = Redmine::CodesetUtil.from_utf8(txt, encoding)
-          if txt.respond_to?(:force_encoding)
-            txt.force_encoding('ASCII-8BIT')
-          end
+          txt.force_encoding('ASCII-8BIT')
           txt
         end
 

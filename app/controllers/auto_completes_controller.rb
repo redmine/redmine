@@ -26,7 +26,7 @@ class AutoCompletesController < ApplicationController
       if q.match(/\A#?(\d+)\z/)
         @issues << scope.find_by_id($1.to_i)
       end
-      @issues += scope.where("LOWER(#{Issue.table_name}.subject) LIKE LOWER(?)", "%#{q}%").order("#{Issue.table_name}.id DESC").limit(10).all
+      @issues += scope.where("LOWER(#{Issue.table_name}.subject) LIKE LOWER(?)", "%#{q}%").order("#{Issue.table_name}.id DESC").limit(10).to_a
       @issues.compact!
     end
     render :layout => false

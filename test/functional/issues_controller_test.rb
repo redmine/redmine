@@ -474,12 +474,8 @@ class IssuesControllerTest < ActionController::TestCase
 
   def test_index_csv_big_5
     with_settings :default_language => "zh-TW" do
-      str_utf8  = "\xe4\xb8\x80\xe6\x9c\x88"
-      str_big5  = "\xa4@\xa4\xeb"
-      if str_utf8.respond_to?(:force_encoding)
-        str_utf8.force_encoding('UTF-8')
-        str_big5.force_encoding('Big5')
-      end
+      str_utf8  = "\xe4\xb8\x80\xe6\x9c\x88".force_encoding('UTF-8')
+      str_big5  = "\xa4@\xa4\xeb".force_encoding('Big5')
       issue = Issue.generate!(:subject => str_utf8)
 
       get :index, :project_id => 1, 
@@ -488,10 +484,7 @@ class IssuesControllerTest < ActionController::TestCase
                   :format => 'csv'
       assert_equal 'text/csv; header=present', @response.content_type
       lines = @response.body.chomp.split("\n")
-      s1 = "\xaa\xac\xbaA"
-      if str_utf8.respond_to?(:force_encoding)
-        s1.force_encoding('Big5')
-      end
+      s1 = "\xaa\xac\xbaA".force_encoding('Big5')
       assert_include s1, lines[0]
       assert_include str_big5, lines[1]
     end
@@ -499,10 +492,7 @@ class IssuesControllerTest < ActionController::TestCase
 
   def test_index_csv_cannot_convert_should_be_replaced_big_5
     with_settings :default_language => "zh-TW" do
-      str_utf8  = "\xe4\xbb\xa5\xe5\x86\x85"
-      if str_utf8.respond_to?(:force_encoding)
-        str_utf8.force_encoding('UTF-8')
-      end
+      str_utf8  = "\xe4\xbb\xa5\xe5\x86\x85".force_encoding('UTF-8')
       issue = Issue.generate!(:subject => str_utf8)
 
       get :index, :project_id => 1, 
@@ -513,21 +503,11 @@ class IssuesControllerTest < ActionController::TestCase
                   :set_filter => 1
       assert_equal 'text/csv; header=present', @response.content_type
       lines = @response.body.chomp.split("\n")
-      s1 = "\xaa\xac\xbaA" # status
-      if str_utf8.respond_to?(:force_encoding)
-        s1.force_encoding('Big5')
-      end
+      s1 = "\xaa\xac\xbaA".force_encoding('Big5') # status
       assert lines[0].include?(s1)
       s2 = lines[1].split(",")[2]
-      if s1.respond_to?(:force_encoding)
-        s3 = "\xa5H?" # subject
-        s3.force_encoding('Big5')
-        assert_equal s3, s2
-      elsif RUBY_PLATFORM == 'java'
-        assert_equal "??", s2
-      else
-        assert_equal "\xa5H???", s2
-      end
+      s3 = "\xa5H?".force_encoding('Big5') # subject
+      assert_equal s3, s2
     end
   end
 
@@ -3120,20 +3100,15 @@ class IssuesControllerTest < ActionController::TestCase
   def test_put_update_with_attachment_that_fails_to_save
     set_tmp_attachments_directory
 
-    # Delete all fixtured journals, a race condition can occur causing the wrong
-    # journal to get fetched in the next find.
-    Journal.delete_all
-
-    # Mock out the unsaved attachment
-    Attachment.any_instance.stubs(:create).returns(Attachment.new)
-
     # anonymous user
-    put :update,
-         :id => 1,
-         :issue => {:notes => ''},
-         :attachments => {'1' => {'file' => uploaded_test_file('testfile.txt', 'text/plain')}}
-    assert_redirected_to :action => 'show', :id => '1'
-    assert_equal '1 file(s) could not be saved.', flash[:warning]
+    with_settings :attachment_max_size => 0 do
+      put :update,
+           :id => 1,
+           :issue => {:notes => ''},
+           :attachments => {'1' => {'file' => uploaded_test_file('testfile.txt', 'text/plain')}}
+      assert_redirected_to :action => 'show', :id => '1'
+      assert_equal '1 file(s) could not be saved.', flash[:warning]
+    end
   end
 
   def test_put_update_with_no_change
@@ -3379,7 +3354,7 @@ class IssuesControllerTest < ActionController::TestCase
     post :bulk_edit, :ids => [1, 2, 6], :issue => {:project_id => 1}
     assert_response :success
     assert_template 'bulk_edit'
-    assert_equal Project.find(1).shared_versions.open.all.sort, assigns(:versions).sort
+    assert_equal Project.find(1).shared_versions.open.to_a.sort, assigns(:versions).sort
 
     assert_select 'select[name=?]', 'issue[fixed_version_id]' do
       assert_select 'option', :text => '2.0'
