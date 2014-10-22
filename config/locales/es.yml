@@ -2,7 +2,7 @@
 # by Francisco Fernando García Nieto (ffgarcianieto@gmail.com)
 # Redmine spanish translation:
 # by J. Cayetano Delgado (Cayetano _dot_ Delgado _at_ ioko _dot_ com)
-# Contributors: @borjacampina
+# Contributors: @borjacampina @jgutierrezvega
 
 es:
   number:
@@ -1145,10 +1145,10 @@ es:
   setting_force_default_language_for_anonymous: Forzar lenguaje por defecto a usuarios anónimos
   setting_force_default_language_for_loggedin: Forzar lenguaje por defecto para usuarios identificados
   label_custom_field_select_type: Seleccione el tipo de objeto al que unir el campo personalizado
-  label_issue_assigned_to_updated: Assignee updated
-  label_check_for_updates: Check for updates
-  label_latest_compatible_version: Latest compatible version
-  label_unknown_plugin: Unknown plugin
-  label_radio_buttons: radio buttons
-  label_group_anonymous: Anonymous users
-  label_group_non_member: Non member users
+  label_issue_assigned_to_updated: Persona asignada actualizada
+  label_check_for_updates: Comprobar actualizaciones
+  label_latest_compatible_version: Útima versión compatible
+  label_unknown_plugin: Plugin desconocido
+  label_radio_buttons: Botones de selección excluyentes
+  label_group_anonymous: Usuarios anónimos
+  label_group_non_member: Usuarios no miembros
