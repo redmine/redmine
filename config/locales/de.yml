@@ -549,7 +549,9 @@ de:
   label_git_report_last_commit: Bericht des letzten Commits für Dateien und Verzeichnisse
   label_greater_or_equal: ">="
   label_group: Gruppe
+  label_group_anonymous: Anonyme Benutzer
   label_group_new: Neue Gruppe
+  label_group_non_member: Nichtmitglieder
   label_group_plural: Gruppen
   label_help: Hilfe
   label_hidden: Versteckt
@@ -1126,5 +1128,3 @@ de:
   version_status_open: offen
 
   warning_attachments_not_saved: "%{count} Datei(en) konnten nicht gespeichert werden."
-  label_group_anonymous: Anonymous users
-  label_group_non_member: Non member users
