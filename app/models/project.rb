@@ -179,9 +179,8 @@ class Project < ActiveRecord::Base
       # If the permission belongs to a project module, make sure the module is enabled
       base_statement << " AND #{Project.table_name}.id IN (SELECT em.project_id FROM #{EnabledModule.table_name} em WHERE em.name='#{perm.project_module}')"
     end
-    if options[:project]
-      project_statement = "#{Project.table_name}.id = #{options[:project].id}"
-      project_statement << " OR (#{Project.table_name}.lft > #{options[:project].lft} AND #{Project.table_name}.rgt < #{options[:project].rgt})" if options[:with_subprojects]
+    if project = options[:project]
+      project_statement = project.project_condition(options[:with_subprojects])
       base_statement = "(#{project_statement}) AND (#{base_statement})"
     end
 
