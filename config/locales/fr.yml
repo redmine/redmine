@@ -938,6 +938,7 @@ fr:
   label_check_for_updates: Vérifier les mises à jour
   label_latest_compatible_version: Dernière version compatible
   label_unknown_plugin: Plugin inconnu
+  label_add_projects: Ajouter des projets
 
   button_login: Connexion
   button_submit: Soumettre

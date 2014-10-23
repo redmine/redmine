@@ -84,6 +84,11 @@ class Principal < ActiveRecord::Base
     to_s
   end
 
+  # Return true if the principal is a member of project
+  def member_of?(project)
+    projects.to_a.include?(project)
+  end
+
   def <=>(principal)
     if principal.nil?
       -1

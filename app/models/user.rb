@@ -498,11 +498,6 @@ class User < Principal
     end
   end
 
-  # Return true if the user is a member of project
-  def member_of?(project)
-    projects.to_a.include?(project)
-  end
-
   # Returns a hash of user's projects grouped by roles
   def projects_by_role
     return @projects_by_role if @projects_by_role

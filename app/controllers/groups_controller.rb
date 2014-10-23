@@ -23,6 +23,7 @@ class GroupsController < ApplicationController
   accept_api_auth :index, :show, :create, :update, :destroy, :add_users, :remove_user
 
   helper :custom_fields
+  helper :principal_memberships
 
   def index
     respond_to do |format|
@@ -115,23 +116,6 @@ class GroupsController < ApplicationController
 
   def autocomplete_for_user
     respond_to do |format|
-      format.js
-    end
-  end
-
-  def edit_membership
-    @membership = Member.edit_membership(params[:membership_id], params[:membership], @group)
-    @membership.save if request.post?
-    respond_to do |format|
-      format.html { redirect_to edit_group_path(@group, :tab => 'memberships') }
-      format.js
-    end
-  end
-
-  def destroy_membership
-    Member.find(params[:membership_id]).destroy if request.post?
-    respond_to do |format|
-      format.html { redirect_to edit_group_path(@group, :tab => 'memberships') }
       format.js
     end
   end

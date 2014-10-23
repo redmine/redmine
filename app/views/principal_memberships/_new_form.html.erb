@@ -1,0 +1,22 @@
+<fieldset class="box">
+  <legend><%= l(:label_project_plural) %></legend>
+  <div style="max-height:300px; overflow:auto;">
+    <div class="projects-selection">
+    <%= render_project_nested_lists(@projects) do |p| %>
+      <label>
+        <%= check_box_tag('membership[project_ids][]', p.id, false, :id => nil, :disabled => @principal.member_of?(p)) %> <%= p %>
+      </label>
+    <% end %>
+    </div>
+  </div>
+</fieldset>
+
+<fieldset class="box">
+  <legend><%= l(:label_role_plural) %></legend>
+  <% @roles.each do |role| %>
+    <label class="inline">
+      <%= check_box_tag 'membership[role_ids][]', role.id, false, :id => nil %>
+      <%=h role %>
+    </label>
+  <% end %>
+</fieldset>

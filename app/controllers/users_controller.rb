@@ -19,13 +19,14 @@ class UsersController < ApplicationController
   layout 'admin'
 
   before_filter :require_admin, :except => :show
-  before_filter :find_user, :only => [:show, :edit, :update, :destroy, :edit_membership, :destroy_membership]
+  before_filter :find_user, :only => [:show, :edit, :update, :destroy]
   accept_api_auth :index, :show, :create, :update, :destroy
 
   helper :sort
   include SortHelper
   helper :custom_fields
   include CustomFieldsHelper
+  helper :principal_memberships
 
   def index
     sort_init 'login', 'asc'
@@ -170,26 +171,6 @@ class UsersController < ApplicationController
     respond_to do |format|
       format.html { redirect_back_or_default(users_path) }
       format.api  { render_api_ok }
-    end
-  end
-
-  def edit_membership
-    @membership = Member.edit_membership(params[:membership_id], params[:membership], @user)
-    @membership.save
-    respond_to do |format|
-      format.html { redirect_to edit_user_path(@user, :tab => 'memberships') }
-      format.js
-    end
-  end
-
-  def destroy_membership
-    @membership = Member.find(params[:membership_id])
-    if @membership.deletable?
-      @membership.destroy
-    end
-    respond_to do |format|
-      format.html { redirect_to edit_user_path(@user, :tab => 'memberships') }
-      format.js
     end
   end
 

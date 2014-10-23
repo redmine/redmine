@@ -252,7 +252,7 @@ module ApplicationHelper
   # Renders a tree of projects as a nested set of unordered lists
   # The given collection may be a subset of the whole project tree
   # (eg. some intermediate nodes are private and can not be seen)
-  def render_project_nested_lists(projects)
+  def render_project_nested_lists(projects, &block)
     s = ''
     if projects.any?
       ancestors = []
@@ -272,7 +272,7 @@ module ApplicationHelper
         end
         classes = (ancestors.empty? ? 'root' : 'child')
         s << "<li class='#{classes}'><div class='#{classes}'>"
-        s << h(block_given? ? yield(project) : project.name)
+        s << h(block_given? ? capture(project, &block) : project.name)
         s << "</div>\n"
         ancestors << project
       end

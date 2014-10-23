@@ -79,20 +79,5 @@ class RoutingUsersTest < ActionDispatch::IntegrationTest
         { :controller => 'users', :action => 'destroy', :id => '44',
           :format => 'xml' }
       )
-    assert_routing(
-        { :method => 'post', :path => "/users/123/memberships" },
-        { :controller => 'users', :action => 'edit_membership',
-          :id => '123' }
-      )
-    assert_routing(
-        { :method => 'put', :path => "/users/123/memberships/55" },
-        { :controller => 'users', :action => 'edit_membership',
-          :id => '123', :membership_id => '55' }
-      )
-    assert_routing(
-        { :method => 'delete', :path => "/users/123/memberships/55" },
-        { :controller => 'users', :action => 'destroy_membership',
-          :id => '123', :membership_id => '55' }
-      )
   end
 end

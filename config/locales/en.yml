@@ -918,6 +918,7 @@ en:
   label_check_for_updates: Check for updates
   label_latest_compatible_version: Latest compatible version
   label_unknown_plugin: Unknown plugin
+  label_add_projects: Add projects
 
   button_login: Login
   button_submit: Submit

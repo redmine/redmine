@@ -73,10 +73,9 @@ Rails.application.routes.draw do
   match 'my/remove_block', :controller => 'my', :action => 'remove_block', :via => :post
   match 'my/order_blocks', :controller => 'my', :action => 'order_blocks', :via => :post
 
-  resources :users
-  match 'users/:id/memberships/:membership_id', :to => 'users#edit_membership', :via => [:put, :patch], :as => 'user_membership'
-  match 'users/:id/memberships/:membership_id', :to => 'users#destroy_membership', :via => :delete
-  match 'users/:id/memberships', :to => 'users#edit_membership', :via => :post, :as => 'user_memberships'
+  resources :users do
+    resources :memberships, :controller => 'principal_memberships'
+  end
 
   post 'watchers/watch', :to => 'watchers#watch', :as => 'watch'
   delete 'watchers/watch', :to => 'watchers#unwatch'
@@ -270,6 +269,7 @@ Rails.application.routes.draw do
   resources :attachments, :only => [:show, :destroy]
 
   resources :groups do
+    resources :memberships, :controller => 'principal_memberships'
     member do
       get 'autocomplete_for_user'
     end
@@ -277,8 +277,6 @@ Rails.application.routes.draw do
 
   match 'groups/:id/users', :controller => 'groups', :action => 'add_users', :id => /\d+/, :via => :post, :as => 'group_users'
   match 'groups/:id/users/:user_id', :controller => 'groups', :action => 'remove_user', :id => /\d+/, :via => :delete, :as => 'group_user'
-  match 'groups/destroy_membership/:id', :controller => 'groups', :action => 'destroy_membership', :id => /\d+/, :via => :post
-  match 'groups/edit_membership/:id', :controller => 'groups', :action => 'edit_membership', :id => /\d+/, :via => :post
 
   resources :trackers, :except => :show do
     collection do
