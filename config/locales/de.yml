@@ -1128,3 +1128,4 @@ de:
   version_status_open: offen
 
   warning_attachments_not_saved: "%{count} Datei(en) konnten nicht gespeichert werden."
+  label_add_projects: Add projects
