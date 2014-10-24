@@ -1,10 +1,13 @@
 /.project
+/.idea
 /.loadpath
 /.powrc
 /.rvmrc
 /config/additional_environment.rb
 /config/configuration.yml
 /config/database.yml
+/config/*.database.yml
+/config/unicorn_init.sh
 /config/email.yml
 /config/initializers/session_store.rb
 /config/initializers/secret_token.rb
