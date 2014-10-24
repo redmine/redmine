@@ -178,6 +178,14 @@ module ObjectHelpers
     changeset.save!
     changeset
   end
+
+  def Query.generate!(attributes={})
+    query = new(attributes)
+    query.name = "Generated query" if query.name.blank?
+    query.user ||= User.find(1)
+    query.save!
+    query
+  end
 end
 
 module IssueObjectHelpers

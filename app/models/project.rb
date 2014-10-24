@@ -962,10 +962,11 @@ class Project < ActiveRecord::Base
   def copy_queries(project)
     project.queries.each do |query|
       new_query = IssueQuery.new
-      new_query.attributes = query.attributes.dup.except("id", "project_id", "sort_criteria")
+      new_query.attributes = query.attributes.dup.except("id", "project_id", "sort_criteria", "user_id", "type")
       new_query.sort_criteria = query.sort_criteria if query.sort_criteria
       new_query.project = self
       new_query.user_id = query.user_id
+      new_query.role_ids = query.role_ids if query.visibility == IssueQuery::VISIBILITY_ROLES
       self.queries << new_query
     end
   end

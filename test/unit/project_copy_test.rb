@@ -222,6 +222,17 @@ class ProjectCopyTest < ActiveSupport::TestCase
     assert_equal @source_project.queries.map(&:user_id).sort, @project.queries.map(&:user_id).sort
   end
 
+  def test_copy_should_copy_queries_roles_visibility
+    source = Project.generate!
+    target = Project.new(:name => 'Copy Test', :identifier => 'copy-test')
+    IssueQuery.generate!(:project => source, :visibility => Query::VISIBILITY_ROLES, :roles => Role.where(:id => [1, 3]).to_a)
+
+    assert target.copy(source)
+    assert_equal 1, target.queries.size
+    query = target.queries.first
+    assert_equal [1, 3], query.role_ids.sort
+  end
+
   test "#copy should copy versions" do
     @source_project.versions << Version.generate!
     @source_project.versions << Version.generate!
