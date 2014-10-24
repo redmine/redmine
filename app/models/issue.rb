@@ -688,7 +688,7 @@ class Issue < ActiveRecord::Base
 
   # Return true if the issue is closed, otherwise false
   def closed?
-    self.status.is_closed?
+    status.present? && status.is_closed?
   end
 
   # Return true if the issue is being reopened
@@ -706,7 +706,7 @@ class Issue < ActiveRecord::Base
   # Return true if the issue is being closed
   def closing?
     if !new_record? && status_id_changed?
-      if status_was && status && !status_was.is_closed? && status.is_closed?
+      if closed? && status_was && !status_was.is_closed?
         return true
       end
     end
