@@ -13,7 +13,7 @@ set :branch, 'master'
 
 ## Application custom
 set :db_config, 'database.yml'
-set :rvm_ruby_string, "2.0.0@#{application}"
+set :rvm_ruby_string, "2.0.0@#{fetch(:application)}"
 #set :application_cmd, "redmine_prod"
 set :rvm_type, :user
 #set :repo_url,  "https://github.com/redmine/redmine.git"

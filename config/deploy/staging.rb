@@ -21,7 +21,7 @@ set :user, 'pirati-staging-redmine'
 set :full_app_name, 'redmine.staging.pirati.cz'
 set :rails_env, "staging"
 set :staging, :stage
-set :deploy_to, "/home/#{user}/#{rails_env}/redmine"
+set :deploy_to, "/home/#{fetch(:user)}/#{fetch(:rails_env)}/redmine"
 set :db_config, 'staging.database.yml'
 
 # Custom SSH Options

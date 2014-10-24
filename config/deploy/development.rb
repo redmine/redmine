@@ -21,7 +21,7 @@ set :user, 'pirati-development-redmine'
 set :full_app_name, 'redmine.development.pirati.cz'
 set :rails_env, "development"
 set :development
-set :deploy_to, "/home/#{user}/#{rails_env}/redmine"
+set :deploy_to, "/home/#{fetch(:user)}/#{fetch(:rails_env)}/redmine"
 set :db_config, 'development.database.yml'
 
 # Custom SSH Options
