@@ -15,10 +15,9 @@
 # server list. The second argument is a, or duck-types, Hash and is
 # used to set extended properties on the server.
 
-server '192.168.122.124', user: 'deployer', roles: %w{web app db}, port: 22
+server 'git.pirati.cz', user: 'pirati-staging-redmine', roles: %w{web app db}, port: 22
 
 set :user, 'pirati-staging-redmine'
-set :application, 'pirati-staging-redmine'
 set :full_app_name, 'redmine.staging.pirati.cz'
 set :rails_env, "staging"
 set :staging, :stage

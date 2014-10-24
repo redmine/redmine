@@ -5,7 +5,7 @@ lock '3.2.1'
 #role :app, %w{deployer@192.168.122.124}
 #role :db, %w{deployer@192.168.122.124}
 
-set :application, 'pirati-development-redmine'
+set :application, 'pirati-redmine'
 set :full_app_name, 'redmine.development.pirati.cz'
 set :user, 'pirati-development-redmine'
 set :repo_url, 'https://github.com/hellth/redmine.git'
@@ -13,9 +13,9 @@ set :branch, 'master'
 
 ## Application custom
 set :db_config, 'database.yml'
-#set :rvm_ruby_string, '2.0.0@redmine'
+set :rvm_ruby_string, "2.0.0@#{application}"
 #set :application_cmd, "redmine_prod"
-#set :rvm_type, :user
+set :rvm_type, :user
 #set :repo_url,  "https://github.com/redmine/redmine.git"
 #set :branch, "master" # 2.5-stable redmine
 
