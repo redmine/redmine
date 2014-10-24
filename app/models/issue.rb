@@ -77,7 +77,7 @@ class Issue < ActiveRecord::Base
   attr_protected :id
 
   scope :visible, lambda {|*args|
-    joins(:project).
+    includes(:project).
     references(:project).
     where(Issue.visible_condition(args.shift || User.current, *args))
   }
