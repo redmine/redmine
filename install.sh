@@ -5,7 +5,7 @@
 # root need
 #aptitude update
 #aptitude install sudo curl git
-#aptitude install librmagick-ruby libmagick-dev libmagickwand-dev rubygems
+#aptitude install librmagick-ruby libmagick-dev libmagickwand-dev rubygems libxslt-dev
 #aptitude install nginx postgresql postgresql-server-dev-all
 #
 ## Specify project name
@@ -54,12 +54,19 @@ rvm gemset use default
 # use gemset redmine
 gem install rmagick ruby-openid unicorn bundle
 
+rvm use $PROJECTRUBY
 rvm gemset create $PROJECT
 rvm use $PROJECTRUBY@$PROJECT
 
 echo "Your env is ready, run deploy"
 
+# For cold installation / sources like
+bundle config build.nokogiri --use-system-libraries
+bundle install
 
+
+# for production use
+# bundle install --without development test
 
 ## Install the database packages
 #sudo apt-get install -y mysql-server mysql-client libmysqlclient-dev
@@ -82,3 +89,11 @@ echo "Your env is ready, run deploy"
 ## Try connecting to the new database with the new user
 #sudo -u redmine -H mysql -u redmine -p -D redmine_production
 #
+
+
+# Postgres
+createuser --createdb --createrole -W --no-superuser --pwprompt pirati-deployer-redmine
+createuser --createdb -W --no-superuser --pwprompt pirati-development-redmine
+createuser --createdb -W --no-superuser --pwprompt pirati-staging-redmine
+createuser --createdb -W --no-superuser --pwprompt pirati-production-redmine
+

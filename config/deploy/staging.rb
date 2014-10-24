@@ -17,9 +17,13 @@
 
 server '192.168.122.124', user: 'deployer', roles: %w{web app db}, port: 22
 
+set :user, 'pirati-staging-redmine'
+set :application, 'pirati-staging-redmine'
+set :full_app_name, 'redmine.staging.pirati.cz'
 set :rails_env, "staging"
-set :stage, :staging
-set :deploy_to, '/home/deployer/web/staging/redmine'
+set :staging, :stage
+set :deploy_to, "/home/#{user}/#{rails_env}/redmine"
+set :db_config, 'staging.database.yml'
 
 # Custom SSH Options
 # ==================

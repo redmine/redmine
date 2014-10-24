@@ -15,11 +15,15 @@
 # server list. The second argument is a, or duck-types, Hash and is
 # used to set extended properties on the server.
 
-server '192.168.122.124', user: 'deployer', roles: %w{web app db}, port: 22
+server '192.168.122.124', user: 'pirati-development-redmine', roles: %w{web app db}, port: 10022
 
+set :user, 'pirati-development-redmine'
+set :application, 'pirati-development-redmine'
+set :full_app_name, 'redmine.development.pirati.cz'
 set :rails_env, "development"
-set :stage, :development
-set :deploy_to, '/home/deployer/web/development/redmine'
+set :development
+set :deploy_to, "/home/#{user}/#{rails_env}/redmine"
+set :db_config, 'development.database.yml'
 
 
 # Custom SSH Options

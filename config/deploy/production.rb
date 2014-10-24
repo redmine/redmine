@@ -15,18 +15,15 @@
 # server list. The second argument is a, or duck-types, Hash and is
 # used to set extended properties on the server.
 
-server '192.168.122.124', user: 'deployer', roles: %w{web app db}, port: 22, primary: true
+server '192.168.122.124', user: 'deployer', roles: %w{web app db}, port: 10022, primary: true
 
-# Application custom
-#set :db_config, 'database.yml'
-#set :rvm_ruby_string, '2.0.0@redmine'
-#set :application_cmd, "redmine_prod"
-#set :rvm_type, :user
-#set :repo_url,  "https://github.com/redmine/redmine.git"
+set :user, 'pirati-production-redmine'
+set :application, 'pirati-production-redmine'
+set :full_app_name, 'redmine.production.pirati.cz'
 set :rails_env, "production"
-set :stage, :production
-#set :branch, "master" # 2.5-stable redmine
-set :deploy_to, '/home/deployer/web/production/redmine'
+set :production
+set :deploy_to, "/home/#{user}/#{rails_env}/redmine"
+set :db_config, 'production.database.yml'
 
 # Custom SSH Options
 # ==================

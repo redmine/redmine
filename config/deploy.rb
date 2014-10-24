@@ -5,24 +5,35 @@ lock '3.2.1'
 #role :app, %w{deployer@192.168.122.124}
 #role :db, %w{deployer@192.168.122.124}
 
-set :application, 'redmine'
-set :full_app_name, 'redmine.prod.pirati.cz'
-set :user, 'deployer'
-set :repo_url, 'https://github.com/redmine/redmine.git'
+set :application, 'pirati-development-redmine'
+set :full_app_name, 'redmine.development.pirati.cz'
+set :user, 'pirati-development-redmine'
+set :repo_url, 'https://github.com/hellth/redmine.git'
 set :branch, 'master'
+
+## Application custom
+set :db_config, 'database.yml'
+#set :rvm_ruby_string, '2.0.0@redmine'
+#set :application_cmd, "redmine_prod"
+#set :rvm_type, :user
+#set :repo_url,  "https://github.com/redmine/redmine.git"
+#set :branch, "master" # 2.5-stable redmine
+
 
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
 
+=begin
 set :ssh_options, {
     keys: %w(/home/hellth/.ssh/hellth_rsa),
     forward_agent: false,
     auth_methods: %w(publickey)
 }
+=end
 
 # Default deploy_to directory is /var/www/my_app
 #set :deploy_to, '/var/www/my_app'
-set :deploy_to, '/home/deployer/web/default/redmine'
+#set :deploy_to, "/home/pirati-#{rails_env}-redmine/web/pirati-redmine"
 
 # Default value for :scm is :git
 set :scm, :git
