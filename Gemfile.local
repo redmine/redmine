@@ -1,0 +1,22 @@
+gem 'capistrano', '~> 3.2.1'
+
+# rails specific capistrano funcitons
+gem 'capistrano-rails', '~> 1.1.0'
+
+# integrate bundler with capistrano
+gem 'capistrano-bundler', '~> 1.1.2'
+
+# if you are using RBENV
+#gem 'capistrano-rbenv', "~> 2.0"
+
+# if you are using RVM
+gem 'capistrano-rvm', "~> 0.1.0"
+
+# RVM installation
+gem 'rvm1-capistrano3', require: false
+
+# Use the Unicorn app server
+# gem 'unicorn'
+
+# Use the Puma app server
+# gem 'puma'
