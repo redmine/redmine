@@ -24,7 +24,12 @@ class CalendarsControllerTest < ActionController::TestCase
            :roles,
            :member_roles,
            :members,
-           :enabled_modules
+           :enabled_modules,
+           :issues,
+           :issue_statuses,
+           :issue_relations,
+           :issue_categories,
+           :enumerations
 
   def test_show
     get :show, :project_id => 1
