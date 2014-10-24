@@ -46,7 +46,6 @@ class IssueQuery < Query
     user = args.shift || User.current
     base = Project.allowed_to_condition(user, :view_issues, *args)
     scope = joins("LEFT OUTER JOIN #{Project.table_name} ON #{table_name}.project_id = #{Project.table_name}.id").
-      references(:project).
       where("#{table_name}.project_id IS NULL OR (#{base})")
 
     if user.admin?

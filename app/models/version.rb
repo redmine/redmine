@@ -39,7 +39,6 @@ class Version < ActiveRecord::Base
   scope :open, lambda { where(:status => 'open') }
   scope :visible, lambda {|*args|
     joins(:project).
-    references(:project).
     where(Project.allowed_to_condition(args.first || User.current, :view_issues))
   }
 

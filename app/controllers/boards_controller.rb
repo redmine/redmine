@@ -46,7 +46,6 @@ class BoardsController < ApplicationController
         @topics =  @board.topics.
           reorder("#{Message.table_name}.sticky DESC").
           joins("LEFT OUTER JOIN #{Message.table_name} last_replies_messages ON last_replies_messages.id = #{Message.table_name}.last_reply_id").
-          references(:last_reply).
           limit(@topic_pages.per_page).
           offset(@topic_pages.offset).
           order(sort_clause).

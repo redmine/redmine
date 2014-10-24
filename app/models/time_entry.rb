@@ -46,17 +46,14 @@ class TimeEntry < ActiveRecord::Base
 
   scope :visible, lambda {|*args|
     joins(:project).
-    references(:project).
     where(Project.allowed_to_condition(args.shift || User.current, :view_time_entries, *args))
   }
   scope :on_issue, lambda {|issue|
     joins(:issue).
-    references(:issue).
     where("#{Issue.table_name}.root_id = #{issue.root_id} AND #{Issue.table_name}.lft >= #{issue.lft} AND #{Issue.table_name}.rgt <= #{issue.rgt}")
   }
   scope :on_project, lambda {|project, include_subprojects|
     joins(:project).
-    references(:project).
     where(project.project_condition(include_subprojects))
   }
   scope :spent_between, lambda {|from, to|

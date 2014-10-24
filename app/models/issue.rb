@@ -85,14 +85,12 @@ class Issue < ActiveRecord::Base
   scope :open, lambda {|*args|
     is_closed = args.size > 0 ? !args.first : false
     joins(:status).
-    references(:status).
     where("#{IssueStatus.table_name}.is_closed = ?", is_closed)
   }
 
   scope :recently_updated, lambda { order("#{Issue.table_name}.updated_on DESC") }
   scope :on_active_project, lambda {
     joins(:project).
-    references(:project).
     where("#{Project.table_name}.status = ?", Project::STATUS_ACTIVE)
   }
   scope :fixed_version, lambda {|versions|
@@ -891,11 +889,9 @@ class Issue < ActiveRecord::Base
       issue_ids = issues.map(&:id)
       # Relations with issue_from in given issues and visible issue_to
       relations_from = IssueRelation.joins(:issue_to => :project).
-                         references(:issue_to => :project).
                          where(visible_condition(user)).where(:issue_from_id => issue_ids).to_a
       # Relations with issue_to in given issues and visible issue_from
       relations_to = IssueRelation.joins(:issue_from => :project).
-                         references(:issue_from => :project).
                          where(visible_condition(user)).
                          where(:issue_to_id => issue_ids).to_a
       issues.each do |issue|
@@ -1440,7 +1436,6 @@ class Issue < ActiveRecord::Base
     # Only need to update issues with a fixed_version from
     # a different project and that is not systemwide shared
     Issue.joins(:project, :fixed_version).
-      references(:version, :fixed_version).
       where("#{Issue.table_name}.fixed_version_id IS NOT NULL" +
         " AND #{Issue.table_name}.project_id <> #{Version.table_name}.project_id" +
         " AND #{Version.table_name}.sharing <> 'system'").

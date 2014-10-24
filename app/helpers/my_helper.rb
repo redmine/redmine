@@ -69,7 +69,6 @@ module MyHelper
     TimeEntry.
       where("#{TimeEntry.table_name}.user_id = ? AND #{TimeEntry.table_name}.spent_on BETWEEN ? AND ?", User.current.id, Date.today - 6, Date.today).
       joins(:activity, :project, {:issue => [:tracker, :status]}).
-      references(:activity, :project, {:issue => [:tracker, :status]}).
       order("#{TimeEntry.table_name}.spent_on DESC, #{Project.table_name}.name ASC, #{Tracker.table_name}.position ASC, #{Issue.table_name}.id ASC").
       to_a
   end

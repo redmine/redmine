@@ -30,12 +30,10 @@ class Project < ActiveRecord::Base
   has_many :time_entry_activities
   has_many :members,
            lambda { joins(:principal, :roles).
-                    references(:principal, :roles).
                     where("#{Principal.table_name}.type='User' AND #{Principal.table_name}.status=#{Principal::STATUS_ACTIVE}") }
   has_many :memberships, :class_name => 'Member'
   has_many :member_principals,
            lambda { joins(:principal).
-                    references(:principal).
                     where("#{Principal.table_name}.status=#{Principal::STATUS_ACTIVE}")},
     :class_name => 'Member'
   has_many :enabled_modules, :dependent => :delete_all
@@ -438,7 +436,6 @@ class Project < ActiveRecord::Base
     @rolled_up_trackers ||=
       Tracker.
         joins(:projects).
-        references(:project).
         joins("JOIN #{EnabledModule.table_name} ON #{EnabledModule.table_name}.project_id = #{Project.table_name}.id AND #{EnabledModule.table_name}.name = 'issue_tracking'").
         select("DISTINCT #{Tracker.table_name}.*").
         where("#{Project.table_name}.lft >= ? AND #{Project.table_name}.rgt <= ? AND #{Project.table_name}.status <> #{STATUS_ARCHIVED}", lft, rgt).
@@ -462,7 +459,6 @@ class Project < ActiveRecord::Base
     @rolled_up_versions ||=
       Version.
         joins(:project).
-        references(:project).
         where("#{Project.table_name}.lft >= ? AND #{Project.table_name}.rgt <= ? AND #{Project.table_name}.status <> ?", lft, rgt, STATUS_ARCHIVED)
   end
 
@@ -471,7 +467,6 @@ class Project < ActiveRecord::Base
     if new_record?
       Version.
         joins(:project).
-        references(:project).
         preload(:project).
         where("#{Project.table_name}.status <> ? AND #{Version.table_name}.sharing = 'system'", STATUS_ARCHIVED)
     else
@@ -479,7 +474,6 @@ class Project < ActiveRecord::Base
         r = root? ? self : root
         Version.
           joins(:project).
-          references(:project).
           preload(:project).
           where("#{Project.table_name}.id = #{id}" +
                   " OR (#{Project.table_name}.status <> #{Project::STATUS_ARCHIVED} AND (" +

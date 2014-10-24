@@ -50,7 +50,6 @@ class Message < ActiveRecord::Base
 
   scope :visible, lambda {|*args|
     joins(:board => :project).
-    references(:board => :project).
     where(Project.allowed_to_condition(args.shift || User.current, :view_messages, *args))
   }
 

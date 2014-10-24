@@ -50,7 +50,6 @@ class Changeset < ActiveRecord::Base
 
   scope :visible, lambda {|*args|
     joins(:repository => :project).
-    references(:repository => :project).
     where(Project.allowed_to_condition(args.shift || User.current, :view_changesets, *args))
   }
 
