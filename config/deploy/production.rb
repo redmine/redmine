@@ -20,7 +20,6 @@ server 'git.pirati.cz', user: 'pirati-production-redmine', roles: %w{web app db}
 set :user, 'pirati-production-redmine'
 set :full_app_name, 'redmine.production.pirati.cz'
 set :rails_env, "production"
-set :production
 set :deploy_to, "/home/#{fetch(:user)}/#{fetch(:rails_env)}/redmine"
 set :db_config, 'production.database.yml'
 
