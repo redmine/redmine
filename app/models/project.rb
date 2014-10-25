@@ -311,6 +311,7 @@ class Project < ActiveRecord::Base
     @start_date = nil
     @due_date = nil
     @override_members = nil
+    @assignable_users = nil
     base_reload(*args)
   end
 
