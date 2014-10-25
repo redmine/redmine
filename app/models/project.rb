@@ -504,15 +504,17 @@ class Project < ActiveRecord::Base
     Member.delete_all(['project_id = ?', id])
   end
 
-  # Users/groups issues can be assigned to
+  # Return a Principal scope of users/groups issues can be assigned to
   def assignable_users
     types = ['User']
     types << 'Group' if Setting.issue_group_assignment?
 
-    member_principals.
-      select {|m| types.include?(m.principal.type) && m.roles.detect(&:assignable?)}.
-      map(&:principal).
-      sort
+    @assignable_users ||= Principal.
+      active.
+      joins(:members => :roles).
+      where(:type => types, :members => {:project_id => id}, :roles => {:assignable => true}).
+      uniq.
+      sorted
   end
 
   # Returns the mail addresses of users that should be always notified on project events
