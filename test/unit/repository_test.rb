@@ -212,7 +212,7 @@ class RepositoryTest < ActiveSupport::TestCase
 
     # make sure issue 1 is not already closed
     fixed_issue = Issue.find(1)
-    assert !fixed_issue.status.is_closed?
+    assert !fixed_issue.closed?
     old_status = fixed_issue.status
 
     with_settings :notified_events => %w(issue_added issue_updated) do
@@ -222,7 +222,7 @@ class RepositoryTest < ActiveSupport::TestCase
 
     # fixed issues
     fixed_issue.reload
-    assert fixed_issue.status.is_closed?
+    assert fixed_issue.closed?
     assert_equal 90, fixed_issue.done_ratio
     assert_equal [101], fixed_issue.changeset_ids
 

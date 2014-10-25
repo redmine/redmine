@@ -2398,11 +2398,86 @@ class IssueTest < ActiveSupport::TestCase
     assert_equal IssueStatus.find(1), issue.status_was
   end
 
+  def test_status_was_should_return_status_before_change_with_status_id
+    issue = Issue.find(1)
+    assert_equal IssueStatus.find(1), issue.status
+    issue.status_id = 2
+    assert_equal IssueStatus.find(1), issue.status_was
+  end
+
   def test_status_was_should_be_reset_on_save
     issue = Issue.find(1)
     issue.status = IssueStatus.find(2)
     assert_equal IssueStatus.find(1), issue.status_was
     assert issue.save!
     assert_equal IssueStatus.find(2), issue.status_was
+  end
+
+  def test_closing_should_return_true_when_closing_an_issue
+    issue = Issue.find(1)
+    issue.status = IssueStatus.find(2)
+    assert_equal false, issue.closing?
+    issue.status = IssueStatus.find(5)
+    assert_equal true, issue.closing?
+  end
+
+  def test_closing_should_return_true_when_closing_an_issue_with_status_id
+    issue = Issue.find(1)
+    issue.status_id = 2
+    assert_equal false, issue.closing?
+    issue.status_id = 5
+    assert_equal true, issue.closing?
+  end
+
+  def test_closing_should_return_true_for_new_closed_issue
+    issue = Issue.new
+    assert_equal false, issue.closing?
+    issue.status = IssueStatus.find(5)
+    assert_equal true, issue.closing?
+  end
+
+  def test_closing_should_return_true_for_new_closed_issue_with_status_id
+    issue = Issue.new
+    assert_equal false, issue.closing?
+    issue.status_id = 5
+    assert_equal true, issue.closing?
+  end
+
+  def test_closing_should_be_reset_after_save
+    issue = Issue.find(1)
+    issue.status_id = 5
+    assert_equal true, issue.closing?
+    issue.save!
+    assert_equal false, issue.closing?
+  end
+
+  def test_reopening_should_return_true_when_reopening_an_issue
+    issue = Issue.find(8)
+    issue.status = IssueStatus.find(6)
+    assert_equal false, issue.reopening?
+    issue.status = IssueStatus.find(2)
+    assert_equal true, issue.reopening?
+  end
+
+  def test_reopening_should_return_true_when_reopening_an_issue_with_status_id
+    issue = Issue.find(8)
+    issue.status_id = 6
+    assert_equal false, issue.reopening?
+    issue.status_id = 2
+    assert_equal true, issue.reopening?
+  end
+
+  def test_reopening_should_return_false_for_new_open_issue
+    issue = Issue.new
+    issue.status = IssueStatus.find(1)
+    assert_equal false, issue.reopening?
+  end
+
+  def test_reopening_should_be_reset_after_save
+    issue = Issue.find(8)
+    issue.status_id = 2
+    assert_equal true, issue.reopening?
+    issue.save!
+    assert_equal false, issue.reopening?
   end
 end

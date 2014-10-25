@@ -588,7 +588,7 @@ class Issue < ActiveRecord::Base
     if fixed_version
       if !assignable_versions.include?(fixed_version)
         errors.add :fixed_version_id, :inclusion
-      elsif reopened? && fixed_version.closed?
+      elsif reopening? && fixed_version.closed?
         errors.add :base, I18n.t(:error_can_not_reopen_issue_on_closed_version)
       end
     end
@@ -691,31 +691,33 @@ class Issue < ActiveRecord::Base
     status.present? && status.is_closed?
   end
 
-  # Return true if the issue is being reopened
-  def reopened?
-    if !new_record? && status_id_changed?
-      status_was = IssueStatus.find_by_id(status_id_was)
-      status_new = IssueStatus.find_by_id(status_id)
-      if status_was && status_new && status_was.is_closed? && !status_new.is_closed?
-        return true
-      end
-    end
-    false
+  # Returns true if the issue was closed when loaded
+  def was_closed?
+    status_was.present? && status_was.is_closed?
   end
+
+  # Return true if the issue is being reopened
+  def reopening?
+    if new_record?
+      false
+    else
+      status_id_changed? && !closed? && was_closed?
+    end
+  end
+  alias :reopened? :reopening?
 
   # Return true if the issue is being closed
   def closing?
-    if !new_record? && status_id_changed?
-      if closed? && status_was && !status_was.is_closed?
-        return true
-      end
+    if new_record?
+      closed?
+    else
+      status_id_changed? && closed? && !was_closed?
     end
-    false
   end
 
   # Returns true if the issue is overdue
   def overdue?
-    !due_date.nil? && (due_date < Date.today) && !status.is_closed?
+    due_date.present? && (due_date < Date.today) && !closed?
   end
 
   # Is the amount of work done less than it should for the due date
@@ -1511,7 +1513,7 @@ class Issue < ActiveRecord::Base
   # The closed_on attribute stores the time of the last closing
   # and is preserved when the issue is reopened.
   def update_closed_on
-    if closing? || (new_record? && closed?)
+    if closing?
       self.closed_on = updated_on
     end
   end

@@ -227,7 +227,7 @@ class Changeset < ActiveRecord::Base
     # the issue may have been updated by the closure of another one (eg. duplicate)
     issue.reload
     # don't change the status is the issue is closed
-    return if issue.status && issue.status.is_closed?
+    return if issue.closed?
 
     journal = issue.init_journal(user || User.anonymous,
                                  ll(Setting.default_language,
