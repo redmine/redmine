@@ -9,6 +9,11 @@ task :ci do
 end
 
 namespace :ci do
+  desc "Display info about the build environment"
+  task :about do
+    puts "Ruby version: #{RUBY_VERSION}-p#{RUBY_PATCHLEVEL} (#{RUBY_RELEASE_DATE}) [#{RUBY_PLATFORM}]"
+  end
+
   desc "Setup Redmine for a new build"
   task :setup do
     Rake::Task["tmp:clear"].invoke
