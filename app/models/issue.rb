@@ -779,25 +779,30 @@ class Issue < ActiveRecord::Base
       initial_status = nil
       if new_record?
         initial_status = IssueStatus.default
-      elsif status_id_was
-        initial_status = IssueStatus.find_by_id(status_id_was)
+      else
+        initial_status = status_was
       end
-      initial_status ||= status
 
       initial_assigned_to_id = assigned_to_id_changed? ? assigned_to_id_was : assigned_to_id
       assignee_transitions_allowed = initial_assigned_to_id.present? &&
         (user.id == initial_assigned_to_id || user.group_ids.include?(initial_assigned_to_id))
 
-      statuses = initial_status.find_new_statuses_allowed_to(
-        user.admin ? Role.all : user.roles_for_project(project),
-        tracker,
-        author == user,
-        assignee_transitions_allowed
-        )
+      statuses = []
+      if initial_status
+        statuses += initial_status.find_new_statuses_allowed_to(
+          user.admin ? Role.all.to_a : user.roles_for_project(project),
+          tracker,
+          author == user,
+          assignee_transitions_allowed
+          )
+      end
       statuses << initial_status unless statuses.empty?
       statuses << IssueStatus.default if include_default
       statuses = statuses.compact.uniq.sort
-      blocked? ? statuses.reject {|s| s.is_closed?} : statuses
+      if blocked?
+        statuses.reject!(&:is_closed?)
+      end
+      statuses
     end
   end
 
