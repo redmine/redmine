@@ -541,11 +541,11 @@ class Issue < ActiveRecord::Base
     return @workflow_rule_by_attribute if @workflow_rule_by_attribute && user.nil?
 
     user_real = user || User.current
-    roles = user_real.admin ? Role.all : user_real.roles_for_project(project)
+    roles = user_real.admin ? Role.all.to_a : user_real.roles_for_project(project)
     return {} if roles.empty?
 
     result = {}
-    workflow_permissions = WorkflowPermission.where(:tracker_id => tracker_id, :old_status_id => status_id, :role_id => roles.map(&:id))
+    workflow_permissions = WorkflowPermission.where(:tracker_id => tracker_id, :old_status_id => status_id, :role_id => roles.map(&:id)).to_a
     if workflow_permissions.any?
       workflow_rules = workflow_permissions.inject({}) do |h, wp|
         h[wp.field_name] ||= []
