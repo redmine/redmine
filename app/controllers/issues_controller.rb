@@ -418,22 +418,18 @@ class IssuesController < ApplicationController
         end
       end
       @issue.project = @project
+      @issue.author ||= User.current
+      @issue.start_date ||= Date.today if Setting.default_issue_start_date_to_creation_date?
     else
       @issue = @project.issues.visible.find(params[:id])
     end
 
-    @issue.project = @project
-    @issue.author ||= User.current
-    # Tracker must be set before custom field values
-    tracker_id = (params[:issue] && params[:issue][:tracker_id]) || params[:tracker_id]
-    tracker = tracker_id.present? ? @project.trackers.find(tracker_id) : @project.trackers.first
-    @issue.tracker ||= tracker
+    @issue.safe_attributes = params[:issue]
+    @issue.tracker ||= @project.trackers.first
     if @issue.tracker.nil?
       render_error l(:error_no_tracker_in_project)
       return false
     end
-    @issue.start_date ||= Date.today if Setting.default_issue_start_date_to_creation_date?
-    @issue.safe_attributes = params[:issue]
 
     @priorities = IssuePriority.active
     @allowed_statuses = @issue.new_statuses_allowed_to(User.current, @issue.new_record?)

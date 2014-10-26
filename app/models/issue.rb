@@ -295,24 +295,31 @@ class Issue < ActiveRecord::Base
     write_attribute(:fixed_version_id, vid)
   end
 
-  def tracker_id=(tid)
-    self.tracker = nil
-    result = write_attribute(:tracker_id, tid)
-    @custom_field_values = nil
-    @workflow_rule_by_attribute = nil
-    result
+  def tracker_id=(tracker_id)
+    if tracker_id.to_s != self.tracker_id.to_s
+      self.tracker = (tracker_id.present? ? Tracker.find_by_id(tracker_id) : nil)
+    end
+    self.tracker_id
+  end
+
+  def tracker=(tracker)
+    if tracker != self.tracker 
+      @custom_field_values = nil
+      @workflow_rule_by_attribute = nil
+    end
+    association(:tracker).writer(tracker)
   end
 
   def project_id=(project_id)
     if project_id.to_s != self.project_id.to_s
       self.project = (project_id.present? ? Project.find_by_id(project_id) : nil)
     end
+    self.project_id
   end
 
   def project=(project, keep_tracker=false)
     project_was = self.project
-    write_attribute(:project_id, project ? project.id : nil)
-    association_instance_set('project', project)
+    association(:project).writer(project)
     if project_was && project && project_was != project
       @assignable_versions = nil
 
