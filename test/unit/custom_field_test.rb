@@ -263,6 +263,7 @@ class CustomFieldTest < ActiveSupport::TestCase
   end
 
   def test_visibile_scope_with_admin_should_return_all_custom_fields
+    admin = User.generate! {|user| user.admin = true}
     CustomField.delete_all
     fields = [
       CustomField.generate!(:visible => true),
@@ -271,7 +272,7 @@ class CustomFieldTest < ActiveSupport::TestCase
       CustomField.generate!(:visible => false, :role_ids => [1, 2]),
     ]
 
-    assert_equal 4, CustomField.visible(User.find(1)).count
+    assert_equal 4, CustomField.visible(admin).count
   end
 
   def test_visibile_scope_with_non_admin_user_should_return_visible_custom_fields
