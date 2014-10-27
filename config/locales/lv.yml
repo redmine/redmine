@@ -894,7 +894,7 @@ lv:
   error_can_not_remove_role: This role is in use and can not be deleted.
   field_parent_issue: Parent task
   error_unable_delete_issue_status: Unable to delete issue status
-  label_subtask_plural: Subtasks
+  label_subtask_plural: Apakšuzdevumi
   error_can_not_delete_tracker: This tracker contains issues and can't be deleted.
   label_project_copy_notifications: Send email notifications during the project copy
   field_principal: Principal
@@ -909,11 +909,11 @@ lv:
   project_module_calendar: Calendar
   button_edit_associated_wikipage: "Edit associated Wiki page: %{page_title}"
   field_text: Text field
-  label_user_mail_option_only_owner: Only for things I am the owner of
+  label_user_mail_option_only_owner: Tikai par uzdevumiem, ko esmu izveidojis
   setting_default_notification_option: Default notification option
-  label_user_mail_option_only_my_events: Only for things I watch or I'm involved in
-  label_user_mail_option_only_assigned: Only for things I am assigned to
-  label_user_mail_option_none: No events
+  label_user_mail_option_only_my_events: Tikai par uzdevumiem, kurus novēroju vai kuros esmu iesaistījies
+  label_user_mail_option_only_assigned: Tikai par uzdevumiem, kas ir piešķirti man
+  label_user_mail_option_none: Ne par ko
   field_member_of_group: Assignee's group
   field_assigned_to_role: Assignee's role
   notice_not_authorized_archived_project: The project you're trying to access has been archived.
@@ -927,11 +927,11 @@ lv:
   setting_gantt_items_limit: Maximum number of items displayed on the gantt chart
   field_warn_on_leaving_unsaved: Warn me when leaving a page with unsaved text
   text_warn_on_leaving_unsaved: The current page contains unsaved text that will be lost if you leave this page.
-  label_my_queries: My custom queries
+  label_my_queries: Mani uzdevumu filtri
   text_journal_changed_no_detail: "%{label} updated"
   label_news_comment_added: Comment added to a news
-  button_expand_all: Expand all
-  button_collapse_all: Collapse all
+  button_expand_all: Izvērst visu
+  button_collapse_all: Savērst visu
   label_additional_workflow_transitions_for_assignee: Additional transitions allowed when the user is the assignee
   label_additional_workflow_transitions_for_author: Additional transitions allowed when the user is the author
   label_bulk_edit_selected_time_entries: Bulk edit selected time entries
@@ -942,17 +942,17 @@ lv:
   label_issue_status_updated: Status updated
   label_issue_priority_updated: Priority updated
   label_issues_visibility_own: Issues created by or assigned to the user
-  field_issues_visibility: Issues visibility
-  label_issues_visibility_all: All issues
+  field_issues_visibility: Uzdevumu redzamība
+  label_issues_visibility_all: Visi uzdevumi
   permission_set_own_issues_private: Set own issues public or private
   field_is_private: Private
   permission_set_issues_private: Set issues public or private
   label_issues_visibility_public: All non private issues
   text_issues_destroy_descendants_confirmation: This will also delete %{count} subtask(s).
   field_commit_logs_encoding: Nodošanas ziņojumu kodējums
-  field_scm_path_encoding: Path encoding
-  text_scm_path_encoding_note: "Default: UTF-8"
-  field_path_to_repository: Path to repository
+  field_scm_path_encoding: Ceļa kodējums
+  text_scm_path_encoding_note: "Noklusējuma: UTF-8"
+  field_path_to_repository: Repozitorija ceļš
   field_root_directory: Root directory
   field_cvs_module: Module
   field_cvsroot: CVSROOT
@@ -1025,7 +1025,7 @@ lv:
   label_session_expiration: Session expiration
   permission_close_project: Close / reopen the project
   label_show_closed_projects: View closed projects
-  button_close: Close
+  button_close: Aizvērt
   button_reopen: Reopen
   project_status_active: active
   project_status_closed: closed
@@ -1046,9 +1046,9 @@ lv:
   label_attribute_of_author: Author's %{name}
   label_attribute_of_assigned_to: Assignee's %{name}
   label_attribute_of_fixed_version: Target version's %{name}
-  label_copy_subtasks: Copy subtasks
-  label_copied_to: copied to
-  label_copied_from: copied from
+  label_copy_subtasks: Kopēt apakšuzdevumus
+  label_copied_to: Kopēts uz
+  label_copied_from: Kopēts no
   label_any_issues_in_project: any issues in project
   label_any_issues_not_in_project: any issues not in project
   field_private_notes: Private notes
