@@ -1003,6 +1003,7 @@
   label_check_for_updates: 檢查更新
   label_latest_compatible_version: 最新的相容版本
   label_unknown_plugin: 無法辨識的外掛程式
+  label_add_projects: 加入專案
 
   button_login: 登入
   button_submit: 送出
@@ -1196,4 +1197,3 @@
   description_date_from: 輸入起始日期
   description_date_to: 輸入結束日期
   text_repository_identifier_info: '僅允許使用小寫英文字母 (a-z), 阿拉伯數字, 虛線與底線。<br />一旦儲存之後, 代碼便無法再次被更改。'
-  label_add_projects: Add projects
