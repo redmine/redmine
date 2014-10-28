@@ -15,13 +15,15 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
+require 'securerandom'
+
 class ProjectsController < ApplicationController
   menu_item :overview
   menu_item :roadmap, :only => :roadmap
   menu_item :settings, :only => :settings
 
-  before_filter :find_project, :except => [ :index, :list, :new, :create, :copy, :cells_graph, :cells_list, :cells_gallery, :cells_tags, :technology, :groups, :people, :informationOSB]
-  before_filter :authorize, :except => [ :index, :list, :new, :create, :copy, :archive, :unarchive, :destroy, :cells_graph, :cells_list, :cells_gallery, :cells_tags, :technology, :groups, :people, :informationOSB, :addTag, :removeTag]
+  before_filter :find_project, :except => [ :index, :list, :new, :create, :copy, :cells_graph, :cells_list, :cells_gallery, :cells_tags, :technology, :groups, :people, :informationOSB, :generateGEPPETTOSimulationFile]
+  before_filter :authorize, :except => [ :index, :list, :new, :create, :copy, :archive, :unarchive, :destroy, :cells_graph, :cells_list, :cells_gallery, :cells_tags, :technology, :groups, :people, :informationOSB, :addTag, :removeTag, :generateGEPPETTOSimulationFile]
   before_filter :authorize_global, :only => [:new, :create]
   before_filter :require_admin, :only => [ :copy, :archive, :unarchive, :destroy ]
   accept_rss_auth :index
@@ -446,6 +448,22 @@ class ProjectsController < ApplicationController
     if params[:jump] && redirect_to_project_menu_item(@project, params[:jump])
       return
     end
+    
+#    if params[:explorer]
+#      url = params[:explorer]
+#      uri = URI.parse(url)
+#      idName = File.basename(uri.path).split(".").first
+#
+#      neuromlTemplate = File.read("#{Rails.root}/public/geppetto/neuromlTemplate.xml")
+#      neuromlTemplate.sub! '$ENTER_MODEL_URL', url
+##      neuromlTemplate.sub! '$ENTER_ID', idName
+#      neuromlTemplate.sub! '$ENTER_ID', 'idName'
+#      neuromlTemplate.sub! '$ENTER_SCRIPT_URL', 'http://127.0.0.1:3000/geppetto/geppettoScript.js'
+#        
+#      random_string = SecureRandom.hex
+#      @geppettoSimulationFile = "/geppetto/tmp/" + random_string + ".xml"; 
+#      File.write("#{Rails.root}/public"+ @geppettoSimulationFile, neuromlTemplate)
+#    end  
 
     @users_by_role = @project.users_by_role
     @subprojects = @project.children.visible.all
@@ -468,6 +486,25 @@ class ProjectsController < ApplicationController
       format.api
     end
   end
+  
+  def generateGEPPETTOSimulationFile
+      url = params[:explorer]
+      uri = URI.parse(url)
+      idName = File.basename(uri.path).split(".").first
+
+      neuromlTemplate = File.read("#{Rails.root}/public/geppetto/neuromlTemplate.xml")
+      neuromlTemplate.sub! '$ENTER_MODEL_URL', url
+#      neuromlTemplate.sub! '$ENTER_ID', idName
+      neuromlTemplate.sub! '$ENTER_ID', 'idName'
+      neuromlTemplate.sub! '$ENTER_SCRIPT_URL', 'http://127.0.0.1:3000/geppetto/geppettoScript.js'
+        
+      random_string = SecureRandom.hex
+      @geppettoSimulationFile = "/geppetto/tmp/" + random_string + ".xml"; 
+      File.write("#{Rails.root}/public"+ @geppettoSimulationFile, neuromlTemplate)
+      
+      geppettoSimulationFileObj = {"geppettoSimulationFile"=> @geppettoSimulationFile}
+      render json: geppettoSimulationFileObj
+  end  
 
   def settings
     @issue_custom_fields = IssueCustomField.sorted.all
@@ -479,7 +516,7 @@ class ProjectsController < ApplicationController
 
   def edit
   end
-
+  
   def addTag
     tag = params[:tag]
     @project.custom_field_values.each do |value|

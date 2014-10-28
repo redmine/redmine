@@ -34,6 +34,8 @@ RedmineApp::Application.routes.draw do
   match 'projects/people', :to => 'projects#people'
   match 'projects/informationOSB', :to => redirect('/docs')
   
+  match 'projects/generateGEPPETTOSimulationFile', :to => 'projects#generateGEPPETTOSimulationFile'
+  
   # Redirects to new doc pages (To be removed once the new docs is stable)
   match 'guides', :to => redirect('/docs')
   match '/projects/gettingstarted(/*path)', :to => redirect('/docs#Getting_Started')

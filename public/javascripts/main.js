@@ -215,11 +215,27 @@ function open3DExplorer(file)
 	}
 	else
 	{
-		jQuery("#mainContent").hide();
-		//jQuery("#mainContent").before("<div id='3dbrowser'><div id='3dspacer' style='display: none;'><br/><br/><br/></div><a class='fullscreen btn icon-desktop' href='javascript:toggleFullScreen();'> Full Screen</a><iframe id='3dframe' src='http://127.0.0.1:8080/org.neuroml.visualiser/?url="+file+"'></iframe>");
-		jQuery("#mainContent").before("<div id='3dbrowser'><a class='fullscreen btn icon-desktop' href='javascript:toggleFullScreen();'> Full Screen</a><iframe id='3dframe' style='width: 100%;height: 100%;border: 0;' src='http://184.72.223.204:8080/org.neuroml.visualiser/?url="+file+"'></iframe>");
-		document.getElementById('3dframe').onload = resizeIframe;
-		window.onresize = resizeIframe;
+		
+		$.ajax({
+		    url: "/projects/generateGEPPETTOSimulationFile?explorer=" + file,
+		    cache: false,
+		    success: function(json){
+		    	console.log(json);
+		    	jQuery("#mainContent").hide();
+				jQuery("#mainContent").before("<div id='3dbrowser'><div id='3dspacer' style='display: none;'><br/><br/><br/></div><a class='fullscreen btn icon-desktop' href='javascript:toggleFullScreen();'> Full Screen</a><iframe id='3dframe' style='width:100%' src='http://127.0.0.1:8080/org.geppetto.frontend/?sim=http://127.0.0.1:3000" + json.geppettoSimulationFile + "'></iframe>");
+//				jQuery("#mainContent").before("<div id='3dbrowser'><div id='3dspacer' style='display: none;'><br/><br/><br/></div><a class='fullscreen btn icon-desktop' href='javascript:toggleFullScreen();'> Full Screen</a><iframe id='3dframe' style='width:100%' src='http://184.72.223.204:8080/org.geppetto.frontend/?sim=http://opensourcebrain.org" + geppettoSimulationFile + "'></iframe>");
+				document.getElementById('3dframe').onload = resizeIframe;
+				window.onresize = resizeIframe;
+		    }
+		});
+		
+		
+		
+//		jQuery("#mainContent").hide();
+//		jQuery("#mainContent").before("<div id='3dbrowser'><div id='3dspacer' style='display: none;'><br/><br/><br/></div><a class='fullscreen btn icon-desktop' href='javascript:toggleFullScreen();'> Full Screen</a><iframe id='3dframe' src='http://127.0.0.1:8080/org.neuroml.visualiser/?url="+file+"'></iframe>");
+//		//jQuery("#mainContent").before("<div id='3dbrowser'><a class='fullscreen btn icon-desktop' href='javascript:toggleFullScreen();'> Full Screen</a><iframe id='3dframe' style='width: 100%;height: 100%;border: 0;' src='http://184.72.223.204:8080/org.neuroml.visualiser/?url="+file+"'></iframe>");
+//		document.getElementById('3dframe').onload = resizeIframe;
+//		window.onresize = resizeIframe;
 	}
 }
 
