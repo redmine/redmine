@@ -32,7 +32,7 @@ class IssuePriority < Enumeration
   end
 
   def transfer_relations(to)
-    issues.update_all("priority_id = #{to.id}")
+    issues.update_all(:priority_id => to.id)
   end
 
   def css_classes

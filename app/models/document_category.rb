@@ -29,7 +29,7 @@ class DocumentCategory < Enumeration
   end
 
   def transfer_relations(to)
-    documents.update_all("category_id = #{to.id}")
+    documents.update_all(:category_id => to.id)
   end
 
   def self.default
