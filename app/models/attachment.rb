@@ -255,9 +255,9 @@ class Attachment < ActiveRecord::Base
   end
 
   def self.latest_attach(attachments, filename)
-    attachments.sort_by(&:created_on).reverse.detect {
-      |att| att.filename.downcase == filename.downcase
-     }
+    attachments.sort_by(&:created_on).reverse.detect do |att|
+      att.filename.downcase == filename.downcase
+    end
   end
 
   def self.prune(age=1.day)
