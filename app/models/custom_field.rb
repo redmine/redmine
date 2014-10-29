@@ -42,7 +42,7 @@ class CustomField < ActiveRecord::Base
     end
   end
 
-  scope :sorted, lambda { order("#{table_name}.position ASC") }
+  scope :sorted, lambda { order(:position) }
   scope :visible, lambda {|*args|
     user = args.shift || User.current
     if user.admin?

@@ -32,7 +32,7 @@ class Group < Principal
 
   before_destroy :remove_references_before_destroy
 
-  scope :sorted, lambda { order("#{table_name}.type, #{table_name}.lastname ASC") }
+  scope :sorted, lambda { order(:type => :asc, :lastname => :desc) }
   scope :named, lambda {|arg| where("LOWER(#{table_name}.lastname) = LOWER(?)", arg.to_s.strip)}
   scope :givable, lambda {where(:type => 'Group')}
 

@@ -36,7 +36,7 @@ class Enumeration < ActiveRecord::Base
   validates_length_of :name, :maximum => 30
 
   scope :shared, lambda { where(:project_id => nil) }
-  scope :sorted, lambda { order("#{table_name}.position ASC") }
+  scope :sorted, lambda { order(:position) }
   scope :active, lambda { where(:active => true) }
   scope :system, lambda { where(:project_id => nil) }
   scope :named, lambda {|arg| where("LOWER(#{table_name}.name) = LOWER(?)", arg.to_s.strip)}
