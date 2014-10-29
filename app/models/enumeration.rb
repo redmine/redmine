@@ -18,7 +18,7 @@
 class Enumeration < ActiveRecord::Base
   include Redmine::SubclassFactory
 
-  default_scope lambda {order("#{Enumeration.table_name}.position ASC")}
+  default_scope lambda {order(:position)}
 
   belongs_to :project
 

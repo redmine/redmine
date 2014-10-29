@@ -37,7 +37,7 @@ class Project < ActiveRecord::Base
                     where("#{Principal.table_name}.status=#{Principal::STATUS_ACTIVE}")},
     :class_name => 'Member'
   has_many :enabled_modules, :dependent => :delete_all
-  has_and_belongs_to_many :trackers, lambda {order("#{Tracker.table_name}.position")}
+  has_and_belongs_to_many :trackers, lambda {order(:position)}
   has_many :issues, :dependent => :destroy
   has_many :issue_changes, :through => :issues, :source => :journals
   has_many :versions, lambda {order("#{Version.table_name}.effective_date DESC, #{Version.table_name}.name DESC")}, :dependent => :destroy
