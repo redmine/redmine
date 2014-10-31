@@ -195,12 +195,12 @@ class Redmine::ApiTest::ProjectsTest < Redmine::ApiTest::Base
   end
 
   test "POST /projects.xml with valid parameters should create the project" do
-    Setting.default_projects_modules = ['issue_tracking', 'repository']
-
-    assert_difference('Project.count') do
-      post '/projects.xml',
-        {:project => {:name => 'API test', :identifier => 'api-test'}},
-        credentials('admin')
+    with_settings :default_projects_modules => ['issue_tracking', 'repository'] do
+      assert_difference('Project.count') do
+        post '/projects.xml',
+          {:project => {:name => 'API test', :identifier => 'api-test'}},
+          credentials('admin')
+      end
     end
 
     project = Project.order('id DESC').first

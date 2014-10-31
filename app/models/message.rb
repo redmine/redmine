@@ -18,13 +18,14 @@
 class Message < ActiveRecord::Base
   include Redmine::SafeAttributes
   belongs_to :board
-  belongs_to :author, :class_name => 'User', :foreign_key => 'author_id'
+  belongs_to :author, :class_name => 'User'
   acts_as_tree :counter_cache => :replies_count, :order => "#{Message.table_name}.created_on ASC"
   acts_as_attachable
-  belongs_to :last_reply, :class_name => 'Message', :foreign_key => 'last_reply_id'
+  belongs_to :last_reply, :class_name => 'Message'
+  attr_protected :id
 
   acts_as_searchable :columns => ['subject', 'content'],
-                     :include => {:board => :project},
+                     :scope => preload(:board => :project),
                      :project_key => "#{Board.table_name}.project_id",
                      :date_column => "#{table_name}.created_on"
   acts_as_event :title => Proc.new {|o| "#{o.board.name}: #{o.subject}"},
@@ -34,7 +35,7 @@ class Message < ActiveRecord::Base
                 :url => Proc.new {|o| {:controller => 'messages', :action => 'show', :board_id => o.board_id}.merge(o.parent_id.nil? ? {:id => o.id} :
                                                                                                                                        {:id => o.parent_id, :r => o.id, :anchor => "message-#{o.id}"})}
 
-  acts_as_activity_provider :find_options => {:include => [{:board => :project}, :author]},
+  acts_as_activity_provider :scope => preload({:board => :project}, :author),
                             :author_key => :author_id
   acts_as_watchable
 
@@ -48,7 +49,8 @@ class Message < ActiveRecord::Base
   after_create :send_notification
 
   scope :visible, lambda {|*args|
-    includes(:board => :project).where(Project.allowed_to_condition(args.shift || User.current, :view_messages, *args))
+    joins(:board => :project).
+    where(Project.allowed_to_condition(args.shift || User.current, :view_messages, *args))
   }
 
   safe_attributes 'subject', 'content'

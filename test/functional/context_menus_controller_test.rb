@@ -56,12 +56,14 @@ class ContextMenusControllerTest < ActionController::TestCase
   end
 
   def test_context_menu_one_issue_by_anonymous
-    get :issues, :ids => [1]
-    assert_response :success
-    assert_template 'context_menus/issues'
-    assert_tag :tag => 'a', :content => 'Delete',
-                            :attributes => { :href => '#',
-                                             :class => 'icon-del disabled' }
+    with_settings :default_language => 'en' do
+      get :issues, :ids => [1]
+      assert_response :success
+      assert_template 'context_menus/issues'
+      assert_tag :tag => 'a', :content => 'Delete',
+                              :attributes => { :href => '#',
+                                               :class => 'icon-del disabled' }
+    end
   end
 
   def test_context_menu_multiple_issues_of_same_project

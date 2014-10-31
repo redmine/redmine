@@ -112,7 +112,7 @@ class CustomFieldsControllerTest < ActionController::TestCase
   end
 
   def test_new_js
-    get :new, :type => 'IssueCustomField', :custom_field => {:field_format => 'list'}, :format => 'js'
+    xhr :get, :new, :type => 'IssueCustomField', :custom_field => {:field_format => 'list'}, :format => 'js'
     assert_response :success
     assert_template 'new'
     assert_equal 'text/javascript', response.content_type

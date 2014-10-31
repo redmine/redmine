@@ -29,14 +29,14 @@ class TrackersController < ApplicationController
         render :action => "index", :layout => false if request.xhr?
       }
       format.api {
-        @trackers = Tracker.sorted.all
+        @trackers = Tracker.sorted.to_a
       }
     end
   end
 
   def new
     @tracker ||= Tracker.new(params[:tracker])
-    @trackers = Tracker.sorted.all
+    @trackers = Tracker.sorted.to_a
     @projects = Project.all
   end
 
@@ -95,7 +95,7 @@ class TrackersController < ApplicationController
       redirect_to fields_trackers_path
       return
     end
-    @trackers = Tracker.sorted.all
+    @trackers = Tracker.sorted.to_a
     @custom_fields = IssueCustomField.all.sort
   end
 end

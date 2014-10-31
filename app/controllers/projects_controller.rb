@@ -53,30 +53,30 @@ class ProjectsController < ApplicationController
         unless params[:closed]
           scope = scope.active
         end
-        @projects = scope.visible.order('lft').all
+        @projects = scope.visible.order('lft').to_a
       }
       format.api  {
         @offset, @limit = api_offset_and_limit
         @project_count = Project.visible.count
-        @projects = Project.visible.offset(@offset).limit(@limit).order('lft').all
+        @projects = Project.visible.offset(@offset).limit(@limit).order('lft').to_a
       }
       format.atom {
-        projects = Project.visible.order('created_on DESC').limit(Setting.feeds_limit.to_i).all
+        projects = Project.visible.order('created_on DESC').limit(Setting.feeds_limit.to_i).to_a
         render_feed(projects, :title => "#{Setting.app_title}: #{l(:label_project_latest)}")
       }
     end
   end
 
   def new
-    @issue_custom_fields = IssueCustomField.sorted.all
-    @trackers = Tracker.sorted.all
+    @issue_custom_fields = IssueCustomField.sorted.to_a
+    @trackers = Tracker.sorted.to_a
     @project = Project.new
     @project.safe_attributes = params[:project]
   end
 
   def create
-    @issue_custom_fields = IssueCustomField.sorted.all
-    @trackers = Tracker.sorted.all
+    @issue_custom_fields = IssueCustomField.sorted.to_a
+    @trackers = Tracker.sorted.to_a
     @project = Project.new
     @project.safe_attributes = params[:project]
 
@@ -109,8 +109,8 @@ class ProjectsController < ApplicationController
   end
 
   def copy
-    @issue_custom_fields = IssueCustomField.sorted.all
-    @trackers = Tracker.sorted.all
+    @issue_custom_fields = IssueCustomField.sorted.to_a
+    @trackers = Tracker.sorted.to_a
     @source_project = Project.find(params[:id])
     if request.get?
       @project = Project.copy_from(@source_project)
@@ -145,8 +145,8 @@ class ProjectsController < ApplicationController
     end
 
     @users_by_role = @project.users_by_role
-    @subprojects = @project.children.visible.all
-    @news = @project.news.limit(5).includes(:author, :project).reorder("#{News.table_name}.created_on DESC").all
+    @subprojects = @project.children.visible.to_a
+    @news = @project.news.limit(5).includes(:author, :project).reorder("#{News.table_name}.created_on DESC").to_a
     @trackers = @project.rolled_up_trackers
 
     cond = @project.project_condition(Setting.display_subprojects_issues?)
@@ -167,10 +167,10 @@ class ProjectsController < ApplicationController
   end
 
   def settings
-    @issue_custom_fields = IssueCustomField.sorted.all
+    @issue_custom_fields = IssueCustomField.sorted.to_a
     @issue_category ||= IssueCategory.new
     @member ||= @project.members.new
-    @trackers = Tracker.sorted.all
+    @trackers = Tracker.sorted.to_a
     @wiki ||= @project.wiki
   end
 

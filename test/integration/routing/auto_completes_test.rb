@@ -17,7 +17,7 @@
 
 require File.expand_path('../../../test_helper', __FILE__)
 
-class RoutingAutoCompletesTest < ActionController::IntegrationTest
+class RoutingAutoCompletesTest < ActionDispatch::IntegrationTest
   def test_auto_completes
     assert_routing(
         { :method => 'get', :path => "/issues/auto_complete" },

@@ -41,7 +41,7 @@ class Tracker < ActiveRecord::Base
   validates_uniqueness_of :name
   validates_length_of :name, :maximum => 30
 
-  scope :sorted, lambda { order("#{table_name}.position ASC") }
+  scope :sorted, lambda { order(:position) }
   scope :named, lambda {|arg| where("LOWER(#{table_name}.name) = LOWER(?)", arg.to_s.strip)}
 
   def to_s; name end
@@ -59,11 +59,8 @@ class Tracker < ActiveRecord::Base
       return []
     end
 
-    ids = WorkflowTransition.
-            connection.select_rows("SELECT DISTINCT old_status_id, new_status_id FROM #{WorkflowTransition.table_name} WHERE tracker_id = #{id} AND type = 'WorkflowTransition'").
-            flatten.
-            uniq
-    @issue_statuses = IssueStatus.where(:id => ids).all.sort
+    status_ids = WorkflowTransition.where(:tracker_id => id).uniq.pluck(:old_status_id, :new_status_id).flatten.uniq
+    @issue_statuses = IssueStatus.where(:id => status_ids).to_a.sort
   end
 
   def disabled_core_fields
@@ -92,7 +89,7 @@ class Tracker < ActiveRecord::Base
   # Returns the fields that are disabled for all the given trackers
   def self.disabled_core_fields(trackers)
     if trackers.present?
-      trackers.uniq.map(&:disabled_core_fields).reduce(:&)
+      trackers.map(&:disabled_core_fields).reduce(:&)
     else
       []
     end

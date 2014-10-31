@@ -241,7 +241,7 @@ class Repository::Git < Repository
   def latest_changesets(path,rev,limit=10)
     revisions = scm.revisions(path, nil, rev, :limit => limit, :all => false)
     return [] if revisions.nil? || revisions.empty?
-    changesets.where(:scmid => revisions.map {|c| c.scmid}).all
+    changesets.where(:scmid => revisions.map {|c| c.scmid}).to_a
   end
 
   def clear_extra_info_of_changesets

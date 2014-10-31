@@ -141,6 +141,7 @@ en:
   general_csv_separator: ','
   general_csv_decimal_separator: '.'
   general_csv_encoding: ISO-8859-1
+  general_pdf_fontname: freesans
   general_first_day_of_week: '7'
 
   notice_account_updated: Account was successfully updated.
@@ -917,6 +918,7 @@ en:
   label_check_for_updates: Check for updates
   label_latest_compatible_version: Latest compatible version
   label_unknown_plugin: Unknown plugin
+  label_add_projects: Add projects
 
   button_login: Login
   button_submit: Submit

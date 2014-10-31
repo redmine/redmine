@@ -101,9 +101,9 @@ class QueryTest < ActiveSupport::TestCase
   end
 
   def find_issues_with_query(query)
-    Issue.includes([:assigned_to, :status, :tracker, :project, :priority]).where(
+    Issue.joins(:status, :tracker, :project, :priority).where(
          query.statement
-       ).all
+       ).to_a
   end
 
   def assert_find_issues_with_query_is_successful(query)
@@ -1118,9 +1118,7 @@ class QueryTest < ActiveSupport::TestCase
   def test_label_for_fr
     set_language_if_valid 'fr'
     q = IssueQuery.new
-    s = "Assign\xc3\xa9 \xc3\xa0"
-    s.force_encoding('UTF-8') if s.respond_to?(:force_encoding)
-    assert_equal s, q.label_for('assigned_to_id')
+    assert_equal "Assign\xc3\xa9 \xc3\xa0".force_encoding('UTF-8'), q.label_for('assigned_to_id')
   end
 
   def test_editable_by

@@ -34,7 +34,7 @@ class AdminController < ApplicationController
 
     scope = Project.status(@status).order('lft')
     scope = scope.like(params[:name]) if params[:name].present?
-    @projects = scope.all
+    @projects = scope.to_a
 
     render :action => "projects", :layout => false if request.xhr?
   end
@@ -76,7 +76,7 @@ class AdminController < ApplicationController
     @checklist = [
       [:text_default_administrator_account_changed, User.default_admin_account_changed?],
       [:text_file_repository_writable, File.writable?(Attachment.storage_path)],
-      [:text_plugin_assets_writable,   File.writable?(Redmine::Plugin.public_directory)],
+      ["#{l :text_plugin_assets_writable} (./public/plugin_assets)",   File.writable?(Redmine::Plugin.public_directory)],
       [:text_rmagick_available,        Object.const_defined?(:Magick)],
       [:text_convert_available,        Redmine::Thumbnail.convert_available?]
     ]

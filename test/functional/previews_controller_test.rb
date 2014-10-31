@@ -62,6 +62,14 @@ class PreviewsControllerTest < ActionController::TestCase
     assert_select 'a.attachment', :text => 'foo.bar'
   end
 
+  def test_preview_issue_with_project_changed
+    @request.session[:user_id] = 2
+    post :issue, :project_id => '1', :id => 1, :issue => {:notes => 'notes', :project_id => 2}
+    assert_response :success
+    assert_not_nil assigns(:issue)
+    assert_not_nil assigns(:notes)
+  end
+
   def test_preview_new_news
     get :news, :project_id => 1,
                   :news => {:title => '',

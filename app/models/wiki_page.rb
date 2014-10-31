@@ -33,7 +33,7 @@ class WikiPage < ActiveRecord::Base
                 :url => Proc.new {|o| {:controller => 'wiki', :action => 'show', :project_id => o.wiki.project, :id => o.title}}
 
   acts_as_searchable :columns => ['title', "#{WikiContent.table_name}.text"],
-                     :include => [{:wiki => :project}, :content],
+                     :scope => preload(:wiki => :project).joins(:content, {:wiki => :project}),
                      :permission => :view_wiki_pages,
                      :project_key => "#{Wiki.table_name}.project_id"
 
@@ -43,6 +43,7 @@ class WikiPage < ActiveRecord::Base
   validates_format_of :title, :with => /\A[^,\.\/\?\;\|\s]*\z/
   validates_uniqueness_of :title, :scope => :wiki_id, :case_sensitive => false
   validates_associated :content
+  attr_protected :id
 
   validate :validate_parent_title
   before_destroy :remove_redirects
@@ -180,12 +181,10 @@ class WikiPage < ActiveRecord::Base
   def save_with_content(content)
     ret = nil
     transaction do
-      self.content = content
-      if new_record?
-        # Rails automatically saves associated content
-        ret = save
-      else
-        ret = save && (content.text_changed? ? content.save : true)
+      ret = save
+      if content.text_changed?
+        self.content = content
+        ret = ret && content.changed?
       end
       raise ActiveRecord::Rollback unless ret
     end

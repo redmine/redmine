@@ -142,6 +142,7 @@ bg:
   general_csv_separator: ','
   general_csv_decimal_separator: '.'
   general_csv_encoding: UTF-8
+  general_pdf_fontname: freesans
   general_first_day_of_week: '1'
 
   notice_account_updated: Профилът е обновен успешно.
@@ -920,6 +921,7 @@ bg:
   label_check_for_updates: Проверка за нови версии
   label_latest_compatible_version: Последна съвместима версия
   label_unknown_plugin: Непознат плъгин
+  label_add_projects: Добавяне на проекти
 
   button_login: Вход
   button_submit: Изпращане

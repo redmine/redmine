@@ -52,8 +52,7 @@ class GroupTest < ActiveSupport::TestCase
 
   def test_blank_name_error_message_fr
     set_language_if_valid 'fr'
-    str = "Nom doit \xc3\xaatre renseign\xc3\xa9(e)"
-    str.force_encoding('UTF-8') if str.respond_to?(:force_encoding)
+    str = "Nom doit \xc3\xaatre renseign\xc3\xa9(e)".force_encoding('UTF-8')
     g = Group.new
     assert !g.save
     assert_include str, g.errors.full_messages
@@ -132,21 +131,5 @@ class GroupTest < ActiveSupport::TestCase
     assert group.destroyed?
 
     assert_equal nil, Issue.find(1).assigned_to_id
-  end
-
-  def test_builtin_id_with_anonymous_user_should_return_anonymous_group
-    assert_equal 13, Group.builtin_id(User.anonymous)
-  end
-
-  def test_builtin_id_with_anonymous_role_should_return_anonymous_group
-    assert_equal 13, Group.builtin_id(Role.anonymous)
-  end
-
-  def test_builtin_id_with_user_should_return_non_member_group
-    assert_equal 12, Group.builtin_id(User.find(1))
-  end
-
-  def test_builtin_id_with_non_member_role_should_return_non_member_group
-    assert_equal 12, Group.builtin_id(Role.non_member)
   end
 end

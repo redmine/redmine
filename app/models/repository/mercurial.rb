@@ -20,7 +20,7 @@ require 'redmine/scm/adapters/mercurial_adapter'
 class Repository::Mercurial < Repository
   # sort changesets by revision number
   has_many :changesets,
-           :order       => "#{Changeset.table_name}.id DESC",
+           lambda {order("#{Changeset.table_name}.id DESC")},
            :foreign_key => 'repository_id'
 
   attr_protected        :root_url
@@ -117,9 +117,10 @@ class Repository::Mercurial < Repository
     changesets.
       includes(:user).
       where(latest_changesets_cond(path, rev, limit)).
+      references(:user).
       limit(limit).
       order("#{Changeset.table_name}.id DESC").
-      all
+      to_a
   end
 
   def is_short_id_in_db?

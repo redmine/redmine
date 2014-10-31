@@ -392,6 +392,7 @@ de:
   general_csv_decimal_separator: ','
   general_csv_encoding: ISO-8859-1
   general_csv_separator: ';'
+  general_pdf_fontname: freesans
   general_first_day_of_week: '1'
   general_lang_name: 'Deutsch'
   general_text_No: 'Nein'
@@ -548,7 +549,9 @@ de:
   label_git_report_last_commit: Bericht des letzten Commits für Dateien und Verzeichnisse
   label_greater_or_equal: ">="
   label_group: Gruppe
+  label_group_anonymous: Anonyme Benutzer
   label_group_new: Neue Gruppe
+  label_group_non_member: Nichtmitglieder
   label_group_plural: Gruppen
   label_help: Hilfe
   label_hidden: Versteckt
@@ -1040,7 +1043,7 @@ de:
   status_locked: gesperrt
   status_registered: nicht aktivierte
 
-  text_account_destroy_confirmation: Möchten Sie wirklich fortfahren?\nIhr Benutzerkonto wird für immer gelöscht und kann nicht wiederhergestellt werden.
+  text_account_destroy_confirmation: "Möchten Sie wirklich fortfahren?\nIhr Benutzerkonto wird für immer gelöscht und kann nicht wiederhergestellt werden."
   text_are_you_sure: Sind Sie sicher?
   text_assign_time_entries_to_project: Gebuchte Aufwände dem Projekt zuweisen
   text_caracters_maximum: "Max. %{count} Zeichen."
@@ -1125,5 +1128,4 @@ de:
   version_status_open: offen
 
   warning_attachments_not_saved: "%{count} Datei(en) konnten nicht gespeichert werden."
-  label_group_anonymous: Anonymous users
-  label_group_non_member: Non member users
+  label_add_projects: Add projects

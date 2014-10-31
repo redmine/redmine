@@ -248,7 +248,7 @@ class WorkflowsControllerTest < ActionController::TestCase
 
     get :permissions, :role_id => 1, :tracker_id => 2, :used_statuses_only => '0'
     assert_response :success
-    assert_equal IssueStatus.sorted.all, assigns(:statuses)
+    assert_equal IssueStatus.sorted.to_a, assigns(:statuses)
   end
 
   def test_post_permissions

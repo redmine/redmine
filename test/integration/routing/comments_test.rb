@@ -17,7 +17,7 @@
 
 require File.expand_path('../../../test_helper', __FILE__)
 
-class RoutingCommentsTest < ActionController::IntegrationTest
+class RoutingCommentsTest < ActionDispatch::IntegrationTest
   def test_comments
     assert_routing(
         { :method => 'post', :path => "/news/567/comments" },

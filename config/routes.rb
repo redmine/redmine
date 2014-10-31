@@ -15,7 +15,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-RedmineApp::Application.routes.draw do
+Rails.application.routes.draw do
   root :to => 'welcome#index', :as => 'home'
 
   match 'login', :to => 'account#login', :as => 'signin', :via => [:get, :post]
@@ -25,10 +25,10 @@ RedmineApp::Application.routes.draw do
   match 'account/activate', :to => 'account#activate', :via => :get
   get 'account/activation_email', :to => 'account#activation_email', :as => 'activation_email'
 
-  match '/news/preview', :controller => 'previews', :action => 'news', :as => 'preview_news', :via => [:get, :post, :put]
-  match '/issues/preview/new/:project_id', :to => 'previews#issue', :as => 'preview_new_issue', :via => [:get, :post, :put]
-  match '/issues/preview/edit/:id', :to => 'previews#issue', :as => 'preview_edit_issue', :via => [:get, :post, :put]
-  match '/issues/preview', :to => 'previews#issue', :as => 'preview_issue', :via => [:get, :post, :put]
+  match '/news/preview', :controller => 'previews', :action => 'news', :as => 'preview_news', :via => [:get, :post, :put, :patch]
+  match '/issues/preview/new/:project_id', :to => 'previews#issue', :as => 'preview_new_issue', :via => [:get, :post, :put, :patch]
+  match '/issues/preview/edit/:id', :to => 'previews#issue', :as => 'preview_edit_issue', :via => [:get, :post, :put, :patch]
+  match '/issues/preview', :to => 'previews#issue', :as => 'preview_issue', :via => [:get, :post, :put, :patch]
 
   match 'projects/:id/wiki', :to => 'wikis#edit', :via => :post
   match 'projects/:id/wiki/destroy', :to => 'wikis#destroy', :via => [:get, :post]
@@ -73,10 +73,9 @@ RedmineApp::Application.routes.draw do
   match 'my/remove_block', :controller => 'my', :action => 'remove_block', :via => :post
   match 'my/order_blocks', :controller => 'my', :action => 'order_blocks', :via => :post
 
-  resources :users
-  match 'users/:id/memberships/:membership_id', :to => 'users#edit_membership', :via => :put, :as => 'user_membership'
-  match 'users/:id/memberships/:membership_id', :to => 'users#destroy_membership', :via => :delete
-  match 'users/:id/memberships', :to => 'users#edit_membership', :via => :post, :as => 'user_memberships'
+  resources :users do
+    resources :memberships, :controller => 'principal_memberships'
+  end
 
   post 'watchers/watch', :to => 'watchers#watch', :as => 'watch'
   delete 'watchers/watch', :to => 'watchers#unwatch'
@@ -113,7 +112,7 @@ RedmineApp::Application.routes.draw do
     get 'issues/:copy_from/copy', :to => 'issues#new', :as => 'copy_issue'
     resources :issues, :only => [:index, :new, :create]
     # issue form update
-    match 'issues/update_form', :controller => 'issues', :action => 'update_form', :via => [:put, :post], :as => 'issue_form'
+    match 'issues/update_form', :controller => 'issues', :action => 'update_form', :via => [:put, :patch, :post], :as => 'issue_form'
 
     resources :files, :only => [:index, :new, :create]
 
@@ -151,7 +150,7 @@ RedmineApp::Application.routes.draw do
         post 'rename'
         get 'history'
         get 'diff'
-        match 'preview', :via => [:post, :put]
+        match 'preview', :via => [:post, :put, :patch]
         post 'protect'
         post 'add_attachment'
       end
@@ -270,6 +269,7 @@ RedmineApp::Application.routes.draw do
   resources :attachments, :only => [:show, :destroy]
 
   resources :groups do
+    resources :memberships, :controller => 'principal_memberships'
     member do
       get 'autocomplete_for_user'
     end
@@ -277,8 +277,6 @@ RedmineApp::Application.routes.draw do
 
   match 'groups/:id/users', :controller => 'groups', :action => 'add_users', :id => /\d+/, :via => :post, :as => 'group_users'
   match 'groups/:id/users/:user_id', :controller => 'groups', :action => 'remove_user', :id => /\d+/, :via => :delete, :as => 'group_user'
-  match 'groups/destroy_membership/:id', :controller => 'groups', :action => 'destroy_membership', :id => /\d+/, :via => :post
-  match 'groups/edit_membership/:id', :controller => 'groups', :action => 'edit_membership', :id => /\d+/, :via => :post
 
   resources :trackers, :except => :show do
     collection do

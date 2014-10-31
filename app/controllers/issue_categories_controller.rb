@@ -27,7 +27,7 @@ class IssueCategoriesController < ApplicationController
   def index
     respond_to do |format|
       format.html { redirect_to_settings_in_projects }
-      format.api { @categories = @project.issue_categories.all }
+      format.api { @categories = @project.issue_categories.to_a }
     end
   end
 

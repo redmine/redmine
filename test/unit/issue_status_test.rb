@@ -112,7 +112,7 @@ class IssueStatusTest < ActiveSupport::TestCase
   end
 
   def test_sorted_scope
-    assert_equal IssueStatus.all.sort, IssueStatus.sorted.all
+    assert_equal IssueStatus.all.sort, IssueStatus.sorted.to_a
   end
 
   def test_named_scope

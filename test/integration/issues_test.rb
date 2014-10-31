@@ -17,7 +17,7 @@
 
 require File.expand_path('../../test_helper', __FILE__)
 
-class IssuesTest < ActionController::IntegrationTest
+class IssuesTest < ActionDispatch::IntegrationTest
   fixtures :projects,
            :users,
            :roles,
@@ -132,27 +132,27 @@ class IssuesTest < ActionController::IntegrationTest
   end
 
   def test_pagination_links_on_index
-    Setting.per_page_options = '2'
-    get '/projects/ecookbook/issues'
+    with_settings :per_page_options => '2' do
+      get '/projects/ecookbook/issues'
 
-    assert_tag :a, :content => '2',
-                   :attributes => { :href => '/projects/ecookbook/issues?page=2' }
-
+      assert_tag :a, :content => '2',
+                     :attributes => { :href => '/projects/ecookbook/issues?page=2' }
+    end
   end
 
   def test_pagination_links_on_index_without_project_id_in_url
-    Setting.per_page_options = '2'
-    get '/issues', :project_id => 'ecookbook'
-
-    assert_tag :a, :content => '2',
-                   :attributes => { :href => '/projects/ecookbook/issues?page=2' }
-
+    with_settings :per_page_options => '2' do
+      get '/issues', :project_id => 'ecookbook'
+  
+      assert_tag :a, :content => '2',
+                     :attributes => { :href => '/projects/ecookbook/issues?page=2' }
+    end
   end
 
   def test_issue_with_user_custom_field
     @field = IssueCustomField.create!(:name => 'Tester', :field_format => 'user', :is_for_all => true, :trackers => Tracker.all)
     Role.anonymous.add_permission! :add_issues, :edit_issues
-    users = Project.find(1).users
+    users = Project.find(1).users.uniq.sort
     tester = users.first
 
     # Issue form
@@ -205,8 +205,8 @@ class IssuesTest < ActionController::IntegrationTest
         :issue => {
           :custom_field_values => {@field.id.to_s => new_tester.id.to_s}
         }
+      assert_redirected_to "/issues/#{issue.id}"
     end
-    assert_response 302
 
     # Issue view
     follow_redirect!

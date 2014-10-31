@@ -17,7 +17,7 @@
 
 require File.expand_path('../../../test_helper', __FILE__)
 
-class RoutingReportsTest < ActionController::IntegrationTest
+class RoutingReportsTest < ActionDispatch::IntegrationTest
   def test_reports
     assert_routing(
         { :method => 'get', :path => "/projects/567/issues/report" },

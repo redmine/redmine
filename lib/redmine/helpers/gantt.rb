@@ -167,7 +167,7 @@ module Redmine
             where("child.id IN (?)", ids).
             order("#{Project.table_name}.lft ASC").
             uniq.
-            all
+            to_a
         else
           @projects = []
         end

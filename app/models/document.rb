@@ -18,22 +18,25 @@
 class Document < ActiveRecord::Base
   include Redmine::SafeAttributes
   belongs_to :project
-  belongs_to :category, :class_name => "DocumentCategory", :foreign_key => "category_id"
+  belongs_to :category, :class_name => "DocumentCategory"
   acts_as_attachable :delete_permission => :delete_documents
 
-  acts_as_searchable :columns => ['title', "#{table_name}.description"], :include => :project
+  acts_as_searchable :columns => ['title', "#{table_name}.description"],
+                     :scope => preload(:project)
   acts_as_event :title => Proc.new {|o| "#{l(:label_document)}: #{o.title}"},
                 :author => Proc.new {|o| o.attachments.reorder("#{Attachment.table_name}.created_on ASC").first.try(:author) },
                 :url => Proc.new {|o| {:controller => 'documents', :action => 'show', :id => o.id}}
-  acts_as_activity_provider :find_options => {:include => :project}
+  acts_as_activity_provider :scope => preload(:project)
 
   validates_presence_of :project, :title, :category
   validates_length_of :title, :maximum => 60
+  attr_protected :id
 
   after_create :send_notification
 
   scope :visible, lambda {|*args|
-    includes(:project).where(Project.allowed_to_condition(args.shift || User.current, :view_documents, *args))
+    joins(:project).
+    where(Project.allowed_to_condition(args.shift || User.current, :view_documents, *args))
   }
 
   safe_attributes 'category_id', 'title', 'description'

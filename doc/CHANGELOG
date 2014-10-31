@@ -4,6 +4,78 @@ Redmine - project management software
 Copyright (C) 2006-2014  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2014-10-21 v2.6.0
+
+* Defect #8753: PDF export for Hebrew is reversed
+* Defect #8758: Ignore email keywords after delimiter
+* Defect #9660: Issues counters in roadmap only link to issues in the same project
+* Defect #11788: Export to PDF: align right in table doesn't work
+* Defect #12580: long hyperlinks inserted in task description breaks right frame boundary
+* Defect #12934: PDF export: No images in tables
+* Defect #13487: Honor committer => user mapping in repository statistics
+* Defect #13642: PDF bookmark not displayed when contain a non-ascii character
+* Defect #13781: CJK(Chinese/Japanese/Korean) characters are not shown in PDF on non CJK locales
+* Defect #13860: Text of custom fields is not wrapped in PDF exports of issues
+* Defect #14281: Parent issue autocomplete does not follow to the "Allow cross-project subtasks" setting
+* Defect #14466: Wrap long issue fields in issue pdf header
+* Defect #14491: MailHandler: Unable to determine target project (when allow_override=project and project=unassigned is used)
+* Defect #14737: Gantt, completed % truncated instead of rounded
+* Defect #14917: Bad table formatting in pdf export
+* Defect #16496: Link custom field are not displayed as links on the issue list
+* Defect #17023: The error flash message on session expiration is not in the language of the user but of the user of the previous request
+* Defect #17202: Copying Project Fails to Copy Queries with visibility == VISIBILITY_ROLES
+* Defect #17322: Long strings such as URL break out of box
+* Defect #17484: Custom fields added to "spent time" don't show in context menu
+* Defect #17828: Could not find gem 'mocha (~> 1.0.0) ruby'
+* Defect #17931: note "Applied in changeset" generated multiple times for the same repo
+* Defect #17954: /time_entries/new can't derive project from issue
+* Defect #17959: Issue notes not previewed when project is changed
+* Defect #18041: Wiki, Pdf export, Table, <pre>
+* Defect #18110: Extraction of list of available locales is probe to bad gems
+* Defect #18119: Thumbnail image path without HTTPS
+* Defect #18144: German translation on "delete my account" page showing a "\n"
+* Feature #10914: Include is_private setting in xml/json output
+* Feature #12447: Support for PNG with alpha channel in pdf export
+* Feature #14008: Add a warning if 2 plugins have the same settings partial name
+* Feature #14030: Allow plugins to put gems inside PluginGemfile
+* Feature #14599: Support 16-bit depth PNG images in PDF export
+* Feature #16164: Bulk edit workflows for multiple trackers/roles
+* Feature #16362: Option to send email on "Assignee updated"
+* Feature #16707: Integrate support of SSL for POP3 incoming emails
+* Feature #17077: fetch_changesets should use POST method too
+* Feature #17380: Move project sidebar content to a partial
+* Feature #17431: Display a target version's date if available in issue forms, as a tooltip
+* Feature #17570: use rbpdf gem instead of bundled rfpdf
+* Feature #17628: Expose project is_public property via API
+* Feature #17955: Add link to /time_entries/new from My Page Spent Time block
+* Feature #17976: Custom permissions per project for non member and anonymous users
+* Feature #17993: Issues list : css tags to get sort orders
+* Patch #6498: Make options parameter optional in User#allowed_to_globally?
+* Patch #13589: Wiki PDF export for 2 column tables
+* Patch #16190: Relax rejections based on Auto-Submitted header
+* Patch #16240: Private notes should be marked more clearly
+* Patch #16536: Japanese translation update (email notification)
+* Patch #16556: Traditional Chinese "field_assigned_to" translation change
+* Patch #16685: Introduce the request_store gem to hold User.current and prevent data leakage in error messages
+* Patch #16704: Persian Translation
+* Patch #16878: Parse configuration file for ERB
+* Patch #16905: Count users with a single query on group list
+* Patch #16925: Improve performance of Principal.member_of scope
+* Patch #17308: Japanese translation change (fix terms mismatch in workflow)
+* Patch #17346: Japanese translation change (followed updates of en.yml)
+* Patch #17400: Typo in Changelog
+* Patch #17401: Better fix for r13159 issue #16708
+* Patch #17456: Japanese translation change (custom fields)
+* Patch #17492: Lowering configuration.example.yml confusion
+* Patch #17552: Bringing together of the translation of Members at Polish translation
+* Patch #17563: Fixes some issues in the Galician (gl) translation
+* Patch #17602: Include enabled modules in projects API
+* Patch #17717: Password/Email address change should invalidate security tokens
+* Patch #17796: Expire all other sessions on password change
+* Patch #17847: Wiki extended help macros do not reflect basic Redmine macros
+* Patch #17853: Portuguese translation file
+* Patch #18047: MailHandler: Don't use String#respond_to?(:force_encoding) to differentiate between Ruby 1.8 and Ruby 1.9
+
 == 2014-07-06 v2.5.2
 
 * Defect #3483: Relative url for source links in notifications

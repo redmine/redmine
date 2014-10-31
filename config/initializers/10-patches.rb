@@ -54,56 +54,23 @@ module ActionView
   end
 end
 
-# Do not HTML escape text templates
-module ActionView
-  class Template
-    module Handlers
-      class ERB
-        def call(template)
-          if template.source.encoding_aware?
-            # First, convert to BINARY, so in case the encoding is
-            # wrong, we can still find an encoding tag
-            # (<%# encoding %>) inside the String using a regular
-            # expression
-            template_source = template.source.dup.force_encoding("BINARY")
-
-            erb = template_source.gsub(ENCODING_TAG, '')
-            encoding = $2
-
-            erb.force_encoding valid_encoding(template.source.dup, encoding)
-
-            # Always make sure we return a String in the default_internal
-            erb.encode!
-          else
-            erb = template.source.dup
-          end
-
-          self.class.erb_implementation.new(
-            erb,
-            :trim => (self.class.erb_trim_mode == "-"),
-            :escape => template.identifier =~ /\.text/ # only escape HTML templates
-          ).src
-        end
-      end
-    end
-  end
-end
-
 ActionView::Base.field_error_proc = Proc.new{ |html_tag, instance| html_tag || ''.html_safe }
 
 # HTML5: <option value=""></option> is invalid, use <option value="">&nbsp;</option> instead
 module ActionView
   module Helpers
-    class InstanceTag
-      private
-      def add_options_with_non_empty_blank_option(option_tags, options, value = nil)
-        if options[:include_blank] == true
-          options = options.dup
-          options[:include_blank] = '&nbsp;'.html_safe
+    module Tags
+      class Base
+        private
+        def add_options_with_non_empty_blank_option(option_tags, options, value = nil)
+          if options[:include_blank] == true
+            options = options.dup
+            options[:include_blank] = '&nbsp;'.html_safe
+          end
+          add_options_without_non_empty_blank_option(option_tags, options, value)
         end
-        add_options_without_non_empty_blank_option(option_tags, options, value)
+        alias_method_chain :add_options, :non_empty_blank_option
       end
-      alias_method_chain :add_options, :non_empty_blank_option
     end
 
     module FormTagHelper

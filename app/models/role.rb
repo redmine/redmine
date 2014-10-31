@@ -39,8 +39,8 @@ class Role < ActiveRecord::Base
     ['own', :label_issues_visibility_own]
   ]
 
-  scope :sorted, lambda { order("#{table_name}.builtin ASC, #{table_name}.position ASC") }
-  scope :givable, lambda { order("#{table_name}.position ASC").where(:builtin => 0) }
+  scope :sorted, lambda { order(:builtin, :position) }
+  scope :givable, lambda { order(:position).where(:builtin => 0) }
   scope :builtin, lambda { |*args|
     compare = (args.first == true ? 'not' : '')
     where("#{compare} builtin = 0")
@@ -166,7 +166,7 @@ class Role < ActiveRecord::Base
 
   # Find all the roles that can be given to a project member
   def self.find_all_givable
-    Role.givable.all
+    Role.givable.to_a
   end
 
   # Return the builtin 'non member' role.  If the role doesn't exist,

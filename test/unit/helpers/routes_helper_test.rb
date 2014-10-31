@@ -20,6 +20,8 @@
 require File.expand_path('../../../test_helper', __FILE__)
 
 class RoutesHelperTest < ActionView::TestCase
+  fixtures :projects, :issues
+
   include Rails.application.routes.url_helpers
 
   def test_time_entries_path

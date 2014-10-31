@@ -25,7 +25,7 @@ class MailHandler < ActionMailer::Base
   attr_reader :email, :user
 
   def self.receive(email, options={})
-    @@handler_options = options.dup
+    @@handler_options = options.deep_dup
 
     @@handler_options[:issue] ||= {}
 
@@ -42,7 +42,7 @@ class MailHandler < ActionMailer::Base
     @@handler_options[:no_notification] = (@@handler_options[:no_notification].to_s == '1')
     @@handler_options[:no_permission_check] = (@@handler_options[:no_permission_check].to_s == '1')
 
-    email.force_encoding('ASCII-8BIT') if email.respond_to?(:force_encoding)
+    email.force_encoding('ASCII-8BIT')
     super(email)
   end
 
@@ -417,11 +417,11 @@ class MailHandler < ActionMailer::Base
             end
 
     parts.reject! do |part|
-      part.header[:content_disposition].try(:disposition_type) == 'attachment'
+      part.attachment?
     end
 
     @plain_text_body = parts.map do |p|
-      body_charset = p.charset.respond_to?(:force_encoding) ?
+      body_charset = Mail::RubyVer.respond_to?(:pick_encoding) ?
                        Mail::RubyVer.pick_encoding(p.charset).to_s : p.charset
       Redmine::CodesetUtil.to_utf8(p.body.decoded, body_charset)
     end.join("\r\n")

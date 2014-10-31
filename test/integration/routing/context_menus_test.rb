@@ -17,7 +17,7 @@
 
 require File.expand_path('../../../test_helper', __FILE__)
 
-class RoutingContextMenusTest < ActionController::IntegrationTest
+class RoutingContextMenusTest < ActionDispatch::IntegrationTest
   def test_context_menus_time_entries
     ["get", "post"].each do |method|
       assert_routing(

@@ -42,7 +42,7 @@ class TimeEntryQuery < Query
     if project
       principals += project.principals.sort
       unless project.leaf?
-        subprojects = project.descendants.visible.all
+        subprojects = project.descendants.visible.to_a
         if subprojects.any?
           add_available_filter "subproject_id",
             :type => :list_subprojects,
@@ -109,7 +109,8 @@ class TimeEntryQuery < Query
       where(statement).
       order(order_option).
       joins(joins_for_order_statement(order_option.join(','))).
-      includes(:activity)
+      includes(:activity).
+      references(:activity)
   end
 
   def sql_for_activity_id_field(field, operator, value)

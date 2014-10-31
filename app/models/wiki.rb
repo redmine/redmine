@@ -18,13 +18,14 @@
 class Wiki < ActiveRecord::Base
   include Redmine::SafeAttributes
   belongs_to :project
-  has_many :pages, :class_name => 'WikiPage', :dependent => :destroy, :order => 'title'
+  has_many :pages, lambda {order('title')}, :class_name => 'WikiPage', :dependent => :destroy
   has_many :redirects, :class_name => 'WikiRedirect', :dependent => :delete_all
 
   acts_as_watchable
 
   validates_presence_of :start_page
   validates_format_of :start_page, :with => /\A[^,\.\/\?\;\|\:]*\z/
+  attr_protected :id
 
   safe_attributes 'start_page'
 

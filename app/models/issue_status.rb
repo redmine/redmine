@@ -18,6 +18,7 @@
 class IssueStatus < ActiveRecord::Base
   before_destroy :check_integrity
   has_many :workflows, :class_name => 'WorkflowTransition', :foreign_key => "old_status_id"
+  has_many :workflow_transitions_as_new_status, :class_name => 'WorkflowTransition', :foreign_key => "new_status_id"
   acts_as_list
 
   before_destroy :delete_workflow_rules
@@ -27,8 +28,9 @@ class IssueStatus < ActiveRecord::Base
   validates_uniqueness_of :name
   validates_length_of :name, :maximum => 30
   validates_inclusion_of :default_done_ratio, :in => 0..100, :allow_nil => true
+  attr_protected :id
 
-  scope :sorted, lambda { order("#{table_name}.position ASC") }
+  scope :sorted, lambda { order(:position) }
   scope :named, lambda {|arg| where("LOWER(#{table_name}.name) = LOWER(?)", arg.to_s.strip)}
 
   def update_default
@@ -71,16 +73,19 @@ class IssueStatus < ActiveRecord::Base
   # More efficient than the previous method if called just once
   def find_new_statuses_allowed_to(roles, tracker, author=false, assignee=false)
     if roles.present? && tracker
-      conditions = "(author = :false AND assignee = :false)"
-      conditions << " OR author = :true" if author
-      conditions << " OR assignee = :true" if assignee
+      scope = IssueStatus.
+        joins(:workflow_transitions_as_new_status).
+        where(:workflows => {:old_status_id => id, :role_id => roles.map(&:id), :tracker_id => tracker.id})
 
-      workflows.
-        includes(:new_status).
-        where(["role_id IN (:role_ids) AND tracker_id = :tracker_id AND (#{conditions})",
-          {:role_ids => roles.collect(&:id), :tracker_id => tracker.id, :true => true, :false => false}
-          ]).all.
-        map(&:new_status).compact.sort
+      unless author && assignee
+        if author || assignee
+          scope = scope.where("author = ? OR assignee = ?", author, assignee)
+        else
+          scope = scope.where("author = ? AND assignee = ?", false, false)
+        end
+      end
+
+      scope.uniq.to_a.sort
     else
       []
     end

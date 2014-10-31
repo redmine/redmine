@@ -35,10 +35,7 @@ class ApplicationHelperTest < ActionView::TestCase
   def setup
     super
     set_tmp_attachments_directory
-    @russian_test = "\xd1\x82\xd0\xb5\xd1\x81\xd1\x82"
-    if @russian_test.respond_to?(:force_encoding)
-      @russian_test.force_encoding('UTF-8')
-    end
+    @russian_test = "\xd1\x82\xd0\xb5\xd1\x81\xd1\x82".force_encoding('UTF-8')
   end
 
   test "#link_to_if_authorized for authorized user should allow using the :controller and :action for the target link" do
@@ -99,16 +96,12 @@ class ApplicationHelperTest < ActionView::TestCase
     to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text) }
   end
 
-  if 'ruby'.respond_to?(:encoding)
-    def test_auto_links_with_non_ascii_characters
-      to_test = {
-        "http://foo.bar/#{@russian_test}" =>
-          %|<a class="external" href="http://foo.bar/#{@russian_test}">http://foo.bar/#{@russian_test}</a>|
-      }
-      to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text) }
-    end
-  else
-    puts 'Skipping test_auto_links_with_non_ascii_characters, unsupported ruby version'
+  def test_auto_links_with_non_ascii_characters
+    to_test = {
+      "http://foo.bar/#{@russian_test}" =>
+        %|<a class="external" href="http://foo.bar/#{@russian_test}">http://foo.bar/#{@russian_test}</a>|
+    }
+    to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text) }
   end
 
   def test_auto_mailto
@@ -254,16 +247,12 @@ RAW
     to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text) }
   end
 
-  if 'ruby'.respond_to?(:encoding)
-    def test_textile_external_links_with_non_ascii_characters
-      to_test = {
-        %|This is a "link":http://foo.bar/#{@russian_test}| =>
-          %|This is a <a href="http://foo.bar/#{@russian_test}" class="external">link</a>|
-      }
-      to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text) }
-    end
-  else
-    puts 'Skipping test_textile_external_links_with_non_ascii_characters, unsupported ruby version'
+  def test_textile_external_links_with_non_ascii_characters
+    to_test = {
+      %|This is a "link":http://foo.bar/#{@russian_test}| =>
+        %|This is a <a href="http://foo.bar/#{@russian_test}" class="external">link</a>|
+    }
+    to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text) }
   end
 
   def test_redmine_links
@@ -1336,13 +1325,8 @@ RAW
     project = Project.find(1)
     assert_equal %(<a href="/projects/ecookbook">eCookbook</a>),
                  link_to_project(project)
-    assert_equal %(<a href="/projects/ecookbook/settings">eCookbook</a>),
-                 link_to_project(project, :action => 'settings')
     assert_equal %(<a href="http://test.host/projects/ecookbook?jump=blah">eCookbook</a>),
                  link_to_project(project, {:only_path => false, :jump => 'blah'})
-    result = link_to("eCookbook", "/projects/ecookbook/settings", :class => "project")
-    assert_equal result,
-                 link_to_project(project, {:action => 'settings'}, :class => "project")
   end
 
   def test_link_to_project_settings
@@ -1433,7 +1417,7 @@ RAW
 
   def test_raw_json_should_escape_closing_tags
     s = raw_json(["<foo>bar</foo>"])
-    assert_equal '["<foo>bar<\/foo>"]', s
+    assert_include '\/foo', s
   end
 
   def test_raw_json_should_be_html_safe
@@ -1508,8 +1492,7 @@ RAW
   end
 
   def test_truncate_single_line_non_ascii
-    ja = "\xe6\x97\xa5\xe6\x9c\xac\xe8\xaa\x9e"
-    ja.force_encoding('UTF-8') if ja.respond_to?(:force_encoding)
+    ja = "\xe6\x97\xa5\xe6\x9c\xac\xe8\xaa\x9e".force_encoding('UTF-8')
     result = truncate_single_line_raw("#{ja}\n#{ja}\n#{ja}", 10)
     assert_equal "#{ja} #{ja}...", result
     assert !result.html_safe?

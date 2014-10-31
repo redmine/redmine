@@ -17,7 +17,7 @@
 
 require File.expand_path('../../../test_helper', __FILE__)
 
-class RoutingVersionsTest < ActionController::IntegrationTest
+class RoutingVersionsTest < ActionDispatch::IntegrationTest
   def test_roadmap
     # /projects/foo/versions is /projects/foo/roadmap
     assert_routing(

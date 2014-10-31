@@ -19,10 +19,11 @@ require 'zlib'
 
 class WikiContent < ActiveRecord::Base
   self.locking_column = 'version'
-  belongs_to :page, :class_name => 'WikiPage', :foreign_key => 'page_id'
-  belongs_to :author, :class_name => 'User', :foreign_key => 'author_id'
+  belongs_to :page, :class_name => 'WikiPage'
+  belongs_to :author, :class_name => 'User'
   validates_presence_of :text
   validates_length_of :comments, :maximum => 255, :allow_nil => true
+  attr_protected :id
 
   acts_as_versioned
 
@@ -53,8 +54,8 @@ class WikiContent < ActiveRecord::Base
   end
 
   class Version
-    belongs_to :page, :class_name => '::WikiPage', :foreign_key => 'page_id'
-    belongs_to :author, :class_name => '::User', :foreign_key => 'author_id'
+    belongs_to :page, :class_name => '::WikiPage'
+    belongs_to :author, :class_name => '::User'
     attr_protected :data
 
     acts_as_event :title => Proc.new {|o| "#{l(:label_wiki_edit)}: #{o.page.title} (##{o.version})"},
@@ -68,13 +69,13 @@ class WikiContent < ActiveRecord::Base
                               :timestamp => "#{WikiContent.versioned_table_name}.updated_on",
                               :author_key => "#{WikiContent.versioned_table_name}.author_id",
                               :permission => :view_wiki_edits,
-                              :find_options => {:select => "#{WikiContent.versioned_table_name}.updated_on, #{WikiContent.versioned_table_name}.comments, " +
-                                                           "#{WikiContent.versioned_table_name}.#{WikiContent.version_column}, #{WikiPage.table_name}.title, " +
-                                                           "#{WikiContent.versioned_table_name}.page_id, #{WikiContent.versioned_table_name}.author_id, " +
-                                                           "#{WikiContent.versioned_table_name}.id",
-                                                :joins => "LEFT JOIN #{WikiPage.table_name} ON #{WikiPage.table_name}.id = #{WikiContent.versioned_table_name}.page_id " +
-                                                          "LEFT JOIN #{Wiki.table_name} ON #{Wiki.table_name}.id = #{WikiPage.table_name}.wiki_id " +
-                                                          "LEFT JOIN #{Project.table_name} ON #{Project.table_name}.id = #{Wiki.table_name}.project_id"}
+                              :scope => select("#{WikiContent.versioned_table_name}.updated_on, #{WikiContent.versioned_table_name}.comments, " +
+                                               "#{WikiContent.versioned_table_name}.#{WikiContent.version_column}, #{WikiPage.table_name}.title, " +
+                                               "#{WikiContent.versioned_table_name}.page_id, #{WikiContent.versioned_table_name}.author_id, " +
+                                               "#{WikiContent.versioned_table_name}.id").
+                                        joins("LEFT JOIN #{WikiPage.table_name} ON #{WikiPage.table_name}.id = #{WikiContent.versioned_table_name}.page_id " +
+                                              "LEFT JOIN #{Wiki.table_name} ON #{Wiki.table_name}.id = #{WikiPage.table_name}.wiki_id " +
+                                              "LEFT JOIN #{Project.table_name} ON #{Project.table_name}.id = #{Wiki.table_name}.project_id")
 
     after_destroy :page_update_after_destroy
 
@@ -104,7 +105,7 @@ class WikiContent < ActiveRecord::Base
                 # uncompressed data
                 data
               end
-        str.force_encoding("UTF-8") if str.respond_to?(:force_encoding)
+        str.force_encoding("UTF-8")
         str
       end
     end

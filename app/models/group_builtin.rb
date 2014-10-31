@@ -37,7 +37,7 @@ class GroupBuiltin < Group
   class << self
     def load_instance
       return nil if self == GroupBuiltin
-      instance = first(:order => 'id') || create_instance
+      instance = order('id').first || create_instance
     end
 
     def create_instance

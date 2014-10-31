@@ -17,7 +17,7 @@
 
 require File.expand_path('../../../test_helper', __FILE__)
 
-class RoutingWikisTest < ActionController::IntegrationTest
+class RoutingWikisTest < ActionDispatch::IntegrationTest
   def test_wikis_plural_admin_setup
     ["get", "post"].each do |method|
       assert_routing(

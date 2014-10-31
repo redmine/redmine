@@ -193,7 +193,7 @@ module Redmine
       # * Checking the url target (project only)
       # * Checking the conditions of the item
       def allowed_node?(node, user, project)
-        if project && user && !user.allowed_to?(node.url, project)
+        if node.url.is_a?(Hash) && project && user && !user.allowed_to?(node.url, project)
           return false
         end
         if node.condition && !node.condition.call(project)

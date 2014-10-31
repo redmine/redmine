@@ -17,7 +17,7 @@
 
 require File.expand_path('../../../../test_helper', __FILE__)
 
-class HookTest < ActionController::IntegrationTest
+class HookTest < ActionDispatch::IntegrationTest
   fixtures :users, :roles, :projects, :members, :member_roles
 
   # Hooks that are manually registered later
@@ -34,6 +34,8 @@ class HookTest < ActionController::IntegrationTest
     end
   end
 
+  Redmine::Hook.clear_listeners
+
   class ContentForInsideHook < Redmine::Hook::ViewListener
     render_on :view_welcome_index_left, :inline => <<-VIEW
 <% content_for :header_tags do %>
@@ -43,6 +45,14 @@ class HookTest < ActionController::IntegrationTest
 
 <p>ContentForInsideHook content</p>
 VIEW
+  end
+
+  class SingleRenderOn < Redmine::Hook::ViewListener
+    render_on :view_welcome_index_left, :inline => 'SingleRenderOn 1'
+  end
+
+  class MultipleRenderOn < Redmine::Hook::ViewListener
+    render_on :view_welcome_index_left, {:inline => 'MultipleRenderOn 1'}, {:inline => 'MultipleRenderOn 2'}
   end
 
   # Hooks that stores the call context
@@ -104,5 +114,12 @@ VIEW
     assert_kind_of ActionDispatch::Request, context[:request]
     assert_kind_of Hash, context[:request].params
     assert_kind_of AccountController, context[:hook_caller]
+  end
+
+  def test_multiple_hooks
+    Redmine::Hook.add_listener(SingleRenderOn)
+    Redmine::Hook.add_listener(MultipleRenderOn)
+    get '/'
+    assert_equal 1, response.body.scan("SingleRenderOn 1 MultipleRenderOn 1 MultipleRenderOn 2").size
   end
 end

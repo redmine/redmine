@@ -17,7 +17,7 @@
 
 require File.expand_path('../../../test_helper', __FILE__)
 
-class RoutingMyTest < ActionController::IntegrationTest
+class RoutingMyTest < ActionDispatch::IntegrationTest
   def test_my
     ["get", "post"].each do |method|
       assert_routing(

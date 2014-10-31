@@ -86,6 +86,7 @@ class Setting < ActiveRecord::Base
   validates_numericality_of :value, :only_integer => true, :if => Proc.new { |setting|
     (s = @@available_settings[setting.name]) && s['format'] == 'int'
   }
+  attr_protected :id
 
   # Hash used to cache setting values
   @cached_settings = {}
@@ -142,6 +143,7 @@ END_SRC
   def self.set_from_params(name, params)
     params = params.dup
     params.delete_if {|v| v.blank? } if params.is_a?(Array)
+    params.symbolize_keys! if params.is_a?(Hash)
 
     m = "#{name}_from_params"
     if respond_to? m
@@ -192,27 +194,6 @@ END_SRC
       end
     end
     a
-  end
-
-  def self.commit_fix_keywords
-    ActiveSupport::Deprecation.warn "Setting.commit_fix_keywords is deprecated and will be removed in Redmine 3"
-    if commit_update_keywords.is_a?(Array)
-      commit_update_keywords.first && commit_update_keywords.first['keywords']
-    end
-  end
-
-  def self.commit_fix_status_id
-    ActiveSupport::Deprecation.warn "Setting.commit_fix_status_id is deprecated and will be removed in Redmine 3"
-    if commit_update_keywords.is_a?(Array)
-      commit_update_keywords.first && commit_update_keywords.first['status_id']
-    end
-  end
-
-  def self.commit_fix_done_ratio
-    ActiveSupport::Deprecation.warn "Setting.commit_fix_done_ratio is deprecated and will be removed in Redmine 3"
-    if commit_update_keywords.is_a?(Array)
-      commit_update_keywords.first && commit_update_keywords.first['done_ratio']
-    end
   end
 
   def self.openid?

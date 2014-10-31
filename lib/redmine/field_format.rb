@@ -607,8 +607,7 @@ module Redmine
         missing = [custom_value.value_was].flatten.reject(&:blank?) - options.map(&:last)
         if missing.any?
           options += target_class.where(:id => missing.map(&:to_i)).map {|o| [o.to_s, o.id.to_s]}
-          #TODO: use #sort_by! when ruby1.8 support is dropped
-          options = options.sort_by(&:first)
+          options.sort_by!(&:first)
         end
         options
       end

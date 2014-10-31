@@ -24,6 +24,7 @@ class Journal < ActiveRecord::Base
   belongs_to :user
   has_many :details, :class_name => "JournalDetail", :dependent => :delete_all
   attr_accessor :indice
+  attr_protected :id
 
   acts_as_event :title => Proc.new {|o| status = ((s = o.new_status) ? " (#{s})" : nil); "#{o.issue.tracker} ##{o.issue.id}#{status}: #{o.issue.subject}" },
                 :description => :notes,
@@ -34,17 +35,17 @@ class Journal < ActiveRecord::Base
 
   acts_as_activity_provider :type => 'issues',
                             :author_key => :user_id,
-                            :find_options => {:include => [{:issue => :project}, :details, :user],
-                                              :conditions => "#{Journal.table_name}.journalized_type = 'Issue' AND" +
-                                                             " (#{JournalDetail.table_name}.prop_key = 'status_id' OR #{Journal.table_name}.notes <> '')"}
+                            :scope => preload({:issue => :project}, :user).
+                                      joins("LEFT OUTER JOIN #{JournalDetail.table_name} ON #{JournalDetail.table_name}.journal_id = #{Journal.table_name}.id").
+                                      where("#{Journal.table_name}.journalized_type = 'Issue' AND" +
+                                            " (#{JournalDetail.table_name}.prop_key = 'status_id' OR #{Journal.table_name}.notes <> '')")
 
   before_create :split_private_notes
   after_create :send_notification
 
   scope :visible, lambda {|*args|
     user = args.shift || User.current
-
-    includes(:issue => :project).
+    joins(:issue => :project).
       where(Issue.visible_condition(user, *args)).
       where("(#{Journal.table_name}.private_notes = ? OR (#{Project.allowed_to_condition(user, :view_private_notes, *args)}))", false)
   }

@@ -95,14 +95,12 @@ class CustomFieldTest < ActiveSupport::TestCase
     assert_equal ["One value", "And another one"], field.possible_values
   end
 
-  if "string".respond_to?(:encoding)
-    def test_possible_values_stored_as_binary_should_be_utf8_encoded
-      field = CustomField.find(11)
-      assert_kind_of Array, field.possible_values
-      assert field.possible_values.size > 0
-      field.possible_values.each do |value|
-        assert_equal "UTF-8", value.encoding.name
-      end
+  def test_possible_values_stored_as_binary_should_be_utf8_encoded
+    field = CustomField.find(11)
+    assert_kind_of Array, field.possible_values
+    assert field.possible_values.size > 0
+    field.possible_values.each do |value|
+      assert_equal "UTF-8", value.encoding.name
     end
   end
 
@@ -265,6 +263,7 @@ class CustomFieldTest < ActiveSupport::TestCase
   end
 
   def test_visibile_scope_with_admin_should_return_all_custom_fields
+    admin = User.generate! {|user| user.admin = true}
     CustomField.delete_all
     fields = [
       CustomField.generate!(:visible => true),
@@ -273,7 +272,7 @@ class CustomFieldTest < ActiveSupport::TestCase
       CustomField.generate!(:visible => false, :role_ids => [1, 2]),
     ]
 
-    assert_equal 4, CustomField.visible(User.find(1)).count
+    assert_equal 4, CustomField.visible(admin).count
   end
 
   def test_visibile_scope_with_non_admin_user_should_return_visible_custom_fields

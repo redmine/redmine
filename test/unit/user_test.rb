@@ -27,6 +27,8 @@ class UserTest < ActiveSupport::TestCase
             :groups_users,
             :enabled_modules
 
+  include Redmine::I18n
+
   def setup
     @admin = User.find(1)
     @jsmith = User.find(2)
@@ -34,8 +36,9 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_sorted_scope_should_sort_user_by_display_name
-    assert_equal User.all.map(&:name).map(&:downcase).sort,
-                 User.sorted.map(&:name).map(&:downcase)
+    # Use .active to ignore anonymous with localized display name
+    assert_equal User.active.map(&:name).map(&:downcase).sort,
+                 User.active.sorted.map(&:name).map(&:downcase)
   end
 
   def test_generate
@@ -853,27 +856,59 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_roles_for_project_with_non_member_with_public_project_should_return_non_member
+    set_language_if_valid 'en'
     roles = User.find(8).roles_for_project(Project.find(1))
     assert_equal ["Non member"], roles.map(&:name)
   end
 
-  def test_roles_for_project_with_non_member_with_public_project_should_return_no_roles
+  def test_roles_for_project_with_non_member_with_public_project_and_override_should_return_override_roles
+    project = Project.find(1)
+    Member.create!(:project => project, :principal => Group.non_member, :role_ids => [1, 2])
+    roles = User.find(8).roles_for_project(project)
+    assert_equal ["Developer", "Manager"], roles.map(&:name).sort
+  end
+
+  def test_roles_for_project_with_non_member_with_private_project_should_return_no_roles
     Project.find(1).update_attribute :is_public, false
   
     roles = User.find(8).roles_for_project(Project.find(1))
     assert_equal [], roles.map(&:name)
   end
 
+  def test_roles_for_project_with_non_member_with_private_project_and_override_should_return_no_roles
+    project = Project.find(1)
+    project.update_attribute :is_public, false
+    Member.create!(:project => project, :principal => Group.non_member, :role_ids => [1, 2])
+    roles = User.find(8).roles_for_project(project)
+    assert_equal [], roles.map(&:name).sort
+  end
+
   def test_roles_for_project_with_anonymous_with_public_project_should_return_anonymous
+    set_language_if_valid 'en'
     roles = User.anonymous.roles_for_project(Project.find(1))
     assert_equal ["Anonymous"], roles.map(&:name)
   end
 
-  def test_roles_for_project_with_anonymous_with_public_project_should_return_no_roles
+  def test_roles_for_project_with_anonymous_with_public_project_and_override_should_return_override_roles
+    project = Project.find(1)
+    Member.create!(:project => project, :principal => Group.anonymous, :role_ids => [1, 2])
+    roles = User.anonymous.roles_for_project(project)
+    assert_equal ["Developer", "Manager"], roles.map(&:name).sort
+  end
+
+  def test_roles_for_project_with_anonymous_with_private_project_should_return_no_roles
     Project.find(1).update_attribute :is_public, false
   
     roles = User.anonymous.roles_for_project(Project.find(1))
     assert_equal [], roles.map(&:name)
+  end
+
+  def test_roles_for_project_with_anonymous_with_private_project_and_override_should_return_no_roles
+    project = Project.find(1)
+    project.update_attribute :is_public, false
+    Member.create!(:project => project, :principal => Group.anonymous, :role_ids => [1, 2])
+    roles = User.anonymous.roles_for_project(project)
+    assert_equal [], roles.map(&:name).sort
   end
 
   def test_projects_by_role_for_user_with_role
@@ -1059,10 +1094,10 @@ class UserTest < ActiveSupport::TestCase
       end
 
       should "return true only if user has permission on all these projects" do
-        assert_equal true, @admin.allowed_to?(:view_project, Project.all)
-        assert_equal false, @dlopper.allowed_to?(:view_project, Project.all) #cannot see Project(2)
-        assert_equal true, @jsmith.allowed_to?(:edit_issues, @jsmith.projects) #Manager or Developer everywhere
-        assert_equal false, @jsmith.allowed_to?(:delete_issue_watchers, @jsmith.projects) #Dev cannot delete_issue_watchers
+        assert_equal true, @admin.allowed_to?(:view_project, Project.all.to_a)
+        assert_equal false, @dlopper.allowed_to?(:view_project, Project.all.to_a) #cannot see Project(2)
+        assert_equal true, @jsmith.allowed_to?(:edit_issues, @jsmith.projects.to_a) #Manager or Developer everywhere
+        assert_equal false, @jsmith.allowed_to?(:delete_issue_watchers, @jsmith.projects.to_a) #Dev cannot delete_issue_watchers
       end
 
       should "behave correctly with arrays of 1 project" do

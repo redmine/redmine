@@ -35,20 +35,22 @@ class Changeset < ActiveRecord::Base
                 :url => Proc.new {|o| {:controller => 'repositories', :action => 'revision', :id => o.repository.project, :repository_id => o.repository.identifier_param, :rev => o.identifier}}
 
   acts_as_searchable :columns => 'comments',
-                     :include => {:repository => :project},
+                     :scope => preload(:repository => :project),
                      :project_key => "#{Repository.table_name}.project_id",
-                     :date_column => 'committed_on'
+                     :date_column => "#{Changeset.table_name}.committed_on"
 
   acts_as_activity_provider :timestamp => "#{table_name}.committed_on",
                             :author_key => :user_id,
-                            :find_options => {:include => [:user, {:repository => :project}]}
+                            :scope => preload(:user, {:repository => :project})
 
   validates_presence_of :repository_id, :revision, :committed_on, :commit_date
   validates_uniqueness_of :revision, :scope => :repository_id
   validates_uniqueness_of :scmid, :scope => :repository_id, :allow_nil => true
+  attr_protected :id
 
   scope :visible, lambda {|*args|
-    includes(:repository => :project).where(Project.allowed_to_condition(args.shift || User.current, :view_changesets, *args))
+    joins(:repository => :project).
+    where(Project.allowed_to_condition(args.shift || User.current, :view_changesets, *args))
   }
 
   after_create :scan_for_issues
@@ -130,7 +132,7 @@ class Changeset < ActiveRecord::Base
 
       refs.scan(/#(\d+)(\s+@#{TIMELOG_RE})?/).each do |m|
         issue, hours = find_referenced_issue_by_id(m[0].to_i), m[2]
-        if issue
+        if issue && !issue_linked_to_same_commit?(issue)
           referenced_issues << issue
           # Don't update issues or log time when importing old commits
           unless repository.created_on && committed_on && committed_on < repository.created_on
@@ -214,12 +216,18 @@ class Changeset < ActiveRecord::Base
 
   private
 
+  # Returns true if the issue is already linked to the same commit
+  # from a different repository
+  def issue_linked_to_same_commit?(issue)
+    repository.same_commits_in_scope(issue.changesets, self).any?
+  end
+
   # Updates the +issue+ according to +action+
   def fix_issue(issue, action)
     # the issue may have been updated by the closure of another one (eg. duplicate)
     issue.reload
     # don't change the status is the issue is closed
-    return if issue.status && issue.status.is_closed?
+    return if issue.closed?
 
     journal = issue.init_journal(user || User.anonymous,
                                  ll(Setting.default_language,

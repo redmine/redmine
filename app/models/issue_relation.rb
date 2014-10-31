@@ -30,8 +30,8 @@ class IssueRelation < ActiveRecord::Base
     end
   end
 
-  belongs_to :issue_from, :class_name => 'Issue', :foreign_key => 'issue_from_id'
-  belongs_to :issue_to, :class_name => 'Issue', :foreign_key => 'issue_to_id'
+  belongs_to :issue_from, :class_name => 'Issue'
+  belongs_to :issue_to, :class_name => 'Issue'
 
   TYPE_RELATES      = "relates"
   TYPE_DUPLICATES   = "duplicates"

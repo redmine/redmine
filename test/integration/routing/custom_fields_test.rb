@@ -17,7 +17,7 @@
 
 require File.expand_path('../../../test_helper', __FILE__)
 
-class RoutingCustomFieldsTest < ActionController::IntegrationTest
+class RoutingCustomFieldsTest < ActionDispatch::IntegrationTest
   def test_custom_fields
     assert_routing(
         { :method => 'get', :path => "/custom_fields" },

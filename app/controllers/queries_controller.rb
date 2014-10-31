@@ -37,8 +37,9 @@ class QueriesController < ApplicationController
                     order("#{Query.table_name}.name").
                     limit(@limit).
                     offset(@offset).
-                    all
+                    to_a
     respond_to do |format|
+      format.html {render_error :status => 406}
       format.api
     end
   end

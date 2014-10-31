@@ -18,9 +18,8 @@
 class Board < ActiveRecord::Base
   include Redmine::SafeAttributes
   belongs_to :project
-  has_many :topics, :class_name => 'Message', :conditions => "#{Message.table_name}.parent_id IS NULL", :order => "#{Message.table_name}.created_on DESC"
-  has_many :messages, :dependent => :destroy, :order => "#{Message.table_name}.created_on DESC"
-  belongs_to :last_message, :class_name => 'Message', :foreign_key => :last_message_id
+  has_many :messages, lambda {order("#{Message.table_name}.created_on DESC")}, :dependent => :destroy
+  belongs_to :last_message, :class_name => 'Message'
   acts_as_tree :dependent => :nullify
   acts_as_list :scope => '(project_id = #{project_id} AND parent_id #{parent_id ? "= #{parent_id}" : "IS NULL"})'
   acts_as_watchable
@@ -29,9 +28,11 @@ class Board < ActiveRecord::Base
   validates_length_of :name, :maximum => 30
   validates_length_of :description, :maximum => 255
   validate :validate_board
+  attr_protected :id
 
   scope :visible, lambda {|*args|
-    includes(:project).where(Project.allowed_to_condition(args.shift || User.current, :view_messages, *args))
+    joins(:project).
+    where(Project.allowed_to_condition(args.shift || User.current, :view_messages, *args))
   }
 
   safe_attributes 'name', 'description', 'parent_id', 'move_to'
@@ -49,6 +50,11 @@ class Board < ActiveRecord::Base
     name
   end
 
+  # Returns a scope for the board topics (messages without parent)
+  def topics
+    messages.where(:parent_id => nil)
+  end
+
   def valid_parents
     @valid_parents ||= project.boards - self_and_descendants
   end
@@ -60,10 +66,10 @@ class Board < ActiveRecord::Base
   # Updates topics_count, messages_count and last_message_id attributes for +board_id+
   def self.reset_counters!(board_id)
     board_id = board_id.to_i
-    where(["id = ?", board_id]).
-      update_all("topics_count = (SELECT COUNT(*) FROM #{Message.table_name} WHERE board_id=#{board_id} AND parent_id IS NULL)," +
-               " messages_count = (SELECT COUNT(*) FROM #{Message.table_name} WHERE board_id=#{board_id})," +
-               " last_message_id = (SELECT MAX(id) FROM #{Message.table_name} WHERE board_id=#{board_id})")
+    Board.where(:id => board_id).
+      update_all(["topics_count = (SELECT COUNT(*) FROM #{Message.table_name} WHERE board_id=:id AND parent_id IS NULL)," +
+               " messages_count = (SELECT COUNT(*) FROM #{Message.table_name} WHERE board_id=:id)," +
+               " last_message_id = (SELECT MAX(id) FROM #{Message.table_name} WHERE board_id=:id)", :id => board_id])
   end
 
   def self.board_tree(boards, parent_id=nil, level=0)

@@ -29,7 +29,7 @@ module Redmine
             send :include, Redmine::Acts::ActivityProvider::InstanceMethods
           end
 
-          options.assert_valid_keys(:type, :permission, :timestamp, :author_key, :find_options)
+          options.assert_valid_keys(:type, :permission, :timestamp, :author_key, :find_options, :scope)
           self.activity_provider_options ||= {}
 
           # One model can provide different event types
@@ -54,7 +54,7 @@ module Redmine
             provider_options = activity_provider_options[event_type]
             raise "#{self.name} can not provide #{event_type} events." if provider_options.nil?
 
-            scope = self
+            scope = (provider_options[:scope] || self)
 
             if from && to
               scope = scope.where("#{provider_options[:timestamp]} BETWEEN ? AND ?", from, to)
@@ -79,7 +79,7 @@ module Redmine
               scope = scope.where(Project.allowed_to_condition(user, "view_#{self.name.underscore.pluralize}".to_sym, options))
             end
 
-            scope.all(provider_options[:find_options].dup)
+            scope.to_a
           end
         end
       end

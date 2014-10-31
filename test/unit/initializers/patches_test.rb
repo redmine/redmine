@@ -47,21 +47,19 @@ class PatchesTest < ActiveSupport::TestCase
   end
 
   # https://github.com/rails/rails/pull/14198/files
-  if RUBY_VERSION >= "1.9"
-    def test_indifferent_select
-      hash = ActiveSupport::HashWithIndifferentAccess.new(@symbols).select { |_ ,v| v == 1 }
-      assert_equal({ 'a' => 1 }, hash)
-      assert_instance_of ((Rails::VERSION::MAJOR < 4 && RUBY_VERSION < "2.1") ?
-                            Hash : ActiveSupport::HashWithIndifferentAccess),
-                          hash
-    end
+  def test_indifferent_select
+    hash = ActiveSupport::HashWithIndifferentAccess.new(@symbols).select { |_ ,v| v == 1 }
+    assert_equal({ 'a' => 1 }, hash)
+    assert_instance_of ((Rails::VERSION::MAJOR < 4 && RUBY_VERSION < "2.1") ?
+                          Hash : ActiveSupport::HashWithIndifferentAccess),
+                        hash
+  end
 
-    def test_indifferent_select_bang
-      indifferent_strings = ActiveSupport::HashWithIndifferentAccess.new(@symbols)
-      indifferent_strings.select! { |_, v| v == 1 }
-      assert_equal({ 'a' => 1 }, indifferent_strings)
-      assert_instance_of ActiveSupport::HashWithIndifferentAccess, indifferent_strings
-    end
+  def test_indifferent_select_bang
+    indifferent_strings = ActiveSupport::HashWithIndifferentAccess.new(@symbols)
+    indifferent_strings.select! { |_, v| v == 1 }
+    assert_equal({ 'a' => 1 }, indifferent_strings)
+    assert_instance_of ActiveSupport::HashWithIndifferentAccess, indifferent_strings
   end
 
   def test_indifferent_reject
@@ -77,15 +75,13 @@ class PatchesTest < ActiveSupport::TestCase
     assert_instance_of ActiveSupport::HashWithIndifferentAccess, indifferent_strings
   end
 
-  if RUBY_VERSION >= "1.9"
-    def test_select
-      assert_equal @keys, @ordered_hash.select { true }.map(&:first)
-      new_ordered_hash = @ordered_hash.select { true }
-      assert_equal @keys, new_ordered_hash.map(&:first)
-      assert_instance_of ((Rails::VERSION::MAJOR < 4 && RUBY_VERSION < "2.1") ?
-                            Hash : ActiveSupport::OrderedHash),
-                          new_ordered_hash
-    end
+  def test_select
+    assert_equal @keys, @ordered_hash.select { true }.map(&:first)
+    new_ordered_hash = @ordered_hash.select { true }
+    assert_equal @keys, new_ordered_hash.map(&:first)
+    assert_instance_of ((Rails::VERSION::MAJOR < 4 && RUBY_VERSION < "2.1") ?
+                          Hash : ActiveSupport::OrderedHash),
+                        new_ordered_hash
   end
 
   def test_reject

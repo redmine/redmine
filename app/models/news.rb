@@ -18,17 +18,19 @@
 class News < ActiveRecord::Base
   include Redmine::SafeAttributes
   belongs_to :project
-  belongs_to :author, :class_name => 'User', :foreign_key => 'author_id'
-  has_many :comments, :as => :commented, :dependent => :delete_all, :order => "created_on"
+  belongs_to :author, :class_name => 'User'
+  has_many :comments, lambda {order("created_on")}, :as => :commented, :dependent => :delete_all
 
   validates_presence_of :title, :description
   validates_length_of :title, :maximum => 60
   validates_length_of :summary, :maximum => 255
+  attr_protected :id
 
   acts_as_attachable :delete_permission => :manage_news
-  acts_as_searchable :columns => ['title', 'summary', "#{table_name}.description"], :include => :project
+  acts_as_searchable :columns => ['title', 'summary', "#{table_name}.description"],
+                     :scope => preload(:project)
   acts_as_event :url => Proc.new {|o| {:controller => 'news', :action => 'show', :id => o.id}}
-  acts_as_activity_provider :find_options => {:include => [:project, :author]},
+  acts_as_activity_provider :scope => preload(:project, :author),
                             :author_key => :author_id
   acts_as_watchable
 
@@ -36,7 +38,8 @@ class News < ActiveRecord::Base
   after_create :send_notification
 
   scope :visible, lambda {|*args|
-    includes(:project).where(Project.allowed_to_condition(args.shift || User.current, :view_news, *args))
+    joins(:project).
+    where(Project.allowed_to_condition(args.shift || User.current, :view_news, *args))
   }
 
   safe_attributes 'title', 'summary', 'description'
@@ -68,7 +71,7 @@ class News < ActiveRecord::Base
 
   # returns latest news for projects visible by user
   def self.latest(user = User.current, count = 5)
-    visible(user).includes([:author, :project]).order("#{News.table_name}.created_on DESC").limit(count).all
+    visible(user).joins([:author, :project]).order("#{News.table_name}.created_on DESC").limit(count).to_a
   end
 
   private

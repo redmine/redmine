@@ -25,7 +25,7 @@ class BoardsController < ApplicationController
   helper :watchers
 
   def index
-    @boards = @project.boards.includes(:project, :last_message => :author).all
+    @boards = @project.boards.preload(:project, :last_message => :author).to_a
     # show the board if there is only one
     if @boards.size == 1
       @board = @boards.first
@@ -45,12 +45,12 @@ class BoardsController < ApplicationController
         @topic_pages = Paginator.new @topic_count, per_page_option, params['page']
         @topics =  @board.topics.
           reorder("#{Message.table_name}.sticky DESC").
-          includes(:last_reply).
+          joins("LEFT OUTER JOIN #{Message.table_name} last_replies_messages ON last_replies_messages.id = #{Message.table_name}.last_reply_id").
           limit(@topic_pages.per_page).
           offset(@topic_pages.offset).
           order(sort_clause).
           preload(:author, {:last_reply => :author}).
-          all
+          to_a
         @message = Message.new(:board => @board)
         render :action => 'show', :layout => !request.xhr?
       }
@@ -59,7 +59,7 @@ class BoardsController < ApplicationController
           reorder('created_on DESC').
           includes(:author, :board).
           limit(Setting.feeds_limit.to_i).
-          all
+          to_a
         render_feed(@messages, :title => "#{@project}: #{@board}")
       }
     end

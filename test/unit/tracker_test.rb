@@ -21,7 +21,7 @@ class TrackerTest < ActiveSupport::TestCase
   fixtures :trackers, :workflows, :issue_statuses, :roles, :issues
 
   def test_sorted_scope
-    assert_equal Tracker.all.sort, Tracker.sorted.all
+    assert_equal Tracker.all.sort, Tracker.sorted.to_a
   end
 
   def test_named_scope

@@ -39,8 +39,6 @@ class ProjectNestedSetTest < ActiveSupport::TestCase
     @b1.set_parent!(@b)
     @b11 = Project.create!(:name => 'B11', :identifier => 'projectb11')
     @b11.set_parent!(@b1)
-
-    @a, @a1, @a2, @b, @b1, @b11, @b2, @c, @c1 = *(Project.all.sort_by(&:name))
   end
 
   def test_valid_tree
@@ -61,6 +59,11 @@ class ProjectNestedSetTest < ActiveSupport::TestCase
 
     Project.rebuild_tree!
     assert_valid_nested_set
+  end
+
+  def test_rebuild_without_projects_should_not_fail
+    Project.delete_all
+    assert Project.rebuild_tree!
   end
 
   def test_moving_a_child_to_a_different_parent_should_keep_valid_tree

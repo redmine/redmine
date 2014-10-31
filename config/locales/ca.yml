@@ -144,6 +144,7 @@ ca:
   general_csv_separator: ';'
   general_csv_decimal_separator: ','
   general_csv_encoding: ISO-8859-15
+  general_pdf_fontname: freesans
   general_first_day_of_week: '1'
 
   notice_account_updated: "El compte s'ha actualitzat correctament."
@@ -1120,3 +1121,4 @@ ca:
   label_radio_buttons: radio buttons
   label_group_anonymous: Anonymous users
   label_group_non_member: Non member users
+  label_add_projects: Add projects

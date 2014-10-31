@@ -7,7 +7,7 @@ http://www.redmine.org/
 
 == Requirements
 
-* Ruby 1.8.7, 1.9.2, 1.9.3 or 2.0.0
+* Ruby >= 1.9.3
 * RubyGems
 * Bundler >= 1.0.21
 
@@ -29,9 +29,6 @@ Optional:
 
 3. Configure the database parameters in config/database.yml
    for the "production" environment (default database is MySQL and ruby1.9)
-
-   If you're running Redmine with MySQL and ruby1.8, replace the adapter name
-   with `mysql`
 
 4. Install the required gems by running:
      bundle install --without development test

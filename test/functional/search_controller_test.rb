@@ -40,7 +40,9 @@ class SearchControllerTest < ActionController::TestCase
   end
 
   def test_search_all_projects
-    get :index, :q => 'recipe subproject commit', :all_words => ''
+    with_settings :default_language => 'en' do
+      get :index, :q => 'recipe subproject commit', :all_words => ''
+    end
     assert_response :success
     assert_template 'index'
 

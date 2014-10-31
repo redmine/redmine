@@ -90,6 +90,6 @@ class ReportsController < ApplicationController
   private
 
   def find_issue_statuses
-    @statuses = IssueStatus.sorted.all
+    @statuses = IssueStatus.sorted.to_a
   end
 end

@@ -20,4 +20,5 @@ class WikiRedirect < ActiveRecord::Base
 
   validates_presence_of :title, :redirects_to
   validates_length_of :title, :redirects_to, :maximum => 255
+  attr_protected :id
 end

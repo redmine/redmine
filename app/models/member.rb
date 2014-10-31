@@ -25,6 +25,7 @@ class Member < ActiveRecord::Base
   validates_presence_of :principal, :project
   validates_uniqueness_of :user_id, :scope => :project_id
   validate :validate_role
+  attr_protected :id
 
   before_destroy :set_issue_category_nil
 
@@ -46,7 +47,7 @@ class Member < ActiveRecord::Base
 
     new_role_ids = ids - role_ids
     # Add new roles
-    new_role_ids.each {|id| member_roles << MemberRole.new(:role_id => id) }
+    new_role_ids.each {|id| member_roles << MemberRole.new(:role_id => id, :member => self) }
     # Remove roles (Rails' #role_ids= will not trigger MemberRole#on_destroy)
     member_roles_to_destroy = member_roles.select {|mr| !ids.include?(mr.role_id)}
     if member_roles_to_destroy.any?
@@ -101,11 +102,23 @@ class Member < ActiveRecord::Base
     end
   end
 
-  # Find or initialize a Member with an id, attributes, and for a Principal
-  def self.edit_membership(id, new_attributes, principal=nil)
-    @membership = id.present? ? Member.find(id) : Member.new(:principal => principal)
-    @membership.attributes = new_attributes
-    @membership
+  # Creates memberships for principal with the attributes
+  # * project_ids : one or more project ids
+  # * role_ids : ids of the roles to give to each membership
+  #
+  # Example:
+  #   Member.create_principal_memberships(user, :project_ids => [2, 5], :role_ids => [1, 3]
+  def self.create_principal_memberships(principal, attributes)
+    members = []
+    if attributes
+      project_ids = Array.wrap(attributes[:project_ids] || attributes[:project_id])
+      role_ids = attributes[:role_ids]
+      project_ids.each do |project_id|
+        members << Member.new(:principal => principal, :role_ids => role_ids, :project_id => project_id)
+      end
+      principal.members << members
+    end
+    members
   end
 
   # Finds or initilizes a Member for the given project and principal

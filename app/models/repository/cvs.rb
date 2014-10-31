@@ -199,7 +199,7 @@ class Repository::Cvs < Repository
     # Need to retrieve existing revision numbers to sort them as integers
     sql = "SELECT revision FROM #{Changeset.table_name} "
     sql << "WHERE repository_id = #{id} AND revision NOT LIKE 'tmp%'"
-    @current_revision_number ||= (connection.select_values(sql).collect(&:to_i).max || 0)
+    @current_revision_number ||= (self.class.connection.select_values(sql).collect(&:to_i).max || 0)
     @current_revision_number += 1
   end
 end

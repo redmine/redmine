@@ -58,9 +58,11 @@ module Redmine
         if action.is_a?(Symbol)
           perm = permission(action)
           !perm.nil? && perm.read?
-        else
+        elsif action.is_a?(Hash)
           s = "#{action[:controller]}/#{action[:action]}"
           permissions.detect {|p| p.actions.include?(s) && p.read?}.present?
+        else
+          raise ArgumentError.new("Symbol or a Hash expected, #{action.class.name} given: #{action}")
         end
       end
 

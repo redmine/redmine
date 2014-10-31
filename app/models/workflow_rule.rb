@@ -20,10 +20,11 @@ class WorkflowRule < ActiveRecord::Base
 
   belongs_to :role
   belongs_to :tracker
-  belongs_to :old_status, :class_name => 'IssueStatus', :foreign_key => 'old_status_id'
-  belongs_to :new_status, :class_name => 'IssueStatus', :foreign_key => 'new_status_id'
+  belongs_to :old_status, :class_name => 'IssueStatus'
+  belongs_to :new_status, :class_name => 'IssueStatus'
 
   validates_presence_of :role, :tracker, :old_status
+  attr_protected :id
 
   # Copies workflows from source to targets
   def self.copy(source_tracker, source_role, target_trackers, target_roles)
@@ -34,7 +35,7 @@ class WorkflowRule < ActiveRecord::Base
     target_trackers = [target_trackers].flatten.compact
     target_roles = [target_roles].flatten.compact
 
-    target_trackers = Tracker.sorted.all if target_trackers.empty?
+    target_trackers = Tracker.sorted.to_a if target_trackers.empty?
     target_roles = Role.all if target_roles.empty?
 
     target_trackers.each do |target_tracker|

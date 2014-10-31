@@ -17,7 +17,7 @@
 
 require File.expand_path('../../../test_helper', __FILE__)
 
-class RoutingGroupsTest < ActionController::IntegrationTest
+class RoutingGroupsTest < ActionDispatch::IntegrationTest
   def test_groups_resources
     assert_routing(
         { :method => 'get', :path => "/groups" },
@@ -93,14 +93,6 @@ class RoutingGroupsTest < ActionController::IntegrationTest
     assert_routing(
         { :method => 'delete', :path => "/groups/567/users/12.xml" },
         { :controller => 'groups', :action => 'remove_user', :id => '567', :user_id => '12', :format => 'xml' }
-      )
-    assert_routing(
-        { :method => 'post', :path => "/groups/destroy_membership/567" },
-        { :controller => 'groups', :action => 'destroy_membership', :id => '567' }
-      )
-    assert_routing(
-        { :method => 'post', :path => "/groups/edit_membership/567" },
-        { :controller => 'groups', :action => 'edit_membership', :id => '567' }
       )
   end
 end

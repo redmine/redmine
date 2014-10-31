@@ -95,8 +95,8 @@ class TimelogCustomFieldsVisibilityTest < ActionController::TestCase
     p1 = Project.generate!
     p2 = Project.generate!
     user = User.generate!
-    User.add_to_project(user, p1, Role.where(:id => [1, 3]).all)
-    User.add_to_project(user, p2, Role.where(:id => 3).all)
+    User.add_to_project(user, p1, Role.where(:id => [1, 3]).to_a)
+    User.add_to_project(user, p2, Role.where(:id => 3).to_a)
     TimeEntry.generate!(
       :issue => Issue.generate!(:project => p1, :tracker_id => 1,
                                 :custom_field_values => {@field2.id => 'ValueA'}))
@@ -108,9 +108,9 @@ class TimelogCustomFieldsVisibilityTest < ActionController::TestCase
                                 :custom_field_values => {@field2.id => 'ValueC'}))
     @request.session[:user_id] = user.id
     get :index, :c => ["hours", "issue.cf_#{@field2.id}"]
-    assert_select 'td', :text => 'ValueA'
+    assert_select 'td', {:text => 'ValueA'}, "ValueA not found in:\n#{response.body}"
     assert_select 'td', :text => 'ValueB', :count => 0
-    assert_select 'td', :text => 'ValueC'
+    assert_select 'td', {:text => 'ValueC'}, "ValueC not found in:\n#{response.body}"
 
     get :index, :set_filter => '1', "issue.cf_#{@field2.id}" => '*'
     assert_equal %w(ValueA ValueC), assigns(:entries).map{|i| i.issue.custom_field_value(@field2)}.sort

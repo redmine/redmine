@@ -1,5 +1,4 @@
-# Default setup is given for MySQL with ruby1.9. If you're running Redmine
-# with MySQL and ruby1.8, replace the adapter name with `mysql`.
+# Default setup is given for MySQL with ruby1.9.
 # Examples for PostgreSQL, SQLite3 and SQL Server can be found at the end.
 # Line indentation must be 2 spaces (no tabs).
 

@@ -31,7 +31,7 @@ class VersionsController < ApplicationController
   def index
     respond_to do |format|
       format.html {
-        @trackers = @project.trackers.sorted.all
+        @trackers = @project.trackers.sorted.to_a
         retrieve_selected_tracker_ids(@trackers, @trackers.select {|t| t.is_in_roadmap?})
         @with_subprojects = params[:with_subprojects].nil? ? Setting.display_subprojects_issues? : (params[:with_subprojects] == '1')
         project_ids = @with_subprojects ? @project.self_and_descendants.collect(&:id) : [@project.id]
@@ -56,7 +56,7 @@ class VersionsController < ApplicationController
         @versions.reject! {|version| !project_ids.include?(version.project_id) && @issues_by_version[version].blank?}
       }
       format.api {
-        @versions = @project.shared_versions.all
+        @versions = @project.shared_versions.to_a
       }
     end
   end
@@ -67,7 +67,7 @@ class VersionsController < ApplicationController
         @issues = @version.fixed_issues.visible.
           includes(:status, :tracker, :priority).
           reorder("#{Tracker.table_name}.position, #{Issue.table_name}.id").
-          all
+          to_a
       }
       format.api
     end
@@ -117,7 +117,7 @@ class VersionsController < ApplicationController
   end
 
   def update
-    if request.put? && params[:version]
+    if params[:version]
       attributes = params[:version].dup
       attributes.delete('sharing') unless @version.allowed_sharings.include?(attributes['sharing'])
       @version.safe_attributes = attributes

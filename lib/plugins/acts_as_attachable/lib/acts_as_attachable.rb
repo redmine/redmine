@@ -29,9 +29,8 @@ module Redmine
           attachable_options[:view_permission] = options.delete(:view_permission) || "view_#{self.name.pluralize.underscore}".to_sym
           attachable_options[:delete_permission] = options.delete(:delete_permission) || "edit_#{self.name.pluralize.underscore}".to_sym
 
-          has_many :attachments, options.merge(:as => :container,
-                                               :order => "#{Attachment.table_name}.created_on ASC, #{Attachment.table_name}.id ASC",
-                                               :dependent => :destroy)
+          has_many :attachments, lambda {order("#{Attachment.table_name}.created_on ASC, #{Attachment.table_name}.id ASC")},
+                                 options.merge(:as => :container, :dependent => :destroy)
           send :include, Redmine::Acts::Attachable::InstanceMethods
           before_save :attach_saved_attachments
         end

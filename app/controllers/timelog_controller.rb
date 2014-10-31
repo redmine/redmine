@@ -52,7 +52,7 @@ class TimelogController < ApplicationController
       format.html {
         @entry_count = scope.count
         @entry_pages = Paginator.new @entry_count, per_page_option, params['page']
-        @entries = scope.offset(@entry_pages.offset).limit(@entry_pages.per_page).all
+        @entries = scope.offset(@entry_pages.offset).limit(@entry_pages.per_page).to_a
         @total_hours = scope.sum(:hours).to_f
 
         render :layout => !request.xhr?
@@ -60,15 +60,15 @@ class TimelogController < ApplicationController
       format.api  {
         @entry_count = scope.count
         @offset, @limit = api_offset_and_limit
-        @entries = scope.offset(@offset).limit(@limit).preload(:custom_values => :custom_field).all
+        @entries = scope.offset(@offset).limit(@limit).preload(:custom_values => :custom_field).to_a
       }
       format.atom {
-        entries = scope.limit(Setting.feeds_limit.to_i).reorder("#{TimeEntry.table_name}.created_on DESC").all
+        entries = scope.limit(Setting.feeds_limit.to_i).reorder("#{TimeEntry.table_name}.created_on DESC").to_a
         render_feed(entries, :title => l(:label_spent_time))
       }
       format.csv {
         # Export all entries
-        @entries = scope.all
+        @entries = scope.to_a
         send_data(query_to_csv(@entries, @query, params), :type => 'text/csv; header=present', :filename => 'timelog.csv')
       }
     end
@@ -232,7 +232,7 @@ private
   end
 
   def find_time_entries
-    @time_entries = TimeEntry.where(:id => params[:id] || params[:ids]).all
+    @time_entries = TimeEntry.where(:id => params[:id] || params[:ids]).to_a
     raise ActiveRecord::RecordNotFound if @time_entries.empty?
     @projects = @time_entries.collect(&:project).compact.uniq
     @project = @projects.first if @projects.size == 1

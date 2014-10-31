@@ -199,27 +199,9 @@ module Redmine
         while starting < max && line_left[starting] == line_right[starting]
           starting += 1
         end
-        if (! "".respond_to?(:force_encoding)) && starting < line_left.size
-          while line_left[starting].ord.between?(128, 191) && starting > 0
-            starting -= 1
-          end
-        end
         ending = -1
         while ending >= -(max - starting) && (line_left[ending] == line_right[ending])
           ending -= 1
-        end
-        if (! "".respond_to?(:force_encoding)) && ending > (-1 * line_left.size)
-          while line_left[ending].ord.between?(128, 255) && ending < -1
-            if line_left[ending].ord.between?(128, 191)
-              if line_left[ending + 1].ord.between?(128, 191)
-                ending += 1
-              else
-                break
-              end
-            else
-              ending += 1
-            end
-          end
         end
         unless starting == 0 && ending == -1
           [starting, ending]
@@ -279,7 +261,7 @@ module Redmine
 
     def line_to_html(line, offsets)
       html = line_to_html_raw(line, offsets)
-      html.force_encoding('UTF-8') if html.respond_to?(:force_encoding)
+      html.force_encoding('UTF-8')
       html
     end
 

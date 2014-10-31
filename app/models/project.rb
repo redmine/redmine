@@ -28,31 +28,33 @@ class Project < ActiveRecord::Base
 
   # Specific overridden Activities
   has_many :time_entry_activities
-  has_many :members, :include => [:principal, :roles], :conditions => "#{Principal.table_name}.type='User' AND #{Principal.table_name}.status=#{Principal::STATUS_ACTIVE}"
+  has_many :members,
+           lambda { joins(:principal, :roles).
+                    where("#{Principal.table_name}.type='User' AND #{Principal.table_name}.status=#{Principal::STATUS_ACTIVE}") }
   has_many :memberships, :class_name => 'Member'
-  has_many :member_principals, :class_name => 'Member',
-                               :include => :principal,
-                               :conditions => "#{Principal.table_name}.status=#{Principal::STATUS_ACTIVE}"
-
+  has_many :member_principals,
+           lambda { joins(:principal).
+                    where("#{Principal.table_name}.status=#{Principal::STATUS_ACTIVE}")},
+    :class_name => 'Member'
   has_many :enabled_modules, :dependent => :delete_all
-  has_and_belongs_to_many :trackers, :order => "#{Tracker.table_name}.position"
-  has_many :issues, :dependent => :destroy, :include => [:status, :tracker]
+  has_and_belongs_to_many :trackers, lambda {order(:position)}
+  has_many :issues, :dependent => :destroy
   has_many :issue_changes, :through => :issues, :source => :journals
-  has_many :versions, :dependent => :destroy, :order => "#{Version.table_name}.effective_date DESC, #{Version.table_name}.name DESC"
+  has_many :versions, lambda {order("#{Version.table_name}.effective_date DESC, #{Version.table_name}.name DESC")}, :dependent => :destroy
   has_many :time_entries, :dependent => :destroy
   has_many :queries, :class_name => 'IssueQuery', :dependent => :delete_all
   has_many :documents, :dependent => :destroy
-  has_many :news, :dependent => :destroy, :include => :author
-  has_many :issue_categories, :dependent => :delete_all, :order => "#{IssueCategory.table_name}.name"
-  has_many :boards, :dependent => :destroy, :order => "position ASC"
-  has_one :repository, :conditions => ["is_default = ?", true]
+  has_many :news, lambda {includes(:author)}, :dependent => :destroy
+  has_many :issue_categories, lambda {order("#{IssueCategory.table_name}.name")}, :dependent => :delete_all
+  has_many :boards, lambda {order("position ASC")}, :dependent => :destroy
+  has_one :repository, lambda {where(["is_default = ?", true])}
   has_many :repositories, :dependent => :destroy
   has_many :changesets, :through => :repository
   has_one :wiki, :dependent => :destroy
   # Custom field for the project issues
   has_and_belongs_to_many :issue_custom_fields,
+                          lambda {order("#{CustomField.table_name}.position")},
                           :class_name => 'IssueCustomField',
-                          :order => "#{CustomField.table_name}.position",
                           :join_table => "#{table_name_prefix}custom_fields_projects#{table_name_suffix}",
                           :association_foreign_key => 'custom_field_id'
 
@@ -126,9 +128,9 @@ class Project < ActiveRecord::Base
     if !initialized.key?('trackers') && !initialized.key?('tracker_ids')
       default = Setting.default_projects_tracker_ids
       if default.is_a?(Array)
-        self.trackers = Tracker.where(:id => default.map(&:to_i)).sorted.all
+        self.trackers = Tracker.where(:id => default.map(&:to_i)).sorted.to_a
       else
-        self.trackers = Tracker.sorted.all
+        self.trackers = Tracker.sorted.to_a
       end
     end
   end
@@ -144,7 +146,7 @@ class Project < ActiveRecord::Base
   # returns latest created projects
   # non public projects will be returned only if user is a member of those
   def self.latest(user=nil, count=5)
-    visible(user).limit(count).order("created_on DESC").all
+    visible(user).limit(count).order("created_on DESC").to_a
   end
 
   # Returns true if the project is visible to +user+ or to the current user.
@@ -175,9 +177,8 @@ class Project < ActiveRecord::Base
       # If the permission belongs to a project module, make sure the module is enabled
       base_statement << " AND #{Project.table_name}.id IN (SELECT em.project_id FROM #{EnabledModule.table_name} em WHERE em.name='#{perm.project_module}')"
     end
-    if options[:project]
-      project_statement = "#{Project.table_name}.id = #{options[:project].id}"
-      project_statement << " OR (#{Project.table_name}.lft > #{options[:project].lft} AND #{Project.table_name}.rgt < #{options[:project].rgt})" if options[:with_subprojects]
+    if project = options[:project]
+      project_statement = project.project_condition(options[:with_subprojects])
       base_statement = "(#{project_statement}) AND (#{base_statement})"
     end
 
@@ -212,9 +213,9 @@ class Project < ActiveRecord::Base
   end
 
   def override_roles(role)
-    @override_members ||= memberships.where(:user_id => [GroupAnonymous.instance_id, GroupNonMember.instance_id]).all
-    member = @override_members.detect {|m| role.anonymous? ^ (m.user_id == GroupNonMember.instance_id)}
-    member ? member.roles : [role]
+    group_class = role.anonymous? ? GroupAnonymous : GroupNonMember
+    member = member_principals.where("#{Principal.table_name}.type = ?", group_class.name).first
+    member ? member.roles.to_a : [role]
   end
 
   def principals
@@ -310,6 +311,7 @@ class Project < ActiveRecord::Base
     @start_date = nil
     @due_date = nil
     @override_members = nil
+    @assignable_users = nil
     base_reload(*args)
   end
 
@@ -364,7 +366,7 @@ class Project < ActiveRecord::Base
   # by the current user
   def allowed_parents
     return @allowed_parents if @allowed_parents
-    @allowed_parents = Project.where(Project.allowed_to_condition(User.current, :add_subprojects)).all
+    @allowed_parents = Project.where(Project.allowed_to_condition(User.current, :add_subprojects)).to_a
     @allowed_parents = @allowed_parents - self_and_descendants
     if User.current.allowed_to?(:add_project, nil, :global => true) || (!new_record? && parent.nil?)
       @allowed_parents << nil
@@ -436,10 +438,10 @@ class Project < ActiveRecord::Base
       Tracker.
         joins(:projects).
         joins("JOIN #{EnabledModule.table_name} ON #{EnabledModule.table_name}.project_id = #{Project.table_name}.id AND #{EnabledModule.table_name}.name = 'issue_tracking'").
-        select("DISTINCT #{Tracker.table_name}.*").
-        where("#{Project.table_name}.lft >= ? AND #{Project.table_name}.rgt <= ? AND #{Project.table_name}.status <> #{STATUS_ARCHIVED}", lft, rgt).
+        where("#{Project.table_name}.lft >= ? AND #{Project.table_name}.rgt <= ? AND #{Project.table_name}.status <> ?", lft, rgt, STATUS_ARCHIVED).
+        uniq.
         sorted.
-        all
+        to_a
   end
 
   # Closes open and locked project versions that are completed
@@ -457,7 +459,7 @@ class Project < ActiveRecord::Base
   def rolled_up_versions
     @rolled_up_versions ||=
       Version.
-        includes(:project).
+        joins(:project).
         where("#{Project.table_name}.lft >= ? AND #{Project.table_name}.rgt <= ? AND #{Project.table_name}.status <> ?", lft, rgt, STATUS_ARCHIVED)
   end
 
@@ -465,13 +467,15 @@ class Project < ActiveRecord::Base
   def shared_versions
     if new_record?
       Version.
-        includes(:project).
+        joins(:project).
+        preload(:project).
         where("#{Project.table_name}.status <> ? AND #{Version.table_name}.sharing = 'system'", STATUS_ARCHIVED)
     else
       @shared_versions ||= begin
         r = root? ? self : root
         Version.
-          includes(:project).
+          joins(:project).
+          preload(:project).
           where("#{Project.table_name}.id = #{id}" +
                   " OR (#{Project.table_name}.status <> #{Project::STATUS_ARCHIVED} AND (" +
                     " #{Version.table_name}.sharing = 'system'" +
@@ -497,19 +501,21 @@ class Project < ActiveRecord::Base
   # Deletes all project's members
   def delete_all_members
     me, mr = Member.table_name, MemberRole.table_name
-    connection.delete("DELETE FROM #{mr} WHERE #{mr}.member_id IN (SELECT #{me}.id FROM #{me} WHERE #{me}.project_id = #{id})")
+    self.class.connection.delete("DELETE FROM #{mr} WHERE #{mr}.member_id IN (SELECT #{me}.id FROM #{me} WHERE #{me}.project_id = #{id})")
     Member.delete_all(['project_id = ?', id])
   end
 
-  # Users/groups issues can be assigned to
+  # Return a Principal scope of users/groups issues can be assigned to
   def assignable_users
     types = ['User']
     types << 'Group' if Setting.issue_group_assignment?
 
-    member_principals.
-      select {|m| types.include?(m.principal.type) && m.roles.detect(&:assignable?)}.
-      map(&:principal).
-      sort
+    @assignable_users ||= Principal.
+      active.
+      joins(:members => :roles).
+      where(:type => types, :members => {:project_id => id}, :roles => {:assignable => true}).
+      uniq.
+      sorted
   end
 
   # Returns the mail addresses of users that should be always notified on project events
@@ -728,7 +734,7 @@ class Project < ActiveRecord::Base
     project = project.is_a?(Project) ? project : Project.find(project)
 
     to_be_copied = %w(wiki versions issue_categories issues members queries boards)
-    to_be_copied = to_be_copied & options[:only].to_a unless options[:only].nil?
+    to_be_copied = to_be_copied & Array.wrap(options[:only]) unless options[:only].nil?
 
     Project.transaction do
       if save
@@ -740,6 +746,7 @@ class Project < ActiveRecord::Base
         save
       end
     end
+    true
   end
 
   # Returns a new unsaved Project instance with attributes copied from +project+

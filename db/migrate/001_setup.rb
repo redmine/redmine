@@ -17,7 +17,10 @@
 
 class Setup < ActiveRecord::Migration
 
-  class User < ActiveRecord::Base; end
+  class User < ActiveRecord::Base
+    attr_protected :id
+  end
+
   # model removed
   class Permission < ActiveRecord::Base; end
 

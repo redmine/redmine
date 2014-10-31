@@ -63,7 +63,7 @@ module IssuesHelper
 
   def render_issue_subject_with_tree(issue)
     s = ''
-    ancestors = issue.root? ? [] : issue.ancestors.visible.all
+    ancestors = issue.root? ? [] : issue.ancestors.visible.to_a
     ancestors.each do |ancestor|
       s << '<div>' + content_tag('p', link_to_issue(ancestor, :project => (issue.project_id != ancestor.project_id)))
     end
@@ -204,7 +204,7 @@ module IssuesHelper
         order("#{Query.table_name}.name ASC").
         # Project specific queries and global queries
         where(@project.nil? ? ["project_id IS NULL"] : ["project_id IS NULL OR project_id = ?", @project.id]).
-        all
+        to_a
     end
     @sidebar_queries
   end
@@ -408,7 +408,7 @@ module IssuesHelper
     if association
       record = association.class_name.constantize.find_by_id(id)
       if record
-        record.name.force_encoding('UTF-8') if record.name.respond_to?(:force_encoding)
+        record.name.force_encoding('UTF-8')
         return record.name
       end
     end

@@ -316,7 +316,7 @@ class ProjectTest < ActiveSupport::TestCase
 
     parent.reload
     assert_equal 4, parent.children.size
-    assert_equal parent.children.all.sort_by(&:name), parent.children.all
+    assert_equal parent.children.sort_by(&:name), parent.children.to_a
   end
 
   def test_set_parent_should_update_issue_fixed_version_associations_when_a_fixed_version_is_moved_out_of_the_hierarchy
@@ -729,7 +729,7 @@ class ProjectTest < ActiveSupport::TestCase
 
   def test_activities_should_use_the_system_activities
     project = Project.find(1)
-    assert_equal project.activities, TimeEntryActivity.where(:active => true).all
+    assert_equal project.activities.to_a, TimeEntryActivity.where(:active => true).to_a
     assert_kind_of ActiveRecord::Relation, project.activities
   end
 
@@ -943,5 +943,11 @@ class ProjectTest < ActiveSupport::TestCase
     assert !project.notified_users.include?(only_my_events_user), "should not include users with the 'only_my_events' notification option"
     assert !project.notified_users.include?(only_assigned_user), "should not include users with the 'only_assigned' notification option"
     assert !project.notified_users.include?(only_owned_user), "should not include users with the 'only_owner' notification option"
+  end
+
+  def test_override_roles_without_builtin_group_memberships
+    project = Project.generate!
+    assert_equal [Role.anonymous], project.override_roles(Role.anonymous)
+    assert_equal [Role.non_member], project.override_roles(Role.non_member)
   end
 end

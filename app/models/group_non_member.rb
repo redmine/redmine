@@ -23,8 +23,4 @@ class GroupNonMember < GroupBuiltin
   def builtin_type
     "non_member"
   end
-  
-  def self.instance_id
-    @@instance_id ||= load_instance.id
-  end
 end

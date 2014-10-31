@@ -139,8 +139,7 @@ class AttachmentsControllerTest < ActionController::TestCase
     assert a.save
     assert_equal 'japanese-utf-8.txt', a.filename
 
-    str_japanese = "\xe6\x97\xa5\xe6\x9c\xac\xe8\xaa\x9e"
-    str_japanese.force_encoding('UTF-8') if str_japanese.respond_to?(:force_encoding)
+    str_japanese = "\xe6\x97\xa5\xe6\x9c\xac\xe8\xaa\x9e".force_encoding('UTF-8')
 
     get :show, :id => a.id
     assert_response :success

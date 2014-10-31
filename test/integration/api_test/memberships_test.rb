@@ -165,7 +165,7 @@ class Redmine::ApiTest::MembershipsTest < Redmine::ApiTest::Base
 
     assert_response :unprocessable_entity
     assert_equal 'application/xml', @response.content_type
-    assert_tag 'errors', :child => {:tag => 'error', :content => /member_roles is invalid/}
+    assert_tag 'errors', :child => {:tag => 'error', :content => /role can't be empty/i}
   end
 
   test "DELETE /memberships/:id.xml should destroy the membership" do

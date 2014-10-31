@@ -145,6 +145,7 @@ zh:
   general_csv_separator: ','
   general_csv_decimal_separator: '.'
   general_csv_encoding: gb18030
+  general_pdf_fontname: stsongstdlight
   general_first_day_of_week: '7'
 
   notice_account_updated: 帐号更新成功
@@ -1119,3 +1120,4 @@ zh:
   label_radio_buttons: radio buttons
   label_group_anonymous: Anonymous users
   label_group_non_member: Non member users
+  label_add_projects: Add projects

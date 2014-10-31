@@ -23,17 +23,18 @@ class GroupsController < ApplicationController
   accept_api_auth :index, :show, :create, :update, :destroy, :add_users, :remove_user
 
   helper :custom_fields
+  helper :principal_memberships
 
   def index
     respond_to do |format|
       format.html {
-        @groups = Group.sorted.all
+        @groups = Group.sorted.to_a
         @user_count_by_group_id = user_count_by_group_id
       }
       format.api {
         scope = Group.sorted
         scope = scope.givable unless params[:builtin] == '1'
-        @groups = scope.all
+        @groups = scope.to_a
       }
     end
   end
@@ -95,7 +96,7 @@ class GroupsController < ApplicationController
   end
 
   def add_users
-    @users = User.where(:id => (params[:user_id] || params[:user_ids])).all
+    @users = User.where(:id => (params[:user_id] || params[:user_ids])).to_a
     @group.users << @users if request.post?
     respond_to do |format|
       format.html { redirect_to edit_group_path(@group, :tab => 'users') }
@@ -115,23 +116,6 @@ class GroupsController < ApplicationController
 
   def autocomplete_for_user
     respond_to do |format|
-      format.js
-    end
-  end
-
-  def edit_membership
-    @membership = Member.edit_membership(params[:membership_id], params[:membership], @group)
-    @membership.save if request.post?
-    respond_to do |format|
-      format.html { redirect_to edit_group_path(@group, :tab => 'memberships') }
-      format.js
-    end
-  end
-
-  def destroy_membership
-    Member.find(params[:membership_id]).destroy if request.post?
-    respond_to do |format|
-      format.html { redirect_to edit_group_path(@group, :tab => 'memberships') }
       format.js
     end
   end

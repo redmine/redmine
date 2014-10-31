@@ -19,11 +19,6 @@
 
 module WatchersHelper
 
-  def watcher_tag(object, user, options={})
-    ActiveSupport::Deprecation.warn "#watcher_tag is deprecated and will be removed in Redmine 3.0. Use #watcher_link instead."
-    watcher_link(object, user)
-  end
-
   def watcher_link(objects, user)
     return '' unless user && user.logged?
     objects = Array.wrap(objects)

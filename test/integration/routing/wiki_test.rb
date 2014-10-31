@@ -17,7 +17,7 @@
 
 require File.expand_path('../../../test_helper', __FILE__)
 
-class RoutingWikiTest < ActionController::IntegrationTest
+class RoutingWikiTest < ActionDispatch::IntegrationTest
   def test_wiki_matching
     assert_routing(
         { :method => 'get', :path => "/projects/567/wiki" },
@@ -54,7 +54,7 @@ class RoutingWikiTest < ActionController::IntegrationTest
            :id => 'CookBook_documentation', :version => '2' }
        )
     # Make sure we don't route wiki page sub-uris to let plugins handle them
-    assert_raise(ActionController::RoutingError) do
+    assert_raise(Minitest::Assertion) do
       assert_recognizes({}, {:method => 'get', :path => "/projects/1/wiki/CookBook_documentation/whatever"})
     end
   end

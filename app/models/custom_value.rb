@@ -18,6 +18,7 @@
 class CustomValue < ActiveRecord::Base
   belongs_to :custom_field
   belongs_to :customized, :polymorphic => true
+  attr_protected :id
 
   def initialize(attributes=nil, *args)
     super

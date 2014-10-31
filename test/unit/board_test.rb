@@ -113,4 +113,13 @@ class BoardTest < ActiveSupport::TestCase
     assert_nil child.parent
     assert_nil child.parent_id
   end
+
+  def test_reset_counters_should_update_attributes
+    Board.where(:id => 1).update_all(:topics_count => 0, :messages_count => 0, :last_message_id => 0)
+    Board.reset_counters!(1)
+    board = Board.find(1)
+    assert_equal board.topics.count, board.topics_count
+    assert_equal board.messages.count, board.messages_count
+    assert_equal board.messages.order("id DESC").first.id, board.last_message_id
+  end
 end

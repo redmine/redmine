@@ -17,7 +17,7 @@
 
 require File.expand_path('../../../../test_helper', __FILE__)
 
-class ThemesTest < ActionController::IntegrationTest
+class ThemesTest < ActionDispatch::IntegrationTest
 
   def setup
     @theme = Redmine::Themes.themes.last
