@@ -1,3 +1,5 @@
+gem 'rbpdf'
+
 gem 'capistrano', '~> 3.2.1'
 
 # rails specific capistrano funcitons

@@ -3,6 +3,8 @@
 /.loadpath
 /.powrc
 /.rvmrc
+/.ruby-gemset
+/.ruby-version
 /config/additional_environment.rb
 /config/configuration.yml
 /config/database.yml
