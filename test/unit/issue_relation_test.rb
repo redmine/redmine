@@ -169,13 +169,14 @@ class IssueRelationTest < ActiveSupport::TestCase
     assert_not_equal [], r.errors[:base]
   end
 
-  def test_create_should_make_journal_entry
+  def test_create_with_initialized_journals_should_create_journals
     from = Issue.find(1)
     to   = Issue.find(2)
     from_journals = from.journals.size
     to_journals   = to.journals.size
     relation = IssueRelation.new(:issue_from => from, :issue_to => to,
                                  :relation_type => IssueRelation::TYPE_PRECEDES)
+    relation.init_journals User.find(1)
     assert relation.save
     from.reload
     to.reload
@@ -192,12 +193,13 @@ class IssueRelationTest < ActiveSupport::TestCase
     assert_nil   to.journals.last.details.last.old_value
   end
 
-  def test_delete_should_make_journal_entry
+  def test_destroy_with_initialized_journals_should_create_journals
     relation = IssueRelation.find(1)
     from = relation.issue_from
     to   = relation.issue_to
     from_journals = from.journals.size
     to_journals   = to.journals.size
+    relation.init_journals User.find(1)
     assert relation.destroy
     from.reload
     to.reload

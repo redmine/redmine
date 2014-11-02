@@ -45,6 +45,7 @@ class IssueRelationsController < ApplicationController
     if params[:relation] && m = params[:relation][:issue_to_id].to_s.strip.match(/^#?(\d+)$/)
       @relation.issue_to = Issue.visible.find_by_id(m[1].to_i)
     end
+    @relation.init_journals(User.current)
     saved = @relation.save
 
     respond_to do |format|
@@ -64,6 +65,7 @@ class IssueRelationsController < ApplicationController
 
   def destroy
     raise Unauthorized unless @relation.deletable?
+    @relation.init_journals(User.current)
     @relation.destroy
 
     respond_to do |format|

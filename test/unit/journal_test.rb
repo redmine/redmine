@@ -207,17 +207,15 @@ class JournalTest < ActiveSupport::TestCase
   def test_visible_details_should_include_relations_to_visible_issues_only
     issue = Issue.generate!
     visible_issue = Issue.generate!
-    IssueRelation.create!(:issue_from => issue, :issue_to => visible_issue, :relation_type => 'relates')
     hidden_issue = Issue.generate!(:is_private => true)
-    IssueRelation.create!(:issue_from => issue, :issue_to => hidden_issue, :relation_type => 'relates')
-    issue.reload
-    assert_equal 1, issue.journals.size
-    journal = issue.journals.first
-    assert_equal 2, journal.details.size
+
+    journal = Journal.new
+    journal.details << JournalDetail.new(:property => 'relation', :prop_key => 'relates', :value => visible_issue.id)
+    journal.details << JournalDetail.new(:property => 'relation', :prop_key => 'relates', :value => hidden_issue.id)
 
     visible_details = journal.visible_details(User.anonymous)
     assert_equal 1, visible_details.size
-    assert_equal visible_issue.id.to_s, visible_details.first.value
+    assert_equal visible_issue.id.to_s, visible_details.first.value.to_s
 
     visible_details = journal.visible_details(User.find(2))
     assert_equal 2, visible_details.size

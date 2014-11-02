@@ -667,6 +667,11 @@ class Issue < ActiveRecord::Base
     @current_journal
   end
 
+	# Returns the current journal or nil if it's not initialized
+  def current_journal
+    @current_journal
+  end
+
   # Returns the id of the last journal or nil
   def last_journal_id
     if new_record?
@@ -1308,6 +1313,9 @@ class Issue < ActiveRecord::Base
     return unless copy? && !@after_create_from_copy_handled
 
     if (@copied_from.project_id == project_id || Setting.cross_project_issue_relations?) && @copy_options[:link] != false
+      if @current_journal
+        @copied_from.init_journal(@current_journal.user)
+      end
       relation = IssueRelation.new(:issue_from => @copied_from, :issue_to => self, :relation_type => IssueRelation::TYPE_COPIED_TO)
       unless relation.save
         logger.error "Could not create relation while copying ##{@copied_from.id} to ##{id} due to validation errors: #{relation.errors.full_messages.join(', ')}" if logger
@@ -1328,6 +1336,9 @@ class Issue < ActiveRecord::Base
           next
         end
         copy = Issue.new.copy_from(child, copy_options)
+        if @current_journal
+          copy.init_journal(@current_journal.user)
+        end
         copy.author = author
         copy.project = project
         copy.parent_issue_id = copied_issue_ids[child.parent_id]
@@ -1473,6 +1484,30 @@ class Issue < ActiveRecord::Base
   def attachment_removed(obj)
     if @current_journal && !obj.new_record?
       @current_journal.details << JournalDetail.new(:property => 'attachment', :prop_key => obj.id, :old_value => obj.filename)
+      @current_journal.save
+    end
+  end
+
+  # Called after a relation is added
+  def relation_added(relation)
+    if @current_journal
+      @current_journal.details << JournalDetail.new(
+        :property  => 'relation',
+        :prop_key  => relation.relation_type_for(self),
+        :value => relation.other_issue(self).try(:id)
+      )
+      @current_journal.save
+    end
+  end
+
+  # Called after a relation is removed
+  def relation_removed(relation)
+    if @current_journal
+      @current_journal.details << JournalDetail.new(
+        :property  => 'relation',
+        :prop_key  => relation.relation_type_for(self),
+        :old_value => relation.other_issue(self).try(:id)
+      )
       @current_journal.save
     end
   end

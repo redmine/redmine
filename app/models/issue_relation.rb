@@ -72,8 +72,8 @@ class IssueRelation < ActiveRecord::Base
 
   attr_protected :issue_from_id, :issue_to_id
   before_save :handle_issue_order
-  after_create  :create_journal_after_create
-  after_destroy :create_journal_after_delete
+  after_create  :call_issues_relation_added_callback
+  after_destroy :call_issues_relation_removed_callback
 
   def visible?(user=User.current)
     (issue_from.nil? || issue_from.visible?(user)) && (issue_to.nil? || issue_to.visible?(user))
@@ -168,6 +168,11 @@ class IssueRelation < ActiveRecord::Base
     r == 0 ? id <=> relation.id : r
   end
 
+  def init_journals(user)
+    issue_from.init_journal(user) if issue_from
+    issue_to.init_journal(user) if issue_to
+  end
+
   private
 
   # Reverses the relation if needed so that it gets stored in the proper way
@@ -182,29 +187,19 @@ class IssueRelation < ActiveRecord::Base
     end
   end
 
-  def create_journal_after_create
-    journal = issue_from.init_journal(User.current)
-    journal.details << JournalDetail.new(:property => 'relation',
-                                         :prop_key => relation_type_for(issue_from),
-                                         :value    => issue_to.id)
-    journal.save
-    journal = issue_to.init_journal(User.current)
-    journal.details << JournalDetail.new(:property => 'relation',
-                                         :prop_key => relation_type_for(issue_to),
-                                         :value    => issue_from.id)
-    journal.save
+  def call_issues_relation_added_callback
+    call_issues_callback :relation_added
   end
 
-  def create_journal_after_delete
-    journal = issue_from.init_journal(User.current)
-    journal.details << JournalDetail.new(:property  => 'relation',
-                                         :prop_key  => relation_type_for(issue_from),
-                                         :old_value => issue_to.id)
-    journal.save
-    journal = issue_to.init_journal(User.current)
-    journal.details << JournalDetail.new(:property  => 'relation',
-                                         :prop_key  => relation_type_for(issue_to),
-                                         :old_value => issue_from.id)
-    journal.save
+  def call_issues_relation_removed_callback
+    call_issues_callback :relation_removed
+  end
+
+  def call_issues_callback(name)
+    [issue_from, issue_to].each do |issue|
+      if issue
+        issue.send name, self
+      end
+    end
   end
 end

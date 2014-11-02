@@ -406,6 +406,7 @@ class IssuesController < ApplicationController
   def build_new_issue_from_params
     if params[:id].blank?
       @issue = Issue.new
+      @issue.init_journal(User.current)
       if params[:copy_from]
         begin
           @copy_from = Issue.visible.find(params[:copy_from])
