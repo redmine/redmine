@@ -1136,3 +1136,4 @@ ja:
   label_group_anonymous: 匿名ユーザー
   label_group_non_member: 非メンバー
   label_add_projects: プロジェクトの追加
+  field_default_status: Default status

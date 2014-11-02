@@ -1129,3 +1129,4 @@ de:
 
   warning_attachments_not_saved: "%{count} Datei(en) konnten nicht gespeichert werden."
   label_add_projects: Add projects
+  field_default_status: Default status

@@ -1120,3 +1120,4 @@ el:
   label_group_anonymous: Anonymous users
   label_group_non_member: Non member users
   label_add_projects: Add projects
+  field_default_status: Default status
