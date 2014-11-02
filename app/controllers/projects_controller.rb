@@ -40,21 +40,22 @@ class ProjectsController < ApplicationController
 
   # Lists visible projects
   def index
+    scope = Project.visible.sorted
+
     respond_to do |format|
       format.html {
-        scope = Project
         unless params[:closed]
           scope = scope.active
         end
-        @projects = scope.visible.order('lft').to_a
+        @projects = scope.to_a
       }
       format.api  {
         @offset, @limit = api_offset_and_limit
-        @project_count = Project.visible.count
-        @projects = Project.visible.offset(@offset).limit(@limit).order('lft').to_a
+        @project_count = scope.count
+        @projects = scope.offset(@offset).limit(@limit).to_a
       }
       format.atom {
-        projects = Project.visible.order('created_on DESC').limit(Setting.feeds_limit.to_i).to_a
+        projects = scope.reorder(:created_on => :desc).limit(Setting.feeds_limit.to_i).to_a
         render_feed(projects, :title => "#{Setting.app_title}: #{l(:label_project_latest)}")
       }
     end

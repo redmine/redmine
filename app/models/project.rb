@@ -111,6 +111,7 @@ class Project < ActiveRecord::Base
       where("LOWER(identifier) LIKE :p OR LOWER(name) LIKE :p", :p => pattern)
     end
   }
+  scope :sorted, lambda {order(:lft)}
 
   def initialize(attributes=nil, *args)
     super
