@@ -99,7 +99,7 @@ module Redmine
           map {|lang| [ll(lang.to_s, :general_lang_name), lang.to_s]}.
           sort {|x,y| x.first <=> y.first }
       else
-        ActionController::Base.cache_store.fetch "i18n/languages_options" do
+        ActionController::Base.cache_store.fetch "i18n/languages_options/#{Redmine::VERSION}" do
           languages_options :cache => false
         end
       end
