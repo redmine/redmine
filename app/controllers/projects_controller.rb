@@ -206,16 +206,16 @@ class ProjectsController < ApplicationController
   end
 
   def archive
-    if request.post?
-      unless @project.archive
-        flash[:error] = l(:error_can_not_archive_project)
-      end
+    unless @project.archive
+      flash[:error] = l(:error_can_not_archive_project)
     end
     redirect_to admin_projects_path(:status => params[:status])
   end
 
   def unarchive
-    @project.unarchive if request.post? && !@project.active?
+    unless @project.active?
+      @project.unarchive
+    end
     redirect_to admin_projects_path(:status => params[:status])
   end
 
