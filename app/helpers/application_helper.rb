@@ -1119,6 +1119,12 @@ module ApplicationHelper
     link_to_function(l(:button_uncheck_all), "checkAll('#{form_name}', false)")
   end
 
+  def toggle_checkboxes_link(selector)
+    link_to_function image_tag('toggle_check.png'),
+      "toggleCheckboxesBySelector('#{selector}')",
+      :title => "#{l(:button_check_all)} / #{l(:button_uncheck_all)}"
+  end
+
   def progress_bar(pcts, options={})
     pcts = [pcts, pcts] unless pcts.is_a?(Array)
     pcts = pcts.collect(&:round)
