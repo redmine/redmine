@@ -45,7 +45,7 @@
 <fieldset class="box tabular" id="project_trackers"><legend><%=l(:label_tracker_plural)%></legend>
 <% @trackers.each do |tracker| %>
     <label class="floating">
-    <%= check_box_tag 'project[tracker_ids][]', tracker.id, @project.trackers.include?(tracker), :id => nil %>
+    <%= check_box_tag 'project[tracker_ids][]', tracker.id, @project.trackers.to_a.include?(tracker), :id => nil %>
     <%=h tracker %>
     </label>
 <% end %>
