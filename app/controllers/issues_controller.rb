@@ -24,7 +24,6 @@ class IssuesController < ApplicationController
   before_filter :find_project, :only => [:new, :create, :update_form]
   before_filter :authorize, :except => [:index]
   before_filter :find_optional_project, :only => [:index]
-  before_filter :check_for_default_issue_status, :only => [:new, :create]
   before_filter :build_new_issue_from_params, :only => [:new, :create, :update_form]
   accept_rss_auth :index, :show
   accept_api_auth :index, :show, :create, :update, :destroy
@@ -234,7 +233,8 @@ class IssuesController < ApplicationController
     target_projects ||= @projects
 
     if @copy
-      @available_statuses = [IssueStatus.default]
+      # Copied issues will get their default statuses
+      @available_statuses = []
     else
       @available_statuses = @issues.map(&:new_statuses_allowed_to).reduce(:&)
     end
@@ -425,10 +425,19 @@ class IssuesController < ApplicationController
       @issue = @project.issues.visible.find(params[:id])
     end
 
-    @issue.safe_attributes = params[:issue]
+    if attrs = params[:issue].deep_dup
+      if params[:was_default_status] == attrs[:status_id]
+        attrs.delete(:status_id)
+      end
+      @issue.safe_attributes = attrs
+    end
     @issue.tracker ||= @project.trackers.first
     if @issue.tracker.nil?
       render_error l(:error_no_tracker_in_project)
+      return false
+    end
+    if @issue.status.nil?
+      render_error l(:error_no_default_issue_status)
       return false
     end
 
@@ -437,13 +446,6 @@ class IssuesController < ApplicationController
     @available_watchers = @issue.watcher_users
     if @issue.project.users.count <= 20
       @available_watchers = (@available_watchers + @issue.project.users.sort).uniq
-    end
-  end
-
-  def check_for_default_issue_status
-    if IssueStatus.default.nil?
-      render_error l(:error_no_default_issue_status)
-      return false
     end
   end
 

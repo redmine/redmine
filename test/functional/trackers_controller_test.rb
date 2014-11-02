@@ -18,7 +18,7 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class TrackersControllerTest < ActionController::TestCase
-  fixtures :trackers, :projects, :projects_trackers, :users, :issues, :custom_fields
+  fixtures :trackers, :projects, :projects_trackers, :users, :issues, :custom_fields, :issue_statuses
 
   def setup
     User.current = nil
@@ -51,7 +51,7 @@ class TrackersControllerTest < ActionController::TestCase
 
   def test_create
     assert_difference 'Tracker.count' do
-      post :create, :tracker => { :name => 'New tracker', :project_ids => ['1', '', ''], :custom_field_ids => ['1', '6', ''] }
+      post :create, :tracker => { :name => 'New tracker', :default_status_id => 1, :project_ids => ['1', '', ''], :custom_field_ids => ['1', '6', ''] }
     end
     assert_redirected_to :action => 'index'
     tracker = Tracker.order('id DESC').first
@@ -62,9 +62,9 @@ class TrackersControllerTest < ActionController::TestCase
     assert_equal 0, tracker.workflow_rules.count
   end
 
-  def create_with_disabled_core_fields
+  def test_create_with_disabled_core_fields
     assert_difference 'Tracker.count' do
-      post :create, :tracker => { :name => 'New tracker', :core_fields => ['assigned_to_id', 'fixed_version_id', ''] }
+      post :create, :tracker => { :name => 'New tracker', :default_status_id => 1, :core_fields => ['assigned_to_id', 'fixed_version_id', ''] }
     end
     assert_redirected_to :action => 'index'
     tracker = Tracker.order('id DESC').first
@@ -74,7 +74,7 @@ class TrackersControllerTest < ActionController::TestCase
 
   def test_create_new_with_workflow_copy
     assert_difference 'Tracker.count' do
-      post :create, :tracker => { :name => 'New tracker' }, :copy_workflow_from => 1
+      post :create, :tracker => { :name => 'New tracker', :default_status_id => 1 }, :copy_workflow_from => 1
     end
     assert_redirected_to :action => 'index'
     tracker = Tracker.find_by_name('New tracker')
@@ -164,7 +164,7 @@ class TrackersControllerTest < ActionController::TestCase
   end
 
   def test_destroy
-    tracker = Tracker.create!(:name => 'Destroyable')
+    tracker = Tracker.generate!(:name => 'Destroyable')
     assert_difference 'Tracker.count', -1 do
       delete :destroy, :id => tracker.id
     end

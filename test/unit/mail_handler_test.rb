@@ -412,7 +412,7 @@ class MailHandlerTest < ActiveSupport::TestCase
 
   def test_add_issue_with_japanese_keywords
     ja_dev = "\xe9\x96\x8b\xe7\x99\xba".force_encoding('UTF-8')
-    tracker = Tracker.create!(:name => ja_dev)
+    tracker = Tracker.generate!(:name => ja_dev)
     Project.find(1).trackers << tracker
     issue = submit_email(
               'japanese_keywords_iso_2022_jp.eml',

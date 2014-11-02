@@ -1511,6 +1511,30 @@ class IssuesControllerTest < ActionController::TestCase
     end
   end
 
+  def test_new_should_select_default_status
+    @request.session[:user_id] = 2
+
+    get :new, :project_id => 1
+    assert_response :success
+    assert_template 'new'
+    assert_select 'select[name=?]', 'issue[status_id]' do
+      assert_select 'option[value=1][selected=selected]'
+    end
+    assert_select 'input[name=was_default_status][value=1]'
+  end
+
+  def test_new_should_select_default_status
+    @request.session[:user_id] = 2
+
+    get :new, :project_id => 1
+    assert_response :success
+    assert_template 'new'
+    assert_select 'select[name=?]', 'issue[status_id]' do
+      assert_select 'option[value=1][selected=selected]'
+    end
+    assert_select 'input[name=was_default_status][value=1]'
+  end
+
   def test_get_new_with_list_custom_field
     @request.session[:user_id] = 2
     get :new, :project_id => 1, :tracker_id => 1
@@ -1729,6 +1753,20 @@ class IssuesControllerTest < ActionController::TestCase
 
     assert_equal 5, assigns(:issue).status_id
     assert_equal [1,2,5], assigns(:allowed_statuses).map(&:id).sort
+  end
+
+  def test_update_form_with_default_status_should_ignore_submitted_status_id_if_equals
+    @request.session[:user_id] = 2
+    tracker = Tracker.find(2)
+    tracker.update! :default_status_id => 2
+    tracker.generate_transitions! 2, 1, :clear => true
+
+    xhr :post, :update_form, :project_id => 1,
+                     :issue => {:tracker_id => 2,
+                                :status_id => 1},
+                     :was_default_status => 1
+
+    assert_equal 2, assigns(:issue).status_id
   end
 
   def test_post_create
@@ -2266,13 +2304,17 @@ class IssuesControllerTest < ActionController::TestCase
     get :new, :project_id => 1
     assert_response :success
     assert_template 'new'
+    
+    issue = assigns(:issue)
+    assert_not_nil issue.default_status
+
     assert_select 'select[name=?]', 'issue[status_id]' do
       assert_select 'option', 1
-      assert_select 'option[value=?]', IssueStatus.default.id.to_s
+      assert_select 'option[value=?]', issue.default_status.id.to_s
     end
   end
 
-  test "without workflow privilege #new should accept default status" do
+  test "without workflow privilege #create should accept default status" do
     setup_without_workflow_privilege
     assert_difference 'Issue.count' do
       post :create, :project_id => 1,
@@ -2281,10 +2323,11 @@ class IssuesControllerTest < ActionController::TestCase
                                 :status_id => 1}
     end
     issue = Issue.order('id').last
-    assert_equal IssueStatus.default, issue.status
+    assert_not_nil issue.default_status
+    assert_equal issue.default_status, issue.status
   end
 
-  test "without workflow privilege #new should ignore unauthorized status" do
+  test "without workflow privilege #create should ignore unauthorized status" do
     setup_without_workflow_privilege
     assert_difference 'Issue.count' do
       post :create, :project_id => 1,
@@ -2293,7 +2336,8 @@ class IssuesControllerTest < ActionController::TestCase
                                 :status_id => 3}
     end
     issue = Issue.order('id').last
-    assert_equal IssueStatus.default, issue.status
+    assert_not_nil issue.default_status
+    assert_equal issue.default_status, issue.status
   end
 
   test "without workflow privilege #update should ignore status change" do

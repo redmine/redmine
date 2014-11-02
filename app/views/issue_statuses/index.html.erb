@@ -11,7 +11,6 @@
   <% if Issue.use_status_for_done_ratio? %>
   <th><%=l(:field_done_ratio)%></th>
   <% end %>
-  <th><%=l(:field_is_default)%></th>
   <th><%=l(:field_is_closed)%></th>
   <th><%=l(:button_sort)%></th>
   <th></th>
@@ -23,7 +22,6 @@
   <% if Issue.use_status_for_done_ratio? %>
   <td><%= h status.default_done_ratio %></td>
   <% end %>
-  <td><%= checked_image status.is_default? %></td>
   <td><%= checked_image status.is_closed? %></td>
   <td class="reorder"><%= reorder_links('issue_status', {:action => 'update', :id => status}, :put) %></td>
   <td class="buttons">

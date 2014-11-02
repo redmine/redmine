@@ -162,7 +162,6 @@ class Issue < ActiveRecord::Base
     super
     if new_record?
       # set default values for new records only
-      self.status ||= IssueStatus.default
       self.priority ||= IssuePriority.default
       self.watcher_user_ids = []
     end
@@ -273,11 +272,19 @@ class Issue < ActiveRecord::Base
     issue.save ? issue : false
   end
 
-  def status_id=(sid)
-    self.status = nil
-    result = write_attribute(:status_id, sid)
-    @workflow_rule_by_attribute = nil
-    result
+  def status_id=(status_id)
+    if status_id.to_s != self.status_id.to_s
+      self.status = (status_id.present? ? IssueStatus.find_by_id(status_id) : nil)
+    end
+    self.status_id
+  end
+
+  # Sets the status.
+  def self.status=(status)
+    if status != self.status
+      @workflow_rule_by_attribute = nil
+    end
+    association(:status).writer(status)
   end
 
   def priority_id=(pid)
@@ -302,12 +309,24 @@ class Issue < ActiveRecord::Base
     self.tracker_id
   end
 
+  # Sets the tracker.
+  # This will set the status to the default status of the new tracker if:
+  # * the status was the default for the previous tracker
+  # * or if the status was not part of the new tracker statuses
+  # * or the status was nil
   def tracker=(tracker)
     if tracker != self.tracker 
+      if status == default_status
+        self.status = nil
+      elsif status && tracker && !tracker.issue_status_ids.include?(status.id)
+        self.status = nil
+      end
       @custom_field_values = nil
       @workflow_rule_by_attribute = nil
     end
     association(:tracker).writer(tracker)
+    self.status ||= default_status
+    self.tracker
   end
 
   def project_id=(project_id)
@@ -317,6 +336,14 @@ class Issue < ActiveRecord::Base
     self.project_id
   end
 
+  # Sets the project.
+  # Unless keep_tracker argument is set to true, this will change the tracker
+  # to the first tracker of the new project if the previous tracker is not part
+  # of the new project trackers.
+  # This will clear the fixed_version is it's no longer valid for the new project.
+  # This will clear the parent issue if it's no longer valid for the new project.
+  # This will set the category to the category with the same name in the new
+  # project if it exists, or clear it if it doesn't.
   def project=(project, keep_tracker=false)
     project_was = self.project
     association(:project).writer(project)
@@ -339,7 +366,9 @@ class Issue < ActiveRecord::Base
         self.parent_issue_id = nil
       end
       @custom_field_values = nil
+      @workflow_rule_by_attribute = nil
     end
+    self.project
   end
 
   def description=(arg)
@@ -776,14 +805,28 @@ class Issue < ActiveRecord::Base
     !relations_to.detect {|ir| ir.relation_type == 'blocks' && !ir.issue_from.closed?}.nil?
   end
 
+  # Returns the default status of the issue based on its tracker
+  # Returns nil if tracker is nil
+  def default_status
+    tracker.try(:default_status)
+  end
+
   # Returns an array of statuses that user is able to apply
   def new_statuses_allowed_to(user=User.current, include_default=false)
     if new_record? && @copied_from
-      [IssueStatus.default, @copied_from.status].compact.uniq.sort
+      [default_status, @copied_from.status].compact.uniq.sort
     else
       initial_status = nil
       if new_record?
-        initial_status = IssueStatus.default
+        initial_status = default_status
+      elsif tracker_id_changed?
+        if Tracker.where(:id => tracker_id_was, :default_status_id => status_id_was).any?
+          initial_status = default_status
+        elsif tracker.issue_status_ids.include?(status_id_was)
+          initial_status = IssueStatus.find_by_id(status_id_was)
+        else
+          initial_status = default_status
+        end
       else
         initial_status = status_was
       end
@@ -802,7 +845,7 @@ class Issue < ActiveRecord::Base
           )
       end
       statuses << initial_status unless statuses.empty?
-      statuses << IssueStatus.default if include_default
+      statuses << default_status if include_default
       statuses = statuses.compact.uniq.sort
       if blocked?
         statuses.reject!(&:is_closed?)

@@ -28,7 +28,6 @@ class IssueStatusTest < ActiveSupport::TestCase
 
     status.name = "Test Status"
     assert status.save
-    assert !status.is_default
   end
 
   def test_destroy
@@ -44,29 +43,6 @@ class IssueStatusTest < ActiveSupport::TestCase
     # Status assigned to an Issue
     status = Issue.find(1).status
     assert_raise(RuntimeError, "Can't delete status") { status.destroy }
-  end
-
-  def test_default
-    status = IssueStatus.default
-    assert_kind_of IssueStatus, status
-  end
-
-  def test_change_default
-    status = IssueStatus.find(2)
-    assert !status.is_default
-    status.is_default = true
-    assert status.save
-    status.reload
-
-    assert_equal status, IssueStatus.default
-    assert !IssueStatus.find(1).is_default
-  end
-
-  def test_reorder_should_not_clear_default_status
-    status = IssueStatus.default
-    status.move_to_bottom
-    status.reload
-    assert status.is_default?
   end
 
   def test_new_statuses_allowed_to

@@ -25,12 +25,12 @@ namespace :redmine do
     module TracMigrate
         TICKET_MAP = []
 
-        DEFAULT_STATUS = IssueStatus.default
+        new_status = IssueStatus.find_by_position(1)
         assigned_status = IssueStatus.find_by_position(2)
         resolved_status = IssueStatus.find_by_position(3)
         feedback_status = IssueStatus.find_by_position(4)
         closed_status = IssueStatus.where(:is_closed => true).first
-        STATUS_MAPPING = {'new' => DEFAULT_STATUS,
+        STATUS_MAPPING = {'new' => new_status,
                           'reopened' => feedback_status,
                           'assigned' => assigned_status,
                           'closed' => closed_status
@@ -476,8 +476,8 @@ namespace :redmine do
           i.author = find_or_create_user(ticket.reporter)
           i.category = issues_category_map[ticket.component] unless ticket.component.blank?
           i.fixed_version = version_map[ticket.milestone] unless ticket.milestone.blank?
-          i.status = STATUS_MAPPING[ticket.status] || DEFAULT_STATUS
           i.tracker = TRACKER_MAPPING[ticket.ticket_type] || DEFAULT_TRACKER
+          i.status = STATUS_MAPPING[ticket.status] || i.default_status
           i.id = ticket.id unless Issue.exists?(ticket.id)
           next unless Time.fake(ticket.changetime) { i.save }
           TICKET_MAP[ticket.id] = i.id

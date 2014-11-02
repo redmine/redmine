@@ -32,7 +32,7 @@ class TrackerTest < ActiveSupport::TestCase
     source = Tracker.find(1)
     assert_equal 89, source.workflow_rules.size
 
-    target = Tracker.new(:name => 'Target')
+    target = Tracker.new(:name => 'Target', :default_status_id => 1)
     assert target.save
     target.workflow_rules.copy(source)
     target.reload

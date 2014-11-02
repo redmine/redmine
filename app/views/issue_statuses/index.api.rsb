@@ -3,7 +3,6 @@ api.array :issue_statuses do
     api.issue_status do
       api.id status.id
       api.name status.name
-      api.is_default status.is_default
       api.is_closed status.is_closed
     end
   end

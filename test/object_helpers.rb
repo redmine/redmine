@@ -45,11 +45,22 @@ module ObjectHelpers
     project
   end
 
+  def IssueStatus.generate!(attributes={})
+    @generated_status_name ||= 'Status 0'
+    @generated_status_name.succ!
+    status = IssueStatus.new(attributes)
+    status.name = @generated_status_name.dup if status.name.blank?
+    yield status if block_given?
+    status.save!
+    status
+  end
+
   def Tracker.generate!(attributes={})
     @generated_tracker_name ||= 'Tracker 0'
     @generated_tracker_name.succ!
     tracker = Tracker.new(attributes)
     tracker.name = @generated_tracker_name.dup if tracker.name.blank?
+    tracker.default_status ||= IssueStatus.order('position').first || IssueStatus.generate!
     yield tracker if block_given?
     tracker.save!
     tracker
@@ -188,6 +199,27 @@ module ObjectHelpers
   end
 end
 
+module TrackerObjectHelpers
+  def generate_transitions!(*args)
+    options = args.last.is_a?(Hash) ? args.pop : {}
+    if args.size == 1
+      args << args.first
+    end
+    if options[:clear]
+      WorkflowTransition.where(:tracker_id => id).delete_all
+    end
+    args.each_cons(2) do |old_status_id, new_status_id|
+      WorkflowTransition.create!(
+        :tracker => self,
+        :role_id => (options[:role_id] || 1),
+        :old_status_id => old_status_id,
+        :new_status_id => new_status_id
+      )
+    end
+  end
+end
+Tracker.send :include, TrackerObjectHelpers
+
 module IssueObjectHelpers
   def close!
     self.status = IssueStatus.where(:is_closed => true).first
@@ -198,5 +230,4 @@ module IssueObjectHelpers
     Issue.generate!(attributes.merge(:parent_issue_id => self.id))
   end
 end
-
 Issue.send :include, IssueObjectHelpers

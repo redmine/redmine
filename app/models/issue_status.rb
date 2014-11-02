@@ -22,7 +22,6 @@ class IssueStatus < ActiveRecord::Base
   acts_as_list
 
   before_destroy :delete_workflow_rules
-  after_save     :update_default
 
   validates_presence_of :name
   validates_uniqueness_of :name
@@ -32,15 +31,6 @@ class IssueStatus < ActiveRecord::Base
 
   scope :sorted, lambda { order(:position) }
   scope :named, lambda {|arg| where("LOWER(#{table_name}.name) = LOWER(?)", arg.to_s.strip)}
-
-  def update_default
-    IssueStatus.where(['id <> ?', id]).update_all({:is_default => false}) if self.is_default?
-  end
-
-  # Returns the default status for new issues
-  def self.default
-    where(:is_default => true).first
-  end
 
   # Update all the +Issues+ setting their done_ratio to the value of their +IssueStatus+
   def self.update_issue_done_ratios
@@ -100,7 +90,11 @@ class IssueStatus < ActiveRecord::Base
   private
 
   def check_integrity
-    raise "Can't delete status" if Issue.where(:status_id => id).any?
+    if Issue.where(:status_id => id).any?
+      raise "This status is used by some issues"
+    elsif Tracker.where(:default_status_id => id).any?
+      raise "This status is used as the default status by some trackers"
+    end
   end
 
   # Deletes associated workflows

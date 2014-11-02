@@ -24,6 +24,7 @@ class Tracker < ActiveRecord::Base
   CORE_FIELDS_ALL = (CORE_FIELDS_UNDISABLABLE + CORE_FIELDS).freeze
 
   before_destroy :check_integrity
+  belongs_to :default_status, :class_name => 'IssueStatus'
   has_many :issues
   has_many :workflow_rules, :dependent => :delete_all do
     def copy(source_tracker)
@@ -37,6 +38,7 @@ class Tracker < ActiveRecord::Base
 
   attr_protected :fields_bits
 
+  validates_presence_of :default_status
   validates_presence_of :name
   validates_uniqueness_of :name
   validates_length_of :name, :maximum => 30
@@ -53,14 +55,15 @@ class Tracker < ActiveRecord::Base
   # Returns an array of IssueStatus that are used
   # in the tracker's workflows
   def issue_statuses
-    if @issue_statuses
-      return @issue_statuses
-    elsif new_record?
-      return []
-    end
+    @issue_statuses ||= IssueStatus.where(:id => issue_status_ids).to_a.sort
+  end
 
-    status_ids = WorkflowTransition.where(:tracker_id => id).uniq.pluck(:old_status_id, :new_status_id).flatten.uniq
-    @issue_statuses = IssueStatus.where(:id => status_ids).to_a.sort
+  def issue_status_ids
+    if new_record?
+      []
+    else
+      @issue_status_ids ||= WorkflowTransition.where(:tracker_id => id).uniq.pluck(:old_status_id, :new_status_id).flatten.uniq
+    end
   end
 
   def disabled_core_fields

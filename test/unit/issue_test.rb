@@ -40,11 +40,11 @@ class IssueTest < ActiveSupport::TestCase
 
     assert_nil issue.project_id
     assert_nil issue.tracker_id
+    assert_nil issue.status_id
     assert_nil issue.author_id
     assert_nil issue.assigned_to_id
     assert_nil issue.category_id
 
-    assert_equal IssueStatus.default, issue.status
     assert_equal IssuePriority.default, issue.priority
   end
 
@@ -59,10 +59,9 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   def test_create_minimal
-    issue = Issue.new(:project_id => 1, :tracker_id => 1, :author_id => 3,
-                      :status_id => 1, :priority => IssuePriority.all.first,
-                      :subject => 'test_create')
+    issue = Issue.new(:project_id => 1, :tracker_id => 1, :author_id => 3, :subject => 'test_create')
     assert issue.save
+    assert_equal issue.tracker.default_status, issue.status
     assert issue.description.nil?
     assert_nil issue.estimated_hours
   end
@@ -908,7 +907,7 @@ class IssueTest < ActiveSupport::TestCase
 
   def test_copy_should_copy_status
     orig = Issue.find(8)
-    assert orig.status != IssueStatus.default
+    assert orig.status != orig.default_status
 
     issue = Issue.new.copy_from(orig)
     assert issue.save
@@ -2479,5 +2478,68 @@ class IssueTest < ActiveSupport::TestCase
     assert_equal true, issue.reopening?
     issue.save!
     assert_equal false, issue.reopening?
+  end
+
+  def test_default_status_without_tracker_should_be_nil
+    issue = Issue.new
+    assert_nil issue.tracker
+    assert_nil issue.default_status
+  end
+
+  def test_default_status_should_be_tracker_default_status
+    issue = Issue.new(:tracker_id => 1)
+    assert_not_nil issue.status
+    assert_equal issue.tracker.default_status, issue.default_status
+  end
+
+  def test_initializing_with_tracker_should_set_default_status
+    issue = Issue.new(:tracker => Tracker.find(1))
+    assert_not_nil issue.status
+    assert_equal issue.default_status, issue.status
+  end
+
+  def test_initializing_with_tracker_id_should_set_default_status
+    issue = Issue.new(:tracker_id => 1)
+    assert_not_nil issue.status
+    assert_equal issue.default_status, issue.status
+  end
+
+  def test_setting_tracker_should_set_default_status
+    issue = Issue.new
+    issue.tracker = Tracker.find(1)
+    assert_not_nil issue.status
+    assert_equal issue.default_status, issue.status
+  end
+
+  def test_changing_tracker_should_set_default_status_if_status_was_default
+    WorkflowTransition.delete_all
+    WorkflowTransition.create! :role_id => 1, :tracker_id => 2, :old_status_id => 2, :new_status_id => 1
+    Tracker.find(2).update! :default_status_id => 2
+
+    issue = Issue.new(:tracker_id => 1, :status_id => 1)
+    assert_equal IssueStatus.find(1), issue.status
+    issue.tracker = Tracker.find(2)
+    assert_equal IssueStatus.find(2), issue.status
+  end
+
+  def test_changing_tracker_should_set_default_status_if_status_is_not_used_by_tracker
+    WorkflowTransition.delete_all
+    Tracker.find(2).update! :default_status_id => 2
+
+    issue = Issue.new(:tracker_id => 1, :status_id => 3)
+    assert_equal IssueStatus.find(3), issue.status
+    issue.tracker = Tracker.find(2)
+    assert_equal IssueStatus.find(2), issue.status
+  end
+
+  def test_changing_tracker_should_keep_status_if_status_was_not_default_and_is_used_by_tracker
+    WorkflowTransition.delete_all
+    WorkflowTransition.create! :role_id => 1, :tracker_id => 2, :old_status_id => 2, :new_status_id => 3
+    Tracker.find(2).update! :default_status_id => 2
+
+    issue = Issue.new(:tracker_id => 1, :status_id => 3)
+    assert_equal IssueStatus.find(3), issue.status
+    issue.tracker = Tracker.find(2)
+    assert_equal IssueStatus.find(3), issue.status
   end
 end

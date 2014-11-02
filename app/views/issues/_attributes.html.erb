@@ -5,9 +5,9 @@
 <% if @issue.safe_attribute?('status_id') && @allowed_statuses.present? %>
 <p><%= f.select :status_id, (@allowed_statuses.collect {|p| [p.name, p.id]}), {:required => true},
                 :onchange => "updateIssueFrom('#{escape_javascript project_issue_form_path(@project, :id => @issue, :format => 'js')}')" %></p>
-
+<%= hidden_field_tag 'was_default_status', @issue.status_id, :id => nil if @issue.status == @issue.default_status %>
 <% else %>
-<p><label><%= l(:field_status) %></label> <%= h(@issue.status.name) %></p>
+<p><label><%= l(:field_status) %></label> <%= @issue.status %></p>
 <% end %>
 
 <% if @issue.safe_attribute? 'priority_id' %>
