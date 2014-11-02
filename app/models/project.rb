@@ -499,6 +499,15 @@ class Project < ActiveRecord::Base
     end
   end
 
+  # Adds user as a project member with the default role
+  # Used for when a non-admin user creates a project
+  def add_default_member(user)
+    role = Role.givable.find_by_id(Setting.new_project_user_role_id.to_i) || Role.givable.first
+    member = Member.new(:project => self, :principal => user, :roles => [role])
+    self.members << member
+    member
+  end
+
   # Deletes all project's members
   def delete_all_members
     me, mr = Member.table_name, MemberRole.table_name
