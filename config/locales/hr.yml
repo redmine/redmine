@@ -133,8 +133,8 @@ hr:
   general_text_no: 'ne'
   general_text_yes: 'da'
   general_lang_name: 'Hrvatski'
-  general_csv_separator: ','
-  general_csv_decimal_separator: '.'
+  general_csv_separator: ';'
+  general_csv_decimal_separator: ','
   general_csv_encoding: UTF-8
   general_pdf_fontname: freesans
   general_first_day_of_week: '7'
