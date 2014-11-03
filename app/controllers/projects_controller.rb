@@ -496,7 +496,8 @@ class ProjectsController < ApplicationController
       neuromlTemplate.sub! '$ENTER_MODEL_URL', url
 #      neuromlTemplate.sub! '$ENTER_ID', idName
       neuromlTemplate.sub! '$ENTER_ID', 'idName'
-      neuromlTemplate.sub! '$ENTER_SCRIPT_URL', 'http://127.0.0.1:3000/geppetto/geppettoScript.js'
+#      neuromlTemplate.sub! '$ENTER_SCRIPT_URL', 'http://127.0.0.1:3000/geppetto/geppettoScript.js'
+      neuromlTemplate.sub! '$ENTER_SCRIPT_URL', 'https://raw.githubusercontent.com/OpenSourceBrain/redmine/geppettoIntegration/public/geppetto/geppettoScript.js'
         
       random_string = SecureRandom.hex
       @geppettoSimulationFile = "/geppetto/tmp/" + random_string + ".xml"; 
