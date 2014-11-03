@@ -1,4 +1,3 @@
-//GEPPETTO SCRIPT FOR OSB VISUALISER
 idName.electrical.getModelTree();
 
 //Adding Scatter3d 1
