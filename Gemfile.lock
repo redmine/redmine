@@ -140,6 +140,7 @@ DEPENDENCIES
   mocha (>= 0.14)
   mysql2 (~> 0.3.11)
   net-ldap (~> 0.3.1)
+  nokogiri
   rack-openid
   rails (= 3.2.17)
   rake (~> 10.1.1)
