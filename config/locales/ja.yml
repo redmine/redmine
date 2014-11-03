@@ -340,7 +340,7 @@ ja:
   setting_app_title: アプリケーションのタイトル
   setting_app_subtitle: アプリケーションのサブタイトル
   setting_welcome_text: ウェルカムメッセージ
-  setting_default_language: 既定の言語
+  setting_default_language: デフォルトの言語
   setting_login_required: 認証が必要
   setting_self_registration: ユーザーによるアカウント登録
   setting_attachment_max_size: 添付ファイルサイズの上限
@@ -761,11 +761,11 @@ ja:
   label_jump_to_a_project: プロジェクトへ移動...
   label_file_plural: ファイル
   label_changeset_plural: 更新履歴
-  label_default_columns: 既定の項目
+  label_default_columns: デフォルトの項目
   label_no_change_option: (変更無し)
   label_bulk_edit_selected_issues: チケットの一括編集
   label_theme: テーマ
-  label_default: 既定
+  label_default: デフォルト
   label_search_titles_only: タイトルのみ
   label_user_mail_option_all: "参加しているプロジェクトのすべての通知"
   label_user_mail_option_selected: "選択したプロジェクトのすべての通知..."
@@ -1125,8 +1125,8 @@ ja:
   label_drop_down_list: ドロップダウンリスト
   label_checkboxes: チェックボックス
   label_link_values_to: 値に設定するリンクURL
-  setting_force_default_language_for_anonymous: 匿名ユーザーに既定の言語を強制
-  setting_force_default_language_for_loggedin: ログインユーザーに既定の言語を強制
+  setting_force_default_language_for_anonymous: 匿名ユーザーにデフォルトの言語を強制
+  setting_force_default_language_for_loggedin: ログインユーザーにデフォルトの言語を強制
   label_custom_field_select_type: カスタムフィールドを追加するオブジェクトを選択してください
   label_issue_assigned_to_updated: 担当者の更新
   label_check_for_updates: アップデートを確認
