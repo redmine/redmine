@@ -26,7 +26,8 @@ class QueryTest < ActiveSupport::TestCase
            :watchers, :custom_fields, :custom_values, :versions,
            :queries,
            :projects_trackers,
-           :custom_fields_trackers
+           :custom_fields_trackers,
+           :workflows
 
   def test_query_with_roles_visibility_should_validate_roles
     set_language_if_valid 'en'
