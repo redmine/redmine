@@ -36,7 +36,8 @@ class ProjectTest < ActiveSupport::TestCase
            :boards, :messages,
            :repositories,
            :news, :comments,
-           :documents
+           :documents,
+           :workflows
 
   def setup
     @ecookbook = Project.find(1)
