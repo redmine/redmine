@@ -1417,6 +1417,7 @@ class QueryTest < ActiveSupport::TestCase
   end
 
   def test_query_column_should_accept_a_symbol_as_caption
+    set_language_if_valid 'en'
     c = QueryColumn.new('foo', :caption => :general_text_Yes)
     assert_equal 'Yes', c.caption
   end
