@@ -21,7 +21,9 @@
       <% @project = project %>
       <li>
       <%= link_to_project project %> (<%= format_time(project.created_on) %>)
-      <%= textilizable project.short_description, :project => project %>
+      <div class="wiki">
+        <%= textilizable project.short_description, :project => project %>
+      </div>
       </li>
     <% end %>
     <% @project = nil %>
