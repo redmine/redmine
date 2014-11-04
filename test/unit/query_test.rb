@@ -1415,4 +1415,14 @@ class QueryTest < ActiveSupport::TestCase
       end
     end
   end
+
+  def test_query_column_should_accept_a_symbol_as_caption
+    c = QueryColumn.new('foo', :caption => :general_text_Yes)
+    assert_equal 'Yes', c.caption
+  end
+
+  def test_query_column_should_accept_a_proc_as_caption
+    c = QueryColumn.new('foo', :caption => lambda {'Foo'})
+    assert_equal 'Foo', c.caption
+  end
 end

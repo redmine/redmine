@@ -33,7 +33,14 @@ class QueryColumn
   end
 
   def caption
-    @caption_key.is_a?(Symbol) ? l(@caption_key) : @caption_key
+    case @caption_key
+    when Symbol
+      l(@caption_key)
+    when Proc
+      @caption_key.call
+    else
+      @caption_key
+    end
   end
 
   # Returns true if the column is sortable, otherwise false
