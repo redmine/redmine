@@ -854,6 +854,17 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal 'application/pdf', response.content_type
   end
 
+  def test_index_with_parent_column
+    Issue.delete_all
+    parent = Issue.generate!
+    child = Issue.generate!(:parent_issue_id => parent.id)
+
+    get :index, :c => %w(parent)
+
+    assert_select 'td.parent', :text => "#{parent.tracker} ##{parent.id}"
+    assert_select 'td.parent a[title=?]', parent.subject
+  end
+
   def test_index_send_html_if_query_is_invalid
     get :index, :f => ['start_date'], :op => {:start_date => '='}
     assert_equal 'text/html', @response.content_type

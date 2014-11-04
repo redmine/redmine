@@ -97,6 +97,8 @@ module QueriesHelper
       link_to value, issue_path(issue)
     when :subject
       link_to value, issue_path(issue)
+    when :parent
+      value ? (value.visible? ? link_to_issue(value, :subject => false) : "##{value.id}") : ''
     when :description
       issue.description? ? content_tag('div', textilizable(issue, :description), :class => "wiki") : ''
     when :done_ratio
