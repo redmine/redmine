@@ -669,7 +669,7 @@ class Issue < ActiveRecord::Base
           errors.add :base, v.custom_field.name + ' ' + l('activerecord.errors.messages.blank')
         end
       else
-        if respond_to?(attribute) && send(attribute).blank?
+        if respond_to?(attribute) && send(attribute).blank? && !disabled_core_fields.include?(attribute)
           errors.add attribute, :blank
         end
       end

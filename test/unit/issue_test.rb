@@ -836,6 +836,26 @@ class IssueTest < ActiveSupport::TestCase
     assert issue.save
   end
 
+  def test_required_attribute_that_is_disabled_for_the_tracker_should_not_be_required
+    WorkflowPermission.delete_all
+    WorkflowPermission.create!(:old_status_id => 1, :tracker_id => 1,
+                               :role_id => 1, :field_name => 'start_date',
+                               :rule => 'required')
+    user = User.find(2)
+
+    issue = Issue.new(:project_id => 1, :tracker_id => 1, :status_id => 1,
+                      :subject => 'Required fields', :author => user)
+    assert !issue.save
+    assert_include "Start date can't be blank", issue.errors.full_messages
+
+    tracker = Tracker.find(1)
+    tracker.core_fields -= %w(start_date)
+    tracker.save!
+    issue = Issue.new(:project_id => 1, :tracker_id => 1, :status_id => 1,
+                      :subject => 'Required fields', :author => user)
+    assert issue.save
+  end
+
   def test_required_attribute_names_for_multiple_roles_should_intersect_rules
     WorkflowPermission.delete_all
     WorkflowPermission.create!(:old_status_id => 1, :tracker_id => 1,
