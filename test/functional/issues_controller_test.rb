@@ -480,7 +480,7 @@ class IssuesControllerTest < ActionController::TestCase
     with_settings :default_language => 'en' do
       get :index, :format => 'csv', :c => %w(parent)
     end
-    lines = response.body.split
+    lines = response.body.split("\n")
     assert_include "#{child.id},#{parent.id}", lines
   end
 
