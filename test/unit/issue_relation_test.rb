@@ -214,4 +214,23 @@ class IssueRelationTest < ActiveSupport::TestCase
     assert_equal '10', to.journals.last.details.last.old_value
     assert_nil   to.journals.last.details.last.value
   end
+
+  def test_to_s_should_return_the_relation_string
+    set_language_if_valid 'en'
+    relation = IssueRelation.find(1)
+    assert_equal "Blocks #9", relation.to_s(relation.issue_from)
+    assert_equal "Blocked by #10", relation.to_s(relation.issue_to)
+  end
+
+  def test_to_s_without_argument_should_return_the_relation_string_for_issue_from
+    set_language_if_valid 'en'
+    relation = IssueRelation.find(1)
+    assert_equal "Blocks #9", relation.to_s
+  end
+
+  def test_to_s_should_accept_a_block_as_custom_issue_formatting
+    set_language_if_valid 'en'
+    relation = IssueRelation.find(1)
+    assert_equal "Blocks Bug #9", relation.to_s {|issue| "#{issue.tracker} ##{issue.id}"}
+  end
 end

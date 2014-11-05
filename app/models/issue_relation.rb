@@ -134,6 +134,16 @@ class IssueRelation < ActiveRecord::Base
         :unknow
   end
 
+  def to_s(issue=nil)
+    issue ||= issue_from
+    issue_text = block_given? ? yield(other_issue(issue)) : "##{other_issue(issue).try(:id)}"
+    s = []
+    s << l(label_for(issue))
+    s << "(#{l('datetime.distance_in_words.x_days', :count => delay)})" if delay && delay != 0
+    s << issue_text
+    s.join(' ')
+  end
+
   def css_classes_for(issue)
     "rel-#{relation_type_for(issue)}"
   end
