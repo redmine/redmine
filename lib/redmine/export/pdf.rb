@@ -522,16 +522,14 @@ module Redmine
           pdf.RDMCell(35+155,5, l(:label_related_issues) + ":", "LTR")
           pdf.ln
           relations.each do |relation|
-            buf = ""
-            buf += "#{l(relation.label_for(issue))} "
-            if relation.delay && relation.delay != 0
-              buf += "(#{l('datetime.distance_in_words.x_days', :count => relation.delay)}) "
-            end
-            if Setting.cross_project_issue_relations?
-              buf += "#{relation.other_issue(issue).project} - "
-            end
-            buf += "#{relation.other_issue(issue).tracker}" +
-                   " # #{relation.other_issue(issue).id}: #{relation.other_issue(issue).subject}"
+            buf = relation.to_s(issue) {|other|
+              text = ""
+              if Setting.cross_project_issue_relations?
+                text += "#{relation.other_issue(issue).project} - "
+              end
+              text += "#{other.tracker} ##{other.id}: #{other.subject}"
+              text
+            }
             buf = buf.truncate(truncate_length)
             pdf.SetFontStyle('', 8)
             pdf.RDMCell(35+155-60, 5, buf, border_first)
