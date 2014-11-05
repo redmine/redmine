@@ -21,6 +21,7 @@ class IssueStatus < ActiveRecord::Base
   has_many :workflow_transitions_as_new_status, :class_name => 'WorkflowTransition', :foreign_key => "new_status_id"
   acts_as_list
 
+  after_update :handle_is_closed_change
   before_destroy :delete_workflow_rules
 
   validates_presence_of :name
@@ -88,6 +89,23 @@ class IssueStatus < ActiveRecord::Base
   def to_s; name end
 
   private
+
+  # Updates issues closed_on attribute when an existing status is set as closed.
+  def handle_is_closed_change
+    if is_closed_changed? && is_closed == true
+      # First we update issues that have a journal for when the current status was set,
+      # a subselect is used to update all issues with a single query
+      subselect = "SELECT MAX(j.created_on) FROM #{Journal.table_name} j" +
+        " JOIN #{JournalDetail.table_name} d ON d.journal_id = j.id" +
+        " WHERE j.journalized_type = 'Issue' AND j.journalized_id = #{Issue.table_name}.id" +
+        " AND d.property = 'attr' AND d.prop_key = 'status_id' AND d.value = :status_id"
+      Issue.where(:status_id => id, :closed_on => nil).update_all(["closed_on = (#{subselect})", :status_id => id.to_s])
+
+      # Then we update issues that don't have a journal which means the
+      # current status was set on creation
+      Issue.where(:status_id => id, :closed_on => nil).update_all("closed_on = created_on")
+    end
+  end
 
   def check_integrity
     if Issue.where(:status_id => id).any?

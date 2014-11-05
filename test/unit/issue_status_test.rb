@@ -96,4 +96,38 @@ class IssueStatusTest < ActiveSupport::TestCase
     assert_not_nil status
     assert_equal "Resolved", status.name
   end
+
+  def test_setting_status_as_closed_should_set_closed_on_for_issues_without_status_journal
+    issue = Issue.generate!(:status_id => 1, :created_on => 2.days.ago)
+    assert_nil issue.closed_on
+
+    issue.status.update! :is_closed => true
+
+    issue.reload
+    assert issue.closed?
+    assert_equal issue.created_on, issue.closed_on
+  end
+
+  def test_setting_status_as_closed_should_set_closed_on_for_issues_with_status_journal
+    issue = Issue.generate!(:status_id => 1, :created_on => 2.days.ago)
+    issue.init_journal(User.find(1))
+    issue.status_id = 2
+    issue.save!
+
+    issue.status.update! :is_closed => true
+
+    issue.reload
+    assert issue.closed?
+    assert_equal issue.journals.first.created_on, issue.closed_on
+  end
+
+  def test_setting_status_as_closed_should_not_set_closed_on_for_issues_with_other_status
+    issue = Issue.generate!(:status_id => 2)
+
+    IssueStatus.find(1).update! :is_closed => true
+
+    issue.reload
+    assert !issue.closed?
+    assert_nil issue.closed_on
+  end
 end
