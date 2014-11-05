@@ -104,9 +104,8 @@ module QueriesHelper
     when :done_ratio
       progress_bar(value, :width => '80px')
     when :relations
-      other = value.other_issue(issue)
       content_tag('span',
-        (l(value.label_for(issue)) + " " + link_to_issue(other, :subject => false, :tracker => false)).html_safe,
+        value.to_s(issue) {|other| link_to_issue(other, :subject => false, :tracker => false)}.html_safe,
         :class => value.css_classes_for(issue))
     else
       format_object(value)
@@ -128,8 +127,7 @@ module QueriesHelper
       when 'Float'
         sprintf("%.2f", value).gsub('.', l(:general_csv_decimal_separator))
       when 'IssueRelation'
-        other = value.other_issue(object)
-        l(value.label_for(object)) + " ##{other.id}"
+        value.to_s(object)
       when 'Issue'
         if object.is_a?(TimeEntry)
           "#{value.tracker} ##{value.id}: #{value.subject}"

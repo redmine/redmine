@@ -26,7 +26,7 @@ class IssueRelation < ActiveRecord::Base
     end
 
     def to_s(*args)
-      map {|relation| "#{l(relation.label_for(@issue))} ##{relation.other_issue(@issue).id}"}.join(', ')
+      map {|relation| relation.to_s(@issue)}.join(', ')
     end
   end
 
