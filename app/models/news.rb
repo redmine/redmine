@@ -71,7 +71,7 @@ class News < ActiveRecord::Base
 
   # returns latest news for projects visible by user
   def self.latest(user = User.current, count = 5)
-    visible(user).joins([:author, :project]).order("#{News.table_name}.created_on DESC").limit(count).to_a
+    visible(user).preload(:author, :project).order("#{News.table_name}.created_on DESC").limit(count).to_a
   end
 
   private
