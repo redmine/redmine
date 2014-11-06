@@ -152,8 +152,7 @@ module RepositoriesHelper
   def subversion_field_tags(form, repository)
       content_tag('p', form.text_field(:url, :size => 60, :required => true,
                        :disabled => !repository.safe_attribute?('url')) +
-                       '<br />'.html_safe +
-                       '(file:///, http://, https://, svn://, svn+[tunnelscheme]://)') +
+                       content_tag('em', '(file:///, http://, https://, svn://, svn+[tunnelscheme]://)', :class => 'info')) +
       content_tag('p', form.text_field(:login, :size => 30)) +
       content_tag('p', form.password_field(
                             :password, :size => 30, :name => 'ignore',
@@ -178,12 +177,12 @@ module RepositoriesHelper
                        :size => 60, :required => true,
                        :disabled => !repository.safe_attribute?('url')
                          ) +
-                     '<br />'.html_safe + l(:text_mercurial_repository_note)) +
+                     content_tag('em', l(:text_mercurial_repository_note), :class => 'info')) +
     content_tag('p', form.select(
                         :path_encoding, [nil] + Setting::ENCODINGS,
                         :label => l(:field_scm_path_encoding)
                         ) +
-                     '<br />'.html_safe + l(:text_scm_path_encoding_note))
+                     content_tag('em', l(:text_scm_path_encoding_note), :class => 'info'))
   end
 
   def git_field_tags(form, repository)
@@ -192,13 +191,12 @@ module RepositoriesHelper
                        :size => 60, :required => true,
                        :disabled => !repository.safe_attribute?('url')
                          ) +
-                      '<br />'.html_safe +
-                      l(:text_git_repository_note)) +
+                      content_tag('em', l(:text_git_repository_note), :class => 'info')) +
     content_tag('p', form.select(
                         :path_encoding, [nil] + Setting::ENCODINGS,
                         :label => l(:field_scm_path_encoding)
                         ) +
-                     '<br />'.html_safe + l(:text_scm_path_encoding_note)) +
+                     content_tag('em', l(:text_scm_path_encoding_note), :class => 'info')) +
     content_tag('p', form.check_box(
                         :extra_report_last_commit,
                         :label => l(:label_git_report_last_commit)
@@ -223,7 +221,7 @@ module RepositoriesHelper
                         :path_encoding, [nil] + Setting::ENCODINGS,
                         :label => l(:field_scm_path_encoding)
                         ) +
-                     '<br />'.html_safe + l(:text_scm_path_encoding_note))
+                     content_tag('em', l(:text_scm_path_encoding_note), :class => 'info'))
   end
 
   def bazaar_field_tags(form, repository)
@@ -245,7 +243,7 @@ module RepositoriesHelper
                         :path_encoding, [nil] + Setting::ENCODINGS,
                         :label => l(:field_scm_path_encoding)
                         ) +
-                     '<br />'.html_safe + l(:text_scm_path_encoding_note))
+                     content_tag('em', l(:text_scm_path_encoding_note), :class => 'info'))
   end
 
   def index_commits(commits, heads)
