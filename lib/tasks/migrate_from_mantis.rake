@@ -1,4 +1,4 @@
-edmine - project management software
+# Redmine - project management software
 # Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
