@@ -108,6 +108,33 @@ default:
   scm_bazaar_command:
   scm_darcs_command:
 
+  # SCM paths validation.
+  #
+  # You can configure a regular expression for each SCM that will be used to
+  # validate the path of new repositories (eg. path entered by users with the
+  # "Manage repositories" permission and path returned by reposman.rb).
+  # The regexp will be wrapped with \A \z, so it must match the whole path.
+  # And the regexp is case sensitive.
+  #
+  # You can match the project identifier by using %project% in the regexp.
+  #
+  # You can also set a custom hint message for each SCM that will be displayed
+  # on the repository form instead of the default one.
+  #
+  # Examples:
+  # scm_subversion_path_regexp: file:///svnpath/[a-z0-9_]+
+  # scm_subversion_path_info: SVN URL (eg. file:///svnpath/foo)
+  #
+  # scm_git_path_regexp: /gitpath/%project%(\.[a-z0-9_])?/
+  #
+  scm_subversion_path_regexp:
+  scm_mercurial_path_regexp:
+  scm_git_path_regexp:
+  scm_cvs_path_regexp:
+  scm_bazaar_path_regexp:
+  scm_darcs_path_regexp:
+  scm_filesystem_path_regexp:
+
   # Absolute path to the SCM commands errors (stderr) log file.
   # The default is to log in the 'log' directory of your Redmine instance.
   # Example:

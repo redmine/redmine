@@ -57,6 +57,37 @@ class RepositorySubversionTest < ActiveSupport::TestCase
     end
   end
 
+  def test_url_should_be_validated_against_regexp_set_in_configuration
+    Redmine::Configuration.with 'scm_subversion_path_regexp' => 'file:///svnpath/[a-z]+' do
+      repo = Repository::Subversion.new(:project => @project, :identifier => 'test')
+      repo.url = 'http://foo'
+      assert !repo.valid?
+      assert repo.errors[:url].present?
+
+      repo.url = 'file:///svnpath/foo/bar'
+      assert !repo.valid?
+      assert repo.errors[:url].present?
+
+      repo.url = 'file:///svnpath/foo'
+      assert repo.valid?
+    end
+  end
+
+  def test_url_should_be_validated_against_regexp_set_in_configuration_with_project_identifier
+    Redmine::Configuration.with 'scm_subversion_path_regexp' => 'file:///svnpath/%project%(\.[a-z]+)?' do
+      repo = Repository::Subversion.new(:project => @project, :identifier => 'test')
+      repo.url = 'file:///svnpath/invalid'
+      assert !repo.valid?
+      assert repo.errors[:url].present?
+
+      repo.url = 'file:///svnpath/subproject1'
+      assert repo.valid?
+
+      repo.url = 'file:///svnpath/subproject1.foo'
+      assert repo.valid?
+    end
+  end
+
   if repository_configured?('subversion')
     def test_fetch_changesets_from_scratch
       assert_equal 0, @repository.changesets.count

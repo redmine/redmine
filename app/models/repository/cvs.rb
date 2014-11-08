@@ -192,6 +192,14 @@ class Repository::Cvs < Repository
     @current_revision_number = nil
   end
 
+  protected
+
+  # Overrides Repository#validate_repository_path to validate
+  # against root_url attribute.
+  def validate_repository_path(attribute=:root_url)
+    super(attribute)
+  end
+
   private
 
   # Returns the next revision number to assign to a CVS changeset

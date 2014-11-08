@@ -1072,8 +1072,9 @@ fr:
   text_zoom_out: Zoom arrière
   text_warn_on_leaving_unsaved: "Cette page contient du texte non sauvegardé qui sera perdu si vous quittez la page."
   text_scm_path_encoding_note: "Défaut : UTF-8"
-  text_git_repository_note: "Le dépôt est vide et local (exemples : /gitrepo, c:\\gitrepo)"
-  text_mercurial_repository_note: "Dépôt local (exemples : /hgrepo, c:\\hgrepo)"
+  text_subversion_repository_note: "Exemples (en fonction des protocoles supportés) : file:///, http://, https://, svn://, svn+[tunnelscheme]://"
+  text_git_repository_note: "Chemin vers un dépôt vide et local (exemples : /gitrepo, c:\\gitrepo)"
+  text_mercurial_repository_note: "Chemin vers un dépôt local (exemples : /hgrepo, c:\\hgrepo)"
   text_scm_command: Commande
   text_scm_command_version: Version
   text_scm_config: Vous pouvez configurer les commandes des SCM dans config/configuration.yml. Redémarrer l'application après modification.

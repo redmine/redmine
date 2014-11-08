@@ -58,6 +58,7 @@ module Redmine
           end
         end
 
+        check_regular_expressions
         @config
       end
 
@@ -110,6 +111,20 @@ module Redmine
         if File.file?(deprecated_email_conf)
           warn "Storing outgoing emails configuration in config/email.yml is deprecated. You should now store it in config/configuration.yml using the email_delivery setting."
           @config.merge!({'email_delivery' => load_from_yaml(deprecated_email_conf, env)})
+        end
+      end
+
+      # Checks the validness of regular expressions set for repository paths at startup
+      def check_regular_expressions
+        @config.each do |name, value|
+          if value.present? && name =~ /^scm_.+_path_regexp$/
+            begin
+              Regexp.new value.to_s.strip
+            rescue => e
+              $stderr.puts "Invalid regular expression set as #{name} setting in your Redmine configuration file:\n#{e.message}"
+              exit 1
+            end
+          end
         end
       end
     end

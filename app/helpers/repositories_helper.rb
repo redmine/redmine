@@ -152,7 +152,7 @@ module RepositoriesHelper
   def subversion_field_tags(form, repository)
       content_tag('p', form.text_field(:url, :size => 60, :required => true,
                        :disabled => !repository.safe_attribute?('url')) +
-                       content_tag('em', '(file:///, http://, https://, svn://, svn+[tunnelscheme]://)', :class => 'info')) +
+                       scm_path_info_tag(repository)) +
       content_tag('p', form.text_field(:login, :size => 30)) +
       content_tag('p', form.password_field(
                             :password, :size => 30, :name => 'ignore',
@@ -165,7 +165,8 @@ module RepositoriesHelper
     content_tag('p', form.text_field(
                      :url, :label => l(:field_path_to_repository),
                      :size => 60, :required => true,
-                     :disabled => !repository.safe_attribute?('url'))) +
+                     :disabled => !repository.safe_attribute?('url')) +
+                     scm_path_info_tag(repository)) +
     scm_log_encoding_tag(form, repository)
   end
 
@@ -175,7 +176,7 @@ module RepositoriesHelper
                        :size => 60, :required => true,
                        :disabled => !repository.safe_attribute?('url')
                          ) +
-                     content_tag('em', l(:text_mercurial_repository_note), :class => 'info')) +
+                     scm_path_info_tag(repository)) +
     scm_path_encoding_tag(form, repository)
   end
 
@@ -185,7 +186,7 @@ module RepositoriesHelper
                        :size => 60, :required => true,
                        :disabled => !repository.safe_attribute?('url')
                          ) +
-                      content_tag('em', l(:text_git_repository_note), :class => 'info')) +
+                      scm_path_info_tag(repository)) +
     scm_path_encoding_tag(form, repository) +
     content_tag('p', form.check_box(
                         :extra_report_last_commit,
@@ -198,7 +199,8 @@ module RepositoriesHelper
                      :root_url,
                      :label => l(:field_cvsroot),
                      :size => 60, :required => true,
-                     :disabled => !repository.safe_attribute?('root_url'))) +
+                     :disabled => !repository.safe_attribute?('root_url')) +
+                     scm_path_info_tag(repository)) +
     content_tag('p', form.text_field(
                      :url,
                      :label => l(:field_cvs_module),
@@ -212,7 +214,8 @@ module RepositoriesHelper
     content_tag('p', form.text_field(
                      :url, :label => l(:field_path_to_repository),
                      :size => 60, :required => true,
-                     :disabled => !repository.safe_attribute?('url'))) +
+                     :disabled => !repository.safe_attribute?('url')) +
+                     scm_path_info_tag(repository)) +
     scm_log_encoding_tag(form, repository)
   end
 
@@ -220,8 +223,27 @@ module RepositoriesHelper
     content_tag('p', form.text_field(
                      :url, :label => l(:field_root_directory),
                      :size => 60, :required => true,
-                     :disabled => !repository.safe_attribute?('url'))) +
+                     :disabled => !repository.safe_attribute?('url')) +
+                     scm_path_info_tag(repository)) +
     scm_path_encoding_tag(form, repository)
+  end
+
+  def scm_path_info_tag(repository)
+    text = scm_path_info(repository)
+    if text.present?
+      content_tag('em', text, :class => 'info')
+    else
+      ''
+    end
+  end
+
+  def scm_path_info(repository)
+    scm_name = repository.scm_name.to_s.downcase
+
+    info_from_config = Redmine::Configuration["scm_#{scm_name}_path_info"].presence
+    return info_from_config.html_safe if info_from_config
+
+    l("text_#{scm_name}_repository_note", :default => '')
   end
 
   def scm_log_encoding_tag(form, repository)

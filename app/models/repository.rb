@@ -45,6 +45,7 @@ class Repository < ActiveRecord::Base
   validates_format_of :identifier, :with => /\A(?!\d+$)[a-z0-9\-_]*\z/, :allow_blank => true
   # Checks if the SCM is enabled when creating a repository
   validate :repo_create_validation, :on => :create
+  validate :validate_repository_path
   attr_protected :id
 
   safe_attributes 'identifier',
@@ -457,6 +458,18 @@ class Repository < ActiveRecord::Base
   end
 
   protected
+
+  # Validates repository url based against an optional regular expression
+  # that can be set in the Redmine configuration file.
+  def validate_repository_path(attribute=:url)
+    regexp = Redmine::Configuration["scm_#{scm_name.to_s.downcase}_path_regexp"]
+    if changes[attribute] && regexp.present?
+      regexp = regexp.to_s.strip.gsub('%project%') {Regexp.escape(project.try(:identifier).to_s)}
+      unless send(attribute).to_s.match(Regexp.new("\\A#{regexp}\\z"))
+        errors.add(attribute, :invalid)
+      end
+    end
+  end
 
   def check_default
     if !is_default? && set_as_default?

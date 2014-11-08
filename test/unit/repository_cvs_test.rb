@@ -93,6 +93,24 @@ class RepositoryCvsTest < ActiveSupport::TestCase
     assert_include str, repo.errors.full_messages
   end
 
+  def test_root_url_should_be_validated_against_regexp_set_in_configuration
+    Redmine::Configuration.with 'scm_cvs_path_regexp' => '/cvspath/[a-z]+' do
+      repo = Repository::Cvs.new(
+        :project       => @project,
+        :identifier    => 'test',
+        :log_encoding  => 'UTF-8',
+        :path_encoding => '',
+        :url           => MODULE_NAME
+      )
+      repo.root_url = '/wrong_path'
+      assert !repo.valid?
+      assert repo.errors[:root_url].present?
+
+      repo.root_url = '/cvspath/foo'
+      assert repo.valid?
+    end
+  end
+
   if File.directory?(REPOSITORY_PATH)
     def test_fetch_changesets_from_scratch
       assert_equal 0, @repository.changesets.count
