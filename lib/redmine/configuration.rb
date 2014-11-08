@@ -85,11 +85,9 @@ module Redmine
         begin
           yaml = YAML::load(ERB.new(File.read(filename)).result)
         rescue ArgumentError
-          $stderr.puts "Your Redmine configuration file located at #{filename} is not a valid YAML file and could not be loaded."
-          exit 1
+          abort "Your Redmine configuration file located at #{filename} is not a valid YAML file and could not be loaded."
         rescue SyntaxError => e
-          $stderr.puts "A syntax error occurred when parsing your Redmine configuration file located at #{filename} with ERB:\n#{e.message}"
-          exit 1
+          abort "A syntax error occurred when parsing your Redmine configuration file located at #{filename} with ERB:\n#{e.message}"
         end
         conf = {}
         if yaml.is_a?(Hash)
@@ -100,8 +98,7 @@ module Redmine
             conf.merge!(yaml[env])
           end
         else
-          $stderr.puts "Your Redmine configuration file located at #{filename} is not a valid Redmine configuration file."
-          exit 1
+          abort "Your Redmine configuration file located at #{filename} is not a valid Redmine configuration file."
         end
         conf
       end
@@ -121,8 +118,7 @@ module Redmine
             begin
               Regexp.new value.to_s.strip
             rescue => e
-              $stderr.puts "Invalid regular expression set as #{name} setting in your Redmine configuration file:\n#{e.message}"
-              exit 1
+              abort "Invalid regular expression set as #{name} setting in your Redmine configuration file:\n#{e.message}"
             end
           end
         end
