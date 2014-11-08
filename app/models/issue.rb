@@ -722,8 +722,12 @@ class Issue < ActiveRecord::Base
   # Returns the initial status of the issue
   # Returns nil for a new issue
   def status_was
-    if status_id_was && status_id_was.to_i > 0
-      @status_was ||= IssueStatus.find_by_id(status_id_was)
+    if status_id_changed?
+      if status_id_was.to_i > 0
+        @status_was ||= IssueStatus.find_by_id(status_id_was)
+      end
+    else
+      @status_was ||= status
     end
   end
 
