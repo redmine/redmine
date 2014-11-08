@@ -1546,18 +1546,6 @@ class IssuesControllerTest < ActionController::TestCase
     assert_select 'input[name=was_default_status][value=1]'
   end
 
-  def test_new_should_select_default_status
-    @request.session[:user_id] = 2
-
-    get :new, :project_id => 1
-    assert_response :success
-    assert_template 'new'
-    assert_select 'select[name=?]', 'issue[status_id]' do
-      assert_select 'option[value=1][selected=selected]'
-    end
-    assert_select 'input[name=was_default_status][value=1]'
-  end
-
   def test_get_new_with_list_custom_field
     @request.session[:user_id] = 2
     get :new, :project_id => 1, :tracker_id => 1
