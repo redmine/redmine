@@ -96,7 +96,7 @@ class IssueStatusesControllerTest < ActionController::TestCase
     assert_nil IssueStatus.find_by_id(1)
   end
 
-  def test_destroy_should_block_if_status_in_use
+  def test_destroy_should_block_if_status_is_used_by_issues
     assert Issue.where(:status_id => 1).any?
     Tracker.where(:default_status_id => 1).delete_all
 
@@ -107,7 +107,7 @@ class IssueStatusesControllerTest < ActionController::TestCase
     assert_not_nil IssueStatus.find_by_id(1)
   end
 
-  def test_destroy_should_block_if_status_in_use
+  def test_destroy_should_block_if_status_is_used_as_tracker_default_status
     Issue.where(:status_id => 1).delete_all
     assert Tracker.where(:default_status_id => 1).any?
 
