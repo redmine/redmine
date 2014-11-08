@@ -449,7 +449,7 @@ class Issue < ActiveRecord::Base
   safe_attributes 'is_private',
     :if => lambda {|issue, user|
       user.allowed_to?(:set_issues_private, issue.project) ||
-        (issue.author == user && user.allowed_to?(:set_own_issues_private, issue.project))
+        (issue.author_id == user.id && user.allowed_to?(:set_own_issues_private, issue.project))
     }
 
   safe_attributes 'parent_issue_id',
