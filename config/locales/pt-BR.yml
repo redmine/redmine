@@ -1140,3 +1140,4 @@ pt-BR:
   label_group_non_member: Non member users
   label_add_projects: Add projects
   field_default_status: Default status
+  text_subversion_repository_note: 'Examples: file:///, http://, https://, svn://, svn+[tunnelscheme]://'
