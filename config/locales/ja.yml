@@ -1137,4 +1137,4 @@ ja:
   label_group_non_member: 非メンバー
   label_add_projects: プロジェクトの追加
   field_default_status: デフォルトのステータス
-  text_subversion_repository_note: 'Examples: file:///, http://, https://, svn://, svn+[tunnelscheme]://'
+  text_subversion_repository_note: '例: file:///, http://, https://, svn://, svn+[tunnelscheme]://'
