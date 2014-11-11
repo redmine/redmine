@@ -1138,3 +1138,6 @@ ja:
   label_add_projects: プロジェクトの追加
   field_default_status: デフォルトのステータス
   text_subversion_repository_note: '例: file:///, http://, https://, svn://, svn+[tunnelscheme]://'
+  field_users_visibility: Users visibility
+  label_users_visibility_all: All active users
+  label_users_visibility_members_of_visible_projects: Members of visible projects
