@@ -46,7 +46,7 @@ http://www.redmine.org/
    
    Redmine stores session data in cookies by default, which requires
    a secret to be generated. Under the new application directory run:
-     rake generate_secret_token
+     bundle exec rake generate_secret_token
    
    DO NOT REPLACE OR EDIT ANY OTHER FILES.
 
@@ -55,19 +55,18 @@ http://www.redmine.org/
    If you are upgrading to Rails 2.3.14 as part of this migration, you
    need to upgrade the plugin migrations before running the plugin migrations
    using:
-     rake db:migrate:upgrade_plugin_migrations RAILS_ENV="production"
+     bundle exec rake db:migrate:upgrade_plugin_migrations RAILS_ENV="production"
    
    Please make a backup before doing this! Under the new application
    directory run:
-     rake db:migrate RAILS_ENV="production"
+     bundle exec rake db:migrate RAILS_ENV="production"
    
    If you have installed any plugins, you should also run their database
    migrations using:
-     rake db:migrate_plugins RAILS_ENV="production"
+     bundle exec rake db:migrate_plugins RAILS_ENV="production"
    
 8. Clear the cache and the existing sessions by running:
-     rake tmp:cache:clear
-     rake tmp:sessions:clear
+     bundle exec rake tmp:cache:clear tmp:sessions:clear
 
 9. Restart the application server (e.g. mongrel, thin, passenger)
 
