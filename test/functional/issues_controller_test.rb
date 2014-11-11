@@ -728,6 +728,16 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal columns.map(&:to_sym), query.columns.map(&:name)
   end
 
+  def test_index_with_default_columns_should_respect_default_columns_order
+    columns = ['assigned_to', 'subject', 'status', 'tracker']
+    with_settings :issue_list_default_columns => columns do
+      get :index, :project_id => 1, :set_filter => 1
+
+      query = assigns(:query)
+      assert_equal (['id'] + columns).map(&:to_sym), query.columns.map(&:name)
+    end
+  end
+
   def test_index_with_custom_field_column
     columns = %w(tracker subject cf_2)
     get :index, :set_filter => 1, :c => columns
