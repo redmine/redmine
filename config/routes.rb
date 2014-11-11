@@ -209,8 +209,7 @@ Rails.application.routes.draw do
   # TODO: delete /time_entries for bulk deletion
   match '/time_entries/destroy', :to => 'timelog#destroy', :via => :delete
 
-  get 'projects/:id/activity', :to => 'activities#index'
-  get 'projects/:id/activity.:format', :to => 'activities#index'
+  get 'projects/:id/activity', :to => 'activities#index', :as => :project_activity
   get 'activity', :to => 'activities#index'
 
   # repositories routes
