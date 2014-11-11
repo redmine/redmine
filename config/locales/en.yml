@@ -338,6 +338,7 @@ en:
   field_generate_password: Generate password
   field_must_change_passwd: Must change password at next logon
   field_default_status: Default status
+  field_users_visibility: Users visibility
 
   setting_app_title: Application title
   setting_app_subtitle: Application subtitle
@@ -920,6 +921,8 @@ en:
   label_latest_compatible_version: Latest compatible version
   label_unknown_plugin: Unknown plugin
   label_add_projects: Add projects
+  label_users_visibility_all: All active users
+  label_users_visibility_members_of_visible_projects: Members of visible projects
 
   button_login: Login
   button_submit: Submit

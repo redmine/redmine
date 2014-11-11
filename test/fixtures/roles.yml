@@ -4,6 +4,7 @@ roles_001:
   id: 1
   builtin: 0
   issues_visibility: all
+  users_visibility: all
   permissions: |
     --- 
     - :add_project
@@ -67,6 +68,7 @@ roles_002:
   id: 2
   builtin: 0
   issues_visibility: default
+  users_visibility: all
   permissions: |
     --- 
     - :edit_project
@@ -114,6 +116,7 @@ roles_003:
   id: 3
   builtin: 0
   issues_visibility: default
+  users_visibility: all
   permissions: |
     --- 
     - :edit_project
@@ -155,6 +158,7 @@ roles_004:
   id: 4
   builtin: 1
   issues_visibility: default
+  users_visibility: all
   permissions: |
     --- 
     - :view_issues
@@ -184,6 +188,7 @@ roles_005:
   id: 5
   builtin: 2
   issues_visibility: default
+  users_visibility: all
   permissions: |
     --- 
     - :view_issues

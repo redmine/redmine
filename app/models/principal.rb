@@ -38,6 +38,30 @@ class Principal < ActiveRecord::Base
   # Groups and active users
   scope :active, lambda { where(:status => STATUS_ACTIVE) }
 
+  scope :visible, lambda {|*args|
+    user = args.first || User.current
+
+    if user.admin?
+      all
+    else
+      view_all_active = false
+      if user.memberships.to_a.any?
+        view_all_active = user.memberships.any? {|m| m.roles.any? {|r| r.users_visibility == 'all'}}
+      else
+        view_all_active = user.builtin_role.users_visibility == 'all'
+      end
+  
+      if view_all_active
+        active
+      else
+        # self and members of visible projects
+        active.where("#{table_name}.id = ? OR #{table_name}.id IN (SELECT user_id FROM #{Member.table_name} WHERE project_id IN (?))",
+          user.id, user.visible_project_ids
+        )
+      end
+    end
+  }
+
   scope :like, lambda {|q|
     q = q.to_s
     if q.blank?
@@ -82,6 +106,10 @@ class Principal < ActiveRecord::Base
 
   def name(formatter = nil)
     to_s
+  end
+
+  def visible?(user=User.current)
+    Principal.visible(user).where(:id => id).first == self
   end
 
   # Return true if the principal is a member of project

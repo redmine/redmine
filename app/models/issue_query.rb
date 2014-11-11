@@ -131,17 +131,17 @@ class IssueQuery < Query
     issue_custom_fields = []
 
     if project
-      principals += project.principals.sort
+      principals += project.principals.visible
       unless project.leaf?
         subprojects = project.descendants.visible.to_a
-        principals += Principal.member_of(subprojects)
+        principals += Principal.member_of(subprojects).visible
       end
       versions = project.shared_versions.to_a
       categories = project.issue_categories.to_a
       issue_custom_fields = project.all_issue_custom_fields
     else
       if all_projects.any?
-        principals += Principal.member_of(all_projects)
+        principals += Principal.member_of(all_projects).visible
       end
       versions = Version.visible.where(:sharing => 'system').to_a
       issue_custom_fields = IssueCustomField.where(:is_for_all => true)
@@ -185,7 +185,7 @@ class IssueQuery < Query
       :type => :list_optional, :values => assigned_to_values
     ) unless assigned_to_values.empty?
 
-    group_values = Group.givable.collect {|g| [g.name, g.id.to_s] }
+    group_values = Group.givable.visible.collect {|g| [g.name, g.id.to_s] }
     add_available_filter("member_of_group",
       :type => :list_optional, :values => group_values
     ) unless group_values.empty?

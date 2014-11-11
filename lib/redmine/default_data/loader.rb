@@ -42,6 +42,7 @@ module Redmine
             # Roles
             manager = Role.create! :name => l(:default_role_manager),
                                    :issues_visibility => 'all',
+                                   :users_visibility => 'all',
                                    :position => 1
             manager.permissions = manager.setable_permissions.collect {|p| p.name}
             manager.save!

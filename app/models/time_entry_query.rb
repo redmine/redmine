@@ -40,20 +40,20 @@ class TimeEntryQuery < Query
 
     principals = []
     if project
-      principals += project.principals.sort
+      principals += project.principals.visible.sort
       unless project.leaf?
         subprojects = project.descendants.visible.to_a
         if subprojects.any?
           add_available_filter "subproject_id",
             :type => :list_subprojects,
             :values => subprojects.collect{|s| [s.name, s.id.to_s] }
-          principals += Principal.member_of(subprojects)
+          principals += Principal.member_of(subprojects).visible
         end
       end
     else
       if all_projects.any?
         # members of visible projects
-        principals += Principal.member_of(all_projects)
+        principals += Principal.member_of(all_projects).visible
         # project filter
         project_values = []
         if User.current.logged? && User.current.memberships.any?

@@ -20,7 +20,7 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class PrincipalTest < ActiveSupport::TestCase
-  fixtures :users, :projects, :members, :member_roles
+  fixtures :users, :projects, :members, :member_roles, :roles
 
   def test_active_scope_should_return_groups_and_active_users
     result = Principal.active.to_a
@@ -28,6 +28,27 @@ class PrincipalTest < ActiveSupport::TestCase
     assert_not_nil result.detect {|p| p.is_a?(User)}
     assert_nil result.detect {|p| p.is_a?(User) && !p.active?}
     assert_nil result.detect {|p| p.is_a?(AnonymousUser)}
+  end
+
+  def test_visible_scope_for_admin_should_return_all_principals
+    admin = User.generate! {|u| u.admin = true}
+    assert_equal Principal.count, Principal.visible(admin).count
+  end
+
+  def test_visible_scope_for_user_with_members_of_visible_projects_visibility_should_return_active_principals
+    Role.non_member.update! :users_visibility => 'all'
+    user = User.generate!
+
+    expected = Principal.active
+    assert_equal expected.map(&:id).sort, Principal.visible(user).pluck(:id).sort
+  end
+
+  def test_visible_scope_for_user_with_members_of_visible_projects_visibility_should_return_members_of_visible_projects_and_self
+    Role.non_member.update! :users_visibility => 'members_of_visible_projects'
+    user = User.generate!
+
+    expected = Project.visible(user).map(&:member_principals).flatten.map(&:principal).uniq << user
+    assert_equal expected.map(&:id).sort, Principal.visible(user).pluck(:id).sort
   end
 
   def test_member_of_scope_should_return_the_union_of_all_members

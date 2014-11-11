@@ -227,6 +227,21 @@ class WatchersControllerTest < ActionController::TestCase
     assert Issue.find(2).watched_by?(user)
   end
 
+  def test_autocomplete_for_user_should_return_visible_users
+    Role.update_all :users_visibility => 'members_of_visible_projects'
+
+    hidden = User.generate!(:lastname => 'autocomplete')
+    visible = User.generate!(:lastname => 'autocomplete')
+    User.add_to_project(visible, Project.find(1))
+
+    @request.session[:user_id] = 2
+    xhr :get, :autocomplete_for_user, :q => 'autocomp', :project_id => 'ecookbook'
+    assert_response :success
+
+    assert_include visible, assigns(:users)
+    assert_not_include hidden, assigns(:users)
+  end
+
   def test_append
     @request.session[:user_id] = 2
     assert_no_difference 'Watcher.count' do

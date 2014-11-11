@@ -60,18 +60,16 @@ class UsersController < ApplicationController
   end
 
   def show
+    unless @user.visible?
+      render_404
+      return
+    end
+
     # show projects based on current user visibility
     @memberships = @user.memberships.where(Project.visible_condition(User.current)).to_a
 
     events = Redmine::Activity::Fetcher.new(User.current, :author => @user).events(nil, nil, :limit => 10)
     @events_by_day = events.group_by(&:event_date)
-
-    unless User.current.admin?
-      if !@user.active? || (@user != User.current  && @memberships.empty? && events.empty?)
-        render_404
-        return
-      end
-    end
 
     respond_to do |format|
       format.html { render :layout => 'base' }

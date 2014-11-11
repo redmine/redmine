@@ -358,6 +358,7 @@ fr:
   field_generate_password: Générer un mot de passe
   field_must_change_passwd: Doit changer de mot de passe à la prochaine connexion
   field_default_status: Statut par défaut
+  field_users_visibility: Visibilité des utilisateurs
 
   setting_app_title: Titre de l'application
   setting_app_subtitle: Sous-titre de l'application
@@ -940,6 +941,8 @@ fr:
   label_latest_compatible_version: Dernière version compatible
   label_unknown_plugin: Plugin inconnu
   label_add_projects: Ajouter des projets
+  label_users_visibility_all: Tous les utilisateurs actifs
+  label_users_visibility_members_of_visible_projects: Membres des projets visibles
 
   button_login: Connexion
   button_submit: Soumettre

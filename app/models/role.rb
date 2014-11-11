@@ -39,6 +39,11 @@ class Role < ActiveRecord::Base
     ['own', :label_issues_visibility_own]
   ]
 
+  USERS_VISIBILITY_OPTIONS = [
+    ['all', :label_users_visibility_all],
+    ['members_of_visible_projects', :label_users_visibility_members_of_visible_projects]
+  ]
+
   scope :sorted, lambda { order(:builtin, :position) }
   scope :givable, lambda { order(:position).where(:builtin => 0) }
   scope :builtin, lambda { |*args|
@@ -67,6 +72,9 @@ class Role < ActiveRecord::Base
   validates_inclusion_of :issues_visibility,
     :in => ISSUES_VISIBILITY_OPTIONS.collect(&:first),
     :if => lambda {|role| role.respond_to?(:issues_visibility)}
+  validates_inclusion_of :users_visibility,
+    :in => USERS_VISIBILITY_OPTIONS.collect(&:first),
+    :if => lambda {|role| role.respond_to?(:users_visibility)}
 
   # Copies attributes from another role, arg can be an id or a Role
   def copy_from(arg, options={})

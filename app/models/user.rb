@@ -148,6 +148,7 @@ class User < Principal
     @notified_projects_ids = nil
     @notified_projects_ids_changed = false
     @builtin_role = nil
+    @visible_project_ids = nil
     base_reload(*args)
   end
 
@@ -526,6 +527,11 @@ class User < Principal
     end
 
     @projects_by_role = hash
+  end
+
+  # Returns the ids of visible projects
+  def visible_project_ids
+    @visible_project_ids ||= Project.visible(self).pluck(:id)
   end
 
   # Returns true if user is arg or belongs to arg

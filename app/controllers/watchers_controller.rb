@@ -40,8 +40,9 @@ class WatchersController < ApplicationController
     else
       user_ids << params[:user_id]
     end
-    user_ids.flatten.compact.uniq.each do |user_id|
-      Watcher.create(:watchable => @watched, :user_id => user_id)
+    users = User.active.visible.where(:id => user_ids.flatten.compact.uniq)
+    users.each do |user|
+      Watcher.create(:watchable => @watched, :user => user)
     end
     respond_to do |format|
       format.html { redirect_to_referer_or {render :text => 'Watcher added.', :layout => true}}
@@ -53,7 +54,7 @@ class WatchersController < ApplicationController
   def append
     if params[:watcher].is_a?(Hash)
       user_ids = params[:watcher][:user_ids] || [params[:watcher][:user_id]]
-      @users = User.active.where(:id => user_ids).to_a
+      @users = User.active.visible.where(:id => user_ids).to_a
     end
     if @users.blank?
       render :nothing => true
@@ -61,7 +62,7 @@ class WatchersController < ApplicationController
   end
 
   def destroy
-    @watched.set_watcher(User.find(params[:user_id]), false)
+    @watched.set_watcher(User.visible.find(params[:user_id]), false)
     respond_to do |format|
       format.html { redirect_to :back }
       format.js
@@ -115,12 +116,13 @@ class WatchersController < ApplicationController
   end
 
   def users_for_new_watcher
-    users = []
+    scope = nil
     if params[:q].blank? && @project.present?
-      users = @project.users.sorted
+      scope = @project.users
     else
-      users = User.active.sorted.like(params[:q]).limit(100)
+      scope = User.all.limit(100)
     end
+    users = scope.active.visible.sorted.like(params[:q]).to_a
     if @watched
       users -= @watched.watcher_users
     end
