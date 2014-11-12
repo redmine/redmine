@@ -20,7 +20,8 @@ require File.expand_path('../../test_helper', __FILE__)
 class WikiControllerTest < ActionController::TestCase
   fixtures :projects, :users, :roles, :members, :member_roles,
            :enabled_modules, :wikis, :wiki_pages, :wiki_contents,
-           :wiki_content_versions, :attachments
+           :wiki_content_versions, :attachments,
+           :issues, :issue_statuses
 
   def setup
     User.current = nil
