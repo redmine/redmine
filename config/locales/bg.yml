@@ -341,6 +341,7 @@ bg:
   field_generate_password: Генериране на парола
   field_must_change_passwd: Паролата трябва да бъде сменена при следващото влизане в Redmine
   field_default_status: Състояние по подразбиране
+  field_users_visibility: Видимост на потребителите
 
   setting_app_title: Заглавие
   setting_app_subtitle: Описание
@@ -923,6 +924,8 @@ bg:
   label_latest_compatible_version: Последна съвместима версия
   label_unknown_plugin: Непознат плъгин
   label_add_projects: Добавяне на проекти
+  label_users_visibility_all: Всички активни потребители
+  label_users_visibility_members_of_visible_projects: Членовете на видимите проекти
 
   button_login: Вход
   button_submit: Изпращане
@@ -1116,6 +1119,3 @@ bg:
   description_date_from: Въведете начална дата
   description_date_to: Въведете крайна дата
   text_repository_identifier_info: 'Позволени са малки букви (a-z), цифри, тирета и _.<br />Промяна след създаването му не е възможна.'
-  field_users_visibility: Users visibility
-  label_users_visibility_all: All active users
-  label_users_visibility_members_of_visible_projects: Members of visible projects
