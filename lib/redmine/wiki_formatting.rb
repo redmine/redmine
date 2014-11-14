@@ -113,7 +113,6 @@ module Redmine
 
       # Destructively replaces urls into clickable links
       def auto_link!(text)
-        Rails.logger.debug text
         text.gsub!(AUTO_LINK_RE) do
           all, leading, proto, url, post = $&, $1, $2, $3, $6
           if leading =~ /<a\s/i || leading =~ /![<>=]?/
