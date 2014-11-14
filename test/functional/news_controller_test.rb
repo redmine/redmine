@@ -63,6 +63,17 @@ class NewsControllerTest < ActionController::TestCase
     assert_tag 'a', :content => attachment.filename
   end
 
+  def test_show_with_comments_in_reverse_order
+    user = User.find(1)
+    user.pref[:comments_sorting] = 'desc'
+    user.pref.save!
+
+    @request.session[:user_id] = 1
+    get :show, :id => 1
+    assert_response :success
+    assert_equal News.find(1).comments.to_a.sort_by(&:created_on).reverse, assigns(:comments)
+  end
+
   def test_show_not_found
     get :show, :id => 999
     assert_response 404
