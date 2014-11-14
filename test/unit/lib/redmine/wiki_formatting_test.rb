@@ -48,6 +48,19 @@ EXPECTED
     assert_equal expected.gsub(%r{[\r\n\t]}, ''), Redmine::WikiFormatting::NullFormatter::Formatter.new(raw).to_html.gsub(%r{[\r\n\t]}, '')
   end
 
+  def test_links_separated_with_line_break_should_link
+    raw = <<-DIFF
+link: https://www.redmine.org
+http://www.redmine.org
+DIFF
+
+    expected = <<-EXPECTED
+<p>link: <a class="external" href="https://www.redmine.org">https://www.redmine.org</a><br />
+<a class="external" href="http://www.redmine.org">http://www.redmine.org</a></p>
+EXPECTED
+    
+  end
+
   def test_supports_section_edit
     with_settings :text_formatting => 'textile' do
       assert_equal true, Redmine::WikiFormatting.supports_section_edit?

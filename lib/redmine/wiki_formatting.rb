@@ -94,7 +94,7 @@ module Redmine
     module LinksHelper
       AUTO_LINK_RE = %r{
                       (                          # leading text
-                        <\w+.*?>|                # leading HTML tag, or
+                        <\w+[^>]*?>|             # leading HTML tag, or
                         [\s\(\[,;]|              # leading punctuation, or
                         ^                        # beginning of line
                       )
@@ -113,8 +113,12 @@ module Redmine
 
       # Destructively replaces urls into clickable links
       def auto_link!(text)
+        Rails.logger.debug "====================="
+        Rails.logger.debug text
+        Rails.logger.debug "====================="
         text.gsub!(AUTO_LINK_RE) do
           all, leading, proto, url, post = $&, $1, $2, $3, $6
+          Rails.logger.debug all
           if leading =~ /<a\s/i || leading =~ /![<>=]?/
             # don't replace URLs that are already linked
             # and URLs prefixed with ! !> !< != (textile images)
