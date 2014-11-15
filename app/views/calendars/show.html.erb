@@ -29,6 +29,8 @@
 <% if @query.valid? %>
 <%= render :partial => 'common/calendar', :locals => {:calendar => @calendar} %>
 
+<%= call_hook(:view_calendars_show_bottom, :year => @year, :month => @month, :project => @project, :query => @query) %>
+
 <p class="legend cal">
   <span class="starting"><%= l(:text_tip_issue_begin_day) %></span>
   <span class="ending"><%= l(:text_tip_issue_end_day) %></span>
