@@ -1,6 +1,6 @@
 <fieldset class="box">
   <legend><%= l(:label_project_plural) %> <%= toggle_checkboxes_link('.projects-selection input:enabled') %></legend>
-  <div style="max-height:300px; overflow:auto;">
+  <div class="objects-selection">
     <div class="projects-selection">
     <%= render_project_nested_lists(@projects) do |p| %>
       <label>

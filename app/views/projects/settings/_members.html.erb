@@ -1,8 +1,8 @@
-<%= error_messages_for 'member' %>
 <% roles = Role.find_all_givable
    members = @project.member_principals.includes(:member_roles, :roles, :principal).to_a.sort %>
 
-<div class="splitcontentleft">
+<p><%= link_to l(:label_member_new), new_project_membership_path(@project), :remote => true, :class => "icon icon-add" %></p>
+
 <% if members.any? %>
 <table class="list members">
   <thead>
@@ -62,31 +62,3 @@
 <% else %>
 <p class="nodata"><%= l(:label_no_data) %></p>
 <% end %>
-</div>
-
-<div class="splitcontentright">
-<% if roles.any? %>
-  <%= form_for(@member,
-               {:as => :membership, :url => project_memberships_path(@project),
-                :remote => true, :method => :post}) do |f| %>
-    <fieldset>
-      <legend><%=l(:label_member_new)%></legend>
-      <p>
-        <%= label_tag("principal_search", l(:label_principal_search)) %>
-        <%= text_field_tag('principal_search', nil) %>
-      </p>
-      <%= javascript_tag "observeSearchfield('principal_search', null, '#{ escape_javascript autocomplete_project_memberships_path(@project, :format => 'js') }')" %>
-      <div id="principals_for_new_member">
-        <%= render_principals_for_new_members(@project) %>
-      </div>
-      <p>
-        <%= l(:label_role_plural) %>:
-        <% roles.each do |role| %>
-          <label><%= check_box_tag 'membership[role_ids][]', role.id, false, :id => nil %> <%= role %></label>
-        <% end %>
-      </p>
-      <p><%= submit_tag l(:button_add), :id => 'member-add-submit' %></p>
-    </fieldset>
-  <% end %>
-<% end %>
-</div>

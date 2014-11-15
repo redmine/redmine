@@ -1,0 +1,9 @@
+<h3 class="title"><%= l(:label_member_new) %></h3>
+
+<%= form_for @member, :as => :membership, :url => project_memberships_path(@project), :remote => true, :method => :post do |f| %>
+  <%= render :partial => 'new_form' %>
+  <p class="buttons">
+    <%= submit_tag l(:button_add), :id => 'member-add-submit' %>
+    <%= submit_tag l(:button_cancel), :name => nil, :onclick => "hideModal(this);", :type => 'button' %>
+  </p>
+<% end %>
