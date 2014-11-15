@@ -490,20 +490,49 @@ class ProjectsController < ApplicationController
   def generateGEPPETTOSimulationFile
       url = params[:explorer]
       uri = URI.parse(url)
-      idName = File.basename(uri.path).split(".").first
 
-      neuromlTemplate = File.read("#{Rails.root}/public/geppetto/neuromlTemplate.xml")
-      neuromlTemplate.sub! '$ENTER_MODEL_URL', url
-#      neuromlTemplate.sub! '$ENTER_ID', idName
-      neuromlTemplate.sub! '$ENTER_ID', 'idName'
-#      neuromlTemplate.sub! '$ENTER_SCRIPT_URL', 'http://127.0.0.1:3000/geppetto/geppettoScript.js'
-      neuromlTemplate.sub! '$ENTER_SCRIPT_URL', 'https://raw.githubusercontent.com/OpenSourceBrain/redmine/geppettoIntegration/public/geppetto/geppettoScript.js'
-        
+      publicResourcesPath = "#{Rails.root}/public/"
+      geppettoResourcesPath = "geppetto/";
+      geppettoTmpPath = "geppetto/tmp/"
+      simulationTemplates = "simulationTemplates/"
+      scripts = "scripts/"
+
+      filenameSplit = File.basename(uri.path).split(".")
+      entity = filenameSplit[0]
+      docType = filenameSplit[1]
+            
+      geppettoSimulationFile = File.read(publicResourcesPath + geppettoResourcesPath + simulationTemplates + "neuromlTemplate.xml")
+#      geppettoSimulationFile = File.read(publicResourcesPath + geppettoResourcesPath + simulationTemplates + "lemsTemplate.xml")
+      if docType == 'net'
+        geppettoJsFile = File.read(publicResourcesPath + geppettoResourcesPath + scripts + "osbNetworkScript.js")
+      elsif docType == 'channel'
+        geppettoJsFile = File.read(publicResourcesPath + geppettoResourcesPath + scripts + "osbChannelScript.js")
+      elsif docType == 'synapse'
+        geppettoJsFile = File.read(publicResourcesPath + geppettoResourcesPath + scripts + "osbSynapseScript.js")
+      else
+        geppettoJsFile = File.read(publicResourcesPath + geppettoResourcesPath + scripts + "osbCellScript.js")
+      end
+#      genericScript = File.read(publicResourcesPath + geppettoResourcesPath + scripts + "osbGenericScript.js")
+
+      # Generate simulation and js file path
       random_string = SecureRandom.hex
-      @geppettoSimulationFile = "/geppetto/tmp/" + random_string + ".xml"; 
-      File.write("#{Rails.root}/public"+ @geppettoSimulationFile, neuromlTemplate)
+      @geppettoSimulationFilePath = geppettoTmpPath + random_string + ".xml"
+      @geppettoJsFilePath = geppettoTmpPath + random_string + ".js"      
+          
+      # Parse simulation file      
+      geppettoSimulationFile.sub! '$ENTER_MODEL_URL', url
+      geppettoSimulationFile.sub! '$ENTER_ID', entity
+      geppettoSimulationFile.sub! '$ENTER_SCRIPT_URL', 'http://127.0.0.1:3000/' + @geppettoJsFilePath
+      #geppettoSimulationFile.sub! '$ENTER_SCRIPT_URL', 'https://raw.githubusercontent.com/OpenSourceBrain/redmine/geppettoIntegration/public/geppetto/osbChannelScript.js'
+        
+      # Parse js file
+      geppettoJsFile.gsub! '$ENTER_ID', entity
       
-      geppettoSimulationFileObj = {"geppettoSimulationFile"=> @geppettoSimulationFile}
+      # Write files to tmp folder
+      File.write(publicResourcesPath + @geppettoSimulationFilePath, geppettoSimulationFile)
+      File.write(publicResourcesPath + @geppettoJsFilePath, geppettoJsFile)
+      
+      geppettoSimulationFileObj = {"geppettoSimulationFile"=> @geppettoSimulationFilePath}
       render json: geppettoSimulationFileObj
   end  
 
