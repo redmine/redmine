@@ -71,39 +71,16 @@ class LayoutTest < ActionDispatch::IntegrationTest
   end
 
   def test_calendar_header_tags
-    with_settings :default_language => 'fr' do
-      get '/issues'
-      assert_include "/javascripts/i18n/datepicker-fr.js", response.body
-    end
+    get '/issues'
+    assert_include "/javascripts/jquery.datetimepicker.js", response.body
 
-    with_settings :default_language => 'en-GB' do
-      get '/issues'
-      assert_include "/javascripts/i18n/datepicker-en-GB.js", response.body
-    end
-
-    with_settings :default_language => 'en' do
-      get '/issues'
-      assert_not_include "/javascripts/i18n/datepicker", response.body
-    end
-
-    with_settings :default_language => 'zh' do
-      get '/issues'
-      assert_include "/javascripts/i18n/datepicker-zh-CN.js", response.body
-    end
-
-    with_settings :default_language => 'zh-TW' do
-      get '/issues'
-      assert_include "/javascripts/i18n/datepicker-zh-TW.js", response.body
-    end
-
-    with_settings :default_language => 'pt' do
-      get '/issues'
-      assert_include "/javascripts/i18n/datepicker-pt.js", response.body
-    end
-
-    with_settings :default_language => 'pt-BR' do
-      get '/issues'
-      assert_include "/javascripts/i18n/datepicker-pt-BR.js", response.body
+    # verification i18n
+    langs = array = ['ar','ro','id','bg','fa','ru','uk','en','el','de','nl','tr','fr','es','th','pl','pt',
+      'ch','se','kr','it','da','no','ja','vi','sl','cs','hu','az','bs','ca',"'en-GB'",'et','eu','fi','gl',
+      'hr','ko','lt','lv','mk','mn',"'pt-BR'",'sk','sq',"'sr-YU'",'sr','sv',"'zh-TW'",'zh','he']
+    get '/javascripts/jquery.datetimepicker.js'
+    for i in 0 ... langs.size
+      assert response.body.include? "\t"+langs[i]+":"
     end
   end
 

@@ -1,3 +1,18 @@
-<p><%= f.text_field(:default_value, :size => 10) %></p>
+<p>
+	<%= f.text_field(:default_value, :size => 15) %>
+</p>
+<p>
+	<label><%=l(:field_hours)%></label>
+	<label class="block">
+		<%= radio_button_tag 'custom_field[show_hours]', 1, (custom_field.show_hours=='1'), :id=>'custom_field_show_hours_yes',
+			:class=>'custom_field_show_hours', :data => {:enables => '.custom_field_show_hours input'} %>
+		<%=l(:general_text_Yes)%>
+	</label>
+	<label class="block">
+		<%= radio_button_tag 'custom_field[show_hours]', 0, (custom_field.show_hours!='1'), :id=>'custom_field_show_hours_no',
+			:class=>'custom_field_show_hours', :data => {:disables => '.custom_field_show_hours input'} %>
+		<%=l(:general_text_No)%>
+	</label>
+</p>
 <%= calendar_for('custom_field_default_value') %>
 <p><%= f.text_field :url_pattern, :size => 50, :label => :label_link_values_to %></p>
