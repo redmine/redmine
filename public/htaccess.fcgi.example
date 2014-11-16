@@ -34,10 +34,10 @@ RewriteRule ^$ index.html [QSA]
 RewriteRule ^([^.]+)$ $1.html [QSA]
 RewriteCond %{REQUEST_FILENAME} !-f
 <IfModule mod_fastcgi.c>
-	RewriteRule ^(.*)$ dispatch.fcgi [QSA,L]
+	RewriteRule ^(.*)$ dispatch.fcgi [E=X-HTTP_AUTHORIZATION:%{HTTP:Authorization},QSA,L]
 </IfModule>
 <IfModule mod_fcgid.c>
-	RewriteRule ^(.*)$ dispatch.fcgi [QSA,L]
+	RewriteRule ^(.*)$ dispatch.fcgi [E=X-HTTP_AUTHORIZATION:%{HTTP:Authorization},QSA,L]
 </IfModule>
 
 # In case Rails experiences terminal errors
