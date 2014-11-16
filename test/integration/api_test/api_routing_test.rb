@@ -65,19 +65,11 @@ class Redmine::ApiTest::ApiRoutingTest < Redmine::ApiTest::Routing
 
   def test_issue_statuses
     should_route 'GET /issue_statuses' => 'issue_statuses#index'
-    should_route 'POST /issue_statuses' => 'issue_statuses#create' # NOT IMPLEMENTED
-    should_route 'GET /issue_statuses/new' => 'issue_statuses#new' # NOT IMPLEMENTED
-
-    should_route 'PUT /issue_statuses/1' => 'issue_statuses#update', :id => '1' # NOT IMPLEMENTED
-    should_route 'DELETE /issue_statuses/1' => 'issue_statuses#destroy', :id => '1' # NOT IMPLEMENTED
-    should_route 'POST /issue_statuses/update_issue_done_ratio' => 'issue_statuses#update_issue_done_ratio' # NOT IMPLEMENTED
   end
 
   def test_issues
     should_route 'GET /issues' => 'issues#index'
     should_route 'POST /issues' => 'issues#create'
-
-    should_route 'GET /projects/23/issues' => 'issues#index', :project_id => '23'
 
     should_route 'GET /issues/64' => 'issues#show', :id => '64'
     should_route 'PUT /issues/64' => 'issues#update', :id => '64'
@@ -118,11 +110,6 @@ class Redmine::ApiTest::ApiRoutingTest < Redmine::ApiTest::Routing
 
   def test_trackers
     should_route 'GET /trackers' => 'trackers#index'
-    should_route 'POST /trackers' => 'trackers#create' # NOT IMPLEMENTED
-    should_route 'GET /trackers/new' => 'trackers#new' # NOT IMPLEMENTED
-
-    should_route 'PUT /trackers/1' => 'trackers#update', :id => '1' # NOT IMPLEMENTED
-    should_route 'DELETE /trackers/1' => 'trackers#destroy', :id => '1' # NOT IMPLEMENTED
   end
 
   def test_users
