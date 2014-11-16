@@ -76,6 +76,11 @@ class Redmine::ApiTest::ApiRoutingTest < Redmine::ApiTest::Routing
     should_route 'DELETE /issues/64' => 'issues#destroy', :id => '64'
   end
 
+  def test_issue_watchers
+    should_route 'POST /issues/12/watchers' => 'watchers#create', :object_type => 'issue', :object_id => '12'
+    should_route 'DELETE /issues/12/watchers/3' => 'watchers#destroy', :object_type => 'issue', :object_id => '12', :user_id => '3'
+  end
+
   def test_memberships
     should_route 'GET /projects/5234/memberships' => 'members#index', :project_id => '5234'
     should_route 'POST /projects/5234/memberships' => 'members#create', :project_id => '5234'
@@ -138,11 +143,6 @@ class Redmine::ApiTest::ApiRoutingTest < Redmine::ApiTest::Routing
     should_route 'GET /versions/1' => 'versions#show', :id => '1'
     should_route 'PUT /versions/1' => 'versions#update', :id => '1'
     should_route 'DELETE /versions/1' => 'versions#destroy', :id => '1'
-  end
-
-  def test_watchers
-    should_route 'POST /issues/12/watchers' => 'watchers#create', :object_type => 'issue', :object_id => '12'
-    should_route 'DELETE /issues/12/watchers/3' => 'watchers#destroy', :object_type => 'issue', :object_id => '12', :user_id => '3'
   end
 
   def test_wiki
