@@ -113,6 +113,18 @@ class GroupsControllerTest < ActionController::TestCase
     assert_redirected_to '/groups'
   end
 
+  def test_new_users
+    get :new_users, :id => 10
+    assert_response :success
+    assert_template 'new_users'
+  end
+
+  def test_xhr_new_users
+    xhr :get, :new_users, :id => 10
+    assert_response :success
+    assert_equal 'text/javascript', response.content_type
+  end
+
   def test_add_users
     assert_difference 'Group.find(10).users.count', 2 do
       post :add_users, :id => 10, :user_ids => ['2', '3']

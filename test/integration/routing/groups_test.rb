@@ -79,6 +79,10 @@ class RoutingGroupsTest < ActionDispatch::IntegrationTest
 
   def test_groups
     assert_routing(
+        { :method => 'get', :path => "/groups/567/users/new" },
+        { :controller => 'groups', :action => 'new_users', :id => '567' }
+      )
+    assert_routing(
         { :method => 'post', :path => "/groups/567/users" },
         { :controller => 'groups', :action => 'add_users', :id => '567' }
       )

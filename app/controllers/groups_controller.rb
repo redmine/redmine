@@ -95,6 +95,9 @@ class GroupsController < ApplicationController
     end
   end
 
+  def new_users
+  end
+
   def add_users
     @users = User.where(:id => (params[:user_id] || params[:user_ids])).to_a
     @group.users << @users if request.post?

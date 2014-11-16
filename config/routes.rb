@@ -274,8 +274,9 @@ Rails.application.routes.draw do
     end
   end
 
-  match 'groups/:id/users', :controller => 'groups', :action => 'add_users', :id => /\d+/, :via => :post, :as => 'group_users'
-  match 'groups/:id/users/:user_id', :controller => 'groups', :action => 'remove_user', :id => /\d+/, :via => :delete, :as => 'group_user'
+  get 'groups/:id/users/new', :to => 'groups#new_users', :id => /\d+/, :as => 'new_group_users'
+  post 'groups/:id/users', :to => 'groups#add_users', :id => /\d+/, :as => 'group_users'
+  delete 'groups/:id/users/:user_id', :to => 'groups#remove_user', :id => /\d+/, :as => 'group_user'
 
   resources :trackers, :except => :show do
     collection do

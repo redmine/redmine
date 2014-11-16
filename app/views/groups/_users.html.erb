@@ -1,4 +1,5 @@
-<div class="splitcontentleft">
+<p><%= link_to l(:label_user_new), new_group_users_path(@group), :remote => true, :class => "icon icon-add" %></p>
+
 <% if @group.users.any? %>
   <table class="list users">
     <thead><tr>
@@ -19,21 +20,3 @@
 <% else %>
   <p class="nodata"><%= l(:label_no_data) %></p>
 <% end %>
-</div>
-
-<div class="splitcontentright">
-  <%= form_for(@group, :remote => true, :url => group_users_path(@group),
-               :html => {:method => :post}) do |f| %>
-    <fieldset><legend><%=l(:label_user_new)%></legend>
-
-    <p><%= label_tag "user_search", l(:label_user_search) %><%= text_field_tag 'user_search', nil %></p>
-    <%= javascript_tag "observeSearchfield('user_search', null, '#{ escape_javascript autocomplete_for_user_group_path(@group) }')" %>
-
-    <div id="users">
-      <%= render_principals_for_new_group_users(@group) %>
-    </div>
-
-    <p><%= submit_tag l(:button_add) %></p>
-    </fieldset>
-  <% end %>
-</div>
