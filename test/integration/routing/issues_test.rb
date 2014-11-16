@@ -17,98 +17,40 @@
 
 require File.expand_path('../../../test_helper', __FILE__)
 
-class RoutingIssuesTest < ActionDispatch::IntegrationTest
+class RoutingIssuesTest < Redmine::RoutingTest
   def test_issues
-    assert_routing(
-        { :method => 'get', :path => "/issues" },
-        { :controller => 'issues', :action => 'index' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/issues.pdf" },
-        { :controller => 'issues', :action => 'index', :format => 'pdf' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/issues.atom" },
-        { :controller => 'issues', :action => 'index', :format => 'atom' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/issues/64" },
-        { :controller => 'issues', :action => 'show', :id => '64' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/issues/64.pdf" },
-        { :controller => 'issues', :action => 'show', :id => '64',
-          :format => 'pdf' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/issues/64.atom" },
-        { :controller => 'issues', :action => 'show', :id => '64',
-          :format => 'atom' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/issues/64/edit" },
-        { :controller => 'issues', :action => 'edit', :id => '64' }
-      )
-    assert_routing(
-        { :method => 'put', :path => "/issues/1" },
-        { :controller => 'issues', :action => 'update', :id => '1' }
-      )
-    assert_routing(
-        { :method => 'delete', :path => "/issues/1" },
-        { :controller => 'issues', :action => 'destroy', :id => '1' }
-      )
+    should_route 'GET /issues' => 'issues#index'
+    should_route 'GET /issues.pdf' => 'issues#index', :format => 'pdf'
+    should_route 'GET /issues.atom' => 'issues#index', :format => 'atom'
+
+    should_route 'GET /issues/64' => 'issues#show', :id => '64'
+    should_route 'GET /issues/64.pdf' => 'issues#show', :id => '64', :format => 'pdf'
+    should_route 'GET /issues/64.atom' => 'issues#show', :id => '64', :format => 'atom'
+
+    should_route 'GET /issues/64/edit' => 'issues#edit', :id => '64'
+    should_route 'PUT /issues/64' => 'issues#update', :id => '64'
+    should_route 'DELETE /issues/64' => 'issues#destroy', :id => '64'
+  end
+
+  def test_issues_bulk_edit
+    should_route 'GET /issues/bulk_edit' => 'issues#bulk_edit'
+    should_route 'POST /issues/bulk_edit' => 'issues#bulk_edit' # For updating the bulk edit form
+    should_route 'POST /issues/bulk_update' => 'issues#bulk_update'
   end
 
   def test_issues_scoped_under_project
-    assert_routing(
-        { :method => 'get', :path => "/projects/23/issues" },
-        { :controller => 'issues', :action => 'index', :project_id => '23' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/projects/23/issues.pdf" },
-        { :controller => 'issues', :action => 'index', :project_id => '23',
-          :format => 'pdf' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/projects/23/issues.atom" },
-        { :controller => 'issues', :action => 'index', :project_id => '23',
-          :format => 'atom' }
-      )
-    assert_routing(
-        { :method => 'post', :path => "/projects/23/issues" },
-        { :controller => 'issues', :action => 'create', :project_id => '23' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/projects/23/issues/new" },
-        { :controller => 'issues', :action => 'new', :project_id => '23' }
-      )
+    should_route 'GET /projects/23/issues' => 'issues#index', :project_id => '23'
+    should_route 'GET /projects/23/issues.pdf' => 'issues#index', :project_id => '23', :format => 'pdf'
+    should_route 'GET /projects/23/issues.atom' => 'issues#index', :project_id => '23', :format => 'atom'
+
+    should_route 'GET /projects/23/issues/new' => 'issues#new', :project_id => '23'
+    should_route 'POST /projects/23/issues' => 'issues#create', :project_id => '23'
+
+    should_route 'GET /projects/23/issues/64/copy' => 'issues#new', :project_id => '23', :copy_from => '64'
   end
 
   def test_issues_form_update
-    ["post", "put"].each do |method|
-      assert_routing(
-          { :method => method, :path => "/projects/23/issues/update_form" },
-          { :controller => 'issues', :action => 'update_form', :project_id => '23' }
-        )
-    end
-  end
-
-  def test_issues_extra_actions
-    assert_routing(
-        { :method => 'get', :path => "/projects/23/issues/64/copy" },
-        { :controller => 'issues', :action => 'new', :project_id => '23',
-          :copy_from => '64' }
-      )
-    # For updating the bulk edit form
-    ["get", "post"].each do |method|
-      assert_routing(
-          { :method => method, :path => "/issues/bulk_edit" },
-          { :controller => 'issues', :action => 'bulk_edit' }
-        )
-    end
-    assert_routing(
-        { :method => 'post', :path => "/issues/bulk_update" },
-        { :controller => 'issues', :action => 'bulk_update' }
-      )
+    should_route 'POST /projects/23/issues/update_form' => 'issues#update_form', :project_id => '23'
+    should_route 'PUT /projects/23/issues/update_form' => 'issues#update_form', :project_id => '23'
   end
 end

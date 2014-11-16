@@ -17,17 +17,11 @@
 
 require File.expand_path('../../../test_helper', __FILE__)
 
-class RoutingWikisTest < ActionDispatch::IntegrationTest
-  def test_wikis_plural_admin_setup
-    ["get", "post"].each do |method|
-      assert_routing(
-          { :method => method, :path => "/projects/ladida/wiki/destroy" },
-          { :controller => 'wikis', :action => 'destroy', :id => 'ladida' }
-        )
-    end
-    assert_routing(
-        { :method => 'post', :path => "/projects/ladida/wiki" },
-        { :controller => 'wikis', :action => 'edit', :id => 'ladida' }
-      )
+class RoutingWikisTest < Redmine::RoutingTest
+  def test_wikis
+    should_route 'POST /projects/foo/wiki' => 'wikis#edit', :id => 'foo'
+
+    should_route 'GET /projects/foo/wiki/destroy' => 'wikis#destroy', :id => 'foo'
+    should_route 'POST /projects/foo/wiki/destroy' => 'wikis#destroy', :id => 'foo'
   end
 end

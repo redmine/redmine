@@ -17,15 +17,9 @@
 
 require File.expand_path('../../../test_helper', __FILE__)
 
-class RoutingSearchTest < ActionDispatch::IntegrationTest
+class RoutingSearchTest < Redmine::RoutingTest
   def test_search
-    assert_routing(
-        { :method => 'get', :path => "/search" },
-        { :controller => 'search', :action => 'index' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/projects/foo/search" },
-        { :controller => 'search', :action => 'index', :id => 'foo' }
-      )
+    should_route 'GET /search' => 'search#index'
+    should_route 'GET /projects/foo/search' => 'search#index', :id => 'foo'
   end
 end

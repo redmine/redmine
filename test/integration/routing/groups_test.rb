@@ -17,58 +17,24 @@
 
 require File.expand_path('../../../test_helper', __FILE__)
 
-class RoutingGroupsTest < ActionDispatch::IntegrationTest
-  def test_groups_resources
-    assert_routing(
-        { :method => 'get', :path => "/groups" },
-        { :controller => 'groups', :action => 'index' }
-      )
-    assert_routing(
-        { :method => 'post', :path => "/groups" },
-        { :controller => 'groups', :action => 'create' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/groups/new" },
-        { :controller => 'groups', :action => 'new' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/groups/1/edit" },
-        { :controller => 'groups', :action => 'edit', :id => '1' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/groups/1/autocomplete_for_user" },
-        { :controller => 'groups', :action => 'autocomplete_for_user', :id => '1' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/groups/1/autocomplete_for_user.js" },
-        { :controller => 'groups', :action => 'autocomplete_for_user', :id => '1', :format => 'js' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/groups/1" },
-        { :controller => 'groups', :action => 'show', :id => '1' }
-      )
-    assert_routing(
-        { :method => 'put', :path => "/groups/1" },
-        { :controller => 'groups', :action => 'update', :id => '1' }
-      )
-    assert_routing(
-        { :method => 'delete', :path => "/groups/1" },
-        { :controller => 'groups', :action => 'destroy', :id => '1' }
-      )
+class RoutingGroupsTest < Redmine::RoutingTest
+  def test_groups
+    should_route 'GET /groups' => 'groups#index'
+    should_route 'GET /groups/new' => 'groups#new'
+    should_route 'POST /groups' => 'groups#create'
+
+    should_route 'GET /groups/1' => 'groups#show', :id => '1'
+    should_route 'GET /groups/1/edit' => 'groups#edit', :id => '1'
+    should_route 'PUT /groups/1' => 'groups#update', :id => '1'
+    should_route 'DELETE /groups/1' => 'groups#destroy', :id => '1'
+
+    should_route 'GET /groups/1/autocomplete_for_user' => 'groups#autocomplete_for_user', :id => '1'
+    should_route 'GET /groups/1/autocomplete_for_user.js' => 'groups#autocomplete_for_user', :id => '1', :format => 'js'
   end
 
-  def test_groups
-    assert_routing(
-        { :method => 'get', :path => "/groups/567/users/new" },
-        { :controller => 'groups', :action => 'new_users', :id => '567' }
-      )
-    assert_routing(
-        { :method => 'post', :path => "/groups/567/users" },
-        { :controller => 'groups', :action => 'add_users', :id => '567' }
-      )
-    assert_routing(
-        { :method => 'delete', :path => "/groups/567/users/12" },
-        { :controller => 'groups', :action => 'remove_user', :id => '567', :user_id => '12' }
-      )
+  def test_group_users
+    should_route 'GET /groups/567/users/new' => 'groups#new_users', :id => '567'
+    should_route 'POST /groups/567/users' => 'groups#add_users', :id => '567'
+    should_route 'DELETE /groups/567/users/12' => 'groups#remove_user', :id => '567', :user_id => '12'
   end
 end

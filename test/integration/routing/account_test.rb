@@ -17,35 +17,20 @@
 
 require File.expand_path('../../../test_helper', __FILE__)
 
-class RoutingAccountTest < ActionDispatch::IntegrationTest
+class RoutingAccountTest < Redmine::RoutingTest
   def test_account
-    ["get", "post"].each do |method|
-      assert_routing(
-          { :method => method, :path => "/login" },
-          { :controller => 'account', :action => 'login' }
-        )
-    end
-    ["get", "post"].each do |method|
-      assert_routing(
-          { :method => method, :path => "/logout" },
-          { :controller => 'account', :action => 'logout' }
-        )
-    end
-    ["get", "post"].each do |method|
-      assert_routing(
-          { :method => method, :path => "/account/register" },
-          { :controller => 'account', :action => 'register' }
-        )
-    end
-    ["get", "post"].each do |method|
-      assert_routing(
-          { :method => method, :path => "/account/lost_password" },
-          { :controller => 'account', :action => 'lost_password' }
-        )
-    end
-    assert_routing(
-        { :method => 'get', :path => "/account/activate" },
-        { :controller => 'account', :action => 'activate' }
-      )
+    should_route 'GET  /login' => 'account#login'
+    should_route 'POST /login' => 'account#login'
+
+    should_route 'GET  /logout' => 'account#logout'
+    should_route 'POST /logout' => 'account#logout'
+
+    should_route 'GET  /account/register' => 'account#register'
+    should_route 'POST /account/register' => 'account#register'
+
+    should_route 'GET  /account/lost_password' => 'account#lost_password'
+    should_route 'POST /account/lost_password' => 'account#lost_password'
+
+    should_route 'GET  /account/activate' => 'account#activate'
   end
 end

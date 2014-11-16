@@ -17,31 +17,14 @@
 
 require File.expand_path('../../../test_helper', __FILE__)
 
-class RoutingEnumerationsTest < ActionDispatch::IntegrationTest
+class RoutingEnumerationsTest < Redmine::RoutingTest
   def test_enumerations
-    assert_routing(
-        { :method => 'get', :path => "/enumerations" },
-        { :controller => 'enumerations', :action => 'index' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/enumerations/new" },
-        { :controller => 'enumerations', :action => 'new' }
-      )
-    assert_routing(
-        { :method => 'post', :path => "/enumerations" },
-        { :controller => 'enumerations', :action => 'create' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/enumerations/2/edit" },
-        { :controller => 'enumerations', :action => 'edit', :id => '2' }
-      )
-    assert_routing(
-        { :method => 'put', :path => "/enumerations/2" },
-        { :controller => 'enumerations', :action => 'update', :id => '2' }
-      )
-    assert_routing(
-        { :method => 'delete', :path => "/enumerations/2" },
-        { :controller => 'enumerations', :action => 'destroy', :id => '2' }
-      )
+    should_route 'GET /enumerations' => 'enumerations#index'
+    should_route 'GET /enumerations/new' => 'enumerations#new'
+    should_route 'POST /enumerations' => 'enumerations#create'
+
+    should_route 'GET /enumerations/2/edit' => 'enumerations#edit', :id => '2'
+    should_route 'PUT /enumerations/2' => 'enumerations#update', :id => '2'
+    should_route 'DELETE /enumerations/2' => 'enumerations#destroy', :id => '2'
   end
 end

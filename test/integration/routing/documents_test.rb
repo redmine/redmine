@@ -17,42 +17,21 @@
 
 require File.expand_path('../../../test_helper', __FILE__)
 
-class RoutingDocumentsTest < ActionDispatch::IntegrationTest
+class RoutingDocumentsTest < Redmine::RoutingTest
   def test_documents_scoped_under_project
-    assert_routing(
-        { :method => 'get', :path => "/projects/567/documents" },
-        { :controller => 'documents', :action => 'index', :project_id => '567' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/projects/567/documents/new" },
-        { :controller => 'documents', :action => 'new', :project_id => '567' }
-      )
-    assert_routing(
-        { :method => 'post', :path => "/projects/567/documents" },
-        { :controller => 'documents', :action => 'create', :project_id => '567' }
-      )
+    should_route 'GET /projects/567/documents' => 'documents#index', :project_id => '567'
+    should_route 'GET /projects/567/documents/new' => 'documents#new', :project_id => '567'
+    should_route 'POST /projects/567/documents' => 'documents#create', :project_id => '567'
   end
 
   def test_documents
-    assert_routing(
-        { :method => 'get', :path => "/documents/22" },
-        { :controller => 'documents', :action => 'show', :id => '22' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/documents/22/edit" },
-        { :controller => 'documents', :action => 'edit', :id => '22' }
-      )
-    assert_routing(
-        { :method => 'put', :path => "/documents/22" },
-        { :controller => 'documents', :action => 'update', :id => '22' }
-      )
-    assert_routing(
-        { :method => 'delete', :path => "/documents/22" },
-        { :controller => 'documents', :action => 'destroy', :id => '22' }
-      )
-    assert_routing(
-        { :method => 'post', :path => "/documents/22/add_attachment" },
-        { :controller => 'documents', :action => 'add_attachment', :id => '22' }
-      )
+    should_route 'GET /documents/22' => 'documents#show', :id => '22'
+    should_route 'GET /documents/22/edit' => 'documents#edit', :id => '22'
+    should_route 'PUT /documents/22' => 'documents#update', :id => '22'
+    should_route 'DELETE /documents/22' => 'documents#destroy', :id => '22'
+  end
+
+  def test_document_attachments
+    should_route 'POST /documents/22/add_attachment' => 'documents#add_attachment', :id => '22'
   end
 end

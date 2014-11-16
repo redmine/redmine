@@ -17,57 +17,26 @@
 
 require File.expand_path('../../../test_helper', __FILE__)
 
-class RoutingMyTest < ActionDispatch::IntegrationTest
+class RoutingMyTest < Redmine::RoutingTest
   def test_my
-    ["get", "post"].each do |method|
-      assert_routing(
-          { :method => method, :path => "/my/account" },
-          { :controller => 'my', :action => 'account' }
-        )
-    end
-    ["get", "post"].each do |method|
-      assert_routing(
-          { :method => method, :path => "/my/account/destroy" },
-          { :controller => 'my', :action => 'destroy' }
-        )
-    end
-    assert_routing(
-        { :method => 'get', :path => "/my/page" },
-        { :controller => 'my', :action => 'page' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/my" },
-        { :controller => 'my', :action => 'index' }
-      )
-    assert_routing(
-        { :method => 'post', :path => "/my/reset_rss_key" },
-        { :controller => 'my', :action => 'reset_rss_key' }
-      )
-    assert_routing(
-        { :method => 'post', :path => "/my/reset_api_key" },
-        { :controller => 'my', :action => 'reset_api_key' }
-      )
-    ["get", "post"].each do |method|
-      assert_routing(
-          { :method => method, :path => "/my/password" },
-          { :controller => 'my', :action => 'password' }
-        )
-    end
-    assert_routing(
-        { :method => 'get', :path => "/my/page_layout" },
-        { :controller => 'my', :action => 'page_layout' }
-      )
-    assert_routing(
-        { :method => 'post', :path => "/my/add_block" },
-        { :controller => 'my', :action => 'add_block' }
-      )
-    assert_routing(
-        { :method => 'post', :path => "/my/remove_block" },
-        { :controller => 'my', :action => 'remove_block' }
-      )
-    assert_routing(
-        { :method => 'post', :path => "/my/order_blocks" },
-        { :controller => 'my', :action => 'order_blocks' }
-      )
+    should_route 'GET /my/account' => 'my#account'
+    should_route 'POST /my/account' => 'my#account'
+
+    should_route 'GET /my/account/destroy' => 'my#destroy'
+    should_route 'POST /my/account/destroy' => 'my#destroy'
+
+    should_route 'GET /my/page' => 'my#page'
+    should_route 'GET /my' => 'my#index'
+
+    should_route 'POST /my/reset_rss_key' => 'my#reset_rss_key'
+    should_route 'POST /my/reset_api_key' => 'my#reset_api_key'
+
+    should_route 'GET /my/password' => 'my#password'
+    should_route 'POST /my/password' => 'my#password'
+
+    should_route 'GET /my/page_layout' => 'my#page_layout'
+    should_route 'POST /my/add_block' => 'my#add_block'
+    should_route 'POST /my/remove_block' => 'my#remove_block'
+    should_route 'POST /my/order_blocks' => 'my#order_blocks'
   end
 end

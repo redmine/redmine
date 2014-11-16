@@ -17,29 +17,16 @@
 
 require File.expand_path('../../../test_helper', __FILE__)
 
-class RoutingWorkflowsTest < ActionDispatch::IntegrationTest
+class RoutingWorkflowsTest < Redmine::RoutingTest
   def test_workflows
-    assert_routing(
-        { :method => 'get', :path => "/workflows" },
-        { :controller => 'workflows', :action => 'index' }
-      )
-    ["get", "post"].each do |method|
-      assert_routing(
-          { :method => method, :path => "/workflows/edit" },
-          { :controller => 'workflows', :action => 'edit' }
-        )
-    end
-    ["get", "post"].each do |method|
-      assert_routing(
-          { :method => method, :path => "/workflows/permissions" },
-          { :controller => 'workflows', :action => 'permissions' }
-        )
-    end
-    ["get", "post"].each do |method|
-      assert_routing(
-          { :method => method, :path => "/workflows/copy" },
-          { :controller => 'workflows', :action => 'copy' }
-        )
-    end
+    should_route 'GET /workflows' => 'workflows#index'
+    should_route 'GET /workflows/edit' => 'workflows#edit'
+    should_route 'POST /workflows/edit' => 'workflows#edit'
+
+    should_route 'GET /workflows/permissions' => 'workflows#permissions'
+    should_route 'POST /workflows/permissions' => 'workflows#permissions'
+
+    should_route 'GET /workflows/copy' => 'workflows#copy'
+    should_route 'POST /workflows/copy' => 'workflows#copy'
   end
 end

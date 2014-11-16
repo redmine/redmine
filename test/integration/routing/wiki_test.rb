@@ -17,119 +17,43 @@
 
 require File.expand_path('../../../test_helper', __FILE__)
 
-class RoutingWikiTest < ActionDispatch::IntegrationTest
-  def test_wiki_matching
-    assert_routing(
-        { :method => 'get', :path => "/projects/567/wiki" },
-        { :controller => 'wiki', :action => 'show', :project_id => '567' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/projects/567/wiki/lalala" },
-        { :controller => 'wiki', :action => 'show', :project_id => '567',
-          :id => 'lalala' }
-        )
-    assert_routing(
-        { :method => 'get', :path => "/projects/567/wiki/lalala.pdf" },
-        { :controller => 'wiki', :action => 'show', :project_id => '567',
-          :id => 'lalala', :format => 'pdf' }
-        )
-    assert_routing(
-         { :method => 'get', :path => "/projects/1/wiki/CookBook_documentation/diff" },
-         { :controller => 'wiki', :action => 'diff', :project_id => '1',
-           :id => 'CookBook_documentation' }
-       )
-    assert_routing(
-         { :method => 'get', :path => "/projects/1/wiki/CookBook_documentation/2" },
-         { :controller => 'wiki', :action => 'show', :project_id => '1',
-           :id => 'CookBook_documentation', :version => '2' }
-       )
-    assert_routing(
-         { :method => 'get', :path => "/projects/1/wiki/CookBook_documentation/2/diff" },
-         { :controller => 'wiki', :action => 'diff', :project_id => '1',
-           :id => 'CookBook_documentation', :version => '2' }
-       )
-    assert_routing(
-         { :method => 'get', :path => "/projects/1/wiki/CookBook_documentation/2/annotate" },
-         { :controller => 'wiki', :action => 'annotate', :project_id => '1',
-           :id => 'CookBook_documentation', :version => '2' }
-       )
+class RoutingWikiTest < Redmine::RoutingTest
+  def test_wiki
+    should_route 'GET /projects/foo/wiki' => 'wiki#show', :project_id => 'foo'
+    should_route 'GET /projects/foo/wiki/index' => 'wiki#index', :project_id => 'foo'
+    should_route 'GET /projects/foo/wiki/date_index' => 'wiki#date_index', :project_id => 'foo'
+    should_route 'GET /projects/foo/wiki/export' => 'wiki#export', :project_id => 'foo'
+    should_route 'GET /projects/foo/wiki/export.pdf' => 'wiki#export', :project_id => 'foo', :format => 'pdf'
+  end
+
+  def test_wiki_pages
+    should_route 'GET /projects/foo/wiki/page' => 'wiki#show', :project_id => 'foo', :id => 'page'
+    should_route 'GET /projects/foo/wiki/page.pdf' => 'wiki#show', :project_id => 'foo', :id => 'page', :format => 'pdf'
+
+    should_route 'GET /projects/foo/wiki/page/edit' => 'wiki#edit', :project_id => 'foo', :id => 'page'
+    should_route 'PUT /projects/foo/wiki/page' => 'wiki#update', :project_id => 'foo', :id => 'page'
+    should_route 'DELETE /projects/foo/wiki/page' => 'wiki#destroy', :project_id => 'foo', :id => 'page'
+
+    should_route 'GET /projects/foo/wiki/page/history' => 'wiki#history', :project_id => 'foo', :id => 'page'
+    should_route 'GET /projects/foo/wiki/page/diff' => 'wiki#diff', :project_id => 'foo', :id => 'page'
+    should_route 'GET /projects/foo/wiki/page/rename' => 'wiki#rename', :project_id => 'foo', :id => 'page'
+    should_route 'POST /projects/foo/wiki/page/rename' => 'wiki#rename', :project_id => 'foo', :id => 'page'
+    should_route 'POST /projects/foo/wiki/page/protect' => 'wiki#protect', :project_id => 'foo', :id => 'page'
+    should_route 'POST /projects/foo/wiki/page/add_attachment' => 'wiki#add_attachment', :project_id => 'foo', :id => 'page'
+
+    should_route 'POST /projects/foo/wiki/page/preview' => 'wiki#preview', :project_id => 'foo', :id => 'page'
+    should_route 'PUT /projects/foo/wiki/page/preview' => 'wiki#preview', :project_id => 'foo', :id => 'page'
+
     # Make sure we don't route wiki page sub-uris to let plugins handle them
     assert_raise(Minitest::Assertion) do
-      assert_recognizes({}, {:method => 'get', :path => "/projects/1/wiki/CookBook_documentation/whatever"})
+      assert_recognizes({}, {:method => 'get', :path => "/projects/foo/wiki/page/whatever"})
     end
   end
 
-  def test_wiki_misc
-    assert_routing(
-        { :method => 'get', :path => "/projects/567/wiki/date_index" },
-        { :controller => 'wiki', :action => 'date_index', :project_id => '567' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/projects/567/wiki/export" },
-        { :controller => 'wiki', :action => 'export', :project_id => '567' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/projects/567/wiki/export.pdf" },
-        { :controller => 'wiki', :action => 'export', :project_id => '567', :format => 'pdf' }
-      )
-    assert_routing(
-         { :method => 'get', :path => "/projects/567/wiki/index" },
-         { :controller => 'wiki', :action => 'index', :project_id => '567' }
-       )
-  end
-
-  def test_wiki_resources
-    assert_routing(
-        { :method => 'get', :path => "/projects/567/wiki/my_page/edit" },
-        { :controller => 'wiki', :action => 'edit', :project_id => '567',
-          :id => 'my_page' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/projects/1/wiki/CookBook_documentation/history" },
-        { :controller => 'wiki', :action => 'history', :project_id => '1',
-          :id => 'CookBook_documentation' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/projects/22/wiki/ladida/rename" },
-        { :controller => 'wiki', :action => 'rename', :project_id => '22',
-          :id => 'ladida' }
-      )
-    ["post", "put"].each do |method|
-      assert_routing(
-          { :method => method, :path => "/projects/567/wiki/CookBook_documentation/preview" },
-          { :controller => 'wiki', :action => 'preview', :project_id => '567',
-            :id => 'CookBook_documentation' }
-        )
-    end
-    assert_routing(
-        { :method => 'post', :path => "/projects/22/wiki/ladida/rename" },
-        { :controller => 'wiki', :action => 'rename', :project_id => '22',
-          :id => 'ladida' }
-      )
-    assert_routing(
-        { :method => 'post', :path => "/projects/22/wiki/ladida/protect" },
-        { :controller => 'wiki', :action => 'protect', :project_id => '22',
-          :id => 'ladida' }
-      )
-    assert_routing(
-        { :method => 'post', :path => "/projects/22/wiki/ladida/add_attachment" },
-        { :controller => 'wiki', :action => 'add_attachment', :project_id => '22',
-          :id => 'ladida' }
-      )
-    assert_routing(
-        { :method => 'put', :path => "/projects/567/wiki/my_page" },
-        { :controller => 'wiki', :action => 'update', :project_id => '567',
-          :id => 'my_page' }
-      )
-    assert_routing(
-        { :method => 'delete', :path => "/projects/22/wiki/ladida" },
-        { :controller => 'wiki', :action => 'destroy', :project_id => '22',
-          :id => 'ladida' }
-      )
-    assert_routing(
-        { :method => 'delete', :path => "/projects/22/wiki/ladida/3" },
-        { :controller => 'wiki', :action => 'destroy_version', :project_id => '22',
-          :id => 'ladida', :version => '3' }
-      )
+  def test_wiki_page_versions
+    should_route 'GET /projects/foo/wiki/page/2' => 'wiki#show', :project_id => 'foo', :id => 'page', :version => '2'
+    should_route 'GET /projects/foo/wiki/page/2/diff' => 'wiki#diff', :project_id => 'foo', :id => 'page', :version => '2'
+    should_route 'GET /projects/foo/wiki/page/2/annotate' => 'wiki#annotate', :project_id => 'foo', :id => 'page', :version => '2'
+    should_route 'DELETE /projects/foo/wiki/page/2' => 'wiki#destroy_version', :project_id => 'foo', :id => 'page', :version => '2'
   end
 end

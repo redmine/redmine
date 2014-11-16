@@ -17,58 +17,20 @@
 
 require File.expand_path('../../../test_helper', __FILE__)
 
-class RoutingNewsTest < ActionDispatch::IntegrationTest
-  def test_news_index
-    assert_routing(
-        { :method => 'get', :path => "/news" },
-        { :controller => 'news', :action => 'index' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/news.atom" },
-        { :controller => 'news', :action => 'index', :format => 'atom' }
-      )
+class RoutingNewsTest < Redmine::RoutingTest
+  def test_news_scoped_under_project
+    should_route 'GET /projects/foo/news' => 'news#index', :project_id => 'foo'
+    should_route 'GET /projects/foo/news.atom' => 'news#index', :project_id => 'foo', :format => 'atom'
+    should_route 'GET /projects/foo/news/new' => 'news#new', :project_id => 'foo'
+    should_route 'POST /projects/foo/news' => 'news#create', :project_id => 'foo'
   end
 
   def test_news
-    assert_routing(
-        { :method => 'get', :path => "/news/2" },
-        { :controller => 'news', :action => 'show', :id => '2' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/news/234" },
-        { :controller => 'news', :action => 'show', :id => '234' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/news/567/edit" },
-        { :controller => 'news', :action => 'edit', :id => '567' }
-      )
-    assert_routing(
-        { :method => 'put', :path => "/news/567" },
-        { :controller => 'news', :action => 'update', :id => '567' }
-      )
-    assert_routing(
-        { :method => 'delete', :path => "/news/567" },
-        { :controller => 'news', :action => 'destroy', :id => '567' }
-      )
-  end
-
-  def test_news_scoped_under_project
-    assert_routing(
-        { :method => 'get', :path => "/projects/567/news" },
-        { :controller => 'news', :action => 'index', :project_id => '567' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/projects/567/news.atom" },
-        { :controller => 'news', :action => 'index', :format => 'atom',
-          :project_id => '567' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/projects/567/news/new" },
-        { :controller => 'news', :action => 'new', :project_id => '567' }
-      )
-    assert_routing(
-        { :method => 'post', :path => "/projects/567/news" },
-        { :controller => 'news', :action => 'create', :project_id => '567' }
-      )
+    should_route 'GET /news' => 'news#index'
+    should_route 'GET /news.atom' => 'news#index', :format => 'atom'
+    should_route 'GET /news/2' => 'news#show', :id => '2'
+    should_route 'GET /news/2/edit' => 'news#edit', :id => '2'
+    should_route 'PUT /news/2' => 'news#update', :id => '2'
+    should_route 'DELETE /news/2' => 'news#destroy', :id => '2'
   end
 end

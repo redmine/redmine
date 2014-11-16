@@ -17,41 +17,16 @@
 
 require File.expand_path('../../../test_helper', __FILE__)
 
-class RoutingIssueCategoriesTest < ActionDispatch::IntegrationTest
+class RoutingIssueCategoriesTest < Redmine::RoutingTest
   def test_issue_categories_scoped_under_project
-    assert_routing(
-        { :method => 'get', :path => "/projects/foo/issue_categories" },
-        { :controller => 'issue_categories', :action => 'index',
-          :project_id => 'foo' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/projects/foo/issue_categories/new" },
-        { :controller => 'issue_categories', :action => 'new',
-          :project_id => 'foo' }
-      )
-    assert_routing(
-        { :method => 'post', :path => "/projects/foo/issue_categories" },
-        { :controller => 'issue_categories', :action => 'create',
-          :project_id => 'foo' }
-      )
+    should_route 'GET /projects/foo/issue_categories' => 'issue_categories#index', :project_id => 'foo'
+    should_route 'GET /projects/foo/issue_categories/new' => 'issue_categories#new', :project_id => 'foo'
+    should_route 'POST /projects/foo/issue_categories' => 'issue_categories#create', :project_id => 'foo'
   end
 
   def test_issue_categories
-    assert_routing(
-        { :method => 'get', :path => "/issue_categories/1" },
-        { :controller => 'issue_categories', :action => 'show', :id => '1' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/issue_categories/1/edit" },
-        { :controller => 'issue_categories', :action => 'edit', :id => '1' }
-      )
-    assert_routing(
-        { :method => 'put', :path => "/issue_categories/1" },
-        { :controller => 'issue_categories', :action => 'update', :id => '1' }
-      )
-    assert_routing(
-        { :method => 'delete', :path => "/issue_categories/1" },
-        { :controller => 'issue_categories', :action => 'destroy', :id => '1' }
-      )
+    should_route 'GET /issue_categories/1/edit' => 'issue_categories#edit', :id => '1'
+    should_route 'PUT /issue_categories/1' => 'issue_categories#update', :id => '1'
+    should_route 'DELETE /issue_categories/1' => 'issue_categories#destroy', :id => '1'
   end
 end

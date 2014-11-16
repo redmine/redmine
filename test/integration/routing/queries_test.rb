@@ -17,38 +17,18 @@
 
 require File.expand_path('../../../test_helper', __FILE__)
 
-class RoutingQueriesTest < ActionDispatch::IntegrationTest
+class RoutingQueriesTest < Redmine::RoutingTest
   def test_queries
-    assert_routing(
-        { :method => 'get', :path => "/queries/new" },
-        { :controller => 'queries', :action => 'new' }
-      )
-    assert_routing(
-        { :method => 'post', :path => "/queries" },
-        { :controller => 'queries', :action => 'create' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/queries/1/edit" },
-        { :controller => 'queries', :action => 'edit', :id => '1' }
-      )
-    assert_routing(
-        { :method => 'put', :path => "/queries/1" },
-        { :controller => 'queries', :action => 'update', :id => '1' }
-      )
-    assert_routing(
-        { :method => 'delete', :path => "/queries/1" },
-        { :controller => 'queries', :action => 'destroy', :id => '1' }
-      )
+    should_route 'GET /queries/new' => 'queries#new'
+    should_route 'POST /queries' => 'queries#create'
+
+    should_route 'GET /queries/1/edit' => 'queries#edit', :id => '1'
+    should_route 'PUT /queries/1' => 'queries#update', :id => '1'
+    should_route 'DELETE /queries/1' => 'queries#destroy', :id => '1'
   end
 
   def test_queries_scoped_under_project
-    assert_routing(
-        { :method => 'get', :path => "/projects/redmine/queries/new" },
-        { :controller => 'queries', :action => 'new', :project_id => 'redmine' }
-      )
-    assert_routing(
-        { :method => 'post', :path => "/projects/redmine/queries" },
-        { :controller => 'queries', :action => 'create', :project_id => 'redmine' }
-      )
+    should_route 'GET /projects/foo/queries/new' => 'queries#new', :project_id => 'foo'
+    should_route 'POST /projects/foo/queries' => 'queries#create', :project_id => 'foo'
   end
 end

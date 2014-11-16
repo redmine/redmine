@@ -17,44 +17,16 @@
 
 require File.expand_path('../../../test_helper', __FILE__)
 
-class RoutingBoardsTest < ActionDispatch::IntegrationTest
+class RoutingBoardsTest < Redmine::RoutingTest
   def test_boards
-    assert_routing(
-        { :method => 'get', :path => "/projects/world_domination/boards" },
-        { :controller => 'boards', :action => 'index', :project_id => 'world_domination' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/projects/world_domination/boards/new" },
-        { :controller => 'boards', :action => 'new', :project_id => 'world_domination' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/projects/world_domination/boards/44" },
-        { :controller => 'boards', :action => 'show', :project_id => 'world_domination',
-          :id => '44' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/projects/world_domination/boards/44.atom" },
-        { :controller => 'boards', :action => 'show', :project_id => 'world_domination',
-          :id => '44', :format => 'atom' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/projects/world_domination/boards/44/edit" },
-        { :controller => 'boards', :action => 'edit', :project_id => 'world_domination',
-          :id => '44' }
-      )
-    assert_routing(
-        { :method => 'post', :path => "/projects/world_domination/boards" },
-        { :controller => 'boards', :action => 'create', :project_id => 'world_domination' }
-      )
-    assert_routing(
-        { :method => 'put', :path => "/projects/world_domination/boards/44" },
-        { :controller => 'boards', :action => 'update', :project_id => 'world_domination',
-          :id => '44' }
-      )
-    assert_routing(
-        { :method => 'delete', :path => "/projects/world_domination/boards/44" },
-        { :controller => 'boards', :action => 'destroy', :project_id => 'world_domination',
-          :id => '44' }
-      )
+    should_route 'GET /projects/foo/boards' => 'boards#index', :project_id => 'foo'
+    should_route 'GET /projects/foo/boards/new' => 'boards#new', :project_id => 'foo'
+    should_route 'POST /projects/foo/boards' => 'boards#create', :project_id => 'foo'
+
+    should_route 'GET /projects/foo/boards/44' => 'boards#show', :project_id => 'foo', :id => '44'
+    should_route 'GET /projects/foo/boards/44.atom' => 'boards#show', :project_id => 'foo', :id => '44', :format => 'atom'
+    should_route 'GET /projects/foo/boards/44/edit' => 'boards#edit', :project_id => 'foo', :id => '44'
+    should_route 'PUT /projects/foo/boards/44' => 'boards#update', :project_id => 'foo', :id => '44'
+    should_route 'DELETE /projects/foo/boards/44' => 'boards#destroy', :project_id => 'foo', :id => '44'
   end
 end

@@ -17,50 +17,18 @@
 
 require File.expand_path('../../../test_helper', __FILE__)
 
-class RoutingPrincipalMembershipsTest < ActionDispatch::IntegrationTest
+class RoutingPrincipalMembershipsTest < Redmine::RoutingTest
   def test_user_memberships
-    assert_routing(
-        { :method => 'get', :path => "/users/123/memberships/new" },
-        { :controller => 'principal_memberships', :action => 'new',
-          :user_id => '123' }
-      )
-    assert_routing(
-        { :method => 'post', :path => "/users/123/memberships" },
-        { :controller => 'principal_memberships', :action => 'create',
-          :user_id => '123' }
-      )
-    assert_routing(
-        { :method => 'put', :path => "/users/123/memberships/55" },
-        { :controller => 'principal_memberships', :action => 'update',
-          :user_id => '123', :id => '55' }
-      )
-    assert_routing(
-        { :method => 'delete', :path => "/users/123/memberships/55" },
-        { :controller => 'principal_memberships', :action => 'destroy',
-          :user_id => '123', :id => '55' }
-      )
+    should_route 'GET /users/123/memberships/new' => 'principal_memberships#new', :user_id => '123'
+    should_route 'POST /users/123/memberships' => 'principal_memberships#create', :user_id => '123'
+    should_route 'PUT /users/123/memberships/55' => 'principal_memberships#update', :user_id => '123', :id => '55'
+    should_route 'DELETE /users/123/memberships/55' => 'principal_memberships#destroy', :user_id => '123', :id => '55'
   end
 
   def test_group_memberships
-    assert_routing(
-        { :method => 'get', :path => "/groups/123/memberships/new" },
-        { :controller => 'principal_memberships', :action => 'new',
-          :group_id => '123' }
-      )
-    assert_routing(
-        { :method => 'post', :path => "/groups/123/memberships" },
-        { :controller => 'principal_memberships', :action => 'create',
-          :group_id => '123' }
-      )
-    assert_routing(
-        { :method => 'put', :path => "/groups/123/memberships/55" },
-        { :controller => 'principal_memberships', :action => 'update',
-          :group_id => '123', :id => '55' }
-      )
-    assert_routing(
-        { :method => 'delete', :path => "/groups/123/memberships/55" },
-        { :controller => 'principal_memberships', :action => 'destroy',
-          :group_id => '123', :id => '55' }
-      )
+    should_route 'GET /groups/123/memberships/new' => 'principal_memberships#new', :group_id => '123'
+    should_route 'POST /groups/123/memberships' => 'principal_memberships#create', :group_id => '123'
+    should_route 'PUT /groups/123/memberships/55' => 'principal_memberships#update', :group_id => '123', :id => '55'
+    should_route 'DELETE /groups/123/memberships/55' => 'principal_memberships#destroy', :group_id => '123', :id => '55'
   end
 end

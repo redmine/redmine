@@ -17,31 +17,15 @@
 
 require File.expand_path('../../../test_helper', __FILE__)
 
-class RoutingMembersTest < ActionDispatch::IntegrationTest
+class RoutingMembersTest < Redmine::RoutingTest
   def test_members
-    assert_routing(
-        { :method => 'post', :path => "/projects/5234/memberships" },
-        { :controller => 'members', :action => 'create', :project_id => '5234' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/projects/5234/memberships/new" },
-        { :controller => 'members', :action => 'new', :project_id => '5234' }
-      )
-    assert_routing(
-        { :method => 'put', :path => "/memberships/5234" },
-        { :controller => 'members', :action => 'update', :id => '5234' }
-      )
-    assert_routing(
-        { :method => 'delete', :path => "/memberships/5234" },
-        { :controller => 'members', :action => 'destroy', :id => '5234' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/projects/5234/memberships/autocomplete" },
-        { :controller => 'members', :action => 'autocomplete', :project_id => '5234' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/projects/5234/memberships/autocomplete.js" },
-        { :controller => 'members', :action => 'autocomplete', :project_id => '5234', :format => 'js' }
-      )
+    should_route 'GET /projects/foo/memberships/new' => 'members#new', :project_id => 'foo'
+    should_route 'POST /projects/foo/memberships' => 'members#create', :project_id => 'foo'
+
+    should_route 'PUT /memberships/5234' => 'members#update', :id => '5234'
+    should_route 'DELETE /memberships/5234' => 'members#destroy', :id => '5234'
+
+    should_route 'GET /projects/foo/memberships/autocomplete' => 'members#autocomplete', :project_id => 'foo'
+    should_route 'GET /projects/foo/memberships/autocomplete.js' => 'members#autocomplete', :project_id => 'foo', :format => 'js'
   end
 end

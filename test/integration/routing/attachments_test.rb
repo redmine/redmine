@@ -17,37 +17,17 @@
 
 require File.expand_path('../../../test_helper', __FILE__)
 
-class RoutingAttachmentsTest < ActionDispatch::IntegrationTest
+class RoutingAttachmentsTest < Redmine::RoutingTest
   def test_attachments
-    assert_routing(
-           { :method => 'get', :path => "/attachments/1" },
-           { :controller => 'attachments', :action => 'show', :id => '1' }
-         )
-    assert_routing(
-           { :method => 'get', :path => "/attachments/1/filename.ext" },
-           { :controller => 'attachments', :action => 'show', :id => '1',
-             :filename => 'filename.ext' }
-         )
-    assert_routing(
-           { :method => 'get', :path => "/attachments/download/1" },
-           { :controller => 'attachments', :action => 'download', :id => '1' }
-         )
-    assert_routing(
-           { :method => 'get', :path => "/attachments/download/1/filename.ext" },
-           { :controller => 'attachments', :action => 'download', :id => '1',
-             :filename => 'filename.ext' }
-         )
-    assert_routing(
-           { :method => 'get', :path => "/attachments/thumbnail/1" },
-           { :controller => 'attachments', :action => 'thumbnail', :id => '1' }
-         )
-    assert_routing(
-           { :method => 'get', :path => "/attachments/thumbnail/1/200" },
-           { :controller => 'attachments', :action => 'thumbnail', :id => '1', :size => '200' }
-         )
-    assert_routing(
-           { :method => 'delete', :path => "/attachments/1" },
-           { :controller => 'attachments', :action => 'destroy', :id => '1' }
-         )
+    should_route 'GET /attachments/1' => 'attachments#show', :id => '1'
+    should_route 'GET /attachments/1/filename.ext' => 'attachments#show', :id => '1', :filename => 'filename.ext'
+
+    should_route 'GET /attachments/download/1' => 'attachments#download', :id => '1'
+    should_route 'GET /attachments/download/1/filename.ext' => 'attachments#download', :id => '1', :filename => 'filename.ext'
+
+    should_route 'GET /attachments/thumbnail/1' => 'attachments#thumbnail', :id => '1'
+    should_route 'GET /attachments/thumbnail/1/200' => 'attachments#thumbnail', :id => '1', :size => '200'
+
+    should_route 'DELETE /attachments/1' => 'attachments#destroy', :id => '1'
   end
 end

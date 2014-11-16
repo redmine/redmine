@@ -17,11 +17,8 @@
 
 require File.expand_path('../../../test_helper', __FILE__)
 
-class RoutingMailHandlerTest < ActionDispatch::IntegrationTest
+class RoutingMailHandlerTest < Redmine::RoutingTest
   def test_mail_handler
-    assert_routing(
-        { :method => "post", :path => "/mail_handler" },
-        { :controller => 'mail_handler', :action => 'index' }
-      )
+    should_route 'POST /mail_handler' => 'mail_handler#index'
   end
 end

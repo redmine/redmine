@@ -17,60 +17,23 @@
 
 require File.expand_path('../../../test_helper', __FILE__)
 
-class RoutingProjectsTest < ActionDispatch::IntegrationTest
+class RoutingProjectsTest < Redmine::RoutingTest
   def test_projects
-    assert_routing(
-        { :method => 'get', :path => "/projects" },
-        { :controller => 'projects', :action => 'index' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/projects.atom" },
-        { :controller => 'projects', :action => 'index', :format => 'atom' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/projects/new" },
-        { :controller => 'projects', :action => 'new' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/projects/test" },
-        { :controller => 'projects', :action => 'show', :id => 'test' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/projects/4223/settings" },
-        { :controller => 'projects', :action => 'settings', :id => '4223' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/projects/4223/settings/members" },
-        { :controller => 'projects', :action => 'settings', :id => '4223',
-          :tab => 'members' }
-      )
-    assert_routing(
-        { :method => 'post', :path => "/projects" },
-        { :controller => 'projects', :action => 'create' }
-      )
-    assert_routing(
-        { :method => 'post', :path => "/projects/64/archive" },
-        { :controller => 'projects', :action => 'archive', :id => '64' }
-      )
-    assert_routing(
-        { :method => 'post', :path => "/projects/64/unarchive" },
-        { :controller => 'projects', :action => 'unarchive', :id => '64' }
-      )
-    assert_routing(
-        { :method => 'post', :path => "/projects/64/close" },
-        { :controller => 'projects', :action => 'close', :id => '64' }
-      )
-    assert_routing(
-        { :method => 'post', :path => "/projects/64/reopen" },
-        { :controller => 'projects', :action => 'reopen', :id => '64' }
-      )
-    assert_routing(
-        { :method => 'put', :path => "/projects/4223" },
-        { :controller => 'projects', :action => 'update', :id => '4223' }
-      )
-    assert_routing(
-        { :method => 'delete', :path => "/projects/64" },
-        { :controller => 'projects', :action => 'destroy', :id => '64' }
-      )
+    should_route 'GET /projects' => 'projects#index'
+    should_route 'GET /projects.atom' => 'projects#index', :format => 'atom'
+    should_route 'GET /projects/new' => 'projects#new'
+    should_route 'POST /projects' => 'projects#create'
+
+    should_route 'GET /projects/foo' => 'projects#show', :id => 'foo'
+    should_route 'PUT /projects/foo' => 'projects#update', :id => 'foo'
+    should_route 'DELETE /projects/foo' => 'projects#destroy', :id => 'foo'
+
+    should_route 'GET /projects/foo/settings' => 'projects#settings', :id => 'foo'
+    should_route 'GET /projects/foo/settings/members' => 'projects#settings', :id => 'foo', :tab => 'members'
+
+    should_route 'POST /projects/foo/archive' => 'projects#archive', :id => 'foo'
+    should_route 'POST /projects/foo/unarchive' => 'projects#unarchive', :id => 'foo'
+    should_route 'POST /projects/foo/close' => 'projects#close', :id => 'foo'
+    should_route 'POST /projects/foo/reopen' => 'projects#reopen', :id => 'foo'
   end
 end

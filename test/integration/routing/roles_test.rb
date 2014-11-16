@@ -17,37 +17,17 @@
 
 require File.expand_path('../../../test_helper', __FILE__)
 
-class RoutingRolesTest < ActionDispatch::IntegrationTest
+class RoutingRolesTest < Redmine::RoutingTest
   def test_roles
-    assert_routing(
-        { :method => 'get', :path => "/roles" },
-        { :controller => 'roles', :action => 'index' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/roles/new" },
-        { :controller => 'roles', :action => 'new' }
-      )
-    assert_routing(
-        { :method => 'post', :path => "/roles" },
-        { :controller => 'roles', :action => 'create' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/roles/2/edit" },
-        { :controller => 'roles', :action => 'edit', :id => '2' }
-      )
-    assert_routing(
-        { :method => 'put', :path => "/roles/2" },
-        { :controller => 'roles', :action => 'update', :id => '2' }
-      )
-    assert_routing(
-        { :method => 'delete', :path => "/roles/2" },
-        { :controller => 'roles', :action => 'destroy', :id => '2' }
-      )
-    ["get", "post"].each do |method|
-      assert_routing(
-          { :method => method, :path => "/roles/permissions" },
-          { :controller => 'roles', :action => 'permissions' }
-        )
-    end
+    should_route 'GET /roles' => 'roles#index'
+    should_route 'GET /roles/new' => 'roles#new'
+    should_route 'POST /roles' => 'roles#create'
+
+    should_route 'GET /roles/2/edit' => 'roles#edit', :id => '2'
+    should_route 'PUT /roles/2' => 'roles#update', :id => '2'
+    should_route 'DELETE /roles/2' => 'roles#destroy', :id => '2'
+
+    should_route 'GET /roles/permissions' => 'roles#permissions'
+    should_route 'POST /roles/permissions' => 'roles#permissions'
   end
 end

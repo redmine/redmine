@@ -17,41 +17,17 @@
 
 require File.expand_path('../../../test_helper', __FILE__)
 
-class RoutingTrackersTest < ActionDispatch::IntegrationTest
+class RoutingTrackersTest < Redmine::RoutingTest
   def test_trackers
-    assert_routing(
-        { :method => 'get', :path => "/trackers" },
-        { :controller => 'trackers', :action => 'index' }
-      )
-    assert_routing(
-        { :method => 'post', :path => "/trackers" },
-        { :controller => 'trackers', :action => 'create' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/trackers/new" },
-        { :controller => 'trackers', :action => 'new' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/trackers/1/edit" },
-        { :controller => 'trackers', :action => 'edit', :id => '1' }
-      )
-    assert_routing(
-        { :method => 'put', :path => "/trackers/1" },
-        { :controller => 'trackers', :action => 'update',
-          :id => '1' }
-      )
-    assert_routing(
-        { :method => 'delete', :path => "/trackers/1" },
-        { :controller => 'trackers', :action => 'destroy',
-          :id => '1' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/trackers/fields" },
-        { :controller => 'trackers', :action => 'fields' }
-      )
-    assert_routing(
-        { :method => 'post', :path => "/trackers/fields" },
-        { :controller => 'trackers', :action => 'fields' }
-      )
+    should_route 'GET /trackers' => 'trackers#index'
+    should_route 'GET /trackers/new' => 'trackers#new'
+    should_route 'POST /trackers' => 'trackers#create'
+
+    should_route 'GET /trackers/1/edit' => 'trackers#edit', :id => '1'
+    should_route 'PUT /trackers/1' => 'trackers#update', :id => '1'
+    should_route 'DELETE /trackers/1' => 'trackers#destroy', :id => '1'
+
+    should_route 'GET /trackers/fields' => 'trackers#fields'
+    should_route 'POST /trackers/fields' => 'trackers#fields'
   end
 end

@@ -17,25 +17,12 @@
 
 require File.expand_path('../../../test_helper', __FILE__)
 
-class RoutingGanttsTest < ActionDispatch::IntegrationTest
+class RoutingGanttsTest < Redmine::RoutingTest
   def test_gantts
-    assert_routing(
-        { :method => 'get', :path => "/issues/gantt" },
-        { :controller => 'gantts', :action => 'show' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/issues/gantt.pdf" },
-        { :controller => 'gantts', :action => 'show', :format => 'pdf' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/projects/project-name/issues/gantt" },
-        { :controller => 'gantts', :action => 'show',
-          :project_id => 'project-name' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/projects/project-name/issues/gantt.pdf" },
-        { :controller => 'gantts', :action => 'show',
-          :project_id => 'project-name', :format => 'pdf' }
-      )
+    should_route 'GET /issues/gantt' => 'gantts#show'
+    should_route 'GET /issues/gantt.pdf' => 'gantts#show', :format => 'pdf'
+
+    should_route 'GET /projects/foo/issues/gantt' => 'gantts#show', :project_id => 'foo'
+    should_route 'GET /projects/foo/issues/gantt.pdf' => 'gantts#show', :project_id => 'foo', :format => 'pdf'
   end
 end

@@ -17,11 +17,8 @@
 
 require File.expand_path('../../../test_helper', __FILE__)
 
-class RoutingAutoCompletesTest < ActionDispatch::IntegrationTest
+class RoutingAutoCompletesTest < Redmine::RoutingTest
   def test_auto_completes
-    assert_routing(
-        { :method => 'get', :path => "/issues/auto_complete" },
-        { :controller => 'auto_completes', :action => 'issues' }
-      )
+    should_route 'GET /issues/auto_complete' => 'auto_completes#issues'
   end
 end

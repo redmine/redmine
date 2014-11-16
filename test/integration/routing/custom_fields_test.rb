@@ -17,31 +17,14 @@
 
 require File.expand_path('../../../test_helper', __FILE__)
 
-class RoutingCustomFieldsTest < ActionDispatch::IntegrationTest
+class RoutingCustomFieldsTest < Redmine::RoutingTest
   def test_custom_fields
-    assert_routing(
-        { :method => 'get', :path => "/custom_fields" },
-        { :controller => 'custom_fields', :action => 'index' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/custom_fields/new" },
-        { :controller => 'custom_fields', :action => 'new' }
-      )
-    assert_routing(
-        { :method => 'post', :path => "/custom_fields" },
-        { :controller => 'custom_fields', :action => 'create' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/custom_fields/2/edit" },
-        { :controller => 'custom_fields', :action => 'edit', :id => '2' }
-      )
-    assert_routing(
-        { :method => 'put', :path => "/custom_fields/2" },
-        { :controller => 'custom_fields', :action => 'update', :id => '2' }
-      )
-    assert_routing(
-        { :method => 'delete', :path => "/custom_fields/2" },
-        { :controller => 'custom_fields', :action => 'destroy', :id => '2' }
-      )
+    should_route 'GET /custom_fields' => 'custom_fields#index'
+    should_route 'GET /custom_fields/new' => 'custom_fields#new'
+    should_route 'POST /custom_fields' => 'custom_fields#create'
+
+    should_route 'GET /custom_fields/2/edit' => 'custom_fields#edit', :id => '2'
+    should_route 'PUT /custom_fields/2' => 'custom_fields#update', :id => '2'
+    should_route 'DELETE /custom_fields/2' => 'custom_fields#destroy', :id => '2'
   end
 end

@@ -17,39 +17,16 @@
 
 require File.expand_path('../../../test_helper', __FILE__)
 
-class RoutingUsersTest < ActionDispatch::IntegrationTest
+class RoutingUsersTest < Redmine::RoutingTest
   def test_users
-    assert_routing(
-        { :method => 'get', :path => "/users" },
-        { :controller => 'users', :action => 'index' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/users/44" },
-        { :controller => 'users', :action => 'show', :id => '44' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/users/current" },
-        { :controller => 'users', :action => 'show', :id => 'current' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/users/new" },
-        { :controller => 'users', :action => 'new' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/users/444/edit" },
-        { :controller => 'users', :action => 'edit', :id => '444' }
-      )
-    assert_routing(
-        { :method => 'post', :path => "/users" },
-        { :controller => 'users', :action => 'create' }
-      )
-    assert_routing(
-        { :method => 'put', :path => "/users/444" },
-        { :controller => 'users', :action => 'update', :id => '444' }
-      )
-    assert_routing(
-        { :method => 'delete', :path => "/users/44" },
-        { :controller => 'users', :action => 'destroy', :id => '44' }
-      )
+    should_route 'GET /users' => 'users#index'
+    should_route 'GET /users/new' => 'users#new'
+    should_route 'POST /users' => 'users#create'
+
+    should_route 'GET /users/44' => 'users#show', :id => '44'
+    should_route 'GET /users/current' => 'users#show', :id => 'current'
+    should_route 'GET /users/44/edit' => 'users#edit', :id => '44'
+    should_route 'PUT /users/44' => 'users#update', :id => '44'
+    should_route 'DELETE /users/44' => 'users#destroy', :id => '44'
   end
 end

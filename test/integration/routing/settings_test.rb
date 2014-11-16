@@ -17,24 +17,13 @@
 
 require File.expand_path('../../../test_helper', __FILE__)
 
-class RoutingSettingsTest < ActionDispatch::IntegrationTest
+class RoutingSettingsTest < Redmine::RoutingTest
   def test_settings
-    assert_routing(
-        { :method => 'get', :path => "/settings" },
-        { :controller => 'settings', :action => 'index' }
-      )
-    ["get", "post"].each do |method|
-      assert_routing(
-          { :method => method, :path => "/settings/edit" },
-          { :controller => 'settings', :action => 'edit' }
-        )
-    end
-    ["get", "post"].each do |method|
-      assert_routing(
-          { :method => method, :path => "/settings/plugin/testid" },
-          { :controller => 'settings', :action => 'plugin',
-            :id => 'testid' }
-        )
-    end
+    should_route 'GET /settings' => 'settings#index'
+    should_route 'GET /settings/edit' => 'settings#edit'
+    should_route 'POST /settings/edit' => 'settings#edit'
+
+    should_route 'GET /settings/plugin/testid' => 'settings#plugin', :id => 'testid'
+    should_route 'POST /settings/plugin/testid' => 'settings#plugin', :id => 'testid'
   end
 end

@@ -17,15 +17,9 @@
 
 require File.expand_path('../../../test_helper', __FILE__)
 
-class RoutingWelcomeTest < ActionDispatch::IntegrationTest
+class RoutingWelcomeTest < Redmine::RoutingTest
   def test_welcome
-    assert_routing(
-        { :method => 'get', :path => "/" },
-        { :controller => 'welcome', :action => 'index' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/robots.txt" },
-        { :controller => 'welcome', :action => 'robots' }
-      )
+    should_route 'GET /' => 'welcome#index'
+    should_route 'GET /robots.txt' => 'welcome#robots'
   end
 end

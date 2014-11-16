@@ -17,21 +17,16 @@
 
 require File.expand_path('../../../test_helper', __FILE__)
 
-class RoutingPreviewsTest < ActionDispatch::IntegrationTest
+class RoutingPreviewsTest < Redmine::RoutingTest
   def test_previews
-    ["get", "post", "put"].each do |method|
-      assert_routing(
-          { :method => method, :path => "/issues/preview/new/123" },
-          { :controller => 'previews', :action => 'issue', :project_id => '123' }
-        )
-      assert_routing(
-          { :method => method, :path => "/issues/preview/edit/321" },
-          { :controller => 'previews', :action => 'issue', :id => '321' }
-        )
-    end
-    assert_routing(
-        { :method => 'get', :path => "/news/preview" },
-        { :controller => 'previews', :action => 'news' }
-      )
+    should_route 'GET /issues/preview/new/foo' => 'previews#issue', :project_id => 'foo'
+    should_route 'PUT /issues/preview/new/foo' => 'previews#issue', :project_id => 'foo'
+    should_route 'POST /issues/preview/new/foo' => 'previews#issue', :project_id => 'foo'
+
+    should_route 'GET /issues/preview/edit/321' => 'previews#issue', :id => '321'
+    should_route 'PUT /issues/preview/edit/321' => 'previews#issue', :id => '321'
+    should_route 'POST /issues/preview/edit/321' => 'previews#issue', :id => '321'
+
+    should_route 'GET /news/preview' => 'previews#news'
   end
 end

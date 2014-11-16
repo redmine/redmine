@@ -17,53 +17,20 @@
 
 require File.expand_path('../../../test_helper', __FILE__)
 
-class RoutingVersionsTest < ActionDispatch::IntegrationTest
-  def test_roadmap
-    # /projects/foo/versions is /projects/foo/roadmap
-    assert_routing(
-        { :method => 'get', :path => "/projects/33/roadmap" },
-        { :controller => 'versions', :action => 'index', :project_id => '33' }
-      )
-  end
-
-  def test_versions_scoped_under_project
-    assert_routing(
-        { :method => 'put', :path => "/projects/foo/versions/close_completed" },
-        { :controller => 'versions', :action => 'close_completed',
-          :project_id => 'foo' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/projects/foo/versions/new" },
-        { :controller => 'versions', :action => 'new',
-          :project_id => 'foo' }
-      )
-    assert_routing(
-        { :method => 'post', :path => "/projects/foo/versions" },
-        { :controller => 'versions', :action => 'create',
-          :project_id => 'foo' }
-      )
+class RoutingVersionsTest < Redmine::RoutingTest
+  def test_project_versions
+    should_route 'GET /projects/foo/roadmap' => 'versions#index', :project_id => 'foo'
+    should_route 'GET /projects/foo/versions/new' => 'versions#new', :project_id => 'foo'
+    should_route 'POST /projects/foo/versions' => 'versions#create', :project_id => 'foo'
+    should_route 'PUT /projects/foo/versions/close_completed' => 'versions#close_completed', :project_id => 'foo'
   end
 
   def test_versions
-    assert_routing(
-        { :method => 'get', :path => "/versions/1" },
-        { :controller => 'versions', :action => 'show', :id => '1' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/versions/1/edit" },
-        { :controller => 'versions', :action => 'edit', :id => '1' }
-      )
-    assert_routing(
-        { :method => 'put', :path => "/versions/1" },
-        { :controller => 'versions', :action => 'update', :id => '1' }
-      )
-    assert_routing(
-        { :method => 'delete', :path => "/versions/1" },
-        { :controller => 'versions', :action => 'destroy', :id => '1' }
-      )
-    assert_routing(
-        { :method => 'post', :path => "/versions/1/status_by" },
-        { :controller => 'versions', :action => 'status_by', :id => '1' }
-      )
+    should_route 'GET /versions/1' => 'versions#show', :id => '1'
+    should_route 'GET /versions/1/edit' => 'versions#edit', :id => '1'
+    should_route 'PUT /versions/1' => 'versions#update', :id => '1'
+    should_route 'DELETE /versions/1' => 'versions#destroy', :id => '1'
+
+    should_route 'POST /versions/1/status_by' => 'versions#status_by', :id => '1'
   end
 end
