@@ -24,14 +24,6 @@ class RoutingAttachmentsTest < ActionDispatch::IntegrationTest
            { :controller => 'attachments', :action => 'show', :id => '1' }
          )
     assert_routing(
-           { :method => 'get', :path => "/attachments/1.xml" },
-           { :controller => 'attachments', :action => 'show', :id => '1', :format => 'xml' }
-         )
-    assert_routing(
-           { :method => 'get', :path => "/attachments/1.json" },
-           { :controller => 'attachments', :action => 'show', :id => '1', :format => 'json' }
-         )
-    assert_routing(
            { :method => 'get', :path => "/attachments/1/filename.ext" },
            { :controller => 'attachments', :action => 'show', :id => '1',
              :filename => 'filename.ext' }
@@ -57,13 +49,5 @@ class RoutingAttachmentsTest < ActionDispatch::IntegrationTest
            { :method => 'delete', :path => "/attachments/1" },
            { :controller => 'attachments', :action => 'destroy', :id => '1' }
          )
-    assert_routing(
-           { :method => 'post', :path => '/uploads.xml' },
-           { :controller => 'attachments', :action => 'upload', :format => 'xml' }
-    )
-    assert_routing(
-           { :method => 'post', :path => '/uploads.json' },
-           { :controller => 'attachments', :action => 'upload', :format => 'json' }
-    )
   end
 end

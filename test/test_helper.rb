@@ -238,7 +238,29 @@ class ActiveSupport::TestCase
 end
 
 module Redmine
+  class RoutingTest < ActionDispatch::IntegrationTest
+    def should_route(arg)
+      arg = arg.dup
+      request = arg.keys.detect {|key| key.is_a?(String)}
+      raise ArgumentError unless request
+      options = arg.slice!(request)
+
+      raise ArgumentError unless request =~ /\A(GET|POST|PUT|PATCH|DELETE)\s+(.+)\z/
+      method, path = $1.downcase.to_sym, $2
+
+      raise ArgumentError unless arg.values.first =~ /\A(.+)#(.+)\z/
+      controller, action = $1, $2
+
+      assert_routing(
+        {:method => method, :path => path},
+        options.merge(:controller => controller, :action => action)
+      )
+    end
+  end
+
   module ApiTest
+    API_FORMATS = %w(json xml).freeze
+
     # Base class for API tests
     class Base < ActionDispatch::IntegrationTest
       # Test that a request allows the three types of API authentication
@@ -488,6 +510,20 @@ module Redmine
       def self.should_respond_with(status)
         should "respond with #{status}" do
           assert_response status
+        end
+      end
+    end
+
+    class Routing < Redmine::RoutingTest
+      def should_route(arg)
+        arg = arg.dup
+        request = arg.keys.detect {|key| key.is_a?(String)}
+        raise ArgumentError unless request
+        options = arg.slice!(request)
+  
+        API_FORMATS.each do |format|
+          format_request = request.sub /$/, ".#{format}"
+          super options.merge(format_request => arg[request], :format => format)
         end
       end
     end

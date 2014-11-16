@@ -44,11 +44,4 @@ class RoutingCustomFieldsTest < ActionDispatch::IntegrationTest
         { :controller => 'custom_fields', :action => 'destroy', :id => '2' }
       )
   end
-
-  def test_custom_fields_api
-    assert_routing(
-        { :method => 'get', :path => "/custom_fields.xml" },
-        { :controller => 'custom_fields', :action => 'index', :format => 'xml' }
-      )
-  end
 end

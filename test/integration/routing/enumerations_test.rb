@@ -43,9 +43,5 @@ class RoutingEnumerationsTest < ActionDispatch::IntegrationTest
         { :method => 'delete', :path => "/enumerations/2" },
         { :controller => 'enumerations', :action => 'destroy', :id => '2' }
       )
-    assert_routing(
-        { :method => 'get', :path => "/enumerations/issue_priorities.xml" },
-        { :controller => 'enumerations', :action => 'index', :type => 'issue_priorities', :format => 'xml' }
-      )
   end
 end

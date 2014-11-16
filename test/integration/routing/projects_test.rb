@@ -28,21 +28,12 @@ class RoutingProjectsTest < ActionDispatch::IntegrationTest
         { :controller => 'projects', :action => 'index', :format => 'atom' }
       )
     assert_routing(
-        { :method => 'get', :path => "/projects.xml" },
-        { :controller => 'projects', :action => 'index', :format => 'xml' }
-      )
-    assert_routing(
         { :method => 'get', :path => "/projects/new" },
         { :controller => 'projects', :action => 'new' }
       )
     assert_routing(
         { :method => 'get', :path => "/projects/test" },
         { :controller => 'projects', :action => 'show', :id => 'test' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/projects/1.xml" },
-        { :controller => 'projects', :action => 'show', :id => '1',
-          :format => 'xml' }
       )
     assert_routing(
         { :method => 'get', :path => "/projects/4223/settings" },
@@ -56,10 +47,6 @@ class RoutingProjectsTest < ActionDispatch::IntegrationTest
     assert_routing(
         { :method => 'post', :path => "/projects" },
         { :controller => 'projects', :action => 'create' }
-      )
-    assert_routing(
-        { :method => 'post', :path => "/projects.xml" },
-        { :controller => 'projects', :action => 'create', :format => 'xml' }
       )
     assert_routing(
         { :method => 'post', :path => "/projects/64/archive" },
@@ -82,18 +69,8 @@ class RoutingProjectsTest < ActionDispatch::IntegrationTest
         { :controller => 'projects', :action => 'update', :id => '4223' }
       )
     assert_routing(
-        { :method => 'put', :path => "/projects/1.xml" },
-        { :controller => 'projects', :action => 'update', :id => '1',
-          :format => 'xml' }
-      )
-    assert_routing(
         { :method => 'delete', :path => "/projects/64" },
         { :controller => 'projects', :action => 'destroy', :id => '64' }
-      )
-    assert_routing(
-        { :method => 'delete', :path => "/projects/1.xml" },
-        { :controller => 'projects', :action => 'destroy', :id => '1',
-          :format => 'xml' }
       )
   end
 end

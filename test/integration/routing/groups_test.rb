@@ -24,16 +24,8 @@ class RoutingGroupsTest < ActionDispatch::IntegrationTest
         { :controller => 'groups', :action => 'index' }
       )
     assert_routing(
-        { :method => 'get', :path => "/groups.xml" },
-        { :controller => 'groups', :action => 'index', :format => 'xml' }
-      )
-    assert_routing(
         { :method => 'post', :path => "/groups" },
         { :controller => 'groups', :action => 'create' }
-      )
-    assert_routing(
-        { :method => 'post', :path => "/groups.xml" },
-        { :controller => 'groups', :action => 'create', :format => 'xml' }
       )
     assert_routing(
         { :method => 'get', :path => "/groups/new" },
@@ -56,24 +48,12 @@ class RoutingGroupsTest < ActionDispatch::IntegrationTest
         { :controller => 'groups', :action => 'show', :id => '1' }
       )
     assert_routing(
-        { :method => 'get', :path => "/groups/1.xml" },
-        { :controller => 'groups', :action => 'show', :id => '1', :format => 'xml' }
-      )
-    assert_routing(
         { :method => 'put', :path => "/groups/1" },
         { :controller => 'groups', :action => 'update', :id => '1' }
       )
     assert_routing(
-        { :method => 'put', :path => "/groups/1.xml" },
-        { :controller => 'groups', :action => 'update', :id => '1', :format => 'xml' }
-      )
-    assert_routing(
         { :method => 'delete', :path => "/groups/1" },
         { :controller => 'groups', :action => 'destroy', :id => '1' }
-      )
-    assert_routing(
-        { :method => 'delete', :path => "/groups/1.xml" },
-        { :controller => 'groups', :action => 'destroy', :id => '1', :format => 'xml' }
       )
   end
 
@@ -87,16 +67,8 @@ class RoutingGroupsTest < ActionDispatch::IntegrationTest
         { :controller => 'groups', :action => 'add_users', :id => '567' }
       )
     assert_routing(
-        { :method => 'post', :path => "/groups/567/users.xml" },
-        { :controller => 'groups', :action => 'add_users', :id => '567', :format => 'xml' }
-      )
-    assert_routing(
         { :method => 'delete', :path => "/groups/567/users/12" },
         { :controller => 'groups', :action => 'remove_user', :id => '567', :user_id => '12' }
-      )
-    assert_routing(
-        { :method => 'delete', :path => "/groups/567/users/12.xml" },
-        { :controller => 'groups', :action => 'remove_user', :id => '567', :user_id => '12', :format => 'xml' }
       )
   end
 end

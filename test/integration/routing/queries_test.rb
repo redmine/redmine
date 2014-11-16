@@ -20,14 +20,6 @@ require File.expand_path('../../../test_helper', __FILE__)
 class RoutingQueriesTest < ActionDispatch::IntegrationTest
   def test_queries
     assert_routing(
-        { :method => 'get', :path => "/queries.xml" },
-        { :controller => 'queries', :action => 'index', :format => 'xml' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/queries.json" },
-        { :controller => 'queries', :action => 'index', :format => 'json' }
-      )
-    assert_routing(
         { :method => 'get', :path => "/queries/new" },
         { :controller => 'queries', :action => 'new' }
       )
