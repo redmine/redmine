@@ -108,6 +108,15 @@ class Redmine::ApiTest::ApiRoutingTest < Redmine::ApiTest::Routing
     should_route 'GET /roles/2' => 'roles#show', :id => '2'
   end
 
+  def test_time_entries
+    should_route 'GET /time_entries' => 'timelog#index'
+    should_route 'POST /time_entries' => 'timelog#create'
+
+    should_route 'GET /time_entries/1' => 'timelog#show', :id => '1'
+    should_route 'PUT /time_entries/1' => 'timelog#update', :id => '1'
+    should_route 'DELETE /time_entries/1' => 'timelog#destroy', :id => '1'
+  end
+
   def test_trackers
     should_route 'GET /trackers' => 'trackers#index'
   end
