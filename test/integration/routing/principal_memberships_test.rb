@@ -20,6 +20,11 @@ require File.expand_path('../../../test_helper', __FILE__)
 class RoutingPrincipalMembershipsTest < ActionDispatch::IntegrationTest
   def test_user_memberships
     assert_routing(
+        { :method => 'get', :path => "/users/123/memberships/new" },
+        { :controller => 'principal_memberships', :action => 'new',
+          :user_id => '123' }
+      )
+    assert_routing(
         { :method => 'post', :path => "/users/123/memberships" },
         { :controller => 'principal_memberships', :action => 'create',
           :user_id => '123' }
@@ -37,6 +42,11 @@ class RoutingPrincipalMembershipsTest < ActionDispatch::IntegrationTest
   end
 
   def test_group_memberships
+    assert_routing(
+        { :method => 'get', :path => "/groups/123/memberships/new" },
+        { :controller => 'principal_memberships', :action => 'new',
+          :group_id => '123' }
+      )
     assert_routing(
         { :method => 'post', :path => "/groups/123/memberships" },
         { :controller => 'principal_memberships', :action => 'create',

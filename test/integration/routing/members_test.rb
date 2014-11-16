@@ -36,6 +36,10 @@ class RoutingMembersTest < ActionDispatch::IntegrationTest
         { :controller => 'members', :action => 'create', :project_id => '5234', :format => 'xml' }
       )
     assert_routing(
+        { :method => 'get', :path => "/projects/5234/memberships/new" },
+        { :controller => 'members', :action => 'new', :project_id => '5234' }
+      )
+    assert_routing(
         { :method => 'put', :path => "/memberships/5234" },
         { :controller => 'members', :action => 'update', :id => '5234' }
       )
