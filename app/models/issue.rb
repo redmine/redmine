@@ -201,6 +201,7 @@ class Issue < ActiveRecord::Base
     @workflow_rule_by_attribute = nil
     @assignable_versions = nil
     @relations = nil
+    @spent_hours = nil
     base_reload(*args)
   end
 
