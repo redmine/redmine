@@ -126,7 +126,7 @@ Rails.application.routes.draw do
     get 'versions', :to => 'versions#index'
 
     resources :news, :except => [:show, :edit, :update, :destroy]
-    resources :time_entries, :controller => 'timelog' do
+    resources :time_entries, :controller => 'timelog', :except => [:show, :edit, :update, :destroy] do
       get 'report', :on => :collection
     end
     resources :queries, :only => [:new, :create]
@@ -171,7 +171,7 @@ Rails.application.routes.draw do
       match 'bulk_edit', :via => [:get, :post]
       post 'bulk_update'
     end
-    resources :time_entries, :controller => 'timelog' do
+    resources :time_entries, :controller => 'timelog', :except => [:show, :edit, :update, :destroy] do
       collection do
         get 'report'
       end

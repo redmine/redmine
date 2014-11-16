@@ -36,11 +36,6 @@ class RoutingTimelogsTest < Redmine::RoutingTest
     should_route 'GET /projects/foo/time_entries.atom' => 'timelog#index', :project_id => 'foo', :format => 'atom'
     should_route 'GET /projects/foo/time_entries/new' => 'timelog#new', :project_id => 'foo'
     should_route 'POST /projects/foo/time_entries' => 'timelog#create', :project_id => 'foo'
-
-    # TODO: unused?
-    should_route 'GET /projects/foo/time_entries/22/edit' => 'timelog#edit', :project_id => 'foo', :id => '22'
-    should_route 'PUT /projects/foo/time_entries/22' => 'timelog#update', :project_id => 'foo', :id => '22'
-    should_route 'DELETE /projects/foo/time_entries/22' => 'timelog#destroy', :project_id => 'foo', :id => '22'
   end
 
   def test_timelogs_scoped_under_issues
@@ -49,11 +44,6 @@ class RoutingTimelogsTest < Redmine::RoutingTest
     should_route 'GET /issues/234/time_entries.atom' => 'timelog#index', :issue_id => '234', :format => 'atom'
     should_route 'GET /issues/234/time_entries/new' => 'timelog#new', :issue_id => '234'
     should_route 'POST /issues/234/time_entries' => 'timelog#create', :issue_id => '234'
-
-    # TODO: unused?
-    should_route 'GET /issues/234/time_entries/22/edit' => 'timelog#edit', :issue_id => '234', :id => '22'
-    should_route 'PUT /issues/234/time_entries/22' => 'timelog#update', :issue_id => '234', :id => '22'
-    should_route 'DELETE /issues/234/time_entries/22' => 'timelog#destroy', :issue_id => '234', :id => '22'
   end
 
   def test_timelogs_report

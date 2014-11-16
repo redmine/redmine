@@ -100,8 +100,7 @@ class TimelogControllerTest < ActionController::TestCase
     get :edit, :id => 2, :project_id => nil
     assert_response :success
     assert_template 'edit'
-    # Default activity selected
-    assert_tag :tag => 'form', :attributes => { :action => '/projects/ecookbook/time_entries/2' }
+    assert_tag :tag => 'form', :attributes => { :action => '/time_entries/2' }
   end
 
   def test_get_edit_with_an_existing_time_entry_with_inactive_activity
