@@ -225,7 +225,7 @@ function open3DExplorer(file)
 		    	//LOCAL
 				//jQuery("#mainContent").before("<div id='3dbrowser'><div id='3dspacer' style='display: none;'><br/><br/><br/></div><a class='fullscreen btn icon-desktop' href='javascript:toggleFullScreen();'> Full Screen</a><iframe id='3dframe' style='width:100%' src='http://127.0.0.1:8080/org.geppetto.frontend/?sim=http://127.0.0.1:3000/" + json.geppettoSimulationFile + "'></iframe>");
 				//DEV
-		    	jQuery("#mainContent").before("<div id='3dbrowser'><div id='3dspacer' style='display: none;'><br/><br/><br/></div><a class='fullscreen btn icon-desktop' href='javascript:toggleFullScreen();'> Full Screen</a><iframe id='3dframe' style='width:100%' src='http://54.84.145.178:8080/org.geppetto.frontend/?sim=http://comodl.org/" + json.geppettoSimulationFile + "'></iframe>");
+		    	jQuery("#mainContent").before("<div id='3dbrowser'><div id='3dspacer' style='display: none;'><br/><br/><br/></div><a class='fullscreen btn icon-desktop' href='javascript:toggleFullScreen();'> Full Screen</a><iframe id='3dframe' style='width:100%' src='http://54.165.130.68:8080/org.geppetto.frontend/?sim=http://comodl.org/" + json.geppettoSimulationFile + "'></iframe>");
 		    	//PROD
 //				jQuery("#mainContent").before("<div id='3dbrowser'><div id='3dspacer' style='display: none;'><br/><br/><br/></div><a class='fullscreen btn icon-desktop' href='javascript:toggleFullScreen();'> Full Screen</a><iframe id='3dframe' style='width:100%' src='http://184.72.223.204:8080/org.geppetto.frontend/?sim=http://opensourcebrain.org/" + json.geppettoSimulationFile + "'></iframe>");
 				document.getElementById('3dframe').onload = resizeIframe;
