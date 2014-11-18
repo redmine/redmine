@@ -1,6 +1,6 @@
 <h2><%= l(:label_query_new) %></h2>
 
-<%= form_tag(@project ? project_queries_path(@project) : queries_path, :onsubmit => 'selectAllOptions("selected_columns");') do %>
+<%= form_tag(@project ? project_queries_path(@project) : queries_path) do %>
   <%= render :partial => 'form', :locals => {:query => @query} %>
   <%= submit_tag l(:button_save) %>
 <% end %>

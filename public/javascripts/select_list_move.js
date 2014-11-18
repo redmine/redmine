@@ -22,6 +22,8 @@ function moveOptionBottom(theSel) {
   $(theSel).find('option:selected').detach().appendTo($(theSel));
 }
 
-function selectAllOptions(id) {
-  $('#'+id).find('option').prop('selected', true);
-}
+$(document).ready(function(){
+  $('.query-columns').closest('form').submit(function(){
+    $('#selected_columns option').prop('selected', true);
+  });
+});
