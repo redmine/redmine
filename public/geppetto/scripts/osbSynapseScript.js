@@ -1,5 +1,8 @@
-idName.electrical.getModelTree();
+// GEPPETTO SCRIPT FOR VISUALISING CHANNELS IN OSB
 
-//Adding Scatter3d 1
+// Retrieve model tree
+$ENTER_ID.electrical.getModelTree();
+
+// Adding Scatter3d 1
 G.addWidget(3);
-TreeVisualiserDAT1.setData(idName.electrical.ModelTree.Summary, {expandNodes: true});
+TreeVisualiserDAT1.setData($ENTER_ID, {expandNodes: true});
