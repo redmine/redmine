@@ -522,7 +522,8 @@ class ProjectsController < ApplicationController
       # Parse simulation file      
       geppettoSimulationFile.sub! '$ENTER_MODEL_URL', url
       geppettoSimulationFile.sub! '$ENTER_ID', entity
-      geppettoSimulationFile.sub! '$ENTER_SCRIPT_URL', 'http://127.0.0.1:3000/' + @geppettoJsFilePath
+      #geppettoSimulationFile.sub! '$ENTER_SCRIPT_URL', 'http://127.0.0.1:3000/' + @geppettoJsFilePath
+      geppettoSimulationFile.sub! '$ENTER_SCRIPT_URL', 'http://comodl.org/' + @geppettoJsFilePath
       #geppettoSimulationFile.sub! '$ENTER_SCRIPT_URL', 'https://raw.githubusercontent.com/OpenSourceBrain/redmine/geppettoIntegration/public/geppetto/osbChannelScript.js'
         
       # Parse js file
