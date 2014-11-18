@@ -273,7 +273,7 @@ class RepositoryBazaarTest < ActiveSupport::TestCase
         assert_equal "/test-#{CHAR_1_UTF8_HEX}-dir/test-#{CHAR_1_UTF8_HEX}.txt", c3[2].path
       end
     else
-      msg = "Bazaar non ASCII output test cannot run this environment.\n"
+      msg = "Bazaar non ASCII output test cannot run on this environment.\n"
       msg += "Encoding.locale_charmap: " + Encoding.locale_charmap + "\n"
       puts msg
     end
