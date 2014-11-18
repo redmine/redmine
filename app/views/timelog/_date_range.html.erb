@@ -20,7 +20,7 @@
 </div>
 
 <p class="buttons">
-  <%= link_to_function l(:button_apply), 'submit_query_form("query_form")', :class => 'icon icon-checked' %>
+  <%= link_to_function l(:button_apply), '$("#query_form").submit()', :class => 'icon icon-checked' %>
   <%= link_to l(:button_clear), {:project_id => @project, :issue_id => @issue}, :class => 'icon icon-reload'  %>
 </p>
 </div>
