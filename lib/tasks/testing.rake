@@ -103,7 +103,7 @@ namespace :test do
     t.verbose = true
     t.test_files = FileList['test/integration/routing/*_test.rb'] + FileList['test/integration/api_test/*_routing_test.rb']
   end
-  Rake::Task['test:rdm_routing'].comment = "Run the routing tests"
+  Rake::Task['test:routing'].comment = "Run the routing tests"
 
   Rake::TestTask.new(:ui => "db:test:prepare") do |t|
     t.libs << "test"
