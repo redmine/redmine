@@ -112,7 +112,7 @@ class EnumerationsControllerTest < ActionController::TestCase
     assert_template 'destroy'
     assert_not_nil Enumeration.find_by_id(4)
     assert_select 'select[name=reassign_to_id]' do
-      assert_select 'option[value=6]', :text => 'High'
+      assert_select 'option[value="6"]', :text => 'High'
     end
   end
 

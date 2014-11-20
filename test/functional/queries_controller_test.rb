@@ -35,7 +35,7 @@ class QueriesControllerTest < ActionController::TestCase
     get :new, :project_id => 1
     assert_response :success
     assert_template 'new'
-    assert_select 'input[name=?][value=0][checked=checked]', 'query[visibility]'
+    assert_select 'input[name=?][value="0"][checked=checked]', 'query[visibility]'
     assert_tag :tag => 'input', :attributes => { :type => 'checkbox',
                                                  :name => 'query_is_for_all',
                                                  :checked => nil,
@@ -197,7 +197,7 @@ class QueriesControllerTest < ActionController::TestCase
     get :edit, :id => 4
     assert_response :success
     assert_template 'edit'
-    assert_select 'input[name=?][value=2][checked=checked]', 'query[visibility]'
+    assert_select 'input[name=?][value="2"][checked=checked]', 'query[visibility]'
     assert_tag :tag => 'input', :attributes => { :type => 'checkbox',
                                                  :name => 'query_is_for_all',
                                                  :checked => 'checked',
@@ -233,7 +233,7 @@ class QueriesControllerTest < ActionController::TestCase
     get :edit, :id => 1
     assert_response :success
     assert_template 'edit'
-    assert_select 'input[name=?][value=2][checked=checked]', 'query[visibility]'
+    assert_select 'input[name=?][value="2"][checked=checked]', 'query[visibility]'
     assert_tag :tag => 'input', :attributes => { :type => 'checkbox',
                                                  :name => 'query_is_for_all',
                                                  :checked => nil,

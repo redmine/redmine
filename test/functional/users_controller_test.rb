@@ -64,7 +64,7 @@ class UsersControllerTest < ActionController::TestCase
     assert users.any?
     assert_equal([], (users - Group.find(10).users))
     assert_select 'select[name=group_id]' do
-      assert_select 'option[value=10][selected=selected]'
+      assert_select 'option[value="10"][selected=selected]'
     end
   end
 
@@ -263,7 +263,7 @@ class UsersControllerTest < ActionController::TestCase
     assert_template 'new'
 
     assert_select 'select#pref_time_zone option[selected=selected]', :text => /Paris/
-    assert_select 'input#pref_no_self_notified[value=1][checked=checked]'
+    assert_select 'input#pref_no_self_notified[value="1"][checked=checked]'
   end
 
   def test_edit

@@ -46,7 +46,7 @@ class MyControllerTest < ActionController::TestCase
     get :page
     assert_response :success
     assert_select 'tr.time-entry' do
-      assert_select 'td.subject a[href=/issues/1]'
+      assert_select 'td.subject a[href="/issues/1"]'
       assert_select 'td.hours', :text => '2.50'
     end
   end
@@ -119,7 +119,7 @@ class MyControllerTest < ActionController::TestCase
 
   def test_my_account_should_show_destroy_link
     get :account
-    assert_select 'a[href=/my/account/destroy]'
+    assert_select 'a[href="/my/account/destroy"]'
   end
 
   def test_get_destroy_should_display_the_destroy_confirmation

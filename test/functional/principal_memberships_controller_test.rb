@@ -28,7 +28,7 @@ class PrincipalMembershipsControllerTest < ActionController::TestCase
     get :new, :user_id => 7
     assert_response :success
     assert_select 'label', :text => 'eCookbook' do
-      assert_select 'input[name=?][value=1]:not([disabled])', 'membership[project_ids][]'
+      assert_select 'input[name=?][value="1"]:not([disabled])', 'membership[project_ids][]'
     end
   end
 
@@ -38,7 +38,7 @@ class PrincipalMembershipsControllerTest < ActionController::TestCase
     get :new, :user_id => 7
     assert_response :success
     assert_select 'label', :text => 'eCookbook' do
-      assert_select 'input[name=?][value=1][disabled=disabled]', 'membership[project_ids][]'
+      assert_select 'input[name=?][value="1"][disabled=disabled]', 'membership[project_ids][]'
     end
   end
 

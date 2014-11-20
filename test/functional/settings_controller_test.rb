@@ -93,19 +93,19 @@ class SettingsControllerTest < ActionController::TestCase
     assert_select 'tr.commit-keywords:nth-child(1)' do
       assert_select 'input[name=?][value=?]', 'settings[commit_update_keywords][keywords][]', 'fixes, resolves'
       assert_select 'select[name=?]', 'settings[commit_update_keywords][status_id][]' do
-        assert_select 'option[value=3][selected=selected]'
+        assert_select 'option[value="3"][selected=selected]'
       end
     end
     assert_select 'tr.commit-keywords:nth-child(2)' do
       assert_select 'input[name=?][value=?]', 'settings[commit_update_keywords][keywords][]', 'closes'
       assert_select 'select[name=?]', 'settings[commit_update_keywords][status_id][]' do
-        assert_select 'option[value=5][selected=selected]', :text => 'Closed'
+        assert_select 'option[value="5"][selected=selected]', :text => 'Closed'
       end
       assert_select 'select[name=?]', 'settings[commit_update_keywords][done_ratio][]' do
-        assert_select 'option[value=100][selected=selected]', :text => '100 %'
+        assert_select 'option[value="100"][selected=selected]', :text => '100 %'
       end
       assert_select 'select[name=?]', 'settings[commit_update_keywords][if_tracker_id][]' do
-        assert_select 'option[value=2][selected=selected]', :text => 'Feature request'
+        assert_select 'option[value="2"][selected=selected]', :text => 'Feature request'
       end
     end
   end

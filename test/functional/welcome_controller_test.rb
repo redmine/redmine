@@ -116,7 +116,7 @@ class WelcomeControllerTest < ActionController::TestCase
     @request.session[:user_id] = 2
 
     get :index
-    assert_select 'a[href=/logout][data-method=post]', :text => 'Sign out'
+    assert_select 'a[href="/logout"][data-method=post]', :text => 'Sign out'
   end
 
   def test_call_hook_mixed_in

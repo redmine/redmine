@@ -52,7 +52,7 @@ class Redmine::ListFieldFormatTest < ActionView::TestCase
     tag = field.format.edit_tag(self, 'id', 'name', value)
     assert_select_in tag, 'select' do
       assert_select 'option', 3
-      assert_select 'option[value=]'
+      assert_select 'option[value=""]'
       assert_select 'option[value=Foo]', :text => 'Foo'
       assert_select 'option[value=Bar]', :text => 'Bar'
     end
@@ -91,7 +91,7 @@ class Redmine::ListFieldFormatTest < ActionView::TestCase
     assert_select_in tag, 'span' do
       assert_select 'input[type=radio]', 3
       assert_select 'label', :text => '(none)' do
-        assert_select 'input[value=]'
+        assert_select 'input[value=""]'
       end
       assert_select 'label', :text => 'Foo' do
         assert_select 'input[value=Foo]'

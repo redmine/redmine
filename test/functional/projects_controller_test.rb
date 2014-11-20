@@ -103,9 +103,9 @@ class ProjectsControllerTest < ActionController::TestCase
 
     assert_select 'select[name=?]', 'project[parent_id]' do
       # parent project selected
-      assert_select 'option[value=1][selected=selected]'
+      assert_select 'option[value="1"][selected=selected]'
       # no empty value
-      assert_select 'option[value=]', 0
+      assert_select 'option[value=""]', 0
     end
   end
 

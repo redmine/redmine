@@ -55,7 +55,7 @@ class RolesControllerTest < ActionController::TestCase
 
     assert_select 'form' do
       # blank name
-      assert_select 'input[name=?][value=]', 'role[name]'
+      assert_select 'input[name=?][value=""]', 'role[name]'
       # edit_project permission checked
       assert_select 'input[type=checkbox][name=?][value=edit_project][checked=checked]', 'role[permissions][]'
       # add_project permission not checked
@@ -63,7 +63,7 @@ class RolesControllerTest < ActionController::TestCase
       assert_select 'input[type=checkbox][name=?][value=add_project][checked=checked]', 'role[permissions][]', 0
       # workflow copy selected
       assert_select 'select[name=?]', 'copy_workflow_from' do
-        assert_select 'option[value=2][selected=selected]'
+        assert_select 'option[value="2"][selected=selected]'
       end
     end
   end

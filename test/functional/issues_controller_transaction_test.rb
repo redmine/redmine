@@ -75,7 +75,7 @@ class IssuesControllerTransactionTest < ActionController::TestCase
     assert_select 'input[name=?][value=?]', 'conflict_resolution', 'add_notes'
     assert_select 'label' do
       assert_select 'input[name=?][value=?]', 'conflict_resolution', 'cancel'
-      assert_select 'a[href=/issues/2]'
+      assert_select 'a[href="/issues/2"]'
     end
   end
 

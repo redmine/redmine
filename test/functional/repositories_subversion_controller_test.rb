@@ -62,7 +62,7 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
       entry = assigns(:entries).detect {|e| e.name == 'subversion_test'}
       assert_not_nil entry
       assert_equal 'dir', entry.kind
-      assert_select 'tr.dir a[href=/projects/subproject1/repository/show/subversion_test]'
+      assert_select 'tr.dir a[href="/projects/subproject1/repository/show/subversion_test"]'
 
       assert_tag 'input', :attributes => {:name => 'rev'}
       assert_tag 'a', :content => 'Statistics'
@@ -80,9 +80,9 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
       get :show, :id => PRJ_ID, :repository_id => 'svn'
       assert_response :success
       assert_template 'show'
-      assert_select 'tr.dir a[href=/projects/subproject1/repository/svn/show/subversion_test]'
+      assert_select 'tr.dir a[href="/projects/subproject1/repository/svn/show/subversion_test"]'
       # Repository menu should link to the main repo
-      assert_select '#main-menu a[href=/projects/subproject1/repository]'
+      assert_select '#main-menu a[href="/projects/subproject1/repository"]'
     end
 
     def test_browse_directory

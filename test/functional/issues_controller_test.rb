@@ -60,11 +60,11 @@ class IssuesControllerTest < ActionController::TestCase
       assert_nil assigns(:project)
 
       # links to visible issues
-      assert_select 'a[href=/issues/1]', :text => /#{ESCAPED_UCANT} print recipes/
-      assert_select 'a[href=/issues/5]', :text => /Subproject issue/
+      assert_select 'a[href="/issues/1"]', :text => /#{ESCAPED_UCANT} print recipes/
+      assert_select 'a[href="/issues/5"]', :text => /Subproject issue/
       # private projects hidden
-      assert_select 'a[href=/issues/6]', 0
-      assert_select 'a[href=/issues/4]', 0
+      assert_select 'a[href="/issues/6"]', 0
+      assert_select 'a[href="/issues/4"]', 0
       # project column
       assert_select 'th', :text => /Project/
     end
@@ -78,8 +78,8 @@ class IssuesControllerTest < ActionController::TestCase
     assert_not_nil assigns(:issues)
     assert_nil assigns(:project)
 
-    assert_select 'a[href=/issues/1]', 0
-    assert_select 'a[href=/issues/5]', :text => /Subproject issue/
+    assert_select 'a[href="/issues/1"]', 0
+    assert_select 'a[href="/issues/5"]', :text => /Subproject issue/
   end
 
   def test_index_should_list_visible_issues_only
@@ -96,8 +96,8 @@ class IssuesControllerTest < ActionController::TestCase
     assert_template 'index'
     assert_not_nil assigns(:issues)
 
-    assert_select 'a[href=/issues/1]', :text => /#{ESCAPED_UCANT} print recipes/
-    assert_select 'a[href=/issues/5]', 0
+    assert_select 'a[href="/issues/1"]', :text => /#{ESCAPED_UCANT} print recipes/
+    assert_select 'a[href="/issues/5"]', 0
   end
 
   def test_index_with_project_and_subprojects
@@ -107,9 +107,9 @@ class IssuesControllerTest < ActionController::TestCase
     assert_template 'index'
     assert_not_nil assigns(:issues)
 
-    assert_select 'a[href=/issues/1]', :text => /#{ESCAPED_UCANT} print recipes/
-    assert_select 'a[href=/issues/5]', :text => /Subproject issue/
-    assert_select 'a[href=/issues/6]', 0
+    assert_select 'a[href="/issues/1"]', :text => /#{ESCAPED_UCANT} print recipes/
+    assert_select 'a[href="/issues/5"]', :text => /Subproject issue/
+    assert_select 'a[href="/issues/6"]', 0
   end
 
   def test_index_with_project_and_subprojects_should_show_private_subprojects_with_permission
@@ -120,9 +120,9 @@ class IssuesControllerTest < ActionController::TestCase
     assert_template 'index'
     assert_not_nil assigns(:issues)
 
-    assert_select 'a[href=/issues/1]', :text => /#{ESCAPED_UCANT} print recipes/
-    assert_select 'a[href=/issues/5]', :text => /Subproject issue/
-    assert_select 'a[href=/issues/6]', :text => /Issue of a private subproject/
+    assert_select 'a[href="/issues/1"]', :text => /#{ESCAPED_UCANT} print recipes/
+    assert_select 'a[href="/issues/5"]', :text => /Subproject issue/
+    assert_select 'a[href="/issues/6"]', :text => /Issue of a private subproject/
   end
 
   def test_index_with_project_and_default_filter
@@ -368,9 +368,9 @@ class IssuesControllerTest < ActionController::TestCase
   def test_index_should_omit_page_param_in_export_links
     get :index, :page => 2
     assert_response :success
-    assert_select 'a.atom[href=/issues.atom]'
-    assert_select 'a.csv[href=/issues.csv]'
-    assert_select 'a.pdf[href=/issues.pdf]'
+    assert_select 'a.atom[href="/issues.atom"]'
+    assert_select 'a.csv[href="/issues.csv"]'
+    assert_select 'a.pdf[href="/issues.pdf"]'
     assert_select 'form#csv-export-form[action=/issues.csv]'
   end
 
@@ -1026,8 +1026,8 @@ class IssuesControllerTest < ActionController::TestCase
 
     assert_select 'form#issue-form' do
       assert_select 'select[name=?]', 'issue[priority_id]' do
-        assert_select 'option[value=4]'
-        assert_select 'option[value=15]', 0
+        assert_select 'option[value="4"]'
+        assert_select 'option[value="15"]', 0
       end
     end
   end
@@ -1137,7 +1137,7 @@ class IssuesControllerTest < ActionController::TestCase
 
     assert_select 'div.subject' do
       assert_select 'h3', 'Child Issue'
-      assert_select 'a[href=/issues/1]'
+      assert_select 'a[href="/issues/1"]'
     end
   end
 
@@ -1166,8 +1166,8 @@ class IssuesControllerTest < ActionController::TestCase
     count = Issue.open.visible.count
 
     assert_select 'div.next-prev-links' do
-      assert_select 'a[href=/issues/2]', :text => /Previous/
-      assert_select 'a[href=/issues/5]', :text => /Next/
+      assert_select 'a[href="/issues/2"]', :text => /Previous/
+      assert_select 'a[href="/issues/5"]', :text => /Next/
       assert_select 'span.position', :text => "3 of #{count}"
     end
   end
@@ -1187,8 +1187,8 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal 12, assigns(:next_issue_id)
 
     assert_select 'div.next-prev-links' do
-      assert_select 'a[href=/issues/8]', :text => /Previous/
-      assert_select 'a[href=/issues/12]', :text => /Next/
+      assert_select 'a[href="/issues/8"]', :text => /Previous/
+      assert_select 'a[href="/issues/12"]', :text => /Next/
     end
   end
 
@@ -1221,8 +1221,8 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal 7, assigns(:next_issue_id)
 
     assert_select 'div.next-prev-links' do
-      assert_select 'a[href=/issues/2]', :text => /Previous/
-      assert_select 'a[href=/issues/7]', :text => /Next/
+      assert_select 'a[href="/issues/2"]', :text => /Previous/
+      assert_select 'a[href="/issues/7"]', :text => /Next/
     end
   end
 
@@ -1240,7 +1240,7 @@ class IssuesControllerTest < ActionController::TestCase
 
     assert_select 'div.next-prev-links' do
       assert_select 'a', :text => /Previous/, :count => 0
-      assert_select 'a[href=/issues/2]', :text => /Next/
+      assert_select 'a[href="/issues/2"]', :text => /Next/
     end
   end
 
@@ -1276,8 +1276,8 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal 1, assigns(:next_issue_id)
 
     assert_select 'div.next-prev-links' do
-      assert_select 'a[href=/issues/2]', :text => /Previous/
-      assert_select 'a[href=/issues/1]', :text => /Next/
+      assert_select 'a[href="/issues/2"]', :text => /Previous/
+      assert_select 'a[href="/issues/1"]', :text => /Next/
     end
   end
 
@@ -1285,7 +1285,7 @@ class IssuesControllerTest < ActionController::TestCase
     get :show, :id => 2
     assert_response :success
     assert_select '.assigned-to' do
-      assert_select 'a[href=/users/3]'
+      assert_select 'a[href="/users/3"]'
     end
   end
 
@@ -1311,7 +1311,7 @@ class IssuesControllerTest < ActionController::TestCase
     get :show, :id => 1
     assert_select 'div#watchers ul' do
       assert_select 'li' do
-        assert_select 'a[href=/users/2]'
+        assert_select 'a[href="/users/2"]'
         assert_select 'a img[alt=Delete]'
       end
     end
@@ -1328,7 +1328,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_select 'div#watchers ul' do
       assert_select 'li' do
         assert_select 'img.gravatar'
-        assert_select 'a[href=/users/2]'
+        assert_select 'a[href="/users/2"]'
         assert_select 'a img[alt=Delete]'
       end
     end
@@ -1343,8 +1343,8 @@ class IssuesControllerTest < ActionController::TestCase
     end
 
     assert_select 'div.thumbnails' do
-      assert_select 'a[href=/attachments/16/testfile.png]' do
-        assert_select 'img[src=/attachments/thumbnail/16]'
+      assert_select 'a[href="/attachments/16/testfile.png"]' do
+        assert_select 'img[src="/attachments/thumbnail/16"]'
       end
     end
   end
@@ -1511,7 +1511,7 @@ class IssuesControllerTest < ActionController::TestCase
     # Be sure we don't display inactive IssuePriorities
     assert ! IssuePriority.find(15).active?
     assert_select 'select[name=?]', 'issue[priority_id]' do
-      assert_select 'option[value=15]', 0
+      assert_select 'option[value="15"]', 0
     end
   end
 
@@ -1551,9 +1551,9 @@ class IssuesControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'new'
     assert_select 'select[name=?]', 'issue[status_id]' do
-      assert_select 'option[value=1][selected=selected]'
+      assert_select 'option[value="1"][selected=selected]'
     end
-    assert_select 'input[name=was_default_status][value=1]'
+    assert_select 'input[name=was_default_status][value="1"]'
   end
 
   def test_get_new_with_list_custom_field
@@ -1595,7 +1595,7 @@ class IssuesControllerTest < ActionController::TestCase
 
     assert_select 'select[name=?][multiple=multiple]', "issue[custom_field_values][#{field.id}][]" do
       assert_select 'option', Project.find(1).users.count
-      assert_select 'option[value=2]', :text => 'John Smith'
+      assert_select 'option[value="2"]', :text => 'John Smith'
     end
     assert_select 'input[name=?][type=hidden][value=?]', "issue[custom_field_values][#{field.id}][]", ''
   end
@@ -1662,7 +1662,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal 'Custom field value', issue.custom_field_value(2)
 
     assert_select 'select[name=?]', 'issue[tracker_id]' do
-      assert_select 'option[value=3][selected=selected]'
+      assert_select 'option[value="3"][selected=selected]'
     end
     assert_select 'textarea[name=?]', 'issue[description]', :text => /Prefilled/
     assert_select 'input[name=?][value=?]', 'issue[custom_field_values][2]', 'Custom field value'
@@ -2176,7 +2176,7 @@ class IssuesControllerTest < ActionController::TestCase
 
     assert_select 'textarea[name=?]', 'issue[description]', :text => 'This is a description'
     assert_select 'select[name=?]', 'issue[priority_id]' do
-      assert_select 'option[value=6][selected=selected]', :text => 'High'
+      assert_select 'option[value="6"][selected=selected]', :text => 'High'
     end
     # Custom fields
     assert_select 'select[name=?]', 'issue[custom_field_values][1]' do
@@ -2195,9 +2195,9 @@ class IssuesControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'new'
 
-    assert_select 'input[name=?][value=2]:not(checked)', 'issue[watcher_user_ids][]'
-    assert_select 'input[name=?][value=3][checked=checked]', 'issue[watcher_user_ids][]'
-    assert_select 'input[name=?][value=8][checked=checked]', 'issue[watcher_user_ids][]'
+    assert_select 'input[name=?][value="2"]:not(checked)', 'issue[watcher_user_ids][]'
+    assert_select 'input[name=?][value="3"][checked=checked]', 'issue[watcher_user_ids][]'
+    assert_select 'input[name=?][value="8"][checked=checked]', 'issue[watcher_user_ids][]'
   end
 
   def test_post_create_should_ignore_non_safe_attributes
@@ -2474,14 +2474,14 @@ class IssuesControllerTest < ActionController::TestCase
 
     assert_select 'form[id=issue-form][action=/projects/ecookbook/issues]' do
       assert_select 'select[name=?]', 'issue[project_id]' do
-        assert_select 'option[value=1][selected=selected]', :text => 'eCookbook'
-        assert_select 'option[value=2]:not([selected])', :text => 'OnlineStore'
+        assert_select 'option[value="1"][selected=selected]', :text => 'eCookbook'
+        assert_select 'option[value="2"]:not([selected])', :text => 'OnlineStore'
       end
-      assert_select 'input[name=copy_from][value=1]'
+      assert_select 'input[name=copy_from][value="1"]'
     end
 
     # "New issue" menu item should not link to copy
-    assert_select '#main-menu a.new-issue[href=/projects/ecookbook/issues/new]'
+    assert_select '#main-menu a.new-issue[href="/projects/ecookbook/issues/new"]'
   end
 
   def test_new_as_copy_with_attachments_should_show_copy_attachments_checkbox
@@ -2490,7 +2490,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert issue.attachments.count > 0
     get :new, :project_id => 1, :copy_from => 3
 
-    assert_select 'input[name=copy_attachments][type=checkbox][checked=checked][value=1]'
+    assert_select 'input[name=copy_attachments][type=checkbox][checked=checked][value="1"]'
   end
 
   def test_new_as_copy_without_attachments_should_not_show_copy_attachments_checkbox
@@ -2507,7 +2507,7 @@ class IssuesControllerTest < ActionController::TestCase
     issue = Issue.generate_with_descendants!
     get :new, :project_id => 1, :copy_from => issue.id
 
-    assert_select 'input[type=checkbox][name=copy_subtasks][checked=checked][value=1]'
+    assert_select 'input[type=checkbox][name=copy_subtasks][checked=checked][value="1"]'
   end
 
   def test_new_as_copy_with_invalid_issue_should_respond_with_404
@@ -2650,10 +2650,10 @@ class IssuesControllerTest < ActionController::TestCase
 
     assert_select 'form#issue-form[action=/projects/ecookbook/issues]' do
       assert_select 'select[name=?]', 'issue[project_id]' do
-        assert_select 'option[value=1]:not([selected])', :text => 'eCookbook'
-        assert_select 'option[value=2][selected=selected]', :text => 'OnlineStore'
+        assert_select 'option[value="1"]:not([selected])', :text => 'eCookbook'
+        assert_select 'option[value="2"][selected=selected]', :text => 'OnlineStore'
       end
-      assert_select 'input[name=copy_from][value=1]'
+      assert_select 'input[name=copy_from][value="1"]'
     end
   end
 
@@ -2680,7 +2680,7 @@ class IssuesControllerTest < ActionController::TestCase
     # Be sure we don't display inactive IssuePriorities
     assert ! IssuePriority.find(15).active?
     assert_select 'select[name=?]', 'issue[priority_id]' do
-      assert_select 'option[value=15]', 0
+      assert_select 'option[value="15"]', 0
     end
   end
 
@@ -2712,17 +2712,17 @@ class IssuesControllerTest < ActionController::TestCase
 
     assert_equal 5, issue.status_id
     assert_select 'select[name=?]', 'issue[status_id]' do
-      assert_select 'option[value=5][selected=selected]', :text => 'Closed'
+      assert_select 'option[value="5"][selected=selected]', :text => 'Closed'
     end
 
     assert_equal 7, issue.priority_id
     assert_select 'select[name=?]', 'issue[priority_id]' do
-      assert_select 'option[value=7][selected=selected]', :text => 'Urgent'
+      assert_select 'option[value="7"][selected=selected]', :text => 'Urgent'
     end
 
     assert_select 'input[name=?][value=2.5]', 'time_entry[hours]'
     assert_select 'select[name=?]', 'time_entry[activity_id]' do
-      assert_select 'option[value=10][selected=selected]', :text => 'Development'
+      assert_select 'option[value="10"][selected=selected]', :text => 'Development'
     end
     assert_select 'input[name=?][value=test_get_edit_with_params]', 'time_entry[comments]'
   end
@@ -3302,7 +3302,7 @@ class IssuesControllerTest < ActionController::TestCase
 
     assert_select 'form#bulk_edit_form[action=?]', '/issues/bulk_update' do
       assert_select 'input[name=?]', 'ids[]', 2
-      assert_select 'input[name=?][value=1][type=hidden]', 'ids[]'
+      assert_select 'input[name=?][value="1"][type=hidden]', 'ids[]'
 
       assert_select 'select[name=?]', 'issue[project_id]'
       assert_select 'input[name=?]', 'issue[parent_issue_id]'
@@ -3320,7 +3320,7 @@ class IssuesControllerTest < ActionController::TestCase
       # Be sure we don't display inactive IssuePriorities
       assert ! IssuePriority.find(15).active?
       assert_select 'select[name=?]', 'issue[priority_id]' do
-        assert_select 'option[value=15]', 0
+        assert_select 'option[value="15"]', 0
       end
     end
   end
@@ -3736,7 +3736,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'bulk_edit'
     assert_select 'select[name=?]', 'issue[tracker_id]' do
-      assert_select 'option[value=2][selected=selected]'
+      assert_select 'option[value="2"][selected=selected]'
     end
     assert_select 'input[name=?][value=?]', 'issue[start_date]', 'foo'
   end
@@ -4045,7 +4045,7 @@ class IssuesControllerTest < ActionController::TestCase
     get :index
 
     assert_select 'div#quick-search form' do
-      assert_select 'input[name=issues][value=1][type=hidden]'
+      assert_select 'input[name=issues][value="1"][type=hidden]'
     end
   end
 end

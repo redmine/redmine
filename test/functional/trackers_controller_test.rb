@@ -127,7 +127,7 @@ class TrackersControllerTest < ActionController::TestCase
     assert_select 'input[name=?][value=category_id]', 'tracker[core_fields][]'
     assert_select 'input[name=?][value=category_id][checked=checked]', 'tracker[core_fields][]', 0
 
-    assert_select 'input[name=?][value=][type=hidden]', 'tracker[core_fields][]'
+    assert_select 'input[name=?][value=""][type=hidden]', 'tracker[core_fields][]'
   end
 
   def test_update
@@ -187,10 +187,10 @@ class TrackersControllerTest < ActionController::TestCase
 
     assert_select 'form' do
       assert_select 'input[type=checkbox][name=?][value=assigned_to_id]', 'trackers[1][core_fields][]'
-      assert_select 'input[type=checkbox][name=?][value=2]', 'trackers[1][custom_field_ids][]'
+      assert_select 'input[type=checkbox][name=?][value="2"]', 'trackers[1][custom_field_ids][]'
 
-      assert_select 'input[type=hidden][name=?][value=]', 'trackers[1][core_fields][]'
-      assert_select 'input[type=hidden][name=?][value=]', 'trackers[1][custom_field_ids][]'
+      assert_select 'input[type=hidden][name=?][value=""]', 'trackers[1][core_fields][]'
+      assert_select 'input[type=hidden][name=?][value=""]', 'trackers[1][custom_field_ids][]'
     end
   end
 

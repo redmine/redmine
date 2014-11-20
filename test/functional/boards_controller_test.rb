@@ -117,8 +117,8 @@ class BoardsControllerTest < ActionController::TestCase
 
     assert_select 'select[name=?]', 'board[parent_id]' do
       assert_select 'option', (Project.find(1).boards.size + 1)
-      assert_select 'option[value=]', :text => '&nbsp;'
-      assert_select 'option[value=1]', :text => 'Help'
+      assert_select 'option[value=""]', :text => '&nbsp;'
+      assert_select 'option[value="1"]', :text => 'Help'
     end
   end
 
@@ -178,7 +178,7 @@ class BoardsControllerTest < ActionController::TestCase
     assert_template 'edit'
 
     assert_select 'select[name=?]', 'board[parent_id]' do
-      assert_select 'option[value=2][selected=selected]'
+      assert_select 'option[value="2"][selected=selected]'
     end
   end
 

@@ -55,9 +55,9 @@ class WorkflowsControllerTest < ActionController::TestCase
     assert_equal [2, 3, 5], assigns(:statuses).collect(&:id)
 
     # allowed transitions
-    assert_select 'input[type=checkbox][name=?][value=1][checked=checked]', 'transitions[3][5][always]'
+    assert_select 'input[type=checkbox][name=?][value="1"][checked=checked]', 'transitions[3][5][always]'
     # not allowed
-    assert_select 'input[type=checkbox][name=?][value=1]:not([checked=checked])', 'transitions[3][2][always]'
+    assert_select 'input[type=checkbox][name=?][value="1"]:not([checked=checked])', 'transitions[3][2][always]'
     # unused
     assert_select 'input[type=checkbox][name=?]', 'transitions[1][1][always]', 0
   end
@@ -135,13 +135,13 @@ class WorkflowsControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'permissions'
 
-    assert_select 'input[name=?][value=1]', 'role_id[]'
-    assert_select 'input[name=?][value=2]', 'tracker_id[]'
+    assert_select 'input[name=?][value="1"]', 'role_id[]'
+    assert_select 'input[name=?][value="2"]', 'tracker_id[]'
 
     # Required field
     assert_select 'select[name=?]', 'permissions[2][assigned_to_id]' do
-      assert_select 'option[value=]'
-      assert_select 'option[value=][selected=selected]', 0
+      assert_select 'option[value=""]'
+      assert_select 'option[value=""][selected=selected]', 0
       assert_select 'option[value=readonly]', :text => 'Read-only'
       assert_select 'option[value=readonly][selected=selected]', 0
       assert_select 'option[value=required]', :text => 'Required'
@@ -150,8 +150,8 @@ class WorkflowsControllerTest < ActionController::TestCase
 
     # Read-only field
     assert_select 'select[name=?]', 'permissions[3][fixed_version_id]' do
-      assert_select 'option[value=]'
-      assert_select 'option[value=][selected=selected]', 0
+      assert_select 'option[value=""]'
+      assert_select 'option[value=""][selected=selected]', 0
       assert_select 'option[value=readonly]', :text => 'Read-only'
       assert_select 'option[value=readonly][selected=selected]'
       assert_select 'option[value=required]', :text => 'Required'
@@ -160,8 +160,8 @@ class WorkflowsControllerTest < ActionController::TestCase
 
     # Other field
     assert_select 'select[name=?]', 'permissions[3][due_date]' do
-      assert_select 'option[value=]'
-      assert_select 'option[value=][selected=selected]', 0
+      assert_select 'option[value=""]'
+      assert_select 'option[value=""][selected=selected]', 0
       assert_select 'option[value=readonly]', :text => 'Read-only'
       assert_select 'option[value=readonly][selected=selected]', 0
       assert_select 'option[value=required]', :text => 'Required'
@@ -179,7 +179,7 @@ class WorkflowsControllerTest < ActionController::TestCase
     # Custom field that is always required
     # The default option is "(Required)"
     assert_select 'select[name=?]', "permissions[3][#{cf.id}]" do
-      assert_select 'option[value=]'
+      assert_select 'option[value=""]'
       assert_select 'option[value=readonly]', :text => 'Read-only'
       assert_select 'option[value=required]', 0
     end
@@ -198,7 +198,7 @@ class WorkflowsControllerTest < ActionController::TestCase
     assert_select 'select[name=?]:not(.disabled)', "permissions[1][#{cf3.id}]"
 
     assert_select 'select[name=?][disabled=disabled]', "permissions[1][#{cf2.id}]" do
-      assert_select 'option[value=][selected=selected]', :text => 'Hidden'
+      assert_select 'option[value=""][selected=selected]', :text => 'Hidden'
     end
   end
 
@@ -277,16 +277,16 @@ class WorkflowsControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'copy'
     assert_select 'select[name=source_tracker_id]' do
-      assert_select 'option[value=1]', :text => 'Bug'
+      assert_select 'option[value="1"]', :text => 'Bug'
     end
     assert_select 'select[name=source_role_id]' do
-      assert_select 'option[value=2]', :text => 'Developer'
+      assert_select 'option[value="2"]', :text => 'Developer'
     end
     assert_select 'select[name=?]', 'target_tracker_ids[]' do
-      assert_select 'option[value=3]', :text => 'Support request'
+      assert_select 'option[value="3"]', :text => 'Support request'
     end
     assert_select 'select[name=?]', 'target_role_ids[]' do
-      assert_select 'option[value=1]', :text => 'Manager'
+      assert_select 'option[value="1"]', :text => 'Manager'
     end
   end
 

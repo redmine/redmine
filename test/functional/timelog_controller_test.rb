@@ -37,7 +37,7 @@ class TimelogControllerTest < ActionController::TestCase
     assert_select 'input[name=?][type=hidden]', 'issue_id', 0
     assert_select 'select[name=?]', 'time_entry[project_id]' do
       # blank option for project
-      assert_select 'option[value=]'
+      assert_select 'option[value=""]'
     end
   end
 
@@ -67,7 +67,7 @@ class TimelogControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'new'
     assert_select 'select[name=?]', 'time_entry[project_id]' do
-      assert_select 'option[value=1][selected=selected]'
+      assert_select 'option[value="1"][selected=selected]'
     end
   end
 
@@ -361,8 +361,8 @@ class TimelogControllerTest < ActionController::TestCase
   
       # Activities
       assert_select 'select[name=?]', 'time_entry[activity_id]' do
-        assert_select 'option[value=]', :text => '(No change)'
-        assert_select 'option[value=9]', :text => 'Design'
+        assert_select 'option[value=""]', :text => '(No change)'
+        assert_select 'option[value="9"]', :text => 'Design'
       end
     end
   end

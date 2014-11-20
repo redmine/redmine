@@ -179,10 +179,10 @@ class WatchersControllerTest < ActionController::TestCase
     xhr :get, :autocomplete_for_user, :q => 'mi', :project_id => 'ecookbook'
     assert_response :success
     assert_select 'input', :count => 4
-    assert_select 'input[name=?][value=1]', 'watcher[user_ids][]'
-    assert_select 'input[name=?][value=2]', 'watcher[user_ids][]'
-    assert_select 'input[name=?][value=8]', 'watcher[user_ids][]'
-    assert_select 'input[name=?][value=9]', 'watcher[user_ids][]'
+    assert_select 'input[name=?][value="1"]', 'watcher[user_ids][]'
+    assert_select 'input[name=?][value="2"]', 'watcher[user_ids][]'
+    assert_select 'input[name=?][value="8"]', 'watcher[user_ids][]'
+    assert_select 'input[name=?][value="9"]', 'watcher[user_ids][]'
   end
 
   def test_search_non_member_on_create
@@ -202,9 +202,9 @@ class WatchersControllerTest < ActionController::TestCase
         :object_type => 'issue', :project_id => 'ecookbook'
     assert_response :success
     assert_select 'input', :count => 3
-    assert_select 'input[name=?][value=2]', 'watcher[user_ids][]'
-    assert_select 'input[name=?][value=8]', 'watcher[user_ids][]'
-    assert_select 'input[name=?][value=9]', 'watcher[user_ids][]'
+    assert_select 'input[name=?][value="2"]', 'watcher[user_ids][]'
+    assert_select 'input[name=?][value="8"]', 'watcher[user_ids][]'
+    assert_select 'input[name=?][value="9"]', 'watcher[user_ids][]'
   end
 
   def test_search_and_add_non_member_on_update

@@ -269,7 +269,7 @@ class AccountTest < ActionDispatch::IntegrationTest
       follow_redirect!
       assert_response :success
       assert_select 'div.flash', :text => /new activation email/
-      assert_select 'div.flash a[href=/account/activation_email]'
+      assert_select 'div.flash a[href="/account/activation_email"]'
 
       # request a new action activation email
       assert_difference 'ActionMailer::Base.deliveries.size' do
