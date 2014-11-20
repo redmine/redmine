@@ -37,31 +37,30 @@ class DocumentsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:grouped)
 
     # Default category selected in the new document form
-    assert_tag :select, :attributes => {:name => 'document[category_id]'},
-                        :child => {:tag => 'option', :attributes => {:selected => 'selected'},
-                                                     :content => 'Technical documentation'}
+    assert_select 'select[name=?]', 'document[category_id]' do
+      assert_select 'option[selected=selected]', :text => 'Technical documentation'
 
-    assert ! DocumentCategory.find(16).active?
-    assert_no_tag :option, :attributes => {:value => '16'},
-                           :parent => {:tag => 'select', :attributes => {:id => 'document_category_id'} }
+      assert ! DocumentCategory.find(16).active?
+      assert_select 'option[value="16"]', 0
+    end
   end
 
   def test_index_grouped_by_date
     get :index, :project_id => 'ecookbook', :sort_by => 'date'
     assert_response :success
-    assert_tag 'h3', :content => '2007-02-12'
+    assert_select 'h3', :text => '2007-02-12'
   end
 
   def test_index_grouped_by_title
     get :index, :project_id => 'ecookbook', :sort_by => 'title'
     assert_response :success
-    assert_tag 'h3', :content => 'T'
+    assert_select 'h3', :text => 'T'
   end
 
   def test_index_grouped_by_author
     get :index, :project_id => 'ecookbook', :sort_by => 'author'
     assert_response :success
-    assert_tag 'h3', :content => 'John Smith'
+    assert_select 'h3', :text => 'John Smith'
   end
 
   def test_index_with_long_description

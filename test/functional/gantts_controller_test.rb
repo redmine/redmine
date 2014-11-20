@@ -73,11 +73,11 @@ class GanttsControllerTest < ActionController::TestCase
     get :show
     assert_response :success
     assert_template 'gantts/show'
-    assert_tag 'a', :content => /eCookbook/
+    assert_select 'a', :text => /eCookbook/
     # Root private project
-    assert_no_tag 'a', {:content => /OnlineStore/}
+    assert_select 'a', :text => /OnlineStore/, :count => 0
     # Private children of a public project
-    assert_no_tag 'a', :content => /Private child of eCookbook/
+    assert_select 'a', :text => /Private child of eCookbook/, :count => 0
   end
 
   def test_gantt_should_display_relations

@@ -41,12 +41,10 @@ class FilesControllerTest < ActionController::TestCase
     assert_not_nil assigns(:containers)
 
     # file attached to the project
-    assert_tag :a, :content => 'project_file.zip',
-                   :attributes => { :href => '/attachments/download/8/project_file.zip' }
+    assert_select 'a[href=?]', '/attachments/download/8/project_file.zip', :text => 'project_file.zip'
 
     # file attached to a project's version
-    assert_tag :a, :content => 'version_file.zip',
-                   :attributes => { :href => '/attachments/download/9/version_file.zip' }
+    assert_select 'a[href=?]', '/attachments/download/9/version_file.zip', :text => 'version_file.zip'
   end
 
   def test_new
@@ -55,7 +53,7 @@ class FilesControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'new'
 
-    assert_tag 'select', :attributes => {:name => 'version_id'}
+    assert_select 'select[name=?]', 'version_id'
   end
 
   def test_new_without_versions
@@ -65,7 +63,7 @@ class FilesControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'new'
 
-    assert_no_tag 'select', :attributes => {:name => 'version_id'}
+    assert_select 'select[name=?]', 'version_id', 0
   end
 
   def test_create_file

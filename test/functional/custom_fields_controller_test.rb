@@ -192,7 +192,7 @@ class CustomFieldsControllerTest < ActionController::TestCase
     get :edit, :id => 1
     assert_response :success
     assert_template 'edit'
-    assert_tag 'input', :attributes => {:name => 'custom_field[name]', :value => 'Database'}
+    assert_select 'input[name=?][value=?]', 'custom_field[name]', 'Database'
   end
 
   def test_edit_invalid_custom_field_should_render_404

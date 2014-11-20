@@ -41,8 +41,8 @@ class EnumerationsControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'new'
     assert_kind_of IssuePriority, assigns(:enumeration)
-    assert_tag 'input', :attributes => {:name => 'enumeration[type]', :value => 'IssuePriority'}
-    assert_tag 'input', :attributes => {:name => 'enumeration[name]'}
+    assert_select 'input[name=?][value=?]', 'enumeration[type]', 'IssuePriority'
+    assert_select 'input[name=?]', 'enumeration[name]'
   end
 
   def test_new_with_invalid_type_should_respond_with_404
@@ -71,7 +71,7 @@ class EnumerationsControllerTest < ActionController::TestCase
     get :edit, :id => 6
     assert_response :success
     assert_template 'edit'
-    assert_tag 'input', :attributes => {:name => 'enumeration[name]', :value => 'High'}
+    assert_select 'input[name=?][value=?]', 'enumeration[name]', 'High'
   end
 
   def test_edit_invalid_should_respond_with_404

@@ -60,9 +60,7 @@ class ContextMenusControllerTest < ActionController::TestCase
       get :issues, :ids => [1]
       assert_response :success
       assert_template 'context_menus/issues'
-      assert_tag :tag => 'a', :content => 'Delete',
-                              :attributes => { :href => '#',
-                                               :class => 'icon-del disabled' }
+      assert_select 'a.icon-del.disabled[href="#"]', :text => 'Delete'
     end
   end
 

@@ -51,12 +51,8 @@ class JournalsControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'diff'
 
-    assert_tag 'span',
-      :attributes => {:class => 'diff_out'},
-      :content => /removed/
-    assert_tag 'span',
-      :attributes => {:class => 'diff_in'},
-      :content => /added/
+    assert_select 'span.diff_out', :text => /removed/
+    assert_select 'span.diff_in', :text => /added/
   end
 
   def test_reply_to_issue

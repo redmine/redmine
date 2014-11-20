@@ -40,12 +40,8 @@ class AttachmentsControllerTest < ActionController::TestCase
       assert_response :success
       assert_template 'diff'
       assert_equal 'text/html', @response.content_type
-      assert_tag 'th',
-        :attributes => {:class => /filename/},
-        :content => /issues_controller.rb\t\(révision 1484\)/
-      assert_tag 'td',
-        :attributes => {:class => /line-code/},
-        :content => /Demande créée avec succès/
+      assert_select 'th.filename', :text => /issues_controller.rb\t\(révision 1484\)/
+      assert_select 'td.line-code', :text => /Demande créée avec succès/
     end
     set_tmp_attachments_directory
   end
@@ -58,12 +54,8 @@ class AttachmentsControllerTest < ActionController::TestCase
         assert_response :success
         assert_template 'diff'
         assert_equal 'text/html', @response.content_type
-        assert_tag 'th',
-          :attributes => {:class => "filename"},
-          :content => /issues_controller.rb\t\(r\?vision 1484\)/
-        assert_tag 'td',
-          :attributes => {:class => /line-code/},
-          :content => /Demande cr\?\?e avec succ\?s/
+        assert_select 'th.filename', :text => /issues_controller.rb\t\(r\?vision 1484\)/
+        assert_select 'td.line-code', :text => /Demande cr\?\?e avec succ\?s/
       end
     end
     set_tmp_attachments_directory
@@ -77,12 +69,8 @@ class AttachmentsControllerTest < ActionController::TestCase
         assert_response :success
         assert_template 'diff'
         assert_equal 'text/html', @response.content_type
-        assert_tag 'th',
-          :attributes => {:class => "filename"},
-          :content => /issues_controller.rb\t\(révision 1484\)/
-        assert_tag 'td',
-          :attributes => {:class => /line-code/},
-          :content => /Demande créée avec succès/
+        assert_select 'th.filename', :text => /issues_controller.rb\t\(révision 1484\)/
+        assert_select 'td.line-code', :text => /Demande créée avec succès/
       end
     end
     set_tmp_attachments_directory
@@ -145,10 +133,10 @@ class AttachmentsControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'file'
     assert_equal 'text/html', @response.content_type
-    assert_tag :tag => 'th',
-               :content => '1',
-               :attributes => { :class => 'line-num' },
-               :sibling => { :tag => 'td', :content => /#{str_japanese}/ }
+    assert_select 'tr#L1' do
+      assert_select 'th.line-num', :text => '1'
+      assert_select 'td', :text => /#{str_japanese}/
+    end
   end
 
   def test_show_text_file_replace_cannot_convert_content
@@ -164,10 +152,10 @@ class AttachmentsControllerTest < ActionController::TestCase
       assert_response :success
       assert_template 'file'
       assert_equal 'text/html', @response.content_type
-      assert_tag :tag => 'th',
-                 :content => '7',
-                 :attributes => { :class => 'line-num' },
-                 :sibling => { :tag => 'td', :content => /Demande cr\?\?e avec succ\?s/ }
+      assert_select 'tr#L7' do
+        assert_select 'th.line-num', :text => '7'
+        assert_select 'td', :text => /Demande cr\?\?e avec succ\?s/
+      end
     end
   end
 
@@ -184,11 +172,11 @@ class AttachmentsControllerTest < ActionController::TestCase
       assert_response :success
       assert_template 'file'
       assert_equal 'text/html', @response.content_type
-      assert_tag :tag => 'th',
-                 :content => '7',
-                 :attributes => { :class => 'line-num' },
-                 :sibling => { :tag => 'td', :content => /Demande créée avec succès/ }
+      assert_select 'tr#L7' do
+        assert_select 'th.line-num', :text => '7'
+        assert_select 'td', :text => /Demande créée avec succès/
       end
+    end
   end
 
   def test_show_text_file_should_send_if_too_big
@@ -218,7 +206,7 @@ class AttachmentsControllerTest < ActionController::TestCase
     @request.session[:user_id] = 2
     get :show, :id => 15
     assert_response :success
-    assert_tag 'h2', :content => /private.diff/
+    assert_select 'h2', :text => /private.diff/
     set_tmp_attachments_directory
   end
 
