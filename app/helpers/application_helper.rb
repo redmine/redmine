@@ -482,6 +482,16 @@ module ApplicationHelper
     return @synapsefiles
   end
   
+  def getCellFiles()
+    @cellfiles=[]
+    for nml2file in @NML2files
+      if nml2file.ends_with?(".cell.nml")
+        @cellfiles.push(nml2file)
+      end
+    end
+    return @cellfiles
+  end  
+  
   def getFilesWithExt(repository, ext)
     @files = []
     if(repository)

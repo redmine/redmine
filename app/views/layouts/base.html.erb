@@ -111,6 +111,7 @@
 							<% @networkfiles = getNetworkFiles() %>
 							<% @channelfiles = getChannelFiles() %>
 							<% @synapsefiles = getSynapsesFiles() %>
+							<% @cellfiles = getCellFiles() %>
 						
 							<% @repourl=getHttpRepositoryURL(@project) %>
 							
@@ -138,11 +139,18 @@
 									<% end %>
 									</ul>
 								<% end %>
-								<% if (not @neuroml2files.empty?) %>
+								<% if not @cellfiles.empty? %>
 									<%= javascript_tag 'jQuery("#explorermenu").append("<li class=dropdown-submenu ><a tabindex=-1 href=#>Cells</a><ul class=dropdown-menu id=cellsmenu></ul></li>");' %>
+									<% for nml2file in @cellfiles %>
+										<%= javascript_tag 'jQuery("#cellsmenu").append("<li><a  href=# tabindex=-1 onclick=open3DExplorer(encodeURIComponent(&quot;'+ @repourl + @repopath + nml2file + '&quot;));>'+ nml2file + '</a></li>");'%>
+									<% end %>
+									</ul>
+								<% end %>
+								<% if (not @neuroml2files.empty?) %>
+									<%= javascript_tag 'jQuery("#explorermenu").append("<li class=dropdown-submenu ><a tabindex=-1 href=#>Other</a><ul class=dropdown-menu id=othermenu></ul></li>");' %>
 									<% for nml2file in @neuroml2files %>
-										<% if not nml2file.ends_with?(".net.nml", ".channel.nml", ".synapse.nml") %>
-											<%= javascript_tag 'jQuery("#cellsmenu").append("<li><a  href=# tabindex=-1 onclick=open3DExplorer(encodeURIComponent(&quot;'+ @repourl + @repopath + nml2file + '&quot;));>'+ nml2file + '</a></li>");'%>
+										<% if not nml2file.ends_with?(".net.nml", ".channel.nml", ".synapse.nml", ".cell.nml") %>
+											<%= javascript_tag 'jQuery("#othermenu").append("<li><a  href=# tabindex=-1 onclick=open3DExplorer(encodeURIComponent(&quot;'+ @repourl + @repopath + nml2file + '&quot;));>'+ nml2file + '</a></li>");'%>
 										<% end %>									
 									<% end %>
 								<% else %>
