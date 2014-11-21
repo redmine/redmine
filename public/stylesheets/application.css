@@ -1488,6 +1488,14 @@ div.splitcontentleft > h2 {
 #search-form #search-types label{
 	display: inline-block;	
 }
+#search-form label{
+	margin-left: 10px;
+}
+#search-form input[type="radio"],input[type="checkbox"]{
+	margin-top: 0px;
+	margin-bottom: 2px;
+}
+
 #search_box{
 	border: 1px solid #ddd;
 	-webkit-border-radius: 4px;
