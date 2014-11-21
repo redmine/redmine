@@ -1024,7 +1024,7 @@ de:
   setting_repositories_encodings: Enkodierung von Anhängen und Repositories
   setting_repository_log_display_limit: Maximale Anzahl anzuzeigender Revisionen in der Historie einer Datei
   setting_rest_api_enabled: REST-Schnittstelle aktivieren
-  setting_self_registration: Anmeldung ermöglicht
+  setting_self_registration: Registrierung ermöglichen
   setting_sequential_project_identifiers: Fortlaufende Projektkennungen generieren
   setting_session_lifetime: Längste Dauer einer Sitzung
   setting_session_timeout: Zeitüberschreitung bei Inaktivität
