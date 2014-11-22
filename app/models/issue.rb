@@ -697,7 +697,7 @@ class Issue < ActiveRecord::Base
     @current_journal
   end
 
-	# Returns the current journal or nil if it's not initialized
+  # Returns the current journal or nil if it's not initialized
   def current_journal
     @current_journal
   end
