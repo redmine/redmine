@@ -99,7 +99,8 @@ class IssueStatus < ActiveRecord::Base
         " JOIN #{JournalDetail.table_name} d ON d.journal_id = j.id" +
         " WHERE j.journalized_type = 'Issue' AND j.journalized_id = #{Issue.table_name}.id" +
         " AND d.property = 'attr' AND d.prop_key = 'status_id' AND d.value = :status_id"
-      Issue.where(:status_id => id, :closed_on => nil).update_all(["closed_on = (#{subselect})", :status_id => id.to_s])
+      Issue.where(:status_id => id, :closed_on => nil).
+        update_all(["closed_on = (#{subselect})", {:status_id => id.to_s}])
 
       # Then we update issues that don't have a journal which means the
       # current status was set on creation
