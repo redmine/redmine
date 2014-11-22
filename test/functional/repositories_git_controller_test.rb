@@ -198,7 +198,7 @@ class RepositoriesGitControllerTest < ActionController::TestCase
           :path => repository_path_hash(['images', 'edit.png'])[:param]
       assert_response :success
       assert_template 'changes'
-      assert_tag :tag => 'h2', :content => 'edit.png'
+      assert_select 'h2', :text => /edit.png/
     end
 
     def test_entry_show
@@ -206,11 +206,8 @@ class RepositoriesGitControllerTest < ActionController::TestCase
           :path => repository_path_hash(['sources', 'watchers_controller.rb'])[:param]
       assert_response :success
       assert_template 'entry'
-      # Line 19
-      assert_tag :tag => 'th',
-                 :content => '11',
-                 :attributes => { :class => 'line-num' },
-                 :sibling => { :tag => 'td', :content => /WITHOUT ANY WARRANTY/ }
+      # Line 11
+      assert_select 'tr#L11 td.line-code', :text => /WITHOUT ANY WARRANTY/
     end
 
     def test_entry_show_latin_1
@@ -228,11 +225,7 @@ class RepositoriesGitControllerTest < ActionController::TestCase
                 :rev => r1
             assert_response :success
             assert_template 'entry'
-            assert_tag :tag => 'th',
-                   :content => '1',
-                   :attributes => { :class => 'line-num' },
-                   :sibling => { :tag => 'td',
-                                 :content => /test-#{CHAR_1_HEX}.txt/ }
+            assert_select 'tr#L1 td.line-code', :text => /test-#{CHAR_1_HEX}.txt/
           end
         end
       end
@@ -272,12 +265,8 @@ class RepositoriesGitControllerTest < ActionController::TestCase
         assert_response :success
         assert_template 'diff'
         # Line 22 removed
-        assert_tag :tag => 'th',
-                   :content => /22/,
-                   :sibling => { :tag => 'td',
-                                 :attributes => { :class => /diff_out/ },
-                                 :content => /def remove/ }
-        assert_tag :tag => 'h2', :content => /2f9c0091/
+        assert_select 'th.line-num:content(22) ~ td.diff_out', :text => /def remove/
+        assert_select 'h2', :text => /2f9c0091/
       end
     end
 
@@ -297,12 +286,8 @@ class RepositoriesGitControllerTest < ActionController::TestCase
           assert_response :success
           assert_template 'diff'
           # Line 22 removed
-          assert_tag :tag => 'th',
-                     :content => '22',
-                     :sibling => { :tag => 'td',
-                                   :attributes => { :class => /diff_out/ },
-                                   :content => /def remove/ }
-          assert_tag :tag => 'h2', :content => /2f9c0091/
+          assert_select 'th.line-num:content(22) ~ td.diff_out', :text => /def remove/
+          assert_select 'h2', :text => /2f9c0091/
         end
       end
     end
@@ -348,19 +333,9 @@ class RepositoriesGitControllerTest < ActionController::TestCase
         assert_template 'diff'
         diff = assigns(:diff)
         assert_not_nil diff
-        assert_tag :tag => 'h2', :content => /2f9c0091:61b685fb/
-        assert_tag :tag => "form",
-                   :attributes => {
-                     :action => "/projects/subproject1/repository/revisions/" +
-                                   "61b685fbe55ab05b5ac68402d5720c1a6ac973d1/diff"
-                   }
-        assert_tag :tag => 'input',
-                   :attributes => {
-                     :id => "rev_to",
-                     :name => "rev_to",
-                     :type => "hidden",
-                     :value => '2f9c0091c754a91af7a9c478e36556b4bde8dcf7'
-                   }
+        assert_select 'h2', :text => /2f9c0091:61b685fb/
+        assert_select 'form[action=?]', '/projects/subproject1/repository/revisions/61b685fbe55ab05b5ac68402d5720c1a6ac973d1/diff'
+        assert_select 'input#rev_to[type=hidden][name=rev_to][value=?]', '2f9c0091c754a91af7a9c478e36556b4bde8dcf7'
       end
     end
 
@@ -384,18 +359,8 @@ class RepositoriesGitControllerTest < ActionController::TestCase
       assert_template 'diff'
       diff = assigns(:diff)
       assert_not_nil diff
-      assert_tag :tag => "form",
-                 :attributes => {
-                   :action => "/projects/subproject1/repository/test-diff-path/" + 
-                                "revisions/61b685fbe55ab05b/diff"
-                 }
-      assert_tag :tag => 'input',
-                 :attributes => {
-                   :id => "rev_to",
-                   :name => "rev_to",
-                   :type => "hidden",
-                   :value => '2f9c0091c754a91a'
-                 }
+      assert_select 'form[action=?]', '/projects/subproject1/repository/test-diff-path/revisions/61b685fbe55ab05b/diff'
+      assert_select 'input#rev_to[type=hidden][name=rev_to][value=?]', '2f9c0091c754a91a'
     end
 
     def test_diff_latin_1
@@ -408,20 +373,10 @@ class RepositoriesGitControllerTest < ActionController::TestCase
               get :diff, :id => PRJ_ID, :rev => r1, :type => dt
               assert_response :success
               assert_template 'diff'
-              assert_tag :tag => 'thead',
-                         :descendant => {
-                           :tag => 'th',
-                           :attributes => { :class => 'filename' } ,
-                           :content => /latin-1-dir\/test-#{CHAR_1_HEX}.txt/ ,
-                          },
-                         :sibling => {
-                           :tag => 'tbody',
-                           :descendant => {
-                              :tag => 'td',
-                              :attributes => { :class => /diff_in/ },
-                              :content => /test-#{CHAR_1_HEX}.txt/
-                           }
-                         }
+              assert_select 'table' do
+                assert_select 'thead th.filename', :text => /latin-1-dir\/test-#{CHAR_1_HEX}.txt/
+                assert_select 'tbody td.diff_in', :text => /test-#{CHAR_1_HEX}.txt/
+              end
             end
           end
         end
@@ -487,7 +442,7 @@ class RepositoriesGitControllerTest < ActionController::TestCase
           :path => repository_path_hash(['sources', 'watchers_controller.rb'])[:param]
       assert_response :success
       assert_template 'annotate'
-      assert_tag :tag => 'h2', :content => /@ deff712f/
+      assert_select 'h2', :text => /@ deff712f/
     end
 
     def test_annotate_binary_file
@@ -495,8 +450,7 @@ class RepositoriesGitControllerTest < ActionController::TestCase
         get :annotate, :id => PRJ_ID,
             :path => repository_path_hash(['images', 'edit.png'])[:param]
         assert_response 500
-        assert_tag :tag => 'p', :attributes => { :id => /errorExplanation/ },
-                                :content => /cannot be annotated/
+        assert_select 'p#errorExplanation', :text => /cannot be annotated/
       end
     end
 
@@ -506,8 +460,7 @@ class RepositoriesGitControllerTest < ActionController::TestCase
             :path => repository_path_hash(['sources', 'watchers_controller.rb'])[:param],
             :rev => 'deff712f'
         assert_response 500
-        assert_tag :tag => 'p', :attributes => { :id => /errorExplanation/ },
-                                :content => /exceeds the maximum text file size/
+        assert_select 'p#errorExplanation', :text => /exceeds the maximum text file size/
 
         get :annotate, :id => PRJ_ID,
             :path => repository_path_hash(['README'])[:param],
@@ -569,11 +522,7 @@ class RepositoriesGitControllerTest < ActionController::TestCase
       get :revisions, :id => PRJ_ID
       assert_response :success
       assert_template 'revisions'
-      assert_tag :tag => 'form',
-                 :attributes => {
-                   :method => 'get',
-                   :action => '/projects/subproject1/repository/revision'
-                 }
+      assert_select 'form[method=get][action=?]', '/projects/subproject1/repository/revision'
     end
 
     def test_revision
@@ -596,7 +545,7 @@ class RepositoriesGitControllerTest < ActionController::TestCase
       ['', ' ', nil].each do |r|
         get :revision, :id => PRJ_ID, :rev => r
         assert_response 404
-        assert_error_tag :content => /was not found/
+        assert_select_error /was not found/
       end
     end
 

@@ -95,7 +95,7 @@ class VersionsControllerTest < ActionController::TestCase
     assert_template 'show'
     assert_not_nil assigns(:version)
 
-    assert_tag :tag => 'h2', :content => /1.0/
+    assert_select 'h2', :text => /1.0/
   end
 
   def test_show_should_display_nil_counts

@@ -229,10 +229,10 @@ class AccountTest < ActionDispatch::IntegrationTest
     post '/login', :username => 'foo', :password => 'bar'
     assert_response :success
     assert_template 'account/register'
-    assert_tag :input, :attributes => { :name => 'user[firstname]', :value => '' }
-    assert_tag :input, :attributes => { :name => 'user[lastname]', :value => 'Smith' }
-    assert_no_tag :input, :attributes => { :name => 'user[login]' }
-    assert_no_tag :input, :attributes => { :name => 'user[password]' }
+    assert_select 'input[name=?][value=""]', 'user[firstname]'
+    assert_select 'input[name=?][value=Smith]', 'user[lastname]'
+    assert_select 'input[name=?]', 'user[login]', 0
+    assert_select 'input[name=?]', 'user[password]', 0
 
     post 'account/register',
          :user => {:firstname => 'Foo', :lastname => 'Smith', :mail => 'foo@bar.com'}

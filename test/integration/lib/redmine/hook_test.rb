@@ -76,8 +76,7 @@ VIEW
     Redmine::Hook.add_listener(ProjectBasedTemplate)
 
     get '/projects/ecookbook'
-    assert_tag :tag => 'link', :attributes => {:href => '/stylesheets/ecookbook.css'},
-                               :parent => {:tag => 'head'}
+    assert_select 'head link[href=?]', '/stylesheets/ecookbook.css'
   end
 
   def test_empty_sidebar_should_be_hidden

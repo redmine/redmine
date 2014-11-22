@@ -103,8 +103,8 @@ class IssuesControllerTransactionTest < ActionController::TestCase
     assert_response :success
     assert_template 'edit'
     attachment = Attachment.order('id DESC').first
-    assert_tag 'input', :attributes => {:name => 'attachments[p0][token]', :value => attachment.token}
-    assert_tag 'input', :attributes => {:name => 'attachments[p0][filename]', :value => 'testfile.txt'}
+    assert_select 'input[name=?][value=?]', 'attachments[p0][token]', attachment.token
+    assert_select 'input[name=?][value=?]', 'attachments[p0][filename]', 'testfile.txt'
   end
 
   def test_update_stale_issue_without_notes_should_not_show_add_notes_option
@@ -118,10 +118,10 @@ class IssuesControllerTransactionTest < ActionController::TestCase
             :lock_version => (issue.lock_version - 1)
           }
 
-    assert_tag 'div', :attributes => {:class => 'conflict'}
-    assert_tag 'input', :attributes => {:name => 'conflict_resolution', :value => 'overwrite'}
-    assert_no_tag 'input', :attributes => {:name => 'conflict_resolution', :value => 'add_notes'}
-    assert_tag 'input', :attributes => {:name => 'conflict_resolution', :value => 'cancel'}
+    assert_select 'div.conflict'
+    assert_select 'input[name=conflict_resolution][value=overwrite]'
+    assert_select 'input[name=conflict_resolution][value=add_notes]', 0
+    assert_select 'input[name=conflict_resolution][value=cancel]'
   end
 
   def test_update_stale_issue_should_show_conflicting_journals
@@ -138,8 +138,8 @@ class IssuesControllerTransactionTest < ActionController::TestCase
     assert_not_nil assigns(:conflict_journals)
     assert_equal 1, assigns(:conflict_journals).size
     assert_equal 2, assigns(:conflict_journals).first.id
-    assert_tag 'div', :attributes => {:class => 'conflict'},
-      :descendant => {:content => /Some notes with Redmine links/}
+
+    assert_select 'div.conflict', :text => /Some notes with Redmine links/
   end
 
   def test_update_stale_issue_without_previous_journal_should_show_all_journals
@@ -155,10 +155,8 @@ class IssuesControllerTransactionTest < ActionController::TestCase
 
     assert_not_nil assigns(:conflict_journals)
     assert_equal 2, assigns(:conflict_journals).size
-    assert_tag 'div', :attributes => {:class => 'conflict'},
-      :descendant => {:content => /Some notes with Redmine links/}
-    assert_tag 'div', :attributes => {:class => 'conflict'},
-      :descendant => {:content => /Journal notes/}
+    assert_select 'div.conflict', :text => /Some notes with Redmine links/
+    assert_select 'div.conflict', :text => /Journal notes/
   end
 
   def test_update_stale_issue_should_show_private_journals_with_permission_only
@@ -256,7 +254,7 @@ class IssuesControllerTransactionTest < ActionController::TestCase
 
     get :index
     assert_response 500
-    assert_tag 'p', :content => /An error occurred/
+    assert_select 'p', :text => /An error occurred/
     assert_nil session[:query]
     assert_nil session[:issues_index_sort]
   end

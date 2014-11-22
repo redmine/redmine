@@ -102,7 +102,7 @@ class RepositoriesDarcsControllerTest < ActionController::TestCase
           :path => repository_path_hash(['images', 'edit.png'])[:param]
       assert_response :success
       assert_template 'changes'
-      assert_tag :tag => 'h2', :content => 'edit.png'
+      assert_select 'h2', :text => /edit.png/
     end
 
     def test_diff
@@ -116,11 +116,7 @@ class RepositoriesDarcsControllerTest < ActionController::TestCase
         assert_response :success
         assert_template 'diff'
         # Line 22 removed
-        assert_tag :tag => 'th',
-                   :content => '22',
-                   :sibling => { :tag => 'td',
-                                 :attributes => { :class => /diff_out/ },
-                                 :content => /def remove/ }
+        assert_select 'th.line-num:content(22) ~ td.diff_out', :text => /def remove/
       end
     end
 

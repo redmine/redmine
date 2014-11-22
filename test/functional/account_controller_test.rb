@@ -166,7 +166,7 @@ class AccountControllerTest < ActionController::TestCase
 
     post :login, :username => 'jsmith', :password => 'jsmith'
     assert_response 500
-    assert_error_tag :content => /Something wrong/
+    assert_select_error /Something wrong/
   end
 
   def test_login_should_reset_session

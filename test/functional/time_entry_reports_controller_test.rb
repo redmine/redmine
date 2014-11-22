@@ -37,16 +37,14 @@ class TimeEntryReportsControllerTest < ActionController::TestCase
     get :report, :project_id => 'ecookbook'
     assert_response :success
     assert_template 'report'
-    assert_tag :form,
-      :attributes => {:action => "/projects/ecookbook/time_entries/report", :id => 'query_form'}
+    assert_select 'form#query_form[action=?]', '/projects/ecookbook/time_entries/report'
   end
 
   def test_report_all_projects
     get :report
     assert_response :success
     assert_template 'report'
-    assert_tag :form,
-      :attributes => {:action => "/time_entries/report", :id => 'query_form'}
+    assert_select 'form#query_form[action=?]', '/time_entries/report'
   end
 
   def test_report_all_projects_denied
@@ -80,7 +78,7 @@ class TimeEntryReportsControllerTest < ActionController::TestCase
     assert_template 'report'
     assert_not_nil assigns(:report)
     assert_equal "162.90", "%.2f" % assigns(:report).total_hours
-    assert_tag :tag => 'th', :content => '2007-03-12'
+    assert_select 'th', :text => '2007-03-12'
   end
 
   def test_report_one_criteria
@@ -135,8 +133,7 @@ class TimeEntryReportsControllerTest < ActionController::TestCase
     assert_template 'report'
     assert_not_nil assigns(:report)
     assert_equal "154.25", "%.2f" % assigns(:report).total_hours
-    assert_tag :form,
-      :attributes => {:action => "/issues/1/time_entries/report", :id => 'query_form'}
+    assert_select 'form#query_form[action=?]', '/issues/1/time_entries/report'
   end
 
   def test_report_by_week_should_use_commercial_year
@@ -209,8 +206,8 @@ class TimeEntryReportsControllerTest < ActionController::TestCase
     get :report, :project_id => 1, :criteria => ['status']
     assert_response :success
     assert_template 'report'
-    assert_tag :tag => 'th', :content => 'Status'
-    assert_tag :tag => 'td', :content => 'New'
+    assert_select 'th', :text => 'Status'
+    assert_select 'td', :text => 'New'
   end
 
   def test_report_all_projects_csv_export

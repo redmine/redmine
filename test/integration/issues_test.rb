@@ -115,9 +115,7 @@ class IssuesTest < ActionDispatch::IntegrationTest
     get '/projects/ecookbook/issues'
 
     %w(Atom PDF CSV).each do |format|
-      assert_tag :a, :content => format,
-                     :attributes => { :href => "/projects/ecookbook/issues.#{format.downcase}",
-                                      :rel => 'nofollow' }
+      assert_select 'a[rel=nofollow][href=?]', "/projects/ecookbook/issues.#{format.downcase}", :text => format
     end
   end
 
@@ -125,9 +123,7 @@ class IssuesTest < ActionDispatch::IntegrationTest
     get '/issues', :project_id => 'ecookbook'
 
     %w(Atom PDF CSV).each do |format|
-      assert_tag :a, :content => format,
-                     :attributes => { :href => "/projects/ecookbook/issues.#{format.downcase}",
-                                      :rel => 'nofollow' }
+      assert_select 'a[rel=nofollow][href=?]', "/projects/ecookbook/issues.#{format.downcase}", :text => format
     end
   end
 
@@ -135,8 +131,7 @@ class IssuesTest < ActionDispatch::IntegrationTest
     with_settings :per_page_options => '2' do
       get '/projects/ecookbook/issues'
 
-      assert_tag :a, :content => '2',
-                     :attributes => { :href => '/projects/ecookbook/issues?page=2' }
+      assert_select 'a[href=?]', '/projects/ecookbook/issues?page=2', :text => '2'
     end
   end
 
@@ -144,8 +139,7 @@ class IssuesTest < ActionDispatch::IntegrationTest
     with_settings :per_page_options => '2' do
       get '/issues', :project_id => 'ecookbook'
   
-      assert_tag :a, :content => '2',
-                     :attributes => { :href => '/projects/ecookbook/issues?page=2' }
+      assert_select 'a[href=?]', '/projects/ecookbook/issues?page=2', :text => '2'
     end
   end
 
@@ -158,14 +152,10 @@ class IssuesTest < ActionDispatch::IntegrationTest
     # Issue form
     get '/projects/ecookbook/issues/new'
     assert_response :success
-    assert_tag :select,
-      :attributes => {:name => "issue[custom_field_values][#{@field.id}]"},
-      :children => {:count => (users.size + 1)}, # +1 for blank value
-      :child => {
-        :tag => 'option',
-        :attributes => {:value => tester.id.to_s},
-        :content => tester.name
-      }
+    assert_select 'select[name=?]', "issue[custom_field_values][#{@field.id}]" do
+      assert_select 'option', users.size + 1 # +1 for blank value
+      assert_select 'option[value=?]', tester.id.to_s, :text => tester.name
+    end
 
     # Create issue
     assert_difference 'Issue.count' do
@@ -182,20 +172,11 @@ class IssuesTest < ActionDispatch::IntegrationTest
 
     # Issue view
     follow_redirect!
-    assert_tag :th,
-      :content => /Tester/,
-      :sibling => {
-        :tag => 'td',
-        :content => tester.name
-      }
-    assert_tag :select,
-      :attributes => {:name => "issue[custom_field_values][#{@field.id}]"},
-      :children => {:count => (users.size + 1)}, # +1 for blank value
-      :child => {
-        :tag => 'option',
-        :attributes => {:value => tester.id.to_s, :selected => 'selected'},
-        :content => tester.name
-      }
+    assert_select 'th:content(Tester:) + td', :text => tester.name
+    assert_select 'select[name=?]', "issue[custom_field_values][#{@field.id}]" do
+      assert_select 'option', users.size + 1 # +1 for blank value
+      assert_select 'option[value=?][selected=selected]', tester.id.to_s, :text => tester.name
+    end
 
     # Update issue
     new_tester = users[1]
@@ -210,14 +191,7 @@ class IssuesTest < ActionDispatch::IntegrationTest
 
     # Issue view
     follow_redirect!
-    assert_tag :content => 'Tester',
-      :ancestor => {:tag => 'ul', :attributes => {:class => /details/}},
-      :sibling => {
-        :content => tester.name,
-        :sibling => {
-          :content => new_tester.name
-        }
-      }
+    assert_select 'ul.details li', :text => "Tester changed from #{tester} to #{new_tester}"
   end
 
   def test_update_using_invalid_http_verbs

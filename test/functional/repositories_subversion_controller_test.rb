@@ -64,12 +64,10 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
       assert_equal 'dir', entry.kind
       assert_select 'tr.dir a[href="/projects/subproject1/repository/show/subversion_test"]'
 
-      assert_tag 'input', :attributes => {:name => 'rev'}
-      assert_tag 'a', :content => 'Statistics'
-      assert_tag 'a', :content => 'Atom'
-      assert_tag :tag => 'a',
-                 :attributes => {:href => '/projects/subproject1/repository'},
-                 :content => 'root'
+      assert_select 'input[name=rev]'
+      assert_select 'a', :text => 'Statistics'
+      assert_select 'a', :text => 'Atom'
+      assert_select 'a[href=?]', '/projects/subproject1/repository', :text => 'root'
     end
 
     def test_show_non_default
@@ -102,7 +100,7 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
       entry = assigns(:entries).detect {|e| e.name == 'helloworld.c'}
       assert_equal 'file', entry.kind
       assert_equal 'subversion_test/helloworld.c', entry.path
-      assert_tag :a, :content => 'helloworld.c', :attributes => { :class => /text\-x\-c/ }
+      assert_select 'a.text-x-c', :text => 'helloworld.c'
     end
 
     def test_browse_at_given_revision
@@ -137,10 +135,10 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
       if Redmine::Scm::Adapters::SubversionAdapter.client_version_above?([1, 5, 0])
         assert_not_nil assigns(:properties)
         assert_equal 'native', assigns(:properties)['svn:eol-style']
-        assert_tag :ul,
-                   :child => { :tag => 'li',
-                               :child => { :tag => 'b', :content => 'svn:eol-style' },
-                               :child => { :tag => 'span', :content => 'native' } }
+        assert_select 'ul li' do
+          assert_select 'b', :text => 'svn:eol-style'
+          assert_select 'span', :text => 'native'
+        end
       end
     end
 
@@ -203,8 +201,7 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
       assert_response :success
       assert_template 'entry'
       # this line was removed in r3 and file was moved in r6
-      assert_tag :tag => 'td', :attributes => { :class => /line-code/},
-                               :content => /Here's the code/
+      assert_select 'td.line-code', :text => /Here's the code/
     end
 
     def test_entry_not_found
@@ -214,8 +211,7 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
       assert_equal NUM_REV, @repository.changesets.count
       get :entry, :id => PRJ_ID,
           :path => repository_path_hash(['subversion_test', 'zzz.c'])[:param]
-      assert_tag :tag => 'p', :attributes => { :id => /errorExplanation/ },
-                 :content => /The entry or revision was not found in the repository/
+      assert_select 'p#errorExplanation', :text => /The entry or revision was not found in the repository/
     end
 
     def test_entry_download
@@ -265,13 +261,13 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
       assert_equal NUM_REV, @repository.changesets.count
       get :revision, :id => PRJ_ID, :rev => 'something_weird'
       assert_response 404
-      assert_error_tag :content => /was not found/
+      assert_select_error /was not found/
     end
 
     def test_invalid_revision_diff
       get :diff, :id => PRJ_ID, :rev => '1', :rev_to => 'something_weird'
       assert_response 404
-      assert_error_tag :content => /was not found/
+      assert_select_error /was not found/
     end
 
     def test_empty_revision
@@ -282,7 +278,7 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
       ['', ' ', nil].each do |r|
         get :revision, :id => PRJ_ID, :rev => r
         assert_response 404
-        assert_error_tag :content => /was not found/
+        assert_select_error /was not found/
       end
     end
 
@@ -348,7 +344,7 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
         assert_not_nil diff
         # 2 files modified
         assert_equal 2, Redmine::UnifiedDiff.new(diff).size
-        assert_tag :tag => 'h2', :content => /2:6/
+        assert_select 'h2', :text => /2:6/
       end
     end
 
@@ -385,7 +381,7 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
           :path => repository_path_hash(['subversion_test', 'helloworld.c'])[:param]
       assert_response :success
       assert_template 'annotate'
-      assert_tag :tag => 'h2', :content => /@ 8/
+      assert_select 'h2', :text => /@ 8/
     end
 
     def test_destroy_valid_repository

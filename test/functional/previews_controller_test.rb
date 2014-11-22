@@ -51,7 +51,7 @@ class PreviewsControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'previews/issue'
     assert_not_nil assigns(:notes)
-    assert_tag :p, :content => 'Foo'
+    assert_select 'p', :text => 'Foo'
   end
 
   def test_preview_issue_notes_should_support_links_to_existing_attachments
@@ -77,8 +77,7 @@ class PreviewsControllerTest < ActionController::TestCase
                             :summary => ''}
     assert_response :success
     assert_template 'common/_preview'
-    assert_tag :tag => 'fieldset', :attributes => { :class => 'preview' },
-                                   :content => /News description/
+    assert_select 'fieldset.preview', :text => /News description/
   end
 
   def test_existing_new_news
@@ -91,7 +90,6 @@ class PreviewsControllerTest < ActionController::TestCase
     assert_equal News.find(2), assigns(:previewed)
     assert_not_nil assigns(:attachments)
 
-    assert_tag :tag => 'fieldset', :attributes => { :class => 'preview' },
-                                   :content => /News description/
+    assert_select 'fieldset.preview', :text => /News description/
   end
 end

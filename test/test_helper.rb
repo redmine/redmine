@@ -188,8 +188,8 @@ class ActiveSupport::TestCase
     assert_equal true, saved, message
   end
 
-  def assert_error_tag(options={})
-    assert_tag({:attributes => { :id => 'errorExplanation' }}.merge(options))
+  def assert_select_error(arg)
+    assert_select '#errorExplanation', :text => arg
   end
 
   def assert_include(expected, s, message=nil)

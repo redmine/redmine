@@ -89,7 +89,7 @@ class TrackersControllerTest < ActionController::TestCase
     end
     assert_response :success
     assert_template 'new'
-    assert_error_tag :content => /name #{ESCAPED_CANT} be blank/i
+    assert_select_error /name #{ESCAPED_CANT} be blank/i
   end
 
   def test_edit
@@ -99,17 +99,10 @@ class TrackersControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'edit'
 
-    assert_tag :input, :attributes => { :name => 'tracker[project_ids][]',
-                                        :value => '1',
-                                        :checked => 'checked' }
+    assert_select 'input[name=?][value="1"][checked=checked]', 'tracker[project_ids][]'
+    assert_select 'input[name=?][value="2"]:not([checked])', 'tracker[project_ids][]'
 
-    assert_tag :input, :attributes => { :name => 'tracker[project_ids][]',
-                                        :value => '2',
-                                        :checked => nil }
-
-    assert_tag :input, :attributes => { :name => 'tracker[project_ids][]',
-                                        :value => '',
-                                        :type => 'hidden'}
+    assert_select 'input[name=?][value=""][type=hidden]', 'tracker[project_ids][]'
   end
 
   def test_edit_should_check_core_fields
@@ -154,7 +147,7 @@ class TrackersControllerTest < ActionController::TestCase
     put :update, :id => 1, :tracker => { :name => '' }
     assert_response :success
     assert_template 'edit'
-    assert_error_tag :content => /name #{ESCAPED_CANT} be blank/i
+    assert_select_error /name #{ESCAPED_CANT} be blank/i
   end
 
   def test_move_lower

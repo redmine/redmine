@@ -68,7 +68,7 @@ class MyControllerTest < ActionController::TestCase
     assert_template 'account'
     assert_equal User.find(2), assigns(:user)
 
-    assert_tag :input, :attributes => { :name => 'user[custom_field_values][4]'}
+    assert_select 'input[name=?]', 'user[custom_field_values][4]'
   end
 
   def test_my_account_should_not_show_non_editable_custom_fields
@@ -79,7 +79,7 @@ class MyControllerTest < ActionController::TestCase
     assert_template 'account'
     assert_equal User.find(2), assigns(:user)
 
-    assert_no_tag :input, :attributes => { :name => 'user[custom_field_values][4]'}
+    assert_select 'input[name=?]', 'user[custom_field_values][4]', 0
   end
 
   def test_my_account_should_show_language_select
@@ -167,7 +167,7 @@ class MyControllerTest < ActionController::TestCase
                     :new_password_confirmation => 'secret1234'
     assert_response :success
     assert_template 'password'
-    assert_error_tag :content => /Password doesn.*t match confirmation/
+    assert_select_error /Password doesn.*t match confirmation/
 
     # wrong password
     post :password, :password => 'wrongpassword',

@@ -39,9 +39,9 @@ class MessagesControllerTest < ActionController::TestCase
     assert_response :success
 
     # tags required by MessagesController#quote
-    assert_tag 'input', :attributes => {:id => 'message_subject'}
-    assert_tag 'textarea', :attributes => {:id => 'message_content'}
-    assert_tag 'div', :attributes => {:id => 'reply'}
+    assert_select 'input#message_subject'
+    assert_select 'textarea#message_content'
+    assert_select 'div#reply'
   end
 
   def test_show_with_pagination
@@ -68,8 +68,7 @@ class MessagesControllerTest < ActionController::TestCase
     get :show, :board_id => 1, :id => 1
     assert_response :success
     assert_template 'show'
-    assert_tag :div, :attributes => { :id => 'reply' },
-                     :descendant => { :tag => 'textarea', :attributes => { :id => 'message_content' } }
+    assert_select 'div#reply textarea#message_content'
   end
 
   def test_show_message_not_found

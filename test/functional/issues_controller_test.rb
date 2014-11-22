@@ -1729,7 +1729,7 @@ class IssuesControllerTest < ActionController::TestCase
 
     get :new, :project_id => 1
     assert_response 500
-    assert_error_tag :content => /No default issue/
+    assert_select_error /No default issue/
   end
 
   def test_get_new_with_no_tracker_should_display_an_error
@@ -1738,7 +1738,7 @@ class IssuesControllerTest < ActionController::TestCase
 
     get :new, :project_id => 1
     assert_response 500
-    assert_error_tag :content => /No tracker/
+    assert_select_error /No tracker/
   end
 
   def test_update_form_for_new_issue
@@ -1977,7 +1977,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_template 'new'
     issue = assigns(:issue)
     assert_not_nil issue
-    assert_error_tag :content => /Database #{ESCAPED_CANT} be blank/
+    assert_select_error /Database #{ESCAPED_CANT} be blank/
   end
 
   def test_create_should_validate_required_fields
@@ -2001,8 +2001,8 @@ class IssuesControllerTest < ActionController::TestCase
       assert_template 'new'
     end
 
-    assert_error_tag :content => /Due date #{ESCAPED_CANT} be blank/i
-    assert_error_tag :content => /Bar #{ESCAPED_CANT} be blank/i
+    assert_select_error /Due date #{ESCAPED_CANT} be blank/i
+    assert_select_error /Bar #{ESCAPED_CANT} be blank/i
   end
 
   def test_create_should_ignore_readonly_fields
@@ -2096,7 +2096,7 @@ class IssuesControllerTest < ActionController::TestCase
 
       assert_response :success
       assert_select 'input[name=?][value=?]', 'issue[parent_issue_id]', '4'
-      assert_error_tag :content => /Parent task is invalid/i
+      assert_select_error /Parent task is invalid/i
     end
   end
 
@@ -2111,7 +2111,7 @@ class IssuesControllerTest < ActionController::TestCase
 
       assert_response :success
       assert_select 'input[name=?][value=?]', 'issue[parent_issue_id]', '01ABC'
-      assert_error_tag :content => /Parent task is invalid/i
+      assert_select_error /Parent task is invalid/i
     end
   end
 
@@ -3219,7 +3219,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'edit'
 
-    assert_error_tag :descendant => {:content => /Activity #{ESCAPED_CANT} be blank/}
+    assert_select_error /Activity #{ESCAPED_CANT} be blank/
     assert_select 'textarea[name=?]', 'issue[notes]', :text => notes
     assert_select 'input[name=?][value=?]', 'time_entry[hours]', '2z'
   end
@@ -3237,8 +3237,8 @@ class IssuesControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'edit'
 
-    assert_error_tag :descendant => {:content => /Activity #{ESCAPED_CANT} be blank/}
-    assert_error_tag :descendant => {:content => /Hours #{ESCAPED_CANT} be blank/}
+    assert_select_error /Activity #{ESCAPED_CANT} be blank/
+    assert_select_error /Hours #{ESCAPED_CANT} be blank/
     assert_select 'textarea[name=?]', 'issue[notes]', :text => notes
     assert_select 'input[name=?][value=?]', 'time_entry[comments]', 'this is my comment'
   end

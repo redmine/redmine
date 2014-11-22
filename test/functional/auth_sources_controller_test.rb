@@ -74,7 +74,7 @@ class AuthSourcesControllerTest < ActionController::TestCase
       assert_response :success
       assert_template 'new'
     end
-    assert_error_tag :content => /host #{ESCAPED_CANT} be blank/i
+    assert_select_error /host #{ESCAPED_CANT} be blank/i
   end
 
   def test_edit
@@ -118,7 +118,7 @@ class AuthSourcesControllerTest < ActionController::TestCase
                                   :port => '389', :attr_login => 'uid'}
     assert_response :success
     assert_template 'edit'
-    assert_error_tag :content => /host #{ESCAPED_CANT} be blank/i
+    assert_select_error /host #{ESCAPED_CANT} be blank/i
   end
 
   def test_destroy

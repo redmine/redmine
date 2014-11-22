@@ -92,7 +92,7 @@ class TimelogControllerTest < ActionController::TestCase
     @request.session[:user_id] = 3
     get :new, :project_id => 1
     assert_response :success
-    assert_no_tag 'option', :content => 'Inactive Activity'
+    assert_select 'option', :text => 'Inactive Activity', :count => 0
   end
 
   def test_get_edit_existing_time
@@ -100,7 +100,7 @@ class TimelogControllerTest < ActionController::TestCase
     get :edit, :id => 2, :project_id => nil
     assert_response :success
     assert_template 'edit'
-    assert_tag :tag => 'form', :attributes => { :action => '/time_entries/2' }
+    assert_select 'form[action=?]', '/time_entries/2'
   end
 
   def test_get_edit_with_an_existing_time_entry_with_inactive_activity
@@ -113,7 +113,7 @@ class TimelogControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'edit'
     # Blank option since nothing is pre-selected
-    assert_tag :tag => 'option', :content => '--- Please select ---'
+    assert_select 'option', :text => '--- Please select ---'
   end
 
   def test_post_create
@@ -301,8 +301,9 @@ class TimelogControllerTest < ActionController::TestCase
     end
 
     assert_response :success
-    assert_tag 'select', :attributes => {:name => 'time_entry[project_id]'},
-      :child => {:tag => 'option', :attributes => {:value => '1', :selected => 'selected'}}
+    assert_select 'select[name=?]', 'time_entry[project_id]' do
+      assert_select 'option[value="1"][selected=selected]'
+    end
   end
 
   def test_update
@@ -472,8 +473,7 @@ class TimelogControllerTest < ActionController::TestCase
     assert_template 'index'
     assert_not_nil assigns(:total_hours)
     assert_equal "162.90", "%.2f" % assigns(:total_hours)
-    assert_tag :form,
-      :attributes => {:action => "/time_entries", :id => 'query_form'}
+    assert_select 'form#query_form[action=?]', '/time_entries'
   end
 
   def test_index_all_projects_should_show_log_time_link
@@ -481,7 +481,7 @@ class TimelogControllerTest < ActionController::TestCase
     get :index
     assert_response :success
     assert_template 'index'
-    assert_tag 'a', :attributes => {:href => '/time_entries/new'}, :content => /Log time/
+    assert_select 'a[href=?]', '/time_entries/new', :text => /Log time/
   end
 
   def test_index_my_spent_time
@@ -502,8 +502,7 @@ class TimelogControllerTest < ActionController::TestCase
     assert_equal [1, 3], assigns(:entries).collect(&:project_id).uniq.sort
     assert_not_nil assigns(:total_hours)
     assert_equal "162.90", "%.2f" % assigns(:total_hours)
-    assert_tag :form,
-      :attributes => {:action => "/projects/ecookbook/time_entries", :id => 'query_form'}
+    assert_select 'form#query_form[action=?]', '/projects/ecookbook/time_entries'
   end
 
   def test_index_with_display_subprojects_issues_to_false_should_not_include_subproject_entries
@@ -539,8 +538,7 @@ class TimelogControllerTest < ActionController::TestCase
     assert_equal 3, assigns(:entries).size
     assert_not_nil assigns(:total_hours)
     assert_equal "12.90", "%.2f" % assigns(:total_hours)
-    assert_tag :form,
-      :attributes => {:action => "/projects/ecookbook/time_entries", :id => 'query_form'}
+    assert_select 'form#query_form[action=?]', '/projects/ecookbook/time_entries'
   end
 
   def test_index_at_project_level_with_date_range_using_from_and_to_params
@@ -551,8 +549,7 @@ class TimelogControllerTest < ActionController::TestCase
     assert_equal 3, assigns(:entries).size
     assert_not_nil assigns(:total_hours)
     assert_equal "12.90", "%.2f" % assigns(:total_hours)
-    assert_tag :form,
-      :attributes => {:action => "/projects/ecookbook/time_entries", :id => 'query_form'}
+    assert_select 'form#query_form[action=?]', '/projects/ecookbook/time_entries'
   end
 
   def test_index_at_project_level_with_period
@@ -564,8 +561,7 @@ class TimelogControllerTest < ActionController::TestCase
     assert_template 'index'
     assert_not_nil assigns(:entries)
     assert_not_nil assigns(:total_hours)
-    assert_tag :form,
-      :attributes => {:action => "/projects/ecookbook/time_entries", :id => 'query_form'}
+    assert_select 'form#query_form[action=?]', '/projects/ecookbook/time_entries'
   end
 
   def test_index_at_issue_level
@@ -579,8 +575,7 @@ class TimelogControllerTest < ActionController::TestCase
     # display all time
     assert_nil assigns(:from)
     assert_nil assigns(:to)
-    assert_tag :form,
-      :attributes => {:action => "/issues/1/time_entries", :id => 'query_form'}
+    assert_select 'form#query_form[action=?]', '/issues/1/time_entries'
   end
 
   def test_index_should_sort_by_spent_on_and_created_on

@@ -107,9 +107,7 @@ class WelcomeControllerTest < ActionController::TestCase
     @request.session[:user_id] = 2
 
     get :index
-    assert_no_tag 'script',
-      :attributes => {:type => "text/javascript"},
-      :content => %r{warnLeavingUnsaved}
+    assert_select 'script', :text => %r{warnLeavingUnsaved}, :count => 0
   end
 
   def test_logout_link_should_post

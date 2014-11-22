@@ -29,18 +29,8 @@ class Redmine::ApiTest::IssueStatusesTest < Redmine::ApiTest::Base
 
     assert_response :success
     assert_equal 'application/xml', @response.content_type
-    assert_tag :tag => 'issue_statuses',
-      :attributes => {:type => 'array'},
-      :child => {
-        :tag => 'issue_status',
-        :child => {
-          :tag => 'id',
-          :content => '2',
-          :sibling => {
-            :tag => 'name',
-            :content => 'Assigned'
-          }
-        }
-      }
+    assert_select 'issue_statuses[type=array] issue_status id:content(2)' do
+      assert_select '~ name', :text => 'Assigned'
+    end
   end
 end

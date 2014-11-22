@@ -56,13 +56,7 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
     should "contain metadata" do
       get '/issues.xml'
 
-      assert_tag :tag => 'issues',
-        :attributes => {
-          :type => 'array',
-          :total_count => assigns(:issue_count),
-          :limit => 25,
-          :offset => 0
-        }
+      assert_select 'issues[type=array][total_count=?][limit="25"][offset="0"]', assigns(:issue_count).to_s
     end
 
     context "with offset and limit" do
@@ -71,7 +65,7 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
 
         assert_equal 3, assigns(:limit)
         assert_equal 2, assigns(:offset)
-        assert_tag :tag => 'issues', :children => {:count => 3, :only => {:tag => 'issue'}}
+        assert_select 'issues issue', 3
       end
     end
 
@@ -79,13 +73,7 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
       should "not contain metadata" do
         get '/issues.xml?nometa=1'
 
-        assert_tag :tag => 'issues',
-          :attributes => {
-            :type => 'array',
-            :total_count => nil,
-            :limit => nil,
-            :offset => nil
-          }
+        assert_select 'issues[type=array]:not([total_count]):not([limit]):not([offset])'
       end
     end
 
@@ -93,13 +81,7 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
       should "not contain metadata" do
         get '/issues.xml', {}, {'X-Redmine-Nometa' => '1'}
 
-        assert_tag :tag => 'issues',
-          :attributes => {
-            :type => 'array',
-            :total_count => nil,
-            :limit => nil,
-            :offset => nil
-          }
+        assert_select 'issues[type=array]:not([total_count]):not([limit]):not([offset])'
       end
     end
 
@@ -109,17 +91,16 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
 
         assert_response :success
         assert_equal 'application/xml', @response.content_type
-        assert_tag 'relations',
-          :parent => {:tag => 'issue', :child => {:tag => 'id', :content => '3'}},
-          :children => {:count => 1},
-          :child => {
-            :tag => 'relation',
-            :attributes => {:id => '2', :issue_id => '2', :issue_to_id => '3',
-                            :relation_type => 'relates'}
-          }
-        assert_tag 'relations',
-          :parent => {:tag => 'issue', :child => {:tag => 'id', :content => '1'}},
-          :children => {:count => 0}
+
+        assert_select 'issue id:content(3)' do
+          assert_select '~ relations relation', 1
+          assert_select '~ relations relation[id="2"][issue_id="2"][issue_to_id="3"][relation_type=relates]'
+        end
+
+        assert_select 'issue id:content(1)' do
+          assert_select '~ relations'
+          assert_select '~ relations relation', 0
+        end
       end
     end
 
@@ -129,7 +110,7 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
 
         assert_response :unprocessable_entity
         assert_equal 'application/xml', @response.content_type
-        assert_tag 'errors', :child => {:tag => 'error', :content => "Start date can't be blank"}
+        assert_select 'errors error', :text => "Start date can't be blank"
       end
     end
 
@@ -233,31 +214,16 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
         should "display journals" do
           get '/issues/1.xml?include=journals'
 
-          assert_tag :tag => 'issue',
-            :child => {
-              :tag => 'journals',
-              :attributes => { :type => 'array' },
-              :child => {
-                :tag => 'journal',
-                :attributes => { :id => '1'},
-                :child => {
-                  :tag => 'details',
-                  :attributes => { :type => 'array' },
-                  :child => {
-                    :tag => 'detail',
-                    :attributes => { :name => 'status_id' },
-                    :child => {
-                      :tag => 'old_value',
-                      :content => '1',
-                      :sibling => {
-                        :tag => 'new_value',
-                        :content => '2'
-                      }
-                    }
-                  }
-                }
-              }
-            }
+          assert_select 'issue journals[type=array]' do
+            assert_select 'journal[id="1"]' do
+              assert_select 'details[type=array]' do
+                assert_select 'detail[name=status_id]' do
+                  assert_select 'old_value', :text => '1'
+                  assert_select 'new_value', :text => '2'
+                end
+              end
+            end
+          end
         end
       end
     end
@@ -267,19 +233,11 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
         should "display custom fields" do
           get '/issues/3.xml'
 
-          assert_tag :tag => 'issue',
-            :child => {
-              :tag => 'custom_fields',
-              :attributes => { :type => 'array' },
-              :child => {
-                :tag => 'custom_field',
-                :attributes => { :id => '1'},
-                :child => {
-                  :tag => 'value',
-                  :content => 'MySQL'
-                }
-              }
-            }
+          assert_select 'issue custom_fields[type=array]' do
+            assert_select 'custom_field[id="1"]' do
+              assert_select 'value', :text => 'MySQL'
+            end
+          end
 
           assert_nothing_raised do
             Hash.from_xml(response.body).to_xml
@@ -301,20 +259,12 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
         should "display custom fields" do
           get '/issues/3.xml'
           assert_response :success
-          assert_tag :tag => 'issue',
-            :child => {
-              :tag => 'custom_fields',
-              :attributes => { :type => 'array' },
-              :child => {
-                :tag => 'custom_field',
-                :attributes => { :id => '1'},
-                :child => {
-                  :tag => 'value',
-                  :attributes => { :type => 'array' },
-                  :children => { :count => 2 }
-                }
-              }
-            }
+
+          assert_select 'issue custom_fields[type=array]' do
+            assert_select 'custom_field[id="1"]' do
+              assert_select 'value[type=array] value', 2
+            end
+          end
 
           xml = Hash.from_xml(response.body)
           custom_fields = xml['issue']['custom_fields']
@@ -351,21 +301,12 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
       context ".xml" do
         should "display custom fields" do
           get '/issues/3.xml'
-          assert_response :success
-          assert_tag :tag => 'issue',
-            :child => {
-              :tag => 'custom_fields',
-              :attributes => { :type => 'array' },
-              :child => {
-                :tag => 'custom_field',
-                :attributes => { :id => '1'},
-                :child => {
-                  :tag => 'value',
-                  :attributes => { :type => 'array' },
-                  :children => { :count => 0 }
-                }
-              }
-            }
+
+          assert_select 'issue custom_fields[type=array]' do
+            assert_select 'custom_field[id="1"]' do
+              assert_select 'value[type=array]:empty'
+            end
+          end
 
           xml = Hash.from_xml(response.body)
           custom_fields = xml['issue']['custom_fields']
@@ -395,22 +336,13 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
         should "display attachments" do
           get '/issues/3.xml?include=attachments'
 
-          assert_tag :tag => 'issue',
-            :child => {
-              :tag => 'attachments',
-              :children => {:count => 5},
-              :child => {
-                :tag => 'attachment',
-                :child => {
-                  :tag => 'filename',
-                  :content => 'source.rb',
-                  :sibling => {
-                    :tag => 'content_url',
-                    :content => 'http://www.example.com/attachments/download/4/source.rb'
-                  }
-                }
-              }
-            }
+          assert_select 'issue attachments[type=array]' do
+            assert_select 'attachment', 5
+            assert_select 'attachment id:content(4)' do
+              assert_select '~ filename', :text => 'source.rb'
+              assert_select '~ content_url', :text => 'http://www.example.com/attachments/download/4/source.rb'
+            end
+          end
         end
       end
     end
@@ -438,27 +370,15 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
         should "display children" do
           get '/issues/1.xml?include=children'
 
-          assert_tag :tag => 'issue',
-            :child => {
-              :tag => 'children',
-              :children => {:count => 2},
-              :child => {
-                :tag => 'issue',
-                :attributes => {:id => @c1.id.to_s},
-                :child => {
-                  :tag => 'subject',
-                  :content => 'child c1',
-                  :sibling => {
-                    :tag => 'children',
-                    :children => {:count => 1},
-                    :child => {
-                      :tag => 'issue',
-                      :attributes => {:id => @c3.id.to_s}
-                    }
-                  }
-                }
-              }
-            }
+          assert_select 'issue children[type=array]' do
+            assert_select 'issue', 2
+            assert_select 'issue[id=?]', @c1.id.to_s do
+              assert_select 'subject', :text => 'child c1'
+              assert_select 'children' do
+                assert_select 'issue[id=?]', @c3.id.to_s
+              end
+            end
+          end
         end
 
         context ".json" do
@@ -522,7 +442,7 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
 
       assert_response :created
       assert_equal 'application/xml', @response.content_type
-      assert_tag 'issue', :child => {:tag => 'id', :content => issue.id.to_s}
+      assert_select 'issue > id', :text => issue.id.to_s
     end
   end
 
@@ -544,7 +464,7 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
         post '/issues.xml', {:issue => {:project_id => 1}}, credentials('jsmith')
       end
 
-      assert_tag :errors, :child => {:tag => 'error', :content => "Subject can't be blank"}
+      assert_select 'errors error', :text => "Subject can't be blank"
     end
   end
 
@@ -698,7 +618,7 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
     should "have an errors tag" do
       put '/issues/6.xml', @parameters, credentials('jsmith')
 
-      assert_tag :errors, :child => {:tag => 'error', :content => "Subject can't be blank"}
+      assert_select 'errors error', :text => "Subject can't be blank"
     end
   end
 

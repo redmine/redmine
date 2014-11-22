@@ -164,10 +164,11 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
       @repository.fetch_changesets
       @project.reload
       get :show, :id => PRJ_ID
-      assert_tag 'form', :attributes => {:id => 'revision_selector', :action => '/projects/subproject1/repository/show'}
-      assert_tag 'select', :attributes => {:name => 'branch'},
-        :child => {:tag => 'option', :attributes => {:value => 'test-branch-01'}},
-        :parent => {:tag => 'form', :attributes => {:id => 'revision_selector'}}
+      assert_select 'form#revision_selector[action=?]', '/projects/subproject1/repository/show' do
+        assert_select 'select[name=branch]' do
+          assert_select 'option[value=?]', 'test-branch-01'
+        end
+      end
     end
 
     def test_show_branch
@@ -218,7 +219,7 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
           :path => repository_path_hash(['images', 'edit.png'])[:param]
       assert_response :success
       assert_template 'changes'
-      assert_tag :tag => 'h2', :content => 'edit.png'
+      assert_select 'h2', :text => /edit.png/
     end
 
     def test_entry_show
@@ -227,10 +228,7 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
       assert_response :success
       assert_template 'entry'
       # Line 10
-      assert_tag :tag => 'th',
-                 :content => '10',
-                 :attributes => { :class => 'line-num' },
-                 :sibling => { :tag => 'td', :content => /WITHOUT ANY WARRANTY/ }
+      assert_select 'tr#L10 td.line-code', :text => /WITHOUT ANY WARRANTY/
     end
 
     def test_entry_show_latin_1_path
@@ -240,11 +238,7 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
             :rev => r1
         assert_response :success
         assert_template 'entry'
-        assert_tag :tag => 'th',
-                 :content => '1',
-                 :attributes => { :class => 'line-num' },
-                 :sibling => { :tag => 'td',
-                               :content => /Mercurial is a distributed version control system/ }
+        assert_select 'tr#L1 td.line-code', :text => /Mercurial is a distributed version control system/
       end
     end
 
@@ -256,11 +250,7 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
               :rev => r1
           assert_response :success
           assert_template 'entry'
-          assert_tag :tag => 'th',
-                 :content => '1',
-                 :attributes => { :class => 'line-num' },
-                 :sibling => { :tag => 'td',
-                               :content => /test-#{@char_1}.txt/ }
+          assert_select 'tr#L1 td.line-code', :text => /test-#{@char_1}.txt/
         end
       end
     end
@@ -303,12 +293,8 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
           assert_template 'diff'
           if @diff_c_support
             # Line 22 removed
-            assert_tag :tag => 'th',
-                       :content => '22',
-                       :sibling => { :tag => 'td',
-                                     :attributes => { :class => /diff_out/ },
-                                     :content => /def remove/ }
-            assert_tag :tag => 'h2', :content => /4:def6d2f1254a/
+            assert_select 'th.line-num:content(22) ~ td.diff_out', :text => /def remove/
+            assert_select 'h2', :text => /4:def6d2f1254a/
           end
         end
       end
@@ -331,8 +317,7 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
             assert_template 'diff'
             diff = assigns(:diff)
             assert_not_nil diff
-            assert_tag :tag => 'h2',
-                       :content => /4:def6d2f1254a 2:400bb8672109/
+            assert_select 'h2', :text => /4:def6d2f1254a 2:400bb8672109/
           end
         end
       end
@@ -345,20 +330,10 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
             get :diff, :id => PRJ_ID, :rev => r1, :type => dt
             assert_response :success
             assert_template 'diff'
-            assert_tag :tag => 'thead',
-                       :descendant => {
-                         :tag => 'th',
-                         :attributes => { :class => 'filename' } ,
-                         :content => /latin-1-dir\/test-#{@char_1}-2.txt/ ,
-                        },
-                       :sibling => {
-                         :tag => 'tbody',
-                         :descendant => {
-                            :tag => 'td',
-                            :attributes => { :class => /diff_in/ },
-                            :content => /It is written in Python/
-                         }
-                       }
+            assert_select 'table' do
+              assert_select 'thead th.filename', :text => /latin-1-dir\/test-#{@char_1}-2.txt/
+              assert_select 'tbody td.diff_in', :text => /It is written in Python/
+            end
           end
         end
       end
@@ -401,7 +376,7 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
       get :annotate, :id => PRJ_ID,
           :path => repository_path_hash(['sources', 'welcome_controller.rb'])[:param]
       assert_response 404
-      assert_error_tag :content => /was not found/
+      assert_select_error /was not found/
     end
 
     def test_annotate_at_given_revision
@@ -414,7 +389,7 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
             :path => repository_path_hash(['sources', 'watchers_controller.rb'])[:param]
         assert_response :success
         assert_template 'annotate'
-        assert_tag :tag => 'h2', :content => /@ 2:400bb8672109/
+        assert_select 'h2', :text => /@ 2:400bb8672109/
       end
     end
 
@@ -443,11 +418,7 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
           get :annotate, :id => PRJ_ID,
               :path => repository_path_hash(['latin-1-dir', "test-#{@char_1}.txt"])[:param],
               :rev => r1
-          assert_tag :tag => 'th',
-                     :content => '1',
-                     :attributes => { :class => 'line-num' },
-                     :sibling => { :tag => 'td',
-                                   :content => /test-#{@char_1}.txt/ }
+          assert_select 'tr#L1 td.line-code', :text => /test-#{@char_1}.txt/
         end
       end
     end
@@ -476,7 +447,7 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
       ['', ' ', nil].each do |r|
         get :revision, :id => PRJ_ID, :rev => r
         assert_response 404
-        assert_error_tag :content => /was not found/
+        assert_select_error /was not found/
       end
     end
 

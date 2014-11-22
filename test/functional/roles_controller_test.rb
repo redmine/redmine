@@ -33,8 +33,7 @@ class RolesControllerTest < ActionController::TestCase
     assert_not_nil assigns(:roles)
     assert_equal Role.order('builtin, position').to_a, assigns(:roles)
 
-    assert_tag :tag => 'a', :attributes => { :href => '/roles/1/edit' },
-                            :content => 'Manager'
+    assert_select 'a[href="/roles/1/edit"]', :text => 'Manager'
   end
 
   def test_new
@@ -75,7 +74,7 @@ class RolesControllerTest < ActionController::TestCase
 
     assert_response :success
     assert_template 'new'
-    assert_tag :tag => 'div', :attributes => { :id => 'errorExplanation' }
+    assert_select 'div#errorExplanation'
   end
 
   def test_create_without_workflow_copy
@@ -162,15 +161,8 @@ class RolesControllerTest < ActionController::TestCase
     assert_not_nil assigns(:roles)
     assert_equal Role.order('builtin, position').to_a, assigns(:roles)
 
-    assert_tag :tag => 'input', :attributes => { :type => 'checkbox',
-                                                 :name => 'permissions[3][]',
-                                                 :value => 'add_issues',
-                                                 :checked => 'checked' }
-
-    assert_tag :tag => 'input', :attributes => { :type => 'checkbox',
-                                                 :name => 'permissions[3][]',
-                                                 :value => 'delete_issues',
-                                                 :checked => nil }
+    assert_select 'input[name=?][type=checkbox][value=add_issues][checked=checked]', 'permissions[3][]'
+    assert_select 'input[name=?][type=checkbox][value=delete_issues]:not([checked])', 'permissions[3][]'
   end
 
   def test_post_permissions

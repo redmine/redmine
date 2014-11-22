@@ -75,7 +75,7 @@ class UsersControllerTest < ActionController::TestCase
     assert_template 'show'
     assert_not_nil assigns(:user)
 
-    assert_tag 'li', :content => /Phone number/
+    assert_select 'li', :text => /Phone number/
   end
 
   def test_show_should_not_display_hidden_custom_fields
@@ -86,7 +86,7 @@ class UsersControllerTest < ActionController::TestCase
     assert_template 'show'
     assert_not_nil assigns(:user)
 
-    assert_no_tag 'li', :content => /Phone number/
+    assert_select 'li', :text => /Phone number/, :count => 0
   end
 
   def test_show_should_not_fail_when_custom_values_are_nil

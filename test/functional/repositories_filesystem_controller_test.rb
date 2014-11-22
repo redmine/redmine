@@ -61,19 +61,16 @@ class RepositoriesFilesystemControllerTest < ActionController::TestCase
       assert_not_nil assigns(:changesets)
       assert assigns(:changesets).size == 0
 
-      assert_no_tag 'input', :attributes => {:name => 'rev'}
-      assert_no_tag 'a', :content => 'Statistics'
-      assert_no_tag 'a', :content => 'Atom'
+      assert_select 'input[name=rev]', 0
+      assert_select 'a', :text => 'Statistics', :count => 0
+      assert_select 'a', :text => 'Atom', :count => 0
     end
 
     def test_show_no_extension
       get :entry, :id => PRJ_ID, :path => repository_path_hash(['test'])[:param]
       assert_response :success
       assert_template 'entry'
-      assert_tag :tag => 'th',
-                 :content => '1',
-                 :attributes => { :class => 'line-num' },
-                 :sibling => { :tag => 'td', :content => /TEST CAT/ }
+      assert_select 'tr#L1 td.line-code', :text => /TEST CAT/
     end
 
     def test_entry_download_no_extension
@@ -88,20 +85,14 @@ class RepositoriesFilesystemControllerTest < ActionController::TestCase
             :path => repository_path_hash(['japanese', 'euc-jp.txt'])[:param]
         assert_response :success
         assert_template 'entry'
-        assert_tag :tag => 'th',
-                   :content => '2',
-                   :attributes => { :class => 'line-num' },
-                   :sibling => { :tag => 'td', :content => /japanese/ }
+        assert_select 'tr#L2 td.line-code', :text => /japanese/
         if @ruby19_non_utf8_pass
           puts "TODO: show repository file contents test fails " +
                "when Encoding.default_external is not UTF-8. " +
                "Current value is '#{Encoding.default_external.to_s}'"
         else
           str_japanese = "\xe6\x97\xa5\xe6\x9c\xac\xe8\xaa\x9e".force_encoding('UTF-8')
-          assert_tag :tag => 'th',
-                     :content => '3',
-                     :attributes => { :class => 'line-num' },
-                     :sibling => { :tag => 'td', :content => /#{str_japanese}/ }
+          assert_select 'tr#L3 td.line-code', :text => /#{str_japanese}/
         end
       end
     end
@@ -112,10 +103,7 @@ class RepositoriesFilesystemControllerTest < ActionController::TestCase
         get :entry, :id => PRJ_ID,
             :path => repository_path_hash(['japanese', 'utf-16.txt'])[:param]
         assert_response :success
-        assert_tag :tag => 'th',
-                   :content => '2',
-                   :attributes => { :class => 'line-num' },
-                   :sibling => { :tag => 'td', :content => /japanese/ }
+        assert_select 'tr#L2 td.line-code', :text => /japanese/
       end
     end
 

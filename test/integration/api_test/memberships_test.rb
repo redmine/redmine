@@ -29,26 +29,10 @@ class Redmine::ApiTest::MembershipsTest < Redmine::ApiTest::Base
 
     assert_response :success
     assert_equal 'application/xml', @response.content_type
-    assert_tag :tag => 'memberships',
-      :attributes => {:type => 'array'},
-      :child => {
-        :tag => 'membership',
-        :child => {
-          :tag => 'id',
-          :content => '2',
-          :sibling => {
-            :tag => 'user',
-            :attributes => {:id => '3', :name => 'Dave Lopper'},
-            :sibling => {
-              :tag => 'roles',
-              :child => {
-                :tag => 'role',
-                :attributes => {:id => '2', :name => 'Developer'}
-              }
-            }
-          }
-        }
-      }
+    assert_select 'memberships[type=array] membership id:content(2)' do
+      assert_select '~ user[id=3][name=Dave Lopper]'
+      assert_select '~ roles role[id=2][name=Developer]'
+    end
   end
 
   test "GET /projects/:project_id/memberships.json should return memberships" do
@@ -105,7 +89,7 @@ class Redmine::ApiTest::MembershipsTest < Redmine::ApiTest::Base
 
       assert_response :unprocessable_entity
       assert_equal 'application/xml', @response.content_type
-      assert_tag 'errors', :child => {:tag => 'error', :content => "Principal can't be blank"}
+      assert_select 'errors error', :text => "Principal can't be blank"
     end
   end
 
@@ -114,22 +98,10 @@ class Redmine::ApiTest::MembershipsTest < Redmine::ApiTest::Base
 
     assert_response :success
     assert_equal 'application/xml', @response.content_type
-    assert_tag :tag => 'membership',
-      :child => {
-        :tag => 'id',
-        :content => '2',
-        :sibling => {
-          :tag => 'user',
-          :attributes => {:id => '3', :name => 'Dave Lopper'},
-          :sibling => {
-            :tag => 'roles',
-            :child => {
-              :tag => 'role',
-              :attributes => {:id => '2', :name => 'Developer'}
-            }
-          }
-        }
-      }
+    assert_select 'membership id:content(2)' do
+      assert_select '~ user[id=3][name=Dave Lopper]'
+      assert_select '~ roles role[id=2][name=Developer]'
+    end
   end
 
   test "GET /memberships/:id.json should return the membership" do
@@ -165,7 +137,7 @@ class Redmine::ApiTest::MembershipsTest < Redmine::ApiTest::Base
 
     assert_response :unprocessable_entity
     assert_equal 'application/xml', @response.content_type
-    assert_tag 'errors', :child => {:tag => 'error', :content => /role can't be empty/i}
+    assert_select 'errors error', :text => "Role can't be empty"
   end
 
   test "DELETE /memberships/:id.xml should destroy the membership" do

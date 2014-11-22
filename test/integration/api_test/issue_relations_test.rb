@@ -37,15 +37,7 @@ class Redmine::ApiTest::IssueRelationsTest < Redmine::ApiTest::Base
     assert_response :success
     assert_equal 'application/xml', @response.content_type
 
-    assert_tag :tag => 'relations',
-      :attributes => { :type => 'array' },
-      :child => {
-        :tag => 'relation',
-        :child => {
-          :tag => 'id',
-          :content => '1'
-        }
-      }
+    assert_select 'relations[type=array] relation id', :text => '1'
   end
 
   test "POST /issues/:issue_id/relations.xml should create the relation" do
@@ -60,7 +52,7 @@ class Redmine::ApiTest::IssueRelationsTest < Redmine::ApiTest::Base
 
     assert_response :created
     assert_equal 'application/xml', @response.content_type
-    assert_tag 'relation', :child => {:tag => 'id', :content => relation.id.to_s}
+    assert_select 'relation id', :text => relation.id.to_s
   end
 
   test "POST /issues/:issue_id/relations.xml with failure should return errors" do
@@ -69,7 +61,7 @@ class Redmine::ApiTest::IssueRelationsTest < Redmine::ApiTest::Base
     end
 
     assert_response :unprocessable_entity
-    assert_tag :errors, :child => {:tag => 'error', :content => /relation_type is not included in the list/}
+    assert_select 'errors error', :text => /relation_type is not included in the list/
   end
 
   test "GET /relations/:id.xml should return the relation" do
@@ -77,7 +69,7 @@ class Redmine::ApiTest::IssueRelationsTest < Redmine::ApiTest::Base
 
     assert_response :success
     assert_equal 'application/xml', @response.content_type
-    assert_tag 'relation', :child => {:tag => 'id', :content => '2'}
+    assert_select 'relation id', :text => '2'
   end
 
   test "DELETE /relations/:id.xml should delete the relation" do

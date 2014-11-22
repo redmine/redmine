@@ -49,13 +49,12 @@ class SearchControllerTest < ActionController::TestCase
     assert assigns(:results).include?(Issue.find(2))
     assert assigns(:results).include?(Issue.find(5))
     assert assigns(:results).include?(Changeset.find(101))
-    assert_tag :dt, :attributes => { :class => /issue/ },
-                    :child => { :tag => 'a',  :content => /Add ingredients categories/ },
-                    :sibling => { :tag => 'dd', :content => /should be classified by categories/ }
+    assert_select 'dt.issue a', :text => /Add ingredients categories/
+    assert_select 'dd', :text => /should be classified by categories/
 
     assert assigns(:results_by_type).is_a?(Hash)
     assert_equal 5, assigns(:results_by_type)['changesets']
-    assert_tag :a, :content => 'Changesets (5)'
+    assert_select 'a', :text => 'Changesets (5)'
   end
 
   def test_search_issues
@@ -67,8 +66,7 @@ class SearchControllerTest < ActionController::TestCase
     assert_equal false, assigns(:titles_only)
     assert assigns(:results).include?(Issue.find(8))
     assert assigns(:results).include?(Issue.find(5))
-    assert_tag :dt, :attributes => { :class => /issue closed/ },
-                    :child => { :tag => 'a',  :content => /Closed/ }
+    assert_select 'dt.issue.closed a',  :text => /Closed/
   end
 
   def test_search_issues_should_search_notes

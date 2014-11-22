@@ -37,7 +37,7 @@ class SettingsControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'edit'
 
-    assert_tag 'input', :attributes => {:name => 'settings[enabled_scm][]', :value => ''}
+    assert_select 'input[name=?][value=""]', 'settings[enabled_scm][]'
   end
 
   def test_get_edit_should_preselect_default_issue_list_columns
@@ -146,9 +146,9 @@ class SettingsControllerTest < ActionController::TestCase
     get :plugin, :id => 'foo'
     assert_response :success
     assert_template 'plugin'
-    assert_tag 'form', :attributes => {:action => '/settings/plugin/foo'},
-      :descendant => {:tag => 'input', :attributes => {:name => 'settings[sample_setting]', :value => 'Plugin setting value'}}
-
+    assert_select 'form[action="/settings/plugin/foo"]' do
+      assert_select 'input[name=?][value=?]', 'settings[sample_setting]', 'Plugin setting value'
+    end
   ensure
     Redmine::Plugin.unregister(:foo)
   end

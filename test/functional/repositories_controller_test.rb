@@ -33,7 +33,7 @@ class RepositoriesControllerTest < ActionController::TestCase
     assert_template 'new'
     assert_kind_of Repository::Subversion, assigns(:repository)
     assert assigns(:repository).new_record?
-    assert_tag 'input', :attributes => {:name => 'repository[url]', :disabled => nil}
+    assert_select 'input[name=?]:not([disabled])', 'repository[url]'
   end
 
   def test_new_should_propose_enabled_scm_only
@@ -44,12 +44,12 @@ class RepositoriesControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'new'
     assert_kind_of Repository::Mercurial, assigns(:repository)
-    assert_tag 'select', :attributes => {:name => 'repository_scm'},
-      :children => {:count => 3}
-    assert_tag 'select', :attributes => {:name => 'repository_scm'},
-      :child => {:tag => 'option', :attributes => {:value => 'Mercurial', :selected => 'selected'}}
-    assert_tag 'select', :attributes => {:name => 'repository_scm'},
-      :child => {:tag => 'option', :attributes => {:value => 'Git', :selected => nil}}
+
+    assert_select 'select[name=repository_scm]' do
+      assert_select 'option', 3
+      assert_select 'option[value=Mercurial][selected=selected]'
+      assert_select 'option[value=Git]:not([selected])'
+    end
   end
 
   def test_create
@@ -84,7 +84,7 @@ class RepositoriesControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'edit'
     assert_equal Repository.find(11), assigns(:repository)
-    assert_tag 'input', :attributes => {:name => 'repository[url]', :value => 'svn://localhost/test', :disabled => 'disabled'}
+    assert_select 'input[name=?][value=?][disabled=disabled]', 'repository[url]', 'svn://localhost/test'
   end
 
   def test_update
@@ -170,20 +170,18 @@ class RepositoriesControllerTest < ActionController::TestCase
     get :revision, :id => 1, :rev => 1
     assert_response :success
 
-    assert_tag 'a', :attributes => {:href => '/projects/ecookbook/repository', :class => /repository/},
-      :ancestor => {:attributes => {:id => 'main-menu'}}
+    assert_select '#main-menu a.repository[href=?]', '/projects/ecookbook/repository'
   end
 
   def test_revision_with_before_nil_and_afer_normal
     get :revision, {:id => 1, :rev => 1}
     assert_response :success
     assert_template 'revision'
-    assert_no_tag :tag => "div", :attributes => { :class => "contextual" },
-      :child => { :tag => "a", :attributes => { :href => '/projects/ecookbook/repository/revisions/0'}
-    }
-    assert_tag :tag => "div", :attributes => { :class => "contextual" },
-        :child => { :tag => "a", :attributes => { :href => '/projects/ecookbook/repository/revisions/2'}
-    }
+
+    assert_select 'div.contextual' do
+      assert_select 'a[href=?]', '/projects/ecookbook/repository/revisions/0', 0
+      assert_select 'a[href=?]', '/projects/ecookbook/repository/revisions/2'
+    end
   end
 
   def test_add_related_issue
@@ -265,17 +263,14 @@ class RepositoriesControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'committers'
 
-    assert_tag :td, :content => 'dlopper',
-                    :sibling => { :tag => 'td',
-                                  :child => { :tag => 'select', :attributes => { :name => %r{^committers\[\d+\]\[\]$} },
-                                                                :child => { :tag => 'option', :content => 'Dave Lopper',
-                                                                                              :attributes => { :value => '3', :selected => 'selected' }}}}
-    assert_tag :td, :content => 'foo',
-                    :sibling => { :tag => 'td',
-                                  :child => { :tag => 'select', :attributes => { :name => %r{^committers\[\d+\]\[\]$} }}}
-    assert_no_tag :td, :content => 'foo',
-                       :sibling => { :tag => 'td',
-                                     :descendant => { :tag => 'option', :attributes => { :selected => 'selected' }}}
+    assert_select 'td:content(dlopper) + td select' do
+      assert_select 'option[value="3"][selected=selected]', :text => 'Dave Lopper'
+    end
+
+    assert_select 'td:content(foo) + td select' do
+      assert_select 'option[value=""]'
+      assert_select 'option[selected=selected]', 0 # no option selected
+    end
   end
 
   def test_post_committers

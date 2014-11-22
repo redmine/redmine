@@ -31,19 +31,9 @@ class Redmine::ApiTest::RolesTest < Redmine::ApiTest::Base
     assert_equal 'application/xml', @response.content_type
     assert_equal 3, assigns(:roles).size
 
-    assert_tag :tag => 'roles',
-      :attributes => {:type => 'array'},
-      :child => {
-        :tag => 'role',
-        :child => {
-          :tag => 'id',
-          :content => '2',
-          :sibling => {
-            :tag => 'name',
-            :content => 'Developer'
-          }
-        }
-      }
+    assert_select 'roles[type=array] role id:content(2)' do
+      assert_select '~ name', :text => 'Developer'
+    end
   end
 
   test "GET /roles.json should return the roles" do

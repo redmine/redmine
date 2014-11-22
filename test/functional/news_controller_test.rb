@@ -50,7 +50,7 @@ class NewsControllerTest < ActionController::TestCase
     get :show, :id => 1
     assert_response :success
     assert_template 'show'
-    assert_tag :tag => 'h2', :content => /eCookbook first release/
+    assert_select 'h2', :text => /eCookbook first release/
   end
 
   def test_show_should_show_attachments
@@ -60,7 +60,7 @@ class NewsControllerTest < ActionController::TestCase
 
     get :show, :id => 1
     assert_response :success
-    assert_tag 'a', :content => attachment.filename
+    assert_select 'a', :text => attachment.filename
   end
 
   def test_show_with_comments_in_reverse_order
@@ -129,7 +129,7 @@ class NewsControllerTest < ActionController::TestCase
     assert_template 'new'
     assert_not_nil assigns(:news)
     assert assigns(:news).new_record?
-    assert_error_tag :content => /title #{ESCAPED_CANT} be blank/i
+    assert_select_error /title #{ESCAPED_CANT} be blank/i
   end
 
   def test_get_edit
@@ -166,7 +166,7 @@ class NewsControllerTest < ActionController::TestCase
     put :update, :id => 1, :news => { :description => '' }
     assert_response :success
     assert_template 'edit'
-    assert_error_tag :content => /description #{ESCAPED_CANT} be blank/i
+    assert_select_error /description #{ESCAPED_CANT} be blank/i
   end
 
   def test_destroy

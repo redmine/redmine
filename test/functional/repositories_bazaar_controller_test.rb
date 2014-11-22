@@ -86,7 +86,7 @@ class RepositoriesBazaarControllerTest < ActionController::TestCase
           :path => repository_path_hash(['doc-mkdir.txt'])[:param]
       assert_response :success
       assert_template 'changes'
-      assert_tag :tag => 'h2', :content => 'doc-mkdir.txt'
+      assert_select 'h2', :text => /doc-mkdir.txt/
     end
 
     def test_entry_show
@@ -95,10 +95,7 @@ class RepositoriesBazaarControllerTest < ActionController::TestCase
       assert_response :success
       assert_template 'entry'
       # Line 19
-      assert_tag :tag => 'th',
-                 :content => /29/,
-                 :attributes => { :class => /line-num/ },
-                 :sibling => { :tag => 'td', :content => /Show help message/ }
+      assert_select 'tr#L29 td.line-code', :text => /Show help message/
     end
 
     def test_entry_download
@@ -126,11 +123,7 @@ class RepositoriesBazaarControllerTest < ActionController::TestCase
         assert_response :success
         assert_template 'diff'
         # Line 11 removed
-        assert_tag :tag => 'th',
-                   :content => '11',
-                   :sibling => { :tag => 'td',
-                                 :attributes => { :class => /diff_out/ },
-                                 :content => /Display more information/ }
+        assert_select 'th.line-num:content(11) ~ td.diff_out', :text => /Display more information/
       end
     end
 

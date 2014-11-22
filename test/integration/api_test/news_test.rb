@@ -37,15 +37,7 @@ class Redmine::ApiTest::NewsTest < Redmine::ApiTest::Base
   test "GET /news.xml should return news" do
     get '/news.xml'
 
-    assert_tag :tag => 'news',
-      :attributes => {:type => 'array'},
-      :child => {
-        :tag => 'news',
-        :child => {
-          :tag => 'id',
-          :content => '2'
-        }
-      }
+    assert_select 'news[type=array] news id', :text => '2'
   end
 
   test "GET /news.json should return news" do
@@ -61,15 +53,7 @@ class Redmine::ApiTest::NewsTest < Redmine::ApiTest::Base
   test "GET /projects/:project_id/news.xml should return news" do
     get '/projects/ecookbook/news.xml'
 
-    assert_tag :tag => 'news',
-      :attributes => {:type => 'array'},
-      :child => {
-        :tag => 'news',
-        :child => {
-          :tag => 'id',
-          :content => '2'
-        }
-      }
+    assert_select 'news[type=array] news id', :text => '2'
   end
 
   test "GET /projects/:project_id/news.json should return news" do

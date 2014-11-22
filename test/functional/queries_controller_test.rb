@@ -36,10 +36,7 @@ class QueriesControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'new'
     assert_select 'input[name=?][value="0"][checked=checked]', 'query[visibility]'
-    assert_tag :tag => 'input', :attributes => { :type => 'checkbox',
-                                                 :name => 'query_is_for_all',
-                                                 :checked => nil,
-                                                 :disabled => nil }
+    assert_select 'input[name=query_is_for_all][type=checkbox]:not([checked]):not([disabled])'
     assert_select 'select[name=?]', 'c[]' do
       assert_select 'option[value=tracker]'
       assert_select 'option[value=subject]'
@@ -52,10 +49,7 @@ class QueriesControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'new'
     assert_select 'input[name=?]', 'query[visibility]', 0
-    assert_tag :tag => 'input', :attributes => { :type => 'checkbox',
-                                                 :name => 'query_is_for_all',
-                                                 :checked => 'checked',
-                                                 :disabled => nil }
+    assert_select 'input[name=query_is_for_all][type=checkbox][checked]:not([disabled])'
   end
 
   def test_new_on_invalid_project
@@ -198,10 +192,7 @@ class QueriesControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'edit'
     assert_select 'input[name=?][value="2"][checked=checked]', 'query[visibility]'
-    assert_tag :tag => 'input', :attributes => { :type => 'checkbox',
-                                                 :name => 'query_is_for_all',
-                                                 :checked => 'checked',
-                                                 :disabled => 'disabled' }
+    assert_select 'input[name=query_is_for_all][type=checkbox][checked=checked][disabled=disabled]'
   end
 
   def test_edit_global_private_query
@@ -210,10 +201,7 @@ class QueriesControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'edit'
     assert_select 'input[name=?]', 'query[visibility]', 0
-    assert_tag :tag => 'input', :attributes => { :type => 'checkbox',
-                                                 :name => 'query_is_for_all',
-                                                 :checked => 'checked',
-                                                 :disabled => 'disabled' }
+    assert_select 'input[name=query_is_for_all][type=checkbox][checked=checked][disabled=disabled]'
   end
 
   def test_edit_project_private_query
@@ -222,10 +210,7 @@ class QueriesControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'edit'
     assert_select 'input[name=?]', 'query[visibility]', 0
-    assert_tag :tag => 'input', :attributes => { :type => 'checkbox',
-                                                 :name => 'query_is_for_all',
-                                                 :checked => nil,
-                                                 :disabled => nil }
+    assert_select 'input[name=query_is_for_all][type=checkbox]:not([checked]):not([disabled])'
   end
 
   def test_edit_project_public_query
@@ -234,10 +219,7 @@ class QueriesControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'edit'
     assert_select 'input[name=?][value="2"][checked=checked]', 'query[visibility]'
-    assert_tag :tag => 'input', :attributes => { :type => 'checkbox',
-                                                 :name => 'query_is_for_all',
-                                                 :checked => nil,
-                                                 :disabled => 'disabled' }
+    assert_select 'input[name=query_is_for_all][type=checkbox][disabled=disabled]:not([checked])'
   end
 
   def test_edit_sort_criteria
@@ -245,12 +227,10 @@ class QueriesControllerTest < ActionController::TestCase
     get :edit, :id => 5
     assert_response :success
     assert_template 'edit'
-    assert_tag :tag => 'select', :attributes => { :name => 'query[sort_criteria][0][]' },
-                                 :child => { :tag => 'option', :attributes => { :value => 'priority',
-                                                                                :selected => 'selected' } }
-    assert_tag :tag => 'select', :attributes => { :name => 'query[sort_criteria][0][]' },
-                                 :child => { :tag => 'option', :attributes => { :value => 'desc',
-                                                                                :selected => 'selected' } }
+    assert_select 'select[name=?]', 'query[sort_criteria][0][]' do
+      assert_select 'option[value=priority][selected=selected]'
+      assert_select 'option[value=desc][selected=selected]'
+    end
   end
 
   def test_edit_invalid_query

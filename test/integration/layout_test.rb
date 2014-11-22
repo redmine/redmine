@@ -65,9 +65,7 @@ class LayoutTest < ActionDispatch::IntegrationTest
     Role.anonymous.add_permission! :add_issues
 
     get '/projects/ecookbook/issues/new'
-    assert_tag :script,
-      :attributes => {:src => %r{^/javascripts/jstoolbar/jstoolbar-textile.min.js}},
-      :parent => {:tag => 'head'}
+    assert_select 'head script[src=?]', '/javascripts/jstoolbar/jstoolbar-textile.min.js'
   end
 
   def test_calendar_header_tags
