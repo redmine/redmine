@@ -714,4 +714,14 @@ class TimelogControllerTest < ActionController::TestCase
     assert_response :success
     assert_equal 'text/csv; header=present', response.content_type
   end
+
+  def test_index_csv_should_fill_issue_column_with_tracker_id_and_subject
+    issue = Issue.find(1)
+    entry = TimeEntry.generate!(:issue => issue, :comments => "Issue column content test")
+
+    get :index, :format => 'csv'
+    line = response.body.split("\n").detect {|l| l.include?(entry.comments)}
+    assert_not_nil line
+    assert_include "#{issue.tracker} #1: #{issue.subject}", line
+  end
 end
