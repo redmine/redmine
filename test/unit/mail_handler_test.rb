@@ -680,6 +680,30 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal 'Feature request', journal.issue.tracker.name
   end
 
+  def test_update_issue_should_accept_issue_id_after_space_inside_brackets
+    journal = submit_email('ticket_reply_with_status.eml') do |email|
+      assert email.sub!(/^Subject:.*$/, "Subject: Re: [Feature request #2] Add ingredients categories")
+    end
+    assert journal.is_a?(Journal)
+    assert_equal Issue.find(2), journal.journalized
+  end
+
+  def test_update_issue_should_accept_issue_id_inside_brackets
+    journal = submit_email('ticket_reply_with_status.eml') do |email|
+      assert email.sub!(/^Subject:.*$/, "Subject: Re: [#2] Add ingredients categories")
+    end
+    assert journal.is_a?(Journal)
+    assert_equal Issue.find(2), journal.journalized
+  end
+
+  def test_update_issue_should_ignore_bogus_issue_ids_in_subject
+    journal = submit_email('ticket_reply_with_status.eml') do |email|
+      assert email.sub!(/^Subject:.*$/, "Subject: Re: [12345#1][bogus#1][Feature request #2] Add ingredients categories")
+    end
+    assert journal.is_a?(Journal)
+    assert_equal Issue.find(2), journal.journalized
+  end
+
   def test_update_issue_with_attribute_changes
     # This email contains: 'Status: Resolved'
     journal = submit_email('ticket_reply_with_status.eml')

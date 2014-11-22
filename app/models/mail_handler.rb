@@ -145,7 +145,7 @@ class MailHandler < ActionMailer::Base
   private
 
   MESSAGE_ID_RE = %r{^<?redmine\.([a-z0-9_]+)\-(\d+)\.\d+(\.[a-f0-9]+)?@}
-  ISSUE_REPLY_SUBJECT_RE = %r{\[[^\]]*#(\d+)\]}
+  ISSUE_REPLY_SUBJECT_RE = %r{\[(?:[^\]]*\s+)?#(\d+)\]}
   MESSAGE_REPLY_SUBJECT_RE = %r{\[[^\]]*msg(\d+)\]}
 
   def dispatch
