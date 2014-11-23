@@ -1016,89 +1016,72 @@ class UserTest < ActiveSupport::TestCase
     end
   end
 
-  context "#allowed_to?" do
-    context "with a unique project" do
-      should "return false if project is archived" do
-        project = Project.find(1)
-        Project.any_instance.stubs(:status).returns(Project::STATUS_ARCHIVED)
-        assert_equal false, @admin.allowed_to?(:view_issues, Project.find(1))
-      end
+  test "#allowed_to? for archived project should return false" do
+    project = Project.find(1)
+    project.archive
+    project.reload
+    assert_equal false, @admin.allowed_to?(:view_issues, project)
+  end
 
-      should "return false for write action if project is closed" do
-        project = Project.find(1)
-        Project.any_instance.stubs(:status).returns(Project::STATUS_CLOSED)
-        assert_equal false, @admin.allowed_to?(:edit_project, Project.find(1))
-      end
+  test "#allowed_to? for closed project should return true for read actions" do
+    project = Project.find(1)
+    project.close
+    project.reload
+    assert_equal false, @admin.allowed_to?(:edit_project, project)
+    assert_equal true, @admin.allowed_to?(:view_project, project)
+  end
 
-      should "return true for read action if project is closed" do
-        project = Project.find(1)
-        Project.any_instance.stubs(:status).returns(Project::STATUS_CLOSED)
-        assert_equal true, @admin.allowed_to?(:view_project, Project.find(1))
-      end
+  test "#allowed_to? for project with module disabled should return false" do
+    project = Project.find(1)
+    project.enabled_module_names = ["issue_tracking"]
+    assert_equal true, @admin.allowed_to?(:add_issues, project)
+    assert_equal false, @admin.allowed_to?(:view_wiki_pages, project)
+  end
 
-      should "return false if related module is disabled" do
-        project = Project.find(1)
-        project.enabled_module_names = ["issue_tracking"]
-        assert_equal true, @admin.allowed_to?(:add_issues, project)
-        assert_equal false, @admin.allowed_to?(:view_wiki_pages, project)
-      end
-
-      should "authorize nearly everything for admin users" do
-        project = Project.find(1)
-        assert ! @admin.member_of?(project)
-        %w(edit_issues delete_issues manage_news add_documents manage_wiki).each do |p|
-          assert_equal true, @admin.allowed_to?(p.to_sym, project)
-        end
-      end
-
-      should "authorize normal users depending on their roles" do
-        project = Project.find(1)
-        assert_equal true, @jsmith.allowed_to?(:delete_messages, project)    #Manager
-        assert_equal false, @dlopper.allowed_to?(:delete_messages, project) #Developper
-      end
-    end
-
-    context "with multiple projects" do
-      should "return false if array is empty" do
-        assert_equal false, @admin.allowed_to?(:view_project, [])
-      end
-
-      should "return true only if user has permission on all these projects" do
-        assert_equal true, @admin.allowed_to?(:view_project, Project.all.to_a)
-        assert_equal false, @dlopper.allowed_to?(:view_project, Project.all.to_a) #cannot see Project(2)
-        assert_equal true, @jsmith.allowed_to?(:edit_issues, @jsmith.projects.to_a) #Manager or Developer everywhere
-        assert_equal false, @jsmith.allowed_to?(:delete_issue_watchers, @jsmith.projects.to_a) #Dev cannot delete_issue_watchers
-      end
-
-      should "behave correctly with arrays of 1 project" do
-        assert_equal false, User.anonymous.allowed_to?(:delete_issues, [Project.first])
-      end
-    end
-
-    context "with options[:global]" do
-      should "authorize if user has at least one role that has this permission" do
-        @dlopper2 = User.find(5) #only Developper on a project, not Manager anywhere
-        @anonymous = User.find(6)
-        assert_equal true, @jsmith.allowed_to?(:delete_issue_watchers, nil, :global => true)
-        assert_equal false, @dlopper2.allowed_to?(:delete_issue_watchers, nil, :global => true)
-        assert_equal true, @dlopper2.allowed_to?(:add_issues, nil, :global => true)
-        assert_equal false, @anonymous.allowed_to?(:add_issues, nil, :global => true)
-        assert_equal true, @anonymous.allowed_to?(:view_issues, nil, :global => true)
-      end
+  test "#allowed_to? for admin users should return true" do
+    project = Project.find(1)
+    assert ! @admin.member_of?(project)
+    %w(edit_issues delete_issues manage_news add_documents manage_wiki).each do |p|
+      assert_equal true, @admin.allowed_to?(p.to_sym, project)
     end
   end
 
+  test "#allowed_to? for normal users" do
+    project = Project.find(1)
+    assert_equal true, @jsmith.allowed_to?(:delete_messages, project)    #Manager
+    assert_equal false, @dlopper.allowed_to?(:delete_messages, project) #Developper
+  end
+
+  test "#allowed_to? with empty array should return false" do
+    assert_equal false, @admin.allowed_to?(:view_project, [])
+  end
+
+  test "#allowed_to? with multiple projects" do
+    assert_equal true, @admin.allowed_to?(:view_project, Project.all.to_a)
+    assert_equal false, @dlopper.allowed_to?(:view_project, Project.all.to_a) #cannot see Project(2)
+    assert_equal true, @jsmith.allowed_to?(:edit_issues, @jsmith.projects.to_a) #Manager or Developer everywhere
+    assert_equal false, @jsmith.allowed_to?(:delete_issue_watchers, @jsmith.projects.to_a) #Dev cannot delete_issue_watchers
+  end
+
+  test "#allowed_to? with with options[:global] should return true if user has one role with the permission" do
+    @dlopper2 = User.find(5) #only Developper on a project, not Manager anywhere
+    @anonymous = User.find(6)
+    assert_equal true, @jsmith.allowed_to?(:delete_issue_watchers, nil, :global => true)
+    assert_equal false, @dlopper2.allowed_to?(:delete_issue_watchers, nil, :global => true)
+    assert_equal true, @dlopper2.allowed_to?(:add_issues, nil, :global => true)
+    assert_equal false, @anonymous.allowed_to?(:add_issues, nil, :global => true)
+    assert_equal true, @anonymous.allowed_to?(:view_issues, nil, :global => true)
+  end
+
   # this is just a proxy method, the test only calls it to ensure it doesn't break trivially
-  context "#allowed_to_globally?" do
-    should "proxy to #allowed_to? and reflect global permissions" do
-      @dlopper2 = User.find(5) #only Developper on a project, not Manager anywhere
-      @anonymous = User.find(6)
-      assert_equal true, @jsmith.allowed_to_globally?(:delete_issue_watchers)
-      assert_equal false, @dlopper2.allowed_to_globally?(:delete_issue_watchers)
-      assert_equal true, @dlopper2.allowed_to_globally?(:add_issues)
-      assert_equal false, @anonymous.allowed_to_globally?(:add_issues)
-      assert_equal true, @anonymous.allowed_to_globally?(:view_issues)
-    end
+  test "#allowed_to_globally?" do
+    @dlopper2 = User.find(5) #only Developper on a project, not Manager anywhere
+    @anonymous = User.find(6)
+    assert_equal true, @jsmith.allowed_to_globally?(:delete_issue_watchers)
+    assert_equal false, @dlopper2.allowed_to_globally?(:delete_issue_watchers)
+    assert_equal true, @dlopper2.allowed_to_globally?(:add_issues)
+    assert_equal false, @anonymous.allowed_to_globally?(:add_issues)
+    assert_equal true, @anonymous.allowed_to_globally?(:view_issues)
   end
 
   context "User#notify_about?" do

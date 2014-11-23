@@ -31,26 +31,6 @@ class Redmine::MenuManager::MenuHelperTest < ActionView::TestCase
     end
   end
 
-  context "MenuManager#current_menu_item" do
-    should "be tested"
-  end
-
-  context "MenuManager#render_main_menu" do
-    should "be tested"
-  end
-
-  context "MenuManager#render_menu" do
-    should "be tested"
-  end
-
-  context "MenuManager#menu_item_and_children" do
-    should "be tested"
-  end
-
-  context "MenuManager#extract_node_details" do
-    should "be tested"
-  end
-
   def test_render_single_menu_node
     node = Redmine::MenuManager::MenuItem.new(:testing, '/test', { })
     @output_buffer = render_single_menu_node(node, 'This is a test', node.url, false)
