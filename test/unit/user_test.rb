@@ -622,7 +622,7 @@ class UserTest < ActiveSupport::TestCase
       ldap_user.login = 'example1'
       ldap_user.save!
 
-      assert_equal @ldap_user, User.try_to_login('example1', '123456')
+      assert_equal ldap_user, User.try_to_login('example1', '123456')
       assert_nil User.try_to_login('example1', '11111')
     end
 
@@ -653,7 +653,7 @@ class UserTest < ActiveSupport::TestCase
       end
 
       assert_no_difference('User.count') do
-        assert User.try_to_login('edavis', '123456')
+        assert User.try_to_login('example1', '123456')
       end
 
       assert_nil User.try_to_login('example1', '11111')
