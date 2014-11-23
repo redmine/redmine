@@ -23,7 +23,7 @@
 </ul>
 
 <%= form_tag(bulk_update_issues_path, :id => 'bulk_edit_form') do %>
-<%= @issues.collect {|i| hidden_field_tag('ids[]', i.id)}.join("\n").html_safe %>
+<%= @issues.collect {|i| hidden_field_tag('ids[]', i.id, :id => nil)}.join("\n").html_safe %>
 <div class="box tabular">
 <fieldset class="attributes">
 <legend><%= l(:label_change_properties) %></legend>

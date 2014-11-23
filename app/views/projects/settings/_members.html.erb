@@ -38,7 +38,7 @@
           </label><br />
           <% end %>
         </p>
-        <%= hidden_field_tag 'membership[role_ids][]', '' %>
+        <%= hidden_field_tag 'membership[role_ids][]', '', :id => nil %>
         <p>
           <%= submit_tag l(:button_save), :class => "small" %>
           <%= link_to_function(l(:button_cancel),

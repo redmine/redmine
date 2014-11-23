@@ -80,7 +80,7 @@ module WorkflowsHelper
     tag_name = "transitions[#{ old_status.id }][#{new_status.id}][#{name}]"
     if w == 0 || w == @roles.size * @trackers.size
       
-      hidden_field_tag(tag_name, "0") +
+      hidden_field_tag(tag_name, "0", :id => nil) +
       check_box_tag(tag_name, "1", w != 0,
             :class => "old-status-#{old_status.id} new-status-#{new_status.id}")
     else

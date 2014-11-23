@@ -55,7 +55,7 @@
 <% end %>
 </ul>
 <% if @project && @project.descendants.active.any? %>
-    <%= hidden_field_tag 'with_subprojects', 0 %>
+    <%= hidden_field_tag 'with_subprojects', 0, :id => nil %>
     <p><label><%= check_box_tag 'with_subprojects', 1, @with_subprojects %> <%=l(:label_subproject_plural)%></label></p>
 <% end %>
 <%= hidden_field_tag('user_id', params[:user_id]) unless params[:user_id].blank? %>

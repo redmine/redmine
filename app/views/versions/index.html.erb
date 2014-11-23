@@ -56,7 +56,7 @@
   </li>
   <% if @project.descendants.active.any? %>
   <li>
-    <%= hidden_field_tag 'with_subprojects', 0 %>
+    <%= hidden_field_tag 'with_subprojects', 0, :id => nil %>
     <label>
       <%= check_box_tag 'with_subprojects', 1, @with_subprojects %> <%=l(:label_subproject_plural)%>
     </label>
