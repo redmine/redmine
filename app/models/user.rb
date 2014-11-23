@@ -354,7 +354,7 @@ class User < Principal
 
   def notified_project_ids=(ids)
     @notified_projects_ids_changed = true
-    @notified_projects_ids = ids
+    @notified_projects_ids = ids.map(&:to_i).uniq.select {|n| n > 0}
   end
 
   # Updates per project notifications (after_save callback)

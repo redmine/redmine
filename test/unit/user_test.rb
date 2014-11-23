@@ -913,6 +913,11 @@ class UserTest < ActiveSupport::TestCase
     assert_equal 6, User.valid_notification_options(User.find(2)).size
   end
 
+  def test_notified_project_ids_setter_should_coerce_to_unique_integer_array
+    @jsmith.notified_project_ids = ["1", "123", "2u", "wrong", "12", 6, 12, -35, ""]
+    assert_equal [1, 123, 2, 12, 6], @jsmith.notified_projects_ids
+  end
+
   def test_mail_notification_all
     @jsmith.mail_notification = 'all'
     @jsmith.notified_project_ids = []
