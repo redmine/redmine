@@ -601,97 +601,62 @@ class UserTest < ActiveSupport::TestCase
   end
 
   if ldap_configured?
-    context "#try_to_login using LDAP" do
-      context "with failed connection to the LDAP server" do
-        should "return nil" do
-          @auth_source = AuthSourceLdap.find(1)
-          AuthSource.any_instance.stubs(:initialize_ldap_con).raises(Net::LDAP::LdapError, 'Cannot connect')
+    test "#try_to_login using LDAP with failed connection to the LDAP server" do
+      auth_source = AuthSourceLdap.find(1)
+      AuthSource.any_instance.stubs(:initialize_ldap_con).raises(Net::LDAP::LdapError, 'Cannot connect')
 
-          assert_equal nil, User.try_to_login('edavis', 'wrong')
-        end
+      assert_equal nil, User.try_to_login('edavis', 'wrong')
+    end
+
+    test "#try_to_login using LDAP" do
+      assert_equal nil, User.try_to_login('edavis', 'wrong')
+    end
+
+    test "#try_to_login using LDAP binding with user's account" do
+      auth_source = AuthSourceLdap.find(1)
+      auth_source.account = "uid=$login,ou=Person,dc=redmine,dc=org"
+      auth_source.account_password = ''
+      auth_source.save!
+
+      ldap_user = User.new(:mail => 'example1@redmine.org', :firstname => 'LDAP', :lastname => 'user', :auth_source_id => 1)
+      ldap_user.login = 'example1'
+      ldap_user.save!
+
+      assert_equal @ldap_user, User.try_to_login('example1', '123456')
+      assert_nil User.try_to_login('example1', '11111')
+    end
+
+    test "#try_to_login using LDAP on the fly registration" do
+      AuthSourceLdap.find(1).update_attribute :onthefly_register, true
+
+      assert_difference('User.count') do
+        assert User.try_to_login('edavis', '123456')
       end
 
-      context "with an unsuccessful authentication" do
-        should "return nil" do
-          assert_equal nil, User.try_to_login('edavis', 'wrong')
-        end
+      assert_no_difference('User.count') do
+        assert User.try_to_login('edavis', '123456')
       end
 
-      context "binding with user's account" do
-        setup do
-          @auth_source = AuthSourceLdap.find(1)
-          @auth_source.account = "uid=$login,ou=Person,dc=redmine,dc=org"
-          @auth_source.account_password = ''
-          @auth_source.save!
+      assert_nil User.try_to_login('example1', '11111')
+    end
 
-          @ldap_user = User.new(:mail => 'example1@redmine.org', :firstname => 'LDAP', :lastname => 'user', :auth_source_id => 1)
-          @ldap_user.login = 'example1'
-          @ldap_user.save!
-        end
+    test "#try_to_login using LDAP on the fly registration and binding with user's account" do
+      auth_source = AuthSourceLdap.find(1)
+      auth_source.update_attribute :onthefly_register, true
+      auth_source = AuthSourceLdap.find(1)
+      auth_source.account = "uid=$login,ou=Person,dc=redmine,dc=org"
+      auth_source.account_password = ''
+      auth_source.save!
 
-        context "with a successful authentication" do
-          should "return the user" do
-            assert_equal @ldap_user, User.try_to_login('example1', '123456')
-          end
-        end
-
-        context "with an unsuccessful authentication" do
-          should "return nil" do
-            assert_nil User.try_to_login('example1', '11111')
-          end
-        end
+      assert_difference('User.count') do
+        assert User.try_to_login('example1', '123456')
       end
 
-      context "on the fly registration" do
-        setup do
-          @auth_source = AuthSourceLdap.find(1)
-          @auth_source.update_attribute :onthefly_register, true
-        end
-
-        context "with a successful authentication" do
-          should "create a new user account if it doesn't exist" do
-            assert_difference('User.count') do
-              user = User.try_to_login('edavis', '123456')
-              assert !user.admin?
-            end
-          end
-
-          should "retrieve existing user" do
-            user = User.try_to_login('edavis', '123456')
-            user.admin = true
-            user.save!
-
-            assert_no_difference('User.count') do
-              user = User.try_to_login('edavis', '123456')
-              assert user.admin?
-            end
-          end
-        end
-
-        context "binding with user's account" do
-          setup do
-            @auth_source = AuthSourceLdap.find(1)
-            @auth_source.account = "uid=$login,ou=Person,dc=redmine,dc=org"
-            @auth_source.account_password = ''
-            @auth_source.save!
-          end
-
-          context "with a successful authentication" do
-            should "create a new user account if it doesn't exist" do
-              assert_difference('User.count') do
-                user = User.try_to_login('example1', '123456')
-                assert_kind_of User, user
-              end
-            end
-          end
-
-          context "with an unsuccessful authentication" do
-            should "return nil" do
-              assert_nil User.try_to_login('example1', '11111')
-            end
-          end
-        end
+      assert_no_difference('User.count') do
+        assert User.try_to_login('edavis', '123456')
       end
+
+      assert_nil User.try_to_login('example1', '11111')
     end
 
   else
