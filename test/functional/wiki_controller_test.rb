@@ -660,6 +660,39 @@ class WikiControllerTest < ActionController::TestCase
     assert_nil WikiPage.find_by_title('Child_1').parent
   end
 
+  def test_get_rename_should_show_target_projects_list
+    @request.session[:user_id] = 2
+    project = Project.find(5)
+    project.enable_module! :wiki
+
+    get :rename, :project_id => 1, :id => 'Another_page'
+    assert_response :success
+    assert_template 'rename'
+
+    assert_select 'select[name=?]', 'wiki_page[wiki_id]' do
+      assert_select 'option', 2
+      assert_select 'option[value=?][selected=selected]', '1', :text => /eCookbook/
+      assert_select 'option[value=?]', project.wiki.id.to_s, :text => /#{project.name}/
+    end
+  end
+
+  def test_rename_with_move
+    @request.session[:user_id] = 2
+    project = Project.find(5)
+    project.enable_module! :wiki
+
+    post :rename, :project_id => 1, :id => 'Another_page',
+      :wiki_page => {
+        :wiki_id => project.wiki.id.to_s,
+        :title => 'Another renamed page',
+        :redirect_existing_links => 1
+      }
+    assert_redirected_to '/projects/private-child/wiki/Another_renamed_page'
+
+    page = WikiPage.find(2)
+    assert_equal project.wiki.id, page.wiki_id
+  end
+
   def test_destroy_a_page_without_children_should_not_ask_confirmation
     @request.session[:user_id] = 2
     delete :destroy, :project_id => 1, :id => 'Child_2'

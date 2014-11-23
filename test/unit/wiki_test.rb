@@ -97,4 +97,18 @@ class WikiTest < ActiveSupport::TestCase
     assert_kind_of WikiPage, @wiki.sidebar
     assert_equal 'Sidebar', @wiki.sidebar.title
   end
+
+  def test_destroy_should_remove_redirects_from_the_wiki
+    WikiRedirect.create!(:wiki_id => 1, :title => 'Foo', :redirects_to_wiki_id => 2, :redirects_to => 'Bar')
+
+    Wiki.find(1).destroy
+    assert_equal 0, WikiRedirect.where(:wiki_id => 1).count
+  end
+
+  def test_destroy_should_remove_redirects_to_the_wiki
+    WikiRedirect.create!(:wiki_id => 2, :title => 'Foo', :redirects_to_wiki_id => 1, :redirects_to => 'Bar')
+
+    Wiki.find(1).destroy
+    assert_equal 0, WikiRedirect.where(:redirects_to_wiki_id => 1).count
+  end
 end

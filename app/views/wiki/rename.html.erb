@@ -16,6 +16,11 @@
                     @wiki.pages.includes(:parent).to_a - @page.self_and_descendants,
                     @page.parent),
                 :label => :field_parent_title %></p>
+
+<% if @page.safe_attribute? 'wiki_id' %>
+<p><%= f.select :wiki_id, wiki_page_wiki_options_for_select(@page), :label => :label_project %></p>
+<% end %>
+
 </div>
 <%= submit_tag l(:button_rename) %>
 <% end %>

@@ -198,9 +198,10 @@ class WikiController < ApplicationController
     @page.redirect_existing_links = true
     # used to display the *original* title if some AR validation errors occur
     @original_title = @page.pretty_title
-    if request.post? && @page.update_attributes(params[:wiki_page])
+    @page.safe_attributes = params[:wiki_page]
+    if request.post? && @page.save
       flash[:notice] = l(:notice_successful_update)
-      redirect_to project_wiki_page_path(@project, @page.title)
+      redirect_to project_wiki_page_path(@page.project, @page.title)
     end
   end
 
@@ -344,7 +345,11 @@ private
   end
 
   def redirect_to_page(page)
-    redirect_to :action => action_name, :project_id => page.wiki.project, :id => page.title
+    if page.project && page.project.visible?
+      redirect_to :action => action_name, :project_id => page.project, :id => page.title
+    else
+      render_404
+    end
   end
 
   # Returns true if the current user is allowed to edit the page, otherwise false

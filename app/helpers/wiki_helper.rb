@@ -35,6 +35,16 @@ module WikiHelper
     s
   end
 
+  def wiki_page_wiki_options_for_select(page)
+    projects = Project.allowed_to(:rename_wiki_pages).joins(:wiki).preload(:wiki).to_a
+    projects << page.project unless projects.include?(page.project)
+
+    project_tree_options_for_select(projects, :selected => page.project) do |project|
+      wiki_id = project.wiki.try(:id)
+      {:value => wiki_id, :selected => wiki_id == page.wiki_id}
+    end
+  end
+
   def wiki_page_breadcrumb(page)
     breadcrumb(page.ancestors.reverse.collect {|parent|
       link_to(h(parent.pretty_title), {:controller => 'wiki', :action => 'show', :id => parent.title, :project_id => parent.project, :version => nil})
