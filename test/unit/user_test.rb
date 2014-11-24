@@ -1084,77 +1084,40 @@ class UserTest < ActiveSupport::TestCase
     assert_equal true, @anonymous.allowed_to_globally?(:view_issues)
   end
 
-  context "User#notify_about?" do
-    context "Issues" do
-      setup do
-        @project = Project.find(1)
-        @author = User.generate!
-        @assignee = User.generate!
-        @issue = Issue.generate!(:project => @project, :assigned_to => @assignee, :author => @author)
-      end
+  def test_notify_about_for_issue
+    project = Project.find(1)
+    author = User.generate!
+    assignee = User.generate!
+    member = User.generate!
+    Member.create!(:user => member, :project => project, :role_ids => [1])
+    issue = Issue.generate!(:project => project, :assigned_to => assignee, :author => author)
 
-      should "be true for a user with :all" do
-        @author.update_attribute(:mail_notification, 'all')
-        assert @author.notify_about?(@issue)
-      end
+    author.mail_notification = 'all'
+    assert author.notify_about?(issue)
+    author.mail_notification = 'only_my_events'
+    assert author.notify_about?(issue)
+    author.mail_notification = 'only_owner'
+    assert author.notify_about?(issue)
+    author.mail_notification = 'selected'
+    assert author.notify_about?(issue)
+    author.mail_notification = 'none'
+    assert !author.notify_about?(issue)
 
-      should "be false for a user with :none" do
-        @author.update_attribute(:mail_notification, 'none')
-        assert ! @author.notify_about?(@issue)
-      end
+    assignee.mail_notification = 'only_my_events'
+    assert assignee.notify_about?(issue)
+    assignee.mail_notification = 'only_owner'
+    assert !assignee.notify_about?(issue)
+    assignee.mail_notification = 'only_assigned'
+    assert assignee.notify_about?(issue)
+    assignee.mail_notification = 'selected'
+    assert assignee.notify_about?(issue)
 
-      should "be false for a user with :only_my_events and isn't an author, creator, or assignee" do
-        @user = User.generate!(:mail_notification => 'only_my_events')
-        Member.create!(:user => @user, :project => @project, :role_ids => [1])
-        assert ! @user.notify_about?(@issue)
-      end
-
-      should "be true for a user with :only_my_events and is the author" do
-        @author.update_attribute(:mail_notification, 'only_my_events')
-        assert @author.notify_about?(@issue)
-      end
-
-      should "be true for a user with :only_my_events and is the assignee" do
-        @assignee.update_attribute(:mail_notification, 'only_my_events')
-        assert @assignee.notify_about?(@issue)
-      end
-
-      should "be true for a user with :only_assigned and is the assignee" do
-        @assignee.update_attribute(:mail_notification, 'only_assigned')
-        assert @assignee.notify_about?(@issue)
-      end
-
-      should "be false for a user with :only_assigned and is not the assignee" do
-        @author.update_attribute(:mail_notification, 'only_assigned')
-        assert ! @author.notify_about?(@issue)
-      end
-
-      should "be true for a user with :only_owner and is the author" do
-        @author.update_attribute(:mail_notification, 'only_owner')
-        assert @author.notify_about?(@issue)
-      end
-
-      should "be false for a user with :only_owner and is not the author" do
-        @assignee.update_attribute(:mail_notification, 'only_owner')
-        assert ! @assignee.notify_about?(@issue)
-      end
-
-      should "be true for a user with :selected and is the author" do
-        @author.update_attribute(:mail_notification, 'selected')
-        assert @author.notify_about?(@issue)
-      end
-
-      should "be true for a user with :selected and is the assignee" do
-        @assignee.update_attribute(:mail_notification, 'selected')
-        assert @assignee.notify_about?(@issue)
-      end
-
-      should "be false for a user with :selected and is not the author or assignee" do
-        @user = User.generate!(:mail_notification => 'selected')
-        Member.create!(:user => @user, :project => @project, :role_ids => [1])
-        assert ! @user.notify_about?(@issue)
-      end
-    end
+    member.mail_notification = 'only_my_events'
+    assert !member.notify_about?(issue)
+    member.mail_notification = 'only_assigned'
+    assert !member.notify_about?(issue)
+    member.mail_notification = 'selected'
+    assert !member.notify_about?(issue)
   end
 
   def test_notify_about_news
