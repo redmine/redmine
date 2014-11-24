@@ -1084,7 +1084,7 @@ class UserTest < ActiveSupport::TestCase
     assert_equal true, @anonymous.allowed_to_globally?(:view_issues)
   end
 
-  def test_notify_about_for_issue
+  def test_notify_about_issue
     project = Project.find(1)
     author = User.generate!
     assignee = User.generate!
@@ -1092,32 +1092,35 @@ class UserTest < ActiveSupport::TestCase
     Member.create!(:user => member, :project => project, :role_ids => [1])
     issue = Issue.generate!(:project => project, :assigned_to => assignee, :author => author)
 
-    author.mail_notification = 'all'
-    assert author.notify_about?(issue)
-    author.mail_notification = 'only_my_events'
-    assert author.notify_about?(issue)
-    author.mail_notification = 'only_owner'
-    assert author.notify_about?(issue)
-    author.mail_notification = 'selected'
-    assert author.notify_about?(issue)
-    author.mail_notification = 'none'
-    assert !author.notify_about?(issue)
+    tests = {
+      author => %w(all only_my_events only_owner selected),
+      assignee => %w(all only_my_events only_assigned selected),
+      member => %w(all)
+    }
 
-    assignee.mail_notification = 'only_my_events'
+    tests.each do |user, expected|
+      User::MAIL_NOTIFICATION_OPTIONS.map(&:first).each do |option|
+        user.mail_notification = option
+        assert_equal expected.include?(option), user.notify_about?(issue)
+      end
+    end
+  end
+
+  def test_notify_about_issue_for_previous_assignee
+    assignee = User.generate!(:mail_notification => 'only_assigned')
+    new_assignee = User.generate!(:mail_notification => 'only_assigned')
+    issue = Issue.generate!(:assigned_to => assignee)
+
     assert assignee.notify_about?(issue)
-    assignee.mail_notification = 'only_owner'
+    assert !new_assignee.notify_about?(issue)
+
+    issue.assigned_to = new_assignee
+    assert assignee.notify_about?(issue)
+    assert new_assignee.notify_about?(issue)
+
+    issue.save!
     assert !assignee.notify_about?(issue)
-    assignee.mail_notification = 'only_assigned'
-    assert assignee.notify_about?(issue)
-    assignee.mail_notification = 'selected'
-    assert assignee.notify_about?(issue)
-
-    member.mail_notification = 'only_my_events'
-    assert !member.notify_about?(issue)
-    member.mail_notification = 'only_assigned'
-    assert !member.notify_about?(issue)
-    member.mail_notification = 'selected'
-    assert !member.notify_about?(issue)
+    assert new_assignee.notify_about?(issue)
   end
 
   def test_notify_about_news
