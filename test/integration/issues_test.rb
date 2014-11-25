@@ -178,20 +178,21 @@ class IssuesTest < ActionDispatch::IntegrationTest
       assert_select 'option[value=?][selected=selected]', tester.id.to_s, :text => tester.name
     end
 
-    # Update issue
     new_tester = users[1]
-    assert_difference 'Journal.count' do
-      put "/issues/#{issue.id}",
-        :notes => 'Updating custom field',
-        :issue => {
-          :custom_field_values => {@field.id.to_s => new_tester.id.to_s}
-        }
-      assert_redirected_to "/issues/#{issue.id}"
+    with_settings :default_language => 'en' do
+      # Update issue
+      assert_difference 'Journal.count' do
+        put "/issues/#{issue.id}",
+            :notes => 'Updating custom field',
+            :issue => {
+                :custom_field_values => {@field.id.to_s => new_tester.id.to_s}
+              }
+        assert_redirected_to "/issues/#{issue.id}"
+      end
+      # Issue view
+      follow_redirect!
+      assert_select 'ul.details li', :text => "Tester changed from #{tester} to #{new_tester}"
     end
-
-    # Issue view
-    follow_redirect!
-    assert_select 'ul.details li', :text => "Tester changed from #{tester} to #{new_tester}"
   end
 
   def test_update_using_invalid_http_verbs
