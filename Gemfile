@@ -55,19 +55,19 @@ if File.exist?(database_file)
     adapters.each do |adapter|
       case adapter
       when 'mysql2'
-        gem "mysql2", "~> 0.3.11", :platforms => [:mri, :mingw]
+        gem "mysql2", "~> 0.3.11", :platforms => [:mri, :mingw, :x64_mingw]
         gem "activerecord-jdbcmysql-adapter", :platforms => :jruby
       when 'mysql'
         gem "activerecord-jdbcmysql-adapter", :platforms => :jruby
       when /postgresql/
-        gem "pg", ">= 0.11.0", :platforms => [:mri, :mingw]
+        gem "pg", ">= 0.11.0", :platforms => [:mri, :mingw, :x64_mingw]
         gem "activerecord-jdbcpostgresql-adapter", :platforms => :jruby
       when /sqlite3/
-        gem "sqlite3", :platforms => [:mri, :mingw]
+        gem "sqlite3", :platforms => [:mri, :mingw, :x64_mingw]
         gem "activerecord-jdbcsqlite3-adapter", :platforms => :jruby
       when /sqlserver/
-        gem "tiny_tds", "~> 0.6.2", :platforms => [:mri, :mingw]
-        gem "activerecord-sqlserver-adapter", :platforms => [:mri, :mingw]
+        gem "tiny_tds", "~> 0.6.2", :platforms => [:mri, :mingw, :x64_mingw]
+        gem "activerecord-sqlserver-adapter", :platforms => [:mri, :mingw, :x64_mingw]
       else
         warn("Unknown database adapter `#{adapter}` found in config/database.yml, use Gemfile.local to load your own database gems")
       end
