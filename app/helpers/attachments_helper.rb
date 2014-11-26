@@ -39,7 +39,7 @@ module AttachmentsHelper
       api.filesize attachment.filesize
       api.content_type attachment.content_type
       api.description attachment.description
-      api.content_url url_for(:controller => 'attachments', :action => 'download', :id => attachment, :filename => attachment.filename, :only_path => false)
+      api.content_url download_named_attachment_url(attachment, attachment.filename)
       api.author(:id => attachment.author.id, :name => attachment.author.name) if attachment.author
       api.created_on attachment.created_on
     end
