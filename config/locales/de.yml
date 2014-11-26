@@ -298,6 +298,7 @@ de:
   field_cvs_module: Modul
   field_cvsroot: CVSROOT
   field_default_value: Standardwert
+  field_default_status: Standardstatus
   field_delay: Pufferzeit
   field_description: Beschreibung
   field_done_ratio: "% erledigt"
@@ -383,6 +384,7 @@ de:
   field_updated_on: Aktualisiert
   field_url: URL
   field_user: Benutzer
+  field_users_visibility: Benutzer Sichtbarkeit
   field_value: Wert
   field_version: Version
   field_visible: Sichtbar
@@ -403,6 +405,7 @@ de:
   label_activity: Aktivität
   label_add_another_file: Eine weitere Datei hinzufügen
   label_add_note: Kommentar hinzufügen
+  label_add_projects: Projekt hinzufügen
   label_added: hinzugefügt
   label_added_time_by: "Von %{author} vor %{age} hinzugefügt"
   label_additional_workflow_transitions_for_assignee: Zusätzliche Berechtigungen wenn der Benutzer der Zugewiesene ist
@@ -782,6 +785,8 @@ de:
   label_user_new: Neuer Benutzer
   label_user_plural: Benutzer
   label_user_search: "Nach Benutzer suchen:"
+  label_users_visibility_all: Alle aktiven Benutzer
+  label_users_visibility_members_of_visible_projects: Mitglieder von sichtbaren Projekten
   label_version: Version
   label_version_new: Neue Version
   label_version_plural: Versionen
@@ -1102,6 +1107,7 @@ de:
   text_session_expiration_settings: "Achtung: Änderungen können aktuelle Sitzungen beenden, Ihre eingeschlossen!" 
   text_status_changed_by_changeset: "Status geändert durch Changeset %{value}."
   text_subprojects_destroy_warning: "Dessen Unterprojekte (%{value}) werden ebenfalls gelöscht."
+  text_subversion_repository_note: 'Beispiele: file:///, http://, https://, svn://, svn+[tunnelscheme]://'
   text_time_entries_destroy_confirmation: Sind Sie sicher, dass Sie die ausgewählten Zeitaufwände löschen möchten?
   text_time_logged_by_changeset: Angewendet in Changeset %{value}.
   text_tip_issue_begin_day: Aufgabe, die an diesem Tag beginnt
@@ -1128,9 +1134,3 @@ de:
   version_status_open: offen
 
   warning_attachments_not_saved: "%{count} Datei(en) konnten nicht gespeichert werden."
-  label_add_projects: Add projects
-  field_default_status: Default status
-  text_subversion_repository_note: 'Examples: file:///, http://, https://, svn://, svn+[tunnelscheme]://'
-  field_users_visibility: Users visibility
-  label_users_visibility_all: All active users
-  label_users_visibility_members_of_visible_projects: Members of visible projects
