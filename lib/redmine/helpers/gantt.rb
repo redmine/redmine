@@ -372,7 +372,7 @@ module Redmine
       end
 
       def subject_for_issue(issue, options)
-        output = case options[:format]
+        case options[:format]
         when :html
           css_classes = ''
           css_classes << ' issue-overdue' if issue.overdue?
@@ -403,7 +403,6 @@ module Redmine
           pdf_new_page?(options)
           pdf_subject(options, issue.subject)
         end
-        output
       end
 
       def line_for_issue(issue, options)
