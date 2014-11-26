@@ -19,6 +19,9 @@ module Redmine
   module Helpers
     # Simple class to handle gantt chart data
     class Gantt
+      class MaxLinesLimitReached < Exception
+      end
+
       include ERB::Util
       include Redmine::I18n
       include Redmine::Utils::DateCalculation
@@ -74,7 +77,6 @@ module Redmine
         @subjects = ''
         @lines = ''
         @number_of_rows = nil
-        @issue_ancestors = []
         @truncated = false
         if options.has_key?(:max_rows)
           @max_rows = options[:max_rows]
@@ -197,10 +199,13 @@ module Redmine
         @subjects = '' unless options[:only] == :lines
         @lines = '' unless options[:only] == :subjects
         @number_of_rows = 0
-        Project.project_tree(projects) do |project, level|
-          options[:indent] = indent + level * options[:indent_increment]
-          render_project(project, options)
-          break if abort?
+        begin
+          Project.project_tree(projects) do |project, level|
+            options[:indent] = indent + level * options[:indent_increment]
+            render_project(project, options)
+          end
+        rescue MaxLinesLimitReached
+          @truncated = true
         end
         @subjects_rendered = true unless options[:only] == :lines
         @lines_rendered = true unless options[:only] == :subjects
@@ -208,53 +213,53 @@ module Redmine
       end
 
       def render_project(project, options={})
-        subject_for_project(project, options) unless options[:only] == :lines
-        line_for_project(project, options) unless options[:only] == :subjects
-        options[:top] += options[:top_increment]
-        options[:indent] += options[:indent_increment]
-        @number_of_rows += 1
-        return if abort?
-        issues = project_issues(project).select {|i| i.fixed_version.nil?}
-        self.class.sort_issues!(issues)
-        if issues
+        render_object_row(project, options)
+        increment_indent(options) do
+          # render issue that are not assigned to a version
+          issues = project_issues(project).select {|i| i.fixed_version.nil?}
           render_issues(issues, options)
-          return if abort?
+          # then render project versions and their issues
+          versions = project_versions(project)
+          self.class.sort_versions!(versions)
+          versions.each do |version|
+            render_version(project, version, options)
+          end
         end
-        versions = project_versions(project)
-        self.class.sort_versions!(versions)
-        versions.each do |version|
-          render_version(project, version, options)
-        end
-        # Remove indent to hit the next sibling
-        options[:indent] -= options[:indent_increment]
-      end
-
-      def render_issues(issues, options={})
-        @issue_ancestors = []
-        issues.each do |i|
-          subject_for_issue(i, options) unless options[:only] == :lines
-          line_for_issue(i, options) unless options[:only] == :subjects
-          options[:top] += options[:top_increment]
-          @number_of_rows += 1
-          break if abort?
-        end
-        options[:indent] -= (options[:indent_increment] * @issue_ancestors.size)
       end
 
       def render_version(project, version, options={})
-        # Version header
-        subject_for_version(version, options) unless options[:only] == :lines
-        line_for_version(version, options) unless options[:only] == :subjects
+        render_object_row(version, options)
+        increment_indent(options) do
+          issues = version_issues(project, version)
+          render_issues(issues, options)
+        end
+      end
+
+      def render_issues(issues, options={})
+        self.class.sort_issues!(issues)
+        ancestors = []
+        issues.each do |issue|
+          while ancestors.any? && !issue.is_descendant_of?(ancestors.last)
+            ancestors.pop
+            decrement_indent(options)
+          end
+          render_object_row(issue, options)
+          unless issue.leaf?
+            ancestors << issue
+            increment_indent(options)
+          end
+        end
+        decrement_indent(options, ancestors.size)
+      end
+
+      def render_object_row(object, options)
+        class_name = object.class.name.downcase
+        send("subject_for_#{class_name}", object, options) unless options[:only] == :lines
+        send("line_for_#{class_name}", object, options) unless options[:only] == :subjects
         options[:top] += options[:top_increment]
         @number_of_rows += 1
-        return if abort?
-        issues = version_issues(project, version)
-        if issues
-          self.class.sort_issues!(issues)
-          # Indent issues
-          options[:indent] += options[:indent_increment]
-          render_issues(issues, options)
-          options[:indent] -= options[:indent_increment]
+        if @max_rows && @number_of_rows >= @max_rows
+          raise MaxLinesLimitReached
         end
       end
 
@@ -263,6 +268,18 @@ module Redmine
         when :pdf
           options[:pdf].Line(15, options[:top], PDF::TotalWidth, options[:top])
         end
+      end
+
+      def increment_indent(options, factor=1)
+        options[:indent] += options[:indent_increment] * factor
+        if block_given?
+          yield
+          decrement_indent(options, factor)
+        end
+      end
+
+      def decrement_indent(options, factor=1)
+        increment_indent(options, -factor)
       end
 
       def subject_for_project(project, options)
@@ -355,10 +372,6 @@ module Redmine
       end
 
       def subject_for_issue(issue, options)
-        while @issue_ancestors.any? && !issue.is_descendant_of?(@issue_ancestors.last)
-          @issue_ancestors.pop
-          options[:indent] -= options[:indent_increment]
-        end
         output = case options[:format]
         when :html
           css_classes = ''
@@ -389,10 +402,6 @@ module Redmine
         when :pdf
           pdf_new_page?(options)
           pdf_subject(options, issue.subject)
-        end
-        unless issue.leaf?
-          @issue_ancestors << issue
-          options[:indent] += options[:indent_increment]
         end
         output
       end
@@ -694,20 +703,6 @@ module Redmine
 
       def self.sort_versions!(versions)
         versions.sort!
-      end
-
-      def current_limit
-        if @max_rows
-          @max_rows - @number_of_rows
-        else
-          nil
-        end
-      end
-
-      def abort?
-        if @max_rows && @number_of_rows >= @max_rows
-          @truncated = true
-        end
       end
 
       def pdf_new_page?(options)
