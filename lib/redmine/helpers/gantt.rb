@@ -778,7 +778,7 @@ module Redmine
           end
         end
         # Renders the markers
-        if true
+        if markers
           if coords[:start]
             style = ""
             style << "top:#{params[:top]}px;"
