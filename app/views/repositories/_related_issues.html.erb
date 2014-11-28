@@ -24,12 +24,12 @@
 </ul>
 
 <% if manage_allowed %>
-  <%= form_for(@issue, :as => :issue, :remote => true,
-       :url => {:controller => 'repositories', :action => 'add_related_issue',
+  <%= form_tag({:controller => 'repositories', :action => 'add_related_issue',
                 :id => @project, :repository_id => @repository.identifier_param,
                 :rev => @changeset.identifier},
+       :remote => true,
        :method => :post,
-       :html => {:id => 'new-relation-form', :style => (@issue ? '' : 'display: none;')}) do |f| %>
+       :id => 'new-relation-form', :style => (@issue ? '' : 'display: none;')) do |f| %>
   <%= l(:label_issue) %> #<%= text_field_tag 'issue_id', '', :size => 10 %>
   <%= submit_tag l(:button_add) %>
   <%= toggle_link l(:button_cancel), 'new-relation-form'%>

@@ -166,6 +166,18 @@ class RepositoriesControllerTest < ActionController::TestCase
     assert_equal "1", assigns(:changeset).revision
   end
 
+  def test_revision_should_show_add_related_issue_form
+    Role.find(1).add_permission! :manage_related_issues
+    @request.session[:user_id] = 2
+
+    get :revision, :id => 1, :rev => 1
+    assert_response :success
+
+    assert_select 'form[action=?]', '/projects/ecookbook/repository/revisions/1/issues' do
+      assert_select 'input[name=?]', 'issue_id'
+    end
+  end
+
   def test_revision_should_not_change_the_project_menu_link
     get :revision, :id => 1, :rev => 1
     assert_response :success
