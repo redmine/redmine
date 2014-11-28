@@ -283,147 +283,52 @@ module Redmine
       end
 
       def subject_for_project(project, options)
-        case options[:format]
-        when :html
-          html_class = ""
-          html_class << 'icon icon-projects '
-          html_class << (project.overdue? ? 'project-overdue' : '')
-          s = view.link_to_project(project).html_safe
-          subject = view.content_tag(:span, s,
-                                     :class => html_class).html_safe
-          html_subject(options, subject, :css => "project-name")
-        when :image
-          image_subject(options, project.name)
-        when :pdf
-          pdf_new_page?(options)
-          pdf_subject(options, project.name)
-        end
+        subject(project.name, options, project)
       end
 
       def line_for_project(project, options)
         # Skip versions that don't have a start_date or due date
         if project.is_a?(Project) && project.start_date && project.due_date
-          options[:zoom] ||= 1
-          options[:g_width] ||= (self.date_to - self.date_from + 1) * options[:zoom]
-          coords = coordinates(project.start_date, project.due_date, nil, options[:zoom])
-          label = h(project)
-          case options[:format]
-          when :html
-            html_task(options, coords, :css => "project task", :label => label, :markers => true)
-          when :image
-            image_task(options, coords, :label => label, :markers => true, :height => 3)
-          when :pdf
-            pdf_task(options, coords, :label => label, :markers => true, :height => 0.8)
-          end
-        else
-          ''
+          label = project.name
+          line(project.start_date, project.due_date, nil, true, label, options, project)
         end
       end
 
       def subject_for_version(version, options)
-        case options[:format]
-        when :html
-          html_class = ""
-          html_class << 'icon icon-package '
-          html_class << (version.behind_schedule? ? 'version-behind-schedule' : '') << " "
-          html_class << (version.overdue? ? 'version-overdue' : '')
-          html_class << ' version-closed' unless version.open?
-          if version.start_date && version.due_date && version.completed_percent
-            progress_date = calc_progress_date(version.start_date,
-                                               version.due_date, version.completed_percent)
-            html_class << ' behind-start-date' if progress_date < self.date_from
-            html_class << ' over-end-date' if progress_date > self.date_to
-          end
-          s = view.link_to_version(version).html_safe
-          subject = view.content_tag(:span, s,
-                                     :class => html_class).html_safe
-          html_subject(options, subject, :css => "version-name",
-                       :id => "version-#{version.id}")
-        when :image
-          image_subject(options, version.to_s_with_project)
-        when :pdf
-          pdf_new_page?(options)
-          pdf_subject(options, version.to_s_with_project)
-        end
+        subject(version.to_s_with_project, options, version)
       end
 
       def line_for_version(version, options)
         # Skip versions that don't have a start_date
         if version.is_a?(Version) && version.due_date && version.start_date
-          options[:zoom] ||= 1
-          options[:g_width] ||= (self.date_to - self.date_from + 1) * options[:zoom]
-          coords = coordinates(version.start_date,
-                               version.due_date, version.completed_percent,
-                               options[:zoom])
           label = "#{h(version)} #{h(version.completed_percent.to_f.round)}%"
           label = h("#{version.project} -") + label unless @project && @project == version.project
-          case options[:format]
-          when :html
-            html_task(options, coords, :css => "version task",
-                      :label => label, :markers => true, :version => version)
-          when :image
-            image_task(options, coords, :label => label, :markers => true, :height => 3)
-          when :pdf
-            pdf_task(options, coords, :label => label, :markers => true, :height => 0.8)
-          end
-        else
-          ''
+          line(version.start_date, version.due_date,  version.completed_percent, true, label, options, version)
         end
       end
 
       def subject_for_issue(issue, options)
-        case options[:format]
-        when :html
-          css_classes = ''
-          css_classes << ' issue-overdue' if issue.overdue?
-          css_classes << ' issue-behind-schedule' if issue.behind_schedule?
-          css_classes << ' icon icon-issue' unless Setting.gravatar_enabled? && issue.assigned_to
-          css_classes << ' issue-closed' if issue.closed?
-          if issue.start_date && issue.due_before && issue.done_ratio
-            progress_date = calc_progress_date(issue.start_date,
-                                               issue.due_before, issue.done_ratio)
-            css_classes << ' behind-start-date' if progress_date < self.date_from
-            css_classes << ' over-end-date' if progress_date > self.date_to
-          end
-          s = "".html_safe
-          if issue.assigned_to.present?
-            assigned_string = l(:field_assigned_to) + ": " + issue.assigned_to.name
-            s << view.avatar(issue.assigned_to,
-                             :class => 'gravatar icon-gravatar',
-                             :size => 10,
-                             :title => assigned_string).to_s.html_safe
-          end
-          s << view.link_to_issue(issue).html_safe
-          subject = view.content_tag(:span, s, :class => css_classes).html_safe
-          html_subject(options, subject, :css => "issue-subject",
-                       :title => issue.subject, :id => "issue-#{issue.id}") + "\n"
-        when :image
-          image_subject(options, issue.subject)
-        when :pdf
-          pdf_new_page?(options)
-          pdf_subject(options, issue.subject)
-        end
+        subject(issue.subject, options, issue)
       end
 
       def line_for_issue(issue, options)
         # Skip issues that don't have a due_before (due_date or version's due_date)
         if issue.is_a?(Issue) && issue.due_before
-          coords = coordinates(issue.start_date, issue.due_before, issue.done_ratio, options[:zoom])
           label = "#{issue.status.name} #{issue.done_ratio}%"
-          case options[:format]
-          when :html
-            html_task(options, coords,
-                      :css => "task " + (issue.leaf? ? 'leaf' : 'parent'),
-                      :label => label, :issue => issue,
-                      :markers => !issue.leaf?)
-          when :image
-            image_task(options, coords, :label => label)
-          when :pdf
-            pdf_task(options, coords, :label => label)
+          markers = !issue.leaf?
+          line(issue.start_date, issue.due_before, issue.done_ratio, markers, label, options, issue)
         end
-        else
-          ''
-        end
+      end
+
+      def subject(label, options, object)
+        send "#{options[:format]}_subject", options, label, object
+      end
+
+      def line(start_date, end_date, done_ratio, markers, label, options, object=nil)
+        options[:zoom] ||= 1
+        options[:g_width] ||= (self.date_to - self.date_from + 1) * options[:zoom]
+        coords = coordinates(start_date, end_date, done_ratio, options[:zoom])
+        send "#{options[:format]}_task", options, coords, markers, label, object
       end
 
       # Generates a gantt image
@@ -713,18 +618,79 @@ module Redmine
         end
       end
 
-      def html_subject(params, subject, options={})
+      def html_subject_content(object)
+        case object
+        when Issue
+          issue = object
+          css_classes = ''
+          css_classes << ' issue-overdue' if issue.overdue?
+          css_classes << ' issue-behind-schedule' if issue.behind_schedule?
+          css_classes << ' icon icon-issue' unless Setting.gravatar_enabled? && issue.assigned_to
+          css_classes << ' issue-closed' if issue.closed?
+          if issue.start_date && issue.due_before && issue.done_ratio
+            progress_date = calc_progress_date(issue.start_date,
+                                               issue.due_before, issue.done_ratio)
+            css_classes << ' behind-start-date' if progress_date < self.date_from
+            css_classes << ' over-end-date' if progress_date > self.date_to
+          end
+          s = "".html_safe
+          if issue.assigned_to.present?
+            assigned_string = l(:field_assigned_to) + ": " + issue.assigned_to.name
+            s << view.avatar(issue.assigned_to,
+                             :class => 'gravatar icon-gravatar',
+                             :size => 10,
+                             :title => assigned_string).to_s.html_safe
+          end
+          s << view.link_to_issue(issue).html_safe
+          view.content_tag(:span, s, :class => css_classes).html_safe
+        when Version
+          version = object
+          html_class = ""
+          html_class << 'icon icon-package '
+          html_class << (version.behind_schedule? ? 'version-behind-schedule' : '') << " "
+          html_class << (version.overdue? ? 'version-overdue' : '')
+          html_class << ' version-closed' unless version.open?
+          if version.start_date && version.due_date && version.completed_percent
+            progress_date = calc_progress_date(version.start_date,
+                                               version.due_date, version.completed_percent)
+            html_class << ' behind-start-date' if progress_date < self.date_from
+            html_class << ' over-end-date' if progress_date > self.date_to
+          end
+          s = view.link_to_version(version).html_safe
+          view.content_tag(:span, s, :class => html_class).html_safe
+        when Project
+          project = object
+          html_class = ""
+          html_class << 'icon icon-projects '
+          html_class << (project.overdue? ? 'project-overdue' : '')
+          s = view.link_to_project(project).html_safe
+          view.content_tag(:span, s, :class => html_class).html_safe
+        end
+      end
+
+      def html_subject(params, subject, object)
         style = "position: absolute;top:#{params[:top]}px;left:#{params[:indent]}px;"
         style << "width:#{params[:subject_width] - params[:indent]}px;" if params[:subject_width]
-        output = view.content_tag(:div, subject,
-                                  :class => options[:css], :style => style,
-                                  :title => options[:title],
-                                  :id => options[:id])
+        content = html_subject_content(object) || subject
+        tag_options = {:style => style}
+        case object
+        when Issue
+          tag_options[:id] = "issue-#{object.id}"
+          tag_options[:class] = "issue-subject"
+          tag_options[:title] = object.subject
+        when Version
+          tag_options[:id] = "version-#{object.id}"
+          tag_options[:class] = "version-name"
+        when Project
+          tag_options[:class] = "project-name"
+        end
+        output = view.content_tag(:div, content, tag_options)
         @subjects << output
         output
       end
 
       def pdf_subject(params, subject, options={})
+        pdf_new_page?(params)
         params[:pdf].SetY(params[:top])
         params[:pdf].SetX(15)
         char_limit = PDF::MaxCharactorsForSubject - params[:indent]
@@ -754,8 +720,20 @@ module Redmine
         rels
       end
 
-      def html_task(params, coords, options={})
+      def html_task(params, coords, markers, label, object)
         output = ''
+
+        css = "task " + case object
+          when Project
+            "project"
+          when Version
+            "version"
+          when Issue
+            object.leaf? ? 'leaf' : 'parent'
+          else
+            ""
+          end
+
         # Renders the task bar, with progress and late
         if coords[:bar_start] && coords[:bar_end]
           width = coords[:bar_end] - coords[:bar_start] - 2
@@ -763,13 +741,13 @@ module Redmine
           style << "top:#{params[:top]}px;"
           style << "left:#{coords[:bar_start]}px;"
           style << "width:#{width}px;"
-          html_id = "task-todo-issue-#{options[:issue].id}" if options[:issue]
-          html_id = "task-todo-version-#{options[:version].id}" if options[:version]
+          html_id = "task-todo-issue-#{object.id}" if object.is_a?(Issue)
+          html_id = "task-todo-version-#{object.id}" if object.is_a?(Version)
           content_opt = {:style => style,
-                         :class => "#{options[:css]} task_todo",
+                         :class => "#{css} task_todo",
                          :id => html_id}
-          if options[:issue]
-            rels = issue_relations(options[:issue])
+          if object.is_a?(Issue)
+            rels = issue_relations(object)
             if rels.present?
               content_opt[:data] = {"rels" => rels.to_json}
             end
@@ -783,7 +761,7 @@ module Redmine
             style << "width:#{width}px;"
             output << view.content_tag(:div, '&nbsp;'.html_safe,
                                        :style => style,
-                                       :class => "#{options[:css]} task_late")
+                                       :class => "#{css} task_late")
           end
           if coords[:bar_progress_end]
             width = coords[:bar_progress_end] - coords[:bar_start] - 2
@@ -791,16 +769,16 @@ module Redmine
             style << "top:#{params[:top]}px;"
             style << "left:#{coords[:bar_start]}px;"
             style << "width:#{width}px;"
-            html_id = "task-done-issue-#{options[:issue].id}" if options[:issue]
-            html_id = "task-done-version-#{options[:version].id}" if options[:version]
+            html_id = "task-done-issue-#{object.id}" if object.is_a?(Issue)
+            html_id = "task-done-version-#{object.id}" if object.is_a?(Version)
             output << view.content_tag(:div, '&nbsp;'.html_safe,
                                        :style => style,
-                                       :class => "#{options[:css]} task_done",
+                                       :class => "#{css} task_done",
                                        :id => html_id)
           end
         end
         # Renders the markers
-        if options[:markers]
+        if true
           if coords[:start]
             style = ""
             style << "top:#{params[:top]}px;"
@@ -808,7 +786,7 @@ module Redmine
             style << "width:15px;"
             output << view.content_tag(:div, '&nbsp;'.html_safe,
                                        :style => style,
-                                       :class => "#{options[:css]} marker starting")
+                                       :class => "#{css} marker starting")
           end
           if coords[:end]
             style = ""
@@ -817,23 +795,23 @@ module Redmine
             style << "width:15px;"
             output << view.content_tag(:div, '&nbsp;'.html_safe,
                                        :style => style,
-                                       :class => "#{options[:css]} marker ending")
+                                       :class => "#{css} marker ending")
           end
         end
         # Renders the label on the right
-        if options[:label]
+        if label
           style = ""
           style << "top:#{params[:top]}px;"
           style << "left:#{(coords[:bar_end] || 0) + 8}px;"
           style << "width:15px;"
-          output << view.content_tag(:div, options[:label],
+          output << view.content_tag(:div, label,
                                      :style => style,
-                                     :class => "#{options[:css]} label")
+                                     :class => "#{css} label")
         end
         # Renders the tooltip
-        if options[:issue] && coords[:bar_start] && coords[:bar_end]
+        if object.is_a?(Issue) && coords[:bar_start] && coords[:bar_end]
           s = view.content_tag(:span,
-                               view.render_issue_tooltip(options[:issue]).html_safe,
+                               view.render_issue_tooltip(object).html_safe,
                                :class => "tip")
           style = ""
           style << "position: absolute;"
@@ -849,11 +827,12 @@ module Redmine
         output
       end
 
-      def pdf_task(params, coords, options={})
+      def pdf_task(params, coords, markers, label, object)
         cell_height_ratio = params[:pdf].get_cell_height_ratio()
         params[:pdf].set_cell_height_ratio(0.1)
 
-        height = options[:height] || 2
+        height = 2
+        height /= 2 if markers
         # Renders the task bar, with progress and late
         if coords[:bar_start] && coords[:bar_end]
           params[:pdf].SetY(params[:top] + 1.5)
@@ -874,7 +853,7 @@ module Redmine
           end
         end
         # Renders the markers
-        if options[:markers]
+        if markers
           if coords[:start]
             params[:pdf].SetY(params[:top] + 1)
             params[:pdf].SetX(params[:subject_width] + coords[:start] - 1)
@@ -889,16 +868,17 @@ module Redmine
           end
         end
         # Renders the label on the right
-        if options[:label]
+        if label
           params[:pdf].SetX(params[:subject_width] + (coords[:bar_end] || 0) + 5)
-          params[:pdf].RDMCell(30, 2, options[:label])
+          params[:pdf].RDMCell(30, 2, label)
         end
 
         params[:pdf].set_cell_height_ratio(cell_height_ratio)
       end
 
-      def image_task(params, coords, options={})
-        height = options[:height] || 6
+      def image_task(params, coords, markers, label, object)
+        height = 6
+        height /= 2 if markers
         # Renders the task bar, with progress and late
         if coords[:bar_start] && coords[:bar_end]
           params[:image].fill('#aaa')
@@ -922,7 +902,7 @@ module Redmine
           end
         end
         # Renders the markers
-        if options[:markers]
+        if markers
           if coords[:start]
             x = params[:subject_width] + coords[:start]
             y = params[:top] - height / 2
@@ -937,11 +917,11 @@ module Redmine
           end
         end
         # Renders the label on the right
-        if options[:label]
+        if label
           params[:image].fill('black')
           params[:image].text(params[:subject_width] + (coords[:bar_end] || 0) + 5,
                               params[:top] + 1,
-                              options[:label])
+                              label)
         end
       end
     end
