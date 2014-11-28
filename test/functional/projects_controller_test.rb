@@ -408,6 +408,20 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_response 302
   end
 
+  def test_setting_with_wiki_module_and_no_wiki
+    Project.find(1).wiki.destroy
+    Role.find(1).add_permission! :manage_wiki
+    @request.session[:user_id] = 2
+
+    get :settings, :id => 1
+    assert_response :success
+    assert_template 'settings'
+
+    assert_select 'form[action=?]', '/projects/ecookbook/wiki' do
+      assert_select 'input[name=?]', 'wiki[start_page]'
+    end
+  end
+
   def test_update
     @request.session[:user_id] = 2 # manager
     post :update, :id => 1, :project => {:name => 'Test changed name',

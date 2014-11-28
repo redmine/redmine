@@ -162,7 +162,7 @@ class ProjectsController < ApplicationController
     @issue_category ||= IssueCategory.new
     @member ||= @project.members.new
     @trackers = Tracker.sorted.to_a
-    @wiki ||= @project.wiki
+    @wiki ||= @project.wiki || Wiki.new(:project => @project)
   end
 
   def edit
