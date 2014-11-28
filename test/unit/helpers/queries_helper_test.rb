@@ -29,12 +29,55 @@ class QueriesHelperTest < ActionView::TestCase
            :projects_trackers,
            :custom_fields_trackers
 
-  def test_filters_options_has_empty_item
-    query = IssueQuery.new
-    filter_count = query.available_filters.size
-    fo = filters_options(query)
-    assert_equal filter_count + 1, fo.size
-    assert_equal [], fo[0]
+  def test_filters_options_for_select_should_have_a_blank_option
+    options = filters_options_for_select(IssueQuery.new)
+    assert_select_in options, 'option[value=""]'
+  end
+
+  def test_filters_options_for_select_should_not_group_regular_filters
+    with_locale 'en' do
+      options = filters_options_for_select(IssueQuery.new)
+      assert_select_in options, 'option[value=status_id]:root'
+      assert_select_in options, 'option[value=status_id]', :text => 'Status'
+    end
+  end
+
+  def test_filters_options_for_select_should_group_date_filters
+    with_locale 'en' do
+      options = filters_options_for_select(IssueQuery.new)
+      assert_select_in options, 'optgroup[label=?]', 'Date', 1
+      assert_select_in options, 'optgroup > option[value=due_date]', :text => 'Due date'
+    end
+  end
+
+  def test_filters_options_for_select_should_not_group_only_one_date_filter
+    with_locale 'en' do
+      options = filters_options_for_select(TimeEntryQuery.new)
+      assert_select_in options, 'optgroup[label=?]', 'Date', 0
+      assert_select_in options, 'option[value=spent_on]:root', :text => 'Date'
+    end
+  end
+
+  def test_filters_options_for_select_should_group_relations_filters
+    with_locale 'en' do
+      options = filters_options_for_select(IssueQuery.new)
+      assert_select_in options, 'optgroup[label=?]', 'Related issues', 1
+      assert_select_in options, 'optgroup[label=?] > option', 'Related issues', 9
+      assert_select_in options, 'optgroup > option[value=relates]', :text => 'Related to'
+    end
+  end
+
+  def test_filters_options_for_select_should_group_associations_filters
+    CustomField.delete_all
+    cf1 = ProjectCustomField.create!(:name => 'Foo', :field_format => 'string', :is_filter => true)
+    cf2 = ProjectCustomField.create!(:name => 'Bar', :field_format => 'string', :is_filter => true)
+
+    with_locale 'en' do
+      options = filters_options_for_select(IssueQuery.new)
+      assert_select_in options, 'optgroup[label=?]', 'Project', 1
+      assert_select_in options, 'optgroup[label=?] > option', 'Project', 2
+      assert_select_in options, 'optgroup > option[value=?]', "project.cf_#{cf1.id}", :text => "Project's Foo"
+    end
   end
 
   def test_query_to_csv_should_translate_boolean_custom_field_values

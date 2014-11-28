@@ -21,14 +21,35 @@ module QueriesHelper
   include ApplicationHelper
 
   def filters_options_for_select(query)
-    options_for_select(filters_options(query))
-  end
-
-  def filters_options(query)
-    options = [[]]
-    options += query.available_filters.map do |field, field_options|
-      [field_options[:name], field]
+    ungrouped = []
+    grouped = {}
+    query.available_filters.map do |field, field_options|
+      if field_options[:type] == :relation
+        group = :label_related_issues
+      elsif field =~ /^(.+)\./
+        # association filters
+        group = "field_#{$1}"
+      elsif %w(member_of_group assigned_to_role).include?(field)
+        group = :field_assigned_to
+      elsif field_options[:type] == :date_past || field_options[:type] == :date
+        group = :label_date
+      end
+      if group
+        (grouped[group] ||= []) << [field_options[:name], field]
+      else
+        ungrouped << [field_options[:name], field]
+      end
     end
+    # Don't group dates if there's only one (eg. time entries filters)
+    if grouped[:label_date].try(:size) == 1 
+      ungrouped << grouped.delete(:label_date).first
+    end
+    s = options_for_select([[]] + ungrouped)
+    if grouped.present?
+      localized_grouped = grouped.map {|k,v| [l(k), v]}
+      s << grouped_options_for_select(localized_grouped)
+    end
+    s
   end
 
   def query_filters_hidden_tags(query)

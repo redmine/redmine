@@ -127,7 +127,7 @@ function addFilter(field, operator, values) {
   }
   $('#cb_'+fieldId).prop('checked', true);
   toggleFilter(field);
-  $('#add_filter_select').val('').children('option').each(function() {
+  $('#add_filter_select').val('').find('option').each(function() {
     if ($(this).attr('value') == field) {
       $(this).attr('disabled', true);
     }
