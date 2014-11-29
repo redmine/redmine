@@ -432,6 +432,7 @@ fr:
   setting_mail_handler_excluded_filenames: Exclure les fichiers attachés par leur nom
   setting_force_default_language_for_anonymous: Forcer la langue par défault pour les utilisateurs anonymes
   setting_force_default_language_for_loggedin: Forcer la langue par défault pour les utilisateurs identifiés
+  setting_link_copied_issue: Lier les demandes lors de la copie
 
   permission_add_project: Créer un projet
   permission_add_subprojects: Créer des sous-projets
@@ -944,6 +945,8 @@ fr:
   label_users_visibility_all: Tous les utilisateurs actifs
   label_users_visibility_members_of_visible_projects: Membres des projets visibles
   label_edit_attachments: Modifier les fichiers attachés
+  label_link_copied_issue: Lier la demande copiée
+  label_ask: Demander
 
   button_login: Connexion
   button_submit: Soumettre

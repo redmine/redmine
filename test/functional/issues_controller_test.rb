@@ -2540,12 +2540,10 @@ class IssuesControllerTest < ActionController::TestCase
     assert count > 0
     assert_difference 'Issue.count' do
       assert_difference 'Attachment.count', count do
-        assert_difference 'Journal.count', 2 do
-          post :create, :project_id => 1, :copy_from => 3,
-            :issue => {:project_id => '1', :tracker_id => '3',
-                       :status_id => '1', :subject => 'Copy with attachments'},
-            :copy_attachments => '1'
-        end
+        post :create, :project_id => 1, :copy_from => 3,
+          :issue => {:project_id => '1', :tracker_id => '3',
+                     :status_id => '1', :subject => 'Copy with attachments'},
+          :copy_attachments => '1'
       end
     end
     copy = Issue.order('id DESC').first
@@ -2560,33 +2558,29 @@ class IssuesControllerTest < ActionController::TestCase
     assert count > 0
     assert_difference 'Issue.count' do
       assert_no_difference 'Attachment.count' do
-        assert_difference 'Journal.count', 2 do
-          post :create, :project_id => 1, :copy_from => 3,
-            :issue => {:project_id => '1', :tracker_id => '3',
-                       :status_id => '1', :subject => 'Copy with attachments'}
-        end
+        post :create, :project_id => 1, :copy_from => 3,
+          :issue => {:project_id => '1', :tracker_id => '3',
+                     :status_id => '1', :subject => 'Copy with attachments'}
       end
     end
     copy = Issue.order('id DESC').first
     assert_equal 0, copy.attachments.count
   end
 
-  def test_create_as_copy_with_attachments_should_add_new_files
+  def test_create_as_copy_with_attachments_should_also_add_new_files
     @request.session[:user_id] = 2
     issue = Issue.find(3)
     count = issue.attachments.count
     assert count > 0
     assert_difference 'Issue.count' do
       assert_difference 'Attachment.count', count + 1 do
-        assert_difference 'Journal.count', 2 do
-          post :create, :project_id => 1, :copy_from => 3,
-            :issue => {:project_id => '1', :tracker_id => '3',
-                       :status_id => '1', :subject => 'Copy with attachments'},
-            :copy_attachments => '1',
-            :attachments => {'1' =>
-                   {'file' => uploaded_test_file('testfile.txt', 'text/plain'),
-                    'description' => 'test file'}}
-        end
+        post :create, :project_id => 1, :copy_from => 3,
+          :issue => {:project_id => '1', :tracker_id => '3',
+                     :status_id => '1', :subject => 'Copy with attachments'},
+          :copy_attachments => '1',
+          :attachments => {'1' =>
+                 {'file' => uploaded_test_file('testfile.txt', 'text/plain'),
+                  'description' => 'test file'}}
       end
     end
     copy = Issue.order('id DESC').first
@@ -2597,7 +2591,7 @@ class IssuesControllerTest < ActionController::TestCase
     @request.session[:user_id] = 2
     assert_difference 'Issue.count' do
       assert_difference 'IssueRelation.count' do
-        post :create, :project_id => 1, :copy_from => 1,
+        post :create, :project_id => 1, :copy_from => 1, :link_copy => '1',
           :issue => {:project_id => '1', :tracker_id => '3',
                      :status_id => '1', :subject => 'Copy'}
       end
@@ -2606,17 +2600,37 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal 1, copy.relations.size
   end
 
+  def test_create_as_copy_should_allow_not_to_add_relation_with_copied_issue
+    @request.session[:user_id] = 2
+    assert_difference 'Issue.count' do
+      assert_no_difference 'IssueRelation.count' do
+        post :create, :project_id => 1, :copy_from => 1,
+          :issue => {:subject => 'Copy'}
+      end
+    end
+  end
+
+  def test_create_as_copy_should_always_add_relation_with_copied_issue_by_setting
+    with_settings :link_copied_issue => 'yes' do
+      @request.session[:user_id] = 2
+      assert_difference 'Issue.count' do
+        assert_difference 'IssueRelation.count' do
+          post :create, :project_id => 1, :copy_from => 1,
+            :issue => {:subject => 'Copy'}
+        end
+      end
+    end
+  end
+
   def test_create_as_copy_should_copy_subtasks
     @request.session[:user_id] = 2
     issue = Issue.generate_with_descendants!
     count = issue.descendants.count
     assert_difference 'Issue.count', count + 1 do
-      assert_difference 'Journal.count', (count + 1) * 2 do
-        post :create, :project_id => 1, :copy_from => issue.id,
-          :issue => {:project_id => '1', :tracker_id => '3',
-                     :status_id => '1', :subject => 'Copy with subtasks'},
-          :copy_subtasks => '1'
-      end
+      post :create, :project_id => 1, :copy_from => issue.id,
+        :issue => {:project_id => '1', :tracker_id => '3',
+                   :status_id => '1', :subject => 'Copy with subtasks'},
+        :copy_subtasks => '1'
     end
     copy = Issue.where(:parent_id => nil).order('id DESC').first
     assert_equal count, copy.descendants.count
@@ -2627,11 +2641,9 @@ class IssuesControllerTest < ActionController::TestCase
     @request.session[:user_id] = 2
     issue = Issue.generate_with_descendants!
     assert_difference 'Issue.count', 1 do
-      assert_difference 'Journal.count', 2 do
-        post :create, :project_id => 1, :copy_from => 3,
-          :issue => {:project_id => '1', :tracker_id => '3',
-                     :status_id => '1', :subject => 'Copy with subtasks'}
-      end
+      post :create, :project_id => 1, :copy_from => 3,
+        :issue => {:project_id => '1', :tracker_id => '3',
+                   :status_id => '1', :subject => 'Copy with subtasks'}
     end
     copy = Issue.where(:parent_id => nil).order('id DESC').first
     assert_equal 0, copy.descendants.count
@@ -3840,7 +3852,6 @@ class IssuesControllerTest < ActionController::TestCase
     issue = Issue.order('id DESC').first
     assert_equal 1, issue.journals.size
     journal = issue.journals.first
-    assert_equal 1, journal.details.size
     assert_equal 'Copying one issue', journal.notes
   end
 
@@ -3879,7 +3890,7 @@ class IssuesControllerTest < ActionController::TestCase
 
     assert_difference 'Issue.count', 2 do
       assert_difference 'IssueRelation.count', 2 do
-        post :bulk_update, :ids => [1, 3], :copy => '1', 
+        post :bulk_update, :ids => [1, 3], :copy => '1', :link_copy => '1',
              :issue => {
                :project_id => '1'
              }

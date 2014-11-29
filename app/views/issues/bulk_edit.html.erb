@@ -97,6 +97,14 @@
   </p>
 <% end %>
 
+<% if @copy && Setting.link_copied_issue == 'ask' %>
+<p>
+  <label for='link_copy'><%= l(:label_link_copied_issue) %></label>
+  <%= hidden_field_tag 'link_copy', '0' %>
+  <%= check_box_tag 'link_copy', '1', params[:link_copy] != 0 %>
+</p>
+<% end %>
+
 <% if @copy && @attachments_present %>
 <%= hidden_field_tag 'copy_attachments', '0' %>
 <p>

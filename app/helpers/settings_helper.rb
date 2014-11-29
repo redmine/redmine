@@ -104,6 +104,16 @@ module SettingsHelper
     content_tag(:label, tag + text, options)
   end
 
+  def link_copied_issue_options
+    options = [
+      [:general_text_Yes, 'yes'],
+      [:general_text_No, 'no'],
+      [:label_ask, 'ask']
+    ]
+
+    options.map {|label, value| [l(label), value.to_s]}
+  end
+
   def cross_project_subtasks_options
     options = [
       [:label_disabled, ''],

@@ -412,6 +412,7 @@ en:
   setting_mail_handler_excluded_filenames: Exclude attachments by name
   setting_force_default_language_for_anonymous: Force default language for anonymous users
   setting_force_default_language_for_loggedin: Force default language for logged-in users
+  setting_link_copied_issue: Link issues on copy
 
   permission_add_project: Create project
   permission_add_subprojects: Create subprojects
@@ -924,6 +925,8 @@ en:
   label_users_visibility_all: All active users
   label_users_visibility_members_of_visible_projects: Members of visible projects
   label_edit_attachments: Edit attached files
+  label_link_copied_issue: Link copied issue
+  label_ask: Ask
 
   button_login: Login
   button_submit: Submit
