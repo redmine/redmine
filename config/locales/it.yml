@@ -1124,3 +1124,4 @@ it:
   field_users_visibility: Users visibility
   label_users_visibility_all: All active users
   label_users_visibility_members_of_visible_projects: Members of visible projects
+  label_edit_attachments: Edit attached files

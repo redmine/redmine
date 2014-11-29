@@ -943,6 +943,7 @@ fr:
   label_add_projects: Ajouter des projets
   label_users_visibility_all: Tous les utilisateurs actifs
   label_users_visibility_members_of_visible_projects: Membres des projets visibles
+  label_edit_attachments: Modifier les fichiers attachés
 
   button_login: Connexion
   button_submit: Soumettre
