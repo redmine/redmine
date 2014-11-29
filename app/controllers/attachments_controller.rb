@@ -16,7 +16,8 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class AttachmentsController < ApplicationController
-  before_filter :find_project, :except => :upload
+  before_filter :find_attachment, :only => [:show, :download, :thumbnail, :destroy]
+  before_filter :find_editable_attachments, :only => [:edit, :update]
   before_filter :file_readable, :read_authorize, :only => [:show, :download, :thumbnail]
   before_filter :delete_authorize, :only => :destroy
   before_filter :authorize_global, :only => :upload
@@ -99,6 +100,19 @@ class AttachmentsController < ApplicationController
     end
   end
 
+  def edit
+  end
+
+  def update
+    if params[:attachments].is_a?(Hash)
+      if Attachment.update_attachments(@attachments, params[:attachments])
+        redirect_back_or_default home_path
+        return
+      end
+    end
+    render :action => 'edit'
+  end
+
   def destroy
     if @attachment.container.respond_to?(:init_journal)
       @attachment.container.init_journal(User.current)
@@ -116,12 +130,34 @@ class AttachmentsController < ApplicationController
     end
   end
 
-private
-  def find_project
+  private
+
+  def find_attachment
     @attachment = Attachment.find(params[:id])
     # Show 404 if the filename in the url is wrong
     raise ActiveRecord::RecordNotFound if params[:filename] && params[:filename] != @attachment.filename
     @project = @attachment.project
+  rescue ActiveRecord::RecordNotFound
+    render_404
+  end
+
+  def find_editable_attachments
+    klass = params[:object_type].to_s.singularize.classify.constantize rescue nil
+    unless klass && klass.reflect_on_association(:attachments)
+      render_404
+      return
+    end
+
+    @container = klass.find(params[:object_id])
+    if @container.respond_to?(:visible?) && !@container.visible?
+      render_403
+      return
+    end
+    @attachments = @container.attachments.select(&:editable?)
+    if @container.respond_to?(:project)
+      @project = @container.project
+    end
+    render_404 if @attachments.empty?
   rescue ActiveRecord::RecordNotFound
     render_404
   end

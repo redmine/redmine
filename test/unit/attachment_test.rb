@@ -250,6 +250,45 @@ class AttachmentTest < ActiveSupport::TestCase
     assert_equal 'text/plain', attachment.content_type
   end
 
+  def test_update_attachments
+    attachments = Attachment.where(:id => [2, 3]).to_a
+
+    assert Attachment.update_attachments(attachments, {
+      '2' => {:filename => 'newname.txt', :description => 'New description'},
+      3 => {:filename => 'othername.txt'}
+    })
+
+    attachment = Attachment.find(2)
+    assert_equal 'newname.txt', attachment.filename
+    assert_equal 'New description', attachment.description
+
+    attachment = Attachment.find(3)
+    assert_equal 'othername.txt', attachment.filename
+  end
+
+  def test_update_attachments_with_failure
+    attachments = Attachment.where(:id => [2, 3]).to_a
+
+    assert !Attachment.update_attachments(attachments, {
+      '2' => {:filename => '', :description => 'New description'},
+      3 => {:filename => 'othername.txt'}
+    })
+
+    attachment = Attachment.find(3)
+    assert_equal 'logo.gif', attachment.filename
+  end
+
+  def test_update_attachments_should_sanitize_filename
+    attachments = Attachment.where(:id => 2).to_a
+
+    assert Attachment.update_attachments(attachments, {
+      2 => {:filename => 'newname?.txt'},
+    })
+
+    attachment = Attachment.find(2)
+    assert_equal 'newname_.txt', attachment.filename
+  end
+
   def test_latest_attach
     set_fixtures_attachments_directory
     a1 = Attachment.find(16)

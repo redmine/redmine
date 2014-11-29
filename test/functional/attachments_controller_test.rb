@@ -327,6 +327,64 @@ class AttachmentsControllerTest < ActionController::TestCase
     puts '(ImageMagick convert not available)'
   end
 
+  def test_edit
+    @request.session[:user_id] = 2
+    get :edit, :object_type => 'issues', :object_id => '3'
+    assert_response :success
+    assert_template 'edit'
+
+    container = Issue.find(3)
+    assert_equal container, assigns(:container)
+    assert_equal container.attachments.size, assigns(:attachments).size
+
+    assert_select 'form[action=?]', '/attachments/issues/3' do
+      assert_select 'tr#attachment-4' do
+        assert_select 'input[name=?][value=?]', 'attachments[4][filename]', 'source.rb'
+        assert_select 'input[name=?][value=?]', 'attachments[4][description]', 'This is a Ruby source file'
+      end
+    end
+  end
+
+  def test_edit_invalid_container_class_should_return_404
+    get :edit, :object_type => 'nuggets', :object_id => '3'
+    assert_response 404
+  end
+
+  def test_edit_for_object_that_is_not_visible_should_return_403
+    get :edit, :object_type => 'issues', :object_id => '4'
+    assert_response 403
+  end
+
+  def test_update
+    @request.session[:user_id] = 2
+    patch :update, :object_type => 'issues', :object_id => '3', :attachments => {
+        '1' => {:filename => 'newname.text', :description => ''},
+        '4' => {:filename => 'newname.rb', :description => 'Renamed'},
+      }
+
+    assert_response 302
+    attachment = Attachment.find(4)
+    assert_equal 'newname.rb', attachment.filename
+    assert_equal 'Renamed', attachment.description
+  end
+
+  def test_update_with_failure
+    @request.session[:user_id] = 2
+    patch :update, :object_type => 'issues', :object_id => '3', :attachments => {
+        '1' => {:filename => '', :description => ''},
+        '4' => {:filename => 'newname.rb', :description => 'Renamed'},
+      }
+
+    assert_response :success
+    assert_template 'edit'
+    assert_select_error /file #{ESCAPED_CANT} be blank/i
+
+    # The other attachment should not be updated
+    attachment = Attachment.find(4)
+    assert_equal 'source.rb', attachment.filename
+    assert_equal 'This is a Ruby source file', attachment.description
+  end
+
   def test_destroy_issue_attachment
     set_tmp_attachments_directory
     issue = Issue.find(3)

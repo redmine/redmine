@@ -166,6 +166,14 @@ class Attachment < ActiveRecord::Base
     end
   end
 
+  def editable?(user=User.current)
+    if container_id
+      container && container.attachments_editable?(user)
+    else
+      author == user
+    end
+  end
+
   def deletable?(user=User.current)
     if container_id
       container && container.attachments_deletable?(user)
@@ -252,6 +260,35 @@ class Attachment < ActiveRecord::Base
     result = obj.save_attachments(attachments, User.current)
     obj.attach_saved_attachments
     result
+  end
+
+  # Updates the filename and description of a set of attachments
+  # with the given hash of attributes. Returns true if all
+  # attachments were updated.
+  #
+  # Example:
+  #   Attachment.update_attachments(attachments, {
+  #     4 => {:filename => 'foo'},
+  #     7 => {:filename => 'bar', :description => 'file description'}
+  #   })
+  #
+  def self.update_attachments(attachments, params)
+    params = params.transform_keys {|key| key.to_i}
+
+    saved = true
+    transaction do
+      attachments.each do |attachment|
+        if p = params[attachment.id]
+          attachment.filename = p[:filename] if p.key?(:filename)
+          attachment.description = p[:description] if p.key?(:description)
+          saved &&= attachment.save
+        end
+      end
+      unless saved
+        raise ActiveRecord::Rollback
+      end
+    end
+    saved
   end
 
   def self.latest_attach(attachments, filename)

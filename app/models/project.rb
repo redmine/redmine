@@ -60,6 +60,7 @@ class Project < ActiveRecord::Base
 
   acts_as_nested_set :dependent => :destroy
   acts_as_attachable :view_permission => :view_files,
+                     :edit_permission => :manage_files,
                      :delete_permission => :manage_files
 
   acts_as_customizable

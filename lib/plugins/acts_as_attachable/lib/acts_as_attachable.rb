@@ -27,6 +27,7 @@ module Redmine
           cattr_accessor :attachable_options
           self.attachable_options = {}
           attachable_options[:view_permission] = options.delete(:view_permission) || "view_#{self.name.pluralize.underscore}".to_sym
+          attachable_options[:edit_permission] = options.delete(:edit_permission) || "edit_#{self.name.pluralize.underscore}".to_sym
           attachable_options[:delete_permission] = options.delete(:delete_permission) || "edit_#{self.name.pluralize.underscore}".to_sym
 
           has_many :attachments, lambda {order("#{Attachment.table_name}.created_on ASC, #{Attachment.table_name}.id ASC")},
@@ -44,6 +45,11 @@ module Redmine
         def attachments_visible?(user=User.current)
           (respond_to?(:visible?) ? visible?(user) : true) &&
             user.allowed_to?(self.class.attachable_options[:view_permission], self.project)
+        end
+
+        def attachments_editable?(user=User.current)
+          (respond_to?(:visible?) ? visible?(user) : true) &&
+            user.allowed_to?(self.class.attachable_options[:edit_permission], self.project)
         end
 
         def attachments_deletable?(user=User.current)
