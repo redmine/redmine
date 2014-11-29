@@ -1145,3 +1145,6 @@ pt-BR:
   label_users_visibility_all: All active users
   label_users_visibility_members_of_visible_projects: Members of visible projects
   label_edit_attachments: Edit attached files
+  setting_link_copied_issue: Link issues on copy
+  label_link_copied_issue: Link copied issue
+  label_ask: Ask
