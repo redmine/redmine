@@ -110,6 +110,20 @@ class Redmine::WikiFormatting::TextileFormatterTest < ActionView::TestCase
     )
   end
 
+  def test_lang_attribute
+    assert_html_output(
+      '*[fr]French*'      => '<strong lang="fr">French</strong>',
+      '*[fr-fr]French*'   => '<strong lang="fr-fr">French</strong>',
+      '*[fr_fr]French*'   => '<strong lang="fr_fr">French</strong>'
+    )
+  end
+
+  def test_lang_attribute_should_ignore_invalid_value
+    assert_html_output(
+      '*[fr3]French*'      => '<strong>[fr3]French</strong>'
+    )
+  end
+
   def test_nested_lists
     raw = <<-RAW
 # Item 1
