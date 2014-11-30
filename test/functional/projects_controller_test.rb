@@ -22,7 +22,8 @@ class ProjectsControllerTest < ActionController::TestCase
            :member_roles, :issues, :journals, :journal_details,
            :trackers, :projects_trackers, :issue_statuses,
            :enabled_modules, :enumerations, :boards, :messages,
-           :attachments, :custom_fields, :custom_values, :time_entries
+           :attachments, :custom_fields, :custom_values, :time_entries,
+           :wikis, :wiki_pages, :wiki_contents, :wiki_content_versions
 
   def setup
     @request.session[:user_id] = nil
