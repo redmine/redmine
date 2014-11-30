@@ -17,7 +17,7 @@
 
 require File.expand_path('../../test_helper', __FILE__)
 
-class AccountTest < ActionDispatch::IntegrationTest
+class AccountTest < Redmine::IntegrationTest
   fixtures :users, :roles
 
   def test_login

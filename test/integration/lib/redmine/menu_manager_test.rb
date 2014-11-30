@@ -17,7 +17,7 @@
 
 require File.expand_path('../../../../test_helper', __FILE__)
 
-class MenuManagerTest < ActionDispatch::IntegrationTest
+class MenuManagerTest < Redmine::IntegrationTest
   include Redmine::I18n
 
   fixtures :projects, :trackers, :issue_statuses, :issues,

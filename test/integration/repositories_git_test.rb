@@ -17,7 +17,7 @@
 
 require File.expand_path('../../test_helper', __FILE__)
 
-class RepositoriesGitTest < ActionDispatch::IntegrationTest
+class RepositoriesGitTest < Redmine::IntegrationTest
   fixtures :projects, :users, :roles, :members, :member_roles,
            :repositories, :enabled_modules
 

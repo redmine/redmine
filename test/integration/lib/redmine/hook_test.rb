@@ -17,7 +17,7 @@
 
 require File.expand_path('../../../../test_helper', __FILE__)
 
-class HookTest < ActionDispatch::IntegrationTest
+class HookTest < Redmine::IntegrationTest
   fixtures :users, :roles, :projects, :members, :member_roles
 
   # Hooks that are manually registered later

@@ -17,7 +17,7 @@
 
 require File.expand_path('../../test_helper', __FILE__)
 
-class ApplicationTest < ActionDispatch::IntegrationTest
+class ApplicationTest < Redmine::IntegrationTest
   include Redmine::I18n
 
   fixtures :projects, :trackers, :issue_statuses, :issues,

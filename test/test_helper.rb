@@ -43,22 +43,8 @@ class ActiveSupport::TestCase
   ESCAPED_CANT  = 'can&#39;t'
   ESCAPED_UCANT = 'Can&#39;t'
 
-  def log_user(login, password)
-    User.anonymous
-    get "/login"
-    assert_equal nil, session[:user_id]
-    assert_response :success
-    assert_template "account/login"
-    post "/login", :username => login, :password => password
-    assert_equal login, User.find(session[:user_id]).login
-  end
-
   def uploaded_test_file(name, mime)
     fixture_file_upload("files/#{name}", mime, true)
-  end
-
-  def credentials(user, password=nil)
-    {'HTTP_AUTHORIZATION' => ActionController::HttpAuthentication::Basic.encode_credentials(user, password || user)}
   end
 
   # Mock out a file
@@ -248,11 +234,27 @@ module Redmine
     end
   end
 
+  class IntegrationTest < ActionDispatch::IntegrationTest
+    def log_user(login, password)
+      User.anonymous
+      get "/login"
+      assert_equal nil, session[:user_id]
+      assert_response :success
+      assert_template "account/login"
+      post "/login", :username => login, :password => password
+      assert_equal login, User.find(session[:user_id]).login
+    end
+
+    def credentials(user, password=nil)
+      {'HTTP_AUTHORIZATION' => ActionController::HttpAuthentication::Basic.encode_credentials(user, password || user)}
+    end
+  end
+
   module ApiTest
     API_FORMATS = %w(json xml).freeze
 
     # Base class for API tests
-    class Base < ActionDispatch::IntegrationTest
+    class Base < Redmine::IntegrationTest
       def setup
         Setting.rest_api_enabled = '1'
       end
