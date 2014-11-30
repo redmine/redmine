@@ -1825,11 +1825,13 @@ class IssueTest < ActiveSupport::TestCase
     user.members.update_all ["mail_notification = ?", false]
     user.update_attribute :mail_notification, 'only_assigned'
 
-    issue = Issue.find(2)
-    issue.init_journal User.find(1)
-    issue.assigned_to = nil
-    issue.save!
-    assert_include user.mail, ActionMailer::Base.deliveries.last.bcc
+    with_settings :notified_events => %w(issue_updated) do
+      issue = Issue.find(2)
+      issue.init_journal User.find(1)
+      issue.assigned_to = nil
+      issue.save!
+      assert_include user.mail, ActionMailer::Base.deliveries.last.bcc
+    end
   end
 
   def test_stale_issue_should_not_send_email_notification

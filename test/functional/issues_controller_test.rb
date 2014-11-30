@@ -2036,13 +2036,15 @@ class IssuesControllerTest < ActionController::TestCase
     @request.session[:user_id] = 2
     ActionMailer::Base.deliveries.clear
 
-    assert_difference 'Watcher.count', 2 do
-      post :create, :project_id => 1,
-                 :issue => {:tracker_id => 1,
-                            :subject => 'This is a new issue with watchers',
-                            :description => 'This is the description',
-                            :priority_id => 5,
-                            :watcher_user_ids => ['2', '3']}
+    with_settings :notified_events => %w(issue_added) do
+      assert_difference 'Watcher.count', 2 do
+        post :create, :project_id => 1,
+                   :issue => {:tracker_id => 1,
+                              :subject => 'This is a new issue with watchers',
+                              :description => 'This is the description',
+                              :priority_id => 5,
+                              :watcher_user_ids => ['2', '3']}
+      end
     end
     issue = Issue.find_by_subject('This is a new issue with watchers')
     assert_not_nil issue
@@ -2148,18 +2150,20 @@ class IssuesControllerTest < ActionController::TestCase
   def test_post_create_should_send_a_notification
     ActionMailer::Base.deliveries.clear
     @request.session[:user_id] = 2
-    assert_difference 'Issue.count' do
-      post :create, :project_id => 1,
-                 :issue => {:tracker_id => 3,
-                            :subject => 'This is the test_new issue',
-                            :description => 'This is the description',
-                            :priority_id => 5,
-                            :estimated_hours => '',
-                            :custom_field_values => {'2' => 'Value for field 2'}}
+    with_settings :notified_events => %w(issue_added) do
+      assert_difference 'Issue.count' do
+        post :create, :project_id => 1,
+                   :issue => {:tracker_id => 3,
+                              :subject => 'This is the test_new issue',
+                              :description => 'This is the description',
+                              :priority_id => 5,
+                              :estimated_hours => '',
+                              :custom_field_values => {'2' => 'Value for field 2'}}
+      end
+      assert_redirected_to :controller => 'issues', :action => 'show', :id => Issue.last.id
+  
+      assert_equal 1, ActionMailer::Base.deliveries.size
     end
-    assert_redirected_to :controller => 'issues', :action => 'show', :id => Issue.last.id
-
-    assert_equal 1, ActionMailer::Base.deliveries.size
   end
 
   def test_post_create_should_preserve_fields_values_on_validation_failure
@@ -2237,7 +2241,7 @@ class IssuesControllerTest < ActionController::TestCase
     set_tmp_attachments_directory
     @request.session[:user_id] = 2
 
-    with_settings :host_name => 'mydomain.foo', :protocol => 'http' do
+    with_settings :host_name => 'mydomain.foo', :protocol => 'http', :notified_events => %w(issue_added) do
       assert_difference 'Issue.count' do
         post :create, :project_id => 1,
           :issue => { :tracker_id => '1', :subject => 'With attachment' },
@@ -2841,44 +2845,35 @@ class IssuesControllerTest < ActionController::TestCase
 
   def test_put_update_without_custom_fields_param
     @request.session[:user_id] = 2
-    ActionMailer::Base.deliveries.clear
 
     issue = Issue.find(1)
     assert_equal '125', issue.custom_value_for(2).value
-    old_subject = issue.subject
-    new_subject = 'Subject modified by IssuesControllerTest#test_post_edit'
 
     assert_difference('Journal.count') do
-      assert_difference('JournalDetail.count', 2) do
-        put :update, :id => 1, :issue => {:subject => new_subject,
-                                         :priority_id => '6',
-                                         :category_id => '1' # no change
-                                        }
+      assert_difference('JournalDetail.count') do
+        put :update, :id => 1, :issue => {:subject => 'New subject'}
       end
     end
     assert_redirected_to :action => 'show', :id => '1'
     issue.reload
-    assert_equal new_subject, issue.subject
+    assert_equal 'New subject', issue.subject
     # Make sure custom fields were not cleared
     assert_equal '125', issue.custom_value_for(2).value
-
-    mail = ActionMailer::Base.deliveries.last
-    assert_not_nil mail
-    assert mail.subject.starts_with?("[#{issue.project.name} - #{issue.tracker.name} ##{issue.id}]")
-    assert_mail_body_match "Subject changed from #{old_subject} to #{new_subject}", mail
   end
 
   def test_put_update_with_project_change
     @request.session[:user_id] = 2
     ActionMailer::Base.deliveries.clear
 
-    assert_difference('Journal.count') do
-      assert_difference('JournalDetail.count', 3) do
-        put :update, :id => 1, :issue => {:project_id => '2',
-                                         :tracker_id => '1', # no change
-                                         :priority_id => '6',
-                                         :category_id => '3'
-                                        }
+    with_settings :notified_events => %w(issue_updated) do
+      assert_difference('Journal.count') do
+        assert_difference('JournalDetail.count', 3) do
+          put :update, :id => 1, :issue => {:project_id => '2',
+                                           :tracker_id => '1', # no change
+                                           :priority_id => '6',
+                                           :category_id => '3'
+                                          }
+        end
       end
     end
     assert_redirected_to :action => 'show', :id => '1'
@@ -2898,12 +2893,14 @@ class IssuesControllerTest < ActionController::TestCase
     @request.session[:user_id] = 2
     ActionMailer::Base.deliveries.clear
 
-    assert_difference('Journal.count') do
-      assert_difference('JournalDetail.count', 2) do
-        put :update, :id => 1, :issue => {:project_id => '1',
-                                         :tracker_id => '2',
-                                         :priority_id => '6'
-                                        }
+    with_settings :notified_events => %w(issue_updated) do
+      assert_difference('Journal.count') do
+        assert_difference('JournalDetail.count', 2) do
+          put :update, :id => 1, :issue => {:project_id => '1',
+                                           :tracker_id => '2',
+                                           :priority_id => '6'
+                                          }
+        end
       end
     end
     assert_redirected_to :action => 'show', :id => '1'
@@ -2924,13 +2921,15 @@ class IssuesControllerTest < ActionController::TestCase
     issue = Issue.find(1)
     assert_equal '125', issue.custom_value_for(2).value
 
-    assert_difference('Journal.count') do
-      assert_difference('JournalDetail.count', 3) do
-        put :update, :id => 1, :issue => {:subject => 'Custom field change',
-                                         :priority_id => '6',
-                                         :category_id => '1', # no change
-                                         :custom_field_values => { '2' => 'New custom value' }
-                                        }
+    with_settings :notified_events => %w(issue_updated) do
+      assert_difference('Journal.count') do
+        assert_difference('JournalDetail.count', 3) do
+          put :update, :id => 1, :issue => {:subject => 'Custom field change',
+                                           :priority_id => '6',
+                                           :category_id => '1', # no change
+                                           :custom_field_values => { '2' => 'New custom value' }
+                                          }
+        end
       end
     end
     assert_redirected_to :action => 'show', :id => '1'
@@ -2967,11 +2966,14 @@ class IssuesControllerTest < ActionController::TestCase
     issue = Issue.find(1)
     assert_equal 1, issue.status_id
     @request.session[:user_id] = 2
-    assert_difference('TimeEntry.count', 0) do
-      put :update,
-           :id => 1,
-           :issue => { :status_id => 2, :assigned_to_id => 3, :notes => 'Assigned to dlopper' },
-           :time_entry => { :hours => '', :comments => '', :activity_id => TimeEntryActivity.first }
+
+    with_settings :notified_events => %w(issue_updated) do
+      assert_difference('TimeEntry.count', 0) do
+        put :update,
+             :id => 1,
+             :issue => { :status_id => 2, :assigned_to_id => 3, :notes => 'Assigned to dlopper' },
+             :time_entry => { :hours => '', :comments => '', :activity_id => TimeEntryActivity.first }
+      end
     end
     assert_redirected_to :action => 'show', :id => '1'
     issue.reload
@@ -2988,10 +2990,13 @@ class IssuesControllerTest < ActionController::TestCase
 
   def test_put_update_with_note_only
     notes = 'Note added by IssuesControllerTest#test_update_with_note_only'
-    # anonymous user
-    put :update,
-         :id => 1,
-         :issue => { :notes => notes }
+
+    with_settings :notified_events => %w(issue_updated) do
+      # anonymous user
+      put :update,
+           :id => 1,
+           :issue => { :notes => notes }
+    end
     assert_redirected_to :action => 'show', :id => '1'
     j = Journal.order('id DESC').first
     assert_equal notes, j.notes
@@ -3080,11 +3085,13 @@ class IssuesControllerTest < ActionController::TestCase
     # journal to get fetched in the next find.
     Journal.delete_all
 
-    # anonymous user
-    assert_difference 'Attachment.count' do
-      put :update, :id => 1,
-        :issue => {:notes => ''},
-        :attachments => {'1' => {'file' => uploaded_test_file('testfile.txt', 'text/plain'), 'description' => 'test file'}}
+    with_settings :notified_events => %w(issue_updated) do
+      # anonymous user
+      assert_difference 'Attachment.count' do
+        put :update, :id => 1,
+          :issue => {:notes => ''},
+          :attachments => {'1' => {'file' => uploaded_test_file('testfile.txt', 'text/plain'), 'description' => 'test file'}}
+      end
     end
 
     assert_redirected_to :action => 'show', :id => '1'
@@ -3211,11 +3218,13 @@ class IssuesControllerTest < ActionController::TestCase
     old_subject = issue.subject
     new_subject = 'Subject modified by IssuesControllerTest#test_post_edit'
 
-    put :update, :id => 1, :issue => {:subject => new_subject,
-                                     :priority_id => '6',
-                                     :category_id => '1' # no change
-                                    }
-    assert_equal 1, ActionMailer::Base.deliveries.size
+    with_settings :notified_events => %w(issue_updated) do
+      put :update, :id => 1, :issue => {:subject => new_subject,
+                                       :priority_id => '6',
+                                       :category_id => '1' # no change
+                                      }
+      assert_equal 1, ActionMailer::Base.deliveries.size
+    end
   end
 
   def test_put_update_with_invalid_spent_time_hours_only
@@ -3521,19 +3530,20 @@ class IssuesControllerTest < ActionController::TestCase
   def test_bullk_update_should_send_a_notification
     @request.session[:user_id] = 2
     ActionMailer::Base.deliveries.clear
-    post(:bulk_update,
-         {
-           :ids => [1, 2],
-           :notes => 'Bulk editing',
-           :issue => {
-             :priority_id => 7,
-             :assigned_to_id => '',
-             :custom_field_values => {'2' => ''}
-           }
-         })
-
-    assert_response 302
-    assert_equal 2, ActionMailer::Base.deliveries.size
+    with_settings :notified_events => %w(issue_updated) do
+      post(:bulk_update,
+           {
+             :ids => [1, 2],
+             :notes => 'Bulk editing',
+             :issue => {
+               :priority_id => 7,
+               :assigned_to_id => '',
+               :custom_field_values => {'2' => ''}
+             }
+           })
+      assert_response 302
+      assert_equal 2, ActionMailer::Base.deliveries.size
+    end
   end
 
   def test_bulk_update_project
