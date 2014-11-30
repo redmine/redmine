@@ -22,7 +22,8 @@ class Token < ActiveRecord::Base
 
   before_create :delete_previous_tokens, :generate_new_token
 
-  @@validity_time = 1.day
+  cattr_accessor :validity_time
+  self.validity_time = 1.day
 
   def generate_new_token
     self.value = Token.generate_token_value
@@ -30,12 +31,12 @@ class Token < ActiveRecord::Base
 
   # Return true if token has expired
   def expired?
-    return Time.now > self.created_on + @@validity_time
+    return Time.now > self.created_on + self.class.validity_time
   end
 
   # Delete all expired tokens
   def self.destroy_expired
-    Token.delete_all ["action NOT IN (?) AND created_on < ?", ['feeds', 'api'], Time.now - @@validity_time]
+    Token.where("action NOT IN (?) AND created_on < ?", ['feeds', 'api'], Time.now - validity_time).delete_all
   end
 
   # Returns the active user who owns the key for the given action
@@ -78,7 +79,7 @@ class Token < ActiveRecord::Base
   # Removes obsolete tokens (same user and action)
   def delete_previous_tokens
     if user
-      Token.delete_all(['user_id = ? AND action = ?', user.id, action])
+      Token.where(:user_id => user.id, :action => action).delete_all
     end
   end
 end
