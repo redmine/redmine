@@ -132,12 +132,6 @@ class ActiveSupport::TestCase
     ::I18n.locale = saved_localed
   end
 
-  def change_user_password(login, new_password)
-    user = User.where(:login => login).first
-    user.password, user.password_confirmation = new_password, new_password
-    user.save!
-  end
-
   def self.ldap_configured?
     @test_ldap = Net::LDAP.new(:host => '127.0.0.1', :port => 389)
     return @test_ldap.bind

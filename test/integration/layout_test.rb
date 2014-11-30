@@ -36,9 +36,7 @@ class LayoutTest < ActionDispatch::IntegrationTest
   end
 
   test "browsing to an unauthorized page should render the base layout" do
-    change_user_password('miscuser9', 'test1234')
-
-    log_user('miscuser9','test1234')
+    log_user('jsmith','jsmith')
 
     get "/admin"
     assert_response :forbidden
