@@ -287,7 +287,7 @@ module Redmine
       end
 
       def line_for_project(project, options)
-        # Skip versions that don't have a start_date or due date
+        # Skip projects that don't have a start_date or due date
         if project.is_a?(Project) && project.start_date && project.due_date
           label = project.name
           line(project.start_date, project.due_date, nil, true, label, options, project)
@@ -320,7 +320,7 @@ module Redmine
         end
       end
 
-      def subject(label, options, object)
+      def subject(label, options, object=nil)
         send "#{options[:format]}_subject", options, label, object
       end
 
