@@ -20,10 +20,6 @@ require File.expand_path('../../../test_helper', __FILE__)
 class Redmine::ApiTest::ApiTest < Redmine::ApiTest::Base
   fixtures :users
 
-  def setup
-    Setting.rest_api_enabled = '1'
-  end
-
   def test_api_should_work_with_protect_from_forgery
     ActionController::Base.allow_forgery_protection = true
     assert_difference('User.count') do

@@ -20,10 +20,6 @@ require File.expand_path('../../../test_helper', __FILE__)
 class Redmine::ApiTest::GroupsTest < Redmine::ApiTest::Base
   fixtures :users, :groups_users
 
-  def setup
-    Setting.rest_api_enabled = '1'
-  end
-
   test "GET /groups.xml should require authentication" do
     get '/groups.xml'
     assert_response 401

@@ -20,10 +20,6 @@ require File.expand_path('../../../test_helper', __FILE__)
 class Redmine::ApiTest::CustomFieldsTest < Redmine::ApiTest::Base
   fixtures :users, :custom_fields
 
-  def setup
-    Setting.rest_api_enabled = '1'
-  end
-
   test "GET /custom_fields.xml should return custom fields" do
     get '/custom_fields.xml', {}, credentials('admin')
     assert_response :success

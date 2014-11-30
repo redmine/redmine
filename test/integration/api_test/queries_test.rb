@@ -27,10 +27,6 @@ class Redmine::ApiTest::QueriesTest < Redmine::ApiTest::Base
            :enabled_modules,
            :queries
 
-  def setup
-    Setting.rest_api_enabled = '1'
-  end
-
   test "GET /queries.xml should return queries" do
     get '/queries.xml'
 

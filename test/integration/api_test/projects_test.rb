@@ -23,7 +23,7 @@ class Redmine::ApiTest::ProjectsTest < Redmine::ApiTest::Base
            :attachments, :custom_fields, :custom_values, :time_entries, :issue_categories
 
   def setup
-    Setting.rest_api_enabled = '1'
+    super
     set_tmp_attachments_directory
   end
 

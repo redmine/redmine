@@ -20,10 +20,6 @@ require File.expand_path('../../../test_helper', __FILE__)
 class Redmine::ApiTest::TrackersTest < Redmine::ApiTest::Base
   fixtures :trackers
 
-  def setup
-    Setting.rest_api_enabled = '1'
-  end
-
   test "GET /trackers.xml should return trackers" do
     get '/trackers.xml'
 

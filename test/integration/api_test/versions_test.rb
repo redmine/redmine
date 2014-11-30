@@ -27,10 +27,6 @@ class Redmine::ApiTest::VersionsTest < Redmine::ApiTest::Base
            :enabled_modules,
            :versions
 
-  def setup
-    Setting.rest_api_enabled = '1'
-  end
-
   test "GET /projects/:project_id/versions.xml should return project versions" do
     get '/projects/1/versions.xml'
 

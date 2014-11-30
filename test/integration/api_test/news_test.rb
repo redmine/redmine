@@ -27,10 +27,6 @@ class Redmine::ApiTest::NewsTest < Redmine::ApiTest::Base
            :enabled_modules,
            :news
 
-  def setup
-    Setting.rest_api_enabled = '1'
-  end
-
   test "GET /news.xml should return news" do
     get '/news.xml'
 

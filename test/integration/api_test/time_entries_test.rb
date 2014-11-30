@@ -27,10 +27,6 @@ class Redmine::ApiTest::TimeEntriesTest < Redmine::ApiTest::Base
            :enabled_modules,
            :time_entries
 
-  def setup
-    Setting.rest_api_enabled = '1'
-  end
-
   test "GET /time_entries.xml should return time entries" do
     get '/time_entries.xml', {}, credentials('jsmith')
     assert_response :success

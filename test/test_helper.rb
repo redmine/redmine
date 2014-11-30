@@ -253,6 +253,13 @@ module Redmine
 
     # Base class for API tests
     class Base < ActionDispatch::IntegrationTest
+      def setup
+        Setting.rest_api_enabled = '1'
+      end
+
+      def teardown
+        Setting.rest_api_enabled = '0'
+      end
     end
 
     class Routing < Redmine::RoutingTest

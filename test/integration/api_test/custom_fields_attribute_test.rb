@@ -20,10 +20,6 @@ require File.expand_path('../../../test_helper', __FILE__)
 class Redmine::ApiTest::CustomFieldsAttributeTest < Redmine::ApiTest::Base
   fixtures :users
 
-  def setup
-    Setting.rest_api_enabled = '1'
-  end
-
   def test_integer_custom_fields_should_accept_strings
     field = GroupCustomField.generate!(:field_format => 'int')
 

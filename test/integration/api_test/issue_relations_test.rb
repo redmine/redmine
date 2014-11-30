@@ -27,10 +27,6 @@ class Redmine::ApiTest::IssueRelationsTest < Redmine::ApiTest::Base
            :enabled_modules,
            :issue_relations
 
-  def setup
-    Setting.rest_api_enabled = '1'
-  end
-
   test "GET /issues/:issue_id/relations.xml should return issue relations" do
     get '/issues/9/relations.xml', {}, credentials('jsmith')
 

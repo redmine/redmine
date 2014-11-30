@@ -20,10 +20,6 @@ require File.expand_path('../../../test_helper', __FILE__)
 class Redmine::ApiTest::UsersTest < Redmine::ApiTest::Base
   fixtures :users, :members, :member_roles, :roles, :projects
 
-  def setup
-    Setting.rest_api_enabled = '1'
-  end
-
   test "GET /users/:id.xml should return the user" do
     get '/users/2.xml'
 

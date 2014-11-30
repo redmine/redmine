@@ -20,10 +20,6 @@ require File.expand_path('../../../test_helper', __FILE__)
 class Redmine::ApiTest::EnumerationsTest < Redmine::ApiTest::Base
   fixtures :enumerations
 
-  def setup
-    Setting.rest_api_enabled = '1'
-  end
-
   test "GET /enumerations/issue_priorities.xml should return priorities" do
     get '/enumerations/issue_priorities.xml'
     assert_response :success

@@ -24,10 +24,6 @@ class Redmine::ApiTest::IssueCategoriesTest < Redmine::ApiTest::Base
            :members,
            :enabled_modules
 
-  def setup
-    Setting.rest_api_enabled = '1'
-  end
-
   test "GET /projects/:project_id/issue_categories.xml should return the issue categories" do
     get '/projects/1/issue_categories.xml', {}, credentials('jsmith')
     assert_response :success

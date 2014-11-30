@@ -20,10 +20,6 @@ require File.expand_path('../../../test_helper', __FILE__)
 class Redmine::ApiTest::RolesTest < Redmine::ApiTest::Base
   fixtures :roles
 
-  def setup
-    Setting.rest_api_enabled = '1'
-  end
-
   test "GET /roles.xml should return the roles" do
     get '/roles.xml'
 

@@ -28,11 +28,12 @@ class Redmine::ApiTest::AttachmentsTest < Redmine::ApiTest::Base
            :attachments
 
   def setup
-    Setting.rest_api_enabled = '1'
+    super
     set_fixtures_attachments_directory
   end
 
   def teardown
+    super
     set_tmp_attachments_directory
   end
 

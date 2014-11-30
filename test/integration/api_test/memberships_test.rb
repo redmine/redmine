@@ -20,10 +20,6 @@ require File.expand_path('../../../test_helper', __FILE__)
 class Redmine::ApiTest::MembershipsTest < Redmine::ApiTest::Base
   fixtures :projects, :users, :roles, :members, :member_roles
 
-  def setup
-    Setting.rest_api_enabled = '1'
-  end
-
   test "GET /projects/:project_id/memberships.xml should return memberships" do
     get '/projects/1/memberships.xml', {}, credentials('jsmith')
 

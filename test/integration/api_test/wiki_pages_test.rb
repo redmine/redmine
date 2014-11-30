@@ -22,10 +22,6 @@ class Redmine::ApiTest::WikiPagesTest < Redmine::ApiTest::Base
            :enabled_modules, :wikis, :wiki_pages, :wiki_contents,
            :wiki_content_versions, :attachments
 
-  def setup
-    Setting.rest_api_enabled = '1'
-  end
-
   test "GET /projects/:project_id/wiki/index.xml should return wiki pages" do
     get '/projects/ecookbook/wiki/index.xml'
     assert_response 200

@@ -20,10 +20,6 @@ require File.expand_path('../../../test_helper', __FILE__)
 class Redmine::ApiTest::IssueStatusesTest < Redmine::ApiTest::Base
   fixtures :issue_statuses
 
-  def setup
-    Setting.rest_api_enabled = '1'
-  end
-
   test "GET /issue_statuses.xml should return issue statuses" do
     get '/issue_statuses.xml'
 
