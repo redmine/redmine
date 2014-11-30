@@ -31,9 +31,6 @@ class Redmine::ApiTest::NewsTest < Redmine::ApiTest::Base
     Setting.rest_api_enabled = '1'
   end
 
-  should_allow_api_authentication(:get, "/projects/onlinestore/news.xml")
-  should_allow_api_authentication(:get, "/projects/onlinestore/news.json")
-
   test "GET /news.xml should return news" do
     get '/news.xml'
 

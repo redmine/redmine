@@ -27,23 +27,6 @@ class Redmine::ApiTest::ProjectsTest < Redmine::ApiTest::Base
     set_tmp_attachments_directory
   end
 
-  # TODO: A private project is needed because should_allow_api_authentication
-  # actually tests that authentication is *required*, not just allowed
-  should_allow_api_authentication(:get, "/projects/2.xml")
-  should_allow_api_authentication(:get, "/projects/2.json")
-  should_allow_api_authentication(:post,
-                                  '/projects.xml',
-                                  {:project => {:name => 'API test', :identifier => 'api-test'}},
-                                  {:success_code => :created})
-  should_allow_api_authentication(:put,
-                                  '/projects/2.xml',
-                                  {:project => {:name => 'API update'}},
-                                  {:success_code => :ok})
-  should_allow_api_authentication(:delete,
-                                  '/projects/2.xml',
-                                  {},
-                                  {:success_code => :ok})
-
   test "GET /projects.xml should return projects" do
     get '/projects.xml'
     assert_response :success

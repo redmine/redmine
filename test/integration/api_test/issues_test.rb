@@ -48,44 +48,6 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
     Setting.rest_api_enabled = '1'
   end
 
-  # Use a private project to make sure auth is really working and not just
-  # only showing public issues.
-  should_allow_api_authentication(:get, "/projects/private-child/issues.xml")
-  should_allow_api_authentication(:get, "/projects/private-child/issues.json")
-
-  should_allow_api_authentication(:get, "/issues/6.xml")
-  should_allow_api_authentication(:get, "/issues/6.json")
-
-  should_allow_api_authentication(
-    :post,
-    '/issues.xml',
-    {:issue => {:project_id => 1, :subject => 'API test', :tracker_id => 2, :status_id => 3}},
-    {:success_code => :created}
-  )
-  should_allow_api_authentication(:post,
-                                  '/issues.json',
-                                  {:issue => {:project_id => 1, :subject => 'API test',
-                                   :tracker_id => 2, :status_id => 3}},
-                                  {:success_code => :created})
-
-  should_allow_api_authentication(:put,
-                                  '/issues/6.xml',
-                                  {:issue => {:subject => 'API update', :notes => 'A new note'}},
-                                  {:success_code => :ok})
-  should_allow_api_authentication(:put,
-                                  '/issues/6.json',
-                                  {:issue => {:subject => 'API update', :notes => 'A new note'}},
-                                  {:success_code => :ok})
-
-  should_allow_api_authentication(:delete,
-                                  '/issues/6.xml',
-                                  {},
-                                  {:success_code => :ok})
-  should_allow_api_authentication(:delete,
-                                  '/issues/6.json',
-                                  {},
-                                  {:success_code => :ok})
-
   test "GET /issues.xml should contain metadata" do
     get '/issues.xml'
     assert_select 'issues[type=array][total_count=?][limit="25"][offset="0"]',
