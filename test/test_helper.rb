@@ -15,7 +15,6 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-#require 'shoulda'
 ENV["RAILS_ENV"] = "test"
 require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
 require 'rails/test_help'
@@ -34,9 +33,6 @@ end
 
 class ActiveSupport::TestCase
   include ActionDispatch::TestProcess
-  include Shoulda::Context::Assertions
-  include Shoulda::Context::InstanceMethods
-  extend Shoulda::Context::ClassMethods
 
   self.use_transactional_fixtures = true
   self.use_instantiated_fixtures  = false

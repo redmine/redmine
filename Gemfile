@@ -86,7 +86,6 @@ end
 
 group :test do
   gem "minitest"
-  gem "shoulda-context"
   gem "mocha", "~> 1.0.0", :require => 'mocha/api'
   # For running UI tests
   gem "capybara", "~> 2.1.0"

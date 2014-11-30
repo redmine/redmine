@@ -481,7 +481,8 @@ class ProjectTest < ActiveSupport::TestCase
     project = Project.generate!
     parent_version_1 = Version.generate!(:project => project)
     parent_version_2 = Version.generate!(:project => project)
-    assert_same_elements [parent_version_1, parent_version_2], project.rolled_up_versions
+    assert_equal [parent_version_1, parent_version_2].sort,
+      project.rolled_up_versions.sort
   end
 
   test "#rolled_up_versions should include versions for a subproject" do
@@ -491,11 +492,8 @@ class ProjectTest < ActiveSupport::TestCase
     subproject = Project.generate_with_parent!(project)
     subproject_version = Version.generate!(:project => subproject)
 
-    assert_same_elements [
-                          parent_version_1,
-                          parent_version_2,
-                          subproject_version
-                         ], project.rolled_up_versions
+    assert_equal [parent_version_1, parent_version_2, subproject_version].sort,
+      project.rolled_up_versions.sort
   end
 
   test "#rolled_up_versions should include versions for a sub-subproject" do
@@ -507,11 +505,8 @@ class ProjectTest < ActiveSupport::TestCase
     sub_subproject_version = Version.generate!(:project => sub_subproject)
     project.reload
 
-    assert_same_elements [
-                          parent_version_1,
-                          parent_version_2,
-                          sub_subproject_version
-                         ], project.rolled_up_versions
+    assert_equal [parent_version_1, parent_version_2, sub_subproject_version].sort,
+      project.rolled_up_versions.sort
   end
 
   test "#rolled_up_versions should only check active projects" do
@@ -524,7 +519,8 @@ class ProjectTest < ActiveSupport::TestCase
     project.reload
 
     assert !subproject.active?
-    assert_same_elements [parent_version_1, parent_version_2], project.rolled_up_versions
+    assert_equal [parent_version_1, parent_version_2].sort,
+      project.rolled_up_versions.sort
   end
 
   def test_shared_versions_none_sharing
