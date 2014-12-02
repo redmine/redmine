@@ -423,6 +423,7 @@
   field_generate_password: 產生密碼
   field_must_change_passwd: 必須在下次登入時變更密碼
   field_default_status: 預設狀態
+  field_users_visibility: 用戶可見度
 
   setting_app_title: 標題
   setting_app_subtitle: 副標題
@@ -455,7 +456,7 @@
   setting_emails_footer: 電子郵件附帶說明
   setting_protocol: 協定
   setting_per_page_options: 每頁顯示個數選項
-  setting_user_format: 使用者顯示格式
+  setting_user_format: 用戶顯示格式
   setting_activity_days_default: 專案活動顯示天數
   setting_display_subprojects_issues: 預設於父專案中顯示子專案的問題
   setting_enabled_scm: 啟用的 SCM
@@ -496,6 +497,7 @@
   setting_mail_handler_excluded_filenames: 移除符合下列名稱的附件
   setting_force_default_language_for_anonymous: 強迫匿名用戶使用預設語言
   setting_force_default_language_for_loggedin: 強迫已登入用戶使用預設語言
+  setting_link_copied_issue: 複製時連結問題
 
   permission_add_project: 建立專案
   permission_add_subprojects: 建立子專案
@@ -1005,6 +1007,11 @@
   label_latest_compatible_version: 最新的相容版本
   label_unknown_plugin: 無法辨識的外掛程式
   label_add_projects: 加入專案
+  label_users_visibility_all: 所有活動中的用戶
+  label_users_visibility_members_of_visible_projects: 可見專案中的成員
+  label_edit_attachments: 編輯附加檔案
+  label_link_copied_issue: 連結到被複製的問題
+  label_ask: 詢問
 
   button_login: 登入
   button_submit: 送出
@@ -1137,6 +1144,7 @@
   text_zoom_out: 縮小
   text_warn_on_leaving_unsaved: "若您離開這個頁面，此頁面所包含的未儲存資料將會遺失。"
   text_scm_path_encoding_note: "預設: UTF-8"
+  text_subversion_repository_note: "範例: file:///, http://, https://, svn://, svn+[tunnelscheme]://"
   text_git_repository_note: 儲存機制是本機的空(bare)目錄 (即： /gitrepo, c:\gitrepo)
   text_mercurial_repository_note: 本機儲存機制 (即： /hgrepo, c:\hgrepo)
   text_scm_command: 命令
@@ -1198,11 +1206,3 @@
   description_date_from: 輸入起始日期
   description_date_to: 輸入結束日期
   text_repository_identifier_info: '僅允許使用小寫英文字母 (a-z), 阿拉伯數字, 虛線與底線。<br />一旦儲存之後, 代碼便無法再次被更改。'
-  text_subversion_repository_note: 'Examples: file:///, http://, https://, svn://, svn+[tunnelscheme]://'
-  field_users_visibility: Users visibility
-  label_users_visibility_all: All active users
-  label_users_visibility_members_of_visible_projects: Members of visible projects
-  label_edit_attachments: Edit attached files
-  setting_link_copied_issue: Link issues on copy
-  label_link_copied_issue: Link copied issue
-  label_ask: Ask
