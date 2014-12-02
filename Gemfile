@@ -87,6 +87,7 @@ end
 group :test do
   gem "minitest"
   gem "mocha", "~> 1.0.0", :require => 'mocha/api'
+  gem "simplecov", "~> 0.9.1", :require => false
   # For running UI tests
   gem "capybara", "~> 2.1.0"
   gem "selenium-webdriver"

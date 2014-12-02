@@ -1,13 +1,9 @@
-### From http://svn.geekdaily.org/public/rails/plugins/generally_useful/tasks/coverage_via_rcov.rake
-
 namespace :test do
   desc 'Measures test coverage'
   task :coverage do
     rm_f "coverage"
-    rm_f "coverage.data"
-    rcov = "rcov --rails --aggregate coverage.data --text-summary -Ilib --html --exclude gems/"
-    files = %w(unit functional integration).map {|dir| Dir.glob("test/#{dir}/**/*_test.rb")}.flatten.join(" ")
-    system("#{rcov} #{files}")
+    ENV["COVERAGE"] = "1"
+    Rake::Task["test"].invoke
   end
 
   desc 'Run unit and functional scm tests'

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>Redmine code coverage</title>
+<style>
+html {overflow-y:scroll;}
+body {font-family:"Lucida Grande","Lucida Sans",Verdana,Helvetica,Arial,sans-serif; font-size:80%;}
+h1 {color:#777; margin-bottom:0.2em;}
+h2 {color:#aaa; margin-top:1em; font-size:18px;}
+#generation {color:#777; font-size:90%;}
+a, a:link, a:visited {color:#169; text-decoration:none;}
+a:hover, a:active {color:#c61a1a; text-decoration:underline;}
+pre, code {
+  color: #000000;
+  font-family: "Bitstream Vera Sans Mono","Monaco","Courier New",monospace;
+  font-size: 95%;
+  line-height: 1.3em;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding: 0;
+}
+div.source {border:1px solid #e2e2e2;}
+.covered {background:#bed2be;}
+.missed {background:#fba;}
+.never {background:#eee;}
+</style>
+</head>
+<body>
+<h1>Redmine code coverage</h1>
+<p id='generation'>
+  Generated on <%= now %> (<%= revision_link %>).
+  More information about this environment at <a href='http://www.redmine.org/projects/redmine/wiki/Continuous_integration'>redmine.org</a>.
+</p>
+<h2><%= shortened_filename source_file %> (<%= "%.1f" % source_file.covered_percent %> %)</h2>
+
+<div class="source">
+<% source_file.lines.each_with_index do |line, i| %>
+  <pre class="<%= line.status %>" data-hits="<%= line.coverage ? line.coverage : '' %>" data-linenumber="<%= line.number %>"
+  ><code class="ruby"><%= i.to_s.rjust 4 %> <%= CGI.escapeHTML(line.src.chomp) %></code></pre>
+<% end %>
+</div>

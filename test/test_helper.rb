@@ -15,6 +15,13 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
+if ENV["COVERAGE"]
+  require 'simplecov'
+  require File.expand_path(File.dirname(__FILE__) + "/coverage/html_formatter")
+  SimpleCov.formatter = Redmine::Coverage::HtmlFormatter
+  SimpleCov.start 'rails'
+end
+
 ENV["RAILS_ENV"] = "test"
 require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
 require 'rails/test_help'
