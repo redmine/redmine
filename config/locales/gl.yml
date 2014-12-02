@@ -1127,13 +1127,13 @@ gl:
   label_radio_buttons: "caixas de opción única"
   label_group_anonymous: "Usuarios anónimos"
   label_group_non_member: "Usuarios non membros"
-  label_add_projects: Add projects
-  field_default_status: Default status
-  text_subversion_repository_note: 'Examples: file:///, http://, https://, svn://, svn+[tunnelscheme]://'
-  field_users_visibility: Users visibility
-  label_users_visibility_all: All active users
-  label_users_visibility_members_of_visible_projects: Members of visible projects
-  label_edit_attachments: Edit attached files
-  setting_link_copied_issue: Link issues on copy
-  label_link_copied_issue: Link copied issue
-  label_ask: Ask
+  label_add_projects: "Engadir proxectos"
+  field_default_status: "Estado predeterminado"
+  text_subversion_repository_note: "Exemplos: file:///, http://, https://, svn://, svn+[esquema de túnel]://"
+  field_users_visibility: "Visibilidade dos usuarios"
+  label_users_visibility_all: "Todos os usuarios activos"
+  label_users_visibility_members_of_visible_projects: "Membros de proxectos visíbeis"
+  label_edit_attachments: "Editar os ficheiros anexos"
+  setting_link_copied_issue: "Ligar aos tíckets ao copialos"
+  label_link_copied_issue: "Ligar ao tícket copiado"
+  label_ask: "Preguntar"
