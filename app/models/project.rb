@@ -334,12 +334,13 @@ class Project < ActiveRecord::Base
   def archive
     # Check that there is no issue of a non descendant project that is assigned
     # to one of the project or descendant versions
-    v_ids = self_and_descendants.collect {|p| p.version_ids}.flatten
-    if v_ids.any? &&
+    version_ids = self_and_descendants.joins(:versions).pluck("#{Version.table_name}.id")
+
+    if version_ids.any? &&
       Issue.
         includes(:project).
         where("#{Project.table_name}.lft < ? OR #{Project.table_name}.rgt > ?", lft, rgt).
-        where("#{Issue.table_name}.fixed_version_id IN (?)", v_ids).
+        where(:fixed_version_id => version_ids).
         exists?
       return false
     end
