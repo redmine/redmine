@@ -368,7 +368,7 @@ class Project < ActiveRecord::Base
   # by the current user
   def allowed_parents
     return @allowed_parents if @allowed_parents
-    @allowed_parents = Project.where(Project.allowed_to_condition(User.current, :add_subprojects)).to_a
+    @allowed_parents = Project.allowed_to(User.current, :add_subprojects).to_a
     @allowed_parents = @allowed_parents - self_and_descendants
     if User.current.allowed_to?(:add_project, nil, :global => true) || (!new_record? && parent.nil?)
       @allowed_parents << nil
