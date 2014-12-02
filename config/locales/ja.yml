@@ -1138,9 +1138,9 @@ ja:
   label_add_projects: プロジェクトの追加
   field_default_status: デフォルトのステータス
   text_subversion_repository_note: '例: file:///, http://, https://, svn://, svn+[tunnelscheme]://'
-  field_users_visibility: Users visibility
-  label_users_visibility_all: All active users
-  label_users_visibility_members_of_visible_projects: Members of visible projects
+  field_users_visibility: 表示できるユーザー
+  label_users_visibility_all: すべてのアクティブなユーザー
+  label_users_visibility_members_of_visible_projects: 見ることができるプロジェクトのメンバー
   label_edit_attachments: Edit attached files
   setting_link_copied_issue: Link issues on copy
   label_link_copied_issue: Link copied issue
