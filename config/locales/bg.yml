@@ -415,6 +415,7 @@ bg:
   setting_mail_handler_excluded_filenames: Имена на прикачени файлове, които да се пропускат при приемане на e-mail-и (например *.vcf, companylogo.gif).
   setting_force_default_language_for_anonymous: Задължително език по подразбиране за анонимните потребители
   setting_force_default_language_for_loggedin: Задължително език по подразбиране за потребителите, влезли в Redmine
+  setting_link_copied_issue: Свързване на задачите при копиране
 
   permission_add_project: Създаване на проект
   permission_add_subprojects: Създаване на подпроекти
@@ -926,6 +927,9 @@ bg:
   label_add_projects: Добавяне на проекти
   label_users_visibility_all: Всички активни потребители
   label_users_visibility_members_of_visible_projects: Членовете на видимите проекти
+  label_edit_attachments: Редактиране на прикачените файлове
+  label_link_copied_issue: Създаване на връзка между задачите
+  label_ask: Питане преди копиране
 
   button_login: Вход
   button_submit: Изпращане
@@ -1119,7 +1123,3 @@ bg:
   description_date_from: Въведете начална дата
   description_date_to: Въведете крайна дата
   text_repository_identifier_info: 'Позволени са малки букви (a-z), цифри, тирета и _.<br />Промяна след създаването му не е възможна.'
-  label_edit_attachments: Edit attached files
-  setting_link_copied_issue: Link issues on copy
-  label_link_copied_issue: Link copied issue
-  label_ask: Ask
