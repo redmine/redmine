@@ -1141,7 +1141,7 @@ ja:
   field_users_visibility: 表示できるユーザー
   label_users_visibility_all: すべてのアクティブなユーザー
   label_users_visibility_members_of_visible_projects: 見ることができるプロジェクトのメンバー
-  label_edit_attachments: Edit attached files
-  setting_link_copied_issue: Link issues on copy
-  label_link_copied_issue: Link copied issue
-  label_ask: Ask
+  label_edit_attachments: 添付ファイルの編集
+  setting_link_copied_issue: チケットをコピーしたときに関連を設定
+  label_link_copied_issue: コピーしたチケットに関連を設定
+  label_ask: 都度選択
