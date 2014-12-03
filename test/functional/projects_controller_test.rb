@@ -75,6 +75,14 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_select 'a[href=?]', '/time_entries', 0
   end
 
+  test "#index by non-admin user with permission should show add project link" do
+    Role.find(1).add_permission! :add_project
+    @request.session[:user_id] = 2
+    get :index
+    assert_template 'index'
+    assert_select 'a[href=?]', '/projects/new'
+  end
+
   test "#new by admin user should accept get" do
     @request.session[:user_id] = 1
 

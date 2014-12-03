@@ -1741,6 +1741,12 @@ class IssuesControllerTest < ActionController::TestCase
     assert_select_error /No tracker/
   end
 
+  def test_new_with_invalid_project_id
+    @request.session[:user_id] = 1
+    get :new, :project_id => 'invalid'
+    assert_response 404
+  end
+
   def test_update_form_for_new_issue
     @request.session[:user_id] = 2
     xhr :post, :update_form, :project_id => 1,
@@ -4030,6 +4036,19 @@ class IssuesControllerTest < ActionController::TestCase
     assert !(Issue.find_by_id(1) || Issue.find_by_id(3))
     assert_equal 2, TimeEntry.find(1).issue_id
     assert_equal 2, TimeEntry.find(2).issue_id
+  end
+
+  def test_destroy_issues_and_reassign_time_entries_to_an_invalid_issue_should_fail
+    @request.session[:user_id] = 2
+
+    assert_no_difference 'Issue.count' do
+      assert_no_difference 'TimeEntry.count' do
+        # try to reassign time to an issue of another project
+        delete :destroy, :ids => [1, 3], :todo => 'reassign', :reassign_to_id => 4
+      end
+    end
+    assert_response :success
+    assert_template 'destroy'
   end
 
   def test_destroy_issues_from_different_projects

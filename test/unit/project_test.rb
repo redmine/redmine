@@ -647,6 +647,12 @@ class ProjectTest < ActiveSupport::TestCase
     end
   end
 
+  def test_enabled_modules_names_with_nil_should_clear_modules
+    p = Project.find(1)
+    p.enabled_module_names = nil
+    assert_equal [], p.enabled_modules
+  end
+
   test "enabled_modules should define module by names and preserve ids" do
     @project = Project.find(1)
     # Remove one module
@@ -946,5 +952,24 @@ class ProjectTest < ActiveSupport::TestCase
     project = Project.generate!
     assert_equal [Role.anonymous], project.override_roles(Role.anonymous)
     assert_equal [Role.non_member], project.override_roles(Role.non_member)
+  end
+
+  def test_css_classes
+    p = Project.new
+    assert_kind_of String, p.css_classes
+    assert_not_include 'archived', p.css_classes.split
+    assert_not_include 'closed', p.css_classes.split
+  end
+
+  def test_css_classes_for_archived_project
+    p = Project.new
+    p.status = Project::STATUS_ARCHIVED
+    assert_include 'archived', p.css_classes.split
+  end
+
+  def test_css_classes_for_closed_project
+    p = Project.new
+    p.status = Project::STATUS_CLOSED
+    assert_include 'closed', p.css_classes.split
   end
 end

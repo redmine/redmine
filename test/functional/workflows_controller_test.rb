@@ -61,6 +61,13 @@ class WorkflowsControllerTest < ActionController::TestCase
     assert_select 'input[type=checkbox][name=?]', 'transitions[1][1][always]', 0
   end
 
+  def test_get_edit_with_all_roles_and_all_trackers
+    get :edit, :role_id => 'all', :tracker_id => 'all'
+    assert_response :success
+    assert_equal Role.sorted.to_a, assigns(:roles)
+    assert_equal Tracker.sorted.to_a, assigns(:trackers)
+  end
+
   def test_get_edit_with_role_and_tracker_and_all_statuses
     WorkflowTransition.delete_all
 

@@ -20,6 +20,26 @@ require File.expand_path('../../../test_helper', __FILE__)
 class Redmine::ApiTest::UsersTest < Redmine::ApiTest::Base
   fixtures :users, :members, :member_roles, :roles, :projects
 
+  test "GET /users.xml should return users" do
+    get '/users.xml', {}, credentials('admin')
+
+    assert_response :success
+    assert_equal 'application/xml', response.content_type
+    assert_select 'users' do
+      assert_select 'user', assigns(:users).size
+    end
+  end
+
+  test "GET /users.json should return users" do
+    get '/users.json', {}, credentials('admin')
+
+    assert_response :success
+    assert_equal 'application/json', response.content_type
+    json = ActiveSupport::JSON.decode(response.body)
+    assert json.key?('users')
+    assert_equal assigns(:users).size, json['users'].size
+  end
+
   test "GET /users/:id.xml should return the user" do
     get '/users/2.xml'
 

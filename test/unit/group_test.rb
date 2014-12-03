@@ -132,4 +132,30 @@ class GroupTest < ActiveSupport::TestCase
 
     assert_equal nil, Issue.find(1).assigned_to_id
   end
+
+  def test_builtin_groups_should_be_created_if_missing
+    Group.delete_all
+
+    assert_difference 'Group.count', 2 do
+      group = Group.anonymous
+      assert_equal GroupAnonymous, group.class
+
+      group = Group.non_member
+      assert_equal GroupNonMember, group.class
+    end
+  end
+
+  def test_builtin_in_group_should_be_uniq
+    group = GroupAnonymous.new
+    group.name = 'Foo'
+    assert !group.save
+  end
+
+  def test_builtin_in_group_should_not_accept_users
+    group = Group.anonymous
+    assert_raise RuntimeError do
+      group.users << User.find(1)
+    end
+    assert_equal 0, group.reload.users.count
+  end
 end

@@ -239,6 +239,17 @@ class UsersControllerTest < ActionController::TestCase
     assert user.check_password?(password)
   end
 
+  def test_create_and_continue
+    post :create, :user => {
+        :login => 'randompass',
+        :firstname => 'Random',
+        :lastname => 'Pass',
+        :mail => 'randompass@example.net',
+        :generate_password => '1'
+      }, :continue => '1'
+    assert_redirected_to '/users/new?user%5Bgenerate_password%5D=1'
+  end
+
   def test_create_with_failure
     assert_no_difference 'User.count' do
       post :create, :user => {}

@@ -320,12 +320,14 @@ class WikiControllerTest < ActionController::TestCase
             :id => 'Another_page',
             :content => {
               :comments => 'a' * 300,  # failure here, comment is too long
-              :text => 'edited',
-              :version => 1
+              :text => 'edited'
+            },
+            :wiki_page => {
+              :parent_id => ""
             }
-          end
         end
       end
+    end
     assert_response :success
     assert_template 'edit'
 
