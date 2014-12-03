@@ -216,13 +216,18 @@ class WikiPage < ActiveRecord::Base
   end
 
   # Saves the page and its content if text was changed
+  # Return true if the page was saved
   def save_with_content(content)
     ret = nil
     transaction do
       ret = save
       if content.text_changed?
-        self.content = content
-        ret = ret && content.changed?
+        begin
+          self.content = content
+          ret = ret && content.changed?
+        rescue ActiveRecord::RecordNotSaved
+          ret = false
+        end
       end
       raise ActiveRecord::Rollback unless ret
     end

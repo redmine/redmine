@@ -185,11 +185,6 @@ class WikiController < ApplicationController
       }
       format.api { render_api_head :conflict }
     end
-  rescue ActiveRecord::RecordNotSaved
-    respond_to do |format|
-      format.html { render :action => 'edit' }
-      format.api { render_validation_errors(@content) }
-    end
   end
 
   # rename a page
