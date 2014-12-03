@@ -145,10 +145,6 @@ module RepositoriesHelper
     path.to_s.starts_with?('/') ? path : "/#{path}"
   end
 
-  def without_leading_slash(path)
-    path.gsub(%r{^/+}, '')
-  end
-
   def subversion_field_tags(form, repository)
       content_tag('p', form.text_field(:url, :size => 60, :required => true,
                        :disabled => !repository.safe_attribute?('url')) +
