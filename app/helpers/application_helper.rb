@@ -1211,11 +1211,6 @@ module ApplicationHelper
     super *sources, options
   end
 
-  # TODO: remove this in 2.5.0
-  def has_content?(name)
-    content_for?(name)
-  end
-
   def sidebar_content?
     content_for?(:sidebar) || view_layouts_base_sidebar_hook_response.present?
   end
