@@ -1006,11 +1006,6 @@ module ApplicationHelper
     (blank ? [["(auto)", ""]] : []) + languages_options
   end
 
-  def label_tag_for(name, option_tags = nil, options = {})
-    label_text = l(("field_"+field.to_s.gsub(/\_id$/, "")).to_sym) + (options.delete(:required) ? @template.content_tag("span", " *", :class => "required"): "")
-    content_tag("label", label_text)
-  end
-
   def labelled_form_for(*args, &proc)
     args << {} unless args.last.is_a?(Hash)
     options = args.last
