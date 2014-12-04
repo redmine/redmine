@@ -391,15 +391,6 @@ module ApplicationHelper
     content_tag 'option', value, options.merge(:value => value, :selected => (value == selected))
   end
 
-  # Truncates and returns the string as a single line
-  def truncate_single_line(string, *args)
-    ActiveSupport::Deprecation.warn(
-      "ApplicationHelper#truncate_single_line is deprecated and will be removed in Rails 4 poring")
-    # Rails 4 ActionView::Helpers::TextHelper#truncate escapes.
-    # So, result is broken.
-    truncate(string.to_s, *args).gsub(%r{[\r\n]+}m, ' ')
-  end
-
   def truncate_single_line_raw(string, length)
     string.truncate(length).gsub(%r{[\r\n]+}m, ' ')
   end
