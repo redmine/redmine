@@ -221,14 +221,6 @@ module ApplicationHelper
     link_to(name, "#", :onclick => onclick)
   end
 
-  def image_to_function(name, function, html_options = {})
-    html_options.symbolize_keys!
-    tag(:input, html_options.merge({
-        :type => "image", :src => image_path(name),
-        :onclick => (html_options[:onclick] ? "#{html_options[:onclick]}; " : "") + "#{function};"
-        }))
-  end
-
   def format_activity_title(text)
     h(truncate_single_line_raw(text, 100))
   end
