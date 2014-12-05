@@ -254,7 +254,7 @@ class Issue < ActiveRecord::Base
   end
 
   # Sets the status.
-  def self.status=(status)
+  def status=(status)
     if status != self.status
       @workflow_rule_by_attribute = nil
     end
