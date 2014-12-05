@@ -243,7 +243,7 @@ private
   def self.find_or_default(name)
     name = name.to_s
     raise "There's no setting named #{name}" unless available_settings.has_key?(name)
-    setting = where(:name => name).first
+    setting = where(:name => name).order(:id => :desc).first
     unless setting
       setting = new
       setting.name = name
