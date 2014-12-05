@@ -52,21 +52,6 @@ class TimeEntry < ActiveRecord::Base
     joins(:issue).
     where("#{Issue.table_name}.root_id = #{issue.root_id} AND #{Issue.table_name}.lft >= #{issue.lft} AND #{Issue.table_name}.rgt <= #{issue.rgt}")
   }
-  scope :on_project, lambda {|project, include_subprojects|
-    joins(:project).
-    where(project.project_condition(include_subprojects))
-  }
-  scope :spent_between, lambda {|from, to|
-    if from && to
-     where("#{TimeEntry.table_name}.spent_on BETWEEN ? AND ?", from, to)
-    elsif from
-     where("#{TimeEntry.table_name}.spent_on >= ?", from)
-    elsif to
-     where("#{TimeEntry.table_name}.spent_on <= ?", to)
-    else
-     where(nil)
-    end
-  }
 
   safe_attributes 'hours', 'comments', 'project_id', 'issue_id', 'activity_id', 'spent_on', 'custom_field_values', 'custom_fields'
 
