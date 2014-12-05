@@ -30,7 +30,9 @@ class ActivitiesController < ApplicationController
     @date_to ||= Date.today + 1
     @date_from = @date_to - @days
     @with_subprojects = params[:with_subprojects].nil? ? Setting.display_subprojects_issues? : (params[:with_subprojects] == '1')
-    @author = (params[:user_id].blank? ? nil : User.active.find(params[:user_id]))
+    if params[:user_id].present?
+      @author = User.active.find(params[:user_id])
+    end
 
     @activity = Redmine::Activity::Fetcher.new(User.current, :project => @project,
                                                              :with_subprojects => @with_subprojects,
