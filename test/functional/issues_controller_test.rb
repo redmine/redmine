@@ -2632,6 +2632,18 @@ class IssuesControllerTest < ActionController::TestCase
     end
   end
 
+  def test_create_as_copy_should_never_add_relation_with_copied_issue_by_setting
+    with_settings :link_copied_issue => 'no' do
+      @request.session[:user_id] = 2
+      assert_difference 'Issue.count' do
+        assert_no_difference 'IssueRelation.count' do
+          post :create, :project_id => 1, :copy_from => 1, :link_copy => '1',
+            :issue => {:subject => 'Copy'}
+        end
+      end
+    end
+  end
+
   def test_create_as_copy_should_copy_subtasks
     @request.session[:user_id] = 2
     issue = Issue.generate_with_descendants!
