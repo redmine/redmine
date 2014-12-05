@@ -687,19 +687,16 @@ class Issue < ActiveRecord::Base
 
   def init_journal(user, notes = "")
     @current_journal ||= Journal.new(:journalized => self, :user => user, :notes => notes)
-    if new_record?
-      @current_journal.notify = false
-    else
-      @attributes_before_change = attributes.dup
-      @custom_values_before_change = {}
-      self.custom_field_values.each {|c| @custom_values_before_change.store c.custom_field_id, c.value }
-    end
-    @current_journal
   end
 
   # Returns the current journal or nil if it's not initialized
   def current_journal
     @current_journal
+  end
+
+  # Returns the names of attributes that are journalized when updating the issue
+  def journalized_attribute_names
+    Issue.column_names - %w(id root_id lft rgt lock_version created_on updated_on closed_on)
   end
 
   # Returns the id of the last journal or nil
@@ -1522,41 +1519,33 @@ class Issue < ActiveRecord::Base
   end
 
   # Callback on file attachment
-  def attachment_added(obj)
-    if @current_journal && !obj.new_record?
-      @current_journal.details << JournalDetail.new(:property => 'attachment', :prop_key => obj.id, :value => obj.filename)
+  def attachment_added(attachment)
+    if current_journal && !attachment.new_record?
+      current_journal.journalize_attachment(attachment, :added)
     end
   end
 
   # Callback on attachment deletion
-  def attachment_removed(obj)
-    if @current_journal && !obj.new_record?
-      @current_journal.details << JournalDetail.new(:property => 'attachment', :prop_key => obj.id, :old_value => obj.filename)
-      @current_journal.save
+  def attachment_removed(attachment)
+    if current_journal && !attachment.new_record?
+      current_journal.journalize_attachment(attachment, :removed)
+      current_journal.save
     end
   end
 
   # Called after a relation is added
   def relation_added(relation)
-    if @current_journal
-      @current_journal.details << JournalDetail.new(
-        :property  => 'relation',
-        :prop_key  => relation.relation_type_for(self),
-        :value => relation.other_issue(self).try(:id)
-      )
-      @current_journal.save
+    if current_journal
+      current_journal.journalize_relation(relation, :added)
+      current_journal.save
     end
   end
 
   # Called after a relation is removed
   def relation_removed(relation)
-    if @current_journal
-      @current_journal.details << JournalDetail.new(
-        :property  => 'relation',
-        :prop_key  => relation.relation_type_for(self),
-        :old_value => relation.other_issue(self).try(:id)
-      )
-      @current_journal.save
+    if current_journal
+      current_journal.journalize_relation(relation, :removed)
+      current_journal.save
     end
   end
 
@@ -1616,55 +1605,8 @@ class Issue < ActiveRecord::Base
   # Saves the changes in a Journal
   # Called after_save
   def create_journal
-    if @current_journal
-      # attributes changes
-      if @attributes_before_change
-        (Issue.column_names - %w(id root_id lft rgt lock_version created_on updated_on closed_on)).each {|c|
-          before = @attributes_before_change[c]
-          after = send(c)
-          next if before == after || (before.blank? && after.blank?)
-          @current_journal.details << JournalDetail.new(:property => 'attr',
-                                                        :prop_key => c,
-                                                        :old_value => before,
-                                                        :value => after)
-        }
-      end
-      if @custom_values_before_change
-        # custom fields changes
-        custom_field_values.each {|c|
-          before = @custom_values_before_change[c.custom_field_id]
-          after = c.value
-          next if before == after || (before.blank? && after.blank?)
-
-          if before.is_a?(Array) || after.is_a?(Array)
-            before = [before] unless before.is_a?(Array)
-            after = [after] unless after.is_a?(Array)
-
-            # values removed
-            (before - after).reject(&:blank?).each do |value|
-              @current_journal.details << JournalDetail.new(:property => 'cf',
-                                                            :prop_key => c.custom_field_id,
-                                                            :old_value => value,
-                                                            :value => nil)
-            end
-            # values added
-            (after - before).reject(&:blank?).each do |value|
-              @current_journal.details << JournalDetail.new(:property => 'cf',
-                                                            :prop_key => c.custom_field_id,
-                                                            :old_value => nil,
-                                                            :value => value)
-            end
-          else
-            @current_journal.details << JournalDetail.new(:property => 'cf',
-                                                          :prop_key => c.custom_field_id,
-                                                          :old_value => before,
-                                                          :value => after)
-          end
-        }
-      end
-      @current_journal.save
-      # reset current journal
-      init_journal @current_journal.user, @current_journal.notes
+    if current_journal
+      current_journal.save
     end
   end
 
