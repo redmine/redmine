@@ -77,7 +77,7 @@ class Setting < ActiveRecord::Base
   cattr_accessor :available_settings
   self.available_settings ||= {}
 
-  validates_uniqueness_of :name
+  validates_uniqueness_of :name, :if => Proc.new {|setting| setting.new_record? || setting.name_changed?}
   validates_inclusion_of :name, :in => Proc.new {available_settings.keys}
   validates_numericality_of :value, :only_integer => true, :if => Proc.new { |setting|
     (s = available_settings[setting.name]) && s['format'] == 'int'
