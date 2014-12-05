@@ -246,33 +246,6 @@ class Issue < ActiveRecord::Base
     @copied_from.present?
   end
 
-  # Moves/copies an issue to a new project and tracker
-  # Returns the moved/copied issue on success, false on failure
-  def move_to_project(new_project, new_tracker=nil, options={})
-    ActiveSupport::Deprecation.warn "Issue#move_to_project is deprecated, use #project= instead."
-
-    if options[:copy]
-      issue = self.copy
-    else
-      issue = self
-    end
-
-    issue.init_journal(User.current, options[:notes])
-
-    # Preserve previous behaviour
-    # #move_to_project doesn't change tracker automatically
-    issue.send :project=, new_project, true
-    if new_tracker
-      issue.tracker = new_tracker
-    end
-    # Allow bulk setting of attributes on the issue
-    if options[:attributes]
-      issue.attributes = options[:attributes]
-    end
-
-    issue.save ? issue : false
-  end
-
   def status_id=(status_id)
     if status_id.to_s != self.status_id.to_s
       self.status = (status_id.present? ? IssueStatus.find_by_id(status_id) : nil)
