@@ -39,6 +39,29 @@ class SearchControllerTest < ActionController::TestCase
     assert assigns(:results).include?(Project.find(1))
   end
 
+  def test_search_on_archived_project_should_return_404
+    Project.find(3).archive
+    get :index, :id => 3
+    assert_response 404
+  end
+
+  def test_search_on_invisible_project_by_user_should_be_denied
+    @request.session[:user_id] = 7
+    get :index, :id => 2
+    assert_response 403
+  end
+
+  def test_search_on_invisible_project_by_anonymous_user_should_redirect
+    get :index, :id => 2
+    assert_response 302
+  end
+
+  def test_search_on_private_project_by_member_should_succeed
+    @request.session[:user_id] = 2
+    get :index, :id => 2
+    assert_response :success
+  end
+
   def test_search_all_projects
     with_settings :default_language => 'en' do
       get :index, :q => 'recipe subproject commit', :all_words => ''
