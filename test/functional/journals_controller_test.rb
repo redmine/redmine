@@ -32,6 +32,11 @@ class JournalsControllerTest < ActionController::TestCase
     assert_equal 'application/atom+xml', @response.content_type
   end
 
+  def test_index_with_invalid_query_id
+    get :index, :project_id => 1, :query_id => 999
+    assert_response 404
+  end
+
   def test_index_should_return_privates_notes_with_permission_only
     journal = Journal.create!(:journalized => Issue.find(2), :notes => 'Privates notes', :private_notes => true, :user_id => 1)
     @request.session[:user_id] = 2
@@ -48,6 +53,15 @@ class JournalsControllerTest < ActionController::TestCase
 
   def test_diff
     get :diff, :id => 3, :detail_id => 4
+    assert_response :success
+    assert_template 'diff'
+
+    assert_select 'span.diff_out', :text => /removed/
+    assert_select 'span.diff_in', :text => /added/
+  end
+
+  def test_diff_should_default_to_description_diff
+    get :diff, :id => 3
     assert_response :success
     assert_template 'diff'
 

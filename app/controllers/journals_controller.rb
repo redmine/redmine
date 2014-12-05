@@ -84,10 +84,7 @@ class JournalsController < ApplicationController
       end
     else
       respond_to do |format|
-        format.html {
-          # TODO: implement non-JS journal update
-          render :nothing => true
-        }
+        # TODO: implement non-JS journal update
         format.js
       end
     end
