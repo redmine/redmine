@@ -95,6 +95,11 @@ module Redmine #:nodoc:
         ActiveSupport::Dependencies.autoload_paths += [dir]
       end
 
+      # Defines plugin setting if present
+      if p.settings
+        Setting.define_plugin_setting p
+      end
+
       # Warn for potential settings[:partial] collisions
       if p.configurable?
         partial = p.settings[:partial]

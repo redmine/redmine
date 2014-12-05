@@ -75,16 +75,12 @@ class Setting < ActiveRecord::Base
                   TIS-620)
 
   cattr_accessor :available_settings
-  @@available_settings = YAML::load(File.open("#{Rails.root}/config/settings.yml"))
-  Redmine::Plugin.all.each do |plugin|
-    next unless plugin.settings
-    @@available_settings["plugin_#{plugin.id}"] = {'default' => plugin.settings[:default], 'serialized' => true}
-  end
+  self.available_settings ||= {}
 
   validates_uniqueness_of :name
-  validates_inclusion_of :name, :in => @@available_settings.keys
+  validates_inclusion_of :name, :in => Proc.new {available_settings.keys}
   validates_numericality_of :value, :only_integer => true, :if => Proc.new { |setting|
-    (s = @@available_settings[setting.name]) && s['format'] == 'int'
+    (s = available_settings[setting.name]) && s['format'] == 'int'
   }
   attr_protected :id
 
@@ -95,13 +91,13 @@ class Setting < ActiveRecord::Base
   def value
     v = read_attribute(:value)
     # Unserialize serialized settings
-    v = YAML::load(v) if @@available_settings[name]['serialized'] && v.is_a?(String)
-    v = v.to_sym if @@available_settings[name]['format'] == 'symbol' && !v.blank?
+    v = YAML::load(v) if available_settings[name]['serialized'] && v.is_a?(String)
+    v = v.to_sym if available_settings[name]['format'] == 'symbol' && !v.blank?
     v
   end
 
   def value=(v)
-    v = v.to_yaml if v && @@available_settings[name] && @@available_settings[name]['serialized']
+    v = v.to_yaml if v && available_settings[name] && available_settings[name]['serialized']
     write_attribute(:value, v.to_s)
   end
 
@@ -117,26 +113,6 @@ class Setting < ActiveRecord::Base
     @cached_settings[name] = nil
     setting.save
     setting.value
-  end
-
-  # Defines getter and setter for each setting
-  # Then setting values can be read using: Setting.some_setting_name
-  # or set using Setting.some_setting_name = "some value"
-  @@available_settings.each do |name, params|
-    src = <<-END_SRC
-    def self.#{name}
-      self[:#{name}]
-    end
-
-    def self.#{name}?
-      self[:#{name}].to_i > 0
-    end
-
-    def self.#{name}=(value)
-      self[:#{name}] = value
-    end
-END_SRC
-    class_eval src, __FILE__, __LINE__
   end
 
   # Sets a setting value from params
@@ -217,17 +193,61 @@ END_SRC
     logger.info "Settings cache cleared." if logger
   end
 
+  def self.define_plugin_setting(plugin)
+    if plugin.settings
+      name = "plugin_#{plugin.id}"
+      define_setting name, {'default' => plugin.settings[:default], 'serialized' => true}
+    end
+  end
+
+  # Defines getter and setter for each setting
+  # Then setting values can be read using: Setting.some_setting_name
+  # or set using Setting.some_setting_name = "some value"
+  def self.define_setting(name, options={})
+    available_settings[name.to_s] = options
+
+    src = <<-END_SRC
+    def self.#{name}
+      self[:#{name}]
+    end
+
+    def self.#{name}?
+      self[:#{name}].to_i > 0
+    end
+
+    def self.#{name}=(value)
+      self[:#{name}] = value
+    end
+END_SRC
+    class_eval src, __FILE__, __LINE__
+  end
+
+  def self.load_available_settings
+    YAML::load(File.open("#{Rails.root}/config/settings.yml")).each do |name, options|
+      define_setting name, options
+    end
+  end
+
+  def self.load_plugin_settings
+    Redmine::Plugin.all.each do |plugin|
+      define_plugin_setting(plugin)
+    end
+  end
+
+  load_available_settings
+  load_plugin_settings
+
 private
   # Returns the Setting instance for the setting named name
   # (record found in database or new record with default value)
   def self.find_or_default(name)
     name = name.to_s
-    raise "There's no setting named #{name}" unless @@available_settings.has_key?(name)
+    raise "There's no setting named #{name}" unless available_settings.has_key?(name)
     setting = where(:name => name).first
     unless setting
       setting = new
       setting.name = name
-      setting.value = @@available_settings[name]['default']
+      setting.value = available_settings[name]['default']
     end
     setting
   end

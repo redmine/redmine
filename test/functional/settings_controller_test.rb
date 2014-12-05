@@ -137,10 +137,10 @@ class SettingsControllerTest < ActionController::TestCase
   end
 
   def test_get_plugin_settings
-    Setting.stubs(:plugin_foo).returns({'sample_setting' => 'Plugin setting value'})
     ActionController::Base.append_view_path(File.join(Rails.root, "test/fixtures/plugins"))
     Redmine::Plugin.register :foo do
-      settings :partial => "foo_plugin/foo_plugin_settings"
+      settings :partial => "foo_plugin/foo_plugin_settings",
+        :default => {'sample_setting' => 'Plugin setting value'}
     end
 
     get :plugin, :id => 'foo'
@@ -169,13 +169,15 @@ class SettingsControllerTest < ActionController::TestCase
   end
 
   def test_post_plugin_settings
-    Setting.expects(:plugin_foo=).with({'sample_setting' => 'Value'}).returns(true)
     Redmine::Plugin.register(:foo) do
-      settings :partial => 'not blank' # so that configurable? is true
+      settings :partial => 'not blank', # so that configurable? is true
+        :default => {'sample_setting' => 'Plugin setting value'}
     end
 
     post :plugin, :id => 'foo', :settings => {'sample_setting' => 'Value'}
     assert_redirected_to '/settings/plugin/foo'
+
+    assert_equal({'sample_setting' => 'Value'}, Setting.plugin_foo)
   end
 
   def test_post_non_configurable_plugin_settings
