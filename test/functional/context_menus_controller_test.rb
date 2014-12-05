@@ -250,6 +250,15 @@ class ContextMenusControllerTest < ActionController::TestCase
     assert_select 'a:not(.disabled)', :text => 'Edit'
   end
 
+  def test_context_menu_for_one_time_entry
+    @request.session[:user_id] = 2
+    get :time_entries, :ids => [1]
+    assert_response :success
+    assert_template 'context_menus/time_entries'
+
+    assert_select 'a:not(.disabled)', :text => 'Edit'
+  end
+
   def test_time_entries_context_menu_should_include_custom_fields
     field = TimeEntryCustomField.generate!(:name => "Field", :field_format => "list", :possible_values => ["foo", "bar"])
 

@@ -136,6 +136,14 @@ class ActivitiesControllerTest < ActionController::TestCase
     end
   end
 
+  def test_index_atom_feed_with_user
+    get :index, :user_id => 2, :format => 'atom'
+
+    assert_response :success
+    assert_template 'common/feed'
+    assert_select 'title', :text => "Redmine: #{User.find(2).name}"
+  end
+
   def test_index_should_show_private_notes_with_permission_only
     journal = Journal.create!(:journalized => Issue.find(2), :notes => 'Private notes with searchkeyword', :private_notes => true)
     @request.session[:user_id] = 2
