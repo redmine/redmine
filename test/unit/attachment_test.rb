@@ -67,6 +67,16 @@ class AttachmentTest < ActiveSupport::TestCase
     assert_equal 59, File.size(a.diskfile)
   end
 
+  def test_create_should_clear_content_type_if_too_long
+    a = Attachment.new(:container => Issue.find(1),
+                       :file => uploaded_test_file("testfile.txt", "text/plain"),
+                       :author => User.find(1),
+                       :content_type => 'a'*300)
+    assert a.save
+    a.reload
+    assert_nil a.content_type
+  end
+
   def test_copy_should_preserve_attributes
     a = Attachment.find(1)
     copy = a.copy
@@ -178,6 +188,12 @@ class AttachmentTest < ActiveSupport::TestCase
 
     a = Attachment.new(:filename => "test.png", :description => "Cool image")
     assert_equal "test.png (Cool image)", a.title
+  end
+
+  def test_new_attachment_should_be_editable_by_authot
+    user = User.find(1)
+    a = Attachment.new(:author => user)
+    assert_equal true, a.editable?(user)
   end
 
   def test_prune_should_destroy_old_unattached_attachments
@@ -330,6 +346,12 @@ class AttachmentTest < ActiveSupport::TestCase
         assert_equal "16_8e0294de2441577c529f170b6fb8f638_100.thumb", File.basename(thumbnail)
         assert File.exists?(thumbnail)
       end
+    end
+
+    def test_thumbnail_should_return_nil_if_generation_fails
+      Redmine::Thumbnail.stubs(:generate).raises(SystemCallError, 'Something went wrong')
+      attachment = Attachment.find(16)
+      assert_nil attachment.thumbnail
     end
   else
     puts '(ImageMagick convert not available)'
