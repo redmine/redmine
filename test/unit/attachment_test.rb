@@ -349,7 +349,8 @@ class AttachmentTest < ActiveSupport::TestCase
     end
 
     def test_thumbnail_should_return_nil_if_generation_fails
-      Redmine::Thumbnail.stubs(:generate).raises(SystemCallError, 'Something went wrong')
+      Redmine::Thumbnail.expects(:generate).raises(SystemCallError, 'Something went wrong')
+      set_fixtures_attachments_directory
       attachment = Attachment.find(16)
       assert_nil attachment.thumbnail
     end
