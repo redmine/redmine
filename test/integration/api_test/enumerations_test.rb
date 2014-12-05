@@ -31,4 +31,10 @@ class Redmine::ApiTest::EnumerationsTest < Redmine::ApiTest::Base
       end
     end
   end
+
+  test "GET /enumerations/invalid_subclass.xml should return 404" do
+    get '/enumerations/invalid_subclass.xml'
+    assert_response 404
+    assert_equal 'application/xml', response.content_type
+  end
 end
