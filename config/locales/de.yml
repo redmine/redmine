@@ -525,6 +525,7 @@ de:
   label_drop_down_list: Dropdown-Liste
   label_duplicated_by: Dupliziert durch
   label_duplicates: Duplikat von
+  label_edit_attachments: Angehängte Dateien bearbeiten
   label_end_to_end: Ende - Ende
   label_end_to_start: Ende - Anfang
   label_enumeration_new: Neuer Wert
@@ -1137,4 +1138,3 @@ de:
   version_status_open: offen
 
   warning_attachments_not_saved: "%{count} Datei(en) konnten nicht gespeichert werden."
-  label_edit_attachments: Edit attached files
