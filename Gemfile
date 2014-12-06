@@ -12,7 +12,7 @@ gem "actionpack-action_caching"
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :x64_mingw, :mswin, :jruby]
-gem "rbpdf", "~> 1.18.2"
+gem "rbpdf", "~> 1.18.3"
 
 # Optional gem for LDAP authentication
 group :ldap do
