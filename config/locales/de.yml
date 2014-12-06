@@ -424,6 +424,7 @@ de:
   label_api_access_key_created_on: Der API-Zugriffsschlüssel wurde vor %{value} erstellt
   label_applied_status: Zugewiesener Status
   label_ascending: Aufsteigend
+  label_ask: Nachfragen
   label_assigned_to_me_issues: Mir zugewiesene Tickets
   label_associated_revisions: Zugehörige Revisionen
   label_attachment: Datei
@@ -610,6 +611,7 @@ de:
   label_less_or_equal: "<="
   label_less_than_ago: vor weniger als
   label_link: Link
+  label_link_copied_issue: Kopierte Tickets verlinken
   label_link_values_to: Werte mit URL verknüpfen
   label_list: Liste
   label_loading: Lade...
@@ -1013,6 +1015,7 @@ de:
   setting_issue_list_default_columns: Standard-Spalten in der Ticket-Auflistung
   setting_issues_export_limit: Max. Anzahl Tickets bei CSV/PDF-Export
   setting_jsonp_enabled: JSONP Unterstützung aktivieren
+  setting_link_copied_issue: Tickets beim kopieren verlinken
   setting_login_required: Authentifizierung erforderlich
   setting_mail_from: E-Mail-Absender
   setting_mail_handler_api_enabled: Abruf eingehender E-Mails aktivieren
@@ -1135,6 +1138,3 @@ de:
 
   warning_attachments_not_saved: "%{count} Datei(en) konnten nicht gespeichert werden."
   label_edit_attachments: Edit attached files
-  setting_link_copied_issue: Link issues on copy
-  label_link_copied_issue: Link copied issue
-  label_ask: Ask
