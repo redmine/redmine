@@ -80,6 +80,17 @@ class RoleTest < ActiveSupport::TestCase
     assert_equal size - 2, role.permissions.size
   end
 
+  def test_has_permission
+    role = Role.create!(:name => 'Test', :permissions => [:view_issues, :edit_issues])
+    assert_equal true, role.has_permission?(:view_issues)
+    assert_equal false, role.has_permission?(:delete_issues)
+  end
+
+  def test_has_permission_without_permissions
+    role = Role.create!(:name => 'Test')
+    assert_equal false, role.has_permission?(:delete_issues)
+  end
+
   def test_name
     I18n.locale = 'fr'
     assert_equal 'Manager', Role.find(1).name
