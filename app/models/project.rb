@@ -72,8 +72,7 @@ class Project < ActiveRecord::Base
   attr_protected :status
 
   validates_presence_of :name, :identifier
-  validates_uniqueness_of :identifier
-  validates_associated :repository, :wiki
+  validates_uniqueness_of :identifier, :if => Proc.new {|p| p.identifier_changed?}
   validates_length_of :name, :maximum => 255
   validates_length_of :homepage, :maximum => 255
   validates_length_of :identifier, :in => 1..IDENTIFIER_MAX_LENGTH
