@@ -21,6 +21,7 @@ class ProjectNestedSetTest < ActiveSupport::TestCase
 
   def setup
     Project.delete_all
+    Tracker.delete_all
 
     @a = Project.create!(:name => 'A', :identifier => 'projecta')
     @a1 = Project.create!(:name => 'A1', :identifier => 'projecta1')
