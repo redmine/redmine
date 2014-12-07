@@ -459,4 +459,10 @@ class RepositoryTest < ActiveSupport::TestCase
     expected = {"Dave Lopper"=>{:commits_count=>11, :changes_count=>3}}
     assert_equal expected, repository.stats_by_author
   end
+
+  def test_fetch_changesets
+    # 2 repositories in fixtures
+    Repository::Subversion.any_instance.expects(:fetch_changesets).twice.returns(true)
+    Repository.fetch_changesets
+  end
 end

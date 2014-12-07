@@ -101,6 +101,17 @@ class QueryTest < ActiveSupport::TestCase
     assert !project_ids.include?("2") #private project user cannot see
   end
 
+  def test_available_filters_should_not_include_fields_disabled_on_all_trackers
+    Tracker.all.each do |tracker|
+      tracker.core_fields = Tracker::CORE_FIELDS - ['start_date']
+      tracker.save!
+    end
+
+    query = IssueQuery.new(:name => '_')
+    assert_include 'due_date', query.available_filters
+    assert_not_include 'start_date', query.available_filters
+  end
+
   def find_issues_with_query(query)
     Issue.joins(:status, :tracker, :project, :priority).where(
          query.statement
@@ -556,16 +567,22 @@ class QueryTest < ActiveSupport::TestCase
     issues.each {|issue| assert_equal Date.today, issue.due_date}
   end
 
-  def test_operator_this_week_on_date
-    query = IssueQuery.new(:project => Project.find(1), :name => '_')
-    query.add_filter('due_date', 'w', [''])
-    find_issues_with_query(query)
+  def test_operator_date_periods
+    %w(t ld w lw l2w m lm y).each do |operator|
+      query = IssueQuery.new(:name => '_')
+      query.add_filter('due_date', operator, [''])
+      assert query.valid?
+      assert query.issues
+    end
   end
 
-  def test_operator_this_week_on_datetime
-    query = IssueQuery.new(:project => Project.find(1), :name => '_')
-    query.add_filter('created_on', 'w', [''])
-    find_issues_with_query(query)
+  def test_operator_datetime_periods
+    %w(t ld w lw l2w m lm y).each do |operator|
+      query = IssueQuery.new(:name => '_')
+      query.add_filter('created_on', operator, [''])
+      assert query.valid?
+      assert query.issues
+    end
   end
 
   def test_operator_contains
@@ -640,6 +657,12 @@ class QueryTest < ActiveSupport::TestCase
     result = query.issues
     assert_equal 1, result.size
     assert_equal issue1, result.first
+  end
+
+  def test_filter_on_me_by_anonymous_user
+    User.current = nil
+    query = IssueQuery.new(:name => '_', :filters => { 'assigned_to_id' => {:operator => '=', :values => ['me']}})
+    assert_equal [], query.issues
   end
 
   def test_filter_my_projects
