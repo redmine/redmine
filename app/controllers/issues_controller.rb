@@ -407,9 +407,9 @@ class IssuesController < ApplicationController
   def build_new_issue_from_params
     if params[:id].blank?
       @issue = Issue.new
-      @issue.init_journal(User.current)
       if params[:copy_from]
         begin
+          @issue.init_journal(User.current)
           @copy_from = Issue.visible.find(params[:copy_from])
           @link_copy = link_copy?(params[:link_copy]) || request.get?
           @copy_attachments = params[:copy_attachments].present? || request.get?

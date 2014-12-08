@@ -2225,9 +2225,11 @@ class IssuesControllerTest < ActionController::TestCase
 
     assert_difference 'Issue.count' do
       assert_difference 'Attachment.count' do
-        post :create, :project_id => 1,
-          :issue => { :tracker_id => '1', :subject => 'With attachment' },
-          :attachments => {'1' => {'file' => uploaded_test_file('testfile.txt', 'text/plain'), 'description' => 'test file'}}
+        assert_no_difference 'Journal.count' do
+          post :create, :project_id => 1,
+            :issue => { :tracker_id => '1', :subject => 'With attachment' },
+            :attachments => {'1' => {'file' => uploaded_test_file('testfile.txt', 'text/plain'), 'description' => 'test file'}}
+        end
       end
     end
 
