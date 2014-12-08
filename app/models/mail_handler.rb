@@ -49,7 +49,7 @@ class MailHandler < ActionMailer::Base
   # Receives an email and rescues any exception
   def self.safe_receive(*args)
     receive(*args)
-  rescue => e
+  rescue Exception => e
     logger.error "An unexpected error occurred when receiving email: #{e.message}" if logger
     return false
   end

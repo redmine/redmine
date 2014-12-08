@@ -758,6 +758,19 @@ class MailerTest < ActiveSupport::TestCase
     assert_kind_of ::Mail::Message, Mailer.test_email(User.find(1))
   end
 
+  def test_with_synched_deliveries_should_yield_with_synced_deliveries
+    ActionMailer::Base.delivery_method = :async_smtp
+    ActionMailer::Base.async_smtp_settings = {:foo => 'bar'}
+
+    Mailer.with_synched_deliveries do
+      assert_equal :smtp, ActionMailer::Base.delivery_method
+      assert_equal({:foo => 'bar'}, ActionMailer::Base.smtp_settings)
+    end
+    assert_equal :async_smtp, ActionMailer::Base.delivery_method
+  ensure
+    ActionMailer::Base.delivery_method = :test
+  end
+
   private
 
   def last_email
