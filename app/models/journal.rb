@@ -52,10 +52,13 @@ class Journal < ActiveRecord::Base
 
   def initialize(*args)
     super
-    if journalized && journalized.new_record?
-      self.notify = false
+    if journalized
+      if journalized.new_record?
+        self.notify = false
+      else
+        start
+      end
     end
-    start
   end
 
   def save(*args)

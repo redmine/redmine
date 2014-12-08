@@ -1799,7 +1799,8 @@ class IssuesControllerTest < ActionController::TestCase
   def test_post_create
     @request.session[:user_id] = 2
     assert_difference 'Issue.count' do
-      post :create, :project_id => 1,
+      assert_no_difference 'Journal.count' do
+        post :create, :project_id => 1,
                  :issue => {:tracker_id => 3,
                             :status_id => 2,
                             :subject => 'This is the test_new issue',
@@ -1808,6 +1809,7 @@ class IssuesControllerTest < ActionController::TestCase
                             :start_date => '2010-11-07',
                             :estimated_hours => '',
                             :custom_field_values => {'2' => 'Value for field 2'}}
+      end
     end
     assert_redirected_to :controller => 'issues', :action => 'show', :id => Issue.last.id
 
