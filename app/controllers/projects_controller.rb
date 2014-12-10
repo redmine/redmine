@@ -499,6 +499,10 @@ class ProjectsController < ApplicationController
 
       filenameSplit = File.basename(uri.path).split(".")
       entity = filenameSplit[0]
+      #FIXME: This a quick fix but actually we should check entity is valid js variable name
+      if /^\d+/.match(entity) 
+        entity = "e" + entity
+      end  
       docType = filenameSplit[1]
             
       geppettoSimulationFile = File.read(publicResourcesPath + geppettoResourcesPath + simulationTemplates + "neuromlTemplate.xml")
