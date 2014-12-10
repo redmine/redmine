@@ -215,6 +215,9 @@ function open3DExplorer(file)
 	}
 	else
 	{
+		//Change url without reloading page
+		var explorerUrl = '//' + location.host + location.pathname + '?explorer=' + file;
+		if(history.pushState) {history.pushState(null, null, explorerUrl);}
 		
 		$.ajax({
 		    url: "/projects/generateGEPPETTOSimulationFile?explorer=" + file,
