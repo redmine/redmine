@@ -1211,12 +1211,15 @@ div.splitcontentleft > h2 {
 }
 
 #osbexplorermessage {
-	color: #ff6600;
-	font-size: 12px;
+	color: #000;
+	font-size: 22px;
 	text-align: center;
-	margin: 0 auto;
-	width: 450px;
-	margin-top: 5px;
+	margin: 150px auto 0px;
+	width: 550px;
+	line-height: 35px;
+}
+#osbexplorermessage a{
+	color: #37abc8;
 }
 
 .smallText {
