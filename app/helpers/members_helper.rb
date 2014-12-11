@@ -18,10 +18,10 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 module MembersHelper
-  def render_principals_for_new_members(project)
+  def render_principals_for_new_members(project, limit=100)
     scope = Principal.active.visible.sorted.not_member_of(project).like(params[:q])
     principal_count = scope.count
-    principal_pages = Redmine::Pagination::Paginator.new principal_count, 100, params['page']
+    principal_pages = Redmine::Pagination::Paginator.new principal_count, limit, params['page']
     principals = scope.offset(principal_pages.offset).limit(principal_pages.per_page).to_a
 
     s = content_tag('div',

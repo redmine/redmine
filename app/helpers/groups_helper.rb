@@ -26,10 +26,10 @@ module GroupsHelper
     tabs
   end
 
-  def render_principals_for_new_group_users(group)
+  def render_principals_for_new_group_users(group, limit=100)
     scope = User.active.sorted.not_in_group(group).like(params[:q])
     principal_count = scope.count
-    principal_pages = Redmine::Pagination::Paginator.new principal_count, 100, params['page']
+    principal_pages = Redmine::Pagination::Paginator.new principal_count, limit, params['page']
     principals = scope.offset(principal_pages.offset).limit(principal_pages.per_page).to_a
 
     s = content_tag('div',
