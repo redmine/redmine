@@ -238,6 +238,15 @@ class SearchControllerTest < ActionController::TestCase
     assert results.map(&:event_datetime).min >= '20080806T073000'.to_time
   end
 
+  def test_search_with_limited_results
+    issues = (0..24).map {|i| Issue.generate!(:subject => 'search_with_limited_results')}.reverse
+
+    get :index, :q => 'limited_results'
+    assert_response :success
+    assert_equal 10, assigns(:results).size
+    assert_equal issues[0..9], assigns(:results)
+  end
+
   def test_search_with_invalid_project_id
     get :index, :id => 195, :q => 'recipe'
     assert_response 404
