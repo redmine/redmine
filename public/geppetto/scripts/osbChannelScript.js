@@ -7,8 +7,8 @@ var marginTop = 60;
 var marginRight = 10;
 var marginBottom = 50;
 
-var tvWidth = 500;
-var tvHeight = 510;
+var tvWidth = 510;
+var tvHeight = 500;
 var tvPosX = marginLeft;
 var tvPosY = marginTop;
 
@@ -26,7 +26,7 @@ $ENTER_ID.electrical.getModelTree();
 // Adding Scatter3d 1
 G.addWidget(3);
 TreeVisualiserDAT1.setData($ENTER_ID.electrical.ModelTree.Summary, {expandNodes: true});
-TreeVisualiserDAT1.setSize(tvWidth,tvHeight);
+TreeVisualiserDAT1.setSize(tvHeight,tvWidth);
 TreeVisualiserDAT1.setPosition(tvPosX,tvPosY);
 TreeVisualiserDAT1.setName("Channel - $ENTER_ID");
 

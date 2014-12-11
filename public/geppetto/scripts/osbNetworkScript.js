@@ -7,8 +7,8 @@ var marginTop = 60;
 var marginRight = 10;
 var marginBottom = 50;
 
-var tvWidth = 450;
-var tvHeight = 600;
+var tvWidth = 600;
+var tvHeight = 450;
 var tvPosX = widthScreen - tvWidth - marginRight;
 var tvPosY = marginTop;
 
@@ -26,7 +26,7 @@ $ENTER_ID.electrical.getModelTree();
 // Adding Scatter3d 1
 G.addWidget(3);
 TreeVisualiserDAT1.setData($ENTER_ID);
-TreeVisualiserDAT1.setSize(tvWidth,tvHeight);
+TreeVisualiserDAT1.setSize(tvHeight,tvWidth);
 TreeVisualiserDAT1.setPosition(tvPosX,tvPosY);
 TreeVisualiserDAT1.setName("Network - $ENTER_ID");
 
