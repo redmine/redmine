@@ -284,6 +284,14 @@ class UsersControllerTest < ActionController::TestCase
     assert_equal User.find(2), assigns(:user)
   end
 
+  def test_edit_registered_user
+    assert User.find(2).register!
+
+    get :edit, :id => 2
+    assert_response :success
+    assert_select 'a', :text => 'Activate'
+  end
+
   def test_update
     ActionMailer::Base.deliveries.clear
     put :update, :id => 2,
