@@ -215,23 +215,42 @@ function open3DExplorer(file)
 	}
 	else
 	{
+		//Change url without reloading page
+		var explorerUrl = '//' + location.host + location.pathname + '?explorer=' + encodeURIComponent(file);
+		if(history.pushState) {history.pushState(null, null, explorerUrl);}
 		
-		$.ajax({
-		    url: "/projects/generateGEPPETTOSimulationFile?explorer=" + file,
-		    cache: false,
-		    success: function(json){
-		    	console.log(json);
-		    	jQuery("#mainContent").hide();
-		    	//LOCAL
-				//jQuery("#mainContent").before("<div id='3dbrowser'><div id='3dspacer' style='display: none;'><br/><br/><br/></div><a class='fullscreen btn icon-desktop' href='javascript:toggleFullScreen();'> Full Screen</a><iframe id='3dframe' style='width:100%' src='http://127.0.0.1:8080/org.geppetto.frontend/?sim=http://127.0.0.1:3000/" + json.geppettoSimulationFile + "'></iframe>");
-				//DEV
-		    	//jQuery("#mainContent").before("<div id='3dbrowser'><div id='3dspacer' style='display: none;'><br/><br/><br/></div><a class='fullscreen btn icon-desktop' href='javascript:toggleFullScreen();'> Full Screen</a><iframe id='3dframe' style='width:100%' src='http://54.172.83.162:8080/org.geppetto.frontend/?sim=http://comodl.org/" + json.geppettoSimulationFile + "'></iframe>");
-		    	//PROD
-				jQuery("#mainContent").before("<div id='3dbrowser'><div id='3dspacer' style='display: none;'><br/><br/><br/></div><a class='fullscreen btn icon-desktop' href='javascript:toggleFullScreen();'> Full Screen</a><iframe id='3dframe' style='width:100%' src='http://184.72.223.204:8080/org.geppetto.frontend/?sim=http://opensourcebrain.org/" + json.geppettoSimulationFile + "'></iframe>");
-				document.getElementById('3dframe').onload = resizeIframe;
-				window.onresize = resizeIframe;
-		    }
-		});
+		if (!Detector.webgl) {
+			jQuery("#mainContent").hide();
+			jQuery("#mainContent").before("<div id='3dbrowser'><div id='osbexplorermessage'></div>");
+			
+			decodedfile = decodeURIComponent(file);
+			if (file.indexOf("github") != -1){
+				repoFilePath = decodedfile.replace('raw.github','github').replace('/master/','/blob/master/');
+			}
+			else if (file.indexOf("github")) {
+				repoFilePath = decodedfile.replace('/raw/default/','/src/default/');
+			}
+			
+			jQuery("#osbexplorermessage").html("Your graphics card does not seem to support <a href='http://khronos.org/webgl/wiki/Getting_a_WebGL_Implementation'>WebGL</a>.<br />Find out how to get it <a href='http://get.webgl.org/'>here</a>.<br /><br /> You can also <a href='"+ decodedfile + "' target='_blank'>download the file</a> or <a href='"+ repoFilePath + "' target='_blank'>view the file content online</a>.");
+		}
+		else{
+			
+			$.ajax({
+			    url: "/projects/generateGEPPETTOSimulationFile?explorer=" + file,
+			    cache: false,
+			    success: function(json){
+			    	jQuery("#mainContent").hide();
+			    	//LOCAL
+					//jQuery("#mainContent").before("<div id='3dbrowser'><div id='3dspacer' style='display: none;'><br/><br/><br/></div><a class='fullscreen btn icon-desktop' href='javascript:toggleFullScreen();'> Full Screen</a><iframe id='3dframe' style='width:100%' src='http://127.0.0.1:8080/org.geppetto.frontend/?sim=http://127.0.0.1:3000/" + json.geppettoSimulationFile + "'></iframe>");
+					//DEV
+			    	//jQuery("#mainContent").before("<div id='3dbrowser'><div id='3dspacer' style='display: none;'><br/><br/><br/></div><a class='fullscreen btn icon-desktop' href='javascript:toggleFullScreen();'> Full Screen</a><iframe id='3dframe' style='width:100%' src='http://54.172.83.162:8080/?sim=http://comodl.org/" + json.geppettoSimulationFile + "'></iframe>");
+			    	//PROD
+					jQuery("#mainContent").before("<div id='3dbrowser'><div id='3dspacer' style='display: none;'><br/><br/><br/></div><a class='fullscreen btn icon-desktop' href='javascript:toggleFullScreen();'> Full Screen</a><iframe id='3dframe' style='width:100%' src='http://184.72.223.204:8080/?sim=http://opensourcebrain.org/" + json.geppettoSimulationFile + "'></iframe>");
+					document.getElementById('3dframe').onload = resizeIframe;
+					window.onresize = resizeIframe;
+			    }
+			});
+		}
 		
 //		jQuery("#mainContent").hide();
 //		jQuery("#mainContent").before("<div id='3dbrowser'><div id='3dspacer' style='display: none;'><br/><br/><br/></div><a class='fullscreen btn icon-desktop' href='javascript:toggleFullScreen();'> Full Screen</a><iframe id='3dframe' src='http://127.0.0.1:8080/org.neuroml.visualiser/?url="+file+"'></iframe>");
