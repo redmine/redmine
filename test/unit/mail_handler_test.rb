@@ -620,7 +620,8 @@ class MailHandlerTest < ActiveSupport::TestCase
       "X-Auto-Response-Suppress: OOF",
       "Auto-Submitted: auto-replied",
       "Auto-Submitted: Auto-Replied",
-      "Auto-Submitted: auto-generated"
+      "Auto-Submitted: auto-generated",
+      'X-Autoreply: yes'
     ].each do |header|
       raw = IO.read(File.join(FIXTURES_PATH, 'ticket_on_given_project.eml'))
       raw = header + "\n" + raw
