@@ -36,9 +36,6 @@ class SearchController < ApplicationController
         @project
       end
 
-    offset = nil
-    begin; offset = params[:offset].to_time if params[:offset]; rescue; end
-
     # quick jump to an issue
     if (m = @question.match(/^#?(\d+)$/)) && (issue = Issue.visible.find_by_id(m[1].to_i))
       redirect_to issue_path(issue)
@@ -66,34 +63,39 @@ class SearchController < ApplicationController
       # no more than 5 tokens to search for
       @tokens.slice! 5..-1 if @tokens.size > 5
 
-      @results = []
-      @results_by_type = Hash.new {|h,k| h[k] = 0}
-
       limit = 10
-      @scope.each do |s|
-        r, c = s.singularize.camelcase.constantize.search(@tokens, projects_to_search,
+
+      @result_count = 0
+      @result_count_by_type = Hash.new {|h,k| h[k] = 0}
+      ranks_and_ids = []
+
+      # get all the results ranks and ids
+      @scope.each do |scope|
+        klass = scope.singularize.camelcase.constantize
+        ranks_and_ids_in_scope = klass.search_result_ranks_and_ids(@tokens, User.current, projects_to_search,
           :all_words => @all_words,
-          :titles_only => @titles_only,
-          :limit => (limit+1),
-          :offset => offset,
-          :before => params[:previous].nil?)
-        @results += r
-        @results_by_type[s] += c
+          :titles_only => @titles_only
+        )
+        @result_count_by_type[scope] += ranks_and_ids_in_scope.size
+        @result_count += ranks_and_ids_in_scope.size
+        ranks_and_ids += ranks_and_ids_in_scope.map {|r| [scope, r]}
       end
-      @results = @results.sort {|a,b| b.event_datetime <=> a.event_datetime}
-      if params[:previous].nil?
-        @pagination_previous_date = @results[0].event_datetime if offset && @results[0]
-        if @results.size > limit
-          @pagination_next_date = @results[limit-1].event_datetime
-          @results = @results[0, limit]
-        end
-      else
-        @pagination_next_date = @results[-1].event_datetime if offset && @results[-1]
-        if @results.size > limit
-          @pagination_previous_date = @results[-(limit)].event_datetime
-          @results = @results[-(limit), limit]
-        end
+      @result_pages = Paginator.new @result_count, limit, params['page']
+
+      # sort results, higher rank and id first
+      ranks_and_ids.sort! {|a,b| b.last <=> a.last }
+      ranks_and_ids = ranks_and_ids[@result_pages.offset, limit] || []
+
+      # load the results to display
+      results_by_scope = Hash.new {|h,k| h[k] = []}
+      ranks_and_ids.group_by(&:first).each do |scope, rs|
+        klass = scope.singularize.camelcase.constantize
+        results_by_scope[scope] += klass.search_results_from_ids(rs.map(&:last).map(&:last))
       end
+
+      @results = ranks_and_ids.map do |scope, r|
+        results_by_scope[scope].detect {|record| record.id == r.last}
+      end.compact
     else
       @question = ""
     end

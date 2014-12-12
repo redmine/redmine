@@ -22,7 +22,7 @@ class Document < ActiveRecord::Base
   acts_as_attachable :delete_permission => :delete_documents
 
   acts_as_searchable :columns => ['title', "#{table_name}.description"],
-                     :scope => preload(:project)
+                     :preload => :project
   acts_as_event :title => Proc.new {|o| "#{l(:label_document)}: #{o.title}"},
                 :author => Proc.new {|o| o.attachments.reorder("#{Attachment.table_name}.created_on ASC").first.try(:author) },
                 :url => Proc.new {|o| {:controller => 'documents', :action => 'show', :id => o.id}}

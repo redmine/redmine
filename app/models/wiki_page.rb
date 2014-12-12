@@ -33,7 +33,8 @@ class WikiPage < ActiveRecord::Base
                 :url => Proc.new {|o| {:controller => 'wiki', :action => 'show', :project_id => o.wiki.project, :id => o.title}}
 
   acts_as_searchable :columns => ['title', "#{WikiContent.table_name}.text"],
-                     :scope => preload(:wiki => :project).joins(:content, {:wiki => :project}),
+                     :scope => joins(:content, {:wiki => :project}),
+                     :preload => {:wiki => :project},
                      :permission => :view_wiki_pages,
                      :project_key => "#{Wiki.table_name}.project_id"
 

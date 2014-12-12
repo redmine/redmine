@@ -23,9 +23,9 @@
 
 <% if @results %>
     <div id="search-results-counts">
-      <%= render_results_by_type(@results_by_type) unless @scope.size == 1 %>
+      <%= render_results_by_type(@result_count_by_type) unless @scope.size == 1 %>
     </div>
-    <h3><%= l(:label_result_plural) %> (<%= @results_by_type.values.sum %>)</h3>
+    <h3><%= l(:label_result_plural) %> (<%= @result_count %>)</h3>
     <dl id="search-results">
       <% @results.each do |e| %>
         <dt class="<%= e.event_type %>">
@@ -38,18 +38,9 @@
     </dl>
 <% end %>
 
-<p class="pagination">
-<% if @pagination_previous_date %>
-<%= link_to_content_update("\xc2\xab " + l(:label_previous),
-      params.merge(:previous => 1,
-                   :offset => @pagination_previous_date.strftime("%Y%m%d%H%M%S"))) %>&nbsp;
+<% if @result_pages %>
+<p class="pagination"><%= pagination_links_full @result_pages, @result_count, :per_page_links => false %></p>
 <% end %>
-<% if @pagination_next_date %>
-<%= link_to_content_update(l(:label_next) + " \xc2\xbb",
-      params.merge(:previous => nil,
-                   :offset => @pagination_next_date.strftime("%Y%m%d%H%M%S"))) %>
-<% end %>
-</p>
 
 <% html_title(l(:label_search)) -%>
 

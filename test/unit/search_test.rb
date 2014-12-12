@@ -42,25 +42,25 @@ class SearchTest < ActiveSupport::TestCase
   def test_search_by_anonymous
     User.current = nil
 
-    r = Issue.search(@issue_keyword).first
+    r = Issue.search_results(@issue_keyword)
     assert r.include?(@issue)
-    r = Changeset.search(@changeset_keyword).first
+    r = Changeset.search_results(@changeset_keyword)
     assert r.include?(@changeset)
 
     # Removes the :view_changesets permission from Anonymous role
     remove_permission Role.anonymous, :view_changesets
     User.current = nil
 
-    r = Issue.search(@issue_keyword).first
+    r = Issue.search_results(@issue_keyword)
     assert r.include?(@issue)
-    r = Changeset.search(@changeset_keyword).first
+    r = Changeset.search_results(@changeset_keyword)
     assert !r.include?(@changeset)
 
     # Make the project private
     @project.update_attribute :is_public, false
-    r = Issue.search(@issue_keyword).first
+    r = Issue.search_results(@issue_keyword)
     assert !r.include?(@issue)
-    r = Changeset.search(@changeset_keyword).first
+    r = Changeset.search_results(@changeset_keyword)
     assert !r.include?(@changeset)
   end
 
@@ -68,25 +68,25 @@ class SearchTest < ActiveSupport::TestCase
     User.current = User.find_by_login('rhill')
     assert User.current.memberships.empty?
 
-    r = Issue.search(@issue_keyword).first
+    r = Issue.search_results(@issue_keyword)
     assert r.include?(@issue)
-    r = Changeset.search(@changeset_keyword).first
+    r = Changeset.search_results(@changeset_keyword)
     assert r.include?(@changeset)
 
     # Removes the :view_changesets permission from Non member role
     remove_permission Role.non_member, :view_changesets
     User.current = User.find_by_login('rhill')
 
-    r = Issue.search(@issue_keyword).first
+    r = Issue.search_results(@issue_keyword)
     assert r.include?(@issue)
-    r = Changeset.search(@changeset_keyword).first
+    r = Changeset.search_results(@changeset_keyword)
     assert !r.include?(@changeset)
 
     # Make the project private
     @project.update_attribute :is_public, false
-    r = Issue.search(@issue_keyword).first
+    r = Issue.search_results(@issue_keyword)
     assert !r.include?(@issue)
-    r = Changeset.search(@changeset_keyword).first
+    r = Changeset.search_results(@changeset_keyword)
     assert !r.include?(@changeset)
   end
 
@@ -94,16 +94,16 @@ class SearchTest < ActiveSupport::TestCase
     User.current = User.find_by_login('jsmith')
     assert User.current.projects.include?(@project)
 
-    r = Issue.search(@issue_keyword).first
+    r = Issue.search_results(@issue_keyword)
     assert r.include?(@issue)
-    r = Changeset.search(@changeset_keyword).first
+    r = Changeset.search_results(@changeset_keyword)
     assert r.include?(@changeset)
 
     # Make the project private
     @project.update_attribute :is_public, false
-    r = Issue.search(@issue_keyword).first
+    r = Issue.search_results(@issue_keyword)
     assert r.include?(@issue)
-    r = Changeset.search(@changeset_keyword).first
+    r = Changeset.search_results(@changeset_keyword)
     assert r.include?(@changeset)
   end
 
@@ -115,26 +115,26 @@ class SearchTest < ActiveSupport::TestCase
     User.current = User.find_by_login('jsmith')
     assert User.current.projects.include?(@project)
 
-    r = Issue.search(@issue_keyword).first
+    r = Issue.search_results(@issue_keyword)
     assert r.include?(@issue)
-    r = Changeset.search(@changeset_keyword).first
+    r = Changeset.search_results(@changeset_keyword)
     assert !r.include?(@changeset)
 
     # Make the project private
     @project.update_attribute :is_public, false
-    r = Issue.search(@issue_keyword).first
+    r = Issue.search_results(@issue_keyword)
     assert r.include?(@issue)
-    r = Changeset.search(@changeset_keyword).first
+    r = Changeset.search_results(@changeset_keyword)
     assert !r.include?(@changeset)
   end
 
   def test_search_issue_with_multiple_hits_in_journals
-    i = Issue.find(1)
-    assert_equal 2, i.journals.where("notes LIKE '%notes%'").count
+    issue = Issue.find(1)
+    assert_equal 2, issue.journals.where("notes LIKE '%notes%'").count
 
-    r = Issue.search('%notes%').first
+    r = Issue.search_results('%notes%')
     assert_equal 1, r.size
-    assert_equal i, r.first
+    assert_equal issue, r.first
   end
 
   private

@@ -46,8 +46,7 @@ class Issue < ActiveRecord::Base
   acts_as_customizable
   acts_as_watchable
   acts_as_searchable :columns => ['subject', "#{table_name}.description", "#{Journal.table_name}.notes"],
-                     # sort by id so that limited eager loading doesn't break with postgresql
-                     :order_column => "#{table_name}.id",
+                     :preload => [:project, :status, :tracker],
                      :scope => lambda { joins(:project).
                                         joins("LEFT OUTER JOIN #{Journal.table_name} ON #{Journal.table_name}.journalized_type='Issue'" + 
                                               " AND #{Journal.table_name}.journalized_id = #{Issue.table_name}.id" +

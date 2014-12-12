@@ -25,9 +25,9 @@ class Message < ActiveRecord::Base
   attr_protected :id
 
   acts_as_searchable :columns => ['subject', 'content'],
-                     :scope => preload(:board => :project),
-                     :project_key => "#{Board.table_name}.project_id",
-                     :date_column => "#{table_name}.created_on"
+                     :preload => {:board => :project},
+                     :project_key => "#{Board.table_name}.project_id"
+
   acts_as_event :title => Proc.new {|o| "#{o.board.name}: #{o.subject}"},
                 :description => :content,
                 :group => :parent,

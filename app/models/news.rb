@@ -29,7 +29,7 @@ class News < ActiveRecord::Base
   acts_as_attachable :edit_permission => :manage_news,
                      :delete_permission => :manage_news
   acts_as_searchable :columns => ['title', 'summary', "#{table_name}.description"],
-                     :scope => preload(:project)
+                     :preload => :project
   acts_as_event :url => Proc.new {|o| {:controller => 'news', :action => 'show', :id => o.id}}
   acts_as_activity_provider :scope => preload(:project, :author),
                             :author_key => :author_id

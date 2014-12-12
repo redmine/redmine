@@ -35,9 +35,9 @@ class Changeset < ActiveRecord::Base
                 :url => Proc.new {|o| {:controller => 'repositories', :action => 'revision', :id => o.repository.project, :repository_id => o.repository.identifier_param, :rev => o.identifier}}
 
   acts_as_searchable :columns => 'comments',
-                     :scope => preload(:repository => :project),
+                     :preload => {:repository => :project},
                      :project_key => "#{Repository.table_name}.project_id",
-                     :date_column => "#{Changeset.table_name}.committed_on"
+                     :date_column => :committed_on
 
   acts_as_activity_provider :timestamp => "#{table_name}.committed_on",
                             :author_key => :user_id,

@@ -75,8 +75,8 @@ class SearchControllerTest < ActionController::TestCase
     assert_select 'dt.issue a', :text => /Add ingredients categories/
     assert_select 'dd', :text => /should be classified by categories/
 
-    assert assigns(:results_by_type).is_a?(Hash)
-    assert_equal 5, assigns(:results_by_type)['changesets']
+    assert assigns(:result_count_by_type).is_a?(Hash)
+    assert_equal 5, assigns(:result_count_by_type)['changesets']
     assert_select 'a', :text => 'Changesets (5)'
   end
 
@@ -222,20 +222,24 @@ class SearchControllerTest < ActionController::TestCase
     assert_equal 1, results.size
   end
 
-  def test_search_with_offset
-    get :index, :q => 'coo', :offset => '20080806073000'
-    assert_response :success
-    results = assigns(:results)
-    assert results.any?
-    assert results.map(&:event_datetime).max < '20080806T073000'.to_time
-  end
+  def test_search_with_pagination
+    issue = (0..24).map {Issue.generate! :subject => 'search_with_limited_results'}.reverse
 
-  def test_search_previous_with_offset
-    get :index, :q => 'coo', :offset => '20080806073000', :previous => '1'
+    get :index, :q => 'search_with_limited_results'
     assert_response :success
-    results = assigns(:results)
-    assert results.any?
-    assert results.map(&:event_datetime).min >= '20080806T073000'.to_time
+    assert_equal issue[0..9], assigns(:results)
+
+    get :index, :q => 'search_with_limited_results', :page => 2
+    assert_response :success
+    assert_equal issue[10..19], assigns(:results)
+
+    get :index, :q => 'search_with_limited_results', :page => 3
+    assert_response :success
+    assert_equal issue[20..24], assigns(:results)
+
+    get :index, :q => 'search_with_limited_results', :page => 4
+    assert_response :success
+    assert_equal [], assigns(:results)
   end
 
   def test_search_with_invalid_project_id
