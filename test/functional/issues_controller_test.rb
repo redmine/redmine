@@ -979,34 +979,6 @@ class IssuesControllerTest < ActionController::TestCase
     end
   end
 
-  def test_show_should_display_update_form_with_workflow_permissions
-    Role.find(1).update_attribute :permissions, [:view_issues, :add_issue_notes]
-
-    @request.session[:user_id] = 2
-    get :show, :id => 1
-    assert_response :success
-
-    assert_select 'form#issue-form' do
-      assert_select 'input[name=?]', 'issue[is_private]', 0
-      assert_select 'select[name=?]', 'issue[project_id]', 0
-      assert_select 'select[name=?]', 'issue[tracker_id]', 0
-      assert_select 'input[name=?]', 'issue[subject]', 0
-      assert_select 'textarea[name=?]', 'issue[description]', 0
-      assert_select 'select[name=?]', 'issue[status_id]'
-      assert_select 'select[name=?]', 'issue[priority_id]', 0
-      assert_select 'select[name=?]', 'issue[assigned_to_id]'
-      assert_select 'select[name=?]', 'issue[category_id]', 0
-      assert_select 'select[name=?]', 'issue[fixed_version_id]'
-      assert_select 'input[name=?]', 'issue[parent_issue_id]', 0
-      assert_select 'input[name=?]', 'issue[start_date]', 0
-      assert_select 'input[name=?]', 'issue[due_date]', 0
-      assert_select 'select[name=?]', 'issue[done_ratio]'
-      assert_select 'input[name=?]', 'issue[custom_field_values][2]', 0
-      assert_select 'input[name=?]', 'issue[watcher_user_ids][]', 0
-      assert_select 'textarea[name=?]', 'issue[notes]'
-    end
-  end
-
   def test_show_should_not_display_update_form_without_permissions
     Role.find(1).update_attribute :permissions, [:view_issues]
 
@@ -2404,40 +2376,6 @@ class IssuesControllerTest < ActionController::TestCase
     Role.anonymous.add_permission! :add_issues, :add_issue_notes
   end
   private :setup_with_workflow_privilege
-
-  test "with workflow privilege #update should accept authorized status" do
-    setup_with_workflow_privilege
-    assert_difference 'Journal.count' do
-      put :update, :id => 1, :issue => {:status_id => 3, :notes => 'just trying'}
-    end
-    assert_equal 3, Issue.find(1).status_id
-  end
-
-  test "with workflow privilege #update should ignore unauthorized status" do
-    setup_with_workflow_privilege
-    assert_difference 'Journal.count' do
-      put :update, :id => 1, :issue => {:status_id => 2, :notes => 'just trying'}
-    end
-    assert_equal 1, Issue.find(1).status_id
-  end
-
-  test "with workflow privilege #update should accept authorized attributes changes" do
-    setup_with_workflow_privilege
-    assert_difference 'Journal.count' do
-      put :update, :id => 1, :issue => {:assigned_to_id => 2, :notes => 'just trying'}
-    end
-    issue = Issue.find(1)
-    assert_equal 2, issue.assigned_to_id
-  end
-
-  test "with workflow privilege #update should ignore unauthorized attributes changes" do
-    setup_with_workflow_privilege
-    assert_difference 'Journal.count' do
-      put :update, :id => 1, :issue => {:subject => 'changed', :notes => 'just trying'}
-    end
-    issue = Issue.find(1)
-    assert_equal "Can't print recipes", issue.subject
-  end
 
   def setup_with_workflow_privilege_and_edit_issues_permission
     setup_with_workflow_privilege

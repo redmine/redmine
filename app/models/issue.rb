@@ -405,14 +405,6 @@ class Issue < ActiveRecord::Base
     'notes',
     :if => lambda {|issue, user| issue.new_record? || user.allowed_to?(:edit_issues, issue.project) }
 
-  safe_attributes 'status_id',
-    'assigned_to_id',
-    'fixed_version_id',
-    'done_ratio',
-    'lock_version',
-    'notes',
-    :if => lambda {|issue, user| issue.new_statuses_allowed_to(user).any? }
-
   safe_attributes 'notes',
     :if => lambda {|issue, user| user.allowed_to?(:add_issue_notes, issue.project)}
 

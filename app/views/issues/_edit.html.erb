@@ -2,7 +2,7 @@
     <%= error_messages_for 'issue', 'time_entry' %>
     <%= render :partial => 'conflict' if @conflict %>
     <div class="box">
-    <% if @edit_allowed || !@allowed_statuses.empty? %>
+    <% if @edit_allowed %>
         <fieldset class="tabular"><legend><%= l(:label_change_properties) %></legend>
         <div id="all_attributes">
         <%= render :partial => 'form', :locals => {:f => f} %>
