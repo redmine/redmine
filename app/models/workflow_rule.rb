@@ -36,7 +36,7 @@ class WorkflowRule < ActiveRecord::Base
     target_roles = [target_roles].flatten.compact
 
     target_trackers = Tracker.sorted.to_a if target_trackers.empty?
-    target_roles = Role.all if target_roles.empty?
+    target_roles = Role.all.select(&:consider_workflow?) if target_roles.empty?
 
     target_trackers.each do |target_tracker|
       target_roles.each do |target_role|

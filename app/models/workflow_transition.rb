@@ -21,7 +21,7 @@ class WorkflowTransition < WorkflowRule
   # Returns workflow transitions count by tracker and role
   def self.count_by_tracker_and_role
     counts = connection.select_all("SELECT role_id, tracker_id, count(id) AS c FROM #{table_name} WHERE type = 'WorkflowTransition' GROUP BY role_id, tracker_id")
-    roles    = Role.sorted
+    roles    = Role.sorted.to_a.select(&:consider_workflow?)
     trackers = Tracker.sorted
     result = []
     trackers.each do |tracker|

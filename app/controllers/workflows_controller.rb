@@ -72,7 +72,7 @@ class WorkflowsController < ApplicationController
   end
 
   def copy
-    @roles = Role.sorted
+    @roles = Role.sorted.select(&:consider_workflow?)
     @trackers = Tracker.sorted
 
     if params[:source_tracker_id].blank? || params[:source_tracker_id] == 'any'
