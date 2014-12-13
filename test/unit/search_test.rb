@@ -142,8 +142,7 @@ class SearchTest < ActiveSupport::TestCase
   def test_search_should_not_use_ruby_downcase
     issue = Issue.generate!(:subject => "Special chars: ÖÖ")
     r = Issue.search_results('%ÖÖ%')
-    assert_equal 1, r.size
-    assert_equal issue, r.first
+    assert_include issue, r
   end
 
   private
