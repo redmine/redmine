@@ -21,7 +21,9 @@ class WorkflowsController < ApplicationController
   before_filter :require_admin
 
   def index
-    @workflow_counts = WorkflowTransition.count_by_tracker_and_role
+    @roles = Role.sorted.select(&:consider_workflow?)
+    @trackers = Tracker.sorted
+    @workflow_counts = WorkflowTransition.group(:tracker_id, :role_id).count
   end
 
   def edit

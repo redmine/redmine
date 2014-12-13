@@ -1,6 +1,6 @@
 <%= title [l(:label_workflow), workflows_edit_path], l(:field_summary) %>
 
-<% if @workflow_counts.empty? %>
+<% if @roles.empty? || @trackers.empty? %>
 <p class="nodata"><%= l(:label_no_data) %></p>
 <% else %>
 <div class="autoscroll">
@@ -8,19 +8,19 @@
 <thead>
     <tr>
     <th></th>
-    <% @workflow_counts.first.last.each do |role, count| %>
+    <% @roles.each do |role| %>
     <th>
-        <%= content_tag(role.builtin? ? 'em' : 'span', h(role.name)) %>
+        <%= content_tag(role.builtin? ? 'em' : 'span', role.name) %>
     </th>
-
     <% end %>
     </tr>
 </thead>
 <tbody>
-<% @workflow_counts.each do |tracker, roles| -%>
+<% @trackers.each do |tracker| -%>
 <tr class="<%= cycle('odd', 'even') %>">
-  <td class="name"><%= h tracker %></td>
-  <% roles.each do |role, count| -%>
+  <td class="name"><%= tracker.name %></td>
+  <% @roles.each do |role| -%>
+  <% count = @workflow_counts[[tracker.id, role.id]] || 0 %>
     <td>
       <%= link_to((count > 0 ? count : image_tag('false.png')), {:action => 'edit', :role_id => role, :tracker_id => tracker}, :title => l(:button_edit)) %>
     </td>
