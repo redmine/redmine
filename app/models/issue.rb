@@ -539,6 +539,7 @@ class Issue < ActiveRecord::Base
 
     user_real = user || User.current
     roles = user_real.admin ? Role.all.to_a : user_real.roles_for_project(project)
+    roles = roles.select(&:consider_workflow?)
     return {} if roles.empty?
 
     result = {}

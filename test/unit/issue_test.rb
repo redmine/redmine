@@ -914,6 +914,29 @@ class IssueTest < ActiveSupport::TestCase
     assert_equal %w(due_date), issue.read_only_attribute_names(user)
   end
 
+  def test_workflow_rules_should_ignore_roles_without_issue_permissions
+    role = Role.generate! :permissions => [:view_issues, :edit_issues]
+    ignored_role = Role.generate! :permissions => [:view_issues]
+
+    WorkflowPermission.delete_all
+    WorkflowPermission.create!(:old_status_id => 1, :tracker_id => 1,
+                               :role => role, :field_name => 'due_date',
+                               :rule => 'required')
+    WorkflowPermission.create!(:old_status_id => 1, :tracker_id => 1,
+                               :role => role, :field_name => 'start_date',
+                               :rule => 'readonly')
+    WorkflowPermission.create!(:old_status_id => 1, :tracker_id => 1,
+                               :role => role, :field_name => 'done_ratio',
+                               :rule => 'readonly')
+    user = User.generate!
+    User.add_to_project user, Project.find(1), [role, ignored_role]
+
+    issue = Issue.new(:project_id => 1, :tracker_id => 1, :status_id => 1)
+
+    assert_equal %w(due_date), issue.required_attribute_names(user)
+    assert_equal %w(done_ratio start_date), issue.read_only_attribute_names(user).sort
+  end
+
   def test_copy
     issue = Issue.new.copy_from(1)
     assert issue.copy?

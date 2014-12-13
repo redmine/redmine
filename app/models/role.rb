@@ -113,6 +113,10 @@ class Role < ActiveRecord::Base
     !permissions.nil? && permissions.include?(perm.to_sym)
   end
 
+  def consider_workflow?
+    has_permission?(:add_issues) || has_permission?(:edit_issues)
+  end
+
   def <=>(role)
     if role
       if builtin == role.builtin
