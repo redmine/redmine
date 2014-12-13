@@ -25,15 +25,15 @@
   <% end %>
   <ul>
   <% unless @project.homepage.blank? %>
-    <li><%=l(:field_homepage)%>: <%= link_to h(@project.homepage), @project.homepage %></li>
+    <li><span class="label"><%=l(:field_homepage)%>:</span> <%= link_to h(@project.homepage), @project.homepage %></li>
   <% end %>
   <% if @subprojects.any? %>
-    <li><%=l(:label_subproject_plural)%>:
+    <li><span class="label"><%=l(:label_subproject_plural)%>:</span>
       <%= @subprojects.collect{|p| link_to p, project_path(p)}.join(", ").html_safe %></li>
   <% end %>
   <% @project.visible_custom_field_values.each do |custom_value| %>
   <% if !custom_value.value.blank? %>
-     <li><%=h custom_value.custom_field.name %>: <%=h show_value(custom_value) %></li>
+     <li><span class="label"><%=h custom_value.custom_field.name %>:</span> <%=h show_value(custom_value) %></li>
   <% end %>
   <% end %>
   </ul>
