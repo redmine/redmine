@@ -1,3 +1,5 @@
+# encoding: utf-8
+#
 # Redmine - project management software
 # Copyright (C) 2006-2014  Jean-Philippe Lang
 #
@@ -133,6 +135,13 @@ class SearchTest < ActiveSupport::TestCase
     assert_equal 2, issue.journals.where("notes LIKE '%notes%'").count
 
     r = Issue.search_results('%notes%')
+    assert_equal 1, r.size
+    assert_equal issue, r.first
+  end
+
+  def test_search_should_not_use_ruby_downcase
+    issue = Issue.generate!(:subject => "Special chars: ÖÖ")
+    r = Issue.search_results('%ÖÖ%')
     assert_equal 1, r.size
     assert_equal issue, r.first
   end

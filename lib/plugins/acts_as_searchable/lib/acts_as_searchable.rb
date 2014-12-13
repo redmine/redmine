@@ -86,7 +86,7 @@ module Redmine
             columns = searchable_options[:columns]
             columns = columns[0..0] if options[:titles_only]
 
-            token_clauses = columns.collect {|column| "(LOWER(#{column}) LIKE ?)"}
+            token_clauses = columns.collect {|column| "(LOWER(#{column}) LIKE LOWER(?))"}
 
             if !options[:titles_only] && searchable_options[:search_custom_fields]
               searchable_custom_fields = CustomField.where(:type => "#{self.name}CustomField", :searchable => true)
@@ -97,7 +97,7 @@ module Redmine
               fields_by_visibility.each do |visibility, fields|
                 ids = fields.map(&:id).join(',')
                 sql = "#{table_name}.id IN (SELECT cfs.customized_id FROM #{CustomValue.table_name} cfs" +
-                  " WHERE cfs.customized_type='#{self.name}' AND cfs.customized_id=#{table_name}.id AND LOWER(cfs.value) LIKE ?" +
+                  " WHERE cfs.customized_type='#{self.name}' AND cfs.customized_id=#{table_name}.id AND LOWER(cfs.value) LIKE LOWER(?)" +
                   " AND cfs.custom_field_id IN (#{ids})" +
                   " AND #{visibility})"
                 token_clauses << sql
@@ -106,7 +106,7 @@ module Redmine
 
             sql = (['(' + token_clauses.join(' OR ') + ')'] * tokens.size).join(options[:all_words] ? ' AND ' : ' OR ')
 
-            tokens_conditions = [sql, * (tokens.collect {|w| "%#{w.downcase}%"} * token_clauses.size).sort]
+            tokens_conditions = [sql, * (tokens.collect {|w| "%#{w}%"} * token_clauses.size).sort]
 
             scope = (searchable_options[:scope] || self)
             if scope.is_a? Proc
