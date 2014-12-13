@@ -1134,7 +1134,7 @@ module ApplicationHelper
 
   def include_calendar_headers_tags
     unless @calendar_headers_tags_included
-      tags = javascript_include_tag("datepicker")
+      tags = ''.html_safe
       @calendar_headers_tags_included = true
       content_for :header_tags do
         start_of_week = Setting.start_of_week
