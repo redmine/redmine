@@ -29,7 +29,7 @@ class SearchController < ApplicationController
       when 'all'
         nil
       when 'my_projects'
-        User.current.memberships.collect(&:project)
+        User.current.projects
       when 'subprojects'
         @project ? (@project.self_and_descendants.active.to_a) : nil
       else
