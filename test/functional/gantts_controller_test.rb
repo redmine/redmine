@@ -43,6 +43,18 @@ class GanttsControllerTest < ActionController::TestCase
     assert_select "div a.issue", /##{i.id}/
   end
 
+  def test_gantt_at_minimal_zoom
+    get :show, :project_id => 1, :zoom => 1
+    assert_response :success
+    assert_equal 1, assigns(:gantt).zoom
+  end
+
+  def test_gantt_at_maximal_zoom
+    get :show, :project_id => 1, :zoom => 4
+    assert_response :success
+    assert_equal 4, assigns(:gantt).zoom
+  end
+
   def test_gantt_should_work_without_issue_due_dates
     Issue.update_all("due_date = NULL")
     get :show, :project_id => 1
