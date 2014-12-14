@@ -14,6 +14,8 @@ table td h1 { font-size: 1.8em; text-align: left; }
 table td h2 { font-size: 1.4em; text-align: left; }
 table td h3 { font-size: 1.2em; text-align: left; }
 
+table.sample { border-collapse: collapse; border-spacing: 0; margin: 4px; }
+table.sample th, table.sample td { border: solid 1px #bbb; padding: 4px; height: 1em; }
 </style>
 </head>
 <body>
@@ -22,7 +24,7 @@ table td h3 { font-size: 1.2em; text-align: left; }
 
 <table style="width:100%">
 <tr><th colspan="3">Styly písma</th></tr>
-<tr><th><img src="../../images/jstoolbar/bt_strong.png" style="border: 1px solid #bbb;" alt="Tučný" /></th><td style="width:50%;">*Tučný*</td><td style="width:50%;"><strong>Tučný</strong></td></tr>
+<tr><th><img src="../../images/jstoolbar/bt_strong.png" style="border: 1px solid #bbb;" alt="Tu�?ný" /></th><td style="width:50%;">*Tu�?ný*</td><td style="width:50%;"><strong>Tu�?ný</strong></td></tr>
 <tr><th><img src="../../images/jstoolbar/bt_em.png" style="border: 1px solid #bbb;" alt="Kurzívou" /></th><td>_Kurzívou_</td><td><em>Kurzívou</em></td></tr>
 <tr><th><img src="../../images/jstoolbar/bt_ins.png" style="border: 1px solid #bbb;" alt="Podtržený" /></th><td>+Podtržený+</td><td><ins>Podtržený</ins></td></tr>
 <tr><th><img src="../../images/jstoolbar/bt_del.png" style="border: 1px solid #bbb;" alt="Smazaný" /></th><td>-Smazaný-</td><td><del>Smazaný</del></td></tr>
@@ -58,6 +60,10 @@ table td h3 { font-size: 1.2em; text-align: left; }
 <tr><th colspan="3">Vnořené obrázky</th></tr>
 <tr><th><img src="../../images/jstoolbar/bt_img.png" style="border: 1px solid #bbb;" alt="Obrázek" /></th><td>!<em>url_obrázku</em>!</td><td></td></tr>
 <tr><th></th><td>!<em>vnořený_obrázek</em>!</td><td></td></tr>
+
+<tr><th colspan="3">Tables</th></tr>
+<tr><th></th><td>|_. A |_. B |_. C |<br />| A | B | C |<br />|/2. row span | B | C |<br />|\2. col span |</td><td><table class="sample"><tbody><th>A</th><th>B</th><th>C</th></tr><tr><td>A</td><td>B</td><td>C</td></tr><tr><td rowspan="2">row span</td><td>B</td><td>C</td></tr><tr><td colspan="2">col span</td></tr></tbody></table></td></tr>
+
 </table>
 
 <p><a href="wiki_syntax_detailed.html" onclick="window.open('wiki_syntax_detailed.html', '', ''); return false;">Více informací</a></p>

@@ -14,6 +14,8 @@ table td h1 { font-size: 1.8em; text-align: left; }
 table td h2 { font-size: 1.4em; text-align: left; }
 table td h3 { font-size: 1.2em; text-align: left; }
 
+table.sample { border-collapse: collapse; border-spacing: 0; margin: 4px; }
+table.sample th, table.sample td { border: solid 1px #bbb; padding: 4px; height: 1em; }
 </style>
 </head>
 <body>
@@ -58,6 +60,10 @@ table td h3 { font-size: 1.2em; text-align: left; }
 <tr><th colspan="3">eingebettete Bilder</th></tr>
 <tr><th><img src="../../images/jstoolbar/bt_img.png" style="border: 1px solid #bbb;" alt="Bild" /></th><td>!<em>URL_zu_dem_Bild</em>!</td><td></td></tr>
 <tr><th></th><td>!<em>angeh&auml;ngtes_Bild</em>!</td><td></td></tr>
+
+<tr><th colspan="3">Tables</th></tr>
+<tr><th></th><td>|_. A |_. B |_. C |<br />| A | B | C |<br />|/2. row span | B | C |<br />|\2. col span |</td><td><table class="sample"><tbody><th>A</th><th>B</th><th>C</th></tr><tr><td>A</td><td>B</td><td>C</td></tr><tr><td rowspan="2">row span</td><td>B</td><td>C</td></tr><tr><td colspan="2">col span</td></tr></tbody></table></td></tr>
+
 </table>
 
 <p><a href="wiki_syntax_detailed.html" onclick="window.open('wiki_syntax_detailed.html', '', ''); return false;">weitere Informationen</a></p>

@@ -14,6 +14,8 @@ table td h1 { font-size: 1.8em; text-align: left; }
 table td h2 { font-size: 1.4em; text-align: left; }
 table td h3 { font-size: 1.2em; text-align: left; }
 
+table.sample { border-collapse: collapse; border-spacing: 0; margin: 4px; }
+table.sample th, table.sample td { border: solid 1px #bbb; padding: 4px; height: 1em; }
 </style>
 </head>
 <body>
@@ -25,42 +27,46 @@ table td h3 { font-size: 1.2em; text-align: left; }
 <tr><th><img src="../../images/jstoolbar/bt_strong.png" style="border: 1px solid #bbb;" alt="太字" /></th><td style="width:50%;">*太字*</td><td style="width:50%;"><strong>太字</strong></td></tr>
 <tr><th><img src="../../images/jstoolbar/bt_em.png" style="border: 1px solid #bbb;" alt="斜体" /></th><td>_斜体_</td><td><em>斜体</em></td></tr>
 <tr><th><img src="../../images/jstoolbar/bt_ins.png" style="border: 1px solid #bbb;" alt="下線" /></th><td>+下線+</td><td><ins>下線</ins></td></tr>
-<tr><th><img src="../../images/jstoolbar/bt_del.png" style="border: 1px solid #bbb;" alt="取り消し線" /></th><td>-取り消し線-</td><td><del>取り消し線</del></td></tr>
+<tr><th><img src="../../images/jstoolbar/bt_del.png" style="border: 1px solid #bbb;" alt="�?�り消�?�線" /></th><td>-�?�り消�?�線-</td><td><del>�?�り消�?�線</del></td></tr>
 <tr><th></th><td>??引用??</td><td><cite>引用</cite></td></tr>
 <tr><th><img src="../../images/jstoolbar/bt_code.png" style="border: 1px solid #bbb;" alt="コード" /></th><td>@コード@</td><td><code>コード</code></td></tr>
-<tr><th><img src="../../images/jstoolbar/bt_pre.png" style="border: 1px solid #bbb;" alt="整形済みテキスト" /></th><td>&lt;pre&gt;<br />&nbsp;複数行の<br />&nbsp;コード<br />&lt;/pre&gt;</td><td>
+<tr><th><img src="../../images/jstoolbar/bt_pre.png" style="border: 1px solid #bbb;" alt="整形済�?�テキスト" /></th><td>&lt;pre&gt;<br />&nbsp;複数行�?�<br />&nbsp;コード<br />&lt;/pre&gt;</td><td>
 <pre>
-複数行の
+複数行�?�
 コード
 </pre>
 </td></tr>
 
 <tr><th colspan="3">リスト</th></tr>
 <tr><th><img src="../../images/jstoolbar/bt_ul.png" style="border: 1px solid #bbb;" alt="リスト" /></th><td>* 項目1<br />* 項目2</td><td><ul><li>項目1</li><li>項目2</li></ul></td></tr>
-<tr><th><img src="../../images/jstoolbar/bt_ol.png" style="border: 1px solid #bbb;" alt="順序付きリスト" /></th><td># 項目1<br /># 項目2</td><td><ol><li>項目1</li><li>項目2</li></ol></td></tr>
+<tr><th><img src="../../images/jstoolbar/bt_ol.png" style="border: 1px solid #bbb;" alt="順�?付�??リスト" /></th><td># 項目1<br /># 項目2</td><td><ol><li>項目1</li><li>項目2</li></ol></td></tr>
 
-<tr><th colspan="3">見出し</th></tr>
-<tr><th><img src="../../images/jstoolbar/bt_h1.png" style="border: 1px solid #bbb;" alt="見出し1" /></th><td>h1. タイトル1</td><td><h1>タイトル1</h1></td></tr>
-<tr><th><img src="../../images/jstoolbar/bt_h2.png" style="border: 1px solid #bbb;" alt="見出し2" /></th><td>h2. タイトル2</td><td><h2>タイトル2</h2></td></tr>
-<tr><th><img src="../../images/jstoolbar/bt_h3.png" style="border: 1px solid #bbb;" alt="見出し3" /></th><td>h3. タイトル3</td><td><h3>タイトル3</h3></td></tr>
+<tr><th colspan="3">見出�?�</th></tr>
+<tr><th><img src="../../images/jstoolbar/bt_h1.png" style="border: 1px solid #bbb;" alt="見出�?�1" /></th><td>h1. タイトル1</td><td><h1>タイトル1</h1></td></tr>
+<tr><th><img src="../../images/jstoolbar/bt_h2.png" style="border: 1px solid #bbb;" alt="見出�?�2" /></th><td>h2. タイトル2</td><td><h2>タイトル2</h2></td></tr>
+<tr><th><img src="../../images/jstoolbar/bt_h3.png" style="border: 1px solid #bbb;" alt="見出�?�3" /></th><td>h3. タイトル3</td><td><h3>タイトル3</h3></td></tr>
 
 <tr><th colspan="3">リンク</th></tr>
 <tr><th></th><td>http://foo.bar</td><td><a href="#">http://foo.bar</a></td></tr>
 <tr><th></th><td>"Foo":http://foo.bar</td><td><a href="#">Foo</a></td></tr>
 
-<tr><th colspan="3">Redmine内のリンク</th></tr>
-<tr><th><img src="../../images/jstoolbar/bt_link.png" style="border: 1px solid #bbb;" alt="Wikiページへのリンク" /></th><td>[[Wiki page]]</td><td><a href="#">Wiki page</a></td></tr>
-<tr><th></th><td>チケット #12</td><td>チケット <a href="#">#12</a></td></tr>
+<tr><th colspan="3">Redmine内�?�リンク</th></tr>
+<tr><th><img src="../../images/jstoolbar/bt_link.png" style="border: 1px solid #bbb;" alt="Wikiページ�?��?�リンク" /></th><td>[[Wiki page]]</td><td><a href="#">Wiki page</a></td></tr>
+<tr><th></th><td>�?ケット #12</td><td>�?ケット <a href="#">#12</a></td></tr>
 <tr><th></th><td>リビジョン r43</td><td>リビジョン <a href="#">r43</a></td></tr>
 <tr><th></th><td>commit:f30e13e43</td><td><a href="#">f30e13e4</a></td></tr>
 <tr><th></th><td>source:some/file</td><td><a href="#">source:some/file</a></td></tr>
 
-<tr><th colspan="3">画像</th></tr>
-<tr><th><img src="../../images/jstoolbar/bt_img.png" style="border: 1px solid #bbb;" alt="Image" /></th><td>!<em>画像URL</em>!</td><td></td></tr>
-<tr><th></th><td>!<em>添付ファイル名</em>!</td><td></td></tr>
+<tr><th colspan="3">画�?</th></tr>
+<tr><th><img src="../../images/jstoolbar/bt_img.png" style="border: 1px solid #bbb;" alt="Image" /></th><td>!<em>画�?URL</em>!</td><td></td></tr>
+<tr><th></th><td>!<em>添付ファイル�??</em>!</td><td></td></tr>
+
+<tr><th colspan="3">Tables</th></tr>
+<tr><th></th><td>|_. A |_. B |_. C |<br />| A | B | C |<br />|/2. row span | B | C |<br />|\2. col span |</td><td><table class="sample"><tbody><th>A</th><th>B</th><th>C</th></tr><tr><td>A</td><td>B</td><td>C</td></tr><tr><td rowspan="2">row span</td><td>B</td><td>C</td></tr><tr><td colspan="2">col span</td></tr></tbody></table></td></tr>
+
 </table>
 
-<p><a href="wiki_syntax_detailed.html" onclick="window.open('wiki_syntax_detailed.html', '', ''); return false;">より詳細なリファレンス</a></p>
+<p><a href="wiki_syntax_detailed.html" onclick="window.open('wiki_syntax_detailed.html', '', ''); return false;">より詳細�?�リファレンス</a></p>
 
 </body>
 </html>
