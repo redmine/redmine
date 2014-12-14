@@ -904,7 +904,7 @@ class Project < ActiveRecord::Base
 
       self.issues << new_issue
       if new_issue.new_record?
-        logger.info "Project#copy_issues: issue ##{issue.id} could not be copied: #{new_issue.errors.full_messages}" if logger && logger.info
+        logger.info "Project#copy_issues: issue ##{issue.id} could not be copied: #{new_issue.errors.full_messages}" if logger && logger.info?
       else
         issues_map[issue.id] = new_issue unless new_issue.new_record?
       end
