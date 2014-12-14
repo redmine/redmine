@@ -163,6 +163,10 @@ class ActiveSupport::TestCase
     hs
   end
 
+  def sqlite?
+    ActiveRecord::Base.connection.adapter_name =~ /sqlite/i
+  end
+
   def assert_save(object)
     saved = object.save
     message = "#{object.class} could not be saved"
