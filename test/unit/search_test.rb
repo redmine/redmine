@@ -142,13 +142,21 @@ class SearchTest < ActiveSupport::TestCase
     assert_equal issue, r.first
   end
 
+  def test_search_should_be_case_insensitive
+    issue = Issue.generate!(:subject => "AzerTY")
+
+    r = Issue.search_results('AZERty')
+    assert_include issue, r
+  end
+
   def test_search_should_not_use_ruby_downcase
+    skip "SQLite does not support case insensitive match for non-ASCII characters" if sqlite?
     issue1 = Issue.generate!(:subject => "Special chars: ÖÖ")
     issue2 = Issue.generate!(:subject => "Special chars: Öö")
     Issue.generate!(:subject => "Special chars: oo")
     Issue.generate!(:subject => "Special chars: OO")
 
-    r = Issue.search_results('%ÖÖ%')
+    r = Issue.search_results('ÖÖ')
     assert_include issue1, r
     assert_include issue2, r
     assert_equal 2, r.size
