@@ -46,12 +46,6 @@ class Redmine::MenuManager::MenuItemTest < ActiveSupport::TestCase
     end
   end
 
-  def test_new_menu_item_should_require_the_options
-    assert_raises ArgumentError do
-      Redmine::MenuManager::MenuItem.new(:test_missing_options, '/test')
-    end
-  end
-
   def test_new_menu_item_with_all_required_parameters
     assert Redmine::MenuManager::MenuItem.new(:test_good_menu, '/test', {})
   end

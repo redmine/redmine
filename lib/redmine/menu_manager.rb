@@ -178,7 +178,11 @@ module Redmine
         when Hash
           project.nil? ? item.url : {item.param => project}.merge(item.url)
         when Symbol
-          send(item.url)
+          if project
+            send(item.url, project)
+          else
+            send(item.url)
+          end
         else
           item.url
         end
@@ -376,9 +380,9 @@ module Redmine
 
     class MenuItem < MenuNode
       include Redmine::I18n
-      attr_reader :name, :url, :param, :condition, :parent, :child_menus, :last
+      attr_reader :name, :url, :param, :condition, :parent, :child_menus, :last, :permission
 
-      def initialize(name, url, options)
+      def initialize(name, url, options={})
         raise ArgumentError, "Invalid option :if for menu item '#{name}'" if options[:if] && !options[:if].respond_to?(:call)
         raise ArgumentError, "Invalid option :html for menu item '#{name}'" if options[:html] && !options[:html].is_a?(Hash)
         raise ArgumentError, "Cannot set the :parent to be the same as this item" if options[:parent] == name.to_sym
@@ -386,6 +390,8 @@ module Redmine
         @name = name
         @url = url
         @condition = options[:if]
+        @permission = options[:permission]
+        @permission ||= false if options.key?(:permission)
         @param = options[:param] || :id
         @caption = options[:caption]
         @html_options = options[:html] || {}
@@ -423,11 +429,19 @@ module Redmine
 
       # Checks if a user is allowed to access the menu item by:
       #
-      # * Checking the url target (project only)
+      # * Checking the permission or the url target (project only)
       # * Checking the conditions of the item
       def allowed?(user, project)
-        if url.is_a?(Hash) && project && user && !user.allowed_to?(url, project)
-          return false
+        if user && project
+          if permission
+            unless user.allowed_to?(permission, project)
+              return false
+            end
+          elsif permission.nil? && url.is_a?(Hash)
+            unless user.allowed_to?(url, project)
+              return false
+            end
+          end
         end
         if condition && !condition.call(project)
           # Condition that doesn't pass
