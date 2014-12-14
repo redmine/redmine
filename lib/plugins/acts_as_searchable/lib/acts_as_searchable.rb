@@ -86,7 +86,7 @@ module Redmine
             columns = searchable_options[:columns]
             columns = columns[0..0] if options[:titles_only]
 
-            token_clauses = columns.collect {|column| "(LOWER(#{column}) LIKE LOWER(?))"}
+            token_clauses = columns.collect {|column| "(#{search_token_match_statement(column)})"}
 
             if !options[:titles_only] && searchable_options[:search_custom_fields]
               searchable_custom_fields = CustomField.where(:type => "#{self.name}CustomField", :searchable => true)
@@ -97,8 +97,9 @@ module Redmine
               fields_by_visibility.each do |visibility, fields|
                 ids = fields.map(&:id).join(',')
                 sql = "#{table_name}.id IN (SELECT cfs.customized_id FROM #{CustomValue.table_name} cfs" +
-                  " WHERE cfs.customized_type='#{self.name}' AND cfs.customized_id=#{table_name}.id AND LOWER(cfs.value) LIKE LOWER(?)" +
+                  " WHERE cfs.customized_type='#{self.name}' AND cfs.customized_id=#{table_name}.id" +
                   " AND cfs.custom_field_id IN (#{ids})" +
+                  " AND #{search_token_match_statement('cfs.value')}" +
                   " AND #{visibility})"
                 token_clauses << sql
               end
@@ -108,6 +109,28 @@ module Redmine
 
             tokens_conditions = [sql, * (tokens.collect {|w| "%#{w}%"} * token_clauses.size).sort]
 
+            search_scope(user, projects).
+              reorder(searchable_options[:date_column] => :desc, :id => :desc).
+              where(tokens_conditions).
+              limit(options[:limit]).
+              uniq.
+              pluck(searchable_options[:date_column], :id)
+          end
+
+          def search_token_match_statement(column, value='?')
+            case connection.adapter_name
+            when /postgresql/i
+              "#{column} ILIKE #{value}"
+            when /mysql/i
+              "LOWER(#{column}) COLLATE utf8_bin LIKE LOWER(#{value})"
+            else
+              "#{column} LIKE #{value}"
+            end
+          end
+          private :search_token_match_statement
+
+          # Returns the search scope for user and projects
+          def search_scope(user, projects)
             scope = (searchable_options[:scope] || self)
             if scope.is_a? Proc
               scope = scope.call
@@ -120,21 +143,12 @@ module Redmine
               scope = scope.where(Project.allowed_to_condition(user, permission))
             end
 
-            # TODO: use visible scope options instead
             if projects
               scope = scope.where("#{searchable_options[:project_key]} IN (?)", projects.map(&:id))
             end
-
-            results = []
-            results_count = 0
-
-            scope.
-              reorder(searchable_options[:date_column] => :desc, :id => :desc).
-              where(tokens_conditions).
-              limit(options[:limit]).
-              uniq.
-              pluck(searchable_options[:date_column], :id)
+            scope
           end
+          private :search_scope
 
           # Returns search results of given ids
           def search_results_from_ids(ids)
