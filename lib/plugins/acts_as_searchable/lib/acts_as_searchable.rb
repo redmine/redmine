@@ -121,8 +121,6 @@ module Redmine
             case connection.adapter_name
             when /postgresql/i
               "#{column} ILIKE #{value}"
-            when /mysql/i
-              "LOWER(#{column}) COLLATE utf8_bin LIKE LOWER(#{value})"
             else
               "#{column} LIKE #{value}"
             end
