@@ -28,7 +28,7 @@ class ProjectsController < ApplicationController
   before_filter :require_admin, :only => [ :copy, :archive, :unarchive, :destroy ]
   accept_rss_auth :index
   accept_api_auth :index, :show, :create, :update, :destroy
-
+    
   after_filter :only => [:create, :edit, :update, :archive, :unarchive, :destroy] do |controller|
     if controller.request.post?
       controller.send :expire_action, :controller => 'welcome', :action => 'robots'
@@ -520,26 +520,42 @@ class ProjectsController < ApplicationController
       end
 
       # Generate simulation and js file path
-      random_string = SecureRandom.hex
-      @geppettoSimulationFilePath = geppettoTmpPath + random_string + ".xml"
-      @geppettoJsFilePath = geppettoTmpPath + random_string + ".js"      
-          
+#      random_string = SecureRandom.hex
+#      @geppettoSimulationFilePath = random_string + ".xml"
+#      @geppettoJsFilePath = random_string + ".js"      
+      
+      #@geppettoSimulationFilePath = entity + ".xml"
+      #@geppettoJsFilePath = entity + ".js" 
+      
+      geppettoTmpSimulationFile = Tempfile.new([entity,".xml"], publicResourcesPath + geppettoTmpPath);
+      @geppettoSimulationFilePath = File.basename(geppettoTmpSimulationFile.path)
+      geppettoTmpJsFile = Tempfile.new([entity,".js"], publicResourcesPath + geppettoTmpPath);
+      @geppettoJsFilePath = File.basename(geppettoTmpJsFile.path)
+         
       # Parse simulation file      
       geppettoSimulationFile.sub! '$ENTER_MODEL_URL', url
       geppettoSimulationFile.sub! '$ENTER_ID', entity
-      #geppettoSimulationFile.sub! '$ENTER_SCRIPT_URL', 'http://127.0.0.1:3000/' + @geppettoJsFilePath
-      #geppettoSimulationFile.sub! '$ENTER_SCRIPT_URL', 'http://comodl.org/' + @geppettoJsFilePath
-      geppettoSimulationFile.sub! '$ENTER_SCRIPT_URL', 'http://opensourcebrain.org/' + @geppettoJsFilePath
+      #geppettoSimulationFile.sub! '$ENTER_SCRIPT_URL', 'http://127.0.0.1:3000/' + geppettoTmpPath + @geppettoJsFilePath
+      #geppettoSimulationFile.sub! '$ENTER_SCRIPT_URL', 'http://comodl.org/' + geppettoTmpPath + @geppettoJsFilePath
+      geppettoSimulationFile.sub! '$ENTER_SCRIPT_URL', 'http://opensourcebrain.org/' + geppettoTmpPath + @geppettoJsFilePath
       #geppettoSimulationFile.sub! '$ENTER_SCRIPT_URL', 'https://raw.githubusercontent.com/OpenSourceBrain/redmine/geppettoIntegration/public/geppetto/osbChannelScript.js'
         
       # Parse js file
       geppettoJsFile.gsub! '$ENTER_ID', entity
       
-      # Write files to tmp folder
-      File.write(publicResourcesPath + @geppettoSimulationFilePath, geppettoSimulationFile)
-      File.write(publicResourcesPath + @geppettoJsFilePath, geppettoJsFile)
-      
-      geppettoSimulationFileObj = {"geppettoSimulationFile"=> @geppettoSimulationFilePath}
+#      begin
+        # Write files to tmp folder
+        File.write(publicResourcesPath + geppettoTmpPath + @geppettoSimulationFilePath, geppettoSimulationFile)
+        File.write(publicResourcesPath + geppettoTmpPath + @geppettoJsFilePath, geppettoJsFile)
+#      ensure
+#        geppettoTmpSimulationFile.close
+#        geppettoTmpSimulationFile.unlink
+#        geppettoTmpJsFile.close
+#        geppettoTmpJsFile.unlink
+#      end   
+        
+        
+      geppettoSimulationFileObj = {"geppettoSimulationFile"=> geppettoTmpPath + @geppettoSimulationFilePath}
       render json: geppettoSimulationFileObj
   end  
 
