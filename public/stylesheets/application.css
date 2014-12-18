@@ -710,6 +710,8 @@ section p {
 	font-weight: 200;
 	line-height: 30px;
 }
+
+
 .icon-xlarge {
 	font-size: 45pt;
 	color: gray;
@@ -1604,6 +1606,10 @@ div.splitcontentleft > h2 {
 
 #docContainer h5{
 	font-size: 20px;
+}
+
+#docContainer section p{
+	font-size: 16px;
 }
 
 i:first-child{
