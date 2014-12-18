@@ -62,7 +62,9 @@ module Redmine
           html = Redmine::WikiFormatting.to_html(Setting.text_formatting, text)
           # Strip {{toc}} tags
           html.gsub!(/<p>\{\{([<>]?)toc\}\}<\/p>/i, '')
-          html
+	  # Strip {{collapse()}} tags
+	  html.gsub!(/\{\{collapse\((.*)?\)([^}]*)?\}\}/,'\1 \2')
+	  html
         end
 
         def RDMCell(w ,h=0, txt='', border=0, ln=0, align='', fill=0, link='')
