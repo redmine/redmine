@@ -17,6 +17,18 @@ jQuery(function()
 		}
 	);
 
+	//Capture click event when a section link is found
+	$(document).on('click', 'a[target="_blank"]', function(event) {
+	    var newUrl = $(this).attr("href");
+		if (newUrl.indexOf("#") != -1){
+			var oldUrl = window.location.href.split(location.hash||"#")[0];
+			if (newUrl.split("#")[0] == oldUrl){
+				event.preventDefault();
+				$('a[href="#'+newUrl.split("#")[1]+'"]').trigger("click");
+			}
+		}
+	});
+
 	//Check if url points to a specific section 
 	var a = location.href.split("#");
 	if ( a.length > 1){
