@@ -55,5 +55,7 @@ class Redmine::ThemesTest < ActiveSupport::TestCase
     theme = Redmine::Themes.themes.pop
 
     assert_nil Redmine::Themes.theme(theme.id, :rescan => false)
+  ensure
+    Redmine::Themes.rescan
   end
 end
