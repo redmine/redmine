@@ -249,7 +249,7 @@ class CustomField < ActiveRecord::Base
 
   # Returns the error messages for the default custom field value
   def validate_field_value(value)
-    validate_custom_value(CustomValue.new(:custom_field => self, :value => value))
+    validate_custom_value(CustomFieldValue.new(:custom_field => self, :value => value))
   end
 
   # Returns true if value is a valid value for the custom field
