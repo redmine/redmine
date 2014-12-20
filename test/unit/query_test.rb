@@ -29,6 +29,10 @@ class QueryTest < ActiveSupport::TestCase
            :custom_fields_trackers,
            :workflows
 
+  def setup
+    User.current = nil
+  end
+
   def test_query_with_roles_visibility_should_validate_roles
     set_language_if_valid 'en'
     query = IssueQuery.new(:name => 'Query', :visibility => IssueQuery::VISIBILITY_ROLES)
