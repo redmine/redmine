@@ -31,6 +31,18 @@ module Redmine
         search_type = search_type.to_s
         @@available_search_types << search_type unless @@available_search_types.include?(search_type)
       end
+
+      # Returns the cache store for search results
+      # Can be configured with config.redmine_search_cache_store= in config/application.rb
+      def cache_store
+        @@cache_store ||= begin
+          # if config.search_cache_store was not previously set, a no method error would be raised
+          config = Rails.application.config.redmine_search_cache_store rescue :memory_store
+          if config
+            ActiveSupport::Cache.lookup_store config
+          end
+        end
+      end
     end
 
     class Fetcher
@@ -41,6 +53,7 @@ module Redmine
         @question = question.strip
         @scope = scope
         @projects = projects
+        @cache = options.delete(:cache)
         @options = options
 
         # extract tokens from the question
@@ -52,10 +65,12 @@ module Redmine
         @tokens.slice! 5..-1
       end
 
+      # Returns the total result count
       def result_count
         result_ids.size
       end
 
+      # Returns the result count by type
       def result_count_by_type
         ret = Hash.new {|h,k| h[k] = 0}
         result_ids.group_by(&:first).each do |scope, ids|
@@ -64,6 +79,7 @@ module Redmine
         ret
       end
 
+      # Returns the results for the given offset and limit
       def results(offset, limit)
         result_ids_to_load = result_ids[offset, limit] || []
   
@@ -78,11 +94,30 @@ module Redmine
         end.compact
       end
 
+      # Returns the results ids, sorted by rank
       def result_ids
-        @ranks_and_ids ||= load_result_ids
+        @ranks_and_ids ||= load_result_ids_from_cache
       end
 
       private
+
+      def project_ids
+        Array.wrap(@projects).map(&:id)
+      end
+
+      def load_result_ids_from_cache
+        if Redmine::Search.cache_store
+          cache_key = ActiveSupport::Cache.expand_cache_key(
+            [@question, @user.id, @scope.sort, @options, project_ids.sort]
+          )
+  
+          Redmine::Search.cache_store.fetch(cache_key, :force => !@cache) do
+            load_result_ids
+          end
+        else
+          load_result_ids
+        end
+      end
 
       def load_result_ids
         ret = []
@@ -95,6 +130,7 @@ module Redmine
         end
         # sort results, higher rank and id first
         ret.sort! {|a,b| b.last <=> a.last}
+        # only keep ids now that results are sorted
         ret.map! {|scope, r| [scope, r.last]}
         ret
       end

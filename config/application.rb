@@ -47,6 +47,14 @@ module RedmineApp
     # Do not include all helpers
     config.action_controller.include_all_helpers = false
 
+    # Specific cache for search results, the default file store cache is not
+    # a good option as it could grow fast. A memory store (32MB max) is used
+    # as the default. If you're running multiple server processes, it's
+    # recommended to switch to a shared cache store (eg. mem_cache_store).
+    # See http://guides.rubyonrails.org/caching_with_rails.html#cache-stores
+    # for more options (same options as config.cache_store).
+    config.redmine_search_cache_store = :memory_store
+
     config.session_store :cookie_store, :key => '_redmine_session'
 
     if File.exists?(File.join(File.dirname(__FILE__), 'additional_environment.rb'))

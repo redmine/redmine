@@ -18,8 +18,6 @@
 class SearchController < ApplicationController
   before_filter :find_optional_project
 
-  @@search_cache_store ||= ActiveSupport::Cache.lookup_store :memory_store
-
   def index
     @question = params[:q] || ""
     @question.strip!
@@ -57,7 +55,7 @@ class SearchController < ApplicationController
 
     fetcher = Redmine::Search::Fetcher.new(
       @question, User.current, @scope, projects_to_search,
-      :all_words => @all_words, :titles_only => @titles_only
+      :all_words => @all_words, :titles_only => @titles_only, :cache => params[:page].present?
     )
 
     if fetcher.tokens.present?
