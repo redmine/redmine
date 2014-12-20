@@ -68,6 +68,8 @@ class Redmine::PluginTest < ActiveSupport::TestCase
     assert_not_nil menu_item
     assert_equal 'Foo', menu_item.caption
     assert_equal '/foo', menu_item.url
+  ensure
+    Redmine::MenuManager.map(:project_menu).delete(:foo_menu_item)
   end
 
   def test_delete_menu_item
@@ -78,6 +80,8 @@ class Redmine::PluginTest < ActiveSupport::TestCase
       end
     end
     assert_nil Redmine::MenuManager.items(:project_menu).detect {|i| i.name == :foo_menu_item}
+  ensure
+    Redmine::MenuManager.map(:project_menu).delete(:foo_menu_item)
   end
 
   def test_directory_with_override
