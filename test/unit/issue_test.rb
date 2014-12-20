@@ -31,6 +31,10 @@ class IssueTest < ActiveSupport::TestCase
 
   include Redmine::I18n
 
+  def setup
+    set_language_if_valid 'en'
+  end
+
   def teardown
     User.current = nil
   end
