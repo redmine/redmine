@@ -215,9 +215,9 @@ class IssuesHelperTest < ActionView::TestCase
     detail = JournalDetail.new(:property => 'relation',
                                :prop_key => 'precedes',
                                :value    => 1)
-    assert_equal "Precedes Bug #1: Can't print recipes added", show_detail(detail, true)
+    assert_equal "Precedes Bug #1: Cannot print recipes added", show_detail(detail, true)
     str = link_to("Bug #1", "/issues/1", :class => Issue.find(1).css_classes)
-    assert_equal "<strong>Precedes</strong> <i>#{str}: #{ESCAPED_UCANT} print recipes</i> added",
+    assert_equal "<strong>Precedes</strong> <i>#{str}: Cannot print recipes</i> added",
                   show_detail(detail, false)
   end
 
@@ -245,11 +245,11 @@ class IssuesHelperTest < ActionView::TestCase
     detail = JournalDetail.new(:property  => 'relation',
                                :prop_key  => 'precedes',
                                :old_value => 1)
-    assert_equal "Precedes deleted (Bug #1: Can't print recipes)", show_detail(detail, true)
+    assert_equal "Precedes deleted (Bug #1: Cannot print recipes)", show_detail(detail, true)
     str = link_to("Bug #1",
                   "/issues/1",
                   :class => Issue.find(1).css_classes)
-    assert_equal "<strong>Precedes</strong> deleted (<i>#{str}: #{ESCAPED_UCANT} print recipes</i>)",
+    assert_equal "<strong>Precedes</strong> deleted (<i>#{str}: Cannot print recipes</i>)",
                  show_detail(detail, false)
   end
 

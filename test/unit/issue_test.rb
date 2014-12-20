@@ -445,7 +445,7 @@ class IssueTest < ActiveSupport::TestCase
     assert !issue.save
 
     issue.reload
-    assert_equal "Can't print recipes", issue.subject
+    assert_equal "Cannot print recipes", issue.subject
   end
 
   def test_should_not_recreate_custom_values_objects_on_update

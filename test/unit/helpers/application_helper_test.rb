@@ -945,7 +945,7 @@ RAW
     result2 = link_to('#1',
                       "/issues/1",
                       :class => Issue.find(1).css_classes,
-                      :title => "Can't print recipes (New)")
+                      :title => "Cannot print recipes (New)")
 
     expected = <<-EXPECTED
 <p>#{result1}</p>
