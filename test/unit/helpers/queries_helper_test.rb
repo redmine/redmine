@@ -37,7 +37,7 @@ class QueriesHelperTest < ActionView::TestCase
   def test_filters_options_for_select_should_not_group_regular_filters
     with_locale 'en' do
       options = filters_options_for_select(IssueQuery.new)
-      assert_select_in options, 'option[value=status_id]:root'
+      assert_select_in options, 'optgroup option[value=status_id]', 0
       assert_select_in options, 'option[value=status_id]', :text => 'Status'
     end
   end
@@ -53,8 +53,9 @@ class QueriesHelperTest < ActionView::TestCase
   def test_filters_options_for_select_should_not_group_only_one_date_filter
     with_locale 'en' do
       options = filters_options_for_select(TimeEntryQuery.new)
+      assert_select_in options, 'option[value=spent_on]'
       assert_select_in options, 'optgroup[label=?]', 'Date', 0
-      assert_select_in options, 'option[value=spent_on]:root', :text => 'Date'
+      assert_select_in options, 'optgroup option[value=spent_on]', 0
     end
   end
 
