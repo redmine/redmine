@@ -18,11 +18,19 @@
 class SearchController < ApplicationController
   before_filter :find_optional_project
 
+  @@search_cache_store ||= ActiveSupport::Cache.lookup_store :memory_store
+
   def index
     @question = params[:q] || ""
     @question.strip!
     @all_words = params[:all_words] ? params[:all_words].present? : true
     @titles_only = params[:titles_only] ? params[:titles_only].present? : false
+
+    # quick jump to an issue
+    if (m = @question.match(/^#?(\d+)$/)) && (issue = Issue.visible.find_by_id(m[1].to_i))
+      redirect_to issue_path(issue)
+      return
+    end
 
     projects_to_search =
       case params[:scope]
@@ -36,12 +44,6 @@ class SearchController < ApplicationController
         @project
       end
 
-    # quick jump to an issue
-    if (m = @question.match(/^#?(\d+)$/)) && (issue = Issue.visible.find_by_id(m[1].to_i))
-      redirect_to issue_path(issue)
-      return
-    end
-
     @object_types = Redmine::Search.available_search_types.dup
     if projects_to_search.is_a? Project
       # don't search projects
@@ -53,49 +55,18 @@ class SearchController < ApplicationController
     @scope = @object_types.select {|t| params[t]}
     @scope = @object_types if @scope.empty?
 
-    # extract tokens from the question
-    # eg. hello "bye bye" => ["hello", "bye bye"]
-    @tokens = @question.scan(%r{((\s|^)"[\s\w]+"(\s|$)|\S+)}).collect {|m| m.first.gsub(%r{(^\s*"\s*|\s*"\s*$)}, '')}
-    # tokens must be at least 2 characters long
-    @tokens = @tokens.uniq.select {|w| w.length > 1 }
+    fetcher = Redmine::Search::Fetcher.new(
+      @question, User.current, @scope, projects_to_search,
+      :all_words => @all_words, :titles_only => @titles_only
+    )
 
-    if !@tokens.empty?
-      # no more than 5 tokens to search for
-      @tokens.slice! 5..-1 if @tokens.size > 5
+    if fetcher.tokens.present?
+      @result_count = fetcher.result_count
+      @result_count_by_type = fetcher.result_count_by_type
+      @tokens = fetcher.tokens
 
-      limit = 10
-
-      @result_count = 0
-      @result_count_by_type = Hash.new {|h,k| h[k] = 0}
-      ranks_and_ids = []
-
-      # get all the results ranks and ids
-      @scope.each do |scope|
-        klass = scope.singularize.camelcase.constantize
-        ranks_and_ids_in_scope = klass.search_result_ranks_and_ids(@tokens, User.current, projects_to_search,
-          :all_words => @all_words,
-          :titles_only => @titles_only
-        )
-        @result_count_by_type[scope] += ranks_and_ids_in_scope.size
-        @result_count += ranks_and_ids_in_scope.size
-        ranks_and_ids += ranks_and_ids_in_scope.map {|r| [scope, r]}
-      end
-      @result_pages = Paginator.new @result_count, limit, params['page']
-
-      # sort results, higher rank and id first
-      ranks_and_ids.sort! {|a,b| b.last <=> a.last }
-      ranks_and_ids = ranks_and_ids[@result_pages.offset, limit] || []
-
-      # load the results to display
-      results_by_scope = Hash.new {|h,k| h[k] = []}
-      ranks_and_ids.group_by(&:first).each do |scope, rs|
-        klass = scope.singularize.camelcase.constantize
-        results_by_scope[scope] += klass.search_results_from_ids(rs.map(&:last).map(&:last))
-      end
-
-      @results = ranks_and_ids.map do |scope, r|
-        results_by_scope[scope].detect {|record| record.id == r.last}
-      end.compact
+      @result_pages = Paginator.new @result_count, 10, params['page']
+      @results = fetcher.results(@result_pages.offset, @result_pages.per_page)
     else
       @question = ""
     end
