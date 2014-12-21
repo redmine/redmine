@@ -445,7 +445,7 @@ class ProjectsControllerTest < ActionController::TestCase
     post :update, :id => 1, :project => {:name => ''}
     assert_response :success
     assert_template 'settings'
-    assert_select_error /name #{ESCAPED_CANT} be blank/i
+    assert_select_error /name cannot be blank/i
   end
 
   def test_update_should_be_denied_for_member_on_closed_project

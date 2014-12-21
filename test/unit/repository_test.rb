@@ -48,7 +48,7 @@ class RepositoryTest < ActiveSupport::TestCase
                         :log_encoding => ''
                       )
     assert !repo.save
-    assert_include "Commit messages encoding can't be blank",
+    assert_include "Commit messages encoding cannot be blank",
                    repo.errors.full_messages
   end
 

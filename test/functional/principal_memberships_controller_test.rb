@@ -104,7 +104,7 @@ class PrincipalMembershipsControllerTest < ActionController::TestCase
       assert_equal 'text/javascript', response.content_type
     end
     assert_include 'alert', response.body, "Alert message not sent"
-    assert_include 'Role can\\\'t be empty', response.body, "Error message not sent"
+    assert_include 'Role cannot be empty', response.body, "Error message not sent"
   end
 
   def test_update_user_membership

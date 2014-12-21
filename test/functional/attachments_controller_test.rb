@@ -382,7 +382,7 @@ class AttachmentsControllerTest < ActionController::TestCase
 
     assert_response :success
     assert_template 'edit'
-    assert_select_error /file #{ESCAPED_CANT} be blank/i
+    assert_select_error /file cannot be blank/i
 
     # The other attachment should not be updated
     attachment = Attachment.find(4)

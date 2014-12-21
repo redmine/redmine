@@ -183,7 +183,7 @@ class Redmine::ApiTest::UsersTest < Redmine::ApiTest::Base
 
     assert_response :unprocessable_entity
     assert_equal 'application/xml', @response.content_type
-    assert_select 'errors error', :text => "First name can't be blank"
+    assert_select 'errors error', :text => "First name cannot be blank"
   end
 
   test "POST /users.json with with invalid parameters should return errors" do
@@ -253,7 +253,7 @@ class Redmine::ApiTest::UsersTest < Redmine::ApiTest::Base
 
     assert_response :unprocessable_entity
     assert_equal 'application/xml', @response.content_type
-    assert_select 'errors error', :text => "First name can't be blank"
+    assert_select 'errors error', :text => "First name cannot be blank"
   end
 
   test "PUT /users/:id.json with invalid parameters" do

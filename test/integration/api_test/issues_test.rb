@@ -90,7 +90,7 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
 
     assert_response :unprocessable_entity
     assert_equal 'application/xml', @response.content_type
-    assert_select 'errors error', :text => "Start date can't be blank"
+    assert_select 'errors error', :text => "Start date cannot be blank"
   end
 
   test "GET /issues.xml with custom field filter" do
@@ -361,7 +361,7 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
       post '/issues.xml', {:issue => {:project_id => 1}}, credentials('jsmith')
     end
 
-    assert_select 'errors error', :text => "Subject can't be blank"
+    assert_select 'errors error', :text => "Subject cannot be blank"
   end
 
   test "POST /issues.json should create an issue with the attributes" do
@@ -385,7 +385,7 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
     end
 
     json = ActiveSupport::JSON.decode(response.body)
-    assert json['errors'].include?("Subject can't be blank")
+    assert json['errors'].include?("Subject cannot be blank")
   end
 
   test "PUT /issues/:id.xml" do
@@ -444,7 +444,7 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
     put '/issues/6.xml', {:issue => {:subject => ''}}, credentials('jsmith')
 
     assert_response :unprocessable_entity
-    assert_select 'errors error', :text => "Subject can't be blank"
+    assert_select 'errors error', :text => "Subject cannot be blank"
   end
 
   test "PUT /issues/:id.json" do
@@ -468,7 +468,7 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
 
     assert_response :unprocessable_entity
     json = ActiveSupport::JSON.decode(response.body)
-    assert json['errors'].include?("Subject can't be blank")
+    assert json['errors'].include?("Subject cannot be blank")
   end
 
   test "DELETE /issues/:id.xml" do

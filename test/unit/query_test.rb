@@ -37,7 +37,7 @@ class QueryTest < ActiveSupport::TestCase
     set_language_if_valid 'en'
     query = IssueQuery.new(:name => 'Query', :visibility => IssueQuery::VISIBILITY_ROLES)
     assert !query.save
-    assert_include "Roles can't be blank", query.errors.full_messages
+    assert_include "Roles cannot be blank", query.errors.full_messages
     query.role_ids = [1, 2]
     assert query.save
   end

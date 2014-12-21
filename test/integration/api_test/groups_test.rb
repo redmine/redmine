@@ -144,7 +144,7 @@ class Redmine::ApiTest::GroupsTest < Redmine::ApiTest::Base
     assert_equal 'application/xml', response.content_type
 
     assert_select 'errors' do
-      assert_select 'error', :text => /Name can't be blank/
+      assert_select 'error', :text => /Name cannot be blank/
     end
   end
 
@@ -164,7 +164,7 @@ class Redmine::ApiTest::GroupsTest < Redmine::ApiTest::Base
     assert_equal 'application/xml', response.content_type
 
     assert_select 'errors' do
-      assert_select 'error', :text => /Name can't be blank/
+      assert_select 'error', :text => /Name cannot be blank/
     end
   end
 

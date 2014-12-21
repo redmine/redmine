@@ -179,7 +179,7 @@ class Redmine::ApiTest::ProjectsTest < Redmine::ApiTest::Base
 
     assert_response :unprocessable_entity
     assert_equal 'application/xml', @response.content_type
-    assert_select 'errors error', :text => "Identifier can't be blank"
+    assert_select 'errors error', :text => "Identifier cannot be blank"
   end
 
   test "PUT /projects/:id.xml with valid parameters should update the project" do
@@ -220,7 +220,7 @@ class Redmine::ApiTest::ProjectsTest < Redmine::ApiTest::Base
 
     assert_response :unprocessable_entity
     assert_equal 'application/xml', @response.content_type
-    assert_select 'errors error', :text => "Name can't be blank"
+    assert_select 'errors error', :text => "Name cannot be blank"
   end
 
   test "DELETE /projects/:id.xml should delete the project" do

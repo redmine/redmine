@@ -131,7 +131,7 @@ class Enumeration < ActiveRecord::Base
 
 private
   def check_integrity
-    raise "Can't delete enumeration" if self.in_use?
+    raise "Cannot delete enumeration" if self.in_use?
   end
 
 end

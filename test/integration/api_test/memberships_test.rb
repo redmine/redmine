@@ -85,7 +85,7 @@ class Redmine::ApiTest::MembershipsTest < Redmine::ApiTest::Base
 
       assert_response :unprocessable_entity
       assert_equal 'application/xml', @response.content_type
-      assert_select 'errors error', :text => "Principal can't be blank"
+      assert_select 'errors error', :text => "Principal cannot be blank"
     end
   end
 
@@ -133,7 +133,7 @@ class Redmine::ApiTest::MembershipsTest < Redmine::ApiTest::Base
 
     assert_response :unprocessable_entity
     assert_equal 'application/xml', @response.content_type
-    assert_select 'errors error', :text => "Role can't be empty"
+    assert_select 'errors error', :text => "Role cannot be empty"
   end
 
   test "DELETE /memberships/:id.xml should destroy the membership" do
@@ -148,7 +148,7 @@ class Redmine::ApiTest::MembershipsTest < Redmine::ApiTest::Base
 
   test "DELETE /memberships/:id.xml should respond with 422 on failure" do
     assert_no_difference 'Member.count' do
-      # A membership with an inherited role can't be deleted
+      # A membership with an inherited role cannot be deleted
       Member.find(2).member_roles.first.update_attribute :inherited_from, 99
       delete '/memberships/2.xml', {}, credentials('jsmith')
 

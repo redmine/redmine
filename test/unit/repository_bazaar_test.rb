@@ -63,7 +63,7 @@ class RepositoryBazaarTest < ActiveSupport::TestCase
                           :log_encoding => 'UTF-8'
                         )
     assert !repo.save
-    assert_include "Path to repository can't be blank",
+    assert_include "Path to repository cannot be blank",
                    repo.errors.full_messages
   end
 

@@ -1958,7 +1958,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_template 'new'
     issue = assigns(:issue)
     assert_not_nil issue
-    assert_select_error /Database #{ESCAPED_CANT} be blank/
+    assert_select_error /Database cannot be blank/
   end
 
   def test_create_should_validate_required_fields
@@ -1982,8 +1982,8 @@ class IssuesControllerTest < ActionController::TestCase
       assert_template 'new'
     end
 
-    assert_select_error /Due date #{ESCAPED_CANT} be blank/i
-    assert_select_error /Bar #{ESCAPED_CANT} be blank/i
+    assert_select_error /Due date cannot be blank/i
+    assert_select_error /Bar cannot be blank/i
   end
 
   def test_create_should_ignore_readonly_fields
@@ -3201,7 +3201,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'edit'
 
-    assert_select_error /Activity #{ESCAPED_CANT} be blank/
+    assert_select_error /Activity cannot be blank/
     assert_select 'textarea[name=?]', 'issue[notes]', :text => notes
     assert_select 'input[name=?][value=?]', 'time_entry[hours]', '2z'
   end
@@ -3219,8 +3219,8 @@ class IssuesControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'edit'
 
-    assert_select_error /Activity #{ESCAPED_CANT} be blank/
-    assert_select_error /Hours #{ESCAPED_CANT} be blank/
+    assert_select_error /Activity cannot be blank/
+    assert_select_error /Hours cannot be blank/
     assert_select 'textarea[name=?]', 'issue[notes]', :text => notes
     assert_select 'input[name=?][value=?]', 'time_entry[comments]', 'this is my comment'
   end

@@ -46,7 +46,7 @@ class RepositoryCvsTest < ActiveSupport::TestCase
                           :root_url     => REPOSITORY_PATH
                         )
     assert !repo.save
-    assert_include "Module can't be blank",
+    assert_include "Module cannot be blank",
                    repo.errors.full_messages
   end
 
@@ -74,7 +74,7 @@ class RepositoryCvsTest < ActiveSupport::TestCase
                           :url          => MODULE_NAME
                         )
     assert !repo.save
-    assert_include "CVSROOT can't be blank",
+    assert_include "CVSROOT cannot be blank",
                    repo.errors.full_messages
   end
 

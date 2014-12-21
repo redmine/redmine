@@ -204,8 +204,8 @@ private
   end
 
   def check_deletable
-    raise "Can't delete role" if members.any?
-    raise "Can't delete builtin role" if builtin?
+    raise "Cannot delete role" if members.any?
+    raise "Cannot delete builtin role" if builtin?
   end
 
   def self.find_or_create_system_role(builtin, name)

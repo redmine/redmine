@@ -65,7 +65,7 @@ class MemberTest < ActiveSupport::TestCase
 
   def test_validate
     member = Member.new(:project_id => 1, :user_id => 2, :role_ids => [2])
-    # same use can't have more than one membership for a project
+    # same use cannot have more than one membership for a project
     assert !member.save
 
     # must have one role at least

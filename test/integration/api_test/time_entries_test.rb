@@ -102,7 +102,7 @@ class Redmine::ApiTest::TimeEntriesTest < Redmine::ApiTest::Base
     assert_response :unprocessable_entity
     assert_equal 'application/xml', @response.content_type
 
-    assert_select 'errors error', :text => "Hours can't be blank"
+    assert_select 'errors error', :text => "Hours cannot be blank"
   end
 
   test "PUT /time_entries/:id.xml with valid parameters should update time entry" do
@@ -121,7 +121,7 @@ class Redmine::ApiTest::TimeEntriesTest < Redmine::ApiTest::Base
     assert_response :unprocessable_entity
     assert_equal 'application/xml', @response.content_type
 
-    assert_select 'errors error', :text => "Hours can't be blank"
+    assert_select 'errors error', :text => "Hours cannot be blank"
   end
 
   test "DELETE /time_entries/:id.xml should destroy time entry" do

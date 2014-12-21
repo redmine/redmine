@@ -47,7 +47,7 @@ class GroupTest < ActiveSupport::TestCase
     set_language_if_valid 'en'
     g = Group.new
     assert !g.save
-    assert_include "Name can't be blank", g.errors.full_messages
+    assert_include "Name cannot be blank", g.errors.full_messages
   end
 
   def test_blank_name_error_message_fr

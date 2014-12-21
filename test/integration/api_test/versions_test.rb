@@ -94,7 +94,7 @@ class Redmine::ApiTest::VersionsTest < Redmine::ApiTest::Base
     end
 
     assert_response :unprocessable_entity
-    assert_select 'errors error', :text => "Name can't be blank"
+    assert_select 'errors error', :text => "Name cannot be blank"
   end
 
   test "GET /versions/:id.xml should return the version" do

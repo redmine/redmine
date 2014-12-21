@@ -109,6 +109,6 @@ class Tracker < ActiveRecord::Base
 
 private
   def check_integrity
-    raise Exception.new("Can't delete tracker") if Issue.where(:tracker_id => self.id).any?
+    raise Exception.new("Cannot delete tracker") if Issue.where(:tracker_id => self.id).any?
   end
 end

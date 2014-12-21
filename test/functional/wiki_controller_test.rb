@@ -928,7 +928,7 @@ class WikiControllerTest < ActionController::TestCase
   end
 
   def test_edit_protected_page_by_nonmember
-    # Non members can't edit protected wiki pages
+    # Non members cannot edit protected wiki pages
     @request.session[:user_id] = 4
     get :edit, :project_id => 1, :id => 'CookBook_documentation'
     assert_response 403

@@ -26,7 +26,7 @@ class IssueCustomFieldTest < ActiveSupport::TestCase
     set_language_if_valid 'en'
     field = IssueCustomField.new(:name => 'Field', :field_format => 'string', :visible => false)
     assert !field.save
-    assert_include "Roles can't be blank", field.errors.full_messages
+    assert_include "Roles cannot be blank", field.errors.full_messages
     field.role_ids = [1, 2]
     assert field.save
   end

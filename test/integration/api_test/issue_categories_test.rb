@@ -57,7 +57,7 @@ class Redmine::ApiTest::IssueCategoriesTest < Redmine::ApiTest::Base
     assert_response :unprocessable_entity
     assert_equal 'application/xml', @response.content_type
 
-    assert_select 'errors error', :text => "Name can't be blank"
+    assert_select 'errors error', :text => "Name cannot be blank"
   end
 
   test "PUT /issue_categories/:id.xml with valid parameters should update the issue category" do
@@ -76,7 +76,7 @@ class Redmine::ApiTest::IssueCategoriesTest < Redmine::ApiTest::Base
     assert_response :unprocessable_entity
     assert_equal 'application/xml', @response.content_type
 
-    assert_select 'errors error', :text => "Name can't be blank"
+    assert_select 'errors error', :text => "Name cannot be blank"
   end
 
   test "DELETE /issue_categories/:id.xml should destroy the issue category" do

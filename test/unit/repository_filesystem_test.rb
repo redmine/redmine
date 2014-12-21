@@ -41,7 +41,7 @@ class RepositoryFilesystemTest < ActiveSupport::TestCase
                           :identifier   => 'test'
                         )
     assert !repo.save
-    assert_include "Root directory can't be blank",
+    assert_include "Root directory cannot be blank",
                    repo.errors.full_messages
   end
 
