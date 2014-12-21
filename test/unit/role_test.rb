@@ -57,8 +57,9 @@ class RoleTest < ActiveSupport::TestCase
   end
 
   def test_permissions_should_be_unserialized_with_its_coder
-    Role::PermissionsAttributeCoder.expects(:load).once
-    Role.find(1).permissions
+    Role::PermissionsAttributeCoder.stubs(:load).returns([:foo, :bar])
+    role = Role.find(1)
+    assert_equal [:foo, :bar], role.permissions
   end
 
   def test_add_permission
