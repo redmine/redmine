@@ -45,7 +45,7 @@ class CustomFieldsControllerTest < ActionController::TestCase
     get :new
     assert_response :success
     assert_template 'select_type'
-    assert_select 'input[name=type]', CustomField.subclasses.size
+    assert_select 'input[name=type]', CustomFieldsHelper::CUSTOM_FIELDS_TABS.size
     assert_select 'input[name=type][checked=checked]', 1
   end
 
