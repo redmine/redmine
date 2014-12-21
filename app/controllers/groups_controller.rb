@@ -99,12 +99,18 @@ class GroupsController < ApplicationController
   end
 
   def add_users
-    @users = User.where(:id => (params[:user_id] || params[:user_ids])).to_a
-    @group.users << @users if request.post?
+    @users = User.not_in_group(@group).where(:id => (params[:user_id] || params[:user_ids])).to_a
+    @group.users << @users
     respond_to do |format|
       format.html { redirect_to edit_group_path(@group, :tab => 'users') }
       format.js
-      format.api { render_api_ok }
+      format.api {
+        if @users.any?
+          render_api_ok
+        else
+          render_api_errors "#{l(:label_user)} #{l('activerecord.errors.messages.invalid')}"
+        end
+      }
     end
   end
 
