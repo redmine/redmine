@@ -33,6 +33,16 @@ class AttachmentsTest < Redmine::IntegrationTest
     assert_equal 'text/plain', attachment.content_type
   end
 
+  def test_upload_should_accept_content_type_param
+    log_user('jsmith', 'jsmith')
+    assert_difference 'Attachment.count' do
+      post "/uploads.js?attachment_id=1&filename=foo&content_type=image/jpeg", "File content", {"CONTENT_TYPE" => 'application/octet-stream'}
+      assert_response :success
+    end
+    attachment = Attachment.order(:id => :desc).first
+    assert_equal 'image/jpeg', attachment.content_type
+  end
+
   def test_upload_as_js_and_attach_to_an_issue
     log_user('jsmith', 'jsmith')
 
