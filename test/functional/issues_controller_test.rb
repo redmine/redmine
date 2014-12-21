@@ -1872,7 +1872,8 @@ class IssuesControllerTest < ActionController::TestCase
     issue = Issue.order('id DESC').first
     assert_redirected_to :controller => 'issues', :action => 'new', :project_id => 'ecookbook', :issue => {:tracker_id => 3}
     assert_not_nil flash[:notice], "flash was not set"
-    assert_include %|<a href="/issues/#{issue.id}" title="This is first issue">##{issue.id}</a>|, flash[:notice], "issue link not found in the flash message"
+    assert_select_in flash[:notice],
+      'a[href=?][title=?]', "/issues/#{issue.id}", "This is first issue", :text => "##{issue.id}"
   end
 
   def test_post_create_without_custom_fields_param
