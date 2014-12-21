@@ -20,6 +20,7 @@ require File.expand_path('../../../../../test_helper', __FILE__)
 class Redmine::Views::LabelledFormBuilderTest < ActionView::TestCase
 
   def test_label_should_output_one_element
+    set_language_if_valid 'en'
     labelled_form_for(Issue.new) do |f|
       output = f.label :subject
       assert_equal output, '<label for="issue_subject">Subject</label>'
