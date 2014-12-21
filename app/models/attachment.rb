@@ -52,7 +52,7 @@ class Attachment < ActiveRecord::Base
   cattr_accessor :thumbnails_storage_path
   @@thumbnails_storage_path = File.join(Rails.root, "tmp", "thumbnails")
 
-  before_save :files_to_final_location
+  before_create :files_to_final_location
   after_destroy :delete_from_disk
 
   # Returns an unsaved copy of the attachment
@@ -79,9 +79,6 @@ class Attachment < ActiveRecord::Base
         end
         if @temp_file.respond_to?(:content_type)
           self.content_type = @temp_file.content_type.to_s.chomp
-        end
-        if content_type.blank? && filename.present?
-          self.content_type = Redmine::MimeType.of(filename)
         end
         self.filesize = @temp_file.size
       end
@@ -124,6 +121,10 @@ class Attachment < ActiveRecord::Base
       self.digest = md5.hexdigest
     end
     @temp_file = nil
+
+    if content_type.blank? && filename.present?
+      self.content_type = Redmine::MimeType.of(filename)
+    end
     # Don't save the content type if it's longer than the authorized length
     if self.content_type && self.content_type.length > 255
       self.content_type = nil
