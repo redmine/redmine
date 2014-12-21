@@ -36,11 +36,11 @@ class IssuesTest < Redmine::IntegrationTest
   # create an issue
   def test_add_issue
     log_user('jsmith', 'jsmith')
-    get 'projects/1/issues/new', :tracker_id => '1'
+    get '/projects/1/issues/new', :tracker_id => '1'
     assert_response :success
     assert_template 'issues/new'
 
-    post 'projects/1/issues', :tracker_id => "1",
+    post '/projects/1/issues', :tracker_id => "1",
                                  :issue => { :start_date => "2006-12-26",
                                              :priority_id => "4",
                                              :subject => "new test issue",
@@ -69,7 +69,7 @@ class IssuesTest < Redmine::IntegrationTest
     Role.anonymous.remove_permission! :add_issues
 
     assert_no_difference 'Issue.count' do
-      post 'projects/1/issues', :tracker_id => "1", :issue => {:subject => "new test issue"}
+      post '/projects/1/issues', :tracker_id => "1", :issue => {:subject => "new test issue"}
     end
     assert_response 302
   end
@@ -79,7 +79,7 @@ class IssuesTest < Redmine::IntegrationTest
     Member.create!(:project_id => 1, :principal => Group.anonymous, :role_ids => [3])
 
     assert_difference 'Issue.count' do
-      post 'projects/1/issues', :tracker_id => "1", :issue => {:subject => "new test issue"}
+      post '/projects/1/issues', :tracker_id => "1", :issue => {:subject => "new test issue"}
     end
     assert_response 302
     issue = Issue.order("id DESC").first
@@ -91,7 +91,7 @@ class IssuesTest < Redmine::IntegrationTest
     log_user('jsmith', 'jsmith')
     set_tmp_attachments_directory
 
-    put 'issues/1',
+    put '/issues/1',
          :notes => 'Some notes',
          :attachments => {'1' => {'file' => uploaded_test_file('testfile.txt', 'text/plain'), 'description' => 'This is an attachment'}}
     assert_redirected_to "/issues/1"

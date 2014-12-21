@@ -21,11 +21,11 @@ class AccountTest < Redmine::IntegrationTest
   fixtures :users, :roles
 
   def test_login
-    get "my/page"
+    get "/my/page"
     assert_redirected_to "/login?back_url=http%3A%2F%2Fwww.example.com%2Fmy%2Fpage"
     log_user('jsmith', 'jsmith')
 
-    get "my/account"
+    get "/my/account"
     assert_response :success
     assert_template "my/account"
   end
@@ -91,12 +91,12 @@ class AccountTest < Redmine::IntegrationTest
   def test_lost_password
     Token.delete_all
 
-    get "account/lost_password"
+    get "/account/lost_password"
     assert_response :success
     assert_template "account/lost_password"
     assert_select 'input[name=mail]'
 
-    post "account/lost_password", :mail => 'jSmith@somenet.foo'
+    post "/account/lost_password", :mail => 'jSmith@somenet.foo'
     assert_redirected_to "/login"
 
     token = Token.first
@@ -104,14 +104,14 @@ class AccountTest < Redmine::IntegrationTest
     assert_equal 'jsmith@somenet.foo', token.user.mail
     assert !token.expired?
 
-    get "account/lost_password", :token => token.value
+    get "/account/lost_password", :token => token.value
     assert_response :success
     assert_template "account/password_recovery"
     assert_select 'input[type=hidden][name=token][value=?]', token.value
     assert_select 'input[name=new_password]'
     assert_select 'input[name=new_password_confirmation]'
 
-    post "account/lost_password",
+    post "/account/lost_password",
          :token => token.value, :new_password => 'newpass123',
          :new_password_confirmation => 'newpass123'
     assert_redirected_to "/login"
@@ -153,11 +153,11 @@ class AccountTest < Redmine::IntegrationTest
   def test_register_with_automatic_activation
     Setting.self_registration = '3'
 
-    get 'account/register'
+    get '/account/register'
     assert_response :success
     assert_template 'account/register'
 
-    post 'account/register',
+    post '/account/register',
          :user => {:login => "newuser", :language => "en",
                    :firstname => "New", :lastname => "User", :mail => "newuser@foo.bar",
                    :password => "newpass123", :password_confirmation => "newpass123"}
@@ -175,7 +175,7 @@ class AccountTest < Redmine::IntegrationTest
   def test_register_with_manual_activation
     Setting.self_registration = '2'
 
-    post 'account/register',
+    post '/account/register',
          :user => {:login => "newuser", :language => "en",
                    :firstname => "New", :lastname => "User", :mail => "newuser@foo.bar",
                    :password => "newpass123", :password_confirmation => "newpass123"}
@@ -187,7 +187,7 @@ class AccountTest < Redmine::IntegrationTest
     Setting.self_registration = '1'
     Token.delete_all
 
-    post 'account/register',
+    post '/account/register',
          :user => {:login => "newuser", :language => "en",
                    :firstname => "New", :lastname => "User", :mail => "newuser@foo.bar",
                    :password => "newpass123", :password_confirmation => "newpass123"}
@@ -199,7 +199,7 @@ class AccountTest < Redmine::IntegrationTest
     assert_equal 'newuser@foo.bar', token.user.mail
     assert !token.expired?
 
-    get 'account/activate', :token => token.value
+    get '/account/activate', :token => token.value
     assert_redirected_to '/login'
     log_user('newuser', 'newpass123')
   end
@@ -234,7 +234,7 @@ class AccountTest < Redmine::IntegrationTest
     assert_select 'input[name=?]', 'user[login]', 0
     assert_select 'input[name=?]', 'user[password]', 0
 
-    post 'account/register',
+    post '/account/register',
          :user => {:firstname => 'Foo', :lastname => 'Smith', :mail => 'foo@bar.com'}
     assert_redirected_to '/my/account'
 
@@ -251,7 +251,7 @@ class AccountTest < Redmine::IntegrationTest
       # register a new account
       assert_difference 'User.count' do
         assert_difference 'Token.count' do
-          post 'account/register',
+          post '/account/register',
              :user => {:login => "newuser", :language => "en",
                        :firstname => "New", :lastname => "User", :mail => "newuser@foo.bar",
                        :password => "newpass123", :password_confirmation => "newpass123"}
