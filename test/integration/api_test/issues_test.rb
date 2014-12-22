@@ -534,16 +534,8 @@ JSON
   end
 
   def test_create_issue_with_uploaded_file
-    set_tmp_attachments_directory
-    # upload the file
-    assert_difference 'Attachment.count' do
-      post '/uploads.xml', 'test_create_with_upload',
-           {"CONTENT_TYPE" => 'application/octet-stream'}.merge(credentials('jsmith'))
-      assert_response :created
-    end
-    xml = Hash.from_xml(response.body)
-    token = xml['upload']['token']
-    attachment = Attachment.order('id DESC').first
+    token = xml_upload('test_create_with_upload', credentials('jsmith'))
+    attachment = Attachment.find_by_token(token)
 
     # create the issue with the upload's token
     assert_difference 'Issue.count' do
@@ -577,6 +569,7 @@ JSON
     # download the attachment
     get url
     assert_response :success
+    assert_equal 'test_create_with_upload', response.body
   end
 
   def test_create_issue_with_multiple_uploaded_files_as_xml
@@ -637,16 +630,8 @@ JSON
   end
 
   def test_update_issue_with_uploaded_file
-    set_tmp_attachments_directory
-    # upload the file
-    assert_difference 'Attachment.count' do
-      post '/uploads.xml', 'test_upload_with_upload',
-           {"CONTENT_TYPE" => 'application/octet-stream'}.merge(credentials('jsmith'))
-      assert_response :created
-    end
-    xml = Hash.from_xml(response.body)
-    token = xml['upload']['token']
-    attachment = Attachment.order('id DESC').first
+    token = xml_upload('test_upload_with_upload', credentials('jsmith'))
+    attachment = Attachment.find_by_token(token)
 
     # update the issue with the upload's token
     assert_difference 'Journal.count' do
