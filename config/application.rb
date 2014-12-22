@@ -47,6 +47,10 @@ module RedmineApp
     # Do not include all helpers
     config.action_controller.include_all_helpers = false
 
+    # XML parameter parser removed from core in Rails 4.0
+    # and extracted to actionpack-xml_parser gem
+    config.middleware.insert_after ActionDispatch::ParamsParser, ActionDispatch::XmlParamsParser
+
     # Specific cache for search results, the default file store cache is not
     # a good option as it could grow fast. A memory store (32MB max) is used
     # as the default. If you're running multiple server processes, it's
