@@ -271,6 +271,45 @@ module Redmine
       def teardown
         Setting.rest_api_enabled = '0'
       end
+
+      # Uploads content using the XML API and returns the attachment token
+      def xml_upload(content, credentials)
+        upload('xml', content, credentials)
+      end
+
+      # Uploads content using the JSON API and returns the attachment token
+      def json_upload(content, credentials)
+        upload('json', content, credentials)
+      end
+
+      def upload(format, content, credentials)
+        set_tmp_attachments_directory
+        assert_difference 'Attachment.count' do
+          post "/uploads.#{format}", content, {"CONTENT_TYPE" => 'application/octet-stream'}.merge(credentials)
+          assert_response :created
+        end
+        data = response_data
+        assert_kind_of Hash, data['upload']
+        token = data['upload']['token']
+        assert_not_nil token
+        token
+      end
+
+      # Parses the response body based on its content type
+      def response_data
+        unless response.content_type.to_s =~ /^application\/(.+)/
+          raise "Unexpected response type: #{response.content_type}"
+        end
+        format = $1
+        case format
+        when 'xml'
+          Hash.from_xml(response.body)
+        when 'json'
+          ActiveSupport::JSON.decode(response.body)
+        else
+          raise "Unknown response format: #{format}"
+        end
+      end
     end
 
     class Routing < Redmine::RoutingTest
