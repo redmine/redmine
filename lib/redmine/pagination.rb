@@ -176,7 +176,8 @@ module Redmine
         if paginator.previous_page
           # \xc2\xab(utf-8) = &#171;
           text = "\xc2\xab " + l(:label_previous)
-          html << yield(text, {page_param => paginator.previous_page}, :class => 'previous') + ' '
+          html << yield(text, {page_param => paginator.previous_page},
+            :class => 'previous', :accesskey => accesskey(:previous)) + ' '
         end
 
         previous = nil
@@ -196,7 +197,8 @@ module Redmine
         if paginator.next_page
           # \xc2\xbb(utf-8) = &#187;
           text = l(:label_next) + " \xc2\xbb"
-          html << yield(text, {page_param => paginator.next_page}, :class => 'next') + ' '
+          html << yield(text, {page_param => paginator.next_page},
+            :class => 'next', :accesskey => accesskey(:next)) + ' '
         end
 
         html << content_tag('span', "(#{paginator.first_item}-#{paginator.last_item}/#{paginator.item_count})", :class => 'items') + ' '

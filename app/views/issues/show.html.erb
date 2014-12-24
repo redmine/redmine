@@ -8,14 +8,16 @@
       <%= link_to_if @prev_issue_id,
                      "\xc2\xab #{l(:label_previous)}",
                      (@prev_issue_id ? issue_path(@prev_issue_id) : nil),
-                     :title => "##{@prev_issue_id}" %> |
+                     :title => "##{@prev_issue_id}",
+                     :accesskey => accesskey(:previous) %> |
       <% if @issue_position && @issue_count %>
         <span class="position"><%= l(:label_item_position, :position => @issue_position, :count => @issue_count) %></span> |
       <% end %>
       <%= link_to_if @next_issue_id,
                      "#{l(:label_next)} \xc2\xbb",
                      (@next_issue_id ? issue_path(@next_issue_id) : nil),
-                     :title => "##{@next_issue_id}" %>
+                     :title => "##{@next_issue_id}",
+                     :accesskey => accesskey(:next) %>
     </div>
   <% end %>
 

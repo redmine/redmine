@@ -111,7 +111,8 @@ module ApplicationHelper
     link_to(
         h(text),
         {:controller => 'repositories', :action => 'revision', :id => repository.project, :repository_id => repository.identifier_param, :rev => rev},
-        :title => l(:label_revision_id, format_revision(revision))
+        :title => l(:label_revision_id, format_revision(revision)),
+        :accesskey => options[:accesskey]
       )
   end
 

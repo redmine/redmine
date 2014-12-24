@@ -21,7 +21,9 @@ module Redmine
                   :preview => 'r',
                   :quick_search => 'f',
                   :search => '4',
-                  :new_issue => '7'
+                  :new_issue => '7',
+                  :previous => 'p',
+                  :next => 'n'
                  }.freeze unless const_defined?(:ACCESSKEYS)
 
     def self.key_for(action)
