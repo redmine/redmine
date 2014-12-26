@@ -189,6 +189,19 @@ class Redmine::ApiTest::GroupsTest < Redmine::ApiTest::Base
     assert_include User.find(5), Group.find(10).users
   end
 
+  test "POST /groups/:id/users.xml should not add the user if already added" do
+    Group.find(10).users << User.find(5)
+
+    assert_no_difference 'Group.find(10).users.count' do
+      post '/groups/10/users.xml', {:user_id => 5}, credentials('admin')
+      assert_response :unprocessable_entity
+    end
+
+    assert_select 'errors' do
+      assert_select 'error', :text => /User is invalid/
+    end
+  end
+
   test "DELETE /groups/:id/users/:user_id.xml should remove user from the group" do
     assert_difference 'Group.find(10).users.count', -1 do
       delete '/groups/10/users/8.xml', {}, credentials('admin')
