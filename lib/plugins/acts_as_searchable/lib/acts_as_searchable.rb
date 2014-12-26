@@ -64,7 +64,7 @@ module Redmine
           # Searches the model for the given tokens and user visibility.
           # The projects argument can be either nil (will search all projects), a project or an array of projects.
           # Returns an array that contains the rank and id of all results.
-          # In current implementation, the rank is the record timestamp.
+          # In current implementation, the rank is the record timestamp converted as an integer.
           #
           # Valid options:
           # * :titles_only - searches tokens in the first searchable column only
@@ -73,7 +73,7 @@ module Redmine
           #
           # Example:
           #   Issue.search_result_ranks_and_ids("foo")
-          #   # => [[Tue, 26 Jun 2007 22:16:00 UTC +00:00, 69], [Mon, 08 Oct 2007 14:31:00 UTC +00:00, 123]]
+          #   # => [[1419595329, 69], [1419595622, 123]]
           def search_result_ranks_and_ids(tokens, user=User.current, projects=nil, options={})
             if projects.is_a?(Array) && projects.empty?
               # no results
