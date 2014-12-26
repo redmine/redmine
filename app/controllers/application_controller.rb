@@ -45,6 +45,7 @@ class ApplicationController < ActionController::Base
       super
       cookies.delete(autologin_cookie_name)
       self.logged_user = nil
+      set_localization
       render_error :status => 422, :message => "Invalid form authenticity token."
     end
   end
