@@ -9,6 +9,8 @@ gem "request_store", "1.0.5"
 gem "mime-types"
 gem "rbpdf", "~> 1.18.2"
 
+gem "i18n", "~> 0.6.11", :platforms => [:mri_18, :mingw_18]
+
 # Optional gem for LDAP authentication
 group :ldap do
   gem "net-ldap", "~> 0.3.1"
@@ -26,7 +28,11 @@ platforms :mri, :mingw do
     # RMagick 2 supports ruby 1.9
     # RMagick 1 would be fine for ruby 1.8 but Bundler does not support
     # different requirements for the same gem on different platforms
-    gem "rmagick", ">= 2.0.0"
+    if RUBY_VERSION < "1.9"
+      gem "rmagick", "2.13.3"
+    else
+      gem "rmagick", ">= 2.0.0"
+    end
   end
 
   # Optional Markdown support, not for JRuby
