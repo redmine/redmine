@@ -34,7 +34,7 @@ class WikiPage < ActiveRecord::Base
 
   acts_as_searchable :columns => ['title', "#{WikiContent.table_name}.text"],
                      :scope => joins(:content, {:wiki => :project}),
-                     :preload => {:wiki => :project},
+                     :preload => [:content, {:wiki => :project}],
                      :permission => :view_wiki_pages,
                      :project_key => "#{Wiki.table_name}.project_id"
 
