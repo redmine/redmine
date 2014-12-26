@@ -29,7 +29,7 @@ class AttachmentsTest < ActionController::IntegrationTest
       post "/uploads.js?attachment_id=1&filename=foo.txt", "File content", {"CONTENT_TYPE" => 'application/octet-stream'}
       assert_response :success
     end
-    attachment = Attachment.order(:id => :desc).first
+    attachment = Attachment.order('id DESC').first
     assert_equal 'text/plain', attachment.content_type
   end
 
