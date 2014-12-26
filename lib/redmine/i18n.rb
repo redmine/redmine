@@ -93,7 +93,7 @@ module Redmine
     # The result is cached to prevent from loading all translations files
     # unless :cache => false option is given
     def languages_options(options={})
-      if options[:cache] == false
+      options = if options[:cache] == false
         valid_languages.
           select {|locale| ::I18n.exists?(:general_lang_name, locale)}.
           map {|lang| [ll(lang.to_s, :general_lang_name), lang.to_s]}.
@@ -103,6 +103,7 @@ module Redmine
           languages_options :cache => false
         end
       end
+      options.map {|name, lang| [name.force_encoding("UTF-8"), lang.force_encoding("UTF-8")]}
     end
 
     def find_language(lang)

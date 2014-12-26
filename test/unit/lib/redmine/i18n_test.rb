@@ -198,6 +198,11 @@ class Redmine::I18nTest < ActiveSupport::TestCase
     assert_include [ja, "ja"], options
   end
 
+  def test_languages_options_should_return_strings_with_utf8_encoding
+    strings = languages_options.flatten
+    assert_equal ["UTF-8"], strings.map(&:encoding).uniq.map(&:name).sort
+  end
+
   def test_languages_options_should_ignore_locales_without_general_lang_name_key
     stubs(:valid_languages).returns([:en, :foo])
     assert_equal [["English", "en"]], languages_options(:cache => false)
