@@ -125,8 +125,7 @@ module Redmine
         @scope.each do |scope|
           klass = scope.singularize.camelcase.constantize
           ranks_and_ids_in_scope = klass.search_result_ranks_and_ids(@tokens, User.current, @projects, @options)
-          # converts timestamps to integers for faster sort
-          ret += ranks_and_ids_in_scope.map {|rank, id| [scope, [rank.to_i, id]]}
+          ret += ranks_and_ids_in_scope.map {|rs| [scope, rs]}
         end
         # sort results, higher rank and id first
         ret.sort! {|a,b| b.last <=> a.last}

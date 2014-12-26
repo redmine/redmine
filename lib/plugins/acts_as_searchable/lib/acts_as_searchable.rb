@@ -114,7 +114,9 @@ module Redmine
               where(tokens_conditions).
               limit(options[:limit]).
               uniq.
-              pluck(searchable_options[:date_column], :id)
+              pluck(searchable_options[:date_column], :id).
+              # converts timestamps to integers for faster sort
+              map {|timestamp, id| [timestamp.to_i, id]}
           end
 
           def search_token_match_statement(column, value='?')
