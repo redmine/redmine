@@ -20,7 +20,7 @@ require 'action_view/helpers/form_helper'
 class Redmine::Views::LabelledFormBuilder < ActionView::Helpers::FormBuilder
   include Redmine::I18n
 
-  (field_helpers.map(&:to_s) - %w(radio_button hidden_field fields_for check_box label) +
+  (field_helpers.map(&:to_s) - %w(radio_button hidden_field fields_for check_box) +
         %w(date_select)).each do |selector|
     src = <<-END_SRC
     def #{selector}(field, options = {})
