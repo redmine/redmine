@@ -54,6 +54,10 @@ module AttachmentsHelper
       api.content_type attachment.content_type
       api.description attachment.description
       api.content_url download_named_attachment_url(attachment, attachment.filename)
+      if attachment.thumbnailable?
+        api.thumbnail_url thumbnail_url(attachment)
+      end
+      api.content_url download_named_attachment_url(attachment, attachment.filename)
       api.author(:id => attachment.author.id, :name => attachment.author.name) if attachment.author
       api.created_on attachment.created_on
     end

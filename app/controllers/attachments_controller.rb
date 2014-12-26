@@ -22,7 +22,7 @@ class AttachmentsController < ApplicationController
   before_filter :delete_authorize, :only => :destroy
   before_filter :authorize_global, :only => :upload
 
-  accept_api_auth :show, :download, :upload
+  accept_api_auth :show, :download, :thumbnail, :upload
 
   def show
     respond_to do |format|

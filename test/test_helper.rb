@@ -131,6 +131,10 @@ class ActiveSupport::TestCase
     Redmine::Thumbnail.convert_available?
   end
 
+  def convert_installed?
+    self.class.convert_installed?
+  end
+
   # Returns the path to the test +vendor+ repository
   def self.repository_path(vendor)
     path = Rails.root.join("tmp/test/#{vendor.downcase}_repository").to_s

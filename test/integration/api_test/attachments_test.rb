@@ -47,6 +47,15 @@ class Redmine::ApiTest::AttachmentsTest < Redmine::ApiTest::Base
     end
   end
 
+  test "GET /attachments/:id.xml for image should include thumbnail_url" do
+    get '/attachments/16.xml', {}, credentials('jsmith')
+    assert_response :success
+    assert_equal 'application/xml', @response.content_type
+    assert_select 'attachment id:content(16)' do
+      assert_select '~ thumbnail_url', :text => 'http://www.example.com/attachments/thumbnail/16'
+    end
+  end
+
   test "GET /attachments/:id.xml should deny access without credentials" do
     get '/attachments/7.xml'
     assert_response 401
@@ -64,6 +73,12 @@ class Redmine::ApiTest::AttachmentsTest < Redmine::ApiTest::Base
     get '/attachments/download/7/archive.zip'
     assert_response 302
     set_tmp_attachments_directory
+  end
+
+  test "GET /attachments/thumbnail/:id should return the thumbnail" do
+    skip unless convert_installed?
+    get '/attachments/thumbnail/16', {}, credentials('jsmith')
+    assert_response :success
   end
 
   test "POST /uploads.xml should return the token" do
