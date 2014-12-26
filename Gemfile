@@ -9,7 +9,7 @@ gem "request_store", "1.0.5"
 gem "mime-types"
 gem "rbpdf", "~> 1.18.2"
 
-gem "i18n", "~> 0.6.11", :platforms => [:mri_18, :mingw_18]
+gem "i18n", "~> 0.6.11" if RUBY_VERSION < "1.9.3"
 
 # Optional gem for LDAP authentication
 group :ldap do
