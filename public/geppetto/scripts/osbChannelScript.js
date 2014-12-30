@@ -23,12 +23,13 @@ var realWidthScreen = widthScreen - marginRight - marginLeft - tvWidth - element
 // Retrieve model tree
 $ENTER_ID.electrical.getModelTree();
 
-// Adding Scatter3d 1
-G.addWidget(3);
-TreeVisualiserDAT1.setData($ENTER_ID.electrical.ModelTree.Summary, {expandNodes: true});
-TreeVisualiserDAT1.setSize(tvHeight,tvWidth);
-TreeVisualiserDAT1.setPosition(tvPosX,tvPosY);
-TreeVisualiserDAT1.setName("Channel - $ENTER_ID");
+// Adding TreeVisualiserDAT Widget
+var treeVisualiserDAT1 = G.addWidget(3);
+console.log(treeVisualiserDAT1);
+treeVisualiserDAT1.setData($ENTER_ID.electrical.ModelTree.Summary, {expandNodes: true});
+treeVisualiserDAT1.setSize(tvHeight,tvWidth);
+treeVisualiserDAT1.setPosition(tvPosX,tvPosY);
+treeVisualiserDAT1.setName("Channel - $ENTER_ID");
 
 // Retrieve function nodes from model tree summary
 var nodes = Simulation.searchNodeByMetaType($ENTER_ID.electrical.ModelTree.Summary, "FunctionNode", G.plotFunctionNode);
@@ -45,4 +46,4 @@ var plotHeight = realHeightScreen / plottableNodes.length;
 var plotLayout = [];
 if (plotHeight < plotMaxMinHeight){var plotHeight = plotMaxMinHeight;var plotWidth = realWidthScreen / 2;if (plotWidth < plotMinWidth){plotWidth = plotMinWidth;}for (var plottableNodesIndex in plottableNodes){if (plottableNodesIndex % 2 == 0){plotLayout.push({'posX':widthScreen - plotWidth - marginRight, 'posY':(plotHeight + elementMargin)*Math.floor(plottableNodesIndex/2) + marginTop});}else{plotLayout.push({'posX':widthScreen - plotWidth - marginRight - (plotWidth + elementMargin), 'posY':(plotHeight + elementMargin)*Math.floor(plottableNodesIndex/2) + marginTop});}}}else{var plotHeight = plotMaxMinHeight;var plotWidth = plotMaxWidth;for (var plottableNodesIndex in plottableNodes){plotLayout.push({'posX':widthScreen - plotWidth - marginRight, 'posY':(plotHeight + elementMargin)*plottableNodesIndex + marginTop});}}
 
-for (var plottableNodesIndex in plottableNodes){G.addWidget(Widgets.PLOT); var plotObject = eval("Plot" + (parseInt(plottableNodesIndex) + 1)); plotObject.plotFunctionNode(plottableNodes[plottableNodesIndex]); plotObject.setSize(plotHeight, plotWidth);plotObject.setPosition(plotLayout[plottableNodesIndex].posX, plotLayout[plottableNodesIndex].posY);}
+for (var plottableNodesIndex in plottableNodes){var plotObject = G.addWidget(Widgets.PLOT); plotObject.plotFunctionNode(plottableNodes[plottableNodesIndex]); plotObject.setSize(plotHeight, plotWidth);plotObject.setPosition(plotLayout[plottableNodesIndex].posX, plotLayout[plottableNodesIndex].posY);}

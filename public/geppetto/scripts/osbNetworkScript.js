@@ -24,11 +24,11 @@ var realWidthScreen = widthScreen - marginRight - marginLeft - tvWidth - element
 $ENTER_ID.electrical.getModelTree();
 
 // Adding Scatter3d 1
-G.addWidget(3);
-TreeVisualiserDAT1.setData($ENTER_ID);
-TreeVisualiserDAT1.setSize(tvHeight,tvWidth);
-TreeVisualiserDAT1.setPosition(tvPosX,tvPosY);
-TreeVisualiserDAT1.setName("Network - $ENTER_ID");
+var treeVisualiserDAT1 = G.addWidget(3);
+treeVisualiserDAT1.setData($ENTER_ID);
+treeVisualiserDAT1.setSize(tvHeight,tvWidth);
+treeVisualiserDAT1.setPosition(tvPosX,tvPosY);
+treeVisualiserDAT1.setName("Network - $ENTER_ID");
 
 //Move cell to the left
 G.incrementCameraPan(-0.1, 0);
