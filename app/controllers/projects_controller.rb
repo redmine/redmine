@@ -496,7 +496,13 @@ class ProjectsController < ApplicationController
       geppettoTmpPath = "geppetto/tmp/"
       simulationTemplates = "simulationTemplates/"
       scripts = "scripts/"
-
+      if session[:geppettoIP].nil? || session[:geppettoIP].empty? || session[:geppettoIP] =="" 
+        props = YAML::load(File.open("#{Rails.root}/config/props.yml"))
+        session[:serverIP] = props["serverIP"]
+        session[:geppettoIP] = props["geppettoIP"]
+      end
+      serverIP = session[:serverIP];
+          
       filenameSplit = File.basename(uri.path).split(".")
       entity = filenameSplit[0]
       #FIXME: This a quick fix but actually we should check entity is valid js variable name
@@ -520,13 +526,6 @@ class ProjectsController < ApplicationController
       end
 
       # Generate simulation and js file path
-#      random_string = SecureRandom.hex
-#      @geppettoSimulationFilePath = random_string + ".xml"
-#      @geppettoJsFilePath = random_string + ".js"      
-      
-      #@geppettoSimulationFilePath = entity + ".xml"
-      #@geppettoJsFilePath = entity + ".js" 
-      
       geppettoTmpSimulationFile = Tempfile.new([entity,".xml"], publicResourcesPath + geppettoTmpPath);
       @geppettoSimulationFilePath = File.basename(geppettoTmpSimulationFile.path)
       geppettoTmpJsFile = Tempfile.new([entity,".js"], publicResourcesPath + geppettoTmpPath);
@@ -535,10 +534,11 @@ class ProjectsController < ApplicationController
       # Parse simulation file      
       geppettoSimulationFile.sub! '$ENTER_MODEL_URL', url
       geppettoSimulationFile.sub! '$ENTER_ID', entity
+
+      geppettoSimulationFile.sub! '$ENTER_SCRIPT_URL', serverIP + geppettoTmpPath + @geppettoJsFilePath
       #geppettoSimulationFile.sub! '$ENTER_SCRIPT_URL', 'http://127.0.0.1:3000/' + geppettoTmpPath + @geppettoJsFilePath
       #geppettoSimulationFile.sub! '$ENTER_SCRIPT_URL', 'http://comodl.org/' + geppettoTmpPath + @geppettoJsFilePath
-      geppettoSimulationFile.sub! '$ENTER_SCRIPT_URL', 'http://opensourcebrain.org/' + geppettoTmpPath + @geppettoJsFilePath
-      #geppettoSimulationFile.sub! '$ENTER_SCRIPT_URL', 'https://raw.githubusercontent.com/OpenSourceBrain/redmine/geppettoIntegration/public/geppetto/osbChannelScript.js'
+      #geppettoSimulationFile.sub! '$ENTER_SCRIPT_URL', 'http://opensourcebrain.org/' + geppettoTmpPath + @geppettoJsFilePath
         
       # Parse js file
       geppettoJsFile.gsub! '$ENTER_ID', entity
