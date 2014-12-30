@@ -180,20 +180,20 @@ module IssuesHelper
     s.html_safe
   end
 
+  # Returns the number of descendants for an array of issues
+  def issues_descendant_count(issues)
+    ids = issues.reject(&:leaf?).map {|issue| issue.descendants.ids}.flatten.uniq
+    ids -= issues.map(&:id)
+    ids.size
+  end
+
   def issues_destroy_confirmation_message(issues)
     issues = [issues] unless issues.is_a?(Array)
     message = l(:text_issues_destroy_confirmation)
-    descendant_count = issues.inject(0) {|memo, i| memo += (i.right - i.left - 1)/2}
+
+		descendant_count = issues_descendant_count(issues)
     if descendant_count > 0
-      issues.each do |issue|
-        next if issue.root?
-        issues.each do |other_issue|
-          descendant_count -= 1 if issue.is_descendant_of?(other_issue)
-        end
-      end
-      if descendant_count > 0
-        message << "\n" + l(:text_issues_destroy_descendants_confirmation, :count => descendant_count)
-      end
+      message << "\n" + l(:text_issues_destroy_descendants_confirmation, :count => descendant_count)
     end
     message
   end

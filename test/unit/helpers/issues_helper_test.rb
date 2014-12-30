@@ -68,6 +68,16 @@ class IssuesHelperTest < ActionView::TestCase
                  issues_destroy_confirmation_message(Issue.find([1, 2]))
   end
 
+  def test_issues_destroy_confirmation_message_with_issues_that_share_descendants
+    root = Issue.generate!
+    child = Issue.generate!(:parent_issue_id => root.id)
+    Issue.generate!(:parent_issue_id => child.id)
+
+    assert_equal l(:text_issues_destroy_confirmation) + "\n" +
+                   l(:text_issues_destroy_descendants_confirmation, :count => 1),
+                 issues_destroy_confirmation_message([root.reload, child.reload])
+  end
+
   test 'show_detail with no_html should show a changing attribute' do
     detail = JournalDetail.new(:property => 'attr', :old_value => '40',
                                :value => '100', :prop_key => 'done_ratio')
