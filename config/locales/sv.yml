@@ -1,7 +1,7 @@
 # Swedish translation for Ruby on Rails
 # by Johan Lundström (johanlunds@gmail.com),
 # with parts taken from http://github.com/daniel/swe_rails
-
+# Update based on Redmine 2.6.0 by Khedron Wilk (khedron.wilk@gmail.com) 6th Dec 2014
 sv:
   number:
     # Used in number_with_delimiter()
@@ -134,7 +134,7 @@ sv:
         not_same_project: "tillhör inte samma projekt"
         circular_dependency: "Denna relation skulle skapa ett cirkulärt beroende"
         cant_link_an_issue_with_a_descendant: "Ett ärende kan inte länkas till ett av dess underärenden"
-        earlier_than_minimum_start_date: "cannot be earlier than %{date} because of preceding issues"
+        earlier_than_minimum_start_date: "kan inte vara tidigare än% {datum} på grund av föregående ärenden"        
 
   direction: ltr
   date:
@@ -1127,33 +1127,28 @@ sv:
   description_date_from: Ange startdatum
   description_date_to: Ange slutdatum
   text_repository_identifier_info: 'Endast gemener (a-z), siffror, streck och understreck är tillåtna.<br />När identifieraren sparats kan den inte ändras.'
-  notice_account_not_activated_yet: You haven't activated your account yet. If you want
-    to receive a new activation email, please <a href="%{url}">click this link</a>.
-  notice_account_locked: Your account is locked.
-  label_hidden: Hidden
-  label_visibility_private: to me only
-  label_visibility_roles: to these roles only
-  label_visibility_public: to any users
-  field_must_change_passwd: Must change password at next logon
-  notice_new_password_must_be_different: The new password must be different from the
-    current password
-  setting_mail_handler_excluded_filenames: Exclude attachments by name
-  text_convert_available: ImageMagick convert available (optional)
-  label_link: Link
-  label_only: only
-  label_drop_down_list: drop-down list
-  label_checkboxes: checkboxes
-  label_link_values_to: Link values to URL
-  setting_force_default_language_for_anonymous: Force default language for anonymous
-    users
-  setting_force_default_language_for_loggedin: Force default language for logged-in
-    users
-  label_custom_field_select_type: Select the type of object to which the custom field
-    is to be attached
-  label_issue_assigned_to_updated: Assignee updated
-  label_check_for_updates: Check for updates
-  label_latest_compatible_version: Latest compatible version
-  label_unknown_plugin: Unknown plugin
-  label_radio_buttons: radio buttons
-  label_group_anonymous: Anonymous users
-  label_group_non_member: Non member users
+  notice_account_not_activated_yet: Du har inte aktiverat ditt konto än. Om du vill få ett nytt aktiveringsbrev, <a href="%{url}"> klicka på denna länk </a>.
+  notice_account_locked: Ditt konto är låst.
+  label_hidden: Dold
+  label_visibility_private: endast för mig
+  label_visibility_roles: endast för dessa roller
+  label_visibility_public: för alla användare
+  field_must_change_passwd: Måste byta lösenord vid nästa inloggning.
+  notice_new_password_must_be_different: Det nya lösenordet måste skilja sig från det nuvarande lösenordet
+  setting_mail_handler_excluded_filenames: Uteslut bilagor med namn
+  text_convert_available: ImageMagick-konvertering tillgänglig (valbart)
+  label_link: Länk
+  label_only: endast
+  label_drop_down_list: droppmeny
+  label_checkboxes: kryssrutor
+  label_link_values_to: Länka värden till URL
+  setting_force_default_language_for_anonymous: Lås till förvalt språk för anonyma användare
+  setting_force_default_language_for_loggedin: Lås till förvalt språk för inloggade användare
+  label_custom_field_select_type: Väljd den typ av objekt som det anpassade fältet skall användas för
+  label_issue_assigned_to_updated: Tilldelad har uppdaterats
+  label_check_for_updates: Leta efter uppdateringar
+  label_latest_compatible_version: Senaste kompatibla version
+  label_unknown_plugin: Okänt tillägg
+  label_radio_buttons: alternativknappar
+  label_group_anonymous: Anonyma användare
+  label_group_non_member: Icke-medlemsanvändare
