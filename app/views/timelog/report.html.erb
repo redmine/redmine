@@ -23,8 +23,8 @@
   <label for='criterias'><%= l(:button_add) %></label>: <%= select_tag('criteria[]', options_for_select([[]] + (@report.available_criteria.keys - @report.criteria).collect{|k| [l_or_humanize(@report.available_criteria[k][:label]), k]}),
                                                           :onchange => "this.form.submit();",
                                                           :style => 'width: 200px',
-                                                          :id => nil,
-                                                          :disabled => (@report.criteria.length >= 3), :id => "criterias") %>
+                                                          :disabled => (@report.criteria.length >= 3),
+                                                          :id => "criterias") %>
      <%= link_to l(:button_clear), {:project_id => @project, :issue_id => @issue, :period_type => params[:period_type], :period => params[:period], :from => @from, :to => @to, :columns => @report.columns}, :class => 'icon icon-reload' %></p>
 <% end %>
 
