@@ -5,7 +5,6 @@
     <%= link_to(
           l(:button_quote),
           {:action => 'quote', :id => @topic},
-          :remote => true,
           :method => 'get',
           :class => 'icon icon-comment',
           :remote => true) if !@topic.locked? && authorize_for('messages', 'reply') %>
