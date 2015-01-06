@@ -244,7 +244,7 @@ function open3DExplorer(file)
 			    	var serverIP = jQuery('#serverIP').val();
 			    	var geppettoIP = jQuery('#geppettoIP').val();
 			    	//LOCAL
-					jQuery("#mainContent").before("<div id='3dbrowser'><div id='3dspacer' style='display: none;'><br/><br/><br/></div><a class='fullscreen btn icon-desktop' href='javascript:toggleFullScreen();'> Full Screen</a><iframe id='3dframe' style='width:100%' src='" + geppettoIP + "org.geppetto.frontend/?sim=" + serverIP + json.geppettoSimulationFile + "'></iframe>");
+					jQuery("#mainContent").before("<div id='3dbrowser'><div id='3dspacer' style='display: none;'><br/><br/><br/></div><a class='fullscreen btn icon-desktop' href='javascript:toggleFullScreen();'> Full Screen</a><iframe id='3dframe' style='width:100%' src='" + geppettoIP + "?sim=" + serverIP + json.geppettoSimulationFile + "'></iframe>");
 					//DEV
 			    	//jQuery("#mainContent").before("<div id='3dbrowser'><div id='3dspacer' style='display: none;'><br/><br/><br/></div><a class='fullscreen btn icon-desktop' href='javascript:toggleFullScreen();'> Full Screen</a><iframe id='3dframe' style='width:100%' src='http://54.172.83.162:8080/?sim=http://comodl.org/" + json.geppettoSimulationFile + "'></iframe>");
 			    	//PROD
