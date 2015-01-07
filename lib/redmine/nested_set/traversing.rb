@@ -111,6 +111,14 @@ module Redmine
       def is_or_is_descendant_of?(other)
         other == self || is_descendant_of?(other)
       end
+
+      # Returns the ancestors, the element and its descendants
+      def hierarchy
+        nested_set_scope.where(
+          "#{self.class.table_name}.lft >= :lft AND #{self.class.table_name}.rgt <= :rgt" +
+          " OR #{self.class.table_name}.lft < :lft AND #{self.class.table_name}.rgt > :rgt",
+          {:lft => lft, :rgt => rgt})
+      end
     end
   end
 end
