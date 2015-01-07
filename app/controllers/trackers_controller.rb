@@ -64,7 +64,7 @@ class TrackersController < ApplicationController
     @tracker = Tracker.find(params[:id])
     if @tracker.update_attributes(params[:tracker])
       flash[:notice] = l(:notice_successful_update)
-      redirect_to trackers_path
+      redirect_to trackers_path(:page => params[:page])
       return
     end
     edit

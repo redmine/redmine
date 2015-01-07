@@ -56,7 +56,7 @@ class IssueStatusesController < ApplicationController
     @issue_status = IssueStatus.find(params[:id])
     if @issue_status.update_attributes(params[:issue_status])
       flash[:notice] = l(:notice_successful_update)
-      redirect_to issue_statuses_path
+      redirect_to issue_statuses_path(:page => params[:page])
     else
       render :action => 'edit'
     end

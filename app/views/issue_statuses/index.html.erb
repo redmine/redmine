@@ -23,7 +23,7 @@
   <td><%= h status.default_done_ratio %></td>
   <% end %>
   <td><%= checked_image status.is_closed? %></td>
-  <td class="reorder"><%= reorder_links('issue_status', {:action => 'update', :id => status}, :put) %></td>
+  <td class="reorder"><%= reorder_links('issue_status', {:action => 'update', :id => status, :page => params[:page]}, :put) %></td>
   <td class="buttons">
     <%= delete_link issue_status_path(status) %>
   </td>
