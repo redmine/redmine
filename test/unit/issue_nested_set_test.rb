@@ -77,8 +77,8 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     parent1.reload
     parent2.reload
     assert_equal [parent1.id, lft,     lft + 5], [parent1.root_id, parent1.lft, parent1.rgt]
-    assert_equal [parent1.id, lft + 3, lft + 4], [parent2.root_id, parent2.lft, parent2.rgt]
-    assert_equal [parent1.id, lft + 1, lft + 2], [child.root_id, child.lft, child.rgt]
+    assert_equal [parent1.id, lft + 1, lft + 2], [parent2.root_id, parent2.lft, parent2.rgt]
+    assert_equal [parent1.id, lft + 3, lft + 4], [child.root_id, child.lft, child.rgt]
   end
 
   def test_move_a_child_to_root
