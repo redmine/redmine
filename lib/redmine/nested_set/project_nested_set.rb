@@ -114,7 +114,7 @@ module Redmine
       end
 
       def move_possible?(project)
-        !is_or_is_ancestor_of?(project)
+        new_record? || !is_or_is_ancestor_of?(project)
       end
 
       def lock_nested_set
