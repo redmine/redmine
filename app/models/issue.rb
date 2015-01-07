@@ -19,6 +19,8 @@ class Issue < ActiveRecord::Base
   include Redmine::SafeAttributes
   include Redmine::Utils::DateCalculation
   include Redmine::I18n
+  before_save :set_parent_id
+  include Redmine::NestedSet::IssueNestedSet
 
   belongs_to :project
   belongs_to :tracker
@@ -41,7 +43,6 @@ class Issue < ActiveRecord::Base
   has_many :relations_from, :class_name => 'IssueRelation', :foreign_key => 'issue_from_id', :dependent => :delete_all
   has_many :relations_to, :class_name => 'IssueRelation', :foreign_key => 'issue_to_id', :dependent => :delete_all
 
-  acts_as_nested_set :scope => 'root_id', :dependent => :destroy
   acts_as_attachable :after_add => :attachment_added, :after_remove => :attachment_removed
   acts_as_customizable
   acts_as_watchable
@@ -185,7 +186,7 @@ class Issue < ActiveRecord::Base
   # the lock_version condition should not be an issue but we handle it.
   def destroy
     super
-  rescue ActiveRecord::RecordNotFound
+  rescue ActiveRecord::StaleObjectError, ActiveRecord::RecordNotFound
     # Stale or already deleted
     begin
       reload
@@ -615,10 +616,8 @@ class Issue < ActiveRecord::Base
         errors.add :parent_issue_id, :invalid
       elsif !new_record?
         # moving an existing issue
-        if @parent_issue.root_id != root_id
-          # we can always move to another tree
-        elsif move_possible?(@parent_issue)
-          # move accepted inside tree
+        if move_possible?(@parent_issue)
+          # move accepted
         else
           errors.add :parent_issue_id, :invalid
         end
@@ -1184,6 +1183,10 @@ class Issue < ActiveRecord::Base
     end
   end
 
+  def set_parent_id
+    self.parent_id = parent_issue_id
+  end
+
   # Returns true if issue's project is a valid
   # parent issue project
   def valid_parent_project?(issue=parent)
@@ -1366,14 +1369,7 @@ class Issue < ActiveRecord::Base
   end
 
   def update_nested_set_attributes
-    if root_id.nil?
-      # issue was just created
-      self.root_id = (@parent_issue.nil? ? id : @parent_issue.root_id)
-      Issue.where(["id = ?", id]).update_all(["root_id = ?", root_id])
-      if @parent_issue
-        move_to_child_of(@parent_issue)
-      end
-    elsif parent_issue_id != parent_id
+    if parent_id_changed?
       update_nested_set_attributes_on_parent_change
     end
     remove_instance_variable(:@parent_issue) if instance_variable_defined?(:@parent_issue)
@@ -1381,31 +1377,7 @@ class Issue < ActiveRecord::Base
 
   # Updates the nested set for when an existing issue is moved
   def update_nested_set_attributes_on_parent_change
-    former_parent_id = parent_id
-    # moving an existing issue
-    if @parent_issue && @parent_issue.root_id == root_id
-      # inside the same tree
-      move_to_child_of(@parent_issue)
-    else
-      # to another tree
-      unless root?
-        move_to_right_of(root)
-      end
-      old_root_id = root_id
-      in_tenacious_transaction do
-        @parent_issue.reload_nested_set if @parent_issue
-        self.reload_nested_set
-        self.root_id = (@parent_issue.nil? ? id : @parent_issue.root_id)
-        cond = ["root_id = ? AND lft >= ? AND rgt <= ? ", old_root_id, lft, rgt]
-        self.class.base_class.select('id').lock(true).where(cond)
-        offset = rdm_right_most_bound + 1 - lft
-        Issue.where(cond).
-          update_all(["root_id = ?, lft = lft + ?, rgt = rgt + ?", root_id, offset, offset])
-      end
-      if @parent_issue
-        move_to_child_of(@parent_issue)
-      end
-    end
+    former_parent_id = parent_id_was
     # delete invalid relations of all descendants
     self_and_descendants.each do |issue|
       issue.relations.each do |relation|
@@ -1416,16 +1388,11 @@ class Issue < ActiveRecord::Base
     recalculate_attributes_for(former_parent_id) if former_parent_id
   end
 
-  def rdm_right_most_bound
-    right_most_node =
-      self.class.base_class.unscoped.
-        order("#{quoted_right_column_full_name} desc").limit(1).lock(true).first
-      right_most_node ? (right_most_node[right_column_name] || 0 ) : 0
-  end
-  private :rdm_right_most_bound
-
   def update_parent_attributes
-    recalculate_attributes_for(parent_id) if parent_id
+    if parent_id
+      recalculate_attributes_for(parent_id)
+      association(:parent).reset
+    end
   end
 
   def recalculate_attributes_for(issue_id)

@@ -17,6 +17,7 @@
 
 class Project < ActiveRecord::Base
   include Redmine::SafeAttributes
+  include Redmine::NestedSet::ProjectNestedSet
 
   # Project statuses
   STATUS_ACTIVE     = 1
@@ -58,7 +59,6 @@ class Project < ActiveRecord::Base
                           :join_table => "#{table_name_prefix}custom_fields_projects#{table_name_suffix}",
                           :association_foreign_key => 'custom_field_id'
 
-  acts_as_nested_set :dependent => :destroy
   acts_as_attachable :view_permission => :view_files,
                      :edit_permission => :manage_files,
                      :delete_permission => :manage_files
@@ -81,8 +81,8 @@ class Project < ActiveRecord::Base
   # reserved words
   validates_exclusion_of :identifier, :in => %w( new )
 
-  after_save :update_position_under_parent, :if => Proc.new {|project| project.name_changed?}
   after_save :update_inherited_members, :if => Proc.new {|project| project.inherit_members_changed?}
+  after_save :remove_inherited_member_roles, :add_inherited_member_roles, :if => Proc.new {|project| project.parent_id_changed?}
   before_destroy :delete_all_members
 
   scope :has_module, lambda {|mod|
@@ -414,23 +414,14 @@ class Project < ActiveRecord::Base
       # Nothing to do
       true
     elsif p.nil? || (p.active? && move_possible?(p))
-      set_or_update_position_under(p)
+      self.parent = p
+      save
+      p.reload if p
       Issue.update_versions_from_hierarchy_change(self)
       true
     else
       # Can not move to the given target
       false
-    end
-  end
-
-  # Recalculates all lft and rgt values based on project names
-  # Unlike Project.rebuild!, these values are recalculated even if the tree "looks" valid
-  # Used in BuildProjectsTree migration
-  def self.rebuild_tree!
-    transaction do
-      update_all "lft = NULL, rgt = NULL"
-      rebuild!(false)
-      all.each { |p| p.set_or_update_position_under(p.parent) }
     end
   end
 
@@ -781,11 +772,6 @@ class Project < ActiveRecord::Base
 
   private
 
-  def after_parent_changed(parent_was)
-    remove_inherited_member_roles
-    add_inherited_member_roles
-  end
-
   def update_inherited_members
     if parent
       if inherit_members? && !inherit_members_was
@@ -816,6 +802,7 @@ class Project < ActiveRecord::Base
         end
         member.save!
       end
+      memberships.reset
     end
   end
 
@@ -1042,35 +1029,5 @@ class Project < ActiveRecord::Base
       subproject.send :archive!
     end
     update_attribute :status, STATUS_ARCHIVED
-  end
-
-  def update_position_under_parent
-    set_or_update_position_under(parent)
-  end
-
-  public
-
-  # Inserts/moves the project so that target's children or root projects stay alphabetically sorted
-  def set_or_update_position_under(target_parent)
-    parent_was = parent
-    sibs = (target_parent.nil? ? self.class.roots : target_parent.children)
-    to_be_inserted_before = sibs.sort_by {|c| c.name.to_s.downcase}.detect {|c| c.name.to_s.downcase > name.to_s.downcase }
-
-    if to_be_inserted_before
-      move_to_left_of(to_be_inserted_before)
-    elsif target_parent.nil?
-      if sibs.empty?
-        # move_to_root adds the project in first (ie. left) position
-        move_to_root
-      else
-        move_to_right_of(sibs.last) unless self == sibs.last
-      end
-    else
-      # move_to_child_of adds the project in last (ie.right) position
-      move_to_child_of(target_parent)
-    end
-    if parent_was != target_parent
-      after_parent_changed(parent_was)
-    end
   end
 end
