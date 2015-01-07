@@ -723,9 +723,10 @@ class Project < ActiveRecord::Base
         end
         Redmine::Hook.call_hook(:model_project_copy_before_save, :source_project => project, :destination_project => self)
         save
+      else
+        false
       end
     end
-    true
   end
 
   # Returns a new unsaved Project instance with attributes copied from +project+

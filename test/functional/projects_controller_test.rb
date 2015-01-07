@@ -608,6 +608,13 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_redirected_to :controller => 'projects', :action => 'settings', :id => 'unique-copy'
   end
 
+  def test_post_copy_with_failure
+    @request.session[:user_id] = 1
+    post :copy, :id => 1, :project => {:name => 'Copy', :identifier => ''}
+    assert_response :success
+    assert_template 'copy'
+  end
+
   def test_jump_should_redirect_to_active_tab
     get :show, :id => 1, :jump => 'issues'
     assert_redirected_to '/projects/ecookbook/issues'

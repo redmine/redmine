@@ -46,6 +46,11 @@ class ProjectCopyTest < ActiveSupport::TestCase
     @project.enabled_module_names = @source_project.enabled_modules.collect(&:name)
   end
 
+  def test_copy_should_return_false_if_save_fails
+    project = Project.new(:name => 'Copy', :identifier => nil)
+    assert_equal false, project.copy(@source_project)
+  end
+
   test "#copy should copy issues" do
     @source_project.issues << Issue.generate!(:status => IssueStatus.find_by_name('Closed'),
                                               :subject => "copy issue status",
