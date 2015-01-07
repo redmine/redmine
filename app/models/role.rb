@@ -71,10 +71,10 @@ class Role < ActiveRecord::Base
   validates_length_of :name, :maximum => 30
   validates_inclusion_of :issues_visibility,
     :in => ISSUES_VISIBILITY_OPTIONS.collect(&:first),
-    :if => lambda {|role| role.respond_to?(:issues_visibility)}
+    :if => lambda {|role| role.respond_to?(:issues_visibility) && role.issues_visibility_changed?}
   validates_inclusion_of :users_visibility,
     :in => USERS_VISIBILITY_OPTIONS.collect(&:first),
-    :if => lambda {|role| role.respond_to?(:users_visibility)}
+    :if => lambda {|role| role.respond_to?(:users_visibility) && role.users_visibility_changed?}
 
   # Copies attributes from another role, arg can be an id or a Role
   def copy_from(arg, options={})
