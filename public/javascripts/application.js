@@ -214,6 +214,7 @@ function buildFilterRow(field, operator, values) {
       if (values[0] == filterValue[1]) { option.attr('selected', true); }
       select.append(option);
     }
+    break;
   case "integer":
   case "float":
     tr.find('td.values').append(
