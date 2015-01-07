@@ -153,8 +153,8 @@ module Redmine
         if self.class.connection.adapter_name =~ /sqlserver/i
           lock = "WITH (ROWLOCK HOLDLOCK UPDLOCK)"
         end
-        sets_to_lock = [id, parent_id].compact
-        self.class.reorder(:id).where("root_id IN (SELECT root_id FROM #{self.class.table_name} WHERE id IN (?))", sets_to_lock).lock(lock).ids
+        sets_to_lock = [root_id, parent.try(:root_id)].compact.uniq
+        self.class.reorder(:id).where(:root_id => sets_to_lock).lock(lock).ids
       end
 
       def nested_set_scope
