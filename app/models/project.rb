@@ -80,9 +80,11 @@ class Project < ActiveRecord::Base
   validates_format_of :identifier, :with => /\A(?!\d+$)[a-z0-9\-_]*\z/, :if => Proc.new { |p| p.identifier_changed? }
   # reserved words
   validates_exclusion_of :identifier, :in => %w( new )
+  validate :validate_parent
 
   after_save :update_inherited_members, :if => Proc.new {|project| project.inherit_members_changed?}
   after_save :remove_inherited_member_roles, :add_inherited_member_roles, :if => Proc.new {|project| project.parent_id_changed?}
+  after_update :update_versions_from_hierarchy_change, :if => Proc.new {|project| project.parent_id_changed?}
   before_destroy :delete_all_members
 
   scope :has_module, lambda {|mod|
@@ -366,11 +368,11 @@ class Project < ActiveRecord::Base
 
   # Returns an array of projects the project can be moved to
   # by the current user
-  def allowed_parents
+  def allowed_parents(user=User.current)
     return @allowed_parents if @allowed_parents
-    @allowed_parents = Project.allowed_to(User.current, :add_subprojects).to_a
+    @allowed_parents = Project.allowed_to(user, :add_subprojects).to_a
     @allowed_parents = @allowed_parents - self_and_descendants
-    if User.current.allowed_to?(:add_project, nil, :global => true) || (!new_record? && parent.nil?)
+    if user.allowed_to?(:add_project, nil, :global => true) || (!new_record? && parent.nil?)
       @allowed_parents << nil
     end
     unless parent.nil? || @allowed_parents.empty? || @allowed_parents.include?(parent)
@@ -381,48 +383,20 @@ class Project < ActiveRecord::Base
 
   # Sets the parent of the project with authorization check
   def set_allowed_parent!(p)
-    unless p.nil? || p.is_a?(Project)
-      if p.to_s.blank?
-        p = nil
-      else
-        p = Project.find_by_id(p)
-        return false unless p
-      end
-    end
-    if p.nil?
-      if !new_record? && allowed_parents.empty?
-        return false
-      end
-    elsif !allowed_parents.include?(p)
-      return false
-    end
-    set_parent!(p)
+    p = p.id if p.is_a?(Project)
+    send :safe_attributes, {:project_id => p}
+    save
   end
 
   # Sets the parent of the project
   # Argument can be either a Project, a String, a Fixnum or nil
   def set_parent!(p)
-    unless p.nil? || p.is_a?(Project)
-      if p.to_s.blank?
-        p = nil
-      else
-        p = Project.find_by_id(p)
-        return false unless p
-      end
-    end
-    if p == parent && !p.nil?
-      # Nothing to do
-      true
-    elsif p.nil? || (p.active? && move_possible?(p))
+    if p.is_a?(Project)
       self.parent = p
-      save
-      p.reload if p
-      Issue.update_versions_from_hierarchy_change(self)
-      true
     else
-      # Can not move to the given target
-      false
+      self.parent_id = p
     end
+    save
   end
 
   # Returns an array of the trackers used by the project and its active sub projects
@@ -688,13 +662,31 @@ class Project < ActiveRecord::Base
     'custom_field_values',
     'custom_fields',
     'tracker_ids',
-    'issue_custom_field_ids'
+    'issue_custom_field_ids',
+    'parent_id'
 
   safe_attributes 'enabled_module_names',
     :if => lambda {|project, user| project.new_record? || user.allowed_to?(:select_project_modules, project) }
 
   safe_attributes 'inherit_members',
     :if => lambda {|project, user| project.parent.nil? || project.parent.visible?(user)}
+
+  def safe_attributes=(attrs, user=User.current)
+    return unless attrs.is_a?(Hash)
+    attrs = attrs.deep_dup
+
+    @unallowed_parent_id = nil
+    parent_id_param = attrs['parent_id'].to_s
+    if parent_id_param.blank? || parent_id_param != parent_id.to_s
+      p = parent_id_param.present? ? Project.find_by_id(parent_id_param) : nil
+      unless allowed_parents(user).include?(p)
+        attrs.delete('parent_id')
+        @unallowed_parent_id = true
+      end
+    end
+
+    super(attrs, user)
+  end
 
   # Returns an auto-generated project identifier based on the last identifier used
   def self.next_identifier
@@ -794,6 +786,20 @@ class Project < ActiveRecord::Base
         member.save!
       end
       memberships.reset
+    end
+  end
+
+  def update_versions_from_hierarchy_change
+    Issue.update_versions_from_hierarchy_change(self)
+  end
+
+  def validate_parent
+    if @unallowed_parent_id
+      errors.add(:parent_id, :invalid)
+    elsif parent_id_changed?
+      unless parent.nil? || (parent.active? && move_possible?(parent))
+        errors.add(:parent_id, :invalid)
+      end
     end
   end
 

@@ -74,8 +74,7 @@ class ProjectsController < ApplicationController
     @project = Project.new
     @project.safe_attributes = params[:project]
 
-    if validate_parent_id && @project.save
-      @project.set_allowed_parent!(params[:project]['parent_id']) if params[:project].has_key?('parent_id')
+    if @project.save
       unless User.current.admin?
         @project.add_default_member(User.current)
       end
@@ -110,8 +109,7 @@ class ProjectsController < ApplicationController
       Mailer.with_deliveries(params[:notifications] == '1') do
         @project = Project.new
         @project.safe_attributes = params[:project]
-        if validate_parent_id && @project.copy(@source_project, :only => params[:only])
-          @project.set_allowed_parent!(params[:project]['parent_id']) if params[:project].has_key?('parent_id')
+        if @project.copy(@source_project, :only => params[:only])
           flash[:notice] = l(:notice_successful_create)
           redirect_to settings_project_path(@project)
         elsif !@project.new_record?
@@ -170,8 +168,7 @@ class ProjectsController < ApplicationController
 
   def update
     @project.safe_attributes = params[:project]
-    if validate_parent_id && @project.save
-      @project.set_allowed_parent!(params[:project]['parent_id']) if params[:project].has_key?('parent_id')
+    if @project.save
       respond_to do |format|
         format.html {
           flash[:notice] = l(:notice_successful_update)
@@ -232,22 +229,5 @@ class ProjectsController < ApplicationController
     end
     # hide project in layout
     @project = nil
-  end
-
-  private
-
-  # Validates parent_id param according to user's permissions
-  # TODO: move it to Project model in a validation that depends on User.current
-  def validate_parent_id
-    return true if User.current.admin?
-    parent_id = params[:project] && params[:project][:parent_id]
-    if parent_id || @project.new_record?
-      parent = parent_id.blank? ? nil : Project.find_by_id(parent_id.to_i)
-      unless @project.allowed_parents.include?(parent)
-        @project.errors.add :parent_id, :invalid
-        return false
-      end
-    end
-    true
   end
 end

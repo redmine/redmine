@@ -40,8 +40,10 @@ module ObjectHelpers
   end
 
   def Project.generate_with_parent!(parent, attributes={})
-    project = Project.generate!(attributes)
-    project.set_parent!(parent)
+    project = Project.generate!(attributes) do |p|
+      p.parent = parent
+    end
+    parent.reload if parent
     project
   end
 
