@@ -213,7 +213,7 @@ class ActiveSupport::TestCase
     mail.parts.first.body.encoded
   end
 
-	# Returns the lft value for a new root issue
+  # Returns the lft value for a new root issue
   def new_issue_lft
     1
   end
