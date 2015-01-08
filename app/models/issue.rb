@@ -46,13 +46,8 @@ class Issue < ActiveRecord::Base
   acts_as_attachable :after_add => :attachment_added, :after_remove => :attachment_removed
   acts_as_customizable
   acts_as_watchable
-  acts_as_searchable :columns => ['subject', "#{table_name}.description", "#{Journal.table_name}.notes"],
-                     :preload => [:project, :status, :tracker],
-                     :scope => lambda { joins(:project).
-                                        joins("LEFT OUTER JOIN #{Journal.table_name} ON #{Journal.table_name}.journalized_type='Issue'" + 
-                                              " AND #{Journal.table_name}.journalized_id = #{Issue.table_name}.id" +
-                                              " AND (#{Journal.table_name}.private_notes = #{connection.quoted_false}" +
-                                                    " OR (#{Project.allowed_to_condition(User.current, :view_private_notes)}))") }
+  acts_as_searchable :columns => ['subject', "#{table_name}.description"],
+                     :preload => [:project, :status, :tracker]
 
   acts_as_event :title => Proc.new {|o| "#{o.tracker.name} ##{o.id} (#{o.status}): #{o.subject}"},
                 :url => Proc.new {|o| {:controller => 'issues', :action => 'show', :id => o.id}},

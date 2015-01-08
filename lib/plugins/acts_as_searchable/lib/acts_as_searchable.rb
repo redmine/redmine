@@ -48,8 +48,9 @@ module Redmine
           searchable_options[:project_key] ||= "#{table_name}.project_id"
           searchable_options[:date_column] ||= :created_on
 
-          # Should we search custom fields on this model ?
-          searchable_options[:search_custom_fields] = !reflect_on_association(:custom_values).nil?
+          # Should we search additional associations on this model ?
+          searchable_options[:search_custom_fields] = reflect_on_association(:custom_values).present?
+          searchable_options[:search_journals] = reflect_on_association(:journals).present?
 
           send :include, Redmine::Acts::Searchable::InstanceMethods
         end
@@ -75,11 +76,6 @@ module Redmine
           #   Issue.search_result_ranks_and_ids("foo")
           #   # => [[1419595329, 69], [1419595622, 123]]
           def search_result_ranks_and_ids(tokens, user=User.current, projects=nil, options={})
-            if projects.is_a?(Array) && projects.empty?
-              # no results
-              return []
-            end
-
             tokens = [] << tokens unless tokens.is_a?(Array)
             projects = [] << projects if projects.is_a?(Project)
 
@@ -87,36 +83,63 @@ module Redmine
             columns = columns[0..0] if options[:titles_only]
 
             token_clauses = columns.collect {|column| "(#{search_token_match_statement(column)})"}
+            sql = (['(' + token_clauses.join(' OR ') + ')'] * tokens.size).join(options[:all_words] ? ' AND ' : ' OR ')
+            tokens_conditions = [sql, * (tokens.collect {|w| "%#{w}%"} * token_clauses.size).sort]
+
+            r = fetch_ranks_and_ids(search_scope(user, projects).where(tokens_conditions), options[:limit])
+            sort_and_limit_results = false
 
             if !options[:titles_only] && searchable_options[:search_custom_fields]
-              searchable_custom_fields = CustomField.where(:type => "#{self.name}CustomField", :searchable => true)
-              fields_by_visibility = searchable_custom_fields.group_by {|field|
-                field.visibility_by_project_condition(searchable_options[:project_key], user, "cfs.custom_field_id")
-              }
-              # only 1 subquery for all custom fields with the same visibility statement
-              fields_by_visibility.each do |visibility, fields|
-                ids = fields.map(&:id).join(',')
-                sql = "#{table_name}.id IN (SELECT cfs.customized_id FROM #{CustomValue.table_name} cfs" +
-                  " WHERE cfs.customized_type='#{self.name}' AND cfs.customized_id=#{table_name}.id" +
-                  " AND cfs.custom_field_id IN (#{ids})" +
-                  " AND #{search_token_match_statement('cfs.value')}" +
-                  " AND #{visibility})"
-                token_clauses << sql
+              searchable_custom_fields = CustomField.where(:type => "#{self.name}CustomField", :searchable => true).to_a
+
+              if searchable_custom_fields.any?
+                fields_by_visibility = searchable_custom_fields.group_by {|field|
+                  field.visibility_by_project_condition(searchable_options[:project_key], user, "#{CustomValue.table_name}.custom_field_id")
+                }
+                clauses = []
+                fields_by_visibility.each do |visibility, fields|
+                  clauses << "(#{CustomValue.table_name}.custom_field_id IN (#{fields.map(&:id).join(',')}) AND (#{visibility}))"
+                end
+                visibility = clauses.join(' OR ')
+  
+                sql = ([search_token_match_statement("#{CustomValue.table_name}.value")] * tokens.size).join(options[:all_words] ? ' AND ' : ' OR ')
+                tokens_conditions = [sql, * tokens.collect {|w| "%#{w}%"}.sort]
+
+                r |= fetch_ranks_and_ids(
+                  search_scope(user, projects).
+                  joins(:custom_values).
+                  where(visibility).
+                  where(tokens_conditions),
+                  options[:limit]
+                )
+
+                sort_and_limit_results = true
               end
             end
 
-            sql = (['(' + token_clauses.join(' OR ') + ')'] * tokens.size).join(options[:all_words] ? ' AND ' : ' OR ')
+            if !options[:titles_only] && searchable_options[:search_journals]
+              sql = ([search_token_match_statement("#{Journal.table_name}.notes")] * tokens.size).join(options[:all_words] ? ' AND ' : ' OR ')
+              tokens_conditions = [sql, * tokens.collect {|w| "%#{w}%"}.sort]
 
-            tokens_conditions = [sql, * (tokens.collect {|w| "%#{w}%"} * token_clauses.size).sort]
+              r |= fetch_ranks_and_ids(
+                search_scope(user, projects).
+                joins(:journals).
+                where("#{Journal.table_name}.private_notes = ? OR (#{Project.allowed_to_condition(user, :view_private_notes)})", false).
+                where(tokens_conditions),
+                options[:limit]
+              )
 
-            search_scope(user, projects).
-              reorder(searchable_options[:date_column] => :desc, :id => :desc).
-              where(tokens_conditions).
-              limit(options[:limit]).
-              uniq.
-              pluck(searchable_options[:date_column], :id).
-              # converts timestamps to integers for faster sort
-              map {|timestamp, id| [timestamp.to_i, id]}
+              sort_and_limit_results = true
+            end
+
+            if sort_and_limit_results
+              r = r.sort.reverse
+              if options[:limit] && r.size > options[:limit]
+                r = r[0, options[:limit]]
+              end
+            end
+
+            r
           end
 
           def search_token_match_statement(column, value='?')
@@ -129,8 +152,24 @@ module Redmine
           end
           private :search_token_match_statement
 
+          def fetch_ranks_and_ids(scope, limit)
+            scope.
+              reorder(searchable_options[:date_column] => :desc, :id => :desc).
+              limit(limit).
+              uniq.
+              pluck(searchable_options[:date_column], :id).
+              # converts timestamps to integers for faster sort
+              map {|timestamp, id| [timestamp.to_i, id]}
+          end
+          private :fetch_ranks_and_ids
+
           # Returns the search scope for user and projects
           def search_scope(user, projects)
+            if projects.is_a?(Array) && projects.empty?
+              # no results
+              return none
+            end
+
             scope = (searchable_options[:scope] || self)
             if scope.is_a? Proc
               scope = scope.call
