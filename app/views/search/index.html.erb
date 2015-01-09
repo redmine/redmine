@@ -17,9 +17,21 @@
 <% end %>
 </p>
 
+<fieldset class="collapsible collapsed">
+  <legend onclick="toggleFieldset(this);"><%= l(:label_options) %></legend>
+  <div id="options-content" style="display:none;">
+    <p>
+      <label><%= radio_button_tag 'attachments', '0', @search_attachments == '0' %> <%= l(:label_search_attachments_no) %></label>
+      <label><%= radio_button_tag 'attachments', '1', @search_attachments == '1' %> <%= l(:label_search_attachments_yes) %></label>
+      <label><%= radio_button_tag 'attachments', 'only', @search_attachments == 'only' %> <%= l(:label_search_attachments_only) %></label>
+    </p>
+  </div>
+</fieldset>
+<%= hidden_field_tag 'options', '', :id => 'show-options' %>
+
+</div>
 <p><%= submit_tag l(:button_submit) %></p>
 <% end %>
-</div>
 
 <% if @results %>
     <div id="search-results-counts">
@@ -53,4 +65,12 @@ $("#search-types a").click(function(e){
     $("#search-form").submit();
   }
 });
+
+$("#search-form").submit(function(){
+  $("#show-options").val($("#options-content").is(":visible") ? '1' : '0');
+});
+
+<% if params[:options] == '1' %>
+toggleFieldset($("#options-content"));
+<% end %>
 <% end %>

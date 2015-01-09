@@ -23,6 +23,7 @@ class SearchController < ApplicationController
     @question.strip!
     @all_words = params[:all_words] ? params[:all_words].present? : true
     @titles_only = params[:titles_only] ? params[:titles_only].present? : false
+    @search_attachments = params[:attachments].presence || '0'
 
     # quick jump to an issue
     if (m = @question.match(/^#?(\d+)$/)) && (issue = Issue.visible.find_by_id(m[1].to_i))
@@ -55,7 +56,8 @@ class SearchController < ApplicationController
 
     fetcher = Redmine::Search::Fetcher.new(
       @question, User.current, @scope, projects_to_search,
-      :all_words => @all_words, :titles_only => @titles_only, :cache => params[:page].present?
+      :all_words => @all_words, :titles_only => @titles_only, :attachments => @search_attachments,
+      :cache => params[:page].present?
     )
 
     if fetcher.tokens.present?

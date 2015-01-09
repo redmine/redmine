@@ -473,6 +473,8 @@ input#content_comments {width: 99%}
 
 p.pagination {margin-top:8px; font-size: 90%}
 
+#search-form fieldset p {margin:0.2em 0;}
+
 /***** Tabular forms ******/
 .tabular p{
   margin: 0;

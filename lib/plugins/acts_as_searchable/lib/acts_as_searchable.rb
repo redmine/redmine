@@ -50,6 +50,7 @@ module Redmine
 
           # Should we search additional associations on this model ?
           searchable_options[:search_custom_fields] = reflect_on_association(:custom_values).present?
+          searchable_options[:search_attachments] = reflect_on_association(:attachments).present?
           searchable_options[:search_journals] = reflect_on_association(:journals).present?
 
           send :include, Redmine::Acts::Searchable::InstanceMethods
@@ -70,6 +71,7 @@ module Redmine
           # Valid options:
           # * :titles_only - searches tokens in the first searchable column only
           # * :all_words - searches results that match all token
+          # * :
           # * :limit - maximum number of results to return
           #
           # Example:
@@ -82,57 +84,64 @@ module Redmine
             columns = searchable_options[:columns]
             columns = columns[0..0] if options[:titles_only]
 
-            token_clauses = columns.collect {|column| "(#{search_token_match_statement(column)})"}
-            sql = (['(' + token_clauses.join(' OR ') + ')'] * tokens.size).join(options[:all_words] ? ' AND ' : ' OR ')
-            tokens_conditions = [sql, * (tokens.collect {|w| "%#{w}%"} * token_clauses.size).sort]
+            r = []
+            queries = 0
 
-            r = fetch_ranks_and_ids(search_scope(user, projects).where(tokens_conditions), options[:limit])
-            sort_and_limit_results = false
+            unless options[:attachments] == 'only'
+              r = fetch_ranks_and_ids(
+                search_scope(user, projects).
+                where(search_tokens_condition(columns, tokens, options[:all_words])),
+                options[:limit]
+              )
+              queries += 1
 
-            if !options[:titles_only] && searchable_options[:search_custom_fields]
-              searchable_custom_fields = CustomField.where(:type => "#{self.name}CustomField", :searchable => true).to_a
-
-              if searchable_custom_fields.any?
-                fields_by_visibility = searchable_custom_fields.group_by {|field|
-                  field.visibility_by_project_condition(searchable_options[:project_key], user, "#{CustomValue.table_name}.custom_field_id")
-                }
-                clauses = []
-                fields_by_visibility.each do |visibility, fields|
-                  clauses << "(#{CustomValue.table_name}.custom_field_id IN (#{fields.map(&:id).join(',')}) AND (#{visibility}))"
-                end
-                visibility = clauses.join(' OR ')
+              if !options[:titles_only] && searchable_options[:search_custom_fields]
+                searchable_custom_fields = CustomField.where(:type => "#{self.name}CustomField", :searchable => true).to_a
   
-                sql = ([search_token_match_statement("#{CustomValue.table_name}.value")] * tokens.size).join(options[:all_words] ? ' AND ' : ' OR ')
-                tokens_conditions = [sql, * tokens.collect {|w| "%#{w}%"}.sort]
+                if searchable_custom_fields.any?
+                  fields_by_visibility = searchable_custom_fields.group_by {|field|
+                    field.visibility_by_project_condition(searchable_options[:project_key], user, "#{CustomValue.table_name}.custom_field_id")
+                  }
+                  clauses = []
+                  fields_by_visibility.each do |visibility, fields|
+                    clauses << "(#{CustomValue.table_name}.custom_field_id IN (#{fields.map(&:id).join(',')}) AND (#{visibility}))"
+                  end
+                  visibility = clauses.join(' OR ')
+  
+                  r |= fetch_ranks_and_ids(
+                    search_scope(user, projects).
+                    joins(:custom_values).
+                    where(visibility).
+                    where(search_tokens_condition(["#{CustomValue.table_name}.value"], tokens, options[:all_words])),
+                    options[:limit]
+                  )
+                  queries += 1
+                end
+              end
 
+              if !options[:titles_only] && searchable_options[:search_journals]
                 r |= fetch_ranks_and_ids(
                   search_scope(user, projects).
-                  joins(:custom_values).
-                  where(visibility).
-                  where(tokens_conditions),
+                  joins(:journals).
+                  where("#{Journal.table_name}.private_notes = ? OR (#{Project.allowed_to_condition(user, :view_private_notes)})", false).
+                  where(search_tokens_condition(["#{Journal.table_name}.notes"], tokens, options[:all_words])),
                   options[:limit]
                 )
-
-                sort_and_limit_results = true
+                queries += 1
               end
             end
 
-            if !options[:titles_only] && searchable_options[:search_journals]
-              sql = ([search_token_match_statement("#{Journal.table_name}.notes")] * tokens.size).join(options[:all_words] ? ' AND ' : ' OR ')
-              tokens_conditions = [sql, * tokens.collect {|w| "%#{w}%"}.sort]
-
+            if searchable_options[:search_attachments] && (options[:titles_only] ? options[:attachments] == 'only' : options[:attachments] != '0')
               r |= fetch_ranks_and_ids(
                 search_scope(user, projects).
-                joins(:journals).
-                where("#{Journal.table_name}.private_notes = ? OR (#{Project.allowed_to_condition(user, :view_private_notes)})", false).
-                where(tokens_conditions),
+                joins(:attachments).
+                where(search_tokens_condition(["#{Attachment.table_name}.filename", "#{Attachment.table_name}.description"], tokens, options[:all_words])),
                 options[:limit]
               )
-
-              sort_and_limit_results = true
+              queries += 1
             end
 
-            if sort_and_limit_results
+            if queries > 1
               r = r.sort.reverse
               if options[:limit] && r.size > options[:limit]
                 r = r[0, options[:limit]]
@@ -141,6 +150,13 @@ module Redmine
 
             r
           end
+
+          def search_tokens_condition(columns, tokens, all_words)
+            token_clauses = columns.map {|column| "(#{search_token_match_statement(column)})"}
+            sql = (['(' + token_clauses.join(' OR ') + ')'] * tokens.size).join(all_words ? ' AND ' : ' OR ')
+            [sql, * (tokens.collect {|w| "%#{w}%"} * token_clauses.size).sort]
+          end
+          private :search_tokens_condition
 
           def search_token_match_statement(column, value='?')
             case connection.adapter_name

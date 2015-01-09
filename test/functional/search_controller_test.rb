@@ -180,6 +180,35 @@ class SearchControllerTest < ActionController::TestCase
     assert results.include?(Issue.find(7))
   end
 
+  def test_search_without_attachments
+    issue = Issue.generate! :subject => 'search_attachments'
+    attachment = Attachment.generate! :container => Issue.find(1), :filename => 'search_attachments.patch'
+
+    get :index, :id => 1, :q => 'search_attachments', :attachments => '0'
+    results = assigns(:results)
+    assert_equal 1, results.size
+    assert_equal issue, results.first
+  end
+
+  def test_search_attachments_only
+    issue = Issue.generate! :subject => 'search_attachments'
+    attachment = Attachment.generate! :container => Issue.find(1), :filename => 'search_attachments.patch'
+
+    get :index, :id => 1, :q => 'search_attachments', :attachments => 'only'
+    results = assigns(:results)
+    assert_equal 1, results.size
+    assert_equal attachment.container, results.first
+  end
+
+  def test_search_with_attachments
+    Issue.generate! :subject => 'search_attachments'
+    Attachment.generate! :container => Issue.find(1), :filename => 'search_attachments.patch'
+
+    get :index, :id => 1, :q => 'search_attachments', :attachments => '1'
+    results = assigns(:results)
+    assert_equal 2, results.size
+  end
+
   def test_search_all_words
     # 'all words' is on by default
     get :index, :id => 1, :q => 'recipe updating saving', :all_words => '1'

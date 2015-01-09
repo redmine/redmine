@@ -947,6 +947,9 @@ fr:
   label_edit_attachments: Modifier les fichiers attachés
   label_link_copied_issue: Lier la demande copiée
   label_ask: Demander
+  label_search_attachments_yes: Rechercher les noms et descriptions de fichiers
+  label_search_attachments_no: Ne pas rechercher les fichiers
+  label_search_attachments_only: Rechercher les fichiers uniquement
 
   button_login: Connexion
   button_submit: Soumettre
