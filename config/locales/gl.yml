@@ -1137,3 +1137,6 @@ gl:
   setting_link_copied_issue: "Ligar aos tíckets ao copialos"
   label_link_copied_issue: "Ligar ao tícket copiado"
   label_ask: "Preguntar"
+  label_search_attachments_yes: Search attachment filenames and descriptions
+  label_search_attachments_no: Do not search attachments
+  label_search_attachments_only: Search attachments only

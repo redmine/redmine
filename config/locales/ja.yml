@@ -1145,3 +1145,6 @@ ja:
   setting_link_copied_issue: チケットをコピーしたときに関連を設定
   label_link_copied_issue: コピーしたチケットに関連を設定
   label_ask: 都度選択
+  label_search_attachments_yes: Search attachment filenames and descriptions
+  label_search_attachments_no: Do not search attachments
+  label_search_attachments_only: Search attachments only
