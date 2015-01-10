@@ -91,7 +91,7 @@ group :test do
   gem "shoulda-matchers", "1.4.1"
   gem "mocha", "~> 1.0.0", :require => 'mocha/api'
   if RUBY_VERSION >= '1.9.3'
-    gem "capybara", "~> 2.1.0"
+    gem "capybara"
     gem "selenium-webdriver"
   end
 end
