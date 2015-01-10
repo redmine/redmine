@@ -20,6 +20,7 @@
 <fieldset class="collapsible collapsed">
   <legend onclick="toggleFieldset(this);"><%= l(:label_options) %></legend>
   <div id="options-content" style="display:none;">
+    <p><label><%= check_box_tag 'open_issues', 1, @open_issues %> <%= l(:label_search_open_issues_only) %></label></p>
     <p>
       <label><%= radio_button_tag 'attachments', '0', @search_attachments == '0' %> <%= l(:label_search_attachments_no) %></label>
       <label><%= radio_button_tag 'attachments', '1', @search_attachments == '1' %> <%= l(:label_search_attachments_yes) %></label>

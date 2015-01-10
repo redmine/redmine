@@ -47,7 +47,8 @@ class Issue < ActiveRecord::Base
   acts_as_customizable
   acts_as_watchable
   acts_as_searchable :columns => ['subject', "#{table_name}.description"],
-                     :preload => [:project, :status, :tracker]
+                     :preload => [:project, :status, :tracker],
+                     :scope => lambda {|options| options[:open_issues] ? self.open : self.all}
 
   acts_as_event :title => Proc.new {|o| "#{o.tracker.name} ##{o.id} (#{o.status}): #{o.subject}"},
                 :url => Proc.new {|o| {:controller => 'issues', :action => 'show', :id => o.id}},

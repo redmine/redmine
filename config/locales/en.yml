@@ -930,6 +930,7 @@ en:
   label_search_attachments_yes: Search attachment filenames and descriptions
   label_search_attachments_no: Do not search attachments
   label_search_attachments_only: Search attachments only
+  label_search_open_issues_only: Open issues only
 
   button_login: Login
   button_submit: Submit

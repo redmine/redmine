@@ -950,6 +950,7 @@ fr:
   label_search_attachments_yes: Rechercher les noms et descriptions de fichiers
   label_search_attachments_no: Ne pas rechercher les fichiers
   label_search_attachments_only: Rechercher les fichiers uniquement
+  label_search_open_issues_only: Demandes ouvertes uniquement
 
   button_login: Connexion
   button_submit: Soumettre

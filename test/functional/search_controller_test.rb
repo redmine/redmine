@@ -209,6 +209,15 @@ class SearchControllerTest < ActionController::TestCase
     assert_equal 2, results.size
   end
 
+  def test_search_open_issues
+    Issue.generate! :subject => 'search_open'
+    Issue.generate! :subject => 'search_open', :status_id => 5
+
+    get :index, :id => 1, :q => 'search_open', :open_issues => '1'
+    results = assigns(:results)
+    assert_equal 1, results.size
+  end
+
   def test_search_all_words
     # 'all words' is on by default
     get :index, :id => 1, :q => 'recipe updating saving', :all_words => '1'

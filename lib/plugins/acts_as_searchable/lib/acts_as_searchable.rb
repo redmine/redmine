@@ -89,7 +89,7 @@ module Redmine
 
             unless options[:attachments] == 'only'
               r = fetch_ranks_and_ids(
-                search_scope(user, projects).
+                search_scope(user, projects, options).
                 where(search_tokens_condition(columns, tokens, options[:all_words])),
                 options[:limit]
               )
@@ -109,7 +109,7 @@ module Redmine
                   visibility = clauses.join(' OR ')
   
                   r |= fetch_ranks_and_ids(
-                    search_scope(user, projects).
+                    search_scope(user, projects, options).
                     joins(:custom_values).
                     where(visibility).
                     where(search_tokens_condition(["#{CustomValue.table_name}.value"], tokens, options[:all_words])),
@@ -121,7 +121,7 @@ module Redmine
 
               if !options[:titles_only] && searchable_options[:search_journals]
                 r |= fetch_ranks_and_ids(
-                  search_scope(user, projects).
+                  search_scope(user, projects, options).
                   joins(:journals).
                   where("#{Journal.table_name}.private_notes = ? OR (#{Project.allowed_to_condition(user, :view_private_notes)})", false).
                   where(search_tokens_condition(["#{Journal.table_name}.notes"], tokens, options[:all_words])),
@@ -133,7 +133,7 @@ module Redmine
 
             if searchable_options[:search_attachments] && (options[:titles_only] ? options[:attachments] == 'only' : options[:attachments] != '0')
               r |= fetch_ranks_and_ids(
-                search_scope(user, projects).
+                search_scope(user, projects, options).
                 joins(:attachments).
                 where(search_tokens_condition(["#{Attachment.table_name}.filename", "#{Attachment.table_name}.description"], tokens, options[:all_words])),
                 options[:limit]
@@ -180,7 +180,7 @@ module Redmine
           private :fetch_ranks_and_ids
 
           # Returns the search scope for user and projects
-          def search_scope(user, projects)
+          def search_scope(user, projects, options={})
             if projects.is_a?(Array) && projects.empty?
               # no results
               return none
@@ -188,7 +188,7 @@ module Redmine
 
             scope = (searchable_options[:scope] || self)
             if scope.is_a? Proc
-              scope = scope.call
+              scope = scope.call(options)
             end
 
             if respond_to?(:visible) && !searchable_options.has_key?(:permission)
