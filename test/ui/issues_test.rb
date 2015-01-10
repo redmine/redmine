@@ -60,13 +60,13 @@ class Redmine::UiTest::IssuesTest < Redmine::UiTest::Base
       :field_format => 'string',
       :name => 'Field1',
       :is_for_all => true,
-      :trackers => Tracker.find_all_by_id([1, 2])
+      :trackers => Tracker.where(:id => [1, 2])
     )
     field2 = IssueCustomField.create!(
       :field_format => 'string',
       :name => 'Field2',
       :is_for_all => true,
-      :trackers => Tracker.find_all_by_id(2)
+      :trackers => Tracker.where(:id => 2)
     )
 
     Role.non_member.add_permission! :add_issues
@@ -188,7 +188,7 @@ class Redmine::UiTest::IssuesTest < Redmine::UiTest::Base
       :field_format => 'string',
       :name => 'Form update CF',
       :is_for_all => true,
-      :trackers => Tracker.find_all_by_name('Feature request')
+      :trackers => Tracker.where(:name => 'Feature request')
     )
 
     Role.non_member.add_permission! :edit_issues
