@@ -237,6 +237,8 @@ class Redmine::UiTest::IssuesTest < Redmine::UiTest::Base
       within('#context-menu') do
         click_link 'Watch'
       end
+      # wait for ajax response
+      assert page.has_css?('#context-menu .issue-1-watcher.icon-fav')
       assert page.has_css?('tr#issue-1')
     end
     assert Issue.find(1).watched_by?(User.find_by_login('jsmith'))
@@ -254,6 +256,8 @@ class Redmine::UiTest::IssuesTest < Redmine::UiTest::Base
       within('#context-menu') do
         click_link 'Watch'
       end
+      # wait for ajax response
+      assert page.has_css?('#context-menu .issue-bulk-watcher.icon-fav')
       assert page.has_css?('tr#issue-1')
       assert page.has_css?('tr#issue-4')
     end
