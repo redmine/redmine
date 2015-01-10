@@ -351,6 +351,18 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_select 'li', :text => /Development status/, :count => 0
   end
 
+  def test_show_should_not_display_blank_custom_fields_with_multiple_values
+    f1 = ProjectCustomField.generate! :field_format => 'list', :possible_values => %w(Foo Bar), :multiple => true
+    f2 = ProjectCustomField.generate! :field_format => 'list', :possible_values => %w(Baz Qux), :multiple => true
+    project = Project.generate!(:custom_field_values => {f2.id.to_s => %w(Qux)})
+
+    get :show, :id => project.id
+    assert_response :success
+
+    assert_select 'li', :text => /#{f1.name}/, :count => 0
+    assert_select 'li', :text => /#{f2.name}/
+  end
+
   def test_show_should_not_fail_when_custom_values_are_nil
     project = Project.find_by_identifier('ecookbook')
     project.custom_values.first.update_attribute(:value, nil)

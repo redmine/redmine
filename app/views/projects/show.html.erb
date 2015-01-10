@@ -31,10 +31,8 @@
     <li><span class="label"><%=l(:label_subproject_plural)%>:</span>
       <%= @subprojects.collect{|p| link_to p, project_path(p)}.join(", ").html_safe %></li>
   <% end %>
-  <% @project.visible_custom_field_values.each do |custom_value| %>
-  <% if !custom_value.value.blank? %>
-     <li><span class="label"><%=h custom_value.custom_field.name %>:</span> <%=h show_value(custom_value) %></li>
-  <% end %>
+  <% render_custom_field_values(@project) do |custom_field, formatted| %>
+    <li><span class="label"><%= custom_field.name %>:</span> <%= formatted %></li>
   <% end %>
   </ul>
 

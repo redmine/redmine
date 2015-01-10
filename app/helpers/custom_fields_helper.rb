@@ -117,6 +117,17 @@ module CustomFieldsHelper
     Redmine::FieldFormat.as_select(custom_field.class.customized_class.name)
   end
 
+  # Yields the given block for each custom field value of object that should be
+  # displayed, with the custom field and the formatted value as arguments
+  def render_custom_field_values(object, &block)
+    object.visible_custom_field_values.each do |custom_value|
+      formatted = show_value(custom_value)
+      if formatted.present?
+        yield custom_value.custom_field, formatted
+      end
+    end
+  end
+
   # Renders the custom_values in api views
   def render_api_custom_values(custom_values, api)
     api.array :custom_fields do

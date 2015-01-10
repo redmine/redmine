@@ -7,10 +7,8 @@
 <p><%=h version.description %></p>
 <% if version.custom_field_values.any? %>
 <ul>
-  <% version.custom_field_values.each do |custom_value| %>
-    <% if custom_value.value.present? %>
-       <li><%=h custom_value.custom_field.name %>: <%=h show_value(custom_value) %></li>
-    <% end %>
+  <% render_custom_field_values(version) do |custom_field, formatted| %>
+    <li><span class="label"><%= custom_field.name %>:</span> <%= formatted %></li>
   <% end %>
 </ul>
 <% end %>
