@@ -193,6 +193,7 @@ class CustomFieldTest < ActiveSupport::TestCase
     assert f.valid_field_value?('+123')
     assert f.valid_field_value?('-123')
     assert !f.valid_field_value?('6abc')
+    assert f.valid_field_value?(123)
   end
 
   def test_float_field_validation
@@ -205,6 +206,7 @@ class CustomFieldTest < ActiveSupport::TestCase
     assert f.valid_field_value?('-6.250')
     assert f.valid_field_value?('5')
     assert !f.valid_field_value?('6abc')
+    assert f.valid_field_value?(11.2)
   end
 
   def test_multi_field_validation
