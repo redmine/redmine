@@ -24,7 +24,7 @@
     <% end %>
   </td>
   <td class="reorder">
-    <%= reorder_links('tracker', {:action => 'update', :id => tracker}, :put) %>
+    <%= reorder_links('tracker', {:action => 'update', :id => tracker, :page => params[:page]}, :put) %>
   </td>
   <td class="buttons">
     <%= delete_link tracker_path(tracker) %>

@@ -71,7 +71,7 @@ class RolesController < ApplicationController
   def update
     if request.put? and @role.update_attributes(params[:role])
       flash[:notice] = l(:notice_successful_update)
-      redirect_to roles_path
+      redirect_to roles_path(:page => params[:page])
     else
       render :action => 'edit'
     end
