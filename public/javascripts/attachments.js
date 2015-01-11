@@ -1,5 +1,5 @@
 /* Redmine - project management software
-   Copyright (C) 2006-2014  Jean-Philippe Lang */
+   Copyright (C) 2006-2015  Jean-Philippe Lang */
 
 function addFile(inputEl, file, eagerUpload) {
 
