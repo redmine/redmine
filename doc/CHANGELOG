@@ -4,6 +4,40 @@ Redmine - project management software
 Copyright (C) 2006-2015  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2015-01-11 v2.6.1
+
+* Defect #13608: Parent column in CSV export should include issue id only
+* Defect #13673: Parent issue column includes issue subject (making issue list unworkable wide)
+* Defect #14699: Cannot change "From" header in email notifications
+* Defect #17744: Disabling fields in tracker keeps attached workflow permissions
+* Defect #18060: Selected projects in email notifications on "my account" are lost when the page is redisplayed after a validation error
+* Defect #18176: PDF: long text is corrupt
+* Defect #18269: Timelog CSV export missing tracker name and issue name
+* Defect #18280: closed_on missing when closed status of issue status changed
+* Defect #18349: URL not rendered as a link when followed by a line break and another URL
+* Defect #18464: Use of PRE tag in Issue description results in wrapped text with latest Google Chrome
+* Defect #18499: Localisation not set correctly on authenticity token errors
+* Defect #18501: Textile bold highlighting problem
+* Defect #18629: PDF Export removes separating space after tables
+* Defect #18665: Internal Server Error when adding user to group where he is already assigned
+* Defect #18667: Attachment content type not set when uploading attachment
+* Defect #18685: Plugin migration confuses two plugins with similar names
+* Defect #18734: Select / case is missing a break in application.js
+* Defect #18769: Reordering roles, trackers or statuses always redirects to the first page
+* Defect #18777: Moving column to top of "Select Columns" results in loss of all other column selections
+* Feature #8817: Attachments/Plugin assets directory writable errors
+* Patch #17705: MailHandler should ignore bogus issue strings [some-string#1234] in subject
+* Patch #18051: Cancel button on issue edit view
+* Patch #18156: Spanish translation file
+* Patch #18157: German translation
+* Patch #18252: Japanese wiki_syntax_detailed.html translation update
+* Patch #18357: Improvement of column selection: allow to move multiple columns in selection list
+* Patch #18410: Spent hours should be cleared on #reload
+* Patch #18534: Galician (gl) translation for 2.6-stable
+* Patch #18587: Swedish translation (updated)
+* Patch #18782: Fix ui tests broken by undefined method error
+* Patch #18789: UI tests and capybara version
+
 == 2014-10-21 v2.6.0
 
 * Defect #8753: PDF export for Hebrew is reversed
