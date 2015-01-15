@@ -786,7 +786,7 @@ ja:
   label_plugins: プラグイン
   label_ldap_authentication: LDAP認証
   label_downloads_abbr: DL
-  label_optional_description: 任意のコメント
+  label_optional_description: 説明 (任意)
   label_add_another_file: 別のファイルを追加
   label_preferences: 設定
   label_chronological_order: 古い順
@@ -1145,7 +1145,7 @@ ja:
   setting_link_copied_issue: チケットをコピーしたときに関連を設定
   label_link_copied_issue: コピーしたチケットに関連を設定
   label_ask: 都度選択
-  label_search_attachments_yes: Search attachment filenames and descriptions
-  label_search_attachments_no: Do not search attachments
-  label_search_attachments_only: Search attachments only
+  label_search_attachments_yes: 添付ファイルの名前と説明も検索
+  label_search_attachments_no: 添付ファイルを除外
+  label_search_attachments_only: 添付ファイルのみ検索
   label_search_open_issues_only: Open issues only
