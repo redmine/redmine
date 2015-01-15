@@ -22,7 +22,10 @@ class UsersControllerTest < ActionController::TestCase
 
   fixtures :users, :projects, :members, :member_roles, :roles,
            :custom_fields, :custom_values, :groups_users,
-           :auth_sources
+           :auth_sources,
+           :enabled_modules,
+           :issues, :issue_statuses,
+           :trackers
 
   def setup
     User.current = nil
