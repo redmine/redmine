@@ -1148,4 +1148,4 @@ ja:
   label_search_attachments_yes: 添付ファイルの名前と説明も検索
   label_search_attachments_no: 添付ファイルを除外
   label_search_attachments_only: 添付ファイルのみ検索
-  label_search_open_issues_only: Open issues only
+  label_search_open_issues_only: 未完了のチケットのみ
