@@ -1012,6 +1012,10 @@
   label_edit_attachments: 編輯附加檔案
   label_link_copied_issue: 連結到被複製的問題
   label_ask: 詢問
+  label_search_attachments_yes: 搜尋附加檔案的檔案名稱與說明
+  label_search_attachments_no: 不搜尋附加檔案
+  label_search_attachments_only: 僅搜尋附加檔案
+  label_search_open_issues_only: 僅搜尋進行中的問題
 
   button_login: 登入
   button_submit: 送出
@@ -1206,7 +1210,3 @@
   description_date_from: 輸入起始日期
   description_date_to: 輸入結束日期
   text_repository_identifier_info: '僅允許使用小寫英文字母 (a-z), 阿拉伯數字, 虛線與底線。<br />一旦儲存之後, 代碼便無法再次被更改。'
-  label_search_attachments_yes: Search attachment filenames and descriptions
-  label_search_attachments_no: Do not search attachments
-  label_search_attachments_only: Search attachments only
-  label_search_open_issues_only: Open issues only
