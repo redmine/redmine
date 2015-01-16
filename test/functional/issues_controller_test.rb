@@ -496,9 +496,11 @@ class IssuesControllerTest < ActionController::TestCase
                   :format => 'csv'
       assert_equal 'text/csv; header=present', @response.content_type
       lines = @response.body.chomp.split("\n")
+      header = lines[0]
+      issue_line = lines.find {|l| l =~ /^#{issue.id},/}
       s1 = "\xaa\xac\xbaA".force_encoding('Big5')
-      assert_include s1, lines[0]
-      assert_include str_big5, lines[1]
+      assert_include s1, header
+      assert_include str_big5, issue_line
     end
   end
 
@@ -515,9 +517,11 @@ class IssuesControllerTest < ActionController::TestCase
                   :set_filter => 1
       assert_equal 'text/csv; header=present', @response.content_type
       lines = @response.body.chomp.split("\n")
+      header = lines[0]
+      issue_line = lines.find {|l| l =~ /^#{issue.id},/}
       s1 = "\xaa\xac\xbaA".force_encoding('Big5') # status
-      assert lines[0].include?(s1)
-      s2 = lines[1].split(",")[2]
+      assert header.include?(s1)
+      s2 = issue_line.split(",")[2]
       s3 = "\xa5H?".force_encoding('Big5') # subject
       assert_equal s3, s2
     end
@@ -536,7 +540,7 @@ class IssuesControllerTest < ActionController::TestCase
                   :set_filter => 1
       assert_equal 'text/csv; header=present', @response.content_type
       lines = @response.body.chomp.split("\n")
-      assert_equal "#{issue.id},1234.50,#{str1}", lines[1]
+      assert_include "#{issue.id},1234.50,#{str1}", lines
     end
   end
 
@@ -553,7 +557,7 @@ class IssuesControllerTest < ActionController::TestCase
                   :set_filter => 1
       assert_equal 'text/csv; header=present', @response.content_type
       lines = @response.body.chomp.split("\n")
-      assert_equal "#{issue.id};1234,50;#{str1}", lines[1]
+      assert_include "#{issue.id};1234,50;#{str1}", lines
     end
   end
 
