@@ -247,6 +247,7 @@ fr:
   field_firstname: Prénom
   field_lastname: Nom
   field_mail: Email
+  field_address: Email
   field_filename: Fichier
   field_filesize: Taille
   field_downloads: Téléchargements
@@ -433,6 +434,7 @@ fr:
   setting_force_default_language_for_anonymous: Forcer la langue par défault pour les utilisateurs anonymes
   setting_force_default_language_for_loggedin: Forcer la langue par défault pour les utilisateurs identifiés
   setting_link_copied_issue: Lier les demandes lors de la copie
+  setting_max_additional_emails: Nombre maximal d'adresses email additionnelles
 
   permission_add_project: Créer un projet
   permission_add_subprojects: Créer des sous-projets
@@ -951,6 +953,10 @@ fr:
   label_search_attachments_no: Ne pas rechercher les fichiers
   label_search_attachments_only: Rechercher les fichiers uniquement
   label_search_open_issues_only: Demandes ouvertes uniquement
+  label_email_address_plural: Emails
+  label_email_address_add: Ajouter une adresse email
+  label_enable_notifications: Activer les notifications
+  label_disable_notifications: Désactiver les notifications
 
   button_login: Connexion
   button_submit: Soumettre

@@ -75,6 +75,7 @@ Rails.application.routes.draw do
 
   resources :users do
     resources :memberships, :controller => 'principal_memberships'
+    resources :email_addresses, :only => [:index, :create, :update, :destroy]
   end
 
   post 'watchers/watch', :to => 'watchers#watch', :as => 'watch'

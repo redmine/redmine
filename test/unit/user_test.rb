@@ -18,7 +18,7 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class UserTest < ActiveSupport::TestCase
-  fixtures :users, :members, :projects, :roles, :member_roles, :auth_sources,
+  fixtures :users, :email_addresses, :members, :projects, :roles, :member_roles, :auth_sources,
             :trackers, :issue_statuses,
             :projects_trackers,
             :watchers,
@@ -57,11 +57,41 @@ class UserTest < ActiveSupport::TestCase
     assert_equal "foo@bar.com", u.mail
   end
 
-  def test_mail_validation
-    u = User.new
+  def test_should_create_email_address
+    u = User.new(:firstname => "new", :lastname => "user")
+    u.login = "create_email_address"
+    u.mail = "defaultemail@somenet.foo"
+    assert u.save
+    u.reload
+    assert u.email_address
+    assert_equal "defaultemail@somenet.foo", u.email_address.address
+    assert_equal true, u.email_address.is_default
+    assert_equal true, u.email_address.notify
+  end
+
+  def test_should_not_create_user_without_mail
+    set_language_if_valid 'en'
+    u = User.new(:firstname => "new", :lastname => "user")
+    u.login = "user_without_mail"
+    assert !u.save
+    assert_equal ["Email #{I18n.translate('activerecord.errors.messages.blank')}"], u.errors.full_messages
+  end
+
+  def test_should_not_create_user_with_blank_mail
+    set_language_if_valid 'en'
+    u = User.new(:firstname => "new", :lastname => "user")
+    u.login = "user_with_blank_mail"
     u.mail = ''
-    assert !u.valid?
-    assert_include I18n.translate('activerecord.errors.messages.blank'), u.errors[:mail]
+    assert !u.save
+    assert_equal ["Email #{I18n.translate('activerecord.errors.messages.blank')}"], u.errors.full_messages
+  end
+
+  def test_should_not_update_user_with_blank_mail
+    set_language_if_valid 'en'
+    u = User.find(2)
+    u.mail = ''
+    assert !u.save
+    assert_equal ["Email #{I18n.translate('activerecord.errors.messages.blank')}"], u.errors.full_messages
   end
 
   def test_login_length_validation
@@ -151,6 +181,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_mail_uniqueness_should_not_be_case_sensitive
+    set_language_if_valid 'en'
     u = User.new(:firstname => "new", :lastname => "user", :mail => "newuser@somenet.foo")
     u.login = 'newuser1'
     u.password, u.password_confirmation = "password", "password"
@@ -160,7 +191,7 @@ class UserTest < ActiveSupport::TestCase
     u.login = 'newuser2'
     u.password, u.password_confirmation = "password", "password"
     assert !u.save
-    assert_include I18n.translate('activerecord.errors.messages.taken'), u.errors[:mail]
+    assert_include "Email #{I18n.translate('activerecord.errors.messages.taken')}", u.errors.full_messages
   end
 
   def test_update
@@ -677,7 +708,7 @@ class UserTest < ActiveSupport::TestCase
     assert_kind_of AnonymousUser, anon1
     anon2 = AnonymousUser.create(
                 :lastname => 'Anonymous', :firstname => '',
-                :mail => '', :login => '', :status => 0)
+                :login => '', :status => 0)
     assert_equal 1, anon2.errors.count
   end
 

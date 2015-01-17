@@ -18,7 +18,7 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class MyControllerTest < ActionController::TestCase
-  fixtures :users, :user_preferences, :roles, :projects, :members, :member_roles,
+  fixtures :users, :email_addresses, :user_preferences, :roles, :projects, :members, :member_roles,
   :issues, :issue_statuses, :trackers, :enumerations, :custom_fields, :auth_sources
 
   def setup

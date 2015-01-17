@@ -18,7 +18,7 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class NewsControllerTest < ActionController::TestCase
-  fixtures :projects, :users, :roles, :members, :member_roles,
+  fixtures :projects, :users, :email_addresses, :roles, :members, :member_roles,
            :enabled_modules, :news, :comments,
            :attachments
 

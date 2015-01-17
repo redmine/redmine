@@ -41,7 +41,7 @@ class UsersController < ApplicationController
 
     @status = params[:status] || 1
 
-    scope = User.logged.status(@status)
+    scope = User.logged.status(@status).preload(:email_address)
     scope = scope.like(params[:name]) if params[:name].present?
     scope = scope.in_group(params[:group_id]) if params[:group_id].present?
 

@@ -132,6 +132,7 @@ table.list td.checkbox { width: 15px; padding: 2px 0 0 0; }
 table.list td.checkbox input {padding:0px;}
 table.list td.buttons { width: 15%; white-space:nowrap; text-align: right; }
 table.list td.buttons a { padding-right: 0.6em; }
+table.list td.buttons img {vertical-align:middle;}
 table.list td.reorder {width:15%; white-space:nowrap; text-align:center; }
 table.list caption { text-align: left; padding: 0.5em 0.5em 0.5em 0; }
 
@@ -209,7 +210,7 @@ tr.version.shared td.name { background: url(../images/link.png) no-repeat 0% 70%
 tr.version td.date, tr.version td.status, tr.version td.sharing { text-align: center; white-space:nowrap; }
 
 tr.user td {width:13%;white-space: nowrap;}
-tr.user td.username, tr.user td.firstname, tr.user td.lastname, tr.user td.email {text-align:left;}
+td.username, td.firstname, td.lastname, td.email {text-align:left !important;}
 tr.user td.email { width:18%; }
 tr.user.locked, tr.user.registered { color: #aaa; }
 tr.user.locked a, tr.user.registered a { color: #aaa; }
@@ -1046,6 +1047,7 @@ a.close-icon:hover {background-image:url('../images/close_hl.png');}
 .icon-zoom-out { background-image: url(../images/zoom_out.png); }
 .icon-passwd { background-image: url(../images/textfield_key.png); }
 .icon-test { background-image: url(../images/bullet_go.png); }
+.icon-email-add { background-image: url(../images/email_add.png); }
 
 .icon-file { background-image: url(../images/files/default.png); }
 .icon-file.text-plain { background-image: url(../images/files/text.png); }

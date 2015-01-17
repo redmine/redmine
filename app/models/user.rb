@@ -81,6 +81,8 @@ class User < Principal
   has_one :preference, :dependent => :destroy, :class_name => 'UserPreference'
   has_one :rss_token, lambda {where "action='feeds'"}, :class_name => 'Token'
   has_one :api_token, lambda {where "action='api'"}, :class_name => 'Token'
+  has_one :email_address, lambda {where :is_default => true}, :autosave => true
+  has_many :email_addresses, :dependent => :delete_all
   belongs_to :auth_source
 
   scope :logged, lambda { where("#{User.table_name}.status <> #{STATUS_ANONYMOUS}") }
@@ -96,15 +98,12 @@ class User < Principal
   LOGIN_LENGTH_LIMIT = 60
   MAIL_LENGTH_LIMIT = 60
 
-  validates_presence_of :login, :firstname, :lastname, :mail, :if => Proc.new { |user| !user.is_a?(AnonymousUser) }
+  validates_presence_of :login, :firstname, :lastname, :if => Proc.new { |user| !user.is_a?(AnonymousUser) }
   validates_uniqueness_of :login, :if => Proc.new { |user| user.login_changed? && user.login.present? }, :case_sensitive => false
-  validates_uniqueness_of :mail, :if => Proc.new { |user| user.mail_changed? && user.mail.present? }, :case_sensitive => false
   # Login must contain letters, numbers, underscores only
   validates_format_of :login, :with => /\A[a-z0-9_\-@\.]*\z/i
   validates_length_of :login, :maximum => LOGIN_LENGTH_LIMIT
   validates_length_of :firstname, :lastname, :maximum => 30
-  validates_format_of :mail, :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i, :allow_blank => true
-  validates_length_of :mail, :maximum => MAIL_LENGTH_LIMIT, :allow_nil => true
   validates_inclusion_of :mail_notification, :in => MAIL_NOTIFICATION_OPTIONS.collect(&:first), :allow_blank => true
   validate :validate_password_length
   validate do
@@ -113,6 +112,7 @@ class User < Principal
     end
   end
 
+  before_validation :instantiate_email_address
   before_create :set_mail_notification
   before_save   :generate_password_if_needed, :update_hashed_password
   before_destroy :remove_references_before_destroy
@@ -127,6 +127,14 @@ class User < Principal
     where("#{User.table_name}.id NOT IN (SELECT gu.user_id FROM #{table_name_prefix}groups_users#{table_name_suffix} gu WHERE gu.group_id = ?)", group_id)
   }
   scope :sorted, lambda { order(*User.fields_for_order_statement)}
+  scope :having_mail, lambda {|arg|
+    addresses = Array.wrap(arg).map {|a| a.to_s.downcase}
+    if addresses.any?
+      joins(:email_addresses).where("LOWER(address) IN (?)", addresses).uniq
+    else
+      none
+    end
+  }
 
   def set_mail_notification
     self.mail_notification = Setting.default_notification_option if self.mail_notification.blank?
@@ -152,8 +160,21 @@ class User < Principal
     base_reload(*args)
   end
 
+  def mail
+    email_address.try(:address)
+  end
+
   def mail=(arg)
-    write_attribute(:mail, arg.to_s.strip)
+    email = email_address || build_email_address
+    email.address = arg
+  end
+
+  def mail_changed?
+    email_address.try(:address_changed?)
+  end
+
+  def mails
+    email_addresses.pluck(:address)
   end
 
   def self.find_or_initialize_by_identity_url(url)
@@ -421,7 +442,7 @@ class User < Principal
 
   # Makes find_by_mail case-insensitive
   def self.find_by_mail(mail)
-    where("LOWER(mail) = ?", mail.to_s.downcase).first
+    having_mail(mail).first
   end
 
   # Returns true if the default admin account can no longer be used
@@ -669,7 +690,7 @@ class User < Principal
   def self.anonymous
     anonymous_user = AnonymousUser.first
     if anonymous_user.nil?
-      anonymous_user = AnonymousUser.create(:lastname => 'Anonymous', :firstname => '', :mail => '', :login => '', :status => 0)
+      anonymous_user = AnonymousUser.create(:lastname => 'Anonymous', :firstname => '', :login => '', :status => 0)
       raise 'Unable to create the anonymous user.' if anonymous_user.new_record?
     end
     anonymous_user
@@ -699,6 +720,10 @@ class User < Principal
     end
   end
 
+  def instantiate_email_address
+    email_address || build_email_address
+  end
+
   private
 
   def generate_password_if_needed
@@ -708,16 +733,13 @@ class User < Principal
     end
   end
 
-  # Delete all outstanding password reset tokens on password or email change.
+  # Delete all outstanding password reset tokens on password change.
   # Delete the autologin tokens on password change to prohibit session leakage.
   # This helps to keep the account secure in case the associated email account
   # was compromised.
   def destroy_tokens
-    tokens  = []
-    tokens |= ['recovery', 'autologin'] if hashed_password_changed?
-    tokens |= ['recovery'] if mail_changed?
-
-    if tokens.any?
+    if hashed_password_changed?
+      tokens = ['recovery', 'autologin']
       Token.where(:user_id => id, :action => tokens).delete_all
     end
   end
@@ -779,6 +801,7 @@ class AnonymousUser < User
   def logged?; false end
   def admin; false end
   def name(*args); I18n.t(:label_user_anonymous) end
+  def mail=(*args); nil end
   def mail; nil end
   def time_zone; nil end
   def rss_key; nil end
@@ -803,5 +826,10 @@ class AnonymousUser < User
   # Anonymous user can not be destroyed
   def destroy
     false
+  end
+
+  protected
+
+  def instantiate_email_address
   end
 end

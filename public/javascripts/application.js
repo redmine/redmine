@@ -378,10 +378,10 @@ function setPredecessorFieldsVisibility() {
   }
 }
 
-function showModal(id, width) {
+function showModal(id, width, title) {
   var el = $('#'+id).first();
   if (el.length === 0 || el.is(':visible')) {return;}
-  var title = el.find('h3.title').text();
+  if (!title) title = el.find('h3.title').text();
   el.dialog({
     width: width,
     modal: true,

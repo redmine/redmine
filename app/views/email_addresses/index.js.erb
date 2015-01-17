@@ -1,0 +1,3 @@
+$('#ajax-modal').html('<%= escape_javascript(render :partial => 'email_addresses/index') %>');
+showModal('ajax-modal', '600px', '<%= escape_javascript l(:label_email_address_plural) %>');
+$('#email_address_address').focus();

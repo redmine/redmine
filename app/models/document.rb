@@ -60,6 +60,10 @@ class Document < ActiveRecord::Base
     @updated_on
   end
 
+  def notified_users
+    project.notified_users.reject {|user| !visible?(user)}
+  end
+
   private
 
   def send_notification

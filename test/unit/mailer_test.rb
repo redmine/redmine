@@ -20,7 +20,7 @@ require File.expand_path('../../test_helper', __FILE__)
 class MailerTest < ActiveSupport::TestCase
   include Redmine::I18n
   include ActionDispatch::Assertions::SelectorAssertions
-  fixtures :projects, :enabled_modules, :issues, :users, :members,
+  fixtures :projects, :enabled_modules, :issues, :users, :email_addresses, :members,
            :member_roles, :roles, :documents, :attachments, :news,
            :tokens, :journals, :journal_details, :changesets,
            :trackers, :projects_trackers,
@@ -296,6 +296,14 @@ class MailerTest < ActiveSupport::TestCase
     issue = Issue.find(1)
     assert Mailer.deliver_issue_add(issue)
     assert last_email.bcc.include?('dlopper@somenet.foo')
+  end
+
+  def test_issue_add_should_send_mail_to_all_user_email_address
+    EmailAddress.create!(:user_id => 3, :address => 'otheremail@somenet.foo')
+    issue = Issue.find(1)
+    assert Mailer.deliver_issue_add(issue)
+    assert last_email.bcc.include?('dlopper@somenet.foo')
+    assert last_email.bcc.include?('otheremail@somenet.foo')
   end
 
   test "#issue_add should not notify project members that are not allow to view the issue" do
@@ -769,6 +777,30 @@ class MailerTest < ActiveSupport::TestCase
     assert_equal :async_smtp, ActionMailer::Base.delivery_method
   ensure
     ActionMailer::Base.delivery_method = :test
+  end
+
+  def test_email_addresses_should_keep_addresses
+    assert_equal ["foo@example.net"],
+      Mailer.email_addresses("foo@example.net")
+
+    assert_equal ["foo@example.net", "bar@example.net"],
+      Mailer.email_addresses(["foo@example.net", "bar@example.net"])
+  end
+
+  def test_email_addresses_should_replace_users_with_their_email_addresses
+    assert_equal ["admin@somenet.foo"],
+      Mailer.email_addresses(User.find(1))
+
+    assert_equal ["admin@somenet.foo", "jsmith@somenet.foo"],
+      Mailer.email_addresses(User.where(:id => [1,2])).sort
+  end
+
+  def test_email_addresses_should_include_notified_emails_addresses_only
+    EmailAddress.create!(:user_id => 2, :address => "another@somenet.foo", :notify => false)
+    EmailAddress.create!(:user_id => 2, :address => "another2@somenet.foo")
+
+    assert_equal ["another2@somenet.foo", "jsmith@somenet.foo"],
+      Mailer.email_addresses(User.find(2)).sort
   end
 
   private

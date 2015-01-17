@@ -39,8 +39,8 @@ class Mailer < ActionMailer::Base
     @issue = issue
     @users = to_users + cc_users
     @issue_url = url_for(:controller => 'issues', :action => 'show', :id => issue)
-    mail :to => to_users.map(&:mail),
-      :cc => cc_users.map(&:mail),
+    mail :to => to_users,
+      :cc => cc_users,
       :subject => "[#{issue.project.name} - #{issue.tracker.name} ##{issue.id}] (#{issue.status.name}) #{issue.subject}"
   end
 
@@ -71,8 +71,8 @@ class Mailer < ActionMailer::Base
     @journal = journal
     @journal_details = journal.visible_details(@users.first)
     @issue_url = url_for(:controller => 'issues', :action => 'show', :id => issue, :anchor => "change-#{journal.id}")
-    mail :to => to_users.map(&:mail),
-      :cc => cc_users.map(&:mail),
+    mail :to => to_users,
+      :cc => cc_users,
       :subject => s
   end
 
@@ -95,7 +95,7 @@ class Mailer < ActionMailer::Base
     @issues_url = url_for(:controller => 'issues', :action => 'index',
                                 :set_filter => 1, :assigned_to_id => user.id,
                                 :sort => 'due_date:asc')
-    mail :to => user.mail,
+    mail :to => user,
       :subject => l(:mail_subject_reminder, :count => issues.size, :days => days)
   end
 
@@ -109,7 +109,7 @@ class Mailer < ActionMailer::Base
     @author = User.current
     @document = document
     @document_url = url_for(:controller => 'documents', :action => 'show', :id => document)
-    mail :to => document.recipients,
+    mail :to => document.notified_users,
       :subject => "[#{document.project.name}] #{l(:label_document_new)}: #{document.title}"
   end
 
@@ -127,15 +127,15 @@ class Mailer < ActionMailer::Base
     when 'Project'
       added_to_url = url_for(:controller => 'files', :action => 'index', :project_id => container)
       added_to = "#{l(:label_project)}: #{container}"
-      recipients = container.project.notified_users.select {|user| user.allowed_to?(:view_files, container.project)}.collect  {|u| u.mail}
+      recipients = container.project.notified_users.select {|user| user.allowed_to?(:view_files, container.project)}
     when 'Version'
       added_to_url = url_for(:controller => 'files', :action => 'index', :project_id => container.project)
       added_to = "#{l(:label_version)}: #{container.name}"
-      recipients = container.project.notified_users.select {|user| user.allowed_to?(:view_files, container.project)}.collect  {|u| u.mail}
+      recipients = container.project.notified_users.select {|user| user.allowed_to?(:view_files, container.project)}
     when 'Document'
       added_to_url = url_for(:controller => 'documents', :action => 'show', :id => container.id)
       added_to = "#{l(:label_document)}: #{container.title}"
-      recipients = container.recipients
+      recipients = container.notified_users
     end
     redmine_headers 'Project' => container.project.identifier
     @attachments = attachments
@@ -157,8 +157,8 @@ class Mailer < ActionMailer::Base
     references news
     @news = news
     @news_url = url_for(:controller => 'news', :action => 'show', :id => news)
-    mail :to => news.recipients,
-      :cc => news.cc_for_added_news,
+    mail :to => news.notified_users,
+      :cc => news.notified_watchers_for_added_news,
       :subject => "[#{news.project.name}] #{l(:label_news)}: #{news.title}"
   end
 
@@ -176,8 +176,8 @@ class Mailer < ActionMailer::Base
     @news = news
     @comment = comment
     @news_url = url_for(:controller => 'news', :action => 'show', :id => news)
-    mail :to => news.recipients,
-     :cc => news.watcher_recipients,
+    mail :to => news.notified_users,
+     :cc => news.notified_watchers,
      :subject => "Re: [#{news.project.name}] #{l(:label_news)}: #{news.title}"
   end
 
@@ -192,8 +192,8 @@ class Mailer < ActionMailer::Base
     @author = message.author
     message_id message
     references message.root
-    recipients = message.recipients
-    cc = ((message.root.watcher_recipients + message.board.watcher_recipients).uniq - recipients)
+    recipients = message.notified_users
+    cc = ((message.root.notified_watchers + message.board.notified_watchers).uniq - recipients)
     @message = message
     @message_url = url_for(message.event_url)
     mail :to => recipients,
@@ -211,8 +211,8 @@ class Mailer < ActionMailer::Base
                     'Wiki-Page-Id' => wiki_content.page.id
     @author = wiki_content.author
     message_id wiki_content
-    recipients = wiki_content.recipients
-    cc = wiki_content.page.wiki.watcher_recipients - recipients
+    recipients = wiki_content.notified_users
+    cc = wiki_content.page.wiki.notified_watchers - recipients
     @wiki_content = wiki_content
     @wiki_content_url = url_for(:controller => 'wiki', :action => 'show',
                                       :project_id => wiki_content.project,
@@ -232,8 +232,8 @@ class Mailer < ActionMailer::Base
                     'Wiki-Page-Id' => wiki_content.page.id
     @author = wiki_content.author
     message_id wiki_content
-    recipients = wiki_content.recipients
-    cc = wiki_content.page.wiki.watcher_recipients + wiki_content.page.watcher_recipients - recipients
+    recipients = wiki_content.notified_users
+    cc = wiki_content.page.wiki.notified_watchers + wiki_content.page.notified_watchers - recipients
     @wiki_content = wiki_content
     @wiki_content_url = url_for(:controller => 'wiki', :action => 'show',
                                       :project_id => wiki_content.project,
@@ -267,7 +267,7 @@ class Mailer < ActionMailer::Base
   #   Mailer.account_activation_request(user).deliver => sends an email to all active administrators
   def account_activation_request(user)
     # Send the email to all active administrators
-    recipients = User.active.where(:admin => true).collect { |u| u.mail }.compact
+    recipients = User.active.where(:admin => true)
     @user = user
     @url = url_for(:controller => 'users', :action => 'index',
                          :status => User::STATUS_REGISTERED,
@@ -378,12 +378,20 @@ class Mailer < ActionMailer::Base
             'From' => Setting.mail_from,
             'List-Id' => "<#{Setting.mail_from.to_s.gsub('@', '.')}>"
 
+    # Replaces users with their email addresses
+    [:to, :cc, :bcc].each do |key|
+      if headers[key].present?
+        headers[key] = self.class.email_addresses(headers[key])
+      end
+    end
+
     # Removes the author from the recipients and cc
     # if the author does not want to receive notifications
     # about what the author do
     if @author && @author.logged? && @author.pref.no_self_notified
-      headers[:to].delete(@author.mail) if headers[:to].is_a?(Array)
-      headers[:cc].delete(@author.mail) if headers[:cc].is_a?(Array)
+      addresses = @author.mails
+      headers[:to] -= addresses if headers[:to].is_a?(Array)
+      headers[:cc] -= addresses if headers[:cc].is_a?(Array)
     end
 
     if @author && @author.logged?
@@ -445,6 +453,25 @@ class Mailer < ActionMailer::Base
     else
       super
     end
+  end
+
+  # Returns an array of email addresses to notify by
+  # replacing users in arg with their notified email addresses
+  #
+  # Example:
+  #   Mailer.email_addresses(users)
+  #   => ["foo@example.net", "bar@example.net"]
+  def self.email_addresses(arg)
+    arr = Array.wrap(arg)
+    mails = arr.reject {|a| a.is_a? Principal}
+    users = arr - mails
+    if users.any?
+      mails += EmailAddress.
+        where(:user_id => users.map(&:id)).
+        where("is_default = ? OR notify = ?", true, true).
+        pluck(:address)
+    end
+    mails
   end
 
   private

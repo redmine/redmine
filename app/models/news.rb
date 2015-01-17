@@ -54,20 +54,29 @@ class News < ActiveRecord::Base
     user.allowed_to?(:comment_news, project)
   end
 
+  def notified_users
+    project.users.select {|user| user.notify_about?(self) && user.allowed_to?(:view_news, project)}
+  end
+
   def recipients
-    project.users.select {|user| user.notify_about?(self) && user.allowed_to?(:view_news, project)}.map(&:mail)
+    notified_users.map(&:mail)
+  end
+
+  # Returns the users that should be cc'd when a new news is added
+  def notified_watchers_for_added_news
+    watchers = []
+    if m = project.enabled_module('news')
+      watchers = m.notified_watchers
+      unless project.is_public?
+        watchers = watchers.select {|user| project.users.include?(user)}
+      end
+    end
+    watchers
   end
 
   # Returns the email addresses that should be cc'd when a new news is added
   def cc_for_added_news
-    cc = []
-    if m = project.enabled_module('news')
-      cc = m.notified_watchers
-      unless project.is_public?
-        cc = cc.select {|user| project.users.include?(user)}
-      end
-    end
-    cc.map(&:mail)
+    notified_watchers_for_added_news.map(&:mail)
   end
 
   # returns latest news for projects visible by user

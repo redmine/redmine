@@ -36,6 +36,10 @@ unsubscribe:
 password_min_length:
   format: int
   default: 8
+# Maximum number of additional email addresses per user
+max_additional_emails:
+  format: int
+  default: 5
 # Maximum lifetime of user sessions in minutes
 session_lifetime:
   format: int

@@ -16,6 +16,8 @@
 
 <p><%= setting_check_box :lost_password, :label => :label_password_lost %></p>
 
+<p><%= setting_text_field :max_additional_emails, :size => 6 %></p>
+
 <p><%= setting_check_box :openid, :disabled => !Object.const_defined?(:OpenID) %></p>
 
 <p><%= setting_check_box :rest_api_enabled %></p>

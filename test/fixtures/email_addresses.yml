@@ -1,0 +1,57 @@
+--- 
+email_address_001:
+  id: 1
+  user_id: 1
+  address: admin@somenet.foo
+  is_default: true
+  created_on: 2006-07-19 19:34:07 +02:00
+  updated_on: 2006-07-19 19:34:07 +02:00
+email_address_002:
+  id: 2
+  user_id: 2
+  address: jsmith@somenet.foo
+  is_default: true
+  created_on: 2006-07-19 19:34:07 +02:00
+  updated_on: 2006-07-19 19:34:07 +02:00
+email_address_003:
+  id: 3
+  user_id: 3
+  address: dlopper@somenet.foo
+  is_default: true
+  created_on: 2006-07-19 19:34:07 +02:00
+  updated_on: 2006-07-19 19:34:07 +02:00
+email_address_004:
+  id: 4
+  user_id: 4
+  address: rhill@somenet.foo
+  is_default: true
+  created_on: 2006-07-19 19:34:07 +02:00
+  updated_on: 2006-07-19 19:34:07 +02:00
+email_address_005:
+  id: 5
+  user_id: 5
+  address: dlopper2@somenet.foo
+  is_default: true
+  created_on: 2006-07-19 19:34:07 +02:00
+  updated_on: 2006-07-19 19:34:07 +02:00
+email_address_007:
+  id: 7
+  user_id: 7
+  address: someone@foo.bar
+  is_default: true
+  created_on: 2006-07-19 19:34:07 +02:00
+  updated_on: 2006-07-19 19:34:07 +02:00
+email_address_008:
+  id: 8
+  user_id: 8
+  address: miscuser8@foo.bar
+  is_default: true
+  created_on: 2006-07-19 19:34:07 +02:00
+  updated_on: 2006-07-19 19:34:07 +02:00
+email_address_009:
+  id: 9
+  user_id: 9
+  address: miscuser9@foo.bar
+  is_default: true
+  created_on: 2006-07-19 19:34:07 +02:00
+  updated_on: 2006-07-19 19:34:07 +02:00

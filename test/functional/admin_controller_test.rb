@@ -18,7 +18,7 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class AdminControllerTest < ActionController::TestCase
-  fixtures :projects, :users, :roles
+  fixtures :projects, :users, :email_addresses, :roles
 
   def setup
     User.current = nil

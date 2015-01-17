@@ -1,3 +1,5 @@
+# encoding: utf-8
+#
 # Redmine - project management software
 # Copyright (C) 2006-2015  Jean-Philippe Lang
 #
@@ -15,15 +17,22 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../test_helper', __FILE__)
+module EmailAddressesHelper
 
-class UsersTest < Redmine::IntegrationTest
-  fixtures :users, :email_addresses
-
-  def test_destroy_should_not_accept_get_requests
-    assert_no_difference 'User.count' do
-      get '/users/destroy/2', {}, credentials('admin')
-      assert_response 404
+  # Returns a link to enable or disable notifications for the address
+  def toggle_email_address_notify_link(address)
+    if address.notify?
+      link_to image_tag('email.png'),
+        user_email_address_path(address.user, address, :notify => '0'),
+        :method => :put,
+        :title => l(:label_disable_notifications),
+        :remote => true
+    else
+      link_to image_tag('email_disabled.png'),
+        user_email_address_path(address.user, address, :notify => '1'),
+        :method => :put,
+        :title => l(:label_enable_notifications),
+        :remote => true
     end
   end
 end

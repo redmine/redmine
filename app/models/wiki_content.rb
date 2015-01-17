@@ -41,11 +41,13 @@ class WikiContent < ActiveRecord::Base
     page.nil? ? [] : page.attachments
   end
 
+  def notified_users
+    project.notified_users.reject {|user| !visible?(user)}
+  end
+
   # Returns the mail addresses of users that should be notified
   def recipients
-    notified = project.notified_users
-    notified.reject! {|user| !visible?(user)}
-    notified.collect(&:mail)
+    notified_users.collect(&:mail)
   end
 
   # Return true if the content is the current page content

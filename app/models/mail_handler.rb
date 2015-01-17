@@ -306,7 +306,7 @@ class MailHandler < ActionMailer::Base
     if user.allowed_to?("add_#{obj.class.name.underscore}_watchers".to_sym, obj.project)
       addresses = [email.to, email.cc].flatten.compact.uniq.collect {|a| a.strip.downcase}
       unless addresses.empty?
-        User.active.where('LOWER(mail) IN (?)', addresses).each do |w|
+        User.active.having_mail(addresses).each do |w|
           obj.add_watcher(w)
         end
       end

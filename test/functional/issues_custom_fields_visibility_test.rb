@@ -20,7 +20,7 @@ require File.expand_path('../../test_helper', __FILE__)
 class IssuesCustomFieldsVisibilityTest < ActionController::TestCase
   tests IssuesController
   fixtures :projects,
-           :users,
+           :users, :email_addresses,
            :roles,
            :members,
            :member_roles,

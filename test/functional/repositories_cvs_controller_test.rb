@@ -20,7 +20,7 @@ require File.expand_path('../../test_helper', __FILE__)
 class RepositoriesCvsControllerTest < ActionController::TestCase
   tests RepositoriesController
 
-  fixtures :projects, :users, :roles, :members, :member_roles,
+  fixtures :projects, :users, :email_addresses, :roles, :members, :member_roles,
            :repositories, :enabled_modules
 
   REPOSITORY_PATH = Rails.root.join('tmp/test/cvs_repository').to_s

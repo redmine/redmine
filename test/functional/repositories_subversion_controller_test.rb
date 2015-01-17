@@ -20,7 +20,7 @@ require File.expand_path('../../test_helper', __FILE__)
 class RepositoriesSubversionControllerTest < ActionController::TestCase
   tests RepositoriesController
 
-  fixtures :projects, :users, :roles, :members, :member_roles, :enabled_modules,
+  fixtures :projects, :users, :email_addresses, :roles, :members, :member_roles, :enabled_modules,
            :repositories, :issues, :issue_statuses, :changesets, :changes,
            :issue_categories, :enumerations, :custom_fields, :custom_values, :trackers
 

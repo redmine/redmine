@@ -18,7 +18,7 @@
 require File.expand_path('../../../test_helper', __FILE__)
 
 class Redmine::ApiTest::UsersTest < Redmine::ApiTest::Base
-  fixtures :users, :members, :member_roles, :roles, :projects
+  fixtures :users, :email_addresses, :members, :member_roles, :roles, :projects
 
   test "GET /users.xml should return users" do
     get '/users.xml', {}, credentials('admin')

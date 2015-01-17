@@ -20,7 +20,7 @@ require File.expand_path('../../test_helper', __FILE__)
 class DocumentTest < ActiveSupport::TestCase
   fixtures :projects, :enumerations, :documents, :attachments,
            :enabled_modules,
-           :users, :members, :member_roles, :roles,
+           :users, :email_addresses, :members, :member_roles, :roles,
            :groups_users
 
   def test_create

@@ -68,7 +68,8 @@ class Principal < ActiveRecord::Base
       where({})
     else
       pattern = "%#{q}%"
-      sql = %w(login firstname lastname mail).map {|column| "LOWER(#{table_name}.#{column}) LIKE LOWER(:p)"}.join(" OR ")
+      sql = %w(login firstname lastname).map {|column| "LOWER(#{table_name}.#{column}) LIKE LOWER(:p)"}.join(" OR ")
+      sql << " OR #{table_name}.id IN (SELECT user_id FROM #{EmailAddress.table_name} WHERE LOWER(address) LIKE LOWER(:p))"
       params = {:p => pattern}
       if q =~ /^(.+)\s+(.+)$/
         a, b = "#{$1}%", "#{$2}%"
@@ -108,6 +109,14 @@ class Principal < ActiveRecord::Base
     to_s
   end
 
+  def mail=(*args)
+    nil
+  end
+
+  def mail
+    nil
+  end
+
   def visible?(user=User.current)
     Principal.visible(user).where(:id => id).first == self
   end
@@ -145,7 +154,6 @@ class Principal < ActiveRecord::Base
     self.hashed_password ||= ''
     self.firstname ||= ''
     self.lastname ||= ''
-    self.mail ||= ''
     true
   end
 end

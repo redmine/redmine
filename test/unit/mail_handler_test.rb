@@ -223,6 +223,17 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal 1, issue.watcher_user_ids.size
   end
 
+  def test_add_issue_from_additional_email_address
+    user = User.find(2)
+    user.mail = 'mainaddress@somenet.foo'
+    user.save!
+    EmailAddress.create!(:user => user, :address => 'jsmith@somenet.foo')
+
+    issue = submit_email('ticket_on_given_project.eml')
+    assert issue
+    assert_equal user, issue.author
+  end
+
   def test_add_issue_by_unknown_user
     assert_no_difference 'User.count' do
       assert_equal false,

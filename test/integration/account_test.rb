@@ -18,7 +18,7 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class AccountTest < Redmine::IntegrationTest
-  fixtures :users, :roles
+  fixtures :users, :email_addresses, :roles
 
   def test_login
     get "/my/page"
