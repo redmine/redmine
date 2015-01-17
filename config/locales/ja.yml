@@ -1149,3 +1149,9 @@ ja:
   label_search_attachments_no: 添付ファイルを除外
   label_search_attachments_only: 添付ファイルのみ検索
   label_search_open_issues_only: 未完了のチケットのみ
+  field_address: メールアドレス
+  setting_max_additional_emails: Maximum number of additional email addresses
+  label_email_address_plural: Emails
+  label_email_address_add: Add email address
+  label_enable_notifications: Enable notifications
+  label_disable_notifications: Disable notifications

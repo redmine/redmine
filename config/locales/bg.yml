@@ -1127,3 +1127,9 @@ bg:
   label_search_attachments_no: Do not search attachments
   label_search_attachments_only: Search attachments only
   label_search_open_issues_only: Open issues only
+  field_address: Email
+  setting_max_additional_emails: Maximum number of additional email addresses
+  label_email_address_plural: Emails
+  label_email_address_add: Add email address
+  label_enable_notifications: Enable notifications
+  label_disable_notifications: Disable notifications
