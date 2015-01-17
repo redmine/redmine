@@ -82,7 +82,8 @@ class AccountController < ApplicationController
       return
     else
       if request.post?
-        user = User.find_by_mail(params[:mail].to_s)
+        email = params[:mail].to_s
+        user = User.find_by_mail(email)
         # user not found
         unless user
           flash.now[:error] = l(:notice_account_unknown_email)
@@ -100,7 +101,9 @@ class AccountController < ApplicationController
         # create a new token for password recovery
         token = Token.new(:user => user, :action => "recovery")
         if token.save
-          Mailer.lost_password(token).deliver
+          # Don't use the param to send the email
+          recipent = user.mails.detect {|e| e.downcase == email.downcase} || user.mail
+          Mailer.lost_password(token, recipent).deliver
           flash[:notice] = l(:notice_account_lost_email_sent)
           redirect_to signin_path
           return

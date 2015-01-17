@@ -289,11 +289,12 @@ class Mailer < ActionMailer::Base
       :subject => l(:mail_subject_register, Setting.app_title)
   end
 
-  def lost_password(token)
+  def lost_password(token, recipient=nil)
     set_language_if_valid(token.user.language)
+    recipient ||= token.user.mail
     @token = token
     @url = url_for(:controller => 'account', :action => 'lost_password', :token => token.value)
-    mail :to => token.user.mail,
+    mail :to => recipient,
       :subject => l(:mail_subject_lost_password, Setting.app_title)
   end
 

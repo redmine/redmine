@@ -304,6 +304,20 @@ class AccountControllerTest < ActionController::TestCase
     end
   end
 
+  def test_lost_password_using_additional_email_address_should_send_email_to_the_address
+    EmailAddress.create!(:user_id => 2, :address => 'anotherAddress@foo.bar')
+    Token.delete_all
+
+    assert_difference 'ActionMailer::Base.deliveries.size' do
+      assert_difference 'Token.count' do
+        post :lost_password, :mail => 'ANOTHERaddress@foo.bar'
+        assert_redirected_to '/login'
+      end
+    end
+    mail = ActionMailer::Base.deliveries.last
+    assert_equal ['anotherAddress@foo.bar'], mail.bcc
+  end
+
   def test_lost_password_for_unknown_user_should_fail
     Token.delete_all
     assert_no_difference 'Token.count' do
