@@ -29,7 +29,7 @@ class MembersHelperTest < ActionView::TestCase
     project = Project.generate!
 
     result = render_principals_for_new_members(project)
-    assert_select_in result, 'input[name=?][value=2]', 'membership[user_ids][]'
+    assert_select_in result, 'input[name=?][value="2"]', 'membership[user_ids][]'
   end
 
   def test_render_principals_for_new_members_with_limited_results_should_paginate

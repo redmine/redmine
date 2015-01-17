@@ -126,7 +126,7 @@ class MyControllerTest < ActionController::TestCase
     get :destroy
     assert_response :success
     assert_template 'destroy'
-    assert_select 'form[action=/my/account/destroy]' do
+    assert_select 'form[action="/my/account/destroy"]' do
       assert_select 'input[name=confirm]'
     end
   end

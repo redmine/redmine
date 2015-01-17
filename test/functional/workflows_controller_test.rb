@@ -31,7 +31,7 @@ class WorkflowsControllerTest < ActionController::TestCase
     assert_template 'index'
 
     count = WorkflowTransition.where(:role_id => 1, :tracker_id => 2).count
-    assert_select 'a[href=?]', '/workflows/edit?role_id=1&amp;tracker_id=2', :content => count.to_s
+    assert_select 'a[href=?]', '/workflows/edit?role_id=1&tracker_id=2', :content => count.to_s
   end
 
   def test_get_edit

@@ -172,7 +172,7 @@ class IssuesTest < Redmine::IntegrationTest
 
     # Issue view
     follow_redirect!
-    assert_select 'th:content(Tester:) + td', :text => tester.name
+    assert_select 'th:contains("Tester:") + td', :text => tester.name
     assert_select 'select[name=?]', "issue[custom_field_values][#{@field.id}]" do
       assert_select 'option', users.size + 1 # +1 for blank value
       assert_select 'option[value=?][selected=selected]', tester.id.to_s, :text => tester.name

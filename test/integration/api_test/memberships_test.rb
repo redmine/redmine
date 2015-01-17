@@ -25,9 +25,9 @@ class Redmine::ApiTest::MembershipsTest < Redmine::ApiTest::Base
 
     assert_response :success
     assert_equal 'application/xml', @response.content_type
-    assert_select 'memberships[type=array] membership id:content(2)' do
-      assert_select '~ user[id=3][name=Dave Lopper]'
-      assert_select '~ roles role[id=2][name=Developer]'
+    assert_select 'memberships[type=array] membership id', :text => '2' do
+      assert_select '~ user[id="3"][name="Dave Lopper"]'
+      assert_select '~ roles role[id="2"][name=Developer]'
     end
   end
 
@@ -94,9 +94,9 @@ class Redmine::ApiTest::MembershipsTest < Redmine::ApiTest::Base
 
     assert_response :success
     assert_equal 'application/xml', @response.content_type
-    assert_select 'membership id:content(2)' do
-      assert_select '~ user[id=3][name=Dave Lopper]'
-      assert_select '~ roles role[id=2][name=Developer]'
+    assert_select 'membership id', :text => '2' do
+      assert_select '~ user[id="3"][name="Dave Lopper"]'
+      assert_select '~ roles role[id="2"][name=Developer]'
     end
   end
 

@@ -42,12 +42,12 @@ class ProjectsHelperTest < ActionView::TestCase
   def test_link_to_version_within_project
     @project = Project.find(2)
     User.current = User.find(1)
-    assert_equal '<a href="/versions/5" title="07/01/2006">Alpha</a>', link_to_version(Version.find(5))
+    assert_equal '<a title="07/01/2006" href="/versions/5">Alpha</a>', link_to_version(Version.find(5))
   end
 
   def test_link_to_version
     User.current = User.find(1)
-    assert_equal '<a href="/versions/5" title="07/01/2006">Alpha</a>', link_to_version(Version.find(5))
+    assert_equal '<a title="07/01/2006" href="/versions/5">Alpha</a>', link_to_version(Version.find(5))
   end
 
   def test_link_to_version_without_effective_date

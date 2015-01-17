@@ -31,6 +31,7 @@ require File.expand_path(File.dirname(__FILE__) + '/object_helpers')
 include ObjectHelpers
 
 require 'net/ldap'
+require 'mocha/setup'
 
 class ActionView::TestCase
   helper :application
@@ -189,8 +190,16 @@ class ActiveSupport::TestCase
   end
 
   def assert_select_in(text, *args, &block)
-    d = HTML::Document.new(CGI::unescapeHTML(String.new(text))).root
+    d = Nokogiri::HTML(CGI::unescapeHTML(String.new(text))).root
     assert_select(d, *args, &block)
+  end
+
+  def assert_select_email(*args, &block)
+    email = ActionMailer::Base.deliveries.last
+    assert_not_nil email
+    html_body = email.parts.detect {|part| part.content_type.include?('text/html')}.try(&:body)
+    assert_not_nil html_body
+    assert_select_in html_body.encoded, *args, &block
   end
 
   def assert_mail_body_match(expected, mail, message=nil)

@@ -41,7 +41,7 @@ class Redmine::ApiTest::AttachmentsTest < Redmine::ApiTest::Base
     get '/attachments/7.xml', {}, credentials('jsmith')
     assert_response :success
     assert_equal 'application/xml', @response.content_type
-    assert_select 'attachment id:content(7)' do
+    assert_select 'attachment id', :text => '7' do
       assert_select '~ filename', :text => 'archive.zip'
       assert_select '~ content_url', :text => 'http://www.example.com/attachments/download/7/archive.zip'
     end
@@ -51,7 +51,7 @@ class Redmine::ApiTest::AttachmentsTest < Redmine::ApiTest::Base
     get '/attachments/16.xml', {}, credentials('jsmith')
     assert_response :success
     assert_equal 'application/xml', @response.content_type
-    assert_select 'attachment id:content(16)' do
+    assert_select 'attachment id:contains(16)' do
       assert_select '~ thumbnail_url', :text => 'http://www.example.com/attachments/thumbnail/16'
     end
   end

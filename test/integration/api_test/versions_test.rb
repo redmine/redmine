@@ -33,7 +33,7 @@ class Redmine::ApiTest::VersionsTest < Redmine::ApiTest::Base
     assert_response :success
     assert_equal 'application/xml', @response.content_type
 
-    assert_select 'versions[type=array] version id:content(2)' do
+    assert_select 'versions[type=array] version id', :text => '2' do
       assert_select '~ name', :text => '1.0'
     end
   end

@@ -123,7 +123,7 @@ class RepositoriesBazaarControllerTest < ActionController::TestCase
         assert_response :success
         assert_template 'diff'
         # Line 11 removed
-        assert_select 'th.line-num:content(11) ~ td.diff_out', :text => /Display more information/
+        assert_select 'th.line-num:contains(11) ~ td.diff_out', :text => /Display more information/
       end
     end
 
@@ -157,7 +157,7 @@ class RepositoriesBazaarControllerTest < ActionController::TestCase
       assert_select "th.line-num", :text => '1' do
         assert_select "+ td.revision" do
           assert_select "a", :text => '2'
-          assert_select "+ td.author", :text => "test &amp;" do
+          assert_select "+ td.author", :text => "test &" do
             assert_select "+ td",
                           :text => "author escaping test"
           end

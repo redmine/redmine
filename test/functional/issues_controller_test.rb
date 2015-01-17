@@ -371,7 +371,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_select 'a.atom[href="/issues.atom"]'
     assert_select 'a.csv[href="/issues.csv"]'
     assert_select 'a.pdf[href="/issues.pdf"]'
-    assert_select 'form#csv-export-form[action=/issues.csv]'
+    assert_select 'form#csv-export-form[action="/issues.csv"]'
   end
 
   def test_index_should_not_warn_when_not_exceeding_export_limit
@@ -861,7 +861,7 @@ class IssuesControllerTest < ActionController::TestCase
     get :index, :set_filter => 1, :c => %w(subject description)
 
     assert_select 'table.issues thead th', 3 # columns: chekbox + id + subject
-    assert_select 'td.description[colspan=3]', :text => 'Unable to print recipes'
+    assert_select 'td.description[colspan="3"]', :text => 'Unable to print recipes'
 
     get :index, :set_filter => 1, :c => %w(subject description), :format => 'pdf'
     assert_response :success
@@ -1012,7 +1012,7 @@ class IssuesControllerTest < ActionController::TestCase
     @request.session[:user_id] = 2
     get :show, :id => 1
 
-    assert_select 'form#issue-form[method=post][enctype=multipart/form-data]' do
+    assert_select 'form#issue-form[method=post][enctype="multipart/form-data"]' do
       assert_select 'input[type=file][name=?]', 'attachments[dummy][file]'
     end
   end
@@ -1622,7 +1622,7 @@ class IssuesControllerTest < ActionController::TestCase
     @request.session[:user_id] = 2
     get :new, :project_id => 1, :tracker_id => 1
 
-    assert_select 'form[id=issue-form][method=post][enctype=multipart/form-data]' do
+    assert_select 'form[id=issue-form][method=post][enctype="multipart/form-data"]' do
       assert_select 'input[name=?][type=file]', 'attachments[dummy][file]'
     end
   end
@@ -2429,7 +2429,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal orig.subject, assigns(:issue).subject
     assert assigns(:issue).copy?
 
-    assert_select 'form[id=issue-form][action=/projects/ecookbook/issues]' do
+    assert_select 'form[id=issue-form][action="/projects/ecookbook/issues"]' do
       assert_select 'select[name=?]', 'issue[project_id]' do
         assert_select 'option[value="1"][selected=selected]', :text => 'eCookbook'
         assert_select 'option[value="2"]:not([selected])', :text => 'OnlineStore'
@@ -2629,7 +2629,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_not_nil assigns(:issue)
     assert assigns(:issue).copy?
 
-    assert_select 'form#issue-form[action=/projects/ecookbook/issues]' do
+    assert_select 'form#issue-form[action="/projects/ecookbook/issues"]' do
       assert_select 'select[name=?]', 'issue[project_id]' do
         assert_select 'option[value="1"]:not([selected])', :text => 'eCookbook'
         assert_select 'option[value="2"][selected=selected]', :text => 'OnlineStore'
@@ -2701,7 +2701,7 @@ class IssuesControllerTest < ActionController::TestCase
       assert_select 'option[value="7"][selected=selected]', :text => 'Urgent'
     end
 
-    assert_select 'input[name=?][value=2.5]', 'time_entry[hours]'
+    assert_select 'input[name=?][value="2.5"]', 'time_entry[hours]'
     assert_select 'select[name=?]', 'time_entry[activity_id]' do
       assert_select 'option[value="10"][selected=selected]', :text => 'Development'
     end

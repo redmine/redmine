@@ -265,7 +265,7 @@ class RepositoriesGitControllerTest < ActionController::TestCase
         assert_response :success
         assert_template 'diff'
         # Line 22 removed
-        assert_select 'th.line-num:content(22) ~ td.diff_out', :text => /def remove/
+        assert_select 'th.line-num:contains(22) ~ td.diff_out', :text => /def remove/
         assert_select 'h2', :text => /2f9c0091/
       end
     end
@@ -286,7 +286,7 @@ class RepositoriesGitControllerTest < ActionController::TestCase
           assert_response :success
           assert_template 'diff'
           # Line 22 removed
-          assert_select 'th.line-num:content(22) ~ td.diff_out', :text => /def remove/
+          assert_select 'th.line-num:contains(22) ~ td.diff_out', :text => /def remove/
           assert_select 'h2', :text => /2f9c0091/
         end
       end

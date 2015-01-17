@@ -117,9 +117,13 @@ class BoardsControllerTest < ActionController::TestCase
 
     assert_select 'select[name=?]', 'board[parent_id]' do
       assert_select 'option', (Project.find(1).boards.size + 1)
-      assert_select 'option[value=""]', :text => '&nbsp;'
+      assert_select 'option[value=""]'
       assert_select 'option[value="1"]', :text => 'Help'
     end
+
+    # &nbsp; replaced by nokogiri, not easy to test in DOM assertions
+    assert_not_include '<option value=""></option>', response.body
+    assert_include '<option value="">&nbsp;</option>', response.body
   end
 
   def test_new_without_project_boards

@@ -74,12 +74,12 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
     assert_response :success
     assert_equal 'application/xml', @response.content_type
 
-    assert_select 'issue id:content(3)' do
+    assert_select 'issue id', :text => '3' do
       assert_select '~ relations relation', 1
       assert_select '~ relations relation[id="2"][issue_id="2"][issue_to_id="3"][relation_type=relates]'
     end
 
-    assert_select 'issue id:content(1)' do
+    assert_select 'issue id', :text => '1' do
       assert_select '~ relations'
       assert_select '~ relations relation', 0
     end
@@ -281,7 +281,7 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
 
     assert_select 'issue attachments[type=array]' do
       assert_select 'attachment', 5
-      assert_select 'attachment id:content(4)' do
+      assert_select 'attachment id', :text => '4' do
         assert_select '~ filename', :text => 'source.rb'
         assert_select '~ content_url', :text => 'http://www.example.com/attachments/download/4/source.rb'
       end
@@ -292,9 +292,9 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
     issue = Issue.generate_with_descendants!(:project_id => 1)
     get "/issues/#{issue.id}.xml?include=children"
 
-    assert_select 'issue children[type=array]' do
-      assert_select 'issue', 2
-      assert_select 'issue children', 1
+    assert_select 'issue id', :text => issue.id.to_s do
+      assert_select '~ children[type=array] > issue', 2
+      assert_select '~ children[type=array] > issue > children', 1
     end
   end
 
@@ -322,7 +322,7 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
     assert_select 'issue' do
       assert_select 'watchers', Issue.find(1).watchers.count
       assert_select 'watchers' do
-        assert_select 'user[id=3]'
+        assert_select 'user[id="3"]'
       end
     end
   end

@@ -32,7 +32,7 @@ class Redmine::ApiTest::QueriesTest < Redmine::ApiTest::Base
 
     assert_response :success
     assert_equal 'application/xml', @response.content_type
-    assert_select 'queries[type=array] query id:content(4)' do
+    assert_select 'queries[type=array] query id', :text => '4' do
       assert_select '~ name', :text => 'Public query for all projects'
     end
   end

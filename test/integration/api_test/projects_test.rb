@@ -54,7 +54,7 @@ class Redmine::ApiTest::ProjectsTest < Redmine::ApiTest::Base
     assert_response :success
     assert_equal 'application/xml', @response.content_type
 
-    assert_select 'issue_categories[type=array] issue_category[id=2][name=Recipes]'
+    assert_select 'issue_categories[type=array] issue_category[id="2"][name=Recipes]'
   end
 
   test "GET /projects.xml with include=trackers should return trackers" do
@@ -62,7 +62,7 @@ class Redmine::ApiTest::ProjectsTest < Redmine::ApiTest::Base
     assert_response :success
     assert_equal 'application/xml', @response.content_type
 
-    assert_select 'trackers[type=array] tracker[id=2][name=Feature request]'
+    assert_select 'trackers[type=array] tracker[id="2"][name="Feature request"]'
   end
 
   test "GET /projects.xml with include=enabled_modules should return enabled modules" do
@@ -81,7 +81,7 @@ class Redmine::ApiTest::ProjectsTest < Redmine::ApiTest::Base
     assert_select 'project>id', :text => '1'
     assert_select 'project>status', :text => '1'
     assert_select 'project>is_public', :text => 'true'
-    assert_select 'custom_field[name=Development status]', :text => 'Stable'
+    assert_select 'custom_field[name="Development status"]', :text => 'Stable'
 
     assert_select 'trackers', 0
     assert_select 'issue_categories', 0
@@ -111,7 +111,7 @@ class Redmine::ApiTest::ProjectsTest < Redmine::ApiTest::Base
     assert_response :success
     assert_equal 'application/xml', @response.content_type
 
-    assert_select 'issue_categories[type=array] issue_category[id=2][name=Recipes]'
+    assert_select 'issue_categories[type=array] issue_category[id="2"][name=Recipes]'
   end
 
   test "GET /projects/:id.xml with include=trackers should return trackers" do
@@ -119,7 +119,7 @@ class Redmine::ApiTest::ProjectsTest < Redmine::ApiTest::Base
     assert_response :success
     assert_equal 'application/xml', @response.content_type
 
-    assert_select 'trackers[type=array] tracker[id=2][name=Feature request]'
+    assert_select 'trackers[type=array] tracker[id="2"][name="Feature request"]'
   end
 
   test "GET /projects/:id.xml with include=enabled_modules should return enabled modules" do

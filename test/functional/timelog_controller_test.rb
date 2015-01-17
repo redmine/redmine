@@ -667,7 +667,7 @@ class TimelogControllerTest < ActionController::TestCase
       assert_select 'form[action=?][method=get]', '/projects/ecookbook/time_entries.csv' do
         # filter
         assert_select 'input[name=?][value=?]', 'f[]', 'spent_on'
-        assert_select 'input[name=?][value=?]', 'op[spent_on]', '&gt;='
+        assert_select 'input[name=?][value=?]', 'op[spent_on]', '>='
         assert_select 'input[name=?][value=?]', 'v[spent_on][]', '2007-04-01'
         # columns
         assert_select 'input[name=?][value=?]', 'c[]', 'spent_on'

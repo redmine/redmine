@@ -104,7 +104,7 @@ namespace :test do
   Rake::TestTask.new(:ui => "db:test:prepare") do |t|
     t.libs << "test"
     t.verbose = true
-    t.test_files = FileList['test/ui/**/*_test.rb']
+    t.test_files = FileList['test/ui/**/*_test_ui.rb']
   end
   Rake::Task['test:ui'].comment = "Run the UI tests with Capybara (PhantomJS listening on port 4444 is required)"
 end

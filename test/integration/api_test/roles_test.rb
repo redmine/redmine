@@ -27,7 +27,7 @@ class Redmine::ApiTest::RolesTest < Redmine::ApiTest::Base
     assert_equal 'application/xml', @response.content_type
     assert_equal 3, assigns(:roles).size
 
-    assert_select 'roles[type=array] role id:content(2)' do
+    assert_select 'roles[type=array] role id', :text => '2' do
       assert_select '~ name', :text => 'Developer'
     end
   end

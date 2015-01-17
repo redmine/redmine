@@ -293,7 +293,7 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
           assert_template 'diff'
           if @diff_c_support
             # Line 22 removed
-            assert_select 'th.line-num:content(22) ~ td.diff_out', :text => /def remove/
+            assert_select 'th.line-num:contains(22) ~ td.diff_out', :text => /def remove/
             assert_select 'h2', :text => /4:def6d2f1254a/
           end
         end

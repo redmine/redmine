@@ -315,8 +315,8 @@ class SearchControllerTest < ActionController::TestCase
     get :index, :q => 'escaped_once'
     assert_response :success
     assert_select '#search-results' do
-      assert_select 'dt.issue a', :text => /&lt;subject&gt;/
-      assert_select 'dd', :text => /&lt;description&gt;/
+      assert_select 'dt.issue a', :text => /<subject>/
+      assert_select 'dd', :text => /<description>/
     end
   end
 

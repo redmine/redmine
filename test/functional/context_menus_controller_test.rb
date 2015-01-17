@@ -44,15 +44,15 @@ class ContextMenusControllerTest < ActionController::TestCase
     assert_select 'a.icon-del[href=?]', '/issues?ids%5B%5D=1', :text => 'Delete'
 
     # Statuses
-    assert_select 'a[href=?]', '/issues/bulk_update?ids%5B%5D=1&amp;issue%5Bstatus_id%5D=5', :text => 'Closed'
-    assert_select 'a[href=?]', '/issues/bulk_update?ids%5B%5D=1&amp;issue%5Bpriority_id%5D=8', :text => 'Immediate'
+    assert_select 'a[href=?]', '/issues/bulk_update?ids%5B%5D=1&issue%5Bstatus_id%5D=5', :text => 'Closed'
+    assert_select 'a[href=?]', '/issues/bulk_update?ids%5B%5D=1&issue%5Bpriority_id%5D=8', :text => 'Immediate'
     # No inactive priorities
     assert_select 'a', :text => /Inactive Priority/, :count => 0
     # Versions
-    assert_select 'a[href=?]', '/issues/bulk_update?ids%5B%5D=1&amp;issue%5Bfixed_version_id%5D=3', :text => '2.0'
-    assert_select 'a[href=?]', '/issues/bulk_update?ids%5B%5D=1&amp;issue%5Bfixed_version_id%5D=4', :text => 'eCookbook Subproject 1 - 2.0'
+    assert_select 'a[href=?]', '/issues/bulk_update?ids%5B%5D=1&issue%5Bfixed_version_id%5D=3', :text => '2.0'
+    assert_select 'a[href=?]', '/issues/bulk_update?ids%5B%5D=1&issue%5Bfixed_version_id%5D=4', :text => 'eCookbook Subproject 1 - 2.0'
     # Assignees
-    assert_select 'a[href=?]', '/issues/bulk_update?ids%5B%5D=1&amp;issue%5Bassigned_to_id%5D=3', :text => 'Dave Lopper'
+    assert_select 'a[href=?]', '/issues/bulk_update?ids%5B%5D=1&issue%5Bassigned_to_id%5D=3', :text => 'Dave Lopper'
   end
 
   def test_context_menu_one_issue_by_anonymous
@@ -72,15 +72,15 @@ class ContextMenusControllerTest < ActionController::TestCase
     assert_not_nil assigns(:issues)
     assert_equal [1, 2], assigns(:issues).map(&:id).sort
 
-    ids = assigns(:issues).map(&:id).sort.map {|i| "ids%5B%5D=#{i}"}.join('&amp;')
+    ids = assigns(:issues).map(&:id).sort.map {|i| "ids%5B%5D=#{i}"}.join('&')
 
     assert_select 'a.icon-edit[href=?]', "/issues/bulk_edit?#{ids}", :text => 'Edit'
-    assert_select 'a.icon-copy[href=?]', "/issues/bulk_edit?copy=1&amp;#{ids}", :text => 'Copy'
+    assert_select 'a.icon-copy[href=?]', "/issues/bulk_edit?copy=1&#{ids}", :text => 'Copy'
     assert_select 'a.icon-del[href=?]', "/issues?#{ids}", :text => 'Delete'
 
-    assert_select 'a[href=?]', "/issues/bulk_update?#{ids}&amp;issue%5Bstatus_id%5D=5", :text => 'Closed'
-    assert_select 'a[href=?]', "/issues/bulk_update?#{ids}&amp;issue%5Bpriority_id%5D=8", :text => 'Immediate'
-    assert_select 'a[href=?]', "/issues/bulk_update?#{ids}&amp;issue%5Bassigned_to_id%5D=3", :text => 'Dave Lopper'
+    assert_select 'a[href=?]', "/issues/bulk_update?#{ids}&issue%5Bstatus_id%5D=5", :text => 'Closed'
+    assert_select 'a[href=?]', "/issues/bulk_update?#{ids}&issue%5Bpriority_id%5D=8", :text => 'Immediate'
+    assert_select 'a[href=?]', "/issues/bulk_update?#{ids}&issue%5Bassigned_to_id%5D=3", :text => 'Dave Lopper'
   end
 
   def test_context_menu_multiple_issues_of_different_projects
@@ -91,14 +91,14 @@ class ContextMenusControllerTest < ActionController::TestCase
     assert_not_nil assigns(:issues)
     assert_equal [1, 2, 6], assigns(:issues).map(&:id).sort
 
-    ids = assigns(:issues).map(&:id).sort.map {|i| "ids%5B%5D=#{i}"}.join('&amp;')
+    ids = assigns(:issues).map(&:id).sort.map {|i| "ids%5B%5D=#{i}"}.join('&')
 
     assert_select 'a.icon-edit[href=?]', "/issues/bulk_edit?#{ids}", :text => 'Edit'
     assert_select 'a.icon-del[href=?]', "/issues?#{ids}", :text => 'Delete'
 
-    assert_select 'a[href=?]', "/issues/bulk_update?#{ids}&amp;issue%5Bstatus_id%5D=5", :text => 'Closed'
-    assert_select 'a[href=?]', "/issues/bulk_update?#{ids}&amp;issue%5Bpriority_id%5D=8", :text => 'Immediate'
-    assert_select 'a[href=?]', "/issues/bulk_update?#{ids}&amp;issue%5Bassigned_to_id%5D=2", :text => 'John Smith'
+    assert_select 'a[href=?]', "/issues/bulk_update?#{ids}&issue%5Bstatus_id%5D=5", :text => 'Closed'
+    assert_select 'a[href=?]', "/issues/bulk_update?#{ids}&issue%5Bpriority_id%5D=8", :text => 'Immediate'
+    assert_select 'a[href=?]', "/issues/bulk_update?#{ids}&issue%5Bassigned_to_id%5D=2", :text => 'John Smith'
   end
 
   def test_context_menu_should_include_list_custom_fields
@@ -108,11 +108,11 @@ class ContextMenusControllerTest < ActionController::TestCase
     get :issues, :ids => [1]
 
     assert_select "li.cf_#{field.id}" do
-      assert_select 'a[href=#]', :text => 'List'
+      assert_select 'a[href="#"]', :text => 'List'
       assert_select 'ul' do
         assert_select 'a', 3
-        assert_select 'a[href=?]', "/issues/bulk_update?ids%5B%5D=1&amp;issue%5Bcustom_field_values%5D%5B#{field.id}%5D=Foo", :text => 'Foo'
-        assert_select 'a[href=?]', "/issues/bulk_update?ids%5B%5D=1&amp;issue%5Bcustom_field_values%5D%5B#{field.id}%5D=__none__", :text => 'none'
+        assert_select 'a[href=?]', "/issues/bulk_update?ids%5B%5D=1&issue%5Bcustom_field_values%5D%5B#{field.id}%5D=Foo", :text => 'Foo'
+        assert_select 'a[href=?]', "/issues/bulk_update?ids%5B%5D=1&issue%5Bcustom_field_values%5D%5B#{field.id}%5D=__none__", :text => 'none'
       end
     end
   end
@@ -124,7 +124,7 @@ class ContextMenusControllerTest < ActionController::TestCase
     get :issues, :ids => [1, 2]
 
     assert_select "li.cf_#{field.id}" do
-      assert_select 'a[href=#]', :text => 'List'
+      assert_select 'a[href="#"]', :text => 'List'
       assert_select 'ul' do
         assert_select 'a', 2
         assert_select 'a', :text => 'none', :count => 0
@@ -142,7 +142,7 @@ class ContextMenusControllerTest < ActionController::TestCase
     get :issues, :ids => [1]
 
     assert_select "li.cf_#{field.id}" do
-      assert_select 'a[href=#]', :text => 'List'
+      assert_select 'a[href="#"]', :text => 'List'
       assert_select 'ul' do
         assert_select 'a', 3
         assert_select 'a.icon-checked', :text => 'Bar'
@@ -157,12 +157,12 @@ class ContextMenusControllerTest < ActionController::TestCase
     get :issues, :ids => [1]
 
     assert_select "li.cf_#{field.id}" do
-      assert_select 'a[href=#]', :text => 'Bool'
+      assert_select 'a[href="#"]', :text => 'Bool'
       assert_select 'ul' do
         assert_select 'a', 3
-        assert_select 'a[href=?]', "/issues/bulk_update?ids%5B%5D=1&amp;issue%5Bcustom_field_values%5D%5B#{field.id}%5D=0", :text => 'No'
-        assert_select 'a[href=?]', "/issues/bulk_update?ids%5B%5D=1&amp;issue%5Bcustom_field_values%5D%5B#{field.id}%5D=1", :text => 'Yes'
-        assert_select 'a[href=?]', "/issues/bulk_update?ids%5B%5D=1&amp;issue%5Bcustom_field_values%5D%5B#{field.id}%5D=__none__", :text => 'none'
+        assert_select 'a[href=?]', "/issues/bulk_update?ids%5B%5D=1&issue%5Bcustom_field_values%5D%5B#{field.id}%5D=0", :text => 'No'
+        assert_select 'a[href=?]', "/issues/bulk_update?ids%5B%5D=1&issue%5Bcustom_field_values%5D%5B#{field.id}%5D=1", :text => 'Yes'
+        assert_select 'a[href=?]', "/issues/bulk_update?ids%5B%5D=1&issue%5Bcustom_field_values%5D%5B#{field.id}%5D=__none__", :text => 'none'
       end
     end
   end
@@ -174,11 +174,11 @@ class ContextMenusControllerTest < ActionController::TestCase
     get :issues, :ids => [1]
 
     assert_select "li.cf_#{field.id}" do
-      assert_select 'a[href=#]', :text => 'User'
+      assert_select 'a[href="#"]', :text => 'User'
       assert_select 'ul' do
         assert_select 'a', Project.find(1).members.count + 1
-        assert_select 'a[href=?]', "/issues/bulk_update?ids%5B%5D=1&amp;issue%5Bcustom_field_values%5D%5B#{field.id}%5D=2", :text => 'John Smith'
-        assert_select 'a[href=?]', "/issues/bulk_update?ids%5B%5D=1&amp;issue%5Bcustom_field_values%5D%5B#{field.id}%5D=__none__", :text => 'none'
+        assert_select 'a[href=?]', "/issues/bulk_update?ids%5B%5D=1&issue%5Bcustom_field_values%5D%5B#{field.id}%5D=2", :text => 'John Smith'
+        assert_select 'a[href=?]', "/issues/bulk_update?ids%5B%5D=1&issue%5Bcustom_field_values%5D%5B#{field.id}%5D=__none__", :text => 'none'
       end
     end
   end
@@ -189,11 +189,11 @@ class ContextMenusControllerTest < ActionController::TestCase
     get :issues, :ids => [1]
 
     assert_select "li.cf_#{field.id}" do
-      assert_select 'a[href=#]', :text => 'Version'
+      assert_select 'a[href="#"]', :text => 'Version'
       assert_select 'ul' do
         assert_select 'a', Project.find(1).shared_versions.count + 1
-        assert_select 'a[href=?]', "/issues/bulk_update?ids%5B%5D=1&amp;issue%5Bcustom_field_values%5D%5B#{field.id}%5D=3", :text => '2.0'
-        assert_select 'a[href=?]', "/issues/bulk_update?ids%5B%5D=1&amp;issue%5Bcustom_field_values%5D%5B#{field.id}%5D=__none__", :text => 'none'
+        assert_select 'a[href=?]', "/issues/bulk_update?ids%5B%5D=1&issue%5Bcustom_field_values%5D%5B#{field.id}%5D=3", :text => '2.0'
+        assert_select 'a[href=?]', "/issues/bulk_update?ids%5B%5D=1&issue%5Bcustom_field_values%5D%5B#{field.id}%5D=__none__", :text => 'none'
       end
     end
   end
@@ -216,7 +216,7 @@ class ContextMenusControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'context_menus/issues'
 
-    assert_select 'a[href=?]', '/issues/bulk_update?ids%5B%5D=1&amp;issue%5Bassigned_to_id%5D=2', :text => / me /
+    assert_select 'a[href=?]', '/issues/bulk_update?ids%5B%5D=1&issue%5Bassigned_to_id%5D=2', :text => / me /
   end
 
   def test_context_menu_should_propose_shared_versions_for_issues_from_different_projects
@@ -266,12 +266,12 @@ class ContextMenusControllerTest < ActionController::TestCase
     get :time_entries, :ids => [1, 2]
     assert_response :success
     assert_select "li.cf_#{field.id}" do
-      assert_select 'a[href=#]', :text => "Field"
+      assert_select 'a[href="#"]', :text => "Field"
       assert_select 'ul' do
         assert_select 'a', 3
-        assert_select 'a[href=?]', "/time_entries/bulk_update?ids%5B%5D=1&amp;ids%5B%5D=2&amp;time_entry%5Bcustom_field_values%5D%5B#{field.id}%5D=foo", :text => 'foo'
-        assert_select 'a[href=?]', "/time_entries/bulk_update?ids%5B%5D=1&amp;ids%5B%5D=2&amp;time_entry%5Bcustom_field_values%5D%5B#{field.id}%5D=bar", :text => 'bar'
-        assert_select 'a[href=?]', "/time_entries/bulk_update?ids%5B%5D=1&amp;ids%5B%5D=2&amp;time_entry%5Bcustom_field_values%5D%5B#{field.id}%5D=__none__", :text => 'none'
+        assert_select 'a[href=?]', "/time_entries/bulk_update?ids%5B%5D=1&ids%5B%5D=2&time_entry%5Bcustom_field_values%5D%5B#{field.id}%5D=foo", :text => 'foo'
+        assert_select 'a[href=?]', "/time_entries/bulk_update?ids%5B%5D=1&ids%5B%5D=2&time_entry%5Bcustom_field_values%5D%5B#{field.id}%5D=bar", :text => 'bar'
+        assert_select 'a[href=?]', "/time_entries/bulk_update?ids%5B%5D=1&ids%5B%5D=2&time_entry%5Bcustom_field_values%5D%5B#{field.id}%5D=__none__", :text => 'none'
       end
     end
   end

@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem "rails", "4.1.8"
+gem "rails", "4.2.0"
 gem "jquery-rails", "~> 3.1.1"
 gem "coderay", "~> 1.1.0"
 gem "builder", ">= 3.0.4"
@@ -86,7 +86,8 @@ end
 
 group :test do
   gem "minitest"
-  gem "mocha", "~> 1.0.0", :require => 'mocha/api'
+  gem "rails-dom-testing"
+  gem "mocha", "~> 1.0.0"
   gem "simplecov", "~> 0.9.1", :require => false
   # For running UI tests
   gem "capybara"

@@ -51,14 +51,14 @@ class Redmine::MenuManager::MenuHelperTest < ActionView::TestCase
     node = Redmine::MenuManager::MenuItem.new(:testing, :issues_path)
     @output_buffer = render_menu_node(node, nil)
 
-    assert_select "a[href=/issues]", "Testing"
+    assert_select 'a[href="/issues"]', "Testing"
   end
 
   def test_render_menu_node_with_symbol_as_url_and_project
     node = Redmine::MenuManager::MenuItem.new(:testing, :project_issues_path)
     @output_buffer = render_menu_node(node, Project.find(1))
 
-    assert_select "a[href=/projects/ecookbook/issues]", "Testing"
+    assert_select 'a[href="/projects/ecookbook/issues"]', "Testing"
   end
 
   def test_render_menu_node_with_nested_items

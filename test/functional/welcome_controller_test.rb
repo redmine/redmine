@@ -127,7 +127,7 @@ class WelcomeControllerTest < ActionController::TestCase
 
     get :index
     assert_select "#header select" do
-      assert_select "option", :text => 'Foo &amp; Bar'
+      assert_select "option", :text => 'Foo & Bar'
     end
   end
 

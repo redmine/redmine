@@ -116,7 +116,7 @@ class RepositoriesDarcsControllerTest < ActionController::TestCase
         assert_response :success
         assert_template 'diff'
         # Line 22 removed
-        assert_select 'th.line-num:content(22) ~ td.diff_out', :text => /def remove/
+        assert_select 'th.line-num:contains(22) ~ td.diff_out', :text => /def remove/
       end
     end
 

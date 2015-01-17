@@ -29,5 +29,7 @@ Rails.application.configure do
   # Print deprecation notices to stderr and the Rails logger.
   config.active_support.deprecation = [:stderr, :log]
 
-  config.secret_token = 'a secret token for running the tests'
+  config.secret_key_base = 'a secret token for running the tests'
+
+  config.active_support.test_order = :random
 end

@@ -139,9 +139,9 @@ class SettingsControllerTest < ActionController::TestCase
   def test_get_plugin_settings
     ActionController::Base.append_view_path(File.join(Rails.root, "test/fixtures/plugins"))
     Redmine::Plugin.register :foo do
-      settings :partial => "foo_plugin/foo_plugin_settings",
-        :default => {'sample_setting' => 'Plugin setting value'}
+      settings :partial => "foo_plugin/foo_plugin_settings"
     end
+    Setting.plugin_foo = {'sample_setting' => 'Plugin setting value'}
 
     get :plugin, :id => 'foo'
     assert_response :success

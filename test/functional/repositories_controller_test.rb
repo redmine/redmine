@@ -275,14 +275,8 @@ class RepositoriesControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'committers'
 
-    assert_select 'td:content(dlopper) + td select' do
-      assert_select 'option[value="3"][selected=selected]', :text => 'Dave Lopper'
-    end
-
-    assert_select 'td:content(foo) + td select' do
-      assert_select 'option[value=""]'
-      assert_select 'option[selected=selected]', 0 # no option selected
-    end
+    assert_select 'input[value=dlopper] + select option[value="3"][selected=selected]', :text => 'Dave Lopper'
+    assert_select 'input[value=foo] + select option[selected=selected]', 0 # no option selected
   end
 
   def test_post_committers

@@ -80,7 +80,7 @@ module ApplicationHelper
       end
     end
     only_path = options[:only_path].nil? ? true : options[:only_path]
-    s = link_to(text, issue_path(issue, :only_path => only_path),
+    s = link_to(text, issue_url(issue, :only_path => only_path),
                 :class => issue.css_classes, :title => title)
     s << h(": #{subject}") if subject
     s = h("#{issue.project} - ") + s if options[:project]
@@ -93,8 +93,9 @@ module ApplicationHelper
   # * :download - Force download (default: false)
   def link_to_attachment(attachment, options={})
     text = options.delete(:text) || attachment.filename
-    route_method = options.delete(:download) ? :download_named_attachment_path : :named_attachment_path
+    route_method = options.delete(:download) ? :download_named_attachment_url : :named_attachment_url
     html_options = options.slice!(:only_path)
+    options[:only_path] = true unless options.key?(:only_path)
     url = send(route_method, attachment, attachment.filename, options)
     link_to text, url, html_options
   end
@@ -120,9 +121,10 @@ module ApplicationHelper
   def link_to_message(message, options={}, html_options = nil)
     link_to(
       message.subject.truncate(60),
-      board_message_path(message.board_id, message.parent_id || message.id, {
+      board_message_url(message.board_id, message.parent_id || message.id, {
         :r => (message.parent_id && message.id),
-        :anchor => (message.parent_id ? "message-#{message.id}" : nil)
+        :anchor => (message.parent_id ? "message-#{message.id}" : nil),
+        :only_path => true
       }.merge(options)),
       html_options
     )
@@ -139,7 +141,9 @@ module ApplicationHelper
     if project.archived?
       h(project.name)
     else
-      link_to project.name, project_path(project, options), html_options
+      link_to project.name,
+        project_url(project, {:only_path => true}.merge(options)),
+        html_options
     end
   end
 
@@ -626,7 +630,7 @@ module ApplicationHelper
         filename, ext, alt, alttext = $1.downcase, $2, $3, $4
         # search for the picture in attachments
         if found = Attachment.latest_attach(attachments, filename)
-          image_url = download_named_attachment_path(found, found.filename, :only_path => only_path)
+          image_url = download_named_attachment_url(found, found.filename, :only_path => only_path)
           desc = found.description.to_s.gsub('"', '')
           if !desc.blank? && alttext.blank?
             alt = " title=\"#{desc}\" alt=\"#{desc}\""
@@ -769,17 +773,17 @@ module ApplicationHelper
                 issue = Issue.visible.find_by_id(oid)
                 anchor = comment_id ? "note-#{comment_id}" : nil
                 link = link_to("##{oid}#{comment_suffix}",
-                               issue_path(issue, :only_path => only_path, :anchor => anchor),
+                               issue_url(issue, :only_path => only_path, :anchor => anchor),
                                :class => issue.css_classes,
                                :title => "#{issue.subject.truncate(100)} (#{issue.status.name})")
               end
             when 'document'
               if document = Document.visible.find_by_id(oid)
-                link = link_to(document.title, document_path(document, :only_path => only_path), :class => 'document')
+                link = link_to(document.title, document_url(document, :only_path => only_path), :class => 'document')
               end
             when 'version'
               if version = Version.visible.find_by_id(oid)
-                link = link_to(version.name, version_path(version, :only_path => only_path), :class => 'version')
+                link = link_to(version.name, version_url(version, :only_path => only_path), :class => 'version')
               end
             when 'message'
               if message = Message.visible.find_by_id(oid)
@@ -787,11 +791,11 @@ module ApplicationHelper
               end
             when 'forum'
               if board = Board.visible.find_by_id(oid)
-                link = link_to(board.name, project_board_path(board.project, board, :only_path => only_path), :class => 'board')
+                link = link_to(board.name, project_board_url(board.project, board, :only_path => only_path), :class => 'board')
               end
             when 'news'
               if news = News.visible.find_by_id(oid)
-                link = link_to(news.title, news_path(news, :only_path => only_path), :class => 'news')
+                link = link_to(news.title, news_url(news, :only_path => only_path), :class => 'news')
               end
             when 'project'
               if p = Project.visible.find_by_id(oid)
@@ -805,19 +809,19 @@ module ApplicationHelper
             case prefix
             when 'document'
               if project && document = project.documents.visible.find_by_title(name)
-                link = link_to(document.title, document_path(document, :only_path => only_path), :class => 'document')
+                link = link_to(document.title, document_url(document, :only_path => only_path), :class => 'document')
               end
             when 'version'
               if project && version = project.versions.visible.find_by_name(name)
-                link = link_to(version.name, version_path(version, :only_path => only_path), :class => 'version')
+                link = link_to(version.name, version_url(version, :only_path => only_path), :class => 'version')
               end
             when 'forum'
               if project && board = project.boards.visible.find_by_name(name)
-                link = link_to(board.name, project_board_path(board.project, board, :only_path => only_path), :class => 'board')
+                link = link_to(board.name, project_board_url(board.project, board, :only_path => only_path), :class => 'board')
               end
             when 'news'
               if project && news = project.news.visible.find_by_title(name)
-                link = link_to(news.title, news_path(news, :only_path => only_path), :class => 'news')
+                link = link_to(news.title, news_url(news, :only_path => only_path), :class => 'news')
               end
             when 'commit', 'source', 'export'
               if project

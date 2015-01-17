@@ -94,7 +94,7 @@ class AuthSourcesControllerTest < ActionController::TestCase
     get :edit, :id => 1
     assert_response :success
     assert_select 'input[value=secret]', 0
-    assert_select 'input[name=dummy_password][value=?]', /x+/
+    assert_select 'input[name=dummy_password][value^=xxxxxx]'
   end
 
   def test_edit_invalid_should_respond_with_404

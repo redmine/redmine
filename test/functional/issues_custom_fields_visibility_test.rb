@@ -83,9 +83,9 @@ class IssuesCustomFieldsVisibilityTest < ActionController::TestCase
       end
       @fields.each_with_index do |field, i|
         if fields.include?(field)
-          assert_select "custom_field[id=#{field.id}] value", {:text => "Value#{i}", :count => 1}, "User #{user.id} was not able to view #{field.name} in API"
+          assert_select "custom_field[id=?] value", field.id.to_s, {:text => "Value#{i}", :count => 1}, "User #{user.id} was not able to view #{field.name} in API"
         else
-          assert_select "custom_field[id=#{field.id}] value", {:text => "Value#{i}", :count => 0}, "User #{user.id} was not able to view #{field.name} in API"
+          assert_select "custom_field[id=?] value", field.id.to_s, {:text => "Value#{i}", :count => 0}, "User #{user.id} was not able to view #{field.name} in API"
         end
       end
     end

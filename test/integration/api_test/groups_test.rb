@@ -105,7 +105,7 @@ class Redmine::ApiTest::GroupsTest < Redmine::ApiTest::Base
     assert_select 'group' do
       assert_select 'users' do
         assert_select 'user', Group.find(10).users.count
-        assert_select 'user[id=8]'
+        assert_select 'user[id="8"]'
       end
     end
   end

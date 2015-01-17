@@ -146,6 +146,16 @@ module ActionMailer
   end
 end
 
+# #deliver is deprecated in Rails 4.2
+# Prevents massive deprecation warnings
+module ActionMailer
+  class MessageDelivery < Delegator
+    def deliver
+      deliver_now
+    end
+  end
+end
+
 module ActionController
   module MimeResponds
     class Collector
@@ -163,32 +173,8 @@ module ActionController
     # TODO: remove it in a later version
     def self.session=(*args)
       $stderr.puts "Please remove config/initializers/session_store.rb and run `rake generate_secret_token`.\n" +
-        "Setting the session secret with ActionController.session= is no longer supported in Rails 3."
+        "Setting the session secret with ActionController.session= is no longer supported."
       exit 1
-    end
-  end
-end
-
-if Rails::VERSION::MAJOR < 4 && RUBY_VERSION >= "2.1"
-  module ActiveSupport
-    class HashWithIndifferentAccess
-      def select(*args, &block)
-        dup.tap { |hash| hash.select!(*args, &block) }
-      end
-
-      def reject(*args, &block)
-        dup.tap { |hash| hash.reject!(*args, &block) }
-      end
-    end
-
-    class OrderedHash
-      def select(*args, &block)
-        dup.tap { |hash| hash.select!(*args, &block) }
-      end
-
-      def reject(*args, &block)
-        dup.tap { |hash| hash.reject!(*args, &block) }
-      end
     end
   end
 end

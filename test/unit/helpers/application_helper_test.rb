@@ -1217,15 +1217,15 @@ RAW
     result = textilizable(raw, :edit_section_links => {:controller => 'wiki', :action => 'edit', :project_id => '1', :id => 'Test'}).gsub("\n", "")
 
     # heading that contains inline code
-    assert_match Regexp.new('<div class="contextual" id="section-4" title="Edit this section">' +
-      '<a href="/projects/1/wiki/Test/edit\?section=4"><img alt="Edit" src="/images/edit.png(\?\d+)?" /></a></div>' +
+    assert_match Regexp.new('<div class="contextual" title="Edit this section" id="section-4">' +
+      '<a href="/projects/1/wiki/Test/edit\?section=4"><img src="/images/edit.png(\?\d+)?" alt="Edit" /></a></div>' +
       '<a name="Subtitle-with-inline-code"></a>' +
       '<h2 >Subtitle with <code>inline code</code><a href="#Subtitle-with-inline-code" class="wiki-anchor">&para;</a></h2>'),
       result
 
     # last heading
-    assert_match Regexp.new('<div class="contextual" id="section-5" title="Edit this section">' +
-      '<a href="/projects/1/wiki/Test/edit\?section=5"><img alt="Edit" src="/images/edit.png(\?\d+)?" /></a></div>' +
+    assert_match Regexp.new('<div class="contextual" title="Edit this section" id="section-5">' +
+      '<a href="/projects/1/wiki/Test/edit\?section=5"><img src="/images/edit.png(\?\d+)?" alt="Edit" /></a></div>' +
       '<a name="Subtitle-after-pre-tag"></a>' +
       '<h2 >Subtitle after pre tag<a href="#Subtitle-after-pre-tag" class="wiki-anchor">&para;</a></h2>'),
       result
@@ -1323,8 +1323,9 @@ RAW
 
   def test_thumbnail_tag
     a = Attachment.find(3)
-    assert_equal '<a href="/attachments/3/logo.gif" title="logo.gif"><img alt="3" src="/attachments/thumbnail/3" /></a>',
-      thumbnail_tag(a)
+    assert_select_in thumbnail_tag(a),
+      'a[href=?][title=?] img[alt="3"][src=?]',
+      "/attachments/3/logo.gif", "logo.gif", "/attachments/thumbnail/3"
   end
 
   def test_link_to_project

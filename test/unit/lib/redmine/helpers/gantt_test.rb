@@ -128,14 +128,14 @@ class Redmine::Helpers::GanttHelperTest < ActionView::TestCase
     setup_subjects
     @output_buffer = @gantt.subjects
     assert_select "div.project-name a", /#{@project.name}/
-    assert_select "div.project-name[style*=left:4px]"
+    assert_select 'div.project-name[style*="left:4px"]'
   end
 
   test "#subjects version should be rendered" do
     setup_subjects
     @output_buffer = @gantt.subjects
     assert_select "div.version-name a", /#{@version.name}/
-    assert_select "div.version-name[style*=left:24px]"
+    assert_select 'div.version-name[style*="left:24px"]'
   end
 
   test "#subjects version without assigned issues should not be rendered" do
@@ -152,7 +152,7 @@ class Redmine::Helpers::GanttHelperTest < ActionView::TestCase
     setup_subjects
     @output_buffer = @gantt.subjects
     assert_select "div.issue-subject", /#{@issue.subject}/
-    assert_select "div.issue-subject[style*=left:44px]"
+    assert_select 'div.issue-subject[style*="left:44px"]'
   end
 
   test "#subjects issue assigned to a shared version of another project should be rendered" do
@@ -197,12 +197,12 @@ class Redmine::Helpers::GanttHelperTest < ActionView::TestCase
                           )
     @output_buffer = @gantt.subjects
     # parent task 44px
-    assert_select "div.issue-subject[style*=left:44px]", /#{@issue.subject}/
+    assert_select 'div.issue-subject[style*="left:44px"]', /#{@issue.subject}/
     # children 64px
-    assert_select "div.issue-subject[style*=left:64px]", /child1/
-    assert_select "div.issue-subject[style*=left:64px]", /child2/
+    assert_select 'div.issue-subject[style*="left:64px"]', /child1/
+    assert_select 'div.issue-subject[style*="left:64px"]', /child2/
     # grandchild 84px
-    assert_select "div.issue-subject[style*=left:84px]", /grandchild/, @output_buffer
+    assert_select 'div.issue-subject[style*="left:84px"]', /grandchild/, @output_buffer
   end
 
   test "#lines" do
@@ -298,7 +298,7 @@ class Redmine::Helpers::GanttHelperTest < ActionView::TestCase
   test "#subject should use the indent option to move the div to the right" do
     create_gantt
     @output_buffer = @gantt.subject('subject', :format => :html, :indent => 40)
-    assert_select "div[style*=left:40]"
+    assert_select 'div[style*="left:40"]'
   end
 
   test "#line_for_project" do
@@ -332,65 +332,65 @@ class Redmine::Helpers::GanttHelperTest < ActionView::TestCase
   test "#line todo line should start from the starting point on the left" do
     create_gantt
     @output_buffer = @gantt.line(today - 7, today + 7, 30, false, 'line', :format => :html, :zoom => 4)
-    assert_select "div.task_todo[style*=left:28px]", 1
+    assert_select 'div.task_todo[style*="left:28px"]', 1
   end
 
   test "#line todo line should be the total width" do
     create_gantt
     @output_buffer = @gantt.line(today - 7, today + 7, 30, false, 'line', :format => :html, :zoom => 4)
-    assert_select "div.task_todo[style*=width:58px]", 1
+    assert_select 'div.task_todo[style*="width:58px"]', 1
   end
 
   test "#line late line should start from the starting point on the left" do
     create_gantt
     @output_buffer = @gantt.line(today - 7, today + 7, 30, false, 'line', :format => :html, :zoom => 4)
-    assert_select "div.task_late[style*=left:28px]", 1
+    assert_select 'div.task_late[style*="left:28px"]', 1
   end
 
   test "#line late line should be the total delayed width" do
     create_gantt
     @output_buffer = @gantt.line(today - 7, today + 7, 30, false, 'line', :format => :html, :zoom => 4)
-    assert_select "div.task_late[style*=width:30px]", 1
+    assert_select 'div.task_late[style*="width:30px"]', 1
   end
 
   test "#line done line should start from the starting point on the left" do
     create_gantt
     @output_buffer = @gantt.line(today - 7, today + 7, 30, false, 'line', :format => :html, :zoom => 4)
-    assert_select "div.task_done[style*=left:28px]", 1
+    assert_select 'div.task_done[style*="left:28px"]', 1
   end
 
   test "#line done line should be the width for the done ratio" do
     create_gantt
     @output_buffer = @gantt.line(today - 7, today + 7, 30, false, 'line', :format => :html, :zoom => 4)
     # 15 days * 4 px * 30% - 2 px for borders = 16 px
-    assert_select "div.task_done[style*=width:16px]", 1
+    assert_select 'div.task_done[style*="width:16px"]', 1
   end
 
   test "#line done line should be the total width for 100% done ratio" do
     create_gantt
     @output_buffer = @gantt.line(today - 7, today + 7, 100, false, 'line', :format => :html, :zoom => 4)
     # 15 days * 4 px - 2 px for borders = 58 px
-    assert_select "div.task_done[style*=width:58px]", 1
+    assert_select 'div.task_done[style*="width:58px"]', 1
   end
 
   test "#line done line should be the total width for 100% done ratio with same start and end dates" do
     create_gantt
     @output_buffer = @gantt.line(today + 7, today + 7, 100, false, 'line', :format => :html, :zoom => 4)
-    assert_select "div.task_done[style*=width:2px]", 1
+    assert_select 'div.task_done[style*="width:2px"]', 1
   end
 
   test "#line done line should not be the total done width if the gantt starts after start date" do
     create_gantt
     @output_buffer = @gantt.line(today - 16, today - 2, 30, false, 'line', :format => :html, :zoom => 4)
-    assert_select "div.task_done[style*=left:0px]", 1
-    assert_select "div.task_done[style*=width:8px]", 1
+    assert_select 'div.task_done[style*="left:0px"]', 1
+    assert_select 'div.task_done[style*="width:8px"]', 1
   end
 
   test "#line starting marker should appear at the start date" do
     create_gantt
     @output_buffer = @gantt.line(today - 7, today + 7, 30, true, 'line', :format => :html, :zoom => 4)
     assert_select "div.starting", 1
-    assert_select "div.starting[style*=left:28px]", 1
+    assert_select 'div.starting[style*="left:28px"]', 1
   end
 
   test "#line starting marker should not appear if the start date is before gantt start date" do
@@ -403,7 +403,7 @@ class Redmine::Helpers::GanttHelperTest < ActionView::TestCase
     create_gantt
     @output_buffer = @gantt.line(today - 7, today + 7, 30, true, 'line', :format => :html, :zoom => 4)
     assert_select "div.ending", 1
-    assert_select "div.ending[style*=left:88px]", 1
+    assert_select 'div.ending[style*="left:88px"]', 1
   end
 
   test "#line ending marker should not appear if the end date is before gantt start date" do
