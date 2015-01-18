@@ -57,9 +57,9 @@ class Repository::Cvs < Repository
     if entries
       entries.each() do |entry|
         if ( ! entry.lastrev.nil? ) && ( ! entry.lastrev.revision.nil? )
-          change = filechanges.find_by_revision_and_path(
-                     entry.lastrev.revision,
-                     scm.with_leading_slash(entry.path) )
+          change = filechanges.where(
+                       :revision => entry.lastrev.revision,
+                       :path => scm.with_leading_slash(entry.path)).first
           if change
             entry.lastrev.identifier = change.changeset.revision
             entry.lastrev.revision   = change.changeset.revision
