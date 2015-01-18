@@ -57,9 +57,16 @@ class Repository::Cvs < Repository
     if entries
       entries.each() do |entry|
         if ( ! entry.lastrev.nil? ) && ( ! entry.lastrev.revision.nil? )
-          change = filechanges.find_by_revision_and_path(
-                     entry.lastrev.revision,
-                     scm.with_leading_slash(entry.path) )
+          if ActiveRecord::Base.connection.adapter_name =~ /sqlite/i &&
+                Rails::VERSION::MAJOR == 4 && Rails::VERSION::MINOR == 2 &&
+                Rails::VERSION::TINY == 0
+            change_rev = filechanges.where(:revision => entry.lastrev.revision)
+            change = change_rev.find { |c| c.path == scm.with_leading_slash(entry.path) }
+          else
+            change = filechanges.where(
+                       :revision => entry.lastrev.revision,
+                       :path => scm.with_leading_slash(entry.path)).first
+          end
           if change
             entry.lastrev.identifier = change.changeset.revision
             entry.lastrev.revision   = change.changeset.revision
