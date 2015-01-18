@@ -318,7 +318,7 @@ gl:
   general_csv_separator: ';'
   general_pdf_fontname: freesans
   general_first_day_of_week: '1'
-  general_lang_name: 'Galego'
+  general_lang_name: 'Galician (Galego)'
   general_text_No: 'Non'
   general_text_Yes: 'Si'
   general_text_no: 'non'

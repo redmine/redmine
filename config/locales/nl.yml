@@ -287,7 +287,7 @@ nl:
   general_csv_separator: ';'
   general_pdf_fontname: freesans
   general_first_day_of_week: '7'
-  general_lang_name: 'Nederlands'
+  general_lang_name: 'Dutch (Nederlands)'
   general_text_No: 'Nee'
   general_text_Yes: 'Ja'
   general_text_no: 'nee'

@@ -140,7 +140,7 @@ ca:
   general_text_Yes: 'Si'
   general_text_no: 'no'
   general_text_yes: 'si'
-  general_lang_name: 'Català'
+  general_lang_name: 'Catalan (Català)'
   general_csv_separator: ';'
   general_csv_decimal_separator: ','
   general_csv_encoding: ISO-8859-15

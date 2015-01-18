@@ -136,7 +136,7 @@ sl:
   general_text_Yes: 'Da'
   general_text_no: 'ne'
   general_text_yes: 'da'
-  general_lang_name: 'Slovenščina'
+  general_lang_name: 'Slovene (Slovenščina)'
   general_csv_separator: ','
   general_csv_decimal_separator: '.'
   general_csv_encoding: UTF-8

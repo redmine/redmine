@@ -152,7 +152,7 @@ tr:
   general_text_Yes: 'Evet'
   general_text_no: 'hayır'
   general_text_yes: 'evet'
-  general_lang_name: 'Türkçe'
+  general_lang_name: 'Turkish (Türkçe)'
   general_csv_separator: ','
   general_csv_encoding: ISO-8859-9
   general_pdf_fontname: freesans

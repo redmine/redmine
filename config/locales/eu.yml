@@ -139,7 +139,7 @@ eu:
   general_text_Yes: 'Bai'
   general_text_no: 'ez'
   general_text_yes: 'bai'
-  general_lang_name: 'Euskara'
+  general_lang_name: 'Basque (Euskara)'
   general_csv_separator: ','
   general_csv_decimal_separator: '.'
   general_csv_encoding: UTF-8

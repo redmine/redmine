@@ -190,7 +190,7 @@ vi:
   general_text_Yes: 'Có'
   general_text_no: 'không'
   general_text_yes: 'có'
-  general_lang_name: 'Tiếng Việt'
+  general_lang_name: 'Vietnamese (Tiếng Việt)'
   general_csv_separator: ','
   general_csv_decimal_separator: '.'
   general_csv_encoding: UTF-8

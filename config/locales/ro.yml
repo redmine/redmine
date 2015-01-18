@@ -132,7 +132,7 @@ ro:
   general_text_Yes: 'Da'
   general_text_no: 'nu'
   general_text_yes: 'da'
-  general_lang_name: 'Română'
+  general_lang_name: 'Romanian (Română)'
   general_csv_separator: '.'
   general_csv_decimal_separator: ','
   general_csv_encoding: UTF-8

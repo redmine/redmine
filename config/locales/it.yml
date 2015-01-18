@@ -142,7 +142,7 @@ it:
   general_text_Yes: 'Sì'
   general_text_no: 'no'
   general_text_yes: 'sì'
-  general_lang_name: 'Italiano'
+  general_lang_name: 'Italian (Italiano)'
   general_csv_separator: ';'
   general_csv_decimal_separator: ','
   general_csv_encoding: ISO-8859-1

@@ -154,7 +154,7 @@ et:
   general_text_Yes: "Jah"
   general_text_no: "ei"
   general_text_yes: "jah"
-  general_lang_name: "Eesti"
+  general_lang_name: "Estonian (Eesti)"
   general_csv_separator: ","
   general_csv_decimal_separator: "."
   general_csv_encoding: ISO-8859-13
