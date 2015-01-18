@@ -283,7 +283,7 @@ module Redmine
 
         def scm_iconv(to, from, str)
           return nil if str.nil?
-          return str if to == from
+          return str if to == from && str.encoding.to_s == from
           str.force_encoding(from)
           begin
             str.encode(to)
