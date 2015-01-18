@@ -20,6 +20,7 @@ require File.expand_path('../../../../test_helper', __FILE__)
 class Redmine::Hook::ManagerTest < ActionView::TestCase
   fixtures :projects, :users, :members, :member_roles, :roles,
            :groups_users,
+           :email_addresses,
            :trackers, :projects_trackers,
            :enabled_modules,
            :versions,
