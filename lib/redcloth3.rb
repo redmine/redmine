@@ -534,7 +534,7 @@ class RedCloth3 < String
                     ctyp = 'd'
                     ctyp = 'h' if cell =~ /^_/
 
-                    catts = ''
+                    catts = nil
                     catts, cell = pba( $1, 'td' ), $2 if cell =~ /^(_?#{S}#{A}#{C}\. ?)(.*)/
 
                     catts = shelve( catts ) if catts
