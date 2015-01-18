@@ -397,7 +397,7 @@ module ApplicationHelper
   end
 
   def truncate_single_line_raw(string, length)
-    string.truncate(length).gsub(%r{[\r\n]+}m, ' ')
+    string.to_s.truncate(length).gsub(%r{[\r\n]+}m, ' ')
   end
 
   # Truncates at line break after 250 characters or options[:length]
