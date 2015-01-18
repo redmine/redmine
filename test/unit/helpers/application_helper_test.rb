@@ -25,6 +25,7 @@ class ApplicationHelperTest < ActionView::TestCase
   include Rails.application.routes.url_helpers
 
   fixtures :projects, :roles, :enabled_modules, :users,
+           :email_addresses,
            :repositories, :changesets,
            :projects_trackers,
            :trackers, :issue_statuses, :issues, :versions, :documents,

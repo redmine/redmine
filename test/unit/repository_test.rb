@@ -29,6 +29,7 @@ class RepositoryTest < ActiveSupport::TestCase
            :changesets,
            :changes,
            :users,
+           :email_addresses,
            :members,
            :member_roles,
            :roles,
