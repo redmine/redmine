@@ -341,7 +341,7 @@ class TimeEntryReportsControllerTest < ActionController::TestCase
       assert_equal "#{user.firstname} #{user.lastname};7,30;7,30", lines[1]
       assert_equal "#{s2};7,30;7,30", lines[2]
 
-      str_fr = "Fran\xc3\xa7ais".force_encoding('UTF-8')
+      str_fr = "French (Fran\xc3\xa7ais)".force_encoding('UTF-8')
       assert_equal str_fr, l(:general_lang_name)
       assert_equal 'ISO-8859-1', l(:general_csv_encoding)
       assert_equal ';', l(:general_csv_separator)

@@ -258,7 +258,7 @@ class Redmine::I18nTest < ActiveSupport::TestCase
 
   def test_french_locale
     set_language_if_valid 'fr'
-    str_fr = "Fran\xc3\xa7ais".force_encoding('UTF-8')
+    str_fr = "French (Fran\xc3\xa7ais)".force_encoding('UTF-8')
     assert_equal str_fr, l(:general_lang_name)
   end
 end
