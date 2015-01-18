@@ -1371,6 +1371,7 @@ RAW
 
   def test_principals_options_for_select_with_users_and_groups
     User.current = nil
+    set_language_if_valid 'en'
     users = [User.find(2), Group.find(11), User.find(4), Group.find(10)]
     assert_equal %(<option value="2">John Smith</option><option value="4">Robert Hill</option>) +
       %(<optgroup label="Groups"><option value="10">A Team</option><option value="11">B Team</option></optgroup>),
@@ -1382,6 +1383,7 @@ RAW
   end
 
   def test_principals_options_for_select_should_include_me_option_when_current_user_is_in_collection
+    set_language_if_valid 'en'
     users = [User.find(2), User.find(4)]
     User.current = User.find(4)
     assert_include '<option value="4">&lt;&lt; me &gt;&gt;</option>', principals_options_for_select(users)
