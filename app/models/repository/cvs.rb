@@ -187,7 +187,7 @@ class Repository::Cvs < Repository
         where("repository_id = ? AND revision LIKE 'tmp%'", id).
         each do |changeset|
           changeset.update_attribute :revision, next_revision_number
-      end
+        end
     end # transaction
     @current_revision_number = nil
   end
