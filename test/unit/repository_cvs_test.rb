@@ -188,12 +188,12 @@ class RepositoryCvsTest < ActiveSupport::TestCase
       entries = @repository.entries('', '3')
       assert_kind_of Redmine::Scm::Adapters::Entries, entries
       assert_equal 3, entries.size
-      assert_equal entries[2].name, "README"
+      assert_equal "README", entries[2].name
       assert_equal 'UTF-8', entries[2].path.encoding.to_s
-      assert_equal entries[2].lastrev.time, Time.gm(2007, 12, 13, 16, 27, 22)
-      assert_equal entries[2].lastrev.identifier, '3'
-      assert_equal entries[2].lastrev.revision, '3'
-      assert_equal entries[2].lastrev.author, 'LANG'
+      assert_equal Time.gm(2007, 12, 13, 16, 27, 22), entries[2].lastrev.time
+      assert_equal '3', entries[2].lastrev.identifier
+      assert_equal '3', entries[2].lastrev.revision
+      assert_equal 'LANG', entries[2].lastrev.author
     end
 
     def test_entries_invalid_path
