@@ -121,6 +121,66 @@ class ActivityTest < ActiveSupport::TestCase
     assert_equal content.page, content.event_group
   end
 
+  class TestActivityProviderWithPermission
+    def self.activity_provider_options
+      {'test' => {:permission => :custom_permission}}
+    end
+  end
+
+  class TestActivityProviderWithNilPermission
+    def self.activity_provider_options
+      {'test' => {:permission => nil}}
+    end
+  end
+
+  class TestActivityProviderWithoutPermission
+    def self.activity_provider_options
+      {'test' => {}}
+    end
+  end
+
+  class MockUser
+    def initialize(*permissions)
+      @permissions = permissions
+    end
+
+    def allowed_to?(permission, *args)
+      @permissions.include?(permission)
+    end
+  end
+
+  def test_event_types_should_consider_activity_provider_permission
+    Redmine::Activity.register 'test', :class_name => 'ActivityTest::TestActivityProviderWithPermission'
+    user = MockUser.new(:custom_permission)
+    f = Redmine::Activity::Fetcher.new(user, :project => Project.find(1))
+    assert_include 'test', f.event_types
+  ensure
+    Redmine::Activity.delete 'test'
+  end
+
+  def test_event_types_should_include_activity_provider_with_nil_permission
+    Redmine::Activity.register 'test', :class_name => 'ActivityTest::TestActivityProviderWithNilPermission'
+    user = MockUser.new()
+    f = Redmine::Activity::Fetcher.new(user, :project => Project.find(1))
+    assert_include 'test', f.event_types
+  ensure
+    Redmine::Activity.delete 'test'
+  end
+
+  def test_event_types_should_use_default_permission_for_activity_provider_without_permission
+    Redmine::Activity.register 'test', :class_name => 'ActivityTest::TestActivityProviderWithoutPermission'
+
+    user = MockUser.new()
+    f = Redmine::Activity::Fetcher.new(user, :project => Project.find(1))
+    assert_not_include 'test', f.event_types
+
+    user = MockUser.new(:view_test)
+    f = Redmine::Activity::Fetcher.new(user, :project => Project.find(1))
+    assert_include 'test', f.event_types
+  ensure
+    Redmine::Activity.delete 'test'
+  end
+
   private
 
   def find_events(user, options={})

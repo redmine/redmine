@@ -41,6 +41,12 @@ module Redmine
         @@default_event_types << event_type unless options[:default] == false
         @@providers[event_type] += providers
       end
+
+      def delete(event_type)
+        @@available_event_types.delete event_type
+        @@default_event_types.delete event_type
+        @@providers.delete(event_type)
+      end
     end
   end
 end
