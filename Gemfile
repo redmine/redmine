@@ -1,7 +1,6 @@
 source 'https://rubygems.org'
 
-# gem "rails", "4.2.0"
-gem "rails", :git => "git://github.com/rails/rails.git", :branch => "4-2-stable"
+gem "rails", "4.2.0"
 gem "jquery-rails", "~> 3.1.1"
 gem "coderay", "~> 1.1.0"
 gem "builder", ">= 3.0.4"
