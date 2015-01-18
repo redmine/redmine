@@ -498,6 +498,7 @@
   setting_force_default_language_for_anonymous: 強迫匿名用戶使用預設語言
   setting_force_default_language_for_loggedin: 強迫已登入用戶使用預設語言
   setting_link_copied_issue: 複製時連結問題
+  setting_max_additional_emails: 其他電子郵件地址的最大值
 
   permission_add_project: 建立專案
   permission_add_subprojects: 建立子專案
@@ -1016,6 +1017,10 @@
   label_search_attachments_no: 不搜尋附加檔案
   label_search_attachments_only: 僅搜尋附加檔案
   label_search_open_issues_only: 僅搜尋進行中的問題
+  label_email_address_plural: 電子郵件
+  label_email_address_add: 新增電子郵件地址
+  label_enable_notifications: 啟用通知
+  label_disable_notifications: 停用通知
 
   button_login: 登入
   button_submit: 送出
@@ -1211,8 +1216,3 @@
   description_date_to: 輸入結束日期
   text_repository_identifier_info: '僅允許使用小寫英文字母 (a-z), 阿拉伯數字, 虛線與底線。<br />一旦儲存之後, 代碼便無法再次被更改。'
   field_address: 電子郵件
-  setting_max_additional_emails: Maximum number of additional email addresses
-  label_email_address_plural: Emails
-  label_email_address_add: Add email address
-  label_enable_notifications: Enable notifications
-  label_disable_notifications: Disable notifications
