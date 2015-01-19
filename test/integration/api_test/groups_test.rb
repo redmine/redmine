@@ -18,7 +18,7 @@
 require File.expand_path('../../../test_helper', __FILE__)
 
 class Redmine::ApiTest::GroupsTest < Redmine::ApiTest::Base
-  fixtures :users, :groups_users
+  fixtures :users, :groups_users, :email_addresses
 
   test "GET /groups.xml should require authentication" do
     get '/groups.xml'
