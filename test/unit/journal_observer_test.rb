@@ -20,7 +20,7 @@ require File.expand_path('../../test_helper', __FILE__)
 class JournalObserverTest < ActiveSupport::TestCase
   fixtures :issues, :issue_statuses, :journals, :journal_details, :projects,
            :projects_trackers, :trackers, :enabled_modules, :enumerations,
-           :users, :roles
+           :users, :email_addresses, :roles
 
   def setup
     ActionMailer::Base.deliveries.clear
