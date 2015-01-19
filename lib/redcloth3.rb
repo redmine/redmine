@@ -986,8 +986,8 @@ class RedCloth3 < String
     end
     
     def retrieve( text ) 
-        @shelf.each_with_index do |r, i|
-            text.gsub!( " :redsh##{ i + 1 }:", r )
+        text.gsub!(/ :redsh#(\d+):/) do
+          @shelf[$1.to_i - 1] || $&
         end
     end
 
