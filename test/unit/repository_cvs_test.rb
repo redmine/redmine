@@ -180,10 +180,11 @@ class RepositoryCvsTest < ActiveSupport::TestCase
       assert_equal "3", rev3_commit.revision
       assert_equal "LANG", rev3_commit.committer
       assert_equal 2, rev3_commit.filechanges.length
-      assert_equal "1.2", rev3_commit.filechanges[0].revision
-      assert_equal "1.2", rev3_commit.filechanges[1].revision
-      assert_equal "/README", rev3_commit.filechanges[0].path
-      assert_equal "/sources/watchers_controller.rb", rev3_commit.filechanges[1].path
+      filechanges = rev3_commit.filechanges.order(:path => :asc)
+      assert_equal "1.2", filechanges[0].revision
+      assert_equal "1.2", filechanges[1].revision
+      assert_equal "/README", filechanges[0].path
+      assert_equal "/sources/watchers_controller.rb", filechanges[1].path
 
       entries = @repository.entries('', '3')
       assert_kind_of Redmine::Scm::Adapters::Entries, entries
