@@ -305,9 +305,25 @@ class IssuesControllerTest < ActionController::TestCase
       assert_response :success
     end
 
+    assert_select 'tr.group', 3
     assert_select 'tr.group', :text => /Yes/
     assert_select 'tr.group', :text => /No/
     assert_select 'tr.group', :text => /none/
+  end
+
+  def test_index_grouped_by_boolean_custom_field_with_false_group_in_first_position_should_show_the_group
+    cf = IssueCustomField.create!(:name => 'Bool', :is_for_all => true, :tracker_ids => [1,2,3], :field_format => 'bool', :is_filter => true)
+    CustomValue.create!(:custom_field => cf, :customized => Issue.find(1), :value => '0')
+    CustomValue.create!(:custom_field => cf, :customized => Issue.find(2), :value => '0')
+
+    with_settings :default_language => 'en' do
+      get :index, :project_id => 1, :set_filter => 1, "cf_#{cf.id}" => "*", :group_by => "cf_#{cf.id}"
+      assert_response :success
+      assert_equal [1, 2], assigns(:issues).map(&:id).sort
+    end
+
+    assert_select 'tr.group', 1
+    assert_select 'tr.group', :text => /No/
   end
 
   def test_index_with_query_grouped_by_tracker_in_normal_order

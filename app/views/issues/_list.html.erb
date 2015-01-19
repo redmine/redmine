@@ -14,10 +14,10 @@
       <% end %>
     </tr>
   </thead>
-  <% previous_group = false %>
+  <% previous_group, first = false, true %>
   <tbody>
   <% issue_list(issues) do |issue, level| -%>
-  <% if @query.grouped? && (group = @query.group_by_column.value(issue)) != previous_group %>
+  <% if @query.grouped? && ((group = @query.group_by_column.value(issue)) != previous_group || first) %>
     <% reset_cycle %>
     <tr class="group open">
       <td colspan="<%= query.inline_columns.size + 2 %>">
@@ -27,7 +27,7 @@
                              "toggleAllRowGroups(this)", :class => 'toggle-all') %>
       </td>
     </tr>
-    <% previous_group = group %>
+    <% previous_group, first = group, false %>
   <% end %>
   <tr id="issue-<%= issue.id %>" class="hascontextmenu <%= cycle('odd', 'even') %> <%= issue.css_classes %> <%= level > 0 ? "idnt idnt-#{level}" : nil %>">
     <td class="checkbox hide-when-print"><%= check_box_tag("ids[]", issue.id, false, :id => nil) %></td>
