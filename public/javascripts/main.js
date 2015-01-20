@@ -241,14 +241,11 @@ function open3DExplorer(file)
 			    success: function(json){
 			    	jQuery("#mainContent").hide();
 			    	//Read server ip from hidden component
-			    	var serverIP = jQuery('#serverIP').val();
-			    	var geppettoIP = jQuery('#geppettoIP').val();
-			    	//LOCAL
+			    	var serverIP = json.serverIP;
+			    	var geppettoIP = json.geppettoIP;
+
+			    	//Iframe load
 					jQuery("#mainContent").before("<div id='3dbrowser'><div id='3dspacer' style='display: none;'><br/><br/><br/></div><a class='fullscreen btn icon-desktop' href='javascript:toggleFullScreen();'> Full Screen</a><iframe id='3dframe' style='width:100%' src='" + geppettoIP + "?sim=" + serverIP + json.geppettoSimulationFile + "'></iframe>");
-					//DEV
-			    	//jQuery("#mainContent").before("<div id='3dbrowser'><div id='3dspacer' style='display: none;'><br/><br/><br/></div><a class='fullscreen btn icon-desktop' href='javascript:toggleFullScreen();'> Full Screen</a><iframe id='3dframe' style='width:100%' src='http://54.172.83.162:8080/?sim=http://comodl.org/" + json.geppettoSimulationFile + "'></iframe>");
-			    	//PROD
-					//jQuery("#mainContent").before("<div id='3dbrowser'><div id='3dspacer' style='display: none;'><br/><br/><br/></div><a class='fullscreen btn icon-desktop' href='javascript:toggleFullScreen();'> Full Screen</a><iframe id='3dframe' style='width:100%' src='http://184.72.223.204:8080/?sim=http://opensourcebrain.org/" + json.geppettoSimulationFile + "'></iframe>");
 					document.getElementById('3dframe').onload = resizeIframe;
 					window.onresize = resizeIframe;
 			    }
