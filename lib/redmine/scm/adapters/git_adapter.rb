@@ -76,7 +76,7 @@ module Redmine
         end
 
         def branches
-          return @branches if !@branches.nil?
+          return @branches if @branches
           @branches = []
           cmd_args = %w|branch --no-color --verbose --no-abbrev|
           git_cmd(cmd_args) do |io|
@@ -95,7 +95,7 @@ module Redmine
         end
 
         def tags
-          return @tags if !@tags.nil?
+          return @tags if @tags
           @tags = []
           cmd_args = %w|tag|
           git_cmd(cmd_args) do |io|
