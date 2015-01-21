@@ -236,7 +236,6 @@ class TimeEntryReportsControllerTest < ActionController::TestCase
   end
 
   def test_csv_big_5
-    Setting.default_language = "zh-TW"
     str_utf8  = "\xe4\xb8\x80\xe6\x9c\x88".force_encoding('UTF-8')
     str_big5  = "\xa4@\xa4\xeb".force_encoding('Big5')
     user = User.find_by_id(3)
@@ -256,9 +255,11 @@ class TimeEntryReportsControllerTest < ActionController::TestCase
     assert_equal 7.3, te2.hours
     assert_equal 3, te2.user_id
 
-    get :report, :project_id => 1, :columns => 'day',
-        :from => "2011-11-11", :to => "2011-11-11",
-        :criteria => ["user"], :format => "csv"
+    with_settings :default_language => "zh-TW" do
+      get :report, :project_id => 1, :columns => 'day',
+          :from => "2011-11-11", :to => "2011-11-11",
+          :criteria => ["user"], :format => "csv"
+    end
     assert_response :success
     assert_equal 'text/csv; header=present', @response.content_type
     lines = @response.body.chomp.split("\n")    
@@ -278,7 +279,6 @@ class TimeEntryReportsControllerTest < ActionController::TestCase
   end
 
   def test_csv_cannot_convert_should_be_replaced_big_5
-    Setting.default_language = "zh-TW"
     str_utf8  = "\xe4\xbb\xa5\xe5\x86\x85".force_encoding('UTF-8')
     user = User.find_by_id(3)
     user.firstname = str_utf8
@@ -297,9 +297,11 @@ class TimeEntryReportsControllerTest < ActionController::TestCase
     assert_equal 7.3, te2.hours
     assert_equal 3, te2.user_id
 
-    get :report, :project_id => 1, :columns => 'day',
-        :from => "2011-11-11", :to => "2011-11-11",
-        :criteria => ["user"], :format => "csv"
+    with_settings :default_language => "zh-TW" do
+      get :report, :project_id => 1, :columns => 'day',
+          :from => "2011-11-11", :to => "2011-11-11",
+          :criteria => ["user"], :format => "csv"
+    end
     assert_response :success
     assert_equal 'text/csv; header=present', @response.content_type
     lines = @response.body.chomp.split("\n")    
