@@ -22,6 +22,7 @@ class TimeEntryReportsControllerTest < ActionController::TestCase
   tests TimelogController
 
   fixtures :projects, :enabled_modules, :roles, :members, :member_roles,
+           :email_addresses,
            :issues, :time_entries, :users, :trackers, :enumerations,
            :issue_statuses, :custom_fields, :custom_values,
            :projects_trackers, :custom_fields_trackers,
