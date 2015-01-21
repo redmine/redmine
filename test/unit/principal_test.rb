@@ -20,7 +20,8 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class PrincipalTest < ActiveSupport::TestCase
-  fixtures :users, :projects, :members, :member_roles, :roles
+  fixtures :users, :projects, :members, :member_roles, :roles,
+           :email_addresses
 
   def test_active_scope_should_return_groups_and_active_users
     result = Principal.active.to_a

@@ -35,7 +35,7 @@ class SessionsTest < ActionController::TestCase
   include Redmine::I18n
   tests WelcomeController
 
-  fixtures :users
+  fixtures :users, :email_addresses
 
   def test_atime_from_user_session_should_be_updated
     created = 2.hours.ago.utc.to_i
