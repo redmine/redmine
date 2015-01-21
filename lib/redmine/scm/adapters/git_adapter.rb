@@ -95,11 +95,13 @@ module Redmine
         end
 
         def tags
-          return @tags if @tags
+          return @tags if !@tags.nil?
+          @tags = []
           cmd_args = %w|tag|
           git_cmd(cmd_args) do |io|
             @tags = io.readlines.sort!.map{|t| t.strip}
           end
+          @tags
         rescue ScmCommandAborted
           nil
         end
