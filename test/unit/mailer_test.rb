@@ -34,11 +34,11 @@ class MailerTest < ActiveSupport::TestCase
     Setting.host_name = 'mydomain.foo'
     Setting.protocol = 'http'
     Setting.plain_text_mail = '0'
+    Setting.default_language = 'en'
     User.current = nil
   end
 
   def test_generated_links_in_emails
-    Setting.default_language = 'en'
     Setting.host_name = 'mydomain.foo'
     Setting.protocol = 'https'
 
@@ -79,7 +79,6 @@ class MailerTest < ActiveSupport::TestCase
   end
 
   def test_generated_links_with_prefix
-    Setting.default_language = 'en'
     relative_url_root = Redmine::Utils.relative_url_root
     Setting.host_name = 'mydomain.foo/rdm'
     Setting.protocol = 'http'
@@ -131,7 +130,6 @@ class MailerTest < ActiveSupport::TestCase
   end
 
   def test_generated_links_with_prefix_and_no_relative_url_root
-    Setting.default_language = 'en'
     relative_url_root = Redmine::Utils.relative_url_root
     Setting.host_name = 'mydomain.foo/rdm'
     Setting.protocol = 'http'
@@ -346,7 +344,6 @@ class MailerTest < ActiveSupport::TestCase
   end
 
   def test_issue_add_should_include_enabled_fields
-    Setting.default_language = 'en'
     issue = Issue.find(2)
     assert Mailer.deliver_issue_add(issue)
     assert_mail_body_match '* Target version: 1.0', last_email
@@ -356,7 +353,6 @@ class MailerTest < ActiveSupport::TestCase
   end
 
   def test_issue_add_should_not_include_disabled_fields
-    Setting.default_language = 'en'
     issue = Issue.find(2)
     tracker = issue.tracker
     tracker.core_fields -= ['fixed_version_id']
@@ -371,16 +367,14 @@ class MailerTest < ActiveSupport::TestCase
   # test mailer methods for each language
   def test_issue_add
     issue = Issue.find(1)
-    valid_languages.each do |lang|
-      Setting.default_language = lang.to_s
+    with_each_language_as_default do
       assert Mailer.deliver_issue_add(issue)
     end
   end
 
   def test_issue_edit
     journal = Journal.find(1)
-    valid_languages.each do |lang|
-      Setting.default_language = lang.to_s
+    with_each_language_as_default do
       assert Mailer.deliver_issue_edit(journal)
     end
   end
@@ -444,16 +438,14 @@ class MailerTest < ActiveSupport::TestCase
 
   def test_document_added
     document = Document.find(1)
-    valid_languages.each do |lang|
-      Setting.default_language = lang.to_s
+    with_each_language_as_default do
       assert Mailer.document_added(document).deliver
     end
   end
 
   def test_attachments_added
     attachements = [ Attachment.find_by_container_type('Document') ]
-    valid_languages.each do |lang|
-      Setting.default_language = lang.to_s
+    with_each_language_as_default do
       assert Mailer.attachments_added(attachements).deliver
     end
   end
@@ -480,8 +472,7 @@ class MailerTest < ActiveSupport::TestCase
 
   def test_news_added
     news = News.first
-    valid_languages.each do |lang|
-      Setting.default_language = lang.to_s
+    with_each_language_as_default do
       assert Mailer.news_added(news).deliver
     end
   end
@@ -499,8 +490,7 @@ class MailerTest < ActiveSupport::TestCase
 
   def test_news_comment_added
     comment = Comment.find(2)
-    valid_languages.each do |lang|
-      Setting.default_language = lang.to_s
+    with_each_language_as_default do
       assert Mailer.news_comment_added(comment).deliver
     end
   end
@@ -509,16 +499,14 @@ class MailerTest < ActiveSupport::TestCase
     message = Message.first
     recipients = ([message.root] + message.root.children).collect {|m| m.author.mail if m.author}
     recipients = recipients.compact.uniq
-    valid_languages.each do |lang|
-      Setting.default_language = lang.to_s
+    with_each_language_as_default do
       assert Mailer.message_posted(message).deliver
     end
   end
 
   def test_wiki_content_added
     content = WikiContent.find(1)
-    valid_languages.each do |lang|
-      Setting.default_language = lang.to_s
+    with_each_language_as_default do
       assert_difference 'ActionMailer::Base.deliveries.size' do
         assert Mailer.wiki_content_added(content).deliver
         assert_select_email do
@@ -532,8 +520,7 @@ class MailerTest < ActiveSupport::TestCase
 
   def test_wiki_content_updated
     content = WikiContent.find(1)
-    valid_languages.each do |lang|
-      Setting.default_language = lang.to_s
+    with_each_language_as_default do
       assert_difference 'ActionMailer::Base.deliveries.size' do
         assert Mailer.wiki_content_updated(content).deliver
         assert_select_email do
@@ -647,7 +634,6 @@ class MailerTest < ActiveSupport::TestCase
   end
 
   def test_mailer_should_not_change_locale
-    Setting.default_language = 'en'
     # Set current language to italian
     set_language_if_valid 'it'
     # Send an email to a french user
@@ -822,5 +808,13 @@ class MailerTest < ActiveSupport::TestCase
 
   def html_part
     last_email.parts.detect {|part| part.content_type.include?('text/html')}
+  end
+
+  def with_each_language_as_default(&block)
+    valid_languages.each do |lang|
+      with_settings :default_language => lang.to_s do
+        yield lang
+      end
+    end
   end
 end
