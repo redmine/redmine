@@ -25,7 +25,7 @@ module Redmine
         # Git executable name
         GIT_BIN = Redmine::Configuration['scm_git_command'] || "git"
 
-        class GitBranch < Branch 
+        class GitBranch < Branch
           attr_accessor :is_default
         end
 
@@ -112,7 +112,7 @@ module Redmine
           default_bras = bras.select{|x| x.is_default == true}
           return default_bras.first.to_s if ! default_bras.empty?
           master_bras = bras.select{|x| x.to_s == 'master'}
-          master_bras.empty? ? bras.first.to_s : 'master' 
+          master_bras.empty? ? bras.first.to_s : 'master'
         end
 
         def entry(path=nil, identifier=nil)
