@@ -21,7 +21,7 @@ class JournalTest < ActiveSupport::TestCase
   fixtures :projects, :issues, :issue_statuses, :journals, :journal_details,
            :issue_relations, :workflows,
            :users, :members, :member_roles, :roles, :enabled_modules,
-           :groups_users,
+           :groups_users, :email_addresses,
            :enumerations,
            :projects_trackers, :trackers, :custom_fields
 
