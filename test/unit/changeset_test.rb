@@ -26,6 +26,7 @@ class ChangesetTest < ActiveSupport::TestCase
            :enumerations,
            :custom_fields, :custom_values,
            :users, :members, :member_roles,
+           :email_addresses,
            :trackers, :projects_trackers,
            :enabled_modules, :roles
 
