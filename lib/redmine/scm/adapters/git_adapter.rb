@@ -76,7 +76,7 @@ module Redmine
         end
 
         def branches
-          return @branches if @branches
+          return @branches if !@branches.nil?
           @branches = []
           cmd_args = %w|branch --no-color --verbose --no-abbrev|
           git_cmd(cmd_args) do |io|
