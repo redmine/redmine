@@ -356,7 +356,8 @@ module IssuesHelper
       if detail.old_value && detail.value.blank? && detail.property != 'relation'
         old_value = content_tag("del", old_value)
       end
-      if detail.property == 'attachment' && !value.blank? && atta = Attachment.find_by_id(detail.prop_key)
+      if detail.property == 'attachment' && value.present? &&
+          atta = detail.journal.journalized.attachments.detect {|a| a.id == detail.prop_key.to_i}
         # Link to the attachment if it has not been removed
         value = link_to_attachment(atta, :download => true, :only_path => options[:only_path])
         if options[:only_path] != false && atta.is_text?
