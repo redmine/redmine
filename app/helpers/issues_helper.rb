@@ -408,7 +408,7 @@ module IssuesHelper
     @detail_value_name_by_reflection ||= Hash.new do |hash, key|
       association = Issue.reflect_on_association(key.first.to_sym)
       if association
-        record = association.class_name.constantize.find_by_id(key.last)
+        record = association.klass.find_by_id(key.last)
         if record
           record.name.force_encoding('UTF-8')
           hash[key] = record.name
