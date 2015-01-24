@@ -329,15 +329,15 @@ class AttachmentsControllerTest < ActionController::TestCase
 
   def test_edit
     @request.session[:user_id] = 2
-    get :edit, :object_type => 'issues', :object_id => '3'
+    get :edit, :object_type => 'issues', :object_id => '2'
     assert_response :success
     assert_template 'edit'
 
-    container = Issue.find(3)
+    container = Issue.find(2)
     assert_equal container, assigns(:container)
     assert_equal container.attachments.size, assigns(:attachments).size
 
-    assert_select 'form[action=?]', '/attachments/issues/3' do
+    assert_select 'form[action=?]', '/attachments/issues/2' do
       assert_select 'tr#attachment-4' do
         assert_select 'input[name=?][value=?]', 'attachments[4][filename]', 'source.rb'
         assert_select 'input[name=?][value=?]', 'attachments[4][description]', 'This is a Ruby source file'
@@ -362,7 +362,7 @@ class AttachmentsControllerTest < ActionController::TestCase
 
   def test_update
     @request.session[:user_id] = 2
-    patch :update, :object_type => 'issues', :object_id => '3', :attachments => {
+    patch :update, :object_type => 'issues', :object_id => '2', :attachments => {
         '1' => {:filename => 'newname.text', :description => ''},
         '4' => {:filename => 'newname.rb', :description => 'Renamed'},
       }

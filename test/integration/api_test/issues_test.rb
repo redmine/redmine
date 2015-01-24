@@ -280,10 +280,10 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
     get '/issues/3.xml?include=attachments'
 
     assert_select 'issue attachments[type=array]' do
-      assert_select 'attachment', 5
-      assert_select 'attachment id', :text => '4' do
-        assert_select '~ filename', :text => 'source.rb'
-        assert_select '~ content_url', :text => 'http://www.example.com/attachments/download/4/source.rb'
+      assert_select 'attachment', 4
+      assert_select 'attachment id', :text => '1' do
+        assert_select '~ filename', :text => 'error281.txt'
+        assert_select '~ content_url', :text => 'http://www.example.com/attachments/download/1/error281.txt'
       end
     end
   end
