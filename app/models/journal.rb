@@ -22,7 +22,7 @@ class Journal < ActiveRecord::Base
   belongs_to :issue, :foreign_key => :journalized_id
 
   belongs_to :user
-  has_many :details, :class_name => "JournalDetail", :dependent => :delete_all
+  has_many :details, :class_name => "JournalDetail", :dependent => :delete_all, :inverse_of => :journal
   attr_accessor :indice
   attr_protected :id
 
