@@ -12,7 +12,7 @@ gem "actionpack-xml_parser"
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :x64_mingw, :mswin, :jruby]
-gem "rbpdf", "~> 1.18.4"
+gem "rbpdf", "~> 1.18.5"
 
 # Optional gem for LDAP authentication
 group :ldap do
