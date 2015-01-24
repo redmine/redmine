@@ -34,12 +34,17 @@ module AttachmentsHelper
   def link_to_attachments(container, options = {})
     options.assert_valid_keys(:author, :thumbnails)
 
-    if container.attachments.any?
-      options = {:deletable => container.attachments_deletable?, :author => true}.merge(options)
+    attachments = container.attachments.preload(:author).to_a
+    if attachments.any?
+      options = {
+        :editable => container.attachments_editable?,
+        :deletable => container.attachments_deletable?,
+        :author => true
+      }.merge(options)
       render :partial => 'attachments/links',
         :locals => {
           :container => container,
-          :attachments => container.attachments,
+          :attachments => attachments,
           :options => options,
           :thumbnails => (options[:thumbnails] && Setting.thumbnails_enabled?)
         }
