@@ -405,14 +405,18 @@ module IssuesHelper
     unless id.present?
       return nil
     end
-    association = Issue.reflect_on_association(field.to_sym)
-    if association
-      record = association.class_name.constantize.find_by_id(id)
-      if record
-        record.name.force_encoding('UTF-8')
-        return record.name
+    @detail_value_name_by_reflection ||= Hash.new do |hash, key|
+      association = Issue.reflect_on_association(key.first.to_sym)
+      if association
+        record = association.class_name.constantize.find_by_id(key.last)
+        if record
+          record.name.force_encoding('UTF-8')
+          hash[key] = record.name
+        end
       end
+      hash[key] ||= nil
     end
+    @detail_value_name_by_reflection[[field, id]]
   end
 
   # Renders issue children recursively
