@@ -121,8 +121,13 @@ module Redmine
   
           # Set resize image scale
           pdf.set_image_scale(1.6)
-          pdf.RDMwriteHTMLCell(35+155, 5, '', '',
-                issue.description.to_s, issue.attachments, "LRB")
+          text = textilizable(issue, :description,
+            :only_path => false,
+            :edit_section_links => false,
+            :headings => false,
+            :inline_attachments => false
+          )
+          pdf.RDMwriteFormattedCell(35+155, 5, '', '', text, issue.attachments, "LRB")
   
           unless issue.leaf?
             truncate_length = (!is_cjk? ? 90 : 65)
@@ -206,8 +211,13 @@ module Redmine
               if journal.notes?
                 pdf.ln unless journal.details.empty?
                 pdf.SetFontStyle('',8)
-                pdf.RDMwriteHTMLCell(190,5,'','',
-                      journal.notes.to_s, issue.attachments, "")
+                text = textilizable(journal, :notes,
+                  :only_path => false,
+                  :edit_section_links => false,
+                  :headings => false,
+                  :inline_attachments => false
+                )
+                pdf.RDMwriteFormattedCell(190,5,'','', text, issue.attachments, "")
               end
               pdf.ln
             end
