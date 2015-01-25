@@ -87,7 +87,7 @@ end
 group :test do
   gem "minitest"
   gem "rails-dom-testing"
-  gem "mocha", "~> 1.0.0"
+  gem "mocha"
   gem "simplecov", "~> 0.9.1", :require => false
   # For running UI tests
   gem "capybara"
