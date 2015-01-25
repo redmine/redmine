@@ -59,10 +59,8 @@ module Redmine
         def write_page_hierarchy(pdf, pages, node=nil, level=0)
           if pages[node]
             pages[node].each do |page|
-              if @new_page
+              unless level == 0 && page == pages[node].first
                 pdf.add_page
-              else
-                @new_page = true
               end
               pdf.bookmark page.title, level
               write_wiki_page(pdf, page)
