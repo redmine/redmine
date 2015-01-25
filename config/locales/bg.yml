@@ -229,7 +229,8 @@ bg:
   field_is_required: Задължително
   field_firstname: Име
   field_lastname: Фамилия
-  field_mail: Email
+  field_mail: Имейл
+  field_address: Имейл
   field_filename: Файл
   field_filesize: Големина
   field_downloads: Изтеглени файлове
@@ -416,6 +417,7 @@ bg:
   setting_force_default_language_for_anonymous: Задължително език по подразбиране за анонимните потребители
   setting_force_default_language_for_loggedin: Задължително език по подразбиране за потребителите, влезли в Redmine
   setting_link_copied_issue: Свързване на задачите при копиране
+  setting_max_additional_emails: Максимален брой на допълнителните имейл адреси
 
   permission_add_project: Създаване на проект
   permission_add_subprojects: Създаване на подпроекти
@@ -930,6 +932,14 @@ bg:
   label_edit_attachments: Редактиране на прикачените файлове
   label_link_copied_issue: Създаване на връзка между задачите
   label_ask: Питане преди копиране
+  label_search_attachments_yes: Търсене на имената на прикачените файлове и техните описания
+  label_search_attachments_no: Да не се претърсват прикачените файлове
+  label_search_attachments_only: Търсене само на прикачените файлове
+  label_search_open_issues_only: Търсене само на задачите
+  label_email_address_plural: Имейли
+  label_email_address_add: Добавяне на имейл адрес
+  label_enable_notifications: Разрешаване на известията
+  label_disable_notifications: Забрана на известията
 
   button_login: Вход
   button_submit: Изпращане
@@ -1123,13 +1133,3 @@ bg:
   description_date_from: Въведете начална дата
   description_date_to: Въведете крайна дата
   text_repository_identifier_info: 'Позволени са малки букви (a-z), цифри, тирета и _.<br />Промяна след създаването му не е възможна.'
-  label_search_attachments_yes: Search attachment filenames and descriptions
-  label_search_attachments_no: Do not search attachments
-  label_search_attachments_only: Search attachments only
-  label_search_open_issues_only: Open issues only
-  field_address: Email
-  setting_max_additional_emails: Maximum number of additional email addresses
-  label_email_address_plural: Emails
-  label_email_address_add: Add email address
-  label_enable_notifications: Enable notifications
-  label_disable_notifications: Disable notifications
