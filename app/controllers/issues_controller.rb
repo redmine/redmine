@@ -49,7 +49,6 @@ class IssuesController < ApplicationController
   include SortHelper
   include IssuesHelper
   helper :timelog
-  include Redmine::Export::PDF
 
   def index
     retrieve_query
@@ -89,7 +88,7 @@ class IssuesController < ApplicationController
         }
         format.atom { render_feed(@issues, :title => "#{@project || Setting.app_title}: #{l(:label_issue_plural)}") }
         format.csv  { send_data(query_to_csv(@issues, @query, params), :type => 'text/csv; header=present', :filename => 'issues.csv') }
-        format.pdf  { send_data(issues_to_pdf(@issues, @project, @query), :type => 'application/pdf', :filename => 'issues.pdf') }
+        format.pdf  { send_file_headers! :type => 'application/pdf', :filename => 'issues.pdf' }
       end
     else
       respond_to do |format|
@@ -130,8 +129,7 @@ class IssuesController < ApplicationController
       format.api
       format.atom { render :template => 'journals/index', :layout => false, :content_type => 'application/atom+xml' }
       format.pdf  {
-        pdf = issue_to_pdf(@issue, :journals => @journals)
-        send_data(pdf, :type => 'application/pdf', :filename => "#{@project.identifier}-#{@issue.id}.pdf")
+        send_file_headers! :type => 'application/pdf', :filename => "#{@project.identifier}-#{@issue.id}.pdf"
       }
     end
   end

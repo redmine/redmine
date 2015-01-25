@@ -78,7 +78,7 @@ class WikiController < ApplicationController
     end
     if User.current.allowed_to?(:export_wiki_pages, @project)
       if params[:format] == 'pdf'
-        send_data(wiki_page_to_pdf(@page, @project), :type => 'application/pdf', :filename => "#{@page.title}.pdf")
+        send_file_headers! :type => 'application/pdf', :filename => "#{@page.title}.pdf"
         return
       elsif params[:format] == 'html'
         export = render_to_string :action => 'export', :layout => false
@@ -283,9 +283,7 @@ class WikiController < ApplicationController
         send_data(export, :type => 'text/html', :filename => "wiki.html")
       }
       format.pdf {
-        send_data(wiki_pages_to_pdf(@pages, @project),
-                  :type => 'application/pdf',
-                  :filename => "#{@project.identifier}.pdf")
+        send_file_headers! :type => 'application/pdf', :filename => "#{@project.identifier}.pdf"
       }
     end
   end

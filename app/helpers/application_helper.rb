@@ -622,6 +622,8 @@ module ApplicationHelper
   end
 
   def parse_inline_attachments(text, project, obj, attr, only_path, options)
+    return if options[:inline_attachments] == false
+
     # when using an image link, try to use an attachment, if possible
     attachments = options[:attachments] || []
     attachments += obj.attachments if obj.respond_to?(:attachments)
