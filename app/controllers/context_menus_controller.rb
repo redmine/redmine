@@ -31,7 +31,6 @@ class ContextMenusController < ApplicationController
 
     @can = {:edit => User.current.allowed_to?(:edit_issues, @projects),
             :log_time => (@project && User.current.allowed_to?(:log_time, @project)),
-            :update => User.current.allowed_to?(:edit_issues, @projects),
             :move => (@project && User.current.allowed_to?(:move_issues, @project)),
             :copy => (@issue && @project.trackers.include?(@issue.tracker) && User.current.allowed_to?(:add_issues, @project)),
             :delete => User.current.allowed_to?(:delete_issues, @projects)

@@ -15,7 +15,7 @@
     <ul>
     <% @allowed_statuses.each do |s| -%>
         <li><%= context_menu_link h(s.name), bulk_update_issues_path(:ids => @issue_ids, :issue => {:status_id => s}, :back_url => @back), :method => :post,
-                                  :selected => (@issue && s == @issue.status), :disabled => !@can[:update] %></li>
+                                  :selected => (@issue && s == @issue.status), :disabled => !@can[:edit] %></li>
     <% end -%>
     </ul>
   </li>
@@ -51,10 +51,10 @@
     <ul>
     <% @versions.sort.each do |v| -%>
         <li><%= context_menu_link format_version_name(v), bulk_update_issues_path(:ids => @issue_ids, :issue => {'fixed_version_id' => v}, :back_url => @back), :method => :post,
-                                  :selected => (@issue && v == @issue.fixed_version), :disabled => !@can[:update] %></li>
+                                  :selected => (@issue && v == @issue.fixed_version), :disabled => !@can[:edit] %></li>
     <% end -%>
         <li><%= context_menu_link l(:label_none), bulk_update_issues_path(:ids => @issue_ids, :issue => {'fixed_version_id' => 'none'}, :back_url => @back), :method => :post,
-                                  :selected => (@issue && @issue.fixed_version.nil?), :disabled => !@can[:update] %></li>
+                                  :selected => (@issue && @issue.fixed_version.nil?), :disabled => !@can[:edit] %></li>
     </ul>
   </li>
   <% end %>
@@ -65,14 +65,14 @@
     <ul>
     <% if @assignables.include?(User.current) %>
         <li><%= context_menu_link "<< #{l(:label_me)} >>", bulk_update_issues_path(:ids => @issue_ids, :issue => {'assigned_to_id' => User.current}, :back_url => @back), :method => :post,
-                                  :disabled => !@can[:update] %></li>
+                                  :disabled => !@can[:edit] %></li>
     <% end %>
     <% @assignables.each do |u| -%>
         <li><%= context_menu_link h(u.name), bulk_update_issues_path(:ids => @issue_ids, :issue => {'assigned_to_id' => u}, :back_url => @back), :method => :post,
-                                  :selected => (@issue && u == @issue.assigned_to), :disabled => !@can[:update] %></li>
+                                  :selected => (@issue && u == @issue.assigned_to), :disabled => !@can[:edit] %></li>
     <% end -%>
         <li><%= context_menu_link l(:label_nobody), bulk_update_issues_path(:ids => @issue_ids, :issue => {'assigned_to_id' => 'none'}, :back_url => @back), :method => :post,
-                                  :selected => (@issue && @issue.assigned_to.nil?), :disabled => !@can[:update] %></li>
+                                  :selected => (@issue && @issue.assigned_to.nil?), :disabled => !@can[:edit] %></li>
     </ul>
   </li>
   <% end %>
@@ -83,10 +83,10 @@
     <ul>
     <% @project.issue_categories.each do |u| -%>
         <li><%= context_menu_link h(u.name), bulk_update_issues_path(:ids => @issue_ids, :issue => {'category_id' => u}, :back_url => @back), :method => :post,
-                                  :selected => (@issue && u == @issue.category), :disabled => !@can[:update] %></li>
+                                  :selected => (@issue && u == @issue.category), :disabled => !@can[:edit] %></li>
     <% end -%>
         <li><%= context_menu_link l(:label_none), bulk_update_issues_path(:ids => @issue_ids, :issue => {'category_id' => 'none'}, :back_url => @back), :method => :post,
-                                  :selected => (@issue && @issue.category.nil?), :disabled => !@can[:update] %></li>
+                                  :selected => (@issue && @issue.category.nil?), :disabled => !@can[:edit] %></li>
     </ul>
   </li>
   <% end -%>
