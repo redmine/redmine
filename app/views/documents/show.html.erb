@@ -16,7 +16,7 @@
 </div>
 
 <h3><%= l(:label_attachment_plural) %></h3>
-<%= link_to_attachments @document %>
+<%= link_to_attachments @document, :thumbnails => true %>
 
 <% if authorize_for('documents', 'add_attachment') %>
 <p><%= link_to l(:label_attachment_new), {}, :onclick => "$('#add_attachment_form').show(); return false;",
