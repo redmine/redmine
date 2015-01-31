@@ -294,6 +294,8 @@ module IssuesHelper
   # Returns the textual representation of a single journal detail
   def show_detail(detail, no_html=false, options={})
     multiple = false
+    show_diff = false
+
     case detail.property
     when 'attr'
       field = detail.prop_key.to_s.gsub(/\_id$/, "")
@@ -320,14 +322,21 @@ module IssuesHelper
       when 'is_private'
         value = l(detail.value == "0" ? :general_text_No : :general_text_Yes) unless detail.value.blank?
         old_value = l(detail.old_value == "0" ? :general_text_No : :general_text_Yes) unless detail.old_value.blank?
+
+      when 'description'
+        show_diff = true
       end
     when 'cf'
       custom_field = detail.custom_field
       if custom_field
-        multiple = custom_field.multiple?
         label = custom_field.name
-        value = format_value(detail.value, custom_field) if detail.value
-        old_value = format_value(detail.old_value, custom_field) if detail.old_value
+        if custom_field.format.class.change_as_diff
+          show_diff = true
+        else
+          multiple = custom_field.multiple?
+          value = format_value(detail.value, custom_field) if detail.value
+          old_value = format_value(detail.old_value, custom_field) if detail.old_value
+        end
       end
     when 'attachment'
       label = l(:label_attachment)
@@ -373,7 +382,7 @@ module IssuesHelper
       end
     end
 
-    if detail.property == 'attr' && detail.prop_key == 'description'
+    if show_diff
       s = l(:text_journal_changed_no_detail, :label => label)
       unless no_html
         diff_link = link_to 'diff',

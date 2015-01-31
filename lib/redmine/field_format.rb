@@ -70,6 +70,9 @@ module Redmine
       class_attribute :form_partial
       self.form_partial = nil
 
+      class_attribute :change_as_diff
+      self.change_as_diff = false
+
       def self.add(name)
         self.format_name = name
         Redmine::FieldFormat.add(name, self)
@@ -293,6 +296,7 @@ module Redmine
       add 'text'
       self.searchable_supported = true
       self.form_partial = 'custom_fields/formats/text'
+      self.change_as_diff = true
 
       def formatted_value(view, custom_field, value, customized=nil, html=false)
         if html

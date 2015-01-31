@@ -49,9 +49,17 @@ class JournalsController < ApplicationController
     if params[:detail_id].present?
       @detail = @journal.details.find_by_id(params[:detail_id])
     else
-      @detail = @journal.details.detect {|d| d.prop_key == 'description'}
+      @detail = @journal.details.detect {|d| d.property == 'attr' && d.prop_key == 'description'}
     end
-    (render_404; return false) unless @issue && @detail
+    unless @issue && @detail
+      render_404
+      return false
+    end
+    if @detail.property == 'cf'
+      unless @detail.custom_field && @detail.custom_field.visible_by?(@issue.project, User.current)
+        raise ::Unauthorized
+      end
+    end
     @diff = Redmine::Helpers::Diff.new(@detail.value, @detail.old_value)
   end
 

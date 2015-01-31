@@ -203,10 +203,23 @@ class IssuesHelperTest < ActionView::TestCase
     assert_match '6.30', show_detail(detail, true)
   end
 
+  test 'show_detail should not show values with a description attribute' do
+    detail = JournalDetail.new(:property => 'attr', :prop_key => 'description',
+                               :old_value => 'Foo', :value => 'Bar')
+    assert_equal 'Description updated', show_detail(detail, true)
+  end
+
   test 'show_detail should show old and new values with a custom field' do
     detail = JournalDetail.new(:property => 'cf', :prop_key => '1',
                                :old_value => 'MySQL', :value => 'PostgreSQL')
     assert_equal 'Database changed from MySQL to PostgreSQL', show_detail(detail, true)
+  end
+
+  test 'show_detail should not show values with a long text custom field' do
+    field = IssueCustomField.create!(:name => "Long field", :field_format => 'text')
+    detail = JournalDetail.new(:property => 'cf', :prop_key => field.id,
+                               :old_value => 'Foo', :value => 'Bar')
+    assert_equal 'Long field updated', show_detail(detail, true)
   end
 
   test 'show_detail should show added file' do

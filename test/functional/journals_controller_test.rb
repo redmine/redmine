@@ -51,13 +51,37 @@ class JournalsControllerTest < ActionController::TestCase
     assert_not_include journal, assigns(:journals)
   end
 
-  def test_diff
+  def test_diff_for_description_change
     get :diff, :id => 3, :detail_id => 4
     assert_response :success
     assert_template 'diff'
 
     assert_select 'span.diff_out', :text => /removed/
     assert_select 'span.diff_in', :text => /added/
+  end
+
+  def test_diff_for_custom_field
+    field = IssueCustomField.create!(:name => "Long field", :field_format => 'text')
+    journal = Journal.create!(:journalized => Issue.find(2), :notes => 'Notes', :user_id => 1)
+    detail = JournalDetail.create!(:journal => journal, :property => 'cf', :prop_key => field.id,
+      :old_value => 'Foo', :value => 'Bar')
+
+    get :diff, :id => journal.id, :detail_id => detail.id
+    assert_response :success
+    assert_template 'diff'
+
+    assert_select 'span.diff_out', :text => /Foo/
+    assert_select 'span.diff_in', :text => /Bar/
+  end
+
+  def test_diff_for_custom_field_should_be_denied_if_custom_field_is_not_visible
+    field = IssueCustomField.create!(:name => "Long field", :field_format => 'text', :visible => false, :role_ids => [1])
+    journal = Journal.create!(:journalized => Issue.find(2), :notes => 'Notes', :user_id => 1)
+    detail = JournalDetail.create!(:journal => journal, :property => 'cf', :prop_key => field.id,
+      :old_value => 'Foo', :value => 'Bar')
+
+    get :diff, :id => journal.id, :detail_id => detail.id
+    assert_response 302
   end
 
   def test_diff_should_default_to_description_diff
