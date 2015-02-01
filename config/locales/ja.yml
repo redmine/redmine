@@ -1150,8 +1150,8 @@ ja:
   label_search_attachments_only: 添付ファイルのみ検索
   label_search_open_issues_only: 未完了のチケットのみ
   field_address: メールアドレス
-  setting_max_additional_emails: Maximum number of additional email addresses
-  label_email_address_plural: Emails
-  label_email_address_add: Add email address
-  label_enable_notifications: Enable notifications
-  label_disable_notifications: Disable notifications
+  setting_max_additional_emails: 追加メールアドレス数の上限
+  label_email_address_plural: メールアドレス
+  label_email_address_add: メールアドレスの追加
+  label_enable_notifications: 通知を有効にする
+  label_disable_notifications: 通知を無効にする
