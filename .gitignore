@@ -33,7 +33,6 @@
 /tmp/test/*
 /tmp/thumbnails/*
 /vendor/cache
-/vendor/rails
 *.rbc
 
 /.bundle

@@ -29,7 +29,6 @@ tmp/sockets/*
 tmp/test/*
 tmp/thumbnails/*
 vendor/cache
-vendor/rails
 *.rbc
 
 .svn/
