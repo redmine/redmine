@@ -59,6 +59,8 @@ activity_days_default:
   default: 30
 per_page_options:
   default: '25,50,100'
+search_results_per_page:
+  default: 10
 mail_from:
   default: redmine@example.net
 bcc_recipients:

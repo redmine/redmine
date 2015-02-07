@@ -415,6 +415,7 @@ en:
   setting_force_default_language_for_loggedin: Force default language for logged-in users
   setting_link_copied_issue: Link issues on copy
   setting_max_additional_emails: Maximum number of additional email addresses
+  setting_search_results_per_page: Search results per page
 
   permission_add_project: Create project
   permission_add_subprojects: Create subprojects

@@ -66,7 +66,9 @@ class SearchController < ApplicationController
       @result_count_by_type = fetcher.result_count_by_type
       @tokens = fetcher.tokens
 
-      @result_pages = Paginator.new @result_count, 10, params['page']
+      per_page = Setting.search_results_per_page.to_i
+      per_page = 10 if per_page == 0
+      @result_pages = Paginator.new @result_count, per_page, params['page']
       @results = fetcher.results(@result_pages.offset, @result_pages.per_page)
     else
       @question = ""

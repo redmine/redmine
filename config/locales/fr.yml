@@ -435,6 +435,7 @@ fr:
   setting_force_default_language_for_loggedin: Forcer la langue par défault pour les utilisateurs identifiés
   setting_link_copied_issue: Lier les demandes lors de la copie
   setting_max_additional_emails: Nombre maximal d'adresses email additionnelles
+  setting_search_results_per_page: Résultats de recherche affichés par page
 
   permission_add_project: Créer un projet
   permission_add_subprojects: Créer des sous-projets
