@@ -96,7 +96,7 @@ module Redmine
       # Default to creating links using only the path.  Subclasses can
       # change this default as needed
       def self.default_url_options
-        {:only_path => true }
+        {:only_path => true, :script_name => Redmine::Utils.relative_url_root}
       end
 
       # Helper method to directly render using the context,

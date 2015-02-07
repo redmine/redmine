@@ -114,6 +114,15 @@ class Redmine::Hook::ManagerTest < ActionView::TestCase
     assert_equal ['<a href="/issues">Issues</a>'], hook_helper.call_hook(:view_layouts_base_html_head)
   end
 
+  def test_view_hook_should_generate_links_with_relative_url_root
+    Redmine::Utils.relative_url_root = '/foo'
+    @hook_module.add_listener(TestLinkToHook)
+
+    assert_equal ['<a href="/foo/issues">Issues</a>'], hook_helper.call_hook(:view_layouts_base_html_head)
+  ensure
+    Redmine::Utils.relative_url_root = ''
+  end
+
   # Context: Redmine::Hook::Helper.call_hook
   def test_call_hook_with_project_added_to_context
     @hook_module.add_listener(TestHook3)
