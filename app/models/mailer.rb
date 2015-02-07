@@ -319,10 +319,12 @@ class Mailer < ActionMailer::Base
   # * :tracker  => id of tracker for filtering issues (defaults to all trackers)
   # * :project  => id or identifier of project to process (defaults to all projects)
   # * :users    => array of user/group ids who should be reminded
+  # * :version  => name of target version for filtering issues (defaults to none)
   def self.reminders(options={})
     days = options[:days] || 7
     project = options[:project] ? Project.find(options[:project]) : nil
     tracker = options[:tracker] ? Tracker.find(options[:tracker]) : nil
+    target_versions = options[:version] ? Version.where(name: options[:version]).select(:id).map(&:id) : nil
     user_ids = options[:users]
 
     scope = Issue.open.where("#{Issue.table_name}.assigned_to_id IS NOT NULL" +
@@ -331,6 +333,7 @@ class Mailer < ActionMailer::Base
     )
     scope = scope.where(:assigned_to_id => user_ids) if user_ids.present?
     scope = scope.where(:project_id => project.id) if project
+    scope = scope.where(:fixed_version_id => target_versions) unless target_versions.blank?
     scope = scope.where(:tracker_id => tracker.id) if tracker
     issues_by_assignee = scope.includes(:status, :assigned_to, :project, :tracker).
                               group_by(&:assigned_to)

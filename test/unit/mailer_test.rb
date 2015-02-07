@@ -633,6 +633,27 @@ class MailerTest < ActiveSupport::TestCase
     end
   end
 
+  def test_reminders_for_versions
+    with_settings :default_language => 'en' do 
+      Mailer.reminders(:days => 42, :users => ['3'])
+      assert_equal 1, ActionMailer::Base.deliveries.size 
+
+      ActionMailer::Base.deliveries.clear
+      Version.create!(name: 'Acme', project_id: 1, sharing: 'none')
+      Mailer.reminders(:days => 42, :users => ['3'], :version => 'Acme')
+      assert_equal 0, ActionMailer::Base.deliveries.size       
+      Issue.create!(:project_id => 1, :tracker_id => 1, :status_id => 1,
+                      :subject => 'Assigned to user', :assigned_to => User.find(3),
+                      :due_date => 5.days.from_now,
+                      :author_id => 2)
+      Mailer.reminders(:days => 42, :users => ['3'], :version => 'Acme')
+      assert_equal 1, ActionMailer::Base.deliveries.size  
+
+      mail = last_email
+      assert mail.bcc.include?('dlopper@somenet.foo')
+    end
+  end
+
   def test_mailer_should_not_change_locale
     # Set current language to italian
     set_language_if_valid 'it'
