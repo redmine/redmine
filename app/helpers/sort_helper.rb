@@ -123,7 +123,7 @@ module SortHelper
 
     def normalize!
       @criteria ||= []
-      @criteria = @criteria.collect {|s| s = s.to_a; [s.first, (s.last == false || s.last == 'desc') ? false : true]}
+      @criteria = @criteria.collect {|s| s = Array(s); [s.first, (s.last == false || s.last == 'desc') ? false : true]}
       @criteria = @criteria.select {|k,o| @available_criteria.has_key?(k)} if @available_criteria
       @criteria.slice!(3)
       self
