@@ -324,7 +324,10 @@ class Mailer < ActionMailer::Base
     days = options[:days] || 7
     project = options[:project] ? Project.find(options[:project]) : nil
     tracker = options[:tracker] ? Tracker.find(options[:tracker]) : nil
-    target_versions = options[:version] ? Version.where(name: options[:version]).select(:id).map(&:id) : nil
+    target_version_id = options[:version] ? Version.named(options[:version]).pluck(:id) : nil
+    if options[:version] && target_version_id.blank?
+      raise ActiveRecord::RecordNotFound.new("Couldn't find Version with named #{options[:version]}")
+    end
     user_ids = options[:users]
 
     scope = Issue.open.where("#{Issue.table_name}.assigned_to_id IS NOT NULL" +
@@ -333,7 +336,7 @@ class Mailer < ActionMailer::Base
     )
     scope = scope.where(:assigned_to_id => user_ids) if user_ids.present?
     scope = scope.where(:project_id => project.id) if project
-    scope = scope.where(:fixed_version_id => target_versions) unless target_versions.blank?
+    scope = scope.where(:fixed_version_id => target_version_id) if target_version_id.present?
     scope = scope.where(:tracker_id => tracker.id) if tracker
     issues_by_assignee = scope.includes(:status, :assigned_to, :project, :tracker).
                               group_by(&:assigned_to)
