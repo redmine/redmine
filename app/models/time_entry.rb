@@ -35,7 +35,7 @@ class TimeEntry < ActiveRecord::Base
 
   acts_as_activity_provider :timestamp => "#{table_name}.created_on",
                             :author_key => :user_id,
-                            :scope => preload(:project)
+                            :scope => joins(:project).preload(:project)
 
   validates_presence_of :user_id, :activity_id, :project_id, :hours, :spent_on
   validates_numericality_of :hours, :allow_nil => true, :message => :invalid
