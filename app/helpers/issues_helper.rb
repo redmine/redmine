@@ -32,6 +32,24 @@ module IssuesHelper
     end
   end
 
+  def grouped_issue_list(issues, query, issue_count_by_group, &block)
+    previous_group, first = false, true
+    issue_list(issues) do |issue, level|
+      group_name = group_count = nil
+      if query.grouped? && ((group = query.group_by_column.value(issue)) != previous_group || first)
+        if group.blank? && group != false
+          group_name = l(:label_none)
+        else
+          group_name = column_content(query.group_by_column, issue)
+        end
+        group_name ||= ""
+        group_count = issue_count_by_group[group]
+      end
+      yield issue, level, group_name, group_count
+      previous_group, first = group, false
+    end
+  end
+
   # Renders a HTML/CSS tooltip
   #
   # To use, a trigger div is needed.  This is a div with the class of "tooltip"
