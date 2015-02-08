@@ -367,7 +367,7 @@ ja:
   setting_emails_header: メールのヘッダ
   setting_emails_footer: メールのフッタ
   setting_protocol: プロトコル
-  setting_per_page_options: ページ毎の表示件数
+  setting_per_page_options: ページごとの表示件数
   setting_user_format: ユーザー名の表示書式
   setting_activity_days_default: プロジェクトの活動ページに表示される日数
   setting_display_subprojects_issues: サブプロジェクトのチケットをメインプロジェクトに表示する
@@ -606,7 +606,7 @@ ja:
   label_used_by: 使用中
   label_details: 詳細
   label_add_note: 注記を追加
-  label_per_page: ページ毎
+  label_per_page: ページごと
   label_calendar: カレンダー
   label_months_from: ヶ月分
   label_gantt: ガントチャート
@@ -1155,4 +1155,4 @@ ja:
   label_email_address_add: メールアドレスの追加
   label_enable_notifications: 通知を有効にする
   label_disable_notifications: 通知を無効にする
-  setting_search_results_per_page: Search results per page
+  setting_search_results_per_page: ページごとの検索結果表示件数
