@@ -143,6 +143,9 @@ class IssuesController < ApplicationController
   end
 
   def create
+    unless User.current.allowed_to?(:add_issues, @issue.project)
+      raise ::Unauthorized
+    end
     call_hook(:controller_issues_new_before_save, { :params => params, :issue => @issue })
     @issue.save_attachments(params[:attachments] || (params[:issue] && params[:issue][:uploads]))
     if @issue.save
@@ -219,6 +222,12 @@ class IssuesController < ApplicationController
     @copy = params[:copy].present?
     @notes = params[:notes]
 
+    if @copy
+      unless User.current.allowed_to?(:copy_issues, @projects)
+        raise ::Unauthorized
+      end
+    end
+
     @allowed_projects = Issue.allowed_target_projects
     if params[:issue]
       @target_project = @allowed_projects.detect {|p| p.id.to_s == params[:issue][:project_id].to_s}
@@ -254,6 +263,19 @@ class IssuesController < ApplicationController
     @issues.sort!
     @copy = params[:copy].present?
     attributes = parse_params_for_bulk_issue_attributes(params)
+
+    if @copy
+      unless User.current.allowed_to?(:copy_issues, @projects)
+        raise ::Unauthorized
+      end
+      target_projects = @projects
+      if attributes['project_id'].present?
+        target_projects = Project.where(:id => attributes['project_id']).to_a
+      end
+      unless User.current.allowed_to?(:add_issues, target_projects)
+        raise ::Unauthorized
+      end
+    end
 
     unsaved_issues = []
     saved_issues = []
@@ -407,6 +429,9 @@ class IssuesController < ApplicationController
         begin
           @issue.init_journal(User.current)
           @copy_from = Issue.visible.find(params[:copy_from])
+          unless User.current.allowed_to?(:copy_issues, @copy_from.project)
+            raise ::Unauthorized
+          end
           @link_copy = link_copy?(params[:link_copy]) || request.get?
           @copy_attachments = params[:copy_attachments].present? || request.get?
           @copy_subtasks = params[:copy_subtasks].present? || request.get?

@@ -424,6 +424,9 @@ class Issue < ActiveRecord::Base
     names = super
     names -= disabled_core_fields
     names -= read_only_attribute_names(user)
+    if new_record? && copy?
+      names |= %w(project_id)
+    end
     names
   end
 

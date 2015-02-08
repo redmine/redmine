@@ -449,6 +449,7 @@ fr:
   permission_view_issues: Voir les demandes
   permission_add_issues: Créer des demandes
   permission_edit_issues: Modifier les demandes
+  permission_copy_issues: Copier les demandes
   permission_manage_issue_relations: Gérer les relations
   permission_set_issues_private: Rendre les demandes publiques ou privées
   permission_set_own_issues_private: Rendre ses propres demandes publiques ou privées

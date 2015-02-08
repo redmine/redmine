@@ -33,8 +33,9 @@
 <p>
   <label for="issue_project_id"><%= l(:field_project) %></label>
   <%= select_tag('issue[project_id]',
-                 content_tag('option', l(:label_no_change_option), :value => '') + 
-                   project_tree_options_for_select(@allowed_projects, :selected => @target_project),
+                 project_tree_options_for_select(@allowed_projects,
+                   :include_blank => ((!@copy || (@projects & @allowed_projects == @projects)) ? l(:label_no_change_option) : false),
+                   :selected => @target_project),
                  :onchange => "updateBulkEditFrom('#{escape_javascript url_for(:action => 'bulk_edit', :format => 'js')}')") %>
 </p>
 <% end %>

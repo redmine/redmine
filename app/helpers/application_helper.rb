@@ -343,8 +343,11 @@ module ApplicationHelper
 
   def project_tree_options_for_select(projects, options = {})
     s = ''.html_safe
-    if options[:include_blank]
-      s << content_tag('option', '&nbsp;'.html_safe, :value => '')
+    if blank_text = options[:include_blank]
+      if blank_text == true
+        blank_text = '&nbsp;'.html_safe
+      end
+      s << content_tag('option', blank_text, :value => '')
     end
     project_tree(projects) do |project, level|
       name_prefix = (level > 0 ? '&nbsp;' * 2 * level + '&#187; ' : '').html_safe

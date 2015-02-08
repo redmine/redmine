@@ -2473,6 +2473,20 @@ class IssuesControllerTest < ActionController::TestCase
     assert_select '#main-menu a.new-issue[href="/projects/ecookbook/issues/new"]'
   end
 
+  def test_new_as_copy_without_add_issues_permission_should_not_propose_current_project_as_target
+    user = setup_user_with_copy_but_not_add_permission
+
+    @request.session[:user_id] = user.id
+    get :new, :project_id => 1, :copy_from => 1
+
+    assert_response :success
+    assert_template 'new'
+    assert_select 'select[name=?]', 'issue[project_id]' do
+      assert_select 'option[value="1"]', 0
+      assert_select 'option[value="2"]', :text => 'OnlineStore'
+    end
+  end
+
   def test_new_as_copy_with_attachments_should_show_copy_attachments_checkbox
     @request.session[:user_id] = 2
     issue = Issue.find(3)
@@ -3770,9 +3784,26 @@ class IssuesControllerTest < ActionController::TestCase
     assert_not_nil issues
     assert_equal [1, 2, 3], issues.map(&:id).sort
 
+    assert_select 'select[name=?]', 'issue[project_id]' do
+      assert_select 'option[value=""]'
+    end
     assert_select 'input[name=copy_attachments]'
   end
 
+  def test_get_bulk_copy_without_add_issues_permission_should_not_propose_current_project_as_target
+    user = setup_user_with_copy_but_not_add_permission
+    @request.session[:user_id] = user.id
+
+    get :bulk_edit, :ids => [1, 2, 3], :copy => '1'
+    assert_response :success
+    assert_template 'bulk_edit'
+
+    assert_select 'select[name=?]', 'issue[project_id]' do
+      assert_select 'option[value=""]', 0
+      assert_select 'option[value="2"]'
+    end
+  end
+  
   def test_bulk_copy_to_another_project
     @request.session[:user_id] = 2
     assert_difference 'Issue.count', 2 do
@@ -3786,6 +3817,32 @@ class IssuesControllerTest < ActionController::TestCase
     copies.each do |copy|
       assert_equal 2, copy.project_id
     end
+  end
+
+  def test_bulk_copy_without_add_issues_permission_should_be_allowed_on_project_with_permission
+    user = setup_user_with_copy_but_not_add_permission
+    @request.session[:user_id] = user.id
+
+    assert_difference 'Issue.count', 3 do
+      post :bulk_update, :ids => [1, 2, 3], :issue => {:project_id => '2'}, :copy => '1'
+      assert_response 302
+    end
+  end
+
+  def test_bulk_copy_on_same_project_without_add_issues_permission_should_be_denied
+    user = setup_user_with_copy_but_not_add_permission
+    @request.session[:user_id] = user.id
+
+    post :bulk_update, :ids => [1, 2, 3], :issue => {:project_id => ''}, :copy => '1'
+    assert_response 403
+  end
+
+  def test_bulk_copy_on_different_project_without_add_issues_permission_should_be_denied
+    user = setup_user_with_copy_but_not_add_permission
+    @request.session[:user_id] = user.id
+
+    post :bulk_update, :ids => [1, 2, 3], :issue => {:project_id => '1'}, :copy => '1'
+    assert_response 403
   end
 
   def test_bulk_copy_should_allow_not_changing_the_issue_attributes
@@ -4078,5 +4135,14 @@ class IssuesControllerTest < ActionController::TestCase
     assert_select 'div#quick-search form' do
       assert_select 'input[name=issues][value="1"][type=hidden]'
     end
+  end
+
+  def setup_user_with_copy_but_not_add_permission
+    Role.all.each {|r| r.remove_permission! :add_issues}
+    Role.find_by_name('Manager').add_permission! :add_issues
+    user = User.generate!
+    User.add_to_project(user, Project.find(1), Role.find_by_name('Developer'))
+    User.add_to_project(user, Project.find(2), Role.find_by_name('Manager'))
+    user
   end
 end
