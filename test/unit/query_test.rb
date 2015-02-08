@@ -453,42 +453,44 @@ class QueryTest < ActiveSupport::TestCase
   def test_operator_date_equals
     query = IssueQuery.new(:name => '_')
     query.add_filter('due_date', '=', ['2011-07-10'])
-    assert_match /issues\.due_date > '2011-07-09 23:59:59(\.9+)?' AND issues\.due_date <= '2011-07-10 23:59:59(\.9+)?/, query.statement
+    assert_match /issues\.due_date > '#{quoted_date "2011-07-09"} 23:59:59(\.\d+)?' AND issues\.due_date <= '#{quoted_date "2011-07-10"} 23:59:59(\.\d+)?/,
+      query.statement
     find_issues_with_query(query)
   end
 
   def test_operator_date_lesser_than
     query = IssueQuery.new(:name => '_')
     query.add_filter('due_date', '<=', ['2011-07-10'])
-    assert_match /issues\.due_date <= '2011-07-10 23:59:59(\.9+)?/, query.statement
+    assert_match /issues\.due_date <= '#{quoted_date "2011-07-10"} 23:59:59(\.\d+)?/, query.statement
     find_issues_with_query(query)
   end
 
   def test_operator_date_lesser_than_with_timestamp
     query = IssueQuery.new(:name => '_')
     query.add_filter('updated_on', '<=', ['2011-07-10T19:13:52'])
-    assert_match /issues\.updated_on <= '2011-07-10 19:13:52/, query.statement
+    assert_match /issues\.updated_on <= '#{quoted_date "2011-07-10"} 19:13:52/, query.statement
     find_issues_with_query(query)
   end
 
   def test_operator_date_greater_than
     query = IssueQuery.new(:name => '_')
     query.add_filter('due_date', '>=', ['2011-07-10'])
-    assert_match /issues\.due_date > '2011-07-09 23:59:59(\.9+)?'/, query.statement
+    assert_match /issues\.due_date > '#{quoted_date "2011-07-09"} 23:59:59(\.\d+)?'/, query.statement
     find_issues_with_query(query)
   end
 
   def test_operator_date_greater_than_with_timestamp
     query = IssueQuery.new(:name => '_')
     query.add_filter('updated_on', '>=', ['2011-07-10T19:13:52'])
-    assert_match /issues\.updated_on > '2011-07-10 19:13:51(\.0+)?'/, query.statement
+    assert_match /issues\.updated_on > '#{quoted_date "2011-07-10"} 19:13:51(\.0+)?'/, query.statement
     find_issues_with_query(query)
   end
 
   def test_operator_date_between
     query = IssueQuery.new(:name => '_')
     query.add_filter('due_date', '><', ['2011-06-23', '2011-07-10'])
-    assert_match /issues\.due_date > '2011-06-22 23:59:59(\.9+)?' AND issues\.due_date <= '2011-07-10 23:59:59(\.9+)?'/, query.statement
+    assert_match /issues\.due_date > '#{quoted_date "2011-06-22"} 23:59:59(\.\d+)?' AND issues\.due_date <= '#{quoted_date "2011-07-10"} 23:59:59(\.\d+)?'/,
+      query.statement
     find_issues_with_query(query)
   end
 
@@ -606,7 +608,8 @@ class QueryTest < ActiveSupport::TestCase
 
     query = IssueQuery.new(:project => Project.find(1), :name => '_')
     query.add_filter('due_date', 'w', [''])
-    assert query.statement.match(/issues\.due_date > '2011-04-24 23:59:59(\.9+)?' AND issues\.due_date <= '2011-05-01 23:59:59(\.9+)?/), "range not found in #{query.statement}"
+    assert_match /issues\.due_date > '#{quoted_date "2011-04-24"} 23:59:59(\.\d+)?' AND issues\.due_date <= '#{quoted_date "2011-05-01"} 23:59:59(\.\d+)?/,
+      query.statement
     I18n.locale = :en
   end
 
@@ -618,7 +621,8 @@ class QueryTest < ActiveSupport::TestCase
 
     query = IssueQuery.new(:project => Project.find(1), :name => '_')
     query.add_filter('due_date', 'w', [''])
-    assert query.statement.match(/issues\.due_date > '2011-04-23 23:59:59(\.9+)?' AND issues\.due_date <= '2011-04-30 23:59:59(\.9+)?/), "range not found in #{query.statement}"
+    assert_match /issues\.due_date > '#{quoted_date "2011-04-23"} 23:59:59(\.\d+)?' AND issues\.due_date <= '#{quoted_date "2011-04-30"} 23:59:59(\.\d+)?/,
+      query.statement
   end
 
   def test_operator_does_not_contains

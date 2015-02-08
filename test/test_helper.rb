@@ -173,6 +173,11 @@ class ActiveSupport::TestCase
     ActiveRecord::Base.connection.adapter_name =~ /postgresql/i
   end
 
+  def quoted_date(date)
+    date = Date.parse(date) if date.is_a?(String)
+    ActiveRecord::Base.connection.quoted_date(date)
+  end
+
   def assert_save(object)
     saved = object.save
     message = "#{object.class} could not be saved"
