@@ -20,7 +20,6 @@ roles_001:
     - :manage_issue_relations
     - :manage_subtasks
     - :add_issue_notes
-    - :move_issues
     - :delete_issues
     - :view_issue_watchers
     - :add_issue_watchers
@@ -81,7 +80,6 @@ roles_002:
     - :manage_issue_relations
     - :manage_subtasks
     - :add_issue_notes
-    - :move_issues
     - :delete_issues
     - :view_issue_watchers
     - :save_queries
@@ -128,7 +126,6 @@ roles_003:
     - :edit_issues
     - :manage_issue_relations
     - :add_issue_notes
-    - :move_issues
     - :view_issue_watchers
     - :save_queries
     - :view_gantt

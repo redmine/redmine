@@ -1211,13 +1211,13 @@ class IssueTest < ActiveSupport::TestCase
     assert issue.save
   end
 
-  def test_allowed_target_projects_on_move_should_include_projects_with_issue_tracking_enabled
-    assert_include Project.find(2), Issue.allowed_target_projects_on_move(User.find(2))
+  def test_allowed_target_projects_should_include_projects_with_issue_tracking_enabled
+    assert_include Project.find(2), Issue.allowed_target_projects(User.find(2))
   end
 
-  def test_allowed_target_projects_on_move_should_not_include_projects_with_issue_tracking_disabled
+  def test_allowed_target_projects_should_not_include_projects_with_issue_tracking_disabled
     Project.find(2).disable_module! :issue_tracking
-    assert_not_include Project.find(2), Issue.allowed_target_projects_on_move(User.find(2))
+    assert_not_include Project.find(2), Issue.allowed_target_projects(User.find(2))
   end
 
   def test_move_to_another_project_with_same_category

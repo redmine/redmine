@@ -219,13 +219,11 @@ class IssuesController < ApplicationController
     @copy = params[:copy].present?
     @notes = params[:notes]
 
-    if User.current.allowed_to?(:move_issues, @projects)
-      @allowed_projects = Issue.allowed_target_projects_on_move
-      if params[:issue]
-        @target_project = @allowed_projects.detect {|p| p.id.to_s == params[:issue][:project_id].to_s}
-        if @target_project
-          target_projects = [@target_project]
-        end
+    @allowed_projects = Issue.allowed_target_projects
+    if params[:issue]
+      @target_project = @allowed_projects.detect {|p| p.id.to_s == params[:issue][:project_id].to_s}
+      if @target_project
+        target_projects = [@target_project]
       end
     end
     target_projects ||= @projects

@@ -378,8 +378,8 @@ class Issue < ActiveRecord::Base
     :if => lambda {|issue, user|
       if issue.new_record?
         issue.copy?
-      elsif user.allowed_to?(:move_issues, issue.project)
-        Issue.allowed_target_projects_on_move.count > 1
+      else
+        user.allowed_to?(:edit_issues, issue.project)
       end
     }
 
@@ -1282,16 +1282,18 @@ class Issue < ActiveRecord::Base
 
   # Returns a scope of projects that user can assign the issue to
   def allowed_target_projects(user=User.current)
-    if new_record?
-      Project.where(Project.allowed_to_condition(user, :add_issues))
-    else
-      self.class.allowed_target_projects_on_move(user)
-    end
+    current_project = new_record? ? nil : project
+    self.class.allowed_target_projects(user, current_project)
   end
 
-  # Returns a scope of projects that user can move issues to
-  def self.allowed_target_projects_on_move(user=User.current)
-    Project.where(Project.allowed_to_condition(user, :move_issues))
+  # Returns a scope of projects that user can assign issues to
+  # If current_project is given, it will be included in the scope
+  def self.allowed_target_projects(user=User.current, current_project=nil)
+    condition = Project.allowed_to_condition(user, :add_issues)
+    if current_project
+      condition = ["(#{condition}) OR #{Project.table_name}.id = ?", current_project.id]
+    end
+    Project.where(condition)
   end
 
   private
