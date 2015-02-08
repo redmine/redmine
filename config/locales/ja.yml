@@ -777,7 +777,7 @@ ja:
   label_registration_manual_activation: 手動でアカウントを有効化
   label_registration_automatic_activation: 自動でアカウントを有効化
   label_display_per_page: "1ページに: %{value}"
-  label_age: 年齢
+  label_age: 経過期間
   label_change_properties: プロパティの変更
   label_general: 全般
   label_more: 続き
