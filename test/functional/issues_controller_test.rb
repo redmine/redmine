@@ -308,7 +308,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_select 'tr.group', 3
     assert_select 'tr.group', :text => /Yes/
     assert_select 'tr.group', :text => /No/
-    assert_select 'tr.group', :text => /none/
+    assert_select 'tr.group', :text => /blank/
   end
 
   def test_index_grouped_by_boolean_custom_field_with_false_group_in_first_position_should_show_the_group
