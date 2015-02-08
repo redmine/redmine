@@ -169,6 +169,10 @@ class ActiveSupport::TestCase
     ActiveRecord::Base.connection.adapter_name =~ /mysql/i
   end
 
+  def postgresql?
+    ActiveRecord::Base.connection.adapter_name =~ /postgresql/i
+  end
+
   def assert_save(object)
     saved = object.save
     message = "#{object.class} could not be saved"
