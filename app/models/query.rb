@@ -509,7 +509,7 @@ class Query < ActiveRecord::Base
   # Returns the SQL sort order that should be prepended for grouping
   def group_by_sort_order
     if grouped? && (column = group_by_column)
-      order = sort_criteria_order_for(column.name) || column.default_order
+      order = (sort_criteria_order_for(column.name) || column.default_order).upcase
       column.sortable.is_a?(Array) ?
         column.sortable.collect {|s| "#{s} #{order}"}.join(',') :
         "#{column.sortable} #{order}"
