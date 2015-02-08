@@ -1156,3 +1156,4 @@ ja:
   label_disable_notifications: 通知を無効にする
   setting_search_results_per_page: ページごとの検索結果表示件数
   label_blank_value: blank
+  permission_copy_issues: Copy issues

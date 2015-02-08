@@ -1157,3 +1157,4 @@ da:
   label_disable_notifications: Disable notifications
   setting_search_results_per_page: Search results per page
   label_blank_value: blank
+  permission_copy_issues: Copy issues
