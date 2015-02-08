@@ -56,7 +56,6 @@ module Redmine
       return nil unless date
       options = {}
       options[:format] = Setting.date_format unless Setting.date_format.blank?
-      options[:locale] = User.current.language unless User.current.language.blank?
       ::I18n.l(date.to_date, options)
     end
 
@@ -64,7 +63,6 @@ module Redmine
       return nil unless time
       options = {}
       options[:format] = (Setting.time_format.blank? ? :time : Setting.time_format)
-      options[:locale] = User.current.language unless User.current.language.blank?
       time = time.to_time if time.is_a?(String)
       zone = User.current.time_zone
       local = zone ? time.in_time_zone(zone) : (time.utc? ? time.localtime : time)
