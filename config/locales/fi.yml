@@ -446,7 +446,6 @@ fi:
   label_used_by: Käytetty
   label_details: Yksityiskohdat
   label_add_note: Lisää muistiinpano
-  label_per_page: Per sivu
   label_calendar: Kalenteri
   label_months_from: kuukauden päässä
   label_gantt: Gantt

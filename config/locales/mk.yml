@@ -562,7 +562,6 @@ mk:
   label_used_by: Користено од
   label_details: Детали
   label_add_note: Додади белешка
-  label_per_page: По страна
   label_calendar: Календар
   label_months_from: месеци од
   label_gantt: Gantt

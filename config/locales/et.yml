@@ -626,7 +626,6 @@ et:
   label_used_by: "Kasutab"
   label_details: "Üksikasjad"
   label_add_note: "Lisa märkus"
-  label_per_page: "Lehe kohta"
   label_calendar: "Kalender"
   label_months_from: "kuu kaugusel"
   label_gantt: "Gantt"

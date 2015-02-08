@@ -569,7 +569,6 @@ ko:
   label_used_by: 사용됨
   label_details: 자세히
   label_add_note: 일감덧글 추가
-  label_per_page: 페이지별
   label_calendar: 달력
   label_months_from: 개월 동안 | 다음부터
   label_gantt: Gantt 챠트

@@ -457,7 +457,6 @@ tr:
   label_used_by: 'Kullanan: '
   label_details: Ayrıntılar
   label_add_note: Not ekle
-  label_per_page: Sayfa başına
   label_calendar: Takvim
   label_months_from: ay öncesinden itibaren
   label_gantt: İş-Zaman Çizelgesi

@@ -443,7 +443,6 @@ th:
   label_used_by: ถูกใช้โดย
   label_details: รายละเอียด
   label_add_note: เพิ่มบันทึก
-  label_per_page: ต่อหน้า
   label_calendar: ปฏิทิน
   label_months_from: เดือนจาก
   label_gantt: Gantt
