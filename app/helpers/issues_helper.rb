@@ -38,7 +38,7 @@ module IssuesHelper
       group_name = group_count = nil
       if query.grouped? && ((group = query.group_by_column.value(issue)) != previous_group || first)
         if group.blank? && group != false
-          group_name = l(:label_none)
+          group_name = "(#{l(:label_blank_value)})"
         else
           group_name = column_content(query.group_by_column, issue)
         end

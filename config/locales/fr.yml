@@ -957,6 +957,7 @@ fr:
   label_email_address_add: Ajouter une adresse email
   label_enable_notifications: Activer les notifications
   label_disable_notifications: Désactiver les notifications
+  label_blank_value: non renseigné
 
   button_login: Connexion
   button_submit: Soumettre

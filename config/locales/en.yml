@@ -937,6 +937,7 @@ en:
   label_email_address_add: Add email address
   label_enable_notifications: Enable notifications
   label_disable_notifications: Disable notifications
+  label_blank_value: blank
 
   button_login: Login
   button_submit: Submit
