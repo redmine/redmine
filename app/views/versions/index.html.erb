@@ -81,7 +81,7 @@
                        :id => 'toggle-completed-versions', :class => 'collapsible collapsed' %>
   <ul id = "completed-versions" style = "display:none;">
     <% @completed_versions.each do |version| %>
-      <li><%= link_to(format_version_name(version), version_path(version)) %></li>
+      <li><%= link_to_version version %></li>
     <% end %>  
   </ul>
 </p>
