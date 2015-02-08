@@ -37,7 +37,6 @@ module Redmine
           super(orientation, 'mm', 'A4')
           set_print_header(false)
           set_rtl(l(:direction) == 'rtl')
-          set_temp_rtl(l(:direction) == 'rtl' ? 'R' : 'L')
 
           @font_for_content = l(:general_pdf_fontname)
           @font_for_footer  = l(:general_pdf_fontname)
@@ -50,9 +49,15 @@ module Redmine
         end
 
         def SetFontStyle(style, size)
-          style.delete!('B') if current_language.to_s.downcase == 'th' # FreeSerif Bold Thai font has problem.
           set_font(@font_for_content, style, size)
         end
+
+        def SetFont(family, style='', size=0, fontfile='')
+          style.delete!('B') if current_language.to_s.downcase == 'th' # FreeSerif Bold Thai font has problem.
+          style.delete!('I') if current_language.to_s.downcase =~ /^(fa|ar)$/ # DejaVuSans Italic Arabic and Persian font has problem.
+          super(family, style, size, fontfile)
+        end
+        alias_method :set_font, :SetFont
 
         def fix_text_encoding(txt)
           RDMPdfEncoding::rdm_from_utf8(txt, "UTF-8")
