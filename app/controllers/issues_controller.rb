@@ -116,7 +116,6 @@ class IssuesController < ApplicationController
 
     @relations = @issue.relations.select {|r| r.other_issue(@issue) && r.other_issue(@issue).visible? }
     @allowed_statuses = @issue.new_statuses_allowed_to(User.current)
-    @edit_allowed = User.current.allowed_to?(:edit_issues, @project)
     @priorities = IssuePriority.active
     @time_entry = TimeEntry.new(:issue => @issue, :project => @issue.project)
     @relation = IssueRelation.new
@@ -393,7 +392,6 @@ class IssuesController < ApplicationController
   # from the params
   # TODO: Refactor, not everything in here is needed by #edit
   def update_issue_from_params
-    @edit_allowed = User.current.allowed_to?(:edit_issues, @project)
     @time_entry = TimeEntry.new(:issue => @issue, :project => @issue.project)
     if params[:time_entry]
       @time_entry.attributes = params[:time_entry]

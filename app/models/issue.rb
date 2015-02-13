@@ -153,7 +153,12 @@ class Issue < ActiveRecord::Base
 
   # Returns true if user or current user is allowed to edit or add a note to the issue
   def editable?(user=User.current)
-    user.allowed_to?(:edit_issues, project) || user.allowed_to?(:add_issue_notes, project)
+    attributes_editable?(user) || user.allowed_to?(:add_issue_notes, project)
+  end
+
+  # Returns true if user or current user is allowed to edit the issue
+  def attributes_editable?(user=User.current)
+    user.allowed_to?(:edit_issues, project)
   end
 
   def initialize(attributes=nil, *args)
