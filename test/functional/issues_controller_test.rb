@@ -1757,13 +1757,13 @@ class IssuesControllerTest < ActionController::TestCase
 
   def test_update_form_for_new_issue
     @request.session[:user_id] = 2
-    xhr :post, :update_form, :project_id => 1,
+    xhr :post, :new, :project_id => 1,
                      :issue => {:tracker_id => 2,
                                 :subject => 'This is the test_new issue',
                                 :description => 'This is the description',
                                 :priority_id => 5}
     assert_response :success
-    assert_template 'update_form'
+    assert_template 'new'
     assert_template :partial => '_form'
     assert_equal 'text/javascript', response.content_type
 
@@ -1781,7 +1781,7 @@ class IssuesControllerTest < ActionController::TestCase
     WorkflowTransition.create!(:role_id => 1, :tracker_id => 1, :old_status_id => 1, :new_status_id => 5)
     WorkflowTransition.create!(:role_id => 1, :tracker_id => 1, :old_status_id => 5, :new_status_id => 4)
 
-    xhr :post, :update_form, :project_id => 1,
+    xhr :post, :new, :project_id => 1,
                      :issue => {:tracker_id => 1,
                                 :status_id => 5,
                                 :subject => 'This is an issue'}
@@ -1796,7 +1796,7 @@ class IssuesControllerTest < ActionController::TestCase
     tracker.update! :default_status_id => 2
     tracker.generate_transitions! 2, 1, :clear => true
 
-    xhr :post, :update_form, :project_id => 1,
+    xhr :post, :new, :project_id => 1,
                      :issue => {:tracker_id => 2,
                                 :status_id => 1},
                      :was_default_status => 1
@@ -2776,15 +2776,14 @@ class IssuesControllerTest < ActionController::TestCase
 
   def test_update_form_for_existing_issue
     @request.session[:user_id] = 2
-    xhr :put, :update_form, :project_id => 1,
-                             :id => 1,
+    xhr :patch, :edit, :id => 1,
                              :issue => {:tracker_id => 2,
                                         :subject => 'This is the test_new issue',
                                         :description => 'This is the description',
                                         :priority_id => 5}
     assert_response :success
     assert_equal 'text/javascript', response.content_type
-    assert_template 'update_form'
+    assert_template 'edit'
     assert_template :partial => '_form'
 
     issue = assigns(:issue)
@@ -2797,7 +2796,7 @@ class IssuesControllerTest < ActionController::TestCase
 
   def test_update_form_for_existing_issue_should_keep_issue_author
     @request.session[:user_id] = 3
-    xhr :put, :update_form, :project_id => 1, :id => 1, :issue => {:subject => 'Changed'}
+    xhr :patch, :edit, :id => 1, :issue => {:subject => 'Changed'}
     assert_response :success
     assert_equal 'text/javascript', response.content_type
 
@@ -2814,8 +2813,7 @@ class IssuesControllerTest < ActionController::TestCase
     WorkflowTransition.create!(:role_id => 1, :tracker_id => 2, :old_status_id => 2, :new_status_id => 5)
     WorkflowTransition.create!(:role_id => 1, :tracker_id => 2, :old_status_id => 5, :new_status_id => 4)
 
-    xhr :put, :update_form, :project_id => 1,
-                    :id => 2,
+    xhr :patch, :edit, :id => 2,
                     :issue => {:tracker_id => 2,
                                :status_id => 5,
                                :subject => 'This is an issue'}
@@ -2826,8 +2824,7 @@ class IssuesControllerTest < ActionController::TestCase
 
   def test_update_form_for_existing_issue_with_project_change
     @request.session[:user_id] = 2
-    xhr :put, :update_form, :project_id => 1,
-                             :id => 1,
+    xhr :patch, :edit, :id => 1,
                              :issue => {:project_id => 2,
                                         :tracker_id => 2,
                                         :subject => 'This is the test_new issue',
@@ -2849,7 +2846,7 @@ class IssuesControllerTest < ActionController::TestCase
     WorkflowTransition.delete_all
     WorkflowTransition.create!(:role_id => 1, :tracker_id => 2, :old_status_id => 2, :new_status_id => 3)
 
-    xhr :put, :update_form, :project_id => 1, :id => 2
+    xhr :patch, :edit, :id => 2
     assert_response :success
     assert_equal [2,3], assigns(:allowed_statuses).map(&:id).sort
   end

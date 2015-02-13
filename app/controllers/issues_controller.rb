@@ -21,10 +21,10 @@ class IssuesController < ApplicationController
 
   before_filter :find_issue, :only => [:show, :edit, :update]
   before_filter :find_issues, :only => [:bulk_edit, :bulk_update, :destroy]
-  before_filter :find_project, :only => [:new, :create, :update_form]
+  before_filter :find_project, :only => [:new, :create]
   before_filter :authorize, :except => [:index]
   before_filter :find_optional_project, :only => [:index]
-  before_filter :build_new_issue_from_params, :only => [:new, :create, :update_form]
+  before_filter :build_new_issue_from_params, :only => [:new, :create]
   accept_rss_auth :index, :show
   accept_api_auth :index, :show, :create, :update, :destroy
 
@@ -138,6 +138,7 @@ class IssuesController < ApplicationController
   def new
     respond_to do |format|
       format.html { render :action => 'new', :layout => !request.xhr? }
+      format.js
     end
   end
 
@@ -176,6 +177,7 @@ class IssuesController < ApplicationController
 
     respond_to do |format|
       format.html { }
+      format.js
       format.xml  { }
     end
   end
@@ -208,11 +210,6 @@ class IssuesController < ApplicationController
         format.api  { render_validation_errors(@issue) }
       end
     end
-  end
-
-  # Updates the issue form when changing the project, status or tracker
-  # on issue creation/update
-  def update_form
   end
 
   # Bulk edit/copy a set of issues
@@ -419,32 +416,27 @@ class IssuesController < ApplicationController
   end
 
   # TODO: Refactor, lots of extra code in here
-  # TODO: Changing tracker on an existing issue should not trigger this
   def build_new_issue_from_params
-    if params[:id].blank?
-      @issue = Issue.new
-      if params[:copy_from]
-        begin
-          @issue.init_journal(User.current)
-          @copy_from = Issue.visible.find(params[:copy_from])
-          unless User.current.allowed_to?(:copy_issues, @copy_from.project)
-            raise ::Unauthorized
-          end
-          @link_copy = link_copy?(params[:link_copy]) || request.get?
-          @copy_attachments = params[:copy_attachments].present? || request.get?
-          @copy_subtasks = params[:copy_subtasks].present? || request.get?
-          @issue.copy_from(@copy_from, :attachments => @copy_attachments, :subtasks => @copy_subtasks, :link => @link_copy)
-        rescue ActiveRecord::RecordNotFound
-          render_404
-          return
+    @issue = Issue.new
+    if params[:copy_from]
+      begin
+        @issue.init_journal(User.current)
+        @copy_from = Issue.visible.find(params[:copy_from])
+        unless User.current.allowed_to?(:copy_issues, @copy_from.project)
+          raise ::Unauthorized
         end
+        @link_copy = link_copy?(params[:link_copy]) || request.get?
+        @copy_attachments = params[:copy_attachments].present? || request.get?
+        @copy_subtasks = params[:copy_subtasks].present? || request.get?
+        @issue.copy_from(@copy_from, :attachments => @copy_attachments, :subtasks => @copy_subtasks, :link => @link_copy)
+      rescue ActiveRecord::RecordNotFound
+        render_404
+        return
       end
-      @issue.project = @project
-      @issue.author ||= User.current
-      @issue.start_date ||= Date.today if Setting.default_issue_start_date_to_creation_date?
-    else
-      @issue = @project.issues.visible.find(params[:id])
     end
+    @issue.project = @project
+    @issue.author ||= User.current
+    @issue.start_date ||= Date.today if Setting.default_issue_start_date_to_creation_date?
 
     if attrs = params[:issue].deep_dup
       if params[:was_default_status] == attrs[:status_id]

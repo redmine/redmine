@@ -199,6 +199,16 @@ module IssuesHelper
     s.html_safe
   end
 
+  # Returns the path for updating the issue form
+  # with project as the current project
+  def update_issue_form_path(project, issue)
+    if issue.new_record?
+      new_project_issue_path(project, :format => 'js')
+    else
+      edit_issue_path(issue, :format => 'js')
+    end
+  end
+
   # Returns the number of descendants for an array of issues
   def issues_descendant_count(issues)
     ids = issues.reject(&:leaf?).map {|issue| issue.descendants.ids}.flatten.uniq

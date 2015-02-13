@@ -112,8 +112,8 @@ Rails.application.routes.draw do
 
     get 'issues/:copy_from/copy', :to => 'issues#new', :as => 'copy_issue'
     resources :issues, :only => [:index, :new, :create]
-    # issue form update
-    match 'issues/update_form', :controller => 'issues', :action => 'update_form', :via => [:put, :patch, :post], :as => 'issue_form'
+    # Used when updating the form of a new issue
+    post 'issues/new', :to => 'issues#new'
 
     resources :files, :only => [:index, :new, :create]
 
@@ -168,6 +168,10 @@ Rails.application.routes.draw do
   end
 
   resources :issues do
+    member do
+      # Used when updating the form of an existing issue
+      patch 'edit', :to => 'issues#edit'
+    end
     collection do
       match 'bulk_edit', :via => [:get, :post]
       post 'bulk_update'

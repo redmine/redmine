@@ -50,7 +50,7 @@ class RoutingIssuesTest < Redmine::RoutingTest
   end
 
   def test_issues_form_update
-    should_route 'POST /projects/23/issues/update_form' => 'issues#update_form', :project_id => '23'
-    should_route 'PUT /projects/23/issues/update_form' => 'issues#update_form', :project_id => '23'
+    should_route 'POST /projects/23/issues/new' => 'issues#new', :project_id => '23'
+    should_route 'PATCH /issues/23/edit' => 'issues#edit', :id => '23'
   end
 end
