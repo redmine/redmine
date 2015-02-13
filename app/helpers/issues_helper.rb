@@ -217,6 +217,16 @@ module IssuesHelper
     message
   end
 
+  # Returns an array of users that are proposed as watchers
+  # on the new issue form
+  def users_for_new_issue_watchers(issue)
+    users = issue.watcher_users
+    if issue.project.users.count <= 20
+      users = (users + issue.project.users.sort).uniq
+    end
+    users
+  end
+
   def sidebar_queries
     unless @sidebar_queries
       @sidebar_queries = IssueQuery.visible.
