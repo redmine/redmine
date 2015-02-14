@@ -327,7 +327,7 @@ module ApplicationHelper
   # Renders the project quick-jump box
   def render_project_jump_box
     return unless User.current.logged?
-    projects = User.current.memberships.collect(&:project).compact.select(&:active?).uniq
+    projects = User.current.projects.active.select(:id, :name, :identifier, :lft, :rgt).to_a
     if projects.any?
       options =
         ("<option value=''>#{ l(:label_jump_to_a_project) }</option>" +
