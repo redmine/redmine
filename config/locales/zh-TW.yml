@@ -312,6 +312,7 @@
   field_firstname: 名字
   field_lastname: 姓氏
   field_mail: 電子郵件
+  field_address: 電子郵件地址
   field_filename: 檔案名稱
   field_filesize: 大小
   field_downloads: 下載次數
@@ -1217,4 +1218,3 @@
   description_date_from: 輸入起始日期
   description_date_to: 輸入結束日期
   text_repository_identifier_info: '僅允許使用小寫英文字母 (a-z), 阿拉伯數字, 虛線與底線。<br />一旦儲存之後, 代碼便無法再次被更改。'
-  field_address: 電子郵件
