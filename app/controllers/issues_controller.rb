@@ -132,8 +132,6 @@ class IssuesController < ApplicationController
     end
   end
 
-  # Add a new issue
-  # The new issue will be created from an existing one if copy_from parameter is given
   def new
     respond_to do |format|
       format.html { render :action => 'new', :layout => !request.xhr? }
@@ -373,7 +371,6 @@ class IssuesController < ApplicationController
 
   # Used by #edit and #update to set some common instance variables
   # from the params
-  # TODO: Refactor, not everything in here is needed by #edit
   def update_issue_from_params
     @time_entry = TimeEntry.new(:issue => @issue, :project => @issue.project)
     if params[:time_entry]
@@ -401,7 +398,8 @@ class IssuesController < ApplicationController
     true
   end
 
-  # TODO: Refactor, lots of extra code in here
+  # Used by #new and #create to build a new issue from the params
+  # The new issue will be copied from an existing one if copy_from parameter is given
   def build_new_issue_from_params
     @issue = Issue.new
     if params[:copy_from]
@@ -487,6 +485,8 @@ class IssuesController < ApplicationController
     end
   end
 
+  # Returns true if the issue copy should be linked
+  # to the original issue
   def link_copy?(param)
     case Setting.link_copied_issue
     when 'yes'
