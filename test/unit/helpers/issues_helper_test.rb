@@ -295,4 +295,8 @@ class IssuesHelperTest < ActionView::TestCase
     assert_equal "Precedes deleted (Issue ##{issue.id})", show_detail(detail, true)
     assert_equal "<strong>Precedes</strong> deleted (<i>Issue ##{issue.id}</i>)", show_detail(detail, false)
   end
+
+  def test_find_name_by_reflection_should_return_nil_for_missing_record
+    assert_nil find_name_by_reflection('status', 99)
+  end
 end

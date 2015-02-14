@@ -460,14 +460,14 @@ module IssuesHelper
     end
     @detail_value_name_by_reflection ||= Hash.new do |hash, key|
       association = Issue.reflect_on_association(key.first.to_sym)
+      name = nil
       if association
         record = association.klass.find_by_id(key.last)
         if record
-          record.name.force_encoding('UTF-8')
-          hash[key] = record.name
+          name = record.name.force_encoding('UTF-8')
         end
       end
-      hash[key] ||= nil
+      hash[key] = name
     end
     @detail_value_name_by_reflection[[field, id]]
   end
