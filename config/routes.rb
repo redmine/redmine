@@ -185,6 +185,8 @@ Rails.application.routes.draw do
       resources :relations, :controller => 'issue_relations', :only => [:index, :show, :create, :destroy]
     end
   end
+  # Used when updating the form of a new issue outside a project
+  post '/issues/new', :to => 'issues#new'
   match '/issues', :controller => 'issues', :action => 'destroy', :via => :delete
 
   resources :queries, :except => [:show]

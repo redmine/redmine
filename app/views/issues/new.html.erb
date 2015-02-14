@@ -2,7 +2,7 @@
 
 <%= call_hook(:view_issues_new_top, {:issue => @issue}) %>
 
-<%= labelled_form_for @issue, :url => project_issues_path(@project),
+<%= labelled_form_for @issue, :url => _project_issues_path(@project),
                              :html => {:id => 'issue-form', :multipart => true} do |f| %>
   <%= error_messages_for 'issue' %>
   <%= hidden_field_tag 'copy_from', params[:copy_from] if params[:copy_from] %>
@@ -49,7 +49,7 @@
 
   <%= submit_tag l(:button_create) %>
   <%= submit_tag l(:button_create_and_continue), :name => 'continue' %>
-  <%= preview_link preview_new_issue_path(:project_id => @project), 'issue-form' %>
+  <%= preview_link preview_new_issue_path(:project_id => @issue.project), 'issue-form' %>
 <% end %>
 
 <div id="preview" class="wiki"></div>

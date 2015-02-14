@@ -27,6 +27,9 @@ class RoutingIssuesTest < Redmine::RoutingTest
     should_route 'GET /issues/64.pdf' => 'issues#show', :id => '64', :format => 'pdf'
     should_route 'GET /issues/64.atom' => 'issues#show', :id => '64', :format => 'atom'
 
+    should_route 'GET /issues/new' => 'issues#new'
+    should_route 'POST /issues' => 'issues#create'
+
     should_route 'GET /issues/64/edit' => 'issues#edit', :id => '64'
     should_route 'PUT /issues/64' => 'issues#update', :id => '64'
     should_route 'DELETE /issues/64' => 'issues#destroy', :id => '64'
@@ -50,6 +53,7 @@ class RoutingIssuesTest < Redmine::RoutingTest
   end
 
   def test_issues_form_update
+    should_route 'POST /issues/new' => 'issues#new'
     should_route 'POST /projects/23/issues/new' => 'issues#new', :project_id => '23'
     should_route 'PATCH /issues/23/edit' => 'issues#edit', :id => '23'
   end

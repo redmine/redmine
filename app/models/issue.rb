@@ -380,15 +380,7 @@ class Issue < ActiveRecord::Base
   end
 
   safe_attributes 'project_id',
-    :if => lambda {|issue, user|
-      if issue.new_record?
-        issue.copy?
-      else
-        user.allowed_to?(:edit_issues, issue.project)
-      end
-    }
-
-  safe_attributes 'tracker_id',
+    'tracker_id',
     'status_id',
     'category_id',
     'assigned_to_id',
@@ -429,7 +421,8 @@ class Issue < ActiveRecord::Base
     names = super
     names -= disabled_core_fields
     names -= read_only_attribute_names(user)
-    if new_record? && copy?
+    if new_record?
+     	# Make sure that project_id can always be set for new issues
       names |= %w(project_id)
     end
     names

@@ -1497,6 +1497,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'new'
 
+    assert_select 'form#issue-form[action=?]', '/projects/ecookbook/issues'
     assert_select 'form#issue-form' do
       assert_select 'input[name=?]', 'issue[is_private]'
       assert_select 'select[name=?]', 'issue[project_id]', 0
@@ -1550,6 +1551,21 @@ class IssuesControllerTest < ActionController::TestCase
       assert_select 'input[name=?][value=?]', 'issue[custom_field_values][2]', 'Default string'
       assert_select 'input[name=?]', 'issue[watcher_user_ids][]', 0
     end
+  end
+
+  def test_new_without_project_id
+    @request.session[:user_id] = 2
+    get :new
+    assert_response :success
+    assert_template 'new'
+
+    assert_select 'form#issue-form[action=?]', '/issues'
+    assert_select 'form#issue-form' do
+      assert_select 'select[name=?]', 'issue[project_id]'
+    end
+
+    assert_nil assigns(:project)
+    assert_not_nil assigns(:issue)
   end
 
   def test_new_should_select_default_status
@@ -2162,6 +2178,59 @@ class IssuesControllerTest < ActionController::TestCase
     end
     issue = Issue.order('id DESC').first
     assert issue.is_private?
+  end
+
+  def test_create_without_project_id
+    @request.session[:user_id] = 2
+
+    assert_difference 'Issue.count' do
+      post :create,
+           :issue => {:project_id => 3,
+                      :tracker_id => 2,
+                      :subject => 'Foo'}
+      assert_response 302
+    end
+    issue = Issue.order('id DESC').first
+    assert_equal 3, issue.project_id
+    assert_equal 2, issue.tracker_id
+  end
+
+  def test_create_without_project_id_and_continue_should_redirect_without_project_id
+    @request.session[:user_id] = 2
+
+    assert_difference 'Issue.count' do
+      post :create,
+           :issue => {:project_id => 3,
+                      :tracker_id => 2,
+                      :subject => 'Foo'},
+           :continue => '1'
+      assert_redirected_to '/issues/new?issue%5Bproject_id%5D=3&issue%5Btracker_id%5D=2'
+    end
+  end
+
+  def test_create_without_project_id_should_be_denied_without_permission
+    Role.non_member.remove_permission! :add_issues
+    Role.anonymous.remove_permission! :add_issues
+    @request.session[:user_id] = 2
+
+    assert_no_difference 'Issue.count' do
+      post :create,
+           :issue => {:project_id => 3,
+                      :tracker_id => 2,
+                      :subject => 'Foo'}
+      assert_response 403
+    end
+  end
+
+  def test_create_without_project_id_with_failure
+    @request.session[:user_id] = 2
+
+    post :create,
+         :issue => {:project_id => 3,
+                    :tracker_id => 2,
+                    :subject => ''}
+    assert_response :success
+    assert_nil assigns(:project)
   end
 
   def test_post_create_should_send_a_notification

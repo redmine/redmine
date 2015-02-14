@@ -202,10 +202,15 @@ module IssuesHelper
   # Returns the path for updating the issue form
   # with project as the current project
   def update_issue_form_path(project, issue)
+    options = {:format => 'js'}
     if issue.new_record?
-      new_project_issue_path(project, :format => 'js')
+      if project
+        new_project_issue_path(project, options)
+      else
+        new_issue_path(options)
+      end
     else
-      edit_issue_path(issue, :format => 'js')
+      edit_issue_path(issue, options)
     end
   end
 

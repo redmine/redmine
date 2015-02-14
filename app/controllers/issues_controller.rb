@@ -21,9 +21,8 @@ class IssuesController < ApplicationController
 
   before_filter :find_issue, :only => [:show, :edit, :update]
   before_filter :find_issues, :only => [:bulk_edit, :bulk_update, :destroy]
-  before_filter :find_project, :only => [:new, :create]
-  before_filter :authorize, :except => [:index]
-  before_filter :find_optional_project, :only => [:index]
+  before_filter :authorize, :except => [:index, :new, :create]
+  before_filter :find_optional_project, :only => [:index, :new, :create]
   before_filter :build_new_issue_from_params, :only => [:new, :create]
   accept_rss_auth :index, :show
   accept_api_auth :index, :show, :create, :update, :destroy
@@ -154,12 +153,7 @@ class IssuesController < ApplicationController
         format.html {
           render_attachment_warning_if_needed(@issue)
           flash[:notice] = l(:notice_issue_successful_create, :id => view_context.link_to("##{@issue.id}", issue_path(@issue), :title => @issue.subject))
-          if params[:continue]
-            attrs = {:tracker_id => @issue.tracker, :parent_issue_id => @issue.parent_issue_id}.reject {|k,v| v.nil?}
-            redirect_to new_project_issue_path(@issue.project, :issue => attrs)
-          else
-            redirect_to issue_path(@issue)
-          end
+          redirect_after_create
         }
         format.api  { render :action => 'show', :status => :created, :location => issue_url(@issue) }
       end
@@ -359,13 +353,6 @@ class IssuesController < ApplicationController
 
   private
 
-  def find_project
-    project_id = params[:project_id] || (params[:issue] && params[:issue][:project_id])
-    @project = Project.find(project_id)
-  rescue ActiveRecord::RecordNotFound
-    render_404
-  end
-
   def retrieve_previous_and_next_issue_ids
     retrieve_query_from_session
     if @query
@@ -434,6 +421,9 @@ class IssuesController < ApplicationController
       end
     end
     @issue.project = @project
+    if request.get?
+      @issue.project ||= @issue.allowed_target_projects.first
+    end
     @issue.author ||= User.current
     @issue.start_date ||= Date.today if Setting.default_issue_start_date_to_creation_date?
 
@@ -443,14 +433,16 @@ class IssuesController < ApplicationController
       end
       @issue.safe_attributes = attrs
     end
-    @issue.tracker ||= @project.trackers.first
-    if @issue.tracker.nil?
-      render_error l(:error_no_tracker_in_project)
-      return false
-    end
-    if @issue.status.nil?
-      render_error l(:error_no_default_issue_status)
-      return false
+    if @issue.project
+      @issue.tracker ||= @issue.project.trackers.first
+      if @issue.tracker.nil?
+        render_error l(:error_no_tracker_in_project)
+        return false
+      end
+      if @issue.status.nil?
+        render_error l(:error_no_default_issue_status)
+        return false
+      end
     end
 
     @priorities = IssuePriority.active
@@ -503,6 +495,21 @@ class IssuesController < ApplicationController
       false
     when 'ask'
       param == '1'
+    end
+  end
+
+  # Redirects user after a successful issue creation
+  def redirect_after_create
+    if params[:continue]
+      attrs = {:tracker_id => @issue.tracker, :parent_issue_id => @issue.parent_issue_id}.reject {|k,v| v.nil?}
+      if params[:project_id]
+        redirect_to new_project_issue_path(@issue.project, :issue => attrs)
+      else
+        attrs.merge! :project_id => @issue.project_id
+        redirect_to new_issue_path(:issue => attrs)
+      end
+    else
+      redirect_to issue_path(@issue)
     end
   end
 end
