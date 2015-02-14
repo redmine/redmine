@@ -307,7 +307,7 @@ class IssueTest < ActiveSupport::TestCase
     Member.create!(:principal => user.groups.first, :project_id => 1, :role_ids => [2])
     Role.non_member.remove_permission!(:view_issues)
 
-    issue = Issue.create(:project_id => 1, :tracker_id => 1, :author_id => 3,
+    issue = Issue.create!(:project_id => 1, :tracker_id => 1, :author_id => 3,
       :status_id => 1, :priority => IssuePriority.all.first,
       :subject => 'Assignment test',
       :assigned_to => user.groups.first,
@@ -321,7 +321,7 @@ class IssueTest < ActiveSupport::TestCase
     Role.find(2).update_attribute :issues_visibility, 'own'
     issues = Issue.visible(User.find(8)).to_a
     assert issues.any?
-    assert issues.include?(issue)
+    assert_include issue, issues
   end
 
   def test_visible_scope_for_admin
