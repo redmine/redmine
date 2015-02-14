@@ -418,6 +418,7 @@ bg:
   setting_force_default_language_for_loggedin: Задължително език по подразбиране за потребителите, влезли в Redmine
   setting_link_copied_issue: Свързване на задачите при копиране
   setting_max_additional_emails: Максимален брой на допълнителните имейл адреси
+  setting_search_results_per_page: Резултати от търсене на страница
 
   permission_add_project: Създаване на проект
   permission_add_subprojects: Създаване на подпроекти
@@ -431,6 +432,7 @@ bg:
   permission_view_issues: Разглеждане на задачите
   permission_add_issues: Добавяне на задачи
   permission_edit_issues: Редактиране на задачи
+  permission_copy_issues: Копиране на задачи
   permission_manage_issue_relations: Управление на връзките между задачите
   permission_set_own_issues_private: Установяване на собствените задачи публични или лични
   permission_set_issues_private: Установяване на задачите публични или лични
@@ -939,6 +941,7 @@ bg:
   label_email_address_add: Добавяне на имейл адрес
   label_enable_notifications: Разрешаване на известията
   label_disable_notifications: Забрана на известията
+  label_blank_value: празно
 
   button_login: Вход
   button_submit: Изпращане
@@ -1132,6 +1135,3 @@ bg:
   description_date_from: Въведете начална дата
   description_date_to: Въведете крайна дата
   text_repository_identifier_info: 'Позволени са малки букви (a-z), цифри, тирета и _.<br />Промяна след създаването му не е възможна.'
-  setting_search_results_per_page: Search results per page
-  label_blank_value: blank
-  permission_copy_issues: Copy issues
