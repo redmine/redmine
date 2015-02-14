@@ -31,22 +31,15 @@ class IssuesController < ApplicationController
 
   helper :journals
   helper :projects
-  include ProjectsHelper
   helper :custom_fields
-  include CustomFieldsHelper
   helper :issue_relations
-  include IssueRelationsHelper
   helper :watchers
-  include WatchersHelper
   helper :attachments
-  include AttachmentsHelper
   helper :queries
   include QueriesHelper
   helper :repositories
-  include RepositoriesHelper
   helper :sort
   include SortHelper
-  include IssuesHelper
   helper :timelog
 
   def index
