@@ -20,6 +20,7 @@ class Document < ActiveRecord::Base
   belongs_to :project
   belongs_to :category, :class_name => "DocumentCategory"
   acts_as_attachable :delete_permission => :delete_documents
+  acts_as_customizable
 
   acts_as_searchable :columns => ['title', "#{table_name}.description"],
                      :preload => :project
@@ -39,7 +40,7 @@ class Document < ActiveRecord::Base
     where(Project.allowed_to_condition(args.shift || User.current, :view_documents, *args))
   }
 
-  safe_attributes 'category_id', 'title', 'description'
+  safe_attributes 'category_id', 'title', 'description', 'custom_fields', 'custom_field_values'
 
   def visible?(user=User.current)
     !user.nil? && user.allowed_to?(:view_documents, project)

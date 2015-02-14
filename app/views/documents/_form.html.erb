@@ -4,6 +4,10 @@
 <p><%= f.select :category_id, DocumentCategory.active.collect {|c| [c.name, c.id]} %></p>
 <p><%= f.text_field :title, :required => true, :size => 60 %></p>
 <p><%= f.text_area :description, :cols => 60, :rows => 15, :class => 'wiki-edit' %></p>
+
+<% @document.custom_field_values.each do |value| %>
+  <p><%= custom_field_tag_with_label :document, value %></p>
+<% end %>
 </div>
 
 <%= wikitoolbar_for 'document_description' %>

@@ -592,7 +592,7 @@ module Redmine
     end
 
     class RecordList < List
-      self.customized_class_names = %w(Issue TimeEntry Version Project)
+      self.customized_class_names = %w(Issue TimeEntry Version Document Project)
 
       def cast_single_value(custom_field, value, customized=nil)
         target_class.find_by_id(value.to_i) if value.present?

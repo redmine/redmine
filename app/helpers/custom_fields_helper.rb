@@ -28,6 +28,8 @@ module CustomFieldsHelper
      :label => :label_project_plural},
     {:name => 'VersionCustomField', :partial => 'custom_fields/index',
      :label => :label_version_plural},
+    {:name => 'DocumentCustomField', :partial => 'custom_fields/index',
+     :label => :label_document_plural},
     {:name => 'UserCustomField', :partial => 'custom_fields/index',
      :label => :label_user_plural},
     {:name => 'GroupCustomField', :partial => 'custom_fields/index',
