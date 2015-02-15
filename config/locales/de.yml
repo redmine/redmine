@@ -1137,16 +1137,16 @@ de:
   version_status_open: offen
 
   warning_attachments_not_saved: "%{count} Datei(en) konnten nicht gespeichert werden."
-  label_search_attachments_yes: Search attachment filenames and descriptions
-  label_search_attachments_no: Do not search attachments
-  label_search_attachments_only: Search attachments only
-  label_search_open_issues_only: Open issues only
+  label_search_attachments_yes: Namen und Beschreibungen von Anhängen durchsuchen
+  label_search_attachments_no: Keine Anhänge suchen
+  label_search_attachments_only: Nur Anhänge suchen
+  label_search_open_issues_only: Nur offene Tickets
   field_address: E-Mail
-  setting_max_additional_emails: Maximum number of additional email addresses
-  label_email_address_plural: Emails
-  label_email_address_add: Add email address
-  label_enable_notifications: Enable notifications
-  label_disable_notifications: Disable notifications
-  setting_search_results_per_page: Search results per page
-  label_blank_value: blank
-  permission_copy_issues: Copy issues
+  setting_max_additional_emails: Maximale Anzahl zusätzlicher E-Mailadressen
+  label_email_address_plural: E-Mails
+  label_email_address_add: E-Mailadresse hinzufügen
+  label_enable_notifications: Benachrichtigungen aktivieren
+  label_disable_notifications: Benachrichtigungen deaktivieren
+  setting_search_results_per_page: Suchergebnisse pro Seite
+  label_blank_value: leer
+  permission_copy_issues: Tickets kopieren
