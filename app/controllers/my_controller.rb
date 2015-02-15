@@ -102,7 +102,7 @@ class MyController < ApplicationController
         if @user.save
           # Reset the session creation time to not log out this session on next
           # request due to ApplicationController#force_logout_if_password_changed
-          session[:ctime] = Time.now.utc.to_i
+          session[:ctime] = User.current.passwd_changed_on.utc.to_i
           flash[:notice] = l(:notice_account_password_updated)
           redirect_to my_account_path
         end
