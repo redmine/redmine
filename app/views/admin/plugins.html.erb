@@ -25,7 +25,7 @@ $(document).ready(function(){
     e.preventDefault();
     $.ajax({
       dataType: "jsonp",
-      url: "http://www.redmine.org/plugins/check_updates",
+      url: "https://www.redmine.org/plugins/check_updates",
       data: <%= raw_json plugin_data_for_updates(@plugins) %>,
       timeout: 3000,
       beforeSend: function(){
