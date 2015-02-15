@@ -11,6 +11,7 @@ rvm:
 matrix:
   allow_failures:
     # SCM tests fail randomly due to IO.popen().
+    # http://www.redmine.org/issues/19091
     # https://github.com/jruby/jruby/issues/779
     - rvm: jruby
 env:
