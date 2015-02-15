@@ -661,7 +661,7 @@ es:
   mail_body_account_information_external: "Puede usar su cuenta %{value} para conectarse."
   mail_body_lost_password: 'Para cambiar su contraseña, haga clic en el siguiente enlace:'
   mail_body_register: 'Para activar su cuenta, haga clic en el siguiente enlace:'
-  mail_body_reminder: "%{count} peticion(es) asignadas a tí finalizan en los próximos %{days} días:"
+  mail_body_reminder: "%{count} peticion(es) asignadas a ti finalizan en los próximos %{days} días:"
   mail_subject_account_activation_request: "Petición de activación de cuenta %{value}"
   mail_subject_lost_password: "Tu contraseña del %{value}"
   mail_subject_register: "Activación de la cuenta del %{value}"
