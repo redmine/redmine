@@ -293,7 +293,7 @@ class AccountController < ApplicationController
     token = Token.new(:user => user, :action => "register")
     if user.save and token.save
       Mailer.register(token).deliver
-      flash[:notice] = l(:notice_account_register_done, :email => user.mail)
+      flash[:notice] = l(:notice_account_register_done, :email => ERB::Util.h(user.mail))
       redirect_to signin_path
     else
       yield if block_given?
