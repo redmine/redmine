@@ -29,7 +29,7 @@ module Redmine
             send :include, Redmine::Acts::ActivityProvider::InstanceMethods
           end
 
-          options.assert_valid_keys(:type, :permission, :timestamp, :author_key, :find_options, :scope)
+          options.assert_valid_keys(:type, :permission, :timestamp, :author_key, :scope)
           self.activity_provider_options ||= {}
 
           # One model can provide different event types
@@ -37,7 +37,6 @@ module Redmine
           event_type = options.delete(:type) || self.name.underscore.pluralize
 
           options[:timestamp] ||= "#{table_name}.created_on"
-          options[:find_options] ||= {}
           options[:author_key] = "#{table_name}.#{options[:author_key]}" if options[:author_key].is_a?(Symbol)
           self.activity_provider_options[event_type] = options
         end
