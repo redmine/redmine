@@ -193,7 +193,7 @@ module ApplicationHelper
       #Check neuroelectro for the proper label
       neuroelectroUrl = "http://neuroelectro.org/api/1/n/?nlex_id=#{label}"
       begin
-        neuroelectroContent = open(neuroelectroUrl)
+        neuroelectroContent = open(neuroelectroUrl, 'r', :read_timeout=>2)
       rescue OpenURI::HTTPError
          print "Error requesting url: #{neuroelectroUrl}"
       rescue => e   
