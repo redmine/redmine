@@ -291,7 +291,7 @@ class Setup < ActiveRecord::Migration
     user = User.new :firstname => "Redmine",
                     :lastname => "Admin",
                     :mail => "admin@example.net",
-                    :mail_notification => 'all',
+                    :mail_notification => true,
                     :status => 1
     user.login = 'admin'
     user.hashed_password = "d033e22ae348aeb5660fc2140aec35850c4da997"
