@@ -4,6 +4,98 @@ Redmine - project management software
 Copyright (C) 2006-2015  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2015-02-19 v3.0.0
+
+* Defect #2573: Latest projects list: no space after lists in project description
+* Defect #6579: Tree hierachy being currupted on multiple submissions of an issue
+* Defect #14151: Grammer problem with German x_days
+* Defect #15789: Users can see all groups when adding a filter "Assignee's Group"
+* Defect #15988: Unexpected behaviour on issue fields for users that have multiple roles
+* Defect #18237: From a rake task context, impossible to create an IssueRelation normally
+* Defect #18265: Wrong csv separator in Croatian
+* Defect #18301: Revision shortlink at end of URL breaks URL autolinking
+* Defect #18314: German Translation - button_update
+* Defect #18605: Wrong usage of logger.info to test log level
+* Defect #18654: Custom field is rendered, even if its value is empty (for multiple)
+* Defect #18711: Respect cross-project subtask setting on issue bulk edit form
+* Defect #18781: Redmine::FieldFormat::IntFormat does not accept "real" Integer values
+* Defect #18832: Activity Stream Filter missing on right hand side due to permission
+* Defect #18855: User with only Move Issue rights in the project can still create issues using mass copy!
+* Defect #18918: Grouping label for "none" should be changed to "null", "No Value", or" (blank) ".
+* Defect #19024: link_to in Redmine::Hook::ViewListener omits url root
+* Defect #19030: Links to completed versions on the roadmap page might lead to a "403 not authorized page"
+* Defect #19039: Mail notification is formatting dates with changer's locale
+* Defect #19040: Potential DB deadlocks on concurrent issue creation
+* Defect #19055: 'label_per_page' is no longer used
+* Defect #19111: Bad spelling in Spanish "mail_body_reminder"
+* Feature #992: Option to search open issues only
+* Feature #1326: Add / edit an attachment description after upload
+* Feature #1415: Let system administrator limit repositories valid sources
+* Feature #4244: Multiple email addresses for each user
+* Feature #4383: Search Names of Files Attached to Issues
+* Feature #4518: Wiki formatting documentation for nested lists
+* Feature #5450: Move wiki page to other project
+* Feature #5991: Tracker should have it's own default issue status
+* Feature #6426: MenuManager::MenuItem should support a named route as a url
+* Feature #7249: Custom fields for Documents
+* Feature #8121: Allow overriding direction of part of text
+* Feature #8818: Repository user-mapping with multiple email addresses
+* Feature #11702: Add user/group to multiple projects at once
+* Feature #11724: Prevent users from seeing other users based on their project membership
+* Feature #12097: Multi Thread Support
+* Feature #12734: Add table reference to textile help
+* Feature #13051: Support any macro in (pdf) export for wiki's and issues
+* Feature #13425: Ignore X-Autoreply mails
+* Feature #13497: Document all available Redmine links properly
+* Feature #13849: Grouped filters in the filter drop-down
+* Feature #14371: Drop Ruby 1.8.7 support
+* Feature #14534: Upgrade to Rails 4.2
+* Feature #15236: Propose diff view for long text custom fields
+* Feature #16823: IMAP STARTTLS support
+* Feature #17354: User detail : show user login to admins
+* Feature #17763: Ability to render multiple partials with view hook
+* Feature #18500: Optional linking when copying issues
+* Feature #18571: Tab "New Issue" should not be displayed if a project has no trackers
+* Feature #18631: Better search results pagination
+* Feature #18801: Support for accent insensitive search with PostgreSQL
+* Feature #18860: Replace awesome_nested_set gem with a custom implementation of nested sets
+* Feature #18947: Ruby 2.2 support
+* Feature #19131: Use a better content type for attachments created with application/octet-stream
+* Patch #6586: Calendar view hook Request
+* Patch #13120: Translation in language selection
+* Patch #18182: Latvian translation update
+* Patch #18261: Japanese translation change (fix terms mismatch "default")
+* Patch #18276: Allow queries captions to be dynamic
+* Patch #18290: Issue performance patch
+* Patch #18390: Better RTL css for the system
+* Patch #18392: German translation: Self-registration
+* Patch #18565: html improvements on project landing page
+* Patch #18659: Do not truncate subissue/related issues titles on single issue view
+* Patch #18671: Japanese translation change (fix misspelled word)
+* Patch #18679: LabelledFormBuilder#label outputs 2 label elements
+* Patch #18692: Access keys for previous (p)/next (n) links
+* Patch #18707: Allow attachment thumbnails from REST api
+* Patch #18817: Sort helper undefined to_a for string
+* Patch #18818: TimeEntry acts_as_activity_provider scope should joins(:project)
+* Patch #18983: Allow filtering of Redmine Reminders by Version
+* Patch #19005: Make search results per page configurable
+* Patch #19035: Japanese translation fix (label_age)
+
+== 2015-02-19 v2.6.2
+
+* Defect #10681: Export to Persian PDF problem
+* Defect #17722: Plugin update check not working if redmine is viewed over https
+* Defect #18586: Arabic PDF
+* Defect #18632: PDF Export has no left padding for tables
+* Defect #18883: Slow rendering of large textile tables
+* Defect #18894: Grouping of Boolean field: Both "No" and "blank" tickets are grouped in "none" groups
+* Defect #18896: Grouping of Boolean field in Query: group not displayed for "No" value if the group is in first position
+* Defect #18922: rdm-mailhandler.rb should catch EOFError
+* Defect #18961: {{macro_list}} error when choose markdown as wiki language
+* Defect #19065: API: issue details created_on timestamp not formatted as expected
+* Defect #19120: Wrap parent task title on the issue list
+* Defect #19117: Potential XSS vulnerability in some flash messages rendering
+
 == 2015-01-11 v2.6.1
 
 * Defect #13608: Parent column in CSV export should include issue id only
