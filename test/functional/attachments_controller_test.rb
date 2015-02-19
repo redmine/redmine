@@ -192,7 +192,7 @@ class AttachmentsControllerTest < ActionController::TestCase
   def test_show_other
     get :show, :id => 6
     assert_response :success
-    assert_equal 'application/octet-stream', @response.content_type
+    assert_equal 'application/zip', @response.content_type
     set_tmp_attachments_directory
   end
 
@@ -255,6 +255,15 @@ class AttachmentsControllerTest < ActionController::TestCase
 
   def test_download_should_assign_content_type_if_blank
     Attachment.find(4).update_attribute(:content_type, '')
+
+    get :download, :id => 4
+    assert_response :success
+    assert_equal 'text/x-ruby', @response.content_type
+    set_tmp_attachments_directory
+  end
+
+  def test_download_should_assign_better_content_type_than_application_octet_stream
+    Attachment.find(4).update! :content_type => "application/octet-stream"
 
     get :download, :id => 4
     assert_response :success
