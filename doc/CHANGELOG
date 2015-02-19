@@ -4,6 +4,21 @@ Redmine - project management software
 Copyright (C) 2006-2015  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2015-02-19 v2.6.2
+
+* Defect #10681: Export to Persian PDF problem
+* Defect #17722: Plugin update check not working if redmine is viewed over https
+* Defect #18586: Arabic PDF
+* Defect #18632: PDF Export has no left padding for tables
+* Defect #18883: Slow rendering of large textile tables
+* Defect #18894: Grouping of Boolean field: Both "No" and "blank" tickets are grouped in "none" groups
+* Defect #18896: Grouping of Boolean field in Query: group not displayed for "No" value if the group is in first position
+* Defect #18922: rdm-mailhandler.rb should catch EOFError
+* Defect #18961: {{macro_list}} error when choose markdown as wiki language
+* Defect #19065: API: issue details created_on timestamp not formatted as expected
+* Defect #19120: Wrap parent task title on the issue list
+* Defect #19117: Potential XSS vulnerability in some flash messages rendering
+
 == 2015-01-11 v2.6.1
 
 * Defect #13608: Parent column in CSV export should include issue id only
