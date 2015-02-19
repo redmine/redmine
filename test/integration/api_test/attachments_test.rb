@@ -65,7 +65,7 @@ class Redmine::ApiTest::AttachmentsTest < Redmine::ApiTest::Base
   test "GET /attachments/download/:id/:filename should return the attachment content" do
     get '/attachments/download/7/archive.zip', {}, credentials('jsmith')
     assert_response :success
-    assert_equal 'application/octet-stream', @response.content_type
+    assert_equal 'application/zip', @response.content_type
     set_tmp_attachments_directory
   end
 

@@ -78,7 +78,7 @@ attachments_006:
   filesize: 157
   filename: archive.zip
   author_id: 2
-  content_type: application/octet-stream
+  content_type: application/zip
 attachments_007: 
   created_on: 2006-07-19 21:07:27 +02:00
   container_type: Issue
@@ -91,7 +91,7 @@ attachments_007:
   filesize: 157
   filename: archive.zip
   author_id: 1
-  content_type: application/octet-stream
+  content_type: application/zip
 attachments_008: 
   created_on: 2006-07-19 21:07:27 +02:00
   container_type: Project
