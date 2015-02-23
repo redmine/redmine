@@ -92,7 +92,7 @@ class ProjectsController < ApplicationController
     
     @modelProjects = []
     for p in @projects
-      if isEndorsed?(p)
+      if isEndorsedOrBestPractice?(p)
         category=getCustomField(p,'Category')
         if category=='Project'
           @modelProjects.push(p)
@@ -116,7 +116,7 @@ class ProjectsController < ApplicationController
 
     @galleryImages = []
     for p in @projects
-      if isEndorsed?(p)
+      if isEndorsedOrBestPractice?(p)
         projectDescription = p.description
         firstLine = projectDescription.lines.first.chomp
         #This is for textile
@@ -144,7 +144,7 @@ class ProjectsController < ApplicationController
 
     @tagsDict = Hash.new  
     for p in @projects
-      if isEndorsed?(p)
+      if isEndorsedOrBestPractice?(p)
        
         tags=getCustomField(p,'Tags')
         unless tags.nil?
@@ -264,7 +264,7 @@ class ProjectsController < ApplicationController
 
     @showcaseProjects=[]
     for p in @projects
-      if isEndorsed?(p)
+      if isEndorsedOrBestPractice?(p)
         category=getCustomField(p,'Category')
         if category=='Showcase'
           @showcaseProjects.push(p)

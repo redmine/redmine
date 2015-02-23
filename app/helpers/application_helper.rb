@@ -53,15 +53,27 @@ module ApplicationHelper
     return (category=="Project" or category=="Showcase")
   end
   
-  def isEndorsed?(project)
+  def isEndorsedOrBestPractice?(project)
+    project.custom_field_values.each do |value| 
+      if value.custom_field.name == 'Endorsement'
+        return (value.value=="1" or value.value=="2")
+      end
+    end
+  end
+  
+  def isEndorsedNotBestPractice?(project)
     project.custom_field_values.each do |value| 
       if value.custom_field.name == 'Endorsement'
         return value.value=="1"
       end
-      #if value.custom_field.name == 'approved'
-        #print "approved"
-        #return value.value=="1"
-      #end
+    end
+  end
+
+  def isBestPractice?(project)
+    project.custom_field_values.each do |value| 
+      if value.custom_field.name == 'Endorsement'
+        return value.value=="2"
+      end
     end
   end
   
