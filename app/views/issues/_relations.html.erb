@@ -16,7 +16,7 @@
   <td class="subject" style="width: 50%">
     <%= relation.to_s(@issue) {|other| link_to_issue(other, :project => Setting.cross_project_issue_relations?)}.html_safe %>
   </td>
-  <td class="status"><%=h other_issue.status.name %></td>
+  <td class="status"><%= other_issue.status.name %></td>
   <td class="start_date"><%= format_date(other_issue.start_date) %></td>
   <td class="due_date"><%= format_date(other_issue.due_date) %></td>
   <td class="buttons"><%= link_to image_tag('link_break.png'),

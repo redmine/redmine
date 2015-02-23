@@ -47,7 +47,7 @@
         <td></td>
         <% for status in @statuses %>
         <td style="width:<%= 75 / @statuses.size %>%;">
-          <%=h status.name %>
+          <%= status.name %>
         </td>
         <% end %>
       </tr>
@@ -62,7 +62,7 @@
       <% @fields.each do |field, name| %>
       <tr class="<%= cycle("odd", "even") %>">
         <td class="name">
-          <%=h name %> <%= content_tag('span', '*', :class => 'required') if field_required?(field) %>
+          <%= name %> <%= content_tag('span', '*', :class => 'required') if field_required?(field) %>
         </td>
         <% for status in @statuses -%>
         <td class="<%= @permissions[status.id][field] %>">
@@ -82,7 +82,7 @@
         <% @custom_fields.each do |field| %>
         <tr class="<%= cycle("odd", "even") %>">
           <td class="name">
-            <%=h field.name %> <%= content_tag('span', '*', :class => 'required') if field_required?(field) %>
+            <%= field.name %> <%= content_tag('span', '*', :class => 'required') if field_required?(field) %>
           </td>
           <% for status in @statuses -%>
           <td class="<%= @permissions[status.id][field.id.to_s] %>">

@@ -1,6 +1,6 @@
 <%= wiki_page_breadcrumb(@page) %>
 
-<h2><%= h @page.pretty_title %></h2>
+<h2><%= @page.pretty_title %></h2>
 
 <%= form_for @content, :as => :content,
             :url => {:action => 'update', :id => @page.title},

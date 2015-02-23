@@ -14,7 +14,7 @@
     <td style="width:<%= 75 / @statuses.size %>%;">
       <%= link_to_function(image_tag('toggle_check.png'), "toggleCheckboxesBySelector('table.transitions-#{name} input.new-status-#{new_status.id}')",
                                                       :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}") %>
-      <%=h new_status.name %>
+      <%= new_status.name %>
     </td>
     <% end %>
   </tr>
@@ -26,7 +26,7 @@
       <%= link_to_function(image_tag('toggle_check.png'), "toggleCheckboxesBySelector('table.transitions-#{name} input.old-status-#{old_status.id}')",
                                                           :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}") %>
 
-      <%=h old_status.name %>
+      <%= old_status.name %>
     </td>
     <% for new_status in @statuses -%>
     <% checked = workflows.detect {|w| w.old_status_id == old_status.id && w.new_status_id == new_status.id} %>

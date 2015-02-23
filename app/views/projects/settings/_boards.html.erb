@@ -11,7 +11,7 @@
   next if board.new_record? %>
   <tr class="<%= cycle 'odd', 'even' %>">
     <td class="name" style="padding-left: <%= level * 18 %>px;"><%= link_to board.name, project_board_path(@project, board) %></td>
-    <td class="description"><%=h board.description %></td>
+    <td class="description"><%= board.description %></td>
     <td class="reorder">
     <% if authorize_for("boards", "edit") %>
       <%= reorder_links('board', {:controller => 'boards', :action => 'update', :project_id => @project, :id => board}, :put) %>

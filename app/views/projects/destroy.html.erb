@@ -6,7 +6,7 @@
 
 <% if @project_to_destroy.descendants.any? %>
 <br /><%= l(:text_subprojects_destroy_warning,
-          content_tag('strong', h(@project_to_destroy.descendants.collect{|p| p.to_s}.join(', ')))).html_safe %>
+          content_tag('strong', @project_to_destroy.descendants.collect{|p| p.to_s}.join(', '))).html_safe %>
 <% end %>
 </p>
 <p>

@@ -35,14 +35,14 @@
 
 <table class="attributes">
 <%= issue_fields_rows do |rows|
-  rows.left l(:field_status), h(@issue.status.name), :class => 'status'
-  rows.left l(:field_priority), h(@issue.priority.name), :class => 'priority'
+  rows.left l(:field_status), @issue.status.name, :class => 'status'
+  rows.left l(:field_priority), @issue.priority.name, :class => 'priority'
 
   unless @issue.disabled_core_fields.include?('assigned_to_id')
     rows.left l(:field_assigned_to), avatar(@issue.assigned_to, :size => "14").to_s.html_safe + (@issue.assigned_to ? link_to_user(@issue.assigned_to) : "-"), :class => 'assigned-to'
   end
   unless @issue.disabled_core_fields.include?('category_id')
-    rows.left l(:field_category), h(@issue.category ? @issue.category.name : "-"), :class => 'category'
+    rows.left l(:field_category), (@issue.category ? @issue.category.name : "-"), :class => 'category'
   end
   unless @issue.disabled_core_fields.include?('fixed_version_id')
     rows.left l(:field_fixed_version), (@issue.fixed_version ? link_to_version(@issue.fixed_version) : "-"), :class => 'fixed-version'

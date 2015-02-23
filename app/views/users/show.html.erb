@@ -2,7 +2,7 @@
 <%= link_to(l(:button_edit), edit_user_path(@user), :class => 'icon icon-edit') if User.current.admin? %>
 </div>
 
-<h2><%= avatar @user, :size => "50" %> <%=h @user.name %></h2>
+<h2><%= avatar @user, :size => "50" %> <%= @user.name %></h2>
 
 <div class="splitcontentleft">
 <ul>
@@ -10,11 +10,11 @@
     <li><%=l(:field_login)%>: <%= @user.login %></li>
   <% end %>
   <% unless @user.pref.hide_mail %>
-    <li><%=l(:field_mail)%>: <%= mail_to(h(@user.mail), nil, :encode => 'javascript') %></li>
+    <li><%=l(:field_mail)%>: <%= mail_to(@user.mail, nil, :encode => 'javascript') %></li>
   <% end %>
   <% @user.visible_custom_field_values.each do |custom_value| %>
   <% if !custom_value.value.blank? %>
-    <li><%=h custom_value.custom_field.name%>: <%=h show_value(custom_value) %></li>
+    <li><%= custom_value.custom_field.name %>: <%= show_value(custom_value) %></li>
   <% end %>
   <% end %>
     <li><%=l(:label_registered_on)%>: <%= format_date(@user.created_on) %></li>
@@ -28,7 +28,7 @@
 <ul>
 <% for membership in @memberships %>
   <li><%= link_to_project(membership.project) %>
-    (<%=h membership.roles.sort.collect(&:to_s).join(', ') %>, <%= format_date(membership.created_on) %>)</li>
+    (<%= membership.roles.sort.collect(&:to_s).join(', ') %>, <%= format_date(membership.created_on) %>)</li>
 <% end %>
 </ul>
 <% end %>
@@ -53,7 +53,7 @@
 <% @events_by_day[day].sort {|x,y| y.event_datetime <=> x.event_datetime }.each do |e| -%>
   <dt class="<%= e.event_type %>">
   <span class="time"><%= format_time(e.event_datetime, false) %></span>
-  <%= content_tag('span', h(e.project), :class => 'project') %>
+  <%= content_tag('span', e.project, :class => 'project') %>
   <%= link_to format_activity_title(e.event_title), e.event_url %></dt>
   <dd><span class="description"><%= format_activity_description(e.event_description) %></span></dd>
 <% end -%>

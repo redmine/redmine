@@ -2,7 +2,7 @@
 <html lang="<%= current_language %>">
 <head>
 <meta charset="utf-8" />
-<title><%=h html_title %></title>
+<title><%= html_title %></title>
 <meta name="description" content="<%= Redmine::Info.app_name %>" />
 <meta name="keywords" content="issue,bug,tracker" />
 <%= csrf_meta_tag %>
@@ -15,7 +15,7 @@
 <!-- page specific tags -->
 <%= yield :header_tags -%>
 </head>
-<body class="<%=h body_css_classes %>">
+<body class="<%= body_css_classes %>">
 <div id="wrapper">
 <div id="wrapper2">
 <div id="wrapper3">

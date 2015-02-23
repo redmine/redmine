@@ -37,10 +37,10 @@
   <tbody>
 <% for user in @users -%>
   <tr class="<%= user.css_classes %> <%= cycle("odd", "even") %>">
-  <td class="username"><%= avatar(user, :size => "14") %><%= link_to h(user.login), edit_user_path(user) %></td>
-  <td class="firstname"><%= h(user.firstname) %></td>
-  <td class="lastname"><%= h(user.lastname) %></td>
-  <td class="email"><%= mail_to(h(user.mail)) %></td>
+  <td class="username"><%= avatar(user, :size => "14") %><%= link_to user.login, edit_user_path(user) %></td>
+  <td class="firstname"><%= user.firstname %></td>
+  <td class="lastname"><%= user.lastname %></td>
+  <td class="email"><%= mail_to(user.mail) %></td>
   <td class="tick"><%= checked_image user.admin? %></td>
   <td class="created_on"><%= format_time(user.created_on) %></td>
   <td class="last_login_on"><%= format_time(user.last_login_on) unless user.last_login_on.nil? %></td>

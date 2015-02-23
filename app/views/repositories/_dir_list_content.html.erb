@@ -3,7 +3,7 @@
    depth = params[:depth].to_i %>
 <%  ent_path = Redmine::CodesetUtil.replace_invalid_utf8(entry.path)   %>
 <%  ent_name = Redmine::CodesetUtil.replace_invalid_utf8(entry.name)   %>
-<tr id="<%= tr_id %>" class="<%= h params[:parent_id] %> entry <%= entry.kind %>">
+<tr id="<%= tr_id %>" class="<%= params[:parent_id] %> entry <%= entry.kind %>">
 <td style="padding-left: <%=18 * depth%>px;" class="<%=
            @repository.report_last_commit ? "filename" : "filename_no_report" %>">
 <% if entry.is_dir? %>
@@ -16,7 +16,7 @@
                        :depth  => (depth + 1),
                        :parent_id => tr_id)) %>');">&nbsp;</span>
 <% end %>
-<%=  link_to h(ent_name),
+<%=  link_to ent_name,
           {:action => (entry.is_dir? ? 'show' : 'changes'), :id => @project, :repository_id => @repository.identifier_param, :path => to_path_param(ent_path), :rev => @rev},
           :class => (entry.is_dir? ? 'icon icon-folder' : "icon icon-file #{Redmine::MimeType.css_class_of(ent_name)}")%>
 </td>

@@ -9,7 +9,7 @@
     <th><%=l(:label_permissions)%></th>
     <% @roles.each do |role| %>
     <th>
-        <%= content_tag(role.builtin? ? 'em' : 'span', h(role.name)) %>
+        <%= content_tag(role.builtin? ? 'em' : 'span', role.name) %>
         <%= link_to_function(image_tag('toggle_check.png'), "toggleCheckboxesBySelector('input.role-#{role.id}')",
                                                             :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}") %>
     </th>
@@ -26,7 +26,7 @@
             <%= l_or_humanize(mod, :prefix => 'project_module_') %>
           </td>
           <% @roles.each do |role| %>
-          <td class="role"><%= h(role.name) %></td>
+          <td class="role"><%= role.name %></td>
           <% end %>
         </tr>
     <% end %>

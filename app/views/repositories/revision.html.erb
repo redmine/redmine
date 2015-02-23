@@ -32,7 +32,7 @@
 <table class="revision-info">
   <% if @changeset.scmid.present? %>
     <tr>
-      <td>ID</td><td><%= h(@changeset.scmid) %></td>
+      <td>ID</td><td><%= @changeset.scmid %></td>
     </tr>
   <% end %>
   <% if @changeset.parents.present? %>

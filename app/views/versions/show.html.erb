@@ -5,7 +5,7 @@
 <%= call_hook(:view_versions_show_contextual, { :version => @version, :project => @project }) %>
 </div>
 
-<h2><%= h(@version.name) %></h2>
+<h2><%= @version.name %></h2>
 
 <div id="roadmap">
 <%= render :partial => 'versions/overview', :locals => {:version => @version} %>

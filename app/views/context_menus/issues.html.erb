@@ -14,7 +14,7 @@
     <a href="#" class="submenu"><%= l(:field_status) %></a>
     <ul>
     <% @allowed_statuses.each do |s| -%>
-        <li><%= context_menu_link h(s.name), bulk_update_issues_path(:ids => @issue_ids, :issue => {:status_id => s}, :back_url => @back), :method => :post,
+        <li><%= context_menu_link s.name, bulk_update_issues_path(:ids => @issue_ids, :issue => {:status_id => s}, :back_url => @back), :method => :post,
                                   :selected => (@issue && s == @issue.status), :disabled => !@can[:edit] %></li>
     <% end -%>
     </ul>
@@ -26,7 +26,7 @@
     <a href="#" class="submenu"><%= l(:field_tracker) %></a>
     <ul>
     <% @trackers.each do |t| -%>
-        <li><%= context_menu_link h(t.name), bulk_update_issues_path(:ids => @issue_ids, :issue => {'tracker_id' => t}, :back_url => @back), :method => :post,
+        <li><%= context_menu_link t.name, bulk_update_issues_path(:ids => @issue_ids, :issue => {'tracker_id' => t}, :back_url => @back), :method => :post,
                                   :selected => (@issue && t == @issue.tracker), :disabled => !@can[:edit] %></li>
     <% end -%>
     </ul>
@@ -38,7 +38,7 @@
     <a href="#" class="submenu"><%= l(:field_priority) %></a>
     <ul>
     <% @priorities.each do |p| -%>
-        <li><%= context_menu_link h(p.name), bulk_update_issues_path(:ids => @issue_ids, :issue => {'priority_id' => p}, :back_url => @back), :method => :post,
+        <li><%= context_menu_link p.name, bulk_update_issues_path(:ids => @issue_ids, :issue => {'priority_id' => p}, :back_url => @back), :method => :post,
                                   :selected => (@issue && p == @issue.priority), :disabled => (!@can[:edit] || @issues.detect {|i| !i.leaf?}) %></li>
     <% end -%>
     </ul>
@@ -68,7 +68,7 @@
                                   :disabled => !@can[:edit] %></li>
     <% end %>
     <% @assignables.each do |u| -%>
-        <li><%= context_menu_link h(u.name), bulk_update_issues_path(:ids => @issue_ids, :issue => {'assigned_to_id' => u}, :back_url => @back), :method => :post,
+        <li><%= context_menu_link u.name, bulk_update_issues_path(:ids => @issue_ids, :issue => {'assigned_to_id' => u}, :back_url => @back), :method => :post,
                                   :selected => (@issue && u == @issue.assigned_to), :disabled => !@can[:edit] %></li>
     <% end -%>
         <li><%= context_menu_link l(:label_nobody), bulk_update_issues_path(:ids => @issue_ids, :issue => {'assigned_to_id' => 'none'}, :back_url => @back), :method => :post,
@@ -82,7 +82,7 @@
     <a href="#" class="submenu"><%= l(:field_category) %></a>
     <ul>
     <% @project.issue_categories.each do |u| -%>
-        <li><%= context_menu_link h(u.name), bulk_update_issues_path(:ids => @issue_ids, :issue => {'category_id' => u}, :back_url => @back), :method => :post,
+        <li><%= context_menu_link u.name, bulk_update_issues_path(:ids => @issue_ids, :issue => {'category_id' => u}, :back_url => @back), :method => :post,
                                   :selected => (@issue && u == @issue.category), :disabled => !@can[:edit] %></li>
     <% end -%>
         <li><%= context_menu_link l(:label_none), bulk_update_issues_path(:ids => @issue_ids, :issue => {'category_id' => 'none'}, :back_url => @back), :method => :post,
@@ -105,7 +105,7 @@
 
   <% @options_by_custom_field.each do |field, options| %>
     <li class="folder cf_<%= field.id %>">
-      <a href="#" class="submenu"><%= h(field.name) %></a>
+      <a href="#" class="submenu"><%= field.name %></a>
       <ul>
       <% options.each do |text, value| %>
         <li><%= bulk_update_custom_field_context_menu_link(field, text, value || text) %></li>

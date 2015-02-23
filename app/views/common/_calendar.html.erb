@@ -12,13 +12,13 @@ while day <= calendar.enddt %>
 <% calendar.events_on(day).each do |i| %>
   <% if i.is_a? Issue %>
   <div class="<%= i.css_classes %> <%= 'starting' if day == i.start_date %> <%= 'ending' if day == i.due_date %> tooltip">
-  <%= h("#{i.project} -") unless @project && @project == i.project %>
+  <%= "#{i.project} -" unless @project && @project == i.project %>
   <%= link_to_issue i, :truncate => 30 %>
   <span class="tip"><%= render_issue_tooltip i %></span>
   </div>
   <% else %>
   <span class="icon icon-package">
-    <%= h("#{i.project} -") unless @project && @project == i.project %>
+    <%= "#{i.project} -" unless @project && @project == i.project %>
     <%= link_to_version i%>
   </span>
   <% end %>

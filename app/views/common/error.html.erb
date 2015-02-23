@@ -1,7 +1,7 @@
-<h2><%=h @status %></h2>
+<h2><%= @status %></h2>
 
 <% if @message.present? %>
-  <p id="errorExplanation"><%=h @message %></p>
+  <p id="errorExplanation"><%= @message %></p>
 <% end %>
 <p><a href="javascript:history.back()"><%= l(:button_back) %></a></p>
 

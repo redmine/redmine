@@ -25,7 +25,7 @@
   <% end %>
   <ul>
   <% unless @project.homepage.blank? %>
-    <li><span class="label"><%=l(:field_homepage)%>:</span> <%= link_to h(@project.homepage), @project.homepage %></li>
+    <li><span class="label"><%=l(:field_homepage)%>:</span> <%= link_to @project.homepage, @project.homepage %></li>
   <% end %>
   <% if @subprojects.any? %>
     <li><span class="label"><%=l(:label_subproject_plural)%>:</span>
@@ -41,7 +41,7 @@
     <h3><%=l(:label_issue_tracking)%></h3>
     <ul>
     <% for tracker in @trackers %>
-      <li><%= link_to h(tracker.name), project_issues_path(@project, :set_filter => 1, :tracker_id => tracker.id) %>:
+      <li><%= link_to tracker.name, project_issues_path(@project, :set_filter => 1, :tracker_id => tracker.id) %>:
           <%= l(:label_x_open_issues_abbr_on_total, :count => @open_issues_by_tracker[tracker].to_i,
                                                     :total => @total_issues_by_tracker[tracker].to_i) %>
       </li>

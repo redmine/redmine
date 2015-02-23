@@ -6,7 +6,7 @@
 <% end %>
 </div>
 
-<h2><%= @query.new_record? ? l(:label_gantt) : h(@query.name) %></h2>
+<h2><%= @query.new_record? ? l(:label_gantt) : @query.name %></h2>
 
 <%= form_tag({:controller => 'gantts', :action => 'show',
              :project_id => @project, :month => params[:month],
@@ -172,7 +172,7 @@
     style += "height: #{height}px;"
   %>
   <%= content_tag(:div, :style => style, :class => "gantt_hdr") do %>
-    <%= link_to h("#{month_f.year}-#{month_f.month}"),
+    <%= link_to "#{month_f.year}-#{month_f.month}",
                 @gantt.params.merge(:year => month_f.year, :month => month_f.month),
                 :title => "#{month_name(month_f.month)} #{month_f.year}" %>
   <% end %>

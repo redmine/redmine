@@ -94,7 +94,7 @@ when "IssueCustomField" %>
                       (@custom_field.trackers.include? tracker),
                       :id => "custom_field_tracker_ids_#{tracker.id}" %>
     <label class="no-css" for="custom_field_tracker_ids_<%=tracker.id%>">
-      <%= h(tracker.name) %>
+      <%= tracker.name %>
     </label>
   <% end %>
   <%= hidden_field_tag "custom_field[tracker_ids][]", '' %>
@@ -103,7 +103,7 @@ when "IssueCustomField" %>
 
   <fieldset class="box" id="custom_field_project_ids"><legend><%= l(:label_project_plural) %></legend>
     <%= render_project_nested_lists(Project.all) do |p|
-      content_tag('label', check_box_tag('custom_field[project_ids][]', p.id, @custom_field.projects.to_a.include?(p), :id => nil) + ' ' + h(p))
+      content_tag('label', check_box_tag('custom_field[project_ids][]', p.id, @custom_field.projects.to_a.include?(p), :id => nil) + ' ' + p)
     end %>
     <%= hidden_field_tag('custom_field[project_ids][]', '', :id => nil) %>
     <p><%= check_all_links 'custom_field_project_ids' %></p>
