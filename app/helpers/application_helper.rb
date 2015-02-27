@@ -195,9 +195,9 @@ module ApplicationHelper
       begin
         neuroelectroContent = open(neuroelectroUrl, 'r', :read_timeout=>2)
       rescue OpenURI::HTTPError
-         print "Error requesting url: #{neuroelectroUrl}"
+         #print "Error requesting url: #{neuroelectroUrl}"
       rescue => e   
-        print "Error requesting url: #{neuroelectroUrl}"
+        #print "Error requesting url: #{neuroelectroUrl}"
       else
         neuroelectroContent = JSON.parse(neuroelectroContent.read)
         neuroElectroLink = ''
@@ -301,7 +301,7 @@ module ApplicationHelper
 
   # Executes shell command. Returns true if the shell command exits with a success status code
   def exec(command)
-    print "\nEntering EXEC"
+    #print "\nEntering EXEC"
     logger.debug { "GithubHook: Executing command: '#{command}'" }
 
     # Get a path to a temp file
@@ -349,7 +349,7 @@ module ApplicationHelper
 
   def getGitRepoName(value)
     if value != nil and value != ''
-      print value.split("github.com")[1].split('/')[2].split('.')[0]
+      #print value.split("github.com")[1].split('/')[2].split('.')[0]
       return value.split("github.com")[1].split('/')[2].split('.')[0]
     end
   end
