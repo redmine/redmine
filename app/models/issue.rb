@@ -640,6 +640,17 @@ class Issue < ActiveRecord::Base
     end
   end
 
+  # Overrides Redmine::Acts::Customizable::InstanceMethods#validate_custom_field_values
+  # so that custom values that are not editable are not validated (eg. a custom field that
+  # is marked as required should not trigger a validation error if the user is not allowed
+  # to edit this field).
+  def validate_custom_field_values
+    user = new_record? ? author : current_journal.try(:user)
+    if new_record? || custom_field_values_changed?
+      editable_custom_field_values(user).each(&:validate_value)
+    end
+  end
+
   # Set the done_ratio using the status if that setting is set.  This will keep the done_ratios
   # even if the user turns off the setting later
   def update_done_ratio_from_issue_status
