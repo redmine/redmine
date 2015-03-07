@@ -24,7 +24,7 @@ module Redmine
         host = imap_options[:host] || '127.0.0.1'
         port = imap_options[:port] || '143'
         ssl = !imap_options[:ssl].nil?
-        starttls = !imap_options[:tls].nil?
+        starttls = !imap_options[:starttls].nil?
         folder = imap_options[:folder] || 'INBOX'
 
         imap = Net::IMAP.new(host, port, ssl)
