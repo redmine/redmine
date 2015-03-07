@@ -11,7 +11,7 @@
 
 <p><%= setting_select :start_of_week, [[day_name(1),'1'], [day_name(6),'6'], [day_name(7),'7']], :blank => :label_language_based %></p>
 <% locale = User.current.language.blank? ? ::I18n.locale : User.current.language %>
-<p><%= setting_select :date_format, Setting::DATE_FORMATS.collect {|f| [::I18n.l(Date.today, :locale => locale, :format => f), f]}, :blank => :label_language_based %></p>
+<p><%= setting_select :date_format, date_format_setting_options(locale), :blank => :label_language_based %></p>
 
 <p><%= setting_select :time_format, Setting::TIME_FORMATS.collect {|f| [::I18n.l(Time.now, :locale => locale, :format => f), f]}, :blank => :label_language_based %></p>
 
