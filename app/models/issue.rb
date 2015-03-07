@@ -830,12 +830,12 @@ class Issue < ActiveRecord::Base
     end
   end
 
-  # Returns the previous assignee if changed
+  # Returns the previous assignee (user or group) if changed
   def assigned_to_was
     # assigned_to_id_was is reset before after_save callbacks
     user_id = @previous_assigned_to_id || assigned_to_id_was
     if user_id && user_id != assigned_to_id
-      @assigned_to_was ||= User.find_by_id(user_id)
+      @assigned_to_was ||= Principal.find_by_id(user_id)
     end
   end
 
