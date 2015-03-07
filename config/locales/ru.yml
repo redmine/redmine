@@ -1150,7 +1150,7 @@ ru:
   field_core_fields: Стандартные поля
   field_timeout: Таймаут (в секундах)
   setting_thumbnails_enabled: Отображать превью для приложений
-  setting_thumbnails_size: Размер первью (в пикселях)
+  setting_thumbnails_size: Размер превью (в пикселях)
   label_status_transitions: Статус-переходы
   label_fields_permissions: Права на изменения полей
   label_readonly: Не изменяется
@@ -1183,7 +1183,7 @@ ru:
   label_cross_project_system: Со всеми проектами
   button_hide: Скрыть
   setting_non_working_week_days: Нерабочие дни
-  label_in_the_next_days: в средующие дни
+  label_in_the_next_days: в следующие дни
   label_in_the_past_days: в прошлые дни
   label_attribute_of_user: Пользователь %{name}
   text_turning_multiple_off: Если отключить множественные значения, лишние значения из списка будут удалены, чтобы осталось только по одному значению.
@@ -1211,7 +1211,7 @@ ru:
   text_convert_available: Доступно использование ImageMagick (необязательно)
   label_link: Ссылка
   label_only: только
-  label_drop_down_list: выпадаюший список
+  label_drop_down_list: выпадающий список
   label_checkboxes: чекбоксы
   label_link_values_to: Значения ссылки для URL
   setting_force_default_language_for_anonymous: Не определять язык для анонимных пользователей
