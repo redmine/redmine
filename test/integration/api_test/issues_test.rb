@@ -467,6 +467,17 @@ JSON
     assert_equal 'Project changed', issue.subject
   end
 
+  test "PUT /issues/:id.xml with notes only" do
+    assert_difference('Journal.count') do
+      put '/issues/6.xml',
+        {:issue => {:notes => 'Notes only'}},
+        credentials('jsmith')
+    end
+
+    journal = Journal.last
+    assert_equal "Notes only", journal.notes
+  end
+
   test "PUT /issues/:id.xml with failed update" do
     put '/issues/6.xml', {:issue => {:subject => ''}}, credentials('jsmith')
 
