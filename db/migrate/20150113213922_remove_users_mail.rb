@@ -4,6 +4,10 @@ class RemoveUsersMail < ActiveRecord::Migration
   end
 
   def self.down
-    raise IrreversibleMigration
+    add_column :users, :mail, :string, :limit => 60, :default => '', :null => false
+
+    EmailAddress.where(:is_default => true).each do |a|
+      User.where(:id => a.user_id).update_all(:mail => a.address)
+    end
   end
 end
