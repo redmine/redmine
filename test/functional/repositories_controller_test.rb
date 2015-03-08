@@ -279,6 +279,15 @@ class RepositoriesControllerTest < ActionController::TestCase
     assert_select 'input[value=foo] + select option[selected=selected]', 0 # no option selected
   end
 
+  def test_get_committers_without_changesets
+    Changeset.delete_all
+    @request.session[:user_id] = 2
+
+    get :committers, :id => 10
+    assert_response :success
+    assert_template 'committers'
+  end
+
   def test_post_committers
     @request.session[:user_id] = 2
     # add a commit with an unknown user
