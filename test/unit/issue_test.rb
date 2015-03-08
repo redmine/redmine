@@ -2416,4 +2416,12 @@ class IssueTest < ActiveSupport::TestCase
     assert issue.save!
     assert_equal IssueStatus.find(2), issue.status_was
   end
+
+  def test_assigned_to_was_with_a_group
+    group = Group.find(10)
+
+    issue = Issue.generate!(:assigned_to => group)
+    issue.reload.assigned_to = nil
+    assert_equal group, issue.assigned_to_was
+  end
 end
