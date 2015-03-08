@@ -53,6 +53,35 @@ class RepositoryGitTest < ActiveSupport::TestCase
     end
   end
 
+  def test_nondefault_repo_with_blank_identifier_destruction
+    repo1 = Repository::Git.new(
+                          :project    => @project,
+                          :url        => REPOSITORY_PATH,
+                          :identifier => '',
+                          :is_default => true
+                        )
+    assert repo1.save
+    repo1.fetch_changesets
+
+    repo2 = Repository::Git.new(
+                          :project    => @project,
+                          :url        => REPOSITORY_PATH,
+                          :identifier => 'repo2',
+                          :is_default => true
+                    )
+    assert repo2.save
+    repo2.fetch_changesets
+
+    repo1.reload
+    repo2.reload
+    assert !repo1.is_default?
+    assert  repo2.is_default?
+
+    assert_difference 'Repository.count', -1 do
+      repo1.destroy
+    end
+  end
+
   def test_blank_path_to_repository_error_message
     set_language_if_valid 'en'
     repo = Repository::Git.new(
