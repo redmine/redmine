@@ -2591,4 +2591,12 @@ class IssueTest < ActiveSupport::TestCase
     issue.tracker = Tracker.find(2)
     assert_equal IssueStatus.find(3), issue.status
   end
+
+  def test_assigned_to_was_with_a_group
+    group = Group.find(10)
+
+    issue = Issue.generate!(:assigned_to => group)
+    issue.reload.assigned_to = nil
+    assert_equal group, issue.assigned_to_was
+  end
 end
