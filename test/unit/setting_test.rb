@@ -1,5 +1,3 @@
-# encoding: utf-8
-#
 # Redmine - project management software
 # Copyright (C) 2006-2015  Jean-Philippe Lang
 #
@@ -102,19 +100,5 @@ class SettingTest < ActiveSupport::TestCase
     with_settings :per_page_options => '25, 10, 50' do
       assert_equal [10, 25, 50], Setting.per_page_options_array
     end
-  end
-
-  def test_serialized_setting_should_be_loaded_as_utf8_encoded_strings
-    scm = 'исправлено'
-    scm.force_encoding('BINARY')
-    Setting.enabled_scm = [scm]
-    Setting.clear_cache
-
-    s = Setting.enabled_scm
-    assert_equal ['исправлено'], s
-    assert_equal 'UTF-8', s.first.encoding.name
-  ensure
-    Setting.where(:name => 'enabled_scm').delete_all
-    Setting.clear_cache
   end
 end
