@@ -296,6 +296,43 @@ class IssuesHelperTest < ActionView::TestCase
     assert_equal "<strong>Precedes</strong> deleted (<i>Issue ##{issue.id}</i>)", show_detail(detail, false)
   end
 
+  def test_details_to_strings_with_multiple_values_removed_from_custom_field
+    field = IssueCustomField.generate!(:name => 'User', :field_format => 'user', :multiple => true)
+    details = []
+    details << JournalDetail.new(:property => 'cf', :prop_key => field.id.to_s, :old_value => '1', :value => nil)
+    details << JournalDetail.new(:property => 'cf', :prop_key => field.id.to_s, :old_value => '3', :value => nil)
+
+    assert_equal ["User deleted (Dave Lopper, Redmine Admin)"], details_to_strings(details, true)
+    assert_equal ["<strong>User</strong> deleted (<del><i>Dave Lopper, Redmine Admin</i></del>)"], details_to_strings(details, false)
+  end
+
+  def test_details_to_strings_with_multiple_values_added_to_custom_field
+    field = IssueCustomField.generate!(:name => 'User', :field_format => 'user', :multiple => true)
+    details = []
+    details << JournalDetail.new(:property => 'cf', :prop_key => field.id.to_s, :old_value => nil, :value => '1')
+    details << JournalDetail.new(:property => 'cf', :prop_key => field.id.to_s, :old_value => nil, :value => '3')
+
+    assert_equal ["User Dave Lopper, Redmine Admin added"], details_to_strings(details, true)
+    assert_equal ["<strong>User</strong> <i>Dave Lopper, Redmine Admin</i> added"], details_to_strings(details, false)
+  end
+
+  def test_details_to_strings_with_multiple_values_added_and_removed_from_custom_field
+    field = IssueCustomField.generate!(:name => 'User', :field_format => 'user', :multiple => true)
+    details = []
+    details << JournalDetail.new(:property => 'cf', :prop_key => field.id.to_s, :old_value => nil, :value => '1')
+    details << JournalDetail.new(:property => 'cf', :prop_key => field.id.to_s, :old_value => '2', :value => nil)
+    details << JournalDetail.new(:property => 'cf', :prop_key => field.id.to_s, :old_value => '3', :value => nil)
+
+    assert_equal [
+      "User Redmine Admin added",
+      "User deleted (Dave Lopper, John Smith)"
+      ], details_to_strings(details, true)
+    assert_equal [
+      "<strong>User</strong> <i>Redmine Admin</i> added",
+      "<strong>User</strong> deleted (<del><i>Dave Lopper, John Smith</i></del>)"
+      ], details_to_strings(details, false)
+  end
+
   def test_find_name_by_reflection_should_return_nil_for_missing_record
     assert_nil find_name_by_reflection('status', 99)
   end
