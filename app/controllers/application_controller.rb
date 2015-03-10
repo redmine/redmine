@@ -240,11 +240,11 @@ class ApplicationController < ActionController::Base
           if request.xhr?
             head :unauthorized
           else
-            redirect_to :controller => "account", :action => "login", :back_url => url
+            redirect_to signin_path(:back_url => url)
           end
         }
         format.any(:atom, :pdf, :csv) {
-          redirect_to :controller => "account", :action => "login", :back_url => url
+          redirect_to signin_path(:back_url => url)
         }
         format.xml  { head :unauthorized, 'WWW-Authenticate' => 'Basic realm="Redmine API"' }
         format.js   { head :unauthorized, 'WWW-Authenticate' => 'Basic realm="Redmine API"' }
