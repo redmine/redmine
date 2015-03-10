@@ -87,4 +87,11 @@ class ApplicationTest < Redmine::IntegrationTest
   ensure
     ActionController::Base.allow_forgery_protection = false
   end
+
+  def test_require_login_with_pdf_format_should_not_error
+    with_settings :login_required => '1' do
+      get '/issues/1.pdf'
+      assert_response 302
+    end
+  end
 end
