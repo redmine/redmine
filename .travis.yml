@@ -35,6 +35,6 @@ script:
   - "RUN_ON_NOT_OFFICIAL='' RUBY_VER=1.9 BRANCH=trunk bundle exec rake config/database.yml"
   - "bundle install"
   - "bundle exec rake ci:setup"
-  - "sh .travis.run-test.sh"
+  - JRUBY_OPTS=-J-Xmx1024m bundle exec rake test:${TEST_SUITE}
 notifications:
   email: false
