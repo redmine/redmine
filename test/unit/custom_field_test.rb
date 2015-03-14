@@ -85,10 +85,24 @@ class CustomFieldTest < ActiveSupport::TestCase
     assert_equal ["One value"], field.possible_values
   end
 
+  def test_possible_values_should_stringify_values
+    field = CustomField.new
+    field.possible_values = [1, 2]
+    assert_equal ["1", "2"], field.possible_values
+  end
+
   def test_possible_values_should_accept_a_string
     field = CustomField.new
     field.possible_values = "One value"
     assert_equal ["One value"], field.possible_values
+  end
+
+  def test_possible_values_should_return_utf8_encoded_strings
+    field = CustomField.new
+    s = "Value".force_encoding('BINARY')
+    field.possible_values = s
+    assert_equal [s], field.possible_values
+    assert_equal 'UTF-8', field.possible_values.first.encoding.name
   end
 
   def test_possible_values_should_accept_a_multiline_string

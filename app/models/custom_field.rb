@@ -118,7 +118,7 @@ class CustomField < ActiveRecord::Base
     values = read_attribute(:possible_values)
     if values.is_a?(Array)
       values.each do |value|
-        value.force_encoding('UTF-8')
+        value.to_s.force_encoding('UTF-8')
       end
       values
     else
@@ -129,7 +129,7 @@ class CustomField < ActiveRecord::Base
   # Makes possible_values accept a multiline string
   def possible_values=(arg)
     if arg.is_a?(Array)
-      values = arg.compact.collect(&:strip).select {|v| !v.blank?}
+      values = arg.compact.map {|a| a.to_s.strip}.reject(&:blank?)
       write_attribute(:possible_values, values)
     else
       self.possible_values = arg.to_s.split(/[\n\r]+/)
