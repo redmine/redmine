@@ -24,7 +24,16 @@ class Mailer < ActionMailer::Base
   include Redmine::I18n
 
   def self.default_url_options
-    { :host => Setting.host_name, :protocol => Setting.protocol }
+    options = {:protocol => Setting.protocol}
+    if Setting.host_name.to_s =~ /\A(https?\:\/\/)?(.+?)(\:(\d+))?(\/.+)?\z/i
+      host, port, prefix = $2, $4, $5
+      options.merge!({
+        :host => host, :port => port, :script_name => prefix
+      })
+    else
+      options[:host] = Setting.host_name
+    end
+    options
   end
 
   # Builds a mail for notifying to_users and cc_users about a new issue
