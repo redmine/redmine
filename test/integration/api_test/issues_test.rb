@@ -432,7 +432,7 @@ JSON
 
     assert_response :created
     issue = Issue.order('id DESC').first
-    assert_equal ["V1", "V3"], issue.custom_field_value(field)
+    assert_equal ["V1", "V3"], issue.custom_field_value(field).sort
   end
 
   test "POST /issues.json with failure should return errors" do

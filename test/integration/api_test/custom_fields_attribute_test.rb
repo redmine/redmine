@@ -39,4 +39,25 @@ class Redmine::ApiTest::CustomFieldsAttributeTest < Redmine::ApiTest::Base
     group = Group.order('id DESC').first
     assert_equal "52", group.custom_field_value(field)
   end
+
+  def test_multivalued_custom_fields_should_accept_an_array
+    field = GroupCustomField.generate!(
+      :field_format => 'list',
+      :multiple => true,
+      :possible_values => ["V1", "V2", "V3"],
+      :default_value => "V2"
+    )
+
+payload = <<-JSON
+{"group": {"name":"Foooo",
+"custom_field_values":{"#{field.id}":["V1","V3"]}
+}
+}
+JSON
+
+    post '/groups.json', payload, {'CONTENT_TYPE' => 'application/json'}.merge(credentials('admin'))
+    assert_response :created
+    group = Group.order('id DESC').first
+    assert_equal ["V1", "V3"], group.custom_field_value(field).sort
+  end
 end
