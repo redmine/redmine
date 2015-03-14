@@ -58,6 +58,6 @@ JSON
     post '/groups.json', payload, {'CONTENT_TYPE' => 'application/json'}.merge(credentials('admin'))
     assert_response :created
     group = Group.order('id DESC').first
-    assert_equal ["V1", "V3"], group.custom_field_value(field)
+    assert_equal ["V1", "V3"], group.custom_field_value(field).sort
   end
 end
