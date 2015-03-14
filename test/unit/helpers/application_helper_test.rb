@@ -157,6 +157,22 @@ RAW
     to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text, :attachments => attachments) }
   end
 
+  def test_attached_images_with_textile_and_non_ascii_filename
+    attachment = Attachment.generate!(:filename => 'café.jpg')
+    with_settings :text_formatting => 'textile' do
+      assert_include %(<img src="/attachments/download/#{attachment.id}/caf%C3%A9.jpg" alt="" />),
+        textilizable("!café.jpg!)", :attachments => [attachment])
+    end
+  end
+
+  def test_attached_images_with_markdown_and_non_ascii_filename
+    attachment = Attachment.generate!(:filename => 'café.jpg')
+    with_settings :text_formatting => 'markdown' do
+      assert_include %(<img src="/attachments/download/#{attachment.id}/caf%C3%A9.jpg" alt="">),
+        textilizable("![](café.jpg)", :attachments => [attachment])
+    end
+  end
+
   def test_attached_images_filename_extension
     set_tmp_attachments_directory
     a1 = Attachment.new(
