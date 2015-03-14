@@ -93,6 +93,8 @@ group :test do
   if RUBY_VERSION >= '1.9.3'
     gem "capybara"
     gem "selenium-webdriver"
+    # building ffi 1.9.7 fails in Ubuntu: https://github.com/ffi/ffi/issues/414
+    gem "ffi", "1.9.6"
   end
 end
 
