@@ -56,7 +56,7 @@ file 'config/database.yml' do
   test_db_name = "ci_#{branch}_#{ruby}_test"
 
   case database
-  when 'mysql'
+  when /(mysql|mariadb)/
     dev_conf =  {'adapter' => 'mysql2',
                  'database' => dev_db_name, 'host' => 'localhost',
                  'encoding' => 'utf8'}

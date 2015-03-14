@@ -17,6 +17,10 @@ env:
   - "TEST_SUITE=functionals DATABASE_ADAPTER=mysql"
   - "TEST_SUITE=integration DATABASE_ADAPTER=mysql"
   - "TEST_SUITE=ui          DATABASE_ADAPTER=mysql"
+  - "TEST_SUITE=units       DATABASE_ADAPTER=mariadb-10.0"
+  - "TEST_SUITE=functionals DATABASE_ADAPTER=mariadb-10.0"
+  - "TEST_SUITE=integration DATABASE_ADAPTER=mariadb-10.0"
+  - "TEST_SUITE=ui          DATABASE_ADAPTER=mariadb-10.0"
   - "TEST_SUITE=units       DATABASE_ADAPTER=sqlite3"
   - "TEST_SUITE=functionals DATABASE_ADAPTER=sqlite3"
   - "TEST_SUITE=integration DATABASE_ADAPTER=sqlite3"
@@ -27,9 +31,22 @@ matrix:
     # http://www.redmine.org/issues/19091
     # https://github.com/jruby/jruby/issues/779
     - rvm: jruby
+    # http://www.redmine.org/issues/17460
+    # http://www.redmine.org/issues/19344
+    - env: "TEST_SUITE=units       DATABASE_ADAPTER=mariadb-10.0"
 before_install:
   - "sudo apt-get update -qq"
   - "sudo apt-get --no-install-recommends install bzr cvs git mercurial subversion"
+  - if [[ $DATABASE_ADAPTER =~ mariadb ]] ;
+    then
+      sudo service mysql stop ;
+      sudo apt-get install python-software-properties ;
+      sudo apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xcbcb082a1bb943db ;
+      sudo add-apt-repository 'deb http://ftp.osuosl.org/pub/mariadb/repo/10.0/ubuntu precise main' ;
+      sudo apt-get update ;
+      sudo DEBIAN_FRONTEND=noninteractive apt-get -q --yes --force-yes -f --option DPkg::Options::=--force-confnew install mariadb-server ;
+      sudo apt-get install libmariadbd-dev ;
+    fi
 script:
   - "SCMS=bazaar,cvs,subversion,git,mercurial,filesystem"
   - "export SCMS"
