@@ -119,6 +119,24 @@ class MailerTest < ActiveSupport::TestCase
     end
   end
 
+  def test_generated_links_with_port_and_prefix
+    with_settings :host_name => '10.0.0.1:81/redmine', :protocol => 'http' do
+      Mailer.test_email(User.find(1)).deliver
+      mail = last_email
+      assert_not_nil mail
+      assert_include 'http://10.0.0.1:81/redmine', mail_body(mail)
+    end
+  end
+
+  def test_generated_links_with_port
+    with_settings :host_name => '10.0.0.1:81', :protocol => 'http' do
+      Mailer.test_email(User.find(1)).deliver
+      mail = last_email
+      assert_not_nil mail
+      assert_include 'http://10.0.0.1:81', mail_body(mail)
+    end
+  end
+
   def test_issue_edit_should_generate_url_with_hostname_for_relations
     journal = Journal.new(:journalized => Issue.find(1), :user => User.find(1), :created_on => Time.now)
     journal.details << JournalDetail.new(:property => 'relation', :prop_key => 'label_relates_to', :value => 2)
