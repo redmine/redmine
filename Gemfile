@@ -14,6 +14,9 @@ gem "protected_attributes"
 gem "actionpack-action_caching"
 gem "actionpack-xml_parser"
 
+# building ffi 1.9.7 fails in Ubuntu: https://github.com/ffi/ffi/issues/414
+gem "ffi", "1.9.6"
+
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :x64_mingw, :mswin, :jruby]
 gem "rbpdf", "~> 1.18.5"
