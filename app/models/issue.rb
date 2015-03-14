@@ -447,6 +447,11 @@ class Issue < ActiveRecord::Base
     if (t = attrs.delete('tracker_id')) && safe_attribute?('tracker_id')
       self.tracker_id = t
     end
+    if project
+      # Set the default tracker to accept custom field values
+      # even if tracker is not specified
+      self.tracker ||= project.trackers.first
+    end
 
     if (s = attrs.delete('status_id')) && safe_attribute?('status_id')
       if new_statuses_allowed_to(user).collect(&:id).include?(s.to_i)
