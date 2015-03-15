@@ -91,7 +91,10 @@ class Setting < ActiveRecord::Base
   def value
     v = read_attribute(:value)
     # Unserialize serialized settings
-    v = YAML::load(v) if available_settings[name]['serialized'] && v.is_a?(String)
+    if available_settings[name]['serialized'] && v.is_a?(String)
+      v = YAML::load(v)
+      v = force_utf8_strings(v)
+    end
     v = v.to_sym if available_settings[name]['format'] == 'symbol' && !v.blank?
     v
   end
@@ -238,6 +241,25 @@ END_SRC
   load_plugin_settings
 
 private
+
+  def force_utf8_strings(arg)
+    if arg.is_a?(String)
+      arg.dup.force_encoding('UTF-8')
+    elsif arg.is_a?(Array)
+      arg.map do |a|
+        force_utf8_strings(a)
+      end
+    elsif arg.is_a?(Hash)
+      arg = arg.dup
+      arg.each do |k,v|
+        arg[k] = force_utf8_strings(v)
+      end
+      arg
+    else
+      arg
+    end
+  end
+
   # Returns the Setting instance for the setting named name
   # (record found in database or new record with default value)
   def self.find_or_default(name)
