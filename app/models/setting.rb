@@ -243,7 +243,7 @@ END_SRC
 private
 
   def force_utf8_strings(arg)
-    if arg.is_a?(String) && arg.respond_to?(:force_encoding)
+    if arg.is_a?(String)
       arg.dup.force_encoding('UTF-8')
     elsif arg.is_a?(Array)
       arg.map do |a|
