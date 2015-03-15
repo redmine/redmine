@@ -281,14 +281,14 @@ To go live, all you need to add is a database and a web server.
 
       <dt><code>child_pages</code></dt>
       <dd><p>子ページの一覧を表示します。引数の指定が無ければ現在のwikiページの子ページを表示します。以下は使用例です:</p>
-      <pre><code>!{{child_pages}} -- wikiページでのみ使用可能です
-!{{child_pages(depth=2)}} -- 2階層分のみ表示します</code></pre></dd>
+      <pre><code>{{child_pages}} -- wikiページでのみ使用可能です
+{{child_pages(depth=2)}} -- 2階層分のみ表示します</code></pre></dd>
 
       <dt><code>include</code></dt>
       <dd><p>別のWikiページの内容を挿入します。 以下は使用例です:</p>
-      <pre><code>!{{include(Foo)}}</code></pre>
+      <pre><code>{{include(Foo)}}</code></pre>
       <p>プロジェクトを指定することもできます。:</p>
-      <pre><code>!{{include(projectname:Foo)}}</code></pre></dd>
+      <pre><code>{{include(projectname:Foo)}}</code></pre></dd>
 
       <dt><code>collapse</code></dt>
       <dd><p>折り畳まれた状態のテキストを挿入します。以下は使用例です:</p>
