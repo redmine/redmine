@@ -34,4 +34,14 @@ class Redmine::ApiTest::ApiTest < Redmine::ApiTest::Base
   ensure
     ActionController::Base.allow_forgery_protection = false
   end
+
+  def test_json_datetime_format
+    get '/users/1.json', {}, credentials('admin')
+    assert_include '"created_on":"2006-07-19T17:12:21Z"', response.body
+  end
+
+  def test_xml_datetime_format
+    get '/users/1.xml', {}, credentials('admin')
+    assert_include '<created_on>2006-07-19T17:12:21Z</created_on>', response.body
+  end
 end
