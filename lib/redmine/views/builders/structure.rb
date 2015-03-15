@@ -37,6 +37,16 @@ module Redmine
           @struct.last.merge!(options) if options
         end
 
+        def encode_value(value)
+          if value.is_a?(Time)
+            # Rails uses a global setting to format JSON times
+            # Don't rely on it for the API as it could have been changed
+            value.xmlschema(0)
+          else
+            value
+          end
+        end
+
         def method_missing(sym, *args, &block)
           if args.any?
             if args.first.is_a?(Hash)
@@ -46,14 +56,15 @@ module Redmine
                 @struct.last[sym] = args.first
               end
             else
+              value = encode_value(args.first)
               if @struct.last.is_a?(Array)
                 if args.size == 1 && !block_given?
-                  @struct.last << args.first
+                  @struct.last << value
                 else
-                  @struct.last << (args.last || {}).merge(:value => args.first)
+                  @struct.last << (args.last || {}).merge(:value => value)
                 end
               else
-                @struct.last[sym] = args.first
+                @struct.last[sym] = value
               end
             end
           end
