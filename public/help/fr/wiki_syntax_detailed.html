@@ -281,14 +281,14 @@ Pour commencer à l'utiliser, il ne vous faut qu'un serveur web et une base de d
 
       <dt><code>child_pages</code></dt>
       <dd><p>Affiche une liste des sous-pages. Sans argument, cela affiche les sous-pages de la page courante. Exemples :</p>
-      <pre><code>!{{child_pages}} -- peut être utilisé depuis une page wiki uniquement
-!{{child_pages(depth=2)}} -- affiche deux niveaux d'arborescence seulement</code></pre></dd>
+      <pre><code>{{child_pages}} -- peut être utilisé depuis une page wiki uniquement
+{{child_pages(depth=2)}} -- affiche deux niveaux d'arborescence seulement</code></pre></dd>
 
       <dt><code>include</code></dt>
       <dd><p>Inclut une page Wiki. Exemple :</p>
-      <pre><code>!{{include(Foo)}}</code></pre>
+      <pre><code>{{include(Foo)}}</code></pre>
       <p>ou pour inclure une page d'un wiki de projet spécifique :</p>
-      <pre><code>!{{include(projectname:Foo)}}</code></pre></dd>
+      <pre><code>{{include(projectname:Foo)}}</code></pre></dd>
 
       <dt><code>collapse</code></dt>
       <dd><p>Insère un bloc de texte enroulé. Exemple :</p>
