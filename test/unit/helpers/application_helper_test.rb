@@ -160,6 +160,8 @@ RAW
   end
 
   def test_attached_images_with_markdown_and_non_ascii_filename
+    skip unless Object.const_defined?(:Redcarpet)
+
     attachment = Attachment.generate!(:filename => 'café.jpg')
     with_settings :text_formatting => 'markdown' do
       assert_include %(<img src="/attachments/download/#{attachment.id}/caf%C3%A9.jpg" alt="">),
