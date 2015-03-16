@@ -25,6 +25,10 @@ env:
   - "TEST_SUITE=functionals DATABASE_ADAPTER=mysql-5.7-dmr"
   - "TEST_SUITE=integration DATABASE_ADAPTER=mysql-5.7-dmr"
   - "TEST_SUITE=ui          DATABASE_ADAPTER=mysql-5.7-dmr"
+  - "TEST_SUITE=units       DATABASE_ADAPTER=mariadb-5.5"
+  - "TEST_SUITE=functionals DATABASE_ADAPTER=mariadb-5.5"
+  - "TEST_SUITE=integration DATABASE_ADAPTER=mariadb-5.5"
+  - "TEST_SUITE=ui          DATABASE_ADAPTER=mariadb-5.5"
   - "TEST_SUITE=units       DATABASE_ADAPTER=mariadb-10.0"
   - "TEST_SUITE=functionals DATABASE_ADAPTER=mariadb-10.0"
   - "TEST_SUITE=integration DATABASE_ADAPTER=mariadb-10.0"
@@ -43,6 +47,7 @@ matrix:
     # http://www.redmine.org/issues/19344
     - env: "TEST_SUITE=units       DATABASE_ADAPTER=mysql-5.6"
     - env: "TEST_SUITE=units       DATABASE_ADAPTER=mysql-5.7-dmr"
+    - env: "TEST_SUITE=units       DATABASE_ADAPTER=mariadb-5.5"
     - env: "TEST_SUITE=units       DATABASE_ADAPTER=mariadb-10.0"
 before_install:
   - "sudo apt-get update -qq"
@@ -54,7 +59,8 @@ before_install:
       if [[ $DATABASE_ADAPTER =~ mariadb ]] ;
       then
         sudo apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xcbcb082a1bb943db ;
-        sudo add-apt-repository 'deb http://ftp.osuosl.org/pub/mariadb/repo/10.0/ubuntu precise main' ;
+        MARIADB_VER=`echo $DATABASE_ADAPTER | sed -e 's/mariadb-//'` ;
+        sudo add-apt-repository ''"deb http://ftp.osuosl.org/pub/mariadb/repo/${MARIADB_VER}/ubuntu precise main"'' ;
         sudo apt-get update ;
         sudo DEBIAN_FRONTEND=noninteractive apt-get -q --yes --force-yes -f --option DPkg::Options::=--force-confnew install mariadb-server ;
         sudo apt-get install libmariadbd-dev ;
