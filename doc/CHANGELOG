@@ -4,6 +4,28 @@ Redmine - project management software
 Copyright (C) 2006-2015  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2015-03-16 v3.0.1
+
+* Defect #19197: Missing notification if assignee was a group
+* Defect #19260: Non-default identifier-less git repositories are undeletable
+* Defect #19305: settings: incompatible character encodings: UTF-8 and ASCII-8BIT: yaml generated on ruby 1.8
+* Defect #19313: Attached inline images with non-ascii file name can not be seen when text formatting is Makdown
+* Defect #19348: Project name is missing for versions from sub-projects
+* Defect #19381: Wrong syntax for wiki macros in wiki_syntax_detailed.html
+* Defect #19172: "gem update bundler" suggestion for "`x64_mingw` is not a valid platform"
+* Defect #19218: Wrong name for pt-BR in language drop-down
+* Defect #19225: When deleting one item from multivalued custom field / list of users, name of removed user is not visible in history
+* Defect #19232: IMAP STARTTLS options typo :tls
+* Defect #19253: Repository users broken if only one committer exists
+* Defect #19316: CustomField#possible_values may raise undefined method `force_encoding' error
+* Defect #19320: Spent time (last 7 days) in My page not updated
+* Defect #19323: Incorrect links generated in emails if host setup uses other port (":" symbol)
+* Defect #19325: ActionController::UnknownFormat: error for PDF request and unknown user
+* Defect #19354: Unexpected milliseconds in JSON time attributes
+* Defect #19368: Creating an issue without tracker_id attribute ignores custom field values
+* Patch #19233: Change 20150113213922_remove_users_mail.rb from Irreversible to Reversible
+* Patch #19322: Allow to ignore auto reply messages from Exchange server
+
 == 2015-02-19 v3.0.0
 
 * Defect #2573: Latest projects list: no space after lists in project description
