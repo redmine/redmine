@@ -4,6 +4,15 @@ Redmine - project management software
 Copyright (C) 2006-2015  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2015-03-16 v2.6.3
+
+* Defect #19197: Missing notification if assignee was a group
+* Defect #19260: Non-default identifier-less git repositories are undeletable
+* Defect #19305: settings: incompatible character encodings: UTF-8 and ASCII-8BIT: yaml generated on ruby 1.8
+* Defect #19313: Attached inline images with non-ascii file name can not be seen when text formatting is Makdown
+* Defect #19348: Project name is missing for versions from sub-projects
+* Defect #19381: Wrong syntax for wiki macros in wiki_syntax_detailed.html
+
 == 2015-02-19 v2.6.2
 
 * Defect #10681: Export to Persian PDF problem
