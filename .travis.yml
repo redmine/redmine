@@ -9,18 +9,18 @@ rvm:
   - 2.2
   - jruby
 env:
-  - "TEST_SUITE=units       DATABASE_ADAPTER=postgresql"
-  - "TEST_SUITE=functionals DATABASE_ADAPTER=postgresql"
-  - "TEST_SUITE=integration DATABASE_ADAPTER=postgresql"
-  - "TEST_SUITE=ui          DATABASE_ADAPTER=postgresql"
-  - "TEST_SUITE=units       DATABASE_ADAPTER=mysql"
-  - "TEST_SUITE=functionals DATABASE_ADAPTER=mysql"
-  - "TEST_SUITE=integration DATABASE_ADAPTER=mysql"
-  - "TEST_SUITE=ui          DATABASE_ADAPTER=mysql"
-  - "TEST_SUITE=units       DATABASE_ADAPTER=sqlite3"
-  - "TEST_SUITE=functionals DATABASE_ADAPTER=sqlite3"
-  - "TEST_SUITE=integration DATABASE_ADAPTER=sqlite3"
-  - "TEST_SUITE=ui          DATABASE_ADAPTER=sqlite3"
+  - "SUITE=units       DATABASE_ADAPTER=postgresql"
+  - "SUITE=functionals DATABASE_ADAPTER=postgresql"
+  - "SUITE=integration DATABASE_ADAPTER=postgresql"
+  - "SUITE=ui          DATABASE_ADAPTER=postgresql"
+  - "SUITE=units       DATABASE_ADAPTER=mysql"
+  - "SUITE=functionals DATABASE_ADAPTER=mysql"
+  - "SUITE=integration DATABASE_ADAPTER=mysql"
+  - "SUITE=ui          DATABASE_ADAPTER=mysql"
+  - "SUITE=units       DATABASE_ADAPTER=sqlite3"
+  - "SUITE=functionals DATABASE_ADAPTER=sqlite3"
+  - "SUITE=integration DATABASE_ADAPTER=sqlite3"
+  - "SUITE=ui          DATABASE_ADAPTER=sqlite3"
 matrix:
   allow_failures:
     # SCM tests fail randomly due to IO.popen().
@@ -39,6 +39,6 @@ script:
   - "bundle install"
   - "bundle exec rake ci:setup"
   - phantomjs --webdriver 4444 &
-  - JRUBY_OPTS=-J-Xmx1024m bundle exec rake test:${TEST_SUITE}
+  - JRUBY_OPTS=-J-Xmx1024m bundle exec rake test:${SUITE}
 notifications:
   email: false
