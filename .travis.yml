@@ -9,34 +9,34 @@ rvm:
   - 2.2
   - jruby
 env:
-  - "TEST_SUITE=units       DATABASE_ADAPTER=postgresql"
-  - "TEST_SUITE=functionals DATABASE_ADAPTER=postgresql"
-  - "TEST_SUITE=integration DATABASE_ADAPTER=postgresql"
-  - "TEST_SUITE=ui          DATABASE_ADAPTER=postgresql"
-  - "TEST_SUITE=units       DATABASE_ADAPTER=mysql-5.5"
-  - "TEST_SUITE=functionals DATABASE_ADAPTER=mysql-5.5"
-  - "TEST_SUITE=integration DATABASE_ADAPTER=mysql-5.5"
-  - "TEST_SUITE=ui          DATABASE_ADAPTER=mysql-5.5"
-  - "TEST_SUITE=units       DATABASE_ADAPTER=mysql-5.6"
-  - "TEST_SUITE=functionals DATABASE_ADAPTER=mysql-5.6"
-  - "TEST_SUITE=integration DATABASE_ADAPTER=mysql-5.6"
-  - "TEST_SUITE=ui          DATABASE_ADAPTER=mysql-5.6"
-  - "TEST_SUITE=units       DATABASE_ADAPTER=mysql-5.7-dmr"
-  - "TEST_SUITE=functionals DATABASE_ADAPTER=mysql-5.7-dmr"
-  - "TEST_SUITE=integration DATABASE_ADAPTER=mysql-5.7-dmr"
-  - "TEST_SUITE=ui          DATABASE_ADAPTER=mysql-5.7-dmr"
-  - "TEST_SUITE=units       DATABASE_ADAPTER=mariadb-5.5"
-  - "TEST_SUITE=functionals DATABASE_ADAPTER=mariadb-5.5"
-  - "TEST_SUITE=integration DATABASE_ADAPTER=mariadb-5.5"
-  - "TEST_SUITE=ui          DATABASE_ADAPTER=mariadb-5.5"
-  - "TEST_SUITE=units       DATABASE_ADAPTER=mariadb-10.0"
-  - "TEST_SUITE=functionals DATABASE_ADAPTER=mariadb-10.0"
-  - "TEST_SUITE=integration DATABASE_ADAPTER=mariadb-10.0"
-  - "TEST_SUITE=ui          DATABASE_ADAPTER=mariadb-10.0"
-  - "TEST_SUITE=units       DATABASE_ADAPTER=sqlite3"
-  - "TEST_SUITE=functionals DATABASE_ADAPTER=sqlite3"
-  - "TEST_SUITE=integration DATABASE_ADAPTER=sqlite3"
-  - "TEST_SUITE=ui          DATABASE_ADAPTER=sqlite3"
+  - "SUITE=units       DATABASE_ADAPTER=postgresql"
+  - "SUITE=functionals DATABASE_ADAPTER=postgresql"
+  - "SUITE=integration DATABASE_ADAPTER=postgresql"
+  - "SUITE=ui          DATABASE_ADAPTER=postgresql"
+  - "SUITE=units       DATABASE_ADAPTER=mysql-5.5"
+  - "SUITE=functionals DATABASE_ADAPTER=mysql-5.5"
+  - "SUITE=integration DATABASE_ADAPTER=mysql-5.5"
+  - "SUITE=ui          DATABASE_ADAPTER=mysql-5.5"
+  - "SUITE=units       DATABASE_ADAPTER=mysql-5.6"
+  - "SUITE=functionals DATABASE_ADAPTER=mysql-5.6"
+  - "SUITE=integration DATABASE_ADAPTER=mysql-5.6"
+  - "SUITE=ui          DATABASE_ADAPTER=mysql-5.6"
+  - "SUITE=units       DATABASE_ADAPTER=mysql-5.7-dmr"
+  - "SUITE=functionals DATABASE_ADAPTER=mysql-5.7-dmr"
+  - "SUITE=integration DATABASE_ADAPTER=mysql-5.7-dmr"
+  - "SUITE=ui          DATABASE_ADAPTER=mysql-5.7-dmr"
+  - "SUITE=units       DATABASE_ADAPTER=mariadb-5.5"
+  - "SUITE=functionals DATABASE_ADAPTER=mariadb-5.5"
+  - "SUITE=integration DATABASE_ADAPTER=mariadb-5.5"
+  - "SUITE=ui          DATABASE_ADAPTER=mariadb-5.5"
+  - "SUITE=units       DATABASE_ADAPTER=mariadb-10.0"
+  - "SUITE=functionals DATABASE_ADAPTER=mariadb-10.0"
+  - "SUITE=integration DATABASE_ADAPTER=mariadb-10.0"
+  - "SUITE=ui          DATABASE_ADAPTER=mariadb-10.0"
+  - "SUITE=units       DATABASE_ADAPTER=sqlite3"
+  - "SUITE=functionals DATABASE_ADAPTER=sqlite3"
+  - "SUITE=integration DATABASE_ADAPTER=sqlite3"
+  - "SUITE=ui          DATABASE_ADAPTER=sqlite3"
 matrix:
   allow_failures:
     # SCM tests fail randomly due to IO.popen().
@@ -45,10 +45,10 @@ matrix:
     - rvm: jruby
     # http://www.redmine.org/issues/17460
     # http://www.redmine.org/issues/19344
-    - env: "TEST_SUITE=units       DATABASE_ADAPTER=mysql-5.6"
-    - env: "TEST_SUITE=units       DATABASE_ADAPTER=mysql-5.7-dmr"
-    - env: "TEST_SUITE=units       DATABASE_ADAPTER=mariadb-5.5"
-    - env: "TEST_SUITE=units       DATABASE_ADAPTER=mariadb-10.0"
+    - env: "SUITE=units       DATABASE_ADAPTER=mysql-5.6"
+    - env: "SUITE=units       DATABASE_ADAPTER=mysql-5.7-dmr"
+    - env: "SUITE=units       DATABASE_ADAPTER=mariadb-5.5"
+    - env: "SUITE=units       DATABASE_ADAPTER=mariadb-10.0"
 before_install:
   - "sudo apt-get update -qq"
   - "sudo apt-get --no-install-recommends install bzr cvs git mercurial subversion"
@@ -81,6 +81,6 @@ script:
   - "bundle install"
   - "bundle exec rake ci:setup"
   - phantomjs --webdriver 4444 &
-  - JRUBY_OPTS=-J-Xmx1024m bundle exec rake test:${TEST_SUITE}
+  - JRUBY_OPTS=-J-Xmx1024m bundle exec rake test:${SUITE}
 notifications:
   email: false
