@@ -69,16 +69,6 @@ class Changeset < ActiveRecord::Base
     end
   end
 
-  def committer=(arg)
-    write_attribute :committer,
-      self.class.to_utf8(arg, repository.try(:repo_log_encoding))
-  end
-
-  def comments=(arg)
-    write_attribute :comments,
-      self.class.normalize_comments(arg, repository.try(:repo_log_encoding))
-  end
-
   def committed_on=(date)
     self.commit_date = date
     super
@@ -102,7 +92,9 @@ class Changeset < ActiveRecord::Base
   end
 
   def before_create_cs
-    self.comments ||= ''
+    self.committer = self.class.to_utf8(self.committer, repository.repo_log_encoding)
+    self.comments  = self.class.normalize_comments(
+                       self.comments, repository.repo_log_encoding)
     self.user = repository.find_committer_user(self.committer)
   end
 
