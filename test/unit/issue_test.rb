@@ -911,7 +911,7 @@ class IssueTest < ActiveSupport::TestCase
     assert_equal [], issue.required_attribute_names(user.reload)
 
     WorkflowPermission.create!(:old_status_id => 1, :tracker_id => 1,
-                               :role_id => 2, :field_name => 'due_date',
+                               :role_id => 3, :field_name => 'due_date',
                                :rule => 'readonly')
     # required + readonly => required
     assert_equal %w(due_date), issue.required_attribute_names(user)
@@ -939,6 +939,23 @@ class IssueTest < ActiveSupport::TestCase
                               :role_id => 2, :field_name => 'due_date',
                               :rule => 'readonly')
     assert_equal %w(due_date), issue.read_only_attribute_names(user)
+  end
+
+  # A field that is not visible by role 2 and readonly by role 1 should be readonly for user with role 1 and 2
+  def test_read_only_attribute_names_should_include_custom_fields_that_combine_readonly_and_not_visible_for_roles
+    field = IssueCustomField.generate!(
+      :is_for_all => true, :trackers => Tracker.all, :visible => false, :role_ids => [1]
+    )
+    WorkflowPermission.delete_all
+    WorkflowPermission.create!(
+      :old_status_id => 1, :tracker_id => 1, :role_id => 1, :field_name => field.id, :rule => 'readonly'
+    )
+    user = User.generate!
+    project = Project.find(1)
+    User.add_to_project(user, project, Role.where(:id => [1, 2]))
+
+    issue = Issue.new(:project_id => 1, :tracker_id => 1, :status_id => 1)
+    assert_equal [field.id.to_s], issue.read_only_attribute_names(user)
   end
 
   def test_workflow_rules_should_ignore_roles_without_issue_permissions
