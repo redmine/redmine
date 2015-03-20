@@ -444,6 +444,11 @@ JSON
     assert json['errors'].include?("Subject cannot be blank")
   end
 
+  test "POST /issues.json with invalid project_id should respond with 422" do
+    post '/issues.json', {:issue => {:project_id => 999, :subject => "API"}}, credentials('jsmith')
+    assert_response 422
+  end
+
   test "PUT /issues/:id.xml" do
     assert_difference('Journal.count') do
       put '/issues/6.xml',

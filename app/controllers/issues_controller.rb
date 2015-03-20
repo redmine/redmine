@@ -133,7 +133,7 @@ class IssuesController < ApplicationController
   end
 
   def create
-    unless User.current.allowed_to?(:add_issues, @issue.project)
+    unless User.current.allowed_to?(:add_issues, @issue.project, :global => true)
       raise ::Unauthorized
     end
     call_hook(:controller_issues_new_before_save, { :params => params, :issue => @issue })
