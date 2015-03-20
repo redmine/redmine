@@ -151,7 +151,13 @@ class IssuesController < ApplicationController
       return
     else
       respond_to do |format|
-        format.html { render :action => 'new' }
+        format.html {
+          if @issue.project.nil?
+            render_error :status => 422
+          else
+            render :action => 'new'
+          end
+        }
         format.api  { render_validation_errors(@issue) }
       end
     end
