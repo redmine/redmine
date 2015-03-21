@@ -192,7 +192,7 @@ module IssuesHelper
     ordered_values.compact.each do |value|
       css = "cf_#{value.custom_field.id}"
       s << "</tr>\n<tr>\n" if n > 0 && (n % 2) == 0
-      s << "\t<th class=\"#{css}\">#{ h(value.custom_field.name) }:</th><td class=\"#{css}\">#{ h(show_value(value)) }</td>\n"
+      s << "\t<th class=\"#{css}\">#{ custom_field_name_tag(value.custom_field) }:</th><td class=\"#{css}\">#{ h(show_value(value)) }</td>\n"
       n += 1
     end
     s << "</tr>\n"

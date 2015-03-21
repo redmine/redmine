@@ -60,7 +60,7 @@
   <%= check_box_tag 'project[issue_custom_field_ids][]', custom_field.id, (@project.all_issue_custom_fields.include? custom_field),
         :disabled => (custom_field.is_for_all? ? "disabled" : nil),
         :id => nil %>
-  <%= custom_field.name %>
+  <%= custom_field_name_tag(custom_field) %>
   </label>
 <% end %>
 <%= hidden_field_tag 'project[issue_custom_field_ids][]', '' %>

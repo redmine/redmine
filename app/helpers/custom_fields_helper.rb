@@ -77,11 +77,16 @@ module CustomFieldsHelper
       :class => "#{custom_value.custom_field.field_format}_cf"
   end
 
+  # Return custom field name tag
+  def custom_field_name_tag(custom_field)
+    title = custom_field.description.presence
+    content_tag 'span', custom_field.name, :title => title
+  end
+  
   # Return custom field label tag
   def custom_field_label_tag(name, custom_value, options={})
     required = options[:required] || custom_value.custom_field.is_required?
-    title = custom_value.custom_field.description.presence
-    content = content_tag 'span', custom_value.custom_field.name, :title => title
+    content = custom_field_name_tag custom_value.custom_field
 
     content_tag "label", content +
       (required ? " <span class=\"required\">*</span>".html_safe : ""),
