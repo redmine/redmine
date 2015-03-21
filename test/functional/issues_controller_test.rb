@@ -3389,7 +3389,7 @@ class IssuesControllerTest < ActionController::TestCase
 
   def test_get_bulk_edit
     @request.session[:user_id] = 2
-    get :bulk_edit, :ids => [1, 2]
+    get :bulk_edit, :ids => [1, 3]
     assert_response :success
     assert_template 'bulk_edit'
 
@@ -3440,7 +3440,7 @@ class IssuesControllerTest < ActionController::TestCase
   end
 
   def test_get_bulk_edit_with_user_custom_field
-    field = IssueCustomField.create!(:name => 'Tester', :field_format => 'user', :is_for_all => true)
+    field = IssueCustomField.create!(:name => 'Tester', :field_format => 'user', :is_for_all => true, :tracker_ids => [1,2,3])
 
     @request.session[:user_id] = 2
     get :bulk_edit, :ids => [1, 2]
@@ -3453,7 +3453,7 @@ class IssuesControllerTest < ActionController::TestCase
   end
 
   def test_get_bulk_edit_with_version_custom_field
-    field = IssueCustomField.create!(:name => 'Affected version', :field_format => 'version', :is_for_all => true)
+    field = IssueCustomField.create!(:name => 'Affected version', :field_format => 'version', :is_for_all => true, :tracker_ids => [1,2,3])
 
     @request.session[:user_id] = 2
     get :bulk_edit, :ids => [1, 2]
@@ -3470,7 +3470,7 @@ class IssuesControllerTest < ActionController::TestCase
     field.update_attribute :multiple, true
 
     @request.session[:user_id] = 2
-    get :bulk_edit, :ids => [1, 2]
+    get :bulk_edit, :ids => [1, 3]
     assert_response :success
     assert_template 'bulk_edit'
 
