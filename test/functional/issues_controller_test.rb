@@ -3536,6 +3536,17 @@ class IssuesControllerTest < ActionController::TestCase
     end
   end
 
+  def test_bulk_edit_should_only_propose_issues_trackers_custom_fields
+    IssueCustomField.delete_all
+    field = IssueCustomField.generate!(:tracker_ids => [1], :is_for_all => true)
+    IssueCustomField.generate!(:tracker_ids => [2], :is_for_all => true)
+    @request.session[:user_id] = 2
+
+    issue_ids = Issue.where(:project_id => 1, :tracker_id => 1).limit(2).ids
+    get :bulk_edit, :ids => issue_ids
+    assert_equal [field], assigns(:custom_fields)
+  end
+
   def test_bulk_update
     @request.session[:user_id] = 2
     # update issues priority
