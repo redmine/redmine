@@ -133,7 +133,7 @@ class IssuesController < ApplicationController
   end
 
   def create
-    unless User.current.allowed_to?(:add_issues, @issue.project)
+    unless User.current.allowed_to?(:add_issues, @issue.project, :global => true)
       raise ::Unauthorized
     end
     call_hook(:controller_issues_new_before_save, { :params => params, :issue => @issue })
@@ -151,7 +151,13 @@ class IssuesController < ApplicationController
       return
     else
       respond_to do |format|
-        format.html { render :action => 'new' }
+        format.html {
+          if @issue.project.nil?
+            render_error :status => 422
+          else
+            render :action => 'new'
+          end
+        }
         format.api  { render_validation_errors(@issue) }
       end
     end

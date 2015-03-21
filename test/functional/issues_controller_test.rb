@@ -2218,7 +2218,7 @@ class IssuesControllerTest < ActionController::TestCase
            :issue => {:project_id => 3,
                       :tracker_id => 2,
                       :subject => 'Foo'}
-      assert_response 403
+      assert_response 422
     end
   end
 
