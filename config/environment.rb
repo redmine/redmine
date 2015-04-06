@@ -7,7 +7,7 @@ if Dir.glob(File.join(vendor_plugins_dir, "*")).any?
   $stderr.puts "Plugins in vendor/plugins (#{vendor_plugins_dir}) are no longer allowed. " +
     "Please, put your Redmine plugins in the `plugins` directory at the root of your " +
     "Redmine directory (#{File.join(Rails.root, "plugins")})"
-  exit 1
+  # exit 1
 end
 
 # Initialize the Rails application
