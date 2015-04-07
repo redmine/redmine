@@ -115,8 +115,8 @@
 						
 							<% @repourl=getHttpRepositoryURL(@project) %>
 							
-							<% if(@repourl && @project.repository != nil)%>
-							<% @repopath=getHttpRepositoryPath(@project.repository) %>
+							<% if(@repourl && @project.repository != nil && (not @neuroml2files.empty?))%>
+								<% @repopath=getHttpRepositoryPath(@project.repository) %>
 								
 								<% if not @networkfiles.empty? %>
 									<%= javascript_tag 'jQuery("#explorermenu").append("<li class=dropdown-submenu ><a tabindex=-1 href=#>Networks</a><ul class=dropdown-menu id=networkmenu></ul></li>");' %>
@@ -142,6 +142,7 @@
 								<% if not @cellfiles.empty? %>
 									<%= javascript_tag 'jQuery("#explorermenu").append("<li class=dropdown-submenu ><a tabindex=-1 href=#>Cells</a><ul class=dropdown-menu id=cellsmenu></ul></li>");' %>
 									<% for nml2file in @cellfiles %>
+										<% @neuroml2files.delete(nml2file) %>
 										<%= javascript_tag 'jQuery("#cellsmenu").append("<li><a  href=# tabindex=-1 onclick=open3DExplorer(encodeURIComponent(&quot;'+ @repourl + @repopath + nml2file + '&quot;));>'+ nml2file + '</a></li>");'%>
 									<% end %>
 									</ul>
@@ -153,8 +154,6 @@
 											<%= javascript_tag 'jQuery("#othermenu").append("<li><a  href=# tabindex=-1 onclick=open3DExplorer(encodeURIComponent(&quot;'+ @repourl + @repopath + nml2file + '&quot;));>'+ nml2file + '</a></li>");'%>
 										<% end %>									
 									<% end %>
-								<% else %>
-									<%= javascript_tag 'jQuery("#explorermenu").append("<li><a tabindex=-1>No NeuroML2 files found!</a></li>");' %>
 								<% end %>
 							<% else %>
 								<%= javascript_tag 'jQuery("#explorermenu").append("<li><a tabindex=-1>No NeuroML2 files found!</a></li>");' %>
@@ -247,14 +246,4 @@ jQuery(function()
 	
 })
 </script>
-
 <%= javascript_include_tag('prettify.js') %>
-
-<!--<ul class="bs-docs-social-buttons">
-	<li class="follow-btn">
-		<a href="https://twitter.com/osbteam" class="twitter-follow-button" data-link-color="#0069D6" data-show-count="true">Follow @osbteam</a>
-	</li>
-	<li class="tweet-btn">
-		<a href="https://twitter.com/share" class="twitter-share-button" data-url="http://opensourcebrain.org" data-count="horizontal" data-via="osbteam" data-related="Interesting -> Open Source Brain online repository for computational neural models!">Tweet</a>
-	</li>
-</ul>-->
