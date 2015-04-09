@@ -209,7 +209,7 @@ class Repository::Git < Repository
     end
     h["heads"] = repo_heads.dup
     merge_extra_info(h)
-    self.save
+    save(:validate => false)
   end
   private :save_revisions
 
@@ -251,7 +251,7 @@ class Repository::Git < Repository
     h = {}
     h["extra_report_last_commit"] = v
     merge_extra_info(h)
-    self.save
+    save(:validate => false)
   end
   private :clear_extra_info_of_changesets
 end

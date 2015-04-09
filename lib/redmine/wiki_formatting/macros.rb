@@ -173,16 +173,16 @@ module Redmine
         out = ''.html_safe
         @@available_macros.each do |macro, options|
           out << content_tag('dt', content_tag('code', macro.to_s))
-          out << content_tag('dd', textilizable(options[:desc]))
+          out << content_tag('dd', content_tag('pre', options[:desc]))
         end
         content_tag('dl', out)
       end
 
       desc "Displays a list of child pages. With no argument, it displays the child pages of the current wiki page. Examples:\n\n" +
-             "  !{{child_pages}} -- can be used from a wiki page only\n" +
-             "  !{{child_pages(depth=2)}} -- display 2 levels nesting only\n"
-             "  !{{child_pages(Foo)}} -- lists all children of page Foo\n" +
-             "  !{{child_pages(Foo, parent=1)}} -- same as above with a link to page Foo"
+             "{{child_pages}} -- can be used from a wiki page only\n" +
+             "{{child_pages(depth=2)}} -- display 2 levels nesting only\n" +
+             "{{child_pages(Foo)}} -- lists all children of page Foo\n" +
+             "{{child_pages(Foo, parent=1)}} -- same as above with a link to page Foo"
       macro :child_pages do |obj, args|
         args, options = extract_macro_options(args, :parent, :depth)
         options[:depth] = options[:depth].to_i if options[:depth].present?
@@ -200,7 +200,9 @@ module Redmine
         render_page_hierarchy(pages, options[:parent] ? page.parent_id : page.id)
       end
 
-      desc "Include a wiki page. Example:\n\n  !{{include(Foo)}}\n\nor to include a page of a specific project wiki:\n\n  !{{include(projectname:Foo)}}"
+      desc "Includes a wiki page. Examples:\n\n" +
+             "{{include(Foo)}}\n" +
+             "{{include(projectname:Foo)}} -- to include a page of a specific project wiki"
       macro :include do |obj, args|
         page = Wiki.find_page(args.first.to_s, :project => @project)
         raise 'Page not found' if page.nil? || !User.current.allowed_to?(:view_wiki_pages, page.wiki.project)
@@ -212,7 +214,9 @@ module Redmine
         out
       end
 
-      desc "Inserts of collapsed block of text. Example:\n\n  {{collapse(View details...)\nThis is a block of text that is collapsed by default.\nIt can be expanded by clicking a link.\n}}"
+      desc "Inserts of collapsed block of text. Examples:\n\n" +
+             "{{collapse\nThis is a block of text that is collapsed by default.\nIt can be expanded by clicking a link.\n}}\n\n" +
+             "{{collapse(View details...)\nWith custom link text.\n}}"
       macro :collapse do |obj, args, text|
         html_id = "collapse-#{Redmine::Utils.random_hex(4)}"
         show_label = args[0] || l(:button_show)
@@ -225,7 +229,9 @@ module Redmine
         out
       end
 
-      desc "Displays a clickable thumbnail of an attached image. Examples:\n\n<pre>{{thumbnail(image.png)}}\n{{thumbnail(image.png, size=300, title=Thumbnail)}}</pre>"
+      desc "Displays a clickable thumbnail of an attached image. Examples:\n\n" +
+             "{{thumbnail(image.png)}}\n" +
+             "{{thumbnail(image.png, size=300, title=Thumbnail)}} -- with custom title and size"
       macro :thumbnail do |obj, args|
         args, options = extract_macro_options(args, :size, :title)
         filename = args.first

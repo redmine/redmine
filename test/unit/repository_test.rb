@@ -76,6 +76,24 @@ class RepositoryTest < ActiveSupport::TestCase
     assert_equal repository, project.repository
   end
 
+  def test_2_repositories_with_same_identifier_in_different_projects_should_be_valid
+    Repository::Subversion.create!(:project_id => 2, :identifier => 'foo', :url => 'file:///foo')
+    r = Repository::Subversion.new(:project_id => 3, :identifier => 'foo', :url => 'file:///bar')
+    assert r.save
+  end
+
+  def test_2_repositories_with_same_identifier_should_not_be_valid
+    Repository::Subversion.create!(:project_id => 3, :identifier => 'foo', :url => 'file:///foo')
+    r = Repository::Subversion.new(:project_id => 3, :identifier => 'foo', :url => 'file:///bar')
+    assert !r.save
+  end
+
+  def test_2_repositories_with_blank_identifier_should_not_be_valid
+    Repository::Subversion.create!(:project_id => 3, :identifier => '', :url => 'file:///foo')
+    r = Repository::Subversion.new(:project_id => 3, :identifier => '', :url => 'file:///bar')
+    assert !r.save
+  end
+
   def test_first_repository_should_be_set_as_default
     repository1 = Repository::Subversion.new(
                       :project => Project.find(3),

@@ -9,21 +9,22 @@ rvm:
   - 2.0
   - 2.1
   - jruby
+env:
+  - "SUITE=units       DATABASE_ADAPTER=postgresql"
+  - "SUITE=functionals DATABASE_ADAPTER=postgresql"
+  - "SUITE=integration DATABASE_ADAPTER=postgresql"
+  - "SUITE=units       DATABASE_ADAPTER=mysql"
+  - "SUITE=functionals DATABASE_ADAPTER=mysql"
+  - "SUITE=integration DATABASE_ADAPTER=mysql"
+  - "SUITE=units       DATABASE_ADAPTER=sqlite3"
+  - "SUITE=functionals DATABASE_ADAPTER=sqlite3"
+  - "SUITE=integration DATABASE_ADAPTER=sqlite3"
 matrix:
   allow_failures:
     # SCM tests fail randomly due to IO.popen().
+    # http://www.redmine.org/issues/19091
     # https://github.com/jruby/jruby/issues/779
     - rvm: jruby
-env:
-  - "TEST_SUITE=units       DATABASE_ADAPTER=postgresql"
-  - "TEST_SUITE=functionals DATABASE_ADAPTER=postgresql"
-  - "TEST_SUITE=integration DATABASE_ADAPTER=postgresql"
-  - "TEST_SUITE=units       DATABASE_ADAPTER=mysql"
-  - "TEST_SUITE=functionals DATABASE_ADAPTER=mysql"
-  - "TEST_SUITE=integration DATABASE_ADAPTER=mysql"
-  - "TEST_SUITE=units       DATABASE_ADAPTER=sqlite3"
-  - "TEST_SUITE=functionals DATABASE_ADAPTER=sqlite3"
-  - "TEST_SUITE=integration DATABASE_ADAPTER=sqlite3"
 before_install:
   - "sudo apt-get update -qq"
   - "sudo apt-get --no-install-recommends install bzr cvs git mercurial subversion"
@@ -34,6 +35,7 @@ script:
   - "bundle install"
   - "RUN_ON_NOT_OFFICIAL='' RUBY_VER=1.9 BRANCH=trunk bundle exec rake config/database.yml"
   - "bundle install"
+  - export TEST_SUITE=${SUITE}
   - "JRUBY_OPTS=-J-Xmx1024m bundle exec rake ci"
 notifications:
   email: false
