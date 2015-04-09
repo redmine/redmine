@@ -533,13 +533,29 @@ class Issue < ActiveRecord::Base
     workflow_permissions = WorkflowPermission.where(:tracker_id => tracker_id, :old_status_id => status_id, :role_id => roles.map(&:id))
     if workflow_permissions.any?
       workflow_rules = workflow_permissions.inject({}) do |h, wp|
-        h[wp.field_name] ||= []
-        h[wp.field_name] << wp.rule
+        h[wp.field_name] ||= {}
+        h[wp.field_name][wp.role_id] = wp.rule
         h
+      end
+      fields_with_roles = {}
+      # #pluck with 2 arguments is not supported in Rails 3.2
+      sql = IssueCustomField.where(:visible => false).joins(:roles).select("#{CustomField.table_name}.id, role_id").to_sql
+      self.class.connection.select_rows(sql).each do |field_id, role_id|
+        fields_with_roles[field_id] ||= []
+        fields_with_roles[field_id] << role_id
+      end
+      roles.each do |role|
+        fields_with_roles.each do |field_id, role_ids|
+          unless role_ids.include?(role.id)
+            field_name = field_id.to_s
+            workflow_rules[field_name] ||= {}
+            workflow_rules[field_name][role.id] = 'readonly'
+          end
+        end
       end
       workflow_rules.each do |attr, rules|
         next if rules.size < roles.size
-        uniq_rules = rules.uniq
+        uniq_rules = rules.values.uniq
         if uniq_rules.size == 1
           result[attr] = uniq_rules.first
         else
@@ -784,12 +800,12 @@ class Issue < ActiveRecord::Base
     end
   end
 
-  # Returns the previous assignee if changed
+  # Returns the previous assignee (user or group) if changed
   def assigned_to_was
     # assigned_to_id_was is reset before after_save callbacks
     user_id = @previous_assigned_to_id || assigned_to_id_was
     if user_id && user_id != assigned_to_id
-      @assigned_to_was ||= User.find_by_id(user_id)
+      @assigned_to_was ||= Principal.find_by_id(user_id)
     end
   end
 

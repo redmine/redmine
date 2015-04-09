@@ -529,13 +529,13 @@ class RedCloth3 < String
             fullrow.each_line do |row|
                 ratts, row = pba( $1, 'tr' ), $2 if row =~ /^(#{A}#{C}\. )(.*)/m
                 cells = []
-                row.split( /(\|)(?![^\[\|]*\]\])/ )[1..-2].each do |cell|
-                    next if cell == '|'
+                # the regexp prevents wiki links with a | from being cut as cells 
+                row.scan(/\|(_?#{S}#{A}#{C}\. ?)?((\[\[[^|\]]*\|[^|\]]*\]\]|[^|])*?)(?=\|)/) do |modifiers, cell|
                     ctyp = 'd'
-                    ctyp = 'h' if cell =~ /^_/
+                    ctyp = 'h' if modifiers && modifiers =~ /^_/
 
-                    catts = ''
-                    catts, cell = pba( $1, 'td' ), $2 if cell =~ /^(_?#{S}#{A}#{C}\. ?)(.*)/
+                    catts = nil
+                    catts = pba( modifiers, 'td' ) if modifiers
 
                     catts = shelve( catts ) if catts
                     cells << "\t\t\t<t#{ ctyp }#{ catts }>#{ cell }</t#{ ctyp }>" 
@@ -986,8 +986,8 @@ class RedCloth3 < String
     end
     
     def retrieve( text ) 
-        @shelf.each_with_index do |r, i|
-            text.gsub!( " :redsh##{ i + 1 }:", r )
+        text.gsub!(/ :redsh#(\d+):/) do
+          @shelf[$1.to_i - 1] || $&
         end
     end
 
