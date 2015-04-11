@@ -73,7 +73,6 @@ class MailHandler < ActionMailer::Base
 
   cattr_accessor :ignored_emails_headers
   @@ignored_emails_headers = {
-    'X-Auto-Response-Suppress' => /(oof|all)/,
     'Auto-Submitted' => /\Aauto-(replied|generated)/,
     'X-Autoreply' => 'yes'
   }

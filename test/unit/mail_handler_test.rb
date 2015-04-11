@@ -629,7 +629,6 @@ class MailHandlerTest < ActiveSupport::TestCase
   def test_should_ignore_auto_replied_emails
     MailHandler.any_instance.expects(:dispatch).never
     [
-      "X-Auto-Response-Suppress: OOF",
       "Auto-Submitted: auto-replied",
       "Auto-Submitted: Auto-Replied",
       "Auto-Submitted: auto-generated",
