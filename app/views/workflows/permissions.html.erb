@@ -65,7 +65,7 @@
           <%= name %> <%= content_tag('span', '*', :class => 'required') if field_required?(field) %>
         </td>
         <% for status in @statuses -%>
-        <td class="<%= @permissions[status.id][field] %>">
+        <td class="<%= @permissions[status.id][field].try(:join, ' ') %>">
           <%= field_permission_tag(@permissions, status, field, @roles) %>
           <% unless status == @statuses.last %><a href="#" class="repeat-value">&#187;</a><% end %>
         </td>
