@@ -2605,6 +2605,20 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal 'Copy', issue.subject
   end
 
+  def test_create_as_copy_should_allow_status_to_be_set_to_default
+    copied = Issue.generate! :status_id => 2
+    assert_equal 2, copied.reload.status_id
+
+    @request.session[:user_id] = 2
+    assert_difference 'Issue.count' do
+      post :create, :project_id => 1, :copy_from => copied.id,
+        :issue => {:project_id => '1', :tracker_id => '1', :status_id => '1'},
+        :was_default_status => '1'
+    end
+    issue = Issue.order('id DESC').first
+    assert_equal 1, issue.status_id
+  end
+
   def test_create_as_copy_should_copy_attachments
     @request.session[:user_id] = 2
     issue = Issue.find(3)

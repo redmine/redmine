@@ -425,7 +425,7 @@ class IssuesController < ApplicationController
     @issue.start_date ||= Date.today if Setting.default_issue_start_date_to_creation_date?
 
     if attrs = params[:issue].deep_dup
-      if params[:was_default_status] == attrs[:status_id]
+      if action_name == 'new' && params[:was_default_status] == attrs[:status_id]
         attrs.delete(:status_id)
       end
       @issue.safe_attributes = attrs
