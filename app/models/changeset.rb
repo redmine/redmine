@@ -242,8 +242,11 @@ class Changeset < ActiveRecord::Base
     end
     Redmine::Hook.call_hook(:model_changeset_scan_commit_for_issue_ids_pre_issue_update,
                             { :changeset => self, :issue => issue, :action => action })
-    unless issue.save
-      logger.warn("Issue ##{issue.id} could not be saved by changeset #{id}: #{issue.errors.full_messages}") if logger
+
+    if issue.changes.any?
+      unless issue.save
+        logger.warn("Issue ##{issue.id} could not be saved by changeset #{id}: #{issue.errors.full_messages}") if logger
+      end
     end
     issue
   end

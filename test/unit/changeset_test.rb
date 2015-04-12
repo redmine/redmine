@@ -163,6 +163,30 @@ class ChangesetTest < ActiveSupport::TestCase
     assert_equal [1,2,3], c.issue_ids.sort
   end
 
+  def test_update_keywords_with_changes_should_create_journal
+    issue = Issue.generate!(:project_id => 1, :status_id => 1)
+
+    with_settings :commit_update_keywords => [{'keywords' => 'fixes', 'status_id' => '3'}] do
+      assert_difference 'Journal.count' do
+        c = Changeset.generate!(:repository => Project.find(1).repository,:comments => "Fixes ##{issue.id}")
+        assert_include c.id, issue.reload.changeset_ids
+        journal = Journal.order('id DESC').first
+        assert_equal 1, journal.details.count
+      end
+    end
+  end
+
+  def test_update_keywords_without_change_should_not_create_journal
+    issue = Issue.generate!(:project_id => 1, :status_id => 3)
+
+    with_settings :commit_update_keywords => [{'keywords' => 'fixes', 'status_id' => '3'}] do
+      assert_no_difference 'Journal.count' do
+        c = Changeset.generate!(:repository => Project.find(1).repository,:comments => "Fixes ##{issue.id}")
+        assert_include c.id, issue.reload.changeset_ids
+      end
+    end
+  end
+
   def test_update_keywords_with_multiple_rules
     with_settings :commit_update_keywords => [
       {'keywords' => 'fixes, closes', 'status_id' => '5'},
