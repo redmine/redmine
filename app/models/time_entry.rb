@@ -68,9 +68,14 @@ class TimeEntry < ActiveRecord::Base
   def safe_attributes=(attrs, user=User.current)
     if attrs
       attrs = super(attrs)
-      if issue_id_changed? && attrs[:project_id].blank? && issue && issue.project_id != project_id
+      if issue_id_changed? && issue
         if user.allowed_to?(:log_time, issue.project)
-          self.project_id = issue.project_id
+          if attrs[:project_id].blank? && issue.project_id != project_id
+            self.project_id = issue.project_id
+          end
+          @invalid_issue_id = nil
+        else
+          @invalid_issue_id = issue_id
         end
       end
     end
@@ -84,7 +89,7 @@ class TimeEntry < ActiveRecord::Base
   def validate_time_entry
     errors.add :hours, :invalid if hours && (hours < 0 || hours >= 1000)
     errors.add :project_id, :invalid if project.nil?
-    errors.add :issue_id, :invalid if (issue_id && !issue) || (issue && project!=issue.project)
+    errors.add :issue_id, :invalid if (issue_id && !issue) || (issue && project!=issue.project) || @invalid_issue_id
   end
 
   def hours=(h)
