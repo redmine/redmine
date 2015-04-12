@@ -265,6 +265,14 @@ class IssuesControllerTest < ActionController::TestCase
     assert_not_nil assigns(:issue_count_by_group)
   end
 
+  def test_index_with_query_grouped_and_sorted_by_category
+    get :index, :project_id => 1, :set_filter => 1, :group_by => "category", :sort => "category"
+    assert_response :success
+    assert_template 'index'
+    assert_not_nil assigns(:issues)
+    assert_not_nil assigns(:issue_count_by_group)
+  end
+
   def test_index_with_query_grouped_by_list_custom_field
     get :index, :project_id => 1, :query_id => 9
     assert_response :success
