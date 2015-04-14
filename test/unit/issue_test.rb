@@ -502,6 +502,38 @@ class IssueTest < ActiveSupport::TestCase
     assert_equal 'MySQL', issue.custom_field_value(1)
   end
 
+  def test_changing_tracker_should_clear_disabled_core_fields
+    tracker = Tracker.find(2)
+    tracker.core_fields = tracker.core_fields - %w(due_date)
+    tracker.save!
+
+    issue = Issue.generate!(:tracker_id => 1, :start_date => Date.today, :due_date => Date.today)
+    issue.save!
+
+    issue.tracker_id = 2
+    issue.save!
+    assert_not_nil issue.start_date
+    assert_nil issue.due_date
+  end
+
+  def test_changing_tracker_should_not_add_cleared_fields_to_journal
+    tracker = Tracker.find(2)
+    tracker.core_fields = tracker.core_fields - %w(due_date)
+    tracker.save!
+
+    issue = Issue.generate!(:tracker_id => 1, :due_date => Date.today)
+    issue.save!
+
+    assert_difference 'Journal.count' do
+      issue.init_journal User.find(1)
+      issue.tracker_id = 2
+      issue.save!
+      assert_nil issue.due_date
+    end
+    journal = Journal.order('id DESC').first
+    assert_equal 1, journal.details.count
+  end
+
   def test_reload_should_reload_custom_field_values
     issue = Issue.generate!
     issue.custom_field_values = {'2' => 'Foo'}
