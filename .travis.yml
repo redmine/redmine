@@ -10,15 +10,15 @@ rvm:
   - 2.1
   - jruby
 env:
-  - "SUITE=units       DATABASE_ADAPTER=postgresql"
-  - "SUITE=functionals DATABASE_ADAPTER=postgresql"
-  - "SUITE=integration DATABASE_ADAPTER=postgresql"
-  - "SUITE=units       DATABASE_ADAPTER=mysql"
-  - "SUITE=functionals DATABASE_ADAPTER=mysql"
-  - "SUITE=integration DATABASE_ADAPTER=mysql"
-  - "SUITE=units       DATABASE_ADAPTER=sqlite3"
-  - "SUITE=functionals DATABASE_ADAPTER=sqlite3"
-  - "SUITE=integration DATABASE_ADAPTER=sqlite3"
+  - "SUITE=units       DB=postgresql"
+  - "SUITE=functionals DB=postgresql"
+  - "SUITE=integration DB=postgresql"
+  - "SUITE=units       DB=mysql"
+  - "SUITE=functionals DB=mysql"
+  - "SUITE=integration DB=mysql"
+  - "SUITE=units       DB=sqlite3"
+  - "SUITE=functionals DB=sqlite3"
+  - "SUITE=integration DB=sqlite3"
 matrix:
   allow_failures:
     # SCM tests fail randomly due to IO.popen().
@@ -29,6 +29,7 @@ before_install:
   - "sudo apt-get update -qq"
   - "sudo apt-get --no-install-recommends install bzr cvs git mercurial subversion"
 script:
+  - export DATABASE_ADAPTER=${DB}
   - "SCMS=bazaar,cvs,subversion,git,mercurial,filesystem"
   - "export SCMS"
   - "git --version"
