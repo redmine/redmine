@@ -9,34 +9,34 @@ rvm:
   - 2.2
   - jruby
 env:
-  - "SUITE=units       DATABASE_ADAPTER=postgresql"
-  - "SUITE=functionals DATABASE_ADAPTER=postgresql"
-  - "SUITE=integration DATABASE_ADAPTER=postgresql"
-  - "SUITE=ui          DATABASE_ADAPTER=postgresql"
-  - "SUITE=units       DATABASE_ADAPTER=mysql-5.5"
-  - "SUITE=functionals DATABASE_ADAPTER=mysql-5.5"
-  - "SUITE=integration DATABASE_ADAPTER=mysql-5.5"
-  - "SUITE=ui          DATABASE_ADAPTER=mysql-5.5"
-  - "SUITE=units       DATABASE_ADAPTER=mysql-5.6"
-  - "SUITE=functionals DATABASE_ADAPTER=mysql-5.6"
-  - "SUITE=integration DATABASE_ADAPTER=mysql-5.6"
-  - "SUITE=ui          DATABASE_ADAPTER=mysql-5.6"
-  - "SUITE=units       DATABASE_ADAPTER=mysql-5.7-dmr"
-  - "SUITE=functionals DATABASE_ADAPTER=mysql-5.7-dmr"
-  - "SUITE=integration DATABASE_ADAPTER=mysql-5.7-dmr"
-  - "SUITE=ui          DATABASE_ADAPTER=mysql-5.7-dmr"
-  - "SUITE=units       DATABASE_ADAPTER=mariadb-5.5"
-  - "SUITE=functionals DATABASE_ADAPTER=mariadb-5.5"
-  - "SUITE=integration DATABASE_ADAPTER=mariadb-5.5"
-  - "SUITE=ui          DATABASE_ADAPTER=mariadb-5.5"
-  - "SUITE=units       DATABASE_ADAPTER=mariadb-10.0"
-  - "SUITE=functionals DATABASE_ADAPTER=mariadb-10.0"
-  - "SUITE=integration DATABASE_ADAPTER=mariadb-10.0"
-  - "SUITE=ui          DATABASE_ADAPTER=mariadb-10.0"
-  - "SUITE=units       DATABASE_ADAPTER=sqlite3"
-  - "SUITE=functionals DATABASE_ADAPTER=sqlite3"
-  - "SUITE=integration DATABASE_ADAPTER=sqlite3"
-  - "SUITE=ui          DATABASE_ADAPTER=sqlite3"
+  - "SUITE=units       DB=postgresql"
+  - "SUITE=functionals DB=postgresql"
+  - "SUITE=integration DB=postgresql"
+  - "SUITE=ui          DB=postgresql"
+  - "SUITE=units       DB=mysql-5.5"
+  - "SUITE=functionals DB=mysql-5.5"
+  - "SUITE=integration DB=mysql-5.5"
+  - "SUITE=ui          DB=mysql-5.5"
+  - "SUITE=units       DB=mysql-5.6"
+  - "SUITE=functionals DB=mysql-5.6"
+  - "SUITE=integration DB=mysql-5.6"
+  - "SUITE=ui          DB=mysql-5.6"
+  - "SUITE=units       DB=mysql-5.7-dmr"
+  - "SUITE=functionals DB=mysql-5.7-dmr"
+  - "SUITE=integration DB=mysql-5.7-dmr"
+  - "SUITE=ui          DB=mysql-5.7-dmr"
+  - "SUITE=units       DB=mariadb-5.5"
+  - "SUITE=functionals DB=mariadb-5.5"
+  - "SUITE=integration DB=mariadb-5.5"
+  - "SUITE=ui          DB=mariadb-5.5"
+  - "SUITE=units       DB=mariadb-10.0"
+  - "SUITE=functionals DB=mariadb-10.0"
+  - "SUITE=integration DB=mariadb-10.0"
+  - "SUITE=ui          DB=mariadb-10.0"
+  - "SUITE=units       DB=sqlite3"
+  - "SUITE=functionals DB=sqlite3"
+  - "SUITE=integration DB=sqlite3"
+  - "SUITE=ui          DB=sqlite3"
 matrix:
   allow_failures:
     # SCM tests fail randomly due to IO.popen().
@@ -45,27 +45,27 @@ matrix:
     - rvm: jruby
     # http://www.redmine.org/issues/17460
     # http://www.redmine.org/issues/19344
-    - env: "SUITE=units       DATABASE_ADAPTER=mysql-5.6"
-    - env: "SUITE=units       DATABASE_ADAPTER=mysql-5.7-dmr"
-    - env: "SUITE=units       DATABASE_ADAPTER=mariadb-5.5"
-    - env: "SUITE=units       DATABASE_ADAPTER=mariadb-10.0"
+    - env: "SUITE=units       DB=mysql-5.6"
+    - env: "SUITE=units       DB=mysql-5.7-dmr"
+    - env: "SUITE=units       DB=mariadb-5.5"
+    - env: "SUITE=units       DB=mariadb-10.0"
 before_install:
   - "sudo apt-get update -qq"
   - "sudo apt-get --no-install-recommends install bzr cvs git mercurial subversion"
-  - if [[ $DATABASE_ADAPTER =~ (mariadb|mysql-5\.[67]) ]] ;
+  - if [[ $DB =~ (mariadb|mysql-5\.[67]) ]] ;
     then
       sudo service mysql stop ;
       sudo apt-get install python-software-properties ;
-      if [[ $DATABASE_ADAPTER =~ mariadb ]] ;
+      if [[ $DB =~ mariadb ]] ;
       then
         sudo apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xcbcb082a1bb943db ;
-        MARIADB_VER=`echo $DATABASE_ADAPTER | sed -e 's/mariadb-//'` ;
+        MARIADB_VER=`echo $DB | sed -e 's/mariadb-//'` ;
         sudo add-apt-repository ''"deb http://ftp.osuosl.org/pub/mariadb/repo/${MARIADB_VER}/ubuntu precise main"'' ;
         sudo apt-get update ;
         sudo DEBIAN_FRONTEND=noninteractive apt-get -q --yes --force-yes -f --option DPkg::Options::=--force-confnew install mariadb-server ;
         sudo apt-get install libmariadbd-dev ;
       else
-        echo mysql-apt-config mysql-apt-config/enable-repo select $DATABASE_ADAPTER | sudo debconf-set-selections ;
+        echo mysql-apt-config mysql-apt-config/enable-repo select $DB | sudo debconf-set-selections ;
         wget http://dev.mysql.com/get/mysql-apt-config_0.2.1-1ubuntu12.04_all.deb ;
         sudo dpkg --install mysql-apt-config_0.2.1-1ubuntu12.04_all.deb ;
         sudo apt-get update -q ;
@@ -73,6 +73,7 @@ before_install:
       fi
     fi
 script:
+  - export DATABASE_ADAPTER=${DB}
   - "SCMS=bazaar,cvs,subversion,git,mercurial,filesystem"
   - "export SCMS"
   - "git --version"
