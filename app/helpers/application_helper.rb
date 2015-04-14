@@ -1117,7 +1117,7 @@ module ApplicationHelper
 
   def checked_image(checked=true)
     if checked
-      image_tag 'toggle_check.png'
+      @checked_image_tag ||= image_tag('toggle_check.png')
     end
   end
 
