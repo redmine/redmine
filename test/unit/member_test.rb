@@ -133,6 +133,16 @@ class MemberTest < ActiveSupport::TestCase
     Member._destroy_callbacks.delete(:destroy_test_callback)
   end
 
+  def test_roles_should_be_unique
+    m = Member.new(:user_id => 1, :project_id => 1)
+    m.member_roles.build(:role_id => 1)
+    m.member_roles.build(:role_id => 1)
+    m.save!
+    m.reload
+    assert_equal 1, m.roles.count
+    assert_equal [1], m.roles.ids
+  end
+
   def test_sort_without_roles
     a = Member.new(:roles => [Role.first])
     b = Member.new
