@@ -300,7 +300,7 @@ RAW
     board_url = {:controller => 'boards', :action => 'show', :id => 2, :project_id => 'ecookbook'}
 
     message_url = {:controller => 'messages', :action => 'show', :board_id => 1, :id => 4}
-    
+
     news_url = {:controller => 'news', :action => 'show', :id => 1}
 
     project_url = {:controller => 'projects', :action => 'show', :id => 'subproject1'}
@@ -948,12 +948,12 @@ EXPECTED
   def test_pre_content_should_not_parse_wiki_and_redmine_links
     raw = <<-RAW
 [[CookBook documentation]]
-  
+
 #1
 
 <pre>
 [[CookBook documentation]]
-  
+
 #1
 </pre>
 RAW
