@@ -18,7 +18,7 @@
 require 'redmine/core_ext'
 
 begin
-  require 'RMagick' unless Object.const_defined?(:Magick)
+  require 'rmagick' unless Object.const_defined?(:Magick)
 rescue LoadError
   # RMagick is not available
 end
