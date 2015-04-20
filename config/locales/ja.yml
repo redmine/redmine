@@ -273,7 +273,7 @@ ja:
   field_is_public: 公開
   field_parent: 親プロジェクト名
   field_is_in_roadmap: チケットをロードマップに表示する
-  field_login: ログイン
+  field_login: ログインID
   field_mail_notification: メール通知
   field_admin: システム管理者
   field_last_login_on: 最終接続日
