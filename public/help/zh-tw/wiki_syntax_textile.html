@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<title>Wiki 格式設定</title>
+<style type="text/css">
+h1 { font-family: Verdana, sans-serif; font-size: 14px; text-align: center; color: #444; }
+body { font-family: Verdana, sans-serif; font-size: 12px; color: #444; }
+table th { padding-top: 1em; }
+table td { vertical-align: top; background-color: #f5f5f5; height: 2em; vertical-align: middle;}
+table td code { font-size: 1.2em; }
+table td h1 { font-size: 1.8em; text-align: left; }
+table td h2 { font-size: 1.4em; text-align: left; }
+table td h3 { font-size: 1.2em; text-align: left; }
+
+table.sample { border-collapse: collapse; border-spacing: 0; margin: 4px; }
+table.sample th, table.sample td { border: solid 1px #bbb; padding: 4px; height: 1em; }
+</style>
+</head>
+<body>
+
+<h1>Wiki 語法快速對照表</h1>
+
+<table style="width:100%">
+<tr><th colspan="3">字型樣式</th></tr>
+<tr><th><img src="../../images/jstoolbar/bt_strong.png" style="border: 1px solid #bbb;" alt="粗體(加強語氣)" /></th><td style="width:50%;">*粗體(加強語氣)*</td><td style="width:50%;"><strong>粗體(加強語氣)</strong></td></tr>
+<tr><th><img src="../../images/jstoolbar/bt_em.png" style="border: 1px solid #bbb;" alt="斜體" /></th><td>_斜體_</td><td><em>斜體</em></td></tr>
+<tr><th><img src="../../images/jstoolbar/bt_ins.png" style="border: 1px solid #bbb;" alt="底線" /></th><td>+底線+</td><td><ins>底線</ins></td></tr>
+<tr><th><img src="../../images/jstoolbar/bt_del.png" style="border: 1px solid #bbb;" alt="刪除線" /></th><td>-刪除線-</td><td><del>刪除線</del></td></tr>
+<tr><th></th><td>??引文??</td><td><cite>引文</cite></td></tr>
+<tr><th><img src="../../images/jstoolbar/bt_code.png" style="border: 1px solid #bbb;" alt="內嵌程式碼" /></th><td>@內嵌程式碼@</td><td><code>內嵌程式碼 (inline code)</code></td></tr>
+<tr><th><img src="../../images/jstoolbar/bt_pre.png" style="border: 1px solid #bbb;" alt="預先格式化的段落文字" /></th><td>&lt;pre&gt;<br />&nbsp;格式化<br />&nbsp;的段落<br />&lt;/pre&gt;</td><td>
+<pre>
+ 格式化
+ 的段落
+</pre>
+</td></tr>
+
+<tr><th colspan="3">清單</th></tr>
+<tr><th><img src="../../images/jstoolbar/bt_ul.png" style="border: 1px solid #bbb;" alt="不排序清單" /></th><td>* 清單項目 1<br />** Sub<br />* 清單項目 2</td><td><ul><li>清單項目 1<ul><li>Sub</li></ul></li><li>清單項目 2</li></ul></td></tr>
+<tr><th><img src="../../images/jstoolbar/bt_ol.png" style="border: 1px solid #bbb;" alt="排序清單" /></th><td># 清單項目 1<br />## Sub<br /># 清單項目 2</td><td><ol><li>清單項目 1<ol><li>Sub</li></ol></li><li>清單項目 2</li></ol></td></tr>
+
+<tr><th colspan="3">標題</th></tr>
+<tr><th><img src="../../images/jstoolbar/bt_h1.png" style="border: 1px solid #bbb;" alt="標題 1" /></th><td>h1. 標題 1</td><td><h1>標題 1</h1></td></tr>
+<tr><th><img src="../../images/jstoolbar/bt_h2.png" style="border: 1px solid #bbb;" alt="標題 2" /></th><td>h2. 標題 2</td><td><h2>標題 2</h2></td></tr>
+<tr><th><img src="../../images/jstoolbar/bt_h3.png" style="border: 1px solid #bbb;" alt="標題 3" /></th><td>h3. 標題 3</td><td><h3>標題 3</h3></td></tr>
+
+<tr><th colspan="3">連結</th></tr>
+<tr><th></th><td>http://foo.bar</td><td><a href="#">http://foo.bar</a></td></tr>
+<tr><th></th><td>"Foo":http://foo.bar</td><td><a href="#">Foo</a></td></tr>
+
+<tr><th colspan="3">Redmine 連結</th></tr>
+<tr><th><img src="../../images/jstoolbar/bt_link.png" style="border: 1px solid #bbb;" alt="連結至一個 Wiki 頁面" /></th><td>[[Wiki 頁面]]</td><td><a href="#">Wiki 頁面</a></td></tr>
+<tr><th></th><td>問題 #12</td><td>問題 <a href="#">#12</a></td></tr>
+<tr><th></th><td>版次 r43</td><td>版次 <a href="#">r43</a></td></tr>
+<tr><th></th><td>commit:f30e13e43</td><td><a href="#">f30e13e4</a></td></tr>
+<tr><th></th><td>source:some/file</td><td><a href="#">source:some/file</a></td></tr>
+
+<tr><th colspan="3">內置圖像</th></tr>
+<tr><th><img src="../../images/jstoolbar/bt_img.png" style="border: 1px solid #bbb;" alt="圖像" /></th><td>!<em>圖像_url</em>!</td><td></td></tr>
+<tr><th></th><td>!<em>附加_圖像</em>!</td><td></td></tr>
+
+<tr><th colspan="3">Tables</th></tr>
+<tr>
+  <th></th>
+  <td>|_. A |_. B |_. C |<br />| A | B | C |<br />|/2. row span | B | C |<br />|\2. col span |</td>
+  <td>
+    <table class="sample">
+      <tbody>
+        <th>A</th><th>B</th><th>C</th>
+        <tr><td>A</td><td>B</td><td>C</td></tr>
+        <tr><td rowspan="2">row span</td><td>B</td><td>C</td></tr>
+        <tr><td colspan="2">col span</td></tr>
+      </tbody>
+    </table>
+  </td>
+</tr>
+
+</table>
+
+<p><a href="wiki_syntax_detailed_textile.html" onclick="window.open('wiki_syntax_detailed_textile.html', '', ''); return false;">更多資訊</a></p>
+
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<title>Wiki formatting</title>
+<style type="text/css">
+h1 { font-family: Verdana, sans-serif; font-size: 14px; text-align: center; color: #444; }
+body { font-family: Verdana, sans-serif; font-size: 12px; color: #444; }
+table th { padding-top: 1em; }
+table td { vertical-align: top; background-color: #f5f5f5; height: 2em; vertical-align: middle;}
+table td code { font-size: 1.2em; }
+table td h1 { font-size: 1.8em; text-align: left; }
+table td h2 { font-size: 1.4em; text-align: left; }
+table td h3 { font-size: 1.2em; text-align: left; }
+
+table.sample { border-collapse: collapse; border-spacing: 0; margin: 4px; }
+table.sample th, table.sample td { border: solid 1px #bbb; padding: 4px; height: 1em; }
+</style>
+</head>
+<body>
+
+<h1>Syntaxe rapide des Wikis</h1>
+
+<table style="width:100%">
+<tr><th colspan="3">Font Styles</th></tr>
+<tr><th><img src="../../images/jstoolbar/bt_strong.png" style="border: 1px solid #bbb;" alt="Strong" /></th><td style="width:50%;">*Gras*</td><td style="width:50%;"><strong>Gras</strong></td></tr>
+<tr><th><img src="../../images/jstoolbar/bt_em.png" style="border: 1px solid #bbb;" alt="Italic" /></th><td>_Italique_</td><td><em>Italique</em></td></tr>
+<tr><th><img src="../../images/jstoolbar/bt_ins.png" style="border: 1px solid #bbb;" alt="Underline" /></th><td>+Sous-ligné+</td><td><ins>Sous-ligné</ins></td></tr>
+<tr><th><img src="../../images/jstoolbar/bt_del.png" style="border: 1px solid #bbb;" alt="Deleted" /></th><td>-Barré-</td><td><del>Barré</del></td></tr>
+<tr><th></th><td>??Citation??</td><td><cite>Citation</cite></td></tr>
+<tr><th><img src="../../images/jstoolbar/bt_code.png" style="border: 1px solid #bbb;" alt="Inline Code" /></th><td>@Code en ligne@</td><td><code>Code en ligne</code></td></tr>
+<tr><th><img src="../../images/jstoolbar/bt_pre.png" style="border: 1px solid #bbb;" alt="Preformatted text" /></th><td>&lt;pre&gt;<br />&nbsp;lignes<br />&nbsp;de code<br />&lt;/pre&gt;</td><td>
+<pre>
+ lignes
+ de code
+</pre>
+</td></tr>
+
+<tr><th colspan="3">Listes</th></tr>
+<tr><th><img src="../../images/jstoolbar/bt_ul.png" style="border: 1px solid #bbb;" alt="Unordered list" /></th><td>* Item 1<br />** Sub<br />* Item 2</td><td><ul><li>Item 1<ul><li>Sub</li></ul></li><li>Item 2</li></ul></td></tr>
+<tr><th><img src="../../images/jstoolbar/bt_ol.png" style="border: 1px solid #bbb;" alt="Ordered list" /></th><td># Item 1<br />## Sub<br /># Item 2</td><td><ol><li>Item 1<ol><li>Sub</li></ol></li><li>Item 2</li></ol></td></tr>
+
+<tr><th colspan="3">Titres</th></tr>
+<tr><th><img src="../../images/jstoolbar/bt_h1.png" style="border: 1px solid #bbb;" alt="Heading 1" /></th><td>h1. Titre 1</td><td><h1>Titre 1</h1></td></tr>
+<tr><th><img src="../../images/jstoolbar/bt_h2.png" style="border: 1px solid #bbb;" alt="Heading 2" /></th><td>h2. Titre 2</td><td><h2>Titre 2</h2></td></tr>
+<tr><th><img src="../../images/jstoolbar/bt_h3.png" style="border: 1px solid #bbb;" alt="Heading 3" /></th><td>h3. Titre 3</td><td><h3>Titre 3</h3></td></tr>
+
+<tr><th colspan="3">Liens</th></tr>
+<tr><th></th><td>http://foo.bar</td><td><a href="#">http://foo.bar</a></td></tr>
+<tr><th></th><td>"Foo":http://foo.bar</td><td><a href="#">Foo</a></td></tr>
+
+<tr><th colspan="3">Liens Redmine</th></tr>
+<tr><th><img src="../../images/jstoolbar/bt_link.png" style="border: 1px solid #bbb;" alt="Link to a Wiki page" /></th><td>[[Wiki page]]</td><td><a href="#">Wiki page</a></td></tr>
+<tr><th></th><td>Demande #12</td><td>Demande <a href="#">#12</a></td></tr>
+<tr><th></th><td>Revision r43</td><td>Revision <a href="#">r43</a></td></tr>
+<tr><th></th><td>commit:f30e13e43</td><td><a href="#">f30e13e4</a></td></tr>
+<tr><th></th><td>source:some/file</td><td><a href="#">source:some/file</a></td></tr>
+
+<tr><th colspan="3">Images en ligne</th></tr>
+<tr><th><img src="../../images/jstoolbar/bt_img.png" style="border: 1px solid #bbb;" alt="Image" /></th><td>!<em>url_de_l_image</em>!</td><td></td></tr>
+<tr><th></th><td>!<em>image_en_pièce_jointe</em>!</td><td></td></tr>
+
+<tr><th colspan="3">Tables</th></tr>
+<tr>
+  <th></th>
+  <td>|_. A |_. B |_. C |<br />| A | B | C |<br />|/2. row span | B | C |<br />|\2. col span |</td>
+  <td>
+    <table class="sample">
+      <tbody>
+        <th>A</th><th>B</th><th>C</th>
+        <tr><td>A</td><td>B</td><td>C</td></tr>
+        <tr><td rowspan="2">row span</td><td>B</td><td>C</td></tr>
+        <tr><td colspan="2">col span</td></tr>
+      </tbody>
+    </table>
+  </td>
+</tr>
+
+</table>
+
+<p><a href="wiki_syntax_detailed_textile.html" onclick="window.open('wiki_syntax_detailed_textile.html', '', ''); return false;">Plus d'informations</a></p>
+
+</body>
+</html>

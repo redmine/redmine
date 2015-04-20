@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<title>Wiki formatting</title>
+<style type="text/css">
+h1 { font-family: Verdana, sans-serif; font-size: 14px; text-align: center; color: #444; }
+body { font-family: Verdana, sans-serif; font-size: 12px; color: #444; }
+table th { padding-top: 1em; }
+table td { vertical-align: top; background-color: #f5f5f5; height: 2em; vertical-align: middle;}
+table td code { font-size: 1.2em; }
+table td h1 { font-size: 1.8em; text-align: left; }
+table td h2 { font-size: 1.4em; text-align: left; }
+table td h3 { font-size: 1.2em; text-align: left; }
+
+table.sample { border-collapse: collapse; border-spacing: 0; margin: 4px; }
+table.sample th, table.sample td { border: solid 1px #bbb; padding: 4px; height: 1em; }
+</style>
+</head>
+<body>
+
+<h1>Syntaxe Wiki - rychlý náhled</h1>
+
+<table style="width:100%">
+<tr><th colspan="3">Styly písma</th></tr>
+<tr><th><img src="../../images/jstoolbar/bt_strong.png" style="border: 1px solid #bbb;" alt="Tučný" /></th><td style="width:50%;">*Tučný*</td><td style="width:50%;"><strong>Tučný</strong></td></tr>
+<tr><th><img src="../../images/jstoolbar/bt_em.png" style="border: 1px solid #bbb;" alt="Kurzívou" /></th><td>_Kurzívou_</td><td><em>Kurzívou</em></td></tr>
+<tr><th><img src="../../images/jstoolbar/bt_ins.png" style="border: 1px solid #bbb;" alt="Podtržený" /></th><td>+Podtržený+</td><td><ins>Podtržený</ins></td></tr>
+<tr><th><img src="../../images/jstoolbar/bt_del.png" style="border: 1px solid #bbb;" alt="Smazaný" /></th><td>-Smazaný-</td><td><del>Smazaný</del></td></tr>
+<tr><th></th><td>??Citace??</td><td><cite>Citace</cite></td></tr>
+<tr><th><img src="../../images/jstoolbar/bt_code.png" style="border: 1px solid #bbb;" alt="Vnořený kód" /></th><td>@Vnořený kód@</td><td><code>Vnořený kód</code></td></tr>
+<tr><th><img src="../../images/jstoolbar/bt_pre.png" style="border: 1px solid #bbb;" alt="Předformátovaný text" /></th><td>&lt;pre&gt;<br />&nbsp;řádky<br />&nbsp;kódu<br />&lt;/pre&gt;</td><td>
+<pre>
+ řádky
+ kódu
+</pre>
+</td></tr>
+
+<tr><th colspan="3">Seznamy</th></tr>
+<tr><th><img src="../../images/jstoolbar/bt_ul.png" style="border: 1px solid #bbb;" alt="Nesetříděný seznam" /></th><td>* Položka 1<br />** Sub<br />* Položka 2</td><td><ul><li>Položka 1<ul><li>Sub</li></ul></li><li>Položka 2</li></ul></td></tr>
+<tr><th><img src="../../images/jstoolbar/bt_ol.png" style="border: 1px solid #bbb;" alt="Setříděný seznam" /></th><td># Položka 1<br />## Sub<br /># Položka 2</td><td><ol><li>Položka 1<ol><li>Sub</li></ol></li><li>Položka 2</li></ol></td></tr>
+
+<tr><th colspan="3">Nadpisy</th></tr>
+<tr><th><img src="../../images/jstoolbar/bt_h1.png" style="border: 1px solid #bbb;" alt="Nadpis 1" /></th><td>h1. Nadpis 1</td><td><h1>Nadpis 1</h1></td></tr>
+<tr><th><img src="../../images/jstoolbar/bt_h2.png" style="border: 1px solid #bbb;" alt="Nadpis 2" /></th><td>h2. Nadpis 2</td><td><h2>Nadpis 2</h2></td></tr>
+<tr><th><img src="../../images/jstoolbar/bt_h3.png" style="border: 1px solid #bbb;" alt="Nadpis 3" /></th><td>h3. Nadpis 3</td><td><h3>Nadpis 3</h3></td></tr>
+
+<tr><th colspan="3">Odkazy</th></tr>
+<tr><th></th><td>http://foo.bar</td><td><a href="#">http://foo.bar</a></td></tr>
+<tr><th></th><td>"Odkaz":http://foo.bar</td><td><a href="#">Odkaz</a></td></tr>
+
+<tr><th colspan="3">Redmine odkazy</th></tr>
+<tr><th><img src="../../images/jstoolbar/bt_link.png" style="border: 1px solid #bbb;" alt="Odkaz na Wiki stránku" /></th><td>[[Wiki stránka]]</td><td><a href="#">Wiki stránka</a></td></tr>
+<tr><th></th><td>Úkol #12</td><td>Úkol <a href="#">#12</a></td></tr>
+<tr><th></th><td>Revize r43</td><td>Revize <a href="#">r43</a></td></tr>
+<tr><th></th><td>commit:f30e13e43</td><td><a href="#">f30e13e4</a></td></tr>
+<tr><th></th><td>source:some/file</td><td><a href="#">source:some/file</a></td></tr>
+
+<tr><th colspan="3">Vnořené obrázky</th></tr>
+<tr><th><img src="../../images/jstoolbar/bt_img.png" style="border: 1px solid #bbb;" alt="Obrázek" /></th><td>!<em>url_obrázku</em>!</td><td></td></tr>
+<tr><th></th><td>!<em>vnořený_obrázek</em>!</td><td></td></tr>
+
+<tr><th colspan="3">Tables</th></tr>
+<tr>
+  <th></th>
+  <td>|_. A |_. B |_. C |<br />| A | B | C |<br />|/2. row span | B | C |<br />|\2. col span |</td>
+  <td>
+    <table class="sample">
+      <tbody>
+        <th>A</th><th>B</th><th>C</th>
+        <tr><td>A</td><td>B</td><td>C</td></tr>
+        <tr><td rowspan="2">row span</td><td>B</td><td>C</td></tr>
+        <tr><td colspan="2">col span</td></tr>
+      </tbody>
+    </table>
+  </td>
+</tr>
+
+</table>
+
+<p><a href="wiki_syntax_detailed_textile.html" onclick="window.open('wiki_syntax_detailed_textile.html', '', ''); return false;">Více informací</a></p>
+
+</body>
+</html>
