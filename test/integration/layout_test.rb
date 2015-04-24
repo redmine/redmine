@@ -82,6 +82,18 @@ class LayoutTest < Redmine::IntegrationTest
       assert_not_include "/javascripts/i18n/datepicker", response.body
     end
 
+    with_settings :default_language => 'es' do
+      get '/issues'
+      assert_include "/javascripts/i18n/datepicker-es.js", response.body
+    end
+
+    with_settings :default_language => 'es-PA' do
+      get '/issues'
+      # There is not datepicker-es-PA.js
+      # https://github.com/jquery/jquery-ui/tree/1.11.4/ui/i18n
+      assert_not_include "/javascripts/i18n/datepicker-es.js", response.body
+    end
+
     with_settings :default_language => 'zh' do
       get '/issues'
       assert_include "/javascripts/i18n/datepicker-zh-CN.js", response.body
