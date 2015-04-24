@@ -539,18 +539,12 @@ class ProjectsController < ApplicationController
         
       # Parse js file
       geppettoJsFile.gsub! '$ENTER_ID', entity
-      
-#      begin
-        # Write files to tmp folder
-        File.write(publicResourcesPath + geppettoTmpPath + @geppettoSimulationFilePath, geppettoSimulationFile)
-        File.write(publicResourcesPath + geppettoTmpPath + @geppettoJsFilePath, geppettoJsFile)
-#      ensure
-#        geppettoTmpSimulationFile.close
-#        geppettoTmpSimulationFile.unlink
-#        geppettoTmpJsFile.close
-#        geppettoTmpJsFile.unlink
-#      end   
-        
+
+      # Write file to disc and change permissions to allow access from Geppetto             
+      File.write(publicResourcesPath + geppettoTmpPath + @geppettoSimulationFilePath, geppettoSimulationFile)
+      File.write(publicResourcesPath + geppettoTmpPath + @geppettoJsFilePath, geppettoJsFile)
+      File.chmod(0644, publicResourcesPath + geppettoTmpPath + @geppettoSimulationFilePath)
+      File.chmod(0644, publicResourcesPath + geppettoTmpPath + @geppettoJsFilePath)
         
       geppettoSimulationFileObj = {"geppettoSimulationFile" => geppettoTmpPath + @geppettoSimulationFilePath,"serverIP" => session["serverIP"],"geppettoIP" => session["geppettoIP"]}
       render json: geppettoSimulationFileObj
