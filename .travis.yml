@@ -3,46 +3,17 @@
 # You can also run tests on your environment.
 language: ruby
 rvm:
-  - 1.9.3
   - 2.0
-  - 2.1
-  - 2.2
-  - jruby
 env:
   - "SUITE=units       DB=postgresql"
   - "SUITE=functionals DB=postgresql"
   - "SUITE=integration DB=postgresql"
   - "SUITE=ui          DB=postgresql"
-  - "SUITE=units       DB=mysql-5.5"
-  - "SUITE=functionals DB=mysql-5.5"
-  - "SUITE=integration DB=mysql-5.5"
-  - "SUITE=ui          DB=mysql-5.5"
-  - "SUITE=units       DB=mysql-5.6"
-  - "SUITE=functionals DB=mysql-5.6"
-  - "SUITE=integration DB=mysql-5.6"
-  - "SUITE=ui          DB=mysql-5.6"
-  - "SUITE=units       DB=mysql-5.7-dmr"
-  - "SUITE=functionals DB=mysql-5.7-dmr"
-  - "SUITE=integration DB=mysql-5.7-dmr"
-  - "SUITE=ui          DB=mysql-5.7-dmr"
-  - "SUITE=units       DB=mariadb-5.5"
-  - "SUITE=functionals DB=mariadb-5.5"
-  - "SUITE=integration DB=mariadb-5.5"
-  - "SUITE=ui          DB=mariadb-5.5"
-  - "SUITE=units       DB=mariadb-10.0"
-  - "SUITE=functionals DB=mariadb-10.0"
-  - "SUITE=integration DB=mariadb-10.0"
-  - "SUITE=ui          DB=mariadb-10.0"
-  - "SUITE=units       DB=sqlite3"
-  - "SUITE=functionals DB=sqlite3"
-  - "SUITE=integration DB=sqlite3"
-  - "SUITE=ui          DB=sqlite3"
 matrix:
   allow_failures:
     # SCM tests fail randomly due to IO.popen().
     # http://www.redmine.org/issues/19091
     # https://github.com/jruby/jruby/issues/779
-    - rvm: jruby
     # http://www.redmine.org/issues/17460
     # http://www.redmine.org/issues/19344
     - env: "SUITE=units       DB=mysql-5.6"
@@ -70,6 +41,7 @@ before_install:
         sudo dpkg --install mysql-apt-config_0.2.1-1ubuntu12.04_all.deb ;
         sudo apt-get update -q ;
         sudo apt-get install -q -y -o Dpkg::Options::=--force-confnew mysql-server ;
+        sudo apt-get install netstat;
       fi
     fi
 script:
@@ -83,5 +55,6 @@ script:
   - "bundle exec rake ci:setup"
   - phantomjs --webdriver 4444 &
   - JRUBY_OPTS=-J-Xmx1024m bundle exec rake test:${SUITE}
+  - netstat -lntu
 notifications:
   email: false
