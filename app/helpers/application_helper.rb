@@ -379,7 +379,7 @@ module ApplicationHelper
       if (@repourl.starts_with?"https://github") == false 
         return nil
       else
-        @repourl["https://github"]="https://raw.github"
+        @repourl["https://github"]="https://raw.githubusercontent"
       end
       return @repourl
     else

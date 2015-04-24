@@ -225,7 +225,7 @@ function open3DExplorer(file)
 			
 			decodedfile = decodeURIComponent(file);
 			if (file.indexOf("github") != -1){
-				repoFilePath = decodedfile.replace('raw.github','github').replace('/master/','/blob/master/');
+				repoFilePath = decodedfile.replace('raw.githubusercontent','github').replace('/master/','/blob/master/');
 			}
 			else if (file.indexOf("github")) {
 				repoFilePath = decodedfile.replace('/raw/default/','/src/default/');
