@@ -907,6 +907,18 @@ class UserTest < ActiveSupport::TestCase
     assert_equal [], roles.map(&:name).sort
   end
 
+  def test_roles_for_project_should_be_unique
+    m = Member.new(:user_id => 1, :project_id => 1)
+    m.member_roles.build(:role_id => 1)
+    m.member_roles.build(:role_id => 1)
+    m.save!
+
+    user = User.find(1)
+    project = Project.find(1)
+    assert_equal 1, user.roles_for_project(project).size
+    assert_equal [1], user.roles_for_project(project).map(&:id)
+  end
+
   def test_projects_by_role_for_user_with_role
     user = User.find(2)
     assert_kind_of Hash, user.projects_by_role
