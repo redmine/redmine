@@ -925,6 +925,27 @@ class IssueTest < ActiveSupport::TestCase
     assert_equal [field.id.to_s], issue.read_only_attribute_names(user)
   end
 
+  def test_workflow_rules_should_work_for_member_with_duplicate_role
+    WorkflowPermission.delete_all
+    WorkflowPermission.create!(:old_status_id => 1, :tracker_id => 1,
+                               :role_id => 1, :field_name => 'due_date',
+                               :rule => 'required')
+    WorkflowPermission.create!(:old_status_id => 1, :tracker_id => 1,
+                               :role_id => 1, :field_name => 'start_date',
+                               :rule => 'readonly')
+
+    user = User.generate!
+    m = Member.new(:user_id => user.id, :project_id => 1)
+    m.member_roles.build(:role_id => 1)
+    m.member_roles.build(:role_id => 1)
+    m.save!
+
+    issue = Issue.new(:project_id => 1, :tracker_id => 1, :status_id => 1)
+
+    assert_equal %w(due_date), issue.required_attribute_names(user)
+    assert_equal %w(start_date), issue.read_only_attribute_names(user)
+  end
+
   def test_copy
     issue = Issue.new.copy_from(1)
     assert issue.copy?
