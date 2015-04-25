@@ -880,6 +880,7 @@ div.wiki a {word-wrap: break-word;}
 div.wiki a.new {color: #b73535;}
 
 div.wiki ul, div.wiki ol {margin-bottom:1em;}
+div.wiki li>ul, div.wiki li>ol {margin-bottom: 0;}
 
 div.wiki pre {
   margin: 1em 1em 1em 1.6em;
