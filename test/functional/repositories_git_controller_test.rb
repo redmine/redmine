@@ -251,7 +251,7 @@ class RepositoriesGitControllerTest < ActionController::TestCase
 
     def test_diff
       assert_equal true, @repository.is_default
-      assert_nil @repository.identifier
+      assert @repository.identifier.blank?
       assert_equal 0, @repository.changesets.count
       @repository.fetch_changesets
       @project.reload
