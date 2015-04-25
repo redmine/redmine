@@ -76,6 +76,14 @@ class ActivityTest < ActiveSupport::TestCase
     assert_nil(events.detect {|e| e.event_author != user})
   end
 
+  def test_journal_with_notes_and_changes_should_be_returned_once
+    f = Redmine::Activity::Fetcher.new(User.anonymous, :project => Project.find(1))
+    f.scope = ['issues']
+    events = f.events
+
+    assert_equal events, events.uniq
+  end
+
   def test_files_activity
     f = Redmine::Activity::Fetcher.new(User.anonymous, :project => Project.find(1))
     f.scope = ['files']
