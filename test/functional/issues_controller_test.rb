@@ -3389,7 +3389,7 @@ class IssuesControllerTest < ActionController::TestCase
 
   def test_get_bulk_edit
     @request.session[:user_id] = 2
-    get :bulk_edit, :ids => [1, 2]
+    get :bulk_edit, :ids => [1, 3]
     assert_response :success
     assert_template 'bulk_edit'
 
@@ -3440,7 +3440,7 @@ class IssuesControllerTest < ActionController::TestCase
   end
 
   def test_get_bulk_edit_with_user_custom_field
-    field = IssueCustomField.create!(:name => 'Tester', :field_format => 'user', :is_for_all => true)
+    field = IssueCustomField.create!(:name => 'Tester', :field_format => 'user', :is_for_all => true, :tracker_ids => [1,2,3])
 
     @request.session[:user_id] = 2
     get :bulk_edit, :ids => [1, 2]
@@ -3453,7 +3453,7 @@ class IssuesControllerTest < ActionController::TestCase
   end
 
   def test_get_bulk_edit_with_version_custom_field
-    field = IssueCustomField.create!(:name => 'Affected version', :field_format => 'version', :is_for_all => true)
+    field = IssueCustomField.create!(:name => 'Affected version', :field_format => 'version', :is_for_all => true, :tracker_ids => [1,2,3])
 
     @request.session[:user_id] = 2
     get :bulk_edit, :ids => [1, 2]
@@ -3470,7 +3470,7 @@ class IssuesControllerTest < ActionController::TestCase
     field.update_attribute :multiple, true
 
     @request.session[:user_id] = 2
-    get :bulk_edit, :ids => [1, 2]
+    get :bulk_edit, :ids => [1, 3]
     assert_response :success
     assert_template 'bulk_edit'
 
@@ -3534,6 +3534,17 @@ class IssuesControllerTest < ActionController::TestCase
     assert_select 'select[name=?]', 'issue[category_id]' do
       assert_select 'option', :text => 'Recipes'
     end
+  end
+
+  def test_bulk_edit_should_only_propose_issues_trackers_custom_fields
+    IssueCustomField.delete_all
+    field = IssueCustomField.generate!(:tracker_ids => [1], :is_for_all => true)
+    IssueCustomField.generate!(:tracker_ids => [2], :is_for_all => true)
+    @request.session[:user_id] = 2
+
+    issue_ids = Issue.where(:project_id => 1, :tracker_id => 1).limit(2).ids
+    get :bulk_edit, :ids => issue_ids
+    assert_equal [field], assigns(:custom_fields)
   end
 
   def test_bulk_update
