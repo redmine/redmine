@@ -44,10 +44,16 @@ http://www.redmine.org/
 
 6. Generate a session store secret
    
-   Redmine stores session data in cookies by default, which requires
-   a secret to be generated. Under the new application directory run:
+   If you're upgrading from Redmine 2.x or below, remove the following file
+   if it exists: config/initializers/secret_token.rb
+
+   Then generate a new secret by running the following command under the
+   application directory:
      bundle exec rake generate_secret_token
-   
+
+   Alternatively, you can store this secret in config/secrets.yml:
+   http://guides.rubyonrails.org/upgrading_ruby_on_rails.html#config-secrets-yml
+
    DO NOT REPLACE OR EDIT ANY OTHER FILES.
 
 7. Migrate your database
