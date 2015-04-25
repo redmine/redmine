@@ -444,10 +444,6 @@ class MailHandler < ActionMailer::Base
     subject.strip[0,255]
   end
 
-  def self.full_sanitizer
-    @full_sanitizer ||= HTML::FullSanitizer.new
-  end
-
   def self.assign_string_attribute_with_limit(object, attribute, value, limit=nil)
     limit ||= object.class.columns_hash[attribute.to_s].limit || 255
     value = value.to_s.slice(0, limit)
