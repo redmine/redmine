@@ -1151,26 +1151,26 @@ es:
   label_radio_buttons: Botones de selección excluyentes
   label_group_anonymous: Usuarios anónimos
   label_group_non_member: Usuarios no miembros
-  label_add_projects: Add projects
-  field_default_status: Default status
-  text_subversion_repository_note: 'Examples: file:///, http://, https://, svn://, svn+[tunnelscheme]://'
-  field_users_visibility: Users visibility
-  label_users_visibility_all: All active users
-  label_users_visibility_members_of_visible_projects: Members of visible projects
-  label_edit_attachments: Edit attached files
-  setting_link_copied_issue: Link issues on copy
-  label_link_copied_issue: Link copied issue
-  label_ask: Ask
-  label_search_attachments_yes: Search attachment filenames and descriptions
-  label_search_attachments_no: Do not search attachments
-  label_search_attachments_only: Search attachments only
-  label_search_open_issues_only: Open issues only
+  label_add_projects: Añadir Proyectos
+  field_default_status: Estado Predeterminado
+  text_subversion_repository_note: 'Ejemplos: file:///, http://, https://, svn://, svn+[tunnelscheme]://'
+  field_users_visibility: Visibilidad de Usuarios
+  label_users_visibility_all: Todos los Usuarios Activos
+  label_users_visibility_members_of_visible_projects: Miembros de Proyectos Visibles
+  label_edit_attachments: Editar archivos adjuntos
+  setting_link_copied_issue: Enlazar petición cuando se copia
+  label_link_copied_issue: Enlazar petición copiada
+  label_ask: Preguntar
+  label_search_attachments_yes: Buscar adjuntos por nombre de archivo y descripciones
+  label_search_attachments_no: No buscar adjuntos
+  label_search_attachments_only: Sólo Buscar adjuntos
+  label_search_open_issues_only: Sólo Abrir Peticiones
   field_address: Correo electrónico
-  setting_max_additional_emails: Maximum number of additional email addresses
-  label_email_address_plural: Emails
-  label_email_address_add: Add email address
-  label_enable_notifications: Enable notifications
-  label_disable_notifications: Disable notifications
-  setting_search_results_per_page: Search results per page
-  label_blank_value: blank
-  permission_copy_issues: Copy issues
+  setting_max_additional_emails: Número Máximo de correos electrónicos adicionales
+  label_email_address_plural: Correo Electrónicos
+  label_email_address_add: Añadir correos electrónicos
+  label_enable_notifications: Permitir Notificaciones
+  label_disable_notifications: No Permitir Notificaciones
+  setting_search_results_per_page: Buscar resultados por página
+  label_blank_value: blanco
+  permission_copy_issues: Copiar petición
