@@ -257,6 +257,15 @@ class WorkflowsControllerTest < ActionController::TestCase
     assert_equal IssueStatus.sorted.to_a, assigns(:statuses)
   end
 
+  def test_get_permissions_should_set_css_class
+    WorkflowPermission.delete_all
+    WorkflowPermission.create!(:role_id => 1, :tracker_id => 2, :old_status_id => 1, :field_name => 'assigned_to_id', :rule => 'required')
+
+    get :permissions, :role_id => 1, :tracker_id => 2
+    assert_response :success
+    assert_select 'td.required > select[name=?]', 'permissions[1][assigned_to_id]'
+  end
+
   def test_post_permissions
     WorkflowPermission.delete_all
 
