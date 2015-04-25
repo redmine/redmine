@@ -85,7 +85,7 @@ module SortHelper
       sql = @criteria.collect do |k,o|
         if s = @available_criteria[k]
           s = [s] unless s.is_a?(Array)
-          (o ? s : s.collect {|c| append_desc(c)})
+          s.collect {|c| append_order(c, o ? "ASC" : "DESC")}
         end
       end.flatten.compact
       sql.blank? ? nil : sql
@@ -129,13 +129,18 @@ module SortHelper
       self
     end
 
-    # Appends DESC to the sort criterion unless it has a fixed order
-    def append_desc(criterion)
+    # Appends ASC/DESC to the sort criterion unless it has a fixed order
+    def append_order(criterion, order)
       if criterion =~ / (asc|desc)$/i
         criterion
       else
-        "#{criterion} DESC"
+        "#{criterion} #{order}"
       end
+    end
+
+    # Appends DESC to the sort criterion unless it has a fixed order
+    def append_desc(criterion)
+      append_order(criterion, "DESC")
     end
   end
 
