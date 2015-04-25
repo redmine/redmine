@@ -363,6 +363,15 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_select 'li', :text => /#{f2.name}/
   end
 
+  def test_show_should_not_display_blank_text_custom_fields
+    f1 = ProjectCustomField.generate! :field_format => 'text'
+
+    get :show, :id => 1
+    assert_response :success
+
+    assert_select 'li', :text => /#{f1.name}/, :count => 0
+  end
+
   def test_show_should_not_fail_when_custom_values_are_nil
     project = Project.find_by_identifier('ecookbook')
     project.custom_values.first.update_attribute(:value, nil)
