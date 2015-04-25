@@ -94,6 +94,18 @@ class RepositoryTest < ActiveSupport::TestCase
     assert !r.save
   end
 
+  def test_2_repositories_with_blank_identifier_and_one_as_default_should_not_be_valid
+    Repository::Subversion.create!(:project_id => 3, :identifier => '', :url => 'file:///foo', :is_default => true)
+    r = Repository::Subversion.new(:project_id => 3, :identifier => '', :url => 'file:///bar')
+    assert !r.save
+  end
+
+  def test_2_repositories_with_blank_and_nil_identifier_should_not_be_valid
+    Repository::Subversion.create!(:project_id => 3, :identifier => nil, :url => 'file:///foo')
+    r = Repository::Subversion.new(:project_id => 3, :identifier => '', :url => 'file:///bar')
+    assert !r.save
+  end
+
   def test_first_repository_should_be_set_as_default
     repository1 = Repository::Subversion.new(
                       :project => Project.find(3),

@@ -30,6 +30,7 @@ class Repository < ActiveRecord::Base
 
   serialize :extra_info
 
+  before_validation :normalize_identifier
   before_save :check_default
 
   # Raw SQL to delete changesets and changes in the database
@@ -454,6 +455,10 @@ class Repository < ActiveRecord::Base
   end
 
   protected
+
+  def normalize_identifier
+    self.identifier = identifier.to_s.strip
+  end
 
   def check_default
     if !is_default? && set_as_default?

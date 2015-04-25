@@ -54,6 +54,8 @@ class RepositoryGitTest < ActiveSupport::TestCase
   end
 
   def test_nondefault_repo_with_blank_identifier_destruction
+    Repository.delete_all
+
     repo1 = Repository::Git.new(
                           :project    => @project,
                           :url        => REPOSITORY_PATH,
