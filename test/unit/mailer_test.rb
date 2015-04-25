@@ -197,7 +197,7 @@ class MailerTest < ActiveSupport::TestCase
     Mailer.deliver_issue_add(issue)
     mail = last_email
     assert_not_nil mail
-    assert_equal 'OOF', mail.header['X-Auto-Response-Suppress'].to_s
+    assert_equal 'All', mail.header['X-Auto-Response-Suppress'].to_s
     assert_equal 'auto-generated', mail.header['Auto-Submitted'].to_s
     assert_equal '<redmine.example.net>', mail.header['List-Id'].to_s
   end
