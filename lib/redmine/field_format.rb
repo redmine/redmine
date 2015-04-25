@@ -300,10 +300,14 @@ module Redmine
 
       def formatted_value(view, custom_field, value, customized=nil, html=false)
         if html
-          if custom_field.text_formatting == 'full'
-            view.textilizable(value, :object => customized)
+          if value.present?
+            if custom_field.text_formatting == 'full'
+              view.textilizable(value, :object => customized)
+            else
+              view.simple_format(html_escape(value))
+            end
           else
-            view.simple_format(html_escape(value))
+            ''
           end
         else
           value.to_s
