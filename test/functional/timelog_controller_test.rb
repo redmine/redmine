@@ -162,6 +162,56 @@ class TimelogControllerTest < ActionController::TestCase
     assert_equal 3, t.user_id
   end
 
+  def test_create_on_project_with_time_tracking_disabled_should_fail
+    Project.find(1).disable_module! :time_tracking
+
+    @request.session[:user_id] = 2
+    assert_no_difference 'TimeEntry.count' do
+      post :create, :time_entry => {
+        :project_id => '1', :issue_id => '',
+        :activity_id => '11', :spent_on => '2008-03-14', :hours => '7.3'
+      }
+    end
+  end
+
+  def test_create_on_project_without_permission_should_fail
+    Role.find(1).remove_permission! :log_time
+
+    @request.session[:user_id] = 2
+    assert_no_difference 'TimeEntry.count' do
+      post :create, :time_entry => {
+        :project_id => '1', :issue_id => '',
+        :activity_id => '11', :spent_on => '2008-03-14', :hours => '7.3'
+      }
+    end
+  end
+
+  def test_create_on_issue_in_project_with_time_tracking_disabled_should_fail
+    Project.find(1).disable_module! :time_tracking
+
+    @request.session[:user_id] = 2
+    assert_no_difference 'TimeEntry.count' do
+      post :create, :time_entry => {
+        :project_id => '', :issue_id => '1',
+        :activity_id => '11', :spent_on => '2008-03-14', :hours => '7.3'
+      }
+      assert_select_error /Issue is invalid/
+    end
+  end
+
+  def test_create_on_issue_in_project_without_permission_should_fail
+    Role.find(1).remove_permission! :log_time
+
+    @request.session[:user_id] = 2
+    assert_no_difference 'TimeEntry.count' do
+      post :create, :time_entry => {
+        :project_id => '', :issue_id => '1',
+        :activity_id => '11', :spent_on => '2008-03-14', :hours => '7.3'
+      }
+      assert_select_error /Issue is invalid/
+    end
+  end
+
   def test_create_and_continue_at_project_level
     @request.session[:user_id] = 2
     assert_difference 'TimeEntry.count' do
