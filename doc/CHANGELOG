@@ -4,6 +4,15 @@ Redmine - project management software
 Copyright (C) 2006-2015  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2015-04-26 v2.6.4
+
+* Defect #19297: Custom fields with hidden/read-only combination displayed in Issue Edit Form
+* Defect #19400: Possibility of having 2 (or more) repositories with empty identifier
+* Defect #19444: Fix typo in wiki_syntax_detailed.html
+* Defect #19538: Keywords in commit messages: journal entries are created even if nothing was changed
+* Defect #19569: Field permissions not working properly with inherited memberships
+* Defect #19580: "Required" and "Read-only" rules on "Fields Permissions" screen are not colored
+
 == 2015-03-16 v2.6.3
 
 * Defect #19197: Missing notification if assignee was a group
