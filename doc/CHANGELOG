@@ -4,6 +4,32 @@ Redmine - project management software
 Copyright (C) 2006-2015  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2015-04-26 v3.0.2
+
+* Defect #19297: Custom fields with hidden/read-only combination displayed in Issue Edit Form
+* Defect #19400: Possibility of having 2 (or more) repositories with empty identifier
+* Defect #19444: Fix typo in wiki_syntax_detailed.html
+* Defect #19538: Keywords in commit messages: journal entries are created even if nothing was changed
+* Defect #19569: Field permissions not working properly with inherited memberships
+* Defect #19580: "Required" and "Read-only" rules on "Fields Permissions" screen are not colored 
+* Defect #13583: Space between lines in nested lists not equal
+* Defect #19161: 500 Internal error: sorting for column mail at Administration/User
+* Defect #19163: Bulk edit form shows additional custom fields
+* Defect #19168: Activity: changes made to tickets are shown multiple times
+* Defect #19185: Update Install/Upgrade guide for 3.x version and get gid of DEPRECATION WARNING: You didn't set config.secret_key_base
+* Defect #19276: Creating new issues with invalid project_id should return 422 instead of 403 error
+* Defect #19405: Setting config.logger.level in additional_environment.rb has no effect
+* Defect #19464: Possible to log time on project without time tracking
+* Defect #19482: Custom field (long text format) displayed even if empty
+* Defect #19537: Broken HTML sanitizer refence breaks email receiving
+* Defect #19544: Malformed SQL query with SQLServer when grouping issues
+* Defect #19553: When create by copying the issue, status can not be changed to default
+* Defect #19558: Mail handler should not ignore emails with x-auto-response-suppress header
+* Defect #19606: Issue Estimated Time not updated on tracker change
+* Feature #19437: Upgrade to Rails 4.2.1
+* Feature #19489: Translation for Spanish Panama
+* Patch #19570: Spanish translation updated
+
 == 2015-03-16 v3.0.1
 
 * Defect #19197: Missing notification if assignee was a group
