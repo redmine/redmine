@@ -1473,11 +1473,11 @@ div.splitcontentleft > h2 {
 	top: 200px;
 }
 
-#myCarouselMainPage {
+#carouselMainPage {
 	margin-top: 80px;
 	margin-bottom: 20px;
 }
-#myCarouselMainPage .carousel-control{
+#carouselMainPage .carousel-control{
 	top: 150px;
 }
 
