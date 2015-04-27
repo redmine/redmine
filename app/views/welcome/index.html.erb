@@ -166,12 +166,8 @@ Explore OSB
 			
 		<div>
 		<div class="news box">
-			<div class="pagination-centered"><icon class="icon-bullhorn icon-xxlarge"></icon></div>
-			<h3><%= l(:label_news_latest)%></h3>
-			<% if @news.any? %>
-			<%= render :partial => 'news/news', :collection => @news %>
-			<%= link_to l(:label_news_view_all), :controller => 'news' %>
-			<% end %>
+			<a class="twitter-timeline" href="https://twitter.com/OSBTeam" data-widget-id="592634674410889217">Tweets by @OSBTeam</a>
+			<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
 		</div>
 	</div>
 			
