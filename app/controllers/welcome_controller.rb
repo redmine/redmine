@@ -27,32 +27,30 @@ class WelcomeController < ApplicationController
     @memberships = @user.memberships.all(:conditions => Project.visible_condition(User.current))
     events = Redmine::Activity::Fetcher.new(User.current, :author => @user).events(nil, nil, :limit => 10)
     @events_by_day = events.group_by(&:event_date)
-    
-    if !User.current.logged?
-      @galleryImages = getGalleryImages(@projects)
-    end  
-      
   end
 
-  def getGalleryImages(projects)
+  def welcome_carousel
     scope = Project
     scope = scope.active
     galleryProjects = scope.visible.order('lft').all
     
-    galleryImages=[]  
-    for p in galleryProjects
-      if isEndorsed?(p)
-        projectDescription = p.description
-        firstLine = projectDescription.lines.first.chomp
-        #This is for textile
-        #if (firstLine.start_with?("!") and firstLine.end_with?("!"))
-        #This is for markdown
-        if (firstLine.start_with?("![]"))
-          galleryImages.push({:image => firstLine, :project => p})
-        end  
+    if !User.current.logged?
+      @galleryImages=[]  
+      for p in galleryProjects
+        if isEndorsed?(p)
+          projectDescription = p.description
+          firstLine = projectDescription.lines.first.chomp
+          #This is for textile
+          #if (firstLine.start_with?("!") and firstLine.end_with?("!"))
+          #This is for markdown
+          if (firstLine.start_with?("![]"))
+            @galleryImages.push({:image => firstLine, :project => p})
+          end  
+        end
       end
     end
-    return galleryImages
+    
+    render :layout => false
   end
   
   def robots

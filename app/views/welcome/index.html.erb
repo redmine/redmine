@@ -19,28 +19,18 @@
 	</div>
 	<div class="span6">
 		
-		<div class="carousel slide" id="myCarouselMainPage">
-	        <div class="carousel-inner">
+		<div class="carousel slide" id="carouselMainPage">
+	        <div class="carousel-inner" id="carouselInner">
 				<div class="item active">
 	                <div class="bannerImage">
 	                    <a href="#"><img src="images/osbcircle.png"></a>
 	                </div>
 	            </div>
-				<% @galleryImages.each_with_index do |galleryImage, index| %>
-					<div class="item">
-		                <div class="bannerImage" title="taka">
-		                	<% linkId = "galleryLink"+index.to_s %>
-		                    <a id="<%= linkId %>" href="<%= url_for({:controller => 'projects', :action => 'show', :id => galleryImage[:project]}) %>"><%= textilizable(galleryImage[:image]) %></a>
-		                    <%= javascript_tag "jQuery('#{'#'+linkId}').find('img').attr('alt', '#{ j galleryImage[:project].name}').attr('title', '#{ j galleryImage[:project].name}');" %>
-		                </div>
-		            </div>
-				<% end %>
-
 	        </div>
 	
 	        <div class="control-box">                            
-	            <a data-slide="prev" href="#myCarouselMainPage" class="carousel-control left">‹</a>
-	            <a data-slide="next" href="#myCarouselMainPage" class="carousel-control right">›</a>
+	            <a data-slide="prev" href="#carouselMainPage" class="carousel-control left">‹</a>
+	            <a data-slide="next" href="#carouselMainPage" class="carousel-control right">›</a>
 	        </div>
 	    </div>
 	</div>
@@ -57,10 +47,28 @@
 jQuery(function()
 {
 	//Init carousel for gallery view 
-	$('#myCarouselMainPage').carousel({
+	$('#carouselMainPage').carousel({
 	  pause: true,
 	  interval: false
     });
+})
+</script>
+
+<script>
+jQuery(function()
+{
+	//
+$.ajax({
+	url: "/welcome/welcome_carousel",
+	cache: false,
+	async: true,
+	success: function(html){
+		$("#carouselInner").append(html);
+    },
+    error: function( xhr, textStatus, errorThrown ) {
+      console.log("textStatus: " + textStatus);
+    }
+  });
 })
 </script>
 

@@ -17,7 +17,9 @@
 
 RedmineApp::Application.routes.draw do
   root :to => 'welcome#index', :as => 'home'
-
+  
+  match 'welcome/welcome_carousel', :to => 'welcome#welcome_carousel'
+  
   ## OSB specific
   get '/docs(/:path)', :to => 'docs#index', defaults: { path: 'Help' }, :constraints => {:path => /.*/}
   match 'about', :to => 'about#index'
