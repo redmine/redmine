@@ -5,8 +5,8 @@ language: ruby
 rvm:
   - 2.0
 env:
-  - "SUITE=units       DB=postgresql"
-  - "SUITE=functionals DB=postgresql"
+    # - "SUITE=units       DB=postgresql"
+    #- "SUITE=functionals DB=postgresql"
   - "SUITE=integration DB=postgresql"
   - "SUITE=ui          DB=postgresql"
 matrix:
@@ -42,6 +42,7 @@ before_install:
         sudo apt-get update -q ;
         sudo apt-get install -q -y -o Dpkg::Options::=--force-confnew mysql-server ;
         sudo apt-get install netstat;
+        sudo apt-get install curl
       fi
     fi
 script:
@@ -56,5 +57,7 @@ script:
   - phantomjs --webdriver 4444 &
   - JRUBY_OPTS=-J-Xmx1024m bundle exec rake test:${SUITE}
   - netstat -lntu
+  - curl http://localhost:3000
+  - cat config/database.yml
 notifications:
   email: false
