@@ -40,9 +40,6 @@ class WelcomeController < ApplicationController
         if isEndorsed?(p)
           projectDescription = p.description
           firstLine = projectDescription.lines.first.chomp
-          #This is for textile
-          #if (firstLine.start_with?("!") and firstLine.end_with?("!"))
-          #This is for markdown
           if (firstLine.start_with?("![]"))
             @galleryImages.push({:image => firstLine, :project => p})
           end  
