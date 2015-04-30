@@ -61,6 +61,7 @@ before_install:
         sudo apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xcbcb082a1bb943db ;
         MARIADB_VER=`echo $DB | sed -e 's/mariadb-//'` ;
         sudo add-apt-repository ''"deb http://ftp.osuosl.org/pub/mariadb/repo/${MARIADB_VER}/ubuntu precise main"'' ;
+        sudo cp test/travis/mariadb.pref /etc/apt/preferences.d/mariadb.pref ;
         sudo apt-get update ;
         sudo DEBIAN_FRONTEND=noninteractive apt-get -q --yes --force-yes -f --option DPkg::Options::=--force-confnew install mariadb-server ;
         sudo apt-get install libmariadbd-dev ;

@@ -1,0 +1,6 @@
+# https://mariadb.com/kb/en/mariadb/installing-mariadb-deb-files/
+# /etc/apt/preferences.d/
+
+Package: *
+Pin: origin ftp.osuosl.org
+Pin-Priority: 1000
