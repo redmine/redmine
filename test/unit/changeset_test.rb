@@ -22,6 +22,8 @@ require File.expand_path('../../test_helper', __FILE__)
 class ChangesetTest < ActiveSupport::TestCase
   fixtures :projects, :repositories,
            :issues, :issue_statuses, :issue_categories,
+           :journals, :journal_details,
+           :workflows,
            :changesets, :changes,
            :enumerations,
            :custom_fields, :custom_values,
