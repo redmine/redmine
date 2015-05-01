@@ -37,6 +37,7 @@ treeVisualiserDAT1.setData($ENTER_ID.getChildren()[1].electrical.ModelTree);
 treeVisualiserDAT1.setName("Cell - " + $ENTER_ID.getChildren()[1].getName());
 treeVisualiserDAT1.setSize(tvHeight,tvWidth);
 treeVisualiserDAT1.setPosition(tvPosX,tvPosY);
+treeVisualiserDAT1.toggleFolder($ENTER_ID.getChildren()[1].electrical.ModelTree);
 
 //Move cell to the left
 G.incrementCameraPan(-0.15, 0);
