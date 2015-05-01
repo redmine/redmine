@@ -1,5 +1,4 @@
 // GEPPETTO SCRIPT FOR VISUALISING CHANNELS IN OSB
-
 var widthScreen = this.innerWidth;
 var heightScreen = this.innerHeight;
 var marginLeft = 100;
@@ -25,7 +24,6 @@ $ENTER_ID.electrical.getModelTree();
 
 // Adding TreeVisualiserDAT Widget
 var treeVisualiserDAT1 = G.addWidget(3);
-console.log(treeVisualiserDAT1);
 treeVisualiserDAT1.setData($ENTER_ID.electrical.ModelTree.Summary, {expandNodes: true});
 treeVisualiserDAT1.setSize(tvHeight,tvWidth);
 treeVisualiserDAT1.setPosition(tvPosX,tvPosY);

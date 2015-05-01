@@ -33,11 +33,10 @@ $ENTER_ID.getChildren()[1].select();
 
 // Adding Scatter3d 1
 var treeVisualiserDAT1 = G.addWidget(Widgets.TREEVISUALISERDAT);
-treeVisualiserDAT1.setData($ENTER_ID.getChildren()[1].electrical.ModelTree.Summary);
+treeVisualiserDAT1.setData($ENTER_ID.getChildren()[1].electrical.ModelTree);
 treeVisualiserDAT1.setName("Cell - " + $ENTER_ID.getChildren()[1].getName());
 treeVisualiserDAT1.setSize(tvHeight,tvWidth);
 treeVisualiserDAT1.setPosition(tvPosX,tvPosY);
-treeVisualiserDAT1.toggleFolder($ENTER_ID.getChildren()[1].electrical.ModelTree.Summary.getChildren()[0]);
 
 //Move cell to the left
 G.incrementCameraPan(-0.15, 0);
