@@ -37,7 +37,7 @@ class WelcomeController < ApplicationController
     if !User.current.logged?
       @galleryImages=[]  
       for p in galleryProjects
-        if isEndorsed?(p)
+        if isEndorsedOrBestPractice?(p)
           projectDescription = p.description
           firstLine = projectDescription.lines.first.chomp
           if (firstLine.start_with?("![]"))

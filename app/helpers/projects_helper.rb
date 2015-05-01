@@ -122,7 +122,7 @@ module ProjectsHelper
     if projects.any?
       projects.each do |project|
         c1=c2=c3=c4=c5=dname=category=nil
-        if isEndorsed?(project)
+        if isEndorsedOrBestPractice?(project)
           project.visible_custom_field_values.each do |custom_value|
             if (custom_value.custom_field.name == 'Category')
               category=custom_value.value

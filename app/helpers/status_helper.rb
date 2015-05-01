@@ -62,8 +62,15 @@ module StatusHelper
         if (show_this == 1)
             project.visible_custom_field_values.each do |custom_value|
               if (custom_value.custom_field.name == 'Endorsement')
-                if (custom_value.value == '1')
-                  endorsement = "<span class='label label-success tooltiplink' data-toggle='tooltip' data-placement='right' title='This project is endorsed by OSB and is officially supported.'>OSB</span>"
+                if (custom_value.value == '2')
+                  endorsement = "<span class='label label-success tooltiplink' data-toggle='tooltip' data-placement='right' title='This project is endorsed by OSB and has been identified as fulfilling OSB best practices for projects.'>OSB+</span>"
+                  if (show_this && (showosb == '1' || showosb == 'true'))
+                    show_this = 1
+                  else 
+                    show_this = 0
+                  end
+                elsif (custom_value.value == '1')
+                  endorsement = "<span class='label label-info tooltiplink' data-toggle='tooltip' data-placement='right' title='This project is endorsed by OSB and is officially supported.'>OSB</span>"
                   if (show_this && (showosb == '1' || showosb == 'true'))
                     show_this = 1
                   else 
