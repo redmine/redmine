@@ -537,10 +537,10 @@ class IssuesControllerTest < ActionController::TestCase
       assert_equal 'text/csv; header=present', @response.content_type
       lines = @response.body.chomp.split("\n")
       header = lines[0]
+      status = "\xaa\xac\xbaA".force_encoding('Big5')
+      assert header.include?(status)
       issue_line = lines.find {|l| l =~ /^#{issue.id},/}
-      s1 = "\xaa\xac\xbaA".force_encoding('Big5')
-      assert_include s1, header
-      assert_include str_big5, issue_line
+      assert issue_line.include?(str_big5)
     end
   end
 
