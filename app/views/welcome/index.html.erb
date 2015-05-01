@@ -19,42 +19,56 @@
 	</div>
 	<div class="span6">
 		
-		<div class="carousel slide" id="myCarouselMainPage">
-	        <div class="carousel-inner">
+		<div class="carousel slide" id="carouselMainPage">
+	        <div class="carousel-inner" id="carouselInner">
 				<div class="item active">
 	                <div class="bannerImage">
 	                    <a href="#"><img src="images/osbcircle.png"></a>
 	                </div>
 	            </div>
-				<% @galleryImages.each_with_index do |galleryImage, index| %>
-					<div class="item">
-		                <div class="bannerImage" title="taka">
-		                	<% linkId = "galleryLink"+index.to_s %>
-		                    <a id="<%= linkId %>" href="<%= url_for({:controller => 'projects', :action => 'show', :id => galleryImage[:project]}) %>"><%= textilizable(galleryImage[:image]) %></a>
-		                    <%= javascript_tag "jQuery('#{'#'+linkId}').find('img').attr('alt', '#{ j galleryImage[:project].name}').attr('title', '#{ j galleryImage[:project].name}');" %>
-		                </div>
-		            </div>
-				<% end %>
-
 	        </div>
 	
 	        <div class="control-box">                            
-	            <a data-slide="prev" href="#myCarouselMainPage" class="carousel-control left">‹</a>
-	            <a data-slide="next" href="#myCarouselMainPage" class="carousel-control right">›</a>
+	            <a data-slide="prev" href="#carouselMainPage" class="carousel-control left">‹</a>
+	            <a data-slide="next" href="#carouselMainPage" class="carousel-control right">›</a>
 	        </div>
 	    </div>
 	</div>
 </div>
 <br/><br/><br/>
 
+<div>
+    <p class="lead pagination-centered" ><strong>Join us at the <a href="docs/Help/Meetings#OSB_2015">OSB 2015 Workshop</a> in Sardinia, May 12-14th!</strong></p>
+    
+	<p class="lead pagination-centered" ><a href="docs/Help/Meetings#OSB_2015"><img src="https://raw.githubusercontent.com/OpenSourceBrain/OSB_Documentation/master/resources/images/osb2015_500.png" alt="OSB 2015 Workshop"></a></p>
+</div>
+
 <script>
 jQuery(function()
 {
 	//Init carousel for gallery view 
-	$('#myCarouselMainPage').carousel({
+	$('#carouselMainPage').carousel({
 	  pause: true,
 	  interval: false
     });
+})
+</script>
+
+<script>
+jQuery(function()
+{
+	//
+$.ajax({
+	url: "/welcome/welcome_carousel",
+	cache: false,
+	async: true,
+	success: function(html){
+		$("#carouselInner").append(html);
+    },
+    error: function( xhr, textStatus, errorThrown ) {
+      console.log("textStatus: " + textStatus);
+    }
+  });
 })
 </script>
 
@@ -160,12 +174,8 @@ Explore OSB
 			
 		<div>
 		<div class="news box">
-			<div class="pagination-centered"><icon class="icon-bullhorn icon-xxlarge"></icon></div>
-			<h3><%= l(:label_news_latest)%></h3>
-			<% if @news.any? %>
-			<%= render :partial => 'news/news', :collection => @news %>
-			<%= link_to l(:label_news_view_all), :controller => 'news' %>
-			<% end %>
+			<a class="twitter-timeline" href="https://twitter.com/OSBTeam" data-widget-id="592634674410889217">Tweets by @OSBTeam</a>
+			<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
 		</div>
 	</div>
 			

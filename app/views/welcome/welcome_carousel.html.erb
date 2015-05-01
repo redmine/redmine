@@ -1,0 +1,9 @@
+<% @galleryImages.each_with_index do |galleryImage, index| %>
+	<div class="item">
+        <div class="bannerImage">
+        	<% linkId = "galleryLink"+index.to_s %>
+            <a id="<%= linkId %>" href="<%= url_for({:controller => 'projects', :action => 'show', :id => galleryImage[:project]}) %>"><%= textilizable(galleryImage[:image]) %></a>
+            <%= javascript_tag "jQuery('#{'#'+linkId}').find('img').attr('alt', '#{ j galleryImage[:project].name}').attr('title', '#{ j galleryImage[:project].name}');" %>
+        </div>
+    </div>
+<% end %>

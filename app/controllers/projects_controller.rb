@@ -490,7 +490,7 @@ class ProjectsController < ApplicationController
   def generateGEPPETTOSimulationFile
       url = params[:explorer]
       uri = URI.parse(url)
-
+      
       publicResourcesPath = "#{Rails.root}/public/"
       geppettoResourcesPath = "geppetto/";
       geppettoTmpPath = "geppetto/tmp/"
@@ -536,26 +536,17 @@ class ProjectsController < ApplicationController
       geppettoSimulationFile.sub! '$ENTER_ID', entity
 
       geppettoSimulationFile.sub! '$ENTER_SCRIPT_URL', serverIP + geppettoTmpPath + @geppettoJsFilePath
-      #geppettoSimulationFile.sub! '$ENTER_SCRIPT_URL', 'http://127.0.0.1:3000/' + geppettoTmpPath + @geppettoJsFilePath
-      #geppettoSimulationFile.sub! '$ENTER_SCRIPT_URL', 'http://comodl.org/' + geppettoTmpPath + @geppettoJsFilePath
-      #geppettoSimulationFile.sub! '$ENTER_SCRIPT_URL', 'http://opensourcebrain.org/' + geppettoTmpPath + @geppettoJsFilePath
         
       # Parse js file
       geppettoJsFile.gsub! '$ENTER_ID', entity
-      
-#      begin
-        # Write files to tmp folder
-        File.write(publicResourcesPath + geppettoTmpPath + @geppettoSimulationFilePath, geppettoSimulationFile)
-        File.write(publicResourcesPath + geppettoTmpPath + @geppettoJsFilePath, geppettoJsFile)
-#      ensure
-#        geppettoTmpSimulationFile.close
-#        geppettoTmpSimulationFile.unlink
-#        geppettoTmpJsFile.close
-#        geppettoTmpJsFile.unlink
-#      end   
+
+      # Write file to disc and change permissions to allow access from Geppetto             
+      File.write(publicResourcesPath + geppettoTmpPath + @geppettoSimulationFilePath, geppettoSimulationFile)
+      File.write(publicResourcesPath + geppettoTmpPath + @geppettoJsFilePath, geppettoJsFile)
+      File.chmod(0644, publicResourcesPath + geppettoTmpPath + @geppettoSimulationFilePath)
+      File.chmod(0644, publicResourcesPath + geppettoTmpPath + @geppettoJsFilePath)
         
-        
-      geppettoSimulationFileObj = {"geppettoSimulationFile"=> geppettoTmpPath + @geppettoSimulationFilePath}
+      geppettoSimulationFileObj = {"geppettoSimulationFile" => geppettoTmpPath + @geppettoSimulationFilePath,"serverIP" => session["serverIP"],"geppettoIP" => session["geppettoIP"]}
       render json: geppettoSimulationFileObj
   end  
 

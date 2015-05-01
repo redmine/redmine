@@ -116,7 +116,6 @@ class RepositoriesController < ApplicationController
 
   # Executes shell command. Returns true if the shell command exits with a success status code
   def exec(command)
-    print "\nEntering EXEC"
     logger.debug { "GithubHook: Executing command: '#{command}'" }
 
     logfile = Tempfile.new('git_updatemirror_exec')

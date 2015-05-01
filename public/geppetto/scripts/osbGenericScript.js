@@ -29,3 +29,4 @@ treeVisualiserDAT1.setData($ENTER_ID);
 treeVisualiserDAT1.setSize(tvHeight,tvWidth);
 treeVisualiserDAT1.setPosition(tvPosX,tvPosY);
 treeVisualiserDAT1.setName("Model - $ENTER_ID");
+treeVisualiserDAT1.toggleFolder($ENTER_ID.electrical.ModelTree.getChildren()[0]);

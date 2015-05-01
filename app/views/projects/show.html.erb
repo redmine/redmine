@@ -41,7 +41,7 @@
 						<div class="page-header">
 							<h2>Status</h2>
 						</div>
-						<%= textilizable(show_value(custom_value)) %>	
+						<%= textilizable(show_value(custom_value, false)) %>
 						<%= getStatusBadges(@project) %>
 						<br><br>
 						<% if @project.repository != nil %>

@@ -1,10 +1,12 @@
 <div id="neuroLexIdsContainer">
 
 <% if neuroLexIds!=nil and neuroLexIds!='' %>
-	<p class="lead">NeuroLex IDs used in this project:
-		<%= getBadgeForNeuroLexIds(@project, 'NeuroLex Ids: Cells', '', '', '', 'label label-success') %>
-	</p>
+	<% neuroLexBadge = getBadgeForNeuroLexIds(@project, 'NeuroLex Ids: Cells', '', '', '', 'label label-success') %>
+	<% if neuroLexBadge != nil and neuroLexBadge != '' %>
+		<p class="lead">NeuroLex IDs used in this project:
+			<%= neuroLexBadge %>
+		</p>
+	<% end %>
 <% end %>
-
 
 </div>

@@ -1,3 +1,5 @@
+<%= javascript_include_tag('Detector.js') %>
+
 <% @repourl=getHttpRepositoryURL(@project) %>
 <% @mercurialPath = @repository.scm_name == ('Mercurial') ? "raw/": "" %> 
 <% @entries.each do |entry| %>
