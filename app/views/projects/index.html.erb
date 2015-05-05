@@ -183,7 +183,6 @@ jQuery(function()
 	function loadTab(tabName){
 	  $.ajax({
         url: "/projects/"+tabName,
-        cache: false,
         async: true,
         success: function(html){
            $("#"+tabName).html(html);
