@@ -1,6 +1,6 @@
 # = Redmine configuration file
 #
-# Each environment has it's own configuration options.  If you are only
+# Each environment has its own configuration options.  If you are only
 # running in production, only the production block needs to be configured.
 # Environment specific configuration options override the default ones.
 #
