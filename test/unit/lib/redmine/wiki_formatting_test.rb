@@ -48,6 +48,12 @@ EXPECTED
     assert_equal expected.gsub(%r{[\r\n\t]}, ''), Redmine::WikiFormatting::NullFormatter::Formatter.new(raw).to_html.gsub(%r{[\r\n\t]}, '')
   end
 
+  def test_should_link_email_with_slashes
+    raw = 'foo/bar@example.net'
+    expected = '<p><a class="email" href="mailto:foo/bar@example.net">foo/bar@example.net</a></p>'
+    assert_equal expected.gsub(%r{[\r\n\t]}, ''), Redmine::WikiFormatting::NullFormatter::Formatter.new(raw).to_html.gsub(%r{[\r\n\t]}, '')
+  end
+
   def test_links_separated_with_line_break_should_link
     raw = <<-DIFF
 link: https://www.redmine.org
