@@ -1,4 +1,4 @@
-<div class="carousel slide" id="myCarousel">
+<div class="carousel slide" id="carouselMainPage">
     <div class="carousel-inner">
 		<% @galleryImages.each_with_index do |galleryImage, index| %>
 			<div class="item <% if index == 0 %>active<% end %>">
@@ -18,8 +18,8 @@
     </div>
 
     <div class="control-box">                            
-        <a data-slide="prev" href="#myCarousel" class="carousel-control left">‹</a>
-        <a data-slide="next" href="#myCarousel" class="carousel-control right">›</a>
+        <a data-slide="prev" href="#carouselMainPage" class="carousel-control left">‹</a>
+        <a data-slide="next" href="#carouselMainPage" class="carousel-control right">›</a>
     </div>
 </div>
 
@@ -27,7 +27,7 @@
 jQuery(function()
 {
 	//Init carousel for gallery view 
-	$('#myCarousel').carousel({
+	$('#carouselMainPage').carousel({
 	  pause: true,
 	  interval: false
 	});
