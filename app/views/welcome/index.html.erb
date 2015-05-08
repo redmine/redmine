@@ -28,7 +28,7 @@
 	            </div>
 	        </div>
 	
-	        <div class="control-box">                            
+	        <div class="control-box" style="display: none">                            
 	            <a data-slide="prev" href="#carouselMainPage" class="carousel-control left">‹</a>
 	            <a data-slide="next" href="#carouselMainPage" class="carousel-control right">›</a>
 	        </div>
@@ -64,6 +64,7 @@ $.ajax({
 	async: true,
 	success: function(html){
 		$("#carouselInner").append(html);
+		$(".control-box").show();
     },
     error: function( xhr, textStatus, errorThrown ) {
       console.log("textStatus: " + textStatus);
