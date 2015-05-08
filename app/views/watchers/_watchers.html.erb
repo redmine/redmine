@@ -1,4 +1,4 @@
-<% if User.current.allowed_to?(:add_issue_watchers, @project) %>
+<% if User.current.allowed_to?(:add_issue_watchers, watched.project) %>
 <div class="contextual">
 <%= link_to l(:button_add),
       {:controller => 'watchers', :action => 'new', :object_type => watched.class.name.underscore, :object_id => watched},

@@ -227,6 +227,17 @@ class Redmine::UiTest::IssuesTest < Redmine::UiTest::Base
     assert page.first('#sidebar').has_no_content?(user.name)
   end
 
+  def test_watch_should_update_watchers_list
+    user = User.find(2)
+    log_user('jsmith', 'jsmith')
+    visit '/issues/1'
+    assert page.first('#sidebar').has_content?('Watchers (0)')
+
+    page.first('a.issue-1-watcher').click
+    assert page.first('#sidebar').has_content?('Watchers (1)')
+    assert page.first('#sidebar').has_content?(user.name)
+  end
+
   def test_watch_issue_via_context_menu
     log_user('jsmith', 'jsmith')
     visit '/issues'
