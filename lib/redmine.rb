@@ -271,7 +271,7 @@ Redmine::WikiFormatting.map do |format|
   format.register :textile, Redmine::WikiFormatting::Textile::Formatter, Redmine::WikiFormatting::Textile::Helper
   if Object.const_defined?(:Redcarpet)
     format.register :markdown, Redmine::WikiFormatting::Markdown::Formatter, Redmine::WikiFormatting::Markdown::Helper,
-      :label => 'Markdown (experimental)'
+      :label => 'Markdown'
   end
 end
 
