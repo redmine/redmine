@@ -70,6 +70,15 @@ class IssueTest < ActiveSupport::TestCase
     assert_nil issue.estimated_hours
   end
 
+  def test_create_with_all_fields_disabled
+    tracker = Tracker.find(1)
+    tracker.core_fields = []
+    tracker.save!
+
+    issue = Issue.new(:project_id => 1, :tracker_id => 1, :author_id => 3, :subject => 'test_create_with_all_fields_disabled')
+    assert_save issue
+  end
+
   def test_start_date_format_should_be_validated
     set_language_if_valid 'en'
     ['2012', 'ABC', '2012-15-20'].each do |invalid_date|
