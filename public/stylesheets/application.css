@@ -1463,13 +1463,13 @@ div.splitcontentleft > h2 {
 	display: block;
 	margin: 0 auto;
 }
-#myCarousel .caption{
+#carouselMainPage .caption{
 	margin-top: 60px;
 }
-#myCarousel .caption  img{
+#carouselMainPage .caption  img{
 	display: none;
 }
-#myCarousel .carousel-control{
+#carouselMainPage .carousel-control{
 	top: 200px;
 }
 

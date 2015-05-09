@@ -496,6 +496,8 @@ class ProjectsController < ApplicationController
       geppettoTmpPath = "geppetto/tmp/"
       simulationTemplates = "simulationTemplates/"
       scripts = "scripts/"
+      controlPanels = "controlPanels/"
+      
       if session[:geppettoIP].nil? || session[:geppettoIP].empty? || session[:geppettoIP] =="" 
         props = YAML::load(File.open("#{Rails.root}/config/props.yml"))
         session[:serverIP] = props["serverIP"]
@@ -515,12 +517,14 @@ class ProjectsController < ApplicationController
 #      geppettoSimulationFile = File.read(publicResourcesPath + geppettoResourcesPath + simulationTemplates + "lemsTemplate.xml")
       if docType == 'net'
         geppettoJsFile = File.read(publicResourcesPath + geppettoResourcesPath + scripts + "osbNetworkScript.js")
+        geppettoJsonFile = File.read(publicResourcesPath + geppettoResourcesPath + controlPanels + "osbNetworkControlPanel.json")
       elsif docType == 'channel'
         geppettoJsFile = File.read(publicResourcesPath + geppettoResourcesPath + scripts + "osbChannelScript.js")
       elsif docType == 'synapse'
         geppettoJsFile = File.read(publicResourcesPath + geppettoResourcesPath + scripts + "osbSynapseScript.js")
       elsif docType == 'cell'
         geppettoJsFile = File.read(publicResourcesPath + geppettoResourcesPath + scripts + "osbCellScript.js")
+        geppettoJsonFile = File.read(publicResourcesPath + geppettoResourcesPath + controlPanels + "osbCellControlPanel.json")
       else
         geppettoJsFile = File.read(publicResourcesPath + geppettoResourcesPath + scripts + "osbGenericScript.js")  
       end
@@ -538,8 +542,13 @@ class ProjectsController < ApplicationController
       geppettoSimulationFile.sub! '$ENTER_SCRIPT_URL', serverIP + geppettoTmpPath + @geppettoJsFilePath
         
       # Parse js file
+      unless geppettoJsonFile.nil?
+        geppettoJsonFile.delete!("\r\n")
+        geppettoJsFile.gsub! '$CONTROL_PANEL', geppettoJsonFile
+      end
+      
       geppettoJsFile.gsub! '$ENTER_ID', entity
-
+      
       # Write file to disc and change permissions to allow access from Geppetto             
       File.write(publicResourcesPath + geppettoTmpPath + @geppettoSimulationFilePath, geppettoSimulationFile)
       File.write(publicResourcesPath + geppettoTmpPath + @geppettoJsFilePath, geppettoJsFile)

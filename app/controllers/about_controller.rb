@@ -29,7 +29,8 @@ class AboutController < ApplicationController
       end
     end
 
-    @allusers = User.find(:all)
+    userscope = User.logged.status(@status)
+    @allusers = userscope.find(:all)
   end
   
 end
