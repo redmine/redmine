@@ -47,9 +47,16 @@ class FilesController < ApplicationController
     attachments = Attachment.attach_files(container, params[:attachments])
     render_attachment_warning_if_needed(container)
 
-    if !attachments.empty? && !attachments[:files].blank? && Setting.notified_events.include?('file_added')
-      Mailer.attachments_added(attachments[:files]).deliver
+    if attachments[:files].present?
+      if Setting.notified_events.include?('file_added')
+        Mailer.attachments_added(attachments[:files]).deliver
+      end
+      flash[:notice] = l(:label_file_added)
+      redirect_to project_files_path(@project)
+    else
+      flash.now[:error] = l(:label_attachment) + " " + l('activerecord.errors.messages.invalid')
+      new
+      render :action => 'new'
     end
-    redirect_to project_files_path(@project)
   end
 end
