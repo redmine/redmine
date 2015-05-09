@@ -1,0 +1,30 @@
+{
+    "OSB Control Panel": {
+        "Cell Info": {
+            "Cell": {
+                "actions": [
+                    "executeOnSelection(showSummaryTreeView)"
+                ],
+                "icon": "gpt-pyramidal-cell",
+                "label": "Cell Info",
+                "tooltip": "Information on the selected cell"
+            },
+            "Channels": {
+                "actions": [
+                    "executeOnSelection(showChannelTreeView)"
+                ],
+                "icon": "gpt-ion-channel",
+                "label": "Channels",
+                "tooltip": "Ion channels present in the selected cell"
+            },
+            "CellVisual": {
+		      "actions": [
+		      	"executeOnSelection(showVisualTreeView)"
+		      ],
+		      "icon": "gpt-pyramidal-cell",
+		      "label": "Cell Visual",
+		      "tooltip": "Visual information on selected cell"
+		    }
+        }
+    }
+}

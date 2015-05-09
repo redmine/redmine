@@ -1,36 +1,5 @@
-// GEPPETTO SCRIPT FOR VISUALISING CHANNELS IN OSB
-var widthScreen = this.innerWidth;
-var heightScreen = this.innerHeight;
-var marginTop = 10;
-var marginRight = 10;
-var marginBottom = 50;
-
-var tvWidth = 500;
-var tvHeight = 350;
-
-var tvPosX = widthScreen - tvWidth - marginRight;
-var tvPosY = marginTop;
-
-var tvPosX2 = widthScreen - tvWidth - marginRight;
-var tvPosY2 = 2 * marginTop + tvHeight;
-
-// Retrieve model tree
-$ENTER_ID.electrical.getModelTree();
-
-// Adding Scatter3d 1
-var treeVisualiserDAT1 = G.addWidget(3);
-treeVisualiserDAT1.setData($ENTER_ID.electrical.ModelTree);
-treeVisualiserDAT1.setSize(tvHeight,tvWidth);
-treeVisualiserDAT1.setPosition(tvPosX,tvPosY);
-treeVisualiserDAT1.setName("Cell Model - $ENTER_ID");
-treeVisualiserDAT1.toggleFolder($ENTER_ID.electrical.ModelTree.getChildren()[0]);
-
-//Adding Scatter3d 1
-var treeVisualiserDAT2 = G.addWidget(3);
-treeVisualiserDAT2.setData($ENTER_ID.electrical.VisualizationTree, {expandNodes: true});
-treeVisualiserDAT2.setSize(tvHeight,tvWidth);
-treeVisualiserDAT2.setPosition(tvPosX2,tvPosY2);
-treeVisualiserDAT2.setName("Visualization - $ENTER_ID");
-
-//Move cell to the left
-G.incrementCameraPan(-0.15, 0);
+var executeOnSelection = function(callback) {	var csel = Simulation.getSelection()[0];	if (typeof csel !== 'undefined') {		callback(csel);	} else {		G				.addWidget(1)				.setMessage(						'No cell selected! Please select one of the cells and click here for information on its properties.');	}};var showSummaryTreeView = function(csel) {	var tv = G.addWidget(3);	if (typeof csel.electrical.ModelTree.Summary !== 'undefined') {		tv.setData(csel.electrical.ModelTree.Summary.getChildren(), {			expandNodes : true		});	} else {		tv.registerEvent(Events.ModelTree_populated, function() {			tv.setData(csel.electrical.ModelTree.Summary.getChildren(), {				expandNodes : true			});			tv.unregisterEvent(Events.ModelTree_populated);		});		csel.electrical.getModelTree();	}};var showChannelTreeView = function(csel) {	var tv = G.addWidget(3);	if (typeof csel.electrical.ModelTree.Summary !== 'undefined') {		tv.setData(csel.getSubNodesOfDomainType('IonChannel'), {			labelName : 'id'		}).setName('Ion Channels');	} else {		tv.registerEvent(Events.ModelTree_populated, function() {			tv.setData(csel.getSubNodesOfDomainType('IonChannel'), {				labelName : 'id'			}).setName('Ion Channels');			tv.unregisterEvent(Events.ModelTree_populated);		});		csel.electrical.getModelTree();	}};var showVisualTreeView = function(csel) {	G.addWidget(3).setData(csel.electrical.VisualizationTree, {		expandNodes : true	});};
+var barDef = $CONTROL_PANEL;
+G.addWidget(7).renderBar('OSB Control Panel', barDef['OSB Control Panel']);
+$ENTER_ID.electrical.select();
+ButtonBar1.setPosition(88, 0);

@@ -1,0 +1,40 @@
+{
+    "OSB Control Panel": {
+        "Network Info": {
+            "Connectivity": {
+                "actions": [
+                    "G.addWidget(6).setData($ENTER_ID,{linkType:function(c){return c.getSubNodesOfDomainType('Synapse')[0].id}})"
+                ],
+                "icon": "gpt-make-group",
+                "label": "Connectivity",
+                "tooltip": "Loads the connectivity matrix widget"
+            }
+        },
+        "Cell Info": {
+            "Cell": {
+                "actions": [
+                    "executeOnSelection(showSummaryTreeView)"
+                ],
+                "icon": "gpt-pyramidal-cell",
+                "label": "Cell Info",
+                "tooltip": "Information on the selected cell"
+            },
+            "Channels": {
+                "actions": [
+                    "executeOnSelection(showChannelTreeView)"
+                ],
+                "icon": "gpt-ion-channel",
+                "label": "Channels",
+                "tooltip": "Ion channels present in the selected cell"
+            },
+            "CellVisual": {
+		      "actions": [
+		      	"executeOnSelection(showVisualTreeView)"
+		      ],
+		      "icon": "gpt-pyramidal-cell",
+		      "label": "Cell Visual",
+		      "tooltip": "Visual information on selected cell"
+		    }
+        }
+    }
+}

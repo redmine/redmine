@@ -30,13 +30,11 @@ treeVisualiserDAT1.setPosition(tvPosX,tvPosY);
 treeVisualiserDAT1.setName("Channel - $ENTER_ID");
 
 // Retrieve function nodes from model tree summary
-var nodes = Simulation.searchNodeByMetaType($ENTER_ID.electrical.ModelTree.Summary, "FunctionNode", G.plotFunctionNode);
+var nodes = $ENTER_ID.electrical.ModelTree.Summary.getSubNodesOfMetaType("FunctionNode");
 
 // Create a plot widget for every function node with plot metadata information
 
 // Generate dimensions depending on number of nodes and iframe size 
-//TODO: This needs to be changed once "addWidget" returns the widget just created
-
 var plottableNodes = [];
 for (var nodesIndex in nodes){if (nodes[nodesIndex].getPlotMetadata()!=undefined){plottableNodes.push(nodes[nodesIndex]);}}
 
