@@ -98,7 +98,7 @@ module IssuesHelper
 
   def render_descendants_tree(issue)
     s = '<form><table class="list issues">'
-    issue_list(issue.descendants.visible.sort_by(&:lft)) do |child, level|
+    issue_list(issue.descendants.visible.preload(:status, :priority, :tracker).sort_by(&:lft)) do |child, level|
       css = "issue issue-#{child.id} hascontextmenu"
       css << " idnt idnt-#{level}" if level > 0
       s << content_tag('tr',
