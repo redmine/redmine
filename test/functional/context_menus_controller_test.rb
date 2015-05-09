@@ -276,6 +276,18 @@ class ContextMenusControllerTest < ActionController::TestCase
     end
   end
 
+  def test_time_entries_context_menu_with_edit_own_time_entries_permission
+    @request.session[:user_id] = 2
+    Role.find_by_name('Manager').remove_permission! :edit_time_entries
+    Role.find_by_name('Manager').add_permission! :edit_own_time_entries
+    ids = (0..1).map {TimeEntry.generate!(:user => User.find(2)).id}
+
+    get :time_entries, :ids => ids
+    assert_response :success
+    assert_template 'context_menus/time_entries'
+    assert_select 'a:not(.disabled)', :text => 'Edit'
+  end
+
   def test_time_entries_context_menu_without_edit_permission
     @request.session[:user_id] = 2
     Role.find_by_name('Manager').remove_permission! :edit_time_entries
