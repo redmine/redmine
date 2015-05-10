@@ -1590,6 +1590,7 @@ class Issue < ActiveRecord::Base
       tracker.disabled_core_fields.each do |attribute|
         send "#{attribute}=", nil
       end
+      self.done_ratio ||= 0
     end
   end
 end
