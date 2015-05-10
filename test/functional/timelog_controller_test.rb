@@ -375,6 +375,16 @@ class TimelogControllerTest < ActionController::TestCase
     assert_template 'bulk_edit'
   end
 
+  def test_bulk_edit_with_edit_own_time_entries_permission
+    @request.session[:user_id] = 2
+    Role.find_by_name('Manager').remove_permission! :edit_time_entries
+    Role.find_by_name('Manager').add_permission! :edit_own_time_entries
+    ids = (0..1).map {TimeEntry.generate!(:user => User.find(2)).id}
+
+    get :bulk_edit, :ids => ids
+    assert_response :success
+  end
+
   def test_bulk_update
     @request.session[:user_id] = 2
     # update time entry activity
@@ -413,6 +423,25 @@ class TimelogControllerTest < ActionController::TestCase
     assert user.allowed_to?(action, TimeEntry.find(1).project)
     assert ! user.allowed_to?(action, TimeEntry.find(5).project)
     post :bulk_update, :ids => [1, 5], :time_entry => { :activity_id => 9 }
+    assert_response 403
+  end
+
+  def test_bulk_update_with_edit_own_time_entries_permission
+    @request.session[:user_id] = 2
+    Role.find_by_name('Manager').remove_permission! :edit_time_entries
+    Role.find_by_name('Manager').add_permission! :edit_own_time_entries
+    ids = (0..1).map {TimeEntry.generate!(:user => User.find(2)).id}
+
+    post :bulk_update, :ids => ids, :time_entry => { :activity_id => 9 }
+    assert_response 302
+  end
+
+  def test_bulk_update_with_edit_own_time_entries_permissions_should_be_denied_for_time_entries_of_other_user
+    @request.session[:user_id] = 2
+    Role.find_by_name('Manager').remove_permission! :edit_time_entries
+    Role.find_by_name('Manager').add_permission! :edit_own_time_entries
+
+    post :bulk_update, :ids => [1, 2], :time_entry => { :activity_id => 9 }
     assert_response 403
   end
 
