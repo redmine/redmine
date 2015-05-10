@@ -76,9 +76,9 @@ class ContextMenusController < ApplicationController
     @projects = @time_entries.collect(&:project).compact.uniq
     @project = @projects.first if @projects.size == 1
     @activities = TimeEntryActivity.shared.active
-    @can = {:edit   => User.current.allowed_to?(:edit_time_entries, @projects),
-            :delete => User.current.allowed_to?(:edit_time_entries, @projects)
-            }
+
+    edit_allowed = @time_entries.all? {|t| t.editable_by?(User.current)}
+    @can = {:edit => edit_allowed, :delete => edit_allowed}
     @back = back_url
 
     @options_by_custom_field = {}
