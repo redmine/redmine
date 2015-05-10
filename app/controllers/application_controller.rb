@@ -63,9 +63,9 @@ class ApplicationController < ActionController::Base
     if session[:user_id]
       if session_expired? && !try_to_autologin
         set_localization(User.active.find_by_id(session[:user_id]))
-        reset_session
+        self.logged_user = nil
         flash[:error] = l(:error_session_expired)
-        redirect_to signin_url
+        require_login
       else
         session[:atime] = Time.now.utc.to_i
       end
