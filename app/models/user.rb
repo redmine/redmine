@@ -325,7 +325,8 @@ class User < Principal
 
   # Returns true if the user password has expired
   def password_expired?
-    if Setting.password_max_age.to_i.zero?
+    period = Setting.password_max_age.to_i
+    if period.zero?
       false
     else
       changed_on = self.passwd_changed_on || Time.at(0)
