@@ -323,13 +323,12 @@ class User < Principal
     return auth_source.allow_password_changes?
   end
 
+  # Returns true if the user password has expired
   def password_expired?
-    changed_on = self.passwd_changed_on || Time.at(0)
-    period = Setting.password_max_age.to_i
-
-    if period.zero?
+    if Setting.password_max_age.to_i.zero?
       false
     else
+      changed_on = self.passwd_changed_on || Time.at(0)
       changed_on < period.days.ago
     end
   end
