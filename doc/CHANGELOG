@@ -4,6 +4,15 @@ Redmine - project management software
 Copyright (C) 2006-2015  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2015-05-10 v3.0.3
+
+* Defect #18580: Can't bulk edit own time entries with "Edit own time entries"
+* Defect #19731: Issue validation fails if % done field is deactivated
+* Defect #19735: Email addresses with slashes are not linked correctly
+* Patch #19655: Set a back_url when forcing new login after session expiration
+* Patch #19706: Issue show : optimizations
+* Patch #19793: Adding flash messages to files_controller#create
+
 == 2015-04-26 v3.0.2
 
 * Defect #19297: Custom fields with hidden/read-only combination displayed in Issue Edit Form
