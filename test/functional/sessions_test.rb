@@ -56,14 +56,14 @@ class SessionsTest < ActionController::TestCase
   def test_user_session_without_ctime_should_be_reset_if_lifetime_enabled
     with_settings :session_lifetime => '720' do
       get :index, {}, {:user_id => 2}
-      assert_redirected_to '/login'
+      assert_redirected_to 'http://test.host/login?back_url=http%3A%2F%2Ftest.host%2F'
     end
   end
 
   def test_user_session_with_expired_ctime_should_be_reset_if_lifetime_enabled
     with_settings :session_timeout => '720' do
       get :index, {}, {:user_id => 2, :atime => 2.days.ago.utc.to_i}
-      assert_redirected_to '/login'
+      assert_redirected_to 'http://test.host/login?back_url=http%3A%2F%2Ftest.host%2F'
     end
   end
 
@@ -77,14 +77,14 @@ class SessionsTest < ActionController::TestCase
   def test_user_session_without_atime_should_be_reset_if_timeout_enabled
     with_settings :session_timeout => '60' do
       get :index, {}, {:user_id => 2}
-      assert_redirected_to '/login'
+      assert_redirected_to 'http://test.host/login?back_url=http%3A%2F%2Ftest.host%2F'
     end
   end
 
   def test_user_session_with_expired_atime_should_be_reset_if_timeout_enabled
     with_settings :session_timeout => '60' do
       get :index, {}, {:user_id => 2, :atime => 4.hours.ago.utc.to_i}
-      assert_redirected_to '/login'
+      assert_redirected_to 'http://test.host/login?back_url=http%3A%2F%2Ftest.host%2F'
     end
   end
 
@@ -117,7 +117,7 @@ class SessionsTest < ActionController::TestCase
 
     with_settings :session_timeout => '60' do
       get :index, {}, {:user_id => user.id, :atime => 4.hours.ago.utc.to_i}
-      assert_redirected_to '/login'
+      assert_redirected_to 'http://test.host/login?back_url=http%3A%2F%2Ftest.host%2F'
       assert_include "Veuillez vous reconnecter", flash[:error]
       assert_equal :fr, current_language
     end
