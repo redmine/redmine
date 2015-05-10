@@ -94,6 +94,13 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal IssueStatus.find_by_name("Resolved"), issue.status
   end
 
+  def test_add_issue_should_accept_is_private_attribute
+    issue = submit_email('ticket_on_given_project.eml', :issue => {:is_private => '1'})
+    assert issue.is_a?(Issue)
+    assert !issue.new_record?
+    assert_equal true, issue.reload.is_private
+  end
+
   def test_add_issue_with_attributes_override
     issue = submit_email(
               'ticket_with_attributes.eml',

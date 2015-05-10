@@ -38,6 +38,21 @@ class MailHandlerControllerTest < ActionController::TestCase
     assert_response 201
   end
 
+  def test_should_create_issue_with_options
+    # Enable API and set a key
+    Setting.mail_handler_api_enabled = 1
+    Setting.mail_handler_api_key = 'secret'
+
+    assert_difference 'Issue.count' do
+      post :index, :key => 'secret',
+        :email => IO.read(File.join(FIXTURES_PATH, 'ticket_on_given_project.eml')),
+        :issue => {:is_private => '1'}
+    end
+    assert_response 201
+    issue = Issue.order(:id => :desc).first
+    assert_equal true, issue.is_private
+  end
+
   def test_should_respond_with_422_if_not_created
     Project.find('onlinestore').destroy
 

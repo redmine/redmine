@@ -69,6 +69,9 @@ class MailHandler < ActionMailer::Base
     %w(allow_override unknown_user no_permission_check no_account_notice default_group).each do |option|
       options[option.to_sym] = env[option] if env[option]
     end
+    if env['private']
+      options[:issue][:is_private] = '1'
+    end
     options
   end
 
@@ -205,6 +208,7 @@ class MailHandler < ActionMailer::Base
     end
     issue.description = cleaned_up_text_body
     issue.start_date ||= Date.today if Setting.default_issue_start_date_to_creation_date?
+    issue.is_private = (handler_options[:issue][:is_private] == '1')
 
     # add To and Cc as watchers before saving so the watchers can reply to Redmine
     add_watchers(issue)

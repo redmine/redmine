@@ -87,6 +87,7 @@ class RedmineMailHandler
       opts.on("-t", "--tracker TRACKER",      "name of the target tracker") {|v| self.issue_attributes['tracker'] = v}
       opts.on(      "--category CATEGORY",    "name of the target category") {|v| self.issue_attributes['category'] = v}
       opts.on(      "--priority PRIORITY",    "name of the target priority") {|v| self.issue_attributes['priority'] = v}
+      opts.on(      "--private",              "create new issues as private") {|v| self.issue_attributes['is_private'] = '1'}
       opts.on("-o", "--allow-override ATTRS", "allow email content to override attributes",
                                               "specified by previous options",
                                               "ATTRS is a comma separated list of attributes") {|v| self.allow_override = v}
