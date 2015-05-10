@@ -204,6 +204,7 @@ class ApplicationController < ActionController::Base
   def check_password_change
     if session[:pwd]
       if User.current.must_change_password?
+        flash[:error] = l(:error_password_expired)
         redirect_to my_password_path
       else
         session.delete(:pwd)

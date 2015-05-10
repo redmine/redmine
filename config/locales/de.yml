@@ -1026,6 +1026,7 @@ de:
   setting_non_working_week_days: Arbeitsfreie Tage
   setting_openid: Erlaube OpenID-Anmeldung und -Registrierung
   setting_password_min_length: Mindestlänge des Kennworts
+  setting_password_max_age: Erzwinge Passwortwechsel nach
   setting_per_page_options: Objekte pro Seite
   setting_plain_text_mail: Nur reinen Text (kein HTML) senden
   setting_protocol: Protokoll

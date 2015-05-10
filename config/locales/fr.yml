@@ -224,6 +224,7 @@ fr:
   error_attachment_too_big: Ce fichier ne peut pas être attaché car il excède la taille maximale autorisée (%{max_size})
   error_session_expired: "Votre session a expiré. Veuillez vous reconnecter."
   warning_attachments_not_saved: "%{count} fichier(s) n'ont pas pu être sauvegardés."
+  error_password_expired: "Votre mot de passe a expiré ou nécessite d'être changé."
 
   mail_subject_lost_password: "Votre mot de passe %{value}"
   mail_body_lost_password: 'Pour changer votre mot de passe, cliquez sur le lien suivant :'
@@ -406,6 +407,7 @@ fr:
   setting_file_max_size_displayed: Taille maximum des fichiers texte affichés en ligne
   setting_repository_log_display_limit: "Nombre maximum de révisions affichées sur l'historique d'un fichier"
   setting_openid: "Autoriser l'authentification et l'enregistrement OpenID"
+  setting_password_max_age: Expiration des mots de passe après
   setting_password_min_length: Longueur minimum des mots de passe
   setting_new_project_user_role_id: Rôle donné à un utilisateur non-administrateur qui crée un projet
   setting_default_projects_modules: Modules activés par défaut pour les nouveaux projets

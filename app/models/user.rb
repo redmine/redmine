@@ -323,8 +323,19 @@ class User < Principal
     return auth_source.allow_password_changes?
   end
 
+  def password_expired?
+    changed_on = self.passwd_changed_on || Time.at(0)
+    period = Setting.password_max_age.to_i
+
+    if period.zero?
+      false
+    else
+      changed_on < period.days.ago
+    end
+  end
+
   def must_change_password?
-    must_change_passwd? && change_password_allowed?
+    (must_change_passwd? || password_expired?) && change_password_allowed?
   end
 
   def generate_password?

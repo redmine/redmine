@@ -204,6 +204,7 @@ en:
   error_attachment_too_big: "This file cannot be uploaded because it exceeds the maximum allowed file size (%{max_size})"
   error_session_expired: "Your session has expired. Please login again."
   warning_attachments_not_saved: "%{count} file(s) could not be saved."
+  error_password_expired: "Your password has expired or the administrator requires you to change it."
 
   mail_subject_lost_password: "Your %{value} password"
   mail_body_lost_password: 'To change your password, click on the following link:'
@@ -386,6 +387,7 @@ en:
   setting_file_max_size_displayed: Maximum size of text files displayed inline
   setting_repository_log_display_limit: Maximum number of revisions displayed on file log
   setting_openid: Allow OpenID login and registration
+  setting_password_max_age: Require password change after
   setting_password_min_length: Minimum password length
   setting_new_project_user_role_id: Role given to a non-admin user who creates a project
   setting_default_projects_modules: Default enabled modules for new projects
