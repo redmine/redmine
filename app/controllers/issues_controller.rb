@@ -112,7 +112,7 @@ class IssuesController < ApplicationController
     @journals.reject! {|journal| !journal.notes? && journal.visible_details.empty?}
     @journals.reverse! if User.current.wants_comments_in_reverse_order?
 
-    @changesets = @issue.changesets.visible.all
+    @changesets = @issue.changesets.visible.preload(:repository, :user).to_a
     @changesets.reverse! if User.current.wants_comments_in_reverse_order?
 
     @relations = @issue.relations.select {|r| r.other_issue(@issue) && r.other_issue(@issue).visible? }
