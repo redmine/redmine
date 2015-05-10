@@ -30,7 +30,7 @@ class Document < ActiveRecord::Base
   acts_as_activity_provider :scope => preload(:project)
 
   validates_presence_of :project, :title, :category
-  validates_length_of :title, :maximum => 60
+  validates_length_of :title, :maximum => 255
   attr_protected :id
 
   after_create :send_notification

@@ -28,6 +28,13 @@ class DocumentTest < ActiveSupport::TestCase
     assert doc.save
   end
 
+  def test_create_with_long_title
+    title = 'x'*255
+    doc = Document.new(:project => Project.find(1), :title => title, :category => DocumentCategory.first)
+    assert_save doc
+    assert_equal title, doc.reload.title
+  end
+
   def test_create_should_send_email_notification
     ActionMailer::Base.deliveries.clear
     
