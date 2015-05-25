@@ -23,6 +23,15 @@
 </div>
 
 <fieldset class="box">
+  <legend><%= l(:label_parent_task_attributes) %></legend>
+  <div class="tabular settings">
+    <p><%= setting_select :parent_issue_dates, parent_issue_dates_options, :label => "#{l(:field_start_date)} / #{l(:field_due_date)}" %></p>
+
+    <p><%= setting_select :parent_issue_priority, parent_issue_priority_options, :label => :field_priority %></p>
+  </div>
+</fieldset>
+
+<fieldset class="box">
   <legend><%= l(:setting_issue_list_default_columns) %></legend>
   <%= render_query_columns_selection(
         IssueQuery.new(:column_names => Setting.issue_list_default_columns),

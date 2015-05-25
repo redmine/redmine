@@ -426,6 +426,15 @@ class Issue < ActiveRecord::Base
      	# Make sure that project_id can always be set for new issues
       names |= %w(project_id)
     end
+    if dates_derived?
+      names -= %w(start_date due_date)
+    end
+    if priority_derived?
+      names -= %w(priority_id)
+    end
+    unless leaf?
+      names -= %w(done_ratio estimated_hours)
+    end
     names
   end
 
@@ -462,10 +471,6 @@ class Issue < ActiveRecord::Base
 
     attrs = delete_unsafe_attributes(attrs, user)
     return if attrs.empty?
-
-    unless leaf?
-      attrs.reject! {|k,v| %w(priority_id done_ratio start_date due_date estimated_hours).include?(k)}
-    end
 
     if attrs['parent_issue_id'].present?
       s = attrs['parent_issue_id'].to_s
@@ -1094,11 +1099,15 @@ class Issue < ActiveRecord::Base
   end
 
   def soonest_start(reload=false)
-    @soonest_start = nil if reload
-    @soonest_start ||= (
-        relations_to(reload).collect{|relation| relation.successor_soonest_start} +
-        [(@parent_issue || parent).try(:soonest_start)]
-      ).compact.max
+    if @soonest_start.nil? || reload
+      dates = relations_to(reload).collect{|relation| relation.successor_soonest_start}
+      p = @parent_issue || parent
+      if p && Setting.parent_issue_dates == 'derived'
+        dates << p.soonest_start
+      end
+      @soonest_start = dates.compact.max
+    end
+    @soonest_start
   end
 
   # Sets start_date on the given date or the next working day
@@ -1114,7 +1123,7 @@ class Issue < ActiveRecord::Base
   # If the issue is a parent task, this is done by rescheduling its subtasks.
   def reschedule_on!(date)
     return if date.nil?
-    if leaf?
+    if leaf? || !dates_derived?
       if start_date.nil? || start_date != date
         if start_date && start_date > date
           # Issue can not be moved earlier than its soonest start date
@@ -1142,6 +1151,14 @@ class Issue < ActiveRecord::Base
         end
       end
     end
+  end
+
+  def dates_derived?
+    !leaf? && Setting.parent_issue_dates == 'derived'
+  end
+
+  def priority_derived?
+    !leaf? && Setting.parent_issue_priority == 'derived'
   end
 
   def <=>(issue)
@@ -1430,16 +1447,20 @@ class Issue < ActiveRecord::Base
 
   def recalculate_attributes_for(issue_id)
     if issue_id && p = Issue.find_by_id(issue_id)
-      # priority = highest priority of children
-      if priority_position = p.children.joins(:priority).maximum("#{IssuePriority.table_name}.position")
-        p.priority = IssuePriority.find_by_position(priority_position)
+      if p.priority_derived?
+        # priority = highest priority of children
+        if priority_position = p.children.joins(:priority).maximum("#{IssuePriority.table_name}.position")
+          p.priority = IssuePriority.find_by_position(priority_position)
+        end
       end
 
-      # start/due dates = lowest/highest dates of children
-      p.start_date = p.children.minimum(:start_date)
-      p.due_date = p.children.maximum(:due_date)
-      if p.start_date && p.due_date && p.due_date < p.start_date
-        p.start_date, p.due_date = p.due_date, p.start_date
+      if p.dates_derived?
+        # start/due dates = lowest/highest dates of children
+        p.start_date = p.children.minimum(:start_date)
+        p.due_date = p.children.maximum(:due_date)
+        if p.start_date && p.due_date && p.due_date < p.start_date
+          p.start_date, p.due_date = p.due_date, p.start_date
+        end
       end
 
       # done ratio = weighted average ratio of leaves

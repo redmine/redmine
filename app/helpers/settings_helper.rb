@@ -79,7 +79,12 @@ module SettingsHelper
 
   def setting_label(setting, options={})
     label = options.delete(:label)
-    label != false ? label_tag("settings_#{setting}", l(label || "setting_#{setting}"), options[:label_options]).html_safe : ''
+    if label == false
+      ''
+    else
+      text = label.is_a?(String) ? label : l(label || "setting_#{setting}")
+      label_tag("settings_#{setting}", text, options[:label_options])
+    end
   end
 
   # Renders a notification field for a Redmine::Notifiable option
@@ -121,6 +126,24 @@ module SettingsHelper
       [:label_cross_project_tree, 'tree'],
       [:label_cross_project_hierarchy, 'hierarchy'],
       [:label_cross_project_descendants, 'descendants']
+    ]
+
+    options.map {|label, value| [l(label), value.to_s]}
+  end
+
+  def parent_issue_dates_options
+    options = [
+      [:label_parent_task_attributes_derived, 'derived'],
+      [:label_parent_task_attributes_independent, 'independent']
+    ]
+
+    options.map {|label, value| [l(label), value.to_s]}
+  end
+
+  def parent_issue_priority_options
+    options = [
+      [:label_parent_task_attributes_derived, 'derived'],
+      [:label_parent_task_attributes_independent, 'independent']
     ]
 
     options.map {|label, value| [l(label), value.to_s]}

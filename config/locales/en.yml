@@ -941,6 +941,9 @@ en:
   label_enable_notifications: Enable notifications
   label_disable_notifications: Disable notifications
   label_blank_value: blank
+  label_parent_task_attributes: Parent tasks attributes
+  label_parent_task_attributes_derived: Calculated from subtasks
+  label_parent_task_attributes_independent: Independent of subtasks
 
   button_login: Login
   button_submit: Submit

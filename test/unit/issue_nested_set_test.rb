@@ -287,35 +287,6 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     end
   end
 
-  def test_parent_priority_should_be_the_highest_child_priority
-    parent = Issue.generate!(:priority => IssuePriority.find_by_name('Normal'))
-    # Create children
-    child1 = parent.generate_child!(:priority => IssuePriority.find_by_name('High'))
-    assert_equal 'High', parent.reload.priority.name
-    child2 = child1.generate_child!(:priority => IssuePriority.find_by_name('Immediate'))
-    assert_equal 'Immediate', child1.reload.priority.name
-    assert_equal 'Immediate', parent.reload.priority.name
-    child3 = parent.generate_child!(:priority => IssuePriority.find_by_name('Low'))
-    assert_equal 'Immediate', parent.reload.priority.name
-    # Destroy a child
-    child1.destroy
-    assert_equal 'Low', parent.reload.priority.name
-    # Update a child
-    child3.reload.priority = IssuePriority.find_by_name('Normal')
-    child3.save!
-    assert_equal 'Normal', parent.reload.priority.name
-  end
-
-  def test_parent_dates_should_be_lowest_start_and_highest_due_dates
-    parent = Issue.generate!
-    parent.generate_child!(:start_date => '2010-01-25', :due_date => '2010-02-15')
-    parent.generate_child!(                             :due_date => '2010-02-13')
-    parent.generate_child!(:start_date => '2010-02-01', :due_date => '2010-02-22')
-    parent.reload
-    assert_equal Date.parse('2010-01-25'), parent.start_date
-    assert_equal Date.parse('2010-02-22'), parent.due_date
-  end
-
   def test_parent_done_ratio_should_be_average_done_ratio_of_leaves
     parent = Issue.generate!
     parent.generate_child!(:done_ratio => 20)
@@ -388,20 +359,6 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     child.update_attributes(:estimated_hours => 7, :parent_issue_id => second_parent.id)
     assert_equal 7, second_parent.reload.estimated_hours
     assert_nil first_parent.reload.estimated_hours
-  end
-
-  def test_reschuling_a_parent_should_reschedule_subtasks
-    parent = Issue.generate!
-    c1 = parent.generate_child!(:start_date => '2010-05-12', :due_date => '2010-05-18')
-    c2 = parent.generate_child!(:start_date => '2010-06-03', :due_date => '2010-06-10')
-    parent.reload
-    parent.reschedule_on!(Date.parse('2010-06-02'))
-    c1.reload
-    assert_equal [Date.parse('2010-06-02'), Date.parse('2010-06-08')], [c1.start_date, c1.due_date]
-    c2.reload
-    assert_equal [Date.parse('2010-06-03'), Date.parse('2010-06-10')], [c2.start_date, c2.due_date] # no change
-    parent.reload
-    assert_equal [Date.parse('2010-06-02'), Date.parse('2010-06-10')], [parent.start_date, parent.due_date]
   end
 
   def test_project_copy_should_copy_issue_tree

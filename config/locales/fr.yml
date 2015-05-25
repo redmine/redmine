@@ -961,6 +961,7 @@ fr:
   label_enable_notifications: Activer les notifications
   label_disable_notifications: Désactiver les notifications
   label_blank_value: non renseigné
+  label_parent_task_attributes: Attributs des tâches parentes
 
   button_login: Connexion
   button_submit: Soumettre

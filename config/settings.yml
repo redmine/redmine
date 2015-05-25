@@ -146,6 +146,10 @@ cross_project_issue_relations:
 # Enables subtasks to be in other projects
 cross_project_subtasks:
   default: 'tree'
+parent_issue_dates:
+  default: 'derived'
+parent_issue_priority:
+  default: 'derived'
 link_copied_issue:
   default: 'ask'
 issue_group_assignment:

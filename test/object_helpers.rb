@@ -105,6 +105,12 @@ module ObjectHelpers
     issue.reload
   end
 
+  def Issue.generate_with_child!(attributes={})
+    issue = Issue.generate!(attributes)
+    Issue.generate!(:parent_issue_id => issue.id)
+    issue.reload
+  end
+
   def Journal.generate!(attributes={})
     journal = Journal.new(attributes)
     journal.user ||= User.first
