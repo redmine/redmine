@@ -287,40 +287,6 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     end
   end
 
-  def test_parent_done_ratio_should_be_average_done_ratio_of_leaves
-    parent = Issue.generate!
-    parent.generate_child!(:done_ratio => 20)
-    assert_equal 20, parent.reload.done_ratio
-    parent.generate_child!(:done_ratio => 70)
-    assert_equal 45, parent.reload.done_ratio
-
-    child = parent.generate_child!(:done_ratio => 0)
-    assert_equal 30, parent.reload.done_ratio
-
-    child.generate_child!(:done_ratio => 30)
-    assert_equal 30, child.reload.done_ratio
-    assert_equal 40, parent.reload.done_ratio
-  end
-
-  def test_parent_done_ratio_should_be_weighted_by_estimated_times_if_any
-    parent = Issue.generate!
-    parent.generate_child!(:estimated_hours => 10, :done_ratio => 20)
-    assert_equal 20, parent.reload.done_ratio
-    parent.generate_child!(:estimated_hours => 20, :done_ratio => 50)
-    assert_equal (50 * 20 + 20 * 10) / 30, parent.reload.done_ratio
-  end
-
-  def test_parent_done_ratio_with_child_estimate_to_0_should_reach_100
-    parent = Issue.generate!
-    issue1 = parent.generate_child!
-    issue2 = parent.generate_child!(:estimated_hours => 0)
-    assert_equal 0, parent.reload.done_ratio
-    issue1.reload.close!
-    assert_equal 50, parent.reload.done_ratio
-    issue2.reload.close!
-    assert_equal 100, parent.reload.done_ratio
-  end
-
   def test_parent_estimate_should_be_sum_of_leaves
     parent = Issue.generate!
     parent.generate_child!(:estimated_hours => nil)

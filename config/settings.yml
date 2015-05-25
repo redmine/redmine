@@ -150,6 +150,8 @@ parent_issue_dates:
   default: 'derived'
 parent_issue_priority:
   default: 'derived'
+parent_issue_done_ratio:
+  default: 'derived'
 link_copied_issue:
   default: 'ask'
 issue_group_assignment:

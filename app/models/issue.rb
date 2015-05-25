@@ -432,8 +432,11 @@ class Issue < ActiveRecord::Base
     if priority_derived?
       names -= %w(priority_id)
     end
+    if done_ratio_derived?
+      names -= %w(done_ratio)
+    end
     unless leaf?
-      names -= %w(done_ratio estimated_hours)
+      names -= %w(estimated_hours)
     end
     names
   end
@@ -1161,6 +1164,10 @@ class Issue < ActiveRecord::Base
     !leaf? && Setting.parent_issue_priority == 'derived'
   end
 
+  def done_ratio_derived?
+    !leaf? && Setting.parent_issue_done_ratio == 'derived'
+  end
+
   def <=>(issue)
     if issue.nil?
       -1
@@ -1463,19 +1470,21 @@ class Issue < ActiveRecord::Base
         end
       end
 
-      # done ratio = weighted average ratio of leaves
-      unless Issue.use_status_for_done_ratio? && p.status && p.status.default_done_ratio
-        leaves_count = p.leaves.count
-        if leaves_count > 0
-          average = p.leaves.where("estimated_hours > 0").average(:estimated_hours).to_f
-          if average == 0
-            average = 1
+      if p.done_ratio_derived?
+        # done ratio = weighted average ratio of leaves
+        unless Issue.use_status_for_done_ratio? && p.status && p.status.default_done_ratio
+          leaves_count = p.leaves.count
+          if leaves_count > 0
+            average = p.leaves.where("estimated_hours > 0").average(:estimated_hours).to_f
+            if average == 0
+              average = 1
+            end
+            done = p.leaves.joins(:status).
+              sum("COALESCE(CASE WHEN estimated_hours > 0 THEN estimated_hours ELSE NULL END, #{average}) " +
+                  "* (CASE WHEN is_closed = #{self.class.connection.quoted_true} THEN 100 ELSE COALESCE(done_ratio, 0) END)").to_f
+            progress = done / (average * leaves_count)
+            p.done_ratio = progress.round
           end
-          done = p.leaves.joins(:status).
-            sum("COALESCE(CASE WHEN estimated_hours > 0 THEN estimated_hours ELSE NULL END, #{average}) " +
-                "* (CASE WHEN is_closed = #{self.class.connection.quoted_true} THEN 100 ELSE COALESCE(done_ratio, 0) END)").to_f
-          progress = done / (average * leaves_count)
-          p.done_ratio = progress.round
         end
       end
 

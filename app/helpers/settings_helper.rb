@@ -149,6 +149,15 @@ module SettingsHelper
     options.map {|label, value| [l(label), value.to_s]}
   end
 
+  def parent_issue_done_ratio_options
+    options = [
+      [:label_parent_task_attributes_derived, 'derived'],
+      [:label_parent_task_attributes_independent, 'independent']
+    ]
+
+    options.map {|label, value| [l(label), value.to_s]}
+  end
+
 	# Returns the options for the date_format setting
   def date_format_setting_options(locale)
     Setting::DATE_FORMATS.map do |f|
