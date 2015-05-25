@@ -146,23 +146,41 @@ class IssueSubtaskingTest < ActiveSupport::TestCase
   end
 
   def test_done_ratio_of_parent_with_a_child_without_estimated_time_should_not_exceed_100
-    parent = Issue.generate!
-    parent.generate_child!(:estimated_hours => 40)
-    parent.generate_child!(:estimated_hours => 40)
-    parent.generate_child!(:estimated_hours => 20)
-    parent.generate_child!
-    parent.reload.children.each(&:close!)
-    assert_equal 100, parent.reload.done_ratio
+    with_settings :parent_issue_done_ratio => 'derived' do
+      parent = Issue.generate!
+      parent.generate_child!(:estimated_hours => 40)
+      parent.generate_child!(:estimated_hours => 40)
+      parent.generate_child!(:estimated_hours => 20)
+      parent.generate_child!
+      parent.reload.children.each(&:close!)
+      assert_equal 100, parent.reload.done_ratio
+    end
   end
 
   def test_done_ratio_of_parent_with_a_child_with_estimated_time_at_0_should_not_exceed_100
-    parent = Issue.generate!
-    parent.generate_child!(:estimated_hours => 40)
-    parent.generate_child!(:estimated_hours => 40)
-    parent.generate_child!(:estimated_hours => 20)
-    parent.generate_child!(:estimated_hours => 0)
-    parent.reload.children.each(&:close!)
-    assert_equal 100, parent.reload.done_ratio
+    with_settings :parent_issue_done_ratio => 'derived' do
+      parent = Issue.generate!
+      parent.generate_child!(:estimated_hours => 40)
+      parent.generate_child!(:estimated_hours => 40)
+      parent.generate_child!(:estimated_hours => 20)
+      parent.generate_child!(:estimated_hours => 0)
+      parent.reload.children.each(&:close!)
+      assert_equal 100, parent.reload.done_ratio
+    end
+  end
+
+  def test_changing_parent_should_update_previous_parent_done_ratio
+    with_settings :parent_issue_done_ratio => 'derived' do
+      first_parent = Issue.generate!
+      second_parent = Issue.generate!
+      first_parent.generate_child!(:done_ratio => 40)
+      child = first_parent.generate_child!(:done_ratio => 20)
+      assert_equal 30, first_parent.reload.done_ratio
+      assert_equal 0, second_parent.reload.done_ratio
+      child.update_attributes(:parent_issue_id => second_parent.id)
+      assert_equal 40,  first_parent.reload.done_ratio
+      assert_equal 20, second_parent.reload.done_ratio
+    end
   end
 
   def test_parent_dates_should_be_editable_with_parent_issue_dates_set_to_independent
@@ -226,5 +244,15 @@ class IssueSubtaskingTest < ActiveSupport::TestCase
       child1 = parent.generate_child!(:done_ratio => 10)
       assert_equal 0, parent.reload.done_ratio
     end
+  end
+
+  def test_parent_total_estimated_hours_should_be_sum_of_descendants
+    parent = Issue.generate!
+    parent.generate_child!(:estimated_hours => nil)
+    assert_equal 0, parent.reload.total_estimated_hours
+    parent.generate_child!(:estimated_hours => 5)
+    assert_equal 5, parent.reload.total_estimated_hours
+    parent.generate_child!(:estimated_hours => 7)
+    assert_equal 12, parent.reload.total_estimated_hours
   end
 end

@@ -287,26 +287,6 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     end
   end
 
-  def test_parent_estimate_should_be_sum_of_leaves
-    parent = Issue.generate!
-    parent.generate_child!(:estimated_hours => nil)
-    assert_equal nil, parent.reload.estimated_hours
-    parent.generate_child!(:estimated_hours => 5)
-    assert_equal 5, parent.reload.estimated_hours
-    parent.generate_child!(:estimated_hours => 7)
-    assert_equal 12, parent.reload.estimated_hours
-  end
-
-  def test_move_parent_updates_old_parent_attributes
-    first_parent = Issue.generate!
-    second_parent = Issue.generate!
-    child = first_parent.generate_child!(:estimated_hours => 5)
-    assert_equal 5, first_parent.reload.estimated_hours
-    child.update_attributes(:estimated_hours => 7, :parent_issue_id => second_parent.id)
-    assert_equal 7, second_parent.reload.estimated_hours
-    assert_nil first_parent.reload.estimated_hours
-  end
-
   def test_project_copy_should_copy_issue_tree
     p = Project.create!(:name => 'Tree copy', :identifier => 'tree-copy', :tracker_ids => [1, 2])
     i1 = Issue.generate!(:project => p, :subject => 'i1')

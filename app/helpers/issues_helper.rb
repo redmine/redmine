@@ -113,6 +113,14 @@ module IssuesHelper
     s.html_safe
   end
 
+  def issue_estimated_hours_details(issue)
+    s = issue.estimated_hours.present? ? l_hours(issue.estimated_hours) : ""
+    unless issue.leaf? || issue.total_estimated_hours.nil?
+      s << " (#{l(:label_total)}: #{l_hours(issue.total_estimated_hours)})"
+    end
+    s.html_safe
+  end
+
   # Returns an array of error messages for bulk edited issues
   def bulk_edit_error_messages(issues)
     messages = {}

@@ -206,6 +206,7 @@ class Issue < ActiveRecord::Base
     @assignable_versions = nil
     @relations = nil
     @spent_hours = nil
+    @total_estimated_hours = nil
     base_reload(*args)
   end
 
@@ -434,9 +435,6 @@ class Issue < ActiveRecord::Base
     end
     if done_ratio_derived?
       names -= %w(done_ratio)
-    end
-    unless leaf?
-      names -= %w(estimated_hours)
     end
     names
   end
@@ -927,6 +925,14 @@ class Issue < ActiveRecord::Base
       self_and_descendants.
         joins("LEFT JOIN #{TimeEntry.table_name} ON #{TimeEntry.table_name}.issue_id = #{Issue.table_name}.id").
         sum("#{TimeEntry.table_name}.hours").to_f || 0.0
+  end
+
+  def total_estimated_hours
+    if leaf?
+      estimated_hours
+    else
+      @total_estimated_hours ||= self_and_descendants.sum(:estimated_hours)
+    end
   end
 
   def relations
@@ -1487,10 +1493,6 @@ class Issue < ActiveRecord::Base
           end
         end
       end
-
-      # estimate = sum of leaves estimates
-      p.estimated_hours = p.leaves.sum(:estimated_hours).to_f
-      p.estimated_hours = nil if p.estimated_hours == 0.0
 
       # ancestors will be recursively updated
       p.save(:validate => false)
