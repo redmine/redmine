@@ -206,6 +206,7 @@ class Issue < ActiveRecord::Base
     @assignable_versions = nil
     @relations = nil
     @spent_hours = nil
+    @total_spent_hours = nil
     @total_estimated_hours = nil
     base_reload(*args)
   end
@@ -916,15 +917,13 @@ class Issue < ActiveRecord::Base
   end
 
   # Returns the total number of hours spent on this issue and its descendants
-  #
-  # Example:
-  #   spent_hours => 0.0
-  #   spent_hours => 50.2
   def total_spent_hours
-    @total_spent_hours ||=
-      self_and_descendants.
-        joins("LEFT JOIN #{TimeEntry.table_name} ON #{TimeEntry.table_name}.issue_id = #{Issue.table_name}.id").
-        sum("#{TimeEntry.table_name}.hours").to_f || 0.0
+    if leaf?
+      spent_hours
+    else
+      @total_spent_hours ||=
+        self_and_descendants.joins(:time_entries).sum("#{TimeEntry.table_name}.hours").to_f || 0.0
+    end
   end
 
   def total_estimated_hours
