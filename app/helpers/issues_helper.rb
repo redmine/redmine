@@ -114,11 +114,27 @@ module IssuesHelper
   end
 
   def issue_estimated_hours_details(issue)
-    s = issue.estimated_hours.present? ? l_hours(issue.estimated_hours) : ""
-    unless issue.leaf? || issue.total_estimated_hours.nil?
-      s << " (#{l(:label_total)}: #{l_hours(issue.total_estimated_hours)})"
+    if issue.total_estimated_hours.present?
+      if issue.total_estimated_hours == issue.estimated_hours
+        l_hours_short(issue.estimated_hours)
+      else
+        s = issue.estimated_hours.present? ? l_hours_short(issue.estimated_hours) : ""
+        s << " (#{l(:label_total)}: #{l_hours_short(issue.total_estimated_hours)})"
+        s.html_safe
+      end
     end
-    s.html_safe
+  end
+
+  def issue_spent_hours_details(issue)
+    if issue.total_spent_hours > 0
+      if issue.total_spent_hours == issue.spent_hours
+        link_to(l_hours_short(issue.spent_hours), issue_time_entries_path(issue))
+      else
+        s = issue.spent_hours > 0 ? l_hours_short(issue.spent_hours) : ""
+        s << " (#{l(:label_total)}: #{link_to l_hours_short(issue.total_spent_hours), issue_time_entries_path(issue)})"
+        s.html_safe
+      end
+    end
   end
 
   # Returns an array of error messages for bulk edited issues
