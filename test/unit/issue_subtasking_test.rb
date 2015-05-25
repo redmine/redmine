@@ -145,6 +145,26 @@ class IssueSubtaskingTest < ActiveSupport::TestCase
     end
   end
 
+  def test_done_ratio_of_parent_with_a_child_without_estimated_time_should_not_exceed_100
+    parent = Issue.generate!
+    parent.generate_child!(:estimated_hours => 40)
+    parent.generate_child!(:estimated_hours => 40)
+    parent.generate_child!(:estimated_hours => 20)
+    parent.generate_child!
+    parent.reload.children.each(&:close!)
+    assert_equal 100, parent.reload.done_ratio
+  end
+
+  def test_done_ratio_of_parent_with_a_child_with_estimated_time_at_0_should_not_exceed_100
+    parent = Issue.generate!
+    parent.generate_child!(:estimated_hours => 40)
+    parent.generate_child!(:estimated_hours => 40)
+    parent.generate_child!(:estimated_hours => 20)
+    parent.generate_child!(:estimated_hours => 0)
+    parent.reload.children.each(&:close!)
+    assert_equal 100, parent.reload.done_ratio
+  end
+
   def test_parent_dates_should_be_editable_with_parent_issue_dates_set_to_independent
     with_settings :parent_issue_dates => 'independent' do
       issue = Issue.generate_with_child!
