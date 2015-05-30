@@ -23,6 +23,7 @@ class RoutingTimelogsTest < Redmine::RoutingTest
     should_route 'GET /time_entries.csv' => 'timelog#index', :format => 'csv'
     should_route 'GET /time_entries.atom' => 'timelog#index', :format => 'atom'
     should_route 'GET /time_entries/new' => 'timelog#new'
+    should_route 'POST /time_entries/new' => 'timelog#new'
     should_route 'POST /time_entries' => 'timelog#create'
 
     should_route 'GET /time_entries/22/edit' => 'timelog#edit', :id => '22'

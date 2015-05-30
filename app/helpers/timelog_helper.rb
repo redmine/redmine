@@ -38,6 +38,7 @@ module TimelogHelper
   # is optional and will be used to check if the selected TimeEntryActivity
   # is active.
   def activity_collection_for_select_options(time_entry=nil, project=nil)
+    project ||= time_entry.try(:project)
     project ||= @project
     if project.nil?
       activities = TimeEntryActivity.shared.active

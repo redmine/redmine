@@ -26,9 +26,22 @@
 </div>
 
 <%= javascript_tag do %>
+<% if @time_entry.new_record? %>
+  $(document).ready(function(){
+    $('#time_entry_project_id, #time_entry_issue_id').change(function(){
+      $.ajax({
+        url: '<%= escape_javascript new_time_entry_path(:format => 'js') %>',
+        type: 'post',
+        data: $('#new_time_entry').serialize()
+      });
+    });
+  });
+<% end %>
+
   observeAutocompleteField('time_entry_issue_id', '<%= escape_javascript auto_complete_issues_path(:project_id => @project, :scope => (@project ? nil : 'all'))%>', {
     select: function(event, ui) {
       $('#time_entry_issue').text(ui.item.label);
+      $('#time_entry_issue_id').blur();
     }
   });
 <% end %>
