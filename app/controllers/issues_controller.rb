@@ -248,7 +248,10 @@ class IssuesController < ApplicationController
   def bulk_update
     @issues.sort!
     @copy = params[:copy].present?
+
     attributes = parse_params_for_bulk_issue_attributes(params)
+    copy_subtasks = (params[:copy_subtasks] == '1')
+    copy_attachments = (params[:copy_attachments] == '1')
 
     if @copy
       unless User.current.allowed_to?(:copy_issues, @projects)
@@ -266,7 +269,7 @@ class IssuesController < ApplicationController
     unsaved_issues = []
     saved_issues = []
 
-    if @copy && params[:copy_subtasks].present?
+    if @copy && copy_subtasks
       # Descendant issues will be copied with the parent task
       # Don't copy them twice
       @issues.reject! {|issue| @issues.detect {|other| issue.is_descendant_of?(other)}}
@@ -276,8 +279,8 @@ class IssuesController < ApplicationController
       orig_issue.reload
       if @copy
         issue = orig_issue.copy({},
-          :attachments => params[:copy_attachments].present?,
-          :subtasks => params[:copy_subtasks].present?,
+          :attachments => copy_attachments,
+          :subtasks => copy_subtasks,
           :link => link_copy?(params[:link_copy])
         )
       else
