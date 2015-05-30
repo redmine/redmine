@@ -30,6 +30,9 @@ module Net
       request.basic_auth url.user, url.password if url.user
       http = new(url.host, url.port)
       http.use_ssl = (url.scheme == 'https')
+      if options[:certificate_bundle]
+        http.ca_file = options[:certificate_bundle]
+      end
       if options[:no_check_certificate]
         http.verify_mode = OpenSSL::SSL::VERIFY_NONE
       end
@@ -42,7 +45,7 @@ class RedmineMailHandler
   VERSION = '0.2.3'
 
   attr_accessor :verbose, :issue_attributes, :allow_override, :unknown_user, :default_group, :no_permission_check,
-    :url, :key, :no_check_certificate, :no_account_notice, :no_notification
+    :url, :key, :no_check_certificate, :certificate_bundle, :no_account_notice, :no_notification
 
   def initialize
     self.issue_attributes = {}
@@ -64,6 +67,7 @@ class RedmineMailHandler
                                               "you don't want the key to appear in the command",
                                               "line)") {|v| read_key_from_file(v)}
       opts.on("--no-check-certificate",       "do not check server certificate") {self.no_check_certificate = true}
+      opts.on("--certificate-bundle FILE",    "certificate bundle to use") {|v| self.certificate_bundle = v}
       opts.on("-h", "--help",                 "show this help") {puts opts; exit 1}
       opts.on("-v", "--verbose",              "show extra information") {self.verbose = true}
       opts.on("-V", "--version",              "show version information and exit") {puts VERSION; exit}
@@ -129,7 +133,7 @@ class RedmineMailHandler
 
     debug "Posting to #{uri}..."
     begin
-      response = Net::HTTPS.post_form(URI.parse(uri), data, headers, :no_check_certificate => no_check_certificate)
+      response = Net::HTTPS.post_form(URI.parse(uri), data, headers, :no_check_certificate => no_check_certificate, :certificate_bundle => certificate_bundle)
     rescue SystemCallError, IOError => e # connection refused, etc.
       warn "An error occured while contacting your Redmine server: #{e.message}"
       return 75 # temporary failure
