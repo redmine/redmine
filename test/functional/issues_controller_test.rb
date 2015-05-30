@@ -3866,7 +3866,7 @@ class IssuesControllerTest < ActionController::TestCase
 
     assert_difference 'Issue.count', 1 do
       assert_no_difference 'Attachment.count' do
-        post :bulk_update, :ids => [3], :copy => '1',
+        post :bulk_update, :ids => [3], :copy => '1', :copy_attachments => '0',
              :issue => {
                :project_id => ''
              }
@@ -3907,7 +3907,7 @@ class IssuesControllerTest < ActionController::TestCase
     @request.session[:user_id] = 2
 
     assert_difference 'Issue.count', 1 do
-      post :bulk_update, :ids => [issue.id], :copy => '1',
+      post :bulk_update, :ids => [issue.id], :copy => '1', :copy_subtasks => '0',
            :issue => {
              :project_id => ''
            }
