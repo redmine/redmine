@@ -113,7 +113,7 @@ class TimelogControllerTest < ActionController::TestCase
   def test_get_edit_with_an_existing_time_entry_with_inactive_activity
     te = TimeEntry.find(1)
     te.activity = TimeEntryActivity.find_by_name("Inactive Activity")
-    te.save!
+    te.save!(:validate => false)
 
     @request.session[:user_id] = 1
     get :edit, :project_id => 1, :id => 1

@@ -105,13 +105,13 @@ class TimeEntryActivityTest < ActiveSupport::TestCase
 
   def test_destroying_a_system_activity_should_reassign_children_activities
     project = Project.generate!
-    system_activity = TimeEntryActivity.create!(:name => 'Activity')
-    project_activity = TimeEntryActivity.create!(:name => 'Activity', :project => project, :parent_id => system_activity.id)
+    entries = []
 
-    entries = [
-      TimeEntry.generate!(:project => project, :activity => system_activity),
-      TimeEntry.generate!(:project => project, :activity => project_activity)
-    ]
+    system_activity = TimeEntryActivity.create!(:name => 'Activity')
+    entries << TimeEntry.generate!(:project => project, :activity => system_activity)
+    
+    project_activity = TimeEntryActivity.create!(:name => 'Activity', :project => project, :parent_id => system_activity.id)
+    entries << TimeEntry.generate!(:project => project.reload, :activity => project_activity)
 
     assert_difference 'TimeEntryActivity.count', -2 do
       assert_nothing_raised do

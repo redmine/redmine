@@ -153,7 +153,7 @@ class ProjectEnumerationsControllerTest < ActionController::TestCase
     # second one is a dupicate
     parent = TimeEntryActivity.find(9)
     TimeEntryActivity.create!({:name => parent.name, :project_id => 1,
-                               :position => parent.position, :active => true})
+                               :position => parent.position, :active => true, :parent_id => 9})
     TimeEntry.create!({:project_id => 1, :hours => 1.0, :user => User.find(1),
                        :issue_id => 3, :activity_id => 10, :spent_on => '2009-01-01'})
     assert_equal 3, TimeEntry.where(:activity_id => 9, :project_id => 1).count

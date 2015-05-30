@@ -30,9 +30,9 @@ class TimeEntryQueryTest < ActiveSupport::TestCase
   def test_activity_filter_should_consider_system_and_project_activities
     TimeEntry.delete_all
     system = TimeEntryActivity.create!(:name => 'Foo')
+    TimeEntry.generate!(:activity => system, :hours => 1.0)
     override = TimeEntryActivity.create!(:name => 'Foo', :parent_id => system.id, :project_id => 1)
     other = TimeEntryActivity.create!(:name => 'Bar')
-    TimeEntry.generate!(:activity => system, :hours => 1.0)
     TimeEntry.generate!(:activity => override, :hours => 2.0)
     TimeEntry.generate!(:activity => other, :hours => 4.0)
 
