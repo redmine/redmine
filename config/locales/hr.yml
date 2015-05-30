@@ -1142,3 +1142,10 @@ hr:
   setting_search_results_per_page: Search results per page
   label_blank_value: blank
   permission_copy_issues: Copy issues
+  error_password_expired: Your password has expired or the administrator requires you
+    to change it.
+  field_time_entries_visibility: Time logs visibility
+  setting_password_max_age: Require password change after
+  label_parent_task_attributes: Parent tasks attributes
+  label_parent_task_attributes_derived: Calculated from subtasks
+  label_parent_task_attributes_independent: Independent of subtasks

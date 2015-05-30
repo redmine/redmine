@@ -1157,3 +1157,10 @@ ja:
   setting_search_results_per_page: ページごとの検索結果表示件数
   label_blank_value: 空
   permission_copy_issues: チケットのコピー
+  error_password_expired: Your password has expired or the administrator requires you
+    to change it.
+  field_time_entries_visibility: Time logs visibility
+  setting_password_max_age: Require password change after
+  label_parent_task_attributes: Parent tasks attributes
+  label_parent_task_attributes_derived: Calculated from subtasks
+  label_parent_task_attributes_independent: Independent of subtasks

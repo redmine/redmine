@@ -1135,3 +1135,10 @@ bg:
   description_date_from: Въведете начална дата
   description_date_to: Въведете крайна дата
   text_repository_identifier_info: 'Позволени са малки букви (a-z), цифри, тирета и _.<br />Промяна след създаването му не е възможна.'
+  error_password_expired: Your password has expired or the administrator requires you
+    to change it.
+  field_time_entries_visibility: Time logs visibility
+  setting_password_max_age: Require password change after
+  label_parent_task_attributes: Parent tasks attributes
+  label_parent_task_attributes_derived: Calculated from subtasks
+  label_parent_task_attributes_independent: Independent of subtasks
