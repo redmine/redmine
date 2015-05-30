@@ -453,7 +453,6 @@ sub is_member {
   my $redmine_pass = shift;
   my $r = shift;
 
-  my $dbh         = connect_database($r);
   my $project_id  = get_project_identifier($r);
 
   my $pass_digest = Digest::SHA::sha1_hex($redmine_pass);
@@ -466,6 +465,7 @@ sub is_member {
     $usrprojpass = $cfg->{RedmineCacheCreds}->get($redmine_user.":".$project_id.":".$access_mode);
     return 1 if (defined $usrprojpass and ($usrprojpass eq $pass_digest));
   }
+  my $dbh = connect_database($r);
   my $query = $cfg->{RedmineQuery};
   my $sth = $dbh->prepare($query);
   $sth->execute($redmine_user, $project_id);
