@@ -39,6 +39,11 @@ class Role < ActiveRecord::Base
     ['own', :label_issues_visibility_own]
   ]
 
+  TIME_ENTRIES_VISIBILITY_OPTIONS = [
+    ['all', :label_time_entries_visibility_all],
+    ['own', :label_time_entries_visibility_own]
+  ]
+
   USERS_VISIBILITY_OPTIONS = [
     ['all', :label_users_visibility_all],
     ['members_of_visible_projects', :label_users_visibility_members_of_visible_projects]
@@ -75,6 +80,9 @@ class Role < ActiveRecord::Base
   validates_inclusion_of :users_visibility,
     :in => USERS_VISIBILITY_OPTIONS.collect(&:first),
     :if => lambda {|role| role.respond_to?(:users_visibility) && role.users_visibility_changed?}
+  validates_inclusion_of :time_entries_visibility,
+    :in => TIME_ENTRIES_VISIBILITY_OPTIONS.collect(&:first),
+    :if => lambda {|role| role.respond_to?(:time_entries_visibility) && role.time_entries_visibility_changed?}
 
   # Copies attributes from another role, arg can be an id or a Role
   def copy_from(arg, options={})

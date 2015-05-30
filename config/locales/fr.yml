@@ -361,6 +361,7 @@ fr:
   field_must_change_passwd: Doit changer de mot de passe à la prochaine connexion
   field_default_status: Statut par défaut
   field_users_visibility: Visibilité des utilisateurs
+  field_time_entries_visibility: Visibilité du temps passé
 
   setting_app_title: Titre de l'application
   setting_app_subtitle: Sous-titre de l'application
@@ -962,6 +963,8 @@ fr:
   label_disable_notifications: Désactiver les notifications
   label_blank_value: non renseigné
   label_parent_task_attributes: Attributs des tâches parentes
+  label_time_entries_visibility_all: Tous les temps passés
+  label_time_entries_visibility_own: Ses propres temps passés
 
   button_login: Connexion
   button_submit: Soumettre

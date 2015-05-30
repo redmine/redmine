@@ -46,7 +46,7 @@ class TimeEntry < ActiveRecord::Base
 
   scope :visible, lambda {|*args|
     joins(:project).
-    where(Project.allowed_to_condition(args.shift || User.current, :view_time_entries, *args))
+    where(TimeEntry.visible_condition(args.shift || User.current, *args))
   }
   scope :on_issue, lambda {|issue|
     joins(:issue).
@@ -54,6 +54,32 @@ class TimeEntry < ActiveRecord::Base
   }
 
   safe_attributes 'hours', 'comments', 'project_id', 'issue_id', 'activity_id', 'spent_on', 'custom_field_values', 'custom_fields'
+
+  # Returns a SQL conditions string used to find all time entries visible by the specified user
+  def self.visible_condition(user, options={})
+    Project.allowed_to_condition(user, :view_time_entries, options) do |role, user|
+      if role.time_entries_visibility == 'all'
+        nil
+      elsif role.time_entries_visibility == 'own' && user.id && user.logged?
+        "#{table_name}.user_id = #{user.id}"
+      else
+        '1=0'
+      end
+    end
+  end
+
+  # Returns true if user or current user is allowed to view the time entry
+  def visible?(user=nil)
+    (user || User.current).allowed_to?(:view_time_entries, self.project) do |role, user|
+      if role.time_entries_visibility == 'all'
+        true
+      elsif role.time_entries_visibility == 'own'
+        self.user == user
+      else
+        false
+      end
+    end
+  end
 
   def initialize(attributes=nil, *args)
     super
@@ -116,7 +142,9 @@ class TimeEntry < ActiveRecord::Base
 
   # Returns true if the time entry can be edited by usr, otherwise false
   def editable_by?(usr)
-    (usr == user && usr.allowed_to?(:edit_own_time_entries, project)) || usr.allowed_to?(:edit_time_entries, project)
+    visible?(usr) && (
+      (usr == user && usr.allowed_to?(:edit_own_time_entries, project)) || usr.allowed_to?(:edit_time_entries, project)
+    )
   end
 
   # Returns the custom_field_values that can be edited by the given user

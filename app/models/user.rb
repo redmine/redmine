@@ -634,6 +634,12 @@ class User < Principal
     allowed_to?(action, nil, options.reverse_merge(:global => true), &block)
   end
 
+  def allowed_to_view_all_time_entries?(context)
+    allowed_to?(:view_time_entries, context) do |role, user|
+      role.time_entries_visibility == 'all'
+    end
+  end
+
   # Returns true if the user is allowed to delete the user's own account
   def own_account_deletable?
     Setting.unsubscribe? &&

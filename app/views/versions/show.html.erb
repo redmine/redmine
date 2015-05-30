@@ -19,7 +19,7 @@
     <th><%= l(:field_estimated_hours) %></th>
     <td class="total-hours"><%= html_hours(l_hours(@version.estimated_hours)) %></td>
 </tr>
-<% if User.current.allowed_to?(:view_time_entries, @project) %>
+<% if User.current.allowed_to_view_all_time_entries?(@project) %>
 <tr>
     <th><%= l(:label_spent_time) %></th>
     <td class="total-hours"><%= html_hours(l_hours(@version.spent_hours)) %></td>

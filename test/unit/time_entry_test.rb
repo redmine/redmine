@@ -27,6 +27,38 @@ class TimeEntryTest < ActiveSupport::TestCase
            :groups_users,
            :enabled_modules
 
+  def test_visibility_with_permission_to_view_all_time_entries
+    user = User.generate!
+    role = Role.generate!(:permissions => [:view_time_entries], :time_entries_visibility => 'all')
+    Role.non_member.remove_permission! :view_time_entries
+    project = Project.find(1)
+    User.add_to_project user, project, role
+    own = TimeEntry.generate! :user => user, :project => project
+    other = TimeEntry.generate! :user => User.find(2), :project => project
+
+    assert TimeEntry.visible(user).find_by_id(own.id)
+    assert TimeEntry.visible(user).find_by_id(other.id)
+
+    assert own.visible?(user)
+    assert other.visible?(user)
+  end
+
+  def test_visibility_with_permission_to_view_own_time_entries
+    user = User.generate!
+    role = Role.generate!(:permissions => [:view_time_entries], :time_entries_visibility => 'own')
+    Role.non_member.remove_permission! :view_time_entries
+    project = Project.find(1)
+    User.add_to_project user, project, role
+    own = TimeEntry.generate! :user => user, :project => project
+    other = TimeEntry.generate! :user => User.find(2), :project => project
+
+    assert TimeEntry.visible(user).find_by_id(own.id)
+    assert_nil TimeEntry.visible(user).find_by_id(other.id)
+
+    assert own.visible?(user)
+    assert_equal false, other.visible?(user)
+  end
+
   def test_hours_format
     assertions = { "2"      => 2.0,
                    "21.1"   => 21.1,

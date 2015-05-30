@@ -341,6 +341,7 @@ en:
   field_must_change_passwd: Must change password at next logon
   field_default_status: Default status
   field_users_visibility: Users visibility
+  field_time_entries_visibility: Time logs visibility
 
   setting_app_title: Application title
   setting_app_subtitle: Application subtitle

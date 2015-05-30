@@ -10,6 +10,10 @@
     <p><%= f.select :issues_visibility, Role::ISSUES_VISIBILITY_OPTIONS.collect {|v| [l(v.last), v.first]} %></p>
   <% end %>
 
+  <% unless @role.anonymous? %>
+    <p><%= f.select :time_entries_visibility, Role::TIME_ENTRIES_VISIBILITY_OPTIONS.collect {|v| [l(v.last), v.first]} %></p>
+  <% end %>
+
   <p><%= f.select :users_visibility, Role::USERS_VISIBILITY_OPTIONS.collect {|v| [l(v.last), v.first]} %></p>
 
   <% if @role.new_record? && @roles.any? %>
