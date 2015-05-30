@@ -120,4 +120,11 @@ class TimeEntryActivityTest < ActiveSupport::TestCase
     end
     assert entries.all? {|entry| entry.reload.activity.name == 'Development'}
   end
+
+  def test_project_activity_without_parent_should_not_disable_system_activities
+    project = Project.find(1)
+    activity = TimeEntryActivity.create!(:name => 'Csutom', :project => project)
+    assert_include activity, project.activities
+    assert_include TimeEntryActivity.find(9), project.activities
+  end
 end
