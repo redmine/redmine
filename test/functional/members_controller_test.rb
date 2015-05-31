@@ -30,6 +30,20 @@ class MembersControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  def test_new_should_propose_managed_roles_only
+    role = Role.find(1)
+    role.update! :all_roles_managed => false
+    role.managed_roles = Role.where(:id => [2, 3]).to_a
+
+    get :new, :project_id => 1
+    assert_response :success
+    assert_select 'div.roles-selection' do
+      assert_select 'label', :text => 'Manager', :count => 0
+      assert_select 'label', :text => 'Developer'
+      assert_select 'label', :text => 'Reporter'
+    end
+  end
+
   def test_xhr_new
     xhr :get, :new, :project_id => 1
     assert_response :success
@@ -50,6 +64,29 @@ class MembersControllerTest < ActionController::TestCase
     end
     assert_redirected_to '/projects/ecookbook/settings/members'
     assert User.find(7).member_of?(Project.find(1))
+  end
+
+  def test_create_should_ignore_unmanaged_roles
+    role = Role.find(1)
+    role.update! :all_roles_managed => false
+    role.managed_roles = Role.where(:id => [2, 3]).to_a
+
+    assert_difference 'Member.count' do
+      post :create, :project_id => 1, :membership => {:role_ids => [1, 2], :user_id => 7}
+    end
+    member = Member.order(:id => :desc).first
+    assert_equal [2], member.role_ids
+  end
+
+  def test_create_should_be_allowed_for_admin_without_role
+    User.find(1).members.delete_all
+    @request.session[:user_id] = 1
+
+    assert_difference 'Member.count' do
+      post :create, :project_id => 1, :membership => {:role_ids => [1, 2], :user_id => 7}
+    end
+    member = Member.order(:id => :desc).first
+    assert_equal [1, 2], member.role_ids
   end
 
   def test_xhr_create
@@ -75,14 +112,34 @@ class MembersControllerTest < ActionController::TestCase
     assert_match /alert/, response.body, "Alert message not sent"
   end
 
-  def test_edit
+  def test_update
     assert_no_difference 'Member.count' do
       put :update, :id => 2, :membership => {:role_ids => [1], :user_id => 3}
     end
     assert_redirected_to '/projects/ecookbook/settings/members'
   end
 
-  def test_xhr_edit
+  def test_update_should_not_add_unmanaged_roles
+    role = Role.find(1)
+    role.update! :all_roles_managed => false
+    role.managed_roles = Role.where(:id => [2, 3]).to_a
+    member = Member.create!(:user => User.find(9), :role_ids => [3], :project_id => 1)
+
+    put :update, :id => member.id, :membership => {:role_ids => [1, 2, 3]}
+    assert_equal [2, 3], member.reload.role_ids.sort
+  end
+
+  def test_update_should_not_remove_unmanaged_roles
+    role = Role.find(1)
+    role.update! :all_roles_managed => false
+    role.managed_roles = Role.where(:id => [2, 3]).to_a
+    member = Member.create!(:user => User.find(9), :role_ids => [1, 3], :project_id => 1)
+
+    put :update, :id => member.id, :membership => {:role_ids => [2]}
+    assert_equal [1, 2], member.reload.role_ids.sort
+  end
+
+  def test_xhr_update
     assert_no_difference 'Member.count' do
       xhr :put, :update, :id => 2, :membership => {:role_ids => [1], :user_id => 3}
       assert_response :success
@@ -101,6 +158,28 @@ class MembersControllerTest < ActionController::TestCase
     end
     assert_redirected_to '/projects/ecookbook/settings/members'
     assert !User.find(3).member_of?(Project.find(1))
+  end
+
+  def test_destroy_should_fail_with_unmanaged_roles
+    role = Role.find(1)
+    role.update! :all_roles_managed => false
+    role.managed_roles = Role.where(:id => [2, 3]).to_a
+    member = Member.create!(:user => User.find(9), :role_ids => [1, 3], :project_id => 1)
+
+    assert_no_difference 'Member.count' do
+      delete :destroy, :id => member.id
+    end
+  end
+
+  def test_destroy_should_succeed_with_managed_roles_only
+    role = Role.find(1)
+    role.update! :all_roles_managed => false
+    role.managed_roles = Role.where(:id => [2, 3]).to_a
+    member = Member.create!(:user => User.find(9), :role_ids => [3], :project_id => 1)
+
+    assert_difference 'Member.count', -1 do
+      delete :destroy, :id => member.id
+    end
   end
 
   def test_xhr_destroy

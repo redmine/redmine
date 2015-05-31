@@ -159,4 +159,35 @@ class MemberTest < ActiveSupport::TestCase
     assert_equal -1, a <=> b
     assert_equal 1,  b <=> a
   end
+
+  def test_managed_roles_should_return_all_roles_for_role_with_all_roles_managed
+    member = Member.new
+    member.roles << Role.generate!(:permissions => [:manage_members], :all_roles_managed => true)
+    assert_equal Role.givable.all, member.managed_roles
+  end
+
+  def test_managed_roles_should_return_all_roles_for_admins
+    member = Member.new(:user => User.find(1))
+    member.roles << Role.generate!
+    assert_equal Role.givable.all, member.managed_roles
+  end
+
+  def test_managed_roles_should_return_limited_roles_for_role_without_all_roles_managed
+    member = Member.new
+    member.roles << Role.generate!(:permissions => [:manage_members], :all_roles_managed => false, :managed_role_ids => [2, 3])
+    assert_equal [2, 3], member.managed_roles.map(&:id).sort
+  end
+
+  def test_managed_roles_should_cumulated_managed_roles
+    member = Member.new
+    member.roles << Role.generate!(:permissions => [:manage_members], :all_roles_managed => false, :managed_role_ids => [3])
+    member.roles << Role.generate!(:permissions => [:manage_members], :all_roles_managed => false, :managed_role_ids => [2])
+    assert_equal [2, 3], member.managed_roles.map(&:id).sort
+  end
+
+  def test_managed_roles_should_return_no_roles_for_role_without_permission
+    member = Member.new
+    member.roles << Role.generate!(:all_roles_managed => true)
+    assert_equal [], member.managed_roles
+  end
 end

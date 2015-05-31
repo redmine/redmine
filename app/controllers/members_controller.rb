@@ -53,14 +53,12 @@ class MembersController < ApplicationController
   def create
     members = []
     if params[:membership]
-      if params[:membership][:user_ids]
-        attrs = params[:membership].dup
-        user_ids = attrs.delete(:user_ids)
-        user_ids.each do |user_id|
-          members << Member.new(:role_ids => params[:membership][:role_ids], :user_id => user_id)
-        end
-      else
-        members << Member.new(:role_ids => params[:membership][:role_ids], :user_id => params[:membership][:user_id])
+      user_ids = Array.wrap(params[:membership][:user_id] || params[:membership][:user_ids])
+      user_ids << nil if user_ids.empty?
+      user_ids.each do |user_id|
+        member = Member.new(:project => @project, :user_id => user_id)
+        member.set_editable_role_ids(params[:membership][:role_ids])
+        members << member
       end
       @project.members << members
     end
@@ -84,7 +82,7 @@ class MembersController < ApplicationController
 
   def update
     if params[:membership]
-      @member.role_ids = params[:membership][:role_ids]
+      @member.set_editable_role_ids(params[:membership][:role_ids])
     end
     saved = @member.save
     respond_to do |format|
@@ -101,7 +99,7 @@ class MembersController < ApplicationController
   end
 
   def destroy
-    if request.delete? && @member.deletable?
+    if @member.deletable?
       @member.destroy
     end
     respond_to do |format|

@@ -64,6 +64,10 @@ class Role < ActiveRecord::Base
   end
   has_and_belongs_to_many :custom_fields, :join_table => "#{table_name_prefix}custom_fields_roles#{table_name_suffix}", :foreign_key => "role_id"
 
+  has_and_belongs_to_many :managed_roles, :class_name => 'Role',
+    :join_table => "#{table_name_prefix}roles_managed_roles#{table_name_suffix}",
+    :association_foreign_key => "managed_role_id"
+
   has_many :member_roles, :dependent => :destroy
   has_many :members, :through => :member_roles
   acts_as_list

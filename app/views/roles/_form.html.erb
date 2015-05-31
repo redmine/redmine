@@ -16,6 +16,28 @@
 
   <p><%= f.select :users_visibility, Role::USERS_VISIBILITY_OPTIONS.collect {|v| [l(v.last), v.first]} %></p>
 
+  <% unless @role.builtin? %>
+    <p id="manage_members_options">
+      <label>Gestion des membres</label>
+      <label class="block">
+        <%= radio_button_tag 'role[all_roles_managed]', 1, @role.all_roles_managed?, :id => 'role_all_roles_managed_on',
+              :data => {:disables => '.role_managed_role input'} %>
+        tous les rôles
+      </label>
+      <label class="block">
+        <%= radio_button_tag 'role[all_roles_managed]', 0, !@role.all_roles_managed?, :id => 'role_all_roles_managed_off',
+              :data => {:enables => '.role_managed_role input'} %>
+        ces rôles uniquement:
+      </label>
+      <% Role.givable.sorted.each do |role| %>
+        <label class="block role_managed_role" style="padding-left:2em;">
+          <%= check_box_tag 'role[managed_role_ids][]', role.id, @role.managed_roles.include?(role), :id => nil %>
+          <%= role.name %>
+        </label>
+      <% end %>
+      <%= hidden_field_tag 'role[managed_role_ids][]', '' %>
+  <% end %>
+
   <% if @role.new_record? && @roles.any? %>
     <p><label for="copy_workflow_from"><%= l(:label_copy_workflow_from) %></label>
     <%= select_tag(:copy_workflow_from, content_tag("option") + options_from_collection_for_select(@roles, :id, :name, params[:copy_workflow_from] || @copy_from.try(:id))) %></p>
@@ -29,7 +51,8 @@
     <fieldset><legend><%= mod.blank? ? l(:label_project) : l_or_humanize(mod, :prefix => 'project_module_') %></legend>
     <% perms_by_module[mod].each do |permission| %>
         <label class="floating">
-        <%= check_box_tag 'role[permissions][]', permission.name, (@role.permissions.include? permission.name), :id => nil %>
+        <%= check_box_tag 'role[permissions][]', permission.name, (@role.permissions.include? permission.name),
+              :id => "role_permissions_#{permission.name}" %>
         <%= l_or_humanize(permission.name, :prefix => 'permission_') %>
         </label>
     <% end %>
@@ -38,3 +61,11 @@
 <br /><%= check_all_links 'permissions' %>
 <%= hidden_field_tag 'role[permissions][]', '' %>
 </div>
+
+<%= javascript_tag do %>
+$(document).ready(function(){
+  $("#role_permissions_manage_members").change(function(){
+    $("#manage_members_options").toggle($(this).is(":checked"));
+  }).change();
+});
+<% end %>

@@ -566,6 +566,15 @@ class User < Principal
     @visible_project_ids ||= Project.visible(self).pluck(:id)
   end
 
+  # Returns the roles that the user is allowed to manage for the given project
+  def managed_roles(project)
+    if admin?
+      Role.givable.to_a
+    else
+      membership(project).try(:managed_roles) || []
+    end
+  end
+
   # Returns true if user is arg or belongs to arg
   def is_or_belongs_to?(arg)
     if arg.is_a?(User)

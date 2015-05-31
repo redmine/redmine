@@ -32,9 +32,7 @@
             <%= check_box_tag('membership[role_ids][]',
                               role.id, member.roles.include?(role),
                               :id => nil,
-                              :disabled => member.member_roles.detect {
-                                 |mr| mr.role_id == role.id && !mr.inherited_from.nil?
-                                 } ) %> <%= role %>
+                              :disabled => !member.role_editable?(role)) %> <%= role %>
           </label><br />
           <% end %>
         </p>

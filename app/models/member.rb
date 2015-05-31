@@ -29,6 +29,12 @@ class Member < ActiveRecord::Base
 
   before_destroy :set_issue_category_nil
 
+  alias :base_reload :reload
+  def reload(*args)
+    @managed_roles = nil
+    base_reload(*args)
+  end
+
   def role
   end
 
@@ -70,22 +76,52 @@ class Member < ActiveRecord::Base
     end
   end
 
-  def deletable?
-    member_roles.detect {|mr| mr.inherited_from}.nil?
+	# Set member role ids ignoring any change to roles that
+	# user is not allowed to manage
+  def set_editable_role_ids(ids, user=User.current)
+    ids = (ids || []).collect(&:to_i) - [0]
+    editable_role_ids = user.managed_roles(project).map(&:id)
+    untouched_role_ids = self.role_ids - editable_role_ids
+    touched_role_ids = ids & editable_role_ids
+    self.role_ids = untouched_role_ids + touched_role_ids
   end
 
-  def destroy
-    if member_roles.reload.present?
-      # destroying the last role will destroy another instance
-      # of the same Member record, #super would then trigger callbacks twice
-      member_roles.destroy_all
-      @destroyed = true
-      freeze
+	# Returns true if one of the member roles is inherited
+  def any_inherited_role?
+    member_roles.any? {|mr| mr.inherited_from}
+  end
+
+	# Returns true if the member has the role and if it's inherited
+  def has_inherited_role?(role)
+    member_roles.any? {|mr| mr.role_id == role.id && mr.inherited_from.present?}
+  end
+
+	# Returns true if the member's role is editable by user
+  def role_editable?(role, user=User.current)
+    if has_inherited_role?(role)
+      false
     else
-      super
+      user.managed_roles(project).include?(role)
     end
   end
 
+	# Returns true if the member is deletable by user
+  def deletable?(user=User.current)
+    if any_inherited_role?
+      false
+    else
+      roles & user.managed_roles(project) == roles
+    end
+  end
+
+	# Destroys the member
+  def destroy
+    member_roles.reload.each(&:destroy_without_member_removal)
+    super
+  end
+
+	# Returns true if the member is user or is a group
+	# that includes user
   def include?(user)
     if principal.is_a?(Group)
       !user.nil? && user.groups.include?(principal)
@@ -99,6 +135,27 @@ class Member < ActiveRecord::Base
       # remove category based auto assignments for this member
       IssueCategory.where(["project_id = ? AND assigned_to_id = ?", project_id, user_id]).
         update_all("assigned_to_id = NULL")
+    end
+  end
+
+  # Returns the roles that the member is allowed to manage
+  # in the project the member belongs to
+  def managed_roles
+    @managed_roles ||= begin
+      if principal.try(:admin?)
+        Role.givable.to_a
+      else
+        members_management_roles = roles.select do |role|
+          role.has_permission?(:manage_members)
+        end
+        if members_management_roles.empty?
+          []
+        elsif members_management_roles.any?(&:all_roles_managed?)
+          Role.givable.to_a
+        else
+          members_management_roles.map(&:managed_roles).reduce(&:|)
+        end
+      end
     end
   end
 

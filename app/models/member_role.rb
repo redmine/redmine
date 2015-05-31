@@ -36,10 +36,17 @@ class MemberRole < ActiveRecord::Base
     !inherited_from.nil?
   end
 
+  # Destroys the MemberRole without destroying its Member if it doesn't have
+  # any other roles
+  def destroy_without_member_removal
+    @member_removal = false
+    destroy
+  end
+
   private
 
   def remove_member_if_empty
-    if member.roles.empty?
+    if @member_removal != false && member.roles.empty?
       member.destroy
     end
   end
