@@ -447,7 +447,7 @@ module ActiveRecord #:nodoc:
 
           def write_changed_attribute(attr_name, attr_value)
             # Convert to db type for comparison. Avoids failing Float<=>String comparisons.
-            attr_value_for_db = self.class.columns_hash[attr_name.to_s].type_cast(attr_value)
+            attr_value_for_db = self.class.columns_hash[attr_name.to_s].type_cast_from_database(attr_value)
             (self.altered_attributes ||= []) << attr_name.to_s unless self.changed?(attr_name) || self.send(attr_name) == attr_value_for_db
             write_attribute(attr_name, attr_value_for_db)
           end
