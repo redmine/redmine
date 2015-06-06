@@ -76,8 +76,8 @@ class Member < ActiveRecord::Base
     end
   end
 
-	# Set member role ids ignoring any change to roles that
-	# user is not allowed to manage
+  # Set member role ids ignoring any change to roles that
+  # user is not allowed to manage
   def set_editable_role_ids(ids, user=User.current)
     ids = (ids || []).collect(&:to_i) - [0]
     editable_role_ids = user.managed_roles(project).map(&:id)
@@ -86,17 +86,17 @@ class Member < ActiveRecord::Base
     self.role_ids = untouched_role_ids + touched_role_ids
   end
 
-	# Returns true if one of the member roles is inherited
+  # Returns true if one of the member roles is inherited
   def any_inherited_role?
     member_roles.any? {|mr| mr.inherited_from}
   end
 
-	# Returns true if the member has the role and if it's inherited
+  # Returns true if the member has the role and if it's inherited
   def has_inherited_role?(role)
     member_roles.any? {|mr| mr.role_id == role.id && mr.inherited_from.present?}
   end
 
-	# Returns true if the member's role is editable by user
+  # Returns true if the member's role is editable by user
   def role_editable?(role, user=User.current)
     if has_inherited_role?(role)
       false
@@ -105,7 +105,7 @@ class Member < ActiveRecord::Base
     end
   end
 
-	# Returns true if the member is deletable by user
+  # Returns true if the member is deletable by user
   def deletable?(user=User.current)
     if any_inherited_role?
       false
@@ -114,14 +114,14 @@ class Member < ActiveRecord::Base
     end
   end
 
-	# Destroys the member
+  # Destroys the member
   def destroy
     member_roles.reload.each(&:destroy_without_member_removal)
     super
   end
 
-	# Returns true if the member is user or is a group
-	# that includes user
+  # Returns true if the member is user or is a group
+  # that includes user
   def include?(user)
     if principal.is_a?(Group)
       !user.nil? && user.groups.include?(principal)
