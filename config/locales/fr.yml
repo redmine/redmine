@@ -965,6 +965,9 @@ fr:
   label_parent_task_attributes: Attributs des tâches parentes
   label_time_entries_visibility_all: Tous les temps passés
   label_time_entries_visibility_own: Ses propres temps passés
+  label_member_management: Gestion des membres
+  label_member_management_all_roles: Tous les rôles
+  label_member_management_selected_roles_only: Ces rôles uniquement
 
   button_login: Connexion
   button_submit: Soumettre

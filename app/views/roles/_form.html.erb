@@ -18,16 +18,16 @@
 
   <% unless @role.builtin? %>
     <p id="manage_members_options">
-      <label>Gestion des membres</label>
+      <label><%= l(:label_member_management) %></label>
       <label class="block">
         <%= radio_button_tag 'role[all_roles_managed]', 1, @role.all_roles_managed?, :id => 'role_all_roles_managed_on',
               :data => {:disables => '.role_managed_role input'} %>
-        tous les rôles
+        <%= l(:label_member_management_all_roles) %>
       </label>
       <label class="block">
         <%= radio_button_tag 'role[all_roles_managed]', 0, !@role.all_roles_managed?, :id => 'role_all_roles_managed_off',
               :data => {:enables => '.role_managed_role input'} %>
-        ces rôles uniquement:
+        <%= l(:label_member_management_selected_roles_only) %>:
       </label>
       <% Role.givable.sorted.each do |role| %>
         <label class="block role_managed_role" style="padding-left:2em;">
