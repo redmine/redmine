@@ -42,6 +42,7 @@ module Redmine
           set_header_font([@font_for_content, '', 10])
           set_footer_font([@font_for_content, '', 8])
           set_default_monospaced_font(@font_for_content)
+          set_display_mode('default', 'OneColumn')
         end
 
         def SetFontStyle(style, size)
