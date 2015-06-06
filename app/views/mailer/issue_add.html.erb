@@ -1,3 +1,3 @@
-<%= l(:text_issue_added, :id => "##{@issue.id}", :author => h(@issue.author)) %>
+<p class="author"><%= l(:text_issue_added, :id => "##{@issue.id}", :author => h(@issue.author)) %></p>
 <hr />
 <%= render :partial => 'issue', :formats => [:html], :locals => { :issue => @issue, :users => @users, :issue_url => @issue_url } %>
