@@ -1167,3 +1167,5 @@
   label_parent_task_attributes: Parent tasks attributes
   label_parent_task_attributes_derived: Calculated from subtasks
   label_parent_task_attributes_independent: Independent of subtasks
+  label_time_entries_visibility_all: All time entries
+  label_time_entries_visibility_own: Time entries created by the user
