@@ -384,7 +384,7 @@ class RedCloth3 < String
                 (?!\-\-)
                 (#{QTAGS_JOIN}|)      # oqs
                 (#{rcq})              # qtag
-                (\w|[^\s].*?[^\s])    # content
+                ([[:word:]]|[^\s].*?[^\s])    # content
                 (?!\-\-)
                 #{rcq}
                 (#{QTAGS_JOIN}|)      # oqa
@@ -393,7 +393,7 @@ class RedCloth3 < String
                 /(#{rcq})
                 (#{C})
                 (?::(\S+))?
-                (\w|[^\s\-].*?[^\s\-])
+                ([[:word:]]|[^\s\-].*?[^\s\-])
                 #{rcq}/xm 
             end
         [rc, ht, re, rtype]

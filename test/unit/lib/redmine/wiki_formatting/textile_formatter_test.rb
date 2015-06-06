@@ -1,3 +1,5 @@
+#encoding: utf-8
+#
 # Redmine - project management software
 # Copyright (C) 2006-2015  Jean-Philippe Lang
 #
@@ -57,6 +59,10 @@ class Redmine::WikiFormatting::TextileFormatterTest < ActionView::TestCase
         assert_html_output text => html
       end
     end
+  end
+
+  def test_modifier_should_work_with_one_non_ascii_character
+    assert_html_output "*Ä*" => "<strong>Ä</strong>"
   end
 
   def test_styles
