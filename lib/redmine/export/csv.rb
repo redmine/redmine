@@ -35,7 +35,13 @@ module Redmine
             col_sep = l(:general_csv_separator)
             encoding = l(:general_csv_encoding)
 
-            super(:col_sep => col_sep, :encoding => encoding, &block)
+            str = ''.force_encoding(encoding)
+            if encoding == 'UTF-8'
+              # BOM
+              str = "\xEF\xBB\xBF".force_encoding(encoding)
+            end
+
+            super(str, :col_sep => col_sep, :encoding => encoding, &block)
           end
         end
 
