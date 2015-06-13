@@ -1307,6 +1307,11 @@ module ApplicationHelper
     end
   end
 
+  def generate_csv(&block)
+    decimal_separator = l(:general_csv_decimal_separator)
+    encoding = l(:general_csv_encoding)
+  end
+
   private
 
   def wiki_helper

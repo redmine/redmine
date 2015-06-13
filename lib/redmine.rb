@@ -63,8 +63,6 @@ require 'redmine/themes'
 require 'redmine/hook'
 require 'redmine/plugin'
 
-require 'csv'
-
 Redmine::Scm::Base.add "Subversion"
 Redmine::Scm::Base.add "Darcs"
 Redmine::Scm::Base.add "Mercurial"

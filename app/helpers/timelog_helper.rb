@@ -90,49 +90,42 @@ module TimelogHelper
   end
 
   def report_to_csv(report)
-    decimal_separator = l(:general_csv_decimal_separator)
-    export = CSV.generate(:col_sep => l(:general_csv_separator)) do |csv|
+    Redmine::Export::CSV.generate do |csv|
       # Column headers
       headers = report.criteria.collect {|criteria| l(report.available_criteria[criteria][:label]) }
       headers += report.periods
       headers << l(:label_total_time)
-      csv << headers.collect {|c| Redmine::CodesetUtil.from_utf8(
-                                    c.to_s,
-                                    l(:general_csv_encoding) ) }
+      csv << headers
       # Content
       report_criteria_to_csv(csv, report.available_criteria, report.columns, report.criteria, report.periods, report.hours)
       # Total row
-      str_total = Redmine::CodesetUtil.from_utf8(l(:label_total_time), l(:general_csv_encoding))
+      str_total = l(:label_total_time)
       row = [ str_total ] + [''] * (report.criteria.size - 1)
       total = 0
       report.periods.each do |period|
         sum = sum_hours(select_hours(report.hours, report.columns, period.to_s))
         total += sum
-        row << (sum > 0 ? ("%.2f" % sum).gsub('.',decimal_separator) : '')
+        row << (sum > 0 ? sum : '')
       end
-      row << ("%.2f" % total).gsub('.',decimal_separator)
+      row << total
       csv << row
     end
-    export
   end
 
   def report_criteria_to_csv(csv, available_criteria, columns, criteria, periods, hours, level=0)
-    decimal_separator = l(:general_csv_decimal_separator)
     hours.collect {|h| h[criteria[level]].to_s}.uniq.each do |value|
       hours_for_value = select_hours(hours, criteria[level], value)
       next if hours_for_value.empty?
       row = [''] * level
-      row << Redmine::CodesetUtil.from_utf8(
-                        format_criteria_value(available_criteria[criteria[level]], value).to_s,
-                        l(:general_csv_encoding) )
+      row << format_criteria_value(available_criteria[criteria[level]], value).to_s
       row += [''] * (criteria.length - level - 1)
       total = 0
       periods.each do |period|
         sum = sum_hours(select_hours(hours_for_value, columns, period.to_s))
         total += sum
-        row << (sum > 0 ? ("%.2f" % sum).gsub('.',decimal_separator) : '')
+        row << (sum > 0 ? sum : '')
       end
-      row << ("%.2f" % total).gsub('.',decimal_separator)
+      row << total
       csv << row
       if criteria.length > level + 1
         report_criteria_to_csv(csv, available_criteria, columns, criteria, periods, hours_for_value, level + 1)
