@@ -10,7 +10,10 @@
 <% else %>
   <div id="roadmap">
   <% @versions.each do |version| %>
-    <h3 class="version"><%= link_to_version version, :name => version_anchor(version) %></h3>
+  <article class="version-article <%= version.completed? ? 'version-completed' : 'version-incompleted' %>">
+    <header>
+      <h3 class="version"><%= link_to_version version, :name => version_anchor(version) %></h3>
+    </header>
     <%= render :partial => 'versions/overview', :locals => {:version => version} %>
     <%= render(:partial => "wiki/content",
                :locals => {:content => version.wiki_page.content}) if version.wiki_page %>
@@ -28,6 +31,7 @@
       <% end %>
     <% end %>
     <%= call_hook :view_projects_roadmap_version_bottom, :version => version %>
+  </article>
   <% end %>
   </div>
 <% end %>
