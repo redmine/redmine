@@ -879,6 +879,46 @@ class QueryTest < ActiveSupport::TestCase
     assert_equal [issue1], find_issues_with_query(query)
   end
 
+  def test_filter_on_parent
+    Issue.delete_all
+    parent = Issue.generate_with_descendants!
+    
+
+    query = IssueQuery.new(:name => '_')
+    query.filters = {"parent_id" => {:operator => '=', :values => [parent.id.to_s]}}
+    assert_equal parent.children.map(&:id).sort, find_issues_with_query(query).map(&:id).sort
+
+    query.filters = {"parent_id" => {:operator => '~', :values => [parent.id.to_s]}}
+    assert_equal parent.descendants.map(&:id).sort, find_issues_with_query(query).map(&:id).sort
+
+    query.filters = {"parent_id" => {:operator => '*', :values => ['']}}
+    assert_equal parent.descendants.map(&:id).sort, find_issues_with_query(query).map(&:id).sort
+
+    query.filters = {"parent_id" => {:operator => '!*', :values => ['']}}
+    assert_equal [parent.id], find_issues_with_query(query).map(&:id).sort
+  end
+
+  def test_filter_on_child
+    Issue.delete_all
+    parent = Issue.generate_with_descendants!
+    child, leaf = parent.children.sort_by(&:id)
+    grandchild = child.children.first
+    
+
+    query = IssueQuery.new(:name => '_')
+    query.filters = {"child_id" => {:operator => '=', :values => [grandchild.id.to_s]}}
+    assert_equal [child.id], find_issues_with_query(query).map(&:id).sort
+
+    query.filters = {"child_id" => {:operator => '~', :values => [grandchild.id.to_s]}}
+    assert_equal [parent, child].map(&:id).sort, find_issues_with_query(query).map(&:id).sort
+
+    query.filters = {"child_id" => {:operator => '*', :values => ['']}}
+    assert_equal [parent, child].map(&:id).sort, find_issues_with_query(query).map(&:id).sort
+
+    query.filters = {"child_id" => {:operator => '!*', :values => ['']}}
+    assert_equal [grandchild, leaf].map(&:id).sort, find_issues_with_query(query).map(&:id).sort
+  end
+
   def test_statement_should_be_nil_with_no_filters
     q = IssueQuery.new(:name => '_')
     q.filters = {}

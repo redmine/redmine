@@ -216,7 +216,8 @@ class Query < ActiveRecord::Base
     :text => [  "~", "!~", "!*", "*" ],
     :integer => [ "=", ">=", "<=", "><", "!*", "*" ],
     :float => [ "=", ">=", "<=", "><", "!*", "*" ],
-    :relation => ["=", "=p", "=!p", "!p", "!*", "*"]
+    :relation => ["=", "=p", "=!p", "!p", "!*", "*"],
+    :tree => ["=", "~", "!*", "*"]
   }
 
   class_attribute :available_columns

@@ -241,6 +241,8 @@ class IssueQuery < Query
     IssueRelation::TYPES.each do |relation_type, options|
       add_available_filter relation_type, :type => :relation, :label => options[:name]
     end
+    add_available_filter "parent_id", :type => :tree, :label => :field_parent_issue
+    add_available_filter "child_id", :type => :tree, :label => :label_subtask_plural
 
     Tracker.disabled_core_fields(trackers).each {|field|
       delete_available_filter field
@@ -449,6 +451,47 @@ class IssueQuery < Query
     va = value.map {|v| v == '0' ? self.class.connection.quoted_false : self.class.connection.quoted_true}.uniq.join(',')
 
     "#{Issue.table_name}.is_private #{op} (#{va})"
+  end
+
+  def sql_for_parent_id_field(field, operator, value)
+    case operator
+    when "="
+      "#{Issue.table_name}.parent_id = #{value.first.to_i}"
+    when "~"
+      root_id, lft, rgt = Issue.where(:id => value.first.to_i).pluck(:root_id, :lft, :rgt).first
+      if root_id && lft && rgt
+        "#{Issue.table_name}.root_id = #{root_id} AND #{Issue.table_name}.lft > #{lft} AND #{Issue.table_name}.rgt < #{rgt}"
+      else
+        "1=0"
+      end
+    when "!*"
+      "#{Issue.table_name}.parent_id IS NULL"
+    when "*"
+      "#{Issue.table_name}.parent_id IS NOT NULL"
+    end
+  end
+
+  def sql_for_child_id_field(field, operator, value)
+    case operator
+    when "="
+      parent_id = Issue.where(:id => value.first.to_i).pluck(:parent_id).first
+      if parent_id
+        "#{Issue.table_name}.id = #{parent_id}"
+      else
+        "1=0"
+      end
+    when "~"
+      root_id, lft, rgt = Issue.where(:id => value.first.to_i).pluck(:root_id, :lft, :rgt).first
+      if root_id && lft && rgt
+        "#{Issue.table_name}.root_id = #{root_id} AND #{Issue.table_name}.lft < #{lft} AND #{Issue.table_name}.rgt > #{rgt}"
+      else
+        "1=0"
+      end
+    when "!*"
+      "#{Issue.table_name}.rgt - #{Issue.table_name}.lft = 1"
+    when "*"
+      "#{Issue.table_name}.rgt - #{Issue.table_name}.lft > 1"
+    end
   end
 
   def sql_for_relations(field, operator, value, options={})

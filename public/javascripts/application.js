@@ -217,6 +217,7 @@ function buildFilterRow(field, operator, values) {
     break;
   case "integer":
   case "float":
+  case "tree":
     tr.find('td.values').append(
       '<span style="display:none;"><input type="text" name="v['+field+'][]" id="values_'+fieldId+'_1" size="6" class="value" /></span>' +
       ' <span style="display:none;"><input type="text" name="v['+field+'][]" id="values_'+fieldId+'_2" size="6" class="value" /></span>'
