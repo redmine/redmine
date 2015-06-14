@@ -618,6 +618,7 @@ table.members td.name {padding-left: 20px;}
 table.members td.group, table.members td.groupnonmember, table.members td.groupanonymous {background: url(../images/group.png) no-repeat 0% 1px;}
 
 input#principal_search, input#user_search {width:90%}
+.roles-selection label {display:inline-block; width:210px;}
 
 input.autocomplete {
   background: #fff url(../images/magnifier.png) no-repeat 2px 50%; padding-left:20px !important;
