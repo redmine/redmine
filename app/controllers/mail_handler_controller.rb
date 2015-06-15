@@ -18,6 +18,10 @@
 class MailHandlerController < ActionController::Base
   before_filter :check_credential
 
+	# Displays the email submission form
+  def new
+  end
+
   # Submits an incoming email to MailHandler
   def index
     options = params.dup

@@ -315,7 +315,9 @@ Rails.application.routes.draw do
   get 'projects/:id/search', :controller => 'search', :action => 'index'
   get 'search', :controller => 'search', :action => 'index'
 
-  match 'mail_handler', :controller => 'mail_handler', :action => 'index', :via => :post
+
+  get  'mail_handler', :to => 'mail_handler#new'
+  post 'mail_handler', :to => 'mail_handler#index'
 
   match 'admin', :controller => 'admin', :action => 'index', :via => :get
   match 'admin/projects', :controller => 'admin', :action => 'projects', :via => :get

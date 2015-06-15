@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<style>
+  label {display:block;margin:0.5em;}
+</style>
+</head>
+<body>
+<h1>Redmine Mail Handler</h1>
+
+<%= form_tag({}, :multipart => true, :action => 'post') do %>
+  <%= hidden_field_tag 'key', params[:key] %>
+
+  <fieldset>
+    <legend>Raw Email</legend>
+    <%= text_area_tag 'email', '', :style => 'width:95%; height:400px;' %></label>
+  </fieldset>
+
+  <fieldset>
+    <legend>Options</legend>
+    <label>unknown_user: <%= select_tag 'unknown_user', options_for_select(['', 'ignore', 'accept', 'create']) %></label>
+    <label>default_group: <%= text_field_tag 'default_group' %></label>
+    <label>no_account_notice: <%= check_box_tag 'no_account_notice', 1 %></label>
+    <label>no_notification: <%= check_box_tag 'no_notification', 1 %></label>
+    <label>no_permission_check: <%= check_box_tag 'no_permission_check', 1 %></label>
+  </fieldset>
+
+  <fieldset>
+    <legend>Issue attributes options</legend>
+    <label>project: <%= text_field_tag 'issue[project]' %></label>
+    <label>status: <%= text_field_tag 'issue[status]' %></label>
+    <label>tracker: <%= text_field_tag 'issue[tracker]' %></label>
+    <label>category: <%= text_field_tag 'issue[category]' %></label>
+    <label>priority: <%= text_field_tag 'issue[priority]' %></label>
+    <label>private: <%= check_box_tag 'issue[private]', 1 %></label>
+    <label>allow_override: <%= text_field_tag 'allow_override' %></label>
+  </fieldset>
+
+  <p><%= submit_tag 'Submit Email' %></p>
+<% end %>
+</body>
+</html>

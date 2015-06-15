@@ -77,7 +77,6 @@ class MailHandlerControllerTest < ActionController::TestCase
   end
 
   def test_should_not_allow_with_wrong_key
-    # Disable API
     Setting.mail_handler_api_enabled = 1
     Setting.mail_handler_api_key = 'secret'
 
@@ -85,5 +84,13 @@ class MailHandlerControllerTest < ActionController::TestCase
       post :index, :key => 'wrong', :email => IO.read(File.join(FIXTURES_PATH, 'ticket_on_given_project.eml'))
     end
     assert_response 403
+  end
+
+  def test_new
+    Setting.mail_handler_api_enabled = 1
+    Setting.mail_handler_api_key = 'secret'
+
+    get :new, :key => 'secret'
+    assert_response :success
   end
 end
