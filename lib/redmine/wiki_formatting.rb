@@ -28,18 +28,29 @@ module Redmine
         yield self
       end
 
-      def register(name, formatter, helper, options={})
+      def register(name, *args)
+        options = args.last.is_a?(Hash) ? args.pop : {}
         name = name.to_s
         raise ArgumentError, "format name '#{name}' is already taken" if @@formatters[name]
+
+        formatter, helper, parser = args.any? ?
+          args :
+          %w(Formatter Helper HtmlParser).map {|m| "Redmine::WikiFormatting::#{name.classify}::#{m}".constantize}
+
         @@formatters[name] = {
           :formatter => formatter,
           :helper => helper,
+          :html_parser => parser,
           :label => options[:label] || name.humanize
         }
       end
 
       def formatter
         formatter_for(Setting.text_formatting)
+      end
+
+      def html_parser
+        html_parser_for(Setting.text_formatting)
       end
 
       def formatter_for(name)
@@ -50,6 +61,11 @@ module Redmine
       def helper_for(name)
         entry = @@formatters[name.to_s]
         (entry && entry[:helper]) || Redmine::WikiFormatting::NullFormatter::Helper
+      end
+
+      def html_parser_for(name)
+        entry = @@formatters[name.to_s]
+        (entry && entry[:html_parser]) || Redmine::WikiFormatting::HtmlParser
       end
 
       def format_names

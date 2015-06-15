@@ -15,8 +15,9 @@ Content-Transfer-Encoding: 7bit
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
+<style>p {font-size:12.0pt;}</style>
 </head>
 <body bgcolor="#ffffff" text="#000000">
-This is a <b>html-only</b> email.<br>
+This is a <b>html-only</b> email.<br><h1>With a title</h1><p>and a paragraph.</p>
 </body>
 </html>

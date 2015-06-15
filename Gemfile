@@ -13,6 +13,7 @@ gem "mime-types"
 gem "protected_attributes"
 gem "actionpack-action_caching"
 gem "actionpack-xml_parser"
+gem "loofah", "~> 2.0"
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :x64_mingw, :mswin, :jruby]

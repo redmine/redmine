@@ -267,11 +267,8 @@ Redmine::Search.map do |search|
 end
 
 Redmine::WikiFormatting.map do |format|
-  format.register :textile, Redmine::WikiFormatting::Textile::Formatter, Redmine::WikiFormatting::Textile::Helper
-  if Object.const_defined?(:Redcarpet)
-    format.register :markdown, Redmine::WikiFormatting::Markdown::Formatter, Redmine::WikiFormatting::Markdown::Helper,
-      :label => 'Markdown'
-  end
+  format.register :textile
+  format.register :markdown if Object.const_defined?(:Redcarpet)
 end
 
 ActionView::Template.register_template_handler :rsb, Redmine::Views::ApiTemplateHandler

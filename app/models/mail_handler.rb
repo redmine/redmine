@@ -433,14 +433,11 @@ class MailHandler < ActionMailer::Base
     @plain_text_body = parts.map do |p|
       body_charset = Mail::RubyVer.respond_to?(:pick_encoding) ?
                        Mail::RubyVer.pick_encoding(p.charset).to_s : p.charset
-      Redmine::CodesetUtil.to_utf8(p.body.decoded, body_charset)
-    end.join("\r\n")
 
-    # strip html tags and remove doctype directive
-    if parts.any? {|p| p.mime_type == 'text/html'}
-      @plain_text_body = strip_tags(@plain_text_body.strip)
-      @plain_text_body.sub! %r{^<!DOCTYPE .*$}, ''
-    end
+      body = Redmine::CodesetUtil.to_utf8(p.body.decoded, body_charset)
+      # convert html parts to text
+      p.mime_type == 'text/html' ? self.class.html_body_to_text(body) : body
+    end.join("\r\n")
 
     @plain_text_body
   end
@@ -452,6 +449,11 @@ class MailHandler < ActionMailer::Base
   def cleaned_up_subject
     subject = email.subject.to_s
     subject.strip[0,255]
+  end
+
+  # Converts a HTML email body to text
+  def self.html_body_to_text(html)
+    Redmine::WikiFormatting.html_parser.to_text(html)
   end
 
   def self.assign_string_attribute_with_limit(object, attribute, value, limit=nil)
