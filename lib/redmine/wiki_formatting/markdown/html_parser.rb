@@ -20,21 +20,19 @@ module Redmine
     module Markdown
       class HtmlParser < Redmine::WikiFormatting::HtmlParser
 
-        self.tags = {
+        self.tags = tags.merge(
           'b' => {:pre => '**', :post => '**'},
           'strong' => {:pre => '**', :post => '**'},
           'i' => {:pre => '_', :post => '_'},
           'em' => {:pre => '_', :post => '_'},
           'strike' => {:pre => '~~', :post => '~~'},
-          'br' => {:post => "\n"},
           'h1' => {:pre => "\n\n# ", :post => "\n\n"},
           'h2' => {:pre => "\n\n## ", :post => "\n\n"},
           'h3' => {:pre => "\n\n### ", :post => "\n\n"},
           'h4' => {:pre => "\n\n#### ", :post => "\n\n"},
           'h5' => {:pre => "\n\n##### ", :post => "\n\n"},
-          'h6' => {:pre => "\n\n###### ", :post => "\n\n"},
-          'style' => ''
-        }
+          'h6' => {:pre => "\n\n###### ", :post => "\n\n"}
+        )
       end
     end
   end
