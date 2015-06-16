@@ -68,7 +68,7 @@ STR
 
   def test_external_links_should_have_external_css_class
     text = 'This is a [link](http://example.net/)'
-    assert_equal '<p>This is a <a class="external" href="http://example.net/">link</a></p>', @formatter.new(text).to_html.strip
+    assert_equal '<p>This is a <a href="http://example.net/" class="external">link</a></p>', @formatter.new(text).to_html.strip
   end
 
   def test_locals_links_should_not_have_external_css_class
