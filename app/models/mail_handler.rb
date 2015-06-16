@@ -436,7 +436,7 @@ class MailHandler < ActionMailer::Base
 
       body = Redmine::CodesetUtil.to_utf8(p.body.decoded, body_charset)
       # convert html parts to text
-      p.mime_type == 'text/html' ? self.class.html_body_to_text(body) : body
+      p.mime_type == 'text/html' ? self.class.html_body_to_text(body) : self.class.plain_text_body_to_text(body)
     end.join("\r\n")
 
     @plain_text_body
@@ -454,6 +454,13 @@ class MailHandler < ActionMailer::Base
   # Converts a HTML email body to text
   def self.html_body_to_text(html)
     Redmine::WikiFormatting.html_parser.to_text(html)
+  end
+
+  # Converts a plain/text email body to text
+  def self.plain_text_body_to_text(text)
+    # Removes leading spaces that would cause the line to be rendered as
+    # preformatted text with textile
+    text.gsub(/^ +(?![*#])/, '')
   end
 
   def self.assign_string_attribute_with_limit(object, attribute, value, limit=nil)
