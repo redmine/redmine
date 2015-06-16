@@ -27,4 +27,9 @@ class Redmine::WikiFormatting::HtmlParserTest < ActiveSupport::TestCase
     assert_equal "A html snippet with\na new line.",
       @parser.to_text('<p>A html snippet with<br>a new line.</p>')
   end
+
+  def test_should_remove_style_tags_from_body
+    assert_equal "Text",
+      @parser.to_text('<html><body><style>body {font-size: 0.8em;}</style>Text</body></html>')
+  end
 end

@@ -23,7 +23,8 @@ module Redmine
 
       class_attribute :tags
       self.tags = {
-        'br' => {:post => "\n"}
+        'br' => {:post => "\n"},
+        'style' => ''
       }
 
       def self.to_text(html)
@@ -44,9 +45,16 @@ module Redmine
     
         def scrub(node)
           formatting = @tags_to_text[node.name]
-          return CONTINUE unless formatting
-          node.add_next_sibling Nokogiri::XML::Text.new("#{formatting[:pre]}#{node.content}#{formatting[:post]}", node.document)
-          node.remove
+          case formatting
+          when Hash
+            node.add_next_sibling Nokogiri::XML::Text.new("#{formatting[:pre]}#{node.content}#{formatting[:post]}", node.document)
+            node.remove
+          when String
+            node.add_next_sibling Nokogiri::XML::Text.new(formatting, node.document)
+            node.remove
+          else
+            CONTINUE
+          end
         end
       end
     end
