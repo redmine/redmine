@@ -1744,6 +1744,18 @@ class IssuesControllerTest < ActionController::TestCase
     assert_select 'input[name=?]', "issue[custom_field_values][#{cf2.id}]", 0
   end
 
+  def test_new_with_tracker_set_as_readonly_should_accept_status
+    WorkflowPermission.delete_all
+    [1, 2].each do |status_id|
+      WorkflowPermission.create!(:tracker_id => 1, :old_status_id => status_id, :role_id => 1, :field_name => 'tracker_id', :rule => 'readonly')
+    end
+    @request.session[:user_id] = 2
+
+    get :new, :project_id => 1, :issue => {:status_id => 2}
+    assert_select 'select[name=?]', 'issue[tracker_id]', 0
+    assert_equal 2, assigns(:issue).status_id
+  end
+
   def test_get_new_without_tracker_id
     @request.session[:user_id] = 2
     get :new, :project_id => 1
