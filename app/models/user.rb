@@ -157,6 +157,7 @@ class User < Principal
     @notified_projects_ids_changed = false
     @builtin_role = nil
     @visible_project_ids = nil
+    @managed_roles = nil
     base_reload(*args)
   end
 
@@ -569,7 +570,7 @@ class User < Principal
   # Returns the roles that the user is allowed to manage for the given project
   def managed_roles(project)
     if admin?
-      Role.givable.to_a
+      @managed_roles ||= Role.givable.to_a
     else
       membership(project).try(:managed_roles) || []
     end
