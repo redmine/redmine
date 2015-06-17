@@ -50,7 +50,7 @@ class Principal < ActiveRecord::Base
       else
         view_all_active = user.builtin_role.users_visibility == 'all'
       end
-  
+
       if view_all_active
         active
       else
