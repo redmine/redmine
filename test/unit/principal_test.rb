@@ -48,7 +48,7 @@ class PrincipalTest < ActiveSupport::TestCase
     Role.non_member.update! :users_visibility => 'members_of_visible_projects'
     user = User.generate!
 
-    expected = Project.visible(user).map(&:member_principals).flatten.map(&:principal).uniq << user
+    expected = Project.visible(user).map {|p| p.memberships.active}.flatten.map(&:principal).uniq << user
     assert_equal expected.map(&:id).sort, Principal.visible(user).pluck(:id).sort
   end
 

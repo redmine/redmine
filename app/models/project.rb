@@ -29,14 +29,10 @@ class Project < ActiveRecord::Base
 
   # Specific overridden Activities
   has_many :time_entry_activities
+  has_many :memberships, :class_name => 'Member', :inverse_of => :project
+  # Memberships of active users only
   has_many :members,
-           lambda { joins(:principal, :roles).
-                    where("#{Principal.table_name}.type='User' AND #{Principal.table_name}.status=#{Principal::STATUS_ACTIVE}") }
-  has_many :memberships, :class_name => 'Member'
-  has_many :member_principals,
-           lambda { joins(:principal).
-                    where("#{Principal.table_name}.status=#{Principal::STATUS_ACTIVE}")},
-    :class_name => 'Member'
+           lambda { joins(:principal).where(:users => {:type => 'User', :status => Principal::STATUS_ACTIVE}) }
   has_many :enabled_modules, :dependent => :delete_all
   has_and_belongs_to_many :trackers, lambda {order(:position)}
   has_many :issues, :dependent => :destroy
@@ -216,8 +212,9 @@ class Project < ActiveRecord::Base
   end
 
   def override_roles(role)
-    @override_members ||= member_principals.
-      where("#{Principal.table_name}.type IN (?)", ['GroupAnonymous', 'GroupNonMember']).to_a
+    @override_members ||= memberships.
+      joins(:principal).
+      where(:users => {:type => ['GroupAnonymous', 'GroupNonMember']}).to_a
 
     group_class = role.anonymous? ? GroupAnonymous : GroupNonMember
     member = @override_members.detect {|m| m.principal.is_a? group_class}
@@ -737,6 +734,11 @@ class Project < ActiveRecord::Base
         false
       end
     end
+  end
+
+  def member_principals
+    ActiveSupport::Deprecation.warn "Project#member_principals is deprecated and will be removed in Redmine 4.0. Use #memberships.active instead."
+    memberships.active
   end
 
   # Returns a new unsaved Project instance with attributes copied from +project+

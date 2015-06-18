@@ -24,15 +24,13 @@ class MembersController < ApplicationController
   accept_api_auth :index, :show, :create, :update, :destroy
 
   def index
+    scope = @project.memberships.active
     @offset, @limit = api_offset_and_limit
-    @member_count = @project.member_principals.count
+    @member_count = scope.count
     @member_pages = Paginator.new @member_count, @limit, params['page']
     @offset ||= @member_pages.offset
-    @members =  @project.member_principals.
-                    order("#{Member.table_name}.id").
-                    limit(@limit).
-                    offset(@offset).
-                    to_a
+    @members =  scope.order(:id).limit(@limit).offset(@offset).to_a
+
     respond_to do |format|
       format.html { head 406 }
       format.api

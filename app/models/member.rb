@@ -29,6 +29,8 @@ class Member < ActiveRecord::Base
 
   before_destroy :set_issue_category_nil
 
+  scope :active, lambda { joins(:principal).where(:users => {:status => Principal::STATUS_ACTIVE})}
+
   alias :base_reload :reload
   def reload(*args)
     @managed_roles = nil
