@@ -172,10 +172,11 @@ default:
 
   # Requires users to re-enter their password for sensitive actions (editing
   # of account data, project memberships, application settings, user, group,
-  # role, auth source management and project deletion).
-  # Disabled by default.
+  # role, auth source management and project deletion). Disabled by default.
+  # Timeout is set in minutes.
   #
   #sudo_mode: true
+  #sudo_mode_timeout: 15
 
   # Absolute path (e.g. /usr/bin/convert, c:/im/convert.exe) to
   # the ImageMagick's `convert` binary. Used to generate attachment thumbnails.

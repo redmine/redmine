@@ -4,10 +4,6 @@ require 'rack/utils'
 module Redmine
   module SudoMode
 
-    # timespan after which sudo mode expires when unused.
-    MAX_INACTIVITY = 15.minutes
-
-
     class SudoRequired < StandardError
     end
 
@@ -132,7 +128,7 @@ module Redmine
       end
 
       def sudo_timestamp_valid?
-        session[:sudo_timestamp].to_i > MAX_INACTIVITY.ago.to_i
+        session[:sudo_timestamp].to_i > SudoMode.timeout.ago.to_i
       end
 
       def update_sudo_timestamp!(new_value = Time.now.to_i)
@@ -218,6 +214,10 @@ module Redmine
     def self.enabled?
       Redmine::Configuration['sudo_mode'] && !RequestStore.store[:sudo_mode_disabled]
     end
+
+    # Timespan after which sudo mode expires when unused.
+    def self.timeout
+      Redmine::Configuration['sudo_mode_timeout'].to_i.minutes
+    end
   end
 end
-
