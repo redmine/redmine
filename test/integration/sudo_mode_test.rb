@@ -19,6 +19,9 @@ class SudoTest < Redmine::IntegrationTest
     assert_response :success
     assert_nil User.find_by_login("psmith")
 
+    assert_select 'input[name=?][value=?]', 'user[login]', 'psmith'
+    assert_select 'input[name=?][value=?]', 'user[firstname]', 'Paul'
+
     post "/users",
          :user => { :login => "psmith", :firstname => "Paul",
                     :lastname => "Smith", :mail => "psmith@somenet.foo",
