@@ -207,6 +207,7 @@ bg:
   error_attachment_too_big: Този файл не може да бъде качен, понеже надхвърля максималната възможна големина (%{max_size})
   error_session_expired: Вашата сесия е изтекла. Моля влезете в Redmine отново.
   warning_attachments_not_saved: "%{count} файла не бяха записани."
+  error_password_expired: Вашата парола е с изтекъл срок или администраторът изисква да я смените.
 
   mail_subject_lost_password: "Вашата парола (%{value})"
   mail_body_lost_password: 'За да смените паролата си, използвайте следния линк:'
@@ -343,6 +344,7 @@ bg:
   field_must_change_passwd: Паролата трябва да бъде сменена при следващото влизане в Redmine
   field_default_status: Състояние по подразбиране
   field_users_visibility: Видимост на потребителите
+  field_time_entries_visibility: Видимост на записи за използвано време
 
   setting_app_title: Заглавие
   setting_app_subtitle: Описание
@@ -389,6 +391,7 @@ bg:
   setting_file_max_size_displayed: Максимален размер на текстовите файлове, показвани inline
   setting_repository_log_display_limit: Максимален брой на показванете ревизии в лог файла
   setting_openid: Рарешаване на OpenID вход и регистрация
+  setting_password_max_age: Require password change after
   setting_password_min_length: Минимална дължина на парола
   setting_new_project_user_role_id: Роля, давана на потребител, създаващ проекти, който не е администратор
   setting_default_projects_modules: Активирани модули по подразбиране за нов проект
@@ -451,9 +454,9 @@ bg:
   permission_add_issue_watchers: Добавяне на наблюдатели
   permission_delete_issue_watchers: Изтриване на наблюдатели
   permission_log_time: Log spent time
-  permission_view_time_entries: Разглеждане на изразходваното време
-  permission_edit_time_entries: Редактиране на time logs
-  permission_edit_own_time_entries: Редактиране на собствените time logs
+  permission_view_time_entries: Разглеждане на записите за изразходваното време
+  permission_edit_time_entries: Редактиране на записите за изразходваното време
+  permission_edit_own_time_entries: Редактиране на собствените записи за изразходваното време
   permission_manage_news: Управление на новини
   permission_comment_news: Коментиране на новини
   permission_view_documents: Разглеждане на документи
@@ -942,7 +945,15 @@ bg:
   label_enable_notifications: Разрешаване на известията
   label_disable_notifications: Забрана на известията
   label_blank_value: празно
-
+  label_parent_task_attributes: Атрибути на родителските задачи
+  label_parent_task_attributes_derived: Изчислени от подзадачите
+  label_parent_task_attributes_independent: Независими от подзадачите
+  label_time_entries_visibility_all: Всички записи за използвано време
+  label_time_entries_visibility_own: Записи за използвано време създадени от потребителя
+  label_member_management: Управление на членовете
+  label_member_management_all_roles: Всички роли
+  label_member_management_selected_roles_only: Само тези роли
+ 
   button_login: Вход
   button_submit: Изпращане
   button_save: Запис
@@ -1135,15 +1146,3 @@ bg:
   description_date_from: Въведете начална дата
   description_date_to: Въведете крайна дата
   text_repository_identifier_info: 'Позволени са малки букви (a-z), цифри, тирета и _.<br />Промяна след създаването му не е възможна.'
-  error_password_expired: Your password has expired or the administrator requires you
-    to change it.
-  field_time_entries_visibility: Time logs visibility
-  setting_password_max_age: Require password change after
-  label_parent_task_attributes: Parent tasks attributes
-  label_parent_task_attributes_derived: Calculated from subtasks
-  label_parent_task_attributes_independent: Independent of subtasks
-  label_time_entries_visibility_all: All time entries
-  label_time_entries_visibility_own: Time entries created by the user
-  label_member_management: Member management
-  label_member_management_all_roles: All roles
-  label_member_management_selected_roles_only: Only these roles
