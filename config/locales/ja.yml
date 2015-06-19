@@ -386,8 +386,8 @@ ja:
   setting_new_project_user_role_id: システム管理者以外のユーザーが作成したプロジェクトに設定するロール
   setting_default_projects_modules: 新規プロジェクトにおいてデフォルトで有効になるモジュール
   setting_issue_done_ratio: 進捗率の算出方法
-  setting_issue_done_ratio_issue_field: チケットのフィールドを使用する
-  setting_issue_done_ratio_issue_status: チケットのステータスを使用する
+  setting_issue_done_ratio_issue_field: チケットのフィールドを使用
+  setting_issue_done_ratio_issue_status: チケットのステータスに連動
   setting_start_of_week: 週の開始曜日
   setting_rest_api_enabled: RESTによるWebサービスを有効にする
   setting_default_notification_option: デフォルトのメール通知オプション
@@ -1157,13 +1157,12 @@ ja:
   setting_search_results_per_page: ページごとの検索結果表示件数
   label_blank_value: 空
   permission_copy_issues: チケットのコピー
-  error_password_expired: Your password has expired or the administrator requires you
-    to change it.
-  field_time_entries_visibility: Time logs visibility
-  setting_password_max_age: Require password change after
-  label_parent_task_attributes: Parent tasks attributes
-  label_parent_task_attributes_derived: Calculated from subtasks
-  label_parent_task_attributes_independent: Independent of subtasks
+  error_password_expired: パスワードの有効期限が過ぎたか、システム管理者より変更を求められています。
+  field_time_entries_visibility: 表示できる作業時間
+  setting_password_max_age: パスワードの有効期限
+  label_parent_task_attributes: 親チケットの値の算出方法
+  label_parent_task_attributes_derived: 子チケットの値から算出
+  label_parent_task_attributes_independent: 子チケットから独立
   label_time_entries_visibility_all: All time entries
   label_time_entries_visibility_own: Time entries created by the user
   label_member_management: Member management
