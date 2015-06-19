@@ -1162,3 +1162,4 @@ tr:
   label_member_management: Member management
   label_member_management_all_roles: All roles
   label_member_management_selected_roles_only: Only these roles
+  label_password_required: Confirm your password to continue

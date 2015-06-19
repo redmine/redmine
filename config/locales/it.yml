@@ -1148,3 +1148,4 @@ it:
   label_member_management: Gestione membri
   label_member_management_all_roles: Tutti i ruoli
   label_member_management_selected_roles_only: Solo questi ruoli
+  label_password_required: Confirm your password to continue
