@@ -554,6 +554,7 @@ en:
   label_register: Register
   label_login_with_open_id_option: or login with OpenID
   label_password_lost: Lost password
+  label_password_required: Confirm your password to continue
   label_home: Home
   label_my_page: My page
   label_my_account: My account
@@ -989,6 +990,7 @@ en:
   button_reset: Reset
   button_rename: Rename
   button_change_password: Change password
+  button_confirm_password: Confirm password
   button_copy: Copy
   button_copy_and_follow: Copy and follow
   button_annotate: Annotate

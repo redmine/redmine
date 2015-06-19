@@ -23,6 +23,7 @@ class MembersControllerTest < ActionController::TestCase
   def setup
     User.current = nil
     @request.session[:user_id] = 2
+    Redmine::SudoMode.disable!
   end
 
   def test_new

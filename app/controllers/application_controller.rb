@@ -59,6 +59,8 @@ class ApplicationController < ActionController::Base
   include Redmine::MenuManager::MenuController
   helper Redmine::MenuManager::MenuHelper
 
+  include Redmine::SudoMode::Controller
+
   def session_expiration
     if session[:user_id]
       if session_expired? && !try_to_autologin

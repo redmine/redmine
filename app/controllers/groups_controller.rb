@@ -22,6 +22,8 @@ class GroupsController < ApplicationController
   before_filter :find_group, :except => [:index, :new, :create]
   accept_api_auth :index, :show, :create, :update, :destroy, :add_users, :remove_user
 
+  require_sudo_mode :add_users, :remove_user, :create, :update, :destroy, :edit_membership, :destroy_membership
+
   helper :custom_fields
   helper :principal_memberships
 

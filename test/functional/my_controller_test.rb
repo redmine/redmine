@@ -23,6 +23,7 @@ class MyControllerTest < ActionController::TestCase
 
   def setup
     @request.session[:user_id] = 2
+    Redmine::SudoMode.disable!
   end
 
   def test_index
@@ -251,6 +252,12 @@ class MyControllerTest < ActionController::TestCase
     assert User.find(2).rss_token
     assert_match /reset/, flash[:notice]
     assert_redirected_to '/my/account'
+  end
+
+  def test_show_api_key
+    get :show_api_key
+    assert_response :success
+    assert_select 'pre', User.find(2).api_key
   end
 
   def test_reset_api_key_with_existing_key

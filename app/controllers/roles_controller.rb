@@ -23,6 +23,8 @@ class RolesController < ApplicationController
   before_filter :find_role, :only => [:show, :edit, :update, :destroy]
   accept_api_auth :index, :show
 
+  require_sudo_mode :create, :update, :destroy
+
   def index
     respond_to do |format|
       format.html {

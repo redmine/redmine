@@ -28,6 +28,8 @@ class UsersController < ApplicationController
   include CustomFieldsHelper
   helper :principal_memberships
 
+  require_sudo_mode :create, :update, :destroy
+
   def index
     sort_init 'login', 'asc'
     sort_update %w(login firstname lastname admin created_on last_login_on)

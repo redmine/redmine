@@ -163,6 +163,7 @@ de:
   button_close: Schließen
   button_collapse_all: Alle einklappen
   button_configure: Konfigurieren
+  button_confirm_password: Kennwort bestätigen
   button_copy: Kopieren
   button_copy_and_follow: Kopieren und Ticket anzeigen
   button_create: Anlegen
@@ -670,6 +671,7 @@ de:
   label_overview: Übersicht
   label_parent_revision: Vorgänger
   label_password_lost: Kennwort vergessen
+  label_password_required: Bitte geben Sie Ihr Kennwort ein
   label_permissions: Berechtigungen
   label_permissions_report: Berechtigungsübersicht
   label_personalize_page: Diese Seite anpassen

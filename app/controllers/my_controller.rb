@@ -20,6 +20,9 @@ class MyController < ApplicationController
   # let user change user's password when user has to
   skip_before_filter :check_password_change, :only => :password
 
+  require_sudo_mode :account, only: :post
+  require_sudo_mode :reset_rss_key, :reset_api_key, :show_api_key, :destroy
+
   helper :issues
   helper :users
   helper :custom_fields
@@ -121,6 +124,10 @@ class MyController < ApplicationController
       flash[:notice] = l(:notice_feeds_access_key_reseted)
     end
     redirect_to my_account_path
+  end
+
+  def show_api_key
+    @user = User.current
   end
 
   # Create a new API key

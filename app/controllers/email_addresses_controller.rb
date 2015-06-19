@@ -18,6 +18,7 @@
 class EmailAddressesController < ApplicationController
   before_filter :find_user, :require_admin_or_current_user
   before_filter :find_email_address, :only => [:update, :destroy]
+  require_sudo_mode :create, :update, :destroy
 
   def index
     @addresses = @user.email_addresses.order(:id).where(:is_default => false).to_a

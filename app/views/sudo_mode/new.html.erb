@@ -1,0 +1,17 @@
+<h2><%= l :label_password_required %></h2>
+<%= form_tag({}, class: 'tabular') do %>
+
+  <%= hidden_field_tag '_method', request.request_method %>
+  <%= hash_to_hidden_fields @sudo_form.original_fields %>
+
+  <div class="box">
+    <p>
+      <label for="sudo_password"><%= l :field_password %><span class="required">*</span></label>
+      <%= password_field_tag :sudo_password, nil, size: 25 %>
+    </p>
+  </div>
+  <%= submit_tag l(:button_confirm_password) %>
+<% end %>
+<%= javascript_tag "$('#sudo_password').focus();" %>
+
+

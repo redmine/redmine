@@ -22,6 +22,7 @@ class AuthSourcesControllerTest < ActionController::TestCase
 
   def setup
     @request.session[:user_id] = 1
+    Redmine::SudoMode.disable!
   end
 
   def test_index

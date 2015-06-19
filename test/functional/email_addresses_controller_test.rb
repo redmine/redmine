@@ -22,6 +22,7 @@ class EmailAddressesControllerTest < ActionController::TestCase
 
   def setup
     User.current = nil
+    Redmine::SudoMode.disable!
   end
 
   def test_index_with_no_additional_emails

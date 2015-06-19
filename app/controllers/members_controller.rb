@@ -23,6 +23,8 @@ class MembersController < ApplicationController
   before_filter :authorize
   accept_api_auth :index, :show, :create, :update, :destroy
 
+  require_sudo_mode :create, :update, :destroy
+
   def index
     scope = @project.memberships.active
     @offset, @limit = api_offset_and_limit

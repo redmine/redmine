@@ -23,6 +23,8 @@ class SettingsController < ApplicationController
 
   before_filter :require_admin
 
+  require_sudo_mode :index, :edit, :plugin
+
   def index
     edit
     render :action => 'edit'

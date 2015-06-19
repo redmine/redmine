@@ -25,6 +25,7 @@ class ProjectsController < ApplicationController
   before_filter :require_admin, :only => [ :copy, :archive, :unarchive, :destroy ]
   accept_rss_auth :index
   accept_api_auth :index, :show, :create, :update, :destroy
+  require_sudo_mode :destroy
 
   after_filter :only => [:create, :edit, :update, :archive, :unarchive, :destroy] do |controller|
     if controller.request.post?

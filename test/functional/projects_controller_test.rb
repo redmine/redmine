@@ -28,6 +28,7 @@ class ProjectsControllerTest < ActionController::TestCase
   def setup
     @request.session[:user_id] = nil
     Setting.default_language = 'en'
+    Redmine::SudoMode.disable!
   end
 
   def test_index_by_anonymous_should_not_show_private_projects
