@@ -67,7 +67,7 @@ Rails.application.routes.draw do
   match 'my', :controller => 'my', :action => 'index', :via => :get # Redirects to my/page
   match 'my/reset_rss_key', :controller => 'my', :action => 'reset_rss_key', :via => :post
   match 'my/reset_api_key', :controller => 'my', :action => 'reset_api_key', :via => :post
-  match 'my/show_api_key', :controller => 'my', :action => 'show_api_key', :via => :get
+  match 'my/api_key', :controller => 'my', :action => 'show_api_key', :via => :get
   match 'my/password', :controller => 'my', :action => 'password', :via => [:get, :post]
   match 'my/page_layout', :controller => 'my', :action => 'page_layout', :via => :get
   match 'my/add_block', :controller => 'my', :action => 'add_block', :via => :post
