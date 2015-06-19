@@ -383,6 +383,8 @@ function showModal(id, width, title) {
   var el = $('#'+id).first();
   if (el.length === 0 || el.is(':visible')) {return;}
   if (!title) title = el.find('h3.title').text();
+  // moves existing modals behind the transparent background
+  $(".modal").zIndex(99);
   el.dialog({
     width: width,
     modal: true,
@@ -401,6 +403,8 @@ function hideModal(el) {
     modal = $('#ajax-modal');
   }
   modal.dialog("close");
+  // restores existing modals in front of the transparent background
+  $(".modal").zIndex(101);
 }
 
 function submitPreview(url, form, target) {
