@@ -23,7 +23,6 @@ class MyControllerTest < ActionController::TestCase
 
   def setup
     @request.session[:user_id] = 2
-    Redmine::SudoMode.disable!
   end
 
   def test_index

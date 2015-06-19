@@ -170,6 +170,13 @@ default:
   # same secret token on each machine.
   #secret_token: 'change it to a long random string'
 
+  # Requires users to re-enter their password for sensitive actions (editing
+  # of account data, project memberships, application settings, user, group,
+  # role, auth source management and project deletion).
+  # Disabled by default.
+  #
+  #sudo_mode: true
+
   # Absolute path (e.g. /usr/bin/convert, c:/im/convert.exe) to
   # the ImageMagick's `convert` binary. Used to generate attachment thumbnails.
   #imagemagick_convert_command:

@@ -26,14 +26,6 @@ class AdminTest < Redmine::IntegrationTest
            :members,
            :enabled_modules
 
-  def setup
-    Redmine::SudoMode.enable!
-  end
-
-  def teardown
-    Redmine::SudoMode.disable!
-  end
-
   def test_add_user
     log_user("admin", "admin")
     get "/users/new"
@@ -44,15 +36,6 @@ class AdminTest < Redmine::IntegrationTest
                     :lastname => "Smith", :mail => "psmith@somenet.foo",
                     :language => "en", :password => "psmith09",
                     :password_confirmation => "psmith09" }
-    assert_response :success
-    assert_nil User.find_by_login("psmith")
-
-    post "/users",
-         :user => { :login => "psmith", :firstname => "Paul",
-                    :lastname => "Smith", :mail => "psmith@somenet.foo",
-                    :language => "en", :password => "psmith09",
-                    :password_confirmation => "psmith09" },
-         :sudo_password => 'admin'
 
     user = User.find_by_login("psmith")
     assert_kind_of User, user

@@ -202,7 +202,7 @@ module Redmine
     end
 
     def self.possible?
-      !disabled? && User.current.logged?
+      enabled? && User.current.logged?
     end
 
     # Turn off sudo mode (never require password entry).
@@ -215,10 +215,9 @@ module Redmine
       RequestStore.store[:sudo_mode_disabled] = nil
     end
 
-    def self.disabled?
-      !!RequestStore.store[:sudo_mode_disabled]
+    def self.enabled?
+      Redmine::Configuration['sudo_mode'] && !RequestStore.store[:sudo_mode_disabled]
     end
-
   end
 end
 

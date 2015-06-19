@@ -4,11 +4,31 @@ class SudoTest < Redmine::IntegrationTest
   fixtures :projects, :members, :member_roles, :roles, :users
 
   def setup
-    Redmine::SudoMode.enable!
+    Redmine::SudoMode.stubs(:enabled?).returns(true)
   end
 
-  def teardown
-    Redmine::SudoMode.disable!
+  def test_add_user
+    log_user("admin", "admin")
+    get "/users/new"
+    assert_response :success
+    post "/users",
+         :user => { :login => "psmith", :firstname => "Paul",
+                    :lastname => "Smith", :mail => "psmith@somenet.foo",
+                    :language => "en", :password => "psmith09",
+                    :password_confirmation => "psmith09" }
+    assert_response :success
+    assert_nil User.find_by_login("psmith")
+
+    post "/users",
+         :user => { :login => "psmith", :firstname => "Paul",
+                    :lastname => "Smith", :mail => "psmith@somenet.foo",
+                    :language => "en", :password => "psmith09",
+                    :password_confirmation => "psmith09" },
+         :sudo_password => 'admin'
+    assert_response 302
+
+    user = User.find_by_login("psmith")
+    assert_kind_of User, user
   end
 
   def test_create_member_xhr

@@ -30,7 +30,6 @@ class UsersControllerTest < ActionController::TestCase
   def setup
     User.current = nil
     @request.session[:user_id] = 1 # admin
-    Redmine::SudoMode.disable!
   end
 
   def test_index

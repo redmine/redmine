@@ -33,6 +33,8 @@ include ObjectHelpers
 require 'net/ldap'
 require 'mocha/setup'
 
+Redmine::SudoMode.disable!
+
 class ActionView::TestCase
   helper :application
   include ApplicationHelper
