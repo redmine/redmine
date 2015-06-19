@@ -288,6 +288,7 @@
   error_attachment_too_big: "這個檔案無法被上傳，因為它已經超過最大的檔案大小 (%{max_size})"
   error_session_expired: "您的工作階段已經過期。請重新登入。"
   warning_attachments_not_saved: "%{count} 個附加檔案無法被儲存。"
+  error_password_expired: "您的密碼已經過期或是管理員要求您變更密碼."
 
   mail_subject_lost_password: 您的 Redmine 網站密碼
   mail_body_lost_password: '欲變更您的 Redmine 網站密碼, 請點選以下鏈結:'
@@ -425,6 +426,7 @@
   field_must_change_passwd: 必須在下次登入時變更密碼
   field_default_status: 預設狀態
   field_users_visibility: 用戶可見度
+  field_time_entries_visibility: 工時紀錄可見度
 
   setting_app_title: 標題
   setting_app_subtitle: 副標題
@@ -471,6 +473,7 @@
   setting_file_max_size_displayed: 檔案內容顯示大小之最大值
   setting_repository_log_display_limit: 修訂版顯示數目之最大值
   setting_openid: 允許使用 OpenID 登入與註冊
+  setting_password_max_age: 必須在多少天後變更密碼
   setting_password_min_length: 密碼最小長度
   setting_new_project_user_role_id: 管理者以外之用戶建立新專案時，將被分派的角色
   setting_default_projects_modules: 新專案預設啟用的模組
@@ -1024,6 +1027,14 @@
   label_enable_notifications: 啟用通知
   label_disable_notifications: 停用通知
   label_blank_value: 空白
+  label_parent_task_attributes: 父問題屬性
+  label_parent_task_attributes_derived: 從子任務計算導出
+  label_parent_task_attributes_independent: 與子任務無關
+  label_time_entries_visibility_all: 所有工時紀錄
+  label_time_entries_visibility_own: 用戶自己建立的工時紀錄
+  label_member_management: 成員管理
+  label_member_management_all_roles: 所有角色
+  label_member_management_selected_roles_only: 僅限下列角色
 
   button_login: 登入
   button_submit: 送出
@@ -1218,15 +1229,3 @@
   description_date_from: 輸入起始日期
   description_date_to: 輸入結束日期
   text_repository_identifier_info: '僅允許使用小寫英文字母 (a-z), 阿拉伯數字, 虛線與底線。<br />一旦儲存之後, 代碼便無法再次被更改。'
-  error_password_expired: Your password has expired or the administrator requires you
-    to change it.
-  field_time_entries_visibility: Time logs visibility
-  setting_password_max_age: Require password change after
-  label_parent_task_attributes: Parent tasks attributes
-  label_parent_task_attributes_derived: Calculated from subtasks
-  label_parent_task_attributes_independent: Independent of subtasks
-  label_time_entries_visibility_all: All time entries
-  label_time_entries_visibility_own: Time entries created by the user
-  label_member_management: Member management
-  label_member_management_all_roles: All roles
-  label_member_management_selected_roles_only: Only these roles
