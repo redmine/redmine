@@ -574,6 +574,7 @@ fr:
   label_register: S'enregistrer
   label_login_with_open_id_option: S'authentifier avec OpenID
   label_password_lost: Mot de passe perdu
+  label_password_required: Confirmez votre mot de passe pour continuer
   label_home: Accueil
   label_my_page: Ma page
   label_my_account: Mon compte
