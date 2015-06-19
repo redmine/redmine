@@ -391,6 +391,8 @@ function showModal(id, width, title) {
     resizable: false,
     dialogClass: 'modal',
     title: title
+  }).on('dialogclose', function(){
+    $(".modal").zIndex(101);
   });
   el.find("input[type=text], input[type=submit]").first().focus();
 }
@@ -403,8 +405,6 @@ function hideModal(el) {
     modal = $('#ajax-modal');
   }
   modal.dialog("close");
-  // restores existing modals in front of the transparent background
-  $(".modal").zIndex(101);
 }
 
 function submitPreview(url, form, target) {
