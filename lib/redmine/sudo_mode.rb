@@ -61,9 +61,7 @@ module Redmine
       # After the request refreshes the timestamp if sudo mode was used during
       # this request.
       def sudo_mode
-        if api_request?
-          SudoMode.disable!
-        elsif sudo_timestamp_valid?
+        if sudo_timestamp_valid?
           SudoMode.active!
         end
         yield
@@ -145,7 +143,9 @@ module Redmine
       class SudoRequestFilter < Struct.new(:parameters, :request_methods)
         def before(controller)
           method_matches = request_methods.blank? || request_methods.include?(controller.request.method_symbol)
-          if SudoMode.possible? && method_matches
+          if controller.api_request?
+            true
+          elsif SudoMode.possible? && method_matches
             controller.require_sudo_mode( *parameters )
           else
             true

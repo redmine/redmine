@@ -143,4 +143,19 @@ class SudoTest < Redmine::IntegrationTest
     assert_equal 'even.newer.mail@test.com', User.find_by_login('jsmith').mail
   end
 
+  def test_sudo_mode_should_skip_api_requests
+    with_settings :rest_api_enabled => '1' do
+      assert_difference('User.count') do
+        post '/users.json', {
+          :user => {
+            :login => 'foo', :firstname => 'Firstname', :lastname => 'Lastname',
+            :mail => 'foo@example.net', :password => 'secret123',
+            :mail_notification => 'only_assigned'}
+          },
+          credentials('admin')
+  
+        assert_response :created
+      end
+    end
+  end
 end
