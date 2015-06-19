@@ -1,7 +1,7 @@
 require File.expand_path('../../test_helper', __FILE__)
 
-class SudoTest < Redmine::IntegrationTest
-  fixtures :projects, :members, :member_roles, :roles, :users
+class SudoModeTest < Redmine::IntegrationTest
+  fixtures :projects, :members, :member_roles, :roles, :users, :email_addresses
 
   def setup
     Redmine::SudoMode.stubs(:enabled?).returns(true)
