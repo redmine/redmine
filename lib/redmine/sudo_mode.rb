@@ -217,7 +217,8 @@ module Redmine
 
     # Timespan after which sudo mode expires when unused.
     def self.timeout
-      Redmine::Configuration['sudo_mode_timeout'].to_i.minutes
+      m = Redmine::Configuration['sudo_mode_timeout'].to_i
+      (m > 0 ? m : 15).minutes
     end
   end
 end
