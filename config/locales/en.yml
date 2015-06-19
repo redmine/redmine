@@ -990,7 +990,6 @@ en:
   button_reset: Reset
   button_rename: Rename
   button_change_password: Change password
-  button_confirm_password: Confirm password
   button_copy: Copy
   button_copy_and_follow: Copy and follow
   button_annotate: Annotate
