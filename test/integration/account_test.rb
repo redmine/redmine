@@ -66,12 +66,13 @@ class AccountTest < Redmine::IntegrationTest
     Redmine::Configuration.stubs(:[]).with('autologin_cookie_name').returns('custom_autologin')
     Redmine::Configuration.stubs(:[]).with('autologin_cookie_path').returns('/')
     Redmine::Configuration.stubs(:[]).with('autologin_cookie_secure').returns(false)
+    Redmine::Configuration.stubs(:[]).with('sudo_mode_timeout').returns(15)
 
     with_settings :autologin => '7' do
       assert_difference 'Token.count' do
         post '/login', :username => 'admin', :password => 'admin', :autologin => 1
+        assert_response 302
       end
-      assert_response 302
       assert cookies['custom_autologin'].present?
       token = cookies['custom_autologin']
 
