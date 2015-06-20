@@ -134,7 +134,7 @@ it:
         not_same_project: "non appartiene allo stesso progetto"
         circular_dependency: "Questa relazione creerebbe una dipendenza circolare"
         cant_link_an_issue_with_a_descendant: "Una segnalazione non può essere collegata a una delle sue discendenti"
-        earlier_than_minimum_start_date: "cannot be earlier than %{date} because of preceding issues"
+        earlier_than_minimum_start_date: "non può essere precedente a %{date} a causa di una precedente segnalazione"
 
   actionview_instancetag_blank_option: Scegli
 
@@ -506,7 +506,7 @@ it:
   label_stay_logged_in: Rimani collegato
   label_disabled: disabilitato
   label_show_completed_versions: Mostra versioni completate
-  label_me: me
+  label_me: io
   label_board: Forum
   label_board_new: Nuovo forum
   label_board_plural: Forum
@@ -975,7 +975,7 @@ it:
   label_diff: diff
   text_git_repository_note: Il repository è spoglio e locale (e.g. /gitrepo, c:\gitrepo)
   description_query_sort_criteria_direction: Ordinamento
-  description_project_scope: Search scope
+  description_project_scope: Ambito della ricerca
   description_filter: Filtro
   description_user_mail_notification: Impostazioni notifica via mail
   description_date_from: Inserisci la data d'inizio
@@ -1013,7 +1013,7 @@ it:
   label_completed_versions: Completed versions
   text_project_identifier_info: Consentiti solo lettere minuscole (a-z), numeri, trattini e trattini bassi.<br />Una volta salvato, l'identificatore non può essere modificato.
   field_multiple: Valori multipli
-  setting_commit_cross_project_ref: Allow issues of all the other projects to be referenced and fixed
+  setting_commit_cross_project_ref: Permetti alle segnalazioni degli altri progetti di essere referenziate e risolte
   text_issue_conflict_resolution_add_notes: Aggiunge le mie note e non salvare le mie ulteriori modifiche
   text_issue_conflict_resolution_overwrite: Applica comunque le mie modifiche (le note precedenti verranno mantenute ma alcuni cambiamenti potrebbero essere sovrascritti)
   notice_issue_update_conflict: La segnalazione è stata aggiornata da un altro utente mentre la stavi editando.
@@ -1048,8 +1048,8 @@ it:
   label_readonly: Sola lettura
   label_required: Richiesto
   text_repository_identifier_info: Consentiti solo lettere minuscole (a-z), numeri, trattini e trattini bassi.<br />Una volta salvato, ll'identificatore non può essere modificato.
-  field_board_parent: Parent forum
-  label_attribute_of_project: Project's %{name}
+  field_board_parent: Forum padre
+  label_attribute_of_project: del progetto %{name}
   label_attribute_of_author: Author's %{name}
   label_attribute_of_assigned_to: Assegnatari %{name}
   label_attribute_of_fixed_version: Target version's %{name}
@@ -1083,38 +1083,35 @@ it:
   setting_jsonp_enabled: Abilita supporto a JSONP
   field_inherit_members: Eredita membri
   field_closed_on: Chiuso
-  field_generate_password: Generate password
+  field_generate_password: Genera password
   setting_default_projects_tracker_ids: Trackers di default per nuovi progetti
   label_total_time: Totale
-  notice_account_not_activated_yet: You haven't activated your account yet. If you want
-    to receive a new activation email, please <a href="%{url}">click this link</a>.
-  notice_account_locked: Your account is locked.
-  notice_account_register_done: Account was successfully created. An email containing
-    the instructions to activate your account was sent to %{email}.
-  label_hidden: Hidden
-  label_visibility_private: to me only
-  label_visibility_roles: to these roles only
-  label_visibility_public: to any users
-  field_must_change_passwd: Must change password at next logon
-  notice_new_password_must_be_different: The new password must be different from the
-    current password
-  setting_mail_handler_excluded_filenames: Exclude attachments by name
-  text_convert_available: ImageMagick convert available (optional)
+  notice_account_not_activated_yet: Non hai ancora attivato il tuo account. Se vuoi
+    ricevere una nuova email di attivazione <a href="%{url}">clicca qui</a>.
+  notice_account_locked: Il tuo account è bloccato.
+  notice_account_register_done: Account creato correttamente. E' stata inviata un'email contenente
+    le istruzioni per attivare l'account a %{email}.
+  label_hidden: Nascosto
+  label_visibility_private: solo a me
+  label_visibility_roles: solo a questi ruoli
+  label_visibility_public: a tutti gli utenti
+  field_must_change_passwd: Cambio password obbligatorio al prossimo logon
+  notice_new_password_must_be_different: La nuova password deve essere differente da
+    quella attuale
+  setting_mail_handler_excluded_filenames: Escludi allegati per nome
+  text_convert_available: ImageMagick convert disponibile (opzionale)
   label_link: Link
-  label_only: only
+  label_only: solo
   label_drop_down_list: drop-down list
   label_checkboxes: checkboxes
-  label_link_values_to: Link values to URL
-  setting_force_default_language_for_anonymous: Force default language for anonymous
-    users
-  setting_force_default_language_for_loggedin: Force default language for logged-in
-    users
-  label_custom_field_select_type: Select the type of object to which the custom field
-    is to be attached
-  label_issue_assigned_to_updated: Assignee updated
-  label_check_for_updates: Check for updates
-  label_latest_compatible_version: Latest compatible version
-  label_unknown_plugin: Unknown plugin
+  label_link_values_to: Collega valori ad un URL
+  setting_force_default_language_for_anonymous: Forza la lingua di default per gli utenti anonimi
+  setting_force_default_language_for_loggedin: Forza la lingua di default per gli utenti loggati
+  label_custom_field_select_type: Seleziona il tipo di oggetto a cui il campo personalizzato è collegato
+  label_issue_assigned_to_updated: Assegnatario aggiornato
+  label_check_for_updates: Verifica aggiornamenti
+  label_latest_compatible_version: Ultima versione compatibile
+  label_unknown_plugin: Plugin sconosciuto
   label_radio_buttons: radio buttons
-  label_group_anonymous: Anonymous users
-  label_group_non_member: Non member users
+  label_group_anonymous: Utenti anonimi
+  label_group_non_member: Utenti non membri
