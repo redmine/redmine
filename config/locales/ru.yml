@@ -1177,7 +1177,7 @@ ru:
     few:   "последние %{count} недели"
     many:  "последние %{count} недель"
     other: "последние %{count} недели"
-  setting_cross_project_subtasks: Разрешить подзадачи в между проектами
+  setting_cross_project_subtasks: Разрешить подзадачи между проектами
   label_cross_project_descendants: С подпроектами
   label_cross_project_tree: С деревом проектов
   label_cross_project_hierarchy: С иерархией проектов
@@ -1218,10 +1218,10 @@ ru:
   setting_force_default_language_for_anonymous: Не определять язык для анонимных пользователей
   setting_force_default_language_for_loggedin: Не определять язык для зарегистрированных пользователей
   label_custom_field_select_type: Выберите тип объекта для которого будет создано настраиваемое поле
-  label_issue_assigned_to_updated: Assignee updated
-  label_check_for_updates: Check for updates
-  label_latest_compatible_version: Latest compatible version
-  label_unknown_plugin: Unknown plugin
+  label_issue_assigned_to_updated: Исполнитель обновлен
+  label_check_for_updates: Проверить обновления
+  label_latest_compatible_version: Последняя совместимая версия
+  label_unknown_plugin: Неизвестный плагин
   label_radio_buttons: radio buttons
   label_group_anonymous: Anonymous users
   label_group_non_member: Non member users
