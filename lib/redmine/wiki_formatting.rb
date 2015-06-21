@@ -35,7 +35,9 @@ module Redmine
 
         formatter, helper, parser = args.any? ?
           args :
-          %w(Formatter Helper HtmlParser).map {|m| "Redmine::WikiFormatting::#{name.classify}::#{m}".constantize}
+          %w(Formatter Helper HtmlParser).map {|m| "Redmine::WikiFormatting::#{name.classify}::#{m}".constantize rescue nil}
+
+        raise "A formatter class is required" if formatter.nil? 
 
         @@formatters[name] = {
           :formatter => formatter,
