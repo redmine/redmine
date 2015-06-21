@@ -432,7 +432,7 @@ module Redmine #:nodoc:
 
     # The directory containing this plugin's migrations (<tt>plugin/db/migrate</tt>)
     def migration_directory
-      File.join(Rails.root, 'plugins', id.to_s, 'db', 'migrate')
+      File.join(directory, 'db', 'migrate')
     end
 
     # Returns the version number of the latest migration for this plugin. Returns
