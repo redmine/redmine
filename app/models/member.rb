@@ -71,8 +71,8 @@ class Member < ActiveRecord::Base
       else
         1
       end
-    elsif a
-      a <=> b
+    elsif a.any?
+      b.any? ? a <=> b : -1
     else
       1
     end
