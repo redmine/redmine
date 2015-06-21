@@ -17,7 +17,7 @@ gem "loofah", "~> 2.0"
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :x64_mingw, :mswin, :jruby]
-gem "rbpdf", "~> 1.18.5"
+gem "rbpdf", "~> 1.18.6"
 
 # Optional gem for LDAP authentication
 group :ldap do
