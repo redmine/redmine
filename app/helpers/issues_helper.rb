@@ -249,7 +249,7 @@ module IssuesHelper
     issues = [issues] unless issues.is_a?(Array)
     message = l(:text_issues_destroy_confirmation)
 
-		descendant_count = issues_descendant_count(issues)
+    descendant_count = issues_descendant_count(issues)
     if descendant_count > 0
       message << "\n" + l(:text_issues_destroy_descendants_confirmation, :count => descendant_count)
     end

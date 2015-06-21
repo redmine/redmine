@@ -425,7 +425,7 @@ class Issue < ActiveRecord::Base
     names -= disabled_core_fields
     names -= read_only_attribute_names(user)
     if new_record?
-     	# Make sure that project_id can always be set for new issues
+      # Make sure that project_id can always be set for new issues
       names |= %w(project_id)
     end
     if dates_derived?

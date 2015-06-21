@@ -18,7 +18,7 @@
 class MailHandlerController < ActionController::Base
   before_filter :check_credential
 
-	# Displays the email submission form
+  # Displays the email submission form
   def new
   end
 

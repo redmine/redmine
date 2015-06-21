@@ -1,9 +1,9 @@
 # General Apache options
 <IfModule mod_fastcgi.c>
-	AddHandler fastcgi-script .fcgi
+    AddHandler fastcgi-script .fcgi
 </IfModule>
 <IfModule mod_fcgid.c>
-	AddHandler fcgid-script .fcgi
+    AddHandler fcgid-script .fcgi
 </IfModule>
 Options +FollowSymLinks +ExecCGI
 
@@ -34,10 +34,10 @@ RewriteRule ^$ index.html [QSA]
 RewriteRule ^([^.]+)$ $1.html [QSA]
 RewriteCond %{REQUEST_FILENAME} !-f
 <IfModule mod_fastcgi.c>
-	RewriteRule ^(.*)$ dispatch.fcgi [QSA,L]
+    RewriteRule ^(.*)$ dispatch.fcgi [QSA,L]
 </IfModule>
 <IfModule mod_fcgid.c>
-	RewriteRule ^(.*)$ dispatch.fcgi [QSA,L]
+    RewriteRule ^(.*)$ dispatch.fcgi [QSA,L]
 </IfModule>
 
 # In case Rails experiences terminal errors

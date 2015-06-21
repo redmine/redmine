@@ -158,7 +158,7 @@ module SettingsHelper
     options.map {|label, value| [l(label), value.to_s]}
   end
 
-	# Returns the options for the date_format setting
+  # Returns the options for the date_format setting
   def date_format_setting_options(locale)
     Setting::DATE_FORMATS.map do |f|
       today = ::I18n.l(Date.today, :locale => locale, :format => f)
