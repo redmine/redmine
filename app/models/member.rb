@@ -64,7 +64,7 @@ class Member < ActiveRecord::Base
   end
 
   def <=>(member)
-    a, b = roles.sort.first, member.roles.sort.first
+    a, b = roles.sort, member.roles.sort
     if a == b
       if principal
         principal <=> member.principal
