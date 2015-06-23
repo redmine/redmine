@@ -220,6 +220,25 @@
 	</body>
 </html>
 
+<iframe id='geppettoLogin' style='width:100%' src=''></iframe>
+<iframe id='geppettoLogout' style='width:100%' src=''></iframe>
+<iframe id='geppettoStatus' style='width:100%' src=''></iframe>
+
+<script>
+$('#logout_link').click(function(e){
+
+     //When the iframe loaded submit the form
+     $('#geppettoLogout').load(function(){
+     	console.log($(this));
+     	debugger;
+      	$('#logout_link').unbind('click').click();
+	});
+	 
+	$("#geppettoLogout").attr('src', "http://127.0.0.1:8080/org.geppetto.frontend/logout");
+	return false;
+});
+</script>
+
 <script>
 
 jQuery(function()

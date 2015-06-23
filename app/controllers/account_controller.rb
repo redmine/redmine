@@ -15,6 +15,8 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
+require 'open-uri'
+
 class AccountController < ApplicationController
   helper :custom_fields
   include CustomFieldsHelper
@@ -135,6 +137,16 @@ class AccountController < ApplicationController
         @user.login = params[:user][:login]
         unless user_params[:identity_url].present? && user_params[:password].blank? && user_params[:password_confirmation].blank?
           @user.password, @user.password_confirmation = user_params[:password], user_params[:password_confirmation]
+        end
+        
+        #Geppetto register
+        geppettoRegisterURL = "http://127.0.0.1:8080/org.geppetto.frontend/user?username=" + user_params[:login] + "&password=" + user_params[:password]
+        begin
+          geppettoRegisterContent = open(geppettoRegisterURL)
+        rescue => e   
+          print "Error requesting url: #{geppettoRegisterURL}"
+        else
+          geppettoRegisterContent = JSON.parse(geppettoRegisterContent.read)
         end
 
         case Setting.self_registration

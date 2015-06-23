@@ -93,13 +93,13 @@ class UsersController < ApplicationController
   end
 
   def create
+    
     @user = User.new(:language => Setting.default_language, :mail_notification => Setting.default_notification_option)
     @user.safe_attributes = params[:user]
     @user.admin = params[:user][:admin] || false
     @user.login = params[:user][:login]
     @user.password, @user.password_confirmation = params[:user][:password], params[:user][:password_confirmation] unless @user.auth_source_id
     @user.pref.attributes = params[:pref]
-
     if @user.save
       Mailer.account_information(@user, @user.password).deliver if params[:send_information]
 
@@ -137,6 +137,7 @@ class UsersController < ApplicationController
   end
 
   def update
+    
     unless User.current == @user || User.current.admin?
       render_403
       return false

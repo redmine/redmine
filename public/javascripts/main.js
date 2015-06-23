@@ -244,7 +244,7 @@ function open3DExplorer(file)
 			    	var serverIP = json.serverIP;
 			    	var geppettoIP = json.geppettoIP;
 
-			    	//Iframe load
+			    	//iframe load
 					jQuery("#mainContent").before("<div id='3dbrowser'><div id='3dspacer' style='display: none;'><br/><br/><br/></div><a class='fullscreen btn icon-desktop' href='javascript:toggleFullScreen();'> Full Screen</a><iframe id='3dframe' style='width:100%' src='" + geppettoIP + "?sim=" + serverIP + json.geppettoSimulationFile + "'></iframe>");
 					document.getElementById('3dframe').onload = resizeIframe;
 					window.onresize = resizeIframe;
