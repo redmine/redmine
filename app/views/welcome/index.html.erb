@@ -91,44 +91,47 @@ Explore OSB
 
 <!-- CONTENT -->
 <div class="row-fluid">
-	<div class="span8">
+	<div class="span12" style="margin-bottom: 20px;">
+		<iframe id='geppettoDashboard' style='width:100%;height:550px;border:0px;' src='http://127.0.0.1:8080/org.geppetto.frontend/dashboard/'></iframe>
+	</div>
+	<div class="span8" style="margin-left: 0px;">
 		<% unless @events_by_day.empty? %>
-			<div id="activity">
-				<% @actID=0 %>
-				<% @events_by_day.keys.sort.reverse.each do |day| %>
+		<div id="activity">
+			<% @actID=0 %>
+			<% @events_by_day.keys.sort.reverse.each do |day| %>
+				<% @actID=@actID+1 %>
+				<div class="row-fluid activity-item">
+				<% @events_by_day[day].sort {|x,y| y.event_datetime <=> x.event_datetime }.each do |e| -%>
 					<% @actID=@actID+1 %>
-					<div class="row-fluid activity-item">
-					<% @events_by_day[day].sort {|x,y| y.event_datetime <=> x.event_datetime }.each do |e| -%>
-						<% @actID=@actID+1 %>
-							<div class="row-fluid activity-item">
-					  			<div class="span05 <%= "E_"+e.event_type %> <%= User.current.logged? && e.respond_to?(:event_author) && User.current == e.event_author ? 'me' : nil %>"></div>
-						  		<div class="span11">
-						  			<div class="time row-fluid" id="<%= 'T'+@actID.to_s() %>"><%= javascript_tag "jQuery('#{'#T'+@actID.to_s()}').html(moment('#{e.event_datetime}', 'YYYY-MM-DD HH:mm:ss Z').fromNow());" %></div>
-						  			<div class="author row-fluid"><strong><%= link_to_user(e.event_author) if e.respond_to?(:event_author) %> edited
-						  			
-						  			<%= content_tag('span', h(e.project), :class => 'project-title') if @project.nil? || @project != e.project %></strong></div>
-						  			<div class="row-fluid">
-						  			<%= avatar(e.event_author, :size => "50", :class => "img-rounded") if e.respond_to?(:event_author) %>
-						  			<%= link_to format_activity_title(e.event_title), e.event_url %>
-						  			</div>
-						  			<div class="row-fluid">
-						  				<div class="description"><%= format_activity_description(e.event_description) %></div>
-					  				</div>
+						<div class="row-fluid activity-item">
+				  			<div class="span05 <%= "E_"+e.event_type %> <%= User.current.logged? && e.respond_to?(:event_author) && User.current == e.event_author ? 'me' : nil %>"></div>
+					  		<div class="span11">
+					  			<div class="time row-fluid" id="<%= 'T'+@actID.to_s() %>"><%= javascript_tag "jQuery('#{'#T'+@actID.to_s()}').html(moment('#{e.event_datetime}', 'YYYY-MM-DD HH:mm:ss Z').fromNow());" %></div>
+					  			<div class="author row-fluid"><strong><%= link_to_user(e.event_author) if e.respond_to?(:event_author) %> edited
+					  			
+					  			<%= content_tag('span', h(e.project), :class => 'project-title') if @project.nil? || @project != e.project %></strong></div>
+					  			<div class="row-fluid">
+					  			<%= avatar(e.event_author, :size => "50", :class => "img-rounded") if e.respond_to?(:event_author) %>
+					  			<%= link_to format_activity_title(e.event_title), e.event_url %>
 					  			</div>
-							</div>
-					<% end -%>
-					</div>
+					  			<div class="row-fluid">
+					  				<div class="description"><%= format_activity_description(e.event_description) %></div>
+				  				</div>
+				  			</div>
+						</div>
 				<% end -%>
-			</div>
-			<% end %>
-			<% if @events_by_day.empty? %>
-				<p class="lead">You have no activities yet! Why don't you start by creating a new project?</p>
-				<br/></br/><br/>
-				<icon class="icon-coffee icon-xxxlarge"></icon>
-				<icon class="icon-lightbulb icon-xxxlarge"></icon>
-				<icon class="icon-beaker icon-xxxlarge"></icon>
-			<% end %>
+				</div>
+			<% end -%>
 		</div>
+		<% end %>
+		<% if @events_by_day.empty? %>
+			<p class="lead">You have no activities yet! Why don't you start by creating a new project?</p>
+			<br/></br/><br/>
+			<icon class="icon-coffee icon-xxxlarge"></icon>
+			<icon class="icon-lightbulb icon-xxxlarge"></icon>
+			<icon class="icon-beaker icon-xxxlarge"></icon>
+		<% end %>
+	</div>
 	
 
 		<div class="span4">
@@ -174,7 +177,7 @@ Explore OSB
 			</table>
 			
 		<div>
-		<div class="news box">
+		<div id="twitterContainer" class="news box">
 			<a class="twitter-timeline" href="https://twitter.com/OSBTeam" data-widget-id="592634674410889217">Tweets by @OSBTeam</a>
 			<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
 		</div>
