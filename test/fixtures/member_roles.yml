@@ -47,3 +47,7 @@ member_roles_011:
   role_id: 2
   member_id: 10
   inherited_from: 10
+member_roles_012:
+  id: 12
+  role_id: 1
+  member_id: 8
