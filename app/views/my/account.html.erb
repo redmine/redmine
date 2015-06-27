@@ -4,7 +4,11 @@
 <%= call_hook(:view_my_account_contextual, :user => @user)%>
 </div>
 
-<h2><%=l(:label_my_account)%></h2>
+<h2>
+  <%= avatar_edit_link(@user, :size => "50") %>
+  <%=l(:label_my_account)%>
+</h2>
+
 <%= error_messages_for 'user' %>
 
 <%= labelled_form_for :user, @user,

@@ -1251,6 +1251,14 @@ module ApplicationHelper
     end
   end
 
+  # Returns a link to edit user's avatar if avatars are enabled
+  def avatar_edit_link(user, options={})
+    if Setting.gravatar_enabled?
+      url = "http://gravatar.com"
+      link_to avatar(user, {:title => l(:button_edit)}.merge(options)), url, :target => '_blank'
+    end
+  end
+
   def sanitize_anchor_name(anchor)
     anchor.gsub(%r{[^\s\-\p{Word}]}, '').gsub(%r{\s+(\-+\s*)?}, '-')
   end
