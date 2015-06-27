@@ -96,7 +96,7 @@ class IssuesController < ApplicationController
   def show
     @journals = @issue.journals.includes(:user, :details).
                     references(:user, :details).
-                    reorder("#{Journal.table_name}.id ASC").to_a
+                    reorder(:created_on, :id).to_a
     @journals.each_with_index {|j,i| j.indice = i+1}
     @journals.reject!(&:private_notes?) unless User.current.allowed_to?(:view_private_notes, @issue.project)
     Journal.preload_journals_details_custom_fields(@journals)
