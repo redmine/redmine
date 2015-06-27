@@ -146,7 +146,7 @@ class VersionsController < ApplicationController
   end
 
   def destroy
-    if @version.fixed_issues.empty?
+    if @version.deletable?
       @version.destroy
       respond_to do |format|
         format.html { redirect_back_or_default settings_project_path(@project, :tab => 'versions') }

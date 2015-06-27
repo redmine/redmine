@@ -235,6 +235,27 @@ class VersionTest < ActiveSupport::TestCase
     assert_equal @version, project_2_issue.fixed_version
   end
 
+  def test_deletable_should_return_true_when_not_referenced
+    version = Version.generate!
+
+    assert_equal true, version.deletable?
+  end
+
+  def test_deletable_should_return_false_when_referenced_by_an_issue
+    version = Version.generate!
+    Issue.generate!(:fixed_version => version)
+
+    assert_equal false, version.deletable?
+  end
+
+  def test_deletable_should_return_false_when_referenced_by_a_custom_field
+    version = Version.generate!
+    field = IssueCustomField.generate!(:field_format => 'version')
+    value = CustomValue.create!(:custom_field => field, :customized => Issue.first, :value => version.id)
+
+    assert_equal false, version.deletable?
+  end
+
   private
 
   def add_issue(version, attributes={})
