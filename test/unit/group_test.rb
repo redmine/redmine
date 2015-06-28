@@ -158,4 +158,12 @@ class GroupTest < ActiveSupport::TestCase
     end
     assert_equal 0, group.reload.users.count
   end
+
+  def test_sorted_scope_should_sort_groups_alphabetically
+    Group.delete_all
+    b = Group.generate!(:name => 'B')
+    a = Group.generate!(:name => 'A')
+
+    assert_equal %w(A B), Group.sorted.to_a.map(&:name)
+  end
 end
