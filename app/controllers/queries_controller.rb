@@ -48,17 +48,14 @@ class QueriesController < ApplicationController
     @query = IssueQuery.new
     @query.user = User.current
     @query.project = @project
-    @query.visibility = IssueQuery::VISIBILITY_PRIVATE unless User.current.allowed_to?(:manage_public_queries, @project) || User.current.admin?
     @query.build_from_params(params)
   end
 
   def create
-    @query = IssueQuery.new(params[:query])
+    @query = IssueQuery.new
     @query.user = User.current
-    @query.project = params[:query_is_for_all] ? nil : @project
-    @query.visibility = IssueQuery::VISIBILITY_PRIVATE unless User.current.allowed_to?(:manage_public_queries, @project) || User.current.admin?
-    @query.build_from_params(params)
-    @query.column_names = nil if params[:default_columns]
+    @query.project = @project
+    update_query_from_params
 
     if @query.save
       flash[:notice] = l(:notice_successful_create)
@@ -72,11 +69,7 @@ class QueriesController < ApplicationController
   end
 
   def update
-    @query.attributes = params[:query]
-    @query.project = nil if params[:query_is_for_all]
-    @query.visibility = IssueQuery::VISIBILITY_PRIVATE unless User.current.allowed_to?(:manage_public_queries, @project) || User.current.admin?
-    @query.build_from_params(params)
-    @query.column_names = nil if params[:default_columns]
+    update_query_from_params
 
     if @query.save
       flash[:notice] = l(:notice_successful_update)
@@ -105,6 +98,20 @@ private
     render_403 unless User.current.allowed_to?(:save_queries, @project, :global => true)
   rescue ActiveRecord::RecordNotFound
     render_404
+  end
+
+  def update_query_from_params
+    @query.project = params[:query_is_for_all] ? nil : @project
+    @query.build_from_params(params)
+    @query.column_names = nil if params[:default_columns]
+    @query.sort_criteria = params[:query] && params[:query][:sort_criteria]
+    @query.name = params[:query] && params[:query][:name]
+    if User.current.allowed_to?(:manage_public_queries, @query.project) || User.current.admin?
+      @query.visibility = (params[:query] && params[:query][:visibility]) || IssueQuery::VISIBILITY_PRIVATE
+    else
+      @query.visibility = IssueQuery::VISIBILITY_PRIVATE
+    end
+    @query
   end
 
   def redirect_to_issues(options)
