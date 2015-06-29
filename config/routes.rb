@@ -324,7 +324,7 @@ Rails.application.routes.draw do
   get 'admin/projects', :to => 'admin#projects'
   get 'admin/plugins', :to => 'admin#plugins'
   get 'admin/info', :to => 'admin#info'
-  post 'admin/test_email', :to => 'admin#test_email'
+  post 'admin/test_email', :to => 'admin#test_email', :as => 'test_email'
   post 'admin/default_configuration', :to => 'admin#default_configuration'
 
   resources :auth_sources do
