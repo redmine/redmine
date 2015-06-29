@@ -320,12 +320,12 @@ Rails.application.routes.draw do
   get  'mail_handler', :to => 'mail_handler#new'
   post 'mail_handler', :to => 'mail_handler#index'
 
-  match 'admin', :controller => 'admin', :action => 'index', :via => :get
-  match 'admin/projects', :controller => 'admin', :action => 'projects', :via => :get
-  match 'admin/plugins', :controller => 'admin', :action => 'plugins', :via => :get
-  match 'admin/info', :controller => 'admin', :action => 'info', :via => :get
-  match 'admin/test_email', :controller => 'admin', :action => 'test_email', :via => :post
-  match 'admin/default_configuration', :controller => 'admin', :action => 'default_configuration', :via => :post
+  get 'admin', :to => 'admin#index'
+  get 'admin/projects', :to => 'admin#projects'
+  get 'admin/plugins', :to => 'admin#plugins'
+  get 'admin/info', :to => 'admin#info'
+  post 'admin/test_email', :to => 'admin#test_email'
+  post 'admin/default_configuration', :to => 'admin#default_configuration'
 
   resources :auth_sources do
     member do
