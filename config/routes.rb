@@ -319,7 +319,7 @@ Rails.application.routes.draw do
   match 'admin/projects', :controller => 'admin', :action => 'projects', :via => :get
   match 'admin/plugins', :controller => 'admin', :action => 'plugins', :via => :get
   match 'admin/info', :controller => 'admin', :action => 'info', :via => :get
-  match 'admin/test_email', :controller => 'admin', :action => 'test_email', :via => :get
+  match 'admin/test_email', :controller => 'admin', :action => 'test_email', :via => :post
   match 'admin/default_configuration', :controller => 'admin', :action => 'default_configuration', :via => :post
 
   resources :auth_sources do
