@@ -36,7 +36,7 @@ class RoutingAdminTest < ActionController::IntegrationTest
         { :controller => 'admin', :action => 'info' }
       )
     assert_routing(
-        { :method => 'get', :path => "/admin/test_email" },
+        { :method => 'post', :path => "/admin/test_email" },
         { :controller => 'admin', :action => 'test_email' }
       )
     assert_routing(
