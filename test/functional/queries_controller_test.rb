@@ -83,7 +83,7 @@ class QueriesControllerTest < ActionController::TestCase
          :fields => ["status_id", "assigned_to_id"],
          :operators => {"assigned_to_id" => "=", "status_id" => "o"},
          :values => { "assigned_to_id" => ["1"], "status_id" => ["1"]},
-         :query => {"name" => "test_new_project_private_query", "visibility" => "2"}
+         :query => {"name" => "test_new_project_private_query", "visibility" => "0"}
 
     q = Query.find_by_name('test_new_project_private_query')
     assert_redirected_to :controller => 'issues', :action => 'index', :project_id => 'ecookbook', :query_id => q
@@ -98,7 +98,7 @@ class QueriesControllerTest < ActionController::TestCase
          :fields => ["status_id", "assigned_to_id"],
          :operators => {"assigned_to_id" => "=", "status_id" => "o"},
          :values => { "assigned_to_id" => ["me"], "status_id" => ["1"]},
-         :query => {"name" => "test_new_global_private_query", "visibility" => "2"},
+         :query => {"name" => "test_new_global_private_query", "visibility" => "0"},
          :c => ["", "tracker", "subject", "priority", "category"]
 
     q = Query.find_by_name('test_new_global_private_query')
@@ -119,6 +119,7 @@ class QueriesControllerTest < ActionController::TestCase
 
     q = Query.find_by_name('test_new_global_query')
     assert_redirected_to :controller => 'issues', :action => 'index', :project_id => nil, :query_id => q
+    assert !q.is_public?
     assert !q.has_filter?(:status_id)
     assert_equal ['assigned_to_id'], q.filters.keys
     assert q.valid?
@@ -186,13 +187,73 @@ class QueriesControllerTest < ActionController::TestCase
     assert_equal false, query.draw_progress_line
   end
 
+  def test_create_project_public_query_should_force_private_without_manage_public_queries_permission
+    @request.session[:user_id] = 3
+    query = new_record(Query) do
+      post :create,
+           :project_id => 'ecookbook',
+           :query => {"name" => "name", "visibility" => "2"}
+      assert_response 302
+    end
+    assert_not_nil query.project
+    assert_equal Query::VISIBILITY_PRIVATE, query.visibility
+  end
+
+  def test_create_global_public_query_should_force_private_without_manage_public_queries_permission
+    @request.session[:user_id] = 3
+    query = new_record(Query) do
+      post :create,
+           :project_id => 'ecookbook', :query_is_for_all => '1',
+           :query => {"name" => "name", "visibility" => "2"}
+      assert_response 302
+    end
+    assert_nil query.project
+    assert_equal Query::VISIBILITY_PRIVATE, query.visibility
+  end
+
+  def test_create_project_public_query_with_manage_public_queries_permission
+    @request.session[:user_id] = 2
+    query = new_record(Query) do
+      post :create,
+           :project_id => 'ecookbook',
+           :query => {"name" => "name", "visibility" => "2"}
+      assert_response 302
+    end
+    assert_not_nil query.project
+    assert_equal Query::VISIBILITY_PUBLIC, query.visibility
+  end
+
+  def test_create_global_public_query_should_force_private_with_manage_public_queries_permission
+    @request.session[:user_id] = 2
+    query = new_record(Query) do
+      post :create,
+           :project_id => 'ecookbook', :query_is_for_all => '1',
+           :query => {"name" => "name", "visibility" => "2"}
+      assert_response 302
+    end
+    assert_nil query.project
+    assert_equal Query::VISIBILITY_PRIVATE, query.visibility
+  end
+
+  def test_create_global_public_query_by_admin
+    @request.session[:user_id] = 1
+    query = new_record(Query) do
+      post :create,
+           :project_id => 'ecookbook', :query_is_for_all => '1',
+           :query => {"name" => "name", "visibility" => "2"}
+      assert_response 302
+    end
+    assert_nil query.project
+    assert_equal Query::VISIBILITY_PUBLIC, query.visibility
+  end
+
   def test_edit_global_public_query
     @request.session[:user_id] = 1
     get :edit, :id => 4
     assert_response :success
     assert_template 'edit'
     assert_select 'input[name=?][value="2"][checked=checked]', 'query[visibility]'
-    assert_select 'input[name=query_is_for_all][type=checkbox][checked=checked][disabled=disabled]'
+    assert_select 'input[name=query_is_for_all][type=checkbox][checked=checked]'
   end
 
   def test_edit_global_private_query
@@ -201,7 +262,7 @@ class QueriesControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'edit'
     assert_select 'input[name=?]', 'query[visibility]', 0
-    assert_select 'input[name=query_is_for_all][type=checkbox][checked=checked][disabled=disabled]'
+    assert_select 'input[name=query_is_for_all][type=checkbox][checked=checked]'
   end
 
   def test_edit_project_private_query
@@ -210,7 +271,7 @@ class QueriesControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'edit'
     assert_select 'input[name=?]', 'query[visibility]', 0
-    assert_select 'input[name=query_is_for_all][type=checkbox]:not([checked]):not([disabled])'
+    assert_select 'input[name=query_is_for_all][type=checkbox]:not([checked])'
   end
 
   def test_edit_project_public_query
@@ -219,7 +280,7 @@ class QueriesControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'edit'
     assert_select 'input[name=?][value="2"][checked=checked]', 'query[visibility]'
-    assert_select 'input[name=query_is_for_all][type=checkbox][disabled=disabled]:not([checked])'
+    assert_select 'input[name=query_is_for_all][type=checkbox]:not([checked])'
   end
 
   def test_edit_sort_criteria
