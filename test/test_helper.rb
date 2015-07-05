@@ -180,8 +180,8 @@ class ActiveSupport::TestCase
     ActiveRecord::Base.connection.quoted_date(date)
   end
 
-	# Asserts that a new record for the given class is created
-	# and returns it
+  # Asserts that a new record for the given class is created
+  # and returns it
   def new_record(klass, &block)
     assert_difference "#{klass}.count" do
       yield
