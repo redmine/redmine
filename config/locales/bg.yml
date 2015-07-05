@@ -1147,3 +1147,4 @@ bg:
   description_date_to: Въведете крайна дата
   text_repository_identifier_info: 'Позволени са малки букви (a-z), цифри, тирета и _.<br />Промяна след създаването му не е възможна.'
   label_password_required: Confirm your password to continue
+  label_total_spent_time: Общо употребено време
