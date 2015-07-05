@@ -178,6 +178,15 @@ class ActiveSupport::TestCase
     ActiveRecord::Base.connection.quoted_date(date)
   end
 
+	# Asserts that a new record for the given class is created
+	# and returns it
+  def new_record(klass, &block)
+    assert_difference "#{klass}.count" do
+      yield
+    end
+    klass.order(:id => :desc).first
+  end
+
   def assert_save(object)
     saved = object.save
     message = "#{object.class} could not be saved"
