@@ -21,7 +21,9 @@ class IssueSubtaskingTest < ActiveSupport::TestCase
   fixtures :projects, :users, :roles, :members, :member_roles,
            :trackers, :projects_trackers,
            :issue_statuses, :issue_categories, :enumerations,
-           :issues
+           :issues,
+           :enabled_modules,
+           :workflows
 
   def test_leaf_planning_fields_should_be_editable
     issue = Issue.generate!
