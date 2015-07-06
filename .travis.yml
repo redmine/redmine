@@ -39,6 +39,8 @@ env:
   - "SUITE=ui          DB=sqlite3"
 matrix:
   allow_failures:
+    # http://www.redmine.org/issues/20251
+    - env: "SUITE=ui          DB=postgresql"
     # SCM tests fail randomly due to IO.popen().
     # http://www.redmine.org/issues/19091
     # https://github.com/jruby/jruby/issues/779
