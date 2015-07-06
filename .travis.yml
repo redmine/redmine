@@ -75,6 +75,12 @@ before_install:
         sudo apt-get update -q ;
         sudo apt-get install -q -y -o Dpkg::Options::=--force-confnew mysql-server ;
       fi
+    elif [[ $DB =~ postgresql ]] ;
+    then
+      psql --version ;
+      psql -c "SHOW SERVER_VERSION" -U postgres ;
+      psql -c "SHOW SERVER_ENCODING" -U postgres ;
+      psql -c "SHOW DateStyle" -U postgres ;
     fi
 script:
   - export DATABASE_ADAPTER=${DB}
