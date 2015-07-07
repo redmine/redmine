@@ -4,6 +4,26 @@ Redmine - project management software
 Copyright (C) 2006-2015  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2015-07-07 v3.0.4
+
+* Defect #17757: Link with hash does not work on Firefox
+* Defect #19095: PDF is broken on iOS
+* Defect #19485: Column 'address' in where clause may be ambiguous
+* Defect #19815: Bulk issue copy copies subtasks and attachments even if option is unchecked
+* Defect #19835: Newlines stripped from CVS commit messages
+* Defect #19840: Missing validation for description size of versions
+* Defect #19842: User allowed to manage public queries in any project, can create public query visible to everyone for ALL projects
+* Defect #19844: Roles are not aligned on new member form
+* Defect #19956: Connection leak on svn/redmine integration
+* Defect #19957: acts_as_versioned not compatible with ActiveRecord 4.2.1
+* Defect #20066: List of groups sorted in desc by default
+* Defect #20118: Missing row in PDF if issue description contains '<'-character
+* Feature #19364: Images and Thumbnail are not interpreted in table while exporting PDF
+* Feature #20142: Update Gemfile to require rbpdf ~>1.18.6
+* Patch #19825: Russian translation update
+* Patch #20035: Italian translation update
+* Patch #20203: The test email action should use POST only (CSRF protection)
+
 == 2015-05-10 v3.0.3
 
 * Defect #18580: Can't bulk edit own time entries with "Edit own time entries"
