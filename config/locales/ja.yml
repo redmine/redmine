@@ -1113,7 +1113,7 @@ ja:
   notice_account_locked: アカウントがロックされています
   label_hidden: 非表示
   label_visibility_private: 自分のみ
-  label_visibility_roles: 以下のロールのみ
+  label_visibility_roles: 次のロールのみ
   label_visibility_public: すべてのユーザー
   field_must_change_passwd: 次回ログイン時にパスワード変更を強制
   notice_new_password_must_be_different: 新しいパスワードは現在のパスワードと異なるものでなければなりません
@@ -1163,9 +1163,9 @@ ja:
   label_parent_task_attributes: 親チケットの値の算出方法
   label_parent_task_attributes_derived: 子チケットの値から算出
   label_parent_task_attributes_independent: 子チケットから独立
-  label_time_entries_visibility_all: All time entries
-  label_time_entries_visibility_own: Time entries created by the user
-  label_member_management: Member management
-  label_member_management_all_roles: All roles
-  label_member_management_selected_roles_only: Only these roles
-  label_password_required: Confirm your password to continue
+  label_time_entries_visibility_all: すべての作業時間
+  label_time_entries_visibility_own: 自身が登録した作業時間
+  label_member_management: メンバーの管理
+  label_member_management_all_roles: すべてのロール
+  label_member_management_selected_roles_only: 次のロールのみ
+  label_password_required: この操作を続行するにはパスワードを入力してください
