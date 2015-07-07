@@ -557,6 +557,7 @@ bg:
   label_register: Регистрация
   label_login_with_open_id_option: или вход чрез OpenID
   label_password_lost: Забравена парола
+  label_password_required: Потвърдете вашата парола, за да продължите
   label_home: Начало
   label_my_page: Лична страница
   label_my_account: Профил
@@ -1146,4 +1147,3 @@ bg:
   description_date_from: Въведете начална дата
   description_date_to: Въведете крайна дата
   text_repository_identifier_info: 'Позволени са малки букви (a-z), цифри, тирета и _.<br />Промяна след създаването му не е възможна.'
-  label_password_required: Confirm your password to continue
