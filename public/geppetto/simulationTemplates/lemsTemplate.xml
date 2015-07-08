@@ -13,5 +13,4 @@
       </tns:model>
     </tns:aspect>
   </tns:entity>
-  <tns:script>$ENTER_SCRIPT_URL</tns:script>
 </tns:simulation>

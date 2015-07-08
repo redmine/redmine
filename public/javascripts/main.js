@@ -245,7 +245,9 @@ function open3DExplorer(file)
 			    	var geppettoIP = json.geppettoIP;
 
 			    	//iframe load
-					jQuery("#mainContent").before("<div id='3dbrowser'><div id='3dspacer' style='display: none;'><br/><br/><br/></div><a class='fullscreen btn icon-desktop' href='javascript:toggleFullScreen();'> Full Screen</a><iframe id='3dframe' style='width:100%' src='" + geppettoIP + "?sim=" + serverIP + json.geppettoSimulationFile + "'></iframe>");
+					//jQuery("#mainContent").before("<div id='3dbrowser'><div id='3dspacer' style='display: none;'><br/><br/><br/></div><a class='fullscreen btn icon-desktop' href='javascript:toggleFullScreen();'> Full Screen</a><iframe id='3dframe' style='width:100%' src='" + geppettoIP + "?sim=" + serverIP + json.geppettoSimulationFile + "'></iframe>");
+					jQuery("#mainContent").before("<div id='3dbrowser'><div id='3dspacer' style='display: none;'><br/><br/><br/></div><a class='fullscreen btn icon-desktop' href='javascript:toggleFullScreen();'> Full Screen</a><iframe id='3dframe' style='width:100%' src='" + geppettoIP + "?load_project_from_url=" + serverIP + json.geppettoSimulationFile + "'></iframe>");
+					//http://127.0.0.1:8080/org.geppetto.frontend/?load_project_from_url=https://www.dropbox.com/s/3orflfacnqu3qn1/6.json?raw=1
 					document.getElementById('3dframe').onload = resizeIframe;
 					window.onresize = resizeIframe;
 			    }

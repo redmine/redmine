@@ -190,3 +190,31 @@ Explore OSB
 	<%= auto_discovery_link_tag(:atom, {:controller => 'activities', :action => 'index', :key => User.current.rss_key, :format => 'atom'},:title => "#{Setting.app_title}: #{l(:label_activity)}") %>
 	<% end %>
 <% end %>
+
+<!-- Prototype iframe event capture -->
+<script>
+var iframeClick = function () {
+    var isOverIframe = false,
+    windowLostBlur = function () {
+        if (isOverIframe === true) {
+            // DO STUFF
+            alert('in');
+            isOverIframe = false;
+        }
+    };
+    $(window).focus();
+    $('#geppettoDashboard').mouseenter(function(){
+        isOverIframe = true;
+        console.log(isOverIframe);
+    });
+    $('#geppettoDashboard').mouseleave(function(){
+        isOverIframe = false;
+        console.log(isOverIframe);
+    });
+    $(window).blur(function () {
+        windowLostBlur();
+    });
+ };
+ iframeClick();
+</script> 
+
