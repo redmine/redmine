@@ -50,10 +50,10 @@ $('#loginButton').click(function(e){
      //When the iframe loaded submit the form
      $('#geppettoLogin').load(function(){
      	console.log($(this));
-     	debugger;
+     	// debugger;
     	$('form').trigger('submit');
 	});
-	 
+
 	$("#geppettoLogin").attr('src', "http://127.0.0.1:8080/org.geppetto.frontend/login?username=" + $('#username').val() + "&password=" + $('#password').val());
 	
 	//FIXME Login should allow url to redirect

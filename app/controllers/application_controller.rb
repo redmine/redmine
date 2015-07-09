@@ -630,5 +630,12 @@ class ApplicationController < ActionController::Base
     end
     return false
   end
-    
+  
+  def initialiseGeppettoRedmineIP
+    if session[:geppettoIP].nil? || session[:geppettoIP].empty? || session[:geppettoIP] =="" 
+        props = YAML::load(File.open("#{Rails.root}/config/props.yml"))
+        session[:serverIP] = props["serverIP"]
+        session[:geppettoIP] = props["geppettoIP"]
+    end
+  end  
 end

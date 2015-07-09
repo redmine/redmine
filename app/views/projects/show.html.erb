@@ -42,12 +42,6 @@
 						<%= textilizable(show_value(custom_value, false)) %>
 						<%= getStatusBadges(@project) %>
 						<br><br>
-						<% if @project.repository != nil %>
-							<% @exportOptions = getExportFunctions(@project.repository) %>
-							<% @exportOptions.keys.each do |exportOption| %>
-								<a href="http://127.0.0.1:8080/org.neuroml.visualiser/?engine=<%=exportOption%>" class="btn icon-download-alt" rel="nofollow"> Download as <%= exportOption %></a>
-							<% end %>
-						<% end %>	
 					</section>
 				<% end %>
 			<% end %>

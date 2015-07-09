@@ -385,22 +385,6 @@ class ProjectsController < ApplicationController
     if params[:jump] && redirect_to_project_menu_item(@project, params[:jump])
       return
     end
-    
-#    if params[:explorer]
-#      url = params[:explorer]
-#      uri = URI.parse(url)
-#      idName = File.basename(uri.path).split(".").first
-#
-#      neuromlTemplate = File.read("#{Rails.root}/public/geppetto/neuromlTemplate.xml")
-#      neuromlTemplate.sub! '$ENTER_MODEL_URL', url
-##      neuromlTemplate.sub! '$ENTER_ID', idName
-#      neuromlTemplate.sub! '$ENTER_ID', 'idName'
-#      neuromlTemplate.sub! '$ENTER_SCRIPT_URL', 'http://127.0.0.1:3000/geppetto/geppettoScript.js'
-#        
-#      random_string = SecureRandom.hex
-#      @geppettoSimulationFile = "/geppetto/tmp/" + random_string + ".xml"; 
-#      File.write("#{Rails.root}/public"+ @geppettoSimulationFile, neuromlTemplate)
-#    end  
 
     @users_by_role = @project.users_by_role
     @subprojects = @project.children.visible.all
@@ -430,22 +414,11 @@ class ProjectsController < ApplicationController
       
       #Get Geppetto Projects for this User
       # geppettoRegisterURL = "http://127.0.0.1:8080/org.geppetto.frontend/projectswithref?reference=" + 
-      # begin
-        # geppettoRegisterContent = open(geppettoRegisterURL)
-      # rescue => e   
-        # print "Error requesting url: #{geppettoRegisterURL}"
-      # else
-        # geppettoRegisterContent = JSON.parse(geppettoRegisterContent.read)
-      # end
       
       ##################
       # CREATE SESSION #
       ##################
-      if session[:geppettoIP].nil? || session[:geppettoIP].empty? || session[:geppettoIP] =="" 
-        props = YAML::load(File.open("#{Rails.root}/config/props.yml"))
-        session[:serverIP] = props["serverIP"]
-        session[:geppettoIP] = props["geppettoIP"]
-      end
+      initialiseGeppettoRedmineIP
       serverIP = session[:serverIP];
           
       ##############################
@@ -524,7 +497,6 @@ class ProjectsController < ApplicationController
           target = targetComponent.captures
         end
       end  
-      print target
       
       geppettoSimulationFile = {
         "id" => 1,
@@ -557,8 +529,6 @@ class ProjectsController < ApplicationController
         ],
         "geppettoModel"=> { "id" => 1, "url" => serverIP + geppettoTmpPath + @geppettoModelFilePath, "type" => "GEPPETTO_PROJECT"}
       }
-      
-      print geppettoSimulationFile.to_json
       
       # Write file to disc and change permissions to allow access from Geppetto             
       File.write(publicResourcesPath + geppettoTmpPath + @geppettoSimulationFilePath, geppettoSimulationFile.to_json)
