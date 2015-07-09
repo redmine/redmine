@@ -438,15 +438,9 @@ class ProjectsController < ApplicationController
         # geppettoRegisterContent = JSON.parse(geppettoRegisterContent.read)
       # end
       
-      #Create path
-      publicResourcesPath = "#{Rails.root}/public/"
-      geppettoResourcesPath = "geppetto/";
-      geppettoTmpPath = "geppetto/tmp/"
-      simulationTemplates = "simulationTemplates/"
-      scripts = "scripts/"
-      controlPanels = "controlPanels/"
-      
-      #Update session with server and geppetto url
+      ##################
+      # CREATE SESSION #
+      ##################
       if session[:geppettoIP].nil? || session[:geppettoIP].empty? || session[:geppettoIP] =="" 
         props = YAML::load(File.open("#{Rails.root}/config/props.yml"))
         session[:serverIP] = props["serverIP"]
@@ -454,6 +448,9 @@ class ProjectsController < ApplicationController
       end
       serverIP = session[:serverIP];
           
+      ##############################
+      # CREATE ENTITY AND DOC TYPE #
+      ##############################
       #Read entity name and model type (cell,channel,synapse,cell) from url  
       filenameSplit = File.basename(uri.path).split(".")
       entity = filenameSplit[0]
@@ -463,7 +460,27 @@ class ProjectsController < ApplicationController
       end  
       docType = filenameSplit[1]
       
-     
+      ########
+      # PATH #
+      ########
+      publicResourcesPath = "#{Rails.root}/public/"
+      geppettoResourcesPath = "geppetto/";
+      geppettoTmpPath = "geppetto/tmp/"
+      simulationTemplates = "simulationTemplates/"
+      scripts = "scripts/"
+      controlPanels = "controlPanels/"
+      
+      # Generate simulation and js file path
+      geppettoTmpSimulationFile = Tempfile.new([entity,".json"], publicResourcesPath + geppettoTmpPath);
+      @geppettoSimulationFilePath = File.basename(geppettoTmpSimulationFile.path)
+      geppettoTmpJsFile = Tempfile.new([entity,".js"], publicResourcesPath + geppettoTmpPath);
+      @geppettoJsFilePath = File.basename(geppettoTmpJsFile.path)
+      geppettoTmpModelFile = Tempfile.new([entity + "_MODEL",".xml"], publicResourcesPath + geppettoTmpPath);
+      @geppettoModelFilePath = File.basename(geppettoTmpModelFile.path)
+
+      ######################
+      # JS & CONTROL PANEL #
+      ######################
       if docType == 'net'
         geppettoJsFile = File.read(publicResourcesPath + geppettoResourcesPath + scripts + "osbNetworkScript.js")
         geppettoControlPanelJsonFile = File.read(publicResourcesPath + geppettoResourcesPath + controlPanels + "osbNetworkControlPanel.json")
@@ -477,29 +494,38 @@ class ProjectsController < ApplicationController
       else
         geppettoJsFile = File.read(publicResourcesPath + geppettoResourcesPath + scripts + "osbGenericScript.js")  
       end
-
-      # Generate simulation and js file path
-      geppettoTmpSimulationFile = Tempfile.new([entity,".json"], publicResourcesPath + geppettoTmpPath);
-      @geppettoSimulationFilePath = File.basename(geppettoTmpSimulationFile.path)
-      geppettoTmpJsFile = Tempfile.new([entity,".js"], publicResourcesPath + geppettoTmpPath);
-      @geppettoJsFilePath = File.basename(geppettoTmpJsFile.path)
-      geppettoTmpModelFile = Tempfile.new([entity + "_MODEL",".xml"], publicResourcesPath + geppettoTmpPath);
-      @geppettoModelFilePath = File.basename(geppettoTmpModelFile.path)
          
-      # Parse simulation file  
-      geppettoModelFile = File.read(publicResourcesPath + geppettoResourcesPath + simulationTemplates + "neuromlTemplate.xml")    
-      geppettoModelFile.sub! '$ENTER_MODEL_URL', url
-      geppettoModelFile.sub! '$ENTER_ID', entity
-      # geppettoModelFile.sub! '$ENTER_SCRIPT_URL', serverIP + geppettoTmpPath + @geppettoJsFilePath
-        
       # Parse js file
       unless geppettoControlPanelJsonFile.nil?
         geppettoControlPanelJsonFile.delete!("\r\n")
         geppettoJsFile.gsub! '$CONTROL_PANEL', geppettoControlPanelJsonFile
       end
-      
       geppettoJsFile.gsub! '$ENTER_ID', entity
+      
+      #########
+      # MODEL #
+      ######### 
+      geppettoModelFile = File.read(publicResourcesPath + geppettoResourcesPath + simulationTemplates + "neuromlTemplate.xml")    
+      geppettoModelFile.sub! '$ENTER_MODEL_URL', url
+      geppettoModelFile.sub! '$ENTER_ID', entity
 
+      ##############
+      # SIMULATION #
+      ##############
+      begin
+        modelContent = open(url, 'r', :read_timeout=>2)
+      rescue OpenURI::HTTPError
+         #print "Error requesting url: #{neuroelectroUrl}"
+      rescue => e   
+        #print "Error requesting url: #{neuroelectroUrl}"
+      else
+        targetComponent = /<network id="(\w*)\"/.match(modelContent.read)
+        if targetComponent
+          target = targetComponent.captures
+        end
+      end  
+      print target
+      
       geppettoSimulationFile = {
         "id" => 1,
         "name" => filenameSplit[0] + " - " + filenameSplit[1],
@@ -518,17 +544,21 @@ class ProjectsController < ApplicationController
                     "entityInstancePath" => entity,
                     "aspect" => "electrical",
                     "localInstancePath" => ""
-                }
+                },
+              "simulatorConfiguration" => {
+                    "id" => 1,
+                    "simulatorId" => "neuronSimulator",
+                    # "timestep" => 0.00001,
+                    # "length" => 0.3,
+                    "parameters" => {"target" => target[0]}
+              } 
              }]   
            }
         ],
         "geppettoModel"=> { "id" => 1, "url" => serverIP + geppettoTmpPath + @geppettoModelFilePath, "type" => "GEPPETTO_PROJECT"}
       }
       
-      
-      # File.open(publicResourcesPath + geppettoResourcesPath + scripts + "temp.json","w") do |f|
-        # f.write(jsonProject.to_json)
-      # end 
+      print geppettoSimulationFile.to_json
       
       # Write file to disc and change permissions to allow access from Geppetto             
       File.write(publicResourcesPath + geppettoTmpPath + @geppettoSimulationFilePath, geppettoSimulationFile.to_json)
