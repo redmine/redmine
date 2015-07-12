@@ -315,7 +315,7 @@ ru:
   field_column_names: Столбцы
   field_comments: Комментарий
   field_comments_sorting: Отображение комментариев
-  field_content: Content
+  field_content: Содержимое
   field_created_on: Создано
   field_default_value: Значение по умолчанию
   field_delay: Отложить
