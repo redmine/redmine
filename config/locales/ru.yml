@@ -243,7 +243,7 @@ ru:
   button_list: Список
   button_lock: Заблокировать
   button_login: Вход
-  button_log_time: Затраченное время
+  button_log_time: Трудозатраты
   button_move: Переместить
   button_quote: Цитировать
   button_rename: Переименовать
@@ -322,10 +322,10 @@ ru:
   field_description: Описание
   field_done_ratio: Готовность
   field_downloads: Загрузки
-  field_due_date: Дата выполнения
+  field_due_date: Дата завершения
   field_editable: Редактируемое
   field_effective_date: Дата
-  field_estimated_hours: Оценка времени
+  field_estimated_hours: Оценка трудозатрат
   field_field_format: Формат
   field_filename: Файл
   field_filesize: Размер
@@ -372,14 +372,14 @@ ru:
   field_role: Роль
   field_searchable: Доступно для поиска
   field_spent_on: Дата
-  field_start_date: Начата
+  field_start_date: Дата начала
   field_start_page: Стартовая страница
   field_status: Статус
   field_subject: Тема
   field_subproject: Подпроект
   field_summary: Краткое описание
   field_text: Текстовое поле
-  field_time_entries: Затраченное время
+  field_time_entries: Трудозатраты
   field_time_zone: Часовой пояс
   field_title: Заголовок
   field_tracker: Трекер
@@ -668,7 +668,7 @@ ru:
   label_sort_highest: В начало
   label_sort_lower: Вниз
   label_sort_lowest: В конец
-  label_spent_time: Затраченное время
+  label_spent_time: Трудозатраты
   label_start_to_end: с начала к концу
   label_start_to_start: с начала к началу
   label_statistics: Статистика
@@ -807,9 +807,9 @@ ru:
   permission_edit_time_entries: Редактирование учёта времени
   permission_edit_wiki_pages: Редактирование wiki-страниц
   permission_export_wiki_pages: Экспорт wiki-страниц
-  permission_log_time: Учёт затраченного времени
+  permission_log_time: Учёт трудозатрат
   permission_view_changesets: Просмотр изменений хранилища
-  permission_view_time_entries: Просмотр затраченного времени
+  permission_view_time_entries: Просмотр трудозатрат
   permission_manage_project_activities: Управление типами действий для проекта
   permission_manage_boards: Управление форумами
   permission_manage_categories: Управление категориями задач
@@ -901,7 +901,7 @@ ru:
   text_comma_separated: Допустимы несколько значений (через запятую).
   text_custom_field_possible_values_info: 'По одному значению в каждой строке'
   text_default_administrator_account_changed: Учётная запись администратора по умолчанию изменена
-  text_destroy_time_entries_question: "На эту задачу зарегистрировано %{hours} часа(ов) затраченного времени. Что Вы хотите предпринять?"
+  text_destroy_time_entries_question: "На эту задачу зарегистрировано %{hours} часа(ов) трудозатрат. Что Вы хотите предпринять?"
   text_destroy_time_entries: Удалить зарегистрированное время
   text_diff_truncated: '... Этот diff ограничен, так как превышает максимальный отображаемый размер.'
   text_email_delivery_not_configured: "Параметры работы с почтовым сервером не настроены и функция уведомления по email не активна.\nНастроить параметры для Вашего SMTP-сервера Вы можете в файле config/configuration.yml. Для применения изменений перезапустите приложение."
@@ -965,7 +965,7 @@ ru:
   label_group_plural: Группы
   label_group: Группа
   label_group_new: Новая группа
-  label_time_entry_plural: Затраченное время
+  label_time_entry_plural: Трудозатраты
   text_journal_added: "%{label} %{value} добавлен"
   field_active: Активно
   enumeration_system_activity: Системное
@@ -1024,7 +1024,7 @@ ru:
   text_zoom_out: Отдалить
   text_zoom_in: Приблизить
   notice_unable_delete_time_entry: Невозможно удалить запись журнала.
-  label_overall_spent_time: Всего затрачено времени
+  label_overall_spent_time: Всего трудозатрат
   label_user_mail_option_none: Нет событий
   field_member_of_group: Группа назначенного
   field_assigned_to_role: Роль назначенного
@@ -1048,8 +1048,8 @@ ru:
   button_collapse_all: Свернуть все
   label_additional_workflow_transitions_for_assignee: Дополнительные переходы, когда пользователь является исполнителем
   label_additional_workflow_transitions_for_author: Дополнительные переходы, когда пользователь является автором
-  label_bulk_edit_selected_time_entries: Массовое изменение выбранных записей затраченного времени
-  text_time_entries_destroy_confirmation: Вы уверены что хотите удалить выбранные записи затраченного времени?
+  label_bulk_edit_selected_time_entries: Массовое изменение выбранных записей трудозатрат
+  text_time_entries_destroy_confirmation: Вы уверены что хотите удалить выбранные трудозатраты?
   label_role_anonymous: Аноним
   label_role_non_member: Не участник
   label_issue_note_added: Примечание добавлено
@@ -1108,7 +1108,7 @@ ru:
   button_export: Экспорт
   label_export_options: "%{export_format} параметры экспорта"
   error_attachment_too_big: Этот файл нельзя загрузить из-за превышения максимального размера файла (%{max_size})
-  notice_failed_to_save_time_entries: "Невозможно сохранить %{count} затраченное время для %{total} выбранных: %{ids}."
+  notice_failed_to_save_time_entries: "Невозможно сохранить %{count} трудозатраты %{total} выбранных: %{ids}."
   label_x_issues:
     one:   "%{count} задача"
     few:   "%{count} задачи"
@@ -1247,16 +1247,15 @@ ru:
   setting_search_results_per_page: Количество найденных результатов на страницу
   label_blank_value: пусто
   permission_copy_issues: Копирование задач
-  error_password_expired: Your password has expired or the administrator requires you
-    to change it.
-  field_time_entries_visibility: Time logs visibility
-  setting_password_max_age: Require password change after
-  label_parent_task_attributes: Parent tasks attributes
-  label_parent_task_attributes_derived: Calculated from subtasks
-  label_parent_task_attributes_independent: Independent of subtasks
-  label_time_entries_visibility_all: All time entries
-  label_time_entries_visibility_own: Time entries created by the user
-  label_member_management: Member management
-  label_member_management_all_roles: All roles
-  label_member_management_selected_roles_only: Only these roles
-  label_password_required: Confirm your password to continue
+  error_password_expired: Время действия вашего пароля истекло или администратор потребовал сменить его.
+  field_time_entries_visibility: Видимость трудозатрат
+  setting_password_max_age: Требовать сменить пароль по истечении
+  label_parent_task_attributes: Атрибуты родительской задачи
+  label_parent_task_attributes_derived: С учётом подзадач
+  label_parent_task_attributes_independent: Без учёта подзадач
+  label_time_entries_visibility_all: Все трудозатраты
+  label_time_entries_visibility_own: Только собственные трудозатраты
+  label_member_management: Управление участниками
+  label_member_management_all_roles: Все роли
+  label_member_management_selected_roles_only: Только эти роли
+  label_password_required: Для продолжения введите свой пароль
