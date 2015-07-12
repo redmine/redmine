@@ -1224,29 +1224,29 @@ ru:
   label_radio_buttons: radio buttons
   label_group_anonymous: Анонимные пользователи
   label_group_non_member: Не участвующие пользователи
-  label_add_projects: Add projects
-  field_default_status: Default status
-  text_subversion_repository_note: 'Examples: file:///, http://, https://, svn://, svn+[tunnelscheme]://'
-  field_users_visibility: Users visibility
-  label_users_visibility_all: All active users
-  label_users_visibility_members_of_visible_projects: Members of visible projects
-  label_edit_attachments: Edit attached files
-  setting_link_copied_issue: Link issues on copy
-  label_link_copied_issue: Link copied issue
-  label_ask: Ask
-  label_search_attachments_yes: Search attachment filenames and descriptions
-  label_search_attachments_no: Do not search attachments
-  label_search_attachments_only: Search attachments only
-  label_search_open_issues_only: Open issues only
+  label_add_projects: Добавить проекты
+  field_default_status: Статус по умолчанию
+  text_subversion_repository_note: 'Например: file:///, http://, https://, svn://, svn+[tunnelscheme]://'
+  field_users_visibility: Видимость пользователей
+  label_users_visibility_all: Все активные пользователи
+  label_users_visibility_members_of_visible_projects: Участники видимых проектов
+  label_edit_attachments: Редактировать прикреплённые файлы
+  setting_link_copied_issue: Связывать задачи при копировании
+  label_link_copied_issue: Связать скопированную задачу
+  label_ask: Спросить
+  label_search_attachments_yes: Искать в именах прикреплённых файлов и описаниях
+  label_search_attachments_no: Не искать в прикреплениях
+  label_search_attachments_only: Искать только в прикреплённых файлах
+  label_search_open_issues_only: Только в открытых задачах
   field_address: Email
-  setting_max_additional_emails: Maximum number of additional email addresses
+  setting_max_additional_emails: Максимальное количество дополнительных email адресов
   label_email_address_plural: Emails
-  label_email_address_add: Add email address
-  label_enable_notifications: Enable notifications
-  label_disable_notifications: Disable notifications
-  setting_search_results_per_page: Search results per page
-  label_blank_value: blank
-  permission_copy_issues: Copy issues
+  label_email_address_add: Добавить email адрес
+  label_enable_notifications: Включить уведомления
+  label_disable_notifications: Выключить уведомления
+  setting_search_results_per_page: Количество найденных результатов на страницу
+  label_blank_value: пусто
+  permission_copy_issues: Копирование задач
   error_password_expired: Your password has expired or the administrator requires you
     to change it.
   field_time_entries_visibility: Time logs visibility
