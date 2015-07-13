@@ -9,7 +9,7 @@ http://www.redmine.org/
 
 * Ruby >= 1.9.3
 * RubyGems
-* Bundler >= 1.0.21
+* Bundler >= 1.5.0
 
 * A database:
   * MySQL (tested with MySQL 5.1)
