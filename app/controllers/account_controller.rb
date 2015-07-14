@@ -139,13 +139,8 @@ class AccountController < ApplicationController
           @user.password, @user.password_confirmation = user_params[:password], user_params[:password_confirmation]
         end
         
-        ##################
-        # CREATE SESSION #
-        ##################
-        initialiseGeppettoRedmineIP
-        
         #Geppetto register
-        geppettoRegisterURL = session[:geppettoIP] + "user?username=" + user_params[:login] + "&password=" + user_params[:password]
+        geppettoRegisterURL = Rails.application.config.serversIP["geppettoIP"] + "user?username=" + user_params[:login] + "&password=" + user_params[:password]
         begin
           geppettoRegisterContent = open(geppettoRegisterURL)
         rescue => e   

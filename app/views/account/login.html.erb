@@ -54,7 +54,7 @@ $('#loginButton').click(function(e){
     	$('form').trigger('submit');
 	});
 
-	$("#geppettoLogin").attr('src', "http://127.0.0.1:8080/org.geppetto.frontend/login?username=" + $('#username').val() + "&password=" + $('#password').val());
+	$("#geppettoLogin").attr('src', "<%= Rails.application.config.serversIP['geppettoIP']  %>login?username=" + $('#username').val() + "&password=" + $('#password').val());
 	
 	//FIXME Login should allow url to redirect
 	//$("#geppettoLogin").attr('src', "http://127.0.0.1:8080/org.geppetto.frontend/login?username=guest1&password=guest");

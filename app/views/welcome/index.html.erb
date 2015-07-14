@@ -89,7 +89,7 @@ Explore OSB
 <!-- CONTENT -->
 <div class="row-fluid">
 	<div class="span12" style="margin-bottom: 20px;">
-		<iframe id='geppettoDashboard' style='width:100%;height:550px;border:0px;' src='http://127.0.0.1:8080/org.geppetto.frontend/dashboard/'></iframe>
+		<iframe id='geppettoDashboard' style='width:100%;height:550px;border:0px;' src='<%= Rails.application.config.serversIP['geppettoIP']  %>'></iframe>
 	</div>
 	<div class="span8" style="margin-left: 0px;">
 		<% unless @events_by_day.empty? %>

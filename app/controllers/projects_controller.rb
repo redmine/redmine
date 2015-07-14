@@ -418,9 +418,9 @@ class ProjectsController < ApplicationController
       ##################
       # CREATE SESSION #
       ##################
-      initialiseGeppettoRedmineIP
-      serverIP = session[:serverIP];
-          
+      #initialiseGeppettoRedmineIP
+      #serverIP = session[:serverIP];
+      
       ##############################
       # CREATE ENTITY AND DOC TYPE #
       ##############################
@@ -507,7 +507,7 @@ class ProjectsController < ApplicationController
            "name" => filenameSplit[0] + " - " + filenameSplit[1],
            "status" => "DESIGN",
            "lastModified" => "1436102517799",
-           "script" => serverIP + geppettoTmpPath + @geppettoJsFilePath,
+           "script" => Rails.application.config.serversIP["serverIP"] + geppettoTmpPath + @geppettoJsFilePath,
            "aspectConfigurations"=> [
             {
               "id" => 1,
@@ -527,7 +527,7 @@ class ProjectsController < ApplicationController
              }]   
            }
         ],
-        "geppettoModel"=> { "id" => 1, "url" => serverIP + geppettoTmpPath + @geppettoModelFilePath, "type" => "GEPPETTO_PROJECT"}
+        "geppettoModel"=> { "id" => 1, "url" => Rails.application.config.serversIP["serverIP"] + geppettoTmpPath + @geppettoModelFilePath, "type" => "GEPPETTO_PROJECT"}
       }
       
       # Write file to disc and change permissions to allow access from Geppetto             
@@ -538,7 +538,7 @@ class ProjectsController < ApplicationController
       File.chmod(0644, publicResourcesPath + geppettoTmpPath + @geppettoModelFilePath)
       File.chmod(0644, publicResourcesPath + geppettoTmpPath + @geppettoJsFilePath)
         
-      geppettoSimulationFileObj = {"geppettoSimulationFile" => geppettoTmpPath + @geppettoSimulationFilePath,"serverIP" => session["serverIP"],"geppettoIP" => session["geppettoIP"]}
+      geppettoSimulationFileObj = {"geppettoSimulationFile" => geppettoTmpPath + @geppettoSimulationFilePath}
       render json: geppettoSimulationFileObj
   end  
 
