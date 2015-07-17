@@ -482,22 +482,6 @@ class ProjectsController < ApplicationController
       geppettoModelFile.sub! '$ENTER_MODEL_URL', url
       geppettoModelFile.sub! '$ENTER_ID', entity
 
-      ##############
-      # SIMULATION #
-      ##############
-      begin
-        modelContent = open(url, 'r', :read_timeout=>2)
-      rescue OpenURI::HTTPError
-         #print "Error requesting url: #{neuroelectroUrl}"
-      rescue => e   
-        #print "Error requesting url: #{neuroelectroUrl}"
-      else
-        targetComponent = /<network id="(\w*)\"/.match(modelContent.read)
-        if targetComponent
-          target = targetComponent.captures
-        end
-      end  
-      
       geppettoSimulationFile = {
         "id" => 1,
         "name" => filenameSplit[0] + " - " + filenameSplit[1],
@@ -508,27 +492,57 @@ class ProjectsController < ApplicationController
            "status" => "DESIGN",
            "lastModified" => "1436102517799",
            "script" => Rails.application.config.serversIP["serverIP"] + geppettoTmpPath + @geppettoJsFilePath,
-           "aspectConfigurations"=> [
-            {
-              "id" => 1,
-              "aspect" => {
-                    "id" => 1,
-                    "entityInstancePath" => entity,
-                    "aspect" => "electrical",
-                    "localInstancePath" => ""
-                },
-              "simulatorConfiguration" => {
-                    "id" => 1,
-                    "simulatorId" => "neuronSimulator",
-                    # "timestep" => 0.00001,
-                    # "length" => 0.3,
-                    "parameters" => {"target" => target[0]}
-              } 
-             }]   
+           "aspectConfigurations" => [
+              {
+                "id" => 1,
+                "aspect" => {
+                      "id" => 1,
+                      "entityInstancePath" => entity,
+                      "aspect" => "electrical",
+                      "localInstancePath" => ""
+                  } 
+               }] 
            }
         ],
         "geppettoModel"=> { "id" => 1, "url" => Rails.application.config.serversIP["serverIP"] + geppettoTmpPath + @geppettoModelFilePath, "type" => "GEPPETTO_PROJECT"}
       }
+      
+      ##############
+      # SIMULATION #
+      ##############
+      print "docType"
+      print docType
+      if docType == 'net' || docType == 'cell'
+        begin
+          modelContent = open(url, 'r', :read_timeout=>2)
+        rescue OpenURI::HTTPError
+           print "Error requesting modelContent: #{url}"
+        rescue => e   
+           print "Error requesting modelContent: #{url}"
+        else
+          target=""
+          
+          if docType == 'net'
+            targetComponent = /<network id="(\w*)\"/.match(modelContent.read)
+          elsif 
+            targetComponent = /<cell id="(\w*)\"/.match(modelContent.read)
+          end
+          
+          if targetComponent
+            target = targetComponent.captures
+          end    
+          
+          geppettoSimulationFile["experiments"][0]["aspectConfigurations"][0]["simulatorConfiguration"] = {
+                      "id" => 1,
+                      "simulatorId" => "neuronSimulator",
+                      "timestep" => 0.00001,
+                      "length" => 0.3,
+                      "parameters" => {"target" => target[0]}
+                } 
+        end 
+      end 
+      print "geppettoSimulationFile"
+      print geppettoSimulationFile.to_json
       
       # Write file to disc and change permissions to allow access from Geppetto             
       File.write(publicResourcesPath + geppettoTmpPath + @geppettoSimulationFilePath, geppettoSimulationFile.to_json)
