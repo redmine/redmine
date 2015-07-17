@@ -1973,20 +1973,5 @@ module ApplicationHelper
   def link_to_content_update(text, url_params = {}, html_options = {})
     link_to(text, url_params, html_options)
   end
-  
-  def generateGEPPETTOSimulationFile(url)
-      uri = URI.parse(url)
-      idName = File.basename(uri.path).split(".").first
-  
-      neuromlTemplate = File.read("#{Rails.root}/public/geppetto/neuromlTemplate.xml")
-      neuromlTemplate.sub! '$ENTER_MODEL_URL', url
-  #      neuromlTemplate.sub! '$ENTER_ID', idName
-      neuromlTemplate.sub! '$ENTER_ID', 'idName'
-      neuromlTemplate.sub! '$ENTER_SCRIPT_URL', 'http://127.0.0.1:3000/geppetto/geppettoScript.js'
-        
-      random_string = SecureRandom.hex
-      geppettoSimulationFile = "/geppetto/tmp/" + random_string + ".xml"; 
-      File.write("#{Rails.root}/public"+ @geppettoSimulationFile, neuromlTemplate)
-      return geppettoSimulationFile 
-  end  
+ 
 end

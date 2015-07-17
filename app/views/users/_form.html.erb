@@ -20,7 +20,6 @@
 	  <div class="control-group"><%= f.check_box :admin, :disabled => (@user == User.current) %></div>
 	  <%= call_hook(:view_users_form, :user => @user, :form => f) %>
 	</fieldset>
-	
 	<fieldset class="box tabular">
 	  <legend><%=l(:label_authentication)%></legend>
 	  <% unless @auth_sources.empty? %>

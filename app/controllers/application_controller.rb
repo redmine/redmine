@@ -630,5 +630,5 @@ class ApplicationController < ActionController::Base
     end
     return false
   end
-    
+  
 end

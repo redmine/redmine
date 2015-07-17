@@ -16,6 +16,8 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 require 'securerandom'
+require 'json'
+require 'date'
 
 class ProjectsController < ApplicationController
   menu_item :overview
@@ -161,70 +163,6 @@ class ProjectsController < ApplicationController
     
     render :layout => false
   end 
-  
-  # Lists visible projects
-#  def cells
-#    time1 = Time.now
-#    
-#    respond_to do |format|
-#      format.html {
-#        scope = Project
-#        unless params[:closed]
-#          scope = scope.active
-#        end
-#        @projects = scope.visible.order('lft').all
-#      }
-#    end
-#
-#    @modelProjects = []
-##    @showcaseProjects = []
-#    @galleryImages = []
-#    @tagsDict = Hash.new  
-#    for p in @projects
-#      if isEndorsed?(p)
-#        projectDescription = p.description
-#        firstLine = projectDescription.lines.first.chomp
-#        #This is for textile
-#        #if (firstLine.start_with?("!") and firstLine.end_with?("!"))
-#        #This is for markdown
-#        if (firstLine.start_with?("![]"))
-#          @galleryImages.push({:image => firstLine, :project => p})
-#        end
-#        category=getCustomField(p,'Category')
-#        if category=='Project'
-#          @modelProjects.push(p)
-##        elsif category=='Showcase'
-##          @showcaseProjects.push(p)
-#        end
-#        
-#        tags=getCustomField(p,'Tags')
-#        unless tags.nil?
-#          for tag in tags.split(",")
-#            ocurrences = 1
-#            if @tagsDict.has_key?(tag)
-#              ocurrences = @tagsDict[tag] + 1
-#            end
-#            @tagsDict[tag]=ocurrences
-#          end
-#        end  
-#      end
-#    end
-#    
-#    time2 = Time.now
-#    render :layout => false
-#    time3 = Time.now
-#    
-#    dif1 = (time2 - time1) * 1000
-#    dif2 = (time3 - time2) * 1000
-#    
-#    open("#{Rails.root}/config/times.yml", 'a') { |f|
-#      f.puts time1
-#      f.puts time2
-#      f.puts time3
-#      f.puts dif1
-#      f.puts dif2
-#    }
-#  end
 
   # Lists groups
   def groups
@@ -448,22 +386,6 @@ class ProjectsController < ApplicationController
     if params[:jump] && redirect_to_project_menu_item(@project, params[:jump])
       return
     end
-    
-#    if params[:explorer]
-#      url = params[:explorer]
-#      uri = URI.parse(url)
-#      idName = File.basename(uri.path).split(".").first
-#
-#      neuromlTemplate = File.read("#{Rails.root}/public/geppetto/neuromlTemplate.xml")
-#      neuromlTemplate.sub! '$ENTER_MODEL_URL', url
-##      neuromlTemplate.sub! '$ENTER_ID', idName
-#      neuromlTemplate.sub! '$ENTER_ID', 'idName'
-#      neuromlTemplate.sub! '$ENTER_SCRIPT_URL', 'http://127.0.0.1:3000/geppetto/geppettoScript.js'
-#        
-#      random_string = SecureRandom.hex
-#      @geppettoSimulationFile = "/geppetto/tmp/" + random_string + ".xml"; 
-#      File.write("#{Rails.root}/public"+ @geppettoSimulationFile, neuromlTemplate)
-#    end  
 
     @users_by_role = @project.users_by_role
     @subprojects = @project.children.visible.all
@@ -491,20 +413,13 @@ class ProjectsController < ApplicationController
       url = params[:explorer]
       uri = URI.parse(url)
       
-      publicResourcesPath = "#{Rails.root}/public/"
-      geppettoResourcesPath = "geppetto/";
-      geppettoTmpPath = "geppetto/tmp/"
-      simulationTemplates = "simulationTemplates/"
-      scripts = "scripts/"
-      controlPanels = "controlPanels/"
+      #Get Geppetto Projects for this User
+      # geppettoRegisterURL = "http://127.0.0.1:8080/org.geppetto.frontend/projectswithref?reference=" + 
       
-      if session[:geppettoIP].nil? || session[:geppettoIP].empty? || session[:geppettoIP] =="" 
-        props = YAML::load(File.open("#{Rails.root}/config/props.yml"))
-        session[:serverIP] = props["serverIP"]
-        session[:geppettoIP] = props["geppettoIP"]
-      end
-      serverIP = session[:serverIP];
-          
+      ##############################
+      # CREATE ENTITY AND DOC TYPE #
+      ##############################
+      #Read entity name and model type (cell,channel,synapse,cell) from url  
       filenameSplit = File.basename(uri.path).split(".")
       entity = filenameSplit[0]
       #FIXME: This a quick fix but actually we should check entity is valid js variable name
@@ -512,50 +427,125 @@ class ProjectsController < ApplicationController
         entity = "e" + entity
       end  
       docType = filenameSplit[1]
-            
-      geppettoSimulationFile = File.read(publicResourcesPath + geppettoResourcesPath + simulationTemplates + "neuromlTemplate.xml")
-#      geppettoSimulationFile = File.read(publicResourcesPath + geppettoResourcesPath + simulationTemplates + "lemsTemplate.xml")
+      
+      ########
+      # PATH #
+      ########
+      publicResourcesPath = "#{Rails.root}/public/"
+      geppettoResourcesPath = "geppetto/";
+      geppettoTmpPath = "geppetto/tmp/"
+      simulationTemplates = "simulationTemplates/"
+      scripts = "scripts/"
+      controlPanels = "controlPanels/"
+      
+      # Generate simulation and js file path
+      geppettoTmpSimulationFile = Tempfile.new([entity,".json"], publicResourcesPath + geppettoTmpPath);
+      @geppettoSimulationFilePath = File.basename(geppettoTmpSimulationFile.path)
+      geppettoTmpJsFile = Tempfile.new([entity,".js"], publicResourcesPath + geppettoTmpPath);
+      @geppettoJsFilePath = File.basename(geppettoTmpJsFile.path)
+      geppettoTmpModelFile = Tempfile.new([entity + "_MODEL",".xml"], publicResourcesPath + geppettoTmpPath);
+      @geppettoModelFilePath = File.basename(geppettoTmpModelFile.path)
+
+      ######################
+      # JS & CONTROL PANEL #
+      ######################
       if docType == 'net'
         geppettoJsFile = File.read(publicResourcesPath + geppettoResourcesPath + scripts + "osbNetworkScript.js")
-        geppettoJsonFile = File.read(publicResourcesPath + geppettoResourcesPath + controlPanels + "osbNetworkControlPanel.json")
+        geppettoControlPanelJsonFile = File.read(publicResourcesPath + geppettoResourcesPath + controlPanels + "osbNetworkControlPanel.json")
       elsif docType == 'channel'
         geppettoJsFile = File.read(publicResourcesPath + geppettoResourcesPath + scripts + "osbChannelScript.js")
       elsif docType == 'synapse'
         geppettoJsFile = File.read(publicResourcesPath + geppettoResourcesPath + scripts + "osbSynapseScript.js")
       elsif docType == 'cell'
         geppettoJsFile = File.read(publicResourcesPath + geppettoResourcesPath + scripts + "osbCellScript.js")
-        geppettoJsonFile = File.read(publicResourcesPath + geppettoResourcesPath + controlPanels + "osbCellControlPanel.json")
+        geppettoControlPanelJsonFile = File.read(publicResourcesPath + geppettoResourcesPath + controlPanels + "osbCellControlPanel.json")
       else
         geppettoJsFile = File.read(publicResourcesPath + geppettoResourcesPath + scripts + "osbGenericScript.js")  
       end
-
-      # Generate simulation and js file path
-      geppettoTmpSimulationFile = Tempfile.new([entity,".xml"], publicResourcesPath + geppettoTmpPath);
-      @geppettoSimulationFilePath = File.basename(geppettoTmpSimulationFile.path)
-      geppettoTmpJsFile = Tempfile.new([entity,".js"], publicResourcesPath + geppettoTmpPath);
-      @geppettoJsFilePath = File.basename(geppettoTmpJsFile.path)
          
-      # Parse simulation file      
-      geppettoSimulationFile.sub! '$ENTER_MODEL_URL', url
-      geppettoSimulationFile.sub! '$ENTER_ID', entity
-
-      geppettoSimulationFile.sub! '$ENTER_SCRIPT_URL', serverIP + geppettoTmpPath + @geppettoJsFilePath
-        
       # Parse js file
-      unless geppettoJsonFile.nil?
-        geppettoJsonFile.delete!("\r\n")
-        geppettoJsFile.gsub! '$CONTROL_PANEL', geppettoJsonFile
+      unless geppettoControlPanelJsonFile.nil?
+        geppettoControlPanelJsonFile.delete!("\r\n")
+        geppettoJsFile.gsub! '$CONTROL_PANEL', geppettoControlPanelJsonFile
       end
-      
       geppettoJsFile.gsub! '$ENTER_ID', entity
       
+      #########
+      # MODEL #
+      ######### 
+      geppettoModelFile = File.read(publicResourcesPath + geppettoResourcesPath + simulationTemplates + "neuromlTemplate.xml")    
+      geppettoModelFile.sub! '$ENTER_MODEL_URL', url
+      geppettoModelFile.sub! '$ENTER_ID', entity
+
+      geppettoSimulationFile = {
+        "id" => 1,
+        "name" => filenameSplit[0] + " - " + filenameSplit[1],
+        "activeExperimentId" => 1,
+        "experiments" => [{
+           "id" => 1,
+           "name" => filenameSplit[0] + " - " + filenameSplit[1],
+           "status" => (User.current.login == "")? "COMPLETED" : "DESIGN",
+           "creationDate" => DateTime.now.strftime('%Q'),
+           "lastModified" => DateTime.now.strftime('%Q'),
+           "script" => Rails.application.config.serversIP["serverIP"] + geppettoTmpPath + @geppettoJsFilePath,
+           "aspectConfigurations" => [
+              {
+                "id" => 1,
+                "aspect" => {
+                      "id" => 1,
+                      "entityInstancePath" => entity,
+                      "aspect" => "electrical",
+                      "localInstancePath" => ""
+                  } 
+               }] 
+           }
+        ],
+        "geppettoModel"=> { "id" => 1, "url" => Rails.application.config.serversIP["serverIP"] + geppettoTmpPath + @geppettoModelFilePath, "type" => "GEPPETTO_PROJECT"}
+      }
+      
+      ##############
+      # SIMULATION #
+      ##############
+      if (docType == 'net' || docType == 'cell') && User.current.login != ""
+         
+        begin
+          modelContent = open(url, 'r', :read_timeout=>2)
+        rescue OpenURI::HTTPError
+           print "Error requesting modelContent: #{url}"
+        rescue => e   
+           print "Error requesting modelContent: #{url}"
+        else
+          target=""
+          
+          if docType == 'net'
+            targetComponent = /<network id="(\w*)\"/.match(modelContent.read)
+          elsif 
+            targetComponent = /<cell id="(\w*)\"/.match(modelContent.read)
+          end
+          
+          if targetComponent
+            target = targetComponent.captures
+          end    
+          
+          geppettoSimulationFile["experiments"][0]["aspectConfigurations"][0]["simulatorConfiguration"] = {
+                "id" => 1,
+                "simulatorId" => "neuronSimulator",
+                "timestep" => 0.00001,
+                "length" => 0.3,
+                "parameters" => {"target" => target[0]}
+          } 
+        end 
+      end 
+      
       # Write file to disc and change permissions to allow access from Geppetto             
-      File.write(publicResourcesPath + geppettoTmpPath + @geppettoSimulationFilePath, geppettoSimulationFile)
+      File.write(publicResourcesPath + geppettoTmpPath + @geppettoSimulationFilePath, geppettoSimulationFile.to_json)
+      File.write(publicResourcesPath + geppettoTmpPath + @geppettoModelFilePath, geppettoModelFile)
       File.write(publicResourcesPath + geppettoTmpPath + @geppettoJsFilePath, geppettoJsFile)
       File.chmod(0644, publicResourcesPath + geppettoTmpPath + @geppettoSimulationFilePath)
+      File.chmod(0644, publicResourcesPath + geppettoTmpPath + @geppettoModelFilePath)
       File.chmod(0644, publicResourcesPath + geppettoTmpPath + @geppettoJsFilePath)
         
-      geppettoSimulationFileObj = {"geppettoSimulationFile" => geppettoTmpPath + @geppettoSimulationFilePath,"serverIP" => session["serverIP"],"geppettoIP" => session["geppettoIP"]}
+      geppettoSimulationFileObj = {"geppettoSimulationFile" => geppettoTmpPath + @geppettoSimulationFilePath}
       render json: geppettoSimulationFileObj
   end  
 
