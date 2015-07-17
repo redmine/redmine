@@ -138,16 +138,6 @@ class AccountController < ApplicationController
         unless user_params[:identity_url].present? && user_params[:password].blank? && user_params[:password_confirmation].blank?
           @user.password, @user.password_confirmation = user_params[:password], user_params[:password_confirmation]
         end
-        
-        #Geppetto register
-        geppettoRegisterURL = Rails.application.config.serversIP["geppettoIP"] + "user?username=" + user_params[:login] + "&password=" + user_params[:password]
-        begin
-          geppettoRegisterContent = open(geppettoRegisterURL)
-        rescue => e   
-          print "Error requesting url: #{geppettoRegisterURL}"
-        else
-          geppettoRegisterContent = JSON.parse(geppettoRegisterContent.read)
-        end
 
         case Setting.self_registration
         when '1'
@@ -156,6 +146,16 @@ class AccountController < ApplicationController
           register_automatically(@user)
         else
           register_manually_by_administrator(@user)
+        end
+        
+        #Geppetto register
+        geppettoRegisterURL = Rails.application.config.serversIP["geppettoIP"] + "user?username=" + @user.login + "&password=" + @user.hashed_password
+        begin
+          geppettoRegisterContent = open(geppettoRegisterURL)
+        rescue => e
+          print "Error requesting url: #{geppettoRegisterURL}"
+        else
+          geppettoRegisterContent = JSON.parse(geppettoRegisterContent.read)
         end
       end
     end
