@@ -234,18 +234,14 @@ function open3DExplorer(file)
 			jQuery("#osbexplorermessage").html("Your graphics card does not seem to support <a href='http://khronos.org/webgl/wiki/Getting_a_WebGL_Implementation'>WebGL</a>.<br />Find out how to get it <a href='http://get.webgl.org/'>here</a>.<br /><br /> You can also <a href='"+ decodedfile + "' target='_blank'>download the file</a> or <a href='"+ repoFilePath + "' target='_blank'>view the file content online</a>.");
 		}
 		else{
-			
 			$.ajax({
 			    url: "/projects/generateGEPPETTOSimulationFile?explorer=" + file,
 			    cache: false,
 			    success: function(json){
 			    	jQuery("#mainContent").hide();
-			    	//Read server ip from hidden component
-			    	var serverIP = json.serverIP;
-			    	var geppettoIP = json.geppettoIP;
 
-			    	//Iframe load
-					jQuery("#mainContent").before("<div id='3dbrowser'><div id='3dspacer' style='display: none;'><br/><br/><br/></div><a class='fullscreen btn icon-desktop' href='javascript:toggleFullScreen();'> Full Screen</a><iframe id='3dframe' style='width:100%' src='" + geppettoIP + "?sim=" + serverIP + json.geppettoSimulationFile + "'></iframe>");
+			    	//iframe load
+					jQuery("#mainContent").before("<div id='3dbrowser'><div id='3dspacer' style='display: none;'><br/><br/><br/></div><a class='fullscreen btn icon-desktop' href='javascript:toggleFullScreen();'> Full Screen</a><iframe id='3dframe' style='width:100%' src='" + $("#geppettoIP").val() + "geppetto?load_project_from_url=" + $("#serverIP").val() + json.geppettoSimulationFile + "'></iframe>");
 					document.getElementById('3dframe').onload = resizeIframe;
 					window.onresize = resizeIframe;
 			    }

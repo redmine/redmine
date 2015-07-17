@@ -13,6 +13,7 @@
 			<label class="control-label" for="password"><%= l(:field_password)%>:</label>
 			<div class="controls"><%= password_field_tag 'password', nil, :tabindex => '2' %></div>
 		</div>
+		
 		<% if Setting.openid? %>
 			<div class="control-group">
 				<label class="control-label" for="openid_url"><%= l(:field_identity_url)%></label>
@@ -23,7 +24,7 @@
 			<% if Setting.autologin? %> <label for="autologin"><%= check_box_tag 'autologin', 1, false, :tabindex => 4 %> <%= l(:label_stay_logged_in) %></label> <% end %>
 		</div>
 		<div class="control-group">
-			<div class="nolabelcontrols"><input type="submit" class="btn btn-large btn-success" name="login" value="<%= l(:button_login)%> &#187;" tabindex="5"/></div>
+			<div class="nolabelcontrols"><input type="submit" class="btn btn-large btn-success" id="loginButton" name="login" value="<%= l(:button_login)%> &#187;" tabindex="5"/></div>
 		</div>
 		<div class="control-group">
 			<% if Setting.lost_password? %>
@@ -41,3 +42,16 @@
 <% else %>
 <%= javascript_tag "$('#username').focus();" %>
 <% end %>
+
+<script>
+$('#loginButton').click(function(e){
+     e.preventDefault();
+     
+     //When the iframe loaded submit the form
+     $('#geppettoLogout').load(function(){
+    	$('form').trigger('submit');
+	});
+	$("#geppettoLogout").attr('src', "<%= Rails.application.config.serversIP['geppettoIP']  %>logout");
+	    
+});
+</script>

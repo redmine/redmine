@@ -1,0 +1,23 @@
+{
+	"sourcesdir":"../../",
+	"repos":[
+		
+		{
+			"name":"redmine",
+			"url":"https://github.com/OpenSourceBrain/redmine.git"
+		},
+		{
+			"name":"OSB_Videos",
+			"url":"https://github.com/OpenSourceBrain/OSB_Videos.git"
+		},
+		{
+			"name":"OSB_Documentation",
+			"url":"https://github.com/OpenSourceBrain/OSB_Documentation.git"
+		},
+		{
+			"name":"OSB_Status",
+			"url":"https://github.com/OpenSourceBrain/OSB_Status.git"
+		}
+		
+	]
+}

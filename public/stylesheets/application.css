@@ -1136,6 +1136,10 @@ div.splitcontentleft > h2 {
 	margin: 0 auto;
 }
 
+#twitterContainer iframe{
+	min-width: 100%;
+}
+
 .nmlfile a {
 	color: #718e00 !important;
 	font-weight: bold;

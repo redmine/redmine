@@ -15,6 +15,7 @@
 		<%= javascript_include_tag('bootstrap.min.js') %>
 		<%= javascript_include_tag('moment.min.js') %>
 		<%= javascript_include_tag('main.js') %>
+		<%= javascript_include_tag('Detector.js') %>
 		<%= stylesheet_link_tag 'bootstrap', :media => 'all' %>
 		<%= stylesheet_link_tag 'bootstrap-responsive', :media => 'all' %>
 		<%= stylesheet_link_tag 'font-awesome', :media => 'all' %>
@@ -38,9 +39,14 @@
 			        <div class="span5" id="osblogo" onclick="window.location.href='/';"></div>
 		            <% if User.current.logged? || !Setting.login_required? %>
 				    <div id="quick-search" class="span4">
+						<!-- Geppetto and server IP -->
+				        <%= hidden_field_tag("geppettoIP", Rails.application.config.serversIP["geppettoIP"]) %>
+				        <%= hidden_field_tag("serverIP", Rails.application.config.serversIP["serverIP"]) %>
+
 				        <%= form_tag({:controller => 'search', :action => 'index', :id => @project}, :method => :get ) do %>
 					        <%= hidden_field_tag(controller.default_search_scope, 1, :id => nil) if controller.default_search_scope %>
 					        <%= hidden_field_tag("projects", 1) %>
+					        
 					        <!--<%= link_to '<icon class="icon-question-sign"/>'.html_safe, {:controller => 'search', :action => 'index', :id => @project}, :accesskey => accesskey(:search) %>-->
 					        <%= text_field_tag 'q', @question, :size => 20, :class => 'small', :accesskey => accesskey(:quick_search) %>
 					        <a href="#" id="searchLink"><icon class="icon-search"/></a>
@@ -103,12 +109,12 @@
   							
 							<div class="navbar">
 								<div id="menucontainer" class="navbar-inner">
-									<a class="brand" href="#">OSB</a>
 									<% if display_main_menu?(@project) %>
 										<%= render_main_menu(@project) %>
 									<% end %>
 									<% if isAProject %>
 										<%= javascript_tag 'jQuery("#menucontainer > ul li:eq(0)").after("<li class=dropdown><a class=dropdown-toggle data-toggle=dropdown href=#><i class=icon-eye-open></i><strong> OSB 3D Explorer </strong><b class=caret></b></a><ul class=dropdown-menu id=explorermenu role=menu aria-labelledby=dropdownMenu></ul></li>");' %>
+										<%= javascript_tag 'jQuery("#menucontainer > ul li:eq(-2)").after("<li class=dropdown><a class=dropdown-toggle data-toggle=dropdown href=#> Other tools <b class=caret></b></a><ul class=dropdown-menu id=othertoolsmenu role=menu aria-labelledby=dropdownMenu></ul></li>");' %>
 									<% end %>
 								</div>
 							</div>
@@ -220,6 +226,43 @@
 	</body>
 </html>
 
+<iframe id='geppettoLogin' style='display:none;' src=''></iframe>
+<iframe id='geppettoLogout' style='display:none;' src=''></iframe>
+
+<script>
+var redmineLogin = "<%= User.current.login %>";
+var redmineHashed = "<%= User.current.hashed_password %>";
+jQuery(function()
+{
+	if (redmineLogin != ""){
+		$("#geppettoLogin").attr('src', "<%= Rails.application.config.serversIP['geppettoIP']  %>login?username=<%= User.current.login %>&password=<%= User.current.hashed_password %>");
+	}
+	else{
+		$("#geppettoLogin").attr('src', "<%= Rails.application.config.serversIP['geppettoIP']  %>login?username=osbanonymous&password=anonymous");
+	}
+})
+</script>
+<script>
+$('#logout_link').click(function(e){
+
+     //When the iframe loaded submit the form
+     $('#geppettoLogout').load(function(){
+      	$('#logout_link').unbind('click').click();
+	});
+	 
+	$("#geppettoLogout").attr('src', "<%= Rails.application.config.serversIP['geppettoIP']  %>logout");
+	return false;
+});
+</script>
+<script>
+jQuery(function()
+{
+	$('#menucontainer').find('.issues').parent().appendTo('#othertoolsmenu');
+	$('#menucontainer').find('.activity').parent().appendTo('#othertoolsmenu');
+	$('#menucontainer').find('.files').parent().appendTo('#othertoolsmenu');
+	$('#menucontainer').find('.repository').parent().appendTo('#othertoolsmenu');
+})	
+</script>
 <script>
 
 jQuery(function()

@@ -15,6 +15,8 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
+require 'open-uri'
+
 class AccountController < ApplicationController
   helper :custom_fields
   include CustomFieldsHelper
@@ -144,6 +146,16 @@ class AccountController < ApplicationController
           register_automatically(@user)
         else
           register_manually_by_administrator(@user)
+        end
+        
+        #Geppetto register
+        geppettoRegisterURL = Rails.application.config.serversIP["geppettoIP"] + "user?username=" + @user.login + "&password=" + @user.hashed_password
+        begin
+          geppettoRegisterContent = open(geppettoRegisterURL)
+        rescue => e
+          print "Error requesting url: #{geppettoRegisterURL}"
+        else
+          geppettoRegisterContent = JSON.parse(geppettoRegisterContent.read)
         end
       end
     end
