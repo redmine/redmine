@@ -510,8 +510,6 @@ class ProjectsController < ApplicationController
       ##############
       # SIMULATION #
       ##############
-      print "docType"
-      print docType
       if docType == 'net' || docType == 'cell'
         begin
           modelContent = open(url, 'r', :read_timeout=>2)
@@ -533,16 +531,14 @@ class ProjectsController < ApplicationController
           end    
           
           geppettoSimulationFile["experiments"][0]["aspectConfigurations"][0]["simulatorConfiguration"] = {
-                      "id" => 1,
-                      "simulatorId" => "neuronSimulator",
-                      "timestep" => 0.00001,
-                      "length" => 0.3,
-                      "parameters" => {"target" => target[0]}
-                } 
+                "id" => 1,
+                "simulatorId" => "neuronSimulator",
+                "timestep" => 0.00001,
+                "length" => 0.3,
+                "parameters" => {"target" => target[0]}
+          } 
         end 
       end 
-      print "geppettoSimulationFile"
-      print geppettoSimulationFile.to_json
       
       # Write file to disc and change permissions to allow access from Geppetto             
       File.write(publicResourcesPath + geppettoTmpPath + @geppettoSimulationFilePath, geppettoSimulationFile.to_json)
