@@ -17,6 +17,7 @@
 
 require 'securerandom'
 require 'json'
+require 'date'
 
 class ProjectsController < ApplicationController
   menu_item :overview
@@ -415,12 +416,6 @@ class ProjectsController < ApplicationController
       #Get Geppetto Projects for this User
       # geppettoRegisterURL = "http://127.0.0.1:8080/org.geppetto.frontend/projectswithref?reference=" + 
       
-      ##################
-      # CREATE SESSION #
-      ##################
-      #initialiseGeppettoRedmineIP
-      #serverIP = session[:serverIP];
-      
       ##############################
       # CREATE ENTITY AND DOC TYPE #
       ##############################
@@ -489,8 +484,9 @@ class ProjectsController < ApplicationController
         "experiments" => [{
            "id" => 1,
            "name" => filenameSplit[0] + " - " + filenameSplit[1],
-           "status" => "DESIGN",
-           "lastModified" => "1436102517799",
+           "status" => (User.current.login == "")? "COMPLETED" : "DESIGN",
+           "creationDate" => DateTime.now.strftime('%Q'),
+           "lastModified" => DateTime.now.strftime('%Q'),
            "script" => Rails.application.config.serversIP["serverIP"] + geppettoTmpPath + @geppettoJsFilePath,
            "aspectConfigurations" => [
               {
@@ -510,7 +506,8 @@ class ProjectsController < ApplicationController
       ##############
       # SIMULATION #
       ##############
-      if docType == 'net' || docType == 'cell'
+      if (docType == 'net' || docType == 'cell') && User.current.login != ""
+         
         begin
           modelContent = open(url, 'r', :read_timeout=>2)
         rescue OpenURI::HTTPError

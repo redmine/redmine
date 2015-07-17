@@ -237,6 +237,9 @@ jQuery(function()
 	if (redmineLogin != ""){
 		$("#geppettoLogin").attr('src', "<%= Rails.application.config.serversIP['geppettoIP']  %>login?username=<%= User.current.login %>&password=<%= User.current.hashed_password %>");
 	}
+	else{
+		$("#geppettoLogin").attr('src', "<%= Rails.application.config.serversIP['geppettoIP']  %>login?username=osbanonymous&password=anonymous");
+	}
 })
 </script>
 <script>

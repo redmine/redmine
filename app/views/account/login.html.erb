@@ -42,3 +42,16 @@
 <% else %>
 <%= javascript_tag "$('#username').focus();" %>
 <% end %>
+
+<script>
+$('#loginButton').click(function(e){
+     e.preventDefault();
+     
+     //When the iframe loaded submit the form
+     $('#geppettoLogout').load(function(){
+    	$('form').trigger('submit');
+	});
+	$("#geppettoLogout").attr('src', "<%= Rails.application.config.serversIP['geppettoIP']  %>logout");
+	    
+});
+</script>
