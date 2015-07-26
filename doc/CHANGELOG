@@ -4,6 +4,70 @@ Redmine - project management software
 Copyright (C) 2006-2015  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2015-07-26 v3.1.0
+
+* Defect #4334: "Watch"ing an issue doesn't update watchers list
+* Defect #13924: Error when using views/issues/index.api.rsb in a plugin
+* Defect #14881: Issue journals should be ordered by created_on, not id
+* Defect #15716: Scraped emails include CSS from HTML emails
+* Defect #19243: Ambiguous date format options (eg. 03/03/2015) in settings
+* Defect #19656: Activities do not correspont to project when adding time from my page.
+* Defect #19737: HTML Sanitizer not working for Outlook mails
+* Defect #19740: "Truncate emails after one of these lines" setting is not working
+* Defect #19995: Can't apply textile modifiers to 1 non-ASCII character
+* Defect #20141: Sync #wiki_format_provider plugin API shortcut with changes to Redmine::WikiFormatting.register from r12450 and r14313
+* Defect #20159: Disallow users to delete a version referenced by a custom field
+* Defect #20206: Members w/o view issues permission are able to list issues on public projects if the non member role has the permission
+* Defect #20372: Contents inside <pre> are not rendered as monospace font in Chrome for Mac
+* Feature #5418: Add Gravatar and edit link to "My account" page
+* Feature #5490: Option for independent subtask priority/start date/due date/done ratio
+* Feature #6118: Filter by parent task or subtasks
+* Feature #7037: CSV export encoding and excel. UTF-8 and BOM
+* Feature #8424: Add private issue option to receiving emails
+* Feature #8929: Permission to view only your own time logs
+* Feature #11253: Total time spent from subtasks on the issue list
+* Feature #12312: Raise 60-character limit for document titles
+* Feature #16373: TextFormatting help for Markdown formatting
+* Feature #16535: Set a max width to html email content
+* Feature #16962: Better handle html-only emails
+* Feature #19182: Patch to the Redmine Mail Handler for specifying a custom CA bundle
+* Feature #19458: Add the ability to expire passwords after a configurable number of days
+* Feature #19707: Ability to limit member management to certain roles
+* Feature #19851: Sudo mode: Require password re-entry for sensitive actions (optional)
+* Patch #5770: Welcome text misses wiki formatting
+* Patch #14402: Plugin migration directory should use plugin directory
+* Patch #19296: Include custom fields description in project settings and issue view
+* Patch #19339: Put news articles into <article> tags
+* Patch #19341: Put roadmap versions in <article> tags
+* Patch #19455: Replace manual query in version helper
+* Patch #19509: Change Japanese translation for field_login
+* Patch #19546: Change default display mode for PDF Export to OneColumn
+* Patch #19991: Japanese translation change
+* Patch #19993: Change csv separators of Spanish/Panama
+* Patch #20130: Bulgarian translation change
+* Patch #20174: Add missing member_role to fixtures
+* Patch #20180: Make the updateIssueFrom(url) function return the XMLHttpRequest object
+
+== 2015-07-07 v3.0.4
+
+* Defect #17757: Link with hash does not work on Firefox
+* Defect #19095: PDF is broken on iOS
+* Defect #19485: Column 'address' in where clause may be ambiguous
+* Defect #19815: Bulk issue copy copies subtasks and attachments even if option is unchecked
+* Defect #19835: Newlines stripped from CVS commit messages
+* Defect #19840: Missing validation for description size of versions
+* Defect #19842: User allowed to manage public queries in any project, can create public query visible to everyone for ALL projects
+* Defect #19844: Roles are not aligned on new member form
+* Defect #19956: Connection leak on svn/redmine integration
+* Defect #19957: acts_as_versioned not compatible with ActiveRecord 4.2.1
+* Defect #20066: List of groups sorted in desc by default
+* Defect #20118: Missing row in PDF if issue description contains '<'-character
+* Feature #19364: Images and Thumbnail are not interpreted in table while exporting PDF
+* Feature #20142: Update Gemfile to require rbpdf ~>1.18.6
+* Patch #19825: Russian translation update
+* Patch #20035: Italian translation update
+* Patch #20203: The test email action should use POST only (CSRF protection)
+
 == 2015-05-10 v3.0.3
 
 * Defect #18580: Can't bulk edit own time entries with "Edit own time entries"
