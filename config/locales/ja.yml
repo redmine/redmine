@@ -186,8 +186,8 @@ ja:
   notice_email_error: "メール送信中にエラーが発生しました (%{value})"
   notice_feeds_access_key_reseted: Atomアクセスキーを初期化しました。
   notice_api_access_key_reseted: APIアクセスキーを初期化しました。
-  notice_failed_to_save_issues: "全%{total}件中%{count}件のチケットが保存できませんでした: %{ids}."
-  notice_failed_to_save_members: "メンバーの保存に失敗しました: %{errors}."
+  notice_failed_to_save_issues: "全%{total}件中%{count}件のチケットが保存できませんでした: %{ids}。"
+  notice_failed_to_save_members: "メンバーの保存に失敗しました: %{errors}。"
   notice_no_issue_selected: "チケットが選択されていません! 更新対象のチケットを選択してください。"
   notice_account_pending: アカウントを作成しました。システム管理者の承認待ちです。
   notice_default_data_loaded: デフォルト設定をロードしました。
@@ -1024,7 +1024,7 @@ ja:
   button_export: エクスポート
   label_export_options: "%{export_format} エクスポート設定"
   error_attachment_too_big: このファイルはアップロードできません。添付ファイルサイズの上限(%{max_size})を超えています。
-  notice_failed_to_save_time_entries: "全%{total}件中%{count}件の作業時間が保存できませんでした: %{ids}."
+  notice_failed_to_save_time_entries: "全%{total}件中%{count}件の作業時間が保存できませんでした: %{ids}。"
   label_x_issues:
     zero:  0 チケット
     one:   1 チケット
