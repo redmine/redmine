@@ -267,7 +267,7 @@ tr:
   field_start_page: Başlangıç Sayfası
   field_subproject: Alt Proje
   field_hours: Saat
-  field_activity: Etkinlik
+  field_activity: Faaliyet
   field_spent_on: Tarih
   field_identifier: Tanımlayıcı
   field_is_filter: süzgeç olarak kullanılmış
@@ -310,7 +310,7 @@ tr:
   setting_protocol: Protokol
   setting_per_page_options: Sayfada başına öğe sayısı
   setting_user_format: Kullanıcı gösterim biçimi
-  setting_activity_days_default: Proje etkinliklerinde gösterilen gün sayısı
+  setting_activity_days_default: Proje faaliyetlerinde gösterilen gün sayısı
   setting_display_subprojects_issues: Varsayılan olarak ana projenin iş listesinde alt proje işlerini göster
 
   project_module_issue_tracking: İş Takibi
@@ -384,8 +384,8 @@ tr:
   label_assigned_to_me_issues: Bana atanmış işler
   label_last_login: Son bağlantı
   label_registered_on: Kayıt tarihi
-  label_activity: Etkinlik
-  label_overall_activity: Tüm etkinlikler
+  label_activity: Faaliyet
+  label_overall_activity: Tüm faaliyetler
   label_new: Yeni
   label_logged_as: "Kullanıcı :"
   label_environment: Çevre
@@ -799,7 +799,7 @@ tr:
   text_repository_usernames_mapping: "Redmine kullanıcı adlarını depo değişiklik kayıtlarındaki kullanıcı adlarıyla eşleştirin veya eşleştirmeleri güncelleyin.\nRedmine kullanıcı adları ile depo kullanıcı adları aynı olan kullanıcılar otomatik olarak eşlendirilecektir."
   permission_edit_own_messages: Kendi mesajlarını düzenleme
   permission_delete_own_messages: Kendi mesajlarını silme
-  label_user_activity: "%{value} kullanıcısının etkinlikleri"
+  label_user_activity: "%{value} kullanıcısının faaliyetleri"
   label_updated_time_by: "%{author} tarafından %{age} önce güncellendi"
   text_diff_truncated: '... Bu fark tam olarak gösterilemiyor çünkü gösterim için ayarlanmış üst sınırı aşıyor.'
   setting_diff_max_lines_displayed: Gösterilebilecek maksimumu fark satırı
@@ -850,7 +850,7 @@ tr:
   text_journal_deleted: "%{label} silindi (%{old})"
   text_journal_added: "%{label} %{value} eklendi"
   field_active: Etkin
-  enumeration_system_activity: Sistem Etkinlikleri
+  enumeration_system_activity: Sistem Faaliyetleri
   permission_delete_issue_watchers: İzleyicileri sil
   version_status_closed: kapalı
   version_status_locked: kilitli
@@ -902,7 +902,7 @@ tr:
   label_board_locked: Kilitli
   permission_export_wiki_pages: Wiki sayfalarını dışarı aktar
   setting_cache_formatted_text: Biçimlendirilmiş metni önbelleğe al
-  permission_manage_project_activities: Proje etkinliklerini yönetme
+  permission_manage_project_activities: Proje faaliyetlerini yönetme
   error_unable_delete_issue_status: İş durumu silinemiyor
   label_profile: Profil
   permission_manage_subtasks: Alt işleri yönetme
@@ -937,7 +937,7 @@ tr:
   label_user_search: "Kullanıcı ara:"
   field_visible: Görünür
   setting_emails_header: "E-Posta başlığı"
-  setting_commit_logtime_activity_id: Kaydedilen zaman için etkinlik
+  setting_commit_logtime_activity_id: Kaydedilen zaman için faaliyet
   text_time_logged_by_changeset: Değişiklik uygulandı %{value}.
   setting_commit_logtime_enabled: Zaman kaydını etkinleştir
   notice_gantt_chart_truncated: Görüntülenebilir öğelerin sayısını aştığı için tablo kısaltıldı (%{max})
