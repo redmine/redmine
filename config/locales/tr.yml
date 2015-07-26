@@ -1109,24 +1109,24 @@ tr:
     farklı olmalı
   setting_mail_handler_excluded_filenames: Dosya adı belirtilen ekleri hariç tut
   text_convert_available: ImageMagick dönüştürmesi kullanılabilir (isteğe bağlı)
-  label_link: Link
-  label_only: only
-  label_drop_down_list: drop-down list
-  label_checkboxes: checkboxes
-  label_link_values_to: Link values to URL
-  setting_force_default_language_for_anonymous: Force default language for anonymous
-    users
-  setting_force_default_language_for_loggedin: Force default language for logged-in
-    users
-  label_custom_field_select_type: Select the type of object to which the custom field
-    is to be attached
-  label_issue_assigned_to_updated: Assignee updated
-  label_check_for_updates: Check for updates
-  label_latest_compatible_version: Latest compatible version
-  label_unknown_plugin: Unknown plugin
-  label_radio_buttons: radio buttons
-  label_group_anonymous: Anonymous users
-  label_group_non_member: Non member users
+  label_link: Bağlantı
+  label_only: sadece
+  label_drop_down_list: seçme listesi
+  label_checkboxes: kutucuk
+  label_link_values_to: Değerleri URLye bağla
+  setting_force_default_language_for_anonymous: Anonim kullanıcılar için zorunlu dil
+    seç
+  setting_force_default_language_for_loggedin: Giriş yapmış kullanıcılar için zorunlu dil
+    seç
+  label_custom_field_select_type: Özel alanın bağlı olacağı obje tipini
+    seçin
+  label_issue_assigned_to_updated: Atanan güncellendi
+  label_check_for_updates: Güncellemeleri kontrol et
+  label_latest_compatible_version: Son uyumlul sürüm
+  label_unknown_plugin: Bilinmeyen eklenti
+  label_radio_buttons: radyo butonları
+  label_group_anonymous: Anonim kullanıcı
+  label_group_non_member: Üye olmayan kullanıcılar
   label_add_projects: Add projects
   field_default_status: Default status
   text_subversion_repository_note: 'Examples: file:///, http://, https://, svn://, svn+[tunnelscheme]://'
