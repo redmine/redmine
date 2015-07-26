@@ -479,7 +479,7 @@ ja:
   label_issue: チケット
   label_issue_new: 新しいチケット
   label_issue_plural: チケット
-  label_issue_view_all: すべてのチケットを見る
+  label_issue_view_all: すべてのチケットを表示
   label_issues_by: "%{value} 別のチケット"
   label_issue_added: チケットの追加
   label_issue_updated: チケットの更新
@@ -565,7 +565,7 @@ ja:
   label_news_new: ニュースを追加
   label_news_plural: ニュース
   label_news_latest: 最新ニュース
-  label_news_view_all: すべてのニュースを見る
+  label_news_view_all: すべてのニュースを表示
   label_news_added: ニュースの追加
   label_news_comment_added: ニュースへのコメント追加
   label_settings: 設定
@@ -611,7 +611,7 @@ ja:
   label_gantt: ガントチャート
   label_internal: 内部
   label_last_changes: "最新の変更 %{count}件"
-  label_change_view_all: すべての変更を見る
+  label_change_view_all: すべての変更を表示
   label_personalize_page: このページをパーソナライズする
   label_comment: コメント
   label_comment_plural: コメント
@@ -667,8 +667,8 @@ ja:
   label_deleted: 削除
   label_latest_revision: 最新リビジョン
   label_latest_revision_plural: 最新リビジョン
-  label_view_revisions: リビジョンを見る
-  label_view_all_revisions: すべてのリビジョンを見る
+  label_view_revisions: リビジョンを表示
+  label_view_all_revisions: すべてのリビジョンを表示
   label_max_size: サイズの上限
   label_sort_highest: 一番上へ
   label_sort_higher: 上へ
@@ -703,7 +703,7 @@ ja:
   label_commits_per_month: 月別のコミット
   label_commits_per_author: 起票者別のコミット
   label_diff: 差分
-  label_view_diff: 差分を見る
+  label_view_diff: 差分を表示
   label_diff_inline: インライン
   label_diff_side_by_side: 横に並べる
   label_options: オプション
