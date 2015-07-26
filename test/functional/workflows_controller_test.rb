@@ -61,6 +61,16 @@ class WorkflowsControllerTest < ActionController::TestCase
     assert_select 'input[type=checkbox][name=?]', 'transitions[1][1][always]', 0
   end
 
+  def test_get_edit_should_include_allowed_statuses_for_new_issues
+    WorkflowTransition.delete_all
+    WorkflowTransition.create!(:role_id => 1, :tracker_id => 1, :old_status_id => 0, :new_status_id => 1)
+
+    get :edit, :role_id => 1, :tracker_id => 1
+    assert_response :success
+    assert_select 'td', 'New issue'
+    assert_select 'input[type=checkbox][name=?][value="1"][checked=checked]', 'transitions[0][1][always]'
+  end
+
   def test_get_edit_with_all_roles_and_all_trackers
     get :edit, :role_id => 'all', :tracker_id => 'all'
     assert_response :success
@@ -94,6 +104,20 @@ class WorkflowsControllerTest < ActionController::TestCase
     assert_equal 3, WorkflowTransition.where(:tracker_id => 1, :role_id => 2).count
     assert_not_nil  WorkflowTransition.where(:role_id => 2, :tracker_id => 1, :old_status_id => 3, :new_status_id => 2).first
     assert_nil      WorkflowTransition.where(:role_id => 2, :tracker_id => 1, :old_status_id => 5, :new_status_id => 4).first
+  end
+
+  def test_post_edit_with_allowed_statuses_for_new_issues
+    WorkflowTransition.delete_all
+
+    post :edit, :role_id => 2, :tracker_id => 1,
+      :transitions => {
+        '0' => {'1' => {'always' => '1'}, '2' => {'always' => '1'}}
+      }
+    assert_response 302
+
+    assert WorkflowTransition.where(:role_id => 2, :tracker_id => 1, :old_status_id => 0, :new_status_id => 1).any?
+    assert WorkflowTransition.where(:role_id => 2, :tracker_id => 1, :old_status_id => 0, :new_status_id => 2).any?
+    assert_equal 2, WorkflowTransition.where(:tracker_id => 1, :role_id => 2).count
   end
 
   def test_post_edit_with_additional_transitions

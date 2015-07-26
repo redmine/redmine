@@ -45,28 +45,18 @@ class IssueStatus < ActiveRecord::Base
   end
 
   # Returns an array of all statuses the given role can switch to
-  # Uses association cache when called more than one time
   def new_statuses_allowed_to(roles, tracker, author=false, assignee=false)
-    if roles && tracker
-      role_ids = roles.collect(&:id)
-      transitions = workflows.select do |w|
-        role_ids.include?(w.role_id) &&
-        w.tracker_id == tracker.id &&
-        ((!w.author && !w.assignee) || (author && w.author) || (assignee && w.assignee))
-      end
-      transitions.map(&:new_status).compact.sort
-    else
-      []
-    end
+    self.class.new_statuses_allowed(self, roles, tracker, author, assignee)
   end
+  alias :find_new_statuses_allowed_to :new_statuses_allowed_to
 
-  # Same thing as above but uses a database query
-  # More efficient than the previous method if called just once
-  def find_new_statuses_allowed_to(roles, tracker, author=false, assignee=false)
+  def self.new_statuses_allowed(status, roles, tracker, author=false, assignee=false)
     if roles.present? && tracker
+      status_id = status.try(:id) || 0
+
       scope = IssueStatus.
         joins(:workflow_transitions_as_new_status).
-        where(:workflows => {:old_status_id => id, :role_id => roles.map(&:id), :tracker_id => tracker.id})
+        where(:workflows => {:old_status_id => status_id, :role_id => roles.map(&:id), :tracker_id => tracker.id})
 
       unless author && assignee
         if author || assignee

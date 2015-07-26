@@ -465,10 +465,14 @@ class Issue < ActiveRecord::Base
       self.tracker ||= project.trackers.first
     end
 
+    statuses_allowed = new_statuses_allowed_to(user)
     if (s = attrs.delete('status_id')) && safe_attribute?('status_id')
-      if new_statuses_allowed_to(user).collect(&:id).include?(s.to_i)
+      if statuses_allowed.collect(&:id).include?(s.to_i)
         self.status_id = s
       end
+    end
+    if new_record? && !statuses_allowed.include?(status)
+      self.status = statuses_allowed.first || default_status
     end
 
     attrs = delete_unsafe_attributes(attrs, user)
@@ -825,7 +829,7 @@ class Issue < ActiveRecord::Base
     else
       initial_status = nil
       if new_record?
-        initial_status = default_status
+        # nop
       elsif tracker_id_changed?
         if Tracker.where(:id => tracker_id_was, :default_status_id => status_id_was).any?
           initial_status = default_status
@@ -843,16 +847,15 @@ class Issue < ActiveRecord::Base
         (user.id == initial_assigned_to_id || user.group_ids.include?(initial_assigned_to_id))
 
       statuses = []
-      if initial_status
-        statuses += initial_status.find_new_statuses_allowed_to(
-          user.admin ? Role.all.to_a : user.roles_for_project(project),
-          tracker,
-          author == user,
-          assignee_transitions_allowed
-          )
-      end
+      statuses += IssueStatus.new_statuses_allowed(
+        initial_status,
+        user.admin ? Role.all.to_a : user.roles_for_project(project),
+        tracker,
+        author == user,
+        assignee_transitions_allowed
+      )
       statuses << initial_status unless statuses.empty?
-      statuses << default_status if include_default
+      statuses << default_status if include_default || (new_record? && statuses.empty?)
       statuses = statuses.compact.uniq.sort
       if blocked?
         statuses.reject!(&:is_closed?)

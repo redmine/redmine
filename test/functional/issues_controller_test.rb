@@ -1602,6 +1602,37 @@ class IssuesControllerTest < ActionController::TestCase
     assert_select 'input[name=was_default_status][value="1"]'
   end
 
+  def test_new_should_propose_allowed_statuses
+    WorkflowTransition.delete_all
+    WorkflowTransition.create!(:tracker_id => 1, :role_id => 1, :old_status_id => 0, :new_status_id => 1)
+    WorkflowTransition.create!(:tracker_id => 1, :role_id => 1, :old_status_id => 0, :new_status_id => 3)
+    @request.session[:user_id] = 2
+
+    get :new, :project_id => 1
+    assert_response :success
+    assert_select 'select[name=?]', 'issue[status_id]' do
+      assert_select 'option[value="1"]'
+      assert_select 'option[value="3"]'
+      assert_select 'option', 2
+      assert_select 'option[value="1"][selected=selected]'
+    end
+  end
+
+  def test_new_should_propose_allowed_statuses_without_default_status_allowed
+    WorkflowTransition.delete_all
+    WorkflowTransition.create!(:tracker_id => 1, :role_id => 1, :old_status_id => 0, :new_status_id => 2)
+    assert_equal 1, Tracker.find(1).default_status_id
+    @request.session[:user_id] = 2
+
+    get :new, :project_id => 1
+    assert_response :success
+    assert_select 'select[name=?]', 'issue[status_id]' do
+      assert_select 'option[value="2"]'
+      assert_select 'option', 1
+      assert_select 'option[value="2"][selected=selected]'
+    end
+  end
+
   def test_get_new_with_list_custom_field
     @request.session[:user_id] = 2
     get :new, :project_id => 1, :tracker_id => 1
@@ -1827,8 +1858,8 @@ class IssuesControllerTest < ActionController::TestCase
   def test_update_form_for_new_issue_should_propose_transitions_based_on_initial_status
     @request.session[:user_id] = 2
     WorkflowTransition.delete_all
-    WorkflowTransition.create!(:role_id => 1, :tracker_id => 1, :old_status_id => 1, :new_status_id => 2)
-    WorkflowTransition.create!(:role_id => 1, :tracker_id => 1, :old_status_id => 1, :new_status_id => 5)
+    WorkflowTransition.create!(:role_id => 1, :tracker_id => 1, :old_status_id => 0, :new_status_id => 2)
+    WorkflowTransition.create!(:role_id => 1, :tracker_id => 1, :old_status_id => 0, :new_status_id => 5)
     WorkflowTransition.create!(:role_id => 1, :tracker_id => 1, :old_status_id => 5, :new_status_id => 4)
 
     xhr :post, :new, :project_id => 1,
@@ -1837,7 +1868,7 @@ class IssuesControllerTest < ActionController::TestCase
                                 :subject => 'This is an issue'}
 
     assert_equal 5, assigns(:issue).status_id
-    assert_equal [1,2,5], assigns(:allowed_statuses).map(&:id).sort
+    assert_equal [2,5], assigns(:allowed_statuses).map(&:id).sort
   end
 
   def test_update_form_with_default_status_should_ignore_submitted_status_id_if_equals

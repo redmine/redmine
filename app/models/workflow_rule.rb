@@ -23,7 +23,7 @@ class WorkflowRule < ActiveRecord::Base
   belongs_to :old_status, :class_name => 'IssueStatus'
   belongs_to :new_status, :class_name => 'IssueStatus'
 
-  validates_presence_of :role, :tracker, :old_status
+  validates_presence_of :role, :tracker
   attr_protected :id
 
   # Copies workflows from source to targets

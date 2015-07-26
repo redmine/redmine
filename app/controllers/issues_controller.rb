@@ -427,12 +427,12 @@ class IssuesController < ApplicationController
     @issue.author ||= User.current
     @issue.start_date ||= Date.today if Setting.default_issue_start_date_to_creation_date?
 
-    if attrs = params[:issue].deep_dup
-      if action_name == 'new' && params[:was_default_status] == attrs[:status_id]
-        attrs.delete(:status_id)
-      end
-      @issue.safe_attributes = attrs
+    attrs = (params[:issue] || {}).deep_dup
+    if action_name == 'new' && params[:was_default_status] == attrs[:status_id]
+      attrs.delete(:status_id)
     end
+    @issue.safe_attributes = attrs
+
     if @issue.project
       @issue.tracker ||= @issue.project.trackers.first
       if @issue.tracker.nil?
@@ -446,7 +446,7 @@ class IssuesController < ApplicationController
     end
 
     @priorities = IssuePriority.active
-    @allowed_statuses = @issue.new_statuses_allowed_to(User.current, @issue.new_record?)
+    @allowed_statuses = @issue.new_statuses_allowed_to(User.current)
   end
 
   def parse_params_for_bulk_issue_attributes(params)

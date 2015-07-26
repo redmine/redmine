@@ -43,7 +43,9 @@ class WorkflowsController < ApplicationController
     end
 
     if @trackers && @roles && @statuses.any?
-      workflows = WorkflowTransition.where(:role_id => @roles.map(&:id), :tracker_id => @trackers.map(&:id))
+      workflows = WorkflowTransition.
+        where(:role_id => @roles.map(&:id), :tracker_id => @trackers.map(&:id)).
+        preload(:old_status, :new_status)
       @workflows = {}
       @workflows['always'] = workflows.select {|w| !w.author && !w.assignee}
       @workflows['author'] = workflows.select {|w| w.author}
