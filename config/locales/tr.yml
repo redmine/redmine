@@ -1150,16 +1150,16 @@ tr:
   setting_search_results_per_page: Sayfa başına arama sonucu sayısı
   label_blank_value: boş
   permission_copy_issues: İşleri kopyala
-  error_password_expired: Your password has expired or the administrator requires you
-    to change it.
-  field_time_entries_visibility: Time logs visibility
-  setting_password_max_age: Require password change after
-  label_parent_task_attributes: Parent tasks attributes
-  label_parent_task_attributes_derived: Calculated from subtasks
-  label_parent_task_attributes_independent: Independent of subtasks
-  label_time_entries_visibility_all: All time entries
-  label_time_entries_visibility_own: Time entries created by the user
-  label_member_management: Member management
-  label_member_management_all_roles: All roles
-  label_member_management_selected_roles_only: Only these roles
-  label_password_required: Confirm your password to continue
+  error_password_expired: Parolanızın süresi dolmuş veya yönetici parolanızı değiştirmenizi
+    talep etmiş.
+  field_time_entries_visibility: Zaman kaydı görünürlüğü
+  setting_password_max_age: Bu kadar zaman sonra şifre dğiştirmeye zorla
+  label_parent_task_attributes: Üst iş özellikleri
+  label_parent_task_attributes_derived: Alt işlerden hesalanır
+  label_parent_task_attributes_independent: Alt işlerden bağımsız
+  label_time_entries_visibility_all: Tüm zaman kayıtları
+  label_time_entries_visibility_own: Kullanıcı tarafında yaratılmış zaman kayıtları
+  label_member_management: Üye yönetimi
+  label_member_management_all_roles: Tüm roller
+  label_member_management_selected_roles_only: Sadece bu roller
+  label_password_required: Devam etmek için şifrenizi doğrulayın
