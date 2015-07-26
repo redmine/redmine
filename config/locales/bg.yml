@@ -751,6 +751,7 @@ bg:
   label_changes_details: Подробни промени
   label_issue_tracking: Тракинг
   label_spent_time: Отделено време
+  label_total_spent_time: Общо употребено време
   label_overall_spent_time: Общо употребено време
   label_f_hour: "%{value} час"
   label_f_hour_plural: "%{value} часа"
@@ -1147,4 +1148,3 @@ bg:
   description_date_from: Въведете начална дата
   description_date_to: Въведете крайна дата
   text_repository_identifier_info: 'Позволени са малки букви (a-z), цифри, тирета и _.<br />Промяна след създаването му не е възможна.'
-  label_total_spent_time: Общо употребено време
