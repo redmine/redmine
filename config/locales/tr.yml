@@ -1127,26 +1127,26 @@ tr:
   label_radio_buttons: radyo butonları
   label_group_anonymous: Anonim kullanıcı
   label_group_non_member: Üye olmayan kullanıcılar
-  label_add_projects: Add projects
-  field_default_status: Default status
-  text_subversion_repository_note: 'Examples: file:///, http://, https://, svn://, svn+[tunnelscheme]://'
-  field_users_visibility: Users visibility
-  label_users_visibility_all: All active users
-  label_users_visibility_members_of_visible_projects: Members of visible projects
-  label_edit_attachments: Edit attached files
-  setting_link_copied_issue: Link issues on copy
-  label_link_copied_issue: Link copied issue
-  label_ask: Ask
-  label_search_attachments_yes: Search attachment filenames and descriptions
-  label_search_attachments_no: Do not search attachments
-  label_search_attachments_only: Search attachments only
-  label_search_open_issues_only: Open issues only
+  label_add_projects: Proje ekle
+  field_default_status: Öntanımlı durum
+  text_subversion_repository_note: 'Örnek: file:///, http://, https://, svn://, svn+[tünelmetodu]://'
+  field_users_visibility: Kullanıcı görünürlüğü
+  label_users_visibility_all: Tüm aktif kullanıcılar
+  label_users_visibility_members_of_visible_projects: Görünür projelerin kullanıcıları
+  label_edit_attachments: Ekli dosyaları düzenle
+  setting_link_copied_issue: Kopyalamada işleri ilişkilendir
+  label_link_copied_issue: Kopyalanmış iş ile ilişkilendir
+  label_ask: Sor
+  label_search_attachments_yes: Ekli dosyalarada ve açıklamalarında arama yap
+  label_search_attachments_no: Ekler içinde arama yapma
+  label_search_attachments_only: Sadece ekleri ara
+  label_search_open_issues_only: Sadece açık işler
   field_address: E-Posta
-  setting_max_additional_emails: Maximum number of additional email addresses
-  label_email_address_plural: Emails
-  label_email_address_add: Add email address
-  label_enable_notifications: Enable notifications
-  label_disable_notifications: Disable notifications
-  setting_search_results_per_page: Search results per page
-  label_blank_value: blank
-  permission_copy_issues: Copy issues
+  setting_max_additional_emails: Maksimum ek e-posta adresleri
+  label_email_address_plural: E-postalar
+  label_email_address_add: E-posta adresi ekle
+  label_enable_notifications: Bildirimleri aç
+  label_disable_notifications: Bildirimleri kapat
+  setting_search_results_per_page: Sayfa başına arama sonucu sayısı
+  label_blank_value: boş
+  permission_copy_issues: İşleri kopyala
