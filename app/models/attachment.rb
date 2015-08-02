@@ -294,7 +294,7 @@ class Attachment < ActiveRecord::Base
 
   def self.latest_attach(attachments, filename)
     attachments.sort_by(&:created_on).reverse.detect do |att|
-      att.filename.downcase == filename.downcase
+      filename.casecmp(att.filename) == 0
     end
   end
 
