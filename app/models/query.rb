@@ -779,14 +779,20 @@ class Query < ActiveRecord::Base
       date = Date.today
       sql = date_clause(db_table, db_field, date.beginning_of_year, date.end_of_year, is_custom_filter)
     when "~"
-      sql = "LOWER(#{db_table}.#{db_field}) LIKE '%#{self.class.connection.quote_string(value.first.to_s.downcase)}%'"
+      sql = sql_contains("#{db_table}.#{db_field}", value.first)
     when "!~"
-      sql = "LOWER(#{db_table}.#{db_field}) NOT LIKE '%#{self.class.connection.quote_string(value.first.to_s.downcase)}%'"
+      sql = sql_contains("#{db_table}.#{db_field}", value.first, false)
     else
       raise "Unknown query operator #{operator}"
     end
 
     return sql
+  end
+
+  # Returns a SQL LIKE statement with wildcards
+  def sql_contains(db_field, value, match=true)
+    value = "'%#{self.class.connection.quote_string(value.to_s)}%'"
+    Redmine::Database.like(db_field, value, :match => match)
   end
 
   # Adds a filter for the given custom field

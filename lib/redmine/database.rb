@@ -44,6 +44,21 @@ module Redmine
         end
       end
 
+      # Returns a SQL statement for case/accent (if possible) insensitive match
+      def like(left, right, options={})
+        neg = (options[:match] == false ? 'NOT ' : '')
+
+        if postgresql?
+          if postgresql_unaccent?
+            "unaccent(#{left}) #{neg}ILIKE unaccent(#{right})"
+          else
+            "#{left} #{neg}ILIKE #{right}"
+          end
+        else
+          "#{left} #{neg}LIKE #{right}"
+        end
+      end
+
       # Resets database information
       def reset
         @postgresql_unaccent = nil

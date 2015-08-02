@@ -592,12 +592,22 @@ class QueryTest < ActiveSupport::TestCase
   end
 
   def test_operator_contains
-    query = IssueQuery.new(:project => Project.find(1), :name => '_')
-    query.add_filter('subject', '~', ['uNable'])
-    assert query.statement.include?("LOWER(#{Issue.table_name}.subject) LIKE '%unable%'")
+    issue = Issue.generate!(:subject => 'AbCdEfG')
+
+    query = IssueQuery.new(:name => '_')
+    query.add_filter('subject', '~', ['cdeF'])
     result = find_issues_with_query(query)
-    assert result.empty?
-    result.each {|issue| assert issue.subject.downcase.include?('unable') }
+    assert_include issue, result
+    result.each {|issue| assert issue.subject.downcase.include?('cdef') }
+  end
+
+  def test_operator_does_not_contain
+    issue = Issue.generate!(:subject => 'AbCdEfG')
+
+    query = IssueQuery.new(:name => '_')
+    query.add_filter('subject', '!~', ['cdeF'])
+    result = find_issues_with_query(query)
+    assert_not_include issue, result
   end
 
   def test_range_for_this_week_with_week_starting_on_monday
@@ -623,13 +633,6 @@ class QueryTest < ActiveSupport::TestCase
     query.add_filter('due_date', 'w', [''])
     assert_match /issues\.due_date > '#{quoted_date "2011-04-23"} 23:59:59(\.\d+)?' AND issues\.due_date <= '#{quoted_date "2011-04-30"} 23:59:59(\.\d+)?/,
       query.statement
-  end
-
-  def test_operator_does_not_contains
-    query = IssueQuery.new(:project => Project.find(1), :name => '_')
-    query.add_filter('subject', '!~', ['uNable'])
-    assert query.statement.include?("LOWER(#{Issue.table_name}.subject) NOT LIKE '%unable%'")
-    find_issues_with_query(query)
   end
 
   def test_filter_assigned_to_me
