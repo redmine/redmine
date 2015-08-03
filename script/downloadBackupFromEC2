@@ -1,0 +1,10 @@
+#!/bin/bash
+#
+# This script copies a file from a EC2 instance
+#
+# To generate a crontab for it you can type something like:
+# crontab -e
+# 0 14 * * * /home/ec2-user/redmine/script/downloadBackupFromEC2 
+# crontab -l
+
+scp -i osbec2key.pem ec2-user@184.72.223.204:/home/ec2-user/osbDBBackup/redmine_`date +%y_%m_%d`.gz [local_folder]
