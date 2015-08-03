@@ -1,0 +1,11 @@
+#!/bin/bash
+#
+# This script creates a db backup and generates a gz file
+#
+# To generate a crontab for it you can type something like:
+# crontab -e
+# 0 2 * * * /home/ec2-user/redmine/script/databaseBackup
+# crontab -l
+
+/usr/bin/mysqldump -u redmine -p[substitute_with_db_password] redmine | gzip > /home/ec2-user/osbDBBackup/redmine_`date +%y_%m_%d`.gz
+
