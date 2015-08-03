@@ -385,8 +385,9 @@ tr.open span.expander:before {
 .bs-docs-sidenav.affix {
 	top: 40px;
 }
-#project_overview_list_2.bs-docs-sidenav.affix {
-	top: 540px;
+#project_overview_list_2.bs-docs-sidenav.affix, #project_overview_list_2.bs-docs-sidenav.affix-bottom {
+	position: relative;
+	top: 0px;
 }
 
 .bs-docs-sidenav.affix-bottom {
@@ -394,7 +395,6 @@ tr.open span.expander:before {
 	top: auto;
 	bottom: 270px;
 }
-
 /* Marketing section of Overview
  -------------------------------------------------- */
 
