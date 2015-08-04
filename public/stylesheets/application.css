@@ -1587,10 +1587,14 @@ div.splitcontentleft > h2 {
 	padding-top: 10px;
 }
 
+#helpTitle i{
+	text-decoration: none;
+}	
 #helpTitle{
 	width: 100%;
 	text-align: right;
 	margin-bottom: 0px;
+	
 }
 #helpIcon {
 	font-size: 65px;
