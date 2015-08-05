@@ -15,7 +15,7 @@ if Object.const_defined?(:OpenIdAuthentication)
   openid_authentication_store = Redmine::Configuration['openid_authentication_store']
   OpenIdAuthentication.store =
     openid_authentication_store.present? ?
-      openid_authentication_store : :memory   
+      openid_authentication_store : :memory
 end
 
 Redmine::Plugin.load
