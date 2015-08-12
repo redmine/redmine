@@ -18,7 +18,8 @@ http://www.redmine.org/
   * SQLServer (tested with SQLServer 2012)
 
 Optional:
-* SCM binaries (e.g. svn, git...), for repository browsing (must be available in PATH)
+* SCM binaries (e.g. svn, git...), for repository browsing (must be
+  available in PATH)
 * ImageMagick (to enable Gantt export to png images)
 
 == Installation
@@ -33,18 +34,19 @@ Optional:
 4. Install the required gems by running:
      bundle install --without development test
 
-   If ImageMagick is not installed on your system, you should skip the installation
-   of the rmagick gem using:
+   If ImageMagick is not installed on your system, you should skip the
+   installation of the rmagick gem using:
      bundle install --without development test rmagick
 
-   Only the gems that are needed by the adapters you've specified in your database
-   configuration file are actually installed (eg. if your config/database.yml
-   uses the 'mysql2' adapter, then only the mysql2 gem will be installed). Don't
-   forget to re-run `bundle install` when you change config/database.yml for using
-   other database adapters.
+   Only the gems that are needed by the adapters you've specified in your
+   database configuration file are actually installed (eg. if your
+   config/database.yml uses the 'mysql2' adapter, then only the mysql2 gem
+   will be installed). Don't forget to re-run `bundle install` when you
+   change config/database.yml for using other database adapters.
 
-   If you need to load some gems that are not required by Redmine core (eg. fcgi),
-   you can create a file named Gemfile.local at the root of your redmine directory.
+   If you need to load some gems that are not required by Redmine core
+   (eg. fcgi), you can create a file named Gemfile.local at the root of
+   your redmine directory.
    It will be loaded automatically when running `bundle install`.
 
 5. Generate a session store secret
