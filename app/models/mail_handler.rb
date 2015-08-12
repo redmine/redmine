@@ -92,7 +92,7 @@ class MailHandler < ActionMailer::Base
     @handler_options = options
     sender_email = email.from.to_a.first.to_s.strip
     # Ignore emails received from the application emission address to avoid hell cycles
-    if sender_email.downcase == Setting.mail_from.to_s.strip.downcase
+    if sender_email.casecmp(Setting.mail_from.to_s.strip) == 0
       if logger
         logger.info  "MailHandler: ignoring email from Redmine emission address [#{sender_email}]"
       end
@@ -547,18 +547,19 @@ class MailHandler < ActionMailer::Base
     assignable = issue.assignable_users
     assignee = nil
     assignee ||= assignable.detect {|a|
-                   a.mail.to_s.downcase == keyword ||
-                     a.login.to_s.downcase == keyword
+                   keyword.casecmp(a.mail.to_s) == 0 ||
+                     keyword.casecmp(a.login.to_s) == 0
                  }
     if assignee.nil? && keyword.match(/ /)
       firstname, lastname = *(keyword.split) # "First Last Throwaway"
       assignee ||= assignable.detect {|a|
-                     a.is_a?(User) && a.firstname.to_s.downcase == firstname &&
-                       a.lastname.to_s.downcase == lastname
+                     a.is_a?(User) &&
+                       firstname.casecmp(a.firstname.to_s) == 0 &&
+                       lastname.casecmp(a.lastname.to_s) == 0
                    }
     end
     if assignee.nil?
-      assignee ||= assignable.detect {|a| a.name.downcase == keyword}
+      assignee ||= assignable.detect {|a| keyword.casecmp(a.name) == 0}
     end
     assignee
   end

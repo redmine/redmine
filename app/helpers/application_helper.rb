@@ -609,7 +609,7 @@ module ApplicationHelper
       parsed << text
       if tag
         if closing
-          if tags.last == tag.downcase
+          if tags.last.casecmp(tag) == 0
             tags.pop
           end
         else

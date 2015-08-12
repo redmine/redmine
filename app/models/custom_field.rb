@@ -144,7 +144,7 @@ class CustomField < ActiveRecord::Base
     possible_values_options = possible_values_options(customized)
     if possible_values_options.present?
       keyword = keyword.to_s.downcase
-      if v = possible_values_options.detect {|text, id| text.downcase == keyword}
+      if v = possible_values_options.detect {|text, id| keyword.casecmp(text)  == 0}
         if v.is_a?(Array)
           v.last
         else

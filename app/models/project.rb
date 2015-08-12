@@ -531,7 +531,7 @@ class Project < ActiveRecord::Base
   end
 
   def <=>(project)
-    name.downcase <=> project.name.downcase
+    name.casecmp(project.name)
   end
 
   def to_s

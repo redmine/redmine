@@ -102,7 +102,7 @@ class AccountController < ApplicationController
         token = Token.new(:user => user, :action => "recovery")
         if token.save
           # Don't use the param to send the email
-          recipent = user.mails.detect {|e| e.downcase == email.downcase} || user.mail
+          recipent = user.mails.detect {|e| email.casecmp(e) == 0} || user.mail
           Mailer.lost_password(token, recipent).deliver
           flash[:notice] = l(:notice_account_lost_email_sent)
           redirect_to signin_path

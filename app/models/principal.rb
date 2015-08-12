@@ -130,7 +130,7 @@ class Principal < ActiveRecord::Base
     if principal.nil?
       -1
     elsif self.class.name == principal.class.name
-      self.to_s.downcase <=> principal.to_s.downcase
+      self.to_s.casecmp(principal.to_s)
     else
       # groups after users
       principal.class.name <=> self.class.name
