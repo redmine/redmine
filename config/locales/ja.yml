@@ -423,7 +423,7 @@ ja:
   permission_view_time_entries: 作業時間の閲覧
   permission_edit_time_entries: 作業時間の編集
   permission_edit_own_time_entries: 自身が記入した作業時間の編集
-  permission_manage_project_activities: 作業分類 (時間トラッキング) の管理
+  permission_manage_project_activities: 作業分類 (時間管理) の管理
   permission_manage_news: ニュースの管理
   permission_comment_news: ニュースへのコメント
   permission_view_documents: 文書の閲覧
@@ -452,7 +452,7 @@ ja:
   permission_manage_subtasks: 子チケットの管理
 
   project_module_issue_tracking: チケットトラッキング
-  project_module_time_tracking: 時間トラッキング
+  project_module_time_tracking: 時間管理
   project_module_news: ニュース
   project_module_documents: 文書
   project_module_files: ファイル
@@ -697,7 +697,7 @@ ja:
   label_overall_spent_time: すべての作業時間の記録
   label_f_hour: "%{value}時間"
   label_f_hour_plural: "%{value}時間"
-  label_time_tracking: 時間トラッキング
+  label_time_tracking: 時間管理
   label_change_plural: 変更
   label_statistics: 統計
   label_commits_per_month: 月別のコミット
@@ -976,7 +976,7 @@ ja:
 
   enumeration_issue_priorities: チケットの優先度
   enumeration_doc_categories: 文書カテゴリ
-  enumeration_activities: 作業分類 (時間トラッキング)
+  enumeration_activities: 作業分類 (時間管理)
   enumeration_system_activity: システム作業分類
   label_additional_workflow_transitions_for_assignee: チケット担当者に追加で許可する遷移
   label_additional_workflow_transitions_for_author: チケット作成者に追加で許可する遷移
