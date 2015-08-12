@@ -7,6 +7,7 @@
       <tns:model>
         <tns:modelInterpreterId>neuroMLModelInterpreter</tns:modelInterpreterId>
         <tns:modelURL>$ENTER_MODEL_URL</tns:modelURL>
+        <tns:referenceURL>$ENTER_REFERENCE_URL</tns:referenceURL>
       </tns:model>
     </tns:aspect>
   </tns:entity>

@@ -135,21 +135,21 @@
 								<% if not @networkfiles.empty? %>
 									<%= javascript_tag 'jQuery("#explorermenu").append("<li class=dropdown-submenu ><a tabindex=-1 href=#>Networks</a><ul class=dropdown-menu id=networkmenu></ul></li>");' %>
 									<% for nml2file in @networkfiles %>
-										<%= javascript_tag 'jQuery("#networkmenu").append("<li><a  href=# tabindex=-1 onclick=open3DExplorer(encodeURIComponent(&quot;'+ @repourl + @repopath + nml2file + '&quot;));>'+ nml2file + '</a></li>");'%>
+										<%= javascript_tag 'jQuery("#networkmenu").append("<li><a  href=# tabindex=-1 onclick=open3DExplorer(encodeURIComponent(&quot;'+ @repourl + @repopath + nml2file + '&quot;),&quot;' + @project.identifier + '&quot;);>'+ nml2file + '</a></li>");'%>
 									<% end %>
 									</ul>
 								<% end %>
 								<% if not @channelfiles.empty? %>
 									<%= javascript_tag 'jQuery("#explorermenu").append("<li class=dropdown-submenu ><a tabindex=-1 href=#>Channels</a><ul class=dropdown-menu id=channelmenu></ul></li>");' %>
 									<% for nml2file in @channelfiles %>
-										<%= javascript_tag 'jQuery("#channelmenu").append("<li><a  href=# tabindex=-1 onclick=open3DExplorer(encodeURIComponent(&quot;'+ @repourl + @repopath + nml2file + '&quot;));>'+ nml2file + '</a></li>");'%>
+										<%= javascript_tag 'jQuery("#channelmenu").append("<li><a  href=# tabindex=-1 onclick=open3DExplorer(encodeURIComponent(&quot;'+ @repourl + @repopath + nml2file + '&quot;),&quot;' + @project.identifier + '&quot;);>'+ nml2file + '</a></li>");'%>
 									<% end %>
 									</ul>
 								<% end %>
 								<% if not @synapsefiles.empty? %>
 									<%= javascript_tag 'jQuery("#explorermenu").append("<li class=dropdown-submenu ><a tabindex=-1 href=#>Synapses</a><ul class=dropdown-menu id=synapsesmenu></ul></li>");' %>
 									<% for nml2file in @synapsefiles %>
-										<%= javascript_tag 'jQuery("#synapsesmenu").append("<li><a  href=# tabindex=-1 onclick=open3DExplorer(encodeURIComponent(&quot;'+ @repourl + @repopath + nml2file + '&quot;));>'+ nml2file + '</a></li>");'%>
+										<%= javascript_tag 'jQuery("#synapsesmenu").append("<li><a  href=# tabindex=-1 onclick=open3DExplorer(encodeURIComponent(&quot;'+ @repourl + @repopath + nml2file + '&quot;),&quot;' + @project.identifier + '&quot;);>'+ nml2file + '</a></li>");'%>
 									<% end %>
 									</ul>
 								<% end %>
@@ -157,7 +157,7 @@
 									<%= javascript_tag 'jQuery("#explorermenu").append("<li class=dropdown-submenu ><a tabindex=-1 href=#>Cells</a><ul class=dropdown-menu id=cellsmenu></ul></li>");' %>
 									<% for nml2file in @cellfiles %>
 										<% @neuroml2files.delete(nml2file) %>
-										<%= javascript_tag 'jQuery("#cellsmenu").append("<li><a  href=# tabindex=-1 onclick=open3DExplorer(encodeURIComponent(&quot;'+ @repourl + @repopath + nml2file + '&quot;));>'+ nml2file + '</a></li>");'%>
+										<%= javascript_tag 'jQuery("#cellsmenu").append("<li><a  href=# tabindex=-1 onclick=open3DExplorer(encodeURIComponent(&quot;'+ @repourl + @repopath + nml2file + '&quot;),&quot;' + @project.identifier + '&quot;);>'+ nml2file + '</a></li>");'%>
 									<% end %>
 									</ul>
 								<% end %>
@@ -165,7 +165,7 @@
 									<%= javascript_tag 'jQuery("#explorermenu").append("<li class=dropdown-submenu ><a tabindex=-1 href=#>Other</a><ul class=dropdown-menu id=othermenu></ul></li>");' %>
 									<% for nml2file in @neuroml2files %>
 										<% if not nml2file.ends_with?(".net.nml", ".channel.nml", ".synapse.nml", ".cell.nml") %>
-											<%= javascript_tag 'jQuery("#othermenu").append("<li><a  href=# tabindex=-1 onclick=open3DExplorer(encodeURIComponent(&quot;'+ @repourl + @repopath + nml2file + '&quot;));>'+ nml2file + '</a></li>");'%>
+											<%= javascript_tag 'jQuery("#othermenu").append("<li><a  href=# tabindex=-1 onclick=open3DExplorer(encodeURIComponent(&quot;'+ @repourl + @repopath + nml2file + '&quot;),&quot;' + @project.identifier + '&quot;);>'+ nml2file + '</a></li>");'%>
 										<% end %>									
 									<% end %>
 								<% end %>
@@ -228,7 +228,20 @@
 
 <iframe id='geppettoLogin' style='display:none;' src=''></iframe>
 <iframe id='geppettoLogout' style='display:none;' src=''></iframe>
-
+<script>
+handleSizingResponse = function(e) {
+  if(e.origin == 'http://remote-domain.com') {
+    var action = e.data.split(':')[0]
+    if(action == 'sizing') {
+      resizeCanvas(e.data.split(':')[1]);
+    } else {
+      console.log("Unknown message: "+e.data);
+    }
+  }
+}
+window.addEventListener('message', handleSizingResponse, false);
+//document.getElementById("geppettoDashboard").contentWindow.postMessage("#AAAAAA", "http://127.0.0.1:8080");
+</script>
 <script>
 var redmineLogin = "<%= User.current.login %>";
 var redmineHashed = "<%= User.current.hashed_password %>";
@@ -272,7 +285,7 @@ jQuery(function()
 		var geturl=getParameterByName('explorer');
 		if(geturl!='')
 		{
-			open3DExplorer(geturl);
+			open3DExplorer(geturl, '<%= @project.identifier%>');
 		}
 		else
 		{

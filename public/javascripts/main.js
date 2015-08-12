@@ -204,7 +204,7 @@ function getParameterByName(name)
 		return decodeURIComponent(results[1].replace(/\+/g, " "));
 }
 
-function open3DExplorer(file)
+function open3DExplorer(file, projectIdentifier)
 {
 	jQuery("#menucontainer li").removeClass("active");
 	jQuery("#explorermenu").parent().addClass("active");
@@ -235,7 +235,7 @@ function open3DExplorer(file)
 		}
 		else{
 			$.ajax({
-			    url: "/projects/generateGEPPETTOSimulationFile?explorer=" + file,
+			    url: "/projects/" + projectIdentifier + "/generateGEPPETTOSimulationFile?explorer=" + file,
 			    cache: false,
 			    success: function(json){
 			    	jQuery("#mainContent").hide();
@@ -316,3 +316,56 @@ _gaq.push([ '_trackPageview' ]);
 	var s = document.getElementsByTagName('script')[0];
 	s.parentNode.insertBefore(ga, s);
 })();
+
+
+
+$(document).ready(function(){
+//Create the XHR object.
+function createCORSRequest(method, url) {
+  var xhr = new XMLHttpRequest();
+  if ("withCredentials" in xhr) {
+    // XHR for Chrome/Firefox/Opera/Safari.
+    xhr.open(method, url, true);
+  } else if (typeof XDomainRequest != "undefined") {
+    // XDomainRequest for IE.
+    xhr = new XDomainRequest();
+    xhr.open(method, url);
+  } else {
+    // CORS not supported.
+    xhr = null;
+  }
+  return xhr;
+}
+
+// Helper method to parse the title tag from the response.
+function getTitle(text) {
+  return text.match('<title>(.*)?</title>')[1];
+}
+
+// Make the actual CORS request.
+function makeCorsRequest(url) {
+  var xhr = createCORSRequest('GET', url);
+  if (!xhr) {
+    alert('CORS not supported');
+    return;
+  }
+
+  // Response handlers.
+  xhr.onload = function() {
+    var text = xhr.responseText;
+    var title = getTitle(text);
+    alert('Response from CORS request to ' + url + ': ' + title);
+  };
+
+  xhr.onerror = function() {
+    alert('Woops, there was an error making the request.');
+  };
+
+  xhr.withCredentials = true;
+  xhr.send();
+}
+
+var url = 'http://127.0.0.1:8080/org.geppetto.frontend/projectswithref?reference=acnet2';
+makeCorsRequest(url);
+
+});

@@ -24,7 +24,7 @@ class ProjectsController < ApplicationController
   menu_item :roadmap, :only => :roadmap
   menu_item :settings, :only => :settings
 
-  before_filter :find_project, :except => [ :index, :list, :new, :create, :copy, :cells_graph, :cells_list, :cells_gallery, :cells_tags, :technology, :groups, :people, :informationOSB, :generateGEPPETTOSimulationFile]
+  before_filter :find_project, :except => [ :index, :list, :new, :create, :copy, :cells_graph, :cells_list, :cells_gallery, :cells_tags, :technology, :groups, :people, :informationOSB]
   before_filter :authorize, :except => [ :index, :list, :new, :create, :copy, :archive, :unarchive, :destroy, :cells_graph, :cells_list, :cells_gallery, :cells_tags, :technology, :groups, :people, :informationOSB, :addTag, :removeTag, :generateGEPPETTOSimulationFile]
   before_filter :authorize_global, :only => [:new, :create]
   before_filter :require_admin, :only => [ :copy, :archive, :unarchive, :destroy ]
@@ -386,6 +386,18 @@ class ProjectsController < ApplicationController
     if params[:jump] && redirect_to_project_menu_item(@project, params[:jump])
       return
     end
+    
+    #Get Geppetto Projects for this User
+    # geppettoRegisterURL = "http://127.0.0.1:8080/org.geppetto.frontend/projectswithref?reference=" + @project.identifier
+    # begin
+      # geppettoProjects = open(geppettoRegisterURL, 'r', :read_timeout=>2)
+    # rescue OpenURI::HTTPError
+      # print "Error requesting modelContent: #{geppettoRegisterURL}"
+    # rescue => e   
+      # print "Error requesting modelContent: #{geppettoRegisterURL}"
+    # else
+    # end 
+
 
     @users_by_role = @project.users_by_role
     @subprojects = @project.children.visible.all
@@ -412,9 +424,6 @@ class ProjectsController < ApplicationController
   def generateGEPPETTOSimulationFile
       url = params[:explorer]
       uri = URI.parse(url)
-      
-      #Get Geppetto Projects for this User
-      # geppettoRegisterURL = "http://127.0.0.1:8080/org.geppetto.frontend/projectswithref?reference=" + 
       
       ##############################
       # CREATE ENTITY AND DOC TYPE #
@@ -476,7 +485,8 @@ class ProjectsController < ApplicationController
       geppettoModelFile = File.read(publicResourcesPath + geppettoResourcesPath + simulationTemplates + "neuromlTemplate.xml")    
       geppettoModelFile.sub! '$ENTER_MODEL_URL', url
       geppettoModelFile.sub! '$ENTER_ID', entity
-
+      geppettoModelFile.sub! '$ENTER_REFERENCE_URL', @project.identifier
+      
       geppettoSimulationFile = {
         "id" => 1,
         "name" => filenameSplit[0] + " - " + filenameSplit[1],
@@ -497,9 +507,9 @@ class ProjectsController < ApplicationController
                       "aspect" => "electrical",
                       "localInstancePath" => ""
                   } 
-               }] 
-           }
-        ],
+               }
+            ] 
+        }],
         "geppettoModel"=> { "id" => 1, "url" => Rails.application.config.serversIP["serverIP"] + geppettoTmpPath + @geppettoModelFilePath, "type" => "GEPPETTO_PROJECT"}
       }
       
