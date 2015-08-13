@@ -1115,7 +1115,6 @@ h2 img { vertical-align:middle; }
 
 /************* CodeRay styles *************/
 .syntaxhl div {display: inline;}
-.syntaxhl .line-numbers {padding: 2px 4px 2px 4px; background-color: #eee; margin:0px 5px 0px 0px;}
 .syntaxhl .code pre { overflow: auto }
 
 .syntaxhl .annotation { color:#007 }
