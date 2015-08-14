@@ -1120,76 +1120,83 @@ h2 img { vertical-align:middle; }
 .syntaxhl .annotation { color:#007 }
 .syntaxhl .attribute-name { color:#b48 }
 .syntaxhl .attribute-value { color:#700 }
-.syntaxhl .binary { color:#509 }
+.syntaxhl .binary { color:#549 }
+.syntaxhl .binary .char { color:#325 }
+.syntaxhl .binary .delimiter { color:#325 }
+.syntaxhl .char { color:#D20 }
 .syntaxhl .char .content { color:#D20 }
 .syntaxhl .char .delimiter { color:#710 }
-.syntaxhl .char { color:#D20 }
 .syntaxhl .class { color:#258; font-weight:bold }
 .syntaxhl .class-variable { color:#369 }
 .syntaxhl .color { color:#0A0 }
 .syntaxhl .comment { color:#385 }
 .syntaxhl .comment .char { color:#385 }
 .syntaxhl .comment .delimiter { color:#385 }
-.syntaxhl .complex { color:#A08 }
 .syntaxhl .constant { color:#258; font-weight:bold }
 .syntaxhl .decorator { color:#B0B }
 .syntaxhl .definition { color:#099; font-weight:bold }
 .syntaxhl .delimiter { color:black }
 .syntaxhl .directive { color:#088; font-weight:bold }
-.syntaxhl .doc { color:#970 }
-.syntaxhl .doc-string { color:#D42; font-weight:bold }
+.syntaxhl .docstring { color:#D42; }
 .syntaxhl .doctype { color:#34b }
+.syntaxhl .done { text-decoration: line-through; color: gray }
 .syntaxhl .entity { color:#800; font-weight:bold }
 .syntaxhl .error { color:#F00; background-color:#FAA }
 .syntaxhl .escape  { color:#666 }
 .syntaxhl .exception { color:#C00; font-weight:bold }
 .syntaxhl .float { color:#06D }
 .syntaxhl .function { color:#06B; font-weight:bold }
+.syntaxhl .function .delimiter { color:#024; font-weight:bold }
 .syntaxhl .global-variable { color:#d70 }
 .syntaxhl .hex { color:#02b }
-.syntaxhl .imaginary { color:#f00 }
+.syntaxhl .id { color:#33D; font-weight:bold }
 .syntaxhl .include { color:#B44; font-weight:bold }
 .syntaxhl .inline { background-color: hsla(0,0%,0%,0.07); color: black }
 .syntaxhl .inline-delimiter { font-weight: bold; color: #666 }
 .syntaxhl .instance-variable { color:#33B }
 .syntaxhl .integer  { color:#06D }
+.syntaxhl .imaginary { color:#f00 }
+.syntaxhl .important { color:#D00 }
+.syntaxhl .key { color: #606 }
 .syntaxhl .key .char { color: #60f }
 .syntaxhl .key .delimiter { color: #404 }
-.syntaxhl .key { color: #606 }
 .syntaxhl .keyword { color:#939; font-weight:bold }
 .syntaxhl .label { color:#970; font-weight:bold }
-.syntaxhl .local-variable { color:#963 }
+.syntaxhl .local-variable { color:#950 }
+.syntaxhl .map .content { color:#808 }
+.syntaxhl .map .delimiter { color:#40A}
+.syntaxhl .map { background-color:hsla(200,100%,50%,0.06); }
 .syntaxhl .namespace { color:#707; font-weight:bold }
 .syntaxhl .octal { color:#40E }
 .syntaxhl .operator { }
 .syntaxhl .predefined { color:#369; font-weight:bold }
 .syntaxhl .predefined-constant { color:#069 }
-.syntaxhl .predefined-type { color:#0a5; font-weight:bold }
+.syntaxhl .predefined-type { color:#0a8; font-weight:bold }
 .syntaxhl .preprocessor { color:#579 }
 .syntaxhl .pseudo-class { color:#00C; font-weight:bold }
+.syntaxhl .regexp { background-color:hsla(300,100%,50%,0.06); }
 .syntaxhl .regexp .content { color:#808 }
 .syntaxhl .regexp .delimiter { color:#404 }
 .syntaxhl .regexp .modifier { color:#C2C }
-.syntaxhl .regexp { background-color:hsla(300,100%,50%,0.06); }
 .syntaxhl .reserved { color:#080; font-weight:bold }
+.syntaxhl .shell { background-color:hsla(120,100%,50%,0.06); }
 .syntaxhl .shell .content { color:#2B2 }
 .syntaxhl .shell .delimiter { color:#161 }
-.syntaxhl .shell { background-color:hsla(120,100%,50%,0.06); }
 .syntaxhl .string .char { color: #46a }
 .syntaxhl .string .content { color: #46a }
 .syntaxhl .string .delimiter { color: #46a }
 .syntaxhl .string .modifier { color: #46a }
+.syntaxhl .symbol { color:#d33 }
 .syntaxhl .symbol .content { color:#d33 }
 .syntaxhl .symbol .delimiter { color:#d33 }
-.syntaxhl .symbol { color:#d33 }
-.syntaxhl .tag { color:#070 }
+.syntaxhl .tag { color:#070; font-weight:bold }
 .syntaxhl .type { color:#339; font-weight:bold }
-.syntaxhl .value { color: #088; }
-.syntaxhl .variable  { color:#037 }
+.syntaxhl .value { color: #088 }
+.syntaxhl .variable { color:#037 }
 
 .syntaxhl .insert { background: hsla(120,100%,50%,0.12) }
 .syntaxhl .delete { background: hsla(0,100%,50%,0.12) }
-.syntaxhl .change { color: #bbf; background: #007; }
+.syntaxhl .change { color: #bbf; background: #007 }
 .syntaxhl .head { color: #f8f; background: #505 }
 .syntaxhl .head .filename { color: white; }
 
