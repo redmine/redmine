@@ -12,28 +12,23 @@
         margin: 1em 1em 1em 1.6em;
         padding: 2px;
         background-color: #fafafa;
-        border: 1px solid #dadada;
-        width:95%;
+        border: 1px solid #e2e2e2;
+        width: auto;
         overflow-x: auto;
+        overflow-y: hidden;
     }
     a.new { color: #b73535; }
 
-    .syntaxhl .line-numbers { padding: 2px 4px 2px 4px; background-color: #eee; margin:0 }
-    .syntaxhl .comment  { color:#666; }
-
-    .syntaxhl .class { color:#B06; font-weight:bold }
+    .syntaxhl .class { color:#258; font-weight:bold }
+    .syntaxhl .comment  { color:#385; }
     .syntaxhl .delimiter { color:black }
     .syntaxhl .function { color:#06B; font-weight:bold }
-
-    .syntaxhl .inline { background: #eee }
-    .syntaxhl .inline .inline-delimiter { font-weight: bold; color: #888 }
-
+    .syntaxhl .inline { background-color: hsla(0,0%,0%,0.07); color: black }
+    .syntaxhl .inline-delimiter { font-weight: bold; color: #666 }
     .syntaxhl .instance-variable { color:#33B }
-    .syntaxhl .reserved { color:#080; font-weight:bold }
-
-    .syntaxhl .string { background-color:#fff0f0; color: #D20; }
-    .syntaxhl .string .delimiter { color:#710 }
-
+    .syntaxhl .keyword { color:#939; font-weight:bold }
+    .syntaxhl .string .content { color: #46a }
+    .syntaxhl .string .delimiter { color:#46a }
 </style>
 </head>
 
@@ -318,16 +313,16 @@ It can be expanded by clicking a link.
 
     <p>Example:</p>
 
-<pre><code class="ruby syntaxhl"><span class="line-numbers"> 1</span> <span class="comment"># The Greeter class</span>
-<span class="line-numbers"> 2</span> <span class="reserved">class</span> <span class="class">Greeter</span>
-<span class="line-numbers"> 3</span>   <span class="reserved">def</span> <span class="function">initialize</span>(name)
-<span class="line-numbers"> 4</span>     <span class="instance-variable">@name</span> = name.capitalize
-<span class="line-numbers"> 5</span>   <span class="reserved">end</span>
-<span class="line-numbers"> 6</span>
-<span class="line-numbers"> 7</span>   <span class="reserved">def</span> <span class="function">salute</span>
-<span class="line-numbers"> 8</span>     puts <span class="string"><span class="delimiter">"</span><span class="content">Hello </span><span class="inline"><span class="inline-delimiter">#{</span><span class="instance-variable">@name</span><span class="inline-delimiter">}</span></span><span class="content">!</span><span class="delimiter">"</span></span>
-<span class="line-numbers"> 9</span>   <span class="reserved">end</span>
-<span class="line-numbers"><strong>10</strong></span> <span class="reserved">end</span></code>
+<pre><code class="ruby syntaxhl"><span class="CodeRay"><span class="comment"># The Greeter class</span>
+<span class="keyword">class</span> <span class="class">Greeter</span>
+  <span class="keyword">def</span> <span class="function">initialize</span>(name)
+    <span class="instance-variable">@name</span> = name.capitalize
+  <span class="keyword">end</span>
+
+  <span class="keyword">def</span> <span class="function">salute</span>
+    puts <span class="string"><span class="delimiter">"</span><span class="content">Hello </span><span class="inline"><span class="inline-delimiter">#{</span><span class="instance-variable">@name</span><span class="inline-delimiter">}</span></span><span class="content">!</span><span class="delimiter">"</span></span>
+  <span class="keyword">end</span>
+<span class="keyword">end</span></span></code>
 </pre>
 </body>
 </html>
