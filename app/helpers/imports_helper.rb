@@ -30,4 +30,14 @@ module ImportsHelper
     name = "import_settings[mapping][#{field}]"
     select_tag name, options_for_mapping_select(import, field, options)
   end
+
+  # Returns the options for the date_format setting
+  def date_format_options
+    Import::DATE_FORMATS.map do |f|
+      format = f.gsub('%', '').gsub(/[dmY]/) do
+        {'d' => 'DD', 'm' => 'MM', 'Y' => 'YYYY'}[$&]
+      end
+      [format, f]
+    end
+  end
 end

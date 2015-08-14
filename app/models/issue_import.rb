@@ -122,10 +122,10 @@ class IssueImport < Import
         attributes['parent_issue_id'] = parent_issue_id
       end
     end
-    if start_date = row_value(row, 'start_date')
+    if start_date = row_date(row, 'start_date')
       attributes['start_date'] = start_date
     end
-    if due_date = row_value(row, 'due_date')
+    if due_date = row_date(row, 'due_date')
       attributes['due_date'] = due_date
     end
     if done_ratio = row_value(row, 'done_ratio')
@@ -133,7 +133,13 @@ class IssueImport < Import
     end
 
     attributes['custom_field_values'] = issue.custom_field_values.inject({}) do |h, v|
-      if value = row_value(row, "cf_#{v.custom_field.id}")
+      value = case v.custom_field.field_format
+      when 'date'
+        row_date(row, "cf_#{v.custom_field.id}")
+      else
+        row_value(row, "cf_#{v.custom_field.id}")
+      end
+      if value
         h[v.custom_field.id.to_s] = v.custom_field.value_from_keyword(value, issue)
       end
       h

@@ -78,6 +78,20 @@ class IssueImportTest < ActiveSupport::TestCase
     assert_equal [false, true, false], issues.map(&:is_private)
   end
 
+  def test_dates_should_be_parsed_using_date_format_setting
+    field = IssueCustomField.generate!(:field_format => 'date', :is_for_all => true, :trackers => Tracker.all)
+    import = generate_import_with_mapping('import_dates.csv')
+    import.settings.merge!('date_format' => Import::DATE_FORMATS[1])
+    import.mapping.merge!('subject' => '0', 'start_date' => '1', 'due_date' => '2', "cf_#{field.id}" => '3')
+    import.save!
+
+    issue = new_record(Issue) { import.run } # only 1 valid issue
+    assert_equal "Valid dates", issue.subject
+    assert_equal Date.parse('2015-07-10'), issue.start_date
+    assert_equal Date.parse('2015-08-12'), issue.due_date
+    assert_equal '2015-07-14', issue.custom_field_value(field)
+  end
+
   def test_run_should_remove_the_file
     import = generate_import_with_mapping
     file_path = import.filepath

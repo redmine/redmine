@@ -27,6 +27,14 @@ class Import < ActiveRecord::Base
   validates_presence_of :filename, :user_id
   validates_length_of :filename, :maximum => 255
 
+  DATE_FORMATS = [
+    '%Y-%m-%d',
+    '%d/%m/%Y',
+    '%m/%d/%Y',
+    '%d.%m.%Y',
+    '%d-%m-%Y'
+  ]
+
   def initialize(*args)
     super
     self.settings ||= {}
@@ -198,6 +206,14 @@ class Import < ActiveRecord::Base
   def row_value(row, key)
     if index = mapping[key].presence
       row[index.to_i].presence
+    end
+  end
+
+  def row_date(row, key)
+    if s = row_value(row, key)
+      format = settings['date_format']
+      format = DATE_FORMATS.first unless DATE_FORMATS.include?(format)
+      Date.strptime(s, format) rescue s
     end
   end
 

@@ -69,13 +69,14 @@ class ImportsControllerTest < ActionController::TestCase
     import = generate_import
 
     post :settings, :id => import.to_param,
-      :import_settings => {:separator => ":", :wrapper => "|", :encoding => "UTF-8"}
+      :import_settings => {:separator => ":", :wrapper => "|", :encoding => "UTF-8", :date_format => '%m/%d/%Y'}
     assert_redirected_to "/imports/#{import.to_param}/mapping"
 
     import.reload
     assert_equal ":", import.settings['separator']
     assert_equal "|", import.settings['wrapper']
     assert_equal "UTF-8", import.settings['encoding']
+    assert_equal '%m/%d/%Y', import.settings['date_format']
   end
 
   def test_post_settings_should_update_total_items_count
