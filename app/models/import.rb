@@ -59,10 +59,14 @@ class Import < ActiveRecord::Base
     wrapper = '"'
     encoding = lu(user, :general_csv_encoding)
 
+    date_format = lu(user, "date.formats.default", :default => "foo")
+    date_format = DATE_FORMATS.first unless DATE_FORMATS.include?(date_format)
+
     self.settings.merge!(
       'separator' => separator,
       'wrapper' => wrapper,
-      'encoding' => encoding
+      'encoding' => encoding,
+      'date_format' => date_format
     )
   end
 

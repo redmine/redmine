@@ -92,6 +92,16 @@ class IssueImportTest < ActiveSupport::TestCase
     assert_equal '2015-07-14', issue.custom_field_value(field)
   end
 
+  def test_date_format_should_default_to_user_language
+    user = User.generate!(:language => 'fr')
+    import = Import.new
+    import.user = user
+    assert_nil import.settings['date_format']
+
+    import.set_default_settings
+    assert_equal '%d/%m/%Y', import.settings['date_format']
+  end
+
   def test_run_should_remove_the_file
     import = generate_import_with_mapping
     file_path = import.filepath
