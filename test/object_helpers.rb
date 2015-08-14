@@ -206,6 +206,25 @@ module ObjectHelpers
     query.save!
     query
   end
+
+  def generate_import(fixture_name='import_issues.csv')
+    import = IssueImport.new
+    import.user_id = 2
+    import.file = uploaded_test_file(fixture_name, 'text/csv')
+    import.save!
+    import
+  end
+
+  def generate_import_with_mapping(fixture_name='import_issues.csv')
+    import = generate_import(fixture_name)
+
+    import.settings = {
+      'separator' => ";", 'wrapper' => '"', 'encoding' => "UTF-8",
+      'mapping' => {'project_id' => '1', 'tracker_id' => '2', 'subject' => '1'}
+    }
+    import.save!
+    import
+  end
 end
 
 module TrackerObjectHelpers

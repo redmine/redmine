@@ -52,8 +52,16 @@ module Redmine
       "%.2f h" % hours.to_f
     end
 
-    def ll(lang, str, value=nil)
-      ::I18n.t(str.to_s, :value => value, :locale => lang.to_s.gsub(%r{(.+)\-(.+)$}) { "#{$1}-#{$2.upcase}" })
+    def ll(lang, str, arg=nil)
+      options = arg.is_a?(Hash) ? arg : {:value => arg}
+      locale = lang.to_s.gsub(%r{(.+)\-(.+)$}) { "#{$1}-#{$2.upcase}" }
+      ::I18n.t(str.to_s, options.merge(:locale => locale))
+    end
+
+    # Localizes the given args with user's language
+    def lu(user, *args)
+      lang = user.try(:language) || Setting.default_language
+      ll(lang, *args) 
     end
 
     def format_date(date)

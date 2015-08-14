@@ -1,0 +1,52 @@
+<h2><%= l(:label_import_issues) %></h2>
+
+<%= form_tag(import_mapping_path(@import), :id => "import-form") do %>
+  <fieldset class="box tabular">
+    <legend><%= l(:label_fields_mapping) %></legend>
+    <div id="fields-mapping">
+      <%= render :partial => 'fields_mapping' %>
+    </div>
+  </fieldset>
+
+  <div class="autoscroll">
+  <fieldset class="box">
+    <legend><%= l(:label_file_content_preview) %></legend>
+
+      <table class="sample-data">
+      <% @import.first_rows.each do |row| %>
+        <tr>
+          <%= row.map {|c| content_tag 'td', truncate(c.to_s, :length => 50) }.join("").html_safe %>
+        </tr>
+      <% end %>
+      </table>
+  </fieldset>
+  </div>
+
+  <p>
+    <%= button_tag("\xc2\xab " + l(:label_previous), :name => 'previous') %>
+    <%= submit_tag l(:button_import) %>
+  </p>
+<% end %>
+
+<% content_for :sidebar do %>
+    <%= render :partial => 'issues/sidebar' %>
+<% end %>
+
+
+<%= javascript_tag do %>
+$(document).ready(function() {
+  $('#fields-mapping').on('change', '#issue_project_id, #issue_tracker_id', function(){
+    $.ajax({
+      url: '<%= import_mapping_path(@import, :format => 'js') %>',
+      type: 'post',
+      data: $('#import-form').serialize()
+    });
+  });
+
+  $('#import-form').submit(function(){
+    $('#import-details').show().addClass('ajax-loading');
+    $('#import-progress').progressbar({value: 0, max: <%= @import.total_items || 0 %>});
+  });
+
+});
+<% end %>

@@ -1,0 +1,82 @@
+<div class="splitcontent">
+<div class="splitcontentleft">
+<p>
+  <label><%= l(:label_project) %></label>
+  <%= select_tag 'import_settings[mapping][project_id]',
+        options_for_select(project_tree_options_for_select(@import.allowed_target_projects, :selected => @import.project)),
+        :id => 'issue_project_id' %>
+</p>
+<p>
+  <label><%= l(:label_tracker) %></label>
+  <%= select_tag 'import_settings[mapping][tracker_id]',
+        options_for_select(@import.allowed_target_trackers.sorted.map {|t| [t.name, t.id]}, @import.tracker.try(:id)),
+        :id => 'issue_tracker_id' %>
+</p>
+<p>
+  <label><%= l(:field_subject) %></label>
+  <%= mapping_select_tag @import, 'subject', :required => true %>
+</p>
+<p>
+  <label><%= l(:field_description) %></label>
+  <%= mapping_select_tag @import, 'description' %>
+</p>
+<p>
+  <label><%= l(:field_priority) %></label>
+  <%= mapping_select_tag @import, 'priority' %>
+</p>
+<p>
+  <label><%= l(:field_category) %></label>
+  <%= mapping_select_tag @import, 'category' %>
+  <% if User.current.allowed_to?(:manage_categories, @import.project) %>
+    <label class="block">
+      <%= check_box_tag 'import_settings[mapping][create_categories]', '1', @import.create_categories? %>
+      <%= l(:label_create_missing_values) %>
+    </label>
+  <% end %>
+</p>
+<p>
+  <label><%= l(:field_assigned_to) %></label>
+  <%= mapping_select_tag @import, 'assigned_to' %>
+</p>
+<p>
+  <label><%= l(:field_fixed_version) %></label>
+  <%= mapping_select_tag @import, 'fixed_version' %>
+  <% if User.current.allowed_to?(:manage_versions, @import.project) %>
+    <label class="block">
+      <%= check_box_tag 'import_settings[mapping][create_versions]', '1', @import.create_versions? %>
+      <%= l(:label_create_missing_values) %>
+    </label>
+  <% end %>
+</p>
+<% @custom_fields.each do |field| %>
+  <p>
+    <label><%= field.name %></label>
+    <%= mapping_select_tag @import, "cf_#{field.id}" %>
+  </p>
+<% end %>
+</div>
+
+<div class="splitcontentright">
+<p>
+  <label><%= l(:field_is_private) %></label>
+  <%= mapping_select_tag @import, 'is_private' %>
+</p>
+<p>
+  <label><%= l(:field_parent_issue) %></label>
+  <%= mapping_select_tag @import, 'parent_issue_id' %>
+</p>
+<p>
+  <label><%= l(:field_start_date) %></label>
+  <%= mapping_select_tag @import, 'start_date' %>
+</p>
+<p>
+  <label><%= l(:field_due_date) %></label>
+  <%= mapping_select_tag @import, 'due_date' %>
+</p>
+<p>
+  <label><%= l(:field_done_ratio) %></label>
+  <%= mapping_select_tag @import, 'done_ratio' %>
+</p>
+</div>
+</div>
+

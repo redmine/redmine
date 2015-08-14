@@ -61,6 +61,7 @@ roles_001:
     - :view_changesets
     - :manage_related_issues
     - :manage_project_activities
+    - :import_issues
 
   position: 1
 roles_002: 

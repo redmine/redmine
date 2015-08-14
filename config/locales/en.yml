@@ -182,6 +182,8 @@ en:
   notice_account_deleted: "Your account has been permanently deleted."
   notice_user_successful_create: "User %{id} created."
   notice_new_password_must_be_different: The new password must be different from the current password
+  notice_import_finished: "All %{count} items have been imported."
+  notice_import_finished_with_errors: "%{count} out of %{total} items could not be imported."
 
   error_can_t_load_default_data: "Default configuration could not be loaded: %{value}"
   error_scm_not_found: "The entry or revision was not found in the repository."
@@ -205,6 +207,9 @@ en:
   error_session_expired: "Your session has expired. Please login again."
   warning_attachments_not_saved: "%{count} file(s) could not be saved."
   error_password_expired: "Your password has expired or the administrator requires you to change it."
+  error_invalid_file_encoding: "The file is not a valid %{encoding} encoded file"
+  error_invalid_csv_file_or_settings: "The file is not a CSV file or does not match the settings below"
+  error_can_not_read_import_file: "An error occurred while reading the file to import"
 
   mail_subject_lost_password: "Your %{value} password"
   mail_body_lost_password: 'To change your password, click on the following link:'
@@ -484,6 +489,7 @@ en:
   permission_export_wiki_pages: Export wiki pages
   permission_manage_subtasks: Manage subtasks
   permission_manage_related_issues: Manage related issues
+  permission_import_issues: Import issues
 
   project_module_issue_tracking: Issue tracking
   project_module_time_tracking: Time tracking
@@ -952,6 +958,18 @@ en:
   label_member_management: Member management
   label_member_management_all_roles: All roles
   label_member_management_selected_roles_only: Only these roles
+  label_import_issues: Import issues
+  label_select_file_to_import: Select the file to import
+  label_fields_separator: Field separator
+  label_fields_wrapper: Field wrapper
+  label_encoding: Encoding
+  label_coma_char: Coma
+  label_semi_colon_char: Semi colon
+  label_quote_char: Quote
+  label_double_quote_char: Double quote
+  label_fields_mapping: Fields mapping
+  label_file_content_preview: File content preview
+  label_create_missing_values: Create missing values
 
   button_login: Login
   button_submit: Submit
@@ -1005,6 +1023,7 @@ en:
   button_delete_my_account: Delete my account
   button_close: Close
   button_reopen: Reopen
+  button_import: Import
 
   status_active: active
   status_registered: registered

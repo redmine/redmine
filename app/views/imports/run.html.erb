@@ -1,0 +1,20 @@
+<h2><%= l(:label_import_issues) %></h2>
+
+<div id="import-details">
+  <div id="import-progress"><div id="progress-label">0 / <%= @import.total_items.to_i %></div></div>
+</div>
+
+<% content_for :sidebar do %>
+  <%= render :partial => 'issues/sidebar' %>
+<% end %>
+
+<%= javascript_tag do %>
+$(document).ready(function() {
+  $('#import-details').addClass('ajax-loading');
+  $('#import-progress').progressbar({value: 0, max: <%= @import.total_items.to_i %>});
+  $.ajax({
+    url: '<%= import_run_path(@import, :format => 'js') %>',
+    type: 'post'
+  });
+});
+<% end %>

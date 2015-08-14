@@ -116,6 +116,7 @@ Redmine::AccessControl.map do |map|
     map.permission :view_issue_watchers, {}, :read => true
     map.permission :add_issue_watchers, {:watchers => [:new, :create, :append, :autocomplete_for_user]}
     map.permission :delete_issue_watchers, {:watchers => :destroy}
+    map.permission :import_issues, {:imports => [:new, :create, :settings, :mapping, :run, :show]}
   end
 
   map.project_module :time_tracking do |map|

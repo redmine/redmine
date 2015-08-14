@@ -12,6 +12,10 @@
 <% if User.current.allowed_to?(:view_gantt, @project, :global => true) %>
 <li><%= link_to l(:label_gantt), _project_gantt_path(@project) %></li>
 <% end %>
+
+<% if User.current.allowed_to?(:import_issues, @project, :global => true) %>
+<li><%= link_to l(:button_import), new_issues_import_path %></li>
+<% end %>
 </ul>
 
 <%= call_hook(:view_issues_sidebar_issues_bottom) %>

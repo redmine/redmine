@@ -1,0 +1,11 @@
+$('#import-progress').progressbar({value: <%= @current.to_i %>});
+$('#progress-label').text("<%= @current.to_i %> / <%= @import.total_items.to_i %>");
+
+<% if @import.finished? %>
+window.location.href='<%= import_path(@import) %>';
+<% else %>
+$.ajax({
+  url: '<%= import_run_path(@import, :format => 'js') %>',
+  type: 'post'
+});
+<% end %>

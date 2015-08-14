@@ -914,6 +914,14 @@ class Issue < ActiveRecord::Base
     end
   end
 
+  def notify?
+    @notify != false
+  end
+
+  def notify=(arg)
+    @notify = arg
+  end
+
   # Returns the number of hours spent on this issue
   def spent_hours
     @spent_hours ||= time_entries.sum(:hours) || 0
@@ -1625,7 +1633,7 @@ class Issue < ActiveRecord::Base
   end
 
   def send_notification
-    if Setting.notified_events.include?('issue_added')
+    if notify? && Setting.notified_events.include?('issue_added')
       Mailer.deliver_issue_add(self)
     end
   end

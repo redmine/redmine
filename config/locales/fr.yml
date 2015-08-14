@@ -202,6 +202,8 @@ fr:
   notice_account_deleted: "Votre compte a été définitivement supprimé."
   notice_user_successful_create: "Utilisateur %{id} créé."
   notice_new_password_must_be_different: Votre nouveau mot de passe doit être différent de votre mot de passe actuel
+  notice_import_finished: "Les %{count} éléments ont été importé(s)."
+  notice_import_finished_with_errors: "%{count} élément(s) sur %{total} n'ont pas pu être importé(s)."
 
   error_can_t_load_default_data: "Une erreur s'est produite lors du chargement du paramétrage : %{value}"
   error_scm_not_found: "L'entrée et/ou la révision demandée n'existe pas dans le dépôt."
@@ -225,6 +227,9 @@ fr:
   error_session_expired: "Votre session a expiré. Veuillez vous reconnecter."
   warning_attachments_not_saved: "%{count} fichier(s) n'ont pas pu être sauvegardés."
   error_password_expired: "Votre mot de passe a expiré ou nécessite d'être changé."
+  error_invalid_file_encoding: "Le fichier n'est pas un fichier %{encoding} valide"
+  error_invalid_csv_file_or_settings: "Le fichier n'est pas un fichier CSV ou n'est pas conforme aux paramètres sélectionnés"
+  error_can_not_read_import_file: "Une erreur est survenue lors de la lecture du fichier à importer"
 
   mail_subject_lost_password: "Votre mot de passe %{value}"
   mail_body_lost_password: 'Pour changer votre mot de passe, cliquez sur le lien suivant :'
@@ -504,6 +509,7 @@ fr:
   permission_export_wiki_pages: Exporter les pages
   permission_manage_subtasks: Gérer les sous-tâches
   permission_manage_related_issues: Gérer les demandes associées
+  permission_import_issues: Importer des demandes
 
   project_module_issue_tracking: Suivi des demandes
   project_module_time_tracking: Suivi du temps passé
@@ -970,6 +976,18 @@ fr:
   label_member_management: Gestion des membres
   label_member_management_all_roles: Tous les rôles
   label_member_management_selected_roles_only: Ces rôles uniquement
+  label_import_issues: Importer des demandes
+  label_select_file_to_import: Sélectionner le fichier à importer
+  label_fields_separator: Séparateur de champs
+  label_fields_wrapper: Délimiteur de texte
+  label_encoding: Encodage
+  label_coma_char: Virgule
+  label_semi_colon_char: Point virgule
+  label_quote_char: Apostrophe
+  label_double_quote_char: Double apostrophe
+  label_fields_mapping: Correspondance des champs
+  label_file_content_preview: Aperçu du contenu du fichier
+  label_create_missing_values: Créer les valeurs manquantes
 
   button_login: Connexion
   button_submit: Soumettre
@@ -1023,6 +1041,7 @@ fr:
   button_delete_my_account: Supprimer mon compte
   button_close: Fermer
   button_reopen: Réouvrir
+  button_import: Importer
 
   status_active: actif
   status_registered: enregistré

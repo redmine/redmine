@@ -1109,6 +1109,17 @@ h2 img { vertical-align:middle; }
 
 .hascontextmenu { cursor: context-menu; }
 
+.sample-data {border:1px solid #ccc; border-collapse:collapse; background-color:#fff; margin:0.5em;}
+.sample-data td {border:1px solid #ccc; padding: 2px 4px; font-family: Consolas, Menlo, "Liberation Mono", Courier, monospace;}
+.sample-data tr:first-child td {font-weight:bold; text-align:center;}
+
+.ui-progressbar {position: relative;}
+#progress-label {
+position: absolute; left: 50%; top: 4px;
+font-weight: bold;
+color: #555; text-shadow: 1px 1px 0 #fff;
+}
+
 /* Custom JQuery styles */
 .ui-datepicker-title select {width:70px !important; margin-top:-2px !important; margin-right:4px !important;}
 
