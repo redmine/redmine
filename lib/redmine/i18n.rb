@@ -60,7 +60,7 @@ module Redmine
 
     # Localizes the given args with user's language
     def lu(user, *args)
-      lang = user.try(:language) || Setting.default_language
+      lang = user.try(:language).presence || Setting.default_language
       ll(lang, *args) 
     end
 

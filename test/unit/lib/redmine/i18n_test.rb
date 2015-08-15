@@ -162,6 +162,15 @@ class Redmine::I18nTest < ActiveSupport::TestCase
     assert_equal "-1000,20 #{euro_sign}", number_to_currency(-1000.2)
   end
 
+  def test_lu_should_not_error_when_user_language_is_an_empty_string
+    user = User.new
+    user.language = ''
+
+    assert_nothing_raised do
+      lu(user, :label_issue)
+    end
+  end
+
   def test_valid_languages
     assert valid_languages.is_a?(Array)
     assert valid_languages.first.is_a?(Symbol)
