@@ -95,7 +95,7 @@ class IssueImport < Import
       end
     end
     if issue.project && version_name = row_value(row, 'fixed_version')
-      if version = issue.project.versions.detect {|v| v.name.downcase == version_name.downcase}
+      if version = issue.project.versions.named(version_name).first
         attributes['fixed_version_id'] = version.id
       elsif create_versions?
         version = issue.project.versions.build
