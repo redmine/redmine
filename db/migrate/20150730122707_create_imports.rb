@@ -7,7 +7,7 @@ class CreateImports < ActiveRecord::Migration
       t.text :settings
       t.integer :total_items
       t.boolean :finished, :null => false, :default => false
-      t.timestamps
+      t.timestamps :null => false
     end
   end
 end
