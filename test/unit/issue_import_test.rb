@@ -69,6 +69,15 @@ class IssueImportTest < ActiveSupport::TestCase
     assert_equal 2, issues[2].parent_id
   end
 
+  def test_assignee_should_be_set
+    import = generate_import_with_mapping
+    import.mapping.merge!('assigned_to' => '11')
+    import.save!
+
+    issues = new_records(Issue, 3) { import.run }
+    assert_equal [User.find(3), nil, nil], issues.map(&:assigned_to)
+  end
+
   def test_is_private_should_be_set_based_on_user_locale
     import = generate_import_with_mapping
     import.mapping.merge!('is_private' => '6')

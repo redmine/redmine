@@ -90,7 +90,7 @@ class IssueImport < Import
       end
     end
     if assignee_name = row_value(row, 'assigned_to')
-      if assignee = issue.assignable_users.detect {|u| u.name.downcase == assignee_name.downcase}
+      if assignee = Principal.detect_by_keyword(issue.assignable_users, assignee_name)
         attributes['assigned_to_id'] = assignee.id
       end
     end
