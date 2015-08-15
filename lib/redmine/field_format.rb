@@ -126,6 +126,22 @@ module Redmine
         []
       end
 
+      def value_from_keyword(custom_field, keyword, object)
+        possible_values_options = possible_values_options(custom_field, object)
+        if possible_values_options.present?
+          keyword = keyword.to_s
+          if v = possible_values_options.detect {|text, id| keyword.casecmp(text)  == 0}
+            if v.is_a?(Array)
+              v.last
+            else
+              v
+            end
+          end
+        else
+          keyword
+        end
+      end
+
       # Returns the validation errors for custom_field
       # Should return an empty array if custom_field is valid
       def validate_custom_field(custom_field)
@@ -659,9 +675,13 @@ module Redmine
       field_attributes :user_role
 
       def possible_values_options(custom_field, object=nil)
+        possible_values_records(custom_field, object).map {|u| [u.name, u.id.to_s]}
+      end
+
+      def possible_values_records(custom_field, object=nil)
         if object.is_a?(Array)
           projects = object.map {|o| o.respond_to?(:project) ? o.project : nil}.compact.uniq
-          projects.map {|project| possible_values_options(custom_field, project)}.reduce(:&) || []
+          projects.map {|project| possible_values_records(custom_field, project)}.reduce(:&) || []
         elsif object.respond_to?(:project) && object.project
           scope = object.project.users
           if custom_field.user_role.is_a?(Array)
@@ -670,10 +690,16 @@ module Redmine
               scope = scope.where("#{Member.table_name}.id IN (SELECT DISTINCT member_id FROM #{MemberRole.table_name} WHERE role_id IN (?))", role_ids)
             end
           end
-          scope.sorted.collect {|u| [u.to_s, u.id.to_s]}
+          scope.sorted
         else
           []
         end
+      end
+
+      def value_from_keyword(custom_field, keyword, object)
+        users = possible_values_records(custom_field, object).to_a
+        user = Principal.detect_by_keyword(users, keyword)
+        user ? user.id : nil
       end
 
       def before_custom_field_save(custom_field)
