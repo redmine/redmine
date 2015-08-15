@@ -146,6 +146,30 @@ class Principal < ActiveRecord::Base
     columns.uniq.map {|field| "#{table}.#{field}"}
   end
 
+  # Returns the principal that matches the keyword among principals
+  def self.detect_by_keyword(principals, keyword)
+    keyword = keyword.to_s
+    return nil if keyword.blank?
+
+    principal = nil
+    principal ||= principals.detect {|a|
+                               keyword.casecmp(a.mail.to_s) == 0 ||
+                                 keyword.casecmp(a.login.to_s) == 0
+                             }
+    if principal.nil? && keyword.match(/ /)
+      firstname, lastname = *(keyword.split) # "First Last Throwaway"
+      principal ||= principals.detect {|a|
+                                 a.is_a?(User) &&
+                                   firstname.casecmp(a.firstname.to_s) == 0 &&
+                                   lastname.casecmp(a.lastname.to_s) == 0
+                               }
+    end
+    if principal.nil?
+      principal ||= principals.detect {|a| keyword.casecmp(a.name) == 0}
+    end
+    principal
+  end
+
   protected
 
   # Make sure we don't try to insert NULL values (see #4632)

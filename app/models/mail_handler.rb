@@ -543,26 +543,6 @@ class MailHandler < ActionMailer::Base
   end
 
   def find_assignee_from_keyword(keyword, issue)
-    keyword = keyword.to_s
-    return nil if keyword.blank?
-
-    assignable = issue.assignable_users
-    assignee = nil
-    assignee ||= assignable.detect {|a|
-                   keyword.casecmp(a.mail.to_s) == 0 ||
-                     keyword.casecmp(a.login.to_s) == 0
-                 }
-    if assignee.nil? && keyword.match(/ /)
-      firstname, lastname = *(keyword.split) # "First Last Throwaway"
-      assignee ||= assignable.detect {|a|
-                     a.is_a?(User) &&
-                       firstname.casecmp(a.firstname.to_s) == 0 &&
-                       lastname.casecmp(a.lastname.to_s) == 0
-                   }
-    end
-    if assignee.nil?
-      assignee ||= assignable.detect {|a| keyword.casecmp(a.name) == 0}
-    end
-    assignee
+    Principal.detect_by_keyword(issue.assignable_users, keyword)
   end
 end
