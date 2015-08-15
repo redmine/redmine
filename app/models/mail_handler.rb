@@ -543,7 +543,7 @@ class MailHandler < ActionMailer::Base
   end
 
   def find_assignee_from_keyword(keyword, issue)
-    keyword = keyword.to_s.downcase
+    keyword = keyword.to_s
     assignable = issue.assignable_users
     assignee = nil
     assignee ||= assignable.detect {|a|
