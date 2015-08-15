@@ -544,6 +544,8 @@ class MailHandler < ActionMailer::Base
 
   def find_assignee_from_keyword(keyword, issue)
     keyword = keyword.to_s
+    return nil if keyword.blank?
+
     assignable = issue.assignable_users
     assignee = nil
     assignee ||= assignable.detect {|a|
