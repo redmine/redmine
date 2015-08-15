@@ -152,10 +152,9 @@ class Principal < ActiveRecord::Base
     return nil if keyword.blank?
 
     principal = nil
-    principal ||= principals.detect {|a|
-                               keyword.casecmp(a.mail.to_s) == 0 ||
-                                 keyword.casecmp(a.login.to_s) == 0
-                             }
+    principal ||= principals.detect {|a| keyword.casecmp(a.login.to_s) == 0}
+    principal ||= principals.detect {|a| keyword.casecmp(a.mail.to_s) == 0}
+
     if principal.nil? && keyword.match(/ /)
       firstname, lastname = *(keyword.split) # "First Last Throwaway"
       principal ||= principals.detect {|a|
