@@ -204,11 +204,16 @@ function getParameterByName(name)
 		return decodeURIComponent(results[1].replace(/\+/g, " "));
 }
 
+function openExistingProjectIn3DExplorer(projectId, experimentId)
+{
+	
+}
+
 function open3DExplorer(file, projectIdentifier)
 {
 	jQuery("#menucontainer li").removeClass("active");
 	jQuery("#explorermenu").parent().addClass("active");
-	jQuery("#3dbrowser").remove();
+
 	if(getParameterByName('explorer')=='')
 	{
 		window.location.href=window.location.href+"?explorer="+file;
@@ -234,18 +239,41 @@ function open3DExplorer(file, projectIdentifier)
 			jQuery("#osbexplorermessage").html("Your graphics card does not seem to support <a href='http://khronos.org/webgl/wiki/Getting_a_WebGL_Implementation'>WebGL</a>.<br />Find out how to get it <a href='http://get.webgl.org/'>here</a>.<br /><br /> You can also <a href='"+ decodedfile + "' target='_blank'>download the file</a> or <a href='"+ repoFilePath + "' target='_blank'>view the file content online</a>.");
 		}
 		else{
-			$.ajax({
-			    url: "/projects/" + projectIdentifier + "/generateGEPPETTOSimulationFile?explorer=" + file,
-			    cache: false,
-			    success: function(json){
-			    	jQuery("#mainContent").hide();
-
-			    	//iframe load
-					jQuery("#mainContent").before("<div id='3dbrowser'><div id='3dspacer' style='display: none;'><br/><br/><br/></div><a class='fullscreen btn icon-desktop' href='javascript:toggleFullScreen();'> Full Screen</a><iframe id='3dframe' style='width:100%' src='" + $("#geppettoIP").val() + "geppetto?load_project_from_url=" + $("#serverIP").val() + json.geppettoSimulationFile + "'></iframe>");
-					document.getElementById('3dframe').onload = resizeIframe;
-					window.onresize = resizeIframe;
-			    }
-			});
+			if (isNaN(file)){
+				$.ajax({
+				    url: "/projects/" + projectIdentifier + "/generateGEPPETTOSimulationFile?explorer=" + file,
+				    cache: false,
+				    success: function(json){
+				    	jQuery("#mainContent").hide();
+				    	
+				    	var urlGeppettoFile = $("#serverIP").val() + json.geppettoSimulationFile;
+				    	
+				    	if (jQuery("#3dbrowser").length > 0){
+				    		document.getElementById("3dframe").contentWindow.postMessage({"command": "loadSimulation", "url": urlGeppettoFile}, "http://127.0.0.1:8080");
+				    	}
+				    	else{
+				    		//iframe load
+				    		jQuery("#mainContent").before("<div id='3dbrowser'><div id='3dspacer' style='display: none;'><br/><br/><br/></div><a class='fullscreen btn icon-desktop' href='javascript:toggleFullScreen();'> Full Screen</a><iframe id='3dframe' style='width:100%' src='" + $("#geppettoIP").val() + "geppetto?load_project_from_url=" + urlGeppettoFile + "'></iframe>");
+				    		document.getElementById('3dframe').onload = resizeIframe;
+				    		window.onresize = resizeIframe;
+				    	}
+				    }
+				});
+			}
+			else{
+				jQuery("#mainContent").hide();
+				
+				if (jQuery("#3dbrowser").length > 0){
+		    		document.getElementById("3dframe").contentWindow.postMessage({"command": "loadSimulation", "url": urlGeppettoFile}, "http://127.0.0.1:8080");
+		    	}
+		    	else{
+		    		//iframe load
+		    		jQuery("#mainContent").before("<div id='3dbrowser'><div id='3dspacer' style='display: none;'><br/><br/><br/></div><a class='fullscreen btn icon-desktop' href='javascript:toggleFullScreen();'> Full Screen</a><iframe id='3dframe' style='width:100%' src='" + $("#geppettoIP").val() + "geppetto?load_project_from_id=" + file + "'></iframe>");
+		    		document.getElementById('3dframe').onload = resizeIframe;
+		    		window.onresize = resizeIframe;
+		    	}
+			}
+			
 		}
 	}
 }
@@ -317,9 +345,6 @@ _gaq.push([ '_trackPageview' ]);
 	s.parentNode.insertBefore(ga, s);
 })();
 
-
-
-$(document).ready(function(){
 //Create the XHR object.
 function createCORSRequest(method, url) {
   var xhr = new XMLHttpRequest();
@@ -337,13 +362,8 @@ function createCORSRequest(method, url) {
   return xhr;
 }
 
-// Helper method to parse the title tag from the response.
-function getTitle(text) {
-  return text.match('<title>(.*)?</title>')[1];
-}
-
 // Make the actual CORS request.
-function makeCorsRequest(url) {
+function makeCorsRequest(url, onloadFunction) {
   var xhr = createCORSRequest('GET', url);
   if (!xhr) {
     alert('CORS not supported');
@@ -353,8 +373,9 @@ function makeCorsRequest(url) {
   // Response handlers.
   xhr.onload = function() {
     var text = xhr.responseText;
-    var title = getTitle(text);
-    alert('Response from CORS request to ' + url + ': ' + title);
+	console.log('Response from CORS request to ' + url + ':');
+	console.log(text);
+    onloadFunction(url, text);
   };
 
   xhr.onerror = function() {
@@ -364,8 +385,3 @@ function makeCorsRequest(url) {
   xhr.withCredentials = true;
   xhr.send();
 }
-
-var url = 'http://127.0.0.1:8080/org.geppetto.frontend/projectswithref?reference=acnet2';
-makeCorsRequest(url);
-
-});

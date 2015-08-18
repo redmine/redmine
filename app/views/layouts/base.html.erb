@@ -135,7 +135,7 @@
 								<% if not @networkfiles.empty? %>
 									<%= javascript_tag 'jQuery("#explorermenu").append("<li class=dropdown-submenu ><a tabindex=-1 href=#>Networks</a><ul class=dropdown-menu id=networkmenu></ul></li>");' %>
 									<% for nml2file in @networkfiles %>
-										<%= javascript_tag 'jQuery("#networkmenu").append("<li><a  href=# tabindex=-1 onclick=open3DExplorer(encodeURIComponent(&quot;'+ @repourl + @repopath + nml2file + '&quot;),&quot;' + @project.identifier + '&quot;);>'+ nml2file + '</a></li>");'%>
+										<%= javascript_tag 'jQuery("#networkmenu").append("<li id='+ nml2file.rpartition('/').last + ' class=dropdown-submenu><a href=# tabindex=-1 onclick=open3DExplorer(encodeURIComponent(&quot;'+ @repourl + @repopath + nml2file + '&quot;),&quot;' + @project.identifier + '&quot;);>'+ nml2file + '</a></li>");'%>
 									<% end %>
 									</ul>
 								<% end %>
@@ -209,9 +209,6 @@
 						<li>
 							<a href="/docs#Getting_Started">Help</a> |
 						</li>
-						<!-- <li>
-							<a href="/guides.html">Guides</a> |
-						</li>-->
 						<li>
 							<a href="/docs/Research_Themes">Research Themes</a> |
 						</li> 
@@ -226,7 +223,7 @@
 	</body>
 </html>
 
-<iframe id='geppettoLogin' style='display:none;' src=''></iframe>
+<!-- <iframe id='geppettoLogin' style='display:none;' src=''></iframe> -->
 <iframe id='geppettoLogout' style='display:none;' src=''></iframe>
 <script>
 handleSizingResponse = function(e) {
@@ -241,19 +238,47 @@ handleSizingResponse = function(e) {
 }
 window.addEventListener('message', handleSizingResponse, false);
 //document.getElementById("geppettoDashboard").contentWindow.postMessage("#AAAAAA", "http://127.0.0.1:8080");
+
 </script>
 <script>
 var redmineLogin = "<%= User.current.login %>";
 var redmineHashed = "<%= User.current.hashed_password %>";
-jQuery(function()
-{
-	if (redmineLogin != ""){
-		$("#geppettoLogin").attr('src', "<%= Rails.application.config.serversIP['geppettoIP']  %>login?username=<%= User.current.login %>&password=<%= User.current.hashed_password %>");
+function processLogin(url, text){
+}	
+function processCurrentUser(url, text){
+	if (text == ""){
+		//var currentUser = JSON.parse(text);
+		if (redmineLogin != ""){
+			makeCorsRequest("<%= Rails.application.config.serversIP['geppettoIP']  %>login?username=<%= User.current.login %>&password=<%= User.current.hashed_password %>", processLogin);
+		}
+		else{
+			makeCorsRequest("<%= Rails.application.config.serversIP['geppettoIP']  %>login?username=osbanonymous&password=anonymous", processLogin)
+		}	
 	}
-	else{
-		$("#geppettoLogin").attr('src', "<%= Rails.application.config.serversIP['geppettoIP']  %>login?username=osbanonymous&password=anonymous");
+	
+};
+
+makeCorsRequest("<%= Rails.application.config.serversIP['geppettoIP']  %>currentuser", processCurrentUser);
+</script>
+<script>
+function processCurrentProjects(url, text){
+	var currentProjects = JSON.parse(text);
+	for (projectIndex in currentProjects){
+		var projectName = currentProjects[projectIndex].name.split(" - ");
+		
+		//This can be used to parse the id if we use to whole path instead of the file name .replace(/([ #;?&,.+*~\':"!^$[\]()=>|\/@])/g,"\\\\$1");
+		var filenameEscape = projectName[0].concat(".nml").replace(/([ #;?&,.+*~\':"!^$[\]()=>|\/@])/g,"\\$1");
+		$("[id=" + filenameEscape + "]").append("<ul class=dropdown-menu><li><a href=# tabindex=-1 onclick=open3DExplorer(" + currentProjects[projectIndex].id + ",'<%= @project.identifier%>');>" + projectName[0] + "</a></li></ul>");
+		
 	}
-})
+	
+};
+<% if isAProject %>
+	<% @repourl=getHttpRepositoryURL(@project) %>
+	<% if(@repourl && @project.repository != nil && (not @neuroml2files.empty?))%>
+		makeCorsRequest("<%= Rails.application.config.serversIP['geppettoIP'] %>projectswithref?reference=<%= @project.identifier%>", processCurrentProjects);
+	<% end %>
+<% end %>
 </script>
 <script>
 $('#logout_link').click(function(e){

@@ -44,14 +44,23 @@
 <% end %>
 
 <script>
+function processLogout(url, text){
+	console.log('Response from CORS request to ' + url + ':');
+	console.log(text);
+	$('form').trigger('submit');
+};
 $('#loginButton').click(function(e){
      e.preventDefault();
      
+     makeCorsRequest("<%= Rails.application.config.serversIP['geppettoIP']  %>logout", processLogout);
+     
      //When the iframe loaded submit the form
-     $('#geppettoLogout').load(function(){
-    	$('form').trigger('submit');
-	});
-	$("#geppettoLogout").attr('src', "<%= Rails.application.config.serversIP['geppettoIP']  %>logout");
+     // $('#geppettoLogout').load(function(){
+    	// $('form').trigger('submit');
+	// });
+	// $("#geppettoLogout").attr('src', "<%= Rails.application.config.serversIP['geppettoIP']  %>logout");
 	    
 });
+
+
 </script>
