@@ -723,11 +723,24 @@ class ProjectTest < ActiveSupport::TestCase
 
     # Duplicated attributes
     assert_equal source_project.description, copied_project.description
-    assert_equal source_project.enabled_modules, copied_project.enabled_modules
     assert_equal source_project.trackers, copied_project.trackers
 
     # Default attributes
     assert_equal 1, copied_project.status
+  end
+
+  def test_copy_from_should_copy_enabled_modules
+    source = Project.generate!
+    source.enabled_module_names = %w(issue_tracking wiki)
+
+    copy = Project.copy_from(source)
+    copy.name = 'Copy'
+    copy.identifier = 'copy'
+    assert_difference 'EnabledModule.count', 2 do
+      copy.save!
+    end
+    assert_equal 2, copy.reload.enabled_modules.count
+    assert_equal 2, source.reload.enabled_modules.count
   end
 
   def test_activities_should_use_the_system_activities
