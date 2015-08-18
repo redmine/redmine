@@ -125,11 +125,11 @@ module Redmine
           end
         end
       end
-      
+
       def controller
         nil
       end
-      
+
       def config
         ActionController::Base.config
       end
@@ -171,5 +171,5 @@ module Redmine
   end
 end
 
-ApplicationHelper.send(:include, Redmine::Hook::Helper)
+ActionView::Base.send(:include, Redmine::Hook::Helper)
 ActionController::Base.send(:include, Redmine::Hook::Helper)
