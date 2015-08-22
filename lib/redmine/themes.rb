@@ -126,7 +126,7 @@ module Redmine
   end
 end
 
-module ThemesHelper
+module ApplicationHelper
   def current_theme
     unless instance_variable_defined?(:@current_theme)
       @current_theme = Redmine::Themes.theme(Setting.ui_theme)
@@ -141,4 +141,3 @@ module ThemesHelper
     end
   end
 end
-ActionView::Base.send(:include, ThemesHelper)
