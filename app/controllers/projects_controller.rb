@@ -386,18 +386,6 @@ class ProjectsController < ApplicationController
     if params[:jump] && redirect_to_project_menu_item(@project, params[:jump])
       return
     end
-    
-    #Get Geppetto Projects for this User
-    # geppettoRegisterURL = "http://127.0.0.1:8080/org.geppetto.frontend/projectswithref?reference=" + @project.identifier
-    # begin
-      # geppettoProjects = open(geppettoRegisterURL, 'r', :read_timeout=>2)
-    # rescue OpenURI::HTTPError
-      # print "Error requesting modelContent: #{geppettoRegisterURL}"
-    # rescue => e   
-      # print "Error requesting modelContent: #{geppettoRegisterURL}"
-    # else
-    # end 
-
 
     @users_by_role = @project.users_by_role
     @subprojects = @project.children.visible.all
@@ -429,7 +417,8 @@ class ProjectsController < ApplicationController
       # CREATE ENTITY AND DOC TYPE #
       ##############################
       #Read entity name and model type (cell,channel,synapse,cell) from url  
-      filenameSplit = File.basename(uri.path).split(".")
+      filename = File.basename(uri.path)
+      filenameSplit = filename.split(".")
       entity = filenameSplit[0]
       #FIXME: This a quick fix but actually we should check entity is valid js variable name
       if /^\d+/.match(entity) 
@@ -489,7 +478,7 @@ class ProjectsController < ApplicationController
       
       geppettoSimulationFile = {
         "id" => 1,
-        "name" => filenameSplit[0] + " - " + filenameSplit[1],
+        "name" => filename.rpartition('.').first + ((filenameSplit[1] != "nml")? " - " + filenameSplit[1]:""),
         "activeExperimentId" => 1,
         "experiments" => [{
            "id" => 1,
