@@ -248,30 +248,30 @@ function open3DExplorer(file, projectIdentifier)
 				    	
 				    	var urlGeppettoFile = $("#serverIP").val() + json.geppettoSimulationFile;
 				    	
-				    	if (jQuery("#3dbrowser").length > 0){
-				    		document.getElementById("3dframe").contentWindow.postMessage({"command": "loadSimulation", "url": urlGeppettoFile}, "http://127.0.0.1:8080");
-				    	}
-				    	else{
+//				    	if (jQuery("#3dbrowser").length > 0){
+//				    		document.getElementById("3dframe").contentWindow.postMessage({"command": "loadSimulation", "url": urlGeppettoFile}, "http://127.0.0.1:8080");
+//				    	}
+//				    	else{
 				    		//iframe load
 				    		jQuery("#mainContent").before("<div id='3dbrowser'><div id='3dspacer' style='display: none;'><br/><br/><br/></div><a class='fullscreen btn icon-desktop' href='javascript:toggleFullScreen();'> Full Screen</a><iframe id='3dframe' style='width:100%' src='" + $("#geppettoIP").val() + "geppetto?load_project_from_url=" + urlGeppettoFile + "'></iframe>");
 				    		document.getElementById('3dframe').onload = resizeIframe;
 				    		window.onresize = resizeIframe;
-				    	}
+//				    	}
 				    }
 				});
 			}
 			else{
 				jQuery("#mainContent").hide();
 				
-				if (jQuery("#3dbrowser").length > 0){
-		    		document.getElementById("3dframe").contentWindow.postMessage({"command": "loadSimulation", "url": urlGeppettoFile}, "http://127.0.0.1:8080");
-		    	}
-		    	else{
+//				if (jQuery("#3dbrowser").length > 0){
+//		    		document.getElementById("3dframe").contentWindow.postMessage({"command": "loadSimulation", "projectId": file}, "http://127.0.0.1:8080");
+//		    	}
+//		    	else{
 		    		//iframe load
 		    		jQuery("#mainContent").before("<div id='3dbrowser'><div id='3dspacer' style='display: none;'><br/><br/><br/></div><a class='fullscreen btn icon-desktop' href='javascript:toggleFullScreen();'> Full Screen</a><iframe id='3dframe' style='width:100%' src='" + $("#geppettoIP").val() + "geppetto?load_project_from_id=" + file + "'></iframe>");
 		    		document.getElementById('3dframe').onload = resizeIframe;
 		    		window.onresize = resizeIframe;
-		    	}
+//		    	}
 			}
 			
 		}
@@ -379,7 +379,7 @@ function makeCorsRequest(url, onloadFunction) {
   };
 
   xhr.onerror = function() {
-    alert('Woops, there was an error making the request.');
+    alert('Woops, there was an error making the request to ' + url);
   };
 
   xhr.withCredentials = true;
