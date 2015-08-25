@@ -379,7 +379,8 @@ function makeCorsRequest(url, onloadFunction) {
   };
 
   xhr.onerror = function() {
-    alert('Woops, there was an error making the request to ' + url);
+    //alert('Woops, there was an error making the request to ' + url);
+	console.log('Woops, there was an error making the request to ' + url);  
   };
 
   xhr.withCredentials = true;
