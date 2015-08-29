@@ -47,6 +47,9 @@ matrix:
     - env: "SUITE=ui          DB=mariadb-5.5"
     - env: "SUITE=ui          DB=mariadb-10.0"
     - env: "SUITE=ui          DB=sqlite3"
+    - env: "SUITE=units       DB=mysql-5.7-dmr"
+    - env: "SUITE=functionals DB=mysql-5.7-dmr"
+    - env: "SUITE=integration DB=mysql-5.7-dmr"
     # SCM tests fail randomly due to IO.popen().
     # http://www.redmine.org/issues/19091
     # https://github.com/jruby/jruby/issues/779
