@@ -51,6 +51,7 @@ matrix:
     - env: "SUITE=units       DB=mysql-5.7-dmr"
     - env: "SUITE=functionals DB=mysql-5.7-dmr"
     - env: "SUITE=integration DB=mysql-5.7-dmr"
+    - rvm: jruby-9.0.0.0
     # SCM tests fail randomly due to IO.popen().
     # http://www.redmine.org/issues/19091
     # https://github.com/jruby/jruby/issues/779
