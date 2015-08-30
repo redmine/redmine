@@ -7,6 +7,7 @@ rvm:
   - 2.0
   - 2.1
   - 2.2
+  - jruby-9.0.0.0
   - jruby
 env:
   - "SUITE=units       DB=postgresql"
@@ -61,6 +62,13 @@ matrix:
     - env: "SUITE=units       DB=mariadb-5.5"
     - env: "SUITE=units       DB=mariadb-10.0"
 before_install:
+  # https://github.com/travis-ci/travis-ci/issues/4720
+  - if [[ ${TRAVIS_RUBY_VERSION} =~ jruby-9\.0 ]] ;
+    then
+      rvm get master ;
+      rvm use ${TRAVIS_RUBY_VERSION} --install ;
+      ruby --version ;
+    fi
   - "sudo apt-get update -qq"
   - "sudo apt-get --no-install-recommends install bzr cvs git mercurial subversion"
   - dpkg -l *mysql*
@@ -101,6 +109,6 @@ script:
   - "bundle install"
   - "bundle exec rake ci:setup"
   - phantomjs --webdriver 4444 &
-  - JRUBY_OPTS=-J-Xmx1024m bundle exec rake test:${SUITE}
+  - JRUBY_OPTS='-J-Xmx1024m -J-XX:MaxPermSize=1024m' bundle exec rake test:${SUITE}
 notifications:
   email: false
