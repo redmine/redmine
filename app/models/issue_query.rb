@@ -267,6 +267,12 @@ class IssueQuery < Query
         :default_order => 'desc',
         :caption => :label_spent_time
       )
+      @available_columns.insert index+1, QueryColumn.new(:total_spent_hours,
+        :sortable => "COALESCE((SELECT SUM(hours) FROM #{TimeEntry.table_name} JOIN #{Issue.table_name} subtasks ON subtasks.id = #{TimeEntry.table_name}.issue_id" +
+          " WHERE subtasks.root_id = #{Issue.table_name}.root_id AND subtasks.lft >= #{Issue.table_name}.lft AND subtasks.rgt <= #{Issue.table_name}.rgt), 0)",
+        :default_order => 'desc',
+        :caption => :label_total_spent_time
+      )
     end
 
     if User.current.allowed_to?(:set_issues_private, nil, :global => true) ||

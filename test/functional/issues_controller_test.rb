@@ -714,6 +714,13 @@ class IssuesControllerTest < ActionController::TestCase
     hours = assigns(:issues).collect(&:spent_hours)
     assert_equal hours.sort.reverse, hours
   end
+  
+  def test_index_sort_by_total_spent_hours
+    get :index, :sort => 'total_spent_hours:desc'
+    assert_response :success
+    hours = assigns(:issues).collect(&:total_spent_hours)
+    assert_equal hours.sort.reverse, hours
+  end
 
   def test_index_sort_by_user_custom_field
     cf = IssueCustomField.create!(:name => 'User', :is_for_all => true, :tracker_ids => [1,2,3], :field_format => 'user')
@@ -846,6 +853,11 @@ class IssuesControllerTest < ActionController::TestCase
   def test_index_with_spent_hours_column
     get :index, :set_filter => 1, :c => %w(subject spent_hours)
     assert_select 'table.issues tr#issue-3 td.spent_hours', :text => '1.00'
+  end
+
+  def test_index_with_total_spent_hours_column
+    get :index, :set_filter => 1, :c => %w(subject total_spent_hours)
+    assert_select 'table.issues tr#issue-3 td.total_spent_hours', :text => '1.00'
   end
 
   def test_index_should_not_show_spent_hours_column_without_permission
