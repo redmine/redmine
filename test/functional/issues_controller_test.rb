@@ -851,11 +851,13 @@ class IssuesControllerTest < ActionController::TestCase
   end
 
   def test_index_with_spent_hours_column
+    Issue.expects(:load_visible_spent_hours).once
     get :index, :set_filter => 1, :c => %w(subject spent_hours)
     assert_select 'table.issues tr#issue-3 td.spent_hours', :text => '1.00'
   end
 
   def test_index_with_total_spent_hours_column
+    Issue.expects(:load_visible_total_spent_hours).once
     get :index, :set_filter => 1, :c => %w(subject total_spent_hours)
     assert_select 'table.issues tr#issue-3 td.total_spent_hours', :text => '1.00'
   end
