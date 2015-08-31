@@ -947,7 +947,7 @@ class Issue < ActiveRecord::Base
     end
   end
 
-  # Preloads visible total spent time for a collection of issues
+  # Preloads visible spent time for a collection of issues
   def self.load_visible_spent_hours(issues, user=User.current)
     if issues.any?
       hours_by_issue_id = TimeEntry.visible(user).where(:issue_id => issues.map(&:id)).group(:issue_id).sum(:hours)
@@ -957,6 +957,7 @@ class Issue < ActiveRecord::Base
     end
   end
 
+  # Preloads visible total spent time for a collection of issues
   def self.load_visible_total_spent_hours(issues, user=User.current)
     if issues.any?
       hours_by_issue_id = TimeEntry.visible(user).joins(:issue).
