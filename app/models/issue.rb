@@ -918,11 +918,10 @@ class Issue < ActiveRecord::Base
 
   # Returns the total number of hours spent on this issue and its descendants
   def total_spent_hours
-    if leaf?
+    @total_spent_hours ||= if leaf?
       spent_hours
     else
-      @total_spent_hours ||=
-        self_and_descendants.joins(:time_entries).sum("#{TimeEntry.table_name}.hours").to_f || 0.0
+      self_and_descendants.joins(:time_entries).sum("#{TimeEntry.table_name}.hours").to_f || 0.0
     end
   end
 
@@ -948,12 +947,22 @@ class Issue < ActiveRecord::Base
     end
   end
 
-  # Preloads visible spent time for a collection of issues
+  # Preloads visible total spent time for a collection of issues
   def self.load_visible_spent_hours(issues, user=User.current)
     if issues.any?
       hours_by_issue_id = TimeEntry.visible(user).group(:issue_id).sum(:hours)
       issues.each do |issue|
         issue.instance_variable_set "@spent_hours", (hours_by_issue_id[issue.id] || 0)
+      end
+    end
+  end
+
+  def self.load_visible_total_spent_hours(issues, user=User.current)
+    if issues.any?
+      hours_by_issue_id = TimeEntry.visible(user).joins(:issue).joins("JOIN #{Issue.table_name} parent ON parent.root_id = #{Issue.table_name}.root_id" +
+        " AND parent.lft <= #{Issue.table_name}.lft AND parent.rgt >= #{Issue.table_name}.rgt").group("parent.id").sum(:hours)
+      issues.each do |issue|
+        issue.instance_variable_set "@total_spent_hours", (hours_by_issue_id[issue.id] || 0)
       end
     end
   end

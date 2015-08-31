@@ -353,6 +353,9 @@ class IssueQuery < Query
     if has_column?(:spent_hours)
       Issue.load_visible_spent_hours(issues)
     end
+    if has_column?(:total_spent_hours)
+      Issue.load_visible_total_spent_hours(issues)
+    end
     if has_column?(:relations)
       Issue.load_visible_relations(issues)
     end
