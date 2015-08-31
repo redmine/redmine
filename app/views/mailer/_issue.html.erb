@@ -2,7 +2,7 @@
 
 <%= render_email_issue_attributes(issue, users.first, true) %>
 
-<div class="description"><%= textilizable(issue, :description, :only_path => false) %></div>
+<%= textilizable(issue, :description, :only_path => false) %>
 
 <% if issue.attachments.any? %>
   <fieldset class="attachments"><legend><%= l(:label_attachment_plural) %></legend>
