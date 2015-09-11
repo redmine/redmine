@@ -373,8 +373,8 @@ function makeCorsRequest(url, onloadFunction) {
   // Response handlers.
   xhr.onload = function() {
     var text = xhr.responseText;
-	console.log('Response from CORS request to ' + url + ':');
-	console.log(text);
+//	console.log('Response from CORS request to ' + url + ':');
+//	console.log(text);
     onloadFunction(url, text);
   };
 
