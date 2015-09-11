@@ -36,7 +36,7 @@ RedmineApp::Application.routes.draw do
   match 'projects/people', :to => 'projects#people'
   match 'projects/informationOSB', :to => redirect('/docs')
   
-  match 'projects/generateGEPPETTOSimulationFile', :to => 'projects#generateGEPPETTOSimulationFile'
+  match 'projects/:id/generateGEPPETTOSimulationFile', :to => 'projects#generateGEPPETTOSimulationFile'
   
   # Redirects to new doc pages (To be removed once the new docs is stable)
   match 'guides', :to => redirect('/docs')
@@ -47,7 +47,12 @@ RedmineApp::Application.routes.draw do
   match '/projects/simulators(/*path)', :to => redirect('/docs#Simulators')
   match '/projects/testprojecu(/*path)', :to => redirect('/docs#Creating_Your_Own_Project')
   match '/projects/neuroconstructprojects(/*path)', :to => redirect('/docs#Using_Neuro_Construct_Based_Projects')
-    
+  
+  match '/projects/osb/wiki/Meetings(/*path)', :to => redirect('/docs#Meetings')
+  match '/projects/osb/wiki/Faq(/*path)', :to => redirect('/docs#FAQ') 
+  
+  
+  
   match 'themes', :to => redirect('/docs/Research_Themes')
   match 'embedded/osb(/*path)', :to => redirect('/projects#cells_graph')
   

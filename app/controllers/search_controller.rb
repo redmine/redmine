@@ -33,7 +33,8 @@ class SearchController < ApplicationController
       when 'subprojects'
         @project ? (@project.self_and_descendants.active.all) : nil
       else
-        @project
+        # @project
+        nil
       end
 
     offset = nil

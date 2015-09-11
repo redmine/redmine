@@ -549,8 +549,9 @@ class Project < ActiveRecord::Base
 
 # Returns a short description of the projects (first lines)
   def short_description_without_image(length = 300)
-    if description
+    if description and description != ""
       description.gsub(/^(.{#{length}}[^\n\r]*).*$/m, '\1...').strip 
+     
       firstLine = description.lines.first.chomp
       if (firstLine.start_with?("![]"))
         first_newline = (description.index("\n") || description.size - 1) + 1

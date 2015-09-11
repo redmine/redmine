@@ -204,11 +204,16 @@ function getParameterByName(name)
 		return decodeURIComponent(results[1].replace(/\+/g, " "));
 }
 
-function open3DExplorer(file)
+function openExistingProjectIn3DExplorer(projectId, experimentId)
+{
+	
+}
+
+function open3DExplorer(file, projectIdentifier)
 {
 	jQuery("#menucontainer li").removeClass("active");
 	jQuery("#explorermenu").parent().addClass("active");
-	jQuery("#3dbrowser").remove();
+
 	if(getParameterByName('explorer')=='')
 	{
 		window.location.href=window.location.href+"?explorer="+file;
@@ -234,18 +239,41 @@ function open3DExplorer(file)
 			jQuery("#osbexplorermessage").html("Your graphics card does not seem to support <a href='http://khronos.org/webgl/wiki/Getting_a_WebGL_Implementation'>WebGL</a>.<br />Find out how to get it <a href='http://get.webgl.org/'>here</a>.<br /><br /> You can also <a href='"+ decodedfile + "' target='_blank'>download the file</a> or <a href='"+ repoFilePath + "' target='_blank'>view the file content online</a>.");
 		}
 		else{
-			$.ajax({
-			    url: "/projects/generateGEPPETTOSimulationFile?explorer=" + file,
-			    cache: false,
-			    success: function(json){
-			    	jQuery("#mainContent").hide();
-
-			    	//iframe load
-					jQuery("#mainContent").before("<div id='3dbrowser'><div id='3dspacer' style='display: none;'><br/><br/><br/></div><a class='fullscreen btn icon-desktop' href='javascript:toggleFullScreen();'> Full Screen</a><iframe id='3dframe' style='width:100%' src='" + $("#geppettoIP").val() + "geppetto?load_project_from_url=" + $("#serverIP").val() + json.geppettoSimulationFile + "'></iframe>");
-					document.getElementById('3dframe').onload = resizeIframe;
-					window.onresize = resizeIframe;
-			    }
-			});
+			if (isNaN(file)){
+				$.ajax({
+				    url: "/projects/" + projectIdentifier + "/generateGEPPETTOSimulationFile?explorer=" + file,
+				    cache: false,
+				    success: function(json){
+				    	jQuery("#mainContent").hide();
+				    	
+				    	var urlGeppettoFile = $("#serverIP").val() + json.geppettoSimulationFile;
+				    	
+//				    	if (jQuery("#3dbrowser").length > 0){
+//				    		document.getElementById("3dframe").contentWindow.postMessage({"command": "loadSimulation", "url": urlGeppettoFile}, "http://127.0.0.1:8080");
+//				    	}
+//				    	else{
+				    		//iframe load
+				    		jQuery("#mainContent").before("<div id='3dbrowser'><div id='3dspacer' style='display: none;'><br/><br/><br/></div><a class='fullscreen btn icon-desktop' href='javascript:toggleFullScreen();'> Full Screen</a><iframe id='3dframe' style='width:100%' src='" + $("#geppettoIP").val() + "geppetto?load_project_from_url=" + urlGeppettoFile + "'></iframe>");
+				    		document.getElementById('3dframe').onload = resizeIframe;
+				    		window.onresize = resizeIframe;
+//				    	}
+				    }
+				});
+			}
+			else{
+				jQuery("#mainContent").hide();
+				
+//				if (jQuery("#3dbrowser").length > 0){
+//		    		document.getElementById("3dframe").contentWindow.postMessage({"command": "loadSimulation", "projectId": file}, "http://127.0.0.1:8080");
+//		    	}
+//		    	else{
+		    		//iframe load
+		    		jQuery("#mainContent").before("<div id='3dbrowser'><div id='3dspacer' style='display: none;'><br/><br/><br/></div><a class='fullscreen btn icon-desktop' href='javascript:toggleFullScreen();'> Full Screen</a><iframe id='3dframe' style='width:100%' src='" + $("#geppettoIP").val() + "geppetto?load_project_from_id=" + file + "'></iframe>");
+		    		document.getElementById('3dframe').onload = resizeIframe;
+		    		window.onresize = resizeIframe;
+//		    	}
+			}
+			
 		}
 	}
 }
@@ -316,3 +344,45 @@ _gaq.push([ '_trackPageview' ]);
 	var s = document.getElementsByTagName('script')[0];
 	s.parentNode.insertBefore(ga, s);
 })();
+
+//Create the XHR object.
+function createCORSRequest(method, url) {
+  var xhr = new XMLHttpRequest();
+  if ("withCredentials" in xhr) {
+    // XHR for Chrome/Firefox/Opera/Safari.
+    xhr.open(method, url, true);
+  } else if (typeof XDomainRequest != "undefined") {
+    // XDomainRequest for IE.
+    xhr = new XDomainRequest();
+    xhr.open(method, url);
+  } else {
+    // CORS not supported.
+    xhr = null;
+  }
+  return xhr;
+}
+
+// Make the actual CORS request.
+function makeCorsRequest(url, onloadFunction) {
+  var xhr = createCORSRequest('GET', url);
+  if (!xhr) {
+    alert('CORS not supported');
+    return;
+  }
+
+  // Response handlers.
+  xhr.onload = function() {
+    var text = xhr.responseText;
+//	console.log('Response from CORS request to ' + url + ':');
+//	console.log(text);
+    onloadFunction(url, text);
+  };
+
+  xhr.onerror = function() {
+    //alert('Woops, there was an error making the request to ' + url);
+	console.log('Woops, there was an error making the request to ' + url);  
+  };
+
+  xhr.withCredentials = true;
+  xhr.send();
+}

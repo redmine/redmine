@@ -18,6 +18,7 @@ body {
 	padding-bottom: 100px; /* this needs to be bigger than footer height*/
 }
 
+
 /* From redmine */
 
 /***** Diff *****/
@@ -385,8 +386,9 @@ tr.open span.expander:before {
 .bs-docs-sidenav.affix {
 	top: 40px;
 }
-#project_overview_list_2.bs-docs-sidenav.affix {
-	top: 540px;
+#project_overview_list_2.bs-docs-sidenav.affix, #project_overview_list_2.bs-docs-sidenav.affix-bottom {
+	position: relative;
+	top: 0px;
 }
 
 .bs-docs-sidenav.affix-bottom {
@@ -394,7 +396,6 @@ tr.open span.expander:before {
 	top: auto;
 	bottom: 270px;
 }
-
 /* Marketing section of Overview
  -------------------------------------------------- */
 
@@ -1587,10 +1588,14 @@ div.splitcontentleft > h2 {
 	padding-top: 10px;
 }
 
+#helpTitle i{
+	text-decoration: none;
+}	
 #helpTitle{
 	width: 100%;
 	text-align: right;
 	margin-bottom: 0px;
+	
 }
 #helpIcon {
 	font-size: 65px;

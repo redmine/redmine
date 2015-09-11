@@ -2,7 +2,7 @@
 	<p class="lead">Explore Open Source Brain</p>
 	<!-- This begins the vertical tab on the left-->
 	<div class="tabbable tabs-left">
-		<ul class="nav nav-tabs"> 
+		<ul class="nav nav-tabs">
 			<li class="active"><a href="#cells" id="cellsLink" data-toggle="tab">Cells and Networks</a></li>
             <li><a href="#technology" id="technologyLink" data-toggle="tab">Technology</a></li>
             <li><a href="#groups" id="groupsLink" data-toggle="tab">Research Groups</a></li>
@@ -11,9 +11,12 @@
             <li><a href="#announceOSB" id="announceOSBLink" data-toggle="tab">OSB Announcements</a></li>
             <li><a href="#discussOSB" id="discussOSBLink" data-toggle="tab">OSB Discussions</a></li> 
 		</ul>
-		<!-- This begins the cells and network section -->
+		
 		<div class="tab-content">
+			
+			<!-- This begins the cells and network section -->
 			<div class="tab-pane active" id="cells">
+			
 				<div class="tabbable">
 					<div class="row pagination-centered">
 						<div id="view-tab" class="btn-group" data-toggle="buttons-radio">
@@ -85,6 +88,7 @@
 					</p>
 				</div>	    		
 	        </div>
+	        
 	        <!-- This begins the research groups section -->
 	        <div class="tab-pane" id="groups">
 	        	<div style="text-align:center;">
@@ -176,8 +180,6 @@ jQuery(function()
 		if(history.pushState) {history.pushState(null, null, $(this).attr('href'));}
 		swithTabsPriority($(this).attr('id'));});
 			 
-			 
-			 
 	//Load tabs sequentially 	
 	loadTab(selectedTab);
 	function loadTab(tabName){
@@ -193,7 +195,7 @@ jQuery(function()
            }	
         },
         error: function( xhr, textStatus, errorThrown ) {
-	      console.log("textStatus: " + textStatus);
+	      console.log("Error loading tab: " + textStatus);
 	    }
       });
 	}	
