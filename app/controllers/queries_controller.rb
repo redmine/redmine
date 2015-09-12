@@ -108,6 +108,7 @@ private
     @query.name = params[:query] && params[:query][:name]
     if User.current.allowed_to?(:manage_public_queries, @query.project) || User.current.admin?
       @query.visibility = (params[:query] && params[:query][:visibility]) || IssueQuery::VISIBILITY_PRIVATE
+      @query.role_ids = params[:query] && params[:query][:role_ids]
     else
       @query.visibility = IssueQuery::VISIBILITY_PRIVATE
     end
