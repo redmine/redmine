@@ -327,6 +327,13 @@ class AttachmentTest < ActiveSupport::TestCase
     set_tmp_attachments_directory
   end
 
+  def test_latest_attach_should_not_error_with_string_with_invalid_encoding
+    string = "width:50\xFE-Image.jpg".force_encoding('UTF-8')
+    assert_equal false, string.valid_encoding?
+
+    Attachment.latest_attach(Attachment.limit(2).to_a, string)
+  end
+
   def test_thumbnailable_should_be_true_for_images
     assert_equal true, Attachment.new(:filename => 'test.jpg').thumbnailable?
   end
