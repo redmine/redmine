@@ -92,6 +92,22 @@ class QueriesControllerTest < ActionController::TestCase
     assert q.valid?
   end
 
+  def test_create_project_roles_query
+    @request.session[:user_id] = 2
+    post :create,
+         :project_id => 'ecookbook',
+         :default_columns => '1',
+         :fields => ["status_id", "assigned_to_id"],
+         :operators => {"assigned_to_id" => "=", "status_id" => "o"},
+         :values => { "assigned_to_id" => ["1"], "status_id" => ["1"]},
+         :query => {"name" => "test_create_project_roles_query", "visibility" => "1", "role_ids" => ["1", "2", ""]}
+
+    q = Query.find_by_name('test_create_project_roles_query')
+    assert_redirected_to :controller => 'issues', :action => 'index', :project_id => 'ecookbook', :query_id => q
+    assert_equal Query::VISIBILITY_ROLES, q.visibility
+    assert_equal [1, 2], q.roles.ids.sort
+  end
+
   def test_create_global_private_query_with_custom_columns
     @request.session[:user_id] = 3
     post :create,
