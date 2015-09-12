@@ -656,8 +656,7 @@ class User < Principal
       (!admin? || User.active.where("admin = ? AND id <> ?", true, id).exists?)
   end
 
-  safe_attributes 'login',
-    'firstname',
+  safe_attributes 'firstname',
     'lastname',
     'mail',
     'mail_notification',
