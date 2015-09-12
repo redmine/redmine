@@ -1175,3 +1175,4 @@ pl:
   label_member_management_selected_roles_only: Only these roles
   label_password_required: Confirm your password to continue
   label_total_spent_time: Przepracowany czas
+  field_total_estimated_hours: Total estimated time
