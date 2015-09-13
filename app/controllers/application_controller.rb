@@ -393,8 +393,8 @@ class ApplicationController < ActionController::Base
 
   def redirect_back_or_default(default, options={})
     back_url = params[:back_url].to_s
-    if back_url.present? && valid_back_url?(back_url)
-      redirect_to(back_url)
+    if back_url.present? && valid_url = validate_back_url(back_url)
+      redirect_to(valid_url)
       return
     elsif options[:referer]
       redirect_to_referer_or default
@@ -404,8 +404,9 @@ class ApplicationController < ActionController::Base
     false
   end
 
-  # Returns true if back_url is a valid url for redirection, otherwise false
-  def valid_back_url?(back_url)
+  # Returns a validated URL string if back_url is a valid url for redirection,
+  # otherwise false
+  def validate_back_url(back_url)
     if CGI.unescape(back_url).include?('..')
       return false
     end
@@ -416,19 +417,36 @@ class ApplicationController < ActionController::Base
       return false
     end
 
-    if uri.host.present? && uri.host != request.host
+    [:scheme, :host, :port].each do |component|
+      if uri.send(component).present? && uri.send(component) != request.send(component)
+        return false
+      end
+      uri.send(:"#{component}=", nil)
+    end
+    # Always ignore basic user:password in the URL
+    uri.userinfo = nil
+
+    path = uri.to_s
+    # Ensure that the remaining URL starts with a slash, followed by a
+    # non-slash character or the end
+    if path !~ %r{\A/([^/]|\z)}
       return false
     end
 
-    if uri.path.match(%r{/(login|account/register)})
+    if path.match(%r{/(login|account/register)})
       return false
     end
 
-    if relative_url_root.present? && !uri.path.starts_with?(relative_url_root)
+    if relative_url_root.present? && !path.starts_with?(relative_url_root)
       return false
     end
 
-    return true
+    return path
+  end
+  private :validate_back_url
+
+  def valid_back_url?(back_url)
+    !!validate_back_url(back_url)
   end
   private :valid_back_url?
 
