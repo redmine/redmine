@@ -117,7 +117,8 @@ class AccountControllerTest < ActionController::TestCase
       '//test.foo',
       '////test.foo',
       '@test.foo',
-      'fake@test.foo'
+      'fake@test.foo',
+      '.test.foo'
     ]
     back_urls.each do |back_url|
       post :login, :username => 'jsmith', :password => 'jsmith', :back_url => back_url
