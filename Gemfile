@@ -33,8 +33,7 @@ platforms :mri, :mingw do
 
   # Optional Markdown support, not for JRuby
   group :markdown do
-    # TODO: upgrade to redcarpet 3.x when ruby1.8 support is dropped
-    gem "redcarpet", "~> 2.3.0"
+    gem "redcarpet", (RUBY_VERSION < "1.9" ? "~> 2.3.0" : "~> 3.3.2")
   end
 end
 
