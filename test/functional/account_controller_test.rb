@@ -63,6 +63,7 @@ class AccountControllerTest < ActionController::TestCase
     # request.uri is "test.host" in test environment
     back_urls = [
       'http://test.host/issues/show/1',
+      'http://test.host/',
       '/'
     ]
     back_urls.each do |back_url|
@@ -108,7 +109,16 @@ class AccountControllerTest < ActionController::TestCase
       'http://test.host/fake/issues',
       'http://test.host/redmine/../fake',
       'http://test.host/redmine/../fake/issues',
-      'http://test.host/redmine/%2e%2e/fake'
+      'http://test.host/redmine/%2e%2e/fake',
+      '//test.foo/fake',
+      'http://test.host//fake',
+      'http://test.host/\n//fake',
+      '//bar@test.foo',
+      '//test.foo',
+      '////test.foo',
+      '@test.foo',
+      'fake@test.foo',
+      '.test.foo'
     ]
     back_urls.each do |back_url|
       post :login, :username => 'jsmith', :password => 'jsmith', :back_url => back_url
