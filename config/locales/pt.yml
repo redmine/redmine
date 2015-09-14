@@ -1121,8 +1121,8 @@ pt:
   label_latest_compatible_version: Última versão compatível
   label_unknown_plugin: Extensão desconhecida
   label_radio_buttons: radio buttons
-  label_group_anonymous: Anonymous users
-  label_group_non_member: Non member users
+  label_group_anonymous: Utilizadores anónimos
+  label_group_non_member: Utilizadores não membros
   label_add_projects: Add projects
   field_default_status: Default status
   text_subversion_repository_note: 'Examples: file:///, http://, https://, svn://, svn+[tunnelscheme]://'
