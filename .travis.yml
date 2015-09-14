@@ -9,7 +9,7 @@ rvm:
   - 2.0
   - 2.1
   - 2.2
-  - jruby-9.0.0.0
+  - jruby-9.0.1.0
   - jruby
 env:
   - "SUITE=units       DB=postgresql"
@@ -45,11 +45,11 @@ matrix:
     # http://www.redmine.org/issues/19091
     # https://github.com/jruby/jruby/issues/779
     - rvm: jruby
-    - rvm: jruby-9.0.0.0
+    - rvm: jruby-9.0.1.0
       env: "SUITE=units       DB=postgresql-9.5"
-    - rvm: jruby-9.0.0.0
+    - rvm: jruby-9.0.1.0
       env: "SUITE=functionals DB=postgresql-9.5"
-    - rvm: jruby-9.0.0.0
+    - rvm: jruby-9.0.1.0
       env: "SUITE=integration DB=postgresql-9.5"
 before_install:
   # https://github.com/travis-ci/travis-ci/issues/4720
