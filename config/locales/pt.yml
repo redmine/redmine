@@ -348,10 +348,10 @@ pt:
   label_document_new: Novo documento
   label_document_plural: Documentos
   label_document_added: Documento adicionado
-  label_role: Perfil
-  label_role_plural: Perfis
-  label_role_new: Novo perfil
-  label_role_and_permissions: Perfis e permissões
+  label_role: Função
+  label_role_plural: Funções
+  label_role_new: Nova função
+  label_role_and_permissions: Funções e permissões
   label_member: Membro
   label_member_new: Novo membro
   label_member_plural: Membros
@@ -925,8 +925,8 @@ pt:
   label_user_mail_option_only_my_events: Apenas para tarefas que observo ou em que estou envolvido
   label_user_mail_option_only_assigned: Apenas para tarefas que me foram atribuídas
   label_user_mail_option_none: Sem eventos
-  field_member_of_group: Grupo do detentor de atribuição
-  field_assigned_to_role: Papel do detentor de atribuição
+  field_member_of_group: Grupo do titular
+  field_assigned_to_role: Função do titular
   notice_not_authorized_archived_project: O projeto ao qual tentou aceder foi arquivado.
   label_principal_search: "Procurar utilizador ou grupo:"
   label_user_search: "Procurar utilizador:"
@@ -1058,7 +1058,7 @@ pt:
   field_board_parent: Fórum pai
   label_attribute_of_project: "%{name} do Projeto"
   label_attribute_of_author: "%{name} do Autor"
-  label_attribute_of_assigned_to: "%{name} do utilizador designado"
+  label_attribute_of_assigned_to: "%{name} do utilizador titular"
   label_attribute_of_fixed_version: "%{name} da Versão"
   label_copy_subtasks: Copiar sub-tarefas
   label_copied_to: copiado para
@@ -1103,8 +1103,8 @@ pt:
   label_visibility_private: apenas para mim
   label_visibility_roles: apenas para estas funções
   label_visibility_public: para qualquer utilizador
-  field_must_change_passwd: Deve alterar a palavra-passe no próximo início de sessão
-  notice_new_password_must_be_different: A nova palavra-passe deve ser diferente da atual
+  field_must_change_passwd: Deve alterar a palavra-chave no próximo início de sessão
+  notice_new_password_must_be_different: A nova palavra-chave deve ser diferente da atual
   setting_mail_handler_excluded_filenames: Apagar anexos por nome
   text_convert_available: Conversão ImageMagick disponível (opcional)
   label_link: Link
@@ -1116,7 +1116,7 @@ pt:
   setting_force_default_language_for_loggedin: Forçar língua por omissão para utilizadores registados
   label_custom_field_select_type: Selecione o tipo de objeto ao qual o campo personalizado
     será atribuído
-  label_issue_assigned_to_updated: Utilizador designado atualizado
+  label_issue_assigned_to_updated: Utilizador titular atualizado
   label_check_for_updates: Verificar atualizações
   label_latest_compatible_version: Última versão compatível
   label_unknown_plugin: Extensão desconhecida
@@ -1146,19 +1146,18 @@ pt:
   setting_search_results_per_page: Resultados de pesquisa por página
   label_blank_value: vazio
   permission_copy_issues: Copiar tarefas
-  error_password_expired: Your password has expired or the administrator requires you
-    to change it.
-  field_time_entries_visibility: Time logs visibility
-  setting_password_max_age: Require password change after
-  label_parent_task_attributes: Parent tasks attributes
-  label_parent_task_attributes_derived: Calculated from subtasks
-  label_parent_task_attributes_independent: Independent of subtasks
-  label_time_entries_visibility_all: All time entries
-  label_time_entries_visibility_own: Time entries created by the user
-  label_member_management: Member management
-  label_member_management_all_roles: All roles
-  label_member_management_selected_roles_only: Only these roles
-  label_password_required: Confirm your password to continue
+  error_password_expired: A sua palavra-chave expirou ou o administrador exige que a altere.
+  field_time_entries_visibility: Visibilidade dos registo de tempo
+  setting_password_max_age: Exigir palavra-chave após a alteração
+  label_parent_task_attributes: Atributos da tarefa-pai
+  label_parent_task_attributes_derived: Calculado a partir das sub-tarefas
+  label_parent_task_attributes_independent: Independente das sub-tarefas
+  label_time_entries_visibility_all: Todos os registos de tempo
+  label_time_entries_visibility_own: Registos de tempo criados pelo utilizador
+  label_member_management: Gestão de utilizadores
+  label_member_management_all_roles: Todas as funções
+  label_member_management_selected_roles_only: Apenas estas funções
+  label_password_required: Confirme a sua palavra-chave para continuar
   label_total_spent_time: Total de tempo registado
   notice_import_finished: All %{count} items have been imported.
   notice_import_finished_with_errors: ! '%{count} out of %{total} items could not be
@@ -1181,4 +1180,4 @@ pt:
   label_file_content_preview: File content preview
   label_create_missing_values: Create missing values
   button_import: Import
-  field_total_estimated_hours: Total estimated time
+  field_total_estimated_hours: Total de tempo estimado
