@@ -7,7 +7,7 @@ rvm:
   - 2.0
   - 2.1
   - 2.2
-  - jruby-9.0.0.0
+  - jruby-9.0.1.0
   - jruby
 env:
   - "SUITE=units       DB=postgresql"
@@ -81,7 +81,7 @@ matrix:
     - env: "SUITE=ui          DB=postgresql-9.3"
     - env: "SUITE=ui          DB=postgresql-9.4"
     - env: "SUITE=ui          DB=postgresql-9.5"
-    - rvm: jruby-9.0.0.0
+    - rvm: jruby-9.0.1.0
     # SCM tests fail randomly due to IO.popen().
     # http://www.redmine.org/issues/19091
     # https://github.com/jruby/jruby/issues/779
