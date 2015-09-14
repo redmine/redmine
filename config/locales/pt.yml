@@ -1159,25 +1159,23 @@ pt:
   label_member_management_selected_roles_only: Apenas estas funções
   label_password_required: Confirme a sua palavra-chave para continuar
   label_total_spent_time: Total de tempo registado
-  notice_import_finished: All %{count} items have been imported.
-  notice_import_finished_with_errors: ! '%{count} out of %{total} items could not be
-    imported.'
-  error_invalid_file_encoding: The file is not a valid %{encoding} encoded file
-  error_invalid_csv_file_or_settings: The file is not a CSV file or does not match the
-    settings below
-  error_can_not_read_import_file: An error occurred while reading the file to import
-  permission_import_issues: Import issues
-  label_import_issues: Import issues
-  label_select_file_to_import: Select the file to import
-  label_fields_separator: Field separator
+  notice_import_finished: Todos os %{count} registos foram importados.
+  notice_import_finished_with_errors: ! '%{count} de %{total} registos não poderam ser importados.'
+  error_invalid_file_encoding: 'O ficheiro não possui a codificação correcta: {encoding}'
+  error_invalid_csv_file_or_settings: O ficheiro não é um ficheiro CSV ou não respeita as definições abaixo
+  error_can_not_read_import_file: Ocorreu um erro ao ler o ficheiro a importar
+  permission_import_issues: Importar tarefas
+  label_import_issues: Importar tarefas
+  label_select_file_to_import: Selecione o ficheiro a importar
+  label_fields_separator: Separador de campos
   label_fields_wrapper: Field wrapper
-  label_encoding: Encoding
-  label_coma_char: Coma
-  label_semi_colon_char: Semi colon
-  label_quote_char: Quote
-  label_double_quote_char: Double quote
-  label_fields_mapping: Fields mapping
-  label_file_content_preview: File content preview
-  label_create_missing_values: Create missing values
-  button_import: Import
+  label_encoding: Codificação
+  label_coma_char: Vírgula
+  label_semi_colon_char: Ponto e vírgula
+  label_quote_char: Aspas
+  label_double_quote_char: Aspas duplas
+  label_fields_mapping: Mapeamento de campos
+  label_file_content_preview: Pré-visualização do conteúdo do ficheiro
+  label_create_missing_values: Criar os valores em falta
+  button_import: Importar
   field_total_estimated_hours: Total de tempo estimado
