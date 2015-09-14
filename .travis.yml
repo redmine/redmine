@@ -45,6 +45,12 @@ matrix:
     # http://www.redmine.org/issues/19091
     # https://github.com/jruby/jruby/issues/779
     - rvm: jruby
+    - rvm: jruby-9.0.0.0
+      env: "SUITE=units       DB=postgresql-9.5"
+    - rvm: jruby-9.0.0.0
+      env: "SUITE=functionals DB=postgresql-9.5"
+    - rvm: jruby-9.0.0.0
+      env: "SUITE=integration DB=postgresql-9.5"
 before_install:
   # https://github.com/travis-ci/travis-ci/issues/4720
   - if [[ ${TRAVIS_RUBY_VERSION} =~ jruby-9\.0 ]] ;
