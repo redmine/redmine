@@ -364,25 +364,29 @@ function createCORSRequest(method, url) {
 
 // Make the actual CORS request.
 function makeCorsRequest(url, onloadFunction) {
-  var xhr = createCORSRequest('GET', url);
-  if (!xhr) {
-    alert('CORS not supported');
-    return;
-  }
-
-  // Response handlers.
-  xhr.onload = function() {
-    var text = xhr.responseText;
-//	console.log('Response from CORS request to ' + url + ':');
-//	console.log(text);
-    onloadFunction(url, text);
-  };
-
-  xhr.onerror = function() {
-    //alert('Woops, there was an error making the request to ' + url);
-	console.log('Woops, there was an error making the request to ' + url);  
-  };
-
-  xhr.withCredentials = true;
-  xhr.send();
+	if (hasGeppettoServer){
+		
+	  var xhr = createCORSRequest('GET', url);
+	  if (!xhr) {
+	    alert('CORS not supported');
+	    return;
+	  }
+	
+	  // Response handlers.
+	  xhr.onload = function() {
+	    var text = xhr.responseText;
+	//	console.log('Response from CORS request to ' + url + ':' + text);
+	    onloadFunction(url, text);
+	  };
+	
+	  xhr.onerror = function() {
+		console.log('Woops, there was an error making the request to ' + url);  
+	  };
+	
+	  xhr.withCredentials = true;
+	  xhr.send();
+	}  
+	else{
+		onloadFunction(url, '');
+	}
 }

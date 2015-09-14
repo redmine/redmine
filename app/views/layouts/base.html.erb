@@ -224,6 +224,9 @@
 </html>
 
 <script>
+hasGeppettoServer = <%= Rails.application.config.serversIP["hasGeppettoServer"] %>;
+</script>
+<script>
 handleSizingResponse = function(e) {
   if(e.origin == 'http://remote-domain.com') {
     var action = e.data.split(':')[0]
