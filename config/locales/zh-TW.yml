@@ -266,6 +266,8 @@
   notice_account_deleted: "您的帳戶已被永久刪除。"
   notice_user_successful_create: "已建立用戶 %{id}。"
   notice_new_password_must_be_different: 新舊密碼必須相異
+  notice_import_finished: "已成功匯入所有的項目共 %{count} 個。"
+  notice_import_finished_with_errors: "無法匯入 %{count} 個項目 (全部共 %{total} 個)。"
 
   error_can_t_load_default_data: "無法載入預設組態： %{value}"
   error_scm_not_found: "在儲存機制中找不到這個項目或修訂版。"
@@ -289,6 +291,9 @@
   error_session_expired: "您的工作階段已經過期。請重新登入。"
   warning_attachments_not_saved: "%{count} 個附加檔案無法被儲存。"
   error_password_expired: "您的密碼已經過期或是管理員要求您變更密碼."
+  error_invalid_file_encoding: "這個檔案不是一個有效的 %{encoding} 編碼檔案"
+  error_invalid_csv_file_or_settings: "這個檔案不是一個 CSV 檔案，或是未符合下面所列之設定值"
+  error_can_not_read_import_file: "讀取匯入檔案時發生錯誤"
 
   mail_subject_lost_password: 您的 Redmine 網站密碼
   mail_body_lost_password: '欲變更您的 Redmine 網站密碼, 請點選以下鏈結:'
@@ -569,6 +574,7 @@
   permission_export_wiki_pages: 匯出 wiki 頁面
   permission_manage_subtasks: 管理子任務
   permission_manage_related_issues: 管理相關問題
+  permission_import_issues: 匯入問題
 
   project_module_issue_tracking: 問題追蹤
   project_module_time_tracking: 工時追蹤
@@ -1036,6 +1042,18 @@
   label_member_management: 成員管理
   label_member_management_all_roles: 所有角色
   label_member_management_selected_roles_only: 僅限下列角色
+  label_import_issues: 匯入問題
+  label_select_file_to_import: 選取要匯入的檔案
+  label_fields_separator: 欄位分隔符號
+  label_fields_wrapper: 欄位包裝識別符號
+  label_encoding: 編碼
+  label_coma_char: 逗號(,)
+  label_semi_colon_char: 分號(;)
+  label_quote_char: 引號(')
+  label_double_quote_char: 雙引號(")
+  label_fields_mapping: 欄位對應
+  label_file_content_preview: 檔案內容預覽
+  label_create_missing_values: 建立缺少的數值
 
   button_login: 登入
   button_submit: 送出
@@ -1089,6 +1107,7 @@
   button_delete_my_account: 刪除我的帳戶
   button_close: 關閉
   button_reopen: 重新開啟
+  button_import: 匯入
 
   status_active: 活動中
   status_registered: 註冊完成
@@ -1231,25 +1250,4 @@
   description_date_to: 輸入結束日期
   text_repository_identifier_info: '僅允許使用小寫英文字母 (a-z), 阿拉伯數字, 虛線與底線。<br />一旦儲存之後, 代碼便無法再次被更改。'
   label_total_spent_time: 整體耗用工時
-  notice_import_finished: All %{count} items have been imported.
-  notice_import_finished_with_errors: ! '%{count} out of %{total} items could not be
-    imported.'
-  error_invalid_file_encoding: The file is not a valid %{encoding} encoded file
-  error_invalid_csv_file_or_settings: The file is not a CSV file or does not match the
-    settings below
-  error_can_not_read_import_file: An error occurred while reading the file to import
-  permission_import_issues: Import issues
-  label_import_issues: Import issues
-  label_select_file_to_import: Select the file to import
-  label_fields_separator: Field separator
-  label_fields_wrapper: Field wrapper
-  label_encoding: Encoding
-  label_coma_char: Coma
-  label_semi_colon_char: Semi colon
-  label_quote_char: Quote
-  label_double_quote_char: Double quote
-  label_fields_mapping: Fields mapping
-  label_file_content_preview: File content preview
-  label_create_missing_values: Create missing values
-  button_import: Import
   field_total_estimated_hours: Total estimated time
