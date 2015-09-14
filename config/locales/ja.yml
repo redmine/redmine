@@ -693,8 +693,8 @@ ja:
   label_feed_plural: フィード
   label_changes_details: 全変更の詳細
   label_issue_tracking: チケットトラッキング
-  label_spent_time: 作業時間の記録
-  label_overall_spent_time: すべての作業時間の記録
+  label_spent_time: 作業時間
+  label_overall_spent_time: すべての作業時間
   label_f_hour: "%{value}時間"
   label_f_hour_plural: "%{value}時間"
   label_time_tracking: 時間管理
@@ -805,7 +805,7 @@ ja:
   label_group: グループ
   label_group_plural: グループ
   label_group_new: 新しいグループ
-  label_time_entry_plural: 作業時間の記録
+  label_time_entry_plural: 作業時間
   label_version_sharing_none: 共有しない
   label_version_sharing_descendants: サブプロジェクト単位
   label_version_sharing_hierarchy: プロジェクト階層単位
@@ -1169,7 +1169,7 @@ ja:
   label_member_management_all_roles: すべてのロール
   label_member_management_selected_roles_only: 次のロールのみ
   label_password_required: この操作を続行するにはパスワードを入力してください
-  label_total_spent_time: すべての作業時間の記録
+  label_total_spent_time: 合計作業時間
   notice_import_finished: '%{count}件の項目をすべてインポートしました。'
   notice_import_finished_with_errors: ! '全%{total}件中%{count}件の項目がインポートできませんでした。'
   error_invalid_file_encoding: このファイルのエンコーディングは正しい%{encoding}ではありません
