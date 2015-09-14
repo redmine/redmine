@@ -1123,26 +1123,26 @@ pt:
   label_radio_buttons: radio buttons
   label_group_anonymous: Utilizadores anónimos
   label_group_non_member: Utilizadores não membros
-  label_add_projects: Add projects
-  field_default_status: Default status
-  text_subversion_repository_note: 'Examples: file:///, http://, https://, svn://, svn+[tunnelscheme]://'
-  field_users_visibility: Users visibility
-  label_users_visibility_all: All active users
-  label_users_visibility_members_of_visible_projects: Members of visible projects
-  label_edit_attachments: Edit attached files
-  setting_link_copied_issue: Link issues on copy
-  label_link_copied_issue: Link copied issue
-  label_ask: Ask
-  label_search_attachments_yes: Search attachment filenames and descriptions
-  label_search_attachments_no: Do not search attachments
-  label_search_attachments_only: Search attachments only
-  label_search_open_issues_only: Open issues only
-  field_address: E-mail
-  setting_max_additional_emails: Maximum number of additional email addresses
-  label_email_address_plural: Emails
-  label_email_address_add: Add email address
-  label_enable_notifications: Enable notifications
-  label_disable_notifications: Disable notifications
-  setting_search_results_per_page: Search results per page
-  label_blank_value: blank
-  permission_copy_issues: Copy issues
+  label_add_projects: Adicionar projetos
+  field_default_status: Estado por omissão
+  text_subversion_repository_note: 'Exemplos: file:///, http://, https://, svn://, svn+[tunnelscheme]://'
+  field_users_visibility: Visibilidade dos utilizadores
+  label_users_visibility_all: Todos os utilizadores ativos
+  label_users_visibility_members_of_visible_projects: Utilizadores membros dos projetos visíveis
+  label_edit_attachments: Editar os ficheiros anexados
+  setting_link_copied_issue: Relacionar tarefas ao copiar
+  label_link_copied_issue: Relacionar tarefas copiadas
+  label_ask: Perguntar
+  label_search_attachments_yes: Pesquisar nome e descrição dos anexos
+  label_search_attachments_no: Não pesquisar anexos
+  label_search_attachments_only: Pesquisar apenas anexos
+  label_search_open_issues_only: Apenas tarefas abertas
+  field_address: e-mail
+  setting_max_additional_emails: Número máximo de endereços de e-mail adicionais
+  label_email_address_plural: e-mails
+  label_email_address_add: Adicionar endereços de e-mail
+  label_enable_notifications: Ativar notificações
+  label_disable_notifications: Desativar notificações
+  setting_search_results_per_page: Resultados de pesquisa por página
+  label_blank_value: vazio
+  permission_copy_issues: Copiar tarefas
