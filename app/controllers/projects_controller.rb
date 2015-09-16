@@ -447,6 +447,7 @@ class ProjectsController < ApplicationController
       ######################
       # JS & CONTROL PANEL #
       ######################
+      geppettoUtilsJsFile = File.read(publicResourcesPath + geppettoResourcesPath + scripts + "osbUtils.js")
       if docType == 'net'
         geppettoJsFile = File.read(publicResourcesPath + geppettoResourcesPath + scripts + "osbNetworkScript.js")
         geppettoControlPanelJsonFile = File.read(publicResourcesPath + geppettoResourcesPath + controlPanels + "osbNetworkControlPanel.json")
@@ -464,9 +465,11 @@ class ProjectsController < ApplicationController
       # Parse js file
       unless geppettoControlPanelJsonFile.nil?
         geppettoControlPanelJsonFile.delete!("\r\n")
-        geppettoJsFile.gsub! '$CONTROL_PANEL', geppettoControlPanelJsonFile
+        geppettoUtilsJsFile.gsub! '$CONTROL_PANEL', geppettoControlPanelJsonFile
       end
+      geppettoJsFile.insert(0, geppettoUtilsJsFile)
       geppettoJsFile.gsub! '$ENTER_ID', entity
+      geppettoJsFile.delete!("\r\n")
       
       #########
       # MODEL #

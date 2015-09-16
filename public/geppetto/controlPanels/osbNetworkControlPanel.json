@@ -3,7 +3,7 @@
         "Network Info": {
             "Connectivity": {
                 "actions": [
-                    "G.addWidget(6).setData($ENTER_ID,{linkType:function(c){return c.getSubNodesOfDomainType('Synapse')[0].id}})"
+                    "G.addWidget(6).setData($ENTER_ID,{linkType:function(c){return c.getSubNodesOfDomainType('Synapse')[0].id}}).setName('Connectivity Widget on network ' + $ENTER_ID.getName())"
                 ],
                 "icon": "gpt-make-group",
                 "label": "Connectivity",
