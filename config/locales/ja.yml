@@ -194,7 +194,7 @@ ja:
   notice_unable_delete_version: バージョンを削除できません
   notice_unable_delete_time_entry: 作業時間を削除できません
   notice_issue_done_ratios_updated: チケットの進捗率を更新しました。
-  notice_gantt_chart_truncated: ガントチャートは、最大表示項目数(%{max})を超えたたため切り捨てられました。
+  notice_gantt_chart_truncated: ガントチャートは、最大表示項目数(%{max})を超えたため切り捨てられました。
 
   error_can_t_load_default_data: "デフォルト設定がロードできませんでした: %{value}"
   error_scm_not_found: リポジトリに、エントリ/リビジョンが存在しません。
