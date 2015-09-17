@@ -9,10 +9,7 @@ var marginBottom = 50;
 var defaultWidgetWidth = 450;
 var defaultWidgetHeight = 500;
 
-
-
 var initialiseTreeWidget = function(title, posX, posY, widgetWidth, widgetHeight) {
-	
 	widgetWidth = typeof widgetWidth !== 'undefined' ? widgetWidth : defaultWidgetWidth;
 	widgetHeight = typeof widgetHeight !== 'undefined' ? widgetHeight : defaultWidgetHeight;
 	
