@@ -46,7 +46,7 @@ RedmineApp::Application.routes.draw do
   match '/projects/neuroinformatics(/*path)', :to => redirect('/docs#Interaction_With_Other_Neuroinformatics_Resources')
   match '/projects/simulators(/*path)', :to => redirect('/docs#Simulators')
   match '/projects/testprojecu(/*path)', :to => redirect('/docs#Creating_Your_Own_Project')
-  match '/projects/neuroconstructprojects(/*path)', :to => redirect('/docs#Using_Neuro_Construct_Based_Projects')
+  match '/projects/neuroconstructprojects(/*path)', :to => redirect('/docs#Using_neuroConstruct_Based_Projects')
   
   match '/projects/osb/wiki/Meetings(/*path)', :to => redirect('/docs#Meetings')
   match '/projects/osb/wiki/Faq(/*path)', :to => redirect('/docs#FAQ') 
