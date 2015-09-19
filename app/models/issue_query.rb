@@ -262,10 +262,9 @@ class IssueQuery < Query
                            ).visible.collect {|cf| QueryCustomFieldColumn.new(cf) }
 
     if User.current.allowed_to?(:view_time_entries, project, :global => true)
-      index = nil
-      @available_columns.each_with_index {|column, i| index = i if column.name == :estimated_hours}
+      index = @available_columns.find_index {|column| column.name == :total_estimated_hours}
       index = (index ? index + 1 : -1)
-      # insert the column after estimated_hours or at the end
+      # insert the column after total_estimated_hours or at the end
       @available_columns.insert index, QueryColumn.new(:spent_hours,
         :sortable => "COALESCE((SELECT SUM(hours) FROM #{TimeEntry.table_name} WHERE #{TimeEntry.table_name}.issue_id = #{Issue.table_name}.id), 0)",
         :default_order => 'desc',
