@@ -332,8 +332,12 @@ class Project < ActiveRecord::Base
   end
 
   def to_param
-    # id is used for projects with a numeric identifier (compatibility)
-    @to_param ||= (identifier.to_s =~ %r{^\d*$} ? id.to_s : identifier)
+    if new_record?
+      nil
+    else
+      # id is used for projects with a numeric identifier (compatibility)
+      @to_param ||= (identifier.to_s =~ %r{^\d*$} ? id.to_s : identifier)
+    end
   end
 
   def active?

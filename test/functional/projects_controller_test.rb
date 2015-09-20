@@ -118,6 +118,15 @@ class ProjectsControllerTest < ActionController::TestCase
     end
   end
 
+  def test_new_should_not_display_invalid_search_link
+    @request.session[:user_id] = 1
+
+    get :new
+    assert_response :success
+    assert_select '#quick-search form[action=?]', '/search'
+    assert_select '#quick-search a[href=?]', '/search'
+  end
+
   test "#create by admin user should create a new project" do
     @request.session[:user_id] = 1
 
