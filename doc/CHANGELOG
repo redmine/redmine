@@ -4,6 +4,22 @@ Redmine - project management software
 Copyright (C) 2006-2015  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2015-09-20 v3.0.5
+
+* Defect #19577: Open redirect vulnerability
+* Defect #20761: Fix typo of Japanese translation for notice_gantt_chart_truncated
+* Defect #20427: Cannot create a custom query visibility is "to these roles only"
+* Defect #20454: Mail handler: unwanted assignment to a group occurs
+* Patch #20293: Russian translation for 2.6-stable
+* Patch #20294: Russian translation for 2.6-stable
+* Patch #20408: Turkish translation for 2.6-stable
+* Patch #20557: Czech translation for 2.6-stable
+* Patch #20735: Markdown: Upgrade redcarpet gem to 3.3 (ruby 1.9 and higher)
+* Patch #20745: Portuguese translation for 2.6-stable
+* Patch #20512: Project.copy_from deletes enabled_modules on source
+* Patch #20737: Czech translation for 3.0-stable
+* Patch #20746: Portuguese translation for 3.0-stable
+
 == 2015-07-07 v3.0.4
 
 * Defect #17757: Link with hash does not work on Firefox
