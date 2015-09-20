@@ -899,6 +899,22 @@ class Project < ActiveRecord::Base
       if issue.fixed_version && issue.fixed_version.project == project
         new_issue.fixed_version = self.versions.detect {|v| v.name == issue.fixed_version.name}
       end
+      # Reassign version custom field values
+      new_issue.custom_field_values.each do |custom_value|
+        if custom_value.custom_field.field_format == 'version' && custom_value.value.present?
+          versions = Version.where(:id => custom_value.value).to_a
+          new_value = versions.map do |version|
+            if version.project == project
+              self.versions.detect {|v| v.name == version.name}.try(:id)
+            else
+              version.id
+            end
+          end
+          new_value.compact!
+          new_value = new_value.first unless custom_value.custom_field.multiple?
+          custom_value.value = new_value
+        end
+      end
       # Reassign the category by name, since names are unique per project
       if issue.category
         new_issue.category = self.issue_categories.detect {|c| c.name == issue.category.name}

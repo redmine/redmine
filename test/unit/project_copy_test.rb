@@ -139,6 +139,27 @@ class ProjectCopyTest < ActiveSupport::TestCase
     assert_equal assigned_version, copied_issue.fixed_version
   end
 
+  def test_copy_issues_should_reassign_version_custom_fields_to_copied_versions
+    User.current = User.find(1)
+    CustomField.delete_all
+    field = IssueCustomField.generate!(:field_format => 'version', :is_for_all => true, :trackers => Tracker.all)
+    source_project = Project.generate!(:trackers => Tracker.all)
+    source_version = Version.generate!(:project => source_project)
+    source_issue = Issue.generate!(:project => source_project) do |issue|
+      issue.custom_field_values = {field.id.to_s => source_version.id.to_s}
+    end
+    assert_equal source_version.id.to_s, source_issue.custom_field_value(field)
+
+    project = Project.new(:name => 'Copy Test', :identifier => 'copy-test', :trackers => Tracker.all)
+    assert project.copy(source_project)
+    assert_equal 1, project.issues.count
+    issue = project.issues.first
+    assert_equal 1, project.versions.count
+    version = project.versions.first
+
+    assert_equal version.id.to_s, issue.custom_field_value(field)
+  end
+
   test "#copy should copy issue relations" do
     Setting.cross_project_issue_relations = '1'
 
