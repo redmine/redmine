@@ -873,6 +873,11 @@ class Issue < ActiveRecord::Base
     end
   end
 
+  # Returns the original tracker
+  def tracker_was
+    Tracker.find_by_id(tracker_id_was)
+  end
+
   # Returns the users that should be notified
   def notified_users
     notified = []

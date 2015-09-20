@@ -3057,6 +3057,17 @@ class IssuesControllerTest < ActionController::TestCase
     assert_mail_body_match "Project changed from eCookbook to OnlineStore", mail
   end
 
+  def test_put_update_trying_to_move_issue_to_project_without_tracker_should_not_error
+    target = Project.generate!(:tracker_ids => [])
+    assert target.trackers.empty?
+    issue = Issue.generate!
+    @request.session[:user_id] = 1
+
+    put :update, :id => issue.id, :issue => {:project_id => target.id}
+    assert_response :success
+    assert_template 'edit'
+  end
+
   def test_put_update_with_tracker_change
     @request.session[:user_id] = 2
     ActionMailer::Base.deliveries.clear
