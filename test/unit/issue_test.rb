@@ -1331,6 +1331,12 @@ class IssueTest < ActiveSupport::TestCase
     assert_not_include Project.find(2), Issue.allowed_target_projects(User.find(2))
   end
 
+  def test_allowed_target_projects_should_not_include_projects_without_trackers
+    project = Project.generate!(:tracker_ids => [])
+    assert project.trackers.empty?
+    assert_not_include project, Issue.allowed_target_projects(User.find(1))
+  end
+
   def test_move_to_another_project_with_same_category
     issue = Issue.find(1)
     issue.project = Project.find(2)

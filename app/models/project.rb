@@ -110,6 +110,9 @@ class Project < ActiveRecord::Base
     end
   }
   scope :sorted, lambda {order(:lft)}
+  scope :having_trackers, lambda {
+    where("#{Project.table_name}.id IN (SELECT DISTINCT project_id FROM #{table_name_prefix}projects_trackers#{table_name_suffix})")
+  }
 
   def initialize(attributes=nil, *args)
     super

@@ -1386,7 +1386,7 @@ class Issue < ActiveRecord::Base
     if current_project
       condition = ["(#{condition}) OR #{Project.table_name}.id = ?", current_project.id]
     end
-    Project.where(condition)
+    Project.where(condition).having_trackers
   end
 
   private
