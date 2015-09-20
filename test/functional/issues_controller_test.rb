@@ -398,7 +398,7 @@ class IssuesControllerTest < ActionController::TestCase
   end
 
   def test_public_query_should_be_available_to_other_users
-    q = IssueQuery.create!(:name => "private", :user => User.find(2), :visibility => IssueQuery::VISIBILITY_PUBLIC, :project => nil)
+    q = IssueQuery.create!(:name => "public", :user => User.find(2), :visibility => IssueQuery::VISIBILITY_PUBLIC, :project => nil)
     @request.session[:user_id] = 3
 
     get :index, :query_id => q.id
