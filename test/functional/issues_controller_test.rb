@@ -3064,8 +3064,7 @@ class IssuesControllerTest < ActionController::TestCase
     @request.session[:user_id] = 1
 
     put :update, :id => issue.id, :issue => {:project_id => target.id}
-    assert_response :success
-    assert_template 'edit'
+    assert_response 302
   end
 
   def test_put_update_with_tracker_change
