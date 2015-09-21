@@ -319,7 +319,7 @@ class WikiControllerTest < ActionController::TestCase
           put :update, :project_id => 1,
             :id => 'Another_page',
             :content => {
-              :comments => 'a' * 300,  # failure here, comment is too long
+              :comments => 'a' * 1300,  # failure here, comment is too long
               :text => 'edited'
             },
             :wiki_page => {

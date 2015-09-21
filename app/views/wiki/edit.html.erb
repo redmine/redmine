@@ -29,7 +29,7 @@
   <% end %>
 <% end %>
 
-<p><label><%= l(:field_comments) %></label><%= f.text_field :comments, :size => 120 %></p>
+<p><label><%= l(:field_comments) %></label><%= f.text_field :comments, :size => 120, :maxlength => 1024 %></p>
 <p><label><%=l(:label_attachment_plural)%></label><%= render :partial => 'attachments/form' %></p>
 </div>
 
