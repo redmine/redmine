@@ -495,6 +495,17 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_equal 'eCookbook', Project.find(1).name
   end
 
+  def test_update_child_project_without_parent_permission_should_not_show_validation_error
+    child = Project.generate_with_parent!
+    user = User.generate!
+    User.add_to_project(user, child, Role.generate!(:permissions => [:edit_project]))
+    @request.session[:user_id] = user.id
+
+    post :update, :id => child.id, :project => {:name => 'Updated'}
+    assert_response 302
+    assert_match /Successful update/, flash[:notice]
+  end
+
   def test_modules
     @request.session[:user_id] = 2
     Project.find(1).enabled_module_names = ['issue_tracking', 'news']

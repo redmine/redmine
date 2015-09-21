@@ -700,12 +700,14 @@ class Project < ActiveRecord::Base
     attrs = attrs.deep_dup
 
     @unallowed_parent_id = nil
-    parent_id_param = attrs['parent_id'].to_s
-    if parent_id_param.blank? || parent_id_param != parent_id.to_s
-      p = parent_id_param.present? ? Project.find_by_id(parent_id_param) : nil
-      unless allowed_parents(user).include?(p)
-        attrs.delete('parent_id')
-        @unallowed_parent_id = true
+    if new_record? || attrs.key?('parent_id')
+      parent_id_param = attrs['parent_id'].to_s
+      if new_record? || parent_id_param != parent_id.to_s
+        p = parent_id_param.present? ? Project.find_by_id(parent_id_param) : nil
+        unless allowed_parents(user).include?(p)
+          attrs.delete('parent_id')
+          @unallowed_parent_id = true
+        end
       end
     end
 
