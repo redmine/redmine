@@ -781,7 +781,7 @@ module ApplicationHelper
                 link = link_to("##{oid}#{comment_suffix}",
                                issue_url(issue, :only_path => only_path, :anchor => anchor),
                                :class => issue.css_classes,
-                               :title => "#{issue.subject.truncate(100)} (#{issue.status.name})")
+                               :title => "#{issue.tracker.name}: #{issue.subject.truncate(100)} (#{issue.status.name})")
               end
             when 'document'
               if document = Document.visible.find_by_id(oid)

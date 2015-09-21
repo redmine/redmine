@@ -56,7 +56,7 @@ class MailerTest < ActiveSupport::TestCase
       # link to a referenced ticket
       assert_select 'a[href=?][title=?]',
                     'https://mydomain.foo/issues/1',
-                    "Cannot print recipes (New)",
+                    "Bug: Cannot print recipes (New)",
                     :text => '#1'
       # link to a changeset
       assert_select 'a[href=?][title=?]',
@@ -97,7 +97,7 @@ class MailerTest < ActiveSupport::TestCase
       # link to a referenced ticket
       assert_select 'a[href=?][title=?]',
                     'http://mydomain.foo/rdm/issues/1',
-                    "Cannot print recipes (New)",
+                    "Bug: Cannot print recipes (New)",
                     :text => '#1'
       # link to a changeset
       assert_select 'a[href=?][title=?]',
@@ -167,7 +167,7 @@ class MailerTest < ActiveSupport::TestCase
       # link to a referenced ticket
       assert_select 'a[href=?][title=?]',
                     'http://mydomain.foo/rdm/issues/1',
-                    "Cannot print recipes (New)",
+                    "Bug: Cannot print recipes (New)",
                     :text => '#1'
       # link to a changeset
       assert_select 'a[href=?][title=?]',

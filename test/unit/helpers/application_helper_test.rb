@@ -276,11 +276,11 @@ RAW
 
   def test_redmine_links
     issue_link = link_to('#3', {:controller => 'issues', :action => 'show', :id => 3},
-                               :class => Issue.find(3).css_classes, :title => 'Error 281 when updating a recipe (New)')
+                               :class => Issue.find(3).css_classes, :title => 'Bug: Error 281 when updating a recipe (New)')
     note_link = link_to('#3-14', {:controller => 'issues', :action => 'show', :id => 3, :anchor => 'note-14'},
-                               :class => Issue.find(3).css_classes, :title => 'Error 281 when updating a recipe (New)')
+                               :class => Issue.find(3).css_classes, :title => 'Bug: Error 281 when updating a recipe (New)')
     note_link2 = link_to('#3#note-14', {:controller => 'issues', :action => 'show', :id => 3, :anchor => 'note-14'},
-                               :class => Issue.find(3).css_classes, :title => 'Error 281 when updating a recipe (New)')
+                               :class => Issue.find(3).css_classes, :title => 'Bug: Error 281 when updating a recipe (New)')
 
     revision_link = link_to('r1', {:controller => 'repositories', :action => 'revision', :id => 'ecookbook', :rev => 1},
                                    :class => 'changeset', :title => 'My very first commit do not escaping #<>&')
@@ -964,7 +964,7 @@ RAW
     result2 = link_to('#1',
                       "/issues/1",
                       :class => Issue.find(1).css_classes,
-                      :title => "Cannot print recipes (New)")
+                      :title => "Bug: Cannot print recipes (New)")
 
     expected = <<-EXPECTED
 <p>#{result1}</p>
