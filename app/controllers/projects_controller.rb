@@ -24,7 +24,7 @@ class ProjectsController < ApplicationController
   menu_item :roadmap, :only => :roadmap
   menu_item :settings, :only => :settings
 
-  before_filter :find_project, :except => [ :index, :list, :new, :create, :copy, :cells_graph, :cells_list, :cells_gallery, :cells_tags, :technology, :groups, :people, :informationOSB, :generateGEPPETTOSimulationFile]
+  before_filter :find_project, :except => [ :index, :list, :new, :create, :copy, :cells_graph, :cells_list, :cells_gallery, :cells_tags, :technology, :groups, :people, :informationOSB]
   before_filter :authorize, :except => [ :index, :list, :new, :create, :copy, :archive, :unarchive, :destroy, :cells_graph, :cells_list, :cells_gallery, :cells_tags, :technology, :groups, :people, :informationOSB, :addTag, :removeTag, :generateGEPPETTOSimulationFile]
   before_filter :authorize_global, :only => [:new, :create]
   before_filter :require_admin, :only => [ :copy, :archive, :unarchive, :destroy ]
@@ -413,14 +413,12 @@ class ProjectsController < ApplicationController
       url = params[:explorer]
       uri = URI.parse(url)
       
-      #Get Geppetto Projects for this User
-      # geppettoRegisterURL = "http://127.0.0.1:8080/org.geppetto.frontend/projectswithref?reference=" + 
-      
       ##############################
       # CREATE ENTITY AND DOC TYPE #
       ##############################
       #Read entity name and model type (cell,channel,synapse,cell) from url  
-      filenameSplit = File.basename(uri.path).split(".")
+      filename = File.basename(uri.path)
+      filenameSplit = filename.split(".")
       entity = filenameSplit[0]
       #FIXME: This a quick fix but actually we should check entity is valid js variable name
       if /^\d+/.match(entity) 
@@ -476,10 +474,11 @@ class ProjectsController < ApplicationController
       geppettoModelFile = File.read(publicResourcesPath + geppettoResourcesPath + simulationTemplates + "neuromlTemplate.xml")    
       geppettoModelFile.sub! '$ENTER_MODEL_URL', url
       geppettoModelFile.sub! '$ENTER_ID', entity
-
+      geppettoModelFile.sub! '$ENTER_REFERENCE_URL', @project.identifier
+      
       geppettoSimulationFile = {
         "id" => 1,
-        "name" => filenameSplit[0] + " - " + filenameSplit[1],
+        "name" => filename.rpartition('.').first + ((filenameSplit[1] != "nml")? " - " + filenameSplit[1]:""),
         "activeExperimentId" => 1,
         "experiments" => [{
            "id" => 1,
@@ -497,9 +496,9 @@ class ProjectsController < ApplicationController
                       "aspect" => "electrical",
                       "localInstancePath" => ""
                   } 
-               }] 
-           }
-        ],
+               }
+            ] 
+        }],
         "geppettoModel"=> { "id" => 1, "url" => Rails.application.config.serversIP["serverIP"] + geppettoTmpPath + @geppettoModelFilePath, "type" => "GEPPETTO_PROJECT"}
       }
       
