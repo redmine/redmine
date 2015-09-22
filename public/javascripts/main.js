@@ -209,6 +209,21 @@ function openExistingProjectIn3DExplorer(projectId, experimentId)
 	
 }
 
+function showErrorMessageInOSBExplorer(file, message){
+	decodedfile = decodeURIComponent(file);
+	if (file.indexOf("github") != -1){
+		repoFilePath = decodedfile.replace('raw.githubusercontent','github').replace('/master/','/blob/master/');
+	}
+	else if (file.indexOf("github")) {
+		repoFilePath = decodedfile.replace('/raw/default/','/src/default/');
+	}
+
+	// If there isn't webgl support display warn message
+	jQuery("#mainContent").hide();
+	jQuery("#mainContent").before("<div id='3dbrowser'><div id='osbexplorermessage'></div>");
+	jQuery("#osbexplorermessage").html(message + "<br /><br /> You can also <a href='"+ decodedfile + "' target='_blank'>download the file</a> or <a href='"+ repoFilePath + "' target='_blank'>view the file content online</a>.<br /><br />");
+}
+
 function open3DExplorer(file, projectIdentifier)
 {
 	jQuery("#menucontainer li").removeClass("active");
@@ -220,26 +235,17 @@ function open3DExplorer(file, projectIdentifier)
 	}
 	else
 	{
-		//Change url without reloading page
-		var explorerUrl = '//' + location.host + location.pathname + '?explorer=' + encodeURIComponent(file);
-		if(history.pushState) {history.pushState(null, null, explorerUrl);}
-		
 		if (!Detector.webgl) {
-			// If there isn't webgl support display warn message
-			jQuery("#mainContent").hide();
-			jQuery("#mainContent").before("<div id='3dbrowser'><div id='osbexplorermessage'></div>");
-			
-			decodedfile = decodeURIComponent(file);
-			if (file.indexOf("github") != -1){
-				repoFilePath = decodedfile.replace('raw.githubusercontent','github').replace('/master/','/blob/master/');
-			}
-			else if (file.indexOf("github")) {
-				repoFilePath = decodedfile.replace('/raw/default/','/src/default/');
-			}
-			
-			jQuery("#osbexplorermessage").html("Your graphics card does not seem to support <a href='http://khronos.org/webgl/wiki/Getting_a_WebGL_Implementation'>WebGL</a>.<br />Find out how to get it <a href='http://get.webgl.org/'>here</a>.<br /><br /> You can also <a href='"+ decodedfile + "' target='_blank'>download the file</a> or <a href='"+ repoFilePath + "' target='_blank'>view the file content online</a>.");
+			showErrorMessageInOSBExplorer(file, "Your graphics card does not seem to support <a href='http://khronos.org/webgl/wiki/Getting_a_WebGL_Implementation'>WebGL</a>.<br />Find out how to get it <a href='http://get.webgl.org/'>here</a>.");
+		}
+		else if (!checkCookie()) {
+			showErrorMessageInOSBExplorer(file, "Sorry, your cookies are disabled in your browser. Please, enable them if you want to use OSB 3D Explorer.");
 		}
 		else{
+			//Change url without reloading page
+			var explorerUrl = '//' + location.host + location.pathname + '?explorer=' + encodeURIComponent(file);
+			if(history.pushState) {history.pushState(null, null, explorerUrl);}
+			
 			if (isNaN(file)){
 				$.ajax({
 				    url: "/projects/" + projectIdentifier + "/generateGEPPETTOSimulationFile?explorer=" + file,
@@ -365,7 +371,7 @@ function createCORSRequest(method, url) {
 
 // Make the actual CORS request.
 function makeCorsRequest(url, onloadFunction) {
-	if (hasGeppettoServer){
+	if (hasGeppettoServer && !checkCookie()){
 		
 	  var xhr = createCORSRequest('GET', url);
 	  if (!xhr) {
@@ -390,4 +396,13 @@ function makeCorsRequest(url, onloadFunction) {
 	else{
 		onloadFunction(url, '');
 	}
+}
+
+function checkCookie(){
+    var cookieEnabled=(navigator.cookieEnabled)? true : false;
+    if (typeof navigator.cookieEnabled=="undefined" && !cookieEnabled){ 
+        document.cookie="testcookie";
+        cookieEnabled=(document.cookie.indexOf("testcookie")!=-1)? true : false;
+    }
+    return (cookieEnabled);
 }

@@ -349,6 +349,10 @@ jQuery(function()
 					disableOSBExplorer();
 					jQuery("#osbexplorermessage").html("Sorry, your browser doesn\'t support <a href='http://khronos.org/webgl/wiki/Getting_a_WebGL_Implementation'>WebGL</a> which is required to use OSB 3D Explorer.");
 				}
+				else if (!checkCookie) {
+					disableOSBExplorer();
+					jQuery("#osbexplorermessage").html("Sorry, your cookies are disabled in your browser. Please, enable them if you want to use OSB 3D Explorer.");
+				}
 			<% end %>
 		}
 	<% end %>
