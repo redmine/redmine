@@ -371,7 +371,7 @@ function createCORSRequest(method, url) {
 
 // Make the actual CORS request.
 function makeCorsRequest(url, onloadFunction) {
-	if (hasGeppettoServer && !checkCookie()){
+	if (hasGeppettoServer && checkCookie()){
 		
 	  var xhr = createCORSRequest('GET', url);
 	  if (!xhr) {
