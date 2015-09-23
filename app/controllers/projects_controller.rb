@@ -434,6 +434,7 @@ class ProjectsController < ApplicationController
       geppettoTmpPath = "geppetto/tmp/"
       simulationTemplates = "simulationTemplates/"
       scripts = "scripts/"
+      utils = "utils/"
       controlPanels = "controlPanels/"
       
       # Generate simulation and js file path
@@ -447,16 +448,21 @@ class ProjectsController < ApplicationController
       ######################
       # JS & CONTROL PANEL #
       ######################
-      if docType == 'net'
-        geppettoJsFile = File.read(publicResourcesPath + geppettoResourcesPath + scripts + "osbNetworkScript.js")
-        geppettoControlPanelJsonFile = File.read(publicResourcesPath + geppettoResourcesPath + controlPanels + "osbNetworkControlPanel.json")
-      elsif docType == 'channel'
+      geppettoUtilsJsFile = File.read(publicResourcesPath + geppettoResourcesPath + scripts + utils + "osbUtils.js")
+      if docType == 'net' || docType == 'cell'
+        if docType == 'net'
+          geppettoJsFile = File.read(publicResourcesPath + geppettoResourcesPath + scripts + "osbNetworkScript.js")
+          geppettoControlPanelJsonFile = File.read(publicResourcesPath + geppettoResourcesPath + controlPanels + "osbNetworkControlPanel.json")
+        else
+          geppettoJsFile = File.read(publicResourcesPath + geppettoResourcesPath + scripts + "osbCellScript.js")
+          geppettoControlPanelJsonFile = File.read(publicResourcesPath + geppettoResourcesPath + controlPanels + "osbCellControlPanel.json")
+        end
+        geppettoCellUtilsJsFile = File.read(publicResourcesPath + geppettoResourcesPath + scripts + utils + "osbCellUtils.js")   
+        geppettoJsFile.insert(0, geppettoCellUtilsJsFile)
+      elsif docType == 'channel' 
         geppettoJsFile = File.read(publicResourcesPath + geppettoResourcesPath + scripts + "osbChannelScript.js")
       elsif docType == 'synapse'
         geppettoJsFile = File.read(publicResourcesPath + geppettoResourcesPath + scripts + "osbSynapseScript.js")
-      elsif docType == 'cell'
-        geppettoJsFile = File.read(publicResourcesPath + geppettoResourcesPath + scripts + "osbCellScript.js")
-        geppettoControlPanelJsonFile = File.read(publicResourcesPath + geppettoResourcesPath + controlPanels + "osbCellControlPanel.json")
       else
         geppettoJsFile = File.read(publicResourcesPath + geppettoResourcesPath + scripts + "osbGenericScript.js")  
       end
@@ -464,9 +470,13 @@ class ProjectsController < ApplicationController
       # Parse js file
       unless geppettoControlPanelJsonFile.nil?
         geppettoControlPanelJsonFile.delete!("\r\n")
-        geppettoJsFile.gsub! '$CONTROL_PANEL', geppettoControlPanelJsonFile
+        geppettoUtilsJsFile.gsub! '$CONTROL_PANEL', geppettoControlPanelJsonFile
       end
+      geppettoJsFile.insert(0, geppettoUtilsJsFile)
       geppettoJsFile.gsub! '$ENTER_ID', entity
+      geppettoJsFile.gsub!(/\s*\/\/.*/, '')
+      geppettoJsFile.gsub!(/\/\*!.*?\*\//m, '')
+      geppettoJsFile.delete!("\r\n")
       
       #########
       # MODEL #
