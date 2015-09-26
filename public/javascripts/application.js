@@ -352,11 +352,12 @@ function moveTabLeft(el) {
 
 function displayTabsButtons() {
   var lis;
-  var tabsWidth = 0;
+  var tabsWidth;
   var el;
   $('div.tabs').each(function() {
     el = $(this);
     lis = el.find('ul').children();
+    tabsWidth = 0;
     lis.each(function(){
       if ($(this).is(':visible')) {
         tabsWidth += $(this).width() + 6;
