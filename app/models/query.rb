@@ -797,7 +797,7 @@ class Query < ActiveRecord::Base
 
   # Adds a filter for the given custom field
   def add_custom_field_filter(field, assoc=nil)
-    options = field.format.query_filter_options(field, self)
+    options = field.query_filter_options(self)
     if field.format.target_class && field.format.target_class <= User
       if options[:values].is_a?(Array) && User.current.logged?
         options[:values].unshift ["<< #{l(:label_me)} >>", "me"]

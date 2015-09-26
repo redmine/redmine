@@ -144,6 +144,11 @@ class CustomField < ActiveRecord::Base
     format.value_from_keyword(self, keyword, customized)
   end
 
+  # Returns the options hash used to build a query filter for the field
+  def query_filter_options(query)
+    format.query_filter_options(self, query)
+  end
+
   # Returns a ORDER BY clause that can used to sort customized
   # objects by their value of the custom field.
   # Returns nil if the custom field can not be used for sorting.

@@ -480,10 +480,15 @@ module Redmine
       end
 
       def query_filter_options(custom_field, query)
-        {:type => :list_optional, :values => possible_values_options(custom_field, query.project)}
+        {:type => :list_optional, :values => query_filter_values(custom_field, query)}
       end
 
       protected
+
+      # Returns the values that are available in the field filter
+      def query_filter_values(custom_field, query)
+        possible_values_options(custom_field, query.project)
+      end
 
       # Renders the edit tag as a select tag
       def select_edit_tag(view, tag_id, tag_name, custom_value, options={})
@@ -716,12 +721,29 @@ module Redmine
       field_attributes :version_status
 
       def possible_values_options(custom_field, object=nil)
+        versions_options(custom_field, object)
+      end
+
+      def before_custom_field_save(custom_field)
+        super
+        if custom_field.version_status.is_a?(Array)
+          custom_field.version_status.map!(&:to_s).reject!(&:blank?)
+        end
+      end
+
+      protected
+
+      def query_filter_values(custom_field, query)
+        versions_options(custom_field, query.project, true)
+      end
+
+      def versions_options(custom_field, object, all_statuses=false)
         if object.is_a?(Array)
           projects = object.map {|o| o.respond_to?(:project) ? o.project : nil}.compact.uniq
           projects.map {|project| possible_values_options(custom_field, project)}.reduce(:&) || []
         elsif object.respond_to?(:project) && object.project
           scope = object.project.shared_versions
-          if custom_field.version_status.is_a?(Array)
+          if !all_statuses && custom_field.version_status.is_a?(Array)
             statuses = custom_field.version_status.map(&:to_s).reject(&:blank?)
             if statuses.any?
               scope = scope.where(:status => statuses.map(&:to_s))
@@ -730,13 +752,6 @@ module Redmine
           scope.sort.collect {|u| [u.to_s, u.id.to_s]}
         else
           []
-        end
-      end
-
-      def before_custom_field_save(custom_field)
-        super
-        if custom_field.version_status.is_a?(Array)
-          custom_field.version_status.map!(&:to_s).reject!(&:blank?)
         end
       end
     end
