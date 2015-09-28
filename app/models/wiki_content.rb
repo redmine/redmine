@@ -29,6 +29,8 @@ class WikiContent < ActiveRecord::Base
 
   after_save :send_notification
 
+  scope :without_text, lambda {select(:id, :page_id, :version, :updated_on)}
+
   def visible?(user=User.current)
     page.visible?(user)
   end

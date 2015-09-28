@@ -144,13 +144,13 @@ class WikiPageTest < ActiveSupport::TestCase
     end
   end
 
-  def test_updated_on_eager_load
-    page = WikiPage.with_updated_on.order('id').first
-    assert page.is_a?(WikiPage)
-    assert_not_nil page.read_attribute(:updated_on)
-    assert_equal Time.gm(2007, 3, 6, 23, 10, 51), page.content.updated_on
-    assert_equal page.content.updated_on, page.updated_on
-    assert_not_nil page.read_attribute(:version)
+  def test_with_updated_on_scope_should_preload_updated_on_and_version
+    page = WikiPage.with_updated_on.where(:id => 1).first
+    # make the assertions fail if attributes are not preloaded
+    WikiContent.update_all(:updated_on => '2001-01-01 10:00:00', :version => 1)
+
+    assert_equal Time.gm(2007, 3, 6, 23, 10, 51), page.updated_on
+    assert_equal 3, page.version
   end
 
   def test_descendants
