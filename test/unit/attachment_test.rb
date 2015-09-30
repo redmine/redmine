@@ -190,7 +190,7 @@ class AttachmentTest < ActiveSupport::TestCase
     assert_equal "test.png (Cool image)", a.title
   end
 
-  def test_new_attachment_should_be_editable_by_authot
+  def test_new_attachment_should_be_editable_by_author
     user = User.find(1)
     a = Attachment.new(:author => user)
     assert_equal true, a.editable?(user)
