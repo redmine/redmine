@@ -53,7 +53,7 @@ class Attachment < ActiveRecord::Base
   @@thumbnails_storage_path = File.join(Rails.root, "tmp", "thumbnails")
 
   before_create :files_to_final_location
-  after_destroy :delete_from_disk
+  after_commit :delete_from_disk, :on => :destroy
 
   # Returns an unsaved copy of the attachment
   def copy(attributes=nil)
