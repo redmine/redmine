@@ -305,6 +305,7 @@ span.search_for_watchers a, span.add_attachment a {padding-left:16px; background
   line-height:1.5em;
   border: 1px solid #e4e4e4;
   word-wrap: break-word;
+  border-radius: 3px;
 }
 
 div.square {
@@ -331,7 +332,7 @@ blockquote blockquote { margin-left: 0;}
 abbr, span.field-description[title] { border-bottom: 1px dotted #aaa; cursor: help; }
 textarea.wiki-edit {width:99%; resize:vertical;}
 li p {margin-top: 0;}
-div.issue {background:#ffffdd; padding:6px; margin-bottom:6px;border: 1px solid #d7d7d7;}
+div.issue {background:#ffffdd; padding:6px; margin-bottom:6px; border: 1px solid #d7d7d7; border-radius:3px;}
 p.breadcrumb { font-size: 0.9em; margin: 4px 0 4px 0;}
 p.subtitle { font-size: 0.9em; margin: -6px 0 12px 0; font-style: italic; }
 p.footnote { font-size: 0.9em; margin-top: 0px; margin-bottom: 0px; }
@@ -659,6 +660,7 @@ input.autocomplete.ajax-loading {
   margin-bottom: 12px;
   font-size: 1.1em;
   border: 2px solid;
+  border-radius: 3px;
 }
 
 div.flash {margin-top: 8px;}
@@ -889,6 +891,7 @@ div.wiki pre {
   padding: 8px;
   background-color: #fafafa;
   border: 1px solid #e2e2e2;
+  border-radius: 3px;
   width:auto;
   overflow-x: auto;
   overflow-y: hidden;
