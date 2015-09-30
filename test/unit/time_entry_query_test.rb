@@ -27,6 +27,16 @@ class TimeEntryQueryTest < ActiveSupport::TestCase
            :groups_users,
            :enabled_modules
 
+  def test_cross_project_activity_filter_should_propose_non_active_activities
+    activity = TimeEntryActivity.create!(:name => 'Disabled', :active => false)
+    assert !activity.active?
+
+    query = TimeEntryQuery.new(:name => '_')
+    assert options = query.available_filters['activity_id']
+    assert values = options[:values]
+    assert_include ["Disabled", activity.id.to_s], values
+  end
+
   def test_activity_filter_should_consider_system_and_project_activities
     TimeEntry.delete_all
     system = TimeEntryActivity.create!(:name => 'Foo')

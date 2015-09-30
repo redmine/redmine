@@ -76,7 +76,7 @@ class TimeEntryQuery < Query
       :type => :list_optional, :values => users_values
     ) unless users_values.empty?
 
-    activities = (project ? project.activities : TimeEntryActivity.shared.active)
+    activities = (project ? project.activities : TimeEntryActivity.shared)
     add_available_filter("activity_id",
       :type => :list, :values => activities.map {|a| [a.name, a.id.to_s]}
     ) unless activities.empty?
