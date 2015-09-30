@@ -44,6 +44,11 @@ module Redmine
         end
       end
 
+      # Returns true if the database is MySQL
+      def mysql?
+        (ActiveRecord::Base.connection.adapter_name =~ /mysql/i).present?
+      end
+
       # Returns a SQL statement for case/accent (if possible) insensitive match
       def like(left, right, options={})
         neg = (options[:match] == false ? 'NOT ' : '')

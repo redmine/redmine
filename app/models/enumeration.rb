@@ -133,9 +133,14 @@ class Enumeration < ActiveRecord::Base
   # get the same position as the overriden enumeration
   def reset_positions_in_list
     super
-    self.class.
-      where("parent_id IS NOT NULL").
-      update_all("position = (SELECT MIN(position) FROM #{self.class.table_name} p WHERE p.id = #{self.class.table_name}.parent_id)")
+    # TODO: no database specific statement
+    if Redmine::Database.mysql?
+      self.class.connection.execute("UPDATE #{self.class.table_name} c JOIN #{self.class.table_name} p on p.id = c.parent_id SET c.position = p.position")
+    else
+      self.class.
+        where("parent_id IS NOT NULL").
+        update_all("position = (SELECT MIN(position) FROM #{self.class.table_name} p WHERE p.id = #{self.class.table_name}.parent_id)")
+    end
   end
 
 private
