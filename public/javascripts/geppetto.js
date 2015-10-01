@@ -35,9 +35,9 @@ function makeCorsRequest(url, onloadFunction, url2, onPostLoadFunction) {
 	  xhr.withCredentials = true;
 	  xhr.send();
 	}  
-//	else{
-//		onloadFunction(url, '');
-//	}
+	else{
+		onloadFunction(url, '');
+	}
 }
 //Create the XHR object.
 function createCORSRequest(method, url) {
