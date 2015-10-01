@@ -989,6 +989,7 @@ fr:
   label_fields_mapping: Correspondance des champs
   label_file_content_preview: Aperçu du contenu du fichier
   label_create_missing_values: Créer les valeurs manquantes
+  label_api: API
 
   button_login: Connexion
   button_submit: Soumettre

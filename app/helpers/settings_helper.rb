@@ -22,6 +22,7 @@ module SettingsHelper
     tabs = [{:name => 'general', :partial => 'settings/general', :label => :label_general},
             {:name => 'display', :partial => 'settings/display', :label => :label_display},
             {:name => 'authentication', :partial => 'settings/authentication', :label => :label_authentication},
+            {:name => 'api', :partial => 'settings/api', :label => :label_api},
             {:name => 'projects', :partial => 'settings/projects', :label => :label_project_plural},
             {:name => 'issues', :partial => 'settings/issues', :label => :label_issue_tracking},
             {:name => 'notifications', :partial => 'settings/notifications', :label => :field_mail_notification},

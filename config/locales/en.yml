@@ -971,6 +971,7 @@ en:
   label_fields_mapping: Fields mapping
   label_file_content_preview: File content preview
   label_create_missing_values: Create missing values
+  label_api: API
 
   button_login: Login
   button_submit: Submit
