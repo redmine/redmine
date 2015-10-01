@@ -1190,3 +1190,4 @@ ja:
   label_create_missing_values: 存在しない値は新規作成
   button_import: インポート
   field_total_estimated_hours: 合計予定工数
+  label_api: API
