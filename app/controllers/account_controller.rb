@@ -201,6 +201,7 @@ class AccountController < ApplicationController
       # Valid user
       if user.active?
         successful_authentication(user)
+        update_sudo_timestamp! # activate Sudo Mode
       else
         handle_inactive_user(user)
       end

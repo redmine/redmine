@@ -7,8 +7,24 @@ class SudoModeTest < Redmine::IntegrationTest
     Redmine::SudoMode.stubs(:enabled?).returns(true)
   end
 
+  def test_sudo_mode_should_be_active_after_login
+    log_user("admin", "admin")
+    get "/users/new"
+    assert_response :success
+    post "/users",
+         :user => { :login => "psmith", :firstname => "Paul",
+                    :lastname => "Smith", :mail => "psmith@somenet.foo",
+                    :language => "en", :password => "psmith09",
+                    :password_confirmation => "psmith09" }
+    assert_response 302
+
+    user = User.find_by_login("psmith")
+    assert_kind_of User, user
+  end
+
   def test_add_user
     log_user("admin", "admin")
+    expire_sudo_mode!
     get "/users/new"
     assert_response :success
     post "/users",
@@ -36,6 +52,7 @@ class SudoModeTest < Redmine::IntegrationTest
 
   def test_create_member_xhr
     log_user 'admin', 'admin'
+    expire_sudo_mode!
     get '/projects/ecookbook/settings/members'
     assert_response :success
 
@@ -59,6 +76,7 @@ class SudoModeTest < Redmine::IntegrationTest
 
   def test_create_member
     log_user 'admin', 'admin'
+    expire_sudo_mode!
     get '/projects/ecookbook/settings/members'
     assert_response :success
 
@@ -84,6 +102,7 @@ class SudoModeTest < Redmine::IntegrationTest
 
   def test_create_role
     log_user 'admin', 'admin'
+    expire_sudo_mode!
     get '/roles'
     assert_response :success
 
@@ -118,6 +137,7 @@ class SudoModeTest < Redmine::IntegrationTest
 
   def test_update_email_address
     log_user 'jsmith', 'jsmith'
+    expire_sudo_mode!
     get '/my/account'
     assert_response :success
     post '/my/account', user: { mail: 'newmail@test.com' }
@@ -160,5 +180,12 @@ class SudoModeTest < Redmine::IntegrationTest
         assert_response :created
       end
     end
+  end
+
+  private
+
+  # sudo mode is active after sign, let it expire by advancing the time
+  def expire_sudo_mode!
+    travel_to 20.minutes.from_now
   end
 end
