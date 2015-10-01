@@ -36,7 +36,7 @@ function makeCorsRequest(url, onloadFunction, url2, onPostLoadFunction) {
 	  xhr.send();
 	}  
 	else{
-		onloadFunction(url, '');
+		onloadFunction(text, url2, onPostLoadFunction);
 	}
 }
 //Create the XHR object.
