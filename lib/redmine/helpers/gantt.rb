@@ -460,6 +460,10 @@ module Redmine
           if self.months < 3
             show_days = true
             headers_height = 3 * header_height
+            if self.months < 2
+              show_day_num = true
+              headers_height = 4 * header_height
+            end
           end
         end
         g_width = PDF.right_pane_width
@@ -504,6 +508,25 @@ module Redmine
             week_f = week_f + 7
           end
         end
+        # Day numbers headers
+        if show_day_num
+          left = subject_width
+          height = header_height
+          day_num = self.date_from
+          wday = self.date_from.cwday
+          pdf.SetFontStyle('B', 7)
+          (self.date_to - self.date_from + 1).to_i.times do
+            width = zoom
+            pdf.SetY(y_start + header_height * 2)
+            pdf.SetX(left)
+            pdf.SetTextColor(non_working_week_days.include?(wday) ? 150 : 0)
+            pdf.RDMCell(width, height, day_num.day.to_s, "LTR", 0, "C")
+            left = left + width
+            day_num = day_num + 1
+            wday = wday + 1
+            wday = 1 if wday > 7
+          end
+        end
         # Days headers
         if show_days
           left = subject_width
@@ -512,8 +535,9 @@ module Redmine
           pdf.SetFontStyle('B', 7)
           (self.date_to - self.date_from + 1).to_i.times do
             width = zoom
-            pdf.SetY(y_start + 2 * header_height)
+            pdf.SetY(y_start + header_height * (show_day_num ? 3 : 2))
             pdf.SetX(left)
+            pdf.SetTextColor(non_working_week_days.include?(wday) ? 150 : 0)
             pdf.RDMCell(width, height, day_name(wday).first, "LTR", 0, "C")
             left = left + width
             wday = wday + 1
@@ -522,6 +546,7 @@ module Redmine
         end
         pdf.SetY(y_start)
         pdf.SetX(15)
+        pdf.SetTextColor(0)
         pdf.RDMCell(subject_width + g_width - 15, headers_height, "", 1)
         # Tasks
         top = headers_height + y_start

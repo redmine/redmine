@@ -90,6 +90,7 @@
   headers_height = header_height
   show_weeks = false
   show_days  = false
+  show_day_num = false
 
   if @gantt.zoom > 1
     show_weeks = true
@@ -97,6 +98,10 @@
     if @gantt.zoom > 2
         show_days = true
         headers_height = 3 * header_height
+        if @gantt.zoom > 3
+          show_day_num = true
+          headers_height = 4 * header_height
+        end
     end
   end
 
@@ -231,11 +236,44 @@
   <% end %>
 <% end %>
 
+<% ###### Day numbers headers ###### %>
+<% if show_day_num %>
+  <%
+    left = 0
+    height = g_height + header_height*2 - 1
+    wday = @gantt.date_from.cwday
+    day_num = @gantt.date_from
+  %>
+  <% (@gantt.date_to - @gantt.date_from + 1).to_i.times do %>
+    <%
+      width =  zoom - 1
+      style = ""
+      style += "left:#{left}px;"
+      style += "top:37px;"
+      style += "width:#{width}px;"
+      style += "height:#{height}px;"
+      style += "font-size:0.7em;"
+      clss = "gantt_hdr"
+      clss << " nwday" if @gantt.non_working_week_days.include?(wday)
+    %>
+    <%= content_tag(:div, :style => style, :class => clss) do %>
+      <%= day_num.day %>
+    <% end %>
+    <%
+     left = left + width+1
+     day_num = day_num + 1
+     wday = wday + 1
+     wday = 1 if wday > 7
+    %>
+  <% end %>
+<% end %> 
+
 <% ###### Days headers ####### %>
 <% if show_days %>
   <%
     left = 0
     height = g_height + header_height - 1
+    top = (show_day_num ? 55 : 37)
     wday = @gantt.date_from.cwday
   %>
   <% (@gantt.date_to - @gantt.date_from + 1).to_i.times do %>
@@ -243,7 +281,7 @@
       width =  zoom - 1
       style  = ""
       style += "left: #{left}px;"
-      style += "top:37px;"
+      style += "top: #{top}px;"
       style += "width: #{width}px;"
       style += "height: #{height}px;"
       style += "font-size:0.7em;"
