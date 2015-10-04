@@ -22,7 +22,7 @@ class Redmine::I18nTest < ActiveSupport::TestCase
   include ActionView::Helpers::NumberHelper
 
   def setup
-    User.current.language = nil
+    User.current = nil
   end
 
   def teardown
