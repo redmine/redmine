@@ -1252,3 +1252,4 @@
   label_total_spent_time: 整體耗用工時
   field_total_estimated_hours: Total estimated time
   label_api: API
+  label_total_plural: Totals

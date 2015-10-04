@@ -1191,3 +1191,4 @@ ja:
   button_import: インポート
   field_total_estimated_hours: 合計予定工数
   label_api: API
+  label_total_plural: Totals
