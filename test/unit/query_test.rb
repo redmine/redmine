@@ -1136,6 +1136,82 @@ class QueryTest < ActiveSupport::TestCase
     assert_equal values.sort, values
   end
 
+  def test_set_totalable_names
+    q = IssueQuery.new
+    q.totalable_names = ['estimated_hours', :spent_hours, '']
+    assert_equal [:estimated_hours, :spent_hours], q.totalable_columns.map(&:name)
+  end
+
+  def test_totalable_columns_should_default_to_settings
+    with_settings :issue_list_default_totals => ['estimated_hours'] do
+      q = IssueQuery.new
+      assert_equal [:estimated_hours], q.totalable_columns.map(&:name)
+    end
+  end
+
+  def test_available_totalable_columns_should_include_estimated_hours
+    q = IssueQuery.new
+    assert_include :estimated_hours, q.available_totalable_columns.map(&:name)
+  end
+
+  def test_available_totalable_columns_should_include_spent_hours
+    User.current = User.find(1)
+
+    q = IssueQuery.new
+    assert_include :spent_hours, q.available_totalable_columns.map(&:name)
+  end
+
+  def test_available_totalable_columns_should_include_int_custom_field
+    field = IssueCustomField.generate!(:field_format => 'int', :is_for_all => true)
+    q = IssueQuery.new
+    assert_include "cf_#{field.id}".to_sym, q.available_totalable_columns.map(&:name)
+  end
+
+  def test_available_totalable_columns_should_include_float_custom_field
+    field = IssueCustomField.generate!(:field_format => 'float', :is_for_all => true)
+    q = IssueQuery.new
+    assert_include "cf_#{field.id}".to_sym, q.available_totalable_columns.map(&:name)
+  end
+
+  def test_total_for_estimated_hours
+    Issue.delete_all
+    Issue.generate!(:estimated_hours => 5.5)
+    Issue.generate!(:estimated_hours => 1.1)
+    Issue.generate!
+
+    q = IssueQuery.new
+    assert_equal 6.6, q.total_for(:estimated_hours)
+  end
+
+  def test_total_for_spent_hours
+    TimeEntry.delete_all
+    TimeEntry.generate!(:hours => 5.5)
+    TimeEntry.generate!(:hours => 1.1)
+
+    q = IssueQuery.new
+    assert_equal 6.6, q.total_for(:spent_hours)
+  end
+
+  def test_total_for_int_custom_field
+    field = IssueCustomField.generate!(:field_format => 'int', :is_for_all => true)
+    CustomValue.create!(:customized => Issue.find(1), :custom_field => field, :value => '2')
+    CustomValue.create!(:customized => Issue.find(2), :custom_field => field, :value => '7')
+    CustomValue.create!(:customized => Issue.find(3), :custom_field => field, :value => '')
+
+    q = IssueQuery.new
+    assert_equal 9, q.total_for("cf_#{field.id}")
+  end
+
+  def test_total_for_float_custom_field
+    field = IssueCustomField.generate!(:field_format => 'float', :is_for_all => true)
+    CustomValue.create!(:customized => Issue.find(1), :custom_field => field, :value => '2.3')
+    CustomValue.create!(:customized => Issue.find(2), :custom_field => field, :value => '7')
+    CustomValue.create!(:customized => Issue.find(3), :custom_field => field, :value => '')
+
+    q = IssueQuery.new
+    assert_equal 9.3, q.total_for("cf_#{field.id}")
+  end
+
   def test_invalid_query_should_raise_query_statement_invalid_error
     q = IssueQuery.new
     assert_raise Query::StatementInvalid do

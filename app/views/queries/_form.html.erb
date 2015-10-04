@@ -33,6 +33,9 @@
 
 <p><label><%= l(:button_show) %></label>
 <%= available_block_columns_tags(@query) %></p>
+
+<p><label><%= l(:label_total_plural) %></label>
+<%= available_totalable_columns_tags(@query) %></p>
 </fieldset>
 <% else %>
 <fieldset><legend><%= l(:label_options) %></legend>

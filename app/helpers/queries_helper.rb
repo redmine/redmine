@@ -84,6 +84,14 @@ module QueriesHelper
     tags
   end
 
+  def available_totalable_columns_tags(query)
+    tags = ''.html_safe
+    query.available_totalable_columns.each do |column|
+      tags << content_tag('label', check_box_tag('t[]', column.name.to_s, query.totalable_columns.include?(column), :id => nil) + " #{column.caption}", :class => 'inline')
+    end
+    tags
+  end
+
   def query_available_inline_columns_options(query)
     (query.available_inline_columns - query.columns).reject(&:frozen?).collect {|column| [column.caption, column.name]}
   end
@@ -95,6 +103,16 @@ module QueriesHelper
   def render_query_columns_selection(query, options={})
     tag_name = (options[:name] || 'c') + '[]'
     render :partial => 'queries/columns', :locals => {:query => query, :tag_name => tag_name}
+  end
+
+  def render_query_totals(query)
+    return unless query.totalable_columns.present?
+    totals = query.totalable_columns.map do |column|
+      label = content_tag('span', "#{column.caption}:")
+      value = content_tag('span', " #{query.total_for(column)}", :class => 'value')
+      content_tag('span', label + " " + value, :class => "total-for-#{column.name.to_s.dasherize}")
+    end
+    content_tag('p', totals.join(" ").html_safe, :class => "query-totals")
   end
 
   def column_header(column)
@@ -194,12 +212,12 @@ module QueriesHelper
       @query = IssueQuery.new(:name => "_")
       @query.project = @project
       @query.build_from_params(params)
-      session[:query] = {:project_id => @query.project_id, :filters => @query.filters, :group_by => @query.group_by, :column_names => @query.column_names}
+      session[:query] = {:project_id => @query.project_id, :filters => @query.filters, :group_by => @query.group_by, :column_names => @query.column_names, :totalable_names => @query.totalable_names}
     else
       # retrieve from session
       @query = nil
       @query = IssueQuery.find_by_id(session[:query][:id]) if session[:query][:id]
-      @query ||= IssueQuery.new(:name => "_", :filters => session[:query][:filters], :group_by => session[:query][:group_by], :column_names => session[:query][:column_names])
+      @query ||= IssueQuery.new(:name => "_", :filters => session[:query][:filters], :group_by => session[:query][:group_by], :column_names => session[:query][:column_names], :totalable_names => session[:query][:totalable_names])
       @query.project = @project
     end
   end
@@ -210,7 +228,7 @@ module QueriesHelper
         @query = IssueQuery.find_by_id(session[:query][:id])
         return unless @query
       else
-        @query = IssueQuery.new(:name => "_", :filters => session[:query][:filters], :group_by => session[:query][:group_by], :column_names => session[:query][:column_names])
+        @query = IssueQuery.new(:name => "_", :filters => session[:query][:filters], :group_by => session[:query][:group_by], :column_names => session[:query][:column_names], :totalable_names => session[:query][:totalable_names])
       end
       if session[:query].has_key?(:project_id)
         @query.project_id = session[:query][:project_id]

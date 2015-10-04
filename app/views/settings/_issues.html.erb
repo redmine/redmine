@@ -38,6 +38,11 @@
   <%= render_query_columns_selection(
         IssueQuery.new(:column_names => Setting.issue_list_default_columns),
         :name => 'settings[issue_list_default_columns]') %>
+
+  <p><%= setting_multiselect :issue_list_default_totals,
+           IssueQuery.new(:totalable_names => Setting.issue_list_default_totals).available_totalable_columns.map {|c| [c.caption, c.name.to_s]},
+           :inline => true,
+           :label => :label_total_plural %></p>
 </fieldset>
 
 <%= submit_tag l(:button_save) %>

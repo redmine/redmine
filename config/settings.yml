@@ -180,6 +180,9 @@ issue_list_default_columns:
   - subject
   - assigned_to
   - updated_on
+issue_list_default_totals:
+  serialized: true
+  default: []
 display_subprojects_issues:
   default: 1
 issue_done_ratio:

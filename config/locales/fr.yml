@@ -666,6 +666,7 @@ fr:
     one:   1 demande
     other: "%{count} demandes"
   label_total: Total
+  label_total_plural: Totaux
   label_total_time: Temps total
   label_permissions: Permissions
   label_current_status: Statut actuel

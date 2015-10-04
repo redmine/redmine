@@ -39,6 +39,10 @@
             <td><%= l(:button_show) %></td>
             <td><%= available_block_columns_tags(@query) %></td>
           </tr>
+          <tr>
+            <td><%= l(:label_total_plural) %></td>
+            <td><%= available_totalable_columns_tags(@query) %></td>
+          </tr>
         </table>
       </div>
     </fieldset>
@@ -60,6 +64,7 @@
 <% if @issues.empty? %>
 <p class="nodata"><%= l(:label_no_data) %></p>
 <% else %>
+<%= render_query_totals(@query) %>
 <%= render :partial => 'issues/list', :locals => {:issues => @issues, :query => @query} %>
 <p class="pagination"><%= pagination_links_full @issue_pages, @issue_count %></p>
 <% end %>

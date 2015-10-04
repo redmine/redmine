@@ -945,6 +945,38 @@ class IssuesControllerTest < ActionController::TestCase
     assert_select 'td.parent a[title=?]', parent.subject
   end
 
+  def test_index_with_estimated_hours_total
+    Issue.delete_all
+    Issue.generate!(:estimated_hours => 5.5)
+    Issue.generate!(:estimated_hours => 1.1)
+
+    get :index, :t => %w(estimated_hours)
+    assert_response :success
+    assert_select '.query-totals'
+    assert_select '.total-for-estimated-hours span.value', :text => '6.6'
+    assert_select 'input[type=checkbox][name=?][value=estimated_hours][checked=checked]', 't[]'
+  end
+
+  def test_index_with_int_custom_field_total
+    field = IssueCustomField.generate!(:field_format => 'int', :is_for_all => true)
+    CustomValue.create!(:customized => Issue.find(1), :custom_field => field, :value => '2')
+    CustomValue.create!(:customized => Issue.find(2), :custom_field => field, :value => '7')
+
+    get :index, :t => ["cf_#{field.id}"]
+    assert_response :success
+    assert_select '.query-totals'
+    assert_select ".total-for-cf-#{field.id} span.value", :text => '9'
+  end
+
+  def test_index_totals_should_default_to_settings
+    with_settings :issue_list_default_totals => ['estimated_hours'] do
+      get :index
+      assert_response :success
+      assert_select '.total-for-estimated-hours span.value'
+      assert_select '.query-totals>span', 1
+    end
+  end
+
   def test_index_send_html_if_query_is_invalid
     get :index, :f => ['start_date'], :op => {:start_date => '='}
     assert_equal 'text/html', @response.content_type

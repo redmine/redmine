@@ -34,7 +34,7 @@ class IssueQuery < Query
     QueryColumn.new(:fixed_version, :sortable => lambda {Version.fields_for_order_statement}, :groupable => true),
     QueryColumn.new(:start_date, :sortable => "#{Issue.table_name}.start_date"),
     QueryColumn.new(:due_date, :sortable => "#{Issue.table_name}.due_date"),
-    QueryColumn.new(:estimated_hours, :sortable => "#{Issue.table_name}.estimated_hours"),
+    QueryColumn.new(:estimated_hours, :sortable => "#{Issue.table_name}.estimated_hours", :totalable => true),
     QueryColumn.new(:total_estimated_hours,
       :sortable => "COALESCE((SELECT SUM(estimated_hours) FROM #{Issue.table_name} subtasks" +
         " WHERE subtasks.root_id = #{Issue.table_name}.root_id AND subtasks.lft >= #{Issue.table_name}.lft AND subtasks.rgt <= #{Issue.table_name}.rgt), 0)",
@@ -268,7 +268,8 @@ class IssueQuery < Query
       @available_columns.insert index, QueryColumn.new(:spent_hours,
         :sortable => "COALESCE((SELECT SUM(hours) FROM #{TimeEntry.table_name} WHERE #{TimeEntry.table_name}.issue_id = #{Issue.table_name}.id), 0)",
         :default_order => 'desc',
-        :caption => :label_spent_time
+        :caption => :label_spent_time,
+        :totalable => true
       )
       @available_columns.insert index+1, QueryColumn.new(:total_spent_hours,
         :sortable => "COALESCE((SELECT SUM(hours) FROM #{TimeEntry.table_name} JOIN #{Issue.table_name} subtasks ON subtasks.id = #{TimeEntry.table_name}.issue_id" +
@@ -299,11 +300,42 @@ class IssueQuery < Query
     end
   end
 
+  def base_scope
+    Issue.visible.joins(:status, :project).where(statement)
+  end
+  private :base_scope
+
   # Returns the issue count
   def issue_count
-    Issue.visible.joins(:status, :project).where(statement).count
+    base_scope.count
   rescue ::ActiveRecord::StatementInvalid => e
     raise StatementInvalid.new(e.message)
+  end
+
+  # Returns sum of all the issue's estimated_hours
+  def total_for_estimated_hours
+    base_scope.sum(:estimated_hours)
+  end
+
+  # Returns sum of all the issue's time entries hours
+  def total_for_spent_hours
+    base_scope.joins(:time_entries).sum("#{TimeEntry.table_name}.hours")
+  end
+
+  def total_for_custom_field(custom_field)
+    base_scope.joins(:custom_values).
+      where(:custom_values => {:custom_field_id => custom_field.id}).
+      where.not(:custom_values => {:value => ''}).
+      sum("CAST(#{CustomValue.table_name}.value AS decimal(30,3))")
+  end
+  private :total_for_custom_field
+
+  def total_for_float_custom_field(custom_field)
+    total_for_custom_field(custom_field).to_f
+  end
+
+  def total_for_int_custom_field(custom_field)
+    total_for_custom_field(custom_field).to_i
   end
 
   # Returns the issue count by group or nil if query is not grouped

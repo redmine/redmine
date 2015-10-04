@@ -16,7 +16,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class QueryColumn
-  attr_accessor :name, :sortable, :groupable, :default_order
+  attr_accessor :name, :sortable, :groupable, :totalable, :default_order
   include Redmine::I18n
 
   def initialize(name, options={})
@@ -26,6 +26,7 @@ class QueryColumn
     if groupable == true
       self.groupable = name.to_s
     end
+    self.totalable = options[:totalable] || false
     self.default_order = options[:default_order]
     @inline = options.key?(:inline) ? options[:inline] : true
     @caption_key = options[:caption] || "field_#{name}".to_sym
@@ -79,6 +80,7 @@ class QueryCustomFieldColumn < QueryColumn
     self.name = "cf_#{custom_field.id}".to_sym
     self.sortable = custom_field.order_statement || false
     self.groupable = custom_field.group_statement || false
+    self.totalable = ['int', 'float'].include?(custom_field.field_format)
     @inline = true
     @cf = custom_field
   end
@@ -246,6 +248,7 @@ class Query < ActiveRecord::Base
     end
     self.group_by = params[:group_by] || (params[:query] && params[:query][:group_by])
     self.column_names = params[:c] || (params[:query] && params[:query][:column_names])
+    self.totalable_names = params[:t] || (params[:query] && params[:query][:totalable_names])
     self
   end
 
@@ -454,6 +457,10 @@ class Query < ActiveRecord::Base
     available_columns.reject(&:inline?)
   end
 
+  def available_totalable_columns
+    available_columns.select(&:totalable)
+  end
+
   def default_columns_names
     []
   end
@@ -480,6 +487,22 @@ class Query < ActiveRecord::Base
 
   def has_default_columns?
     column_names.nil? || column_names.empty?
+  end
+
+  def totalable_columns
+    names = totalable_names
+    available_totalable_columns.select {|column| names.include?(column.name)}
+  end
+
+  def totalable_names=(names)
+    if names
+      names = names.select(&:present?).map {|n| n.is_a?(Symbol) ? n : n.to_sym}
+    end
+    options[:totalable_names] = names
+  end
+
+  def totalable_names
+    options[:totalable_names] || Setting.issue_list_default_totals.map(&:to_sym) || []
   end
 
   def sort_criteria=(arg)
@@ -605,6 +628,22 @@ class Query < ActiveRecord::Base
     filters_clauses.reject!(&:blank?)
 
     filters_clauses.any? ? filters_clauses.join(' AND ') : nil
+  end
+
+  # Returns the sum of values for the given column
+  def total_for(column)
+    unless column.is_a?(QueryColumn)
+      column = column.to_sym
+      column = available_totalable_columns.detect {|c| c.name == column}
+    end
+    if column.is_a?(QueryCustomFieldColumn)
+      custom_field = column.custom_field
+      send "total_for_#{custom_field.field_format}_custom_field", custom_field
+    else
+      send "total_for_#{column.name}"
+    end
+  rescue ::ActiveRecord::StatementInvalid => e
+    raise StatementInvalid.new(e.message)
   end
 
   private
