@@ -39,14 +39,34 @@
   <% if User.current.allowed_to?(:view_issues, @project) %>
   <div class="issues box">
     <h3><%=l(:label_issue_tracking)%></h3>
-    <ul>
-    <% for tracker in @trackers %>
-      <li><%= link_to tracker.name, project_issues_path(@project, :set_filter => 1, :tracker_id => tracker.id) %>:
-          <%= l(:label_x_open_issues_abbr_on_total, :count => @open_issues_by_tracker[tracker].to_i,
-                                                    :total => @total_issues_by_tracker[tracker].to_i) %>
-      </li>
-    <% end %>
-    </ul>
+    <table class="list issue-report">
+      <thead>
+        <tr>
+          <th></th>
+          <th><%=l(:label_open_issues_plural)%></th>
+          <th><%=l(:label_closed_issues_plural)%></th>
+          <th><%=l(:label_total)%></th>
+        </tr>
+      </thead>
+      <tbody>
+      <% @trackers.each do |tracker| %>
+        <tr class="<%= cycle("odd", "even") %>">
+          <td class="name">
+            <%= tracker.name %>
+          </td>
+          <td>
+            <%= link_to @open_issues_by_tracker[tracker].to_i, project_issues_path(@project, :set_filter => 1, :tracker_id => tracker.id) %>
+          </td>
+          <td>
+            <%= link_to (@total_issues_by_tracker[tracker].to_i - @open_issues_by_tracker[tracker].to_i), project_issues_path(@project, :set_filter => 1, :tracker_id => tracker.id, :status_id => 'c') %>
+          </td>
+          <td>
+            <%= link_to @total_issues_by_tracker[tracker].to_i, project_issues_path(@project, :set_filter => 1, :tracker_id => tracker.id, :status_id => '*') %>
+          </td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
     <p>
       <%= link_to l(:label_issue_view_all), project_issues_path(@project, :set_filter => 1) %>
       <% if User.current.allowed_to?(:view_calendar, @project, :global => true) %>
