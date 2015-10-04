@@ -314,12 +314,12 @@ class IssueQuery < Query
 
   # Returns sum of all the issue's estimated_hours
   def total_for_estimated_hours
-    base_scope.sum(:estimated_hours)
+    base_scope.sum(:estimated_hours).to_f.round(2)
   end
 
   # Returns sum of all the issue's time entries hours
   def total_for_spent_hours
-    base_scope.joins(:time_entries).sum("#{TimeEntry.table_name}.hours")
+    base_scope.joins(:time_entries).sum("#{TimeEntry.table_name}.hours").to_f.round(2)
   end
 
   def total_for_custom_field(custom_field)
