@@ -111,6 +111,25 @@ module SettingsHelper
     content_tag(:label, tag + text, options)
   end
 
+  def session_lifetime_options
+    options = [[l(:label_disabled), 0]]
+    options += [4, 8, 12].map {|hours|
+      [l('datetime.distance_in_words.x_hours', :count => hours), (hours * 60).to_s]
+    }
+    options += [1, 7, 30, 60, 365].map {|days|
+      [l('datetime.distance_in_words.x_days', :count => days), (days * 24 * 60).to_s]
+    }
+    options
+  end
+
+  def session_timeout_options
+    options = [[l(:label_disabled), 0]]
+    options += [1, 2, 4, 8, 12, 24, 48].map {|hours|
+      [l('datetime.distance_in_words.x_hours', :count => hours), (hours * 60).to_s]
+    }
+    options
+  end
+
   def link_copied_issue_options
     options = [
       [:general_text_Yes, 'yes'],
