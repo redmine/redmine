@@ -265,11 +265,15 @@ class AccountController < ApplicationController
 
   def set_autologin_cookie(user)
     token = Token.create(:user => user, :action => 'autologin')
+    secure = Redmine::Configuration['autologin_cookie_secure']
+    if secure.nil?
+      secure = request.ssl?
+    end
     cookie_options = {
       :value => token.value,
       :expires => 1.year.from_now,
       :path => (Redmine::Configuration['autologin_cookie_path'] || '/'),
-      :secure => (Redmine::Configuration['autologin_cookie_secure'] ? true : false),
+      :secure => secure,
       :httponly => true
     }
     cookies[autologin_cookie_name] = cookie_options
