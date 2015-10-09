@@ -1219,6 +1219,20 @@ class QueryTest < ActiveSupport::TestCase
     )
   end
 
+  def test_total_by_project_group_for_spent_hours
+    TimeEntry.delete_all
+    TimeEntry.generate!(:hours => 5.5, :issue_id => 1)
+    TimeEntry.generate!(:hours => 1.1, :issue_id => 2)
+    Issue.where(:id => 1).update_all(:assigned_to_id => 2)
+    Issue.where(:id => 2).update_all(:assigned_to_id => 3)
+
+    q = IssueQuery.new(:group_by => 'project')
+    assert_equal(
+      {Project.find(1) => 6.6},
+      q.total_by_group_for(:spent_hours)
+    )
+  end
+
   def test_total_for_int_custom_field
     field = IssueCustomField.generate!(:field_format => 'int', :is_for_all => true)
     CustomValue.create!(:customized => Issue.find(1), :custom_field => field, :value => '2')

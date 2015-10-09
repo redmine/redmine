@@ -325,7 +325,15 @@ class IssueQuery < Query
 
   # Returns sum of all the issue's time entries hours
   def total_for_spent_hours(scope)
-    scope.joins(:time_entries).sum("#{TimeEntry.table_name}.hours")
+    if group_by_column.try(:name) == :project
+      # TODO: remove this when https://github.com/rails/rails/issues/21922 is fixed
+      # We have to do a custom join without the time_entries.project_id column
+      # that would trigger a ambiguous column name error
+      scope.joins("JOIN (SELECT issue_id, hours FROM #{TimeEntry.table_name}) AS joined_time_entries ON joined_time_entries.issue_id = #{Issue.table_name}.id").
+        sum("joined_time_entries.hours")
+    else
+      scope.joins(:time_entries).sum("#{TimeEntry.table_name}.hours")
+    end
   end
 
   # Returns the issues
