@@ -519,11 +519,17 @@ class Project < ActiveRecord::Base
   # Returns a scope of all custom fields enabled for project issues
   # (explicitly associated custom fields and custom fields enabled for all projects)
   def all_issue_custom_fields
-    @all_issue_custom_fields ||= IssueCustomField.
-      sorted.
-      where("is_for_all = ? OR id IN (SELECT DISTINCT cfp.custom_field_id" +
-        " FROM #{table_name_prefix}custom_fields_projects#{table_name_suffix} cfp" +
-        " WHERE cfp.project_id = ?)", true, id)
+    if new_record?
+      @all_issue_custom_fields ||= IssueCustomField.
+        sorted.
+        where("is_for_all = ? OR id IN (?)", true, issue_custom_field_ids)
+    else
+      @all_issue_custom_fields ||= IssueCustomField.
+        sorted.
+        where("is_for_all = ? OR id IN (SELECT DISTINCT cfp.custom_field_id" +
+          " FROM #{table_name_prefix}custom_fields_projects#{table_name_suffix} cfp" +
+          " WHERE cfp.project_id = ?)", true, id)
+    end
   end
 
   def project
