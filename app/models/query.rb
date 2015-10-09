@@ -709,20 +709,22 @@ class Query < ActiveRecord::Base
     total_for_custom_field(custom_field, scope) {|t| t.to_i}
   end
 
-  def total_for_custom_field(custom_field, scope)
+  def total_for_custom_field(custom_field, scope, &block)
     total = scope.joins(:custom_values).
       where(:custom_values => {:custom_field_id => custom_field.id}).
       where.not(:custom_values => {:value => ''}).
       sum("CAST(#{CustomValue.table_name}.value AS decimal(30,3))")
 
-    if block_given?
-      if total.is_a?(Hash)
-        total.keys.each {|k| total[k] = yield total[k]}
-      else
-        total = yield total
-      end
-    end
+    total = map_total(total, &block) if block_given?
+    total
+  end
 
+  def map_total(total, &block)
+    if total.is_a?(Hash)
+      total.keys.each {|k| total[k] = yield total[k]}
+    else
+      total = yield total
+    end
     total
   end
 

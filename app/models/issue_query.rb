@@ -320,12 +320,12 @@ class IssueQuery < Query
 
   # Returns sum of all the issue's estimated_hours
   def total_for_estimated_hours(scope)
-    scope.sum(:estimated_hours)
+    map_total(scope.sum(:estimated_hours)) {|t| t.to_f.round(2)}
   end
 
   # Returns sum of all the issue's time entries hours
   def total_for_spent_hours(scope)
-    if group_by_column.try(:name) == :project
+    total = if group_by_column.try(:name) == :project
       # TODO: remove this when https://github.com/rails/rails/issues/21922 is fixed
       # We have to do a custom join without the time_entries.project_id column
       # that would trigger a ambiguous column name error
@@ -334,6 +334,7 @@ class IssueQuery < Query
     else
       scope.joins(:time_entries).sum("#{TimeEntry.table_name}.hours")
     end
+    map_total(total) {|t| t.to_f.round(2)}
   end
 
   # Returns the issues
