@@ -190,6 +190,14 @@ class SearchTest < ActiveSupport::TestCase
     Redmine::Database.reset
   end
 
+  def test_fetcher_should_handle_accents_in_phrases
+    f = Redmine::Search::Fetcher.new('No special chars "in a phrase"', User.anonymous, %w(issues), Project.all)
+    assert_equal ['No', 'special', 'chars', 'in a phrase'], f.tokens
+
+    f = Redmine::Search::Fetcher.new('Special chars "in a phrase Öö"', User.anonymous, %w(issues), Project.all)
+    assert_equal ['Special', 'chars', 'in a phrase Öö'], f.tokens
+  end
+
   private
 
   def remove_permission(role, permission)
