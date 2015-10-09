@@ -39,7 +39,10 @@ module ObjectHelpers
     project
   end
 
-  def Project.generate_with_parent!(parent, attributes={})
+  def Project.generate_with_parent!(*args)
+    attributes = args.last.is_a?(Hash) ? args.pop : {}
+    parent = args.size > 0 ? args.first : Project.generate!
+
     project = Project.generate!(attributes) do |p|
       p.parent = parent
     end
