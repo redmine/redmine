@@ -274,9 +274,17 @@ module Redmine
   
           # title
           pdf.SetFontStyle('B',11)
-          pdf.RDMCell(190,10, title)
+          pdf.RDMCell(190, 8, title)
           pdf.ln
-  
+
+          # totals
+          totals = query.totals.map {|column, total| "#{column.caption}: #{total}"}
+          if totals.present?
+            pdf.SetFontStyle('B',10)
+            pdf.RDMCell(table_width, 6, totals.join("  "), 0, 1, 'R')
+          end
+
+          totals_by_group = query.totals_by_group
           render_table_header(pdf, query, col_width, row_height, table_width)
           previous_group = false
           issue_list(issues) do |issue, level|
@@ -286,8 +294,13 @@ module Redmine
               group_label = group.blank? ? 'None' : group.to_s.dup
               group_label << " (#{query.issue_count_by_group[group]})"
               pdf.bookmark group_label, 0, -1
-              pdf.RDMCell(table_width, row_height * 2, group_label, 1, 1, 'L')
+              pdf.RDMCell(table_width, row_height * 2, group_label, 'LR', 1, 'L')
               pdf.SetFontStyle('',8)
+
+              totals = totals_by_group.map {|column, total| "#{column.caption}: #{total[group]}"}.join("  ")
+              if totals.present?
+                pdf.RDMCell(table_width, row_height, totals, 'LR', 1, 'L')
+              end
               previous_group = group
             end
   
