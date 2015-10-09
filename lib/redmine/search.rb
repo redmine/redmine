@@ -58,7 +58,7 @@ module Redmine
 
         # extract tokens from the question
         # eg. hello "bye bye" => ["hello", "bye bye"]
-        @tokens = @question.scan(%r{((\s|^)"[\s\w]+"(\s|$)|\S+)}).collect {|m| m.first.gsub(%r{(^\s*"\s*|\s*"\s*$)}, '')}
+        @tokens = @question.scan(%r{((\s|^)"[^"]+"(\s|$)|\S+)}).collect {|m| m.first.gsub(%r{(^\s*"\s*|\s*"\s*$)}, '')}
         # tokens must be at least 2 characters long
         @tokens = @tokens.uniq.select {|w| w.length > 1 }
         # no more than 5 tokens to search for
