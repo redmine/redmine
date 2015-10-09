@@ -1183,6 +1183,19 @@ class QueryTest < ActiveSupport::TestCase
     assert_equal 6.6, q.total_for(:estimated_hours)
   end
 
+  def test_total_by_group_for_estimated_hours
+    Issue.delete_all
+    Issue.generate!(:estimated_hours => 5.5, :assigned_to_id => 2)
+    Issue.generate!(:estimated_hours => 1.1, :assigned_to_id => 3)
+    Issue.generate!(:estimated_hours => 3.5)
+
+    q = IssueQuery.new(:group_by => 'assigned_to')
+    assert_equal(
+      {nil => 3.5, User.find(2) => 5.5, User.find(3) => 1.1},
+      q.total_by_group_for(:estimated_hours)
+    )
+  end
+
   def test_total_for_spent_hours
     TimeEntry.delete_all
     TimeEntry.generate!(:hours => 5.5)
@@ -1190,6 +1203,20 @@ class QueryTest < ActiveSupport::TestCase
 
     q = IssueQuery.new
     assert_equal 6.6, q.total_for(:spent_hours)
+  end
+
+  def test_total_by_group_for_spent_hours
+    TimeEntry.delete_all
+    TimeEntry.generate!(:hours => 5.5, :issue_id => 1)
+    TimeEntry.generate!(:hours => 1.1, :issue_id => 2)
+    Issue.where(:id => 1).update_all(:assigned_to_id => 2)
+    Issue.where(:id => 2).update_all(:assigned_to_id => 3)
+
+    q = IssueQuery.new(:group_by => 'assigned_to')
+    assert_equal(
+      {User.find(2) => 5.5, User.find(3) => 1.1},
+      q.total_by_group_for(:spent_hours)
+    )
   end
 
   def test_total_for_int_custom_field
@@ -1200,6 +1227,20 @@ class QueryTest < ActiveSupport::TestCase
 
     q = IssueQuery.new
     assert_equal 9, q.total_for("cf_#{field.id}")
+  end
+
+  def test_total_by_group_for_int_custom_field
+    field = IssueCustomField.generate!(:field_format => 'int', :is_for_all => true)
+    CustomValue.create!(:customized => Issue.find(1), :custom_field => field, :value => '2')
+    CustomValue.create!(:customized => Issue.find(2), :custom_field => field, :value => '7')
+    Issue.where(:id => 1).update_all(:assigned_to_id => 2)
+    Issue.where(:id => 2).update_all(:assigned_to_id => 3)
+
+    q = IssueQuery.new(:group_by => 'assigned_to')
+    assert_equal(
+      {User.find(2) => 2, User.find(3) => 7},
+      q.total_by_group_for("cf_#{field.id}")
+    )
   end
 
   def test_total_for_float_custom_field

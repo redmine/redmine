@@ -953,8 +953,30 @@ class IssuesControllerTest < ActionController::TestCase
     get :index, :t => %w(estimated_hours)
     assert_response :success
     assert_select '.query-totals'
-    assert_select '.total-for-estimated-hours span.value', :text => '6.6'
+    assert_select '.total-for-estimated-hours span.value', :text => '6.60'
     assert_select 'input[type=checkbox][name=?][value=estimated_hours][checked=checked]', 't[]'
+  end
+
+  def test_index_with_grouped_query_and_estimated_hours_total
+    Issue.delete_all
+    Issue.generate!(:estimated_hours => 5.5, :category_id => 1)
+    Issue.generate!(:estimated_hours => 2.3, :category_id => 1)
+    Issue.generate!(:estimated_hours => 1.1, :category_id => 2)
+    Issue.generate!(:estimated_hours => 4.6)
+
+    get :index, :t => %w(estimated_hours), :group_by => 'category'
+    assert_response :success
+    assert_select '.query-totals'
+    assert_select '.query-totals .total-for-estimated-hours span.value', :text => '13.50'
+    assert_select 'tr.group', :text => /Printing/ do
+      assert_select '.total-for-estimated-hours span.value', :text => '7.80'
+    end
+    assert_select 'tr.group', :text => /Recipes/ do
+      assert_select '.total-for-estimated-hours span.value', :text => '1.10'
+    end
+    assert_select 'tr.group', :text => /blank/ do
+      assert_select '.total-for-estimated-hours span.value', :text => '4.60'
+    end
   end
 
   def test_index_with_int_custom_field_total

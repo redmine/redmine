@@ -303,7 +303,6 @@ class IssueQuery < Query
   def base_scope
     Issue.visible.joins(:status, :project).where(statement)
   end
-  private :base_scope
 
   # Returns the issue count
   def issue_count
@@ -312,55 +311,21 @@ class IssueQuery < Query
     raise StatementInvalid.new(e.message)
   end
 
+  # Returns the issue count by group or nil if query is not grouped
+  def issue_count_by_group
+    grouped_query do |scope|
+      scope.count
+    end
+  end
+
   # Returns sum of all the issue's estimated_hours
-  def total_for_estimated_hours
-    base_scope.sum(:estimated_hours).to_f.round(2)
+  def total_for_estimated_hours(scope)
+    scope.sum(:estimated_hours)
   end
 
   # Returns sum of all the issue's time entries hours
-  def total_for_spent_hours
-    base_scope.joins(:time_entries).sum("#{TimeEntry.table_name}.hours").to_f.round(2)
-  end
-
-  def total_for_custom_field(custom_field)
-    base_scope.joins(:custom_values).
-      where(:custom_values => {:custom_field_id => custom_field.id}).
-      where.not(:custom_values => {:value => ''}).
-      sum("CAST(#{CustomValue.table_name}.value AS decimal(30,3))")
-  end
-  private :total_for_custom_field
-
-  def total_for_float_custom_field(custom_field)
-    total_for_custom_field(custom_field).to_f
-  end
-
-  def total_for_int_custom_field(custom_field)
-    total_for_custom_field(custom_field).to_i
-  end
-
-  # Returns the issue count by group or nil if query is not grouped
-  def issue_count_by_group
-    r = nil
-    if grouped?
-      begin
-        # Rails3 will raise an (unexpected) RecordNotFound if there's only a nil group value
-        r = Issue.visible.
-          joins(:status, :project).
-          where(statement).
-          joins(joins_for_order_statement(group_by_statement)).
-          group(group_by_statement).
-          count
-      rescue ActiveRecord::RecordNotFound
-        r = {nil => issue_count}
-      end
-      c = group_by_column
-      if c.is_a?(QueryCustomFieldColumn)
-        r = r.keys.inject({}) {|h, k| h[c.custom_field.cast_value(k)] = r[k]; h}
-      end
-    end
-    r
-  rescue ::ActiveRecord::StatementInvalid => e
-    raise StatementInvalid.new(e.message)
+  def total_for_spent_hours(scope)
+    scope.joins(:time_entries).sum("#{TimeEntry.table_name}.hours")
   end
 
   # Returns the issues

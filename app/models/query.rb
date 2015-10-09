@@ -632,21 +632,99 @@ class Query < ActiveRecord::Base
 
   # Returns the sum of values for the given column
   def total_for(column)
+    total_with_scope(column, base_scope)
+  end
+
+  # Returns a hash of the sum of the given column for each group,
+  # or nil if the query is not grouped
+  def total_by_group_for(column)
+    grouped_query do |scope|
+      total_with_scope(column, scope)
+    end
+  end
+
+  def totals
+    totals = totalable_columns.map {|column| [column, total_for(column)]}
+    yield totals if block_given?
+    totals
+  end
+
+  def totals_by_group
+    totals = totalable_columns.map {|column| [column, total_by_group_for(column)]}
+    yield totals if block_given?
+    totals
+  end
+
+  private
+
+  def grouped_query(&block)
+    r = nil
+    if grouped?
+      begin
+        # Rails3 will raise an (unexpected) RecordNotFound if there's only a nil group value
+        r = yield base_group_scope
+      rescue ActiveRecord::RecordNotFound
+        r = {nil => yield(base_scope)}
+      end
+      c = group_by_column
+      if c.is_a?(QueryCustomFieldColumn)
+        r = r.keys.inject({}) {|h, k| h[c.custom_field.cast_value(k)] = r[k]; h}
+      end
+    end
+    r
+  rescue ::ActiveRecord::StatementInvalid => e
+    raise StatementInvalid.new(e.message)
+  end
+
+  def total_with_scope(column, scope)
     unless column.is_a?(QueryColumn)
       column = column.to_sym
       column = available_totalable_columns.detect {|c| c.name == column}
     end
     if column.is_a?(QueryCustomFieldColumn)
       custom_field = column.custom_field
-      send "total_for_#{custom_field.field_format}_custom_field", custom_field
+      send "total_for_#{custom_field.field_format}_custom_field", custom_field, scope
     else
-      send "total_for_#{column.name}"
+      send "total_for_#{column.name}", scope
     end
   rescue ::ActiveRecord::StatementInvalid => e
     raise StatementInvalid.new(e.message)
   end
 
-  private
+  def base_scope
+    raise "unimplemented"
+  end
+
+  def base_group_scope
+    base_scope.
+      joins(joins_for_order_statement(group_by_statement)).
+      group(group_by_statement)
+  end
+
+  def total_for_float_custom_field(custom_field, scope)
+    total_for_custom_field(custom_field, scope) {|t| t.to_f.round(2)}
+  end
+
+  def total_for_int_custom_field(custom_field, scope)
+    total_for_custom_field(custom_field, scope) {|t| t.to_i}
+  end
+
+  def total_for_custom_field(custom_field, scope)
+    total = scope.joins(:custom_values).
+      where(:custom_values => {:custom_field_id => custom_field.id}).
+      where.not(:custom_values => {:value => ''}).
+      sum("CAST(#{CustomValue.table_name}.value AS decimal(30,3))")
+
+    if block_given?
+      if total.is_a?(Hash)
+        total.keys.each {|k| total[k] = yield total[k]}
+      else
+        total = yield total
+      end
+    end
+
+    total
+  end
 
   def sql_for_custom_field(field, operator, value, custom_field_id)
     db_table = CustomValue.table_name

@@ -108,11 +108,15 @@ module QueriesHelper
   def render_query_totals(query)
     return unless query.totalable_columns.present?
     totals = query.totalable_columns.map do |column|
-      label = content_tag('span', "#{column.caption}:")
-      value = content_tag('span', " #{query.total_for(column)}", :class => 'value')
-      content_tag('span', label + " " + value, :class => "total-for-#{column.name.to_s.dasherize}")
+      total_tag(column, query.total_for(column))
     end
     content_tag('p', totals.join(" ").html_safe, :class => "query-totals")
+  end
+
+  def total_tag(column, value)
+    label = content_tag('span', "#{column.caption}:")
+    value = content_tag('span', format_object(value), :class => 'value')
+    content_tag('span', label + " " + value, :class => "total-for-#{column.name.to_s.dasherize}")
   end
 
   def column_header(column)
