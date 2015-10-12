@@ -8,3 +8,4 @@
 # crontab -l
 
 scp -i osbec2key.pem ec2-user@184.72.223.204:/home/ec2-user/osbDBBackup/redmine_`date +%y_%m_%d`.gz [local_folder]
+scp -i osbec2key.pem ec2-user@184.72.223.204:/home/ec2-user/osbDBBackup/geppetto_`date +%y_%m_%d`.gz [local_folder]
