@@ -212,7 +212,6 @@ class IssueQuery < Query
     end
 
     add_available_filter "subject", :type => :text
-    add_available_filter "description", :type => :text
     add_available_filter "created_on", :type => :date_past
     add_available_filter "updated_on", :type => :date_past
     add_available_filter "closed_on", :type => :date_past
