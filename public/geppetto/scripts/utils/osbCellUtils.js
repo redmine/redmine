@@ -47,5 +47,4 @@ var showVisualTreeView = function(csel) {
 		expandNodes : true
 	});
 };
-$ENTER_ID.electrical.select();
 initialiseControlPanel();
