@@ -408,6 +408,10 @@ class ProjectsController < ApplicationController
       format.api
     end
   end
+
+  def file_age(name)
+    (Time.now - File.ctime(name))
+  end
   
   def generateGEPPETTOSimulationFile
       url = params[:explorer]
@@ -437,12 +441,21 @@ class ProjectsController < ApplicationController
       utils = "utils/"
       controlPanels = "controlPanels/"
       
+       # Delete old files (older than max age (seconds))
+      max_age = 600
+      Dir[publicResourcesPath + geppettoTmpPath + "*"].each do |filename| 
+        if file_age(filename) >  max_age
+          File.delete(filename) 
+        end  
+      end 
+      
       # Generate simulation and js file path
-      geppettoTmpSimulationFile = Tempfile.new([entity,".json"], publicResourcesPath + geppettoTmpPath);
+      random_string = SecureRandom.hex
+      geppettoTmpSimulationFile = File.new(publicResourcesPath + geppettoTmpPath + entity + random_string + ".json", File::CREAT|File::TRUNC|File::RDWR, 0644)
       @geppettoSimulationFilePath = File.basename(geppettoTmpSimulationFile.path)
-      geppettoTmpJsFile = Tempfile.new([entity,".js"], publicResourcesPath + geppettoTmpPath);
+      geppettoTmpJsFile = File.new(publicResourcesPath + geppettoTmpPath + entity + random_string + ".js", File::CREAT|File::TRUNC|File::RDWR, 0644)
       @geppettoJsFilePath = File.basename(geppettoTmpJsFile.path)
-      geppettoTmpModelFile = Tempfile.new([entity + "_MODEL",".xml"], publicResourcesPath + geppettoTmpPath);
+      geppettoTmpModelFile = File.new(publicResourcesPath + geppettoTmpPath + entity + "_MODEL" + random_string + ".xml", File::CREAT|File::TRUNC|File::RDWR, 0644)
       @geppettoModelFilePath = File.basename(geppettoTmpModelFile.path)
 
       ######################
@@ -550,9 +563,10 @@ class ProjectsController < ApplicationController
       File.write(publicResourcesPath + geppettoTmpPath + @geppettoSimulationFilePath, geppettoSimulationFile.to_json)
       File.write(publicResourcesPath + geppettoTmpPath + @geppettoModelFilePath, geppettoModelFile)
       File.write(publicResourcesPath + geppettoTmpPath + @geppettoJsFilePath, geppettoJsFile)
-      File.chmod(0644, publicResourcesPath + geppettoTmpPath + @geppettoSimulationFilePath)
-      File.chmod(0644, publicResourcesPath + geppettoTmpPath + @geppettoModelFilePath)
-      File.chmod(0644, publicResourcesPath + geppettoTmpPath + @geppettoJsFilePath)
+        
+      geppettoTmpSimulationFile.close
+      geppettoTmpJsFile.close
+      geppettoTmpModelFile.close 
         
       geppettoSimulationFileObj = {"geppettoSimulationFile" => geppettoTmpPath + @geppettoSimulationFilePath}
       render json: geppettoSimulationFileObj

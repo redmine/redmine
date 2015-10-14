@@ -146,6 +146,7 @@ class UsersController < ApplicationController
     @user.login = params[:user][:login] if params[:user][:login]
     if params[:user][:password].present? && (@user.auth_source_id.nil? || params[:user][:auth_source_id].blank?)
       @user.password, @user.password_confirmation = params[:user][:password], params[:user][:password_confirmation]
+      oldPassword = @user.hashed_password
     end
     @user.safe_attributes = params[:user]
     # Was the account actived ? (do it before User#save clears the change)
@@ -161,6 +162,20 @@ class UsersController < ApplicationController
       elsif @user.active? && params[:send_information] && @user.password.present? && @user.auth_source_id.nil?
         Mailer.account_information(@user, @user.password).deliver
       end
+
+      if oldPassword
+        #Geppetto update
+        geppettoRegisterURL = Rails.application.config.serversIP["geppettoIP"] + "setPassword?username=" + @user.login + "&oldPassword=" + oldPassword + "&newPassword=" + @user.hashed_password
+        begin
+          geppettoRegisterContent = open(geppettoRegisterURL)
+        rescue => e
+          print "Error requesting url: #{geppettoRegisterURL}"
+        else
+          geppettoRegisterContent = JSON.parse(geppettoRegisterContent.read)
+          #TODO verified content
+        end
+      end
+
 
       respond_to do |format|
         format.html {

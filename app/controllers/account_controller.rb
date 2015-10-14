@@ -67,6 +67,7 @@ class AccountController < ApplicationController
         return
       end
       @user = @token.user
+      oldPassword = @user.hashed_password
       unless @user && @user.active?
         redirect_to home_url
         return
@@ -76,10 +77,23 @@ class AccountController < ApplicationController
         if @user.save
           @token.destroy
           flash[:notice] = l(:notice_account_password_updated)
+          
+          #Geppetto update
+          geppettoRegisterURL = Rails.application.config.serversIP["geppettoIP"] + "setPassword?username=" + @user.login + "&oldPassword=" + oldPassword + "&newPassword=" + @user.hashed_password
+          begin
+            geppettoRegisterContent = open(geppettoRegisterURL)
+          rescue => e
+            print "Error requesting url: #{geppettoRegisterURL}"
+          else
+            geppettoRegisterContent = JSON.parse(geppettoRegisterContent.read)
+            #TODO verified content
+          end
+          
           redirect_to signin_path
           return
         end
       end
+      
       render :template => "account/password_recovery"
       return
     else

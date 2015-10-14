@@ -335,8 +335,14 @@ function resizeIframe()
 	document.getElementById('3dframe').style.height = height + "px";
 
 };
-	
-	
+function checkCookie(){
+    var cookieEnabled=(navigator.cookieEnabled)? true : false;
+    if (typeof navigator.cookieEnabled=="undefined" && !cookieEnabled){ 
+        document.cookie="testcookie";
+        cookieEnabled=(document.cookie.indexOf("testcookie")!=-1)? true : false;
+    }
+    return (cookieEnabled);
+}	
 // Google Analytics
 var _gaq = _gaq || [];
 _gaq.push([ '_setAccount', 'UA-29853802-1' ]);
@@ -351,58 +357,3 @@ _gaq.push([ '_trackPageview' ]);
 	var s = document.getElementsByTagName('script')[0];
 	s.parentNode.insertBefore(ga, s);
 })();
-
-//Create the XHR object.
-function createCORSRequest(method, url) {
-  var xhr = new XMLHttpRequest();
-  if ("withCredentials" in xhr) {
-    // XHR for Chrome/Firefox/Opera/Safari.
-    xhr.open(method, url, true);
-  } else if (typeof XDomainRequest != "undefined") {
-    // XDomainRequest for IE.
-    xhr = new XDomainRequest();
-    xhr.open(method, url);
-  } else {
-    // CORS not supported.
-    xhr = null;
-  }
-  return xhr;
-}
-
-// Make the actual CORS request.
-function makeCorsRequest(url, onloadFunction) {
-	if (hasGeppettoServer && checkCookie()){
-		
-	  var xhr = createCORSRequest('GET', url);
-	  if (!xhr) {
-	    alert('CORS not supported');
-	    return;
-	  }
-	
-	  // Response handlers.
-	  xhr.onload = function() {
-	    var text = xhr.responseText;
-	//	console.log('Response from CORS request to ' + url + ':' + text);
-	    onloadFunction(url, text);
-	  };
-	
-	  xhr.onerror = function() {
-		console.log('Woops, there was an error making the request to ' + url);  
-	  };
-	
-	  xhr.withCredentials = true;
-	  xhr.send();
-	}  
-	else{
-		onloadFunction(url, '');
-	}
-}
-
-function checkCookie(){
-    var cookieEnabled=(navigator.cookieEnabled)? true : false;
-    if (typeof navigator.cookieEnabled=="undefined" && !cookieEnabled){ 
-        document.cookie="testcookie";
-        cookieEnabled=(document.cookie.indexOf("testcookie")!=-1)? true : false;
-    }
-    return (cookieEnabled);
-}

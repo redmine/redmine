@@ -15,6 +15,7 @@
 		<%= javascript_include_tag('bootstrap.min.js') %>
 		<%= javascript_include_tag('moment.min.js') %>
 		<%= javascript_include_tag('main.js') %>
+		<%= javascript_include_tag('geppetto.js') %>
 		<%= javascript_include_tag('Detector.js') %>
 		<%= stylesheet_link_tag 'bootstrap', :media => 'all' %>
 		<%= stylesheet_link_tag 'bootstrap-responsive', :media => 'all' %>
@@ -230,9 +231,11 @@
 		</footer>
 	</body>
 </html>
-
 <script>
 hasGeppettoServer = <%= Rails.application.config.serversIP["hasGeppettoServer"] %>;
+geppettoIP = "<%= Rails.application.config.serversIP['geppettoIP']  %>";
+redmineLogin = "<%= User.current.login %>";
+redmineHashed = "<%= User.current.hashed_password %>";
 </script>
 <script>
 handleSizingResponse = function(e) {
@@ -248,26 +251,8 @@ handleSizingResponse = function(e) {
 window.addEventListener('message', handleSizingResponse, false);
 </script>
 <script>
-redmineLogin = "<%= User.current.login %>";
-redmineHashed = "<%= User.current.hashed_password %>";
-function processLogin(url, text){
-}	
-function processCurrentUser(url, text){
-	if (text == ""){
-		//var currentUser = JSON.parse(text);
-		if (redmineLogin != ""){
-			makeCorsRequest("<%= Rails.application.config.serversIP['geppettoIP']  %>login?username=<%= User.current.login %>&password=<%= User.current.hashed_password %>", processLogin);
-		}
-		else{
-			makeCorsRequest("<%= Rails.application.config.serversIP['geppettoIP']  %>login?username=osbanonymous&password=anonymous", processLogin)
-		}	
-	}
-};
-makeCorsRequest("<%= Rails.application.config.serversIP['geppettoIP']  %>currentuser", processCurrentUser);
-</script>
-<script>
 <% if isAProject %>
-	function processCurrentProjects(url, text){
+	function processCurrentProjects(text){
 		var currentProjects = JSON.parse(text);
 		var currentProjectDict = {};
 		
@@ -301,16 +286,13 @@ makeCorsRequest("<%= Rails.application.config.serversIP['geppettoIP']  %>current
 	};
 	<% @repourl=getHttpRepositoryURL(@project) %>
 	<% if(@repourl && @project.repository != nil && (not @neuroml2files.empty?))%>
-		makeCorsRequest("<%= Rails.application.config.serversIP['geppettoIP'] %>projectswithref?reference=<%= @project.identifier%>", processCurrentProjects);
+		callGeppetto("projectswithref?reference=<%= @project.identifier%>", processCurrentProjects, true);
 	<% end %>
 <% end %>
 </script>
 <script>
-function processLogout(url, text){
-	$('#logout_link').unbind('click').click();
-};
 $('#logout_link').click(function(e){
-	makeCorsRequest("<%= Rails.application.config.serversIP['geppettoIP']  %>logout", processLogout);
+	callGeppetto("logout", processLogout, false);
 	return false;
 });
 </script>

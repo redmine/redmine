@@ -44,11 +44,8 @@
 <% end %>
 
 <script>
-function processOSBLogin(url, text){
-	$('form').trigger('submit');
-};
 $('#loginButton').click(function(e){
 	e.preventDefault();
-    makeCorsRequest("<%= Rails.application.config.serversIP['geppettoIP']  %>logout", processOSBLogin);
+    callGeppetto("logout", processOSBLogin, false);
 });
 </script>
