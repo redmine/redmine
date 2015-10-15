@@ -184,6 +184,7 @@ module QueriesHelper
   end
 
   def query_to_csv(items, query, options={})
+    options ||= {}
     columns = (options[:columns] == 'all' ? query.available_inline_columns : query.inline_columns)
     query.available_block_columns.each do |column|
       if options[column.name].present?

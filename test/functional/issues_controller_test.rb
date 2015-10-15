@@ -449,7 +449,7 @@ class IssuesControllerTest < ActionController::TestCase
     Issue.generate!(:description => 'test_index_csv_with_description')
 
     with_settings :default_language => 'en' do
-      get :index, :format => 'csv', :description => '1'
+      get :index, :format => 'csv', :csv => {:description => '1'}
       assert_response :success
       assert_not_nil assigns(:issues)
     end
@@ -472,7 +472,7 @@ class IssuesControllerTest < ActionController::TestCase
   end
 
   def test_index_csv_with_all_columns
-    get :index, :format => 'csv', :columns => 'all'
+    get :index, :format => 'csv', :csv => {:columns => 'all'}
     assert_response :success
     assert_not_nil assigns(:issues)
     assert_equal 'text/csv; header=present', @response.content_type
@@ -487,7 +487,7 @@ class IssuesControllerTest < ActionController::TestCase
     issue.custom_field_values = {1 => ['MySQL', 'Oracle']}
     issue.save!
 
-    get :index, :format => 'csv', :columns => 'all'
+    get :index, :format => 'csv', :csv => {:columns => 'all'}
     assert_response :success
     lines = @response.body.chomp.split("\n")
     assert lines.detect {|line| line.include?('"MySQL, Oracle"')}
@@ -498,14 +498,14 @@ class IssuesControllerTest < ActionController::TestCase
     issue = Issue.generate!(:project_id => 1, :tracker_id => 1, :custom_field_values => {field.id => '185.6'})
 
     with_settings :default_language => 'fr' do
-      get :index, :format => 'csv', :columns => 'all'
+      get :index, :format => 'csv', :csv => {:columns => 'all'}
       assert_response :success
       issue_line = response.body.chomp.split("\n").map {|line| line.split(';')}.detect {|line| line[0]==issue.id.to_s}
       assert_include '185,60', issue_line
     end
 
     with_settings :default_language => 'en' do
-      get :index, :format => 'csv', :columns => 'all'
+      get :index, :format => 'csv', :csv => {:columns => 'all'}
       assert_response :success
       issue_line = response.body.chomp.split("\n").map {|line| line.split(',')}.detect {|line| line[0]==issue.id.to_s}
       assert_include '185.60', issue_line

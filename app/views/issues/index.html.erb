@@ -79,11 +79,11 @@
   <h3 class="title"><%= l(:label_export_options, :export_format => 'CSV') %></h3>  
   <%= form_tag(params.merge({:format => 'csv',:page=>nil}), :method => :get, :id => 'csv-export-form') do %>
   <p>
-    <label><%= radio_button_tag 'columns', '', true %> <%= l(:description_selected_columns) %></label><br />
-    <label><%= radio_button_tag 'columns', 'all' %> <%= l(:description_all_columns) %></label>
+    <label><%= radio_button_tag 'csv[columns]', '', true %> <%= l(:description_selected_columns) %></label><br />
+    <label><%= radio_button_tag 'csv[columns]', 'all' %> <%= l(:description_all_columns) %></label>
   </p>
   <p>
-    <label><%= check_box_tag 'description', '1', @query.has_column?(:description) %> <%= l(:field_description) %></label>
+    <label><%= check_box_tag 'csv[description]', '1', @query.has_column?(:description) %> <%= l(:field_description) %></label>
   </p>
   <% if @issue_count > Setting.issues_export_limit.to_i %>
   <p class="icon icon-warning">
