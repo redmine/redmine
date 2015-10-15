@@ -59,4 +59,7 @@ class UserPreference < ActiveRecord::Base
 
   def no_self_notified; (self[:no_self_notified] == true || self[:no_self_notified] == '1'); end
   def no_self_notified=(value); self[:no_self_notified]=value; end
+
+  def activity_scope; Array(self[:activity_scope]) ; end
+  def activity_scope=(value); self[:activity_scope]=value ; end
 end

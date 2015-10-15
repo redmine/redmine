@@ -37,8 +37,21 @@ class ActivitiesController < ApplicationController
     @activity = Redmine::Activity::Fetcher.new(User.current, :project => @project,
                                                              :with_subprojects => @with_subprojects,
                                                              :author => @author)
+    pref = User.current.pref
     @activity.scope_select {|t| !params["show_#{t}"].nil?}
-    @activity.scope = (@author.nil? ? :default : :all) if @activity.scope.empty?
+    if @activity.scope.present?
+      if params[:submit].present?
+        pref.activity_scope = @activity.scope
+        pref.save
+      end
+    else
+      if @author.nil?
+        scope = pref.activity_scope & @activity.event_types
+        @activity.scope = scope.present? ? scope : :default
+      else
+        @activity.scope = :all
+      end
+    end
 
     events = @activity.events(@date_from, @date_to)
 

@@ -157,4 +157,23 @@ class ActivitiesControllerTest < ActionController::TestCase
     assert_response :success
     assert_not_include journal, assigns(:events_by_day).values.flatten
   end
+
+  def test_index_with_submitted_scope_should_save_as_preference
+    @request.session[:user_id] = 2
+
+    get :index, :show_issues => '1', :show_messages => '1', :submit => 'Apply'
+    assert_response :success
+    assert_equal %w(issues messages), User.find(2).pref.activity_scope.sort
+  end
+
+  def test_index_scope_should_default_to_user_preference
+    pref = User.find(2).pref
+    pref.activity_scope = %w(issues news)
+    pref.save!
+    @request.session[:user_id] = 2
+
+    get :index
+    assert_response :success
+    assert_equal %w(issues news), assigns(:activity).scope
+  end
 end
