@@ -994,6 +994,12 @@ EXPECTED
     assert_equal expected.gsub(%r{[\r\n\t]}, ''), textilizable(raw).gsub(%r{[\r\n\t]}, '')
   end
 
+  def test_unbalanced_closing_pre_tag_should_not_error
+    assert_nothing_raised do
+      textilizable("unbalanced</pre>")
+    end
+  end
+
   def test_syntax_highlight
     raw = <<-RAW
 <pre><code class="ruby">
