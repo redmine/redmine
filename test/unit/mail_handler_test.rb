@@ -63,11 +63,6 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert !issue.description.match(/^Project:/i)
     assert !issue.description.match(/^Status:/i)
     assert !issue.description.match(/^Start Date:/i)
-    # Email notification should be sent
-    mail = ActionMailer::Base.deliveries.last
-    assert_not_nil mail
-    assert mail.subject.include?("##{issue.id}")
-    assert mail.subject.include?('New ticket on a given project')
   end
 
   def test_add_issue_with_all_overrides
@@ -353,6 +348,17 @@ class MailHandlerTest < ActiveSupport::TestCase
       password = mail_body(email).match(/\* Password: (.*)$/)[1].strip
       assert_equal issue.author, User.try_to_login(login, password)
     end
+  end
+
+  def test_add_issue_should_send_notification
+    issue = submit_email('ticket_on_given_project.eml', :allow_override => 'all')
+    assert issue.is_a?(Issue)
+    assert !issue.new_record?
+
+    mail = ActionMailer::Base.deliveries.last
+    assert_not_nil mail
+    assert mail.subject.include?("##{issue.id}")
+    assert mail.subject.include?('New ticket on a given project')
   end
 
   def test_created_user_should_be_added_to_groups
