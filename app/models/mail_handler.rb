@@ -364,11 +364,27 @@ class MailHandler < ActionMailer::Base
     keyword
   end
 
+  def get_project_from_receiver_addresses
+    [:to, :cc, :bcc].each do |field|
+      header = @email[field]
+      next if header.blank? || header.field.blank? || !header.field.respond_to?(:addrs)
+      header.field.addrs.each do |addr|
+        if addr.local.to_s =~ /\+([^+]+)\z/
+          if project = Project.find_by_identifier($1)
+            return project
+          end
+        end
+      end
+    end
+    nil
+  end
+
   def target_project
     # TODO: other ways to specify project:
     # * parse the email To field
     # * specific project (eg. Setting.mail_handler_target_project)
-    target = Project.find_by_identifier(get_keyword(:project))
+    target = get_project_from_receiver_addresses
+    target ||= Project.find_by_identifier(get_keyword(:project))
     if target.nil?
       # Invalid project keyword, use the project specified as the default one
       default_project = handler_options[:issue][:project]

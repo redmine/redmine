@@ -103,6 +103,19 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal 0, issue.done_ratio
   end
 
+  def test_add_issue_to_project_specified_by_subaddress
+    # This email has redmine+onlinestore@somenet.foo as 'To' header
+    issue = submit_email(
+              'ticket_on_project_given_by_to_header.eml',
+              :issue => {:tracker => 'Support request'}
+            )
+    assert issue.is_a?(Issue)
+    assert !issue.new_record?
+    issue.reload
+    assert_equal 'onlinestore', issue.project.identifier
+    assert_equal 'Support request', issue.tracker.name
+  end
+
   def test_add_issue_with_default_tracker
     # This email contains: 'Project: onlinestore'
     issue = submit_email(
