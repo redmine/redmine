@@ -29,11 +29,11 @@ class MailHandler < ActionMailer::Base
 
     options[:issue] ||= {}
 
-    if options[:allow_override].is_a?(String)
-      options[:allow_override] = options[:allow_override].split(',').collect(&:strip)
-    end
     options[:allow_override] ||= []
-    options[:allow_override].map!(&:downcase)
+    if options[:allow_override].is_a?(String)
+      options[:allow_override] = options[:allow_override].split(',')
+    end
+    options[:allow_override].map! {|s| s.strip.downcase.gsub(/\s+/, '_')}
     # Project needs to be overridable if not specified
     options[:allow_override] << 'project' unless options[:issue].has_key?(:project)
 
@@ -327,8 +327,11 @@ class MailHandler < ActionMailer::Base
       @keywords[attr]
     else
       @keywords[attr] = begin
-        if (options[:override] || handler_options[:allow_override].include?(attr.to_s.downcase)) &&
-              (v = extract_keyword!(cleaned_up_text_body, attr, options[:format]))
+        override = options.key?(:override) ?
+          options[:override] :
+          (handler_options[:allow_override] & [attr.to_s.downcase.gsub(/\s+/, '_'), 'all']).present?
+
+        if override && (v = extract_keyword!(cleaned_up_text_body, attr, options[:format]))
           v
         elsif !handler_options[:issue][attr].blank?
           handler_options[:issue][attr]

@@ -21,37 +21,7 @@ namespace :redmine do
     desc <<-END_DESC
 Read an email from standard input.
 
-General options:
-  unknown_user=ACTION      how to handle emails from an unknown user
-                           ACTION can be one of the following values:
-                           ignore: email is ignored (default)
-                           accept: accept as anonymous user
-                           create: create a user account
-  no_permission_check=1    disable permission checking when receiving
-                           the email
-  no_account_notice=1      disable new user account notification
-  default_group=foo,bar    adds created user to foo and bar groups
-
-Issue attributes control options:
-  project=PROJECT          identifier of the target project
-  status=STATUS            name of the target status
-  tracker=TRACKER          name of the target tracker
-  category=CATEGORY        name of the target category
-  priority=PRIORITY        name of the target priority
-  allow_override=ATTRS     allow email content to override attributes
-                           specified by previous options
-                           ATTRS is a comma separated list of attributes
-
-Examples:
-  # No project specified. Emails MUST contain the 'Project' keyword:
-  rake redmine:email:read RAILS_ENV="production" < raw_email
-
-  # Fixed project and default tracker specified, but emails can override
-  # both tracker and priority attributes:
-  rake redmine:email:read RAILS_ENV="production" \\
-                  project=foo \\
-                  tracker=bug \\
-                  allow_override=tracker,priority < raw_email
+See redmine:email:receive_imap for more options and examples.
 END_DESC
 
     task :read => :environment do
@@ -63,7 +33,21 @@ END_DESC
     desc <<-END_DESC
 Read emails from an IMAP server.
 
-General options:
+Available IMAP options:
+  host=HOST                IMAP server host (default: 127.0.0.1)
+  port=PORT                IMAP server port (default: 143)
+  ssl=SSL                  Use SSL/TLS? (default: false)
+  starttls=STARTTLS        Use STARTTLS? (default: false)
+  username=USERNAME        IMAP account
+  password=PASSWORD        IMAP password
+  folder=FOLDER            IMAP folder to read (default: INBOX)
+
+Processed emails control options:
+  move_on_success=MAILBOX  move emails that were successfully received
+                           to MAILBOX instead of deleting them
+  move_on_failure=MAILBOX  move emails that were ignored to MAILBOX
+
+User and permissions options:
   unknown_user=ACTION      how to handle emails from an unknown user
                            ACTION can be one of the following values:
                            ignore: email is ignored (default)
@@ -74,15 +58,6 @@ General options:
   no_account_notice=1      disable new user account notification
   default_group=foo,bar    adds created user to foo and bar groups
 
-Available IMAP options:
-  host=HOST                IMAP server host (default: 127.0.0.1)
-  port=PORT                IMAP server port (default: 143)
-  ssl=SSL                  Use SSL/TLS? (default: false)
-  starttls=STARTTLS        Use STARTTLS? (default: false)
-  username=USERNAME        IMAP account
-  password=PASSWORD        IMAP password
-  folder=FOLDER            IMAP folder to read (default: INBOX)
-
 Issue attributes control options:
   project=PROJECT          identifier of the target project
   status=STATUS            name of the target status
@@ -90,14 +65,23 @@ Issue attributes control options:
   category=CATEGORY        name of the target category
   priority=PRIORITY        name of the target priority
   private                  create new issues as private
-  allow_override=ATTRS     allow email content to override attributes
-                           specified by previous options
+  allow_override=ATTRS     allow email content to set attributes values
                            ATTRS is a comma separated list of attributes
+                           or 'all' to allow all attributes to be overridable
+                           (see below for details)
 
-Processed emails control options:
-  move_on_success=MAILBOX  move emails that were successfully received
-                           to MAILBOX instead of deleting them
-  move_on_failure=MAILBOX  move emails that were ignored to MAILBOX
+Overrides:
+  ATTRS is a comma separated list of attributes among:
+  * project, tracker, status, priority, category, assigned_to, fixed_version,
+    start_date, due_date, estimated_hours, done_ratio
+  * custom fields names with underscores instead of spaces (case insensitive)
+
+  Example: allow_override=project,priority,my_custom_field
+
+  If the project option is not set, project is overridable by default for
+  emails that create new issues.
+
+  You can use allow_override=all to allow all attributes to be overridable.
 
 Examples:
   # No project specified. Emails MUST contain the 'Project' keyword:

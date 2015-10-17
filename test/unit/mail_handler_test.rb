@@ -40,10 +40,9 @@ class MailHandlerTest < ActiveSupport::TestCase
     Setting.clear_cache
   end
 
-  def test_add_issue
+  def test_add_issue_with_specific_overrides
     ActionMailer::Base.deliveries.clear
     lft1 = new_issue_lft
-    # This email contains: 'Project: onlinestore'
     issue = submit_email('ticket_on_given_project.eml',
       :allow_override => ['status', 'start_date', 'due_date', 'assigned_to', 'fixed_version', 'estimated_hours', 'done_ratio']
     )
@@ -74,6 +73,46 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert mail.subject.include?('New ticket on a given project')
   end
 
+  def test_add_issue_with_all_overrides
+    ActionMailer::Base.deliveries.clear
+    lft1 = new_issue_lft
+    issue = submit_email('ticket_on_given_project.eml', :allow_override => 'all')
+    assert issue.is_a?(Issue)
+    assert !issue.new_record?
+    issue.reload
+    assert_equal Project.find(2), issue.project
+    assert_equal issue.project.trackers.first, issue.tracker
+    assert_equal IssueStatus.find_by_name('Resolved'), issue.status
+    assert issue.description.include?('Lorem ipsum dolor sit amet, consectetuer adipiscing elit.')
+    assert_equal '2010-01-01', issue.start_date.to_s
+    assert_equal '2010-12-31', issue.due_date.to_s
+    assert_equal User.find_by_login('jsmith'), issue.assigned_to
+    assert_equal Version.find_by_name('Alpha'), issue.fixed_version
+    assert_equal 2.5, issue.estimated_hours
+    assert_equal 30, issue.done_ratio
+  end
+
+  def test_add_issue_without_overrides_should_ignore_attributes
+    WorkflowRule.delete_all
+    issue = submit_email('ticket_on_given_project.eml')
+    assert issue.is_a?(Issue)
+    assert !issue.new_record?
+    issue.reload
+    assert_equal Project.find(2), issue.project
+    assert_equal 'New ticket on a given project', issue.subject
+    assert issue.description.include?('Lorem ipsum dolor sit amet, consectetuer adipiscing elit.')
+    assert_equal User.find_by_login('jsmith'), issue.author
+
+    assert_equal issue.project.trackers.first, issue.tracker
+    assert_equal 'New', issue.status.name
+    assert_not_equal '2010-01-01', issue.start_date.to_s
+    assert_nil issue.due_date
+    assert_nil issue.assigned_to
+    assert_nil issue.fixed_version
+    assert_nil issue.estimated_hours
+    assert_equal 0, issue.done_ratio
+  end
+
   def test_add_issue_with_default_tracker
     # This email contains: 'Project: onlinestore'
     issue = submit_email(
@@ -86,9 +125,9 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal 'Support request', issue.tracker.name
   end
 
-  def test_add_issue_with_status
+  def test_add_issue_with_status_override
     # This email contains: 'Project: onlinestore' and 'Status: Resolved'
-    issue = submit_email('ticket_on_given_project.eml')
+    issue = submit_email('ticket_on_given_project.eml', :allow_override => ['status'])
     assert issue.is_a?(Issue)
     assert !issue.new_record?
     issue.reload
@@ -185,7 +224,7 @@ class MailHandlerTest < ActiveSupport::TestCase
 
   def test_add_issue_with_custom_fields
     issue = submit_email('ticket_with_custom_fields.eml',
-      :issue => {:project => 'onlinestore'}, :allow_override => ['database', 'Searchable field']
+      :issue => {:project => 'onlinestore'}, :allow_override => ['database', 'Searchable_field']
     )
     assert issue.is_a?(Issue)
     assert !issue.new_record?
