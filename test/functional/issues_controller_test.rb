@@ -1377,6 +1377,22 @@ class IssuesControllerTest < ActionController::TestCase
     end
   end
 
+  def test_show_should_display_category_field_if_categories_are_defined
+    Issue.update_all :category_id => nil
+
+    get :show, :id => 1
+    assert_response :success
+    assert_select 'table.attributes .category'
+  end
+
+  def test_show_should_not_display_category_field_if_no_categories_are_defined
+    Project.find(1).issue_categories.delete_all
+
+    get :show, :id => 1
+    assert_response :success
+    assert_select 'table.attributes .category', 0
+  end
+
   def test_show_should_display_link_to_the_assignee
     get :show, :id => 2
     assert_response :success
