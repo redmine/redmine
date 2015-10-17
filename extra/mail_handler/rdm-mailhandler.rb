@@ -92,33 +92,37 @@ class RedmineMailHandler
       opts.on(      "--category CATEGORY",    "name of the target category") {|v| self.issue_attributes['category'] = v}
       opts.on(      "--priority PRIORITY",    "name of the target priority") {|v| self.issue_attributes['priority'] = v}
       opts.on(      "--private",              "create new issues as private") {|v| self.issue_attributes['is_private'] = '1'}
-      opts.on("-o", "--allow-override ATTRS", "allow email content to override attributes",
-                                              "specified by previous options",
-                                              "ATTRS is a comma separated list of attributes") {|v| self.allow_override = v}
-      opts.separator("")
-      opts.separator("Overrides:")
-      opts.separator("  ATTRS is a comma separated list of attributes among:")
-      opts.separator("  * project, tracker, status, priority, category, assigned_to, fixed_version,")
-      opts.separator("    start_date, due_date, estimated_hours, done_ratio")
-      opts.separator("  * custom fields names with underscores instead of spaces (case insensitive)")
-      opts.separator("")
-      opts.separator("  Example: --allow_override=project,priority,my_custom_field")
-      opts.separator("")
-      opts.separator("  If the --project option is not set, project is overridable by default for")
-      opts.separator("  emails that create new issues.")
-      opts.separator("")
-      opts.separator("  You can use --allow_override=all to allow all attributes to be overridable.")
-      opts.separator("")
-      opts.separator("Examples:")
-      opts.separator("  No project specified, emails MUST contain the 'Project' keyword:")
-      opts.separator("  rdm-mailhandler.rb --url http://redmine.domain.foo --key secret")
-      opts.separator("")
-      opts.separator("  Fixed project and default tracker specified, but emails can override")
-      opts.separator("  both tracker and priority attributes using keywords:")
-      opts.separator("  rdm-mailhandler.rb --url https://domain.foo/redmine --key secret \\")
-      opts.separator("    --project foo \\")
-      opts.separator("    --tracker bug \\")
-      opts.separator("    --allow-override tracker,priority")
+      opts.on("-o", "--allow-override ATTRS", "allow email content to set attributes values",
+                                              "ATTRS is a comma separated list of attributes",
+                                              "or 'all' to allow all attributes to be",
+                                              "overridable (see below for details)") {|v| self.allow_override = v}
+
+      opts.separator <<-END_DESC
+
+Overrides:
+  ATTRS is a comma separated list of attributes among:
+  * project, tracker, status, priority, category, assigned_to, fixed_version,
+    start_date, due_date, estimated_hours, done_ratio
+  * custom fields names with underscores instead of spaces (case insensitive)
+
+  Example: --allow_override=project,priority,my_custom_field
+
+  If the --project option is not set, project is overridable by default for
+  emails that create new issues.
+
+  You can use --allow_override=all to allow all attributes to be overridable.
+
+Examples:
+  No project specified, emails MUST contain the 'Project' keyword:
+  rdm-mailhandler.rb --url http://redmine.domain.foo --key secret
+
+  Fixed project and default tracker specified, but emails can override
+  both tracker and priority attributes using keywords:
+  rdm-mailhandler.rb --url https://domain.foo/redmine --key secret \\
+    --project foo \\
+    --tracker bug \\
+    --allow-override tracker,priority
+END_DESC
 
       opts.summary_width = 27
     end
