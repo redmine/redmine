@@ -60,8 +60,6 @@ class RedmineMailHandler
       opts.on("-k", "--key KEY",              "Redmine API key") {|v| self.key = v}
       opts.separator("")
       opts.separator("General options:")
-      opts.on("--no-permission-check",        "disable permission checking when receiving",
-                                              "the email") {self.no_permission_check = '1'}
       opts.on("--key-file FILE",              "full path to a file that contains your Redmine",
                                               "API key (use this option instead of --key if",
                                               "you don't want the key to appear in the command",
@@ -72,12 +70,14 @@ class RedmineMailHandler
       opts.on("-v", "--verbose",              "show extra information") {self.verbose = true}
       opts.on("-V", "--version",              "show version information and exit") {puts VERSION; exit}
       opts.separator("")
-      opts.separator("User creation options:")
+      opts.separator("User and permissions options:")
       opts.on("--unknown-user ACTION",        "how to handle emails from an unknown user",
                                               "ACTION can be one of the following values:",
                                               "* ignore: email is ignored (default)",
                                               "* accept: accept as anonymous user",
                                               "* create: create a user account") {|v| self.unknown_user = v}
+      opts.on("--no-permission-check",        "disable permission checking when receiving",
+                                              "the email") {self.no_permission_check = '1'}
       opts.on("--default-group GROUP",        "add created user to GROUP (none by default)",
                                               "GROUP can be a comma separated list of groups") { |v| self.default_group = v}
       opts.on("--no-account-notice",          "don't send account information to the newly",
@@ -96,12 +96,25 @@ class RedmineMailHandler
                                               "specified by previous options",
                                               "ATTRS is a comma separated list of attributes") {|v| self.allow_override = v}
       opts.separator("")
+      opts.separator("Overrides:")
+      opts.separator("  ATTRS is a comma separated list of attributes among:")
+      opts.separator("  * project, tracker, status, priority, category, assigned_to, fixed_version,")
+      opts.separator("    start_date, due_date, estimated_hours, done_ratio")
+      opts.separator("  * custom fields names with underscores instead of spaces (case insensitive)")
+      opts.separator("")
+      opts.separator("  Example: --allow_override=project,priority,my_custom_field")
+      opts.separator("")
+      opts.separator("  If the --project option is not set, project is overridable by default for")
+      opts.separator("  emails that create new issues.")
+      opts.separator("")
+      opts.separator("  You can use --allow_override=all to allow all attributes to be overridable.")
+      opts.separator("")
       opts.separator("Examples:")
-      opts.separator("No project specified, emails MUST contain the 'Project' keyword:")
+      opts.separator("  No project specified, emails MUST contain the 'Project' keyword:")
       opts.separator("  rdm-mailhandler.rb --url http://redmine.domain.foo --key secret")
       opts.separator("")
-      opts.separator("Fixed project and default tracker specified, but emails can override")
-      opts.separator("both tracker and priority attributes using keywords:")
+      opts.separator("  Fixed project and default tracker specified, but emails can override")
+      opts.separator("  both tracker and priority attributes using keywords:")
       opts.separator("  rdm-mailhandler.rb --url https://domain.foo/redmine --key secret \\")
       opts.separator("    --project foo \\")
       opts.separator("    --tracker bug \\")
