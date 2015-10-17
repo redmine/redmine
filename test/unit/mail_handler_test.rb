@@ -137,23 +137,6 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal true, issue.reload.is_private
   end
 
-  def test_add_issue_with_attributes_override
-    issue = submit_email(
-              'ticket_with_attributes.eml',
-              :allow_override => 'tracker,category,priority'
-            )
-    assert issue.is_a?(Issue)
-    assert !issue.new_record?
-    issue.reload
-    assert_equal 'New ticket on a given project', issue.subject
-    assert_equal User.find_by_login('jsmith'), issue.author
-    assert_equal Project.find(2), issue.project
-    assert_equal 'Feature request', issue.tracker.to_s
-    assert_equal 'Stock management', issue.category.to_s
-    assert_equal 'Urgent', issue.priority.to_s
-    assert issue.description.include?('Lorem ipsum dolor sit amet, consectetuer adipiscing elit.')
-  end
-
   def test_add_issue_with_group_assignment
     with_settings :issue_group_assignment => '1' do
       issue = submit_email('ticket_on_given_project.eml', :allow_override => ['assigned_to']) do |email|
