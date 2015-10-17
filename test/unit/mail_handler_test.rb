@@ -42,7 +42,6 @@ class MailHandlerTest < ActiveSupport::TestCase
 
   def test_add_issue_with_specific_overrides
     ActionMailer::Base.deliveries.clear
-    lft1 = new_issue_lft
     issue = submit_email('ticket_on_given_project.eml',
       :allow_override => ['status', 'start_date', 'due_date', 'assigned_to', 'fixed_version', 'estimated_hours', 'done_ratio']
     )
@@ -61,7 +60,6 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal Version.find_by_name('Alpha'), issue.fixed_version
     assert_equal 2.5, issue.estimated_hours
     assert_equal 30, issue.done_ratio
-    assert_equal [issue.id, lft1, lft1 + 1], [issue.root_id, issue.lft, issue.rgt]
     # keywords should be removed from the email body
     assert !issue.description.match(/^Project:/i)
     assert !issue.description.match(/^Status:/i)
@@ -75,7 +73,6 @@ class MailHandlerTest < ActiveSupport::TestCase
 
   def test_add_issue_with_all_overrides
     ActionMailer::Base.deliveries.clear
-    lft1 = new_issue_lft
     issue = submit_email('ticket_on_given_project.eml', :allow_override => 'all')
     assert issue.is_a?(Issue)
     assert !issue.new_record?
@@ -338,7 +335,6 @@ class MailHandlerTest < ActiveSupport::TestCase
   end
 
   def test_add_issue_by_anonymous_user_on_private_project_without_permission_check
-    lft1 = new_issue_lft
     assert_no_difference 'User.count' do
       assert_difference 'Issue.count' do
         issue = submit_email(
@@ -350,7 +346,6 @@ class MailHandlerTest < ActiveSupport::TestCase
         assert issue.is_a?(Issue)
         assert issue.author.anonymous?
         assert !issue.project.is_public?
-        assert_equal [issue.id, lft1, lft1 + 1], [issue.root_id, issue.lft, issue.rgt]
       end
     end
   end
