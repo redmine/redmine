@@ -44,7 +44,9 @@ class MailHandlerTest < ActiveSupport::TestCase
     ActionMailer::Base.deliveries.clear
     lft1 = new_issue_lft
     # This email contains: 'Project: onlinestore'
-    issue = submit_email('ticket_on_given_project.eml')
+    issue = submit_email('ticket_on_given_project.eml',
+      :allow_override => ['status', 'start_date', 'due_date', 'assigned_to', 'fixed_version', 'estimated_hours', 'done_ratio']
+    )
     assert issue.is_a?(Issue)
     assert !issue.new_record?
     issue.reload
@@ -120,7 +122,7 @@ class MailHandlerTest < ActiveSupport::TestCase
 
   def test_add_issue_with_group_assignment
     with_settings :issue_group_assignment => '1' do
-      issue = submit_email('ticket_on_given_project.eml') do |email|
+      issue = submit_email('ticket_on_given_project.eml', :allow_override => ['assigned_to']) do |email|
         email.gsub!('Assigned to: John Smith', 'Assigned to: B Team')
       end
       assert issue.is_a?(Issue)
@@ -182,7 +184,9 @@ class MailHandlerTest < ActiveSupport::TestCase
   end
 
   def test_add_issue_with_custom_fields
-    issue = submit_email('ticket_with_custom_fields.eml', :issue => {:project => 'onlinestore'})
+    issue = submit_email('ticket_with_custom_fields.eml',
+      :issue => {:project => 'onlinestore'}, :allow_override => ['database', 'Searchable field']
+    )
     assert issue.is_a?(Issue)
     assert !issue.new_record?
     issue.reload
@@ -195,7 +199,9 @@ class MailHandlerTest < ActiveSupport::TestCase
   def test_add_issue_with_version_custom_fields
     field = IssueCustomField.create!(:name => 'Affected version', :field_format => 'version', :is_for_all => true, :tracker_ids => [1,2,3])
 
-    issue = submit_email('ticket_with_custom_fields.eml', :issue => {:project => 'ecookbook'}) do |email|
+    issue = submit_email('ticket_with_custom_fields.eml',
+      :issue => {:project => 'ecookbook'}, :allow_override => ['affected version']
+    ) do |email|
       email << "Affected version: 1.0\n"
     end
     assert issue.is_a?(Issue)
@@ -207,7 +213,7 @@ class MailHandlerTest < ActiveSupport::TestCase
   def test_add_issue_should_match_assignee_on_display_name
     user = User.generate!(:firstname => 'Foo Bar', :lastname => 'Foo Baz')
     User.add_to_project(user, Project.find(2))
-    issue = submit_email('ticket_on_given_project.eml') do |email|
+    issue = submit_email('ticket_on_given_project.eml', :allow_override => ['assigned_to']) do |email|
       email.sub!(/^Assigned to.*$/, 'Assigned to: Foo Bar Foo baz')
     end
     assert issue.is_a?(Issue)
@@ -707,8 +713,7 @@ class MailHandlerTest < ActiveSupport::TestCase
   end
 
   def test_update_issue_with_attribute_changes
-    # This email contains: 'Status: Resolved'
-    journal = submit_email('ticket_reply_with_status.eml')
+    journal = submit_email('ticket_reply_with_status.eml', :allow_override => ['status','assigned_to','start_date','due_date', 'float field'])
     assert journal.is_a?(Journal)
     issue = Issue.find(journal.issue.id)
     assert_equal User.find_by_login('jsmith'), journal.user

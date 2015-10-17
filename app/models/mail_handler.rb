@@ -33,10 +33,9 @@ class MailHandler < ActionMailer::Base
       options[:allow_override] = options[:allow_override].split(',').collect(&:strip)
     end
     options[:allow_override] ||= []
+    options[:allow_override].map!(&:downcase)
     # Project needs to be overridable if not specified
     options[:allow_override] << 'project' unless options[:issue].has_key?(:project)
-    # Status overridable by default
-    options[:allow_override] << 'status' unless options[:issue].has_key?(:status)
 
     options[:no_account_notice] = (options[:no_account_notice].to_s == '1')
     options[:no_notification] = (options[:no_notification].to_s == '1')
@@ -328,7 +327,7 @@ class MailHandler < ActionMailer::Base
       @keywords[attr]
     else
       @keywords[attr] = begin
-        if (options[:override] || handler_options[:allow_override].include?(attr.to_s)) &&
+        if (options[:override] || handler_options[:allow_override].include?(attr.to_s.downcase)) &&
               (v = extract_keyword!(cleaned_up_text_body, attr, options[:format]))
           v
         elsif !handler_options[:issue][attr].blank?
@@ -380,20 +379,17 @@ class MailHandler < ActionMailer::Base
 
   # Returns a Hash of issue attributes extracted from keywords in the email body
   def issue_attributes_from_keywords(issue)
-    assigned_to = (k = get_keyword(:assigned_to, :override => true)) && find_assignee_from_keyword(k, issue)
-
     attrs = {
       'tracker_id' => (k = get_keyword(:tracker)) && issue.project.trackers.named(k).first.try(:id),
       'status_id' =>  (k = get_keyword(:status)) && IssueStatus.named(k).first.try(:id),
       'priority_id' => (k = get_keyword(:priority)) && IssuePriority.named(k).first.try(:id),
       'category_id' => (k = get_keyword(:category)) && issue.project.issue_categories.named(k).first.try(:id),
-      'assigned_to_id' => assigned_to.try(:id),
-      'fixed_version_id' => (k = get_keyword(:fixed_version, :override => true)) &&
-                                issue.project.shared_versions.named(k).first.try(:id),
-      'start_date' => get_keyword(:start_date, :override => true, :format => '\d{4}-\d{2}-\d{2}'),
-      'due_date' => get_keyword(:due_date, :override => true, :format => '\d{4}-\d{2}-\d{2}'),
-      'estimated_hours' => get_keyword(:estimated_hours, :override => true),
-      'done_ratio' => get_keyword(:done_ratio, :override => true, :format => '(\d|10)?0')
+      'assigned_to_id' => (k = get_keyword(:assigned_to)) && find_assignee_from_keyword(k, issue).try(:id),
+      'fixed_version_id' => (k = get_keyword(:fixed_version)) && issue.project.shared_versions.named(k).first.try(:id),
+      'start_date' => get_keyword(:start_date, :format => '\d{4}-\d{2}-\d{2}'),
+      'due_date' => get_keyword(:due_date, :format => '\d{4}-\d{2}-\d{2}'),
+      'estimated_hours' => get_keyword(:estimated_hours),
+      'done_ratio' => get_keyword(:done_ratio, :format => '(\d|10)?0')
     }.delete_if {|k, v| v.blank? }
 
     if issue.new_record? && attrs['tracker_id'].nil?
@@ -406,7 +402,7 @@ class MailHandler < ActionMailer::Base
   # Returns a Hash of issue custom field values extracted from keywords in the email body
   def custom_field_values_from_keywords(customized)
     customized.custom_field_values.inject({}) do |h, v|
-      if keyword = get_keyword(v.custom_field.name, :override => true)
+      if keyword = get_keyword(v.custom_field.name)
         h[v.custom_field.id.to_s] = v.custom_field.value_from_keyword(keyword, customized)
       end
       h
