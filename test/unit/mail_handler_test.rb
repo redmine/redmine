@@ -41,7 +41,6 @@ class MailHandlerTest < ActiveSupport::TestCase
   end
 
   def test_add_issue_with_specific_overrides
-    ActionMailer::Base.deliveries.clear
     issue = submit_email('ticket_on_given_project.eml',
       :allow_override => ['status', 'start_date', 'due_date', 'assigned_to', 'fixed_version', 'estimated_hours', 'done_ratio']
     )
@@ -72,7 +71,6 @@ class MailHandlerTest < ActiveSupport::TestCase
   end
 
   def test_add_issue_with_all_overrides
-    ActionMailer::Base.deliveries.clear
     issue = submit_email('ticket_on_given_project.eml', :allow_override => 'all')
     assert issue.is_a?(Issue)
     assert !issue.new_record?
@@ -705,7 +703,6 @@ class MailHandlerTest < ActiveSupport::TestCase
 
   def test_add_issue_should_send_email_notification
     Setting.notified_events = ['issue_added']
-    ActionMailer::Base.deliveries.clear
     # This email contains: 'Project: onlinestore'
     issue = submit_email('ticket_on_given_project.eml')
     assert issue.is_a?(Issue)
@@ -786,7 +783,6 @@ class MailHandlerTest < ActiveSupport::TestCase
   end
 
   def test_update_issue_should_send_email_notification
-    ActionMailer::Base.deliveries.clear
     journal = submit_email('ticket_reply.eml')
     assert journal.is_a?(Journal)
     assert_equal 1, ActionMailer::Base.deliveries.size
