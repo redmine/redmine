@@ -21,12 +21,14 @@ class ProjectEnumerationsController < ApplicationController
 
   def update
     if params[:enumerations]
-      Project.transaction do
+      saved = Project.transaction do
         params[:enumerations].each do |id, activity|
           @project.update_or_create_time_entry_activity(id, activity)
         end
       end
-      flash[:notice] = l(:notice_successful_update)
+      if saved
+        flash[:notice] = l(:notice_successful_update)
+      end
     end
 
     redirect_to settings_project_path(@project, :tab => 'activities')
