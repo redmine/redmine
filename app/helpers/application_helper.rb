@@ -26,6 +26,7 @@ module ApplicationHelper
   include GravatarHelper::PublicMethods
   include Redmine::Pagination::Helper
   include Redmine::SudoMode::Helper
+  include Redmine::Hook::Helper
 
   extend Forwardable
   def_delegators :wiki_helper, :wikitoolbar_for, :heads_for_wiki_formatter

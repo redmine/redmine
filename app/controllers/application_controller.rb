@@ -23,6 +23,7 @@ class Unauthorized < Exception; end
 class ApplicationController < ActionController::Base
   include Redmine::I18n
   include Redmine::Pagination
+  include Redmine::Hook::Helper
   include RoutesHelper
   helper :routes
 
