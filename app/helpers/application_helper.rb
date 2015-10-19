@@ -26,6 +26,7 @@ module ApplicationHelper
   include GravatarHelper::PublicMethods
   include Redmine::Pagination::Helper
   include Redmine::SudoMode::Helper
+  include Redmine::Themes::Helper
   include Redmine::Hook::Helper
 
   extend Forwardable

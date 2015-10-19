@@ -114,6 +114,22 @@ module Redmine
       end
     end
 
+    module Helper
+      def current_theme
+        unless instance_variable_defined?(:@current_theme)
+          @current_theme = Redmine::Themes.theme(Setting.ui_theme)
+        end
+        @current_theme
+      end
+    
+      # Returns the header tags for the current theme
+      def heads_for_theme
+        if current_theme && current_theme.javascripts.include?('theme')
+          javascript_include_tag current_theme.javascript_path('theme')
+        end
+      end
+    end
+
     private
 
     def self.scan_themes
@@ -122,22 +138,6 @@ module Redmine
         File.directory?(f) && File.exist?("#{f}/stylesheets/application.css")
       end
       dirs.collect {|dir| Theme.new(dir)}.sort
-    end
-  end
-end
-
-module ApplicationHelper
-  def current_theme
-    unless instance_variable_defined?(:@current_theme)
-      @current_theme = Redmine::Themes.theme(Setting.ui_theme)
-    end
-    @current_theme
-  end
-
-  # Returns the header tags for the current theme
-  def heads_for_theme
-    if current_theme && current_theme.javascripts.include?('theme')
-      javascript_include_tag current_theme.javascript_path('theme')
     end
   end
 end
