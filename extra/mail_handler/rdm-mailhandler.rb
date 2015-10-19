@@ -45,7 +45,7 @@ class RedmineMailHandler
   VERSION = '0.2.3'
 
   attr_accessor :verbose, :issue_attributes, :allow_override, :unknown_user, :default_group, :no_permission_check,
-    :url, :key, :no_check_certificate, :certificate_bundle, :no_account_notice, :no_notification
+    :url, :key, :no_check_certificate, :certificate_bundle, :no_account_notice, :no_notification, :project_from_subaddress
 
   def initialize
     self.issue_attributes = {}
@@ -86,6 +86,8 @@ class RedmineMailHandler
                                               "user") { |v| self.no_notification = '1'}
       opts.separator("")
       opts.separator("Issue attributes control options:")
+      opts.on(      "--project-from-subaddress ADDR", "select project from subadress of ADDR found",
+                                              "in To, Cc, Bcc headers") {|v| self.project_from_subaddress['project'] = v}
       opts.on("-p", "--project PROJECT",      "identifier of the target project") {|v| self.issue_attributes['project'] = v}
       opts.on("-s", "--status STATUS",        "name of the target status") {|v| self.issue_attributes['status'] = v}
       opts.on("-t", "--tracker TRACKER",      "name of the target tracker") {|v| self.issue_attributes['tracker'] = v}
@@ -104,7 +106,6 @@ Overrides:
   * project, tracker, status, priority, category, assigned_to, fixed_version,
     start_date, due_date, estimated_hours, done_ratio
   * custom fields names with underscores instead of spaces (case insensitive)
-
   Example: --allow_override=project,priority,my_custom_field
 
   If the --project option is not set, project is overridable by default for
@@ -113,15 +114,24 @@ Overrides:
   You can use --allow_override=all to allow all attributes to be overridable.
 
 Examples:
-  No project specified, emails MUST contain the 'Project' keyword:
-  rdm-mailhandler.rb --url http://redmine.domain.foo --key secret
+  No project specified, emails MUST contain the 'Project' keyword, otherwise
+  they will be dropped (not recommanded):
+
+    rdm-mailhandler.rb --url http://redmine.domain.foo --key secret
 
   Fixed project and default tracker specified, but emails can override
   both tracker and priority attributes using keywords:
-  rdm-mailhandler.rb --url https://domain.foo/redmine --key secret \\
-    --project foo \\
-    --tracker bug \\
-    --allow-override tracker,priority
+
+    rdm-mailhandler.rb --url https://domain.foo/redmine --key secret \\
+      --project myproject \\
+      --tracker bug \\
+      --allow-override tracker,priority
+
+  Project selected by subaddress of redmine@example.net. Sending the email
+  to redmine+myproject@example.net will add the issue to myproject:
+
+    rdm-mailhandler.rb --url http://redmine.domain.foo --key secret \\
+      --project-from-subaddress redmine@example.net
 END_DESC
 
       opts.summary_width = 27
@@ -145,7 +155,8 @@ END_DESC
                            'default_group' => default_group,
                            'no_account_notice' => no_account_notice,
                            'no_notification' => no_notification,
-                           'no_permission_check' => no_permission_check}
+                           'no_permission_check' => no_permission_check,
+                           'project_from_subaddress' => project_from_subaddress}
     issue_attributes.each { |attr, value| data["issue[#{attr}]"] = value }
 
     debug "Posting to #{uri}..."

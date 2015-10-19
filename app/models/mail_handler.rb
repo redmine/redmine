@@ -65,7 +65,7 @@ class MailHandler < ActionMailer::Base
     %w(project status tracker category priority).each do |option|
       options[:issue][option.to_sym] = env[option] if env[option]
     end
-    %w(allow_override unknown_user no_permission_check no_account_notice default_group).each do |option|
+    %w(allow_override unknown_user no_permission_check no_account_notice default_group project_from_subaddress).each do |option|
       options[option.to_sym] = env[option] if env[option]
     end
     if env['private']
@@ -365,11 +365,15 @@ class MailHandler < ActionMailer::Base
   end
 
   def get_project_from_receiver_addresses
+    local, domain = handler_options[:project_from_subaddress].to_s.split("@")
+    return nil unless local && domain
+    local = Regexp.escape(local)
+
     [:to, :cc, :bcc].each do |field|
       header = @email[field]
       next if header.blank? || header.field.blank? || !header.field.respond_to?(:addrs)
       header.field.addrs.each do |addr|
-        if addr.local.to_s =~ /\+([^+]+)\z/
+        if addr.domain.to_s.casecmp(domain)==0 && addr.local.to_s =~ /\A#{local}\+([^+]+)\z/
           if project = Project.find_by_identifier($1)
             return project
           end

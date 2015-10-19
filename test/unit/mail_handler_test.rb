@@ -107,7 +107,8 @@ class MailHandlerTest < ActiveSupport::TestCase
     # This email has redmine+onlinestore@somenet.foo as 'To' header
     issue = submit_email(
               'ticket_on_project_given_by_to_header.eml',
-              :issue => {:tracker => 'Support request'}
+              :issue => {:tracker => 'Support request'},
+              :project_from_subaddress => 'redmine@somenet.foo'
             )
     assert issue.is_a?(Issue)
     assert !issue.new_record?
