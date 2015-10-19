@@ -60,6 +60,8 @@ require 'redmine/views/builders'
 
 require 'redmine/themes'
 require 'redmine/hook'
+require 'redmine/hook/listener'
+require 'redmine/hook/view_listener'
 require 'redmine/plugin'
 
 Redmine::Scm::Base.add "Subversion"
