@@ -1135,26 +1135,26 @@ pl:
   label_radio_buttons: pola opcji
   label_group_anonymous: Anonimowi użytkownicy
   label_group_non_member: Użytkownicy nie bedący uczestnikami
-  label_add_projects: Add projects
-  field_default_status: Default status
-  text_subversion_repository_note: 'Examples: file:///, http://, https://, svn://, svn+[tunnelscheme]://'
-  field_users_visibility: Users visibility
-  label_users_visibility_all: All active users
-  label_users_visibility_members_of_visible_projects: Members of visible projects
-  label_edit_attachments: Edit attached files
-  setting_link_copied_issue: Link issues on copy
-  label_link_copied_issue: Link copied issue
-  label_ask: Ask
-  label_search_attachments_yes: Search attachment filenames and descriptions
-  label_search_attachments_no: Do not search attachments
-  label_search_attachments_only: Search attachments only
-  label_search_open_issues_only: Open issues only
+  label_add_projects: Dodaj projekty
+  field_default_status: Domyślny status
+  text_subversion_repository_note: 'Przykłady: file:///, http://, https://, svn://, svn+[tunnelscheme]://'
+  field_users_visibility: Widoczni użytkownicy
+  label_users_visibility_all: Wszyscy aktywni użytkownicy
+  label_users_visibility_members_of_visible_projects: Uczestnicy widocznych projektów
+  label_edit_attachments: Edytuj załączone pliki
+  setting_link_copied_issue: Powiązywanie zagadnień podczas kopiowania
+  label_link_copied_issue: Powiąż kopiowane zagadnienia
+  label_ask: Pytaj
+  label_search_attachments_yes: Szukaj w nazwach i opisach załączników
+  label_search_attachments_no: Nie szukaj załączników
+  label_search_attachments_only: Szukaj tylko załączników
+  label_search_open_issues_only: Tylko otwarte zagadnienia
   field_address: E-mail
-  setting_max_additional_emails: Maximum number of additional email addresses
-  label_email_address_plural: Emails
-  label_email_address_add: Add email address
-  label_enable_notifications: Enable notifications
-  label_disable_notifications: Disable notifications
-  setting_search_results_per_page: Search results per page
+  setting_max_additional_emails: Maksymalna liczba dodatkowych adresów email
+  label_email_address_plural: Email
+  label_email_address_add: Dodaj adres email
+  label_enable_notifications: Włącz powiadomienia
+  label_disable_notifications: Wyłącz powiadomienia
+  setting_search_results_per_page: Limit wyników wyszukiwania na stronie
   label_blank_value: blank
-  permission_copy_issues: Copy issues
+  permission_copy_issues: Kopiowanie zagadnień
