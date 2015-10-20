@@ -18,7 +18,7 @@
 require File.expand_path('../../../../../test_helper', __FILE__)
 
 class Redmine::Helpers::GanttHelperTest < ActionView::TestCase
-  fixtures :trackers, :issue_statuses,
+  fixtures :projects, :trackers, :issue_statuses,
            :enumerations, :users, :issue_categories
 
   include ProjectsHelper
