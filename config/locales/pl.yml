@@ -1158,19 +1158,18 @@ pl:
   setting_search_results_per_page: Limit wyników wyszukiwania na stronie
   label_blank_value: blank
   permission_copy_issues: Kopiowanie zagadnień
-  error_password_expired: Your password has expired or the administrator requires you
-    to change it.
-  field_time_entries_visibility: Time logs visibility
-  setting_password_max_age: Require password change after
-  label_parent_task_attributes: Parent tasks attributes
-  label_parent_task_attributes_derived: Calculated from subtasks
-  label_parent_task_attributes_independent: Independent of subtasks
-  label_time_entries_visibility_all: All time entries
-  label_time_entries_visibility_own: Time entries created by the user
-  label_member_management: Member management
-  label_member_management_all_roles: All roles
-  label_member_management_selected_roles_only: Only these roles
-  label_password_required: Confirm your password to continue
+  error_password_expired: Twoje hasło wygasło lub administrator wymaga jego zmiany.
+  field_time_entries_visibility: Widoczny przepracowany czas
+  setting_password_max_age: Wymagaj zmiany hasła po
+  label_parent_task_attributes: Atrybuty zagadnień nadrzędnych
+  label_parent_task_attributes_derived: Obliczone z podzagadnień
+  label_parent_task_attributes_independent: Niezależne od podzagadnień
+  label_time_entries_visibility_all: Wszystkie wpisy dziennika
+  label_time_entries_visibility_own: Wpisy dziennika utworzone przez użytkownika
+  label_member_management: Zarządzanie uczestnikami
+  label_member_management_all_roles: Wszystkimi rolami
+  label_member_management_selected_roles_only: Tylko tymi rolami
+  label_password_required: Potwierdź hasło aby kontynuować
   label_total_spent_time: Przepracowany czas
   notice_import_finished: All %{count} items have been imported.
   notice_import_finished_with_errors: ! '%{count} out of %{total} items could not be
@@ -1193,6 +1192,6 @@ pl:
   label_file_content_preview: File content preview
   label_create_missing_values: Create missing values
   button_import: Import
-  field_total_estimated_hours: Total estimated time
+  field_total_estimated_hours: Całkowity szacowany czas
   label_api: API
   label_total_plural: Totals
