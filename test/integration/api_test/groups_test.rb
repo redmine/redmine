@@ -149,17 +149,18 @@ class Redmine::ApiTest::GroupsTest < Redmine::ApiTest::Base
   end
 
   test "PUT /groups/:id.xml with valid parameters should update the group" do
-    put '/groups/10.xml', {:group => {:name => 'New name', :user_ids => [2, 3]}}, credentials('admin')
+    group = Group.generate!
+    put "/groups/#{group.id}.xml", {:group => {:name => 'New name', :user_ids => [2, 3]}}, credentials('admin')
     assert_response :ok
     assert_equal '', @response.body
 
-    group = Group.find(10)
-    assert_equal 'New name', group.name
+    assert_equal 'New name', group.reload.name
     assert_equal [2, 3], group.users.map(&:id).sort
   end
 
   test "PUT /groups/:id.xml with invalid parameters should return errors" do
-    put '/groups/10.xml', {:group => {:name => ''}}, credentials('admin')
+    group = Group.generate!
+    put "/groups/#{group.id}.xml", {:group => {:name => ''}}, credentials('admin')
     assert_response :unprocessable_entity
     assert_equal 'application/xml', response.content_type
 
@@ -169,27 +170,30 @@ class Redmine::ApiTest::GroupsTest < Redmine::ApiTest::Base
   end
 
   test "DELETE /groups/:id.xml should delete the group" do
+    group = Group.generate!
     assert_difference 'Group.count', -1 do
-      delete '/groups/10.xml', {}, credentials('admin')
+      delete "/groups/#{group.id}.xml", {}, credentials('admin')
       assert_response :ok
       assert_equal '', @response.body
     end
   end
 
   test "POST /groups/:id/users.xml should add user to the group" do
-    assert_difference 'Group.find(10).users.count' do
-      post '/groups/10/users.xml', {:user_id => 5}, credentials('admin')
+    group = Group.generate!
+    assert_difference 'group.reload.users.count' do
+      post "/groups/#{group.id}/users.xml", {:user_id => 5}, credentials('admin')
       assert_response :ok
       assert_equal '', @response.body
     end
-    assert_include User.find(5), Group.find(10).users
+    assert_include User.find(5), group.reload.users
   end
 
   test "POST /groups/:id/users.xml should not add the user if already added" do
-    Group.find(10).users << User.find(5)
+    group = Group.generate!
+    group.users << User.find(5)
 
-    assert_no_difference 'Group.find(10).users.count' do
-      post '/groups/10/users.xml', {:user_id => 5}, credentials('admin')
+    assert_no_difference 'group.reload.users.count' do
+      post "/groups/#{group.id}/users.xml", {:user_id => 5}, credentials('admin')
       assert_response :unprocessable_entity
     end
 
@@ -199,11 +203,14 @@ class Redmine::ApiTest::GroupsTest < Redmine::ApiTest::Base
   end
 
   test "DELETE /groups/:id/users/:user_id.xml should remove user from the group" do
-    assert_difference 'Group.find(10).users.count', -1 do
-      delete '/groups/10/users/8.xml', {}, credentials('admin')
+    group = Group.generate!
+    group.users << User.find(8)
+
+    assert_difference 'group.reload.users.count', -1 do
+      delete "/groups/#{group.id}/users/8.xml", {}, credentials('admin')
       assert_response :ok
       assert_equal '', @response.body
     end
-    assert_not_include User.find(8), Group.find(10).users
+    assert_not_include User.find(8), group.reload.users
   end
 end
