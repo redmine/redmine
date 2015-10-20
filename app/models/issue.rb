@@ -454,6 +454,11 @@ class Issue < ActiveRecord::Base
       if allowed_target_projects(user).where(:id => p.to_i).exists?
         self.project_id = p
       end
+
+      if project_id_changed? && attrs['category_id'].to_s == category_id_was.to_s
+        # Discard submitted category on previous project
+        attrs.delete('category_id')
+      end
     end
 
     if (t = attrs.delete('tracker_id')) && safe_attribute?('tracker_id')

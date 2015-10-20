@@ -3096,6 +3096,22 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal 'This is the test_new issue', issue.subject
   end
 
+  def test_update_form_should_keep_category_with_same_when_changing_project
+    source = Project.generate!
+    target = Project.generate!
+    source_category = IssueCategory.create!(:name => 'Foo', :project => source)
+    target_category = IssueCategory.create!(:name => 'Foo', :project => target)
+    issue = Issue.generate!(:project => source, :category => source_category)
+
+    @request.session[:user_id] = 1
+    patch :edit, :id => issue.id,
+      :issue => {:project_id => target.id, :category_id => source_category.id}
+    assert_response :success
+
+    issue = assigns(:issue)
+    assert_equal target_category, issue.category
+  end
+
   def test_update_form_should_propose_default_status_for_existing_issue
     @request.session[:user_id] = 2
     WorkflowTransition.delete_all
