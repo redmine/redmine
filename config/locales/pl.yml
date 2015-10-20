@@ -410,7 +410,7 @@ pl:
   label_details: Szczegóły
   label_diff_inline: w linii
   label_diff_side_by_side: obok siebie
-  label_disabled: zablokowany
+  label_disabled: wyłaczone
   label_display_per_page: "Na stronie: %{value}"
   label_document: Dokument
   label_document_added: Dodano dokument
@@ -1019,7 +1019,7 @@ pl:
   error_attachment_too_big: Plik nie może być przesłany, ponieważ przekracza maksymalny dopuszczalny rozmial (%{max_size})
   notice_failed_to_save_time_entries: "Failed to save %{count} time entrie(s) on %{total} selected: %{ids}."
   label_x_issues:
-    zero:  0 zagadnienie
+    zero:  0 zagadnień
     one:   1 zagadnienie
     other: "%{count} zagadnienia"
   label_repository_new: Nowe repozytorium
