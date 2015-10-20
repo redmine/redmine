@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 
 gem "rails", "3.2.22"
+gem "rack-cache", "1.2" if RUBY_VERSION < "1.9.3"
 gem "jquery-rails", "~> 3.1.4"
 gem "coderay", "~> 1.1.0"
 gem "fastercsv", "~> 1.5.0", :platforms => [:mri_18, :mingw_18, :jruby]
