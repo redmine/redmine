@@ -1181,7 +1181,7 @@ ja:
   label_fields_separator: 区切り文字
   label_fields_wrapper: 文字列の引用符
   label_encoding: エンコーディング
-  label_coma_char: コンマ
+  label_comma_char: コンマ
   label_semi_colon_char: セミコロン
   label_quote_char: シングルクォート
   label_double_quote_char: ダブルクォート

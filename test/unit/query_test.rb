@@ -1050,7 +1050,7 @@ class QueryTest < ActiveSupport::TestCase
   end
 
   def test_sortable_columns_should_sort_assignees_according_to_user_format_setting
-    with_settings :user_format => 'lastname_coma_firstname' do
+    with_settings :user_format => 'lastname_comma_firstname' do
       q = IssueQuery.new
       assert q.sortable_columns.has_key?('assigned_to')
       assert_equal %w(users.lastname users.firstname users.id), q.sortable_columns['assigned_to']
@@ -1058,7 +1058,7 @@ class QueryTest < ActiveSupport::TestCase
   end
 
   def test_sortable_columns_should_sort_authors_according_to_user_format_setting
-    with_settings :user_format => 'lastname_coma_firstname' do
+    with_settings :user_format => 'lastname_comma_firstname' do
       q = IssueQuery.new
       assert q.sortable_columns.has_key?('author')
       assert_equal %w(authors.lastname authors.firstname authors.id), q.sortable_columns['author']

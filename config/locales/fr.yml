@@ -983,7 +983,7 @@ fr:
   label_fields_separator: Séparateur de champs
   label_fields_wrapper: Délimiteur de texte
   label_encoding: Encodage
-  label_coma_char: Virgule
+  label_comma_char: Virgule
   label_semi_colon_char: Point virgule
   label_quote_char: Apostrophe
   label_double_quote_char: Double apostrophe

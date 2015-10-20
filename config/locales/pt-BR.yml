@@ -1187,7 +1187,7 @@ pt-BR:
   label_fields_separator: Field separator
   label_fields_wrapper: Field wrapper
   label_encoding: Encoding
-  label_coma_char: Coma
+  label_comma_char: Comma
   label_semi_colon_char: Semi colon
   label_quote_char: Quote
   label_double_quote_char: Double quote

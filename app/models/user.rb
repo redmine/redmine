@@ -47,7 +47,7 @@ class User < Principal
         :order => %w(lastname firstname id),
         :setting_order => 4
       },
-    :lastname_coma_firstname => {
+    :lastname_comma_firstname => {
         :string => '#{lastname}, #{firstname}',
         :order => %w(lastname firstname id),
         :setting_order => 5

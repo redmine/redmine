@@ -1202,7 +1202,7 @@ es-PA:
   label_fields_separator: Separador de Campos
   label_fields_wrapper: Envoltorio de Campo
   label_encoding: Codificación
-  label_coma_char: Coma
+  label_comma_char: Comma
   label_semi_colon_char: Punto y Coma
   label_quote_char: Comilla Simple
   label_double_quote_char: Comilla Doble

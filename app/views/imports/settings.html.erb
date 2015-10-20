@@ -6,7 +6,7 @@
     <p>
       <label><%= l(:label_fields_separator) %></label>
       <%= select_tag 'import_settings[separator]',
-            options_for_select([[l(:label_coma_char), ','], [l(:label_semi_colon_char), ';']], @import.settings['separator']) %>
+            options_for_select([[l(:label_comma_char), ','], [l(:label_semi_colon_char), ';']], @import.settings['separator']) %>
     </p>
     <p>
       <label><%= l(:label_fields_wrapper) %></label>

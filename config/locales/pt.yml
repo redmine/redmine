@@ -1170,7 +1170,7 @@ pt:
   label_fields_separator: Separador de campos
   label_fields_wrapper: Field wrapper
   label_encoding: Codificação
-  label_coma_char: Vírgula
+  label_comma_char: Vírgula
   label_semi_colon_char: Ponto e vírgula
   label_quote_char: Aspas
   label_double_quote_char: Aspas duplas

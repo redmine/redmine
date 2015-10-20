@@ -1049,7 +1049,7 @@
   label_fields_separator: 欄位分隔符號
   label_fields_wrapper: 欄位包裝識別符號
   label_encoding: 編碼
-  label_coma_char: 逗號(,)
+  label_comma_char: 逗號(,)
   label_semi_colon_char: 分號(;)
   label_quote_char: 引號(')
   label_double_quote_char: 雙引號(")

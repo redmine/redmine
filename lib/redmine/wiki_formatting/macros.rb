@@ -92,7 +92,7 @@ module Redmine
         #   invoked without a block of text.  
         #
         # Examples:
-        # By default, when the macro is invoked, the coma separated list of arguments
+        # By default, when the macro is invoked, the comma separated list of arguments
         # is split and passed to the macro block as an array. If no argument is given
         # the macro will be invoked with an empty array:
         #
