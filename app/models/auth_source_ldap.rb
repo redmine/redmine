@@ -22,7 +22,7 @@ require 'timeout'
 class AuthSourceLdap < AuthSource
   validates_presence_of :host, :port, :attr_login
   validates_length_of :name, :host, :maximum => 60, :allow_nil => true
-  validates_length_of :account, :account_password, :base_dn, :filter, :maximum => 255, :allow_blank => true
+  validates_length_of :account, :account_password, :base_dn, :maximum => 255, :allow_blank => true
   validates_length_of :attr_login, :attr_firstname, :attr_lastname, :attr_mail, :maximum => 30, :allow_nil => true
   validates_numericality_of :port, :only_integer => true
   validates_numericality_of :timeout, :only_integer => true, :allow_blank => true

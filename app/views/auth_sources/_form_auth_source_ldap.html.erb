@@ -11,7 +11,7 @@
            :onfocus => "this.value=''; this.name='auth_source[account_password]';",
            :onchange => "this.name='auth_source[account_password]';" %></p>
   <p><%= f.text_field :base_dn, :required => true, :size => 60 %></p>
-  <p><%= f.text_field :filter, :size => 60, :label => :field_auth_source_ldap_filter %></p>
+  <p><%= f.text_area :filter, :size => 60, :label => :field_auth_source_ldap_filter %></p>
   <p><%= f.text_field :timeout, :size => 4 %></p>
   <p><%= f.check_box :onthefly_register, :label => :field_onthefly %></p>
 </div>
