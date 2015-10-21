@@ -361,7 +361,7 @@ module Redmine
               url = "http://" + url
             end
           end
-          view.link_to value.to_s, url
+          view.link_to value.to_s.truncate(40), url
         else
           value.to_s
         end
