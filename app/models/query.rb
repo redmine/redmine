@@ -311,7 +311,14 @@ class Query < ActiveRecord::Base
   def available_filters_as_json
     json = {}
     available_filters.each do |field, options|
-      json[field] = options.slice(:type, :name, :values).stringify_keys
+      options = options.slice(:type, :name, :values)
+      if options[:values] && values_for(field)
+        missing = Array(values_for(field)).select(&:present?) - options[:values].map(&:last)
+        if missing.any? && respond_to?(method = "find_#{field}_filter_values")
+          options[:values] += send(method, missing)
+        end
+      end
+      json[field] = options.stringify_keys
     end
     json
   end

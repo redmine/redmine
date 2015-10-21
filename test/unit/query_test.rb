@@ -948,6 +948,28 @@ class QueryTest < ActiveSupport::TestCase
     assert_nil q.statement
   end
 
+  def test_available_filters_as_json_should_include_missing_assigned_to_id_values
+    user = User.generate!
+    with_current_user User.find(1) do
+      q = IssueQuery.new
+      q.filters = {"assigned_to_id" => {:operator => '=', :values => user.id.to_s}}
+
+      filters = q.available_filters_as_json
+      assert_include [user.name, user.id.to_s], filters['assigned_to_id']['values']
+    end
+  end
+
+  def test_available_filters_as_json_should_include_missing_author_id_values
+    user = User.generate!
+    with_current_user User.find(1) do
+      q = IssueQuery.new
+      q.filters = {"author_id" => {:operator => '=', :values => user.id.to_s}}
+
+      filters = q.available_filters_as_json
+      assert_include [user.name, user.id.to_s], filters['author_id']['values']
+    end
+  end
+
   def test_default_columns
     q = IssueQuery.new
     assert q.columns.any?

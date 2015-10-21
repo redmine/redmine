@@ -544,6 +544,11 @@ class IssueQuery < Query
     "(#{sql})"
   end
 
+  def find_assigned_to_id_filter_values(values)
+    Principal.visible.where(:id => values).map {|p| [p.name, p.id.to_s]}
+  end
+  alias :find_author_id_filter_values :find_assigned_to_id_filter_values
+
   IssueRelation::TYPES.keys.each do |relation_type|
     alias_method "sql_for_#{relation_type}_field".to_sym, :sql_for_relations
   end
