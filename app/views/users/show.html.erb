@@ -27,7 +27,7 @@
 <ul>
   <li><%= link_to l(:label_assigned_issues),
         issues_path(:set_filter => 1, :assigned_to_id => 'me', :sort => 'priority:desc,updated_on:desc') %>:
-      <%= Issue.visible.open.where(:assigned_to_id => ([@user.id] + @user.group_ids)).count %>
+      <%= Issue.visible.open.assigned_to(@user).count %>
   <li><%= link_to l(:label_reported_issues),
         issues_path(:set_filter => 1, :status_id => '*', :author_id => @user.id) %>:
       <%= Issue.visible.where(:author_id => @user.id).count %>

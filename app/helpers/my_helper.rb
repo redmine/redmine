@@ -33,7 +33,7 @@ module MyHelper
 
   def issuesassignedtome_items
     Issue.visible.open.
-      where(:assigned_to_id => ([User.current.id] + User.current.group_ids)).
+      assigned_to(User.current).
       limit(10).
       includes(:status, :project, :tracker, :priority).
       references(:status, :project, :tracker, :priority).

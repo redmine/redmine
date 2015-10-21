@@ -418,6 +418,22 @@ class IssueTest < ActiveSupport::TestCase
     assert_equal 0, Issue.fixed_version([]).count
   end
 
+  def test_assigned_to_scope_should_return_issues_assigned_to_the_user
+    user = User.generate!
+    issue = Issue.generate!
+    Issue.where(:id => issue.id).update_all :assigned_to_id => user.id
+    assert_equal [issue], Issue.assigned_to(user).to_a
+  end
+
+  def test_assigned_to_scope_should_return_issues_assigned_to_the_user_groups
+    group = Group.generate!
+    user = User.generate!
+    group.users << user
+    issue = Issue.generate!
+    Issue.where(:id => issue.id).update_all :assigned_to_id => group.id
+    assert_equal [issue], Issue.assigned_to(user).to_a
+  end
+
   def test_errors_full_messages_should_include_custom_fields_errors
     field = IssueCustomField.find_by_name('Database')
 

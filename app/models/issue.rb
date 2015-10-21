@@ -95,6 +95,13 @@ class Issue < ActiveRecord::Base
     ids = [versions].flatten.compact.map {|v| v.is_a?(Version) ? v.id : v}
     ids.any? ? where(:fixed_version_id => ids) : where('1=0')
   }
+  scope :assigned_to, lambda {|arg|
+    arg = Array(arg).uniq
+    ids = arg.map {|p| p.is_a?(Principal) ? p.id : p}
+    ids += arg.select {|p| p.is_a?(User)}.map(&:group_ids).flatten.uniq
+    ids.compact!
+    ids.any? ? where(:assigned_to_id => ids) : none
+  }
 
   before_validation :clear_disabled_fields
   before_create :default_assign
