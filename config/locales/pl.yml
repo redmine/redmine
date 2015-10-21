@@ -1195,3 +1195,4 @@ pl:
   field_total_estimated_hours: Całkowity szacowany czas
   label_api: API
   label_total_plural: Totals
+  label_assigned_issues: Assigned issues
