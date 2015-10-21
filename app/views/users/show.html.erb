@@ -23,6 +23,16 @@
   <% end %>
 </ul>
 
+<h3><%=l(:label_issue_plural)%></h3>
+<ul>
+  <li><%= link_to l(:label_assigned_issues),
+        issues_path(:set_filter => 1, :assigned_to_id => 'me', :sort => 'priority:desc,updated_on:desc') %>:
+      <%= Issue.visible.open.where(:assigned_to_id => ([@user.id] + @user.group_ids)).count %>
+  <li><%= link_to l(:label_reported_issues),
+        issues_path(:set_filter => 1, :status_id => '*', :author_id => @user.id) %>:
+      <%= Issue.visible.where(:author_id => @user.id).count %>
+</ul>
+
 <% unless @memberships.empty? %>
 <h3><%=l(:label_project_plural)%></h3>
 <ul>
@@ -41,10 +51,6 @@
 <h3><%= link_to l(:label_activity), :controller => 'activities',
                 :action => 'index', :id => nil, :user_id => @user,
                 :from => @events_by_day.keys.first %></h3>
-
-<p>
-<%=l(:label_reported_issues)%>: <%= Issue.where(:author_id => @user.id).count %>
-</p>
 
 <div id="activity">
 <% @events_by_day.keys.sort.reverse.each do |day| %>
