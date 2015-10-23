@@ -5,9 +5,7 @@
 <thead>
   <tr>
     <th class="checkbox hide-when-print">
-      <%= link_to image_tag('toggle_check.png'),
-        {},
-        :onclick => 'toggleIssuesSelection(this); return false;',
+      <%= check_box_tag 'check_all', '', false, :class => 'toggle-selection',
         :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}" %>
     </th>
     <% @query.inline_columns.each do |column| %>
