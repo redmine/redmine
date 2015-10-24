@@ -353,6 +353,7 @@ div.issue span.private, div.journal span.private { position:relative; bottom: 2p
 div.issue .next-prev-links {color:#999;}
 div.issue table.attributes th {width:22%;}
 div.issue table.attributes td {width:28%;}
+div.issue.issue.overdue td.due-date { color: #c22; }
 
 #issue_tree table.issues, #relations table.issues { border: 0; }
 #issue_tree td.checkbox, #relations td.checkbox {display:none;}
