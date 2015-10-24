@@ -345,6 +345,7 @@ bg:
   field_default_status: Състояние по подразбиране
   field_users_visibility: Видимост на потребителите
   field_time_entries_visibility: Видимост на записи за използвано време
+  field_total_estimated_hours: Общо изчислено време
 
   setting_app_title: Заглавие
   setting_app_subtitle: Описание
@@ -1148,4 +1149,3 @@ bg:
   description_date_to: Въведете крайна дата
   text_repository_identifier_info: 'Позволени са малки букви (a-z), цифри, тирета и _.<br />Промяна след създаването му не е възможна.'
   label_total_spent_time: Общо употребено време
-  field_total_estimated_hours: Total estimated time
