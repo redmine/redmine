@@ -14,7 +14,7 @@
 <tbody>
 <% for row in rows %>
 <tr class="<%= cycle("odd", "even") %>">
-  <td class="name"><%= row.name %></td>
+  <td class="name"><%= link_to row.name, aggregate_path(@project, field_name, row) %></td>
   <% for status in @statuses %>
     <td><%= aggregate_link data, { field_name => row.id, "status_id" => status.id }, aggregate_path(@project, field_name, row, :status_id => status.id) %></td>
   <% end %>

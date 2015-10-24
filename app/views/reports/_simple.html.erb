@@ -11,7 +11,7 @@
 <tbody>
 <% for row in rows %>
 <tr class="<%= cycle("odd", "even") %>">
-  <td class="name"><%= row.name %></td>
+  <td class="name"><%= link_to row.name, aggregate_path(@project, field_name, row) %></td>
   <td><%= aggregate_link data, { field_name => row.id, "closed" => 0 }, aggregate_path(@project, field_name, row, :status_id => "o") %></td>
   <td><%= aggregate_link data, { field_name => row.id, "closed" => 1 }, aggregate_path(@project, field_name, row, :status_id => "c") %></td>
   <td><%= aggregate_link data, { field_name => row.id }, aggregate_path(@project, field_name, row, :status_id => "*") %></td>
