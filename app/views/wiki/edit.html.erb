@@ -33,8 +33,11 @@
 <p><label><%=l(:label_attachment_plural)%></label><%= render :partial => 'attachments/form' %></p>
 </div>
 
-<p><%= submit_tag l(:button_save) %>
-   <%= preview_link({:controller => 'wiki', :action => 'preview', :project_id => @project, :id => @page.title }, 'wiki_form') %></p>
+<p>
+  <%= submit_tag l(:button_save) %>
+   <%= preview_link({:controller => 'wiki', :action => 'preview', :project_id => @project, :id => @page.title }, 'wiki_form') %>
+   | <%= link_to l(:button_cancel), wiki_page_edit_cancel_path(@page) %>
+ </p>
 <%= wikitoolbar_for 'content_text' %>
 <% end %>
 

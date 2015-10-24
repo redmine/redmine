@@ -51,4 +51,17 @@ module WikiHelper
       link_to(h(parent.pretty_title), {:controller => 'wiki', :action => 'show', :id => parent.title, :project_id => parent.project, :version => nil})
     })
   end
+
+  # Returns the path for the Cancel link when editing a wiki page
+  def wiki_page_edit_cancel_path(page)
+    if page.new_record?
+      if parent = page.parent
+        project_wiki_page_path(parent.project, parent.title)
+      else
+        project_wiki_index_path(page.project)
+      end
+    else
+      project_wiki_page_path(page.project, page.title)
+    end
+  end
 end
