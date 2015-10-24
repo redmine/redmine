@@ -38,8 +38,8 @@ class SessionsControllerTest < ActionController::TestCase
     get :index, {}, {:user_id => 2, :tk => token.value}
     assert_response :success
     token.reload
-    assert_equal created, token.created_on
-    assert_not_equal created, token.updated_on
+    assert_equal created.to_i, token.created_on.to_i
+    assert_not_equal created.to_i, token.updated_on.to_i
     assert token.updated_on > created
   end
 
