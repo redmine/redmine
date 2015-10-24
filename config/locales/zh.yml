@@ -553,10 +553,6 @@ zh:
   label_open_issues_plural: 打开
   label_closed_issues: 已关闭
   label_closed_issues_plural: 已关闭
-  label_x_open_issues_abbr_on_total:
-    zero:  0 打开 / %{total}
-    one:   1 打开 / %{total}
-    other: "%{count} 打开 / %{total}"
   label_x_open_issues_abbr:
     zero:  0 打开
     one:   1 打开

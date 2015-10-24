@@ -525,10 +525,6 @@ mn:
   label_open_issues_plural: нээлттэй
   label_closed_issues: хаалттай
   label_closed_issues_plural: хаалттай
-  label_x_open_issues_abbr_on_total:
-    zero:  0 нээлттэй / %{total}
-    one:   1 нээлттэй / %{total}
-    other: "%{count} нээлттэй / %{total}"
   label_x_open_issues_abbr:
     zero:  0 нээлттэй
     one:   1 нээлттэй

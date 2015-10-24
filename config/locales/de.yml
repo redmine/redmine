@@ -830,10 +830,6 @@ de:
     zero:  0 offen
     one:   1 offen
     other: "%{count} offen"
-  label_x_open_issues_abbr_on_total:
-    zero:  0 offen / %{total}
-    one:   1 offen / %{total}
-    other: "%{count} offen / %{total}"
   label_x_projects:
     zero:  keine Projekte
     one:   1 Projekt

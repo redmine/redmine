@@ -428,10 +428,6 @@ da:
   label_open_issues_plural: åbne
   label_closed_issues: lukket
   label_closed_issues_plural: lukkede
-  label_x_open_issues_abbr_on_total:
-    zero:  0 åbne / %{total}
-    one:   1 åben / %{total}
-    other: "%{count} åbne / %{total}"
   label_x_open_issues_abbr:
     zero:  0 åbne
     one:   1 åben

@@ -554,10 +554,6 @@ cs:
   label_open_issues_plural: otevřené
   label_closed_issues: uzavřený
   label_closed_issues_plural: uzavřené
-  label_x_open_issues_abbr_on_total:
-    zero:  0 otevřených / %{total}
-    one:   1 otevřený / %{total}
-    other: "%{count} otevřených / %{total}"
   label_x_open_issues_abbr:
     zero:  0 otevřených
     one:   1 otevřený

@@ -501,10 +501,6 @@ el:
   label_open_issues_plural: Ανοικτά
   label_closed_issues: Κλειστό
   label_closed_issues_plural: Κλειστά
-  label_x_open_issues_abbr_on_total:
-    zero:  0 ανοικτά / %{total}
-    one:   1 ανοικτό / %{total}
-    other: "%{count} ανοικτά / %{total}"
   label_x_open_issues_abbr:
     zero:  0 ανοικτά
     one:   1 ανοικτό

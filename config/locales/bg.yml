@@ -625,10 +625,6 @@ bg:
   label_open_issues_plural: отворени
   label_closed_issues: затворена
   label_closed_issues_plural: затворени
-  label_x_open_issues_abbr_on_total:
-    zero:  0 отворени / %{total}
-    one:   1 отворена / %{total}
-    other: "%{count} отворени / %{total}"
   label_x_open_issues_abbr:
     zero:  0 отворени
     one:   1 отворена

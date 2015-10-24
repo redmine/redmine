@@ -442,10 +442,6 @@
   label_open_issues_plural: nyitott
   label_closed_issues: lezárt
   label_closed_issues_plural: lezárt
-  label_x_open_issues_abbr_on_total:
-    zero:  nyitott 0 / %{total}
-    one:   nyitott 1 / %{total}
-    other: "nyitott %{count} / %{total}"
   label_x_open_issues_abbr:
     zero:  0 nyitott
     one:   1 nyitott

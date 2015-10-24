@@ -733,12 +733,6 @@ ru:
     few:   "%{count} открыто"
     many:  "%{count} открыто"
     other: "%{count} открыто"
-  label_x_open_issues_abbr_on_total:
-    zero:  "0 открыто / %{total}"
-    one:   "%{count} открыта / %{total}"
-    few:   "%{count} открыто / %{total}"
-    many:  "%{count} открыто / %{total}"
-    other: "%{count} открыто / %{total}"
   label_x_projects:
     zero:  "нет проектов"
     one:   "%{count} проект"

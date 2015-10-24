@@ -646,10 +646,6 @@ sv:
   label_open_issues_plural: öppna
   label_closed_issues: stängd
   label_closed_issues_plural: stängda
-  label_x_open_issues_abbr_on_total:
-    zero:  0 öppna av %{total}
-    one:   1 öppen av %{total}
-    other: "%{count} öppna av %{total}"
   label_x_open_issues_abbr:
     zero:  0 öppna
     one:   1 öppen

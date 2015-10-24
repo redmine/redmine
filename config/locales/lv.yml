@@ -519,10 +519,6 @@ lv:
   label_open_issues_plural: atvērti
   label_closed_issues: slēgts
   label_closed_issues_plural: slēgti
-  label_x_open_issues_abbr_on_total:
-    zero:  0 atvērti / %{total}
-    one:   1 atvērts / %{total}
-    other: "%{count} atvērti / %{total}"
   label_x_open_issues_abbr:
     zero:  0 atvērti
     one:   1 atvērts

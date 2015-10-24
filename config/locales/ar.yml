@@ -572,10 +572,6 @@ ar:
   label_open_issues_plural: بنود عمل مفتوحة
   label_closed_issues: مغلق
   label_closed_issues_plural: بنود عمل مغلقة
-  label_x_open_issues_abbr_on_total:
-    zero: 0 مفتوح / %{total}
-    one: 1 مفتوح / %{total}
-    other: "%{count} مفتوح / %{total}"
   label_x_open_issues_abbr:
     zero: 0 مفتوح
     one: 1 مقتوح

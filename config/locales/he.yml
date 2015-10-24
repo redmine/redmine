@@ -546,10 +546,6 @@ he:
   label_open_issues_plural: פתוחים
   label_closed_issues: סגור
   label_closed_issues_plural: סגורים
-  label_x_open_issues_abbr_on_total:
-    zero:  0 פתוחים / %{total}
-    one:   1 פתוח / %{total}
-    other: "%{count} פתוחים / %{total}"
   label_x_open_issues_abbr:
     zero:  0 פתוחים
     one:   1 פתוח

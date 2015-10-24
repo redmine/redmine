@@ -538,10 +538,6 @@ sr-YU:
   label_open_issues_plural: otvorenih
   label_closed_issues: zatvoren
   label_closed_issues_plural: zatvorenih
-  label_x_open_issues_abbr_on_total:
-    zero:  0 otvorenih / %{total}
-    one:   1 otvoren / %{total}
-    other: "%{count} otvorenih / %{total}"
   label_x_open_issues_abbr:
     zero:  0 otvorenih
     one:   1 otvoren

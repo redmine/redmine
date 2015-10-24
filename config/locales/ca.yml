@@ -541,10 +541,6 @@ ca:
   label_open_issues_plural: oberts
   label_closed_issues: tancat
   label_closed_issues_plural: tancats
-  label_x_open_issues_abbr_on_total:
-    zero:  0 oberts / %{total}
-    one:   1 obert / %{total}
-    other: "%{count} oberts / %{total}"
   label_x_open_issues_abbr:
     zero:  0 oberts
     one:   1 obert

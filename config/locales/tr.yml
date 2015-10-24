@@ -433,10 +433,6 @@ tr:
   label_open_issues_plural: açık
   label_closed_issues: kapalı
   label_closed_issues_plural: kapalı
-  label_x_open_issues_abbr_on_total:
-    zero:  tamamı kapalı, toplam %{total}
-    one:   1'i' açık, toplam %{total}
-    other: "%{count} açık, toplam %{total}"
   label_x_open_issues_abbr:
     zero:  hiç açık yok
     one:   1 açık

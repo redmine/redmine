@@ -579,10 +579,6 @@ sq:
   label_open_issues_plural: te hapura
   label_closed_issues: e mbyllur
   label_closed_issues_plural: te mbyllura
-  label_x_open_issues_abbr_on_total:
-    zero:  0 te hapura / %{total}
-    one:   1 e hapur / %{total}
-    other: "%{count} te hapura / %{total}"
   label_x_open_issues_abbr:
     zero:  0 te hapura
     one:   1 e hapur

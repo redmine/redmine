@@ -524,10 +524,6 @@ eu:
   label_open_issues_plural: irekiak
   label_closed_issues: itxita
   label_closed_issues_plural: itxiak
-  label_x_open_issues_abbr_on_total:
-    zero:  0 irekita / %{total}
-    one:   1 irekita / %{total}
-    other: "%{count} irekiak / %{total}"
   label_x_open_issues_abbr:
     zero:  0 irekita
     one:   1 irekita

@@ -631,10 +631,6 @@ lt:
   label_open_issues_plural: atidaryti
   label_closed_issues: uždaryta
   label_closed_issues_plural: uždaryti
-  label_x_open_issues_abbr_on_total:
-    zero:  0 atvirų / %{total}
-    one:   1 atviras / %{total}
-    other: "%{count} atviri / %{total}"
   label_x_open_issues_abbr:
     zero:  0 atvirų
     one:   1 atviras

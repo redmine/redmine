@@ -361,11 +361,6 @@ pl:
   label_closed_issues_plural234: zamknięte
   label_closed_issues_plural5: zamknięte
   label_closed_issues_plural: zamknięte
-  label_x_open_issues_abbr_on_total:
-    zero:  0 otwartych / %{total}
-    one:   1 otwarty / %{total}
-    few:   "%{count} otwarte / %{total}"
-    other: "%{count} otwartych / %{total}"
   label_x_open_issues_abbr:
     zero:  0 otwartych
     one:   1 otwarty

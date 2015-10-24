@@ -381,10 +381,6 @@ it:
   label_open_issues_plural: aperte
   label_closed_issues: chiusa
   label_closed_issues_plural: chiuse
-  label_x_open_issues_abbr_on_total:
-    zero:  0 aperte / %{total}
-    one:   1 aperta / %{total}
-    other: "%{count} aperte / %{total}"
   label_x_open_issues_abbr:
     zero:  0 aperte
     one:   1 aperta

@@ -419,10 +419,6 @@ th:
   label_open_issues_plural: เปิด
   label_closed_issues: ปิด
   label_closed_issues_plural: ปิด
-  label_x_open_issues_abbr_on_total:
-    zero:  0 open / %{total}
-    one:   1 open / %{total}
-    other: "%{count} open / %{total}"
   label_x_open_issues_abbr:
     zero:  0 open
     one:   1 open

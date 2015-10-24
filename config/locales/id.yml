@@ -507,10 +507,6 @@ id:
   label_open_issues_plural: belum selesai
   label_closed_issues: selesai
   label_closed_issues_plural: selesai
-  label_x_open_issues_abbr_on_total:
-    zero:  0 belum selesai / %{total}
-    one:   1 belum selesai / %{total}
-    other: "%{count} terbuka / %{total}"
   label_x_open_issues_abbr:
     zero:  0 belum selesai
     one:   1 belum selesai

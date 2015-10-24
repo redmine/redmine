@@ -515,10 +515,6 @@ hr:
   label_open_issues_plural: Otvoreno
   label_closed_issues: Zatvoren
   label_closed_issues_plural: Zatvoreno
-  label_x_open_issues_abbr_on_total:
-    zero:  0 open / %{total}
-    one:   1 open / %{total}
-    other: "%{count} open / %{total}"
   label_x_open_issues_abbr:
     zero:  0 open
     one:   1 open

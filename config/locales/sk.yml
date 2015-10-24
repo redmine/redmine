@@ -418,10 +418,6 @@ sk:
   label_open_issues_plural: otvorené
   label_closed_issues: uzavretá
   label_closed_issues_plural: uzavreté
-  label_x_open_issues_abbr_on_total:
-    zero:  0 otvorených z celkom %{total}
-    one:   1 otvorená z celkom %{total}
-    other: "%{count} otvorených z celkom %{total}"
   label_x_open_issues_abbr:
     zero:  0 otvorených
     one:   1 otvorená

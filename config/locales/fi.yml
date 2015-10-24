@@ -422,10 +422,6 @@ fi:
   label_open_issues_plural: avointa, yhteensä
   label_closed_issues: suljettu
   label_closed_issues_plural: suljettua
-  label_x_open_issues_abbr_on_total:
-    zero:  0 open / %{total}
-    one:   1 open / %{total}
-    other: "%{count} open / %{total}"
   label_x_open_issues_abbr:
     zero:  0 open
     one:   1 open

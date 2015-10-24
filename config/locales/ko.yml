@@ -545,10 +545,6 @@ ko:
   label_open_issues_plural: 진행중
   label_closed_issues: 완료됨
   label_closed_issues_plural: 완료됨
-  label_x_open_issues_abbr_on_total:
-    zero:  "총 %{total} 건 모두 완료"
-    one:   "한 건 진행 중 / 총 %{total} 건 중 "
-    other: "%{count} 건 진행 중 / 총 %{total} 건"
   label_x_open_issues_abbr:
     zero:  모두 완료
     one:   한 건 진행 중

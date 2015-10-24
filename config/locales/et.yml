@@ -598,10 +598,6 @@ et:
   label_open_issues_plural: "avatud"
   label_closed_issues: "suletud"
   label_closed_issues_plural: "suletud"
-  label_x_open_issues_abbr_on_total:
-    zero:  "0 avatud / %{total}"
-    one:   "1 avatud / %{total}"
-    other: "%{count} avatud / %{total}"
   label_x_open_issues_abbr:
     zero:  "0 avatud"
     one:   "1 avatud"

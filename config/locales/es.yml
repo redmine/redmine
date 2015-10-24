@@ -390,10 +390,6 @@ es:
   label_chronological_order: En orden cronológico
   label_closed_issues: cerrada
   label_closed_issues_plural: cerradas
-  label_x_open_issues_abbr_on_total:
-    zero:  0 abiertas / %{total}
-    one:   1 abierta / %{total}
-    other: "%{count} abiertas / %{total}"
   label_x_open_issues_abbr:
     zero:  0 abiertas
     one:   1 abierta

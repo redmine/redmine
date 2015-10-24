@@ -714,10 +714,6 @@
   label_open_issues_plural: 進行中
   label_closed_issues: 已結束
   label_closed_issues_plural: 已結束
-  label_x_open_issues_abbr_on_total:
-    zero:  0 進行中 / 共 %{total}
-    one:   1 進行中 / 共 %{total}
-    other: "%{count} 進行中 / 共 %{total}"
   label_x_open_issues_abbr:
     zero:  0 進行中
     one:   1 進行中

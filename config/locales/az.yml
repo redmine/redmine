@@ -723,12 +723,6 @@ az:
     few:   "%{count} açıqdır"
     many:  "%{count} açıqdır"
     other: "%{count} açıqdır"
-  label_x_open_issues_abbr_on_total:
-    zero:  "0 açıqdır / %{total}"
-    one:   "1 açıqdır / %{total}"
-    few:   "%{count} açıqdır / %{total}"
-    many:  "%{count} açıqdır / %{total}"
-    other: "%{count} açıqdır / %{total}"
   label_x_projects:
     zero:  "layihələr yoxdur"
     one:   "1 layihə"

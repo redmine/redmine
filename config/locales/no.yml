@@ -413,10 +413,6 @@
   label_open_issues_plural: åpne
   label_closed_issues: lukket
   label_closed_issues_plural: lukkede
-  label_x_open_issues_abbr_on_total:
-    zero:  0 åpne / %{total}
-    one:   1 åpen / %{total}
-    other: "%{count} åpne / %{total}"
   label_x_open_issues_abbr:
     zero:  0 åpne
     one:   1 åpen

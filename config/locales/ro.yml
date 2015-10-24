@@ -485,10 +485,6 @@ ro:
   label_open_issues_plural: deschise
   label_closed_issues: închis
   label_closed_issues_plural: închise
-  label_x_open_issues_abbr_on_total:
-    zero:  0 deschise / %{total}
-    one:   1 deschis / %{total}
-    other: "%{count} deschise / %{total}"
   label_x_open_issues_abbr:
     zero:  0 deschise
     one:   1 deschis

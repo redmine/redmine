@@ -479,10 +479,6 @@ sl:
   label_open_issues_plural: odprti zahtevki
   label_closed_issues: zaprt zahtevek
   label_closed_issues_plural: zaprti zahtevki
-  label_x_open_issues_abbr_on_total:
-    zero:  0 odprtih / %{total}
-    one:   1 odprt / %{total}
-    other: "%{count} odprtih / %{total}"
   label_x_open_issues_abbr:
     zero:  0 odprtih
     one:   1 odprt

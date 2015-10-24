@@ -452,10 +452,6 @@ pt-BR:
   label_open_issues_plural: Abertas
   label_closed_issues: Fechada
   label_closed_issues_plural: Fechadas
-  label_x_open_issues_abbr_on_total:
-    zero:  0 aberta / %{total}
-    one:   1 aberta / %{total}
-    other: "%{count} abertas / %{total}"
   label_x_open_issues_abbr:
     zero:  0 aberta
     one:   1 aberta

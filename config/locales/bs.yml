@@ -503,10 +503,6 @@ bs:
   label_open_issues_plural: otvoreni
   label_closed_issues: zatvoren
   label_closed_issues_plural: zatvoreni
-  label_x_open_issues_abbr_on_total:
-    zero:  0 otvoreno / %{total}
-    one:   1 otvorena / %{total}
-    other: "%{count} otvorene / %{total}"
   label_x_open_issues_abbr:
     zero:  0 otvoreno
     one:   1 otvorena

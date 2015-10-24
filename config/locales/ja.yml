@@ -582,10 +582,6 @@ ja:
   label_open_issues_plural: 未完了
   label_closed_issues: 完了
   label_closed_issues_plural: 完了
-  label_x_open_issues_abbr_on_total:
-    zero:  0件未完了 / 全%{total}件
-    one:   1件未完了 / 全%{total}件
-    other: "%{count}件未完了 / 全%{total}件"
   label_x_open_issues_abbr:
     zero:  0件未完了
     one:   1件未完了
