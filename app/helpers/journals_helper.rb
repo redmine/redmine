@@ -18,6 +18,13 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 module JournalsHelper
+
+  # Returns the attachments of a journal that are displayed as thumbnails
+  def journal_thumbnail_attachments(journal)
+    ids = journal.details.select {|d| d.property == 'attachment' && d.value.present?}.map(&:prop_key)
+    ids.any? ? Attachment.where(:id => ids).select(&:thumbnailable?) : []
+  end
+
   def render_notes(issue, journal, options={})
     content = ''
     editable = User.current.logged? && (User.current.allowed_to?(:edit_issue_notes, issue.project) || (journal.user == User.current && User.current.allowed_to?(:edit_own_issue_notes, issue.project)))

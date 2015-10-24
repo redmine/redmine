@@ -13,6 +13,13 @@
        <li><%= string %></li>
       <% end %>
     </ul>
+    <% if Setting.thumbnails_enabled? && (thumbnail_attachments = journal_thumbnail_attachments(journal)).any? %>
+      <div class="thumbnails">
+        <% thumbnail_attachments.each do |attachment| %>
+          <div><%= thumbnail_tag(attachment) %></div>
+        <% end %>
+      </div>
+    <% end %>
     <% end %>
     <%= render_notes(issue, journal, :reply_links => reply_links) unless journal.notes.blank? %>
     </div>
