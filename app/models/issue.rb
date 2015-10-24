@@ -677,6 +677,8 @@ class Issue < ActiveRecord::Base
         end
       else
         if respond_to?(attribute) && send(attribute).blank? && !disabled_core_fields.include?(attribute)
+          next if attribute == 'category_id' && project.try(:issue_categories).blank?
+          next if attribute == 'fixed_version_id' && assignable_versions.blank?
           errors.add attribute, :blank
         end
       end

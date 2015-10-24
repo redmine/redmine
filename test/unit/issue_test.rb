@@ -926,6 +926,30 @@ class IssueTest < ActiveSupport::TestCase
     assert issue.save
   end
 
+  def test_category_should_not_be_required_if_project_has_no_categories
+    Project.find(1).issue_categories.delete_all
+    WorkflowPermission.delete_all
+    WorkflowPermission.create!(:old_status_id => 1, :tracker_id => 1,
+      :role_id => 1, :field_name => 'category_id',:rule => 'required')
+    user = User.find(2)
+
+    issue = Issue.new(:project_id => 1, :tracker_id => 1, :status_id => 1,
+                      :subject => 'Required fields', :author => user)
+    assert_save issue
+  end
+
+  def test_fixed_version_should_not_be_required_no_assignable_versions
+    Version.delete_all
+    WorkflowPermission.delete_all
+    WorkflowPermission.create!(:old_status_id => 1, :tracker_id => 1,
+      :role_id => 1, :field_name => 'fixed_version_id',:rule => 'required')
+    user = User.find(2)
+
+    issue = Issue.new(:project_id => 1, :tracker_id => 1, :status_id => 1,
+                      :subject => 'Required fields', :author => user)
+    assert_save issue
+  end
+
   def test_required_custom_field_that_is_not_visible_for_the_user_should_not_be_required
     CustomField.delete_all
     field = IssueCustomField.generate!(:is_required => true, :visible => false, :role_ids => [1], :trackers => Tracker.all, :is_for_all => true)
