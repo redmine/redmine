@@ -52,7 +52,7 @@
       <% @trackers.each do |tracker| %>
         <tr class="<%= cycle("odd", "even") %>">
           <td class="name">
-            <%= tracker.name %>
+            <%= link_to tracker.name, project_issues_path(@project, :set_filter => 1, :tracker_id => tracker.id) %>
           </td>
           <td>
             <%= link_to @open_issues_by_tracker[tracker].to_i, project_issues_path(@project, :set_filter => 1, :tracker_id => tracker.id) %>
