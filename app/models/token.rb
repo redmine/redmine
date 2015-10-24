@@ -36,7 +36,7 @@ class Token < ActiveRecord::Base
 
   # Delete all expired tokens
   def self.destroy_expired
-    Token.where("action NOT IN (?) AND created_on < ?", ['feeds', 'api'], Time.now - validity_time).delete_all
+    Token.where("action NOT IN (?) AND created_on < ?", ['feeds', 'api', 'session'], Time.now - validity_time).delete_all
   end
 
   # Returns the active user who owns the key for the given action
@@ -79,7 +79,15 @@ class Token < ActiveRecord::Base
   # Removes obsolete tokens (same user and action)
   def delete_previous_tokens
     if user
-      Token.where(:user_id => user.id, :action => action).delete_all
+      scope = Token.where(:user_id => user.id, :action => action)
+      if action == 'session'
+        ids = scope.order(:updated_on => :desc).offset(9).ids
+        if ids.any?
+          Token.delete(ids)
+        end
+      else
+        scope.delete_all
+      end
     end
   end
 end

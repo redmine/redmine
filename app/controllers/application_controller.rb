@@ -51,7 +51,7 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  before_filter :session_expiration, :user_setup, :force_logout_if_password_changed, :check_if_login_required, :check_password_change, :set_localization
+  before_filter :session_expiration, :user_setup, :check_if_login_required, :check_password_change, :set_localization
 
   rescue_from ::Unauthorized, :with => :deny_access
   rescue_from ::ActionView::MissingTemplate, :with => :missing_template
@@ -63,36 +63,23 @@ class ApplicationController < ActionController::Base
   include Redmine::SudoMode::Controller
 
   def session_expiration
-    if session[:user_id]
+    if session[:user_id] && Rails.application.config.redmine_verify_sessions != false
       if session_expired? && !try_to_autologin
         set_localization(User.active.find_by_id(session[:user_id]))
         self.logged_user = nil
         flash[:error] = l(:error_session_expired)
         require_login
-      else
-        session[:atime] = Time.now.utc.to_i
       end
     end
   end
 
   def session_expired?
-    if Setting.session_lifetime?
-      unless session[:ctime] && (Time.now.utc.to_i - session[:ctime].to_i <= Setting.session_lifetime.to_i * 60)
-        return true
-      end
-    end
-    if Setting.session_timeout?
-      unless session[:atime] && (Time.now.utc.to_i - session[:atime].to_i <= Setting.session_timeout.to_i * 60)
-        return true
-      end
-    end
-    false
+    ! User.verify_session_token(session[:user_id], session[:tk])
   end
 
   def start_user_session(user)
     session[:user_id] = user.id
-    session[:ctime] = Time.now.utc.to_i
-    session[:atime] = Time.now.utc.to_i
+    session[:tk] = user.generate_session_token
     if user.must_change_password?
       session[:pwd] = '1'
     end
@@ -149,18 +136,6 @@ class ApplicationController < ActionController::Base
     user
   end
 
-  def force_logout_if_password_changed
-    passwd_changed_on = User.current.passwd_changed_on || Time.at(0)
-    # Make sure we force logout only for web browser sessions, not API calls
-    # if the password was changed after the session creation.
-    if session[:user_id] && passwd_changed_on.utc.to_i > session[:ctime].to_i
-      reset_session
-      set_localization
-      flash[:error] = l(:error_session_expired)
-      redirect_to signin_url
-    end
-  end
-
   def autologin_cookie_name
     Redmine::Configuration['autologin_cookie_name'].presence || 'autologin'
   end
@@ -193,6 +168,7 @@ class ApplicationController < ActionController::Base
     if User.current.logged?
       cookies.delete(autologin_cookie_name)
       Token.delete_all(["user_id = ? AND action = ?", User.current.id, 'autologin'])
+      Token.delete_all(["user_id = ? AND action = ? AND value = ?", User.current.id, 'session', session[:tk]])
       self.logged_user = nil
     end
   end

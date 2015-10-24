@@ -103,9 +103,8 @@ class MyController < ApplicationController
         @user.password, @user.password_confirmation = params[:new_password], params[:new_password_confirmation]
         @user.must_change_passwd = false
         if @user.save
-          # Reset the session creation time to not log out this session on next
-          # request due to ApplicationController#force_logout_if_password_changed
-          session[:ctime] = User.current.passwd_changed_on.utc.to_i
+          # The session token was destroyed by the password change, generate a new one
+          session[:tk] = @user.generate_session_token
           flash[:notice] = l(:notice_account_password_updated)
           redirect_to my_account_path
         end

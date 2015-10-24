@@ -1,0 +1,97 @@
+# Redmine - project management software
+# Copyright (C) 2006-2015  Jean-Philippe Lang
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+require File.expand_path('../../test_helper', __FILE__)
+
+class SessionsTest < Redmine::IntegrationTest
+  fixtures :users, :email_addresses, :roles
+
+  def setup
+    Rails.application.config.redmine_verify_sessions = true
+  end
+
+  def teardown
+    Rails.application.config.redmine_verify_sessions = false
+  end
+
+  def test_change_password_kills_sessions
+    log_user('jsmith', 'jsmith')
+
+    jsmith = User.find(2)
+    jsmith.password = "somenewpassword"
+    jsmith.save!
+
+    get '/my/account'
+    assert_response 302
+    assert flash[:error].match(/Your session has expired/)
+  end
+
+  def test_lock_user_kills_sessions
+    log_user('jsmith', 'jsmith')
+
+    jsmith = User.find(2)
+    assert jsmith.lock!
+    assert jsmith.activate!
+
+    get '/my/account'
+    assert_response 302
+    assert flash[:error].match(/Your session has expired/)
+  end
+
+  def test_update_user_does_not_kill_sessions
+    log_user('jsmith', 'jsmith')
+
+    jsmith = User.find(2)
+    jsmith.firstname = 'Robert'
+    jsmith.save!
+
+    get '/my/account'
+    assert_response 200
+  end
+
+  def test_change_password_generates_a_new_token_for_current_session
+    log_user('jsmith', 'jsmith')
+    assert_not_nil token = session[:tk]
+
+    get '/my/password'
+    assert_response 200
+    post '/my/password', :password => 'jsmith',
+                         :new_password => 'secret123',
+                         :new_password_confirmation => 'secret123'
+    assert_response 302
+    assert_not_equal token, session[:tk]
+
+    get '/my/account'
+    assert_response 200
+  end
+
+  def test_simultaneous_sessions_should_be_valid
+    first = open_session do |session|
+      session.post "/login", :username => 'jsmith', :password => 'jsmith'
+    end
+    other = open_session do |session|
+      session.post "/login", :username => 'jsmith', :password => 'jsmith'
+    end
+
+    first.get '/my/account'
+    assert_equal 200, first.response.response_code
+    first.post '/logout'
+
+    other.get '/my/account'
+    assert_equal 200, other.response.response_code
+  end
+end
