@@ -3,7 +3,7 @@
 <div class="splitcontentleft">
 <div class="box tabular">
 <p><%= f.select :field_format, custom_field_formats_for_select(@custom_field), {}, :disabled => !@custom_field.new_record? %></p>
-<p><%= f.text_field :name, :required => true %></p>
+<p><%= f.text_field :name, :size => 50, :required => true %></p>
 <p><%= f.text_area :description, :rows => 7 %></p>
 
 <% if @custom_field.format.multiple_supported %>
