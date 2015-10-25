@@ -1184,3 +1184,4 @@ gl:
   label_api: API
   label_total_plural: Totals
   label_assigned_issues: Assigned issues
+  label_field_format_enumeration: Key/value list

@@ -1167,3 +1167,4 @@ bg:
   description_date_to: Въведете крайна дата
   text_repository_identifier_info: 'Позволени са малки букви (a-z), цифри, тирета и _.<br />Промяна след създаването му не е възможна.'
   label_assigned_issues: Assigned issues
+  label_field_format_enumeration: Key/value list
