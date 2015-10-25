@@ -139,7 +139,7 @@ class CustomFieldsControllerTest < ActionController::TestCase
   end
 
   def test_create_list_custom_field
-    assert_difference 'CustomField.count' do
+    field = new_record(IssueCustomField) do
       post :create, :type => "IssueCustomField",
                  :custom_field => {:name => "test_post_new_list",
                                    :default_value => "",
@@ -154,9 +154,8 @@ class CustomFieldsControllerTest < ActionController::TestCase
                                    :field_format => "list",
                                    :tracker_ids => ["1", ""]}
     end
-    assert_redirected_to '/custom_fields?tab=IssueCustomField'
-    field = IssueCustomField.find_by_name('test_post_new_list')
-    assert_not_nil field
+    assert_redirected_to "/custom_fields/#{field.id}/edit"
+    assert_equal "test_post_new_list", field.name
     assert_equal ["0.1", "0.2"], field.possible_values
     assert_equal 1, field.trackers.size
   end
@@ -202,7 +201,7 @@ class CustomFieldsControllerTest < ActionController::TestCase
 
   def test_update
     put :update, :id => 1, :custom_field => {:name => 'New name'}
-    assert_redirected_to '/custom_fields?tab=IssueCustomField'
+    assert_redirected_to '/custom_fields/1/edit'
 
     field = CustomField.find(1)
     assert_equal 'New name', field.name

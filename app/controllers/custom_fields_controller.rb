@@ -43,7 +43,7 @@ class CustomFieldsController < ApplicationController
     if @custom_field.save
       flash[:notice] = l(:notice_successful_create)
       call_hook(:controller_custom_fields_new_after_save, :params => params, :custom_field => @custom_field)
-      redirect_to custom_fields_path(:tab => @custom_field.class.name)
+      redirect_to edit_custom_field_path(@custom_field)
     else
       render :action => 'new'
     end
@@ -56,7 +56,7 @@ class CustomFieldsController < ApplicationController
     if @custom_field.update_attributes(params[:custom_field])
       flash[:notice] = l(:notice_successful_update)
       call_hook(:controller_custom_fields_edit_after_save, :params => params, :custom_field => @custom_field)
-      redirect_to custom_fields_path(:tab => @custom_field.class.name)
+      redirect_to edit_custom_field_path(@custom_field)
     else
       render :action => 'edit'
     end
