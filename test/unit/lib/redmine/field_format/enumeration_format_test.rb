@@ -22,6 +22,7 @@ class Redmine::EnumerationFieldFormatTest < ActionView::TestCase
   include ApplicationHelper
 
   def setup
+    set_language_if_valid 'en'
     @field = IssueCustomField.create!(:name => 'List', :field_format => 'enumeration', :is_required => false)
     @foo = CustomFieldEnumeration.new(:name => 'Foo')
     @bar = CustomFieldEnumeration.new(:name => 'Bar')
