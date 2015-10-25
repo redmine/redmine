@@ -1,6 +1,4 @@
-<%= title [l(:label_custom_field_plural), custom_fields_path],
-  [l(@custom_field.type_name), custom_fields_path(:tab => @custom_field.class.name)],
-  @custom_field.name %>
+<%= custom_field_title @custom_field %>
 
 <% if @custom_field.enumerations.any? %>
 <%= form_tag custom_field_enumerations_path(@custom_field), :method => 'put' do %>

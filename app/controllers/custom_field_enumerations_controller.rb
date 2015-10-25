@@ -22,6 +22,8 @@ class CustomFieldEnumerationsController < ApplicationController
   before_filter :find_custom_field
   before_filter :find_enumeration, :only => :destroy
 
+  helper :custom_fields
+
   def index
     @values = @custom_field.enumerations.order(:position)
   end

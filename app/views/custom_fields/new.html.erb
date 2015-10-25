@@ -1,6 +1,4 @@
-<%= title [l(:label_custom_field_plural), custom_fields_path],
-  [l(@custom_field.type_name), custom_fields_path(:tab => @custom_field.class.name)],
-  l(:label_custom_field_new) %>
+<%= custom_field_title @custom_field %>
 
 <%= labelled_form_for :custom_field, @custom_field, :url => custom_fields_path, :html => {:id => 'custom_field_form'} do |f| %>
 <%= render :partial => 'form', :locals => { :f => f } %>

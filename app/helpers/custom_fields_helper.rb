@@ -51,6 +51,15 @@ module CustomFieldsHelper
     CUSTOM_FIELDS_TABS.map {|h| [l(h[:label]), h[:name]]}
   end
 
+  def custom_field_title(custom_field)
+    items = []
+    items << [l(:label_custom_field_plural), custom_fields_path]
+    items << [l(custom_field.type_name), custom_fields_path(:tab => custom_field.class.name)] if custom_field
+    items << (custom_field.nil? || custom_field.new_record? ? l(:label_custom_field_new) : custom_field.name) 
+
+    title(*items)
+  end
+
   def render_custom_field_format_partial(form, custom_field)
     partial = custom_field.format.form_partial
     if partial
