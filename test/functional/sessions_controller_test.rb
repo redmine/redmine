@@ -32,8 +32,8 @@ class SessionsControllerTest < ActionController::TestCase
   end
 
   def test_session_token_should_be_updated
-    created = 10.hours.ago
-    token = Token.create!(:user_id => 2, :action => 'session', :created_on => created, :updated_on => created)
+    token = Token.create!(:user_id => 2, :action => 'session', :created_on => 10.hours.ago, :updated_on => 10.hours.ago)
+    created = token.reload.created_on
 
     get :index, {}, {:user_id => 2, :tk => token.value}
     assert_response :success
