@@ -988,6 +988,7 @@ fr:
   label_file_content_preview: Aperçu du contenu du fichier
   label_create_missing_values: Créer les valeurs manquantes
   label_api: API
+  label_field_format_enumeration: Liste clé/valeur
 
   button_login: Connexion
   button_submit: Soumettre

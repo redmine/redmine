@@ -970,6 +970,7 @@ en:
   label_file_content_preview: File content preview
   label_create_missing_values: Create missing values
   label_api: API
+  label_field_format_enumeration: Key/value list
 
   button_login: Login
   button_submit: Submit

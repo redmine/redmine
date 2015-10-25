@@ -77,8 +77,8 @@ pre, code {font-family: Consolas, Menlo, "Liberation Mono", Courier, monospace;}
 #sidebar hr{ width: 100%; margin: 0 auto; height: 1px; background: #ccc; border: 0; }
 * html #sidebar hr{ width: 95%; position: relative; left: -6px; color: #ccc; }
 #sidebar .contextual { margin-right: 1em; }
-#sidebar ul {margin: 0;  padding: 0;}
-#sidebar ul li {list-style-type:none;margin: 0px 2px 0px 0px; padding: 0px 0px 0px 0px;}
+#sidebar ul, ul.flat {margin: 0;  padding: 0;}
+#sidebar ul li, ul.flat li {list-style-type:none;margin: 0px 2px 0px 0px; padding: 0px 0px 0px 0px;}
 
 #content { width: 75%; background-color: #fff; margin: 0px; border-right: 1px solid #ddd; padding: 6px 10px 10px 10px; z-index: 10; }
 * html #content{ width: 75%; padding-left: 0; margin-top: 0px; padding: 6px 10px 10px 10px;}
@@ -483,6 +483,7 @@ select.expandable {vertical-align:top;}
 
 textarea#custom_field_possible_values {width: 95%; resize:vertical}
 textarea#custom_field_default_value {width: 95%; resize:vertical}
+.sort-handle {display:inline-block; vertical-align:middle;}
 
 input#content_comments {width: 99%}
 

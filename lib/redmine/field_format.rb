@@ -539,7 +539,7 @@ module Redmine
       add 'list'
       self.searchable_supported = true
       self.form_partial = 'custom_fields/formats/list'
- 
+
       def possible_custom_value_options(custom_value)
         options = possible_values_options(custom_value.custom_field)
         missing = [custom_value.value].flatten.reject(&:blank?) - options
@@ -636,7 +636,6 @@ module Redmine
         missing = [custom_value.value_was].flatten.reject(&:blank?) - options.map(&:last)
         if missing.any?
           options += target_class.where(:id => missing.map(&:to_i)).map {|o| [o.to_s, o.id.to_s]}
-          options.sort_by!(&:first)
         end
         options
       end
@@ -672,6 +671,32 @@ module Redmine
         join_alias(custom_field) + "_" + custom_field.field_format
       end
       protected :value_join_alias
+    end
+
+    class EnumerationFormat < RecordList
+      add 'enumeration'
+      self.form_partial = 'custom_fields/formats/enumeration'
+ 
+      def label
+        "label_field_format_enumeration"
+      end
+
+      def target_class
+        @target_class ||= CustomFieldEnumeration
+      end
+
+      def possible_values_options(custom_field, object=nil)
+        possible_values_records(custom_field, object).map {|u| [u.name, u.id.to_s]}
+      end
+
+      def possible_values_records(custom_field, object=nil)
+        custom_field.enumerations.active
+      end
+
+      def value_from_keyword(custom_field, keyword, object)
+        value = custom_field.enumerations.where("LOWER(name) LIKE LOWER(?)", keyword)
+        value ? value.id : nil
+      end
     end
 
     class UserFormat < RecordList

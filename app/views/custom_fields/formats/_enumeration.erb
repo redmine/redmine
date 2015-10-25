@@ -1,0 +1,12 @@
+<% unless @custom_field.new_record? %>
+<p>
+  <label><%= l(:field_possible_values) %></label>
+  <%= link_to l(:button_edit), custom_field_enumerations_path(@custom_field), :class => 'icon icon-edit' %>
+</p>
+<% if @custom_field.enumerations.active.any? %>
+  <p><%= f.select :default_value, @custom_field.enumerations.active.map{|v| [v.name, v.id.to_s]}, :include_blank => true %></p>
+<% end %>
+<% end %>
+
+<p><%= f.text_field :url_pattern, :size => 50, :label => :label_link_values_to %></p>
+<p><%= edit_tag_style_tag f %></p>

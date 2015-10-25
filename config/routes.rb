@@ -311,7 +311,10 @@ Rails.application.routes.draw do
       post 'update_issue_done_ratio'
     end
   end
-  resources :custom_fields, :except => :show
+  resources :custom_fields, :except => :show do
+    resources :enumerations, :controller => 'custom_field_enumerations', :except => [:show, :new, :edit]
+    put 'enumerations', :to => 'custom_field_enumerations#update_each'
+  end
   resources :roles do
     collection do
       match 'permissions', :via => [:get, :post]
