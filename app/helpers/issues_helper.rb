@@ -40,15 +40,18 @@ module IssuesHelper
     end
     issue_list(issues) do |issue, level|
       group_name = group_count = nil
-      if query.grouped? && ((group = query.group_by_column.value(issue)) != previous_group || first)
-        if group.blank? && group != false
-          group_name = "(#{l(:label_blank_value)})"
-        else
-          group_name = column_content(query.group_by_column, issue)
+      if query.grouped?
+        group = query.group_by_column.value(issue)
+        if first || group != previous_group
+          if group.blank? && group != false
+            group_name = "(#{l(:label_blank_value)})"
+          else
+            group_name = format_object(group)
+          end
+          group_name ||= ""
+          group_count = issue_count_by_group[group]
+          group_totals = totals_by_group.map {|column, t| total_tag(column, t[group] || 0)}.join(" ").html_safe
         end
-        group_name ||= ""
-        group_count = issue_count_by_group[group]
-        group_totals = totals_by_group.map {|column, t| total_tag(column, t[group] || 0)}.join(" ").html_safe
       end
       yield issue, level, group_name, group_count, group_totals
       previous_group, first = group, false
