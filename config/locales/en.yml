@@ -757,6 +757,7 @@ en:
   label_overall_spent_time: Overall spent time
   label_f_hour: "%{value} hour"
   label_f_hour_plural: "%{value} hours"
+  label_f_hour_short: "%{value} h"
   label_time_tracking: Time tracking
   label_change_plural: Changes
   label_statistics: Statistics
