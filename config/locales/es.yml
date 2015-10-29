@@ -1204,7 +1204,7 @@ es:
   label_file_content_preview: Vista Previa del contenido
   label_create_missing_values: Crear valores no presentes
   button_import: Importar
-  field_total_estimated_hours: Total estimated time
+  field_total_estimated_hours: Total de Tiempo Estimado
   label_api: API
   label_total_plural: Totals
   label_assigned_issues: Assigned issues
