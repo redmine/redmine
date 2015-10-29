@@ -10,7 +10,7 @@ install:
 build: off
 
 test_script:
-  - bundle install --without mysql2 postgres rmagick
+  - bundle install --without rmagick
   - set SCMS=git
   - set RUN_ON_NOT_OFFICIAL=
   - set RUBY_VER=1.9
