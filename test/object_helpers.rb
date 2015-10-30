@@ -190,6 +190,13 @@ module ObjectHelpers
     field
   end
 
+  def IssueCustomField.generate!(attributes={})
+    super do |field|
+      field.is_for_all = true unless attributes.key?(:is_for_all)
+      field.tracker_ids = Tracker.all.ids unless attributes.key?(:tracker_ids) || attributes.key?(:trackers)
+    end
+  end
+
   def Changeset.generate!(attributes={})
     @generated_changeset_rev ||= '123456'
     @generated_changeset_rev.succ!
