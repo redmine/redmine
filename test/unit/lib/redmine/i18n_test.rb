@@ -154,6 +154,11 @@ class Redmine::I18nTest < ActiveSupport::TestCase
     end
   end
 
+  def test_l_hours_short
+    set_language_if_valid 'en'
+    assert_equal '2.00 h', l_hours_short(2.0)
+  end
+
   def test_number_to_currency_default
     set_language_if_valid 'bs'
     assert_equal "KM -1000,20", number_to_currency(-1000.2)

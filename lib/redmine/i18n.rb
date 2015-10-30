@@ -49,7 +49,7 @@ module Redmine
     end
 
     def l_hours_short(hours)
-      l(:label_f_hour_short, :value => ("%.2f h" % hours.to_f))
+      l(:label_f_hour_short, :value => ("%.2f" % hours.to_f))
     end
 
     def ll(lang, str, arg=nil)
