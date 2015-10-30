@@ -37,13 +37,15 @@ class IssuesTest < Redmine::IntegrationTest
   # create an issue
   def test_add_issue
     log_user('jsmith', 'jsmith')
-    get '/projects/ecookbook/issues/new', :tracker_id => '1'
+
+    get '/projects/ecookbook/issues/new'
     assert_response :success
     assert_template 'issues/new'
 
     issue = new_record(Issue) do
-      post '/projects/ecookbook/issues', :tracker_id => "1",
-                                 :issue => { :start_date => "2006-12-26",
+      post '/projects/ecookbook/issues',
+                                 :issue => { :tracker_id => "1",
+                                             :start_date => "2006-12-26",
                                              :priority_id => "4",
                                              :subject => "new test issue",
                                              :category_id => "",
