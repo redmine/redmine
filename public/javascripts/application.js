@@ -651,6 +651,17 @@ $(document).ready(function(){
   toggleDisabledInit();
 });
 
+function keepAnchorOnSignIn(form){
+  var hash = decodeURIComponent(self.document.location.hash);
+  if (hash) {
+    if (hash.indexOf("#") === -1) {
+      hash = "#" + hash;
+    }
+    form.action = form.action + hash;
+  }
+  return true;
+}
+
 $(document).ready(setupAjaxIndicator);
 $(document).ready(hideOnLoad);
 $(document).ready(addFormObserversForDoubleSubmit);
