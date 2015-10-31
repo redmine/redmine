@@ -105,7 +105,7 @@ class AuthSourceLdap < AuthSource
     if filter.present?
       Net::LDAP::Filter.construct(filter)
     end
-  rescue Net::LDAP::LdapError
+  rescue Net::LDAP::LdapError, Net::LDAP::FilterSyntaxInvalidError
     nil
   end
 
