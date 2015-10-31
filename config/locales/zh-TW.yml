@@ -427,7 +427,7 @@
   field_default_status: 預設狀態
   field_users_visibility: 用戶可見度
   field_time_entries_visibility: 工時紀錄可見度
-  field_total_estimated_hours: 合計預估工時
+  field_total_estimated_hours: 預估工時總計
 
   setting_app_title: 標題
   setting_app_subtitle: 副標題
@@ -834,7 +834,7 @@
   label_changes_details: 所有變更的明細
   label_issue_tracking: 問題追蹤
   label_spent_time: 耗用工時
-  label_total_spent_time: 合計耗用工時
+  label_total_spent_time: 耗用工時總計
   label_overall_spent_time: 整體耗用工時
   label_f_hour: "%{value} 小時"
   label_f_hour_plural: "%{value} 小時"
