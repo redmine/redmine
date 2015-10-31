@@ -1263,6 +1263,13 @@ RAW
     end
   end
 
+  def test_parse_redmine_links_should_handle_a_tag_without_attributes
+    text = '<a>http://example.com</a>'
+    expected = text.dup
+    parse_redmine_links(text, nil, nil, nil, true, {})
+    assert_equal expected, text
+  end
+
   def test_due_date_distance_in_words
     to_test = { Date.today => 'Due in 0 days',
                 Date.today + 1 => 'Due in 1 day',
