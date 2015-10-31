@@ -182,6 +182,7 @@ class QueryTest < ActiveSupport::TestCase
   end
 
   def test_operator_none_for_string_custom_field
+    CustomField.find(2).update_attribute :default_value, ""
     query = IssueQuery.new(:project => Project.find(1), :name => '_')
     query.add_filter('cf_2', '!*', [''])
     assert query.has_filter?('cf_2')
