@@ -1187,7 +1187,7 @@ ja:
   button_import: インポート
   field_total_estimated_hours: 合計予定工数
   label_api: API
-  label_total_plural: Totals
-  label_assigned_issues: Assigned issues
+  label_total_plural: 合計
+  label_assigned_issues: 担当しているチケット
   label_field_format_enumeration: Key/value list
   label_f_hour_short: '%{value} h'
