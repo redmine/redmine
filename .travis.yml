@@ -145,6 +145,7 @@ before_install:
       psql -c "SHOW SERVER_ENCODING" -U postgres ;
       psql -c "SHOW DateStyle" -U postgres ;
     fi
+  - sudo sh -x test/travis/install-openldap.sh
 script:
   - export DATABASE_ADAPTER=${DB}
   - "SCMS=bazaar,cvs,subversion,git,mercurial,filesystem"
