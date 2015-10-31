@@ -575,6 +575,7 @@ bg:
   label_logout: Изход
   label_help: Помощ
   label_reported_issues: Публикувани задачи
+  label_assigned_issues: Назначени задачи
   label_assigned_to_me_issues: Възложени на мен
   label_last_login: Последно свързване
   label_registered_on: Регистрация
@@ -759,6 +760,7 @@ bg:
   label_overall_spent_time: Общо употребено време
   label_f_hour: "%{value} час"
   label_f_hour_plural: "%{value} часа"
+  label_f_hour_short: '%{value} час'
   label_time_tracking: Отделяне на време
   label_change_plural: Промени
   label_statistics: Статистика
@@ -972,6 +974,7 @@ bg:
   label_file_content_preview: Предварителен преглед на съдържанието на файла
   label_create_missing_values: Създаване на липсващи стойности
   label_api: API
+  label_field_format_enumeration: Списък ключ/стойност
 
   button_login: Вход
   button_submit: Изпращане
@@ -1166,6 +1169,3 @@ bg:
   description_date_from: Въведете начална дата
   description_date_to: Въведете крайна дата
   text_repository_identifier_info: 'Позволени са малки букви (a-z), цифри, тирета и _.<br />Промяна след създаването му не е възможна.'
-  label_assigned_issues: Assigned issues
-  label_field_format_enumeration: Key/value list
-  label_f_hour_short: '%{value} h'
