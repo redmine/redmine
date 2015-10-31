@@ -727,6 +727,7 @@
     one:   1 個議題
     other: "%{count} 個議題"
   label_total: 總計
+  label_total_plural: 總計
   label_total_time: 工時總計
   label_permissions: 權限
   label_current_status: 目前狀態
@@ -1052,6 +1053,7 @@
   label_fields_mapping: 欄位對應
   label_file_content_preview: 檔案內容預覽
   label_create_missing_values: 建立缺少的數值
+  label_api: API
 
   button_login: 登入
   button_submit: 送出
@@ -1247,8 +1249,6 @@
   description_date_from: 輸入起始日期
   description_date_to: 輸入結束日期
   text_repository_identifier_info: '僅允許使用小寫英文字母 (a-z), 阿拉伯數字, 虛線與底線。<br />一旦儲存之後, 代碼便無法再次被更改。'
-  label_api: API
-  label_total_plural: Totals
   label_assigned_issues: Assigned issues
   label_field_format_enumeration: Key/value list
   label_f_hour_short: '%{value} h'
