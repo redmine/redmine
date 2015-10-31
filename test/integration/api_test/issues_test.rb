@@ -562,7 +562,7 @@ JSON
     assert_equal "", issue.reload.custom_field_value(field)
   end
 
-  test "PUT /issues/:id.json with tracker change and omitted custom field specific to that tracker does not set default value" do
+  test "PUT /issues/:id.json with tracker change and omitted custom field specific to that tracker should set default value" do
     field = IssueCustomField.generate!(:default_value => "Default", :tracker_ids => [2])
     issue = Issue.generate!(:project_id => 1, :tracker_id => 1)
 
@@ -573,7 +573,7 @@ JSON
     end
 
     assert_equal 2, issue.reload.tracker_id
-    assert_nil issue.reload.custom_field_value(field)
+    assert_equal "Default", issue.reload.custom_field_value(field)
   end
 
   test "PUT /issues/:id.json with tracker change and custom field specific to that tracker set to blank should not set default value" do
