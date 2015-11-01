@@ -129,6 +129,17 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal 'Support request', issue.tracker.name
   end
 
+  def test_add_issue_with_default_version
+    # This email contains: 'Project: onlinestore'
+    issue = submit_email(
+              'ticket_on_given_project.eml',
+              :issue => {:fixed_version => 'Alpha'}
+            )
+    assert issue.is_a?(Issue)
+    assert !issue.new_record?
+    assert_equal 'Alpha', issue.reload.fixed_version.name
+  end
+
   def test_add_issue_with_status_override
     # This email contains: 'Project: onlinestore' and 'Status: Resolved'
     issue = submit_email('ticket_on_given_project.eml', :allow_override => ['status'])
