@@ -431,6 +431,11 @@ class IssuesController < ApplicationController
     if action_name == 'new' && params[:was_default_status] == attrs[:status_id]
       attrs.delete(:status_id)
     end
+    if action_name == 'new' && params[:form_update_triggered_by] == 'issue_project_id'
+      # Discard submitted version when changing the project on the issue form
+      # so we can use the default version for the new project
+      attrs.delete(:fixed_version_id)
+    end
     @issue.safe_attributes = attrs
 
     if @issue.project

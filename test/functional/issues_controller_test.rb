@@ -1980,6 +1980,22 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal 2, assigns(:issue).status_id
   end
 
+  def test_update_form_for_new_issue_should_ignore_version_when_changing_project
+    version = Version.generate!(:project_id => 1)
+    Project.find(1).update_attribute :default_version_id, version.id
+    @request.session[:user_id] = 2
+
+    xhr :post, :new, :issue => {:project_id => 1,
+                                :fixed_version_id => ''},
+                     :form_update_triggered_by => 'issue_project_id'
+    assert_response :success
+    assert_template 'new'
+
+    issue = assigns(:issue)
+    assert_equal 1, issue.project_id
+    assert_equal version, issue.fixed_version
+  end
+
   def test_post_create
     @request.session[:user_id] = 2
     assert_difference 'Issue.count' do

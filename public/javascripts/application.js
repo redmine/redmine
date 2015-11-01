@@ -473,10 +473,13 @@ function randomKey(size) {
   return key;
 }
 
-function updateIssueFrom(url) {
+function updateIssueFrom(url, el) {
   $('#all_attributes input, #all_attributes textarea, #all_attributes select').each(function(){
     $(this).data('valuebeforeupdate', $(this).val());
   });
+  if (el) {
+    $("#form_update_triggered_by").val($(el).attr('id'));
+  }
   return $.ajax({
     url: url,
     type: 'post',
