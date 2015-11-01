@@ -1282,3 +1282,6 @@ ru:
   label_field_format_enumeration: Key/value list
   label_f_hour_short: '%{value} h'
   field_default_version: Default version
+  error_attachment_extension_not_allowed: Attachment extension %{extension} is not allowed
+  setting_attachment_extensions_allowed: Allowed extensions
+  setting_attachment_extensions_denied: Disallowed extensions
