@@ -230,6 +230,7 @@ fr:
   error_invalid_file_encoding: "Le fichier n'est pas un fichier %{encoding} valide"
   error_invalid_csv_file_or_settings: "Le fichier n'est pas un fichier CSV ou n'est pas conforme aux paramètres sélectionnés"
   error_can_not_read_import_file: "Une erreur est survenue lors de la lecture du fichier à importer"
+  error_attachment_extension_not_allowed: "L'extension %{extension} n'est pas autorisée"
 
   mail_subject_lost_password: "Votre mot de passe %{value}"
   mail_body_lost_password: 'Pour changer votre mot de passe, cliquez sur le lien suivant :'
@@ -446,6 +447,8 @@ fr:
   setting_link_copied_issue: Lier les demandes lors de la copie
   setting_max_additional_emails: Nombre maximal d'adresses email additionnelles
   setting_search_results_per_page: Résultats de recherche affichés par page
+  setting_attachment_extensions_allowed: Extensions autorisées
+  setting_attachment_extensions_denied: Extensions non autorisées
 
   permission_add_project: Créer un projet
   permission_add_subprojects: Créer des sous-projets

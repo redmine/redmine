@@ -26,7 +26,7 @@ class Attachment < ActiveRecord::Base
   validates_length_of :filename, :maximum => 255
   validates_length_of :disk_filename, :maximum => 255
   validates_length_of :description, :maximum => 255
-  validate :validate_max_file_size
+  validate :validate_max_file_size, :validate_file_extension
   attr_protected :id
 
   acts_as_event :title => :filename,
@@ -66,6 +66,15 @@ class Attachment < ActiveRecord::Base
   def validate_max_file_size
     if @temp_file && self.filesize > Setting.attachment_max_size.to_i.kilobytes
       errors.add(:base, l(:error_attachment_too_big, :max_size => Setting.attachment_max_size.to_i.kilobytes))
+    end
+  end
+
+  def validate_file_extension
+    if @temp_file
+      extension = File.extname(filename)
+      unless self.class.valid_extension?(extension)
+        errors.add(:base, l(:error_attachment_extension_not_allowed, :extension => extension))
+      end
     end
   end
 
@@ -331,6 +340,22 @@ class Attachment < ActiveRecord::Base
     Attachment.where("disk_directory IS NULL OR disk_directory = ''").find_each do |attachment|
       attachment.move_to_target_directory!
     end
+  end
+
+  # Returns true if the extension is allowed, otherwise false
+  def self.valid_extension?(extension)
+    extension = extension.downcase.sub(/\A\.+/, '')
+
+    denied, allowed = [:attachment_extensions_denied, :attachment_extensions_allowed].map do |setting|
+      Setting.send(setting).to_s.split(",").map {|s| s.strip.downcase.sub(/\A\.+/, '')}.reject(&:blank?)
+    end
+    if denied.present? && denied.include?(extension)
+      return false
+    end
+    unless allowed.blank? || allowed.include?(extension)
+      return false
+    end
+    true
   end
 
   private

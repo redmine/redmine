@@ -210,6 +210,7 @@ en:
   error_invalid_file_encoding: "The file is not a valid %{encoding} encoded file"
   error_invalid_csv_file_or_settings: "The file is not a CSV file or does not match the settings below"
   error_can_not_read_import_file: "An error occurred while reading the file to import"
+  error_attachment_extension_not_allowed: "Attachment extension %{extension} is not allowed"
 
   mail_subject_lost_password: "Your %{value} password"
   mail_body_lost_password: 'To change your password, click on the following link:'
@@ -426,6 +427,8 @@ en:
   setting_link_copied_issue: Link issues on copy
   setting_max_additional_emails: Maximum number of additional email addresses
   setting_search_results_per_page: Search results per page
+  setting_attachment_extensions_allowed: Allowed extensions
+  setting_attachment_extensions_denied: Disallowed extensions
 
   permission_add_project: Create project
   permission_add_subprojects: Create subprojects

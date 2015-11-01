@@ -122,6 +122,45 @@ class AttachmentTest < ActiveSupport::TestCase
     end
   end
 
+  def test_extension_should_be_validated_against_allowed_extensions
+    with_settings :attachment_extensions_allowed => "txt, png" do
+      a = Attachment.new(:container => Issue.find(1),
+                         :file => mock_file_with_options(:original_filename => "test.png"),
+                         :author => User.find(1))
+      assert_save a
+
+      a = Attachment.new(:container => Issue.find(1),
+                         :file => mock_file_with_options(:original_filename => "test.jpeg"),
+                         :author => User.find(1))
+      assert !a.save
+    end
+  end
+
+  def test_extension_should_be_validated_against_denied_extensions
+    with_settings :attachment_extensions_denied => "txt, png" do
+      a = Attachment.new(:container => Issue.find(1),
+                         :file => mock_file_with_options(:original_filename => "test.jpeg"),
+                         :author => User.find(1))
+      assert_save a
+
+      a = Attachment.new(:container => Issue.find(1),
+                         :file => mock_file_with_options(:original_filename => "test.png"),
+                         :author => User.find(1))
+      assert !a.save
+    end
+  end
+
+  def test_valid_extension_should_be_case_insensitive
+    with_settings :attachment_extensions_allowed => "txt, Png" do
+      assert Attachment.valid_extension?(".pnG")
+      assert !Attachment.valid_extension?(".jpeg")
+    end
+    with_settings :attachment_extensions_denied => "txt, Png" do
+      assert !Attachment.valid_extension?(".pnG")
+      assert Attachment.valid_extension?(".jpeg")
+    end
+  end
+
   def test_description_length_should_be_validated
     a = Attachment.new(:description => 'a' * 300)
     assert !a.save
