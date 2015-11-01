@@ -264,6 +264,11 @@ table.messages td.last_message {text-align:left;}
 
 #query_form_content {font-size:90%;}
 
+.query_sort_criteria_count {
+  display: inline-block;
+  min-width: 1em;
+}
+
 table.query-columns {
   border-collapse: collapse;
   border: 0;

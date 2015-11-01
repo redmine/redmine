@@ -54,7 +54,7 @@
 <% unless params[:gantt] %>
 <fieldset><legend><%= l(:label_sort) %></legend>
 <% 3.times do |i| %>
-<%= i+1 %>: 
+<%= content_tag(:span, "#{i+1}:", :class => 'query_sort_criteria_count')%>
 <%= label_tag "query_sort_criteria_attribute_" + i.to_s,
               l(:description_query_sort_criteria_attribute), :class => "hidden-for-sighted" %>
 <%= select_tag("query[sort_criteria][#{i}][]",
