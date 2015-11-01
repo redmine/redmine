@@ -376,7 +376,7 @@ class IssuesController < ApplicationController
   def update_issue_from_params
     @time_entry = TimeEntry.new(:issue => @issue, :project => @issue.project)
     if params[:time_entry]
-      @time_entry.attributes = params[:time_entry]
+      @time_entry.safe_attributes = params[:time_entry]
     end
 
     @issue.init_journal(User.current)
