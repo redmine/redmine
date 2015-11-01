@@ -1191,3 +1191,4 @@ ja:
   label_assigned_issues: 担当しているチケット
   label_field_format_enumeration: Key/value list
   label_f_hour_short: '%{value} h'
+  field_default_version: Default version

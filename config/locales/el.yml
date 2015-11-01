@@ -1178,3 +1178,4 @@ el:
   label_assigned_issues: Assigned issues
   label_field_format_enumeration: Key/value list
   label_f_hour_short: '%{value} h'
+  field_default_version: Default version
