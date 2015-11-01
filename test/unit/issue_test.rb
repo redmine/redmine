@@ -496,6 +496,14 @@ class IssueTest < ActiveSupport::TestCase
     assert_equal custom_value.id, issue.custom_value_for(field).id
   end
 
+  def test_setting_project_should_set_version_to_default_version
+    version = Version.generate!(:project_id => 1)
+    Project.find(1).update_attribute(:default_version_id, version.id)
+
+    issue = Issue.new(:project_id => 1)
+    assert_equal version, issue.fixed_version
+  end
+
   def test_should_not_update_custom_fields_on_changing_tracker_with_different_custom_fields
     issue = Issue.create!(:project_id => 1, :tracker_id => 1, :author_id => 1,
                           :status_id => 1, :subject => 'Test',

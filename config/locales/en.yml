@@ -348,6 +348,7 @@ en:
   field_users_visibility: Users visibility
   field_time_entries_visibility: Time logs visibility
   field_total_estimated_hours: Total estimated time
+  field_default_version: Default version
 
   setting_app_title: Application title
   setting_app_subtitle: Application subtitle

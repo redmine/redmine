@@ -87,6 +87,14 @@ module ProjectsHelper
     end
   end
 
+  def project_default_version_options(project)
+    versions = project.shared_versions.open.to_a
+    if project.default_version && !versions.include?(project.default_version)
+      versions << project.default_version
+    end
+    version_options_for_select(versions, project.default_version)
+  end
+
   def format_version_sharing(sharing)
     sharing = 'none' unless Version::VERSION_SHARINGS.include?(sharing)
     l("label_version_sharing_#{sharing}")

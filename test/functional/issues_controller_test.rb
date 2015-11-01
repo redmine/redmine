@@ -1715,6 +1715,19 @@ class IssuesControllerTest < ActionController::TestCase
     end
   end
 
+  def test_new_should_preselect_default_version
+    version = Version.generate!(:project_id => 1)
+    Project.find(1).update_attribute :default_version_id, version.id
+    @request.session[:user_id] = 2
+
+    get :new, :project_id => 1
+    assert_response :success
+    assert_equal version, assigns(:issue).fixed_version
+    assert_select 'select[name=?]', 'issue[fixed_version_id]' do
+      assert_select 'option[value=?][selected=selected]', version.id.to_s
+    end
+  end
+
   def test_get_new_with_list_custom_field
     @request.session[:user_id] = 2
     get :new, :project_id => 1, :tracker_id => 1

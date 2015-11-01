@@ -368,6 +368,7 @@ fr:
   field_users_visibility: Visibilité des utilisateurs
   field_time_entries_visibility: Visibilité du temps passé
   field_total_estimated_hours: Temps estimé total
+  field_default_version: Version par défaut
 
   setting_app_title: Titre de l'application
   setting_app_subtitle: Sous-titre de l'application

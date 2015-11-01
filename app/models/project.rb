@@ -38,6 +38,7 @@ class Project < ActiveRecord::Base
   has_many :issues, :dependent => :destroy
   has_many :issue_changes, :through => :issues, :source => :journals
   has_many :versions, lambda {order("#{Version.table_name}.effective_date DESC, #{Version.table_name}.name DESC")}, :dependent => :destroy
+  belongs_to :default_version, :class_name => 'Version'
   has_many :time_entries, :dependent => :destroy
   has_many :queries, :class_name => 'IssueQuery', :dependent => :delete_all
   has_many :documents, :dependent => :destroy
@@ -687,7 +688,8 @@ class Project < ActiveRecord::Base
     'custom_fields',
     'tracker_ids',
     'issue_custom_field_ids',
-    'parent_id'
+    'parent_id',
+    'default_version_id'
 
   safe_attributes 'enabled_module_names',
     :if => lambda {|project, user| project.new_record? || user.allowed_to?(:select_project_modules, project) }

@@ -327,10 +327,13 @@ class Issue < ActiveRecord::Base
   # Unless keep_tracker argument is set to true, this will change the tracker
   # to the first tracker of the new project if the previous tracker is not part
   # of the new project trackers.
-  # This will clear the fixed_version is it's no longer valid for the new project.
-  # This will clear the parent issue if it's no longer valid for the new project.
-  # This will set the category to the category with the same name in the new
-  # project if it exists, or clear it if it doesn't.
+  # This will:
+  # * clear the fixed_version is it's no longer valid for the new project.
+  # * clear the parent issue if it's no longer valid for the new project.
+  # * set the category to the category with the same name in the new
+  #   project if it exists, or clear it if it doesn't.
+  # * for new issue, set the fixed_version to the project default version
+  #   if it's a valid fixed_version.
   def project=(project, keep_tracker=false)
     project_was = self.project
     association(:project).writer(project)
@@ -354,6 +357,12 @@ class Issue < ActiveRecord::Base
       end
       @custom_field_values = nil
       @workflow_rule_by_attribute = nil
+    end
+    # Set fixed_version to the project default version if it's valid
+    if new_record? && fixed_version.nil? && project && project.default_version_id?
+      if project.shared_versions.open.exists?(project.default_version_id)
+        self.fixed_version_id = project.default_version_id
+      end
     end
     self.project
   end
