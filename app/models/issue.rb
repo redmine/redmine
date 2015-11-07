@@ -649,7 +649,7 @@ class Issue < ActiveRecord::Base
       if attribute =~ /^\d+$/
         attribute = attribute.to_i
         v = custom_field_values.detect {|v| v.custom_field_id == attribute }
-        if v && v.value.blank?
+        if v && Array(v.value).detect(&:present?).nil?
           errors.add :base, v.custom_field.name + ' ' + l('activerecord.errors.messages.blank')
         end
       else

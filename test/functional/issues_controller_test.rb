@@ -2046,6 +2046,31 @@ class IssuesControllerTest < ActionController::TestCase
     assert_select_error /Bar cannot be blank/i
   end
 
+  def test_create_should_validate_required_list_fields
+    cf1 = IssueCustomField.create!(:name => 'Foo', :field_format => 'list', :is_for_all => true, :tracker_ids => [1, 2], :multiple => false, :possible_values => ['a', 'b'])
+    cf2 = IssueCustomField.create!(:name => 'Bar', :field_format => 'list', :is_for_all => true, :tracker_ids => [1, 2], :multiple => true, :possible_values => ['a', 'b'])
+    WorkflowPermission.delete_all
+    WorkflowPermission.create!(:old_status_id => 1, :tracker_id => 2, :role_id => 1, :field_name => cf1.id.to_s, :rule => 'required')
+    WorkflowPermission.create!(:old_status_id => 1, :tracker_id => 2, :role_id => 1, :field_name => cf2.id.to_s, :rule => 'required')
+    @request.session[:user_id] = 2
+
+    assert_no_difference 'Issue.count' do
+      post :create, :project_id => 1, :issue => {
+        :tracker_id => 2,
+        :status_id => 1,
+        :subject => 'Test',
+        :start_date => '',
+        :due_date => '',
+        :custom_field_values => {cf1.id.to_s => '', cf2.id.to_s => ['']}
+      }
+      assert_response :success
+      assert_template 'new'
+    end
+
+    assert_select_error /Foo cannot be blank/i
+    assert_select_error /Bar cannot be blank/i
+  end
+
   def test_create_should_ignore_readonly_fields
     cf1 = IssueCustomField.create!(:name => 'Foo', :field_format => 'string', :is_for_all => true, :tracker_ids => [1, 2])
     cf2 = IssueCustomField.create!(:name => 'Bar', :field_format => 'string', :is_for_all => true, :tracker_ids => [1, 2])
