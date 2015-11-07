@@ -700,6 +700,19 @@
         left: 20%;
     }
 
+    /* jquery ui dialogs */
+    .ui-dialog
+    {
+        max-width: 98%;
+        margin: 1%;
+    }
+
+    .ui-dialog .ui-dialog-content
+    {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
     /*----------------------------------------*\
         F) PAGE SPECIFIC STYLES
     \*----------------------------------------*/
