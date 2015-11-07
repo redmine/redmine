@@ -102,7 +102,7 @@ before_install:
     fi
   - "sudo apt-get update -qq"
   - "sudo apt-get --no-install-recommends install bzr cvs git mercurial subversion"
-  - dpkg -l *mysql*
+  - dpkg -l '*mysql*'
   - if [[ $DB =~ (mariadb|mysql-5\.[67]) ]] ;
     then
       sudo service mysql stop ;

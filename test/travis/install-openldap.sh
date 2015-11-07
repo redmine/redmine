@@ -1,7 +1,7 @@
 #! /bin/sh
 
 DEBIAN_FRONTEND=noninteractive apt-get install -y --force-yes slapd ldap-utils
-dpkg -l *slapd* *ldap-utils*
+dpkg -l '*slapd*' '*ldap-utils*'
 
 TOP_DIR=`dirname $0`/../..
 
