@@ -11,6 +11,7 @@
     B) HEADER & TOP MENUS
     C) MAIN CONTENT & SIDEBAR
     D) TOGGLE BUTTON & FLYOUT MENU
+    E) UX ELEMENTS
 
 */
 
@@ -593,5 +594,57 @@
         padding-left: 32px !important;
 
         background-position: 8px 50%;
+    }
+
+    /*----------------------------------------*\
+        E) UX ELEMENTS
+    \*----------------------------------------*/
+
+    /* Contextual Buttons */
+
+    .contextual
+    {
+        width: 100%;
+        margin-bottom: .5em;
+        padding-left: 0; /* reset left padding in order to use whole space */
+
+        white-space: normal;
+
+        color: transparent;
+    }
+
+    .contextual a,
+    p.buttons a
+    {
+        font-weight: bold;
+
+        display: inline-block;
+
+        margin: 5px 0;
+        margin-right: 2px;
+        padding: 9px 9px 9px 9px;
+
+        border: 1px solid #ddd;
+        -webkit-border-radius: 3px;
+                border-radius: 3px;
+        background-color: transparent;
+        background-position-x: 4px;
+    }
+
+    .contextual a.icon,
+    p.buttons a.icon
+    {
+        padding-left: 25px;
+    }
+
+    .flyout-menu .contextual
+    {
+        float: none;
+    }
+
+    #issue_tree .contextual a,
+    #relations .contextual a
+    {
+        float: right;
     }
 }
