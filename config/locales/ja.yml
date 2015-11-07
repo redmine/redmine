@@ -1189,11 +1189,11 @@ ja:
   label_api: API
   label_total_plural: 合計
   label_assigned_issues: 担当しているチケット
-  label_field_format_enumeration: Key/value list
-  label_f_hour_short: '%{value} h'
-  field_default_version: Default version
-  error_attachment_extension_not_allowed: Attachment extension %{extension} is not allowed
-  setting_attachment_extensions_allowed: Allowed extensions
-  setting_attachment_extensions_denied: Disallowed extensions
+  label_field_format_enumeration: キー・バリュー リスト
+  label_f_hour_short: '%{value}時間'
+  field_default_version: デフォルトのバージョン
+  error_attachment_extension_not_allowed: 拡張子が %{extension} のファイルの添付は禁止されています
+  setting_attachment_extensions_allowed: 許可する拡張子
+  setting_attachment_extensions_denied: 禁止する拡張子
   label_any_open_issues: any open issues
   label_no_open_issues: no open issues
