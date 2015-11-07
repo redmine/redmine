@@ -64,8 +64,6 @@
 
     body
     {
-        overflow-x: hidden; /* hide horizontal overflow */
-
         min-width: 0; /* reset the min-width of 900px */
 
         -webkit-overflow-scrolling: touch;
@@ -91,6 +89,8 @@
     #wrapper
     {
         position: relative;
+
+        overflow-x: hidden; /* hide horizontal overflow */
 
         max-width: 100%;
     }
@@ -602,6 +602,8 @@
     .flyout-is-active  #wrapper
     {
         right: 250px; /* when left flyout is active, move body to the right (same amount like flyout-menu's width) */
+
+        overflow: visible;
 
         height: 100%;
     }
