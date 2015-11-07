@@ -199,17 +199,13 @@ class IssueQuery < Query
       :type => :list_optional, :values => role_values
     ) unless role_values.empty?
 
-    if versions.any?
-      add_available_filter "fixed_version_id",
-        :type => :list_optional,
-        :values => versions.sort.collect{|s| ["#{s.project.name} - #{s.name}", s.id.to_s] }
-    end
+    add_available_filter "fixed_version_id",
+      :type => :list_optional,
+      :values => versions.sort.collect{|s| ["#{s.project.name} - #{s.name}", s.id.to_s] }
 
-    if categories.any?
-      add_available_filter "category_id",
-        :type => :list_optional,
-        :values => categories.collect{|s| [s.name, s.id.to_s] }
-    end
+    add_available_filter "category_id",
+      :type => :list_optional,
+      :values => categories.collect{|s| [s.name, s.id.to_s] }
 
     add_available_filter "subject", :type => :text
     add_available_filter "description", :type => :text
