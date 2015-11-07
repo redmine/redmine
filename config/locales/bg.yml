@@ -213,6 +213,7 @@ bg:
   error_invalid_file_encoding: Файлът няма валидно %{encoding} кодиране.
   error_invalid_csv_file_or_settings: Файлът не е CSV файл или не съответства на зададеното по-долу
   error_can_not_read_import_file: Грешка по време на четене на импортирания файл
+  error_attachment_extension_not_allowed: Файлове от тип %{extension} не са позволени
 
   mail_subject_lost_password: "Вашата парола (%{value})"
   mail_body_lost_password: 'За да смените паролата си, използвайте следния линк:'
@@ -351,6 +352,7 @@ bg:
   field_users_visibility: Видимост на потребителите
   field_time_entries_visibility: Видимост на записи за използвано време
   field_total_estimated_hours: Общо изчислено време
+  field_default_version: Версия по подразбиране
 
   setting_app_title: Заглавие
   setting_app_subtitle: Описание
@@ -428,6 +430,8 @@ bg:
   setting_link_copied_issue: Свързване на задачите при копиране
   setting_max_additional_emails: Максимален брой на допълнителните имейл адреси
   setting_search_results_per_page: Резултати от търсене на страница
+  setting_attachment_extensions_allowed: Позволени типове на файлове
+  setting_attachment_extensions_denied: Разрешени типове на файлове
 
   permission_add_project: Създаване на проект
   permission_add_subprojects: Създаване на подпроекти
@@ -1169,9 +1173,5 @@ bg:
   description_date_from: Въведете начална дата
   description_date_to: Въведете крайна дата
   text_repository_identifier_info: 'Позволени са малки букви (a-z), цифри, тирета и _.<br />Промяна след създаването му не е възможна.'
-  field_default_version: Default version
-  error_attachment_extension_not_allowed: Attachment extension %{extension} is not allowed
-  setting_attachment_extensions_allowed: Allowed extensions
-  setting_attachment_extensions_denied: Disallowed extensions
   label_any_open_issues: any open issues
   label_no_open_issues: no open issues
