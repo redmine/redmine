@@ -732,6 +732,8 @@ fr:
   label_any_issues_in_project: une demande du projet
   label_any_issues_not_in_project: une demande hors du projet
   label_no_issues_in_project: aucune demande du projet
+  label_any_open_issues: une demande ouverte
+  label_no_open_issues: aucune demande ouverte
   label_day_plural: jours
   label_repository: Dépôt
   label_repository_new: Nouveau dépôt
