@@ -1143,7 +1143,7 @@ module ApplicationHelper
 
   def calendar_for(field_id)
     include_calendar_headers_tags
-    javascript_tag("$(function() { $('##{field_id}').datepicker(datepickerOptions); });")
+    javascript_tag("$(function() { $('##{field_id}').addClass('date').datepicker(datepickerOptions); });")
   end
 
   def include_calendar_headers_tags

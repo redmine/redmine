@@ -762,7 +762,7 @@
         max-width: 100%;
     }
 
-    .box.tabular input[type="checkbox"] {
+    .box.tabular input[type="checkbox"], .box.tabular input.date {
         width: auto;
         max-width: 95%;
     }
