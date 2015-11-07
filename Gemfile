@@ -17,7 +17,7 @@ gem "roadie-rails"
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :x64_mingw, :mswin, :jruby]
-gem "rbpdf", "~> 1.18.6"
+gem "rbpdf", "~> 1.18.7"
 
 # Optional gem for LDAP authentication
 group :ldap do
