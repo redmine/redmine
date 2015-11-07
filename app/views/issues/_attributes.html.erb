@@ -11,7 +11,7 @@
 <% end %>
 
 <% if @issue.safe_attribute? 'priority_id' %>
-<p><%= f.select :priority_id, (@priorities.collect {|p| [p.name, p.id]}), {:required => true}, :disabled => !@issue.leaf? %></p>
+<p><%= f.select :priority_id, (@priorities.collect {|p| [p.name, p.id]}), {:required => true} %></p>
 <% end %>
 
 <% if @issue.safe_attribute? 'assigned_to_id' %>
