@@ -764,4 +764,17 @@
         width: auto;
         max-width: 95%;
     }
+
+    /* new issue form */
+    #all_attributes p:first-child {
+        float: none !important;
+    }
+
+    #issue_is_private_label {
+        display: inline;
+    }
+
+    span#watchers_inputs {
+        width: 100%;
+    }
 }
