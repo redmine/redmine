@@ -165,6 +165,18 @@ class ChangesetTest < ActiveSupport::TestCase
     assert_equal [1,2,3], c.issue_ids.sort
   end
 
+  def test_ref_keywords_with_large_number_should_not_error
+    Setting.commit_ref_keywords = '*'
+    c = Changeset.new(:repository   => Project.find(1).repository,
+                      :committed_on => Time.now,
+                      :comments     => 'Out of range #2010021810000121',
+                      :revision     => '12345')
+    assert_nothing_raised do
+      assert c.save
+    end
+    assert_equal [], c.issue_ids.sort
+  end
+
   def test_update_keywords_with_changes_should_create_journal
     issue = Issue.generate!(:project_id => 1, :status_id => 1)
 
