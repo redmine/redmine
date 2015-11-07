@@ -542,7 +542,7 @@ ja:
   label_subproject_new: 新しいサブプロジェクト
   label_and_its_subprojects: "%{value} とサブプロジェクト"
   label_min_max_length: 最短 - 最大長
-  label_list: リストから選択
+  label_list: リスト
   label_date: 日付
   label_integer: 整数
   label_float: 小数
