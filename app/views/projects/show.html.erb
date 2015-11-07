@@ -23,6 +23,7 @@
     <%= textilizable @project.description %>
   </div>
   <% end %>
+  <% if @project.homepage.present? || @subprojects.any? || @project.visible_custom_field_values.any?(&:present?) %>
   <ul>
   <% unless @project.homepage.blank? %>
     <li><span class="label"><%=l(:field_homepage)%>:</span> <%= link_to @project.homepage, @project.homepage %></li>
@@ -35,6 +36,7 @@
     <li><span class="label"><%= custom_field.name %>:</span> <%= formatted %></li>
   <% end %>
   </ul>
+  <% end %>
 
   <% if User.current.allowed_to?(:view_issues, @project) %>
   <div class="issues box">
