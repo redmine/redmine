@@ -694,6 +694,12 @@
         float: right;
     }
 
+    /* loading indicator */
+    #ajax-indicator {
+        width: 60%;
+        left: 20%;
+    }
+
     /*----------------------------------------*\
         F) PAGE SPECIFIC STYLES
     \*----------------------------------------*/
