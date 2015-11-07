@@ -64,6 +64,8 @@
         overflow-x: hidden; /* hide horizontal overflow */
 
         min-width: 0; /* reset the min-width of 900px */
+
+        -webkit-overflow-scrolling: touch;
     }
 
 
