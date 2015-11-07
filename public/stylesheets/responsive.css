@@ -12,6 +12,7 @@
     C) MAIN CONTENT & SIDEBAR
     D) TOGGLE BUTTON & FLYOUT MENU
     E) UX ELEMENTS
+    F) PAGE SPECIFIC STYLES
 
 */
 
@@ -646,5 +647,30 @@
     #relations .contextual a
     {
         float: right;
+    }
+
+    /*----------------------------------------*\
+        F) PAGE SPECIFIC STYLES
+    \*----------------------------------------*/
+
+    /* page /login */
+
+    #login-form table
+    {
+        width: 100%;
+    }
+
+    #login-form input#username,
+    #login-form input#password,
+    #login-form input#openid_url
+    {
+        width: 100%;
+        height: auto;
+    }
+
+    /* some themes add a margin to login page, remove it on mobile */
+    .action-login #main
+    {
+        margin: 0;
     }
 }
