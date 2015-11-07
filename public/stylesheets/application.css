@@ -378,7 +378,9 @@ fieldset#filters td.operator select {max-width:170px;}
 fieldset#filters td.values { white-space:nowrap; }
 fieldset#filters td.values select {min-width:130px;}
 fieldset#filters td.values input {height:1em;}
-fieldset#filters td.add-filter { text-align: right; vertical-align: top; }
+
+#filters-table {width:60%; float:left;}
+.add-filter {width:35%; float:right; text-align: right; vertical-align: top;}
 
 #issue_is_private_wrap {float:right; margin-right:1em;}
 .toggle-multiselect {background: url(../images/bullet_toggle_plus.png) no-repeat 0% 40%; padding-left:8px; margin-left:0; cursor:pointer;}

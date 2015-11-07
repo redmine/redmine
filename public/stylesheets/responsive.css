@@ -716,6 +716,9 @@
         padding-right: 0;
     }
 
+    #filters-table {width:100%; float:none;}
+    .add-filter {width:100%; float:none; text-align: left; margin-top: 8px;}
+
     /*----------------------------------------*\
         F) PAGE SPECIFIC STYLES
     \*----------------------------------------*/

@@ -12,17 +12,13 @@ $(document).ready(function(){
 });
 <% end %>
 
-<table style="width:100%">
-<tr>
-<td>
 <table id="filters-table">
 </table>
-</td>
-<td class="add-filter">
+
+<div class="add-filter">
 <%= label_tag('add_filter_select', l(:label_filter_add)) %>
 <%= select_tag 'add_filter_select', filters_options_for_select(query), :name => nil %>
-</td>
-</tr>
-</table>
+</div>
+
 <%= hidden_field_tag 'f[]', '' %>
 <% include_calendar_headers_tags %>
