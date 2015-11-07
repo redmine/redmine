@@ -315,8 +315,8 @@ function toggleMultiSelect(el) {
 }
 
 function showTab(name, url) {
-  $('div#content .tab-content').hide();
-  $('div.tabs a').removeClass('selected');
+  $('#tab-content-' + name).parent().find('.tab-content').hide();
+  $('#tab-content-' + name).parent().find('div.tabs a').removeClass('selected');
   $('#tab-content-' + name).show();
   $('#tab-' + name).addClass('selected');
   //replaces current URL with the "href" attribute of the current link
