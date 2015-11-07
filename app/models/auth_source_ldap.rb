@@ -20,6 +20,13 @@ require 'net/ldap/dn'
 require 'timeout'
 
 class AuthSourceLdap < AuthSource
+  NETWORK_EXCEPTIONS = [
+    Net::LDAP::LdapError,
+    Errno::ECONNABORTED, Errno::ECONNREFUSED, Errno::ECONNRESET,
+    Errno::EHOSTDOWN, Errno::EHOSTUNREACH,
+    SocketError
+  ]
+
   validates_presence_of :host, :port, :attr_login
   validates_length_of :name, :host, :maximum => 60, :allow_nil => true
   validates_length_of :account, :account_password, :base_dn, :maximum => 255, :allow_blank => true
@@ -45,7 +52,7 @@ class AuthSourceLdap < AuthSource
         return attrs.except(:dn)
       end
     end
-  rescue Net::LDAP::LdapError => e
+  rescue *NETWORK_EXCEPTIONS => e
     raise AuthSourceException.new(e.message)
   end
 
@@ -55,7 +62,7 @@ class AuthSourceLdap < AuthSource
       ldap_con = initialize_ldap_con(self.account, self.account_password)
       ldap_con.open { }
     end
-  rescue Net::LDAP::LdapError => e
+  rescue *NETWORK_EXCEPTIONS => e
     raise AuthSourceException.new(e.message)
   end
 
@@ -85,7 +92,7 @@ class AuthSourceLdap < AuthSource
       results << attrs
     end
     results
-  rescue Net::LDAP::LdapError => e
+  rescue *NETWORK_EXCEPTIONS => e
     raise AuthSourceException.new(e.message)
   end
 
