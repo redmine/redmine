@@ -212,6 +212,23 @@ class TimelogControllerTest < ActionController::TestCase
     end
   end
 
+  def test_create_on_issue_that_is_not_visible_should_not_disclose_subject
+    issue = Issue.generate!(:subject => "issue_that_is_not_visible", :is_private => true)
+    assert !issue.visible?(User.find(3))
+
+    @request.session[:user_id] = 3
+    assert_no_difference 'TimeEntry.count' do
+      post :create, :time_entry => {
+        :project_id => '', :issue_id => issue.id.to_s,
+        :activity_id => '11', :spent_on => '2008-03-14', :hours => '7.3'
+      }
+    end
+    assert_select_error /Issue is invalid/
+    assert_select "input[name=?][value=?]", "time_entry[issue_id]", issue.id.to_s
+    assert_select "#time_entry_issue", 0
+    assert !response.body.include?('issue_that_is_not_visible')
+  end
+
   def test_create_and_continue_at_project_level
     @request.session[:user_id] = 2
     assert_difference 'TimeEntry.count' do

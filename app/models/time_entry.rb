@@ -69,7 +69,7 @@ class TimeEntry < ActiveRecord::Base
     if attrs
       attrs = super(attrs)
       if issue_id_changed? && issue
-        if user.allowed_to?(:log_time, issue.project)
+        if issue.visible?(user) && user.allowed_to?(:log_time, issue.project)
           if attrs[:project_id].blank? && issue.project_id != project_id
             self.project_id = issue.project_id
           end
