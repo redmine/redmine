@@ -145,7 +145,7 @@ module QueriesHelper
     when :description
       issue.description? ? content_tag('div', textilizable(issue, :description), :class => "wiki") : ''
     when :done_ratio
-      progress_bar(value, :width => '80px')
+      progress_bar(value)
     when :relations
       content_tag('span',
         value.to_s(issue) {|other| link_to_issue(other, :subject => false, :tracker => false)}.html_safe,

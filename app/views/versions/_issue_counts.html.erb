@@ -22,8 +22,7 @@
         </td>
         <td style="width:240px;">
             <%= progress_bar((count[:closed].to_f / count[:total])*100,
-                  :legend => "#{count[:closed]}/#{count[:total]}",
-                  :width => "#{(count[:total].to_f / max * 200).floor}px;") %>
+                  :legend => "#{count[:closed]}/#{count[:total]}") %>
         </td>
     </tr>
     <% end %>

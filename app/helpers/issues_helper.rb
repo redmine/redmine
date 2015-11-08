@@ -114,7 +114,7 @@ module IssuesHelper
              content_tag('td', link_to_issue(child, :project => (issue.project_id != child.project_id)), :class => 'subject', :style => 'width: 50%') +
              content_tag('td', h(child.status)) +
              content_tag('td', link_to_user(child.assigned_to)) +
-             content_tag('td', progress_bar(child.done_ratio, :width => '80px')),
+             content_tag('td', progress_bar(child.done_ratio)),
              :class => css)
     end
     s << '</table></form>'

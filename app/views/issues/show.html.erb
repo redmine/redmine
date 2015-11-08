@@ -55,7 +55,7 @@
     rows.right l(:field_due_date), format_date(@issue.due_date), :class => 'due-date'
   end
   unless @issue.disabled_core_fields.include?('done_ratio')
-    rows.right l(:field_done_ratio), progress_bar(@issue.done_ratio, :width => '80px', :legend => "#{@issue.done_ratio}%"), :class => 'progress'
+    rows.right l(:field_done_ratio), progress_bar(@issue.done_ratio, :legend => "#{@issue.done_ratio}%"), :class => 'progress'
   end
   unless @issue.disabled_core_fields.include?('estimated_hours')
     if @issue.estimated_hours.present? || @issue.total_estimated_hours.to_f > 0

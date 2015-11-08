@@ -789,6 +789,7 @@ table.progress {
   margin: 1px 6px 1px 0px;
 }
 
+table.progress {width:80px;}
 table.progress td { height: 1em; }
 table.progress td.closed { background: #BAE0BA none repeat scroll 0%; }
 table.progress td.done { background: #D3EDD3 none repeat scroll 0%; }
@@ -796,7 +797,9 @@ table.progress td.todo { background: #eee none repeat scroll 0%; }
 p.percent {font-size: 80%; margin:0;}
 p.progress-info {clear: left; font-size: 80%; margin-top:-4px; color:#777;}
 
-#roadmap table.progress td { height: 1.2em; }
+.version-overview table.progress {width:40em;}
+.version-overview table.progress td { height: 1.2em; }
+
 /***** Tabs *****/
 #content .tabs {height: 2.6em; margin-bottom:1.2em; position:relative; overflow:hidden;}
 #content .tabs ul {margin:0; position:absolute; bottom:0; padding-left:0.5em; width: 2000px; border-bottom: 1px solid #bbbbbb;}

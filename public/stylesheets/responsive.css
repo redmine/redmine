@@ -740,7 +740,9 @@
 
     div#activity dl, #search-results { margin-left: 0; }
 
+    .version-overview table.progress {width:75%;}
     div#version-summary {float:none; width:100%; margin-left:0;}
+    body.controller-versions.action-show div#roadmap .related-issues {width:100%;}
 
     /*----------------------------------------*\
         G) FORMS
