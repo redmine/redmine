@@ -68,9 +68,9 @@ class IssuesCustomFieldsVisibilityTest < ActionController::TestCase
       get :show, :id => @issue.id
       @fields.each_with_index do |field, i|
         if fields.include?(field)
-          assert_select 'td', {:text => "Value#{i}", :count => 1}, "User #{user.id} was not able to view #{field.name}"
+          assert_select '.value', {:text => "Value#{i}", :count => 1}, "User #{user.id} was not able to view #{field.name}"
         else
-          assert_select 'td', {:text => "Value#{i}", :count => 0}, "User #{user.id} was able to view #{field.name}"
+          assert_select '.value', {:text => "Value#{i}", :count => 0}, "User #{user.id} was able to view #{field.name}"
         end
       end
     end

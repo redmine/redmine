@@ -1382,7 +1382,7 @@ class IssuesControllerTest < ActionController::TestCase
 
     get :show, :id => 1
     assert_response :success
-    assert_select 'table.attributes .category'
+    assert_select '.attributes .category'
   end
 
   def test_show_should_not_display_category_field_if_no_categories_are_defined
@@ -1482,7 +1482,7 @@ class IssuesControllerTest < ActionController::TestCase
     get :show, :id => 1
     assert_response :success
 
-    assert_select 'td', :text => 'MySQL, Oracle'
+    assert_select ".cf_1 .value", :text => 'MySQL, Oracle'
   end
 
   def test_show_with_multi_user_custom_field
@@ -1495,7 +1495,7 @@ class IssuesControllerTest < ActionController::TestCase
     get :show, :id => 1
     assert_response :success
 
-    assert_select "td.cf_#{field.id}", :text => 'Dave Lopper, John Smith' do
+    assert_select ".cf_#{field.id} .value", :text => 'Dave Lopper, John Smith' do
       assert_select 'a', :text => 'Dave Lopper'
       assert_select 'a', :text => 'John Smith'
     end

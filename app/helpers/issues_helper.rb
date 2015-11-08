@@ -189,18 +189,18 @@ module IssuesHelper
     end
 
     def to_html
-      html = ''.html_safe
-      blank = content_tag('th', '') + content_tag('td', '')
-      size.times do |i|
-        left = @left[i] || blank
-        right = @right[i] || blank
-        html << content_tag('tr', left + right)
-      end
-      html
+      content =
+        content_tag('div', @left.reduce(&:+), :class => 'splitcontentleft') +
+        content_tag('div', @right.reduce(&:+), :class => 'splitcontentleft')
+
+      content_tag('div', content, :class => 'splitcontent')
     end
 
     def cells(label, text, options={})
-      content_tag('th', label + ":", options) + content_tag('td', text, options)
+      options[:class] = [options[:class] || "", 'attribute'].join(' ')
+      content_tag 'div',
+        content_tag('div', label + ":", :class => 'label') + content_tag('div', text, :class => 'value'),
+        options
     end
   end
 

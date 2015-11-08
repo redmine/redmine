@@ -253,10 +253,6 @@ a.sort { padding-right: 16px; background-position: 100% 50%; background-repeat: 
 a.sort.asc  { background-image: url(../images/sort_asc.png); }
 a.sort.desc { background-image: url(../images/sort_desc.png); }
 
-table.attributes { width: 100% }
-table.attributes th { vertical-align: top; text-align: left; }
-table.attributes td { vertical-align: top; }
-
 table.boards a.board, h3.comments { background: url(../images/comment.png) no-repeat 0% 50%; padding-left: 20px; }
 table.boards td.last-message {text-align:left;font-size:80%;}
 
@@ -356,9 +352,10 @@ div.issue div.subject>div>p { margin-top: 0.5em; }
 div.issue div.subject h3 {margin: 0; margin-bottom: 0.1em;}
 div.issue span.private, div.journal span.private { position:relative; bottom: 2px; text-transform: uppercase; background: #d22; color: #fff; font-weight:bold; padding: 0px 2px 0px 2px; font-size: 60%; margin-right: 2px; border-radius: 2px;}
 div.issue .next-prev-links {color:#999;}
-div.issue table.attributes th {width:22%;}
-div.issue table.attributes td {width:28%;}
-div.issue.issue.overdue td.due-date { color: #c22; }
+div.issue .attributes {margin-top: 2em;}
+div.issue .attribute {padding-left:180px; clear:left; min-height: 1.8em;}
+div.issue .attribute .label {width: 170px; margin-left:-180px; font-weight:bold; float:left;}
+div.issue.overdue .due-date .value { color: #c22; }
 
 #issue_tree table.issues, #relations table.issues { border: 0; }
 #issue_tree td.checkbox, #relations td.checkbox {display:none;}
@@ -796,7 +793,7 @@ table.progress td { height: 1em; }
 table.progress td.closed { background: #BAE0BA none repeat scroll 0%; }
 table.progress td.done { background: #D3EDD3 none repeat scroll 0%; }
 table.progress td.todo { background: #eee none repeat scroll 0%; }
-p.percent {font-size: 80%;}
+p.percent {font-size: 80%; margin:0;}
 p.progress-info {clear: left; font-size: 80%; margin-top:-4px; color:#777;}
 
 #roadmap table.progress td { height: 1.2em; }
