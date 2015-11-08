@@ -743,23 +743,23 @@
     \*----------------------------------------*/
 
     /* tabular forms resets for mobile */
-    .box.tabular p {
+    .tabular p, .tabular.settings p {
         padding-left: 0;
     }
 
-    .box.tabular label {
+    .tabular label, .tabular.settings label {
         display: block;
         width: 100%;
         margin-left: 0;
         text-align: left;
     }
 
-    .box.tabular input, .box.tabular select, .box.tabular textarea {
+    .tabular input, .tabular select, .tabular textarea {
         width: 100%;
         max-width: 100%;
     }
 
-    .box.tabular input[type="checkbox"], .box.tabular input.date {
+    .tabular input[type="checkbox"], .tabular input.date {
         width: auto;
         max-width: 95%;
     }
