@@ -1110,7 +1110,7 @@ div.issue img.gravatar {
   padding: 5px;
 }
 
-div.issue table img.gravatar {
+div.issue .attributes img.gravatar {
   height: 14px;
   width: 14px;
   padding: 2px;
