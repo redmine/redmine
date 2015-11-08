@@ -740,6 +740,8 @@
 
     div#activity dl, #search-results { margin-left: 0; }
 
+    div#version-summary {float:none; width:100%; margin-left:0;}
+
     /*----------------------------------------*\
         G) FORMS
     \*----------------------------------------*/
