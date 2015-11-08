@@ -13,7 +13,9 @@
   <% end %>
   <p>
     <%= f.text_field :issue_id, :size => 6 %>
-    <span id="time_entry_issue"><%= "#{@time_entry.issue.tracker.name} ##{@time_entry.issue.id}: #{@time_entry.issue.subject}" if @time_entry.issue %></span>
+    <% if @time_entry.issue.try(:visible?) %>
+      <span id="time_entry_issue"><%= "#{@time_entry.issue.tracker.name} ##{@time_entry.issue.id}: #{@time_entry.issue.subject}" %></span>
+    <% end %>
   </p>
   <p><%= f.text_field :spent_on, :size => 10, :required => true %><%= calendar_for('time_entry_spent_on') %></p>
   <p><%= f.text_field :hours, :size => 6, :required => true %></p>
