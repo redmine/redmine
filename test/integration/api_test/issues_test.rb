@@ -510,6 +510,20 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
     end
   end
 
+  test "GET /issues/:id.xml should not disclose associated changesets from projects the user has no access to" do
+    project = Project.generate!(:is_public => false)
+    repository = Repository::Subversion.create!(:project => project, :url => "svn://localhost")
+    Issue.find(1).changesets << Changeset.generate!(:repository => repository)
+    assert Issue.find(1).changesets.any?
+
+    get '/issues/1.xml?include=changesets', {}, credentials('jsmith')
+
+    # the user jsmith has no permission to view the associated changeset
+    assert_select 'issue changesets[type=array]' do
+      assert_select 'changeset', 0
+    end
+  end
+
   context "POST /issues.xml" do
     should_allow_api_authentication(
       :post,
