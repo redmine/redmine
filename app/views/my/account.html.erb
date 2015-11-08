@@ -34,7 +34,7 @@
   <%= call_hook(:view_my_account, :user => @user, :form => f) %>
 </fieldset>
 
-<%= submit_tag l(:button_save) %>
+<p class="mobile-hide"><%= submit_tag l(:button_save) %></p>
 </div>
 
 <div class="splitcontentright">
@@ -49,6 +49,7 @@
   <%= call_hook(:view_my_account_preferences, :user => @user, :form => f) %>
 </fieldset>
 
+<p class="mobile-show"><%= submit_tag l(:button_save) %></p>
 </div>
 <% end %>
 

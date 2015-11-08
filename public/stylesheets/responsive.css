@@ -649,6 +649,9 @@
         E) UX ELEMENTS
     \*----------------------------------------*/
 
+    .mobile-hide {display:none;}
+    .mobile-show {display:initial;}
+
     /* Contextual Buttons */
 
     #content>.contextual

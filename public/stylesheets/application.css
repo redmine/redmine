@@ -104,6 +104,8 @@ input#openid_url { background: url(../images/openid-bg.gif) no-repeat; backgroun
 
 .clear:after{ content: "."; display: block; height: 0; clear: both; visibility: hidden; }
 
+.mobile-show {display: none;}
+
 /***** Links *****/
 a, a:link, a:visited{ color: #169; text-decoration: none; }
 a:hover, a:active{ color: #c61a1a; text-decoration: underline;}
