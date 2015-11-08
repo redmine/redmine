@@ -651,7 +651,7 @@
 
     /* Contextual Buttons */
 
-    .contextual
+    #content>.contextual
     {
         width: 100%;
         margin-bottom: .5em;
@@ -662,7 +662,7 @@
         color: transparent;
     }
 
-    .contextual a,
+    #content>.contextual a,
     p.buttons a
     {
         font-weight: bold;
@@ -680,7 +680,7 @@
         background-position-x: 4px;
     }
 
-    .contextual a.icon,
+    #content>.contextual a.icon,
     p.buttons a.icon
     {
         padding-left: 25px;
@@ -689,12 +689,6 @@
     .flyout-menu .contextual
     {
         float: none;
-    }
-
-    #issue_tree .contextual a,
-    #relations .contextual a
-    {
-        float: right;
     }
 
     /* loading indicator */
