@@ -410,6 +410,45 @@
         display: none;
     }
 
+    /* Targets list containing checkboxes (e.g. activities sidebar) in flyout menu */
+    .flyout-menu__sidebar form > ul
+    {
+        margin-left: -8px;
+        padding-left: 0;
+    }
+
+    .flyout-menu__sidebar form > ul li
+    {
+        line-height: 39px;
+
+        display: block;
+
+        padding-left: 8px;
+
+        border-top: 1px solid rgba(255,255,255,.1);
+    }
+
+    .flyout-menu__sidebar form > ul li:first-child
+    {
+        border-top: none;
+    }
+
+    .flyout-menu__sidebar form > ul li label
+    {
+        margin: 0;
+    }
+
+    .flyout-menu__sidebar form > ul li label a
+    {
+        line-height: 1;
+
+        display: inline;
+
+        padding-left: 0;
+
+        border: none;
+    }
+
     .flyout-menu ul
     {
         margin: 0;
