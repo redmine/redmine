@@ -687,10 +687,6 @@ zh:
   label_blocked_by: 被阻挡
   label_precedes: 优先于
   label_follows: 跟随于
-  label_end_to_start: 结束-开始
-  label_end_to_end: 结束-结束
-  label_start_to_start: 开始-开始
-  label_start_to_end: 开始-结束
   label_stay_logged_in: 保持登录状态
   label_disabled: 禁用
   label_show_completed_versions: 显示已完成的版本

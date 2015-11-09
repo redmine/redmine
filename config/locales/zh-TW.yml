@@ -868,10 +868,6 @@
   label_follows: 跟隨於
   label_copied_to: 複製到
   label_copied_from: 複製於
-  label_end_to_start: 結束─開始
-  label_end_to_end: 結束─結束
-  label_start_to_start: 開始─開始
-  label_start_to_end: 開始─結束
   label_stay_logged_in: 維持已登入狀態
   label_disabled: 關閉
   label_show_completed_versions: 顯示已完成的版本

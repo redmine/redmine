@@ -658,10 +658,6 @@ mn:
   label_blocked_by: блоколсон эзэн
   label_precedes: урьдчилах хамааралтай
   label_follows: дагаж
-  label_end_to_start: хойноос нь урагшаа
-  label_end_to_end: хойноос нь хойшоо
-  label_start_to_start: урдаас нь урагаа
-  label_start_to_end: урдаас нь хойшоо
   label_stay_logged_in: Энэ комьютер дээр санах
   label_disabled: идэвхгүй болсон
   label_show_completed_versions: Гүйцэд хувилбаруудыг харуулах

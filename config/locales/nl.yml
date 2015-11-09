@@ -383,8 +383,6 @@ nl:
   label_downloads_abbr: D/L
   label_duplicated_by: gedupliceerd door
   label_duplicates: dupliceert
-  label_end_to_end: eind tot eind
-  label_end_to_start: eind tot start
   label_enumeration_new: Nieuwe waarde
   label_enumerations: Enumeraties
   label_environment: Omgeving
@@ -554,8 +552,6 @@ nl:
   label_sort_lower: Verplaats naar beneden
   label_sort_lowest: Verplaats naar eind
   label_spent_time: Gespendeerde tijd
-  label_start_to_end: start tot eind
-  label_start_to_start: start tot start
   label_statistics: Statistieken
   label_stay_logged_in: Blijf ingelogd
   label_string: Tekst

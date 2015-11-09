@@ -566,10 +566,6 @@
   label_blocked_by: zárolta
   label_precedes: megelőzi
   label_follows: követi
-  label_end_to_start: végétől indulásig
-  label_end_to_end: végétől végéig
-  label_start_to_start: indulástól indulásig
-  label_start_to_end: indulástól végéig
   label_stay_logged_in: Emlékezzen rám
   label_disabled: kikapcsolva
   label_show_completed_versions: A kész verziók mutatása

@@ -606,10 +606,6 @@ sl:
   label_blocked_by: blokiral
   label_precedes: ima prednost pred
   label_follows: sledi
-  label_end_to_start: konec na začetek
-  label_end_to_end: konec na konec
-  label_start_to_start: začetek na začetek
-  label_start_to_end: začetek na konec
   label_stay_logged_in: Ostani prijavljen(a)
   label_disabled: onemogoči
   label_show_completed_versions: Prikaži zaključene verzije

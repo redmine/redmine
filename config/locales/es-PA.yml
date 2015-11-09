@@ -440,8 +440,6 @@ es-PA:
   label_downloads_abbr: D/L
   label_duplicated_by: duplicada por
   label_duplicates: duplicada de
-  label_end_to_end: fin a fin
-  label_end_to_start: fin a principio
   label_enumeration_new: Nuevo valor
   label_enumerations: Listas de valores
   label_environment: Entorno
@@ -611,8 +609,6 @@ es-PA:
   label_sort_lower: Bajar
   label_sort_lowest: Último
   label_spent_time: Tiempo dedicado
-  label_start_to_end: principio a fin
-  label_start_to_start: principio a principio
   label_statistics: Estadísticas
   label_stay_logged_in: Mantener la sesión abierta
   label_string: Texto

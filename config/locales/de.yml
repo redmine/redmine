@@ -526,8 +526,6 @@ de:
   label_duplicated_by: Dupliziert durch
   label_duplicates: Duplikat von
   label_edit_attachments: Angehängte Dateien bearbeiten
-  label_end_to_end: Ende - Ende
-  label_end_to_start: Ende - Anfang
   label_enumeration_new: Neuer Wert
   label_enumerations: Aufzählungen
   label_environment: Umgebung
@@ -746,8 +744,6 @@ de:
   label_sort_lower: Eins tiefer
   label_sort_lowest: Ans Ende
   label_spent_time: Aufgewendete Zeit
-  label_start_to_end: Anfang - Ende
-  label_start_to_start: Anfang - Anfang
   label_statistics: Statistiken
   label_status_transitions: Statusänderungen
   label_stay_logged_in: Angemeldet bleiben

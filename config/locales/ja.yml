@@ -718,10 +718,6 @@ ja:
   label_blocked_by: ブロックされている
   label_precedes: 次のチケットに先行
   label_follows: 次のチケットに後続
-  label_end_to_start: 最後-最初
-  label_end_to_end: 最後-最後
-  label_start_to_start: 最初-最初
-  label_start_to_end: 最初-最後
   label_stay_logged_in: ログインを維持
   label_disabled: 無効
   label_show_completed_versions: 完了したバージョンを表示

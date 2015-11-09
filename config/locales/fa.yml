@@ -682,10 +682,6 @@ fa:
   label_blocked_by: بازداشت به دست
   label_precedes: جلوتر است از
   label_follows: پستر است از
-  label_end_to_start: پایان به آغاز
-  label_end_to_end: پایان به پایان
-  label_start_to_start: آغاز به آغاز
-  label_start_to_end: آغاز به پایان
   label_stay_logged_in: وارد شده بمانید
   label_disabled: غیرفعال
   label_show_completed_versions: نمایش نگارش‌های انجام شده

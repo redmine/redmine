@@ -657,10 +657,6 @@ eu:
   label_blocked_by: honek blokeatuta
   label_precedes: aurretik doa
   label_follows: jarraitzen du
-  label_end_to_start: bukaeratik hasierara
-  label_end_to_end: bukaeratik bukaerara
-  label_start_to_start: hasieratik hasierhasieratik bukaerara
-  label_start_to_end: hasieratik bukaerara
   label_stay_logged_in: Saioa mantendu
   label_disabled: ezgaituta
   label_show_completed_versions: Bukatutako bertsioak ikusi

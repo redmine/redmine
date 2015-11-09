@@ -491,8 +491,6 @@ ru:
   label_downloads_abbr: Скачиваний
   label_duplicated_by: дублируется
   label_duplicates: дублирует
-  label_end_to_end: с конца к концу
-  label_end_to_start: с конца к началу
   label_enumeration_new: Новое значение
   label_enumerations: Списки значений
   label_environment: Окружение
@@ -669,8 +667,6 @@ ru:
   label_sort_lower: Вниз
   label_sort_lowest: В конец
   label_spent_time: Трудозатраты
-  label_start_to_end: с начала к концу
-  label_start_to_start: с начала к началу
   label_statistics: Статистика
   label_stay_logged_in: Оставаться в системе
   label_string: Текст

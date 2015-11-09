@@ -791,10 +791,6 @@ en:
   label_follows: Follows
   label_copied_to: Copied to
   label_copied_from: Copied from
-  label_end_to_start: end to start
-  label_end_to_end: end to end
-  label_start_to_start: start to start
-  label_start_to_end: start to end
   label_stay_logged_in: Stay logged in
   label_disabled: disabled
   label_show_completed_versions: Show completed versions

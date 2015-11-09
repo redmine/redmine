@@ -639,10 +639,6 @@ id:
   label_blocked_by: diblok oleh
   label_precedes: mendahului
   label_follows: mengikuti
-  label_end_to_start: akhir ke awal
-  label_end_to_end: akhir ke akhir
-  label_start_to_start: awal ke awal
-  label_start_to_end: awal ke akhir
   label_stay_logged_in: Tetap login
   label_disabled: tidak diaktifkan
   label_show_completed_versions: Tampilkan versi lengkap

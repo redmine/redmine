@@ -648,10 +648,6 @@ hr:
   label_blocked_by: blokiran od strane
   label_precedes: prethodi
   label_follows: slijedi
-  label_end_to_start: od kraja do početka
-  label_end_to_end: od kraja do kraja
-  label_end_to_start: od kraja do početka
-  label_end_to_end: od kraja do kraja
   label_stay_logged_in: Ostanite prijavljeni
   label_disabled: Isključen
   label_show_completed_versions: Prikaži završene verzije
@@ -877,8 +873,6 @@ hr:
   text_line_separated: Multiple values allowed (one line for each value).
   label_close_versions: Close completed versions
   button_unarchive: Unarchive
-  label_start_to_end: start to end
-  label_start_to_start: start to start
   field_issue_to: Related issue
   default_issue_status_in_progress: In Progress
   text_own_membership_delete_confirmation: |-

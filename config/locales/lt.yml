@@ -768,10 +768,6 @@ lt:
   label_blocked_by: blokuojamas
   label_precedes: ankstesnė(-is)
   label_follows: seka
-  label_end_to_start: užbaigti, kad pradėti
-  label_end_to_end: užbaigti, kad pabaigti
-  label_start_to_start: pradėkite pradėti
-  label_start_to_end: pradėkite užbaigti
   label_stay_logged_in: Likti prisijungus
   label_disabled: išjungta(-as)
   label_show_completed_versions: Rodyti užbaigtas versijas

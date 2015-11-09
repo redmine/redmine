@@ -680,10 +680,6 @@ he:
   label_blocked_by: חסום ע"י
   label_precedes: מקדים את
   label_follows: עוקב אחרי
-  label_end_to_start: מהתחלה לסוף
-  label_end_to_end: מהסוף לסוף
-  label_start_to_start: מהתחלה להתחלה
-  label_start_to_end: מהתחלה לסוף
   label_stay_logged_in: השאר מחובר
   label_disabled: מבוטל
   label_show_completed_versions: הצג גירסאות גמורות

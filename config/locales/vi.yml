@@ -607,10 +607,6 @@ vi:
   label_blocked_by: chặn bởi
   label_precedes: đi trước
   label_follows: đi sau
-  label_end_to_start: cuối tới đầu
-  label_end_to_end: cuối tới cuối
-  label_start_to_start: đầu tớ đầu
-  label_start_to_end: đầu tới cuối
   label_stay_logged_in: Lưu thông tin đăng nhập
   label_disabled: Bị vô hiệu
   label_show_completed_versions: Xem phiên bản đã hoàn thành

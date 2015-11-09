@@ -414,8 +414,6 @@ gl:
   label_downloads_abbr: D/L
   label_duplicated_by: duplicada por
   label_duplicates: duplicada de
-  label_end_to_end: fin a fin
-  label_end_to_start: fin a principio
   label_enumeration_new: Novo valor
   label_enumerations: Listas de valores
   label_environment: Entorno
@@ -585,8 +583,6 @@ gl:
   label_sort_lower: Baixar
   label_sort_lowest: Último
   label_spent_time: Tempo dedicado
-  label_start_to_end: comezo a fin
-  label_start_to_start: comezo a comezo
   label_statistics: Estatísticas
   label_stay_logged_in: "Lembrar o contrasinal."
   label_string: Texto

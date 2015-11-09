@@ -792,10 +792,6 @@ bg:
   label_follows: изпълнява се след
   label_copied_to: копирана в
   label_copied_from: копирана от
-  label_end_to_start: край към начало
-  label_end_to_end: край към край
-  label_start_to_start: начало към начало
-  label_start_to_end: начало към край
   label_stay_logged_in: Запомни ме
   label_disabled: забранено
   label_show_completed_versions: Показване на реализирани версии

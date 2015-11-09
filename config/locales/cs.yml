@@ -688,10 +688,6 @@ cs:
   label_blocked_by: blokován
   label_precedes: předchází
   label_follows: následuje
-  label_end_to_start: od konce do začátku
-  label_end_to_end: od konce do konce
-  label_start_to_start: od začátku do začátku
-  label_start_to_end: od začátku do konce
   label_stay_logged_in: Zůstat přihlášený
   label_disabled: zakázán
   label_show_completed_versions: Zobrazit dokončené verze

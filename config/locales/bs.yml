@@ -630,10 +630,6 @@ bs:
   label_blocked_by: blokirano on
   label_precedes: predhodi
   label_follows: slijedi
-  label_end_to_start: 'kraj -> početak'
-  label_end_to_end: 'kraja -> kraj'
-  label_start_to_start: 'početak -> početak'
-  label_start_to_end: 'početak -> kraj'
   label_stay_logged_in: Ostani prijavljen
   label_disabled: onemogućen
   label_show_completed_versions: Prikaži završene verzije

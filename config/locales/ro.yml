@@ -612,10 +612,6 @@ ro:
   label_blocked_by: blocat de
   label_precedes: precede
   label_follows: urmează
-  label_end_to_start: de la sfârșit la început
-  label_end_to_end: de la sfârșit la sfârșit
-  label_start_to_start: de la început la început
-  label_start_to_end: de la început la sfârșit
   label_stay_logged_in: Păstrează autentificarea
   label_disabled: dezactivat
   label_show_completed_versions: Arată versiunile terminate

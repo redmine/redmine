@@ -481,8 +481,6 @@ az:
   label_downloads_abbr: Yükləmələr
   label_duplicated_by: çoxaldılır
   label_duplicates: çoxaldır
-  label_end_to_end: sondan sona doğru
-  label_end_to_start: sondan əvvələ doğru
   label_enumeration_new: Yeni qiymət
   label_enumerations: Qiymətlərin siyahısı
   label_environment: Mühit
@@ -659,8 +657,6 @@ az:
   label_sort_lower: Aşağı
   label_sort_lowest: Sona qayıt
   label_spent_time: Sərf olunan vaxt
-  label_start_to_end: əvvəldən axıra doğru
-  label_start_to_start: əvvəldən əvvələ doğru
   label_statistics: Statistika
   label_stay_logged_in: Sistemdə qalmaq
   label_string: Mətn

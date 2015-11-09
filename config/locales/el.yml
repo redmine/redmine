@@ -633,10 +633,6 @@ el:
   label_blocked_by: φραγή από τον
   label_precedes: προηγείται
   label_follows: ακολουθεί
-  label_end_to_start: από το τέλος στην αρχή
-  label_end_to_end: από το τέλος στο τέλος
-  label_start_to_start: από την αρχή στην αρχή
-  label_start_to_end: από την αρχή στο τέλος
   label_stay_logged_in: Παραμονή σύνδεσης
   label_disabled: απενεργοποιημένη
   label_show_completed_versions: Προβολή ολοκληρωμένων εκδόσεων

@@ -536,10 +536,6 @@ fi:
   label_blocked_by: estetty
   label_precedes: edeltää
   label_follows: seuraa
-  label_end_to_start: lopusta alkuun
-  label_end_to_end: lopusta loppuun
-  label_start_to_start: alusta alkuun
-  label_start_to_end: alusta loppuun
   label_stay_logged_in: Pysy kirjautuneena
   label_disabled: poistettu käytöstä
   label_show_completed_versions: Näytä valmiit versiot

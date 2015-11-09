@@ -543,10 +543,6 @@ th:
   label_blocked_by: กีดกันโดย
   label_precedes: นำหน้า
   label_follows: ตามหลัง
-  label_end_to_start: จบ-เริ่ม
-  label_end_to_end: จบ-จบ
-  label_start_to_start: เริ่ม-เริ่ม
-  label_start_to_end: เริ่ม-จบ
   label_stay_logged_in: อยู่ในระบบต่อ
   label_disabled: ไม่ใช้งาน
   label_show_completed_versions: แสดงรุ่นที่สมบูรณ์

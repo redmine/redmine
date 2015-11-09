@@ -494,10 +494,6 @@ it:
   label_blocked_by: bloccata da
   label_precedes: precede
   label_follows: segue
-  label_end_to_start: fine a inizio
-  label_end_to_end: fine a fine
-  label_start_to_start: inizio a inizio
-  label_start_to_end: inizio a fine
   label_stay_logged_in: Rimani collegato
   label_disabled: disabilitato
   label_show_completed_versions: Mostra versioni completate

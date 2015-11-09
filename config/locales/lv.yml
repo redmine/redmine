@@ -652,10 +652,6 @@ lv:
   label_blocked_by: Bloķē uzdevums
   label_precedes: Pirms
   label_follows: Seko pēc
-  label_end_to_start: no beigām uz sākumu
-  label_end_to_end: no beigām uz beigām
-  label_start_to_start: no sākuma uz sākumu
-  label_start_to_end: no sākuma uz beigām
   label_stay_logged_in: Atcerēties mani
   label_disabled: izslēgts
   label_show_completed_versions: Rādīt pabeigtās versijas

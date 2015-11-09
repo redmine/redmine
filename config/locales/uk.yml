@@ -503,10 +503,6 @@ uk:
   label_blocked_by: заблоковане
   label_precedes: передує
   label_follows: наступний за
-  label_end_to_start: з кінця до початку
-  label_end_to_end: з кінця до кінця
-  label_start_to_start: з початку до початку
-  label_start_to_end: з початку до кінця
   label_stay_logged_in: Залишатися в системі
   label_disabled: відключений
   label_show_completed_versions: Показати завершені версії

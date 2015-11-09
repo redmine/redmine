@@ -709,10 +709,6 @@ ar:
   label_blocked_by: لا يمكن تنفيذه إلا بعد
   label_precedes: يسبق
   label_follows: يتبع
-  label_end_to_start: نهاية لبدء
-  label_end_to_end: نهاية لنهاية
-  label_start_to_start: بدء لبدء
-  label_start_to_end: بداية لنهاية
   label_stay_logged_in: تسجيل الدخول في
   label_disabled: تعطيل
   label_show_completed_versions: إظهار الإصدارات الكاملة

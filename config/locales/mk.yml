@@ -672,10 +672,6 @@ mk:
   label_blocked_by: блокирано од
   label_precedes: претходи
   label_follows: следи
-  label_end_to_start: крај до почеток
-  label_end_to_end: крај до крај
-  label_start_to_start: почеток до почеток
-  label_start_to_end: почеток до крај
   label_stay_logged_in: Останете најавени
   label_disabled: disabled
   label_show_completed_versions: Show completed versions

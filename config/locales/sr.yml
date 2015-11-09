@@ -670,10 +670,6 @@ sr:
   label_blocked_by: одбијених од
   label_precedes: претходи
   label_follows: праћених
-  label_end_to_start: од краја до почетка
-  label_end_to_end: од краја до краја
-  label_start_to_start: од почетка до почетка
-  label_start_to_end: од почетка до краја
   label_stay_logged_in: Останите пријављени
   label_disabled: онемогућено
   label_show_completed_versions: Приказивање завршене верзије

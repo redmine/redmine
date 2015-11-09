@@ -552,10 +552,6 @@ da:
   label_blocked_by: blokeret af
   label_precedes: kommer før
   label_follows: følger
-  label_end_to_start: slut til start
-  label_end_to_end: slut til slut
-  label_start_to_start: start til start
-  label_start_to_end: start til slut
   label_stay_logged_in: Forbliv indlogget
   label_disabled: deaktiveret
   label_show_completed_versions: Vis færdige versioner

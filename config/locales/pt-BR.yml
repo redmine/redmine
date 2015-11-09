@@ -577,10 +577,6 @@ pt-BR:
   label_blocked_by: bloqueado por
   label_precedes: precede
   label_follows: segue
-  label_end_to_start: fim para o início
-  label_end_to_end: fim para fim
-  label_start_to_start: início para início
-  label_start_to_end: início para fim
   label_stay_logged_in: Permanecer logado
   label_disabled: desabilitado
   label_show_completed_versions: Exibir versões completas

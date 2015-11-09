@@ -674,10 +674,6 @@ ko:
   label_blocked_by: "다음 일감에게 막혀 있음:"
   label_precedes: "다음에 진행할 일감:"
   label_follows: "다음 일감을 우선 진행:"
-  label_end_to_start: "끝에서 시작"
-  label_end_to_end: "끝에서 끝"
-  label_start_to_start: "시작에서 시작" 
-  label_start_to_end: "시작에서 끝"
   label_stay_logged_in: 로그인 유지
   label_disabled: 비활성화
   label_show_completed_versions: 완료된 버전 보기

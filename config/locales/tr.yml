@@ -557,10 +557,6 @@ tr:
   label_blocked_by: Engelleyen
   label_precedes: önce gelir
   label_follows: sonra gelir
-  label_end_to_start: sondan başa
-  label_end_to_end: sondan sona
-  label_start_to_start: baştan başa
-  label_start_to_end: baştan sona
   label_stay_logged_in: Sürekli bağlı kal
   label_disabled: Devredışı
   label_show_completed_versions: Tamamlanmış sürümleri göster

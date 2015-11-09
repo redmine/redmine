@@ -672,10 +672,6 @@ sr-YU:
   label_blocked_by: odbijenih od
   label_precedes: prethodi
   label_follows: praćenih
-  label_end_to_start: od kraja do početka
-  label_end_to_end: od kraja do kraja
-  label_start_to_start: od početka do početka
-  label_start_to_end: od početka do kraja
   label_stay_logged_in: Ostanite prijavljeni
   label_disabled: onemogućeno
   label_show_completed_versions: Prikazivanje završene verzije

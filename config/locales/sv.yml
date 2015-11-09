@@ -798,10 +798,6 @@ sv:
   label_follows: Följer
   label_copied_to: Kopierad till
   label_copied_from: Kopierad från
-  label_end_to_start: slut till start
-  label_end_to_end: slut till slut
-  label_start_to_start: start till start
-  label_start_to_end: start till slut
   label_stay_logged_in: Förbli inloggad
   label_disabled: inaktiverad
   label_show_completed_versions: Visa färdiga versioner
