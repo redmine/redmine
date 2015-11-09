@@ -28,8 +28,7 @@ class Principal < ActiveRecord::Base
   has_many :memberships,
            lambda {preload(:project, :roles).
                    joins(:project).
-                   where("#{Project.table_name}.status<>#{Project::STATUS_ARCHIVED}").
-                   order("#{Project.table_name}.name")},
+                   where("#{Project.table_name}.status<>#{Project::STATUS_ARCHIVED}")},
            :class_name => 'Member',
            :foreign_key => 'user_id'
   has_many :projects, :through => :memberships
