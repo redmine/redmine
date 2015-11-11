@@ -756,6 +756,18 @@ class WikiControllerTest < ActionController::TestCase
     end
   end
 
+  def test_destroy_invalid_version_should_respond_with_404
+    @request.session[:user_id] = 2
+    assert_no_difference 'WikiContent::Version.count' do
+      assert_no_difference 'WikiContent.count' do
+        assert_no_difference 'WikiPage.count' do
+          delete :destroy_version, :project_id => 'ecookbook', :id => 'CookBook_documentation', :version => 99
+        end
+      end
+    end
+    assert_response 404
+  end
+
   def test_index
     get :index, :project_id => 'ecookbook'
     assert_response :success
