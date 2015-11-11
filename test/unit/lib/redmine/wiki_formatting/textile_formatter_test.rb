@@ -249,6 +249,24 @@ EXPECTED
     assert_equal expected.gsub(%r{\s+}, ''), to_html(raw).gsub(%r{\s+}, '')
   end
 
+  def test_table_with_alignment
+    raw = <<-RAW
+|>. right|
+|<. left|
+|<>. justify|
+RAW
+
+    expected = <<-EXPECTED
+<table>
+  <tr><td style="text-align:right;">right</td></tr>
+  <tr><td style="text-align:left;">left</td></tr>
+  <tr><td style="text-align:justify;">justify</td></tr>
+</table>
+EXPECTED
+
+    assert_equal expected.gsub(%r{\s+}, ''), to_html(raw).gsub(%r{\s+}, '')
+  end
+
   def test_table_with_trailing_whitespace
     raw = <<-RAW
 This is a table with trailing whitespace in one row:
