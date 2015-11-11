@@ -160,16 +160,9 @@ EXPECTED
     assert_equal expected.gsub(%r{\s+}, ''), to_html(raw).gsub(%r{\s+}, '')
   end
 
-  def test_should_escape_unallowed_tags
+  def test_escaping
     assert_html_output(
       'this is a <script>'      => 'this is a &lt;script&gt;'
-    )
-  end
-
-  def test_should_escape_less_than_signs
-    assert_html_output(
-      '<'                     => '&lt;',
-      '1 < 2'                 => '1 &lt; 2'
     )
   end
 
