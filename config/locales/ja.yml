@@ -714,8 +714,8 @@ ja:
   label_relates_to: 関連している
   label_duplicates: 次のチケットと重複
   label_duplicated_by: 次のチケットが重複
-  label_blocks: ブロックしている
-  label_blocked_by: ブロックされている
+  label_blocks: ブロック先
+  label_blocked_by: ブロック元
   label_precedes: 次のチケットに先行
   label_follows: 次のチケットに後続
   label_stay_logged_in: ログインを維持
