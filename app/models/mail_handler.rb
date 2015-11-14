@@ -54,7 +54,7 @@ class MailHandler < ActionMailer::Base
   def self.safe_receive(*args)
     receive(*args)
   rescue Exception => e
-    logger.error "An unexpected error occurred when receiving email: #{e.message}" if logger
+    logger.error "MailHandler: an unexpected error occurred when receiving email: #{e.message}" if logger
     return false
   end
 
@@ -176,7 +176,7 @@ class MailHandler < ActionMailer::Base
     end
   rescue ActiveRecord::RecordInvalid => e
     # TODO: send a email to the user
-    logger.error e.message if logger
+    logger.error "MailHandler: #{e.message}" if logger
     false
   rescue MissingInformation => e
     logger.error "MailHandler: missing information from #{user}: #{e.message}" if logger
