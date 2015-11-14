@@ -272,7 +272,7 @@ class AccountController < ApplicationController
     cookie_options = {
       :value => token.value,
       :expires => 1.year.from_now,
-      :path => (Redmine::Configuration['autologin_cookie_path'] || '/'),
+      :path => (Redmine::Configuration['autologin_cookie_path'] || RedmineApp::Application.config.relative_url_root || '/'),
       :secure => secure,
       :httponly => true
     }
