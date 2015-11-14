@@ -4,6 +4,22 @@ Redmine - project management software
 Copyright (C) 2006-2015  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2015-11-14 v3.0.6
+
+* Defect #20360: Project copy does not copy custom field settings
+* Defect #20380: Cannot assign users to projects with IE set to compatibility mode
+* Defect #20591: PDF export does not determine picture (.png) height correctly
+* Defect #20677: Custom fields with multiple values required by worklow can be blank
+* Defect #20811: long <pre> lines are missing from PDF export of wiki pages
+* Defect #21136: Issues API may disclose changeset messages that are not visible
+* Defect #21150: Time logging form may disclose subjects of issues that are not visible
+* Defect #21155: Deleting invalid wiki page version deletes whole page content
+* Defect #20282: Error message when editing a child project without add project/subprojects permissions
+* Defect #20730: Fix tokenization of phrases with non-ascii chars
+* Defect #21071: find_referenced_issue_by_id fails with RangeError for large numbers
+* Patch #21031: Polish translation update for 3.0-stable
+* Patch #21105: Japanese wiki_syntax_detailed_textile.html translation for 3.0-stable
+
 == 2015-09-20 v3.0.5
 
 * Defect #19577: Open redirect vulnerability
