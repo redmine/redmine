@@ -185,6 +185,26 @@ class IssueSubtaskingTest < ActiveSupport::TestCase
     end
   end
 
+  def test_done_ratio_of_parent_should_reflect_children
+    root = Issue.generate!
+    child1 = root.generate_child!
+    child2 = child1.generate_child!
+
+    assert_equal 0, root.done_ratio
+    assert_equal 0, child1.done_ratio
+    assert_equal 0, child2.done_ratio
+
+    with_settings :issue_done_ratio => 'issue_status' do
+      status = IssueStatus.find(4)
+      status.update_attribute :default_done_ratio, 50
+      child1.update_attribute :status, status
+
+      assert_equal 50, child1.done_ratio
+      root.reload
+      assert_equal 50, root.done_ratio
+    end
+  end
+
   def test_parent_dates_should_be_editable_with_parent_issue_dates_set_to_independent
     with_settings :parent_issue_dates => 'independent' do
       issue = Issue.generate_with_child!
