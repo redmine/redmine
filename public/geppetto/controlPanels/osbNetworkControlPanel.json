@@ -25,7 +25,15 @@
                 ],
                 "icon": "gpt-ion-channel",
                 "label": "Channels",
-                "tooltip": "Ion channels present in the selected cell"
+                "tooltip": "Ion channels present on the selected cell"
+            },
+            "Inputs": {
+                "actions": [
+                    "showInputTreeView($ENTER_ID)"
+                ],
+                "icon": "gpt-inputs",
+                "label": "Inputs",
+                "tooltip": "Inputs present on the network"
             },
             "CellVisual": {
 		      "actions": [

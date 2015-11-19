@@ -38,6 +38,25 @@ var showChannelTreeView = function(csel) {
 		csel.electrical.getModelTree();
 	}
 };
+
+var showInputTreeView = function(csel) {
+	var tv = initialiseTreeWidget('Inputs on ' + csel.getName(), widthScreen - marginLeft - defaultWidgetWidth, marginTop);
+	if (typeof csel.electrical.ModelTree.Summary !== 'undefined') {
+		tv.setData(csel.getSubNodesOfDomainType('PulseGenerator'), {
+			labelName : 'id'
+		});
+	} else {
+		tv.registerEvent(Events.ModelTree_populated, function() {
+			tv.setData(csel.getSubNodesOfDomainType('PulseGenerator'), {
+				labelName : 'id'
+			});
+			tv.unregisterEvent(Events.ModelTree_populated);
+		});
+		csel.electrical.getModelTree();
+	}
+};
+
+
 var showVisualTreeView = function(csel) {
 	var visualWidgetWidth = 350;
 	var visualWidgetHeight = 400;

@@ -7,7 +7,7 @@
                 ],
                 "icon": "gpt-pyramidal-cell",
                 "label": "Cell Info",
-                "tooltip": "Information on the selected cell"
+                "tooltip": "Information on the cell"
             },
             "Channels": {
                 "actions": [
@@ -15,7 +15,15 @@
                 ],
                 "icon": "gpt-ion-channel",
                 "label": "Channels",
-                "tooltip": "Ion channels present in the selected cell"
+                "tooltip": "Ion channels present on the cell"
+            },
+            "Inputs": {
+                "actions": [
+                    "executeOnSelection(showInputTreeView)"
+                ],
+                "icon": "gpt-inputs",
+                "label": "Inputs",
+                "tooltip": "Inputs present on the cell"
             },
             "CellVisual": {
 		      "actions": [
@@ -23,7 +31,7 @@
 		      ],
 		      "icon": "gpt-pyramidal-cell",
 		      "label": "Cell Visual",
-		      "tooltip": "Visual information on selected cell"
+		      "tooltip": "Visual information on the cell"
 		    }
         }
     }
