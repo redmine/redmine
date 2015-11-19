@@ -3,7 +3,7 @@ var executeOnSelection = function(callback) {
 	if (typeof csel !== 'undefined') {
 		callback(csel);
 	} else {
-		G.addWidget(1).setMessage('No cell selected! Please select one of the cells and click here for information on its properties.');
+		G.addWidget(1).setMessage('No cell selected! Please select one of the cells and click here for information on its properties.').setName('Warning Message');
 	}
 };
 var showSummaryTreeView = function(csel) {
