@@ -254,8 +254,9 @@ function open3DExplorer(file, projectIdentifier)
 				    	var urlGeppettoFile = $("#serverIP").val() + json.geppettoSimulationFile;
 				    	
 				    	if (jQuery("#3dbrowser").length > 0){
-				    		//document.getElementById("3dframe").contentWindow.postMessage({"command": "loadSimulation", "url": urlGeppettoFile}, "http://127.0.0.1:8080");
-				    		jQuery("#3dframe").attr('src', $("#geppettoIP").val() + "geppetto?load_project_from_url=" + urlGeppettoFile);
+				    		document.getElementById("3dframe").contentWindow.postMessage({"command": "removeWidgets"}, "http://127.0.0.1:8080");
+				    		document.getElementById("3dframe").contentWindow.postMessage({"command": "loadSimulation", "url": urlGeppettoFile}, "http://127.0.0.1:8080");
+				    		//jQuery("#3dframe").attr('src', $("#geppettoIP").val() + "geppetto?load_project_from_url=" + urlGeppettoFile);
 				    	}
 				    	else{
 				    		jQuery("#mainContent").hide();
@@ -269,8 +270,9 @@ function open3DExplorer(file, projectIdentifier)
 			}
 			else{
 				if (jQuery("#3dbrowser").length > 0){
-//		    		document.getElementById("3dframe").contentWindow.postMessage({"command": "loadSimulation", "projectId": file}, "http://127.0.0.1:8080");
-					jQuery("#3dframe").attr('src', $("#geppettoIP").val() + "geppetto?load_project_from_id=" + file);
+					document.getElementById("3dframe").contentWindow.postMessage({"command": "removeWidgets"}, "http://127.0.0.1:8080");
+					document.getElementById("3dframe").contentWindow.postMessage({"command": "loadSimulation", "projectId": file}, "http://127.0.0.1:8080");
+					//jQuery("#3dframe").attr('src', $("#geppettoIP").val() + "geppetto?load_project_from_id=" + file);
 		    	}
 		    	else{
 		    		jQuery("#mainContent").hide();
