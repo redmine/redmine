@@ -171,6 +171,13 @@ DESC
         t.verbose = true
         t.pattern = "plugins/#{ENV['NAME'] || '*'}/test/integration/**/*_test.rb"
       end
+
+      desc 'Runs the plugins ui tests.'
+      Rake::TestTask.new :ui => "db:test:prepare" do |t|
+        t.libs << "test"
+        t.verbose = true
+        t.pattern = "plugins/#{ENV['NAME'] || '*'}/test/ui/**/*_test.rb"
+      end
     end
   end
 end
