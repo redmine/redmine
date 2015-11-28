@@ -538,9 +538,9 @@ class IssuesControllerTest < ActionController::TestCase
       lines = @response.body.chomp.split("\n")
       header = lines[0]
       status = "\xaa\xac\xbaA".force_encoding('Big5')
-      assert header.include?(status)
+      assert_include status, header
       issue_line = lines.find {|l| l =~ /^#{issue.id},/}
-      assert issue_line.include?(str_big5)
+      assert_include str_big5, issue_line
     end
   end
 
