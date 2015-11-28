@@ -494,7 +494,44 @@ textarea#custom_field_default_value {width: 95%; resize:vertical}
 
 input#content_comments {width: 99%}
 
-p.pagination {margin-top:8px; font-size: 90%}
+span.pagination {margin-left:3px}
+.pagination ul.pages {
+  margin: 0 5px 0 0;
+  padding: 0;
+  display: inline;
+}
+.pagination ul.pages li {
+  display: inline-block;
+  padding: 0;
+  border: 1px solid #BBB;
+  margin-left: -1px;
+  line-height: 2em;
+}
+.pagination ul.pages li a,
+.pagination ul.pages li span {
+  padding: 4px 10px;
+}
+.pagination ul.pages li:first-child {
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+}
+.pagination ul.pages li:last-child {
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+.pagination ul.pages li.current {
+  color: white;
+  background-color: #628DB6;
+  border-color: #628DB6;
+}
+.pagination ul.pages li.page:hover {
+  background-color: #EEE;
+}
+.pagination ul.pages li.page a:hover,
+.pagination ul.pages li.page a:active {
+  color: inherit;
+  text-decoration: inherit;
+}
 
 #search-form fieldset p {margin:0.2em 0;}
 

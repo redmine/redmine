@@ -67,7 +67,7 @@
   <%= link_to_attachments message, :author => false %>
   </div>
 <% end %>
-<p class="pagination"><%= pagination_links_full @reply_pages, @reply_count, :per_page_links => false %></p>
+<span class="pagination"><%= pagination_links_full @reply_pages, @reply_count, :per_page_links => false %></span>
 <% end %>
 
 <% if !@topic.locked? && authorize_for('messages', 'reply') %>

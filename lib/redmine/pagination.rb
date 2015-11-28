@@ -172,34 +172,40 @@ module Redmine
         per_page_links = false if count.nil?
         page_param = paginator.page_param
 
-        html = ''
+        html = '<ul class="pages">'
         if paginator.previous_page
           # \xc2\xab(utf-8) = &#171;
           text = "\xc2\xab " + l(:label_previous)
-          html << yield(text, {page_param => paginator.previous_page},
-            :class => 'previous', :accesskey => accesskey(:previous)) + ' '
+          html << content_tag('li',
+                              yield(text, {page_param => paginator.previous_page},
+                                    :accesskey => accesskey(:previous)),
+                              :class => 'previous page')
         end
 
         previous = nil
         paginator.linked_pages.each do |page|
           if previous && previous != page - 1
-            html << content_tag('span', '...', :class => 'spacer') + ' '
+            html << content_tag('li', content_tag('span', '...'), :class => 'spacer') + ' '
           end
           if page == paginator.page
-            html << content_tag('span', page.to_s, :class => 'current page')
+            html << content_tag('li', content_tag('span', page.to_s), :class => 'current')
           else
-            html << yield(page.to_s, {page_param => page}, :class => 'page')
+            html << content_tag('li',
+                                yield(page.to_s, {page_param => page}),
+                                :class => 'page')
           end
-          html << ' '
           previous = page
         end
 
         if paginator.next_page
           # \xc2\xbb(utf-8) = &#187;
           text = l(:label_next) + " \xc2\xbb"
-          html << yield(text, {page_param => paginator.next_page},
-            :class => 'next', :accesskey => accesskey(:next)) + ' '
+          html << content_tag('li',
+                              yield(text, {page_param => paginator.next_page},
+                                    :accesskey => accesskey(:next)),
+                              :class => 'next page')
         end
+        html << '</ul>'
 
         html << content_tag('span', "(#{paginator.first_item}-#{paginator.last_item}/#{paginator.item_count})", :class => 'items') + ' '
 
