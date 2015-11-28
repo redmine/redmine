@@ -494,7 +494,7 @@ textarea#custom_field_default_value {width: 95%; resize:vertical}
 
 input#content_comments {width: 99%}
 
-span.pagination {margin-left:3px}
+span.pagination {margin-left:3px; color:#888;}
 .pagination ul.pages {
   margin: 0 5px 0 0;
   padding: 0;
@@ -503,13 +503,13 @@ span.pagination {margin-left:3px}
 .pagination ul.pages li {
   display: inline-block;
   padding: 0;
-  border: 1px solid #BBB;
+  border: 1px solid #ccc;
   margin-left: -1px;
   line-height: 2em;
 }
 .pagination ul.pages li a,
 .pagination ul.pages li span {
-  padding: 4px 10px;
+  padding: 3px 8px;
 }
 .pagination ul.pages li:first-child {
   border-top-left-radius: 4px;
