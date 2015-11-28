@@ -691,6 +691,7 @@ input.autocomplete.ajax-loading {
 .objects-selection {
   height: 300px;
   overflow: auto;
+  margin-bottom: 1em;
 }
 
 .objects-selection label {
