@@ -32,7 +32,5 @@ environment:
     - ruby_version: "200-x64"
     - ruby_version: "21"
     - ruby_version: "21-x64"
-    # Nokogori does not work on Windows Ruby 2.2
-    # https://github.com/sparklemotion/nokogiri/issues/1256
-    # - ruby_version: "22"
-    # - ruby_version: "22-x64"
+    - ruby_version: "22"
+    - ruby_version: "22-x64"
