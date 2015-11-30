@@ -13,7 +13,7 @@ build: off
 
 test_script:
   - bundle install --without rmagick
-  - set SCMS=git
+  - set SCMS=mercurial
   - set RUN_ON_NOT_OFFICIAL=
   - set RUBY_VER=1.9
   - set BRANCH=trunk
