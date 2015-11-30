@@ -165,7 +165,7 @@ class UsersController < ApplicationController
 
       if oldPassword
         #Geppetto update
-        geppettoRegisterURL = Rails.application.config.serversIP["geppettoIP"] + "setPassword?username=" + @user.login + "&oldPassword=" + oldPassword + "&newPassword=" + @user.hashed_password
+        geppettoRegisterURL = Rails.application.config.serversIP["geppettoIP"] + Rails.application.config.serversIP["geppettoContextPath"] + "setPassword?username=" + @user.login + "&oldPassword=" + oldPassword + "&newPassword=" + @user.hashed_password
         begin
           geppettoRegisterContent = open(geppettoRegisterURL)
         rescue => e

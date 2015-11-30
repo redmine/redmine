@@ -254,14 +254,14 @@ function open3DExplorer(file, projectIdentifier)
 				    	var urlGeppettoFile = $("#serverIP").val() + json.geppettoSimulationFile;
 				    	
 				    	if (jQuery("#3dbrowser").length > 0){
-				    		document.getElementById("3dframe").contentWindow.postMessage({"command": "removeWidgets"}, "http://127.0.0.1:8080");
-				    		document.getElementById("3dframe").contentWindow.postMessage({"command": "loadSimulation", "url": urlGeppettoFile}, "http://127.0.0.1:8080");
+				    		document.getElementById("3dframe").contentWindow.postMessage({"command": "removeWidgets"}, $("#geppettoIP").val());
+				    		document.getElementById("3dframe").contentWindow.postMessage({"command": "loadSimulation", "url": urlGeppettoFile}, $("#geppettoIP").val());
 				    		//jQuery("#3dframe").attr('src', $("#geppettoIP").val() + "geppetto?load_project_from_url=" + urlGeppettoFile);
 				    	}
 				    	else{
 				    		jQuery("#mainContent").hide();
 				    		//iframe load
-				    		jQuery("#mainContent").before("<div id='3dbrowser'><div id='3dspacer' style='display: none;'><br/><br/><br/></div><a class='fullscreen btn icon-desktop' href='javascript:toggleFullScreen();'> Full Screen</a><iframe id='3dframe' style='width:100%' src='" + $("#geppettoIP").val() + "geppetto?load_project_from_url=" + urlGeppettoFile + "'></iframe>");
+				    		jQuery("#mainContent").before("<div id='3dbrowser'><div id='3dspacer' style='display: none;'><br/><br/><br/></div><a class='fullscreen btn icon-desktop' href='javascript:toggleFullScreen();'> Full Screen</a><iframe id='3dframe' style='width:100%' src='" + $("#geppettoIP").val() + $("#geppettoContextPath").val() + "geppetto?load_project_from_url=" + urlGeppettoFile + "'></iframe>");
 				    		document.getElementById('3dframe').onload = resizeIframe;
 				    		window.onresize = resizeIframe;
 				    	}
@@ -270,14 +270,14 @@ function open3DExplorer(file, projectIdentifier)
 			}
 			else{
 				if (jQuery("#3dbrowser").length > 0){
-					document.getElementById("3dframe").contentWindow.postMessage({"command": "removeWidgets"}, "http://127.0.0.1:8080");
-					document.getElementById("3dframe").contentWindow.postMessage({"command": "loadSimulation", "projectId": file}, "http://127.0.0.1:8080");
+					document.getElementById("3dframe").contentWindow.postMessage({"command": "removeWidgets"}, $("#geppettoIP").val());
+					document.getElementById("3dframe").contentWindow.postMessage({"command": "loadSimulation", "projectId": file}, $("#geppettoIP").val());
 					//jQuery("#3dframe").attr('src', $("#geppettoIP").val() + "geppetto?load_project_from_id=" + file);
 		    	}
 		    	else{
 		    		jQuery("#mainContent").hide();
 		    		//iframe load
-		    		jQuery("#mainContent").before("<div id='3dbrowser'><div id='3dspacer' style='display: none;'><br/><br/><br/></div><a class='fullscreen btn icon-desktop' href='javascript:toggleFullScreen();'> Full Screen</a><iframe id='3dframe' style='width:100%' src='" + $("#geppettoIP").val() + "geppetto?load_project_from_id=" + file + "'></iframe>");
+		    		jQuery("#mainContent").before("<div id='3dbrowser'><div id='3dspacer' style='display: none;'><br/><br/><br/></div><a class='fullscreen btn icon-desktop' href='javascript:toggleFullScreen();'> Full Screen</a><iframe id='3dframe' style='width:100%' src='" + $("#geppettoIP").val()  + $("#geppettoContextPath").val() + "geppetto?load_project_from_id=" + file + "'></iframe>");
 		    		document.getElementById('3dframe').onload = resizeIframe;
 		    		window.onresize = resizeIframe;
 		    	}

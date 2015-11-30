@@ -15,7 +15,7 @@ function callGeppetto(url, onloadFunction, authenticate){
 function makeCorsRequest(url, onloadFunction, url2, onPostLoadFunction) {
 	if (hasGeppettoServer && checkCookie()){
 
-	  var xhr = createCORSRequest('GET', geppettoIP + url);
+	  var xhr = createCORSRequest('GET', geppettoIP + geppettoContextPath + url);
 	  if (!xhr) {
 	    console.log('CORS not supported');
 	    return;
@@ -62,7 +62,7 @@ function createCORSRequest(method, url) {
 
 // Add dashboard in home page
 function addDashboard(){
-	jQuery("#welcomeMainContainer").prepend("<div class='span12' style='margin-bottom: 20px;'><iframe id='geppettoDashboard' style='width:100%;height:550px;border:0px;' src='" + geppettoIP + "'></iframe></div>");
+	jQuery("#welcomeMainContainer").prepend("<div class='span12' style='margin-bottom: 20px;'><iframe id='geppettoDashboard' style='width:100%;height:550px;border:0px;' src='" + geppettoIP + geppettoContextPath + "'></iframe></div>");
 }
 // Process logout
 function processLogout(url, text){
