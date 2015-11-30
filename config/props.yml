@@ -1,4 +1,4 @@
 serverIP: http://opensourcebrain.org/
 geppettoIP: http://184.72.223.204:8080/
-geppettoContextPath: 
+geppettoContextPath: ""
 hasGeppettoServer: true
