@@ -46,6 +46,6 @@
 <script>
 $('#loginButton').click(function(e){
 	e.preventDefault();
-    callGeppetto("logout", processOSBLogin, false);
+    callGeppetto("logout?outputFormat=json", processOSBLogin, false);
 });
 </script>

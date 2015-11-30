@@ -3,7 +3,7 @@
         "Network Info": {
             "Connectivity": {
                 "actions": [
-                    "G.addWidget(6).setData($ENTER_ID,{linkType:function(c){return c.getSubNodesOfDomainType('Synapse')[0].id}}).setName('Connectivity Widget on network ' + $ENTER_ID.getName())"
+                	"if ($ENTER_ID.getSubNodesOfDomainType('Synapse').length == 0){G.addWidget(1).setMessage('No connection found in this network').setName('Warning Message');}else{G.addWidget(6).setData($ENTER_ID,{linkType:function(c){return c.getSubNodesOfDomainType('Synapse')[0].id}}).setName('Connectivity Widget on network ' + $ENTER_ID.getName())}"
                 ],
                 "icon": "gpt-make-group",
                 "label": "Connectivity",
@@ -25,7 +25,15 @@
                 ],
                 "icon": "gpt-ion-channel",
                 "label": "Channels",
-                "tooltip": "Ion channels present in the selected cell"
+                "tooltip": "Ion channels present on the selected cell"
+            },
+            "Inputs": {
+                "actions": [
+                    "showInputTreeView($ENTER_ID)"
+                ],
+                "icon": "gpt-inputs",
+                "label": "Inputs",
+                "tooltip": "Inputs present on the network"
             },
             "CellVisual": {
 		      "actions": [

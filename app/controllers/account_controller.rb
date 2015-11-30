@@ -79,7 +79,7 @@ class AccountController < ApplicationController
           flash[:notice] = l(:notice_account_password_updated)
           
           #Geppetto update
-          geppettoRegisterURL = Rails.application.config.serversIP["geppettoIP"] + "setPassword?username=" + @user.login + "&oldPassword=" + oldPassword + "&newPassword=" + @user.hashed_password
+          geppettoRegisterURL = Rails.application.config.serversIP["geppettoIP"] + Rails.application.config.serversIP["geppettoContextPath"] + "setPassword?username=" + @user.login + "&oldPassword=" + oldPassword + "&newPassword=" + @user.hashed_password
           begin
             geppettoRegisterContent = open(geppettoRegisterURL)
           rescue => e
@@ -163,7 +163,7 @@ class AccountController < ApplicationController
         end
         
         #Geppetto register
-        geppettoRegisterURL = Rails.application.config.serversIP["geppettoIP"] + "user?username=" + @user.login + "&password=" + @user.hashed_password
+        geppettoRegisterURL = Rails.application.config.serversIP["geppettoIP"] + Rails.application.config.serversIP["geppettoContextPath"] + "user?username=" + @user.login + "&password=" + @user.hashed_password
         begin
           geppettoRegisterContent = open(geppettoRegisterURL)
         rescue => e

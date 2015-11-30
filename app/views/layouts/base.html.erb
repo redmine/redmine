@@ -49,6 +49,7 @@
 		            <% if User.current.logged? || !Setting.login_required? %>
 				    <div id="quick-search" class="span4">
 						<!-- Geppetto and server IP -->
+						<%= hidden_field_tag("geppettoContextPath", Rails.application.config.serversIP["geppettoContextPath"]) %>
 				        <%= hidden_field_tag("geppettoIP", Rails.application.config.serversIP["geppettoIP"]) %>
 				        <%= hidden_field_tag("serverIP", Rails.application.config.serversIP["serverIP"]) %>
 
@@ -234,6 +235,7 @@
 <script>
 hasGeppettoServer = <%= Rails.application.config.serversIP["hasGeppettoServer"] %>;
 geppettoIP = "<%= Rails.application.config.serversIP['geppettoIP']  %>";
+geppettoContextPath = "<%= Rails.application.config.serversIP["geppettoContextPath"]  %>";
 redmineLogin = "<%= User.current.login %>";
 redmineHashed = "<%= User.current.hashed_password %>";
 </script>
@@ -292,7 +294,7 @@ window.addEventListener('message', handleSizingResponse, false);
 </script>
 <script>
 $('#logout_link').click(function(e){
-	callGeppetto("logout", processLogout, false);
+	callGeppetto("logout?outputFormat=json", processLogout, false);
 	return false;
 });
 </script>
