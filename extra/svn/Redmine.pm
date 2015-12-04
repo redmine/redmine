@@ -332,8 +332,10 @@ sub access_handler {
 
   my $project_id = get_project_identifier($r);
 
-  $r->set_handlers(PerlAuthenHandler => [\&OK])
-      if is_public_project($project_id, $r) && anonymous_allowed_to_browse_repository($project_id, $r);
+  if (is_public_project($project_id, $r) && anonymous_allowed_to_browse_repository($project_id, $r)) {
+    $r->user("");
+    $r->set_handlers(PerlAuthenHandler => [\&OK]);
+  }
 
   return OK
 }
