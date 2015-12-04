@@ -395,6 +395,7 @@ de:
   general_csv_encoding: ISO-8859-1
   general_csv_separator: ';'
   general_pdf_fontname: freesans
+  general_pdf_monospaced_fontname: freemono
   general_first_day_of_week: '1'
   general_lang_name: 'German (Deutsch)'
   general_text_No: 'Nein'

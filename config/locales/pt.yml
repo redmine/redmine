@@ -152,6 +152,7 @@ pt:
   general_csv_decimal_separator: ','
   general_csv_encoding: ISO-8859-15
   general_pdf_fontname: freesans
+  general_pdf_monospaced_fontname: freemono
   general_first_day_of_week: '1'
 
   notice_account_updated: A conta foi atualizada com sucesso.

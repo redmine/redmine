@@ -226,6 +226,7 @@
   general_csv_decimal_separator: '.'
   general_csv_encoding: Big5
   general_pdf_fontname: msungstdlight
+  general_pdf_monospaced_fontname: msungstdlight
   general_first_day_of_week: '7'
 
   notice_account_updated: 帳戶更新資訊已儲存
