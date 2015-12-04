@@ -163,6 +163,7 @@ ja:
   general_csv_decimal_separator: '.'
   general_csv_encoding: CP932
   general_pdf_fontname: kozminproregular
+  general_pdf_monospaced_fontname: kozminproregular
   general_first_day_of_week: '7'
 
   notice_account_updated: アカウントが更新されました。

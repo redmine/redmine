@@ -140,6 +140,7 @@ th:
   general_csv_decimal_separator: '.'
   general_csv_encoding: Windows-874
   general_pdf_fontname: freeserif
+  general_pdf_monospaced_fontname: freeserif
   general_first_day_of_week: '1'
 
   notice_account_updated: บัญชีได้ถูกปรับปรุงแล้ว.

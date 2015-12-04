@@ -143,6 +143,7 @@ el:
   general_csv_decimal_separator: '.'
   general_csv_encoding: UTF-8
   general_pdf_fontname: freesans
+  general_pdf_monospaced_fontname: freemono
   general_first_day_of_week: '7'
 
   notice_account_updated: Ο λογαριασμός ενημερώθηκε επιτυχώς.

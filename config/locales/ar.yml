@@ -141,6 +141,7 @@ ar:
   general_csv_decimal_separator: '.'
   general_csv_encoding: ISO-8859-1
   general_pdf_fontname: DejaVuSans
+  general_pdf_monospaced_fontname: DejaVuSansMono
   general_first_day_of_week: '7'
 
   notice_account_updated: لقد تم تجديد الحساب بنجاح.
