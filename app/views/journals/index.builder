@@ -20,7 +20,7 @@ xml.feed "xmlns" => "http://www.w3.org/2005/Atom" do
       end
       xml.content "type" => "html" do
         xml.text! '<ul>'
-        details_to_strings(change.details, false).each do |string|
+        details_to_strings(change.visible_details, false).each do |string|
           xml.text! '<li>' + string + '</li>'
         end
         xml.text! '</ul>'
