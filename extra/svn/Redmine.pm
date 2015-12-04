@@ -244,6 +244,7 @@ sub RedmineDSN {
               WHERE 
                 users.login=? 
                 AND projects.identifier=?
+                AND users.type='User'
                 AND users.status=1 
                 AND (
                   roles.id IN (SELECT member_roles.role_id FROM members, member_roles WHERE members.user_id = users.id AND members.project_id = projects.id AND members.id = member_roles.member_id)
