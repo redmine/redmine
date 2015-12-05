@@ -177,7 +177,7 @@ zh:
   notice_unable_delete_version: 无法删除版本
   notice_unable_delete_time_entry: 无法删除工时
   notice_issue_done_ratios_updated: 问题完成度已更新。
-  notice_gantt_chart_truncated: "The chart was truncated because it exceeds the maximum number of items that can be displayed (%{max})"
+  notice_gantt_chart_truncated: "由于项目数量超过可显示的最大值 (%{max})，故此甘特图将截断超出部分"
 
   error_can_t_load_default_data: "无法载入默认设置：%{value}"
   error_scm_not_found: "版本库中不存在该条目和（或）其修订版本。"
@@ -945,8 +945,8 @@ zh:
   label_additional_workflow_transitions_for_author: 当用户是问题作者时所允许的问题状态转换
   label_bulk_edit_selected_time_entries: 批量修改选定的时间条目
   text_time_entries_destroy_confirmation: 是否确定要删除选定的时间条目？
-  label_role_anonymous: Anonymous
-  label_role_non_member: Non member
+  label_role_anonymous: 匿名用户
+  label_role_non_member: 非成员用户
   label_issue_note_added: 问题备注已添加
   label_issue_status_updated: 问题状态更新
   label_issue_priority_updated: 问题优先级更新
@@ -964,7 +964,7 @@ zh:
   text_scm_path_encoding_note: "默认: UTF-8"
   field_path_to_repository: 库路径
   field_root_directory: 根目录
-  field_cvs_module: CVS Module
+  field_cvs_module: 模块
   field_cvsroot: CVSROOT
   text_mercurial_repository_note: 本地库 (e.g. /hgrepo, c:\hgrepo)
   text_scm_command: 命令
@@ -1100,25 +1100,22 @@ zh:
   field_must_change_passwd: 下次登录时必须修改密码
   notice_new_password_must_be_different: 新密码必须和旧密码不同
   setting_mail_handler_excluded_filenames: 移除符合下列名称的附件
-  text_convert_available: ImageMagick convert available (optional)
+  text_convert_available: 可使用 ImageMagick 转换图片格式 (可选)
   label_link: Link
   label_only: only
-  label_drop_down_list: drop-down list
-  label_checkboxes: checkboxes
-  label_link_values_to: Link values to URL
-  setting_force_default_language_for_anonymous: Force default language for anonymous
-    users
-  setting_force_default_language_for_loggedin: Force default language for logged-in
-    users
-  label_custom_field_select_type: Select the type of object to which the custom field
-    is to be attached
-  label_issue_assigned_to_updated: Assignee updated
-  label_check_for_updates: Check for updates
-  label_latest_compatible_version: Latest compatible version
-  label_unknown_plugin: Unknown plugin
-  label_radio_buttons: radio buttons
-  label_group_anonymous: Anonymous users
-  label_group_non_member: Non member users
+  label_drop_down_list: 下拉列表
+  label_checkboxes: 复选框
+  label_link_values_to: 链接数值至此网址
+  setting_force_default_language_for_anonymous: 强制匿名用户使用默认语言
+  setting_force_default_language_for_loggedin: 强制已登录用户使用默认语言
+  label_custom_field_select_type: 请选择需要关联自定义属性的类型
+  label_issue_assigned_to_updated: 指派人已更新
+  label_check_for_updates: 检查更新
+  label_latest_compatible_version: 最新兼容版本
+  label_unknown_plugin: 未知插件
+  label_radio_buttons: 单选按钮
+  label_group_anonymous: 匿名用户
+  label_group_non_member: 非成员用户
   label_add_projects: Add projects
   field_default_status: Default status
   text_subversion_repository_note: 'Examples: file:///, http://, https://, svn://, svn+[tunnelscheme]://'
