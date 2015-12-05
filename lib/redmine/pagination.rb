@@ -194,7 +194,7 @@ module Redmine
         previous = nil
         paginator.linked_pages.each do |page|
           if previous && previous != page - 1
-            html << content_tag('li', content_tag('span', '...'), :class => 'spacer')
+            html << content_tag('li', content_tag('span', '&hellip;'.html_safe), :class => 'spacer')
           end
           if page == paginator.page
             html << content_tag('li', content_tag('span', page.to_s), :class => 'current')
