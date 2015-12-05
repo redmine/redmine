@@ -236,7 +236,7 @@ module Redmine
         if values.any?
           links = values.collect do |n|
             if n == paginator.per_page
-              content_tag('span', n.to_s)
+              content_tag('span', n.to_s, :class => 'selected')
             else
               yield(n, :per_page => n, paginator.page_param => nil)
             end
