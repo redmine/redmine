@@ -153,6 +153,10 @@ class CustomField < ActiveRecord::Base
     format.query_filter_options(self, query)
   end
 
+  def totalable?
+    format.totalable_supported
+  end
+
   # Returns a ORDER BY clause that can used to sort customized
   # objects by their value of the custom field.
   # Returns nil if the custom field can not be used for sorting.
