@@ -220,11 +220,12 @@ module Redmine
         end
         html << '</ul>'
 
-        html << content_tag('span', "(#{paginator.first_item}-#{paginator.last_item}/#{paginator.item_count})", :class => 'items') + ' '
-
+        info = ''.html_safe
+        info << content_tag('span', "(#{paginator.first_item}-#{paginator.last_item}/#{paginator.item_count})", :class => 'items') + ' '
         if per_page_links != false && links = per_page_links(paginator, &block)
-          html << content_tag('span', links.to_s, :class => 'per-page')
+          info << content_tag('span', links.to_s, :class => 'per-page')
         end
+        html << content_tag('span', info)
 
         html.html_safe
       end

@@ -506,6 +506,9 @@ span.pagination {margin-left:3px; color:#888;}
   border: 1px solid #ccc;
   margin-left: -1px;
   line-height: 2em;
+  margin-bottom: 1em;
+  white-space: nowrap;
+  text-align: center;
 }
 .pagination ul.pages li a,
 .pagination ul.pages li span {
@@ -532,6 +535,7 @@ span.pagination {margin-left:3px; color:#888;}
   color: inherit;
   text-decoration: inherit;
 }
+span.pagination>span {white-space:nowrap;}
 
 #search-form fieldset p {margin:0.2em 0;}
 
