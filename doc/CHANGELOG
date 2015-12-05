@@ -4,6 +4,14 @@ Redmine - project management software
 Copyright (C) 2006-2015  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2015-12-05 v2.6.9
+
+Defect #16948: Broken anonymous repository access for public projects with Apache 2.4 (redmine.pm)
+Defect #21328: pdf: Vietnamese Italic is not shown
+Defect #21419: Information leak in Atom feed
+Patch #21312: Fix exception in Redmine.pm when authenticating anonymous users
+Patch #21430: Simplified Chinese translation
+
 == 2015-11-14 v2.6.8
 
 * Defect #20360: Project copy does not copy custom field settings
