@@ -61,6 +61,10 @@ module Redmine
       class_attribute :searchable_supported
       self.searchable_supported = false
 
+      # Set this to true if field values can be summed up
+      class_attribute :totalable_supported
+      self.totalable_supported = false
+
       # Restricts the classes that the custom field can be added to
       # Set to nil for no restrictions
       class_attribute :customized_class_names
@@ -370,12 +374,25 @@ module Redmine
 
     class Numeric < Unbounded
       self.form_partial = 'custom_fields/formats/numeric'
+      self.totalable_supported = true
 
       def order_statement(custom_field)
         # Make the database cast values into numeric
         # Postgresql will raise an error if a value can not be casted!
         # CustomValue validations should ensure that it doesn't occur
         "CAST(CASE #{join_alias custom_field}.value WHEN '' THEN '0' ELSE #{join_alias custom_field}.value END AS decimal(30,3))"
+      end
+
+      # Returns totals for the given scope
+      def total_for_scope(custom_field, scope)
+        scope.joins(:custom_values).
+          where(:custom_values => {:custom_field_id => custom_field.id}).
+          where.not(:custom_values => {:value => ''}).
+          sum("CAST(#{CustomValue.table_name}.value AS decimal(30,3))")
+      end
+
+      def cast_total_value(custom_field, value)
+        cast_single_value(custom_field, value)
       end
     end
 
@@ -410,6 +427,10 @@ module Redmine
 
       def cast_single_value(custom_field, value, customized=nil)
         value.to_f
+      end
+
+      def cast_total_value(custom_field, value)
+        value.to_f.round(2)
       end
 
       def validate_single_value(custom_field, value, customized=nil)
