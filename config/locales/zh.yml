@@ -1116,26 +1116,26 @@ zh:
   label_radio_buttons: 单选按钮
   label_group_anonymous: 匿名用户
   label_group_non_member: 非成员用户
-  label_add_projects: Add projects
-  field_default_status: Default status
-  text_subversion_repository_note: 'Examples: file:///, http://, https://, svn://, svn+[tunnelscheme]://'
-  field_users_visibility: Users visibility
-  label_users_visibility_all: All active users
-  label_users_visibility_members_of_visible_projects: Members of visible projects
-  label_edit_attachments: Edit attached files
-  setting_link_copied_issue: Link issues on copy
-  label_link_copied_issue: Link copied issue
-  label_ask: Ask
-  label_search_attachments_yes: Search attachment filenames and descriptions
-  label_search_attachments_no: Do not search attachments
-  label_search_attachments_only: Search attachments only
-  label_search_open_issues_only: Open issues only
+  label_add_projects: 加入项目
+  field_default_status: 默认状态
+  text_subversion_repository_note: '示例: file:///, http://, https://, svn://, svn+[tunnelscheme]://'
+  field_users_visibility: 用户可见度
+  label_users_visibility_all: 所有活动用户
+  label_users_visibility_members_of_visible_projects: 可见项目中的成员
+  label_edit_attachments: 编辑附件
+  setting_link_copied_issue: 复制时关联问题
+  label_link_copied_issue: 关联已复制的问题
+  label_ask: 询问
+  label_search_attachments_yes: 搜索附件的文件名和描述
+  label_search_attachments_no: 不搜索附件
+  label_search_attachments_only: 只搜索附件
+  label_search_open_issues_only: 只搜索进行中的问题
   field_address: 邮件地址
-  setting_max_additional_emails: Maximum number of additional email addresses
-  label_email_address_plural: Emails
-  label_email_address_add: Add email address
-  label_enable_notifications: Enable notifications
-  label_disable_notifications: Disable notifications
-  setting_search_results_per_page: Search results per page
-  label_blank_value: blank
-  permission_copy_issues: Copy issues
+  setting_max_additional_emails: 其它电子邮件地址上限
+  label_email_address_plural: 电子邮件
+  label_email_address_add: 增加电子邮件地址
+  label_enable_notifications: 启用通知
+  label_disable_notifications: 禁用通知
+  setting_search_results_per_page: 每一页的搜索结果数
+  label_blank_value: 空白
+  permission_copy_issues: 复制问题
