@@ -1132,19 +1132,18 @@ zh:
   setting_search_results_per_page: 每一页的搜索结果数
   label_blank_value: 空白
   permission_copy_issues: 复制问题
-  error_password_expired: Your password has expired or the administrator requires you
-    to change it.
-  field_time_entries_visibility: Time logs visibility
-  setting_password_max_age: Require password change after
-  label_parent_task_attributes: Parent tasks attributes
-  label_parent_task_attributes_derived: Calculated from subtasks
-  label_parent_task_attributes_independent: Independent of subtasks
-  label_time_entries_visibility_all: All time entries
-  label_time_entries_visibility_own: Time entries created by the user
-  label_member_management: Member management
-  label_member_management_all_roles: All roles
-  label_member_management_selected_roles_only: Only these roles
-  label_password_required: Confirm your password to continue
+  error_password_expired: 您的密码已经过期或是管理员要求您修改密码.
+  field_time_entries_visibility: 工时记录可见性
+  setting_password_max_age: 密码有效期
+  label_parent_task_attributes: 父问题属性
+  label_parent_task_attributes_derived: 从子任务计算导出
+  label_parent_task_attributes_independent: 与子任务无关
+  label_time_entries_visibility_all: 所有工时记录
+  label_time_entries_visibility_own: 用户自己创建的工时记录
+  label_member_management: 成员管理
+  label_member_management_all_roles: 所有角色
+  label_member_management_selected_roles_only: 只限下列角色
+  label_password_required: 确认您的密码后继续
   label_total_spent_time: 总体耗时
   notice_import_finished: All %{count} items have been imported.
   notice_import_finished_with_errors: ! '%{count} out of %{total} items could not be
@@ -1167,7 +1166,7 @@ zh:
   label_file_content_preview: File content preview
   label_create_missing_values: Create missing values
   button_import: Import
-  field_total_estimated_hours: Total estimated time
+  field_total_estimated_hours: 预估工时统计
   label_api: API
   label_total_plural: Totals
   label_assigned_issues: Assigned issues
