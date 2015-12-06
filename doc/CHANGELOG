@@ -4,6 +4,102 @@ Redmine - project management software
 Copyright (C) 2006-2015  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2015-12-06 v3.2.0
+
+* Defect #17403: Unknown file size while downloading attachment
+* Defect #18223: Table renders wrong if a trailing space is after | symbol
+* Defect #19017: Wiki PDF Export: <pre> not rendered with monospaced font
+* Defect #19271: Configuration of which versions are shown in version-format custom fields should not affect issue query filter
+* Defect #19304: <a> tag without attributes in description results in undefined method + for nil:NilClass
+* Defect #19403: Mistake in Polish Translation file.
+* Defect #19657: Can't reorder activities after disabling activities on a project
+* Defect #20117: Activities set as inactive missing in spent time report filter
+* Defect #20296: Double full stops in Japanese
+* Defect #20361: Project copy does not update custom field of version type values
+* Defect #20438: Subject filter doesn't work with non ASCII uppercase symbols
+* Defect #20463: Internal error when moving an issue to a project without selected trackers and active issue tracking
+* Defect #20501: Empty divs when there are no custom fields on the issue form
+* Defect #20543: Mail handler: don't allow override of some attributes by default
+* Defect #20551: Typo "coma" (correct: "comma")
+* Defect #20565: Search and get a 404 page when adding a new project
+* Defect #20583: Setting Category/Version as a required field causes error in projects without categories/versions
+* Defect #20995: Automatic done ratio calculation in issue tree is wrong in some cases
+* Defect #21012: Link custom fields with long URLs are distorting issue detail view
+* Defect #21069: Hard-coded label for hour
+* Defect #21074: When changing the tracker of an existing issue, new custom fields are not initialized with their default value
+* Defect #21175: Unused strings: label_(start|end)_to_(start|end)
+* Defect #21182: Project.uniq.visible raises an SQL error under certain conditions
+* Defect #21226: Some log messages are missing the "MailHandler" prefix
+* Defect #21382: Watcher deletion of inactive user not possible for non-admin users
+* Feature #950: Import Issues from delimited/CSV file
+* Feature #1159: Allow issue description to be searchable as a filter
+* Feature #1561: Totals for estimated/spent time and numeric custom fields on the issue list
+* Feature #1605: Activity page to remember user's selection of activities
+* Feature #1828: Default target version for new issues
+* Feature #3034: Add day numbers to gantt
+* Feature #3398: Link to assigned issues on user profiles
+* Feature #4285: Add cancel button during edition of the wiki
+* Feature #5816: New issue initial status should be settable in workflow
+* Feature #7346: Allow a default version to be set on the command line for incoming emails
+* Feature #8335: Email styles inline
+* Feature #10672: Extend Filesize in the attachments table for files with size > 2147483647 bytes
+* Feature #13429: Include attachment thumbnails in issue history
+* Feature #13946: Add tracker name to Redmine issue link titles
+* Feature #16072: Markdown footnote support
+* Feature #16621: Ability to filter issues blocked by any/no open issues
+* Feature #16941: Do not clear category on project change if category with same exists
+* Feature #17618: Upgrade net-ldap version to 0.12.0
+* Feature #19097: Responsive layout for mobile devices
+* Feature #19885: Raise time entries comments limit to 1024
+* Feature #19886: Raise wiki edits comments limit to 1024
+* Feature #20008: Files upload Restriction by files extensions
+* Feature #20221: Time entry query : column week
+* Feature #20388: Removing attachment after commit transaction
+* Feature #20929: Raise maximum length of LDAP filter
+* Feature #20933: Options for shorter session maximum lifetime
+* Feature #20935: Set autologin cookie as secure by default when using https
+* Feature #20991: Raise maximum length of category name to 60
+* Feature #21042: Check "Hide my email address" by default for new users
+* Feature #21058: Keep track of valid user sessions
+* Feature #21060: Custom field format with possible values stored as records
+* Feature #21148: Remove "Latest Projects" from Home page
+* Feature #21361: Plugins ui tests rake task
+* Patch #20271: Fix for multiple tabs on the same page
+* Patch #20288: Finalize CodeRay 1.1.0 upgrade
+* Patch #20298: "div" tag around revision details
+* Patch #20338: Turkish "activity" translation change
+* Patch #20368: Make corners rounded
+* Patch #20369: Use String#casecmp for case insensitive comparison
+* Patch #20370: Lighter colors for journal details in issue history
+* Patch #20411: Change Japanese translation for "view"
+* Patch #20413: Use a table instead of an unordered list in "Issue tracking" box
+* Patch #20496: Change Japanese translation for "time tracking"
+* Patch #20506: redmine I18n autoload instead of require
+* Patch #20507: ThemesHelper reopening ApplicationHelper is problem with autoloading
+* Patch #20508: Required file lib/redmine/hook.rb is patching autoloaded ApplicationHelper
+* Patch #20589: Activate sudo mode after password based login
+* Patch #20720: Traditional Chinese "issue" translation change
+* Patch #20732: MailHandler: Select project by subaddress (redmine+project@example.com)
+* Patch #20740: Confusing name: test public query called "private"
+* Patch #21033: Polish translation change
+* Patch #21110: Keep anchor (i.e. to a specific issue note) throughout login
+* Patch #21119: Give numbers in query sort criteria consistent width for non-monospaced fonts
+* Patch #21126: Change Japanese translation for "List"
+* Patch #21137: Rescue network level errors with LDAP auth
+* Patch #21159: Hide empty <ul> on project overview
+* Patch #21169: Use config.relative_url_root as the default path for session and autologin cookies
+* Patch #21176: Japanese translation change (Blocks / Blocked by)
+* Patch #21258: Use <ul> to do pagination, styling in a GitHub like manner with improved handling in responsive mode
+* Patch #21280: Change Japanese translation for text_user_wrote
+
+== 2015-12-05 v3.1.3
+
+* Defect #16948: Broken anonymous repository access for public projects with Apache 2.4 (redmine.pm)
+* Defect #21328: pdf: Vietnamese Italic is not shown
+* Defect #21419: Information leak in Atom feed
+* Patch #21312: Fix exception in Redmine.pm when authenticating anonymous users
+* Patch #21430: Simplified Chinese translation
+
 == 2015-11-14 v3.1.2
 
 * Defect #20992: Parent priority "Independent of subtasks" setting doesn't work
