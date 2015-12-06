@@ -259,7 +259,7 @@ class WatchersControllerTest < ActionController::TestCase
     assert response.body.blank?
   end
 
-  def test_remove_watcher
+  def test_destroy
     @request.session[:user_id] = 2
     assert_difference('Watcher.count', -1) do
       xhr :delete, :destroy, :object_type => 'issue', :object_id => '2', :user_id => '3'
@@ -267,5 +267,27 @@ class WatchersControllerTest < ActionController::TestCase
       assert_match /watchers/, response.body
     end
     assert !Issue.find(2).watched_by?(User.find(3))
+  end
+
+  def test_destroy_locked_user
+    user = User.find(3)
+    user.lock!
+    assert user.reload.locked?
+
+    @request.session[:user_id] = 2
+    assert_difference('Watcher.count', -1) do
+      xhr :delete, :destroy, :object_type => 'issue', :object_id => '2', :user_id => '3'
+      assert_response :success
+      assert_match /watchers/, response.body
+    end
+    assert !Issue.find(2).watched_by?(User.find(3))
+  end
+
+  def test_destroy_invalid_user_should_respond_with_404
+    @request.session[:user_id] = 2
+    assert_no_difference('Watcher.count') do
+      delete :destroy, :object_type => 'issue', :object_id => '2', :user_id => '999'
+      assert_response 404
+    end
   end
 end
