@@ -52,9 +52,9 @@ module Redmine
 
         def SetFont(family, style='', size=0, fontfile='')
           # FreeSerif Bold Thai font has problem.
-          style.delete!('B') if l(:general_pdf_fontname) == 'freeserif'
+          style.delete!('B') if family.to_s.casecmp('freeserif') != 0
           # DejaVuSans Italic Arabic and Persian font has problem.
-          style.delete!('I') if l(:general_pdf_fontname) == 'DejaVuSans' && current_language.to_s.casecmp("vi") != 0
+          style.delete!('I') if family.to_s.casecmp('DejaVuSans') != 0 && current_language.to_s.casecmp("vi") != 0
           super(family, style, size, fontfile)
         end
         alias_method :set_font, :SetFont
