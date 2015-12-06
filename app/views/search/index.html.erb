@@ -52,7 +52,7 @@
 <% end %>
 
 <% if @result_pages %>
-<p class="pagination"><%= pagination_links_full @result_pages, @result_count, :per_page_links => false %></p>
+<span class="pagination"><%= pagination_links_full @result_pages, @result_count, :per_page_links => false %></span>
 <% end %>
 
 <% html_title(l(:label_search)) -%>
