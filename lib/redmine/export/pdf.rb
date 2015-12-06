@@ -55,6 +55,8 @@ module Redmine
           style.delete!('B') if family.to_s.casecmp('freeserif') == 0
           # DejaVuSans Italic Arabic and Persian font has problem.
           style.delete!('I') if family.to_s.casecmp('dejavusans') == 0 && current_language.to_s.casecmp("vi") != 0
+          # DejaVuSansMono Italic Arabic font has problem
+          style.delete!('I') if family.to_s.casecmp('Dejavusansmono') == 0
           super(family, style, size, fontfile)
         end
         alias_method :set_font, :SetFont
