@@ -21,7 +21,7 @@ class Redmine::UiTest::IssuesTest < Redmine::UiTest::Base
   fixtures :projects, :users, :email_addresses, :roles, :members, :member_roles,
            :trackers, :projects_trackers, :enabled_modules, :issue_statuses, :issues,
            :enumerations, :custom_fields, :custom_values, :custom_fields_trackers,
-           :watchers
+           :watchers, :journals, :journal_details
 
   def test_create_issue
     log_user('jsmith', 'jsmith')
