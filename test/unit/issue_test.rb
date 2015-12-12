@@ -1935,6 +1935,14 @@ class IssueTest < ActiveSupport::TestCase
     assert !issue.assignable_users.include?(User.anonymous)
   end
 
+  def test_assignable_users_should_not_include_locked_user
+    user = User.generate!
+    issue = Issue.generate!(:author => user)
+    user.lock!
+
+    assert !issue.assignable_users.include?(user)
+  end
+
   test "#assignable_users should include the current assignee" do
     user = User.generate!
     issue = Issue.generate!(:assigned_to => user)

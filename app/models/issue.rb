@@ -810,7 +810,7 @@ class Issue < ActiveRecord::Base
   # Users the issue can be assigned to
   def assignable_users
     users = project.assignable_users.to_a
-    users << author if (author && !author.anonymous?)
+    users << author if author && author.active?
     users << assigned_to if assigned_to
     users.uniq.sort
   end
