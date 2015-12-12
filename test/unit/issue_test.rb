@@ -1929,6 +1929,12 @@ class IssueTest < ActiveSupport::TestCase
     assert issue.assignable_users.include?(non_project_member)
   end
 
+  def test_assignable_users_should_not_include_anonymous_user
+    issue = Issue.generate!(:author => User.anonymous)
+
+    assert !issue.assignable_users.include?(User.anonymous)
+  end
+
   test "#assignable_users should include the current assignee" do
     user = User.generate!
     issue = Issue.generate!(:assigned_to => user)
