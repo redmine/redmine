@@ -25,6 +25,9 @@ class UserPreference < ActiveRecord::Base
 
   def initialize(attributes=nil, *args)
     super
+    if new_record? && !(attributes && attributes.key?(:hide_mail))
+      self.hide_mail = Setting.default_users_hide_mail?
+    end
     self.others ||= {}
   end
 

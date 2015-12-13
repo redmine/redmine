@@ -36,5 +36,13 @@
   <p><em class="info"><%= l(:text_session_expiration_settings) %></em></p>
 </fieldset>
 
+<fieldset class="box">
+  <legend><%= l(:label_default_values_for_new_users) %></legend>
+
+  <div class="tabular settings">
+    <p><%= setting_check_box :default_users_hide_mail, :label => :field_hide_mail %></p>
+  </div>
+</fieldset>
+
 <%= submit_tag l(:button_save) %>
 <% end %>
