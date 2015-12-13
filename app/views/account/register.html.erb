@@ -16,6 +16,10 @@
 <p><%= f.text_field :firstname, :required => true %></p>
 <p><%= f.text_field :lastname, :required => true %></p>
 <p><%= f.text_field :mail, :required => true %></p>
+<%= labelled_fields_for :pref, @user.pref do |pref_fields| %>
+<p><%= pref_fields.check_box :hide_mail %></p>
+<% end %>
+
 
 <% unless @user.force_default_language? %>
 <p><%= f.select :language, lang_options_for_select %></p>
