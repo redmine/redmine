@@ -15,7 +15,11 @@
 <% end %>
 
 <% if @issue.safe_attribute? 'assigned_to_id' %>
-<p><%= f.select :assigned_to_id, principals_options_for_select(@issue.assignable_users, @issue.assigned_to), :include_blank => true, :required => @issue.required_attribute?('assigned_to_id') %></p>
+
+<p>
+<%= f.select :assigned_to_id, principals_options_for_select(@issue.assignable_users, @issue.assigned_to), :include_blank => true, :required => @issue.required_attribute?('assigned_to_id') %>
+ <input type="search" id ="assignedtoid" style="display: inline-block;margin-top: -39px;border: 1px solid #D0CBCB;background-color: #fff;height: 19px;width: 53%;">
+
 <% end %>
 
 <% if @issue.safe_attribute?('category_id') && @issue.project.issue_categories.any? %>
@@ -76,4 +80,31 @@
 
 <% end %>
 
+<script type="text/javascript">
+window.onload=function(){
+      $("#assignedtoid").val( $("#issue_assigned_to_id")[0].options[$("#issue_assigned_to_id")[0].selectedIndex].text);
+      var $options = $("#issue_assigned_to_id").clone();  
+      $("#assignedtoid").focus(function() {
+         //this.value = "";
+      }).keyup(function() {
+        if(this.value != ""){
+           $("#issue_assigned_to_id option").hide();
+          var key=this.value?":contains("+this.value+")":"";
+          $("#issue_assigned_to_id").children(key).show();
+        }else{
+          $("#issue_assigned_to_id option").show();
+        }
+      });
+      $("#issue_assigned_to_id").change(function(){
+        $("#assignedtoid").val( $("#issue_assigned_to_id")[0].options[$("#issue_assigned_to_id")[0].selectedIndex].text);
+      });
+
+    var tempherf = $('.toimg');
+    if(tempherf[0].href){
+      tempherf.next().next().css("height", "600px");
+    }
+    tempherf.next().next()[0].src = tempherf[0].href;
+
+}
+</script>
 <% include_calendar_headers_tags %>
