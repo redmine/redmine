@@ -555,7 +555,13 @@ function beforeShowDatePicker(input, inst) {
       break;
     case "issue_due_date" :
       if ($("#issue_start_date").size() > 0) {
-        default_date = $("#issue_start_date").val();
+        var start_date = $("#issue_start_date").val();
+        if (start_date != "") {
+          start_date = new Date(Date.parse(start_date));
+          if (start_date > new Date()) {
+            default_date = $("#issue_start_date").val();
+          }
+        }
       }
       break;
   }
