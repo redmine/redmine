@@ -60,6 +60,11 @@ module Redmine
         assert_equal '/my/page', current_path
       end
 
+      setup do
+        # Set the page width higher than 900 to get the full layout with sidebar
+        page.driver.browser.manage.window.resize_to(1024, 900)
+      end
+
       teardown do
         Capybara.reset_sessions!    # Forget the (simulated) browser state
         Capybara.use_default_driver # Revert Capybara.current_driver to Capybara.default_driver
