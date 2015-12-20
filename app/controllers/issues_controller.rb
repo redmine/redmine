@@ -388,7 +388,7 @@ class IssuesController < ApplicationController
         issue_attributes = issue_attributes.dup
         issue_attributes.delete(:lock_version)
       when 'add_notes'
-        issue_attributes = issue_attributes.slice(:notes)
+        issue_attributes = issue_attributes.slice(:notes, :private_notes)
       when 'cancel'
         redirect_to issue_path(@issue)
         return false
