@@ -56,7 +56,7 @@ class CustomFieldsController < ApplicationController
     if @custom_field.update_attributes(params[:custom_field])
       flash[:notice] = l(:notice_successful_update)
       call_hook(:controller_custom_fields_edit_after_save, :params => params, :custom_field => @custom_field)
-      redirect_to edit_custom_field_path(@custom_field)
+      redirect_back_or_default edit_custom_field_path(@custom_field)
     else
       render :action => 'edit'
     end
