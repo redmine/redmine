@@ -32,28 +32,54 @@
 <% end %>
 
 <% if @trackers && @roles && @statuses.any? %>
+  <%= stylesheet_link_tag 'divgrid' %>
+  <%= javascript_include_tag 'divgrid' %>
+
+  <script type="text/javascript">
+    function toggleDivToFieldset(divId, fsClass) {
+      console.log(divId + " " + fsClass);
+      if (fsClass.contains("collapsed")) {
+        document.getElementById(divId).style.visibility='hidden';
+        document.getElementById(divId).style.position='fixed';
+      } else {
+        document.getElementById(divId).style.visibility='';
+        document.getElementById(divId).style.position='relative';
+      }
+    }
+  </script>
+
   <%= form_tag({}, :id => 'workflow_form' ) do %>
     <%= @trackers.map {|tracker| hidden_field_tag 'tracker_id[]', tracker.id, :id => nil}.join.html_safe %>
     <%= @roles.map {|role| hidden_field_tag 'role_id[]', role.id, :id => nil}.join.html_safe %>
     <%= hidden_field_tag 'used_statuses_only', params[:used_statuses_only], :id => nil %>
     <div class="autoscroll">
-      <%= render :partial => 'form', :locals => {:name => 'always', :workflows => @workflows['always']} %>
+      <div id="workflow_always" style="position: relative; overflow: hidden; white-space: nowrap; border-width: 1px; border-style: solid; border-color: #CCC;">
+        <%= render :partial => 'form', :locals => {:name => 'always', :workflows => @workflows['always']} %>
+      </div>
 
-      <fieldset class="collapsible" style="padding: 0; margin-top: 0.5em;">
-        <legend onclick="toggleFieldset(this);"><%= l(:label_additional_workflow_transitions_for_author) %></legend>
-        <div id="author_workflows" style="margin: 0.5em 0 0.5em 0;">
-          <%= render :partial => 'form', :locals => {:name => 'author', :workflows => @workflows['author']} %>
-        </div>
-      </fieldset>
+      <fieldset class="collapsible collapsed" style="padding: 0; margin-top: 2em; margin-bottom: 1em;">
+        <legend onclick="toggleFieldset(this);toggleDivToFieldset('workflow_author',this.parentNode.className);">
+          <%= l(:label_additional_workflow_transitions_for_author) %>
+        </legend>
+     </fieldset>
+      <div id="workflow_author" style="visibility: hidden; position: fixed; top: 0px; overflow: hidden; white-space: nowrap; border-width: 1px; border-style: solid; border-color: #CCC;">
+        <%= render :partial => 'form', :locals => {:name => 'author', :workflows => @workflows['author']} %>
+      </div>
       <%= javascript_tag "hideFieldset($('#author_workflows'))" unless @workflows['author'].present? %>
 
-      <fieldset class="collapsible" style="padding: 0;">
-        <legend onclick="toggleFieldset(this);"><%= l(:label_additional_workflow_transitions_for_assignee) %></legend>
-        <div id="assignee_workflows" style="margin: 0.5em 0 0.5em 0;">
-      <%= render :partial => 'form', :locals => {:name => 'assignee', :workflows => @workflows['assignee']} %>
-        </div>
-      </fieldset>
-      <%= javascript_tag "hideFieldset($('#assignee_workflows'))" unless @workflows['assignee'].present? %>
+      <fieldset class="collapsible collapsed" style="padding: 0; margin-top: 2em; margin-bottom: 1em;">
+        <legend onclick="toggleFieldset(this);toggleDivToFieldset('workflow_assignee',this.parentNode.className);">
+          <%= l(:label_additional_workflow_transitions_for_assignee) %>
+        </legend>
+       </fieldset>
+      <div id="workflow_assignee" style="visibility: hidden; position: fixed; top: 0px; overflow: hidden; white-space: nowrap; border-width: 1px; border-style: solid; border-color: #CCC;">
+        <%= render :partial => 'form', :locals => {:name => 'assignee', :workflows => @workflows['assignee']} %>
+      </div>
+       <%= javascript_tag "hideFieldset($('#assignee_workflows'))" unless @workflows['assignee'].present? %>
+
+      <script> g_adjust('g_bl_always', 'g_fr_always', 'g_fl_always', 'g_bd_always'); </script>
+      <script> g_adjust('g_bl_author', 'g_fr_author', 'g_fl_author', 'g_bd_author'); </script>
+      <script> g_adjust('g_bl_assignee', 'g_fr_assignee', 'g_fl_assignee', 'g_bd_assignee'); </script>
     </div>
     <%= submit_tag l(:button_save) %>
   <% end %>
