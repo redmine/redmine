@@ -1,0 +1,36 @@
+/* Simple Grid Styles for tables with fixed First Row and Line */
+
+/* Cell */
+.g_c { height: 1.5em;
+       padding: 6px 12px 6px 12px;
+       border-width: 0px 1px 1px 0px;
+       border-style: solid;
+       border-color: #CCC;
+       text-align: center; }
+
+/* First Line */
+.g_h { background-color: #EEE;
+       /* font-weight: bold; */
+       text-align: center; }
+
+/* First Row */
+.g_v { text-align: left;
+       /* font-weight: bold; */ }
+
+/* Image in Cell */
+.g_i { height: 16px;
+       width: 16px;
+       margin: 0 auto; }
+
+/* Separation Lines */
+.g_s { font-weight: bold;
+       border-right: 0px; }
+
+/* Marked Cell */
+.g_m { background-color: #BFB; }
+
+/* Even Cell */
+.g_e { background-color: #F6F7F8; }
+
+/* Odd Cell */
+.g_o { background-color: #FFFFFF; }

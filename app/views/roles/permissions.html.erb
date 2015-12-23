@@ -2,54 +2,69 @@
 
 <%= form_tag(permissions_roles_path, :id => 'permissions_form') do %>
 <%= hidden_field_tag 'permissions[0]', '', :id => nil %>
-<div class="autoscroll">
-<table class="list permissions">
-<thead>
-    <tr>
-    <th><%=l(:label_permissions)%></th>
+
+<%= stylesheet_link_tag 'divgrid' %>
+<%= javascript_include_tag 'divgrid' %>
+
+<div style="position: relative; overflow: hidden; white-space: nowrap; border-width: 1px; border-style: solid; border-color: #CCC;">
+  <!-- Cell 0 -->
+  <div id="g_bl" style="position: absolute; z-index: 2;">
+    <div class="g_c g_h">&nbsp;</div>
+  </div>
+  <!-- Line 0  -->
+  <div id="g_fl" style="position: absolute; left: 0px; right: 13px; overflow: hidden; z-index: 1;">
+      <div style="display: inline-block; margin-right: -4px;">
+        <div class="g_c g_h">&nbsp;</div>
+      </div>
+      <% @roles.each do |role| %>
+        <div style="display: inline-block; margin-right: -4px;">
+          <div class="g_c g_h">
+            <%= content_tag(role.builtin? ? 'em' : 'span', role.name) %>
+          </div>
+        </div>
+      <% end %>
+  </div>
+  <!-- Row 0 -->
+  <div id="g_fr" style="position: absolute; left: 0px; top: 0px; bottom: 13px; overflow: hidden; z-index: 1;">
+    <% perms_by_module = @permissions.group_by {|p| p.project_module.to_s} %>
+    <% even = true %>
+    <% perms_by_module.keys.sort.each do |mod| %>
+      <div class="g_c g_v g_s<%= (even)? " g_e":" g_o" %>">
+        <%= l_or_humanize(mod, :prefix => 'project_module_') %>
+      </div>
+      <% even = !even %>
+      <% perms_by_module[mod].each do |permission| %>
+        <div class="g_c g_v<%= (even)? " g_e":" g_o" %>">
+          <% even = !even %>
+          <%= l_or_humanize(permission.name, :prefix => 'permission_') %>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+  <!-- Body -->
+  <div id="g_bd" style="width: 100%; max-height: 80vh; overflow: scroll;" onscroll="g_scroll(this, 'g_fl', 'g_fr')">
+    <div style="display: inline-block; margin-right: -4px;"></div>
     <% @roles.each do |role| %>
-    <th>
-        <%= content_tag(role.builtin? ? 'em' : 'span', role.name) %>
-        <%= link_to_function(image_tag('toggle_check.png'), "toggleCheckboxesBySelector('input.role-#{role.id}')",
-                                                            :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}") %>
-    </th>
-    <% end %>
-    </tr>
-</thead>
-<tbody>
-<% perms_by_module = @permissions.group_by {|p| p.project_module.to_s} %>
-<% perms_by_module.keys.sort.each do |mod| %>
-    <% unless mod.blank? %>
-        <tr class="group open">
-          <td>
-            <span class="expander" onclick="toggleRowGroup(this);">&nbsp;</span>
-            <%= l_or_humanize(mod, :prefix => 'project_module_') %>
-          </td>
-          <% @roles.each do |role| %>
-          <td class="role"><%= role.name %></td>
+      <div style="display: inline-block; margin-right: -4px;">
+        <% even = true %>
+        <% perms_by_module.keys.sort.each do |mod| %>
+          <div class="g_c<%= " g_s" unless role == @roles.last %><%= (even)? " g_e":" g_o" %>"></div>
+          <% even = !even %>
+          <% perms_by_module[mod].each do |permission| %>
+            <div class="g_c<%= (even)? " g_e":" g_o" %>" title="<%= "#{l_or_humanize(permission.name, :prefix => 'permission_')} - #{role.name}" %>">
+              <% even = !even %>
+              <% if role.setable_permissions.include? permission %>
+                  <%= check_box_tag "permissions[#{role.id}][]", permission.name, (role.permissions.include? permission.name), :id => nil, :class => "role-#{role.id}" %>
+              <% end %>
+            </div>
           <% end %>
-        </tr>
+      </div>
     <% end %>
-    <% perms_by_module[mod].each do |permission| %>
-        <tr class="<%= cycle('odd', 'even') %> permission-<%= permission.name %>">
-        <td class="name">
-            <%= link_to_function(image_tag('toggle_check.png'), "toggleCheckboxesBySelector('.permission-#{permission.name} input')",
-                                                                :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}") %>
-            <%= l_or_humanize(permission.name, :prefix => 'permission_') %>
-        </td>
-        <% @roles.each do |role| %>
-        <td>
-        <% if role.setable_permissions.include? permission %>
-          <%= check_box_tag "permissions[#{role.id}][]", permission.name, (role.permissions.include? permission.name), :id => nil, :class => "role-#{role.id}" %>
-        <% end %>
-        </td>
-        <% end %>
-        </tr>
-    <% end %>
-<% end %>
-</tbody>
-</table>
+  </div>
 </div>
+
+<script> g_adjust('g_bl', 'g_fr', 'g_fl', 'g_bd'); </script>
+
 <p><%= check_all_links 'permissions_form' %></p>
 <p><%= submit_tag l(:button_save) %></p>
 <% end %>
