@@ -25,6 +25,13 @@ class UserPreferenceTest < ActiveSupport::TestCase
     assert_equal true, preference.hide_mail
   end
 
+  def test_hide_mail_should_default_to_false_with_setting
+    with_settings :default_users_hide_mail => '0' do
+      preference = UserPreference.new
+      assert_equal false, preference.hide_mail
+    end
+  end
+
   def test_create
     user = User.new(:firstname => "new", :lastname => "user", :mail => "newuser@somenet.foo")
     user.login = "newuser"

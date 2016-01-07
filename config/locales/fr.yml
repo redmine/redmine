@@ -993,6 +993,7 @@ fr:
   label_create_missing_values: Créer les valeurs manquantes
   label_api: API
   label_field_format_enumeration: Liste clé/valeur
+  label_default_values_for_new_users: Valeurs par défaut pour les nouveaux utilisateurs
 
   button_login: Connexion
   button_submit: Soumettre
