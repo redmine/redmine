@@ -965,7 +965,7 @@ zh:
   text_scm_path_encoding_note: "默认: UTF-8"
   field_path_to_repository: 库路径
   field_root_directory: 根目录
-  field_cvs_module: 模块
+  field_cvs_module: CVS 模块
   field_cvsroot: CVSROOT
   text_mercurial_repository_note: 本地库 (e.g. /hgrepo, c:\hgrepo)
   text_scm_command: 命令
