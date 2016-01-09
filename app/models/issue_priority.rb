@@ -19,7 +19,7 @@ class IssuePriority < Enumeration
   has_many :issues, :foreign_key => 'priority_id'
 
   after_destroy {|priority| priority.class.compute_position_names}
-  after_save {|priority| priority.class.compute_position_names if priority.position_changed? && priority.position}
+  after_save {|priority| priority.class.compute_position_names if (priority.position_changed? && priority.position) || priority.active_changed?}
 
   OptionName = :enumeration_issue_priorities
 
