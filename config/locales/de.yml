@@ -1161,7 +1161,7 @@ de:
   label_time_entries_visibility_all: All time entries
   label_time_entries_visibility_own: Time entries created by the user
   label_member_management: Member management
-  label_member_management_all_roles: All roles
-  label_member_management_selected_roles_only: Only these roles
+  label_member_management_all_roles: Alle Rollen
+  label_member_management_selected_roles_only: Nur diese Rollen
   label_total_spent_time: Aufgewendete Zeit aller Projekte anzeigen
   field_total_estimated_hours: Total estimated time
