@@ -12,6 +12,7 @@
   </tr></thead>
   <tbody>
   <% (@custom_fields_by_type[tab[:name]] || []).sort.each do |custom_field| -%>
+    <% back_url = custom_fields_path(:tab => tab[:name]) %>
     <tr class="<%= cycle("odd", "even") %>">
       <td class="name"><%= link_to custom_field.name, edit_custom_field_path(custom_field) %></td>
       <td><%= l(custom_field.format.label) %></td>
@@ -20,7 +21,7 @@
       <td><%= checked_image custom_field.is_for_all? %></td>
       <td><%= l(:label_x_projects, :count => custom_field.projects.count) if custom_field.is_a? IssueCustomField and !custom_field.is_for_all? %></td>
       <% end %>
-      <td class="reorder"><%= reorder_links('custom_field', {:action => 'update', :id => custom_field}, :put) %></td>
+      <td class="reorder"><%= reorder_links('custom_field', {:action => 'update', :id => custom_field, :back_url => back_url}, :put) %></td>
       <td class="buttons">
         <%= delete_link custom_field_path(custom_field) %>
       </td>
