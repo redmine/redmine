@@ -87,7 +87,7 @@ class RedmineMailHandler
       opts.separator("")
       opts.separator("Issue attributes control options:")
       opts.on(      "--project-from-subaddress ADDR", "select project from subadress of ADDR found",
-                                              "in To, Cc, Bcc headers") {|v| self.project_from_subaddress['project'] = v}
+                                              "in To, Cc, Bcc headers") {|v| self.project_from_subaddress = v}
       opts.on("-p", "--project PROJECT",      "identifier of the target project") {|v| self.issue_attributes['project'] = v}
       opts.on("-s", "--status STATUS",        "name of the target status") {|v| self.issue_attributes['status'] = v}
       opts.on("-t", "--tracker TRACKER",      "name of the target tracker") {|v| self.issue_attributes['tracker'] = v}
