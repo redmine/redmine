@@ -210,6 +210,27 @@ class IssuesControllerTransactionTest < ActionController::TestCase
     assert_nil issue.fixed_version_id
     journal = Journal.order('id DESC').first
     assert_equal 'add_notes_conflict_resolution', journal.notes
+    assert_equal false, journal.private_notes
+    assert journal.details.empty?
+  end
+
+  def test_update_stale_issue_with_add_notes_conflict_resolution_should_preserve_private_notes
+    @request.session[:user_id] = 2
+
+    journal = new_record(Journal) do
+      put :update, :id => 1,
+            :issue => {
+              :fixed_version_id => 4,
+              :notes => 'add_privates_notes_conflict_resolution',
+              :private_notes => '1',
+              :lock_version => 2
+            },
+            :conflict_resolution => 'add_notes'
+    end
+
+    assert_response 302
+    assert_equal 'add_privates_notes_conflict_resolution', journal.notes
+    assert_equal true, journal.private_notes
     assert journal.details.empty?
   end
 
