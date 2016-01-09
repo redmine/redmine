@@ -1195,7 +1195,7 @@ es-PA:
   label_fields_separator: Separador de Campos
   label_fields_wrapper: Envoltorio de Campo
   label_encoding: Codificación
-  label_comma_char: Comma
+  label_comma_char: Coma
   label_semi_colon_char: Punto y Coma
   label_quote_char: Comilla Simple
   label_double_quote_char: Comilla Doble
@@ -1205,14 +1205,14 @@ es-PA:
   button_import: Importar
   field_total_estimated_hours: Total de Tiempo Estimado
   label_api: API
-  label_total_plural: Totals
-  label_assigned_issues: Assigned issues
-  label_field_format_enumeration: Key/value list
+  label_total_plural: Totales
+  label_assigned_issues: Incidencias Asignadas
+  label_field_format_enumeration: Lista Llave/valor
   label_f_hour_short: '%{value} h'
-  field_default_version: Default version
-  error_attachment_extension_not_allowed: Attachment extension %{extension} is not allowed
-  setting_attachment_extensions_allowed: Allowed extensions
-  setting_attachment_extensions_denied: Disallowed extensions
-  label_any_open_issues: any open issues
-  label_no_open_issues: no open issues
-  label_default_values_for_new_users: Default values for new users
+  field_default_version: Version Predeterminada
+  error_attachment_extension_not_allowed: Extensión adjuntada %{extension} no es permitida
+  setting_attachment_extensions_allowed: Extensiones Permitidas
+  setting_attachment_extensions_denied: Extensiones Prohibidas
+  label_any_open_issues: cualquier incidencias abierta
+  label_no_open_issues: incidencias cerradas
+  label_default_values_for_new_users: Valor predeterminado para nuevos usuarios
