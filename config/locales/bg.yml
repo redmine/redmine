@@ -978,6 +978,7 @@ bg:
   label_create_missing_values: Създаване на липсващи стойности
   label_api: API
   label_field_format_enumeration: Списък ключ/стойност
+  label_default_values_for_new_users: Стойности по подразбиране за нови потребители
 
   button_login: Вход
   button_submit: Изпращане
@@ -1172,4 +1173,3 @@ bg:
   description_date_from: Въведете начална дата
   description_date_to: Въведете крайна дата
   text_repository_identifier_info: 'Позволени са малки букви (a-z), цифри, тирета и _.<br />Промяна след създаването му не е възможна.'
-  label_default_values_for_new_users: Default values for new users
