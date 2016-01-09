@@ -1187,8 +1187,8 @@ es:
   error_invalid_csv_file_or_settings: El archivo no es un archivo CSV o no coincide con la
     configuración
   error_can_not_read_import_file: Ocurrió un error mientras se leía el archivo a importar
-  permission_import_issues: Importar incidencias
-  label_import_issues: Importar incidencias
+  permission_import_issues: Importar Peticiones
+  label_import_issues: Importar petición
   label_select_file_to_import: Selecciona el archivo a importar
   label_fields_separator: Separador de Campos
   label_fields_wrapper: Envoltorio de Campo
