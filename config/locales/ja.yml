@@ -1194,4 +1194,4 @@ ja:
   setting_attachment_extensions_denied: 禁止する拡張子
   label_any_open_issues: 未完了のチケット
   label_no_open_issues: なし または完了したチケット
-  label_default_values_for_new_users: Default values for new users
+  label_default_values_for_new_users: 新しいユーザーのデフォルト設定
