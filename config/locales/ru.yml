@@ -1272,7 +1272,7 @@ ru:
   label_file_content_preview: File content preview
   label_create_missing_values: Create missing values
   button_import: Import
-  field_total_estimated_hours: Total estimated time
+  field_total_estimated_hours: Всего осталось времени
   label_api: API
   label_total_plural: Totals
   label_assigned_issues: Assigned issues
