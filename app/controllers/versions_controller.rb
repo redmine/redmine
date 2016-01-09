@@ -40,7 +40,7 @@ class VersionsController < ApplicationController
         @versions += @project.rolled_up_versions.visible if @with_subprojects
         @versions = @versions.uniq.sort
         unless params[:completed]
-          @completed_versions = @versions.select {|version| version.closed? || version.completed? }
+          @completed_versions = @versions.select(&:completed?)
           @versions -= @completed_versions
         end
 

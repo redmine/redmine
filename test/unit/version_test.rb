@@ -138,6 +138,11 @@ class VersionTest < ActiveSupport::TestCase
     assert_equal false, version.completed?
   end
 
+  def test_completed_should_be_true_when_closed
+    version = Version.create!(:project_id => 1, :status => 'closed', :name => 'Closed')
+    assert_equal true, version.completed?
+  end
+
   test "#behind_schedule? should be false if there are no issues assigned" do
     version = Version.generate!(:effective_date => Date.yesterday)
     assert_equal false, version.behind_schedule?
