@@ -2775,6 +2775,14 @@ class IssuesControllerTest < ActionController::TestCase
     assert_select 'input[name=copy_attachments]', 0
   end
 
+  def test_new_as_copy_should_preserve_parent_id
+    @request.session[:user_id] = 2
+    issue = Issue.generate!(:parent_issue_id => 2)
+    get :new, :project_id => 1, :copy_from => issue.id
+
+    assert_select 'input[name=?][value="2"]', 'issue[parent_issue_id]'
+  end
+
   def test_new_as_copy_with_subtasks_should_show_copy_subtasks_checkbox
     @request.session[:user_id] = 2
     issue = Issue.generate_with_descendants!

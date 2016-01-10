@@ -415,6 +415,7 @@ class IssuesController < ApplicationController
         @copy_attachments = params[:copy_attachments].present? || request.get?
         @copy_subtasks = params[:copy_subtasks].present? || request.get?
         @issue.copy_from(@copy_from, :attachments => @copy_attachments, :subtasks => @copy_subtasks, :link => @link_copy)
+        @issue.parent_issue_id = @copy_from.parent_id
       rescue ActiveRecord::RecordNotFound
         render_404
         return
