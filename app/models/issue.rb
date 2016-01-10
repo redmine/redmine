@@ -660,7 +660,10 @@ class Issue < ActiveRecord::Base
     elsif @parent_issue
       if !valid_parent_project?(@parent_issue)
         errors.add :parent_issue_id, :invalid
-      elsif (@parent_issue != parent) && (all_dependent_issues.include?(@parent_issue) || @parent_issue.all_dependent_issues.include?(self))
+      elsif (@parent_issue != parent) && (
+          self.would_reschedule?(@parent_issue) ||
+          @parent_issue.self_and_ancestors.any? {|a| a.relations_from.any? {|r| r.relation_type == IssueRelation::TYPE_PRECEDES && r.issue_to.would_reschedule?(self)}}
+        )
         errors.add :parent_issue_id, :invalid
       elsif !new_record?
         # moving an existing issue
@@ -1035,101 +1038,38 @@ class Issue < ActiveRecord::Base
     IssueRelation.where("issue_to_id = ? OR issue_from_id = ?", id, id).find(relation_id)
   end
 
-  # Returns all the other issues that depend on the issue
-  # The algorithm is a modified breadth first search (bfs)
-  def all_dependent_issues(except=[])
-    # The found dependencies
-    dependencies = []
+  # Returns true if this issue blocks the other issue, otherwise returns false
+  def blocks?(other)
+    all = [self]
+    last = [self]
+    while last.any?
+      current = last.map {|i| i.relations_from.where(:relation_type => IssueRelation::TYPE_BLOCKS).map(&:issue_to)}.flatten.uniq
+      current -= last
+      current -= all
+      return true if current.include?(other)
+      last = current
+      all += last
+    end
+    false
+  end
 
-    # The visited flag for every node (issue) used by the breadth first search
-    eNOT_DISCOVERED         = 0       # The issue is "new" to the algorithm, it has not seen it before.
-
-    ePROCESS_ALL            = 1       # The issue is added to the queue. Process both children and relations of
-                                      # the issue when it is processed.
-
-    ePROCESS_RELATIONS_ONLY = 2       # The issue was added to the queue and will be output as dependent issue,
-                                      # but its children will not be added to the queue when it is processed.
-
-    eRELATIONS_PROCESSED    = 3       # The related issues, the parent issue and the issue itself have been added to
-                                      # the queue, but its children have not been added.
-
-    ePROCESS_CHILDREN_ONLY  = 4       # The relations and the parent of the issue have been added to the queue, but
-                                      # the children still need to be processed.
-
-    eALL_PROCESSED          = 5       # The issue and all its children, its parent and its related issues have been
-                                      # added as dependent issues. It needs no further processing.
-
-    issue_status = Hash.new(eNOT_DISCOVERED)
-
-    # The queue
-    queue = []
-
-    # Initialize the bfs, add start node (self) to the queue
-    queue << self
-    issue_status[self] = ePROCESS_ALL
-
-    while (!queue.empty?) do
-      current_issue = queue.shift
-      current_issue_status = issue_status[current_issue]
-      dependencies << current_issue
-
-      # Add parent to queue, if not already in it.
-      parent = current_issue.parent
-      parent_status = issue_status[parent]
-
-      if parent && (parent_status == eNOT_DISCOVERED) && !except.include?(parent)
-        queue << parent
-        issue_status[parent] = ePROCESS_RELATIONS_ONLY
-      end
-
-      # Add children to queue, but only if they are not already in it and
-      # the children of the current node need to be processed.
-      if (current_issue_status == ePROCESS_CHILDREN_ONLY || current_issue_status == ePROCESS_ALL)
-        current_issue.children.each do |child|
-          next if except.include?(child)
-
-          if (issue_status[child] == eNOT_DISCOVERED)
-            queue << child
-            issue_status[child] = ePROCESS_ALL
-          elsif (issue_status[child] == eRELATIONS_PROCESSED)
-            queue << child
-            issue_status[child] = ePROCESS_CHILDREN_ONLY
-          elsif (issue_status[child] == ePROCESS_RELATIONS_ONLY)
-            queue << child
-            issue_status[child] = ePROCESS_ALL
-          end
-        end
-      end
-
-      # Add related issues to the queue, if they are not already in it.
-      current_issue.relations_from.map(&:issue_to).each do |related_issue|
-        next if except.include?(related_issue)
-
-        if (issue_status[related_issue] == eNOT_DISCOVERED)
-          queue << related_issue
-          issue_status[related_issue] = ePROCESS_ALL
-        elsif (issue_status[related_issue] == eRELATIONS_PROCESSED)
-          queue << related_issue
-          issue_status[related_issue] = ePROCESS_CHILDREN_ONLY
-        elsif (issue_status[related_issue] == ePROCESS_RELATIONS_ONLY)
-          queue << related_issue
-          issue_status[related_issue] = ePROCESS_ALL
-        end
-      end
-
-      # Set new status for current issue
-      if (current_issue_status == ePROCESS_ALL) || (current_issue_status == ePROCESS_CHILDREN_ONLY)
-        issue_status[current_issue] = eALL_PROCESSED
-      elsif (current_issue_status == ePROCESS_RELATIONS_ONLY)
-        issue_status[current_issue] = eRELATIONS_PROCESSED
-      end
-    end # while
-
-    # Remove the issues from the "except" parameter from the result array
-    dependencies -= except
-    dependencies.delete(self)
-
-    dependencies
+  # Returns true if the other issue might be rescheduled if the start/due dates of this issue change
+  def would_reschedule?(other)
+    all = [self]
+    last = [self]
+    while last.any?
+      current = last.map {|i|
+        i.relations_from.where(:relation_type => IssueRelation::TYPE_PRECEDES).map(&:issue_to) +
+        i.leaves.to_a +
+        i.ancestors.map {|a| a.relations_from.where(:relation_type => IssueRelation::TYPE_PRECEDES).map(&:issue_to)}
+      }.flatten.uniq
+      current -= last
+      current -= all
+      return true if current.include?(other)
+      last = current
+      all += last
+    end
+    false
   end
 
   # Returns an array of issues that duplicate this one

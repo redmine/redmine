@@ -1848,20 +1848,49 @@ class IssueTest < ActiveSupport::TestCase
     end
   end
 
-  def test_setting_parent_to_a_dependent_issue_should_not_validate
+  def test_setting_parent_to_a_an_issue_that_precedes_should_not_validate
+    # tests that 3 cannot have 1 as parent:
+    #
+    # 1 -> 2 -> 3
+    #
     set_language_if_valid 'en'
     issue1 = Issue.generate!
     issue2 = Issue.generate!
     issue3 = Issue.generate!
     IssueRelation.create!(:issue_from => issue1, :issue_to => issue2, :relation_type => IssueRelation::TYPE_PRECEDES)
-    IssueRelation.create!(:issue_from => issue3, :issue_to => issue1, :relation_type => IssueRelation::TYPE_PRECEDES)
+    IssueRelation.create!(:issue_from => issue2, :issue_to => issue3, :relation_type => IssueRelation::TYPE_PRECEDES)
     issue3.reload
-    issue3.parent_issue_id = issue2.id
+    issue3.parent_issue_id = issue1.id
     assert !issue3.valid?
     assert_include 'Parent task is invalid', issue3.errors.full_messages
   end
 
-  def test_setting_parent_should_not_allow_circular_dependency
+  def test_setting_parent_to_a_an_issue_that_follows_should_not_validate
+    # tests that 1 cannot have 3 as parent:
+    #
+    # 1 -> 2 -> 3
+    #
+    set_language_if_valid 'en'
+    issue1 = Issue.generate!
+    issue2 = Issue.generate!
+    issue3 = Issue.generate!
+    IssueRelation.create!(:issue_from => issue1, :issue_to => issue2, :relation_type => IssueRelation::TYPE_PRECEDES)
+    IssueRelation.create!(:issue_from => issue2, :issue_to => issue3, :relation_type => IssueRelation::TYPE_PRECEDES)
+    issue1.reload
+    issue1.parent_issue_id = issue3.id
+    assert !issue1.valid?
+    assert_include 'Parent task is invalid', issue1.errors.full_messages
+  end
+
+  def test_setting_parent_to_a_an_issue_that_precedes_through_hierarchy_should_not_validate
+    # tests that 4 cannot have 1 as parent:
+    # changing the due date of 4 would update the end date of 1 which would reschedule 2
+    # which would change the end date of 3 which would reschedule 4 and so on...
+    #
+    #      3 -> 4
+    #      ^
+    # 1 -> 2
+    #
     set_language_if_valid 'en'
     issue1 = Issue.generate!
     issue2 = Issue.generate!
@@ -1876,6 +1905,62 @@ class IssueTest < ActiveSupport::TestCase
     issue4.parent_issue_id = issue1.id
     assert !issue4.valid?
     assert_include 'Parent task is invalid', issue4.errors.full_messages
+  end
+
+  def test_issue_and_following_issue_should_be_able_to_be_moved_to_the_same_parent
+    set_language_if_valid 'en'
+    issue1 = Issue.generate!
+    issue2 = Issue.generate!
+    relation = IssueRelation.create!(:issue_from => issue2, :issue_to => issue1, :relation_type => IssueRelation::TYPE_FOLLOWS)
+    parent = Issue.generate!
+    issue1.reload.parent_issue_id = parent.id
+    assert_save issue1
+    parent.reload
+    issue2.reload.parent_issue_id = parent.id
+    assert_save issue2
+    assert IssueRelation.exists?(relation.id)
+  end
+
+  def test_issue_and_preceding_issue_should_be_able_to_be_moved_to_the_same_parent
+    set_language_if_valid 'en'
+    issue1 = Issue.generate!
+    issue2 = Issue.generate!
+    relation = IssueRelation.create!(:issue_from => issue2, :issue_to => issue1, :relation_type => IssueRelation::TYPE_PRECEDES)
+    parent = Issue.generate!
+    issue1.reload.parent_issue_id = parent.id
+    assert_save issue1
+    parent.reload
+    issue2.reload.parent_issue_id = parent.id
+    assert_save issue2
+    assert IssueRelation.exists?(relation.id)
+  end
+
+  def test_issue_and_blocked_issue_should_be_able_to_be_moved_to_the_same_parent
+    set_language_if_valid 'en'
+    issue1 = Issue.generate!
+    issue2 = Issue.generate!
+    relation = IssueRelation.create!(:issue_from => issue2, :issue_to => issue1, :relation_type => IssueRelation::TYPE_BLOCKED)
+    parent = Issue.generate!
+    issue1.reload.parent_issue_id = parent.id
+    assert_save issue1
+    parent.reload
+    issue2.reload.parent_issue_id = parent.id
+    assert_save issue2
+    assert IssueRelation.exists?(relation.id)
+  end
+
+  def test_issue_and_blocking_issue_should_be_able_to_be_moved_to_the_same_parent
+    set_language_if_valid 'en'
+    issue1 = Issue.generate!
+    issue2 = Issue.generate!
+    relation = IssueRelation.create!(:issue_from => issue2, :issue_to => issue1, :relation_type => IssueRelation::TYPE_BLOCKS)
+    parent = Issue.generate!
+    issue1.reload.parent_issue_id = parent.id
+    assert_save issue1
+    parent.reload
+    issue2.reload.parent_issue_id = parent.id
+    assert_save issue2
+    assert IssueRelation.exists?(relation.id)
   end
 
   def test_overdue
@@ -2161,193 +2246,6 @@ class IssueTest < ActiveSupport::TestCase
         i.save
       end
     end
-  end
-
-  def test_all_dependent_issues
-    IssueRelation.delete_all
-    assert IssueRelation.create!(:issue_from => Issue.find(1),
-                                 :issue_to   => Issue.find(2),
-                                 :relation_type => IssueRelation::TYPE_PRECEDES)
-    assert IssueRelation.create!(:issue_from => Issue.find(2),
-                                 :issue_to   => Issue.find(3),
-                                 :relation_type => IssueRelation::TYPE_PRECEDES)
-    assert IssueRelation.create!(:issue_from => Issue.find(3),
-                                 :issue_to   => Issue.find(8),
-                                 :relation_type => IssueRelation::TYPE_PRECEDES)
-
-    assert_equal [2, 3, 8], Issue.find(1).all_dependent_issues.collect(&:id).sort
-  end
-
-  def test_all_dependent_issues_with_subtask
-    IssueRelation.delete_all
-
-    project = Project.generate!(:name => "testproject")
-
-    parentIssue = Issue.generate!(:project => project)
-    childIssue1 = Issue.generate!(:project => project, :parent_issue_id => parentIssue.id)
-    childIssue2 = Issue.generate!(:project => project, :parent_issue_id => parentIssue.id)
-
-    assert_equal [childIssue1.id, childIssue2.id].sort, parentIssue.all_dependent_issues.collect(&:id).uniq.sort
-  end
-
-  def test_all_dependent_issues_does_not_include_self
-    IssueRelation.delete_all
-
-    project = Project.generate!(:name => "testproject")
-
-    parentIssue = Issue.generate!(:project => project)
-    childIssue = Issue.generate!(:project => project, :parent_issue_id => parentIssue.id)
-
-    assert_equal [childIssue.id], parentIssue.all_dependent_issues.collect(&:id)
-  end
-
-  def test_all_dependent_issues_with_parenttask_and_sibling
-    IssueRelation.delete_all
-
-    project = Project.generate!(:name => "testproject")
-
-    parentIssue = Issue.generate!(:project => project)
-    childIssue1 = Issue.generate!(:project => project, :parent_issue_id => parentIssue.id)
-    childIssue2 = Issue.generate!(:project => project, :parent_issue_id => parentIssue.id)
-
-    assert_equal [parentIssue.id].sort, childIssue1.all_dependent_issues.collect(&:id)
-  end
-
-  def test_all_dependent_issues_with_relation_to_leaf_in_other_tree
-    IssueRelation.delete_all
-
-    project = Project.generate!(:name => "testproject")
-
-    parentIssue1 = Issue.generate!(:project => project)
-    childIssue1_1 = Issue.generate!(:project => project, :parent_issue_id => parentIssue1.id)
-    childIssue1_2 = Issue.generate!(:project => project, :parent_issue_id => parentIssue1.id)
-
-    parentIssue2 = Issue.generate!(:project => project)
-    childIssue2_1 = Issue.generate!(:project => project, :parent_issue_id => parentIssue2.id)
-    childIssue2_2 = Issue.generate!(:project => project, :parent_issue_id => parentIssue2.id)
-
-
-    assert IssueRelation.create(:issue_from => parentIssue1,
-                                :issue_to   => childIssue2_2,
-                                :relation_type => IssueRelation::TYPE_BLOCKS)
-
-    assert_equal [childIssue1_1.id, childIssue1_2.id, parentIssue2.id, childIssue2_2.id].sort,
-                 parentIssue1.all_dependent_issues.collect(&:id).uniq.sort
-  end
-
-  def test_all_dependent_issues_with_relation_to_parent_in_other_tree
-    IssueRelation.delete_all
-
-    project = Project.generate!(:name => "testproject")
-
-    parentIssue1 = Issue.generate!(:project => project)
-    childIssue1_1 = Issue.generate!(:project => project, :parent_issue_id => parentIssue1.id)
-    childIssue1_2 = Issue.generate!(:project => project, :parent_issue_id => parentIssue1.id)
-
-    parentIssue2 = Issue.generate!(:project => project)
-    childIssue2_1 = Issue.generate!(:project => project, :parent_issue_id => parentIssue2.id)
-    childIssue2_2 = Issue.generate!(:project => project, :parent_issue_id => parentIssue2.id)
-
-
-    assert IssueRelation.create(:issue_from => parentIssue1,
-                                :issue_to   => parentIssue2,
-                                :relation_type => IssueRelation::TYPE_BLOCKS)
-
-    assert_equal [childIssue1_1.id, childIssue1_2.id, parentIssue2.id, childIssue2_1.id, childIssue2_2.id].sort,
-                 parentIssue1.all_dependent_issues.collect(&:id).uniq.sort
-  end
-
-  def test_all_dependent_issues_with_transitive_relation
-    IssueRelation.delete_all
-
-    project = Project.generate!(:name => "testproject")
-
-    parentIssue1 = Issue.generate!(:project => project)
-    childIssue1_1 = Issue.generate!(:project => project, :parent_issue_id => parentIssue1.id)
-
-    parentIssue2 = Issue.generate!(:project => project)
-    childIssue2_1 = Issue.generate!(:project => project, :parent_issue_id => parentIssue2.id)
-
-    independentIssue = Issue.generate!(:project => project)
-
-    assert IssueRelation.create(:issue_from => parentIssue1,
-                                :issue_to   => childIssue2_1,
-                                :relation_type => IssueRelation::TYPE_RELATES)
-
-    assert IssueRelation.create(:issue_from => childIssue2_1,
-                                :issue_to   => independentIssue,
-                                :relation_type => IssueRelation::TYPE_RELATES)
-
-    assert_equal [childIssue1_1.id, parentIssue2.id, childIssue2_1.id, independentIssue.id].sort,
-                 parentIssue1.all_dependent_issues.collect(&:id).uniq.sort
-  end
-
-  def test_all_dependent_issues_with_transitive_relation2
-    IssueRelation.delete_all
-
-    project = Project.generate!(:name => "testproject")
-
-    parentIssue1 = Issue.generate!(:project => project)
-    childIssue1_1 = Issue.generate!(:project => project, :parent_issue_id => parentIssue1.id)
-
-    parentIssue2 = Issue.generate!(:project => project)
-    childIssue2_1 = Issue.generate!(:project => project, :parent_issue_id => parentIssue2.id)
-
-    independentIssue = Issue.generate!(:project => project)
-
-    assert IssueRelation.create(:issue_from => parentIssue1,
-                                :issue_to   => independentIssue,
-                                :relation_type => IssueRelation::TYPE_RELATES)
-
-    assert IssueRelation.create(:issue_from => independentIssue,
-                                :issue_to   => childIssue2_1,
-                                :relation_type => IssueRelation::TYPE_RELATES)
-
-    assert_equal [childIssue1_1.id, parentIssue2.id, childIssue2_1.id, independentIssue.id].sort,
-                 parentIssue1.all_dependent_issues.collect(&:id).uniq.sort
-
-  end
-
-  def test_all_dependent_issues_with_persistent_circular_dependency
-    IssueRelation.delete_all
-    assert IssueRelation.create!(:issue_from => Issue.find(1),
-                                 :issue_to   => Issue.find(2),
-                                 :relation_type => IssueRelation::TYPE_PRECEDES)
-    assert IssueRelation.create!(:issue_from => Issue.find(2),
-                                 :issue_to   => Issue.find(3),
-                                 :relation_type => IssueRelation::TYPE_PRECEDES)
-
-    r = IssueRelation.create!(:issue_from => Issue.find(3),
-                             :issue_to   => Issue.find(7),
-                             :relation_type => IssueRelation::TYPE_PRECEDES)
-    IssueRelation.where(["id = ?", r.id]).update_all("issue_to_id = 1")
-
-    assert_equal [2, 3], Issue.find(1).all_dependent_issues.collect(&:id).sort
-  end
-
-  def test_all_dependent_issues_with_persistent_multiple_circular_dependencies
-    IssueRelation.delete_all
-    assert IssueRelation.create!(:issue_from => Issue.find(1),
-                                 :issue_to   => Issue.find(2),
-                                 :relation_type => IssueRelation::TYPE_RELATES)
-    assert IssueRelation.create!(:issue_from => Issue.find(2),
-                                 :issue_to   => Issue.find(3),
-                                 :relation_type => IssueRelation::TYPE_RELATES)
-    assert IssueRelation.create!(:issue_from => Issue.find(3),
-                                 :issue_to   => Issue.find(8),
-                                 :relation_type => IssueRelation::TYPE_RELATES)
-
-    r = IssueRelation.create!(:issue_from => Issue.find(8),
-                             :issue_to   => Issue.find(7),
-                             :relation_type => IssueRelation::TYPE_RELATES)
-    IssueRelation.where(["id = ?", r.id]).update_all("issue_to_id = 2")
-
-    r = IssueRelation.create!(:issue_from => Issue.find(3),
-                             :issue_to   => Issue.find(7),
-                             :relation_type => IssueRelation::TYPE_RELATES)
-    IssueRelation.where(["id = ?", r.id]).update_all("issue_to_id = 1")
-
-    assert_equal [2, 3, 8], Issue.find(1).all_dependent_issues.collect(&:id).sort
   end
 
   test "#done_ratio should use the issue_status according to Setting.issue_done_ratio" do
