@@ -1963,6 +1963,23 @@ class IssueTest < ActiveSupport::TestCase
     assert IssueRelation.exists?(relation.id)
   end
 
+  def test_issue_copy_should_be_able_to_be_moved_to_the_same_parent_as_copied_issue
+    issue = Issue.generate!
+    parent = Issue.generate!
+    issue.parent_issue_id = parent.id
+    issue.save!
+    issue.reload
+
+    copy = Issue.new.copy_from(issue, :link => true)
+    relation = new_record(IssueRelation) do
+      copy.save!
+    end
+
+    copy.parent_issue_id = parent.id
+    assert_save copy
+    assert IssueRelation.exists?(relation.id)
+  end
+
   def test_overdue
     assert Issue.new(:due_date => 1.day.ago.to_date).overdue?
     assert !Issue.new(:due_date => Date.today).overdue?
