@@ -209,7 +209,7 @@ tr:
   field_filename: Dosya
   field_filesize: Boyut
   field_downloads: İndirilenler
-  field_author: Yazar
+  field_author: Oluşturan
   field_created_on: Oluşturulma
   field_updated_on: Güncellenme
   field_field_format: Biçim
@@ -538,8 +538,8 @@ tr:
   label_time_tracking: Zaman Takibi
   label_change_plural: Değişiklikler
   label_statistics: İstatistikler
-  label_commits_per_month: Aylık teslim
-  label_commits_per_author: Yazar başına teslim
+  label_commits_per_month: Aylık commit
+  label_commits_per_author: Oluşturan başına commit
   label_view_diff: Farkları izle
   label_diff_inline: satır içi
   label_diff_side_by_side: Yan yana
@@ -680,7 +680,7 @@ tr:
   text_issue_category_destroy_question: "Bazı işler (%{count}) bu kategoriye atandı. Ne yapmak istersiniz?"
   text_issue_category_destroy_assignments: Kategori atamalarını kaldır
   text_issue_category_reassign_to: İşleri bu kategoriye tekrar ata
-  text_user_mail_option: "Seçili olmayan projeler için, sadece dahil olduğunuz ya da izlediğiniz öğeler hakkında uyarılar alacaksınız (örneğin,yazarı veya atandığınız işler)."
+  text_user_mail_option: "Seçili olmayan projeler için, sadece dahil olduğunuz (oluşturan veya atanan) ya da izlediğiniz öğeler hakkında uyarılar alacaksınız."
   text_no_configuration_data: "Roller, iş tipleri, iş durumları ve işakışı henüz yapılandırılmadı.\nVarsayılan yapılandırılmanın yüklenmesi şiddetle tavsiye edilir. Bir kez yüklendiğinde yapılandırmayı değiştirebileceksiniz."
   text_load_default_configuration: Varsayılan yapılandırmayı yükle
   text_status_changed_by_changeset: "Değişiklik listesi %{value} içinde uygulandı."
@@ -943,7 +943,7 @@ tr:
   button_expand_all: Tümünü genişlet
   button_collapse_all: Tümünü daralt
   label_additional_workflow_transitions_for_assignee: Kullanıcı atanan olduğu zaman tanınacak ek yetkiler
-  label_additional_workflow_transitions_for_author: Kullanıcı yazar olduğu zaman tanınacak ek yetkiler
+  label_additional_workflow_transitions_for_author: Kullanıcı oluşturan olduğu zaman tanınacak ek yetkiler
   label_bulk_edit_selected_time_entries: Seçilen zaman kayıtlarını toplu olarak düzenle
   text_time_entries_destroy_confirmation: Seçilen zaman kaydını/kayıtlarını silmek istediğinize emin misiniz?
   label_role_anonymous: Anonim
@@ -1053,7 +1053,7 @@ tr:
   text_repository_identifier_info: Yalnızca küçük harfler (a-z), sayılar, tire ve alt tire kullanılabilir.<br />Kaydedilen tanımlayıcı daha sonra değiştirilemez.
   field_board_parent: Üst forum
   label_attribute_of_project: Proje %{name}
-  label_attribute_of_author: Yazar %{name}
+  label_attribute_of_author: Oluşturan %{name}
   label_attribute_of_assigned_to: Atanan %{name}
   label_attribute_of_fixed_version: Hedef sürüm %{name}
   label_copy_subtasks: Alt görevi kopyala
