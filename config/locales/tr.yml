@@ -1157,37 +1157,35 @@ tr:
   label_member_management_selected_roles_only: Sadece bu roller
   label_password_required: Devam etmek için şifrenizi doğrulayın
   label_total_spent_time: Toplam harcanan zaman
-  notice_import_finished: All %{count} items have been imported.
-  notice_import_finished_with_errors: ! '%{count} out of %{total} items could not be
-    imported.'
-  error_invalid_file_encoding: The file is not a valid %{encoding} encoded file
-  error_invalid_csv_file_or_settings: The file is not a CSV file or does not match the
-    settings below
-  error_can_not_read_import_file: An error occurred while reading the file to import
-  permission_import_issues: Import issues
-  label_import_issues: Import issues
-  label_select_file_to_import: Select the file to import
-  label_fields_separator: Field separator
-  label_fields_wrapper: Field wrapper
-  label_encoding: Encoding
-  label_comma_char: Comma
-  label_semi_colon_char: Semi colon
-  label_quote_char: Quote
-  label_double_quote_char: Double quote
-  label_fields_mapping: Fields mapping
-  label_file_content_preview: File content preview
-  label_create_missing_values: Create missing values
-  button_import: Import
+  notice_import_finished: "%{count} kayıt içeri aktarıldı."
+  notice_import_finished_with_errors: ! '%{total} kayıttan %{count} tanesi aktarılamadı.'
+  error_invalid_file_encoding: Dosyanın karakter kodlaması geçerli bir %{encoding} kodlaması değil.
+  error_invalid_csv_file_or_settings: Dosya CSV dosyası değil veya aşağıdaki ayarlara uymuyor
+  error_can_not_read_import_file: İçeri aktarılacak dosyayı okurken bir hata oluştu
+  permission_import_issues: İşleri içeri aktarma
+  label_import_issues: İşleri içeri aktar
+  label_select_file_to_import: İçeri aktarılacak dosyayı seçiniz
+  label_fields_separator: Alan ayracı
+  label_fields_wrapper: Alan kılıfı
+  label_encoding: Karakter kodlaması
+  label_comma_char: Virgül
+  label_semi_colon_char: Noktalı virgül
+  label_quote_char: Tek tırnak işareti
+  label_double_quote_char: Çift tırnak işareti
+  label_fields_mapping: Alan eşleştirme
+  label_file_content_preview: Dosya içeriği önizlemesi
+  label_create_missing_values: Eşleşlmeyen alanları oluştur
+  button_import: İçeri aktar
   field_total_estimated_hours: Toplam tahmini zaman
   label_api: API
-  label_total_plural: Totals
-  label_assigned_issues: Assigned issues
-  label_field_format_enumeration: Key/value list
-  label_f_hour_short: '%{value} h'
-  field_default_version: Default version
-  error_attachment_extension_not_allowed: Attachment extension %{extension} is not allowed
-  setting_attachment_extensions_allowed: Allowed extensions
-  setting_attachment_extensions_denied: Disallowed extensions
-  label_any_open_issues: any open issues
-  label_no_open_issues: no open issues
+  label_total_plural: Toplamlar
+  label_assigned_issues: Atanan işler
+  label_field_format_enumeration: Anahtar/Değer listesi
+  label_f_hour_short: '%{value} s'
+  field_default_version: Ön tanımlı versiyon
+  error_attachment_extension_not_allowed: Dosya uzantısına izin verilmiyor; %{extension}
+  setting_attachment_extensions_allowed: İzin verilen dosya uzantıları
+  setting_attachment_extensions_denied: Yasaklı dosya uzantıları
+  label_any_open_issues: herhangi bir açık iş
+  label_no_open_issues: hiçbir açık iş
   label_default_values_for_new_users: Default values for new users
