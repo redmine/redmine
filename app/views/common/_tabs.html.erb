@@ -13,11 +13,6 @@
   </div>
 </div>
 
-<script>
-  $(document).ready(displayTabsButtons);
-  $(window).resize(displayTabsButtons);
-</script>
-
 <% tabs.each do |tab| -%>
   <%= content_tag('div', render(:partial => tab[:partial], :locals => {:tab => tab} ),
                        :id => "tab-content-#{tab[:name]}",

@@ -87,8 +87,12 @@
     <h1><%= page_header_title %></h1>
 
     <% if display_main_menu?(@project) %>
-    <div id="main-menu">
+    <div id="main-menu" class="tabs">
         <%= render_main_menu(@project) %>
+        <div class="tabs-buttons" style="display:none;">
+            <button class="tab-left" onclick="moveTabLeft(this); return false;"></button>
+            <button class="tab-right" onclick="moveTabRight(this); return false;"></button>
+        </div>
     </div>
     <% end %>
 </div>

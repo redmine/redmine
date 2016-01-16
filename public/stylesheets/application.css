@@ -10,7 +10,7 @@ h4 {border-bottom: 1px dotted #bbb;}
 pre, code {font-family: Consolas, Menlo, "Liberation Mono", Courier, monospace;}
 
 /***** Layout *****/
-#wrapper {background: white;}
+#wrapper {background: white;overflow: hidden;}
 
 #top-menu {background: #3E5B76; color: #fff; height:1.8em; font-size: 0.8em; padding: 2px 2px 0px 6px;}
 #top-menu ul {margin: 0;  padding: 0;}
@@ -31,14 +31,15 @@ pre, code {font-family: Consolas, Menlo, "Liberation Mono", Courier, monospace;}
 #header h1 a.ancestor { font-size: 80%; }
 #quick-search {float:right;}
 
-#main-menu {position: absolute;  bottom: 0px;  left:6px; margin-right: -500px;}
-#main-menu ul {margin: 0;  padding: 0;}
+#main-menu {position: absolute;  bottom: 0px;  left:6px; margin-right: -500px; width: 100%;}
+#main-menu ul {margin: 0;  padding: 0; width: 100%; white-space: nowrap;}
 #main-menu li {
-  float:left;
+  float:none;
   list-style-type:none;
   margin: 0px 2px 0px 0px;
   padding: 0px 0px 0px 0px;
   white-space:nowrap;
+  display:inline-block;
 }
 #main-menu li a {
   display: block;
@@ -50,6 +51,11 @@ pre, code {font-family: Consolas, Menlo, "Liberation Mono", Courier, monospace;}
 }
 #main-menu li a:hover {background:#759FCF; color:#fff;}
 #main-menu li a.selected, #main-menu li a.selected:hover {background:#fff; color:#555;}
+#main-menu .tabs-buttons {
+  right: 6px;
+  background-color: transparent;
+  border-bottom-color: transparent;
+}
 
 #admin-menu ul {margin: 0;  padding: 0;}
 #admin-menu li {margin: 0;  padding: 0 0 6px 0; list-style-type:none;}

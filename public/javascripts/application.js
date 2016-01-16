@@ -620,6 +620,13 @@ function setupAjaxIndicator() {
   });
 }
 
+function setupTabs() {
+  if($('.tabs').length > 0) {
+    displayTabsButtons();
+    $(window).resize(displayTabsButtons);
+  }
+}
+
 function hideOnLoad() {
   $('.hol').hide();
 }
@@ -677,3 +684,4 @@ $(document).ready(setupAjaxIndicator);
 $(document).ready(hideOnLoad);
 $(document).ready(addFormObserversForDoubleSubmit);
 $(document).ready(defaultFocus);
+$(document).ready(setupTabs);
