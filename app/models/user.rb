@@ -544,7 +544,7 @@ class User < Principal
     # No role on archived projects
     return [] if project.nil? || project.archived?
     if membership = membership(project)
-      membership.roles.dup
+      membership.roles.to_a
     elsif project.is_public?
       project.override_roles(builtin_role)
     else
