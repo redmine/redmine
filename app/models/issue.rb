@@ -1451,9 +1451,11 @@ class Issue < ActiveRecord::Base
   def recalculate_attributes_for(issue_id)
     if issue_id && p = Issue.find_by_id(issue_id)
       if p.priority_derived?
-        # priority = highest priority of children
-        if priority_position = p.children.joins(:priority).maximum("#{IssuePriority.table_name}.position")
+        # priority = highest priority of open children
+        if priority_position = p.children.open.joins(:priority).maximum("#{IssuePriority.table_name}.position")
           p.priority = IssuePriority.find_by_position(priority_position)
+        else
+          p.priority = IssuePriority.default
         end
       end
 
