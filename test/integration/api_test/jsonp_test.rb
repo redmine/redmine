@@ -52,11 +52,11 @@ class Redmine::ApiTest::JsonpTest < Redmine::ApiTest::Base
 
   def test_jsonp_should_strip_invalid_characters_from_callback
     with_settings :jsonp_enabled => '1' do
-      get '/trackers.json?callback=+-aA$1_'
+      get '/trackers.json?callback=+-aA$1_.'
     end
 
     assert_response :success
-    assert_match %r{^aA1_\(\{"trackers":.+\}\)$}, response.body
+    assert_match %r{^aA1_.\(\{"trackers":.+\}\)$}, response.body
     assert_equal 'application/javascript; charset=utf-8', response.headers['Content-Type']
   end
 
