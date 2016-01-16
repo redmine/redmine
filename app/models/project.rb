@@ -425,9 +425,9 @@ class Project < ActiveRecord::Base
   def rolled_up_trackers
     @rolled_up_trackers ||=
       Tracker.
-        joins(:projects).
-        joins("JOIN #{EnabledModule.table_name} ON #{EnabledModule.table_name}.project_id = #{Project.table_name}.id AND #{EnabledModule.table_name}.name = 'issue_tracking'").
+        joins(projects: :enabled_modules).
         where("#{Project.table_name}.lft >= ? AND #{Project.table_name}.rgt <= ? AND #{Project.table_name}.status <> ?", lft, rgt, STATUS_ARCHIVED).
+        where("#{EnabledModule.table_name}.name = ?", 'issue_tracking').
         uniq.
         sorted.
         to_a
