@@ -21,7 +21,7 @@ module Redmine
   module MimeType
 
     MIME_TYPES = {
-      'text/plain' => 'txt,tpl,properties,patch,diff,ini,readme,install,upgrade',
+      'text/plain' => 'txt,tpl,properties,patch,diff,ini,readme,install,upgrade,sql',
       'text/css' => 'css',
       'text/html' => 'html,htm,xhtml',
       'text/jsp' => 'jsp',
