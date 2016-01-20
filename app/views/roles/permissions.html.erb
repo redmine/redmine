@@ -9,9 +9,11 @@
     <th><%=l(:label_permissions)%></th>
     <% @roles.each do |role| %>
     <th>
+        <%= link_to_function('',
+                             "toggleCheckboxesBySelector('input.role-#{role.id}')",
+                             :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}",
+                             :class => 'icon-only icon-checked') %>
         <%= content_tag(role.builtin? ? 'em' : 'span', role.name) %>
-        <%= link_to_function(image_tag('toggle_check.png'), "toggleCheckboxesBySelector('input.role-#{role.id}')",
-                                                            :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}") %>
     </th>
     <% end %>
     </tr>
@@ -33,8 +35,10 @@
     <% perms_by_module[mod].each do |permission| %>
         <tr class="<%= cycle('odd', 'even') %> permission-<%= permission.name %>">
         <td class="name">
-            <%= link_to_function(image_tag('toggle_check.png'), "toggleCheckboxesBySelector('.permission-#{permission.name} input')",
-                                                                :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}") %>
+            <%= link_to_function('',
+                                 "toggleCheckboxesBySelector('.permission-#{permission.name} input')",
+                                 :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}",
+                                 :class => 'icon-only icon-checked') %>
             <%= l_or_humanize(permission.name, :prefix => 'permission_') %>
         </td>
         <% @roles.each do |role| %>

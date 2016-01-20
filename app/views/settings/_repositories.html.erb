@@ -23,12 +23,7 @@
       </td>
       <td>
         <% if enabled %>
-          <%=
-            image_tag(
-              (scm_class.scm_available ? 'true.png' : 'exclamation.png'),
-              :style => "vertical-align:bottom;"
-            )
-           %>
+          <span class="icon <%= (scm_class.scm_available ? 'icon-ok' : 'icon-error') %>"></span>
           <%= scm_class.scm_command %>
         <% end %>
       </td>
@@ -124,7 +119,8 @@
                     ) %>
       </td>
       <td class="buttons">
-        <%= link_to(image_tag('delete.png'), '#', :class => 'delete-commit-keywords') %>
+        <%= link_to('', '#',
+                    :class => 'delete-commit-keywords icon-only icon-del') %>
       </td>
     </tr>
     <% end %>
@@ -133,7 +129,10 @@
       <td><em class="info"><%= l(:text_comma_separated) %></em></td>
       <td></td>
       <td></td>
-      <td class="buttons"><%= link_to(image_tag('add.png'), '#', :class => 'add-commit-keywords') %></td>
+      <td class="buttons">
+        <%= link_to('', '#',
+                    :class => 'add-commit-keywords icon-only icon-add') %>
+      </td>
     </tr>
   </tbody>
 </table>

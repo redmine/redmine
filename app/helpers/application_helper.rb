@@ -454,18 +454,18 @@ module ApplicationHelper
   end
 
   def reorder_links(name, url, method = :post)
-    link_to(image_tag('2uparrow.png', :alt => l(:label_sort_highest)),
-            url.merge({"#{name}[move_to]" => 'highest'}),
-            :method => method, :title => l(:label_sort_highest)) +
-    link_to(image_tag('1uparrow.png',   :alt => l(:label_sort_higher)),
-            url.merge({"#{name}[move_to]" => 'higher'}),
-           :method => method, :title => l(:label_sort_higher)) +
-    link_to(image_tag('1downarrow.png', :alt => l(:label_sort_lower)),
-            url.merge({"#{name}[move_to]" => 'lower'}),
-            :method => method, :title => l(:label_sort_lower)) +
-    link_to(image_tag('2downarrow.png', :alt => l(:label_sort_lowest)),
-            url.merge({"#{name}[move_to]" => 'lowest'}),
-           :method => method, :title => l(:label_sort_lowest))
+    link_to('',
+            url.merge({"#{name}[move_to]" => 'highest'}), :method => method,
+            :title => l(:label_sort_highest), :class => 'icon-only icon-move-top') +
+    link_to('',
+            url.merge({"#{name}[move_to]" => 'higher'}), :method => method,
+            :title => l(:label_sort_higher), :class => 'icon-only icon-move-up') +
+    link_to('',
+            url.merge({"#{name}[move_to]" => 'lower'}), :method => method,
+            :title => l(:label_sort_lower), :class => 'icon-only icon-move-down') +
+    link_to('',
+            url.merge({"#{name}[move_to]" => 'lowest'}), :method => method,
+            :title => l(:label_sort_lowest), :class => 'icon-only icon-move-bottom')
   end
 
   def breadcrumb(*args)
@@ -887,7 +887,8 @@ module ApplicationHelper
       @current_section += 1
       if @current_section > 1
         content_tag('div',
-          link_to(image_tag('edit.png'), options[:edit_section_links].merge(:section => @current_section)),
+          link_to('', options[:edit_section_links].merge(:section => @current_section),
+                  :class => 'icon-only icon-edit'),
           :class => 'contextual',
           :title => l(:button_edit_section),
           :id => "section-#{@current_section}") + heading.html_safe
@@ -1098,9 +1099,10 @@ module ApplicationHelper
   end
 
   def toggle_checkboxes_link(selector)
-    link_to_function image_tag('toggle_check.png'),
+    link_to_function '',
       "toggleCheckboxesBySelector('#{selector}')",
-      :title => "#{l(:button_check_all)} / #{l(:button_uncheck_all)}"
+      :title => "#{l(:button_check_all)} / #{l(:button_uncheck_all)}",
+      :class => 'toggle-checkboxes'
   end
 
   def progress_bar(pcts, options={})
@@ -1122,7 +1124,7 @@ module ApplicationHelper
 
   def checked_image(checked=true)
     if checked
-      @checked_image_tag ||= image_tag('toggle_check.png')
+      @checked_image_tag ||= content_tag(:span, nil, :class => 'icon-only icon-checked')
     end
   end
 

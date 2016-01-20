@@ -2,8 +2,9 @@
 <thead>
   <tr>
     <th>
-      <%= link_to_function(image_tag('toggle_check.png'), "toggleCheckboxesBySelector('table.transitions-#{name} input')",
-                                                          :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}") %>
+      <%= link_to_function('', "toggleCheckboxesBySelector('table.transitions-#{name} input')",
+                           :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}",
+                           :class => 'icon-only icon-checked') %>
       <%=l(:label_current_status)%>
     </th>
     <th colspan="<%= @statuses.length %>"><%=l(:label_new_statuses_allowed)%></th>
@@ -12,8 +13,9 @@
     <td></td>
     <% for new_status in @statuses %>
     <td style="width:<%= 75 / @statuses.size %>%;">
-      <%= link_to_function(image_tag('toggle_check.png'), "toggleCheckboxesBySelector('table.transitions-#{name} input.new-status-#{new_status.id}')",
-                                                      :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}") %>
+      <%= link_to_function('', "toggleCheckboxesBySelector('table.transitions-#{name} input.new-status-#{new_status.id}')",
+                           :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}",
+                           :class => 'icon-only icon-checked') %>
       <%= new_status.name %>
     </td>
     <% end %>
@@ -24,8 +26,9 @@
   <% next if old_status.nil? && name != 'always' %>
   <tr class="<%= cycle("odd", "even") %>">
     <td class="name">
-      <%= link_to_function(image_tag('toggle_check.png'), "toggleCheckboxesBySelector('table.transitions-#{name} input.old-status-#{old_status.try(:id) || 0}')",
-                                                          :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}") %>
+      <%= link_to_function('', "toggleCheckboxesBySelector('table.transitions-#{name} input.old-status-#{old_status.try(:id) || 0}')",
+                           :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}",
+                           :class => 'icon-only icon-checked') %>
 
       <%= old_status ? old_status.name : content_tag('em', l(:label_issue_new)) %>
     </td>

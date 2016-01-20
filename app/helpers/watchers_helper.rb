@@ -58,8 +58,10 @@ module WatchersHelper
                :object_id => object.id,
                :user_id => user}
         s << ' '
-        s << link_to(image_tag('delete.png'), url,
-                     :remote => true, :method => 'delete', :class => "delete")
+        s << link_to('', url,
+                     :remote => true, :method => 'delete',
+                     :class => "delete icon-only icon-del",
+                     :title => l(:button_delete))
       end
       content << content_tag('li', s, :class => "user-#{user.id}")
     end

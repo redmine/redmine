@@ -21,12 +21,14 @@
     <%= raw @query.inline_columns.map {|column| "<td class=\"#{column.css_classes}\">#{column_content(column, entry)}</td>"}.join %>
     <td class="buttons">
     <% if entry.editable_by?(User.current) -%>
-        <%= link_to image_tag('edit.png'), edit_time_entry_path(entry),
-                                           :title => l(:button_edit) %>
-        <%= link_to image_tag('delete.png'), time_entry_path(entry),
-                                             :data => {:confirm => l(:text_are_you_sure)},
-                                             :method => :delete,
-                                             :title => l(:button_delete) %>
+        <%= link_to '', edit_time_entry_path(entry),
+                    :title => l(:button_edit),
+                    :class => 'icon icon-edit' %>
+        <%= link_to '', time_entry_path(entry),
+                    :data => {:confirm => l(:text_are_you_sure)},
+                    :method => :delete,
+                    :title => l(:button_delete),
+                    :class => 'icon-only icon-del' %>
     <% end -%>
     </td>
   </tr>

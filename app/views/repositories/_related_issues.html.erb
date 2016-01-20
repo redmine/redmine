@@ -11,14 +11,16 @@
 <ul>
 <% @changeset.issues.visible.each do |issue| %>
   <li id="<%= "related-issue-#{issue.id}" %>"><%= link_to_issue issue %>
-    <%= link_to(image_tag('link_break.png'),
+    <%= link_to('',
                 {:controller => 'repositories', :action => 'remove_related_issue',
                   :id => @project, :repository_id => @repository.identifier_param,
                   :rev => @changeset.identifier, :issue_id => issue},
                 :remote => true,
                 :method => :delete,
                 :data => {:confirm => l(:text_are_you_sure)},
-                :title => l(:label_relation_delete)) if manage_allowed %>
+                :title => l(:label_relation_delete),
+                :class => 'icon-only icon-link-break'
+               ) if manage_allowed %>
   </li>
 <% end %>
 </ul>

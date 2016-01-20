@@ -36,7 +36,7 @@ $(document).ready(function(){
         $("table.plugins td.version span").addClass("unknown");
         $.each(data, function(plugin_id, plugin_data){
           var s = $("tr#plugin-"+plugin_id+" td.version span");
-          s.removeClass("icon-checked icon-warning unknown");
+          s.removeClass("icon-ok icon-warning unknown");
           if (plugin_data.url) {
             if (s.parent("a").length>0) {
               s.unwrap();
@@ -45,7 +45,7 @@ $(document).ready(function(){
             s.wrap($("<a></a>").attr("href", plugin_data.url).attr("target", "_blank"));
           }
           if (plugin_data.c == s.text()) {
-            s.addClass("icon-checked");
+            s.addClass("icon-ok");
           } else if (plugin_data.c) {
             s.addClass("icon-warning");
             s.attr("title", "<%= escape_javascript l(:label_latest_compatible_version) %>: "+plugin_data.c);

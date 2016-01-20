@@ -1,24 +1,28 @@
 <div class="attachments">
 <div class="contextual">
-  <%= link_to image_tag('edit.png'),
-        container_attachments_edit_path(container),
-        :title => l(:label_edit_attachments) if options[:editable] %>
+  <%= link_to('',
+              container_attachments_edit_path(container),
+              :title => l(:label_edit_attachments),
+              :class => 'icon-only icon-edit'
+             ) if options[:editable] %>
 </div>
 <% for attachment in attachments %>
 <p><%= link_to_attachment attachment, :class => 'icon icon-attachment', :download => true -%>
   <% if attachment.is_text? %>
-    <%= link_to image_tag('magnifier.png'),
-                :controller => 'attachments', :action => 'show',
-                :id => attachment, :filename => attachment.filename %>
+    <%= link_to '',
+                { :controller => 'attachments', :action => 'show',
+                  :id => attachment, :filename => attachment.filename },
+                :class => 'icon icon-magnifier',
+                :title => l(:button_view) %>
   <% end %>
   <%= " - #{attachment.description}" unless attachment.description.blank? %>
   <span class="size">(<%= number_to_human_size attachment.filesize %>)</span>
   <% if options[:deletable] %>
-    <%= link_to image_tag('delete.png'), attachment_path(attachment),
-                                         :data => {:confirm => l(:text_are_you_sure)},
-                                         :method => :delete,
-                                         :class => 'delete',
-                                         :title => l(:button_delete) %>
+    <%= link_to '', attachment_path(attachment),
+                :data => {:confirm => l(:text_are_you_sure)},
+                :method => :delete,
+                :class => 'delete icon-only icon-del',
+                :title => l(:button_delete) %>
   <% end %>
   <% if options[:author] %>
     <span class="author"><%= attachment.author %>, <%= format_time(attachment.created_on) %></span>

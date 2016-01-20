@@ -1424,7 +1424,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_select 'div#watchers ul' do
       assert_select 'li' do
         assert_select 'a[href="/users/2"]'
-        assert_select 'a img[alt=Delete]'
+        assert_select 'a[class*=delete]'
       end
     end
   end
@@ -1441,7 +1441,7 @@ class IssuesControllerTest < ActionController::TestCase
       assert_select 'li' do
         assert_select 'img.gravatar'
         assert_select 'a[href="/users/2"]'
-        assert_select 'a img[alt=Delete]'
+        assert_select 'a[class*=delete]'
       end
     end
   end
