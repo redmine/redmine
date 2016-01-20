@@ -18,6 +18,7 @@
 <%= yield :header_tags -%>
 </head>
 <body class="<%= body_css_classes %>">
+<%= call_hook :view_layouts_base_body_top %>
 <div id="wrapper">
 
 <div class="flyout-menu js-flyout-menu">
