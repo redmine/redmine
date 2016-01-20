@@ -42,6 +42,12 @@ module JournalsHelper
                                              :title => l(:button_edit),
                                              :class => 'icon-only icon-edit'
                                             ) if editable
+      links << link_to('',
+                       {:controller => 'journals', :action => 'edit', :id => journal, :notes => ""},
+                       :remote => true,
+                       :method => :post, :data => {:confirm => l(:text_are_you_sure)}, 
+                       :title => l(:button_delete),
+                       :class => 'icon-only icon-del') if editable
     end
     content << content_tag('div', links.join(' ').html_safe, :class => 'contextual') unless links.empty?
     content << textilizable(journal, :notes)
