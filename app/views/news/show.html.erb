@@ -42,7 +42,9 @@
                               :class => 'icon-only icon-del' %>
     </div>
     <h4><%= avatar(comment.author, :size => "24") %><%= authoring comment.created_on, comment.author %></h4>
+    <div class="wiki">
     <%= textilizable(comment.comments) %>
+    </div>
 <% end if @comments.any? %>
 </div>
 
