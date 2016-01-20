@@ -37,27 +37,25 @@ module JournalsHelper
                        :title => l(:button_quote),
                        :class => 'icon-only icon-comment'
                       ) if options[:reply_links]
-      links << link_to_in_place_notes_editor('', "journal-#{journal.id}-notes",
-                                             { :controller => 'journals', :action => 'edit', :id => journal, :format => 'js' },
-                                             :title => l(:button_edit),
-                                             :class => 'icon-only icon-edit'
-                                            ) if editable
+      links << link_to('',
+                       {:controller => 'journals', :action => 'edit', :id => journal},
+                       :remote => true,
+                       :method => 'get',
+                       :title => l(:button_edit),
+                       :class => 'icon-only icon-edit'
+                      ) if editable
       links << link_to('',
                        {:controller => 'journals', :action => 'edit', :id => journal, :notes => ""},
                        :remote => true,
                        :method => :post, :data => {:confirm => l(:text_are_you_sure)}, 
                        :title => l(:button_delete),
-                       :class => 'icon-only icon-del') if editable
+                       :class => 'icon-only icon-del'
+                      ) if editable
     end
     content << content_tag('div', links.join(' ').html_safe, :class => 'contextual') unless links.empty?
     content << textilizable(journal, :notes)
     css_classes = "wiki"
     css_classes << " editable" if editable
     content_tag('div', content.html_safe, :id => "journal-#{journal.id}-notes", :class => css_classes)
-  end
-
-  def link_to_in_place_notes_editor(text, field_id, url, options={})
-    onclick = "$.ajax({url: '#{url_for(url)}', type: 'get'}); return false;"
-    link_to text, '#', options.merge(:onclick => onclick)
   end
 end
