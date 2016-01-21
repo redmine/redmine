@@ -49,8 +49,11 @@ Rails.application.routes.draw do
   match '/issues/changes', :to => 'journals#index', :as => 'issue_changes', :via => :get
   match '/issues/:id/quoted', :to => 'journals#new', :id => /\d+/, :via => :post, :as => 'quoted_issue'
 
-  match '/journals/diff/:id', :to => 'journals#diff', :id => /\d+/, :via => :get
-  match '/journals/edit/:id', :to => 'journals#edit', :id => /\d+/, :via => [:get, :post]
+  resources :journals, :only => [:edit, :update] do
+    member do
+      get 'diff'
+    end
+  end
 
   get '/projects/:project_id/issues/gantt', :to => 'gantts#show', :as => 'project_gantt'
   get '/issues/gantt', :to => 'gantts#show'

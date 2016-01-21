@@ -21,9 +21,9 @@ class RoutingJournalsTest < Redmine::RoutingTest
   def test_journals
     should_route 'POST /issues/1/quoted' => 'journals#new', :id => '1'
     should_route 'GET /issues/changes' => 'journals#index'
-    should_route 'GET /journals/diff/1' => 'journals#diff', :id => '1'
+    should_route 'GET /journals/1/diff' => 'journals#diff', :id => '1'
 
-    should_route 'GET /journals/edit/1' => 'journals#edit', :id => '1'
-    should_route 'POST /journals/edit/1' => 'journals#edit', :id => '1'
+    should_route 'GET /journals/1/edit' => 'journals#edit', :id => '1'
+    should_route 'PUT /journals/1' => 'journals#update', :id => '1'
   end
 end

@@ -199,7 +199,7 @@ class JournalsControllerTest < ActionController::TestCase
 
   def test_update_xhr
     @request.session[:user_id] = 1
-    xhr :post, :edit, :id => 2, :notes => 'Updated notes'
+    xhr :post, :update, :id => 2, :notes => 'Updated notes'
     assert_response :success
     assert_template 'update'
     assert_equal 'text/javascript', response.content_type
@@ -210,7 +210,7 @@ class JournalsControllerTest < ActionController::TestCase
   def test_update_xhr_with_empty_notes_should_delete_the_journal
     @request.session[:user_id] = 1
     assert_difference 'Journal.count', -1 do
-      xhr :post, :edit, :id => 2, :notes => ''
+      xhr :post, :update, :id => 2, :notes => ''
       assert_response :success
       assert_template 'update'
       assert_equal 'text/javascript', response.content_type

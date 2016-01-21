@@ -31,23 +31,23 @@ module JournalsHelper
     links = []
     if !journal.notes.blank?
       links << link_to('',
-                       {:controller => 'journals', :action => 'new', :id => issue, :journal_id => journal},
+                       quoted_issue_path(issue, :journal_id => journal),
                        :remote => true,
                        :method => 'post',
                        :title => l(:button_quote),
                        :class => 'icon-only icon-comment'
                       ) if options[:reply_links]
       links << link_to('',
-                       {:controller => 'journals', :action => 'edit', :id => journal},
+                       edit_journal_path(journal),
                        :remote => true,
                        :method => 'get',
                        :title => l(:button_edit),
                        :class => 'icon-only icon-edit'
                       ) if editable
       links << link_to('',
-                       {:controller => 'journals', :action => 'edit', :id => journal, :notes => ""},
+                       journal_path(journal, :notes => ""),
                        :remote => true,
-                       :method => :post, :data => {:confirm => l(:text_are_you_sure)}, 
+                       :method => 'put', :data => {:confirm => l(:text_are_you_sure)}, 
                        :title => l(:button_delete),
                        :class => 'icon-only icon-del'
                       ) if editable

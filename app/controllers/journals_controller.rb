@@ -16,10 +16,10 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class JournalsController < ApplicationController
-  before_filter :find_journal, :only => [:edit, :diff]
+  before_filter :find_journal, :only => [:edit, :update, :diff]
   before_filter :find_issue, :only => [:new]
   before_filter :find_optional_project, :only => [:index]
-  before_filter :authorize, :only => [:new, :edit, :diff]
+  before_filter :authorize, :only => [:new, :edit, :update, :diff]
   accept_rss_auth :index
   menu_item :issues
 
@@ -82,19 +82,20 @@ class JournalsController < ApplicationController
 
   def edit
     (render_403; return false) unless @journal.editable_by?(User.current)
-    if request.post?
-      @journal.update_attributes(:notes => params[:notes]) if params[:notes]
-      @journal.destroy if @journal.details.empty? && @journal.notes.blank?
-      call_hook(:controller_journals_edit_post, { :journal => @journal, :params => params})
-      respond_to do |format|
-        format.html { redirect_to issue_path(@journal.journalized) }
-        format.js { render :action => 'update' }
-      end
-    else
-      respond_to do |format|
-        # TODO: implement non-JS journal update
-        format.js
-      end
+    respond_to do |format|
+      # TODO: implement non-JS journal update
+      format.js
+    end
+  end
+
+  def update
+    (render_403; return false) unless @journal.editable_by?(User.current)
+    @journal.update_attributes(:notes => params[:notes]) if params[:notes]
+    @journal.destroy if @journal.details.empty? && @journal.notes.blank?
+    call_hook(:controller_journals_edit_post, { :journal => @journal, :params => params})
+    respond_to do |format|
+      format.html { redirect_to issue_path(@journal.journalized) }
+      format.js
     end
   end
 

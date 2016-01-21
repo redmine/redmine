@@ -68,7 +68,7 @@ class MailerTest < ActiveSupport::TestCase
                     # should be https://mydomain.foo/journals/diff/3?detail_id=4
                     # but the Rails 4.2 DOM assertion doesn't handle the ? in the
                     # attribute value
-                    'https://mydomain.foo/journals/diff/3',
+                    'https://mydomain.foo/journals/3/diff',
                     'View differences',
                     :text => 'diff'
       # link to an attachment
@@ -109,7 +109,7 @@ class MailerTest < ActiveSupport::TestCase
                     # should be http://mydomain.foo/rdm/journals/diff/3?detail_id=4
                     # but the Rails 4.2 DOM assertion doesn't handle the ? in the
                     # attribute value
-                    'http://mydomain.foo/rdm/journals/diff/3',
+                    'http://mydomain.foo/rdm/journals/3/diff',
                     'View differences',
                     :text => 'diff'
       # link to an attachment
@@ -179,7 +179,7 @@ class MailerTest < ActiveSupport::TestCase
                     # should be http://mydomain.foo/rdm/journals/diff/3?detail_id=4
                     # but the Rails 4.2 DOM assertion doesn't handle the ? in the
                     # attribute value
-                    'http://mydomain.foo/rdm/journals/diff/3',
+                    'http://mydomain.foo/rdm/journals/3/diff',
                     'View differences',
                     :text => 'diff'
       # link to an attachment
