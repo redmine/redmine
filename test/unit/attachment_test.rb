@@ -20,7 +20,7 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class AttachmentTest < ActiveSupport::TestCase
-  fixtures :users, :projects, :roles, :members, :member_roles,
+  fixtures :users, :email_addresses, :projects, :roles, :members, :member_roles,
            :enabled_modules, :issues, :trackers, :attachments
 
   # TODO: remove this with Rails 5 that supports after_commit callbacks
