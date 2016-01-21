@@ -30,6 +30,7 @@
 /tmp/cache/*
 /tmp/pdf/*
 /tmp/sessions/*
+!/tmp/sessions/empty
 /tmp/sockets/*
 /tmp/test/*
 /tmp/thumbnails/*
