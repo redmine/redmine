@@ -182,10 +182,10 @@ default:
   # the ImageMagick's `convert` binary. Used to generate attachment thumbnails.
   #imagemagick_convert_command:
 
-  # Configuration of RMagcik font.
+  # Configuration of RMagick font.
   #
-  # Redmine uses RMagcik in order to export gantt png.
-  # You don't need this setting if you don't install RMagcik.
+  # Redmine uses RMagick in order to export gantt png.
+  # You don't need this setting if you don't install RMagick.
   #
   # In CJK (Chinese, Japanese and Korean),
   # in order to show CJK characters correctly,
