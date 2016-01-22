@@ -156,11 +156,9 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
       assert_equal [], results
     end
 
-    def test_ldap_with_correct_host
+    def test_ldap_with_correct_host_and_port
       auth_source = AuthSourceLdap.find(1)
 
-      assert_equal "127.0.0.1", auth_source.host
-      assert_equal 389, auth_source.port
       assert_nothing_raised Net::LDAP::Error do
         auth_source.test_connection
       end
@@ -171,19 +169,7 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
       auth_source.host = "badhost"
       auth_source.save!
 
-      assert_equal "badhost", auth_source.host
-      assert_equal 389, auth_source.port
       assert_raise Net::LDAP::Error do
-        auth_source.test_connection
-      end
-    end
-
-    def test_ldap_with_correct_port
-      auth_source = AuthSourceLdap.find(1)
-
-      assert_equal "127.0.0.1", auth_source.host
-      assert_equal 389, auth_source.port
-      assert_nothing_raised Net::LDAP::Error do
         auth_source.test_connection
       end
     end
@@ -193,8 +179,6 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
       auth_source.port = 1234
       auth_source.save!
 
-      assert_equal "127.0.0.1", auth_source.host
-      assert_equal 1234, auth_source.port
       assert_raise Net::LDAP::Error do
         auth_source.test_connection
       end
@@ -206,8 +190,6 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
       auth_source.account_password = "secret"
       auth_source.save!
 
-      assert_equal "127.0.0.1", auth_source.host
-      assert_equal 389, auth_source.port
       assert_equal "cn=admin,dc=redmine,dc=org", auth_source.account
       assert_equal "secret", auth_source.account_password
       assert_nil auth_source.test_connection
@@ -216,8 +198,6 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
     def test_ldap_bind_without_account_and_password
       auth_source = AuthSourceLdap.find(1)
 
-      assert_equal "127.0.0.1", auth_source.host
-      assert_equal 389, auth_source.port
       assert_nil auth_source.account
       assert_equal "", auth_source.account_password
       assert_nil auth_source.test_connection
@@ -229,8 +209,6 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
       auth_source.account_password = "secret"
       auth_source.save!
 
-      assert_equal "127.0.0.1", auth_source.host
-      assert_equal 389, auth_source.port
       assert_equal "cn=baduser,dc=redmine,dc=org", auth_source.account
       assert_equal "secret", auth_source.account_password
       assert_raise AuthSourceException do
@@ -244,8 +222,6 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
       auth_source.account_password = "badpassword"
       auth_source.save!
 
-      assert_equal "127.0.0.1", auth_source.host
-      assert_equal 389, auth_source.port
       assert_equal "cn=admin,dc=redmine,dc=org", auth_source.account
       assert_equal "badpassword", auth_source.account_password
       assert_raise AuthSourceException do
