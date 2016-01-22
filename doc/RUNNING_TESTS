@@ -30,13 +30,16 @@ unpacked into {redmine_root}/tmp/test.
 If the test repositories are not present, the tests that need them will be
 skipped.
 
-Creating a test ldap database
+Creating a test LDAP database
 =============================
 
 Redmine supports using LDAP for user authentications.  To test LDAP
 with Redmine, load the LDAP export from test/fixtures/ldap/test-ldap.ldif
 into a testing LDAP server. Make sure that the LDAP server can be accessed
 at 127.0.0.1 on port 389.
+
+If your LDAP server is not running on localhost, you can use the
+REDMINE_TEST_LDAP_SERVER environment variable to specify another host.
 
 Setting up the test LDAP server is beyond the scope of this documentation.
 The OpenLDAP project provides a simple LDAP implementation that should work
@@ -57,8 +60,8 @@ You need an empty repository accessible at http://127.0.0.1/svn/ecookbook
 Then, you can run the tests with:
 `ruby test\extra\redmine_pm\repository_subversion_test.rb`
 
-If you svn server is not running on localhost, you can use the REDMINE_TEST_DAV_SERVER
-environment variable to specify another host.
+If your svn server is not running on localhost, you can use the
+REDMINE_TEST_DAV_SERVER environment variable to specify another host.
 
 Running Capybara tests
 ======================
