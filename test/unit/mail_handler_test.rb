@@ -265,7 +265,7 @@ class MailHandlerTest < ActiveSupport::TestCase
     end
   end
 
-  def test_add_issue_with_cc
+  def test_add_issue_should_add_cc_as_watchers
     issue = submit_email('ticket_with_cc.eml', :issue => {:project => 'ecookbook'})
     assert issue.is_a?(Issue)
     assert !issue.new_record?
@@ -811,6 +811,28 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_match /This is reply/, journal.notes
     assert_equal 'Feature request', journal.issue.tracker.name
     assert_equal 'Normal', journal.issue.priority.name
+  end
+
+  def test_update_issue_should_add_cc_as_watchers
+    Watcher.delete_all
+    issue = Issue.find(2)
+
+    assert_difference 'Watcher.count' do
+      assert submit_email('issue_update_with_cc.eml')
+    end
+    issue.reload
+    assert_equal 1, issue.watcher_user_ids.size
+    assert issue.watched_by?(User.find_by_mail('dlopper@somenet.foo'))
+  end
+
+  def test_update_issue_should_not_add_cc_as_watchers_if_already_watching
+    Watcher.delete_all
+    issue = Issue.find(2)
+    Watcher.create!(:watchable => issue, :user => User.find_by_mail('dlopper@somenet.foo'))
+
+    assert_no_difference 'Watcher.count' do
+      assert submit_email('issue_update_with_cc.eml')
+    end
   end
 
   def test_replying_to_a_private_note_should_add_reply_as_private

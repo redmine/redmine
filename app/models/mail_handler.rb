@@ -240,6 +240,9 @@ class MailHandler < ActionMailer::Base
     issue.safe_attributes = issue_attributes_from_keywords(issue)
     issue.safe_attributes = {'custom_field_values' => custom_field_values_from_keywords(issue)}
     journal.notes = cleaned_up_text_body
+
+    # add To and Cc as watchers before saving so the watchers can reply to Redmine
+    add_watchers(issue)
     add_attachments(issue)
     issue.save!
     if logger
@@ -314,8 +317,10 @@ class MailHandler < ActionMailer::Base
     if user.allowed_to?("add_#{obj.class.name.underscore}_watchers".to_sym, obj.project)
       addresses = [email.to, email.cc].flatten.compact.uniq.collect {|a| a.strip.downcase}
       unless addresses.empty?
-        User.active.having_mail(addresses).each do |w|
-          obj.add_watcher(w)
+        users = User.active.having_mail(addresses).to_a
+        users -= obj.watcher_users
+        users.each do |u|
+          obj.add_watcher(u)
         end
       end
     end
