@@ -255,6 +255,7 @@ es-PA:
   error_scm_annotate_big_text_file: "La entrada no puede anotarse, al superar el tamaño máximo para archivos de texto."
   error_scm_command_failed: "Se produjo un error al acceder al repositorio: %{value}"
   error_scm_not_found: "La entrada y/o la revisión no existe en el repositorio."
+  error_ldap_bind_credentials: "Cuenta/Contraseña LDAP incorrecta"
   field_account: Cuenta
   field_activity: Actividad
   field_admin: Administrador
@@ -932,7 +933,7 @@ es-PA:
   label_subtask_plural: Subtareas
   label_project_copy_notifications: Enviar notificaciones por correo electrónico durante la copia del proyecto
   error_can_not_delete_custom_field: Fue imposible eliminar el campo personalizado
-  error_unable_to_connect: Fue imposible conectar con (%{value})
+  error_unable_to_connect: Fue imposible conectarse (%{value})
   error_can_not_remove_role: Este rol está en uso y no puede ser eliminado.
   error_can_not_delete_tracker: Este tipo contiene incidencias y no puede ser eliminado.
   field_principal: Principal

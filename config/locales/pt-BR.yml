@@ -196,6 +196,7 @@ pt-BR:
   error_issue_not_found_in_project: 'A tarefa não foi encontrada ou não pertence a este projeto'
   error_no_tracker_in_project: 'Não há um tipo de tarefa associado a este projeto. Favor verificar as configurações do projeto.'
   error_no_default_issue_status: 'A situação padrão para tarefa não está definida. Favor verificar sua configuração (Vá em "Administração -> Situação da tarefa").'
+  error_ldap_bind_credentials: "Conta/Palavra-chave do LDAP não é válida"
 
   mail_subject_lost_password: "Sua senha do %{value}."
   mail_body_lost_password: 'Para mudar sua senha, clique no link abaixo:'

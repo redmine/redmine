@@ -24,6 +24,26 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
   def setup
   end
 
+  def test_initialize
+    auth_source = AuthSourceLdap.new
+    assert_nil auth_source.id
+    assert_equal "AuthSourceLdap", auth_source.type
+    assert_equal "", auth_source.name
+    assert_nil auth_source.host
+    assert_nil auth_source.port
+    assert_nil auth_source.account
+    assert_equal "", auth_source.account_password
+    assert_nil auth_source.base_dn
+    assert_nil auth_source.attr_login
+    assert_nil auth_source.attr_firstname
+    assert_nil auth_source.attr_lastname
+    assert_nil auth_source.attr_mail
+    assert_equal false, auth_source.onthefly_register
+    assert_equal false, auth_source.tls
+    assert_nil auth_source.filter
+    assert_nil auth_source.timeout
+  end
+
   def test_create
     a = AuthSourceLdap.new(:name => 'My LDAP', :host => 'ldap.example.net', :port => 389, :base_dn => 'dc=example,dc=net', :attr_login => 'sAMAccountName')
     assert a.save
@@ -134,6 +154,103 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
 
       results = AuthSource.search("exa")
       assert_equal [], results
+    end
+
+    def test_ldap_with_correct_host
+      auth_source = AuthSourceLdap.find(1)
+
+      assert_equal "127.0.0.1", auth_source.host
+      assert_equal 389, auth_source.port
+      assert_nothing_raised Net::LDAP::Error do
+        auth_source.test_connection
+      end
+    end
+
+    def test_ldap_with_incorrect_host
+      auth_source = AuthSourceLdap.find(1)
+      auth_source.host = "badhost"
+      auth_source.save!
+
+      assert_equal "badhost", auth_source.host
+      assert_equal 389, auth_source.port
+      assert_raise Net::LDAP::Error do
+        auth_source.test_connection
+      end
+    end
+
+    def test_ldap_with_correct_port
+      auth_source = AuthSourceLdap.find(1)
+
+      assert_equal "127.0.0.1", auth_source.host
+      assert_equal 389, auth_source.port
+      assert_nothing_raised Net::LDAP::Error do
+        auth_source.test_connection
+      end
+    end
+
+    def test_ldap_with_incorrect_port
+      auth_source = AuthSourceLdap.find(1)
+      auth_source.port = 1234
+      auth_source.save!
+
+      assert_equal "127.0.0.1", auth_source.host
+      assert_equal 1234, auth_source.port
+      assert_raise Net::LDAP::Error do
+        auth_source.test_connection
+      end
+    end
+
+    def test_ldap_bind_with_account_and_password
+      auth_source = AuthSourceLdap.find(1)
+      auth_source.account = "cn=Manager,dc=redmine,dc=org"
+      auth_source.account_password = "secret"
+      auth_source.save!
+
+      assert_equal "127.0.0.1", auth_source.host
+      assert_equal 389, auth_source.port
+      assert_equal "cn=Manager,dc=redmine,dc=org", auth_source.account
+      assert_equal "secret", auth_source.account_password
+      assert_nil auth_source.test_connection
+    end
+
+    def test_ldap_bind_without_account_and_password
+      auth_source = AuthSourceLdap.find(1)
+
+      assert_equal "127.0.0.1", auth_source.host
+      assert_equal 389, auth_source.port
+      assert_nil auth_source.account
+      assert_equal "", auth_source.account_password
+      assert_nil auth_source.test_connection
+    end
+
+    def test_ldap_bind_with_incorrect_account
+      auth_source = AuthSourceLdap.find(1)
+      auth_source.account = "cn=baduser,dc=redmine,dc=org"
+      auth_source.account_password = "secret"
+      auth_source.save!
+
+      assert_equal "127.0.0.1", auth_source.host
+      assert_equal 389, auth_source.port
+      assert_equal "cn=baduser,dc=redmine,dc=org", auth_source.account
+      assert_equal "secret", auth_source.account_password
+      assert_raise AuthSourceException do
+        auth_source.test_connection
+      end
+    end
+
+    def test_ldap_bind_with_incorrect_password
+      auth_source = AuthSourceLdap.find(1)
+      auth_source.account = "cn=Manager,dc=redmine,dc=org"
+      auth_source.account_password = "badpassword"
+      auth_source.save!
+
+      assert_equal "127.0.0.1", auth_source.host
+      assert_equal 389, auth_source.port
+      assert_equal "cn=Manager,dc=redmine,dc=org", auth_source.account
+      assert_equal "badpassword", auth_source.account_password
+      assert_raise AuthSourceException do
+        auth_source.test_connection
+      end
     end
   else
     puts '(Test LDAP server not configured)'

@@ -184,6 +184,7 @@ pt:
   error_scm_command_failed: "Ocorreu um erro ao tentar aceder ao repositório: %{value}"
   error_scm_annotate: "A entrada não existe ou não pode ser anotada."
   error_issue_not_found_in_project: 'A tarefa não foi encontrada ou não pertence a este projeto.'
+  error_ldap_bind_credentials: "Conta/Palavra-chave do LDAP não é válida"
 
   mail_subject_lost_password: "Palavra-chave de %{value}"
   mail_body_lost_password: 'Para mudar a sua palavra-chave, clique na ligação abaixo:'

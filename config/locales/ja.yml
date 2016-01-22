@@ -1195,3 +1195,4 @@ ja:
   label_any_open_issues: 未完了のチケット
   label_no_open_issues: なし または完了したチケット
   label_default_values_for_new_users: 新しいユーザーのデフォルト設定
+  error_ldap_bind_credentials: Invalid LDAP Account/Password
