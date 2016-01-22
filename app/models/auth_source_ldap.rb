@@ -62,7 +62,7 @@ class AuthSourceLdap < AuthSource
       ldap_con = initialize_ldap_con(self.account, self.account_password)
       ldap_con.open { }
 
-      if self.account.present? && self.account_password.present?
+      if self.account.present? && !self.account.include?("$login") && self.account_password.present?
         ldap_auth = authenticate_dn(self.account, self.account_password)
         raise AuthSourceException.new(l(:error_ldap_bind_credentials)) if !ldap_auth
       end
