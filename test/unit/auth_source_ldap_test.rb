@@ -156,7 +156,7 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
       assert_equal [], results
     end
 
-    def test_ldap_with_correct_host_and_port
+    def test_test_connection_with_correct_host_and_port
       auth_source = AuthSourceLdap.find(1)
 
       assert_nothing_raised Net::LDAP::Error do
@@ -164,7 +164,7 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
       end
     end
 
-    def test_ldap_with_incorrect_host
+    def test_test_connection_with_incorrect_host
       auth_source = AuthSourceLdap.find(1)
       auth_source.host = "badhost"
       auth_source.save!
@@ -174,7 +174,7 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
       end
     end
 
-    def test_ldap_with_incorrect_port
+    def test_test_connection_with_incorrect_port
       auth_source = AuthSourceLdap.find(1)
       auth_source.port = 1234
       auth_source.save!
@@ -184,7 +184,7 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
       end
     end
 
-    def test_ldap_bind_with_account_and_password
+    def test_test_connection_bind_with_account_and_password
       auth_source = AuthSourceLdap.find(1)
       auth_source.account = "cn=admin,dc=redmine,dc=org"
       auth_source.account_password = "secret"
@@ -195,7 +195,7 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
       assert_nil auth_source.test_connection
     end
 
-    def test_ldap_bind_without_account_and_password
+    def test_test_connection_bind_without_account_and_password
       auth_source = AuthSourceLdap.find(1)
 
       assert_nil auth_source.account
@@ -203,7 +203,7 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
       assert_nil auth_source.test_connection
     end
 
-    def test_ldap_bind_with_incorrect_account
+    def test_test_connection_bind_with_incorrect_account
       auth_source = AuthSourceLdap.find(1)
       auth_source.account = "cn=baduser,dc=redmine,dc=org"
       auth_source.account_password = "secret"
@@ -216,7 +216,7 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
       end
     end
 
-    def test_ldap_bind_with_incorrect_password
+    def test_test_connection_bind_with_incorrect_password
       auth_source = AuthSourceLdap.find(1)
       auth_source.account = "cn=admin,dc=redmine,dc=org"
       auth_source.account_password = "badpassword"
