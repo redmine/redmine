@@ -202,13 +202,13 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
 
     def test_ldap_bind_with_account_and_password
       auth_source = AuthSourceLdap.find(1)
-      auth_source.account = "cn=Manager,dc=redmine,dc=org"
+      auth_source.account = "cn=admin,dc=redmine,dc=org"
       auth_source.account_password = "secret"
       auth_source.save!
 
       assert_equal "127.0.0.1", auth_source.host
       assert_equal 389, auth_source.port
-      assert_equal "cn=Manager,dc=redmine,dc=org", auth_source.account
+      assert_equal "cn=admin,dc=redmine,dc=org", auth_source.account
       assert_equal "secret", auth_source.account_password
       assert_nil auth_source.test_connection
     end
@@ -240,13 +240,13 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
 
     def test_ldap_bind_with_incorrect_password
       auth_source = AuthSourceLdap.find(1)
-      auth_source.account = "cn=Manager,dc=redmine,dc=org"
+      auth_source.account = "cn=admin,dc=redmine,dc=org"
       auth_source.account_password = "badpassword"
       auth_source.save!
 
       assert_equal "127.0.0.1", auth_source.host
       assert_equal 389, auth_source.port
-      assert_equal "cn=Manager,dc=redmine,dc=org", auth_source.account
+      assert_equal "cn=admin,dc=redmine,dc=org", auth_source.account
       assert_equal "badpassword", auth_source.account_password
       assert_raise AuthSourceException do
         auth_source.test_connection
