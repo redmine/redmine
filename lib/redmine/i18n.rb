@@ -71,12 +71,12 @@ module Redmine
       ::I18n.l(date.to_date, options)
     end
 
-    def format_time(time, include_date = true)
+    def format_time(time, include_date=true, user=User.currant)
       return nil unless time
       options = {}
       options[:format] = (Setting.time_format.blank? ? :time : Setting.time_format)
       time = time.to_time if time.is_a?(String)
-      zone = User.current.time_zone
+      zone = user.time_zone
       local = zone ? time.in_time_zone(zone) : (time.utc? ? time.localtime : time)
       (include_date ? "#{format_date(local)} " : "") + ::I18n.l(local, options)
     end
