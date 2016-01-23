@@ -71,7 +71,7 @@ module Redmine
       ::I18n.l(date.to_date, options)
     end
 
-    def format_time(time, include_date=true, user=User.currant)
+    def format_time(time, include_date=true, user=User.current)
       return nil unless time
       options = {}
       options[:format] = (Setting.time_format.blank? ? :time : Setting.time_format)
