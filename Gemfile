@@ -95,8 +95,8 @@ group :test do
   gem "mocha", "~> 1.0.0", :require => 'mocha/api'
   if RUBY_VERSION >= '1.9.3'
     gem "capybara"
-    # Request at least nokogiri 1.6.7.1 because of security advisories
-    gem "nokogiri", ">= 1.6.7.1"
+    # Request at least nokogiri 1.6.7.2 because of security advisories
+    gem "nokogiri", ">= 1.6.7.2"
     gem "selenium-webdriver"
   end
 end
