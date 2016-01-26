@@ -15,7 +15,7 @@ gem "actionpack-action_caching"
 gem "actionpack-xml_parser"
 gem "roadie-rails"
 
-# Request at least nokogiri 1.6.7.1 because of security advisories
+# Request at least nokogiri 1.6.7.2 because of security advisories
 gem "nokogiri", ">= 1.6.7.2"
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
