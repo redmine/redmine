@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-if RUBY_VERSION >= "1.9.3"
+if RUBY_VERSION >= "1.9"
   gem "rails", "3.2.22.1"
 else
   gem "rails", :github => "rails/rails", :branch => "3-2-stable"
