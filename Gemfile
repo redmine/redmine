@@ -1,6 +1,10 @@
 source 'https://rubygems.org'
 
-gem "rails", "3.2.22.1"
+if RUBY_VERSION >= "1.9.3"
+  gem "rails", "3.2.22.1"
+else
+  gem "rails", :github => "rails/rails", :branch => "3-2-stable"
+end
 gem "rack-cache", "1.2" if RUBY_VERSION < "1.9.3"
 gem "jquery-rails", "~> 3.1.4"
 gem "coderay", "~> 1.1.0"
