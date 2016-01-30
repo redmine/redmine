@@ -230,7 +230,7 @@
   general_first_day_of_week: '7'
 
   notice_account_updated: 帳戶更新資訊已儲存
-  notice_account_invalid_creditentials: 帳戶或密碼不正確
+  notice_account_invalid_credentials: 帳戶或密碼不正確
   notice_account_password_updated: 帳戶新密碼已儲存
   notice_account_wrong_password: 密碼不正確
   notice_account_register_done: 帳號已建立成功。欲啟用您的帳號，請點擊系統確認信函中的啟用連結。

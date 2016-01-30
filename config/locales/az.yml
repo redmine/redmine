@@ -741,7 +741,7 @@ az:
   mail_subject_reminder: "yaxın %{days} gün üçün Sizə təyin olunan %{count}"
 
   notice_account_activated: Sizin uçot qeydiniz aktivləşdirilib. Sistemə daxil ola bilərsiniz.
-  notice_account_invalid_creditentials: İstifadəçi adı və ya parolu düzgün deyildir
+  notice_account_invalid_credentials: İstifadəçi adı və ya parolu düzgün deyildir
   notice_account_lost_email_sent: Sizə yeni parolun seçimi ilə bağlı təlimatı əks etdirən məktub göndərilmişdir.
   notice_account_password_updated: Parol müvəffəqiyyətlə yeniləndi.
   notice_account_pending: "Sizin uçot qeydiniz yaradıldı və inzibatçının təsdiqini gözləyir."

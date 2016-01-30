@@ -145,7 +145,7 @@ sk:
   general_first_day_of_week: '1'
 
   notice_account_updated: Účet bol úspešne zmenený.
-  notice_account_invalid_creditentials: Nesprávne meno alebo heslo
+  notice_account_invalid_credentials: Nesprávne meno alebo heslo
   notice_account_password_updated: Heslo bolo úspešne zmenené.
   notice_account_wrong_password: Nesprávne heslo
   notice_account_register_done: Účet bol úspešne vytvorený. Účet aktivujete kliknutím na odkaz v emaile, ktorý vám bol zaslaný na %{email}.

@@ -171,7 +171,7 @@ fi:
   general_first_day_of_week: '1'
 
   notice_account_updated: Tilin päivitys onnistui.
-  notice_account_invalid_creditentials: Virheellinen käyttäjätunnus tai salasana
+  notice_account_invalid_credentials: Virheellinen käyttäjätunnus tai salasana
   notice_account_password_updated: Salasanan päivitys onnistui.
   notice_account_wrong_password: Väärä salasana
   notice_account_register_done: Tilin luonti onnistui. Aktivoidaksesi tilin seuraa linkkiä joka välitettiin sähköpostiisi.

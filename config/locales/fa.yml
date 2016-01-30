@@ -146,7 +146,7 @@ fa:
   general_first_day_of_week: '6'
 
   notice_account_updated: حساب شما بروز شد.
-  notice_account_invalid_creditentials: نام کاربری یا گذرواژه نادرست است
+  notice_account_invalid_credentials: نام کاربری یا گذرواژه نادرست است
   notice_account_password_updated: گذرواژه بروز شد
   notice_account_wrong_password: گذرواژه نادرست است
   notice_account_register_done: حساب ساخته شد. برای فعال نمودن آن، روی پیوندی که به شما ایمیل شده کلیک کنید.

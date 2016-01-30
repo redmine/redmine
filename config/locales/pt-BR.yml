@@ -166,7 +166,7 @@ pt-BR:
   general_first_day_of_week: '1'
 
   notice_account_updated: Conta atualizada com sucesso.
-  notice_account_invalid_creditentials: Usuário ou senha inválido.
+  notice_account_invalid_credentials: Usuário ou senha inválido.
   notice_account_password_updated: Senha alterada com sucesso.
   notice_account_wrong_password: Senha inválida.
   notice_account_register_done: Conta criada com sucesso. Para ativar sua conta, clique no link que lhe foi enviado por e-mail.

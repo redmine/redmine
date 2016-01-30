@@ -147,7 +147,7 @@ el:
   general_first_day_of_week: '7'
 
   notice_account_updated: Ο λογαριασμός ενημερώθηκε επιτυχώς.
-  notice_account_invalid_creditentials: Άκυρο όνομα χρήστη ή κωδικού πρόσβασης
+  notice_account_invalid_credentials: Άκυρο όνομα χρήστη ή κωδικού πρόσβασης
   notice_account_password_updated: Ο κωδικός πρόσβασης ενημερώθηκε επιτυχώς.
   notice_account_wrong_password: Λάθος κωδικός πρόσβασης
   notice_account_register_done: Ο λογαριασμός δημιουργήθηκε επιτυχώς. Για να ενεργοποιήσετε το λογαριασμό σας, πατήστε το σύνδεσμο που σας έχει αποσταλεί με email.

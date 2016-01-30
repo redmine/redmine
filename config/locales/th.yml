@@ -144,7 +144,7 @@ th:
   general_first_day_of_week: '1'
 
   notice_account_updated: บัญชีได้ถูกปรับปรุงแล้ว.
-  notice_account_invalid_creditentials: ชื้ผู้ใช้หรือรหัสผ่านไม่ถูกต้อง
+  notice_account_invalid_credentials: ชื้ผู้ใช้หรือรหัสผ่านไม่ถูกต้อง
   notice_account_password_updated: รหัสได้ถูกปรับปรุงแล้ว.
   notice_account_wrong_password: รหัสผ่านไม่ถูกต้อง
   notice_account_register_done: บัญชีถูกสร้างแล้ว. กรุณาเช็คเมล์ แล้วคลิ๊กที่ลิงค์ในอีเมล์เพื่อเปิดใช้บัญชี

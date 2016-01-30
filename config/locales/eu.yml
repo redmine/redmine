@@ -148,7 +148,7 @@ eu:
   general_first_day_of_week: '1'
 
   notice_account_updated: Kontua ongi eguneratu da.
-  notice_account_invalid_creditentials: Erabiltzaile edo pasahitz ezegokia
+  notice_account_invalid_credentials: Erabiltzaile edo pasahitz ezegokia
   notice_account_password_updated: Pasahitza ongi eguneratu da.
   notice_account_wrong_password: Pasahitz ezegokia.
   notice_account_register_done: Kontua ongi sortu da. Kontua gaitzeko klikatu epostan adierazi zaizun estekan.

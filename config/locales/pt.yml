@@ -156,7 +156,7 @@ pt:
   general_first_day_of_week: '1'
 
   notice_account_updated: A conta foi atualizada com sucesso.
-  notice_account_invalid_creditentials: Utilizador ou palavra-chave inválidos.
+  notice_account_invalid_credentials: Utilizador ou palavra-chave inválidos.
   notice_account_password_updated: A palavra-chave foi alterada com sucesso.
   notice_account_wrong_password: Palavra-chave errada.
   notice_account_unknown_email: Utilizador desconhecido.

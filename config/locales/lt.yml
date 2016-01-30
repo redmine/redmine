@@ -205,7 +205,7 @@ lt:
   general_first_day_of_week: '1'
 
   notice_account_updated: Paskyra buvo sėkmingai atnaujinta.
-  notice_account_invalid_creditentials: Negaliojantis vartotojo vardas ar slaptažodis
+  notice_account_invalid_credentials: Negaliojantis vartotojo vardas ar slaptažodis
   notice_account_password_updated: Slaptažodis buvo sėkmingai atnaujintas.
   notice_account_wrong_password: Neteisingas slaptažodis
   notice_account_register_done: Paskyra buvo sėkmingai sukurta. Kad aktyvintumėte savo paskyrą, paspauskite nuorodą, kuri jums buvo siųsta elektroniniu paštu.

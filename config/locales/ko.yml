@@ -193,7 +193,7 @@ ko:
   general_first_day_of_week: '7'
 
   notice_account_updated: 계정이 성공적으로 변경되었습니다.
-  notice_account_invalid_creditentials: 잘못된 계정 또는 비밀번호
+  notice_account_invalid_credentials: 잘못된 계정 또는 비밀번호
   notice_account_password_updated: 비밀번호가 잘 변경되었습니다.
   notice_account_wrong_password: 잘못된 비밀번호
   notice_account_register_done: 계정이 잘 만들어졌습니다. 계정을 활성화하시려면 받은 메일의 링크를 클릭해주세요.

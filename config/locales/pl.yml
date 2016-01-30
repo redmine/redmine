@@ -639,7 +639,7 @@ pl:
   mail_subject_register: "Aktywacja konta w %{value}"
   mail_subject_reminder: "Zagadnienia (%{count}) do obsłużenia w ciągu następnych %{days} dni"
   notice_account_activated: Twoje konto zostało aktywowane. Możesz się zalogować.
-  notice_account_invalid_creditentials: Zły użytkownik lub hasło
+  notice_account_invalid_credentials: Zły użytkownik lub hasło
   notice_account_lost_email_sent: E-mail z instrukcjami zmiany hasła został wysłany do Ciebie.
   notice_account_password_updated: Hasło prawidłowo zmienione.
   notice_account_pending: "Twoje konto zostało utworzone i oczekuje na zatwierdzenie administratora."

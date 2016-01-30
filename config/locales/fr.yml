@@ -166,7 +166,7 @@ fr:
   general_first_day_of_week: '1'
 
   notice_account_updated: Le compte a été mis à jour avec succès.
-  notice_account_invalid_creditentials: Identifiant ou mot de passe invalide.
+  notice_account_invalid_credentials: Identifiant ou mot de passe invalide.
   notice_account_password_updated: Mot de passe mis à jour avec succès.
   notice_account_wrong_password: Mot de passe incorrect
   notice_account_register_done: Un message contenant les instructions pour activer votre compte vous a été envoyé à l'adresse %{email}.

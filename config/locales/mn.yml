@@ -146,7 +146,7 @@ mn:
   general_first_day_of_week: '7'
 
   notice_account_updated: Дансыг амжилттай өөрчиллөө.
-  notice_account_invalid_creditentials: Хэрэглэгчийн нэр эсвэл нууц үг буруу байна
+  notice_account_invalid_credentials: Хэрэглэгчийн нэр эсвэл нууц үг буруу байна
   notice_account_password_updated: Нууц үгийг амжилттай өөрчиллөө.
   notice_account_wrong_password: Буруу нууц үг
   notice_account_register_done: Шинэ хэрэглэгч амжилттай үүсгэлээ. Идэвхжүүлэхийн тулд, бидний тань луу илгээсэн мэйл дотор байгаа холбоос дээр дараарай.

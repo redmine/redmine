@@ -136,7 +136,7 @@
   general_first_day_of_week: '1'
 
   notice_account_updated: Kontoen er oppdatert.
-  notice_account_invalid_creditentials: Feil brukernavn eller passord
+  notice_account_invalid_credentials: Feil brukernavn eller passord
   notice_account_password_updated: Passordet er oppdatert.
   notice_account_wrong_password: Feil passord
   notice_account_register_done: Kontoen er opprettet. Klikk lenken som er sendt deg i e-post for å aktivere kontoen.

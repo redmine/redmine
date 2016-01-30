@@ -163,7 +163,7 @@ da:
   general_first_day_of_week: '1'
 
   notice_account_updated: Kontoen er opdateret.
-  notice_account_invalid_creditentials: Ugyldig bruger og/eller kodeord
+  notice_account_invalid_credentials: Ugyldig bruger og/eller kodeord
   notice_account_password_updated: Kodeordet er opdateret.
   notice_account_wrong_password: Forkert kodeord
   notice_account_register_done: Kontoen er oprettet. For at aktivere kontoen skal du klikke på linket i den tilsendte email.

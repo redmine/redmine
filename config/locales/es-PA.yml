@@ -663,7 +663,7 @@ es-PA:
   mail_subject_register: "Activación de la cuenta del %{value}"
   mail_subject_reminder: "%{count} incidencia(s) finalizan en los próximos %{days} días"
   notice_account_activated: Su cuenta ha sido activada. Ya puede conectarse.
-  notice_account_invalid_creditentials: Usuario o contraseña inválido.
+  notice_account_invalid_credentials: Usuario o contraseña inválido.
   notice_account_lost_email_sent: Se le ha enviado un correo con instrucciones para elegir una nueva contraseña.
   notice_account_password_updated: Contraseña modificada correctamente.
   notice_account_pending: "Su cuenta ha sido creada y está pendiende de la aprobación por parte del administrador."

@@ -151,7 +151,7 @@ he:
   general_first_day_of_week: '7'
 
   notice_account_updated: החשבון עודכן בהצלחה!
-  notice_account_invalid_creditentials: שם משתמש או סיסמה שגויים
+  notice_account_invalid_credentials: שם משתמש או סיסמה שגויים
   notice_account_password_updated: הסיסמה עודכנה בהצלחה!
   notice_account_wrong_password: סיסמה שגויה
   notice_account_register_done: החשבון נוצר בהצלחה. להפעלת החשבון לחץ על הקישור שנשלח לדוא"ל שלך.

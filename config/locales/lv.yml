@@ -140,7 +140,7 @@ lv:
   general_first_day_of_week: '1'
 
   notice_account_updated: Konts tika atjaunots veiksmīgi.
-  notice_account_invalid_creditentials: Nepareizs lietotāja vārds vai parole.
+  notice_account_invalid_credentials: Nepareizs lietotāja vārds vai parole.
   notice_account_password_updated: Parole tika veiksmīgi atjaunota.
   notice_account_wrong_password: Nepareiza parole
   notice_account_register_done: Konts veiksmīgi izveidots. Lai aktivizētu kontu, spiediet uz saites, kas Jums tika nosūtīta.

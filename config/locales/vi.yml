@@ -199,7 +199,7 @@ vi:
   general_first_day_of_week: '1'
 
   notice_account_updated: Cập nhật tài khoản thành công.
-  notice_account_invalid_creditentials: Tài khoản hoặc mật mã không hợp lệ
+  notice_account_invalid_credentials: Tài khoản hoặc mật mã không hợp lệ
   notice_account_password_updated: Cập nhật mật mã thành công.
   notice_account_wrong_password: Sai mật mã
   notice_account_register_done: Tài khoản được tạo thành công. Để kích hoạt vui lòng làm theo hướng dẫn trong email gửi đến bạn.

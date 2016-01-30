@@ -167,7 +167,7 @@
   general_first_day_of_week: '1'
 
   notice_account_updated: A fiók adatai sikeresen frissítve.
-  notice_account_invalid_creditentials: Hibás felhasználói név, vagy jelszó
+  notice_account_invalid_credentials: Hibás felhasználói név, vagy jelszó
   notice_account_password_updated: A jelszó módosítása megtörtént.
   notice_account_wrong_password: Hibás jelszó
   notice_account_register_done: A fiók sikeresen létrehozva. Aktiválásához kattints az e-mailben kapott linkre

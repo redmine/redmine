@@ -150,7 +150,7 @@ ca:
   general_first_day_of_week: "1"
 
   notice_account_updated: "El compte s'ha actualitzat correctament."
-  notice_account_invalid_creditentials: "Usuari o contrasenya invàlid"
+  notice_account_invalid_credentials: "Usuari o contrasenya invàlid"
   notice_account_password_updated: "La contrasenya s'ha modificat correctament."
   notice_account_wrong_password: "Contrasenya incorrecta"
   notice_account_register_done: "El compte s'ha creat correctament. Per a activar el compte, feu clic en l'enllaç que us han enviat per correu electrònic."

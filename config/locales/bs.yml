@@ -157,7 +157,7 @@ bs:
   general_first_day_of_week: '7'
 
   notice_account_activated: Vaš nalog je aktiviran. Možete se prijaviti.
-  notice_account_invalid_creditentials: Pogrešan korisnik ili lozinka
+  notice_account_invalid_credentials: Pogrešan korisnik ili lozinka
   notice_account_lost_email_sent: Email sa uputstvima o izboru nove šifre je poslat na vašu adresu.
   notice_account_password_updated: Lozinka je uspješno promjenjena.
   notice_account_pending: "Vaš nalog je kreiran i čeka odobrenje administratora."

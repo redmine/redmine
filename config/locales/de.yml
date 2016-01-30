@@ -851,7 +851,7 @@ de:
 
   notice_account_activated: Ihr Konto ist aktiviert. Sie können sich jetzt anmelden.
   notice_account_deleted: Ihr Benutzerkonto wurde unwiderruflich gelöscht.
-  notice_account_invalid_creditentials: Benutzer oder Kennwort ist ungültig.
+  notice_account_invalid_credentials: Benutzer oder Kennwort ist ungültig.
   notice_account_lost_email_sent: Eine E-Mail mit Anweisungen, ein neues Kennwort zu wählen, wurde Ihnen geschickt.
   notice_account_locked: Ihr Konto ist gesperrt.
   notice_account_not_activated_yet: Sie haben Ihr Konto noch nicht aktiviert. Wenn Sie die Aktivierungsmail erneut erhalten wollen, <a href="%{url}">klicken Sie bitte hier</a>.

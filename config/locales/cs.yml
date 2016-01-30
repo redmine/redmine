@@ -151,7 +151,7 @@ cs:
   general_first_day_of_week: '1'
 
   notice_account_updated: Účet byl úspěšně změněn.
-  notice_account_invalid_creditentials: Chybné jméno nebo heslo
+  notice_account_invalid_credentials: Chybné jméno nebo heslo
   notice_account_password_updated: Heslo bylo úspěšně změněno.
   notice_account_wrong_password: Chybné heslo
   notice_account_register_done: Účet byl úspěšně vytvořen. Pro aktivaci účtu klikněte na odkaz v emailu, který vám byl zaslán.

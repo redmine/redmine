@@ -160,7 +160,7 @@ tr:
   general_first_day_of_week: '7'
 
   notice_account_updated: Hesap başarıyla güncelleştirildi.
-  notice_account_invalid_creditentials: Geçersiz kullanıcı ya da parola
+  notice_account_invalid_credentials: Geçersiz kullanıcı ya da parola
   notice_account_password_updated: Parola başarıyla güncellendi.
   notice_account_wrong_password: Yanlış parola
   notice_account_register_done: Hesap başarıyla oluşturuldu. Hesabınızı etkinleştirmek için, size gönderilen e-postadaki bağlantıya tıklayın.

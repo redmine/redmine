@@ -751,7 +751,7 @@ ru:
   mail_subject_reminder: "%{count} назначенных на Вас задач в ближайшие %{days} дней"
 
   notice_account_activated: Ваша учётная запись активирована. Вы можете войти.
-  notice_account_invalid_creditentials: Неправильное имя пользователя или пароль
+  notice_account_invalid_credentials: Неправильное имя пользователя или пароль
   notice_account_lost_email_sent: Вам отправлено письмо с инструкциями по выбору нового пароля.
   notice_account_password_updated: Пароль успешно обновлён.
   notice_account_pending: "Ваша учётная запись создана и ожидает подтверждения администратора."

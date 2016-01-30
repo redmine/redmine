@@ -146,7 +146,7 @@ sq:
   general_first_day_of_week: '7'
 
   notice_account_updated: Llogaria u perditesua me sukses.
-  notice_account_invalid_creditentials: Perdorues ose Fjalekalim i gabuar.
+  notice_account_invalid_credentials: Perdorues ose Fjalekalim i gabuar.
   notice_account_password_updated: Fjalekalimi u ndryshua me sukses.
   notice_account_wrong_password: Fjalekalim i gabuar
   notice_account_register_done: Llogaria u krijua me sukses. Per te aktivizuar Llogarine tuaj, ndiqni link-un e derguar ne email-in tuaj.

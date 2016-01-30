@@ -146,7 +146,7 @@ id:
   general_first_day_of_week: '7'
 
   notice_account_updated: Akun sudah berhasil diperbarui.
-  notice_account_invalid_creditentials: Pengguna atau kata sandi salah
+  notice_account_invalid_credentials: Pengguna atau kata sandi salah
   notice_account_password_updated: Kata sandi sudah berhasil diperbarui.
   notice_account_wrong_password: Kata sandi salah.
   notice_account_register_done: Akun sudah berhasil dibuat. Untuk mengaktifkan akun anda, silakan klik tautan (link) yang dikirim kepada anda melalui e-mail.

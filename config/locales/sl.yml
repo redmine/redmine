@@ -145,7 +145,7 @@ sl:
   general_first_day_of_week: '1'
 
   notice_account_updated: Račun je bil uspešno posodobljen.
-  notice_account_invalid_creditentials: Napačno uporabniško ime ali geslo
+  notice_account_invalid_credentials: Napačno uporabniško ime ali geslo
   notice_account_password_updated: Geslo je bilo uspešno posodobljeno.
   notice_account_wrong_password: Napačno geslo
   notice_account_register_done: Račun je bil uspešno ustvarjen. Za aktivacijo potrdite povezavo, ki vam je bila poslana v e-nabiralnik.

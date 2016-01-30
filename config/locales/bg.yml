@@ -147,7 +147,7 @@ bg:
   general_first_day_of_week: '1'
 
   notice_account_updated: Профилът е обновен успешно.
-  notice_account_invalid_creditentials: Невалиден потребител или парола.
+  notice_account_invalid_credentials: Невалиден потребител или парола.
   notice_account_password_updated: Паролата е успешно променена.
   notice_account_wrong_password: Грешна парола
   notice_account_register_done: Профилът е създаден успешно. E-mail, съдържащ инструкции за активиране на профила

@@ -141,7 +141,7 @@ hr:
   general_first_day_of_week: '7'
 
   notice_account_updated: Vaš profil je uspješno promijenjen.
-  notice_account_invalid_creditentials: Neispravno korisničko ime ili zaporka.
+  notice_account_invalid_credentials: Neispravno korisničko ime ili zaporka.
   notice_account_password_updated: Zaporka je uspješno promijenjena.
   notice_account_wrong_password: Pogrešna zaporka
   notice_account_register_done: Racun je uspješno napravljen. Da biste aktivirali svoj račun, kliknite na link koji vam je poslan na e-mail.

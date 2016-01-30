@@ -141,7 +141,7 @@ ro:
   general_first_day_of_week: '2'
 
   notice_account_updated: Cont actualizat.
-  notice_account_invalid_creditentials: Utilizator sau parola nevalidă
+  notice_account_invalid_credentials: Utilizator sau parola nevalidă
   notice_account_password_updated: Parolă actualizată.
   notice_account_wrong_password: Parolă greșită
   notice_account_register_done: Contul a fost creat. Pentru activare, urmați legătura trimisă prin email.
