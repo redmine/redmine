@@ -889,7 +889,7 @@ module ApplicationHelper
         content_tag('div',
           link_to('', options[:edit_section_links].merge(:section => @current_section),
                   :class => 'icon-only icon-edit'),
-          :class => 'contextual',
+          :class => "contextual heading-#{$2}",
           :title => l(:button_edit_section),
           :id => "section-#{@current_section}") + heading.html_safe
       else
