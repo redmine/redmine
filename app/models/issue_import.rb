@@ -128,6 +128,9 @@ class IssueImport < Import
     if due_date = row_date(row, 'due_date')
       attributes['due_date'] = due_date
     end
+    if estimated_hours = row_value(row, 'estimated_hours')
+      attributes['estimated_hours'] = estimated_hours
+    end
     if done_ratio = row_value(row, 'done_ratio')
       attributes['done_ratio'] = done_ratio
     end

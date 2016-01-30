@@ -74,6 +74,10 @@
   <%= mapping_select_tag @import, 'due_date' %>
 </p>
 <p>
+  <label><%= l(:field_estimated_hours) %></label>
+  <%= mapping_select_tag @import, 'estimated_hours' %>
+</p>
+<p>
   <label><%= l(:field_done_ratio) %></label>
   <%= mapping_select_tag @import, 'done_ratio' %>
 </p>
