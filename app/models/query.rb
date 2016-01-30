@@ -567,22 +567,24 @@ class Query < ActiveRecord::Base
   def project_statement
     project_clauses = []
     if project && !project.descendants.active.empty?
-      ids = [project.id]
       if has_filter?("subproject_id")
         case operator_for("subproject_id")
         when '='
           # include the selected subprojects
-          ids += values_for("subproject_id").each(&:to_i)
+          ids = [project.id] + values_for("subproject_id").each(&:to_i)
+          project_clauses << "#{Project.table_name}.id IN (%s)" % ids.join(',')
         when '!*'
           # main project only
+          project_clauses << "#{Project.table_name}.id = %d" % project.id
         else
           # all subprojects
-          ids += project.descendants.collect(&:id)
+          project_clauses << "#{Project.table_name}.lft >= #{project.lft} AND #{Project.table_name}.rgt <= #{project.rgt}"
         end
       elsif Setting.display_subprojects_issues?
-        ids += project.descendants.collect(&:id)
+        project_clauses << "#{Project.table_name}.lft >= #{project.lft} AND #{Project.table_name}.rgt <= #{project.rgt}"
+      else
+        project_clauses << "#{Project.table_name}.id = %d" % project.id
       end
-      project_clauses << "#{Project.table_name}.id IN (%s)" % ids.join(',')
     elsif project
       project_clauses << "#{Project.table_name}.id = %d" % project.id
     end
