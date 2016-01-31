@@ -382,8 +382,8 @@ module IssuesHelper
         old_value = find_name_by_reflection(field, detail.old_value)
 
       when 'estimated_hours'
-        value = "%0.02f" % detail.value.to_f unless detail.value.blank?
-        old_value = "%0.02f" % detail.old_value.to_f unless detail.old_value.blank?
+        value = l_hours_short(detail.value.to_f) unless detail.value.blank?
+        old_value = l_hours_short(detail.old_value.to_f) unless detail.old_value.blank?
 
       when 'parent_id'
         label = l(:field_parent_issue)
