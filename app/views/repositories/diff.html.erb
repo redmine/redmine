@@ -1,4 +1,4 @@
-<h2><%= l(:label_revision) %> <%= @diff_format_revisions %> <%=h @path %></h2>
+<%= render :partial => 'changeset', :locals => {:repository => @repository, :changeset => @changeset} %>
 
 <!-- Choose view type -->
 <%= form_tag({:action => 'diff', :id => @project,
