@@ -1,7 +1,7 @@
-<% if @changeset_to %>
-<h2><%= l(:label_revision) %> <%= @diff_format_revisions %> <%= @path %></h2>
-<% else %>
+<% if @changeset && @changeset_to.nil? %>
 <%= render :partial => 'changeset' %>
+<% else %>
+<h2><%= l(:label_revision) %> <%= @diff_format_revisions %> <%= @path %></h2>
 <% end %>
 
 <!-- Choose view type -->
