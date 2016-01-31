@@ -26,7 +26,7 @@
   <% end %>
 </div>
 
-<%= render :partial => 'changeset', :locals => {:repository => @repository, :changeset => @changeset} %>
+<%= render :partial => 'changeset' %>
 
 <% if User.current.allowed_to?(:browse_repository, @project) %>
 <h3><%= l(:label_attachment_plural) %></h3>
