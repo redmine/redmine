@@ -425,9 +425,15 @@ class ProjectsController < ApplicationController
       filenameSplit = filename.split(".")
       entity = filenameSplit[0]
       #FIXME: This a quick fix but actually we should check entity is valid js variable name
-      if /^\d+/.match(entity) 
+      if /^\d+/.match(entity)
         entity = "e" + entity
-      end  
+      end 
+        # entity = "e" + entity.gsub!('-','')
+      # end
+      # entity.gsub!(/([^a-z0-9]+)/, '')
+        # print "taka"
+        # print entity
+        
       docType = filenameSplit[1]
       
       ########
@@ -455,7 +461,7 @@ class ProjectsController < ApplicationController
       @geppettoSimulationFilePath = File.basename(geppettoTmpSimulationFile.path)
       geppettoTmpJsFile = File.new(publicResourcesPath + geppettoTmpPath + entity + random_string + ".js", File::CREAT|File::TRUNC|File::RDWR, 0644)
       @geppettoJsFilePath = File.basename(geppettoTmpJsFile.path)
-      geppettoTmpModelFile = File.new(publicResourcesPath + geppettoTmpPath + entity + "_MODEL" + random_string + ".xml", File::CREAT|File::TRUNC|File::RDWR, 0644)
+      geppettoTmpModelFile = File.new(publicResourcesPath + geppettoTmpPath + entity + "_MODEL" + random_string + ".xmi", File::CREAT|File::TRUNC|File::RDWR, 0644)
       @geppettoModelFilePath = File.basename(geppettoTmpModelFile.path)
 
       ######################
@@ -494,10 +500,11 @@ class ProjectsController < ApplicationController
       #########
       # MODEL #
       ######### 
-      geppettoModelFile = File.read(publicResourcesPath + geppettoResourcesPath + simulationTemplates + "neuromlTemplate.xml")    
+      # geppettoModelFile = File.read(publicResourcesPath + geppettoResourcesPath + simulationTemplates + "neuromlTemplate.xml")
+      geppettoModelFile = File.read(publicResourcesPath + geppettoResourcesPath + simulationTemplates + "GeppettoNeuroMLModel.xmi")    
       geppettoModelFile.sub! '$ENTER_MODEL_URL', url
       geppettoModelFile.sub! '$ENTER_ID', entity
-      geppettoModelFile.sub! '$ENTER_REFERENCE_URL', @project.identifier
+      # geppettoModelFile.sub! '$ENTER_REFERENCE_URL', @project.identifier
       
       geppettoSimulationFile = {
         "id" => 1,
