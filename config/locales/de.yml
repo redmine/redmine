@@ -1020,7 +1020,8 @@ de:
   setting_login_required: Authentifizierung erforderlich
   setting_mail_from: E-Mail-Absender
   setting_mail_handler_api_enabled: Abruf eingehender E-Mails aktivieren
-  setting_mail_handler_api_key: API-Schlüssel
+  setting_mail_handler_api_key: API-Schlüssel für eingehende E-Mails
+  setting_sys_api_key: API-Schlüssel für Webservice zur Projektarchiv-Verwaltung
   setting_mail_handler_body_delimiters: "Schneide E-Mails nach einer dieser Zeilen ab"
   setting_mail_handler_excluded_filenames: Anhänge nach Namen ausschließen
   setting_new_project_user_role_id: Rolle, die einem Nicht-Administrator zugeordnet wird, der ein Projekt erstellt
@@ -1028,6 +1029,7 @@ de:
   setting_openid: Erlaube OpenID-Anmeldung und -Registrierung
   setting_password_min_length: Mindestlänge des Kennworts
   setting_password_max_age: Erzwinge Passwortwechsel nach
+  setting_lost_password: Erlaube Passwort-Zurücksetzen per E-Mail
   setting_per_page_options: Objekte pro Seite
   setting_plain_text_mail: Nur reinen Text (kein HTML) senden
   setting_protocol: Protokoll

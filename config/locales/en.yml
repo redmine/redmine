@@ -398,7 +398,8 @@ en:
   setting_enabled_scm: Enabled SCM
   setting_mail_handler_body_delimiters: "Truncate emails after one of these lines"
   setting_mail_handler_api_enabled: Enable WS for incoming emails
-  setting_mail_handler_api_key: API key
+  setting_mail_handler_api_key: Incoming email WS API key
+  setting_sys_api_key: Repository management WS API key
   setting_sequential_project_identifiers: Generate sequential project identifiers
   setting_gravatar_enabled: Use Gravatar user icons
   setting_gravatar_default: Default Gravatar image
@@ -408,6 +409,7 @@ en:
   setting_openid: Allow OpenID login and registration
   setting_password_max_age: Require password change after
   setting_password_min_length: Minimum password length
+  setting_lost_password: Allow password reset via email
   setting_new_project_user_role_id: Role given to a non-admin user who creates a project
   setting_default_projects_modules: Default enabled modules for new projects
   setting_issue_done_ratio: Calculate the issue done ratio with

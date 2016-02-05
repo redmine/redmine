@@ -46,8 +46,7 @@
 <p><%= setting_text_field :sys_api_key,
                           :size     => 30,
                           :id       => 'settings_sys_api_key',
-                          :disabled => !Setting.sys_api_enabled?,
-                          :label    => :setting_mail_handler_api_key %>
+                          :disabled => !Setting.sys_api_enabled? %>
   <%= link_to_function l(:label_generate_key),
                        "if (!$('#settings_sys_api_key').attr('disabled')) { $('#settings_sys_api_key').val(randomKey(20)) }" %>
 </p>

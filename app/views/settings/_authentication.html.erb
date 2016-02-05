@@ -18,7 +18,7 @@
   <%= setting_select :password_max_age, [[l(:label_disabled), 0]] + [7, 30, 60, 90, 180, 365].collect{|days| [l('datetime.distance_in_words.x_days', :count => days), days.to_s]} %>
 </p>
 
-<p><%= setting_check_box :lost_password, :label => :label_password_lost %></p>
+<p><%= setting_check_box :lost_password %></p>
 
 <p><%= setting_text_field :max_additional_emails, :size => 6 %></p>
 
