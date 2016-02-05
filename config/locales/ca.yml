@@ -1176,3 +1176,5 @@ ca:
   label_any_open_issues: "qualsevol assumpte obert"
   label_no_open_issues: "cap assumpte obert"
   label_default_values_for_new_users: "Valors per defecte pels nous usuaris"
+  setting_sys_api_key: "Clau API"
+  setting_lost_password: "Has oblidat la contrasenya?"

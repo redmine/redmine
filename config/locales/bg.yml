@@ -1174,3 +1174,5 @@ bg:
   description_date_to: Въведете крайна дата
   text_repository_identifier_info: 'Позволени са малки букви (a-z), цифри, тирета и _.<br />Промяна след създаването му не е възможна.'
   error_ldap_bind_credentials: Invalid LDAP Account/Password
+  setting_sys_api_key: API ключ
+  setting_lost_password: Забравена парола

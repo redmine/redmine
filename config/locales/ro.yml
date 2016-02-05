@@ -1178,3 +1178,5 @@ ro:
   label_no_open_issues: no open issues
   label_default_values_for_new_users: Default values for new users
   error_ldap_bind_credentials: Invalid LDAP Account/Password
+  setting_sys_api_key: cheie API
+  setting_lost_password: Parolă uitată

@@ -451,6 +451,8 @@ fr:
   setting_search_results_per_page: Résultats de recherche affichés par page
   setting_attachment_extensions_allowed: Extensions autorisées
   setting_attachment_extensions_denied: Extensions non autorisées
+  setting_sys_api_key: Clé de protection de l'API
+  setting_lost_password: Autoriser la réinitialisation par email de mot de passe perdu
 
   permission_add_project: Créer un projet
   permission_add_subprojects: Créer des sous-projets

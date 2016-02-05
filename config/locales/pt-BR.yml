@@ -1202,3 +1202,5 @@ pt-BR:
   label_any_open_issues: any open issues
   label_no_open_issues: no open issues
   label_default_values_for_new_users: Default values for new users
+  setting_sys_api_key: Chave de API
+  setting_lost_password: Perdi minha senha
