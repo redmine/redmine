@@ -400,6 +400,7 @@ class AccountControllerTest < ActionController::TestCase
   end
 
   def test_post_lost_password_with_token_should_change_the_user_password
+    ActionMailer::Base.deliveries.clear
     user = User.find(2)
     token = Token.create!(:action => 'recovery', :user => user)
 
@@ -408,6 +409,10 @@ class AccountControllerTest < ActionController::TestCase
     user.reload
     assert user.check_password?('newpass123')
     assert_nil Token.find_by_id(token.id), "Token was not deleted"
+    assert_not_nil (mail = ActionMailer::Base.deliveries.last)
+    assert_select_email do
+      assert_select 'a[href^=?]', 'http://localhost:3000/my/password', :text => 'Change password'
+    end
   end
 
   def test_post_lost_password_with_token_for_non_active_user_should_fail

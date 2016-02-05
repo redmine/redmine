@@ -666,6 +666,51 @@ class MailerTest < ActiveSupport::TestCase
     end
   end
 
+  def test_security_notification
+    set_language_if_valid User.find(1).language
+    with_settings :emails_footer => "footer without link" do
+      User.current.remote_ip = '192.168.1.1'
+      assert Mailer.security_notification(User.find(1), message: :notice_account_password_updated).deliver
+      mail = last_email
+      assert_not_nil mail
+      assert_mail_body_match '192.168.1.1', mail
+      assert_mail_body_match I18n.t(:notice_account_password_updated), mail
+      assert_select_email do
+        assert_select "h1", false
+        assert_select "a", false
+      end
+    end
+  end
+
+  def test_security_notification_should_include_title
+    set_language_if_valid User.find(2).language
+    with_settings :emails_footer => "footer without link" do
+      assert Mailer.security_notification(User.find(2),
+        message: :notice_account_password_updated,
+        title: :label_my_account
+      ).deliver
+      assert_select_email do
+        assert_select "a", false
+        assert_select "h1", :text => I18n.t(:label_my_account)
+      end
+    end
+  end
+
+  def test_security_notification_should_include_link
+    set_language_if_valid User.find(3).language
+    with_settings :emails_footer => "footer without link" do
+      assert Mailer.security_notification(User.find(3),
+      message: :notice_account_password_updated,
+      title: :label_my_account,
+      url: {controller: 'my', action: 'account'}
+      ).deliver
+      assert_select_email do
+        assert_select "h1", false
+        assert_select 'a[href=?]', 'http://mydomain.foo/my/account', :text => I18n.t(:label_my_account)
+      end
+    end
+  end
+
   def test_mailer_should_not_change_locale
     # Set current language to italian
     set_language_if_valid 'it'

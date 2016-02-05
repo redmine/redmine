@@ -105,6 +105,12 @@ class MyController < ApplicationController
         if @user.save
           # The session token was destroyed by the password change, generate a new one
           session[:tk] = @user.generate_session_token
+          Mailer.security_notification(@user,
+            message: :mail_body_security_notification_change,
+            field: :field_password,
+            title: :button_change_password,
+            url: {controller: 'my', action: 'password'}
+          ).deliver
           flash[:notice] = l(:notice_account_password_updated)
           redirect_to my_account_path
         end

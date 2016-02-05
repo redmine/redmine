@@ -19,8 +19,9 @@ class EmailAddress < ActiveRecord::Base
   belongs_to :user
   attr_protected :id
 
-  after_update :destroy_tokens
-  after_destroy :destroy_tokens
+  after_create :deliver_security_notification_create
+  after_update :destroy_tokens, :deliver_security_notification_update
+  after_destroy :destroy_tokens, :deliver_security_notification_destroy
 
   validates_presence_of :address
   validates_format_of :address, :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i, :allow_blank => true
@@ -41,6 +42,58 @@ class EmailAddress < ActiveRecord::Base
   end
 
   private
+
+  # send a security notification to user that a new email address was added
+  def deliver_security_notification_create
+    # only deliver if this isn't the only address.
+    # in that case, the user is just being created and
+    # should not receive this email.
+    if user.mails != [address]
+      deliver_security_notification(user,
+        message: :mail_body_security_notification_add,
+        field: :field_mail,
+        value: address
+      )
+    end
+  end
+
+  # send a security notification to user that an email has been changed (notified/not notified)
+  def deliver_security_notification_update
+    if address_changed?
+      recipients = [user, address_was]
+      options = {
+        message: :mail_body_security_notification_change_to,
+        field: :field_mail,
+        value: address
+      }
+    elsif notify_changed?
+      recipients = [user, address]
+      options = {
+        message: notify_was ? :mail_body_security_notification_notify_disabled : :mail_body_security_notification_notify_enabled,
+        value: address
+      }
+    end
+    deliver_security_notification(recipients, options)
+  end
+
+  # send a security notification to user that an email address was deleted
+  def deliver_security_notification_destroy
+    deliver_security_notification([user, address],
+      message: :mail_body_security_notification_remove,
+      field: :field_mail,
+      value: address
+    )
+  end
+
+  # generic method to send security notifications for email addresses
+  def deliver_security_notification(recipients, options={})
+    Mailer.security_notification(recipients,
+      options.merge(
+        title: :label_my_account,
+        url: {controller: 'my', action: 'account'}
+      )
+    ).deliver
+  end
 
   # Delete all outstanding password reset tokens on email change.
   # This helps to keep the account secure in case the associated email account

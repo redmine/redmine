@@ -133,6 +133,8 @@ class ApplicationController < ActionController::Base
         end
       end
     end
+    # store current ip address in user object ephemerally
+    user.remote_ip = request.remote_ip if user
     user
   end
 

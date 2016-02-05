@@ -97,6 +97,8 @@ class User < Principal
 
   attr_accessor :password, :password_confirmation, :generate_password
   attr_accessor :last_before_login_on
+  attr_accessor :remote_ip
+
   # Prevents unauthorized assignments
   attr_protected :login, :admin, :password, :password_confirmation, :hashed_password
 

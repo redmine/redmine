@@ -228,6 +228,13 @@ en:
   mail_body_wiki_content_added: "The '%{id}' wiki page has been added by %{author}."
   mail_subject_wiki_content_updated: "'%{id}' wiki page has been updated"
   mail_body_wiki_content_updated: "The '%{id}' wiki page has been updated by %{author}."
+  mail_subject_security_notification: "Security notification"
+  mail_body_security_notification_change: "%{field} was changed."
+  mail_body_security_notification_change_to: "%{field} was changed to %{value}."
+  mail_body_security_notification_add: "%{field} %{value} was added."
+  mail_body_security_notification_remove: "%{field} %{value} was removed."
+  mail_body_security_notification_notify_enabled: "Email address %{value} now receives notifications."
+  mail_body_security_notification_notify_disabled: "Email address %{value} no longer receives notifications."
 
   field_name: Name
   field_description: Description
@@ -352,6 +359,7 @@ en:
   field_time_entries_visibility: Time logs visibility
   field_total_estimated_hours: Total estimated time
   field_default_version: Default version
+  field_remote_ip: IP address
 
   setting_app_title: Application title
   setting_app_subtitle: Application subtitle

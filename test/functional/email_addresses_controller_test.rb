@@ -92,6 +92,22 @@ class EmailAddressesControllerTest < ActionController::TestCase
     end
   end
 
+  def test_create_should_send_security_notification
+    @request.session[:user_id] = 2
+    ActionMailer::Base.deliveries.clear
+    post :create, :user_id => 2, :email_address => {:address => 'something@example.fr'}
+
+    assert_not_nil (mail = ActionMailer::Base.deliveries.last)
+    assert_mail_body_match '0.0.0.0', mail
+    assert_mail_body_match I18n.t(:mail_body_security_notification_add, field: I18n.t(:field_mail), value: 'something@example.fr'), mail
+    assert_select_email do
+      assert_select 'a[href^=?]', 'http://localhost:3000/my/account', :text => 'My account'
+    end
+    # The old email address should be notified about a new address for security purposes
+    assert [mail.bcc, mail.cc].flatten.include?(User.find(2).mail)
+    assert [mail.bcc, mail.cc].flatten.include?('something@example.fr')
+  end
+
   def test_update
     @request.session[:user_id] = 2
     email = EmailAddress.create!(:user_id => 2, :address => 'another@somenet.foo')
@@ -111,6 +127,21 @@ class EmailAddressesControllerTest < ActionController::TestCase
 
     assert_equal false, email.reload.notify
   end
+
+  def test_update_should_send_security_notification
+    @request.session[:user_id] = 2
+    email = EmailAddress.create!(:user_id => 2, :address => 'another@somenet.foo')
+
+    ActionMailer::Base.deliveries.clear
+    xhr :put, :update, :user_id => 2, :id => email.id, :notify => '0'
+
+    assert_not_nil (mail = ActionMailer::Base.deliveries.last)
+    assert_mail_body_match I18n.t(:mail_body_security_notification_notify_disabled, value: 'another@somenet.foo'), mail
+
+    # The changed address should be notified for security purposes
+    assert [mail.bcc, mail.cc].flatten.include?('another@somenet.foo')
+  end
+
 
   def test_destroy
     @request.session[:user_id] = 2
@@ -140,5 +171,19 @@ class EmailAddressesControllerTest < ActionController::TestCase
       delete :destroy, :user_id => 2, :id => User.find(2).email_address.id
       assert_response 404
     end
+  end
+
+  def test_destroy_should_send_security_notification
+    @request.session[:user_id] = 2
+    email = EmailAddress.create!(:user_id => 2, :address => 'another@somenet.foo')
+
+    ActionMailer::Base.deliveries.clear
+    xhr :delete, :destroy, :user_id => 2, :id => email.id
+
+    assert_not_nil (mail = ActionMailer::Base.deliveries.last)
+    assert_mail_body_match I18n.t(:mail_body_security_notification_remove, field: I18n.t(:field_mail), value: 'another@somenet.foo'), mail
+
+    # The removed address should be notified for security purposes
+    assert [mail.bcc, mail.cc].flatten.include?('another@somenet.foo')
   end
 end

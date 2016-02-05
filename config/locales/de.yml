@@ -848,6 +848,13 @@ de:
   mail_subject_reminder: "%{count} Tickets müssen in den nächsten %{days} Tagen abgegeben werden"
   mail_subject_wiki_content_added: "Wiki-Seite '%{id}' hinzugefügt"
   mail_subject_wiki_content_updated: "Wiki-Seite '%{id}' erfolgreich aktualisiert"
+  mail_subject_security_notification: "Sicherheitshinweis"
+  mail_body_security_notification_change: "%{field} wurde geÃ¤ndert."
+  mail_body_security_notification_change_to: "%{field} wurde geÃ¤ndert zu %{value}."
+  mail_body_security_notification_add: "%{field} %{value} wurde hinzugefÃ¼gt."
+  mail_body_security_notification_remove: "%{field} %{value} wurde entfernt."
+  mail_body_security_notification_notify_enabled: "E-Mail-Adresse %{value} erhält nun Benachrichtigungen."
+  mail_body_security_notification_notify_disabled: "E-Mail-Adresse %{value} erhält keine Benachrichtigungen mehr."
 
   notice_account_activated: Ihr Konto ist aktiviert. Sie können sich jetzt anmelden.
   notice_account_deleted: Ihr Benutzerkonto wurde unwiderruflich gelöscht.
@@ -1148,6 +1155,7 @@ de:
   error_password_expired: Your password has expired or the administrator requires you
     to change it.
   field_time_entries_visibility: Time logs visibility
+  field_remote_ip: IP-Adresse
   label_parent_task_attributes: Parent tasks attributes
   label_parent_task_attributes_derived: Calculated from subtasks
   label_parent_task_attributes_independent: Independent of subtasks
