@@ -235,6 +235,7 @@ en:
   mail_body_security_notification_remove: "%{field} %{value} was removed."
   mail_body_security_notification_notify_enabled: "Email address %{value} now receives notifications."
   mail_body_security_notification_notify_disabled: "Email address %{value} no longer receives notifications."
+  mail_body_settings_updated: "The following settings were changed:"
 
   field_name: Name
   field_description: Description

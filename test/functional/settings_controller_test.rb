@@ -136,6 +136,44 @@ class SettingsControllerTest < ActionController::TestCase
     ], Setting.commit_update_keywords)
   end
 
+  def test_post_edit_should_send_security_notification_for_notified_settings
+    ActionMailer::Base.deliveries.clear
+    post :edit, :settings => {
+      :login_required => 1
+    }
+
+    assert_not_nil (mail = ActionMailer::Base.deliveries.last)
+    assert_mail_body_match '0.0.0.0', mail
+    assert_mail_body_match I18n.t(:setting_login_required), mail
+    assert_select_email do
+      assert_select 'a[href^=?]', 'http://localhost:3000/settings'
+    end
+    # All admins should receive this
+    recipients = [mail.bcc, mail.cc].flatten
+    User.active.where(admin: true).each do |admin|
+      assert_include admin.mail, recipients
+    end
+  end
+
+  def test_post_edit_should_not_send_security_notification_for_non_notified_settings
+    ActionMailer::Base.deliveries.clear
+    post :edit, :settings => {
+      :app_title => 'MineRed'
+    }
+
+    assert_nil (mail = ActionMailer::Base.deliveries.last)
+  end
+
+  def test_post_edit_should_not_send_security_notification_for_unchanged_settings
+    ActionMailer::Base.deliveries.clear
+    post :edit, :settings => {
+      :login_required => 0
+    }
+
+    assert_nil (mail = ActionMailer::Base.deliveries.last)
+  end
+
+
   def test_get_plugin_settings
     ActionController::Base.append_view_path(File.join(Rails.root, "test/fixtures/plugins"))
     Redmine::Plugin.register :foo do

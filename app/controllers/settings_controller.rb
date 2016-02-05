@@ -33,10 +33,7 @@ class SettingsController < ApplicationController
   def edit
     @notifiables = Redmine::Notifiable.all
     if request.post? && params[:settings] && params[:settings].is_a?(Hash)
-      settings = (params[:settings] || {}).dup.symbolize_keys
-      settings.each do |name, value|
-        Setting.set_from_params name, value
-      end
+      Setting.set_all_from_params(params[:settings])
       flash[:notice] = l(:notice_successful_update)
       redirect_to settings_path(:tab => params[:tab])
     else

@@ -1,0 +1,14 @@
+<p><%= l(:mail_body_settings_updated) %></p>
+
+<ul>
+<% @changes.each do |name| %>
+  <li><%= l("setting_#{name}") %></li>
+<% end %>
+</ul>
+
+<%= link_to @url, @url %>
+
+<p><%= l(:field_user) %>: <strong><%= User.current.login %></strong><br/>
+<%= l(:field_remote_ip) %>: <strong><%= User.current.remote_ip %></strong><br/>
+<%= l(:label_date) %>: <strong><%= format_time Time.now, true %></strong></p>
+

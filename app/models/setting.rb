@@ -118,6 +118,23 @@ class Setting < ActiveRecord::Base
     setting.value
   end
 
+	# Updates multiple settings from params and sends a security notification if needed
+  def self.set_all_from_params(settings)
+    settings = (settings || {}).dup.symbolize_keys
+    changes = []
+    settings.each do |name, value|
+      previous_value = Setting[name]
+      set_from_params name, value
+      if available_settings[name.to_s]['security_notifications'] && Setting[name] != previous_value
+        changes << name
+      end
+    end
+    if changes.any?
+      Mailer.security_settings_updated(changes)
+    end
+    true
+  end
+
   # Sets a setting value from params
   def self.set_from_params(name, params)
     params = params.dup
