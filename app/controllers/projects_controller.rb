@@ -504,7 +504,7 @@ class ProjectsController < ApplicationController
       geppettoModelFile = File.read(publicResourcesPath + geppettoResourcesPath + simulationTemplates + "GeppettoNeuroMLModel.xmi")    
       geppettoModelFile.sub! '$ENTER_MODEL_URL', url
       geppettoModelFile.sub! '$ENTER_ID', entity
-      # geppettoModelFile.sub! '$ENTER_REFERENCE_URL', @project.identifier
+      geppettoModelFile.sub! '$ENTER_REFERENCE_URL', @project.identifier
       
       geppettoSimulationFile = {
         "id" => 1,

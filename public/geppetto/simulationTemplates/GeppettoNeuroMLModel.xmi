@@ -9,6 +9,7 @@
       name="NeuroML">
     <types xsi:type="gep_1:ImportType"
         url="$ENTER_MODEL_URL"
-        modelInterpreterId="neuroMLModelInterpreter"/>
+        modelInterpreterId="neuroMLModelInterpreter"
+        referenceURL="$ENTER_REFERENCE_URL"/>
   </libraries>
 </gep:GeppettoModel>

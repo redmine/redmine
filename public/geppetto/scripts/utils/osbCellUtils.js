@@ -23,46 +23,35 @@ var showSummaryTreeView = function(csel) {
 	}
 };
 var showChannelTreeView = function(csel) {
-	var tv = initialiseTreeWidget('Ion Channels on cell ' + csel.getName(), widthScreen - marginLeft - defaultWidgetWidth, marginTop);
-	if (typeof csel.electrical.ModelTree.Summary !== 'undefined') {
-		tv.setData(csel.getSubNodesOfDomainType('IonChannel'), {
-			labelName : 'id'
-		});
-	} else {
-		tv.registerEvent(Events.ModelTree_populated, function() {
-			tv.setData(csel.getSubNodesOfDomainType('IonChannel'), {
-				labelName : 'id'
-			});
-			tv.unregisterEvent(Events.ModelTree_populated);
-		});
-		csel.electrical.getModelTree();
+	if (GEPPETTO.ModelFactory.geppettoModel.neuroml.ionChannel){
+		var tv = initialiseTreeWidget('Ion Channels on cell ' + csel.getName(), widthScreen - marginLeft - defaultWidgetWidth, marginTop);
+		tv.setData(GEPPETTO.ModelFactory.getAllTypesOfType(GEPPETTO.ModelFactory.geppettoModel.neuroml.ionChannel));
 	}
 };
 
 var showInputTreeView = function(csel) {
-	var tv = initialiseTreeWidget('Inputs on ' + csel.getName(), widthScreen - marginLeft - defaultWidgetWidth, marginTop);
-	if (typeof csel.electrical.ModelTree.Summary !== 'undefined') {
-		tv.setData(csel.getSubNodesOfDomainType('PulseGenerator'), {
-			labelName : 'id'
-		});
-	} else {
-		tv.registerEvent(Events.ModelTree_populated, function() {
-			tv.setData(csel.getSubNodesOfDomainType('PulseGenerator'), {
-				labelName : 'id'
-			});
-			tv.unregisterEvent(Events.ModelTree_populated);
-		});
-		csel.electrical.getModelTree();
+	if (GEPPETTO.ModelFactory.geppettoModel.neuroml.pulseGenerator){
+		var tv = initialiseTreeWidget('Inputs on ' + csel.getName(), widthScreen - marginLeft - defaultWidgetWidth, marginTop);
+		tv.setData(GEPPETTO.ModelFactory.getAllTypesOfType(GEPPETTO.ModelFactory.geppettoModel.neuroml.pulseGenerator));
 	}
 };
-
 
 var showVisualTreeView = function(csel) {
 	var visualWidgetWidth = 350;
 	var visualWidgetHeight = 400;
 
 	var tv = initialiseTreeWidget('Visual information on cell ' + csel.getName(), widthScreen - marginLeft - visualWidgetWidth, heightScreen - marginBottom - visualWidgetHeight, visualWidgetWidth, visualWidgetHeight);
-	tv.setData(csel.electrical.VisualizationTree, {
+	tv.setData(csel.getType().getVisualType(), {
+		expandNodes : true
+	});
+};
+
+var showSelection = function(csel) {
+	var visualWidgetWidth = 350;
+	var visualWidgetHeight = 400;
+
+	var tv = initialiseTreeWidget('Visual information on cell ' + csel.getName(), widthScreen - marginLeft - visualWidgetWidth, heightScreen - marginBottom - visualWidgetHeight, visualWidgetWidth, visualWidgetHeight);
+	tv.setData(csel.getType(), {
 		expandNodes : true
 	});
 };

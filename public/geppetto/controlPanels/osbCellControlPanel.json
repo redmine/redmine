@@ -3,7 +3,7 @@
         "Cell Info": {
             "Cell": {
                 "actions": [
-                    "executeOnSelection(showSummaryTreeView)"
+                    "executeOnSelection(showSelection)"
                 ],
                 "icon": "gpt-pyramidal-cell",
                 "label": "Cell Info",
