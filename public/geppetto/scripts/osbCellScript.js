@@ -1,1 +1,1 @@
-$ENTER_ID.electrical.select();
+$ENTER_ID.select();

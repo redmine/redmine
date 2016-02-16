@@ -502,9 +502,9 @@ class ProjectsController < ApplicationController
       ######### 
       # geppettoModelFile = File.read(publicResourcesPath + geppettoResourcesPath + simulationTemplates + "neuromlTemplate.xml")
       geppettoModelFile = File.read(publicResourcesPath + geppettoResourcesPath + simulationTemplates + "GeppettoNeuroMLModel.xmi")    
-      geppettoModelFile.sub! '$ENTER_MODEL_URL', url
-      geppettoModelFile.sub! '$ENTER_ID', entity
-      geppettoModelFile.sub! '$ENTER_REFERENCE_URL', @project.identifier
+      geppettoModelFile.gsub! '$ENTER_MODEL_URL', url
+      geppettoModelFile.gsub! '$ENTER_ID', entity
+      geppettoModelFile.gsub! '$ENTER_REFERENCE_URL', @project.identifier
       
       geppettoSimulationFile = {
         "id" => 1,
@@ -520,12 +520,7 @@ class ProjectsController < ApplicationController
            "aspectConfigurations" => [
               {
                 "id" => 1,
-                "aspect" => {
-                      "id" => 1,
-                      "entityInstancePath" => entity,
-                      "aspect" => "electrical",
-                      "localInstancePath" => ""
-                  } 
+                "instance" => entity
                }
             ] 
         }],

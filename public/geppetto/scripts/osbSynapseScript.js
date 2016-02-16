@@ -9,7 +9,7 @@ var realWidthScreen = widthScreen - marginRight - marginLeft - defaultWidgetWidt
 
 var generatePlotForFunctionNodes = function() {
 	// Retrieve function nodes from model tree summary
-	var nodes = GEPPETTO.ModelFactory.getAllVariablesOfMetaType(Model.neuroml.$ENTER_ID.Summary.getType(), GEPPETTO.Resources.DYNAMICS_TYPE, [], true);
+	var nodes = GEPPETTO.ModelFactory.getAllVariablesOfMetaType(Model.neuroml.$ENTER_ID, GEPPETTO.Resources.DYNAMICS_TYPE, true);
 	
 	// Create a plot widget for every function node with plot metadata
 	// information
@@ -64,7 +64,7 @@ var generatePlotForFunctionNodes = function() {
 
 // Adding TreeVisualiserDAT Widget
 var treeVisualiserDAT1 = initialiseTreeWidget("Synapse - $ENTER_ID", marginLeft, marginTop);
-treeVisualiserDAT1.setData(Model.neuroml.$ENTER_ID.Summary, {
+treeVisualiserDAT1.setData(Model.neuroml.$ENTER_ID, {
 	expandNodes : true
 });
 generatePlotForFunctionNodes();
