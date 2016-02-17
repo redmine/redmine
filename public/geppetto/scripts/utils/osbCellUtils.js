@@ -1,3 +1,25 @@
+var addSuggestionsToSpotlight = function(){
+	var recordSample = {
+        "label": "Record all membrane potentials",
+        "actions": [
+            "var instances=Instances.getInstance(GEPPETTO.ModelFactory.getAllPotentialInstancesEndingWith('.v'));",
+            "GEPPETTO.ExperimentsController.watchVariables(instances,true);"
+        ],
+        "icon": "fa-dot-circle-o"
+    };
+	
+	var lightUpSample = {
+        "label": "Link morphology colour to recorded membrane potentials",
+        "actions": [
+            "G.addBrightnessFunctionBulkSimplified(GEPPETTO.ModelFactory.instances.getInstance(GEPPETTO.ModelFactory.getAllPotentialInstancesEndingWith('.v'),false), function(x){return (x+0.07)/0.1;});"
+        ],
+        "icon": "fa-lightbulb-o"
+    };
+	
+	GEPPETTO.Spotlight.addSuggestion(recordSample, GEPPETTO.Resources.RUN_FLOW);
+	GEPPETTO.Spotlight.addSuggestion(lightUpSample, GEPPETTO.Resources.PLAY_FLOW);
+};
+
 var executeOnSelection = function(callback) {
 	var csel = G.getSelection()[0];
 	if (typeof csel !== 'undefined') {
@@ -55,4 +77,7 @@ var showSelection = function(csel) {
 		expandNodes : true
 	});
 };
+
+// Commands
 initialiseControlPanel();
+addSuggestionsToSpotlight();
