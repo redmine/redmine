@@ -424,18 +424,14 @@ class ProjectsController < ApplicationController
       filename = File.basename(uri.path)
       filenameSplit = filename.split(".")
       entity = filenameSplit[0]
-      #FIXME: This a quick fix but actually we should check entity is valid js variable name
+
+      # Remove anything but numbers and letters and add an 'e' at the beginning in case it starts with a number
+      entity.tr!('^A-Za-z0-9', '')
       if /^\d+/.match(entity)
         entity = "e" + entity
       end 
-        # entity = "e" + entity.gsub!('-','')
-      # end
-      # entity.gsub!(/([^a-z0-9]+)/, '')
-        # print "taka"
-        # print entity
         
       docType = filenameSplit[1]
-      
       ########
       # PATH #
       ########
