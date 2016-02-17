@@ -464,6 +464,11 @@ module ApplicationHelper
     return @NML2files 
   end
   
+  def getSWCFiles(repository)
+    @SWCfiles = getFilesWithExt(repository, ".swc")
+    return @SWCfiles 
+  end
+  
   def getNetworkFiles()
     @networkfiles=[]
     for nml2file in @NML2files

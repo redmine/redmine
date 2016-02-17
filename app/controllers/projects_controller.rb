@@ -423,15 +423,22 @@ class ProjectsController < ApplicationController
       #Read entity name and model type (cell,channel,synapse,cell) from url  
       filename = File.basename(uri.path)
       filenameSplit = filename.split(".")
-      entity = filenameSplit[0]
 
+      # Get entity id, format (swc or nml) and if nml the doc type (net, cell, channel, synapse or other)
       # Remove anything but numbers and letters and add an 'e' at the beginning in case it starts with a number
+      entity = filenameSplit[0]
       entity.tr!('^A-Za-z0-9', '')
       if /^\d+/.match(entity)
         entity = "e" + entity
       end 
-        
-      docType = filenameSplit[1]
+      
+      if filenameSplit[-1] == 'swc'
+        format = 'swc'
+      else  
+        format = 'nml'
+        docType = filenameSplit[-2]
+      end
+      
       ########
       # PATH #
       ########
@@ -455,49 +462,55 @@ class ProjectsController < ApplicationController
       random_string = SecureRandom.hex
       geppettoTmpSimulationFile = File.new(publicResourcesPath + geppettoTmpPath + entity + random_string + ".json", File::CREAT|File::TRUNC|File::RDWR, 0644)
       @geppettoSimulationFilePath = File.basename(geppettoTmpSimulationFile.path)
-      geppettoTmpJsFile = File.new(publicResourcesPath + geppettoTmpPath + entity + random_string + ".js", File::CREAT|File::TRUNC|File::RDWR, 0644)
-      @geppettoJsFilePath = File.basename(geppettoTmpJsFile.path)
       geppettoTmpModelFile = File.new(publicResourcesPath + geppettoTmpPath + entity + "_MODEL" + random_string + ".xmi", File::CREAT|File::TRUNC|File::RDWR, 0644)
       @geppettoModelFilePath = File.basename(geppettoTmpModelFile.path)
-
-      ######################
-      # JS & CONTROL PANEL #
-      ######################
-      geppettoUtilsJsFile = File.read(publicResourcesPath + geppettoResourcesPath + scripts + utils + "osbUtils.js")
-      if docType == 'net' || docType == 'cell'
-        if docType == 'net'
-          geppettoJsFile = File.read(publicResourcesPath + geppettoResourcesPath + scripts + "osbNetworkScript.js")
-          geppettoControlPanelJsonFile = File.read(publicResourcesPath + geppettoResourcesPath + controlPanels + "osbNetworkControlPanel.json")
+      if format == 'nml'
+        geppettoTmpJsFile = File.new(publicResourcesPath + geppettoTmpPath + entity + random_string + ".js", File::CREAT|File::TRUNC|File::RDWR, 0644)
+        @geppettoJsFilePath = File.basename(geppettoTmpJsFile.path)
+        
+        ######################
+        # JS & CONTROL PANEL #
+        ######################
+        geppettoUtilsJsFile = File.read(publicResourcesPath + geppettoResourcesPath + scripts + utils + "osbUtils.js")
+        if docType == 'net' || docType == 'cell'
+          if docType == 'net'
+            geppettoJsFile = File.read(publicResourcesPath + geppettoResourcesPath + scripts + "osbNetworkScript.js")
+            geppettoControlPanelJsonFile = File.read(publicResourcesPath + geppettoResourcesPath + controlPanels + "osbNetworkControlPanel.json")
+          else
+            geppettoJsFile = File.read(publicResourcesPath + geppettoResourcesPath + scripts + "osbCellScript.js")
+            geppettoControlPanelJsonFile = File.read(publicResourcesPath + geppettoResourcesPath + controlPanels + "osbCellControlPanel.json")
+          end
+          geppettoCellUtilsJsFile = File.read(publicResourcesPath + geppettoResourcesPath + scripts + utils + "osbCellUtils.js")   
+          geppettoJsFile.insert(0, geppettoCellUtilsJsFile)
+        elsif docType == 'channel' 
+          geppettoJsFile = File.read(publicResourcesPath + geppettoResourcesPath + scripts + "osbChannelScript.js")
+        elsif docType == 'synapse'
+          geppettoJsFile = File.read(publicResourcesPath + geppettoResourcesPath + scripts + "osbSynapseScript.js")
         else
-          geppettoJsFile = File.read(publicResourcesPath + geppettoResourcesPath + scripts + "osbCellScript.js")
-          geppettoControlPanelJsonFile = File.read(publicResourcesPath + geppettoResourcesPath + controlPanels + "osbCellControlPanel.json")
+          geppettoJsFile = File.read(publicResourcesPath + geppettoResourcesPath + scripts + "osbGenericScript.js")  
         end
-        geppettoCellUtilsJsFile = File.read(publicResourcesPath + geppettoResourcesPath + scripts + utils + "osbCellUtils.js")   
-        geppettoJsFile.insert(0, geppettoCellUtilsJsFile)
-      elsif docType == 'channel' 
-        geppettoJsFile = File.read(publicResourcesPath + geppettoResourcesPath + scripts + "osbChannelScript.js")
-      elsif docType == 'synapse'
-        geppettoJsFile = File.read(publicResourcesPath + geppettoResourcesPath + scripts + "osbSynapseScript.js")
-      else
-        geppettoJsFile = File.read(publicResourcesPath + geppettoResourcesPath + scripts + "osbGenericScript.js")  
-      end
          
-      # Parse js file
-      unless geppettoControlPanelJsonFile.nil?
-        geppettoControlPanelJsonFile.delete!("\r\n")
-        geppettoUtilsJsFile.gsub! '$CONTROL_PANEL', geppettoControlPanelJsonFile
-      end
-      geppettoJsFile.insert(0, geppettoUtilsJsFile)
-      geppettoJsFile.gsub! '$ENTER_ID', entity
-      geppettoJsFile.gsub!(/\s*\/\/.*/, '')
-      geppettoJsFile.gsub!(/\/\*!.*?\*\//m, '')
-      geppettoJsFile.delete!("\r\n")
+        # Parse js file
+        unless geppettoControlPanelJsonFile.nil?
+          geppettoControlPanelJsonFile.delete!("\r\n")
+          geppettoUtilsJsFile.gsub! '$CONTROL_PANEL', geppettoControlPanelJsonFile
+        end
+        geppettoJsFile.insert(0, geppettoUtilsJsFile)
+        geppettoJsFile.gsub! '$ENTER_ID', entity
+        geppettoJsFile.gsub!(/\s*\/\/.*/, '')
+        geppettoJsFile.gsub!(/\/\*!.*?\*\//m, '')
+        geppettoJsFile.delete!("\r\n")
+      end  
       
       #########
       # MODEL #
       ######### 
-      # geppettoModelFile = File.read(publicResourcesPath + geppettoResourcesPath + simulationTemplates + "neuromlTemplate.xml")
-      geppettoModelFile = File.read(publicResourcesPath + geppettoResourcesPath + simulationTemplates + "GeppettoNeuroMLModel.xmi")    
+      if format == 'nml'
+        geppettoModelFile = File.read(publicResourcesPath + geppettoResourcesPath + simulationTemplates + "GeppettoNeuroMLModel.xmi")    
+      elsif format == 'swc'
+        geppettoModelFile = File.read(publicResourcesPath + geppettoResourcesPath + simulationTemplates + "GeppettoSWCModel.xmi")
+      end  
+        
       geppettoModelFile.gsub! '$ENTER_MODEL_URL', url
       geppettoModelFile.gsub! '$ENTER_ID', entity
       geppettoModelFile.gsub! '$ENTER_REFERENCE_URL', @project.identifier
@@ -512,7 +525,6 @@ class ProjectsController < ApplicationController
            "status" => (User.current.login == "")? "COMPLETED" : "DESIGN",
            "creationDate" => DateTime.now.strftime('%Q'),
            "lastModified" => DateTime.now.strftime('%Q'),
-           "script" => Rails.application.config.serversIP["serverIP"] + geppettoTmpPath + @geppettoJsFilePath,
            "aspectConfigurations" => [
               {
                 "id" => 1,
@@ -526,44 +538,48 @@ class ProjectsController < ApplicationController
       ##############
       # SIMULATION #
       ##############
-      if (docType == 'net' || docType == 'cell') && User.current.login != ""
-         
-        begin
-          modelContent = open(url, 'r', :read_timeout=>2)
-        rescue OpenURI::HTTPError
-           print "Error requesting modelContent: #{url}"
-        rescue => e   
-           print "Error requesting modelContent: #{url}"
-        else
-          target=""
-          
-          if docType == 'net'
-            targetComponent = /<network id="(\w*)\"/.match(modelContent.read)
-          elsif 
-            targetComponent = /<cell id="(\w*)\"/.match(modelContent.read)
-          end
-          
-          if targetComponent
-            target = targetComponent.captures
-          end    
-          
-          geppettoSimulationFile["experiments"][0]["aspectConfigurations"][0]["simulatorConfiguration"] = {
-                "id" => 1,
-                "simulatorId" => "neuronSimulator",
-                "timestep" => 0.00001,
-                "length" => 0.3,
-                "parameters" => {"target" => target[0]}
-          } 
+      if format == 'nml'
+        if (docType == 'net' || docType == 'cell') && User.current.login != ""
+           
+          begin
+            modelContent = open(url, 'r', :read_timeout=>2)
+          rescue OpenURI::HTTPError
+             print "Error requesting modelContent: #{url}"
+          rescue => e   
+             print "Error requesting modelContent: #{url}"
+          else
+            target=""
+            
+            if docType == 'net'
+              targetComponent = /<network id="(\w*)\"/.match(modelContent.read)
+            elsif 
+              targetComponent = /<cell id="(\w*)\"/.match(modelContent.read)
+            end
+            
+            if targetComponent
+              target = targetComponent.captures
+            end    
+            
+            geppettoSimulationFile["experiments"][0]["script"] = Rails.application.config.serversIP["serverIP"] + geppettoTmpPath + @geppettoJsFilePath
+            geppettoSimulationFile["experiments"][0]["aspectConfigurations"][0]["simulatorConfiguration"] = {
+                  "id" => 1,
+                  "simulatorId" => "neuronSimulator",
+                  "timestep" => 0.00001,
+                  "length" => 0.3,
+                  "parameters" => {"target" => target[0]}
+            } 
+          end 
         end 
-      end 
+        
+        File.write(publicResourcesPath + geppettoTmpPath + @geppettoJsFilePath, geppettoJsFile)
+        geppettoTmpJsFile.close
+      end    
       
       # Write file to disc and change permissions to allow access from Geppetto             
       File.write(publicResourcesPath + geppettoTmpPath + @geppettoSimulationFilePath, geppettoSimulationFile.to_json)
       File.write(publicResourcesPath + geppettoTmpPath + @geppettoModelFilePath, geppettoModelFile)
-      File.write(publicResourcesPath + geppettoTmpPath + @geppettoJsFilePath, geppettoJsFile)
         
       geppettoTmpSimulationFile.close
-      geppettoTmpJsFile.close
       geppettoTmpModelFile.close 
         
       geppettoSimulationFileObj = {"geppettoSimulationFile" => geppettoTmpPath + @geppettoSimulationFilePath}
