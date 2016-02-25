@@ -475,7 +475,8 @@
   setting_enabled_scm: 啟用的 SCM
   setting_mail_handler_body_delimiters: "截去郵件中包含下列值之後的內容"
   setting_mail_handler_api_enabled: 啟用處理傳入電子郵件的服務
-  setting_mail_handler_api_key: API 金鑰
+  setting_mail_handler_api_key: 傳入電子郵件網頁服務 API 金鑰
+  setting_sys_api_key: 儲存機制管理網頁服務 API 金鑰
   setting_sequential_project_identifiers: 循序產生專案識別碼
   setting_gravatar_enabled: 啟用 Gravatar 全球認證大頭像
   setting_gravatar_default: 預設全球認證大頭像圖片
@@ -485,6 +486,7 @@
   setting_openid: 允許使用 OpenID 登入與註冊
   setting_password_max_age: 必須在多少天後變更密碼
   setting_password_min_length: 密碼最小長度
+  setting_lost_password: 允許使用電子郵件重新設定密碼
   setting_new_project_user_role_id: 管理者以外之用戶建立新專案時，將被分派的角色
   setting_default_projects_modules: 新專案預設啟用的模組
   setting_issue_done_ratio: 計算議題完成百分比之方式
@@ -1257,8 +1259,6 @@
   description_date_from: 輸入起始日期
   description_date_to: 輸入結束日期
   text_repository_identifier_info: '僅允許使用小寫英文字母 (a-z), 阿拉伯數字, 虛線與底線。<br />一旦儲存之後, 代碼便無法再次被更改。'
-  setting_sys_api_key: API 金鑰
-  setting_lost_password: 遺失密碼
   mail_subject_security_notification: Security notification
   mail_body_security_notification_change: ! '%{field} was changed.'
   mail_body_security_notification_change_to: ! '%{field} was changed to %{value}.'
