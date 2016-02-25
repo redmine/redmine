@@ -47,14 +47,31 @@ var showSummaryTreeView = function(csel) {
 var showChannelTreeView = function(csel) {
 	if (GEPPETTO.ModelFactory.geppettoModel.neuroml.ionChannel){
 		var tv = initialiseTreeWidget('Ion Channels on cell ' + csel.getName(), widthScreen - marginLeft - defaultWidgetWidth, marginTop);
-		tv.setData(GEPPETTO.ModelFactory.getAllTypesOfType(GEPPETTO.ModelFactory.geppettoModel.neuroml.ionChannel));
+		
+		var ionChannel = GEPPETTO.ModelFactory.getAllTypesOfType(GEPPETTO.ModelFactory.geppettoModel.neuroml.ionChannel);
+		var ionChannelFiltered = [];
+		for (ionChannelIndex in ionChannel){
+			var ionChannelItem = ionChannel[ionChannelIndex];
+			if (ionChannelItem.getId()!='pulseGenerator'){
+				ionChannelFiltered.push(ionChannelItem);
+			}
+		}
+		tv.setData(ionChannelFiltered);
 	}
 };
 
 var showInputTreeView = function(csel) {
 	if (GEPPETTO.ModelFactory.geppettoModel.neuroml.pulseGenerator){
 		var tv = initialiseTreeWidget('Inputs on ' + csel.getName(), widthScreen - marginLeft - defaultWidgetWidth, marginTop);
-		tv.setData(GEPPETTO.ModelFactory.getAllTypesOfType(GEPPETTO.ModelFactory.geppettoModel.neuroml.pulseGenerator));
+		var pulseGenerator = GEPPETTO.ModelFactory.getAllTypesOfType(GEPPETTO.ModelFactory.geppettoModel.neuroml.pulseGenerator);
+		var pulseGeneratorFiltered = [];
+		for (pulseGeneratorIndex in pulseGenerator){
+			var pulseGeneratorItem = pulseGenerator[pulseGeneratorIndex];
+			if (pulseGeneratorItem.getId()!='pulseGenerator'){
+				pulseGeneratorFiltered.push(pulseGeneratorItem);
+			}
+		}
+		tv.setData(pulseGeneratorFiltered);
 	}
 };
 

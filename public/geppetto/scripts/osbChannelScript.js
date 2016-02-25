@@ -8,7 +8,7 @@ var realHeightScreen = heightScreen - marginTop - marginBottom;
 var realWidthScreen = widthScreen - marginRight - marginLeft - defaultWidgetWidth - elementMargin;
 
 var generatePlotForFunctionNodes = function() {
-	// Retrieve function nodes from model tree summary
+	// Retrieve function nodes from model tree
 	var nodes = GEPPETTO.ModelFactory.getAllVariablesOfMetaType(Model.neuroml.$ENTER_ID, GEPPETTO.Resources.DYNAMICS_TYPE, true);
 	
 	// Create a plot widget for every function node with plot metadata
