@@ -3,7 +3,12 @@
 	<!-- This begins the vertical tab on the left-->
 	<div class="tabbable tabs-left">
 		<ul class="nav nav-tabs">
+			<% if !User.current.logged? %>
+			<li class="active"><a href="#welcomeMainContainer" id="welcomeMainContainerLink" data-toggle="tab">Sample Projects</a></li>
+			<li><a href="#cells" id="cellsLink" data-toggle="tab">Cells and Networks</a></li>
+			<% else %>
 			<li class="active"><a href="#cells" id="cellsLink" data-toggle="tab">Cells and Networks</a></li>
+			<% end %>
             <li><a href="#technology" id="technologyLink" data-toggle="tab">Technology</a></li>
             <li><a href="#groups" id="groupsLink" data-toggle="tab">Research Groups</a></li>
             <li><a href="#people" id="peopleLink" data-toggle="tab">People</a></li>
@@ -15,7 +20,12 @@
 		<div class="tab-content">
 			
 			<!-- This begins the cells and network section -->
-			<div class="tab-pane active" id="cells">
+			<div class="tab-pane <% if !User.current.logged? %>active<% end %>" id="welcomeMainContainer">
+				
+			</div>
+				
+			<!-- This begins the cells and network section -->
+			<div class="tab-pane <% if User.current.logged? %>active<% end %>" id="cells">
 			
 				<div class="tabbable">
 					<div class="row pagination-centered">
@@ -63,7 +73,7 @@
 							</div>
 						</div>	
 						
-						<div class="tab-pane row-fluid" id="cells_tags" style="height:500px;width:800px;">
+						<div class="tab-pane row-fluid" id="cells_tags" style="text-align:center;">
 							<div style="text-align:center;">
 								<img src="/images/logo/osbcircle.png" class="icon-spin pagination-centered loading-image">
 								<br/>
@@ -121,7 +131,7 @@
 				 src="javascript:void(0)"
 				 scrolling="no"
 				 frameborder="0"
-				 width="900"
+				 width="100%"
 				 height="700">
 				</iframe>
 				
@@ -138,7 +148,7 @@
 				 src="javascript:void(0)"
 				 scrolling="no"
 				 frameborder="0"
-				 width="900"
+				 width="100%"
 				 height="700">
 				</iframe>
 				
@@ -200,6 +210,11 @@ jQuery(function()
       });
 	}	
 })
+</script>
+<script>
+jQuery(function(){
+callGeppetto("", addDashboard, true);
+});
 </script>
 
 <%= javascript_tag('jQuery("#main").addClass("minwidth");') %>
