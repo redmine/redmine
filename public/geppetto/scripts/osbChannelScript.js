@@ -8,8 +8,8 @@ var realHeightScreen = heightScreen - marginTop - marginBottom;
 var realWidthScreen = widthScreen - marginRight - marginLeft - defaultWidgetWidth - elementMargin;
 
 var generatePlotForFunctionNodes = function() {
-	// Retrieve function nodes from model tree summary
-	var nodes = $ENTER_ID.electrical.ModelTree.Summary.getSubNodesOfMetaType("FunctionNode");
+	// Retrieve function nodes from model tree
+	var nodes = GEPPETTO.ModelFactory.getAllVariablesOfMetaType(Model.neuroml.$ENTER_ID, GEPPETTO.Resources.DYNAMICS_TYPE, true);
 	
 	// Create a plot widget for every function node with plot metadata
 	// information
@@ -17,7 +17,7 @@ var generatePlotForFunctionNodes = function() {
 	// Generate dimensions depending on number of nodes and iframe size
 	var plottableNodes = [];
 	for ( var nodesIndex in nodes) {
-		if (nodes[nodesIndex].getPlotMetadata() != undefined && !nodes[nodesIndex].getExpression().startsWith('org.neuroml.export.info')) {
+		if (nodes[nodesIndex].getInitialValues()[0].value.dynamics.functionPlot != undefined && !nodes[nodesIndex].getInitialValues()[0].value.dynamics.expression.expression.startsWith('org.neuroml.export.info')) {
 			plottableNodes.push(nodes[nodesIndex]);
 		}
 	}
@@ -64,20 +64,7 @@ var generatePlotForFunctionNodes = function() {
 
 // Adding TreeVisualiserDAT Widget
 var treeVisualiserDAT1 = initialiseTreeWidget("Channel - $ENTER_ID", marginLeft, marginTop);
-
-if (typeof $ENTER_ID.electrical.ModelTree.Summary !== 'undefined') {
-	treeVisualiserDAT1.setData($ENTER_ID.electrical.ModelTree.Summary, {
-		expandNodes : true
-	});
-	generatePlotForFunctionNodes();
-} else {
-	treeVisualiserDAT1.registerEvent(Events.ModelTree_populated, function() {
-		treeVisualiserDAT1.setData($ENTER_ID.electrical.ModelTree.Summary, {
-			expandNodes : true
-		});
-		generatePlotForFunctionNodes();
-		treeVisualiserDAT1.unregisterEvent(Events.ModelTree_populated);
-	});
-	// Retrieve model tree
-	$ENTER_ID.electrical.getModelTree();
-}
+treeVisualiserDAT1.setData(Model.neuroml.$ENTER_ID, {
+	expandNodes : true
+});
+generatePlotForFunctionNodes();

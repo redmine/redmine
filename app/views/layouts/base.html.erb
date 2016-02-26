@@ -30,7 +30,7 @@
 		    window.cookieconsent_options = {"message":"This website uses cookies to ensure you get the best experience on our website","dismiss":"Got it!","learnMore":"More info","link":null,"theme":"dark-bottom"};
 		</script>
 		
-		<script type="text/javascript" src="//s3.amazonaws.com/cc.silktide.com/cookieconsent.latest.min.js"></script>
+		<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/1.0.9/cookieconsent.min.js"></script>
 		<!-- End Cookie Consent plugin -->
 
 	</head>
@@ -130,6 +130,8 @@
 							</div>
 						</div>
 						<% @neuroml2files = getNML2Files(@project.repository) %>
+						<% @swcfiles = getSWCFiles(@project.repository) %>
+						
 						
 						<% if isAProject %>
 							<% @networkfiles = getNetworkFiles() %>
@@ -139,7 +141,7 @@
 						
 							<% @repourl=getHttpRepositoryURL(@project) %>
 							
-							<% if(@repourl && @project.repository != nil && (not @neuroml2files.empty?))%>
+							<% if(@repourl && @project.repository != nil && ((not @neuroml2files.empty?) || (not @swcfiles.empty?)))%>
 								<% @repopath=getHttpRepositoryPath(@project.repository) %>
 								
 								<% if not @networkfiles.empty? %>
@@ -179,8 +181,15 @@
 										<% end %>									
 									<% end %>
 								<% end %>
+								<% if (not @swcfiles.empty?) %>
+									<%= javascript_tag 'jQuery("#explorermenu").append("<li class=dropdown-submenu ><a tabindex=-1 href=#>SWC</a><ul class=dropdown-menu id=swc></ul></li>");' %>
+									<% for swcfile in @swcfiles %>
+										<%= javascript_tag 'jQuery("#swc").append("<li><a  href=# tabindex=-1 onclick=open3DExplorer(encodeURIComponent(&quot;'+ @repourl + @repopath + swcfile + '&quot;),&quot;' + @project.identifier + '&quot;);>'+ swcfile + '</a></li>");'%>
+									<% end %>
+								<% end %>
+								
 							<% else %>
-								<%= javascript_tag 'jQuery("#explorermenu").append("<li><a tabindex=-1>No NeuroML2 files found!</a></li>");' %>
+								<%= javascript_tag 'jQuery("#explorermenu").append("<li><a tabindex=-1>No NeuroML2 or SWC files found!</a></li>");' %>
 							<% end %>
 						<% end %>	
 					<% end %>

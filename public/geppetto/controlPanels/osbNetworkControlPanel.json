@@ -3,17 +3,33 @@
         "Network Info": {
             "Connectivity": {
                 "actions": [
-                	"if ($ENTER_ID.getSubNodesOfDomainType('Synapse').length == 0){G.addWidget(1).setMessage('No connection found in this network').setName('Warning Message');}else{G.addWidget(6).setData($ENTER_ID,{linkType:function(c){return c.getSubNodesOfDomainType('Synapse')[0].id}}).setName('Connectivity Widget on network ' + $ENTER_ID.getName())}"
+                	"if (GEPPETTO.ModelFactory.getAllVariablesOfType($ENTER_ID.getType(),GEPPETTO.ModelFactory.geppettoModel.neuroml.synapse).length == 0){G.addWidget(1).setMessage('No connection found in this network').setName('Warning Message');}else{G.addWidget(6).setData($ENTER_ID,{linkType:function(c){return GEPPETTO.ModelFactory.getAllVariablesOfType(c.getParent(),GEPPETTO.ModelFactory.geppettoModel.neuroml.synapse)[0].getId();}}).setName('Connectivity Widget on network ' + $ENTER_ID.getName())}"
                 ],
                 "icon": "gpt-make-group",
                 "label": "Connectivity",
                 "tooltip": "Loads the connectivity matrix widget"
+            },
+            "Model Description": {
+                "actions": [
+                    "var mdPopup = G.addWidget(1); mdPopup.addCustomNodeHandler(function(node){G.addWidget(3).setData(node);}, 'click'); mdPopup.setHTML(GEPPETTO.ModelFactory.getAllVariablesOfMetaType($ENTER_ID.getType(),GEPPETTO.Resources.HTML_TYPE)[0]);"
+                ],
+                "icon": "gpt-pyramidal-cell",
+                "label": "Model Description",
+                "tooltip": "Information on the model"
+            },
+            "Inputs": {
+                "actions": [
+                    "showInputTreeView($ENTER_ID)"
+                ],
+                "icon": "gpt-inputs",
+                "label": "Inputs",
+                "tooltip": "Inputs present on the network"
             }
         },
         "Cell Info": {
             "Cell": {
                 "actions": [
-                    "executeOnSelection(showSummaryTreeView)"
+                    "executeOnSelection(showSelection)"
                 ],
                 "icon": "gpt-pyramidal-cell",
                 "label": "Cell Info",
@@ -26,14 +42,6 @@
                 "icon": "gpt-ion-channel",
                 "label": "Channels",
                 "tooltip": "Ion channels present on the selected cell"
-            },
-            "Inputs": {
-                "actions": [
-                    "showInputTreeView($ENTER_ID)"
-                ],
-                "icon": "gpt-inputs",
-                "label": "Inputs",
-                "tooltip": "Inputs present on the network"
             },
             "CellVisual": {
 		      "actions": [
