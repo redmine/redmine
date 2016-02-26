@@ -1195,7 +1195,7 @@ ja:
   label_any_open_issues: 未完了のチケット
   label_no_open_issues: なし または完了したチケット
   label_default_values_for_new_users: 新しいユーザーのデフォルト設定
-  error_ldap_bind_credentials: Invalid LDAP Account/Password
+  error_ldap_bind_credentials: LDAPアカウント/パスワードが無効です
   setting_sys_api_key: APIキー
   setting_lost_password: パスワードの再発行
   mail_subject_security_notification: Security notification
