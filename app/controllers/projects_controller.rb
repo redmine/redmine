@@ -522,7 +522,7 @@ class ProjectsController < ApplicationController
         "experiments" => [{
            "id" => 1,
            "name" => filenameSplit[0] + " - " + filenameSplit[1],
-           "status" => (User.current.login == "")? "DRAFT" : "DESIGN",
+           "status" => "DESIGN",
            "creationDate" => DateTime.now.strftime('%Q'),
            "lastModified" => DateTime.now.strftime('%Q'),
            "aspectConfigurations" => [
@@ -539,7 +539,7 @@ class ProjectsController < ApplicationController
       # SIMULATION #
       ##############
       if format == 'nml'
-        if (docType == 'net' || docType == 'cell') && User.current.login != ""
+        if (docType == 'net' || docType == 'cell')
            
           begin
             modelContent = open(url, 'r', :read_timeout=>2)
