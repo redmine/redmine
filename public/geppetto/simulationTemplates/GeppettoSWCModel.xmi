@@ -8,7 +8,6 @@
       id="swc"
       name="SWC">
     <types xsi:type="gep_1:ImportType"
-    	id="$TARGET_ID"
         url="$ENTER_MODEL_URL"
         modelInterpreterId="swcModelInterpreter"
         referenceURL="$ENTER_REFERENCE_URL"/>
