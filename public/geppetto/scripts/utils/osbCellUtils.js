@@ -52,7 +52,7 @@ var showChannelTreeView = function(csel) {
 		var ionChannelFiltered = [];
 		for (ionChannelIndex in ionChannel){
 			var ionChannelItem = ionChannel[ionChannelIndex];
-			if (ionChannelItem.getId()!='pulseGenerator'){
+			if (ionChannelItem.getId()!='ionChannel'){
 				ionChannelFiltered.push(ionChannelItem);
 			}
 		}
