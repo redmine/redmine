@@ -8,6 +8,7 @@
       id="neuroml"
       name="NeuroML">
     <types xsi:type="gep_1:ImportType"
+    	id="$TARGET_ID"
         url="$ENTER_MODEL_URL"
         modelInterpreterId="neuroMLModelInterpreter"
         referenceURL="$ENTER_REFERENCE_URL"/>
