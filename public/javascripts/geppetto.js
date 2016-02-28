@@ -64,6 +64,38 @@ function createCORSRequest(method, url) {
 function addDashboard(){
 	jQuery("#welcomeMainContainer").prepend("<div class='span12' style='margin-bottom: 20px;'><iframe id='geppettoDashboard' style='width:100%;height:550px;border:0px;' src='" + geppettoIP + geppettoContextPath + "'></iframe></div>");
 }
+
+function addDashboardFromMainPage(){
+	var ifr=$('<iframe/>', {
+        id:'geppettoDashboard',
+        src:geppettoIP + geppettoContextPath,
+        style:'display:none;width:90%;height:700px;border:0px;margin-bottom: 120px;margin-left: 5%;',
+        
+        load:function(){
+            $(this).show();
+            $('#learnMoreContainer').on("click", function() {
+            	$("html, body").animate({ scrollTop: $(document).height()-$(window).height() - 100 }, 1000);
+		        return false;
+		    });
+            $('#learnMoreContainer').fadeIn(1000);
+        }
+    });
+    $('#learnMoreContainer').after(ifr);
+}
+
+function addDashboardFromProjectsPage(){
+	var ifr=$('<iframe/>', {
+        id:'geppettoDashboard',
+        src:geppettoIP + geppettoContextPath,
+        style:'display:none;width:100%;height:550px;border:0px;',
+        load:function(){
+            $(this).show();
+            $('#welcomeMainContainerLoadDialog').remove();
+        }
+    });
+    
+jQuery("#welcomeMainContainer").prepend(ifr);
+}
 // Process logout
 function processLogout(url, text){
 	$('#logout_link').unbind('click').click();

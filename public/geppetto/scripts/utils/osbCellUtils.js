@@ -28,22 +28,6 @@ var executeOnSelection = function(callback) {
 		G.addWidget(1).setMessage('No cell selected! Please select one of the cells and click here for information on its properties.').setName('Warning Message');
 	}
 };
-var showSummaryTreeView = function(csel) {
-	var tv = initialiseTreeWidget('Information on cell ' + csel.getName(), marginLeft, marginTop);
-	if (typeof csel.electrical.ModelTree.Summary !== 'undefined') {
-		tv.setData(csel.electrical.ModelTree.Summary.getChildren(), {
-			expandNodes : true
-		});
-	} else {
-		tv.registerEvent(Events.ModelTree_populated, function() {
-			tv.setData(csel.electrical.ModelTree.Summary.getChildren(), {
-				expandNodes : true
-			});
-			tv.unregisterEvent(Events.ModelTree_populated);
-		});
-		csel.electrical.getModelTree();
-	}
-};
 var showChannelTreeView = function(csel) {
 	if (GEPPETTO.ModelFactory.geppettoModel.neuroml.ionChannel){
 		var tv = initialiseTreeWidget('Ion Channels on cell ' + csel.getName(), widthScreen - marginLeft - defaultWidgetWidth, marginTop);
@@ -52,7 +36,7 @@ var showChannelTreeView = function(csel) {
 		var ionChannelFiltered = [];
 		for (ionChannelIndex in ionChannel){
 			var ionChannelItem = ionChannel[ionChannelIndex];
-			if (ionChannelItem.getId()!='pulseGenerator'){
+			if (ionChannelItem.getId()!='ionChannel'){
 				ionChannelFiltered.push(ionChannelItem);
 			}
 		}

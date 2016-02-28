@@ -20,9 +20,18 @@
 		<div class="tab-content">
 			
 			<!-- This begins the cells and network section -->
-			<div class="tab-pane <% if !User.current.logged? %>active<% end %>" id="welcomeMainContainer">
-				
+			<% if !User.current.logged? %>
+			<div class="tab-pane active" id="welcomeMainContainer">
+				<div id="welcomeMainContainerLoadDialog" style="text-align:center;">
+					<img src="/images/logo/osbcircle.png" class="icon-spin pagination-centered loading-image">
+					<br/>
+					<br/>
+					<p>
+					Please be patient, the OSB visualiser dashboard is being generated for you.
+					</p>
+				</div>
 			</div>
+			<% end %>
 				
 			<!-- This begins the cells and network section -->
 			<div class="tab-pane <% if User.current.logged? %>active<% end %>" id="cells">
@@ -168,6 +177,12 @@ jQuery(function()
 {
 	var selectedTab = "cells_graph";
 	var tabList = ['cells_graph', 'cells_list', 'cells_gallery', 'cells_tags', 'technology', 'groups', 'people', 'informationOSB']
+	if (redmineLogin == ""){
+		selectedTab = "welcomeMainContainer";
+		tabList.splice(0,0,selectedTab);
+	}	
+	
+	
 	// var subTabCellsList =['cells_graph', 'cells_list', 'cells_gallery', 'cells_tags']
 	
 	//Read if a new tab is pass as a parameter in the url 	
@@ -193,28 +208,34 @@ jQuery(function()
 	//Load tabs sequentially 	
 	loadTab(selectedTab);
 	function loadTab(tabName){
-	  $.ajax({
-        url: "/projects/"+tabName,
-        async: true,
-        success: function(html){
-           $("#"+tabName).html(html);
-           index = tabList.indexOf(tabName);
-           tabList.splice(index, 1);
-           if (tabList.length > 0){
-           	loadTab(tabList[0]);
-           }	
-        },
-        error: function( xhr, textStatus, errorThrown ) {
-	      console.log("Error loading tab: " + textStatus);
-	    }
-      });
+		if (tabName == "welcomeMainContainer"){
+			callGeppetto("", addDashboardFromProjectsPage, true);
+			
+	        index = tabList.indexOf(tabName);
+	        tabList.splice(index, 1);
+	        if (tabList.length > 0){
+	      	 	loadTab(tabList[0]);
+	        }
+		}
+		else{
+			$.ajax({
+		        url: "/projects/"+tabName,
+		        async: true,
+		        success: function(html){
+		           $("#"+tabName).html(html);
+		           index = tabList.indexOf(tabName);
+		           tabList.splice(index, 1);
+		           if (tabList.length > 0){
+		           	loadTab(tabList[0]);
+		           }	
+		        },
+		        error: function( xhr, textStatus, errorThrown ) {
+			      console.log("Error loading tab: " + textStatus);
+			    }
+		      });
+		}
 	}	
 })
-</script>
-<script>
-jQuery(function(){
-callGeppetto("", addDashboard, true);
-});
 </script>
 
 <%= javascript_tag('jQuery("#main").addClass("minwidth");') %>
