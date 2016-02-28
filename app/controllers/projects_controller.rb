@@ -428,7 +428,7 @@ class ProjectsController < ApplicationController
       # Remove anything but numbers and letters and add an 'e' at the beginning in case it starts with a number
       entity = filenameSplit[0]
       # entity.tr!('^A-Za-z0-9', '')
-      entity.tr!("[&\\/\\\\#,+()$~%.'\":*?<>{}\\s]", '_')
+      entity.tr!("[&\\/\\\\#,+()$~%.'\":*?<>{}\s]", '_')
       if /^\d+/.match(entity)
         entity = "id" + entity
       end 
