@@ -427,9 +427,10 @@ class ProjectsController < ApplicationController
       # Get entity id, format (swc or nml) and if nml the doc type (net, cell, channel, synapse or other)
       # Remove anything but numbers and letters and add an 'e' at the beginning in case it starts with a number
       entity = filenameSplit[0]
-      entity.tr!('^A-Za-z0-9', '')
+      # entity.tr!('^A-Za-z0-9', '')
+      entity.tr!("[&\\/\\\\#,+()$~%.'\":*?<>{}\\s]", '_')
       if /^\d+/.match(entity)
-        entity = "e" + entity
+        entity = "id" + entity
       end 
       
       if filenameSplit[-1] == 'swc'
@@ -506,7 +507,11 @@ class ProjectsController < ApplicationController
       # MODEL #
       ######### 
       if format == 'nml'
-        geppettoModelFile = File.read(publicResourcesPath + geppettoResourcesPath + simulationTemplates + "GeppettoNeuroMLModel.xmi")    
+        if (docType == 'net' || docType == 'cell')
+          geppettoModelFile = File.read(publicResourcesPath + geppettoResourcesPath + simulationTemplates + "GeppettoNeuroMLModelNetworkCell.xmi")
+        else  
+          geppettoModelFile = File.read(publicResourcesPath + geppettoResourcesPath + simulationTemplates + "GeppettoNeuroMLModel.xmi")
+        end      
       elsif format == 'swc'
         geppettoModelFile = File.read(publicResourcesPath + geppettoResourcesPath + simulationTemplates + "GeppettoSWCModel.xmi")
       end  
@@ -525,6 +530,7 @@ class ProjectsController < ApplicationController
            "status" => "DESIGN",
            "creationDate" => DateTime.now.strftime('%Q'),
            "lastModified" => DateTime.now.strftime('%Q'),
+           "script" => Rails.application.config.serversIP["serverIP"] + geppettoTmpPath + @geppettoJsFilePath,
            "aspectConfigurations" => [
               {
                 "id" => 1,
@@ -560,14 +566,15 @@ class ProjectsController < ApplicationController
               target = targetComponent.captures
             end    
             
-            geppettoSimulationFile["experiments"][0]["script"] = Rails.application.config.serversIP["serverIP"] + geppettoTmpPath + @geppettoJsFilePath
             geppettoSimulationFile["experiments"][0]["aspectConfigurations"][0]["simulatorConfiguration"] = {
                   "id" => 1,
                   "simulatorId" => "neuronSimulator",
                   "timestep" => 0.00001,
                   "length" => 0.3,
                   "parameters" => {"target" => target[0]}
-            } 
+            }
+            
+            geppettoModelFile.gsub! '$TARGET_ID', target[0]
           end 
         end 
         
