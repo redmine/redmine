@@ -1137,7 +1137,7 @@ cs:
   label_blank_value: prázdný
   permission_copy_issues: Kopírovat úkoly
   error_password_expired: Platnost vašeho hesla vypršela a administrátor vás žádá o jeho změnu.
-  field_time_entries_visibility: Viditelnost šasového logu
+  field_time_entries_visibility: Viditelnost časových záznamů
   setting_password_max_age: Změna hesla je vyžadována po
   label_parent_task_attributes: Atributy rodičovského úkolu
   label_parent_task_attributes_derived: Vypočteno z dílčích úkolů
