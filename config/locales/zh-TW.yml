@@ -312,7 +312,14 @@
   mail_body_wiki_content_added: "此 '%{id}' wiki 頁面已被 %{author} 新增。"
   mail_subject_wiki_content_updated: "'%{id}' wiki 頁面已被更新"
   mail_body_wiki_content_updated: "此 '%{id}' wiki 頁面已被 %{author} 更新。"
-
+  mail_subject_security_notification: "安全性通知"
+  mail_body_security_notification_change: "%{field} 已變更。"
+  mail_body_security_notification_change_to: "%{field} 已變更為 %{value}。"
+  mail_body_security_notification_add: "%{field} %{value} 已新增。"
+  mail_body_security_notification_remove: "%{field} %{value} 已移除。"
+  mail_body_security_notification_notify_enabled: "電子郵件地址 %{value} 已開始接收通知。"
+  mail_body_security_notification_notify_disabled: "電子郵件地址 %{value} 已不再接收通知。"
+  mail_body_settings_updated: "下列設定已變更："
 
   field_name: 名稱
   field_description: 概述
@@ -437,6 +444,7 @@
   field_time_entries_visibility: 工時紀錄可見度
   field_total_estimated_hours: 預估工時總計
   field_default_version: 預設版本
+  field_remote_ip: IP 位址
 
   setting_app_title: 標題
   setting_app_subtitle: 副標題
@@ -1259,14 +1267,3 @@
   description_date_from: 輸入起始日期
   description_date_to: 輸入結束日期
   text_repository_identifier_info: '僅允許使用小寫英文字母 (a-z), 阿拉伯數字, 虛線與底線。<br />一旦儲存之後, 代碼便無法再次被更改。'
-  mail_subject_security_notification: Security notification
-  mail_body_security_notification_change: ! '%{field} was changed.'
-  mail_body_security_notification_change_to: ! '%{field} was changed to %{value}.'
-  mail_body_security_notification_add: ! '%{field} %{value} was added.'
-  mail_body_security_notification_remove: ! '%{field} %{value} was removed.'
-  mail_body_security_notification_notify_enabled: Email address %{value} now receives
-    notifications.
-  mail_body_security_notification_notify_disabled: Email address %{value} no longer
-    receives notifications.
-  mail_body_settings_updated: ! 'The following settings were changed:'
-  field_remote_ip: IP address
