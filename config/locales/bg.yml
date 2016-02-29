@@ -231,6 +231,14 @@ bg:
   mail_body_wiki_content_added: Wiki страницата '%{id}' беше добавена от %{author}.
   mail_subject_wiki_content_updated: "Wiki страницата '%{id}' беше обновена"
   mail_body_wiki_content_updated: Wiki страницата '%{id}' беше обновена от %{author}.
+  mail_subject_security_notification: Известие за промяна в сигурността
+  mail_body_security_notification_change: ! '%{field} беше променено.'
+  mail_body_security_notification_change_to: ! '%{field} беше променено на %{value}.'
+  mail_body_security_notification_add: ! '%{field} %{value} беше добавено.'
+  mail_body_security_notification_remove: ! '%{field} %{value} беше премахнато.'
+  mail_body_security_notification_notify_enabled: Имейл адрес %{value} вече получава известия.
+  mail_body_security_notification_notify_disabled: Имейл адрес %{value} вече не получава известия.
+  mail_body_settings_updated: ! 'Изменения в конфигурацията:'
 
   field_name: Име
   field_description: Описание
@@ -355,6 +363,7 @@ bg:
   field_time_entries_visibility: Видимост на записи за използвано време
   field_total_estimated_hours: Общо изчислено време
   field_default_version: Версия по подразбиране
+  field_remote_ip: IP адрес
 
   setting_app_title: Заглавие
   setting_app_subtitle: Описание
@@ -1176,14 +1185,3 @@ bg:
   text_repository_identifier_info: 'Позволени са малки букви (a-z), цифри, тирета и _.<br />Промяна след създаването му не е възможна.'
   setting_sys_api_key: API ключ
   setting_lost_password: Забравена парола
-  mail_subject_security_notification: Security notification
-  mail_body_security_notification_change: ! '%{field} was changed.'
-  mail_body_security_notification_change_to: ! '%{field} was changed to %{value}.'
-  mail_body_security_notification_add: ! '%{field} %{value} was added.'
-  mail_body_security_notification_remove: ! '%{field} %{value} was removed.'
-  mail_body_security_notification_notify_enabled: Email address %{value} now receives
-    notifications.
-  mail_body_security_notification_notify_disabled: Email address %{value} no longer
-    receives notifications.
-  mail_body_settings_updated: ! 'The following settings were changed:'
-  field_remote_ip: IP address
