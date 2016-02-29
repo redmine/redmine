@@ -732,7 +732,7 @@ zh:
   label_user_mail_option_selected: "收取选中项目的所有通知..."
   label_user_mail_option_none: "不收取任何通知"
   label_user_mail_option_only_my_events: "只收取我跟踪或参与的项目的通知"
-  label_user_mail_option_only_assigned: "只收取分配给我的"
+  label_user_mail_option_only_assigned: "只收取指派给我的"
   label_user_mail_option_only_owner: 只收取由我创建的
   label_user_mail_no_self_notified: "不要发送对我自己提交的修改的通知"
   label_registration_activation_by_email: 通过邮件认证激活帐号
@@ -934,7 +934,7 @@ zh:
   label_news_comment_added: 添加到新闻的评论
   button_expand_all: 展开所有
   button_collapse_all: 合拢所有
-  label_additional_workflow_transitions_for_assignee: 当用户是问题的分配对象时所允许的问题状态转换
+  label_additional_workflow_transitions_for_assignee: 当用户是问题的指派对象时所允许的问题状态转换
   label_additional_workflow_transitions_for_author: 当用户是问题作者时所允许的问题状态转换
   label_bulk_edit_selected_time_entries: 批量修改选定的时间条目
   text_time_entries_destroy_confirmation: 是否确定要删除选定的时间条目？
@@ -943,8 +943,8 @@ zh:
   label_issue_note_added: 问题备注已添加
   label_issue_status_updated: 问题状态更新
   label_issue_priority_updated: 问题优先级更新
-  label_issues_visibility_own: 创建或分配给用户的问题
-  field_issues_visibility: 问题可见
+  label_issues_visibility_own: 用户创建或被指派的问题
+  field_issues_visibility: 问题可见度
   label_issues_visibility_all: 全部问题
   permission_set_own_issues_private: 设置自己的问题为公开或私有
   field_is_private: 私有
@@ -968,7 +968,7 @@ zh:
   text_git_repository_note: 库中无内容。(e.g. /gitrepo, c:\gitrepo)
   notice_issue_successful_create: 问题 %{id} 已创建。
   label_between: 介于
-  setting_issue_group_assignment: 允许问题被分配给组
+  setting_issue_group_assignment: 允许将问题指派给组
   label_diff: diff
   description_query_sort_criteria_direction: 排序方式
   description_project_scope: 搜索范围
@@ -1049,7 +1049,7 @@ zh:
   field_board_parent: 父论坛
   label_attribute_of_project: 项目 %{name}
   label_attribute_of_author: 作者 %{name}
-  label_attribute_of_assigned_to: 分配给 %{name}
+  label_attribute_of_assigned_to: 指派给 %{name}
   label_attribute_of_fixed_version: 目标版本 %{name}
   label_copy_subtasks: 复制子任务
   label_copied_to: 复制到
@@ -1133,7 +1133,7 @@ zh:
   label_blank_value: 空白
   permission_copy_issues: 复制问题
   error_password_expired: 您的密码已经过期或是管理员要求您修改密码.
-  field_time_entries_visibility: 工时记录可见性
+  field_time_entries_visibility: 工时记录可见度
   setting_password_max_age: 密码有效期
   label_parent_task_attributes: 父问题属性
   label_parent_task_attributes_derived: 从子任务计算导出
