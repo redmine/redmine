@@ -1177,7 +1177,7 @@ zh:
   label_any_open_issues: 任意进行中的问题
   label_no_open_issues: 任意已关闭的问题
   label_default_values_for_new_users: 新用户默认值
-  error_ldap_bind_credentials: Invalid LDAP Account/Password
+  error_ldap_bind_credentials: 无效的LDAP账号或密码
   setting_sys_api_key: API key
   setting_lost_password: 忘记密码
   mail_subject_security_notification: Security notification
