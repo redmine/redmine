@@ -560,23 +560,18 @@ class ProjectsController < ApplicationController
         
         File.write(publicResourcesPath + geppettoTmpPath + @geppettoJsFilePath, geppettoJsFile)
         geppettoTmpJsFile.close
-      end    
-      
-      #########
-      # MODEL #
-      ######### 
-      if format == 'nml'
+        
         if ((docType == 'net' || docType == 'cell') && target[0] != nil)
           geppettoModelFile = File.read(publicResourcesPath + geppettoResourcesPath + simulationTemplates + "GeppettoNeuroMLModelNetworkCell.xmi")
           geppettoModelFile.gsub! '$TARGET_ID', target[0]
           geppettoSimulationFile["experiments"][0]["aspectConfigurations"][0]["simulatorConfiguration"]["parameters"] = {"target" => target[0]}
         else  
           geppettoModelFile = File.read(publicResourcesPath + geppettoResourcesPath + simulationTemplates + "GeppettoNeuroMLModel.xmi")
-        end      
+        end 
       elsif format == 'swc'
         geppettoModelFile = File.read(publicResourcesPath + geppettoResourcesPath + simulationTemplates + "GeppettoSWCModel.xmi")
-      end  
-        
+      end    
+      
       geppettoModelFile.gsub! '$ENTER_MODEL_URL', url
       geppettoModelFile.gsub! '$ENTER_ID', entity
       geppettoModelFile.gsub! '$ENTER_REFERENCE_URL', @project.identifier
