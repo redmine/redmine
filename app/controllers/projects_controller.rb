@@ -503,23 +503,6 @@ class ProjectsController < ApplicationController
         geppettoJsFile.delete!("\r\n")
       end  
       
-      #########
-      # MODEL #
-      ######### 
-      if format == 'nml'
-        if (docType == 'net' || docType == 'cell')
-          geppettoModelFile = File.read(publicResourcesPath + geppettoResourcesPath + simulationTemplates + "GeppettoNeuroMLModelNetworkCell.xmi")
-        else  
-          geppettoModelFile = File.read(publicResourcesPath + geppettoResourcesPath + simulationTemplates + "GeppettoNeuroMLModel.xmi")
-        end      
-      elsif format == 'swc'
-        geppettoModelFile = File.read(publicResourcesPath + geppettoResourcesPath + simulationTemplates + "GeppettoSWCModel.xmi")
-      end  
-        
-      geppettoModelFile.gsub! '$ENTER_MODEL_URL', url
-      geppettoModelFile.gsub! '$ENTER_ID', entity
-      geppettoModelFile.gsub! '$ENTER_REFERENCE_URL', @project.identifier
-      
       geppettoSimulationFile = {
         "id" => 1,
         "name" => filename.rpartition('.').first + ((filenameSplit[1] != "nml")? " - " + filenameSplit[1]:""),
@@ -570,17 +553,33 @@ class ProjectsController < ApplicationController
                   "id" => 1,
                   "simulatorId" => "neuronSimulator",
                   "timestep" => 0.00001,
-                  "length" => 0.3,
-                  "parameters" => {"target" => target[0]}
+                  "length" => 0.3
             }
-            
-            geppettoModelFile.gsub! '$TARGET_ID', target[0]
           end 
         end 
         
         File.write(publicResourcesPath + geppettoTmpPath + @geppettoJsFilePath, geppettoJsFile)
         geppettoTmpJsFile.close
       end    
+      
+      #########
+      # MODEL #
+      ######### 
+      if format == 'nml'
+        if ((docType == 'net' || docType == 'cell') && target[0] != nil)
+          geppettoModelFile = File.read(publicResourcesPath + geppettoResourcesPath + simulationTemplates + "GeppettoNeuroMLModelNetworkCell.xmi")
+          geppettoModelFile.gsub! '$TARGET_ID', target[0]
+          geppettoSimulationFile["experiments"][0]["aspectConfigurations"][0]["simulatorConfiguration"]["parameters"] = {"target" => target[0]}
+        else  
+          geppettoModelFile = File.read(publicResourcesPath + geppettoResourcesPath + simulationTemplates + "GeppettoNeuroMLModel.xmi")
+        end      
+      elsif format == 'swc'
+        geppettoModelFile = File.read(publicResourcesPath + geppettoResourcesPath + simulationTemplates + "GeppettoSWCModel.xmi")
+      end  
+        
+      geppettoModelFile.gsub! '$ENTER_MODEL_URL', url
+      geppettoModelFile.gsub! '$ENTER_ID', entity
+      geppettoModelFile.gsub! '$ENTER_REFERENCE_URL', @project.identifier
       
       # Write file to disc and change permissions to allow access from Geppetto             
       File.write(publicResourcesPath + geppettoTmpPath + @geppettoSimulationFilePath, geppettoSimulationFile.to_json)
