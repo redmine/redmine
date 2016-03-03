@@ -331,7 +331,7 @@ de:
   field_is_required: Erforderlich
   field_issue: Ticket
   field_issue_to: Zugehöriges Ticket
-  field_issues_visibility: Ticket Sichtbarkeit
+  field_issues_visibility: Ticket-Sichtbarkeit
   field_language: Sprache
   field_last_login_on: Letzte Anmeldung
   field_lastname: Nachname
@@ -384,7 +384,7 @@ de:
   field_updated_on: Aktualisiert
   field_url: URL
   field_user: Benutzer
-  field_users_visibility: Benutzer Sichtbarkeit
+  field_users_visibility: Benutzer-Sichtbarkeit
   field_value: Wert
   field_version: Version
   field_visible: Sichtbar
@@ -754,7 +754,7 @@ de:
   label_subtask_plural: Unteraufgaben
   label_tag: Markierung
   label_text: Langer Text
-  label_theme: Stil
+  label_theme: Design-Stil
   label_this_month: aktueller Monat
   label_this_week: aktuelle Woche
   label_this_year: aktuelles Jahr
@@ -1060,7 +1060,7 @@ de:
   text_caracters_maximum: "Max. %{count} Zeichen."
   text_caracters_minimum: "Muss mindestens %{count} Zeichen lang sein."
   text_comma_separated: Mehrere Werte erlaubt (durch Komma getrennt).
-  text_convert_available: ImageMagick Konvertierung verfügbar (optional)
+  text_convert_available: ImageMagick-Konvertierung verfügbar (optional)
   text_custom_field_possible_values_info: 'Eine Zeile pro Wert'
   text_default_administrator_account_changed: Administrator-Passwort geändert
   text_destroy_time_entries: Gebuchte Aufwände löschen
@@ -1166,8 +1166,7 @@ de:
   label_member_management_selected_roles_only: Nur diese Rollen
   label_total_spent_time: Aufgewendete Zeit aller Projekte anzeigen
   notice_import_finished: Alle %{count} Einträge wurden importiert.
-  notice_import_finished_with_errors: ! '%{count} von %{total} Einträgen konnten nicht
-    importiert werden.'
+  notice_import_finished_with_errors: ! '%{count} von %{total} Einträgen konnten nicht importiert werden.'
   error_invalid_file_encoding: Die Datei ist keine gültige %{encoding} kodierte Datei
   error_invalid_csv_file_or_settings: Die Dartei ist keine CSV-Datei oder entspricht nicht den Einstellungen unten
   error_can_not_read_import_file: Beim Einlesen der Datei ist ein Fehler aufgetreten
@@ -1192,9 +1191,9 @@ de:
   label_field_format_enumeration: Eigenschaft/Wert-Paare
   label_f_hour_short: '%{value} h'
   field_default_version: Standard-Version
-  error_attachment_extension_not_allowed: Attachment Erweiterung %{extension} ist nicht zugelassen
-  setting_attachment_extensions_allowed: Zugelassene Erweiterungen
-  setting_attachment_extensions_denied: Nicht zugelassene Erweiterungen
+  error_attachment_extension_not_allowed: Der Dateityp %{extension} des Anhangs ist nicht zugelassen
+  setting_attachment_extensions_allowed: Zugelassene Dateitypen
+  setting_attachment_extensions_denied: Nicht zugelassene Dateitypen
   label_any_open_issues: irgendein offenes Ticket
   label_no_open_issues: kein offenes Ticket
   label_default_values_for_new_users: Standardwerte für neue Benutzer
