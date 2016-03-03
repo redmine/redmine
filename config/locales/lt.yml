@@ -958,7 +958,7 @@ lt:
   text_unallowed_characters: Neleistini simboliai
   text_comma_separated: Leistinos kelios reikšmės (atskirtos kableliu).
   text_line_separated: Galimos kelios reikšmės (viena linija vienai vertei).
-  text_issues_ref_in_commit_messages: Darbų susiejimas ir fiksavimas  pavedimų žinutėse
+  text_issues_ref_in_commit_messages: Darbų susiejimas ir fiksavimas pavedimų žinutėse
   text_issue_added: "Darbas %{id} buvo praneštas (by %{author})."
   text_issue_updated: "Darbas %{id} buvo atnaujintas (by %{author})."
   text_wiki_destroy_confirmation: Ar esate įsitikinęs, kad norite pašalinti šį wiki puslapį ir visą jo turinį?
