@@ -1152,16 +1152,15 @@ de:
   setting_search_results_per_page: Suchergebnisse pro Seite
   label_blank_value: leer
   permission_copy_issues: Tickets kopieren
-  error_password_expired: Your password has expired or the administrator requires you
-    to change it.
-  field_time_entries_visibility: Time logs visibility
-  label_parent_task_attributes: Parent tasks attributes
-  label_parent_task_attributes_derived: Calculated from subtasks
-  label_parent_task_attributes_independent: Independent of subtasks
-  label_time_entries_visibility_all: All time entries
-  label_time_entries_visibility_own: Time entries created by the user
-  label_member_management: Member management
+  error_password_expired: Ihr Passwort ist abgelaufen oder der Administrator verlangt eine Passwortänderung.
+  field_time_entries_visibility: Zeiten-Sichtbarkeit
+  label_parent_task_attributes: Eigenschaften übergeordneter Aufgaben
+  label_parent_task_attributes_derived: Abgeleitet von Unteraufgaben
+  label_parent_task_attributes_independent: Unabhängig von Unteraufgaben
+  label_time_entries_visibility_all: Alle Zeitaufwände
+  label_time_entries_visibility_own: Nur eigene Aufwände
+  label_member_management: Mitglieder verwalten
   label_member_management_all_roles: Alle Rollen
   label_member_management_selected_roles_only: Nur diese Rollen
   label_total_spent_time: Aufgewendete Zeit aller Projekte anzeigen
-  field_total_estimated_hours: Total estimated time
+  field_total_estimated_hours: Summe des geschätzten Aufwands
