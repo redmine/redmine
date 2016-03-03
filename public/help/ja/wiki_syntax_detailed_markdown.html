@@ -33,192 +33,192 @@
 </head>
 
 <body>
-<h1><a name="1" class="wiki-page"></a>Wiki formatting (Markdown)</h1>
+<h1><a name="1" class="wiki-page"></a>Wiki記法 (Markdown)</h1>
 
     <h2><a name="2" class="wiki-page"></a>Links</h2>
 
-        <h3><a name="3" class="wiki-page"></a>Redmine links</h3>
+        <h3><a name="3" class="wiki-page">Redmine内のリンク</a></h3>
 
-        <p>Redmine allows hyperlinking between resources (issues, changesets, wiki pages...) from anywhere wiki formatting is used.</p>
+        <p>RedmineはWiki記法が使える箇所のどこからでも、チケット・チェンジセット・Wikiページなどのリソースへのリンクができます。</p>
         <ul>
-            <li>Link to an issue: <strong>#124</strong> (displays <del><a href="#" class="issue" title="bulk edit doesn't change the category or fixed version properties (Closed)">#124</a></del>, link is striked-through if the issue is closed)</li>
-            <li>Link to an issue note: <strong>#124-6</strong>, or <strong>#124#note-6</strong></li>
+            <li>チケットへのリンク: <strong>#124</strong> (終了したチケットは <del><a href="#" class="issue" title="bulk edit doesn't change the category or fixed version properties (Closed)">#124</a></del> のように取り消し線付きで表示されます)</li>
+            <li>チケットの注記へのリンク: <strong>#124-6</strong> または <strong>#124#note-6</strong></li>
         </ul>
 
-        <p>Wiki links:</p>
+        <p>Wikiへのリンク:</p>
 
         <ul>
-            <li><strong>[[Guide]]</strong> displays a link to the page named 'Guide': <a href="#" class="wiki-page">Guide</a></li>
-            <li><strong>[[Guide#further-reading]]</strong> takes you to the anchor "further-reading". Headings get automatically assigned anchors so that you can refer to them: <a href="#" class="wiki-page">Guide</a></li>
-            <li><strong>[[Guide|User manual]]</strong> displays a link to the same page but with a different text: <a href="#" class="wiki-page">User manual</a></li>
+            <li><strong>[[Guide]]</strong> "Guide"という名称のページへのリンク: <a href="#" class="wiki-page">Guide</a></li>
+            <li><strong>[[Guide#further-reading]]</strong> "Guide"というページ内の"further-reading"というアンカーに飛びます。見出しには自動的にアンカーが設定されるのでこのようにリンク先とすることができます: <a href="#" class="wiki-page">Guide</a></li>
+            <li><strong>[[Guide|User manual]]</strong> "Guide"というページへのリンクを異なるテキストで表示: <a href="#" class="wiki-page">User manual</a></li>
         </ul>
 
-        <p>You can also link to pages of an other project wiki:</p>
+        <p>別のプロジェクトのwikiへのリンクも可能です:</p>
 
         <ul>
-            <li><strong>[[sandbox:some page]]</strong> displays a link to the page named 'Some page' of the Sandbox wiki</li>
-            <li><strong>[[sandbox:]]</strong> displays a link to the Sandbox wiki main page</li>
+            <li><strong>[[sandbox:some page]]</strong> sandboxというプロジェクトのwikiの"some page"という名称のページへのリンク</li>
+            <li><strong>[[sandbox:]]</strong> sanbdoxというプロジェクトのwikiのメインページへのリンク</li>
         </ul>
 
-        <p>Wiki links are displayed in red if the page doesn't exist yet, eg: <a href="#" class="wiki-page new">Nonexistent page</a>.</p>
+        <p>存在しないwikiページへのリンクは赤で表示されます。 例: <a href="#" class="wiki-page new">Nonexistent page</a>.</p>
 
-        <p>Links to other resources:</p>
+        <p>そのほかのリソースへのリンク:</p>
 
         <ul>
-            <li>Documents:
+            <li>文書:
                 <ul>
-                    <li><strong>document#17</strong> (link to document with id 17)</li>
-                    <li><strong>document:Greetings</strong> (link to the document with title "Greetings")</li>
-                    <li><strong>document:"Some document"</strong> (double quotes can be used when document title contains spaces)</li>
-                    <li><strong>sandbox:document:"Some document"</strong> (link to a document with title "Some document" in other project "sandbox")</li>
+                    <li><strong>document#17</strong> (id 17の文書へのリンク)</li>
+                    <li><strong>document:Greetings</strong> ("Greetings" というタイトルの文書へのリンク)</li>
+                    <li><strong>document:"Some document"</strong> (文書のタイトルに空白が含まれる場合はダブルクォーテーションで囲んでください)</li>
+                    <li><strong>sandbox:document:"Some document"</strong> ("sandbox" というプロジェクトの "Some document" というタイトルの文書へのリンク)</li>
                 </ul>
             </li>
         </ul>
 
         <ul>
-            <li>Versions:
+            <li>バージョン:
                 <ul>
-                    <li><strong>version#3</strong> (link to version with id 3)</li>
-                    <li><strong>version:1.0.0</strong> (link to version named "1.0.0")</li>
+                    <li><strong>version#3</strong> (id 3のバージョンへのリンク)</li>
+                    <li><strong>version:1.0.0</strong> ("1.0.0"という名称のバージョンへのリンク)</li>
                     <li><strong>version:"1.0 beta 2"</strong></li>
-                    <li><strong>sandbox:version:1.0.0</strong> (link to version "1.0.0" in the project "sandbox")</li>
+                    <li><strong>sandbox:version:1.0.0</strong> ("sandbox"というプロジェクトの "1.0.0" という名称のバージョンへのリンク)</li>
                 </ul>
             </li>
         </ul>
 
         <ul>
-            <li>Attachments:
+            <li>添付ファイル:
                 <ul>
-                    <li><strong>attachment:file.zip</strong> (link to the attachment of the current object named file.zip)</li>
-                    <li>For now, attachments of the current object can be referenced only (if you're on an issue, it's possible to reference attachments of this issue only)</li>
+                    <li><strong>attachment:file.zip</strong> (現在のオブジェクトに添付された file.zip というファイルへのリンク)</li>
+                    <li>現在のオブジェクト上の添付ファイルのみリンク先として指定できます (例えばあるチケットからは、そのチケットに添付されたファイルのみリンク先にできます)</li>
                 </ul>
             </li>
         </ul>
 
         <ul>
-            <li>Changesets:
+            <li>チェンジセット:
                 <ul>
-                    <li><strong>r758</strong>                       (link to a changeset)</li>
-                    <li><strong>commit:c6f4d0fd</strong>            (link to a changeset with a non-numeric hash)</li>
-                    <li><strong>svn1|r758</strong>                  (link to a changeset of a specific repository, for projects with multiple repositories)</li>
-                    <li><strong>commit:hg|c6f4d0fd</strong>         (link to a changeset with a non-numeric hash of a specific repository)</li>
-                    <li><strong>sandbox:r758</strong>               (link to a changeset of another project)</li>
-                    <li><strong>sandbox:commit:c6f4d0fd</strong>    (link to a changeset with a non-numeric hash of another project)</li>
+                    <li><strong>r758</strong>                       (チェンジセットへのリンク)</li>
+                    <li><strong>commit:c6f4d0fd</strong>            (ハッシュ値によるチェンジセットへのリンク)</li>
+                    <li><strong>svn1|r758</strong>                  (複数のリポジトリが設定されたプロジェクトで、特定のリポジトリのチェンジセットへのリンク)</li>
+                    <li><strong>commit:hg|c6f4d0fd</strong>         (ハッシュ値による、特定のリポジトリのチェンジセットへのリンク)</li>
+                    <li><strong>sandbox:r758</strong>               (他のプロジェクトのチェンジセットへのリンク)</li>
+                    <li><strong>sandbox:commit:c6f4d0fd</strong>    (ハッシュ値による、他のプロジェクトのチェンジセットへのリンク)</li>
                 </ul>
             </li>
         </ul>
 
         <ul>
-             <li>Repository files:
+             <li>リポジトリ内のファイル:
                 <ul>
-                    <li><strong>source:some/file</strong>           (link to the file located at /some/file in the project's repository)</li>
-                    <li><strong>source:some/file@52</strong>        (link to the file's revision 52)</li>
-                    <li><strong>source:some/file#L120</strong>      (link to line 120 of the file)</li>
-                    <li><strong>source:some/file@52#L120</strong>   (link to line 120 of the file's revision 52)</li>
-                    <li><strong>source:"some file@52#L120"</strong> (use double quotes when the URL contains spaces</li>
-                    <li><strong>export:some/file</strong>           (force the download of the file)</li>
-                    <li><strong>source:svn1|some/file</strong>      (link to a file of a specific repository, for projects with multiple repositories)</li>
-                    <li><strong>sandbox:source:some/file</strong>   (link to the file located at /some/file in the repository of the project "sandbox")</li>
-                    <li><strong>sandbox:export:some/file</strong>   (force the download of the file)</li>
+                    <li><strong>source:some/file</strong>           (プロジェクトのリポジトリ内の /some/file というファイルへのリンク)</li>
+                    <li><strong>source:some/file@52</strong>        (ファイルのリビジョン52へのリンク)</li>
+                    <li><strong>source:some/file#L120</strong>      (ファイルの120行目へのリンク)</li>
+                    <li><strong>source:some/file@52#L120</strong>   (リビジョン52のファイルの120行目へのリンク)</li>
+                    <li><strong>source:"some file@52#L120"</strong> (URLにスペースが含まれる場合はダブルクォーテーションで囲んでください)</li>
+                    <li><strong>export:some/file</strong>           (ファイルのダウンロードを強制)</li>
+                    <li><strong>source:svn1|some/file</strong>      (複数のリポジトリが設定されたプロジェクトで、特定のリポジトリのファイルへのリンク)</li>
+                    <li><strong>sandbox:source:some/file</strong>   ("sandbox" というプロジェクトのリポジトリ上の /some/file というファイルへのリンク)</li>
+                    <li><strong>sandbox:export:some/file</strong>   (ファイルのダウンロードを強制)</li>
                 </ul>
             </li>
         </ul>
 
         <ul>
-            <li>Forums:
+            <li>フォーラム:
                 <ul>
-                    <li><strong>forum#1</strong> (link to forum with id 1</li>
-                    <li><strong>forum:Support</strong> (link to forum named Support)</li>
-                    <li><strong>forum:"Technical Support"</strong> (use double quotes if forum name contains spaces)</li>
+                    <li><strong>forum#1</strong> (id 1のフォーラムへのリンク)</li>
+                    <li><strong>forum:Support</strong> ("Support"という名称のフォーラムへのリンク)</li>
+                    <li><strong>forum:"Technical Support"</strong> (フォーラム名に空白が含まれる場合はダブルクォーテーションで囲んでください)</li>
                 </ul>
             </li>
         </ul>
 
         <ul>
-            <li>Forum messages:
+            <li>フォーラムのメッセージ:
                 <ul>
-                    <li><strong>message#1218</strong> (link to message with id 1218)</li>
+                    <li><strong>message#1218</strong> (id 1218のメッセージへのリンク)</li>
                 </ul>
             </li>
         </ul>
 
         <ul>
-            <li>Projects:
+            <li>プロジェクト:
                 <ul>
-                    <li><strong>project#3</strong> (link to project with id 3)</li>
-                    <li><strong>project:some-project</strong> (link to project with name or slug of "some-project")</li>
-                    <li><strong>project:"Some Project"</strong> (use double quotes for project name containing spaces)</li>
+                    <li><strong>project#3</strong> (id 3のプロジェクトへのリンク)</li>
+                    <li><strong>project:someproject</strong> ("someproject"という名称のプロジェクトへのリンク)</li>
+                    <li><strong>project:"some project"</strong> (プロジェクト名に空白が含まれる場合はダブルクォーテーションで囲んでください)</li>
                 </ul>
              </li>
         </ul>
 
         <ul>
-            <li>News:
+            <li>ニュース:
                 <ul>
-                    <li><strong>news#2</strong> (link to news item with id 2)</li>
-                    <li><strong>news:Greetings</strong> (link to news item named "Greetings")</li>
-                    <li><strong>news:"First Release"</strong> (use double quotes if news item name contains spaces)</li>
+                    <li><strong>news#2</strong> (id 2のニュースへのリンク)</li>
+                    <li><strong>news:Greetings</strong> ("Greetings"というタイトルのニュースへのリンク)</li>
+                    <li><strong>news:"First Release"</strong> (タイトルに空白が含まれる場合はダブルクォーテーションで囲んでください)</li>
                 </ul>
             </li>
         </ul>
 
-        <p>Escaping:</p>
+        <p>エスケープ:</p>
 
         <ul>
-            <li>You can prevent Redmine links from being parsed by preceding them with an exclamation mark: !</li>
+            <li>テキストをRedmineのリンクとして解釈させたくない場合は感嘆符 ! を前につけてください。</li>
         </ul>
 
 
-        <h3><a name="4" class="wiki-page"></a>External links</h3>
+        <h3><a name="4" class="wiki-page"></a>外部リンク</h3>
 
-        <p>HTTP URLs and email addresses are automatically turned into clickable links:</p>
+        <p>HTTP URLとメールアドレスは自動的にリンクになります:</p>
 
 <pre>
 http://www.redmine.org, someone@foo.bar
 </pre>
 
-        <p>displays: <a class="external" href="http://www.redmine.org">http://www.redmine.org</a>, <a href="mailto:someone@foo.bar" class="email">someone@foo.bar</a></p>
+        <p>上記記述の表示例です: <a class="external" href="http://www.redmine.org">http://www.redmine.org</a>, <a href="mailto:someone@foo.bar" class="email">someone@foo.bar</a></p>
 
-        <p>If you want to display a specific text instead of the URL, you can use the standard markdown syntax:</p>
+        <p>URLのかわりに別のテキストを表示させたい場合は、通常のMarkdown記法が利用できます:</p>
 
 <pre>
 [Redmine web site](http://www.redmine.org)
 </pre>
 
-        <p>displays: <a href="http://www.redmine.org" class="external">Redmine web site</a></p>
+        <p>上記記述の表示例です: <a href="http://www.redmine.org" class="external">Redmine web site</a></p>
 
 
-    <h2><a name="5" class="wiki-page"></a>Text formatting</h2>
+    <h2><a name="5" class="wiki-page"></a>テキストの書式</h2>
 
 
-    <p>For things such as headlines, bold, tables, lists, Redmine supports Markdown syntax.  See <a class="external" href="http://daringfireball.net/projects/markdown/syntax">http://daringfireball.net/projects/markdown/syntax</a> for information on using any of these features.  A few samples are included below, but the engine is capable of much more of that.</p>
+    <p>見出し、太字、テーブル、リスト等は、RedmineはMarkdownでの記述に対応しています。Markdownの詳細は <a class="external" href="http://daringfireball.net/projects/markdown/syntax">http://daringfireball.net/projects/markdown/syntax</a> を参照してください。Markdownの一例を以下に示しますが、実際にはここで取り上げた以外の記法にも対応しています。</p>
 
-        <h3><a name="6" class="wiki-page"></a>Font style</h3>
+        <h3><a name="6" class="wiki-page"></a>文字の書式</h3>
 
 <pre>
-* **bold**
-* *Italic*
-* ***bold italic***
-* ~~strike-through~~
+* **太字**
+* *斜体*
+* ***太字で斜体***
+* ~~取り消し線~~
 </pre>
 
-        <p>Display:</p>
+        <p>表示例:</p>
 
         <ul>
-            <li><strong>bold</strong></li>
-            <li><em>italic</em></li>
-            <li><em><strong>bold italic</strong></em></li>
-            <li><del>strike-through</del></li>
+            <li><strong>太字</strong></li>
+            <li><em>斜体</em></li>
+            <li><em><strong>太字で斜体</strong></em></li>
+            <li><del>取り消し線</del></li>
         </ul>
 
-        <h3><a name="7" class="wiki-page"></a>Inline images</h3>
+        <h3><a name="7" class="wiki-page"></a>画像</h3>
 
         <ul>
-            <li><strong>![](image_url)</strong> displays an image located at image_url (markdown syntax)</li>
-            <li>If you have an image attached to your wiki page, it can be displayed inline using its filename: <strong>![](attached_image)</strong></li>
+            <li><strong>![](image_url)</strong> image_urlで指定されたURLの画像を表示 (Markdownの記法)</li>
+            <li>Wikiページに添付された画像があれば、ファイル名を指定して画像を表示させることができます: <strong>![](attached_image)</strong></li>
         </ul>
 
-        <h3><a name="8" class="wiki-page"></a>Headings</h3>
+        <h3><a name="8" class="wiki-page"></a>見出し</h3>
 
 <pre>
 # Heading
@@ -226,76 +226,76 @@ http://www.redmine.org, someone@foo.bar
 ### Subsubheading
 </pre>
 
-        <p>Redmine assigns an anchor to each of those headings thus you can link to them with "#Heading", "#Subheading" and so forth.</p>
+        <p>Redmineは見出しにアンカーを設定するので、"#Heading", "#Subheading"のように記述して見出しへのリンクが行えます。</p>
 
 
-        <h3><a name="10" class="wiki-page"></a>Blockquotes</h3>
+        <h3><a name="10" class="wiki-page"></a>引用</h3>
 
-        <p>Start the paragraph with <strong>&gt;</strong></p>
+        <p>段落を <strong>&gt;</strong> で開始してください。</p>
 
 <pre>
 &gt; Rails is a full-stack framework for developing database-backed web applications according to the Model-View-Control pattern.
 To go live, all you need to add is a database and a web server.
 </pre>
 
-        <p>Display:</p>
+        <p>表示例:</p>
 
         <blockquote>
                 <p>Rails is a full-stack framework for developing database-backed web applications according to the Model-View-Control pattern.<br />To go live, all you need to add is a database and a web server.</p>
         </blockquote>
 
 
-        <h3><a name="11" class="wiki-page"></a>Table of content</h3>
+        <h3><a name="11" class="wiki-page"></a>目次</h3>
 
 <pre>
-{{toc}} =&gt; left aligned toc
-{{&gt;toc}} =&gt; right aligned toc
+{{toc}} =&gt; 目次(左寄せ)
+{{&gt;toc}} =&gt; 目次(右寄せ)
 </pre>
 
-        <h3><a name="14" class="wiki-page"></a>Horizontal Rule</h3>
+        <h3><a name="14" class="wiki-page"></a>区切り線</h3>
 
 <pre>
 ---
 </pre>
 
-    <h2><a name="12" class="wiki-page"></a>Macros</h2>
+    <h2><a name="12" class="wiki-page"></a>マクロ</h2>
 
-    <p>Redmine has the following builtin macros:</p>
+    <p>Redmineには以下の組み込みマクロが用意されています:</p>
 
     <p>
     <dl>
       <dt><code>hello_world</code></dt>
-      <dd><p>Sample macro.</p></dd>
+      <dd><p>サンプルのマクロです。</p></dd>
 
       <dt><code>macro_list</code></dt>
-      <dd><p>Displays a list of all available macros, including description if available.</p></dd>
+      <dd><p>利用可能なマクロの一覧を表示します。マクロの説明があればそれも表示します。</p></dd>
 
       <dt><code>child_pages</code></dt>
-      <dd><p>Displays a list of child pages. With no argument, it displays the child pages of the current wiki page. Examples:</p>
-      <pre><code>{{child_pages}} -- can be used from a wiki page only
-{{child_pages(depth=2)}} -- display 2 levels nesting only</code></pre></dd>
+      <dd><p>子ページの一覧を表示します。引数の指定が無ければ現在のwikiページの子ページを表示します。以下は使用例です:</p>
+      <pre><code>{{child_pages}} -- wikiページでのみ使用可能です
+{{child_pages(depth=2)}} -- 2階層分のみ表示します</code></pre></dd>
 
       <dt><code>include</code></dt>
-      <dd><p>Include a wiki page. Example:</p>
+      <dd><p>別のWikiページの内容を挿入します。 以下は使用例です:</p>
       <pre><code>{{include(Foo)}}</code></pre>
-      <p>or to include a page of a specific project wiki:</p>
+      <p>別プロジェクトのWikiページを挿入することもできます:</p>
       <pre><code>{{include(projectname:Foo)}}</code></pre></dd>
 
       <dt><code>collapse</code></dt>
-      <dd><p>Inserts of collapsed block of text. Example:</p>
-      <pre><code>{{collapse(View details...)
-This is a block of text that is collapsed by default.
-It can be expanded by clicking a link.
+      <dd><p>折り畳まれた状態のテキストを挿入します。以下は使用例です:</p>
+      <pre><code>{{collapse(詳細を表示...)
+この部分はデフォルトでは折り畳まれた状態で表示されます。
+リンクをクリックすると展開されます。
 }}</code></pre></dd>
 
       <dt><code>thumbnail</code></dt>
-      <dd><p>Displays a clickable thumbnail of an attached image. Examples:</p>
+      <dd><p>添付ファイルのクリック可能なサムネイル画像を表示します。以下は使用例です:</p>
       <pre>{{thumbnail(image.png)}}
 {{thumbnail(image.png, size=300, title=Thumbnail)}}</pre></dd>
     </dl>
     </p>
 
-    <h2><a name="13" class="wiki-page"></a>Code highlighting</h2>
+    <h2><a name="13" class="wiki-page"></a>コードハイライト</h2>
 
     <p>Default code highlightment relies on <a href="http://coderay.rubychan.de/" class="external">CodeRay</a>, a fast syntax highlighting library written completely in Ruby. It currently supports c, clojure, cpp (c++, cplusplus), css, delphi (pascal), diff (patch), erb (eruby, rhtml), go, groovy, haml, html (xhtml), java, javascript (ecmascript, ecma_script, java_script, js), json, lua, php, python, ruby (irb), sass, sql, taskpaper, text (plain, plaintext), xml and yaml (yml) languages, where the names inside parentheses are aliases.</p>
 
@@ -307,7 +307,7 @@ It can be expanded by clicking a link.
 ~~~
 </pre>
 
-    <p>Example:</p>
+    <p>表示例:</p>
 
 <pre><code class="ruby syntaxhl"><span class="CodeRay"><span class="comment"># The Greeter class</span>
 <span class="keyword">class</span> <span class="class">Greeter</span>
