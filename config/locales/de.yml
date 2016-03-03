@@ -291,7 +291,7 @@ de:
   field_closed_on: Geschlossen am
   field_comments: Kommentar
   field_comments_sorting: Kommentare anzeigen
-  field_commit_logs_encoding: Kodierung der Commit-Log-Meldungen
+  field_commit_logs_encoding: Kodierung der Commit-Nachrichten
   field_content: Inhalt
   field_core_fields: Standardwerte
   field_created_on: Angelegt
@@ -985,7 +985,7 @@ de:
   setting_commit_cross_project_ref: Erlauben auf Tickets aller anderen Projekte zu referenzieren
   setting_commit_fix_keywords: Schlüsselwörter (Status)
   setting_commit_logtime_activity_id: Aktivität für die Zeiterfassung
-  setting_commit_logtime_enabled: Aktiviere Zeitlogging
+  setting_commit_logtime_enabled: Aktiviere Zeiterfassung via Commit-Nachricht
   setting_commit_ref_keywords: Schlüsselwörter (Beziehungen)
   setting_cross_project_issue_relations: Ticket-Beziehungen zwischen Projekten erlauben
   setting_cross_project_subtasks: Projektübergreifende Unteraufgaben erlauben
@@ -1033,7 +1033,7 @@ de:
   setting_per_page_options: Objekte pro Seite
   setting_plain_text_mail: Nur reinen Text (kein HTML) senden
   setting_protocol: Protokoll
-  setting_repositories_encodings: Enkodierung von Anhängen und Repositories
+  setting_repositories_encodings: Kodierung von Anhängen und Repositories
   setting_repository_log_display_limit: Maximale Anzahl anzuzeigender Revisionen in der Historie einer Datei
   setting_rest_api_enabled: REST-Schnittstelle aktivieren
   setting_self_registration: Registrierung ermöglichen
@@ -1082,7 +1082,7 @@ de:
   text_issue_updated: "Ticket %{id} wurde aktualisiert von %{author}."
   text_issues_destroy_confirmation: 'Sind Sie sicher, dass Sie die ausgewählten Tickets löschen möchten?'
   text_issues_destroy_descendants_confirmation: Dies wird auch %{count} Unteraufgabe/n löschen.
-  text_issues_ref_in_commit_messages: Ticket-Beziehungen und -Status in Commit-Log-Meldungen
+  text_issues_ref_in_commit_messages: Ticket-Beziehungen und -Status in Commit-Nachrichten
   text_journal_added: "%{label} %{value} wurde hinzugefügt"
   text_journal_changed: "%{label} wurde von %{old} zu %{new} geändert"
   text_journal_changed_no_detail: "%{label} aktualisiert"
@@ -1102,7 +1102,7 @@ de:
   text_reassign_time_entries: 'Gebuchte Aufwände diesem Ticket zuweisen:'
   text_regexp_info: z. B. ^[A-Z0-9]+$
   text_repository_identifier_info: 'Kleinbuchstaben (a-z), Ziffern, Binde- und Unterstriche erlaubt.<br />Einmal gespeichert, kann die Kennung nicht mehr geändert werden.'
-  text_repository_usernames_mapping: "Bitte legen Sie die Zuordnung der Redmine-Benutzer zu den Benutzernamen der Commit-Log-Meldungen des Projektarchivs fest.\nBenutzer mit identischen Redmine- und Projektarchiv-Benutzernamen oder -E-Mail-Adressen werden automatisch zugeordnet."
+  text_repository_usernames_mapping: "Bitte legen Sie die Zuordnung der Redmine-Benutzer zu den Benutzernamen der Commit-Nachrichten des Projektarchivs fest.\nBenutzer mit identischen Redmine- und Projektarchiv-Benutzernamen oder -E-Mail-Adressen werden automatisch zugeordnet."
   text_rmagick_available: RMagick verfügbar (optional)
   text_scm_command: Kommando
   text_scm_command_not_available: SCM-Kommando ist nicht verfügbar. Bitte prüfen Sie die Einstellungen im Administrationspanel.
