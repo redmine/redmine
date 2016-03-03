@@ -1166,21 +1166,21 @@ de:
   label_import_issues: Tickets importieren
   label_select_file_to_import: Bitte wählen Sie eine Datei für den Import aus
   label_fields_separator: Trennzeichen
-  label_fields_wrapper: Field wrapper
-  label_encoding: Encoding
+  label_fields_wrapper: Textqualifizierer
+  label_encoding: Kodierung
   label_comma_char: Komma
   label_semi_colon_char: Semikolon
   label_quote_char: Anführungszeichen
   label_double_quote_char: Doppelte Anführungszeichen
-  label_fields_mapping: Fields mapping
-  label_file_content_preview: File content preview
-  label_create_missing_values: Create missing values
+  label_fields_mapping: Zuordnung der Felder
+  label_file_content_preview: Inhaltsvorschau
+  label_create_missing_values: Ergänze fehlende Werte
   button_import: Importieren
   field_total_estimated_hours: Summe des geschätzten Aufwands
   label_api: API
-  label_total_plural: Totals
-  label_assigned_issues: Assigned issues
-  label_field_format_enumeration: Key/value list
+  label_total_plural: Summe
+  label_assigned_issues: Zugewiesene Tickets
+  label_field_format_enumeration: Eigenschaft/Wert-Paare
   label_f_hour_short: '%{value} h'
   field_default_version: Standard-Version
   error_attachment_extension_not_allowed: Attachment Erweiterung %{extension} ist nicht zugelassen
