@@ -958,7 +958,7 @@ ko:
   label_user_mail_option_only_owner: 내가 저자인 사항만
   setting_default_notification_option: 기본 알림 옵션
   label_user_mail_option_only_my_events: 내가 지켜보거나 속해있는 사항만
-  label_user_mail_option_only_assigned: 내에게 할당된 사항만
+  label_user_mail_option_only_assigned: 나에게 할당된 사항만
   label_user_mail_option_none: 알림 없음
   field_member_of_group: 할당된 사람의 그룹
   field_assigned_to_role: 할당된 사람의 역할
@@ -973,7 +973,7 @@ ko:
   notice_gantt_chart_truncated: "표시할 수 있는 최대 항목수(%{max})를 초과하여 차트가 잘렸습니다."
   setting_gantt_items_limit: "Gantt 차트에 표시되는 최대 항목수"
   field_warn_on_leaving_unsaved: "저장하지 않은 페이지를 빠져나갈 때 나에게 알림"
-  text_warn_on_leaving_unsaved: "현재 페이지는 저장되지 않은 문자가 있습니다. 이 페이지를 빠져나가면 내용을 잃을것입니다."
+  text_warn_on_leaving_unsaved: "현재 페이지는 저장되지 않은 문자가 있습니다. 이 페이지를 빠져나가면 내용을 잃을 것입니다."
   label_my_queries: "내 검색 양식"
   text_journal_changed_no_detail: "%{label}이 변경되었습니다."
   label_news_comment_added: "뉴스에 설명이 추가되었습니다."
