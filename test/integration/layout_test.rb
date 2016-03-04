@@ -26,6 +26,8 @@ class LayoutTest < Redmine::IntegrationTest
            :members,
            :enabled_modules
 
+  include ApplicationHelper
+
   test "browsing to a missing page should render the base layout" do
     get "/users/100000000"
 
@@ -124,4 +126,16 @@ class LayoutTest < Redmine::IntegrationTest
     get '/projects/ecookbook'
     assert_select 'div#quick-search form[action="/projects/ecookbook/search"]'
   end
+
+  def test_top_menu_renders_style_from_settings
+    get '/'
+    assert_select "div#top-menu[style='#{top_menu_style_from_settings}']"
+  end
+
+  def test_header_renders_style_from_settings
+    get '/'
+    assert_select "div#header[style='#{header_bar_style_from_settings}']"
+  end
+
+
 end
