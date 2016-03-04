@@ -95,7 +95,7 @@ ar:
   support:
     array:
       sentence_connector: "و"
-      skip_last_comma: خطأ
+      skip_last_comma: false
 
   activerecord:
     errors:
