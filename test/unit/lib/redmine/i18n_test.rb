@@ -128,7 +128,7 @@ class Redmine::I18nTest < ActiveSupport::TestCase
       set_language_if_valid lang
       assert_nothing_raised "#{lang} failure" do
         size = number_to_human_size(257024)
-        assert_match /251/, size
+        assert_match /251/, size, "#{lang} failure"
       end
     end
   end
