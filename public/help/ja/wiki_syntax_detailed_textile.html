@@ -39,7 +39,7 @@
 
         <h3><a name="3" class="wiki-page">Redmine内のリンク</a></h3>
 
-        <p>RedmineはWiki記法が使える箇所のどこからでも、チケット・チェンジセット・Wikiページなどリソース間へリンクを行うことができます。</p>
+        <p>RedmineはWiki記法が使える箇所のどこからでも、チケット・チェンジセット・Wikiページなどのリソースへのリンクができます。</p>
         <ul>
             <li>チケットへのリンク: <strong>#124</strong> (終了したチケットは <del><a href="#" class="issue" title="bulk edit doesn't change the category or fixed version properties (Closed)">#124</a></del> のように取り消し線付きで表示されます)</li>
             <li>チケットの注記へのリンク: <strong>#124-6</strong> または <strong>#124#note-6</strong></li>
@@ -48,16 +48,16 @@
         <p>Wikiへのリンク:</p>
 
         <ul>
-            <li><strong>[[Guide]]</strong> "Guide"という名前のページへのリンクです: <a href="#" class="wiki-page">Guide</a></li>
-            <li><strong>[[Guide#further-reading]]</strong> "Guide"というページ内の"further-reading"というアンカーに飛びます。見出しには自動的にアンカーが設定されるのでリンク先とすることができます: <a href="#" class="wiki-page">Guide</a></li>
+            <li><strong>[[Guide]]</strong> "Guide"という名称のページへのリンク: <a href="#" class="wiki-page">Guide</a></li>
+            <li><strong>[[Guide#further-reading]]</strong> "Guide"というページ内の"further-reading"というアンカーに飛びます。見出しには自動的にアンカーが設定されるのでこのようにリンク先とすることができます: <a href="#" class="wiki-page">Guide</a></li>
             <li><strong>[[Guide|User manual]]</strong> "Guide"というページへのリンクを異なるテキストで表示: <a href="#" class="wiki-page">User manual</a></li>
         </ul>
 
         <p>別のプロジェクトのwikiへのリンクも可能です:</p>
 
         <ul>
-          <li><strong>[[sandbox:some page]]</strong> sandboxという名前のプロジェクトのwikiの"some page"という名前のページへのリンク</li>
-            <li><strong>[[sandbox:]]</strong> sanbdoxという名前のプロジェクトのwikiのメインページへのリンク</li>
+          <li><strong>[[sandbox:some page]]</strong> sandboxというプロジェクトのwikiの"some page"という名称のページへのリンク</li>
+            <li><strong>[[sandbox:]]</strong> sanbdoxというプロジェクトのwikiのメインページへのリンク</li>
         </ul>
 
         <p>存在しないwikiページへのリンクは赤で表示されます。 例: <a href="#" class="wiki-page new">Nonexistent page</a>.</p>
@@ -65,7 +65,7 @@
         <p>そのほかのリソースへのリンク:</p>
 
         <ul>
-            <li>Documents:
+            <li>文書:
                 <ul>
                     <li><strong>document#17</strong> (id 17の文書へのリンク)</li>
                     <li><strong>document:Greetings</strong> ("Greetings" というタイトルの文書へのリンク)</li>
@@ -75,7 +75,7 @@
         </ul>
 
         <ul>
-            <li>Versions:
+            <li>バージョン:
                 <ul>
                     <li><strong>version#3</strong> (id 3のバージョンへのリンク)</li>
                     <li><strong>version:1.0.0</strong> ("1.0.0"という名称のバージョンへのリンク)</li>
@@ -88,7 +88,7 @@
             <li>添付ファイル:
                 <ul>
                     <li><strong>attachment:file.zip</strong> (現在のオブジェクトに添付された file.zip というファイルへのリンク)</li>
-                    <li>現在のオブジェクト上の添付ファイルのみリンク先として指定可能です (例えばあるチケットからは、そのチケットに添付されたファイルのみリンク先にできます)</li>
+                    <li>現在のオブジェクト上の添付ファイルのみリンク先として指定できます (例えばあるチケットからは、そのチケットに添付されたファイルのみリンク先にできます)</li>
                 </ul></li>
         </ul>
 
@@ -123,7 +123,7 @@
             <li>フォーラム:
                 <ul>
                     <li><strong>forum#1</strong> (id 1のフォーラムへのリンク)</li>
-                    <li><strong>forum:Support</strong> ("Support"という名前のフォーラムへのリンク)</li>
+                    <li><strong>forum:Support</strong> ("Support"という名称のフォーラムへのリンク)</li>
                     <li><strong>forum:"Technical Support"</strong> (フォーラム名に空白が含まれる場合はダブルクォーテーションで囲んでください)</li>
                 </ul></li>
         </ul>
@@ -139,7 +139,7 @@
             <li>プロジェクト:
                 <ul>
                     <li><strong>project#3</strong> (id 3のプロジェクトへのリンク)</li>
-                    <li><strong>project:someproject</strong> ("someproject"という名前のプロジェクトへのリンク)</li>
+                    <li><strong>project:someproject</strong> ("someproject"という名称のプロジェクトへのリンク)</li>
                     <li><strong>project:"some project"</strong> (プロジェクト名に空白が含まれる場合はダブルクォーテーションで囲んでください)</li>
                 </ul></li>
         </ul>
@@ -168,7 +168,7 @@
 http://www.redmine.org, someone@foo.bar
 </pre>
 
-        <p>上記の記述は次のように表示されます: <a class="external" href="http://www.redmine.org">http://www.redmine.org</a>, <a href="mailto:someone@foo.bar" class="email">someone@foo.bar</a></p>
+        <p>上記記述の表示例です: <a class="external" href="http://www.redmine.org">http://www.redmine.org</a>, <a href="mailto:someone@foo.bar" class="email">someone@foo.bar</a></p>
 
         <p>URLのかわりに別のテキストを表示させたい場合は、標準的なtextile記法が利用できます:</p>
 
@@ -176,7 +176,7 @@ http://www.redmine.org, someone@foo.bar
 "Redmine web site":http://www.redmine.org
 </pre>
 
-        <p>上記の記述は次のように表示されます: <a href="http://www.redmine.org" class="external">Redmine web site</a></p>
+        <p>上記記述の表示例です: <a href="http://www.redmine.org" class="external">Redmine web site</a></p>
 
 
     <h2><a name="5" class="wiki-page"></a>テキストの書式</h2>
@@ -220,7 +220,7 @@ h2. Subheading
 h3. Subsubheading
 </pre>
 
-        <p>Redmineは見出しにアンカーを設定するので、"#Heading", "#Subheading"などを指定してリンクが行えます。</p>
+        <p>Redmineは見出しにアンカーを設定するので、"#Heading", "#Subheading"のように記述して見出しへのリンクが行えます。</p>
 
 
         <h3><a name="9" class="wiki-page"></a>段落</h3>
@@ -272,7 +272,7 @@ To go live, all you need to add is a database and a web server.
       <dd><p>サンプルのマクロです。</p></dd>
 
       <dt><code>macro_list</code></dt>
-      <dd><p>上記のマクロを含め、利用可能なマクロの一覧を表示します。</p></dd>
+      <dd><p>利用可能なマクロの一覧を表示します。マクロの説明があればそれも表示します。</p></dd>
 
       <dt><code>child_pages</code></dt>
       <dd><p>子ページの一覧を表示します。引数の指定が無ければ現在のwikiページの子ページを表示します。以下は使用例です:</p>
@@ -282,7 +282,7 @@ To go live, all you need to add is a database and a web server.
       <dt><code>include</code></dt>
       <dd><p>別のWikiページの内容を挿入します。 以下は使用例です:</p>
       <pre><code>{{include(Foo)}}</code></pre>
-      <p>プロジェクトを指定することもできます。:</p>
+      <p>別プロジェクトのWikiページを挿入することもできます:</p>
       <pre><code>{{include(projectname:Foo)}}</code></pre></dd>
 
       <dt><code>collapse</code></dt>
@@ -303,7 +303,7 @@ To go live, all you need to add is a database and a web server.
 
     <p>Redmineのコードハイライトは <a href="http://coderay.rubychan.de/" class="external">CodeRay</a> という、Rubyで記述された高速なライブラリを使用しています。現時点では c, clojure, cpp (c++, cplusplus), css, delphi (pascal), diff (patch), erb (eruby, rhtml), go, groovy, haml, html (xhtml), java, javascript (ecmascript, ecma_script, java_script, js), json, lua, php, python, ruby (irb), sass, sql, taskpaper, text (plain, plaintext), xml, yaml (yml) に対応しています。括弧内の名前はコードハイライトの指定時に利用できる別名です。</p>
 
-    <p>Wiki記法に対応している箇所であればどこでも以下の記述によりコードハイライトが利用できます (言語名・別名には大文字・小文字の区別はありません):</p>
+    <p>Wiki記法に対応している箇所であればどこでも以下の記述によりコードハイライトが利用できます (言語名・別名では大文字・小文字は区別されません):</p>
 
 <pre>
 &lt;pre&gt;&lt;code class="ruby"&gt;
