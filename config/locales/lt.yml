@@ -87,7 +87,7 @@ lt:
     human:
       format:
         delimiter: " "
-        precision: 2
+        precision: 3
       storage_units:
         format: "%n %u"
         units:
