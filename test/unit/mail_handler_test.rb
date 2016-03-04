@@ -578,6 +578,22 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal 'd8e8fca2dc0f896fd7cb4cb0031ba249', attachment.digest
   end
 
+  def test_mail_with_attachment_latin2
+    issue = submit_email(
+              'ticket_with_text_attachment_iso-8859-2.eml',
+              :issue => {:project => 'ecookbook'}
+            )
+    assert_kind_of Issue, issue
+    assert_equal 1, issue.attachments.size
+    attachment = issue.attachments.first
+    assert_equal 'latin2.txt', attachment.filename
+    assert_equal 19, attachment.filesize
+    assert File.exist?(attachment.diskfile)
+    assert_equal 19, File.size(attachment.diskfile)
+    content = "p\xF8\xEDli\xB9 \xBEluou\xE8k\xFD k\xF9n".force_encoding('CP852')
+    assert_equal content, File.read(attachment.diskfile).force_encoding('CP852')
+  end
+
   def test_multiple_inline_text_parts_should_be_appended_to_issue_description
     issue = submit_email('multiple_text_parts.eml', :issue => {:project => 'ecookbook'})
     assert_include 'first', issue.description
