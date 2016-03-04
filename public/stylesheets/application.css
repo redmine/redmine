@@ -24,6 +24,8 @@ pre, code {font-family: Consolas, Menlo, "Liberation Mono", Courier, monospace;}
 #top-menu a {color: inherit; margin-right: 8px; font-weight: bold;}
 #top-menu #loggedas { float: right; margin-right: 0.5em; color: inherit; }
 
+#header-logo { max-width: 250px;}
+#header-logo img { width: 100%;}
 #account {float:right;}
 
 #header {min-height:5.3em;margin:0;background-color:#628DB6;color:#f8f8f8; padding: 4px 8px 20px 6px; position:relative;}

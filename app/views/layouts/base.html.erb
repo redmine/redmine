@@ -84,8 +84,11 @@
         <%= render_project_jump_box %>
     </div>
     <% end %>
+    <div id="header-logo-title">
+      <%= custom_header_logo %>
+      <h1><%= page_header_title %></h1>
+    </div>
 
-    <h1><%= page_header_title %></h1>
 
     <% if display_main_menu?(@project) %>
     <div id="main-menu" class="tabs">
