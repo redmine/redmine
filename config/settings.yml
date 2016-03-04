@@ -271,10 +271,10 @@ thumbnails_size:
   format: int
   default: 100
 
-top_navi_background_color:
+top_menu_background_color:
   default: '3E5B76'
 
-top_navi_font_color:
+top_menu_font_color:
   default: 'FFFFFF'
 
 header_bar_background_color:

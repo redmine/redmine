@@ -1327,6 +1327,14 @@ module ApplicationHelper
     encoding = l(:general_csv_encoding)
   end
 
+  def top_menu_style_from_settings
+    "background-color: ##{Setting.top_menu_background_color}; color: ##{Setting.top_menu_font_color};"
+  end
+
+  def header_bar_style_from_settings
+    "background-color: ##{Setting.header_bar_background_color}; color: ##{Setting.header_bar_font_color};"
+  end
+
   private
 
   def wiki_helper

@@ -2,7 +2,7 @@
 <html lang="<%= current_language %>">
 <head>
 <meta charset="utf-8" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge"/> 
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 <title><%= html_title %></title>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="description" content="<%= Redmine::Info.app_name %>" />
@@ -60,7 +60,7 @@
 
 <div id="wrapper2">
 <div id="wrapper3">
-<div id="top-menu">
+<div id="top-menu" style="<%= top_menu_style_from_settings %>">
     <div id="account">
         <%= render_menu :account_menu -%>
     </div>
@@ -68,7 +68,7 @@
     <%= render_menu :top_menu if User.current.logged? || !Setting.login_required? -%>
 </div>
 
-<div id="header">
+<div id="header" style="<%= header_bar_style_from_settings %>">
 
     <a href="#" class="mobile-toggle-button js-flyout-menu-toggle-button"></a>
 
