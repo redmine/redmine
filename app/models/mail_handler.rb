@@ -290,7 +290,7 @@ class MailHandler < ActionMailer::Base
       email.attachments.each do |attachment|
         next unless accept_attachment?(attachment)
         obj.attachments << Attachment.create(:container => obj,
-                          :file => attachment.decoded,
+                          :file => attachment.body.decoded,
                           :filename => attachment.filename,
                           :author => user,
                           :content_type => attachment.mime_type)
