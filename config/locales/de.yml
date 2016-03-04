@@ -168,7 +168,7 @@ de:
   button_create: Anlegen
   button_create_and_continue: Anlegen und weiter
   button_delete: Löschen
-  button_delete_my_account: Mein Benutzerkonto löschen 
+  button_delete_my_account: Mein Benutzerkonto löschen
   button_download: Download
   button_duplicate: Duplizieren
   button_edit: Bearbeiten
@@ -875,7 +875,7 @@ de:
   notice_email_sent: "Eine E-Mail wurde an %{value} gesendet."
   notice_failed_to_save_issues: "%{count} von %{total} ausgewählten Tickets konnte(n) nicht gespeichert werden: %{ids}."
   notice_failed_to_save_members: "Benutzer konnte nicht gespeichert werden: %{errors}."
-  notice_failed_to_save_time_entries: "Gescheitert %{count} Zeiteinträge für %{total} von ausgewählten: %{ids} zu speichern." 
+  notice_failed_to_save_time_entries: "Gescheitert %{count} Zeiteinträge für %{total} von ausgewählten: %{ids} zu speichern."
   notice_feeds_access_key_reseted: Ihr Atom-Zugriffsschlüssel wurde zurückgesetzt.
   notice_file_not_found: Anhang existiert nicht oder ist gelöscht worden.
   notice_gantt_chart_truncated: Die Grafik ist unvollständig, da das Maximum der anzeigbaren Aufgaben überschritten wurde (%{max})
@@ -1049,6 +1049,11 @@ de:
   setting_user_format: Benutzer-Anzeigeformat
   setting_welcome_text: Willkommenstext
   setting_wiki_compression: Wiki-Historie komprimieren
+  setting_top_navi_background_color: Hintergrundfarbe Menüleiste
+  setting_top_navi_font_color: Schriftfarbe Menüleiste
+  setting_header_bar_background_color: Hintergrundfarbe Header
+  setting_header_bar_font_color: Schriftfarbe Header
+  setting_header_logo_hint: 'Tipp: Legen Sie eine png-Datei unter public/images/header_bar_logo.png ab, um das Logo in der Headerleiste anzuzeigen'
 
   status_active: aktiv
   status_locked: gesperrt
@@ -1110,7 +1115,7 @@ de:
   text_scm_path_encoding_note: "Standard: UTF-8"
   text_select_mail_notifications: Bitte wählen Sie die Aktionen aus, für die eine Mailbenachrichtigung gesendet werden soll.
   text_select_project_modules: 'Bitte wählen Sie die Module aus, die in diesem Projekt aktiviert sein sollen:'
-  text_session_expiration_settings: "Achtung: Änderungen können aktuelle Sitzungen beenden, Ihre eingeschlossen!" 
+  text_session_expiration_settings: "Achtung: Änderungen können aktuelle Sitzungen beenden, Ihre eingeschlossen!"
   text_status_changed_by_changeset: "Status geändert durch Changeset %{value}."
   text_subprojects_destroy_warning: "Dessen Unterprojekte (%{value}) werden ebenfalls gelöscht."
   text_subversion_repository_note: 'Beispiele: file:///, http://, https://, svn://, svn+[tunnelscheme]://'

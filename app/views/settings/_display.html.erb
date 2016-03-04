@@ -24,6 +24,12 @@
 <p><%= setting_check_box :thumbnails_enabled %></p>
 
 <p><%= setting_text_field :thumbnails_size, :size => 6 %></p>
+
+<p><%= setting_text_field :top_navi_background_color, :size => 6, :style => "background-color: ##{Setting.top_navi_background_color}; color: ##{Setting.top_navi_font_color};" %></p>
+<p><%= setting_text_field :top_navi_font_color, :size => 6, :style => "background-color: ##{Setting.top_navi_background_color}; color: ##{Setting.top_navi_font_color};" %></p>
+<p><%= setting_text_field :header_bar_background_color, :size => 6, :style => "background-color: ##{Setting.header_bar_background_color}; color: ##{Setting.header_bar_font_color};" %></p>
+<p><%= setting_text_field :header_bar_font_color, :size => 6, :style => "background-color: ##{Setting.header_bar_background_color}; color: ##{Setting.header_bar_font_color};" %></p>
+<p><%= t(:setting_header_logo_hint) %></p>
 </div>
 
 <%= submit_tag l(:button_save) %>

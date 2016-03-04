@@ -442,6 +442,11 @@ en:
   setting_search_results_per_page: Search results per page
   setting_attachment_extensions_allowed: Allowed extensions
   setting_attachment_extensions_denied: Disallowed extensions
+  setting_top_navi_background_color: Background Color Menu Bar
+  setting_top_navi_font_color: Font Color Menu Bar
+  setting_header_bar_background_color: Background Color Header
+  setting_header_bar_font_color: Font Color Header
+  setting_header_logo_hint: 'Hint: Save an image file under public/images/header_bar_logo.png to display the logo in the header'
 
   permission_add_project: Create project
   permission_add_subprojects: Create subprojects

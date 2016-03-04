@@ -23,6 +23,7 @@
 /public/dispatch.*
 /public/plugin_assets/*
 /public/themes/*
+/public/images/header_bar_logo.png
 !/public/themes/alternate
 !/public/themes/classic
 !/public/themes/README
