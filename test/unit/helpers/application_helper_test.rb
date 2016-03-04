@@ -1547,4 +1547,16 @@ RAW
     assert_equal  "background-color: ##{Setting.header_bar_background_color}; color: ##{Setting.header_bar_font_color};", header_bar_style_from_settings
   end
 
+  def test_custom_header_logo_with_existing_logo
+    # HELP: How to mock File.exists? with 'ActionView::TestCase'
+    # If File.exists?("#{Rails.root}/public/images/#{logo_name}") != false
+    # image with div should be rendered
+  end
+
+  def test_custom_header_logo_without_existing_logo
+    # HELP: How to mock File.exists? with 'ActionView::TestCase'
+    # If File.exists?("#{Rails.root}/public/images/#{logo_name}") ?= false
+    # nil should be returned
+  end
+
 end
