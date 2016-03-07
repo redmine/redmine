@@ -2,5 +2,5 @@
 var cells = GEPPETTO.ModelFactory.getAllTypesOfType(GEPPETTO.ModelFactory.geppettoModel.neuroml.cell);
 // If there are two cells -> SuperType and cell
 if (cells.length == 2){
-	$ENTER_ID.select();
+	$ENTER_ID.getChildren()[0][0].select();
 }
