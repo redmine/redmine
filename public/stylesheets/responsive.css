@@ -753,7 +753,6 @@
   #relations .issue > td.subject {
     padding-right: 25px; /* this is the spaces that .buttons uses next to subject */
   }
- }
 
   /* attachment upload form */
   #attachments_fields span {
