@@ -515,6 +515,9 @@
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
+    -webkit-flex-grow: 1;
+        -ms-flex-grow: 1;
+            flex-grow: 1;
   }
 
   /* user link when no avatar is present */
