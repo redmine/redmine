@@ -1120,6 +1120,25 @@ class IssueTest < ActiveSupport::TestCase
     assert issue3.reload.closed?
   end
 
+  def test_should_close_duplicates_with_private_notes
+    issue = Issue.generate!
+    duplicate = Issue.generate!
+    IssueRelation.create!(:issue_from => duplicate, :issue_to => issue,
+                          :relation_type => IssueRelation::TYPE_DUPLICATES)
+    assert issue.reload.duplicates.include?(duplicate)
+
+    # Closing issue with private notes
+    issue = Issue.find(issue.id)
+    issue.init_journal(User.first, "Private notes")
+    issue.private_notes = true
+    issue.status = IssueStatus.where(:is_closed => true).first
+    assert_save issue
+
+    duplicate.reload
+    assert journal = duplicate.journals.detect {|journal| journal.notes == "Private notes"}
+    assert_equal true, journal.private_notes
+  end
+
   def test_should_not_close_duplicated_issue
     issue1 = Issue.generate!
     issue2 = Issue.generate!
