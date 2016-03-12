@@ -127,7 +127,7 @@ class WikiPage < ActiveRecord::Base
         child.wiki_id = wiki_id
         child.redirect_existing_links = redirect_existing_links
         unless child.save
-          WikiPage.where(:id => child.id).update_all :parent_nil => nil
+          WikiPage.where(:id => child.id).update_all :parent_id => nil
         end
       end
     end
