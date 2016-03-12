@@ -883,12 +883,12 @@ module ApplicationHelper
   def parse_sections(text, project, obj, attr, only_path, options)
     return unless options[:edit_section_links]
     text.gsub!(HEADING_RE) do
-      heading = $1
+      heading, level = $1, $2
       @current_section += 1
       if @current_section > 1
         content_tag('div',
           link_to(image_tag('edit.png'), options[:edit_section_links].merge(:section => @current_section)),
-          :class => 'contextual',
+          :class => "contextual heading-#{level}",
           :title => l(:button_edit_section),
           :id => "section-#{@current_section}") + heading.html_safe
       else
