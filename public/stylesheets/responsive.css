@@ -94,6 +94,8 @@
     padding: 0;
     border: none;
     background-color: #628db6;
+    position: fixed;
+    z-index: 9999;
   }
 
   /* Hide project name on mobile (project name is still visible in select menu) */
@@ -188,7 +190,7 @@
   \*----------------------------------------*/
 
   #main {
-    padding: 0;
+    padding: 64px 0 0; /* padding-top equals header height */
   }
 
   #main.nosidebar #content,
@@ -524,9 +526,12 @@
   html.flyout-is-active {
     overflow: hidden;
   }
+ 
+  .flyout-is-active #wrapper, .flyout-is-active #header {
+    right: 250px; /* when left flyout is active, move body and header to the right (same amount like flyout-menu's width) */
+  }
 
   .flyout-is-active #wrapper {
-    right: 250px; /* when left flyout is active, move body to the right (same amount like flyout-menu's width) */
     overflow: visible;
     height: 100%;
   }
