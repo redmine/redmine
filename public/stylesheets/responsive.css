@@ -52,6 +52,7 @@
 
   html {
     overflow-y: auto; /* avoid 2nd scrollbar on desktop */
+    -webkit-text-size-adjust: 100%; /* prevent font scaling in landscape mode on webkit */
   }
 
   body {
