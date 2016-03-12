@@ -754,6 +754,24 @@
     padding-right: 25px; /* this is the spaces that .buttons uses next to subject */
   }
  }
+
+  /* attachment upload form */
+  #attachments_fields span {
+    position: relative;
+    clear: both;
+    margin-bottom: 1em;
+    white-space: normal;
+  }
+  #attachments_fields span a.remove-upload {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+
+  #attachments_fields input.description {
+    margin-left: 0;
+    width: 100%;
+  }
 }
 
 @media all and (max-width: 599px) {
