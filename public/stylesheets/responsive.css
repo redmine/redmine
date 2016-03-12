@@ -511,6 +511,10 @@
 
   .flyout-menu__avatar .user {
     padding-left: 15px;
+    padding-right: 15px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
   }
 
   /* user link when no avatar is present */
