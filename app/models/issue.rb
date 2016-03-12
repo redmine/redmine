@@ -1568,6 +1568,7 @@ class Issue < ActiveRecord::Base
         # Same user and notes
         if @current_journal
           duplicate.init_journal(@current_journal.user, @current_journal.notes)
+          duplicate.private_notes = @current_journal.private_notes
         end
         duplicate.update_attribute :status, self.status
       end
