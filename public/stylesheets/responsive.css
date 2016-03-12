@@ -688,6 +688,55 @@
   span#watchers_inputs {
     width: 100%;
   }
+
+  /* subtasks and related issues list on issue show */
+  #issue_tree .issues, #relations .issues {
+    border-collapse: separate;
+    border-spacing: 0 1em; /* vertical space between tasks */
+  }
+
+  #issue_tree .issue > td:not(.checkbox), #relations .issue > td:not(.checkbox) {
+    display: block;
+    float: left;
+    text-align: left;
+    padding-right: 5px;
+  }
+
+  #issue_tree .issue > td, #relations .issue > td, #issue_tree .issue .user {
+    text-overflow: ellipsis; /* if text exceeds its space, add ... */
+    overflow: hidden;
+  }
+
+  #issue_tree .issue > td.subject, #relations .issue > td.subject {
+    width: 100% !important; /* let subject have one full width column */
+  }
+
+  #issue_tree .issue > td:not(.checkbox), #relations .issue > td:not(.checkbox) {
+    width: 33.33%; /* three columns for all cells that are not subject */
+  }
+
+  #relations .issues, #relations .issue {
+    position: relative; /* needed for .buttons positioning */
+  }
+
+  /* positioniong of unline button */
+  #relations .issue > td.buttons {
+    text-align: right;
+    position: absolute;
+    right: 0;
+    margin: 0;
+    padding-right: 0;
+  }
+
+  #relations .issue .buttons a {
+    vertical-align: middle;
+    padding-right: 5px;
+  }
+
+  #relations .issue > td.subject {
+    padding-right: 25px; /* this is the spaces that .buttons uses next to subject */
+  }
+ }
 }
 
 @media all and (max-width: 599px) {
