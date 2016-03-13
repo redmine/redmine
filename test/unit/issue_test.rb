@@ -706,6 +706,40 @@ class IssueTest < ActiveSupport::TestCase
     assert_nil issue.custom_field_value(cf2)
   end
 
+  def test_safe_attributes_should_ignore_unassignable_assignee
+    issue = Issue.new(:project_id => 1, :tracker_id => 1, :author_id => 3,
+                      :status_id => 1, :priority => IssuePriority.all.first,
+                      :subject => 'test_create')
+    assert issue.valid?
+
+    # locked user, not allowed
+    issue.safe_attributes=({'assigned_to_id' => '5'})
+    assert_nil issue.assigned_to_id
+    # no member
+    issue.safe_attributes=({'assigned_to_id' => '1'})
+    assert_nil issue.assigned_to_id
+    # user 2 is ok
+    issue.safe_attributes=({'assigned_to_id' => '2'})
+    assert_equal 2, issue.assigned_to_id
+    assert issue.save
+
+    issue.reload
+    assert_equal 2, issue.assigned_to_id
+    issue.safe_attributes=({'assigned_to_id' => '5'})
+    assert_equal 2, issue.assigned_to_id
+    issue.safe_attributes=({'assigned_to_id' => '1'})
+    assert_equal 2, issue.assigned_to_id
+    # user 3 is also ok
+    issue.safe_attributes=({'assigned_to_id' => '3'})
+    assert_equal 3, issue.assigned_to_id
+    assert issue.save
+
+    # removal of assignee
+    issue.safe_attributes=({'assigned_to_id' => ''})
+    assert_nil issue.assigned_to_id
+    assert issue.save
+  end
+
   def test_editable_custom_field_values_should_return_non_readonly_custom_values
     cf1 = IssueCustomField.create!(:name => 'Writable field', :field_format => 'string',
                                    :is_for_all => true, :tracker_ids => [1, 2])
