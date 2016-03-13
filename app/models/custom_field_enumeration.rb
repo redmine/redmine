@@ -65,6 +65,12 @@ class CustomFieldEnumeration < ActiveRecord::Base
     end
   end
 
+  def self.fields_for_order_statement(table=nil)
+    table ||= table_name
+    columns = ['position']
+    columns.uniq.map {|field| "#{table}.#{field}"}
+  end
+
   private
 
   def set_position
