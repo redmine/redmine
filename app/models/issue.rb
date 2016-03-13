@@ -495,6 +495,17 @@ class Issue < ActiveRecord::Base
     if new_record? && !statuses_allowed.include?(status)
       self.status = statuses_allowed.first || default_status
     end
+    if (u = attrs.delete('assigned_to_id')) && safe_attribute?('assigned_to_id')
+      if u.blank?
+        self.assigned_to_id = nil
+      else
+        u = u.to_i
+        if assignable_users.any?{|assignable_user| assignable_user.id == u}
+          self.assigned_to_id = u
+        end
+      end
+    end
+
 
     attrs = delete_unsafe_attributes(attrs, user)
     return if attrs.empty?
