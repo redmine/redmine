@@ -4,13 +4,23 @@ Redmine - project management software
 Copyright (C) 2006-2015  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2016-03-13 v2.6.10
+
+* Defect #21588: Simplified Chinese "field_cvs_module" translation has problem (Patch #21430)
+* Defect #21656: Fix Non ASCII attachment filename encoding broken (MOJIBAKE) in Microsoft Edge Explorer
+* Defect #22072: Private notes get copied without private flag to Duplicate issues
+* Defect #22127: Issues can be assigned to any user
+* Patch #21650: Simplified Chinese translation of wiki formating for 2.6-stable
+* Patch #21881: Russian wiki translation for 2.6-stable
+* Patch #21898: Catalan wiki translation for 2.6-stable
+
 == 2015-12-05 v2.6.9
 
-Defect #16948: Broken anonymous repository access for public projects with Apache 2.4 (redmine.pm)
-Defect #21328: pdf: Vietnamese Italic is not shown
-Defect #21419: Information leak in Atom feed
-Patch #21312: Fix exception in Redmine.pm when authenticating anonymous users
-Patch #21430: Simplified Chinese translation
+* Defect #16948: Broken anonymous repository access for public projects with Apache 2.4 (redmine.pm)
+* Defect #21328: pdf: Vietnamese Italic is not shown
+* Defect #21419: Information leak in Atom feed
+* Patch #21312: Fix exception in Redmine.pm when authenticating anonymous users
+* Patch #21430: Simplified Chinese translation
 
 == 2015-11-14 v2.6.8
 
