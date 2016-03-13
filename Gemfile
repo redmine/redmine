@@ -12,6 +12,11 @@ gem "rbpdf", "~> 1.18.7"
 
 gem "i18n", "~> 0.6.11"
 
+# rake 11 require ruby 1.9.3 or higher
+if RUBY_VERSION < "1.9.3"
+  gem "rake", "~> 10.4.2"
+end
+
 # Optional gem for LDAP authentication
 group :ldap do
   gem "net-ldap", "~> 0.3.1"
