@@ -1,5 +1,5 @@
 /* Redmine - project management software
-   Copyright (C) 2006-2015  Jean-Philippe Lang */
+   Copyright (C) 2006-2016  Jean-Philippe Lang */
 
 var revisionGraph = null;
 
