@@ -243,4 +243,34 @@ module QueriesHelper
       @query
     end
   end
+
+  # Returns the query definition as hidden field tags
+  def query_as_hidden_field_tags(query)
+    tags = hidden_field_tag("set_filter", "1", :id => nil)
+
+    if query.filters.present?
+      query.filters.each do |field, filter|
+        tags << hidden_field_tag("f[]", field, :id => nil)
+        tags << hidden_field_tag("op[#{field}]", filter[:operator], :id => nil)
+        filter[:values].each do |value|
+          tags << hidden_field_tag("v[#{field}][]", value, :id => nil)
+        end
+      end
+    end
+    if query.column_names.present?
+      query.column_names.each do |name|
+        tags << hidden_field_tag("c[]", name, :id => nil)
+      end
+    end
+    if query.totalable_names.present?
+      query.totalable_names.each do |name|
+        tags << hidden_field_tag("t[]", name, :id => nil)
+      end
+    end
+    if query.group_by.present?
+      tags << hidden_field_tag("group_by", query.group_by, :id => nil)
+    end
+
+    tags
+  end
 end

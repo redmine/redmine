@@ -428,6 +428,26 @@ class IssuesControllerTest < ActionController::TestCase
     end
   end
 
+  def test_index_should_include_query_params_as_hidden_fields_in_csv_export_form
+    get :index, :project_id => 1, :set_filter => "1", :tracker_id => "2", :sort => 'status', :c => ["status", "priority"]
+
+    assert_select '#csv-export-form[action=?]', '/projects/ecookbook/issues.csv'
+    assert_select '#csv-export-form[method=?]', 'get'
+
+    assert_select '#csv-export-form' do
+      assert_select 'input[name=?][value=?]', 'set_filter', '1'
+
+      assert_select 'input[name=?][value=?]', 'f[]', 'tracker_id'
+      assert_select 'input[name=?][value=?]', 'op[tracker_id]', '='
+      assert_select 'input[name=?][value=?]', 'v[tracker_id][]', '2'
+
+      assert_select 'input[name=?][value=?]', 'c[]', 'status'
+      assert_select 'input[name=?][value=?]', 'c[]', 'priority'
+
+      assert_select 'input[name=?][value=?]', 'sort', 'status'
+    end
+  end
+
   def test_index_csv
     get :index, :format => 'csv'
     assert_response :success
