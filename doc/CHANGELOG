@@ -4,6 +4,60 @@ Redmine - project management software
 Copyright (C) 2006-2015  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2016-03-13 v3.2.1
+
+* Defect #21588: Simplified Chinese "field_cvs_module" translation has problem (Patch #21430)
+* Defect #21656: Fix Non ASCII attachment filename encoding broken (MOJIBAKE) in Microsoft Edge Explorer
+* Defect #22072: Private notes get copied without private flag to Duplicate issues
+* Defect #22127: Issues can be assigned to any user
+* Defect #21219: Date pickers images for start/due date fields are not shown for issues with subtasks
+* Defect #21477: Assign to "Anonymous" doesn't make much sense
+* Defect #21488: Don't use past start date as default due date in the date picker
+* Defect #21504: IssuePriority.position_name not recalculated every time it should
+* Defect #21551: Private note flag disappears in issue update conflict
+* Defect #21843: Nokogiri security issue
+* Defect #21900: Moving a page with a child raises an error if target wiki contains a page with the same name as the child
+* Defect #20988: % done field shown on issue show subtree even if deactivated for that tracker
+* Defect #21263: Wiki lists in the sidebar are broken
+* Defect #21453: LDAP account creation fails when first name/last name contain non ASCII
+* Defect #21531: rdm-mailhandler with project-from-subaddress fails
+* Defect #21534: Backtrace cleaner should not clean plugin paths
+* Defect #21535: Moving a custom field value in the order switches in the edit view
+* Defect #21775: Field "Done" from issue subtasks table overlaps the layout in responsive mode, width 400
+* Defect #22108: Issues filter for CSV Export are not applied
+* Defect #22178: Grouping issues by key/value custom field raises error 500
+* Feature #21447: Option to show email adresses by default
+* Patch #21650: Simplified Chinese translation of wiki formating for 2.6-stable
+* Patch #21881: Russian wiki translation for 2.6-stable
+* Patch #21898: Catalan wiki translation for 2.6-stable
+* Patch #21456: Simplified Chinese translation of wiki formating for 3.1-stable
+* Patch #21686: Russian translation for 3.1-stable
+* Patch #21687: German translations for 3.1-stable
+* Patch #21689: Turkish translation for 3.1-stable
+* Patch #21882: Russian wiki translation for 3.1-stable
+* Patch #21899: Catalan wiki translation for 3.1-stable
+* Patch #22131: German translations for 3.1-stable
+* Patch #22139: Japanese wiki syntax (Markdown) translation for 3.1-stable
+* Patch #21436: Prevent admins from sending themselves their own password
+* Patch #21454: Simplified Chinese translation for 3.2.0
+* Patch #21487: Larger font for email notifications
+* Patch #21521: Updated Spanish and Spanish Panama Translations
+* Patch #21522: Simplified Chinese translation for r14976
+* Patch #21527: Russian translation for 3.2.0
+* Patch #21593: Add class to contextual edit button that relates to heading on wiki pages
+* Patch #21620: Turkish translation for 3.2-stable
+* Patch #21635: German translations for 3.2
+* Patch #21740: Fixes misspelled word "RMagcik" in configuration.yml.example
+* Patch #21847: Let mobile header be fixed
+* Patch #21867: Add column `estimated_hours` for CSV import.
+* Patch #21883: Russian wiki translation for 3.2-stable
+* Patch #22009: Japanese wiki syntax (Markdown) translation for 3.2-stable
+* Patch #22074: Prevent username from overlapping in mobile menu
+* Patch #22101: Set max-with to 100% for input, select and textea
+* Patch #22104: Prevent font scaling in landscape mode on webkit
+* Patch #22128: Attachment form too wide on small screens
+* Patch #22132: German translations for 3.2-stable
+
 == 2015-12-06 v3.2.0
 
 * Defect #17403: Unknown file size while downloading attachment
