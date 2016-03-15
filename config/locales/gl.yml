@@ -441,8 +441,8 @@ gl:
   label_in_less_than: "en menos de"
   label_in_more_than: "en máis de"
   label_incoming_emails: Correos entrantes
-  label_index_by_date: Índice por data
-  label_index_by_title: Índice por título
+  label_index_by_date: �?ndice por data
+  label_index_by_title: �?ndice por título
   label_information: Información
   label_information_plural: Información
   label_integer: Número
@@ -978,7 +978,7 @@ gl:
   label_diff: "Diferencias"
   text_git_repository_note: "O repositorio está baleiro e é local (por exemplo, «/gitrepo» ou «C:\\gitrepo»)"
   description_query_sort_criteria_direction: "Dirección da orde"
-  description_project_scope: "Ámbito da busca"
+  description_project_scope: "�?mbito da busca"
   description_filter: "Filtro"
   description_user_mail_notification: "Configuración das notificacións por correo electrónico"
   description_date_from: "Introduza a data de inicio"
@@ -1170,7 +1170,7 @@ gl:
   label_fields_wrapper: Field wrapper
   label_encoding: Encoding
   label_comma_char: Comma
-  label_semi_colon_char: Semi colon
+  label_semi_colon_char: Semicolon
   label_quote_char: Quote
   label_double_quote_char: Double quote
   label_fields_mapping: Fields mapping

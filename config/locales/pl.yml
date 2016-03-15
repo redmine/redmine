@@ -474,7 +474,7 @@ pl:
   label_ldap_authentication: Uwierzytelnianie LDAP
   label_less_than_ago: dni temu
   label_list: Lista
-  label_loading: ≈Åadowanie...
+  label_loading: ≈?adowanie...
   label_logged_as: Zalogowany jako
   label_login: Login
   label_logout: Wylogowanie
@@ -1177,7 +1177,7 @@ pl:
   label_fields_wrapper: Field wrapper
   label_encoding: Encoding
   label_comma_char: Comma
-  label_semi_colon_char: Semi colon
+  label_semi_colon_char: Semicolon
   label_quote_char: Quote
   label_double_quote_char: Double quote
   label_fields_mapping: Fields mapping

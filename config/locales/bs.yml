@@ -116,14 +116,14 @@ bs:
           one:    "1 error prohibited this %{model} from being saved"
           other:  "%{count} errors prohibited this %{model} from being saved"
       messages:
-        inclusion: "nije uključeno u listu"
+        inclusion: "nije uklju�?eno u listu"
         exclusion: "je rezervisano"
         invalid: "nije ispravno"
         confirmation: "ne odgovara potvrdi"
         accepted: "mora se prihvatiti"
         empty: "ne može biti prazno"
         blank: "ne može biti znak razmaka"
-        too_long: "je predugačko"
+        too_long: "je preduga�?ko"
         too_short: "je prekratko"
         wrong_length: "je pogrešne dužine"
         taken: "već je zauzeto"
@@ -136,7 +136,7 @@ bs:
         less_than_or_equal_to: "mora bit manji ili jednak %{count}"
         odd: "mora biti neparan"
         even: "mora biti paran"
-        greater_than_start_date: "mora biti veći nego početni datum"
+        greater_than_start_date: "mora biti veći nego po�?etni datum"
         not_same_project: "ne pripada istom projektu"
         circular_dependency: "Ova relacija stvar cirkularnu zavisnost"
         cant_link_an_issue_with_a_descendant: "An issue can not be linked to one of its subtasks"
@@ -160,13 +160,13 @@ bs:
   notice_account_invalid_credentials: Pogrešan korisnik ili lozinka
   notice_account_lost_email_sent: Email sa uputstvima o izboru nove šifre je poslat na vašu adresu.
   notice_account_password_updated: Lozinka je uspješno promjenjena.
-  notice_account_pending: "Vaš nalog je kreiran i čeka odobrenje administratora."
+  notice_account_pending: "Vaš nalog je kreiran i �?eka odobrenje administratora."
   notice_account_register_done: Nalog je uspješno kreiran. Da bi ste aktivirali vaš nalog kliknite na link koji vam je poslat.
   notice_account_unknown_email: Nepoznati korisnik.
   notice_account_updated: Nalog je uspješno promjenen.
   notice_account_wrong_password: Pogrešna lozinka
   notice_can_t_change_password: Ovaj nalog koristi eksterni izvor prijavljivanja. Ne mogu da promjenim šifru.
-  notice_default_data_loaded: Podrazumjevana konfiguracija uspječno učitana.
+  notice_default_data_loaded: Podrazumjevana konfiguracija uspje�?no u�?itana.
   notice_email_error: Došlo je do greške pri slanju emaila (%{value})
   notice_email_sent: "Email je poslan %{value}"
   notice_failed_to_save_issues: "Neuspješno snimanje %{count} aktivnosti na %{total} izabrano: %{ids}."
@@ -180,23 +180,23 @@ bs:
   notice_successful_delete: Brisanje izvršeno.
   notice_successful_update: Promjene uspješno izvršene.
 
-  error_can_t_load_default_data: "Podrazumjevane postavke se ne mogu učitati %{value}"
+  error_can_t_load_default_data: "Podrazumjevane postavke se ne mogu u�?itati %{value}"
   error_scm_command_failed: "Desila se greška pri pristupu repozitoriju: %{value}"
   error_scm_not_found: "Unos i/ili revizija ne postoji u repozitoriju."
 
-  error_scm_annotate: "Ova stavka ne postoji ili nije označena."
+  error_scm_annotate: "Ova stavka ne postoji ili nije ozna�?ena."
   error_issue_not_found_in_project: 'Aktivnost nije nađena ili ne pripada ovom projektu'
 
   warning_attachments_not_saved: "%{count} fajl(ovi) ne mogu biti snimljen(i)."
 
   mail_subject_lost_password: "Vaša %{value} lozinka"
   mail_body_lost_password: 'Za promjenu lozinke, kliknite na sljedeći link:'
-  mail_subject_register: "Aktivirajte %{value} vaš korisnički račun"
-  mail_body_register: 'Za aktivaciju vašeg korisničkog računa, kliknite na sljedeći link:'
-  mail_body_account_information_external: "Možete koristiti  vaš %{value} korisnički račun za prijavu na sistem."
-  mail_body_account_information: Informacija o vašem korisničkom računu
-  mail_subject_account_activation_request: "%{value} zahtjev za aktivaciju korisničkog računa"
-  mail_body_account_activation_request: "Novi korisnik (%{value}) se registrovao. Korisnički račun čeka vaše odobrenje za aktivaciju:"
+  mail_subject_register: "Aktivirajte %{value} vaš korisni�?ki ra�?un"
+  mail_body_register: 'Za aktivaciju vašeg korisni�?kog ra�?una, kliknite na sljedeći link:'
+  mail_body_account_information_external: "Možete koristiti  vaš %{value} korisni�?ki ra�?un za prijavu na sistem."
+  mail_body_account_information: Informacija o vašem korisni�?kom ra�?unu
+  mail_subject_account_activation_request: "%{value} zahtjev za aktivaciju korisni�?kog ra�?una"
+  mail_body_account_activation_request: "Novi korisnik (%{value}) se registrovao. Korisni�?ki ra�?un �?eka vaše odobrenje za aktivaciju:"
   mail_subject_reminder: "%{count} aktivnost(i) u kašnjenju u narednim %{days} danima"
   mail_body_reminder: "%{count} aktivnost(i) koje su dodjeljenje vama u narednim %{days} danima:"
 
@@ -209,7 +209,7 @@ bs:
   field_lastname: Prezime
   field_mail: Email
   field_filename: Fajl
-  field_filesize: Veličina
+  field_filesize: Veli�?ina
   field_downloads: Downloadi
   field_author: Autor
   field_created_on: Kreirano
@@ -218,8 +218,8 @@ bs:
   field_is_for_all: Za sve projekte
   field_possible_values: Moguće vrijednosti
   field_regexp: '"Regularni izraz"'
-  field_min_length: Minimalna veličina
-  field_max_length: Maksimalna veličina
+  field_min_length: Minimalna veli�?ina
+  field_max_length: Maksimalna veli�?ina
   field_value: Vrijednost
   field_category: Kategorija
   field_title: Naslov
@@ -229,7 +229,7 @@ bs:
   field_notes: Bilješke
   field_is_closed: Aktivnost zatvorena
   field_is_default: Podrazumjevana vrijednost
-  field_tracker: Područje aktivnosti
+  field_tracker: Podru�?je aktivnosti
   field_subject: Subjekat
   field_due_date: Završiti do
   field_assigned_to: Dodijeljeno
@@ -254,20 +254,20 @@ bs:
   field_type: Tip
   field_host: Host
   field_port: Port
-  field_account: Korisnički račun
+  field_account: Korisni�?ki ra�?un
   field_base_dn: Base DN
   field_attr_login:  Attribut za prijavu
   field_attr_firstname: Attribut za ime
   field_attr_lastname: Atribut za prezime
   field_attr_mail: Atribut za email
   field_onthefly: 'Kreiranje korisnika "On-the-fly"'
-  field_start_date: Početak
+  field_start_date: Po�?etak
   field_done_ratio: "% Realizovano"
   field_auth_source: Mod za authentifikaciju
   field_hide_mail: Sakrij moju email adresu
   field_comments: Komentar
   field_url: URL
-  field_start_page: Početna stranica
+  field_start_page: Po�?etna stranica
   field_subproject: Podprojekat
   field_hours: Sahata
   field_activity: Operacija
@@ -286,7 +286,7 @@ bs:
   field_comments_sorting: Prikaži komentare
   field_parent_title: 'Stranica "roditelj"'
   field_editable: Može se mijenjati
-  field_watcher: Posmatrač
+  field_watcher: Posmatra�?
   field_identity_url: OpenID URL
   field_content: Sadržaj
 
@@ -296,11 +296,11 @@ bs:
   setting_default_language: Podrazumjevani jezik
   setting_login_required: Authentifikacija neophodna
   setting_self_registration: Samo-registracija
-  setting_attachment_max_size: Maksimalna veličina prikačenog fajla
+  setting_attachment_max_size: Maksimalna veli�?ina prika�?enog fajla
   setting_issues_export_limit: Limit za eksport aktivnosti
   setting_mail_from: Mail adresa - pošaljilac
   setting_bcc_recipients: '"BCC" (blind carbon copy) primaoci '
-  setting_plain_text_mail: Email sa običnim tekstom (bez HTML-a)
+  setting_plain_text_mail: Email sa obi�?nim tekstom (bez HTML-a)
   setting_host_name: Ime hosta i putanja
   setting_text_formatting: Formatiranje teksta
   setting_wiki_compression: Kompresija Wiki istorije
@@ -309,32 +309,32 @@ bs:
   setting_default_projects_public: Podrazumjeva se da je novi projekat javni
   setting_autofetch_changesets: 'Automatski kupi "commit"-e'
   setting_sys_api_enabled: 'Omogući "WS" za upravljanje repozitorijom'
-  setting_commit_ref_keywords: Ključne riječi za reference
-  setting_commit_fix_keywords: 'Ključne riječi za status "zatvoreno"'
+  setting_commit_ref_keywords: Klju�?ne rije�?i za reference
+  setting_commit_fix_keywords: 'Klju�?ne rije�?i za status "zatvoreno"'
   setting_autologin: Automatski login
   setting_date_format: Format datuma
   setting_time_format: Format vremena
-  setting_cross_project_issue_relations: Omogući relacije između aktivnosti na različitim projektima
+  setting_cross_project_issue_relations: Omogući relacije između aktivnosti na razli�?itim projektima
   setting_issue_list_default_columns: Podrazumjevane koleone za prikaz na listi aktivnosti
   setting_emails_footer: Potpis na email-ovima
   setting_protocol: Protokol
   setting_per_page_options: Broj objekata po stranici
-  setting_user_format: Format korisničkog prikaza
+  setting_user_format: Format korisni�?kog prikaza
   setting_activity_days_default: Prikaz promjena na projektu - opseg dana
   setting_display_subprojects_issues: Prikaz podprojekata na glavnom projektima (podrazumjeva se)
   setting_enabled_scm: Omogući SCM (source code management)
   setting_mail_handler_api_enabled: Omogući automatsku obradu ulaznih emailova
-  setting_mail_handler_api_key: API ključ (obrada ulaznih mailova)
+  setting_mail_handler_api_key: API klju�? (obrada ulaznih mailova)
   setting_sequential_project_identifiers: Generiši identifikatore projekta sekvencijalno
-  setting_gravatar_enabled: 'Koristi "gravatar" korisničke ikone'
+  setting_gravatar_enabled: 'Koristi "gravatar" korisni�?ke ikone'
   setting_diff_max_lines_displayed: Maksimalan broj linija za prikaz razlika između dva fajla
-  setting_file_max_size_displayed: Maksimalna veličina fajla kod prikaza razlika unutar fajla (inline)
-  setting_repository_log_display_limit: Maksimalna veličina revizija prikazanih na log fajlu
+  setting_file_max_size_displayed: Maksimalna veli�?ina fajla kod prikaza razlika unutar fajla (inline)
+  setting_repository_log_display_limit: Maksimalna veli�?ina revizija prikazanih na log fajlu
   setting_openid: Omogući OpenID prijavu i registraciju
 
   permission_edit_project: Ispravke projekta
   permission_select_project_modules: Odaberi module projekta
-  permission_manage_members: Upravljanje članovima
+  permission_manage_members: Upravljanje �?lanovima
   permission_manage_versions: Upravljanje verzijama
   permission_manage_categories: Upravljanje kategorijama aktivnosti
   permission_add_issues: Dodaj aktivnosti
@@ -366,7 +366,7 @@ bs:
   permission_view_wiki_pages: Pregled wiki sadržaja
   permission_view_wiki_edits: Pregled wiki istorije
   permission_edit_wiki_pages: Ispravka wiki stranica
-  permission_delete_wiki_pages_attachments: Brisanje fajlova prikačenih wiki-ju
+  permission_delete_wiki_pages_attachments: Brisanje fajlova prika�?enih wiki-ju
   permission_protect_wiki_pages: Zaštiti wiki stranicu
   permission_manage_repository: Upravljaj repozitorijem
   permission_browse_repository: Pregled repozitorija
@@ -419,9 +419,9 @@ bs:
   label_member: Izvršilac
   label_member_new: Novi izvršilac
   label_member_plural: Izvršioci
-  label_tracker: Područje aktivnosti
-  label_tracker_plural: Područja aktivnosti
-  label_tracker_new: Novo područje aktivnosti
+  label_tracker: Podru�?je aktivnosti
+  label_tracker_plural: Podru�?ja aktivnosti
+  label_tracker_new: Novo podru�?je aktivnosti
   label_workflow: Tok promjena na aktivnosti
   label_issue_status: Status aktivnosti
   label_issue_status_plural: Statusi aktivnosti
@@ -440,9 +440,9 @@ bs:
   label_register: Registracija
   label_login_with_open_id_option: ili prijava sa OpenID-om
   label_password_lost: Izgubljena lozinka
-  label_home: Početna stranica
+  label_home: Po�?etna stranica
   label_my_page: Moja stranica
-  label_my_account: Moj korisnički račun
+  label_my_account: Moj korisni�?ki ra�?un
   label_my_projects: Moji projekti
   label_administration: Administracija
   label_login: Prijavi se
@@ -470,7 +470,7 @@ bs:
   label_date: Datum
   label_integer: Cijeli broj
   label_float: Float
-  label_boolean: Logička varijabla
+  label_boolean: Logi�?ka varijabla
   label_string: Tekst
   label_text: Dugi tekst
   label_attribute: Atribut
@@ -552,7 +552,7 @@ bs:
   label_in: u
   label_today: danas
   label_all_time: sve vrijeme
-  label_yesterday: juče
+  label_yesterday: ju�?e
   label_this_week: ova hefta
   label_last_week: zadnja hefta
   label_last_n_days: "posljednjih %{count} dana"
@@ -580,7 +580,7 @@ bs:
   label_latest_revision: Posljednja revizija
   label_latest_revision_plural: Posljednje revizije
   label_view_revisions: Vidi revizije
-  label_max_size: Maksimalna veličina
+  label_max_size: Maksimalna veli�?ina
   label_sort_highest: Pomjeri na vrh
   label_sort_higher: Pomjeri gore
   label_sort_lower: Pomjeri dole
@@ -591,7 +591,7 @@ bs:
   label_roadmap_no_issues: Nema aktivnosti za ovu verziju
   label_search: Traži
   label_result_plural: Rezultati
-  label_all_words: Sve riječi
+  label_all_words: Sve rije�?i
   label_wiki: Wiki stranice
   label_wiki_edit: ispravka wiki-ja
   label_wiki_edit_plural: ispravke wiki-ja
@@ -621,7 +621,7 @@ bs:
   label_watched_issues: Aktivnosti koje pratim
   label_related_issues: Korelirane aktivnosti
   label_applied_status: Status je primjenjen
-  label_loading: Učitavam...
+  label_loading: U�?itavam...
   label_relation_new: Nova relacija
   label_relation_delete: Izbriši relaciju
   label_relates_to: korelira sa
@@ -644,7 +644,7 @@ bs:
   label_message_new: Nova poruka
   label_message_posted: Poruka je dodana
   label_reply_plural: Odgovori
-  label_send_information: Pošalji informaciju o korisničkom računu
+  label_send_information: Pošalji informaciju o korisni�?kom ra�?unu
   label_year: Godina
   label_month: Mjesec
   label_week: Hefta
@@ -653,12 +653,12 @@ bs:
   label_language_based: Bazirano na korisnikovom jeziku
   label_sort_by: "Sortiraj po %{value}"
   label_send_test_email: Pošalji testni email
-  label_feeds_access_key_created_on: "Atom pristupni ključ kreiran prije %{value} dana"
+  label_feeds_access_key_created_on: "Atom pristupni klju�? kreiran prije %{value} dana"
   label_module_plural: Moduli
   label_added_time_by: "Dodano od %{author} prije %{age}"
   label_updated_time_by: "Izmjenjeno od %{author} prije %{age}"
   label_updated_time: "Izmjenjeno prije %{value}"
-  label_jump_to_a_project: Skoči na projekat...
+  label_jump_to_a_project: Sko�?i na projekat...
   label_file_plural: Fajlovi
   label_changeset_plural: Setovi promjena
   label_default_columns: Podrazumjevane kolone
@@ -670,9 +670,9 @@ bs:
   label_user_mail_option_all: "Za bilo koji događaj na svim mojim projektima"
   label_user_mail_option_selected: "Za bilo koji događaj na odabranim projektima..."
   label_user_mail_no_self_notified: "Ne želim notifikaciju za promjene koje sam ja napravio"
-  label_registration_activation_by_email: aktivacija korisničkog računa email-om
-  label_registration_manual_activation: ručna aktivacija korisničkog računa
-  label_registration_automatic_activation: automatska kreacija korisničkog računa
+  label_registration_activation_by_email: aktivacija korisni�?kog ra�?una email-om
+  label_registration_manual_activation: ru�?na aktivacija korisni�?kog ra�?una
+  label_registration_automatic_activation: automatska kreacija korisni�?kog ra�?una
   label_display_per_page: "Po stranici: %{value}"
   label_age: Starost
   label_change_properties: Promjena osobina
@@ -689,7 +689,7 @@ bs:
   label_reverse_chronological_order: Reverzni hronološki poredak
   label_planning: Planiranje
   label_incoming_emails: Dolazni email-ovi
-  label_generate_key: Generiši ključ
+  label_generate_key: Generiši klju�?
   label_issue_watchers: Praćeno od
   label_example: Primjer
   label_display: Prikaz
@@ -701,7 +701,7 @@ bs:
   button_cancel: Odustani
   button_change: Izmjeni
   button_change_password: Izmjena lozinke
-  button_check_all: Označi sve
+  button_check_all: Ozna�?i sve
   button_clear: Briši
   button_copy: Kopiraj
   button_create: Novi
@@ -709,7 +709,7 @@ bs:
   button_download: Download
   button_edit: Ispravka
   button_list: Lista
-  button_lock: Zaključaj
+  button_lock: Zaklju�?aj
   button_log_time: Utrošak vremena
   button_login: Prijava
   button_move: Pomjeri
@@ -722,8 +722,8 @@ bs:
   button_submit: Pošalji
   button_test: Testiraj
   button_unarchive: Otpakuj arhivu
-  button_uncheck_all: Isključi sve
-  button_unlock: Otključaj
+  button_uncheck_all: Isklju�?i sve
+  button_unlock: Otklju�?aj
   button_unwatch: Prekini notifikaciju
   button_update: Promjena na aktivnosti
   button_view: Pregled
@@ -733,42 +733,42 @@ bs:
 
   status_active: aktivan
   status_registered: registrovan
-  status_locked: zaključan
+  status_locked: zaklju�?an
 
   text_select_mail_notifications: Odaberi događaje za koje će se slati email notifikacija.
   text_regexp_info: npr. ^[A-Z0-9]+$
-  text_min_max_length_info: 0 znači bez restrikcije
+  text_min_max_length_info: 0 zna�?i bez restrikcije
   text_project_destroy_confirmation: Sigurno želite izbrisati ovaj projekat i njegove podatke ?
   text_subprojects_destroy_warning: "Podprojekt(i): %{value} će takođe biti izbrisani."
-  text_workflow_edit: Odaberite ulogu i područje aktivnosti za ispravku toka promjena na aktivnosti
+  text_workflow_edit: Odaberite ulogu i podru�?je aktivnosti za ispravku toka promjena na aktivnosti
   text_are_you_sure: Da li ste sigurni ?
-  text_tip_issue_begin_day: zadatak počinje danas
+  text_tip_issue_begin_day: zadatak po�?inje danas
   text_tip_issue_end_day: zadatak završava danas
-  text_tip_issue_begin_end_day: zadatak započinje i završava danas
+  text_tip_issue_begin_end_day: zadatak zapo�?inje i završava danas
   text_caracters_maximum: "maksimum %{count} karaktera."
   text_caracters_minimum: "Dužina mora biti najmanje %{count} znakova."
   text_length_between: "Broj znakova između %{min} i %{max}."
-  text_tracker_no_workflow: Tok statusa nije definisan za ovo područje aktivnosti
+  text_tracker_no_workflow: Tok statusa nije definisan za ovo podru�?je aktivnosti
   text_unallowed_characters: Nedozvoljeni znakovi
   text_comma_separated: Višestruke vrijednosti dozvoljene (odvojiti zarezom).
   text_issues_ref_in_commit_messages: 'Referenciranje i zatvaranje aktivnosti putem "commit" poruka'
   text_issue_added: "Aktivnost %{id} je prijavljena od %{author}."
   text_issue_updated: "Aktivnost %{id} je izmjenjena od %{author}."
-  text_wiki_destroy_confirmation: Sigurno želite izbrisati ovaj wiki i čitav njegov sadržaj ?
+  text_wiki_destroy_confirmation: Sigurno želite izbrisati ovaj wiki i �?itav njegov sadržaj ?
   text_issue_category_destroy_question: "Neke aktivnosti (%{count}) pripadaju ovoj kategoriji. Sigurno to želite uraditi ?"
   text_issue_category_destroy_assignments: Ukloni kategoriju
   text_issue_category_reassign_to: Ponovo dodijeli ovu kategoriju
-  text_user_mail_option: "Za projekte koje niste odabrali, primićete samo notifikacije o stavkama koje pratite ili ste u njih uključeni (npr. vi ste autor ili su vama dodjeljenje)."
-  text_no_configuration_data: "Uloge, područja aktivnosti, statusi aktivnosti i tok promjena statusa nisu konfigurisane.\nKrajnje je preporučeno da učitate tekuđe postavke. Kasnije ćete ih moći mjenjati po svojim potrebama."
-  text_load_default_configuration: Učitaj tekuću konfiguraciju
+  text_user_mail_option: "Za projekte koje niste odabrali, primićete samo notifikacije o stavkama koje pratite ili ste u njih uklju�?eni (npr. vi ste autor ili su vama dodjeljenje)."
+  text_no_configuration_data: "Uloge, podru�?ja aktivnosti, statusi aktivnosti i tok promjena statusa nisu konfigurisane.\nKrajnje je preporu�?eno da u�?itate tekuđe postavke. Kasnije ćete ih moći mjenjati po svojim potrebama."
+  text_load_default_configuration: U�?itaj tekuću konfiguraciju
   text_status_changed_by_changeset: "Primjenjeno u setu promjena %{value}."
   text_issues_destroy_confirmation: 'Sigurno želite izbrisati odabranu/e aktivnost/i ?'
   text_select_project_modules: 'Odaberi module koje želite u ovom projektu:'
-  text_default_administrator_account_changed: Tekući administratorski račun je promjenjen
+  text_default_administrator_account_changed: Tekući administratorski ra�?un je promjenjen
   text_file_repository_writable: U direktorij sa fajlovima koji su prilozi se može pisati
   text_plugin_assets_writable: U direktorij plugin-ova se može pisati
   text_rmagick_available: RMagick je dostupan (opciono)
-  text_destroy_time_entries_question: "%{hours} sahata je prijavljeno na aktivnostima koje želite brisati. Želite li to učiniti ?"
+  text_destroy_time_entries_question: "%{hours} sahata je prijavljeno na aktivnostima koje želite brisati. Želite li to u�?initi ?"
   text_destroy_time_entries: Izbriši prijavljeno vrijeme
   text_assign_time_entries_to_project: Dodaj prijavljenoo vrijeme projektu
   text_reassign_time_entries: 'Preraspodjeli prijavljeno vrijeme na ovu aktivnost:'
@@ -776,8 +776,8 @@ bs:
   text_enumeration_destroy_question: "Za %{count} objekata je dodjeljenja ova vrijednost."
   text_enumeration_category_reassign_to: 'Ponovo im dodjeli ovu vrijednost:'
   text_email_delivery_not_configured: "Email dostava nije konfiguraisana, notifikacija je onemogućena.\nKonfiguriši SMTP server u config/configuration.yml i restartuj aplikaciju nakon toga."
-  text_repository_usernames_mapping: "Odaberi ili ispravi redmine korisnika mapiranog za svako korisničko ima nađeno u logu repozitorija.\nKorisnici sa istim imenom u redmineu i u repozitoruju se automatski mapiraju."
-  text_diff_truncated: '... Ovaj prikaz razlike je odsječen pošto premašuje maksimalnu veličinu za prikaz'
+  text_repository_usernames_mapping: "Odaberi ili ispravi redmine korisnika mapiranog za svako korisni�?ko ima nađeno u logu repozitorija.\nKorisnici sa istim imenom u redmineu i u repozitoruju se automatski mapiraju."
+  text_diff_truncated: '... Ovaj prikaz razlike je odsje�?en pošto premašuje maksimalnu veli�?inu za prikaz'
   text_custom_field_possible_values_info: 'Jedna linija za svaku vrijednost'
 
   default_role_manager: Menadžer
@@ -792,8 +792,8 @@ bs:
   default_issue_status_feedback: Čeka se povratna informacija
   default_issue_status_closed: Zatvoren
   default_issue_status_rejected: Odbijen
-  default_doc_category_user: Korisnička dokumentacija
-  default_doc_category_tech: Tehnička dokumentacija
+  default_doc_category_user: Korisni�?ka dokumentacija
+  default_doc_category_tech: Tehni�?ka dokumentacija
   default_priority_low: Nizak
   default_priority_normal: Normalan
   default_priority_high: Visok
@@ -1175,7 +1175,7 @@ bs:
   label_fields_wrapper: Field wrapper
   label_encoding: Encoding
   label_comma_char: Comma
-  label_semi_colon_char: Semi colon
+  label_semi_colon_char: Semicolon
   label_quote_char: Quote
   label_double_quote_char: Double quote
   label_fields_mapping: Fields mapping
@@ -1196,7 +1196,7 @@ bs:
   label_no_open_issues: no open issues
   label_default_values_for_new_users: Default values for new users
   error_ldap_bind_credentials: Invalid LDAP Account/Password
-  setting_sys_api_key: API ključ (obrada ulaznih mailova)
+  setting_sys_api_key: API klju�? (obrada ulaznih mailova)
   setting_lost_password: Izgubljena lozinka
   mail_subject_security_notification: Security notification
   mail_body_security_notification_change: ! '%{field} was changed.'

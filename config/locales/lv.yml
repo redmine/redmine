@@ -11,7 +11,7 @@ lv:
     day_names: [Svētdiena, Pirmdiena, Otrdiena, Trešdiena, Ceturtdiena, Piektdiena, Sestdiena]
     abbr_day_names: [Sv, Pr, Ot, Tr, Ct, Pk, St]
 
-    month_names: [~, Janvāris, Februāris, Marts, Aprīlis , Maijs, Jūnijs, Jūlijs, Augusts, Septembris, Oktobris, Novembris, Decembris]
+    month_names: [~, Janv�?ris, Febru�?ris, Marts, Aprīlis , Maijs, Jūnijs, Jūlijs, Augusts, Septembris, Oktobris, Novembris, Decembris]
     abbr_month_names: [~, Jan, Feb, Mar, Apr, Mai, Jūn, Jūl, Aug, Sep, Okt, Nov, Dec]
     order:
       - :day
@@ -24,21 +24,21 @@ lv:
       time: "%H:%M"
       short: "%d %b, %H:%M"
       long: "%B %d, %Y %H:%M"
-    am: "rītā"
-    pm: "vakarā"
+    am: "rīt�?"
+    pm: "vakar�?"
 
   datetime:
     distance_in_words:
       half_a_minute: "pus minūte"
       less_than_x_seconds:
-        one:   "mazāk kā 1 sekunde"
-        other: "mazāk kā %{count} sekundes"
+        one:   "maz�?k k�? 1 sekunde"
+        other: "maz�?k k�? %{count} sekundes"
       x_seconds:
         one:   "1 sekunde"
         other: "%{count} sekundes"
       less_than_x_minutes:
-        one:   "mazāk kā minūte"
-        other: "mazāk kā %{count} minūtes"
+        one:   "maz�?k k�? minūte"
+        other: "maz�?k k�? %{count} minūtes"
       x_minutes:
         one:   "1 minūte"
         other: "%{count} minūtes"
@@ -61,8 +61,8 @@ lv:
         one:   "aptuveni 1 gads"
         other: "aptuveni %{count} gadi"
       over_x_years:
-        one:   "ilgāk par 1 gadu"
-        other: "ilgāk par %{count} gadiem"
+        one:   "ilg�?k par 1 gadu"
+        other: "ilg�?k par %{count} gadiem"
       almost_x_years:
         one:   "gandrīz 1 gadu"
         other: "gandrīz %{count} gadus"
@@ -99,38 +99,38 @@ lv:
           one:    "1 error prohibited this %{model} from being saved"
           other:  "%{count} errors prohibited this %{model} from being saved"
       messages:
-        inclusion: "nav iekļauts sarakstā"
+        inclusion: "nav iekļauts sarakst�?"
         exclusion: "ir rezervēts"
         invalid: "nederīgs"
-        confirmation: "apstiprinājums nesakrīt"
-        accepted: "jābūt akceptētam"
+        confirmation: "apstiprin�?jums nesakrīt"
+        accepted: "j�?būt akceptētam"
         empty: "nevar būt tukšs"
         blank: "nevar būt neaizpildīts"
-        too_long: "ir pārāk gara(š) (maksimālais garums ir %{count} simboli)"
-        too_short: "ir pārāk īsa(s) (minimālais garums ir %{count} simboli)"
+        too_long: "ir p�?r�?k gara(š) (maksim�?lais garums ir %{count} simboli)"
+        too_short: "ir p�?r�?k īsa(s) (minim�?lais garums ir %{count} simboli)"
         wrong_length: "ir nepareiza garuma (vajadzētu būt %{count} simboli)"
         taken: "eksistē"
         not_a_number: "nav skaitlis"
         not_a_date: "nav derīgs datums"
-        greater_than: "jābūt lielākam par %{count}"
-        greater_than_or_equal_to: "jābūt lielākam vai vienādam ar %{count}"
-        equal_to: "jābūt vienādam ar %{count}"
-        less_than: "jābūt mazākam kā %{count}"
-        less_than_or_equal_to: "jābūt mazākam vai vienādam ar %{count}"
-        odd: "jāatšķirās"
-        even: "jāsakrīt"
-        greater_than_start_date: "jābūt vēlākam par sākuma datumu"
-        not_same_project: "nepieder pie tā paša projekta"
-        circular_dependency: "Šī relācija radītu ciklisku atkarību"
+        greater_than: "j�?būt liel�?kam par %{count}"
+        greater_than_or_equal_to: "j�?būt liel�?kam vai vien�?dam ar %{count}"
+        equal_to: "j�?būt vien�?dam ar %{count}"
+        less_than: "j�?būt maz�?kam k�? %{count}"
+        less_than_or_equal_to: "j�?būt maz�?kam vai vien�?dam ar %{count}"
+        odd: "j�?atšķir�?s"
+        even: "j�?sakrīt"
+        greater_than_start_date: "j�?būt vēl�?kam par s�?kuma datumu"
+        not_same_project: "nepieder pie t�? paša projekta"
+        circular_dependency: "Šī rel�?cija radītu ciklisku atkarību"
         cant_link_an_issue_with_a_descendant: "An issue can not be linked to one of its subtasks"
         earlier_than_minimum_start_date: "cannot be earlier than %{date} because of preceding issues"
 
   actionview_instancetag_blank_option: Izvēlieties
 
   general_text_No: 'Nē'
-  general_text_Yes: 'Jā'
+  general_text_Yes: 'J�?'
   general_text_no: 'nē'
-  general_text_yes: 'jā'
+  general_text_yes: 'j�?'
   general_lang_name: 'Latvian (Latviešu)'
   general_csv_separator: ','
   general_csv_decimal_separator: '.'
@@ -140,57 +140,57 @@ lv:
   general_first_day_of_week: '1'
 
   notice_account_updated: Konts tika atjaunots veiksmīgi.
-  notice_account_invalid_credentials: Nepareizs lietotāja vārds vai parole.
+  notice_account_invalid_credentials: Nepareizs lietot�?ja v�?rds vai parole.
   notice_account_password_updated: Parole tika veiksmīgi atjaunota.
   notice_account_wrong_password: Nepareiza parole
   notice_account_register_done: Konts veiksmīgi izveidots. Lai aktivizētu kontu, spiediet uz saites, kas Jums tika nosūtīta.
-  notice_account_unknown_email: Nezināms lietotājs
-  notice_can_t_change_password: Šis konts izmanto ārēju pilnvarošanas avotu. Nav iespējams nomainīt paroli.
-  notice_account_lost_email_sent: Jums tika nosūtīts e-pasts ar instrukcijām, kā izveidot jaunu paroli.
+  notice_account_unknown_email: Nezin�?ms lietot�?js
+  notice_can_t_change_password: Šis konts izmanto �?rēju pilnvarošanas avotu. Nav iespējams nomainīt paroli.
+  notice_account_lost_email_sent: Jums tika nosūtīts e-pasts ar instrukcij�?m, k�? izveidot jaunu paroli.
   notice_account_activated: Jūsu konts ir aktivizēts. Varat pieslēgties sistēmai.
   notice_successful_create: Veiksmīga izveide.
   notice_successful_update: Veiksmīga atjaunošana.
   notice_successful_delete: Veiksmīga dzēšana.
   notice_successful_connection: Veiksmīgs savienojums.
-  notice_file_not_found: Lapa, ko Jūs mēģināt atvērt, neeksistē vai ir pārvietota.
-  notice_locking_conflict: Datus ir atjaunojis cits lietotājs.
+  notice_file_not_found: Lapa, ko Jūs mēģin�?t atvērt, neeksistē vai ir p�?rvietota.
+  notice_locking_conflict: Datus ir atjaunojis cits lietot�?js.
   notice_not_authorized: Jums nav tiesību piekļūt šai lapai.
   notice_email_sent: "E-pasts tika nosūtīts uz %{value}"
   notice_email_error: "Kļūda sūtot e-pastu (%{value})"
-  notice_feeds_access_key_reseted: Jūsu Atom pieejas atslēga tika iestatīta sākuma stāvoklī.
-  notice_api_access_key_reseted: Jūsu API pieejas atslēga tika iestatīta sākuma stāvoklī.
-  notice_failed_to_save_issues: "Neizdevās saglabāt %{count} uzdevumu(us) no %{total} izvēlēti: %{ids}."
+  notice_feeds_access_key_reseted: Jūsu Atom pieejas atslēga tika iestatīta s�?kuma st�?voklī.
+  notice_api_access_key_reseted: Jūsu API pieejas atslēga tika iestatīta s�?kuma st�?voklī.
+  notice_failed_to_save_issues: "Neizdev�?s saglab�?t %{count} uzdevumu(us) no %{total} izvēlēti: %{ids}."
   notice_no_issue_selected: "Nav izvēlēts uzdevums! Lūdzu, atzīmējiet uzdevumus, kurus vēlaties rediģēt!"
-  notice_account_pending: "Jūsu konts tika izveidots un šobrīd gaida administratora apstiprinājumu."
-  notice_default_data_loaded: Noklusētā konfigurācija tika veiksmīgi ielādēta.
-  notice_unable_delete_version: Neizdevās dzēst versiju.
+  notice_account_pending: "Jūsu konts tika izveidots un šobrīd gaida administratora apstiprin�?jumu."
+  notice_default_data_loaded: Noklusēt�? konfigur�?cija tika veiksmīgi iel�?dēta.
+  notice_unable_delete_version: Neizdev�?s dzēst versiju.
   notice_issue_done_ratios_updated: Uzdevuma izpildes koeficients atjaunots.
 
-  error_can_t_load_default_data: "Nevar ielādēt noklusētos konfigurācijas datus: %{value}"
-  error_scm_not_found: "Ieraksts vai versija nebija repozitorijā."
+  error_can_t_load_default_data: "Nevar iel�?dēt noklusētos konfigur�?cijas datus: %{value}"
+  error_scm_not_found: "Ieraksts vai versija nebija repozitorij�?."
   error_scm_command_failed: "Mēģinot piekļūt repozitorijam, notika kļūda: %{value}"
   error_scm_annotate: "Ieraksts neeksistē vai tam nevar tikt pievienots paskaidrojums."
   error_issue_not_found_in_project: 'Uzdevums netika atrasts vai nepieder šim projektam.'
-  error_no_tracker_in_project: 'Neviens trakeris nav saistīts ar šo projektu. Pārbaudiet projekta iestatījumus.'
-  error_no_default_issue_status: 'Nav definēts uzdevuma noklusētais statuss. Pārbaudiet konfigurāciju (Ejat uz: "Administrācija -> Uzdevumu statusi")!'
+  error_no_tracker_in_project: 'Neviens trakeris nav saistīts ar šo projektu. P�?rbaudiet projekta iestatījumus.'
+  error_no_default_issue_status: 'Nav definēts uzdevuma noklusētais statuss. P�?rbaudiet konfigur�?ciju (Ejat uz: "Administr�?cija -> Uzdevumu statusi")!'
   error_can_not_reopen_issue_on_closed_version: 'Nevar pievienot atsauksmi uzdevumam, kas saistīts ar slēgtu versiju.'
   error_can_not_archive_project: Šis projekts nevar tikt arhivēts
   error_issue_done_ratios_not_updated: "Uzdevuma izpildes koeficients nav atjaunots."
   error_workflow_copy_source: 'Lūdzu izvēlieties avota trakeri vai lomu'
   error_workflow_copy_target: 'Lūdzu izvēlēties mērķa trakeri(us) un lomu(as)'
 
-  warning_attachments_not_saved: "%{count} datnes netika saglabātas."
+  warning_attachments_not_saved: "%{count} datnes netika saglab�?tas."
 
   mail_subject_lost_password: "Jūsu %{value} parole"
   mail_body_lost_password: 'Lai mainītu paroli, spiediet uz šīs saites:'
-  mail_subject_register: "Jūsu %{value} konta aktivizācija"
+  mail_subject_register: "Jūsu %{value} konta aktiviz�?cija"
   mail_body_register: 'Lai izveidotu kontu, spiediet uz šīs saites:'
   mail_body_account_information_external: "Varat izmantot Jūsu %{value} kontu, lai pieslēgtos."
-  mail_body_account_information: Jūsu konta informācija
-  mail_subject_account_activation_request: "%{value} konta aktivizācijas pieprasījums"
-  mail_body_account_activation_request: "Jauns lietotājs (%{value}) ir reģistrēts. Lietotāja konts gaida Jūsu apstiprinājumu:"
-  mail_subject_reminder: "%{count} uzdevums(i) sagaidāms(i) tuvākajās %{days} dienās"
-  mail_body_reminder: "%{count} uzdevums(i), kurš(i) ir nozīmēts(i) Jums, sagaidāms(i) tuvākajās %{days} dienās:"
+  mail_body_account_information: Jūsu konta inform�?cija
+  mail_subject_account_activation_request: "%{value} konta aktiviz�?cijas pieprasījums"
+  mail_body_account_activation_request: "Jauns lietot�?js (%{value}) ir reģistrēts. Lietot�?ja konts gaida Jūsu apstiprin�?jumu:"
+  mail_subject_reminder: "%{count} uzdevums(i) sagaid�?ms(i) tuv�?kaj�?s %{days} dien�?s"
+  mail_body_reminder: "%{count} uzdevums(i), kurš(i) ir nozīmēts(i) Jums, sagaid�?ms(i) tuv�?kaj�?s %{days} dien�?s:"
   mail_subject_wiki_content_added: "'%{id}' Wiki lapa pievienota"
   mail_body_wiki_content_added: "The '%{id}' Wiki lapu pievienojis %{author}."
   mail_subject_wiki_content_updated: "'%{id}' Wiki lapa atjaunota"
@@ -201,21 +201,21 @@ lv:
   field_description: Apraksts
   field_summary: Kopsavilkums
   field_is_required: Nepieciešams
-  field_firstname: Vārds
-  field_lastname: Uzvārds
+  field_firstname: V�?rds
+  field_lastname: Uzv�?rds
   field_mail: "E-pasts"
   field_filename: Datne
   field_filesize: Izmērs
-  field_downloads: Lejupielādes
+  field_downloads: Lejupiel�?des
   field_author: Autors
   field_created_on: Izveidots
   field_updated_on: Atjaunots
-  field_field_format: Formāts
+  field_field_format: Form�?ts
   field_is_for_all: Visiem projektiem
-  field_possible_values: Iespējamās vērtības
-  field_regexp: Regulārā izteiksme
-  field_min_length: Minimālais garums
-  field_max_length: Maksimālais garums
+  field_possible_values: Iespējam�?s vērtības
+  field_regexp: Regul�?r�? izteiksme
+  field_min_length: Minim�?lais garums
+  field_max_length: Maksim�?lais garums
   field_value: Vērtība
   field_category: Kategorija
   field_title: Nosaukums
@@ -224,19 +224,19 @@ lv:
   field_status: Statuss
   field_notes: Piezīmes
   field_is_closed: Uzdevums slēgts
-  field_is_default: Noklusētā vērtība
+  field_is_default: Noklusēt�? vērtība
   field_tracker: Trakeris
   field_subject: Temats
-  field_due_date: Sagaidāmais datums
+  field_due_date: Sagaid�?mais datums
   field_assigned_to: Piešķirts
-  field_priority: Prioritāte
+  field_priority: Priorit�?te
   field_fixed_version: Mērķa versija
-  field_user: Lietotājs
+  field_user: Lietot�?js
   field_role: Loma
   field_homepage: Vietne
   field_is_public: Publisks
   field_parent: Apakšprojekts projektam
-  field_is_in_roadmap: Ceļvedī parādītie uzdevumi
+  field_is_in_roadmap: Ceļvedī par�?dītie uzdevumi
   field_login: Pieslēgties
   field_mail_notification: "E-pasta paziņojumi"
   field_admin: Administrators
@@ -244,99 +244,99 @@ lv:
   field_language: Valoda
   field_effective_date: Datums
   field_password: Parole
-  field_new_password: Janā parole
-  field_password_confirmation: Paroles apstiprinājums
+  field_new_password: Jan�? parole
+  field_password_confirmation: Paroles apstiprin�?jums
   field_version: Versija
   field_type: Tips
   field_host: Hosts
   field_port: Ports
   field_account: Konts
   field_base_dn: Base DN
-  field_attr_login: Pieslēgšanās atribūts
-  field_attr_firstname: Vārda atribūts
-  field_attr_lastname: Uzvārda atribūts
+  field_attr_login: Pieslēgšan�?s atribūts
+  field_attr_firstname: V�?rda atribūts
+  field_attr_lastname: Uzv�?rda atribūts
   field_attr_mail: "E-pasta atribūts"
-  field_onthefly: "Lietotāja izveidošana on-the-fly"
-  field_start_date: Sākuma datums
+  field_onthefly: "Lietot�?ja izveidošana on-the-fly"
+  field_start_date: S�?kuma datums
   field_done_ratio: "% padarīti"
   field_auth_source: Pilnvarošanas režīms
   field_hide_mail: "Paslēpt manu e-pasta adresi"
-  field_comments: Komentārs
+  field_comments: Koment�?rs
   field_url: URL
-  field_start_page: Sākuma lapa
+  field_start_page: S�?kuma lapa
   field_subproject: Apakšprojekts
   field_hours: Stundas
-  field_activity: Aktivitāte
+  field_activity: Aktivit�?te
   field_spent_on: Datums
   field_identifier: Identifikators
-  field_is_filter: Izmantots kā filtrs
+  field_is_filter: Izmantots k�? filtrs
   field_issue_to: Saistīts uzdevums
   field_delay: Kavējums
   field_assignable: Uzdevums var tikt piesaistīts šai lomai
-  field_redirect_existing_links: Pāradresēt eksistējošās saites
+  field_redirect_existing_links: P�?radresēt eksistējoš�?s saites
   field_estimated_hours: Paredzētais laiks
   field_column_names: Kolonnas
   field_time_zone: Laika zona
   field_searchable: Meklējams
-  field_default_value: Noklusētā vērtība
-  field_comments_sorting: Rādīt komentārus
-  field_parent_title: Vecāka lapa
+  field_default_value: Noklusēt�? vērtība
+  field_comments_sorting: R�?dīt koment�?rus
+  field_parent_title: Vec�?ka lapa
   field_editable: Rediģējams
-  field_watcher: Vērotājs
+  field_watcher: Vērot�?js
   field_identity_url: OpenID URL
   field_content: Saturs
-  field_group_by: Grupēt rezultātus pēc
+  field_group_by: Grupēt rezult�?tus pēc
   field_sharing: Koplietošana
 
   setting_app_title: Programmas nosaukums
   setting_app_subtitle: Programmas apakš-nosaukums
   setting_welcome_text: Sveiciena teksts
-  setting_default_language: Noklusētā valoda
+  setting_default_language: Noklusēt�? valoda
   setting_login_required: Nepieciešama pilnvarošana
-  setting_self_registration: Pašreģistrēšanās
-  setting_attachment_max_size: Pielikuma maksimālais izmērs
+  setting_self_registration: Pašreģistrēšan�?s
+  setting_attachment_max_size: Pielikuma maksim�?lais izmērs
   setting_issues_export_limit: Uzdevumu eksporta ierobežojums
-  setting_mail_from: "E-pasta adrese informācijas nosūtīšanai"
-  setting_bcc_recipients: "Saņēmēju adreses neparādīsies citu saņēmēju vēstulēs (bcc)"
-  setting_plain_text_mail: "Vēstule brīvā tekstā (bez HTML)"
+  setting_mail_from: "E-pasta adrese inform�?cijas nosūtīšanai"
+  setting_bcc_recipients: "Saņēmēju adreses nepar�?dīsies citu saņēmēju vēstulēs (bcc)"
+  setting_plain_text_mail: "Vēstule brīv�? tekst�? (bez HTML)"
   setting_host_name: Hosta nosaukums un piekļuves ceļš
   setting_text_formatting: Teksta formatēšana
   setting_wiki_compression: Wiki vēstures saspiešana
   setting_feeds_limit: Barotnes satura ierobežojums
   setting_default_projects_public: Jaunie projekti noklusēti ir publiski pieejami
-  setting_autofetch_changesets: "Automātiski lietot jaunāko versiju, pieslēdzoties repozitorijam (Autofetch)"
+  setting_autofetch_changesets: "Autom�?tiski lietot jaun�?ko versiju, pieslēdzoties repozitorijam (Autofetch)"
   setting_sys_api_enabled: Ieslēgt WS repozitoriju menedžmentam
-  setting_commit_ref_keywords: Norādes atslēgvārdi
-  setting_commit_fix_keywords:  Fiksējošie atslēgvārdi
-  setting_autologin: Automātiskā pieslēgšanās
-  setting_date_format: Datuma formāts
-  setting_time_format: Laika formāts
-  setting_cross_project_issue_relations: "Atļaut starp-projektu uzdevumu relācijas"
-  setting_issue_list_default_columns: Noklusēti rādītās kolonnas uzdevumu sarakstā
-  setting_emails_footer: "E-pastu kājene"
+  setting_commit_ref_keywords: Nor�?des atslēgv�?rdi
+  setting_commit_fix_keywords:  Fiksējošie atslēgv�?rdi
+  setting_autologin: Autom�?tisk�? pieslēgšan�?s
+  setting_date_format: Datuma form�?ts
+  setting_time_format: Laika form�?ts
+  setting_cross_project_issue_relations: "Atļaut starp-projektu uzdevumu rel�?cijas"
+  setting_issue_list_default_columns: Noklusēti r�?dīt�?s kolonnas uzdevumu sarakst�?
+  setting_emails_footer: "E-pastu k�?jene"
   setting_protocol: Protokols
-  setting_per_page_options: Objekti vienā lapā
-  setting_user_format: Lietotāju rādīšanas formāts
-  setting_activity_days_default: Dienus skaits aktivitāšu rādīšanai aktivitāšu sadaļā
-  setting_display_subprojects_issues: Rādīt apakšprojekta uzdevumus galvenajā projektā pēc noklusējuma
+  setting_per_page_options: Objekti vien�? lap�?
+  setting_user_format: Lietot�?ju r�?dīšanas form�?ts
+  setting_activity_days_default: Dienus skaits aktivit�?šu r�?dīšanai aktivit�?šu sadaļ�?
+  setting_display_subprojects_issues: R�?dīt apakšprojekta uzdevumus galvenaj�? projekt�? pēc noklusējuma
   setting_enabled_scm: Lietot SCM
-  setting_mail_handler_body_delimiters: "Saīsināt pēc vienas no šim rindām"
-  setting_mail_handler_api_enabled: "Lietot WS ienākošajiem e-pastiem"
+  setting_mail_handler_body_delimiters: "Saīsin�?t pēc vienas no šim rind�?m"
+  setting_mail_handler_api_enabled: "Lietot WS ien�?košajiem e-pastiem"
   setting_mail_handler_api_key: API atslēga
   setting_sequential_project_identifiers: Ģenerēt secīgus projektu identifikatorus
-  setting_gravatar_enabled: Izmantot Gravatar lietotāju ikonas
+  setting_gravatar_enabled: Izmantot Gravatar lietot�?ju ikonas
   setting_gravatar_default: Noklusētais Gravatar attēls
-  setting_diff_max_lines_displayed: Maksimālais rādīto diff rindu skaits
-  setting_file_max_size_displayed: Maksimālais izmērs iekļautajiem teksta failiem
-  setting_repository_log_display_limit: Maksimālais žurnāla datnē rādīto revīziju skaits
+  setting_diff_max_lines_displayed: Maksim�?lais r�?dīto diff rindu skaits
+  setting_file_max_size_displayed: Maksim�?lais izmērs iekļautajiem teksta failiem
+  setting_repository_log_display_limit: Maksim�?lais žurn�?la datnē r�?dīto revīziju skaits
   setting_openid: Atļaut OpenID pieslēgšanos un reģistrēšanos
-  setting_password_min_length: Minimālais paroles garums
-  setting_new_project_user_role_id: Loma, kura tiek piešķirta ne-administratora lietotājam, kurš izveido projektu
+  setting_password_min_length: Minim�?lais paroles garums
+  setting_new_project_user_role_id: Loma, kura tiek piešķirta ne-administratora lietot�?jam, kurš izveido projektu
   setting_default_projects_modules: Noklusētie lietotie moduļi jaunam projektam
-  setting_issue_done_ratio: Aprēķināt uzdevuma izpildes koeficientu ar
+  setting_issue_done_ratio: Aprēķin�?t uzdevuma izpildes koeficientu ar
   setting_issue_done_ratio_issue_field: uzdevuma lauku
   setting_issue_done_ratio_issue_status: uzdevuma statusu
-  setting_start_of_week: Sākt kalendāru ar
+  setting_start_of_week: S�?kt kalend�?ru ar
   setting_rest_api_enabled: Lietot REST web-servisu
   setting_cache_formatted_text: Kešot formatētu tekstu
 
@@ -344,48 +344,48 @@ lv:
   permission_add_subprojects: Izveidot apakšprojektu
   permission_edit_project: Rediģēt projektu
   permission_select_project_modules: Izvēlēties projekta moduļus
-  permission_manage_members: Pārvaldīt dalībniekus
-  permission_manage_project_activities: Pārvaldīt projekta aktivitātes
-  permission_manage_versions: Pārvaldīt versijas
-  permission_manage_categories: Pārvaldīt uzdevumu kategorijas
+  permission_manage_members: P�?rvaldīt dalībniekus
+  permission_manage_project_activities: P�?rvaldīt projekta aktivit�?tes
+  permission_manage_versions: P�?rvaldīt versijas
+  permission_manage_categories: P�?rvaldīt uzdevumu kategorijas
   permission_view_issues: Apskatīt uzdevumus
   permission_add_issues: Pievienot uzdevumus
   permission_edit_issues: Rediģēt uzdevumus
-  permission_manage_issue_relations: Pārvaldīt uzdevumu relācijas
+  permission_manage_issue_relations: P�?rvaldīt uzdevumu rel�?cijas
   permission_add_issue_notes: Pievienot piezīmes
   permission_edit_issue_notes: Rediģēt piezīmes
   permission_edit_own_issue_notes: Rediģēt paša piezīmes
-  permission_move_issues: Pārvietot uzdevumus
+  permission_move_issues: P�?rvietot uzdevumus
   permission_delete_issues: Dzēst uzdevumus
-  permission_manage_public_queries: Pārvaldīt publiskos pieprasījumus
-  permission_save_queries: Saglabāt pieprasījumus
+  permission_manage_public_queries: P�?rvaldīt publiskos pieprasījumus
+  permission_save_queries: Saglab�?t pieprasījumus
   permission_view_gantt: Skatīt Ganta diagrammu
-  permission_view_calendar: Skatīt kalendāru
-  permission_view_issue_watchers: Skatīt vērotāju sarakstu
-  permission_add_issue_watchers: Pievienot vērotājus
-  permission_delete_issue_watchers: Dzēst vērotājus
+  permission_view_calendar: Skatīt kalend�?ru
+  permission_view_issue_watchers: Skatīt vērot�?ju sarakstu
+  permission_add_issue_watchers: Pievienot vērot�?jus
+  permission_delete_issue_watchers: Dzēst vērot�?jus
   permission_log_time: Piereģistrēt pavadīto laiku
   permission_view_time_entries: Skatīt pavadīto laiku
   permission_edit_time_entries: Rdiģēt laika reģistrus
   permission_edit_own_time_entries:  Rediģēt savus laika reģistrus
-  permission_manage_news: Pārvaldīt jaunumus
+  permission_manage_news: P�?rvaldīt jaunumus
   permission_comment_news: Komentēt jaunumus
   permission_view_documents: Skatīt dokumentus
-  permission_manage_files: Pārvaldīt failus
+  permission_manage_files: P�?rvaldīt failus
   permission_view_files: Skatīt failus
-  permission_manage_wiki: Pārvaldīt wiki
-  permission_rename_wiki_pages: Pārsaukt wiki lapas
+  permission_manage_wiki: P�?rvaldīt wiki
+  permission_rename_wiki_pages: P�?rsaukt wiki lapas
   permission_delete_wiki_pages: Dzēst wiki lapas
   permission_view_wiki_pages: Skatīt wiki
   permission_view_wiki_edits: Skatīt wiki vēsturi
   permission_edit_wiki_pages: Rdiģēt wiki lapas
   permission_delete_wiki_pages_attachments: Dzēst pielikumus
   permission_protect_wiki_pages: Projekta wiki lapas
-  permission_manage_repository: Pārvaldīt repozitoriju
-  permission_browse_repository: Pārlūkot repozitoriju
+  permission_manage_repository: P�?rvaldīt repozitoriju
+  permission_browse_repository: P�?rlūkot repozitoriju
   permission_view_changesets: Skatīt izmaiņu kopumus
   permission_commit_access: Atļaut piekļuvi
-  permission_manage_boards: Pārvaldīt ziņojumu dēļus
+  permission_manage_boards: P�?rvaldīt ziņojumu dēļus
   permission_view_messages: Skatīt ziņas
   permission_add_messages: Publicēt ziņas
   permission_edit_messages: Rediģēt ziņas
@@ -403,9 +403,9 @@ lv:
   project_module_repository: Repozitorijs
   project_module_boards: Ziņojumu dēļi
 
-  label_user: Lietotājs
-  label_user_plural: Lietotāji
-  label_user_new: Jauns lietotājs
+  label_user: Lietot�?js
+  label_user_plural: Lietot�?ji
+  label_user_new: Jauns lietot�?js
   label_user_anonymous: Anonīms
   label_project: Projekts
   label_project_new: Jauns projekts
@@ -415,12 +415,12 @@ lv:
     one:   1 projekts
     other: "%{count} projekti"
   label_project_all: Visi projekti
-  label_project_latest: Jaunākie projekti
+  label_project_latest: Jaun�?kie projekti
   label_issue: Uzdevums
   label_issue_new: Jauns uzdevums
   label_issue_plural: Uzdevumi
   label_issue_view_all: Skatīt visus uzdevumus
-  label_issues_by: "Kārtot pēc %{value}"
+  label_issues_by: "K�?rtot pēc %{value}"
   label_issue_added: Uzdevums pievienots
   label_issue_updated: Uzdevums atjaunots
   label_document: Dokuments
@@ -444,34 +444,34 @@ lv:
   label_issue_category: Uzdevuma kategorija
   label_issue_category_plural: Uzdevumu kategorijas
   label_issue_category_new: Jauna kategorija
-  label_custom_field: Pielāgojams lauks
-  label_custom_field_plural: Pielāgojami lauki
-  label_custom_field_new: Jauns pielāgojams lauks
+  label_custom_field: Piel�?gojams lauks
+  label_custom_field_plural: Piel�?gojami lauki
+  label_custom_field_new: Jauns piel�?gojams lauks
   label_enumerations: Uzskaitījumi
   label_enumeration_new: Jauna vērtība
-  label_information: Informācija
-  label_information_plural: Informācija
+  label_information: Inform�?cija
+  label_information_plural: Inform�?cija
   label_please_login: Lūdzu pieslēdzieties
   label_register: Reģistrēties
   label_login_with_open_id_option: vai pieslēgties ar OpenID
   label_password_lost: Nozaudēta parole
-  label_home: Sākums
+  label_home: S�?kums
   label_my_page: Mana lapa
   label_my_account: Mans konts
   label_my_projects: Mani projekti
-  label_administration: Administrācija
+  label_administration: Administr�?cija
   label_login: Pieslēgties
   label_logout: Atslēgties
   label_help: Palīdzība
   label_reported_issues: Ziņotie uzdevumi
   label_assigned_to_me_issues: Man piesaistītie uzdevumi
-  label_last_login: Pēdējā pieslēgšanās
+  label_last_login: Pēdēj�? pieslēgšan�?s
   label_registered_on: Reģistrējies
-  label_activity: Aktivitāte
-  label_overall_activity: Kopējās aktivitātes
-  label_user_activity: "Lietotāja %{value} aktivitātes"
+  label_activity: Aktivit�?te
+  label_overall_activity: Kopēj�?s aktivit�?tes
+  label_user_activity: "Lietot�?ja %{value} aktivit�?tes"
   label_new: Jauns
-  label_logged_as: Pieslēdzies kā
+  label_logged_as: Pieslēdzies k�?
   label_environment: Vide
   label_authentication: Pilnvarošana
   label_auth_source: Pilnvarošanas režīms
@@ -479,18 +479,18 @@ lv:
   label_auth_source_plural: Pilnvarošanas režīmi
   label_subproject_plural: Apakšprojekti
   label_subproject_new: Jauns apakšprojekts
-  label_and_its_subprojects: "%{value} un tā apakšprojekti"
-  label_min_max_length: Minimālais - Maksimālais garums
+  label_and_its_subprojects: "%{value} un t�? apakšprojekti"
+  label_min_max_length: Minim�?lais - Maksim�?lais garums
   label_list: Saraksts
   label_date: Datums
   label_integer: Vesels skaitlis
-  label_float: Decimālskaitlis
+  label_float: Decim�?lskaitlis
   label_boolean: Patiesuma vērtība
   label_string: Teksts
   label_text: Garš teksts
   label_attribute: Atribūts
   label_attribute_plural: Atribūti
-  label_no_data: Nav datu, ko parādīt
+  label_no_data: Nav datu, ko par�?dīt
   label_change_status: Mainīt statusu
   label_history: Vēsture
   label_attachment: Pielikums
@@ -503,16 +503,16 @@ lv:
   label_news: Ziņa
   label_news_new: Pievienot ziņu
   label_news_plural: Ziņas
-  label_news_latest: Jaunākās ziņas
+  label_news_latest: Jaun�?k�?s ziņas
   label_news_view_all: Skatīt visas ziņas
   label_news_added: Ziņas pievienotas
   label_settings: Iestatījumi
-  label_overview: Pārskats
+  label_overview: P�?rskats
   label_version: Versija
   label_version_new: Jauna versija
   label_version_plural: Versijas
-  label_close_versions: Aizvērt pabeigtās versijas
-  label_confirmation: Apstiprinājums
+  label_close_versions: Aizvērt pabeigt�?s versijas
+  label_confirmation: Apstiprin�?jums
   label_export_to: 'Pieejams arī:'
   label_read: Lasīt...
   label_public_projects: Publiskie projekti
@@ -528,43 +528,43 @@ lv:
     zero:  0 slēgti
     one:   1 slēgts
     other: "%{count} slēgti"
-  label_total: Kopā
+  label_total: Kop�?
   label_permissions: Atļaujas
   label_current_status: Pašreizējais statuss
   label_new_statuses_allowed: Jauni statusi atļauti
   label_all: visi
   label_none: neviens
   label_nobody: nekas
-  label_next: Nākošais
+  label_next: N�?košais
   label_previous: Iepriekšējais
   label_used_by: Izmanto
   label_details: Detaļas
   label_add_note: Pievienot piezīmi
-  label_calendar: Kalendārs
+  label_calendar: Kalend�?rs
   label_months_from: mēneši no
   label_gantt: Ganta diagramma
   label_internal: Iekšējais
-  label_last_changes: "pēdējās %{count} izmaiņas"
+  label_last_changes: "pēdēj�?s %{count} izmaiņas"
   label_change_view_all: Skatīt visas izmaiņas
-  label_personalize_page: Pielāgot šo lapu
-  label_comment: Komentārs
-  label_comment_plural: Komentāri
+  label_personalize_page: Piel�?got šo lapu
+  label_comment: Koment�?rs
+  label_comment_plural: Koment�?ri
   label_x_comments:
-    zero: nav komentāru
-    one: 1 komentārs
-    other: "%{count} komentāri"
-  label_comment_add: Pievienot komentāru
-  label_comment_added: Komentārs pievienots
-  label_comment_delete: Dzēst komentārus
-  label_query: Pielāgots pieprasījums
-  label_query_plural: Pielāgoti pieprasījumi
+    zero: nav koment�?ru
+    one: 1 koment�?rs
+    other: "%{count} koment�?ri"
+  label_comment_add: Pievienot koment�?ru
+  label_comment_added: Koment�?rs pievienots
+  label_comment_delete: Dzēst koment�?rus
+  label_query: Piel�?gots pieprasījums
+  label_query_plural: Piel�?goti pieprasījumi
   label_query_new: Jauns pieprasījums
   label_filter_add: Pievienot filtru
   label_filter_plural: Filtri
   label_equals: ir
   label_not_equals: nav
-  label_in_less_than: ir mazāk kā
-  label_in_more_than: ir vairāk kā
+  label_in_less_than: ir maz�?k k�?
+  label_in_more_than: ir vair�?k k�?
   label_greater_or_equal: '>='
   label_less_or_equal: '<='
   label_in: iekš
@@ -572,48 +572,48 @@ lv:
   label_all_time: visu laiku
   label_yesterday: vakar
   label_this_week: šonedēļ
-  label_last_week: pagājušo šonedēļ
-  label_last_n_days: "pēdējās %{count} dienas"
+  label_last_week: pag�?jušo šonedēļ
+  label_last_n_days: "pēdēj�?s %{count} dienas"
   label_this_month: šomēnes
-  label_last_month: pagājušo mēnes
+  label_last_month: pag�?jušo mēnes
   label_this_year: šogad
   label_date_range: Datumu apgabals
-  label_less_than_ago: mazāk kā dienas iepriekš
-  label_more_than_ago: vairāk kā dienas iepriekš
+  label_less_than_ago: maz�?k k�? dienas iepriekš
+  label_more_than_ago: vair�?k k�? dienas iepriekš
   label_ago: dienas iepriekš
   label_contains: satur
   label_not_contains: nesatur
   label_day_plural: dienas
   label_repository: Repozitorijs
   label_repository_plural: Repozitoriji
-  label_browse: Pārlūkot
+  label_browse: P�?rlūkot
   label_branch: Zars
   label_tag: Birka
   label_revision: Revīzija
   label_revision_plural: Revīzijas
   label_revision_id: "Revīzija %{value}"
-  label_associated_revisions: Saistītās revīzijas
+  label_associated_revisions: Saistīt�?s revīzijas
   label_added: pievienots
   label_modified: modificēts
   label_copied: nokopēts
-  label_renamed: pārsaukts
+  label_renamed: p�?rsaukts
   label_deleted: dzēsts
-  label_latest_revision: Pēdējā revīzija
-  label_latest_revision_plural: Pēdējās revīzijas
+  label_latest_revision: Pēdēj�? revīzija
+  label_latest_revision_plural: Pēdēj�?s revīzijas
   label_view_revisions: Skatīt revīzijas
   label_view_all_revisions: Skatīt visas revīzijas
-  label_max_size: Maksimālais izmērs
-  label_sort_highest: Pārvietot uz augšu
-  label_sort_higher: Pārvietot soli augšup
-  label_sort_lower: Pārvietot uz leju
-  label_sort_lowest: Pārvietot vienu soli uz leju
+  label_max_size: Maksim�?lais izmērs
+  label_sort_highest: P�?rvietot uz augšu
+  label_sort_higher: P�?rvietot soli augšup
+  label_sort_lower: P�?rvietot uz leju
+  label_sort_lowest: P�?rvietot vienu soli uz leju
   label_roadmap: Ceļvedis
-  label_roadmap_due_in: "Sagaidāms pēc %{value}"
+  label_roadmap_due_in: "Sagaid�?ms pēc %{value}"
   label_roadmap_overdue: "nokavēts %{value}"
   label_roadmap_no_issues: Šai versijai nav uzdevumu
   label_search: Meklēt
-  label_result_plural: Rezultāti
-  label_all_words: Visi vārdi
+  label_result_plural: Rezult�?ti
+  label_all_words: Visi v�?rdi
   label_wiki: Wiki
   label_wiki_edit: Wiki labojums
   label_wiki_edit_plural: Wiki labojumi
@@ -621,7 +621,7 @@ lv:
   label_wiki_page_plural: Wiki lapas
   label_index_by_title: Indeksēt pēc nosaukuma
   label_index_by_date: Indeksēt pēc datuma
-  label_current_version: Tekošā versija
+  label_current_version: Tekoš�? versija
   label_preview: Priekšskatījums
   label_feed_plural: Barotnes
   label_changes_details: Visu izmaiņu detaļas
@@ -643,9 +643,9 @@ lv:
   label_watched_issues: Vērotie uzdevumi
   label_related_issues: Saistītie uzdevumi
   label_applied_status: Piešķirtais statuss
-  label_loading: Lādējas...
-  label_relation_new: Jauna relācija
-  label_relation_delete: Dzēst relāciju
+  label_loading: L�?dējas...
+  label_relation_new: Jauna rel�?cija
+  label_relation_delete: Dzēst rel�?ciju
   label_relates_to: saistīts ar
   label_duplicates: Dublē uzdevumu
   label_duplicated_by: Dublē uzdevums
@@ -655,7 +655,7 @@ lv:
   label_follows: Seko pēc
   label_stay_logged_in: Atcerēties mani
   label_disabled: izslēgts
-  label_show_completed_versions: Rādīt pabeigtās versijas
+  label_show_completed_versions: R�?dīt pabeigt�?s versijas
   label_me: es
   label_board: Forums
   label_board_new: Jauns forums
@@ -664,18 +664,18 @@ lv:
   label_board_sticky: Svarīgs
   label_topic_plural: Tēmas
   label_message_plural: Ziņas
-  label_message_last: Pēdējā ziņa
+  label_message_last: Pēdēj�? ziņa
   label_message_new: Jauna ziņa
   label_message_posted: Ziņa pievienota
   label_reply_plural: Atbildes
-  label_send_information: Sūtīt konta informāciju lietotājam
+  label_send_information: Sūtīt konta inform�?ciju lietot�?jam
   label_year: Gads
   label_month: Mēnesis
   label_week: Nedēļa
   label_date_from: No
   label_date_to: Kam
-  label_language_based: Izmantot lietotāja valodu
-  label_sort_by: "Kārtot pēc %{value}"
+  label_language_based: Izmantot lietot�?ja valodu
+  label_sort_by: "K�?rtot pēc %{value}"
   label_send_test_email: "Sūtīt testa e-pastu"
   label_feeds_access_key: Atom piekļuves atslēga
   label_missing_feeds_access_key: Trūkst Atom piekļuves atslēgas
@@ -684,10 +684,10 @@ lv:
   label_added_time_by: "Pievienojis %{author} pirms %{age}"
   label_updated_time_by: "Atjaunojis %{author} pirms %{age}"
   label_updated_time: "Atjaunots pirms %{value}"
-  label_jump_to_a_project: Pāriet uz projektu...
+  label_jump_to_a_project: P�?riet uz projektu...
   label_file_plural: Datnes
   label_changeset_plural: Izmaiņu kopumi
-  label_default_columns: Noklusētās kolonnas
+  label_default_columns: Noklusēt�?s kolonnas
   label_no_change_option: (Nav izmaiņu)
   label_bulk_edit_selected_issues: Labot visus izvēlētos uzdevumus
   label_theme: Tēma
@@ -695,11 +695,11 @@ lv:
   label_search_titles_only: Meklēt tikai nosaukumos
   label_user_mail_option_all: "Par visiem notikumiem visos manos projektos"
   label_user_mail_option_selected: "Par visiem notikumiem tikai izvēlētajos projektos..."
-  label_user_mail_no_self_notified: "Neziņot man par izmaiņām, kuras veicu es pats"
-  label_registration_activation_by_email: "konta aktivizācija caur e-pastu"
-  label_registration_manual_activation: manuālā konta aktivizācija
-  label_registration_automatic_activation: automātiskā konta aktivizācija
-  label_display_per_page: "Rādīt vienā lapā: %{value}"
+  label_user_mail_no_self_notified: "Neziņot man par izmaiņ�?m, kuras veicu es pats"
+  label_registration_activation_by_email: "konta aktiviz�?cija caur e-pastu"
+  label_registration_manual_activation: manu�?l�? konta aktiviz�?cija
+  label_registration_automatic_activation: autom�?tisk�? konta aktiviz�?cija
+  label_display_per_page: "R�?dīt vien�? lap�?: %{value}"
   label_age: Vecums
   label_change_properties: Mainīt atribūtus
   label_general: Galvenais
@@ -707,19 +707,19 @@ lv:
   label_scm: SCM
   label_plugins: Spraudņi
   label_ldap_authentication: LDAP pilnvarošana
-  label_downloads_abbr: L-lād.
-  label_optional_description: "Apraksts (neobligāts)"
+  label_downloads_abbr: L-l�?d.
+  label_optional_description: "Apraksts (neoblig�?ts)"
   label_add_another_file: Pievienot citu failu
   label_preferences: Priekšrocības
-  label_chronological_order: Hronoloģiskā kārtībā
-  label_reverse_chronological_order: Apgriezti hronoloģiskā kārtībā
-  label_planning: Plānošana
-  label_incoming_emails: "Ienākošie e-pasti"
+  label_chronological_order: Hronoloģisk�? k�?rtīb�?
+  label_reverse_chronological_order: Apgriezti hronoloģisk�? k�?rtīb�?
+  label_planning: Pl�?nošana
+  label_incoming_emails: "Ien�?košie e-pasti"
   label_generate_key: Ģenerēt atslēgu
-  label_issue_watchers: Vērotāji
+  label_issue_watchers: Vērot�?ji
   label_example: Piemērs
-  label_display: Rādīt
-  label_sort: Kārtot
+  label_display: R�?dīt
+  label_sort: K�?rtot
   label_ascending: Augoši
   label_descending: Dilstoši
   label_date_from_to: "No %{start} līdz %{end}"
@@ -737,37 +737,37 @@ lv:
   label_update_issue_done_ratios: Atjaunot uzdevuma veikuma attiecību
   label_copy_source: Avots
   label_copy_target: Mērķis
-  label_copy_same_as_target: Tāds pats kā mērķis
-  label_display_used_statuses_only: "Rādīt tikai statusus, ko lieto šis trakeris"
+  label_copy_same_as_target: T�?ds pats k�? mērķis
+  label_display_used_statuses_only: "R�?dīt tikai statusus, ko lieto šis trakeris"
   label_api_access_key: API pieejas atslēga
   label_missing_api_access_key: Trūkst API pieejas atslēga
   label_api_access_key_created_on: "API pieejas atslēga izveidota pirms %{value}"
 
   button_login: Pieslēgties
   button_submit: Nosūtīt
-  button_save: Saglabāt
+  button_save: Saglab�?t
   button_check_all: Atzīmēt visu
   button_uncheck_all: Noņemt visus atzīmējumus
   button_delete: Dzēst
   button_create: Izveidot
-  button_create_and_continue: Izveidot un turpināt
+  button_create_and_continue: Izveidot un turpin�?t
   button_test: Testēt
   button_edit: Labot
   button_add: Pievienot
   button_change: Mainīt
-  button_apply: Apstiprināt
+  button_apply: Apstiprin�?t
   button_clear: Notīrīt
   button_lock: Slēgt
   button_unlock: Atslēgt
-  button_download: Lejuplādēt
+  button_download: Lejupl�?dēt
   button_list: Saraksts
   button_view: Skats
-  button_move: Pārvietot
-  button_move_and_follow: Pārvietot un sekot
+  button_move: P�?rvietot
+  button_move_and_follow: P�?rvietot un sekot
   button_back: Atpakaļ
   button_cancel: Atcelt
   button_activate: Aktivizēt
-  button_sort: Kārtot
+  button_sort: K�?rtot
   button_log_time: Reģistrēt laiku
   button_rollback: Atjaunot uz šo versiju
   button_watch: Vērot
@@ -776,16 +776,16 @@ lv:
   button_archive: Arhivēt
   button_unarchive: Atarhivēt
   button_reset: Atiestatīt
-  button_rename: Pārsaukt
+  button_rename: P�?rsaukt
   button_change_password: Mainīt paroli
   button_copy: Kopēt
   button_copy_and_follow: Kopēt un sekot
   button_annotate: Pierakstīt paskaidrojumu
   button_update: Atjaunot
   button_configure: Konfigurēt
-  button_quote: Citāts
+  button_quote: Cit�?ts
   button_duplicate: Dublēt
-  button_show: Rādīt
+  button_show: R�?dīt
 
   status_active: aktīvs
   status_registered: reģistrēts
@@ -797,87 +797,87 @@ lv:
 
   field_active: Aktīvs
 
-  text_select_mail_notifications: "Izvēlieties darbības, par kurām vēlaties saņemt ziņojumus e-pastā"
+  text_select_mail_notifications: "Izvēlieties darbības, par kur�?m vēlaties saņemt ziņojumus e-past�?"
   text_regexp_info: "piem. ^[A-Z0-9]+$"
   text_min_max_length_info: "0 nozīmē, ka nav ierobežojumu"
-  text_project_destroy_confirmation: "Vai tiešām vēlaties dzēst šo projektu un ar to saistītos datus?"
-  text_subprojects_destroy_warning: "Tā apakšprojekts(i): %{value} arī tiks dzēsts(i)."
+  text_project_destroy_confirmation: "Vai tieš�?m vēlaties dzēst šo projektu un ar to saistītos datus?"
+  text_subprojects_destroy_warning: "T�? apakšprojekts(i): %{value} arī tiks dzēsts(i)."
   text_workflow_edit: Lai labotu darba plūsmu, izvēlieties lomu un trakeri
-  text_are_you_sure: "Vai esat pārliecināts?"
+  text_are_you_sure: "Vai esat p�?rliecin�?ts?"
   text_journal_changed: "%{label} mainīts no %{old} uz %{new}"
   text_journal_set_to: "%{label} iestatīts uz %{value}"
   text_journal_deleted: "%{label} dzēsts (%{old})"
   text_journal_added: "%{label} %{value} pievienots"
-  text_tip_issue_begin_day: uzdevums sākas šodien
+  text_tip_issue_begin_day: uzdevums s�?kas šodien
   text_tip_issue_end_day: uzdevums beidzas šodien
-  text_tip_issue_begin_end_day: uzdevums sākas un beidzas šodien
-  text_caracters_maximum: "%{count} simboli maksimāli."
-  text_caracters_minimum: "Jābūt vismaz %{count} simbolu garumā."
+  text_tip_issue_begin_end_day: uzdevums s�?kas un beidzas šodien
+  text_caracters_maximum: "%{count} simboli maksim�?li."
+  text_caracters_minimum: "J�?būt vismaz %{count} simbolu garum�?."
   text_length_between: "Garums starp %{min} un %{max} simboliem."
   text_tracker_no_workflow: Šim trakerim nav definēta darba plūsma
   text_unallowed_characters: Neatļauti simboli
-  text_comma_separated: "Atļautas vairākas vērtības (atdalīt ar komatu)."
-  text_line_separated: "Atļautas vairākas vērtības (rakstīt katru savā rindā)."
-  text_issues_ref_in_commit_messages: "Izmaiņu salīdzināšana izejot no ziņojumiem"
+  text_comma_separated: "Atļautas vair�?kas vērtības (atdalīt ar komatu)."
+  text_line_separated: "Atļautas vair�?kas vērtības (rakstīt katru sav�? rind�?)."
+  text_issues_ref_in_commit_messages: "Izmaiņu salīdzin�?šana izejot no ziņojumiem"
   text_issue_added: "Uzdevumu %{id} pievienojis %{author}."
   text_issue_updated: "Uzdevumu %{id} atjaunojis %{author}."
-  text_wiki_destroy_confirmation: "Vai esat drošs, ka vēlaties dzēst šo wiki un visu tās saturu?"
+  text_wiki_destroy_confirmation: "Vai esat drošs, ka vēlaties dzēst šo wiki un visu t�?s saturu?"
   text_issue_category_destroy_question: "Daži uzdevumi (%{count}) ir nozīmēti šai kategorijai. Ko Jūs vēlaties darīt?"
   text_issue_category_destroy_assignments: Dzēst kategoriju nozīmējumus
   text_issue_category_reassign_to: Nozīmēt uzdevumus šai kategorijai
-  text_user_mail_option: "No neizvēlētajiem projektiem Jūs saņemsiet ziņojumus e-pastā tikai par notikumiem, kuriem Jūs sekojat vai kuros esat iesaistīts."
-  text_no_configuration_data: "Lomas, trakeri, uzdevumu statusi un darba plūsmas vēl nav konfigurētas.\nĻoti ieteicams ielādēt noklusēto konfigurāciju. Pēc ielādēšanas to būs iespējams modificēt."
-  text_load_default_configuration: Ielādēt noklusēto konfigurāciju
-  text_status_changed_by_changeset: "Apstiprināts izmaiņu kopumā %{value}."
-  text_issues_destroy_confirmation: 'Vai tiešām vēlaties dzēst izvēlēto uzdevumu(us)?'
+  text_user_mail_option: "No neizvēlētajiem projektiem Jūs saņemsiet ziņojumus e-past�? tikai par notikumiem, kuriem Jūs sekojat vai kuros esat iesaistīts."
+  text_no_configuration_data: "Lomas, trakeri, uzdevumu statusi un darba plūsmas vēl nav konfigurētas.\nĻoti ieteicams iel�?dēt noklusēto konfigur�?ciju. Pēc iel�?dēšanas to būs iespējams modificēt."
+  text_load_default_configuration: Iel�?dēt noklusēto konfigur�?ciju
+  text_status_changed_by_changeset: "Apstiprin�?ts izmaiņu kopum�? %{value}."
+  text_issues_destroy_confirmation: 'Vai tieš�?m vēlaties dzēst izvēlēto uzdevumu(us)?'
   text_select_project_modules: 'Izvēlieties moduļus šim projektam:'
   text_default_administrator_account_changed: Noklusētais administratora konts mainīts
-  text_file_repository_writable: Pielikumu direktorijā atļauts rakstīt
-  text_plugin_assets_writable: Spraudņu kataloga direktorijā atļauts rakstīt
-  text_rmagick_available: "RMagick pieejams (neobligāts)"
+  text_file_repository_writable: Pielikumu direktorij�? atļauts rakstīt
+  text_plugin_assets_writable: Spraudņu kataloga direktorij�? atļauts rakstīt
+  text_rmagick_available: "RMagick pieejams (neoblig�?ts)"
   text_destroy_time_entries_question: "%{hours} stundas tika ziņotas par uzdevumu, ko vēlaties dzēst. Ko darīt?"
-  text_destroy_time_entries: Dzēst ziņotās stundas
-  text_assign_time_entries_to_project: Piešķirt ziņotās stundas projektam
-  text_reassign_time_entries: 'Piešķirt ziņotās stundas uzdevumam:'
+  text_destroy_time_entries: Dzēst ziņot�?s stundas
+  text_assign_time_entries_to_project: Piešķirt ziņot�?s stundas projektam
+  text_reassign_time_entries: 'Piešķirt ziņot�?s stundas uzdevumam:'
   text_user_wrote: "%{value} rakstīja:"
   text_enumeration_destroy_question: "%{count} objekti ir piešķirti šai vērtībai."
   text_enumeration_category_reassign_to: 'Piešķirt tos šai vērtībai:'
-  text_email_delivery_not_configured: "E-pastu nosūtīšana nav konfigurēta, un ziņojumi ir izslēgti.\nKonfigurējiet savu SMTP serveri datnē config/configuration.yml un pārstartējiet lietotni."
-  text_repository_usernames_mapping: "Izvēlieties vai atjaunojiet Redmine lietotāju, saistītu ar katru lietotājvārdu, kas atrodams repozitorija žurnālā.\nLietotāji ar to pašu Redmine un repozitorija lietotājvārdu būs saistīti automātiski."
-  text_diff_truncated: '... Šis diff tika nošķelts, jo tas pārsniedz maksimālo izmēru, ko var parādīt.'
-  text_custom_field_possible_values_info: 'Katra vērtības savā rindā'
-  text_wiki_page_destroy_question: "Šij lapai ir %{descendants} apakšlapa(as) un pēcnācēji. Ko darīt?"
-  text_wiki_page_nullify_children: "Paturēt apakšlapas kā pamatlapas"
-  text_wiki_page_destroy_children: "Dzēst apakšlapas un visus pēcnācējus"
+  text_email_delivery_not_configured: "E-pastu nosūtīšana nav konfigurēta, un ziņojumi ir izslēgti.\nKonfigurējiet savu SMTP serveri datnē config/configuration.yml un p�?rstartējiet lietotni."
+  text_repository_usernames_mapping: "Izvēlieties vai atjaunojiet Redmine lietot�?ju, saistītu ar katru lietot�?jv�?rdu, kas atrodams repozitorija žurn�?l�?.\nLietot�?ji ar to pašu Redmine un repozitorija lietot�?jv�?rdu būs saistīti autom�?tiski."
+  text_diff_truncated: '... Šis diff tika nošķelts, jo tas p�?rsniedz maksim�?lo izmēru, ko var par�?dīt.'
+  text_custom_field_possible_values_info: 'Katra vērtības sav�? rind�?'
+  text_wiki_page_destroy_question: "Šij lapai ir %{descendants} apakšlapa(as) un pēcn�?cēji. Ko darīt?"
+  text_wiki_page_nullify_children: "Paturēt apakšlapas k�? pamatlapas"
+  text_wiki_page_destroy_children: "Dzēst apakšlapas un visus pēcn�?cējus"
   text_wiki_page_reassign_children: "Piešķirt apakšlapas šai lapai"
-  text_own_membership_delete_confirmation: "Jūs tūlīt dzēsīsiet dažas vai visas atļaujas, un Jums pēc tam var nebūt atļauja labot šo projektu.\nVai turpināt?"
+  text_own_membership_delete_confirmation: "Jūs tūlīt dzēsīsiet dažas vai visas atļaujas, un Jums pēc tam var nebūt atļauja labot šo projektu.\nVai turpin�?t?"
 
   default_role_manager: Menedžeris
-  default_role_developer: Izstrādātājs
-  default_role_reporter: Ziņotājs
+  default_role_developer: Izstr�?d�?t�?js
+  default_role_reporter: Ziņot�?js
   default_tracker_bug: Kļūda
   default_tracker_feature: Iezīme
   default_tracker_support: Atbalsts
   default_issue_status_new: Jauns
-  default_issue_status_in_progress: Attīstībā
-  default_issue_status_resolved: Atrisināts
+  default_issue_status_in_progress: Attīstīb�?
+  default_issue_status_resolved: Atrisin�?ts
   default_issue_status_feedback: Atsauksmes
   default_issue_status_closed: Slēgts
   default_issue_status_rejected: Noraidīts
-  default_doc_category_user: Lietotāja dokumentācija
-  default_doc_category_tech: Tehniskā dokumentācija
+  default_doc_category_user: Lietot�?ja dokument�?cija
+  default_doc_category_tech: Tehnisk�? dokument�?cija
   default_priority_low: Zema
-  default_priority_normal: Normāla
+  default_priority_normal: Norm�?la
   default_priority_high: Augsta
   default_priority_urgent: Steidzama
   default_priority_immediate: Tūlītēja
   default_activity_design: Dizains
-  default_activity_development: Izstrādāšana
+  default_activity_development: Izstr�?d�?šana
 
-  enumeration_issue_priorities: Uzdevumu prioritātes
+  enumeration_issue_priorities: Uzdevumu priorit�?tes
   enumeration_doc_categories: Dokumentu kategorijas
-  enumeration_activities: Aktivitātes (laika uzskaite)
-  enumeration_system_activity: Sistēmas aktivitātes
+  enumeration_activities: Aktivit�?tes (laika uzskaite)
+  enumeration_system_activity: Sistēmas aktivit�?tes
 
   error_can_not_delete_custom_field: Unable to delete custom field
   permission_manage_subtasks: Manage subtasks
@@ -1071,7 +1071,7 @@ lv:
   field_closed_on: Closed
   field_generate_password: Generate password
   setting_default_projects_tracker_ids: Default trackers for new projects
-  label_total_time: Kopā
+  label_total_time: Kop�?
   text_scm_config: You can configure your SCM commands in config/configuration.yml. Please restart the application after editing it.
   text_scm_command_not_available: SCM command is not available. Please check settings on the administration panel.
   setting_emails_header: Email header
@@ -1156,7 +1156,7 @@ lv:
   label_fields_wrapper: Field wrapper
   label_encoding: Encoding
   label_comma_char: Comma
-  label_semi_colon_char: Semi colon
+  label_semi_colon_char: Semicolon
   label_quote_char: Quote
   label_double_quote_char: Double quote
   label_fields_mapping: Fields mapping

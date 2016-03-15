@@ -545,8 +545,8 @@ pt-BR:
   label_wiki_edit_plural: Edições Wiki
   label_wiki_page: Página Wiki
   label_wiki_page_plural: páginas Wiki
-  label_index_by_title: Índice por título
-  label_index_by_date: Índice por data
+  label_index_by_title: �?ndice por título
+  label_index_by_date: �?ndice por data
   label_current_version: Versão atual
   label_preview: Pré-visualizar
   label_feed_plural: Feeds
@@ -1182,7 +1182,7 @@ pt-BR:
   label_fields_wrapper: Field wrapper
   label_encoding: Encoding
   label_comma_char: Comma
-  label_semi_colon_char: Semi colon
+  label_semi_colon_char: Semicolon
   label_quote_char: Quote
   label_double_quote_char: Double quote
   label_fields_mapping: Fields mapping
