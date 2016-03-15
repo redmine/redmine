@@ -901,7 +901,7 @@ p.progress-info {clear: left; font-size: 80%; margin-top:-4px; color:#777;}
 
 #content .tabs ul li a.selected:hover {background-color: #fff;}
 
-div.tabs-buttons { position:absolute; right: 0; width: 48px; height: 24px; background: white; bottom: 0; border-bottom: 1px solid #bbbbbb; }
+div.tabs-buttons { position:absolute; right: 0; width: 54px; height: 24px; background: white; bottom: 0; border-bottom: 1px solid #bbbbbb; }
 
 button.tab-left, button.tab-right {
   font-size: 0.9em;
@@ -914,6 +914,12 @@ button.tab-left, button.tab-right {
   width: 20px;
   bottom: -1px;
 }
+button.tab-left:hover, button.tab-right:hover {
+  background-color: #f5f5f5;
+}
+button.tab-left:focus, button.tab-right:focus {
+  outline: 0;
+}
 
 button.tab-left {
   right: 20px;
@@ -925,6 +931,11 @@ button.tab-right {
   right: 0;
   background: #eeeeee url(../images/bullet_arrow_right.png) no-repeat 50% 50%;
   border-top-right-radius:3px;
+}
+
+button.tab-left.disabled, button.tab-right.disabled {
+  background-color: #ccc;
+  cursor: unset;
 }
 
 /***** Diff *****/
