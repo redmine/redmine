@@ -355,7 +355,7 @@ module Redmine
       self.form_partial = 'custom_fields/formats/link'
 
       def formatted_value(view, custom_field, value, customized=nil, html=false)
-        if html
+        if html && value.present?
           if custom_field.url_pattern.present?
             url = url_from_pattern(custom_field, value, customized)
           else
