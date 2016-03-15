@@ -65,8 +65,8 @@ sl:
         one:   "okrog 1. leto"
         other: "okrog %{count} let"
       over_x_years:
-        one:   "veÄ? kot 1. leto"
-        other: "veÄ? kot %{count} let"
+        one:   "veÄ kot 1. leto"
+        other: "veÄ kot %{count} let"
       almost_x_years:
         one:   "skoraj 1. leto"
         other: "skoraj %{count} let"
@@ -101,32 +101,32 @@ sl:
     errors:
       template:
         header:
-          one:    "1. napaka je prepreÄ?ila temu %{model} da bi se shranil"
-          other:  "%{count} napak je prepreÄ?ilo temu %{model} da bi se shranil"
+          one:    "1. napaka je prepreÄila temu %{model} da bi se shranil"
+          other:  "%{count} napak je prepreÄilo temu %{model} da bi se shranil"
       messages:
-        inclusion: "ni vkljuÄ?en na seznamu"
+        inclusion: "ni vkljuÄen na seznamu"
         exclusion: "je rezerviran"
-        invalid: "je napaÄ?en"
+        invalid: "je napaÄen"
         confirmation: "ne ustreza potrdilu"
         accepted: "mora biti sprejet"
         empty: "ne sme biti prazen"
         blank: "ne sme biti neizpolnjen"
         too_long: "je predolg"
         too_short: "je prekratek"
-        wrong_length: "je napaÄ?ne dolÅ¾ine"
+        wrong_length: "je napaÄne dolÅ¾ine"
         taken: "je Å¾e zaseden"
         not_a_number: "ni Å¡tevilo"
         not_a_date: "ni veljaven datum"
-        greater_than: "mora biti veÄ?ji kot %{count}"
-        greater_than_or_equal_to: "mora biti veÄ?ji ali enak kot %{count}"
+        greater_than: "mora biti veÄji kot %{count}"
+        greater_than_or_equal_to: "mora biti veÄji ali enak kot %{count}"
         equal_to: "mora biti enak kot %{count}"
         less_than: "mora biti manjÅ¡i kot %{count}"
         less_than_or_equal_to: "mora biti manjÅ¡i ali enak kot %{count}"
         odd: "mora biti sodo"
         even: "mora biti liho"
-        greater_than_start_date: "mora biti kasnejÅ¡i kot zaÄ?etni datum"
+        greater_than_start_date: "mora biti kasnejÅ¡i kot zaÄetni datum"
         not_same_project: "ne pripada istemu projektu"
-        circular_dependency: "Ta odnos bi povzroÄ?il kroÅ¾no odvisnost"
+        circular_dependency: "Ta odnos bi povzroÄil kroÅ¾no odvisnost"
         cant_link_an_issue_with_a_descendant: "Zahtevek ne more biti povezan s svojo podnalogo"
         earlier_than_minimum_start_date: "cannot be earlier than %{date} because of preceding issues"
 
@@ -136,7 +136,7 @@ sl:
   general_text_Yes: 'Da'
   general_text_no: 'ne'
   general_text_yes: 'da'
-  general_lang_name: 'Slovene (SlovenÅ¡Ä?ina)'
+  general_lang_name: 'Slovene (SlovenÅ¡Äina)'
   general_csv_separator: ','
   general_csv_decimal_separator: '.'
   general_csv_encoding: UTF-8
@@ -144,15 +144,15 @@ sl:
   general_pdf_monospaced_fontname: freemono
   general_first_day_of_week: '1'
 
-  notice_account_updated: RaÄ?un je bil uspeÅ¡no posodobljen.
-  notice_account_invalid_credentials: NapaÄ?no uporabniÅ¡ko ime ali geslo
+  notice_account_updated: RaÄun je bil uspeÅ¡no posodobljen.
+  notice_account_invalid_credentials: NapaÄno uporabniÅ¡ko ime ali geslo
   notice_account_password_updated: Geslo je bilo uspeÅ¡no posodobljeno.
-  notice_account_wrong_password: NapaÄ?no geslo
-  notice_account_register_done: RaÄ?un je bil uspeÅ¡no ustvarjen. Za aktivacijo potrdite povezavo, ki vam je bila poslana v e-nabiralnik.
+  notice_account_wrong_password: NapaÄno geslo
+  notice_account_register_done: RaÄun je bil uspeÅ¡no ustvarjen. Za aktivacijo potrdite povezavo, ki vam je bila poslana v e-nabiralnik.
   notice_account_unknown_email: Neznan uporabnik.
-  notice_can_t_change_password: Ta raÄ?un za overovljanje uporablja zunanji. Gesla ni mogoÄ?e spremeniti.
+  notice_can_t_change_password: Ta raÄun za overovljanje uporablja zunanji. Gesla ni mogoÄe spremeniti.
   notice_account_lost_email_sent: Poslano vam je bilo e-pismo z navodili za izbiro novega gesla.
-  notice_account_activated: VaÅ¡ raÄ?un je bil aktiviran. Sedaj se lahko prijavite.
+  notice_account_activated: VaÅ¡ raÄun je bil aktiviran. Sedaj se lahko prijavite.
   notice_successful_create: Ustvarjanje uspelo.
   notice_successful_update: Posodobitev uspela.
   notice_successful_delete: Izbris uspel.
@@ -160,29 +160,29 @@ sl:
   notice_file_not_found: Stran na katero se Å¾elite povezati ne obstaja ali pa je bila umaknjena.
   notice_locking_conflict: Drug uporabnik je posodobil podatke.
   notice_not_authorized: Nimate privilegijev za dostop do te strani.
-  notice_email_sent: "E-poÅ¡tno sporoÄ?ilo je bilo poslano %{value}"
-  notice_email_error: "Ob poÅ¡iljanju e-sporoÄ?ila je priÅ¡lo do napake (%{value})"
-  notice_feeds_access_key_reseted: VaÅ¡ Atom dostopni kljuÄ? je bil ponastavljen.
+  notice_email_sent: "E-poÅ¡tno sporoÄilo je bilo poslano %{value}"
+  notice_email_error: "Ob poÅ¡iljanju e-sporoÄila je priÅ¡lo do napake (%{value})"
+  notice_feeds_access_key_reseted: VaÅ¡ Atom dostopni kljuÄ je bil ponastavljen.
   notice_failed_to_save_issues: "Neuspelo shranjevanje %{count} zahtevka na %{total} izbranem: %{ids}."
   notice_no_issue_selected: "Izbran ni noben zahtevek! Prosimo preverite zahtevke, ki jih Å¾elite urediti."
-  notice_account_pending: "VaÅ¡ raÄ?un je bil ustvarjen in Ä?aka na potrditev s strani administratorja."
+  notice_account_pending: "VaÅ¡ raÄun je bil ustvarjen in Äaka na potrditev s strani administratorja."
   notice_default_data_loaded: Privzete nastavitve so bile uspeÅ¡no naloÅ¾ene.
-  notice_unable_delete_version: Verzije ni bilo mogoÄ?e izbrisati.
+  notice_unable_delete_version: Verzije ni bilo mogoÄe izbrisati.
 
-  error_can_t_load_default_data: "Privzetih nastavitev ni bilo mogoÄ?e naloÅ¾iti: %{value}"
+  error_can_t_load_default_data: "Privzetih nastavitev ni bilo mogoÄe naloÅ¾iti: %{value}"
   error_scm_not_found: "Vnos ali revizija v shrambi ni bila najdena ."
   error_scm_command_failed: "Med vzpostavljem povezave s shrambo je priÅ¡lo do napake: %{value}"
-  error_scm_annotate: "Vnos ne obstaja ali pa ga ni mogoÄ?e komentirati."
+  error_scm_annotate: "Vnos ne obstaja ali pa ga ni mogoÄe komentirati."
   error_issue_not_found_in_project: 'Zahtevek ni bil najden ali pa ne pripada temu projektu'
 
   mail_subject_lost_password: "VaÅ¡e %{value} geslo"
   mail_body_lost_password: 'Za spremembo glesla kliknite na naslednjo povezavo:'
-  mail_subject_register: "Aktivacija %{value} vaÅ¡ega raÄ?una"
-  mail_body_register: 'Za aktivacijo vaÅ¡ega raÄ?una kliknite na naslednjo povezavo:'
-  mail_body_account_information_external: "Za prijavo lahko uporabite vaÅ¡ %{value} raÄ?un."
-  mail_body_account_information: "Informacije o vaÅ¡em raÄ?unu. Za spremembo gesla sledite linku 'Spremeni geslo' na naslovu za prijavo, spodaj."
-  mail_subject_account_activation_request: "%{value} zahtevek za aktivacijo raÄ?una"
-  mail_body_account_activation_request: "Registriral se je nov uporabnik (%{value}). RaÄ?un Ä?aka na vaÅ¡o odobritev:"
+  mail_subject_register: "Aktivacija %{value} vaÅ¡ega raÄuna"
+  mail_body_register: 'Za aktivacijo vaÅ¡ega raÄuna kliknite na naslednjo povezavo:'
+  mail_body_account_information_external: "Za prijavo lahko uporabite vaÅ¡ %{value} raÄun."
+  mail_body_account_information: "Informacije o vaÅ¡em raÄunu. Za spremembo gesla sledite linku 'Spremeni geslo' na naslovu za prijavo, spodaj."
+  mail_subject_account_activation_request: "%{value} zahtevek za aktivacijo raÄuna"
+  mail_body_account_activation_request: "Registriral se je nov uporabnik (%{value}). RaÄun Äaka na vaÅ¡o odobritev:"
   mail_subject_reminder: "%{count} zahtevek(zahtevki) zapadejo v naslednjih %{days} dneh"
   mail_body_reminder: "%{count} zahtevek(zahtevki), ki so vam dodeljeni bodo zapadli v naslednjih %{days} dneh:"
 
@@ -223,14 +223,14 @@ sl:
   field_fixed_version: Ciljna verzija
   field_user: Uporabnik
   field_role: Vloga
-  field_homepage: DomaÄ?a stran
+  field_homepage: DomaÄa stran
   field_is_public: Javno
   field_parent: Podprojekt projekta
   field_is_in_roadmap: Zahtevki prikazani na zemljevidu
   field_login: Prijava
   field_mail_notification: E-poÅ¡tna oznanila
   field_admin: Administrator
-  field_last_login_on: ZadnjiÄ? povezan(a)
+  field_last_login_on: ZadnjiÄ povezan(a)
   field_language: Jezik
   field_effective_date: Datum
   field_password: Geslo
@@ -240,20 +240,20 @@ sl:
   field_type: Tip
   field_host: Gostitelj
   field_port: Vrata
-  field_account: RaÄ?un
+  field_account: RaÄun
   field_base_dn: Bazni DN
   field_attr_login: Oznaka za prijavo
   field_attr_firstname: Oznaka za ime
   field_attr_lastname: Oznaka za priimek
   field_attr_mail: Oznaka za e-naslov
   field_onthefly: Sprotna izdelava uporabnikov
-  field_start_date: ZaÄ?etek
+  field_start_date: ZaÄetek
   field_done_ratio: "% Narejeno"
-  field_auth_source: NaÄ?in overovljanja
+  field_auth_source: NaÄin overovljanja
   field_hide_mail: Skrij moj e-naslov
   field_comments: Komentar
   field_url: URL
-  field_start_page: ZaÄ?etna stran
+  field_start_page: ZaÄetna stran
   field_subproject: Podprojekt
   field_hours: Ur
   field_activity: Aktivnost
@@ -263,14 +263,14 @@ sl:
   field_issue_to: Povezan zahtevek
   field_delay: Zamik
   field_assignable: Zahtevki so lahko dodeljeni tej vlogi
-  field_redirect_existing_links: Preusmeri obstojeÄ?e povezave
-  field_estimated_hours: Ocenjen Ä?as
+  field_redirect_existing_links: Preusmeri obstojeÄe povezave
+  field_estimated_hours: Ocenjen Äas
   field_column_names: Stolpci
   field_time_zone: ÄŒasovni pas
   field_searchable: ZmoÅ¾en iskanja
   field_default_value: Privzeta vrednost
   field_comments_sorting: PrikaÅ¾i komentarje
-  field_parent_title: MatiÄ?na stran
+  field_parent_title: MatiÄna stran
 
   setting_app_title: Naslov aplikacije
   setting_app_subtitle: Podnaslov aplikacije
@@ -282,37 +282,37 @@ sl:
   setting_issues_export_limit: Skrajna meja za izvoz zahtevkov
   setting_mail_from: E-naslov za emisijo
   setting_bcc_recipients: Prejemniki slepih kopij (bcc)
-  setting_plain_text_mail: navadno e-sporoÄ?ilo (ne HTML)
+  setting_plain_text_mail: navadno e-sporoÄilo (ne HTML)
   setting_host_name: Ime gostitelja in pot
   setting_text_formatting: Oblikovanje besedila
   setting_wiki_compression: Stiskanje Wiki zgodovine
   setting_feeds_limit: Meja obsega Atom virov
   setting_default_projects_public: Novi projekti so privzeto javni
-  setting_autofetch_changesets: Samodejni izvleÄ?ek zapisa sprememb
-  setting_sys_api_enabled: OmogoÄ?i WS za upravljanje shrambe
-  setting_commit_ref_keywords: Sklicne kljuÄ?ne besede
-  setting_commit_fix_keywords: Urejanje kljuÄ?ne besede
+  setting_autofetch_changesets: Samodejni izvleÄek zapisa sprememb
+  setting_sys_api_enabled: OmogoÄi WS za upravljanje shrambe
+  setting_commit_ref_keywords: Sklicne kljuÄne besede
+  setting_commit_fix_keywords: Urejanje kljuÄne besede
   setting_autologin: Avtomatska prijava
   setting_date_format: Oblika datuma
-  setting_time_format: Oblika Ä?asa
-  setting_cross_project_issue_relations: Dovoli povezave zahtevkov med razliÄ?nimi projekti
+  setting_time_format: Oblika Äasa
+  setting_cross_project_issue_relations: Dovoli povezave zahtevkov med razliÄnimi projekti
   setting_issue_list_default_columns: Privzeti stolpci prikazani na seznamu zahtevkov
-  setting_emails_footer: Noga e-sporoÄ?il
+  setting_emails_footer: Noga e-sporoÄil
   setting_protocol: Protokol
   setting_per_page_options: Å tevilo elementov na stran
   setting_user_format: Oblika prikaza uporabnikov
   setting_activity_days_default: Prikaz dni na aktivnost projekta
   setting_display_subprojects_issues: Privzeti prikaz zahtevkov podprojektov v glavnem projektu
-  setting_enabled_scm: OmogoÄ?en SCM
-  setting_mail_handler_api_enabled: OmogoÄ?i WS za prihajajoÄ?o e-poÅ¡to
-  setting_mail_handler_api_key: API kljuÄ?
-  setting_sequential_project_identifiers: Generiraj projektne identifikatorje sekvenÄ?no
+  setting_enabled_scm: OmogoÄen SCM
+  setting_mail_handler_api_enabled: OmogoÄi WS za prihajajoÄo e-poÅ¡to
+  setting_mail_handler_api_key: API kljuÄ
+  setting_sequential_project_identifiers: Generiraj projektne identifikatorje sekvenÄno
   setting_gravatar_enabled: Uporabljaj Gravatar ikone
-  setting_diff_max_lines_displayed: Maksimalno Å¡tevilo prikazanih vrstic razliÄ?nosti
+  setting_diff_max_lines_displayed: Maksimalno Å¡tevilo prikazanih vrstic razliÄnosti
 
   permission_edit_project: Uredi projekt
   permission_select_project_modules: Izberi module projekta
-  permission_manage_members: Uredi Ä?lane
+  permission_manage_members: Uredi Älane
   permission_manage_versions: Uredi verzije
   permission_manage_categories: Urejanje kategorij zahtevkov
   permission_add_issues: Dodaj zahtevke
@@ -329,10 +329,10 @@ sl:
   permission_view_calendar: Poglej koledar
   permission_view_issue_watchers: Oglej si listo spremeljevalcev
   permission_add_issue_watchers: Dodaj spremljevalce
-  permission_log_time: BeleÅ¾i porabljen Ä?as
-  permission_view_time_entries: Poglej porabljen Ä?as
-  permission_edit_time_entries: Uredi beleÅ¾ko Ä?asa
-  permission_edit_own_time_entries: Uredi beleÅ¾ko lastnega Ä?asa
+  permission_log_time: BeleÅ¾i porabljen Äas
+  permission_view_time_entries: Poglej porabljen Äas
+  permission_edit_time_entries: Uredi beleÅ¾ko Äasa
+  permission_edit_own_time_entries: Uredi beleÅ¾ko lastnega Äasa
   permission_manage_news: Uredi novice
   permission_comment_news: Komentiraj novice
   permission_view_documents: Poglej dokumente
@@ -345,21 +345,21 @@ sl:
   permission_view_wiki_edits: Poglej wiki zgodovino
   permission_edit_wiki_pages: Uredi wiki strani
   permission_delete_wiki_pages_attachments: IzbriÅ¡i priponke
-  permission_protect_wiki_pages: ZaÅ¡Ä?iti wiki strani
+  permission_protect_wiki_pages: ZaÅ¡Äiti wiki strani
   permission_manage_repository: Uredi shrambo
   permission_browse_repository: Prebrskaj shrambo
   permission_view_changesets: Poglej zapis sprememb
   permission_commit_access: Dostop za predajo
   permission_manage_boards: Uredi table
-  permission_view_messages: Poglej sporoÄ?ila
-  permission_add_messages: Objavi sporoÄ?ila
-  permission_edit_messages: Uredi sporoÄ?ila
-  permission_edit_own_messages: Uredi lastna sporoÄ?ila
-  permission_delete_messages: IzbriÅ¡i sporoÄ?ila
-  permission_delete_own_messages: IzbriÅ¡i lastna sporoÄ?ila
+  permission_view_messages: Poglej sporoÄila
+  permission_add_messages: Objavi sporoÄila
+  permission_edit_messages: Uredi sporoÄila
+  permission_edit_own_messages: Uredi lastna sporoÄila
+  permission_delete_messages: IzbriÅ¡i sporoÄila
+  permission_delete_own_messages: IzbriÅ¡i lastna sporoÄila
 
   project_module_issue_tracking: Sledenje zahtevkom
-  project_module_time_tracking: Sledenje Ä?asa
+  project_module_time_tracking: Sledenje Äasa
   project_module_news: Novice
   project_module_documents: Dokumenti
   project_module_files: Datoteke
@@ -395,7 +395,7 @@ sl:
   label_role_new: Nova vloga
   label_role_and_permissions: Vloge in dovoljenja
   label_member: ÄŒlan
-  label_member_new: Nov Ä?lan
+  label_member_new: Nov Älan
   label_member_plural: ÄŒlani
   label_tracker: Vrsta zahtevka
   label_tracker_plural: Vrste zahtevkov
@@ -419,12 +419,12 @@ sl:
   label_password_lost: Spremeni geslo
   label_home: Domov
   label_my_page: Moja stran
-  label_my_account: Moj raÄ?un
+  label_my_account: Moj raÄun
   label_my_projects: Moji projekti
   label_administration: Upravljanje
   label_login: Prijava
   label_logout: Odjava
-  label_help: PomoÄ?
+  label_help: PomoÄ
   label_reported_issues: Prijavljeni zahtevki
   label_assigned_to_me_issues: Zahtevki dodeljeni meni
   label_last_login: Zadnja povezava
@@ -436,9 +436,9 @@ sl:
   label_logged_as: Prijavljen(a) kot
   label_environment: Okolje
   label_authentication: Overovitev
-  label_auth_source: NaÄ?in overovitve
-  label_auth_source_new: Nov naÄ?in overovitve
-  label_auth_source_plural: NaÄ?ini overovitve
+  label_auth_source: NaÄin overovitve
+  label_auth_source_new: Nov naÄin overovitve
+  label_auth_source_plural: NaÄini overovitve
   label_subproject_plural: Podprojekti
   label_and_its_subprojects: "%{value} in njegovi podprojekti"
   label_min_max_length: Min - Max dolÅ¾ina
@@ -459,8 +459,8 @@ sl:
   label_attachment_delete: IzbriÅ¡i datoteko
   label_attachment_plural: Datoteke
   label_file_added: Datoteka dodana
-  label_report: PoroÄ?ilo
-  label_report_plural: PoroÄ?ila
+  label_report: PoroÄilo
+  label_report_plural: PoroÄila
   label_news: Novica
   label_news_new: Dodaj novico
   label_news_plural: Novice
@@ -494,7 +494,7 @@ sl:
   label_new_statuses_allowed: Novi zahtevki dovoljeni
   label_all: vsi
   label_none: noben
-  label_nobody: nihÄ?e
+  label_nobody: nihÄe
   label_next: Naslednji
   label_previous: PrejÅ¡nji
   label_used_by: V uporabi od
@@ -524,11 +524,11 @@ sl:
   label_equals: je enako
   label_not_equals: ni enako
   label_in_less_than: v manj kot
-  label_in_more_than: v veÄ? kot
+  label_in_more_than: v veÄ kot
   label_in: v
   label_today: danes
-  label_all_time: v vsem Ä?asu
-  label_yesterday: vÄ?eraj
+  label_all_time: v vsem Äasu
+  label_yesterday: vÄeraj
   label_this_week: ta teden
   label_last_week: pretekli teden
   label_last_n_days: "zadnjih %{count} dni"
@@ -537,7 +537,7 @@ sl:
   label_this_year: to leto
   label_date_range: Razpon datumov
   label_less_than_ago: manj kot dni nazaj
-  label_more_than_ago: veÄ? kot dni nazaj
+  label_more_than_ago: veÄ kot dni nazaj
   label_ago: dni nazaj
   label_contains: vsebuje
   label_not_contains: ne vsebuje
@@ -556,16 +556,16 @@ sl:
   label_latest_revision: Zadnja revizija
   label_latest_revision_plural: Zadnje revizije
   label_view_revisions: Poglej revizije
-  label_max_size: NajveÄ?ja velikost
+  label_max_size: NajveÄja velikost
   label_sort_highest: Premakni na vrh
   label_sort_higher: Premakni gor
   label_sort_lower: Premakni dol
   label_sort_lowest: Premakni na dno
-  label_roadmap: NaÄ?rt
+  label_roadmap: NaÄrt
   label_roadmap_due_in: "Do %{value}"
   label_roadmap_overdue: "%{value} zakasnel"
   label_roadmap_no_issues: Ni zahtevkov za to verzijo
-  label_search: IÅ¡Ä?i
+  label_search: IÅ¡Äi
   label_result_plural: Rezultati
   label_all_words: Vse besede
   label_wiki: Predstavitev
@@ -580,10 +580,10 @@ sl:
   label_feed_plural: Atom viri
   label_changes_details: Podrobnosti o vseh spremembah
   label_issue_tracking: Sledenje zahtevkom
-  label_spent_time: Porabljen Ä?as
+  label_spent_time: Porabljen Äas
   label_f_hour: "%{value} ura"
   label_f_hour_plural: "%{value} ur"
-  label_time_tracking: Sledenje Ä?asu
+  label_time_tracking: Sledenje Äasu
   label_change_plural: Spremembe
   label_statistics: Statistika
   label_commits_per_month: Predaj na mesec
@@ -593,7 +593,7 @@ sl:
   label_diff_side_by_side: vzporedno
   label_options: MoÅ¾nosti
   label_copy_workflow_from: Kopiraj potek dela od
-  label_permissions_report: PoroÄ?ilo o dovoljenjih
+  label_permissions_report: PoroÄilo o dovoljenjih
   label_watched_issues: Spremljani zahtevki
   label_related_issues: Povezani zahtevki
   label_applied_status: Uveljavljeno stanje
@@ -608,19 +608,19 @@ sl:
   label_precedes: ima prednost pred
   label_follows: sledi
   label_stay_logged_in: Ostani prijavljen(a)
-  label_disabled: onemogoÄ?i
-  label_show_completed_versions: PrikaÅ¾i zakljuÄ?ene verzije
+  label_disabled: onemogoÄi
+  label_show_completed_versions: PrikaÅ¾i zakljuÄene verzije
   label_me: jaz
   label_board: Forum
   label_board_new: Nov forum
   label_board_plural: Forumi
   label_topic_plural: Teme
-  label_message_plural: SporoÄ?ila
-  label_message_last: Zadnje sporoÄ?ilo
-  label_message_new: Novo sporoÄ?ilo
-  label_message_posted: SporoÄ?ilo dodano
+  label_message_plural: SporoÄila
+  label_message_last: Zadnje sporoÄilo
+  label_message_new: Novo sporoÄilo
+  label_message_posted: SporoÄilo dodano
   label_reply_plural: Odgovori
-  label_send_information: PoÅ¡lji informacijo o raÄ?unu uporabniku
+  label_send_information: PoÅ¡lji informacijo o raÄunu uporabniku
   label_year: Leto
   label_month: Mesec
   label_week: Teden
@@ -629,12 +629,12 @@ sl:
   label_language_based: Glede na uporabnikov jezik
   label_sort_by: "Razporedi po %{value}"
   label_send_test_email: PoÅ¡lji testno e-pismo
-  label_feeds_access_key_created_on: "Atom dostopni kljuÄ? narejen %{value} nazaj"
+  label_feeds_access_key_created_on: "Atom dostopni kljuÄ narejen %{value} nazaj"
   label_module_plural: Moduli
   label_added_time_by: "Dodal %{author} %{age} nazaj"
   label_updated_time_by: "Posodobil %{author} %{age} nazaj"
   label_updated_time: "Posodobljeno %{value} nazaj"
-  label_jump_to_a_project: SkoÄ?i na projekt...
+  label_jump_to_a_project: SkoÄi na projekt...
   label_file_plural: Datoteke
   label_changeset_plural: Zapisi sprememb
   label_default_columns: Privzeti stolpci
@@ -642,20 +642,20 @@ sl:
   label_bulk_edit_selected_issues: Uredi izbrane zahtevke skupaj
   label_theme: Tema
   label_default: Privzeto
-  label_search_titles_only: PreiÅ¡Ä?i samo naslove
+  label_search_titles_only: PreiÅ¡Äi samo naslove
   label_user_mail_option_all: "Za vsak dogodek v vseh mojih projektih"
   label_user_mail_option_selected: "Za vsak dogodek samo na izbranih projektih..."
   label_user_mail_no_self_notified: "Ne Å¾elim biti opozorjen(a) na spremembe, ki jih naredim sam(a)"
-  label_registration_activation_by_email: aktivacija raÄ?una po e-poÅ¡ti
-  label_registration_manual_activation: roÄ?na aktivacija raÄ?una
-  label_registration_automatic_activation: samodejna aktivacija raÄ?una
+  label_registration_activation_by_email: aktivacija raÄuna po e-poÅ¡ti
+  label_registration_manual_activation: roÄna aktivacija raÄuna
+  label_registration_automatic_activation: samodejna aktivacija raÄuna
   label_display_per_page: "Na stran: %{value}"
   label_age: Starost
   label_change_properties: Sprememba lastnosti
   label_general: SploÅ¡no
-  label_more: VeÄ?
+  label_more: VeÄ
   label_scm: SCM
-  label_plugins: VtiÄ?niki
+  label_plugins: VtiÄniki
   label_ldap_authentication: LDAP overovljanje
   label_downloads_abbr: D/L
   label_optional_description: Neobvezen opis
@@ -663,17 +663,17 @@ sl:
   label_preferences: Preference
   label_chronological_order: KronoloÅ¡ko
   label_reverse_chronological_order: Obrnjeno kronoloÅ¡ko
-  label_planning: NaÄ?rtovanje
-  label_incoming_emails: PrihajajoÄ?a e-poÅ¡ta
-  label_generate_key: Ustvari kljuÄ?
+  label_planning: NaÄrtovanje
+  label_incoming_emails: PrihajajoÄa e-poÅ¡ta
+  label_generate_key: Ustvari kljuÄ
   label_issue_watchers: Spremljevalci
   label_example: Vzorec
 
   button_login: Prijavi se
   button_submit: PoÅ¡lji
   button_save: Shrani
-  button_check_all: OznaÄ?i vse
-  button_uncheck_all: OdznaÄ?i vse
+  button_check_all: OznaÄi vse
+  button_uncheck_all: OdznaÄi vse
   button_delete: IzbriÅ¡i
   button_create: Ustvari
   button_test: Testiraj
@@ -681,7 +681,7 @@ sl:
   button_add: Dodaj
   button_change: Spremeni
   button_apply: Uporabi
-  button_clear: PoÄ?isti
+  button_clear: PoÄisti
   button_lock: Zakleni
   button_unlock: Odkleni
   button_download: Prenesi
@@ -689,10 +689,10 @@ sl:
   button_view: Pogled
   button_move: Premakni
   button_back: Nazaj
-  button_cancel: PrekliÄ?i
+  button_cancel: PrekliÄi
   button_activate: Aktiviraj
   button_sort: Razvrsti
-  button_log_time: BeleÅ¾i Ä?as
+  button_log_time: BeleÅ¾i Äas
   button_rollback: Povrni na to verzijo
   button_watch: Spremljaj
   button_unwatch: Ne spremljaj
@@ -715,62 +715,62 @@ sl:
   text_select_mail_notifications: Izberi dejanja za katera naj bodo poslana oznanila preko e-poÅ¡to.
   text_regexp_info: npr. ^[A-Z0-9]+$
   text_min_max_length_info: 0 pomeni brez omejitev
-  text_project_destroy_confirmation: Ali ste prepriÄ?ani da Å¾elite izbrisati izbrani projekt in vse z njim povezane podatke?
+  text_project_destroy_confirmation: Ali ste prepriÄani da Å¾elite izbrisati izbrani projekt in vse z njim povezane podatke?
   text_subprojects_destroy_warning: "Njegov(i) podprojekt(i): %{value} bodo prav tako izbrisani."
   text_workflow_edit: Izberite vlogo in zahtevek za urejanje poteka dela
-  text_are_you_sure: Ali ste prepriÄ?ani?
-  text_tip_issue_begin_day: naloga z zaÄ?etkom na ta dan
-  text_tip_issue_end_day: naloga z zakljuÄ?kom na ta dan
-  text_tip_issue_begin_end_day: naloga ki se zaÄ?ne in konÄ?a ta dan
-  text_caracters_maximum: "najveÄ? %{count} znakov."
+  text_are_you_sure: Ali ste prepriÄani?
+  text_tip_issue_begin_day: naloga z zaÄetkom na ta dan
+  text_tip_issue_end_day: naloga z zakljuÄkom na ta dan
+  text_tip_issue_begin_end_day: naloga ki se zaÄne in konÄa ta dan
+  text_caracters_maximum: "najveÄ %{count} znakov."
   text_caracters_minimum: "Mora biti vsaj dolg vsaj %{count} znakov."
   text_length_between: "DolÅ¾ina med %{min} in %{max} znakov."
-  text_tracker_no_workflow: Potek dela za to vrsto zahtevka ni doloÄ?en
+  text_tracker_no_workflow: Potek dela za to vrsto zahtevka ni doloÄen
   text_unallowed_characters: Nedovoljeni znaki
-  text_comma_separated: Dovoljenih je veÄ? vrednosti (loÄ?enih z vejico).
-  text_issues_ref_in_commit_messages: Zahtevki sklicev in popravkov v sporoÄ?ilu predaje
-  text_issue_added: "Zahtevek %{id} je sporoÄ?il(a) %{author}."
+  text_comma_separated: Dovoljenih je veÄ vrednosti (loÄenih z vejico).
+  text_issues_ref_in_commit_messages: Zahtevki sklicev in popravkov v sporoÄilu predaje
+  text_issue_added: "Zahtevek %{id} je sporoÄil(a) %{author}."
   text_issue_updated: "Zahtevek %{id} je posodobil(a) %{author}."
-  text_wiki_destroy_confirmation: Ali ste prepriÄ?ani da Å¾elite izbrisati to wiki stran in vso njeno vsebino?
+  text_wiki_destroy_confirmation: Ali ste prepriÄani da Å¾elite izbrisati to wiki stran in vso njeno vsebino?
   text_issue_category_destroy_question: "Nekateri zahtevki (%{count}) so dodeljeni tej kategoriji. Kaj Å¾elite storiti?"
   text_issue_category_destroy_assignments: Odstrani naloge v kategoriji
   text_issue_category_reassign_to: Ponovno dodeli zahtevke tej kategoriji
-  text_user_mail_option: "Na neizbrane projekte boste prejemali le obvestila o zadevah ki jih spremljate ali v katere ste vkljuÄ?eni (npr. zahtevki katerih avtor(ica) ste)"
-  text_no_configuration_data: "Vloge, vrste zahtevkov, statusi zahtevkov in potek dela Å¡e niso bili doloÄ?eni. \nZelo priporoÄ?ljivo je, da naloÅ¾ite privzeto  konfiguracijo, ki jo lahko kasneje tudi prilagodite."
+  text_user_mail_option: "Na neizbrane projekte boste prejemali le obvestila o zadevah ki jih spremljate ali v katere ste vkljuÄeni (npr. zahtevki katerih avtor(ica) ste)"
+  text_no_configuration_data: "Vloge, vrste zahtevkov, statusi zahtevkov in potek dela Å¡e niso bili doloÄeni. \nZelo priporoÄljivo je, da naloÅ¾ite privzeto  konfiguracijo, ki jo lahko kasneje tudi prilagodite."
   text_load_default_configuration: NaloÅ¾i privzeto konfiguracijo
   text_status_changed_by_changeset: "Dodano v zapis sprememb %{value}."
-  text_issues_destroy_confirmation: 'Ali ste prepriÄ?ani, da Å¾elite izbrisati izbrani(e) zahtevek(ke)?'
-  text_select_project_modules: 'Izberite module, ki jih Å¾elite omogoÄ?iti za ta projekt:'
-  text_default_administrator_account_changed: Spremenjen privzeti administratorski raÄ?un
-  text_file_repository_writable: OmogoÄ?eno pisanje v shrambo datotek
+  text_issues_destroy_confirmation: 'Ali ste prepriÄani, da Å¾elite izbrisati izbrani(e) zahtevek(ke)?'
+  text_select_project_modules: 'Izberite module, ki jih Å¾elite omogoÄiti za ta projekt:'
+  text_default_administrator_account_changed: Spremenjen privzeti administratorski raÄun
+  text_file_repository_writable: OmogoÄeno pisanje v shrambo datotek
   text_rmagick_available: RMagick je na voljo(neobvezno)
   text_destroy_time_entries_question: "%{hours} ur je bilo opravljenih na zahtevku, ki ga Å¾elite izbrisati. Kaj Å¾elite storiti?"
   text_destroy_time_entries: IzbriÅ¡i opravljene ure
   text_assign_time_entries_to_project: Predaj opravljene ure projektu
   text_reassign_time_entries: 'Prenesi opravljene ure na ta zahtevek:'
   text_user_wrote: "%{value} je napisal(a):"
-  text_enumeration_destroy_question: "%{count} objektov je doloÄ?enih tej vrednosti."
+  text_enumeration_destroy_question: "%{count} objektov je doloÄenih tej vrednosti."
   text_enumeration_category_reassign_to: 'Ponastavi jih na to vrednost:'
-  text_email_delivery_not_configured: "E-poÅ¡tna dostava ni nastavljena in oznanila so onemogoÄ?ena.\nNastavite vaÅ¡ SMTP streÅ¾nik v config/configuration.yml in ponovno zaÅ¾enite aplikacijo da ga omogoÄ?ite.\n"
+  text_email_delivery_not_configured: "E-poÅ¡tna dostava ni nastavljena in oznanila so onemogoÄena.\nNastavite vaÅ¡ SMTP streÅ¾nik v config/configuration.yml in ponovno zaÅ¾enite aplikacijo da ga omogoÄite.\n"
   text_repository_usernames_mapping: "Izberite ali posodobite Redmine uporabnika dodeljenega vsakemu uporabniÅ¡kemu imenu najdenemu v zapisniku shrambe.\n Uporabniki z enakim Redmine ali shrambinem uporabniÅ¡kem imenu ali e-poÅ¡tnem naslovu so samodejno dodeljeni."
-  text_diff_truncated: '... Ta sprememba je bila odsekana ker presega najveÄ?jo velikost ki je lahko prikazana.'
+  text_diff_truncated: '... Ta sprememba je bila odsekana ker presega najveÄjo velikost ki je lahko prikazana.'
 
   default_role_manager: Upravnik
   default_role_developer: Razvijalec
-  default_role_reporter: PoroÄ?evalec
-  default_tracker_bug: HroÅ¡Ä?
+  default_role_reporter: PoroÄevalec
+  default_tracker_bug: HroÅ¡Ä
   default_tracker_feature: Funkcija
   default_tracker_support: Podpora
   default_issue_status_new: Nov
   default_issue_status_in_progress: V teku
   default_issue_status_resolved: ReÅ¡en
   default_issue_status_feedback: Povratna informacija
-  default_issue_status_closed: ZakljuÄ?en
+  default_issue_status_closed: ZakljuÄen
   default_issue_status_rejected: Zavrnjen
   default_doc_category_user: UporabniÅ¡ka dokumentacija
-  default_doc_category_tech: TehniÄ?na dokumentacija
+  default_doc_category_tech: TehniÄna dokumentacija
   default_priority_low: Nizka
-  default_priority_normal: ObiÄ?ajna
+  default_priority_normal: ObiÄajna
   default_priority_high: Visoka
   default_priority_urgent: Urgentna
   default_priority_immediate: TakojÅ¡nje ukrepanje
@@ -779,23 +779,23 @@ sl:
 
   enumeration_issue_priorities: Prioritete zahtevkov
   enumeration_doc_categories: Kategorije dokumentov
-  enumeration_activities: Aktivnosti (sledenje Ä?asa)
-  warning_attachments_not_saved: "%{count} datotek(e) ni bilo mogoÄ?e shraniti."
+  enumeration_activities: Aktivnosti (sledenje Äasa)
+  warning_attachments_not_saved: "%{count} datotek(e) ni bilo mogoÄe shraniti."
   field_editable: Uredljivo
-  text_plugin_assets_writable: Zapisljiva mapa za vtiÄ?nike
+  text_plugin_assets_writable: Zapisljiva mapa za vtiÄnike
   label_display: Prikaz
   button_create_and_continue: Ustvari in nadaljuj
   text_custom_field_possible_values_info: 'Ena vrstica za vsako vrednost'
-  setting_repository_log_display_limit: NajveÄ?je Å¡tevilo prikazanih revizij v log datoteki
-  setting_file_max_size_displayed: NajveÄ?ja velikost besedilnih datotek v vkljuÄ?enem prikazu
+  setting_repository_log_display_limit: NajveÄje Å¡tevilo prikazanih revizij v log datoteki
+  setting_file_max_size_displayed: NajveÄja velikost besedilnih datotek v vkljuÄenem prikazu
   field_watcher: Opazovalec
   setting_openid: Dovoli OpenID prijavo in registracijo
   field_identity_url: OpenID URL
   label_login_with_open_id_option: ali se prijavi z OpenID
   field_content: Vsebina
-  label_descending: PadajoÄ?e
+  label_descending: PadajoÄe
   label_sort: Razvrsti
-  label_ascending: NaraÅ¡Ä?ajoÄ?e
+  label_ascending: NaraÅ¡ÄajoÄe
   label_date_from_to: Od %{start} do %{end}
   label_greater_or_equal: ">="
   label_less_or_equal: <=
@@ -824,7 +824,7 @@ sl:
   label_group_plural: Skupine
   label_group: Skupina
   label_group_new: Nova skupina
-  label_time_entry_plural: Porabljen Ä?as
+  label_time_entry_plural: Porabljen Äas
   text_journal_added: "%{label} %{value} dodan"
   field_active: Aktiven
   enumeration_system_activity: Sistemska aktivnost
@@ -847,7 +847,7 @@ sl:
   button_duplicate: Podvoji
   button_copy_and_follow: Kopiraj in sledi
   label_copy_source: Vir
-  setting_issue_done_ratio: IzraÄ?unaj razmerje opravljenega zahtevka z
+  setting_issue_done_ratio: IzraÄunaj razmerje opravljenega zahtevka z
   setting_issue_done_ratio_issue_status: Uporabi stanje zahtevka
   error_issue_done_ratios_not_updated: Razmerje opravljenega zahtevka ni bilo posodobljeno.
   error_workflow_copy_target: Prosimo izberite ciljni(e) sledilnik(e) in vlogo(e)
@@ -857,26 +857,26 @@ sl:
   notice_issue_done_ratios_updated: Razmerje opravljenega zahtevka posodobljeno.
   error_workflow_copy_source: Prosimo izberite vir zahtevka ali vlogo
   label_update_issue_done_ratios: Posodobi razmerje opravljenega zahtevka
-  setting_start_of_week: ZaÄ?ni koledarje z
+  setting_start_of_week: ZaÄni koledarje z
   permission_view_issues: Poglej zahtevke
   label_display_used_statuses_only: PrikaÅ¾i samo stanja ki uporabljajo ta sledilnik
   label_revision_id: Revizija %{value}
-  label_api_access_key: API dostopni kljuÄ?
-  label_api_access_key_created_on: API dostopni kljuÄ? ustvarjen pred %{value}
-  label_feeds_access_key: Atom dostopni kljuÄ?
-  notice_api_access_key_reseted: VaÅ¡ API dostopni kljuÄ? je bil ponastavljen.
-  setting_rest_api_enabled: OmogoÄ?i REST spletni servis
-  label_missing_api_access_key: ManjkajoÄ? API dostopni kljuÄ?
-  label_missing_feeds_access_key: ManjkajoÄ? Atom dostopni kljuÄ?
+  label_api_access_key: API dostopni kljuÄ
+  label_api_access_key_created_on: API dostopni kljuÄ ustvarjen pred %{value}
+  label_feeds_access_key: Atom dostopni kljuÄ
+  notice_api_access_key_reseted: VaÅ¡ API dostopni kljuÄ je bil ponastavljen.
+  setting_rest_api_enabled: OmogoÄi REST spletni servis
+  label_missing_api_access_key: ManjkajoÄ API dostopni kljuÄ
+  label_missing_feeds_access_key: ManjkajoÄ Atom dostopni kljuÄ
   button_show: PrikaÅ¾i
-  text_line_separated: Dovoljenih veÄ? vrednosti (ena vrstica za vsako vrednost).
+  text_line_separated: Dovoljenih veÄ vrednosti (ena vrstica za vsako vrednost).
   setting_mail_handler_body_delimiters: OdreÅ¾i e-poÅ¡to po eni od teh vrstic
   permission_add_subprojects: Ustvari podprojekte
   label_subproject_new: Nov podprojekt
   text_own_membership_delete_confirmation: |-
-    Odstranili boste nekatere ali vse od dovoljenj zaradi Ä?esar morda ne boste mogli veÄ? urejati tega projekta.
-    Ali ste prepriÄ?ani, da Å¾elite nadaljevati?
-  label_close_versions: Zapri dokonÄ?ane verzije
+    Odstranili boste nekatere ali vse od dovoljenj zaradi Äesar morda ne boste mogli veÄ urejati tega projekta.
+    Ali ste prepriÄani, da Å¾elite nadaljevati?
+  label_close_versions: Zapri dokonÄane verzije
   label_board_sticky: Lepljivo
   label_board_locked: Zaklenjeno
   permission_export_wiki_pages: Izvozi wiki strani
@@ -887,53 +887,53 @@ sl:
   permission_manage_subtasks: Uredi podnaloge
   field_parent_issue: Nadrejena naloga
   label_subtask_plural: Podnaloge
-  label_project_copy_notifications: Med kopiranjem projekta poÅ¡lji e-poÅ¡tno sporoÄ?ilo
-  error_can_not_delete_custom_field: Polja po meri ni mogoÄ?e izbrisati
-  error_unable_to_connect: Povezava ni mogoÄ?a (%{value})
-  error_can_not_remove_role: Ta vloga je v uporabi in je ni mogoÄ?e izbrisati.
+  label_project_copy_notifications: Med kopiranjem projekta poÅ¡lji e-poÅ¡tno sporoÄilo
+  error_can_not_delete_custom_field: Polja po meri ni mogoÄe izbrisati
+  error_unable_to_connect: Povezava ni mogoÄa (%{value})
+  error_can_not_remove_role: Ta vloga je v uporabi in je ni mogoÄe izbrisati.
   error_can_not_delete_tracker: Ta sledilnik vsebuje zahtevke in se ga ne more izbrisati.
   field_principal: Upravnik varnosti
   label_my_page_block: Moj gradnik strani
   notice_failed_to_save_members: "Shranjevanje uporabnika(ov) ni uspelo: %{errors}."
   text_zoom_out: PribliÅ¾aj
   text_zoom_in: Oddalji
-  notice_unable_delete_time_entry: Brisanje dnevnika porabljenaga Ä?asa ni mogoÄ?e.
-  label_overall_spent_time: Skupni porabljeni Ä?as
-  field_time_entries: BeleÅ¾i porabljeni Ä?as
+  notice_unable_delete_time_entry: Brisanje dnevnika porabljenaga Äasa ni mogoÄe.
+  label_overall_spent_time: Skupni porabljeni Äas
+  field_time_entries: BeleÅ¾i porabljeni Äas
   project_module_gantt: Gantogram
   project_module_calendar: Koledear
   button_edit_associated_wikipage: "Uredi povezano Wiki stran: %{page_title}"
   field_text: Besedilno polje
   label_user_mail_option_only_owner: Samo za stvari katerih lastnik sem
-  setting_default_notification_option: Privzeta moÅ¾nost obveÅ¡Ä?anja
+  setting_default_notification_option: Privzeta moÅ¾nost obveÅ¡Äanja
   label_user_mail_option_only_my_events: Samo za stvari, ki jih opazujem ali sem v njih vpleten
   label_user_mail_option_only_assigned: Samo za stvari, ki smo mi dodeljene
   label_user_mail_option_none: Noben dogodek
-  field_member_of_group: PooblaÅ¡Ä?enÄ?eva skupina
-  field_assigned_to_role: PooblaÅ¡Ä?enÄ?eva vloga
+  field_member_of_group: PooblaÅ¡ÄenÄeva skupina
+  field_assigned_to_role: PooblaÅ¡ÄenÄeva vloga
   notice_not_authorized_archived_project: Projekt, do katerega poskuÅ¡ate dostopati, je bil arhiviran.
-  label_principal_search: "PoiÅ¡Ä?i uporabnika ali skupino:"
-  label_user_search: "PoiÅ¡Ä?i uporabnikia:"
+  label_principal_search: "PoiÅ¡Äi uporabnika ali skupino:"
+  label_user_search: "PoiÅ¡Äi uporabnikia:"
   field_visible: Viden
   setting_emails_header: Glava e-poÅ¡te
-  setting_commit_logtime_activity_id: Aktivnost zabeleÅ¾enega Ä?asa
+  setting_commit_logtime_activity_id: Aktivnost zabeleÅ¾enega Äasa
   text_time_logged_by_changeset: Uporabljeno v spremembi %{value}.
-  setting_commit_logtime_enabled: OmogoÄ?i beleÅ¾enje Ä?asa
-  notice_gantt_chart_truncated: Graf je bil odrezan, ker je prekoraÄ?il najveÄ?je dovoljeno Å¡tevilo elementov, ki se jih lahko prikaÅ¾e (%{max})
-  setting_gantt_items_limit: NajveÄ?je Å¡tevilo elementov prikazano na gantogramu
-  field_warn_on_leaving_unsaved: Opozori me, kadar zapuÅ¡Ä?am stran z neshranjenim besedilom
-  text_warn_on_leaving_unsaved: Trenutna stran vsebuje neshranjeno besedilo ki bo izgubljeno, Ä?e zapustite to stran.
+  setting_commit_logtime_enabled: OmogoÄi beleÅ¾enje Äasa
+  notice_gantt_chart_truncated: Graf je bil odrezan, ker je prekoraÄil najveÄje dovoljeno Å¡tevilo elementov, ki se jih lahko prikaÅ¾e (%{max})
+  setting_gantt_items_limit: NajveÄje Å¡tevilo elementov prikazano na gantogramu
+  field_warn_on_leaving_unsaved: Opozori me, kadar zapuÅ¡Äam stran z neshranjenim besedilom
+  text_warn_on_leaving_unsaved: Trenutna stran vsebuje neshranjeno besedilo ki bo izgubljeno, Äe zapustite to stran.
   label_my_queries: Moje poizvedbe po meri
   text_journal_changed_no_detail: "%{label} posodobljen"
   label_news_comment_added: Komentar dodan novici
   button_expand_all: RazÅ¡iri vse
-  button_collapse_all: SkrÄ?i vse
-  label_additional_workflow_transitions_for_assignee: Dovoljeni dodatni prehodi kadar je uporabnik pooblaÅ¡Ä?enec
+  button_collapse_all: SkrÄi vse
+  label_additional_workflow_transitions_for_assignee: Dovoljeni dodatni prehodi kadar je uporabnik pooblaÅ¡Äenec
   label_additional_workflow_transitions_for_author: Dovoljeni dodatni prehodi kadar je uporabnik avtor
-  label_bulk_edit_selected_time_entries: Skupinsko urejanje izbranih Ä?asovnih zapisov
-  text_time_entries_destroy_confirmation: Ali ste prepriÄ?ani, da Å¾elite izbristai izbran(e) Ä?asovn(i/e) zapis(e)?
+  label_bulk_edit_selected_time_entries: Skupinsko urejanje izbranih Äasovnih zapisov
+  text_time_entries_destroy_confirmation: Ali ste prepriÄani, da Å¾elite izbristai izbran(e) Äasovn(i/e) zapis(e)?
   label_role_anonymous: Anonimni
-  label_role_non_member: NeÄ?lan
+  label_role_non_member: NeÄlan
   label_issue_note_added: Dodan zaznamek
   label_issue_status_updated: Status posodobljen
   label_issue_priority_updated: Prioriteta posodobljena
@@ -945,7 +945,7 @@ sl:
   permission_set_issues_private: Nastavi zahtevke kot javne ali zasebne
   label_issues_visibility_public: Vsi nezasebni zahtevki
   text_issues_destroy_descendants_confirmation: To bo izbrisalo tudi  %{count} podnalog(o).
-  field_commit_logs_encoding: Kodiranje sporoÄ?il ob predaji
+  field_commit_logs_encoding: Kodiranje sporoÄil ob predaji
   field_scm_path_encoding: Pot do kodiranja
   text_scm_path_encoding_note: "Privzeto: UTF-8"
   field_path_to_repository: Pot do shrambe
@@ -955,7 +955,7 @@ sl:
   text_mercurial_repository_note: Lokalna shramba (npr. /hgrepo, c:\hgrepo)
   text_scm_command: Ukaz
   text_scm_command_version: Verzija
-  label_git_report_last_commit: SporoÄ?i zadnje uveljavljanje datotek in map
+  label_git_report_last_commit: SporoÄi zadnje uveljavljanje datotek in map
   text_scm_config: Svoje SCM ukaze lahko nastavite v datoteki config/configuration.yml. Po urejanju prosimo ponovno zaÅ¾enite aplikacijo.
   text_scm_command_not_available: SCM ukaz ni na voljo. Prosimo preverite nastavitve v upravljalskem podoknu.
 
@@ -1147,7 +1147,7 @@ sl:
   label_member_management_all_roles: All roles
   label_member_management_selected_roles_only: Only these roles
   label_password_required: Confirm your password to continue
-  label_total_spent_time: Skupni porabljeni Ä?as
+  label_total_spent_time: Skupni porabljeni Äas
   notice_import_finished: All %{count} items have been imported.
   notice_import_finished_with_errors: ! '%{count} out of %{total} items could not be
     imported.'
@@ -1162,7 +1162,7 @@ sl:
   label_fields_wrapper: Field wrapper
   label_encoding: Encoding
   label_comma_char: Comma
-  label_semi_colon_char: Semicolon
+  label_semi_colon_char: Semi colon
   label_quote_char: Quote
   label_double_quote_char: Double quote
   label_fields_mapping: Fields mapping
@@ -1183,7 +1183,7 @@ sl:
   label_no_open_issues: no open issues
   label_default_values_for_new_users: Default values for new users
   error_ldap_bind_credentials: Invalid LDAP Account/Password
-  setting_sys_api_key: API kljuÄ?
+  setting_sys_api_key: API kljuÄ
   setting_lost_password: Spremeni geslo
   mail_subject_security_notification: Security notification
   mail_body_security_notification_change: ! '%{field} was changed.'

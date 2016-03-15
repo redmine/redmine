@@ -8,10 +8,10 @@ ko:
       # You can provide other formats here if you like!
       default: "%Y/%m/%d"
       short: "%m/%d"
-      long: "%Y년 %m월 %d�?� (%a)"
+      long: "%Y년 %m월 %d일 (%a)"
 
-    day_names: [�?�요�?�, 월요�?�, 화요�?�, 수요�?�, 목요�?�, 금요�?�, 토요�?�]
-    abbr_day_names: [�?�, 월, 화, 수, 목, 금, 토]
+    day_names: [일요일, 월요일, 화요일, 수요일, 목요일, 금요일, 토요일]
+    abbr_day_names: [일, 월, 화, 수, 목, 금, 토]
 
     # Don't forget the nil at the beginning; there's no such thing as a 0th month
     month_names: [~, 1월, 2월, 3월, 4월, 5월, 6월, 7월, 8월, 9월, 10월, 11월, 12월]
@@ -27,7 +27,7 @@ ko:
       default: "%Y/%m/%d %H:%M:%S"
       time: "%H:%M"
       short: "%y/%m/%d %H:%M"
-      long: "%Y년 %B월 %d�?�, %H시 %M분 %S초 %Z"
+      long: "%Y년 %B월 %d일, %H시 %M분 %S초 %Z"
     am: "오전"
     pm: "오후"
 
@@ -35,16 +35,16 @@ ko:
     distance_in_words:
       half_a_minute: "30초"
       less_than_x_seconds:
-        one:   "�?�초 �?�하"
-        other: "%{count}초 �?�하"
+        one:   "일초 이하"
+        other: "%{count}초 이하"
       x_seconds:
-        one:   "�?�초"
+        one:   "일초"
         other: "%{count}초"
       less_than_x_minutes:
-        one:   "�?�분 �?�하"
-        other: "%{count}분 �?�하"
+        one:   "일분 이하"
+        other: "%{count}분 이하"
       x_minutes:
-        one:   "�?�분"
+        one:   "일분"
         other: "%{count}분"
       about_x_hours:
         one:   "약 한시간"
@@ -54,7 +54,7 @@ ko:
         other: "%{count} 시간"
       x_days:
         one:   "하루"
-        other: "%{count}�?�"
+        other: "%{count}일"
       about_x_months:
         one:   "약 한달"
         other: "약 %{count}달"
@@ -62,18 +62,18 @@ ko:
         one:   "한달"
         other: "%{count}달"
       about_x_years:
-        one:   "약 �?�년"
+        one:   "약 일년"
         other: "약 %{count}년"
       over_x_years:
-        one:   "�?�년 �?��?"
-        other: "%{count}년 �?��?"
+        one:   "일년 이상"
+        other: "%{count}년 이상"
       almost_x_years:
         one:   "약 1년"
         other: "약 %{count}년"
     prompts:
       year:   "년"
       month:  "월"
-      day:    "�?�"
+      day:    "일"
       hour:   "시"
       minute: "분"
       second: "초"
@@ -147,38 +147,38 @@ ko:
     errors:
       template:
         header:
-          one:    "한개�?� 오류가 발�?해 %{model}�?�(를) 저장하지 않았습니다."
-          other:  "%{count}개�?� 오류가 발�?해 %{model}�?�(를) 저장하지 않았습니다."
+          one:    "한개의 오류가 발생해 %{model}을(를) 저장하지 않았습니다."
+          other:  "%{count}개의 오류가 발생해 %{model}을(를) 저장하지 않았습니다."
         # The variable :count is also available
-        body: "다�?� 항목�? 문제가 발견했습니다:"
+        body: "다음 항목에 문제가 발견했습니다:"
 
       messages:
-        inclusion: "�?� 목�?�? �?�함�?�어 있지 않습니다"
-        exclusion: "�?� 예약�?�어 있습니다"
-        invalid: "�?� 유효하지 않습니다."
-        confirmation: "�?� 확�?��?� �?�지 않았습니다"
-        accepted: "�?� �?�정�?�어야 합니다"
-        empty: "�?� 길�?�가 0�?�어서는 안�?�니다."
-        blank: "�?� 빈 값�?�어서는 안 �?�니다"
-        too_long: "�?� 너무 �?니다 (최대 %{count}�? 까지)"
-        too_short: "�?� 너무 짧습니다 (최소 %{count}�? 까지)"
-        wrong_length: "�?� 길�?�가 틀렸습니다 (%{count}�?�?�어야 합니다.)"
-        taken: "�?� �?�미 선�?�?� �?니다"
-        not_a_number: "�?� 숫�?가 아닙니다"
-        greater_than: "�?� %{count}보다 커야 합니다."
-        greater_than_or_equal_to: "�?� %{count}보다 �?�거나 같아야 합니다"
-        equal_to: "�?� %{count}(와)과 같아야 합니다"
-        less_than: "�?� %{count}보다 작어야 합니다"
-        less_than_or_equal_to: "�?� %{count}과 같거나 �?�하�?� 요구합니다"
-        odd: "�?� 홀수여야 합니다"
-        even: "�?� �?수여야 합니다"
+        inclusion: "은 목록에 포함되어 있지 않습니다"
+        exclusion: "은 예약되어 있습니다"
+        invalid: "은 유효하지 않습니다."
+        confirmation: "은 확인이 되지 않았습니다"
+        accepted: "은 인정되어야 합니다"
+        empty: "은 길이가 0이어서는 안됩니다."
+        blank: "은 빈 값이어서는 안 됩니다"
+        too_long: "은 너무 깁니다 (최대 %{count}자 까지)"
+        too_short: "은 너무 짧습니다 (최소 %{count}자 까지)"
+        wrong_length: "은 길이가 틀렸습니다 (%{count}자이어야 합니다.)"
+        taken: "은 이미 선택된 겁니다"
+        not_a_number: "은 숫자가 아닙니다"
+        greater_than: "은 %{count}보다 커야 합니다."
+        greater_than_or_equal_to: "은 %{count}보다 크거나 같아야 합니다"
+        equal_to: "은 %{count}(와)과 같아야 합니다"
+        less_than: "은 %{count}보다 작어야 합니다"
+        less_than_or_equal_to: "은 %{count}과 같거나 이하을 요구합니다"
+        odd: "은 홀수여야 합니다"
+        even: "은 짝수여야 합니다"
         greater_than_start_date: "는 시작날짜보다 커야 합니다"
-        not_same_project: "는 같�?� 프로�?트�? �?해 있지 않습니다"
-        circular_dependency: "�?� 관계는 순환 �?�존관계를 만들 수 있습니다"
-        cant_link_an_issue_with_a_descendant: "�?��?�?� 하위 �?��?과 연결할 수 없습니다."
+        not_same_project: "는 같은 프로젝트에 속해 있지 않습니다"
+        circular_dependency: "이 관계는 순환 의존관계를 만들 수 있습니다"
+        cant_link_an_issue_with_a_descendant: "일감은 하위 일감과 연결할 수 없습니다."
         earlier_than_minimum_start_date: "cannot be earlier than %{date} because of preceding issues"
 
-  actionview_instancetag_blank_option: 선�?하세요
+  actionview_instancetag_blank_option: 선택하세요
 
   general_text_No: '아니오'
   general_text_Yes: '예'
@@ -192,265 +192,265 @@ ko:
   general_pdf_monospaced_fontname: hysmyeongjostdmedium
   general_first_day_of_week: '7'
 
-  notice_account_updated: 계정�?� 성공�?으로 변경�?�었습니다.
-  notice_account_invalid_credentials: 잘못�?� 계정 �?는 비밀번호
-  notice_account_password_updated: 비밀번호가 잘 변경�?�었습니다.
-  notice_account_wrong_password: 잘못�?� 비밀번호
-  notice_account_register_done: 계정�?� 잘 만들어졌습니다. 계정�?� 활성화하시려면 받�?� 메�?��?� �?�?�를 �?�릭해주세요.
-  notice_account_unknown_email: 알려지지 않�?� 사용�?.
-  notice_can_t_change_password: �?� 계정�?� 외부 �?��?�?� �?�용합니다. 비밀번호를 변경할 수 없습니다.
-  notice_account_lost_email_sent: 새로운 비밀번호를 위한 메�?��?� 발송�?�었습니다.
-  notice_account_activated: 계정�?� 활성화�?�었습니다. �?�제 로그�?� 하실수 있습니다.
-  notice_successful_create: �?성 성공.
+  notice_account_updated: 계정이 성공적으로 변경되었습니다.
+  notice_account_invalid_credentials: 잘못된 계정 또는 비밀번호
+  notice_account_password_updated: 비밀번호가 잘 변경되었습니다.
+  notice_account_wrong_password: 잘못된 비밀번호
+  notice_account_register_done: 계정이 잘 만들어졌습니다. 계정을 활성화하시려면 받은 메일의 링크를 클릭해주세요.
+  notice_account_unknown_email: 알려지지 않은 사용자.
+  notice_can_t_change_password: 이 계정은 외부 인증을 이용합니다. 비밀번호를 변경할 수 없습니다.
+  notice_account_lost_email_sent: 새로운 비밀번호를 위한 메일이 발송되었습니다.
+  notice_account_activated: 계정이 활성화되었습니다. 이제 로그인 하실수 있습니다.
+  notice_successful_create: 생성 성공.
   notice_successful_update: 변경 성공.
   notice_successful_delete: 삭제 성공.
   notice_successful_connection: 연결 성공.
-  notice_file_not_found: 요청하신 페�?�지는 삭제�?�었거나 옮겨졌습니다.
-  notice_locking_conflict: 다른 사용�?�? �?�해서 �?��?�터가 변경�?�었습니다.
-  notice_not_authorized: �?� 페�?�지�? 접근할 권한�?� 없습니다.
-  notice_email_sent: "%{value}님�?게 메�?��?� 발송�?�었습니다."
-  notice_email_error: "메�?��?� 전송하는 과정�? 오류가 발�?했습니다. (%{value})"
-  notice_feeds_access_key_reseted: Atom�? 접근가능한 열쇠(key)가 �?성�?�었습니다.
-  notice_failed_to_save_issues: "저장�? 실패하였습니다: 실패 %{count}(선�? %{total}): %{ids}."
-  notice_no_issue_selected: "�?��?�?� 선�?�?�지 않았습니다. 수정하기 �?하는 �?��?�?� 선�?하세요"
-  notice_account_pending: "계정�?� 만들어졌으며 관리�? 승�?� 대기중입니다."
-  notice_default_data_loaded: 기본값�?� 성공�?으로 �?�어들였습니다.
+  notice_file_not_found: 요청하신 페이지는 삭제되었거나 옮겨졌습니다.
+  notice_locking_conflict: 다른 사용자에 의해서 데이터가 변경되었습니다.
+  notice_not_authorized: 이 페이지에 접근할 권한이 없습니다.
+  notice_email_sent: "%{value}님에게 메일이 발송되었습니다."
+  notice_email_error: "메일을 전송하는 과정에 오류가 발생했습니다. (%{value})"
+  notice_feeds_access_key_reseted: Atom에 접근가능한 열쇠(key)가 생성되었습니다.
+  notice_failed_to_save_issues: "저장에 실패하였습니다: 실패 %{count}(선택 %{total}): %{ids}."
+  notice_no_issue_selected: "일감이 선택되지 않았습니다. 수정하기 원하는 일감을 선택하세요"
+  notice_account_pending: "계정이 만들어졌으며 관리자 승인 대기중입니다."
+  notice_default_data_loaded: 기본값을 성공적으로 읽어들였습니다.
   notice_unable_delete_version: 삭제할 수 없는 버전입니다.
 
-  error_can_t_load_default_data: "기본값�?� �?�어들�?� 수 없습니다.: %{value}"
-  error_scm_not_found: 항목�?�나 리비젼�?� 저장소�? 존재하지 않습니다.
-  error_scm_command_failed: "저장소�? 접근하는 �?�중�? 오류가 발�?하였습니다.: %{value}"
-  error_scm_annotate: "항목�?� 없거나 행별 �?�력�?� 볼 수 없습니다."
-  error_issue_not_found_in_project: '�?��?�?� 없거나 �?� 프로�?트�?� 것�?� 아닙니다.'
+  error_can_t_load_default_data: "기본값을 읽어들일 수 없습니다.: %{value}"
+  error_scm_not_found: 항목이나 리비젼이 저장소에 존재하지 않습니다.
+  error_scm_command_failed: "저장소에 접근하는 도중에 오류가 발생하였습니다.: %{value}"
+  error_scm_annotate: "항목이 없거나 행별 이력을 볼 수 없습니다."
+  error_issue_not_found_in_project: '일감이 없거나 이 프로젝트의 것이 아닙니다.'
 
-  warning_attachments_not_saved: "%{count}개 파�?��?� 저장할 수 없습니다."
+  warning_attachments_not_saved: "%{count}개 파일을 저장할 수 없습니다."
 
   mail_subject_lost_password: "%{value} 비밀번호"
-  mail_body_lost_password: '비밀번호를 변경하려면 다�?� �?�?�를 �?�릭하세요.'
+  mail_body_lost_password: '비밀번호를 변경하려면 다음 링크를 클릭하세요.'
   mail_subject_register: "%{value} 계정 활성화"
-  mail_body_register: '계정�?� 활성화하려면 �?�?�를 �?�릭하세요.:'
-  mail_body_account_information_external: "로그�?�할 때 %{value} 계정�?� 사용하실 수 있습니다."
+  mail_body_register: '계정을 활성화하려면 링크를 클릭하세요.:'
+  mail_body_account_information_external: "로그인할 때 %{value} 계정을 사용하실 수 있습니다."
   mail_body_account_information: 계정 정보
   mail_subject_account_activation_request: "%{value} 계정 활성화 요청"
-  mail_body_account_activation_request: "새 사용�?(%{value})가 등�?�?�었습니다. 관리�?님�?� 승�?��?� 기다리고 있습니다.:"
-  mail_body_reminder: "당신�?� 맡고 있는 �?��? %{count}개�?� 완료기한�?� %{days}�?� 후 입니다."
-  mail_subject_reminder: "내�?��?� 만기�?� �?��? %{count}개 (%{days})"
-  mail_subject_wiki_content_added: "위키페�?�지 '%{id}'�?�(가) 추가�?�었습니다."
-  mail_subject_wiki_content_updated: "'위키페�?�지 %{id}'�?�(가) 수정�?�었습니다."
-  mail_body_wiki_content_added: "%{author}�?�(가) 위키페�?�지 '%{id}'�?�(를) 추가하였습니다."
-  mail_body_wiki_content_updated: "%{author}�?�(가) 위키페�?�지 '%{id}'�?�(를) 수정하였습니다."
+  mail_body_account_activation_request: "새 사용자(%{value})가 등록되었습니다. 관리자님의 승인을 기다리고 있습니다.:"
+  mail_body_reminder: "당신이 맡고 있는 일감 %{count}개의 완료기한이 %{days}일 후 입니다."
+  mail_subject_reminder: "내일이 만기인 일감 %{count}개 (%{days})"
+  mail_subject_wiki_content_added: "위키페이지 '%{id}'이(가) 추가되었습니다."
+  mail_subject_wiki_content_updated: "'위키페이지 %{id}'이(가) 수정되었습니다."
+  mail_body_wiki_content_added: "%{author}이(가) 위키페이지 '%{id}'을(를) 추가하였습니다."
+  mail_body_wiki_content_updated: "%{author}이(가) 위키페이지 '%{id}'을(를) 수정하였습니다."
 
 
-  field_name: �?�름
+  field_name: 이름
   field_description: 설명
   field_summary: 요약
   field_is_required: 필수
-  field_firstname: �?�름
+  field_firstname: 이름
   field_lastname: 성
-  field_mail: 메�?�
-  field_filename: 파�?�
-  field_filesize: �?�기
+  field_mail: 메일
+  field_filename: 파일
+  field_filesize: 크기
   field_downloads: 다운로드
-  field_author: 저�?
-  field_created_on: 등�?
+  field_author: 저자
+  field_created_on: 등록
   field_updated_on: 변경
-  field_field_format: 형�?
-  field_is_for_all: 모든 프로�?트
+  field_field_format: 형식
+  field_is_for_all: 모든 프로젝트
   field_possible_values: 가능한 값들
-  field_regexp: 정규�?
-  field_min_length: 최소 길�?�
-  field_max_length: 최대 길�?�
+  field_regexp: 정규식
+  field_min_length: 최소 길이
+  field_max_length: 최대 길이
   field_value: 값
   field_category: 범주
   field_title: 제목
-  field_project: 프로�?트
-  field_issue: �?��?
-  field_status: �?태
-  field_notes: �?�글
-  field_is_closed: 완료 �?태
+  field_project: 프로젝트
+  field_issue: 일감
+  field_status: 상태
+  field_notes: 덧글
+  field_is_closed: 완료 상태
   field_is_default: 기본값
   field_tracker: 유형
   field_subject: 제목
   field_due_date: 완료기한
-  field_assigned_to: 담당�?
+  field_assigned_to: 담당자
   field_priority: 우선순위
   field_fixed_version: 목표버전
-  field_user: 사용�?
+  field_user: 사용자
   field_role: 역할
-  field_homepage: 홈페�?�지
+  field_homepage: 홈페이지
   field_is_public: 공개
-  field_parent: �?위 프로�?트
-  field_is_in_roadmap: 로드맵�? 표시
-  field_login: 로그�?�
-  field_mail_notification: 메�?� 알림
-  field_admin: 관리�?
-  field_last_login_on: 마지막 로그�?�
+  field_parent: 상위 프로젝트
+  field_is_in_roadmap: 로드맵에 표시
+  field_login: 로그인
+  field_mail_notification: 메일 알림
+  field_admin: 관리자
+  field_last_login_on: 마지막 로그인
   field_language: 언어
   field_effective_date: 날짜
   field_password: 비밀번호
   field_new_password: 새 비밀번호
-  field_password_confirmation: 비밀번호 확�?�
+  field_password_confirmation: 비밀번호 확인
   field_version: 버전
-  field_type: 방�?
+  field_type: 방식
   field_host: 호스트
-  field_port: �?�트
+  field_port: 포트
   field_account: 계정
   field_base_dn: 기본 DN
-  field_attr_login: 로그�?� �?성
-  field_attr_firstname: �?�름 �?성
-  field_attr_lastname: 성 �?성
-  field_attr_mail: 메�?� �?성
-  field_onthefly: �?��? 사용�? �?성
+  field_attr_login: 로그인 속성
+  field_attr_firstname: 이름 속성
+  field_attr_lastname: 성 속성
+  field_attr_mail: 메일 속성
+  field_onthefly: 동적 사용자 생성
   field_start_date: 시작시간
-  field_done_ratio: 진척�?�
-  field_auth_source: �?��? 공급�?
-  field_hide_mail: 메�?� 주소 숨기기
+  field_done_ratio: 진척도
+  field_auth_source: 인증 공급자
+  field_hide_mail: 메일 주소 숨기기
   field_comments: 설명
   field_url: URL
-  field_start_page: 첫 페�?�지
-  field_subproject: 하위 프로�?트
+  field_start_page: 첫 페이지
+  field_subproject: 하위 프로젝트
   field_hours: 시간
   field_activity: 작업종류
   field_spent_on: 작업시간
-  field_identifier: �?별�?
-  field_is_filter: 검색조건으로 사용�?�
-  field_issue_to_id: 연관�?� �?��?
+  field_identifier: 식별자
+  field_is_filter: 검색조건으로 사용됨
+  field_issue_to_id: 연관된 일감
   field_delay: 지연
-  field_assignable: �?� 역할�?게 �?��?�?� 맡길 수 있�?�
-  field_redirect_existing_links: 기존�?� �?�?�로 �?�려보냄(redirect)
+  field_assignable: 이 역할에게 일감을 맡길 수 있음
+  field_redirect_existing_links: 기존의 링크로 돌려보냄(redirect)
   field_estimated_hours: 추정시간
   field_column_names: 컬럼
   field_default_value: 기본값
   field_time_zone: 시간대
   field_searchable: 검색가능
   field_comments_sorting: 댓글 정렬
-  field_parent_title: �?위 제목
+  field_parent_title: 상위 제목
   field_editable: 편집가능
-  field_watcher: �?��?관람�?
+  field_watcher: 일감관람자
   field_identity_url: OpenID URL
   field_content: 내용
   field_group_by: 결과를 묶어 보여줄 기준
 
-  setting_app_title: 레드마�?� 제목
-  setting_app_subtitle: 레드마�?� 부제목
-  setting_welcome_text: 환�? 메시지
+  setting_app_title: 레드마인 제목
+  setting_app_subtitle: 레드마인 부제목
+  setting_welcome_text: 환영 메시지
   setting_default_language: 기본 언어
-  setting_login_required: �?��?�?� 필요함
-  setting_self_registration: 사용�? �?접등�?
-  setting_attachment_max_size: 최대 첨부파�?� �?�기
-  setting_issues_export_limit: �?��? 내보내기 제한
-  setting_mail_from: 발신 메�?� 주소
-  setting_bcc_recipients: 참조�?들�?� bcc로 숨기기
-  setting_plain_text_mail: �?스트만 (HTML 없�?�)
-  setting_host_name: 호스트 �?�름과 경로
-  setting_text_formatting: 본문 형�?
-  setting_wiki_compression: 위키 �?�력 압축
-  setting_feeds_limit: 피드�? �?�함할 항목�?� 수
-  setting_default_projects_public: 새 프로�?트를 공개로 설정
-  setting_autofetch_changesets: 커밋(commit)�?� 변경묶�?��?� �?�?�으로 가져오기
-  setting_sys_api_enabled: 저장소 관리�? WS를 사용
-  setting_commit_ref_keywords: �?��? 참조�? 사용할 키워드들
-  setting_commit_fix_keywords: �?��? 해결�? 사용할 키워드들
-  setting_autologin: �?�?� 로그�?�
-  setting_date_format: 날짜 형�?
-  setting_time_format: 시간 형�?
-  setting_cross_project_issue_relations: 다른 프로�?트�?� �?��?과 연결하는 것�?� 허용
-  setting_issue_list_default_columns: �?��? 목�?�? 표시할 항목
-  setting_emails_footer: 메�?� 꼬리
+  setting_login_required: 인증이 필요함
+  setting_self_registration: 사용자 직접등록
+  setting_attachment_max_size: 최대 첨부파일 크기
+  setting_issues_export_limit: 일감 내보내기 제한
+  setting_mail_from: 발신 메일 주소
+  setting_bcc_recipients: 참조자들을 bcc로 숨기기
+  setting_plain_text_mail: 텍스트만 (HTML 없이)
+  setting_host_name: 호스트 이름과 경로
+  setting_text_formatting: 본문 형식
+  setting_wiki_compression: 위키 이력 압축
+  setting_feeds_limit: 피드에 포함할 항목의 수
+  setting_default_projects_public: 새 프로젝트를 공개로 설정
+  setting_autofetch_changesets: 커밋(commit)된 변경묶음을 자동으로 가져오기
+  setting_sys_api_enabled: 저장소 관리에 WS를 사용
+  setting_commit_ref_keywords: 일감 참조에 사용할 키워드들
+  setting_commit_fix_keywords: 일감 해결에 사용할 키워드들
+  setting_autologin: 자동 로그인
+  setting_date_format: 날짜 형식
+  setting_time_format: 시간 형식
+  setting_cross_project_issue_relations: 다른 프로젝트의 일감과 연결하는 것을 허용
+  setting_issue_list_default_columns: 일감 목록에 표시할 항목
+  setting_emails_footer: 메일 꼬리
   setting_protocol: 프로토콜
-  setting_per_page_options: 목�?�?서, 한 페�?�지�? 표시할 행
-  setting_user_format: 사용�? 표시 형�?
-  setting_activity_days_default: 프로�?트 작업내역�? 표시할 기간
-  setting_display_subprojects_issues: 하위 프로�?트�?� �?��?�?� 함께 표시
-  setting_enabled_scm: "지�?할 SCM(Source Control Management)"
-  setting_mail_handler_api_enabled: 수신 메�?��? WS를 허용
+  setting_per_page_options: 목록에서, 한 페이지에 표시할 행
+  setting_user_format: 사용자 표시 형식
+  setting_activity_days_default: 프로젝트 작업내역에 표시할 기간
+  setting_display_subprojects_issues: 하위 프로젝트의 일감을 함께 표시
+  setting_enabled_scm: "지원할 SCM(Source Control Management)"
+  setting_mail_handler_api_enabled: 수신 메일에 WS를 허용
   setting_mail_handler_api_key: API 키
-  setting_sequential_project_identifiers: 프로�?트 �?별�?를 순차�?으로 �?성
-  setting_gravatar_enabled: 그�?�바타 사용�? 아�?�콘 사용
-  setting_diff_max_lines_displayed: 차�?��?(diff) 보기�? 표시할 최대 줄수
-  setting_repository_log_display_limit: 저장소 보기�? 표시할 개정�? �?�력�?� 최대 갯수
-  setting_file_max_size_displayed: 바로 보여줄 �?스트파�?��?� 최대 �?�기
-  setting_openid: OpenID 로그�?�과 등�? 허용
-  setting_password_min_length: 최소 암호 길�?�
-  setting_new_project_user_role_id: 프로�?트를 만든 사용�?�?게 주어질 역할
+  setting_sequential_project_identifiers: 프로젝트 식별자를 순차적으로 생성
+  setting_gravatar_enabled: 그라바타 사용자 아이콘 사용
+  setting_diff_max_lines_displayed: 차이점(diff) 보기에 표시할 최대 줄수
+  setting_repository_log_display_limit: 저장소 보기에 표시할 개정판 이력의 최대 갯수
+  setting_file_max_size_displayed: 바로 보여줄 텍스트파일의 최대 크기
+  setting_openid: OpenID 로그인과 등록 허용
+  setting_password_min_length: 최소 암호 길이
+  setting_new_project_user_role_id: 프로젝트를 만든 사용자에게 주어질 역할
 
-  permission_add_project: 프로�?트 �?성
-  permission_edit_project: 프로�?트 편집
-  permission_select_project_modules: 프로�?트 모듈 선�?
-  permission_manage_members: 구성�? 관리
+  permission_add_project: 프로젝트 생성
+  permission_edit_project: 프로젝트 편집
+  permission_select_project_modules: 프로젝트 모듈 선택
+  permission_manage_members: 구성원 관리
   permission_manage_versions: 버전 관리
-  permission_manage_categories: �?��? 범주 관리
-  permission_add_issues: �?��? 추가
-  permission_edit_issues: �?��? 편집
-  permission_manage_issue_relations: �?��? 관계 관리
-  permission_add_issue_notes: �?�글 추가
-  permission_edit_issue_notes: �?�글 편집
-  permission_edit_own_issue_notes: 내 �?�글 편집
-  permission_move_issues: �?��? �?��?�
-  permission_delete_issues: �?��? 삭제
-  permission_manage_public_queries: 공용 검색양�? 관리
-  permission_save_queries: 검색양�? 저장
+  permission_manage_categories: 일감 범주 관리
+  permission_add_issues: 일감 추가
+  permission_edit_issues: 일감 편집
+  permission_manage_issue_relations: 일감 관계 관리
+  permission_add_issue_notes: 덧글 추가
+  permission_edit_issue_notes: 덧글 편집
+  permission_edit_own_issue_notes: 내 덧글 편집
+  permission_move_issues: 일감 이동
+  permission_delete_issues: 일감 삭제
+  permission_manage_public_queries: 공용 검색양식 관리
+  permission_save_queries: 검색양식 저장
   permission_view_gantt: Gantt차트 보기
   permission_view_calendar: 달력 보기
-  permission_view_issue_watchers: �?��?관람�? 보기
-  permission_add_issue_watchers: �?��?관람�? 추가
-  permission_log_time: 작업시간 기�?
+  permission_view_issue_watchers: 일감관람자 보기
+  permission_add_issue_watchers: 일감관람자 추가
+  permission_log_time: 작업시간 기록
   permission_view_time_entries: 시간입력 보기
   permission_edit_time_entries: 시간입력 편집
   permission_edit_own_time_entries: 내 시간입력 편집
   permission_manage_news: 뉴스 관리
-  permission_comment_news: 뉴스�? 댓글달기
+  permission_comment_news: 뉴스에 댓글달기
   permission_view_documents: 문서 보기
-  permission_manage_files: 파�?�관리
-  permission_view_files: 파�?�보기
+  permission_manage_files: 파일관리
+  permission_view_files: 파일보기
   permission_manage_wiki: 위키 관리
-  permission_rename_wiki_pages: 위키 페�?�지 �?�름변경
-  permission_delete_wiki_pages: 위치 페�?�지 삭제
+  permission_rename_wiki_pages: 위키 페이지 이름변경
+  permission_delete_wiki_pages: 위치 페이지 삭제
   permission_view_wiki_pages: 위키 보기
-  permission_view_wiki_edits: 위키 기�? 보기
-  permission_edit_wiki_pages: 위키 페�?�지 편집
-  permission_delete_wiki_pages_attachments: 첨부파�?� 삭제
-  permission_protect_wiki_pages: 프로�?트 위키 페�?�지
+  permission_view_wiki_edits: 위키 기록 보기
+  permission_edit_wiki_pages: 위키 페이지 편집
+  permission_delete_wiki_pages_attachments: 첨부파일 삭제
+  permission_protect_wiki_pages: 프로젝트 위키 페이지
   permission_manage_repository: 저장소 관리
   permission_browse_repository: 저장소 둘러보기
-  permission_view_changesets: 변경묶�?�보기
+  permission_view_changesets: 변경묶음보기
   permission_commit_access: 변경로그 보기
-  permission_manage_boards: 게시�? 관리
+  permission_manage_boards: 게시판 관리
   permission_view_messages: 메시지 보기
   permission_add_messages: 메시지 추가
   permission_edit_messages: 메시지 편집
-  permission_edit_own_messages: �?기 메시지 편집
+  permission_edit_own_messages: 자기 메시지 편집
   permission_delete_messages: 메시지 삭제
-  permission_delete_own_messages: �?기 메시지 삭제
+  permission_delete_own_messages: 자기 메시지 삭제
 
-  project_module_issue_tracking: �?��?관리
-  project_module_time_tracking: 시간추�?
+  project_module_issue_tracking: 일감관리
+  project_module_time_tracking: 시간추적
   project_module_news: 뉴스
   project_module_documents: 문서
-  project_module_files: 파�?�
+  project_module_files: 파일
   project_module_wiki: 위키
   project_module_repository: 저장소
-  project_module_boards: 게시�?
+  project_module_boards: 게시판
 
-  label_user: 사용�?
-  label_user_plural: 사용�?
-  label_user_new: 새 사용�?
-  label_project: 프로�?트
-  label_project_new: 새 프로�?트
-  label_project_plural: 프로�?트
+  label_user: 사용자
+  label_user_plural: 사용자
+  label_user_new: 새 사용자
+  label_project: 프로젝트
+  label_project_new: 새 프로젝트
+  label_project_plural: 프로젝트
   label_x_projects:
-    zero:  없�?�
-    one:   "한 프로�?트"
-    other: "%{count}개 프로�?트"
-  label_project_all: 모든 프로�?트
-  label_project_latest: 최근 프로�?트
-  label_issue: �?��?
-  label_issue_new: 새 �?��?만들기
-  label_issue_plural: �?��?
-  label_issue_view_all: 모든 �?��? 보기
-  label_issues_by: "%{value}별 �?��?"
-  label_issue_added: �?��? 추가
-  label_issue_updated: �?��? 수정
+    zero:  없음
+    one:   "한 프로젝트"
+    other: "%{count}개 프로젝트"
+  label_project_all: 모든 프로젝트
+  label_project_latest: 최근 프로젝트
+  label_issue: 일감
+  label_issue_new: 새 일감만들기
+  label_issue_plural: 일감
+  label_issue_view_all: 모든 일감 보기
+  label_issues_by: "%{value}별 일감"
+  label_issue_added: 일감 추가
+  label_issue_updated: 일감 수정
   label_document: 문서
   label_document_new: 새 문서
   label_document_plural: 문서
@@ -458,73 +458,73 @@ ko:
   label_role: 역할
   label_role_plural: 역할
   label_role_new: 새 역할
-  label_role_and_permissions: 역할 �? 권한
-  label_member: 구성�?
-  label_member_new: 새 구성�?
-  label_member_plural: 구성�?
-  label_tracker: �?��? 유형
-  label_tracker_plural: �?��? 유형
-  label_tracker_new: 새 �?��? 유형
-  label_workflow: 업무�??름
-  label_issue_status: �?��? �?태
-  label_issue_status_plural: �?��? �?태
-  label_issue_status_new: 새 �?��? �?태
-  label_issue_category: �?��? 범주
-  label_issue_category_plural: �?��? 범주
-  label_issue_category_new: 새 �?��? 범주
-  label_custom_field: 사용�? 정�?� 항목
-  label_custom_field_plural: 사용�? 정�?� 항목
-  label_custom_field_new: 새 사용�? 정�?� 항목
+  label_role_and_permissions: 역할 및 권한
+  label_member: 구성원
+  label_member_new: 새 구성원
+  label_member_plural: 구성원
+  label_tracker: 일감 유형
+  label_tracker_plural: 일감 유형
+  label_tracker_new: 새 일감 유형
+  label_workflow: 업무흐름
+  label_issue_status: 일감 상태
+  label_issue_status_plural: 일감 상태
+  label_issue_status_new: 새 일감 상태
+  label_issue_category: 일감 범주
+  label_issue_category_plural: 일감 범주
+  label_issue_category_new: 새 일감 범주
+  label_custom_field: 사용자 정의 항목
+  label_custom_field_plural: 사용자 정의 항목
+  label_custom_field_new: 새 사용자 정의 항목
   label_enumerations: 코드값
   label_enumeration_new: 새 코드값
   label_information: 정보
   label_information_plural: 정보
-  label_please_login: 로그�?�하세요.
-  label_register: 등�?
-  label_login_with_open_id_option: �?는 OpenID로 로그�?�
+  label_please_login: 로그인하세요.
+  label_register: 등록
+  label_login_with_open_id_option: 또는 OpenID로 로그인
   label_password_lost: 비밀번호 찾기
   label_home: 초기화면
-  label_my_page: 내 페�?�지
+  label_my_page: 내 페이지
   label_my_account: 내 계정
-  label_my_projects: 내 프로�?트
+  label_my_projects: 내 프로젝트
   label_administration: 관리
-  label_login: 로그�?�
+  label_login: 로그인
   label_logout: 로그아웃
-  label_help: �?�움�?
-  label_reported_issues: 보고한 �?��?
-  label_assigned_to_me_issues: 내가 맡�?� �?��? 
-  label_last_login: 마지막 접�?
-  label_registered_on: 등�?시�?
+  label_help: 도움말
+  label_reported_issues: 보고한 일감
+  label_assigned_to_me_issues: 내가 맡은 일감 
+  label_last_login: 마지막 접속
+  label_registered_on: 등록시각
   label_activity: 작업내역
   label_overall_activity: 전체 작업내역
-  label_user_activity: "%{value}�?� 작업내역"
+  label_user_activity: "%{value}의 작업내역"
   label_new: 새로 만들기
-  label_logged_as: '로그�?�계정:'
+  label_logged_as: '로그인계정:'
   label_environment: 환경
-  label_authentication: �?��?
-  label_auth_source: �?��? 공급�?
-  label_auth_source_new: 새 �?��? 공급�?
-  label_auth_source_plural: �?��? 공급�?
-  label_subproject_plural: 하위 프로�?트
-  label_and_its_subprojects: "%{value}와 하위 프로�?트들"
-  label_min_max_length: 최소 - 최대 길�?�
-  label_list: 목�?
+  label_authentication: 인증
+  label_auth_source: 인증 공급자
+  label_auth_source_new: 새 인증 공급자
+  label_auth_source_plural: 인증 공급자
+  label_subproject_plural: 하위 프로젝트
+  label_and_its_subprojects: "%{value}와 하위 프로젝트들"
+  label_min_max_length: 최소 - 최대 길이
+  label_list: 목록
   label_date: 날짜
   label_integer: 정수
-  label_float: 부�?�소수
+  label_float: 부동소수
   label_boolean: 부울린
-  label_string: 문�?열
-  label_text: �?스트
-  label_attribute: �?성
-  label_attribute_plural: �?성
-  label_no_data: 표시할 �?��?�터가 없습니다.
-  label_change_status: �?태 변경
-  label_history: �?�력
-  label_attachment: 파�?�
-  label_attachment_new: 파�?�추가
-  label_attachment_delete: 파�?�삭제
-  label_attachment_plural: 파�?�
-  label_file_added: 파�?� 추가
+  label_string: 문자열
+  label_text: 텍스트
+  label_attribute: 속성
+  label_attribute_plural: 속성
+  label_no_data: 표시할 데이터가 없습니다.
+  label_change_status: 상태 변경
+  label_history: 이력
+  label_attachment: 파일
+  label_attachment_new: 파일추가
+  label_attachment_delete: 파일삭제
+  label_attachment_plural: 파일
+  label_file_added: 파일 추가
   label_report: 보고서
   label_report_plural: 보고서
   label_news: 뉴스
@@ -538,93 +538,93 @@ ko:
   label_version: 버전
   label_version_new: 새 버전
   label_version_plural: 버전
-  label_confirmation: 확�?�
+  label_confirmation: 확인
   label_export_to: 내보내기
-  label_read: �?�기...
-  label_public_projects: 공개 프로�?트
+  label_read: 읽기...
+  label_public_projects: 공개 프로젝트
   label_open_issues: 진행중
   label_open_issues_plural: 진행중
-  label_closed_issues: 완료�?�
-  label_closed_issues_plural: 완료�?�
+  label_closed_issues: 완료됨
+  label_closed_issues_plural: 완료됨
   label_x_open_issues_abbr:
-    zero:  모�? 완료
+    zero:  모두 완료
     one:   한 건 진행 중
     other: "%{count} 건 진행 중"
   label_x_closed_issues_abbr:
-    zero:  모�? 미완료
+    zero:  모두 미완료
     one:   한 건 완료
     other: "%{count} 건 완료"
   label_total: 합계
   label_permissions: 권한
-  label_current_status: �?��? �?태
-  label_new_statuses_allowed: 허용�?�는 �?��? �?태
-  label_all: 모�?
-  label_none: 없�?�
+  label_current_status: 일감 상태
+  label_new_statuses_allowed: 허용되는 일감 상태
+  label_all: 모두
+  label_none: 없음
   label_nobody: 미지정
-  label_next: 다�?�
+  label_next: 다음
   label_previous: 뒤로
-  label_used_by: 사용�?�
-  label_details: �?세히
-  label_add_note: �?��?�?�글 추가
+  label_used_by: 사용됨
+  label_details: 자세히
+  label_add_note: 일감덧글 추가
   label_calendar: 달력
-  label_months_from: 개월 �?�안 | 다�?�부터
+  label_months_from: 개월 동안 | 다음부터
   label_gantt: Gantt 챠트
   label_internal: 내부
-  label_last_changes: "최근 %{count}개�?� 변경사항"
+  label_last_changes: "최근 %{count}개의 변경사항"
   label_change_view_all: 모든 변경 내역 보기
   label_personalize_page: 입맛대로 구성하기
   label_comment: 댓글
   label_comment_plural: 댓글
   label_x_comments:
-    zero: 댓글 없�?�
-    one: 한 개�?� 댓글
-    other: "%{count} 개�?� 댓글"
+    zero: 댓글 없음
+    one: 한 개의 댓글
+    other: "%{count} 개의 댓글"
   label_comment_add: 댓글 추가
-  label_comment_added: 댓글�?� 추가�?�었습니다.
+  label_comment_added: 댓글이 추가되었습니다.
   label_comment_delete: 댓글 삭제
-  label_query: 검색양�?
-  label_query_plural: 검색양�?
-  label_query_new: 새 검색양�?
+  label_query: 검색양식
+  label_query_plural: 검색양식
+  label_query_new: 새 검색양식
   label_filter_add: 검색조건 추가
   label_filter_plural: 검색조건
-  label_equals: �?�다
+  label_equals: 이다
   label_not_equals: 아니다
-  label_in_less_than: �?�내
-  label_in_more_than: �?�후
+  label_in_less_than: 이내
+  label_in_more_than: 이후
   label_greater_or_equal: ">="
   label_less_or_equal: "<="
-  label_in: �?�내
+  label_in: 이내
   label_today: 오늘
   label_all_time: 모든 시간
   label_yesterday: 어제
-  label_this_week: �?�번주
+  label_this_week: 이번주
   label_last_week: 지난 주
-  label_last_n_days: "지난 %{count} �?�"
-  label_this_month: �?�번 달
+  label_last_n_days: "지난 %{count} 일"
+  label_this_month: 이번 달
   label_last_month: 지난 달
   label_this_year: 올해
   label_date_range: 날짜 범위
-  label_less_than_ago: �?�전
-  label_more_than_ago: �?�후
-  label_ago: �?� 전
-  label_contains: �?�함�?�는 키워드
-  label_not_contains: �?�함하지 않는 키워드
-  label_day_plural: �?�
+  label_less_than_ago: 이전
+  label_more_than_ago: 이후
+  label_ago: 일 전
+  label_contains: 포함되는 키워드
+  label_not_contains: 포함하지 않는 키워드
+  label_day_plural: 일
   label_repository: 저장소
   label_repository_plural: 저장소
   label_browse: 저장소 둘러보기
-  label_revision: 개정�?
-  label_revision_plural: 개정�?
-  label_associated_revisions: 관련�?� 개정�?들
-  label_added: 추가�?�
-  label_modified: 변경�?�
-  label_copied: 복사�?�
-  label_renamed: �?�름바뀜
-  label_deleted: 삭제�?�
-  label_latest_revision: 최근 개정�?
-  label_latest_revision_plural: 최근 개정�?
-  label_view_revisions: 개정�? 보기
-  label_max_size: 최대 �?�기
+  label_revision: 개정판
+  label_revision_plural: 개정판
+  label_associated_revisions: 관련된 개정판들
+  label_added: 추가됨
+  label_modified: 변경됨
+  label_copied: 복사됨
+  label_renamed: 이름바뀜
+  label_deleted: 삭제됨
+  label_latest_revision: 최근 개정판
+  label_latest_revision_plural: 최근 개정판
+  label_view_revisions: 개정판 보기
+  label_max_size: 최대 크기
   label_sort_highest: 맨 위로
   label_sort_higher: 위로
   label_sort_lower: 아래로
@@ -632,373 +632,373 @@ ko:
   label_roadmap: 로드맵
   label_roadmap_due_in: "기한  %{value}"
   label_roadmap_overdue: "%{value} 지연"
-  label_roadmap_no_issues: �?� 버전�? 해당하는 �?��? 없�?�
+  label_roadmap_no_issues: 이 버전에 해당하는 일감 없음
   label_search: 검색
   label_result_plural: 결과
   label_all_words: 모든 단어
   label_wiki: 위키
   label_wiki_edit: 위키 편집
   label_wiki_edit_plural: 위키 편집
-  label_wiki_page: 위키 페�?�지
-  label_wiki_page_plural: 위키 페�?�지
-  label_index_by_title: 제목별 색�?�
-  label_index_by_date: 날짜별 색�?�
+  label_wiki_page: 위키 페이지
+  label_wiki_page_plural: 위키 페이지
+  label_index_by_title: 제목별 색인
+  label_index_by_date: 날짜별 색인
   label_current_version: 현재 버전
   label_preview: 미리보기
   label_feed_plural: 피드(Feeds)
-  label_changes_details: 모든 �?세 변경 내역
-  label_issue_tracking: �?��? 추�?
+  label_changes_details: 모든 상세 변경 내역
+  label_issue_tracking: 일감 추적
   label_spent_time: 소요 시간
   label_f_hour: "%{value} 시간"
   label_f_hour_plural: "%{value} 시간"
-  label_time_tracking: 시간추�?
+  label_time_tracking: 시간추적
   label_change_plural: 변경사항들
   label_statistics: 통계
   label_commits_per_month: 월별 커밋 내역
-  label_commits_per_author: 저�?별 커밋 내역
-  label_view_diff: 차�?��? 보기
-  label_diff_inline: �?줄로
+  label_commits_per_author: 저자별 커밋 내역
+  label_view_diff: 차이점 보기
+  label_diff_inline: 두줄로
   label_diff_side_by_side: 한줄로
   label_options: 옵션
-  label_copy_workflow_from: 업무�??름 복사하기
+  label_copy_workflow_from: 업무흐름 복사하기
   label_permissions_report: 권한 보고서
-  label_watched_issues: 지켜보고 있는 �?��? 
-  label_related_issues: 연결�?� �?��?
-  label_applied_status: �?용�?� �?태
-  label_loading: �?�는 중...
+  label_watched_issues: 지켜보고 있는 일감 
+  label_related_issues: 연결된 일감
+  label_applied_status: 적용된 상태
+  label_loading: 읽는 중...
   label_relation_new: 새 관계
   label_relation_delete: 관계 지우기
-  label_relates_to: "다�?� �?��?과 관련�?�:"
-  label_duplicates: "다�?� �?��?�? 중복�?�:"
-  label_duplicated_by: "중복�?� �?��?:"
-  label_blocks: "다�?� �?��?�?� 해결�?� 막고 있�?�:"
-  label_blocked_by: "다�?� �?��?�?게 막혀 있�?�:"
-  label_precedes: "다�?��? 진행할 �?��?:"
-  label_follows: "다�?� �?��?�?� 우선 진행:"
-  label_stay_logged_in: 로그�?� 유지
+  label_relates_to: "다음 일감과 관련됨:"
+  label_duplicates: "다음 일감에 중복됨:"
+  label_duplicated_by: "중복된 일감:"
+  label_blocks: "다음 일감의 해결을 막고 있음:"
+  label_blocked_by: "다음 일감에게 막혀 있음:"
+  label_precedes: "다음에 진행할 일감:"
+  label_follows: "다음 일감을 우선 진행:"
+  label_stay_logged_in: 로그인 유지
   label_disabled: 비활성화
-  label_show_completed_versions: 완료�?� 버전 보기
+  label_show_completed_versions: 완료된 버전 보기
   label_me: 나
-  label_board: 게시�?
-  label_board_new: 새 게시�?
-  label_board_plural: 게시�?
+  label_board: 게시판
+  label_board_new: 새 게시판
+  label_board_plural: 게시판
   label_topic_plural: 주제
   label_message_plural: 글
   label_message_last: 마지막 글
   label_message_new: 새글쓰기
   label_message_posted: 글 추가
   label_reply_plural: 답글
-  label_send_information: 사용�?�?게 계정정보를 보내기
+  label_send_information: 사용자에게 계정정보를 보내기
   label_year: 년
   label_month: 월
   label_week: 주
   label_date_from: '기간:'
   label_date_to: ' ~ '
-  label_language_based: 언어설정�? 따름
+  label_language_based: 언어설정에 따름
   label_sort_by: "%{value}(으)로 정렬"
-  label_send_test_email: 테스트 메�?� 보내기
-  label_feeds_access_key_created_on: "피드 접근 키가 %{value} �?�전�? �?성�?�었습니다."
+  label_send_test_email: 테스트 메일 보내기
+  label_feeds_access_key_created_on: "피드 접근 키가 %{value} 이전에 생성되었습니다."
   label_module_plural: 모듈
-  label_added_time_by: "%{author}�?�(가) %{age} 전�? 추가함"
-  label_updated_time_by: "%{author}�?�(가) %{age} 전�? 변경"
-  label_updated_time: "%{value} 전�? 수정�?�"
-  label_jump_to_a_project: 프로�?트 바로가기
-  label_file_plural: 파�?�
-  label_changeset_plural: 변경묶�?�
+  label_added_time_by: "%{author}이(가) %{age} 전에 추가함"
+  label_updated_time_by: "%{author}이(가) %{age} 전에 변경"
+  label_updated_time: "%{value} 전에 수정됨"
+  label_jump_to_a_project: 프로젝트 바로가기
+  label_file_plural: 파일
+  label_changeset_plural: 변경묶음
   label_default_columns: 기본 컬럼
   label_no_change_option: (수정 안함)
-  label_bulk_edit_selected_issues: 선�?한 �?��?들�?� 한꺼번�? 수정하기
+  label_bulk_edit_selected_issues: 선택한 일감들을 한꺼번에 수정하기
   label_theme: 테마
   label_default: 기본
-  label_search_titles_only: 제목�?서만 찾기
-  label_user_mail_option_all: "내가 �?한 프로�?트로들부터 모든 메�?� 받기"
-  label_user_mail_option_selected: "선�?한 프로�?트들로부터 모든 메�?� 받기.."
-  label_user_mail_no_self_notified: "내가 만든 변경사항들�? 대해서는 알림메�?��?� 받지 않습니다."
-  label_registration_activation_by_email: 메�?�로 계정�?� 활성화하기
-  label_registration_automatic_activation: �?�?� 계정 활성화
-  label_registration_manual_activation: 수�?� 계정 활성화
-  label_display_per_page: "페�?�지당 줄수: %{value}"
-  label_age: 마지막 수정�?�
-  label_change_properties: �?성 변경
-  label_general: �?�반
-  label_more: 제목 �? 설명 수정
-  label_scm: 형�?관리시스템
-  label_plugins: 플러그�?�
-  label_ldap_authentication: LDAP �?��?
+  label_search_titles_only: 제목에서만 찾기
+  label_user_mail_option_all: "내가 속한 프로젝트로들부터 모든 메일 받기"
+  label_user_mail_option_selected: "선택한 프로젝트들로부터 모든 메일 받기.."
+  label_user_mail_no_self_notified: "내가 만든 변경사항들에 대해서는 알림메일을 받지 않습니다."
+  label_registration_activation_by_email: 메일로 계정을 활성화하기
+  label_registration_automatic_activation: 자동 계정 활성화
+  label_registration_manual_activation: 수동 계정 활성화
+  label_display_per_page: "페이지당 줄수: %{value}"
+  label_age: 마지막 수정일
+  label_change_properties: 속성 변경
+  label_general: 일반
+  label_more: 제목 및 설명 수정
+  label_scm: 형상관리시스템
+  label_plugins: 플러그인
+  label_ldap_authentication: LDAP 인증
   label_downloads_abbr: D/L
-  label_optional_description: 부가�?�?� 설명
-  label_add_another_file: 다른 파�?� 추가
+  label_optional_description: 부가적인 설명
+  label_add_another_file: 다른 파일 추가
   label_preferences: 설정
   label_chronological_order: 시간 순으로 정렬
   label_reverse_chronological_order: 시간 역순으로 정렬
-  label_planning: 프로�?트계�?
-  label_incoming_emails: 수신 메�?�
-  label_generate_key: 키 �?성
-  label_issue_watchers: �?��?관람�?
+  label_planning: 프로젝트계획
+  label_incoming_emails: 수신 메일
+  label_generate_key: 키 생성
+  label_issue_watchers: 일감관람자
   label_example: 예
-  label_display: 표시방�?
+  label_display: 표시방식
   label_sort: 정렬
   label_ascending: 오름차순
   label_descending: 내림차순
   label_date_from_to: "%{start}부터 %{end}까지"
-  label_wiki_content_added: 위키페�?�지 추가
-  label_wiki_content_updated: 위키페�?�지 수정
+  label_wiki_content_added: 위키페이지 추가
+  label_wiki_content_updated: 위키페이지 수정
 
-  button_login: 로그�?�
-  button_submit: 확�?�
+  button_login: 로그인
+  button_submit: 확인
   button_save: 저장
-  button_check_all: 모�?선�?
-  button_uncheck_all: 선�?해제
+  button_check_all: 모두선택
+  button_uncheck_all: 선택해제
   button_delete: 삭제
   button_create: 만들기
-  button_create_and_continue: 만들고 계�?하기
+  button_create_and_continue: 만들고 계속하기
   button_test: 테스트
   button_edit: 편집
   button_add: 추가
   button_change: 변경
-  button_apply: �?용
+  button_apply: 적용
   button_clear: 지우기
   button_lock: 잠금
   button_unlock: 잠금해제
   button_download: 다운로드
-  button_list: 목�?
+  button_list: 목록
   button_view: 보기
-  button_move: �?��?�
+  button_move: 이동
   button_back: 뒤로
   button_cancel: 취소
   button_activate: 활성화
   button_sort: 정렬
-  button_log_time: 작업시간 기�?
-  button_rollback: �?� 버전으로 �?��?�리기
+  button_log_time: 작업시간 기록
+  button_rollback: 이 버전으로 되돌리기
   button_watch: 지켜보기
-  button_unwatch: 관심�?�기
+  button_unwatch: 관심끄기
   button_reply: 답글
   button_archive: 잠금보관
   button_unarchive: 잠금보관해제
   button_reset: 초기화
-  button_rename: �?�름바꾸기
+  button_rename: 이름바꾸기
   button_change_password: 비밀번호 바꾸기
   button_copy: 복사
-  button_annotate: �?�력해설
-  button_update: 업�?��?�트
+  button_annotate: 이력해설
+  button_update: 업데이트
   button_configure: 설정
   button_quote: 댓글달기
 
   status_active: 사용중
-  status_registered: 등�?대기
+  status_registered: 등록대기
   status_locked: 잠김
 
-  text_select_mail_notifications: 알림메�?��?� 필요한 작업�?� 선�?하세요.
+  text_select_mail_notifications: 알림메일이 필요한 작업을 선택하세요.
   text_regexp_info: 예) ^[A-Z0-9]+$
-  text_min_max_length_info: 0 는 제한�?� 없�?��?� �?�미함
-  text_project_destroy_confirmation: �?� 프로�?트를 삭제하고 모든 �?��?�터를 지우시겠습니까?
-  text_subprojects_destroy_warning: "하위 프로�?트(%{value})�?�(가) �?�?�으로 지워질 것입니다."
-  text_workflow_edit: 업무�??름�?� 수정하려면 역할과 �?��? 유형�?� 선�?하세요.
-  text_are_you_sure: 계�? 진행 하시겠습니까?
+  text_min_max_length_info: 0 는 제한이 없음을 의미함
+  text_project_destroy_confirmation: 이 프로젝트를 삭제하고 모든 데이터를 지우시겠습니까?
+  text_subprojects_destroy_warning: "하위 프로젝트(%{value})이(가) 자동으로 지워질 것입니다."
+  text_workflow_edit: 업무흐름을 수정하려면 역할과 일감 유형을 선택하세요.
+  text_are_you_sure: 계속 진행 하시겠습니까?
   text_tip_issue_begin_day: 오늘 시작하는 업무(task)
   text_tip_issue_end_day: 오늘 종료하는 업무(task)
   text_tip_issue_begin_end_day: 오늘 시작하고 종료하는 업무(task)
-  text_caracters_maximum: "최대 %{count} 글�? 가능"
-  text_caracters_minimum: "최소한 %{count} 글�? �?��?�?�어야 합니다."
-  text_length_between: "%{min} �?서 %{max} 글�?"
-  text_tracker_no_workflow: �?� �?��? 유형�?는 업무�??름�?� 정�?��?�지 않았습니다.
-  text_unallowed_characters: 허용�?�지 않는 문�?열
-  text_comma_separated: "구분�?','를 �?�용해서 여러 개�?� 값�?� 입력할 수 있습니다."
-  text_issues_ref_in_commit_messages: 커밋 메시지�?서 �?��?�?� 참조하거나 해결하기
-  text_issue_added: "%{author}�?�(가) �?��? %{id}�?�(를) 보고하였습니다."
-  text_issue_updated: "%{author}�?�(가) �?��? %{id}�?�(를) 수정하였습니다."
-  text_wiki_destroy_confirmation: �?� 위키와 모든 내용�?� 지우시겠습니까?
-  text_issue_category_destroy_question: "�?�부 �?��?들(%{count}개)�?� �?� 범주�? 지정�?�어 있습니다. 어떻게 하시겠습니까?"
+  text_caracters_maximum: "최대 %{count} 글자 가능"
+  text_caracters_minimum: "최소한 %{count} 글자 이상이어야 합니다."
+  text_length_between: "%{min} 에서 %{max} 글자"
+  text_tracker_no_workflow: 이 일감 유형에는 업무흐름이 정의되지 않았습니다.
+  text_unallowed_characters: 허용되지 않는 문자열
+  text_comma_separated: "구분자','를 이용해서 여러 개의 값을 입력할 수 있습니다."
+  text_issues_ref_in_commit_messages: 커밋 메시지에서 일감을 참조하거나 해결하기
+  text_issue_added: "%{author}이(가) 일감 %{id}을(를) 보고하였습니다."
+  text_issue_updated: "%{author}이(가) 일감 %{id}을(를) 수정하였습니다."
+  text_wiki_destroy_confirmation: 이 위키와 모든 내용을 지우시겠습니까?
+  text_issue_category_destroy_question: "일부 일감들(%{count}개)이 이 범주에 지정되어 있습니다. 어떻게 하시겠습니까?"
   text_issue_category_destroy_assignments: 범주 지정 지우기
-  text_issue_category_reassign_to: �?��?�?� �?� 범주�? 다시 지정하기
-  text_user_mail_option: "선�?하지 않�?� 프로�?트�?서�?�, 지켜보는 중�?�거나 �?해있는 사항(�?��?를 발행했거나 할당�?� 경우)�?� 있으면 알림메�?��?� 받게 �?�니다."
-  text_no_configuration_data: "역할, �?��? 유형, �?��? �?태들과 업무�??름�?� 아�? 설정�?�지 않았습니다.\n기본 설정�?� �?�어들�?�는 것�?� 권장합니다. �?�어들�?� 후�? 수정할 수 있습니다."
-  text_load_default_configuration: 기본 설정�?� �?�어들�?�기
-  text_status_changed_by_changeset: "변경묶�?� %{value}�? �?�하여 변경�?�"
-  text_issues_destroy_confirmation: '선�?한 �?��?를 정�?로 삭제하시겠습니까?'
-  text_select_project_modules: '�?� 프로�?트�?서 활성화시킬 모듈�?� 선�?하세요:'
-  text_default_administrator_account_changed: 기본 관리�? 계정�?� 변경
-  text_file_repository_writable: 파�?� 저장소 쓰기 가능
-  text_plugin_assets_writable: 플러그�?� 전용 디렉토리가 쓰기 가능
-  text_rmagick_available: RMagick 사용 가능 (선�?�?)
-  text_destroy_time_entries_question: 삭제하려는 �?��?�? %{hours} 시간�?� 보고�?�어 있습니다. 어떻게 하시겠습니까?
-  text_destroy_time_entries: 보고�?� 시간�?� 삭제하기
-  text_assign_time_entries_to_project: 보고�?� 시간�?� 프로�?트�? 할당하기
-  text_reassign_time_entries: '�?� 알림�? 보고�?� 시간�?� 재할당하기:'
-  text_user_wrote: "%{value}�?� �?�글:"
-  text_enumeration_category_reassign_to: '새로운 값�?� 설정:'
-  text_enumeration_destroy_question: "%{count} 개�?� �?��?�?� �?� 값�?� 사용하고 있습니다."
-  text_email_delivery_not_configured: "�?�메�?� 전달�?� 설정�?�지 않았습니다. 그래서 알림�?� 비활성화�?�었습니다.\n SMTP서버를 config/configuration.yml�?서 설정하고 어플리케�?�션�?� 다시 시작하십시오. 그러면 �?�작합니다."
-  text_repository_usernames_mapping: "저장소 로그�?서 발견�?� �? 사용�?�? 레드마�?� 사용�?를 업�?��?�트할때 선�?합니다.\n레드마�?�과 저장소�?� �?�름�?�나 �?�메�?��?� 같�?� 사용�?가 �?�?�으로 연결�?�니다."
-  text_diff_truncated: '... �?� 차�?��?�?� 표시할 수 있는 최대 줄수를 초과해서 �?� 차�?��?�?� 잘렸습니다.'
-  text_custom_field_possible_values_info: '�? 값 당 한 줄'
-  text_wiki_page_destroy_question: �?� 페�?�지는 %{descendants} 개�?� 하위 페�?�지와 관련 내용�?� 있습니다. �?� 내용�?� 어떻게 하시겠습니까?
-  text_wiki_page_nullify_children: 하위 페�?�지를 최�?위 페�?�지 아래로 지정
-  text_wiki_page_destroy_children: 모든 하위 페�?�지와 관련 내용�?� 삭제
-  text_wiki_page_reassign_children: 하위 페�?�지를 �?� 페�?�지 아래로 지정
+  text_issue_category_reassign_to: 일감을 이 범주에 다시 지정하기
+  text_user_mail_option: "선택하지 않은 프로젝트에서도, 지켜보는 중이거나 속해있는 사항(일감를 발행했거나 할당된 경우)이 있으면 알림메일을 받게 됩니다."
+  text_no_configuration_data: "역할, 일감 유형, 일감 상태들과 업무흐름이 아직 설정되지 않았습니다.\n기본 설정을 읽어들이는 것을 권장합니다. 읽어들인 후에 수정할 수 있습니다."
+  text_load_default_configuration: 기본 설정을 읽어들이기
+  text_status_changed_by_changeset: "변경묶음 %{value}에 의하여 변경됨"
+  text_issues_destroy_confirmation: '선택한 일감를 정말로 삭제하시겠습니까?'
+  text_select_project_modules: '이 프로젝트에서 활성화시킬 모듈을 선택하세요:'
+  text_default_administrator_account_changed: 기본 관리자 계정이 변경
+  text_file_repository_writable: 파일 저장소 쓰기 가능
+  text_plugin_assets_writable: 플러그인 전용 디렉토리가 쓰기 가능
+  text_rmagick_available: RMagick 사용 가능 (선택적)
+  text_destroy_time_entries_question: 삭제하려는 일감에 %{hours} 시간이 보고되어 있습니다. 어떻게 하시겠습니까?
+  text_destroy_time_entries: 보고된 시간을 삭제하기
+  text_assign_time_entries_to_project: 보고된 시간을 프로젝트에 할당하기
+  text_reassign_time_entries: '이 알림에 보고된 시간을 재할당하기:'
+  text_user_wrote: "%{value}의 덧글:"
+  text_enumeration_category_reassign_to: '새로운 값을 설정:'
+  text_enumeration_destroy_question: "%{count} 개의 일감이 이 값을 사용하고 있습니다."
+  text_email_delivery_not_configured: "이메일 전달이 설정되지 않았습니다. 그래서 알림이 비활성화되었습니다.\n SMTP서버를 config/configuration.yml에서 설정하고 어플리케이션을 다시 시작하십시오. 그러면 동작합니다."
+  text_repository_usernames_mapping: "저장소 로그에서 발견된 각 사용자에 레드마인 사용자를 업데이트할때 선택합니다.\n레드마인과 저장소의 이름이나 이메일이 같은 사용자가 자동으로 연결됩니다."
+  text_diff_truncated: '... 이 차이점은 표시할 수 있는 최대 줄수를 초과해서 이 차이점은 잘렸습니다.'
+  text_custom_field_possible_values_info: '각 값 당 한 줄'
+  text_wiki_page_destroy_question: 이 페이지는 %{descendants} 개의 하위 페이지와 관련 내용이 있습니다. 이 내용을 어떻게 하시겠습니까?
+  text_wiki_page_nullify_children: 하위 페이지를 최상위 페이지 아래로 지정
+  text_wiki_page_destroy_children: 모든 하위 페이지와 관련 내용을 삭제
+  text_wiki_page_reassign_children: 하위 페이지를 이 페이지 아래로 지정
 
-  default_role_manager: 관리�?
-  default_role_developer: 개발�?
-  default_role_reporter: 보고�?
+  default_role_manager: 관리자
+  default_role_developer: 개발자
+  default_role_reporter: 보고자
   default_tracker_bug: 결함
   default_tracker_feature: 새기능
-  default_tracker_support: 지�?
+  default_tracker_support: 지원
   default_issue_status_new: 신규
   default_issue_status_in_progress: 진행
   default_issue_status_resolved: 해결
-  default_issue_status_feedback: �?�견
+  default_issue_status_feedback: 의견
   default_issue_status_closed: 완료
   default_issue_status_rejected: 거절
-  default_doc_category_user: 사용�? 문서
+  default_doc_category_user: 사용자 문서
   default_doc_category_tech: 기술 문서
-  default_priority_low: 낮�?�
+  default_priority_low: 낮음
   default_priority_normal: 보통
-  default_priority_high: 높�?�
+  default_priority_high: 높음
   default_priority_urgent: 긴급
   default_priority_immediate: 즉시
   default_activity_design: 설계
   default_activity_development: 개발
 
-  enumeration_issue_priorities: �?��? 우선순위
+  enumeration_issue_priorities: 일감 우선순위
   enumeration_doc_categories: 문서 범주
-  enumeration_activities: 작업분류(시간추�?)
+  enumeration_activities: 작업분류(시간추적)
 
-  field_issue_to: 관련 �?��? 
-  label_view_all_revisions: 모든 개정�? 표시
+  field_issue_to: 관련 일감 
+  label_view_all_revisions: 모든 개정판 표시
   label_tag: 태그(Tag)
   label_branch: 브랜치(Branch)
-  error_no_tracker_in_project: 사용할 수 있�?��? 설정�?� �?��? 유형�?� 없습니다. 프로�?트 설정�?� 확�?�하십시오.
-  error_no_default_issue_status: '기본 �?태가 정해져 있지 않습니다. 설정�?� 확�?�하십시오. (주 메뉴�?� "관리" -> "�?��? �?태")'
-  text_journal_changed: "%{label}�?�(를) %{old}�?서 %{new}(으)로 변경�?�었습니다."
-  text_journal_set_to: "%{label}�?�(를) %{value}(으)로 지정�?�었습니다."
-  text_journal_deleted: "%{label} 값�?� 지워졌습니다. (%{old})"
+  error_no_tracker_in_project: 사용할 수 있도록 설정된 일감 유형이 없습니다. 프로젝트 설정을 확인하십시오.
+  error_no_default_issue_status: '기본 상태가 정해져 있지 않습니다. 설정을 확인하십시오. (주 메뉴의 "관리" -> "일감 상태")'
+  text_journal_changed: "%{label}을(를) %{old}에서 %{new}(으)로 변경되었습니다."
+  text_journal_set_to: "%{label}을(를) %{value}(으)로 지정되었습니다."
+  text_journal_deleted: "%{label} 값이 지워졌습니다. (%{old})"
   label_group_plural: 그룹
   label_group: 그룹
   label_group_new: 새 그룹
   label_time_entry_plural: 작업시간
-  text_journal_added: "%{label}�? %{value}�?�(가) 추가�?�었습니다."
+  text_journal_added: "%{label}에 %{value}이(가) 추가되었습니다."
   field_active: 사용중
   enumeration_system_activity: 시스템 작업
-  permission_delete_issue_watchers: �?��?관람�? 지우기
+  permission_delete_issue_watchers: 일감관람자 지우기
   version_status_closed: 닫힘
   version_status_locked: 잠김
   version_status_open: 진행
-  error_can_not_reopen_issue_on_closed_version: 닫힌 버전�? 할당�?� �?��?�?� 다시 재발�?시킬 수 없습니다.
-  label_user_anonymous: �?�름없�?�
-  button_move_and_follow: �?��?�하고 따�?�가기
-  setting_default_projects_modules: 새 프로�?트�? 기본�?으로 활성화�?� 모듈
-  setting_gravatar_default: 기본 그�?�바타 �?�미지
+  error_can_not_reopen_issue_on_closed_version: 닫힌 버전에 할당된 일감은 다시 재발생시킬 수 없습니다.
+  label_user_anonymous: 이름없음
+  button_move_and_follow: 이동하고 따라가기
+  setting_default_projects_modules: 새 프로젝트에 기본적으로 활성화될 모듈
+  setting_gravatar_default: 기본 그라바타 이미지
   field_sharing: 공유
-  label_version_sharing_hierarchy: �?위 �? 하위 프로�?트
-  label_version_sharing_system: 모든 프로�?트
-  label_version_sharing_descendants: 하위 프로�?트
-  label_version_sharing_tree: 최�?위 �? 모든 하위 프로�?트
-  label_version_sharing_none: 공유없�?�
-  error_can_not_archive_project: �?� 프로�?트를 잠금보관할 수 없습니다.
+  label_version_sharing_hierarchy: 상위 및 하위 프로젝트
+  label_version_sharing_system: 모든 프로젝트
+  label_version_sharing_descendants: 하위 프로젝트
+  label_version_sharing_tree: 최상위 및 모든 하위 프로젝트
+  label_version_sharing_none: 공유없음
+  error_can_not_archive_project: 이 프로젝트를 잠금보관할 수 없습니다.
   button_duplicate: 복제
-  button_copy_and_follow: 복사하고 따�?�가기
-  label_copy_source: �?본
-  setting_issue_done_ratio: �?��?�?� 진척�?� 계산방법
-  setting_issue_done_ratio_issue_status: �?��? �?태를 사용하기
-  error_issue_done_ratios_not_updated: �?��? 진척�?�가 수정�?�지 않았습니다.
-  error_workflow_copy_target: 대�? �?��?�?� 유형과 역할�?� 선�?하세요.
-  setting_issue_done_ratio_issue_field: �?��? 수정�?서 진척�?� 입력하기
-  label_copy_same_as_target: 대�?과 같�?�.
-  label_copy_target: 대�?
-  notice_issue_done_ratios_updated: �?��? 진척�?�가 수정�?�었습니다.
-  error_workflow_copy_source: �?본 �?��?�?� 유형�?�나 역할�?� 선�?하세요.
-  label_update_issue_done_ratios: 모든 �?��? 진척�?� 갱신하기
-  setting_start_of_week: 달력 시작 요�?�
-  permission_view_issues: �?��? 보기
-  label_display_used_statuses_only: �?� �?��? 유형�?서 사용�?�는 �?태만 보여주기
-  label_revision_id: 개정�? %{value}
+  button_copy_and_follow: 복사하고 따라가기
+  label_copy_source: 원본
+  setting_issue_done_ratio: 일감의 진척도 계산방법
+  setting_issue_done_ratio_issue_status: 일감 상태를 사용하기
+  error_issue_done_ratios_not_updated: 일감 진척도가 수정되지 않았습니다.
+  error_workflow_copy_target: 대상 일감의 유형과 역할을 선택하세요.
+  setting_issue_done_ratio_issue_field: 일감 수정에서 진척도 입력하기
+  label_copy_same_as_target: 대상과 같음.
+  label_copy_target: 대상
+  notice_issue_done_ratios_updated: 일감 진척도가 수정되었습니다.
+  error_workflow_copy_source: 원본 일감의 유형이나 역할을 선택하세요.
+  label_update_issue_done_ratios: 모든 일감 진척도 갱신하기
+  setting_start_of_week: 달력 시작 요일
+  permission_view_issues: 일감 보기
+  label_display_used_statuses_only: 이 일감 유형에서 사용되는 상태만 보여주기
+  label_revision_id: 개정판 %{value}
   label_api_access_key: API 접근키
-  label_api_access_key_created_on: API 접근키가 %{value} 전�? �?성�?�었습니다.
+  label_api_access_key_created_on: API 접근키가 %{value} 전에 생성되었습니다.
   label_feeds_access_key: Atom 접근키
-  notice_api_access_key_reseted: API 접근키가 초기화�?�었습니다.
+  notice_api_access_key_reseted: API 접근키가 초기화되었습니다.
   setting_rest_api_enabled: REST 웹서비스 활성화
   label_missing_api_access_key: API 접근키가 없습니다.
   label_missing_feeds_access_key: Atom 접근키가 없습니다.
   button_show: 보기
-  text_line_separated: 여러 값�?� 허용�?�(값 마다 한 줄씩)
-  setting_mail_handler_body_delimiters: 메�?� 본문 구분�?
-  permission_add_subprojects: 하위 프로�?트 만들기
-  label_subproject_new: 새 하위 프로�?트
+  text_line_separated: 여러 값이 허용됨(값 마다 한 줄씩)
+  setting_mail_handler_body_delimiters: 메일 본문 구분자
+  permission_add_subprojects: 하위 프로젝트 만들기
+  label_subproject_new: 새 하위 프로젝트
   text_own_membership_delete_confirmation: |-
-    권한들 �?�부 �?는 전부를 막 삭제하려고 하고 있습니다. 그렇게 �?�면 �?� 프로�?트를 �?��?��? 수정할 수 없게 �?�니다.
-    계�?하시겠습니까?
-  label_close_versions: 완료�?� 버전 닫기
-  label_board_sticky: 붙박�?�
+    권한들 일부 또는 전부를 막 삭제하려고 하고 있습니다. 그렇게 되면 이 프로젝트를 더이상 수정할 수 없게 됩니다.
+    계속하시겠습니까?
+  label_close_versions: 완료된 버전 닫기
+  label_board_sticky: 붙박이
   label_board_locked: 잠금
-  permission_export_wiki_pages: 위키 페�?�지 내보내기
-  setting_cache_formatted_text: 형�?�?� 가진 �?스트 빠른 임시 기억
-  permission_manage_project_activities: 프로�?트 작업내역 관리
-  error_unable_delete_issue_status: �?��? �?태를 지울 수 없습니다.
-  label_profile: 사용�?정보
-  permission_manage_subtasks: 하위 �?��? 관리
-  field_parent_issue: �?위 �?��?
-  label_subtask_plural: 하위 �?��?
-  label_project_copy_notifications: 프로�?트 복사 중�? �?�메�?� 알림 보내기
-  error_can_not_delete_custom_field: 사용�? 정�?� 필드를 삭제할 수 없습니다.
+  permission_export_wiki_pages: 위키 페이지 내보내기
+  setting_cache_formatted_text: 형식을 가진 텍스트 빠른 임시 기억
+  permission_manage_project_activities: 프로젝트 작업내역 관리
+  error_unable_delete_issue_status: 일감 상태를 지울 수 없습니다.
+  label_profile: 사용자정보
+  permission_manage_subtasks: 하위 일감 관리
+  field_parent_issue: 상위 일감
+  label_subtask_plural: 하위 일감
+  label_project_copy_notifications: 프로젝트 복사 중에 이메일 알림 보내기
+  error_can_not_delete_custom_field: 사용자 정의 필드를 삭제할 수 없습니다.
   error_unable_to_connect: 연결할 수 없습니다((%{value})
-  error_can_not_remove_role: �?� 역할�?� 현재 사용 중�?��?�서 삭제할 수 없습니다.
-  error_can_not_delete_tracker: �?� 유형�?� �?��?들�?� 있어서 삭제할 수 없습니다.
-  field_principal: 신�?
-  label_my_page_block: 내 페�?�지 출력화면
-  notice_failed_to_save_members: "%{errors}:구성�?�?� 저장 중 실패하였습니다"
-  text_zoom_out: �?� 작게
-  text_zoom_in: �?� �?�게
-  notice_unable_delete_time_entry: 시간 기�? 항목�?� 삭제할 수 없습니다.
-  label_overall_spent_time: �? 소요시간
-  field_time_entries: 기�?�?� 시간
+  error_can_not_remove_role: 이 역할은 현재 사용 중이이서 삭제할 수 없습니다.
+  error_can_not_delete_tracker: 이 유형의 일감들이 있어서 삭제할 수 없습니다.
+  field_principal: 신원
+  label_my_page_block: 내 페이지 출력화면
+  notice_failed_to_save_members: "%{errors}:구성원을 저장 중 실패하였습니다"
+  text_zoom_out: 더 작게
+  text_zoom_in: 더 크게
+  notice_unable_delete_time_entry: 시간 기록 항목을 삭제할 수 없습니다.
+  label_overall_spent_time: 총 소요시간
+  field_time_entries: 기록된 시간
   project_module_gantt: Gantt 챠트
   project_module_calendar: 달력
-  button_edit_associated_wikipage: "연관�?� 위키 페�?�지 %{page_title} 수정"
-  field_text: �?스트 �?역
-  label_user_mail_option_only_owner: 내가 저�?�?� 사항만
+  button_edit_associated_wikipage: "연관된 위키 페이지 %{page_title} 수정"
+  field_text: 텍스트 영역
+  label_user_mail_option_only_owner: 내가 저자인 사항만
   setting_default_notification_option: 기본 알림 옵션
-  label_user_mail_option_only_my_events: 내가 지켜보거나 �?해있는 사항만
-  label_user_mail_option_only_assigned: 나�?게 할당�?� 사항만
-  label_user_mail_option_none: 알림 없�?�
-  field_member_of_group: 할당�?� 사람�?� 그룹
-  field_assigned_to_role: 할당�?� 사람�?� 역할
-  notice_not_authorized_archived_project: 접근하려는 프로�?트는 �?�미 잠금보관�?�어 있습니다.
-  label_principal_search: "사용�? �? 그룹 찾기:"
-  label_user_search: "사용�? 찾기::"
-  field_visible: 보�?�기
-  setting_emails_header: �?�메�?� 헤�?�
-  setting_commit_logtime_activity_id: 기�?�?� 시간�? �?용할 작업분류
-  text_time_logged_by_changeset: "변경묶�?� %{value}�?서 �?용�?�었습니다."
-  setting_commit_logtime_enabled: 커밋 시�?�? 작업 시간 기�? 활성화
+  label_user_mail_option_only_my_events: 내가 지켜보거나 속해있는 사항만
+  label_user_mail_option_only_assigned: 나에게 할당된 사항만
+  label_user_mail_option_none: 알림 없음
+  field_member_of_group: 할당된 사람의 그룹
+  field_assigned_to_role: 할당된 사람의 역할
+  notice_not_authorized_archived_project: 접근하려는 프로젝트는 이미 잠금보관되어 있습니다.
+  label_principal_search: "사용자 및 그룹 찾기:"
+  label_user_search: "사용자 찾기::"
+  field_visible: 보이기
+  setting_emails_header: 이메일 헤더
+  setting_commit_logtime_activity_id: 기록된 시간에 적용할 작업분류
+  text_time_logged_by_changeset: "변경묶음 %{value}에서 적용되었습니다."
+  setting_commit_logtime_enabled: 커밋 시점에 작업 시간 기록 활성화
   notice_gantt_chart_truncated: "표시할 수 있는 최대 항목수(%{max})를 초과하여 차트가 잘렸습니다."
-  setting_gantt_items_limit: "Gantt 차트�? 표시�?�는 최대 항목수"
-  field_warn_on_leaving_unsaved: "저장하지 않�?� 페�?�지를 빠져나갈 때 나�?게 알림"
-  text_warn_on_leaving_unsaved: "현재 페�?�지는 저장�?�지 않�?� 문�?가 있습니다. �?� 페�?�지를 빠져나가면 내용�?� 잃�?� 것입니다."
-  label_my_queries: "내 검색 양�?"
-  text_journal_changed_no_detail: "%{label}�?� 변경�?�었습니다."
-  label_news_comment_added: "뉴스�? 설명�?� 추가�?�었습니다."
-  button_expand_all: "모�? 확장"
-  button_collapse_all: "모�? 축소"
-  label_additional_workflow_transitions_for_assignee: "사용�?가 작업�?�?� 때 허용�?�는 추가 �?태"
-  label_additional_workflow_transitions_for_author: "사용�?가 저�?�?� 때 허용�?�는 추가 �?태"
-  label_bulk_edit_selected_time_entries: "선�?�?� 소요 시간 대량 편집"
-  text_time_entries_destroy_confirmation: "선�?한 소요 시간 항목�?� 삭제하시겠습니까?"
+  setting_gantt_items_limit: "Gantt 차트에 표시되는 최대 항목수"
+  field_warn_on_leaving_unsaved: "저장하지 않은 페이지를 빠져나갈 때 나에게 알림"
+  text_warn_on_leaving_unsaved: "현재 페이지는 저장되지 않은 문자가 있습니다. 이 페이지를 빠져나가면 내용을 잃을 것입니다."
+  label_my_queries: "내 검색 양식"
+  text_journal_changed_no_detail: "%{label}이 변경되었습니다."
+  label_news_comment_added: "뉴스에 설명이 추가되었습니다."
+  button_expand_all: "모두 확장"
+  button_collapse_all: "모두 축소"
+  label_additional_workflow_transitions_for_assignee: "사용자가 작업자일 때 허용되는 추가 상태"
+  label_additional_workflow_transitions_for_author: "사용자가 저자일 때 허용되는 추가 상태"
+  label_bulk_edit_selected_time_entries: "선택된 소요 시간 대량 편집"
+  text_time_entries_destroy_confirmation: "선택한 소요 시간 항목을 삭제하시겠습니까?"
   label_role_anonymous: Anonymous
   label_role_non_member: Non member
 
-  label_issue_note_added: "�?�글�?� 추가�?�었습니다."
-  label_issue_status_updated: "�?태가 변경�?�었습니다."
-  label_issue_priority_updated: "우선 순위가 변경�?�었습니다."
-  label_issues_visibility_own: "�?��?�?� �?성하거나 맡�?� 사용�?"
-  field_issues_visibility: "�?��? 보임"
-  label_issues_visibility_all: "모든 �?��?"
-  permission_set_own_issues_private: "�?신�?� �?��?�?� 공개나 비공개로 설정"
+  label_issue_note_added: "덧글이 추가되었습니다."
+  label_issue_status_updated: "상태가 변경되었습니다."
+  label_issue_priority_updated: "우선 순위가 변경되었습니다."
+  label_issues_visibility_own: "일감을 생성하거나 맡은 사용자"
+  field_issues_visibility: "일감 보임"
+  label_issues_visibility_all: "모든 일감"
+  permission_set_own_issues_private: "자신의 일감을 공개나 비공개로 설정"
   field_is_private: "비공개"
-  permission_set_issues_private: "�?��?�?� 공개나 비공개로 설정"
-  label_issues_visibility_public: "비공개 �?��? 제외"
-  text_issues_destroy_descendants_confirmation: "%{count} 개�?� 하위 �?��?�?� 삭제할 것입니다."
-  field_commit_logs_encoding: "커밋(commit) 기�? �?�코딩"
-  field_scm_path_encoding: "경로 �?�코딩"
+  permission_set_issues_private: "일감을 공개나 비공개로 설정"
+  label_issues_visibility_public: "비공개 일감 제외"
+  text_issues_destroy_descendants_confirmation: "%{count} 개의 하위 일감을 삭제할 것입니다."
+  field_commit_logs_encoding: "커밋(commit) 기록 인코딩"
+  field_scm_path_encoding: "경로 인코딩"
   text_scm_path_encoding_note: "기본: UTF-8"
   field_path_to_repository: "저장소 경로"
   field_root_directory: "루트 경로"
@@ -1007,147 +1007,147 @@ ko:
   text_mercurial_repository_note: "로컬 저장소 (예: /hgrepo, c:\\hgrepo)"
   text_scm_command: "명령"
   text_scm_command_version: "버전"
-  label_git_report_last_commit: "파�?��?�나 �?��?��?� 마지막 커밋(commit)�?� 보고"
-  text_scm_config: "SCM 명령�?� config/configuration.yml�?서 수정할 수 있습니다. 수정후�?는 재시작하십시오."
-  text_scm_command_not_available: "SCM 명령�?� 사용할 수 없습니다. 관리 페�?�지�?� 설정�?� 검사하십시오."
-  notice_issue_successful_create: "%{id} �?��?�?� �?성�?�었습니다."
-  label_between: "사�?�"
-  setting_issue_group_assignment: "그룹�? �?��? 할당 허용"
-  label_diff: "비�?(diff)"
-  text_git_repository_note: "로컬�?� bare 저장소 (예: /gitrepo, c:\\gitrepo)"
+  label_git_report_last_commit: "파일이나 폴더의 마지막 커밋(commit)을 보고"
+  text_scm_config: "SCM 명령을 config/configuration.yml에서 수정할 수 있습니다. 수정후에는 재시작하십시오."
+  text_scm_command_not_available: "SCM 명령을 사용할 수 없습니다. 관리 페이지의 설정을 검사하십시오."
+  notice_issue_successful_create: "%{id} 일감이 생성되었습니다."
+  label_between: "사이"
+  setting_issue_group_assignment: "그룹에 일감 할당 허용"
+  label_diff: "비교(diff)"
+  text_git_repository_note: "로컬의 bare 저장소 (예: /gitrepo, c:\\gitrepo)"
   description_query_sort_criteria_direction: "정렬 방향"
   description_project_scope: "검색 범위"
   description_filter: "검색 조건"
-  description_user_mail_notification: "메�?� 알림 설정"
+  description_user_mail_notification: "메일 알림 설정"
   description_date_from: "시작 날짜 입력"
   description_message_content: "메세지 내용"
   description_available_columns: "가능한 컬럼"
-  description_date_range_interval: "시작과 �?? 날짜로 범위를 선�?하십시오."
-  description_issue_category_reassign: "�?��? 범주를 선�?하십시오."
+  description_date_range_interval: "시작과 끝 날짜로 범위를 선택하십시오."
+  description_issue_category_reassign: "일감 범주를 선택하십시오."
   description_search: "검색항목"
-  description_notes: "�?�글"
-  description_date_range_list: "목�?�?서 범위를 선�? 하십시오."
-  description_choose_project: "프로�?트"
+  description_notes: "덧글"
+  description_date_range_list: "목록에서 범위를 선택 하십시오."
+  description_choose_project: "프로젝트"
   description_date_to: "종료 날짜 입력"
-  description_query_sort_criteria_attribute: "정렬 �?성"
-  description_wiki_subpages_reassign: "새로운 �?위 페�?�지를 선�?하십시오."
-  description_selected_columns: "선�?�?� 컬럼"
-  label_parent_revision: "�?위"
+  description_query_sort_criteria_attribute: "정렬 속성"
+  description_wiki_subpages_reassign: "새로운 상위 페이지를 선택하십시오."
+  description_selected_columns: "선택된 컬럼"
+  label_parent_revision: "상위"
   label_child_revision: "하위"
-  error_scm_annotate_big_text_file: "최대 �?스트 파�?� �?�기를 초과 하면 항목�?� �?�력화 �?� 수 없습니다."
-  setting_default_issue_start_date_to_creation_date: "새로운 �?��?�?� 시작 날짜로 오늘 날짜 사용"
-  button_edit_section: "�?� 부분 수정"
-  setting_repositories_encodings: "첨부파�?��?�나 저장소 �?�코딩"
+  error_scm_annotate_big_text_file: "최대 텍스트 파일 크기를 초과 하면 항목은 이력화 될 수 없습니다."
+  setting_default_issue_start_date_to_creation_date: "새로운 일감의 시작 날짜로 오늘 날짜 사용"
+  button_edit_section: "이 부분 수정"
+  setting_repositories_encodings: "첨부파일이나 저장소 인코딩"
   description_all_columns: "모든 컬럼"
   button_export: "내보내기"
   label_export_options: "내보내기 옵션: %{export_format}"
-  error_attachment_too_big: "�?� 파�?��?� 제한�?� �?�기(%{max_size})를 초과하였기 때문�? 업로드 할 수 없습니다."
+  error_attachment_too_big: "이 파일은 제한된 크기(%{max_size})를 초과하였기 때문에 업로드 할 수 없습니다."
 
-  notice_failed_to_save_time_entries: "%{total} 개�?� 시간입력중 다�?� %{count} 개�?� 저장�? 실패했습니다:: %{ids}."
+  notice_failed_to_save_time_entries: "%{total} 개의 시간입력중 다음 %{count} 개의 저장에 실패했습니다:: %{ids}."
   label_x_issues:
-    zero:  0 �?��?
-    one:   1 �?��? 
-    other: "%{count} �?��?"
+    zero:  0 일감
+    one:   1 일감 
+    other: "%{count} 일감"
   label_repository_new: 저장소 추가
   field_repository_is_default: 주 저장소
-  label_copy_attachments: 첨부파�?� 복사
+  label_copy_attachments: 첨부파일 복사
   label_item_position: "%{position}/%{count}"
   label_completed_versions: 완료 버전
-  text_project_identifier_info: "소문�?(a-z),숫�?,대쉬(-)와 밑줄(_)만 가능합니다.<br />�?별�?는 저장후�?는 수정할 수 없습니다."
-  field_multiple: 복수선�?가능
-  setting_commit_cross_project_ref: 다른 프로�?트�?� �?��? 참조 �? 수정 허용
-  text_issue_conflict_resolution_add_notes: 변경내용�?� 취소하고 �?�글만 추가
-  text_issue_conflict_resolution_overwrite: 변경내용 강제�?용 (�?�전 �?�글�?� 제외하고 �?�어 �?니다)
-  notice_issue_update_conflict: �?��?�?� 수정�?�는 �?�안 다른 사용�?�? �?�해서 변경�?�었습니다.
-  text_issue_conflict_resolution_cancel: "변경내용�?� �?��?�리고 다시 표시 %{link}"
-  permission_manage_related_issues: 연결�?� �?��? 관리
+  text_project_identifier_info: "소문자(a-z),숫자,대쉬(-)와 밑줄(_)만 가능합니다.<br />식별자는 저장후에는 수정할 수 없습니다."
+  field_multiple: 복수선택가능
+  setting_commit_cross_project_ref: 다른 프로젝트의 일감 참조 및 수정 허용
+  text_issue_conflict_resolution_add_notes: 변경내용은 취소하고 덧글만 추가
+  text_issue_conflict_resolution_overwrite: 변경내용 강제적용 (이전 덧글을 제외하고 덮어 씁니다)
+  notice_issue_update_conflict: 일감이 수정되는 동안 다른 사용자에 의해서 변경되었습니다.
+  text_issue_conflict_resolution_cancel: "변경내용을 되돌리고 다시 표시 %{link}"
+  permission_manage_related_issues: 연결된 일감 관리
   field_auth_source_ldap_filter: LDAP 필터
-  label_search_for_watchers: 추가할 �?��?관람�? 검색
-  notice_account_deleted: 당신�?� 계정�?� 완전히 삭제�?�었습니다.
-  setting_unsubscribe: 사용�?들�?� �?신�?� 계정�?� 삭제토�? 허용
-  button_delete_my_account: 나�?� 계정 삭제
+  label_search_for_watchers: 추가할 일감관람자 검색
+  notice_account_deleted: 당신의 계정이 완전히 삭제되었습니다.
+  setting_unsubscribe: 사용자들이 자신의 계정을 삭제토록 허용
+  button_delete_my_account: 나의 계정 삭제
   text_account_destroy_confirmation: |-
-        계�?하시겠습니까?
-        계정�?� 삭제�?�면 복구할 수 없습니다.
-  error_session_expired: 당신�?� 세션�?� 만료�?�었습니다. 다시 로그�?�하세요.
-  text_session_expiration_settings: "경고: �?� 설정�?� 바꾸면 당신�?� �?�함하여 현재�?� 세션들�?� 만료시킬 수 있습니다."
+        계속하시겠습니까?
+        계정이 삭제되면 복구할 수 없습니다.
+  error_session_expired: 당신의 세션이 만료되었습니다. 다시 로그인하세요.
+  text_session_expiration_settings: "경고: 이 설정을 바꾸면 당신을 포함하여 현재의 세션들을 만료시킬 수 있습니다."
   setting_session_lifetime: 세션 최대 시간
   setting_session_timeout: 세션 비활성화 타임아웃
   label_session_expiration: 세션 만료
-  permission_close_project: 프로�?트를 닫거나 다시 열기
-  label_show_closed_projects: 닫힌 프로�?트 보기
+  permission_close_project: 프로젝트를 닫거나 다시 열기
+  label_show_closed_projects: 닫힌 프로젝트 보기
   button_close: 닫기
   button_reopen: 다시 열기
   project_status_active: 사용중
   project_status_closed: 닫힘
   project_status_archived: 잠금보관
-  text_project_closed: �?� 프로�?트는 닫혀 있으며 �?�기 전용입니다.
-  notice_user_successful_create: 사용�? %{id} �?�(가) �?성�?�었습니다.
+  text_project_closed: 이 프로젝트는 닫혀 있으며 읽기 전용입니다.
+  notice_user_successful_create: 사용자 %{id} 이(가) 생성되었습니다.
   field_core_fields: 표준 항목들
   field_timeout: 타임아웃 (초)
-  setting_thumbnails_enabled: 첨부파�?��?� �?�네�?��?� 보여줌
-  setting_thumbnails_size: �?�네�?� �?�기 (픽셀)
-  label_status_transitions: �?��? �?태 변경
+  setting_thumbnails_enabled: 첨부파일의 썸네일을 보여줌
+  setting_thumbnails_size: 썸네일 크기 (픽셀)
+  label_status_transitions: 일감 상태 변경
   label_fields_permissions: 항목 편집 권한
-  label_readonly: �?�기 전용
+  label_readonly: 읽기 전용
   label_required: 필수
-  text_repository_identifier_info: "소문�?(a-z),숫�?,대쉬(-)와 밑줄(_)만 가능합니다.<br />�?별�?는 저장후�?는 수정할 수 없습니다."
+  text_repository_identifier_info: "소문자(a-z),숫자,대쉬(-)와 밑줄(_)만 가능합니다.<br />식별자는 저장후에는 수정할 수 없습니다."
   field_board_parent: Parent forum
-  label_attribute_of_project: "프로�?트�?� %{name}"
-  label_attribute_of_author: "저�?�?� %{name}"
-  label_attribute_of_assigned_to: "담당�?�?� %{name}"
-  label_attribute_of_fixed_version: "목표버전�?� %{name}"
-  label_copy_subtasks: 하위 �?��?들�?� 복사
-  label_copied_to: "다�?� �?��?으로 복사�?�:"
-  label_copied_from: "다�?� �?��?으로부터 복사�?�:"
-  label_any_issues_in_project: 다�?� 프로�?트�? �?한 아무 �?��?
-  label_any_issues_not_in_project: 다�?� 프로�?트�? �?하지 않�?� 아무 �?��?
-  field_private_notes: 비공개 �?�글
-  permission_view_private_notes: 비공개 �?�글 보기
-  permission_set_notes_private: �?�글�?� 비공개로 설정
-  label_no_issues_in_project: 다�?� 프로�?트�?� �?��? 제외
-  label_any: 모�?
+  label_attribute_of_project: "프로젝트의 %{name}"
+  label_attribute_of_author: "저자의 %{name}"
+  label_attribute_of_assigned_to: "담당자의 %{name}"
+  label_attribute_of_fixed_version: "목표버전의 %{name}"
+  label_copy_subtasks: 하위 일감들을 복사
+  label_copied_to: "다음 일감으로 복사됨:"
+  label_copied_from: "다음 일감으로부터 복사됨:"
+  label_any_issues_in_project: 다음 프로젝트에 속한 아무 일감
+  label_any_issues_not_in_project: 다음 프로젝트에 속하지 않은 아무 일감
+  field_private_notes: 비공개 덧글
+  permission_view_private_notes: 비공개 덧글 보기
+  permission_set_notes_private: 덧글을 비공개로 설정
+  label_no_issues_in_project: 다음 프로젝트의 일감 제외
+  label_any: 모두
   label_last_n_weeks: 최근 %{count} 주
-  setting_cross_project_subtasks: 다른 프로�?트�?� �?��?�?� �?위 �?��?으로 지정하는 것�?� 허용
-  label_cross_project_descendants: 하위 프로�?트
-  label_cross_project_tree: 최�?위 �? 모든 하위 프로�?트
-  label_cross_project_hierarchy: �?위 �? 하위 프로�?트
-  label_cross_project_system: 모든 프로�?트
+  setting_cross_project_subtasks: 다른 프로젝트의 일감을 상위 일감으로 지정하는 것을 허용
+  label_cross_project_descendants: 하위 프로젝트
+  label_cross_project_tree: 최상위 및 모든 하위 프로젝트
+  label_cross_project_hierarchy: 상위 및 하위 프로젝트
+  label_cross_project_system: 모든 프로젝트
   button_hide: 숨기기
-  setting_non_working_week_days: 비근무�?� (non-working days)
-  label_in_the_next_days: 다�?�
+  setting_non_working_week_days: 비근무일 (non-working days)
+  label_in_the_next_days: 다음
   label_in_the_past_days: 지난
-  label_attribute_of_user: "사용�?�?� %{name}"
-  text_turning_multiple_off: 복수선�?�?� 비활성화하면, 하나�?� 값�?� 제외한 나머지 값들�?� 지워집니다.
-  label_attribute_of_issue: "�?��?�?� %{name}"
+  label_attribute_of_user: "사용자의 %{name}"
+  text_turning_multiple_off: 복수선택을 비활성화하면, 하나의 값을 제외한 나머지 값들이 지워집니다.
+  label_attribute_of_issue: "일감의 %{name}"
   permission_add_documents: 문서 추가
   permission_edit_documents: 문서 편집
   permission_delete_documents: 문서 삭제
   label_gantt_progress_line: 진행 선
   setting_jsonp_enabled: JSONP 허용
-  field_inherit_members: �?위 프로�?트로부터 구성�?�?� �?�?
-  field_closed_on: 완료�?�
-  field_generate_password: 비밀번호 �?성
-  setting_default_projects_tracker_ids: 새 프로�?트�? 기본�?으로 추가할 �?��? 유형
+  field_inherit_members: 상위 프로젝트로부터 구성원을 상속
+  field_closed_on: 완료일
+  field_generate_password: 비밀번호 생성
+  setting_default_projects_tracker_ids: 새 프로젝트에 기본적으로 추가할 일감 유형
   label_total_time: 합계
-  notice_account_not_activated_yet: 계정�?� 활성화�?�지 않았습니다. 계정�?� 활성화하기 위해 메�?��?� 다시 수신하려면 <a href="%{url}">여기를 �?�릭해 주세요</a>.
-  notice_account_locked: 계정�?� 잠겨 있습니다.
+  notice_account_not_activated_yet: 계정이 활성화되지 않았습니다. 계정을 활성화하기 위해 메일을 다시 수신하려면 <a href="%{url}">여기를 클릭해 주세요</a>.
+  notice_account_locked: 계정이 잠겨 있습니다.
   label_hidden: 숨김
-  label_visibility_private: �?신 만
-  label_visibility_roles: 다�?� 역할 만
-  label_visibility_public: 모든 사용�?
-  field_must_change_passwd: 다�?� 로그온 시 반드시 암호를 변경해야 함
-  notice_new_password_must_be_different: 새 암호는 현재 암호와 달�?�야 합니다.
-  setting_mail_handler_excluded_filenames: 제외할 첨부 파�?�명
+  label_visibility_private: 자신 만
+  label_visibility_roles: 다음 역할 만
+  label_visibility_public: 모든 사용자
+  field_must_change_passwd: 다음 로그온 시 반드시 암호를 변경해야 함
+  notice_new_password_must_be_different: 새 암호는 현재 암호와 달라야 합니다.
+  setting_mail_handler_excluded_filenames: 제외할 첨부 파일명
   text_convert_available: ImageMagick 변환 사용 가능 (옵션)
-  label_link: �?�?�
-  label_only: 다�?��?� 것만
-  label_drop_down_list: 드롭다운 목�?
-  label_checkboxes: 체�?�박스
-  label_link_values_to: URL �?�?� 값
-  setting_force_default_language_for_anonymous: �?�명 사용�?�?� 기본 언어 강제
-  setting_force_default_language_for_loggedin: 로그�?� 사용�?�?� 기본 언어 강제
-  label_custom_field_select_type: 사용�? 정�?� 필드�? 추가할 대�?�?� 선�?해주세요.
+  label_link: 링크
+  label_only: 다음의 것만
+  label_drop_down_list: 드롭다운 목록
+  label_checkboxes: 체크박스
+  label_link_values_to: URL 링크 값
+  setting_force_default_language_for_anonymous: 익명 사용자의 기본 언어 강제
+  setting_force_default_language_for_loggedin: 로그인 사용자의 기본 언어 강제
+  label_custom_field_select_type: 사용자 정의 필드에 추가할 대상을 선택해주세요.
   label_issue_assigned_to_updated: Assignee updated
   label_check_for_updates: Check for updates
   label_latest_compatible_version: Latest compatible version
@@ -1169,7 +1169,7 @@ ko:
   label_search_attachments_no: Do not search attachments
   label_search_attachments_only: Search attachments only
   label_search_open_issues_only: Open issues only
-  field_address: 메�?�
+  field_address: 메일
   setting_max_additional_emails: Maximum number of additional email addresses
   label_email_address_plural: Emails
   label_email_address_add: Add email address
@@ -1191,7 +1191,7 @@ ko:
   label_member_management_all_roles: All roles
   label_member_management_selected_roles_only: Only these roles
   label_password_required: Confirm your password to continue
-  label_total_spent_time: �? 소요시간
+  label_total_spent_time: 총 소요시간
   notice_import_finished: All %{count} items have been imported.
   notice_import_finished_with_errors: ! '%{count} out of %{total} items could not be
     imported.'
@@ -1206,7 +1206,7 @@ ko:
   label_fields_wrapper: Field wrapper
   label_encoding: Encoding
   label_comma_char: Comma
-  label_semi_colon_char: Semicolon
+  label_semi_colon_char: Semi colon
   label_quote_char: Quote
   label_double_quote_char: Double quote
   label_fields_mapping: Fields mapping

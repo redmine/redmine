@@ -13,7 +13,7 @@ hr:
     abbr_day_names: [Ned, Pon, Uto, Sri, Čet, Pet, Sub]
 
     # Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names: [~, Sije�?anj, Velja�?a, Ožujak, Travanj, Svibanj, Lipanj, Srpanj, Kolovoz, Rujan, Listopad, Studeni, Prosinac]
+    month_names: [~, Siječanj, Veljača, Ožujak, Travanj, Svibanj, Lipanj, Srpanj, Kolovoz, Rujan, Listopad, Studeni, Prosinac]
     abbr_month_names: [~, Sij, Velj, Ožu, Tra, Svi, Lip, Srp, Kol, Ruj, Lis, Stu, Pro]
     # Used in date_select and datime_select.
     order:
@@ -141,12 +141,12 @@ hr:
   general_first_day_of_week: '7'
 
   notice_account_updated: Vaš profil je uspješno promijenjen.
-  notice_account_invalid_credentials: Neispravno korisni�?ko ime ili zaporka.
+  notice_account_invalid_credentials: Neispravno korisničko ime ili zaporka.
   notice_account_password_updated: Zaporka je uspješno promijenjena.
   notice_account_wrong_password: Pogrešna zaporka
-  notice_account_register_done: Racun je uspješno napravljen. Da biste aktivirali svoj ra�?un, kliknite na link koji vam je poslan na e-mail.
+  notice_account_register_done: Racun je uspješno napravljen. Da biste aktivirali svoj račun, kliknite na link koji vam je poslan na e-mail.
   notice_account_unknown_email: Nepoznati korisnik.
-  notice_can_t_change_password: Ovaj ra�?un koristi eksterni izvor prijavljivanja. Nemoguće je promijeniti zaporku.
+  notice_can_t_change_password: Ovaj račun koristi eksterni izvor prijavljivanja. Nemoguće je promijeniti zaporku.
   notice_account_lost_email_sent: E-mail s uputama kako bi odabrali novu zaporku je poslan na na vašu e-mail adresu.
   notice_account_activated: Vaš racun je aktiviran. Možete se prijaviti.
   notice_successful_create: Uspješno napravljeno.
@@ -162,12 +162,12 @@ hr:
   notice_api_access_key_reseted: Vaš API pristup je resetovan.
   notice_failed_to_save_issues: "Neuspjelo spremanje %{count} predmeta na %{total} odabrane: %{ids}."
   notice_no_issue_selected: "Niti jedan predmet nije odabran! Molim, odaberite predmete koje želite urediti."
-  notice_account_pending: "Vaš korisnicki ra�?un je otvoren, �?eka odobrenje administratora."
-  notice_default_data_loaded: Konfiguracija je uspješno u�?itana.
+  notice_account_pending: "Vaš korisnicki račun je otvoren, čeka odobrenje administratora."
+  notice_default_data_loaded: Konfiguracija je uspješno učitana.
   notice_unable_delete_version: Nije moguće izbrisati verziju.
   notice_issue_done_ratios_updated: Issue done ratios updated.
 
-  error_can_t_load_default_data: "Zadanu konfiguracija nije u�?itana: %{value}"
+  error_can_t_load_default_data: "Zadanu konfiguracija nije učitana: %{value}"
   error_scm_not_found: "Unos i/ili revizija nije pronađen."
   error_scm_command_failed: "Dogodila se pogreška prilikom pokušaja pristupa: %{value}"
   error_scm_annotate: "Ne postoji ili ne može biti obilježen."
@@ -184,12 +184,12 @@ hr:
 
   mail_subject_lost_password: "Vaša %{value} zaporka"
   mail_body_lost_password: 'Kako biste promijenili Vašu zaporku slijedite poveznicu:'
-  mail_subject_register: "Aktivacija korisni�?og ra�?una %{value}"
-  mail_body_register: 'Da biste aktivirali svoj ra�?un, kliknite na sljedeci link:'
-  mail_body_account_information_external: "Možete koristiti vaš ra�?un %{value} za prijavu."
-  mail_body_account_information: Vaši korisni�?ki podaci
-  mail_subject_account_activation_request: "%{value} predmet za aktivaciju korisni�?kog ra�?una"
-  mail_body_account_activation_request: "Novi korisnik (%{value}) je registriran. Njegov korisni�?ki ra�?un �?eka vaše odobrenje:"
+  mail_subject_register: "Aktivacija korisničog računa %{value}"
+  mail_body_register: 'Da biste aktivirali svoj račun, kliknite na sljedeci link:'
+  mail_body_account_information_external: "Možete koristiti vaš račun %{value} za prijavu."
+  mail_body_account_information: Vaši korisnički podaci
+  mail_subject_account_activation_request: "%{value} predmet za aktivaciju korisničkog računa"
+  mail_body_account_activation_request: "Novi korisnik (%{value}) je registriran. Njegov korisnički račun čeka vaše odobrenje:"
   mail_subject_reminder: "%{count} predmet(a) dospijeva sljedećih %{days} dana"
   mail_body_reminder: "%{count} vama dodijeljen(ih) predmet(a) dospijeva u sljedećih %{days} dana:"
   mail_subject_wiki_content_added: "'%{id}' wiki page has been added"
@@ -206,7 +206,7 @@ hr:
   field_lastname: Prezime
   field_mail: E-pošta
   field_filename: Datoteka
-  field_filesize: Veli�?ina
+  field_filesize: Veličina
   field_downloads: Preuzimanja
   field_author: Autor
   field_created_on: Napravljen
@@ -238,7 +238,7 @@ hr:
   field_is_public: Javni projekt
   field_parent: Potprojekt od
   field_is_in_roadmap: Predmeti se prikazuju u Putokazu
-  field_login: Korisni�?ko ime
+  field_login: Korisničko ime
   field_mail_notification: Obavijest putem e-pošte
   field_admin: Administrator
   field_last_login_on: Zadnja prijava
@@ -259,12 +259,12 @@ hr:
   field_attr_mail: Atribut e-pošte
   field_onthefly: "Izrada korisnika \"u hodu\""
   field_start_date: Pocetak
-  field_done_ratio: "% U�?injeno"
+  field_done_ratio: "% Učinjeno"
   field_auth_source: Vrsta prijavljivanja
   field_hide_mail: Sakrij moju adresu e-pošte
   field_comments: Komentar
   field_url: URL
-  field_start_page: Po�?etna stranica
+  field_start_page: Početna stranica
   field_subproject: Potprojekt
   field_hours: Sati
   field_activity: Aktivnost
@@ -294,11 +294,11 @@ hr:
   setting_default_language: Zadani jezik
   setting_login_required: Potrebna je prijava
   setting_self_registration: Samoregistracija je dozvoljena
-  setting_attachment_max_size: Maksimalna veli�?ina privitka
-  setting_issues_export_limit: Ograni�?enje izvoza predmeta
+  setting_attachment_max_size: Maksimalna veličina privitka
+  setting_issues_export_limit: Ograničenje izvoza predmeta
   setting_mail_from: Izvorna adresa e-pošte
   setting_bcc_recipients: Blind carbon copy primatelja (bcc)
-  setting_plain_text_mail: obi�?ni tekst pošte (bez HTML-a)
+  setting_plain_text_mail: obični tekst pošte (bez HTML-a)
   setting_host_name: Naziv domaćina (host)
   setting_text_formatting: Oblikovanje teksta
   setting_wiki_compression: Sažimanje
@@ -306,12 +306,12 @@ hr:
   setting_default_projects_public: Novi projekti su javni po defaultu
   setting_autofetch_changesets: Autofetch commits
   setting_sys_api_enabled: Omogući WS za upravljanje skladištem
-  setting_commit_ref_keywords: Referentne klju�?ne rije�?i
-  setting_commit_fix_keywords: Fiksne klju�?ne rije�?i
+  setting_commit_ref_keywords: Referentne ključne riječi
+  setting_commit_fix_keywords: Fiksne ključne riječi
   setting_autologin: Automatska prijava
   setting_date_format: Format datuma
   setting_time_format: Format vremena
-  setting_cross_project_issue_relations: Dozvoli povezivanje predmeta izmedu razli�?itih projekata
+  setting_cross_project_issue_relations: Dozvoli povezivanje predmeta izmedu različitih projekata
   setting_issue_list_default_columns: Stupci prikazani na listi predmeta
   setting_emails_footer: Zaglavlje e-pošte
   setting_protocol: Protokol
@@ -322,9 +322,9 @@ hr:
   setting_enabled_scm: Omogućen SCM
   setting_mail_handler_body_delimiters: "Truncate emails after one of these lines"
   setting_mail_handler_api_enabled: Omoguci WS za dolaznu e-poštu
-  setting_mail_handler_api_key: API klju�?
+  setting_mail_handler_api_key: API ključ
   setting_sequential_project_identifiers: Generiraj slijedne identifikatore projekta
-  setting_gravatar_enabled: Koristi Gravatar korisni�?ke ikone
+  setting_gravatar_enabled: Koristi Gravatar korisničke ikone
   setting_gravatar_default: Default Gravatar image
   setting_diff_max_lines_displayed: Maksimalni broj diff linija za prikazati
   setting_file_max_size_displayed: Max size of text files displayed inline
@@ -343,7 +343,7 @@ hr:
   permission_add_subprojects: Dodaj potprojekt
   permission_edit_project: Uredi projekt
   permission_select_project_modules: Odaberi projektne module
-  permission_manage_members: Upravljaj �?lanovima
+  permission_manage_members: Upravljaj članovima
   permission_manage_versions: Upravljaj verzijama
   permission_manage_categories: Upravljaj kategorijama predmeta
   permission_view_issues: Pregledaj zahtjeve
@@ -360,7 +360,7 @@ hr:
   permission_view_gantt: Pregledaj gantt grafikon
   permission_view_calendar: Pregledaj kalendar
   permission_view_issue_watchers: Pregledaj listu promatraca
-  permission_add_issue_watchers: Dodaj promatra�?a
+  permission_add_issue_watchers: Dodaj promatrača
   permission_delete_issue_watchers: Delete watchers
   permission_log_time: Dnevnik utrošenog vremena
   permission_view_time_entries: Pregledaj utrošeno vrijeme
@@ -429,7 +429,7 @@ hr:
   label_role_new: Nova uloga
   label_role_and_permissions: Uloge i ovlasti
   label_member: Član
-  label_member_new: Novi �?lan
+  label_member_new: Novi član
   label_member_plural: Članovi
   label_tracker: Vrsta
   label_tracker_plural: Vrste predmeta
@@ -441,9 +441,9 @@ hr:
   label_issue_category: Kategorija predmeta
   label_issue_category_plural: Kategorije predmeta
   label_issue_category_new: Nova kategorija
-  label_custom_field: Korisni�?ki definirano polje
-  label_custom_field_plural: Korisni�?ki definirana polja
-  label_custom_field_new: Novo korisni�?ki definirano polje
+  label_custom_field: Korisnički definirano polje
+  label_custom_field_plural: Korisnički definirana polja
+  label_custom_field_new: Novo korisnički definirano polje
   label_enumerations: Pobrojenice
   label_enumeration_new: Nova vrijednost
   label_information: Informacija
@@ -452,7 +452,7 @@ hr:
   label_register: Registracija
   label_login_with_open_id_option: or login with OpenID
   label_password_lost: Izgubljena zaporka
-  label_home: Po�?etna stranica
+  label_home: Početna stranica
   label_my_page: Moja stranica
   label_my_account: Moj profil
   label_my_projects: Moji projekti
@@ -471,13 +471,13 @@ hr:
   label_logged_as: Prijavljeni ste kao
   label_environment: Okolina
   label_authentication: Autentikacija
-  label_auth_source: Na�?in prijavljivanja
-  label_auth_source_new: Novi na�?in prijavljivanja
-  label_auth_source_plural: Na�?ini prijavljivanja
+  label_auth_source: Način prijavljivanja
+  label_auth_source_new: Novi način prijavljivanja
+  label_auth_source_plural: Načini prijavljivanja
   label_subproject_plural: Potprojekti
   label_subproject_new: Novi potprojekt
   label_and_its_subprojects: "%{value} i njegovi potprojekti"
-  label_min_max_length: Min - Maks  veli�?ina
+  label_min_max_length: Min - Maks  veličina
   label_list: Liste
   label_date: Datum
   label_integer: Integer
@@ -552,8 +552,8 @@ hr:
   label_comment_add: Dodaj komentar
   label_comment_added: Komentar dodan
   label_comment_delete: Brisanje komentara
-  label_query: Korisni�?ki upit
-  label_query_plural: Korisni�?ki upiti
+  label_query: Korisnički upit
+  label_query_plural: Korisnički upiti
   label_query_new: Novi upit
   label_filter_add: Dodaj filtar
   label_filter_plural: Filtri
@@ -563,10 +563,10 @@ hr:
   label_in_more_than: za više od
   label_greater_or_equal: '>='
   label_less_or_equal: '<='
-  label_in: za to�?no
+  label_in: za točno
   label_today: danas
   label_all_time: sva vremena
-  label_yesterday: ju�?er
+  label_yesterday: jučer
   label_this_week: ovog tjedna
   label_last_week: prošlog tjedna
   label_last_n_days: "zadnjih %{count} dana"
@@ -598,7 +598,7 @@ hr:
   label_latest_revision_plural: Posljednje revizije
   label_view_revisions: Pregled revizija
   label_view_all_revisions: View all revisions
-  label_max_size: Maksimalna veli�?ina
+  label_max_size: Maksimalna veličina
   label_sort_highest: Premjesti na vrh
   label_sort_higher: Premjesti prema gore
   label_sort_lower: Premjesti prema dolje
@@ -609,7 +609,7 @@ hr:
   label_roadmap_no_issues: Nema predmeta za ovu verziju
   label_search: Traži
   label_result_plural: Rezultati
-  label_all_words: Sve rije�?i
+  label_all_words: Sve riječi
   label_wiki: Wiki
   label_wiki_edit: Wiki promjena
   label_wiki_edit_plural: Wiki promjene
@@ -631,7 +631,7 @@ hr:
   label_commits_per_month: Pohrana po mjesecu
   label_commits_per_author: Pohrana po autoru
   label_view_diff: Pregled razlika
-  label_diff_inline: uvu�?eno
+  label_diff_inline: uvučeno
   label_diff_side_by_side: paralelno
   label_options: Opcije
   label_copy_workflow_from: Kopiraj tijek rada od
@@ -639,7 +639,7 @@ hr:
   label_watched_issues: Praćeni predmeti
   label_related_issues: Povezani predmeti
   label_applied_status: Primijenjen status
-  label_loading: U�?itavam...
+  label_loading: Učitavam...
   label_relation_new: Nova relacija
   label_relation_delete: Brisanje relacije
   label_relates_to: u relaciji sa
@@ -650,7 +650,7 @@ hr:
   label_precedes: prethodi
   label_follows: slijedi
   label_stay_logged_in: Ostanite prijavljeni
-  label_disabled: Isklju�?en
+  label_disabled: Isključen
   label_show_completed_versions: Prikaži završene verzije
   label_me: ja
   label_board: Forum
@@ -683,7 +683,7 @@ hr:
   label_changeset_plural: Promjene
   label_default_columns: Zadani stupci
   label_no_change_option: (Bez promjene)
-  label_bulk_edit_selected_issues: Zajedni�?ka promjena izabranih predmeta
+  label_bulk_edit_selected_issues: Zajednička promjena izabranih predmeta
   label_theme: Tema
   label_default: Zadana
   label_search_titles_only: Pretraživanje samo naslova
@@ -691,7 +691,7 @@ hr:
   label_user_mail_option_selected: "Za bilo koji događaj samo za izabrane projekte..."
   label_user_mail_no_self_notified: "Ne želim primati obavijesti o promjenama koje sam napravim"
   label_registration_activation_by_email: aktivacija putem e-pošte
-  label_registration_manual_activation: ru�?na aktivacija
+  label_registration_manual_activation: ručna aktivacija
   label_registration_automatic_activation: automatska aktivacija
   label_display_per_page: "Po stranici: %{value}"
   label_age: Starost
@@ -709,8 +709,8 @@ hr:
   label_reverse_chronological_order: U obrnutom kronološkom redoslijedu
   label_planning: Planiranje
   label_incoming_emails: Dolazne poruke e-pošte
-  label_generate_key: Generiraj klju�?
-  label_issue_watchers: Promatra�?i
+  label_generate_key: Generiraj ključ
+  label_issue_watchers: Promatrači
   label_example: Primjer
   label_display: Display
   label_sort: Sort
@@ -740,8 +740,8 @@ hr:
   button_login: Prijavi
   button_submit: Pošalji
   button_save: Spremi
-  button_check_all: Ozna�?i sve
-  button_uncheck_all: Isklju�?i sve
+  button_check_all: Označi sve
+  button_uncheck_all: Isključi sve
   button_delete: Obriši
   button_create: Napravi
   button_create_and_continue: Napravi i nastavi
@@ -751,8 +751,8 @@ hr:
   button_change: Promijeni
   button_apply: Primijeni
   button_clear: Ukloni
-  button_lock: Zaklju�?aj
-  button_unlock: Otklju�?aj
+  button_lock: Zaključaj
+  button_unlock: Otključaj
   button_download: Preuzmi
   button_list: Spisak
   button_view: Pregled
@@ -783,7 +783,7 @@ hr:
 
   status_active: aktivan
   status_registered: Registriran
-  status_locked: zaklju�?an
+  status_locked: zaključan
 
   version_status_open: open
   version_status_locked: locked
@@ -793,7 +793,7 @@ hr:
 
   text_select_mail_notifications: Izbor akcija za koje će biti poslana obavijest e-poštom.
   text_regexp_info: eg. ^[A-Z0-9]+$
-  text_min_max_length_info: 0 zna�?i bez ograni�?enja
+  text_min_max_length_info: 0 znači bez ograničenja
   text_project_destroy_confirmation: Da li ste sigurni da želite izbrisati ovaj projekt i sve njegove podatke?
   text_subprojects_destroy_warning: "Njegov(i) potprojekt(i): %{value} će također biti obrisan."
   text_workflow_edit: Select a role and a tracker to edit the workflow
@@ -802,11 +802,11 @@ hr:
   text_journal_set_to: "%{label} postavi na %{value}"
   text_journal_deleted: "%{label} izbrisano (%{old})"
   text_journal_added: "%{label} %{value} added"
-  text_tip_issue_begin_day: Zadaci koji po�?inju ovog dana
+  text_tip_issue_begin_day: Zadaci koji počinju ovog dana
   text_tip_issue_end_day: zadaci koji se završavaju ovog dana
-  text_tip_issue_begin_end_day: Zadaci koji po�?inju i završavaju se ovog dana
+  text_tip_issue_begin_end_day: Zadaci koji počinju i završavaju se ovog dana
   text_caracters_maximum: "Najviše %{count} znakova."
-  text_caracters_minimum: "Mora biti duga�?ko najmanje %{count} znakova."
+  text_caracters_minimum: "Mora biti dugačko najmanje %{count} znakova."
   text_length_between: "Dužina izmedu %{min} i %{max} znakova."
   text_tracker_no_workflow: Tijek rada nije definiran za ovaj tracker
   text_unallowed_characters: Nedozvoljeni znakovi
@@ -822,7 +822,7 @@ hr:
   text_issue_category_reassign_to: Ponovo dodijeli predmete ovoj kategoriji
   text_user_mail_option: "Za neizabrane projekte, primit ćete obavjesti samo o stvarima koje pratite ili u kojima sudjelujete (npr. predmete koje ste vi napravili ili koje su vama dodjeljeni)."
   text_no_configuration_data: "Roles, trackers, issue statuses and workflow have not been configured yet.\nIt is highly recommended to load the default configuration. You will be able to modify it once loaded."
-  text_load_default_configuration: U�?itaj po�?etnu konfiguraciju
+  text_load_default_configuration: Učitaj početnu konfiguraciju
   text_status_changed_by_changeset: "Applied in changeset %{value}."
   text_issues_destroy_confirmation: 'Jeste li sigurni da želite obrisati izabrani/e predmet(e)?'
   text_select_project_modules: 'Odaberite module koji će biti omogućeni za ovaj projekt:'
@@ -830,7 +830,7 @@ hr:
   text_file_repository_writable: Dozvoljeno pisanje u direktorij za privitke
   text_plugin_assets_writable: Plugin assets directory writable
   text_rmagick_available: RMagick dostupan (nije obavezno)
-  text_destroy_time_entries_question: "%{hours} sati je prijavljeno za predmete koje želite obrisati. Što ćete u�?initi?"
+  text_destroy_time_entries_question: "%{hours} sati je prijavljeno za predmete koje želite obrisati. Što ćete učiniti?"
   text_destroy_time_entries: Obriši prijavljene sate
   text_assign_time_entries_to_project: Pridruži prijavljene sate projektu
   text_reassign_time_entries: 'Premjesti prijavljene sate ovom predmetu:'
@@ -839,7 +839,7 @@ hr:
   text_enumeration_category_reassign_to: 'Premjesti ih ovoj vrijednosti:'
   text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server in config/configuration.yml and restart the application to enable them."
   text_repository_usernames_mapping: "Select or update the Redmine user mapped to each username found in the repository log.\nUsers with the same Redmine and repository username or email are automatically mapped."
-  text_diff_truncated: '... Ovaj diff je odrezan zato što prelazi maksimalnu veli�?inu koja može biti prikazana.'
+  text_diff_truncated: '... Ovaj diff je odrezan zato što prelazi maksimalnu veličinu koja može biti prikazana.'
   text_custom_field_possible_values_info: 'One line for each value'
   text_wiki_page_destroy_question: "This page has %{descendants} child page(s) and descendant(s). What do you want to do?"
   text_wiki_page_nullify_children: "Keep child pages as root pages"
@@ -857,8 +857,8 @@ hr:
   default_issue_status_feedback: Povratna informacija
   default_issue_status_closed: Zatvoreno
   default_issue_status_rejected: Odbaceno
-  default_doc_category_user: Korisni�?ka dokumentacija
-  default_doc_category_tech: Tehni�?ka dokumentacija
+  default_doc_category_user: Korisnička dokumentacija
+  default_doc_category_tech: Tehnička dokumentacija
   default_priority_low: Nizak
   default_priority_normal: Redovan
   default_priority_high: Visok
@@ -1161,7 +1161,7 @@ hr:
   label_fields_wrapper: Field wrapper
   label_encoding: Encoding
   label_comma_char: Comma
-  label_semi_colon_char: Semicolon
+  label_semi_colon_char: Semi colon
   label_quote_char: Quote
   label_double_quote_char: Double quote
   label_fields_mapping: Fields mapping
@@ -1182,7 +1182,7 @@ hr:
   label_no_open_issues: no open issues
   label_default_values_for_new_users: Default values for new users
   error_ldap_bind_credentials: Invalid LDAP Account/Password
-  setting_sys_api_key: API klju�?
+  setting_sys_api_key: API ključ
   setting_lost_password: Izgubljena zaporka
   mail_subject_security_notification: Security notification
   mail_body_security_notification_change: ! '%{field} was changed.'

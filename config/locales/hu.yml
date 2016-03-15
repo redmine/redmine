@@ -431,7 +431,7 @@
   label_news_view_all: Minden hír megtekintése
   label_news_added: Hír hozzáadva
   label_settings: Beállítások
-  label_overview: �?ttekintés
+  label_overview: Áttekintés
   label_version: Verzió
   label_version_new: Új verzió
   label_version_plural: Verziók
@@ -611,7 +611,7 @@
   label_display_per_page: "Oldalanként: %{value}"
   label_age: Kor
   label_change_properties: Tulajdonságok változtatása
-  label_general: �?ltalános
+  label_general: Általános
   label_more: továbbiak
   label_scm: SCM
   label_plugins: Pluginek
@@ -655,7 +655,7 @@
   button_archive: Archivál
   button_unarchive: Dearchivál
   button_reset: Reset
-  button_rename: �?tnevez
+  button_rename: Átnevez
   button_change_password: Jelszó megváltoztatása
   button_copy: Másol
   button_annotate: Jegyzetel
@@ -739,7 +739,7 @@
   label_generate_key: Kulcs generálása
   setting_mail_handler_api_enabled: Web Service engedélyezése a beérkezett levelekhez
   setting_mail_handler_api_key: API kulcs
-  text_email_delivery_not_configured: "Az E-mail küldés nincs konfigurálva, és az értesítések ki vannak kapcsolva.\n�?llítsd be az SMTP szervert a config/configuration.yml fájlban és indítsd újra az alkalmazást, hogy érvénybe lépjen."
+  text_email_delivery_not_configured: "Az E-mail küldés nincs konfigurálva, és az értesítések ki vannak kapcsolva.\nÁllítsd be az SMTP szervert a config/configuration.yml fájlban és indítsd újra az alkalmazást, hogy érvénybe lépjen."
   field_parent_title: Szülő oldal
   label_issue_watchers: Megfigyelők
   button_quote: Hozzászólás / Idézet
@@ -795,7 +795,7 @@
   permission_edit_own_issue_notes: Saját jegyzetek szerkesztése
   setting_gravatar_enabled: Felhasználói fényképek engedélyezése
   label_example: Példa
-  text_repository_usernames_mapping: "�?llítsd be a felhasználó összerendeléseket a Redmine, és a tároló logban található felhasználók között.\nAz azonos felhasználó nevek összerendelése automatikusan megtörténik."
+  text_repository_usernames_mapping: "Állítsd be a felhasználó összerendeléseket a Redmine, és a tároló logban található felhasználók között.\nAz azonos felhasználó nevek összerendelése automatikusan megtörténik."
   permission_edit_own_messages: Saját üzenetek szerkesztése
   permission_delete_own_messages: Saját üzenetek törlése
   label_user_activity: "%{value} tevékenységei"
@@ -957,7 +957,7 @@
   label_role_anonymous: Anonymous
   label_role_non_member: Nem tag
   label_issue_note_added: Jegyzet hozzáadva
-  label_issue_status_updated: �?llapot módosítva
+  label_issue_status_updated: Állapot módosítva
   label_issue_priority_updated: Prioritás módosítva
   label_issues_visibility_own: A felhasználó által létrehozott vagy hozzárendelt feladatok
   field_issues_visibility: Feladatok láthatósága
@@ -1181,7 +1181,7 @@
   label_fields_wrapper: Field wrapper
   label_encoding: Encoding
   label_comma_char: Comma
-  label_semi_colon_char: Semicolon
+  label_semi_colon_char: Semi colon
   label_quote_char: Quote
   label_double_quote_char: Double quote
   label_fields_mapping: Fields mapping

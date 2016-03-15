@@ -177,7 +177,7 @@ ro:
   mail_body_lost_password: 'Pentru a schimba parola, accesați:'
   mail_subject_register: "Activarea contului %{value}"
   mail_body_register: 'Pentru activarea contului, accesați:'
-  mail_body_account_information_external: "Puteți folosi contul „{value}}�? pentru a vă autentifica."
+  mail_body_account_information_external: "Puteți folosi contul „{value}}” pentru a vă autentifica."
   mail_body_account_information: Informații despre contul dumneavoastră
   mail_subject_account_activation_request: "Cerere de activare a contului %{value}"
   mail_body_account_activation_request: "S-a înregistrat un utilizator nou (%{value}). Contul așteaptă aprobarea dumneavoastră:"
@@ -1157,7 +1157,7 @@ ro:
   label_fields_wrapper: Field wrapper
   label_encoding: Encoding
   label_comma_char: Comma
-  label_semi_colon_char: Semicolon
+  label_semi_colon_char: Semi colon
   label_quote_char: Quote
   label_double_quote_char: Double quote
   label_fields_mapping: Fields mapping

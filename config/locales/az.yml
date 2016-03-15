@@ -212,7 +212,7 @@ az:
   actionview_instancetag_blank_option: Seçim edin
 
   button_activate: Aktivləşdirmək
-  button_add: �?lavə etmək
+  button_add: Əlavə etmək
   button_annotate: Müəlliflik
   button_apply: Tətbiq etmək
   button_archive: Arxivləşdirmək
@@ -229,7 +229,7 @@ az:
   button_delete: Silmək
   button_download: Yükləmək
   button_edit: Redaktə etmək
-  button_edit_associated_wikipage: "�?laqəli wiki-səhifəni redaktə etmək: %{page_title}"
+  button_edit_associated_wikipage: "Əlaqəli wiki-səhifəni redaktə etmək: %{page_title}"
   button_list: Siyahı
   button_lock: Bloka salmaq
   button_login: Giriş
@@ -258,7 +258,7 @@ az:
   default_doc_category_user: İstifadəçi sənədi
   default_issue_status_in_progress: İşlənməkdədir
   default_issue_status_closed: Bağlanıb
-  default_issue_status_feedback: �?ks əlaqə
+  default_issue_status_feedback: Əks əlaqə
   default_issue_status_new: Yeni
   default_issue_status_rejected: Rədd etmə
   default_issue_status_resolved: Həll edilib
@@ -334,7 +334,7 @@ az:
   field_is_in_roadmap: Operativ planda əks olunan tapşırıqlar
   field_is_public: Ümümaçıq
   field_is_required: Mütləq
-  field_issue_to: �?laqəli tapşırıqlar
+  field_issue_to: Əlaqəli tapşırıqlar
   field_issue: Tapşırıq
   field_language: Dil
   field_last_login_on: Son qoşulma
@@ -395,7 +395,7 @@ az:
 
   label_activity: Görülən işlər
   label_add_another_file: Bir fayl daha əlavə etmək
-  label_added_time_by: "�?lavə etdi %{author} %{age} əvvəl"
+  label_added_time_by: "Əlavə etdi %{author} %{age} əvvəl"
   label_added: əlavə edilib
   label_add_note: Qeydi əlavə etmək
   label_administration: İnzibatçılıq
@@ -408,7 +408,7 @@ az:
   label_applied_status: Tətbiq olunan status
   label_ascending: Artmaya görə
   label_assigned_to_me_issues: Mənim tapşırıqlarım
-  label_associated_revisions: �?laqəli redaksiyalar
+  label_associated_revisions: Əlaqəli redaksiyalar
   label_attachment: Fayl
   label_attachment_delete: Faylı silmək
   label_attachment_new: Yeni fayl
@@ -443,7 +443,7 @@ az:
   label_closed_issues_plural5: bağlıdır
   label_comment: şərhlər
   label_comment_add: Şərhləri qeyd etmək
-  label_comment_added: �?lavə olunmuş şərhlər
+  label_comment_added: Əlavə olunmuş şərhlər
   label_comment_delete: Şərhi silmək
   label_comment_plural: Şərhlər
   label_comment_plural2: Şərhlər
@@ -497,7 +497,7 @@ az:
   label_filter_add: Filtr əlavə etmək
   label_filter_plural: Filtrlər
   label_float: Həqiqi ədəd
-  label_follows: �?vvəlki
+  label_follows: Əvvəlki
   label_gantt: Qant diaqramması
   label_general: Ümumi
   label_generate_key: Açarı generasiya etmək
@@ -601,7 +601,7 @@ az:
   label_precedes: növbəti
   label_preferences: Üstünlük
   label_preview: İlkin baxış
-  label_previous: �?vvəlki
+  label_previous: Əvvəlki
   label_profile: Profil
   label_project: Layihə
   label_project_all: Bütün layihələr
@@ -621,9 +621,9 @@ az:
   label_registration_activation_by_email: e-poçt üzrə hesabımın aktivləşdirilməsi
   label_registration_automatic_activation: uçot qeydlərinin avtomatik aktivləşdirilməsi
   label_registration_manual_activation: uçot qeydlərini əl ilə aktivləşdirmək
-  label_related_issues: �?laqəli tapşırıqlar
+  label_related_issues: Əlaqəli tapşırıqlar
   label_relates_to: əlaqəlidir
-  label_relation_delete: �?laqəni silmək
+  label_relation_delete: Əlaqəni silmək
   label_relation_new: Yeni münasibət
   label_renamed: adını dəyişmək
   label_reply_plural: Cavablar
@@ -633,7 +633,7 @@ az:
   label_repository: Saxlayıcı
   label_repository_plural: Saxlayıcı
   label_result_plural: Nəticələr
-  label_reverse_chronological_order: �?ks ardıcıllıqda
+  label_reverse_chronological_order: Əks ardıcıllıqda
   label_revision: Redaksiya
   label_revision_plural: Redaksiyalar
   label_roadmap: Operativ plan
@@ -654,7 +654,7 @@ az:
   label_sort: Çeşidləmək
   label_sort_by: "%{value} üzrə çeşidləmək"
   label_sort_higher: Yuxarı
-  label_sort_highest: �?vvələ qayıt
+  label_sort_highest: Əvvələ qayıt
   label_sort_lower: Aşağı
   label_sort_lowest: Sona qayıt
   label_spent_time: Sərf olunan vaxt
@@ -829,8 +829,8 @@ az:
   project_module_calendar: Təqvim
 
   setting_activity_days_default: Görülən işlərdə əks olunan günlərin sayı
-  setting_app_subtitle: �?lavənin sərlövhəsi
-  setting_app_title: �?lavənin adı
+  setting_app_subtitle: Əlavənin sərlövhəsi
+  setting_app_title: Əlavənin adı
   setting_attachment_max_size: Yerləşdirmənin maksimal ölçüsü
   setting_autofetch_changesets: Saxlayıcının dəyişikliklərini avtomatik izləmək
   setting_autologin: Avtomatik giriş
@@ -848,7 +848,7 @@ az:
   setting_emails_footer: Məktubun sətiraltı qeydləri
   setting_enabled_scm: Daxil edilən SCM
   setting_feeds_limit: Atom axını üçün başlıqların sayının məhdudlaşdırılması
-  setting_file_max_size_displayed: �?ks olunma üçün mətn faylının maksimal ölçüsü
+  setting_file_max_size_displayed: Əks olunma üçün mətn faylının maksimal ölçüsü
   setting_gravatar_enabled: İstifadəçi avatarını Gravatar-dan istifadə etmək
   setting_host_name: Kompyuterin adı
   setting_issue_list_default_columns: Susmaya görə tapşırıqların siyahısında əks oluna sütunlar
@@ -1018,7 +1018,7 @@ az:
   setting_commit_logtime_activity_id: Vaxtın uçotu üçün görülən hərəkətlər
   text_time_logged_by_changeset: "%{value} redaksiyada nəzərə alınıb."
   setting_commit_logtime_enabled: Vaxt uçotunu qoşmaq
-  notice_gantt_chart_truncated: �?ks oluna biləcək elementlərin maksimal sayı artdığına görə diaqram kəsiləcək (%{max})
+  notice_gantt_chart_truncated: Əks oluna biləcək elementlərin maksimal sayı artdığına görə diaqram kəsiləcək (%{max})
   setting_gantt_items_limit: Qant diaqramında əks olunan elementlərin maksimal sayı 
   field_warn_on_leaving_unsaved: Yadda saxlanılmayan mətnin səhifəsi bağlanan zaman xəbərdarlıq etmək
   text_warn_on_leaving_unsaved: Tərk etmək istədiyiniz cari səhifədə yadda saxlanılmayan və itə biləcək mətn vardır.
@@ -1080,11 +1080,11 @@ az:
   description_wiki_subpages_reassign: Yeni valideyn səhifəsini seçmək
   description_selected_columns: Seçilmiş sütunlar
   label_parent_revision: Valideyn
-  label_child_revision: �?sas
+  label_child_revision: Əsas
   error_scm_annotate_big_text_file: Mətn faylının maksimal ölçüsü artdığına görə şərh mümkün deyildir.
   setting_default_issue_start_date_to_creation_date: Yeni tapşırıqlar üçün cari tarixi başlanğıc tarixi kimi istifadə etmək
   button_edit_section: Bu bölməni redaktə etmək
-  setting_repositories_encodings: �?lavələrin və saxlayıcıların kodlaşdırılması
+  setting_repositories_encodings: Əlavələrin və saxlayıcıların kodlaşdırılması
   description_all_columns: Bütün sütunlar
   button_export: İxrac
   label_export_options: "%{export_format} ixracın parametrləri"
@@ -1098,7 +1098,7 @@ az:
     other: "%{count} Tapşırıq"
   label_repository_new: Yeni saxlayıcı
   field_repository_is_default: Susmaya görə saxlayıcı
-  label_copy_attachments: �?lavənin surətini çıxarmaq
+  label_copy_attachments: Əlavənin surətini çıxarmaq
   label_item_position: "%{position}/%{count}"
   label_completed_versions: Başa çatdırılmış variantlar
   text_project_identifier_info: Yalnız kiçik latın hərflərinə (a-z), rəqəmlərə, tire və çicgilərə icazə verilir.<br />Yadda saxladıqdan sonra identifikatoru dəyişmək olmaz.
@@ -1108,7 +1108,7 @@ az:
   text_issue_conflict_resolution_overwrite: Dəyişikliklərimi tətbiq etmək (əvvəlki bütün qeydlər yadda saxlanacaq, lakin bəzi qeydlər yenidən yazıla bilər)
   notice_issue_update_conflict: Tapşırığı redaktə etdiyiniz zaman kimsə onu artıq dəyişib.
   text_issue_conflict_resolution_cancel: Mənim dəyişikliklərimi ləğv etmək və tapşırığı yenidən göstərmək %{link}
-  permission_manage_related_issues: �?laqəli tapşırıqların idarə edilməsi
+  permission_manage_related_issues: Əlaqəli tapşırıqların idarə edilməsi
   field_auth_source_ldap_filter: LDAP filtri
   label_search_for_watchers: Nəzarətçiləri axtarmaq 
   notice_account_deleted: "Sizin uçot qeydiniz tam olaraq silinib" 
@@ -1131,7 +1131,7 @@ az:
   notice_user_successful_create: İstifadəçi %{id} yaradıldı.
   field_core_fields: Standart sahələr
   field_timeout: Zaman aşımı (saniyə ilə)
-  setting_thumbnails_enabled: �?lavələrin kiçik şəklini göstər
+  setting_thumbnails_enabled: Əlavələrin kiçik şəklini göstər
   setting_thumbnails_size: Kiçik şəkillərin ölçüsü (piksel ilə)
   label_status_transitions: Status keçidləri
   label_fields_permissions: Sahələrin icazələri
@@ -1142,7 +1142,7 @@ az:
   label_attribute_of_project: Layihə %{name}
   label_attribute_of_author: Müəllif %{name}
   label_attribute_of_assigned_to: Təyin edilib %{name}
-  label_attribute_of_fixed_version: �?sas versiya %{name}
+  label_attribute_of_fixed_version: Əsas versiya %{name}
   label_copy_subtasks: Alt tapşırığın surətini çıxarmaq
   label_cross_project_hierarchy: With project hierarchy
   permission_edit_documents: Edit documents
@@ -1257,7 +1257,7 @@ az:
   label_fields_wrapper: Field wrapper
   label_encoding: Encoding
   label_comma_char: Comma
-  label_semi_colon_char: Semicolon
+  label_semi_colon_char: Semi colon
   label_quote_char: Quote
   label_double_quote_char: Double quote
   label_fields_mapping: Fields mapping
