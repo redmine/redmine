@@ -489,6 +489,9 @@ class ProjectsController < ApplicationController
           geppettoJsFile = File.read(publicResourcesPath + geppettoResourcesPath + scripts + "osbSynapseScript.js")
         else
           geppettoJsFile = File.read(publicResourcesPath + geppettoResourcesPath + scripts + "osbGenericScript.js")  
+          geppettoCellUtilsJsFile = File.read(publicResourcesPath + geppettoResourcesPath + scripts + utils + "osbCellUtils.js")   
+          geppettoJsFile.insert(0, geppettoCellUtilsJsFile)
+          geppettoControlPanelJsonFile = File.read(publicResourcesPath + geppettoResourcesPath + controlPanels + "osbNetworkControlPanel.json")
         end
          
         # Parse js file
@@ -548,7 +551,7 @@ class ProjectsController < ApplicationController
             if targetComponent
               target = targetComponent.captures
             end    
-            
+
             geppettoSimulationFile["experiments"][0]["aspectConfigurations"][0]["simulatorConfiguration"] = {
                   "id" => 1,
                   "simulatorId" => "neuronSimulator",
@@ -561,7 +564,7 @@ class ProjectsController < ApplicationController
         File.write(publicResourcesPath + geppettoTmpPath + @geppettoJsFilePath, geppettoJsFile)
         geppettoTmpJsFile.close
         
-        if ((docType == 'net' || docType == 'cell') && target[0] != nil)
+        if ((docType == 'net' || docType == 'cell') && target != nil && target[0] != nil)
           geppettoModelFile = File.read(publicResourcesPath + geppettoResourcesPath + simulationTemplates + "GeppettoNeuroMLModelNetworkCell.xmi")
           geppettoModelFile.gsub! '$TARGET_ID', target[0]
           geppettoSimulationFile["experiments"][0]["aspectConfigurations"][0]["simulatorConfiguration"]["parameters"] = {"target" => target[0]}

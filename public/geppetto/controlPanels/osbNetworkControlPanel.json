@@ -3,7 +3,7 @@
         "Network Info": {
             "Connectivity": {
                 "actions": [
-                	"if (GEPPETTO.ModelFactory.geppettoModel.neuroml.synapse == undefined){G.addWidget(1).setMessage('No connection found in this network').setName('Warning Message');}else{G.addWidget(6).setData($ENTER_ID,{linkType:function(c){return GEPPETTO.ModelFactory.getAllVariablesOfType(c.getParent(),GEPPETTO.ModelFactory.geppettoModel.neuroml.synapse)[0].getId();}}).setName('Connectivity Widget on network ' + $ENTER_ID.getName())}"
+                	"showConnectivityMatrix($ENTER_ID)"
                 ],
                 "icon": "gpt-make-group",
                 "label": "Connectivity",
@@ -11,7 +11,7 @@
             },
             "Model Description": {
                 "actions": [
-                    "var mdPopup = G.addWidget(1); mdPopup.addCustomNodeHandler(function(node){G.addWidget(3).setData(node);}, 'click'); mdPopup.setHTML(GEPPETTO.ModelFactory.getAllVariablesOfMetaType($ENTER_ID.getType(),GEPPETTO.Resources.HTML_TYPE)[0]);"
+                    "showModelDescription('$ENTER_ID')"
                 ],
                 "icon": "gpt-pyramidal-cell",
                 "label": "Model Description",

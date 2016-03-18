@@ -1,6 +1,14 @@
 {
     "OSB Control Panel": {
         "Cell Info": {
+			"Model Description": {
+                "actions": [
+                    "var mdPopup = G.addWidget(1).setName('Model Description - $ENTER_ID'); mdPopup.addCustomNodeHandler(function(node){G.addWidget(3).setData(node);}, 'click'); mdPopup.setHTML(GEPPETTO.ModelFactory.getAllVariablesOfMetaType(GEPPETTO.ModelFactory.geppettoModel.neuroml.$ENTER_ID,GEPPETTO.Resources.HTML_TYPE)[0]);"
+                ],
+                "icon": "gpt-pyramidal-cell",
+                "label": "Model Description",
+                "tooltip": "Information on the model"
+            },
             "Cell": {
                 "actions": [
                     "executeOnSelection(showSelection)"
