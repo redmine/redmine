@@ -21,11 +21,13 @@ var addSuggestionsToSpotlight = function(){
 };
 
 var executeOnSelection = function(callback) {
-	var csel = G.getSelection()[0];
-	if (typeof csel !== 'undefined') {
-		callback(csel);
-	} else {
-		G.addWidget(1).setMessage('No cell selected! Please select one of the cells and click here for information on its properties.').setName('Warning Message');
+	if (GEPPETTO.ModelFactory.geppettoModel.neuroml.cell){
+		var csel = G.getSelection()[0];
+		if (typeof csel !== 'undefined') {
+			callback(csel);
+		} else {
+			G.addWidget(1).setMessage('No cell selected! Please select one of the cells and click here for information on its properties.').setName('Warning Message');
+		}
 	}
 };
 var showConnectivityMatrix = function(instance){
@@ -43,7 +45,7 @@ var showConnectivityMatrix = function(instance){
 						}
 						return c.getName().split("-")[0];
 					}
-				}).setName('Connectivity Widget on network ' + $ENTER_ID.getName());
+				}).setName('Connectivity Widget on network ' + instance.getId());
 	}
 };
 var showChannelTreeView = function(csel) {
@@ -64,7 +66,7 @@ var showChannelTreeView = function(csel) {
 
 var showInputTreeView = function(csel) {
 	if (GEPPETTO.ModelFactory.geppettoModel.neuroml.pulseGenerator){
-		var tv = initialiseTreeWidget('Inputs on ' + csel.getName(), widthScreen - marginLeft - defaultWidgetWidth, marginTop);
+		var tv = initialiseTreeWidget('Inputs on ' + csel.getId(), widthScreen - marginLeft - defaultWidgetWidth, marginTop);
 		var pulseGenerator = GEPPETTO.ModelFactory.getAllTypesOfType(GEPPETTO.ModelFactory.geppettoModel.neuroml.pulseGenerator);
 		var pulseGeneratorFiltered = [];
 		for (pulseGeneratorIndex in pulseGenerator){
@@ -91,7 +93,7 @@ var showSelection = function(csel) {
 	var visualWidgetWidth = 350;
 	var visualWidgetHeight = 400;
 
-	var tv = initialiseTreeWidget('Visual information on cell ' + csel.getName(), widthScreen - marginLeft - visualWidgetWidth, heightScreen - marginBottom - visualWidgetHeight, visualWidgetWidth, visualWidgetHeight);
+	var tv = initialiseTreeWidget('Cell Information - ' + csel.getName(), widthScreen - marginLeft - visualWidgetWidth, heightScreen - marginBottom - visualWidgetHeight, visualWidgetWidth, visualWidgetHeight);
 	tv.setData(csel.getType(), {
 		expandNodes : true
 	});

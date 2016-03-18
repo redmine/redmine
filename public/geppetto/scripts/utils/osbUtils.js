@@ -33,3 +33,7 @@ var showModelDescription = function(model){
 	mdPopup.addCustomNodeHandler(function(node){G.addWidget(3).setData(node);}, 'click');
 	mdPopup.setHTML(GEPPETTO.ModelFactory.getAllVariablesOfMetaType(model,GEPPETTO.Resources.HTML_TYPE)[0]);	
 };
+
+var getMainType = function(){
+	return (typeof($ENTER_ID) === 'undefined')?GEPPETTO.ModelFactory.geppettoModel.neuroml.$ENTER_ID:$ENTER_ID.getType();
+};

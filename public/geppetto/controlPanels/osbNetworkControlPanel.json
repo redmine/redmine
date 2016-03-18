@@ -3,7 +3,7 @@
         "Network Info": {
             "Connectivity": {
                 "actions": [
-                	"showConnectivityMatrix($ENTER_ID)"
+                	"if (GEPPETTO.ModelFactory.geppettoModel.neuroml.network){showConnectivityMatrix($ENTER_ID)}"
                 ],
                 "icon": "gpt-make-group",
                 "label": "Connectivity",
@@ -11,7 +11,7 @@
             },
             "Model Description": {
                 "actions": [
-                    "showModelDescription('$ENTER_ID')"
+                    "showModelDescription(getMainType())"
                 ],
                 "icon": "gpt-pyramidal-cell",
                 "label": "Model Description",
@@ -19,7 +19,7 @@
             },
             "Inputs": {
                 "actions": [
-                    "showInputTreeView($ENTER_ID)"
+                    "showInputTreeView(getMainType())"
                 ],
                 "icon": "gpt-inputs",
                 "label": "Inputs",
