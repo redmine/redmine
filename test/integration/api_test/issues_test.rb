@@ -350,6 +350,70 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
     end
   end
 
+  test "GET /issues/:id.xml should contains total_estimated_hours and total_spent_hours" do
+    parent = Issue.find(3)
+    child = Issue.generate!(:parent_issue_id => parent.id, :estimated_hours => 3.0)
+    TimeEntry.create!(:project => child.project, :issue => child, :user => child.author, :spent_on => child.author.today,
+                      :hours => '2.5', :comments => '', :activity_id => TimeEntryActivity.first.id)
+    get '/issues/3.xml'
+
+    assert_equal 'application/xml', response.content_type
+    assert_select 'issue' do
+      assert_select 'estimated_hours',       parent.estimated_hours.to_s
+      assert_select 'total_estimated_hours', (parent.estimated_hours.to_f + 3.0).to_s
+      assert_select 'spent_hours',           parent.spent_hours.to_s
+      assert_select 'total_spent_hours',     (parent.spent_hours.to_f + 2.5).to_s
+    end
+  end
+
+  test "GET /issues/:id.xml should contains total_estimated_hours, and should not contains spent_hours and total_spent_hours when permission does not exists" do
+    parent = Issue.find(3)
+    child = Issue.generate!(:parent_issue_id => parent.id, :estimated_hours => 3.0)
+    # remove permission!
+    Role.anonymous.remove_permission! :view_time_entries
+    #Role.all.each { |role| role.remove_permission! :view_time_entries }
+    get '/issues/3.xml'
+
+    assert_equal 'application/xml', response.content_type
+    assert_select 'issue' do
+      assert_select 'estimated_hours',       parent.estimated_hours.to_s
+      assert_select 'total_estimated_hours', (parent.estimated_hours.to_f + 3.0).to_s
+      assert_select 'spent_hours',           false
+      assert_select 'total_spent_hours',     false
+    end
+  end
+
+  test "GET /issues/:id.json should contains total_estimated_hours and total_spent_hours" do
+    parent = Issue.find(3)
+    child = Issue.generate!(:parent_issue_id => parent.id, :estimated_hours => 3.0)
+    TimeEntry.create!(:project => child.project, :issue => child, :user => child.author, :spent_on => child.author.today,
+                      :hours => '2.5', :comments => '', :activity_id => TimeEntryActivity.first.id)
+    get '/issues/3.json'
+
+    assert_equal 'application/json', response.content_type
+    json = ActiveSupport::JSON.decode(response.body)
+    assert_equal parent.estimated_hours, json['issue']['estimated_hours']
+    assert_equal (parent.estimated_hours.to_f + 3.0), json['issue']['total_estimated_hours']
+    assert_equal parent.spent_hours, json['issue']['spent_hours']
+    assert_equal (parent.spent_hours.to_f + 2.5), json['issue']['total_spent_hours']
+  end
+
+  test "GET /issues/:id.json should contains total_estimated_hours, and should not contains spent_hours and total_spent_hours when permission does not exists" do
+    parent = Issue.find(3)
+    child = Issue.generate!(:parent_issue_id => parent.id, :estimated_hours => 3.0)
+    # remove permission!
+    Role.anonymous.remove_permission! :view_time_entries
+    #Role.all.each { |role| role.remove_permission! :view_time_entries }
+    get '/issues/3.json'
+
+    assert_equal 'application/json', response.content_type
+    json = ActiveSupport::JSON.decode(response.body)
+    assert_equal parent.estimated_hours, json['issue']['estimated_hours']
+    assert_equal (parent.estimated_hours.to_f + 3.0), json['issue']['total_estimated_hours']
+    assert_equal nil, json['issue']['spent_hours']
+    assert_equal nil, json['issue']['total_spent_hours']
+  end
+
   test "POST /issues.xml should create an issue with the attributes" do
 
 payload = <<-XML
