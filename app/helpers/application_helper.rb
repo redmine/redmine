@@ -494,8 +494,13 @@ module ApplicationHelper
         end
         b += ancestors.collect {|p| link_to_project(p, {:jump => current_menu_item}, :class => 'ancestor') }
       end
-      b << h(@project)
-      b.join(" \xc2\xbb ").html_safe
+      b << content_tag(:span, h(@project), class: 'current-project')
+      if b.size > 1
+        separator = content_tag(:span, ' &raquo; '.html_safe, class: 'separator')
+        path = safe_join(b[0..-2], separator) + separator
+        b = [content_tag(:span, path.html_safe, class: 'breadcrumbs'), b[-1]]
+      end
+      safe_join b
     end
   end
 
