@@ -191,7 +191,7 @@ class IssuesController < ApplicationController
       flash[:notice] = l(:notice_successful_update) unless @issue.current_journal.new_record?
 
       respond_to do |format|
-        format.html { redirect_back_or_default issue_path(@issue) }
+        format.html { redirect_back_or_default issue_path(@issue, previous_and_next_issue_ids_params) }
         format.api  { render_api_ok }
       end
     else
@@ -354,21 +354,37 @@ class IssuesController < ApplicationController
   private
 
   def retrieve_previous_and_next_issue_ids
-    retrieve_query_from_session
-    if @query
-      sort_init(@query.sort_criteria.empty? ? [['id', 'desc']] : @query.sort_criteria)
-      sort_update(@query.sortable_columns, 'issues_index_sort')
-      limit = 500
-      issue_ids = @query.issue_ids(:order => sort_clause, :limit => (limit + 1), :include => [:assigned_to, :tracker, :priority, :category, :fixed_version])
-      if (idx = issue_ids.index(@issue.id)) && idx < limit
-        if issue_ids.size < 500
-          @issue_position = idx + 1
-          @issue_count = issue_ids.size
+    if params[:prev_issue_id].present? || params[:next_issue_id].present?
+      @prev_issue_id = params[:prev_issue_id].presence.try(:to_i)
+      @next_issue_id = params[:next_issue_id].presence.try(:to_i)
+      @issue_position = params[:issue_position].presence.try(:to_i)
+      @issue_count = params[:issue_count].presence.try(:to_i)
+    else
+      retrieve_query_from_session
+      if @query
+        sort_init(@query.sort_criteria.empty? ? [['id', 'desc']] : @query.sort_criteria)
+        sort_update(@query.sortable_columns, 'issues_index_sort')
+        limit = 500
+        issue_ids = @query.issue_ids(:order => sort_clause, :limit => (limit + 1), :include => [:assigned_to, :tracker, :priority, :category, :fixed_version])
+        if (idx = issue_ids.index(@issue.id)) && idx < limit
+          if issue_ids.size < 500
+            @issue_position = idx + 1
+            @issue_count = issue_ids.size
+          end
+          @prev_issue_id = issue_ids[idx - 1] if idx > 0
+          @next_issue_id = issue_ids[idx + 1] if idx < (issue_ids.size - 1)
         end
-        @prev_issue_id = issue_ids[idx - 1] if idx > 0
-        @next_issue_id = issue_ids[idx + 1] if idx < (issue_ids.size - 1)
       end
     end
+  end
+
+  def previous_and_next_issue_ids_params
+    {
+      :prev_issue_id => params[:prev_issue_id],
+      :next_issue_id => params[:next_issue_id],
+      :issue_position => params[:issue_position],
+      :issue_count => params[:issue_count]
+    }.reject {|k,v| k.blank?}
   end
 
   # Used by #edit and #update to set some common instance variables

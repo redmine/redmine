@@ -1423,6 +1423,17 @@ class IssuesControllerTest < ActionController::TestCase
     end
   end
 
+  def test_show_should_display_prev_next_links_when_request_has_previous_and_next_issue_ids_params
+    get :show, :id => 1, :prev_issue_id => 1, :next_issue_id => 3, :issue_position => 2, :issue_count => 4
+    assert_response :success
+
+    assert_select 'div.next-prev-links' do
+      assert_select 'a[href="/issues/1"]', :text => /Previous/
+      assert_select 'a[href="/issues/3"]', :text => /Next/
+      assert_select 'span.position', :text => "2 of 4"
+    end
+  end
+
   def test_show_should_display_category_field_if_categories_are_defined
     Issue.update_all :category_id => nil
 
@@ -3680,6 +3691,19 @@ class IssuesControllerTest < ActionController::TestCase
 
     assert_response :redirect
     assert_redirected_to :controller => 'issues', :action => 'show', :id => issue.id
+  end
+ 
+  def test_put_update_should_redirect_with_previous_and_next_issue_ids_params
+    @request.session[:user_id] = 2
+
+    put :update, :id => 11,
+      :issue => {:status_id => 6, :notes => 'Notes'},
+      :prev_issue_id => 8,
+      :next_issue_id => 12,
+      :issue_position => 2,
+      :issue_count => 3
+
+    assert_redirected_to '/issues/11?issue_count=3&issue_position=2&next_issue_id=12&prev_issue_id=8'
   end
 
   def test_get_bulk_edit
