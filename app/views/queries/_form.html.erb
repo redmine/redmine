@@ -23,7 +23,7 @@
 <%= check_box_tag 'query_is_for_all', 1, @query.project.nil?, :class => (User.current.admin? ? '' : 'disable-unless-private') %></p>
 
 <% unless params[:gantt] %>
-<fieldset><legend><%= l(:label_options) %></legend>
+<fieldset id="options"><legend><%= l(:label_options) %></legend>
 <p><label for="query_default_columns"><%=l(:label_default_columns)%></label>
 <%= check_box_tag 'default_columns', 1, @query.has_default_columns?, :id => 'query_default_columns',
       :onclick => 'if (this.checked) {$("#columns").hide();} else {$("#columns").show();}' %></p>
@@ -38,7 +38,7 @@
 <%= available_totalable_columns_tags(@query) %></p>
 </fieldset>
 <% else %>
-<fieldset><legend><%= l(:label_options) %></legend>
+<fieldset id="options"><legend><%= l(:label_options) %></legend>
   <p><label><%= l(:button_show) %></label>
   <label class="inline"><%= check_box_tag "query[draw_relations]", "1", @query.draw_relations %> <%= l(:label_related_issues) %></label>
   <label class="inline"><%= check_box_tag "query[draw_progress_line]", "1", @query.draw_progress_line %> <%= l(:label_gantt_progress_line) %></label>

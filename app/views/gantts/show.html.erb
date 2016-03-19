@@ -20,7 +20,7 @@
     <%= render :partial => 'queries/filters', :locals => {:query => @query} %>
   </div>
 </fieldset>
-<fieldset class="collapsible collapsed">
+<fieldset id="options" class="collapsible collapsed">
   <legend onclick="toggleFieldset(this);"><%= l(:label_options) %></legend>
   <div style="display: none;">
     <table>

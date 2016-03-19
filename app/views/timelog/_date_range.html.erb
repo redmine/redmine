@@ -6,12 +6,12 @@
       <%= render :partial => 'queries/filters', :locals => {:query => @query} %>
     </div>
   </fieldset>
-  <fieldset class="collapsible collapsed">
+  <fieldset id="options" class="collapsible collapsed">
     <legend onclick="toggleFieldset(this);"><%= l(:label_options) %></legend>
     <div style="display: none;">
       <table>
         <tr>
-          <td><%= l(:field_column_names) %></td>
+          <td class="field"><%= l(:field_column_names) %></td>
           <td><%= render_query_columns_selection(@query) %></td>
         </tr>
       </table>
