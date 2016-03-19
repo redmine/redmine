@@ -1183,6 +1183,8 @@ a.close-icon:hover {background-image:url('../images/close_hl.png');}
 .icon-file.application-zip { background-image: url(../images/files/zip.png); }
 .icon-file.application-x-gzip { background-image: url(../images/files/zip.png); }
 
+.contextual>.icon:not(:first-child), .buttons>.icon:not(:first-child) { margin-left: 5px; }
+
 img.gravatar {
   padding: 2px;
   border: solid 1px #d5d5d5;
