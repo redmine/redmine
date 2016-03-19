@@ -433,7 +433,7 @@ fr:
   setting_commit_logtime_enabled: Permettre la saisie de temps
   setting_commit_logtime_activity_id: Activité pour le temps saisi
   setting_gantt_items_limit: Nombre maximum d'éléments affichés sur le gantt
-  setting_issue_group_assignment: Permettre l'assignement des demandes aux groupes
+  setting_issue_group_assignment: Permettre l'assignation des demandes aux groupes
   setting_default_issue_start_date_to_creation_date: Donner à la date de début d'une nouvelle demande la valeur de la date du jour
   setting_commit_cross_project_ref: Permettre le référencement et la résolution des demandes de tous les autres projets
   setting_unsubscribe: Permettre aux utilisateurs de supprimer leur propre compte
