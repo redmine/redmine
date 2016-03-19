@@ -17,6 +17,7 @@
 
 class SearchController < ApplicationController
   before_filter :find_optional_project
+  accept_api_auth :index
 
   def index
     @question = params[:q] || ""
@@ -73,7 +74,10 @@ class SearchController < ApplicationController
     else
       @question = ""
     end
-    render :layout => false if request.xhr?
+    respond_to do |format|
+      format.html { render :layout => false if request.xhr? }
+      format.api  { @results ||= []; render :layout => false }
+    end
   end
 
 private
