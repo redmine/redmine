@@ -1191,15 +1191,13 @@ fr:
   description_date_from: Date de début
   description_date_to: Date de fin
   text_repository_identifier_info: 'Seuls les lettres minuscules (a-z), chiffres, tirets et tirets bas sont autorisés.<br />Un fois sauvegardé, l''identifiant ne pourra plus être modifié.'
-  label_parent_task_attributes_derived: Calculated from subtasks
-  label_parent_task_attributes_independent: Independent of subtasks
-  mail_subject_security_notification: Security notification
-  mail_body_security_notification_change: ! '%{field} was changed.'
-  mail_body_security_notification_change_to: ! '%{field} was changed to %{value}.'
-  mail_body_security_notification_add: ! '%{field} %{value} was added.'
-  mail_body_security_notification_remove: ! '%{field} %{value} was removed.'
-  mail_body_security_notification_notify_enabled: Email address %{value} now receives
-    notifications.
-  mail_body_security_notification_notify_disabled: Email address %{value} no longer
-    receives notifications.
-  field_remote_ip: IP address
+  label_parent_task_attributes_derived: Calculé à partir des sous-tâches
+  label_parent_task_attributes_independent: Indépendent des sous-tâches
+  mail_subject_security_notification: Notification de sécurité
+  mail_body_security_notification_change: ! '%{field} modifié(e).'
+  mail_body_security_notification_change_to: ! '%{field} changé(e) en %{value}.'
+  mail_body_security_notification_add: ! '%{field} %{value} ajouté(e).'
+  mail_body_security_notification_remove: ! '%{field} %{value} supprimé(e).'
+  mail_body_security_notification_notify_enabled: Les notifications ont été activées pour l'adresse %{value}
+  mail_body_security_notification_notify_disabled: Les notifications ont été désactivées pour l'adresse %{value}
+  field_remote_ip: Adresse IP
