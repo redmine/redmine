@@ -836,6 +836,7 @@ class User < Principal
   def self.generate_salt
     Redmine::Utils.random_hex(16)
   end
+
   # Send a security notification to all admins if the user has gained/lost admin privileges
   def deliver_security_notification
     options = {
@@ -844,6 +845,7 @@ class User < Principal
       title: :label_user_plural,
       url: {controller: 'users', action: 'index'}
     }
+
     deliver = false
     if (admin? && id_changed? && active?) ||    # newly created admin
        (admin? && admin_changed? && active?) || # regular user became admin
@@ -860,11 +862,11 @@ class User < Principal
           options[:message] = :mail_body_security_notification_remove
     end
 
-    User.where(admin: true, status: Principal::STATUS_ACTIVE).each{|u| Mailer.security_notification(u, options).deliver} if deliver
+    if deliver
+      users = User.active.where(admin: true).to_a
+      Mailer.security_notification(users, options).deliver
+    end
   end
-
-
-
 end
 
 class AnonymousUser < User
