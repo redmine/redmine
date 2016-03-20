@@ -339,7 +339,7 @@ class Mailer < ActionMailer::Base
     @title = options[:title] && l(options[:title])
     @url = options[:url] && (options[:url].is_a?(Hash) ? url_for(options[:url]) : options[:url])
     mail :to => recipients,
-      :subject => l(:mail_subject_security_notification)
+      :subject => "[#{Setting.app_title}] #{l(:mail_subject_security_notification)}"
   end
 
   def settings_updated(recipients, changes)
@@ -347,7 +347,7 @@ class Mailer < ActionMailer::Base
     @changes = changes
     @url = url_for(controller: 'settings', action: 'index')
     mail :to => recipients,
-      :subject => l(:mail_subject_security_notification)
+      :subject => "[#{Setting.app_title}] #{l(:mail_subject_security_notification)}"
   end
 
 	# Notifies admins about settings changes
