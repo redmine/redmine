@@ -310,6 +310,16 @@ class Mailer < ActionMailer::Base
       :subject => l(:mail_subject_lost_password, Setting.app_title)
   end
 
+  # Notifies user that his password was updated
+  def self.password_updated(user)
+    Mailer.security_notification(user,
+      message: :mail_body_security_notification_change,
+      field: :field_password,
+      title: :button_change_password,
+      url: {controller: 'my', action: 'password'}
+    ).deliver
+  end
+
   def register(token)
     set_language_if_valid(token.user.language)
     @token = token
