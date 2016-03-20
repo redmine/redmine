@@ -197,6 +197,13 @@ class Version < ActiveRecord::Base
     end
   end
 
+  def css_classes
+    [
+      completed? ? 'version-completed' : 'version-incompleted',
+      "version-#{status}"
+    ].join(' ')
+  end
+
   def self.fields_for_order_statement(table=nil)
     table ||= table_name
     ["(CASE WHEN #{table}.effective_date IS NULL THEN 1 ELSE 0 END)", "#{table}.effective_date", "#{table}.name", "#{table}.id"]

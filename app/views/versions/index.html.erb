@@ -10,7 +10,7 @@
 <% else %>
   <div id="roadmap">
   <% @versions.each do |version| %>
-  <article class="version-article <%= version.completed? ? 'version-completed' : 'version-incompleted' %>">
+  <article class="version-article <%= version.css_classes %>">
     <header>
       <h3 class="version"><%= link_to_version version, :name => version_anchor(version) %></h3>
     </header>
