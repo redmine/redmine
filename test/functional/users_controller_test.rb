@@ -280,6 +280,48 @@ class UsersControllerTest < ActionController::TestCase
     assert_select 'input#pref_no_self_notified[value="1"][checked=checked]'
   end
 
+  def test_create_admin_should_send_security_notification
+    ActionMailer::Base.deliveries.clear
+    post :create,
+      :user => {
+        :firstname => 'Edgar',
+        :lastname => 'Schmoe',
+        :login => 'eschmoe',
+        :password => 'secret123',
+        :password_confirmation => 'secret123',
+        :mail => 'eschmoe@example.foo',
+        :admin => '1'
+      }
+
+    assert_not_nil (mail = ActionMailer::Base.deliveries.last)
+    assert_mail_body_match '0.0.0.0', mail
+    assert_mail_body_match I18n.t(:mail_body_security_notification_add, field: I18n.t(:field_admin), value: 'eschmoe'), mail
+    assert_select_email do
+      assert_select 'a[href^=?]', 'http://localhost:3000/users', :text => 'Users'
+    end
+
+    # All admins should receive this
+    User.where(admin: true, status: Principal::STATUS_ACTIVE).each do |admin|
+      assert_not_nil ActionMailer::Base.deliveries.detect{|mail| [mail.bcc, mail.cc].flatten.include?(admin.mail) }
+    end
+  end
+
+  def test_create_non_admin_should_not_send_security_notification
+    ActionMailer::Base.deliveries.clear
+    post :create,
+      :user => {
+        :firstname => 'Edgar',
+        :lastname => 'Schmoe',
+        :login => 'eschmoe',
+        :password => 'secret123',
+        :password_confirmation => 'secret123',
+        :mail => 'eschmoe@example.foo',
+        :admin => '0'
+      }
+    assert_nil ActionMailer::Base.deliveries.last
+  end
+
+
   def test_edit
     get :edit, :id => 2
     assert_response :success
@@ -426,6 +468,92 @@ class UsersControllerTest < ActionController::TestCase
     assert_equal '1', user.pref[:no_self_notified]
   end
 
+  def test_update_assign_admin_should_send_security_notification
+    ActionMailer::Base.deliveries.clear
+    put :update, :id => 2, :user => {
+      :admin => 1
+    }
+
+    assert_not_nil (mail = ActionMailer::Base.deliveries.last)
+    assert_mail_body_match I18n.t(:mail_body_security_notification_add, field: I18n.t(:field_admin), value: User.find(2).login), mail
+
+    # All admins should receive this
+    User.where(admin: true, status: Principal::STATUS_ACTIVE).each do |admin|
+      assert_not_nil ActionMailer::Base.deliveries.detect{|mail| [mail.bcc, mail.cc].flatten.include?(admin.mail) }
+    end
+  end
+
+  def test_update_unassign_admin_should_send_security_notification
+    user = User.find(2)
+    user.admin = true
+    user.save!
+
+    ActionMailer::Base.deliveries.clear
+    put :update, :id => user.id, :user => {
+      :admin => 0
+    }
+
+    assert_not_nil (mail = ActionMailer::Base.deliveries.last)
+    assert_mail_body_match I18n.t(:mail_body_security_notification_remove, field: I18n.t(:field_admin), value: user.login), mail
+
+    # All admins should receive this
+    User.where(admin: true, status: Principal::STATUS_ACTIVE).each do |admin|
+      assert_not_nil ActionMailer::Base.deliveries.detect{|mail| [mail.bcc, mail.cc].flatten.include?(admin.mail) }
+    end
+  end
+
+  def test_update_lock_admin_should_send_security_notification
+    user = User.find(2)
+    user.admin = true
+    user.save!
+
+    ActionMailer::Base.deliveries.clear
+    put :update, :id => 2, :user => {
+      :status => Principal::STATUS_LOCKED
+    }
+
+    assert_not_nil (mail = ActionMailer::Base.deliveries.last)
+    assert_mail_body_match I18n.t(:mail_body_security_notification_remove, field: I18n.t(:field_admin), value: User.find(2).login), mail
+
+    # All admins should receive this
+    User.where(admin: true, status: Principal::STATUS_ACTIVE).each do |admin|
+      assert_not_nil ActionMailer::Base.deliveries.detect{|mail| [mail.bcc, mail.cc].flatten.include?(admin.mail) }
+    end
+
+    # if user is already locked, destroying should not send a second mail
+    # (for active admins see furtherbelow)
+    ActionMailer::Base.deliveries.clear
+    delete :destroy, :id => 1
+    assert_nil ActionMailer::Base.deliveries.last
+
+  end
+
+  def test_update_unlock_admin_should_send_security_notification
+    user = User.find(5) # already locked
+    user.admin = true
+    user.save!
+    ActionMailer::Base.deliveries.clear
+    put :update, :id => user.id, :user => {
+      :status => Principal::STATUS_ACTIVE
+    }
+
+    assert_not_nil (mail = ActionMailer::Base.deliveries.last)
+    assert_mail_body_match I18n.t(:mail_body_security_notification_add, field: I18n.t(:field_admin), value: user.login), mail
+
+    # All admins should receive this
+    User.where(admin: true, status: Principal::STATUS_ACTIVE).each do |admin|
+      assert_not_nil ActionMailer::Base.deliveries.detect{|mail| [mail.bcc, mail.cc].flatten.include?(admin.mail) }
+    end
+  end
+
+  def test_update_admin_unrelated_property_should_not_send_security_notification
+    ActionMailer::Base.deliveries.clear
+    put :update, :id => 1, :user => {
+      :firstname => 'Jimmy'
+    }
+    assert_nil ActionMailer::Base.deliveries.last
+  end
+
   def test_destroy
     assert_difference 'User.count', -1 do
       delete :destroy, :id => 2
@@ -448,5 +576,21 @@ class UsersControllerTest < ActionController::TestCase
       delete :destroy, :id => 2, :back_url => '/users?name=foo'
     end
     assert_redirected_to '/users?name=foo'
+  end
+
+  def test_destroy_active_admin_should_send_security_notification
+    user = User.find(2)
+    user.admin = true
+    user.save!
+    ActionMailer::Base.deliveries.clear
+    delete :destroy, :id => user.id
+
+    assert_not_nil (mail = ActionMailer::Base.deliveries.last)
+    assert_mail_body_match I18n.t(:mail_body_security_notification_remove, field: I18n.t(:field_admin), value: user.login), mail
+
+    # All admins should receive this
+    User.where(admin: true, status: Principal::STATUS_ACTIVE).each do |admin|
+      assert_not_nil ActionMailer::Base.deliveries.detect{|mail| [mail.bcc, mail.cc].flatten.include?(admin.mail) }
+    end
   end
 end

@@ -123,7 +123,8 @@ class User < Principal
   before_create :set_mail_notification
   before_save   :generate_password_if_needed, :update_hashed_password
   before_destroy :remove_references_before_destroy
-  after_save :update_notified_project_ids, :destroy_tokens
+  after_save :update_notified_project_ids, :destroy_tokens, :deliver_security_notification
+  after_destroy :deliver_security_notification
 
   scope :in_group, lambda {|group|
     group_id = group.is_a?(Group) ? group.id : group.to_i
@@ -835,6 +836,34 @@ class User < Principal
   def self.generate_salt
     Redmine::Utils.random_hex(16)
   end
+  # Send a security notification to all admins if the user has gained/lost admin privileges
+  def deliver_security_notification
+    options = {
+      field: :field_admin,
+      value: login,
+      title: :label_user_plural,
+      url: {controller: 'users', action: 'index'}
+    }
+    deliver = false
+    if (admin? && id_changed? && active?) ||    # newly created admin
+       (admin? && admin_changed? && active?) || # regular user became admin
+       (admin? && status_changed? && active?)   # locked admin became active again
+
+       deliver = true
+       options[:message] = :mail_body_security_notification_add
+
+    elsif (admin? && destroyed? && active?) ||      # active admin user was deleted
+          (!admin? && admin_changed? && active?) || # admin is no longer admin
+          (admin? && status_changed? && !active?)   # admin was locked
+
+          deliver = true
+          options[:message] = :mail_body_security_notification_remove
+    end
+
+    User.where(admin: true, status: Principal::STATUS_ACTIVE).each{|u| Mailer.security_notification(u, options).deliver} if deliver
+  end
+
+
 
 end
 
