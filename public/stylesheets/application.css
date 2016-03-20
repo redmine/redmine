@@ -147,7 +147,7 @@ table.list td.tick {width:15%}
 table.list td.checkbox { width: 15px; padding: 2px 0 0 0; }
 table.list td.checkbox input {padding:0px;}
 table.list td.buttons { width: 15%; white-space:nowrap; text-align: right; }
-table.list td.buttons a { padding-right: 0.6em; }
+table.list td.buttons a { margin-right: 0.6em; }
 table.list td.buttons img {vertical-align:middle;}
 table.list td.reorder {width:15%; white-space:nowrap; text-align:center; }
 table.list caption { text-align: left; padding: 0.5em 0.5em 0.5em 0; }
@@ -1116,10 +1116,12 @@ a.close-icon:hover {background-image:url('../images/close_hl.png');}
 a.icon-only {
   display: inline-block;
   width: 0;
+  height: 16px;
   overflow: hidden;
   padding-top: 0;
   padding-bottom: 0;
   font-size: 8px;
+  vertical-align: text-bottom;
 }
 a.icon-only::after {
   content: "&nbsp;";
