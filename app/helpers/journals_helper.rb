@@ -30,21 +30,21 @@ module JournalsHelper
     editable = User.current.logged? && (User.current.allowed_to?(:edit_issue_notes, issue.project) || (journal.user == User.current && User.current.allowed_to?(:edit_own_issue_notes, issue.project)))
     links = []
     if !journal.notes.blank?
-      links << link_to('',
+      links << link_to(l(:button_quote),
                        quoted_issue_path(issue, :journal_id => journal),
                        :remote => true,
                        :method => 'post',
                        :title => l(:button_quote),
                        :class => 'icon-only icon-comment'
                       ) if options[:reply_links]
-      links << link_to('',
+      links << link_to(l(:button_edit),
                        edit_journal_path(journal),
                        :remote => true,
                        :method => 'get',
                        :title => l(:button_edit),
                        :class => 'icon-only icon-edit'
                       ) if editable
-      links << link_to('',
+      links << link_to(l(:button_delete),
                        journal_path(journal, :notes => ""),
                        :remote => true,
                        :method => 'put', :data => {:confirm => l(:text_are_you_sure)}, 

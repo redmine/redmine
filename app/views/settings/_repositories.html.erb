@@ -118,8 +118,9 @@
                     ) %>
       </td>
       <td class="buttons">
-        <%= link_to('', '#',
-                    :class => 'delete-commit-keywords icon-only icon-del') %>
+        <%= link_to(l(:button_delete), '#',
+                    :class => 'delete-commit-keywords icon-only icon-del',
+                    :title => l(:button_delete)) %>
       </td>
     </tr>
     <% end %>
@@ -129,8 +130,9 @@
       <td></td>
       <td></td>
       <td class="buttons">
-        <%= link_to('', '#',
-                    :class => 'add-commit-keywords icon-only icon-add') %>
+        <%= link_to(l(:button_add), '#',
+                    :class => 'add-commit-keywords icon-only icon-add',
+                    :title => l(:button_add)) %>
       </td>
     </tr>
   </tbody>

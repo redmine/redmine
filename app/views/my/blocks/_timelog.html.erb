@@ -42,10 +42,10 @@ entries_by_day = entries.group_by(&:spent_on)
     <td class="hours"><%= html_hours("%.2f" % entry.hours) %></td>
     <td class="buttons">
     <% if entry.editable_by?(@user) -%>
-        <%= link_to '', {:controller => 'timelog', :action => 'edit', :id => entry},
+        <%= link_to l(:button_edit), {:controller => 'timelog', :action => 'edit', :id => entry},
                     :title => l(:button_edit),
                     :class => 'icon-only icon-edit' %>
-        <%= link_to '', {:controller => 'timelog', :action => 'destroy', :id => entry},
+        <%= link_to l(:button_delete), {:controller => 'timelog', :action => 'destroy', :id => entry},
                     :data => {:confirm => l(:text_are_you_sure)}, :method => :delete,
                     :title => l(:button_delete),
                     :class => 'icon-only icon-del' %>

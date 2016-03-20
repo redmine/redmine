@@ -454,16 +454,16 @@ module ApplicationHelper
   end
 
   def reorder_links(name, url, method = :post)
-    link_to('',
+    link_to(l(:label_sort_highest),
             url.merge({"#{name}[move_to]" => 'highest'}), :method => method,
             :title => l(:label_sort_highest), :class => 'icon-only icon-move-top') +
-    link_to('',
+    link_to(l(:label_sort_higher),
             url.merge({"#{name}[move_to]" => 'higher'}), :method => method,
             :title => l(:label_sort_higher), :class => 'icon-only icon-move-up') +
-    link_to('',
+    link_to(l(:label_sort_lower),
             url.merge({"#{name}[move_to]" => 'lower'}), :method => method,
             :title => l(:label_sort_lower), :class => 'icon-only icon-move-down') +
-    link_to('',
+    link_to(l(:label_sort_lowest),
             url.merge({"#{name}[move_to]" => 'lowest'}), :method => method,
             :title => l(:label_sort_lowest), :class => 'icon-only icon-move-bottom')
   end
@@ -892,7 +892,7 @@ module ApplicationHelper
       @current_section += 1
       if @current_section > 1
         content_tag('div',
-          link_to('', options[:edit_section_links].merge(:section => @current_section),
+          link_to(l(:button_edit_section), options[:edit_section_links].merge(:section => @current_section),
                   :class => 'icon-only icon-edit'),
           :class => "contextual heading-#{level}",
           :title => l(:button_edit_section),

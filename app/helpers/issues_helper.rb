@@ -442,10 +442,11 @@ module IssuesHelper
         # Link to the attachment if it has not been removed
         value = link_to_attachment(atta, :download => true, :only_path => options[:only_path])
         if options[:only_path] != false && atta.is_text?
-          value += link_to('',
+          value += link_to(l(:button_view),
                            { :controller => 'attachments', :action => 'show',
                              :id => atta, :filename => atta.filename },
-                           :class => 'icon icon-magnifier')
+                           :class => 'icon-only icon-magnifier',
+                           :title => l(:button_view))
         end
       else
         value = content_tag("i", h(value)) if value

@@ -21,10 +21,10 @@
     <%= raw @query.inline_columns.map {|column| "<td class=\"#{column.css_classes}\">#{column_content(column, entry)}</td>"}.join %>
     <td class="buttons">
     <% if entry.editable_by?(User.current) -%>
-        <%= link_to '', edit_time_entry_path(entry),
+        <%= link_to l(:button_edit), edit_time_entry_path(entry),
                     :title => l(:button_edit),
-                    :class => 'icon icon-edit' %>
-        <%= link_to '', time_entry_path(entry),
+                    :class => 'icon-only icon-edit' %>
+        <%= link_to l(:button_delete), time_entry_path(entry),
                     :data => {:confirm => l(:text_are_you_sure)},
                     :method => :delete,
                     :title => l(:button_delete),

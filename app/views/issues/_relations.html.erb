@@ -19,7 +19,7 @@
   <td class="status"><%= other_issue.status.name %></td>
   <td class="start_date"><%= format_date(other_issue.start_date) %></td>
   <td class="due_date"><%= format_date(other_issue.due_date) %></td>
-  <td class="buttons"><%= link_to('',
+  <td class="buttons"><%= link_to(l(:label_relation_delete),
                                   relation_path(relation),
                                   :remote => true,
                                   :method => :delete,

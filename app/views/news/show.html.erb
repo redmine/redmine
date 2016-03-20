@@ -36,7 +36,7 @@
 <% @comments.each do |comment| %>
     <% next if comment.new_record? %>
     <div class="contextual">
-    <%= link_to_if_authorized '', {:controller => 'comments', :action => 'destroy', :id => @news, :comment_id => comment},
+    <%= link_to_if_authorized l(:button_delete), {:controller => 'comments', :action => 'destroy', :id => @news, :comment_id => comment},
                               :data => {:confirm => l(:text_are_you_sure)}, :method => :delete,
                               :title => l(:button_delete),
                               :class => 'icon-only icon-del' %>

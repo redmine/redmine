@@ -58,7 +58,7 @@ module WatchersHelper
                :object_id => object.id,
                :user_id => user}
         s << ' '
-        s << link_to('', url,
+        s << link_to(l(:button_delete), url,
                      :remote => true, :method => 'delete',
                      :class => "delete icon-only icon-del",
                      :title => l(:button_delete))

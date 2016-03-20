@@ -1113,6 +1113,17 @@ a.close-icon:hover {background-image:url('../images/close_hl.png');}
   background-repeat: no-repeat;
   padding-left: 16px;
 }
+a.icon-only {
+  display: inline-block;
+  width: 0;
+  overflow: hidden;
+  padding-top: 0;
+  padding-bottom: 0;
+  font-size: 8px;
+}
+a.icon-only::after {
+  content: "&nbsp;";
+}
 
 .icon-add { background-image: url(../images/add.png); }
 .icon-edit { background-image: url(../images/edit.png); }
