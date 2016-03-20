@@ -23,14 +23,10 @@ class IssueStatusesController < ApplicationController
   accept_api_auth :index
 
   def index
+    @issue_statuses = IssueStatus.sorted.to_a
     respond_to do |format|
-      format.html {
-        @issue_status_pages, @issue_statuses = paginate IssueStatus.sorted, :per_page => 25
-        render :action => "index", :layout => false if request.xhr?
-      }
-      format.api {
-        @issue_statuses = IssueStatus.order('position').to_a
-      }
+      format.html { render :layout => false if request.xhr? }
+      format.api
     end
   end
 

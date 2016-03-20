@@ -28,8 +28,8 @@ class RolesController < ApplicationController
   def index
     respond_to do |format|
       format.html {
-        @role_pages, @roles = paginate Role.sorted, :per_page => 25
-        render :action => "index", :layout => false if request.xhr?
+        @roles = Role.sorted.to_a
+        render :layout => false if request.xhr?
       }
       format.api {
         @roles = Role.givable.to_a

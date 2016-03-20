@@ -23,14 +23,10 @@ class TrackersController < ApplicationController
   accept_api_auth :index
 
   def index
+    @trackers = Tracker.sorted.to_a
     respond_to do |format|
-      format.html {
-        @tracker_pages, @trackers = paginate Tracker.sorted, :per_page => 25
-        render :action => "index", :layout => false if request.xhr?
-      }
-      format.api {
-        @trackers = Tracker.sorted.to_a
-      }
+      format.html { render :layout => false if request.xhr? }
+      format.api
     end
   end
 
