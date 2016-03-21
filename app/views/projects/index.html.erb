@@ -182,15 +182,22 @@ jQuery(function()
 		tabList.splice(0,0,selectedTab);
 	}	
 	
-	
-	// var subTabCellsList =['cells_graph', 'cells_list', 'cells_gallery', 'cells_tags']
-	
 	//Read if a new tab is pass as a parameter in the url 	
 	var a = location.href.split("#");
-	if ( a.length > 1 && tabList.indexOf(a[1]) > -1){selectedTab = a[1];}
+	if (a[1] == 'cells'){
+		selectedTab = 'cells_graph';
+	}
+	else if ( a.length > 1 && tabList.indexOf(a[1]) > -1){
+		selectedTab = a[1];
+	}
 	
+	var subTabCellsList =['cells_graph', 'cells_list', 'cells_gallery', 'cells_tags']	
+	if (subTabCellsList.indexOf(selectedTab) > -1){
+		$("#cellsLink").trigger("click");
+	}
 	//Display tab selected by url 	
-	$("#"+selectedTab+"Link").trigger("click");
+	$("#"+selectedTab+"Link").trigger("click");	
+
 
 	//If a tab is selected we load it immediately 
 	function swithTabsPriority(tabId){

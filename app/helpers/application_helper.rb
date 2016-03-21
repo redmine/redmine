@@ -282,23 +282,23 @@ module ApplicationHelper
     bc=""
     bc<<'<ul class="breadcrumb">'
     bc<<'<li>'
-    url = {:controller => 'projects', :action => 'index', :params => {:spine=> spine}}
+    url = {:controller => 'projects', :action => 'index', :params => {:spine=> spine}, :anchor => 'cells_graph'}
     bc<< link_to(spine, url)
     bc<<'<span class="divider">/</span></li>'
     bc<<'<li>'
-    url = {:controller => 'projects', :action => 'index', :params => {:spine=> spine, :family=>family}}
+    url = {:controller => 'projects', :action => 'index', :params => {:spine=> spine, :family=>family}, :anchor => 'cells_graph'}
     bc<< link_to(family, url)
     bc<<'<span class="divider">/</span></li>'
     bc<<'<li>'
-    url = {:controller => 'projects', :action => 'index', :params => {:spine=> spine, :family=>family, :specie=>specie,}}
+    url = {:controller => 'projects', :action => 'index', :params => {:spine=> spine, :family=>family, :specie=>specie}, :anchor => 'cells_graph'}
     bc<< link_to(specie, url)
     bc<<'<span class="divider">/</span></li>'
     bc<<'<li>'
-    url = {:controller => 'projects', :action => 'index', :params => {:spine=> spine, :family=>family, :specie=>specie, :brain=>brain}}
+    url = {:controller => 'projects', :action => 'index', :params => {:spine=> spine, :family=>family, :specie=>specie, :brain=>brain}, :anchor => 'cells_graph'}
     bc<< link_to(brain, url)
     bc<<'<span class="divider">/</span></li>'
     bc<<'<li>'
-    url = {:controller => 'projects', :action => 'index', :params => {:spine=> spine, :family=>family, :specie=>specie, :brain=>brain, :cell=>cell}}
+    url = {:controller => 'projects', :action => 'index', :params => {:spine=> spine, :family=>family, :specie=>specie, :brain=>brain, :cell=>cell}, :anchor => 'cells_graph'}
     bc<< link_to(cell, url)
     bc<<'<span class="divider">/</span></li>'
     bc<<'<li class="active">'+ project.name + '</li>'
