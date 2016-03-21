@@ -18,15 +18,15 @@ task :generate_tests_files => :environment do
       repopath=getHttpRepositoryPath(project.repository)
       
       for nmlFile in nmlFiles 
-        projectsFiles.push(generateGEPPETTOSimulationFileFromUrl(repourl + repopath + nmlFile)["geppettoSimulationFile"])
-        #projectsFiles.push(repourl + repopath + nmlFile);
+        projectsFiles.push(Rails.application.config.serversIP["serverIP"] + generateGEPPETTOSimulationFileFromUrl(repourl + repopath + nmlFile)["geppettoSimulationFile"])
       end
 
     end
     
   end
   
-  File.write('/tmp/testFile',{"files"=>projectsFiles})
+  fileContent = {"files"=>projectsFiles}
+  File.write('/home/adrian/code/osb-code/redmine/public/geppetto/tmp/testFile', fileContent.to_json)
   
 end
   

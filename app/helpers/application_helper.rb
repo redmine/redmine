@@ -314,9 +314,7 @@ module ApplicationHelper
   # Executes shell command. Returns true if the shell command exits with a success status code
   def exec(command)
     #print "\nEntering EXEC"
-    # if logger
-     Rails.logger.debug { "GithubHook: Executing command: '#{command}'" }
-    # end  
+    Rails.logger.debug { "GithubHook: Executing command: '#{command}'" }
     # Get a path to a temp file
     logfile = Tempfile.new('git_retrieverepos_exec')
     # print "\nTempFile created"
@@ -327,13 +325,11 @@ module ApplicationHelper
     output_from_command = File.readlines(logfile.path)
     # print "\nPATH:"+logfile.path.to_s+"\n"
     # print output_from_command
-    # if logger
-      if success
-        Rails.logger.debug { "GithubHook: Command output: #{output_from_command.inspect}"}
-      else
-        Rails.logger.error { "GithubHook: Command '#{command}' didn't exit properly. Full output: #{output_from_command.inspect}"}
-      end
-    # end
+    if success
+      Rails.logger.debug { "GithubHook: Command output: #{output_from_command.inspect}"}
+    else
+      Rails.logger.error { "GithubHook: Command '#{command}' didn't exit properly. Full output: #{output_from_command.inspect}"}
+    end
 
     return output_from_command
   ensure
