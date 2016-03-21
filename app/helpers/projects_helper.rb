@@ -258,7 +258,7 @@ module ProjectsHelper
     (Time.now - File.ctime(name))
   end
   
-  def generateGEPPETTOSimulationFileFromUrl(url)
+  def generateGEPPETTOSimulationFileFromUrl(url, max_age = 600)
     uri = URI.parse(url)
       
       ##############################
@@ -296,7 +296,6 @@ module ProjectsHelper
       controlPanels = "controlPanels/"
       
        # Delete old files (older than max age (seconds))
-      max_age = 600
       Dir[publicResourcesPath + geppettoTmpPath + "*"].each do |filename| 
         if file_age(filename) >  max_age
           File.delete(filename) 
