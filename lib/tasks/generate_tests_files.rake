@@ -26,7 +26,7 @@ task :generate_tests_files => :environment do
   end
   
   fileContent = {"files"=>projectsFiles}
-  File.write('/home/adrian/code/osb-code/redmine/public/geppetto/tmp/testFile', fileContent.to_json)
+  File.write('public/geppetto/tmp/testFile', fileContent.to_json)
   
 end
   
