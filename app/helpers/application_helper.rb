@@ -1171,12 +1171,11 @@ module ApplicationHelper
     end
   end
   
-  
   # Parse looking 
   def parse_repo_links(text, project, obj, attr, only_path, options)
-    text.gsub!(/(github|bitbucket):([^\"]+\.(md|txt))/) do |m|
+    text.gsub!(/(github|bitbucket):([^\"\r\n]+\.(md|txt))/) do |m|
       repoName, filename, ext = $1, $2, $3
-      
+           
       repourl=getHttpRepositoryURL(project)
       if repourl != ''
         repopath=getHttpRepositoryPath(project.repository)
