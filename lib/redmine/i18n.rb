@@ -140,6 +140,7 @@ module Redmine
 
       module Implementation
         include ::I18n::Backend::Base
+        include ::I18n::Backend::Pluralization
 
         # Stores translations for the given locale in memory.
         # This uses a deep merge for the translations hash, so existing
