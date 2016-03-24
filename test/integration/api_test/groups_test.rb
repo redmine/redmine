@@ -67,7 +67,7 @@ class Redmine::ApiTest::GroupsTest < Redmine::ApiTest::Base
     assert_response :success
     assert_equal 'application/json', response.content_type
 
-    json = MultiJson.load(response.body)
+    json = ActiveSupport::JSON.decode(response.body)
     groups = json['groups']
     assert_kind_of Array, groups
     group = groups.detect {|g| g['name'] == 'A Team'}
