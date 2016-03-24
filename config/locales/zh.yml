@@ -1178,16 +1178,14 @@ zh:
   label_no_open_issues: 任意已关闭的问题
   label_default_values_for_new_users: 新用户默认值
   error_ldap_bind_credentials: 无效的LDAP账号或密码
-  setting_sys_api_key: API key
+  setting_sys_api_key: 版本库管理网页服务 API 密钥
   setting_lost_password: 忘记密码
-  mail_subject_security_notification: Security notification
-  mail_body_security_notification_change: ! '%{field} was changed.'
-  mail_body_security_notification_change_to: ! '%{field} was changed to %{value}.'
-  mail_body_security_notification_add: ! '%{field} %{value} was added.'
-  mail_body_security_notification_remove: ! '%{field} %{value} was removed.'
-  mail_body_security_notification_notify_enabled: Email address %{value} now receives
-    notifications.
-  mail_body_security_notification_notify_disabled: Email address %{value} no longer
-    receives notifications.
-  mail_body_settings_updated: ! 'The following settings were changed:'
-  field_remote_ip: IP address
+  mail_subject_security_notification: 安全通知
+  mail_body_security_notification_change: "%{field} 已变更."
+  mail_body_security_notification_change_to: "%{field} 已变更为 %{value}."
+  mail_body_security_notification_add: "%{field} %{value} 已增加."
+  mail_body_security_notification_remove: "%{field} %{value} 已移除."
+  mail_body_security_notification_notify_enabled: 邮件地址 %{value} 开始接收通知.
+  mail_body_security_notification_notify_disabled: 邮件地址 %{value} 不再接收通知.
+  mail_body_settings_updated: "下列设置已更新:"
+  field_remote_ip: IP 地址
