@@ -22,4 +22,16 @@ class DiffTest < ActiveSupport::TestCase
     diff = Redmine::Helpers::Diff.new("foo", "bar")
     assert_not_nil diff
   end
+
+  def test_dont_double_escape
+    # 3 cases to test in the before: first word, last word, everything inbetween
+    before = "<stuff> with html & special chars</danger>"
+    # all words in after are treated equal
+    after  = "other stuff <script>alert('foo');</alert>"
+
+    computed_diff = Redmine::Helpers::Diff.new(before, after).to_html
+    expected_diff = '<span class="diff_in">&lt;stuff&gt; with html &amp; special chars&lt;/danger&gt;</span> <span class="diff_out">other stuff &lt;script&gt;alert(&#39;foo&#39;);&lt;/alert&gt;</span>'
+
+    assert_equal computed_diff, expected_diff
+  end
 end
