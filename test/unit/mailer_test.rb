@@ -31,20 +31,16 @@ class MailerTest < ActiveSupport::TestCase
 
   def setup
     ActionMailer::Base.deliveries.clear
-    Setting.host_name = 'mydomain.foo'
-    Setting.protocol = 'http'
     Setting.plain_text_mail = '0'
     Setting.default_language = 'en'
     User.current = nil
   end
 
   def test_generated_links_in_emails
-    Setting.host_name = 'mydomain.foo'
-    Setting.protocol = 'https'
-
-    journal = Journal.find(3)
-    assert Mailer.deliver_issue_edit(journal)
-
+    with_settings :host_name => 'mydomain.foo', :protocol => 'https' do
+      journal = Journal.find(3)
+      assert Mailer.deliver_issue_edit(journal)
+    end
     mail = last_email
     assert_not_nil mail
 
@@ -80,11 +76,10 @@ class MailerTest < ActiveSupport::TestCase
 
   def test_generated_links_with_prefix
     relative_url_root = Redmine::Utils.relative_url_root
-    Setting.host_name = 'mydomain.foo/rdm'
-    Setting.protocol = 'http'
-
-    journal = Journal.find(3)
-    assert Mailer.deliver_issue_edit(journal)
+    with_settings :host_name => 'mydomain.foo/rdm', :protocol => 'http' do
+      journal = Journal.find(3)
+      assert Mailer.deliver_issue_edit(journal)
+    end
 
     mail = last_email
     assert_not_nil mail
@@ -143,18 +138,18 @@ class MailerTest < ActiveSupport::TestCase
     Mailer.deliver_issue_edit(journal)
     assert_not_nil last_email
     assert_select_email do
-      assert_select 'a[href=?]', 'http://mydomain.foo/issues/2', :text => 'Feature request #2'
+      assert_select 'a[href=?]', 'http://localhost:3000/issues/2', :text => 'Feature request #2'
     end
   end
 
   def test_generated_links_with_prefix_and_no_relative_url_root
     relative_url_root = Redmine::Utils.relative_url_root
-    Setting.host_name = 'mydomain.foo/rdm'
-    Setting.protocol = 'http'
     Redmine::Utils.relative_url_root = nil
 
-    journal = Journal.find(3)
-    assert Mailer.deliver_issue_edit(journal)
+    with_settings :host_name => 'mydomain.foo/rdm', :protocol => 'http' do
+      journal = Journal.find(3)
+      assert Mailer.deliver_issue_edit(journal)
+    end
 
     mail = last_email
     assert_not_nil mail
@@ -285,7 +280,7 @@ class MailerTest < ActiveSupport::TestCase
     assert_select_email do
       # link to the update
       assert_select "a[href=?]",
-                    "http://mydomain.foo/issues/#{journal.journalized_id}#change-#{journal.id}"
+                    "http://localhost:3000/issues/#{journal.journalized_id}#change-#{journal.id}"
     end
   end
 
@@ -298,7 +293,7 @@ class MailerTest < ActiveSupport::TestCase
     assert_select_email do
       # link to the message
       assert_select "a[href=?]",
-                    "http://mydomain.foo/boards/#{message.board.id}/topics/#{message.id}",
+                    "http://localhost:3000/boards/#{message.board.id}/topics/#{message.id}",
                     :text => message.subject
     end
   end
@@ -312,7 +307,7 @@ class MailerTest < ActiveSupport::TestCase
     assert_select_email do
       # link to the reply
       assert_select "a[href=?]",
-                    "http://mydomain.foo/boards/#{message.board.id}/topics/#{message.root.id}?r=#{message.id}#message-#{message.id}",
+                    "http://localhost:3000/boards/#{message.board.id}/topics/#{message.root.id}?r=#{message.id}#message-#{message.id}",
                     :text => message.subject
     end
   end
@@ -474,7 +469,7 @@ class MailerTest < ActiveSupport::TestCase
     assert_not_nil last_email.bcc
     assert last_email.bcc.any?
     assert_select_email do
-      assert_select "a[href=?]", "http://mydomain.foo/projects/ecookbook/files"
+      assert_select "a[href=?]", "http://localhost:3000/projects/ecookbook/files"
     end
   end
 
@@ -484,7 +479,7 @@ class MailerTest < ActiveSupport::TestCase
     assert_not_nil last_email.bcc
     assert last_email.bcc.any?
     assert_select_email do
-      assert_select "a[href=?]", "http://mydomain.foo/projects/ecookbook/files"
+      assert_select "a[href=?]", "http://localhost:3000/projects/ecookbook/files"
     end
   end
 
@@ -529,7 +524,7 @@ class MailerTest < ActiveSupport::TestCase
         assert Mailer.wiki_content_added(content).deliver
         assert_select_email do
           assert_select 'a[href=?]',
-            'http://mydomain.foo/projects/ecookbook/wiki/CookBook_documentation',
+            'http://localhost:3000/projects/ecookbook/wiki/CookBook_documentation',
             :text => 'CookBook documentation'
         end
       end
@@ -543,7 +538,7 @@ class MailerTest < ActiveSupport::TestCase
         assert Mailer.wiki_content_updated(content).deliver
         assert_select_email do
           assert_select 'a[href=?]',
-            'http://mydomain.foo/projects/ecookbook/wiki/CookBook_documentation',
+            'http://localhost:3000/projects/ecookbook/wiki/CookBook_documentation',
             :text => 'CookBook documentation'
         end
       end
@@ -570,9 +565,6 @@ class MailerTest < ActiveSupport::TestCase
 
   def test_register
     token = Token.find(1)
-    Setting.host_name = 'redmine.foo'
-    Setting.protocol = 'https'
-
     valid_languages.each do |lang|
       token.user.update_attribute :language, lang.to_s
       token.reload
@@ -581,8 +573,8 @@ class MailerTest < ActiveSupport::TestCase
       mail = last_email
       assert_select_email do
         assert_select "a[href=?]",
-                      "https://redmine.foo/account/activate?token=#{token.value}",
-                      :text => "https://redmine.foo/account/activate?token=#{token.value}"
+                      "http://localhost:3000/account/activate?token=#{token.value}",
+                      :text => "http://localhost:3000/account/activate?token=#{token.value}"
       end
     end
   end
@@ -706,7 +698,7 @@ class MailerTest < ActiveSupport::TestCase
       ).deliver
       assert_select_email do
         assert_select "h1", false
-        assert_select 'a[href=?]', 'http://mydomain.foo/my/account', :text => I18n.t(:label_my_account)
+        assert_select 'a[href=?]', 'http://localhost:3000/my/account', :text => I18n.t(:label_my_account)
       end
     end
   end
