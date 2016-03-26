@@ -26,6 +26,11 @@ class SettingsControllerTest < ActionController::TestCase
     @request.session[:user_id] = 1 # admin
   end
 
+  def teardown
+    Setting.delete_all
+    Setting.clear_cache
+  end
+
   def test_index
     get :index
     assert_response :success
@@ -78,7 +83,6 @@ class SettingsControllerTest < ActionController::TestCase
     assert !Setting.bcc_recipients?
     assert_equal %w(issue_added issue_updated news_added), Setting.notified_events
     assert_equal 'Test footer', Setting.emails_footer
-    Setting.clear_cache
   end
 
   def test_edit_commit_update_keywords
