@@ -2587,7 +2587,7 @@ class IssuesControllerTest < ActionController::TestCase
     set_tmp_attachments_directory
     @request.session[:user_id] = 2
 
-    with_settings :host_name => 'mydomain.foo', :protocol => 'http', :notified_events => %w(issue_added) do
+    with_settings :notified_events => %w(issue_added) do
       assert_difference 'Issue.count' do
         post :create, :project_id => 1,
           :issue => { :tracker_id => '1', :subject => 'With attachment' },
@@ -2597,7 +2597,7 @@ class IssuesControllerTest < ActionController::TestCase
 
     assert_not_nil ActionMailer::Base.deliveries.last
     assert_select_email do
-      assert_select 'a[href^=?]', 'http://mydomain.foo/attachments/download', 'testfile.txt'
+      assert_select 'a[href^=?]', 'http://localhost:3000/attachments/download', 'testfile.txt'
     end
   end
 

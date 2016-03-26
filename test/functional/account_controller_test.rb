@@ -326,10 +326,8 @@ class AccountControllerTest < ActionController::TestCase
     ActionMailer::Base.deliveries.clear
     assert_difference 'ActionMailer::Base.deliveries.size' do
       assert_difference 'Token.count' do
-        with_settings :host_name => 'mydomain.foo', :protocol => 'http' do
-          post :lost_password, :mail => 'JSmith@somenet.foo'
-          assert_redirected_to '/login'
-        end
+        post :lost_password, :mail => 'JSmith@somenet.foo'
+        assert_redirected_to '/login'
       end
     end
 
@@ -338,7 +336,7 @@ class AccountControllerTest < ActionController::TestCase
     assert_equal 'recovery', token.action
 
     assert_select_email do
-      assert_select "a[href=?]", "http://mydomain.foo/account/lost_password?token=#{token.value}"
+      assert_select "a[href=?]", "http://localhost:3000/account/lost_password?token=#{token.value}"
     end
   end
 
