@@ -1976,5 +1976,15 @@ module ApplicationHelper
   def link_to_content_update(text, url_params = {}, html_options = {})
     link_to(text, url_params, html_options)
   end
+  
+  def readFileAsArray(path)
+    fileContent = []
+    f = File.open(path, "r")
+    f.each_line do |line|
+      fileContent.push(line.strip)
+    end
+    f.close
+    return fileContent
+  end
  
 end
