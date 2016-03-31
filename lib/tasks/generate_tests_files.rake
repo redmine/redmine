@@ -33,7 +33,11 @@ task :generate_tests_files => :environment do
       for nmlFile in nmlFiles 
         modelUrl = repourl + repopath + nmlFile
         unless (blackListedModels.include?(modelUrl))
-          models.push({"name" => modelUrl, "url" => Rails.application.config.serversIP["serverIP"] + generateGEPPETTOSimulationFileFromUrl(modelUrl, 10000000)["geppettoSimulationFile"], "features" => []})
+          features = []
+          if nmlFile.end_with?("net.nml") || nmlFile.end_with?("cell.nml")
+            features.push("hasInstance")
+          end  
+          models.push({"name" => modelUrl, "url" => Rails.application.config.serversIP["serverIP"] + generateGEPPETTOSimulationFileFromUrl(modelUrl, 10000000)["geppettoSimulationFile"], "features" => features})
         end
       end
       
