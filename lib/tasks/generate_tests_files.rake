@@ -21,29 +21,35 @@ task :generate_tests_files => :environment do
   Project.all.each do |project|
     
     if (project.repository != nil && File.directory?(project.repository.url) && blackListedProjects.exclude?(project.identifier))
-      #Get nml Files
-      nmlFiles = getNML2Files(project.repository)
-      
+      print "Generating geppetto files for project #{project.identifier}\n"
+       
       #Get repo url and path  
       repourl = getHttpRepositoryURL(project)
       repopath = getHttpRepositoryPath(project.repository)
-
-      models = []
-      #Add files to projectsFiles list unless they are blacklisted
-      for nmlFile in nmlFiles 
-        modelUrl = repourl + repopath + nmlFile
-        unless (blackListedModels.include?(modelUrl))
-          features = []
-          if nmlFile.end_with?("net.nml") || nmlFile.end_with?("cell.nml")
-            features.push("hasInstance")
-          end  
-          models.push({"name" => modelUrl, "url" => Rails.application.config.serversIP["serverIP"] + generateGEPPETTOSimulationFileFromUrl(modelUrl, 10000000)["geppettoSimulationFile"], "features" => features})
-        end
-      end
       
-      if (models.length > 0 )
-          projects.push({"name" => project.name, "description" => repourl, "testModels" => models})
-      end
+      if (repourl != nil && repopath != nil)
+        #Get nml Files
+        nmlFiles = getNML2Files(project.repository)
+  
+        models = []
+        #Add files to projectsFiles list unless they are blacklisted
+        for nmlFile in nmlFiles 
+          modelUrl = repourl + repopath + nmlFile
+          unless (blackListedModels.include?(modelUrl))
+            print "Generating model with url #{modelUrl}\n"
+            
+            features = []
+            if nmlFile.end_with?("net.nml") || nmlFile.end_with?("cell.nml")
+              features.push("hasInstance")
+            end  
+            models.push({"name" => modelUrl, "url" => Rails.application.config.serversIP["serverIP"] + generateGEPPETTOSimulationFileFromUrl(modelUrl, 10000000)["geppettoSimulationFile"], "features" => features})
+          end
+        end
+        
+        if (models.length > 0 )
+            projects.push({"name" => project.name, "description" => repourl, "testModels" => models})
+        end
+      end  
     end
     
   end
