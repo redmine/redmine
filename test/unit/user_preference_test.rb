@@ -32,6 +32,11 @@ class UserPreferenceTest < ActiveSupport::TestCase
     end
   end
 
+  def test_no_self_notified_should_default_to_true
+    preference = UserPreference.new
+    assert_equal true, preference.no_self_notified
+  end
+
   def test_create
     user = User.new(:firstname => "new", :lastname => "user", :mail => "newuser@somenet.foo")
     user.login = "newuser"
@@ -65,11 +70,6 @@ class UserPreferenceTest < ActiveSupport::TestCase
     assert_nil up.others
     assert up.save
     assert_kind_of Hash, up.others
-  end
-
-  def test_others_should_be_blank_after_initialization
-    pref = User.new.pref
-    assert_equal({}, pref.others)
   end
 
   def test_reading_value_from_nil_others_hash

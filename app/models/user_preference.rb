@@ -28,6 +28,9 @@ class UserPreference < ActiveRecord::Base
     if new_record? && !(attributes && attributes.key?(:hide_mail))
       self.hide_mail = Setting.default_users_hide_mail?
     end
+    if new_record? && !(attributes && attributes.key?(:no_self_notified))
+      self.no_self_notified = true
+    end
     self.others ||= {}
   end
 

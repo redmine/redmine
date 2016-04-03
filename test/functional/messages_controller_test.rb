@@ -18,7 +18,7 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class MessagesControllerTest < ActionController::TestCase
-  fixtures :projects, :users, :email_addresses, :members, :member_roles, :roles, :boards, :messages, :enabled_modules
+  fixtures :projects, :users, :email_addresses, :user_preferences, :members, :member_roles, :roles, :boards, :messages, :enabled_modules
 
   def setup
     User.current = nil

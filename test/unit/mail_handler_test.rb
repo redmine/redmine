@@ -22,7 +22,7 @@ require File.expand_path('../../test_helper', __FILE__)
 class MailHandlerTest < ActiveSupport::TestCase
   fixtures :users, :projects, :enabled_modules, :roles,
            :members, :member_roles, :users,
-           :email_addresses,
+           :email_addresses, :user_preferences,
            :issues, :issue_statuses,
            :workflows, :trackers, :projects_trackers,
            :versions, :enumerations, :issue_categories,

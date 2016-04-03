@@ -18,7 +18,7 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class IssueTest < ActiveSupport::TestCase
-  fixtures :projects, :users, :email_addresses, :members, :member_roles, :roles,
+  fixtures :projects, :users, :email_addresses, :user_preferences, :members, :member_roles, :roles,
            :groups_users,
            :trackers, :projects_trackers,
            :enabled_modules,
