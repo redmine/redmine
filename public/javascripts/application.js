@@ -529,6 +529,7 @@ function observeAutocompleteField(fieldId, url, options) {
     $('#'+fieldId).autocomplete($.extend({
       source: url,
       minLength: 2,
+      position: {collision: "flipfit"},
       search: function(){$('#'+fieldId).addClass('ajax-loading');},
       response: function(){$('#'+fieldId).removeClass('ajax-loading');}
     }, options));
