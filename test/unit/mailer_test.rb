@@ -20,7 +20,7 @@ require File.expand_path('../../test_helper', __FILE__)
 class MailerTest < ActiveSupport::TestCase
   include Redmine::I18n
   include Rails::Dom::Testing::Assertions
-  fixtures :projects, :enabled_modules, :issues, :users, :email_addresses, :members,
+  fixtures :projects, :enabled_modules, :issues, :users, :email_addresses, :user_preferences, :members,
            :member_roles, :roles, :documents, :attachments, :news,
            :tokens, :journals, :journal_details, :changesets,
            :trackers, :projects_trackers,
