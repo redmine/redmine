@@ -663,6 +663,19 @@
   div#version-summary {float:none; width:100%; margin-left:0;}
   body.controller-versions.action-show div#roadmap .related-issues {width:100%;}
 
+  /* History and Changeset */
+  div#issue-changesets {
+    float: none;
+    width: auto;
+    margin-left: 0;
+    padding-left: 0;
+    margin-bottom: 2em;
+  }
+
+  div#issue-changesets div.changeset {
+    padding-top: 1em;
+  }
+
   /*----------------------------------------*\
     G) FORMS
   \*----------------------------------------*/
