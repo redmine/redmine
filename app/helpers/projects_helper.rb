@@ -373,16 +373,22 @@ module ProjectsHelper
       ##############
       # SIMULATION #
       ##############
-      if format == 'nml'
-        if (docType == 'net' || docType == 'cell')
-           
-          begin
-            modelContent = open(url, 'r', :read_timeout=>2)
-          rescue OpenURI::HTTPError
-             print "Error requesting modelContent: #{url}"
-          rescue => e   
-             print "Error requesting modelContent: #{url}"
-          else
+      retries = 4
+      begin
+        modelContent = open(url, 'r', :read_timeout=>2)
+      rescue OpenURI::HTTPError
+        if (retries -= 1) > 0
+          print "Error requesting modelContent. Model can't be found at #{url}"
+          retry
+        else
+           geppettoSimulationFileObj = {"error" => "Model at #{url} does not exist or is not reachable at the moment"}
+          return geppettoSimulationFileObj
+        end  
+      rescue => e   
+         print "Error requesting modelContent: #{url}"
+      else
+        if format == 'nml'
+          if (docType == 'net' || docType == 'cell')
             target=""
             
             if docType == 'net'
@@ -394,30 +400,30 @@ module ProjectsHelper
             if targetComponent
               target = targetComponent.captures
             end    
-
+  
             geppettoSimulationFile["experiments"][0]["aspectConfigurations"][0]["simulatorConfiguration"] = {
                   "id" => 1,
                   "simulatorId" => "neuronSimulator",
                   "timestep" => 0.00001,
                   "length" => 0.3
             }
+          end
+        
+          File.write(publicResourcesPath + geppettoTmpPath + @geppettoJsFilePath, geppettoJsFile)
+          geppettoTmpJsFile.close
+          
+          if ((docType == 'net' || docType == 'cell') && target != nil && target[0] != nil)
+            geppettoModelFile = File.read(publicResourcesPath + geppettoResourcesPath + simulationTemplates + "GeppettoNeuroMLModelNetworkCell.xmi")
+            geppettoModelFile.gsub! '$TARGET_ID', target[0]
+            geppettoSimulationFile["experiments"][0]["aspectConfigurations"][0]["simulatorConfiguration"]["parameters"] = {"target" => target[0]}
+          else  
+            geppettoModelFile = File.read(publicResourcesPath + geppettoResourcesPath + simulationTemplates + "GeppettoNeuroMLModel.xmi")
           end 
-        end 
-        
-        File.write(publicResourcesPath + geppettoTmpPath + @geppettoJsFilePath, geppettoJsFile)
-        geppettoTmpJsFile.close
-        
-        if ((docType == 'net' || docType == 'cell') && target != nil && target[0] != nil)
-          geppettoModelFile = File.read(publicResourcesPath + geppettoResourcesPath + simulationTemplates + "GeppettoNeuroMLModelNetworkCell.xmi")
-          geppettoModelFile.gsub! '$TARGET_ID', target[0]
-          geppettoSimulationFile["experiments"][0]["aspectConfigurations"][0]["simulatorConfiguration"]["parameters"] = {"target" => target[0]}
-        else  
-          geppettoModelFile = File.read(publicResourcesPath + geppettoResourcesPath + simulationTemplates + "GeppettoNeuroMLModel.xmi")
-        end 
-      elsif format == 'swc'
-        geppettoModelFile = File.read(publicResourcesPath + geppettoResourcesPath + simulationTemplates + "GeppettoSWCModel.xmi")
-      end    
-      
+        elsif format == 'swc'
+          geppettoModelFile = File.read(publicResourcesPath + geppettoResourcesPath + simulationTemplates + "GeppettoSWCModel.xmi")
+        end  
+      end 
+
       geppettoModelFile.gsub! '$ENTER_MODEL_URL', url
       geppettoModelFile.gsub! '$ENTER_ID', entity
       geppettoModelFile.gsub! '$ENTER_REFERENCE_URL', (@project!=nil) ? @project.identifier : "testing"
