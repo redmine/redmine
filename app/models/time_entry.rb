@@ -37,9 +37,9 @@ class TimeEntry < ActiveRecord::Base
                             :author_key => :user_id,
                             :scope => joins(:project).preload(:project)
 
-  validates_presence_of :user_id, :activity_id, :project_id, :hours, :spent_on
+  validates_presence_of :user_id, :activity_id, :project_id, :hours, :spent_on, :comments
   validates_numericality_of :hours, :allow_nil => true, :message => :invalid
-  validates_length_of :comments, :maximum => 1024, :allow_nil => true
+  validates_length_of :comments, :maximum => 1024, :allow_nil => false
   validates :spent_on, :date => true
   before_validation :set_project_if_nil
   validate :validate_time_entry
