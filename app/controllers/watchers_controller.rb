@@ -121,8 +121,8 @@ class WatchersController < ApplicationController
       scope = User.all.limit(100)
     end
     users = scope.active.visible.sorted.like(params[:q]).to_a
-    if @watchables
-      users -= @watchables.map(&:watcher_users).flatten
+    if @watchables && @watchables.size == 1
+      users -= @watchables.first.watcher_users
     end
     users
   end
