@@ -131,7 +131,12 @@ class WatchersController < ApplicationController
     klass = Object.const_get(params[:object_type].camelcase) rescue nil
     return unless klass && klass.respond_to?('watched_by')
 
-    objects = klass.where(:id => Array.wrap(params[:object_id])).to_a
+    scope = klass.where(:id => Array.wrap(params[:object_id]))
+    if klass.reflect_on_association(:project)
+      scope = scope.preload(:project => :enabled_modules)
+    end
+    objects = scope.to_a
+
     raise Unauthorized if objects.any? do |w|
       if w.respond_to?(:visible?)
         !w.visible?
