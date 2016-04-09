@@ -4000,6 +4000,15 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal [1, 3], parent.children.collect(&:id).sort
   end
 
+  def test_bulk_update_estimated_hours
+    @request.session[:user_id] = 2
+    post :bulk_update, :ids => [1, 2], :issue => {:estimated_hours => 4.25}
+
+    assert_redirected_to :controller => 'issues', :action => 'index', :project_id => 'ecookbook'
+    assert_equal 4.25, Issue.find(1).estimated_hours
+    assert_equal 4.25, Issue.find(2).estimated_hours
+  end
+
   def test_bulk_update_custom_field
     @request.session[:user_id] = 2
     # update issues priority
