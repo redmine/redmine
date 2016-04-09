@@ -1,19 +1,23 @@
 <h3 class="title"><%= l(:permission_add_issue_watchers) %></h3>
 
-<%= form_tag({:controller => 'watchers',
-              :action => (watched ? 'create' : 'append'),
-              :object_type => (watched && watched.class.name.underscore),
-              :object_id => watched,
-              :project_id => @project},
+<%= form_tag(watchables.present? ? watchers_path : watchers_append_path,
              :remote => true,
              :method => :post,
              :id => 'new-watcher-form') do %>
 
+  <% if watchables.present? %>
+    <%= hidden_field_tag 'object_type', watchables.first.class.name.underscore %>
+    <% watchables.each do |watchable| %>
+      <%= hidden_field_tag 'object_id[]', watchable.id %>
+    <% end  %>
+  <% end %>
+  <%= hidden_field_tag 'project_id', @project.id if @project %>
+
   <p><%= label_tag 'user_search', l(:label_user_search) %><%= text_field_tag 'user_search', nil %></p>
   <%= javascript_tag "observeSearchfield('user_search', 'users_for_watcher', '#{ escape_javascript url_for(:controller => 'watchers',
                  :action => 'autocomplete_for_user',
-                 :object_type => (watched && watched.class.name.underscore),
-                 :object_id => watched,
+                 :object_type => (watchables.present? ? watchables.first.class.name.underscore : nil),
+                 :object_id => (watchables.present? && watchables.size == 1 ? watchables.first.id : nil),
                  :project_id => @project) }')" %>
 
   <div id="users_for_watcher">

@@ -91,7 +91,7 @@ Rails.application.routes.draw do
 
   post 'watchers/watch', :to => 'watchers#watch', :as => 'watch'
   delete 'watchers/watch', :to => 'watchers#unwatch'
-  get 'watchers/new', :to => 'watchers#new'
+  get 'watchers/new', :to => 'watchers#new', :as => 'new_watchers'
   post 'watchers', :to => 'watchers#create'
   post 'watchers/append', :to => 'watchers#append'
   delete 'watchers', :to => 'watchers#destroy'

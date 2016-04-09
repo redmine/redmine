@@ -42,7 +42,9 @@ class WatchersController < ApplicationController
     end
     users = User.active.visible.where(:id => user_ids.flatten.compact.uniq)
     users.each do |user|
-      Watcher.create(:watchable => @watched, :user => user)
+      @watchables.each do |watchable|
+        Watcher.create(:watchable => watchable, :user => user)
+      end
     end
     respond_to do |format|
       format.html { redirect_to_referer_or {render :text => 'Watcher added.', :layout => true}}
@@ -62,7 +64,10 @@ class WatchersController < ApplicationController
   end
 
   def destroy
-    @watched.set_watcher(User.find(params[:user_id]), false)
+    user = User.find(params[:user_id])
+    @watchables.each do |watchable|
+      watchable.set_watcher(user, false)
+    end
     respond_to do |format|
       format.html { redirect_to :back }
       format.js
@@ -81,30 +86,21 @@ class WatchersController < ApplicationController
 
   def find_project
     if params[:object_type] && params[:object_id]
-      klass = Object.const_get(params[:object_type].camelcase)
-      return false unless klass.respond_to?('watched_by')
-      @watched = klass.find(params[:object_id])
-      @project = @watched.project
+      @watchables = find_objets_from_params
+      @projects = @watchables.map(&:project).uniq
+      if @projects.size == 1
+        @project = @projects.first
+      end
     elsif params[:project_id]
       @project = Project.visible.find_by_param(params[:project_id])
     end
-  rescue
-    render_404
   end
 
   def find_watchables
-    klass = Object.const_get(params[:object_type].camelcase) rescue nil
-    if klass && klass.respond_to?('watched_by')
-      @watchables = klass.where(:id => Array.wrap(params[:object_id])).to_a
-      raise Unauthorized if @watchables.any? {|w|
-        if w.respond_to?(:visible?)
-          !w.visible?
-        elsif w.respond_to?(:project) && w.project
-          !w.project.visible?
-        end
-      }
+    @watchables = find_objets_from_params
+    unless @watchables.present?
+      render_404
     end
-    render_404 unless @watchables.present?
   end
 
   def set_watcher(watchables, user, watching)
@@ -125,9 +121,24 @@ class WatchersController < ApplicationController
       scope = User.all.limit(100)
     end
     users = scope.active.visible.sorted.like(params[:q]).to_a
-    if @watched
-      users -= @watched.watcher_users
+    if @watchables
+      users -= @watchables.map(&:watcher_users).flatten
     end
     users
+  end
+
+  def find_objets_from_params
+    klass = Object.const_get(params[:object_type].camelcase) rescue nil
+    return unless klass && klass.respond_to?('watched_by')
+
+    objects = klass.where(:id => Array.wrap(params[:object_id])).to_a
+    raise Unauthorized if objects.any? do |w|
+      if w.respond_to?(:visible?)
+        !w.visible?
+      elsif w.respond_to?(:project) && w.project
+        !w.project.visible?
+      end
+    end
+    objects
   end
 end

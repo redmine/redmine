@@ -1,2 +1,5 @@
-$('#ajax-modal').html('<%= escape_javascript(render(:partial => 'watchers/new', :locals => {:watched => @watched, :users => @users})) %>');
-$('#watchers').html('<%= escape_javascript(render(:partial => 'watchers/watchers', :locals => {:watched => @watched})) %>');
+$('#ajax-modal').html('<%= escape_javascript(render(:partial => 'watchers/new', :locals => {:watchables => @watchables, :users => @users})) %>');
+
+<% if @watchables.size == 1 %>
+$('#watchers').html('<%= escape_javascript(render(:partial => 'watchers/watchers', :locals => {:watched => @watchables.first})) %>');
+<% end %>

@@ -67,7 +67,7 @@ function contextMenuClick(event) {
       // click is outside the rows
       if (target.is('a') && (target.hasClass('disabled') || target.hasClass('submenu'))) {
         event.preventDefault();
-      } else if (target.is('.toggle-selection')) {
+      } else if (target.is('.toggle-selection') || target.is('.ui-dialog *') || $('#ajax-modal').is(':visible')) {
         // nop
       } else {
         contextMenuUnselectAll();
