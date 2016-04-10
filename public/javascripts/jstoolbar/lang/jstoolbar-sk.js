@@ -7,6 +7,7 @@ jsToolBar.strings['Code'] = 'Zobrazenie kódu';
 jsToolBar.strings['Heading 1'] = 'Nadpis 1';
 jsToolBar.strings['Heading 2'] = 'Nadpis 2';
 jsToolBar.strings['Heading 3'] = 'Nadpis 3';
+jsToolBar.strings['Highlighted code'] = 'Highlighted code';
 jsToolBar.strings['Unordered list'] = 'Odrážkový zoznam';
 jsToolBar.strings['Ordered list'] = 'Číslovaný zoznam';
 jsToolBar.strings['Quote'] = 'Odsadenie';

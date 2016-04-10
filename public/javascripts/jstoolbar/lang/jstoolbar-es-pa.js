@@ -7,6 +7,7 @@ jsToolBar.strings['Code'] = 'Código fuente';
 jsToolBar.strings['Heading 1'] = 'Encabezado 1';
 jsToolBar.strings['Heading 2'] = 'Encabezado 2';
 jsToolBar.strings['Heading 3'] = 'Encabezado 3';
+jsToolBar.strings['Highlighted code'] = 'Highlighted code';
 jsToolBar.strings['Unordered list'] = 'Lista sin ordenar';
 jsToolBar.strings['Ordered list'] = 'Lista ordenada';
 jsToolBar.strings['Quote'] = 'Citar';
