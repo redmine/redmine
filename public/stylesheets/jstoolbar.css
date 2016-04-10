@@ -89,6 +89,9 @@
 .jstb_pre {
     background-image: url(../images/jstoolbar/bt_pre.png);
 }
+.jstb_precode {
+    background-image: url(../images/jstoolbar/bt_precode.png);
+}
 .jstb_link {
     background-image: url(../images/jstoolbar/bt_link.png);
 }

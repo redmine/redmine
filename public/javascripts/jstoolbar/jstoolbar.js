@@ -372,3 +372,24 @@ jsToolBar.prototype.resizeDragStop = function(event) {
   document.removeEventListener('mousemove', this.dragMoveHdlr, false);
   document.removeEventListener('mouseup', this.dragStopHdlr, false);
 };
+
+/* Code highlighting menu */
+jsToolBar.prototype.precodeMenu = function(fn){
+  var codeRayLanguages = ["c", "clojure", "cpp", "css", "delphi", "diff", "erb", "go", "groovy", "haml", "html", "java", "javascript", "json", "lua", "php", "python", "ruby", "sass", "sql", "text", "xml", "yaml"];
+  var menu = $("<ul style='position:absolute;'></ul>");
+  for (var i = 0; i < codeRayLanguages.length; i++) {
+    $("<li></li>").text(codeRayLanguages[i]).appendTo(menu).mousedown(function(){
+      fn($(this).text());
+    });
+  }
+  $("body").append(menu);
+  menu.menu().width(150).position({
+    my: "left top",
+    at: "left bottom",
+    of: this.toolNodes['precode']
+  });
+  $(document).on("mousedown", function() {
+    menu.remove();
+  });
+  return false;
+};
