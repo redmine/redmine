@@ -302,16 +302,19 @@ class Issue < ActiveRecord::Base
   # * or if the status was not part of the new tracker statuses
   # * or the status was nil
   def tracker=(tracker)
-    if tracker != self.tracker
+    tracker_was = self.tracker
+    if tracker != tracker_was
       if status == default_status
         self.status = nil
       elsif status && tracker && !tracker.issue_status_ids.include?(status.id)
         self.status = nil
       end
-      @custom_field_values = nil
       @workflow_rule_by_attribute = nil
     end
     association(:tracker).writer(tracker)
+    if tracker != tracker_was
+      reassign_custom_field_values
+    end
     self.status ||= default_status
     self.tracker
   end
@@ -355,7 +358,7 @@ class Issue < ActiveRecord::Base
       unless valid_parent_project?
         self.parent_issue_id = nil
       end
-      @custom_field_values = nil
+      reassign_custom_field_values
       @workflow_rule_by_attribute = nil
     end
     # Set fixed_version to the project default version if it's valid
