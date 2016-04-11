@@ -40,6 +40,8 @@ class AttachmentsController < ApplicationController
         elsif @attachment.is_text? && @attachment.filesize <= Setting.file_max_size_displayed.to_i.kilobyte
           @content = File.read(@attachment.diskfile, :mode => "rb")
           render :action => 'file'
+        elsif @attachment.is_image?
+          render :action => 'image'
         else
           download
         end

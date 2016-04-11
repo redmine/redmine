@@ -8,7 +8,7 @@
 </div>
 <% for attachment in attachments %>
 <p><%= link_to_attachment attachment, :class => 'icon icon-attachment', :download => true -%>
-  <% if attachment.is_text? %>
+  <% if attachment.is_text? || attachment.is_image? %>
     <%= link_to l(:button_view),
                 { :controller => 'attachments', :action => 'show',
                   :id => attachment, :filename => attachment.filename },
