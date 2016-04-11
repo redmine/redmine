@@ -303,17 +303,15 @@ class Issue < ActiveRecord::Base
   # * or the status was nil
   def tracker=(tracker)
     tracker_was = self.tracker
+    association(:tracker).writer(tracker)
     if tracker != tracker_was
-      if status == default_status
+      if status == tracker_was.try(:default_status)
         self.status = nil
       elsif status && tracker && !tracker.issue_status_ids.include?(status.id)
         self.status = nil
       end
-      @workflow_rule_by_attribute = nil
-    end
-    association(:tracker).writer(tracker)
-    if tracker != tracker_was
       reassign_custom_field_values
+      @workflow_rule_by_attribute = nil
     end
     self.status ||= default_status
     self.tracker
