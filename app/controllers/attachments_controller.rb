@@ -22,7 +22,7 @@ class AttachmentsController < ApplicationController
   before_filter :delete_authorize, :only => :destroy
   before_filter :authorize_global, :only => :upload
 
-  accept_api_auth :show, :download, :thumbnail, :upload
+  accept_api_auth :show, :download, :thumbnail, :upload, :destroy
 
   def show
     respond_to do |format|
@@ -130,6 +130,7 @@ class AttachmentsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to_referer_or project_path(@project) }
       format.js
+      format.api { render_api_ok }
     end
   end
 
