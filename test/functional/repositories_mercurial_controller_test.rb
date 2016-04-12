@@ -265,10 +265,7 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
     end
 
     def test_entry_binary_force_download
-      get :entry, :id => PRJ_ID, :rev => 1,
-          :path => repository_path_hash(['images', 'edit.png'])[:param]
-      assert_response :success
-      assert_equal 'image/png', @response.content_type
+      # TODO: add a binary file which is not an image to the test repo
     end
 
     def test_directory_entry
