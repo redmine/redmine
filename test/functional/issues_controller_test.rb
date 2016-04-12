@@ -2982,6 +2982,24 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal issue.descendants.map(&:subject).sort, copy.descendants.map(&:subject).sort
   end
 
+  def test_create_as_copy_to_a_different_project_should_copy_subtask_custom_fields
+    issue = Issue.generate! {|i| i.custom_field_values = {'2' => 'Foo'}}
+    child = Issue.generate!(:parent_issue_id => issue.id) {|i| i.custom_field_values = {'2' => 'Bar'}}
+    @request.session[:user_id] = 1
+
+    assert_difference 'Issue.count', 2 do
+      post :create, :project_id => 'ecookbook', :copy_from => issue.id,
+        :issue => {:project_id => '2', :tracker_id => 1, :status_id => '1',
+                   :subject => 'Copy with subtasks', :custom_field_values => {'2' => 'Foo'}},
+        :copy_subtasks => '1'
+    end
+
+    child_copy, issue_copy = Issue.order(:id => :desc).limit(2).to_a
+    assert_equal 2, issue_copy.project_id
+    assert_equal 'Foo', issue_copy.custom_field_value(2)
+    assert_equal 'Bar', child_copy.custom_field_value(2)
+  end
+
   def test_create_as_copy_without_copy_subtasks_option_should_not_copy_subtasks
     @request.session[:user_id] = 2
     issue = Issue.generate_with_descendants!
