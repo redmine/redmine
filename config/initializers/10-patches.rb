@@ -6,19 +6,14 @@ module ActiveRecord
     # Translate attribute names for validation errors display
     def self.human_attribute_name(attr, options = {})
       prepared_attr = attr.to_s.sub(/_id$/, '').sub(/^.+\./, '')
+      class_prefix = name.underscore.gsub('/', '_')
 
-      redmine_default =
-          [
-              :"field_#{name.underscore.gsub('/', '_')}_#{prepared_attr}",
-              :"field_#{prepared_attr}"
-          ]
+      redmine_default = [
+        :"field_#{class_prefix}_#{prepared_attr}",
+        :"field_#{prepared_attr}"
+      ]
 
-      if options[:default].present?
-        options[:default] = [options[:default]] unless options[:default].is_a? Array
-        options[:default].unshift redmine_default
-      else
-        options[:default] = redmine_default
-      end
+      options[:default] = redmine_default + Array(options[:default])
 
       super
     end
