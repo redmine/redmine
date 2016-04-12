@@ -4,9 +4,23 @@ module ActiveRecord
   class Base
     include Redmine::I18n
     # Translate attribute names for validation errors display
-    def self.human_attribute_name(attr, *args)
-      attr = attr.to_s.sub(/_id$/, '').sub(/^.+\./, '')
-      l("field_#{name.underscore.gsub('/', '_')}_#{attr}", :default => ["field_#{attr}".to_sym, attr])
+    def self.human_attribute_name(attr, options = {})
+      prepared_attr = attr.to_s.sub(/_id$/, '').sub(/^.+\./, '')
+
+      redmine_default =
+          [
+              :"field_#{name.underscore.gsub('/', '_')}_#{prepared_attr}",
+              :"field_#{prepared_attr}"
+          ]
+
+      if options[:default].present?
+        options[:default] = [options[:default]] unless options[:default].is_a? Array
+        options[:default].unshift redmine_default
+      else
+        options[:default] = redmine_default
+      end
+
+      super
     end
   end
 
