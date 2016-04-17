@@ -590,6 +590,45 @@ function beforeShowDatePicker(input, inst) {
   $(input).datepicker("option", "defaultDate", default_date);
 }
 
+(function($){
+  $.fn.positionedItems = function(sortableOptions, options){
+    var settings = $.extend({
+      firstPosition: 1
+    }, options );
+
+    return this.sortable($.extend({
+      handle: ".sort-handle",
+      helper: function(event, ui){
+        ui.children().each(function(){
+          $(this).width($(this).width());
+        });
+        return ui;
+      },
+      update: function(event, ui) {
+        var sortable = $(this);
+        var url = ui.item.find(".sort-handle").data("reorder-url");
+        var param = ui.item.find(".sort-handle").data("reorder-param");
+        var data = {};
+        data[param] = {position: ui.item.index() + settings['firstPosition']};
+        $.ajax({
+          url: url,
+          type: 'put',
+          dataType: 'script',
+          data: data,
+          success: function(data){
+            sortable.children(":even").removeClass("even").addClass("odd");
+            sortable.children(":odd").removeClass("odd").addClass("even");
+          },
+          error: function(jqXHR, textStatus, errorThrown){
+            alert(jqXHR.status);
+            sortable.sortable("cancel");
+          }
+        });
+      },
+    }, sortableOptions));
+  }
+}( jQuery ));
+
 function initMyPageSortable(list, url) {
   $('#list-'+list).sortable({
     connectWith: '.block-receiver',

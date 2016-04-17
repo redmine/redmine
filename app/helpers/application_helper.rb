@@ -468,6 +468,16 @@ module ApplicationHelper
             :title => l(:label_sort_lowest), :class => 'icon-only icon-move-bottom')
   end
 
+  def reorder_handle(object, options={})
+    data = {
+      :reorder_url => options[:url] || url_for(object),
+      :reorder_param => options[:param] || object.class.name.underscore
+    }
+    content_tag('span', '',
+      :class => "sort-handle ui-icon ui-icon-arrowthick-2-n-s",
+      :data => data)
+  end
+
   def breadcrumb(*args)
     elements = args.flatten
     elements.any? ? content_tag('p', (args.join(" \xc2\xbb ") + " \xc2\xbb ").html_safe, :class => 'breadcrumb') : nil

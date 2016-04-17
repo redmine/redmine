@@ -59,12 +59,22 @@ class TrackersController < ApplicationController
   def update
     @tracker = Tracker.find(params[:id])
     if @tracker.update_attributes(params[:tracker])
-      flash[:notice] = l(:notice_successful_update)
-      redirect_to trackers_path(:page => params[:page])
-      return
+      respond_to do |format|
+        format.html {
+          flash[:notice] = l(:notice_successful_update)
+          redirect_to trackers_path(:page => params[:page])
+        }
+        format.js { render :nothing => true }
+      end
+    else
+      respond_to do |format|
+        format.html {
+          edit
+          render :action => 'edit'
+        }
+        format.js { render :nothing => true, :status => 422 }
+      end
     end
-    edit
-    render :action => 'edit'
   end
 
   def destroy

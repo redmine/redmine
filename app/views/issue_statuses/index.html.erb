@@ -5,14 +5,13 @@
 
 <h2><%=l(:label_issue_status_plural)%></h2>
 
-<table class="list">
+<table class="list issue_statuses">
   <thead><tr>
   <th><%=l(:field_status)%></th>
   <% if Issue.use_status_for_done_ratio? %>
   <th><%=l(:field_done_ratio)%></th>
   <% end %>
   <th><%=l(:field_is_closed)%></th>
-  <th><%=l(:button_sort)%></th>
   <th></th>
   </tr></thead>
   <tbody>
@@ -23,8 +22,8 @@
   <td><%= status.default_done_ratio %></td>
   <% end %>
   <td><%= checked_image status.is_closed? %></td>
-  <td class="reorder"><%= reorder_links('issue_status', {:action => 'update', :id => status, :page => params[:page]}, :put) %></td>
   <td class="buttons">
+    <%= reorder_handle(status) %>
     <%= delete_link issue_status_path(status) %>
   </td>
   </tr>
@@ -33,3 +32,7 @@
 </table>
 
 <% html_title(l(:label_issue_status_plural)) -%>
+
+<%= javascript_tag do %>
+  $(function() { $("table.issue_statuses tbody").positionedItems(); });
+<% end %>

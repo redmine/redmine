@@ -51,10 +51,18 @@ class IssueStatusesController < ApplicationController
   def update
     @issue_status = IssueStatus.find(params[:id])
     if @issue_status.update_attributes(params[:issue_status])
-      flash[:notice] = l(:notice_successful_update)
-      redirect_to issue_statuses_path(:page => params[:page])
+      respond_to do |format|
+        format.html {
+          flash[:notice] = l(:notice_successful_update)
+          redirect_to issue_statuses_path(:page => params[:page])
+        }
+        format.js { render :nothing => true }
+      end
     else
-      render :action => 'edit'
+      respond_to do |format|
+        format.html { render :action => 'edit' }
+        format.js { render :nothing => true, :status => 422 }
+      end
     end
   end
 
