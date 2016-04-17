@@ -28,6 +28,8 @@ rescue LoadError
   # Redcarpet is not available
 end
 
+require 'redmine/acts/positioned'
+
 require 'redmine/scm/base'
 require 'redmine/access_control'
 require 'redmine/access_keys'

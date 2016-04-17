@@ -70,7 +70,7 @@ class Role < ActiveRecord::Base
 
   has_many :member_roles, :dependent => :destroy
   has_many :members, :through => :member_roles
-  acts_as_list
+  acts_as_positioned :scope => :builtin
 
   serialize :permissions, ::Role::PermissionsAttributeCoder
   attr_protected :builtin
@@ -223,10 +223,10 @@ private
   def self.find_or_create_system_role(builtin, name)
     role = where(:builtin => builtin).first
     if role.nil?
-      role = create(:name => name, :position => 0) do |r|
+      role = create(:name => name) do |r|
         r.builtin = builtin
       end
-      raise "Unable to create the #{name} role." if role.new_record?
+      raise "Unable to create the #{name} role (#{role.errors.full_messages.join(',')})." if role.new_record?
     end
     role
   end

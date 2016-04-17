@@ -203,6 +203,6 @@ class RolesControllerTest < ActionController::TestCase
   def test_move_lowest
     put :update, :id => 2, :role => {:move_to => 'lowest'}
     assert_redirected_to '/roles'
-    assert_equal Role.count, Role.find(2).position
+    assert_equal Role.givable.count, Role.find(2).position
   end
 end
