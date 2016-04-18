@@ -47,22 +47,6 @@ module Redmine
           base.extend ClassMethods
         end
 
-        # Move to the given position
-        # For compatibility with the previous way of sorting items
-        def move_to=(pos)
-          case pos.to_s
-          when 'highest'
-            self.position = 1
-          when 'higher'
-            self.position -= 1 if position > 1
-          when 'lower'
-            self.position += 1
-          when 'lowest'
-            self.position = nil
-            set_default_position
-          end
-        end
-
         private
 
         def position_scope

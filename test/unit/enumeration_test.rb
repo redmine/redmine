@@ -154,7 +154,7 @@ class EnumerationTest < ActiveSupport::TestCase
     a = IssuePriority.create!(:name => 'A')
     b = IssuePriority.create!(:name => 'B')
     override = IssuePriority.create!(:name => 'BB', :parent_id => b.id)
-    b.move_to = 'higher'
+    b.position -= 1
     b.save!
 
     assert_equal [2, 1, 1], [a, b, override].map(&:reload).map(&:position)

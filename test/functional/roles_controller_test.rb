@@ -181,27 +181,27 @@ class RolesControllerTest < ActionController::TestCase
   end
 
   def test_move_highest
-    put :update, :id => 3, :role => {:move_to => 'highest'}
+    put :update, :id => 3, :role => {:position => 1}
     assert_redirected_to '/roles'
     assert_equal 1, Role.find(3).position
   end
 
   def test_move_higher
     position = Role.find(3).position
-    put :update, :id => 3, :role => {:move_to => 'higher'}
+    put :update, :id => 3, :role => {:position => position - 1}
     assert_redirected_to '/roles'
     assert_equal position - 1, Role.find(3).position
   end
 
   def test_move_lower
     position = Role.find(2).position
-    put :update, :id => 2, :role => {:move_to => 'lower'}
+    put :update, :id => 2, :role => {:position => position + 1}
     assert_redirected_to '/roles'
     assert_equal position + 1, Role.find(2).position
   end
 
   def test_move_lowest
-    put :update, :id => 2, :role => {:move_to => 'lowest'}
+    put :update, :id => 2, :role => {:position => Role.givable.count}
     assert_redirected_to '/roles'
     assert_equal Role.givable.count, Role.find(2).position
   end

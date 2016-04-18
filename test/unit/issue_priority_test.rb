@@ -82,7 +82,7 @@ class IssuePriorityTest < ActiveSupport::TestCase
 
   def test_moving_a_priority_should_update_position_names
     prio = IssuePriority.first
-    prio.move_to = 'lowest'
+    prio.position = IssuePriority.count
     prio.save!
     prio.reload
     assert_equal 'highest', prio.position_name
