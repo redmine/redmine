@@ -454,6 +454,9 @@ module ApplicationHelper
   end
 
   def reorder_links(name, url, method = :post)
+    # TODO: remove associated styles from application.css too
+    ActiveSupport::Deprecation.warn "Application#reorder_links will be removed in Redmine 4."
+
     link_to(l(:label_sort_highest),
             url.merge({"#{name}[move_to]" => 'highest'}), :method => method,
             :title => l(:label_sort_highest), :class => 'icon-only icon-move-top') +
