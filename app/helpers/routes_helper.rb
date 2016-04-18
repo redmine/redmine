@@ -66,4 +66,8 @@ module RoutesHelper
       new_time_entry_path(*args)
     end
   end
+
+  def board_path(board, *args)
+    project_board_path(board.project, board, *args)
+  end
 end

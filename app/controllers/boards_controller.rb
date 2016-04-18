@@ -87,9 +87,18 @@ class BoardsController < ApplicationController
   def update
     @board.safe_attributes = params[:board]
     if @board.save
-      redirect_to_settings_in_projects
+      respond_to do |format|
+        format.html {
+          flash[:notice] = l(:notice_successful_update)
+          redirect_to_settings_in_projects
+        }
+        format.js { render :nothing => true }
+      end
     else
-      render :action => 'edit'
+      respond_to do |format|
+        format.html { render :action => 'edit' }
+        format.js { render :nothing => true, :status => 422 }
+      end
     end
   end
 

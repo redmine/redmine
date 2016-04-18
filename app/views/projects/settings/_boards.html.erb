@@ -1,32 +1,29 @@
 <% if @project.boards.any? %>
-<table class="list">
-  <thead><tr>
-    <th><%= l(:label_board) %></th>
-    <th><%= l(:field_description) %></th>
-    <th></th>
-    <th></th>
-  </tr></thead>
-  <tbody>
-<% Board.board_tree(@project.boards) do |board, level|
-  next if board.new_record? %>
-  <tr class="<%= cycle 'odd', 'even' %>">
-    <td class="name" style="padding-left: <%= level * 18 %>px;"><%= link_to board.name, project_board_path(@project, board) %></td>
-    <td class="description"><%= board.description %></td>
-    <td class="reorder">
-    <% if authorize_for("boards", "edit") %>
-      <%= reorder_links('board', {:controller => 'boards', :action => 'update', :project_id => @project, :id => board}, :put) %>
-    <% end %>
-    </td>
-    <td class="buttons">
+<div class="table-list boards">
+  <div class="table-list-header">
+    <div class="table-list-cell"><%= l(:label_board) %></div>
+  </div>
+  <%= render_boards_tree(@project.boards) do |board, level| %>
+  <div class="table-list-row <%= cycle 'odd', 'even' %>">
+    <div class="table-list-cell name" style="padding-left: <%= 2 + level * 16 %>px">
+      <%= link_to board.name, project_board_path(@project, board) %>
+    </div>
+    <div class="table-list-cell description"><%= board.description %></div>
+    <div class="table-list-cell buttons">
     <% if User.current.allowed_to?(:manage_boards, @project) %>
+      <%= reorder_handle(board) %>
       <%= link_to l(:button_edit), edit_project_board_path(@project, board), :class => 'icon icon-edit' %>
       <%= delete_link project_board_path(@project, board) %>
     <% end %>
-    </td>
-  </tr>
+    </div>
+  </div>
+  <% end %>
+</div>
+
+<%= javascript_tag do %>
+  $(function() { $("div.sort-level").positionedItems(); });
 <% end %>
-  </tbody>
-</table>
+
 <% else %>
 <p class="nodata"><%= l(:label_no_data) %></p>
 <% end %>

@@ -197,7 +197,7 @@ class BoardsControllerTest < ActionController::TestCase
 
   def test_update_position
     @request.session[:user_id] = 2
-    put :update, :project_id => 1, :id => 2, :board => { :move_to => 'highest'}
+    put :update, :project_id => 1, :id => 2, :board => { :position => 1}
     assert_redirected_to '/projects/ecookbook/settings/boards'
     board = Board.find(2)
     assert_equal 1, board.position
