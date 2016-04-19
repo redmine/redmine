@@ -282,23 +282,23 @@ module ApplicationHelper
     bc=""
     bc<<'<ul class="breadcrumb">'
     bc<<'<li>'
-    url = {:controller => 'projects', :action => 'index', :params => {:spine=> spine}}
+    url = {:controller => 'projects', :action => 'index', :params => {:spine=> spine}, :anchor => 'cells_graph'}
     bc<< link_to(spine, url)
     bc<<'<span class="divider">/</span></li>'
     bc<<'<li>'
-    url = {:controller => 'projects', :action => 'index', :params => {:spine=> spine, :family=>family}}
+    url = {:controller => 'projects', :action => 'index', :params => {:spine=> spine, :family=>family}, :anchor => 'cells_graph'}
     bc<< link_to(family, url)
     bc<<'<span class="divider">/</span></li>'
     bc<<'<li>'
-    url = {:controller => 'projects', :action => 'index', :params => {:spine=> spine, :family=>family, :specie=>specie,}}
+    url = {:controller => 'projects', :action => 'index', :params => {:spine=> spine, :family=>family, :specie=>specie}, :anchor => 'cells_graph'}
     bc<< link_to(specie, url)
     bc<<'<span class="divider">/</span></li>'
     bc<<'<li>'
-    url = {:controller => 'projects', :action => 'index', :params => {:spine=> spine, :family=>family, :specie=>specie, :brain=>brain}}
+    url = {:controller => 'projects', :action => 'index', :params => {:spine=> spine, :family=>family, :specie=>specie, :brain=>brain}, :anchor => 'cells_graph'}
     bc<< link_to(brain, url)
     bc<<'<span class="divider">/</span></li>'
     bc<<'<li>'
-    url = {:controller => 'projects', :action => 'index', :params => {:spine=> spine, :family=>family, :specie=>specie, :brain=>brain, :cell=>cell}}
+    url = {:controller => 'projects', :action => 'index', :params => {:spine=> spine, :family=>family, :specie=>specie, :brain=>brain, :cell=>cell}, :anchor => 'cells_graph'}
     bc<< link_to(cell, url)
     bc<<'<span class="divider">/</span></li>'
     bc<<'<li class="active">'+ project.name + '</li>'
@@ -314,8 +314,7 @@ module ApplicationHelper
   # Executes shell command. Returns true if the shell command exits with a success status code
   def exec(command)
     #print "\nEntering EXEC"
-    logger.debug { "GithubHook: Executing command: '#{command}'" }
-
+    Rails.logger.debug { "GithubHook: Executing command: '#{command}'" }
     # Get a path to a temp file
     logfile = Tempfile.new('git_retrieverepos_exec')
     # print "\nTempFile created"
@@ -327,9 +326,9 @@ module ApplicationHelper
     # print "\nPATH:"+logfile.path.to_s+"\n"
     # print output_from_command
     if success
-      logger.debug { "GithubHook: Command output: #{output_from_command.inspect}"}
+      Rails.logger.debug { "GithubHook: Command output: #{output_from_command.inspect}"}
     else
-      logger.error { "GithubHook: Command '#{command}' didn't exit properly. Full output: #{output_from_command.inspect}"}
+      Rails.logger.error { "GithubHook: Command '#{command}' didn't exit properly. Full output: #{output_from_command.inspect}"}
     end
 
     return output_from_command
@@ -1171,12 +1170,11 @@ module ApplicationHelper
     end
   end
   
-  
   # Parse looking 
   def parse_repo_links(text, project, obj, attr, only_path, options)
-    text.gsub!(/(github|bitbucket):([^\"]+\.(md|txt))/) do |m|
+    text.gsub!(/(github|bitbucket):([^\"\r\n]+\.(md|txt))/) do |m|
       repoName, filename, ext = $1, $2, $3
-      
+           
       repourl=getHttpRepositoryURL(project)
       if repourl != ''
         repopath=getHttpRepositoryPath(project.repository)
@@ -1977,6 +1975,16 @@ module ApplicationHelper
 
   def link_to_content_update(text, url_params = {}, html_options = {})
     link_to(text, url_params, html_options)
+  end
+  
+  def readFileAsArray(path)
+    fileContent = []
+    f = File.open(path, "r")
+    f.each_line do |line|
+      fileContent.push(line.strip)
+    end
+    f.close
+    return fileContent
   end
  
 end
