@@ -478,7 +478,8 @@ module ApplicationHelper
     }
     content_tag('span', '',
       :class => "sort-handle",
-      :data => data)
+      :data => data,
+      :title => l(:button_sort))
   end
 
   def breadcrumb(*args)
