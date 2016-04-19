@@ -606,8 +606,9 @@ function beforeShowDatePicker(input, inst) {
       },
       update: function(event, ui) {
         var sortable = $(this);
-        var url = ui.item.find(".sort-handle").data("reorder-url");
-        var param = ui.item.find(".sort-handle").data("reorder-param");
+        var handle = ui.item.find(".sort-handle").addClass("ajax-loading");
+        var url = handle.data("reorder-url");
+        var param = handle.data("reorder-param");
         var data = {};
         data[param] = {position: ui.item.index() + settings['firstPosition']};
         $.ajax({
@@ -622,6 +623,9 @@ function beforeShowDatePicker(input, inst) {
           error: function(jqXHR, textStatus, errorThrown){
             alert(jqXHR.status);
             sortable.sortable("cancel");
+          },
+          complete: function(jqXHR, textStatus, errorThrown){
+            handle.removeClass("ajax-loading");
           }
         });
       },
