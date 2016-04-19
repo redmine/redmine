@@ -1057,6 +1057,30 @@ class IssuesControllerTest < ActionController::TestCase
     assert @response.body.blank?
   end
 
+  def test_index_should_include_new_issue_link
+    @request.session[:user_id] = 2
+    get :index, :project_id => 1
+    assert_select 'a.new-issue[href="/projects/ecookbook/issues/new"]', :text => 'New issue'
+  end
+
+  def test_index_should_not_include_new_issue_link_for_project_without_trackers
+    Project.find(1).trackers.clear
+
+    @request.session[:user_id] = 2
+    get :index, :project_id => 1
+    assert_select 'a.new-issue', 0
+  end
+
+  def test_index_should_not_include_new_issue_link_for_users_with_copy_issues_permission_only
+    role = Role.find(1)
+    role.remove_permission! :add_issues
+    role.add_permission! :copy_issues
+
+    @request.session[:user_id] = 2
+    get :index, :project_id => 1
+    assert_select 'a.new-issue', 0
+  end
+
   def test_show_by_anonymous
     get :show, :id => 1
     assert_response :success
@@ -2795,9 +2819,6 @@ class IssuesControllerTest < ActionController::TestCase
       end
       assert_select 'input[name=copy_from][value="1"]'
     end
-
-    # "New issue" menu item should not link to copy
-    assert_select '#main-menu a.new-issue[href="/projects/ecookbook/issues/new"]'
   end
 
   def test_new_as_copy_without_add_issues_permission_should_not_propose_current_project_as_target
