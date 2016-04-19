@@ -477,7 +477,7 @@ module ApplicationHelper
       :reorder_param => options[:param] || object.class.name.underscore
     }
     content_tag('span', '',
-      :class => "sort-handle ui-icon ui-icon-arrowthick-2-n-s",
+      :class => "sort-handle",
       :data => data)
   end
 
