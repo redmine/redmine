@@ -1,6 +1,6 @@
 <div class="contextual">
-  <% if @project && User.current.allowed_to?(:add_issues, @project) && @project.trackers.any? %>
-    <%= link_to l(:label_issue_new), new_project_issue_path(@project), :class => 'icon icon-add new-issue' %>
+  <% if User.current.allowed_to?(:add_issues, @project, :global => true) && (@project.nil? || @project.trackers.any?) %>
+    <%= link_to l(:label_issue_new), _new_project_issue_path(@project), :class => 'icon icon-add new-issue' %>
   <% end %>
 </div>
 

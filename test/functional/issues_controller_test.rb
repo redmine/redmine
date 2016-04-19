@@ -1081,6 +1081,12 @@ class IssuesControllerTest < ActionController::TestCase
     assert_select 'a.new-issue', 0
   end
 
+  def test_index_without_project_should_include_new_issue_link
+    @request.session[:user_id] = 2
+    get :index
+    assert_select 'a.new-issue[href="/issues/new"]', :text => 'New issue'
+  end
+
   def test_show_by_anonymous
     get :show, :id => 1
     assert_response :success
