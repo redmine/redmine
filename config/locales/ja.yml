@@ -1207,3 +1207,4 @@ ja:
   mail_body_security_notification_notify_disabled: メールアドレス %{value} には今後は通知が送信されません。
   mail_body_settings_updated: ! '下記の設定が変更されました:'
   field_remote_ip: IPアドレス
+  label_wiki_page_new: New wiki page
