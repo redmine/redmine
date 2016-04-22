@@ -1057,11 +1057,17 @@ module ApplicationHelper
     fields_for(*args, &proc)
   end
 
+  # Render the error messages for the given objects
   def error_messages_for(*objects)
-    html = ""
     objects = objects.map {|o| o.is_a?(String) ? instance_variable_get("@#{o}") : o}.compact
     errors = objects.map {|o| o.errors.full_messages}.flatten
-    if errors.any?
+    render_error_messages(errors)
+  end
+
+  # Renders a list of error messages
+  def render_error_messages(errors)
+    html = ""
+    if errors.present?
       html << "<div id='errorExplanation'><ul>\n"
       errors.each do |error|
         html << "<li>#{h error}</li>\n"

@@ -1,0 +1,17 @@
+<%= title l(:label_wiki_page_new) %>
+
+<%= labelled_form_for :page, @page,
+            :url => new_project_wiki_page_path(@project) do |f| %>
+
+  <%= render_error_messages @page.errors.full_messages_for(:title) %>
+
+  <div class="box tabular">
+    <p>
+      <%= f.text_field :title, :name => 'title', :size => 60, :required => true %>
+      <em class="info"><%= l(:text_unallowed_characters) %>: , . / ? ; : |</em>
+    </p>
+  </div>
+
+  <%= submit_tag(l(:label_next)) %>
+
+<% end %>

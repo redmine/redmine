@@ -1,4 +1,7 @@
 <div class="contextual">
+<% if User.current.allowed_to?(:edit_wiki_pages, @project) %>
+<%= link_to l(:label_wiki_page_new), new_project_wiki_page_path(@project), :remote => true, :class => 'icon icon-add' %>
+<% end %>
 <%= watcher_link(@wiki, User.current) %>
 </div>
 

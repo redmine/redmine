@@ -810,6 +810,7 @@ de:
   label_wiki_edit_plural: Wiki-Bearbeitungen
   label_wiki_page: Wiki-Seite
   label_wiki_page_plural: Wiki-Seiten
+  label_wiki_page_new: Neue Wiki-Seite
   label_workflow: Workflow
   label_x_closed_issues_abbr:
     zero:  0 geschlossen

@@ -156,7 +156,7 @@ Rails.application.routes.draw do
     end
   
     match 'wiki/index', :controller => 'wiki', :action => 'index', :via => :get
-    resources :wiki, :except => [:index, :new, :create], :as => 'wiki_page' do
+    resources :wiki, :except => [:index, :create], :as => 'wiki_page' do
       member do
         get 'rename'
         post 'rename'
@@ -169,6 +169,7 @@ Rails.application.routes.draw do
       collection do
         get 'export'
         get 'date_index'
+        post 'new'
       end
     end
     match 'wiki', :controller => 'wiki', :action => 'show', :via => :get

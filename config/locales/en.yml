@@ -764,6 +764,7 @@ en:
   label_wiki_edit_plural: Wiki edits
   label_wiki_page: Wiki page
   label_wiki_page_plural: Wiki pages
+  label_wiki_page_new: New wiki page
   label_index_by_title: Index by title
   label_index_by_date: Index by date
   label_current_version: Current version
