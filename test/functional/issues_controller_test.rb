@@ -2017,6 +2017,23 @@ class IssuesControllerTest < ActionController::TestCase
     get :new, :project_id => 'invalid'
     assert_response 404
   end
+ 
+  def test_new_with_parent_id_should_only_propose_valid_trackers
+    @request.session[:user_id] = 2
+    t = Tracker.find(3)
+    assert !t.disabled_core_fields.include?('parent_issue_id')
+
+    get :new, :project_id => 1, issue: { parent_issue_id: 1 }
+    assert_response :success
+    assert_select 'option', text: /#{t.name}/, count: 1
+
+    t.core_fields = Tracker::CORE_FIELDS - ['parent_issue_id']
+    t.save!
+    assert t.disabled_core_fields.include?('parent_issue_id')
+    get :new, :project_id => 1, issue: { parent_issue_id: 1 }
+    assert_response :success
+    assert_select 'option', text: /#{t.name}/, count: 0
+  end
 
   def test_update_form_for_new_issue
     @request.session[:user_id] = 2
