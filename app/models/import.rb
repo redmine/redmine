@@ -51,7 +51,7 @@ class Import < ActiveRecord::Base
     separator = lu(user, :general_csv_separator)
     if file_exists?
       begin
-        content = File.read(filepath, 256, "rb")
+        content = File.read(filepath, 256)
         separator = [',', ';'].sort_by {|sep| content.count(sep) }.last
       rescue Exception => e
       end
