@@ -1200,3 +1200,4 @@ de:
   label_default_values_for_new_users: Standardwerte für neue Benutzer
   error_ldap_bind_credentials: Invalid LDAP Account/Password
   mail_body_settings_updated: ! 'The following settings were changed:'
+  label_relations: Relations

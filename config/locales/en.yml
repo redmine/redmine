@@ -989,6 +989,7 @@ en:
   label_api: API
   label_field_format_enumeration: Key/value list
   label_default_values_for_new_users: Default values for new users
+  label_relations: Relations
 
   button_login: Login
   button_submit: Submit

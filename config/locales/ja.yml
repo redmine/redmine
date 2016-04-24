@@ -1208,3 +1208,4 @@ ja:
   mail_body_settings_updated: ! '下記の設定が変更されました:'
   field_remote_ip: IPアドレス
   label_wiki_page_new: New wiki page
+  label_relations: Relations
