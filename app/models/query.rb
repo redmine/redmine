@@ -909,8 +909,8 @@ class Query < ActiveRecord::Base
 
   # Returns a SQL LIKE statement with wildcards
   def sql_contains(db_field, value, match=true)
-    value = "'%#{self.class.connection.quote_string(value.to_s)}%'"
-    Redmine::Database.like(db_field, value, :match => match)
+    queried_class.send :sanitize_sql_for_conditions,
+      [Redmine::Database.like(db_field, '?', :match => match), "%#{value}%"]
   end
 
   # Adds a filter for the given custom field
