@@ -144,15 +144,14 @@ class QueryTest < ActiveSupport::TestCase
   def test_query_should_allow_shared_versions_for_a_project_query
     subproject_version = Version.find(4)
     query = IssueQuery.new(:project => Project.find(1), :name => '_')
-    query.add_filter('fixed_version_id', '=', [subproject_version.id.to_s])
-
-    assert query.statement.include?("#{Issue.table_name}.fixed_version_id IN ('4')")
+    filter = query.available_filters["fixed_version_id"]
+    assert_not_nil filter
+    assert_include subproject_version.id.to_s, filter[:values].map(&:last)
   end
 
   def test_query_with_multiple_custom_fields
     query = IssueQuery.find(1)
     assert query.valid?
-    assert query.statement.include?("#{CustomValue.table_name}.value IN ('MySQL')")
     issues = find_issues_with_query(query)
     assert_equal 1, issues.length
     assert_equal Issue.find(3), issues.first
@@ -326,6 +325,16 @@ class QueryTest < ActiveSupport::TestCase
     issues = find_issues_with_query(query)
     assert !issues.map(&:id).include?(1)
     assert issues.map(&:id).include?(3)
+  end
+
+  def test_operator_is_on_string_custom_field_with_utf8_value
+    f = IssueCustomField.create!(:name => 'filter', :field_format => 'string', :is_filter => true, :is_for_all => true, :trackers => Tracker.all)
+    CustomValue.create!(:custom_field => f, :customized => Issue.find(1), :value => 'Kiá»ƒm')
+
+    query = IssueQuery.new(:name => '_')
+    query.add_filter("cf_#{f.id}", '=', ['Kiá»ƒm'])
+    issues = find_issues_with_query(query)
+    assert_equal [1], issues.map(&:id).sort
   end
 
   def test_operator_is_on_is_private_field
@@ -1585,7 +1594,6 @@ class QueryTest < ActiveSupport::TestCase
     setup_member_of_group
     @query.add_filter('member_of_group', '=', [@group.id.to_s])
 
-    assert_query_statement_includes @query, "#{Issue.table_name}.assigned_to_id IN ('#{@user_in_group.id}','#{@second_user_in_group.id}','#{@group.id}')"
     assert_find_issues_with_query_is_successful @query
   end
 
@@ -1593,8 +1601,6 @@ class QueryTest < ActiveSupport::TestCase
     setup_member_of_group
     @query.add_filter('member_of_group', '!*', [''])
 
-    # Users not in a group
-    assert_query_statement_includes @query, "#{Issue.table_name}.assigned_to_id IS NULL OR #{Issue.table_name}.assigned_to_id NOT IN ('#{@user_in_group.id}','#{@second_user_in_group.id}','#{@user_in_group2.id}','#{@group.id}','#{@group2.id}')"
     assert_find_issues_with_query_is_successful @query
   end
 
@@ -1602,8 +1608,6 @@ class QueryTest < ActiveSupport::TestCase
     setup_member_of_group
     @query.add_filter('member_of_group', '*', [''])
 
-    # Only users in a group
-    assert_query_statement_includes @query, "#{Issue.table_name}.assigned_to_id IN ('#{@user_in_group.id}','#{@second_user_in_group.id}','#{@user_in_group2.id}','#{@group.id}','#{@group2.id}')"
     assert_find_issues_with_query_is_successful @query
   end
 
