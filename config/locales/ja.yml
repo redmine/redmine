@@ -786,7 +786,7 @@ ja:
   label_planning: 計画
   label_incoming_emails: 受信メール
   label_generate_key: キーの生成
-  label_issue_watchers: チケットのウォッチャー
+  label_issue_watchers: ウォッチャー
   label_example: 例
   label_display: 表示
   label_sort: ソート条件
