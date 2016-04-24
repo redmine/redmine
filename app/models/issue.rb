@@ -822,6 +822,16 @@ class Issue < ActiveRecord::Base
     !leaf?
   end
 
+  def assignable_trackers
+    trackers = project.trackers
+    if new_record? && parent_issue_id.present?
+      trackers = trackers.reject do |tracker|
+        tracker_id != tracker.id && tracker.disabled_core_fields.include?('parent_issue_id')
+      end
+    end
+    trackers
+  end
+
   # Users the issue can be assigned to
   def assignable_users
     users = project.assignable_users.to_a
