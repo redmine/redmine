@@ -602,6 +602,16 @@ class QueryTest < ActiveSupport::TestCase
     result.each {|issue| assert issue.subject.downcase.include?('cdef') }
   end
 
+  def test_operator_contains_with_utf8_string
+    issue = Issue.generate!(:subject => 'Subject contains Kiểm')
+
+    query = IssueQuery.new(:name => '_')
+    query.add_filter('subject', '~', ['Kiểm'])
+    result = find_issues_with_query(query)
+    assert_include issue, result
+    assert_equal 1, result.size
+  end
+
   def test_operator_does_not_contain
     issue = Issue.generate!(:subject => 'AbCdEfG')
 
