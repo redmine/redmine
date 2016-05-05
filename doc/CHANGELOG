@@ -4,6 +4,12 @@ Redmine - project management software
 Copyright (C) 2006-2016  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2016-05-05 v3.1.5
+
+* Defect #22305: Highlighting of required and read-only custom fields broken in Workflow editor.
+* Defect #22331: bundler error: Ruby 1.9.3 = "mime-types-data requires Ruby version >= 2.0."
+* Patch #22721: Check that the file is actually an image before generating the thumbnail
+
 == 2016-03-13 v3.1.4
 
 * Defect #21588: Simplified Chinese "field_cvs_module" translation has problem (Patch #21430)
