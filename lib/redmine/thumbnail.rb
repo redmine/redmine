@@ -16,6 +16,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 require 'fileutils'
+require 'mimemagic'
 
 module Redmine
   module Thumbnail
@@ -27,6 +28,10 @@ module Redmine
     def self.generate(source, target, size)
       return nil unless convert_available?
       unless File.exists?(target)
+        # Make sure we only invoke Imagemagick if this is actually an image
+        unless File.open(source) {|f| MimeMagic.by_magic(f).try(:image?)}
+          return nil
+        end
         directory = File.dirname(target)
         unless File.exists?(directory)
           FileUtils.mkdir_p directory
