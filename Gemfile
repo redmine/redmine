@@ -14,6 +14,7 @@ gem "protected_attributes"
 gem "actionpack-action_caching"
 gem "actionpack-xml_parser"
 gem "loofah", "~> 2.0"
+gem "mimemagic"
 
 # Request at least nokogiri 1.6.7.2 because of security advisories
 gem "nokogiri", ">= 1.6.7.2"
