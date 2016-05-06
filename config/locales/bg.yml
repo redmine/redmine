@@ -1185,3 +1185,5 @@ bg:
   text_repository_identifier_info: 'Позволени са малки букви (a-z), цифри, тирета и _.<br />Промяна след създаването му не е възможна.'
   setting_sys_api_key: API ключ
   setting_lost_password: Забравена парола
+  label_wiki_page_new: New wiki page
+  label_relations: Relations

@@ -25,7 +25,7 @@ module QueriesHelper
     grouped = {}
     query.available_filters.map do |field, field_options|
       if [:tree, :relation].include?(field_options[:type]) 
-        group = :label_related_issues
+        group = :label_relations
       elsif field =~ /^(.+)\./
         # association filters
         group = "field_#{$1}"

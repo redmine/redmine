@@ -60,6 +60,23 @@ class WikiController < ApplicationController
     @pages_by_date = @pages.group_by {|p| p.updated_on.to_date}
   end
 
+  def new
+    @page = WikiPage.new(:wiki => @wiki, :title => params[:title])
+    unless User.current.allowed_to?(:edit_wiki_pages, @project) && editable?
+      render_403
+    end
+    if request.post?
+      @page.validate
+      if @page.errors[:title].blank?
+        path = project_wiki_page_path(@project, @page.title)
+        respond_to do |format|
+          format.html { redirect_to path }
+          format.js   { render :js => "window.location = #{path.to_json}" }
+        end
+      end
+    end
+  end
+
   # display a page (in editing mode if it doesn't exist)
   def show
     if params[:version] && !User.current.allowed_to?(:view_wiki_edits, @project)

@@ -764,6 +764,7 @@ en:
   label_wiki_edit_plural: Wiki edits
   label_wiki_page: Wiki page
   label_wiki_page_plural: Wiki pages
+  label_wiki_page_new: New wiki page
   label_index_by_title: Index by title
   label_index_by_date: Index by date
   label_current_version: Current version
@@ -988,6 +989,7 @@ en:
   label_api: API
   label_field_format_enumeration: Key/value list
   label_default_values_for_new_users: Default values for new users
+  label_relations: Relations
 
   button_login: Login
   button_submit: Submit
@@ -1042,6 +1044,7 @@ en:
   button_close: Close
   button_reopen: Reopen
   button_import: Import
+  button_filter: Filter
 
   status_active: active
   status_registered: registered

@@ -72,10 +72,18 @@ class RolesController < ApplicationController
 
   def update
     if @role.update_attributes(params[:role])
-      flash[:notice] = l(:notice_successful_update)
-      redirect_to roles_path(:page => params[:page])
+      respond_to do |format|
+        format.html {
+          flash[:notice] = l(:notice_successful_update)
+          redirect_to roles_path(:page => params[:page])
+        }
+        format.js { render :nothing => true }
+      end
     else
-      render :action => 'edit'
+      respond_to do |format|
+        format.html { render :action => 'edit' }
+        format.js { render :nothing => true, :status => 422 }
+      end
     end
   end
 

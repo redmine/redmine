@@ -264,9 +264,9 @@ class Query < ActiveRecord::Base
       if values_for(field)
         case type_for(field)
         when :integer
-          add_filter_error(field, :invalid) if values_for(field).detect {|v| v.present? && !v.match(/^[+-]?\d+$/) }
+          add_filter_error(field, :invalid) if values_for(field).detect {|v| v.present? && !v.match(/\A[+-]?\d+(,[+-]?\d+)*\z/) }
         when :float
-          add_filter_error(field, :invalid) if values_for(field).detect {|v| v.present? && !v.match(/^[+-]?\d+(\.\d*)?$/) }
+          add_filter_error(field, :invalid) if values_for(field).detect {|v| v.present? && !v.match(/\A[+-]?\d+(\.\d*)?\z/) }
         when :date, :date_past
           case operator_for(field)
           when "=", ">=", "<=", "><"
@@ -771,10 +771,15 @@ class Query < ActiveRecord::Base
         when :date, :date_past
           sql = date_clause(db_table, db_field, parse_date(value.first), parse_date(value.first), is_custom_filter)
         when :integer
-          if is_custom_filter
-            sql = "(#{db_table}.#{db_field} <> '' AND CAST(CASE #{db_table}.#{db_field} WHEN '' THEN '0' ELSE #{db_table}.#{db_field} END AS decimal(30,3)) = #{value.first.to_i})"
+          int_values = value.first.to_s.scan(/[+-]?\d+/).map(&:to_i).join(",")
+          if int_values.present?
+            if is_custom_filter
+              sql = "(#{db_table}.#{db_field} <> '' AND CAST(CASE #{db_table}.#{db_field} WHEN '' THEN '0' ELSE #{db_table}.#{db_field} END AS decimal(30,3)) IN (#{int_values}))"
+            else
+              sql = "#{db_table}.#{db_field} IN (#{int_values})"
+            end
           else
-            sql = "#{db_table}.#{db_field} = #{value.first.to_i}"
+            sql = "1=0"
           end
         when :float
           if is_custom_filter
@@ -783,7 +788,7 @@ class Query < ActiveRecord::Base
             sql = "#{db_table}.#{db_field} BETWEEN #{value.first.to_f - 1e-5} AND #{value.first.to_f + 1e-5}"
           end
         else
-          sql = "#{db_table}.#{db_field} IN (" + value.collect{|val| "'#{self.class.connection.quote_string(val)}'"}.join(",") + ")"
+          sql = queried_class.send(:sanitize_sql_for_conditions, ["#{db_table}.#{db_field} IN (?)", value])
         end
       else
         # IN an empty set
@@ -791,7 +796,7 @@ class Query < ActiveRecord::Base
       end
     when "!"
       if value.any?
-        sql = "(#{db_table}.#{db_field} IS NULL OR #{db_table}.#{db_field} NOT IN (" + value.collect{|val| "'#{self.class.connection.quote_string(val)}'"}.join(",") + "))"
+        sql = queried_class.send(:sanitize_sql_for_conditions, ["(#{db_table}.#{db_field} IS NULL OR #{db_table}.#{db_field} NOT IN (?))", value])
       else
         # NOT IN an empty set
         sql = "1=1"
@@ -909,8 +914,8 @@ class Query < ActiveRecord::Base
 
   # Returns a SQL LIKE statement with wildcards
   def sql_contains(db_field, value, match=true)
-    value = "'%#{self.class.connection.quote_string(value.to_s)}%'"
-    Redmine::Database.like(db_field, value, :match => match)
+    queried_class.send :sanitize_sql_for_conditions,
+      [Redmine::Database.like(db_field, '?', :match => match), "%#{value}%"]
   end
 
   # Adds a filter for the given custom field

@@ -810,6 +810,7 @@ de:
   label_wiki_edit_plural: Wiki-Bearbeitungen
   label_wiki_page: Wiki-Seite
   label_wiki_page_plural: Wiki-Seiten
+  label_wiki_page_new: Neue Wiki-Seite
   label_workflow: Workflow
   label_x_closed_issues_abbr:
     zero:  0 geschlossen
@@ -1199,3 +1200,4 @@ de:
   label_default_values_for_new_users: Standardwerte für neue Benutzer
   error_ldap_bind_credentials: Invalid LDAP Account/Password
   mail_body_settings_updated: ! 'The following settings were changed:'
+  label_relations: Relations

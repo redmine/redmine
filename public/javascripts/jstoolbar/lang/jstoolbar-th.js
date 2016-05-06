@@ -7,6 +7,7 @@ jsToolBar.strings['Code'] = 'โค๊ดโปรแกรม';
 jsToolBar.strings['Heading 1'] = 'หัวข้อ 1';
 jsToolBar.strings['Heading 2'] = 'หัวข้อ 2';
 jsToolBar.strings['Heading 3'] = 'หัวข้อ 3';
+jsToolBar.strings['Highlighted code'] = 'Highlighted code';
 jsToolBar.strings['Unordered list'] = 'รายการ';
 jsToolBar.strings['Ordered list'] = 'ลำดับเลข';
 jsToolBar.strings['Quote'] = 'Quote';

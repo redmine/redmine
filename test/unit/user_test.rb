@@ -52,6 +52,14 @@ class UserTest < ActiveSupport::TestCase
     assert_kind_of User, @jsmith
   end
 
+  def test_should_validate_status
+    user = User.new
+    user.status = 0
+
+    assert !user.save
+    assert_include I18n.translate('activerecord.errors.messages.invalid'), user.errors[:status]
+  end
+
   def test_mail_should_be_stripped
     u = User.new
     u.mail = " foo@bar.com  "

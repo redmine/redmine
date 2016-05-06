@@ -179,6 +179,20 @@ jsToolBar.prototype.elements.pre = {
   }
 }
 
+// Code highlighting
+jsToolBar.prototype.elements.precode = {
+  type: 'button',
+  title: 'Highlighted code',
+  fn: {
+    wiki: function() {
+      var This = this;
+      this.precodeMenu(function(lang){
+        This.encloseLineSelection('<pre><code class="' + lang + '">\n', '\n</code></pre>\n');
+      });
+    }
+  }
+}
+
 // spacer
 jsToolBar.prototype.elements.space4 = {type: 'space'}
 

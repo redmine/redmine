@@ -1189,3 +1189,5 @@ ca:
     receives notifications.
   mail_body_settings_updated: ! 'The following settings were changed:'
   field_remote_ip: IP address
+  label_wiki_page_new: New wiki page
+  label_relations: Relations

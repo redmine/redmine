@@ -57,10 +57,18 @@ class EnumerationsController < ApplicationController
 
   def update
     if @enumeration.update_attributes(params[:enumeration])
-      flash[:notice] = l(:notice_successful_update)
-      redirect_to enumerations_path
+      respond_to do |format|
+        format.html {
+          flash[:notice] = l(:notice_successful_update)
+          redirect_to enumerations_path
+        }
+        format.js { render :nothing => true }
+      end
     else
-      render :action => 'edit'
+      respond_to do |format|
+        format.html { render :action => 'edit' }
+        format.js { render :nothing => true, :status => 422 }
+      end
     end
   end
 

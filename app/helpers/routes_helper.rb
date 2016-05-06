@@ -29,6 +29,14 @@ module RoutesHelper
     end
   end
 
+  def _new_project_issue_path(project, *args)
+    if project
+      new_project_issue_path(project, *args)
+    else
+      new_issue_path(*args)
+    end
+  end
+
   def _project_calendar_path(project, *args)
     project ? project_calendar_path(project, *args) : issues_calendar_path(*args)
   end
@@ -65,5 +73,9 @@ module RoutesHelper
     else
       new_time_entry_path(*args)
     end
+  end
+
+  def board_path(board, *args)
+    project_board_path(board.project, board, *args)
   end
 end

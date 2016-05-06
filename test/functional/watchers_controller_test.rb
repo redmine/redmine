@@ -133,6 +133,13 @@ class WatchersControllerTest < ActionController::TestCase
     assert_match /ajax-modal/, response.body
   end
 
+  def test_new_with_multiple_objects
+    @request.session[:user_id] = 2
+    xhr :get, :new, :object_type => 'issue', :object_id => ['1', '2']
+    assert_response :success
+    assert_match /ajax-modal/, response.body
+  end
+
   def test_new_for_new_record_with_project_id
     @request.session[:user_id] = 2
     xhr :get, :new, :project_id => 1
@@ -161,7 +168,7 @@ class WatchersControllerTest < ActionController::TestCase
     assert Issue.find(2).watched_by?(User.find(4))
   end
 
-  def test_create_multiple
+  def test_create_with_mutiple_users
     @request.session[:user_id] = 2
     assert_difference('Watcher.count', 2) do
       xhr :post, :create, :object_type => 'issue', :object_id => '2',
@@ -171,6 +178,21 @@ class WatchersControllerTest < ActionController::TestCase
       assert_match /ajax-modal/, response.body
     end
     assert Issue.find(2).watched_by?(User.find(4))
+    assert Issue.find(2).watched_by?(User.find(7))
+  end
+
+  def test_create_with_mutiple_objects
+    @request.session[:user_id] = 2
+    assert_difference('Watcher.count', 4) do
+      xhr :post, :create, :object_type => 'issue', :object_id => ['1', '2'],
+          :watcher => {:user_ids => ['4', '7']}
+      assert_response :success
+      assert_match /watchers/, response.body
+      assert_match /ajax-modal/, response.body
+    end
+    assert Issue.find(1).watched_by?(User.find(4))
+    assert Issue.find(2).watched_by?(User.find(4))
+    assert Issue.find(1).watched_by?(User.find(7))
     assert Issue.find(2).watched_by?(User.find(7))
   end
 

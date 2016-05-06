@@ -219,8 +219,8 @@ function buildFilterRow(field, operator, values) {
   case "float":
   case "tree":
     tr.find('td.values').append(
-      '<span style="display:none;"><input type="text" name="v['+field+'][]" id="values_'+fieldId+'_1" size="6" class="value" /></span>' +
-      ' <span style="display:none;"><input type="text" name="v['+field+'][]" id="values_'+fieldId+'_2" size="6" class="value" /></span>'
+      '<span style="display:none;"><input type="text" name="v['+field+'][]" id="values_'+fieldId+'_1" size="14" class="value" /></span>' +
+      ' <span style="display:none;"><input type="text" name="v['+field+'][]" id="values_'+fieldId+'_2" size="14" class="value" /></span>'
     );
     $('#values_'+fieldId+'_1').val(values[0]);
     $('#values_'+fieldId+'_2').val(values[1]);
@@ -589,6 +589,49 @@ function beforeShowDatePicker(input, inst) {
   }
   $(input).datepicker("option", "defaultDate", default_date);
 }
+
+(function($){
+  $.fn.positionedItems = function(sortableOptions, options){
+    var settings = $.extend({
+      firstPosition: 1
+    }, options );
+
+    return this.sortable($.extend({
+      handle: ".sort-handle",
+      helper: function(event, ui){
+        ui.children('td').each(function(){
+          $(this).width($(this).width());
+        });
+        return ui;
+      },
+      update: function(event, ui) {
+        var sortable = $(this);
+        var handle = ui.item.find(".sort-handle").addClass("ajax-loading");
+        var url = handle.data("reorder-url");
+        var param = handle.data("reorder-param");
+        var data = {};
+        data[param] = {position: ui.item.index() + settings['firstPosition']};
+        $.ajax({
+          url: url,
+          type: 'put',
+          dataType: 'script',
+          data: data,
+          success: function(data){
+            sortable.children(":even").removeClass("even").addClass("odd");
+            sortable.children(":odd").removeClass("odd").addClass("even");
+          },
+          error: function(jqXHR, textStatus, errorThrown){
+            alert(jqXHR.status);
+            sortable.sortable("cancel");
+          },
+          complete: function(jqXHR, textStatus, errorThrown){
+            handle.removeClass("ajax-loading");
+          }
+        });
+      },
+    }, sortableOptions));
+  }
+}( jQuery ));
 
 function initMyPageSortable(list, url) {
   $('#list-'+list).sortable({

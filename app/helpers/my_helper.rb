@@ -50,7 +50,7 @@ module MyHelper
   end
 
   def issueswatched_items
-    Issue.visible.on_active_project.watched_by(User.current.id).recently_updated.limit(10)
+    Issue.visible.open.on_active_project.watched_by(User.current.id).recently_updated.limit(10)
   end
 
   def news_items

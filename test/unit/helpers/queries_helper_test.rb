@@ -62,8 +62,8 @@ class QueriesHelperTest < ActionView::TestCase
   def test_filters_options_for_select_should_group_relations_filters
     with_locale 'en' do
       options = filters_options_for_select(IssueQuery.new)
-      assert_select_in options, 'optgroup[label=?]', 'Related issues', 1
-      assert_select_in options, 'optgroup[label=?] > option', 'Related issues', 11
+      assert_select_in options, 'optgroup[label=?]', 'Relations', 1
+      assert_select_in options, 'optgroup[label=?] > option', 'Relations', 11
       assert_select_in options, 'optgroup > option[value=relates]', :text => 'Related to'
     end
   end

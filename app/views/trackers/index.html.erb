@@ -5,11 +5,10 @@
 
 <h2><%=l(:label_tracker_plural)%></h2>
 
-<table class="list">
+<table class="list trackers">
   <thead><tr>
   <th><%=l(:label_tracker)%></th>
   <th></th>
-  <th><%=l(:button_sort)%></th>
   <th></th>
   </tr></thead>
   <tbody>
@@ -23,10 +22,8 @@
       </span>
     <% end %>
   </td>
-  <td class="reorder">
-    <%= reorder_links('tracker', {:action => 'update', :id => tracker, :page => params[:page]}, :put) %>
-  </td>
   <td class="buttons">
+    <%= reorder_handle(tracker) %>
     <%= delete_link tracker_path(tracker) %>
   </td>
   </tr>
@@ -35,3 +32,7 @@
 </table>
 
 <% html_title(l(:label_tracker_plural)) -%>
+
+<%= javascript_tag do %>
+  $(function() { $("table.trackers tbody").positionedItems(); });
+<% end %>

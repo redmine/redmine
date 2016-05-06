@@ -152,7 +152,7 @@ class TrackersControllerTest < ActionController::TestCase
 
   def test_move_lower
    tracker = Tracker.find_by_position(1)
-   put :update, :id => 1, :tracker => { :move_to => 'lower' }
+   put :update, :id => 1, :tracker => { :position => '2' }
    assert_equal 2, tracker.reload.position
   end
 

@@ -57,7 +57,7 @@ class Redmine::ApiTest::IssueRelationsTest < Redmine::ApiTest::Base
     end
 
     assert_response :unprocessable_entity
-    assert_select 'errors error', :text => /relation_type is not included in the list/
+    assert_select 'errors error', :text => /Relation type is not included in the list/
   end
 
   test "GET /relations/:id.xml should return the relation" do

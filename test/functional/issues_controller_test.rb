@@ -1057,6 +1057,36 @@ class IssuesControllerTest < ActionController::TestCase
     assert @response.body.blank?
   end
 
+  def test_index_should_include_new_issue_link
+    @request.session[:user_id] = 2
+    get :index, :project_id => 1
+    assert_select 'a.new-issue[href="/projects/ecookbook/issues/new"]', :text => 'New issue'
+  end
+
+  def test_index_should_not_include_new_issue_link_for_project_without_trackers
+    Project.find(1).trackers.clear
+
+    @request.session[:user_id] = 2
+    get :index, :project_id => 1
+    assert_select 'a.new-issue', 0
+  end
+
+  def test_index_should_not_include_new_issue_link_for_users_with_copy_issues_permission_only
+    role = Role.find(1)
+    role.remove_permission! :add_issues
+    role.add_permission! :copy_issues
+
+    @request.session[:user_id] = 2
+    get :index, :project_id => 1
+    assert_select 'a.new-issue', 0
+  end
+
+  def test_index_without_project_should_include_new_issue_link
+    @request.session[:user_id] = 2
+    get :index
+    assert_select 'a.new-issue[href="/issues/new"]', :text => 'New issue'
+  end
+
   def test_show_by_anonymous
     get :show, :id => 1
     assert_response :success
@@ -1987,6 +2017,23 @@ class IssuesControllerTest < ActionController::TestCase
     get :new, :project_id => 'invalid'
     assert_response 404
   end
+ 
+  def test_new_with_parent_id_should_only_propose_valid_trackers
+    @request.session[:user_id] = 2
+    t = Tracker.find(3)
+    assert !t.disabled_core_fields.include?('parent_issue_id')
+
+    get :new, :project_id => 1, issue: { parent_issue_id: 1 }
+    assert_response :success
+    assert_select 'option', text: /#{t.name}/, count: 1
+
+    t.core_fields = Tracker::CORE_FIELDS - ['parent_issue_id']
+    t.save!
+    assert t.disabled_core_fields.include?('parent_issue_id')
+    get :new, :project_id => 1, issue: { parent_issue_id: 1 }
+    assert_response :success
+    assert_select 'option', text: /#{t.name}/, count: 0
+  end
 
   def test_update_form_for_new_issue
     @request.session[:user_id] = 2
@@ -2795,9 +2842,6 @@ class IssuesControllerTest < ActionController::TestCase
       end
       assert_select 'input[name=copy_from][value="1"]'
     end
-
-    # "New issue" menu item should not link to copy
-    assert_select '#main-menu a.new-issue[href="/projects/ecookbook/issues/new"]'
   end
 
   def test_new_as_copy_without_add_issues_permission_should_not_propose_current_project_as_target
@@ -2999,6 +3043,24 @@ class IssuesControllerTest < ActionController::TestCase
     copy = Issue.where(:parent_id => nil).order('id DESC').first
     assert_equal count, copy.descendants.count
     assert_equal issue.descendants.map(&:subject).sort, copy.descendants.map(&:subject).sort
+  end
+
+  def test_create_as_copy_to_a_different_project_should_copy_subtask_custom_fields
+    issue = Issue.generate! {|i| i.custom_field_values = {'2' => 'Foo'}}
+    child = Issue.generate!(:parent_issue_id => issue.id) {|i| i.custom_field_values = {'2' => 'Bar'}}
+    @request.session[:user_id] = 1
+
+    assert_difference 'Issue.count', 2 do
+      post :create, :project_id => 'ecookbook', :copy_from => issue.id,
+        :issue => {:project_id => '2', :tracker_id => 1, :status_id => '1',
+                   :subject => 'Copy with subtasks', :custom_field_values => {'2' => 'Foo'}},
+        :copy_subtasks => '1'
+    end
+
+    child_copy, issue_copy = Issue.order(:id => :desc).limit(2).to_a
+    assert_equal 2, issue_copy.project_id
+    assert_equal 'Foo', issue_copy.custom_field_value(2)
+    assert_equal 'Bar', child_copy.custom_field_value(2)
   end
 
   def test_create_as_copy_without_copy_subtasks_option_should_not_copy_subtasks

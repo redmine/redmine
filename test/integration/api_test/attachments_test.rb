@@ -81,6 +81,24 @@ class Redmine::ApiTest::AttachmentsTest < Redmine::ApiTest::Base
     assert_response :success
   end
 
+  test "Destroy /attachments/:id.xml should return ok and deleted Attachment" do
+    assert_difference 'Attachment.count', -1 do
+      delete '/attachments/7.xml', {}, credentials('jsmith')
+      assert_response :ok
+      assert_equal '', response.body
+    end
+    assert_nil Attachment.find_by_id(7)
+  end
+
+  test "Destroy /attachments/:id.json should return ok and deleted Attachment" do
+    assert_difference 'Attachment.count', -1 do
+      delete '/attachments/7.json', {}, credentials('jsmith')
+      assert_response :ok
+      assert_equal '', response.body
+    end
+    assert_nil Attachment.find_by_id(7)
+  end
+
   test "POST /uploads.xml should return the token" do
     set_tmp_attachments_directory
     assert_difference 'Attachment.count' do

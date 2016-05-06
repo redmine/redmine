@@ -1166,10 +1166,10 @@ RAW
                   '<li><a href="#Title">Title</a>' +
                     '<ul>' +
                       '<li><a href="#Subtitle">Subtitle</a></li>' +
-                      '<li><a href="#Subtitle-2">Subtitle</a></li>'
-                    '</ul>'
+                      '<li><a href="#Subtitle-2">Subtitle</a></li>' +
+                    '</ul>' +
                   '</li>' +
-               '</ul>'
+                '</ul>'
 
     @project = Project.find(1)
     result = textilizable(raw).gsub("\n", "")

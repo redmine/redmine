@@ -22,7 +22,7 @@ class AttachmentsController < ApplicationController
   before_filter :delete_authorize, :only => :destroy
   before_filter :authorize_global, :only => :upload
 
-  accept_api_auth :show, :download, :thumbnail, :upload
+  accept_api_auth :show, :download, :thumbnail, :upload, :destroy
 
   def show
     respond_to do |format|
@@ -40,6 +40,8 @@ class AttachmentsController < ApplicationController
         elsif @attachment.is_text? && @attachment.filesize <= Setting.file_max_size_displayed.to_i.kilobyte
           @content = File.read(@attachment.diskfile, :mode => "rb")
           render :action => 'file'
+        elsif @attachment.is_image?
+          render :action => 'image'
         else
           download
         end
@@ -128,6 +130,7 @@ class AttachmentsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to_referer_or project_path(@project) }
       format.js
+      format.api { render_api_ok }
     end
   end
 

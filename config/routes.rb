@@ -91,7 +91,7 @@ Rails.application.routes.draw do
 
   post 'watchers/watch', :to => 'watchers#watch', :as => 'watch'
   delete 'watchers/watch', :to => 'watchers#unwatch'
-  get 'watchers/new', :to => 'watchers#new'
+  get 'watchers/new', :to => 'watchers#new', :as => 'new_watchers'
   post 'watchers', :to => 'watchers#create'
   post 'watchers/append', :to => 'watchers#append'
   delete 'watchers', :to => 'watchers#destroy'
@@ -156,7 +156,7 @@ Rails.application.routes.draw do
     end
   
     match 'wiki/index', :controller => 'wiki', :action => 'index', :via => :get
-    resources :wiki, :except => [:index, :new, :create], :as => 'wiki_page' do
+    resources :wiki, :except => [:index, :create], :as => 'wiki_page' do
       member do
         get 'rename'
         post 'rename'
@@ -169,6 +169,7 @@ Rails.application.routes.draw do
       collection do
         get 'export'
         get 'date_index'
+        post 'new'
       end
     end
     match 'wiki', :controller => 'wiki', :action => 'show', :via => :get

@@ -1,4 +1,4 @@
-<table class="list">
+<table class="list custom_fields">
   <thead><tr>
     <th><%=l(:field_name)%></th>
     <th><%=l(:field_field_format)%></th>
@@ -7,7 +7,6 @@
       <th><%=l(:field_is_for_all)%></th>
       <th><%=l(:label_used_by)%></th>
     <% end %>
-    <th><%=l(:button_sort)%></th>
     <th></th>
   </tr></thead>
   <tbody>
@@ -21,8 +20,8 @@
       <td><%= checked_image custom_field.is_for_all? %></td>
       <td><%= l(:label_x_projects, :count => custom_field.projects.count) if custom_field.is_a? IssueCustomField and !custom_field.is_for_all? %></td>
       <% end %>
-      <td class="reorder"><%= reorder_links('custom_field', {:action => 'update', :id => custom_field, :back_url => back_url}, :put) %></td>
       <td class="buttons">
+        <%= reorder_handle(custom_field, :url => custom_field_path(custom_field), :param => 'custom_field') %>
         <%= delete_link custom_field_path(custom_field) %>
       </td>
     </tr>

@@ -30,6 +30,8 @@ class Group < Principal
   validates_length_of :lastname, :maximum => 255
   attr_protected :id
 
+  self.valid_statuses = [STATUS_ACTIVE]
+
   before_destroy :remove_references_before_destroy
 
   scope :sorted, lambda { order(:type => :asc, :lastname => :asc) }

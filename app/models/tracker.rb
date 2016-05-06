@@ -34,7 +34,7 @@ class Tracker < ActiveRecord::Base
 
   has_and_belongs_to_many :projects
   has_and_belongs_to_many :custom_fields, :class_name => 'IssueCustomField', :join_table => "#{table_name_prefix}custom_fields_trackers#{table_name_suffix}", :association_foreign_key => 'custom_field_id'
-  acts_as_list
+  acts_as_positioned
 
   attr_protected :fields_bits
 

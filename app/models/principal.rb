@@ -24,6 +24,8 @@ class Principal < ActiveRecord::Base
   STATUS_REGISTERED = 2
   STATUS_LOCKED     = 3
 
+  class_attribute :valid_statuses
+
   has_many :members, :foreign_key => 'user_id', :dependent => :destroy
   has_many :memberships,
            lambda {preload(:project, :roles).
@@ -33,6 +35,8 @@ class Principal < ActiveRecord::Base
            :foreign_key => 'user_id'
   has_many :projects, :through => :memberships
   has_many :issue_categories, :foreign_key => 'assigned_to_id', :dependent => :nullify
+
+  validate :validate_status
 
   # Groups and active users
   scope :active, lambda { where(:status => STATUS_ACTIVE) }
@@ -177,6 +181,14 @@ class Principal < ActiveRecord::Base
     self.firstname ||= ''
     self.lastname ||= ''
     true
+  end
+
+  def validate_status
+    if status_changed? && self.class.valid_statuses.present?
+      unless self.class.valid_statuses.include?(status)
+        errors.add :status, :invalid
+      end
+    end
   end
 end
 

@@ -60,13 +60,18 @@ module ObjectHelpers
     status
   end
 
-  def Tracker.generate!(attributes={})
+  def Tracker.generate(attributes={})
     @generated_tracker_name ||= 'Tracker 0'
     @generated_tracker_name.succ!
     tracker = Tracker.new(attributes)
     tracker.name = @generated_tracker_name.dup if tracker.name.blank?
     tracker.default_status ||= IssueStatus.order('position').first || IssueStatus.generate!
     yield tracker if block_given?
+    tracker
+  end
+
+  def Tracker.generate!(attributes={}, &block)
+    tracker = Tracker.generate(attributes, &block)
     tracker.save!
     tracker
   end

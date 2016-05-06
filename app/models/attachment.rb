@@ -237,6 +237,10 @@ class Attachment < ActiveRecord::Base
     Redmine::MimeType.is_type?('text', filename)
   end
 
+  def is_image?
+    Redmine::MimeType.is_type?('image', filename)
+  end
+
   def is_diff?
     self.filename =~ /\.(patch|diff)$/i
   end

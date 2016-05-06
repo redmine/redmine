@@ -30,6 +30,9 @@ class RoutingWikiTest < Redmine::RoutingTest
     should_route 'GET /projects/foo/wiki/page' => 'wiki#show', :project_id => 'foo', :id => 'page'
     should_route 'GET /projects/foo/wiki/page.pdf' => 'wiki#show', :project_id => 'foo', :id => 'page', :format => 'pdf'
 
+    should_route 'GET /projects/foo/wiki/new' => 'wiki#new', :project_id => 'foo'
+    should_route 'POST /projects/foo/wiki/new' => 'wiki#new', :project_id => 'foo'
+
     should_route 'GET /projects/foo/wiki/page/edit' => 'wiki#edit', :project_id => 'foo', :id => 'page'
     should_route 'PUT /projects/foo/wiki/page' => 'wiki#update', :project_id => 'foo', :id => 'page'
     should_route 'DELETE /projects/foo/wiki/page' => 'wiki#destroy', :project_id => 'foo', :id => 'page'

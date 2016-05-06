@@ -117,8 +117,25 @@
     </li>
   <% end %>
 
+<% if @can[:add_watchers] %>
+  <li class="folder">
+    <a href="#" class="submenu"><%= l(:label_issue_watchers) %></a>
+    <ul>
+      <li><%= context_menu_link l(:button_add),
+                new_watchers_path(:object_type => 'issue', :object_id => @issue_ids),
+                :remote => true,
+                :class => 'icon-add' %></li>
+    </ul>
+  </li>
+<% end %>
+
 <% if User.current.logged? %>
   <li><%= watcher_link(@issues, User.current) %></li>
+<% end %>
+
+<% unless @issue %>
+  <li><%= context_menu_link l(:button_filter), _project_issues_path(@project, :set_filter => 1, :issue_id => @issue_ids.join(",")),
+          :class => 'icon-list' %></li>
 <% end %>
 
 <% if @issue.present? %>

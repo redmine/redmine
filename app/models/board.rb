@@ -21,7 +21,7 @@ class Board < ActiveRecord::Base
   has_many :messages, lambda {order("#{Message.table_name}.created_on DESC")}, :dependent => :destroy
   belongs_to :last_message, :class_name => 'Message'
   acts_as_tree :dependent => :nullify
-  acts_as_list :scope => '(project_id = #{project_id} AND parent_id #{parent_id ? "= #{parent_id}" : "IS NULL"})'
+  acts_as_positioned :scope => [:project_id, :parent_id]
   acts_as_watchable
 
   validates_presence_of :name, :description
@@ -35,7 +35,7 @@ class Board < ActiveRecord::Base
     where(Project.allowed_to_condition(args.shift || User.current, :view_messages, *args))
   }
 
-  safe_attributes 'name', 'description', 'parent_id', 'move_to'
+  safe_attributes 'name', 'description', 'parent_id', 'position'
 
   def visible?(user=User.current)
     !user.nil? && user.allowed_to?(:view_messages, project)

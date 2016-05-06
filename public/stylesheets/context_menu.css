@@ -25,9 +25,13 @@
 #context-menu li.folder ul { position:absolute; left:168px; /* IE6 */ top:-2px; max-height:300px; overflow:hidden; overflow-y: auto; }
 #context-menu li.folder>ul { left:148px; }
 
-#context-menu.reverse-y li.folder>ul { top:auto; bottom:0; }
+#context-menu.reverse-y li.folder>ul, #context-menu li.folder.up>ul { top:auto; bottom:0; }
 #context-menu.reverse-x li.folder ul { left:auto; right:168px; /* IE6 */ }
 #context-menu.reverse-x li.folder>ul { right:148px; }
+
+#context-menu.reverse-y li.folder.down>ul {
+  position:absolute; top:-2px; bottom: auto; max-height:300px; overflow:hidden; overflow-y: auto;
+}
 
 #context-menu a {
   text-decoration:none !important;

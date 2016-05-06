@@ -11,6 +11,11 @@
   <div id="roadmap">
   <% @versions.each do |version| %>
   <article class="version-article <%= version.css_classes %>">
+    <% if User.current.allowed_to?(:manage_versions, version.project) %>
+      <div class="contextual">
+        <%= link_to l(:button_edit), edit_version_path(version), :title => l(:button_edit), :class => 'icon-only icon-edit' %>
+      </div>
+    <% end %>
     <header>
       <h3 class="version"><%= link_to_version version, :name => version_anchor(version) %></h3>
     </header>

@@ -1185,3 +1185,5 @@ lt:
   description_date_from: Įvesti pradžios datą
   description_date_to: Įvesti pabaigos datą
   text_repository_identifier_info: 'Leidžiamos tik mažosios raidės (a-z), skaitmenys, brūkšneliai ir pabraukimo simboliai.<br />Kartą išsaugojus pakeitimai negalimi'
+  label_wiki_page_new: New wiki page
+  label_relations: Relations

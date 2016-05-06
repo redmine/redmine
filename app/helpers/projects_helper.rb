@@ -100,6 +100,19 @@ module ProjectsHelper
     l("label_version_sharing_#{sharing}")
   end
 
+  def render_boards_tree(boards, parent=nil, level=0, &block)
+    selection = boards.select {|b| b.parent == parent}
+    return '' if selection.empty?
+
+    s = ''.html_safe
+    selection.each do |board|
+      node = capture(board, level, &block)
+      node << render_boards_tree(boards, board, level+1, &block)
+      s << content_tag('div', node)
+    end
+    content_tag('div', s, :class => 'sort-level')
+  end
+
   def render_api_includes(project, api)
     api.array :trackers do
       project.trackers.each do |tracker|

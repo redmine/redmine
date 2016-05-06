@@ -67,7 +67,7 @@ function contextMenuClick(event) {
       // click is outside the rows
       if (target.is('a') && (target.hasClass('disabled') || target.hasClass('submenu'))) {
         event.preventDefault();
-      } else if (target.is('.toggle-selection')) {
+      } else if (target.is('.toggle-selection') || target.is('.ui-dialog *') || $('#ajax-modal').is(':visible')) {
         // nop
       } else {
         contextMenuUnselectAll();
@@ -87,7 +87,8 @@ function contextMenuCreate() {
 
 function contextMenuShow(event) {
   var mouse_x = event.pageX;
-  var mouse_y = event.pageY;
+  var mouse_y = event.pageY;  
+  var mouse_y_c = event.clientY;  
   var render_x = mouse_x;
   var render_y = mouse_y;
   var dims;
@@ -110,7 +111,7 @@ function contextMenuShow(event) {
       menu_width = $('#context-menu').width();
       menu_height = $('#context-menu').height();
       max_width = mouse_x + 2*menu_width;
-      max_height = mouse_y + menu_height;
+      max_height = mouse_y_c + menu_height;
 
       var ws = window_size();
       window_width = ws.width;
@@ -123,12 +124,22 @@ function contextMenuShow(event) {
       } else {
        $('#context-menu').removeClass('reverse-x');
       }
+
       if (max_height > window_height) {
        render_y -= menu_height;
        $('#context-menu').addClass('reverse-y');
+        // adding class for submenu
+        if (mouse_y_c < 325) {
+          $('#context-menu .folder').addClass('down');
+        }
       } else {
-       $('#context-menu').removeClass('reverse-y');
+        // adding class for submenu
+        if (window_height - mouse_y_c < 345) {
+          $('#context-menu .folder').addClass('up');
+        } 
+        $('#context-menu').removeClass('reverse-y');
       }
+
       if (render_x <= 0) render_x = 1;
       if (render_y <= 0) render_y = 1;
       $('#context-menu').css('left', (render_x + 'px'));
@@ -136,7 +147,6 @@ function contextMenuShow(event) {
       $('#context-menu').show();
 
       //if (window.parseStylesheets) { window.parseStylesheets(); } // IE
-
     }
   });
 }

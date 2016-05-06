@@ -182,7 +182,7 @@ roles_004:
     - :browse_repository
     - :view_changesets
 
-  position: 4
+  position: 1
 roles_005: 
   name: Anonymous
   id: 5
@@ -203,5 +203,5 @@ roles_005:
     - :browse_repository
     - :view_changesets
 
-  position: 5
+  position: 1
 

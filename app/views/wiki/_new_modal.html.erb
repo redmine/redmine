@@ -1,0 +1,21 @@
+<h3 class="title"><%=l(:label_wiki_page_new)%></h3>
+
+<%= labelled_form_for :page, @page,
+            :url => new_project_wiki_page_path(@project),
+            :method => 'post',
+            :remote => true do |f| %>
+
+  <%= render_error_messages @page.errors.full_messages_for(:title) %>
+
+  <div class="box tabular">
+    <p>
+      <%= f.text_field :title, :name => 'title', :size => 60, :required => true %>
+      <em class="info"><%= l(:text_unallowed_characters) %>: , . / ? ; : |</em>
+    </p>
+  </div>
+
+  <p class="buttons">
+    <%= submit_tag l(:label_next), :name => nil %>
+    <%= submit_tag l(:button_cancel), :name => nil, :onclick => "hideModal(this);", :type => 'button' %>
+  </p>
+<% end %>

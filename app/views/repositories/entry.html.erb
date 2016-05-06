@@ -8,7 +8,11 @@
 
 <%= render :partial => 'link_to_functions' %>
 
-<%= render :partial => 'common/file', :locals => {:filename => @path, :content => @content} %>
+<% if Redmine::MimeType.is_type?('image', @path) %>
+  <%= render :partial => 'common/image', :locals => {:path => url_for(params.merge(:action => 'raw')), :alt => @path} %>
+<% else %>
+  <%= render :partial => 'common/file', :locals => {:filename => @path, :content => @content} %>
+<% end %>
 
 <% content_for :header_tags do %>
 <%= stylesheet_link_tag "scm" %>

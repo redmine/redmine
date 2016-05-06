@@ -183,6 +183,55 @@ class WikiControllerTest < ActionController::TestCase
     assert_select 'textarea[name=?]', 'content[text]'
   end
 
+  def test_get_new
+    @request.session[:user_id] = 2
+
+    get :new, :project_id => 'ecookbook'
+    assert_response :success
+    assert_template 'new'
+  end
+
+  def test_get_new_xhr
+    @request.session[:user_id] = 2
+
+    xhr :get, :new, :project_id => 'ecookbook'
+    assert_response :success
+    assert_template 'new'
+  end
+
+  def test_post_new_with_valid_title_should_redirect_to_edit
+    @request.session[:user_id] = 2
+
+    post :new, :project_id => 'ecookbook', :title => 'New Page'
+    assert_redirected_to '/projects/ecookbook/wiki/New_Page'
+  end
+
+  def test_post_new_xhr_with_valid_title_should_redirect_to_edit
+    @request.session[:user_id] = 2
+
+    xhr :post, :new, :project_id => 'ecookbook', :title => 'New Page'
+    assert_response :success
+    assert_equal 'window.location = "/projects/ecookbook/wiki/New_Page"', response.body
+  end
+
+  def test_post_new_with_invalid_title_should_display_errors
+    @request.session[:user_id] = 2
+
+    post :new, :project_id => 'ecookbook', :title => 'Another page'
+    assert_response :success
+    assert_template 'new'
+    assert_select_error 'Title has already been taken'
+  end
+
+  def test_post_new_xhr_with_invalid_title_should_display_errors
+    @request.session[:user_id] = 2
+
+    xhr :post, :new, :project_id => 'ecookbook', :title => 'Another page'
+    assert_response :success
+    assert_template 'new'
+    assert_include 'Title has already been taken', response.body
+  end
+
   def test_create_page
     @request.session[:user_id] = 2
     assert_difference 'WikiPage.count' do

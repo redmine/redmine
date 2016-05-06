@@ -170,7 +170,9 @@ class RepositoriesController < ApplicationController
 
     @content = @repository.cat(@path, @rev)
     (show_error_not_found; return) unless @content
-    if is_raw ||
+    if !is_raw && Redmine::MimeType.is_type?('image', @path)
+      # simply render
+    elsif is_raw ||
          (@content.size && @content.size > Setting.file_max_size_displayed.to_i.kilobyte) ||
          ! is_entry_text_data?(@content, @path)
       # Force the download

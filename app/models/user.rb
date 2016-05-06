@@ -119,6 +119,8 @@ class User < Principal
     end
   end
 
+  self.valid_statuses = [STATUS_ACTIVE, STATUS_REGISTERED, STATUS_LOCKED]
+
   before_validation :instantiate_email_address
   before_create :set_mail_notification
   before_save   :generate_password_if_needed, :update_hashed_password
@@ -871,6 +873,8 @@ end
 
 class AnonymousUser < User
   validate :validate_anonymous_uniqueness, :on => :create
+
+  self.valid_statuses = [STATUS_ANONYMOUS]
 
   def validate_anonymous_uniqueness
     # There should be only one AnonymousUser in the database

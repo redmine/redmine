@@ -54,7 +54,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       format.html {
-        @groups = Group.all.sort
+        @groups = Group.givable.sort
         render :layout => !request.xhr?
       }
       format.api
