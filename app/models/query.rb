@@ -264,9 +264,9 @@ class Query < ActiveRecord::Base
       if values_for(field)
         case type_for(field)
         when :integer
-          add_filter_error(field, :invalid) if values_for(field).detect {|v| v.present? && !v.match(/^[+-]?\d+$/) }
+          add_filter_error(field, :invalid) if values_for(field).detect {|v| v.present? && !v.match(/\A[+-]?\d+(,[+-]?\d+)*\z/) }
         when :float
-          add_filter_error(field, :invalid) if values_for(field).detect {|v| v.present? && !v.match(/^[+-]?\d+(\.\d*)?$/) }
+          add_filter_error(field, :invalid) if values_for(field).detect {|v| v.present? && !v.match(/\A[+-]?\d+(\.\d*)?\z/) }
         when :date, :date_past
           case operator_for(field)
           when "=", ">=", "<=", "><"
@@ -771,10 +771,15 @@ class Query < ActiveRecord::Base
         when :date, :date_past
           sql = date_clause(db_table, db_field, parse_date(value.first), parse_date(value.first), is_custom_filter)
         when :integer
-          if is_custom_filter
-            sql = "(#{db_table}.#{db_field} <> '' AND CAST(CASE #{db_table}.#{db_field} WHEN '' THEN '0' ELSE #{db_table}.#{db_field} END AS decimal(30,3)) = #{value.first.to_i})"
+          int_values = value.first.to_s.scan(/[+-]?\d+/).map(&:to_i).join(",")
+          if int_values.present?
+            if is_custom_filter
+              sql = "(#{db_table}.#{db_field} <> '' AND CAST(CASE #{db_table}.#{db_field} WHEN '' THEN '0' ELSE #{db_table}.#{db_field} END AS decimal(30,3)) IN (#{int_values}))"
+            else
+              sql = "#{db_table}.#{db_field} IN (#{int_values})"
+            end
           else
-            sql = "#{db_table}.#{db_field} = #{value.first.to_i}"
+            sql = "1=0"
           end
         when :float
           if is_custom_filter

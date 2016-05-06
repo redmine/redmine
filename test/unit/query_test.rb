@@ -235,6 +235,14 @@ class QueryTest < ActiveSupport::TestCase
     assert_equal 2, issues.first.id
   end
 
+  def test_operator_is_on_integer_should_accept_comma_separated_values
+    query = IssueQuery.new(:name => '_')
+    query.add_filter("issue_id", '=', ['1,3'])
+    issues = find_issues_with_query(query)
+    assert_equal 2, issues.size
+    assert_equal [1,3], issues.map(&:id).sort
+  end
+
   def test_operator_is_on_integer_custom_field
     f = IssueCustomField.create!(:name => 'filter', :field_format => 'int', :is_for_all => true, :is_filter => true, :trackers => Tracker.all)
     CustomValue.create!(:custom_field => f, :customized => Issue.find(1), :value => '7')

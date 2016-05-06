@@ -1181,6 +1181,7 @@ a.icon-only::after {
 .icon-ok { background-image: url(../images/true.png); }
 .icon-not-ok { background-image: url(../images/false.png); }
 .icon-link-break { background-image: url(../images/link_break.png); }
+.icon-list { background-image: url(../images/text_list_bullets.png); }
 
 .icon-file { background-image: url(../images/files/default.png); }
 .icon-file.text-plain { background-image: url(../images/files/text.png); }

@@ -1054,6 +1054,7 @@ fr:
   button_close: Fermer
   button_reopen: Réouvrir
   button_import: Importer
+  button_filter: Filtrer
 
   status_active: actif
   status_registered: enregistré

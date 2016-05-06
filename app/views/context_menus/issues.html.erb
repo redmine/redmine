@@ -133,6 +133,11 @@
   <li><%= watcher_link(@issues, User.current) %></li>
 <% end %>
 
+<% unless @issue %>
+  <li><%= context_menu_link l(:button_filter), _project_issues_path(@project, :set_filter => 1, :issue_id => @issue_ids.join(",")),
+          :class => 'icon-list' %></li>
+<% end %>
+
 <% if @issue.present? %>
   <% if @can[:log_time] -%>
   <li><%= context_menu_link l(:button_log_time), new_issue_time_entry_path(@issue),
