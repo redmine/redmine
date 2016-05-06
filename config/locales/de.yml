@@ -1201,3 +1201,4 @@ de:
   error_ldap_bind_credentials: Invalid LDAP Account/Password
   mail_body_settings_updated: ! 'The following settings were changed:'
   label_relations: Relations
+  button_filter: Filter
