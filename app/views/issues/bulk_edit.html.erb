@@ -160,6 +160,14 @@
 </p>
 <% end %>
 
+<% if @safe_attributes.include?('estimated_hours') %>
+<p>
+  <label for='issue_estimated_hours'><%= l(:field_estimated_hours) %></label>
+  <%= text_field_tag 'issue[estimated_hours]', '', :value => @issue_params[:estimated_hours], :size => 10 %>
+  <label class="inline"><%= check_box_tag 'issue[estimated_hours]', 'none', (@issue_params[:estimated_hours] == 'none'), :id => nil, :data => {:disables => '#issue_estimated_hours'} %><%= l(:button_clear) %></label>
+</p>
+<% end %>
+
 <% if @safe_attributes.include?('done_ratio') && Issue.use_field_for_done_ratio? %>
 <p>
   <label for='issue_done_ratio'><%= l(:field_done_ratio) %></label>

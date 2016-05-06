@@ -4,6 +4,23 @@ Redmine - project management software
 Copyright (C) 2006-2016  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2016-05-05 v3.2.2
+
+* Defect #5156: Bulk edit form lacks estimated time field
+* Defect #22105: Responsive layout. Change menu selector in responsive.js.
+* Defect #22134: HTML markup discrepancy ol and ul at app/views/imports/show.html.erb
+* Defect #22196: Improve positioning of issue history and changesets on small screens
+* Defect #22305: Highlighting of required and read-only custom fields broken in Workflow editor
+* Defect #22331: bundler error: Ruby 1.9.3 = "mime-types-data requires Ruby version >= 2.0."
+* Defect #22342: When copying issues to a different project, subtasks /w custom fields not copied over
+* Defect #22354: Sort criteria defined in custom queries are not applied when exporting to CSV
+* Defect #22583: CSV import delimiter detection broken
+* Patch #22278: Revision Graph and Table should work with vertical-align: middle
+* Patch #22296: Add collision option to autocomplete initialization
+* Patch #22319: Fix German "error_invalid_csv_file_or_settings" typo
+* Patch #22336: Revision Table does not scroll horizontally on small screens
+* Patch #22721: Check that the file is actually an image before generating the thumbnail
+
 == 2016-03-13 v3.2.1
 
 * Defect #21588: Simplified Chinese "field_cvs_module" translation has problem (Patch #21430)
