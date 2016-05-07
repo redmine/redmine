@@ -848,6 +848,7 @@
   label_wiki_edit_plural: Wiki 編輯
   label_wiki_page: Wiki 網頁
   label_wiki_page_plural: Wiki 網頁
+  label_wiki_page_new: 新增 Wiki 頁面
   label_index_by_title: 依標題索引
   label_index_by_date: 依日期索引
   label_current_version: 現行版本
@@ -1072,6 +1073,7 @@
   label_api: API
   label_field_format_enumeration: 鍵/值 清單
   label_default_values_for_new_users: 新用戶使用之預設值
+  label_relations: 關聯
 
   button_login: 登入
   button_submit: 送出
@@ -1267,6 +1269,4 @@
   description_date_from: 輸入起始日期
   description_date_to: 輸入結束日期
   text_repository_identifier_info: '僅允許使用小寫英文字母 (a-z), 阿拉伯數字, 虛線與底線。<br />一旦儲存之後, 代碼便無法再次被更改。'
-  label_wiki_page_new: New wiki page
-  label_relations: Relations
   button_filter: Filter
