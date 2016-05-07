@@ -1759,7 +1759,9 @@ class QueryTest < ActiveSupport::TestCase
     assert c = @query.send(:date_clause, 'table', 'field', from, to, false)
     # the dates should have been interpreted in the user's time zone and
     # converted to utc. March 20 in Hawaii begins at 10am UTC.
-    assert_equal "table.field > '2016-03-20 09:59:59.999999' AND table.field <= '2016-03-23 09:59:59.999999'", c
+    f = Time.new(2016, 3, 20, 9, 59, 59, 0).end_of_hour
+    t = Time.new(2016, 3, 23, 9, 59, 59, 0).end_of_hour
+    assert_equal "table.field > '#{Query.connection.quoted_date f}' AND table.field <= '#{Query.connection.quoted_date t}'", c
   ensure
     ActiveRecord::Base.default_timezone = :local # restore Redmine default
   end
