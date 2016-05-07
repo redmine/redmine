@@ -971,12 +971,20 @@ class Query < ActiveRecord::Base
     end
   end
 
+  def date_for_user_time_zone(y, m, d)
+    if tz = User.current.time_zone
+      tz.local y, m, d
+    else
+      Time.local y, m, d
+    end
+  end
+
   # Returns a SQL clause for a date or datetime field.
   def date_clause(table, field, from, to, is_custom_filter)
     s = []
     if from
       if from.is_a?(Date)
-        from = Time.local(from.year, from.month, from.day).yesterday.end_of_day
+        from = date_for_user_time_zone(from.year, from.month, from.day).yesterday.end_of_day
       else
         from = from - 1 # second
       end
@@ -987,7 +995,7 @@ class Query < ActiveRecord::Base
     end
     if to
       if to.is_a?(Date)
-        to = Time.local(to.year, to.month, to.day).end_of_day
+        to = date_for_user_time_zone(to.year, to.month, to.day).end_of_day
       end
       if self.class.default_timezone == :utc
         to = to.utc
