@@ -461,12 +461,12 @@ module Redmine
       end
 
       def edit_tag(view, tag_id, tag_name, custom_value, options={})
-        view.text_field_tag(tag_name, custom_value.value, options.merge(:id => tag_id, :size => 10)) +
+        view.date_field_tag(tag_name, custom_value.value, options.merge(:id => tag_id, :size => 10)) +
           view.calendar_for(tag_id)
       end
 
       def bulk_edit_tag(view, tag_id, tag_name, custom_field, objects, value, options={})
-        view.text_field_tag(tag_name, value, options.merge(:id => tag_id, :size => 10)) +
+        view.date_field_tag(tag_name, value, options.merge(:id => tag_id, :size => 10)) +
           view.calendar_for(tag_id) +
           bulk_clear_tag(view, tag_id, tag_name, custom_field, value)
       end
