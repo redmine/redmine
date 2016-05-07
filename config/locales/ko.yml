@@ -176,7 +176,7 @@ ko:
         not_same_project: "는 같은 프로젝트에 속해 있지 않습니다"
         circular_dependency: "이 관계는 순환 의존관계를 만들 수 있습니다"
         cant_link_an_issue_with_a_descendant: "일감은 하위 일감과 연결할 수 없습니다."
-        earlier_than_minimum_start_date: "cannot be earlier than %{date} because of preceding issues"
+        earlier_than_minimum_start_date: "시작날짜 %{date}보다 앞선 시간으로 설정할 수 없습니다."
 
   actionview_instancetag_blank_option: 선택하세요
 
@@ -983,8 +983,8 @@ ko:
   label_additional_workflow_transitions_for_author: "사용자가 저자일 때 허용되는 추가 상태"
   label_bulk_edit_selected_time_entries: "선택된 소요 시간 대량 편집"
   text_time_entries_destroy_confirmation: "선택한 소요 시간 항목을 삭제하시겠습니까?"
-  label_role_anonymous: Anonymous
-  label_role_non_member: Non member
+  label_role_anonymous: 익명
+  label_role_non_member: 비회원
 
   label_issue_note_added: "덧글이 추가되었습니다."
   label_issue_status_updated: "상태가 변경되었습니다."
@@ -1148,49 +1148,48 @@ ko:
   setting_force_default_language_for_anonymous: 익명 사용자의 기본 언어 강제
   setting_force_default_language_for_loggedin: 로그인 사용자의 기본 언어 강제
   label_custom_field_select_type: 사용자 정의 필드에 추가할 대상을 선택해주세요.
-  label_issue_assigned_to_updated: Assignee updated
-  label_check_for_updates: Check for updates
-  label_latest_compatible_version: Latest compatible version
-  label_unknown_plugin: Unknown plugin
+  label_issue_assigned_to_updated: 담당자 업데이트
+  label_check_for_updates: 업데이트 확인
+  label_latest_compatible_version: 최종 호환 버전
+  label_unknown_plugin: 알 수 없는 플러그인
   label_radio_buttons: radio buttons
-  label_group_anonymous: Anonymous users
-  label_group_non_member: Non member users
-  label_add_projects: Add projects
-  field_default_status: Default status
-  text_subversion_repository_note: 'Examples: file:///, http://, https://, svn://, svn+[tunnelscheme]://'
-  field_users_visibility: Users visibility
-  label_users_visibility_all: All active users
-  label_users_visibility_members_of_visible_projects: Members of visible projects
-  label_edit_attachments: Edit attached files
-  setting_link_copied_issue: Link issues on copy
-  label_link_copied_issue: Link copied issue
-  label_ask: Ask
-  label_search_attachments_yes: Search attachment filenames and descriptions
-  label_search_attachments_no: Do not search attachments
-  label_search_attachments_only: Search attachments only
-  label_search_open_issues_only: Open issues only
+  label_group_anonymous: 익명 사용자
+  label_group_non_member: 비회원 사용자
+  label_add_projects: 프로젝트 추가
+  field_default_status: 초기 상태
+  text_subversion_repository_note: '예: file:///, http://, https://, svn://, svn+[tunnelscheme]://'
+  field_users_visibility: 사용자 가시성
+  label_users_visibility_all: 모든 활성 사용자
+  label_users_visibility_members_of_visible_projects: 보이는 프로젝트 회원
+  label_edit_attachments: 첨부파일 편집
+  setting_link_copied_issue: 복사할 때 일감 연결
+  label_link_copied_issue: 복사한 일감 연결
+  label_ask: 물어보기
+  label_search_attachments_yes: 첨부파일명과 설명만 검색
+  label_search_attachments_no: 첨부는 검색하지 않음
+  label_search_attachments_only: 첨부만 검색
+  label_search_open_issues_only: 열린 일감만
   field_address: 메일
-  setting_max_additional_emails: Maximum number of additional email addresses
-  label_email_address_plural: Emails
-  label_email_address_add: Add email address
-  label_enable_notifications: Enable notifications
-  label_disable_notifications: Disable notifications
-  setting_search_results_per_page: Search results per page
+  setting_max_additional_emails: 허용하는 메일주소 개수
+  label_email_address_plural: 메일주소
+  label_email_address_add: 메일주소 추가
+  label_enable_notifications: 알림 켜기
+  label_disable_notifications: 알림 끄기
+  setting_search_results_per_page: 페이지당 검색 결과
   label_blank_value: blank
-  permission_copy_issues: Copy issues
-  error_password_expired: Your password has expired or the administrator requires you
-    to change it.
-  field_time_entries_visibility: Time logs visibility
-  setting_password_max_age: Require password change after
-  label_parent_task_attributes: Parent tasks attributes
-  label_parent_task_attributes_derived: Calculated from subtasks
-  label_parent_task_attributes_independent: Independent of subtasks
-  label_time_entries_visibility_all: All time entries
-  label_time_entries_visibility_own: Time entries created by the user
-  label_member_management: Member management
-  label_member_management_all_roles: All roles
-  label_member_management_selected_roles_only: Only these roles
-  label_password_required: Confirm your password to continue
+  permission_copy_issues: 일감 복사
+  error_password_expired: 암호가 만료되었거나 관리자가 변경하도록 설정하였습니다.
+  field_time_entries_visibility: 시간기록 가시성
+  setting_password_max_age: 암호 변경 주기
+  label_parent_task_attributes: 상위일감 속성
+  label_parent_task_attributes_derived: 하위일감으로부터 계산
+  label_parent_task_attributes_independent: 하위일감과 별도로 계산
+  label_time_entries_visibility_all: 모든 시간기록
+  label_time_entries_visibility_own: 이 사용자가 생성한 시간기록
+  label_member_management: 회원 관리
+  label_member_management_all_roles: 모든 역할
+  label_member_management_selected_roles_only: 선택된 역할 만
+  label_password_required: 계속하려면 암호를 확인해야 합니다.
   label_total_spent_time: 총 소요시간
   notice_import_finished: All %{count} items have been imported.
   notice_import_finished_with_errors: ! '%{count} out of %{total} items could not be
@@ -1213,7 +1212,7 @@ ko:
   label_file_content_preview: File content preview
   label_create_missing_values: Create missing values
   button_import: Import
-  field_total_estimated_hours: Total estimated time
+  field_total_estimated_hours: 추정 시간
   label_api: API
   label_total_plural: Totals
   label_assigned_issues: Assigned issues
