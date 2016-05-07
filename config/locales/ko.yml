@@ -316,7 +316,7 @@ ko:
   field_is_filter: 검색조건으로 사용됨
   field_issue_to_id: 연관된 일감
   field_delay: 지연
-  field_assignable: 이 역할에게 일감을 맡길 수 있음
+  field_assignable: 일감을 맡길 수 있음
   field_redirect_existing_links: 기존의 링크로 돌려보냄(redirect)
   field_estimated_hours: 추정시간
   field_column_names: 컬럼
@@ -347,7 +347,7 @@ ko:
   setting_wiki_compression: 위키 이력 압축
   setting_feeds_limit: 피드에 포함할 항목의 수
   setting_default_projects_public: 새 프로젝트를 공개로 설정
-  setting_autofetch_changesets: 커밋(commit)된 변경묶음을 자동으로 가져오기
+  setting_autofetch_changesets: 커밋을 자동으로 가져오기
   setting_sys_api_enabled: 저장소 관리에 WS를 사용
   setting_commit_ref_keywords: 일감 참조에 사용할 키워드들
   setting_commit_fix_keywords: 일감 해결에 사용할 키워드들
@@ -368,7 +368,7 @@ ko:
   setting_sequential_project_identifiers: 프로젝트 식별자를 순차적으로 생성
   setting_gravatar_enabled: 그라바타 사용자 아이콘 사용
   setting_diff_max_lines_displayed: 차이점(diff) 보기에 표시할 최대 줄수
-  setting_repository_log_display_limit: 저장소 보기에 표시할 개정판 이력의 최대 갯수
+  setting_repository_log_display_limit: 저장소 보기에 표시할 개정이력의 최대 갯수
   setting_file_max_size_displayed: 바로 보여줄 텍스트파일의 최대 크기
   setting_openid: OpenID 로그인과 등록 허용
   setting_password_min_length: 최소 암호 길이
@@ -413,7 +413,7 @@ ko:
   permission_protect_wiki_pages: 프로젝트 위키 페이지
   permission_manage_repository: 저장소 관리
   permission_browse_repository: 저장소 둘러보기
-  permission_view_changesets: 변경묶음보기
+  permission_view_changesets: 변경묶음 보기
   permission_commit_access: 변경로그 보기
   permission_manage_boards: 게시판 관리
   permission_view_messages: 메시지 보기
@@ -711,9 +711,9 @@ ko:
   label_theme: 테마
   label_default: 기본
   label_search_titles_only: 제목에서만 찾기
-  label_user_mail_option_all: "내가 속한 프로젝트로들부터 모든 메일 받기"
+  label_user_mail_option_all: "내가 속한 프로젝트들로부터 모든 메일 받기"
   label_user_mail_option_selected: "선택한 프로젝트들로부터 모든 메일 받기.."
-  label_user_mail_no_self_notified: "내가 만든 변경사항들에 대해서는 알림메일을 받지 않습니다."
+  label_user_mail_no_self_notified: "내가 만든 변경사항들에 대해서는 알림을 받지 않습니다."
   label_registration_activation_by_email: 메일로 계정을 활성화하기
   label_registration_automatic_activation: 자동 계정 활성화
   label_registration_manual_activation: 수동 계정 활성화
@@ -997,7 +997,7 @@ ko:
   permission_set_issues_private: "일감을 공개나 비공개로 설정"
   label_issues_visibility_public: "비공개 일감 제외"
   text_issues_destroy_descendants_confirmation: "%{count} 개의 하위 일감을 삭제할 것입니다."
-  field_commit_logs_encoding: "커밋(commit) 기록 인코딩"
+  field_commit_logs_encoding: "커밋 기록 인코딩"
   field_scm_path_encoding: "경로 인코딩"
   text_scm_path_encoding_note: "기본: UTF-8"
   field_path_to_repository: "저장소 경로"
@@ -1007,7 +1007,7 @@ ko:
   text_mercurial_repository_note: "로컬 저장소 (예: /hgrepo, c:\\hgrepo)"
   text_scm_command: "명령"
   text_scm_command_version: "버전"
-  label_git_report_last_commit: "파일이나 폴더의 마지막 커밋(commit)을 보고"
+  label_git_report_last_commit: "파일이나 폴더의 마지막 커밋을 보고"
   text_scm_config: "SCM 명령을 config/configuration.yml에서 수정할 수 있습니다. 수정후에는 재시작하십시오."
   text_scm_command_not_available: "SCM 명령을 사용할 수 없습니다. 관리 페이지의 설정을 검사하십시오."
   notice_issue_successful_create: "%{id} 일감이 생성되었습니다."
@@ -1108,13 +1108,13 @@ ko:
   label_no_issues_in_project: 다음 프로젝트의 일감 제외
   label_any: 모두
   label_last_n_weeks: 최근 %{count} 주
-  setting_cross_project_subtasks: 다른 프로젝트의 일감을 상위 일감으로 지정하는 것을 허용
+  setting_cross_project_subtasks: 다른 프로젝트로부터 상위 일감 지정 허용
   label_cross_project_descendants: 하위 프로젝트
   label_cross_project_tree: 최상위 및 모든 하위 프로젝트
   label_cross_project_hierarchy: 상위 및 하위 프로젝트
   label_cross_project_system: 모든 프로젝트
   button_hide: 숨기기
-  setting_non_working_week_days: 비근무일 (non-working days)
+  setting_non_working_week_days: 휴일
   label_in_the_next_days: 다음
   label_in_the_past_days: 지난
   label_attribute_of_user: "사용자의 %{name}"
@@ -1125,7 +1125,7 @@ ko:
   permission_delete_documents: 문서 삭제
   label_gantt_progress_line: 진행 선
   setting_jsonp_enabled: JSONP 허용
-  field_inherit_members: 상위 프로젝트로부터 구성원을 상속
+  field_inherit_members: 상위 프로젝트 구성원 상속
   field_closed_on: 완료일
   field_generate_password: 비밀번호 생성
   setting_default_projects_tracker_ids: 새 프로젝트에 기본적으로 추가할 일감 유형
@@ -1136,7 +1136,7 @@ ko:
   label_visibility_private: 자신 만
   label_visibility_roles: 다음 역할 만
   label_visibility_public: 모든 사용자
-  field_must_change_passwd: 다음 로그온 시 반드시 암호를 변경해야 함
+  field_must_change_passwd: 다음 로그온 시 암호 변경
   notice_new_password_must_be_different: 새 암호는 현재 암호와 달라야 합니다.
   setting_mail_handler_excluded_filenames: 제외할 첨부 파일명
   text_convert_available: ImageMagick 변환 사용 가능 (옵션)
