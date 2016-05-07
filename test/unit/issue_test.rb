@@ -2527,6 +2527,17 @@ class IssueTest < ActiveSupport::TestCase
     assert_equal %w(upload foo bar), issue.attachments.map(&:filename)
   end
 
+  def test_save_attachments_with_array_should_warn_about_missing_tokens
+    set_tmp_attachments_directory
+    issue = Issue.generate!
+    issue.save_attachments([
+      {'token' => 'missing'}
+    ])
+    assert !issue.save
+    assert issue.errors[:base].present?
+    assert_equal 0, issue.reload.attachments.count
+  end
+
   def test_closed_on_should_be_nil_when_creating_an_open_issue
     issue = Issue.generate!(:status_id => 1).reload
     assert !issue.closed?
