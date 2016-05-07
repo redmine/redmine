@@ -31,7 +31,7 @@
 <%= link_to_content_update(l(:label_next) + " \xc2\xbb",
                    params.merge(:from => @date_to + @days - 1),
                    :title => l(:label_date_from_to, :start => format_date(@date_to), :end => format_date(@date_to + @days - 1)),
-                   :accesskey => accesskey(:next)) unless @date_to >= Date.today %>
+                   :accesskey => accesskey(:next)) unless @date_to >= User.current.today %>
 </div>
 &nbsp;
 <% other_formats_links do |f| %>

@@ -352,7 +352,7 @@ class RepositoriesController < ApplicationController
   end
 
   def graph_commits_per_month(repository)
-    @date_to = Date.today
+    @date_to = User.current.today
     @date_from = @date_to << 11
     @date_from = Date.civil(@date_from.year, @date_from.month, 1)
     commits_by_day = Changeset.
@@ -371,7 +371,8 @@ class RepositoriesController < ApplicationController
     changes_by_day.each {|c| changes_by_month[(@date_to.month - c.first.to_date.month) % 12] += c.last }
 
     fields = []
-    12.times {|m| fields << month_name(((Date.today.month - 1 - m) % 12) + 1)}
+    today = User.current.today
+    12.times {|m| fields << month_name(((today.month - 1 - m) % 12) + 1)}
 
     graph = SVG::Graph::Bar.new(
       :height => 300,

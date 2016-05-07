@@ -252,7 +252,7 @@ module ApplicationHelper
 
   def due_date_distance_in_words(date)
     if date
-      l((date < Date.today ? :label_roadmap_overdue : :label_roadmap_due_in), distance_of_date_in_words(Date.today, date))
+      l((date < User.current.today ? :label_roadmap_overdue : :label_roadmap_due_in), distance_of_date_in_words(User.current.today, date))
     end
   end
 

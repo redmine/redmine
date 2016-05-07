@@ -2756,4 +2756,30 @@ class IssueTest < ActiveSupport::TestCase
     issue.reload.assigned_to = nil
     assert_equal group, issue.assigned_to_was
   end
+
+  def test_issue_overdue_should_respect_user_timezone
+    user_in_europe = users(:users_001)
+    user_in_europe.pref.update_attribute :time_zone, 'UTC'
+
+    user_in_asia = users(:users_002)
+    user_in_asia.pref.update_attribute :time_zone, 'Hongkong'
+
+    issue = Issue.generate! :due_date => Date.parse('2016-03-20')
+
+    # server time is UTC
+    time = Time.parse '2016-03-20 20:00 UTC'
+    Time.stubs(:now).returns(time)
+    Date.stubs(:today).returns(time.to_date)
+
+    # for a user in the same time zone as the server the issue is not overdue
+    # yet
+    User.current = user_in_europe
+    assert !issue.overdue?
+
+    # at the same time, a user in East Asia looks at the issue - it's already
+    # March 21st and the issue should be marked overdue
+    User.current = user_in_asia
+    assert issue.overdue?
+
+  end
 end

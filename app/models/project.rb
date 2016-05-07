@@ -594,7 +594,7 @@ class Project < ActiveRecord::Base
   end
 
   def overdue?
-    active? && !due_date.nil? && (due_date < Date.today)
+    active? && !due_date.nil? && (due_date < User.current.today)
   end
 
   # Returns the percent completed for this project, based on the

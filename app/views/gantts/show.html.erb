@@ -302,9 +302,9 @@
 <%= @gantt.lines.html_safe %>
 
 <% ###### Today red line (excluded from cache) ###### %>
-<% if Date.today >= @gantt.date_from and Date.today <= @gantt.date_to %>
+<% if User.current.today >= @gantt.date_from and User.current.today <= @gantt.date_to %>
   <%
-    today_left = (((Date.today - @gantt.date_from + 1) * zoom).floor() - 1).to_i
+    today_left = (((User.current.today - @gantt.date_from + 1) * zoom).floor() - 1).to_i
     style  = ""
     style += "position: absolute;"
     style += "height: #{g_height}px;"
