@@ -1124,54 +1124,54 @@ pt-BR:
   label_drop_down_list: lista suspensa
   label_checkboxes: checkboxes
   label_link_values_to: Valores do link para URL
-  setting_force_default_language_for_anonymous: Force default language for anonymous
-    users
-  setting_force_default_language_for_loggedin: Force default language for logged-in
-    users
-  label_custom_field_select_type: Select the type of object to which the custom field
-    is to be attached
-  label_issue_assigned_to_updated: Assignee updated
-  label_check_for_updates: Check for updates
-  label_latest_compatible_version: Latest compatible version
-  label_unknown_plugin: Unknown plugin
-  label_radio_buttons: radio buttons
-  label_group_anonymous: Anonymous users
-  label_group_non_member: Non member users
-  label_add_projects: Add projects
-  field_default_status: Default status
-  text_subversion_repository_note: 'Examples: file:///, http://, https://, svn://, svn+[tunnelscheme]://'
-  field_users_visibility: Users visibility
-  label_users_visibility_all: All active users
-  label_users_visibility_members_of_visible_projects: Members of visible projects
-  label_edit_attachments: Edit attached files
-  setting_link_copied_issue: Link issues on copy
-  label_link_copied_issue: Link copied issue
-  label_ask: Ask
-  label_search_attachments_yes: Search attachment filenames and descriptions
-  label_search_attachments_no: Do not search attachments
-  label_search_attachments_only: Search attachments only
-  label_search_open_issues_only: Open issues only
+  setting_force_default_language_for_anonymous: Forçar linguagem padrão para usuários
+    anônimos
+  setting_force_default_language_for_loggedin: Forçar linguagem padrão para usuários
+    logados
+  label_custom_field_select_type: Selecione o tipo de objeto ao qual o campo personalizado
+    é para ser anexado
+  label_issue_assigned_to_updated: Atribuição atualizada
+  label_check_for_updates: Verificar atualizações
+  label_latest_compatible_version: Última versão compatível
+  label_unknown_plugin: Plugin desconhecido
+  label_radio_buttons: botões radio
+  label_group_anonymous: Usuários anônimos
+  label_group_non_member: Usuários não membros
+  label_add_projects: Adicionar projetos
+  field_default_status: Situação padrão
+  text_subversion_repository_note: 'Examplos: file:///, http://, https://, svn://, svn+[tunnelscheme]://'
+  field_users_visibility: Visibilidade do usuário
+  label_users_visibility_all: Todos usuários ativos
+  label_users_visibility_members_of_visible_projects: Membros de projetos visíveis
+  label_edit_attachments: Editar arquivos anexados
+  setting_link_copied_issue: Linkar tarefas copiadas
+  label_link_copied_issue: Linkar tarefas copiadas
+  label_ask: Perguntar
+  label_search_attachments_yes: Procurar nome do arquivo e descrição anexados
+  label_search_attachments_no: Não procurar anexados
+  label_search_attachments_only: Procurar somente anexados
+  label_search_open_issues_only: Somente tarefas abertas
   field_address: E-mail
-  setting_max_additional_emails: Maximum number of additional email addresses
+  setting_max_additional_emails: Número máximo de e-mails adicionais
   label_email_address_plural: Emails
-  label_email_address_add: Add email address
-  label_enable_notifications: Enable notifications
-  label_disable_notifications: Disable notifications
-  setting_search_results_per_page: Search results per page
-  label_blank_value: blank
-  permission_copy_issues: Copy issues
-  error_password_expired: Your password has expired or the administrator requires you
-    to change it.
-  field_time_entries_visibility: Time logs visibility
-  setting_password_max_age: Require password change after
-  label_parent_task_attributes: Parent tasks attributes
-  label_parent_task_attributes_derived: Calculated from subtasks
-  label_parent_task_attributes_independent: Independent of subtasks
-  label_time_entries_visibility_all: All time entries
-  label_time_entries_visibility_own: Time entries created by the user
-  label_member_management: Member management
-  label_member_management_all_roles: All roles
-  label_member_management_selected_roles_only: Only these roles
-  label_password_required: Confirm your password to continue
+  label_email_address_add: Adicionar endereço de email
+  label_enable_notifications: Habilitar notificações
+  label_disable_notifications: Desabilitar notificações
+  setting_search_results_per_page: Resultados de pesquisa por página
+  label_blank_value: Branco
+  permission_copy_issues: Copiar tarefas
+  error_password_expired: Sua senha expirou ou requer atualização
+
+  field_time_entries_visibility: Visibilidade do log de tempo
+  setting_password_max_age: Requer troca de senha depois
+  label_parent_task_attributes: Atributos das tarefas pai
+  label_parent_task_attributes_derived: Calculado das subtarefas
+  label_parent_task_attributes_independent: Independente das subtarefas
+  label_time_entries_visibility_all: Todas as entradas de tempo
+  label_time_entries_visibility_own: Entradas de tempo criadas pelo usuário
+  label_member_management: Gerenciamento de membros
+  label_member_management_all_roles: Todas os papéis
+  label_member_management_selected_roles_only: Somente esses papéis
+  label_password_required: Confirme sua senha para continuar
   label_total_spent_time: Tempo gasto geral
-  field_total_estimated_hours: Total estimated time
+  field_total_estimated_hours: Tempo estimado geral
