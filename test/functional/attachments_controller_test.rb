@@ -179,12 +179,13 @@ class AttachmentsControllerTest < ActionController::TestCase
     end
   end
 
-  def test_show_text_file_should_send_if_too_big
+  def test_show_text_file_should_show_other_if_too_big
     with_settings :file_max_size_displayed => 512 do
       Attachment.find(4).update_attribute :filesize, 754.kilobyte
       get :show, :id => 4
       assert_response :success
-      assert_equal 'application/x-ruby', @response.content_type
+      assert_template 'other'
+      assert_equal 'text/html', @response.content_type
     end
     set_tmp_attachments_directory
   end
@@ -200,8 +201,9 @@ class AttachmentsControllerTest < ActionController::TestCase
 
   def test_show_other
     get :show, :id => 6
-    assert_response :success
-    assert_equal 'application/zip', @response.content_type
+    assert_template 'other'
+    assert_equal 'text/html', @response.content_type
+    assert_select '.nodata', :text => 'No preview available'
     set_tmp_attachments_directory
   end
 

@@ -43,7 +43,7 @@ class AttachmentsController < ApplicationController
         elsif @attachment.is_image?
           render :action => 'image'
         else
-          download
+          render :action => 'other'
         end
       }
       format.api
