@@ -237,8 +237,8 @@ ja:
   field_description: 説明
   field_summary: サマリー
   field_is_required: 必須
-  field_firstname: 名前
-  field_lastname: 苗字
+  field_firstname: 名
+  field_lastname: 姓
   field_mail: メールアドレス
   field_filename: ファイル
   field_filesize: サイズ
