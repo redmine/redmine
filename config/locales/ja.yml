@@ -1207,8 +1207,8 @@ ja:
   mail_body_security_notification_notify_disabled: メールアドレス %{value} には今後は通知が送信されません。
   mail_body_settings_updated: ! '下記の設定が変更されました:'
   field_remote_ip: IPアドレス
-  label_wiki_page_new: New wiki page
-  label_relations: Relations
-  button_filter: Filter
-  mail_body_password_updated: Your password has been changed.
-  label_no_preview: No preview available
+  label_wiki_page_new: 新しいWikiページ
+  label_relations: 関係
+  button_filter: フィルタ
+  mail_body_password_updated: パスワードが変更されました。
+  label_no_preview: このファイルはプレビューできません
