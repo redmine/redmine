@@ -313,8 +313,7 @@ class Mailer < ActionMailer::Base
   # Notifies user that his password was updated
   def self.password_updated(user)
     Mailer.security_notification(user,
-      message: :mail_body_security_notification_change,
-      field: :field_password,
+      message: :mail_body_password_updated,
       title: :button_change_password,
       url: {controller: 'my', action: 'password'}
     ).deliver
