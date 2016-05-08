@@ -107,12 +107,13 @@ class RepositoriesFilesystemControllerTest < ActionController::TestCase
       end
     end
 
-    def test_show_text_file_should_send_if_too_big
+    def test_show_text_file_should_show_other_if_too_big
       with_settings :file_max_size_displayed => 1 do
         get :entry, :id => PRJ_ID,
             :path => repository_path_hash(['japanese', 'big-file.txt'])[:param]
         assert_response :success
-        assert_equal 'text/plain', @response.content_type
+        assert_equal 'text/html', @response.content_type
+        assert_select 'p.nodata'
       end
     end
 

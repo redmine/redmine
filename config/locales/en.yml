@@ -617,6 +617,7 @@ en:
   label_attribute: Attribute
   label_attribute_plural: Attributes
   label_no_data: No data to display
+  label_no_preview: No preview available
   label_change_status: Change status
   label_history: History
   label_attachment: File
