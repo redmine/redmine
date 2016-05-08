@@ -1203,3 +1203,4 @@ de:
   mail_body_settings_updated: ! 'The following settings were changed:'
   label_relations: Relations
   button_filter: Filter
+  mail_body_password_updated: Your password has been changed.

@@ -1205,3 +1205,4 @@ fr:
   mail_body_security_notification_notify_enabled: Les notifications ont été activées pour l'adresse %{value}
   mail_body_security_notification_notify_disabled: Les notifications ont été désactivées pour l'adresse %{value}
   field_remote_ip: Adresse IP
+  label_no_preview: No preview available
