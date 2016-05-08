@@ -114,7 +114,7 @@ module Redmine
           # Standard children
           standard_children_list = "".html_safe.tap do |child_html|
             node.children.each do |child|
-              child_html << render_menu_node(child, project)
+              child_html << render_menu_node(child, project) if allowed_node?(child, User.current, project)
             end
           end
 
@@ -138,7 +138,7 @@ module Redmine
           # Tree nodes support #each so we need to do object detection
           if unattached_children.is_a? Array
             unattached_children.each do |child|
-              child_html << content_tag(:li, render_unattached_menu_item(child, project))
+              child_html << content_tag(:li, render_unattached_menu_item(child, project)) if allowed_node?(child, User.current, project)
             end
           else
             raise MenuError, ":child_menus must be an array of MenuItems"
@@ -192,6 +192,7 @@ module Redmine
 
       # See MenuItem#allowed?
       def allowed_node?(node, user, project)
+        raise MenuError, ":child_menus must be an array of MenuItems" unless node.is_a? MenuItem
         node.allowed?(user, project)
       end
     end
