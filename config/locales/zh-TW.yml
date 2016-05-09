@@ -320,6 +320,7 @@
   mail_body_security_notification_notify_enabled: "電子郵件地址 %{value} 已開始接收通知。"
   mail_body_security_notification_notify_disabled: "電子郵件地址 %{value} 已不再接收通知。"
   mail_body_settings_updated: "下列設定已變更："
+  mail_body_password_updated: "您的密碼已變更。"
 
   field_name: 名稱
   field_description: 概述
@@ -396,7 +397,7 @@
   field_activity: 活動
   field_spent_on: 日期
   field_identifier: 代碼
-  field_is_filter: 用來作為過濾器
+  field_is_filter: 用來作為篩選器
   field_issue_to: 相關議題
   field_delay: 逾期
   field_assignable: 議題可被分派至此角色
@@ -701,6 +702,7 @@
   label_attribute: 屬性
   label_attribute_plural: 屬性
   label_no_data: 沒有任何資料可供顯示
+  label_no_preview: 沒有任何預覽可供使用
   label_change_status: 變更狀態
   label_history: 歷史
   label_attachment: 檔案
@@ -1128,6 +1130,7 @@
   button_close: 關閉
   button_reopen: 重新開啟
   button_import: 匯入
+  button_filter: 篩選器
 
   status_active: 活動中
   status_registered: 註冊完成
@@ -1269,6 +1272,3 @@
   description_date_from: 輸入起始日期
   description_date_to: 輸入結束日期
   text_repository_identifier_info: '僅允許使用小寫英文字母 (a-z), 阿拉伯數字, 虛線與底線。<br />一旦儲存之後, 代碼便無法再次被更改。'
-  button_filter: Filter
-  mail_body_password_updated: Your password has been changed.
-  label_no_preview: No preview available
