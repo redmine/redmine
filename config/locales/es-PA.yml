@@ -1235,3 +1235,4 @@ es-PA:
   button_filter: Filter
   mail_body_password_updated: Your password has been changed.
   label_no_preview: No preview available
+  setting_new_project_issue_tab_enabled: Display the "New issue" tab
