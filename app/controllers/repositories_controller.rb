@@ -173,7 +173,7 @@ class RepositoriesController < ApplicationController
       send_opt = { :filename => filename_for_content_disposition(@path.split('/').last) }
       send_type = Redmine::MimeType.of(@path)
       send_opt[:type] = send_type.to_s if send_type
-      send_opt[:disposition] = (Redmine::MimeType.is_type?('image', @path) ? 'inline' : 'attachment')
+      send_opt[:disposition] = disposition(@path)
       send_data @repository.cat(@path, @rev), send_opt
     else
       if !@entry.size || @entry.size <= Setting.file_max_size_displayed.to_i.kilobyte
@@ -440,5 +440,13 @@ class RepositoriesController < ApplicationController
       :title => l(:label_change_plural)
     )
     graph.burn
+  end
+
+  def disposition(path)
+    if Redmine::MimeType.is_type?('image', @path) || Redmine::MimeType.of(@path) == "application/pdf"
+      'inline'
+    else
+      'attachment'
+    end
   end
 end

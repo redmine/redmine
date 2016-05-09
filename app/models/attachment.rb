@@ -245,6 +245,10 @@ class Attachment < ActiveRecord::Base
     self.filename =~ /\.(patch|diff)$/i
   end
 
+  def is_pdf?
+    Redmine::MimeType.of(filename) == "application/pdf"
+  end
+
   # Returns true if the file is readable
   def readable?
     File.readable?(diskfile)
