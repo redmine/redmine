@@ -1352,6 +1352,24 @@ module ApplicationHelper
     encoding = l(:general_csv_encoding)
   end
 
+  def top_menu_style_from_settings
+    "background-color: ##{Setting.top_menu_background_color}; color: ##{Setting.top_menu_font_color};"
+  end
+
+  def header_bar_style_from_settings
+    "background-color: ##{Setting.header_bar_background_color}; color: ##{Setting.header_bar_font_color};"
+  end
+
+  def custom_header_logo(logo_name = "header_bar_logo.png")
+    if File.exists?("#{Rails.root}/public/images/#{logo_name}")
+      content_tag :div, :id => "header-logo" do
+        image_tag logo_name
+      end
+    else
+      nil
+    end
+  end
+
   private
 
   def wiki_helper

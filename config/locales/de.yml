@@ -1051,6 +1051,11 @@ de:
   setting_user_format: Benutzer-Anzeigeformat
   setting_welcome_text: Willkommenstext
   setting_wiki_compression: Wiki-Historie komprimieren
+  setting_top_menu_background_color: 'Hintergrundfarbe Menüleiste (HEX/ohne #)'
+  setting_top_menu_font_color: 'Schriftfarbe Menüleiste (HEX/ohne #)'
+  setting_header_bar_background_color: 'Hintergrundfarbe Header (HEX/ohne #)'
+  setting_header_bar_font_color: 'Schriftfarbe Header (HEX/ohne #)'
+  setting_header_logo_hint: 'Tipp: Legen Sie eine png-Datei unter public/images/header_bar_logo.png ab, um das Logo in der Headerleiste anzuzeigen'
 
   status_active: aktiv
   status_locked: gesperrt

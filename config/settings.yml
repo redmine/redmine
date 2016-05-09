@@ -270,6 +270,20 @@ thumbnails_enabled:
 thumbnails_size:
   format: int
   default: 100
+
+top_menu_background_color:
+  default: '3E5B76'
+
+top_menu_font_color:
+  default: 'FFFFFF'
+
+header_bar_background_color:
+  default: '628DB6'
+
+header_bar_font_color:
+  default: 'f8f8f8'
+
+
 non_working_week_days:
   serialized: true
   default:
