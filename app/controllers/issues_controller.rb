@@ -350,6 +350,16 @@ class IssuesController < ApplicationController
     end
   end
 
+  # Overrides Redmine::MenuManager::MenuController::ClassMethods for
+  # when the "New issue" tab is enabled
+  def current_menu_item
+    if Setting.new_project_issue_tab_enabled? && [:new, :create].include?(action_name.to_sym) 
+      :new_issue
+    else
+      super
+    end
+  end
+
   private
 
   def retrieve_previous_and_next_issue_ids
