@@ -422,7 +422,7 @@ class Query < ActiveRecord::Base
 
   def label_for(field)
     label = available_filters[field][:name] if available_filters.has_key?(field)
-    label ||= l("field_#{field.to_s.gsub(/_id$/, '')}", :default => field)
+    label ||= queried_class.human_attribute_name(field, :default => field)
   end
 
   def self.add_available_column(column)
