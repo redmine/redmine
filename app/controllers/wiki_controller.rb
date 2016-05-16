@@ -169,7 +169,7 @@ class WikiController < ApplicationController
     @content.author = User.current
 
     if @page.save_with_content(@content)
-      attachments = Attachment.attach_files(@page, params[:attachments])
+      attachments = Attachment.attach_files(@page, params[:attachments] || (params[:wiki_page] && params[:wiki_page][:uploads]))
       render_attachment_warning_if_needed(@page)
       call_hook(:controller_wiki_edit_after_save, { :params => params, :page => @page})
 
