@@ -1235,9 +1235,9 @@ ko:
   mail_body_security_notification_notify_disabled: '%{value}(으)로 더 이상 알람이 발송되지 않습니다.'
   mail_body_settings_updated: ! '다음의 설정이 변경되었습니다:'
   field_remote_ip: IP 주소
-  label_wiki_page_new: New wiki page
-  label_relations: Relations
-  button_filter: Filter
-  mail_body_password_updated: Your password has been changed.
-  label_no_preview: No preview available
-  setting_new_project_issue_tab_enabled: Display the "New issue" tab
+  label_wiki_page_new: 새 위키 페이지
+  label_relations: 관계
+  button_filter: 필터
+  mail_body_password_updated: 암호가 변경되었습니다.
+  label_no_preview: 미리보기 없음
+  setting_new_project_issue_tab_enabled: '"새 일감" 탭 표시'
