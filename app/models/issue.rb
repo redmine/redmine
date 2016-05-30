@@ -479,12 +479,14 @@ class Issue < ActiveRecord::Base
     end
 
     if (t = attrs.delete('tracker_id')) && safe_attribute?('tracker_id')
-      self.tracker_id = t
+      if allowed_target_trackers(user).where(:id => t.to_i).exists?
+        self.tracker_id = t
+      end
     end
     if project
-      # Set the default tracker to accept custom field values
+      # Set a default tracker to accept custom field values
       # even if tracker is not specified
-      self.tracker ||= project.trackers.first
+      self.tracker ||= allowed_target_trackers(user).first
     end
 
     statuses_allowed = new_statuses_allowed_to(user)
@@ -820,16 +822,6 @@ class Issue < ActiveRecord::Base
   # Does this issue have children?
   def children?
     !leaf?
-  end
-
-  def assignable_trackers
-    trackers = project.trackers
-    if new_record? && parent_issue_id.present?
-      trackers = trackers.reject do |tracker|
-        tracker_id != tracker.id && tracker.disabled_core_fields.include?('parent_issue_id')
-      end
-    end
-    trackers
   end
 
   # Users the issue can be assigned to
@@ -1372,6 +1364,20 @@ class Issue < ActiveRecord::Base
       condition = ["(#{condition}) OR #{Project.table_name}.id = ?", current_project.id]
     end
     Project.where(condition).having_trackers
+  end
+ 
+  # Returns a scope of trackers that user can assign the issue to
+  def allowed_target_trackers(user=User.current)
+    if project
+      self.class.allowed_target_trackers(project, user, tracker_id_was)
+    else
+      Tracker.none
+    end
+  end
+
+  # Returns a scope of trackers that user can assign project issues to
+  def self.allowed_target_trackers(project, user=User.current, current_tracker=nil)
+    project.trackers.sorted
   end
 
   private

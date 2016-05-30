@@ -230,7 +230,7 @@ class IssuesController < ApplicationController
     end
     @custom_fields = @issues.map{|i|i.editable_custom_fields}.reduce(:&)
     @assignables = target_projects.map(&:assignable_users).reduce(:&)
-    @trackers = target_projects.map(&:trackers).reduce(:&)
+    @trackers = target_projects.map {|p| Issue.allowed_target_trackers(p) }.reduce(:&)
     @versions = target_projects.map {|p| p.shared_versions.open}.reduce(:&)
     @categories = target_projects.map {|p| p.issue_categories}.reduce(:&)
     if @copy
@@ -465,7 +465,7 @@ class IssuesController < ApplicationController
     @issue.safe_attributes = attrs
 
     if @issue.project
-      @issue.tracker ||= @issue.project.trackers.first
+      @issue.tracker ||= @issue.allowed_target_trackers.first
       if @issue.tracker.nil?
         render_error l(:error_no_tracker_in_project)
         return false

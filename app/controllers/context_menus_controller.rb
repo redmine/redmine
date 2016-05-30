@@ -41,12 +41,11 @@ class ContextMenusController < ApplicationController
       else
         @assignables = @project.assignable_users
       end
-      @trackers = @project.trackers
     else
       #when multiple projects, we only keep the intersection of each set
       @assignables = @projects.map(&:assignable_users).reduce(:&)
-      @trackers = @projects.map(&:trackers).reduce(:&)
     end
+    @trackers = @projects.map {|p| Issue.allowed_target_trackers(p) }.reduce(:&)
     @versions = @projects.map {|p| p.shared_versions.open}.reduce(:&)
 
     @priorities = IssuePriority.active.reverse

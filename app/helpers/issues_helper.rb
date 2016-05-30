@@ -168,6 +168,16 @@ module IssuesHelper
     link_to(l(:button_add), new_project_issue_path(issue.project, :issue => attrs))
   end
 
+  def trackers_options_for_select(issue)
+    trackers = issue.allowed_target_trackers
+    if issue.new_record? && issue.parent_issue_id.present?
+      trackers = trackers.reject do |tracker|
+        issue.tracker_id != tracker.id && tracker.disabled_core_fields.include?('parent_issue_id')
+      end
+    end
+    trackers.collect {|t| [t.name, t.id]}
+  end
+
   class IssueFieldsRows
     include ActionView::Helpers::TagHelper
 

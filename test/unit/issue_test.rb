@@ -737,9 +737,10 @@ class IssueTest < ActiveSupport::TestCase
     target = Tracker.find(2)
     target.core_fields = %w(assigned_to_id due_date)
     target.save!
+    user = User.find(2)
 
-    issue = Issue.new(:tracker => source)
-    issue.safe_attributes = {'tracker_id' => 2, 'due_date' => '2012-07-14'}
+    issue = Issue.new(:project => Project.find(1), :tracker => source)
+    issue.send :safe_attributes=, {'tracker_id' => 2, 'due_date' => '2012-07-14'}, user
     assert_equal target, issue.tracker
     assert_equal Date.parse('2012-07-14'), issue.due_date
   end
