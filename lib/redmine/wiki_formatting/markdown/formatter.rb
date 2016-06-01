@@ -43,6 +43,12 @@ module Redmine
             "<pre>" + CGI.escapeHTML(code) + "</pre>"
           end
         end
+
+        def image(link, title, alt_text)
+          return unless uri_with_safe_scheme?(link)
+
+          tag('img', :src => link, :alt => alt_text || "", :title => title)
+        end
       end
 
       class Formatter
