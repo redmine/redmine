@@ -48,6 +48,7 @@ module Redmine
     class Base
       include Singleton
       include Redmine::I18n
+      include Redmine::Helpers::URL
       include ERB::Util
 
       class_attribute :format_name
@@ -149,7 +150,12 @@ module Redmine
       # Returns the validation errors for custom_field
       # Should return an empty array if custom_field is valid
       def validate_custom_field(custom_field)
-        []
+        errors = []
+        pattern = custom_field.url_pattern
+        if pattern.present? && !uri_with_safe_scheme?(url_pattern_without_tokens(pattern))
+          errors << [:url_pattern, :invalid]
+        end
+        errors
       end
 
       # Returns the validation error messages for custom_value
@@ -178,7 +184,7 @@ module Redmine
             url = url_from_pattern(custom_field, single_value, customized)
             [text, url]
           end
-          links = texts_and_urls.sort_by(&:first).map {|text, url| view.link_to text, url}
+          links = texts_and_urls.sort_by(&:first).map {|text, url| view.link_to_if uri_with_safe_scheme?(url), text, url}
           links.join(', ').html_safe
         else
           casted
@@ -209,6 +215,13 @@ module Redmine
         url
       end
       protected :url_from_pattern
+
+      # Returns the URL pattern with substitution tokens removed,
+      # for validation purpose
+      def url_pattern_without_tokens(url_pattern)
+        url_pattern.to_s.gsub(/%(value|id|project_id|project_identifier|m\d+)%/, '')
+      end
+      protected :url_pattern_without_tokens
 
       def edit_tag(view, tag_id, tag_name, custom_value, options={})
         view.text_field_tag(tag_name, custom_value.value, options.merge(:id => tag_id))
