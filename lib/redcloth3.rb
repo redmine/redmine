@@ -973,7 +973,7 @@ class RedCloth3 < String
                 if stln == "<p>"
                     out = "<p style=\"float:#{ algn }\">#{ out }"
                 else
-                    out = "#{ stln }<div style=\"float:#{ algn }\">#{ out }</div>"
+                    out = "#{ stln }<span style=\"float:#{ algn }\">#{ out }</span>"
                 end
             else
                 out = stln + out
