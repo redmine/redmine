@@ -31,7 +31,7 @@
       </label>
       <% Role.givable.sorted.each do |role| %>
         <label class="block role_managed_role" style="padding-left:2em;">
-          <%= check_box_tag 'role[managed_role_ids][]', role.id, @role.managed_roles.include?(role), :id => nil %>
+          <%= check_box_tag 'role[managed_role_ids][]', role.id, @role.managed_roles.to_a.include?(role), :id => nil %>
           <%= role.name %>
         </label>
       <% end %>
