@@ -715,7 +715,7 @@ module Redmine
       end
 
       def value_from_keyword(custom_field, keyword, object)
-        value = custom_field.enumerations.where("LOWER(name) LIKE LOWER(?)", keyword)
+        value = custom_field.enumerations.where("LOWER(name) LIKE LOWER(?)", keyword).first
         value ? value.id : nil
       end
     end
