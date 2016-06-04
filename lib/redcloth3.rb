@@ -165,6 +165,7 @@
 #  class RedCloth::Textile.new( str )
 
 class RedCloth3 < String
+    include Redmine::Helpers::URL
 
     VERSION = '3.0.4'
     DEFAULT_RULES = [:textile, :markdown]
@@ -959,6 +960,8 @@ class RedCloth3 < String
 
             href, alt_title = check_refs( href ) if href
             url, url_title = check_refs( url )
+
+            return m unless uri_with_safe_scheme?(url)
 
             out = ''
             out << "<a#{ shelve( " href=\"#{ href }\"" ) }>" if href

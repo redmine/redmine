@@ -164,7 +164,7 @@ RAW
 
     attachment = Attachment.generate!(:filename => 'café.jpg')
     with_settings :text_formatting => 'markdown' do
-      assert_include %(<img src="/attachments/download/#{attachment.id}/caf%C3%A9.jpg" alt="">),
+      assert_include %(<img src="/attachments/download/#{attachment.id}/caf%C3%A9.jpg" alt="" />),
         textilizable("![](café.jpg)", :attachments => [attachment])
     end
   end
