@@ -1199,9 +1199,9 @@ de:
   label_any_open_issues: irgendein offenes Ticket
   label_no_open_issues: kein offenes Ticket
   label_default_values_for_new_users: Standardwerte für neue Benutzer
-  error_ldap_bind_credentials: Invalid LDAP Account/Password
-  mail_body_settings_updated: ! 'The following settings were changed:'
-  label_relations: Relations
+  error_ldap_bind_credentials: Ungültiges LDAP Konto/Passwort
+  mail_body_settings_updated: ! 'Die folgenden Einstellungen wurden geändert:'
+  label_relations: Beziehungen
   button_filter: Filter
-  mail_body_password_updated: Your password has been changed.
-  setting_new_project_issue_tab_enabled: Display the "New issue" tab
+  mail_body_password_updated: Ihr Passwort wurde geändert.
+  setting_new_project_issue_tab_enabled: Tab "Neues Ticket" anzeigen
