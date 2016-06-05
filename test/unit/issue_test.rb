@@ -342,6 +342,69 @@ class IssueTest < ActiveSupport::TestCase
     assert_include issue, issues
   end
 
+  def test_visible_scope_for_member_with_limited_tracker_ids
+    role = Role.find(1)
+    role.set_permission_trackers :view_issues, [2]
+    role.save!
+    user = User.find(2)
+
+    issues = Issue.where(:project_id => 1).visible(user).to_a
+    assert issues.any?
+    assert_equal [2], issues.map(&:tracker_id).uniq
+
+    assert Issue.where(:project_id => 1).all? {|issue| issue.visible?(user) ^ issue.tracker_id != 2}
+  end
+
+  def test_visible_scope_should_consider_tracker_ids_on_each_project
+    user = User.generate!
+
+    project1 = Project.generate!
+    role1 = Role.generate!
+    role1.add_permission! :view_issues
+    role1.set_permission_trackers :view_issues, :all
+    role1.save!
+    User.add_to_project(user, project1, role1)
+
+    project2 = Project.generate!
+    role2 = Role.generate!
+    role2.add_permission! :view_issues
+    role2.set_permission_trackers :view_issues, [2]
+    role2.save!
+    User.add_to_project(user, project2, role2)
+
+    visible_issues = [
+      Issue.generate!(:project => project1, :tracker_id => 1),
+      Issue.generate!(:project => project1, :tracker_id => 2),
+      Issue.generate!(:project => project2, :tracker_id => 2)
+    ]
+    hidden_issue = Issue.generate!(:project => project2, :tracker_id => 1)
+
+    issues = Issue.where(:project_id => [project1.id, project2.id]).visible(user)
+    assert_equal visible_issues.map(&:id), issues.ids.sort
+
+    assert visible_issues.all? {|issue| issue.visible?(user)}
+    assert !hidden_issue.visible?(user)
+  end
+
+  def test_visible_scope_should_not_consider_roles_without_view_issues_permission
+    user = User.generate!
+    role1 = Role.generate!
+    role1.remove_permission! :view_issues
+    role1.set_permission_trackers :view_issues, :all
+    role1.save!
+    role2 = Role.generate!
+    role2.add_permission! :view_issues
+    role2.set_permission_trackers :view_issues, [2]
+    role2.save!
+    User.add_to_project(user, Project.find(1), [role1, role2])
+
+    issues = Issue.where(:project_id => 1).visible(user).to_a
+    assert issues.any?
+    assert_equal [2], issues.map(&:tracker_id).uniq
+
+    assert Issue.where(:project_id => 1).all? {|issue| issue.visible?(user) ^ issue.tracker_id != 2}
+  end
+
   def test_visible_scope_for_admin
     user = User.find(1)
     user.members.each(&:destroy)
