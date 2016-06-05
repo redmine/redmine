@@ -1,4 +1,4 @@
-<% reply_links = authorize_for('issues', 'edit') -%>
+<% reply_links = issue.notes_addable? -%>
 <% for journal in journals %>
   <div id="change-<%= journal.id %>" class="<%= journal.css_classes %>">
     <div id="note-<%= journal.indice %>">

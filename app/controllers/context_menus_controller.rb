@@ -29,11 +29,11 @@ class ContextMenusController < ApplicationController
 
     @allowed_statuses = @issues.map(&:new_statuses_allowed_to).reduce(:&)
 
-    @can = {:edit => User.current.allowed_to?(:edit_issues, @projects),
+    @can = {:edit => @issues.all?(&:attributes_editable?),
             :log_time => (@project && User.current.allowed_to?(:log_time, @project)),
             :copy => User.current.allowed_to?(:copy_issues, @projects) && Issue.allowed_target_projects.any?,
             :add_watchers => User.current.allowed_to?(:add_issue_watchers, @projects),
-            :delete => User.current.allowed_to?(:delete_issues, @projects)
+            :delete => @issues.all?(&:deletable?)
             }
     if @project
       if @issue

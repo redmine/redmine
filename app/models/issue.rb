@@ -172,14 +172,24 @@ class Issue < ActiveRecord::Base
     end
   end
 
-  # Returns true if user or current user is allowed to edit or add a note to the issue
+  # Returns true if user or current user is allowed to edit or add notes to the issue
   def editable?(user=User.current)
-    attributes_editable?(user) || user.allowed_to?(:add_issue_notes, project)
+    attributes_editable?(user) || notes_addable?(user)
   end
 
   # Returns true if user or current user is allowed to edit the issue
   def attributes_editable?(user=User.current)
-    user.allowed_to?(:edit_issues, project)
+    user_tracker_permission?(user, :edit_issues)
+  end
+
+  # Returns true if user or current user is allowed to add notes to the issue
+  def notes_addable?(user=User.current)
+    user_tracker_permission?(user, :add_issue_notes)
+  end
+
+  # Returns true if user or current user is allowed to delete the issue
+  def deletable?(user=User.current)
+    user_tracker_permission?(user, :delete_issues)
   end
 
   def initialize(attributes=nil, *args)
@@ -429,10 +439,10 @@ class Issue < ActiveRecord::Base
     'custom_fields',
     'lock_version',
     'notes',
-    :if => lambda {|issue, user| issue.new_record? || user.allowed_to?(:edit_issues, issue.project) }
+    :if => lambda {|issue, user| issue.new_record? || issue.attributes_editable?(user) }
 
   safe_attributes 'notes',
-    :if => lambda {|issue, user| user.allowed_to?(:add_issue_notes, issue.project)}
+    :if => lambda {|issue, user| issue.notes_addable?(user)}
 
   safe_attributes 'private_notes',
     :if => lambda {|issue, user| !issue.new_record? && user.allowed_to?(:set_notes_private, issue.project)}
@@ -447,7 +457,7 @@ class Issue < ActiveRecord::Base
     }
 
   safe_attributes 'parent_issue_id',
-    :if => lambda {|issue, user| (issue.new_record? || user.allowed_to?(:edit_issues, issue.project)) &&
+    :if => lambda {|issue, user| (issue.new_record? || issue.attributes_editable?(user)) &&
       user.allowed_to?(:manage_subtasks, issue.project)}
 
   def safe_attribute_names(user=nil)
@@ -1405,6 +1415,11 @@ class Issue < ActiveRecord::Base
   end
 
   private
+
+  def user_tracker_permission?(user, permission)
+    roles = user.roles_for_project(project).select {|r| r.has_permission?(permission)}
+    roles.any? {|r| r.permissions_all_trackers?(permission) || r.permissions_tracker_ids?(permission, tracker_id)}
+  end
 
   def after_project_change
     # Update project_id on related time entries

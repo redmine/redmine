@@ -64,7 +64,9 @@
 
 <div id="role-permissions-trackers">
 <h3><%= l(:label_issue_tracking) %></h3>
-<% permissions = %w(view_issues add_issues) %>
+<% permissions = %w(view_issues add_issues edit_issues add_issue_notes delete_issues) %>
+
+<div class="autoscroll">
 <table class="list">
   <thead>
     <tr>
@@ -87,7 +89,7 @@
       <% end %>
     </tr>
     <% Tracker.sorted.all.each do |tracker| %>
-    <tr>
+    <tr class="<%= cycle("odd", "even") %>">
       <td class="name"><%= tracker.name %></td>
       <% permissions.each do |permission| %>
       <td><%= check_box_tag "role[permissions_tracker_ids][#{permission}][]",
@@ -100,6 +102,7 @@
     <% end %>
   </tbody>
 </table>
+</div>
 
 <% permissions.each do |permission| %>
   <%= hidden_field_tag "role[permissions_tracker_ids][#{permission}][]", '' %>

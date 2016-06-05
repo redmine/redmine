@@ -211,6 +211,10 @@ class IssuesController < ApplicationController
       unless User.current.allowed_to?(:copy_issues, @projects)
         raise ::Unauthorized
       end
+    else
+      unless @issues.all?(&:attributes_editable?)
+        raise ::Unauthorized
+      end
     end
 
     @allowed_projects = Issue.allowed_target_projects
@@ -261,6 +265,10 @@ class IssuesController < ApplicationController
         target_projects = Project.where(:id => attributes['project_id']).to_a
       end
       unless User.current.allowed_to?(:add_issues, target_projects)
+        raise ::Unauthorized
+      end
+    else
+      unless @issues.all?(&:attributes_editable?)
         raise ::Unauthorized
       end
     end
@@ -316,6 +324,7 @@ class IssuesController < ApplicationController
   end
 
   def destroy
+    raise Unauthorized unless @issues.all?(&:deletable?)
     @hours = TimeEntry.where(:issue_id => @issues.map(&:id)).sum(:hours).to_f
     if @hours > 0
       case params[:todo]
