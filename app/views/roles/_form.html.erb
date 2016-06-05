@@ -11,7 +11,7 @@
   <% end %>
 
   <% unless @role.anonymous? %>
-    <p class="view_time_entries_shown"><%= f.select :time_entries_visibility, Role::TIME_ENTRIES_VISIBILITY_OPTIONS.collect {|v| [l(v.last), v.first]}, {}, :class => "view_time_entries_enabled" %></p>
+    <p class="view_time_entries_shown"><%= f.select :time_entries_visibility, Role::TIME_ENTRIES_VISIBILITY_OPTIONS.collect {|v| [l(v.last), v.first]} %></p>
   <% end %>
 
   <p><%= f.select :users_visibility, Role::USERS_VISIBILITY_OPTIONS.collect {|v| [l(v.last), v.first]} %></p>
