@@ -719,9 +719,10 @@ function toggleDisabledOnChange() {
   var checked = $(this).is(':checked');
   $($(this).data('disables')).attr('disabled', checked);
   $($(this).data('enables')).attr('disabled', !checked);
+  $($(this).data('shows')).toggle(checked);
 }
 function toggleDisabledInit() {
-  $('input[data-disables], input[data-enables]').each(toggleDisabledOnChange);
+  $('input[data-disables], input[data-enables], input[data-shows]').each(toggleDisabledOnChange);
 }
 
 (function ( $ ) {
@@ -751,7 +752,7 @@ function toggleDisabledInit() {
 }( jQuery ));
 
 $(document).ready(function(){
-  $('#content').on('change', 'input[data-disables], input[data-enables]', toggleDisabledOnChange);
+  $('#content').on('change', 'input[data-disables], input[data-enables], input[data-shows]', toggleDisabledOnChange);
   toggleDisabledInit();
 });
 
