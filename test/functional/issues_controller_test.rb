@@ -1864,6 +1864,31 @@ class IssuesControllerTest < ActionController::TestCase
     end
   end
 
+  def test_new_should_propose_allowed_trackers
+    role = Role.find(1)
+    role.set_permission_trackers 'add_issues', [1, 3]
+    role.save!
+    @request.session[:user_id] = 2
+
+    get :new, :project_id => 1
+    assert_response :success
+    assert_select 'select[name=?]', 'issue[tracker_id]' do
+      assert_select 'option', 2
+      assert_select 'option[value="1"]'
+      assert_select 'option[value="3"]'
+    end
+  end
+
+  def test_new_without_allowed_trackers_should_respond_with_403
+    role = Role.find(1)
+    role.set_permission_trackers 'add_issues', []
+    role.save!
+    @request.session[:user_id] = 2
+
+    get :new, :project_id => 1
+    assert_response 403
+  end
+
   def test_new_should_preselect_default_version
     version = Version.generate!(:project_id => 1)
     Project.find(1).update_attribute :default_version_id, version.id
@@ -2430,6 +2455,23 @@ class IssuesControllerTest < ActionController::TestCase
     assert_nil issue.due_date
     assert_equal 'value1', issue.custom_field_value(cf1)
     assert_nil issue.custom_field_value(cf2)
+  end
+
+  def test_create_should_ignore_unallowed_trackers
+    role = Role.find(1)
+    role.set_permission_trackers :add_issues, [3]
+    role.save!
+    @request.session[:user_id] = 2
+
+    issue = new_record(Issue) do
+      post :create, :project_id => 1, :issue => {
+        :tracker_id => 1,
+        :status_id => 1,
+        :subject => 'Test'
+      }
+      assert_response 302
+    end
+    assert_equal 3, issue.tracker_id
   end
 
   def test_post_create_with_watchers

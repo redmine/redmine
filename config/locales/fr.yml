@@ -233,6 +233,7 @@ fr:
   error_can_not_read_import_file: "Une erreur est survenue lors de la lecture du fichier à importer"
   error_attachment_extension_not_allowed: "L'extension %{extension} n'est pas autorisée"
   error_ldap_bind_credentials: "Identifiant ou mot de passe LDAP incorrect"
+  error_no_tracker_allowed_for_new_issue_in_project: "Le projet ne dispose d'aucun tracker sur lequel vous pouvez créer une demande"
 
   mail_subject_lost_password: "Votre mot de passe %{value}"
   mail_body_lost_password: 'Pour changer votre mot de passe, cliquez sur le lien suivant :'
@@ -573,6 +574,7 @@ fr:
   label_member_plural: Membres
   label_tracker: Tracker
   label_tracker_plural: Trackers
+  label_tracker_all: Tous les trackers
   label_tracker_new: Nouveau tracker
   label_workflow: Workflow
   label_issue_status: Statut de demandes

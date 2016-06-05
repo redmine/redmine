@@ -62,6 +62,50 @@
 <%= hidden_field_tag 'role[permissions][]', '' %>
 </div>
 
+<div id="role-permissions-trackers">
+<h3><%= l(:label_issue_tracking) %></h3>
+<% permissions = %w(add_issues) %>
+<table class="list">
+  <thead>
+    <tr>
+      <th><%= l(:label_tracker) %></th>
+      <% permissions.each do |permission| %>
+      <th><%= l("permission_#{permission}") %></th>
+      <% end %>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="name"><b><%= l(:label_tracker_all) %></b></td>
+      <% permissions.each do |permission| %>
+      <td>
+        <%= hidden_field_tag "role[permissions_all_trackers][#{permission}]", '0', :id => nil %>
+        <%= check_box_tag "role[permissions_all_trackers][#{permission}]",
+              '1',
+              @role.permissions_all_trackers?(permission),
+              :data => {:disables => ".#{permission}_tracker"} %>
+      </td>
+      <% end %>
+    </tr>
+    <% Tracker.sorted.all.each do |tracker| %>
+    <tr>
+      <td class="name"><%= tracker.name %></td>
+      <% permissions.each do |permission| %>
+      <td><%= check_box_tag "role[permissions_tracker_ids][#{permission}][]",
+                tracker.id,
+                @role.permissions_tracker_ids?(permission, tracker.id),
+                :class => "#{permission}_tracker",
+                :id => "role_permissions_tracker_ids_add_issues_#{tracker.id}" %></td>
+      <% end %>
+    </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<% permissions.each do |permission| %>
+  <%= hidden_field_tag "role[permissions_tracker_ids][#{permission}][]", '' %>
+<% end %>
+</div>
+
 <%= javascript_tag do %>
 $(document).ready(function(){
   $("#role_permissions_manage_members").change(function(){

@@ -1438,6 +1438,91 @@ class IssueTest < ActiveSupport::TestCase
     assert_not_include project, Issue.allowed_target_projects(User.find(1))
   end
 
+  def test_allowed_target_trackers_with_one_role_allowed_on_all_trackers
+    user = User.generate!
+    role = Role.generate!
+    role.add_permission! :add_issues
+    role.set_permission_trackers :add_issues, :all
+    role.save!
+    User.add_to_project(user, Project.find(1), role)
+
+    assert_equal [1, 2, 3], Issue.new(:project => Project.find(1)).allowed_target_trackers(user).ids.sort
+  end
+
+  def test_allowed_target_trackers_with_one_role_allowed_on_some_trackers
+    user = User.generate!
+    role = Role.generate!
+    role.add_permission! :add_issues
+    role.set_permission_trackers :add_issues, [1, 3]
+    role.save!
+    User.add_to_project(user, Project.find(1), role)
+
+    assert_equal [1, 3], Issue.new(:project => Project.find(1)).allowed_target_trackers(user).ids.sort
+  end
+
+  def test_allowed_target_trackers_with_two_roles_allowed_on_some_trackers
+    user = User.generate!
+    role1 = Role.generate!
+    role1.add_permission! :add_issues
+    role1.set_permission_trackers :add_issues, [1]
+    role1.save!
+    role2 = Role.generate!
+    role2.add_permission! :add_issues
+    role2.set_permission_trackers :add_issues, [3]
+    role2.save!
+    User.add_to_project(user, Project.find(1), [role1, role2])
+
+    assert_equal [1, 3], Issue.new(:project => Project.find(1)).allowed_target_trackers(user).ids.sort
+  end
+
+  def test_allowed_target_trackers_with_two_roles_allowed_on_all_trackers_and_some_trackers
+    user = User.generate!
+    role1 = Role.generate!
+    role1.add_permission! :add_issues
+    role1.set_permission_trackers :add_issues, :all
+    role1.save!
+    role2 = Role.generate!
+    role2.add_permission! :add_issues
+    role2.set_permission_trackers :add_issues, [1, 3]
+    role2.save!
+    User.add_to_project(user, Project.find(1), [role1, role2])
+
+    assert_equal [1, 2, 3], Issue.new(:project => Project.find(1)).allowed_target_trackers(user).ids.sort
+  end
+
+  def test_allowed_target_trackers_should_not_consider_roles_without_add_issues_permission
+    user = User.generate!
+    role1 = Role.generate!
+    role1.remove_permission! :add_issues
+    role1.set_permission_trackers :add_issues, :all
+    role1.save!
+    role2 = Role.generate!
+    role2.add_permission! :add_issues
+    role2.set_permission_trackers :add_issues, [1, 3]
+    role2.save!
+    User.add_to_project(user, Project.find(1), [role1, role2])
+
+    assert_equal [1, 3], Issue.new(:project => Project.find(1)).allowed_target_trackers(user).ids.sort
+  end
+
+  def test_allowed_target_trackers_without_project_should_be_empty
+    issue = Issue.new
+    assert_nil issue.project
+    assert_equal [], issue.allowed_target_trackers(User.find(2)).ids
+  end
+
+  def test_allowed_target_trackers_should_include_current_tracker
+    user = User.generate!
+    role = Role.generate!
+    role.add_permission! :add_issues
+    role.set_permission_trackers :add_issues, [3]
+    role.save!
+    User.add_to_project(user, Project.find(1), role)
+
+    issue = Issue.generate!(:project => Project.find(1), :tracker => Tracker.find(1))
+    assert_equal [1, 3], issue.allowed_target_trackers(user).ids.sort
+  end
+
   def test_move_to_another_project_with_same_category
     issue = Issue.find(1)
     issue.project = Project.find(2)

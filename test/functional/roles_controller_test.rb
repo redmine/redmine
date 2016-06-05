@@ -132,6 +132,22 @@ class RolesControllerTest < ActionController::TestCase
     assert_equal [:edit_project], role.permissions
   end
 
+  def test_update_trackers_permissions
+    put :update, :id => 1, :role => {
+      :permissions_all_trackers => {'add_issues' => '0'},
+      :permissions_tracker_ids => {'add_issues' => ['1', '3', '']}
+    }
+
+    assert_redirected_to '/roles'
+    role = Role.find(1)
+
+    assert_equal({'add_issues' => '0'}, role.permissions_all_trackers)
+    assert_equal({'add_issues' => ['1', '3']}, role.permissions_tracker_ids)
+
+    assert_equal false, role.permissions_all_trackers?(:add_issues)
+    assert_equal [1, 3], role.permissions_tracker_ids(:add_issues).sort
+  end
+
   def test_update_with_failure
     put :update, :id => 1, :role => {:name => ''}
     assert_response :success

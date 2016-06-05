@@ -467,7 +467,13 @@ class IssuesController < ApplicationController
     if @issue.project
       @issue.tracker ||= @issue.allowed_target_trackers.first
       if @issue.tracker.nil?
-        render_error l(:error_no_tracker_in_project)
+        if @issue.project.trackers.any?
+          # None of the project trackers is allowed to the user
+          render_error :message => l(:error_no_tracker_allowed_for_new_issue_in_project), :status => 403
+        else
+          # Project has no trackers
+          render_error l(:error_no_tracker_in_project)
+        end
         return false
       end
       if @issue.status.nil?

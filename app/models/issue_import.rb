@@ -37,7 +37,7 @@ class IssueImport < Import
   # Returns a scope of trackers that user is allowed to
   # import issue to
   def allowed_target_trackers
-    project.trackers
+    Issue.allowed_target_trackers(project, user)
   end
 
   def tracker

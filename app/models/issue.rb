@@ -1368,16 +1368,27 @@ class Issue < ActiveRecord::Base
  
   # Returns a scope of trackers that user can assign the issue to
   def allowed_target_trackers(user=User.current)
-    if project
-      self.class.allowed_target_trackers(project, user, tracker_id_was)
-    else
-      Tracker.none
-    end
+    self.class.allowed_target_trackers(project, user, tracker_id_was)
   end
 
   # Returns a scope of trackers that user can assign project issues to
   def self.allowed_target_trackers(project, user=User.current, current_tracker=nil)
-    project.trackers.sorted
+    if project
+      scope = project.trackers.sorted
+      unless user.admin?
+        roles = user.roles_for_project(project).select {|r| r.has_permission?(:add_issues)}
+        unless roles.any? {|r| r.permissions_all_trackers?(:add_issues)}
+          tracker_ids = roles.map {|r| r.permissions_tracker_ids(:add_issues)}.flatten.uniq
+          if current_tracker
+            tracker_ids << current_tracker
+          end
+          scope = scope.where(:id => tracker_ids)
+        end
+      end
+      scope
+    else
+      Tracker.none
+    end
   end
 
   private
