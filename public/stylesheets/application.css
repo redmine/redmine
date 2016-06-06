@@ -1210,24 +1210,13 @@ tr.ui-sortable-helper { border:1px solid #e4e4e4; }
 .contextual>.icon:not(:first-child), .buttons>.icon:not(:first-child) { margin-left: 5px; }
 
 img.gravatar {
-  padding: 2px;
-  border: solid 1px #d5d5d5;
-  background: #fff;
   vertical-align: middle;
+  border-radius: 20%;
 }
 
 div.issue img.gravatar {
   float: left;
   margin: 0 6px 0 0;
-  padding: 5px;
-}
-
-div.issue .attributes img.gravatar {
-  height: 14px;
-  width: 14px;
-  padding: 2px;
-  float: left;
-  margin: 0 0.5em 0 0;
 }
 
 h2 img.gravatar {margin: -2px 4px -4px 0;}
