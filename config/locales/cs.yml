@@ -1,4 +1,4 @@
-# Update to 2.2, 2.4, 2.5, 2.6, 3.1 by Karel Picman <karel.picman@kontron.com>
+# Update to 2.2, 2.4, 2.5, 2.6, 3.1, 3.3 by Karel Picman <karel.picman@kontron.com>
 # Update to 1.1 by Michal Gebauer <mishak@mishak.net>
 # Updated by Josef Liška <jl@chl.cz>
 # CZ translation by Maxim Krušina | Massimo Filippi, s.r.o. | maxim@mxm.cz
@@ -1149,37 +1149,37 @@ cs:
   label_member_management_selected_roles_only: Pouze tyto role
   label_password_required: Pro pokračování potvrďte vaše heslo
   label_total_spent_time: Celkem strávený čas
-  notice_import_finished: All %{count} items have been imported.
-  notice_import_finished_with_errors: ! '%{count} out of %{total} items could not be
-    imported.'
-  error_invalid_file_encoding: The file is not a valid %{encoding} encoded file
-  error_invalid_csv_file_or_settings: The file is not a CSV file or does not match the
-    settings below
-  error_can_not_read_import_file: An error occurred while reading the file to import
-  permission_import_issues: Import issues
-  label_import_issues: Import issues
-  label_select_file_to_import: Select the file to import
-  label_fields_separator: Field separator
-  label_fields_wrapper: Field wrapper
-  label_encoding: Encoding
-  label_comma_char: Comma
-  label_semi_colon_char: Semi colon
-  label_quote_char: Quote
-  label_double_quote_char: Double quote
-  label_fields_mapping: Fields mapping
-  label_file_content_preview: File content preview
-  label_create_missing_values: Create missing values
+  notice_import_finished: Všech %{count} položek bylo naimportováno.
+  notice_import_finished_with_errors: ! '%{count} z %{total} položek nemohlo být
+    naimportováno.'
+  error_invalid_file_encoding: Soubor není platným souborem s kódováním %{encoding}
+  error_invalid_csv_file_or_settings: Soubor není CSV soubor nebo neodpovídá
+    níže uvedenému nastavení
+  error_can_not_read_import_file: Chyba při čtení souboru pro import
+  permission_import_issues: Import úkolů
+  label_import_issues: Import úkolů
+  label_select_file_to_import: Vyberte soubor pro import
+  label_fields_separator: Oddělovač pole
+  label_fields_wrapper: Oddělovač textu
+  label_encoding: Kódování
+  label_comma_char: Čárka
+  label_semi_colon_char: Středník
+  label_quote_char: Uvozovky
+  label_double_quote_char: Dvojté uvozovky
+  label_fields_mapping: Mapování polí
+  label_file_content_preview: Náhled obsahu souboru
+  label_create_missing_values: Vytvořit chybějící hodnoty
   button_import: Import
-  field_total_estimated_hours: Total estimated time
+  field_total_estimated_hours: Celkový odhadovaný čas
   label_api: API
-  label_total_plural: Totals
-  label_assigned_issues: Assigned issues
-  label_field_format_enumeration: Key/value list
-  label_f_hour_short: '%{value} h'
-  field_default_version: Default version
-  error_attachment_extension_not_allowed: Attachment extension %{extension} is not allowed
-  setting_attachment_extensions_allowed: Allowed extensions
-  setting_attachment_extensions_denied: Disallowed extensions
-  label_any_open_issues: any open issues
-  label_no_open_issues: no open issues
-  label_default_values_for_new_users: Default values for new users
+  label_total_plural: Celkem
+  label_assigned_issues: Přiřazené úkoly
+  label_field_format_enumeration: Seznam klíčů/hodnot
+  label_f_hour_short: '%{value} hod'
+  field_default_version: Výchozí verze
+  error_attachment_extension_not_allowed: Přípona přílohy %{extension} není povolena
+  setting_attachment_extensions_allowed: Povolené přípony
+  setting_attachment_extensions_denied: Nepovolené přípony
+  label_any_open_issues: otevřené úkoly
+  label_no_open_issues: bez otevřených úkolů
+  label_default_values_for_new_users: Výchozí hodnoty pro nové uživatele
