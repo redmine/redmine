@@ -182,6 +182,11 @@ class Issue < ActiveRecord::Base
     user_tracker_permission?(user, :edit_issues)
   end
 
+  # Overrides Redmine::Acts::Attachable::InstanceMethods#attachments_editable?
+  def attachments_editable?(user=User.current)
+    attributes_editable?(user)
+  end
+
   # Returns true if user or current user is allowed to add notes to the issue
   def notes_addable?(user=User.current)
     user_tracker_permission?(user, :add_issue_notes)
