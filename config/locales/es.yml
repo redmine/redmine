@@ -1234,3 +1234,6 @@ es:
   mail_body_password_updated: Your password has been changed.
   label_no_preview: No preview available
   setting_new_project_issue_tab_enabled: Display the "New issue" tab
+  error_no_tracker_allowed_for_new_issue_in_project: The project doesn't have any trackers
+    for which you can create an issue
+  label_tracker_all: All trackers
