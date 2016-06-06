@@ -120,10 +120,10 @@ class Issue < ActiveRecord::Base
   # Returns a SQL conditions string used to find all issues visible by the specified user
   def self.visible_condition(user, options={})
     Project.allowed_to_condition(user, :view_issues, options) do |role, user|
-      if user.id && user.logged?
+      sql = if user.id && user.logged?
         case role.issues_visibility
         when 'all'
-          nil
+          '1=1'
         when 'default'
           user_ids = [user.id] + user.groups.map(&:id).compact
           "(#{table_name}.is_private = #{connection.quoted_false} OR #{table_name}.author_id = #{user.id} OR #{table_name}.assigned_to_id IN (#{user_ids.join(',')}))"
@@ -136,13 +136,22 @@ class Issue < ActiveRecord::Base
       else
         "(#{table_name}.is_private = #{connection.quoted_false})"
       end
+      unless role.permissions_all_trackers?(:view_issues)
+        tracker_ids = role.permissions_tracker_ids(:view_issues)
+        if tracker_ids.any?
+          sql = "(#{sql} AND #{table_name}.tracker_id IN (#{tracker_ids.join(',')}))"
+        else
+          sql = '1=0'
+        end
+      end
+      sql
     end
   end
 
   # Returns true if usr or current user is allowed to view the issue
   def visible?(usr=nil)
     (usr || User.current).allowed_to?(:view_issues, self.project) do |role, user|
-      if user.logged?
+      visible = if user.logged?
         case role.issues_visibility
         when 'all'
           true
@@ -156,17 +165,36 @@ class Issue < ActiveRecord::Base
       else
         !self.is_private?
       end
+      unless role.permissions_all_trackers?(:view_issues)
+        visible &&= role.permissions_tracker_ids?(:view_issues, tracker_id)
+      end
+      visible
     end
   end
 
-  # Returns true if user or current user is allowed to edit or add a note to the issue
+  # Returns true if user or current user is allowed to edit or add notes to the issue
   def editable?(user=User.current)
-    attributes_editable?(user) || user.allowed_to?(:add_issue_notes, project)
+    attributes_editable?(user) || notes_addable?(user)
   end
 
   # Returns true if user or current user is allowed to edit the issue
   def attributes_editable?(user=User.current)
-    user.allowed_to?(:edit_issues, project)
+    user_tracker_permission?(user, :edit_issues)
+  end
+
+  # Overrides Redmine::Acts::Attachable::InstanceMethods#attachments_editable?
+  def attachments_editable?(user=User.current)
+    attributes_editable?(user)
+  end
+
+  # Returns true if user or current user is allowed to add notes to the issue
+  def notes_addable?(user=User.current)
+    user_tracker_permission?(user, :add_issue_notes)
+  end
+
+  # Returns true if user or current user is allowed to delete the issue
+  def deletable?(user=User.current)
+    user_tracker_permission?(user, :delete_issues)
   end
 
   def initialize(attributes=nil, *args)
@@ -416,10 +444,10 @@ class Issue < ActiveRecord::Base
     'custom_fields',
     'lock_version',
     'notes',
-    :if => lambda {|issue, user| issue.new_record? || user.allowed_to?(:edit_issues, issue.project) }
+    :if => lambda {|issue, user| issue.new_record? || issue.attributes_editable?(user) }
 
   safe_attributes 'notes',
-    :if => lambda {|issue, user| user.allowed_to?(:add_issue_notes, issue.project)}
+    :if => lambda {|issue, user| issue.notes_addable?(user)}
 
   safe_attributes 'private_notes',
     :if => lambda {|issue, user| !issue.new_record? && user.allowed_to?(:set_notes_private, issue.project)}
@@ -434,7 +462,7 @@ class Issue < ActiveRecord::Base
     }
 
   safe_attributes 'parent_issue_id',
-    :if => lambda {|issue, user| (issue.new_record? || user.allowed_to?(:edit_issues, issue.project)) &&
+    :if => lambda {|issue, user| (issue.new_record? || issue.attributes_editable?(user)) &&
       user.allowed_to?(:manage_subtasks, issue.project)}
 
   def safe_attribute_names(user=nil)
@@ -479,12 +507,14 @@ class Issue < ActiveRecord::Base
     end
 
     if (t = attrs.delete('tracker_id')) && safe_attribute?('tracker_id')
-      self.tracker_id = t
+      if allowed_target_trackers(user).where(:id => t.to_i).exists?
+        self.tracker_id = t
+      end
     end
     if project
-      # Set the default tracker to accept custom field values
+      # Set a default tracker to accept custom field values
       # even if tracker is not specified
-      self.tracker ||= project.trackers.first
+      self.tracker ||= allowed_target_trackers(user).first
     end
 
     statuses_allowed = new_statuses_allowed_to(user)
@@ -820,16 +850,6 @@ class Issue < ActiveRecord::Base
   # Does this issue have children?
   def children?
     !leaf?
-  end
-
-  def assignable_trackers
-    trackers = project.trackers
-    if new_record? && parent_issue_id.present?
-      trackers = trackers.reject do |tracker|
-        tracker_id != tracker.id && tracker.disabled_core_fields.include?('parent_issue_id')
-      end
-    end
-    trackers
   end
 
   # Users the issue can be assigned to
@@ -1373,8 +1393,42 @@ class Issue < ActiveRecord::Base
     end
     Project.where(condition).having_trackers
   end
+ 
+  # Returns a scope of trackers that user can assign the issue to
+  def allowed_target_trackers(user=User.current)
+    self.class.allowed_target_trackers(project, user, tracker_id_was)
+  end
+
+  # Returns a scope of trackers that user can assign project issues to
+  def self.allowed_target_trackers(project, user=User.current, current_tracker=nil)
+    if project
+      scope = project.trackers.sorted
+      unless user.admin?
+        roles = user.roles_for_project(project).select {|r| r.has_permission?(:add_issues)}
+        unless roles.any? {|r| r.permissions_all_trackers?(:add_issues)}
+          tracker_ids = roles.map {|r| r.permissions_tracker_ids(:add_issues)}.flatten.uniq
+          if current_tracker
+            tracker_ids << current_tracker
+          end
+          scope = scope.where(:id => tracker_ids)
+        end
+      end
+      scope
+    else
+      Tracker.none
+    end
+  end
 
   private
+
+  def user_tracker_permission?(user, permission)
+    if user.admin?
+      true
+    else
+      roles = user.roles_for_project(project).select {|r| r.has_permission?(permission)}
+      roles.any? {|r| r.permissions_all_trackers?(permission) || r.permissions_tracker_ids?(permission, tracker_id)}
+    end
+  end
 
   def after_project_change
     # Update project_id on related time entries

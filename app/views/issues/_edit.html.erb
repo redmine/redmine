@@ -27,21 +27,22 @@
         <% end %>
     </fieldset>
     <% end %>
-
-    <fieldset><legend><%= l(:field_notes) %></legend>
-    <%= f.text_area :notes, :cols => 60, :rows => 10, :class => 'wiki-edit', :no_label => true %>
-    <%= wikitoolbar_for 'issue_notes' %>
-
-    <% if @issue.safe_attribute? 'private_notes' %>
-    <%= f.check_box :private_notes, :no_label => true %> <label for="issue_private_notes"><%= l(:field_private_notes) %></label>
+    <% if @issue.notes_addable? %>
+      <fieldset><legend><%= l(:field_notes) %></legend>
+      <%= f.text_area :notes, :cols => 60, :rows => 10, :class => 'wiki-edit', :no_label => true %>
+      <%= wikitoolbar_for 'issue_notes' %>
+  
+      <% if @issue.safe_attribute? 'private_notes' %>
+      <%= f.check_box :private_notes, :no_label => true %> <label for="issue_private_notes"><%= l(:field_private_notes) %></label>
+      <% end %>
+  
+      <%= call_hook(:view_issues_edit_notes_bottom, { :issue => @issue, :notes => @notes, :form => f }) %>
+      </fieldset>
+  
+      <fieldset><legend><%= l(:label_attachment_plural) %></legend>
+      <p><%= render :partial => 'attachments/form', :locals => {:container => @issue} %></p>
+      </fieldset>
     <% end %>
-
-    <%= call_hook(:view_issues_edit_notes_bottom, { :issue => @issue, :notes => @notes, :form => f }) %>
-    </fieldset>
-
-    <fieldset><legend><%= l(:label_attachment_plural) %></legend>
-    <p><%= render :partial => 'attachments/form', :locals => {:container => @issue} %></p>
-    </fieldset>
     </div>
 
     <%= f.hidden_field :lock_version %>

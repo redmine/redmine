@@ -213,6 +213,7 @@ en:
   error_can_not_read_import_file: "An error occurred while reading the file to import"
   error_attachment_extension_not_allowed: "Attachment extension %{extension} is not allowed"
   error_ldap_bind_credentials: "Invalid LDAP Account/Password"
+  error_no_tracker_allowed_for_new_issue_in_project: "The project doesn't have any trackers for which you can create an issue"
 
   mail_subject_lost_password: "Your %{value} password"
   mail_body_lost_password: 'To change your password, click on the following link:'
@@ -561,6 +562,7 @@ en:
   label_member_plural: Members
   label_tracker: Tracker
   label_tracker_plural: Trackers
+  label_tracker_all: All trackers
   label_tracker_new: New tracker
   label_workflow: Workflow
   label_issue_status: Issue status
