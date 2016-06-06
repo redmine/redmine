@@ -1203,3 +1203,6 @@ cs:
   mail_body_password_updated: Vaše heslo bylo změněno.
   label_no_preview: Náhled není k dispozici
   setting_new_project_issue_tab_enabled: Zobraz záložku "Nový úkol"
+  error_no_tracker_allowed_for_new_issue_in_project: The project doesn't have any trackers
+    for which you can create an issue
+  label_tracker_all: All trackers
