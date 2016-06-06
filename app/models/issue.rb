@@ -1417,8 +1417,12 @@ class Issue < ActiveRecord::Base
   private
 
   def user_tracker_permission?(user, permission)
-    roles = user.roles_for_project(project).select {|r| r.has_permission?(permission)}
-    roles.any? {|r| r.permissions_all_trackers?(permission) || r.permissions_tracker_ids?(permission, tracker_id)}
+    if user.admin?
+      true
+    else
+      roles = user.roles_for_project(project).select {|r| r.has_permission?(permission)}
+      roles.any? {|r| r.permissions_all_trackers?(permission) || r.permissions_tracker_ids?(permission, tracker_id)}
+    end
   end
 
   def after_project_change
