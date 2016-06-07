@@ -691,7 +691,7 @@ class Issue < ActiveRecord::Base
 
     # Checks that the issue can not be added/moved to a disabled tracker
     if project && (tracker_id_changed? || project_id_changed?)
-      unless project.trackers.include?(tracker)
+      if tracker && !project.trackers.include?(tracker)
         errors.add :tracker_id, :inclusion
       end
     end
