@@ -235,7 +235,7 @@ module ObjectHelpers
 
     import.settings = {
       'separator' => ";", 'wrapper' => '"', 'encoding' => "UTF-8",
-      'mapping' => {'project_id' => '1', 'tracker_id' => '2', 'subject' => '1'}
+      'mapping' => {'project_id' => '1', 'tracker' => '13', 'subject' => '1'}
     }
     import.save!
     import

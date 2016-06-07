@@ -58,6 +58,37 @@ class IssueImportTest < ActiveSupport::TestCase
     assert_equal 'New category', category.name
   end
 
+  def test_mapping_with_fixed_tracker
+    import = generate_import_with_mapping
+    import.mapping.merge!('tracker' => 'value:2')
+    import.save!
+
+    issues = new_records(Issue, 3) { import.run }
+    assert_equal [2], issues.map(&:tracker_id).uniq
+  end
+
+  def test_mapping_with_mapped_tracker
+    import = generate_import_with_mapping
+    import.mapping.merge!('tracker' => '13')
+    import.save!
+
+    issues = new_records(Issue, 3) { import.run }
+    assert_equal [1, 2, 1], issues.map(&:tracker_id)
+  end
+
+  def test_should_not_import_with_default_tracker_when_tracker_is_invalid
+    Tracker.find_by_name('Feature request').update!(:name => 'Feature')
+
+    import = generate_import_with_mapping
+    import.mapping.merge!('tracker' => '13')
+    import.save!
+    import.run
+
+    assert_equal 1, import.unsaved_items.count
+    item = import.unsaved_items.first
+    assert_include "Tracker cannot be blank", item.message
+  end
+
   def test_parent_should_be_set
     import = generate_import_with_mapping
     import.mapping.merge!('parent_issue_id' => '5')
@@ -101,7 +132,7 @@ class IssueImportTest < ActiveSupport::TestCase
     field = IssueCustomField.generate!(:field_format => 'date', :is_for_all => true, :trackers => Tracker.all)
     import = generate_import_with_mapping('import_dates.csv')
     import.settings.merge!('date_format' => Import::DATE_FORMATS[1])
-    import.mapping.merge!('subject' => '0', 'start_date' => '1', 'due_date' => '2', "cf_#{field.id}" => '3')
+    import.mapping.merge!('tracker' => 'value:1', 'subject' => '0', 'start_date' => '1', 'due_date' => '2', "cf_#{field.id}" => '3')
     import.save!
 
     issue = new_record(Issue) { import.run } # only 1 valid issue

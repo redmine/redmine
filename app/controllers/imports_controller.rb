@@ -57,11 +57,7 @@ class ImportsController < ApplicationController
   end
 
   def mapping
-    issue = Issue.new
-    issue.project = @import.project
-    issue.tracker = @import.tracker
-    @attributes = issue.safe_attribute_names
-    @custom_fields = issue.editable_custom_field_values.map(&:custom_field)
+    @custom_fields = @import.mappable_custom_fields
 
     if request.post?
       respond_to do |format|
