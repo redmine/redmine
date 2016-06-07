@@ -216,6 +216,7 @@ bg:
   error_can_not_read_import_file: Грешка по време на четене на импортирания файл
   error_attachment_extension_not_allowed: Файлове от тип %{extension} не са позволени
   error_ldap_bind_credentials: Невалидни LDAP име/парола
+  error_no_tracker_allowed_for_new_issue_in_project: Проектът няма тракери, за които да създавате задачи
 
   mail_subject_lost_password: "Вашата парола (%{value})"
   mail_body_lost_password: 'За да смените паролата си, използвайте следния линк:'
@@ -239,6 +240,7 @@ bg:
   mail_body_security_notification_notify_enabled: Имейл адрес %{value} вече получава известия.
   mail_body_security_notification_notify_disabled: Имейл адрес %{value} вече не получава известия.
   mail_body_settings_updated: ! 'Изменения в конфигурацията:'
+  mail_body_password_updated: Вашата парола е сменена.
 
   field_name: Име
   field_description: Описание
@@ -402,7 +404,8 @@ bg:
   setting_enabled_scm: Разрешена SCM
   setting_mail_handler_body_delimiters: Отрязване на e-mail-ите след един от тези редове
   setting_mail_handler_api_enabled: Разрешаване на WS за входящи e-mail-и
-  setting_mail_handler_api_key: API ключ
+  setting_mail_handler_api_key: API ключ за входящи e-mail-и
+  setting_sys_api_key: API ключ за хранилища
   setting_sequential_project_identifiers: Генериране на последователни проектни идентификатори
   setting_gravatar_enabled: Използване на портребителски икони от Gravatar
   setting_gravatar_default: Подразбиращо се изображение от Gravatar
@@ -412,6 +415,7 @@ bg:
   setting_openid: Рарешаване на OpenID вход и регистрация
   setting_password_max_age: Изискване за смяна на паролата след
   setting_password_min_length: Минимална дължина на парола
+  setting_lost_password: Забравена парола
   setting_new_project_user_role_id: Роля, давана на потребител, създаващ проекти, който не е администратор
   setting_default_projects_modules: Активирани модули по подразбиране за нов проект
   setting_issue_done_ratio: Изчисление на процента на готови задачи с
@@ -443,6 +447,7 @@ bg:
   setting_search_results_per_page: Резултати от търсене на страница
   setting_attachment_extensions_allowed: Позволени типове на файлове
   setting_attachment_extensions_denied: Разрешени типове на файлове
+  setting_new_project_issue_tab_enabled: Показване на меню-елемент "Нова задача"
 
   permission_add_project: Създаване на проект
   permission_add_subprojects: Създаване на подпроекти
@@ -560,6 +565,7 @@ bg:
   label_member_plural: Членове
   label_tracker: Тракер
   label_tracker_plural: Тракери
+  label_tracker_all: Всички тракери
   label_tracker_new: Нов тракер
   label_workflow: Работен процес
   label_issue_status: Състояние на задача
@@ -618,6 +624,7 @@ bg:
   label_attribute: Атрибут
   label_attribute_plural: Атрибути
   label_no_data: Няма изходни данни
+  label_no_preview: Няма наличен преглед (preview)
   label_change_status: Промяна на състоянието
   label_history: История
   label_attachment: Файл
@@ -765,6 +772,7 @@ bg:
   label_wiki_edit_plural: Wiki редакции
   label_wiki_page: Wiki страница
   label_wiki_page_plural: Wiki страници
+  label_wiki_page_new: Нова wiki страница
   label_index_by_title: Индекс
   label_index_by_date: Индекс по дата
   label_current_version: Текуща версия
@@ -989,6 +997,7 @@ bg:
   label_api: API
   label_field_format_enumeration: Списък ключ/стойност
   label_default_values_for_new_users: Стойности по подразбиране за нови потребители
+  label_relations: Релации
 
   button_login: Вход
   button_submit: Изпращане
@@ -1043,6 +1052,7 @@ bg:
   button_close: Затваряне
   button_reopen: Отваряне
   button_import: Импорт
+  button_filter: Филтър
 
   status_active: активен
   status_registered: регистриран
@@ -1183,14 +1193,3 @@ bg:
   description_date_from: Въведете начална дата
   description_date_to: Въведете крайна дата
   text_repository_identifier_info: 'Позволени са малки букви (a-z), цифри, тирета и _.<br />Промяна след създаването му не е възможна.'
-  setting_sys_api_key: API ключ
-  setting_lost_password: Забравена парола
-  label_wiki_page_new: New wiki page
-  label_relations: Relations
-  button_filter: Filter
-  mail_body_password_updated: Your password has been changed.
-  label_no_preview: No preview available
-  setting_new_project_issue_tab_enabled: Display the "New issue" tab
-  error_no_tracker_allowed_for_new_issue_in_project: The project doesn't have any trackers
-    for which you can create an issue
-  label_tracker_all: All trackers
