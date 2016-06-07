@@ -89,6 +89,15 @@ class IssueImportTest < ActiveSupport::TestCase
     assert_include "Tracker cannot be blank", item.message
   end
 
+  def test_status_should_be_set
+    import = generate_import_with_mapping
+    import.mapping.merge!('status' => '14')
+    import.save!
+
+    issues = new_records(Issue, 3) { import.run }
+    assert_equal ['New', 'New', 'Assigned'], issues.map(&:status).map(&:name)
+  end
+
   def test_parent_should_be_set
     import = generate_import_with_mapping
     import.mapping.merge!('parent_issue_id' => '5')

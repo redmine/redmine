@@ -92,7 +92,11 @@ class IssueImport < Import
       'subject' => row_value(row, 'subject'),
       'description' => row_value(row, 'description')
     }
-    attributes
+    if status_name = row_value(row, 'status')
+      if status_id = IssueStatus.named(status_name).first.try(:id)
+        attributes['status_id'] = status_id
+      end
+    end
     issue.send :safe_attributes=, attributes, user
 
     attributes = {}
