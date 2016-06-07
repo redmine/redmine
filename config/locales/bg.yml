@@ -400,7 +400,7 @@ bg:
   setting_file_max_size_displayed: Максимален размер на текстовите файлове, показвани inline
   setting_repository_log_display_limit: Максимален брой на показванете ревизии в лог файла
   setting_openid: Рарешаване на OpenID вход и регистрация
-  setting_password_max_age: Require password change after
+  setting_password_max_age: Изискване за смяна на паролата след
   setting_password_min_length: Минимална дължина на парола
   setting_new_project_user_role_id: Роля, давана на потребител, създаващ проекти, който не е администратор
   setting_default_projects_modules: Активирани модули по подразбиране за нов проект
