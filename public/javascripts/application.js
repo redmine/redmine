@@ -185,12 +185,12 @@ function buildFilterRow(field, operator, values) {
   case "date":
   case "date_past":
     tr.find('td.values').append(
-      '<span style="display:none;"><input type="text" name="v['+field+'][]" id="values_'+fieldId+'_1" size="10" class="value date_value" /></span>' +
-      ' <span style="display:none;"><input type="text" name="v['+field+'][]" id="values_'+fieldId+'_2" size="10" class="value date_value" /></span>' +
+      '<span style="display:none;"><input type="date" name="v['+field+'][]" id="values_'+fieldId+'_1" size="10" class="value date_value" /></span>' +
+      ' <span style="display:none;"><input type="date" name="v['+field+'][]" id="values_'+fieldId+'_2" size="10" class="value date_value" /></span>' +
       ' <span style="display:none;"><input type="text" name="v['+field+'][]" id="values_'+fieldId+'" size="3" class="value" /> '+labelDayPlural+'</span>'
     );
-    $('#values_'+fieldId+'_1').val(values[0]).datepicker(datepickerOptions);
-    $('#values_'+fieldId+'_2').val(values[1]).datepicker(datepickerOptions);
+    $('#values_'+fieldId+'_1').val(values[0]).datepickerFallback(datepickerOptions);
+    $('#values_'+fieldId+'_2').val(values[1]).datepickerFallback(datepickerOptions);
     $('#values_'+fieldId).val(values[0]);
     break;
   case "string":
@@ -587,7 +587,7 @@ function beforeShowDatePicker(input, inst) {
       }
       break;
   }
-  $(input).datepicker("option", "defaultDate", default_date);
+  $(input).datepickerFallback("option", "defaultDate", default_date);
 }
 
 (function($){
@@ -719,12 +719,40 @@ function toggleDisabledOnChange() {
   var checked = $(this).is(':checked');
   $($(this).data('disables')).attr('disabled', checked);
   $($(this).data('enables')).attr('disabled', !checked);
+  $($(this).data('shows')).toggle(checked);
 }
 function toggleDisabledInit() {
-  $('input[data-disables], input[data-enables]').each(toggleDisabledOnChange);
+  $('input[data-disables], input[data-enables], input[data-shows]').each(toggleDisabledOnChange);
 }
+
+(function ( $ ) {
+
+  // detect if native date input is supported
+  var nativeDateInputSupported = true;
+
+  var input = document.createElement('input');
+  input.setAttribute('type','date');
+  if (input.type === 'text') {
+    nativeDateInputSupported = false;
+  }
+
+  var notADateValue = 'not-a-date';
+  input.setAttribute('value', notADateValue);
+  if (input.value === notADateValue) {
+    nativeDateInputSupported = false;
+  }
+
+  $.fn.datepickerFallback = function( options ) {
+    if (nativeDateInputSupported) {
+      return this;
+    } else {
+      return this.datepicker( options );
+    }
+  };
+}( jQuery ));
+
 $(document).ready(function(){
-  $('#content').on('change', 'input[data-disables], input[data-enables]', toggleDisabledOnChange);
+  $('#content').on('change', 'input[data-disables], input[data-enables], input[data-shows]', toggleDisabledOnChange);
   toggleDisabledInit();
 });
 

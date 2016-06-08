@@ -21,6 +21,7 @@ api.array :custom_fields do
           values.each do |label, value|
             api.possible_value do
               api.value value || label
+              api.label label
             end
           end
         end

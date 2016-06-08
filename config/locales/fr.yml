@@ -233,6 +233,7 @@ fr:
   error_can_not_read_import_file: "Une erreur est survenue lors de la lecture du fichier à importer"
   error_attachment_extension_not_allowed: "L'extension %{extension} n'est pas autorisée"
   error_ldap_bind_credentials: "Identifiant ou mot de passe LDAP incorrect"
+  error_no_tracker_allowed_for_new_issue_in_project: "Le projet ne dispose d'aucun tracker sur lequel vous pouvez créer une demande"
 
   mail_subject_lost_password: "Votre mot de passe %{value}"
   mail_body_lost_password: 'Pour changer votre mot de passe, cliquez sur le lien suivant :'
@@ -249,6 +250,7 @@ fr:
   mail_subject_wiki_content_updated: "Page wiki '%{id}' mise à jour"
   mail_body_wiki_content_updated: "La page wiki '%{id}' a été mise à jour par %{author}."
   mail_body_settings_updated: "Les paramètres suivants ont été modifiés :"
+  mail_body_password_updated: "Votre mot de passe a été changé."
 
   field_name: Nom
   field_description: Description
@@ -454,6 +456,7 @@ fr:
   setting_attachment_extensions_denied: Extensions non autorisées
   setting_sys_api_key: Clé de protection de l'API
   setting_lost_password: Autoriser la réinitialisation par email de mot de passe perdu
+  setting_new_project_issue_tab_enabled: Afficher l'onglet "Nouvelle demande"
 
   permission_add_project: Créer un projet
   permission_add_subprojects: Créer des sous-projets
@@ -571,6 +574,7 @@ fr:
   label_member_plural: Membres
   label_tracker: Tracker
   label_tracker_plural: Trackers
+  label_tracker_all: Tous les trackers
   label_tracker_new: Nouveau tracker
   label_workflow: Workflow
   label_issue_status: Statut de demandes
@@ -1204,3 +1208,4 @@ fr:
   mail_body_security_notification_notify_enabled: Les notifications ont été activées pour l'adresse %{value}
   mail_body_security_notification_notify_disabled: Les notifications ont été désactivées pour l'adresse %{value}
   field_remote_ip: Adresse IP
+  label_no_preview: No preview available

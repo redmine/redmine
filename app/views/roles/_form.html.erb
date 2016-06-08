@@ -7,17 +7,17 @@
   <% end %>
 
   <% unless @role.anonymous? %>
-    <p><%= f.select :issues_visibility, Role::ISSUES_VISIBILITY_OPTIONS.collect {|v| [l(v.last), v.first]} %></p>
+    <p class="view_issues_shown"><%= f.select :issues_visibility, Role::ISSUES_VISIBILITY_OPTIONS.collect {|v| [l(v.last), v.first]} %></p>
   <% end %>
 
   <% unless @role.anonymous? %>
-    <p><%= f.select :time_entries_visibility, Role::TIME_ENTRIES_VISIBILITY_OPTIONS.collect {|v| [l(v.last), v.first]} %></p>
+    <p class="view_time_entries_shown"><%= f.select :time_entries_visibility, Role::TIME_ENTRIES_VISIBILITY_OPTIONS.collect {|v| [l(v.last), v.first]} %></p>
   <% end %>
 
   <p><%= f.select :users_visibility, Role::USERS_VISIBILITY_OPTIONS.collect {|v| [l(v.last), v.first]} %></p>
 
   <% unless @role.builtin? %>
-    <p id="manage_members_options">
+    <p class="manage_members_shown">
       <label><%= l(:label_member_management) %></label>
       <label class="block">
         <%= radio_button_tag 'role[all_roles_managed]', 1, @role.all_roles_managed?, :id => 'role_all_roles_managed_on',
@@ -31,7 +31,7 @@
       </label>
       <% Role.givable.sorted.each do |role| %>
         <label class="block role_managed_role" style="padding-left:2em;">
-          <%= check_box_tag 'role[managed_role_ids][]', role.id, @role.managed_roles.include?(role), :id => nil %>
+          <%= check_box_tag 'role[managed_role_ids][]', role.id, @role.managed_roles.to_a.include?(role), :id => nil %>
           <%= role.name %>
         </label>
       <% end %>
@@ -52,7 +52,8 @@
     <% perms_by_module[mod].each do |permission| %>
         <label class="floating">
         <%= check_box_tag 'role[permissions][]', permission.name, (@role.permissions.include? permission.name),
-              :id => "role_permissions_#{permission.name}" %>
+              :id => "role_permissions_#{permission.name}",
+              :data => {:shows => ".#{permission.name}_shown"} %>
         <%= l_or_humanize(permission.name, :prefix => 'permission_') %>
         </label>
     <% end %>
@@ -62,10 +63,50 @@
 <%= hidden_field_tag 'role[permissions][]', '' %>
 </div>
 
-<%= javascript_tag do %>
-$(document).ready(function(){
-  $("#role_permissions_manage_members").change(function(){
-    $("#manage_members_options").toggle($(this).is(":checked"));
-  }).change();
-});
+<div id="role-permissions-trackers" class="view_issues_shown">
+<h3><%= l(:label_issue_tracking) %></h3>
+<% permissions = %w(view_issues add_issues edit_issues add_issue_notes delete_issues) %>
+
+<div class="autoscroll">
+<table class="list">
+  <thead>
+    <tr>
+      <th><%= l(:label_tracker) %></th>
+      <% permissions.each do |permission| %>
+      <th class="<%= "#{permission}_shown" %>"><%= l("permission_#{permission}") %></th>
+      <% end %>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="name"><b><%= l(:label_tracker_all) %></b></td>
+      <% permissions.each do |permission| %>
+      <td class="<%= "#{permission}_shown" %>">
+        <%= hidden_field_tag "role[permissions_all_trackers][#{permission}]", '0', :id => nil %>
+        <%= check_box_tag "role[permissions_all_trackers][#{permission}]",
+              '1',
+              @role.permissions_all_trackers?(permission),
+              :class => "#{permission}_shown",
+              :data => {:disables => ".#{permission}_tracker"} %>
+      </td>
+      <% end %>
+    </tr>
+    <% Tracker.sorted.all.each do |tracker| %>
+    <tr class="<%= cycle("odd", "even") %>">
+      <td class="name"><%= tracker.name %></td>
+      <% permissions.each do |permission| %>
+      <td class="<%= "#{permission}_shown" %>"><%= check_box_tag "role[permissions_tracker_ids][#{permission}][]",
+                tracker.id,
+                @role.permissions_tracker_ids?(permission, tracker.id),
+                :class => "#{permission}_tracker",
+                :id => "role_permissions_tracker_ids_add_issues_#{tracker.id}" %></td>
+      <% end %>
+    </tr>
+    <% end %>
+  </tbody>
+</table>
+</div>
+
+<% permissions.each do |permission| %>
+  <%= hidden_field_tag "role[permissions_tracker_ids][#{permission}][]", '' %>
 <% end %>
+</div>

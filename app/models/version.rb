@@ -104,7 +104,7 @@ class Version < ActiveRecord::Base
 
   # Returns true if the version is completed: closed or due date reached and no open issues
   def completed?
-    closed? || (effective_date && (effective_date < Date.today) && (open_issues_count == 0))
+    closed? || (effective_date && (effective_date < User.current.today) && (open_issues_count == 0))
   end
 
   def behind_schedule?
@@ -112,7 +112,7 @@ class Version < ActiveRecord::Base
       return false
     elsif due_date && start_date
       done_date = start_date + ((due_date - start_date+1)* completed_percent/100).floor
-      return done_date <= Date.today
+      return done_date <= User.current.today
     else
       false # No issues so it's not late
     end
@@ -141,7 +141,7 @@ class Version < ActiveRecord::Base
 
   # Returns true if the version is overdue: due date reached and some open issues
   def overdue?
-    effective_date && (effective_date < Date.today) && (open_issues_count > 0)
+    effective_date && (effective_date < User.current.today) && (open_issues_count > 0)
   end
 
   # Returns assigned issues count

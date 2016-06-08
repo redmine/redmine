@@ -169,16 +169,23 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
   end
 
   test "GET /issues/:id.xml with journals" do
-    get '/issues/1.xml?include=journals'
+    Journal.find(2).update_attribute(:private_notes, true)
+
+    get '/issues/1.xml?include=journals', {}, credentials('jsmith')
 
     assert_select 'issue journals[type=array]' do
       assert_select 'journal[id="1"]' do
+        assert_select 'private_notes', :text => 'false'
         assert_select 'details[type=array]' do
           assert_select 'detail[name=status_id]' do
             assert_select 'old_value', :text => '1'
             assert_select 'new_value', :text => '2'
           end
         end
+      end
+      assert_select 'journal[id="2"]' do
+        assert_select 'private_notes', :text => 'true'
+        assert_select 'details[type=array]'
       end
     end
   end

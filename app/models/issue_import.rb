@@ -37,12 +37,14 @@ class IssueImport < Import
   # Returns a scope of trackers that user is allowed to
   # import issue to
   def allowed_target_trackers
-    project.trackers
+    Issue.allowed_target_trackers(project, user)
   end
 
   def tracker
-    tracker_id = mapping['tracker_id'].to_i
-    allowed_target_trackers.find_by_id(tracker_id) || allowed_target_trackers.first
+    if mapping['tracker'].to_s =~ /\Avalue:(\d+)\z/
+      tracker_id = $1.to_i
+      allowed_target_trackers.find_by_id(tracker_id)
+    end
   end
 
   # Returns true if missing categories should be created during the import
@@ -57,6 +59,19 @@ class IssueImport < Import
       mapping['create_versions'] == '1'
   end
 
+  def mappable_custom_fields
+    if tracker
+      issue = Issue.new
+      issue.project = project
+      issue.tracker = tracker
+      issue.editable_custom_field_values(user).map(&:custom_field)
+    elsif project
+      project.all_issue_custom_fields
+    else
+      []
+    end
+  end
+
   private
 
   def build_object(row)
@@ -64,12 +79,24 @@ class IssueImport < Import
     issue.author = user
     issue.notify = false
 
+    tracker_id = nil
+    if tracker
+      tracker_id = tracker.id
+    elsif tracker_name = row_value(row, 'tracker')
+      tracker_id = allowed_target_trackers.named(tracker_name).first.try(:id)
+    end
+
     attributes = {
       'project_id' => mapping['project_id'],
-      'tracker_id' => mapping['tracker_id'],
+      'tracker_id' => tracker_id,
       'subject' => row_value(row, 'subject'),
       'description' => row_value(row, 'description')
     }
+    if status_name = row_value(row, 'status')
+      if status_id = IssueStatus.named(status_name).first.try(:id)
+        attributes['status_id'] = status_id
+      end
+    end
     issue.send :safe_attributes=, attributes, user
 
     attributes = {}
@@ -149,6 +176,11 @@ class IssueImport < Import
     end
 
     issue.send :safe_attributes=, attributes, user
+
+    if issue.tracker_id != tracker_id
+      issue.tracker_id = nil
+    end
+
     issue
   end
 end

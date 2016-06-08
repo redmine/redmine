@@ -512,7 +512,7 @@ class User < Principal
     if time_zone.nil?
       Date.today
     else
-      Time.now.in_time_zone(time_zone).to_date
+      time_zone.today
     end
   end
 

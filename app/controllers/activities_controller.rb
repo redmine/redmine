@@ -27,7 +27,7 @@ class ActivitiesController < ApplicationController
       begin; @date_to = params[:from].to_date + 1; rescue; end
     end
 
-    @date_to ||= Date.today + 1
+    @date_to ||= User.current.today + 1
     @date_from = @date_to - @days
     @with_subprojects = params[:with_subprojects].nil? ? Setting.display_subprojects_issues? : (params[:with_subprojects] == '1')
     if params[:user_id].present?

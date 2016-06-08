@@ -4,6 +4,19 @@ Redmine - project management software
 Copyright (C) 2006-2016  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2016-06-05 v3.2.3
+
+* Defect #22808: Malformed SQL query with SQLServer when grouping and sorting by fixed version
+* Defect #22912: Selecting a new filter on Activities should not reset the date range
+* Defect #22924: Persistent XSS in Markdown parsing
+* Defect #22925: Persistent XSS in project homepage field
+* Defect #22926: Persistent XSS in Textile parsing
+* Defect #22932: "Group by" row from issues listing has the colspan attribute bigger with one than the number of columns from the table
+* Patch #22427: pt-BR translation for 3.2.stable
+* Patch #22761: Korean translation for 3.2-stable
+* Patch #22898: !>image.png! generates invalid HTML
+* Patch #22911: Error raised when importing issue with Key/Value List custom field
+
 == 2016-05-05 v3.2.2
 
 * Defect #5156: Bulk edit form lacks estimated time field

@@ -1,6 +1,6 @@
 <h2><%= l(:label_import_issues) %></h2>
 
-<% if @import.unsaved_items.count == 0 %>
+<% if @import.unsaved_items.count > 0 %>
   <p><%= l(:notice_import_finished, :count => @import.saved_items.count) %></p>
 
   <ul>
@@ -8,7 +8,9 @@
     <li><%= link_to_issue issue %></li>
   <% end %>
   </ul>
-<% else %>
+<% end %>
+
+<% if @import.unsaved_items.count > 0 %>
   <p><%= l(:notice_import_finished_with_errors, :count => @import.unsaved_items.count, :total => @import.total_items) %></p>
 
   <table id="unsaved-items" class="list">

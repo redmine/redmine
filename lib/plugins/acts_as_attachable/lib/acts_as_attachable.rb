@@ -34,6 +34,7 @@ module Redmine
                                  options.merge(:as => :container, :dependent => :destroy, :inverse_of => :container)
           send :include, Redmine::Acts::Attachable::InstanceMethods
           before_save :attach_saved_attachments
+          validate :warn_about_failed_attachments
         end
       end
 
@@ -82,6 +83,7 @@ module Redmine
             attachments = attachments.map(&:last)
           end
           if attachments.is_a?(Array)
+            @failed_attachment_count = 0
             attachments.each do |attachment|
               next unless attachment.is_a?(Hash)
               a = nil
@@ -90,7 +92,10 @@ module Redmine
                 a = Attachment.create(:file => file, :author => author)
               elsif token = attachment['token']
                 a = Attachment.find_by_token(token)
-                next unless a
+                unless a
+                  @failed_attachment_count += 1
+                  next
+                end
                 a.filename = attachment['filename'] unless attachment['filename'].blank?
                 a.content_type = attachment['content_type'] unless attachment['content_type'].blank?
               end
@@ -109,6 +114,12 @@ module Redmine
         def attach_saved_attachments
           saved_attachments.each do |attachment|
             self.attachments << attachment
+          end
+        end
+
+        def warn_about_failed_attachments
+          if @failed_attachment_count && @failed_attachment_count > 0
+            errors.add :base, ::I18n.t('warning_attachments_not_saved', count: @failed_attachment_count)
           end
         end
 

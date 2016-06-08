@@ -59,8 +59,8 @@ module Redmine
             @month_from = 1
           end
         else
-          @month_from ||= Date.today.month
-          @year_from ||= Date.today.year
+          @month_from ||= User.current.today.month
+          @year_from ||= User.current.today.year
         end
         zoom = (options[:zoom] || User.current.pref[:gantt_zoom]).to_i
         @zoom = (zoom > 0 && zoom < 5) ? zoom : 2
@@ -428,9 +428,9 @@ module Redmine
         lines(:image => gc, :top => top, :zoom => zoom,
               :subject_width => subject_width, :format => :image)
         # today red line
-        if Date.today >= @date_from and Date.today <= date_to
+        if User.current.today >= @date_from and User.current.today <= date_to
           gc.stroke('red')
-          x = (Date.today - @date_from + 1) * zoom + subject_width
+          x = (User.current.today - @date_from + 1) * zoom + subject_width
           gc.line(x, headers_height, x, headers_height + g_height - 1)
         end
         gc.draw(imgl)
@@ -442,7 +442,7 @@ module Redmine
         pdf = ::Redmine::Export::PDF::ITCPDF.new(current_language)
         pdf.SetTitle("#{l(:label_gantt)} #{project}")
         pdf.alias_nb_pages
-        pdf.footer_date = format_date(Date.today)
+        pdf.footer_date = format_date(User.current.today)
         pdf.AddPage("L")
         pdf.SetFontStyle('B', 12)
         pdf.SetX(15)
@@ -592,8 +592,8 @@ module Redmine
                 coords[:bar_progress_end] = self.date_to - self.date_from + 1
               end
             end
-            if progress_date < Date.today
-              late_date = [Date.today, end_date].min
+            if progress_date < User.current.today
+              late_date = [User.current.today, end_date].min
               if late_date > self.date_from && late_date > start_date
                 if late_date < self.date_to
                   coords[:bar_late_end] = late_date - self.date_from + 1

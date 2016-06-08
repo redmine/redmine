@@ -237,8 +237,8 @@ ja:
   field_description: 説明
   field_summary: サマリー
   field_is_required: 必須
-  field_firstname: 名前
-  field_lastname: 苗字
+  field_firstname: 名
+  field_lastname: 姓
   field_mail: メールアドレス
   field_filename: ファイル
   field_filesize: サイズ
@@ -1207,5 +1207,11 @@ ja:
   mail_body_security_notification_notify_disabled: メールアドレス %{value} には今後は通知が送信されません。
   mail_body_settings_updated: ! '下記の設定が変更されました:'
   field_remote_ip: IPアドレス
-  label_wiki_page_new: New wiki page
-  label_relations: Relations
+  label_wiki_page_new: 新しいWikiページ
+  label_relations: 関係
+  button_filter: フィルタ
+  mail_body_password_updated: パスワードが変更されました。
+  label_no_preview: このファイルはプレビューできません
+  setting_new_project_issue_tab_enabled: '"新しいチケット" タブを表示'
+  error_no_tracker_allowed_for_new_issue_in_project: このプロジェクトにはチケットの追加が許可されているトラッカーがありません
+  label_tracker_all: すべてのトラッカー

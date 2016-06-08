@@ -1118,90 +1118,89 @@ pt-BR:
   label_drop_down_list: lista suspensa
   label_checkboxes: checkboxes
   label_link_values_to: Valores do link para URL
-  setting_force_default_language_for_anonymous: Force default language for anonymous
-    users
-  setting_force_default_language_for_loggedin: Force default language for logged-in
-    users
-  label_custom_field_select_type: Select the type of object to which the custom field
-    is to be attached
-  label_issue_assigned_to_updated: Assignee updated
-  label_check_for_updates: Check for updates
-  label_latest_compatible_version: Latest compatible version
-  label_unknown_plugin: Unknown plugin
-  label_radio_buttons: radio buttons
-  label_group_anonymous: Anonymous users
-  label_group_non_member: Non member users
-  label_add_projects: Add projects
-  field_default_status: Default status
-  text_subversion_repository_note: 'Examples: file:///, http://, https://, svn://, svn+[tunnelscheme]://'
-  field_users_visibility: Users visibility
-  label_users_visibility_all: All active users
-  label_users_visibility_members_of_visible_projects: Members of visible projects
-  label_edit_attachments: Edit attached files
-  setting_link_copied_issue: Link issues on copy
-  label_link_copied_issue: Link copied issue
-  label_ask: Ask
-  label_search_attachments_yes: Search attachment filenames and descriptions
-  label_search_attachments_no: Do not search attachments
-  label_search_attachments_only: Search attachments only
-  label_search_open_issues_only: Open issues only
+  setting_force_default_language_for_anonymous: Forçar linguagem padrão para usuários
+    anônimos
+  setting_force_default_language_for_loggedin: Forçar linguagem padrão para usuários
+    logados
+  label_custom_field_select_type: Selecione o tipo de objeto ao qual o campo personalizado
+    é para ser anexado
+  label_issue_assigned_to_updated: Atribuição atualizada
+  label_check_for_updates: Verificar atualizações
+  label_latest_compatible_version: Última versão compatível
+  label_unknown_plugin: Plugin desconhecido
+  label_radio_buttons: botões radio
+  label_group_anonymous: Usuários anônimos
+  label_group_non_member: Usuários não membros
+  label_add_projects: Adicionar projetos
+  field_default_status: Situação padrão
+  text_subversion_repository_note: 'Examplos: file:///, http://, https://, svn://, svn+[tunnelscheme]://'
+  field_users_visibility: Visibilidade do usuário
+  label_users_visibility_all: Todos usuários ativos
+  label_users_visibility_members_of_visible_projects: Membros de projetos visíveis
+  label_edit_attachments: Editar arquivos anexados
+  setting_link_copied_issue: Linkar tarefas copiadas
+  label_link_copied_issue: Linkar tarefas copiadas
+  label_ask: Perguntar
+  label_search_attachments_yes: Procurar nome do arquivo e descrição anexados
+  label_search_attachments_no: Não procurar anexados
+  label_search_attachments_only: Procurar somente anexados
+  label_search_open_issues_only: Somente tarefas abertas
   field_address: E-mail
-  setting_max_additional_emails: Maximum number of additional email addresses
+  setting_max_additional_emails: Número máximo de e-mails adicionais
   label_email_address_plural: Emails
-  label_email_address_add: Add email address
-  label_enable_notifications: Enable notifications
-  label_disable_notifications: Disable notifications
-  setting_search_results_per_page: Search results per page
-  label_blank_value: blank
-  permission_copy_issues: Copy issues
-  error_password_expired: Your password has expired or the administrator requires you
-    to change it.
-  field_time_entries_visibility: Time logs visibility
-  setting_password_max_age: Require password change after
-  label_parent_task_attributes: Parent tasks attributes
-  label_parent_task_attributes_derived: Calculated from subtasks
-  label_parent_task_attributes_independent: Independent of subtasks
-  label_time_entries_visibility_all: All time entries
-  label_time_entries_visibility_own: Time entries created by the user
-  label_member_management: Member management
-  label_member_management_all_roles: All roles
-  label_member_management_selected_roles_only: Only these roles
-  label_password_required: Confirm your password to continue
+  label_email_address_add: Adicionar endereço de email
+  label_enable_notifications: Habilitar notificações
+  label_disable_notifications: Desabilitar notificações
+  setting_search_results_per_page: Resultados de pesquisa por página
+  label_blank_value: Branco
+  permission_copy_issues: Copiar tarefas
+  error_password_expired: Sua senha expirou ou requer atualização
+  field_time_entries_visibility: Visibilidade do log de tempo
+  setting_password_max_age: Requer troca de senha depois
+  label_parent_task_attributes: Atributos das tarefas pai
+  label_parent_task_attributes_derived: Calculado das subtarefas
+  label_parent_task_attributes_independent: Independente das subtarefas
+  label_time_entries_visibility_all: Todas as entradas de tempo
+  label_time_entries_visibility_own: Entradas de tempo criadas pelo usuário
+  label_member_management: Gerenciamento de membros
+  label_member_management_all_roles: Todas os papéis
+  label_member_management_selected_roles_only: Somente esses papéis
+  label_password_required: Confirme sua senha para continuar
   label_total_spent_time: Tempo gasto geral
-  notice_import_finished: All %{count} items have been imported.
-  notice_import_finished_with_errors: ! '%{count} out of %{total} items could not be
-    imported.'
-  error_invalid_file_encoding: The file is not a valid %{encoding} encoded file
-  error_invalid_csv_file_or_settings: The file is not a CSV file or does not match the
-    settings below
-  error_can_not_read_import_file: An error occurred while reading the file to import
-  permission_import_issues: Import issues
-  label_import_issues: Import issues
-  label_select_file_to_import: Select the file to import
-  label_fields_separator: Field separator
-  label_fields_wrapper: Field wrapper
-  label_encoding: Encoding
-  label_comma_char: Comma
-  label_semi_colon_char: Semicolon
-  label_quote_char: Quote
-  label_double_quote_char: Double quote
-  label_fields_mapping: Fields mapping
-  label_file_content_preview: File content preview
-  label_create_missing_values: Create missing values
-  button_import: Import
-  field_total_estimated_hours: Total estimated time
+  notice_import_finished: Tpdps %{count} itens foram importados.
+  notice_import_finished_with_errors: ! '%{count} fora de %{total} não puderam ser 
+    importados.'
+  error_invalid_file_encoding: O arquivo não é válido %{encoding} é a codificação do arquivo
+  error_invalid_csv_file_or_settings: O arquivo não é um arquivo CSV ou não corresponde as
+    definições abaixo
+  error_can_not_read_import_file: Ocorreu um erro ao ler o arquivo para importação
+  permission_import_issues: Importar tarefas
+  label_import_issues: Importar tarefas
+  label_select_file_to_import: Selecione o arquivo para importação
+  label_fields_separator: Campo separador
+  label_fields_wrapper: Field empacotador
+  label_encoding: Codificação
+  label_comma_char: Vírgula
+  label_semi_colon_char: Ponto e vírgula
+  label_quote_char: Citar
+  label_double_quote_char: Citação dupla
+  label_fields_mapping: Mapeamento de campos
+  label_file_content_preview: Pré-visualir conteúdo do arquivo
+  label_create_missing_values: Criar valores em falta
+  button_import: Importar
+  field_total_estimated_hours: Tempo estimado geral
   label_api: API
-  label_total_plural: Totals
-  label_assigned_issues: Assigned issues
-  label_field_format_enumeration: Key/value list
+  label_total_plural: Totais
+  label_assigned_issues: Tarefas atribuídas
+  label_field_format_enumeration: Chave/Lista de valores
   label_f_hour_short: '%{value} h'
-  field_default_version: Default version
-  error_attachment_extension_not_allowed: Attachment extension %{extension} is not allowed
-  setting_attachment_extensions_allowed: Allowed extensions
-  setting_attachment_extensions_denied: Disallowed extensions
-  label_any_open_issues: any open issues
-  label_no_open_issues: no open issues
-  label_default_values_for_new_users: Default values for new users
+  field_default_version: Versão padrão
+  error_attachment_extension_not_allowed: Extensão anexada %{extension} não é permitida
+  setting_attachment_extensions_allowed: Permitir extensões
+  setting_attachment_extensions_denied: Negar extensões
+  label_any_open_issues: Quaisquer tarefas abertas
+  label_no_open_issues: Sem tarefas abertas
+  label_default_values_for_new_users: Valor padrão para novos usuários
   setting_sys_api_key: Chave de API
   setting_lost_password: Perdi minha senha
   mail_subject_security_notification: Security notification
@@ -1217,3 +1216,10 @@ pt-BR:
   field_remote_ip: IP address
   label_wiki_page_new: New wiki page
   label_relations: Relations
+  button_filter: Filter
+  mail_body_password_updated: Your password has been changed.
+  label_no_preview: No preview available
+  setting_new_project_issue_tab_enabled: Display the "New issue" tab
+  error_no_tracker_allowed_for_new_issue_in_project: The project doesn't have any trackers
+    for which you can create an issue
+  label_tracker_all: All trackers

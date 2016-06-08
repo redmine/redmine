@@ -312,9 +312,13 @@ class Mailer < ActionMailer::Base
 
   # Notifies user that his password was updated
   def self.password_updated(user)
+    # Don't send a notification to the dummy email address when changing the password
+    # of the default admin account which is required after the first login
+    # TODO: maybe not the best way to handle this
+    return if user.admin? && user.login == 'admin' && user.mail == 'admin@example.net'
+
     Mailer.security_notification(user,
-      message: :mail_body_security_notification_change,
-      field: :field_password,
+      message: :mail_body_password_updated,
       title: :button_change_password,
       url: {controller: 'my', action: 'password'}
     ).deliver

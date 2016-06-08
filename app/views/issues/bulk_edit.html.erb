@@ -147,7 +147,7 @@
 <% if @safe_attributes.include?('start_date') %>
 <p>
   <label for='issue_start_date'><%= l(:field_start_date) %></label>
-  <%= text_field_tag 'issue[start_date]', '', :value => @issue_params[:start_date], :size => 10 %><%= calendar_for('issue_start_date') %>
+  <%= date_field_tag 'issue[start_date]', '', :value => @issue_params[:start_date], :size => 10 %><%= calendar_for('issue_start_date') %>
   <label class="inline"><%= check_box_tag 'issue[start_date]', 'none', (@issue_params[:start_date] == 'none'), :id => nil, :data => {:disables => '#issue_start_date'} %><%= l(:button_clear) %></label>
 </p>
 <% end %>
@@ -155,7 +155,7 @@
 <% if @safe_attributes.include?('due_date') %>
 <p>
   <label for='issue_due_date'><%= l(:field_due_date) %></label>
-  <%= text_field_tag 'issue[due_date]', '', :value => @issue_params[:due_date], :size => 10 %><%= calendar_for('issue_due_date') %>
+  <%= date_field_tag 'issue[due_date]', '', :value => @issue_params[:due_date], :size => 10 %><%= calendar_for('issue_due_date') %>
   <label class="inline"><%= check_box_tag 'issue[due_date]', 'none', (@issue_params[:due_date] == 'none'), :id => nil, :data => {:disables => '#issue_due_date'} %><%= l(:button_clear) %></label>
 </p>
 <% end %>

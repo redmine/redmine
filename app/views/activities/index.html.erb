@@ -31,7 +31,7 @@
 <%= link_to_content_update(l(:label_next) + " \xc2\xbb",
                    params.merge(:from => @date_to + @days - 1),
                    :title => l(:label_date_from_to, :start => format_date(@date_to), :end => format_date(@date_to + @days - 1)),
-                   :accesskey => accesskey(:next)) unless @date_to >= Date.today %>
+                   :accesskey => accesskey(:next)) unless @date_to >= User.current.today %>
 </div>
 &nbsp;
 <% other_formats_links do |f| %>
@@ -61,6 +61,7 @@
     <p><label><%= check_box_tag 'with_subprojects', 1, @with_subprojects %> <%=l(:label_subproject_plural)%></label></p>
 <% end %>
 <%= hidden_field_tag('user_id', params[:user_id]) unless params[:user_id].blank? %>
+<%= hidden_field_tag('from', params[:from]) unless params[:from].blank? %>
 <p><%= submit_tag l(:button_apply), :class => 'button-small', :name => 'submit' %></p>
 <% end %>
 <% end %>

@@ -35,8 +35,8 @@ class CalendarsController < ApplicationController
         @month = params[:month].to_i
       end
     end
-    @year ||= Date.today.year
-    @month ||= Date.today.month
+    @year ||= User.current.today.year
+    @month ||= User.current.today.month
 
     @calendar = Redmine::Helpers::Calendar.new(Date.civil(@year, @month, 1), current_language, :month)
     retrieve_query

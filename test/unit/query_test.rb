@@ -1720,4 +1720,50 @@ class QueryTest < ActiveSupport::TestCase
     c = QueryColumn.new('foo', :caption => lambda {'Foo'})
     assert_equal 'Foo', c.caption
   end
+
+  def test_date_clause_should_respect_user_time_zone_with_local_default
+    @query = IssueQuery.new(:name => '_')
+
+    # user is in Hawaii (-10)
+    User.current = users(:users_001)
+    User.current.pref.update_attribute :time_zone, 'Hawaii'
+
+    # assume timestamps are stored in server local time
+    local_zone = Time.zone
+
+    from = Date.parse '2016-03-20'
+    to = Date.parse '2016-03-22'
+    assert c = @query.send(:date_clause, 'table', 'field', from, to, false)
+
+    # the dates should have been interpreted in the user's time zone and
+    # converted to local time
+    # what we get exactly in the sql depends on the local time zone, therefore
+    # it's computed here.
+    f = User.current.time_zone.local(from.year, from.month, from.day).yesterday.end_of_day.in_time_zone(local_zone)
+    t = User.current.time_zone.local(to.year, to.month, to.day).end_of_day.in_time_zone(local_zone)
+    assert_equal "table.field > '#{Query.connection.quoted_date f}' AND table.field <= '#{Query.connection.quoted_date t}'", c
+  end
+
+  def test_date_clause_should_respect_user_time_zone_with_utc_default
+    @query = IssueQuery.new(:name => '_')
+
+    # user is in Hawaii (-10)
+    User.current = users(:users_001)
+    User.current.pref.update_attribute :time_zone, 'Hawaii'
+
+    # assume timestamps are stored as utc
+    ActiveRecord::Base.default_timezone = :utc
+
+    from = Date.parse '2016-03-20'
+    to = Date.parse '2016-03-22'
+    assert c = @query.send(:date_clause, 'table', 'field', from, to, false)
+    # the dates should have been interpreted in the user's time zone and
+    # converted to utc. March 20 in Hawaii begins at 10am UTC.
+    f = Time.new(2016, 3, 20, 9, 59, 59, 0).end_of_hour
+    t = Time.new(2016, 3, 23, 9, 59, 59, 0).end_of_hour
+    assert_equal "table.field > '#{Query.connection.quoted_date f}' AND table.field <= '#{Query.connection.quoted_date t}'", c
+  ensure
+    ActiveRecord::Base.default_timezone = :local # restore Redmine default
+  end
+
 end

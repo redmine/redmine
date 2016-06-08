@@ -262,6 +262,14 @@ class CustomField < ActiveRecord::Base
     args.include?(field_format)
   end
 
+  def self.human_attribute_name(attribute_key_name, *args)
+    attr_name = attribute_key_name.to_s
+    if attr_name == 'url_pattern'
+      attr_name = "url"
+    end
+    super(attr_name, *args)
+  end
+
   protected
 
   # Removes multiple values for the custom field after setting the multiple attribute to false

@@ -655,6 +655,7 @@ de:
   label_next: Weiter
   label_no_change_option: (Keine Änderung)
   label_no_data: Nichts anzuzeigen
+  label_no_preview: Keine Vorschau verfügbar
   label_no_issues_in_project: keine Tickets im Projekt
   label_nobody: Niemand
   label_none: kein
@@ -1198,6 +1199,12 @@ de:
   label_any_open_issues: irgendein offenes Ticket
   label_no_open_issues: kein offenes Ticket
   label_default_values_for_new_users: Standardwerte für neue Benutzer
-  error_ldap_bind_credentials: Invalid LDAP Account/Password
-  mail_body_settings_updated: ! 'The following settings were changed:'
-  label_relations: Relations
+  error_ldap_bind_credentials: Ungültiges LDAP Konto/Passwort
+  mail_body_settings_updated: ! 'Die folgenden Einstellungen wurden geändert:'
+  label_relations: Beziehungen
+  button_filter: Filter
+  mail_body_password_updated: Ihr Passwort wurde geändert.
+  setting_new_project_issue_tab_enabled: Tab "Neues Ticket" anzeigen
+  error_no_tracker_allowed_for_new_issue_in_project: The project doesn't have any trackers
+    for which you can create an issue
+  label_tracker_all: All trackers

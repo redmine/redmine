@@ -422,7 +422,7 @@ class Query < ActiveRecord::Base
 
   def label_for(field)
     label = available_filters[field][:name] if available_filters.has_key?(field)
-    label ||= l("field_#{field.to_s.gsub(/_id$/, '')}", :default => field)
+    label ||= queried_class.human_attribute_name(field, :default => field)
   end
 
   def self.add_available_column(column)
@@ -543,11 +543,9 @@ class Query < ActiveRecord::Base
 
   # Returns the SQL sort order that should be prepended for grouping
   def group_by_sort_order
-    if grouped? && (column = group_by_column)
+    if column = group_by_column
       order = (sort_criteria_order_for(column.name) || column.default_order).try(:upcase)
-      column.sortable.is_a?(Array) ?
-        column.sortable.collect {|s| "#{s} #{order}"}.join(',') :
-        "#{column.sortable} #{order}"
+      Array(column.sortable).map {|s| "#{s} #{order}"}
     end
   end
 
@@ -874,32 +872,32 @@ class Query < ActiveRecord::Base
     when "w"
       # = this week
       first_day_of_week = l(:general_first_day_of_week).to_i
-      day_of_week = Date.today.cwday
+      day_of_week = User.current.today.cwday
       days_ago = (day_of_week >= first_day_of_week ? day_of_week - first_day_of_week : day_of_week + 7 - first_day_of_week)
       sql = relative_date_clause(db_table, db_field, - days_ago, - days_ago + 6, is_custom_filter)
     when "lw"
       # = last week
       first_day_of_week = l(:general_first_day_of_week).to_i
-      day_of_week = Date.today.cwday
+      day_of_week = User.current.today.cwday
       days_ago = (day_of_week >= first_day_of_week ? day_of_week - first_day_of_week : day_of_week + 7 - first_day_of_week)
       sql = relative_date_clause(db_table, db_field, - days_ago - 7, - days_ago - 1, is_custom_filter)
     when "l2w"
       # = last 2 weeks
       first_day_of_week = l(:general_first_day_of_week).to_i
-      day_of_week = Date.today.cwday
+      day_of_week = User.current.today.cwday
       days_ago = (day_of_week >= first_day_of_week ? day_of_week - first_day_of_week : day_of_week + 7 - first_day_of_week)
       sql = relative_date_clause(db_table, db_field, - days_ago - 14, - days_ago - 1, is_custom_filter)
     when "m"
       # = this month
-      date = Date.today
+      date = User.current.today
       sql = date_clause(db_table, db_field, date.beginning_of_month, date.end_of_month, is_custom_filter)
     when "lm"
       # = last month
-      date = Date.today.prev_month
+      date = User.current.today.prev_month
       sql = date_clause(db_table, db_field, date.beginning_of_month, date.end_of_month, is_custom_filter)
     when "y"
       # = this year
-      date = Date.today
+      date = User.current.today
       sql = date_clause(db_table, db_field, date.beginning_of_year, date.end_of_year, is_custom_filter)
     when "~"
       sql = sql_contains("#{db_table}.#{db_field}", value.first)
@@ -971,12 +969,20 @@ class Query < ActiveRecord::Base
     end
   end
 
+  def date_for_user_time_zone(y, m, d)
+    if tz = User.current.time_zone
+      tz.local y, m, d
+    else
+      Time.local y, m, d
+    end
+  end
+
   # Returns a SQL clause for a date or datetime field.
   def date_clause(table, field, from, to, is_custom_filter)
     s = []
     if from
       if from.is_a?(Date)
-        from = Time.local(from.year, from.month, from.day).yesterday.end_of_day
+        from = date_for_user_time_zone(from.year, from.month, from.day).yesterday.end_of_day
       else
         from = from - 1 # second
       end
@@ -987,7 +993,7 @@ class Query < ActiveRecord::Base
     end
     if to
       if to.is_a?(Date)
-        to = Time.local(to.year, to.month, to.day).end_of_day
+        to = date_for_user_time_zone(to.year, to.month, to.day).end_of_day
       end
       if self.class.default_timezone == :utc
         to = to.utc
@@ -999,7 +1005,7 @@ class Query < ActiveRecord::Base
 
   # Returns a SQL clause for a date or datetime field using relative dates.
   def relative_date_clause(table, field, days_from, days_to, is_custom_filter)
-    date_clause(table, field, (days_from ? Date.today + days_from : nil), (days_to ? Date.today + days_to : nil), is_custom_filter)
+    date_clause(table, field, (days_from ? User.current.today + days_from : nil), (days_to ? User.current.today + days_to : nil), is_custom_filter)
   end
 
   # Returns a Date or Time from the given filter value

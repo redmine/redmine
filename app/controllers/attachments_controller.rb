@@ -43,7 +43,7 @@ class AttachmentsController < ApplicationController
         elsif @attachment.is_image?
           render :action => 'image'
         else
-          download
+          render :action => 'other'
         end
       }
       format.api
@@ -59,7 +59,7 @@ class AttachmentsController < ApplicationController
       # images are sent inline
       send_file @attachment.diskfile, :filename => filename_for_content_disposition(@attachment.filename),
                                       :type => detect_content_type(@attachment),
-                                      :disposition => (@attachment.image? ? 'inline' : 'attachment')
+                                      :disposition => disposition(@attachment)
     end
   end
 
@@ -190,5 +190,13 @@ class AttachmentsController < ApplicationController
       content_type = Redmine::MimeType.of(attachment.filename)
     end
     content_type.to_s
+  end
+
+  def disposition(attachment)
+    if attachment.is_image? || attachment.is_pdf?
+      'inline'
+    else
+      'attachment'
+    end
   end
 end

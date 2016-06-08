@@ -168,24 +168,26 @@ class RepositoriesController < ApplicationController
     # If the entry is a dir, show the browser
     (show; return) if @entry.is_dir?
 
-    @content = @repository.cat(@path, @rev)
-    (show_error_not_found; return) unless @content
-    if !is_raw && Redmine::MimeType.is_type?('image', @path)
-      # simply render
-    elsif is_raw ||
-         (@content.size && @content.size > Setting.file_max_size_displayed.to_i.kilobyte) ||
-         ! is_entry_text_data?(@content, @path)
+    if is_raw
       # Force the download
       send_opt = { :filename => filename_for_content_disposition(@path.split('/').last) }
       send_type = Redmine::MimeType.of(@path)
       send_opt[:type] = send_type.to_s if send_type
-      send_opt[:disposition] = (Redmine::MimeType.is_type?('image', @path) && !is_raw ? 'inline' : 'attachment')
-      send_data @content, send_opt
+      send_opt[:disposition] = disposition(@path)
+      send_data @repository.cat(@path, @rev), send_opt
     else
-      # Prevent empty lines when displaying a file with Windows style eol
-      # TODO: UTF-16
-      # Is this needs? AttachmentsController reads file simply.
-      @content.gsub!("\r\n", "\n")
+      if !@entry.size || @entry.size <= Setting.file_max_size_displayed.to_i.kilobyte
+        content = @repository.cat(@path, @rev)
+        (show_error_not_found; return) unless content
+
+        if content.size <= Setting.file_max_size_displayed.to_i.kilobyte &&
+           is_entry_text_data?(content, @path)
+          # TODO: UTF-16
+          # Prevent empty lines when displaying a file with Windows style eol
+          # Is this needed? AttachmentsController simply reads file.
+          @content = content.gsub("\r\n", "\n")
+        end
+      end
       @changeset = @repository.find_changeset_by_name(@rev)
     end
   end
@@ -352,7 +354,7 @@ class RepositoriesController < ApplicationController
   end
 
   def graph_commits_per_month(repository)
-    @date_to = Date.today
+    @date_to = User.current.today
     @date_from = @date_to << 11
     @date_from = Date.civil(@date_from.year, @date_from.month, 1)
     commits_by_day = Changeset.
@@ -371,7 +373,8 @@ class RepositoriesController < ApplicationController
     changes_by_day.each {|c| changes_by_month[(@date_to.month - c.first.to_date.month) % 12] += c.last }
 
     fields = []
-    12.times {|m| fields << month_name(((Date.today.month - 1 - m) % 12) + 1)}
+    today = User.current.today
+    12.times {|m| fields << month_name(((today.month - 1 - m) % 12) + 1)}
 
     graph = SVG::Graph::Bar.new(
       :height => 300,
@@ -437,5 +440,13 @@ class RepositoriesController < ApplicationController
       :title => l(:label_change_plural)
     )
     graph.burn
+  end
+
+  def disposition(path)
+    if Redmine::MimeType.is_type?('image', @path) || Redmine::MimeType.of(@path) == "application/pdf"
+      'inline'
+    else
+      'attachment'
+    end
   end
 end

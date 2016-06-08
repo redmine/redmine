@@ -29,7 +29,7 @@ entries_by_day = entries.group_by(&:spent_on)
 <tbody>
 <% entries_by_day.keys.sort.reverse.each do |day| %>
     <tr class="odd">
-    <td><strong><%= day == Date.today ? l(:label_today).titleize : format_date(day) %></strong></td>
+    <td><strong><%= day == User.current.today ? l(:label_today).titleize : format_date(day) %></strong></td>
     <td colspan="2"></td>
     <td class="hours"><em><%= html_hours("%.2f" % entries_by_day[day].sum(&:hours).to_f) %></em></td>
     <td></td>

@@ -211,6 +211,10 @@ class IssuesController < ApplicationController
       unless User.current.allowed_to?(:copy_issues, @projects)
         raise ::Unauthorized
       end
+    else
+      unless @issues.all?(&:attributes_editable?)
+        raise ::Unauthorized
+      end
     end
 
     @allowed_projects = Issue.allowed_target_projects
@@ -230,7 +234,7 @@ class IssuesController < ApplicationController
     end
     @custom_fields = @issues.map{|i|i.editable_custom_fields}.reduce(:&)
     @assignables = target_projects.map(&:assignable_users).reduce(:&)
-    @trackers = target_projects.map(&:trackers).reduce(:&)
+    @trackers = target_projects.map {|p| Issue.allowed_target_trackers(p) }.reduce(:&)
     @versions = target_projects.map {|p| p.shared_versions.open}.reduce(:&)
     @categories = target_projects.map {|p| p.issue_categories}.reduce(:&)
     if @copy
@@ -261,6 +265,10 @@ class IssuesController < ApplicationController
         target_projects = Project.where(:id => attributes['project_id']).to_a
       end
       unless User.current.allowed_to?(:add_issues, target_projects)
+        raise ::Unauthorized
+      end
+    else
+      unless @issues.all?(&:attributes_editable?)
         raise ::Unauthorized
       end
     end
@@ -316,6 +324,7 @@ class IssuesController < ApplicationController
   end
 
   def destroy
+    raise Unauthorized unless @issues.all?(&:deletable?)
     @hours = TimeEntry.where(:issue_id => @issues.map(&:id)).sum(:hours).to_f
     if @hours > 0
       case params[:todo]
@@ -347,6 +356,16 @@ class IssuesController < ApplicationController
     respond_to do |format|
       format.html { redirect_back_or_default _project_issues_path(@project) }
       format.api  { render_api_ok }
+    end
+  end
+
+  # Overrides Redmine::MenuManager::MenuController::ClassMethods for
+  # when the "New issue" tab is enabled
+  def current_menu_item
+    if Setting.new_project_issue_tab_enabled? && [:new, :create].include?(action_name.to_sym) 
+      :new_issue
+    else
+      super
     end
   end
 
@@ -441,7 +460,7 @@ class IssuesController < ApplicationController
       @issue.project ||= @issue.allowed_target_projects.first
     end
     @issue.author ||= User.current
-    @issue.start_date ||= Date.today if Setting.default_issue_start_date_to_creation_date?
+    @issue.start_date ||= User.current.today if Setting.default_issue_start_date_to_creation_date?
 
     attrs = (params[:issue] || {}).deep_dup
     if action_name == 'new' && params[:was_default_status] == attrs[:status_id]
@@ -455,9 +474,15 @@ class IssuesController < ApplicationController
     @issue.safe_attributes = attrs
 
     if @issue.project
-      @issue.tracker ||= @issue.project.trackers.first
+      @issue.tracker ||= @issue.allowed_target_trackers.first
       if @issue.tracker.nil?
-        render_error l(:error_no_tracker_in_project)
+        if @issue.project.trackers.any?
+          # None of the project trackers is allowed to the user
+          render_error :message => l(:error_no_tracker_allowed_for_new_issue_in_project), :status => 403
+        else
+          # Project has no trackers
+          render_error l(:error_no_tracker_in_project)
+        end
         return false
       end
       if @issue.status.nil?

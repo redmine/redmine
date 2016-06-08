@@ -213,6 +213,7 @@ en:
   error_can_not_read_import_file: "An error occurred while reading the file to import"
   error_attachment_extension_not_allowed: "Attachment extension %{extension} is not allowed"
   error_ldap_bind_credentials: "Invalid LDAP Account/Password"
+  error_no_tracker_allowed_for_new_issue_in_project: "The project doesn't have any trackers for which you can create an issue"
 
   mail_subject_lost_password: "Your %{value} password"
   mail_body_lost_password: 'To change your password, click on the following link:'
@@ -236,6 +237,7 @@ en:
   mail_body_security_notification_notify_enabled: "Email address %{value} now receives notifications."
   mail_body_security_notification_notify_disabled: "Email address %{value} no longer receives notifications."
   mail_body_settings_updated: "The following settings were changed:"
+  mail_body_password_updated: "Your password has been changed."
 
   field_name: Name
   field_description: Description
@@ -285,7 +287,7 @@ en:
   field_admin: Administrator
   field_last_login_on: Last connection
   field_language: Language
-  field_effective_date: Date
+  field_effective_date: Due date
   field_password: Password
   field_new_password: New password
   field_password_confirmation: Confirmation
@@ -442,6 +444,7 @@ en:
   setting_search_results_per_page: Search results per page
   setting_attachment_extensions_allowed: Allowed extensions
   setting_attachment_extensions_denied: Disallowed extensions
+  setting_new_project_issue_tab_enabled: Display the "New issue" tab
 
   permission_add_project: Create project
   permission_add_subprojects: Create subprojects
@@ -559,6 +562,7 @@ en:
   label_member_plural: Members
   label_tracker: Tracker
   label_tracker_plural: Trackers
+  label_tracker_all: All trackers
   label_tracker_new: New tracker
   label_workflow: Workflow
   label_issue_status: Issue status
@@ -617,6 +621,7 @@ en:
   label_attribute: Attribute
   label_attribute_plural: Attributes
   label_no_data: No data to display
+  label_no_preview: No preview available
   label_change_status: Change status
   label_history: History
   label_attachment: File

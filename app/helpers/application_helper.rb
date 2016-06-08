@@ -28,6 +28,7 @@ module ApplicationHelper
   include Redmine::SudoMode::Helper
   include Redmine::Themes::Helper
   include Redmine::Hook::Helper
+  include Redmine::Helpers::URL
 
   extend Forwardable
   def_delegators :wiki_helper, :wikitoolbar_for, :heads_for_wiki_formatter
@@ -252,7 +253,7 @@ module ApplicationHelper
 
   def due_date_distance_in_words(date)
     if date
-      l((date < Date.today ? :label_roadmap_overdue : :label_roadmap_due_in), distance_of_date_in_words(Date.today, date))
+      l((date < User.current.today ? :label_roadmap_overdue : :label_roadmap_due_in), distance_of_date_in_words(User.current.today, date))
     end
   end
 
@@ -1171,7 +1172,7 @@ module ApplicationHelper
 
   def calendar_for(field_id)
     include_calendar_headers_tags
-    javascript_tag("$(function() { $('##{field_id}').addClass('date').datepicker(datepickerOptions); });")
+    javascript_tag("$(function() { $('##{field_id}').addClass('date').datepickerFallback(datepickerOptions); });")
   end
 
   def include_calendar_headers_tags

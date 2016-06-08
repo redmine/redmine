@@ -26,7 +26,7 @@ module Redmine
           pdf = Redmine::Export::PDF::ITCPDF.new(current_language)
           pdf.set_title(project.name)
           pdf.alias_nb_pages
-          pdf.footer_date = format_date(Date.today)
+          pdf.footer_date = format_date(User.current.today)
           pdf.add_page
           pdf.SetFontStyle('B',11)
           pdf.RDMMultiCell(190,5, project.name)
@@ -43,7 +43,7 @@ module Redmine
           pdf = ITCPDF.new(current_language)
           pdf.set_title("#{project} - #{page.title}")
           pdf.alias_nb_pages
-          pdf.footer_date = format_date(Date.today)
+          pdf.footer_date = format_date(User.current.today)
           pdf.add_page
           pdf.SetFontStyle('B',11)
           pdf.RDMMultiCell(190,5,

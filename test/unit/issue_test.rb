@@ -342,6 +342,69 @@ class IssueTest < ActiveSupport::TestCase
     assert_include issue, issues
   end
 
+  def test_visible_scope_for_member_with_limited_tracker_ids
+    role = Role.find(1)
+    role.set_permission_trackers :view_issues, [2]
+    role.save!
+    user = User.find(2)
+
+    issues = Issue.where(:project_id => 1).visible(user).to_a
+    assert issues.any?
+    assert_equal [2], issues.map(&:tracker_id).uniq
+
+    assert Issue.where(:project_id => 1).all? {|issue| issue.visible?(user) ^ issue.tracker_id != 2}
+  end
+
+  def test_visible_scope_should_consider_tracker_ids_on_each_project
+    user = User.generate!
+
+    project1 = Project.generate!
+    role1 = Role.generate!
+    role1.add_permission! :view_issues
+    role1.set_permission_trackers :view_issues, :all
+    role1.save!
+    User.add_to_project(user, project1, role1)
+
+    project2 = Project.generate!
+    role2 = Role.generate!
+    role2.add_permission! :view_issues
+    role2.set_permission_trackers :view_issues, [2]
+    role2.save!
+    User.add_to_project(user, project2, role2)
+
+    visible_issues = [
+      Issue.generate!(:project => project1, :tracker_id => 1),
+      Issue.generate!(:project => project1, :tracker_id => 2),
+      Issue.generate!(:project => project2, :tracker_id => 2)
+    ]
+    hidden_issue = Issue.generate!(:project => project2, :tracker_id => 1)
+
+    issues = Issue.where(:project_id => [project1.id, project2.id]).visible(user)
+    assert_equal visible_issues.map(&:id), issues.ids.sort
+
+    assert visible_issues.all? {|issue| issue.visible?(user)}
+    assert !hidden_issue.visible?(user)
+  end
+
+  def test_visible_scope_should_not_consider_roles_without_view_issues_permission
+    user = User.generate!
+    role1 = Role.generate!
+    role1.remove_permission! :view_issues
+    role1.set_permission_trackers :view_issues, :all
+    role1.save!
+    role2 = Role.generate!
+    role2.add_permission! :view_issues
+    role2.set_permission_trackers :view_issues, [2]
+    role2.save!
+    User.add_to_project(user, Project.find(1), [role1, role2])
+
+    issues = Issue.where(:project_id => 1).visible(user).to_a
+    assert issues.any?
+    assert_equal [2], issues.map(&:tracker_id).uniq
+
+    assert Issue.where(:project_id => 1).all? {|issue| issue.visible?(user) ^ issue.tracker_id != 2}
+  end
+
   def test_visible_scope_for_admin
     user = User.find(1)
     user.members.each(&:destroy)
@@ -737,9 +800,10 @@ class IssueTest < ActiveSupport::TestCase
     target = Tracker.find(2)
     target.core_fields = %w(assigned_to_id due_date)
     target.save!
+    user = User.find(2)
 
-    issue = Issue.new(:tracker => source)
-    issue.safe_attributes = {'tracker_id' => 2, 'due_date' => '2012-07-14'}
+    issue = Issue.new(:project => Project.find(1), :tracker => source)
+    issue.send :safe_attributes=, {'tracker_id' => 2, 'due_date' => '2012-07-14'}, user
     assert_equal target, issue.tracker
     assert_equal Date.parse('2012-07-14'), issue.due_date
   end
@@ -1435,6 +1499,91 @@ class IssueTest < ActiveSupport::TestCase
     project = Project.generate!(:tracker_ids => [])
     assert project.trackers.empty?
     assert_not_include project, Issue.allowed_target_projects(User.find(1))
+  end
+
+  def test_allowed_target_trackers_with_one_role_allowed_on_all_trackers
+    user = User.generate!
+    role = Role.generate!
+    role.add_permission! :add_issues
+    role.set_permission_trackers :add_issues, :all
+    role.save!
+    User.add_to_project(user, Project.find(1), role)
+
+    assert_equal [1, 2, 3], Issue.new(:project => Project.find(1)).allowed_target_trackers(user).ids.sort
+  end
+
+  def test_allowed_target_trackers_with_one_role_allowed_on_some_trackers
+    user = User.generate!
+    role = Role.generate!
+    role.add_permission! :add_issues
+    role.set_permission_trackers :add_issues, [1, 3]
+    role.save!
+    User.add_to_project(user, Project.find(1), role)
+
+    assert_equal [1, 3], Issue.new(:project => Project.find(1)).allowed_target_trackers(user).ids.sort
+  end
+
+  def test_allowed_target_trackers_with_two_roles_allowed_on_some_trackers
+    user = User.generate!
+    role1 = Role.generate!
+    role1.add_permission! :add_issues
+    role1.set_permission_trackers :add_issues, [1]
+    role1.save!
+    role2 = Role.generate!
+    role2.add_permission! :add_issues
+    role2.set_permission_trackers :add_issues, [3]
+    role2.save!
+    User.add_to_project(user, Project.find(1), [role1, role2])
+
+    assert_equal [1, 3], Issue.new(:project => Project.find(1)).allowed_target_trackers(user).ids.sort
+  end
+
+  def test_allowed_target_trackers_with_two_roles_allowed_on_all_trackers_and_some_trackers
+    user = User.generate!
+    role1 = Role.generate!
+    role1.add_permission! :add_issues
+    role1.set_permission_trackers :add_issues, :all
+    role1.save!
+    role2 = Role.generate!
+    role2.add_permission! :add_issues
+    role2.set_permission_trackers :add_issues, [1, 3]
+    role2.save!
+    User.add_to_project(user, Project.find(1), [role1, role2])
+
+    assert_equal [1, 2, 3], Issue.new(:project => Project.find(1)).allowed_target_trackers(user).ids.sort
+  end
+
+  def test_allowed_target_trackers_should_not_consider_roles_without_add_issues_permission
+    user = User.generate!
+    role1 = Role.generate!
+    role1.remove_permission! :add_issues
+    role1.set_permission_trackers :add_issues, :all
+    role1.save!
+    role2 = Role.generate!
+    role2.add_permission! :add_issues
+    role2.set_permission_trackers :add_issues, [1, 3]
+    role2.save!
+    User.add_to_project(user, Project.find(1), [role1, role2])
+
+    assert_equal [1, 3], Issue.new(:project => Project.find(1)).allowed_target_trackers(user).ids.sort
+  end
+
+  def test_allowed_target_trackers_without_project_should_be_empty
+    issue = Issue.new
+    assert_nil issue.project
+    assert_equal [], issue.allowed_target_trackers(User.find(2)).ids
+  end
+
+  def test_allowed_target_trackers_should_include_current_tracker
+    user = User.generate!
+    role = Role.generate!
+    role.add_permission! :add_issues
+    role.set_permission_trackers :add_issues, [3]
+    role.save!
+    User.add_to_project(user, Project.find(1), role)
+
+    issue = Issue.generate!(:project => Project.find(1), :tracker => Tracker.find(1))
+    assert_equal [1, 3], issue.allowed_target_trackers(user).ids.sort
   end
 
   def test_move_to_another_project_with_same_category
@@ -2527,6 +2676,17 @@ class IssueTest < ActiveSupport::TestCase
     assert_equal %w(upload foo bar), issue.attachments.map(&:filename)
   end
 
+  def test_save_attachments_with_array_should_warn_about_missing_tokens
+    set_tmp_attachments_directory
+    issue = Issue.generate!
+    issue.save_attachments([
+      {'token' => 'missing'}
+    ])
+    assert !issue.save
+    assert issue.errors[:base].present?
+    assert_equal 0, issue.reload.attachments.count
+  end
+
   def test_closed_on_should_be_nil_when_creating_an_open_issue
     issue = Issue.generate!(:status_id => 1).reload
     assert !issue.closed?
@@ -2744,5 +2904,31 @@ class IssueTest < ActiveSupport::TestCase
     issue = Issue.generate!(:assigned_to => group)
     issue.reload.assigned_to = nil
     assert_equal group, issue.assigned_to_was
+  end
+
+  def test_issue_overdue_should_respect_user_timezone
+    user_in_europe = users(:users_001)
+    user_in_europe.pref.update_attribute :time_zone, 'UTC'
+
+    user_in_asia = users(:users_002)
+    user_in_asia.pref.update_attribute :time_zone, 'Hongkong'
+
+    issue = Issue.generate! :due_date => Date.parse('2016-03-20')
+
+    # server time is UTC
+    time = Time.parse '2016-03-20 20:00 UTC'
+    Time.stubs(:now).returns(time)
+    Date.stubs(:today).returns(time.to_date)
+
+    # for a user in the same time zone as the server the issue is not overdue
+    # yet
+    User.current = user_in_europe
+    assert !issue.overdue?
+
+    # at the same time, a user in East Asia looks at the issue - it's already
+    # March 21st and the issue should be marked overdue
+    User.current = user_in_asia
+    assert issue.overdue?
+
   end
 end
