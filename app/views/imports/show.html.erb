@@ -1,6 +1,6 @@
 <h2><%= l(:label_import_issues) %></h2>
 
-<% if @import.unsaved_items.count > 0 %>
+<% if @import.saved_items.count > 0 %>
   <p><%= l(:notice_import_finished, :count => @import.saved_items.count) %></p>
 
   <ul>
