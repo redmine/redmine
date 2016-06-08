@@ -1140,7 +1140,7 @@ ru:
   notice_user_successful_create: Пользователь %{id} создан.
   field_core_fields: Стандартные поля
   field_timeout: Таймаут (в секундах)
-  setting_thumbnails_enabled: Отображать превью для приложений
+  setting_thumbnails_enabled: Отображать превью для вложений
   setting_thumbnails_size: Размер первью (в пикселях)
   label_status_transitions: Статус-переходы
   label_fields_permissions: Права на изменения полей
