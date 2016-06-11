@@ -226,7 +226,8 @@ Redmine::MenuManager.map :admin_menu do |menu|
 end
 
 Redmine::MenuManager.map :project_menu do |menu|
-  menu.push :new_object, nil, :caption => ' + '
+  menu.push :new_object, nil, :caption => ' + ',
+              :html => { :id => 'new-object', :onclick => 'toggleNewObjectDropdown(); return false;' }
   menu.push :new_issue_category, {:controller => 'issue_categories', :action => 'new'}, :param => :project_id, :caption => :label_issue_category_new,
               :parent => :new_object
   menu.push :new_version, {:controller => 'versions', :action => 'new'}, :param => :project_id, :caption => :label_version_new,

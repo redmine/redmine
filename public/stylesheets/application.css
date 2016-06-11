@@ -51,7 +51,7 @@ pre, code {font-family: Consolas, Menlo, "Liberation Mono", Courier, monospace;}
   padding: 4px 10px 4px 10px;
 }
 #main-menu li a:hover {background:#759FCF; color:#fff;}
-#main-menu li:hover ul.menu-children {display: block;}
+#main-menu li:hover ul.menu-children, #main-menu li ul.menu-children.visible {display: block;}
 #main-menu li a.selected, #main-menu li a.selected:hover {background:#fff; color:#555;}
 #main-menu li a.new-object { background-color:#759FCF; }
 
