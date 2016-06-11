@@ -184,6 +184,8 @@ class ImportsControllerTest < ActionController::TestCase
     get :show, :id => import.to_param
     assert_response :success
     assert_template 'show'
+    assert_select 'ul#saved-items'
+    assert_select 'ul#saved-items li', import.saved_items.count
     assert_select 'table#unsaved-items', 0
   end
 
@@ -197,5 +199,6 @@ class ImportsControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'show'
     assert_select 'table#unsaved-items'
+    assert_select 'table#unsaved-items tbody tr', import.unsaved_items.count
   end
 end

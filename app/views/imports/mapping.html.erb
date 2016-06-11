@@ -35,7 +35,7 @@
 
 <%= javascript_tag do %>
 $(document).ready(function() {
-  $('#fields-mapping').on('change', '#issue_project_id, #issue_tracker_id', function(){
+  $('#fields-mapping').on('change', '#import_mapping_project_id, #import_mapping_tracker', function(){
     $.ajax({
       url: '<%= import_mapping_path(@import, :format => 'js') %>',
       type: 'post',
