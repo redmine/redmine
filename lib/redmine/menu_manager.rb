@@ -446,8 +446,7 @@ module Redmine
           # it is considered an allowed node if at least one of the children is allowed
           all_children = children
           all_children += child_menus.call(project) if child_menus
-          return true if all_children.detect{|child| child.allowed?(user, project) }
-          return false
+          return false unless all_children.detect{|child| child.allowed?(user, project) }
         elsif user && project
           if permission
             unless user.allowed_to?(permission, project)
