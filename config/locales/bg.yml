@@ -1193,3 +1193,5 @@ bg:
   description_date_to: Въведете крайна дата
   text_repository_identifier_info: 'Позволени са малки букви (a-z), цифри, тирета и _.<br />Промяна след създаването му не е възможна.'
   label_new_project_issue_tab_enabled: Показване на меню-елемент "Нова задача"
+  setting_new_item_menu_tab: Project menu tab for creating new objects
+  label_new_object_tab_enabled: Display the "+" drop-down

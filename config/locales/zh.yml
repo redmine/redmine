@@ -1198,3 +1198,5 @@ zh:
     for which you can create an issue
   label_tracker_all: All trackers
   label_new_project_issue_tab_enabled: 显示“新建问题”标签
+  setting_new_item_menu_tab: Project menu tab for creating new objects
+  label_new_object_tab_enabled: Display the "+" drop-down
