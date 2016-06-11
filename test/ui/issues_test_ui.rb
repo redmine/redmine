@@ -290,4 +290,24 @@ class Redmine::UiTest::IssuesTest < Redmine::UiTest::Base
     assert Issue.find(1).watched_by?(User.find_by_login('jsmith'))
     assert Issue.find(4).watched_by?(User.find_by_login('jsmith'))
   end
+
+  def test_issue_list_with_default_totalable_columns
+    log_user('admin', 'admin')
+    with_settings :issue_list_default_totals => ['estimated_hours'] do
+      visit '/projects/ecookbook/issues'
+      # Check that the page shows the Estimated hours total
+      assert page.has_css?('p.query-totals')
+      assert page.has_css?('span.total-for-estimated-hours')
+      # Open the Options of the form (necessary for having the totalable columns options clickable) 
+      page.all('legend')[1].click
+      # Deselect the default totalable column (none should be left) 
+      page.first('input[name="t[]"][value="estimated_hours"]').click
+      within('#query_form') do
+        click_link 'Apply'
+      end
+      # Check that Totals are not present in the reloaded page
+      assert !page.has_css?('p.query-totals')
+      assert !page.has_css?('span.total-for-estimated-hours')
+    end
+  end
 end
