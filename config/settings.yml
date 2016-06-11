@@ -275,5 +275,5 @@ non_working_week_days:
   default:
   - '6'
   - '7'
-new_project_issue_tab_enabled:
-  default: 0
+new_item_menu_tab:
+  default: 2

@@ -1240,7 +1240,7 @@ ko:
   button_filter: 필터
   mail_body_password_updated: 암호가 변경되었습니다.
   label_no_preview: 미리보기 없음
-  setting_new_project_issue_tab_enabled: '"새 일감" 탭 표시'
   error_no_tracker_allowed_for_new_issue_in_project: The project doesn't have any trackers
     for which you can create an issue
   label_tracker_all: All trackers
+  label_new_project_issue_tab_enabled: '"새 일감" 탭 표시'

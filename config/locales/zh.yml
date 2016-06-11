@@ -1194,7 +1194,7 @@ zh:
   button_filter: 设置为过滤条件
   mail_body_password_updated: 您的密码已经变更。
   label_no_preview: 没有可以显示的预览内容
-  setting_new_project_issue_tab_enabled: 显示“新建问题”标签
   error_no_tracker_allowed_for_new_issue_in_project: The project doesn't have any trackers
     for which you can create an issue
   label_tracker_all: All trackers
+  label_new_project_issue_tab_enabled: 显示“新建问题”标签

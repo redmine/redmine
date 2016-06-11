@@ -444,7 +444,7 @@ en:
   setting_search_results_per_page: Search results per page
   setting_attachment_extensions_allowed: Allowed extensions
   setting_attachment_extensions_denied: Disallowed extensions
-  setting_new_project_issue_tab_enabled: Display the "New issue" tab
+  setting_new_item_menu_tab: Project menu tab for creating new objects
 
   permission_add_project: Create project
   permission_add_subprojects: Create subprojects
@@ -995,6 +995,8 @@ en:
   label_field_format_enumeration: Key/value list
   label_default_values_for_new_users: Default values for new users
   label_relations: Relations
+  label_new_project_issue_tab_enabled: Display the "New issue" tab
+  label_new_object_tab_enabled: Display the "+" drop-down
 
   button_login: Login
   button_submit: Submit
