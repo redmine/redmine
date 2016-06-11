@@ -32,6 +32,8 @@ class IssueImportTest < ActiveSupport::TestCase
            :custom_fields_projects,
            :custom_fields_trackers
 
+  include Redmine::I18n
+
   def setup
     set_language_if_valid 'en'
   end
