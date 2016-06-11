@@ -241,6 +241,8 @@ Redmine::MenuManager.map :project_menu do |menu|
               :parent => :new_object
   menu.push :new_document, {:controller => 'documents', :action => 'new'}, :param => :project_id, :caption => :label_document_new,
               :parent => :new_object
+  menu.push :new_wiki_page, {:controller => 'wiki', :action => 'new'}, :param => :project_id, :caption => :label_wiki_page_new,
+              :parent => :new_object
   menu.push :new_file, {:controller => 'files', :action => 'new'}, :param => :project_id, :caption => :label_attachment_new,
               :parent => :new_object
   menu.push :overview, { :controller => 'projects', :action => 'show' }
