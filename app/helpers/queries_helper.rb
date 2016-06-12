@@ -89,6 +89,7 @@ module QueriesHelper
     query.available_totalable_columns.each do |column|
       tags << content_tag('label', check_box_tag('t[]', column.name.to_s, query.totalable_columns.include?(column), :id => nil) + " #{column.caption}", :class => 'inline')
     end
+    tags << hidden_field_tag('t[]', '')
     tags
   end
 
