@@ -147,7 +147,15 @@ module Redmine
       end
 
       def render_single_menu_node(item, caption, url, selected)
-        link_to(h(caption), url, item.html_options(:selected => selected))
+        options = item.html_options(:selected => selected)
+
+        # virtual nodes are only there for their children to be displayed in the menu
+        # and should not do anything on click, except if otherwise defined elsewhere
+        if url.blank?
+          url = '#'
+          options.reverse_merge!(:onclick => 'return false;')
+        end
+        link_to(h(caption), url, options)
       end
 
       def render_unattached_menu_item(menu_item, project)
@@ -433,7 +441,13 @@ module Redmine
       # * Checking the permission or the url target (project only)
       # * Checking the conditions of the item
       def allowed?(user, project)
-        if user && project
+        if url.blank?
+          # this is a virtual node that is only there for its children to be diplayed in the menu
+          # it is considered an allowed node if at least one of the children is allowed
+          all_children = children
+          all_children += child_menus.call(project) if child_menus
+          return false unless all_children.detect{|child| child.allowed?(user, project) }
+        elsif user && project
           if permission
             unless user.allowed_to?(permission, project)
               return false

@@ -1104,7 +1104,7 @@ class IssuesControllerTest < ActionController::TestCase
   end
 
   def test_index_should_not_include_new_issue_tab_when_disabled
-    with_settings :new_project_issue_tab_enabled => '0' do
+    with_settings :new_item_menu_tab => '0' do
       @request.session[:user_id] = 2
       get :index, :project_id => 1
       assert_select '#main-menu a.new-issue', 0
@@ -1112,7 +1112,7 @@ class IssuesControllerTest < ActionController::TestCase
   end
 
   def test_index_should_include_new_issue_tab_when_enabled
-    with_settings :new_project_issue_tab_enabled => '1' do
+    with_settings :new_item_menu_tab => '1' do
       @request.session[:user_id] = 2
       get :index, :project_id => 1
       assert_select '#main-menu a.new-issue[href="/projects/ecookbook/issues/new"]', :text => 'New issue'
@@ -1120,7 +1120,7 @@ class IssuesControllerTest < ActionController::TestCase
   end
 
   def test_new_should_have_new_issue_tab_as_current_menu_item
-    with_settings :new_project_issue_tab_enabled => '1' do
+    with_settings :new_item_menu_tab => '1' do
       @request.session[:user_id] = 2
       get :new, :project_id => 1
       assert_select '#main-menu a.new-issue.selected'
@@ -1128,7 +1128,7 @@ class IssuesControllerTest < ActionController::TestCase
   end
 
   def test_index_should_not_include_new_issue_tab_for_project_without_trackers
-    with_settings :new_project_issue_tab_enabled => '1' do
+    with_settings :new_item_menu_tab => '1' do
       Project.find(1).trackers.clear
   
       @request.session[:user_id] = 2
@@ -1138,7 +1138,7 @@ class IssuesControllerTest < ActionController::TestCase
   end
 
   def test_index_should_not_include_new_issue_tab_for_users_with_copy_issues_permission_only
-    with_settings :new_project_issue_tab_enabled => '1' do
+    with_settings :new_item_menu_tab => '1' do
       role = Role.find(1)
       role.remove_permission! :add_issues
       role.add_permission! :copy_issues

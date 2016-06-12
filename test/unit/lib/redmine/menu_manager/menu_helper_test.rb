@@ -208,6 +208,41 @@ class Redmine::MenuManager::MenuHelperTest < ActionView::TestCase
       end
     end
   end
+ 
+  def test_render_empty_virtual_menu_node_with_children
+
+    # only empty item with no click target
+    Redmine::MenuManager.map :menu1 do |menu|
+      menu.push(:parent_node, nil, { })
+    end
+
+    # parent with unallowed unattached child
+    Redmine::MenuManager.map :menu2 do |menu|
+      menu.push(:parent_node, nil, {:children => Proc.new {|p|
+         [Redmine::MenuManager::MenuItem.new("test_child_unallowed", {:controller => 'issues', :action => 'new'}, {})]
+       } })
+    end
+
+    # parent with unallowed standard child
+    Redmine::MenuManager.map :menu3 do |menu|
+      menu.push(:parent_node, nil, {})
+      menu.push(:test_child_unallowed, {:controller =>'issues', :action => 'new'}, {:parent => :parent_node})
+    end
+
+    # should not be displayed to anonymous
+    User.current = User.find(6)
+    assert_nil render_menu(:menu1, Project.find(1))
+    assert_nil render_menu(:menu2, Project.find(1))
+    assert_nil render_menu(:menu3, Project.find(1))
+
+    # should be displayed to an admin
+    User.current = User.find(1)
+    @output_buffer = render_menu(:menu2, Project.find(1))
+    assert_select("ul li a.parent-node", "Parent node")
+    @output_buffer = render_menu(:menu3, Project.find(1))
+    assert_select("ul li a.parent-node", "Parent node")
+
+  end
 
   def test_render_menu_node_with_children_without_an_array
     parent_node = Redmine::MenuManager::MenuItem.new(:parent_node,

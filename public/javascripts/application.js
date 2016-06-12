@@ -725,6 +725,15 @@ function toggleDisabledInit() {
   $('input[data-disables], input[data-enables], input[data-shows]').each(toggleDisabledOnChange);
 }
 
+function toggleNewObjectDropdown() {
+  var dropdown = $('#new-object + ul.menu-children');
+  if(dropdown.hasClass('visible')){
+    dropdown.removeClass('visible');
+  }else{
+    dropdown.addClass('visible');
+  }
+}
+
 (function ( $ ) {
 
   // detect if native date input is supported

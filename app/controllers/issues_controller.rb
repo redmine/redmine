@@ -362,7 +362,7 @@ class IssuesController < ApplicationController
   # Overrides Redmine::MenuManager::MenuController::ClassMethods for
   # when the "New issue" tab is enabled
   def current_menu_item
-    if Setting.new_project_issue_tab_enabled? && [:new, :create].include?(action_name.to_sym) 
+    if Setting.new_item_menu_tab == '1' && [:new, :create].include?(action_name.to_sym) 
       :new_issue
     else
       super

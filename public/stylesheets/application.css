@@ -51,7 +51,24 @@ pre, code {font-family: Consolas, Menlo, "Liberation Mono", Courier, monospace;}
   padding: 4px 10px 4px 10px;
 }
 #main-menu li a:hover {background:#759FCF; color:#fff;}
+#main-menu li:hover ul.menu-children, #main-menu li ul.menu-children.visible {display: block;}
 #main-menu li a.selected, #main-menu li a.selected:hover {background:#fff; color:#555;}
+#main-menu li a.new-object { background-color:#759FCF; }
+
+#main-menu .menu-children {
+  display: none;
+  position:absolute;
+  width: inherit;
+  z-index:1;
+  background-color:#fff;
+  border-right: 1px solid #759FCF;
+  border-bottom: 1px solid #759FCF;
+  border-left: 1px solid #759FCF;
+}
+#main-menu .menu-children li {float:left; clear:both; width:100%;}
+#main-menu .menu-children li a {color: #555; background-color:#fff; font-weight:normal;}
+#main-menu .menu-children li a:hover {color: #fff; background-color: #759FCF;}
+
 #main-menu .tabs-buttons {
   right: 6px;
   background-color: transparent;
