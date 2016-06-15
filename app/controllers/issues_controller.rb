@@ -252,7 +252,7 @@ class IssuesController < ApplicationController
     @issues.sort!
     @copy = params[:copy].present?
 
-    attributes = parse_params_for_bulk_issue_attributes(params)
+    attributes = parse_params_for_bulk_update(params[:issue])
     copy_subtasks = (params[:copy_subtasks] == '1')
     copy_attachments = (params[:copy_attachments] == '1')
 
@@ -493,22 +493,6 @@ class IssuesController < ApplicationController
 
     @priorities = IssuePriority.active
     @allowed_statuses = @issue.new_statuses_allowed_to(User.current)
-  end
-
-  def parse_params_for_bulk_issue_attributes(params)
-    attributes = (params[:issue] || {}).reject {|k,v| v.blank?}
-    attributes.keys.each {|k| attributes[k] = '' if attributes[k] == 'none'}
-    if custom = attributes[:custom_field_values]
-      custom.reject! {|k,v| v.blank?}
-      custom.keys.each do |k|
-        if custom[k].is_a?(Array)
-          custom[k] << '' if custom[k].delete('__none__')
-        else
-          custom[k] = '' if custom[k] == '__none__'
-        end
-      end
-    end
-    attributes
   end
 
   # Saves @issue and a time_entry from the parameters
