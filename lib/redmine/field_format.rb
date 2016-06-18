@@ -802,16 +802,23 @@ module Redmine
           projects.map {|project| possible_values_options(custom_field, project)}.reduce(:&) || []
         elsif object.respond_to?(:project) && object.project
           scope = object.project.shared_versions
-          if !all_statuses && custom_field.version_status.is_a?(Array)
-            statuses = custom_field.version_status.map(&:to_s).reject(&:blank?)
-            if statuses.any?
-              scope = scope.where(:status => statuses.map(&:to_s))
-            end
-          end
-          scope.sort.collect {|u| [u.to_s, u.id.to_s]}
+          filtered_versions_options(custom_field, scope, all_statuses)
+        elsif object.nil?
+          scope = Version.visible.where(:sharing => 'system')
+          filtered_versions_options(custom_field, scope, all_statuses)
         else
           []
         end
+      end
+
+      def filtered_versions_options(custom_field, scope, all_statuses=false)
+        if !all_statuses && custom_field.version_status.is_a?(Array)
+          statuses = custom_field.version_status.map(&:to_s).reject(&:blank?)
+          if statuses.any?
+            scope = scope.where(:status => statuses.map(&:to_s))
+          end
+        end
+        scope.sort.collect{|u| [u.to_s, u.id.to_s] }
       end
     end
   end

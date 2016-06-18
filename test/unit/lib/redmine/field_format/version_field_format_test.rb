@@ -51,6 +51,15 @@ class Redmine::VersionFieldFormatTest < ActionView::TestCase
 
     assert_equal expected, field.possible_values_options(project).map(&:first)
   end
+ 
+  def test_possible_values_options_should_return_system_shared_versions_without_project
+    field = IssueCustomField.new(:field_format => 'version')
+    version = Version.generate!(:project => Project.find(1), :status => 'open', :sharing => 'system')
+
+    expected = Version.visible.where(:sharing => 'system').sort.map(&:name)
+    assert_include version.name, expected
+    assert_equal expected, field.possible_values_options.map(&:first)
+  end
 
   def test_possible_values_options_should_return_project_versions_with_selected_status
     field = IssueCustomField.new(:field_format => 'version', :version_status => ["open"])
