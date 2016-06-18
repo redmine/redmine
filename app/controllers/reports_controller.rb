@@ -20,7 +20,7 @@ class ReportsController < ApplicationController
   before_filter :find_project, :authorize, :find_issue_statuses
 
   def issue_report
-    @trackers = @project.trackers
+    @trackers = @project.rolled_up_trackers(false).visible
     @versions = @project.shared_versions.sort
     @priorities = IssuePriority.all.reverse
     @categories = @project.issue_categories
@@ -43,7 +43,7 @@ class ReportsController < ApplicationController
     case params[:detail]
     when "tracker"
       @field = "tracker_id"
-      @rows = @project.trackers
+      @rows = @project.rolled_up_trackers(false).visible
       @data = Issue.by_tracker(@project)
       @report_title = l(:field_tracker)
     when "version"

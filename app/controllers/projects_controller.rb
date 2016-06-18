@@ -137,7 +137,7 @@ class ProjectsController < ApplicationController
     @users_by_role = @project.users_by_role
     @subprojects = @project.children.visible.to_a
     @news = @project.news.limit(5).includes(:author, :project).reorder("#{News.table_name}.created_on DESC").to_a
-    @trackers = @project.rolled_up_trackers
+    @trackers = @project.rolled_up_trackers.visible
 
     cond = @project.project_condition(Setting.display_subprojects_issues?)
 
