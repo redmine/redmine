@@ -352,6 +352,22 @@ class ApplicationController < ActionController::Base
     @attachments = att || []
   end
 
+  def parse_params_for_bulk_update(params)
+    attributes = (params || {}).reject {|k,v| v.blank?}
+    attributes.keys.each {|k| attributes[k] = '' if attributes[k] == 'none'}
+    if custom = attributes[:custom_field_values]
+      custom.reject! {|k,v| v.blank?}
+      custom.keys.each do |k|
+        if custom[k].is_a?(Array)
+          custom[k] << '' if custom[k].delete('__none__')
+        else
+          custom[k] = '' if custom[k] == '__none__'
+        end
+      end
+    end
+    attributes
+  end
+
   # make sure that the user is a member of the project (or admin) if project is private
   # used as a before_filter for actions that do not require any particular permission on the project
   def check_project_privacy
