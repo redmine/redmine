@@ -451,7 +451,8 @@ module IssuesHelper
           atta = detail.journal.journalized.attachments.detect {|a| a.id == detail.prop_key.to_i}
         # Link to the attachment if it has not been removed
         value = link_to_attachment(atta, :download => true, :only_path => options[:only_path])
-        if options[:only_path] != false && atta.is_text?
+        if options[:only_path] != false && (atta.is_text? || atta.is_image?)
+          value += ' '
           value += link_to(l(:button_view),
                            { :controller => 'attachments', :action => 'show',
                              :id => atta, :filename => atta.filename },
