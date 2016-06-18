@@ -301,7 +301,7 @@ class Query < ActiveRecord::Base
   end
 
   def trackers
-    @trackers ||= project.nil? ? Tracker.sorted.to_a : project.rolled_up_trackers
+    @trackers ||= (project.nil? ? Tracker.all : project.rolled_up_trackers).visible.sorted
   end
 
   # Returns a hash of localized labels for all filter operators
