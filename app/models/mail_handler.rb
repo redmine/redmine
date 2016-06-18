@@ -62,7 +62,7 @@ class MailHandler < ActionMailer::Base
   # Use when receiving emails with rake tasks
   def self.extract_options_from_env(env)
     options = {:issue => {}}
-    %w(project status tracker category priority fixed_version).each do |option|
+    %w(project status tracker category priority assigned_to fixed_version).each do |option|
       options[:issue][option.to_sym] = env[option] if env[option]
     end
     %w(allow_override unknown_user no_permission_check no_account_notice default_group project_from_subaddress).each do |option|

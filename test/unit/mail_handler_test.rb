@@ -140,6 +140,17 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal 'Alpha', issue.reload.fixed_version.name
   end
 
+  def test_add_issue_with_default_assigned_to
+    # This email contains: 'Project: onlinestore'
+    issue = submit_email(
+              'ticket_on_given_project.eml',
+              :issue => {:assigned_to => 'jsmith'}
+            )
+    assert issue.is_a?(Issue)
+    assert !issue.new_record?
+    assert_equal 'jsmith', issue.reload.assigned_to.login
+  end
+
   def test_add_issue_with_status_override
     # This email contains: 'Project: onlinestore' and 'Status: Resolved'
     issue = submit_email('ticket_on_given_project.eml', :allow_override => ['status'])

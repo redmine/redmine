@@ -64,6 +64,7 @@ Issue attributes control options:
   tracker=TRACKER          name of the target tracker
   category=CATEGORY        name of the target category
   priority=PRIORITY        name of the target priority
+  assigned_to=ASSIGNEE     assignee (username or group name)
   fixed_version=VERSION    name of the target version
   private                  create new issues as private
   allow_override=ATTRS     allow email content to set attributes values
