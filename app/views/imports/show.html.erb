@@ -8,6 +8,8 @@
     <li><%= link_to_issue issue %></li>
   <% end %>
   </ul>
+
+  <p><%= link_to l(:label_issue_view_all), issues_path(:set_filter => 1, :status_id => '*', :issue_id => @import.saved_objects.map(&:id).join(',')) %></p>
 <% end %>
 
 <% if @import.unsaved_items.count > 0 %>
