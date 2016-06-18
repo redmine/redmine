@@ -7,6 +7,9 @@
   <%= call_hook(:view_welcome_index_left) %>
 </div>
 
+<%= link_to "Test", "http://foo/test bar" %>
+<%= link_to "Test", "http://foo/test%20bar" %>
+
 <div class="splitcontentright">
   <% if @news.any? %>
   <div class="news box">
