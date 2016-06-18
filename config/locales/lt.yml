@@ -187,9 +187,8 @@ lt:
   notice_account_deleted: "Jūsų paskyra panaikinta."
   notice_user_successful_create: "Vartotojas %{id} sukurtas."
   notice_new_password_must_be_different: Naujas slaptažodis turi skirtis nuo esamo slaptažodžio
-  notice_import_finished: "Visi %{count} įrašai hbuvo suimportuoti."
-  notice_import_finished_with_errors: "%{count} iš %{total} įrašų nepavyko suimportuoti."
-
+  notice_import_finished: "%{count} įrašai hbuvo suimportuoti"
+  notice_import_finished_with_errors: "%{count} iš %{total} įrašų nepavyko suimportuoti"
   error_can_t_load_default_data: "Numatytoji konfigūracija negali būti užkrauta: %{value}"
   error_scm_not_found: "Saugykloje nebuvo rastas toks įrašas ar revizija"
   error_scm_command_failed: "Įvyko klaida jungiantis prie saugyklos: %{value}"

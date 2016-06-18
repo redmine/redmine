@@ -1154,8 +1154,8 @@ et:
   label_member_management_selected_roles_only: "Ainult need rollid"
   label_password_required: "Jätkamiseks kinnita oma parool"
   label_total_spent_time: "Kokku kulutatud aeg"
-  notice_import_finished: "Kõik %{count} rida imporditud."
-  notice_import_finished_with_errors: ! '%{count} rida %{total}st ei õnnestunud importida.'
+  notice_import_finished: "%{count} rida imporditud"
+  notice_import_finished_with_errors: "%{count} rida %{total}st ei õnnestunud importida"
   error_invalid_file_encoding: "See fail ei ole õige %{encoding} kodeeringuga"
   error_invalid_csv_file_or_settings: "See fail kas ei ole CSV formaadis või ei klapi allolevate sätetega"
   error_can_not_read_import_file: "Importfaili sisselugemisel ilmnes viga"

@@ -1145,7 +1145,7 @@ zh:
   label_member_management_selected_roles_only: 只限下列角色
   label_password_required: 确认您的密码后继续
   label_total_spent_time: 总体耗时
-  notice_import_finished: 成功导入 %{count} 个项目.
+  notice_import_finished: 成功导入 %{count} 个项目
   notice_import_finished_with_errors: 有 %{count} 个项目无法导入(共计 %{total} 个)
   error_invalid_file_encoding: 这不是一个有效的 %{encoding} 编码文件
   error_invalid_csv_file_or_settings: 这不是一个CSV文件或者不符合以下设置

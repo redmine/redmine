@@ -1,7 +1,7 @@
 <h2><%= l(:label_import_issues) %></h2>
 
 <% if @import.saved_items.count > 0 %>
-  <p><%= l(:notice_import_finished, :count => @import.saved_items.count) %></p>
+  <p><%= l(:notice_import_finished, :count => @import.saved_items.count) %>:</p>
 
   <ul id="saved-items">
   <% @import.saved_objects.each do |issue| %>
@@ -11,7 +11,7 @@
 <% end %>
 
 <% if @import.unsaved_items.count > 0 %>
-  <p><%= l(:notice_import_finished_with_errors, :count => @import.unsaved_items.count, :total => @import.total_items) %></p>
+  <p><%= l(:notice_import_finished_with_errors, :count => @import.unsaved_items.count, :total => @import.total_items) %>:</p>
 
   <table id="unsaved-items" class="list">
     <thead>

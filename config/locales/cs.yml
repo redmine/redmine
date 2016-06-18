@@ -1149,9 +1149,8 @@ cs:
   label_member_management_selected_roles_only: Pouze tyto role
   label_password_required: Pro pokračování potvrďte vaše heslo
   label_total_spent_time: Celkem strávený čas
-  notice_import_finished: Všech %{count} položek bylo naimportováno.
-  notice_import_finished_with_errors: ! '%{count} z %{total} položek nemohlo být
-    naimportováno.'
+  notice_import_finished: "%{count} položek bylo naimportováno"
+  notice_import_finished_with_errors: "%{count} z %{total} položek nemohlo být naimportováno"
   error_invalid_file_encoding: Soubor není platným souborem s kódováním %{encoding}
   error_invalid_csv_file_or_settings: Soubor není CSV soubor nebo neodpovídá
     níže uvedenému nastavení

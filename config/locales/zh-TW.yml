@@ -267,8 +267,8 @@
   notice_account_deleted: "您的帳戶已被永久刪除。"
   notice_user_successful_create: "已建立用戶 %{id}。"
   notice_new_password_must_be_different: 新舊密碼必須相異
-  notice_import_finished: "已成功匯入所有的項目共 %{count} 個。"
-  notice_import_finished_with_errors: "無法匯入 %{count} 個項目 (全部共 %{total} 個)。"
+  notice_import_finished: "已成功匯入所有的項目共 %{count} 個"
+  notice_import_finished_with_errors: "無法匯入 %{count} 個項目 (全部共 %{total} 個)"
 
   error_can_t_load_default_data: "無法載入預設組態： %{value}"
   error_scm_not_found: "在儲存機制中找不到這個項目或修訂版。"

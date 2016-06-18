@@ -1251,8 +1251,8 @@ ru:
   label_member_management_selected_roles_only: Только эти роли
   label_password_required: Для продолжения введите свой пароль
   label_total_spent_time: Всего затрачено времени
-  notice_import_finished: Все %{count} элемент(а, ов) были импортированы.
-  notice_import_finished_with_errors: ! '%{count} из %{total} элемент(а, ов) не могут быть импортированы.'
+  notice_import_finished: "%{count} элемент(а, ов) были импортированы"
+  notice_import_finished_with_errors: "%{count} из %{total} элемент(а, ов) не могут быть импортированы"
   error_invalid_file_encoding: Кодировка файла не соответствует выбранной %{encoding}
   error_invalid_csv_file_or_settings: Файл не является файлом CSV или не соответствует представленным настройкам
   error_can_not_read_import_file: Во время чтения файла для импорта произошла ошибка

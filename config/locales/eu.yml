@@ -1149,9 +1149,8 @@ eu:
   label_member_management_selected_roles_only: Only these roles
   label_password_required: Confirm your password to continue
   label_total_spent_time: Igarotako denbora guztira
-  notice_import_finished: All %{count} items have been imported.
-  notice_import_finished_with_errors: ! '%{count} out of %{total} items could not be
-    imported.'
+  notice_import_finished: "%{count} items have been imported"
+  notice_import_finished_with_errors: "%{count} out of %{total} items could not be imported"
   error_invalid_file_encoding: The file is not a valid %{encoding} encoded file
   error_invalid_csv_file_or_settings: The file is not a CSV file or does not match the
     settings below
