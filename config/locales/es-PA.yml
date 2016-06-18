@@ -1183,9 +1183,8 @@ es-PA:
   label_member_management_selected_roles_only: Sólo estos roles
   label_password_required: Confirme su contraseña para continuar
   label_total_spent_time: Tiempo total dedicado
-  notice_import_finished: Todos %{count} los elementos han sido importados.
-  notice_import_finished_with_errors: ! '%{count} de %{total} elementos no pudieron ser
-    importados.'
+  notice_import_finished: "%{count} elementos han sido importados"
+  notice_import_finished_with_errors: "%{count} de %{total} elementos no pudieron ser importados"
   error_invalid_file_encoding: El archivo no utiliza %{encoding} válida
   error_invalid_csv_file_or_settings: El archivo no es un archivo CSV o no coincide con la
     configuración

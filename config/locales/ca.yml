@@ -1144,7 +1144,7 @@ ca:
   label_member_management_selected_roles_only: "Només aquests rols"
   label_password_required: "Confirmi la seva contrasenya per continuar"
   label_total_spent_time: "Temps total invertit"
-  notice_import_finished: "Els %{count} element/s han sigut importats."
+  notice_import_finished: "%{count} element/s han sigut importats"
   notice_import_finished_with_errors: "%{count} de %{total} elements no s'ha pogut importar"
   error_invalid_file_encoding: "El fitxer no utilitza una codificació valida (%{encoding})"
   error_invalid_csv_file_or_settings: "El fitxer no es un CSV o no coincideix amb la configuració"

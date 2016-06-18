@@ -1167,8 +1167,8 @@ de:
   label_member_management_all_roles: Alle Rollen
   label_member_management_selected_roles_only: Nur diese Rollen
   label_total_spent_time: Aufgewendete Zeit aller Projekte anzeigen
-  notice_import_finished: Alle %{count} Einträge wurden importiert.
-  notice_import_finished_with_errors: ! '%{count} von %{total} Einträgen konnten nicht importiert werden.'
+  notice_import_finished: "%{count} Einträge wurden importiert"
+  notice_import_finished_with_errors: "%{count} von %{total} Einträgen konnten nicht importiert werden"
   error_invalid_file_encoding: Die Datei ist keine gültige %{encoding} kodierte Datei
   error_invalid_csv_file_or_settings: Die Datei ist keine CSV-Datei oder entspricht nicht den Einstellungen unten
   error_can_not_read_import_file: Beim Einlesen der Datei ist ein Fehler aufgetreten

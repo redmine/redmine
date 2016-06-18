@@ -1157,8 +1157,8 @@ tr:
   label_member_management_selected_roles_only: Sadece bu roller
   label_password_required: Devam etmek için şifrenizi doğrulayın
   label_total_spent_time: Toplam harcanan zaman
-  notice_import_finished: "%{count} kayıt içeri aktarıldı."
-  notice_import_finished_with_errors: ! '%{total} kayıttan %{count} tanesi aktarılamadı.'
+  notice_import_finished: "%{count} kayıt içeri aktarıldı"
+  notice_import_finished_with_errors: "%{total} kayıttan %{count} tanesi aktarılamadı"
   error_invalid_file_encoding: Dosyanın karakter kodlaması geçerli bir %{encoding} kodlaması değil.
   error_invalid_csv_file_or_settings: Dosya CSV dosyası değil veya aşağıdaki ayarlara uymuyor
   error_can_not_read_import_file: İçeri aktarılacak dosyayı okurken bir hata oluştu

@@ -1163,8 +1163,8 @@ ja:
   label_member_management_selected_roles_only: 次のロールのみ
   label_password_required: この操作を続行するにはパスワードを入力してください
   label_total_spent_time: 合計作業時間
-  notice_import_finished: '%{count}件の項目をすべてインポートしました。'
-  notice_import_finished_with_errors: ! '全%{total}件中%{count}件の項目がインポートできませんでした。'
+  notice_import_finished: "%{count}件の項目をすべてインポートしました"
+  notice_import_finished_with_errors: "全%{total}件中%{count}件の項目がインポートできませんでした"
   error_invalid_file_encoding: このファイルのエンコーディングは正しい%{encoding}ではありません
   error_invalid_csv_file_or_settings: このファイルはCSVファイルではないか、以下の設定と一致していません
   error_can_not_read_import_file: インポート元のファイルを読み込み中にエラーが発生しました

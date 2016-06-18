@@ -186,9 +186,8 @@ bg:
   notice_account_deleted: Вашият профил беше премахнат без възможност за възстановяване.
   notice_user_successful_create: Потребител %{id} е създаден.
   notice_new_password_must_be_different: Новата парола трябва да бъде различна от сегашната парола
-  notice_import_finished: Всички %{count} обекта бяха импортирани.
-  notice_import_finished_with_errors: ! '%{count} от общо %{total} обекта не бяха инпортирани.'
-
+  notice_import_finished: "%{count} обекта бяха импортирани"
+  notice_import_finished_with_errors: "%{count} от общо %{total} обекта не бяха инпортирани"
   error_can_t_load_default_data: "Грешка при зареждане на началната информация: %{value}"
   error_scm_not_found: Несъществуващ обект в хранилището.
   error_scm_command_failed: "Грешка при опит за комуникация с хранилище: %{value}"

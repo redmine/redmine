@@ -1153,8 +1153,8 @@ pt:
   label_member_management_selected_roles_only: Apenas estas funções
   label_password_required: Confirme a sua palavra-chave para continuar
   label_total_spent_time: Total de tempo registado
-  notice_import_finished: Todos os %{count} registos foram importados.
-  notice_import_finished_with_errors: ! '%{count} de %{total} registos não poderam ser importados.'
+  notice_import_finished: "%{count} registos foram importados"
+  notice_import_finished_with_errors: "%{count} de %{total} registos não poderam ser importados"
   error_invalid_file_encoding: 'O ficheiro não possui a codificação correcta: {encoding}'
   error_invalid_csv_file_or_settings: O ficheiro não é um ficheiro CSV ou não respeita as definições abaixo
   error_can_not_read_import_file: Ocorreu um erro ao ler o ficheiro a importar
