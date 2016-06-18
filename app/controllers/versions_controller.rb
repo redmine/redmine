@@ -36,8 +36,8 @@ class VersionsController < ApplicationController
         @with_subprojects = params[:with_subprojects].nil? ? Setting.display_subprojects_issues? : (params[:with_subprojects] == '1')
         project_ids = @with_subprojects ? @project.self_and_descendants.collect(&:id) : [@project.id]
 
-        @versions = @project.shared_versions || []
-        @versions += @project.rolled_up_versions.visible if @with_subprojects
+        @versions = @project.shared_versions.preload(:custom_values)
+        @versions += @project.rolled_up_versions.visible.preload(:custom_values) if @with_subprojects
         @versions = @versions.uniq.sort
         unless params[:completed]
           @completed_versions = @versions.select(&:completed?)
