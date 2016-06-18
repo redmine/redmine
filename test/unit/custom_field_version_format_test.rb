@@ -25,6 +25,7 @@ class CustomFieldVersionFormatTest < ActiveSupport::TestCase
   end
 
   def test_possible_values_options_with_no_arguments
+    Version.delete_all
     assert_equal [], @field.possible_values_options
     assert_equal [], @field.possible_values_options(nil)
   end
