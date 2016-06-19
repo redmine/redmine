@@ -4,6 +4,118 @@ Redmine - project management software
 Copyright (C) 2006-2016  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2016-06-19 v3.3.0
+
+* Defect #5880: Only consider open subtasks when computing the priority of a parent issue
+* Defect #8628: "Related to" reference may yield circular dependency error message
+* Defect #12893: Copying an issue does not copy parent task id
+* Defect #13654: Can't set parent issue when issue relations among child issues are present
+* Defect #15777: Watched issues count on "My page" is shown for all issues instead of only open ones
+* Defect #17580: After copying a task, setting the parent as the orignal task's parent triggers an error
+* Defect #19924: Adding subtask takes very long
+* Defect #20882: % done: progress bar blocked at 80 in the issue list
+* Defect #21037: Issue show : bullet points not aligned if sub-task is in a different project
+* Defect #21433: "version-completed" class is never set when version has no due date
+* Defect #21674: The LDAP connection test does not check the credentials
+* Defect #21695: Warning "Can't mass-assign protected attributes for IssueRelation: issue_to_id"
+* Defect #21742: Received text attachments doesn't hold the original encoding on Ruby >= 2.1
+* Defect #21855: Gravatar get images over http instead https
+* Defect #21856: I18n backend does not support original i18n Pluralization
+* Defect #21861: typo: s/creditentials/credentials/
+* Defect #22059: Issue percentage selector extends screen border
+* Defect #22115: Text in the "removed" part of a wiki diff is double-escaped
+* Defect #22123: Totals cannot be removed completely if some columns are set in the global settings
+* Defect #22135: Semi colon is spelled semicolon
+* Defect #22405: SQL server: non ASCII filter does not work
+* Defect #22493: Test code bug in application_helper_test
+* Defect #22745: Rest API for Custom Fields does not return keys for key/value types
+* Defect #23044: Typo in Azerbaijani general_lang_name
+* Defect #23054: Clearing time entry custom fields while bulk editing results in values set to __none__
+* Defect #23067: Custom field List Link values to URL breaks on entries with spaces
+* Feature #285: Tracker role-based permissioning
+* Feature #1725: Delete button on comments
+* Feature #4266: Display changeset comment on repository diff view.
+* Feature #4806: Filter the issue list by issue ids
+* Feature #5536: Simplify Wiki Page creation ("Add Page" link)
+* Feature #5754: Allow addition of watchers via bulk edit context menu
+* Feature #6204: Make the "New issue" menu item optional
+* Feature #7017: Add watchers from To and Cc fields in issue replies
+* Feature #7839: Limit trackers for new issue to certain roles
+* Feature #12456: Add units in history for estimated time
+* Feature #12909: Drag'n'drop order configuration for statuses, trackers, roles...
+* Feature #13718: Accept dots in JSONP callback
+* Feature #14462: Previous/next links may be lost after editing the issue
+* Feature #14574: "I don't want to be notified of changes that I make myself" as Default for all User
+* Feature #14830: REST API : Add support for attaching file to Wiki pages
+* Feature #14937: Code highlighting toolbar button
+* Feature #15880: Consistent, global button/menu to add new content
+* Feature #20985: Include private_notes property in xml/json Journals output
+* Feature #21125: Removing attachment after rollback transaction
+* Feature #21421: Security Notifications when security related things are changed
+* Feature #21500: Add the "Hide my email address" option on the registration form
+* Feature #21757: Add Total spent hours and Estimated hours to the REST API response
+* Feature #22018: Add id and class for easier styling of query filters
+* Feature #22058: Show image attachments and repo entries instead of downloading them
+* Feature #22147: Change "Related issues" label for generic grouped query filters
+* Feature #22381: Require password reset on initial setup for default admin account
+* Feature #22383: Support of default Active Record (I18n) transliteration paths
+* Feature #22482: Respond with "No preview available" instead of sending the file when no preview is available
+* Feature #22951: Make Tracker and Status map-able for CSV import
+* Feature #22987: Ruby 2.3 support
+* Feature #23020: Default assigned_to when receiving emails
+* Feature #23107: Update CodeRay to v1.1.1.
+* Patch #3551: Additional case of USER_FORMAT, #{lastname}#{firstname} without any sperator
+* Patch #6277: REST API for Search
+* Patch #14680: Change Simplified Chinese translation for version 'field_effective_date'
+* Patch #14828: Patch to add support for deleting attachments via API
+* Patch #19468: Replace jQuery UI Datepicker with native browser date fields when available
+* Patch #20632: Tab left/right buttons for project menu
+* Patch #21256: Use CSS instead of image_tag() to show icons for better theming support
+* Patch #21282: Remove left position from gantt issue tooltip
+* Patch #21434: Additional CSS class for version status
+* Patch #21474: Adding issue css classes to subtasks and relations tr
+* Patch #21497: Tooltip on progress bar
+* Patch #21541: Russian translation improvement
+* Patch #21582: Performance in User#roles_for_project
+* Patch #21583: Use association instead of a manual JOIN in Project#rolled_up_trackers
+* Patch #21587: Additional view hook for body_top
+* Patch #21611: Do not collect ids of subtree in Query#project_statement
+* Patch #21628: Correct Turkish translation
+* Patch #21632: Updated Estonian translation
+* Patch #21663: Wrap textilizable with DIV containing wiki class
+* Patch #21678: Add missing wiki container for news comments
+* Patch #21685: Change Spanish Panama thousand delimiters and separator
+* Patch #21738: Add .sql to mime-types
+* Patch #21747: Catalan translation
+* Patch #21776: Add status, assigned_to and done_ratio classes to issue subtasks
+* Patch #21805: Improve accessibility for icon-only links
+* Patch #21931: Simplified Chinese translation for 3.3 (some fixes)
+* Patch #21942: Fix Czech translation of field_time_entries_visibility
+* Patch #21944: Bugfix: Hide custom field link values from being shown when value is empty
+* Patch #21947: Improve page header title for deeply nested project structures (+ improved XSS resilience)
+* Patch #21963: German translations change
+* Patch #21985: Increase space between menu items
+* Patch #21991: Japanese wiki_syntax_detailed_textile.html translation improvement
+* Patch #22078: Incorrect French translation of :setting_issue_group_assignment
+* Patch #22126: Update for Lithuanian translation
+* Patch #22138: fix Korean translation typo
+* Patch #22277: Add id to issue query forms to ease styling within themes
+* Patch #22309: Add styles for blockquote in email notifications
+* Patch #22315: Change English translation for field_effective_date: "Date" to "Due date"
+* Patch #22320: Respect user's timezone when comparing / parsing Dates
+* Patch #22345: Trackers that have parent_issue_id in their disabled_core_fields should not be selectable for new child issues
+* Patch #22376: Change Japanese translation for label_issue_watchers
+* Patch #22401: Notify the user of missing attachments
+* Patch #22496: Add text wrap for multiple value list custom fields
+* Patch #22506: Updated Korean locale data
+* Patch #22693: Add styles for pre in email notifications
+* Patch #22724: Change Japanese translation for "last name" and "first name"
+* Patch #22756: Edit versions links on the roadmap
+* Patch #23021: fix Russian "setting_thumbnails_enabled" misspelling
+* Patch #23065: Fix confusing Japanese translation for permission_manage_related_issues
+* Patch #23083: Allow filtering for system-shared versions in version custom fields in the global issues view
+* Patch #23108: Change Japanese translation for text_git_repository_note
+
 == 2016-06-05 v3.2.3
 
 * Defect #22808: Malformed SQL query with SQLServer when grouping and sorting by fixed version
