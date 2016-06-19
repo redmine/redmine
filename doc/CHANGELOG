@@ -114,7 +114,6 @@ http://www.redmine.org/
 * Patch #23021: fix Russian "setting_thumbnails_enabled" misspelling
 * Patch #23065: Fix confusing Japanese translation for permission_manage_related_issues
 * Patch #23083: Allow filtering for system-shared versions in version custom fields in the global issues view
-* Patch #23108: Change Japanese translation for text_git_repository_note
 
 == 2016-06-05 v3.2.3
 
