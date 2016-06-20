@@ -37,15 +37,14 @@ class BoardsController < ApplicationController
     respond_to do |format|
       format.html {
         sort_init 'updated_on', 'desc'
-        sort_update 'created_on' => "#{Message.table_name}.created_on",
+        sort_update 'created_on' => "#{Message.table_name}.id",
                     'replies' => "#{Message.table_name}.replies_count",
-                    'updated_on' => "COALESCE(last_replies_messages.created_on, #{Message.table_name}.created_on)"
+                    'updated_on' => "COALESCE(#{Message.table_name}.last_reply_id, #{Message.table_name}.id)"
 
         @topic_count = @board.topics.count
         @topic_pages = Paginator.new @topic_count, per_page_option, params['page']
         @topics =  @board.topics.
-          reorder("#{Message.table_name}.sticky DESC").
-          joins("LEFT OUTER JOIN #{Message.table_name} last_replies_messages ON last_replies_messages.id = #{Message.table_name}.last_reply_id").
+          reorder(:sticky => :desc).
           limit(@topic_pages.per_page).
           offset(@topic_pages.offset).
           order(sort_clause).
@@ -56,7 +55,7 @@ class BoardsController < ApplicationController
       }
       format.atom {
         @messages = @board.messages.
-          reorder('created_on DESC').
+          reorder(:id => :desc).
           includes(:author, :board).
           limit(Setting.feeds_limit.to_i).
           to_a
