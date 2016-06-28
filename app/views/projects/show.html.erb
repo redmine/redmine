@@ -95,7 +95,7 @@
   <% if @subprojects.any? %>
   <div class="projects box">
     <h3><%=l(:label_subproject_plural)%></h3>
-    <%= @subprojects.collect{|p| link_to p, project_path(p)}.join(", ").html_safe %>
+    <%= @subprojects.collect{|p| link_to p, project_path(p), :class => p.css_classes}.join(", ").html_safe %>
   </div>
   <% end %>
 
