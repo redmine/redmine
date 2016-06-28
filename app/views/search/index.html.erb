@@ -26,6 +26,7 @@
       <label><%= radio_button_tag 'attachments', '1', @search_attachments == '1' %> <%= l(:label_search_attachments_yes) %></label>
       <label><%= radio_button_tag 'attachments', 'only', @search_attachments == 'only' %> <%= l(:label_search_attachments_only) %></label>
     </p>
+    <%= call_hook(:view_search_index_options_content_bottom) %>
   </div>
 </fieldset>
 <%= hidden_field_tag 'options', '', :id => 'show-options' %>
