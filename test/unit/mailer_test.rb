@@ -45,6 +45,10 @@ class MailerTest < ActiveSupport::TestCase
     assert_not_nil mail
 
     assert_select_email do
+      # link to the main ticket on issue id
+      assert_select 'a[href=?]',
+                    'https://mydomain.foo/issues/2#change-3',
+                    :text => '#2'
       # link to the main ticket
       assert_select 'a[href=?]',
                     'https://mydomain.foo/issues/2#change-3',
