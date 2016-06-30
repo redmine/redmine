@@ -24,12 +24,12 @@
 <span class="pagination">
   <ul class="pages">
     <li class="previous page">
-<%= link_to_content_update("\xc2\xab " + l(:label_previous),
+<%= link_to("\xc2\xab " + l(:label_previous),
                    params.merge(:from => @date_to - @days - 1),
                    :title => l(:label_date_from_to, :start => format_date(@date_to - 2*@days), :end => format_date(@date_to - @days - 1)),
                    :accesskey => accesskey(:previous)) %>
     </li><% unless @date_to >= User.current.today %><li class="next page">
-<%= link_to_content_update(l(:label_next) + " \xc2\xbb",
+<%= link_to(l(:label_next) + " \xc2\xbb",
                    params.merge(:from => @date_to + @days - 1),
                    :title => l(:label_date_from_to, :start => format_date(@date_to), :end => format_date(@date_to + @days - 1)),
                    :accesskey => accesskey(:next)) %><% end %>

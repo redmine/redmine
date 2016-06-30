@@ -332,12 +332,12 @@
 <table style="width:100%">
 <tr>
   <td style="text-align:left;">
-    <%= link_to_content_update("\xc2\xab " + l(:label_previous),
+    <%= link_to("\xc2\xab " + l(:label_previous),
                                params.merge(@gantt.params_previous),
                                :accesskey => accesskey(:previous)) %>
   </td>
   <td style="text-align:right;">
-    <%= link_to_content_update(l(:label_next) + " \xc2\xbb",
+    <%= link_to(l(:label_next) + " \xc2\xbb",
                                params.merge(@gantt.params_next),
                                :accesskey => accesskey(:next)) %>
   </td>
