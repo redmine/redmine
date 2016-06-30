@@ -756,10 +756,10 @@ input.autocomplete.ajax-loading {
 
 /***** Flash & error messages ****/
 #errorExplanation, div.flash, .nodata, .warning, .conflict {
-  padding: 4px 4px 4px 30px;
+  padding: 6px 4px 6px 30px;
   margin-bottom: 12px;
   font-size: 1.1em;
-  border: 2px solid;
+  border: 1px solid;
   border-radius: 3px;
 }
 
@@ -768,7 +768,7 @@ div.flash {margin-top: 8px;}
 div.flash.error, #errorExplanation {
   background: url(../images/exclamation.png) 8px 50% no-repeat;
   background-color: #ffe3e3;
-  border-color: #dd0000;
+  border-color: #d88;
   color: #880000;
 }
 
@@ -781,16 +781,16 @@ div.flash.notice {
 
 div.flash.warning, .conflict {
   background: url(../images/warning.png) 8px 5px no-repeat;
-  background-color: #FFEBC1;
-  border-color: #FDBF3B;
+  background-color: #F3EDD1;
+  border-color: #eadbbc;
   color: #A6750C;
   text-align: left;
 }
 
 .nodata, .warning {
   text-align: center;
-  background-color: #FFEBC1;
-  border-color: #FDBF3B;
+  background-color: #F3EDD1;
+  border-color: #eadbbc;
   color: #A6750C;
 }
 
