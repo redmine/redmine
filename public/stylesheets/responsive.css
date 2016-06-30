@@ -791,5 +791,7 @@
   .pagination ul.pages li.current,
   .pagination ul.pages li.previous,
   .pagination ul.pages li.next {display:inline-block; width:32%; overflow:hidden;}
+
+  #login-form {width:100%; margin-top:2em;}
 }
 
