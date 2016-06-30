@@ -354,9 +354,6 @@ span.search_for_watchers a, span.add_attachment a {padding-left:16px; background
   word-wrap: break-word;
   border-radius: 3px;
 }
-.pagination .per-page span.selected {
-  font-weight: bold;
-}
 
 div.square {
   border: 1px solid #999;
@@ -544,7 +541,7 @@ span.pagination {margin-left:3px; color:#888;}
 .pagination ul.pages li {
   display: inline-block;
   padding: 0;
-  border: 1px solid #ccc;
+  border: 1px solid #ddd;
   margin-left: -1px;
   line-height: 2em;
   margin-bottom: 1em;
@@ -569,12 +566,15 @@ span.pagination {margin-left:3px; color:#888;}
   border-color: #628DB6;
 }
 .pagination ul.pages li.page:hover {
-  background-color: #EEE;
+  background-color: #ddd;
 }
 .pagination ul.pages li.page a:hover,
 .pagination ul.pages li.page a:active {
-  color: inherit;
+  color: #169;
   text-decoration: inherit;
+}
+.pagination .per-page span.selected {
+  font-weight: bold;
 }
 span.pagination>span {white-space:nowrap;}
 
