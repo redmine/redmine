@@ -532,7 +532,7 @@ textarea#custom_field_default_value {width: 95%; resize:vertical}
 
 input#content_comments {width: 99%}
 
-span.pagination {margin-left:3px; color:#888;}
+span.pagination {margin-left:3px; color:#888; display:block;}
 .pagination ul.pages {
   margin: 0 5px 0 0;
   padding: 0;

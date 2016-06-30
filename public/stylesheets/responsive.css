@@ -787,6 +787,7 @@
 }
 
 @media all and (max-width: 599px) {
+  span.pagination {text-align:center;}
   .pagination ul.pages li {display:none;}
   .pagination ul.pages li.current,
   .pagination ul.pages li.previous,
