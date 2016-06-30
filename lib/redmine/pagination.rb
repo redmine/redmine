@@ -116,28 +116,11 @@ module Redmine
     #
     def paginate(scope, options={})
       options = options.dup
-      finder_options = options.extract!(
-        :conditions,
-        :order,
-        :joins,
-        :include,
-        :select
-      )
-      if scope.is_a?(Symbol) || finder_options.values.compact.any?
-        return deprecated_paginate(scope, finder_options, options)
-      end
 
       paginator = paginator(scope.count, options)
       collection = scope.limit(paginator.per_page).offset(paginator.offset).to_a
 
       return paginator, collection
-    end
-
-    def deprecated_paginate(arg, finder_options, options={})
-      ActiveSupport::Deprecation.warn "#paginate with a Symbol and/or find options is depreceted and will be removed. Use a scope instead."
-      klass = arg.is_a?(Symbol) ? arg.to_s.classify.constantize : arg
-      scope = klass.scoped(finder_options)
-      paginate(scope, options)
     end
 
     def paginator(item_count, options={})
