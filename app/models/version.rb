@@ -197,6 +197,17 @@ class Version < ActiveRecord::Base
     end
   end
 
+	# Sort versions by status (open, locked then closed versions)
+  def self.sort_by_status(versions)
+    versions.sort do |a, b|
+      if a.status == b.status
+        a <=> b
+      else
+        b.status <=> a.status
+      end
+    end
+  end
+
   def css_classes
     [
       completed? ? 'version-completed' : 'version-incompleted',

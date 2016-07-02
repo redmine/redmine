@@ -175,6 +175,11 @@ function buildFilterRow(field, operator, values) {
       if ($.isArray(filterValue)) {
         option.val(filterValue[1]).text(filterValue[0]);
         if ($.inArray(filterValue[1], values) > -1) {option.attr('selected', true);}
+        if (filterValue.length == 3) {
+          var optgroup = select.find('optgroup').filter(function(){return $(this).attr('label') == filterValue[2]});
+          if (!optgroup.length) {optgroup = $('<optgroup>').attr('label', filterValue[2]);}
+          option = optgroup.append(option);
+        }
       } else {
         option.val(filterValue).text(filterValue);
         if ($.inArray(filterValue, values) > -1) {option.attr('selected', true);}

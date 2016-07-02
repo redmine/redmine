@@ -95,7 +95,7 @@ class QueryTest < ActiveSupport::TestCase
     Version.find(2).update_attribute :sharing, 'system'
     query = IssueQuery.new(:project => nil, :name => '_')
     assert query.available_filters.has_key?('fixed_version_id')
-    assert query.available_filters['fixed_version_id'][:values].detect {|v| v.last == '2'}
+    assert query.available_filters['fixed_version_id'][:values].detect {|v| v[1] == '2'}
   end
 
   def test_project_filter_in_global_queries
@@ -146,7 +146,7 @@ class QueryTest < ActiveSupport::TestCase
     query = IssueQuery.new(:project => Project.find(1), :name => '_')
     filter = query.available_filters["fixed_version_id"]
     assert_not_nil filter
-    assert_include subproject_version.id.to_s, filter[:values].map(&:last)
+    assert_include subproject_version.id.to_s, filter[:values].map(&:second)
   end
 
   def test_query_with_multiple_custom_fields
