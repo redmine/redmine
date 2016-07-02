@@ -197,7 +197,7 @@ class Version < ActiveRecord::Base
     end
   end
 
-	# Sort versions by status (open, locked then closed versions)
+  # Sort versions by status (open, locked then closed versions)
   def self.sort_by_status(versions)
     versions.sort do |a, b|
       if a.status == b.status
