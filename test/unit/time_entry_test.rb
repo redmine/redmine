@@ -122,7 +122,7 @@ class TimeEntryTest < ActiveSupport::TestCase
   def test_spent_on_with_time
     c = TimeEntry.new
     c.spent_on = Time.now
-    assert_equal Date.today, c.spent_on
+    assert_kind_of Date, c.spent_on
   end
 
   def test_validate_time_entry
