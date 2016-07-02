@@ -410,10 +410,10 @@ fieldset#filters table { border-collapse: collapse; }
 fieldset#filters table td { padding: 0; vertical-align: middle; }
 fieldset#filters tr.filter { height: 2.1em; }
 fieldset#filters td.field { width:230px; }
-fieldset#filters td.operator { width:180px; }
-fieldset#filters td.operator select {max-width:170px;}
+fieldset#filters td.operator { width:130px; }
+fieldset#filters td.operator select {max-width:120px;}
 fieldset#filters td.values { white-space:nowrap; }
-fieldset#filters td.values select {min-width:130px;}
+fieldset#filters td.values select {min-width:130px; max-width:200px;}
 fieldset#filters td.values input {height:1em;}
 
 #filters-table {width:60%; float:left;}
