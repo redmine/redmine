@@ -683,7 +683,7 @@ a.remove-upload:hover {text-decoration:none !important;}
 
 div.fileover { background-color: lavender; }
 
-div.attachments { margin-top: 12px; }
+div.attachments { margin: 12px 0; }
 div.attachments p { margin:4px 0 2px 0; }
 div.attachments img { vertical-align: middle; }
 div.attachments span.author { font-size: 0.9em; color: #888; }
