@@ -29,7 +29,7 @@
 <div class="wiki">
 <%= textilizable(@topic, :content) %>
 </div>
-<%= link_to_attachments @topic, :author => false %>
+<%= link_to_attachments @topic, :author => false, :thumbnails => true %>
 </div>
 <br />
 
@@ -68,7 +68,7 @@
     <%= authoring message.created_on, message.author %>
   </h4>
   <div class="wiki"><%= textilizable message, :content, :attachments => message.attachments %></div>
-  <%= link_to_attachments message, :author => false %>
+  <%= link_to_attachments message, :author => false, :thumbnails => true %>
   </div>
 <% end %>
 <span class="pagination"><%= pagination_links_full @reply_pages, @reply_count, :per_page_links => false %></span>
