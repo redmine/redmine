@@ -28,6 +28,10 @@ class Redmine::WikiFormatting::MarkdownFormatterTest < ActionView::TestCase
     assert @formatter.new("!>[](foo.png)").to_html
   end
 
+  def test_empty_image_should_not_raise_exception
+    assert @formatter.new("![]()").to_html
+  end
+
   # re-using the formatter after getting above error crashes the
   # ruby interpreter. This seems to be related to
   # https://github.com/vmg/redcarpet/issues/318
