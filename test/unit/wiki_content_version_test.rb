@@ -23,6 +23,11 @@ class WikiContentVersionTest < ActiveSupport::TestCase
   def setup
   end
 
+  def test_should_respond_to_attachments
+    v = WikiContent::Version.find(2)
+    assert v.respond_to?(:attachments)
+  end
+
   def test_destroy
     v = WikiContent::Version.find(2)
 
