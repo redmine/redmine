@@ -58,4 +58,10 @@ module JournalsHelper
     css_classes << " editable" if editable
     content_tag('div', content.html_safe, :id => "journal-#{journal.id}-notes", :class => css_classes)
   end
+
+  def render_private_notes(journal)
+    content = journal.private_notes? ? l(:field_is_private) : ''
+    css_classes = journal.private_notes? ? 'private' : ''
+    content_tag('span', content.html_safe, :id => "journal-#{journal.id}-private_notes", :class => css_classes)
+  end
 end
