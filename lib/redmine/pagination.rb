@@ -145,7 +145,7 @@ module Redmine
           if block_given?
             yield text, parameters, options
           else
-            link_to text, params.merge(parameters), options
+            link_to text, {:params => request.query_parameters.merge(parameters)}, options
           end
         end
       end

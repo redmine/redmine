@@ -135,11 +135,11 @@ class IssuesTest < Redmine::IntegrationTest
     end
   end
 
-  def test_pagination_links_on_index_without_project_id_in_url
+  def test_pagination_links_should_preserve_query_parameters
     with_settings :per_page_options => '2' do
-      get '/issues', :project_id => 'ecookbook'
-  
-      assert_select 'a[href=?]', '/projects/ecookbook/issues?page=2', :text => '2'
+      get '/projects/ecookbook/issues?foo=bar'
+
+      assert_select 'a[href=?]', '/projects/ecookbook/issues?foo=bar&page=2', :text => '2'
     end
   end
 
