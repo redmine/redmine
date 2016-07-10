@@ -5,7 +5,7 @@
     <h4><a href="#note-<%= journal.indice %>" class="journal-link">#<%= journal.indice %></a>
     <%= avatar(journal.user, :size => "24") %>
     <%= authoring journal.created_on, journal.user, :label => :label_updated_time_by %>
-    <%= render_private_notes(journal) %></h4>
+    <%= render_private_notes_indicator(journal) %></h4>
 
     <% if journal.details.any? %>
     <ul class="details">
