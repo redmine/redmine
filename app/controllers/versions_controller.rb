@@ -66,6 +66,7 @@ class VersionsController < ApplicationController
       format.html {
         @issues = @version.fixed_issues.visible.
           includes(:status, :tracker, :priority).
+          preload(:project).
           reorder("#{Tracker.table_name}.position, #{Issue.table_name}.id").
           to_a
       }
