@@ -143,6 +143,32 @@ class IssuesTest < Redmine::IntegrationTest
     end
   end
 
+  def test_pagination_links_should_not_use_params_as_url_options
+    with_settings :per_page_options => '2' do
+      get '/projects/ecookbook/issues?host=foo'
+
+      assert_select 'a[href=?]', '/projects/ecookbook/issues?host=foo&page=2', :text => '2'
+    end
+  end
+
+  def test_sort_links_on_index
+    get '/projects/ecookbook/issues'
+
+    assert_select 'a[href=?]', '/projects/ecookbook/issues?sort=subject%2Cid%3Adesc', :text => 'Subject'
+  end
+
+  def test_sort_links_should_preserve_query_parameters
+    get '/projects/ecookbook/issues?foo=bar'
+
+    assert_select 'a[href=?]', '/projects/ecookbook/issues?foo=bar&sort=subject%2Cid%3Adesc', :text => 'Subject'
+  end
+
+  def test_sort_links_should_not_use_params_as_url_options
+    get '/projects/ecookbook/issues?host=foo'
+
+    assert_select 'a[href=?]', '/projects/ecookbook/issues?host=foo&sort=subject%2Cid%3Adesc', :text => 'Subject'
+  end
+
   def test_issue_with_user_custom_field
     @field = IssueCustomField.create!(:name => 'Tester', :field_format => 'user', :is_for_all => true, :trackers => Tracker.all)
     Role.anonymous.add_permission! :add_issues, :edit_issues

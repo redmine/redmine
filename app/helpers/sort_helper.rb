@@ -218,12 +218,7 @@ module SortHelper
     caption = column.to_s.humanize unless caption
 
     sort_options = { :sort => @sort_criteria.add(column.to_s, order).to_param }
-    url_options = params.merge(sort_options)
-
-     # Add project_id to url_options
-    url_options = url_options.merge(:project_id => params[:project_id]) if params.has_key?(:project_id)
-
-    link_to(caption, url_options, :class => css)
+    link_to(caption, {:params => request.query_parameters.merge(sort_options)}, :class => css)
   end
 
   # Returns a table header <th> tag with a sort link for the named column
