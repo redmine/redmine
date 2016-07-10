@@ -721,6 +721,12 @@ class IssuesControllerTest < ActionController::TestCase
     end
   end
 
+  def test_index_should_include_back_url_input
+    get :index, :project_id => 'ecookbook', :foo => 'bar'
+    assert_response :success
+    assert_select 'input[name=back_url][value=?]', '/projects/ecookbook/issues?foo=bar'
+  end
+
   def test_index_sort
     get :index, :sort => 'tracker,id:desc'
     assert_response :success
