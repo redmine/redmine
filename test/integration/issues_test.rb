@@ -123,7 +123,7 @@ class IssuesTest < Redmine::IntegrationTest
     get '/issues', :project_id => 'ecookbook'
 
     %w(Atom PDF CSV).each do |format|
-      assert_select 'a[rel=nofollow][href=?]', "/projects/ecookbook/issues.#{format.downcase}", :text => format
+      assert_select 'a[rel=nofollow][href=?]', "/issues.#{format.downcase}?project_id=ecookbook", :text => format
     end
   end
 

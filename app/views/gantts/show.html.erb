@@ -345,8 +345,8 @@
 </table>
 
 <% other_formats_links do |f| %>
-  <%= f.link_to 'PDF', :url => params.merge(@gantt.params) %>
-  <%= f.link_to('PNG', :url => params.merge(@gantt.params)) if @gantt.respond_to?('to_image') %>
+  <%= f.link_to_with_query_parameters 'PDF', @gantt.params %>
+  <%= f.link_to_with_query_parameters('PNG', @gantt.params) if @gantt.respond_to?('to_image') %>
 <% end %>
 <% end # query.valid? %>
 
