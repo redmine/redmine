@@ -9,7 +9,11 @@
 <%= render :partial => 'link_to_functions' %>
 
 <% if Redmine::MimeType.is_type?('image', @path) %>
-  <%= render :partial => 'common/image', :locals => {:path => url_for(params.merge(:action => 'raw')), :alt => @path} %>
+  <%= render :partial => 'common/image', :locals => {:path => url_for(:action => 'raw',
+                                                                      :id     => @project,
+                                                                      :repository_id => @repository.identifier_param,
+                                                                      :path   => @path,
+                                                                      :rev    => @rev), :alt => @path} %>
 <% elsif @content %>
   <%= render :partial => 'common/file', :locals => {:filename => @path, :content => @content} %>
 <% else %>

@@ -29,6 +29,14 @@ module RoutesHelper
     end
   end
 
+  def _project_news_path(project, *args)
+    if project
+      project_news_index_path(project, *args)
+    else
+      news_index_path(*args)
+    end
+  end
+
   def _new_project_issue_path(project, *args)
     if project
       new_project_issue_path(project, *args)
