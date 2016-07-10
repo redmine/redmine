@@ -27,12 +27,6 @@ class ProjectsController < ApplicationController
   accept_api_auth :index, :show, :create, :update, :destroy
   require_sudo_mode :destroy
 
-  after_filter :only => [:create, :edit, :update, :archive, :unarchive, :destroy] do |controller|
-    if controller.request.post?
-      controller.send :expire_action, :controller => 'welcome', :action => 'robots'
-    end
-  end
-
   helper :custom_fields
   helper :issues
   helper :queries

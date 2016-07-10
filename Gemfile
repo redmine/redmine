@@ -11,7 +11,6 @@ gem "builder", ">= 3.0.4"
 gem "request_store", "1.0.5"
 gem "mime-types", (RUBY_VERSION >= "2.0" ? "~> 3.0" : "~> 2.99")
 gem "protected_attributes"
-gem "actionpack-action_caching"
 gem "actionpack-xml_parser"
 gem "roadie-rails"
 gem "mimemagic"
