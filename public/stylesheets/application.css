@@ -1371,7 +1371,7 @@ color: #555; text-shadow: 1px 1px 0 #fff;
   #main { background: #fff; }
   #content { width: 99%; margin: 0; padding: 0; border: 0; background: #fff; overflow: visible !important;}
   #wiki_add_attachment { display:none; }
-  .hide-when-print { display: none; }
+  .hide-when-print, .pagination ul.pages, .pagination .per-page { display: none !important; }
   .autoscroll {overflow-x: visible;}
   table.list {margin-top:0.5em;}
   table.list th, table.list td {border: 1px solid #aaa;}
