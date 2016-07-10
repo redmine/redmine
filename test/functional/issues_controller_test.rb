@@ -488,6 +488,9 @@ class IssuesControllerTest < ActionController::TestCase
 
       assert_select 'input[name=?][value=?]', 'sort', 'status'
     end
+
+    get :index, :project_id => 1, :set_filter => "1", :f => []
+    assert_select '#csv-export-form input[name=?][value=?]', 'f[]', ''
   end
 
   def test_index_csv
@@ -505,6 +508,14 @@ class IssuesControllerTest < ActionController::TestCase
     assert_response :success
     assert_not_nil assigns(:issues)
     assert_equal 'text/csv; header=present', @response.content_type
+  end
+
+  def test_index_csv_without_any_filters
+    @request.session[:user_id] = 1
+    Issue.create!(:project_id => 1, :tracker_id => 1, :status_id => 5, :subject => 'Closed issue', :author_id => 1)
+    get :index, :set_filter => 1, :f => [], :format => 'csv'
+    assert_response :success
+    assert_equal Issue.count, assigns(:issues).count
   end
 
   def test_index_csv_with_description
