@@ -90,10 +90,8 @@ class JournalsController < ApplicationController
 
   def update
     (render_403; return false) unless @journal.editable_by?(User.current)
-    @journal.notes = params[:notes] if params[:notes]
-    @journal.private_notes = params[:private_notes].present?
-    (render_403; return false) if @journal.private_notes_changed? && User.current.allowed_to?(:set_notes_private, @journal.issue.project) == false
-    @journal.save if @journal.changed?
+    @journal.safe_attributes = params[:journal]
+    @journal.save
     @journal.destroy if @journal.details.empty? && @journal.notes.blank?
     call_hook(:controller_journals_edit_post, { :journal => @journal, :params => params})
     respond_to do |format|

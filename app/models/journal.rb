@@ -16,6 +16,8 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class Journal < ActiveRecord::Base
+  include Redmine::SafeAttributes
+
   belongs_to :journalized, :polymorphic => true
   # added as a quick fix to allow eager loading of the polymorphic association
   # since always associated to an issue, for now
@@ -49,6 +51,11 @@ class Journal < ActiveRecord::Base
       where(Issue.visible_condition(user, *args)).
       where("(#{Journal.table_name}.private_notes = ? OR (#{Project.allowed_to_condition(user, :view_private_notes, *args)}))", false)
   }
+
+  safe_attributes 'notes',
+    :if => lambda {|journal, user| journal.new_record? || journal.editable_by?(user)}
+  safe_attributes 'private_notes',
+    :if => lambda {|journal, user| user.allowed_to?(:set_notes_private, journal.project)}
 
   def initialize(*args)
     super

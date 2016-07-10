@@ -3,12 +3,14 @@
              :method => 'put',
              :id => "journal-#{@journal.id}-form") do %>
     <%= label_tag "notes", l(:description_notes), :class => "hidden-for-sighted" %>
-    <%= text_area_tag :notes, @journal.notes,
+    <%= text_area_tag 'journal[notes]', @journal.notes,
           :id => "journal_#{@journal.id}_notes",
           :class => 'wiki-edit',
           :rows => (@journal.notes.blank? ? 10 : [[10, @journal.notes.length / 50].max, 100].min) %>
-    <% if @journal.issue.safe_attribute? 'private_notes' %>
-      <%= check_box_tag 'private_notes', '1', @journal.private_notes, :id => "journal_#{@journal.id}_private_notes" %> <label for="journal_<%= @journal.id %>_private_notes"><%= l(:field_private_notes) %></label>
+    <% if @journal.safe_attribute? 'private_notes' %>
+      <%= hidden_field_tag 'journal[private_notes]', '0' %>
+      <%= check_box_tag 'journal[private_notes]', '1', @journal.private_notes, :id => "journal_#{@journal.id}_private_notes" %>
+      <label for="journal_<%= @journal.id %>_private_notes"><%= l(:field_private_notes) %></label>
     <% end %>
     <%= call_hook(:view_journals_notes_form_after_notes, { :journal => @journal}) %>
     <p><%= submit_tag l(:button_save) %>

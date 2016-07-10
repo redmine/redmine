@@ -45,7 +45,7 @@ module JournalsHelper
                        :class => 'icon-only icon-edit'
                       ) if editable
       links << link_to(l(:button_delete),
-                       journal_path(journal, :notes => ""),
+                       journal_path(journal, :journal => {:notes => ""}),
                        :remote => true,
                        :method => 'put', :data => {:confirm => l(:text_are_you_sure)}, 
                        :title => l(:button_delete),
