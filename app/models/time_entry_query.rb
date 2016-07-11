@@ -18,6 +18,7 @@
 class TimeEntryQuery < Query
 
   self.queried_class = TimeEntry
+  self.view_permission = :view_time_entries
 
   self.available_columns = [
     QueryColumn.new(:project, :sortable => "#{Project.table_name}.name", :groupable => true),

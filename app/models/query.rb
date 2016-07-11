@@ -231,6 +231,69 @@ class Query < ActiveRecord::Base
 
   class_attribute :queried_class
 
+  # Permission required to view the queries, set on subclasses.
+  class_attribute :view_permission
+
+  # Scope of visible queries, can be used from subclasses only.
+  # Unlike other visible scopes, a class methods is used as it
+  # let handle inheritance more nicely than scope DSL.
+  def self.visible(*args)
+    if self == ::Query
+      # Visibility depends on permissions for each subclass,
+      # raise an error if the scope is called from Query (eg. Query.visible)
+      raise Exception.new("Cannot call .visible scope from the base Query class, but from subclasses only.")
+    end
+
+    user = args.shift || User.current
+    base = Project.allowed_to_condition(user, view_permission, *args)
+    scope = joins("LEFT OUTER JOIN #{Project.table_name} ON #{table_name}.project_id = #{Project.table_name}.id").
+      where("#{table_name}.project_id IS NULL OR (#{base})")
+
+    if user.admin?
+      scope.where("#{table_name}.visibility <> ? OR #{table_name}.user_id = ?", VISIBILITY_PRIVATE, user.id)
+    elsif user.memberships.any?
+      scope.where("#{table_name}.visibility = ?" +
+        " OR (#{table_name}.visibility = ? AND #{table_name}.id IN (" +
+          "SELECT DISTINCT q.id FROM #{table_name} q" +
+          " INNER JOIN #{table_name_prefix}queries_roles#{table_name_suffix} qr on qr.query_id = q.id" +
+          " INNER JOIN #{MemberRole.table_name} mr ON mr.role_id = qr.role_id" +
+          " INNER JOIN #{Member.table_name} m ON m.id = mr.member_id AND m.user_id = ?" +
+          " WHERE q.project_id IS NULL OR q.project_id = m.project_id))" +
+        " OR #{table_name}.user_id = ?",
+        VISIBILITY_PUBLIC, VISIBILITY_ROLES, user.id, user.id)
+    elsif user.logged?
+      scope.where("#{table_name}.visibility = ? OR #{table_name}.user_id = ?", VISIBILITY_PUBLIC, user.id)
+    else
+      scope.where("#{table_name}.visibility = ?", VISIBILITY_PUBLIC)
+    end
+  end
+
+  # Returns true if the query is visible to +user+ or the current user.
+  def visible?(user=User.current)
+    return true if user.admin?
+    return false unless project.nil? || user.allowed_to?(self.class.view_permission, project)
+    case visibility
+    when VISIBILITY_PUBLIC
+      true
+    when VISIBILITY_ROLES
+      if project
+        (user.roles_for_project(project) & roles).any?
+      else
+        Member.where(:user_id => user.id).joins(:roles).where(:member_roles => {:role_id => roles.map(&:id)}).any?
+      end
+    else
+      user == self.user
+    end
+  end
+
+  def is_private?
+    visibility == VISIBILITY_PRIVATE
+  end
+
+  def is_public?
+    !is_private?
+  end
+
   def queried_table_name
     @queried_table_name ||= self.class.queried_class.table_name
   end
