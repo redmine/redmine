@@ -144,6 +144,8 @@ class Query < ActiveRecord::Base
   class StatementInvalid < ::ActiveRecord::StatementInvalid
   end
 
+  include Redmine::SubclassFactory
+
   VISIBILITY_PRIVATE = 0
   VISIBILITY_ROLES   = 1
   VISIBILITY_PUBLIC  = 2
