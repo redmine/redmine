@@ -23,6 +23,7 @@ class ImportsController < ApplicationController
   before_filter :authorize_global
 
   helper :issues
+  helper :queries
 
   def new
   end
