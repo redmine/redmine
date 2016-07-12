@@ -204,26 +204,27 @@ module QueriesHelper
   end
 
   # Retrieve query from session or build a new query
-  def retrieve_query
-    if !params[:query_id].blank?
+  def retrieve_query(klass=IssueQuery, use_session=true)
+    session_key = klass.name.underscore.to_sym
+
+    if params[:query_id].present?
       cond = "project_id IS NULL"
       cond << " OR project_id = #{@project.id}" if @project
-      @query = IssueQuery.where(cond).find(params[:query_id])
+      @query = klass.where(cond).find(params[:query_id])
       raise ::Unauthorized unless @query.visible?
       @query.project = @project
-      session[:query] = {:id => @query.id, :project_id => @query.project_id}
+      session[session_key] = {:id => @query.id, :project_id => @query.project_id} if use_session
       sort_clear
-    elsif api_request? || params[:set_filter] || session[:query].nil? || session[:query][:project_id] != (@project ? @project.id : nil)
+    elsif api_request? || params[:set_filter] || !use_session || session[session_key].nil? || session[session_key][:project_id] != (@project ? @project.id : nil)
       # Give it a name, required to be valid
-      @query = IssueQuery.new(:name => "_")
-      @query.project = @project
+      @query = klass.new(:name => "_", :project => @project)
       @query.build_from_params(params)
-      session[:query] = {:project_id => @query.project_id, :filters => @query.filters, :group_by => @query.group_by, :column_names => @query.column_names, :totalable_names => @query.totalable_names}
+      session[session_key] = {:project_id => @query.project_id, :filters => @query.filters, :group_by => @query.group_by, :column_names => @query.column_names, :totalable_names => @query.totalable_names} if use_session
     else
       # retrieve from session
       @query = nil
-      @query = IssueQuery.find_by_id(session[:query][:id]) if session[:query][:id]
-      @query ||= IssueQuery.new(:name => "_", :filters => session[:query][:filters], :group_by => session[:query][:group_by], :column_names => session[:query][:column_names], :totalable_names => session[:query][:totalable_names])
+      @query = klass.find_by_id(session[session_key][:id]) if session[session_key][:id]
+      @query ||= klass.new(:name => "_", :filters => session[session_key][:filters], :group_by => session[session_key][:group_by], :column_names => session[session_key][:column_names], :totalable_names => session[session_key][:totalable_names])
       @query.project = @project
     end
   end

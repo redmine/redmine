@@ -60,7 +60,7 @@ class QueriesController < ApplicationController
 
     if @query.save
       flash[:notice] = l(:notice_successful_create)
-      redirect_to_issues(:query_id => @query)
+      redirect_to_items(:query_id => @query)
     else
       render :action => 'new', :layout => !request.xhr?
     end
@@ -74,7 +74,7 @@ class QueriesController < ApplicationController
 
     if @query.save
       flash[:notice] = l(:notice_successful_update)
-      redirect_to_issues(:query_id => @query)
+      redirect_to_items(:query_id => @query)
     else
       render :action => 'edit'
     end
@@ -82,7 +82,7 @@ class QueriesController < ApplicationController
 
   def destroy
     @query.destroy
-    redirect_to_issues(:set_filter => 1)
+    redirect_to_items(:set_filter => 1)
   end
 
   private
@@ -117,7 +117,12 @@ class QueriesController < ApplicationController
     @query
   end
 
-  def redirect_to_issues(options)
+  def redirect_to_items(options)
+    method = "redirect_to_#{@query.class.name.underscore}"
+    send method, options
+  end
+
+  def redirect_to_issue_query(options)
     if params[:gantt]
       if @project
         redirect_to project_gantt_path(@project, options)
@@ -127,6 +132,10 @@ class QueriesController < ApplicationController
     else
       redirect_to _project_issues_path(@project, options)
     end
+  end
+
+  def redirect_to_time_entry_query(options)
+    redirect_to _time_entries_path(@project, nil, options)
   end
 
   # Returns the Query subclass, IssueQuery by default

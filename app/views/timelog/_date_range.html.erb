@@ -1,4 +1,5 @@
 <div id="query_form_with_buttons" class="hide-when-print">
+<%= hidden_field_tag 'set_filter', '1' %>
 <div id="query_form_content">
   <fieldset id="filters" class="collapsible <%= @query.new_record? ? "" : "collapsed" %>">
     <legend onclick="toggleFieldset(this);"><%= l(:label_filter_plural) %></legend>
@@ -22,11 +23,25 @@
 <p class="buttons">
   <%= link_to_function l(:button_apply), '$("#query_form").submit()', :class => 'icon icon-checked' %>
   <%= link_to l(:button_clear), {:project_id => @project, :issue_id => @issue}, :class => 'icon icon-reload'  %>
+  <% if @query.new_record? %>
+    <% if User.current.allowed_to?(:save_queries, @project, :global => true) %>
+      <%= link_to_function l(:button_save),
+                           "$('#query_form').attr('action', '#{ @project ? new_project_query_path(@project) : new_query_path }').submit()",
+                           :class => 'icon icon-save' %>
+    <% end %>
+  <% else %>
+    <% if @query.editable_by?(User.current) %>
+      <%= link_to l(:button_edit), edit_query_path(@query), :class => 'icon icon-edit' %>
+      <%= delete_link query_path(@query) %>
+    <% end %>
+  <% end %>
 </p>
+
+<%= hidden_field_tag 'type', 'TimeEntryQuery' %>
 </div>
 
 <div class="tabs hide-when-print">
-<% query_params = params.slice(:f, :op, :v, :sort) %>
+<% query_params = params.slice(:f, :op, :v, :sort, :query_id) %>
 <ul>
     <li><%= link_to(l(:label_details), _time_entries_path(@project, @issue, query_params),
                                        :class => (action_name == 'index' ? 'selected' : nil)) %></li>

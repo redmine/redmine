@@ -806,7 +806,7 @@ module Redmine
           scope = object.project.shared_versions
           filtered_versions_options(custom_field, scope, all_statuses)
         elsif object.nil?
-          scope = Version.visible.where(:sharing => 'system')
+          scope = ::Version.visible.where(:sharing => 'system')
           filtered_versions_options(custom_field, scope, all_statuses)
         else
           []

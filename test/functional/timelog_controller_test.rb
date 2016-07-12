@@ -759,6 +759,16 @@ class TimelogControllerTest < ActionController::TestCase
     assert_equal values.sort, values
   end
 
+  def test_index_with_query
+    query = TimeEntryQuery.new(:project_id => 1, :name => 'Time Entry Query', :visibility => 2)
+    query.save!
+    @request.session[:user_id] = 2
+
+    get :index, :project_id => 'ecookbook', :query_id => query.id
+    assert_response :success
+    assert_select 'h2', :text => query.name
+  end
+
   def test_index_atom_feed
     get :index, :project_id => 1, :format => 'atom'
     assert_response :success

@@ -399,9 +399,9 @@ class IssuesControllerTest < ActionController::TestCase
   def test_index_with_query_id_and_project_id_should_set_session_query
     get :index, :project_id => 1, :query_id => 4
     assert_response :success
-    assert_kind_of Hash, session[:query]
-    assert_equal 4, session[:query][:id]
-    assert_equal 1, session[:query][:project_id]
+    assert_kind_of Hash, session[:issue_query]
+    assert_equal 4, session[:issue_query][:id]
+    assert_equal 1, session[:issue_query][:project_id]
   end
 
   def test_index_with_invalid_query_id_should_respond_404
@@ -411,7 +411,7 @@ class IssuesControllerTest < ActionController::TestCase
 
   def test_index_with_cross_project_query_in_session_should_show_project_issues
     q = IssueQuery.create!(:name => "test", :user_id => 2, :visibility => IssueQuery::VISIBILITY_PRIVATE, :project => nil)
-    @request.session[:query] = {:id => q.id, :project_id => 1}
+    @request.session[:issue_query] = {:id => q.id, :project_id => 1}
 
     with_settings :display_subprojects_issues => '0' do
       get :index, :project_id => 1
@@ -832,9 +832,9 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal columns, query.column_names.map(&:to_s)
 
     # columns should be stored in session
-    assert_kind_of Hash, session[:query]
-    assert_kind_of Array, session[:query][:column_names]
-    assert_equal columns, session[:query][:column_names].map(&:to_s)
+    assert_kind_of Hash, session[:issue_query]
+    assert_kind_of Array, session[:issue_query][:column_names]
+    assert_equal columns, session[:issue_query][:column_names].map(&:to_s)
 
     # ensure only these columns are kept in the selected columns list
     assert_select 'select#selected_columns option' do

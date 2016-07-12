@@ -6,7 +6,7 @@
 
 <%= render_timelog_breadcrumb %>
 
-<h2><%= l(:label_spent_time) %></h2>
+<h2><%= @query.new_record? ? l(:label_spent_time) : @query.name %></h2>
 
 <%= form_tag(params.slice(:project_id, :issue_id), :method => :get, :id => 'query_form') do %>
 <%= render :partial => 'date_range' %>
@@ -41,7 +41,7 @@
 </div>
 <% end %>
 
-<% html_title l(:label_spent_time), l(:label_details) %>
+<% html_title(@query.new_record? ? l(:label_spent_time) : @query.name, l(:label_details)) %>
 
 <% content_for :header_tags do %>
     <%= auto_discovery_link_tag(:atom, {:issue_id => @issue, :format => 'atom', :key => User.current.rss_key}, :title => l(:label_spent_time)) %>

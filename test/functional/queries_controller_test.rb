@@ -58,6 +58,13 @@ class QueriesControllerTest < ActionController::TestCase
     assert_response 404
   end
 
+  def test_new_time_entry_query
+    @request.session[:user_id] = 2
+    get :new, :project_id => 1, :type => 'TimeEntryQuery'
+    assert_response :success
+    assert_select 'input[name=type][value=?]', 'TimeEntryQuery'
+  end
+
   def test_create_project_public_query
     @request.session[:user_id] = 2
     post :create,
@@ -261,6 +268,26 @@ class QueriesControllerTest < ActionController::TestCase
     end
     assert_nil query.project
     assert_equal Query::VISIBILITY_PUBLIC, query.visibility
+  end
+
+  def test_create_project_public_time_entry_query
+    @request.session[:user_id] = 2
+
+    q = new_record(TimeEntryQuery) do
+      post :create,
+           :project_id => 'ecookbook',
+           :type => 'TimeEntryQuery',
+           :default_columns => '1',
+           :f => ["spent_on"],
+           :op => {"spent_on" => "="},
+           :v => { "spent_on" => ["2016-07-14"]},
+           :query => {"name" => "test_new_project_public_query", "visibility" => "2"}
+    end
+
+    assert_redirected_to :controller => 'timelog', :action => 'index', :project_id => 'ecookbook', :query_id => q.id
+    assert q.is_public?
+    assert q.has_default_columns?
+    assert q.valid?
   end
 
   def test_edit_global_public_query
