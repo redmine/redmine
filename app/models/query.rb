@@ -234,6 +234,13 @@ class Query < ActiveRecord::Base
   # Permission required to view the queries, set on subclasses.
   class_attribute :view_permission
 
+  # Scope of queries that are global or on the given project
+  scope :global_or_on_project, lambda {|project|
+    where(:project_id => (project.nil? ? nil : [nil, project.id]))
+  }
+
+  scope :sorted, lambda {order(:name, :id)}
+
   # Scope of visible queries, can be used from subclasses only.
   # Unlike other visible scopes, a class methods is used as it
   # let handle inheritance more nicely than scope DSL.

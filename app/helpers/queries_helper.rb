@@ -279,14 +279,7 @@ module QueriesHelper
   end
 
   def sidebar_queries
-    unless @sidebar_queries
-      @sidebar_queries = IssueQuery.visible.
-        order("#{Query.table_name}.name ASC").
-        # Project specific queries and global queries
-        where(@project.nil? ? ["project_id IS NULL"] : ["project_id IS NULL OR project_id = ?", @project.id]).
-        to_a
-    end
-    @sidebar_queries
+    @sidebar_queries ||= IssueQuery.visible.global_or_on_project(@project).sorted.to_a
   end
 
   def query_links(title, queries)
