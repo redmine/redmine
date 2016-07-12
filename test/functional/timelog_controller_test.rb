@@ -767,6 +767,7 @@ class TimelogControllerTest < ActionController::TestCase
     get :index, :project_id => 'ecookbook', :query_id => query.id
     assert_response :success
     assert_select 'h2', :text => query.name
+    assert_select '#sidebar a.selected', :text => query.name
   end
 
   def test_index_atom_feed

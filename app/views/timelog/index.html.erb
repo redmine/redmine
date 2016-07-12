@@ -41,6 +41,10 @@
 </div>
 <% end %>
 
+<% content_for :sidebar do %>
+  <%= render_sidebar_queries(TimeEntryQuery, @project) %>
+<% end %>
+
 <% html_title(@query.new_record? ? l(:label_spent_time) : @query.name, l(:label_details)) %>
 
 <% content_for :header_tags do %>

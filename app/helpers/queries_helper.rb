@@ -278,10 +278,12 @@ module QueriesHelper
     tags
   end
 
-  def sidebar_queries
-    @sidebar_queries ||= IssueQuery.visible.global_or_on_project(@project).sorted.to_a
+  # Returns the queries that are rendered in the sidebar
+  def sidebar_queries(klass, project)
+    klass.visible.global_or_on_project(@project).sorted.to_a
   end
 
+  # Renders a group of queries
   def query_links(title, queries)
     return '' if queries.empty?
     # links to #index on issues/show
@@ -298,10 +300,13 @@ module QueriesHelper
       ) + "\n"
   end
 
-  def render_sidebar_queries
+  # Renders the list of queries for the sidebar
+  def render_sidebar_queries(klass, project)
+    queries = sidebar_queries(klass, project)
+
     out = ''.html_safe
-    out << query_links(l(:label_my_queries), sidebar_queries.select(&:is_private?))
-    out << query_links(l(:label_query_plural), sidebar_queries.reject(&:is_private?))
+    out << query_links(l(:label_my_queries), queries.select(&:is_private?))
+    out << query_links(l(:label_query_plural), queries.reject(&:is_private?))
     out
   end
 end
