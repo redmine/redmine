@@ -67,6 +67,9 @@ class TimeEntryQuery < Query
         ) unless project_values.empty?
       end
     end
+
+    add_available_filter("issue_id", :type => :tree, :label => :label_issue)
+
     principals.uniq!
     principals.sort!
     users = principals.select {|p| p.is_a?(User)}
@@ -113,6 +116,24 @@ class TimeEntryQuery < Query
       joins(joins_for_order_statement(order_option.join(','))).
       includes(:activity).
       references(:activity)
+  end
+ 
+  def sql_for_issue_id_field(field, operator, value)
+    case operator
+    when "="
+      "#{TimeEntry.table_name}.issue_id = #{value.first.to_i}"
+    when "~"
+      issue = Issue.where(:id => value.first.to_i).first
+      if issue && (issue_ids = issue.self_and_descendants.pluck(:id)).any?
+        "#{TimeEntry.table_name}.issue_id IN (#{issue_ids.join(',')})"
+      else
+        "1=0"
+      end
+    when "!*"
+      "#{TimeEntry.table_name}.issue_id IS NULL"
+    when "*"
+      "#{TimeEntry.table_name}.issue_id IS NOT NULL"
+    end
   end
 
   def sql_for_activity_id_field(field, operator, value)

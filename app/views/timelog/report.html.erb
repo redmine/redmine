@@ -4,11 +4,9 @@
             :class => 'icon icon-time-add' if User.current.allowed_to?(:log_time, @project, :global => true) %>
 </div>
 
-<%= render_timelog_breadcrumb %>
-
 <h2><%= @query.new_record? ? l(:label_spent_time) : @query.name %></h2>
 
-<%= form_tag(params.slice(:project_id, :issue_id), :method => :get, :id => 'query_form') do %>
+<%= form_tag(_report_time_entries_path(@project, nil), :method => :get, :id => 'query_form') do %>
   <% @report.criteria.each do |criterion| %>
     <%= hidden_field_tag 'criteria[]', criterion, :id => nil %>
   <% end %>

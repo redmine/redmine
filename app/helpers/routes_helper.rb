@@ -54,9 +54,7 @@ module RoutesHelper
   end
 
   def _time_entries_path(project, issue, *args)
-    if issue
-      issue_time_entries_path(issue, *args)
-    elsif project
+    if project
       project_time_entries_path(project, *args)
     else
       time_entries_path(*args)
@@ -64,9 +62,7 @@ module RoutesHelper
   end
 
   def _report_time_entries_path(project, issue, *args)
-    if issue
-      report_issue_time_entries_path(issue, *args)
-    elsif project
+    if project
       report_project_time_entries_path(project, *args)
     else
       report_time_entries_path(*args)

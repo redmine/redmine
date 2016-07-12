@@ -188,11 +188,7 @@ Rails.application.routes.draw do
       match 'bulk_edit', :via => [:get, :post]
       post 'bulk_update'
     end
-    resources :time_entries, :controller => 'timelog', :except => [:show, :edit, :update, :destroy] do
-      collection do
-        get 'report'
-      end
-    end
+    resources :time_entries, :controller => 'timelog', :only => [:new, :create]
     shallow do
       resources :relations, :controller => 'issue_relations', :only => [:index, :show, :create, :destroy]
     end

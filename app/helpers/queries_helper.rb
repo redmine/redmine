@@ -24,8 +24,10 @@ module QueriesHelper
     ungrouped = []
     grouped = {}
     query.available_filters.map do |field, field_options|
-      if [:tree, :relation].include?(field_options[:type]) 
+      if field_options[:type] == :relation
         group = :label_relations
+      elsif field_options[:type] == :tree
+        group = query.is_a?(IssueQuery) ? :label_relations : nil
       elsif field =~ /^(.+)\./
         # association filters
         group = "field_#{$1}"

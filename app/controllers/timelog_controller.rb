@@ -22,7 +22,8 @@ class TimelogController < ApplicationController
   before_filter :find_time_entries, :only => [:bulk_edit, :bulk_update, :destroy]
   before_filter :authorize, :only => [:show, :edit, :update, :bulk_edit, :bulk_update, :destroy]
 
-  before_filter :find_optional_project, :only => [:new, :create, :index, :report]
+  before_filter :find_optional_issue, :only => [:new, :create]
+  before_filter :find_optional_project, :only => [:index, :report]
   before_filter :authorize_global, :only => [:new, :create, :index, :report]
 
   accept_rss_auth :index
@@ -251,11 +252,17 @@ private
     end
   end
 
-  def find_optional_project
+  def find_optional_issue
     if params[:issue_id].present?
       @issue = Issue.find(params[:issue_id])
       @project = @issue.project
-    elsif params[:project_id].present?
+    else
+      find_optional_project
+    end
+  end
+
+  def find_optional_project
+    if params[:project_id].present?
       @project = Project.find(params[:project_id])
     end
   rescue ActiveRecord::RecordNotFound
@@ -264,11 +271,7 @@ private
 
   # Returns the TimeEntry scope for index and report actions
   def time_entry_scope(options={})
-    scope = @query.results_scope(options)
-    if @issue
-      scope = scope.on_issue(@issue)
-    end
-    scope
+    @query.results_scope(options)
   end
 
   def retrieve_time_entry_query

@@ -676,20 +676,6 @@ class TimelogControllerTest < ActionController::TestCase
     assert_select 'form#query_form[action=?]', '/projects/ecookbook/time_entries'
   end
 
-  def test_index_at_issue_level
-    get :index, :issue_id => 1
-    assert_response :success
-    assert_template 'index'
-    assert_not_nil assigns(:entries)
-    assert_equal 2, assigns(:entries).size
-    assert_not_nil assigns(:total_hours)
-    assert_equal 154.25, assigns(:total_hours)
-    # display all time
-    assert_nil assigns(:from)
-    assert_nil assigns(:to)
-    assert_select 'form#query_form[action=?]', '/issues/1/time_entries'
-  end
-
   def test_index_should_sort_by_spent_on_and_created_on
     t1 = TimeEntry.create!(:user => User.find(1), :project => Project.find(1), :hours => 1, :spent_on => '2012-06-16', :created_on => '2012-06-16 20:00:00', :activity_id => 10)
     t2 = TimeEntry.create!(:user => User.find(1), :project => Project.find(1), :hours => 1, :spent_on => '2012-06-16', :created_on => '2012-06-16 20:05:00', :activity_id => 10)
@@ -806,15 +792,6 @@ class TimelogControllerTest < ActionController::TestCase
 
     assert_select '#csv-export-options' do
       assert_select 'form[action=?][method=get]', '/time_entries.csv'
-    end
-  end
-
-  def test_index_at_issue_level_should_include_csv_export_dialog
-    get :index, :issue_id => 3
-    assert_response :success
-
-    assert_select '#csv-export-options' do
-      assert_select 'form[action=?][method=get]', '/issues/3/time_entries.csv'
     end
   end
 

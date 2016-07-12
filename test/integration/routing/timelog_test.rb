@@ -40,10 +40,7 @@ class RoutingTimelogsTest < Redmine::RoutingTest
   end
 
   def test_timelogs_scoped_under_issues
-    should_route 'GET /issues/234/time_entries' => 'timelog#index', :issue_id => '234'
-    should_route 'GET /issues/234/time_entries.csv' => 'timelog#index', :issue_id => '234', :format => 'csv'
-    should_route 'GET /issues/234/time_entries.atom' => 'timelog#index', :issue_id => '234', :format => 'atom'
-    should_route 'GET /issues/234/time_entries/new' => 'timelog#new', :issue_id => '234'
+    should_route 'GET  /issues/234/time_entries/new' => 'timelog#new', :issue_id => '234'
     should_route 'POST /issues/234/time_entries' => 'timelog#create', :issue_id => '234'
   end
 
@@ -53,9 +50,6 @@ class RoutingTimelogsTest < Redmine::RoutingTest
 
     should_route 'GET /projects/foo/time_entries/report' => 'timelog#report', :project_id => 'foo'
     should_route 'GET /projects/foo/time_entries/report.csv' => 'timelog#report', :project_id => 'foo', :format => 'csv'
-
-    should_route 'GET /issues/234/time_entries/report' => 'timelog#report', :issue_id => '234'
-    should_route 'GET /issues/234/time_entries/report.csv' => 'timelog#report', :issue_id => '234', :format => 'csv'
   end
 
   def test_timelogs_bulk_edit

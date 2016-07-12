@@ -41,11 +41,11 @@
 </div>
 
 <div class="tabs hide-when-print">
-<% query_params = params.slice(:f, :op, :v, :sort, :query_id) %>
+<% query_params = request.query_parameters %>
 <ul>
-    <li><%= link_to(l(:label_details), _time_entries_path(@project, @issue, query_params),
+    <li><%= link_to(l(:label_details), _time_entries_path(@project, nil, :params => query_params),
                                        :class => (action_name == 'index' ? 'selected' : nil)) %></li>
-    <li><%= link_to(l(:label_report), _report_time_entries_path(@project, @issue, query_params),
+    <li><%= link_to(l(:label_report), _report_time_entries_path(@project, nil, :params => query_params),
                                        :class => (action_name == 'report' ? 'selected' : nil)) %></li>
 </ul>
 </div>

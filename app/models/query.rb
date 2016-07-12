@@ -460,7 +460,7 @@ class Query < ActiveRecord::Base
       next unless expression =~ /^#{Regexp.escape(operator)}(.*)$/
       values = $1
       add_filter field, operator, values.present? ? values.split('|') : ['']
-    end || add_filter(field, '=', expression.split('|'))
+    end || add_filter(field, '=', expression.to_s.split('|'))
   end
 
   # Add multiple filters using +add_filter+

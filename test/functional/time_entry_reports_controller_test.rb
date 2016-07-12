@@ -128,15 +128,6 @@ class TimeEntryReportsControllerTest < ActionController::TestCase
     assert_equal "4.25", "%.2f" % assigns(:report).total_hours
   end
 
-  def test_report_at_issue_level
-    get :report, :issue_id => 1, :columns => 'month', :from => "2007-01-01", :to => "2007-12-31", :criteria => ["user", "activity"]
-    assert_response :success
-    assert_template 'report'
-    assert_not_nil assigns(:report)
-    assert_equal "154.25", "%.2f" % assigns(:report).total_hours
-    assert_select 'form#query_form[action=?]', '/issues/1/time_entries/report'
-  end
-
   def test_report_by_week_should_use_commercial_year
     TimeEntry.delete_all
     TimeEntry.generate!(:hours => '2', :spent_on => '2009-12-25') # 2009-52

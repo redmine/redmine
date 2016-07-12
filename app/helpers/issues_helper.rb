@@ -135,11 +135,13 @@ module IssuesHelper
 
   def issue_spent_hours_details(issue)
     if issue.total_spent_hours > 0
+      path = project_time_entries_path(issue.project, :issue_id => "~#{issue.id}")
+
       if issue.total_spent_hours == issue.spent_hours
-        link_to(l_hours_short(issue.spent_hours), issue_time_entries_path(issue))
+        link_to(l_hours_short(issue.spent_hours), path)
       else
         s = issue.spent_hours > 0 ? l_hours_short(issue.spent_hours) : ""
-        s << " (#{l(:label_total)}: #{link_to l_hours_short(issue.total_spent_hours), issue_time_entries_path(issue)})"
+        s << " (#{l(:label_total)}: #{link_to l_hours_short(issue.total_spent_hours), path})"
         s.html_safe
       end
     end
