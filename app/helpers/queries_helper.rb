@@ -277,4 +277,38 @@ module QueriesHelper
 
     tags
   end
+
+  def sidebar_queries
+    unless @sidebar_queries
+      @sidebar_queries = IssueQuery.visible.
+        order("#{Query.table_name}.name ASC").
+        # Project specific queries and global queries
+        where(@project.nil? ? ["project_id IS NULL"] : ["project_id IS NULL OR project_id = ?", @project.id]).
+        to_a
+    end
+    @sidebar_queries
+  end
+
+  def query_links(title, queries)
+    return '' if queries.empty?
+    # links to #index on issues/show
+    url_params = controller_name == 'issues' ? {:controller => 'issues', :action => 'index', :project_id => @project} : {}
+
+    content_tag('h3', title) + "\n" +
+      content_tag('ul',
+        queries.collect {|query|
+            css = 'query'
+            css << ' selected' if query == @query
+            content_tag('li', link_to(query.name, url_params.merge(:query_id => query), :class => css))
+          }.join("\n").html_safe,
+        :class => 'queries'
+      ) + "\n"
+  end
+
+  def render_sidebar_queries
+    out = ''.html_safe
+    out << query_links(l(:label_my_queries), sidebar_queries.select(&:is_private?))
+    out << query_links(l(:label_query_plural), sidebar_queries.reject(&:is_private?))
+    out
+  end
 end
