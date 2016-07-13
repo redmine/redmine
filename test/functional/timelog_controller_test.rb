@@ -639,6 +639,27 @@ class TimelogControllerTest < ActionController::TestCase
     end
   end
 
+  def test_index_at_project_level_with_issue_id_short_filter
+    issue = Issue.generate!(:project_id => 1)
+    TimeEntry.generate!(:issue => issue, :hours => 4)
+    TimeEntry.generate!(:issue => issue, :hours => 3)
+    @request.session[:user_id] = 2
+
+    get :index, :project_id => 'ecookbook', :issue_id => issue.id.to_s, :set_filter => 1
+    assert_select '.total-hours', :text => 'Total time: 7.00 hours'
+  end
+
+  def test_index_at_project_level_with_issue_fixed_version_id_short_filter
+    version = Version.generate!(:project_id => 1)
+    issue = Issue.generate!(:project_id => 1, :fixed_version => version)
+    TimeEntry.generate!(:issue => issue, :hours => 2)
+    TimeEntry.generate!(:issue => issue, :hours => 3)
+    @request.session[:user_id] = 2
+
+    get :index, :project_id => 'ecookbook', :"issue.fixed_version_id" => version.id.to_s, :set_filter => 1
+    assert_select '.total-hours', :text => 'Total time: 5.00 hours'
+  end
+
   def test_index_at_project_level_with_date_range
     get :index, :project_id => 'ecookbook',
       :f => ['spent_on'],

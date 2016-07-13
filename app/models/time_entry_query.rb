@@ -41,6 +41,7 @@ class TimeEntryQuery < Query
     add_available_filter "spent_on", :type => :date_past
 
     principals = []
+    versions = []
     if project
       principals += project.principals.visible.sort
       unless project.leaf?
@@ -52,6 +53,7 @@ class TimeEntryQuery < Query
           principals += Principal.member_of(subprojects).visible
         end
       end
+      versions = project.shared_versions.to_a
     else
       if all_projects.any?
         # members of visible projects
@@ -69,6 +71,10 @@ class TimeEntryQuery < Query
     end
 
     add_available_filter("issue_id", :type => :tree, :label => :label_issue)
+    add_available_filter("issue.fixed_version_id",
+      :type => :list,
+      :name => l("label_attribute_of_issue", :name => l(:field_fixed_version)),
+      :values => Version.sort_by_status(versions).collect{|s| ["#{s.project.name} - #{s.name}", s.id.to_s, l("version_status_#{s.status}")] })
 
     principals.uniq!
     principals.sort!
@@ -133,6 +139,24 @@ class TimeEntryQuery < Query
       "#{TimeEntry.table_name}.issue_id IS NULL"
     when "*"
       "#{TimeEntry.table_name}.issue_id IS NOT NULL"
+    end
+  end
+
+  def sql_for_issue_fixed_version_id_field(field, operator, value)
+    issue_ids = Issue.where(:fixed_version_id => value.first.to_i).pluck(:id)
+    case operator
+    when "="
+      if issue_ids.any?
+        "#{TimeEntry.table_name}.issue_id IN (#{issue_ids.join(',')})"
+      else
+        "1=0"
+      end
+    when "!"
+      if issue_ids.any?
+        "#{TimeEntry.table_name}.issue_id NOT IN (#{issue_ids.join(',')})"
+      else
+        "1=1"
+      end
     end
   end
 

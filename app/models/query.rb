@@ -691,9 +691,9 @@ class Query < ActiveRecord::Base
       if field =~ /cf_(\d+)$/
         # custom field
         filters_clauses << sql_for_custom_field(field, operator, v, $1)
-      elsif respond_to?("sql_for_#{field}_field")
+      elsif respond_to?(method = "sql_for_#{field.gsub('.','_')}_field")
         # specific statement
-        filters_clauses << send("sql_for_#{field}_field", field, operator, v)
+        filters_clauses << send(method, field, operator, v)
       else
         # regular field
         filters_clauses << '(' + sql_for_field(field, operator, v, queried_table_name, field) + ')'
