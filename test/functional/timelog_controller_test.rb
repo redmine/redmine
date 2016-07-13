@@ -582,9 +582,8 @@ class TimelogControllerTest < ActionController::TestCase
   def test_index_all_projects
     get :index
     assert_response :success
-    assert_template 'index'
-    assert_not_nil assigns(:total_hours)
-    assert_equal "162.90", "%.2f" % assigns(:total_hours)
+
+    assert_select '.total-for-hours', :text => 'Hours: 162.90'
     assert_select 'form#query_form[action=?]', '/time_entries'
   end
 
@@ -612,8 +611,8 @@ class TimelogControllerTest < ActionController::TestCase
     assert_equal 4, assigns(:entries).size
     # project and subproject
     assert_equal [1, 3], assigns(:entries).collect(&:project_id).uniq.sort
-    assert_not_nil assigns(:total_hours)
-    assert_equal "162.90", "%.2f" % assigns(:total_hours)
+
+    assert_select '.total-for-hours', :text => 'Hours: 162.90'
     assert_select 'form#query_form[action=?]', '/projects/ecookbook/time_entries'
   end
 
@@ -646,7 +645,7 @@ class TimelogControllerTest < ActionController::TestCase
     @request.session[:user_id] = 2
 
     get :index, :project_id => 'ecookbook', :issue_id => issue.id.to_s, :set_filter => 1
-    assert_select '.total-hours', :text => 'Total time: 7.00 hours'
+    assert_select '.total-for-hours', :text => 'Hours: 7.00'
   end
 
   def test_index_at_project_level_with_issue_fixed_version_id_short_filter
@@ -657,7 +656,7 @@ class TimelogControllerTest < ActionController::TestCase
     @request.session[:user_id] = 2
 
     get :index, :project_id => 'ecookbook', :"issue.fixed_version_id" => version.id.to_s, :set_filter => 1
-    assert_select '.total-hours', :text => 'Total time: 5.00 hours'
+    assert_select '.total-for-hours', :text => 'Hours: 5.00'
   end
 
   def test_index_at_project_level_with_date_range
@@ -669,8 +668,8 @@ class TimelogControllerTest < ActionController::TestCase
     assert_template 'index'
     assert_not_nil assigns(:entries)
     assert_equal 3, assigns(:entries).size
-    assert_not_nil assigns(:total_hours)
-    assert_equal "12.90", "%.2f" % assigns(:total_hours)
+
+    assert_select '.total-for-hours', :text => 'Hours: 12.90'
     assert_select 'form#query_form[action=?]', '/projects/ecookbook/time_entries'
   end
 
@@ -680,8 +679,8 @@ class TimelogControllerTest < ActionController::TestCase
     assert_template 'index'
     assert_not_nil assigns(:entries)
     assert_equal 3, assigns(:entries).size
-    assert_not_nil assigns(:total_hours)
-    assert_equal "12.90", "%.2f" % assigns(:total_hours)
+
+    assert_select '.total-for-hours', :text => 'Hours: 12.90'
     assert_select 'form#query_form[action=?]', '/projects/ecookbook/time_entries'
   end
 
@@ -691,9 +690,7 @@ class TimelogControllerTest < ActionController::TestCase
       :op => {'spent_on' => '>t-'},
       :v => {'spent_on' => ['7']}
     assert_response :success
-    assert_template 'index'
-    assert_not_nil assigns(:entries)
-    assert_not_nil assigns(:total_hours)
+
     assert_select 'form#query_form[action=?]', '/projects/ecookbook/time_entries'
   end
 

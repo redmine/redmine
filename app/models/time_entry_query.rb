@@ -28,7 +28,7 @@ class TimeEntryQuery < Query
     QueryColumn.new(:activity, :sortable => "#{TimeEntryActivity.table_name}.position", :groupable => true),
     QueryColumn.new(:issue, :sortable => "#{Issue.table_name}.id"),
     QueryColumn.new(:comments),
-    QueryColumn.new(:hours, :sortable => "#{TimeEntry.table_name}.hours"),
+    QueryColumn.new(:hours, :sortable => "#{TimeEntry.table_name}.hours", :totalable => true),
   ]
 
   def initialize(attributes=nil, *args)
@@ -105,12 +105,20 @@ class TimeEntryQuery < Query
     @available_columns += TimeEntryCustomField.visible.
                             map {|cf| QueryCustomFieldColumn.new(cf) }
     @available_columns += IssueCustomField.visible.
-                            map {|cf| QueryAssociationCustomFieldColumn.new(:issue, cf) }
+                            map {|cf| QueryAssociationCustomFieldColumn.new(:issue, cf, :totalable => false) }
     @available_columns
   end
 
   def default_columns_names
     @default_columns_names ||= [:project, :spent_on, :user, :activity, :issue, :comments, :hours]
+  end
+
+  def default_totalable_names
+    [:hours]
+  end
+
+  def base_scope
+    TimeEntry.visible.where(statement)
   end
 
   def results_scope(options={})
@@ -122,6 +130,11 @@ class TimeEntryQuery < Query
       joins(joins_for_order_statement(order_option.join(','))).
       includes(:activity).
       references(:activity)
+  end
+
+  # Returns sum of all the spent hours
+  def total_for_hours(scope)
+    map_total(scope.sum(:hours)) {|t| t.to_f.round(2)}
   end
  
   def sql_for_issue_id_field(field, operator, value)

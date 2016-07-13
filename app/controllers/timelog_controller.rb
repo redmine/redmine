@@ -53,7 +53,6 @@ class TimelogController < ApplicationController
         @entry_count = scope.count
         @entry_pages = Paginator.new @entry_count, per_page_option, params['page']
         @entries = scope.offset(@entry_pages.offset).limit(@entry_pages.per_page).to_a
-        @total_hours = scope.sum(:hours).to_f
 
         render :layout => !request.xhr?
       }

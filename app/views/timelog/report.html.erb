@@ -27,10 +27,6 @@
 <% end %>
 
 <% unless @report.criteria.empty? %>
-<div class="total-hours">
-<p><%= l(:label_total_time) %>: <%= html_hours(l_hours(@report.total_hours)) %></p>
-</div>
-
 <% unless @report.hours.empty? %>
 <div class="autoscroll">
 <table class="list" id="time-report">

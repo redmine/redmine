@@ -76,11 +76,11 @@ end
 
 class QueryCustomFieldColumn < QueryColumn
 
-  def initialize(custom_field)
+  def initialize(custom_field, options={})
     self.name = "cf_#{custom_field.id}".to_sym
     self.sortable = custom_field.order_statement || false
     self.groupable = custom_field.group_statement || false
-    self.totalable = custom_field.totalable?
+    self.totalable = options.key?(:totalable) ? !!options[:totalable] : custom_field.totalable?
     @inline = true
     @cf = custom_field
   end
@@ -120,8 +120,8 @@ end
 
 class QueryAssociationCustomFieldColumn < QueryCustomFieldColumn
 
-  def initialize(association, custom_field)
-    super(custom_field)
+  def initialize(association, custom_field, options={})
+    super(custom_field, options)
     self.name = "#{association}.cf_#{custom_field.id}".to_sym
     # TODO: support sorting/grouping by association custom field
     self.sortable = false
@@ -546,6 +546,10 @@ class Query < ActiveRecord::Base
     []
   end
 
+  def default_totalable_names
+    []
+  end
+
   def column_names=(names)
     if names
       names = names.select {|n| n.is_a?(Symbol) || !n.blank? }
@@ -583,7 +587,7 @@ class Query < ActiveRecord::Base
   end
 
   def totalable_names
-    options[:totalable_names] || Setting.issue_list_default_totals.map(&:to_sym) || []
+    options[:totalable_names] || default_totalable_names || []
   end
 
   def sort_criteria=(arg)

@@ -78,6 +78,11 @@ module QueriesHelper
     query_filters_hidden_tags(query) + query_columns_hidden_tags(query)
   end
 
+  def group_by_column_select_tag(query)
+    options = [[]] + query.groupable_columns.collect {|c| [c.caption, c.name.to_s]}
+    select_tag('group_by', options_for_select(options, @query.group_by))
+  end
+
   def available_block_columns_tags(query)
     tags = ''.html_safe
     query.available_block_columns.each do |column|
@@ -106,6 +111,32 @@ module QueriesHelper
   def render_query_columns_selection(query, options={})
     tag_name = (options[:name] || 'c') + '[]'
     render :partial => 'queries/columns', :locals => {:query => query, :tag_name => tag_name}
+  end
+
+  def grouped_query_results(items, query, item_count_by_group, &block)
+    previous_group, first = false, true
+    totals_by_group = query.totalable_columns.inject({}) do |h, column|
+      h[column] = query.total_by_group_for(column)
+      h
+    end
+    items.each do |item|
+      group_name = group_count = nil
+      if query.grouped?
+        group = query.group_by_column.value(item)
+        if first || group != previous_group
+          if group.blank? && group != false
+            group_name = "(#{l(:label_blank_value)})"
+          else
+            group_name = format_object(group)
+          end
+          group_name ||= ""
+          group_count = item_count_by_group ? item_count_by_group[group] : nil
+          group_totals = totals_by_group.map {|column, t| total_tag(column, t[group] || 0)}.join(" ").html_safe
+        end
+      end
+      yield item, group_name, group_count, group_totals
+      previous_group, first = group, false
+    end
   end
 
   def render_query_totals(query)

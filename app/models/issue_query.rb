@@ -249,6 +249,10 @@ class IssueQuery < Query
     end
   end
 
+  def default_totalable_names
+    Setting.issue_list_default_totals.map(&:to_sym)
+  end
+
   def base_scope
     Issue.visible.joins(:status, :project).where(statement)
   end
