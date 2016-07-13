@@ -164,7 +164,7 @@ table.list td.name, table.list td.description, table.list td.subject, table.list
 table.list td.tick {width:15%}
 table.list td.checkbox { width: 15px; padding: 2px 0 0 0; }
 table.list td.checkbox input {padding:0px;}
-table.list td.buttons, div.buttons { width: 15%; white-space:nowrap; text-align: right; }
+table.list td.buttons, div.buttons { white-space:nowrap; text-align: right; }
 table.list td.buttons a, div.buttons a { margin-right: 0.6em; }
 table.list td.buttons img, div.buttons img {vertical-align:middle;}
 table.list td.reorder {width:15%; white-space:nowrap; text-align:center; }
