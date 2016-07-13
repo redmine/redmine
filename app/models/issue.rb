@@ -59,6 +59,7 @@ class Issue < ActiveRecord::Base
 
   DONE_RATIO_OPTIONS = %w(issue_field issue_status)
 
+  attr_accessor :deleted_attachment_ids
   attr_reader :current_journal
   delegate :notes, :notes=, :private_notes, :private_notes=, :to => :current_journal, :allow_nil => true
 
@@ -109,7 +110,7 @@ class Issue < ActiveRecord::Base
               :force_updated_on_change, :update_closed_on, :set_assigned_to_was
   after_save {|issue| issue.send :after_project_change if !issue.id_changed? && issue.project_id_changed?}
   after_save :reschedule_following_issues, :update_nested_set_attributes,
-             :update_parent_attributes, :create_journal
+             :update_parent_attributes, :delete_selected_attachments, :create_journal
   # Should be after_create but would be called before previous after_save callbacks
   after_save :after_create_from_copy
   after_destroy :update_parent_attributes
@@ -403,6 +404,10 @@ class Issue < ActiveRecord::Base
     write_attribute(:description, arg)
   end
 
+  def deleted_attachment_ids
+    Array(@deleted_attachment_ids).map(&:to_i)
+  end
+
   # Overrides assign_attributes so that project and tracker get assigned first
   def assign_attributes_with_project_and_tracker_first(new_attributes, *args)
     return if new_attributes.nil?
@@ -464,6 +469,9 @@ class Issue < ActiveRecord::Base
   safe_attributes 'parent_issue_id',
     :if => lambda {|issue, user| (issue.new_record? || issue.attributes_editable?(user)) &&
       user.allowed_to?(:manage_subtasks, issue.project)}
+
+  safe_attributes 'deleted_attachment_ids',
+    :if => lambda {|issue, user| issue.attachments_deletable?(user)}
 
   def safe_attribute_names(user=nil)
     names = super
@@ -1583,6 +1591,13 @@ class Issue < ActiveRecord::Base
         issue.fixed_version = nil
         issue.save
       end
+    end
+  end
+
+  def delete_selected_attachments
+    if deleted_attachment_ids.present?
+      objects = attachments.where(:id => deleted_attachment_ids.map(&:to_i))
+      attachments.delete(objects)
     end
   end
 

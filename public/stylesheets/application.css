@@ -363,7 +363,7 @@ div.square {
   overflow: hidden;
   width: .6em; height: .6em;
 }
-.contextual {float:right; white-space: nowrap; line-height:1.4em;margin-top:5px; padding-left: 10px; font-size:0.9em;}
+.contextual {float:right; white-space: nowrap; line-height:1.4em;margin:5px 0px; padding-left: 10px; font-size:0.9em;}
 .contextual input, .contextual select {font-size:0.9em;}
 .message .contextual { margin-top: 0; }
 
@@ -673,14 +673,16 @@ span.required {color: #bb0000;}
 .check_box_group.bool_cf {border:0; background:inherit;}
 .check_box_group.bool_cf label {display: inline;}
 
-#attachments_fields input.description {margin-left:4px; width:340px;}
-#attachments_fields span {display:block; white-space:nowrap;}
-#attachments_fields input.filename {border:0; height:1.8em; width:250px; color:#555; background-color:inherit; background:url(../images/attachment.png) no-repeat 1px 50%; padding-left:18px;}
+#attachments_fields input.description, #existing-attachments input.description {margin-left:4px; width:340px;}
+#attachments_fields>span, #existing-attachments>span {display:block; white-space:nowrap;}
+#attachments_fields input.filename, #existing-attachments .filename {border:0; width:250px; color:#555; background-color:inherit; background:url(../images/attachment.png) no-repeat 1px 50%; padding-left:18px;}
+#attachments_fields input.filename {height:1.8em;}
 #attachments_fields .ajax-waiting input.filename {background:url(../images/hourglass.png) no-repeat 0px 50%;}
 #attachments_fields .ajax-loading input.filename {background:url(../images/loading.gif) no-repeat 0px 50%;}
 #attachments_fields div.ui-progressbar { width: 100px; height:14px; margin: 2px 0 -5px 8px; display: inline-block; }
 a.remove-upload {background: url(../images/delete.png) no-repeat 1px 50%; width:1px; display:inline-block; padding-left:16px;}
 a.remove-upload:hover {text-decoration:none !important;}
+.existing-attachment.deleted .filename {text-decoration:line-through; color:#999 !important;}
 
 div.fileover { background-color: lavender; }
 
@@ -1137,8 +1139,6 @@ a.close-icon:hover {background-image:url('../images/close_hl.png');}
   background-position: 0% 50%;
   background-repeat: no-repeat;
   padding-left: 16px;
-}
-a.icon-only {
   display: inline-block;
   width: 0;
   height: 16px;
@@ -1148,7 +1148,7 @@ a.icon-only {
   font-size: 8px;
   vertical-align: text-bottom;
 }
-a.icon-only::after {
+.icon-only::after {
   content: "&nbsp;";
 }
 

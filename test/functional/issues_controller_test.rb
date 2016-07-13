@@ -3761,6 +3761,44 @@ class IssuesControllerTest < ActionController::TestCase
     end
   end
 
+  def test_put_update_with_attachment_deletion_should_create_a_single_journal
+    set_tmp_attachments_directory
+    @request.session[:user_id] = 2
+
+    journal = new_record(Journal) do
+      assert_difference 'Attachment.count', -2 do
+        put :update,
+            :id => 3,
+            :issue => {
+              :notes => 'Removing attachments',
+              :deleted_attachment_ids => ['1', '5']
+            }
+      end
+    end
+    assert_equal 'Removing attachments', journal.notes
+    assert_equal 2, journal.details.count
+  end
+
+  def test_put_update_with_attachment_deletion_and_failure_should_preserve_selected_attachments
+    set_tmp_attachments_directory
+    @request.session[:user_id] = 2
+
+    assert_no_difference 'Journal.count' do
+      assert_no_difference 'Attachment.count' do
+        put :update,
+            :id => 3,
+            :issue => {
+              :subject => '',
+              :notes => 'Removing attachments',
+              :deleted_attachment_ids => ['1', '5']
+            }
+      end
+    end
+    assert_select 'input[name=?][value="1"][checked=checked]', 'issue[deleted_attachment_ids][]'
+    assert_select 'input[name=?][value="5"][checked=checked]', 'issue[deleted_attachment_ids][]'
+    assert_select 'input[name=?][value="6"]:not([checked])', 'issue[deleted_attachment_ids][]'
+  end
+
   def test_put_update_with_no_change
     issue = Issue.find(1)
     issue.journals.clear
