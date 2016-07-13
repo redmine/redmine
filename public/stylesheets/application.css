@@ -1240,7 +1240,7 @@ div.issue img.gravatar {
 
 h2 img.gravatar {margin: -2px 4px -4px 0;}
 h3 img.gravatar {margin: -4px 4px -4px 0;}
-h4 img.gravatar {margin: -6px 4px -4px 0;}
+h4 img.gravatar {margin: -2px 4px -4px 0;}
 td.username img.gravatar {margin: 0 0.5em 0 0; vertical-align: top;}
 #activity dt img.gravatar {float: left; margin: 0 1em 1em 0;}
 /* Used on 12px Gravatar img tags without the icon background */
