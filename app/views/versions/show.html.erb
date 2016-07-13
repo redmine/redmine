@@ -22,7 +22,8 @@
 <% if User.current.allowed_to_view_all_time_entries?(@project) %>
 <tr>
     <th><%= l(:label_spent_time) %></th>
-    <td class="total-hours"><%= html_hours(l_hours(@version.spent_hours)) %></td>
+    <td class="total-hours"><%= link_to html_hours(l_hours(@version.spent_hours)),
+                                        project_time_entries_path(@version.project, :set_filter => 1, :"issue.fixed_version_id" => @version.id) %></td>
 </tr>
 <% end %>
 </table>

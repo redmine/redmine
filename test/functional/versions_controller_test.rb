@@ -20,7 +20,7 @@ require File.expand_path('../../test_helper', __FILE__)
 class VersionsControllerTest < ActionController::TestCase
   fixtures :projects, :versions, :issues, :users, :roles, :members,
            :member_roles, :enabled_modules, :issue_statuses,
-           :issue_categories
+           :issue_categories, :enumerations
 
   def setup
     User.current = nil
@@ -96,6 +96,18 @@ class VersionsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:version)
 
     assert_select 'h2', :text => /1.0/
+  end
+
+  def test_show_should_link_to_spent_time_on_version
+    version = Version.generate!
+    issue = Issue.generate(:fixed_version => version)
+    TimeEntry.generate!(:issue => issue, :hours => 7.2)
+
+    get :show, :id => version.id
+    assert_response :success
+
+    assert_select '.total-hours', :text => '7.20 hours'
+    assert_select '.total-hours a[href=?]', "/projects/ecookbook/time_entries?issue.fixed_version_id=#{version.id}&set_filter=1"
   end
 
   def test_show_should_display_nil_counts
