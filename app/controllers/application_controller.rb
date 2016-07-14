@@ -213,7 +213,7 @@ class ApplicationController < ActionController::Base
     if !User.current.logged?
       # Extract only the basic url parameters on non-GET requests
       if request.get?
-        url = url_for(params)
+        url = request.original_url
       else
         url = url_for(:controller => params[:controller], :action => params[:action], :id => params[:id], :project_id => params[:project_id])
       end
