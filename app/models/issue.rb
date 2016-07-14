@@ -409,7 +409,7 @@ class Issue < ActiveRecord::Base
   end
 
   # Overrides assign_attributes so that project and tracker get assigned first
-  def assign_attributes_with_project_and_tracker_first(new_attributes, *args)
+  def assign_attributes(new_attributes, *args)
     return if new_attributes.nil?
     attrs = new_attributes.dup
     attrs.stringify_keys!
@@ -419,10 +419,8 @@ class Issue < ActiveRecord::Base
         send "#{attr}=", attrs.delete(attr)
       end
     end
-    send :assign_attributes_without_project_and_tracker_first, attrs, *args
+    super attrs, *args
   end
-  # Do not redefine alias chain on reload (see #4838)
-  alias_method_chain(:assign_attributes, :project_and_tracker_first) unless method_defined?(:assign_attributes_without_project_and_tracker_first)
 
   def attributes=(new_attributes)
     assign_attributes new_attributes
