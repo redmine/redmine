@@ -17,7 +17,7 @@
 
 require File.expand_path('../../test_helper', __FILE__)
 
-class RepositoriesCvsControllerTest < ActionController::TestCase
+class RepositoriesCvsControllerTest < Redmine::ControllerTest
   tests RepositoriesController
 
   fixtures :projects, :users, :email_addresses, :roles, :members, :member_roles,

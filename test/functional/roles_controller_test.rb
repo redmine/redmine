@@ -17,7 +17,7 @@
 
 require File.expand_path('../../test_helper', __FILE__)
 
-class RolesControllerTest < ActionController::TestCase
+class RolesControllerTest < Redmine::ControllerTest
   fixtures :roles, :users, :members, :member_roles, :workflows, :trackers
 
   def setup

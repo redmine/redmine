@@ -17,7 +17,7 @@
 
 require File.expand_path('../../test_helper', __FILE__)
 
-class ImportsControllerTest < ActionController::TestCase
+class ImportsControllerTest < Redmine::ControllerTest
   fixtures :projects, :enabled_modules,
            :users, :email_addresses,
            :roles, :members, :member_roles,

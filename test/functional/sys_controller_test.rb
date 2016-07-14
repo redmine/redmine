@@ -17,7 +17,7 @@
 
 require File.expand_path('../../test_helper', __FILE__)
 
-class SysControllerTest < ActionController::TestCase
+class SysControllerTest < Redmine::ControllerTest
   fixtures :projects, :repositories, :enabled_modules
 
   def setup

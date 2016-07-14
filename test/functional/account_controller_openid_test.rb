@@ -17,7 +17,7 @@
 
 require File.expand_path('../../test_helper', __FILE__)
 
-class AccountControllerOpenidTest < ActionController::TestCase
+class AccountControllerOpenidTest < Redmine::ControllerTest
   tests AccountController
   fixtures :users, :roles
 

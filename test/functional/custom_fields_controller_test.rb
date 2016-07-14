@@ -17,7 +17,7 @@
 
 require File.expand_path('../../test_helper', __FILE__)
 
-class CustomFieldsControllerTest < ActionController::TestCase
+class CustomFieldsControllerTest < Redmine::ControllerTest
   fixtures :custom_fields, :custom_values,
            :custom_fields_projects, :custom_fields_trackers,
            :roles, :users,

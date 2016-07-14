@@ -17,7 +17,7 @@
 
 require File.expand_path('../../test_helper', __FILE__)
 
-class AuthSourcesControllerTest < ActionController::TestCase
+class AuthSourcesControllerTest < Redmine::ControllerTest
   fixtures :users, :auth_sources
 
   def setup

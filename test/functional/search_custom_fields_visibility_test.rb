@@ -17,7 +17,7 @@
 
 require File.expand_path('../../test_helper', __FILE__)
 
-class SearchCustomFieldsVisibilityTest < ActionController::TestCase
+class SearchCustomFieldsVisibilityTest < Redmine::ControllerTest
   tests SearchController
   fixtures :projects,
            :users,

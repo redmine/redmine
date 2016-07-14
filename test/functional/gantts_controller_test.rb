@@ -17,7 +17,7 @@
 
 require File.expand_path('../../test_helper', __FILE__)
 
-class GanttsControllerTest < ActionController::TestCase
+class GanttsControllerTest < Redmine::ControllerTest
   fixtures :projects, :trackers, :issue_statuses, :issues,
            :enumerations, :users, :issue_categories,
            :projects_trackers,

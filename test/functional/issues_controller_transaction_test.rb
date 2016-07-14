@@ -18,7 +18,7 @@
 require File.expand_path('../../test_helper', __FILE__)
 require 'issues_controller'
 
-class IssuesControllerTransactionTest < ActionController::TestCase
+class IssuesControllerTransactionTest < Redmine::ControllerTest
   tests IssuesController
   fixtures :projects,
            :users,

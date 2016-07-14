@@ -277,6 +277,9 @@ module Redmine
     end
   end
 
+  class ControllerTest < ActionController::TestCase
+  end
+
   class IntegrationTest < ActionDispatch::IntegrationTest
     def log_user(login, password)
       User.anonymous

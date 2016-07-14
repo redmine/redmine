@@ -17,7 +17,7 @@
 
 require File.expand_path('../../test_helper', __FILE__)
 
-class TimelogCustomFieldsVisibilityTest < ActionController::TestCase
+class TimelogCustomFieldsVisibilityTest < Redmine::ControllerTest
   tests TimelogController
   fixtures :projects,
            :users,

@@ -17,7 +17,7 @@
 
 require File.expand_path('../../test_helper', __FILE__)
 
-class MessagesControllerTest < ActionController::TestCase
+class MessagesControllerTest < Redmine::ControllerTest
   fixtures :projects, :users, :email_addresses, :user_preferences, :members, :member_roles, :roles, :boards, :messages, :enabled_modules
 
   def setup

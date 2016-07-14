@@ -17,7 +17,7 @@
 
 require File.expand_path('../../test_helper', __FILE__)
 
-class CalendarsControllerTest < ActionController::TestCase
+class CalendarsControllerTest < Redmine::ControllerTest
   fixtures :projects,
            :trackers,
            :projects_trackers,

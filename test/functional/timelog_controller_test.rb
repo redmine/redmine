@@ -18,7 +18,7 @@
 
 require File.expand_path('../../test_helper', __FILE__)
 
-class TimelogControllerTest < ActionController::TestCase
+class TimelogControllerTest < Redmine::ControllerTest
   fixtures :projects, :enabled_modules, :roles, :members,
            :member_roles, :issues, :time_entries, :users,
            :trackers, :enumerations, :issue_statuses,

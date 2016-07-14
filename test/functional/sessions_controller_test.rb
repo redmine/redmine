@@ -17,7 +17,7 @@
 
 require File.expand_path('../../test_helper', __FILE__)
 
-class SessionsControllerTest < ActionController::TestCase
+class SessionsControllerTest < Redmine::ControllerTest
   include Redmine::I18n
   tests WelcomeController
 
