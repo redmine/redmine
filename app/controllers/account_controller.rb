@@ -137,7 +137,6 @@ class AccountController < ApplicationController
           redirect_to my_account_path
         end
       else
-        @user.login = params[:user][:login]
         unless user_params[:identity_url].present? && user_params[:password].blank? && user_params[:password_confirmation].blank?
           @user.password, @user.password_confirmation = user_params[:password], user_params[:password_confirmation]
         end

@@ -87,10 +87,8 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user = User.new(:language => Setting.default_language, :mail_notification => Setting.default_notification_option)
+    @user = User.new(:language => Setting.default_language, :mail_notification => Setting.default_notification_option, :admin => false)
     @user.safe_attributes = params[:user]
-    @user.admin = params[:user][:admin] || false
-    @user.login = params[:user][:login]
     @user.password, @user.password_confirmation = params[:user][:password], params[:user][:password_confirmation] unless @user.auth_source_id
     @user.pref.attributes = params[:pref] if params[:pref]
 
@@ -127,8 +125,6 @@ class UsersController < ApplicationController
   end
 
   def update
-    @user.admin = params[:user][:admin] if params[:user][:admin]
-    @user.login = params[:user][:login] if params[:user][:login]
     if params[:user][:password].present? && (@user.auth_source_id.nil? || params[:user][:auth_source_id].blank?)
       @user.password, @user.password_confirmation = params[:user][:password], params[:user][:password_confirmation]
     end

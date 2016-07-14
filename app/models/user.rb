@@ -100,7 +100,7 @@ class User < Principal
   attr_accessor :remote_ip
 
   # Prevents unauthorized assignments
-  attr_protected :login, :admin, :password, :password_confirmation, :hashed_password
+  attr_protected :password, :password_confirmation, :hashed_password
 
   LOGIN_LENGTH_LIMIT = 60
   MAIL_LENGTH_LIMIT = 60
@@ -696,10 +696,15 @@ class User < Principal
     'custom_fields',
     'identity_url'
 
+  safe_attributes 'login',
+    :if => lambda {|user, current_user| user.new_record?}
+
   safe_attributes 'status',
     'auth_source_id',
     'generate_password',
     'must_change_passwd',
+    'login',
+    'admin',
     :if => lambda {|user, current_user| current_user.admin?}
 
   safe_attributes 'group_ids',
