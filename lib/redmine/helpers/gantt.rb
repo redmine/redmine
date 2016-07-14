@@ -168,7 +168,7 @@ module Redmine
             joins("LEFT JOIN #{Project.table_name} child ON #{Project.table_name}.lft <= child.lft AND #{Project.table_name}.rgt >= child.rgt").
             where("child.id IN (?)", ids).
             order("#{Project.table_name}.lft ASC").
-            uniq.
+            distinct.
             to_a
         else
           @projects = []

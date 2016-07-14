@@ -992,12 +992,12 @@ class ProjectTest < ActiveSupport::TestCase
     assert_include 'closed', p.css_classes.split
   end
 
-  def test_combination_of_visible_and_uniq_scopes_in_case_anonymous_group_has_memberships_should_not_error
+  def test_combination_of_visible_and_distinct_scopes_in_case_anonymous_group_has_memberships_should_not_error
     project = Project.find(1)
     member = Member.create!(:project => project, :principal => Group.anonymous, :roles => [Role.generate!])
     project.members << member
     assert_nothing_raised do
-      Project.uniq.visible.to_a
+      Project.distinct.visible.to_a
     end
   end
 end

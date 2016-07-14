@@ -140,7 +140,7 @@ class User < Principal
   scope :having_mail, lambda {|arg|
     addresses = Array.wrap(arg).map {|a| a.to_s.downcase}
     if addresses.any?
-      joins(:email_addresses).where("LOWER(#{EmailAddress.table_name}.address) IN (?)", addresses).uniq
+      joins(:email_addresses).where("LOWER(#{EmailAddress.table_name}.address) IN (?)", addresses).distinct
     else
       none
     end

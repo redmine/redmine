@@ -242,7 +242,7 @@ class ProjectMembersInheritanceTest < ActiveSupport::TestCase
 
       member = project.reload.memberships.detect {|m| m.principal == user}
       assert_not_nil member
-      assert_equal [1, 2, 3], member.roles.uniq.sort.map(&:id)
+      assert_equal [1, 2, 3], member.roles.map(&:id).uniq.sort
     end
   end
 
@@ -258,7 +258,7 @@ class ProjectMembersInheritanceTest < ActiveSupport::TestCase
 
       member = project.reload.memberships.detect {|m| m.principal == user}
       assert_not_nil member
-      assert_equal [1, 2, 3], member.roles.uniq.sort.map(&:id)
+      assert_equal [1, 2, 3], member.roles.map(&:id).uniq.sort
     end
   end
 end

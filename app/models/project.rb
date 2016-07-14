@@ -233,11 +233,11 @@ class Project < ActiveRecord::Base
   end
 
   def principals
-    @principals ||= Principal.active.joins(:members).where("#{Member.table_name}.project_id = ?", id).uniq
+    @principals ||= Principal.active.joins(:members).where("#{Member.table_name}.project_id = ?", id).distinct
   end
 
   def users
-    @users ||= User.active.joins(:members).where("#{Member.table_name}.project_id = ?", id).uniq
+    @users ||= User.active.joins(:members).where("#{Member.table_name}.project_id = ?", id).distinct
   end
 
   # Returns the Systemwide and project specific activities
@@ -437,7 +437,7 @@ class Project < ActiveRecord::Base
       joins(projects: :enabled_modules).
       where("#{Project.table_name}.status <> ?", STATUS_ARCHIVED).
       where(:enabled_modules => {:name => 'issue_tracking'}).
-      uniq.
+      distinct.
       sorted
   end
 
@@ -522,7 +522,7 @@ class Project < ActiveRecord::Base
       active.
       joins(:members => :roles).
       where(:type => types, :members => {:project_id => id}, :roles => {:assignable => true}).
-      uniq.
+      distinct.
       sorted
 
     if tracker

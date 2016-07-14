@@ -66,7 +66,7 @@ class IssueStatus < ActiveRecord::Base
         end
       end
 
-      scope.uniq.to_a.sort
+      scope.distinct.to_a.sort
     else
       []
     end

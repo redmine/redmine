@@ -167,7 +167,7 @@ module Redmine
             scope.
               reorder(searchable_options[:date_column] => :desc, :id => :desc).
               limit(limit).
-              uniq.
+              distinct.
               pluck(searchable_options[:date_column], :id).
               # converts timestamps to integers for faster sort
               map {|timestamp, id| [timestamp.to_i, id]}

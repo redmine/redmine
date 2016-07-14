@@ -66,7 +66,7 @@ class Tracker < ActiveRecord::Base
         end
       end
     end
-    joins(:projects).where(condition).uniq
+    joins(:projects).where(condition).distinct
   }
 
   def to_s; name end
@@ -85,7 +85,7 @@ class Tracker < ActiveRecord::Base
     if new_record?
       []
     else
-      @issue_status_ids ||= WorkflowTransition.where(:tracker_id => id).uniq.pluck(:old_status_id, :new_status_id).flatten.uniq
+      @issue_status_ids ||= WorkflowTransition.where(:tracker_id => id).distinct.pluck(:old_status_id, :new_status_id).flatten.uniq
     end
   end
 

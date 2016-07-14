@@ -283,7 +283,7 @@ class Repository < ActiveRecord::Base
 
   # Returns an array of committers usernames and associated user_id
   def committers
-    @committers ||= Changeset.where(:repository_id => id).uniq.pluck(:committer, :user_id)
+    @committers ||= Changeset.where(:repository_id => id).distinct.pluck(:committer, :user_id)
   end
 
   # Maps committers username to a user ids

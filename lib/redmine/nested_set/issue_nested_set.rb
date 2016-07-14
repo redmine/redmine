@@ -176,7 +176,7 @@ module Redmine
             reorder(:id).lock.ids
             update_all(:root_id => nil, :lft => nil, :rgt => nil)
             where(:parent_id => nil).update_all(["root_id = id, lft = ?, rgt = ?", 1, 2])
-            roots_with_children = joins("JOIN #{table_name} parent ON parent.id = #{table_name}.parent_id AND parent.id = parent.root_id").uniq.pluck("parent.id")
+            roots_with_children = joins("JOIN #{table_name} parent ON parent.id = #{table_name}.parent_id AND parent.id = parent.root_id").distinct.pluck("parent.id")
             roots_with_children.each do |root_id|
               rebuild_nodes(root_id)
             end

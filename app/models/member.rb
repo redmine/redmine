@@ -19,7 +19,7 @@ class Member < ActiveRecord::Base
   belongs_to :user
   belongs_to :principal, :foreign_key => 'user_id'
   has_many :member_roles, :dependent => :destroy
-  has_many :roles, lambda {uniq}, :through => :member_roles
+  has_many :roles, lambda { distinct }, :through => :member_roles
   belongs_to :project
 
   validates_presence_of :principal, :project
