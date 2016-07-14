@@ -20,7 +20,7 @@ class AccountController < ApplicationController
   include CustomFieldsHelper
 
   # prevents login action to be filtered by check_if_login_required application scope filter
-  skip_before_filter :check_if_login_required, :check_password_change
+  skip_before_action :check_if_login_required, :check_password_change
 
   # Overrides ApplicationController#verify_authenticity_token to disable
   # token verification on openid callbacks

@@ -18,7 +18,7 @@
 class MyController < ApplicationController
   before_action :require_login
   # let user change user's password when user has to
-  skip_before_filter :check_password_change, :only => :password
+  skip_before_action :check_password_change, :only => :password
 
   require_sudo_mode :account, only: :post
   require_sudo_mode :reset_rss_key, :reset_api_key, :show_api_key, :destroy
