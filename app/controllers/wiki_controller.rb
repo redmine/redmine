@@ -31,11 +31,11 @@
 # TODO: still being worked on
 class WikiController < ApplicationController
   default_search_scope :wiki_pages
-  before_filter :find_wiki, :authorize
-  before_filter :find_existing_or_new_page, :only => [:show, :edit, :update]
-  before_filter :find_existing_page, :only => [:rename, :protect, :history, :diff, :annotate, :add_attachment, :destroy, :destroy_version]
+  before_action :find_wiki, :authorize
+  before_action :find_existing_or_new_page, :only => [:show, :edit, :update]
+  before_action :find_existing_page, :only => [:rename, :protect, :history, :diff, :annotate, :add_attachment, :destroy, :destroy_version]
+  before_action :find_attachments, :only => [:preview]
   accept_api_auth :index, :show, :update, :destroy
-  before_filter :find_attachments, :only => [:preview]
 
   helper :attachments
   include AttachmentsHelper

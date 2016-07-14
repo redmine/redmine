@@ -18,11 +18,11 @@
 class IssuesController < ApplicationController
   default_search_scope :issues
 
-  before_filter :find_issue, :only => [:show, :edit, :update]
-  before_filter :find_issues, :only => [:bulk_edit, :bulk_update, :destroy]
-  before_filter :authorize, :except => [:index, :new, :create]
-  before_filter :find_optional_project, :only => [:index, :new, :create]
-  before_filter :build_new_issue_from_params, :only => [:new, :create]
+  before_action :find_issue, :only => [:show, :edit, :update]
+  before_action :find_issues, :only => [:bulk_edit, :bulk_update, :destroy]
+  before_action :authorize, :except => [:index, :new, :create]
+  before_action :find_optional_project, :only => [:index, :new, :create]
+  before_action :build_new_issue_from_params, :only => [:new, :create]
   accept_rss_auth :index, :show
   accept_api_auth :index, :show, :create, :update, :destroy
 

@@ -17,7 +17,7 @@
 
 class ReportsController < ApplicationController
   menu_item :issues
-  before_filter :find_project, :authorize, :find_issue_statuses
+  before_action :find_project, :authorize, :find_issue_statuses
 
   def issue_report
     @trackers = @project.rolled_up_trackers(false).visible

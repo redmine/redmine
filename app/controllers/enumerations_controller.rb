@@ -18,10 +18,10 @@
 class EnumerationsController < ApplicationController
   layout 'admin'
 
-  before_filter :require_admin, :except => :index
-  before_filter :require_admin_or_api_request, :only => :index
-  before_filter :build_new_enumeration, :only => [:new, :create]
-  before_filter :find_enumeration, :only => [:edit, :update, :destroy]
+  before_action :require_admin, :except => :index
+  before_action :require_admin_or_api_request, :only => :index
+  before_action :build_new_enumeration, :only => [:new, :create]
+  before_action :find_enumeration, :only => [:edit, :update, :destroy]
   accept_api_auth :index
 
   helper :custom_fields

@@ -21,7 +21,7 @@ class AdminController < ApplicationController
   menu_item :plugins, :only => :plugins
   menu_item :info, :only => :info
 
-  before_filter :require_admin
+  before_action :require_admin
   helper :sort
   include SortHelper
 

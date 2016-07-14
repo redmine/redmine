@@ -28,11 +28,11 @@ class RepositoriesController < ApplicationController
   menu_item :settings, :only => [:new, :create, :edit, :update, :destroy, :committers]
   default_search_scope :changesets
 
-  before_filter :find_project_by_project_id, :only => [:new, :create]
-  before_filter :find_repository, :only => [:edit, :update, :destroy, :committers]
-  before_filter :find_project_repository, :except => [:new, :create, :edit, :update, :destroy, :committers]
-  before_filter :find_changeset, :only => [:revision, :add_related_issue, :remove_related_issue]
-  before_filter :authorize
+  before_action :find_project_by_project_id, :only => [:new, :create]
+  before_action :find_repository, :only => [:edit, :update, :destroy, :committers]
+  before_action :find_project_repository, :except => [:new, :create, :edit, :update, :destroy, :committers]
+  before_action :find_changeset, :only => [:revision, :add_related_issue, :remove_related_issue]
+  before_action :authorize
   accept_rss_auth :revisions
 
   rescue_from Redmine::Scm::Adapters::CommandFailed, :with => :show_error_command_failed

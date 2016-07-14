@@ -16,10 +16,10 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class JournalsController < ApplicationController
-  before_filter :find_journal, :only => [:edit, :update, :diff]
-  before_filter :find_issue, :only => [:new]
-  before_filter :find_optional_project, :only => [:index]
-  before_filter :authorize, :only => [:new, :edit, :update, :diff]
+  before_action :find_journal, :only => [:edit, :update, :diff]
+  before_action :find_issue, :only => [:new]
+  before_action :find_optional_project, :only => [:index]
+  before_action :authorize, :only => [:new, :edit, :update, :diff]
   accept_rss_auth :index
   menu_item :issues
 

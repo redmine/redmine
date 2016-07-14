@@ -18,8 +18,8 @@
 class FilesController < ApplicationController
   menu_item :files
 
-  before_filter :find_project_by_project_id
-  before_filter :authorize
+  before_action :find_project_by_project_id
+  before_action :authorize
 
   helper :sort
   include SortHelper

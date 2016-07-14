@@ -18,8 +18,8 @@
 class IssueStatusesController < ApplicationController
   layout 'admin'
 
-  before_filter :require_admin, :except => :index
-  before_filter :require_admin_or_api_request, :only => :index
+  before_action :require_admin, :except => :index
+  before_action :require_admin_or_api_request, :only => :index
   accept_api_auth :index
 
   def index

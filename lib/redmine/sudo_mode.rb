@@ -108,7 +108,7 @@ module Redmine
         @sudo_form ||= SudoMode::Form.new
         @sudo_form.original_fields = params.slice( *param_names )
         # a simple 'render "sudo_mode/new"' works when used directly inside an
-        # action, but not when called from a before_filter:
+        # action, but not when called from a before_action:
         respond_to do |format|
           format.html { render 'sudo_mode/new' }
           format.js   { render 'sudo_mode/new' }
@@ -168,7 +168,7 @@ module Redmine
           actions = args.dup
           options = actions.extract_options!
           filter = SudoRequestFilter.new Array(options[:parameters]), Array(options[:only])
-          before_filter filter, only: actions
+          before_action filter, only: actions
         end
       end
     end

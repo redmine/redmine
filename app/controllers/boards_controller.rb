@@ -17,7 +17,7 @@
 
 class BoardsController < ApplicationController
   default_search_scope :messages
-  before_filter :find_project_by_project_id, :find_board_if_available, :authorize
+  before_action :find_project_by_project_id, :find_board_if_available, :authorize
   accept_rss_auth :index, :show
 
   helper :sort

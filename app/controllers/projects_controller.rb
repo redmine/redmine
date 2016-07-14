@@ -19,10 +19,10 @@ class ProjectsController < ApplicationController
   menu_item :overview
   menu_item :settings, :only => :settings
 
-  before_filter :find_project, :except => [ :index, :list, :new, :create, :copy ]
-  before_filter :authorize, :except => [ :index, :list, :new, :create, :copy, :archive, :unarchive, :destroy]
-  before_filter :authorize_global, :only => [:new, :create]
-  before_filter :require_admin, :only => [ :copy, :archive, :unarchive, :destroy ]
+  before_action :find_project, :except => [ :index, :list, :new, :create, :copy ]
+  before_action :authorize, :except => [ :index, :list, :new, :create, :copy, :archive, :unarchive, :destroy]
+  before_action :authorize_global, :only => [:new, :create]
+  before_action :require_admin, :only => [ :copy, :archive, :unarchive, :destroy ]
   accept_rss_auth :index
   accept_api_auth :index, :show, :create, :update, :destroy
   require_sudo_mode :destroy

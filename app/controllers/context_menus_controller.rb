@@ -19,7 +19,7 @@ class ContextMenusController < ApplicationController
   helper :watchers
   helper :issues
 
-  before_filter :find_issues, :only => :issues
+  before_action :find_issues, :only => :issues
 
   def issues
     if (@issues.size == 1)

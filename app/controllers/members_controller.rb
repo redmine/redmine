@@ -17,10 +17,10 @@
 
 class MembersController < ApplicationController
   model_object Member
-  before_filter :find_model_object, :except => [:index, :new, :create, :autocomplete]
-  before_filter :find_project_from_association, :except => [:index, :new, :create, :autocomplete]
-  before_filter :find_project_by_project_id, :only => [:index, :new, :create, :autocomplete]
-  before_filter :authorize
+  before_action :find_model_object, :except => [:index, :new, :create, :autocomplete]
+  before_action :find_project_from_association, :except => [:index, :new, :create, :autocomplete]
+  before_action :find_project_by_project_id, :only => [:index, :new, :create, :autocomplete]
+  before_action :authorize
   accept_api_auth :index, :show, :create, :update, :destroy
 
   require_sudo_mode :create, :update, :destroy

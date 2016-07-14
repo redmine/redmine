@@ -18,10 +18,10 @@
 class VersionsController < ApplicationController
   menu_item :roadmap
   model_object Version
-  before_filter :find_model_object, :except => [:index, :new, :create, :close_completed]
-  before_filter :find_project_from_association, :except => [:index, :new, :create, :close_completed]
-  before_filter :find_project_by_project_id, :only => [:index, :new, :create, :close_completed]
-  before_filter :authorize
+  before_action :find_model_object, :except => [:index, :new, :create, :close_completed]
+  before_action :find_project_from_association, :except => [:index, :new, :create, :close_completed]
+  before_action :find_project_by_project_id, :only => [:index, :new, :create, :close_completed]
+  before_action :authorize
 
   accept_api_auth :index, :show, :create, :update, :destroy
 

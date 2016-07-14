@@ -16,7 +16,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class SearchController < ApplicationController
-  before_filter :find_optional_project
+  before_action :find_optional_project
   accept_api_auth :index
 
   def index

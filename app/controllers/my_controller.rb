@@ -16,7 +16,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class MyController < ApplicationController
-  before_filter :require_login
+  before_action :require_login
   # let user change user's password when user has to
   skip_before_filter :check_password_change, :only => :password
 

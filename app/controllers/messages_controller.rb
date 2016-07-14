@@ -18,10 +18,10 @@
 class MessagesController < ApplicationController
   menu_item :boards
   default_search_scope :messages
-  before_filter :find_board, :only => [:new, :preview]
-  before_filter :find_attachments, :only => [:preview]
-  before_filter :find_message, :except => [:new, :preview]
-  before_filter :authorize, :except => [:preview, :edit, :destroy]
+  before_action :find_board, :only => [:new, :preview]
+  before_action :find_attachments, :only => [:preview]
+  before_action :find_message, :except => [:new, :preview]
+  before_action :authorize, :except => [:preview, :edit, :destroy]
 
   helper :boards
   helper :watchers

@@ -16,7 +16,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class SysController < ActionController::Base
-  before_filter :check_enabled
+  before_action :check_enabled
 
   def projects
     p = Project.active.has_module(:repository).

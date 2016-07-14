@@ -21,7 +21,7 @@ class SettingsController < ApplicationController
 
   helper :queries
 
-  before_filter :require_admin
+  before_action :require_admin
 
   require_sudo_mode :index, :edit, :plugin
 

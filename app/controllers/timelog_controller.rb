@@ -18,13 +18,13 @@
 class TimelogController < ApplicationController
   menu_item :issues
 
-  before_filter :find_time_entry, :only => [:show, :edit, :update]
-  before_filter :find_time_entries, :only => [:bulk_edit, :bulk_update, :destroy]
-  before_filter :authorize, :only => [:show, :edit, :update, :bulk_edit, :bulk_update, :destroy]
+  before_action :find_time_entry, :only => [:show, :edit, :update]
+  before_action :find_time_entries, :only => [:bulk_edit, :bulk_update, :destroy]
+  before_action :authorize, :only => [:show, :edit, :update, :bulk_edit, :bulk_update, :destroy]
 
-  before_filter :find_optional_issue, :only => [:new, :create]
-  before_filter :find_optional_project, :only => [:index, :report]
-  before_filter :authorize_global, :only => [:new, :create, :index, :report]
+  before_action :find_optional_issue, :only => [:new, :create]
+  before_action :find_optional_project, :only => [:index, :report]
+  before_action :authorize_global, :only => [:new, :create, :index, :report]
 
   accept_rss_auth :index
   accept_api_auth :index, :show, :create, :update, :destroy

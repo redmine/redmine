@@ -17,7 +17,7 @@
 
 class GanttsController < ApplicationController
   menu_item :gantt
-  before_filter :find_optional_project
+  before_action :find_optional_project
 
   rescue_from Query::StatementInvalid, :with => :query_statement_invalid
 

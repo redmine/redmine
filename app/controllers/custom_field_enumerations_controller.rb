@@ -18,9 +18,9 @@
 class CustomFieldEnumerationsController < ApplicationController
   layout 'admin'
 
-  before_filter :require_admin
-  before_filter :find_custom_field
-  before_filter :find_enumeration, :only => :destroy
+  before_action :require_admin
+  before_action :find_custom_field
+  before_action :find_enumeration, :only => :destroy
 
   helper :custom_fields
 

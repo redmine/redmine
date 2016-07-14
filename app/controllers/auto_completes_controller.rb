@@ -16,7 +16,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class AutoCompletesController < ApplicationController
-  before_filter :find_project
+  before_action :find_project
 
   def issues
     @issues = []

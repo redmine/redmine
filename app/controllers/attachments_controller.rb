@@ -16,11 +16,11 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class AttachmentsController < ApplicationController
-  before_filter :find_attachment, :only => [:show, :download, :thumbnail, :destroy]
-  before_filter :find_editable_attachments, :only => [:edit, :update]
-  before_filter :file_readable, :read_authorize, :only => [:show, :download, :thumbnail]
-  before_filter :delete_authorize, :only => :destroy
-  before_filter :authorize_global, :only => :upload
+  before_action :find_attachment, :only => [:show, :download, :thumbnail, :destroy]
+  before_action :find_editable_attachments, :only => [:edit, :update]
+  before_action :file_readable, :read_authorize, :only => [:show, :download, :thumbnail]
+  before_action :delete_authorize, :only => :destroy
+  before_action :authorize_global, :only => :upload
 
   accept_api_auth :show, :download, :thumbnail, :upload, :destroy
 

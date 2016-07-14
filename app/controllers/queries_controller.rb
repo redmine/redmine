@@ -17,8 +17,8 @@
 
 class QueriesController < ApplicationController
   menu_item :issues
-  before_filter :find_query, :except => [:new, :create, :index]
-  before_filter :find_optional_project, :only => [:new, :create]
+  before_action :find_query, :except => [:new, :create, :index]
+  before_action :find_optional_project, :only => [:new, :create]
 
   accept_api_auth :index
 

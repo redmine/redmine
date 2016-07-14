@@ -16,7 +16,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class WatchersController < ApplicationController
-  before_filter :require_login, :find_watchables, :only => [:watch, :unwatch]
+  before_action :require_login, :find_watchables, :only => [:watch, :unwatch]
 
   def watch
     set_watcher(@watchables, User.current, true)
@@ -26,7 +26,7 @@ class WatchersController < ApplicationController
     set_watcher(@watchables, User.current, false)
   end
 
-  before_filter :find_project, :authorize, :only => [:new, :create, :append, :destroy, :autocomplete_for_user]
+  before_action :find_project, :authorize, :only => [:new, :create, :append, :destroy, :autocomplete_for_user]
   accept_api_auth :create, :destroy
 
   def new

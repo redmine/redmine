@@ -19,8 +19,8 @@ class AuthSourcesController < ApplicationController
   layout 'admin'
   menu_item :ldap_authentication
 
-  before_filter :require_admin
-  before_filter :find_auth_source, :only => [:edit, :update, :test_connection, :destroy]
+  before_action :require_admin
+  before_action :find_auth_source, :only => [:edit, :update, :test_connection, :destroy]
   require_sudo_mode :update, :destroy
 
   def index

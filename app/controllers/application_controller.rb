@@ -51,7 +51,7 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  before_filter :session_expiration, :user_setup, :check_if_login_required, :check_password_change, :set_localization
+  before_action :session_expiration, :user_setup, :check_if_login_required, :check_password_change, :set_localization
 
   rescue_from ::Unauthorized, :with => :deny_access
   rescue_from ::ActionView::MissingTemplate, :with => :missing_template
@@ -369,7 +369,7 @@ class ApplicationController < ActionController::Base
   end
 
   # make sure that the user is a member of the project (or admin) if project is private
-  # used as a before_filter for actions that do not require any particular permission on the project
+  # used as a before_action for actions that do not require any particular permission on the project
   def check_project_privacy
     if @project && !@project.archived?
       if @project.visible?

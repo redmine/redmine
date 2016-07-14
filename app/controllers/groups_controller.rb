@@ -18,8 +18,8 @@
 class GroupsController < ApplicationController
   layout 'admin'
 
-  before_filter :require_admin
-  before_filter :find_group, :except => [:index, :new, :create]
+  before_action :require_admin
+  before_action :find_group, :except => [:index, :new, :create]
   accept_api_auth :index, :show, :create, :update, :destroy, :add_users, :remove_user
 
   require_sudo_mode :add_users, :remove_user, :create, :update, :destroy, :edit_membership, :destroy_membership
