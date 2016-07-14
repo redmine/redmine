@@ -70,35 +70,35 @@ module ActionView
     module Tags
       class Base
         private
-        def add_options_with_non_empty_blank_option(option_tags, options, value = nil)
+        alias :add_options_without_non_empty_blank_option :add_options
+        def add_options(option_tags, options, value = nil)
           if options[:include_blank] == true
             options = options.dup
             options[:include_blank] = '&nbsp;'.html_safe
           end
           add_options_without_non_empty_blank_option(option_tags, options, value)
         end
-        alias_method_chain :add_options, :non_empty_blank_option
       end
     end
 
     module FormTagHelper
-      def select_tag_with_non_empty_blank_option(name, option_tags = nil, options = {})
+      alias :select_tag_without_non_empty_blank_option :select_tag
+      def select_tag(name, option_tags = nil, options = {})
         if options.delete(:include_blank)
           options[:prompt] = '&nbsp;'.html_safe
         end
         select_tag_without_non_empty_blank_option(name, option_tags, options)
       end
-      alias_method_chain :select_tag, :non_empty_blank_option
     end
 
     module FormOptionsHelper
-      def options_for_select_with_non_empty_blank_option(container, selected = nil)
+      alias :options_for_select_without_non_empty_blank_option :options_for_select
+      def options_for_select(container, selected = nil)
         if container.is_a?(Array)
           container = container.map {|element| element.blank? ? ["&nbsp;".html_safe, ""] : element}
         end
         options_for_select_without_non_empty_blank_option(container, selected)
       end
-      alias_method_chain :options_for_select, :non_empty_blank_option
     end
   end
 end
