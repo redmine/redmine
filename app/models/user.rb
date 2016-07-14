@@ -820,11 +820,11 @@ class User < Principal
     Message.where(['author_id = ?', id]).update_all(['author_id = ?', substitute.id])
     News.where(['author_id = ?', id]).update_all(['author_id = ?', substitute.id])
     # Remove private queries and keep public ones
-    ::Query.delete_all ['user_id = ? AND visibility = ?', id, ::Query::VISIBILITY_PRIVATE]
+    ::Query.where('user_id = ? AND visibility = ?', id, ::Query::VISIBILITY_PRIVATE).delete_all
     ::Query.where(['user_id = ?', id]).update_all(['user_id = ?', substitute.id])
     TimeEntry.where(['user_id = ?', id]).update_all(['user_id = ?', substitute.id])
-    Token.delete_all ['user_id = ?', id]
-    Watcher.delete_all ['user_id = ?', id]
+    Token.where('user_id = ?', id).delete_all
+    Watcher.where('user_id = ?', id).delete_all
     WikiContent.where(['author_id = ?', id]).update_all(['author_id = ?', substitute.id])
     WikiContent::Version.where(['author_id = ?', id]).update_all(['author_id = ?', substitute.id])
   end
