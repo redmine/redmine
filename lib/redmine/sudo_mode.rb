@@ -46,7 +46,7 @@ module Redmine
       extend ActiveSupport::Concern
 
       included do
-        around_filter :sudo_mode
+        around_action :sudo_mode
       end
 
       # Sudo mode Around Filter
