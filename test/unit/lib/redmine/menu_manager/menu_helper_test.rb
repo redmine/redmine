@@ -17,10 +17,11 @@
 
 require File.expand_path('../../../../../test_helper', __FILE__)
 
-class Redmine::MenuManager::MenuHelperTest < ActionView::TestCase
-
+class Redmine::MenuManager::MenuHelperTest < Redmine::HelperTest
   include Redmine::MenuManager::MenuHelper
   include ERB::Util
+  include Rails.application.routes.url_helpers
+
   fixtures :users, :members, :projects, :enabled_modules, :roles, :member_roles
 
   def setup

@@ -21,6 +21,7 @@ class MembersHelperTest < Redmine::HelperTest
   include Redmine::I18n
   include ERB::Util
   include MembersHelper
+  include Rails.application.routes.url_helpers
 
   fixtures :projects, :users, :members, :member_roles,
            :trackers, :issue_statuses
