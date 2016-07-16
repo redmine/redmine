@@ -35,7 +35,7 @@ class WatchersController < ApplicationController
 
   def create
     user_ids = []
-    if params[:watcher].is_a?(Hash)
+    if params[:watcher]
       user_ids << (params[:watcher][:user_ids] || params[:watcher][:user_id])
     else
       user_ids << params[:user_id]
@@ -54,7 +54,7 @@ class WatchersController < ApplicationController
   end
 
   def append
-    if params[:watcher].is_a?(Hash)
+    if params[:watcher]
       user_ids = params[:watcher][:user_ids] || [params[:watcher][:user_id]]
       @users = User.active.visible.where(:id => user_ids).to_a
     end
