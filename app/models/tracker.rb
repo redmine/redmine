@@ -16,6 +16,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class Tracker < ActiveRecord::Base
+  include Redmine::SafeAttributes
 
   CORE_FIELDS_UNDISABLABLE = %w(project_id tracker_id subject description priority_id is_private).freeze
   # Fields that can be disabled
@@ -68,6 +69,14 @@ class Tracker < ActiveRecord::Base
     end
     joins(:projects).where(condition).distinct
   }
+
+  safe_attributes 'name',
+    'default_status_id',
+    'is_in_roadmap',
+    'core_fields',
+    'position',
+    'custom_field_ids',
+    'project_ids'
 
   def to_s; name end
 
