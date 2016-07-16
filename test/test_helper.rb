@@ -278,6 +278,14 @@ module Redmine
   end
 
   class ControllerTest < ActionController::TestCase
+    def process(method, path, parameters={}, options={})
+      if parameters.key?(:params)
+        raise ArgumentError if options.present?
+        super method, path, parameters[:params], parameters.except(:params)
+      else
+        super
+      end
+    end
   end
 
   class IntegrationTest < ActionDispatch::IntegrationTest
