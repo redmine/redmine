@@ -16,6 +16,8 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class Role < ActiveRecord::Base
+  include Redmine::SafeAttributes
+
   # Custom coder for the permissions attribute that should be an
   # array of symbols. Rails 3 uses Psych which can be *unbelievably*
   # slow on some platforms (eg. mingw32).
@@ -88,6 +90,17 @@ class Role < ActiveRecord::Base
   validates_inclusion_of :time_entries_visibility,
     :in => TIME_ENTRIES_VISIBILITY_OPTIONS.collect(&:first),
     :if => lambda {|role| role.respond_to?(:time_entries_visibility) && role.time_entries_visibility_changed?}
+
+  safe_attributes 'name',
+      'assignable',
+      'position',
+      'issues_visibility',
+      'users_visibility',
+      'time_entries_visibility',
+      'all_roles_managed',
+      'permissions',
+      'permissions_all_trackers',
+      'permissions_tracker_ids'
 
   # Copies attributes from another role, arg can be an id or a Role
   def copy_from(arg, options={})
