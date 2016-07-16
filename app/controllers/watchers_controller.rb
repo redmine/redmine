@@ -59,7 +59,7 @@ class WatchersController < ApplicationController
       @users = User.active.visible.where(:id => user_ids).to_a
     end
     if @users.blank?
-      render :nothing => true
+      head 200
     end
   end
 
