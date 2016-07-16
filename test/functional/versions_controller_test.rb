@@ -27,7 +27,7 @@ class VersionsControllerTest < Redmine::ControllerTest
   end
 
   def test_index
-    get :index, :project_id => 1
+    get :index, :params => {:project_id => 1}
     assert_response :success
     assert_template 'index'
     assert_not_nil assigns(:versions)
@@ -46,7 +46,7 @@ class VersionsControllerTest < Redmine::ControllerTest
   end
 
   def test_index_with_completed_versions
-    get :index, :project_id => 1, :completed => 1
+    get :index, :params => {:project_id => 1, :completed => 1}
     assert_response :success
     assert_template 'index'
     assert_not_nil assigns(:versions)
@@ -57,7 +57,7 @@ class VersionsControllerTest < Redmine::ControllerTest
   end
 
   def test_index_with_tracker_ids
-    get :index, :project_id => 1, :tracker_ids => [1, 3]
+    get :index, :params => {:project_id => 1, :tracker_ids => [1, 3]}
     assert_response :success
     assert_template 'index'
     assert_not_nil assigns(:issues_by_version)
@@ -66,7 +66,7 @@ class VersionsControllerTest < Redmine::ControllerTest
 
   def test_index_showing_subprojects_versions
     @subproject_version = Version.create!(:project => Project.find(3), :name => "Subproject version")
-    get :index, :project_id => 1, :with_subprojects => 1
+    get :index, :params => {:project_id => 1, :with_subprojects => 1}
     assert_response :success
     assert_template 'index'
     assert_not_nil assigns(:versions)
@@ -76,7 +76,7 @@ class VersionsControllerTest < Redmine::ControllerTest
   end
 
   def test_index_should_prepend_shared_versions
-    get :index, :project_id => 1
+    get :index, :params => {:project_id => 1}
     assert_response :success
 
     assert_select '#sidebar' do
@@ -90,7 +90,7 @@ class VersionsControllerTest < Redmine::ControllerTest
   end
 
   def test_show
-    get :show, :id => 2
+    get :show, :params => {:id => 2}
     assert_response :success
     assert_template 'show'
     assert_not_nil assigns(:version)
@@ -103,7 +103,7 @@ class VersionsControllerTest < Redmine::ControllerTest
     issue = Issue.generate(:fixed_version => version)
     TimeEntry.generate!(:issue => issue, :hours => 7.2)
 
-    get :show, :id => version.id
+    get :show, :params => {:id => version.id}
     assert_response :success
 
     assert_select '.total-hours', :text => '7.20 hours'
@@ -112,7 +112,7 @@ class VersionsControllerTest < Redmine::ControllerTest
 
   def test_show_should_display_nil_counts
     with_settings :default_language => 'en' do
-      get :show, :id => 2, :status_by => 'category'
+      get :show, :params => {:id => 2, :status_by => 'category'}
       assert_response :success
       assert_select 'div#status_by' do
         assert_select 'select[name=status_by]' do
@@ -125,14 +125,14 @@ class VersionsControllerTest < Redmine::ControllerTest
 
   def test_new
     @request.session[:user_id] = 2
-    get :new, :project_id => '1'
+    get :new, :params => {:project_id => '1'}
     assert_response :success
     assert_template 'new'
   end
 
   def test_new_from_issue_form
     @request.session[:user_id] = 2
-    xhr :get, :new, :project_id => '1'
+    xhr :get, :new, :params => {:project_id => '1'}
     assert_response :success
     assert_template 'new'
     assert_equal 'text/javascript', response.content_type
@@ -141,7 +141,7 @@ class VersionsControllerTest < Redmine::ControllerTest
   def test_create
     @request.session[:user_id] = 2 # manager
     assert_difference 'Version.count' do
-      post :create, :project_id => '1', :version => {:name => 'test_add_version'}
+      post :create, :params => {:project_id => '1', :version => {:name => 'test_add_version'}}
     end
     assert_redirected_to '/projects/ecookbook/settings/versions'
     version = Version.find_by_name('test_add_version')
@@ -152,7 +152,7 @@ class VersionsControllerTest < Redmine::ControllerTest
   def test_create_from_issue_form
     @request.session[:user_id] = 2
     assert_difference 'Version.count' do
-      xhr :post, :create, :project_id => '1', :version => {:name => 'test_add_version_from_issue_form'}
+      xhr :post, :create, :params => {:project_id => '1', :version => {:name => 'test_add_version_from_issue_form'}}
     end
     version = Version.find_by_name('test_add_version_from_issue_form')
     assert_not_nil version
@@ -167,7 +167,7 @@ class VersionsControllerTest < Redmine::ControllerTest
   def test_create_from_issue_form_with_failure
     @request.session[:user_id] = 2
     assert_no_difference 'Version.count' do
-      xhr :post, :create, :project_id => '1', :version => {:name => ''}
+      xhr :post, :create, :params => {:project_id => '1', :version => {:name => ''}}
     end
     assert_response :success
     assert_template 'new'
@@ -176,7 +176,7 @@ class VersionsControllerTest < Redmine::ControllerTest
 
   def test_get_edit
     @request.session[:user_id] = 2
-    get :edit, :id => 2
+    get :edit, :params => {:id => 2}
     assert_response :success
     assert_template 'edit'
   end
@@ -184,7 +184,7 @@ class VersionsControllerTest < Redmine::ControllerTest
   def test_close_completed
     Version.update_all("status = 'open'")
     @request.session[:user_id] = 2
-    put :close_completed, :project_id => 'ecookbook'
+    put :close_completed, :params => {:project_id => 'ecookbook'}
     assert_redirected_to :controller => 'projects', :action => 'settings',
                          :tab => 'versions', :id => 'ecookbook'
     assert_not_nil Version.find_by_status('closed')
@@ -192,9 +192,13 @@ class VersionsControllerTest < Redmine::ControllerTest
 
   def test_post_update
     @request.session[:user_id] = 2
-    put :update, :id => 2,
-                :version => {:name => 'New version name',
-                             :effective_date => Date.today.strftime("%Y-%m-%d")}
+    put :update, :params => {
+      :id => 2, 
+      :version => {
+        :name => 'New version name',
+        :effective_date => Date.today.strftime("%Y-%m-%d")
+      }
+    }
     assert_redirected_to :controller => 'projects', :action => 'settings',
                          :tab => 'versions', :id => 'ecookbook'
     version = Version.find(2)
@@ -204,9 +208,13 @@ class VersionsControllerTest < Redmine::ControllerTest
 
   def test_post_update_with_validation_failure
     @request.session[:user_id] = 2
-    put :update, :id => 2,
-                 :version => { :name => '',
-                               :effective_date => Date.today.strftime("%Y-%m-%d")}
+    put :update, :params => {
+      :id => 2,
+      :version => {
+        :name => '',
+        :effective_date => Date.today.strftime("%Y-%m-%d")
+      }
+    }
     assert_response :success
     assert_template 'edit'
   end
@@ -214,7 +222,7 @@ class VersionsControllerTest < Redmine::ControllerTest
   def test_destroy
     @request.session[:user_id] = 2
     assert_difference 'Version.count', -1 do
-      delete :destroy, :id => 3
+      delete :destroy, :params => {:id => 3}
     end
     assert_redirected_to :controller => 'projects', :action => 'settings',
                          :tab => 'versions', :id => 'ecookbook'
@@ -224,7 +232,7 @@ class VersionsControllerTest < Redmine::ControllerTest
   def test_destroy_version_in_use_should_fail
     @request.session[:user_id] = 2
     assert_no_difference 'Version.count' do
-      delete :destroy, :id => 2
+      delete :destroy, :params => {:id => 2}
     end
     assert_redirected_to :controller => 'projects', :action => 'settings',
                          :tab => 'versions', :id => 'ecookbook'
@@ -233,14 +241,14 @@ class VersionsControllerTest < Redmine::ControllerTest
   end
 
   def test_issue_status_by
-    xhr :get, :status_by, :id => 2
+    xhr :get, :status_by, :params => {:id => 2}
     assert_response :success
     assert_template 'status_by'
     assert_template '_issue_counts'
   end
 
   def test_issue_status_by_status
-    xhr :get, :status_by, :id => 2, :status_by => 'status'
+    xhr :get, :status_by, :params => {:id => 2, :status_by => 'status'}
     assert_response :success
     assert_template 'status_by'
     assert_template '_issue_counts'

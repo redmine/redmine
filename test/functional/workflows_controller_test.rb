@@ -45,7 +45,7 @@ class WorkflowsControllerTest < Redmine::ControllerTest
     WorkflowTransition.create!(:role_id => 1, :tracker_id => 1, :old_status_id => 2, :new_status_id => 3)
     WorkflowTransition.create!(:role_id => 2, :tracker_id => 1, :old_status_id => 3, :new_status_id => 5)
 
-    get :edit, :role_id => 2, :tracker_id => 1
+    get :edit, :params => {:role_id => 2, :tracker_id => 1}
     assert_response :success
     assert_template 'edit'
 
@@ -65,14 +65,14 @@ class WorkflowsControllerTest < Redmine::ControllerTest
     WorkflowTransition.delete_all
     WorkflowTransition.create!(:role_id => 1, :tracker_id => 1, :old_status_id => 0, :new_status_id => 1)
 
-    get :edit, :role_id => 1, :tracker_id => 1
+    get :edit, :params => {:role_id => 1, :tracker_id => 1}
     assert_response :success
     assert_select 'td', 'New issue'
     assert_select 'input[type=checkbox][name=?][value="1"][checked=checked]', 'transitions[0][1][always]'
   end
 
   def test_get_edit_with_all_roles_and_all_trackers
-    get :edit, :role_id => 'all', :tracker_id => 'all'
+    get :edit, :params => {:role_id => 'all', :tracker_id => 'all'}
     assert_response :success
     assert_equal Role.sorted.to_a, assigns(:roles)
     assert_equal Tracker.sorted.to_a, assigns(:trackers)
@@ -81,7 +81,7 @@ class WorkflowsControllerTest < Redmine::ControllerTest
   def test_get_edit_with_role_and_tracker_and_all_statuses
     WorkflowTransition.delete_all
 
-    get :edit, :role_id => 2, :tracker_id => 1, :used_statuses_only => '0'
+    get :edit, :params => {:role_id => 2, :tracker_id => 1, :used_statuses_only => '0'}
     assert_response :success
     assert_template 'edit'
 
@@ -94,11 +94,14 @@ class WorkflowsControllerTest < Redmine::ControllerTest
   def test_post_edit
     WorkflowTransition.delete_all
 
-    post :edit, :role_id => 2, :tracker_id => 1,
+    post :edit, :params => {
+      :role_id => 2,
+      :tracker_id => 1,
       :transitions => {
         '4' => {'5' => {'always' => '1'}},
         '3' => {'1' => {'always' => '1'}, '2' => {'always' => '1'}}
       }
+    }
     assert_response 302
 
     assert_equal 3, WorkflowTransition.where(:tracker_id => 1, :role_id => 2).count
@@ -109,10 +112,13 @@ class WorkflowsControllerTest < Redmine::ControllerTest
   def test_post_edit_with_allowed_statuses_for_new_issues
     WorkflowTransition.delete_all
 
-    post :edit, :role_id => 2, :tracker_id => 1,
+    post :edit, :params => {
+      :role_id => 2,
+      :tracker_id => 1,
       :transitions => {
         '0' => {'1' => {'always' => '1'}, '2' => {'always' => '1'}}
       }
+    }
     assert_response 302
 
     assert WorkflowTransition.where(:role_id => 2, :tracker_id => 1, :old_status_id => 0, :new_status_id => 1).any?
@@ -123,13 +129,16 @@ class WorkflowsControllerTest < Redmine::ControllerTest
   def test_post_edit_with_additional_transitions
     WorkflowTransition.delete_all
   
-    post :edit, :role_id => 2, :tracker_id => 1,
+    post :edit, :params => {
+      :role_id => 2,
+      :tracker_id => 1,
       :transitions => {
         '4' => {'5' => {'always' => '1', 'author' => '0', 'assignee' => '0'}},
         '3' => {'1' => {'always' => '0', 'author' => '1', 'assignee' => '0'},
                 '2' => {'always' => '0', 'author' => '0', 'assignee' => '1'},
                 '4' => {'always' => '0', 'author' => '1', 'assignee' => '1'}}
       }
+    }
     assert_response 302
 
     assert_equal 4, WorkflowTransition.where(:tracker_id => 1, :role_id => 2).count
@@ -161,7 +170,7 @@ class WorkflowsControllerTest < Redmine::ControllerTest
     WorkflowPermission.create!(:role_id => 1, :tracker_id => 2, :old_status_id => 2, :field_name => 'fixed_version_id', :rule => 'required')
     WorkflowPermission.create!(:role_id => 1, :tracker_id => 2, :old_status_id => 3, :field_name => 'fixed_version_id', :rule => 'readonly')
 
-    get :permissions, :role_id => 1, :tracker_id => 2
+    get :permissions, :params => {:role_id => 1, :tracker_id => 2}
     assert_response :success
     assert_template 'permissions'
 
@@ -202,7 +211,7 @@ class WorkflowsControllerTest < Redmine::ControllerTest
   def test_get_permissions_with_required_custom_field_should_not_show_required_option
     cf = IssueCustomField.create!(:name => 'Foo', :field_format => 'string', :tracker_ids => [1], :is_required => true)
 
-    get :permissions, :role_id => 1, :tracker_id => 1
+    get :permissions, :params => {:role_id => 1, :tracker_id => 1}
     assert_response :success
     assert_template 'permissions'
 
@@ -220,7 +229,7 @@ class WorkflowsControllerTest < Redmine::ControllerTest
     cf2 = IssueCustomField.generate!(:tracker_ids => [1], :visible => false, :role_ids => [1])
     cf3 = IssueCustomField.generate!(:tracker_ids => [1], :visible => false, :role_ids => [1, 2])
 
-    get :permissions, :role_id => 2, :tracker_id => 1
+    get :permissions, :params => {:role_id => 2, :tracker_id => 1}
     assert_response :success
     assert_template 'permissions'
 
@@ -236,7 +245,7 @@ class WorkflowsControllerTest < Redmine::ControllerTest
     WorkflowPermission.delete_all
     WorkflowPermission.create!(:role_id => 1, :tracker_id => 2, :old_status_id => 1, :field_name => 'assigned_to_id', :rule => 'required')
 
-    get :permissions, :role_id => [1, 2], :tracker_id => 2
+    get :permissions, :params => {:role_id => [1, 2], :tracker_id => 2}
     assert_response :success
 
     assert_select 'select[name=?]', 'permissions[1][assigned_to_id]' do
@@ -250,7 +259,7 @@ class WorkflowsControllerTest < Redmine::ControllerTest
     WorkflowPermission.create!(:role_id => 1, :tracker_id => 2, :old_status_id => 1, :field_name => 'assigned_to_id', :rule => 'required')
     WorkflowPermission.create!(:role_id => 2, :tracker_id => 2, :old_status_id => 1, :field_name => 'assigned_to_id', :rule => 'readonly')
 
-    get :permissions, :role_id => [1, 2], :tracker_id => 2
+    get :permissions, :params => {:role_id => [1, 2], :tracker_id => 2}
     assert_response :success
 
     assert_select 'select[name=?]', 'permissions[1][assigned_to_id]' do
@@ -264,7 +273,7 @@ class WorkflowsControllerTest < Redmine::ControllerTest
     WorkflowPermission.create!(:role_id => 1, :tracker_id => 2, :old_status_id => 1, :field_name => 'assigned_to_id', :rule => 'required')
     WorkflowPermission.create!(:role_id => 2, :tracker_id => 2, :old_status_id => 1, :field_name => 'assigned_to_id', :rule => 'required')
 
-    get :permissions, :role_id => [1, 2], :tracker_id => 2
+    get :permissions, :params => {:role_id => [1, 2], :tracker_id => 2}
     assert_response :success
 
     assert_select 'select[name=?]', 'permissions[1][assigned_to_id]' do
@@ -276,7 +285,7 @@ class WorkflowsControllerTest < Redmine::ControllerTest
   def test_get_permissions_with_role_and_tracker_and_all_statuses_should_show_all_statuses
     WorkflowTransition.delete_all
 
-    get :permissions, :role_id => 1, :tracker_id => 2, :used_statuses_only => '0'
+    get :permissions, :params => {:role_id => 1, :tracker_id => 2, :used_statuses_only => '0'}
     assert_response :success
     assert_equal IssueStatus.sorted.to_a, assigns(:statuses)
   end
@@ -287,7 +296,7 @@ class WorkflowsControllerTest < Redmine::ControllerTest
     cf = IssueCustomField.create!(:name => 'Foo', :field_format => 'string', :tracker_ids => [2])
     WorkflowPermission.create!(:role_id => 1, :tracker_id => 2, :old_status_id => 1, :field_name => cf.id, :rule => 'required')
 
-    get :permissions, :role_id => 1, :tracker_id => 2
+    get :permissions, :params => {:role_id => 1, :tracker_id => 2}
     assert_response :success
     assert_select 'td.required > select[name=?]', 'permissions[1][assigned_to_id]'
     assert_select 'td.required > select[name=?]', "permissions[1][#{cf.id}]"
@@ -296,10 +305,14 @@ class WorkflowsControllerTest < Redmine::ControllerTest
   def test_post_permissions
     WorkflowPermission.delete_all
 
-    post :permissions, :role_id => 1, :tracker_id => 2, :permissions => {
-      '1' => {'assigned_to_id' => '', 'fixed_version_id' => 'required', 'due_date' => ''},
-      '2' => {'assigned_to_id' => 'readonly', 'fixed_version_id' => 'readonly', 'due_date' => ''},
-      '3' => {'assigned_to_id' => '',  'fixed_version_id' => '', 'due_date' => ''}
+    post :permissions, :params => {
+      :role_id => 1,
+      :tracker_id => 2,
+      :permissions => {
+        '1' => {'assigned_to_id' => '', 'fixed_version_id' => 'required', 'due_date' => ''},
+        '2' => {'assigned_to_id' => 'readonly', 'fixed_version_id' => 'readonly', 'due_date' => ''},
+        '3' => {'assigned_to_id' => '',  'fixed_version_id' => '', 'due_date' => ''}
+      }
     }
     assert_response 302
 
@@ -335,8 +348,10 @@ class WorkflowsControllerTest < Redmine::ControllerTest
   def test_post_copy_one_to_one
     source_transitions = status_transitions(:tracker_id => 1, :role_id => 2)
 
-    post :copy, :source_tracker_id => '1', :source_role_id => '2',
-                :target_tracker_ids => ['3'], :target_role_ids => ['1']
+    post :copy, :params => {
+      :source_tracker_id => '1', :source_role_id => '2',
+      :target_tracker_ids => ['3'], :target_role_ids => ['1']
+    }
     assert_response 302
     assert_equal source_transitions, status_transitions(:tracker_id => 3, :role_id => 1)
   end
@@ -344,8 +359,10 @@ class WorkflowsControllerTest < Redmine::ControllerTest
   def test_post_copy_one_to_many
     source_transitions = status_transitions(:tracker_id => 1, :role_id => 2)
 
-    post :copy, :source_tracker_id => '1', :source_role_id => '2',
-                :target_tracker_ids => ['2', '3'], :target_role_ids => ['1', '3']
+    post :copy, :params => {
+      :source_tracker_id => '1', :source_role_id => '2',
+      :target_tracker_ids => ['2', '3'], :target_role_ids => ['1', '3']
+    }
     assert_response 302
     assert_equal source_transitions, status_transitions(:tracker_id => 2, :role_id => 1)
     assert_equal source_transitions, status_transitions(:tracker_id => 3, :role_id => 1)
@@ -357,8 +374,10 @@ class WorkflowsControllerTest < Redmine::ControllerTest
     source_t2 = status_transitions(:tracker_id => 2, :role_id => 2)
     source_t3 = status_transitions(:tracker_id => 3, :role_id => 2)
 
-    post :copy, :source_tracker_id => 'any', :source_role_id => '2',
-                :target_tracker_ids => ['2', '3'], :target_role_ids => ['1', '3']
+    post :copy, :params => {
+      :source_tracker_id => 'any', :source_role_id => '2',
+      :target_tracker_ids => ['2', '3'], :target_role_ids => ['1', '3']
+    }
     assert_response 302
     assert_equal source_t2, status_transitions(:tracker_id => 2, :role_id => 1)
     assert_equal source_t3, status_transitions(:tracker_id => 3, :role_id => 1)
@@ -368,9 +387,10 @@ class WorkflowsControllerTest < Redmine::ControllerTest
 
   def test_post_copy_with_incomplete_source_specification_should_fail
     assert_no_difference 'WorkflowRule.count' do
-      post :copy,
+      post :copy, :params => {
         :source_tracker_id => '', :source_role_id => '2',
         :target_tracker_ids => ['2', '3'], :target_role_ids => ['1', '3']
+      }
       assert_response 200
       assert_select 'div.flash.error', :text => 'Please select a source tracker or role' 
     end
@@ -378,9 +398,10 @@ class WorkflowsControllerTest < Redmine::ControllerTest
 
   def test_post_copy_with_incomplete_target_specification_should_fail
     assert_no_difference 'WorkflowRule.count' do
-      post :copy,
+      post :copy, :params => {
         :source_tracker_id => '1', :source_role_id => '2',
         :target_tracker_ids => ['2', '3']
+      }
       assert_response 200
       assert_select 'div.flash.error', :text => 'Please select target tracker(s) and role(s)'
     end

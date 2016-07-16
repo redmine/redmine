@@ -28,7 +28,7 @@ class WikiControllerTest < Redmine::ControllerTest
   end
 
   def test_show_start_page
-    get :show, :project_id => 'ecookbook'
+    get :show, :params => {:project_id => 'ecookbook'}
     assert_response :success
     assert_template 'show'
     assert_select 'h1', :text => /CookBook documentation/
@@ -40,13 +40,13 @@ class WikiControllerTest < Redmine::ControllerTest
   
   def test_export_link
     Role.anonymous.add_permission! :export_wiki_pages
-    get :show, :project_id => 'ecookbook'
+    get :show, :params => {:project_id => 'ecookbook'}
     assert_response :success
     assert_select 'a[href=?]', '/projects/ecookbook/wiki/CookBook_documentation.txt'
   end
 
   def test_show_page_with_name
-    get :show, :project_id => 1, :id => 'Another_page'
+    get :show, :params => {:project_id => 1, :id => 'Another_page'}
     assert_response :success
     assert_template 'show'
     assert_select 'h1', :text => /Another page/
@@ -57,7 +57,7 @@ class WikiControllerTest < Redmine::ControllerTest
 
   def test_show_old_version
     with_settings :default_language => 'en' do
-      get :show, :project_id => 'ecookbook', :id => 'CookBook_documentation', :version => '2'
+      get :show, :params => {:project_id => 'ecookbook', :id => 'CookBook_documentation', :version => '2'}
     end
     assert_response :success
     assert_template 'show'
@@ -75,7 +75,7 @@ class WikiControllerTest < Redmine::ControllerTest
     content.text = "update"
     content.save!
 
-    get :show, :project_id => 'ecookbook', :id => page.title, :version => '1'
+    get :show, :params => {:project_id => 'ecookbook', :id => page.title, :version => '1'}
     assert_kind_of WikiContent::Version, assigns(:content)
     assert_response :success
     assert_template 'show'
@@ -84,13 +84,13 @@ class WikiControllerTest < Redmine::ControllerTest
   def test_show_old_version_without_permission_should_be_denied
     Role.anonymous.remove_permission! :view_wiki_edits
 
-    get :show, :project_id => 'ecookbook', :id => 'CookBook_documentation', :version => '2'
+    get :show, :params => {:project_id => 'ecookbook', :id => 'CookBook_documentation', :version => '2'}
     assert_redirected_to '/login?back_url=http%3A%2F%2Ftest.host%2Fprojects%2Fecookbook%2Fwiki%2FCookBook_documentation%2F2'
   end
 
   def test_show_first_version
     with_settings :default_language => 'en' do
-      get :show, :project_id => 'ecookbook', :id => 'CookBook_documentation', :version => '1'
+      get :show, :params => {:project_id => 'ecookbook', :id => 'CookBook_documentation', :version => '1'}
     end
     assert_response :success
     assert_template 'show'
@@ -104,7 +104,7 @@ class WikiControllerTest < Redmine::ControllerTest
   def test_show_redirected_page
     WikiRedirect.create!(:wiki_id => 1, :title => 'Old_title', :redirects_to => 'Another_page')
 
-    get :show, :project_id => 'ecookbook', :id => 'Old_title'
+    get :show, :params => {:project_id => 'ecookbook', :id => 'Old_title'}
     assert_redirected_to '/projects/ecookbook/wiki/Another_page'
   end
 
@@ -113,14 +113,14 @@ class WikiControllerTest < Redmine::ControllerTest
     page.content = WikiContent.new(:text => 'Side bar content for test_show_with_sidebar')
     page.save!
 
-    get :show, :project_id => 1, :id => 'Another_page'
+    get :show, :params => {:project_id => 1, :id => 'Another_page'}
     assert_response :success
     assert_select 'div#sidebar', :text => /Side bar content for test_show_with_sidebar/
   end
   
   def test_show_should_display_section_edit_links
     @request.session[:user_id] = 2
-    get :show, :project_id => 1, :id => 'Page with sections'
+    get :show, :params => {:project_id => 1, :id => 'Page with sections'}
 
     assert_select 'a[href=?]', '/projects/ecookbook/wiki/Page_with_sections/edit?section=1', 0
     assert_select 'a[href=?]', '/projects/ecookbook/wiki/Page_with_sections/edit?section=2'
@@ -129,38 +129,38 @@ class WikiControllerTest < Redmine::ControllerTest
 
   def test_show_current_version_should_display_section_edit_links
     @request.session[:user_id] = 2
-    get :show, :project_id => 1, :id => 'Page with sections', :version => 3
+    get :show, :params => {:project_id => 1, :id => 'Page with sections', :version => 3}
 
     assert_select 'a[href=?]', '/projects/ecookbook/wiki/Page_with_sections/edit?section=2'
   end
 
   def test_show_old_version_should_not_display_section_edit_links
     @request.session[:user_id] = 2
-    get :show, :project_id => 1, :id => 'Page with sections', :version => 2
+    get :show, :params => {:project_id => 1, :id => 'Page with sections', :version => 2}
 
     assert_select 'a[href=?]', '/projects/ecookbook/wiki/Page_with_sections/edit?section=2', 0
   end
 
   def test_show_unexistent_page_without_edit_right
-    get :show, :project_id => 1, :id => 'Unexistent page'
+    get :show, :params => {:project_id => 1, :id => 'Unexistent page'}
     assert_response 404
   end
 
   def test_show_unexistent_page_with_edit_right
     @request.session[:user_id] = 2
-    get :show, :project_id => 1, :id => 'Unexistent page'
+    get :show, :params => {:project_id => 1, :id => 'Unexistent page'}
     assert_response :success
     assert_template 'edit'
   end
 
   def test_show_specific_version_of_an_unexistent_page_without_edit_right
-    get :show, :project_id => 1, :id => 'Unexistent page', :version => 1
+    get :show, :params => {:project_id => 1, :id => 'Unexistent page', :version => 1}
     assert_response 404
   end
 
   def test_show_unexistent_page_with_parent_should_preselect_parent
     @request.session[:user_id] = 2
-    get :show, :project_id => 1, :id => 'Unexistent page', :parent => 'Another_page'
+    get :show, :params => {:project_id => 1, :id => 'Unexistent page', :parent => 'Another_page'}
     assert_response :success
     assert_template 'edit'
     assert_select 'select[name=?] option[value="2"][selected=selected]', 'wiki_page[parent_id]'
@@ -168,7 +168,7 @@ class WikiControllerTest < Redmine::ControllerTest
 
   def test_show_should_not_show_history_without_permission
     Role.anonymous.remove_permission! :view_wiki_edits
-    get :show, :project_id => 1, :id => 'Page with sections', :version => 2
+    get :show, :params => {:project_id => 1, :id => 'Page with sections', :version => 2}
 
     assert_response 302
   end
@@ -177,7 +177,7 @@ class WikiControllerTest < Redmine::ControllerTest
     @request.session[:user_id] = 2
     WikiPage.create!(:title => 'NoContent', :wiki => Project.find(1).wiki)
 
-    get :show, :project_id => 1, :id => 'NoContent'
+    get :show, :params => {:project_id => 1, :id => 'NoContent'}
     assert_response :success
     assert_template 'edit'
     assert_select 'textarea[name=?]', 'content[text]'
@@ -186,7 +186,7 @@ class WikiControllerTest < Redmine::ControllerTest
   def test_get_new
     @request.session[:user_id] = 2
 
-    get :new, :project_id => 'ecookbook'
+    get :new, :params => {:project_id => 'ecookbook'}
     assert_response :success
     assert_template 'new'
   end
@@ -194,7 +194,7 @@ class WikiControllerTest < Redmine::ControllerTest
   def test_get_new_xhr
     @request.session[:user_id] = 2
 
-    xhr :get, :new, :project_id => 'ecookbook'
+    xhr :get, :new, :params => {:project_id => 'ecookbook'}
     assert_response :success
     assert_template 'new'
   end
@@ -202,14 +202,14 @@ class WikiControllerTest < Redmine::ControllerTest
   def test_post_new_with_valid_title_should_redirect_to_edit
     @request.session[:user_id] = 2
 
-    post :new, :project_id => 'ecookbook', :title => 'New Page'
+    post :new, :params => {:project_id => 'ecookbook', :title => 'New Page'}
     assert_redirected_to '/projects/ecookbook/wiki/New_Page'
   end
 
   def test_post_new_xhr_with_valid_title_should_redirect_to_edit
     @request.session[:user_id] = 2
 
-    xhr :post, :new, :project_id => 'ecookbook', :title => 'New Page'
+    xhr :post, :new, :params => {:project_id => 'ecookbook', :title => 'New Page'}
     assert_response :success
     assert_equal 'window.location = "/projects/ecookbook/wiki/New_Page"', response.body
   end
@@ -217,7 +217,7 @@ class WikiControllerTest < Redmine::ControllerTest
   def test_post_new_with_invalid_title_should_display_errors
     @request.session[:user_id] = 2
 
-    post :new, :project_id => 'ecookbook', :title => 'Another page'
+    post :new, :params => {:project_id => 'ecookbook', :title => 'Another page'}
     assert_response :success
     assert_template 'new'
     assert_select_error 'Title has already been taken'
@@ -226,7 +226,7 @@ class WikiControllerTest < Redmine::ControllerTest
   def test_post_new_xhr_with_invalid_title_should_display_errors
     @request.session[:user_id] = 2
 
-    xhr :post, :new, :project_id => 'ecookbook', :title => 'Another page'
+    xhr :post, :new, :params => {:project_id => 'ecookbook', :title => 'Another page'}
     assert_response :success
     assert_template 'new'
     assert_include 'Title has already been taken', response.body
@@ -236,11 +236,15 @@ class WikiControllerTest < Redmine::ControllerTest
     @request.session[:user_id] = 2
     assert_difference 'WikiPage.count' do
       assert_difference 'WikiContent.count' do
-        put :update, :project_id => 1,
-                    :id => 'New page',
-                    :content => {:comments => 'Created the page',
-                                 :text => "h1. New page\n\nThis is a new page",
-                                 :version => 0}
+        put :update, :params => {
+          :project_id => 1,
+          :id => 'New page',
+          :content => {
+            :comments => 'Created the page',
+            :text => "h1. New page\n\nThis is a new page",
+            :version => 0
+          }
+        }
       end
     end
     assert_redirected_to :action => 'show', :project_id => 'ecookbook', :id => 'New_page'
@@ -255,12 +259,16 @@ class WikiControllerTest < Redmine::ControllerTest
     @request.session[:user_id] = 2
     assert_difference 'WikiPage.count' do
       assert_difference 'Attachment.count' do
-        put :update, :project_id => 1,
-                    :id => 'New page',
-                    :content => {:comments => 'Created the page',
-                                 :text => "h1. New page\n\nThis is a new page",
-                                 :version => 0},
-                    :attachments => {'1' => {'file' => uploaded_test_file('testfile.txt', 'text/plain')}}
+        put :update, :params => {
+          :project_id => 1,
+          :id => 'New page',
+          :content => {
+            :comments => 'Created the page',
+            :text => "h1. New page\n\nThis is a new page",
+            :version => 0
+          },
+          :attachments => {'1' => {'file' => uploaded_test_file('testfile.txt', 'text/plain')}}
+        }
       end
     end
     page = Project.find(1).wiki.find_page('New page')
@@ -271,9 +279,15 @@ class WikiControllerTest < Redmine::ControllerTest
   def test_create_page_with_parent
     @request.session[:user_id] = 2
     assert_difference 'WikiPage.count' do
-      put :update, :project_id => 1, :id => 'New page',
-        :content => {:text => "h1. New page\n\nThis is a new page", :version => 0},
+      put :update, :params => {
+        :project_id => 1,
+        :id => 'New page',
+        :content => {
+          :text => "h1. New page\n\nThis is a new page",
+          :version => 0
+        },
         :wiki_page => {:parent_id => 2}
+      }
     end
     page = Project.find(1).wiki.find_page('New page')
     assert_equal WikiPage.find(2), page.parent
@@ -281,7 +295,7 @@ class WikiControllerTest < Redmine::ControllerTest
 
   def test_edit_page
     @request.session[:user_id] = 2
-    get :edit, :project_id => 'ecookbook', :id => 'Another_page'
+    get :edit, :params => {:project_id => 'ecookbook', :id => 'Another_page'}
 
     assert_response :success
     assert_template 'edit'
@@ -292,7 +306,7 @@ class WikiControllerTest < Redmine::ControllerTest
 
   def test_edit_section
     @request.session[:user_id] = 2
-    get :edit, :project_id => 'ecookbook', :id => 'Page_with_sections', :section => 2
+    get :edit, :params => {:project_id => 'ecookbook', :id => 'Page_with_sections', :section => 2}
 
     assert_response :success
     assert_template 'edit'
@@ -307,7 +321,7 @@ class WikiControllerTest < Redmine::ControllerTest
 
   def test_edit_invalid_section_should_respond_with_404
     @request.session[:user_id] = 2
-    get :edit, :project_id => 'ecookbook', :id => 'Page_with_sections', :section => 10
+    get :edit, :params => {:project_id => 'ecookbook', :id => 'Page_with_sections', :section => 10}
 
     assert_response 404
   end
@@ -317,13 +331,15 @@ class WikiControllerTest < Redmine::ControllerTest
     assert_no_difference 'WikiPage.count' do
       assert_no_difference 'WikiContent.count' do
         assert_difference 'WikiContent::Version.count' do
-          put :update, :project_id => 1,
+          put :update, :params => {
+            :project_id => 1,
             :id => 'Another_page',
             :content => {
               :comments => "my comments",
               :text => "edited",
               :version => 1
             }
+          }
         end
       end
     end
@@ -340,7 +356,8 @@ class WikiControllerTest < Redmine::ControllerTest
     assert_no_difference 'WikiPage.count' do
       assert_no_difference 'WikiContent.count' do
         assert_difference 'WikiContent::Version.count' do
-          put :update, :project_id => 1,
+          put :update, :params => {
+            :project_id => 1,
             :id => 'Another_page',
             :content => {
               :comments => "my comments",
@@ -348,6 +365,7 @@ class WikiControllerTest < Redmine::ControllerTest
               :version => 1
             },
             :wiki_page => {:parent_id => '1'}
+          }
         end
       end
     end
@@ -365,7 +383,8 @@ class WikiControllerTest < Redmine::ControllerTest
     assert_no_difference 'WikiPage.count' do
       assert_no_difference 'WikiContent.count' do
         assert_no_difference 'WikiContent::Version.count' do
-          put :update, :project_id => 1,
+          put :update, :params => {
+            :project_id => 1,
             :id => 'Another_page',
             :content => {
               :comments => 'a' * 1300,  # failure here, comment is too long
@@ -374,6 +393,7 @@ class WikiControllerTest < Redmine::ControllerTest
             :wiki_page => {
               :parent_id => ""
             }
+          }
         end
       end
     end
@@ -390,7 +410,8 @@ class WikiControllerTest < Redmine::ControllerTest
     assert_no_difference 'WikiPage.count' do
       assert_no_difference 'WikiContent.count' do
         assert_no_difference 'WikiContent::Version.count' do
-          put :update, :project_id => 1,
+          put :update, :params => {
+            :project_id => 1,
             :id => 'Another_page',
             :content => {
               :comments => '',
@@ -398,6 +419,7 @@ class WikiControllerTest < Redmine::ControllerTest
               :version => 1
             },
             :wiki_page => {:parent_id => '1'}
+          }
         end
       end
     end
@@ -412,7 +434,8 @@ class WikiControllerTest < Redmine::ControllerTest
       assert_no_difference 'WikiContent.count' do
         assert_no_difference 'WikiContent::Version.count' do
           assert_difference 'Attachment.count' do
-            put :update, :project_id => 1,
+            put :update, :params => {
+              :project_id => 1,
               :id => 'Another_page',
               :content => {
                 :comments => '',
@@ -420,6 +443,7 @@ class WikiControllerTest < Redmine::ControllerTest
                 :version => 1
               },
               :attachments => {'1' => {'file' => uploaded_test_file('testfile.txt', 'text/plain'), 'description' => 'test file'}}
+            }
           end
         end
       end
@@ -438,13 +462,15 @@ class WikiControllerTest < Redmine::ControllerTest
     assert_no_difference 'WikiPage.count' do
       assert_no_difference 'WikiContent.count' do
         assert_no_difference 'WikiContent::Version.count' do
-          put :update, :project_id => 1,
+          put :update, :params => {
+            :project_id => 1,
             :id => 'Another_page',
             :content => {
               :comments => 'My comments',
               :text => 'Text should not be lost',
               :version => 1
             }
+          }
         end
       end
     end
@@ -465,7 +491,11 @@ class WikiControllerTest < Redmine::ControllerTest
 
     assert_no_difference 'WikiPage.count' do
       assert_difference 'WikiContent.count' do
-        put :update, :project_id => 1, :id => 'NoContent', :content => {:text => 'Some content'}
+        put :update, :params => {
+          :project_id => 1,
+          :id => 'NoContent',
+          :content => {:text => 'Some content'}
+        }
         assert_response 302
       end
     end
@@ -481,13 +511,16 @@ class WikiControllerTest < Redmine::ControllerTest
     assert_no_difference 'WikiPage.count' do
       assert_no_difference 'WikiContent.count' do
         assert_difference 'WikiContent::Version.count' do
-          put :update, :project_id => 1, :id => 'Page_with_sections',
+          put :update, :params => {
+            :project_id => 1,
+            :id => 'Page_with_sections',
             :content => {
               :text => "New section content",
               :version => 3
             },
             :section => 2,
             :section_hash => hash
+          }
         end
       end
     end
@@ -504,13 +537,16 @@ class WikiControllerTest < Redmine::ControllerTest
     assert_no_difference 'WikiPage.count' do
       assert_no_difference 'WikiContent.count' do
         assert_difference 'WikiContent::Version.count' do
-          put :update, :project_id => 1, :id => 'Page_with_sections',
+          put :update, :params => {
+            :project_id => 1,
+            :id => 'Page_with_sections',
             :content => {
               :text => "New section content",
               :version => 2 # Current version is 3
             },
             :section => 2,
             :section_hash => hash
+          }
         end
       end
     end
@@ -526,7 +562,9 @@ class WikiControllerTest < Redmine::ControllerTest
     assert_no_difference 'WikiPage.count' do
       assert_no_difference 'WikiContent.count' do
         assert_no_difference 'WikiContent::Version.count' do
-          put :update, :project_id => 1, :id => 'Page_with_sections',
+          put :update, :params => {
+            :project_id => 1,
+            :id => 'Page_with_sections',
             :content => {
               :comments => 'My comments',
               :text => "Text should not be lost",
@@ -534,6 +572,7 @@ class WikiControllerTest < Redmine::ControllerTest
             },
             :section => 2,
             :section_hash => Digest::MD5.hexdigest("wrong hash")
+          }
         end
       end
     end
@@ -546,10 +585,15 @@ class WikiControllerTest < Redmine::ControllerTest
 
   def test_preview
     @request.session[:user_id] = 2
-    xhr :post, :preview, :project_id => 1, :id => 'CookBook_documentation',
-                                   :content => { :comments => '',
-                                                 :text => 'this is a *previewed text*',
-                                                 :version => 3 }
+    xhr :post, :preview, :params => {
+      :project_id => 1,
+      :id => 'CookBook_documentation',
+      :content => {
+        :comments => '',
+        :text => 'this is a *previewed text*',
+        :version => 3
+      }
+    }
     assert_response :success
     assert_template 'common/_preview'
     assert_select 'strong', :text => /previewed text/
@@ -557,10 +601,15 @@ class WikiControllerTest < Redmine::ControllerTest
 
   def test_preview_new_page
     @request.session[:user_id] = 2
-    xhr :post, :preview, :project_id => 1, :id => 'New page',
-                                   :content => { :text => 'h1. New page',
-                                                 :comments => '',
-                                                 :version => 0 }
+    xhr :post, :preview, :params => {
+      :project_id => 1,
+      :id => 'New page',
+      :content => {
+        :text => 'h1. New page',
+        :comments => '',
+        :version => 0
+      }
+    }
     assert_response :success
     assert_template 'common/_preview'
     assert_select 'h1', :text => /New page/
@@ -568,7 +617,7 @@ class WikiControllerTest < Redmine::ControllerTest
 
   def test_history
     @request.session[:user_id] = 2
-    get :history, :project_id => 'ecookbook', :id => 'CookBook_documentation'
+    get :history, :params => {:project_id => 'ecookbook', :id => 'CookBook_documentation'}
     assert_response :success
     assert_template 'history'
     assert_not_nil assigns(:versions)
@@ -584,7 +633,7 @@ class WikiControllerTest < Redmine::ControllerTest
 
   def test_history_with_one_version
     @request.session[:user_id] = 2
-    get :history, :project_id => 'ecookbook', :id => 'Another_page'
+    get :history, :params => {:project_id => 'ecookbook', :id => 'Another_page'}
     assert_response :success
     assert_template 'history'
     assert_not_nil assigns(:versions)
@@ -606,7 +655,11 @@ class WikiControllerTest < Redmine::ControllerTest
       content.save!
     end
 
-    get :diff, :project_id => 1, :id => 'CookBook_documentation', :version => content.version, :version_from => (content.version - 1)
+    get :diff, :params => {
+      :project_id => 1, :id => 'CookBook_documentation',
+      :version => content.version,
+      :version_from => (content.version - 1)
+    }
     assert_response :success
     assert_template 'diff'
     assert_select 'span.diff_out', :text => 'Line removed'
@@ -614,17 +667,27 @@ class WikiControllerTest < Redmine::ControllerTest
   end
 
   def test_diff_with_invalid_version_should_respond_with_404
-    get :diff, :project_id => 1, :id => 'CookBook_documentation', :version => '99'
+    get :diff, :params => {
+      :project_id => 1, :id => 'CookBook_documentation',
+      :version => '99'
+    }
     assert_response 404
   end
 
   def test_diff_with_invalid_version_from_should_respond_with_404
-    get :diff, :project_id => 1, :id => 'CookBook_documentation', :version => '99', :version_from => '98'
+    get :diff, :params => {
+      :project_id => 1, :id => 'CookBook_documentation',
+      :version => '99',
+      :version_from => '98'
+    }
     assert_response 404
   end
 
   def test_annotate
-    get :annotate, :project_id => 1, :id =>  'CookBook_documentation', :version => 2
+    get :annotate, :params => {
+      :project_id => 1, :id =>  'CookBook_documentation',
+      :version => 2
+    }
     assert_response :success
     assert_template 'annotate'
 
@@ -644,13 +707,16 @@ class WikiControllerTest < Redmine::ControllerTest
   end
 
   def test_annotate_with_invalid_version_should_respond_with_404
-    get :annotate, :project_id => 1, :id => 'CookBook_documentation', :version => '99'
+    get :annotate, :params => {
+      :project_id => 1, :id => 'CookBook_documentation',
+      :version => '99'
+    }
     assert_response 404
   end
 
   def test_get_rename
     @request.session[:user_id] = 2
-    get :rename, :project_id => 1, :id => 'Another_page'
+    get :rename, :params => {:project_id => 1, :id => 'Another_page'}
     assert_response :success
     assert_template 'rename'
 
@@ -662,7 +728,7 @@ class WikiControllerTest < Redmine::ControllerTest
 
   def test_get_rename_child_page
     @request.session[:user_id] = 2
-    get :rename, :project_id => 1, :id => 'Child_1'
+    get :rename, :params => {:project_id => 1, :id => 'Child_1'}
     assert_response :success
     assert_template 'rename'
 
@@ -674,9 +740,14 @@ class WikiControllerTest < Redmine::ControllerTest
 
   def test_rename_with_redirect
     @request.session[:user_id] = 2
-    post :rename, :project_id => 1, :id => 'Another_page',
-                            :wiki_page => { :title => 'Another renamed page',
-                                            :redirect_existing_links => 1 }
+    post :rename, :params => {
+      :project_id => 1,
+      :id => 'Another_page',
+      :wiki_page => {
+        :title => 'Another renamed page',
+        :redirect_existing_links => 1
+      }
+    }
     assert_redirected_to :action => 'show', :project_id => 'ecookbook', :id => 'Another_renamed_page'
     wiki = Project.find(1).wiki
     # Check redirects
@@ -686,9 +757,14 @@ class WikiControllerTest < Redmine::ControllerTest
 
   def test_rename_without_redirect
     @request.session[:user_id] = 2
-    post :rename, :project_id => 1, :id => 'Another_page',
-                            :wiki_page => { :title => 'Another renamed page',
-                                            :redirect_existing_links => "0" }
+    post :rename, :params => {
+      :project_id => 1,
+      :id => 'Another_page',
+      :wiki_page => {
+        :title => 'Another renamed page',
+        :redirect_existing_links => "0"
+      }
+    }
     assert_redirected_to :action => 'show', :project_id => 'ecookbook', :id => 'Another_renamed_page'
     wiki = Project.find(1).wiki
     # Check that there's no redirects
@@ -697,16 +773,30 @@ class WikiControllerTest < Redmine::ControllerTest
 
   def test_rename_with_parent_assignment
     @request.session[:user_id] = 2
-    post :rename, :project_id => 1, :id => 'Another_page',
-      :wiki_page => { :title => 'Another page', :redirect_existing_links => "0", :parent_id => '4' }
+    post :rename, :params => {
+      :project_id => 1,
+      :id => 'Another_page',
+      :wiki_page => {
+        :title => 'Another page',
+        :redirect_existing_links => "0",
+        :parent_id => '4'
+      }
+    }
     assert_redirected_to :action => 'show', :project_id => 'ecookbook', :id => 'Another_page'
     assert_equal WikiPage.find(4), WikiPage.find_by_title('Another_page').parent
   end
 
   def test_rename_with_parent_unassignment
     @request.session[:user_id] = 2
-    post :rename, :project_id => 1, :id => 'Child_1',
-      :wiki_page => { :title => 'Child 1', :redirect_existing_links => "0", :parent_id => '' }
+    post :rename, :params => {
+      :project_id => 1,
+      :id => 'Child_1',
+      :wiki_page => {
+        :title => 'Child 1',
+        :redirect_existing_links => "0",
+        :parent_id => ''
+      }
+    }
     assert_redirected_to :action => 'show', :project_id => 'ecookbook', :id => 'Child_1'
     assert_nil WikiPage.find_by_title('Child_1').parent
   end
@@ -716,7 +806,7 @@ class WikiControllerTest < Redmine::ControllerTest
     project = Project.find(5)
     project.enable_module! :wiki
 
-    get :rename, :project_id => 1, :id => 'Another_page'
+    get :rename, :params => {:project_id => 1, :id => 'Another_page'}
     assert_response :success
     assert_template 'rename'
 
@@ -732,12 +822,15 @@ class WikiControllerTest < Redmine::ControllerTest
     project = Project.find(5)
     project.enable_module! :wiki
 
-    post :rename, :project_id => 1, :id => 'Another_page',
+    post :rename, :params => {
+      :project_id => 1,
+      :id => 'Another_page',
       :wiki_page => {
         :wiki_id => project.wiki.id.to_s,
         :title => 'Another renamed page',
         :redirect_existing_links => 1
       }
+    }
     assert_redirected_to '/projects/private-child/wiki/Another_renamed_page'
 
     page = WikiPage.find(2)
@@ -746,14 +839,14 @@ class WikiControllerTest < Redmine::ControllerTest
 
   def test_destroy_a_page_without_children_should_not_ask_confirmation
     @request.session[:user_id] = 2
-    delete :destroy, :project_id => 1, :id => 'Child_2'
+    delete :destroy, :params => {:project_id => 1, :id => 'Child_2'}
     assert_redirected_to :action => 'index', :project_id => 'ecookbook'
   end
 
   def test_destroy_parent_should_ask_confirmation
     @request.session[:user_id] = 2
     assert_no_difference('WikiPage.count') do
-      delete :destroy, :project_id => 1, :id => 'Another_page'
+      delete :destroy, :params => {:project_id => 1, :id => 'Another_page'}
     end
     assert_response :success
     assert_template 'destroy'
@@ -767,7 +860,7 @@ class WikiControllerTest < Redmine::ControllerTest
   def test_destroy_parent_with_nullify_should_delete_parent_only
     @request.session[:user_id] = 2
     assert_difference('WikiPage.count', -1) do
-      delete :destroy, :project_id => 1, :id => 'Another_page', :todo => 'nullify'
+      delete :destroy, :params => {:project_id => 1, :id => 'Another_page', :todo => 'nullify'}
     end
     assert_redirected_to :action => 'index', :project_id => 'ecookbook'
     assert_nil WikiPage.find_by_id(2)
@@ -776,7 +869,7 @@ class WikiControllerTest < Redmine::ControllerTest
   def test_destroy_parent_with_cascade_should_delete_descendants
     @request.session[:user_id] = 2
     assert_difference('WikiPage.count', -4) do
-      delete :destroy, :project_id => 1, :id => 'Another_page', :todo => 'destroy'
+      delete :destroy, :params => {:project_id => 1, :id => 'Another_page', :todo => 'destroy'}
     end
     assert_redirected_to :action => 'index', :project_id => 'ecookbook'
     assert_nil WikiPage.find_by_id(2)
@@ -786,7 +879,7 @@ class WikiControllerTest < Redmine::ControllerTest
   def test_destroy_parent_with_reassign
     @request.session[:user_id] = 2
     assert_difference('WikiPage.count', -1) do
-      delete :destroy, :project_id => 1, :id => 'Another_page', :todo => 'reassign', :reassign_to_id => 1
+      delete :destroy, :params => {:project_id => 1, :id => 'Another_page', :todo => 'reassign', :reassign_to_id => 1}
     end
     assert_redirected_to :action => 'index', :project_id => 'ecookbook'
     assert_nil WikiPage.find_by_id(2)
@@ -798,7 +891,7 @@ class WikiControllerTest < Redmine::ControllerTest
     assert_difference 'WikiContent::Version.count', -1 do
       assert_no_difference 'WikiContent.count' do
         assert_no_difference 'WikiPage.count' do
-          delete :destroy_version, :project_id => 'ecookbook', :id => 'CookBook_documentation', :version => 2
+          delete :destroy_version, :params => {:project_id => 'ecookbook', :id => 'CookBook_documentation', :version => 2}
           assert_redirected_to '/projects/ecookbook/wiki/CookBook_documentation/history'
         end
       end
@@ -810,7 +903,7 @@ class WikiControllerTest < Redmine::ControllerTest
     assert_no_difference 'WikiContent::Version.count' do
       assert_no_difference 'WikiContent.count' do
         assert_no_difference 'WikiPage.count' do
-          delete :destroy_version, :project_id => 'ecookbook', :id => 'CookBook_documentation', :version => 99
+          delete :destroy_version, :params => {:project_id => 'ecookbook', :id => 'CookBook_documentation', :version => 99}
         end
       end
     end
@@ -818,7 +911,7 @@ class WikiControllerTest < Redmine::ControllerTest
   end
 
   def test_index
-    get :index, :project_id => 'ecookbook'
+    get :index, :params => {:project_id => 'ecookbook'}
     assert_response :success
     assert_template 'index'
     pages = assigns(:pages)
@@ -836,13 +929,13 @@ class WikiControllerTest < Redmine::ControllerTest
   end
 
   def test_index_should_include_atom_link
-    get :index, :project_id => 'ecookbook'
+    get :index, :params => {:project_id => 'ecookbook'}
     assert_select 'a[href=?]', '/projects/ecookbook/activity.atom?show_wiki_edits=1'
   end
 
   def test_export_to_html
     @request.session[:user_id] = 2
-    get :export, :project_id => 'ecookbook'
+    get :export, :params => {:project_id => 'ecookbook'}
 
     assert_response :success
     assert_not_nil assigns(:pages)
@@ -856,7 +949,7 @@ class WikiControllerTest < Redmine::ControllerTest
 
   def test_export_to_pdf
     @request.session[:user_id] = 2
-    get :export, :project_id => 'ecookbook', :format => 'pdf'
+    get :export, :params => {:project_id => 'ecookbook', :format => 'pdf'}
 
     assert_response :success
     assert_not_nil assigns(:pages)
@@ -869,13 +962,13 @@ class WikiControllerTest < Redmine::ControllerTest
   def test_export_without_permission_should_be_denied
     @request.session[:user_id] = 2
     Role.find_by_name('Manager').remove_permission! :export_wiki_pages
-    get :export, :project_id => 'ecookbook'
+    get :export, :params => {:project_id => 'ecookbook'}
 
     assert_response 403
   end
 
   def test_date_index
-    get :date_index, :project_id => 'ecookbook'
+    get :date_index, :params => {:project_id => 'ecookbook'}
 
     assert_response :success
     assert_template 'date_index'
@@ -886,7 +979,7 @@ class WikiControllerTest < Redmine::ControllerTest
   end
 
   def test_not_found
-    get :show, :project_id => 999
+    get :show, :params => {:project_id => 999}
     assert_response 404
   end
 
@@ -894,7 +987,7 @@ class WikiControllerTest < Redmine::ControllerTest
     page = WikiPage.find_by_wiki_id_and_title(1, 'Another_page')
     assert !page.protected?
     @request.session[:user_id] = 2
-    post :protect, :project_id => 1, :id => page.title, :protected => '1'
+    post :protect, :params => {:project_id => 1, :id => page.title, :protected => '1'}
     assert_redirected_to :action => 'show', :project_id => 'ecookbook', :id => 'Another_page'
     assert page.reload.protected?
   end
@@ -903,14 +996,14 @@ class WikiControllerTest < Redmine::ControllerTest
     page = WikiPage.find_by_wiki_id_and_title(1, 'CookBook_documentation')
     assert page.protected?
     @request.session[:user_id] = 2
-    post :protect, :project_id => 1, :id => page.title, :protected => '0'
+    post :protect, :params => {:project_id => 1, :id => page.title, :protected => '0'}
     assert_redirected_to :action => 'show', :project_id => 'ecookbook', :id => 'CookBook_documentation'
     assert !page.reload.protected?
   end
 
   def test_show_page_with_edit_link
     @request.session[:user_id] = 2
-    get :show, :project_id => 1
+    get :show, :params => {:project_id => 1}
     assert_response :success
     assert_template 'show'
     assert_select 'a[href=?]', '/projects/1/wiki/CookBook_documentation/edit'
@@ -918,7 +1011,7 @@ class WikiControllerTest < Redmine::ControllerTest
 
   def test_show_page_without_edit_link
     @request.session[:user_id] = 4
-    get :show, :project_id => 1
+    get :show, :params => {:project_id => 1}
     assert_response :success
     assert_template 'show'
     assert_select 'a[href=?]', '/projects/1/wiki/CookBook_documentation/edit', 0
@@ -926,7 +1019,7 @@ class WikiControllerTest < Redmine::ControllerTest
 
   def test_show_pdf
     @request.session[:user_id] = 2
-    get :show, :project_id => 1, :format => 'pdf'
+    get :show, :params => {:project_id => 1, :format => 'pdf'}
     assert_response :success
     assert_not_nil assigns(:page)
     assert_equal 'application/pdf', @response.content_type
@@ -936,7 +1029,7 @@ class WikiControllerTest < Redmine::ControllerTest
 
   def test_show_html
     @request.session[:user_id] = 2
-    get :show, :project_id => 1, :format => 'html'
+    get :show, :params => {:project_id => 1, :format => 'html'}
     assert_response :success
     assert_not_nil assigns(:page)
     assert_equal 'text/html', @response.content_type
@@ -947,7 +1040,7 @@ class WikiControllerTest < Redmine::ControllerTest
 
   def test_show_versioned_html
     @request.session[:user_id] = 2
-    get :show, :project_id => 1, :format => 'html', :version => 2
+    get :show, :params => {:project_id => 1, :format => 'html', :version => 2}
     assert_response :success
     assert_not_nil assigns(:content)
     assert_equal 2, assigns(:content).version
@@ -959,7 +1052,7 @@ class WikiControllerTest < Redmine::ControllerTest
 
   def test_show_txt
     @request.session[:user_id] = 2
-    get :show, :project_id => 1, :format => 'txt'
+    get :show, :params => {:project_id => 1, :format => 'txt'}
     assert_response :success
     assert_not_nil assigns(:page)
     assert_equal 'text/plain', @response.content_type
@@ -970,7 +1063,7 @@ class WikiControllerTest < Redmine::ControllerTest
 
   def test_show_versioned_txt
     @request.session[:user_id] = 2
-    get :show, :project_id => 1, :format => 'txt', :version => 2
+    get :show, :params => {:project_id => 1, :format => 'txt', :version => 2}
     assert_response :success
     assert_not_nil assigns(:content)
     assert_equal 2, assigns(:content).version
@@ -983,7 +1076,7 @@ class WikiControllerTest < Redmine::ControllerTest
   def test_edit_unprotected_page
     # Non members can edit unprotected wiki pages
     @request.session[:user_id] = 4
-    get :edit, :project_id => 1, :id => 'Another_page'
+    get :edit, :params => {:project_id => 1, :id => 'Another_page'}
     assert_response :success
     assert_template 'edit'
   end
@@ -991,30 +1084,32 @@ class WikiControllerTest < Redmine::ControllerTest
   def test_edit_protected_page_by_nonmember
     # Non members cannot edit protected wiki pages
     @request.session[:user_id] = 4
-    get :edit, :project_id => 1, :id => 'CookBook_documentation'
+    get :edit, :params => {:project_id => 1, :id => 'CookBook_documentation'}
     assert_response 403
   end
 
   def test_edit_protected_page_by_member
     @request.session[:user_id] = 2
-    get :edit, :project_id => 1, :id => 'CookBook_documentation'
+    get :edit, :params => {:project_id => 1, :id => 'CookBook_documentation'}
     assert_response :success
     assert_template 'edit'
   end
 
   def test_history_of_non_existing_page_should_return_404
-    get :history, :project_id => 1, :id => 'Unknown_page'
+    get :history, :params => {:project_id => 1, :id => 'Unknown_page'}
     assert_response 404
   end
 
   def test_add_attachment
     @request.session[:user_id] = 2
     assert_difference 'Attachment.count' do
-      post :add_attachment, :project_id => 1, :id => 'CookBook_documentation',
-           :attachments => {
-             '1' => {'file' => uploaded_test_file('testfile.txt', 'text/plain'),
-                     'description' => 'test file'}
-           }
+      post :add_attachment, :params => {
+        :project_id => 1,
+        :id => 'CookBook_documentation',
+        :attachments => {
+          '1' => {'file' => uploaded_test_file('testfile.txt', 'text/plain'), 'description' => 'test file'}
+        }
+      }
     end
     attachment = Attachment.order('id DESC').first
     assert_equal Wiki.find(1).find_page('CookBook_documentation'), attachment.container

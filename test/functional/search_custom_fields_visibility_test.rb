@@ -64,7 +64,7 @@ class SearchCustomFieldsVisibilityTest < Redmine::ControllerTest
     @users_to_test.each do |user, fields|
       @request.session[:user_id] = user.id
       @fields.each_with_index do |field, i|
-        get :index, :q => "value#{i}"
+        get :index, :params => {:q => "value#{i}"}
         assert_response :success
         # we should get a result only if the custom field is visible
         if fields.include?(field)

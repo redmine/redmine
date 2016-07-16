@@ -35,7 +35,7 @@ class TimeEntryReportsControllerTest < Redmine::ControllerTest
   end
 
   def test_report_at_project_level
-    get :report, :project_id => 'ecookbook'
+    get :report, :params => {:project_id => 'ecookbook'}
     assert_response :success
     assert_template 'report'
     assert_select 'form#query_form[action=?]', '/projects/ecookbook/time_entries/report'
@@ -58,7 +58,7 @@ class TimeEntryReportsControllerTest < Redmine::ControllerTest
   end
 
   def test_report_all_projects_one_criteria
-    get :report, :columns => 'week', :from => "2007-04-01", :to => "2007-04-30", :criteria => ['project']
+    get :report, :params => {:columns => 'week', :from => "2007-04-01", :to => "2007-04-30", :criteria => ['project']}
     assert_response :success
     assert_template 'report'
     assert_not_nil assigns(:report)
@@ -66,7 +66,7 @@ class TimeEntryReportsControllerTest < Redmine::ControllerTest
   end
 
   def test_report_all_time
-    get :report, :project_id => 1, :criteria => ['project', 'issue']
+    get :report, :params => {:project_id => 1, :criteria => ['project', 'issue']}
     assert_response :success
     assert_template 'report'
     assert_not_nil assigns(:report)
@@ -74,7 +74,7 @@ class TimeEntryReportsControllerTest < Redmine::ControllerTest
   end
 
   def test_report_all_time_by_day
-    get :report, :project_id => 1, :criteria => ['project', 'issue'], :columns => 'day'
+    get :report, :params => {:project_id => 1, :criteria => ['project', 'issue'], :columns => 'day'}
     assert_response :success
     assert_template 'report'
     assert_not_nil assigns(:report)
@@ -83,7 +83,7 @@ class TimeEntryReportsControllerTest < Redmine::ControllerTest
   end
 
   def test_report_one_criteria
-    get :report, :project_id => 1, :columns => 'week', :from => "2007-04-01", :to => "2007-04-30", :criteria => ['project']
+    get :report, :params => {:project_id => 1, :columns => 'week', :from => "2007-04-01", :to => "2007-04-30", :criteria => ['project']}
     assert_response :success
     assert_template 'report'
     assert_not_nil assigns(:report)
@@ -91,7 +91,7 @@ class TimeEntryReportsControllerTest < Redmine::ControllerTest
   end
 
   def test_report_two_criteria
-    get :report, :project_id => 1, :columns => 'month', :from => "2007-01-01", :to => "2007-12-31", :criteria => ["user", "activity"]
+    get :report, :params => {:project_id => 1, :columns => 'month', :from => "2007-01-01", :to => "2007-12-31", :criteria => ["user", "activity"]}
     assert_response :success
     assert_template 'report'
     assert_not_nil assigns(:report)
@@ -104,7 +104,7 @@ class TimeEntryReportsControllerTest < Redmine::ControllerTest
     CustomValue.create!(:customized => entry, :custom_field => field, :value => 'value1')
     CustomValue.create!(:customized => entry, :custom_field => field, :value => 'value2')
 
-    get :report, :project_id => 1, :columns => 'day', :criteria => ["cf_#{field.id}"]
+    get :report, :params => {:project_id => 1, :columns => 'day', :criteria => ["cf_#{field.id}"]}
     assert_response :success
   end
 
@@ -112,7 +112,7 @@ class TimeEntryReportsControllerTest < Redmine::ControllerTest
     TimeEntryCustomField.create!(:name => 'Single', :field_format => 'list', :possible_values => ['value1', 'value2'])
     TimeEntryCustomField.create!(:name => 'Multi', :field_format => 'list', :multiple => true, :possible_values => ['value1', 'value2'])
 
-    get :report, :project_id => 1
+    get :report, :params => {:project_id => 1}
     assert_response :success
     assert_select 'select[name=?]', 'criteria[]' do
       assert_select 'option', :text => 'Single'
@@ -121,7 +121,7 @@ class TimeEntryReportsControllerTest < Redmine::ControllerTest
   end
 
   def test_report_one_day
-    get :report, :project_id => 1, :columns => 'day', :from => "2007-03-23", :to => "2007-03-23", :criteria => ["user", "activity"]
+    get :report, :params => {:project_id => 1, :columns => 'day', :from => "2007-03-23", :to => "2007-03-23", :criteria => ["user", "activity"]}
     assert_response :success
     assert_template 'report'
     assert_not_nil assigns(:report)
@@ -135,7 +135,7 @@ class TimeEntryReportsControllerTest < Redmine::ControllerTest
     TimeEntry.generate!(:hours => '8', :spent_on => '2010-01-01') # 2009-53
     TimeEntry.generate!(:hours => '16', :spent_on => '2010-01-05') # 2010-1
 
-    get :report, :columns => 'week', :from => "2009-12-25", :to => "2010-01-05", :criteria => ["project"]
+    get :report, :params => {:columns => 'week', :from => "2009-12-25", :to => "2010-01-05", :criteria => ["project"]}
     assert_response :success
 
     assert_select '#time-report thead tr' do
@@ -167,7 +167,7 @@ class TimeEntryReportsControllerTest < Redmine::ControllerTest
   end
 
   def test_report_with_association_custom_fields
-    get :report, :criteria => ['cf_1', 'cf_3', 'cf_7']
+    get :report, :params => {:criteria => ['cf_1', 'cf_3', 'cf_7']}
     assert_response :success
     assert_template 'report'
     assert_not_nil assigns(:report)
@@ -187,7 +187,7 @@ class TimeEntryReportsControllerTest < Redmine::ControllerTest
   end
 
   def test_report_one_criteria_no_result
-    get :report, :project_id => 1, :columns => 'week', :from => "1998-04-01", :to => "1998-04-30", :criteria => ['project']
+    get :report, :params => {:project_id => 1, :columns => 'week', :from => "1998-04-01", :to => "1998-04-30", :criteria => ['project']}
     assert_response :success
     assert_template 'report'
     assert_not_nil assigns(:report)
@@ -195,7 +195,7 @@ class TimeEntryReportsControllerTest < Redmine::ControllerTest
   end
 
   def test_report_status_criterion
-    get :report, :project_id => 1, :criteria => ['status']
+    get :report, :params => {:project_id => 1, :criteria => ['status']}
     assert_response :success
     assert_template 'report'
     assert_select 'th', :text => 'Status'
@@ -203,8 +203,13 @@ class TimeEntryReportsControllerTest < Redmine::ControllerTest
   end
 
   def test_report_all_projects_csv_export
-    get :report, :columns => 'month', :from => "2007-01-01", :to => "2007-06-30",
-        :criteria => ["project", "user", "activity"], :format => "csv"
+    get :report, :params => {
+      :columns => 'month',
+      :from => "2007-01-01",
+      :to => "2007-06-30",
+      :criteria => ["project", "user", "activity"],
+      :format => "csv"
+    }
     assert_response :success
     assert_equal 'text/csv; header=present', @response.content_type
     lines = @response.body.chomp.split("\n")
@@ -215,9 +220,14 @@ class TimeEntryReportsControllerTest < Redmine::ControllerTest
   end
 
   def test_report_csv_export
-    get :report, :project_id => 1, :columns => 'month',
-        :from => "2007-01-01", :to => "2007-06-30",
-        :criteria => ["project", "user", "activity"], :format => "csv"
+    get :report, :params => {
+      :project_id => 1,
+      :columns => 'month',
+      :from => "2007-01-01",
+      :to => "2007-06-30",
+      :criteria => ["project", "user", "activity"],
+      :format => "csv"
+    }
     assert_response :success
     assert_equal 'text/csv; header=present', @response.content_type
     lines = @response.body.chomp.split("\n")
@@ -248,9 +258,14 @@ class TimeEntryReportsControllerTest < Redmine::ControllerTest
     assert_equal 3, te2.user_id
 
     with_settings :default_language => "zh-TW" do
-      get :report, :project_id => 1, :columns => 'day',
-          :from => "2011-11-11", :to => "2011-11-11",
-          :criteria => ["user"], :format => "csv"
+      get :report, :params => {
+        :project_id => 1,
+        :columns => 'day',
+        :from => "2011-11-11",
+        :to => "2011-11-11",
+        :criteria => ["user"],
+        :format => "csv"
+      }
     end
     assert_response :success
     assert_equal 'text/csv; header=present', @response.content_type
@@ -290,9 +305,14 @@ class TimeEntryReportsControllerTest < Redmine::ControllerTest
     assert_equal 3, te2.user_id
 
     with_settings :default_language => "zh-TW" do
-      get :report, :project_id => 1, :columns => 'day',
-          :from => "2011-11-11", :to => "2011-11-11",
-          :criteria => ["user"], :format => "csv"
+      get :report, :params => {
+        :project_id => 1,
+        :columns => 'day',
+        :from => "2011-11-11",
+        :to => "2011-11-11",
+        :criteria => ["user"],
+        :format => "csv"
+      }
     end
     assert_response :success
     assert_equal 'text/csv; header=present', @response.content_type
@@ -321,9 +341,14 @@ class TimeEntryReportsControllerTest < Redmine::ControllerTest
       assert_equal 7.3, te2.hours
       assert_equal 3, te2.user_id
 
-      get :report, :project_id => 1, :columns => 'day',
-          :from => "2011-11-11", :to => "2011-11-11",
-          :criteria => ["user"], :format => "csv"
+      get :report, :params => {
+        :project_id => 1,
+        :columns => 'day',
+        :from => "2011-11-11",
+        :to => "2011-11-11",
+        :criteria => ["user"],
+        :format => "csv"
+      }
       assert_response :success
       assert_equal 'text/csv; header=present', @response.content_type
       lines = @response.body.chomp.split("\n")    

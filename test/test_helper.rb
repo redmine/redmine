@@ -278,10 +278,10 @@ module Redmine
   end
 
   class ControllerTest < ActionController::TestCase
-    def process(method, path, parameters={}, options={}, flash={})
-      if parameters.key?(:params)
-        raise ArgumentError if options.present?
-        super method, path, parameters[:params], parameters.except(:params)
+    def process(method, path, parameters={}, session={}, flash={})
+      if parameters.key?(:params) || parameters.key?(:session)
+        raise ArgumentError if session.present?
+        super method, path, parameters[:params], parameters[:session], parameters.except(:params, :session)
       else
         super
       end

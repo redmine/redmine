@@ -28,7 +28,7 @@ class WatchersControllerTest < Redmine::ControllerTest
   def test_watch_a_single_object
     @request.session[:user_id] = 3
     assert_difference('Watcher.count') do
-      xhr :post, :watch, :object_type => 'issue', :object_id => '1'
+      xhr :post, :watch, :params => {:object_type => 'issue', :object_id => '1'}
       assert_response :success
       assert_include '$(".issue-1-watcher")', response.body
     end
@@ -38,7 +38,7 @@ class WatchersControllerTest < Redmine::ControllerTest
   def test_watch_a_collection_with_a_single_object
     @request.session[:user_id] = 3
     assert_difference('Watcher.count') do
-      xhr :post, :watch, :object_type => 'issue', :object_id => ['1']
+      xhr :post, :watch, :params => {:object_type => 'issue', :object_id => ['1']}
       assert_response :success
       assert_include '$(".issue-1-watcher")', response.body
     end
@@ -48,7 +48,7 @@ class WatchersControllerTest < Redmine::ControllerTest
   def test_watch_a_collection_with_multiple_objects
     @request.session[:user_id] = 3
     assert_difference('Watcher.count', 2) do
-      xhr :post, :watch, :object_type => 'issue', :object_id => ['1', '3']
+      xhr :post, :watch, :params => {:object_type => 'issue', :object_id => ['1', '3']}
       assert_response :success
       assert_include '$(".issue-bulk-watcher")', response.body
     end
@@ -61,7 +61,7 @@ class WatchersControllerTest < Redmine::ControllerTest
     assert_not_nil m = Project.find(1).enabled_module('news')
 
     assert_difference 'Watcher.count' do
-      xhr :post, :watch, :object_type => 'enabled_module', :object_id => m.id.to_s
+      xhr :post, :watch, :params => {:object_type => 'enabled_module', :object_id => m.id.to_s}
       assert_response :success
     end
     assert m.reload.watched_by?(User.find(7))
@@ -72,7 +72,7 @@ class WatchersControllerTest < Redmine::ControllerTest
     assert_not_nil m = Project.find(2).enabled_module('news')
 
     assert_no_difference 'Watcher.count' do
-      xhr :post, :watch, :object_type => 'enabled_module', :object_id => m.id.to_s
+      xhr :post, :watch, :params => {:object_type => 'enabled_module', :object_id => m.id.to_s}
       assert_response 403
     end
   end
@@ -81,7 +81,7 @@ class WatchersControllerTest < Redmine::ControllerTest
     Role.find(2).remove_permission! :view_issues
     @request.session[:user_id] = 3
     assert_no_difference('Watcher.count') do
-      xhr :post, :watch, :object_type => 'issue', :object_id => '1'
+      xhr :post, :watch, :params => {:object_type => 'issue', :object_id => '1'}
       assert_response 403
     end
   end
@@ -89,7 +89,7 @@ class WatchersControllerTest < Redmine::ControllerTest
   def test_watch_invalid_class_should_respond_with_404
     @request.session[:user_id] = 3
     assert_no_difference('Watcher.count') do
-      xhr :post, :watch, :object_type => 'foo', :object_id => '1'
+      xhr :post, :watch, :params => {:object_type => 'foo', :object_id => '1'}
       assert_response 404
     end
   end
@@ -97,7 +97,7 @@ class WatchersControllerTest < Redmine::ControllerTest
   def test_watch_invalid_object_should_respond_with_404
     @request.session[:user_id] = 3
     assert_no_difference('Watcher.count') do
-      xhr :post, :watch, :object_type => 'issue', :object_id => '999'
+      xhr :post, :watch, :params => {:object_type => 'issue', :object_id => '999'}
       assert_response 404
     end
   end
@@ -105,7 +105,7 @@ class WatchersControllerTest < Redmine::ControllerTest
   def test_unwatch
     @request.session[:user_id] = 3
     assert_difference('Watcher.count', -1) do
-      xhr :delete, :unwatch, :object_type => 'issue', :object_id => '2'
+      xhr :delete, :unwatch, :params => {:object_type => 'issue', :object_id => '2'}
       assert_response :success
       assert_include '$(".issue-2-watcher")', response.body
     end
@@ -118,7 +118,7 @@ class WatchersControllerTest < Redmine::ControllerTest
     Watcher.create!(:user_id => 3, :watchable => Issue.find(3))
 
     assert_difference('Watcher.count', -2) do
-      xhr :delete, :unwatch, :object_type => 'issue', :object_id => ['1', '3']
+      xhr :delete, :unwatch, :params => {:object_type => 'issue', :object_id => ['1', '3']}
       assert_response :success
       assert_include '$(".issue-bulk-watcher")', response.body
     end
@@ -128,21 +128,21 @@ class WatchersControllerTest < Redmine::ControllerTest
 
   def test_new
     @request.session[:user_id] = 2
-    xhr :get, :new, :object_type => 'issue', :object_id => '2'
+    xhr :get, :new, :params => {:object_type => 'issue', :object_id => '2'}
     assert_response :success
     assert_match /ajax-modal/, response.body
   end
 
   def test_new_with_multiple_objects
     @request.session[:user_id] = 2
-    xhr :get, :new, :object_type => 'issue', :object_id => ['1', '2']
+    xhr :get, :new, :params => {:object_type => 'issue', :object_id => ['1', '2']}
     assert_response :success
     assert_match /ajax-modal/, response.body
   end
 
   def test_new_for_new_record_with_project_id
     @request.session[:user_id] = 2
-    xhr :get, :new, :project_id => 1
+    xhr :get, :new, :params => {:project_id => 1}
     assert_response :success
     assert_equal Project.find(1), assigns(:project)
     assert_match /ajax-modal/, response.body
@@ -150,7 +150,7 @@ class WatchersControllerTest < Redmine::ControllerTest
 
   def test_new_for_new_record_with_project_identifier
     @request.session[:user_id] = 2
-    xhr :get, :new, :project_id => 'ecookbook'
+    xhr :get, :new, :params => {:project_id => 'ecookbook'}
     assert_response :success
     assert_equal Project.find(1), assigns(:project)
     assert_match /ajax-modal/, response.body
@@ -159,8 +159,10 @@ class WatchersControllerTest < Redmine::ControllerTest
   def test_create
     @request.session[:user_id] = 2
     assert_difference('Watcher.count') do
-      xhr :post, :create, :object_type => 'issue', :object_id => '2',
-          :watcher => {:user_id => '4'}
+      xhr :post, :create, :params => {
+        :object_type => 'issue', :object_id => '2',
+        :watcher => {:user_id => '4'}
+      }
       assert_response :success
       assert_match /watchers/, response.body
       assert_match /ajax-modal/, response.body
@@ -171,8 +173,10 @@ class WatchersControllerTest < Redmine::ControllerTest
   def test_create_with_mutiple_users
     @request.session[:user_id] = 2
     assert_difference('Watcher.count', 2) do
-      xhr :post, :create, :object_type => 'issue', :object_id => '2',
-          :watcher => {:user_ids => ['4', '7']}
+      xhr :post, :create, :params => {
+        :object_type => 'issue', :object_id => '2',
+        :watcher => {:user_ids => ['4', '7']}
+      }
       assert_response :success
       assert_match /watchers/, response.body
       assert_match /ajax-modal/, response.body
@@ -184,8 +188,10 @@ class WatchersControllerTest < Redmine::ControllerTest
   def test_create_with_mutiple_objects
     @request.session[:user_id] = 2
     assert_difference('Watcher.count', 4) do
-      xhr :post, :create, :object_type => 'issue', :object_id => ['1', '2'],
-          :watcher => {:user_ids => ['4', '7']}
+      xhr :post, :create, :params => {
+        :object_type => 'issue', :object_id => ['1', '2'],
+        :watcher => {:user_ids => ['4', '7']}
+      }
       assert_response :success
       assert_match /watchers/, response.body
       assert_match /ajax-modal/, response.body
@@ -198,7 +204,7 @@ class WatchersControllerTest < Redmine::ControllerTest
 
   def test_autocomplete_on_watchable_creation
     @request.session[:user_id] = 2
-    xhr :get, :autocomplete_for_user, :q => 'mi', :project_id => 'ecookbook'
+    xhr :get, :autocomplete_for_user, :params => {:q => 'mi', :project_id => 'ecookbook'}
     assert_response :success
     assert_select 'input', :count => 4
     assert_select 'input[name=?][value="1"]', 'watcher[user_ids][]'
@@ -213,15 +219,17 @@ class WatchersControllerTest < Redmine::ControllerTest
     user = User.generate!(:firstname => 'issue15622')
     membership = user.membership(project)
     assert_nil membership
-    xhr :get, :autocomplete_for_user, :q => 'issue15622', :project_id => 'ecookbook'
+    xhr :get, :autocomplete_for_user, :params => {:q => 'issue15622', :project_id => 'ecookbook'}
     assert_response :success
     assert_select 'input', :count => 1
   end
 
   def test_autocomplete_on_watchable_update
     @request.session[:user_id] = 2
-    xhr :get, :autocomplete_for_user, :q => 'mi', :object_id => '2',
-        :object_type => 'issue', :project_id => 'ecookbook'
+    xhr :get, :autocomplete_for_user, :params => {
+      :object_type => 'issue', :object_id => '2',
+      :project_id => 'ecookbook', :q => 'mi'
+    }
     assert_response :success
     assert_select 'input', :count => 3
     assert_select 'input[name=?][value="2"]', 'watcher[user_ids][]'
@@ -235,13 +243,19 @@ class WatchersControllerTest < Redmine::ControllerTest
     user = User.generate!(:firstname => 'issue15622')
     membership = user.membership(project)
     assert_nil membership
-    xhr :get, :autocomplete_for_user, :q => 'issue15622', :object_id => '2',
-        :object_type => 'issue', :project_id => 'ecookbook'
+
+    xhr :get, :autocomplete_for_user, :params => {
+      :object_type => 'issue', :object_id => '2',
+      :project_id => 'ecookbook', :q => 'issue15622'
+    }
     assert_response :success
     assert_select 'input', :count => 1
+
     assert_difference('Watcher.count', 1) do
-      xhr :post, :create, :object_type => 'issue', :object_id => '2',
-          :watcher => {:user_ids => ["#{user.id}"]}
+      xhr :post, :create, :params => {
+        :object_type => 'issue', :object_id => '2',
+        :watcher => {:user_ids => ["#{user.id}"]}
+      }
       assert_response :success
       assert_match /watchers/, response.body
       assert_match /ajax-modal/, response.body
@@ -257,7 +271,7 @@ class WatchersControllerTest < Redmine::ControllerTest
     User.add_to_project(visible, Project.find(1))
 
     @request.session[:user_id] = 2
-    xhr :get, :autocomplete_for_user, :q => 'autocomp', :project_id => 'ecookbook'
+    xhr :get, :autocomplete_for_user, :params => {:q => 'autocomp', :project_id => 'ecookbook'}
     assert_response :success
 
     assert_include visible, assigns(:users)
@@ -267,7 +281,9 @@ class WatchersControllerTest < Redmine::ControllerTest
   def test_append
     @request.session[:user_id] = 2
     assert_no_difference 'Watcher.count' do
-      xhr :post, :append, :watcher => {:user_ids => ['4', '7']}, :project_id => 'ecookbook'
+      xhr :post, :append, :params => {
+        :watcher => {:user_ids => ['4', '7']}, :project_id => 'ecookbook'
+      }
       assert_response :success
       assert_include 'watchers_inputs', response.body
       assert_include 'issue[watcher_user_ids][]', response.body
@@ -276,7 +292,7 @@ class WatchersControllerTest < Redmine::ControllerTest
 
   def test_append_without_user_should_render_nothing
     @request.session[:user_id] = 2
-    xhr :post, :append, :project_id => 'ecookbook'
+    xhr :post, :append, :params => {:project_id => 'ecookbook'}
     assert_response :success
     assert response.body.blank?
   end
@@ -284,7 +300,9 @@ class WatchersControllerTest < Redmine::ControllerTest
   def test_destroy
     @request.session[:user_id] = 2
     assert_difference('Watcher.count', -1) do
-      xhr :delete, :destroy, :object_type => 'issue', :object_id => '2', :user_id => '3'
+      xhr :delete, :destroy, :params => {
+        :object_type => 'issue', :object_id => '2', :user_id => '3'
+      }
       assert_response :success
       assert_match /watchers/, response.body
     end
@@ -298,7 +316,9 @@ class WatchersControllerTest < Redmine::ControllerTest
 
     @request.session[:user_id] = 2
     assert_difference('Watcher.count', -1) do
-      xhr :delete, :destroy, :object_type => 'issue', :object_id => '2', :user_id => '3'
+      xhr :delete, :destroy, :params => {
+        :object_type => 'issue', :object_id => '2', :user_id => '3'
+      }
       assert_response :success
       assert_match /watchers/, response.body
     end
@@ -308,7 +328,9 @@ class WatchersControllerTest < Redmine::ControllerTest
   def test_destroy_invalid_user_should_respond_with_404
     @request.session[:user_id] = 2
     assert_no_difference('Watcher.count') do
-      delete :destroy, :object_type => 'issue', :object_id => '2', :user_id => '999'
+      delete :destroy, :params => {
+        :object_type => 'issue', :object_id => '2', :user_id => '999'
+      }
       assert_response 404
     end
   end

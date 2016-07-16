@@ -73,11 +73,14 @@ class SettingsControllerTest < Redmine::ControllerTest
   end
 
   def test_post_edit_notifications
-    post :edit, :settings => {:mail_from => 'functional@test.foo',
-                              :bcc_recipients  => '0',
-                              :notified_events => %w(issue_added issue_updated news_added),
-                              :emails_footer => 'Test footer'
-                              }
+    post :edit, :params => {
+      :settings => {
+        :mail_from => 'functional@test.foo',
+        :bcc_recipients  => '0',
+        :notified_events => %w(issue_added issue_updated news_added),
+        :emails_footer => 'Test footer'
+      }
+    }
     assert_redirected_to '/settings'
     assert_equal 'functional@test.foo', Setting.mail_from
     assert !Setting.bcc_recipients?
@@ -125,12 +128,14 @@ class SettingsControllerTest < Redmine::ControllerTest
   end
 
   def test_post_edit_commit_update_keywords
-    post :edit, :settings => {
-      :commit_update_keywords => {
-        :keywords => ["resolves", "closes"],
-        :status_id => ["3", "5"],
-        :done_ratio => ["", "100"],
-        :if_tracker_id => ["", "2"]
+    post :edit, :params => {
+      :settings => {
+        :commit_update_keywords => {
+          :keywords => ["resolves", "closes"],
+          :status_id => ["3", "5"],
+          :done_ratio => ["", "100"],
+          :if_tracker_id => ["", "2"]
+        }
       }
     }
     assert_redirected_to '/settings'
@@ -142,10 +147,11 @@ class SettingsControllerTest < Redmine::ControllerTest
 
   def test_post_edit_should_send_security_notification_for_notified_settings
     ActionMailer::Base.deliveries.clear
-    post :edit, :settings => {
-      :login_required => 1
+    post :edit, :params => {
+      :settings => {
+        :login_required => 1
+      }
     }
-
     assert_not_nil (mail = ActionMailer::Base.deliveries.last)
     assert_mail_body_match '0.0.0.0', mail
     assert_mail_body_match I18n.t(:setting_login_required), mail
@@ -161,19 +167,21 @@ class SettingsControllerTest < Redmine::ControllerTest
 
   def test_post_edit_should_not_send_security_notification_for_non_notified_settings
     ActionMailer::Base.deliveries.clear
-    post :edit, :settings => {
-      :app_title => 'MineRed'
+    post :edit, :params => {
+      :settings => {
+        :app_title => 'MineRed'
+      }
     }
-
     assert_nil (mail = ActionMailer::Base.deliveries.last)
   end
 
   def test_post_edit_should_not_send_security_notification_for_unchanged_settings
     ActionMailer::Base.deliveries.clear
-    post :edit, :settings => {
-      :login_required => 0
+    post :edit, :params => {
+      :settings => {
+        :login_required => 0
+      }
     }
-
     assert_nil (mail = ActionMailer::Base.deliveries.last)
   end
 
@@ -185,7 +193,7 @@ class SettingsControllerTest < Redmine::ControllerTest
     end
     Setting.plugin_foo = {'sample_setting' => 'Plugin setting value'}
 
-    get :plugin, :id => 'foo'
+    get :plugin, :params => {:id => 'foo'}
     assert_response :success
     assert_template 'plugin'
     assert_select 'form[action="/settings/plugin/foo"]' do
@@ -196,14 +204,14 @@ class SettingsControllerTest < Redmine::ControllerTest
   end
 
   def test_get_invalid_plugin_settings
-    get :plugin, :id => 'none'
+    get :plugin, :params => {:id => 'none'}
     assert_response 404
   end
 
   def test_get_non_configurable_plugin_settings
     Redmine::Plugin.register(:foo) {}
 
-    get :plugin, :id => 'foo'
+    get :plugin, :params => {:id => 'foo'}
     assert_response 404
 
   ensure
@@ -216,7 +224,10 @@ class SettingsControllerTest < Redmine::ControllerTest
         :default => {'sample_setting' => 'Plugin setting value'}
     end
 
-    post :plugin, :id => 'foo', :settings => {'sample_setting' => 'Value'}
+    post :plugin, :params => {
+      :id => 'foo',
+      :settings => {'sample_setting' => 'Value'}
+    }
     assert_redirected_to '/settings/plugin/foo'
 
     assert_equal({'sample_setting' => 'Value'}, Setting.plugin_foo)
@@ -225,7 +236,10 @@ class SettingsControllerTest < Redmine::ControllerTest
   def test_post_non_configurable_plugin_settings
     Redmine::Plugin.register(:foo) {}
 
-    post :plugin, :id => 'foo', :settings => {'sample_setting' => 'Value'}
+    post :plugin, :params => {
+      :id => 'foo',
+      :settings => {'sample_setting' => 'Value'}
+    }
     assert_response 404
 
   ensure

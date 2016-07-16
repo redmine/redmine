@@ -35,7 +35,7 @@ class SessionsControllerTest < Redmine::ControllerTest
     token = Token.create!(:user_id => 2, :action => 'session', :created_on => 10.hours.ago, :updated_on => 10.hours.ago)
     created = token.reload.created_on
 
-    get :index, {}, {:user_id => 2, :tk => token.value}
+    get :index, :session => {:user_id => 2, :tk => token.value}
     assert_response :success
     token.reload
     assert_equal created.to_i, token.created_on.to_i
@@ -48,13 +48,13 @@ class SessionsControllerTest < Redmine::ControllerTest
     token = Token.create!(:user_id => 2, :action => 'session', :created_on => created, :updated_on => created)
 
     with_settings :session_lifetime => '0', :session_timeout => '0' do
-      get :index, {}, {:user_id => 2, :tk => token.value}
+      get :index, :session => {:user_id => 2, :tk => token.value}
       assert_response :success
     end
   end
 
   def test_user_session_without_token_should_be_reset
-    get :index, {}, {:user_id => 2}
+    get :index, :session => {:user_id => 2}
     assert_redirected_to 'http://test.host/login?back_url=http%3A%2F%2Ftest.host%2F'
   end
 
@@ -63,7 +63,7 @@ class SessionsControllerTest < Redmine::ControllerTest
     token = Token.create!(:user_id => 2, :action => 'session', :created_on => created, :updated_on => created)
 
     with_settings :session_timeout => '720' do
-      get :index, {}, {:user_id => 2, :tk => token.value}
+      get :index, :session => {:user_id => 2, :tk => token.value}
       assert_redirected_to 'http://test.host/login?back_url=http%3A%2F%2Ftest.host%2F'
     end
   end
@@ -73,7 +73,7 @@ class SessionsControllerTest < Redmine::ControllerTest
     token = Token.create!(:user_id => 2, :action => 'session', :created_on => created, :updated_on => created)
 
     with_settings :session_timeout => '720' do
-      get :index, {}, {:user_id => 2, :tk => token.value}
+      get :index, :session => {:user_id => 2, :tk => token.value}
       assert_response :success
     end
   end
@@ -83,7 +83,7 @@ class SessionsControllerTest < Redmine::ControllerTest
     token = Token.create!(:user_id => 2, :action => 'session', :created_on => created, :updated_on => created)
 
     with_settings :session_timeout => '60' do
-      get :index, {}, {:user_id => 2, :tk => token.value}
+      get :index, :session => {:user_id => 2, :tk => token.value}
       assert_redirected_to 'http://test.host/login?back_url=http%3A%2F%2Ftest.host%2F'
     end
   end
@@ -93,7 +93,7 @@ class SessionsControllerTest < Redmine::ControllerTest
     token = Token.create!(:user_id => 2, :action => 'session', :created_on => created, :updated_on => created)
 
     with_settings :session_timeout => '60' do
-      get :index, {}, {:user_id => 2, :tk => token.value}
+      get :index, :session => {:user_id => 2, :tk => token.value}
       assert_response :success
     end
   end
@@ -106,7 +106,7 @@ class SessionsControllerTest < Redmine::ControllerTest
       autologin_token = Token.create!(:user_id => 2, :action => 'autologin', :created_on => 1.day.ago)
       @request.cookies['autologin'] = autologin_token.value
 
-      get :index, {}, {:user_id => 2, :tk => token.value}
+      get :index, :session => {:user_id => 2, :tk => token.value}
       assert_equal 2, session[:user_id]
       assert_response :success
       assert_not_equal token.value, session[:tk]
@@ -122,7 +122,7 @@ class SessionsControllerTest < Redmine::ControllerTest
     token = Token.create!(:user_id => 2, :action => 'session', :created_on => created, :updated_on => created)
 
     with_settings :session_timeout => '60' do
-      get :index, {}, {:user_id => user.id, :tk => token.value}
+      get :index, :session => {:user_id => user.id, :tk => token.value}
       assert_redirected_to 'http://test.host/login?back_url=http%3A%2F%2Ftest.host%2F'
       assert_include "Veuillez vous reconnecter", flash[:error]
       assert_equal :fr, current_language
