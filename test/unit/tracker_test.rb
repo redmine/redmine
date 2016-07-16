@@ -64,7 +64,7 @@ class TrackerTest < ActiveSupport::TestCase
   end
 
   def test_issue_statuses_empty
-    WorkflowTransition.delete_all("tracker_id = 1")
+    WorkflowTransition.where(:tracker_id => 1).delete_all
     assert_equal [], Tracker.find(1).issue_statuses
   end
 
@@ -110,7 +110,7 @@ class TrackerTest < ActiveSupport::TestCase
 
   def test_destroying_a_tracker_without_issues_should_not_raise_an_error
     tracker = Tracker.find(1)
-    Issue.delete_all :tracker_id => tracker.id
+    Issue.where(:tracker_id => tracker.id).delete_all
 
     assert_difference 'Tracker.count', -1 do
       assert_nothing_raised do
