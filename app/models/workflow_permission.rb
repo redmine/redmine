@@ -46,7 +46,7 @@ class WorkflowPermission < WorkflowRule
     transaction do
       permissions.each { |status_id, rule_by_field|
         rule_by_field.each { |field, rule|
-          destroy_all(:tracker_id => trackers.map(&:id), :role_id => roles.map(&:id), :old_status_id => status_id, :field_name => field)
+          where(:tracker_id => trackers.map(&:id), :role_id => roles.map(&:id), :old_status_id => status_id, :field_name => field).destroy_all
           if rule.present?
             trackers.each do |tracker|
               roles.each do |role|
