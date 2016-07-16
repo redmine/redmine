@@ -207,7 +207,7 @@ module ObjectHelpers
     @generated_changeset_rev.succ!
     changeset = new(attributes)
     changeset.repository ||= Project.find(1).repository
-    changeset.revision ||= @generated_changeset_rev
+    changeset.revision ||= @generated_changeset_rev.dup
     changeset.committed_on ||= Time.now
     yield changeset if block_given?
     changeset.save!
