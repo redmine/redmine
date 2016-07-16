@@ -1147,7 +1147,8 @@ class Issue < ActiveRecord::Base
 
   def soonest_start(reload=false)
     if @soonest_start.nil? || reload
-      dates = relations_to(reload).collect{|relation| relation.successor_soonest_start}
+      relations_to.reload if reload
+      dates = relations_to.collect{|relation| relation.successor_soonest_start}
       p = @parent_issue || parent
       if p && Setting.parent_issue_dates == 'derived'
         dates << p.soonest_start
