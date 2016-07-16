@@ -1051,7 +1051,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_own_account_deletable_should_be_false_for_a_single_admin
-    User.delete_all(["admin = ? AND id <> ?", true, 1])
+    User.where(["admin = ? AND id <> ?", true, 1]).delete_all
 
     with_settings :unsubscribe => '1' do
       assert_equal false, User.find(1).own_account_deletable?

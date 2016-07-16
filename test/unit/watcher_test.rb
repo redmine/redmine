@@ -150,7 +150,7 @@ class WatcherTest < ActiveSupport::TestCase
   end
 
   def test_prune_with_user
-    Watcher.delete_all("user_id = 9")
+    Watcher.where("user_id = 9").delete_all
     user = User.find(9)
 
     # public

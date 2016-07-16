@@ -23,7 +23,7 @@ class DefaultDataTest < ActiveSupport::TestCase
 
   def test_no_data
     assert !Redmine::DefaultData::Loader::no_data?
-    Role.delete_all("builtin = 0")
+    Role.where("builtin = 0").delete_all
     Tracker.delete_all
     IssueStatus.delete_all
     Enumeration.delete_all
@@ -33,7 +33,7 @@ class DefaultDataTest < ActiveSupport::TestCase
   def test_load
     valid_languages.each do |lang|
       begin
-        Role.delete_all("builtin = 0")
+        Role.where("builtin = 0").delete_all
         Tracker.delete_all
         IssueStatus.delete_all
         Enumeration.delete_all

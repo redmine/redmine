@@ -508,7 +508,7 @@ class Project < ActiveRecord::Base
   def delete_all_members
     me, mr = Member.table_name, MemberRole.table_name
     self.class.connection.delete("DELETE FROM #{mr} WHERE #{mr}.member_id IN (SELECT #{me}.id FROM #{me} WHERE #{me}.project_id = #{id})")
-    Member.delete_all(['project_id = ?', id])
+    Member.where(:project_id => id).delete_all
   end
 
   # Return a Principal scope of users/groups issues can be assigned to

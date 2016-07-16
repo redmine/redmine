@@ -160,7 +160,7 @@ class AdminControllerTest < Redmine::ControllerTest
   private
 
   def delete_configuration_data
-    Role.delete_all('builtin = 0')
+    Role.where('builtin = 0').delete_all
     Tracker.delete_all
     IssueStatus.delete_all
     Enumeration.delete_all

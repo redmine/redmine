@@ -169,8 +169,8 @@ class ApplicationController < ActionController::Base
   def logout_user
     if User.current.logged?
       cookies.delete(autologin_cookie_name)
-      Token.delete_all(["user_id = ? AND action = ?", User.current.id, 'autologin'])
-      Token.delete_all(["user_id = ? AND action = ? AND value = ?", User.current.id, 'session', session[:tk]])
+      Token.where(["user_id = ? AND action = ?", User.current.id, 'autologin']).delete_all
+      Token.where(["user_id = ? AND action = ? AND value = ?", User.current.id, 'session', session[:tk]]).delete_all
       self.logged_user = nil
     end
   end

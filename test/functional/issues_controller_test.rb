@@ -71,7 +71,7 @@ class IssuesControllerTest < Redmine::ControllerTest
   end
 
   def test_index_should_not_list_issues_when_module_disabled
-    EnabledModule.delete_all("name = 'issue_tracking' AND project_id = 1")
+    EnabledModule.where("name = 'issue_tracking' AND project_id = 1").delete_all
     get :index
     assert_response :success
     assert_template 'index'
@@ -1231,7 +1231,7 @@ class IssuesControllerTest < Redmine::ControllerTest
 
   def test_show_should_display_update_form_with_minimal_permissions
     Role.find(1).update_attribute :permissions, [:view_issues, :add_issue_notes]
-    WorkflowTransition.delete_all :role_id => 1
+    WorkflowTransition.where(:role_id => 1).delete_all
 
     @request.session[:user_id] = 2
     get :show, :id => 1
@@ -1796,7 +1796,7 @@ class IssuesControllerTest < Redmine::ControllerTest
 
   def test_get_new_with_minimal_permissions
     Role.find(1).update_attribute :permissions, [:add_issues]
-    WorkflowTransition.delete_all :role_id => 1
+    WorkflowTransition.where(:role_id => 1).delete_all
 
     @request.session[:user_id] = 2
     get :new, :project_id => 1, :tracker_id => 1
@@ -2833,7 +2833,7 @@ class IssuesControllerTest < Redmine::ControllerTest
   end
 
   def setup_without_workflow_privilege
-    WorkflowTransition.delete_all(["role_id = ?", Role.anonymous.id])
+    WorkflowTransition.where(["role_id = ?", Role.anonymous.id]).delete_all
     Role.anonymous.add_permission! :add_issues, :add_issue_notes
   end
   private :setup_without_workflow_privilege
@@ -2900,7 +2900,7 @@ class IssuesControllerTest < Redmine::ControllerTest
   end
 
   def setup_with_workflow_privilege
-    WorkflowTransition.delete_all(["role_id = ?", Role.anonymous.id])
+    WorkflowTransition.where(["role_id = ?", Role.anonymous.id]).delete_all
     WorkflowTransition.create!(:role => Role.anonymous, :tracker_id => 1,
                                :old_status_id => 1, :new_status_id => 3)
     WorkflowTransition.create!(:role => Role.anonymous, :tracker_id => 1,
@@ -4531,7 +4531,7 @@ class IssuesControllerTest < Redmine::ControllerTest
     # Fixes random test failure with Mysql
     # where Issue.where(:project_id => 2).limit(2).order('id desc')
     # doesn't return the expected results
-    Issue.delete_all("project_id=2")
+    Issue.where("project_id=2").delete_all
 
     @request.session[:user_id] = 2
     assert_difference 'Issue.count', 2 do

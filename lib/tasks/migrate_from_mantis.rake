@@ -237,7 +237,7 @@ task :migrate_from_mantis => :environment do
 
       # Users
       print "Migrating users"
-      User.delete_all "login <> 'admin'"
+      User.where("login <> 'admin'").delete_all
       users_map = {}
       users_migrated = 0
       MantisUser.all.each do |user|
