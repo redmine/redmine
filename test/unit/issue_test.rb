@@ -137,7 +137,7 @@ class IssueTest < ActiveSupport::TestCase
   def test_create_with_required_custom_field
     set_language_if_valid 'en'
     field = IssueCustomField.find_by_name('Database')
-    field.update_attribute(:is_required, true)
+    field.update!(:is_required => true)
 
     issue = Issue.new(:project_id => 1, :tracker_id => 1, :author_id => 1,
                       :status_id => 1, :subject => 'test_create',
@@ -242,14 +242,14 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   def test_anonymous_should_not_see_private_issues_with_issues_visibility_set_to_default
-    assert Role.anonymous.update_attribute(:issues_visibility, 'default')
+    Role.anonymous.update!(:issues_visibility => 'default')
     issue = Issue.generate!(:author => User.anonymous, :assigned_to => User.anonymous, :is_private => true)
     assert_nil Issue.where(:id => issue.id).visible(User.anonymous).first
     assert !issue.visible?(User.anonymous)
   end
 
   def test_anonymous_should_not_see_private_issues_with_issues_visibility_set_to_own
-    assert Role.anonymous.update_attribute(:issues_visibility, 'own')
+    assert Role.anonymous.update!(:issues_visibility => 'own')
     issue = Issue.generate!(:author => User.anonymous, :assigned_to => User.anonymous, :is_private => true)
     assert_nil Issue.where(:id => issue.id).visible(User.anonymous).first
     assert !issue.visible?(User.anonymous)
@@ -267,7 +267,7 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   def test_visible_scope_for_non_member_with_own_issues_visibility
-    Role.non_member.update_attribute :issues_visibility, 'own'
+    Role.non_member.update! :issues_visibility => 'own'
     Issue.create!(:project_id => 1, :tracker_id => 1, :author_id => 9, :subject => 'Issue by non member')
     user = User.find(9)
 
@@ -331,12 +331,12 @@ class IssueTest < ActiveSupport::TestCase
       :assigned_to => user.groups.first,
       :is_private => true)
 
-    Role.find(2).update_attribute :issues_visibility, 'default'
+    Role.find(2).update! :issues_visibility => 'default'
     issues = Issue.visible(User.find(8)).to_a
     assert issues.any?
     assert issues.include?(issue)
 
-    Role.find(2).update_attribute :issues_visibility, 'own'
+    Role.find(2).update! :issues_visibility => 'own'
     issues = Issue.visible(User.find(8)).to_a
     assert issues.any?
     assert_include issue, issues
@@ -515,7 +515,7 @@ class IssueTest < ActiveSupport::TestCase
 
   def test_update_issue_with_required_custom_field
     field = IssueCustomField.find_by_name('Database')
-    field.update_attribute(:is_required, true)
+    field.update!(:is_required => true)
 
     issue = Issue.find(1)
     assert_nil issue.custom_value_for(field)
@@ -561,7 +561,7 @@ class IssueTest < ActiveSupport::TestCase
 
   def test_setting_project_should_set_version_to_default_version
     version = Version.generate!(:project_id => 1)
-    Project.find(1).update_attribute(:default_version_id, version.id)
+    Project.find(1).update!(:default_version_id => version.id)
 
     issue = Issue.new(:project_id => 1)
     assert_equal version, issue.fixed_version
@@ -1477,7 +1477,7 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   def test_should_keep_shared_version_when_changing_project
-    Version.find(2).update_attribute :sharing, 'tree'
+    Version.find(2).update! :sharing => 'tree'
 
     issue = Issue.find(2)
     assert_equal 2, issue.fixed_version_id
@@ -1610,7 +1610,7 @@ class IssueTest < ActiveSupport::TestCase
 
   def test_move_to_another_project_should_clear_fixed_version_when_not_shared
     issue = Issue.find(1)
-    issue.update_attribute(:fixed_version_id, 1)
+    issue.update!(:fixed_version_id => 3)
     issue.project = Project.find(2)
     assert issue.save
     issue.reload
@@ -1621,7 +1621,7 @@ class IssueTest < ActiveSupport::TestCase
 
   def test_move_to_another_project_should_keep_fixed_version_when_shared_with_the_target_project
     issue = Issue.find(1)
-    issue.update_attribute(:fixed_version_id, 4)
+    issue.update!(:fixed_version_id => 4)
     issue.project = Project.find(5)
     assert issue.save
     issue.reload
@@ -1632,7 +1632,7 @@ class IssueTest < ActiveSupport::TestCase
 
   def test_move_to_another_project_should_clear_fixed_version_when_not_shared_with_the_target_project
     issue = Issue.find(1)
-    issue.update_attribute(:fixed_version_id, 1)
+    issue.update!(:fixed_version_id => 3)
     issue.project = Project.find(5)
     assert issue.save
     issue.reload
@@ -1643,7 +1643,7 @@ class IssueTest < ActiveSupport::TestCase
 
   def test_move_to_another_project_should_keep_fixed_version_when_shared_systemwide
     issue = Issue.find(1)
-    issue.update_attribute(:fixed_version_id, 7)
+    issue.update!(:fixed_version_id => 7)
     issue.project = Project.find(2)
     assert issue.save
     issue.reload
@@ -1654,7 +1654,7 @@ class IssueTest < ActiveSupport::TestCase
 
   def test_move_to_another_project_should_keep_parent_if_valid
     issue = Issue.find(1)
-    issue.update_attribute(:parent_issue_id, 2)
+    issue.update! :parent_issue_id => 2
     issue.project = Project.find(3)
     assert issue.save
     issue.reload
@@ -1663,7 +1663,7 @@ class IssueTest < ActiveSupport::TestCase
 
   def test_move_to_another_project_should_clear_parent_if_not_valid
     issue = Issue.find(1)
-    issue.update_attribute(:parent_issue_id, 2)
+    issue.update! :parent_issue_id => 2
     issue.project = Project.find(2)
     assert issue.save
     issue.reload
@@ -1799,7 +1799,7 @@ class IssueTest < ActiveSupport::TestCase
   def test_recipients_should_include_previous_assignee
     user = User.find(3)
     user.members.update_all ["mail_notification = ?", false]
-    user.update_attribute :mail_notification, 'only_assigned'
+    user.update! :mail_notification => 'only_assigned'
 
     issue = Issue.find(2)
     issue.assigned_to = nil
@@ -1864,7 +1864,7 @@ class IssueTest < ActiveSupport::TestCase
 
   def test_destroying_a_stale_issue_should_not_raise_an_error
     issue = Issue.find(1)
-    Issue.find(1).update_attribute :subject, "Updated"
+    Issue.find(1).update! :subject => "Updated"
 
     assert_nothing_raised do
       assert_difference 'Issue.count', -1 do
@@ -2345,7 +2345,7 @@ class IssueTest < ActiveSupport::TestCase
     ActionMailer::Base.deliveries.clear
     user = User.find(3)
     user.members.update_all ["mail_notification = ?", false]
-    user.update_attribute :mail_notification, 'only_assigned'
+    user.update! :mail_notification => 'only_assigned'
 
     with_settings :notified_events => %w(issue_updated) do
       issue = Issue.find(2)
@@ -2482,10 +2482,10 @@ class IssueTest < ActiveSupport::TestCase
   test "#done_ratio should use the issue_status according to Setting.issue_done_ratio" do
     @issue = Issue.find(1)
     @issue_status = IssueStatus.find(1)
-    @issue_status.update_attribute(:default_done_ratio, 50)
+    @issue_status.update!(:default_done_ratio => 50)
     @issue2 = Issue.find(2)
     @issue_status2 = IssueStatus.find(2)
-    @issue_status2.update_attribute(:default_done_ratio, 0)
+    @issue_status2.update!(:default_done_ratio => 0)
 
     with_settings :issue_done_ratio => 'issue_field' do
       assert_equal 0, @issue.done_ratio
@@ -2501,10 +2501,10 @@ class IssueTest < ActiveSupport::TestCase
   test "#update_done_ratio_from_issue_status should update done_ratio according to Setting.issue_done_ratio" do
     @issue = Issue.find(1)
     @issue_status = IssueStatus.find(1)
-    @issue_status.update_attribute(:default_done_ratio, 50)
+    @issue_status.update!(:default_done_ratio => 50)
     @issue2 = Issue.find(2)
     @issue_status2 = IssueStatus.find(2)
-    @issue_status2.update_attribute(:default_done_ratio, 0)
+    @issue_status2.update!(:default_done_ratio => 0)
 
     with_settings :issue_done_ratio => 'issue_field' do
       @issue.update_done_ratio_from_issue_status
@@ -2614,19 +2614,19 @@ class IssueTest < ActiveSupport::TestCase
 
   test "Issue#recipients should not include users who opt out of all email" do
     issue = Issue.generate!(:author => User.generate!)
-    issue.author.update_attribute(:mail_notification, :none)
+    issue.author.update!(:mail_notification => :none)
     assert !issue.recipients.include?(issue.author.mail)
   end
 
   test "Issue#recipients should not include the issue author if they are only notified of assigned issues" do
     issue = Issue.generate!(:author => User.generate!)
-    issue.author.update_attribute(:mail_notification, :only_assigned)
+    issue.author.update!(:mail_notification => :only_assigned)
     assert !issue.recipients.include?(issue.author.mail)
   end
 
   test "Issue#recipients should not include the assigned user if they are only notified of owned issues" do
     issue = Issue.generate!(:assigned_to => User.generate!)
-    issue.assigned_to.update_attribute(:mail_notification, :only_owner)
+    issue.assigned_to.update!(:mail_notification => :only_owner)
     assert !issue.recipients.include?(issue.assigned_to.mail)
   end
 
@@ -2921,10 +2921,10 @@ class IssueTest < ActiveSupport::TestCase
 
   def test_issue_overdue_should_respect_user_timezone
     user_in_europe = users(:users_001)
-    user_in_europe.pref.update_attribute :time_zone, 'UTC'
+    user_in_europe.pref.update! :time_zone => 'UTC'
 
     user_in_asia = users(:users_002)
-    user_in_asia.pref.update_attribute :time_zone, 'Hongkong'
+    user_in_asia.pref.update! :time_zone => 'Hongkong'
 
     issue = Issue.generate! :due_date => Date.parse('2016-03-20')
 
