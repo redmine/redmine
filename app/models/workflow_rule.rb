@@ -62,7 +62,7 @@ class WorkflowRule < ActiveRecord::Base
       false
     else
       transaction do
-        delete_all :tracker_id => target_tracker.id, :role_id => target_role.id
+        where(:tracker_id => target_tracker.id, :role_id => target_role.id).delete_all
         connection.insert "INSERT INTO #{WorkflowRule.table_name} (tracker_id, role_id, old_status_id, new_status_id, author, assignee, field_name, #{connection.quote_column_name 'rule'}, type)" +
                           " SELECT #{target_tracker.id}, #{target_role.id}, old_status_id, new_status_id, author, assignee, field_name, #{connection.quote_column_name 'rule'}, type" +
                           " FROM #{WorkflowRule.table_name}" +
