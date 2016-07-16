@@ -662,7 +662,7 @@ class ProjectTest < ActiveSupport::TestCase
   test "enabled_modules should define module by names and preserve ids" do
     @project = Project.find(1)
     # Remove one module
-    modules = @project.enabled_modules.slice(0..-2)
+    modules = @project.enabled_modules.to_a.slice(0..-2)
     assert modules.any?
     assert_difference 'EnabledModule.count', -1 do
       @project.enabled_module_names = modules.collect(&:name)
@@ -707,7 +707,7 @@ class ProjectTest < ActiveSupport::TestCase
   def test_enabled_module_names_should_not_recreate_enabled_modules
     project = Project.find(1)
     # Remove one module
-    modules = project.enabled_modules.slice(0..-2)
+    modules = project.enabled_modules.to_a.slice(0..-2)
     assert modules.any?
     assert_difference 'EnabledModule.count', -1 do
       project.enabled_module_names = modules.collect(&:name)
