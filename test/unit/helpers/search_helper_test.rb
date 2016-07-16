@@ -19,7 +19,7 @@
 
 require File.expand_path('../../../test_helper', __FILE__)
 
-class SearchHelperTest < ActionView::TestCase
+class SearchHelperTest < Redmine::HelperTest
   include SearchHelper
   include Redmine::I18n
   include ERB::Util

@@ -277,6 +277,10 @@ module Redmine
     end
   end
 
+  class HelperTest < ActionView::TestCase
+    
+  end
+
   class ControllerTest < ActionController::TestCase
     def process(method, path, parameters={}, session={}, flash={})
       if parameters.key?(:params) || parameters.key?(:session)

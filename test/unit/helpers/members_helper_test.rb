@@ -17,7 +17,7 @@
 
 require File.expand_path('../../../test_helper', __FILE__)
 
-class MembersHelperTest < ActionView::TestCase
+class MembersHelperTest < Redmine::HelperTest
   include Redmine::I18n
   include ERB::Util
   include MembersHelper

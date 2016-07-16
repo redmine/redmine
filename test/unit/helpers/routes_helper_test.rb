@@ -19,7 +19,7 @@
 
 require File.expand_path('../../../test_helper', __FILE__)
 
-class RoutesHelperTest < ActionView::TestCase
+class RoutesHelperTest < Redmine::HelperTest
   fixtures :projects, :issues
 
   include Rails.application.routes.url_helpers
