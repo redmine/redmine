@@ -16,6 +16,8 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class IssueStatus < ActiveRecord::Base
+  include Redmine::SafeAttributes
+
   before_destroy :check_integrity
   has_many :workflows, :class_name => 'WorkflowTransition', :foreign_key => "old_status_id"
   has_many :workflow_transitions_as_new_status, :class_name => 'WorkflowTransition', :foreign_key => "new_status_id"
@@ -32,6 +34,11 @@ class IssueStatus < ActiveRecord::Base
 
   scope :sorted, lambda { order(:position) }
   scope :named, lambda {|arg| where("LOWER(#{table_name}.name) = LOWER(?)", arg.to_s.strip)}
+
+  safe_attributes 'name',
+    'is_closed',
+    'position',
+    'default_done_ratio'
 
   # Update all the +Issues+ setting their done_ratio to the value of their +IssueStatus+
   def self.update_issue_done_ratios

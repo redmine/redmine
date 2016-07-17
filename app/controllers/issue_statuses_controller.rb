@@ -35,7 +35,8 @@ class IssueStatusesController < ApplicationController
   end
 
   def create
-    @issue_status = IssueStatus.new(params[:issue_status])
+    @issue_status = IssueStatus.new
+    @issue_status.safe_attributes = params[:issue_status]
     if @issue_status.save
       flash[:notice] = l(:notice_successful_create)
       redirect_to issue_statuses_path
@@ -50,7 +51,8 @@ class IssueStatusesController < ApplicationController
 
   def update
     @issue_status = IssueStatus.find(params[:id])
-    if @issue_status.update_attributes(params[:issue_status])
+    @issue_status.safe_attributes = params[:issue_status]
+    if @issue_status.save
       respond_to do |format|
         format.html {
           flash[:notice] = l(:notice_successful_update)
