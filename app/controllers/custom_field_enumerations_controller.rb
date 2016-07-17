@@ -29,7 +29,8 @@ class CustomFieldEnumerationsController < ApplicationController
   end
 
   def create
-    @value = @custom_field.enumerations.build(params[:custom_field_enumeration])
+    @value = @custom_field.enumerations.build
+    @value.safe_attributes = params[:custom_field_enumeration]
     @value.save
     respond_to do |format|
       format.html { redirect_to custom_field_enumerations_path(@custom_field) }
@@ -38,7 +39,10 @@ class CustomFieldEnumerationsController < ApplicationController
   end
 
   def update_each
-    if CustomFieldEnumeration.update_each(@custom_field, params[:custom_field_enumerations])
+    saved = CustomFieldEnumeration.update_each(@custom_field, params[:custom_field_enumerations]) do |enumeration, enumeration_attributes|
+      enumeration.safe_attributes = enumeration_attributes
+    end
+    if saved
       flash[:notice] = l(:notice_successful_update)
     end
     redirect_to :action => 'index'
