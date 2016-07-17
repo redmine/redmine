@@ -90,7 +90,7 @@ class UsersController < ApplicationController
     @user = User.new(:language => Setting.default_language, :mail_notification => Setting.default_notification_option, :admin => false)
     @user.safe_attributes = params[:user]
     @user.password, @user.password_confirmation = params[:user][:password], params[:user][:password_confirmation] unless @user.auth_source_id
-    @user.pref.attributes = params[:pref] if params[:pref]
+    @user.pref.safe_attributes = params[:pref]
 
     if @user.save
       Mailer.account_information(@user, @user.password).deliver if params[:send_information]

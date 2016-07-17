@@ -16,12 +16,20 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class UserPreference < ActiveRecord::Base
+  include Redmine::SafeAttributes
+
   belongs_to :user
   serialize :others
 
   attr_protected :others, :user_id
 
   before_save :set_others_hash
+
+  safe_attributes 'hide_mail',
+    'time_zone',
+    'comments_sorting',
+    'warn_on_leaving_unsaved',
+    'no_self_notified'
 
   def initialize(attributes=nil, *args)
     super
