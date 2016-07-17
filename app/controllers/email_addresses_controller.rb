@@ -29,10 +29,7 @@ class EmailAddressesController < ApplicationController
     saved = false
     if @user.email_addresses.count <= Setting.max_additional_emails.to_i
       @address = EmailAddress.new(:user => @user, :is_default => false)
-      attrs = params[:email_address]
-      if attrs.is_a?(Hash)
-        @address.address = attrs[:address].to_s
-      end
+      @address.safe_attributes = params[:email_address]
       saved = @address.save
     end
 

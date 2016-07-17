@@ -16,6 +16,8 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class EmailAddress < ActiveRecord::Base
+  include Redmine::SafeAttributes
+
   belongs_to :user
   attr_protected :id
 
@@ -28,6 +30,8 @@ class EmailAddress < ActiveRecord::Base
   validates_length_of :address, :maximum => User::MAIL_LENGTH_LIMIT, :allow_nil => true
   validates_uniqueness_of :address, :case_sensitive => false,
     :if => Proc.new {|email| email.address_changed? && email.address.present?}
+
+  safe_attributes 'address'
 
   def address=(arg)
     write_attribute(:address, arg.to_s.strip)
