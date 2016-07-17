@@ -8,8 +8,8 @@
 
 <%= render :partial => 'link_to_functions' %>
 
+<% if @annotate %>
 <% colors = Hash.new {|k,v| k[v] = (k.size % 12) } %>
-
 <div class="autoscroll">
 <table class="filecontent annotate syntaxhl">
   <tbody>
@@ -38,6 +38,9 @@
   </tbody>
 </table>
 </div>
+<% else %>
+<p id="errorExplanation"><%= @error_message %></p>
+<% end %>
 
 <% html_title(l(:button_annotate)) -%>
 

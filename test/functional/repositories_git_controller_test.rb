@@ -449,7 +449,7 @@ class RepositoriesGitControllerTest < Redmine::ControllerTest
       with_settings :default_language => 'en' do
         get :annotate, :id => PRJ_ID,
             :path => repository_path_hash(['images', 'edit.png'])[:param]
-        assert_response 500
+        assert_response 200
         assert_select 'p#errorExplanation', :text => /cannot be annotated/
       end
     end
@@ -459,7 +459,7 @@ class RepositoriesGitControllerTest < Redmine::ControllerTest
         get :annotate, :id => PRJ_ID,
             :path => repository_path_hash(['sources', 'watchers_controller.rb'])[:param],
             :rev => 'deff712f'
-        assert_response 500
+        assert_response 200
         assert_select 'p#errorExplanation', :text => /exceeds the maximum text file size/
 
         get :annotate, :id => PRJ_ID,
