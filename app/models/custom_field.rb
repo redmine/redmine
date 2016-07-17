@@ -16,6 +16,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class CustomField < ActiveRecord::Base
+  include Redmine::SafeAttributes
   include Redmine::SubclassFactory
 
   has_many :enumerations,
@@ -61,10 +62,32 @@ class CustomField < ActiveRecord::Base
       where(:visible => true)
     end
   }
-
   def visible_by?(project, user=User.current)
     visible? || user.admin?
   end
+
+  safe_attributes 'name',
+    'field_format',
+    'possible_values',
+    'regexp',
+    'min_lnegth',
+    'max_length',
+    'is_required',
+    'is_for_all',
+    'is_filter',
+    'position',
+    'searchable',
+    'default_value',
+    'editable',
+    'visible',
+    'multiple',
+    'description',
+    'role_ids',
+    'url_pattern',
+    'text_formatting',
+    'edit_tag_style',
+    'user_role',
+    'version_status'
 
   def format
     @format ||= Redmine::FieldFormat.find(field_format)
