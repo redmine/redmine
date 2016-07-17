@@ -62,12 +62,12 @@ class EnumerationsController < ApplicationController
           flash[:notice] = l(:notice_successful_update)
           redirect_to enumerations_path
         }
-        format.js { render :nothing => true }
+        format.js { head 200 }
       end
     else
       respond_to do |format|
         format.html { render :action => 'edit' }
-        format.js { render :nothing => true, :status => 422 }
+        format.js { head 422 }
       end
     end
   end

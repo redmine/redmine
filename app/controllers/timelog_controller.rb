@@ -88,7 +88,7 @@ class TimelogController < ApplicationController
   def show
     respond_to do |format|
       # TODO: Implement html response
-      format.html { render :nothing => true, :status => 406 }
+      format.html { head 406 }
       format.api
     end
   end

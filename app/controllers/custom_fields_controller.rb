@@ -60,12 +60,12 @@ class CustomFieldsController < ApplicationController
           flash[:notice] = l(:notice_successful_update)
           redirect_back_or_default edit_custom_field_path(@custom_field)
         }
-        format.js { render :nothing => true }
+        format.js { head 200 }
       end
     else
       respond_to do |format|
         format.html { render :action => 'edit' }
-        format.js { render :nothing => true, :status => 422 }
+        format.js { head 422 }
       end
     end
   end

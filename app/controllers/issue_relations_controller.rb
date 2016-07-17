@@ -25,7 +25,7 @@ class IssueRelationsController < ApplicationController
     @relations = @issue.relations
 
     respond_to do |format|
-      format.html { render :nothing => true }
+      format.html { head 200 }
       format.api
     end
   end
@@ -34,7 +34,7 @@ class IssueRelationsController < ApplicationController
     raise Unauthorized unless @relation.visible?
 
     respond_to do |format|
-      format.html { render :nothing => true }
+      format.html { head 200 }
       format.api
     end
   end

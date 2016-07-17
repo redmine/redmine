@@ -84,7 +84,7 @@ class IssuesController < ApplicationController
     else
       respond_to do |format|
         format.html { render(:template => 'issues/index', :layout => !request.xhr?) }
-        format.any(:atom, :csv, :pdf) { render(:nothing => true) }
+        format.any(:atom, :csv, :pdf) { head 422 }
         format.api { render_validation_errors(@query) }
       end
     end

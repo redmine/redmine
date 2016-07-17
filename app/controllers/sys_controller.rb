@@ -31,7 +31,7 @@ class SysController < ActionController::Base
   def create_project_repository
     project = Project.find(params[:id])
     if project.repository
-      render :nothing => true, :status => 409
+      head 409
     else
       logger.info "Repository for #{project.name} was reported to be created by #{request.remote_ip}."
       repository = Repository.factory(params[:vendor], params[:repository])
@@ -39,7 +39,7 @@ class SysController < ActionController::Base
       if repository.save
         render :xml => {repository.class.name.underscore.gsub('/', '-') => {:id => repository.id, :url => repository.url}}, :status => 201
       else
-        render :nothing => true, :status => 422
+        head 422
       end
     end
   end
@@ -64,9 +64,9 @@ class SysController < ActionController::Base
         repository.fetch_changesets
       end
     end
-    render :nothing => true, :status => 200
+    head 200
   rescue ActiveRecord::RecordNotFound
-    render :nothing => true, :status => 404
+    head 404
   end
 
   protected

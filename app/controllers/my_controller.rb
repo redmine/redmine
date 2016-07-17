@@ -206,6 +206,6 @@ class MyController < ApplicationController
         @user.pref.save
       end
     end
-    render :nothing => true
+    head 200
   end
 end

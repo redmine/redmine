@@ -73,7 +73,7 @@ class AttachmentsController < ApplicationController
       end
     else
       # No thumbnail for the attachment or thumbnail could not be created
-      render :nothing => true, :status => 404
+      head 404
     end
   end
 
@@ -81,7 +81,7 @@ class AttachmentsController < ApplicationController
     # Make sure that API users get used to set this content type
     # as it won't trigger Rails' automatic parsing of the request body for parameters
     unless request.content_type == 'application/octet-stream'
-      render :nothing => true, :status => 406
+      head 406
       return
     end
 
