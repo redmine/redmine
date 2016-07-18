@@ -38,27 +38,28 @@ class CustomFieldsControllerTest < Redmine::ControllerTest
   def test_index
     get :index
     assert_response :success
-    assert_template 'index'
+
+    assert_select 'table.custom_fields'
   end
 
   def test_new_without_type_should_render_select_type
     get :new
     assert_response :success
-    assert_template 'select_type'
+
     assert_select 'input[name=type]', CustomFieldsHelper::CUSTOM_FIELDS_TABS.size
     assert_select 'input[name=type][checked=checked]', 1
   end
 
   def test_new_should_work_for_each_customized_class_and_format
     custom_field_classes.each do |klass|
-      Redmine::FieldFormat.available_formats.each do |format_name|
-        get :new, :type => klass.name, :custom_field => {:field_format => format_name}
+      Redmine::FieldFormat.formats_for_custom_field_class(klass).each do |format|
+        get :new, :type => klass.name, :custom_field => {:field_format => format.name}
         assert_response :success
-        assert_template 'new'
-        assert_kind_of klass, assigns(:custom_field)
-        assert_equal format_name, assigns(:custom_field).format.name
+
         assert_select 'form#custom_field_form' do
-          assert_select 'select#custom_field_field_format[name=?]', 'custom_field[field_format]'
+          assert_select 'select[name=?]', 'custom_field[field_format]' do
+            assert_select 'option[value=?][selected=selected]', format.name
+          end
           assert_select 'input[type=hidden][name=type][value=?]', klass.name
         end
       end
@@ -68,13 +69,16 @@ class CustomFieldsControllerTest < Redmine::ControllerTest
   def test_new_should_have_string_default_format
     get :new, :type => 'IssueCustomField'
     assert_response :success
-    assert_equal 'string', assigns(:custom_field).format.name
+
+    assert_select 'select[name=?]', 'custom_field[field_format]' do
+      assert_select 'option[value=?][selected=selected]', 'string'
+    end
   end
 
   def test_new_issue_custom_field
     get :new, :type => 'IssueCustomField'
     assert_response :success
-    assert_template 'new'
+
     assert_select 'form#custom_field_form' do
       assert_select 'select#custom_field_field_format[name=?]', 'custom_field[field_format]' do
         assert_select 'option[value=user]', :text => 'User'
@@ -89,7 +93,7 @@ class CustomFieldsControllerTest < Redmine::ControllerTest
   def test_new_time_entry_custom_field_should_not_show_trackers_and_projects
     get :new, :type => 'TimeEntryCustomField'
     assert_response :success
-    assert_template 'new'
+
     assert_select 'form#custom_field_form' do
       assert_select 'input[name=?]', 'custom_field[tracker_ids][]', 0
       assert_select 'input[name=?]', 'custom_field[project_ids][]', 0
@@ -125,17 +129,16 @@ class CustomFieldsControllerTest < Redmine::ControllerTest
   def test_new_js
     xhr :get, :new, :type => 'IssueCustomField', :custom_field => {:field_format => 'list'}, :format => 'js'
     assert_response :success
-    assert_template 'new'
     assert_equal 'text/javascript', response.content_type
 
-    field = assigns(:custom_field)
-    assert_equal 'list', field.field_format
+    assert_include '<option selected=\"selected\" value=\"list\">List<\/option>', response.body
   end
 
   def test_new_with_invalid_custom_field_class_should_render_select_type
     get :new, :type => 'UnknownCustomField'
     assert_response :success
-    assert_template 'select_type'
+
+    assert_select 'input[type=radio][name=type]'
   end
 
   def test_create_list_custom_field
@@ -176,7 +179,7 @@ class CustomFieldsControllerTest < Redmine::ControllerTest
       post :create, :type => "IssueCustomField", :custom_field => {:name => ''}
     end
     assert_response :success
-    assert_template 'new'
+    assert_select_error /name cannot be blank/i
   end
 
   def test_create_without_type_should_render_select_type
@@ -184,13 +187,12 @@ class CustomFieldsControllerTest < Redmine::ControllerTest
       post :create, :custom_field => {:name => ''}
     end
     assert_response :success
-    assert_template 'select_type'
+    assert_select 'input[type=radio][name=type]'
   end
 
   def test_edit
     get :edit, :id => 1
     assert_response :success
-    assert_template 'edit'
     assert_select 'input[name=?][value=?]', 'custom_field[name]', 'Database'
   end
 
@@ -210,7 +212,7 @@ class CustomFieldsControllerTest < Redmine::ControllerTest
   def test_update_with_failure
     put :update, :id => 1, :custom_field => {:name => ''}
     assert_response :success
-    assert_template 'edit'
+    assert_select_error /name cannot be blank/i
   end
 
   def test_destroy

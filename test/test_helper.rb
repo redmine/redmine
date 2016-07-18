@@ -282,6 +282,29 @@ module Redmine
   end
 
   class ControllerTest < ActionController::TestCase
+    # Returns the issues that are displayed in the list in the same order
+    def issues_in_list
+      ids = css_select('tr.issue td.id').map(&:text).map(&:to_i)
+      Issue.where(:id => ids).sort_by {|issue| ids.index(issue.id)}
+    end
+  
+    # Return the columns that are displayed in the list
+    def columns_in_issues_list
+      css_select('table.issues thead th:not(.checkbox)').map(&:text)
+    end
+  
+    # Verifies that the query filters match the expected filters
+    def assert_query_filters(expected_filters)
+      response.body =~ /initFilters\(\);\s*((addFilter\(.+\);\s*)*)/
+      filter_init = $1.to_s
+  
+      expected_filters.each do |field, operator, values|
+        s = "addFilter(#{field.to_json}, #{operator.to_json}, #{Array(values).to_json});"
+        assert_include s, filter_init
+      end
+      assert_equal expected_filters.size, filter_init.scan("addFilter").size, "filters counts don't match"
+    end
+
     def process(method, path, parameters={}, session={}, flash={})
       if parameters.key?(:params) || parameters.key?(:session)
         raise ArgumentError if session.present?

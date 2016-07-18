@@ -39,29 +39,21 @@ class AdminControllerTest < Redmine::ControllerTest
   def test_projects
     get :projects
     assert_response :success
-    assert_template 'projects'
-    assert_not_nil assigns(:projects)
-    # active projects only
-    assert_nil assigns(:projects).detect {|u| !u.active?}
+    assert_select 'tr.project.closed', 0
   end
 
   def test_projects_with_status_filter
     get :projects, :status => 1
     assert_response :success
-    assert_template 'projects'
-    assert_not_nil assigns(:projects)
-    # active projects only
-    assert_nil assigns(:projects).detect {|u| !u.active?}
+    assert_select 'tr.project.closed', 0
   end
 
   def test_projects_with_name_filter
     get :projects, :name => 'store', :status => ''
     assert_response :success
-    assert_template 'projects'
-    projects = assigns(:projects)
-    assert_not_nil projects
-    assert_equal 1, projects.size
-    assert_equal 'OnlineStore', projects.first.name
+
+    assert_select 'tr.project td.name', :text => 'OnlineStore'
+    assert_select 'tr.project', 1
   end
 
   def test_load_default_configuration_data
@@ -107,8 +99,7 @@ class AdminControllerTest < Redmine::ControllerTest
 
     get :plugins
     assert_response :success
-    assert_template 'plugins'
-    assert_equal [], assigns(:plugins)
+    assert_select '.nodata'
   end
 
   def test_plugins
@@ -125,7 +116,6 @@ class AdminControllerTest < Redmine::ControllerTest
 
     get :plugins
     assert_response :success
-    assert_template 'plugins'
 
     assert_select 'tr#plugin-foo' do
       assert_select 'td span.name', :text => 'Foo plugin'
@@ -140,7 +130,6 @@ class AdminControllerTest < Redmine::ControllerTest
   def test_info
     get :info
     assert_response :success
-    assert_template 'info'
   end
 
   def test_admin_menu_plugin_extension

@@ -28,7 +28,7 @@ class IssueStatusesControllerTest < Redmine::ControllerTest
   def test_index
     get :index
     assert_response :success
-    assert_template 'index'
+    assert_select 'table.issue_statuses'
   end
   
   def test_index_by_anonymous_should_redirect_to_login_form
@@ -46,7 +46,7 @@ class IssueStatusesControllerTest < Redmine::ControllerTest
   def test_new
     get :new
     assert_response :success
-    assert_template 'new'
+    assert_select 'input[name=?]', 'issue_status[name]'
   end
 
   def test_create
@@ -61,14 +61,13 @@ class IssueStatusesControllerTest < Redmine::ControllerTest
   def test_create_with_failure
     post :create, :issue_status => {:name => ''}
     assert_response :success
-    assert_template 'new'
     assert_select_error /name cannot be blank/i
   end
 
   def test_edit
     get :edit, :id => '3'
     assert_response :success
-    assert_template 'edit'
+    assert_select 'input[name=?][value=?]', 'issue_status[name]', 'Resolved'
   end
 
   def test_update
@@ -81,7 +80,6 @@ class IssueStatusesControllerTest < Redmine::ControllerTest
   def test_update_with_failure
     put :update, :id => '3', :issue_status => {:name => ''}
     assert_response :success
-    assert_template 'edit'
     assert_select_error /name cannot be blank/i
   end
 

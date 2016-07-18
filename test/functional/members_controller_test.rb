@@ -93,7 +93,6 @@ class MembersControllerTest < Redmine::ControllerTest
     assert_difference 'Member.count', 3 do
       xhr :post, :create, :project_id => 1, :membership => {:role_ids => [1], :user_ids => [7, 8, 9]}
       assert_response :success
-      assert_template 'create'
       assert_equal 'text/javascript', response.content_type
     end
     assert User.find(7).member_of?(Project.find(1))
@@ -106,7 +105,6 @@ class MembersControllerTest < Redmine::ControllerTest
     assert_no_difference 'Member.count' do
       xhr :post, :create, :project_id => 1, :membership => {:role_ids => [], :user_ids => [7, 8, 9]}
       assert_response :success
-      assert_template 'create'
       assert_equal 'text/javascript', response.content_type
     end
     assert_match /alert/, response.body, "Alert message not sent"
@@ -143,7 +141,6 @@ class MembersControllerTest < Redmine::ControllerTest
     assert_no_difference 'Member.count' do
       xhr :put, :update, :id => 2, :membership => {:role_ids => [1], :user_id => 3}
       assert_response :success
-      assert_template 'update'
       assert_equal 'text/javascript', response.content_type
     end
     member = Member.find(2)
@@ -186,7 +183,6 @@ class MembersControllerTest < Redmine::ControllerTest
     assert_difference 'Member.count', -1 do
       xhr :delete, :destroy, :id => 2
       assert_response :success
-      assert_template 'destroy'
       assert_equal 'text/javascript', response.content_type
     end
     assert_nil Member.find_by_id(2)

@@ -47,6 +47,13 @@ module Redmine
       formats.map {|format| [::I18n.t(format.label), format.name] }.sort_by(&:first)
     end
 
+    # Returns an array of formats that can be used for a custom field class
+    def self.formats_for_custom_field_class(klass=nil)
+      all.values.select do |format|
+        format.class.customized_class_names.nil? || format.class.customized_class_names.include?(klass.name)
+      end
+    end
+
     class Base
       include Singleton
       include Redmine::I18n

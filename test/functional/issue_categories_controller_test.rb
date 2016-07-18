@@ -30,7 +30,6 @@ class IssueCategoriesControllerTest < Redmine::ControllerTest
     @request.session[:user_id] = 2 # manager
     get :new, :project_id => '1'
     assert_response :success
-    assert_template 'new'
     assert_select 'input[name=?]', 'issue_category[name]'
   end
 
@@ -39,7 +38,6 @@ class IssueCategoriesControllerTest < Redmine::ControllerTest
     xhr :get, :new, :project_id => '1'
 
     assert_response :success
-    assert_template 'new'
     assert_equal 'text/javascript', response.content_type
   end
 
@@ -58,7 +56,7 @@ class IssueCategoriesControllerTest < Redmine::ControllerTest
     @request.session[:user_id] = 2
     post :create, :project_id => '1', :issue_category => {:name => ''}
     assert_response :success
-    assert_template 'new'
+    assert_select_error /Name cannot be blank/i
   end
 
   def test_create_from_issue_form
@@ -70,7 +68,6 @@ class IssueCategoriesControllerTest < Redmine::ControllerTest
     assert_equal 'New category', category.name
 
     assert_response :success
-    assert_template 'create'
     assert_equal 'text/javascript', response.content_type
   end
 
@@ -81,15 +78,14 @@ class IssueCategoriesControllerTest < Redmine::ControllerTest
     end
 
     assert_response :success
-    assert_template 'new'
     assert_equal 'text/javascript', response.content_type
+    assert_include 'Name cannot be blank', response.body
   end
 
   def test_edit
     @request.session[:user_id] = 2
     get :edit, :id => 2
     assert_response :success
-    assert_template 'edit'
     assert_select 'input[name=?][value=?]', 'issue_category[name]', 'Recipes'
   end
 
@@ -104,7 +100,7 @@ class IssueCategoriesControllerTest < Redmine::ControllerTest
   def test_update_failure
     put :update, :id => 2, :issue_category => { :name => '' }
     assert_response :success
-    assert_template 'edit'
+    assert_select_error /Name cannot be blank/i
   end
 
   def test_update_not_found
@@ -121,8 +117,8 @@ class IssueCategoriesControllerTest < Redmine::ControllerTest
   def test_destroy_category_in_use
     delete :destroy, :id => 1
     assert_response :success
-    assert_template 'destroy'
     assert_not_nil IssueCategory.find_by_id(1)
+    assert_select 'select[name=?]', 'reassign_to_id'
   end
 
   def test_destroy_category_in_use_with_reassignment

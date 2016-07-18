@@ -111,9 +111,8 @@ class AccountControllerOpenidTest < Redmine::ControllerTest
 
       post :login, :openid_url => 'http://openid.example.com/good_user'
       assert_response :success
-      assert_template 'register'
-      assert assigns(:user)
-      assert_equal 'http://openid.example.com/good_user', assigns(:user)[:identity_url]
+
+      assert_select 'input[name=?][value=?]', 'user[identity_url]', 'http://openid.example.com/good_user'
     end
 
     def test_login_with_openid_with_new_user_with_missing_information_should_register
@@ -121,9 +120,6 @@ class AccountControllerOpenidTest < Redmine::ControllerTest
 
       post :login, :openid_url => 'http://openid.example.com/good_blank_user'
       assert_response :success
-      assert_template 'register'
-      assert assigns(:user)
-      assert_equal 'http://openid.example.com/good_blank_user', assigns(:user)[:identity_url]
 
       assert_select 'input[name=?]', 'user[login]'
       assert_select 'input[name=?]', 'user[password]'

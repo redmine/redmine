@@ -31,49 +31,43 @@ class AutoCompletesControllerTest < Redmine::ControllerTest
   def test_issues_should_not_be_case_sensitive
     get :issues, :project_id => 'ecookbook', :q => 'ReCiPe'
     assert_response :success
-    assert_not_nil assigns(:issues)
-    assert assigns(:issues).detect {|issue| issue.subject.match /recipe/}
+    assert_include "recipe", response.body
   end
 
   def test_issues_should_accept_term_param
     get :issues, :project_id => 'ecookbook', :term => 'ReCiPe'
     assert_response :success
-    assert_not_nil assigns(:issues)
-    assert assigns(:issues).detect {|issue| issue.subject.match /recipe/}
+    assert_include "recipe", response.body
   end
 
   def test_issues_should_return_issue_with_given_id
     get :issues, :project_id => 'subproject1', :q => '13'
     assert_response :success
-    assert_not_nil assigns(:issues)
-    assert assigns(:issues).include?(Issue.find(13))
+    assert_include "Bug #13", response.body
   end
 
   def test_issues_should_return_issue_with_given_id_preceded_with_hash
     get :issues, :project_id => 'subproject1', :q => '#13'
     assert_response :success
-    assert_not_nil assigns(:issues)
-    assert assigns(:issues).include?(Issue.find(13))
+    assert_include "Bug #13", response.body
   end
 
   def test_auto_complete_with_scope_all_should_search_other_projects
     get :issues, :project_id => 'ecookbook', :q => '13', :scope => 'all'
     assert_response :success
-    assert_not_nil assigns(:issues)
-    assert assigns(:issues).include?(Issue.find(13))
+    assert_include "Bug #13", response.body
   end
 
   def test_auto_complete_without_project_should_search_all_projects
     get :issues, :q => '13'
     assert_response :success
-    assert_not_nil assigns(:issues)
-    assert assigns(:issues).include?(Issue.find(13))
+    assert_include "Bug #13", response.body
   end
 
   def test_auto_complete_without_scope_all_should_not_search_other_projects
     get :issues, :project_id => 'ecookbook', :q => '13'
     assert_response :success
-    assert_equal [], assigns(:issues)
+    assert_not_include "Bug #13", response.body
   end
 
   def test_issues_should_return_json

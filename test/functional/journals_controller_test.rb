@@ -28,7 +28,6 @@ class JournalsControllerTest < Redmine::ControllerTest
   def test_index
     get :index, :project_id => 1
     assert_response :success
-    assert_not_nil assigns(:journals)
     assert_equal 'application/atom+xml', @response.content_type
   end
 
@@ -43,12 +42,12 @@ class JournalsControllerTest < Redmine::ControllerTest
 
     get :index, :project_id => 1
     assert_response :success
-    assert_include journal, assigns(:journals)
+    assert_select 'entry>id', :text => "http://test.host/issues/2?journal_id=#{journal.id}"
 
     Role.find(1).remove_permission! :view_private_notes
     get :index, :project_id => 1
     assert_response :success
-    assert_not_include journal, assigns(:journals)
+    assert_select 'entry>id', :text => "http://test.host/issues/2?journal_id=#{journal.id}", :count => 0
   end
 
   def test_index_should_show_visible_custom_fields_only
@@ -94,7 +93,6 @@ class JournalsControllerTest < Redmine::ControllerTest
   def test_diff_for_description_change
     get :diff, :id => 3, :detail_id => 4
     assert_response :success
-    assert_template 'diff'
 
     assert_select 'span.diff_out', :text => /removed/
     assert_select 'span.diff_in', :text => /added/
@@ -108,7 +106,6 @@ class JournalsControllerTest < Redmine::ControllerTest
 
     get :diff, :id => journal.id, :detail_id => detail.id
     assert_response :success
-    assert_template 'diff'
 
     assert_select 'span.diff_out', :text => /Foo/
     assert_select 'span.diff_in', :text => /Bar/
@@ -127,7 +124,6 @@ class JournalsControllerTest < Redmine::ControllerTest
   def test_diff_should_default_to_description_diff
     get :diff, :id => 3
     assert_response :success
-    assert_template 'diff'
 
     assert_select 'span.diff_out', :text => /removed/
     assert_select 'span.diff_in', :text => /added/
@@ -137,7 +133,7 @@ class JournalsControllerTest < Redmine::ControllerTest
     @request.session[:user_id] = 2
     xhr :get, :new, :id => 6
     assert_response :success
-    assert_template 'new'
+
     assert_equal 'text/javascript', response.content_type
     assert_include '> This is an issue', response.body
   end
@@ -152,7 +148,6 @@ class JournalsControllerTest < Redmine::ControllerTest
     @request.session[:user_id] = 2
     xhr :get, :new, :id => 6, :journal_id => 4
     assert_response :success
-    assert_template 'new'
     assert_equal 'text/javascript', response.content_type
     assert_include '> A comment with a private version', response.body
   end
@@ -163,7 +158,6 @@ class JournalsControllerTest < Redmine::ControllerTest
 
     xhr :get, :new, :id => 2, :journal_id => journal.id
     assert_response :success
-    assert_template 'new'
     assert_equal 'text/javascript', response.content_type
     assert_include '> Privates notes', response.body
 
@@ -176,7 +170,6 @@ class JournalsControllerTest < Redmine::ControllerTest
     @request.session[:user_id] = 1
     xhr :get, :edit, :id => 2
     assert_response :success
-    assert_template 'edit'
     assert_equal 'text/javascript', response.content_type
     assert_include 'textarea', response.body
   end
@@ -188,7 +181,6 @@ class JournalsControllerTest < Redmine::ControllerTest
 
     xhr :get, :edit, :id => journal.id
     assert_response :success
-    assert_template 'edit'
     assert_equal 'text/javascript', response.content_type
     assert_include 'textarea', response.body
 
@@ -201,7 +193,6 @@ class JournalsControllerTest < Redmine::ControllerTest
     @request.session[:user_id] = 1
     xhr :post, :update, :id => 2, :journal => {:notes => 'Updated notes'}
     assert_response :success
-    assert_template 'update'
     assert_equal 'text/javascript', response.content_type
     assert_equal 'Updated notes', Journal.find(2).notes
     assert_include 'journal-2-notes', response.body
@@ -211,7 +202,6 @@ class JournalsControllerTest < Redmine::ControllerTest
     @request.session[:user_id] = 1
     xhr :post, :update, :id => 2, :journal => {:private_notes => '1'}
     assert_response :success
-    assert_template 'update'
     assert_equal 'text/javascript', response.content_type
     assert_equal true, Journal.find(2).private_notes
     assert_include 'change-2', response.body
@@ -223,7 +213,6 @@ class JournalsControllerTest < Redmine::ControllerTest
     @request.session[:user_id] = 1
     xhr :post, :update, :id => 2, :journal => {:private_notes => '0'}
     assert_response :success
-    assert_template 'update'
     assert_equal 'text/javascript', response.content_type
     assert_equal false, Journal.find(2).private_notes
     assert_include 'change-2', response.body
@@ -246,7 +235,6 @@ class JournalsControllerTest < Redmine::ControllerTest
     assert_difference 'Journal.count', -1 do
       xhr :post, :update, :id => 2, :journal => {:notes => ''}
       assert_response :success
-      assert_template 'update'
       assert_equal 'text/javascript', response.content_type
     end
     assert_nil Journal.find_by_id(2)

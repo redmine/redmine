@@ -27,9 +27,7 @@ class BoardsControllerTest < Redmine::ControllerTest
   def test_index
     get :index, :project_id => 1
     assert_response :success
-    assert_template 'index'
-    assert_not_nil assigns(:boards)
-    assert_not_nil assigns(:project)
+    assert_select 'table.boards'
   end
 
   def test_index_not_found
@@ -42,17 +40,18 @@ class BoardsControllerTest < Redmine::ControllerTest
 
     get :index, :project_id => 1
     assert_response :success
-    assert_template 'show'
-    assert_not_nil assigns(:topics)
+
+    assert_select 'table.boards', 0
+    assert_select 'table.messages'
   end
 
   def test_show
     get :show, :project_id => 1, :id => 1
     assert_response :success
-    assert_template 'show'
-    assert_not_nil assigns(:board)
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:topics)
+
+    assert_select 'table.messages tbody' do
+      assert_select 'tr', Board.find(1).topics.count
+    end
   end
 
   def test_show_should_display_sticky_messages_first
@@ -62,11 +61,12 @@ class BoardsControllerTest < Redmine::ControllerTest
     get :show, :project_id => 1, :id => 1
     assert_response :success
 
-    topics = assigns(:topics)
-    assert_not_nil topics
-    assert topics.size > 1, "topics size was #{topics.size}"
-    assert topics.first.sticky?
-    assert topics.first.updated_on < topics.second.updated_on
+    assert_select 'table.messages tbody' do
+      # row is here...
+      assert_select 'tr.sticky'
+      # ...and in first position
+      assert_select 'tr.sticky:first-child'
+    end
   end
 
   def test_show_should_display_message_with_last_reply_first
@@ -79,16 +79,17 @@ class BoardsControllerTest < Redmine::ControllerTest
 
     get :show, :project_id => 1, :id => 1
     assert_response :success
-    topics = assigns(:topics)
-    assert_not_nil topics
-    assert_equal old_topic, topics.first
+
+    assert_select 'table.messages tbody' do
+      assert_select "tr#message-#{old_topic.id}"
+      assert_select "tr#message-#{old_topic.id}:first-child"
+    end
   end
 
   def test_show_with_permission_should_display_the_new_message_form
     @request.session[:user_id] = 2
     get :show, :project_id => 1, :id => 1
     assert_response :success
-    assert_template 'show'
 
     assert_select 'form#message-form' do
       assert_select 'input[name=?]', 'message[subject]'
@@ -98,10 +99,8 @@ class BoardsControllerTest < Redmine::ControllerTest
   def test_show_atom
     get :show, :project_id => 1, :id => 1, :format => 'atom'
     assert_response :success
-    assert_template 'common/feed'
-    assert_not_nil assigns(:board)
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:messages)
+
+    assert_select 'feed > entry > title', :text => 'Help: RE: post 2'
   end
 
   def test_show_not_found
@@ -113,7 +112,6 @@ class BoardsControllerTest < Redmine::ControllerTest
     @request.session[:user_id] = 2
     get :new, :project_id => 1
     assert_response :success
-    assert_template 'new'
 
     assert_select 'select[name=?]', 'board[parent_id]' do
       assert_select 'option', (Project.find(1).boards.size + 1)
@@ -132,7 +130,6 @@ class BoardsControllerTest < Redmine::ControllerTest
 
     get :new, :project_id => 1
     assert_response :success
-    assert_template 'new'
 
     assert_select 'select[name=?]', 'board[parent_id]', 0
   end

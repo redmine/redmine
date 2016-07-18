@@ -32,7 +32,10 @@ class CustomFieldEnumerationsControllerTest < Redmine::ControllerTest
   def test_index
     get :index, :custom_field_id => @field.id
     assert_response :success
-    assert_template 'index'
+
+    assert_select 'ul#custom_field_enumerations' do
+      assert_select 'li', 2
+    end
   end
 
   def test_create
@@ -91,8 +94,9 @@ class CustomFieldEnumerationsControllerTest < Redmine::ControllerTest
 
     assert_no_difference 'CustomFieldEnumeration.count' do
       delete :destroy, :custom_field_id => @field.id, :id => @foo.id
-      assert_response 200
-      assert_template 'destroy'
+      assert_response :success
+
+      assert_select 'select[name=?]', 'reassign_to_id'
     end
   end
 

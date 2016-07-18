@@ -37,7 +37,6 @@ class ContextMenusControllerTest < Redmine::ControllerTest
     @request.session[:user_id] = 2
     get :issues, :ids => [1]
     assert_response :success
-    assert_template 'context_menus/issues'
 
     assert_select 'a.icon-edit[href=?]', '/issues/1/edit', :text => 'Edit'
     assert_select 'a.icon-copy[href=?]', '/projects/ecookbook/issues/1/copy', :text => 'Copy'
@@ -59,7 +58,7 @@ class ContextMenusControllerTest < Redmine::ControllerTest
     with_settings :default_language => 'en' do
       get :issues, :ids => [1]
       assert_response :success
-      assert_template 'context_menus/issues'
+
       assert_select 'a.icon-del.disabled[href="#"]', :text => 'Delete'
     end
   end
@@ -68,11 +67,8 @@ class ContextMenusControllerTest < Redmine::ControllerTest
     @request.session[:user_id] = 2
     get :issues, :ids => [1, 2]
     assert_response :success
-    assert_template 'context_menus/issues'
-    assert_not_nil assigns(:issues)
-    assert_equal [1, 2], assigns(:issues).map(&:id).sort
 
-    ids = assigns(:issues).map(&:id).sort.map {|i| "ids%5B%5D=#{i}"}.join('&')
+    ids = [1, 2].map {|i| "ids%5B%5D=#{i}"}.join('&')
 
     assert_select 'a.icon-edit[href=?]', "/issues/bulk_edit?#{ids}", :text => 'Edit'
     assert_select 'a.icon-copy[href=?]', "/issues/bulk_edit?copy=1&#{ids}", :text => 'Copy'
@@ -87,11 +83,8 @@ class ContextMenusControllerTest < Redmine::ControllerTest
     @request.session[:user_id] = 2
     get :issues, :ids => [1, 2, 6]
     assert_response :success
-    assert_template 'context_menus/issues'
-    assert_not_nil assigns(:issues)
-    assert_equal [1, 2, 6], assigns(:issues).map(&:id).sort
 
-    ids = assigns(:issues).map(&:id).sort.map {|i| "ids%5B%5D=#{i}"}.join('&')
+    ids = [1, 2, 6].map {|i| "ids%5B%5D=#{i}"}.join('&')
 
     assert_select 'a.icon-edit[href=?]', "/issues/bulk_edit?#{ids}", :text => 'Edit'
     assert_select 'a.icon-del[href=?]', "/issues?#{ids}", :text => 'Delete'
@@ -214,7 +207,6 @@ class ContextMenusControllerTest < Redmine::ControllerTest
     @request.session[:user_id] = 2
     get :issues, :ids => [1]
     assert_response :success
-    assert_template 'context_menus/issues'
 
     assert_select 'a[href=?]', '/issues/bulk_update?ids%5B%5D=1&issue%5Bassigned_to_id%5D=2', :text => / me /
   end
@@ -225,9 +217,7 @@ class ContextMenusControllerTest < Redmine::ControllerTest
 
     get :issues, :ids => [1, 4]
     assert_response :success
-    assert_template 'context_menus/issues'
 
-    assert_include version, assigns(:versions)
     assert_select 'a', :text => 'eCookbook - Shared'
   end
 
@@ -245,7 +235,6 @@ class ContextMenusControllerTest < Redmine::ControllerTest
     @request.session[:user_id] = 2
     get :time_entries, :ids => [1, 2]
     assert_response :success
-    assert_template 'context_menus/time_entries'
 
     assert_select 'a:not(.disabled)', :text => 'Edit'
   end
@@ -254,7 +243,6 @@ class ContextMenusControllerTest < Redmine::ControllerTest
     @request.session[:user_id] = 2
     get :time_entries, :ids => [1]
     assert_response :success
-    assert_template 'context_menus/time_entries'
 
     assert_select 'a:not(.disabled)', :text => 'Edit'
   end
@@ -265,6 +253,7 @@ class ContextMenusControllerTest < Redmine::ControllerTest
     @request.session[:user_id] = 2
     get :time_entries, :ids => [1, 2]
     assert_response :success
+
     assert_select "li.cf_#{field.id}" do
       assert_select 'a[href="#"]', :text => "Field"
       assert_select 'ul' do
@@ -284,7 +273,7 @@ class ContextMenusControllerTest < Redmine::ControllerTest
 
     get :time_entries, :ids => ids
     assert_response :success
-    assert_template 'context_menus/time_entries'
+
     assert_select 'a:not(.disabled)', :text => 'Edit'
   end
 
@@ -294,7 +283,7 @@ class ContextMenusControllerTest < Redmine::ControllerTest
     
     get :time_entries, :ids => [1, 2]
     assert_response :success
-    assert_template 'context_menus/time_entries'
+
     assert_select 'a.disabled', :text => 'Edit'
   end
 end

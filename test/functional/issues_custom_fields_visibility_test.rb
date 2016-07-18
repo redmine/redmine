@@ -213,14 +213,14 @@ class IssuesCustomFieldsVisibilityTest < Redmine::ControllerTest
 
     get :index, :sort => "cf_#{@field2.id}"
     # ValueB is not visible to user and ignored while sorting
-    assert_equal %w(ValueB ValueA ValueC), assigns(:issues).map{|i| i.custom_field_value(@field2)}
+    assert_equal %w(ValueB ValueA ValueC), issues_in_list.map{|i| i.custom_field_value(@field2)}
 
     get :index, :set_filter => '1', "cf_#{@field2.id}" => '*'
-    assert_equal %w(ValueA ValueC), assigns(:issues).map{|i| i.custom_field_value(@field2)}
+    assert_equal %w(ValueA ValueC), issues_in_list.map{|i| i.custom_field_value(@field2)}
 
     CustomField.update_all(:field_format => 'list')
     get :index, :group => "cf_#{@field2.id}"
-    assert_equal %w(ValueA ValueC), assigns(:issues).map{|i| i.custom_field_value(@field2)}
+    assert_equal %w(ValueA ValueC), issues_in_list.map{|i| i.custom_field_value(@field2)}
   end
 
   def test_create_should_send_notifications_according_custom_fields_visibility

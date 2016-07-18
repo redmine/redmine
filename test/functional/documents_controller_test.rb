@@ -33,8 +33,6 @@ class DocumentsControllerTest < Redmine::ControllerTest
 
     get :index, :project_id => 'ecookbook'
     assert_response :success
-    assert_template 'index'
-    assert_not_nil assigns(:grouped)
 
     # Default category selected in the new document form
     assert_select 'select[name=?]', 'document[category_id]' do
@@ -74,7 +72,6 @@ LOREM
 
     get :index, :project_id => 'ecookbook'
     assert_response :success
-    assert_template 'index'
 
     # should only truncate on new lines to avoid breaking wiki formatting
     assert_select '.wiki p', :text => (doc.description.split("\n").first + '...')
@@ -84,14 +81,12 @@ LOREM
   def test_show
     get :show, :id => 1
     assert_response :success
-    assert_template 'show'
   end
 
   def test_new
     @request.session[:user_id] = 2
     get :new, :project_id => 1
     assert_response :success
-    assert_template 'new'
   end
 
   def test_create_with_one_attachment
@@ -122,7 +117,7 @@ LOREM
       post :create, :project_id => 'ecookbook', :document => { :title => ''}
     end
     assert_response :success
-    assert_template 'new'
+    assert_select_error /title cannot be blank/i
   end
 
   def test_create_non_default_category
@@ -146,7 +141,6 @@ LOREM
     @request.session[:user_id] = 2
     get :edit, :id => 1
     assert_response :success
-    assert_template 'edit'
   end
 
   def test_update
@@ -161,7 +155,7 @@ LOREM
     @request.session[:user_id] = 2
     put :update, :id => 1, :document => {:title => ''}
     assert_response :success
-    assert_template 'edit'
+    assert_select_error /title cannot be blank/i
   end
 
   def test_destroy

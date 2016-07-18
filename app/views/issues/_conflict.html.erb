@@ -3,6 +3,7 @@
   <% if @conflict_journals.present? %>
     <div class="conflict-details">
     <% @conflict_journals.sort_by(&:id).each do |journal| %>
+      <div class="conflict-journal">
       <p><%= authoring journal.created_on, journal.user, :label => :label_updated_time_by %></p>
       <% if journal.details.any? %>
       <ul class="details">
@@ -13,6 +14,7 @@
       <% end %>
       <div class="wiki">
         <%= textilizable(journal, :notes) unless journal.notes.blank? %>
+      </div>
       </div>
     <% end %>
     </div>

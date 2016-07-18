@@ -38,7 +38,7 @@ class AttachmentsControllerTest < Redmine::ControllerTest
       # 060719210727_changeset_utf8.diff
       get :show, :id => 14, :type => dt
       assert_response :success
-      assert_template 'diff'
+
       assert_equal 'text/html', @response.content_type
       assert_select 'th.filename', :text => /issues_controller.rb\t\(révision 1484\)/
       assert_select 'td.line-code', :text => /Demande créée avec succès/
@@ -52,7 +52,7 @@ class AttachmentsControllerTest < Redmine::ControllerTest
         # 060719210727_changeset_iso8859-1.diff
         get :show, :id => 5, :type => dt
         assert_response :success
-        assert_template 'diff'
+
         assert_equal 'text/html', @response.content_type
         assert_select 'th.filename', :text => /issues_controller.rb\t\(r\?vision 1484\)/
         assert_select 'td.line-code', :text => /Demande cr\?\?e avec succ\?s/
@@ -67,7 +67,7 @@ class AttachmentsControllerTest < Redmine::ControllerTest
         # 060719210727_changeset_iso8859-1.diff
         get :show, :id => 5, :type => dt
         assert_response :success
-        assert_template 'diff'
+
         assert_equal 'text/html', @response.content_type
         assert_select 'th.filename', :text => /issues_controller.rb\t\(révision 1484\)/
         assert_select 'td.line-code', :text => /Demande créée avec succès/
@@ -82,16 +82,15 @@ class AttachmentsControllerTest < Redmine::ControllerTest
     user1.preference.save
     user = User.find(1)
     assert_nil user.pref[:diff_type]
-
     @request.session[:user_id] = 1 # admin
+
     get :show, :id => 5
     assert_response :success
-    assert_template 'diff'
     user.reload
     assert_equal "inline", user.pref[:diff_type]
+
     get :show, :id => 5, :type => 'sbs'
     assert_response :success
-    assert_template 'diff'
     user.reload
     assert_equal "sbs", user.pref[:diff_type]
   end
@@ -106,7 +105,6 @@ class AttachmentsControllerTest < Redmine::ControllerTest
 
     get :show, :id => a.id, :type => 'inline'
     assert_response :success
-    assert_template 'diff'
     assert_equal 'text/html', @response.content_type
     assert_select 'th.filename', :text => 'test1.txt'
   end
@@ -114,7 +112,6 @@ class AttachmentsControllerTest < Redmine::ControllerTest
   def test_show_text_file
     get :show, :id => 4
     assert_response :success
-    assert_template 'file'
     assert_equal 'text/html', @response.content_type
     set_tmp_attachments_directory
   end
@@ -131,7 +128,6 @@ class AttachmentsControllerTest < Redmine::ControllerTest
 
     get :show, :id => a.id
     assert_response :success
-    assert_template 'file'
     assert_equal 'text/html', @response.content_type
     assert_select 'tr#L1' do
       assert_select 'th.line-num', :text => '1'
@@ -150,7 +146,6 @@ class AttachmentsControllerTest < Redmine::ControllerTest
 
       get :show, :id => a.id
       assert_response :success
-      assert_template 'file'
       assert_equal 'text/html', @response.content_type
       assert_select 'tr#L7' do
         assert_select 'th.line-num', :text => '7'
@@ -170,7 +165,6 @@ class AttachmentsControllerTest < Redmine::ControllerTest
 
       get :show, :id => a.id
       assert_response :success
-      assert_template 'file'
       assert_equal 'text/html', @response.content_type
       assert_select 'tr#L7' do
         assert_select 'th.line-num', :text => '7'
@@ -180,12 +174,13 @@ class AttachmentsControllerTest < Redmine::ControllerTest
   end
 
   def test_show_text_file_should_show_other_if_too_big
+    @request.session[:user_id] = 2
     with_settings :file_max_size_displayed => 512 do
       Attachment.find(4).update_attribute :filesize, 754.kilobyte
       get :show, :id => 4
       assert_response :success
-      assert_template 'other'
       assert_equal 'text/html', @response.content_type
+      assert_select '.nodata', :text => 'No preview available'
     end
     set_tmp_attachments_directory
   end
@@ -194,14 +189,13 @@ class AttachmentsControllerTest < Redmine::ControllerTest
     @request.session[:user_id] = 2
     get :show, :id => 16
     assert_response :success
-    assert_template 'image'
     assert_equal 'text/html', @response.content_type
     assert_select 'img.filecontent', :src => attachments(:attachments_010).filename
   end
 
   def test_show_other
+    @request.session[:user_id] = 2
     get :show, :id => 6
-    assert_template 'other'
     assert_equal 'text/html', @response.content_type
     assert_select '.nodata', :text => 'No preview available'
     set_tmp_attachments_directory
@@ -351,13 +345,12 @@ class AttachmentsControllerTest < Redmine::ControllerTest
     @request.session[:user_id] = 2
     get :edit, :object_type => 'issues', :object_id => '2'
     assert_response :success
-    assert_template 'edit'
-
-    container = Issue.find(2)
-    assert_equal container, assigns(:container)
-    assert_equal container.attachments.size, assigns(:attachments).size
 
     assert_select 'form[action=?]', '/attachments/issues/2' do
+      Issue.find(2).attachments.each do |attachment|
+        assert_select "tr#attachment-#{attachment.id}"
+      end
+
       assert_select 'tr#attachment-4' do
         assert_select 'input[name=?][value=?]', 'attachments[4][filename]', 'source.rb'
         assert_select 'input[name=?][value=?]', 'attachments[4][description]', 'This is a Ruby source file'
@@ -401,7 +394,6 @@ class AttachmentsControllerTest < Redmine::ControllerTest
       }
 
     assert_response :success
-    assert_template 'edit'
     assert_select_error /file cannot be blank/i
 
     # The other attachment should not be updated
