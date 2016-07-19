@@ -1240,9 +1240,8 @@ ko:
   button_filter: 필터
   mail_body_password_updated: 암호가 변경되었습니다.
   label_no_preview: 미리보기 없음
-  error_no_tracker_allowed_for_new_issue_in_project: The project doesn't have any trackers
-    for which you can create an issue
-  label_tracker_all: All trackers
+  error_no_tracker_allowed_for_new_issue_in_project: 프로젝트에 사용할 수 있는 일감 유형이 없습니다
+  label_tracker_all: 모든 유형
   label_new_project_issue_tab_enabled: '"새 일감" 탭 표시'
-  setting_new_item_menu_tab: Project menu tab for creating new objects
-  label_new_object_tab_enabled: Display the "+" drop-down
+  setting_new_item_menu_tab: 프로젝트 메뉴의 새로 만들기 탭
+  label_new_object_tab_enabled: 메뉴에 "+" 탭 표시
