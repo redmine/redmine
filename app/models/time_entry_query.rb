@@ -136,7 +136,7 @@ class TimeEntryQuery < Query
   def total_for_hours(scope)
     map_total(scope.sum(:hours)) {|t| t.to_f.round(2)}
   end
- 
+
   def sql_for_issue_id_field(field, operator, value)
     case operator
     when "="
