@@ -29,28 +29,13 @@ class ReportsControllerTest < Redmine::ControllerTest
 
   def test_get_issue_report
     get :issue_report, :id => 1
-
     assert_response :success
-    assert_template 'issue_report'
-
-    [:issues_by_tracker, :issues_by_version, :issues_by_category, :issues_by_assigned_to,
-     :issues_by_author, :issues_by_subproject, :issues_by_priority].each do |ivar|
-      assert_not_nil assigns(ivar)
-    end
-
-    assert_equal IssuePriority.all.reverse, assigns(:priorities)
   end
 
   def test_get_issue_report_details
     %w(tracker version priority category assigned_to author subproject).each do |detail|
       get :issue_report_details, :id => 1, :detail => detail
-
       assert_response :success
-      assert_template 'issue_report_details'
-      assert_not_nil assigns(:field)
-      assert_not_nil assigns(:rows)
-      assert_not_nil assigns(:data)
-      assert_not_nil assigns(:report_title)
     end
   end
 
@@ -72,14 +57,8 @@ class ReportsControllerTest < Redmine::ControllerTest
     end
   end
 
-  def test_get_issue_report_details_by_priority
-    get :issue_report_details, :id => 1, :detail => 'priority'
-    assert_equal IssuePriority.all.reverse, assigns(:rows)
-  end
-
   def test_get_issue_report_details_with_an_invalid_detail
     get :issue_report_details, :id => 1, :detail => 'invalid'
-
-    assert_redirected_to '/projects/ecookbook/issues/report'
+    assert_response 404
   end
 end

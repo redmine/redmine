@@ -34,7 +34,7 @@ class QueriesControllerTest < Redmine::ControllerTest
     @request.session[:user_id] = 2
     get :new, :project_id => 1
     assert_response :success
-    assert_template 'new'
+
     assert_select 'input[name=?][value="0"][checked=checked]', 'query[visibility]'
     assert_select 'input[name=query_is_for_all][type=checkbox]:not([checked]):not([disabled])'
     assert_select 'select[name=?]', 'c[]' do
@@ -47,7 +47,7 @@ class QueriesControllerTest < Redmine::ControllerTest
     @request.session[:user_id] = 2
     get :new
     assert_response :success
-    assert_template 'new'
+
     assert_select 'input[name=?]', 'query[visibility]', 0
     assert_select 'input[name=query_is_for_all][type=checkbox][checked]:not([disabled])'
   end
@@ -169,7 +169,7 @@ class QueriesControllerTest < Redmine::ControllerTest
       post :create, :project_id => 'ecookbook', :query => {:name => ''}
     end
     assert_response :success
-    assert_template 'new'
+
     assert_select 'input[name=?]', 'query[name]'
   end
 
@@ -294,7 +294,7 @@ class QueriesControllerTest < Redmine::ControllerTest
     @request.session[:user_id] = 1
     get :edit, :id => 4
     assert_response :success
-    assert_template 'edit'
+
     assert_select 'input[name=?][value="2"][checked=checked]', 'query[visibility]'
     assert_select 'input[name=query_is_for_all][type=checkbox][checked=checked]'
   end
@@ -303,7 +303,7 @@ class QueriesControllerTest < Redmine::ControllerTest
     @request.session[:user_id] = 3
     get :edit, :id => 3
     assert_response :success
-    assert_template 'edit'
+
     assert_select 'input[name=?]', 'query[visibility]', 0
     assert_select 'input[name=query_is_for_all][type=checkbox][checked=checked]'
   end
@@ -312,7 +312,7 @@ class QueriesControllerTest < Redmine::ControllerTest
     @request.session[:user_id] = 3
     get :edit, :id => 2
     assert_response :success
-    assert_template 'edit'
+
     assert_select 'input[name=?]', 'query[visibility]', 0
     assert_select 'input[name=query_is_for_all][type=checkbox]:not([checked])'
   end
@@ -321,7 +321,7 @@ class QueriesControllerTest < Redmine::ControllerTest
     @request.session[:user_id] = 2
     get :edit, :id => 1
     assert_response :success
-    assert_template 'edit'
+
     assert_select 'input[name=?][value="2"][checked=checked]', 'query[visibility]'
     assert_select 'input[name=query_is_for_all][type=checkbox]:not([checked])'
   end
@@ -330,7 +330,7 @@ class QueriesControllerTest < Redmine::ControllerTest
     @request.session[:user_id] = 1
     get :edit, :id => 5
     assert_response :success
-    assert_template 'edit'
+
     assert_select 'select[name=?]', 'query[sort_criteria][0][]' do
       assert_select 'option[value=priority][selected=selected]'
       assert_select 'option[value=desc][selected=selected]'
@@ -381,7 +381,7 @@ class QueriesControllerTest < Redmine::ControllerTest
     @request.session[:user_id] = 1
     put :update, :id => 4, :query => {:name => ''}
     assert_response :success
-    assert_template 'edit'
+    assert_select_error /Name cannot be blank/
   end
 
   def test_destroy
@@ -395,7 +395,6 @@ class QueriesControllerTest < Redmine::ControllerTest
     @request.session[:user_id] = 2
     get :new, :subject => 'foo/bar'
     assert_response :success
-    assert_template 'new'
     assert_include 'addFilter("subject", "=", ["foo\/bar"]);', response.body
   end
 end

@@ -27,10 +27,8 @@ class MessagesControllerTest < Redmine::ControllerTest
   def test_show
     get :show, :board_id => 1, :id => 1
     assert_response :success
-    assert_template 'show'
-    assert_not_nil assigns(:board)
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:topic)
+
+    assert_select 'h2', :text => 'First post'
   end
   
   def test_show_should_contain_reply_field_tags_for_quoting
@@ -54,20 +52,20 @@ class MessagesControllerTest < Redmine::ControllerTest
                                         :board_id => 1)
       end
     end
-    get :show, :board_id => 1, :id => 1, :r => message.children.order('id').last.id
+    reply_ids = message.children.map(&:id).sort
+
+    get :show, :board_id => 1, :id => 1, :r => reply_ids.last
     assert_response :success
-    assert_template 'show'
-    replies = assigns(:replies)
-    assert_not_nil replies
-    assert_not_include message.children.reorder('id').first, replies
-    assert_include message.children.reorder('id').last, replies
+
+    assert_select 'a[href=?]', "/boards/1/topics/1?r=#{reply_ids.last}#message-#{reply_ids.last}"
+    assert_select 'a[href=?]', "/boards/1/topics/1?r=#{reply_ids.first}#message-#{reply_ids.first}", 0
   end
 
   def test_show_with_reply_permission
     @request.session[:user_id] = 2
     get :show, :board_id => 1, :id => 1
     assert_response :success
-    assert_template 'show'
+
     assert_select 'div#reply textarea#message_content'
   end
 
@@ -85,7 +83,8 @@ class MessagesControllerTest < Redmine::ControllerTest
     @request.session[:user_id] = 2
     get :new, :board_id => 1
     assert_response :success
-    assert_template 'new'
+
+    assert_select 'input[name=?]', 'message[subject]'
   end
 
   def test_get_new_with_invalid_board
@@ -124,7 +123,8 @@ class MessagesControllerTest < Redmine::ControllerTest
     @request.session[:user_id] = 2
     get :edit, :board_id => 1, :id => 1
     assert_response :success
-    assert_template 'edit'
+
+    assert_select 'input[name=?][value=?]', 'message[subject]', 'First post'
   end
 
   def test_post_edit
@@ -193,7 +193,7 @@ class MessagesControllerTest < Redmine::ControllerTest
     xhr :get, :quote, :board_id => 1, :id => 3
     assert_response :success
     assert_equal 'text/javascript', response.content_type
-    assert_template 'quote'
+
     assert_include 'RE: First post', response.body
     assert_include '> An other reply', response.body
   end
@@ -204,7 +204,7 @@ class MessagesControllerTest < Redmine::ControllerTest
       :board_id => 1,
       :message => {:subject => "", :content => "Previewed text"}
     assert_response :success
-    assert_template 'common/_preview'
+    assert_include 'Previewed text', response.body
   end
 
   def test_preview_edit
@@ -214,6 +214,6 @@ class MessagesControllerTest < Redmine::ControllerTest
       :board_id => 1,
       :message => {:subject => "", :content => "Previewed text"}
     assert_response :success
-    assert_template 'common/_preview'
+    assert_include 'Previewed text', response.body
   end
 end

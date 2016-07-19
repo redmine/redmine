@@ -28,13 +28,13 @@ class MyControllerTest < Redmine::ControllerTest
   def test_index
     get :index
     assert_response :success
-    assert_template 'page'
+    assert_select 'h2', 'My page'
   end
 
   def test_page
     get :page
     assert_response :success
-    assert_template 'page'
+    assert_select 'h2', 'My page'
   end
 
   def test_page_with_timelog_block
@@ -65,9 +65,6 @@ class MyControllerTest < Redmine::ControllerTest
   def test_my_account_should_show_editable_custom_fields
     get :account
     assert_response :success
-    assert_template 'account'
-    assert_equal User.find(2), assigns(:user)
-
     assert_select 'input[name=?]', 'user[custom_field_values][4]'
   end
 
@@ -76,9 +73,6 @@ class MyControllerTest < Redmine::ControllerTest
 
     get :account
     assert_response :success
-    assert_template 'account'
-    assert_equal User.find(2), assigns(:user)
-
     assert_select 'input[name=?]', 'user[custom_field_values][4]', 0
   end
 
@@ -108,7 +102,6 @@ class MyControllerTest < Redmine::ControllerTest
 
     assert_redirected_to '/my/account'
     user = User.find(2)
-    assert_equal user, assigns(:user)
     assert_equal "Joe", user.firstname
     assert_equal "jsmith", user.login
     assert_equal "0100562500", user.custom_value_for(4).value
@@ -143,7 +136,6 @@ class MyControllerTest < Redmine::ControllerTest
   def test_get_destroy_should_display_the_destroy_confirmation
     get :destroy
     assert_response :success
-    assert_template 'destroy'
     assert_select 'form[action="/my/account/destroy"]' do
       assert_select 'input[name=confirm]'
     end
@@ -154,7 +146,6 @@ class MyControllerTest < Redmine::ControllerTest
       post :destroy
     end
     assert_response :success
-    assert_template 'destroy'
   end
 
   def test_post_destroy_without_confirmation_should_destroy_account
@@ -177,30 +168,36 @@ class MyControllerTest < Redmine::ControllerTest
   def test_change_password
     get :password
     assert_response :success
-    assert_template 'password'
+    assert_select 'input[type=password][name=password]'
+    assert_select 'input[type=password][name=new_password]'
+    assert_select 'input[type=password][name=new_password_confirmation]'
+  end
 
-    # non matching password confirmation
-    post :password, :password => 'jsmith',
-                    :new_password => 'secret123',
-                    :new_password_confirmation => 'secret1234'
-    assert_response :success
-    assert_template 'password'
-    assert_select_error /Password doesn.*t match confirmation/
-
-    # wrong password
-    post :password, :password => 'wrongpassword',
-                    :new_password => 'secret123',
-                    :new_password_confirmation => 'secret123'
-    assert_response :success
-    assert_template 'password'
-    assert_equal 'Wrong password', flash[:error]
-
-    # good password
+  def test_update_password
     post :password, :password => 'jsmith',
                     :new_password => 'secret123',
                     :new_password_confirmation => 'secret123'
     assert_redirected_to '/my/account'
     assert User.try_to_login('jsmith', 'secret123')
+  end
+
+  def test_update_password_with_non_matching_confirmation
+    post :password, :password => 'jsmith',
+                    :new_password => 'secret123',
+                    :new_password_confirmation => 'secret1234'
+    assert_response :success
+    assert_select_error /Password doesn.*t match confirmation/
+    assert User.try_to_login('jsmith', 'jsmith')
+  end
+
+  def test_update_password_with_wrong_password
+    # wrong password
+    post :password, :password => 'wrongpassword',
+                    :new_password => 'secret123',
+                    :new_password_confirmation => 'secret123'
+    assert_response :success
+    assert_equal 'Wrong password', flash[:error]
+    assert User.try_to_login('jsmith', 'jsmith')
   end
 
   def test_change_password_should_redirect_if_user_cannot_change_its_password
@@ -211,7 +208,7 @@ class MyControllerTest < Redmine::ControllerTest
     assert_redirected_to '/my/account'
   end
 
-  def test_change_password_should_send_security_notification
+  def test_update_password_should_send_security_notification
     ActionMailer::Base.deliveries.clear
     post :password, :password => 'jsmith',
                     :new_password => 'secret123',
@@ -227,7 +224,6 @@ class MyControllerTest < Redmine::ControllerTest
   def test_page_layout
     get :page_layout
     assert_response :success
-    assert_template 'page_layout'
   end
 
   def test_add_block

@@ -29,16 +29,13 @@ class NewsControllerTest < Redmine::ControllerTest
   def test_index
     get :index
     assert_response :success
-    assert_template 'index'
-    assert_not_nil assigns(:newss)
-    assert_nil assigns(:project)
+    assert_select 'h3 a', :text => 'eCookbook first release !'
   end
 
   def test_index_with_project
     get :index, :project_id => 1
     assert_response :success
-    assert_template 'index'
-    assert_not_nil assigns(:newss)
+    assert_select 'h3 a', :text => 'eCookbook first release !'
   end
 
   def test_index_with_invalid_project_should_respond_with_404
@@ -49,8 +46,7 @@ class NewsControllerTest < Redmine::ControllerTest
   def test_show
     get :show, :id => 1
     assert_response :success
-    assert_template 'show'
-    assert_select 'h2', :text => /eCookbook first release/
+    assert_select 'h2', :text => 'eCookbook first release !'
   end
 
   def test_show_should_show_attachments
@@ -71,7 +67,9 @@ class NewsControllerTest < Redmine::ControllerTest
     @request.session[:user_id] = 1
     get :show, :id => 1
     assert_response :success
-    assert_equal News.find(1).comments.to_a.sort_by(&:created_on).reverse, assigns(:comments)
+
+    comments = css_select('#comments .wiki').map(&:text).map(&:strip)
+    assert_equal ["This is an other comment", "my first comment"], comments
   end
 
   def test_show_not_found
@@ -83,7 +81,7 @@ class NewsControllerTest < Redmine::ControllerTest
     @request.session[:user_id] = 2
     get :new, :project_id => 1
     assert_response :success
-    assert_template 'new'
+    assert_select 'input[name=?]', 'news[title]'
   end
 
   def test_post_create
@@ -126,9 +124,6 @@ class NewsControllerTest < Redmine::ControllerTest
                                             :description => 'This is the description',
                                             :summary => '' }
     assert_response :success
-    assert_template 'new'
-    assert_not_nil assigns(:news)
-    assert assigns(:news).new_record?
     assert_select_error /title cannot be blank/i
   end
 
@@ -136,7 +131,7 @@ class NewsControllerTest < Redmine::ControllerTest
     @request.session[:user_id] = 2
     get :edit, :id => 1
     assert_response :success
-    assert_template 'edit'
+    assert_select 'input[name=?][value=?]', 'news[title]', 'eCookbook first release !'
   end
 
   def test_put_update
@@ -165,7 +160,6 @@ class NewsControllerTest < Redmine::ControllerTest
     @request.session[:user_id] = 2
     put :update, :id => 1, :news => { :description => '' }
     assert_response :success
-    assert_template 'edit'
     assert_select_error /description cannot be blank/i
   end
 
