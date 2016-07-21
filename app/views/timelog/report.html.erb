@@ -27,7 +27,9 @@
 <% end %>
 
 <% unless @report.criteria.empty? %>
-<% unless @report.hours.empty? %>
+<% if @report.hours.empty? %>
+<p class="nodata"><%= l(:label_no_data) %></p>
+<% else %>
 <div class="autoscroll">
 <table class="list" id="time-report">
 <thead>
