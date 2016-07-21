@@ -37,14 +37,12 @@ class TimeEntryReportsControllerTest < Redmine::ControllerTest
   def test_report_at_project_level
     get :report, :params => {:project_id => 'ecookbook'}
     assert_response :success
-    assert_template 'report'
     assert_select 'form#query_form[action=?]', '/projects/ecookbook/time_entries/report'
   end
 
   def test_report_all_projects
     get :report
     assert_response :success
-    assert_template 'report'
     assert_select 'form#query_form[action=?]', '/time_entries/report'
   end
 
@@ -60,42 +58,32 @@ class TimeEntryReportsControllerTest < Redmine::ControllerTest
   def test_report_all_projects_one_criteria
     get :report, :params => {:columns => 'week', :from => "2007-04-01", :to => "2007-04-30", :criteria => ['project']}
     assert_response :success
-    assert_template 'report'
-    assert_not_nil assigns(:report)
-    assert_equal "8.65", "%.2f" % assigns(:report).total_hours
+    assert_select 'tr.total td:last', :text => '8.65'
   end
 
   def test_report_all_time
     get :report, :params => {:project_id => 1, :criteria => ['project', 'issue']}
     assert_response :success
-    assert_template 'report'
-    assert_not_nil assigns(:report)
-    assert_equal "162.90", "%.2f" % assigns(:report).total_hours
+    assert_select 'tr.total td:last', :text => '162.90'
   end
 
   def test_report_all_time_by_day
     get :report, :params => {:project_id => 1, :criteria => ['project', 'issue'], :columns => 'day'}
     assert_response :success
-    assert_template 'report'
-    assert_not_nil assigns(:report)
-    assert_equal "162.90", "%.2f" % assigns(:report).total_hours
+    assert_select 'tr.total td:last', :text => '162.90'
     assert_select 'th', :text => '2007-03-12'
   end
 
   def test_report_one_criteria
     get :report, :params => {:project_id => 1, :columns => 'week', :from => "2007-04-01", :to => "2007-04-30", :criteria => ['project']}
     assert_response :success
-    assert_template 'report'
-    assert_not_nil assigns(:report)
-    assert_equal "8.65", "%.2f" % assigns(:report).total_hours
+    assert_select 'tr.total td:last', :text => '8.65'
   end
 
   def test_report_two_criteria
     get :report, :params => {:project_id => 1, :columns => 'month', :from => "2007-01-01", :to => "2007-12-31", :criteria => ["user", "activity"]}
     assert_response :success
-    assert_template 'report'
-    assert_not_nil assigns(:report)
-    assert_equal "162.90", "%.2f" % assigns(:report).total_hours
+    assert_select 'tr.total td:last', :text => '162.90'
   end
 
   def test_report_custom_field_criteria_with_multiple_values_on_single_value_custom_field_should_not_fail
@@ -123,9 +111,7 @@ class TimeEntryReportsControllerTest < Redmine::ControllerTest
   def test_report_one_day
     get :report, :params => {:project_id => 1, :columns => 'day', :from => "2007-03-23", :to => "2007-03-23", :criteria => ["user", "activity"]}
     assert_response :success
-    assert_template 'report'
-    assert_not_nil assigns(:report)
-    assert_equal "4.25", "%.2f" % assigns(:report).total_hours
+    assert_select 'tr.total td:last', :text => '4.25'
   end
 
   def test_report_by_week_should_use_commercial_year
@@ -157,7 +143,6 @@ class TimeEntryReportsControllerTest < Redmine::ControllerTest
   def test_report_should_propose_association_custom_fields
     get :report
     assert_response :success
-    assert_template 'report'
 
     assert_select 'select[name=?]', 'criteria[]' do
       assert_select 'option[value=cf_1]', {:text => 'Database'}, 'Issue custom field not found'
@@ -169,10 +154,8 @@ class TimeEntryReportsControllerTest < Redmine::ControllerTest
   def test_report_with_association_custom_fields
     get :report, :params => {:criteria => ['cf_1', 'cf_3', 'cf_7']}
     assert_response :success
-    assert_template 'report'
-    assert_not_nil assigns(:report)
-    assert_equal 3, assigns(:report).criteria.size
-    assert_equal "162.90", "%.2f" % assigns(:report).total_hours
+
+    assert_select 'tr.total td:last', :text => '162.90'
 
     # Custom fields columns
     assert_select 'th', :text => 'Database'
@@ -189,15 +172,14 @@ class TimeEntryReportsControllerTest < Redmine::ControllerTest
   def test_report_one_criteria_no_result
     get :report, :params => {:project_id => 1, :columns => 'week', :from => "1998-04-01", :to => "1998-04-30", :criteria => ['project']}
     assert_response :success
-    assert_template 'report'
-    assert_not_nil assigns(:report)
-    assert_equal "0.00", "%.2f" % assigns(:report).total_hours
+
+    assert_select '.nodata'
   end
 
   def test_report_status_criterion
     get :report, :params => {:project_id => 1, :criteria => ['status']}
     assert_response :success
-    assert_template 'report'
+
     assert_select 'th', :text => 'Status'
     assert_select 'td', :text => 'New'
   end

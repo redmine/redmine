@@ -144,7 +144,6 @@ class WatchersControllerTest < Redmine::ControllerTest
     @request.session[:user_id] = 2
     xhr :get, :new, :params => {:project_id => 1}
     assert_response :success
-    assert_equal Project.find(1), assigns(:project)
     assert_match /ajax-modal/, response.body
   end
 
@@ -152,7 +151,6 @@ class WatchersControllerTest < Redmine::ControllerTest
     @request.session[:user_id] = 2
     xhr :get, :new, :params => {:project_id => 'ecookbook'}
     assert_response :success
-    assert_equal Project.find(1), assigns(:project)
     assert_match /ajax-modal/, response.body
   end
 
@@ -266,16 +264,16 @@ class WatchersControllerTest < Redmine::ControllerTest
   def test_autocomplete_for_user_should_return_visible_users
     Role.update_all :users_visibility => 'members_of_visible_projects'
 
-    hidden = User.generate!(:lastname => 'autocomplete')
-    visible = User.generate!(:lastname => 'autocomplete')
+    hidden = User.generate!(:lastname => 'autocomplete_hidden')
+    visible = User.generate!(:lastname => 'autocomplete_visible')
     User.add_to_project(visible, Project.find(1))
 
     @request.session[:user_id] = 2
     xhr :get, :autocomplete_for_user, :params => {:q => 'autocomp', :project_id => 'ecookbook'}
     assert_response :success
 
-    assert_include visible, assigns(:users)
-    assert_not_include hidden, assigns(:users)
+    assert_include visible.name, response.body
+    assert_not_include hidden.name, response.body
   end
 
   def test_append

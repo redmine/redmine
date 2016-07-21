@@ -28,7 +28,6 @@ class WorkflowsControllerTest < Redmine::ControllerTest
   def test_index
     get :index
     assert_response :success
-    assert_template 'index'
 
     count = WorkflowTransition.where(:role_id => 1, :tracker_id => 2).count
     assert_select 'a[href=?]', '/workflows/edit?role_id=1&tracker_id=2', :content => count.to_s
@@ -37,7 +36,6 @@ class WorkflowsControllerTest < Redmine::ControllerTest
   def test_get_edit
     get :edit
     assert_response :success
-    assert_template 'edit'
   end
 
   def test_get_edit_with_role_and_tracker
@@ -47,12 +45,12 @@ class WorkflowsControllerTest < Redmine::ControllerTest
 
     get :edit, :params => {:role_id => 2, :tracker_id => 1}
     assert_response :success
-    assert_template 'edit'
 
     # used status only
-    assert_not_nil assigns(:statuses)
-    assert_equal [2, 3, 5], assigns(:statuses).collect(&:id)
-
+    statuses = IssueStatus.where(:id => [2, 3, 5]).sorted.pluck(:name)
+    assert_equal ["New issue"] + statuses,
+      css_select('table.workflows.transitions-always tbody tr td:first').map(&:text).map(&:strip)
+    
     # allowed transitions
     assert_select 'input[type=checkbox][name=?][value="1"][checked=checked]', 'transitions[3][5][always]'
     # not allowed
@@ -74,8 +72,13 @@ class WorkflowsControllerTest < Redmine::ControllerTest
   def test_get_edit_with_all_roles_and_all_trackers
     get :edit, :params => {:role_id => 'all', :tracker_id => 'all'}
     assert_response :success
-    assert_equal Role.sorted.to_a, assigns(:roles)
-    assert_equal Tracker.sorted.to_a, assigns(:trackers)
+
+    assert_select 'select[name=?][multiple=multiple]', 'role_id[]' do
+      assert_select 'option[selected=selected]', Role.all.select(&:consider_workflow?).count
+    end
+    assert_select 'select[name=?]', 'tracker_id[]' do
+      assert_select 'option[selected=selected][value=all]'
+    end
   end
 
   def test_get_edit_with_role_and_tracker_and_all_statuses
@@ -83,10 +86,10 @@ class WorkflowsControllerTest < Redmine::ControllerTest
 
     get :edit, :params => {:role_id => 2, :tracker_id => 1, :used_statuses_only => '0'}
     assert_response :success
-    assert_template 'edit'
 
-    assert_not_nil assigns(:statuses)
-    assert_equal IssueStatus.count, assigns(:statuses).size
+    statuses = IssueStatus.all.sorted.pluck(:name)
+    assert_equal ["New issue"] + statuses,
+      css_select('table.workflows.transitions-always tbody tr td:first').map(&:text).map(&:strip)
 
     assert_select 'input[type=checkbox][name=?]', 'transitions[1][1][always]'
   end
@@ -161,7 +164,6 @@ class WorkflowsControllerTest < Redmine::ControllerTest
     get :permissions
 
     assert_response :success
-    assert_template 'permissions'
   end
 
   def test_get_permissions_with_role_and_tracker
@@ -172,7 +174,6 @@ class WorkflowsControllerTest < Redmine::ControllerTest
 
     get :permissions, :params => {:role_id => 1, :tracker_id => 2}
     assert_response :success
-    assert_template 'permissions'
 
     assert_select 'input[name=?][value="1"]', 'role_id[]'
     assert_select 'input[name=?][value="2"]', 'tracker_id[]'
@@ -213,7 +214,6 @@ class WorkflowsControllerTest < Redmine::ControllerTest
 
     get :permissions, :params => {:role_id => 1, :tracker_id => 1}
     assert_response :success
-    assert_template 'permissions'
 
     # Custom field that is always required
     # The default option is "(Required)"
@@ -231,7 +231,6 @@ class WorkflowsControllerTest < Redmine::ControllerTest
 
     get :permissions, :params => {:role_id => 2, :tracker_id => 1}
     assert_response :success
-    assert_template 'permissions'
 
     assert_select 'select[name=?]:not(.disabled)', "permissions[1][#{cf1.id}]"
     assert_select 'select[name=?]:not(.disabled)', "permissions[1][#{cf3.id}]"
@@ -287,7 +286,10 @@ class WorkflowsControllerTest < Redmine::ControllerTest
 
     get :permissions, :params => {:role_id => 1, :tracker_id => 2, :used_statuses_only => '0'}
     assert_response :success
-    assert_equal IssueStatus.sorted.to_a, assigns(:statuses)
+
+    statuses = IssueStatus.all.sorted.pluck(:name)
+    assert_equal statuses,
+      css_select('table.workflows.fields_permissions thead tr:nth-child(2) td:not(:first-child)').map(&:text).map(&:strip)
   end
 
   def test_get_permissions_should_set_css_class
@@ -330,7 +332,7 @@ class WorkflowsControllerTest < Redmine::ControllerTest
   def test_get_copy
     get :copy
     assert_response :success
-    assert_template 'copy'
+
     assert_select 'select[name=source_tracker_id]' do
       assert_select 'option[value="1"]', :text => 'Bug'
     end

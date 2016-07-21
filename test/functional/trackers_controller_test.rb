@@ -28,7 +28,7 @@ class TrackersControllerTest < Redmine::ControllerTest
   def test_index
     get :index
     assert_response :success
-    assert_template 'index'
+    assert_select 'table.trackers'
   end
   
   def test_index_by_anonymous_should_redirect_to_login_form
@@ -46,7 +46,7 @@ class TrackersControllerTest < Redmine::ControllerTest
   def test_new
     get :new
     assert_response :success
-    assert_template 'new'
+    assert_select 'input[name=?]', 'tracker[name]'
   end
 
   def test_create
@@ -112,7 +112,6 @@ class TrackersControllerTest < Redmine::ControllerTest
       }
     end
     assert_response :success
-    assert_template 'new'
     assert_select_error /name cannot be blank/i
   end
 
@@ -121,7 +120,6 @@ class TrackersControllerTest < Redmine::ControllerTest
 
     get :edit, :params => {:id => 1}
     assert_response :success
-    assert_template 'edit'
 
     assert_select 'input[name=?][value="1"][checked=checked]', 'tracker[project_ids][]'
     assert_select 'input[name=?][value="2"]:not([checked])', 'tracker[project_ids][]'
@@ -136,7 +134,6 @@ class TrackersControllerTest < Redmine::ControllerTest
 
     get :edit, :params => {:id => 1}
     assert_response :success
-    assert_template 'edit'
 
     assert_select 'input[name=?][value=assigned_to_id][checked=checked]', 'tracker[core_fields][]'
     assert_select 'input[name=?][value=fixed_version_id][checked=checked]', 'tracker[core_fields][]'
@@ -186,7 +183,7 @@ class TrackersControllerTest < Redmine::ControllerTest
   def test_update_with_failure
     put :update, :params => {:id => 1, :tracker => { :name => '' }}
     assert_response :success
-    assert_template 'edit'
+
     assert_select_error /name cannot be blank/i
   end
 
@@ -216,7 +213,6 @@ class TrackersControllerTest < Redmine::ControllerTest
   def test_get_fields
     get :fields
     assert_response :success
-    assert_template 'fields'
 
     assert_select 'form' do
       assert_select 'input[type=checkbox][name=?][value=assigned_to_id]', 'trackers[1][core_fields][]'

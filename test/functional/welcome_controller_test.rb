@@ -28,33 +28,32 @@ class WelcomeControllerTest < Redmine::ControllerTest
   def test_index
     get :index
     assert_response :success
-    assert_template 'index'
-    assert_not_nil assigns(:news)
+    assert_select 'h3', :text => 'Latest news'
   end
 
   def test_browser_language
     @request.env['HTTP_ACCEPT_LANGUAGE'] = 'fr,fr-fr;q=0.8,en-us;q=0.5,en;q=0.3'
     get :index
-    assert_equal :fr, @controller.current_language
+    assert_select 'html[lang=fr]'
   end
 
   def test_browser_language_alternate
     @request.env['HTTP_ACCEPT_LANGUAGE'] = 'zh-TW'
     get :index
-    assert_equal :"zh-TW", @controller.current_language
+    assert_select 'html[lang=zh-TW]'
   end
 
   def test_browser_language_alternate_not_valid
     @request.env['HTTP_ACCEPT_LANGUAGE'] = 'fr-CA'
     get :index
-    assert_equal :fr, @controller.current_language
+    assert_select 'html[lang=fr]'
   end
 
   def test_browser_language_should_be_ignored_with_force_default_language_for_anonymous
     @request.env['HTTP_ACCEPT_LANGUAGE'] = 'fr,fr-fr;q=0.8,en-us;q=0.5,en;q=0.3'
     with_settings :force_default_language_for_anonymous => '1' do
       get :index
-      assert_equal :en, @controller.current_language
+      assert_select 'html[lang=en]'
     end
   end
 
@@ -64,7 +63,7 @@ class WelcomeControllerTest < Redmine::ControllerTest
     @request.env['HTTP_ACCEPT_LANGUAGE'] = 'fr,fr-fr;q=0.8,en-us;q=0.5,en;q=0.3'
     with_settings :default_language => 'fi' do
       get :index
-      assert_equal :it, @controller.current_language
+      assert_select 'html[lang=it]'
     end
   end
 
@@ -74,7 +73,7 @@ class WelcomeControllerTest < Redmine::ControllerTest
     @request.env['HTTP_ACCEPT_LANGUAGE'] = 'fr,fr-fr;q=0.8,en-us;q=0.5,en;q=0.3'
     with_settings :force_default_language_for_loggedin => '1', :default_language => 'fi' do
       get :index
-      assert_equal :fi, @controller.current_language
+      assert_select 'html[lang=fi]'
     end
   end
 

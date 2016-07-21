@@ -68,9 +68,9 @@ class SearchCustomFieldsVisibilityTest < Redmine::ControllerTest
         assert_response :success
         # we should get a result only if the custom field is visible
         if fields.include?(field)
-          assert_equal 1, assigns(:results).size
+          assert_select '#search-results dt', 1
         else
-          assert_equal 0, assigns(:results).size
+          assert_select '#search-results dt', 0
         end
       end
     end

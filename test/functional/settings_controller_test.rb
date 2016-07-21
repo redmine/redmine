@@ -34,13 +34,13 @@ class SettingsControllerTest < Redmine::ControllerTest
   def test_index
     get :index
     assert_response :success
-    assert_template 'edit'
+
+    assert_select 'input[name=?][value=?]', 'settings[app_title]', Setting.app_title
   end
 
   def test_get_edit
     get :edit
     assert_response :success
-    assert_template 'edit'
 
     assert_select 'input[name=?][value=""]', 'settings[enabled_scm][]'
   end
@@ -195,7 +195,7 @@ class SettingsControllerTest < Redmine::ControllerTest
 
     get :plugin, :params => {:id => 'foo'}
     assert_response :success
-    assert_template 'plugin'
+
     assert_select 'form[action="/settings/plugin/foo"]' do
       assert_select 'input[name=?][value=?]', 'settings[sample_setting]', 'Plugin setting value'
     end

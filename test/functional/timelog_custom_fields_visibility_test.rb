@@ -122,7 +122,9 @@ class TimelogCustomFieldsVisibilityTest < Redmine::ControllerTest
     assert_select 'td', :text => 'ValueB', :count => 0
     assert_select 'td', {:text => 'ValueC'}, "ValueC not found in:\n#{response.body}"
 
-    get :index, :params => {:set_filter => '1', "issue.cf_#{@field2.id}" => '*'}
-    assert_equal %w(ValueA ValueC), assigns(:entries).map{|i| i.issue.custom_field_value(@field2)}.sort
+    get :index, :params => {:set_filter => '1', "issue.cf_#{@field2.id}" => '*', :c => ["issue.cf_#{@field2.id}"]}
+    assert_select 'td', :text => "ValueA"
+    assert_select 'td', :text => "ValueC"
+    assert_select 'td', :text => "ValueB", :count => 0
   end
 end

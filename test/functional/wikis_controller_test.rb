@@ -31,7 +31,6 @@ class WikisControllerTest < Redmine::ControllerTest
     assert_difference 'Wiki.count' do
       xhr :post, :edit, :params => {:id => 3, :wiki => { :start_page => 'Start page' }}
       assert_response :success
-      assert_template 'edit'
       assert_equal 'text/javascript', response.content_type
     end
 
@@ -46,7 +45,6 @@ class WikisControllerTest < Redmine::ControllerTest
     assert_no_difference 'Wiki.count' do
       xhr :post, :edit, :params => {:id => 3, :wiki => { :start_page => '' }}
       assert_response :success
-      assert_template 'edit'
       assert_equal 'text/javascript', response.content_type
     end
 
@@ -60,7 +58,6 @@ class WikisControllerTest < Redmine::ControllerTest
     assert_no_difference 'Wiki.count' do
       xhr :post, :edit, :params => {:id => 1, :wiki => { :start_page => 'Other start page' }}
       assert_response :success
-      assert_template 'edit'
       assert_equal 'text/javascript', response.content_type
     end
 

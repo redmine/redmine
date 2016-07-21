@@ -35,37 +35,30 @@ class UsersControllerTest < Redmine::ControllerTest
   def test_index
     get :index
     assert_response :success
-    assert_template 'index'
-    assert_not_nil assigns(:users)
-    # active users only
-    assert_nil assigns(:users).detect {|u| !u.active?}
+    assert_select 'table.users'
+    assert_select 'tr.user.active'
+    assert_select 'tr.user.locked', 0
   end
 
   def test_index_with_status_filter
     get :index, :params => {:status => 3}
     assert_response :success
-    assert_template 'index'
-    assert_not_nil assigns(:users)
-    assert_equal [3], assigns(:users).map(&:status).uniq
+    assert_select 'tr.user.active', 0
+    assert_select 'tr.user.locked'
   end
 
   def test_index_with_name_filter
     get :index, :params => {:name => 'john'}
     assert_response :success
-    assert_template 'index'
-    users = assigns(:users)
-    assert_not_nil users
-    assert_equal 1, users.size
-    assert_equal 'John', users.first.firstname
+    assert_select 'tr.user td.username', :text => 'jsmith'
+    assert_select 'tr.user', 1
   end
 
   def test_index_with_group_filter
     get :index, :params => {:group_id => '10'}
     assert_response :success
-    assert_template 'index'
-    users = assigns(:users)
-    assert users.any?
-    assert_equal([], (users - Group.find(10).users))
+
+    assert_select 'tr.user', Group.find(10).users.count
     assert_select 'select[name=group_id]' do
       assert_select 'option[value="10"][selected=selected]'
     end
@@ -75,8 +68,14 @@ class UsersControllerTest < Redmine::ControllerTest
     @request.session[:user_id] = nil
     get :show, :params => {:id => 2}
     assert_response :success
-    assert_template 'show'
-    assert_not_nil assigns(:user)
+    assert_select 'h2', :text => /John Smith/
+  end
+
+  def test_show_should_display_visible_custom_fields
+    @request.session[:user_id] = nil
+    UserCustomField.find_by_name('Phone number').update_attribute :visible, true
+    get :show, :params => {:id => 2}
+    assert_response :success
 
     assert_select 'li', :text => /Phone number/
   end
@@ -86,8 +85,6 @@ class UsersControllerTest < Redmine::ControllerTest
     UserCustomField.find_by_name('Phone number').update_attribute :visible, false
     get :show, :params => {:id => 2}
     assert_response :success
-    assert_template 'show'
-    assert_not_nil assigns(:user)
 
     assert_select 'li', :text => /Phone number/, :count => 0
   end
@@ -113,7 +110,7 @@ class UsersControllerTest < Redmine::ControllerTest
     @request.session[:user_id] = 1
     get :show, :params => {:id => 5}
     assert_response 200
-    assert_not_nil assigns(:user)
+    assert_select 'h2', :text => /Dave2 Lopper2/
   end
 
   def test_show_user_who_is_not_visible_should_return_404
@@ -129,10 +126,9 @@ class UsersControllerTest < Redmine::ControllerTest
     @request.session[:user_id] = 1
     get :show, :params => {:id => 2}
     assert_response :success
-    memberships = assigns(:memberships)
-    assert_not_nil memberships
-    project_ids = memberships.map(&:project_id)
-    assert project_ids.include?(2) #private project admin can see
+
+    # membership of private project admin can see
+    assert_select 'li a', :text => "OnlineStore"
   end
 
   def test_show_current_should_require_authentication
@@ -145,15 +141,13 @@ class UsersControllerTest < Redmine::ControllerTest
     @request.session[:user_id] = 2
     get :show, :params => {:id => 'current'}
     assert_response :success
-    assert_template 'show'
-    assert_equal User.find(2), assigns(:user)
+    assert_select 'h2', :text => /John Smith/
   end
 
   def test_new
     get :new
     assert_response :success
-    assert_template :new
-    assert assigns(:user)
+    assert_select 'input[name=?]', 'user[login]'
   end
 
   def test_create
@@ -266,7 +260,7 @@ class UsersControllerTest < Redmine::ControllerTest
       post :create, :params => {:user => {}}
     end
     assert_response :success
-    assert_template 'new'
+    assert_select_error /Email cannot be blank/
   end
 
   def test_create_with_failure_sould_preserve_preference
@@ -283,7 +277,6 @@ class UsersControllerTest < Redmine::ControllerTest
       }
     end
     assert_response :success
-    assert_template 'new'
 
     assert_select 'select#pref_time_zone option[selected=selected]', :text => /Paris/
     assert_select 'input#pref_no_self_notified[value="1"][checked=checked]'
@@ -336,8 +329,7 @@ class UsersControllerTest < Redmine::ControllerTest
   def test_edit
     get :edit, :params => {:id => 2}
     assert_response :success
-    assert_template 'edit'
-    assert_equal User.find(2), assigns(:user)
+    assert_select 'input[name=?][value=?]', 'user[login]', 'jsmith'
   end
 
   def test_edit_registered_user
@@ -371,7 +363,7 @@ class UsersControllerTest < Redmine::ControllerTest
       }
     end
     assert_response :success
-    assert_template 'edit'
+    assert_select_error /First name cannot be blank/
   end
 
   def test_update_with_group_ids_should_assign_groups
@@ -476,7 +468,6 @@ class UsersControllerTest < Redmine::ControllerTest
   def test_update_notified_project
     get :edit, :params => {:id => 2}
     assert_response :success
-    assert_template 'edit'
     u = User.find(2)
     assert_equal [1, 2, 5], u.projects.collect{|p| p.id}.sort
     assert_equal [1, 2, 5], u.notified_projects_ids.sort

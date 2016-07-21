@@ -30,15 +30,16 @@ class SearchControllerTest < Redmine::ControllerTest
     User.current = nil
   end
 
-  def test_search_for_projects
+  def test_search_without_q_should_display_search_form
     get :index
     assert_response :success
-    assert_template 'index'
+    assert_select '#content input[name=q]'
+  end
 
+  def test_search_for_projects
     get :index, :params => {:q => "cook"}
     assert_response :success
-    assert_template 'index'
-    assert assigns(:results).include?(Project.find(1))
+    assert_select '#search-results dt.project a', :text => /eCookbook/
   end
 
   def test_search_on_archived_project_should_return_404
@@ -69,29 +70,32 @@ class SearchControllerTest < Redmine::ControllerTest
       get :index, :params => {:q => 'recipe subproject commit', :all_words => ''}
     end
     assert_response :success
-    assert_template 'index'
 
-    assert assigns(:results).include?(Issue.find(2))
-    assert assigns(:results).include?(Issue.find(5))
-    assert assigns(:results).include?(Changeset.find(101))
-    assert_select 'dt.issue a', :text => /Add ingredients categories/
-    assert_select 'dd', :text => /should be classified by categories/
+    assert_select '#search-results' do
+      assert_select 'dt.issue a', :text => /Feature request #2/
+      assert_select 'dt.issue a', :text => /Bug #5/
+      assert_select 'dt.changeset a', :text => /Revision 1/
 
-    assert assigns(:result_count_by_type).is_a?(Hash)
-    assert_equal 5, assigns(:result_count_by_type)['changesets']
-    assert_select 'a', :text => 'Changesets (5)'
+      assert_select 'dt.issue a', :text => /Add ingredients categories/
+      assert_select 'dd', :text => /should be classified by categories/
+    end
+
+    assert_select '#search-results-counts' do
+      assert_select 'a', :text => 'Changesets (5)'
+    end
   end
 
   def test_search_issues
     get :index, :params => {:q => 'issue', :issues => 1}
     assert_response :success
-    assert_template 'index'
 
-    assert_equal true, assigns(:all_words)
-    assert_equal false, assigns(:titles_only)
-    assert assigns(:results).include?(Issue.find(8))
-    assert assigns(:results).include?(Issue.find(5))
-    assert_select 'dt.issue.closed a',  :text => /Closed/
+    assert_select 'input[name=all_words][checked=checked]'
+    assert_select 'input[name=titles_only]:not([checked])'
+
+    assert_select '#search-results' do
+      assert_select 'dt.issue a', :text => /Bug #5/
+      assert_select 'dt.issue.closed a', :text => /Bug #8 \(Closed\)/
+    end
   end
 
   def test_search_issues_should_search_notes
@@ -99,7 +103,10 @@ class SearchControllerTest < Redmine::ControllerTest
 
     get :index, :params => {:q => 'searchkeyword', :issues => 1}
     assert_response :success
-    assert_include Issue.find(2), assigns(:results)
+
+    assert_select '#search-results' do
+      assert_select 'dt.issue a', :text => /Feature request #2/
+    end
   end
 
   def test_search_issues_with_multiple_matches_in_journals_should_return_issue_once
@@ -108,8 +115,11 @@ class SearchControllerTest < Redmine::ControllerTest
 
     get :index, :params => {:q => 'searchkeyword', :issues => 1}
     assert_response :success
-    assert_include Issue.find(2), assigns(:results)
-    assert_equal 1, assigns(:results).size
+
+    assert_select '#search-results' do
+      assert_select 'dt.issue a', :text => /Feature request #2/
+      assert_select 'dt', 1
+    end
   end
 
   def test_search_issues_should_search_private_notes_with_permission_only
@@ -119,66 +129,74 @@ class SearchControllerTest < Redmine::ControllerTest
     Role.find(1).add_permission! :view_private_notes
     get :index, :params => {:q => 'searchkeyword', :issues => 1}
     assert_response :success
-    assert_include Issue.find(2), assigns(:results)
+    assert_select '#search-results' do
+      assert_select 'dt.issue a', :text => /Feature request #2/
+    end
 
     Role.find(1).remove_permission! :view_private_notes
     get :index, :params => {:q => 'searchkeyword', :issues => 1}
     assert_response :success
-    assert_not_include Issue.find(2), assigns(:results)
+    assert_select '#search-results' do
+      assert_select 'dt', :text => /Feature request #2/, :count => 0
+    end
   end
 
   def test_search_all_projects_with_scope_param
     get :index, :params => {:q => 'issue', :scope => 'all'}
     assert_response :success
-    assert_template 'index'
-    assert assigns(:results).present?
+
+    assert_select '#search-results dt'
   end
 
   def test_search_my_projects
     @request.session[:user_id] = 2
     get :index, :params => {:id => 1, :q => 'recipe subproject', :scope => 'my_projects', :all_words => ''}
     assert_response :success
-    assert_template 'index'
-    assert assigns(:results).include?(Issue.find(1))
-    assert !assigns(:results).include?(Issue.find(5))
+
+    assert_select '#search-results' do
+      assert_select 'dt.issue', :text => /Bug #1/
+      assert_select 'dt', :text => /Bug #5/, :count => 0
+    end
   end
 
   def test_search_my_projects_without_memberships
     # anonymous user has no memberships
     get :index, :params => {:id => 1, :q => 'recipe subproject', :scope => 'my_projects', :all_words => ''}
     assert_response :success
-    assert_template 'index'
-    assert assigns(:results).empty?
+
+    assert_select '#search-results' do
+      assert_select 'dt', 0
+    end
   end
 
   def test_search_project_and_subprojects
     get :index, :params => {:id => 1, :q => 'recipe subproject', :scope => 'subprojects', :all_words => ''}
     assert_response :success
-    assert_template 'index'
-    assert assigns(:results).include?(Issue.find(1))
-    assert assigns(:results).include?(Issue.find(5))
+
+    assert_select '#search-results' do
+      assert_select 'dt.issue', :text => /Bug #1/
+      assert_select 'dt.issue', :text => /Bug #5/
+    end
   end
 
   def test_search_without_searchable_custom_fields
-    CustomField.update_all "searchable = #{ActiveRecord::Base.connection.quoted_false}"
+    CustomField.update_all :searchable => false
 
     get :index, :params => {:id => 1}
     assert_response :success
-    assert_template 'index'
-    assert_not_nil assigns(:project)
 
     get :index, :params => {:id => 1, :q => "can"}
     assert_response :success
-    assert_template 'index'
   end
 
   def test_search_with_searchable_custom_fields
     get :index, :params => {:id => 1, :q => "stringforcustomfield"}
     assert_response :success
-    results = assigns(:results)
-    assert_not_nil results
-    assert_equal 1, results.size
-    assert results.include?(Issue.find(7))
+
+    assert_select '#search-results' do
+      assert_select 'dt.issue', :text => /#7/
+      assert_select 'dt', 1
+    end
   end
 
   def test_search_without_attachments
@@ -186,9 +204,12 @@ class SearchControllerTest < Redmine::ControllerTest
     attachment = Attachment.generate! :container => Issue.find(1), :filename => 'search_attachments.patch'
 
     get :index, :params => {:id => 1, :q => 'search_attachments', :attachments => '0'}
-    results = assigns(:results)
-    assert_equal 1, results.size
-    assert_equal issue, results.first
+    assert_response :success
+
+    assert_select '#search-results' do
+      assert_select 'dt.issue', :text => /##{issue.id}/
+      assert_select 'dt', 1
+    end
   end
 
   def test_search_attachments_only
@@ -196,18 +217,26 @@ class SearchControllerTest < Redmine::ControllerTest
     attachment = Attachment.generate! :container => Issue.find(1), :filename => 'search_attachments.patch'
 
     get :index, :params => {:id => 1, :q => 'search_attachments', :attachments => 'only'}
-    results = assigns(:results)
-    assert_equal 1, results.size
-    assert_equal attachment.container, results.first
+    assert_response :success
+
+    assert_select '#search-results' do
+      assert_select 'dt.issue', :text => / #1 /
+      assert_select 'dt', 1
+    end
   end
 
   def test_search_with_attachments
-    Issue.generate! :subject => 'search_attachments'
+    issue = Issue.generate! :subject => 'search_attachments'
     Attachment.generate! :container => Issue.find(1), :filename => 'search_attachments.patch'
 
     get :index, :params => {:id => 1, :q => 'search_attachments', :attachments => '1'}
-    results = assigns(:results)
-    assert_equal 2, results.size
+    assert_response :success
+
+    assert_select '#search-results' do
+      assert_select 'dt.issue', :text => / #1 /
+      assert_select 'dt.issue', :text => / ##{issue.id} /
+      assert_select 'dt', 2
+    end
   end
 
   def test_search_open_issues
@@ -215,78 +244,98 @@ class SearchControllerTest < Redmine::ControllerTest
     Issue.generate! :subject => 'search_open', :status_id => 5
 
     get :index, :params => {:id => 1, :q => 'search_open', :open_issues => '1'}
-    results = assigns(:results)
-    assert_equal 1, results.size
+    assert_response :success
+
+    assert_select '#search-results' do
+      assert_select 'dt', 1
+    end
   end
 
   def test_search_all_words
     # 'all words' is on by default
     get :index, :params => {:id => 1, :q => 'recipe updating saving', :all_words => '1'}
-    assert_equal true, assigns(:all_words)
-    results = assigns(:results)
-    assert_not_nil results
-    assert_equal 1, results.size
-    assert results.include?(Issue.find(3))
+    assert_response :success
+
+    assert_select 'input[name=all_words][checked=checked]'
+    assert_select '#search-results' do
+      assert_select 'dt.issue', :text => / #3 /
+      assert_select 'dt', 1
+    end
   end
 
   def test_search_one_of_the_words
     get :index, :params => {:id => 1, :q => 'recipe updating saving', :all_words => ''}
-    assert_equal false, assigns(:all_words)
-    results = assigns(:results)
-    assert_not_nil results
-    assert_equal 3, results.size
-    assert results.include?(Issue.find(3))
+    assert_response :success
+
+    assert_select 'input[name=all_words]:not([checked])'
+    assert_select '#search-results' do
+      assert_select 'dt.issue', :text => / #3 /
+      assert_select 'dt', 3
+    end
   end
 
   def test_search_titles_only_without_result
     get :index, :params => {:id => 1, :q => 'recipe updating saving', :titles_only => '1'}
-    results = assigns(:results)
-    assert_not_nil results
-    assert_equal 0, results.size
+    assert_response :success
+
+    assert_select 'input[name=titles_only][checked=checked]'
+    assert_select '#search-results' do
+      assert_select 'dt', 0
+    end
   end
 
   def test_search_titles_only
     get :index, :params => {:id => 1, :q => 'recipe', :titles_only => '1'}
-    assert_equal true, assigns(:titles_only)
-    results = assigns(:results)
-    assert_not_nil results
-    assert_equal 2, results.size
+    assert_response :success
+
+    assert_select 'input[name=titles_only][checked=checked]'
+    assert_select '#search-results' do
+      assert_select 'dt', 2
+    end
   end
 
   def test_search_content
     Issue.where(:id => 1).update_all("description = 'This is a searchkeywordinthecontent'")
 
     get :index, :params => {:id => 1, :q => 'searchkeywordinthecontent', :titles_only => ''}
-    assert_equal false, assigns(:titles_only)
-    results = assigns(:results)
-    assert_not_nil results
-    assert_equal 1, results.size
+    assert_response :success
+
+    assert_select 'input[name=titles_only]:not([checked])'
+    assert_select '#search-results' do
+      assert_select 'dt.issue', :text => / #1 /
+      assert_select 'dt', 1
+    end
   end
 
   def test_search_with_pagination
-    issue = (0..24).map {Issue.generate! :subject => 'search_with_limited_results'}.reverse
+    issues = (0..24).map {Issue.generate! :subject => 'search_with_limited_results'}.reverse
 
     get :index, :params => {:q => 'search_with_limited_results'}
     assert_response :success
-    assert_equal issue[0..9], assigns(:results)
+    issues[0..9].each do |issue|
+      assert_select '#search-results dt.issue', :text => / ##{issue.id} /
+    end
 
     get :index, :params => {:q => 'search_with_limited_results', :page => 2}
     assert_response :success
-    assert_equal issue[10..19], assigns(:results)
+    issues[10..19].each do |issue|
+      assert_select '#search-results dt.issue', :text => / ##{issue.id} /
+    end
 
     get :index, :params => {:q => 'search_with_limited_results', :page => 3}
     assert_response :success
-    assert_equal issue[20..24], assigns(:results)
+    issues[20..24].each do |issue|
+      assert_select '#search-results dt.issue', :text => / ##{issue.id} /
+    end
 
     get :index, :params => {:q => 'search_with_limited_results', :page => 4}
     assert_response :success
-    assert_equal [], assigns(:results)
+    assert_select '#search-results dt', 0
   end
 
   def test_search_with_invalid_project_id
     get :index, :params => {:id => 195, :q => 'recipe'}
     assert_response 404
-    assert_nil assigns(:results)
   end
 
   def test_quick_jump_to_issue
@@ -297,18 +346,25 @@ class SearchControllerTest < Redmine::ControllerTest
     # issue of a private project
     get :index, :params => {:q => "4"}
     assert_response :success
-    assert_template 'index'
   end
 
   def test_large_integer
     get :index, :params => {:q => '4615713488'}
     assert_response :success
-    assert_template 'index'
   end
 
   def test_tokens_with_quotes
-    get :index, :params => {:id => 1, :q => '"good bye" hello "bye bye"'}
-    assert_equal ["good bye", "hello", "bye bye"], assigns(:tokens)
+    issue1 = Issue.generate! :subject => 'say hello'
+    issue2 = Issue.generate! :subject => 'say good bye'
+    issue3 = Issue.generate! :subject => 'say goodbye'
+
+    get :index, :params => {:q => '"good bye" hello "bye bye"', :all_words => ''}
+    assert_response :success
+    assert_select '#search-results' do
+      assert_select 'dt.issue a', :text => / ##{issue1.id} /
+      assert_select 'dt.issue a', :text => / ##{issue2.id} /
+      assert_select 'dt.issue a', :text => / ##{issue3.id} /, :count => 0
+    end
   end
 
   def test_results_should_be_escaped_once

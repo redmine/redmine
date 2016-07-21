@@ -28,18 +28,17 @@ class RolesControllerTest < Redmine::ControllerTest
   def test_index
     get :index
     assert_response :success
-    assert_template 'index'
 
-    assert_not_nil assigns(:roles)
-    assert_equal Role.order('builtin, position').to_a, assigns(:roles)
-
-    assert_select 'a[href="/roles/1/edit"]', :text => 'Manager'
+    assert_select 'table.roles tbody' do
+      assert_select 'tr', Role.count
+      assert_select 'a[href="/roles/1/edit"]', :text => 'Manager'
+    end
   end
 
   def test_new
     get :new
     assert_response :success
-    assert_template 'new'
+    assert_select 'input[name=?]', 'role[name]'
   end
 
   def test_new_with_copy
@@ -47,10 +46,7 @@ class RolesControllerTest < Redmine::ControllerTest
 
     get :new, :params => {:copy => copy_from.id.to_s}
     assert_response :success
-    assert_template 'new'
-
-    role = assigns(:role)
-    assert_equal copy_from.permissions, role.permissions
+    assert_select 'input[name=?]', 'role[name]'
 
     assert_select 'form' do
       # blank name
@@ -76,8 +72,7 @@ class RolesControllerTest < Redmine::ControllerTest
       }
     }
     assert_response :success
-    assert_template 'new'
-    assert_select 'div#errorExplanation'
+    assert_select_error /Name cannot be blank/
   end
 
   def test_create_without_workflow_copy
@@ -113,15 +108,16 @@ class RolesControllerTest < Redmine::ControllerTest
   def test_edit
     get :edit, :params => {:id => 1}
     assert_response :success
-    assert_template 'edit'
-    assert_equal Role.find(1), assigns(:role)
+
+    assert_select 'input[name=?][value=?]', 'role[name]', 'Manager'
     assert_select 'select[name=?]', 'role[issues_visibility]'
   end
 
   def test_edit_anonymous
     get :edit, :params => {:id => Role.anonymous.id}
     assert_response :success
-    assert_template 'edit'
+
+    assert_select 'input[name=?]', 'role[name]', 0
     assert_select 'select[name=?]', 'role[issues_visibility]', 0
   end
 
@@ -165,7 +161,7 @@ class RolesControllerTest < Redmine::ControllerTest
   def test_update_with_failure
     put :update, :params => {:id => 1, :role => {:name => ''}}
     assert_response :success
-    assert_template 'edit'
+    assert_select_error /Name cannot be blank/
   end
 
   def test_destroy
@@ -186,10 +182,6 @@ class RolesControllerTest < Redmine::ControllerTest
   def test_get_permissions
     get :permissions
     assert_response :success
-    assert_template 'permissions'
-
-    assert_not_nil assigns(:roles)
-    assert_equal Role.order('builtin, position').to_a, assigns(:roles)
 
     assert_select 'input[name=?][type=checkbox][value=add_issues][checked=checked]', 'permissions[3][]'
     assert_select 'input[name=?][type=checkbox][value=delete_issues]:not([checked])', 'permissions[3][]'
