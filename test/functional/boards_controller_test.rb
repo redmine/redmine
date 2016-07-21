@@ -36,7 +36,7 @@ class BoardsControllerTest < Redmine::ControllerTest
   end
 
   def test_index_should_show_messages_if_only_one_board
-    Project.find(1).boards.slice(1..-1).each(&:destroy)
+    Project.find(1).boards.to_a.slice(1..-1).each(&:destroy)
 
     get :index, :project_id => 1
     assert_response :success
