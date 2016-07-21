@@ -113,6 +113,7 @@ class SysControllerTest < Redmine::ControllerTest
     with_settings :sys_api_enabled => '0' do
       get :projects
       assert_response 403
+      assert_include 'Access denied', response.body
     end
   end
 
@@ -127,6 +128,7 @@ class SysControllerTest < Redmine::ControllerTest
     with_settings :sys_api_enabled => 'my_secret_key' do
       get :projects, :params => {:key => 'wrong_key'}
       assert_response 403
+      assert_include 'Access denied', response.body
     end
   end
 end

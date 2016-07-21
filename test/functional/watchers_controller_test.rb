@@ -25,6 +25,16 @@ class WatchersControllerTest < Redmine::ControllerTest
     User.current = nil
   end
 
+  def test_watch_a_single_object_as_html
+    @request.session[:user_id] = 3
+    assert_difference('Watcher.count') do
+      post :watch, :params => {:object_type => 'issue', :object_id => '1'}
+      assert_response :success
+      assert_include 'Watcher added', response.body
+    end
+    assert Issue.find(1).watched_by?(User.find(3))
+  end
+
   def test_watch_a_single_object
     @request.session[:user_id] = 3
     assert_difference('Watcher.count') do
@@ -102,6 +112,16 @@ class WatchersControllerTest < Redmine::ControllerTest
     end
   end
 
+  def test_unwatch_as_html
+    @request.session[:user_id] = 3
+    assert_difference('Watcher.count', -1) do
+      delete :unwatch, :params => {:object_type => 'issue', :object_id => '2'}
+      assert_response :success
+      assert_include 'Watcher removed', response.body
+    end
+    assert !Issue.find(1).watched_by?(User.find(3))
+  end
+
   def test_unwatch
     @request.session[:user_id] = 3
     assert_difference('Watcher.count', -1) do
@@ -152,6 +172,19 @@ class WatchersControllerTest < Redmine::ControllerTest
     xhr :get, :new, :params => {:project_id => 'ecookbook'}
     assert_response :success
     assert_match /ajax-modal/, response.body
+  end
+
+  def test_create_as_html
+    @request.session[:user_id] = 2
+    assert_difference('Watcher.count') do
+      post :create, :params => {
+        :object_type => 'issue', :object_id => '2',
+        :watcher => {:user_id => '4'}
+      }
+      assert_response :success
+      assert_include 'Watcher added', response.body
+    end
+    assert Issue.find(2).watched_by?(User.find(4))
   end
 
   def test_create
@@ -293,6 +326,18 @@ class WatchersControllerTest < Redmine::ControllerTest
     xhr :post, :append, :params => {:project_id => 'ecookbook'}
     assert_response :success
     assert response.body.blank?
+  end
+
+  def test_destroy_as_html
+    @request.session[:user_id] = 2
+    assert_difference('Watcher.count', -1) do
+      delete :destroy, :params => {
+        :object_type => 'issue', :object_id => '2', :user_id => '3'
+      }
+      assert_response :success
+      assert_include 'Watcher removed', response.body
+    end
+    assert !Issue.find(2).watched_by?(User.find(3))
   end
 
   def test_destroy

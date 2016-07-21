@@ -47,7 +47,7 @@ class WatchersController < ApplicationController
       end
     end
     respond_to do |format|
-      format.html { redirect_to_referer_or {render :text => 'Watcher added.', :layout => true}}
+      format.html { redirect_to_referer_or {render :html => 'Watcher added.', :status => 200, :layout => true}}
       format.js { @users = users_for_new_watcher }
       format.api { render_api_ok }
     end
@@ -69,7 +69,7 @@ class WatchersController < ApplicationController
       watchable.set_watcher(user, false)
     end
     respond_to do |format|
-      format.html { redirect_to :back }
+      format.html { redirect_to_referer_or {render :html => 'Watcher removed.', :status => 200, :layout => true} }
       format.js
       format.api { render_api_ok }
     end
@@ -108,7 +108,10 @@ class WatchersController < ApplicationController
       watchable.set_watcher(user, watching)
     end
     respond_to do |format|
-      format.html { redirect_to_referer_or {render :text => (watching ? 'Watcher added.' : 'Watcher removed.'), :layout => true}}
+      format.html {
+        text = watching ? 'Watcher added.' : 'Watcher removed.'
+        redirect_to_referer_or {render :html => text, :status => 200, :layout => true}
+      }
       format.js { render :partial => 'set_watcher', :locals => {:user => user, :watched => watchables} }
     end
   end
