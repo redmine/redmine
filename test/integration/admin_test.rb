@@ -30,7 +30,7 @@ class AdminTest < Redmine::IntegrationTest
     log_user("admin", "admin")
     get "/users/new"
     assert_response :success
-    assert_template "users/new"
+
     post "/users",
          :user => { :login => "psmith", :firstname => "Paul",
                     :lastname => "Smith", :mail => "psmith@somenet.foo",

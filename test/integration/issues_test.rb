@@ -40,7 +40,6 @@ class IssuesTest < Redmine::IntegrationTest
 
     get '/projects/ecookbook/issues/new'
     assert_response :success
-    assert_template 'issues/new'
 
     issue = new_record(Issue) do
       post '/projects/ecookbook/issues',
@@ -58,7 +57,6 @@ class IssuesTest < Redmine::IntegrationTest
     # check redirection
     assert_redirected_to :controller => 'issues', :action => 'show', :id => issue
     follow_redirect!
-    assert_equal issue, assigns(:issue)
 
     # check issue attributes
     assert_equal 'jsmith', issue.author.login

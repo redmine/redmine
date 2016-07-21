@@ -129,7 +129,7 @@ class Redmine::ApiTest::AuthenticationTest < Redmine::ApiTest::Base
 
     get '/users/current', {}, {'X-Redmine-API-Key' => user.api_key, 'X-Redmine-Switch-User' => su.login}
     assert_response :success
-    assert_equal su, assigns(:user)
+    assert_select 'h2', :text => su.name
     assert_equal su, User.current
   end
 
@@ -152,7 +152,7 @@ class Redmine::ApiTest::AuthenticationTest < Redmine::ApiTest::Base
 
     get '/users/current', {}, {'X-Redmine-API-Key' => user.api_key, 'X-Redmine-Switch-User' => su.login}
     assert_response :success
-    assert_equal user, assigns(:user)
+    assert_select 'h2', :text => user.name
     assert_equal user, User.current
   end
 end

@@ -48,26 +48,26 @@ class Redmine::ApiTest::SearchTest < Redmine::ApiTest::Base
     get '/search.xml', :q => '', :all_words => ''
 
     assert_response :success
-    assert_equal 0, assigns(:results).size
+    assert_select 'result', 0
   end
 
   test "GET /search.xml with query strings should return results" do
-    get '/search.xml', :q => 'recipe subproject commit', :all_words => ''
+    issue = Issue.generate!(:subject => 'searchapi')
+
+    get '/search.xml', :q => 'searchapi', :all_words => ''
 
     assert_response :success
-    assert_not_empty(assigns(:results))
 
     assert_select 'results[type=array]' do
-      assert_select 'result', :count => assigns(:results).count
-      assigns(:results).size.times.each do |i|
-        assert_select 'result' do
-          assert_select 'id',          :text => assigns(:results)[i].id.to_s
-          assert_select 'title',       :text => assigns(:results)[i].event_title
-          assert_select 'type',        :text => assigns(:results)[i].event_type
-          assert_select 'url',         :text => url_for(assigns(:results)[i].event_url(:only_path => false))
-          assert_select 'description', :text => assigns(:results)[i].event_description
-          assert_select 'datetime'
-        end
+      assert_select 'result', 1
+
+      assert_select 'result' do
+        assert_select 'id',          :text => issue.id.to_s
+        assert_select 'title',       :text => "Bug ##{issue.id} (New): searchapi"
+        assert_select 'type',        :text => 'issue'
+        assert_select 'url',         :text => "http://www.example.com/issues/#{issue.id}"
+        assert_select 'description', :text => ''
+        assert_select 'datetime'
       end
     end
   end

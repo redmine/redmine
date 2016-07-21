@@ -26,7 +26,7 @@ class Redmine::ApiTest::UsersTest < Redmine::ApiTest::Base
     assert_response :success
     assert_equal 'application/xml', response.content_type
     assert_select 'users' do
-      assert_select 'user', assigns(:users).size
+      assert_select 'user', User.active.count
     end
   end
 
@@ -37,7 +37,7 @@ class Redmine::ApiTest::UsersTest < Redmine::ApiTest::Base
     assert_equal 'application/json', response.content_type
     json = ActiveSupport::JSON.decode(response.body)
     assert json.key?('users')
-    assert_equal assigns(:users).size, json['users'].size
+    assert_equal User.active.count, json['users'].size
   end
 
   test "GET /users/:id.xml should return the user" do

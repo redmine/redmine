@@ -25,7 +25,7 @@ class ProjectsTest < Redmine::IntegrationTest
     log_user("admin", "admin")
     get "/admin/projects"
     assert_response :success
-    assert_template "admin/projects"
+
     post "/projects/1/archive"
     assert_redirected_to "/admin/projects"
     assert !Project.find(1).active?
