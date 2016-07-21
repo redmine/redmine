@@ -120,9 +120,11 @@ class Setting < ActiveRecord::Base
 
 	# Updates multiple settings from params and sends a security notification if needed
   def self.set_all_from_params(settings)
-    settings = (settings || {}).dup.symbolize_keys
+    return false unless settings.is_a?(Hash)
+    settings = settings.dup.symbolize_keys
     changes = []
     settings.each do |name, value|
+      next unless available_settings[name.to_s]
       previous_value = Setting[name]
       set_from_params name, value
       if available_settings[name.to_s]['security_notifications'] && Setting[name] != previous_value

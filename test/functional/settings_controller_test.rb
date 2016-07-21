@@ -145,6 +145,15 @@ class SettingsControllerTest < Redmine::ControllerTest
     ], Setting.commit_update_keywords)
   end
 
+  def test_post_edit_with_invalid_setting_should_not_error
+    post :edit, :params => {
+      :settings => {
+        :invalid_setting => '1'
+      }
+    }
+    assert_redirected_to '/settings'
+  end
+
   def test_post_edit_should_send_security_notification_for_notified_settings
     ActionMailer::Base.deliveries.clear
     post :edit, :params => {
