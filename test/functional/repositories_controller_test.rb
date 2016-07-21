@@ -30,9 +30,9 @@ class RepositoriesControllerTest < Redmine::ControllerTest
     @request.session[:user_id] = 1
     get :new, :project_id => 'subproject1'
     assert_response :success
-    assert_template 'new'
-    assert_kind_of Repository::Subversion, assigns(:repository)
-    assert assigns(:repository).new_record?
+    assert_select 'select[name=?]', 'repository_scm' do
+      assert_select 'option[value=?][selected=selected]', 'Subversion'
+    end
     assert_select 'input[name=?]:not([disabled])', 'repository[url]'
   end
 
@@ -42,8 +42,6 @@ class RepositoriesControllerTest < Redmine::ControllerTest
       get :new, :project_id => 'subproject1'
     end
     assert_response :success
-    assert_template 'new'
-    assert_kind_of Repository::Mercurial, assigns(:repository)
 
     assert_select 'select[name=repository_scm]' do
       assert_select 'option', 3
@@ -73,17 +71,16 @@ class RepositoriesControllerTest < Redmine::ControllerTest
            :repository => {:url => 'invalid'}
     end
     assert_response :success
-    assert_template 'new'
-    assert_kind_of Repository::Subversion, assigns(:repository)
-    assert assigns(:repository).new_record?
+    assert_select_error /URL is invalid/
+    assert_select 'select[name=?]', 'repository_scm' do
+      assert_select 'option[value=?][selected=selected]', 'Subversion'
+    end
   end
 
   def test_edit
     @request.session[:user_id] = 1
     get :edit, :id => 11
     assert_response :success
-    assert_template 'edit'
-    assert_equal Repository.find(11), assigns(:repository)
     assert_select 'input[name=?][value=?][disabled=disabled]', 'repository[url]', 'svn://localhost/test'
   end
 
@@ -98,8 +95,7 @@ class RepositoriesControllerTest < Redmine::ControllerTest
     @request.session[:user_id] = 1
     put :update, :id => 11, :repository => {:password => 'x'*260}
     assert_response :success
-    assert_template 'edit'
-    assert_equal Repository.find(11), assigns(:repository)
+    assert_select_error /Password is too long/
   end
 
   def test_destroy
@@ -139,9 +135,7 @@ class RepositoriesControllerTest < Redmine::ControllerTest
   def test_revisions
     get :revisions, :id => 1
     assert_response :success
-    assert_template 'revisions'
-    assert_equal Repository.find(10), assigns(:repository)
-    assert_not_nil assigns(:changesets)
+    assert_select 'table.changesets'
   end
 
   def test_revisions_for_other_repository
@@ -149,9 +143,7 @@ class RepositoriesControllerTest < Redmine::ControllerTest
 
     get :revisions, :id => 1, :repository_id => 'foo'
     assert_response :success
-    assert_template 'revisions'
-    assert_equal repository, assigns(:repository)
-    assert_not_nil assigns(:changesets)
+    assert_select 'table.changesets'
   end
 
   def test_revisions_for_invalid_repository
@@ -162,8 +154,7 @@ class RepositoriesControllerTest < Redmine::ControllerTest
   def test_revision
     get :revision, :id => 1, :rev => 1
     assert_response :success
-    assert_not_nil assigns(:changeset)
-    assert_equal "1", assigns(:changeset).revision
+    assert_select 'h2', :text => 'Revision 1'
   end
 
   def test_revision_should_show_add_related_issue_form
@@ -188,7 +179,6 @@ class RepositoriesControllerTest < Redmine::ControllerTest
   def test_revision_with_before_nil_and_afer_normal
     get :revision, {:id => 1, :rev => 1}
     assert_response :success
-    assert_template 'revision'
 
     assert_select 'div.contextual' do
       assert_select 'a[href=?]', '/projects/ecookbook/repository/revisions/0', 0
@@ -201,7 +191,6 @@ class RepositoriesControllerTest < Redmine::ControllerTest
     assert_difference 'Changeset.find(103).issues.size' do
       xhr :post, :add_related_issue, :id => 1, :rev => 4, :issue_id => 2, :format => 'js'
       assert_response :success
-      assert_template 'add_related_issue'
       assert_equal 'text/javascript', response.content_type
     end
     assert_equal [2], Changeset.find(103).issue_ids
@@ -222,7 +211,6 @@ class RepositoriesControllerTest < Redmine::ControllerTest
     assert_no_difference 'Changeset.find(103).issues.size' do
       xhr :post, :add_related_issue, :id => 1, :rev => 4, :issue_id => 9999, :format => 'js'
       assert_response :success
-      assert_template 'add_related_issue'
       assert_equal 'text/javascript', response.content_type
     end
     assert_include 'alert("Issue is invalid")', response.body
@@ -236,7 +224,6 @@ class RepositoriesControllerTest < Redmine::ControllerTest
     assert_difference 'Changeset.find(103).issues.size', -1 do
       xhr :delete, :remove_related_issue, :id => 1, :rev => 4, :issue_id => 2, :format => 'js'
       assert_response :success
-      assert_template 'remove_related_issue'
       assert_equal 'text/javascript', response.content_type
     end
     assert_equal [1], Changeset.find(103).issue_ids
@@ -273,7 +260,6 @@ class RepositoriesControllerTest < Redmine::ControllerTest
 
     get :committers, :id => 10
     assert_response :success
-    assert_template 'committers'
 
     assert_select 'input[value=dlopper] + select option[value="3"][selected=selected]', :text => 'Dave Lopper'
     assert_select 'input[value=foo] + select option[selected=selected]', 0 # no option selected
@@ -285,7 +271,6 @@ class RepositoriesControllerTest < Redmine::ControllerTest
 
     get :committers, :id => 10
     assert_response :success
-    assert_template 'committers'
   end
 
   def test_post_committers

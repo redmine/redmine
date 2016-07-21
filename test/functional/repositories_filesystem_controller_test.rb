@@ -45,9 +45,9 @@ class RepositoriesFilesystemControllerTest < Redmine::ControllerTest
       @project.repository.destroy
       get :new, :project_id => 'subproject1', :repository_scm => 'Filesystem'
       assert_response :success
-      assert_template 'new'
-      assert_kind_of Repository::Filesystem, assigns(:repository)
-      assert assigns(:repository).new_record?
+      assert_select 'select[name=?]', 'repository_scm' do
+        assert_select 'option[value=?][selected=selected]', 'Filesystem'
+      end
     end
 
     def test_browse_root
@@ -55,11 +55,15 @@ class RepositoriesFilesystemControllerTest < Redmine::ControllerTest
       @repository.reload
       get :show, :id => PRJ_ID
       assert_response :success
-      assert_template 'show'
-      assert_not_nil assigns(:entries)
-      assert assigns(:entries).size > 0
-      assert_not_nil assigns(:changesets)
-      assert assigns(:changesets).size == 0
+
+      assert_select 'table.entries tbody' do
+        assert_select 'tr', 3
+        assert_select 'tr.dir td.filename a', :text => 'dir'
+        assert_select 'tr.dir td.filename a', :text => 'japanese'
+        assert_select 'tr.file td.filename a', :text => 'test'
+      end
+
+      assert_select 'table.changesets tbody', 0
 
       assert_select 'input[name=rev]', 0
       assert_select 'a', :text => 'Statistics', :count => 0
@@ -69,7 +73,6 @@ class RepositoriesFilesystemControllerTest < Redmine::ControllerTest
     def test_show_no_extension
       get :entry, :id => PRJ_ID, :path => repository_path_hash(['test'])[:param]
       assert_response :success
-      assert_template 'entry'
       assert_select 'tr#L1 td.line-code', :text => /TEST CAT/
     end
 
@@ -84,7 +87,6 @@ class RepositoriesFilesystemControllerTest < Redmine::ControllerTest
         get :entry, :id => PRJ_ID,
             :path => repository_path_hash(['japanese', 'euc-jp.txt'])[:param]
         assert_response :success
-        assert_template 'entry'
         assert_select 'tr#L2 td.line-code', :text => /japanese/
         if @ruby19_non_utf8_pass
           puts "TODO: show repository file contents test fails " +

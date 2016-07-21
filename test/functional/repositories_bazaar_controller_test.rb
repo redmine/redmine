@@ -44,48 +44,49 @@ class RepositoriesBazaarControllerTest < Redmine::ControllerTest
       @project.repository.destroy
       get :new, :project_id => 'subproject1', :repository_scm => 'Bazaar'
       assert_response :success
-      assert_template 'new'
-      assert_kind_of Repository::Bazaar, assigns(:repository)
-      assert assigns(:repository).new_record?
+      assert_select 'select[name=?]', 'repository_scm' do
+        assert_select 'option[value=?][selected=selected]', 'Bazaar'
+      end
     end
 
     def test_browse_root
       get :show, :id => PRJ_ID
       assert_response :success
-      assert_template 'show'
-      assert_not_nil assigns(:entries)
-      assert_equal 2, assigns(:entries).size
-      assert assigns(:entries).detect {|e| e.name == 'directory' && e.kind == 'dir'}
-      assert assigns(:entries).detect {|e| e.name == 'doc-mkdir.txt' && e.kind == 'file'}
+      assert_select 'table.entries tbody' do
+        assert_select 'tr', 2
+        assert_select 'tr.dir td.filename a', :text => 'directory'
+        assert_select 'tr.file td.filename a', :text => 'doc-mkdir.txt'
+      end
     end
 
     def test_browse_directory
       get :show, :id => PRJ_ID, :path => repository_path_hash(['directory'])[:param]
       assert_response :success
-      assert_template 'show'
-      assert_not_nil assigns(:entries)
-      assert_equal ['doc-ls.txt', 'document.txt', 'edit.png'], assigns(:entries).collect(&:name)
-      entry = assigns(:entries).detect {|e| e.name == 'edit.png'}
-      assert_not_nil entry
-      assert_equal 'file', entry.kind
-      assert_equal 'directory/edit.png', entry.path
+      assert_select 'table.entries tbody' do
+        assert_select 'tr', 3
+        assert_select 'tr.file td.filename a', :text => 'doc-ls.txt'
+        assert_select 'tr.file td.filename a', :text => 'document.txt'
+        assert_select 'tr.file td.filename a', :text => 'edit.png'
+      end
     end
 
     def test_browse_at_given_revision
       get :show, :id => PRJ_ID, :path => repository_path_hash([])[:param],
           :rev => 3
       assert_response :success
-      assert_template 'show'
-      assert_not_nil assigns(:entries)
-      assert_equal ['directory', 'doc-deleted.txt', 'doc-ls.txt', 'doc-mkdir.txt'],
-                   assigns(:entries).collect(&:name)
+      assert_select 'table.entries tbody' do
+        assert_select 'tr', 4
+        assert_select 'tr.dir td.filename a', :text => 'directory'
+        assert_select 'tr.file td.filename a', :text => 'doc-deleted.txt'
+        assert_select 'tr.file td.filename a', :text => 'doc-ls.txt'
+        assert_select 'tr.file td.filename a', :text => 'doc-mkdir.txt'
+      end
     end
 
     def test_changes
       get :changes, :id => PRJ_ID,
           :path => repository_path_hash(['doc-mkdir.txt'])[:param]
       assert_response :success
-      assert_template 'changes'
       assert_select 'h2', :text => /doc-mkdir.txt/
     end
 
@@ -93,7 +94,6 @@ class RepositoriesBazaarControllerTest < Redmine::ControllerTest
       get :entry, :id => PRJ_ID,
           :path => repository_path_hash(['directory', 'doc-ls.txt'])[:param]
       assert_response :success
-      assert_template 'entry'
       # Line 19
       assert_select 'tr#L29 td.line-code', :text => /Show help message/
     end
@@ -111,9 +111,7 @@ class RepositoriesBazaarControllerTest < Redmine::ControllerTest
       get :entry, :id => PRJ_ID,
           :path => repository_path_hash(['directory'])[:param]
       assert_response :success
-      assert_template 'show'
-      assert_not_nil assigns(:entry)
-      assert_equal 'directory', assigns(:entry).name
+      assert_select 'table.entries tbody'
     end
 
     def test_diff
@@ -121,7 +119,6 @@ class RepositoriesBazaarControllerTest < Redmine::ControllerTest
       ['inline', 'sbs'].each do |dt|
         get :diff, :id => PRJ_ID, :rev => 3, :type => dt
         assert_response :success
-        assert_template 'diff'
         # Line 11 removed
         assert_select 'th.line-num:contains(11) ~ td.diff_out', :text => /Display more information/
       end
@@ -131,7 +128,7 @@ class RepositoriesBazaarControllerTest < Redmine::ControllerTest
       get :annotate, :id => PRJ_ID,
           :path => repository_path_hash(['doc-mkdir.txt'])[:param]
       assert_response :success
-      assert_template 'annotate'
+
       assert_select "th.line-num", :text => '2' do
         assert_select "+ td.revision" do
           assert_select "a", :text => '3'
@@ -153,7 +150,7 @@ class RepositoriesBazaarControllerTest < Redmine::ControllerTest
       get :annotate, :id => PRJ_ID, :repository_id => 'author_escaping',
           :path => repository_path_hash(['author-escaping-test.txt'])[:param]
       assert_response :success
-      assert_template 'annotate'
+
       assert_select "th.line-num", :text => '1' do
         assert_select "+ td.revision" do
           assert_select "a", :text => '2'
@@ -181,7 +178,7 @@ class RepositoriesBazaarControllerTest < Redmine::ControllerTest
         get :annotate, :id => PRJ_ID, :repository_id => 'author_non_ascii',
             :path => repository_path_hash(['author-non-ascii-test.txt'])[:param]
         assert_response :success
-        assert_template 'annotate'
+
         assert_select "th.line-num", :text => '1' do
           assert_select "+ td.revision" do
             assert_select "a", :text => '2'
