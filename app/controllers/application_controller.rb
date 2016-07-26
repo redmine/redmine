@@ -523,8 +523,8 @@ class ApplicationController < ActionController::Base
     limit = options[:limit].to_i
     if limit < 1
       limit = 25
-    elsif limit > 100
-      limit = 100
+    elsif limit > 1000
+      limit = 1000
     end
     if offset.nil? && options[:page].present?
       offset = (options[:page].to_i - 1) * limit
