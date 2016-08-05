@@ -20,6 +20,7 @@
 		<%= stylesheet_link_tag 'bootstrap', :media => 'all' %>
 		<%= stylesheet_link_tag 'bootstrap-responsive', :media => 'all' %>
 		<%= stylesheet_link_tag 'font-awesome', :media => 'all' %>
+		<%= stylesheet_link_tag 'gpt-icons', :media => 'all' %>
 		<%= stylesheet_link_tag 'application', :media => 'all' %>
 		<%= stylesheet_link_tag 'prettify', :media => 'all' %>
 		<%= call_hook :view_layouts_base_html_head %>
@@ -193,7 +194,7 @@
 							<% end %>
 						<% end %>	
 					<% end %>
-					<div id="mainContent" style="padding-bottom: 80px;">
+					<div id="mainContent">
 						<%= call_hook :view_layouts_base_content %>
 						<%= render_flash_messages %>
 						<!-- page specific content -->
@@ -202,10 +203,11 @@
 					<div id="ajax-modal" style="display:none;"></div>
 				</div>
 			</div>
-		</div>
-		<div id="learnMoreContainer" style="text-align: center;position: absolute; bottom: 30px; width: 100%;display:none;cursor: pointer;">
-			<span style="font-size:1.4em;font-weight: bold;">Want to have a look at some sample projects?</span></br/>
-			<i id="learnMoreLink" class="icon-angle-down" style="font-size:3em;"></i>
+			
+
+		
+			
+
 		</div>
 		<!-- FOOTER -->
 		<%= call_hook :view_layouts_base_body_bottom %>

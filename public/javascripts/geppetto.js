@@ -62,8 +62,74 @@ function createCORSRequest(method, url) {
 
 // Add dashboard in home page
 function addDashboard(){
-	jQuery("#welcomeMainContainer").prepend("<div class='span12' style='margin-bottom: 20px;'><iframe id='geppettoDashboard' style='width:100%;height:550px;border:0px;' src='" + geppettoIP + geppettoContextPath + "'></iframe></div>");
+	jQuery("#dashboardContainer").prepend("<iframe id='geppettoDashboard' style='width:100%;height:100%;border:0px;' src='" + geppettoIP + geppettoContextPath + "'></iframe>");
+    window.addEventListener('message', function(e){
+    	if (e.data.command == 'ready') {
+    		document.getElementById("geppettoDashboard").contentWindow.postMessage({"command": "$('.well').css('background-color','white')"}, $("#geppettoIP").val()+"/currentuser");
+    		document.getElementById("geppettoDashboard").contentWindow.postMessage({"command": "$('.dark-well').css('background-color','white')"}, $("#geppettoIP").val()+"/currentuser");
+    		document.getElementById("geppettoDashboard").contentWindow.postMessage({"command": "$('.navbar').css('background-color','white')"}, $("#geppettoIP").val()+"/currentuser");
+    		document.getElementById("geppettoDashboard").contentWindow.postMessage({"command": "$('footer').css('background-color','white')"}, $("#geppettoIP").val()+"/currentuser");
+    		document.getElementById("geppettoDashboard").contentWindow.postMessage({"command": "$('body').css('padding-top','0')"}, $("#geppettoIP").val()+"/currentuser");
+    		document.getElementById("geppettoDashboard").contentWindow.postMessage({"command": "$('#header').remove()"}, $("#geppettoIP").val()+"/currentuser");
+    	}
+    }, false);
+    hideFooter();
+	
 }
+
+function hideFooter(){
+	$('#main').css("padding-bottom","0px");
+	$('footer').hide();
+}
+function showFooter(){
+	$('#main').css("padding-bottom","100px");
+	$('footer').hide();
+}
+function addProjectsShortcuts(){
+	var url=geppettoIP + geppettoContextPath+"geppettoProjectsReferences";
+	$.getJSON(url, function(data) {
+		for(var i=0;i<data.length;i++){
+			var osbId=data[i].references.replace("[","").replace("]","");
+			var geppettoProjectUrl=geppettoIP+geppettoContextPath+"geppetto?load_project_from_id="+data[i].id;
+			$('#learnMoreContainer').append("<div class='span2 sampleModel' onclick='showSampleProject(\""+geppettoProjectUrl+"\")'><div class='gpt-neuron sampleModelIcon'></div><a class='sampleModelLabel'>"+data[i].name+"</a></div>");	
+		}
+		$('#learnMoreContainer').show();
+	});	
+}
+
+function showSampleProject(url){
+	var ifr=$('<iframe/>', {
+        id:'geppettoSampleProject',
+        src:url,
+        style:'display:none;border:0px;width:100%;height:100%',
+        
+        load:function(){
+            $(this).show();
+            $("#wrap").hide();
+            $("footer").hide();
+            history.replaceState(null, document.title, location.pathname+"#!/sampleProject");
+            history.pushState(null, document.title, location.pathname);
+
+            window.addEventListener("popstate", function() {
+              if(location.hash === "#!/sampleProject") {
+            	history.replaceState(null, document.title, location.pathname);
+            	location.replace("/");
+              }
+            }, false);
+            
+            window.addEventListener('message', function(e){
+            	if (e.data.command == 'ready') {
+            		document.getElementById("geppettoSampleProject").contentWindow.postMessage({"command": "$('#sim-toolbar').css('top','60px')"}, $("#geppettoIP").val());
+            	}
+            }, false);
+            
+        },
+        
+
+    });
+    $('.navbar').after(ifr);
+}
+
 
 function addDashboardFromMainPage(){
 	var ifr=$('<iframe/>', {
@@ -77,7 +143,6 @@ function addDashboardFromMainPage(){
             	$("html, body").animate({ scrollTop: $(document).height()-$(window).height() - 100 }, 1000);
 		        return false;
 		    });
-            $('#learnMoreContainer').fadeIn(1000);
         }
     });
     $('#learnMoreContainer').after(ifr);

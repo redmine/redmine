@@ -15,9 +15,63 @@ body {
 
 #main {
 	overflow: auto;
-	padding-bottom: 100px; /* this needs to be bigger than footer height*/
+	padding-bottom: 100px;  /*this needs to be bigger than footer height*/
+	margin:0;
+	width:100%;
 }
 
+.mainContentIndex{
+	text-align:center;
+}
+#learnMoreContainer{
+	margin:0 auto;
+	width:80%;
+}
+
+#home{
+	margin-left:30px;
+	margin-right:30px;
+}
+#myprojects{
+	margin-left:30px;
+	margin-right:30px;
+}
+#help{
+	margin-left:30px;
+	margin-right:30px;
+}
+#news{
+	margin-left:30px;
+	margin-right:30px;
+}
+.sampleModel{
+	cursor:pointer;
+	color:#24768a;
+}
+.sampleModel:hover{
+	color:#ff6600;
+}
+.sampleModelLabel:hover{
+	text-decoration:none;
+	color:#ff6600;
+}
+.sampleModelLabel{
+
+	color:inherit;
+}
+.sampleModelIcon{
+	font-size:50px;
+}
+#dashboardContainer{
+	height:100%;
+}
+#workspace{
+	position: absolute;
+    top: 97px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
 
 /* From redmine */
 
@@ -820,7 +874,7 @@ section p {
 	font-size: 60px;
 	line-height: 1;
 	margin-bottom: 30px;
-	margin-top: 40px;
+	margin-top: 20px;
 }
 .btn-group a {
 	display: inline-block;
@@ -1598,7 +1652,7 @@ div.splitcontentleft > h2 {
 	
 }
 #helpIcon {
-	font-size: 65px;
+	font-size: 45px;
 	vertical-align: middle;
 	padding-left: 15px;
 }

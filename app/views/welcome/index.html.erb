@@ -1,40 +1,54 @@
 <% if not User.current.logged? %>
 
 <!-- HEADER -->
-<div class="row-fluid">
-
-	<div class="span6">
-		<p class="big-lead">Modelling the brain, together</p>
+<div class="row-fluid mainContentIndex">
+		<p class="big-lead"><img src="images/osbcircle.png" style="width:10%; margin-right:25px">Modelling the brain, together</p>
 		<p class="lead"><strong>Open Source Brain</strong> is a resource for sharing and collaboratively developing computational models of neural systems.</p>
+		<p class="lead"><strong>Try exploring one of these models:</strong></p>
+		<div id="learnMoreContainer" class="row-fluid"style="text-align: center; display:none;"></div>
+		<br/>
+		<br/>
+		<p class="lead">Explore OSB to see all the rest, create an account to add your own models and <strong>run simulations</strong>!</p>
 		<p>
-			<a class="btn btn-xlarge btn-info" href="/projects">
+			<a class="btn btn-large btn-info" href="/projects">
 				Explore OSB
 			</a>
 			&nbsp;&nbsp;&nbsp;&nbsp; 	  
-			<a class="btn btn-xlarge btn-success" href="/account/register">
+			<a class="btn btn-large btn-success" href="/account/register">
 				Sign up
+			</a>
+			&nbsp;&nbsp;&nbsp;&nbsp; 	  
+			<a class="btn btn-large btn-success" href="/login">
+				Sign in
 			</a>
 			<a href="/docs#Getting_Started"><icon id="helpIcon" class="icon-question-sign"/></a>
 		</p>
-	</div>
-	<div class="span6">
-		
-		<div class="carousel slide" id="carouselMainPage">
-	        <div class="carousel-inner" id="carouselInner">
-				<div class="item active">
-	                <div class="bannerImage">
-	                    <a href="#"><img src="images/osbcircle.png"></a>
-	                </div>
-	            </div>
-	        </div>
-	
-	        <div class="control-box" style="display: none">                            
-	            <a data-slide="prev" href="#carouselMainPage" class="carousel-control left">‹</a>
-	            <a data-slide="next" href="#carouselMainPage" class="carousel-control right">›</a>
-	        </div>
-	    </div>
-	</div>
+
 </div>
+
+<script>
+jQuery(function()
+{
+	//Load Geppetto Project links
+	callGeppetto("", addProjectsShortcuts, true);  
+});
+</script>
+<!--
+<div class="carousel slide" id="carouselMainPage">
+    <div class="carousel-inner" id="carouselInner">
+		<div class="item active">
+            <div class="bannerImage">
+                <a href="#"><img src="images/osbcircle.png"></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="control-box" style="display: none">                            
+        <a data-slide="prev" href="#carouselMainPage" class="carousel-control left">‹</a>
+        <a data-slide="next" href="#carouselMainPage" class="carousel-control right">›</a>
+    </div>
+</div>
+
 <br/>
 
 <div>
@@ -61,10 +75,9 @@ $.ajax({
 	cache: false,
 	async: true,
 	success: function(html){
+		
 		$("#carouselInner").append(html);
 		$(".control-box").show();
-		//Load Geppetto Dashboard
-		callGeppetto("", addDashboardFromMainPage, true);  
     },
     error: function( xhr, textStatus, errorThrown ) {
       console.log("Error loading carousel " + textStatus);
@@ -74,116 +87,144 @@ $.ajax({
 
 });
 </script>
-
+-->
 <% else %>
 
 <!-- HEADER -->
-<br/></br/>
-<div class="span12 pagination-centered">
-<p class="welcome">
-Hello  <%= User.current.firstname %>
-</p>
-</div>
-<p class="pagination-right">
-<button type="button" class="btn btn-large btn-info" onclick="location.href='/projects';">
-Explore OSB
-</button>
-</p>
 
-<!-- CONTENT -->
-<div class="row-fluid" id="welcomeMainContainer">
 	
-	<div class="span8" style="margin-left: 0px;">
-		<% unless @events_by_day.empty? %>
-		<div id="activity">
-			<% @actID=0 %>
-			<% @events_by_day.keys.sort.reverse.each do |day| %>
-				<% @actID=@actID+1 %>
-				<div class="row-fluid activity-item">
-				<% @events_by_day[day].sort {|x,y| y.event_datetime <=> x.event_datetime }.each do |e| -%>
-					<% @actID=@actID+1 %>
+<ul class="nav nav-tabs" data-tabs="tabs">
+  
+  <li class="active"><a href="#myprojects" data-toggle="tab"><%= User.current.firstname %>'s Home</a></li>
+  <li><a href="#workspace" data-toggle="tab">Your models</a></li>
+  <li><a href="#news" data-toggle="tab">News</a></li>
+  <li><a href="#help" data-toggle="tab">Help</a></li>
+  
+</ul>
+
+<div class="tab-content">
+
+	<!-- PROJECTS -->
+	<div id="myprojects" class="tab-pane">
+		<div class="row-fluid" id="welcomeMainContainer">
+			<div class="span8" style="margin-left: 0px;">
+				<% unless @events_by_day.empty? %>
+				<div id="activity">
+					<% @actID=0 %>
+					<% @events_by_day.keys.sort.reverse.each do |day| %>
+						<% @actID=@actID+1 %>
 						<div class="row-fluid activity-item">
-				  			<div class="span05 <%= "E_"+e.event_type %> <%= User.current.logged? && e.respond_to?(:event_author) && User.current == e.event_author ? 'me' : nil %>"></div>
-					  		<div class="span11">
-					  			<div class="time row-fluid" id="<%= 'T'+@actID.to_s() %>"><%= javascript_tag "jQuery('#{'#T'+@actID.to_s()}').html(moment('#{e.event_datetime}', 'YYYY-MM-DD HH:mm:ss Z').fromNow());" %></div>
-					  			<div class="author row-fluid"><strong><%= link_to_user(e.event_author) if e.respond_to?(:event_author) %> edited
-					  			
-					  			<%= content_tag('span', h(e.project), :class => 'project-title') if @project.nil? || @project != e.project %></strong></div>
-					  			<div class="row-fluid">
-					  			<%= avatar(e.event_author, :size => "50", :class => "img-rounded") if e.respond_to?(:event_author) %>
-					  			<%= link_to format_activity_title(e.event_title), e.event_url %>
-					  			</div>
-					  			<div class="row-fluid">
-					  				<div class="description"><%= format_activity_description(e.event_description) %></div>
-				  				</div>
-				  			</div>
+						<% @events_by_day[day].sort {|x,y| y.event_datetime <=> x.event_datetime }.each do |e| -%>
+							<% @actID=@actID+1 %>
+								<div class="row-fluid activity-item">
+						  			<div class="span05 <%= "E_"+e.event_type %> <%= User.current.logged? && e.respond_to?(:event_author) && User.current == e.event_author ? 'me' : nil %>"></div>
+							  		<div class="span11">
+							  			<div class="time row-fluid" id="<%= 'T'+@actID.to_s() %>"><%= javascript_tag "jQuery('#{'#T'+@actID.to_s()}').html(moment('#{e.event_datetime}', 'YYYY-MM-DD HH:mm:ss Z').fromNow());" %></div>
+							  			<div class="author row-fluid"><strong><%= link_to_user(e.event_author) if e.respond_to?(:event_author) %> edited
+							  			
+							  			<%= content_tag('span', h(e.project), :class => 'project-title') if @project.nil? || @project != e.project %></strong></div>
+							  			<div class="row-fluid">
+							  			<%= avatar(e.event_author, :size => "50", :class => "img-rounded") if e.respond_to?(:event_author) %>
+							  			<%= link_to format_activity_title(e.event_title), e.event_url %>
+							  			</div>
+							  			<div class="row-fluid">
+							  				<div class="description"><%= format_activity_description(e.event_description) %></div>
+						  				</div>
+						  			</div>
+								</div>
+						<% end -%>
 						</div>
-				<% end -%>
+					<% end -%>
 				</div>
-			<% end -%>
+				<% end %>
+				<% if @events_by_day.empty? %>
+					<p class="lead">You have no activities yet! Why don't you start by creating a new project?</p>
+					<br/></br/><br/>
+					<icon class="icon-coffee icon-xxxlarge"></icon>
+					<icon class="icon-lightbulb icon-xxxlarge"></icon>
+					<icon class="icon-beaker icon-xxxlarge"></icon>
+				<% end %>
+			</div>
+			
+		
+				<div class="span4">
+					<table class="projecttable table">
+						<thead>
+							<tr>
+								<td><h4>Your projects </h4></td>
+								<td class="noborder pull-right">
+									<button type="button" class="btn btn-success icon-plus"  onclick="location.href='/projects/new';"> New project</button>
+									<a href="/docs#Creating_Your_Own_Project"><icon style="font-size: 20px;" class="icon-large icon-question-sign"/></a>
+								</td> 	
+							<tr>
+						</thead>
+						<% if @projects.any? %>
+							<%= call_hook(:view_welcome_index_left, :projects => @projects) %>
+							<% unless @memberships.empty? %>
+								
+									<% for membership in @memberships %>
+										<tr><td colspan="2"><icon class=" icon-list-alt"></icon><%= link_to_project(membership.project) %></td></tr>
+									<% end %>
+								
+							<% end %>
+						<% end %>
+					</table>
+					
+					<table class="projecttable table">
+						<thead>
+							<tr>
+								<td><h4>Latest projects added on OSB</h4></td> 	
+							<tr>
+						</thead>
+							<% maxprjcount=3 %>
+							<% i=0 %>
+							<% for project in @projects %>
+								<%if(i<maxprjcount)%>
+									<% @project = project %>
+									<% i=i+1 %>
+										<tr><td><icon class=" icon-list-alt"></icon> <%= link_to_project project %></td></tr> 
+								<% else break;%>
+								<% end %>
+							<% end %>
+							<% @project = nil %>
+					</table>
+					
+					<div>
+			
+				</div>
+			</div>
+				
 		</div>
-		<% end %>
-		<% if @events_by_day.empty? %>
-			<p class="lead">You have no activities yet! Why don't you start by creating a new project?</p>
-			<br/></br/><br/>
-			<icon class="icon-coffee icon-xxxlarge"></icon>
-			<icon class="icon-lightbulb icon-xxxlarge"></icon>
-			<icon class="icon-beaker icon-xxxlarge"></icon>
-		<% end %>
+	</div>
+	<!-- WORKSPACE -->
+
+	<div id="workspace" class="tab-pane">
+		<div class="row-fluid" id="dashboardContainer">
+		</div>
+		<script>
+			jQuery(function(){
+				callGeppetto("", addDashboard, true);
+			});
+		</script>
 	</div>
 	
-
-		<div class="span4">
-			<table class="projecttable table">
-				<thead>
-					<tr>
-						<td><h4>Your projects </h4></td>
-						<td class="noborder pull-right">
-							<button type="button" class="btn btn-success icon-plus"  onclick="location.href='/projects/new';"> New project</button>
-							<a href="/docs#Creating_Your_Own_Project"><icon style="font-size: 20px;" class="icon-large icon-question-sign"/></a>
-						</td> 	
-					<tr>
-				</thead>
-				<% if @projects.any? %>
-					<%= call_hook(:view_welcome_index_left, :projects => @projects) %>
-					<% unless @memberships.empty? %>
-						
-							<% for membership in @memberships %>
-								<tr><td colspan="2"><icon class=" icon-list-alt"></icon><%= link_to_project(membership.project) %></td></tr>
-							<% end %>
-						
-					<% end %>
-				<% end %>
-			</table>
-			
-			<table class="projecttable table">
-				<thead>
-					<tr>
-						<td><h4>Latest projects added on OSB</h4></td> 	
-					<tr>
-				</thead>
-					<% maxprjcount=3 %>
-					<% i=0 %>
-					<% for project in @projects %>
-						<%if(i<maxprjcount)%>
-							<% @project = project %>
-							<% i=i+1 %>
-								<tr><td><icon class=" icon-list-alt"></icon> <%= link_to_project project %></td></tr> 
-						<% else break;%>
-						<% end %>
-					<% end %>
-					<% @project = nil %>
-			</table>
-			
-		<div>
+	<!-- NEWS -->
+	<div id="news" class="tab-pane">
 		<div id="twitterContainer" class="news box">
 			<a class="twitter-timeline" href="https://twitter.com/OSBTeam" data-widget-id="592634674410889217">Tweets by @OSBTeam</a>
 			<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
 		</div>
 	</div>
-			
+
+	<!-- HELP -->
+	<div id="help" class="tab-pane">
+		Help me!
+	</div>
+	
 </div>
-</div>
+
+
+
 	
 	<% content_for :header_tags do %>
 	<%= stylesheet_link_tag 'scm' %>
@@ -191,9 +232,5 @@ Explore OSB
 	<%= auto_discovery_link_tag(:atom, {:controller => 'activities', :action => 'index', :key => User.current.rss_key, :format => 'atom'},:title => "#{Setting.app_title}: #{l(:label_activity)}") %>
 	<% end %>
 
-<script>
-jQuery(function(){
-	callGeppetto("", addDashboard, true);
-});
-</script>
+
 <% end %>
