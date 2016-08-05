@@ -79,7 +79,7 @@ task :migrate_from_mantis => :environment do
                                2 => IssueRelation::TYPE_RELATES,    # parent of
                                3 => IssueRelation::TYPE_RELATES,    # child of
                                0 => IssueRelation::TYPE_DUPLICATES, # duplicate of
-                               4 => IssueRelation::TYPE_DUPLICATES  # has duplicate
+                               4 => IssueRelation::TYPE_DUPLICATED  # has duplicate
                                }
 
     class MantisUser < ActiveRecord::Base
@@ -255,6 +255,19 @@ task :migrate_from_mantis => :environment do
         print '.'
       end
       puts
+      
+      print "Deleted user creation"
+      # Deleted user migration
+      d_user = User.new :firstname => "User",
+                        :lastname => "Deleted",
+                        :mail => "nomail@nomail.com"
+      d_user.login = "deleted_user"
+      d_user.password = "du_mantis"
+      d_user.status = User::STATUS_LOCKED
+      d_user.save 
+      users_migrated += 1
+      users_map[d_user.id] = d_user.id
+      deleted_user_id = d_user.id
 
       # Projects
       print "Migrating projects"
@@ -307,6 +320,9 @@ task :migrate_from_mantis => :environment do
       issues_map = {}
       keep_bug_ids = (Issue.count == 0)
       MantisBug.find_each(:batch_size => 200) do |bug|
+        unless users_map[bug.reporter_id]  
+          users_map[bug.reporter_id] = deleted_user_id
+        end
         next unless projects_map[bug.project_id] && users_map[bug.reporter_id]
         i = Issue.new :project_id => projects_map[bug.project_id],
                       :subject => encode(bug.summary),
@@ -370,6 +386,13 @@ task :migrate_from_mantis => :environment do
         r.issue_from = Issue.find_by_id(issues_map[relation.source_bug_id])
         r.issue_to = Issue.find_by_id(issues_map[relation.destination_bug_id])
         pp r unless r.save
+        if ! r.save
+          print "Relation error detected! It's resolving the problem"
+          puts
+          r.issue_to= Issue.find_by_id(issues_map[relation.source_bug_id])
+          r.issue_from  = Issue.find_by_id(issues_map[relation.destination_bug_id])
+          pp r unless r.save
+        end
         print '.'
         STDOUT.flush
       end
