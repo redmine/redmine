@@ -28,32 +28,46 @@ body {
 	width:80%;
 }
 
-#home{
+.mainContentMargins{
 	margin-left:30px;
 	margin-right:30px;
 }
-#myprojects{
-	margin-left:30px;
-	margin-right:30px;
+
+
+.sampleThumbnail{
+	width: 200px;
+	height: 200px;
+	background-repeat: no-repeat;
 }
-#help{
-	margin-left:30px;
-	margin-right:30px;
+
+.acnet2SampleThumbnail{
+	background-image: url("/images/samplesThumbnails/acnet2.png");
 }
-#news{
-	margin-left:30px;
-	margin-right:30px;
+.ca1SampleThumbnail{
+	background-image: url("/images/samplesThumbnails/ca1.png");
 }
+.izhiSampleThumbnail{
+	background-image: url("/images/samplesThumbnails/izhi.png");
+}
+.l23SampleThumbnail{
+	background-image: url("/images/samplesThumbnails/l23.png");
+}
+.hhcellSampleThumbnail{
+	background-image: url("/images/samplesThumbnails/hhcell.png");
+}
+
 .sampleModel{
 	cursor:pointer;
 	color:#24768a;
+	margin-bottom:30px;
 }
 .sampleModel:hover{
-	color:#ff6600;
+
+	-webkit-filter: hue-rotate(170deg);
+    filter: hue-rotate(170deg);
 }
 .sampleModelLabel:hover{
 	text-decoration:none;
-	color:#ff6600;
 }
 .sampleModelLabel{
 

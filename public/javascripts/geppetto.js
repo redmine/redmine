@@ -73,7 +73,6 @@ function addDashboard(){
     		document.getElementById("geppettoDashboard").contentWindow.postMessage({"command": "$('#header').remove()"}, $("#geppettoIP").val()+"/currentuser");
     	}
     }, false);
-    hideFooter();
 	
 }
 
@@ -83,7 +82,7 @@ function hideFooter(){
 }
 function showFooter(){
 	$('#main').css("padding-bottom","100px");
-	$('footer').hide();
+	$('footer').show();
 }
 function addProjectsShortcuts(){
 	var url=geppettoIP + geppettoContextPath+"geppettoProjectsReferences";
@@ -91,7 +90,13 @@ function addProjectsShortcuts(){
 		for(var i=0;i<data.length;i++){
 			var osbId=data[i].references.replace("[","").replace("]","");
 			var geppettoProjectUrl=geppettoIP+geppettoContextPath+"geppetto?load_project_from_id="+data[i].id;
-			$('#learnMoreContainer').append("<div class='span2 sampleModel' onclick='showSampleProject(\""+geppettoProjectUrl+"\")'><div class='gpt-neuron sampleModelIcon'></div><a class='sampleModelLabel'>"+data[i].name+"</a></div>");	
+			var iconClass="gpt-neuron sampleModelIcon"; //the default
+			switch(osbId) {
+		    case "acnet2":
+		    	iconClass="acnet2SampleThumbnail sampleThumbnail";
+		        break;
+			}
+			$('#learnMoreContainer').append("<div class='span2 sampleModel' onclick='showSampleProject(\""+geppettoProjectUrl+"\")'><div class='"+iconClass+"'></div><a class='sampleModelLabel'>"+data[i].name+"</a></div>");	
 		}
 		$('#learnMoreContainer').show();
 	});	

@@ -2,7 +2,7 @@
 
 <!-- HEADER -->
 <div class="row-fluid mainContentIndex">
-		<p class="big-lead"><img src="images/osbcircle.png" style="width:10%; margin-right:25px">Modelling the brain, together</p>
+		<p class="big-lead"><img src="images/osbcircle.png" style="width:8%; margin-right:25px">Modelling the brain, together</p>
 		<p class="lead"><strong>Open Source Brain</strong> is a resource for sharing and collaboratively developing computational models of neural systems.</p>
 		<p class="lead"><strong>Try exploring one of these models:</strong></p>
 		<div id="learnMoreContainer" class="row-fluid"style="text-align: center; display:none;"></div>
@@ -204,6 +204,21 @@ $.ajax({
 		<script>
 			jQuery(function(){
 				callGeppetto("", addDashboard, true);
+				
+				$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+
+				  var target = $(e.target).attr("href") // activated tab
+				  switch(target){
+				  	case "#workspace":
+				  		hideFooter();
+    					$('#mainContent').removeClass("mainContentMargins");
+    					break;
+    				default:
+    					showFooter();
+    					$('#mainContent').addClass("mainContentMargins");
+    					break;
+				  }
+				});
 			});
 		</script>
 	</div>

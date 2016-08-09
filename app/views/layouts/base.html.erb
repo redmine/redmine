@@ -91,7 +91,7 @@
 						<% category =  getCustomField(@project,"Category")  %>
 						<% isAProject = (category=="Project" or category=="Showcase") %>
 						<!-- If we are inside a project then we show the project header -->
-						<div id="mainheader" class="page-header">
+						<div id="mainheader" class="page-header mainContentMargins">
 					  		<h1 id="pname"><%= @project.name %><small id="author"> </small></h1>
 					  		<script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
 							<% if isBestPractice?(@project) %>
@@ -194,7 +194,7 @@
 							<% end %>
 						<% end %>	
 					<% end %>
-					<div id="mainContent">
+					<div id="mainContent" class="mainContentMargins">
 						<%= call_hook :view_layouts_base_content %>
 						<%= render_flash_messages %>
 						<!-- page specific content -->
