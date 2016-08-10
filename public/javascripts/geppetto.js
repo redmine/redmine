@@ -85,18 +85,34 @@ function showFooter(){
 	$('footer').show();
 }
 function addProjectsShortcuts(){
-	var url=geppettoIP + geppettoContextPath+"geppettoProjectsReferences";
-	$.getJSON(url, function(data) {
-		for(var i=0;i<data.length;i++){
-			var osbId=data[i].references.replace("[","").replace("]","");
-			var geppettoProjectUrl=geppettoIP+geppettoContextPath+"geppetto?load_project_from_id="+data[i].id;
+	makeCorsRequest("currentuser", processCurrentUser, "geppettoProjectsCompact", function(data) {
+		var jsonData=JSON.parse(data);
+		for(var i=0;i<jsonData.length;i++){
+			var geppettoProjectUrl=geppettoIP+geppettoContextPath+"geppetto?load_project_from_id="+jsonData[i].id;
 			var iconClass="gpt-neuron sampleModelIcon"; //the default
-			switch(osbId) {
-		    case "acnet2":
-		    	iconClass="acnet2SampleThumbnail sampleThumbnail";
-		        break;
+			switch(jsonData[i].name) {
+			    case "Primary Auditory Cortex Network":
+			    	iconClass="acnet2SampleThumbnail sampleThumbnail";
+			        break;
+	
+			    case "CA1 Pyramidal Cell":
+			    	iconClass="ca1SampleThumbnail sampleThumbnail";
+			        break;
+	
+			    case "Izhikevich Spiking Neuron Model":
+			    	iconClass="izhiSampleThumbnail sampleThumbnail";
+			        break;
+	
+			    case "L23 Cell":
+			    	iconClass="l23SampleThumbnail sampleThumbnail";
+			        break;
+	
+			    case "Hodgkin-Huxley Neuron":
+			    	iconClass="hhcellSampleThumbnail sampleThumbnail";
+			        break;
 			}
-			$('#learnMoreContainer').append("<div class='span2 sampleModel' onclick='showSampleProject(\""+geppettoProjectUrl+"\")'><div class='"+iconClass+"'></div><a class='sampleModelLabel'>"+data[i].name+"</a></div>");	
+			
+			$('#learnMoreContainer').append("<div class='sampleModel' onclick='showSampleProject(\""+geppettoProjectUrl+"\")'><div class='"+iconClass+"'></div><a class='sampleModelLabel'>"+jsonData[i].name+"</a></div>");	
 		}
 		$('#learnMoreContainer').show();
 	});	

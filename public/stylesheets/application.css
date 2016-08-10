@@ -25,7 +25,7 @@ body {
 }
 #learnMoreContainer{
 	margin:0 auto;
-	width:80%;
+	
 }
 
 .mainContentMargins{
@@ -60,6 +60,9 @@ body {
 	cursor:pointer;
 	color:#24768a;
 	margin-bottom:30px;
+	width:200px!important;
+	  display: inline-block;
+  vertical-align: middle;
 }
 .sampleModel:hover{
 
