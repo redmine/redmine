@@ -40,7 +40,7 @@
 		<!-- NAVIGATOR -->
 		<div class="navbar navbar-inverse navbar-fixed-top">
 			<div class="navbar-inner">
-				<div class="container" >
+				<div >
 					<button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
 			            <span class="icon-bar"></span>
 			            <span class="icon-bar"></span>
@@ -95,9 +95,11 @@
 							<div id="titleHeader">
 						  		<span id="pname"><%= @project.name %><small id="author"> </small></span>
 						  		<script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
-								<%= javascript_tag 'jQuery("#pname").after("<div class=btn-group id=showGroup><button id=showGeppettoBtn onclick=showGeppetto(); class=\"btn btn-success\" href=#><i class=icon-eye-open></i> Explore model </button></div>");'%>
+								<%= javascript_tag 'jQuery("#pname").after("<div class=btn-group id=showGroup><button id=showGeppettoBtn onclick=showGeppetto(); data-placement=bottom data-title=\"Hello there!\" data-content=\"Click here to explore this model!\" class=\"btn btn-success\" href=#><i class=icon-eye-open></i> Explore model </button></div>");'%>
 								<%= javascript_tag 'jQuery("#showGeppettoBtn").after("<button id=showProjectBtn class=\"btn showProject\" href=# onclick=showProject();><i class=icon-hand-left></i> Return to project  </button>");'%>
-						  		<%= javascript_tag 'jQuery("#showProjectBtn").after("<button id=moreBtn class=\"btn dropdown-toggle\" data-toggle=dropdown href=#>More <span class=caret></span></button><ul class=dropdown-menu id=explorermenu role=menu aria-labelledby=dropdownMenu></ul></li>");'%>
+								<%= javascript_tag 'setTimeout(function(){ jQuery("#showGeppettoBtn").popover("show") }, 3000);'%>
+								<%= javascript_tag 'setTimeout(function(){ jQuery("#showGeppettoBtn").popover("destroy") }, 10000);'%>
+						  		<%= javascript_tag 'jQuery("#showProjectBtn").after("<button id=moreBtn class=\"btn dropdown-toggle\"  data-toggle=dropdown href=#>More <span class=caret></span></button><ul class=dropdown-menu id=explorermenu role=menu aria-labelledby=dropdownMenu></ul></li>");'%>
 							</div>
 							<div id="projectHeader">
 								<% if isBestPractice?(@project) %>

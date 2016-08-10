@@ -971,7 +971,7 @@ section p {
 #osblogo {
 	margin-top: 10px;
 	margin-bottom: 10px;
-	margin-left: 0;
+	margin-left: 30px;
 	width: 212px;
 	height: 30px;
 	background-image: url("/images/osblogo.png");

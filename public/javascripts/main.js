@@ -240,10 +240,12 @@ function toggleProjectButton(){
 	if($("#showGeppettoBtn").is(":visible")){
 		$("#showGeppettoBtn").hide();
 		$("#showProjectBtn").show();
+		$("#moreBtn").hide();
 	}
 	else{
 		$("#showGeppettoBtn").show();
 		$("#showProjectBtn").hide();
+		$("#moreBtn").show();
 	}
 }
 
@@ -253,6 +255,9 @@ function showGeppetto(){
 	jQuery("#mainContent").hide();
 	$('#projectHeader').hide();
 	hideFooter();
+//	$('#main').css("background-color","rgb(35, 35, 35)");
+//	$('#main').css("color","white");
+
 }
 
 function showProject(){
@@ -261,6 +266,8 @@ function showProject(){
 	$("#mainContent").show();
 	$('#projectHeader').show();
 	showFooter();
+//	$('#main').css("background-color","white");
+//	$('#main').css("color","black");
 }
 
 function open3DExplorer(file, projectIdentifier)
