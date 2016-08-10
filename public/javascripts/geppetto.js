@@ -76,14 +76,7 @@ function addDashboard(){
 	
 }
 
-function hideFooter(){
-	$('#main').css("padding-bottom","0px");
-	$('footer').hide();
-}
-function showFooter(){
-	$('#main').css("padding-bottom","100px");
-	$('footer').show();
-}
+
 function addProjectsShortcuts(){
 	makeCorsRequest("currentuser", processCurrentUser, "geppettoProjectsCompact", function(data) {
 		var jsonData=JSON.parse(data);

@@ -18,8 +18,63 @@ body {
 	padding-bottom: 100px;  /*this needs to be bigger than footer height*/
 	margin:0;
 	width:100%;
+
 }
 
+
+#showGroup{
+	margin-top:-5px;	
+}
+
+#titleHeader{
+	height:40px;
+	
+}
+#pname{
+	float:left;
+	font-size:25px;
+}
+#showGroup .dropdown-submenu {
+	text-align: right;
+}
+#showGroup .dropdown-submenu > a:after {
+  display: block;
+  float: left;
+  width: 0;
+  height: 0;
+  margin-top: 5px;
+  margin-right: -10px;
+  border-color: transparent;
+  border-right-color: #cccccc;
+  border-style: solid;
+  border-width: 5px 5px 5px 0;
+  content: " ";
+}
+#showGroup{
+	float: right;
+
+}
+#showGeppettoBtn{
+	font-size:18px;
+}
+
+#showProjectBtn{
+	display:none;
+	font-size:18px;
+}
+.explorerSubmenu .dropdown-menu {
+	margin-left:0!important;
+	left:auto!important;
+	right: 220px;
+	width: 600px;
+}
+
+#moreBtn:after{
+	clear:both
+}
+#explorermenu{
+    width: 230px;
+}
 .mainContentIndex{
 	text-align:center;
 }
@@ -89,6 +144,19 @@ body {
     right: 0;
     bottom: 0;
 }
+
+#geppettoContainer{
+	position: absolute;
+    top: 97px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+#main{
+	height:100%
+}
+
 
 /* From redmine */
 
@@ -800,9 +868,12 @@ section p {
 	border-radius: 6px;
 }
 
+
 .page-header {
 	padding-bottom: 0px;
-	margin-bottom: 10px;
+	margin-bottom: 0px;
+	margin-top: 5px;
+	border:0;
 }
 
 #header_menu {
