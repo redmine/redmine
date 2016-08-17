@@ -145,6 +145,14 @@ body {
     bottom: 0;
 }
 
+#geppettoHomeContainer{
+	display:none;
+	position: absolute;
+    top: 50px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
 #geppettoContainer{
 	position: absolute;
     top: 97px;

@@ -28,10 +28,16 @@ var initialiseControlPanel = function(){
 	ButtonBar1.setPosition(posX, posY);
 };
 
+
+var mainPopup=undefined;
+
+
+	
 var showModelDescription = function(model){
-	var mdPopup = G.addWidget(1).setName('Model Description - ' + model.getName());
-	mdPopup.addCustomNodeHandler(function(node){G.addWidget(3).setData(node);}, 'click');
-	mdPopup.setHTML(GEPPETTO.ModelFactory.getAllVariablesOfMetaType(model,GEPPETTO.Resources.HTML_TYPE)[0]);	
+	if(mainPopup==undefined){
+		mainPopup=G.addWidget(1).setName('Model Description - ' + model.getName()).addCustomNodeHandler(customHandler, 'click').setPosition(widthScreen - marginLeft - 650, heightScreen - marginBottom - 650);
+	}
+	mainPopup.setData(model,[GEPPETTO.Resources.HTML_TYPE]);	
 };
 
 var getMainType = function(){

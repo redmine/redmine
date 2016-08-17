@@ -133,7 +133,7 @@ function showSampleProject(url){
             
             window.addEventListener('message', function(e){
             	if (e.data.command == 'ready') {
-            		document.getElementById("geppettoSampleProject").contentWindow.postMessage({"command": "$('#sim-toolbar').css('top','60px')"}, $("#geppettoIP").val());
+            		document.getElementById("geppettoSampleProject").contentWindow.postMessage({"command": "$('.HomeButton').hide()"}, $("#geppettoIP").val());
             	}
             }, false);
             
@@ -141,7 +141,8 @@ function showSampleProject(url){
         
 
     });
-    $('.navbar').after(ifr);
+    $('#geppettoHomeContainer').append(ifr);
+    $('#geppettoHomeContainer').show();
 }
 
 

@@ -83,6 +83,7 @@
 				</div>
 			</div>
 		</div>
+		<div id='geppettoHomeContainer'></div>
 		<!-- CONTENT -->
 		<div id="wrap">
 			<div id="content">
@@ -107,10 +108,10 @@
 							<div id="titleHeader">
 						  		<span id="pname"><%= @project.name %><small id="author"> </small></span>
 						  		<script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
-								<%= javascript_tag 'jQuery("#pname").after("<div class=btn-group id=showGroup><button id=showGeppettoBtn onclick=open3DExplorer(encodeURIComponent(getMainModel(&quot;'+ @repourl + @repopath + '&quot;,&quot;'+ @defaultMainModel + '&quot;)),&quot;' + @project.identifier + '&quot;); data-placement=bottom data-title=\"Hello there!\" data-content=\"Click here to explore this model!\" class=\"btn btn-success\" href=#><i class=icon-eye-open></i> Explore model </button></div>");'%>
+								<%= javascript_tag 'jQuery("#pname").after("<div class=btn-group id=showGroup><button id=showGeppettoBtn onclick=open3DExplorer(encodeURIComponent(getMainModel(&quot;'+ @repourl + @repopath + '&quot;,&quot;'+ @defaultMainModel + '&quot;)),&quot;' + @project.identifier + '&quot;,&quot;true&quot;); data-placement=bottom data-title=\"Hello there!\" data-content=\"Click here to explore this model!\" class=\"btn btn-success\" href=#><i class=icon-eye-open></i> Explore model </button></div>");'%>
 								<%= javascript_tag 'jQuery("#showGeppettoBtn").after("<button id=showProjectBtn class=\"btn showProject\" href=# onclick=showProject();><i class=icon-hand-left></i> Return to project  </button>");'%>
-								<%= javascript_tag 'setTimeout(function(){ jQuery("#showGeppettoBtn").popover("show") }, 3000);'%>
-								<%= javascript_tag 'setTimeout(function(){ jQuery("#showGeppettoBtn").popover("destroy") }, 10000);'%>
+								<%= javascript_tag 'setTimeout(function(){ if(jQuery("#geppettoContainer")[0]==undefined){jQuery("#showGeppettoBtn").popover("show");} }, 3000);'%>
+								<%= javascript_tag 'setTimeout(function(){ jQuery("#showGeppettoBtn").popover("destroy"); }, 10000);'%>
 						  		<%= javascript_tag 'jQuery("#showProjectBtn").after("<button id=moreBtn class=\"btn dropdown-toggle\"  data-toggle=dropdown href=#>More <span class=caret></span></button><ul class=dropdown-menu id=explorermenu role=menu aria-labelledby=dropdownMenu></ul></li>");'%>
 							</div>
 							<div id="projectHeader">
