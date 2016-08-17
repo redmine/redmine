@@ -270,6 +270,25 @@ function showProject(){
 //	$('#main').css("color","black");
 }
 
+function getMainModel(pathToRepo, defaultModel){
+	var mainModelUrl=pathToRepo;
+	$.ajax({
+        type: 'GET',
+        dataType: 'text',
+        async: false,
+        cache: false,
+        url: mainModelUrl+"_osb.yml",
+        success: function(responseData, textStatus, jqXHR) {
+            var nativeObject = YAML.parse(responseData);
+            mainModelUrl=mainModelUrl+nativeObject.mainModel;
+        },
+	    error: function(responseData, textStatus, errorThrown) {
+	    	mainModelUrl=mainModelUrl+defaultModel;
+	    }
+	});
+	return mainModelUrl;
+}
+
 function open3DExplorer(file, projectIdentifier)
 {
 	showGeppetto();

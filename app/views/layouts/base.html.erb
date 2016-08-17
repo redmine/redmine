@@ -15,6 +15,7 @@
 		<%= javascript_include_tag('bootstrap.min.js') %>
 		<%= javascript_include_tag('moment.min.js') %>
 		<%= javascript_include_tag('main.js') %>
+		<%= javascript_include_tag('yaml.js') %>
 		<%= javascript_include_tag('geppetto.js') %>
 		<%= javascript_include_tag('Detector.js') %>
 		<%= stylesheet_link_tag 'bootstrap', :media => 'all' %>
@@ -90,12 +91,23 @@
 					<% if display_main_menu?(@project) %>
 						<% category =  getCustomField(@project,"Category")  %>
 						<% isAProject = (category=="Project" or category=="Showcase") %>
+						<% if isAProject %>
+							<% @neuroml2files = getNML2Files(@project.repository) %>
+							<% @swcfiles = getSWCFiles(@project.repository) %>
+							<% @repourl=getHttpRepositoryURL(@project) %>
+							<% @repopath=getHttpRepositoryPath(@project.repository) %>
+							<% @synapsefiles = getSynapsesFiles() %>
+							<% @channelfiles = getChannelFiles() %>
+							<% @cellfiles = getCellFiles() %>
+							<% @networkfiles = getNetworkFiles() %>
+							<% @defaultMainModel = getDefaultMainModel() %>
+						<% end %>
 						<!-- If we are inside a project then we show the project header -->
 						<div id="mainheader" class="page-header mainContentMargins">
 							<div id="titleHeader">
 						  		<span id="pname"><%= @project.name %><small id="author"> </small></span>
 						  		<script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
-								<%= javascript_tag 'jQuery("#pname").after("<div class=btn-group id=showGroup><button id=showGeppettoBtn onclick=showGeppetto(); data-placement=bottom data-title=\"Hello there!\" data-content=\"Click here to explore this model!\" class=\"btn btn-success\" href=#><i class=icon-eye-open></i> Explore model </button></div>");'%>
+								<%= javascript_tag 'jQuery("#pname").after("<div class=btn-group id=showGroup><button id=showGeppettoBtn onclick=open3DExplorer(encodeURIComponent(getMainModel(&quot;'+ @repourl + @repopath + '&quot;,&quot;'+ @defaultMainModel + '&quot;)),&quot;' + @project.identifier + '&quot;); data-placement=bottom data-title=\"Hello there!\" data-content=\"Click here to explore this model!\" class=\"btn btn-success\" href=#><i class=icon-eye-open></i> Explore model </button></div>");'%>
 								<%= javascript_tag 'jQuery("#showGeppettoBtn").after("<button id=showProjectBtn class=\"btn showProject\" href=# onclick=showProject();><i class=icon-hand-left></i> Return to project  </button>");'%>
 								<%= javascript_tag 'setTimeout(function(){ jQuery("#showGeppettoBtn").popover("show") }, 3000);'%>
 								<%= javascript_tag 'setTimeout(function(){ jQuery("#showGeppettoBtn").popover("destroy") }, 10000);'%>
@@ -138,20 +150,13 @@
 								</div>
 							</div>
 						</div>
-						<% @neuroml2files = getNML2Files(@project.repository) %>
-						<% @swcfiles = getSWCFiles(@project.repository) %>
+
 						
 						
 						<% if isAProject %>
-							<% @networkfiles = getNetworkFiles() %>
-							<% @channelfiles = getChannelFiles() %>
-							<% @synapsefiles = getSynapsesFiles() %>
-							<% @cellfiles = getCellFiles() %>
-						
-							<% @repourl=getHttpRepositoryURL(@project) %>
 							
 							<% if(@repourl && @project.repository != nil && ((not @neuroml2files.empty?) || (not @swcfiles.empty?)))%>
-								<% @repopath=getHttpRepositoryPath(@project.repository) %>
+								
 								
 								<% if not @networkfiles.empty? %>
 									<%= javascript_tag 'jQuery("#explorermenu").append("<li class=\"dropdown-submenu pull-left explorerSubmenu\"><a tabindex=-1 href=#>Networks</a><ul class=dropdown-menu id=networkmenu></ul></li>");' %>

@@ -168,7 +168,7 @@ module ApplicationHelper
     fieldId, value = getCustomFieldAndId(project, field)
     if(value!="-1")
       stars=getStars(value).html_safe
-      badge='<span class="badge tooltiplink '+ align + ' ' + getBadgeClass(value) + '" data-toggle="tooltip" data-placement="right" title="'+ tooltip +'">'+text+' '+stars+'</span>'
+      badge='<span class="badge tooltiplink '+ align + ' ' + getBadgeClass(value) + '" data-toggle="tooltip" data-placement="bottom" title="'+ tooltip +'">'+text+' '+stars+'</span>'
       badge_link = create_link_to_search_by_custom_field(fieldId, value, badge)
       return badge_link.html_safe
     else
@@ -460,6 +460,7 @@ module ApplicationHelper
   # Fetches updates from the remote repository
   def getNML2Files(repository)
     @NML2files = getFilesWithExt(repository, ".nml")
+    @defaultMainModel = ""
     return @NML2files 
   end
   
@@ -468,11 +469,16 @@ module ApplicationHelper
     return @SWCfiles 
   end
   
+  def getDefaultMainModel()
+    return @defaultMainModel
+  end
+  
   def getNetworkFiles()
     @networkfiles=[]
     for nml2file in @NML2files
       if nml2file.ends_with?(".net.nml")
         @networkfiles.push(nml2file)
+        @defaultMainModel=nml2file
       end
     end
     return @networkfiles
@@ -483,6 +489,7 @@ module ApplicationHelper
     for nml2file in @NML2files
       if nml2file.ends_with?(".channel.nml")
         @channelfiles.push(nml2file)
+        @defaultMainModel=nml2file
       end
     end
     return @channelfiles
@@ -493,6 +500,7 @@ module ApplicationHelper
     for nml2file in @NML2files
       if nml2file.ends_with?(".synapse.nml")
         @synapsefiles.push(nml2file)
+        @defaultMainModel=nml2file
       end
     end
     return @synapsefiles
@@ -503,6 +511,7 @@ module ApplicationHelper
     for nml2file in @NML2files
       if nml2file.ends_with?(".cell.nml")
         @cellfiles.push(nml2file)
+        @defaultMainModel=nml2file
       end
     end
     return @cellfiles
