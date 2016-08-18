@@ -233,7 +233,111 @@ $.ajax({
 
 	<!-- HELP -->
 	<div id="help" class="tab-pane">
-		Help me!
+		<p>
+		OK, let's go through the basics!
+		</p>
+		<p>
+		This is your home screen, from here you can work with any project and model available in Open Source Brain or even create your own ones.
+		</p>
+		<p>			
+		First of all, <strong>what is an OSB project</strong>?
+		</p>
+		<p>
+		An OSB project is a container for computational models, usually these models  are directly linked to a publication, or grouped by a specific technology.
+		</br>
+		An OSB project is always linked to a GitHub repository which stores all the models available in the given project.
+		</br>
+		OK, so inside an OSB project there can be many models, but <strong>how do I work with a specific model</strong>?
+		</br></br>
+		Within Open Source Brain there is an online environment that will help you both explore, simulate, and work with models.
+		</br>
+		Yes that's right, you won't have to leave your browser to explore or even to simulate a specific model!
+		</br>
+		Every project has a main model that you can think of as the obvious entry point for that project, it could be the main network, or cell, etc. for the given project, to explore this model just <strong>click on the green button at the top right corner</strong> when inside a project.
+		To explore every other model available click on the more button on the right corner when inside a project.
+		</p>
+		<img src="images/help/exploreModel.png" class="img-help">
+		
+		<p>
+		The model will load inside OSB, this might take between 5 seconds or up to a minute depending on the size of the model, you know how complex the brain can be right?
+		</br>
+		Cool! So you are looking at the model now and you are in read mode which means you can poke around and look at the content of the model but you can't run simulations..yet.
+		</br>
+		So what can you do?
+		</p>
+		<p>
+		<strong>Pan and Zoom</strong>
+		
+		One of the most straightforward features is simple three-dimensional pan, zoom, and rotation functionality.  This works both with the mouse as well as more precise control with the navigation buttons on the left hand panel.
+		</p>
+		<img src="images/help/Fig-1-Pan-Zoom.gif" class="img-help">
+		
+		<p>
+		<strong>Explore the cells</strong>
+		
+		TBD
+		
+		</p>
+		<p>
+		<strong>Explore the network connections</strong>
+		
+		OpenSourceBrain has a variety of widgets built in to help you explore your models.  Models like this one have a significant number of connections.  By clicking on the “connectivity” button, you can explore the connection patterns of your model using a variety of graphical tools.
+		</br>
+		<img src="images/help/Fig-2-Connectivity.gif" class="img-help">
+		</p>
+		<p>
+		Pretty cool right? So what if you want to <strong>run a simulation</strong>?
+		
+		First of all you need to persist your model, this operation will create a snapshot of the model (a copy of whatever the latest is on GitHub) which is all yours on which you'll have write access!
+		Persisting the model is very simple, just click on the star icon on the top of the screen and wait few seconds (in order to do this, you’ll need to be logged in as a registered user of Open Source Brain).
+		
+		<img src="images/help/persist.png" class="img-help">
+		</br>
+		Alright, your model is persisted and all yours, let's have a look at the experiments!
+		
+		Experiments represent a particular configuration of your model, for each experiment you'll be able to decide which state variable you want to record, which values you want to give to your parameters and even what simulator you'd like to use, handy no? 
+		</br>
+		<img src="images/help/Fig-3-Intro.gif" class="img-help">
+		</br>
+		Once you are logged in and the project is persisted, you can begin working with your model.  You can create new experiments for your model by clicking the “clone” button.  This will create a new experiment that is just like the one you cloned from.  You can modify parameters on any experiment you like.
+		
+		<p>
+		<strong>Recording variables</strong>
+		</br>
+		TBD
+		</p>
+		<p>
+		<strong>Setting a parameter</strong>
+		</br>
+		TBD
+		
+		</p>
+		<p>
+		<strong>Clone an experiment</strong>
+		</br>
+		<img src="images/help/Fig-4-Clone.gif" class="img-help">
+		
+		
+		</p>
+		
+		<p>
+		<strong>Run an experiment</strong>
+		</br>
+		Once you are happy with your experiment parameters, you can run the experiment.  
+		</br>
+		Make sure the experiment you want to run is active by clicking the red checkmark in the row you wish to make active.
+		</br>
+		The Run button in the upper bar should be available to you.  When you click it, the status of the experiment will change to show you both that it is queued for running and that it is completed. 
+		Playback results from a completed experiment
+		</br>
+		<img src="images/help/Fig-5-Run.gif" class="img-help">
+		
+		</p>
+		<p>
+		Once your experiment is finished, you can use the Play button to plot all the recorded variables that have been simulated.
+		</br>
+		<img src="images/help/Fig-6-Playback.gif" class="img-help">
+		</p>
 	</div>
 	
 </div>

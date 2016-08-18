@@ -1737,6 +1737,17 @@ div.splitcontentleft > h2 {
 #docContainer section:first-child{
 	padding-top: 10px;
 }
+#help{
+	font-size: 18px;
+	line-height: 25px;
+}
+.img-help{
+	display:block; 
+	margin:0 auto; 
+	width:500px;
+	margin-top:10px;
+	margin-bottom:10px;
+}
 
 #helpTitle i{
 	text-decoration: none;
