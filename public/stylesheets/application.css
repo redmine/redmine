@@ -1741,12 +1741,19 @@ div.splitcontentleft > h2 {
 	font-size: 18px;
 	line-height: 25px;
 }
+.logo-help{
+	display:block; 
+	margin:0 auto; 
+	width:100px;
+	margin-top:10px;
+	margin-bottom:20px;
+}
 .img-help{
 	display:block; 
 	margin:0 auto; 
-	width:500px;
-	margin-top:10px;
-	margin-bottom:10px;
+	width:600px;
+	margin-top:30px;
+	margin-bottom:30px;
 }
 
 #helpTitle i{

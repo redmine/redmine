@@ -21,11 +21,12 @@ var initialiseTreeWidget = function(title, posX, posY, widgetWidth, widgetHeight
 };
 
 var initialiseControlPanel = function(){
-	var posX = 88;
+	var posX = 90;
 	var posY = 5;
 	var barDef = $CONTROL_PANEL;
 	G.addWidget(7).renderBar('OSB Control Panel', barDef['OSB Control Panel']);
-	ButtonBar1.setPosition(posX, posY);
+	ButtonBar1.setPosition(posX, posY).showTitleBar(false);
+	$("#ButtonBar1").find(".btn-lg").css("font-size","15px");
 };
 
 
@@ -35,7 +36,7 @@ var mainPopup=undefined;
 	
 var showModelDescription = function(model){
 	if(mainPopup==undefined){
-		mainPopup=G.addWidget(1).setName('Model Description - ' + model.getName()).addCustomNodeHandler(customHandler, 'click').setPosition(widthScreen - marginLeft - 650, heightScreen - marginBottom - 650);
+		mainPopup=G.addWidget(1).setName('Model Description - ' + model.getName()).addCustomNodeHandler(customHandler, 'click').setPosition(95,140);
 	}
 	mainPopup.setData(model,[GEPPETTO.Resources.HTML_TYPE]);	
 };

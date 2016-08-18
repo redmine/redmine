@@ -233,35 +233,38 @@ $.ajax({
 
 	<!-- HELP -->
 	<div id="help" class="tab-pane">
+		<img src="images/osbcircle.png" class="logo-help">
 		<p>
-		OK, let's go through the basics!
+		Hello! Let's go through the basics of Open Source Brain (OSB), <strong>this will take only 2 minutes to read!</strong> (yes, it's that easy).
 		</p>
 		<p>
-		This is your home screen, from here you can work with any project and model available in Open Source Brain or even create your own ones.
+		This is the help section of your home screen, feel free to come back here every time you are lost, most of the anwsers you'll ever need are here! 
+		</br>
+		From your home screen you can work with any project and model available in OSB or even create your own ones.
+		To search for available projects you can click on the Explore OSB link in the top bar or use the search box.
 		</p>
 		<p>			
-		First of all, <strong>what is an OSB project</strong>?
+		But first things first, <strong>what is an OSB project</strong>?
 		</p>
 		<p>
-		An OSB project is a container for computational models, usually these models  are directly linked to a publication, or grouped by a specific technology.
-		</br>
-		An OSB project is always linked to a GitHub repository which stores all the models available in the given project.
-		</br>
-		OK, so inside an OSB project there can be many models, but <strong>how do I work with a specific model</strong>?
+		An OSB project is a container of computational neuronal models, usually these models  are directly linked to a publication, or they might all be grouped in a project by a specific technology.
+		An OSB project is always linked to a GitHub repository which stores all the models available in the given project, so if you are already familiary with GitHub you're good to go, otherwise <a href="https://guides.github.com/activities/hello-world/#what" target="_blank">here</a> you'll find all you need to know.
 		</br></br>
-		Within Open Source Brain there is an online environment that will help you both explore, simulate, and work with models.
+		OK, so inside an OSB project there can be many models, but <strong>how do I work with a specific one</strong>?
+		</br></br>
+		Within OSB there is an online environment that will help you both explore, simulate, and work with models.
 		</br>
 		Yes that's right, you won't have to leave your browser to explore or even to simulate a specific model!
 		</br>
-		Every project has a main model that you can think of as the obvious entry point for that project, it could be the main network, or cell, etc. for the given project, to explore this model just <strong>click on the green button at the top right corner</strong> when inside a project.
-		To explore every other model available click on the more button on the right corner when inside a project.
+		Every project has a main model as entry point, it could be the main network, or cell, etc. for the given project, to explore this model just <strong>click on the green button "Explore model" at the top right corner</strong> when inside a project.
+		To explore every other model available click on the "More" button next to it.
 		</p>
 		<img src="images/help/exploreModel.png" class="img-help">
 		
 		<p>
-		The model will load inside OSB, this might take between 5 seconds or up to a minute depending on the size of the model, you know how complex the brain can be right?
+		The model will load inside OSB, this might take between few seconds or up to a minute depending on the size of the model, you know how complex the brain can be right?
 		</br>
-		Cool! So you are looking at the model now and you are in read mode which means you can poke around and look at the content of the model but you can't run simulations..yet.
+		Cool! So you are looking at the model now and you are in read mode which means you can poke around and look at the content of the model but you can't run simulations...yet (keep reading!).
 		</br>
 		So what can you do?
 		</p>
@@ -281,26 +284,28 @@ $.ajax({
 		<p>
 		<strong>Explore the network connections</strong>
 		
-		OpenSourceBrain has a variety of widgets built in to help you explore your models.  Models like this one have a significant number of connections.  By clicking on the “connectivity” button, you can explore the connection patterns of your model using a variety of graphical tools.
+		OSB has a variety of widgets built in to help you explore your models.  Models like this one have a significant number of connections.  By clicking on the “connectivity” button, you can explore the connection patterns of your model using a variety of graphical tools.
 		</br>
 		<img src="images/help/Fig-2-Connectivity.gif" class="img-help">
 		</p>
 		<p>
-		Pretty cool right? So what if you want to <strong>run a simulation</strong>?
+		Pretty cool right? But what if you want to <strong>run a simulation</strong>?
 		
-		First of all you need to persist your model, this operation will create a snapshot of the model (a copy of whatever the latest is on GitHub) which is all yours on which you'll have write access!
+		First of all you need to persist your model, this operation will create a snapshot of the model (a copy of whatever the latest is on GitHub) which is all yours and on which you'll have write access!
 		Persisting the model is very simple, just click on the star icon on the top of the screen and wait few seconds (in order to do this, you’ll need to be logged in as a registered user of Open Source Brain).
 		
 		<img src="images/help/persist.png" class="img-help">
 		</br>
-		Alright, your model is persisted and all yours, let's have a look at the experiments!
+		Alright, your model is persisted and all yours, <strong>let's have a look at the experiments</strong>!
 		
-		Experiments represent a particular configuration of your model, for each experiment you'll be able to decide which state variable you want to record, which values you want to give to your parameters and even what simulator you'd like to use, handy no? 
+		Experiments represent a particular configuration of your model, for each experiment you'll be able to decide which state variables you want to record, which values you want to give to the parameters of the model and even what simulator you'd like to use (do you know we are also connected to the San Diego Super Computer Center?), handy no? 
 		</br>
 		<img src="images/help/Fig-3-Intro.gif" class="img-help">
 		</br>
 		Once you are logged in and the project is persisted, you can begin working with your model.  You can create new experiments for your model by clicking the “clone” button.  This will create a new experiment that is just like the one you cloned from.  You can modify parameters on any experiment you like.
 		
+		<img src="images/help/Fig-4-Clone.gif" class="img-help">
+		</p>
 		<p>
 		<strong>Recording variables</strong>
 		</br>
@@ -310,15 +315,8 @@ $.ajax({
 		<strong>Setting a parameter</strong>
 		</br>
 		TBD
-		
 		</p>
-		<p>
-		<strong>Clone an experiment</strong>
-		</br>
-		<img src="images/help/Fig-4-Clone.gif" class="img-help">
 		
-		
-		</p>
 		
 		<p>
 		<strong>Run an experiment</strong>
