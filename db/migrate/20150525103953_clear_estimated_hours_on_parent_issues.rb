@@ -6,7 +6,7 @@ class ClearEstimatedHoursOnParentIssues < ActiveRecord::Migration
 
   def self.down
     table_name = Issue.table_name
-    leaves_sum_select = "SELECT SUM(leaves.estimated_hours) FROM #{table_name} leaves" +
+    leaves_sum_select = "SELECT SUM(leaves.estimated_hours) FROM (SELECT * FROM #{table_name}) AS leaves" +
       " WHERE leaves.root_id = #{table_name}.root_id AND leaves.lft > #{table_name}.lft AND leaves.rgt < #{table_name}.rgt" +
       " AND leaves.rgt = leaves.lft + 1"
 
