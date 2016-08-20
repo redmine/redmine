@@ -1817,6 +1817,24 @@ class IssuesControllerTest < Redmine::ControllerTest
     assert_response 403
   end
 
+  def test_new_without_projects_should_respond_with_403
+    Project.delete_all
+    @request.session[:user_id] = 2
+
+    get :new
+    assert_response 403
+    assert_select_error /no projects/
+  end
+
+  def test_new_without_enabled_trackers_on_projects_should_respond_with_403
+    Project.all.each {|p| p.trackers.clear }
+    @request.session[:user_id] = 2
+
+    get :new
+    assert_response 403
+    assert_select_error /no projects/
+  end
+
   def test_new_should_preselect_default_version
     version = Version.generate!(:project_id => 1)
     Project.find(1).update_attribute :default_version_id, version.id
@@ -2540,7 +2558,7 @@ class IssuesControllerTest < Redmine::ControllerTest
            :issue => {:project_id => 3,
                       :tracker_id => 2,
                       :subject => 'Foo'}
-      assert_response 422
+      assert_response 403
     end
   end
 

@@ -151,13 +151,7 @@ class IssuesController < ApplicationController
       return
     else
       respond_to do |format|
-        format.html {
-          if @issue.project.nil?
-            render_error :status => 422
-          else
-            render :action => 'new'
-          end
-        }
+        format.html { render :action => 'new' }
         format.api  { render_validation_errors(@issue) }
       end
     end
@@ -490,6 +484,9 @@ class IssuesController < ApplicationController
         render_error l(:error_no_default_issue_status)
         return false
       end
+    else
+      render_error :message => l(:error_no_projects_with_tracker_allowed_for_new_issue), :status => 403
+      return false
     end
 
     @priorities = IssuePriority.active
