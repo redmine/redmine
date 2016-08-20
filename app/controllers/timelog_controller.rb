@@ -16,7 +16,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class TimelogController < ApplicationController
-  menu_item :issues
+  menu_item :time_entries
 
   before_action :find_time_entry, :only => [:show, :edit, :update]
   before_action :find_time_entries, :only => [:bulk_edit, :bulk_update, :destroy]
