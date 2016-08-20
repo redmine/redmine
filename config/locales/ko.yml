@@ -1245,3 +1245,5 @@ ko:
   label_new_project_issue_tab_enabled: '"새 일감" 탭 표시'
   setting_new_item_menu_tab: 프로젝트 메뉴의 새로 만들기 탭
   label_new_object_tab_enabled: 메뉴에 "+" 탭 표시
+  error_no_projects_with_tracker_allowed_for_new_issue: There are no projects with trackers
+    for which you can create an issue
