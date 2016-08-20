@@ -108,7 +108,7 @@ module Redmine
                                               :klass => IssueStatus,
                                               :label => :field_status},
                                  'version' => {:sql => "#{Issue.table_name}.fixed_version_id",
-                                              :klass => Version,
+                                              :klass => ::Version,
                                               :label => :label_version},
                                  'category' => {:sql => "#{Issue.table_name}.category_id",
                                                 :klass => IssueCategory,
