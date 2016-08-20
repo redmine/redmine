@@ -512,16 +512,27 @@ class Project < ActiveRecord::Base
   end
 
   # Return a Principal scope of users/groups issues can be assigned to
-  def assignable_users
+  def assignable_users(tracker=nil)
+    return @assignable_users[tracker] if @assignable_users && @assignable_users[tracker]
+
     types = ['User']
     types << 'Group' if Setting.issue_group_assignment?
 
-    @assignable_users ||= Principal.
+    scope = Principal.
       active.
       joins(:members => :roles).
       where(:type => types, :members => {:project_id => id}, :roles => {:assignable => true}).
       uniq.
       sorted
+
+    if tracker
+      # Rejects users that cannot the view the tracker
+      roles = Role.where(:assignable => true).select {|role| role.permissions_tracker?(:view_issues, tracker)}
+      scope = scope.where(:roles => {:id => roles.map(&:id)})
+    end
+
+    @assignable_users ||= {}
+    @assignable_users[tracker] = scope
   end
 
   # Returns the mail addresses of users that should be always notified on project events

@@ -222,6 +222,13 @@ class Role < ActiveRecord::Base
     permissions_all_trackers[permission.to_s].to_s != '0'
   end
 
+  # Returns true if permission is given for the tracker
+  # (explicitly or for all trackers)
+  def permissions_tracker?(permission, tracker)
+    permissions_all_trackers?(permission) ||
+      permissions_tracker_ids?(permission, tracker.try(:id))
+  end
+
   # Sets the trackers that are allowed for a permission.
   # tracker_ids can be an array of tracker ids or :all for
   # no restrictions.

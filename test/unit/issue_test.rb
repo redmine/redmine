@@ -2292,6 +2292,19 @@ class IssueTest < ActiveSupport::TestCase
     end
   end
 
+  def test_assignable_users_should_not_include_users_that_cannot_view_the_tracker
+    user = User.find(3)
+    role = Role.find(2)
+    role.set_permission_trackers :view_issues, [1, 3]
+    role.save!
+
+    issue1 = Issue.new(:project_id => 1, :tracker_id => 1)
+    issue2 = Issue.new(:project_id => 1, :tracker_id => 2)
+
+    assert_include user, issue1.assignable_users
+    assert_not_include user, issue2.assignable_users
+  end
+
   def test_create_should_send_email_notification
     ActionMailer::Base.deliveries.clear
     issue = Issue.new(:project_id => 1, :tracker_id => 1,
