@@ -31,7 +31,7 @@
       </td>
     </tr>
   <% end %>
-  <tr class="time-entry <%= cycle("odd", "even") %> hascontextmenu">
+  <tr id="time-entry-<%= entry.id %>" class="time-entry <%= cycle("odd", "even") %> hascontextmenu">
     <td class="checkbox hide-when-print"><%= check_box_tag("ids[]", entry.id, false, :id => nil) %></td>
     <%= raw @query.inline_columns.map {|column| "<td class=\"#{column.css_classes}\">#{column_content(column, entry)}</td>"}.join %>
     <td class="buttons">

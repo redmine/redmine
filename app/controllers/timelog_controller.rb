@@ -45,7 +45,6 @@ class TimelogController < ApplicationController
     sort_init(@query.sort_criteria.empty? ? [['spent_on', 'desc']] : @query.sort_criteria)
     sort_update(@query.sortable_columns)
     scope = time_entry_scope(:order => sort_clause).
-      includes(:project, :user, :issue).
       preload(:issue => [:project, :tracker, :status, :assigned_to, :priority])
 
     respond_to do |format|

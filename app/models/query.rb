@@ -74,6 +74,26 @@ class QueryColumn
   end
 end
 
+class QueryAssociationColumn < QueryColumn
+
+  def initialize(association, attribute, options={})
+    @association = association
+    @attribute = attribute
+    name_with_assoc = "#{association}.#{attribute}".to_sym
+    super(name_with_assoc, options)
+  end
+
+  def value_object(object)
+    if assoc = object.send(@association)
+      assoc.send @attribute
+    end
+  end
+
+  def css_classes
+    @css_classes ||= "#{@association}-#{@attribute}"
+  end
+end
+
 class QueryCustomFieldColumn < QueryColumn
 
   def initialize(custom_field, options={})

@@ -797,6 +797,92 @@ class TimelogControllerTest < Redmine::ControllerTest
     assert_equal [t3, t1, t2].map(&:id).map(&:to_s), css_select('input[name="ids[]"]').map {|e| e.attr('value')}
   end
 
+  def test_index_with_issue_status_filter
+    Issue.where(:status_id => 4).update_all(:status_id => 2)
+    issue = Issue.generate!(:project_id => 1, :tracker_id => 1, :status_id => 4)
+    entry = TimeEntry.generate!(:issue => issue, :hours => 4.5)
+
+    get :index, :params => {
+      :f => ['issue.status_id'],
+      :op => {'issue.status_id' => '='},
+      :v => {'issue.status_id' => ['4']}
+    }
+    assert_response :success
+    assert_equal [entry].map(&:id).map(&:to_s), css_select('input[name="ids[]"]').map {|e| e.attr('value')}
+  end
+
+  def test_index_with_issue_status_column
+    issue = Issue.generate!(:project_id => 1, :tracker_id => 1, :status_id => 4)
+    entry = TimeEntry.generate!(:issue => issue)
+
+    get :index, :params => {
+      :c => %w(project spent_on issue comments hours issue.status)
+    }
+    assert_response :success
+    assert_select 'td.issue-status', :text => issue.status.name
+  end
+
+  def test_index_with_issue_status_sort
+    TimeEntry.delete_all
+    TimeEntry.generate!(:issue => Issue.generate!(:status_id => 1))
+    TimeEntry.generate!(:issue => Issue.generate!(:status_id => 5))
+    TimeEntry.generate!(:issue => Issue.generate!(:status_id => 3))
+    TimeEntry.generate!(:project_id => 1)
+
+    get :index, :params => {
+      :c => ["hours", 'issue.status'],
+      :sort => 'issue.status'
+    }
+    assert_response :success
+
+    # Make sure that values are properly sorted
+    values = css_select("td.issue-status").map(&:text).reject(&:blank?)
+    assert_equal IssueStatus.where(:id => [1, 5, 3]).sorted.pluck(:name), values
+  end
+
+  def test_index_with_issue_tracker_filter
+    Issue.where(:tracker_id => 2).update_all(:tracker_id => 1)
+    issue = Issue.generate!(:project_id => 1, :tracker_id => 2)
+    entry = TimeEntry.generate!(:issue => issue, :hours => 4.5)
+
+    get :index, :params => {
+      :f => ['issue.tracker_id'],
+      :op => {'issue.tracker_id' => '='},
+      :v => {'issue.tracker_id' => ['2']}
+    }
+    assert_response :success
+    assert_equal [entry].map(&:id).map(&:to_s), css_select('input[name="ids[]"]').map {|e| e.attr('value')}
+  end
+
+  def test_index_with_issue_tracker_column
+    issue = Issue.generate!(:project_id => 1, :tracker_id => 2)
+    entry = TimeEntry.generate!(:issue => issue)
+
+    get :index, :params => {
+      :c => %w(project spent_on issue comments hours issue.tracker)
+    }
+    assert_response :success
+    assert_select 'td.issue-tracker', :text => issue.tracker.name
+  end
+
+  def test_index_with_issue_tracker_sort
+    TimeEntry.delete_all
+    TimeEntry.generate!(:issue => Issue.generate!(:tracker_id => 1))
+    TimeEntry.generate!(:issue => Issue.generate!(:tracker_id => 3))
+    TimeEntry.generate!(:issue => Issue.generate!(:tracker_id => 2))
+    TimeEntry.generate!(:project_id => 1)
+
+    get :index, :params => {
+      :c => ["hours", 'issue.tracker'],
+      :sort => 'issue.tracker'
+    }
+    assert_response :success
+
+    # Make sure that values are properly sorted
+    values = css_select("td.issue-tracker").map(&:text).reject(&:blank?)
+    assert_equal Tracker.where(:id => [1, 2, 3]).sorted.pluck(:name), values
+  end
+
   def test_index_with_filter_on_issue_custom_field
     issue = Issue.generate!(:project_id => 1, :tracker_id => 1, :custom_field_values => {2 => 'filter_on_issue_custom_field'})
     entry = TimeEntry.generate!(:issue => issue, :hours => 2.5)
