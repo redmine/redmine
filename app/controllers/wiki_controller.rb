@@ -62,10 +62,12 @@ class WikiController < ApplicationController
 
   def new
     @page = WikiPage.new(:wiki => @wiki, :title => params[:title])
-    unless User.current.allowed_to?(:edit_wiki_pages, @project) && editable?
+    unless User.current.allowed_to?(:edit_wiki_pages, @project)
       render_403
+      return
     end
     if request.post?
+      @page.title = '' unless editable?
       @page.validate
       if @page.errors[:title].blank?
         path = project_wiki_page_path(@project, @page.title)
