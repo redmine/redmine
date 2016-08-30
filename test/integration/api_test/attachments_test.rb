@@ -111,9 +111,12 @@ class Redmine::ApiTest::AttachmentsTest < Redmine::ApiTest::Base
     assert_kind_of Hash, xml['upload']
     token = xml['upload']['token']
     assert_not_nil token
+    attachment_id = xml['upload']['id']
+    assert_not_nil attachment_id
 
     attachment = Attachment.order('id DESC').first
     assert_equal token, attachment.token
+    assert_equal attachment_id, attachment.id.to_s
     assert_nil attachment.container
     assert_equal 2, attachment.author_id
     assert_equal 'File content'.size, attachment.filesize
