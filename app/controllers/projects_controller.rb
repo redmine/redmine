@@ -192,14 +192,14 @@ class ProjectsController < ApplicationController
     unless @project.archive
       flash[:error] = l(:error_can_not_archive_project)
     end
-    redirect_to admin_projects_path(:status => params[:status])
+    redirect_to_referer_or admin_projects_path(:status => params[:status])
   end
 
   def unarchive
     unless @project.active?
       @project.unarchive
     end
-    redirect_to admin_projects_path(:status => params[:status])
+    redirect_to_referer_or admin_projects_path(:status => params[:status])
   end
 
   def close

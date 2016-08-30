@@ -816,8 +816,11 @@ class Project < ActiveRecord::Base
   end
 
   # Yields the given block for each project with its level in the tree
-  def self.project_tree(projects, &block)
+  def self.project_tree(projects, options={}, &block)
     ancestors = []
+    if options[:init_level] && projects.first
+      ancestors = projects.first.ancestors.to_a
+    end
     projects.sort_by(&:lft).each do |project|
       while (ancestors.any? && !project.is_descendant_of?(ancestors.last))
         ancestors.pop

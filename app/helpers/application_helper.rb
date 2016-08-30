@@ -371,8 +371,8 @@ module ApplicationHelper
   # Yields the given block for each project with its level in the tree
   #
   # Wrapper for Project#project_tree
-  def project_tree(projects, &block)
-    Project.project_tree(projects, &block)
+  def project_tree(projects, options={}, &block)
+    Project.project_tree(projects, options, &block)
   end
 
   def principals_check_box_tags(name, principals)
