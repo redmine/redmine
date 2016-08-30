@@ -111,6 +111,22 @@ class ProjectsControllerTest < Redmine::ControllerTest
     end
   end
 
+  def test_new_by_non_admin_should_display_modules_if_default_role_is_allowed_to_select_modules
+    Role.non_member.add_permission!(:add_project)
+    default_role = Role.generate!(:permissions => [:view_issues])
+    user = User.generate!
+    @request.session[:user_id] = user.id
+
+    with_settings :new_project_user_role_id => default_role.id.to_s do
+      get :new
+      assert_select 'input[name=?]', 'project[enabled_module_names][]', 0
+
+      default_role.add_permission!(:select_project_modules)
+      get :new
+      assert_select 'input[name=?]', 'project[enabled_module_names][]'
+    end
+  end
+
   def test_new_should_not_display_invalid_search_link
     @request.session[:user_id] = 1
 
@@ -275,6 +291,34 @@ class ProjectsControllerTest < Redmine::ControllerTest
     end
     assert_response :success
     assert_select_error /Subproject of is invalid/
+  end
+
+  def test_create_by_non_admin_should_accept_modules_if_default_role_is_allowed_to_select_modules
+    Role.non_member.add_permission!(:add_project)
+    default_role = Role.generate!(:permissions => [:view_issues, :add_project])
+    user = User.generate!
+    @request.session[:user_id] = user.id
+
+    with_settings :new_project_user_role_id => default_role.id.to_s, :default_projects_modules => %w(news files) do
+      project = new_record(Project) do
+        post :create, :project => {
+            :name => "blog1",
+            :identifier => "blog1",
+            :enabled_module_names => ["issue_tracking", "repository"]
+          }
+      end
+      assert_equal %w(files news), project.enabled_module_names.sort
+
+      default_role.add_permission!(:select_project_modules)
+      project = new_record(Project) do
+        post :create, :project => {
+            :name => "blog2",
+            :identifier => "blog2",
+            :enabled_module_names => ["issue_tracking", "repository"]
+          }
+      end
+      assert_equal %w(issue_tracking repository), project.enabled_module_names.sort
+    end
   end
 
   def test_create_subproject_with_inherit_members_should_inherit_members

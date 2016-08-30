@@ -500,10 +500,16 @@ class Project < ActiveRecord::Base
   # Adds user as a project member with the default role
   # Used for when a non-admin user creates a project
   def add_default_member(user)
-    role = Role.givable.find_by_id(Setting.new_project_user_role_id.to_i) || Role.givable.first
+    role = self.class.default_member_role
     member = Member.new(:project => self, :principal => user, :roles => [role])
     self.members << member
     member
+  end
+
+	# Default role that is given to non-admin users that
+	# create a project
+  def self.default_member_role
+    Role.givable.find_by_id(Setting.new_project_user_role_id.to_i) || Role.givable.first
   end
 
   # Deletes all project's members
@@ -716,7 +722,17 @@ class Project < ActiveRecord::Base
     'default_version_id'
 
   safe_attributes 'enabled_module_names',
-    :if => lambda {|project, user| project.new_record? || user.allowed_to?(:select_project_modules, project) }
+    :if => lambda {|project, user|
+        if project.new_record?
+          if user.admin?
+            true
+          else
+            default_member_role.has_permission?(:select_project_modules)
+          end
+        else
+          user.allowed_to?(:select_project_modules, project)
+        end
+      }
 
   safe_attributes 'inherit_members',
     :if => lambda {|project, user| project.parent.nil? || project.parent.visible?(user)}

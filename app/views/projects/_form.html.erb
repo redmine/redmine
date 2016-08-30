@@ -32,7 +32,7 @@
 <%= call_hook(:view_projects_form, :project => @project, :form => f) %>
 </div>
 
-<% if @project.new_record? %>
+<% if @project.new_record? && @project.safe_attribute?('enabled_module_names') %>
 <fieldset class="box tabular"><legend><%= l(:label_module_plural) %></legend>
 <% Redmine::AccessControl.available_project_modules.each do |m| %>
     <label class="floating">
