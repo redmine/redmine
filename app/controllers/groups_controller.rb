@@ -30,7 +30,12 @@ class GroupsController < ApplicationController
   def index
     respond_to do |format|
       format.html {
-        @groups = Group.sorted.to_a
+        scope = Group.sorted
+        scope = scope.like(params[:name]) if params[:name].present?
+
+        @group_count = scope.count
+        @group_pages = Paginator.new @group_count, per_page_option, params['page']
+        @groups = scope.limit(@group_pages.per_page).offset(@group_pages.offset).to_a
         @user_count_by_group_id = user_count_by_group_id
       }
       format.api {

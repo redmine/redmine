@@ -4,6 +4,7 @@
 
 <%= title l(:label_group_plural) %>
 <% if @groups.any? %>
+<div class="autoscroll">
 <table class="list groups">
   <thead><tr>
   <th><%=l(:label_group)%></th>
@@ -20,6 +21,8 @@
 <% end %>
   </tbody>
 </table>
+</div>
+<span class="pagination"><%= pagination_links_full @group_pages, @group_count %></span>
 <% else %>
 <p class="nodata"><%= l(:label_no_data) %></p>
 <% end %>
