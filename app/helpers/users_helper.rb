@@ -30,6 +30,10 @@ module UsersHelper
     user.valid_notification_options.collect {|o| [l(o.last), o.first]}
   end
 
+  def textarea_font_options
+    [[l(:label_font_default), '']] + UserPreference::TEXTAREA_FONT_OPTIONS.map {|o| [l("label_font_#{o}"), o]}
+  end
+
   def change_status_link(user)
     url = {:controller => 'users', :action => 'update', :id => user, :page => params[:page], :status => params[:status], :tab => nil}
 

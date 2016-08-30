@@ -561,6 +561,9 @@ module ApplicationHelper
     css << 'project-' + @project.identifier if @project && @project.identifier.present?
     css << 'controller-' + controller_name
     css << 'action-' + action_name
+    if UserPreference::TEXTAREA_FONT_OPTIONS.include?(User.current.pref.textarea_font)
+      css << "textarea-#{User.current.pref.textarea_font}"
+    end
     css.join(' ')
   end
 

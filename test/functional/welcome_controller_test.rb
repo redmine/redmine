@@ -104,6 +104,24 @@ class WelcomeControllerTest < Redmine::ControllerTest
     assert_select 'script', :text => %r{warnLeavingUnsaved}, :count => 0
   end
 
+  def test_textarea_font_set_to_monospace
+    user = User.find(1)
+    user.pref.textarea_font = 'monospace'
+    user.pref.save!
+    @request.session[:user_id] = 1
+    get :index
+    assert_select 'body.textarea-monospace'
+  end
+
+  def test_textarea_font_set_to_proportional
+    user = User.find(1)
+    user.pref.textarea_font = 'proportional'
+    user.pref.save!
+    @request.session[:user_id] = 1
+    get :index
+    assert_select 'body.textarea-proportional'
+  end
+
   def test_logout_link_should_post
     @request.session[:user_id] = 2
 

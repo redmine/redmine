@@ -364,6 +364,7 @@ en:
   field_total_estimated_hours: Total estimated time
   field_default_version: Default version
   field_remote_ip: IP address
+  field_textarea_font: Font used for text areas
 
   setting_app_title: Application title
   setting_app_subtitle: Application subtitle
@@ -998,6 +999,9 @@ en:
   label_relations: Relations
   label_new_project_issue_tab_enabled: Display the "New issue" tab
   label_new_object_tab_enabled: Display the "+" drop-down
+  label_font_default: Default font
+  label_font_monospace: Monospaced font
+  label_font_proportional: Proportional font
 
   button_login: Login
   button_submit: Submit

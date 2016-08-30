@@ -379,6 +379,8 @@ blockquote { font-style: italic; border-left: 3px solid #e0e0e0; padding-left: 0
 blockquote blockquote { margin-left: 0;}
 abbr, span.field-description[title] { border-bottom: 1px dotted #aaa; cursor: help; }
 textarea.wiki-edit {width:99%; resize:vertical;}
+body.textarea-monospace textarea.wiki-edit {font-family: Consolas, Menlo, "Liberation Mono", Courier, monospace; font-size: 12px;}
+body.textarea-proportional textarea.wiki-edit {font-family: Verdana, sans-serif; font-size: 12px;}
 li p {margin-top: 0;}
 div.issue {background:#ffffdd; padding:6px; margin-bottom:6px; border: 1px solid #d7d7d7; border-radius:3px;}
 p.breadcrumb { font-size: 0.9em; margin: 4px 0 4px 0;}

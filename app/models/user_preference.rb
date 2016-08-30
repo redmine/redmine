@@ -29,7 +29,10 @@ class UserPreference < ActiveRecord::Base
     'time_zone',
     'comments_sorting',
     'warn_on_leaving_unsaved',
-    'no_self_notified'
+    'no_self_notified',
+    'textarea_font'
+
+  TEXTAREA_FONT_OPTIONS = ['monospace', 'proportional']
 
   def initialize(attributes=nil, *args)
     super
@@ -76,4 +79,7 @@ class UserPreference < ActiveRecord::Base
 
   def activity_scope; Array(self[:activity_scope]) ; end
   def activity_scope=(value); self[:activity_scope]=value ; end
+
+  def textarea_font; self[:textarea_font] end
+  def textarea_font=(value); self[:textarea_font]=value; end
 end
