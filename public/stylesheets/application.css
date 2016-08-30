@@ -433,9 +433,9 @@ div#issue-changesets p { margin-top: 0; margin-bottom: 1em;}
 
 div.journal {overflow:auto;}
 div.journal.private-notes {border-left:2px solid #d22; padding-left:4px; margin-left:-6px;}
-div.journal ul.details {color:#959595; margin-bottom: 1.5em;}
-div.journal ul.details a {color:#70A7CD;}
-div.journal ul.details a:hover {color:#D14848;}
+div.journal ul.details, ul.revision-info {color:#959595; margin-bottom: 1.5em;}
+div.journal ul.details a, ul.revision-info a {color:#70A7CD;}
+div.journal ul.details a:hover,  ul.revision-info a:hover {color:#D14848;}
 
 div#activity dl, #search-results { margin-left: 2em; }
 div#activity dd, #search-results dd { margin-bottom: 1em; padding-left: 18px; font-size: 0.9em; }
