@@ -84,7 +84,7 @@ class GroupsController < ApplicationController
     respond_to do |format|
       if @group.save
         flash[:notice] = l(:notice_successful_update)
-        format.html { redirect_to(groups_path) }
+        format.html { redirect_to_referer_or(groups_path) }
         format.api  { render_api_ok }
       else
         format.html { render :action => "edit" }
@@ -97,7 +97,7 @@ class GroupsController < ApplicationController
     @group.destroy
 
     respond_to do |format|
-      format.html { redirect_to(groups_path) }
+      format.html { redirect_to_referer_or(groups_path) }
       format.api  { render_api_ok }
     end
   end
