@@ -36,6 +36,15 @@ class GroupsControllerTest < Redmine::ControllerTest
     assert_select 'tr#group-11 td.user_count', :text => '1'
   end
 
+  def test_index_with_name_filter
+    Group.generate!(:name => "Clients")
+
+    get :index, :name => "cli" 
+    assert_response :success
+    assert_select 'table.groups tbody tr', 1
+    assert_select 'table.groups tbody td.name', :text => 'Clients'
+  end
+
   def test_show
     get :show, :id => 10
     assert_response :success
