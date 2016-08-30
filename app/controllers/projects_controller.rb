@@ -155,6 +155,10 @@ class ProjectsController < ApplicationController
     @issue_category ||= IssueCategory.new
     @member ||= @project.members.new
     @trackers = Tracker.sorted.to_a
+
+    @version_status = params[:version_status] || 'open'
+    @version_name = params[:version_name]
+    @versions = @project.shared_versions.status(@version_status).like(@version_name)
     @wiki ||= @project.wiki || Wiki.new(:project => @project)
   end
 

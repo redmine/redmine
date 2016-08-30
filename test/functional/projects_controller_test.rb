@@ -491,6 +491,36 @@ class ProjectsControllerTest < Redmine::ControllerTest
     end
   end
 
+  def test_settings_should_accept_version_status_filter
+    @request.session[:user_id] = 2
+
+    get :settings, :id => 'ecookbook', :tab => 'versions', :version_status => 'locked'
+    assert_response :success
+
+    assert_select 'select[name=version_status]' do
+      assert_select 'option[value=locked][selected=selected]'
+    end
+    assert_select 'table.versions tbody' do
+      assert_select 'tr', 1
+      assert_select 'td.name', :text => '1.0'
+    end
+    assert_select 'a#tab-versions[href=?]', '/projects/ecookbook/settings/versions?version_status=locked'
+  end
+
+  def test_settings_should_accept_version_name_filter
+    @request.session[:user_id] = 2
+
+    get :settings, :id => 'ecookbook', :tab => 'versions', :version_status => '', :version_name => '.1'
+    assert_response :success
+
+    assert_select 'input[name=version_name][value=?]', '.1'
+    assert_select 'table.versions tbody' do
+      assert_select 'tr', 1
+      assert_select 'td.name', :text => '0.1'
+    end
+    assert_select 'a#tab-versions[href=?]', '/projects/ecookbook/settings/versions?version_name=.1&version_status='
+  end
+
   def test_update
     @request.session[:user_id] = 2 # manager
     post :update, :id => 1, :project => {:name => 'Test changed name',
