@@ -25,7 +25,7 @@
   add first breakpoint here and start adding responsiveness
 */
 
-@media all and (max-width: 899px)
+@media screen and (max-width: 899px)
 {
   /*----------------------------------------*\
     A) BASIC MOBILE RESETS
