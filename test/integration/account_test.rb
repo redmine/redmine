@@ -146,6 +146,21 @@ class AccountTest < Redmine::IntegrationTest
     assert_redirected_to '/my/password'
   end
 
+  def test_flash_message_should_use_user_language_when_redirecting_user_for_password_change
+    user = User.find_by_login('jsmith')
+    user.must_change_passwd = true
+    user.language = 'it'
+    user.save!
+
+    post '/login', :username => 'jsmith', :password => 'jsmith'
+    assert_redirected_to '/my/page'
+    follow_redirect!
+    assert_redirected_to '/my/password'
+    follow_redirect!
+
+    assert_select 'div.error', :text => /richiesto che sia cambiata/
+  end
+
   def test_user_with_must_change_passwd_should_be_able_to_change_its_password
     User.find_by_login('jsmith').update_attribute :must_change_passwd, true
 
