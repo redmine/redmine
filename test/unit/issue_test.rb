@@ -319,6 +319,28 @@ class IssueTest < ActiveSupport::TestCase
     assert_equal false, Issue.where(:project_id => 1).first.visible?(user)
   end
 
+  def test_visible_scope_with_custom_non_member_role_having_restricted_permission
+    role = Role.generate!(:permissions => [:view_project])
+    assert Role.non_member.has_permission?(:view_issues)
+    user = User.generate!
+    Member.create!(:principal => Group.non_member, :project_id => 1, :roles => [role])
+
+    issues = Issue.visible(user).to_a
+    assert issues.any?
+    assert_nil issues.detect {|issue| issue.project_id == 1}
+  end
+
+  def test_visible_scope_with_custom_non_member_role_having_extended_permission
+    role = Role.generate!(:permissions => [:view_project, :view_issues])
+    Role.non_member.remove_permission!(:view_issues)
+    user = User.generate!
+    Member.create!(:principal => Group.non_member, :project_id => 1, :roles => [role])
+
+    issues = Issue.visible(user).to_a
+    assert issues.any?
+    assert_not_nil issues.detect {|issue| issue.project_id == 1}
+  end
+
   def test_visible_scope_for_member_with_groups_should_return_assigned_issues
     user = User.find(8)
     assert user.groups.any?
