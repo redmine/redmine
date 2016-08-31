@@ -223,6 +223,15 @@ class WikiControllerTest < ActionController::TestCase
     assert_select_error 'Title has already been taken'
   end
 
+  def test_post_new_with_protected_title_should_display_errors
+    Role.find(1).remove_permission!(:protect_wiki_pages)
+    @request.session[:user_id] = 2
+
+    post :new, :params => {:project_id => 'ecookbook', :title => 'Sidebar'}
+    assert_response :success
+    assert_select_error /Title/
+  end
+
   def test_post_new_xhr_with_invalid_title_should_display_errors
     @request.session[:user_id] = 2
 
