@@ -489,6 +489,9 @@ class IssuesController < ApplicationController
         render_error l(:error_no_default_issue_status)
         return false
       end
+    elsif request.get?
+      render_error :message => l(:error_no_projects_with_tracker_allowed_for_new_issue), :status => 403
+      return false
     end
 
     @priorities = IssuePriority.active
