@@ -128,6 +128,7 @@ class VersionsControllerTest < Redmine::ControllerTest
     get :new, :params => {:project_id => '1'}
     assert_response :success
     assert_select 'input[name=?]', 'version[name]'
+    assert_select 'select[name=?]', 'version[status]', false
   end
 
   def test_new_from_issue_form
@@ -175,7 +176,12 @@ class VersionsControllerTest < Redmine::ControllerTest
     @request.session[:user_id] = 2
     get :edit, :params => {:id => 2}
     assert_response :success
-    assert_select 'input[name=?][value=?]', 'version[name]', Version.find(2).name
+    version = Version.find(2)
+
+    assert_select 'select[name=?]', 'version[status]' do
+      assert_select 'option[value=?][selected="selected"]', version.status
+    end
+    assert_select 'input[name=?][value=?]', 'version[name]', version.name
   end
 
   def test_close_completed
@@ -190,7 +196,7 @@ class VersionsControllerTest < Redmine::ControllerTest
   def test_post_update
     @request.session[:user_id] = 2
     put :update, :params => {
-      :id => 2, 
+      :id => 2,
       :version => {
         :name => 'New version name',
         :effective_date => Date.today.strftime("%Y-%m-%d")
