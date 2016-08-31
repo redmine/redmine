@@ -1,7 +1,7 @@
 <% reported_issues = issuesreportedbyme_items %>
 <h3>
   <%= link_to l(:label_reported_issues),
-        issues_path(:set_filter => 1, :status_id => '*', :author_id => 'me', :sort => 'updated_on:desc') %>
+        issues_path(:set_filter => 1, :status_id => 'o', :author_id => 'me', :sort => 'updated_on:desc') %>
   (<%= reported_issues.limit(nil).count %>)
 </h3>
 
