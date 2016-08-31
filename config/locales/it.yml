@@ -1201,3 +1201,5 @@ it:
   label_new_project_issue_tab_enabled: Display the "New issue" tab
   setting_new_item_menu_tab: Project menu tab for creating new objects
   label_new_object_tab_enabled: Display the "+" drop-down
+  error_no_projects_with_tracker_allowed_for_new_issue: There are no projects with trackers
+    for which you can create an issue

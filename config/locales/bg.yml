@@ -1194,3 +1194,5 @@ bg:
   description_date_to: Въведете крайна дата
   text_repository_identifier_info: 'Позволени са малки букви (a-z), цифри, тирета и _.<br />Промяна след създаването му не е възможна.'
   label_new_project_issue_tab_enabled: Показване на меню-елемент "Нова задача"
+  error_no_projects_with_tracker_allowed_for_new_issue: There are no projects with trackers
+    for which you can create an issue
