@@ -568,8 +568,9 @@ class Issue < ActiveRecord::Base
 
   # Returns the custom_field_values that can be edited by the given user
   def editable_custom_field_values(user=nil)
+    read_only = read_only_attribute_names(user)
     visible_custom_field_values(user).reject do |value|
-      read_only_attribute_names(user).include?(value.custom_field_id.to_s)
+      read_only.include?(value.custom_field_id.to_s)
     end
   end
 
