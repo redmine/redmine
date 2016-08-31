@@ -51,7 +51,7 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  before_action :session_expiration, :user_setup, :check_if_login_required, :check_password_change, :set_localization
+  before_action :session_expiration, :user_setup, :check_if_login_required, :set_localization, :check_password_change
 
   rescue_from ::Unauthorized, :with => :deny_access
   rescue_from ::ActionView::MissingTemplate, :with => :missing_template
