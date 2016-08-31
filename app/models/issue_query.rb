@@ -512,11 +512,16 @@ class IssueQuery < Query
   end
 
   def sql_for_issue_id_field(field, operator, value)
-    ids = value.first.to_s.scan(/\d+/).map(&:to_i).join(",")
-    if ids.present?
-      "#{Issue.table_name}.id IN (#{ids})"
+    if operator == "="
+      # accepts a comma separated list of ids
+      ids = value.first.to_s.scan(/\d+/).map(&:to_i)
+      if ids.present?
+        "#{Issue.table_name}.id IN (#{ids.join(",")})"
+      else
+        "1=0"
+      end
     else
-      "1=0"
+      sql_for_field("id", operator, value, Issue.table_name, "id")
     end
   end
 

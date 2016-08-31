@@ -235,12 +235,20 @@ class QueryTest < ActiveSupport::TestCase
     assert_equal 2, issues.first.id
   end
 
-  def test_operator_is_on_integer_should_accept_comma_separated_values
+  def test_operator_is_on_issue_id_should_accept_comma_separated_values
     query = IssueQuery.new(:name => '_')
     query.add_filter("issue_id", '=', ['1,3'])
     issues = find_issues_with_query(query)
     assert_equal 2, issues.size
     assert_equal [1,3], issues.map(&:id).sort
+  end
+
+  def test_operator_between_on_issue_id_should_return_range
+    query = IssueQuery.new(:name => '_')
+    query.add_filter("issue_id", '><', ['2','3'])
+    issues = find_issues_with_query(query)
+    assert_equal 2, issues.size
+    assert_equal [2,3], issues.map(&:id).sort
   end
 
   def test_operator_is_on_integer_custom_field
