@@ -739,6 +739,7 @@
 
   #issue_tree .issue > td.subject, #relations .issue > td.subject {
     width: 100% !important; /* let subject have one full width column */
+    word-break: break-word; /* break word if subject is too long */
   }
 
   #issue_tree .issue > td:not(.checkbox), #relations .issue > td:not(.checkbox) {
