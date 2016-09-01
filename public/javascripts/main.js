@@ -270,6 +270,17 @@ function showProject(){
 //	$('#main').css("color","black");
 }
 
+
+function loadDiscussOSB(){	
+	$("#discussOSB").html('<iframe id="forum_embed_2" src="javascript:void(0)" scrolling="no" frameborder="0" width="100%" height="700"></iframe>');
+    document.getElementById("forum_embed_2").src = "https://groups.google.com/forum/embed/?place=forum/osb-discuss&showsearch=true&showpopout=true&parenturl=" + encodeURIComponent(window.location.href);
+}
+
+function loadAnnounceOSB(){
+	$("#announceOSB").html('<iframe id="forum_embed" src="javascript:void(0)" scrolling="no" frameborder="0" width="100%" height="700"></iframe>');
+	document.getElementById("forum_embed").src ="https://groups.google.com/forum/embed/?place=forum/osb-announce&showsearch=true&showpopout=true&parenturl="+encodeURIComponent(window.location.href);
+}
+
 function getMainModel(pathToRepo, defaultModel){
 	var mainModelUrl=pathToRepo;
 	$.ajax({

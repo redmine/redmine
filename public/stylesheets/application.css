@@ -110,17 +110,32 @@ body {
 .hhcellSampleThumbnail{
 	background-image: url("/images/samplesThumbnails/hhcell.png");
 }
+.projectHighlight{
+	font-size:24px;
+	cursor:pointer;
+}
+#cellsLink{
+	color:#88aa00;	
+}
+#projecthighlightsLink{
+	color:#88aa00;
+}
+#cellsLink:hover{
+	color:#657d01;	
+}
+#projecthighlightsLink:hover{
+	color:#657d01;
+}
 
 .sampleModel{
 	cursor:pointer;
 	color:#24768a;
 	margin-bottom:30px;
 	width:200px!important;
-	  display: inline-block;
-  vertical-align: middle;
+	display: inline-block;
+  	vertical-align: middle;
 }
 .sampleModel:hover{
-
 	-webkit-filter: hue-rotate(170deg);
     filter: hue-rotate(170deg);
 }
@@ -128,7 +143,8 @@ body {
 	text-decoration:none;
 }
 .sampleModelLabel{
-
+	display:block;
+	text-align:center;
 	color:inherit;
 }
 .sampleModelIcon{
@@ -1055,7 +1071,6 @@ section p {
 	-webkit-border-radius: 6px;
 	-moz-border-radius: 6px;
 	border-radius: 6px;
-	min-width: 1100px;
 }
 .overflow-list {
 	overflow: hidden;

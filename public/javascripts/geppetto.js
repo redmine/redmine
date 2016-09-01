@@ -77,7 +77,17 @@ function addDashboard(){
 }
 
 
-function addProjectsShortcuts(){
+function addSampleProjectsToHome(){
+	addSampleProjects('#learnMoreContainer');
+	$('#learnMoreContainer').show();
+}
+
+function addSampleProjectsToExploreOSB(){
+	addSampleProjects('#welcomeMainContainer');
+	$('#welcomeMainContainerLoadDialog').remove();
+}
+
+function addSampleProjects(target){
 	makeCorsRequest("currentuser", processCurrentUser, "geppettoProjectsCompact", function(data) {
 		var jsonData=JSON.parse(data);
 		for(var i=0;i<jsonData.length;i++){
@@ -105,9 +115,9 @@ function addProjectsShortcuts(){
 			        break;
 			}
 			
-			$('#learnMoreContainer').append("<div class='sampleModel' onclick='showSampleProject(\""+geppettoProjectUrl+"\")'><div class='"+iconClass+"'></div><a class='sampleModelLabel'>"+jsonData[i].name+"</a></div>");	
+			$(target).append("<div class='sampleModel' onclick='showSampleProject(\""+geppettoProjectUrl+"\")'><div class='"+iconClass+"'></div><a class='sampleModelLabel'>"+jsonData[i].name+"</a></div>");	
 		}
-		$('#learnMoreContainer').show();
+		
 	});	
 }
 
@@ -163,19 +173,6 @@ function addDashboardFromMainPage(){
     $('#learnMoreContainer').after(ifr);
 }
 
-function addDashboardFromProjectsPage(){
-	var ifr=$('<iframe/>', {
-        id:'geppettoDashboard',
-        src:geppettoIP + geppettoContextPath,
-        style:'display:none;width:100%;height:550px;border:0px;',
-        load:function(){
-            $(this).show();
-            $('#welcomeMainContainerLoadDialog').remove();
-        }
-    });
-    
-jQuery("#welcomeMainContainer").prepend(ifr);
-}
 // Process logout
 function processLogout(url, text){
 	$('#logout_link').unbind('click').click();
