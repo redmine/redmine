@@ -243,21 +243,21 @@ module ObjectHelpers
 end
 
 module TrackerObjectHelpers
-  def generate_transitions!(*args)
-    options = args.last.is_a?(Hash) ? args.pop : {}
-    if args.size == 1
-      args << args.first
-    end
-    if options[:clear]
+  def generate_transitions!(arg)
+    if arg.delete(:clear)
       WorkflowTransition.where(:tracker_id => id).delete_all
     end
-    args.each_cons(2) do |old_status_id, new_status_id|
-      WorkflowTransition.create!(
-        :tracker => self,
-        :role_id => (options[:role_id] || 1),
-        :old_status_id => old_status_id,
-        :new_status_id => new_status_id
-      )
+    role_id = arg.delete(:role_id) || 1
+
+    arg.each do |old_status_id, new_status_ids|
+      Array.wrap(new_status_ids).each do |new_status_id|
+        WorkflowTransition.create!(
+          :tracker => self,
+          :role_id => role_id,
+          :old_status_id => old_status_id,
+          :new_status_id => new_status_id
+        )
+      end
     end
   end
 end

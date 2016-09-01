@@ -2092,7 +2092,7 @@ class IssuesControllerTest < Redmine::ControllerTest
     @request.session[:user_id] = 2
     tracker = Tracker.find(2)
     tracker.update! :default_status_id => 2
-    tracker.generate_transitions! 2, 1, :clear => true
+    tracker.generate_transitions! 2 => 1, :clear => true
 
     post :new, :project_id => 1,
                :issue => {:tracker_id => 2,
