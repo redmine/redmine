@@ -1,9 +1,12 @@
 <%= form_for(:user, :url => { :action => 'update' }, :html => {:method => :put}) do %>
-<div class="box" id="user_group_ids">
+<div class="box">
+<div id="user_group_ids">
 <% Group.givable.sort.each do |group| %>
 <label><%= check_box_tag 'user[group_ids][]', group.id, @user.groups.to_a.include?(group), :id => nil %> <%= group %></label><br />
 <% end %>
 <%= hidden_field_tag 'user[group_ids][]', '' %>
+</div>
+<p><%= check_all_links 'user_group_ids' %></p>
 </div>
 <%= submit_tag l(:button_save) %>
 <% end %>
