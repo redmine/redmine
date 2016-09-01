@@ -748,7 +748,7 @@ input.autocomplete.ajax-loading {
   display: block;
 }
 
-.objects-selection>div {
+.objects-selection>div, #user_group_ids {
   column-count: auto;
   column-width: 200px;
   -webkit-column-count: auto;
