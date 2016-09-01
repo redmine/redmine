@@ -1204,12 +1204,11 @@ de:
   label_relations: Beziehungen
   button_filter: Filter
   mail_body_password_updated: Ihr Passwort wurde geändert.
-  error_no_tracker_allowed_for_new_issue_in_project: The project doesn't have any trackers
-    for which you can create an issue
-  label_tracker_all: All trackers
+  error_no_tracker_allowed_for_new_issue_in_project: Für dieses Projekt wurden keine Tracker aktiviert.
+  label_tracker_all: Alle Tracker
   label_new_project_issue_tab_enabled: Tab "Neues Ticket" anzeigen
-  setting_new_item_menu_tab: Project menu tab for creating new objects
-  label_new_object_tab_enabled: Display the "+" drop-down
+  setting_new_item_menu_tab: Menü zum Anlegen neuer Objekte
+  label_new_object_tab_enabled: Dropdown-Menü "+" anzeigen
   error_no_projects_with_tracker_allowed_for_new_issue: There are no projects with trackers
     for which you can create an issue
   field_textarea_font: Font used for text areas
