@@ -1553,18 +1553,23 @@ class Issue < ActiveRecord::Base
       end
 
       if p.done_ratio_derived?
-        # done ratio = weighted average ratio of leaves
+        # done ratio = average ratio of children weighted with their total estimated hours
         unless Issue.use_status_for_done_ratio? && p.status && p.status.default_done_ratio
-          child_count = p.children.count
-          if child_count > 0
-            average = p.children.where("estimated_hours > 0").average(:estimated_hours).to_f
-            if average == 0
-              average = 1
+          children = p.children.to_a
+          if children.any?
+            child_with_total_estimated_hours = children.select {|c| c.total_estimated_hours.to_f > 0.0}
+            if child_with_total_estimated_hours.any?
+              average = child_with_total_estimated_hours.map(&:total_estimated_hours).sum.to_f / child_with_total_estimated_hours.count
+            else
+              average = 1.0
             end
-            done = p.children.joins(:status).
-              sum("COALESCE(CASE WHEN estimated_hours > 0 THEN estimated_hours ELSE NULL END, #{average}) " +
-                  "* (CASE WHEN is_closed = #{self.class.connection.quoted_true} THEN 100 ELSE COALESCE(done_ratio, 0) END)").to_f
-            progress = done / (average * child_count)
+            done = children.map {|c|
+              estimated = c.total_estimated_hours.to_f
+              estimated = average unless estimated > 0.0
+              ratio = c.closed? ? 100 : (c.done_ratio || 0)
+              estimated * ratio
+            }.sum
+            progress = done / (average * children.count)
             p.done_ratio = progress.round
           end
         end

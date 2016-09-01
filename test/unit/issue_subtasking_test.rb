@@ -143,6 +143,26 @@ class IssueSubtaskingTest < ActiveSupport::TestCase
     end
   end
 
+  def test_parent_done_ratio_should_be_weighted_by_estimated_times_if_any_with_grandchildren
+    # parent
+    #   child 1 (2h estd, 0% done)
+    #   child 2 (no estd)
+    #     child a (2h estd, 50% done)
+    #     child b (2h estd, 50% done)
+    #
+    # => parent should have a calculated progress of 33%
+    #
+    with_settings :parent_issue_done_ratio => 'derived' do
+      parent = Issue.generate!
+      parent.generate_child!(:estimated_hours => 2, :done_ratio => 0)
+      child = parent.generate_child!
+      child.generate_child!(:estimated_hours => 2, :done_ratio => 50)
+      child.generate_child!(:estimated_hours => 2, :done_ratio => 50)
+      assert_equal 50, child.reload.done_ratio
+      assert_equal 33, parent.reload.done_ratio
+    end
+  end
+
   def test_parent_done_ratio_with_child_estimate_to_0_should_reach_100
     with_settings :parent_issue_done_ratio => 'derived' do
       parent = Issue.generate!
