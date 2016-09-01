@@ -227,7 +227,7 @@ class WikiControllerTest < ActionController::TestCase
     Role.find(1).remove_permission!(:protect_wiki_pages)
     @request.session[:user_id] = 2
 
-    post :new, :params => {:project_id => 'ecookbook', :title => 'Sidebar'}
+    post :new, :project_id => 'ecookbook', :title => 'Sidebar'
     assert_response :success
     assert_select_error /Title/
   end
