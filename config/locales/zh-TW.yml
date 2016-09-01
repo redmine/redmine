@@ -448,6 +448,7 @@
   field_total_estimated_hours: 預估工時總計
   field_default_version: 預設版本
   field_remote_ip: IP 位址
+  field_textarea_font: 文字區域使用的字型
 
   setting_app_title: 標題
   setting_app_subtitle: 副標題
@@ -1082,6 +1083,9 @@
   label_relations: 關聯
   label_new_project_issue_tab_enabled: 顯示「建立新議題」標籤頁面
   label_new_object_tab_enabled: 顯示 "+" 下拉功能表
+  label_font_default: 預設字型
+  label_font_monospace: 等寬字型
+  label_font_proportional: 調和間距字型
 
   button_login: 登入
   button_submit: 送出
@@ -1278,7 +1282,3 @@
   description_date_from: 輸入起始日期
   description_date_to: 輸入結束日期
   text_repository_identifier_info: '僅允許使用小寫英文字母 (a-z), 阿拉伯數字, 虛線與底線。<br />一旦儲存之後, 代碼便無法再次被更改。'
-  field_textarea_font: Font used for text areas
-  label_font_default: Default font
-  label_font_monospace: Monospaced font
-  label_font_proportional: Proportional font
