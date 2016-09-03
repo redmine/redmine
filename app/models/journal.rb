@@ -226,18 +226,26 @@ class Journal < ActiveRecord::Base
   def journalize_changes
     # attributes changes
     if @attributes_before_change
-      journalized.journalized_attribute_names.each {|attribute|
+      attrs = (journalized.journalized_attribute_names + @attributes_before_change.keys).uniq
+      attrs.each do |attribute|
         before = @attributes_before_change[attribute]
         after = journalized.send(attribute)
         next if before == after || (before.blank? && after.blank?)
         add_attribute_detail(attribute, before, after)
-      }
+      end
     end
+    # custom fields changes
     if @custom_values_before_change
-      # custom fields changes
-      journalized.custom_field_values.each {|c|
-        before = @custom_values_before_change[c.custom_field_id]
-        after = c.value
+      values_by_custom_field_id = {}
+      @custom_values_before_change.each do |custom_field_id, value|
+        values_by_custom_field_id[custom_field_id] = nil
+      end
+      journalized.custom_field_values.each do |c|
+        values_by_custom_field_id[c.custom_field_id] = c.value
+      end
+
+      values_by_custom_field_id.each do |custom_field_id, after|
+        before = @custom_values_before_change[custom_field_id]
         next if before == after || (before.blank? && after.blank?)
 
         if before.is_a?(Array) || after.is_a?(Array)
@@ -246,16 +254,16 @@ class Journal < ActiveRecord::Base
 
           # values removed
           (before - after).reject(&:blank?).each do |value|
-            add_custom_value_detail(c, value, nil)
+            add_custom_field_detail(custom_field_id, value, nil)
           end
           # values added
           (after - before).reject(&:blank?).each do |value|
-            add_custom_value_detail(c, nil, value)
+            add_custom_field_detail(custom_field_id, nil, value)
           end
         else
-          add_custom_value_detail(c, before, after)
+          add_custom_field_detail(custom_field_id, before, after)
         end
-      }
+      end
     end
     start
   end
@@ -266,8 +274,8 @@ class Journal < ActiveRecord::Base
   end
 
   # Adds a journal detail for a custom field value change
-  def add_custom_value_detail(custom_value, old_value, value)
-    add_detail('cf', custom_value.custom_field_id, old_value, value)
+  def add_custom_field_detail(custom_field_id, old_value, value)
+    add_detail('cf', custom_field_id, old_value, value)
   end
 
   # Adds a journal detail

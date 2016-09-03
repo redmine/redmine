@@ -643,7 +643,8 @@ class IssueTest < ActiveSupport::TestCase
     assert_nil issue.due_date
   end
 
-  def test_changing_tracker_should_not_add_cleared_fields_to_journal
+  def test_attribute_cleared_on_tracker_change_should_be_journalized
+    CustomField.delete_all
     tracker = Tracker.find(2)
     tracker.core_fields = tracker.core_fields - %w(due_date)
     tracker.save!
@@ -658,7 +659,8 @@ class IssueTest < ActiveSupport::TestCase
       assert_nil issue.due_date
     end
     journal = Journal.order('id DESC').first
-    assert_equal 1, journal.details.count
+    details = journal.details.select {|d| d.prop_key == 'due_date'}
+    assert_equal 1, details.count
   end
 
   def test_reload_should_reload_custom_field_values
@@ -2471,6 +2473,22 @@ class IssueTest < ActiveSupport::TestCase
         issue.save!
       end
     end
+  end
+
+  def test_custom_value_cleared_on_tracker_change_should_be_journalized
+    a = IssueCustomField.generate!(:tracker_ids => [1])
+    issue = Issue.generate!(:project_id => 1, :tracker_id => 1, :custom_field_values => {a.id.to_s => "foo"})
+    assert_equal "foo", issue.custom_field_value(a)
+
+    journal = new_record(Journal) do
+      issue.init_journal(User.first)
+      issue.tracker_id = 2
+      issue.save!
+    end
+    details = journal.details.select {|d| d.property == 'cf' && d.prop_key == a.id.to_s}
+    assert_equal 1, details.size
+    assert_equal 'foo', details.first.old_value
+    assert_nil details.first.value
   end
 
   def test_description_eol_should_be_normalized

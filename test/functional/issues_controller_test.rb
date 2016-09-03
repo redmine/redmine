@@ -3342,7 +3342,7 @@ class IssuesControllerTest < Redmine::ControllerTest
 
     with_settings :notified_events => %w(issue_updated) do
       assert_difference('Journal.count') do
-        assert_difference('JournalDetail.count', 2) do
+        assert_difference('JournalDetail.count', 3) do
           put :update, :id => 1, :issue => {:project_id => '1',
                                            :tracker_id => '2',
                                            :priority_id => '6'
