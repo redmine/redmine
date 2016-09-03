@@ -95,6 +95,9 @@ class WikiController < ApplicationController
       end
       return
     end
+
+    call_hook :controller_wiki_show_before_render, content: @content, format: params[:format]
+
     if User.current.allowed_to?(:export_wiki_pages, @project)
       if params[:format] == 'pdf'
         send_file_headers! :type => 'application/pdf', :filename => "#{@page.title}.pdf"
