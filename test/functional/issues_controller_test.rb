@@ -3996,6 +3996,20 @@ class IssuesControllerTest < Redmine::ControllerTest
     assert_select 'input[name=?]', "issue[custom_field_values][#{field2.id}]", 0
   end
 
+  def test_bulk_edit_should_propose_target_tracker_custom_fields
+    IssueCustomField.delete_all
+    field1 = IssueCustomField.generate!(:tracker_ids => [1], :is_for_all => true)
+    field2 = IssueCustomField.generate!(:tracker_ids => [2], :is_for_all => true)
+    @request.session[:user_id] = 2
+
+    issue_ids = Issue.where(:project_id => 1, :tracker_id => 1).limit(2).ids
+    get :bulk_edit, :ids => issue_ids, :issue => {:tracker_id => 2}
+    assert_response :success
+
+    assert_select 'input[name=?]', "issue[custom_field_values][#{field1.id}]", 0
+    assert_select 'input[name=?]', "issue[custom_field_values][#{field2.id}]"
+  end
+
   def test_bulk_update
     @request.session[:user_id] = 2
     # update issues priority

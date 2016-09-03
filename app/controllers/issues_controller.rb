@@ -218,24 +218,41 @@ class IssuesController < ApplicationController
       end
     end
 
+    edited_issues = Issue.where(:id => @issues.map(&:id)).to_a
+
     @allowed_projects = Issue.allowed_target_projects
     if params[:issue]
       @target_project = @allowed_projects.detect {|p| p.id.to_s == params[:issue][:project_id].to_s}
       if @target_project
         target_projects = [@target_project]
+        edited_issues.each {|issue| issue.project = @target_project}
       end
     end
     target_projects ||= @projects
+
+    @trackers = target_projects.map {|p| Issue.allowed_target_trackers(p) }.reduce(:&)
+    if params[:issue]
+      @target_tracker = @trackers.detect {|t| t.id.to_s == params[:issue][:tracker_id].to_s}
+      if @target_tracker
+        edited_issues.each {|issue| issue.tracker = @target_tracker}
+      end
+    end
 
     if @copy
       # Copied issues will get their default statuses
       @available_statuses = []
     else
-      @available_statuses = @issues.map(&:new_statuses_allowed_to).reduce(:&)
+      @available_statuses = edited_issues.map(&:new_statuses_allowed_to).reduce(:&)
     end
-    @custom_fields = @issues.map{|i|i.editable_custom_fields}.reduce(:&)
+    if params[:issue]
+      @target_status = @available_statuses.detect {|t| t.id.to_s == params[:issue][:status_id].to_s}
+      if @target_status
+        edited_issues.each {|issue| issue.status = @target_status}
+      end
+    end
+
+    @custom_fields = edited_issues.map{|i|i.editable_custom_fields}.reduce(:&)
     @assignables = target_projects.map(&:assignable_users).reduce(:&)
-    @trackers = target_projects.map {|p| Issue.allowed_target_trackers(p) }.reduce(:&)
     @versions = target_projects.map {|p| p.shared_versions.open}.reduce(:&)
     @categories = target_projects.map {|p| p.issue_categories}.reduce(:&)
     if @copy
@@ -243,7 +260,7 @@ class IssuesController < ApplicationController
       @subtasks_present = @issues.detect {|i| !i.leaf?}.present?
     end
 
-    @safe_attributes = @issues.map(&:safe_attribute_names).reduce(:&)
+    @safe_attributes = edited_issues.map(&:safe_attribute_names).reduce(:&)
 
     @issue_params = params[:issue] || {}
     @issue_params[:custom_field_values] ||= {}

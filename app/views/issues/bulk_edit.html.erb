@@ -43,14 +43,16 @@
   <label for="issue_tracker_id"><%= l(:field_tracker) %></label>
   <%= select_tag('issue[tracker_id]',
                  content_tag('option', l(:label_no_change_option), :value => '') +
-                   options_from_collection_for_select(@trackers, :id, :name, @issue_params[:tracker_id])) %>
+                   options_from_collection_for_select(@trackers, :id, :name, @issue_params[:tracker_id]),
+                   :onchange => "updateBulkEditFrom('#{escape_javascript url_for(:action => 'bulk_edit', :format => 'js')}')") %>
 </p>
 <% if @available_statuses.any? %>
 <p>
   <label for='issue_status_id'><%= l(:field_status) %></label>
   <%= select_tag('issue[status_id]',
                  content_tag('option', l(:label_no_change_option), :value => '') +
-                   options_from_collection_for_select(@available_statuses, :id, :name, @issue_params[:status_id])) %>
+                   options_from_collection_for_select(@available_statuses, :id, :name, @issue_params[:status_id]),
+                   :onchange => "updateBulkEditFrom('#{escape_javascript url_for(:action => 'bulk_edit', :format => 'js')}')") %>
 </p>
 <% end %>
 
