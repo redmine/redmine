@@ -1,5 +1,5 @@
 <h2><%= l :label_password_required %></h2>
-<%= form_tag({}, class: 'tabular', id: 'sudo-form') do %>
+<%= form_tag({}, method: :post, class: 'tabular', id: 'sudo-form') do %>
 
   <%= hidden_field_tag '_method', request.request_method %>
   <%= hash_to_hidden_fields @sudo_form.original_fields %>

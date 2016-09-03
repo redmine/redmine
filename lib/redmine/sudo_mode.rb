@@ -90,7 +90,7 @@ module Redmine
         return true if SudoMode.active?
 
         if param_names.blank?
-          param_names = params.keys - %w(id action controller sudo_password)
+          param_names = params.keys - %w(id action controller sudo_password _method authenticity_token utf8)
         end
 
         process_sudo_form
