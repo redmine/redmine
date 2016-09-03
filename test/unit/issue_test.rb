@@ -775,12 +775,13 @@ class IssueTest < ActiveSupport::TestCase
     assert_equal expected_statuses, issue.new_statuses_allowed_to(admin)
   end
 
-  def test_new_statuses_allowed_to_should_return_default_and_current_status_when_copying
-    issue = Issue.find(1).copy
-    assert_equal [1], issue.new_statuses_allowed_to(User.find(2)).map(&:id)
+  def test_new_statuses_allowed_to_should_return_allowed_statuses_and_current_status_when_copying
+    Tracker.find(1).generate_transitions! :role_id => 1, :clear => true, 0 => [1, 3]
 
-    issue = Issue.find(2).copy
-    assert_equal [1, 2], issue.new_statuses_allowed_to(User.find(2)).map(&:id)
+    orig = Issue.generate!(:project_id => 1, :tracker_id => 1, :status_id => 4)
+    issue = orig.copy
+    assert_equal [1, 3, 4], issue.new_statuses_allowed_to(User.find(2)).map(&:id)
+    assert_equal 4, issue.status_id
   end
 
   def test_safe_attributes_names_should_not_include_disabled_field

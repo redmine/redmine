@@ -899,44 +899,45 @@ class Issue < ActiveRecord::Base
 
   # Returns an array of statuses that user is able to apply
   def new_statuses_allowed_to(user=User.current, include_default=false)
-    if new_record? && @copied_from
-      [default_status, @copied_from.status].compact.uniq.sort
-    else
-      initial_status = nil
-      if new_record?
-        # nop
-      elsif tracker_id_changed?
-        if Tracker.where(:id => tracker_id_was, :default_status_id => status_id_was).any?
-          initial_status = default_status
-        elsif tracker.issue_status_ids.include?(status_id_was)
-          initial_status = IssueStatus.find_by_id(status_id_was)
-        else
-          initial_status = default_status
-        end
+    initial_status = nil
+    if new_record?
+      # nop
+    elsif tracker_id_changed?
+      if Tracker.where(:id => tracker_id_was, :default_status_id => status_id_was).any?
+        initial_status = default_status
+      elsif tracker.issue_status_ids.include?(status_id_was)
+        initial_status = IssueStatus.find_by_id(status_id_was)
       else
-        initial_status = status_was
+        initial_status = default_status
       end
-
-      initial_assigned_to_id = assigned_to_id_changed? ? assigned_to_id_was : assigned_to_id
-      assignee_transitions_allowed = initial_assigned_to_id.present? &&
-        (user.id == initial_assigned_to_id || user.group_ids.include?(initial_assigned_to_id))
-
-      statuses = []
-      statuses += IssueStatus.new_statuses_allowed(
-        initial_status,
-        user.admin ? Role.all.to_a : user.roles_for_project(project),
-        tracker,
-        author == user,
-        assignee_transitions_allowed
-      )
-      statuses << initial_status unless statuses.empty?
-      statuses << default_status if include_default || (new_record? && statuses.empty?)
-      statuses = statuses.compact.uniq.sort
-      if blocked?
-        statuses.reject!(&:is_closed?)
-      end
-      statuses
+    else
+      initial_status = status_was
     end
+
+    initial_assigned_to_id = assigned_to_id_changed? ? assigned_to_id_was : assigned_to_id
+    assignee_transitions_allowed = initial_assigned_to_id.present? &&
+      (user.id == initial_assigned_to_id || user.group_ids.include?(initial_assigned_to_id))
+
+    statuses = []
+    statuses += IssueStatus.new_statuses_allowed(
+      initial_status,
+      user.admin ? Role.all.to_a : user.roles_for_project(project),
+      tracker,
+      author == user,
+      assignee_transitions_allowed
+    )
+    statuses << initial_status unless statuses.empty?
+    statuses << default_status if include_default || (new_record? && statuses.empty?)
+
+    if new_record? && @copied_from
+      statuses << @copied_from.status
+    end
+
+    statuses = statuses.compact.uniq.sort
+    if blocked?
+      statuses.reject!(&:is_closed?)
+    end
+    statuses
   end
 
   # Returns the previous assignee (user or group) if changed
