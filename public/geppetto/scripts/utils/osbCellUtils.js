@@ -11,7 +11,7 @@ var addSuggestionsToSpotlight = function(){
 	var recordSoma = {
 	        "label": "Record all membrane potentials at soma",
 	        "actions": [
-	            "var instances=Instances.getInstance(GEPPETTO.ModelFactory.getAllPotentialInstancesEndingWith('.soma.v'));",
+	            "var instances=Instances.getInstance(GEPPETTO.ModelFactory.getAllPotentialInstancesEndingWith('_0.v'));",
 	            "GEPPETTO.ExperimentsController.watchVariables(instances,true);"
 	        ],
 	        "icon": "fa-dot-circle-o"
