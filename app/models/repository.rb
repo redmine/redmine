@@ -363,10 +363,14 @@ class Repository < ActiveRecord::Base
   end
 
   def self.factory(klass_name, *args)
-    klass = "Repository::#{klass_name}".constantize
-    klass.new(*args)
-  rescue
-    nil
+    repository_class(klass_name).new(*args) rescue nil
+  end
+
+  def self.repository_class(class_name)
+    class_name = class_name.to_s.classify
+    if Redmine::Scm::Base.all.include?(class_name)
+      "Repository::#{class_name}".constantize
+    end
   end
 
   def self.scm_adapter_class
