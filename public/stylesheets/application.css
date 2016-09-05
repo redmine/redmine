@@ -114,6 +114,18 @@ body {
 	font-size:24px;
 	cursor:pointer;
 }
+.projectHighlightTitle{
+	font-size:30px;
+	color:#297385;
+	margin-top:25px;
+	margin-bottom:25px;
+}
+.singlecell{
+	
+}
+.network{
+	
+}
 #cellsLink{
 	color:#88aa00;	
 }

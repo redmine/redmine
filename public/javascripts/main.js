@@ -250,6 +250,7 @@ function toggleProjectButton(){
 }
 
 function showGeppetto(){
+	clearTimeout(projectBtnPopover);
 	toggleProjectButton();
 	$("#geppettoContainer").show();
 	$("#mainContent").hide();
