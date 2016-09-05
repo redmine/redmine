@@ -367,7 +367,7 @@ class Repository < ActiveRecord::Base
   end
 
   def self.repository_class(class_name)
-    class_name = class_name.to_s.classify
+    class_name = class_name.to_s.camelize
     if Redmine::Scm::Base.all.include?(class_name)
       "Repository::#{class_name}".constantize
     end
