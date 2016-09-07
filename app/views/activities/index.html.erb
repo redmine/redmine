@@ -2,7 +2,7 @@
 <p class="subtitle"><%= l(:label_date_from_to, :start => format_date(@date_to - @days), :end => format_date(@date_to-1)) %></p>
 
 <div id="activity">
-<% @events_by_day.keys.sort.reverse.each do |day| %>
+<% @events_by_day.keys.sort.reverse_each do |day| %>
 <h3><%= format_activity_day(day) %></h3>
 <dl>
 <% sort_activity_events(@events_by_day[day]).each do |e, in_group| -%>

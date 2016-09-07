@@ -53,7 +53,7 @@
                 :from => @events_by_day.keys.first %></h3>
 
 <div id="activity">
-<% @events_by_day.keys.sort.reverse.each do |day| %>
+<% @events_by_day.keys.sort.reverse_each do |day| %>
 <h4><%= format_activity_day(day) %></h4>
 <dl>
 <% @events_by_day[day].sort {|x,y| y.event_datetime <=> x.event_datetime }.each do |e| -%>
