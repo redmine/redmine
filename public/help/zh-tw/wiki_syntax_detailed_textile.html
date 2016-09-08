@@ -39,17 +39,17 @@
 
         <h3><a name="3" class="wiki-page"></a>Redmine 連結</h3>
 
-        <p>在任何可以使用 Wiki 格式設定的地方， Redmine 都允許在資源（問題、變更集、 Wiki 頁面...）間建立超連結。</p>
+        <p>在任何可以使用 Wiki 格式設定的地方， Redmine 都允許在資源 （問題、變更集、 Wiki 頁面...） 間建立超連結。</p>
         <ul>
             <li>連結至一個問題： <strong>#124</strong> (若該問題已經結束，則使用刪除線顯示連結： <del><a href="#" class="issue" title="bulk edit doesn't change the category or fixed version properties (Closed)">#124</a></del>)</li>
-            <li>連結至一個問題的筆記： <strong>#124-6</strong>, or <strong>#124#note-6</strong></li>
+            <li>連結至一個問題的筆記： <strong>#124-6</strong>, 或 <strong>#124#note-6</strong></li>
         </ul>
 
         <p>Wiki 連結：</p>
 
         <ul>
             <li><strong>[[Guide]]</strong> 顯示一個頁面名稱為 'Guide' 的連結： <a href="#" class="wiki-page">Guide</a></li>
-            <li><strong>[[Guide#further-reading]]</strong> 會連結至一個 "further-reading" 的 HTML 錨定 (anchor) 。每個標題文字都會被自動指定一個 HTML 錨定，以便您可以用來連結它們： <a href="#" class="wiki-page">Guide</a></li>
+            <li><strong>[[Guide#further-reading]]</strong> 會顯示連結至一個 "further-reading" 的 HTML 錨定 (anchor) 。每個標題文字都會被自動指定一個 HTML 錨定，以便您可以用來連結它們： <a href="#" class="wiki-page">Guide</a></li>
             <li><strong>[[Guide|User manual]]</strong> 使用不同的文字來顯示一個頁面名稱為 'Guide' 的連結： <a href="#" class="wiki-page">User manual</a></li>
         </ul>
 
@@ -96,11 +96,11 @@
             <li>變更集：
                 <ul>
                     <li><strong>r758</strong>                       (連結至一個變更集)</li>
-                    <li><strong>commit:c6f4d0fd</strong>            (連結至一個使用非數字雜湊的變更集)</li>
+                    <li><strong>commit:c6f4d0fd</strong>            (使用雜湊碼連結至一個變更集)</li>
                     <li><strong>svn1|r758</strong>                  (連結至指定儲存機制中之變更集，用於專案使用多個儲存機制時之情況)</li>
-                    <li><strong>commit:hg|c6f4d0fd</strong>         (連結至指定儲存機制中，使用非數字雜湊的變更集)</li>
+                    <li><strong>commit:hg|c6f4d0fd</strong>         (使用某特定儲存機制中的雜湊碼連結至一個變更集)</li>
                     <li><strong>sandbox:r758</strong>               (連結至其他專案的變更集)</li>
-                    <li><strong>sandbox:commit:c6f4d0fd</strong>    (連結至其他專案中，使用非數字雜湊的變更集)</li>
+                    <li><strong>sandbox:commit:c6f4d0fd</strong>    (使用其他專案的雜湊碼連結至一個變更集)</li>
                 </ul></li>
         </ul>
 
@@ -108,30 +108,30 @@
              <li>儲存機制中之檔案：
                 <ul>
                     <li><strong>source:some/file</strong>           (連結至專案儲存機制中，位於 /some/file 的檔案)</li>
-                    <li><strong>source:some/file@52</strong>        (連結至此檔案的 52 版次)</li>
-                    <li><strong>source:some/file#L120</strong>      (連結至此檔案的第 120 行)</li>
-                    <li><strong>source:some/file@52#L120</strong>   (連結至此檔案的 52 版刺中之第 120 行)</li>
+                    <li><strong>source:some/file@52</strong>        (連結至該檔案的 52 版次)</li>
+                    <li><strong>source:some/file#L120</strong>      (連結至該檔案的第 120 行)</li>
+                    <li><strong>source:some/file@52#L120</strong>   (連結至該檔案的 52 版次中之第 120 行)</li>
                     <li><strong>source:"some file@52#L120"</strong> (當 URL 中包含空白字元時，使用雙引號來標示)</li>
-                    <li><strong>export:some/file</strong>           (強制下載此檔案)</li>
-                    <li><strong>source:svn1|some/file</strong>      (連結至指定儲存機制中的此檔案，用於專案使用多個儲存機制時之情況)</li>
+                    <li><strong>export:some/file</strong>           (強制下載該檔案)</li>
+                    <li><strong>source:svn1|some/file</strong>      (連結至指定儲存機制中的該檔案，用於專案使用多個儲存機制時之情況)</li>
                     <li><strong>sandbox:source:some/file</strong>   (連結至 "sandbox" 專案的儲存機制中，位於 /some/file 的檔案)</li>
                     <li><strong>sandbox:export:some/file</strong>   (強迫下載該檔案)</li>
                 </ul></li>
         </ul>
 
         <ul>
-            <li>Forums:
+            <li>論壇：
                 <ul>
-                    <li><strong>forum#1</strong> (link to forum with id 1</li>
-                    <li><strong>forum:Support</strong> (link to forum named Support)</li>
-                    <li><strong>forum:"Technical Support"</strong> (use double quotes if forum name contains spaces)</li>
+                    <li><strong>forum#1</strong> (連結至編號為 1 的論壇)</li>
+                    <li><strong>forum:Support</strong> (連結至名稱為 Support 的論壇)</li>
+                    <li><strong>forum:"Technical Support"</strong> (當論壇名稱中包含空白字元時，使用雙引號來標示)</li>
                 </ul></li>
         </ul>
 
         <ul>
             <li>論壇訊息：
                 <ul>
-                    <li><strong>message#1218</strong> (連結至編號 1218 的訊息)</li>
+                    <li><strong>message#1218</strong> (連結至編號為 1218 的訊息)</li>
                 </ul></li>
         </ul>
 
@@ -140,16 +140,16 @@
                 <ul>
                     <li><strong>project#3</strong> (連結至編號為 3 的專案)</li>
                     <li><strong>project:someproject</strong> (連結至名稱為 "someproject" 的專案)</li>
-                    <li><strong>project:"some project"</strong> (use double quotes if project name contains spaces)</li>
+                    <li><strong>project:"some project"</strong> (當專案名稱中包含空白字元時，使用雙引號來標示)</li>
                 </ul></li>
         </ul>
 
         <ul>
-            <li>News:
+            <li>新聞：
                 <ul>
-                    <li><strong>news#2</strong> (link to news item with id 2)</li>
-                    <li><strong>news:Greetings</strong> (link to news item named "Greetings")</li>
-                    <li><strong>news:"First Release"</strong> (use double quotes if news item name contains spaces)</li>
+                    <li><strong>news#2</strong> (連結至編號為 2 的新聞項目)</li>
+                    <li><strong>news:Greetings</strong> (連結至名稱為 "Greetings" 的新聞項目)</li>
+                    <li><strong>news:"First Release"</strong> (當新聞項目名稱中包含空白字元時，使用雙引號來標示)</li>
                 </ul></li>
         </ul>
 
@@ -168,7 +168,7 @@
 http://www.redmine.org, someone@foo.bar
 </pre>
 
-        <p>顯示為： <a class="external" href="http://www.redmine.org">http://www.redmine.org</a>, <a href="mailto:someone@foo.bar" class="email">someone@foo.bar</a></p>
+        <p>會顯示成： <a class="external" href="http://www.redmine.org">http://www.redmine.org</a>, <a href="mailto:someone@foo.bar" class="email">someone@foo.bar</a></p>
 
         <p>若您想要顯示指定的文字而非該 URL ，您可以使用下列標準的 textile 語法:</p>
 
@@ -176,7 +176,7 @@ http://www.redmine.org, someone@foo.bar
 "Redmine web site":http://www.redmine.org
 </pre>
 
-        <p>顯示為： <a href="http://www.redmine.org" class="external">Redmine web site</a></p>
+        <p>會顯示成： <a href="http://www.redmine.org" class="external">Redmine web site</a></p>
 
 
     <h2><a name="5" class="wiki-page"></a>文字格式設定</h2>
@@ -194,7 +194,7 @@ http://www.redmine.org, someone@foo.bar
 * -刪除線-
 </pre>
 
-        <p>顯示為：</p>
+        <p>會顯示成：</p>
 
         <ul>
             <li><strong>粗體</strong></li>
@@ -204,12 +204,12 @@ http://www.redmine.org, someone@foo.bar
             <li><del>刪除線</del></li>
         </ul>
 
-        <h3><a name="7" class="wiki-page"></a>內置圖像</h3>
+        <h3><a name="7" class="wiki-page"></a>內嵌圖像</h3>
 
         <ul>
-            <li><strong>!圖像_url!</strong> 顯示一個位於 圖像_url 位址的圖像(textile 語法)</li>
+            <li><strong>!image_url!</strong> 顯示一個位於 image_url 位址的圖像 (textile 語法)</li>
             <li><strong>!&gt;image_url!</strong> 右側浮動圖像</li>
-            <li>若您附加了一個圖像到 Wiki 頁面中，可以使用他的檔案名稱來顯示成內置圖像： <strong>!attached_image.png!</strong></li>
+            <li>若您附加了一個圖像到 Wiki 頁面中，可以使用他的檔案名稱來顯示成內嵌圖像： <strong>!attached_image.png!</strong></li>
         </ul>
 
         <h3><a name="8" class="wiki-page"></a>標題</h3>
@@ -220,7 +220,7 @@ h2. 次標題
 h3. 次次標題
 </pre>
 
-        <p>Redmine 為每一種標題指定一個 HTML 錨定 (anchor) ，因此您可使用 "#Heading" 、 "#Subheading" 等方式連結至這些標題。</p>
+        <p>Redmine 為每一種標題指定一個 HTML 錨定 (anchor) ，因此您可使用 "#標題" 、 "#次標題" 等方式連結至這些標題。</p>
 
 
         <h3><a name="9" class="wiki-page"></a>段落</h3>
@@ -233,9 +233,9 @@ p=. 置中對齊
         <p style="text-align:center;">這是一個置中對齊的段落。</p>
 
 
-        <h3><a name="10" class="wiki-page"></a>引用文字</h3>
+        <h3><a name="10" class="wiki-page"></a>區塊引述</h3>
 
-        <p>使用 <strong>bq.</strong> 開始一個引文的段落</p>
+        <p>使用 <strong>bq.</strong> 啟動一個區塊引述的段落。</p>
 
 <pre>
 bq. Rails is a full-stack framework for developing database-backed web applications according to the Model-View-Control pattern.
@@ -275,25 +275,25 @@ To go live, all you need to add is a database and a web server.
       <dd><p>顯示所有可用巨集的清單，若巨集有提供說明也會一併顯示。</p></dd>
 
       <dt><code>child_pages</code></dt>
-      <dd><p>Displays a list of child pages. With no argument, it displays the child pages of the current wiki page. Examples:</p>
-      <pre><code>{{child_pages}} -- can be used from a wiki page only
-{{child_pages(depth=2)}} -- display 2 levels nesting only</code></pre></dd>
+      <dd><p>顯示子頁面的清單。若未指定參數，它將會顯示目前 Wiki 頁面的子頁面清單。範例：</p>
+      <pre><code>{{child_pages}} -- 僅可於某 Wiki 頁面中被使用
+{{child_pages(depth=2)}} -- 僅顯示兩層巢狀層次</code></pre></dd>
 
       <dt><code>include</code></dt>
-      <dd><p>引入一個 wiki 頁面。例子：</p>
+      <dd><p>引入一個 wiki 頁面。範例：</p>
       <pre><code>{{include(Foo)}}</code></pre>
-      <p>or to include a page of a specific project wiki:</p>
+      <p>或用以引入某特定專案的 Wiki 頁面：</p>
       <pre><code>{{include(projectname:Foo)}}</code></pre></dd>
 
       <dt><code>collapse</code></dt>
-      <dd><p>Inserts of collapsed block of text. Example:</p>
+      <dd><p>插入一個摺疊的文字區塊。範例：</p>
       <pre><code>{{collapse(View details...)
 This is a block of text that is collapsed by default.
 It can be expanded by clicking a link.
 }}</code></pre></dd>
 
       <dt><code>thumbnail</code></dt>
-      <dd><p>Displays a clickable thumbnail of an attached image. Examples:</p>
+      <dd><p>顯示可被點擊的附加圖像之縮圖。範例：</p>
       <pre>{{thumbnail(image.png)}}
 {{thumbnail(image.png, size=300, title=Thumbnail)}}</pre></dd>
     </dl>
@@ -311,7 +311,7 @@ It can be expanded by clicking a link.
 &lt;/code&gt;&lt;/pre&gt;
 </pre>
 
-    <p>例子：</p>
+    <p>範例：</p>
 
 <pre><code class="ruby syntaxhl"><span class="CodeRay"><span class="comment"># The Greeter class</span>
 <span class="keyword">class</span> <span class="class">Greeter</span>
