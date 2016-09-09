@@ -128,7 +128,7 @@ var customHandler = function(node, path, widget) {
 
 
 var showSelection = function(csel) {
-	if(mainPopup==undefined){
+	if(mainPopup==undefined || mainPopup.destroyed){
 		mainPopup=G.addWidget(1).addCustomNodeHandler(customHandler, 'click').setPosition(95, 140);
 	}
     mainPopup.setName("Cell Information for " + csel.getType().getId()).setData(csel.getType(),[GEPPETTO.Resources.HTML_TYPE]);

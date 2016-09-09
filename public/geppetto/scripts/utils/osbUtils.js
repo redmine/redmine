@@ -35,7 +35,7 @@ var mainPopup=undefined;
 
 	
 var showModelDescription = function(model){
-	if(mainPopup==undefined){
+	if(mainPopup==undefined || mainPopup.destroyed){
 		mainPopup=G.addWidget(1).setName('Model Description - ' + model.getName()).addCustomNodeHandler(customHandler, 'click').setPosition(95,140);
 	}
 	mainPopup.setData(model,[GEPPETTO.Resources.HTML_TYPE]);	
