@@ -808,7 +808,7 @@ ja:
   label_copy_source: コピー元
   label_copy_target: コピー先
   label_copy_same_as_target: 同じコピー先
-  label_display_used_statuses_only: このトラッカーで使われているステータスのみ表示する
+  label_display_used_statuses_only: このトラッカーで使用中のステータスのみ表示
   label_api_access_key: APIアクセスキー
   label_missing_api_access_key: APIアクセスキーが見つかりません
   label_api_access_key_created_on: "APIアクセスキーは%{value}前に作成されました"
