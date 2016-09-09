@@ -1219,7 +1219,7 @@ ja:
   label_new_object_tab_enabled: '"+" ドロップダウンを表示'
   error_no_projects_with_tracker_allowed_for_new_issue: There are no projects with trackers
     for which you can create an issue
-  field_textarea_font: Font used for text areas
-  label_font_default: Default font
-  label_font_monospace: Monospaced font
-  label_font_proportional: Proportional font
+  field_textarea_font: テキストエリアのフォント
+  label_font_default: デフォルト
+  label_font_monospace: 等幅
+  label_font_proportional: プロポーショナル
