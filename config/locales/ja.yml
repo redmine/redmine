@@ -508,7 +508,7 @@ ja:
   label_custom_field: カスタムフィールド
   label_custom_field_plural: カスタムフィールド
   label_custom_field_new: 新しいカスタムフィールドを作成
-  label_enumerations: 列挙項目
+  label_enumerations: 選択肢の値
   label_enumeration_new: 新しい値
   label_information: 情報
   label_information_plural: 情報
