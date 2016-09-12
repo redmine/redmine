@@ -84,6 +84,8 @@ jQuery(function()
 
 });
 
+var currentModel=undefined;
+
 // This method adds filtering abilities to a text input and a linked list
 function setupFilter(idFilter, idList)
 {
@@ -220,33 +222,109 @@ function showErrorMessageInOSBExplorer(file, message){
 
 	// If there isn't webgl support display warn message
 	jQuery("#mainContent").hide();
-	jQuery("#mainContent").before("<div id='3dbrowser'><div id='osbexplorermessage'></div>");
+	jQuery("#mainContent").before("<div id='geppettoContainer'><div id='osbexplorermessage'></div>");
 	jQuery("#osbexplorermessage").html(message + "<br /><br /> You can also <a href='"+ decodedfile + "' target='_blank'>download the file</a> or <a href='"+ repoFilePath + "' target='_blank'>view the file content online</a>.<br /><br />");
 }
 
-function open3DExplorer(file, projectIdentifier)
-{
-	jQuery("#menucontainer li").removeClass("active");
-	jQuery("#explorermenu").parent().addClass("active");
+function hideFooter(){
+	$('#main').css("padding-bottom","0px");
+	$('footer').hide();
+}
 
-	if(getParameterByName('explorer')=='')
-	{
-		window.location.href=window.location.href+"?explorer="+file;
+
+
+function showFooter(){
+	$('#main').css("padding-bottom","100px");
+	$('footer').show();
+}
+
+function toggleProjectButton(){
+	if($("#showGeppettoBtn").is(":visible")){
+		$("#showGeppettoBtn").hide();
+		$("#showProjectBtn").show();
+		$("#moreBtn").hide();
 	}
-	else
-	{
-		if (!Detector.webgl) {
-			showErrorMessageInOSBExplorer(file, "Your graphics card does not seem to support <a href='http://khronos.org/webgl/wiki/Getting_a_WebGL_Implementation'>WebGL</a>.<br />Find out how to get it <a href='http://get.webgl.org/'>here</a>.");
-		}
-		else if (!checkCookie()) {
-			showErrorMessageInOSBExplorer(file, "Sorry, your cookies are disabled in your browser. Please, enable them if you want to use OSB 3D Explorer.");
-		}
-		else{
-			//Change url without reloading page
-			var explorerUrl = '//' + location.host + location.pathname + '?explorer=' + encodeURIComponent(file);
-			if(history.pushState) {history.pushState(null, null, explorerUrl);}
-			
-			if (isNaN(file)){
+	else{
+		$("#showGeppettoBtn").show();
+		$("#showProjectBtn").hide();
+		$("#moreBtn").show();
+	}
+}
+
+function showGeppetto(){
+	clearTimeout(projectBtnPopover);
+	toggleProjectButton();
+	$("#geppettoContainer").show();
+	$("#mainContent").hide();
+	$('#projectHeader').hide();
+	hideFooter();
+//	$('#main').css("background-color","rgb(35, 35, 35)");
+//	$('#main').css("color","white");
+
+}
+
+function showProject(){
+	var projectUrl = '//' + location.host + location.pathname;
+	if(history.pushState) {history.pushState(null, null, projectUrl);}
+	toggleProjectButton();
+	$("#geppettoContainer").hide();
+	$("#mainContent").show();
+	$('#projectHeader').show();
+	showFooter();
+//	$('#main').css("background-color","white");
+//	$('#main').css("color","black");
+}
+
+
+function loadDiscussOSB(){	
+	$("#discussOSB").html('<iframe id="forum_embed_2" src="javascript:void(0)" scrolling="no" frameborder="0" width="100%" height="700"></iframe>');
+    document.getElementById("forum_embed_2").src = "https://groups.google.com/forum/embed/?place=forum/osb-discuss&showsearch=true&showpopout=true&parenturl=" + encodeURIComponent(window.location.href);
+}
+
+function loadAnnounceOSB(){
+	$("#announceOSB").html('<iframe id="forum_embed" src="javascript:void(0)" scrolling="no" frameborder="0" width="100%" height="700"></iframe>');
+	document.getElementById("forum_embed").src ="https://groups.google.com/forum/embed/?place=forum/osb-announce&showsearch=true&showpopout=true&parenturl="+encodeURIComponent(window.location.href);
+}
+
+function getMainModel(pathToRepo, defaultModel){
+	var mainModelUrl=pathToRepo;
+	$.ajax({
+        type: 'GET',
+        dataType: 'text',
+        async: false,
+        cache: false,
+        url: mainModelUrl+"_osb.yml",
+        success: function(responseData, textStatus, jqXHR) {
+            var nativeObject = YAML.parse(responseData);
+            mainModelUrl=mainModelUrl+nativeObject.mainModel;
+        },
+	    error: function(responseData, textStatus, errorThrown) {
+	    	mainModelUrl=mainModelUrl+defaultModel;
+	    }
+	});
+	return mainModelUrl;
+}
+
+function open3DExplorer(file, projectIdentifier, mainModelButton)
+{
+	if(mainModelButton==undefined){
+		mainModelButton=false;
+	}
+	showGeppetto();
+
+	if (!Detector.webgl) {
+		showErrorMessageInOSBExplorer(file, "Your graphics card does not seem to support <a href='http://khronos.org/webgl/wiki/Getting_a_WebGL_Implementation'>WebGL</a>.<br />Find out how to get it <a href='http://get.webgl.org/'>here</a>.");
+	}
+	else if (!checkCookie()) {
+		showErrorMessageInOSBExplorer(file, "Sorry, your cookies are disabled in your browser. Please, enable them if you want to use OSB 3D Explorer.");
+	}
+	else{
+		//Change url without reloading page
+		var explorerUrl = '//' + location.host + location.pathname + '?explorer=' + encodeURIComponent(file);
+		if(history.pushState) {history.pushState(null, null, explorerUrl);}
+		
+		if (isNaN(file)){
+			if (currentModel!=file || jQuery("#geppettoContainer").length == 0){
 				$.ajax({
 				    url: "/projects/" + projectIdentifier + "/generateGEPPETTOSimulationFile?explorer=" + file,
 				    cache: false,
@@ -257,39 +335,33 @@ function open3DExplorer(file, projectIdentifier)
 				    	else{
 					    	var urlGeppettoFile = $("#serverIP").val() + json.geppettoSimulationFile;
 					    	
-					    	if (jQuery("#3dbrowser").length > 0){
+					    	if (jQuery("#geppettoContainer").length > 0){
 					    		document.getElementById("3dframe").contentWindow.postMessage({"command": "removeWidgets"}, $("#geppettoIP").val());
 					    		document.getElementById("3dframe").contentWindow.postMessage({"command": "loadSimulation", "url": urlGeppettoFile}, $("#geppettoIP").val());
-					    		//jQuery("#3dframe").attr('src', $("#geppettoIP").val() + "geppetto?load_project_from_url=" + urlGeppettoFile);
 					    	}
 					    	else{
-					    		jQuery("#mainContent").hide();
 					    		//iframe load
-					    		jQuery("#mainContent").before("<div id='3dbrowser'><div id='3dspacer' style='display: none;'><br/><br/><br/></div><a class='fullscreen btn icon-desktop' href='javascript:toggleFullScreen();'> Full Screen</a><iframe id='3dframe' style='width:100%' src='" + $("#geppettoIP").val() + $("#geppettoContextPath").val() + "geppetto?load_project_from_url=" + urlGeppettoFile + "'></iframe>");
-					    		document.getElementById('3dframe').onload = resizeIframe;
-					    		window.onresize = resizeIframe;
+					    		jQuery("#mainContent").before("<div id='geppettoContainer'><iframe id='3dframe' style='width:100%;height:100%;border:0px;' src='" + $("#geppettoIP").val() + $("#geppettoContextPath").val() + "geppetto?load_project_from_url=" + urlGeppettoFile + "'></iframe>");
 					    	}
 				    	}
 				    }
 				});
 			}
-			else{
-				if (jQuery("#3dbrowser").length > 0){
-					document.getElementById("3dframe").contentWindow.postMessage({"command": "removeWidgets"}, $("#geppettoIP").val());
-					document.getElementById("3dframe").contentWindow.postMessage({"command": "loadSimulation", "projectId": file}, $("#geppettoIP").val());
-					//jQuery("#3dframe").attr('src', $("#geppettoIP").val() + "geppetto?load_project_from_id=" + file);
-		    	}
-		    	else{
-		    		jQuery("#mainContent").hide();
-		    		//iframe load
-		    		jQuery("#mainContent").before("<div id='3dbrowser'><div id='3dspacer' style='display: none;'><br/><br/><br/></div><a class='fullscreen btn icon-desktop' href='javascript:toggleFullScreen();'> Full Screen</a><iframe id='3dframe' style='width:100%' src='" + $("#geppettoIP").val()  + $("#geppettoContextPath").val() + "geppetto?load_project_from_id=" + file + "'></iframe>");
-		    		document.getElementById('3dframe').onload = resizeIframe;
-		    		window.onresize = resizeIframe;
-		    	}
-			}
-			
 		}
+		else{
+			if (jQuery("#geppettoContainer").length > 0){
+				document.getElementById("3dframe").contentWindow.postMessage({"command": "removeWidgets"}, $("#geppettoIP").val());
+				document.getElementById("3dframe").contentWindow.postMessage({"command": "loadSimulation", "projectId": file}, $("#geppettoIP").val());
+	    	}
+	    	else{
+	    		//iframe load
+	    		jQuery("#mainContent").before("<div id='geppettoContainer'><iframe id='3dframe' style='width:100%;height:100%;border:0px;' src='" + $("#geppettoIP").val()  + $("#geppettoContextPath").val() + "geppetto?load_project_from_id=" + file + "'></iframe>");
+	    	}
+		}
+		
+	
 	}
+	currentModel=file;
 }
 
 function toggleFullScreen()

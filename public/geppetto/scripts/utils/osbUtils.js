@@ -21,17 +21,24 @@ var initialiseTreeWidget = function(title, posX, posY, widgetWidth, widgetHeight
 };
 
 var initialiseControlPanel = function(){
-	var posX = 88;
+	var posX = 90;
 	var posY = 5;
 	var barDef = $CONTROL_PANEL;
-	G.addWidget(7).renderBar('OSB Control Panel', barDef['OSB Control Panel']);
-	ButtonBar1.setPosition(posX, posY);
+	var target = G.addWidget(7).renderBar('OSB Control Panel', barDef['OSB Control Panel']);
+	target.setPosition(posX, posY).showTitleBar(false);
+	$("#" + target.id).find(".btn-lg").css("font-size","15px");
 };
 
+
+var mainPopup=undefined;
+
+
+	
 var showModelDescription = function(model){
-	var mdPopup = G.addWidget(1).setName('Model Description - ' + model.getName());
-	mdPopup.addCustomNodeHandler(function(node){G.addWidget(3).setData(node);}, 'click');
-	mdPopup.setHTML(GEPPETTO.ModelFactory.getAllVariablesOfMetaType(model,GEPPETTO.Resources.HTML_TYPE)[0]);	
+	if(mainPopup==undefined || mainPopup.destroyed){
+		mainPopup=G.addWidget(1).setName('Model Description - ' + model.getName()).addCustomNodeHandler(customHandler, 'click').setPosition(95,140);
+	}
+	mainPopup.setData(model,[GEPPETTO.Resources.HTML_TYPE]);	
 };
 
 var getMainType = function(){
