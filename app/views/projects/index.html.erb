@@ -3,11 +3,10 @@
 	<!-- This begins the vertical tab on the left-->
 	<div class="tabbable tabs-left">
 		<ul class="nav nav-tabs">
+			<li><a href="#projecthighlights" id="projecthighlightsLink" data-toggle="tab">Project Highlights</a></li>
+			<li ><a href="#cells" id="cellsLink" data-toggle="tab">All Cells and Networks</a></li>
 			<% if !User.current.logged? %>
-			<li class="active"><a href="#welcomeMainContainer" id="welcomeMainContainerLink" data-toggle="tab">Sample Projects</a></li>
-			<li><a href="#cells" id="cellsLink" data-toggle="tab">Cells and Networks</a></li>
-			<% else %>
-			<li class="active"><a href="#cells" id="cellsLink" data-toggle="tab">Cells and Networks</a></li>
+				<li><a href="#welcomeMainContainer" id="welcomeMainContainerLink" data-toggle="tab">Sample Models</a></li>
 			<% end %>
             <li><a href="#technology" id="technologyLink" data-toggle="tab">Technology</a></li>
             <li><a href="#groups" id="groupsLink" data-toggle="tab">Research Groups</a></li>
@@ -19,9 +18,39 @@
 		
 		<div class="tab-content">
 			
+			<div class="tab-pane" id="projecthighlights">
+				<div style="text-align:center;">
+					<p class="projectHighlightTitle">Neocortex</p>
+					<p class="projectHighlight singlecell"><a href="/projects/l5bpyrcellhayetal2011">Hay et al. 2011</a></p>
+					<p class="projectHighlight singlecell"><a href="/projects/l23dendriticspikes">Smith et al. 2013</a></p>
+					<p class="projectHighlight singlecell"><a href="/projects/alleninstituteneuroml">Allen Institute Cell Types DB</a></p>
+					<p class="projectHighlight singlecell"><a href="/projects/blue-brain-project-showcase">Markram et al. 2015</a></p>
+					<p class="projectHighlight singlecell"><a href="/projects/pospischiletal2008">Pospischil et al. 2008</a></p>
+					<p class="projectHighlight network"><a href="/projects/large-scale-model-of-neocortical-slice-in-vitro-exhibiting-persistent-gamma">Tomsett et al. 2014</a></p>
+					<p class="projectHighlight network"><a href="/projects/thalamocortical">Traub et al. 2005</a></p>
+					<p class="projectHighlight singlecell"><a href="/projects/potjansdiesmann2014">Potjans & Diesmann 2014</a></p>
+					<p class="projectHighlight singlecell"><a href="/projects/brunel2000">Brunel 2000</a></p>
+					<p class="projectHighlight singlecell"><a href="/projects/izhikevichmodel">Izhikevich 2003</a></p>
+					<p class="projectHighlight singlecell"><a href="/projects/fitzhugh-nagumo-fitzhugh-1969">FitzHugh & Nagumo 1969</a></p>
+					<p class="projectHighlightTitle">Cerebellum</p>
+					<p class="projectHighlight network"><a href="/projects/vervaekeetalgolgicellnetwork">Vervaeke et al. 2010</a></p>
+					<p class="projectHighlight singlecell"><a href="/projects/cerebellum--cerebellar-golgi-cell--solinasetal-golgicell">Solinas et al. 2007</a></p>
+					<p class="projectHighlight network"><a href="/projects/grancelllayer">Maex & De Schutter 1998</a></p>
+					<p class="projectHighlight singlecell"><a href="/projects/granule-cell-layer-piasini-2014">Billings et al. 2014</a></p>
+					<p class="projectHighlightTitle">Hippocampus</p>
+					<p class="projectHighlight singlecell"><a href="/projects/pinskyrinzelmodel">Prinsky & Rinzel 1994</a></p>
+					<p class="projectHighlightTitle">Olfactory bulb</p>
+					<p class="projectHighlight network"><a href="/projects/d-olfactory-bulb-network">Migliore et al. 2014</a></p>
+					<p class="projectHighlightTitle">Inverterbrate</p>
+					<p class="projectHighlight singlecell"><a href="/projects/muscle_model">Boyle Cohen 2008</a></p>
+					<p class="projectHighlight network"><a href="/projects/pyloricnetwork">Prinz et al. 2014</a></p>
+					<p class="projectHighlight singlecell"><a href="/projects/hodgkin-huxley-tutorial">Hodgkin & Huxley 1952</a></p>
+				</div>
+			</div>
+			
 			<!-- This begins the cells and network section -->
 			<% if !User.current.logged? %>
-			<div class="tab-pane active" id="welcomeMainContainer">
+			<div class="tab-pane" id="welcomeMainContainer">
 				<div id="welcomeMainContainerLoadDialog" style="text-align:center;">
 					<img src="/images/logo/osbcircle.png" class="icon-spin pagination-centered loading-image">
 					<br/>
@@ -34,13 +63,13 @@
 			<% end %>
 				
 			<!-- This begins the cells and network section -->
-			<div class="tab-pane <% if User.current.logged? %>active<% end %>" id="cells">
+			<div class="tab-pane" id="cells">
 			
 				<div class="tabbable">
 					<div class="row pagination-centered">
 						<div id="view-tab" class="btn-group" data-toggle="buttons-radio">
-				  			<button class="btn btn-large active" href="#cells_graph" id="cells_graphLink" data-toggle="tab"><icon class="icon-circle-blank"></icon> Tree view</button>
-				  			<button class="btn btn-large" href="#cells_list" id="cells_listLink" data-toggle="tab"><icon class="icon-th-list"></icon> List view</button>
+				  			<button class="btn btn-large" href="#cells_graph" id="cells_graphLink" data-toggle="tab"><icon class="icon-circle-blank"></icon> Tree view</button>
+				  			<button class="btn btn-large active" href="#cells_list" id="cells_listLink" data-toggle="tab"><icon class="icon-th-list"></icon> List view</button>
 				  			<button class="btn btn-large" href="#cells_gallery" id="cells_galleryLink" data-toggle="tab"><icon class="icon-th-large"></icon> Gallery view</button>
 				  			<button class="btn btn-large" href="#cells_tags" id="cells_tagsLink" data-toggle="tab"><icon class="icon-cloud"></icon> Tags view</button>
 						</div>
@@ -49,7 +78,7 @@
 					<!-- This begins the graph or list section -->
 					<div class="tab-content" id="cells">
 
-					    <div class="tab-pane active" id="cells_graph">
+					    <div class="tab-pane" id="cells_graph">
 					    	<div style="text-align:center;">
 								<img src="/images/logo/osbcircle.png" class="icon-spin pagination-centered loading-image">
 								<br/>
@@ -60,7 +89,7 @@
 							</div>	
 					    </div>
 
-					    <div class="tab-pane row-fluid" id="cells_list">
+					    <div class="tab-pane row-fluid active" id="cells_list">
 					    	<div style="text-align:center;">
 								<img src="/images/logo/osbcircle.png" class="icon-spin pagination-centered loading-image">
 								<br/>
@@ -136,37 +165,25 @@
 	        </div> -->
 	        <!-- This begins the osb announce -->
 	        <div class="tab-pane" id="announceOSB" class="span9" style="height: 850px">
-    		    <iframe id="forum_embed"
-				 src="javascript:void(0)"
-				 scrolling="no"
-				 frameborder="0"
-				 width="100%"
-				 height="700">
-				</iframe>
-				
-				<script type="text/javascript">
-				 document.getElementById("forum_embed").src =
-				  "https://groups.google.com/forum/embed/?place=forum/osb-announce" +
-				  "&showsearch=true&showpopout=true&parenturl=" +
-				  encodeURIComponent(window.location.href);
-				</script>
+	        	<div style="text-align:center;">
+					<img src="/images/logo/osbcircle.png" class="icon-spin pagination-centered loading-image">
+					<br/>
+					<br/>
+					<p>
+					Loading...
+					</p>
+				</div>	
 	        </div>
-	        <!-- This begins the osb announce -->
+	        <!-- This begins the osb discuss -->
 	        <div class="tab-pane" id="discussOSB" class="span9" style="height: 850px">
-    		    <iframe id="forum_embed_2"
-				 src="javascript:void(0)"
-				 scrolling="no"
-				 frameborder="0"
-				 width="100%"
-				 height="700">
-				</iframe>
-				
-				<script type="text/javascript">
-				 document.getElementById("forum_embed_2").src =
-				  "https://groups.google.com/forum/embed/?place=forum/osb-discuss" +
-				  "&showsearch=true&showpopout=true&parenturl=" +
-				  encodeURIComponent(window.location.href);
-				</script>
+	        	<div style="text-align:center;">
+					<img src="/images/logo/osbcircle.png" class="icon-spin pagination-centered loading-image">
+					<br/>
+					<br/>
+					<p>
+					Loading...
+					</p>
+				</div>	
 	        </div>
 		</div>
 	</div> 
@@ -175,17 +192,17 @@
 <script>
 jQuery(function()
 {
-	var selectedTab = "cells_graph";
-	var tabList = ['cells_graph', 'cells_list', 'cells_gallery', 'cells_tags', 'technology', 'groups', 'people', 'informationOSB']
+	var selectedTab = "projecthighlights";
+	var tabList = ['projecthighlights','welcomeMainContainer','cells_list','cells_graph',  'cells_gallery', 'cells_tags', 'technology', 'groups', 'people', 'informationOSB','announceOSB','discussOSB']
 	if (redmineLogin == ""){
-		selectedTab = "welcomeMainContainer";
+		selectedTab = "projecthighlights";
 		tabList.splice(0,0,selectedTab);
 	}	
 	
 	//Read if a new tab is pass as a parameter in the url 	
 	var a = location.href.split("#");
 	if (a[1] == 'cells'){
-		selectedTab = 'cells_graph';
+		selectedTab = 'cells_list';
 	}
 	else if ( a.length > 1 && tabList.indexOf(a[1]) > -1){
 		selectedTab = a[1];
@@ -200,7 +217,7 @@ jQuery(function()
 
 
 	//If a tab is selected we load it immediately 
-	function swithTabsPriority(tabId){
+	function switchTabsPriority(tabId){
 		tabName = tabId.replace("Link","");
 		index = tabList.indexOf(tabName);
 		if (index != -1){
@@ -208,21 +225,38 @@ jQuery(function()
 			tabList.splice(0,0,tabName);
 		}
 	}
+	
 	$(".nav-tabs a, #view-tab button").click(function(){
-		if(history.pushState) {history.pushState(null, null, $(this).attr('href'));}
-		swithTabsPriority($(this).attr('id'));});
+		if(history.pushState) {
+			history.pushState(null, null, $(this).attr('href'));
+		}
+		switchTabsPriority($(this).attr('id'));
+	});
 			 
+	function loadNextTab(currentTab){
+		index = tabList.indexOf(currentTab);
+        tabList.splice(index, 1);
+        if (tabList.length > 0){
+      	 	loadTab(tabList[0]);
+        }
+	}
 	//Load tabs sequentially 	
 	loadTab(selectedTab);
 	function loadTab(tabName){
 		if (tabName == "welcomeMainContainer"){
-			callGeppetto("", addDashboardFromProjectsPage, true);
-			
-	        index = tabList.indexOf(tabName);
-	        tabList.splice(index, 1);
-	        if (tabList.length > 0){
-	      	 	loadTab(tabList[0]);
-	        }
+			callGeppetto("", addSampleProjectsToExploreOSB, true);
+			loadNextTab(tabName);
+		}
+		else if (tabName == "projecthighlights"){
+			loadNextTab(tabName);
+		}
+		else if (tabName == "announceOSB"){
+			loadAnnounceOSB();
+			loadNextTab(tabName);
+		}
+		else if (tabName == "discussOSB"){
+			loadDiscussOSB();
+			loadNextTab(tabName);
 		}
 		else{
 			$.ajax({
@@ -230,11 +264,7 @@ jQuery(function()
 		        async: true,
 		        success: function(html){
 		           $("#"+tabName).html(html);
-		           index = tabList.indexOf(tabName);
-		           tabList.splice(index, 1);
-		           if (tabList.length > 0){
-		           	loadTab(tabList[0]);
-		           }	
+					loadNextTab(tabName);
 		        },
 		        error: function( xhr, textStatus, errorThrown ) {
 			      console.log("Error loading tab: " + textStatus);
@@ -245,5 +275,5 @@ jQuery(function()
 })
 </script>
 
-<%= javascript_tag('jQuery("#main").addClass("minwidth");') %>
+
 <%= javascript_include_tag('d3.v3.js') %>

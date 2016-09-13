@@ -62,8 +62,101 @@ function createCORSRequest(method, url) {
 
 // Add dashboard in home page
 function addDashboard(){
-	jQuery("#welcomeMainContainer").prepend("<div class='span12' style='margin-bottom: 20px;'><iframe id='geppettoDashboard' style='width:100%;height:550px;border:0px;' src='" + geppettoIP + geppettoContextPath + "'></iframe></div>");
+	jQuery("#dashboardContainer").prepend("<iframe id='geppettoDashboard' style='width:100%;height:100%;border:0px;' src='" + geppettoIP + geppettoContextPath + "'></iframe>");
+    window.addEventListener('message', function(e){
+    	if (e.data.command == 'ready') {
+    		document.getElementById("geppettoDashboard").contentWindow.postMessage({"command": "$('.well').css('background-color','white')"}, $("#geppettoIP").val()+"/currentuser");
+    		document.getElementById("geppettoDashboard").contentWindow.postMessage({"command": "$('.dark-well').css('background-color','white')"}, $("#geppettoIP").val()+"/currentuser");
+    		document.getElementById("geppettoDashboard").contentWindow.postMessage({"command": "$('.navbar').css('background-color','white')"}, $("#geppettoIP").val()+"/currentuser");
+    		document.getElementById("geppettoDashboard").contentWindow.postMessage({"command": "$('footer').css('background-color','white')"}, $("#geppettoIP").val()+"/currentuser");
+    		document.getElementById("geppettoDashboard").contentWindow.postMessage({"command": "$('body').css('padding-top','0')"}, $("#geppettoIP").val()+"/currentuser");
+    		document.getElementById("geppettoDashboard").contentWindow.postMessage({"command": "$('#header').remove()"}, $("#geppettoIP").val()+"/currentuser");
+    		document.getElementById("geppettoDashboard").contentWindow.postMessage({"command": "if($('.project-preview').length==0){$('.dashboardAlert').html(\"You don't have any models yet! Why don\'t you start Exploring OSB and persisting any model you are interested in? All the models you will persist will appear here in your home so you can easily come back to them. Click on the help tab for more!\");}"}, $("#geppettoIP").val()+"/currentuser");
+    		
+    	}
+    }, false);
+	
 }
+
+
+function addSampleProjectsToHome(){
+	addSampleProjects('#learnMoreContainer');
+	$('#learnMoreContainer').show();
+}
+
+function addSampleProjectsToExploreOSB(){
+	addSampleProjects('#welcomeMainContainer');
+	$('#welcomeMainContainerLoadDialog').remove();
+}
+
+function addSampleProjects(target){
+	makeCorsRequest("currentuser", processCurrentUser, "geppettoProjectsCompact", function(data) {
+		var jsonData=JSON.parse(data);
+		for(var i=0;i<jsonData.length;i++){
+			var geppettoProjectUrl=geppettoIP+geppettoContextPath+"geppetto?load_project_from_id="+jsonData[i].id;
+			var iconClass="gpt-neuron sampleModelIcon"; //the default
+			switch(jsonData[i].name) {
+			    case "Primary Auditory Cortex Network":
+			    	iconClass="acnet2SampleThumbnail sampleThumbnail";
+			        break;
+	
+			    case "CA1 Pyramidal Cell":
+			    	iconClass="ca1SampleThumbnail sampleThumbnail";
+			        break;
+	
+			    case "Izhikevich Spiking Neuron Model":
+			    	iconClass="izhiSampleThumbnail sampleThumbnail";
+			        break;
+	
+			    case "L23 Cell":
+			    	iconClass="l23SampleThumbnail sampleThumbnail";
+			        break;
+	
+			    case "Hodgkin-Huxley Neuron":
+			    	iconClass="hhcellSampleThumbnail sampleThumbnail";
+			        break;
+			}
+			
+			$(target).append("<div class='sampleModel' onclick='showSampleProject(\""+geppettoProjectUrl+"\")'><div class='"+iconClass+"'></div><a class='sampleModelLabel'>"+jsonData[i].name+"</a></div>");	
+		}
+		
+	});	
+}
+
+function showSampleProject(url){
+	var ifr=$('<iframe/>', {
+        id:'geppettoSampleProject',
+        src:url,
+        style:'display:none;border:0px;width:100%;height:100%',
+        
+        load:function(){
+            $(this).show();
+            $("#wrap").hide();
+            $("footer").hide();
+            history.replaceState(null, document.title, location.pathname+"#!/sampleProject");
+            history.pushState(null, document.title, location.pathname);
+
+            window.addEventListener("popstate", function() {
+              if(location.hash === "#!/sampleProject") {
+            	history.replaceState(null, document.title, location.pathname);
+            	location.replace("/");
+              }
+            }, false);
+            
+            window.addEventListener('message', function(e){
+            	if (e.data.command == 'ready') {
+            		document.getElementById("geppettoSampleProject").contentWindow.postMessage({"command": "$('.HomeButton').hide()"}, $("#geppettoIP").val());
+            	}
+            }, false);
+            
+        },
+        
+
+    });
+    $('#geppettoHomeContainer').append(ifr);
+    $('#geppettoHomeContainer').show();
+}
+
 
 function addDashboardFromMainPage(){
 	var ifr=$('<iframe/>', {
@@ -77,25 +170,11 @@ function addDashboardFromMainPage(){
             	$("html, body").animate({ scrollTop: $(document).height()-$(window).height() - 100 }, 1000);
 		        return false;
 		    });
-            $('#learnMoreContainer').fadeIn(1000);
         }
     });
     $('#learnMoreContainer').after(ifr);
 }
 
-function addDashboardFromProjectsPage(){
-	var ifr=$('<iframe/>', {
-        id:'geppettoDashboard',
-        src:geppettoIP + geppettoContextPath,
-        style:'display:none;width:100%;height:550px;border:0px;',
-        load:function(){
-            $(this).show();
-            $('#welcomeMainContainerLoadDialog').remove();
-        }
-    });
-    
-jQuery("#welcomeMainContainer").prepend(ifr);
-}
 // Process logout
 function processLogout(url, text){
 	$('#logout_link').unbind('click').click();

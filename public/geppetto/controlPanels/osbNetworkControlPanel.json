@@ -17,32 +17,6 @@
                 "label": "Model Description",
                 "tooltip": "Information on the model"
             },
-            "Inputs": {
-                "actions": [
-                    "showInputTreeView(getMainType())"
-                ],
-                "icon": "gpt-inputs",
-                "label": "Inputs",
-                "tooltip": "Inputs present on the network"
-            }
-        },
-        "Cell Info": {
-            "Cell": {
-                "actions": [
-                    "executeOnSelection(showSelection)"
-                ],
-                "icon": "gpt-pyramidal-cell",
-                "label": "Cell Info",
-                "tooltip": "Information on the selected cell"
-            },
-            "Channels": {
-                "actions": [
-                    "executeOnSelection(showChannelTreeView)"
-                ],
-                "icon": "gpt-ion-channel",
-                "label": "Channels",
-                "tooltip": "Ion channels present on the selected cell"
-            },
             "CellVisual": {
 		      "actions": [
 		      	"executeOnSelection(showVisualTreeView)"
