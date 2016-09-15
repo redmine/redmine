@@ -497,7 +497,7 @@ ja:
   label_member_plural: メンバー
   label_tracker: トラッカー
   label_tracker_plural: トラッカー
-  label_tracker_new: 新しいトラッカーを作成
+  label_tracker_new: 新しいトラッカー
   label_workflow: ワークフロー
   label_issue_status: チケットのステータス
   label_issue_status_plural: チケットのステータス
@@ -507,7 +507,7 @@ ja:
   label_issue_category_new: 新しいカテゴリ
   label_custom_field: カスタムフィールド
   label_custom_field_plural: カスタムフィールド
-  label_custom_field_new: 新しいカスタムフィールドを作成
+  label_custom_field_new: 新しいカスタムフィールド
   label_enumerations: 選択肢の値
   label_enumeration_new: 新しい値
   label_information: 情報
