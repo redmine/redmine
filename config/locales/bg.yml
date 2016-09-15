@@ -997,6 +997,7 @@ bg:
   label_field_format_enumeration: Списък ключ/стойност
   label_default_values_for_new_users: Стойности по подразбиране за нови потребители
   label_relations: Релации
+  label_new_project_issue_tab_enabled: Показване на меню-елемент "Нова задача"
   label_new_object_tab_enabled: Показване на изпадащ списък за меню-елемент "+"
 
   button_login: Вход
@@ -1193,7 +1194,6 @@ bg:
   description_date_from: Въведете начална дата
   description_date_to: Въведете крайна дата
   text_repository_identifier_info: 'Позволени са малки букви (a-z), цифри, тирета и _.<br />Промяна след създаването му не е възможна.'
-  label_new_project_issue_tab_enabled: Показване на меню-елемент "Нова задача"
   error_no_projects_with_tracker_allowed_for_new_issue: There are no projects with trackers
     for which you can create an issue
   field_textarea_font: Font used for text areas
