@@ -24,9 +24,9 @@ var initialiseControlPanel = function(){
 	var posX = 90;
 	var posY = 5;
 	var barDef = $CONTROL_PANEL;
-	G.addWidget(7).renderBar('OSB Control Panel', barDef['OSB Control Panel']);
-	ButtonBar1.setPosition(posX, posY).showTitleBar(false);
-	$("#ButtonBar1").find(".btn-lg").css("font-size","15px");
+	var target = G.addWidget(7).renderBar('OSB Control Panel', barDef['OSB Control Panel']);
+	target.setPosition(posX, posY).showTitleBar(false);
+	$("#" + target.id).find(".btn-lg").css("font-size","15px");
 };
 
 
