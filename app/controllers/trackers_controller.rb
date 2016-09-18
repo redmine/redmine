@@ -18,14 +18,14 @@
 class TrackersController < ApplicationController
   layout 'admin'
 
-  before_action :require_admin, :except => :index
-  before_action :require_admin_or_api_request, :only => :index
+  before_action :require_admin, except: :index
+  before_action :require_admin_or_api_request, only: :index
   accept_api_auth :index
 
   def index
     @trackers = Tracker.sorted.to_a
     respond_to do |format|
-      format.html { render :layout => false if request.xhr? }
+      format.html { render layout: false if request.xhr? }
       format.api
     end
   end
@@ -50,7 +50,7 @@ class TrackersController < ApplicationController
       return
     end
     new
-    render :action => 'new'
+    render action: 'new'
   end
 
   def edit
@@ -63,18 +63,18 @@ class TrackersController < ApplicationController
     @tracker.safe_attributes = params[:tracker]
     if @tracker.save
       respond_to do |format|
-        format.html {
+        format.html do
           flash[:notice] = l(:notice_successful_update)
-          redirect_to trackers_path(:page => params[:page])
-        }
+          redirect_to trackers_path(page: params[:page])
+        end
         format.js { head 200 }
       end
     else
       respond_to do |format|
-        format.html {
+        format.html do
           edit
-          render :action => 'edit'
-        }
+          render action: 'edit'
+        end
         format.js { head 422 }
       end
     end
@@ -82,10 +82,10 @@ class TrackersController < ApplicationController
 
   def destroy
     @tracker = Tracker.find(params[:id])
-    unless @tracker.issues.empty?
-      flash[:error] = l(:error_can_not_delete_tracker)
-    else
+    if @tracker.issues.empty?
       @tracker.destroy
+    else
+      flash[:error] = l(:error_can_not_delete_tracker)
     end
     redirect_to trackers_path
   end
@@ -94,11 +94,10 @@ class TrackersController < ApplicationController
     if request.post? && params[:trackers]
       params[:trackers].each do |tracker_id, tracker_params|
         tracker = Tracker.find_by_id(tracker_id)
-        if tracker
-          tracker.core_fields = tracker_params[:core_fields]
-          tracker.custom_field_ids = tracker_params[:custom_field_ids]
-          tracker.save
-        end
+        next unless tracker
+        tracker.core_fields = tracker_params[:core_fields]
+        tracker.custom_field_ids = tracker_params[:custom_field_ids]
+        tracker.save
       end
       flash[:notice] = l(:notice_successful_update)
       redirect_to fields_trackers_path

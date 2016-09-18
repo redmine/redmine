@@ -18,14 +18,14 @@
 class IssueStatusesController < ApplicationController
   layout 'admin'
 
-  before_action :require_admin, :except => :index
-  before_action :require_admin_or_api_request, :only => :index
+  before_action :require_admin, except: :index
+  before_action :require_admin_or_api_request, only: :index
   accept_api_auth :index
 
   def index
     @issue_statuses = IssueStatus.sorted.to_a
     respond_to do |format|
-      format.html { render :layout => false if request.xhr? }
+      format.html { render layout: false if request.xhr? }
       format.api
     end
   end
@@ -41,7 +41,7 @@ class IssueStatusesController < ApplicationController
       flash[:notice] = l(:notice_successful_create)
       redirect_to issue_statuses_path
     else
-      render :action => 'new'
+      render action: 'new'
     end
   end
 
@@ -54,15 +54,15 @@ class IssueStatusesController < ApplicationController
     @issue_status.safe_attributes = params[:issue_status]
     if @issue_status.save
       respond_to do |format|
-        format.html {
+        format.html do
           flash[:notice] = l(:notice_successful_update)
-          redirect_to issue_statuses_path(:page => params[:page])
-        }
+          redirect_to issue_statuses_path(page: params[:page])
+        end
         format.js { head 200 }
       end
     else
       respond_to do |format|
-        format.html { render :action => 'edit' }
+        format.html { render action: 'edit' }
         format.js { head 422 }
       end
     end

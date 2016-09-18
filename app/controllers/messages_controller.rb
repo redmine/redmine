@@ -18,10 +18,10 @@
 class MessagesController < ApplicationController
   menu_item :boards
   default_search_scope :messages
-  before_action :find_board, :only => [:new, :preview]
-  before_action :find_attachments, :only => [:preview]
-  before_action :find_message, :except => [:new, :preview]
-  before_action :authorize, :except => [:preview, :edit, :destroy]
+  before_action :find_board, only: [:new, :preview]
+  before_action :find_attachments, only: [:preview]
+  before_action :find_message, except: [:new, :preview]
+  before_action :authorize, except: [:preview, :edit, :destroy]
 
   helper :boards
   helper :watchers
@@ -41,15 +41,15 @@ class MessagesController < ApplicationController
 
     @reply_count = @topic.children.count
     @reply_pages = Paginator.new @reply_count, REPLIES_PER_PAGE, page
-    @replies =  @topic.children.
-      includes(:author, :attachments, {:board => :project}).
-      reorder("#{Message.table_name}.created_on ASC, #{Message.table_name}.id ASC").
-      limit(@reply_pages.per_page).
-      offset(@reply_pages.offset).
-      to_a
+    @replies = @topic.children
+                     .includes(:author, :attachments, board: :project)
+                     .reorder("#{Message.table_name}.created_on ASC, #{Message.table_name}.id ASC")
+                     .limit(@reply_pages.per_page)
+                     .offset(@reply_pages.offset)
+                     .to_a
 
-    @reply = Message.new(:subject => "RE: #{@message.subject}")
-    render :action => "show", :layout => false if request.xhr?
+    @reply = Message.new(subject: "RE: #{@message.subject}")
+    render action: 'show', layout: false if request.xhr?
   end
 
   # Create a new topic
@@ -61,7 +61,7 @@ class MessagesController < ApplicationController
     if request.post?
       @message.save_attachments(params[:attachments])
       if @message.save
-        call_hook(:controller_messages_new_after_save, { :params => params, :message => @message})
+        call_hook(:controller_messages_new_after_save, params: params, message: @message)
         render_attachment_warning_if_needed(@message)
         redirect_to board_message_path(@board, @message)
       end
@@ -75,34 +75,34 @@ class MessagesController < ApplicationController
     @reply.board = @board
     @reply.safe_attributes = params[:reply]
     @topic.children << @reply
-    if !@reply.new_record?
-      call_hook(:controller_messages_reply_after_save, { :params => params, :message => @reply})
+    unless @reply.new_record?
+      call_hook(:controller_messages_reply_after_save, params: params, message: @reply)
       attachments = Attachment.attach_files(@reply, params[:attachments])
       render_attachment_warning_if_needed(@reply)
     end
-    redirect_to board_message_path(@board, @topic, :r => @reply)
+    redirect_to board_message_path(@board, @topic, r: @reply)
   end
 
   # Edit a message
   def edit
-    (render_403; return false) unless @message.editable_by?(User.current)
+    render_403; return false unless @message.editable_by?(User.current)
     @message.safe_attributes = params[:message]
     if request.post? && @message.save
       attachments = Attachment.attach_files(@message, params[:attachments])
       render_attachment_warning_if_needed(@message)
       flash[:notice] = l(:notice_successful_update)
       @message.reload
-      redirect_to board_message_path(@message.board, @message.root, :r => (@message.parent_id && @message.id))
+      redirect_to board_message_path(@message.board, @message.root, r: (@message.parent_id && @message.id))
     end
   end
 
   # Delete a messages
   def destroy
-    (render_403; return false) unless @message.destroyable_by?(User.current)
+    render_403; return false unless @message.destroyable_by?(User.current)
     r = @message.to_param
     @message.destroy
     if @message.parent
-      redirect_to board_message_path(@board, @message.parent, :r => r)
+      redirect_to board_message_path(@board, @message.parent, r: r)
     else
       redirect_to project_board_path(@project, @board)
     end
@@ -120,10 +120,11 @@ class MessagesController < ApplicationController
     message = @board.messages.find_by_id(params[:id])
     @text = (params[:message] || params[:reply])[:content]
     @previewed = message
-    render :partial => 'common/preview'
+    render partial: 'common/preview'
   end
 
-private
+  private
+
   def find_message
     return unless find_board
     @message = @board.messages.includes(:parent).find(params[:id])

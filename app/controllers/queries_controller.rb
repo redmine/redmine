@@ -17,8 +17,8 @@
 
 class QueriesController < ApplicationController
   menu_item :issues
-  before_action :find_query, :except => [:new, :create, :index]
-  before_action :find_optional_project, :only => [:new, :create]
+  before_action :find_query, except: [:new, :create, :index]
+  before_action :find_optional_project, only: [:new, :create]
 
   accept_api_auth :index
 
@@ -34,13 +34,13 @@ class QueriesController < ApplicationController
     scope = query_class.visible
     @query_count = scope.count
     @query_pages = Paginator.new @query_count, @limit, params['page']
-    @queries = scope.
-                    order("#{Query.table_name}.name").
-                    limit(@limit).
-                    offset(@offset).
-                    to_a
+    @queries = scope
+               .order("#{Query.table_name}.name")
+               .limit(@limit)
+               .offset(@offset)
+               .to_a
     respond_to do |format|
-      format.html {render_error :status => 406}
+      format.html { render_error status: 406 }
       format.api
     end
   end
@@ -60,9 +60,9 @@ class QueriesController < ApplicationController
 
     if @query.save
       flash[:notice] = l(:notice_successful_create)
-      redirect_to_items(:query_id => @query)
+      redirect_to_items(query_id: @query)
     else
-      render :action => 'new', :layout => !request.xhr?
+      render action: 'new', layout: !request.xhr?
     end
   end
 
@@ -74,15 +74,15 @@ class QueriesController < ApplicationController
 
     if @query.save
       flash[:notice] = l(:notice_successful_update)
-      redirect_to_items(:query_id => @query)
+      redirect_to_items(query_id: @query)
     else
-      render :action => 'edit'
+      render action: 'edit'
     end
   end
 
   def destroy
     @query.destroy
-    redirect_to_items(:set_filter => 1)
+    redirect_to_items(set_filter: 1)
   end
 
   private
@@ -97,7 +97,7 @@ class QueriesController < ApplicationController
 
   def find_optional_project
     @project = Project.find(params[:project_id]) if params[:project_id]
-    render_403 unless User.current.allowed_to?(:save_queries, @project, :global => true)
+    render_403 unless User.current.allowed_to?(:save_queries, @project, global: true)
   rescue ActiveRecord::RecordNotFound
     render_404
   end

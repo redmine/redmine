@@ -19,18 +19,18 @@ class CustomFieldsController < ApplicationController
   layout 'admin'
 
   before_action :require_admin
-  before_action :build_new_custom_field, :only => [:new, :create]
-  before_action :find_custom_field, :only => [:edit, :update, :destroy]
+  before_action :build_new_custom_field, only: [:new, :create]
+  before_action :find_custom_field, only: [:edit, :update, :destroy]
   accept_api_auth :index
 
   def index
     respond_to do |format|
-      format.html {
-        @custom_fields_by_type = CustomField.all.group_by {|f| f.class.name }
-      }
-      format.api {
+      format.html do
+        @custom_fields_by_type = CustomField.all.group_by { |f| f.class.name }
+      end
+      format.api do
         @custom_fields = CustomField.all
-      }
+      end
     end
   end
 
@@ -42,10 +42,10 @@ class CustomFieldsController < ApplicationController
   def create
     if @custom_field.save
       flash[:notice] = l(:notice_successful_create)
-      call_hook(:controller_custom_fields_new_after_save, :params => params, :custom_field => @custom_field)
+      call_hook(:controller_custom_fields_new_after_save, params: params, custom_field: @custom_field)
       redirect_to edit_custom_field_path(@custom_field)
     else
-      render :action => 'new'
+      render action: 'new'
     end
   end
 
@@ -55,17 +55,17 @@ class CustomFieldsController < ApplicationController
   def update
     @custom_field.safe_attributes = params[:custom_field]
     if @custom_field.save
-      call_hook(:controller_custom_fields_edit_after_save, :params => params, :custom_field => @custom_field)
+      call_hook(:controller_custom_fields_edit_after_save, params: params, custom_field: @custom_field)
       respond_to do |format|
-        format.html {
+        format.html do
           flash[:notice] = l(:notice_successful_update)
           redirect_back_or_default edit_custom_field_path(@custom_field)
-        }
+        end
         format.js { head 200 }
       end
     else
       respond_to do |format|
-        format.html { render :action => 'edit' }
+        format.html { render action: 'edit' }
         format.js { head 422 }
       end
     end
@@ -77,7 +77,7 @@ class CustomFieldsController < ApplicationController
     rescue
       flash[:error] = l(:error_can_not_delete_custom_field)
     end
-    redirect_to custom_fields_path(:tab => @custom_field.class.name)
+    redirect_to custom_fields_path(tab: @custom_field.class.name)
   end
 
   private
@@ -85,7 +85,7 @@ class CustomFieldsController < ApplicationController
   def build_new_custom_field
     @custom_field = CustomField.new_subclass_instance(params[:type])
     if @custom_field.nil?
-      render :action => 'select_type'
+      render action: 'select_type'
     else
       @custom_field.safe_attributes = params[:custom_field]
     end

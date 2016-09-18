@@ -19,7 +19,7 @@ class CalendarsController < ApplicationController
   menu_item :calendar
   before_action :find_optional_project
 
-  rescue_from Query::StatementInvalid, :with => :query_statement_invalid
+  rescue_from Query::StatementInvalid, with: :query_statement_invalid
 
   helper :issues
   helper :projects
@@ -29,9 +29,9 @@ class CalendarsController < ApplicationController
   include SortHelper
 
   def show
-    if params[:year] and params[:year].to_i > 1900
+    if params[:year] && params[:year].to_i > 1900
       @year = params[:year].to_i
-      if params[:month] and params[:month].to_i > 0 and params[:month].to_i < 13
+      if params[:month] && params[:month].to_i > 0 && params[:month].to_i < 13
         @month = params[:month].to_i
       end
     end
@@ -43,14 +43,13 @@ class CalendarsController < ApplicationController
     @query.group_by = nil
     if @query.valid?
       events = []
-      events += @query.issues(:include => [:tracker, :assigned_to, :priority],
-                              :conditions => ["((start_date BETWEEN ? AND ?) OR (due_date BETWEEN ? AND ?))", @calendar.startdt, @calendar.enddt, @calendar.startdt, @calendar.enddt]
-                              )
-      events += @query.versions(:conditions => ["effective_date BETWEEN ? AND ?", @calendar.startdt, @calendar.enddt])
+      events += @query.issues(include: [:tracker, :assigned_to, :priority],
+                              conditions: ['((start_date BETWEEN ? AND ?) OR (due_date BETWEEN ? AND ?))', @calendar.startdt, @calendar.enddt, @calendar.startdt, @calendar.enddt])
+      events += @query.versions(conditions: ['effective_date BETWEEN ? AND ?', @calendar.startdt, @calendar.enddt])
 
       @calendar.events = events
     end
 
-    render :action => 'show', :layout => false if request.xhr?
+    render action: 'show', layout: false if request.xhr?
   end
 end

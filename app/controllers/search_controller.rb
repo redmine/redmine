@@ -20,7 +20,7 @@ class SearchController < ApplicationController
   accept_api_auth :index
 
   def index
-    @question = params[:q] || ""
+    @question = params[:q] || ''
     @question.strip!
     @all_words = params[:all_words] ? params[:all_words].present? : true
     @titles_only = params[:titles_only] ? params[:titles_only].present? : false
@@ -33,7 +33,7 @@ class SearchController < ApplicationController
     else
       @offset = nil
       @limit = Setting.search_results_per_page.to_i
-      @limit = 10 if @limit == 0
+      @limit = 10 if @limit.zero?
     end
 
     # quick jump to an issue
@@ -49,7 +49,7 @@ class SearchController < ApplicationController
       when 'my_projects'
         User.current.projects
       when 'subprojects'
-        @project ? (@project.self_and_descendants.active.to_a) : nil
+        @project ? @project.self_and_descendants.active.to_a : nil
       else
         @project
       end
@@ -59,16 +59,16 @@ class SearchController < ApplicationController
       # don't search projects
       @object_types.delete('projects')
       # only show what the user is allowed to view
-      @object_types = @object_types.select {|o| User.current.allowed_to?("view_#{o}".to_sym, projects_to_search)}
+      @object_types = @object_types.select { |o| User.current.allowed_to?("view_#{o}".to_sym, projects_to_search) }
     end
 
-    @scope = @object_types.select {|t| params[t]}
+    @scope = @object_types.select { |t| params[t] }
     @scope = @object_types if @scope.empty?
 
     fetcher = Redmine::Search::Fetcher.new(
       @question, User.current, @scope, projects_to_search,
-      :all_words => @all_words, :titles_only => @titles_only, :attachments => @search_attachments, :open_issues => @open_issues,
-      :cache => params[:page].present?, :params => params
+      all_words: @all_words, titles_only: @titles_only, attachments: @search_attachments, open_issues: @open_issues,
+      cache: params[:page].present?, params: params
     )
 
     if fetcher.tokens.present?
@@ -80,15 +80,16 @@ class SearchController < ApplicationController
       @offset ||= @result_pages.offset
       @results = fetcher.results(@offset, @result_pages.per_page)
     else
-      @question = ""
+      @question = ''
     end
     respond_to do |format|
-      format.html { render :layout => false if request.xhr? }
-      format.api  { @results ||= []; render :layout => false }
+      format.html { render layout: false if request.xhr? }
+      format.api  { @results ||= []; render layout: false }
     end
   end
 
-private
+  private
+
   def find_optional_project
     return true unless params[:id]
     @project = Project.find(params[:id])

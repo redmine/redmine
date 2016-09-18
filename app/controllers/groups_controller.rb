@@ -19,7 +19,7 @@ class GroupsController < ApplicationController
   layout 'admin'
 
   before_action :require_admin
-  before_action :find_group, :except => [:index, :new, :create]
+  before_action :find_group, except: [:index, :new, :create]
   accept_api_auth :index, :show, :create, :update, :destroy, :add_users, :remove_user
 
   require_sudo_mode :add_users, :remove_user, :create, :update, :destroy, :edit_membership, :destroy_membership
@@ -29,7 +29,7 @@ class GroupsController < ApplicationController
 
   def index
     respond_to do |format|
-      format.html {
+      format.html do
         scope = Group.sorted
         scope = scope.like(params[:name]) if params[:name].present?
 
@@ -37,12 +37,12 @@ class GroupsController < ApplicationController
         @group_pages = Paginator.new @group_count, per_page_option, params['page']
         @groups = scope.limit(@group_pages.per_page).offset(@group_pages.offset).to_a
         @user_count_by_group_id = user_count_by_group_id
-      }
-      format.api {
+      end
+      format.api do
         scope = Group.sorted
         scope = scope.givable unless params[:builtin] == '1'
         @groups = scope.to_a
-      }
+      end
     end
   end
 
@@ -63,13 +63,13 @@ class GroupsController < ApplicationController
 
     respond_to do |format|
       if @group.save
-        format.html {
+        format.html do
           flash[:notice] = l(:notice_successful_create)
           redirect_to(params[:continue] ? new_group_path : groups_path)
-        }
-        format.api  { render :action => 'show', :status => :created, :location => group_url(@group) }
+        end
+        format.api  { render action: 'show', status: :created, location: group_url(@group) }
       else
-        format.html { render :action => "new" }
+        format.html { render action: 'new' }
         format.api  { render_validation_errors(@group) }
       end
     end
@@ -87,7 +87,7 @@ class GroupsController < ApplicationController
         format.html { redirect_to_referer_or(groups_path) }
         format.api  { render_api_ok }
       else
-        format.html { render :action => "edit" }
+        format.html { render action: 'edit' }
         format.api  { render_validation_errors(@group) }
       end
     end
@@ -106,25 +106,25 @@ class GroupsController < ApplicationController
   end
 
   def add_users
-    @users = User.not_in_group(@group).where(:id => (params[:user_id] || params[:user_ids])).to_a
+    @users = User.not_in_group(@group).where(id: (params[:user_id] || params[:user_ids])).to_a
     @group.users << @users
     respond_to do |format|
-      format.html { redirect_to edit_group_path(@group, :tab => 'users') }
+      format.html { redirect_to edit_group_path(@group, tab: 'users') }
       format.js
-      format.api {
+      format.api do
         if @users.any?
           render_api_ok
         else
           render_api_errors "#{l(:label_user)} #{l('activerecord.errors.messages.invalid')}"
         end
-      }
+      end
     end
   end
 
   def remove_user
     @group.users.delete(User.find(params[:user_id])) if request.delete?
     respond_to do |format|
-      format.html { redirect_to edit_group_path(@group, :tab => 'users') }
+      format.html { redirect_to edit_group_path(@group, tab: 'users') }
       format.js
       format.api { render_api_ok }
     end

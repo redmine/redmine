@@ -19,7 +19,7 @@ class GanttsController < ApplicationController
   menu_item :gantt
   before_action :find_optional_project
 
-  rescue_from Query::StatementInvalid, :with => :query_statement_invalid
+  rescue_from Query::StatementInvalid, with: :query_statement_invalid
 
   helper :gantt
   helper :issues
@@ -40,9 +40,9 @@ class GanttsController < ApplicationController
     basename = (@project ? "#{@project.identifier}-" : '') + 'gantt'
 
     respond_to do |format|
-      format.html { render :action => "show", :layout => !request.xhr? }
-      format.png  { send_data(@gantt.to_image, :disposition => 'inline', :type => 'image/png', :filename => "#{basename}.png") } if @gantt.respond_to?('to_image')
-      format.pdf  { send_data(@gantt.to_pdf, :type => 'application/pdf', :filename => "#{basename}.pdf") }
+      format.html { render action: 'show', layout: !request.xhr? }
+      format.png  { send_data(@gantt.to_image, disposition: 'inline', type: 'image/png', filename: "#{basename}.png") } if @gantt.respond_to?('to_image')
+      format.pdf  { send_data(@gantt.to_pdf, type: 'application/pdf', filename: "#{basename}.pdf") }
     end
   end
 end

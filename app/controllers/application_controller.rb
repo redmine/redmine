@@ -18,7 +18,7 @@
 require 'uri'
 require 'cgi'
 
-class Unauthorized < Exception; end
+class Unauthorized < RuntimeError; end
 
 class ApplicationController < ActionController::Base
   include Redmine::I18n
@@ -36,9 +36,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
 
   def verify_authenticity_token
-    unless api_request?
-      super
-    end
+    super unless api_request?
   end
 
   def handle_unverified_request
@@ -47,14 +45,14 @@ class ApplicationController < ActionController::Base
       cookies.delete(autologin_cookie_name)
       self.logged_user = nil
       set_localization
-      render_error :status => 422, :message => "Invalid form authenticity token."
+      render_error status: 422, message: 'Invalid form authenticity token.'
     end
   end
 
   before_action :session_expiration, :user_setup, :check_if_login_required, :set_localization, :check_password_change
 
-  rescue_from ::Unauthorized, :with => :deny_access
-  rescue_from ::ActionView::MissingTemplate, :with => :missing_template
+  rescue_from ::Unauthorized, with: :deny_access
+  rescue_from ::ActionView::MissingTemplate, with: :missing_template
 
   include Redmine::Search::Controller
   include Redmine::MenuManager::MenuController
@@ -74,15 +72,13 @@ class ApplicationController < ActionController::Base
   end
 
   def session_expired?
-    ! User.verify_session_token(session[:user_id], session[:tk])
+    !User.verify_session_token(session[:user_id], session[:tk])
   end
 
   def start_user_session(user)
     session[:user_id] = user.id
     session[:tk] = user.generate_session_token
-    if user.must_change_password?
-      session[:pwd] = '1'
-    end
+    session[:pwd] = '1' if user.must_change_password?
   end
 
   def user_setup
@@ -90,7 +86,7 @@ class ApplicationController < ActionController::Base
     Setting.check_cache
     # Find the current user
     User.current = find_current_user
-    logger.info("  Current user: " + (User.current.logged? ? "#{User.current.login} (id=#{User.current.id})" : "anonymous")) if logger
+    logger.info('  Current user: ' + (User.current.logged? ? "#{User.current.login} (id=#{User.current.id})" : 'anonymous')) if logger
   end
 
   # Returns the current user or nil if no user is logged in
@@ -100,7 +96,11 @@ class ApplicationController < ActionController::Base
     unless api_request?
       if session[:user_id]
         # existing session
-        user = (User.active.find(session[:user_id]) rescue nil)
+        user = (begin
+                  User.active.find(session[:user_id])
+                rescue
+                  nil
+                end)
       elsif autologin_user = try_to_autologin
         user = autologin_user
       elsif params[:format] == 'atom' && params[:key] && request.get? && accept_rss_auth?
@@ -118,7 +118,7 @@ class ApplicationController < ActionController::Base
           user = User.try_to_login(username, password) || User.find_by_api_key(username)
         end
         if user && user.must_change_password?
-          render_error :message => 'You must change your password', :status => 403
+          render_error message: 'You must change your password', status: 403
           return
         end
       end
@@ -129,7 +129,7 @@ class ApplicationController < ActionController::Base
           logger.info("  User switched by: #{user.login} (id=#{user.id})") if logger
           user = su
         else
-          render_error :message => 'Invalid X-Redmine-Switch-User header', :status => 412
+          render_error message: 'Invalid X-Redmine-Switch-User header', status: 412
         end
       end
     end
@@ -169,8 +169,8 @@ class ApplicationController < ActionController::Base
   def logout_user
     if User.current.logged?
       cookies.delete(autologin_cookie_name)
-      Token.where(["user_id = ? AND action = ?", User.current.id, 'autologin']).delete_all
-      Token.where(["user_id = ? AND action = ? AND value = ?", User.current.id, 'session', session[:tk]]).delete_all
+      Token.where(['user_id = ? AND action = ?', User.current.id, 'autologin']).delete_all
+      Token.where(['user_id = ? AND action = ? AND value = ?', User.current.id, 'session', session[:tk]]).delete_all
       self.logged_user = nil
     end
   end
@@ -193,14 +193,12 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def set_localization(user=User.current)
+  def set_localization(user = User.current)
     lang = nil
-    if user && user.logged?
-      lang = find_language(user.language)
-    end
+    lang = find_language(user.language) if user && user.logged?
     if lang.nil? && !Setting.force_default_language_for_anonymous? && request.env['HTTP_ACCEPT_LANGUAGE']
       accept_lang = parse_qvalues(request.env['HTTP_ACCEPT_LANGUAGE']).first
-      if !accept_lang.blank?
+      unless accept_lang.blank?
         accept_lang = accept_lang.downcase
         lang = find_language(accept_lang) || find_language(accept_lang.split('-').first)
       end
@@ -210,24 +208,24 @@ class ApplicationController < ActionController::Base
   end
 
   def require_login
-    if !User.current.logged?
+    unless User.current.logged?
       # Extract only the basic url parameters on non-GET requests
       if request.get?
         url = request.original_url
       else
-        url = url_for(:controller => params[:controller], :action => params[:action], :id => params[:id], :project_id => params[:project_id])
+        url = url_for(controller: params[:controller], action: params[:action], id: params[:id], project_id: params[:project_id])
       end
       respond_to do |format|
-        format.html {
+        format.html do
           if request.xhr?
             head :unauthorized
           else
-            redirect_to signin_path(:back_url => url)
+            redirect_to signin_path(back_url: url)
           end
-        }
-        format.any(:atom, :pdf, :csv) {
-          redirect_to signin_path(:back_url => url)
-        }
+        end
+        format.any(:atom, :pdf, :csv) do
+          redirect_to signin_path(back_url: url)
+        end
         format.xml  { head :unauthorized, 'WWW-Authenticate' => 'Basic realm="Redmine API"' }
         format.js   { head :unauthorized, 'WWW-Authenticate' => 'Basic realm="Redmine API"' }
         format.json { head :unauthorized, 'WWW-Authenticate' => 'Basic realm="Redmine API"' }
@@ -240,7 +238,7 @@ class ApplicationController < ActionController::Base
 
   def require_admin
     return unless require_login
-    if !User.current.admin?
+    unless User.current.admin?
       render_403
       return false
     end
@@ -253,12 +251,12 @@ class ApplicationController < ActionController::Base
 
   # Authorize the user for the requested action
   def authorize(ctrl = params[:controller], action = params[:action], global = false)
-    allowed = User.current.allowed_to?({:controller => ctrl, :action => action}, @project || @projects, :global => global)
+    allowed = User.current.allowed_to?({ controller: ctrl, action: action }, @project || @projects, global: global)
     if allowed
       true
     else
       if @project && @project.archived?
-        render_403 :message => :notice_not_authorized_archived_project
+        render_403 message: :notice_not_authorized_archived_project
       else
         deny_access
       end
@@ -288,7 +286,7 @@ class ApplicationController < ActionController::Base
   # TODO: some subclasses override this, see about merging their logic
   def find_optional_project
     @project = Project.find(params[:project_id]) unless params[:project_id].blank?
-    allowed = User.current.allowed_to?({:controller => params[:controller], :action => params[:action]}, @project, :global => true)
+    allowed = User.current.allowed_to?({ controller: params[:controller], action: params[:action] }, @project, global: true)
     allowed ? true : deny_access
   rescue ActiveRecord::RecordNotFound
     render_404
@@ -305,7 +303,7 @@ class ApplicationController < ActionController::Base
     model = self.class.model_object
     if model
       @object = model.find(params[:id])
-      self.instance_variable_set('@' + controller_name.singularize, @object) if @object
+      instance_variable_set('@' + controller_name.singularize, @object) if @object
     end
   rescue ActiveRecord::RecordNotFound
     render_404
@@ -330,10 +328,10 @@ class ApplicationController < ActionController::Base
   # Find issues with a single :id param or :ids array param
   # Raises a Unauthorized exception if one of the issues is not visible
   def find_issues
-    @issues = Issue.
-      where(:id => (params[:id] || params[:ids])).
-      preload(:project, :status, :tracker, :priority, :author, :assigned_to, :relations_to, {:custom_values => :custom_field}).
-      to_a
+    @issues = Issue
+              .where(id: (params[:id] || params[:ids]))
+              .preload(:project, :status, :tracker, :priority, :author, :assigned_to, :relations_to, custom_values: :custom_field)
+              .to_a
     raise ActiveRecord::RecordNotFound if @issues.empty?
     raise Unauthorized unless @issues.all?(&:visible?)
     @projects = @issues.collect(&:project).compact.uniq
@@ -345,7 +343,7 @@ class ApplicationController < ActionController::Base
   def find_attachments
     if (attachments = params[:attachments]).present?
       att = attachments.values.collect do |attachment|
-        Attachment.find_by_token( attachment[:token] ) if attachment[:token].present?
+        Attachment.find_by_token(attachment[:token]) if attachment[:token].present?
       end
       att.compact!
     end
@@ -353,10 +351,10 @@ class ApplicationController < ActionController::Base
   end
 
   def parse_params_for_bulk_update(params)
-    attributes = (params || {}).reject {|k,v| v.blank?}
-    attributes.keys.each {|k| attributes[k] = '' if attributes[k] == 'none'}
+    attributes = (params || {}).reject { |_k, v| v.blank? }
+    attributes.keys.each { |k| attributes[k] = '' if attributes[k] == 'none' }
     if custom = attributes[:custom_field_values]
-      custom.reject! {|k,v| v.blank?}
+      custom.reject! { |_k, v| v.blank? }
       custom.keys.each do |k|
         if custom[k].is_a?(Array)
           custom[k] << '' if custom[k].delete('__none__')
@@ -392,7 +390,7 @@ class ApplicationController < ActionController::Base
     url
   end
 
-  def redirect_back_or_default(default, options={})
+  def redirect_back_or_default(default, options = {})
     back_url = params[:back_url].to_s
     if back_url.present? && valid_url = validate_back_url(back_url)
       redirect_to(valid_url)
@@ -408,9 +406,7 @@ class ApplicationController < ActionController::Base
   # Returns a validated URL string if back_url is a valid url for redirection,
   # otherwise false
   def validate_back_url(back_url)
-    if CGI.unescape(back_url).include?('..')
-      return false
-    end
+    return false if CGI.unescape(back_url).include?('..')
 
     begin
       uri = URI.parse(back_url)
@@ -430,19 +426,15 @@ class ApplicationController < ActionController::Base
     path = uri.to_s
     # Ensure that the remaining URL starts with a slash, followed by a
     # non-slash character or the end
-    if path !~ %r{\A/([^/]|\z)}
-      return false
-    end
+    return false if path !~ %r{\A/([^/]|\z)}
 
-    if path.match(%r{/(login|account/register)})
-      return false
-    end
+    return false if path =~ %r{/(login|account/register)}
 
     if relative_url_root.present? && !path.starts_with?(relative_url_root)
       return false
     end
 
-    return path
+    path
   end
   private :validate_back_url
 
@@ -452,48 +444,48 @@ class ApplicationController < ActionController::Base
   private :valid_back_url?
 
   # Redirects to the request referer if present, redirects to args or call block otherwise.
-  def redirect_to_referer_or(*args, &block)
+  def redirect_to_referer_or(*args)
     redirect_to :back
   rescue ::ActionController::RedirectBackError
     if args.any?
       redirect_to *args
     elsif block_given?
-      block.call
+      yield
     else
-      raise "#redirect_to_referer_or takes arguments or a block"
+      raise '#redirect_to_referer_or takes arguments or a block'
     end
   end
 
-  def render_403(options={})
+  def render_403(options = {})
     @project = nil
-    render_error({:message => :notice_not_authorized, :status => 403}.merge(options))
-    return false
+    render_error({ message: :notice_not_authorized, status: 403 }.merge(options))
+    false
   end
 
-  def render_404(options={})
-    render_error({:message => :notice_file_not_found, :status => 404}.merge(options))
-    return false
+  def render_404(options = {})
+    render_error({ message: :notice_file_not_found, status: 404 }.merge(options))
+    false
   end
 
   # Renders an error response
   def render_error(arg)
-    arg = {:message => arg} unless arg.is_a?(Hash)
+    arg = { message: arg } unless arg.is_a?(Hash)
 
     @message = arg[:message]
     @message = l(@message) if @message.is_a?(Symbol)
     @status = arg[:status] || 500
 
     respond_to do |format|
-      format.html {
-        render :template => 'common/error', :layout => use_layout, :status => @status
-      }
+      format.html do
+        render template: 'common/error', layout: use_layout, status: @status
+      end
       format.any { head @status }
     end
   end
 
   # Handler for ActionView::MissingTemplate exception
   def missing_template
-    logger.warn "Missing template, responding with 404"
+    logger.warn 'Missing template, responding with 404'
     @project = nil
     render_404
   end
@@ -505,7 +497,7 @@ class ApplicationController < ActionController::Base
     if User.current.admin?
       true
     elsif User.current.logged?
-      render_error(:status => 406)
+      render_error(status: 406)
     else
       deny_access
     end
@@ -518,24 +510,24 @@ class ApplicationController < ActionController::Base
     request.xhr? ? false : 'base'
   end
 
-  def render_feed(items, options={})
+  def render_feed(items, options = {})
     @items = (items || []).to_a
-    @items.sort! {|x,y| y.event_datetime <=> x.event_datetime }
+    @items.sort! { |x, y| y.event_datetime <=> x.event_datetime }
     @items = @items.slice(0, Setting.feeds_limit.to_i)
     @title = options[:title] || Setting.app_title
-    render :template => "common/feed", :formats => [:atom], :layout => false,
-           :content_type => 'application/atom+xml'
+    render template: 'common/feed', formats: [:atom], layout: false,
+           content_type: 'application/atom+xml'
   end
 
   def self.accept_rss_auth(*actions)
     if actions.any?
       self.accept_rss_auth_actions = actions
     else
-      self.accept_rss_auth_actions || []
+      accept_rss_auth_actions || []
     end
   end
 
-  def accept_rss_auth?(action=action_name)
+  def accept_rss_auth?(action = action_name)
     self.class.accept_rss_auth.include?(action.to_sym)
   end
 
@@ -543,11 +535,11 @@ class ApplicationController < ActionController::Base
     if actions.any?
       self.accept_api_auth_actions = actions
     else
-      self.accept_api_auth_actions || []
+      accept_api_auth_actions || []
     end
   end
 
-  def accept_api_auth?(action=action_name)
+  def accept_api_auth?(action = action_name)
     self.class.accept_api_auth.include?(action.to_sym)
   end
 
@@ -568,12 +560,10 @@ class ApplicationController < ActionController::Base
 
   # Returns offset and limit used to retrieve objects
   # for an API response based on offset, limit and page parameters
-  def api_offset_and_limit(options=params)
+  def api_offset_and_limit(options = params)
     if options[:offset].present?
       offset = options[:offset].to_i
-      if offset < 0
-        offset = 0
-      end
+      offset = 0 if offset < 0
     end
     limit = options[:limit].to_i
     if limit < 1
@@ -596,15 +586,14 @@ class ApplicationController < ActionController::Base
     tmp = []
     if value
       parts = value.split(/,\s*/)
-      parts.each {|part|
-        if m = %r{^([^\s,]+?)(?:;\s*q=(\d+(?:\.\d+)?))?$}.match(part)
-          val = m[1]
-          q = (m[2] or 1).to_f
-          tmp.push([val, q])
-        end
-      }
-      tmp = tmp.sort_by{|val, q| -q}
-      tmp.collect!{|val, q| val}
+      parts.each do |part|
+        next unless m = /^([^\s,]+?)(?:;\s*q=(\d+(?:\.\d+)?))?$/.match(part)
+        val = m[1]
+        q = (m[2] || 1).to_f
+        tmp.push([val, q])
+      end
+      tmp = tmp.sort_by { |_val, q| -q }
+      tmp.collect! { |val, _q| val }
     end
     return tmp
   rescue
@@ -613,7 +602,7 @@ class ApplicationController < ActionController::Base
 
   # Returns a string that can be used as filename value in Content-Disposition header
   def filename_for_content_disposition(name)
-    request.env['HTTP_USER_AGENT'] =~ %r{(MSIE|Trident|Edge)} ? ERB::Util.url_encode(name) : name
+    request.env['HTTP_USER_AGENT'] =~ /(MSIE|Trident|Edge)/ ? ERB::Util.url_encode(name) : name
   end
 
   def api_request?
@@ -624,14 +613,14 @@ class ApplicationController < ActionController::Base
   def api_key_from_request
     if params[:key].present?
       params[:key].to_s
-    elsif request.headers["X-Redmine-API-Key"].present?
-      request.headers["X-Redmine-API-Key"].to_s
+    elsif request.headers['X-Redmine-API-Key'].present?
+      request.headers['X-Redmine-API-Key'].to_s
     end
   end
 
   # Returns the API 'switch user' value if present
   def api_switch_user_from_request
-    request.headers["X-Redmine-Switch-User"].to_s.presence
+    request.headers['X-Redmine-Switch-User'].to_s.presence
   end
 
   # Renders a warning flash if obj has unsaved attachments
@@ -644,7 +633,7 @@ class ApplicationController < ActionController::Base
     logger.error "Query::StatementInvalid: #{exception.message}" if logger
     session.delete(:query)
     sort_clear if respond_to?(:sort_clear)
-    render_error "An error occurred while executing the query and has been logged. Please report this error to your Redmine administrator."
+    render_error 'An error occurred while executing the query and has been logged. Please report this error to your Redmine administrator.'
   end
 
   # Renders a 200 response for successfull updates or deletions via the API
@@ -654,19 +643,19 @@ class ApplicationController < ActionController::Base
 
   # Renders a head API response
   def render_api_head(status)
-    head :status => status
+    head status: status
   end
 
   # Renders API response on validation failure
   # for an object or an array of objects
   def render_validation_errors(objects)
-    messages = Array.wrap(objects).map {|object| object.errors.full_messages}.flatten
+    messages = Array.wrap(objects).map { |object| object.errors.full_messages }.flatten
     render_api_errors(messages)
   end
 
   def render_api_errors(*messages)
     @error_messages = messages.flatten
-    render :template => 'common/error_messages.api', :status => :unprocessable_entity, :layout => nil
+    render template: 'common/error_messages.api', status: :unprocessable_entity, layout: nil
   end
 
   # Overrides #_include_layout? so that #render with no arguments

@@ -18,9 +18,9 @@
 class IssueCategoriesController < ApplicationController
   menu_item :settings
   model_object IssueCategory
-  before_action :find_model_object, :except => [:index, :new, :create]
-  before_action :find_project_from_association, :except => [:index, :new, :create]
-  before_action :find_project_by_project_id, :only => [:index, :new, :create]
+  before_action :find_model_object, except: [:index, :new, :create]
+  before_action :find_project_from_association, except: [:index, :new, :create]
+  before_action :find_project_by_project_id, only: [:index, :new, :create]
   before_action :authorize
   accept_api_auth :index, :show, :create, :update, :destroy
 
@@ -58,12 +58,12 @@ class IssueCategoriesController < ApplicationController
           redirect_to_settings_in_projects
         end
         format.js
-        format.api { render :action => 'show', :status => :created, :location => issue_category_path(@category) }
+        format.api { render action: 'show', status: :created, location: issue_category_path(@category) }
       end
     else
       respond_to do |format|
-        format.html { render :action => 'new'}
-        format.js   { render :action => 'new'}
+        format.html { render action: 'new' }
+        format.js   { render action: 'new' }
         format.api { render_validation_errors(@category) }
       end
     end
@@ -76,15 +76,15 @@ class IssueCategoriesController < ApplicationController
     @category.safe_attributes = params[:issue_category]
     if @category.save
       respond_to do |format|
-        format.html {
+        format.html do
           flash[:notice] = l(:notice_successful_update)
           redirect_to_settings_in_projects
-        }
+        end
         format.api { render_api_ok }
       end
     else
       respond_to do |format|
-        format.html { render :action => 'edit' }
+        format.html { render action: 'edit' }
         format.api { render_validation_errors(@category) }
       end
     end
@@ -92,7 +92,7 @@ class IssueCategoriesController < ApplicationController
 
   def destroy
     @issue_count = @category.issues.size
-    if @issue_count == 0 || params[:todo] || api_request?
+    if @issue_count.zero? || params[:todo] || api_request?
       reassign_to = nil
       if params[:reassign_to_id] && (params[:todo] == 'reassign' || params[:todo].blank?)
         reassign_to = @project.issue_categories.find_by_id(params[:reassign_to_id])
@@ -110,7 +110,7 @@ class IssueCategoriesController < ApplicationController
   private
 
   def redirect_to_settings_in_projects
-    redirect_to settings_project_path(@project, :tab => 'categories')
+    redirect_to settings_project_path(@project, tab: 'categories')
   end
 
   # Wrap ApplicationController's find_model_object method to set

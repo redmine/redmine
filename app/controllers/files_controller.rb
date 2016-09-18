@@ -31,11 +31,11 @@ class FilesController < ApplicationController
                 'size' => "#{Attachment.table_name}.filesize",
                 'downloads' => "#{Attachment.table_name}.downloads"
 
-    @containers = [Project.includes(:attachments).
-                     references(:attachments).reorder(sort_clause).find(@project.id)]
-    @containers += @project.versions.includes(:attachments).
-                    references(:attachments).reorder(sort_clause).to_a.sort.reverse
-    render :layout => !request.xhr?
+    @containers = [Project.includes(:attachments)
+                          .references(:attachments).reorder(sort_clause).find(@project.id)]
+    @containers += @project.versions.includes(:attachments)
+                           .references(:attachments).reorder(sort_clause).to_a.sort.reverse
+    render layout: !request.xhr?
   end
 
   def new
@@ -54,9 +54,9 @@ class FilesController < ApplicationController
       flash[:notice] = l(:label_file_added)
       redirect_to project_files_path(@project)
     else
-      flash.now[:error] = l(:label_attachment) + " " + l('activerecord.errors.messages.invalid')
+      flash.now[:error] = l(:label_attachment) + ' ' + l('activerecord.errors.messages.invalid')
       new
-      render :action => 'new'
+      render action: 'new'
     end
   end
 end

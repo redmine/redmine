@@ -20,12 +20,12 @@ class AuthSourcesController < ApplicationController
   menu_item :ldap_authentication
 
   before_action :require_admin
-  before_action :build_new_auth_source, :only => [:new, :create]
-  before_action :find_auth_source, :only => [:edit, :update, :test_connection, :destroy]
+  before_action :build_new_auth_source, only: [:new, :create]
+  before_action :find_auth_source, only: [:edit, :update, :test_connection, :destroy]
   require_sudo_mode :update, :destroy
 
   def index
-    @auth_source_pages, @auth_sources = paginate AuthSource, :per_page => 25
+    @auth_source_pages, @auth_sources = paginate AuthSource, per_page: 25
   end
 
   def new
@@ -36,7 +36,7 @@ class AuthSourcesController < ApplicationController
       flash[:notice] = l(:notice_successful_create)
       redirect_to auth_sources_path
     else
-      render :action => 'new'
+      render action: 'new'
     end
   end
 
@@ -49,7 +49,7 @@ class AuthSourcesController < ApplicationController
       flash[:notice] = l(:notice_successful_update)
       redirect_to auth_sources_path
     else
-      render :action => 'edit'
+      render action: 'edit'
     end
   end
 
@@ -74,15 +74,16 @@ class AuthSourcesController < ApplicationController
   def autocomplete_for_new_user
     results = AuthSource.search(params[:term])
 
-    render :json => results.map {|result| {
-      'value' => result[:login],
-      'label' => "#{result[:login]} (#{result[:firstname]} #{result[:lastname]})",
-      'login' => result[:login].to_s,
-      'firstname' => result[:firstname].to_s,
-      'lastname' => result[:lastname].to_s,
-      'mail' => result[:mail].to_s,
-      'auth_source_id' => result[:auth_source_id].to_s
-    }}
+    render json: results.map {|result|
+                      {
+                        'value' => result[:login],
+                        'label' => "#{result[:login]} (#{result[:firstname]} #{result[:lastname]})",
+                        'login' => result[:login].to_s,
+                        'firstname' => result[:firstname].to_s,
+                        'lastname' => result[:lastname].to_s,
+                        'mail' => result[:mail].to_s,
+                        'auth_source_id' => result[:auth_source_id].to_s
+                      }}
   end
 
   private

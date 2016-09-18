@@ -17,12 +17,12 @@
 
 class ProjectsController < ApplicationController
   menu_item :overview
-  menu_item :settings, :only => :settings
+  menu_item :settings, only: :settings
 
-  before_action :find_project, :except => [ :index, :list, :new, :create, :copy ]
-  before_action :authorize, :except => [ :index, :list, :new, :create, :copy, :archive, :unarchive, :destroy]
-  before_action :authorize_global, :only => [:new, :create]
-  before_action :require_admin, :only => [ :copy, :archive, :unarchive, :destroy ]
+  before_action :find_project, except: [:index, :list, :new, :create, :copy]
+  before_action :authorize, except: [:index, :list, :new, :create, :copy, :archive, :unarchive, :destroy]
+  before_action :authorize_global, only: [:new, :create]
+  before_action :require_admin, only: [:copy, :archive, :unarchive, :destroy]
   accept_rss_auth :index
   accept_api_auth :index, :show, :create, :update, :destroy
   require_sudo_mode :destroy
@@ -38,21 +38,19 @@ class ProjectsController < ApplicationController
     scope = Project.visible.sorted
 
     respond_to do |format|
-      format.html {
-        unless params[:closed]
-          scope = scope.active
-        end
+      format.html do
+        scope = scope.active unless params[:closed]
         @projects = scope.to_a
-      }
-      format.api  {
+      end
+      format.api do
         @offset, @limit = api_offset_and_limit
         @project_count = scope.count
         @projects = scope.offset(@offset).limit(@limit).to_a
-      }
-      format.atom {
-        projects = scope.reorder(:created_on => :desc).limit(Setting.feeds_limit.to_i).to_a
-        render_feed(projects, :title => "#{Setting.app_title}: #{l(:label_project_latest)}")
-      }
+      end
+      format.atom do
+        projects = scope.reorder(created_on: :desc).limit(Setting.feeds_limit.to_i).to_a
+        render_feed(projects, title: "#{Setting.app_title}: #{l(:label_project_latest)}")
+      end
     end
   end
 
@@ -70,24 +68,22 @@ class ProjectsController < ApplicationController
     @project.safe_attributes = params[:project]
 
     if @project.save
-      unless User.current.admin?
-        @project.add_default_member(User.current)
-      end
+      @project.add_default_member(User.current) unless User.current.admin?
       respond_to do |format|
-        format.html {
+        format.html do
           flash[:notice] = l(:notice_successful_create)
           if params[:continue]
-            attrs = {:parent_id => @project.parent_id}.reject {|k,v| v.nil?}
+            attrs = { parent_id: @project.parent_id }.reject { |_k, v| v.nil? }
             redirect_to new_project_path(attrs)
           else
             redirect_to settings_project_path(@project)
           end
-        }
-        format.api  { render :action => 'show', :status => :created, :location => url_for(:controller => 'projects', :action => 'show', :id => @project.id) }
+        end
+        format.api  { render action: 'show', status: :created, location: url_for(controller: 'projects', action: 'show', id: @project.id) }
       end
     else
       respond_to do |format|
-        format.html { render :action => 'new' }
+        format.html { render action: 'new' }
         format.api  { render_validation_errors(@project) }
       end
     end
@@ -104,7 +100,7 @@ class ProjectsController < ApplicationController
       Mailer.with_deliveries(params[:notifications] == '1') do
         @project = Project.new
         @project.safe_attributes = params[:project]
-        if @project.copy(@source_project, :only => params[:only])
+        if @project.copy(@source_project, only: params[:only])
           flash[:notice] = l(:notice_successful_create)
           redirect_to settings_project_path(@project)
         elsif !@project.new_record?
@@ -159,7 +155,7 @@ class ProjectsController < ApplicationController
     @version_status = params[:version_status] || 'open'
     @version_name = params[:version_name]
     @versions = @project.shared_versions.status(@version_status).like(@version_name)
-    @wiki ||= @project.wiki || Wiki.new(:project => @project)
+    @wiki ||= @project.wiki || Wiki.new(project: @project)
   end
 
   def edit
@@ -169,18 +165,18 @@ class ProjectsController < ApplicationController
     @project.safe_attributes = params[:project]
     if @project.save
       respond_to do |format|
-        format.html {
+        format.html do
           flash[:notice] = l(:notice_successful_update)
           redirect_to settings_project_path(@project)
-        }
+        end
         format.api  { render_api_ok }
       end
     else
       respond_to do |format|
-        format.html {
+        format.html do
           settings
-          render :action => 'settings'
-        }
+          render action: 'settings'
+        end
         format.api  { render_validation_errors(@project) }
       end
     end
@@ -189,21 +185,17 @@ class ProjectsController < ApplicationController
   def modules
     @project.enabled_module_names = params[:enabled_module_names]
     flash[:notice] = l(:notice_successful_update)
-    redirect_to settings_project_path(@project, :tab => 'modules')
+    redirect_to settings_project_path(@project, tab: 'modules')
   end
 
   def archive
-    unless @project.archive
-      flash[:error] = l(:error_can_not_archive_project)
-    end
-    redirect_to_referer_or admin_projects_path(:status => params[:status])
+    flash[:error] = l(:error_can_not_archive_project) unless @project.archive
+    redirect_to_referer_or admin_projects_path(status: params[:status])
   end
 
   def unarchive
-    unless @project.active?
-      @project.unarchive
-    end
-    redirect_to_referer_or admin_projects_path(:status => params[:status])
+    @project.unarchive unless @project.active?
+    redirect_to_referer_or admin_projects_path(status: params[:status])
   end
 
   def close

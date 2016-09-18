@@ -16,19 +16,19 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class AttachmentsController < ApplicationController
-  before_action :find_attachment, :only => [:show, :download, :thumbnail, :destroy]
-  before_action :find_editable_attachments, :only => [:edit, :update]
-  before_action :file_readable, :read_authorize, :only => [:show, :download, :thumbnail]
-  before_action :delete_authorize, :only => :destroy
-  before_action :authorize_global, :only => :upload
+  before_action :find_attachment, only: [:show, :download, :thumbnail, :destroy]
+  before_action :find_editable_attachments, only: [:edit, :update]
+  before_action :file_readable, :read_authorize, only: [:show, :download, :thumbnail]
+  before_action :delete_authorize, only: :destroy
+  before_action :authorize_global, only: :upload
 
   accept_api_auth :show, :download, :thumbnail, :upload, :destroy
 
   def show
     respond_to do |format|
-      format.html {
+      format.html do
         if @attachment.is_diff?
-          @diff = File.read(@attachment.diskfile, :mode => "rb")
+          @diff = File.read(@attachment.diskfile, mode: 'rb')
           @diff_type = params[:type] || User.current.pref[:diff_type] || 'inline'
           @diff_type = 'inline' unless %w(inline sbs).include?(@diff_type)
           # Save diff type as user preference
@@ -36,16 +36,16 @@ class AttachmentsController < ApplicationController
             User.current.pref[:diff_type] = @diff_type
             User.current.preference.save
           end
-          render :action => 'diff'
+          render action: 'diff'
         elsif @attachment.is_text? && @attachment.filesize <= Setting.file_max_size_displayed.to_i.kilobyte
-          @content = File.read(@attachment.diskfile, :mode => "rb")
-          render :action => 'file'
+          @content = File.read(@attachment.diskfile, mode: 'rb')
+          render action: 'file'
         elsif @attachment.is_image?
-          render :action => 'image'
+          render action: 'image'
         else
-          render :action => 'other'
+          render action: 'other'
         end
-      }
+      end
       format.api
     end
   end
@@ -55,21 +55,21 @@ class AttachmentsController < ApplicationController
       @attachment.increment_download
     end
 
-    if stale?(:etag => @attachment.digest)
+    if stale?(etag: @attachment.digest)
       # images are sent inline
-      send_file @attachment.diskfile, :filename => filename_for_content_disposition(@attachment.filename),
-                                      :type => detect_content_type(@attachment),
-                                      :disposition => disposition(@attachment)
+      send_file @attachment.diskfile, filename: filename_for_content_disposition(@attachment.filename),
+                                      type: detect_content_type(@attachment),
+                                      disposition: disposition(@attachment)
     end
   end
 
   def thumbnail
-    if @attachment.thumbnailable? && tbnail = @attachment.thumbnail(:size => params[:size])
-      if stale?(:etag => tbnail)
+    if @attachment.thumbnailable? && tbnail = @attachment.thumbnail(size: params[:size])
+      if stale?(etag: tbnail)
         send_file tbnail,
-          :filename => filename_for_content_disposition(@attachment.filename),
-          :type => detect_content_type(@attachment),
-          :disposition => 'inline'
+                  filename: filename_for_content_disposition(@attachment.filename),
+                  type: detect_content_type(@attachment),
+                  disposition: 'inline'
       end
     else
       # No thumbnail for the attachment or thumbnail could not be created
@@ -85,7 +85,7 @@ class AttachmentsController < ApplicationController
       return
     end
 
-    @attachment = Attachment.new(:file => request.raw_post)
+    @attachment = Attachment.new(file: request.raw_post)
     @attachment.author = User.current
     @attachment.filename = params[:filename].presence || Redmine::Utils.random_hex(16)
     @attachment.content_type = params[:content_type].presence
@@ -93,13 +93,13 @@ class AttachmentsController < ApplicationController
 
     respond_to do |format|
       format.js
-      format.api {
+      format.api do
         if saved
-          render :action => 'upload', :status => :created
+          render action: 'upload', status: :created
         else
           render_validation_errors(@attachment)
         end
-      }
+      end
     end
   end
 
@@ -113,7 +113,7 @@ class AttachmentsController < ApplicationController
         return
       end
     end
-    render :action => 'edit'
+    render action: 'edit'
   end
 
   def destroy
@@ -146,7 +146,11 @@ class AttachmentsController < ApplicationController
   end
 
   def find_editable_attachments
-    klass = params[:object_type].to_s.singularize.classify.constantize rescue nil
+    klass = begin
+              params[:object_type].to_s.singularize.classify.constantize
+            rescue
+              nil
+            end
     unless klass && klass.reflect_on_association(:attachments)
       render_404
       return
@@ -158,9 +162,7 @@ class AttachmentsController < ApplicationController
       return
     end
     @attachments = @container.attachments.select(&:editable?)
-    if @container.respond_to?(:project)
-      @project = @container.project
-    end
+    @project = @container.project if @container.respond_to?(:project)
     render_404 if @attachments.empty?
   rescue ActiveRecord::RecordNotFound
     render_404
@@ -186,7 +188,7 @@ class AttachmentsController < ApplicationController
 
   def detect_content_type(attachment)
     content_type = attachment.content_type
-    if content_type.blank? || content_type == "application/octet-stream"
+    if content_type.blank? || content_type == 'application/octet-stream'
       content_type = Redmine::MimeType.of(attachment.filename)
     end
     content_type.to_s

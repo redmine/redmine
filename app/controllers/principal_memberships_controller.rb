@@ -19,8 +19,8 @@ class PrincipalMembershipsController < ApplicationController
   layout 'admin'
 
   before_action :require_admin
-  before_action :find_principal, :only => [:new, :create]
-  before_action :find_membership, :only => [:update, :destroy]
+  before_action :find_principal, only: [:new, :create]
+  before_action :find_membership, only: [:update, :destroy]
 
   def new
     @projects = Project.active.all
@@ -49,9 +49,7 @@ class PrincipalMembershipsController < ApplicationController
   end
 
   def destroy
-    if @membership.deletable?
-      @membership.destroy
-    end
+    @membership.destroy if @membership.deletable?
     respond_to do |format|
       format.html { redirect_to_principal @principal }
       format.js
@@ -75,6 +73,6 @@ class PrincipalMembershipsController < ApplicationController
   end
 
   def redirect_to_principal(principal)
-    redirect_to edit_polymorphic_path(principal, :tab => 'memberships')
+    redirect_to edit_polymorphic_path(principal, tab: 'memberships')
   end
 end

@@ -26,12 +26,10 @@ class ProjectEnumerationsController < ApplicationController
           @project.update_or_create_time_entry_activity(id, activity)
         end
       end
-      if saved
-        flash[:notice] = l(:notice_successful_update)
-      end
+      flash[:notice] = l(:notice_successful_update) if saved
     end
 
-    redirect_to settings_project_path(@project, :tab => 'activities')
+    redirect_to settings_project_path(@project, tab: 'activities')
   end
 
   def destroy
@@ -39,6 +37,6 @@ class ProjectEnumerationsController < ApplicationController
       time_entry_activity.destroy(time_entry_activity.parent)
     end
     flash[:notice] = l(:notice_successful_update)
-    redirect_to settings_project_path(@project, :tab => 'activities')
+    redirect_to settings_project_path(@project, tab: 'activities')
   end
 end
