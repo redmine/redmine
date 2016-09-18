@@ -17,16 +17,16 @@
 
 class AdminController < ApplicationController
   layout 'admin'
-  menu_item :projects, :only => :projects
-  menu_item :plugins, :only => :plugins
-  menu_item :info, :only => :info
+  menu_item :projects, only: :projects
+  menu_item :plugins, only: :plugins
+  menu_item :info, only: :info
 
   before_action :require_admin
   helper :sort
   include SortHelper
 
   def index
-    @no_configuration_data = Redmine::DefaultData::Loader::no_data?
+    @no_configuration_data = Redmine::DefaultData::Loader.no_data?
   end
 
   def projects
@@ -39,7 +39,7 @@ class AdminController < ApplicationController
     @project_pages = Paginator.new @project_count, per_page_option, params['page']
     @projects = scope.limit(@project_pages.per_page).offset(@project_pages.offset).to_a
 
-    render :action => "projects", :layout => false if request.xhr?
+    render action: 'projects', layout: false if request.xhr?
   end
 
   def plugins
@@ -51,7 +51,7 @@ class AdminController < ApplicationController
   def default_configuration
     if request.post?
       begin
-        Redmine::DefaultData::Loader::load(params[:lang])
+        Redmine::DefaultData::Loader.load(params[:lang])
         flash[:notice] = l(:notice_default_data_loaded)
       rescue Exception => e
         flash[:error] = l(:error_can_t_load_default_data, ERB::Util.h(e.message))
@@ -71,7 +71,7 @@ class AdminController < ApplicationController
       flash[:error] = l(:notice_email_error, ERB::Util.h(Redmine::CodesetUtil.replace_invalid_utf8(e.message.dup)))
     end
     ActionMailer::Base.raise_delivery_errors = raise_delivery_errors
-    redirect_to settings_path(:tab => 'notifications')
+    redirect_to settings_path(tab: 'notifications')
   end
 
   def info
@@ -79,7 +79,7 @@ class AdminController < ApplicationController
     @checklist = [
       [:text_default_administrator_account_changed, User.default_admin_account_changed?],
       [:text_file_repository_writable, File.writable?(Attachment.storage_path)],
-      ["#{l :text_plugin_assets_writable} (./public/plugin_assets)",   File.writable?(Redmine::Plugin.public_directory)],
+      ["#{l :text_plugin_assets_writable} (./public/plugin_assets)", File.writable?(Redmine::Plugin.public_directory)],
       [:text_rmagick_available,        Object.const_defined?(:Magick)],
       [:text_convert_available,        Redmine::Thumbnail.convert_available?]
     ]

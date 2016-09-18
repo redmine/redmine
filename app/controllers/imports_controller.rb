@@ -18,8 +18,7 @@
 require 'csv'
 
 class ImportsController < ApplicationController
-
-  before_action :find_import, :only => [:show, :settings, :mapping, :run]
+  before_action :find_import, only: [:show, :settings, :mapping, :run]
   before_action :authorize_global
 
   helper :issues
@@ -37,7 +36,7 @@ class ImportsController < ApplicationController
     if @import.save
       redirect_to import_settings_path(@import)
     else
-      render :action => 'new'
+      render action: 'new'
     end
   end
 
@@ -52,7 +51,7 @@ class ImportsController < ApplicationController
   rescue CSV::MalformedCSVError => e
     flash.now[:error] = l(:error_invalid_csv_file_or_settings)
   rescue ArgumentError, Encoding::InvalidByteSequenceError => e
-    flash.now[:error] = l(:error_invalid_file_encoding, :encoding => ERB::Util.h(@import.settings['encoding']))
+    flash.now[:error] = l(:error_invalid_file_encoding, encoding: ERB::Util.h(@import.settings['encoding']))
   rescue SystemCallError => e
     flash.now[:error] = l(:error_can_not_read_import_file)
   end
@@ -62,13 +61,13 @@ class ImportsController < ApplicationController
 
     if request.post?
       respond_to do |format|
-        format.html {
+        format.html do
           if params[:previous]
             redirect_to import_settings_path(@import)
           else
             redirect_to import_run_path(@import)
           end
-        }
+        end
         format.js # updates mapping form on project or tracker change
       end
     end
@@ -77,17 +76,17 @@ class ImportsController < ApplicationController
   def run
     if request.post?
       @current = @import.run(
-        :max_items => max_items_per_request,
-        :max_time => 10.seconds
+        max_items: max_items_per_request,
+        max_time: 10.seconds
       )
       respond_to do |format|
-        format.html {
+        format.html do
           if @import.finished?
             redirect_to import_path(@import)
           else
             redirect_to import_run_path(@import)
           end
-        }
+        end
         format.js
       end
     end
@@ -96,7 +95,7 @@ class ImportsController < ApplicationController
   private
 
   def find_import
-    @import = Import.where(:user_id => User.current.id, :filename => params[:id]).first
+    @import = Import.where(user_id: User.current.id, filename: params[:id]).first
     if @import.nil?
       render_404
       return

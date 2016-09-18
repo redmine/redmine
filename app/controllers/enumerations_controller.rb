@@ -18,10 +18,10 @@
 class EnumerationsController < ApplicationController
   layout 'admin'
 
-  before_action :require_admin, :except => :index
-  before_action :require_admin_or_api_request, :only => :index
-  before_action :build_new_enumeration, :only => [:new, :create]
-  before_action :find_enumeration, :only => [:edit, :update, :destroy]
+  before_action :require_admin, except: :index
+  before_action :require_admin_or_api_request, only: :index
+  before_action :build_new_enumeration, only: [:new, :create]
+  before_action :find_enumeration, only: [:edit, :update, :destroy]
   accept_api_auth :index
 
   helper :custom_fields
@@ -29,14 +29,14 @@ class EnumerationsController < ApplicationController
   def index
     respond_to do |format|
       format.html
-      format.api {
+      format.api do
         @klass = Enumeration.get_subclass(params[:type])
         if @klass
           @enumerations = @klass.shared.sorted.to_a
         else
           render_404
         end
-      }
+      end
     end
   end
 
@@ -48,7 +48,7 @@ class EnumerationsController < ApplicationController
       flash[:notice] = l(:notice_successful_create)
       redirect_to enumerations_path
     else
-      render :action => 'new'
+      render action: 'new'
     end
   end
 
@@ -58,15 +58,15 @@ class EnumerationsController < ApplicationController
   def update
     if @enumeration.update_attributes(params[:enumeration])
       respond_to do |format|
-        format.html {
+        format.html do
           flash[:notice] = l(:notice_successful_update)
           redirect_to enumerations_path
-        }
+        end
         format.js { head 200 }
       end
     else
       respond_to do |format|
-        format.html { render :action => 'edit' }
+        format.html { render action: 'edit' }
         format.js { head 422 }
       end
     end
@@ -91,9 +91,7 @@ class EnumerationsController < ApplicationController
   def build_new_enumeration
     class_name = params[:enumeration] && params[:enumeration][:type] || params[:type]
     @enumeration = Enumeration.new_subclass_instance(class_name, params[:enumeration])
-    if @enumeration.nil?
-      render_404
-    end
+    render_404 if @enumeration.nil?
   end
 
   def find_enumeration

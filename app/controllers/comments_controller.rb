@@ -28,9 +28,7 @@ class CommentsController < ApplicationController
     @comment = Comment.new
     @comment.safe_attributes = params[:comment]
     @comment.author = User.current
-    if @news.comments << @comment
-      flash[:notice] = l(:label_comment_added)
-    end
+    flash[:notice] = l(:label_comment_added) if @news.comments << @comment
 
     redirect_to news_path(@news)
   end

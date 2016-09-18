@@ -30,7 +30,7 @@ class PreviewsController < ApplicationController
     else
       @description = (params[:issue] ? params[:issue][:description] : nil)
     end
-    render :layout => false
+    render layout: false
   end
 
   def news
@@ -38,7 +38,7 @@ class PreviewsController < ApplicationController
       @previewed = news
     end
     @text = (params[:news] ? params[:news][:description] : nil)
-    render :partial => 'common/preview'
+    render partial: 'common/preview'
   end
 
   private
@@ -49,5 +49,4 @@ class PreviewsController < ApplicationController
   rescue ActiveRecord::RecordNotFound
     render_404
   end
-
 end

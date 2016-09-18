@@ -16,8 +16,8 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class IssueRelationsController < ApplicationController
-  before_action :find_issue, :authorize, :only => [:index, :create]
-  before_action :find_relation, :only => [:show, :destroy]
+  before_action :find_issue, :authorize, only: [:index, :create]
+  before_action :find_relation, only: [:show, :destroy]
 
   accept_api_auth :index, :show, :create, :destroy
 
@@ -48,16 +48,16 @@ class IssueRelationsController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to issue_path(@issue) }
-      format.js {
-        @relations = @issue.reload.relations.select {|r| r.other_issue(@issue) && r.other_issue(@issue).visible? }
-      }
-      format.api {
+      format.js do
+        @relations = @issue.reload.relations.select { |r| r.other_issue(@issue) && r.other_issue(@issue).visible? }
+      end
+      format.api do
         if saved
-          render :action => 'show', :status => :created, :location => relation_url(@relation)
+          render action: 'show', status: :created, location: relation_url(@relation)
         else
           render_validation_errors(@relation)
         end
-      }
+      end
     end
   end
 
@@ -69,7 +69,7 @@ class IssueRelationsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to issue_path(@relation.issue_from) }
       format.js
-      format.api  { render_api_ok }
+      format.api { render_api_ok }
     end
   end
 

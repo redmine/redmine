@@ -19,13 +19,13 @@ class SysController < ActionController::Base
   before_action :check_enabled
 
   def projects
-    p = Project.active.has_module(:repository).
-          order("#{Project.table_name}.identifier").preload(:repository).to_a
+    p = Project.active.has_module(:repository)
+               .order("#{Project.table_name}.identifier").preload(:repository).to_a
     # extra_info attribute from repository breaks activeresource client
-    render :xml => p.to_xml(
-                       :only => [:id, :identifier, :name, :is_public, :status],
-                       :include => {:repository => {:only => [:id, :url]}}
-                     )
+    render xml: p.to_xml(
+      only: [:id, :identifier, :name, :is_public, :status],
+      include: { repository: { only: [:id, :url] } }
+    )
   end
 
   def create_project_repository
@@ -37,7 +37,7 @@ class SysController < ActionController::Base
       repository = Repository.factory(params[:vendor], params[:repository])
       repository.project = project
       if repository.save
-        render :xml => {repository.class.name.underscore.gsub('/', '-') => {:id => repository.id, :url => repository.url}}, :status => 201
+        render xml: { repository.class.name.underscore.tr('/', '-') => { id: repository.id, url: repository.url } }, status: 201
       else
         head 422
       end
@@ -49,20 +49,18 @@ class SysController < ActionController::Base
     scope = Project.active.has_module(:repository)
     if params[:id]
       project = nil
-      if params[:id].to_s =~ /^\d*$/
-        project = scope.find(params[:id])
-      else
-        project = scope.find_by_identifier(params[:id])
-      end
+      project = if params[:id].to_s =~ /^\d*$/
+                  scope.find(params[:id])
+                else
+                  scope.find_by_identifier(params[:id])
+                end
       raise ActiveRecord::RecordNotFound unless project
       projects << project
     else
       projects = scope.to_a
     end
     projects.each do |project|
-      project.repositories.each do |repository|
-        repository.fetch_changesets
-      end
+      project.repositories.each(&:fetch_changesets)
     end
     head 200
   rescue ActiveRecord::RecordNotFound
@@ -74,7 +72,7 @@ class SysController < ActionController::Base
   def check_enabled
     User.current = nil
     unless Setting.sys_api_enabled? && params[:key].to_s == Setting.sys_api_key
-      render :plain => 'Access denied. Repository management WS is disabled or key is invalid.', :status => 403
+      render plain: 'Access denied. Repository management WS is disabled or key is invalid.', status: 403
       return false
     end
   end

@@ -36,43 +36,43 @@ class ReportsController < ApplicationController
     @issues_by_author = Issue.by_author(@project)
     @issues_by_subproject = Issue.by_subproject(@project) || []
 
-    render :template => "reports/issue_report"
+    render template: 'reports/issue_report'
   end
 
   def issue_report_details
     case params[:detail]
-    when "tracker"
-      @field = "tracker_id"
+    when 'tracker'
+      @field = 'tracker_id'
       @rows = @project.rolled_up_trackers(false).visible
       @data = Issue.by_tracker(@project)
       @report_title = l(:field_tracker)
-    when "version"
-      @field = "fixed_version_id"
+    when 'version'
+      @field = 'fixed_version_id'
       @rows = @project.shared_versions.sort
       @data = Issue.by_version(@project)
       @report_title = l(:field_version)
-    when "priority"
-      @field = "priority_id"
+    when 'priority'
+      @field = 'priority_id'
       @rows = IssuePriority.all.reverse
       @data = Issue.by_priority(@project)
       @report_title = l(:field_priority)
-    when "category"
-      @field = "category_id"
+    when 'category'
+      @field = 'category_id'
       @rows = @project.issue_categories
       @data = Issue.by_category(@project)
       @report_title = l(:field_category)
-    when "assigned_to"
-      @field = "assigned_to_id"
+    when 'assigned_to'
+      @field = 'assigned_to_id'
       @rows = (Setting.issue_group_assignment? ? @project.principals : @project.users).sort
       @data = Issue.by_assigned_to(@project)
       @report_title = l(:field_assigned_to)
-    when "author"
-      @field = "author_id"
+    when 'author'
+      @field = 'author_id'
       @rows = @project.users.sort
       @data = Issue.by_author(@project)
       @report_title = l(:field_author)
-    when "subproject"
-      @field = "project_id"
+    when 'subproject'
+      @field = 'project_id'
       @rows = @project.descendants.visible
       @data = Issue.by_subproject(@project) || []
       @report_title = l(:field_subproject)

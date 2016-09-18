@@ -17,9 +17,9 @@
 
 class MembersController < ApplicationController
   model_object Member
-  before_action :find_model_object, :except => [:index, :new, :create, :autocomplete]
-  before_action :find_project_from_association, :except => [:index, :new, :create, :autocomplete]
-  before_action :find_project_by_project_id, :only => [:index, :new, :create, :autocomplete]
+  before_action :find_model_object, except: [:index, :new, :create, :autocomplete]
+  before_action :find_project_from_association, except: [:index, :new, :create, :autocomplete]
+  before_action :find_project_by_project_id, only: [:index, :new, :create, :autocomplete]
   before_action :authorize
   accept_api_auth :index, :show, :create, :update, :destroy
 
@@ -56,7 +56,7 @@ class MembersController < ApplicationController
       user_ids = Array.wrap(params[:membership][:user_id] || params[:membership][:user_ids])
       user_ids << nil if user_ids.empty?
       user_ids.each do |user_id|
-        member = Member.new(:project => @project, :user_id => user_id)
+        member = Member.new(project: @project, user_id: user_id)
         member.set_editable_role_ids(params[:membership][:role_ids])
         members << member
       end
@@ -65,18 +65,18 @@ class MembersController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to_settings_in_projects }
-      format.js {
+      format.js do
         @members = members
         @member = Member.new
-      }
-      format.api {
+      end
+      format.api do
         @member = members.first
         if @member.valid?
-          render :action => 'show', :status => :created, :location => membership_url(@member)
+          render action: 'show', status: :created, location: membership_url(@member)
         else
           render_validation_errors(@member)
         end
-      }
+      end
     end
   end
 
@@ -88,30 +88,28 @@ class MembersController < ApplicationController
     respond_to do |format|
       format.html { redirect_to_settings_in_projects }
       format.js
-      format.api {
+      format.api do
         if saved
           render_api_ok
         else
           render_validation_errors(@member)
         end
-      }
+      end
     end
   end
 
   def destroy
-    if @member.deletable?
-      @member.destroy
-    end
+    @member.destroy if @member.deletable?
     respond_to do |format|
       format.html { redirect_to_settings_in_projects }
       format.js
-      format.api {
+      format.api do
         if @member.destroyed?
           render_api_ok
         else
           head :unprocessable_entity
         end
-      }
+      end
     end
   end
 
@@ -124,6 +122,6 @@ class MembersController < ApplicationController
   private
 
   def redirect_to_settings_in_projects
-    redirect_to settings_project_path(@project, :tab => 'members')
+    redirect_to settings_project_path(@project, tab: 'members')
   end
 end

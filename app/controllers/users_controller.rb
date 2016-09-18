@@ -18,8 +18,8 @@
 class UsersController < ApplicationController
   layout 'admin'
 
-  before_action :require_admin, :except => :show
-  before_action :find_user, :only => [:show, :edit, :update, :destroy]
+  before_action :require_admin, except: :show
+  before_action :find_user, only: [:show, :edit, :update, :destroy]
   accept_api_auth :index, :show, :create, :update, :destroy
 
   helper :sort
@@ -50,13 +50,13 @@ class UsersController < ApplicationController
     @user_count = scope.count
     @user_pages = Paginator.new @user_count, @limit, params['page']
     @offset ||= @user_pages.offset
-    @users =  scope.order(sort_clause).limit(@limit).offset(@offset).to_a
+    @users = scope.order(sort_clause).limit(@limit).offset(@offset).to_a
 
     respond_to do |format|
-      format.html {
+      format.html do
         @groups = Group.givable.sort
-        render :layout => !request.xhr?
-      }
+        render layout: !request.xhr?
+      end
       format.api
     end
   end
@@ -71,41 +71,44 @@ class UsersController < ApplicationController
     @memberships = @user.memberships.where(Project.visible_condition(User.current)).to_a
 
     respond_to do |format|
-      format.html {
-        events = Redmine::Activity::Fetcher.new(User.current, :author => @user).events(nil, nil, :limit => 10)
+      format.html do
+        events = Redmine::Activity::Fetcher.new(User.current, author: @user).events(nil, nil, limit: 10)
         @events_by_day = events.group_by(&:event_date)
-        render :layout => 'base'
-      }
+        render layout: 'base'
+      end
       format.api
     end
   end
 
   def new
-    @user = User.new(:language => Setting.default_language, :mail_notification => Setting.default_notification_option)
+    @user = User.new(language: Setting.default_language, mail_notification: Setting.default_notification_option)
     @user.safe_attributes = params[:user]
     @auth_sources = AuthSource.all
   end
 
   def create
-    @user = User.new(:language => Setting.default_language, :mail_notification => Setting.default_notification_option, :admin => false)
+    @user = User.new(language: Setting.default_language, mail_notification: Setting.default_notification_option, admin: false)
     @user.safe_attributes = params[:user]
-    @user.password, @user.password_confirmation = params[:user][:password], params[:user][:password_confirmation] unless @user.auth_source_id
+    unless @user.auth_source_id
+      @user.password = params[:user][:password]
+      @user.password_confirmation = params[:user][:password_confirmation]
+    end
     @user.pref.safe_attributes = params[:pref]
 
     if @user.save
       Mailer.account_information(@user, @user.password).deliver if params[:send_information]
 
       respond_to do |format|
-        format.html {
-          flash[:notice] = l(:notice_user_successful_create, :id => view_context.link_to(@user.login, user_path(@user)))
+        format.html do
+          flash[:notice] = l(:notice_user_successful_create, id: view_context.link_to(@user.login, user_path(@user)))
           if params[:continue]
             attrs = params[:user].slice(:generate_password)
-            redirect_to new_user_path(:user => attrs)
+            redirect_to new_user_path(user: attrs)
           else
             redirect_to edit_user_path(@user)
           end
-        }
-        format.api  { render :action => 'show', :status => :created, :location => user_url(@user) }
+        end
+        format.api  { render action: 'show', status: :created, location: user_url(@user) }
       end
     else
       @auth_sources = AuthSource.all
@@ -113,7 +116,7 @@ class UsersController < ApplicationController
       @user.password = @user.password_confirmation = nil
 
       respond_to do |format|
-        format.html { render :action => 'new' }
+        format.html { render action: 'new' }
         format.api  { render_validation_errors(@user) }
       end
     end
@@ -126,7 +129,8 @@ class UsersController < ApplicationController
 
   def update
     if params[:user][:password].present? && (@user.auth_source_id.nil? || params[:user][:auth_source_id].blank?)
-      @user.password, @user.password_confirmation = params[:user][:password], params[:user][:password_confirmation]
+      @user.password = params[:user][:password]
+      @user.password_confirmation = params[:user][:password_confirmation]
     end
     @user.safe_attributes = params[:user]
     # Was the account actived ? (do it before User#save clears the change)
@@ -144,10 +148,10 @@ class UsersController < ApplicationController
       end
 
       respond_to do |format|
-        format.html {
+        format.html do
           flash[:notice] = l(:notice_successful_update)
           redirect_to_referer_or edit_user_path(@user)
-        }
+        end
         format.api  { render_api_ok }
       end
     else
@@ -157,7 +161,7 @@ class UsersController < ApplicationController
       @user.password = @user.password_confirmation = nil
 
       respond_to do |format|
-        format.html { render :action => :edit }
+        format.html { render action: :edit }
         format.api  { render_validation_errors(@user) }
       end
     end

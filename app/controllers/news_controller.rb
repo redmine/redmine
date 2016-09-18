@@ -18,11 +18,11 @@
 class NewsController < ApplicationController
   default_search_scope :news
   model_object News
-  before_action :find_model_object, :except => [:new, :create, :index]
-  before_action :find_project_from_association, :except => [:new, :create, :index]
-  before_action :find_project_by_project_id, :only => [:new, :create]
-  before_action :authorize, :except => [:index]
-  before_action :find_optional_project, :only => :index
+  before_action :find_model_object, except: [:new, :create, :index]
+  before_action :find_project_from_association, except: [:new, :create, :index]
+  before_action :find_project_by_project_id, only: [:new, :create]
+  before_action :authorize, except: [:index]
+  before_action :find_optional_project, only: :index
   accept_rss_auth :index
   accept_api_auth :index
 
@@ -34,7 +34,7 @@ class NewsController < ApplicationController
     when 'xml', 'json'
       @offset, @limit = api_offset_and_limit
     else
-      @limit =  10
+      @limit = 10
     end
 
     scope = @project ? @project.news.visible : News.visible
@@ -42,18 +42,18 @@ class NewsController < ApplicationController
     @news_count = scope.count
     @news_pages = Paginator.new @news_count, @limit, params['page']
     @offset ||= @news_pages.offset
-    @newss = scope.includes([:author, :project]).
-                      order("#{News.table_name}.created_on DESC").
-                      limit(@limit).
-                      offset(@offset).
-                      to_a
+    @newss = scope.includes([:author, :project])
+                  .order("#{News.table_name}.created_on DESC")
+                  .limit(@limit)
+                  .offset(@offset)
+                  .to_a
     respond_to do |format|
-      format.html {
+      format.html do
         @news = News.new # for adding news inline
-        render :layout => false if request.xhr?
-      }
+        render layout: false if request.xhr?
+      end
       format.api
-      format.atom { render_feed(@newss, :title => (@project ? @project.name : Setting.app_title) + ": #{l(:label_news_plural)}") }
+      format.atom { render_feed(@newss, title: (@project ? @project.name : Setting.app_title) + ": #{l(:label_news_plural)}") }
     end
   end
 
@@ -63,11 +63,11 @@ class NewsController < ApplicationController
   end
 
   def new
-    @news = News.new(:project => @project, :author => User.current)
+    @news = News.new(project: @project, author: User.current)
   end
 
   def create
-    @news = News.new(:project => @project, :author => User.current)
+    @news = News.new(project: @project, author: User.current)
     @news.safe_attributes = params[:news]
     @news.save_attachments(params[:attachments])
     if @news.save
@@ -75,7 +75,7 @@ class NewsController < ApplicationController
       flash[:notice] = l(:notice_successful_create)
       redirect_to project_news_index_path(@project)
     else
-      render :action => 'new'
+      render action: 'new'
     end
   end
 
@@ -90,7 +90,7 @@ class NewsController < ApplicationController
       flash[:notice] = l(:notice_successful_update)
       redirect_to news_path(@news)
     else
-      render :action => 'edit'
+      render action: 'edit'
     end
   end
 

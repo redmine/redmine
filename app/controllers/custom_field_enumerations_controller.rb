@@ -20,7 +20,7 @@ class CustomFieldEnumerationsController < ApplicationController
 
   before_action :require_admin
   before_action :find_custom_field
-  before_action :find_enumeration, :only => :destroy
+  before_action :find_enumeration, only: :destroy
 
   helper :custom_fields
 
@@ -42,17 +42,15 @@ class CustomFieldEnumerationsController < ApplicationController
     saved = CustomFieldEnumeration.update_each(@custom_field, params[:custom_field_enumerations]) do |enumeration, enumeration_attributes|
       enumeration.safe_attributes = enumeration_attributes
     end
-    if saved
-      flash[:notice] = l(:notice_successful_update)
-    end
-    redirect_to :action => 'index'
+    flash[:notice] = l(:notice_successful_update) if saved
+    redirect_to action: 'index'
   end
 
   def destroy
     reassign_to = @custom_field.enumerations.find_by_id(params[:reassign_to_id])
     if reassign_to.nil? && @value.in_use?
       @enumerations = @custom_field.enumerations - [@value]
-      render :action => 'destroy'
+      render action: 'destroy'
       return
     end
     @value.destroy(reassign_to)
