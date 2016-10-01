@@ -111,7 +111,7 @@ class IssuesTest < Redmine::IntegrationTest
 
   def test_next_and_previous_links_should_be_displayed_after_query_grouped_and_sorted_by_version
     with_settings :default_language => 'en' do
-      get '/projects/ecookbook/issues?set_filter=1&group_by=fixed_version&sort=priority:desc,fixed_version'
+      get '/projects/ecookbook/issues?set_filter=1&group_by=fixed_version&sort=priority:desc,fixed_version,id'
       assert_response :success
       assert_select 'td.id', :text => '5'
   
