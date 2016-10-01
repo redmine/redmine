@@ -354,9 +354,9 @@ class AttachmentsControllerTest < Redmine::ControllerTest
     puts '(ImageMagick convert not available)'
   end
 
-  def test_edit
+  def test_edit_all
     @request.session[:user_id] = 2
-    get :edit, :object_type => 'issues', :object_id => '2'
+    get :edit_all, :object_type => 'issues', :object_id => '2'
     assert_response :success
 
     assert_select 'form[action=?]', '/attachments/issues/2' do
@@ -371,24 +371,24 @@ class AttachmentsControllerTest < Redmine::ControllerTest
     end
   end
 
-  def test_edit_invalid_container_class_should_return_404
-    get :edit, :object_type => 'nuggets', :object_id => '3'
+  def test_edit_all_with_invalid_container_class_should_return_404
+    get :edit_all, :object_type => 'nuggets', :object_id => '3'
     assert_response 404
   end
 
-  def test_edit_invalid_object_should_return_404
-    get :edit, :object_type => 'issues', :object_id => '999'
+  def test_edit_all_with_invalid_object_should_return_404
+    get :edit_all, :object_type => 'issues', :object_id => '999'
     assert_response 404
   end
 
-  def test_edit_for_object_that_is_not_visible_should_return_403
-    get :edit, :object_type => 'issues', :object_id => '4'
+  def test_edit_all_for_object_that_is_not_visible_should_return_403
+    get :edit_all, :object_type => 'issues', :object_id => '4'
     assert_response 403
   end
 
-  def test_update
+  def test_update_all
     @request.session[:user_id] = 2
-    patch :update, :object_type => 'issues', :object_id => '2', :attachments => {
+    patch :update_all, :object_type => 'issues', :object_id => '2', :attachments => {
         '1' => {:filename => 'newname.text', :description => ''},
         '4' => {:filename => 'newname.rb', :description => 'Renamed'},
       }
@@ -399,9 +399,9 @@ class AttachmentsControllerTest < Redmine::ControllerTest
     assert_equal 'Renamed', attachment.description
   end
 
-  def test_update_with_failure
+  def test_update_all_with_failure
     @request.session[:user_id] = 2
-    patch :update, :object_type => 'issues', :object_id => '3', :attachments => {
+    patch :update_all, :object_type => 'issues', :object_id => '3', :attachments => {
         '1' => {:filename => '', :description => ''},
         '4' => {:filename => 'newname.rb', :description => 'Renamed'},
       }

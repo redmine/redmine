@@ -17,7 +17,7 @@
 
 class AttachmentsController < ApplicationController
   before_action :find_attachment, :only => [:show, :download, :thumbnail, :destroy]
-  before_action :find_editable_attachments, :only => [:edit, :update]
+  before_action :find_editable_attachments, :only => [:edit_all, :update_all]
   before_action :file_readable, :read_authorize, :only => [:show, :download, :thumbnail]
   before_action :delete_authorize, :only => :destroy
   before_action :authorize_global, :only => :upload
@@ -26,7 +26,7 @@ class AttachmentsController < ApplicationController
   # MIME type text/javascript.
   skip_after_filter :verify_same_origin_request, :only => :download
 
-  accept_api_auth :show, :download, :thumbnail, :upload, :destroy
+  accept_api_auth :show, :download, :thumbnail, :upload, :update, :destroy
 
   def show
     respond_to do |format|
@@ -107,17 +107,19 @@ class AttachmentsController < ApplicationController
     end
   end
 
-  def edit
+  # Edit all the attachments of a container
+  def edit_all
   end
 
-  def update
+  # Update all the attachments of a container
+  def update_all
     if params[:attachments].is_a?(Hash)
       if Attachment.update_attachments(@attachments, params[:attachments])
         redirect_back_or_default home_path
         return
       end
     end
-    render :action => 'edit'
+    render :action => 'edit_all'
   end
 
   def destroy

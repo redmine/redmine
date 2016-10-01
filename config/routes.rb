@@ -294,8 +294,8 @@ Rails.application.routes.draw do
   get 'attachments/download/:id', :to => 'attachments#download', :id => /\d+/
   get 'attachments/thumbnail/:id(/:size)', :to => 'attachments#thumbnail', :id => /\d+/, :size => /\d+/, :as => 'thumbnail'
   resources :attachments, :only => [:show, :destroy]
-  get 'attachments/:object_type/:object_id/edit', :to => 'attachments#edit', :as => :object_attachments_edit
-  patch 'attachments/:object_type/:object_id', :to => 'attachments#update', :as => :object_attachments
+  get 'attachments/:object_type/:object_id/edit', :to => 'attachments#edit_all', :as => :object_attachments_edit
+  patch 'attachments/:object_type/:object_id', :to => 'attachments#update_all', :as => :object_attachments
 
   resources :groups do
     resources :memberships, :controller => 'principal_memberships'
