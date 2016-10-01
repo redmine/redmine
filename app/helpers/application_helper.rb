@@ -230,8 +230,9 @@ module ApplicationHelper
     link_to(name, "#", :onclick => onclick)
   end
 
+  # Used to format item titles on the activity view
   def format_activity_title(text)
-    h(truncate_single_line_raw(text, 100))
+    text
   end
 
   def format_activity_day(date)
