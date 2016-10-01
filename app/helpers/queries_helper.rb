@@ -262,16 +262,19 @@ module QueriesHelper
     end
   end
 
-  def retrieve_query_from_session
-    if session[:query]
-      if session[:query][:id]
-        @query = IssueQuery.find_by_id(session[:query][:id])
+  def retrieve_query_from_session(klass=IssueQuery)
+    session_key = klass.name.underscore.to_sym
+    session_data = session[session_key]
+
+    if session_data
+      if session_data[:id]
+        @query = IssueQuery.find_by_id(session_data[:id])
         return unless @query
       else
-        @query = IssueQuery.new(:name => "_", :filters => session[:query][:filters], :group_by => session[:query][:group_by], :column_names => session[:query][:column_names], :totalable_names => session[:query][:totalable_names])
+        @query = IssueQuery.new(:name => "_", :filters => session_data[:filters], :group_by => session_data[:group_by], :column_names => session_data[:column_names], :totalable_names => session_data[:totalable_names])
       end
-      if session[:query].has_key?(:project_id)
-        @query.project_id = session[:query][:project_id]
+      if session_data.has_key?(:project_id)
+        @query.project_id = session_data[:project_id]
       else
         @query.project = @project
       end

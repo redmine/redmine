@@ -109,6 +109,35 @@ class IssuesTest < Redmine::IntegrationTest
     assert_equal 0, Issue.find(1).attachments.length
   end
 
+  def test_next_and_previous_links_should_be_displayed_after_filter
+    with_settings :default_language => 'en' do
+      get '/projects/ecookbook/issues?set_filter=1&tracker_id=1'
+      assert_response :success
+      assert_select 'td.id', :text => '5'
+  
+      get '/issues/5'
+      assert_response :success
+      assert_select '.next-prev-links .position', :text => '3 of 5'
+    end
+  end
+
+  def test_next_and_previous_links_should_be_displayed_after_saved_query
+    query = IssueQuery.create!(:name => 'Calendar Query',
+      :visibility => IssueQuery::VISIBILITY_PUBLIC,
+      :filters => {'tracker_id' => {:operator => '=', :values => ['1']}}
+    )
+
+    with_settings :default_language => 'en' do
+      get "/projects/ecookbook/issues?set_filter=1&query_id=#{query.id}"
+      assert_response :success
+      assert_select 'td.id', :text => '5'
+  
+      get '/issues/5'
+      assert_response :success
+      assert_select '.next-prev-links .position', :text => '6 of 8'
+    end
+  end
+
   def test_other_formats_links_on_index
     get '/projects/ecookbook/issues'
 
