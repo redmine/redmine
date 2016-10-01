@@ -109,6 +109,18 @@ class IssuesTest < Redmine::IntegrationTest
     assert_equal 0, Issue.find(1).attachments.length
   end
 
+  def test_next_and_previous_links_should_be_displayed_after_query_grouped_and_sorted_by_version
+    with_settings :default_language => 'en' do
+      get '/projects/ecookbook/issues?set_filter=1&group_by=fixed_version&sort=priority:desc,fixed_version'
+      assert_response :success
+      assert_select 'td.id', :text => '5'
+  
+      get '/issues/5'
+      assert_response :success
+      assert_select '.next-prev-links .position', :text => '5 of 6'
+    end
+  end
+
   def test_next_and_previous_links_should_be_displayed_after_filter
     with_settings :default_language => 'en' do
       get '/projects/ecookbook/issues?set_filter=1&tracker_id=1'
