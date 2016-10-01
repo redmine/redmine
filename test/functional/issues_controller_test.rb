@@ -1341,7 +1341,7 @@ class IssuesControllerTest < Redmine::ControllerTest
   end
 
   def test_show_should_display_prev_next_links_with_query_in_session
-    @request.session[:query] = {:filters => {'status_id' => {:values => [''], :operator => 'o'}}, :project_id => nil}
+    @request.session[:issue_query] = {:filters => {'status_id' => {:values => [''], :operator => 'o'}}, :project_id => nil}
     @request.session['issues_index_sort'] = 'id'
 
     with_settings :display_subprojects_issues => '0' do
@@ -1363,7 +1363,7 @@ class IssuesControllerTest < Redmine::ControllerTest
     query = IssueQuery.create!(:name => 'test', :visibility => IssueQuery::VISIBILITY_PUBLIC,  :user_id => 1,
       :filters => {'status_id' => {:values => ['5'], :operator => '='}},
       :sort_criteria => [['id', 'asc']])
-    @request.session[:query] = {:id => query.id, :project_id => nil}
+    @request.session[:issue_query] = {:id => query.id, :project_id => nil}
 
     get :show, :id => 11
     assert_response :success
@@ -1376,7 +1376,7 @@ class IssuesControllerTest < Redmine::ControllerTest
   end
 
   def test_show_should_display_prev_next_links_with_query_and_sort_on_association
-    @request.session[:query] = {:filters => {'status_id' => {:values => [''], :operator => 'o'}}, :project_id => nil}
+    @request.session[:issue_query] = {:filters => {'status_id' => {:values => [''], :operator => 'o'}}, :project_id => nil}
     
     %w(project tracker status priority author assigned_to category fixed_version).each do |assoc_sort|
       @request.session['issues_index_sort'] = assoc_sort
@@ -1391,7 +1391,7 @@ class IssuesControllerTest < Redmine::ControllerTest
   end
 
   def test_show_should_display_prev_next_links_with_project_query_in_session
-    @request.session[:query] = {:filters => {'status_id' => {:values => [''], :operator => 'o'}}, :project_id => 1}
+    @request.session[:issue_query] = {:filters => {'status_id' => {:values => [''], :operator => 'o'}}, :project_id => 1}
     @request.session['issues_index_sort'] = 'id'
 
     with_settings :display_subprojects_issues => '0' do
@@ -1407,7 +1407,7 @@ class IssuesControllerTest < Redmine::ControllerTest
   end
 
   def test_show_should_not_display_prev_link_for_first_issue
-    @request.session[:query] = {:filters => {'status_id' => {:values => [''], :operator => 'o'}}, :project_id => 1}
+    @request.session[:issue_query] = {:filters => {'status_id' => {:values => [''], :operator => 'o'}}, :project_id => 1}
     @request.session['issues_index_sort'] = 'id'
 
     with_settings :display_subprojects_issues => '0' do
@@ -1422,7 +1422,7 @@ class IssuesControllerTest < Redmine::ControllerTest
   end
 
   def test_show_should_not_display_prev_next_links_for_issue_not_in_query_results
-    @request.session[:query] = {:filters => {'status_id' => {:values => [''], :operator => 'c'}}, :project_id => 1}
+    @request.session[:issue_query] = {:filters => {'status_id' => {:values => [''], :operator => 'c'}}, :project_id => 1}
     @request.session['issues_index_sort'] = 'id'
 
     get :show, :id => 1
@@ -1441,7 +1441,7 @@ class IssuesControllerTest < Redmine::ControllerTest
 
     query = IssueQuery.create!(:name => 'test', :visibility => IssueQuery::VISIBILITY_PUBLIC,  :user_id => 1, :filters => {},
       :sort_criteria => [["cf_#{cf.id}", 'asc'], ['id', 'asc']])
-    @request.session[:query] = {:id => query.id, :project_id => nil}
+    @request.session[:issue_query] = {:id => query.id, :project_id => nil}
 
     get :show, :id => 3
     assert_response :success
