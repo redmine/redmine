@@ -84,7 +84,7 @@ and you will have to use this reposman.rb command line to create repository :
 
 =head1 REPOSITORIES NAMING
 
-A projet repository must be named with the projet identifier. In case
+A project repository must be named with the project identifier. In case
 of multiple repositories for the same project, use the project identifier
 and the repository identifier separated with a dot:
 
