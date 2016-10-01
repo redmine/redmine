@@ -488,6 +488,16 @@ JSON
     assert_equal 'API test', issue.subject
   end
 
+  test "POST /issues.json should accept project identifier as project_id" do
+    assert_difference('Issue.count') do
+      post '/issues.json',
+        {:issue => {:project_id => 'subproject1', :tracker_id => 2, :subject => 'Foo'}},
+        credentials('jsmith')
+
+      assert_response :created
+    end
+  end
+
   test "POST /issues.json without tracker_id should accept custom fields" do
     field = IssueCustomField.generate!(
       :field_format => 'list',

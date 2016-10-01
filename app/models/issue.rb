@@ -502,8 +502,13 @@ class Issue < ActiveRecord::Base
 
     # Project and Tracker must be set before since new_statuses_allowed_to depends on it.
     if (p = attrs.delete('project_id')) && safe_attribute?('project_id')
-      if allowed_target_projects(user).where(:id => p.to_i).exists?
-        self.project_id = p
+      if p.is_a?(String) && !p.match(/^\d*$/)
+        p_id = Project.find_by_identifier(p).try(:id)
+      else
+        p_id = p.to_i
+      end
+      if allowed_target_projects(user).where(:id => p_id).exists?
+        self.project_id = p_id
       end
 
       if project_id_changed? && attrs['category_id'].to_s == category_id_was.to_s
