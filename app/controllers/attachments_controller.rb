@@ -16,9 +16,10 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class AttachmentsController < ApplicationController
-  before_action :find_attachment, :only => [:show, :download, :thumbnail, :destroy]
+  before_action :find_attachment, :only => [:show, :download, :thumbnail, :update, :destroy]
   before_action :find_editable_attachments, :only => [:edit_all, :update_all]
   before_action :file_readable, :read_authorize, :only => [:show, :download, :thumbnail]
+  before_action :update_authorize, :only => :update
   before_action :delete_authorize, :only => :destroy
   before_action :authorize_global, :only => :upload
 
@@ -122,6 +123,21 @@ class AttachmentsController < ApplicationController
     render :action => 'edit_all'
   end
 
+  def update
+    @attachment.safe_attributes = params[:attachment]
+    saved = @attachment.save
+
+    respond_to do |format|
+      format.api {
+        if saved
+          render_api_ok
+        else
+          render_validation_errors(@attachment)
+        end
+      }
+    end
+  end
+
   def destroy
     if @attachment.container.respond_to?(:init_journal)
       @attachment.container.init_journal(User.current)
@@ -184,6 +200,10 @@ class AttachmentsController < ApplicationController
 
   def read_authorize
     @attachment.visible? ? true : deny_access
+  end
+
+  def update_authorize
+    @attachment.editable? ? true : deny_access
   end
 
   def delete_authorize

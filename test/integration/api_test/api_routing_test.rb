@@ -21,6 +21,7 @@ class Redmine::ApiTest::ApiRoutingTest < Redmine::ApiTest::Routing
 
   def test_attachments
     should_route 'GET /attachments/1' => 'attachments#show', :id => '1'
+    should_route 'PATCH /attachments/1' => 'attachments#update', :id => '1'
     should_route 'POST /uploads' => 'attachments#upload'
   end
 

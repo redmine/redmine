@@ -99,6 +99,29 @@ class Redmine::ApiTest::AttachmentsTest < Redmine::ApiTest::Base
     assert_nil Attachment.find_by_id(7)
   end
 
+  test "PATCH /attachments/:id.json should update the attachment" do
+    patch '/attachments/7.json',
+      {:attachment => {:filename => 'renamed.zip', :description => 'updated'}},
+      credentials('jsmith')
+
+    assert_response :ok
+    assert_equal 'application/json', response.content_type
+    attachment = Attachment.find(7)
+    assert_equal 'renamed.zip', attachment.filename
+    assert_equal 'updated', attachment.description
+  end
+
+  test "PATCH /attachments/:id.json with failure should return the errors" do
+    patch '/attachments/7.json',
+      {:attachment => {:filename => '', :description => 'updated'}},
+      credentials('jsmith')
+
+    assert_response 422
+    assert_equal 'application/json', response.content_type
+    json = ActiveSupport::JSON.decode(response.body)
+    assert_include "File cannot be blank", json['errors']
+  end
+
   test "POST /uploads.xml should return the token" do
     set_tmp_attachments_directory
     assert_difference 'Attachment.count' do

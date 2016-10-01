@@ -30,7 +30,7 @@ class RoutingAttachmentsTest < Redmine::RoutingTest
 
     should_route 'DELETE /attachments/1' => 'attachments#destroy', :id => '1'
 
-    should_route 'GET /attachments/issues/1/edit' => 'attachments#edit', :object_type => 'issues', :object_id => '1'
-    should_route 'PATCH /attachments/issues/1' => 'attachments#update', :object_type => 'issues', :object_id => '1'
+    should_route 'GET /attachments/issues/1/edit' => 'attachments#edit_all', :object_type => 'issues', :object_id => '1'
+    should_route 'PATCH /attachments/issues/1' => 'attachments#update_all', :object_type => 'issues', :object_id => '1'
   end
 end

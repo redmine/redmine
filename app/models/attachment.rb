@@ -19,6 +19,7 @@ require "digest/md5"
 require "fileutils"
 
 class Attachment < ActiveRecord::Base
+  include Redmine::SafeAttributes
   belongs_to :container, :polymorphic => true
   belongs_to :author, :class_name => "User"
 
@@ -55,6 +56,8 @@ class Attachment < ActiveRecord::Base
   before_create :files_to_final_location
   after_rollback :delete_from_disk, :on => :create
   after_commit :delete_from_disk, :on => :destroy
+
+  safe_attributes 'filename', 'content_type', 'description'
 
   # Returns an unsaved copy of the attachment
   def copy(attributes=nil)
