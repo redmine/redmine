@@ -81,7 +81,7 @@ class Redmine::ApiTest::AttachmentsTest < Redmine::ApiTest::Base
     assert_response :success
   end
 
-  test "Destroy /attachments/:id.xml should return ok and deleted Attachment" do
+  test "DELETE /attachments/:id.xml should return ok and delete Attachment" do
     assert_difference 'Attachment.count', -1 do
       delete '/attachments/7.xml', {}, credentials('jsmith')
       assert_response :ok
@@ -90,7 +90,7 @@ class Redmine::ApiTest::AttachmentsTest < Redmine::ApiTest::Base
     assert_nil Attachment.find_by_id(7)
   end
 
-  test "Destroy /attachments/:id.json should return ok and deleted Attachment" do
+  test "DELETE /attachments/:id.json should return ok and delete Attachment" do
     assert_difference 'Attachment.count', -1 do
       delete '/attachments/7.json', {}, credentials('jsmith')
       assert_response :ok
