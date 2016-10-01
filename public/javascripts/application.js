@@ -385,7 +385,7 @@ function displayTabsButtons() {
       }
     });
     var bw = $(el).parents('div.tabs-buttons').outerWidth(true);
-    if ((tabsWidth < el.width() - bw) && (lis.first().is(':visible'))) {
+    if ((tabsWidth < el.width() - bw) && (lis.length === 0 || lis.first().is(':visible'))) {
       el.find('div.tabs-buttons').hide();
     } else {
       el.find('div.tabs-buttons').show().children('button.tab-left').toggleClass('disabled', numHidden == 0);
