@@ -72,9 +72,6 @@ class MemberRole < ActiveRecord::Base
   end
 
   def remove_inherited_roles
-    MemberRole.where(:inherited_from => id).group_by(&:member).
-        each do |member, member_roles|
-      member_roles.each(&:destroy)
-    end
+    MemberRole.where(:inherited_from => id).destroy_all
   end
 end

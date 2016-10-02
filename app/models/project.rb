@@ -844,7 +844,7 @@ class Project < ActiveRecord::Base
   end
 
   def remove_inherited_member_roles
-    member_roles = memberships.map(&:member_roles).flatten
+    member_roles = MemberRole.where(:member_id => membership_ids).to_a
     member_role_ids = member_roles.map(&:id)
     member_roles.each do |member_role|
       if member_role.inherited_from && !member_role_ids.include?(member_role.inherited_from)
