@@ -153,6 +153,15 @@ class IssueQuery < Query
       :type => :list_optional,
       :values => Version.sort_by_status(versions).collect{|s| ["#{s.project.name} - #{s.name}", s.id.to_s, l("version_status_#{s.status}")] }
 
+    add_available_filter "fixed_version.due_date",
+      :type => :date,
+      :name => l(:label_attribute_of_fixed_version, :name => l(:field_effective_date))
+
+    add_available_filter "fixed_version.status",
+      :type => :list,
+      :name => l(:label_attribute_of_fixed_version, :name => l(:field_status)),
+      :values => Version::VERSION_STATUSES.map{|t| [t, t] }
+
     add_available_filter "category_id",
       :type => :list_optional,
       :values => categories.collect{|s| [s.name, s.id.to_s] }
@@ -415,6 +424,22 @@ class IssueQuery < Query
       "(#{nl} #{Issue.table_name}.assigned_to_id #{sw} IN (SELECT DISTINCT #{Member.table_name}.user_id FROM #{Member.table_name}, #{MemberRole.table_name}" +
         " WHERE #{Member.table_name}.project_id = #{Issue.table_name}.project_id AND #{Member.table_name}.id = #{MemberRole.table_name}.member_id AND #{role_cond}))"
     end
+  end
+
+  def sql_for_fixed_version_status_field(field, operator, value)
+    where = sql_for_field(field, operator, value, Version.table_name, "status")
+    version_ids = versions(:conditions => [where]).map(&:id)
+
+    nl = operator == "!" ? "#{Issue.table_name}.fixed_version_id IS NULL OR" : ''
+    "(#{nl} #{sql_for_field("fixed_version_id", "=", version_ids, Issue.table_name, "fixed_version_id")})"
+  end
+
+  def sql_for_fixed_version_due_date_field(field, operator, value)
+    where = sql_for_field(field, operator, value, Version.table_name, "effective_date")
+    version_ids = versions(:conditions => [where]).map(&:id)
+
+    nl = operator == "!*" ? "#{Issue.table_name}.fixed_version_id IS NULL OR" : ''
+    "(#{nl} #{sql_for_field("fixed_version_id", "=", version_ids, Issue.table_name, "fixed_version_id")})"
   end
 
   def sql_for_is_private_field(field, operator, value)

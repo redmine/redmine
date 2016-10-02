@@ -819,6 +819,36 @@ class QueryTest < ActiveSupport::TestCase
     assert_equal [2], find_issues_with_query(query).map(&:fixed_version_id).uniq.sort
   end
 
+  def test_filter_on_fixed_version_due_date
+    query = IssueQuery.new(:name => '_')
+    filter_name = "fixed_version.due_date"
+    assert_include filter_name, query.available_filters.keys
+    query.filters = {filter_name => {:operator => '=', :values => [20.day.from_now.to_date.to_s(:db)]}}
+    issues = find_issues_with_query(query)
+    assert_equal [2], issues.map(&:fixed_version_id).uniq.sort
+    assert_equal [2, 12], issues.map(&:id).sort
+
+    query = IssueQuery.new(:name => '_')
+    query.filters = {filter_name => {:operator => '>=', :values => [21.day.from_now.to_date.to_s(:db)]}}
+    assert_equal 0, find_issues_with_query(query).size
+  end
+
+  def test_filter_on_fixed_version_status
+    query = IssueQuery.new(:name => '_')
+    filter_name = "fixed_version.status"
+    assert_include filter_name, query.available_filters.keys
+    query.filters = {filter_name => {:operator => '=', :values => ['closed']}}
+    issues = find_issues_with_query(query)
+
+    assert_equal [1], issues.map(&:fixed_version_id).sort
+    assert_equal [11], issues.map(&:id).sort
+
+    # "is not" operator should include issues without target version
+    query = IssueQuery.new(:name => '_')
+    query.filters = {filter_name => {:operator => '!', :values => ['open', 'closed', 'locked']}, "project_id" => {:operator => '=', :values => [1]}}
+    assert_equal [1, 3, 7, 8], find_issues_with_query(query).map(&:id).uniq.sort
+  end
+
   def test_filter_on_relations_with_a_specific_issue
     IssueRelation.delete_all
     IssueRelation.create!(:relation_type => "relates", :issue_from => Issue.find(1), :issue_to => Issue.find(2))
@@ -951,7 +981,7 @@ class QueryTest < ActiveSupport::TestCase
   def test_filter_on_parent
     Issue.delete_all
     parent = Issue.generate_with_descendants!
-    
+
 
     query = IssueQuery.new(:name => '_')
     query.filters = {"parent_id" => {:operator => '=', :values => [parent.id.to_s]}}
@@ -981,7 +1011,7 @@ class QueryTest < ActiveSupport::TestCase
     parent = Issue.generate_with_descendants!
     child, leaf = parent.children.sort_by(&:id)
     grandchild = child.children.first
-    
+
 
     query = IssueQuery.new(:name => '_')
     query.filters = {"child_id" => {:operator => '=', :values => [grandchild.id.to_s]}}
