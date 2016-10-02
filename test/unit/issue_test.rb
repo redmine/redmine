@@ -697,7 +697,7 @@ class IssueTest < ActiveSupport::TestCase
     user = User.find(2)
     group = Group.generate!
     group.users << user
- 
+
     issue = Issue.generate!(:author_id => 1, :assigned_to => group)
     assert_include 4, issue.new_statuses_allowed_to(user).map(&:id)
   end
@@ -1266,6 +1266,16 @@ class IssueTest < ActiveSupport::TestCase
       assert copy.save
       assert copy.save
     end
+  end
+
+  def test_copy_should_clear_closed_on
+    copied_open = Issue.find(8).copy(:status_id => 1)
+    assert copied_open.save
+    assert_nil copied_open.closed_on
+
+    copied_closed = Issue.find(8).copy
+    assert copied_closed.save
+    assert_not_nil copied_closed.closed_on
   end
 
   def test_should_not_call_after_project_change_on_creation
