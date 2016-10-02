@@ -67,4 +67,20 @@ class Redmine::FieldFormatTest < ActionView::TestCase
     assert_equal "foo bar", field.format.formatted_custom_value(self, custom_value, false)
     assert_equal '<a href="http://foo/foo%20bar">foo bar</a>', field.format.formatted_custom_value(self, custom_value, true)
   end
+
+  def test_text_field_with_url_pattern_should_not_encode_url_pattern
+    field = IssueCustomField.new(:field_format => 'string', :url_pattern => 'http://foo/bar#anchor')
+    custom_value = CustomValue.new(:custom_field => field, :customized => Issue.new, :value => "1")
+
+    assert_equal "1", field.format.formatted_custom_value(self, custom_value, false)
+    assert_equal '<a href="http://foo/bar#anchor">1</a>', field.format.formatted_custom_value(self, custom_value, true)
+  end
+
+  def test_text_field_with_url_pattern_should_encode_values
+    field = IssueCustomField.new(:field_format => 'string', :url_pattern => 'http://foo/%value%#anchor')
+    custom_value = CustomValue.new(:custom_field => field, :customized => Issue.new, :value => "foo bar")
+
+    assert_equal "foo bar", field.format.formatted_custom_value(self, custom_value, false)
+    assert_equal '<a href="http://foo/foo%20bar#anchor">foo bar</a>', field.format.formatted_custom_value(self, custom_value, true)
+  end
 end
