@@ -1534,10 +1534,11 @@ class Issue < ActiveRecord::Base
     if issue_id && p = Issue.find_by_id(issue_id)
       if p.priority_derived?
         # priority = highest priority of open children
+        # priority is left unchanged if all children are closed and there's no default priority defined
         if priority_position = p.children.open.joins(:priority).maximum("#{IssuePriority.table_name}.position")
           p.priority = IssuePriority.find_by_position(priority_position)
-        else
-          p.priority = IssuePriority.default
+        elsif default_priority = IssuePriority.default
+          p.priority = default_priority
         end
       end
 

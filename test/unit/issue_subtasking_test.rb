@@ -108,6 +108,30 @@ class IssueSubtaskingTest < ActiveSupport::TestCase
     end
   end
 
+  def test_parent_priority_should_be_set_to_default_when_all_children_are_closed
+    with_settings :parent_issue_priority => 'derived' do
+      parent = Issue.generate!
+      child = parent.generate_child!(:priority => IssuePriority.find_by_name('High'))
+      assert_equal 'High', parent.reload.priority.name
+      child.status = IssueStatus.where(:is_closed => true).first
+      child.save!
+      assert_equal 'Normal', parent.reload.priority.name
+    end
+  end
+
+  def test_parent_priority_should_be_left_unchanged_when_all_children_are_closed_and_no_default_priority
+    IssuePriority.update_all :is_default => false
+
+    with_settings :parent_issue_priority => 'derived' do
+      parent = Issue.generate!(:priority => IssuePriority.find_by_name('Normal'))
+      child = parent.generate_child!(:priority => IssuePriority.find_by_name('High'))
+      assert_equal 'High', parent.reload.priority.name
+      child.status = IssueStatus.where(:is_closed => true).first
+      child.save!
+      assert_equal 'High', parent.reload.priority.name
+    end
+  end
+
   def test_parent_done_ratio_should_be_read_only_with_parent_issue_done_ratio_set_to_derived
     with_settings :parent_issue_done_ratio => 'derived' do
       issue = Issue.generate_with_child!
