@@ -160,7 +160,7 @@ class IssueQuery < Query
     add_available_filter "fixed_version.status",
       :type => :list,
       :name => l(:label_attribute_of_fixed_version, :name => l(:field_status)),
-      :values => Version::VERSION_STATUSES.map{|t| [t, t] }
+      :values => Version::VERSION_STATUSES.map{|s| [l("version_status_#{s}"), s] }
 
     add_available_filter "category_id",
       :type => :list_optional,
