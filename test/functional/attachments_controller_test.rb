@@ -258,6 +258,19 @@ class AttachmentsControllerTest < ActionController::TestCase
     set_tmp_attachments_directory
   end
 
+  def test_download_js_file
+    set_tmp_attachments_directory
+    attachment = Attachment.create!(
+      :file => mock_file_with_options(:original_filename => "hello.js", :content_type => "text/javascript"),
+      :author_id => 2,
+      :container => Issue.find(1)
+    )
+
+    get :download, :id => attachment.id
+    assert_response :success
+    assert_equal 'text/javascript', @response.content_type
+  end
+
   def test_download_version_file_with_issue_tracking_disabled
     Project.find(1).disable_module! :issue_tracking
     get :download, :id => 9

@@ -22,6 +22,10 @@ class AttachmentsController < ApplicationController
   before_filter :delete_authorize, :only => :destroy
   before_filter :authorize_global, :only => :upload
 
+  # Disable check for same origin requests for JS files, i.e. attachments with
+  # MIME type text/javascript.
+  skip_after_filter :verify_same_origin_request, :only => :download
+
   accept_api_auth :show, :download, :thumbnail, :upload, :destroy
 
   def show
