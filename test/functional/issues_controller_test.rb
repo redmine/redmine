@@ -1679,6 +1679,25 @@ class IssuesControllerTest < Redmine::ControllerTest
     assert_response 404
   end
 
+  def test_show_on_active_project_should_display_edit_links
+    @request.session[:user_id] = 1
+
+    get :show, :id => 1
+    assert_response :success
+    assert_select 'a', :text => 'Edit'
+    assert_select 'a', :text => 'Delete'
+  end
+
+  def test_show_on_closed_project_should_not_display_edit_links
+    Issue.find(1).project.close
+    @request.session[:user_id] = 1
+
+    get :show, :id => 1
+    assert_response :success
+    assert_select 'a', :text => 'Edit', :count => 0
+    assert_select 'a', :text => 'Delete', :count => 0
+  end
+
   def test_get_new
     @request.session[:user_id] = 2
     get :new, :project_id => 1, :tracker_id => 1

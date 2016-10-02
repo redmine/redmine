@@ -1436,6 +1436,11 @@ class Issue < ActiveRecord::Base
   private
 
   def user_tracker_permission?(user, permission)
+    if project && !project.active?
+      perm = Redmine::AccessControl.permission(permission)
+      return false unless perm && perm.read?
+    end
+
     if user.admin?
       true
     else
