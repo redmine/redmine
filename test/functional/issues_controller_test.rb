@@ -347,7 +347,7 @@ class IssuesControllerTest < Redmine::ControllerTest
   def test_index_with_query_grouped_by_tracker_in_reverse_order
     3.times {|i| Issue.generate!(:tracker_id => (i + 1))}
 
-    get :index, :set_filter => 1, :group_by => 'tracker', :sort => 'id:desc,tracker:desc'
+    get :index, :set_filter => 1, :group_by => 'tracker', :c => ['tracker', 'subject'], :sort => 'id:desc,tracker:desc'
     assert_response :success
 
     assert_equal ["Bug", "Feature request", "Support request"].reverse,
@@ -691,8 +691,10 @@ class IssuesControllerTest < Redmine::ControllerTest
   end
 
   def test_index_sort_by_field_not_included_in_columns
-    Setting.issue_list_default_columns = %w(subject author)
-    get :index, :sort => 'tracker'
+    with_settings :issue_list_default_columns => %w(subject author) do
+      get :index, :sort => 'tracker'
+      assert_response :success
+    end
   end
   
   def test_index_sort_by_assigned_to
@@ -795,17 +797,19 @@ class IssuesControllerTest < Redmine::ControllerTest
   end
 
   def test_index_without_project_should_implicitly_add_project_column_to_default_columns
-    Setting.issue_list_default_columns = ['tracker', 'subject', 'assigned_to']
-    get :index, :set_filter => 1
+    with_settings :issue_list_default_columns => ['tracker', 'subject', 'assigned_to'] do
+      get :index, :set_filter => 1
+    end
 
     # query should use specified columns
     assert_equal ["#", "Project", "Tracker", "Subject", "Assignee"], columns_in_issues_list
   end
 
   def test_index_without_project_and_explicit_default_columns_should_not_add_project_column
-    Setting.issue_list_default_columns = ['tracker', 'subject', 'assigned_to']
-    columns = ['id', 'tracker', 'subject', 'assigned_to']
-    get :index, :set_filter => 1, :c => columns
+    with_settings :issue_list_default_columns => ['tracker', 'subject', 'assigned_to'] do
+      columns = ['id', 'tracker', 'subject', 'assigned_to']
+      get :index, :set_filter => 1, :c => columns
+    end
 
     # query should use specified columns
     assert_equal ["#", "Tracker", "Subject", "Assignee"], columns_in_issues_list
