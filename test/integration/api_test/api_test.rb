@@ -46,11 +46,9 @@ class Redmine::ApiTest::ApiTest < Redmine::ApiTest::Base
   end
 
   def test_head_response_should_have_empty_body
-    assert_difference('Issue.count', -1) do
-      delete '/issues/6.xml', {}, credentials('jsmith')
+    put '/users/7.xml', {:user => {:login => 'foo'}}, credentials('admin')
 
-      assert_response :ok
-      assert_equal '', response.body
-    end
+    assert_response :ok
+    assert_equal '', response.body
   end
 end
