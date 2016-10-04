@@ -60,22 +60,22 @@ class RepositoriesGitControllerTest < Redmine::ControllerTest
                        :url => '/test',
                        :is_default => '0',
                        :identifier => 'test-create',
-                       :extra_report_last_commit => '1',
+                       :report_last_commit => '1',
                      }
     end
     assert_response 302
     repository = Repository.order('id DESC').first
     assert_kind_of Repository::Git, repository
     assert_equal '/test', repository.url
-    assert_equal true, repository.extra_report_last_commit
+    assert_equal true, repository.report_last_commit
 
     put :update, :id => repository.id,
                  :repository => {
-                     :extra_report_last_commit => '0'
+                   :report_last_commit => '0'
                  }
     assert_response 302
     repo2 = Repository.find(repository.id)
-    assert_equal false, repo2.extra_report_last_commit
+    assert_equal false, repo2.report_last_commit
   end
 
   if File.directory?(REPOSITORY_PATH)

@@ -22,6 +22,8 @@ class Repository::Git < Repository
   attr_protected :root_url
   validates_presence_of :url
 
+  safe_attributes 'report_last_commit'
+
   def self.human_attribute_name(attribute_key_name, *args)
     attr_name = attribute_key_name.to_s
     if attr_name == "url"
@@ -39,14 +41,14 @@ class Repository::Git < Repository
   end
 
   def report_last_commit
-    extra_report_last_commit
-  end
-
-  def extra_report_last_commit
     return false if extra_info.nil?
     v = extra_info["extra_report_last_commit"]
     return false if v.nil?
     v.to_s != '0'
+  end
+ 
+  def report_last_commit=(arg)
+    merge_extra_info "extra_report_last_commit" => arg
   end
 
   def supports_directory_revisions?
@@ -94,7 +96,7 @@ class Repository::Git < Repository
   end
 
   def scm_entries(path=nil, identifier=nil)
-    scm.entries(path, identifier, :report_last_commit => extra_report_last_commit)
+    scm.entries(path, identifier, :report_last_commit => report_last_commit)
   end
   protected :scm_entries
 

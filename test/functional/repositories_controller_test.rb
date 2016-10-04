@@ -49,6 +49,16 @@ class RepositoriesControllerTest < Redmine::ControllerTest
       assert_select 'option[value=Git]:not([selected])'
     end
   end
+ 
+  def test_get_new_with_type
+    @request.session[:user_id] = 1
+    get :new, :project_id => 'subproject1', :repository_scm => 'Git'
+    assert_response :success
+
+    assert_select 'select[name=?]', 'repository_scm' do
+      assert_select 'option[value=?][selected=selected]', 'Git'
+    end
+  end
 
   def test_create
     @request.session[:user_id] = 1

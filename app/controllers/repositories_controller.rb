@@ -45,12 +45,8 @@ class RepositoriesController < ApplicationController
   end
 
   def create
-    attrs = pickup_extra_info
     @repository = Repository.factory(params[:repository_scm])
     @repository.safe_attributes = params[:repository]
-    if attrs[:attrs_extra].keys.any?
-      @repository.merge_extra_info(attrs[:attrs_extra])
-    end
     @repository.project = @project
     if request.post? && @repository.save
       redirect_to settings_project_path(@project, :tab => 'repositories')
@@ -63,11 +59,7 @@ class RepositoriesController < ApplicationController
   end
 
   def update
-    attrs = pickup_extra_info
-    @repository.safe_attributes = attrs[:attrs]
-    if attrs[:attrs_extra].keys.any?
-      @repository.merge_extra_info(attrs[:attrs_extra])
-    end
+    @repository.safe_attributes = params[:repository]
     @repository.project = @project
     if @repository.save
       redirect_to settings_project_path(@project, :tab => 'repositories')
@@ -75,20 +67,6 @@ class RepositoriesController < ApplicationController
       render :action => 'edit'
     end
   end
-
-  def pickup_extra_info
-    p       = {}
-    p_extra = {}
-    params[:repository].each do |k, v|
-      if k =~ /^extra_/
-        p_extra[k] = v
-      else
-        p[k] = v
-      end
-    end
-    {:attrs => p, :attrs_extra => p_extra}
-  end
-  private :pickup_extra_info
 
   def committers
     @committers = @repository.committers
