@@ -29,6 +29,7 @@ class RepositoriesController < ApplicationController
   default_search_scope :changesets
 
   before_action :find_project_by_project_id, :only => [:new, :create]
+  before_action :build_new_repository_from_params, :only => [:new, :create]
   before_action :find_repository, :only => [:edit, :update, :destroy, :committers]
   before_action :find_project_repository, :except => [:new, :create, :edit, :update, :destroy, :committers]
   before_action :find_changeset, :only => [:revision, :add_related_issue, :remove_related_issue]
@@ -38,17 +39,11 @@ class RepositoriesController < ApplicationController
   rescue_from Redmine::Scm::Adapters::CommandFailed, :with => :show_error_command_failed
 
   def new
-    scm = params[:repository_scm] || (Redmine::Scm::Base.all & Setting.enabled_scm).first
-    @repository = Repository.factory(scm)
     @repository.is_default = @project.repository.nil?
-    @repository.project = @project
   end
 
   def create
-    @repository = Repository.factory(params[:repository_scm])
-    @repository.safe_attributes = params[:repository]
-    @repository.project = @project
-    if request.post? && @repository.save
+    if @repository.save
       redirect_to settings_project_path(@project, :tab => 'repositories')
     else
       render :action => 'new'
@@ -60,7 +55,6 @@ class RepositoriesController < ApplicationController
 
   def update
     @repository.safe_attributes = params[:repository]
-    @repository.project = @project
     if @repository.save
       redirect_to settings_project_path(@project, :tab => 'repositories')
     else
@@ -285,6 +279,18 @@ class RepositoriesController < ApplicationController
   end
 
   private
+
+  def build_new_repository_from_params
+    scm = params[:repository_scm] || (Redmine::Scm::Base.all & Setting.enabled_scm).first
+    unless @repository = Repository.factory(scm)
+      render_404
+      return
+    end
+
+    @repository.project = @project
+    @repository.safe_attributes = params[:repository]
+    @repository
+  end
 
   def find_repository
     @repository = Repository.find(params[:id])
