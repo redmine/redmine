@@ -519,6 +519,22 @@ class IssueTest < ActiveSupport::TestCase
     assert_equal [issue], Issue.assigned_to(user).to_a
   end
 
+  def test_issue_should_be_readonly_on_closed_project
+    issue = Issue.find(1)
+    user = User.find(1)
+
+    assert_equal true, issue.visible?(user)
+    assert_equal true, issue.editable?(user)
+    assert_equal true, issue.deletable?(user)
+
+    issue.project.close
+    issue.reload
+
+    assert_equal true, issue.visible?(user)
+    assert_equal false, issue.editable?(user)
+    assert_equal false, issue.deletable?(user)
+  end
+
   def test_errors_full_messages_should_include_custom_fields_errors
     field = IssueCustomField.find_by_name('Database')
 
