@@ -54,4 +54,28 @@ class TimeEntryQueryTest < ActiveSupport::TestCase
     query.add_filter('activity_id', '!', [system.id.to_s])
     assert_equal 4.0, query.results_scope.sum(:hours)
   end
+
+  def test_project_query_should_include_project_issue_custom_fields_only_as_filters
+    global = IssueCustomField.generate!(:is_for_all => true, :is_filter => true)
+    field_on_project = IssueCustomField.generate!(:is_for_all => false, :project_ids => [3], :is_filter => true)
+    field_not_on_project = IssueCustomField.generate!(:is_for_all => false, :project_ids => [1,2], :is_filter => true)
+
+    query = TimeEntryQuery.new(:project => Project.find(3))
+
+    assert_include "issue.cf_#{global.id}", query.available_filters.keys
+    assert_include "issue.cf_#{field_on_project.id}", query.available_filters.keys
+    assert_not_include "issue.cf_#{field_not_on_project.id}", query.available_filters.keys
+  end
+
+  def test_project_query_should_include_project_issue_custom_fields_only_as_columns
+    global = IssueCustomField.generate!(:is_for_all => true, :is_filter => true)
+    field_on_project = IssueCustomField.generate!(:is_for_all => false, :project_ids => [3], :is_filter => true)
+    field_not_on_project = IssueCustomField.generate!(:is_for_all => false, :project_ids => [1,2], :is_filter => true)
+
+    query = TimeEntryQuery.new(:project => Project.find(3))
+
+    assert_include "issue.cf_#{global.id}", query.available_columns.map(&:name).map(&:to_s)
+    assert_include "issue.cf_#{field_on_project.id}", query.available_columns.map(&:name).map(&:to_s)
+    assert_not_include "issue.cf_#{field_not_on_project.id}", query.available_columns.map(&:name).map(&:to_s)
+  end
 end
