@@ -22,6 +22,7 @@
 <% end %>
 &nbsp;
 
+<% if @users.any? %>
 <div class="autoscroll">
 <table class="list users">
   <thead><tr>
@@ -54,5 +55,8 @@
 </table>
 </div>
 <span class="pagination"><%= pagination_links_full @user_pages, @user_count %></span>
+<% else %>
+<p class="nodata"><%= l(:label_no_data) %></p>
+<% end %>
 
 <% html_title(l(:label_user_plural)) -%>

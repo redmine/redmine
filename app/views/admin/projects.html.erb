@@ -16,6 +16,7 @@
 <% end %>
 &nbsp;
 
+<% if @projects.any? %>
 <div class="autoscroll">
 <table class="list">
   <thead><tr>
@@ -42,3 +43,6 @@
 </table>
 </div>
 <span class="pagination"><%= pagination_links_full @project_pages, @project_count %></span>
+<% else %>
+<p class="nodata"><%= l(:label_no_data) %></p>
+<% end %>
