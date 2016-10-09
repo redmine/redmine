@@ -29,7 +29,7 @@ pre, code {font-family: Consolas, Menlo, "Liberation Mono", Courier, monospace;}
 #header {min-height:5.3em;margin:0;background-color:#628DB6;color:#f8f8f8; padding: 4px 8px 20px 6px; position:relative;}
 #header a {color:#f8f8f8;}
 #header h1 { overflow: hidden; text-overflow: ellipsis; white-space: nowrap;}
-#header h1 .breadcrumbs { display:block; font-size: .6em; font-weight: normal; }
+#header h1 .breadcrumbs { display:block; font-size: .5em; font-weight: normal; }
 #quick-search {float:right;}
 
 #main-menu {position: absolute;  bottom: 0px;  left:6px; margin-right: -500px; width: 100%;}
