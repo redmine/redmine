@@ -86,7 +86,9 @@ class TimeEntryQuery < Query
     add_available_filter "hours", :type => :float
 
     add_custom_fields_filters(TimeEntryCustomField)
-    add_associations_custom_fields_filters :project, :issue, :user
+    add_associations_custom_fields_filters :project
+    add_custom_fields_filters(issue_custom_fields, :issue)
+    add_associations_custom_fields_filters :user
   end
 
   def available_columns
@@ -94,7 +96,7 @@ class TimeEntryQuery < Query
     @available_columns = self.class.available_columns.dup
     @available_columns += TimeEntryCustomField.visible.
                             map {|cf| QueryCustomFieldColumn.new(cf) }
-    @available_columns += IssueCustomField.visible.
+    @available_columns += issue_custom_fields.visible.
                             map {|cf| QueryAssociationCustomFieldColumn.new(:issue, cf) }
     @available_columns
   end
@@ -137,5 +139,13 @@ class TimeEntryQuery < Query
       add_filter('spent_on', '<=', [params[:to]])
     end
     self
+  end
+
+  def issue_custom_fields
+    if project
+      project.all_issue_custom_fields
+    else
+      IssueCustomField.where(:is_for_all => true)
+    end
   end
 end
