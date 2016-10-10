@@ -58,9 +58,7 @@
     rows.right l(:field_done_ratio), progress_bar(@issue.done_ratio, :legend => "#{@issue.done_ratio}%"), :class => 'progress'
   end
   unless @issue.disabled_core_fields.include?('estimated_hours')
-    if @issue.estimated_hours.present? || @issue.total_estimated_hours.to_f > 0
-      rows.right l(:field_estimated_hours), issue_estimated_hours_details(@issue), :class => 'estimated-hours'
-    end
+    rows.right l(:field_estimated_hours), issue_estimated_hours_details(@issue), :class => 'estimated-hours'
   end
   if User.current.allowed_to_view_all_time_entries?(@project)
     if @issue.total_spent_hours > 0
