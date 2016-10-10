@@ -4,6 +4,52 @@ Redmine - project management software
 Copyright (C) 2006-2016  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2016-10-10 v3.3.1
+
+* Defect #23067: Custom field List Link values to URL breaks on entries with spaces
+* Defect #23655: Restricted permissions for non member/anonymous on a given project not working
+* Defect #23839: "Invalid query" (Error 500) message with MS SQL when displaying an issue from a list grouped and sorted by fixed version
+* Defect #23841: Custom field URL spaces not decoded properly
+* Defect #22123: Totals cannot be removed completely if some columns are set in the global settings
+* Defect #23054: Clearing time entry custom fields while bulk editing results in values set to __none__
+* Defect #23206: Wrong filters are applied when exporting issues to CSV with blank filter
+* Defect #23246: Saving an empty Markdown image tag in Wiki pages causes internal server error
+* Defect #23829: Wrong allow-override example in rdm-mailhandler.rb
+* Defect #23152: Distinguish closed subprojects on the project overview
+* Defect #23172: Tickets can be assigned to users who are not available in specific tracker
+* Defect #23242: thumbnail macro does not render when displaying wiki content version
+* Defect #23369: encoding error in locales de.yml
+* Defect #23391: Wrong CSS classes in subtasks tree
+* Defect #23410: Error if create new issue and there is no project
+* Defect #23472: Show open issues only in "Reported Issues" on My page
+* Defect #23558: IssueImportTest#test_should_not_import_with_default_tracker_when_tracker_is_invalid fails randomly
+* Defect #23596: Filter on issue ID with between/lesser/greater operator does not work
+* Defect #23700: Creating a wiki page named "Sidebar" without proper permission raises an exception
+* Defect #23751: Tab buttons appear on pages that have no tabs
+* Defect #23766: API : creating issues with project identifier no longer possible
+* Defect #23878: Closing all subtasks causes error if default priority is not defined and priority is derived from subtasks
+* Defect #23969: Edit/delete links displayed on issue even if project is closed
+* Defect #24014: Custom fields not used in project should not be visible in spent time report
+* Patch #23117: Traditional Chinese textile and markdown help translation
+* Patch #23387: Traditional Chinese textile and markdown detailed help translation (to r15723)
+* Patch #23764: closed_on field of copied issue is always set to source issue's value
+* Patch #23269: Fix for Error: Unable to autoload constant Redmine::Version when accessing the time report in first request
+* Patch #23278: When creating issues by receiving an email, watchers created via CC in the mail don't get an email notification
+* Patch #23389: Print Styles get overriden by responsive media query
+* Patch #23708: Too long words in subtasks break layout
+* Patch #23883: iOS 10 ignore disabled Zoom
+* Patch #23134: Updated Korean locale
+* Patch #23153: Plugin hooks for custom search results
+* Patch #23171: Simplified Chinese translation for 3.3-stable
+* Patch #23180: Make the issue id from email notifications linkable to issue page
+* Patch #23334: Issue#editable_custom_field_values very slow for issues with many custom fields
+* Patch #23346: Set user's localization before redirecting on forced password change to generate flash message in current user's language
+* Patch #23376: Downloading of attachments with MIME type text/javascript fails
+* Patch #23497: Russian translation for 3.3.0
+* Patch #23587: Sudo-Mode refinements
+* Patch #23725: Updated Brazilian translation for 3.3.0.stable
+* Patch #23745: German translation for 3.3-stable
+
 == 2016-06-19 v3.3.0
 
 * Defect #5880: Only consider open subtasks when computing the priority of a parent issue
