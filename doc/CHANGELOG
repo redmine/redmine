@@ -4,6 +4,22 @@ Redmine - project management software
 Copyright (C) 2006-2016  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2016-10-10 v3.1.7
+
+* Defect #23067: Custom field List Link values to URL breaks on entries with spaces
+* Defect #23655: Restricted permissions for non member/anonymous on a given project not working
+* Defect #23839: "Invalid query" (Error 500) message with MS SQL when displaying an issue from a list grouped and sorted by fixed version
+* Defect #23841: Custom field URL spaces not decoded properly
+* Patch #22989: Czech translation for 3.1-stable
+* Patch #23003: Bulgarian translation for 3.1-stable
+* Patch #23117: Traditional Chinese textile and markdown help translation
+* Patch #23373: Traditional Chinese translation for 3.1-stable
+* Patch #23375: Simplified Chinese translation for 3.1-stable
+* Patch #23387: Traditional Chinese textile and markdown detailed help translation (to r15723)
+* Patch #23736: Russian translation for 3.1-stable
+* Patch #23744: German translation for 3.1-stable
+* Patch #23764: closed_on field of copied issue is always set to source issue's value
+
 == 2016-06-05 v3.1.6
 
 * Defect #22808: Malformed SQL query with SQLServer when grouping and sorting by fixed version
