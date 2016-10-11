@@ -824,9 +824,9 @@ class TimelogControllerTest < Redmine::ControllerTest
 
   def test_index_with_issue_status_sort
     TimeEntry.delete_all
-    TimeEntry.generate!(:issue => Issue.generate!(:status_id => 1))
-    TimeEntry.generate!(:issue => Issue.generate!(:status_id => 5))
-    TimeEntry.generate!(:issue => Issue.generate!(:status_id => 3))
+    TimeEntry.generate!(:issue => Issue.generate!(:project_id => 1, :tracker_id => 1, :status_id => 1))
+    TimeEntry.generate!(:issue => Issue.generate!(:project_id => 1, :tracker_id => 1, :status_id => 5))
+    TimeEntry.generate!(:issue => Issue.generate!(:project_id => 1, :tracker_id => 1, :status_id => 3))
     TimeEntry.generate!(:project_id => 1)
 
     get :index, :params => {
