@@ -18,7 +18,7 @@
 class UsersController < ApplicationController
   layout 'admin'
 
-  before_action :require_admin, :except => :show
+  before_action :require_admin, :except => [:show, :index]
   before_action :find_user, :only => [:show, :edit, :update, :destroy]
   accept_api_auth :index, :show, :create, :update, :destroy
 
