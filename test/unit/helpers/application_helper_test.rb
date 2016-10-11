@@ -24,8 +24,9 @@ class ApplicationHelperTest < Redmine::HelperTest
   include ERB::Util
   include Rails.application.routes.url_helpers
 
-  fixtures :projects, :roles, :enabled_modules, :users,
-           :email_addresses,
+  fixtures :projects, :enabled_modules,
+           :users, :email_addresses,
+           :members, :member_roles, :roles,
            :repositories, :changesets,
            :projects_trackers,
            :trackers, :issue_statuses, :issues, :versions, :documents,
