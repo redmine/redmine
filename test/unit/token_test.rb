@@ -18,7 +18,7 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class TokenTest < ActiveSupport::TestCase
-  fixtures :tokens
+  fixtures :tokens, :users, :email_addresses
 
   def test_create
     token = Token.new
