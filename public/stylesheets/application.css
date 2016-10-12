@@ -503,6 +503,16 @@ ul.projects ul {padding-left:1.6em;}
 ul.projects.root {margin:0; padding:0;}
 ul.projects li {list-style-type:none;}
 
+#projects-index {
+  column-count: auto;
+  column-width: 400px;
+  -webkit-column-count: auto;
+  -webkit-column-width: 400px;
+  -webkit-column-gap : 0.5rem;
+  -moz-column-count: auto;
+  -moz-column-width: 400px;
+  -moz-column-gap : 0.5rem;
+}
 #projects-index ul.projects ul.projects { border-left: 3px solid #e0e0e0; padding-left:1em;}
 #projects-index ul.projects li.root {margin-bottom: 1em;}
 #projects-index ul.projects li.child {margin-top: 1em;}
