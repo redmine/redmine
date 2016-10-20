@@ -45,6 +45,13 @@ class RoleTest < ActiveSupport::TestCase
     assert copy.save
   end
 
+  def test_copy_from_should_copy_managed_roles
+    orig = Role.generate!(:all_roles_managed => false, :managed_role_ids => [2, 3])
+    role = Role.new
+    role.copy_from orig
+    assert_equal [2, 3], role.managed_role_ids.sort
+  end
+
   def test_copy_workflows
     source = Role.find(1)
     rule_count = source.workflow_rules.count

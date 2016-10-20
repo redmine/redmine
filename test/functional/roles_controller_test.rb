@@ -129,7 +129,7 @@ class RolesControllerTest < Redmine::ControllerTest
       assert_response 302
     end
     assert_equal false, role.all_roles_managed
-    assert_equal [2, 3], role.managed_role_ids
+    assert_equal [2, 3], role.managed_role_ids.sort
   end
 
   def test_edit
