@@ -456,6 +456,7 @@ class Query < ActiveRecord::Base
   def available_filters
     unless @available_filters
       initialize_available_filters
+      @available_filters ||= {}
       @available_filters.each do |field, options|
         options[:name] ||= l(options[:label] || "field_#{field}".gsub(/_id$/, ''))
       end
