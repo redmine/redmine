@@ -117,6 +117,21 @@ class RolesControllerTest < Redmine::ControllerTest
     assert_equal Role.find(1).workflow_rules.size, role.workflow_rules.size
   end
 
+  def test_create_with_managed_roles
+    role = new_record(Role) do
+      post :create, :params => {
+        :role => {
+          :name => 'Role',
+          :all_roles_managed => '0',
+          :managed_role_ids => ['2', '3', '']
+        }
+      }
+      assert_response 302
+    end
+    assert_equal false, role.all_roles_managed
+    assert_equal [2, 3], role.managed_role_ids
+  end
+
   def test_edit
     get :edit, :params => {:id => 1}
     assert_response :success
