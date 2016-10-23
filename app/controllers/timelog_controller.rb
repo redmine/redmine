@@ -168,7 +168,7 @@ class TimelogController < ApplicationController
 
   def bulk_edit
     @available_activities = TimeEntryActivity.shared.active
-    @custom_fields = TimeEntry.first.available_custom_fields
+    @custom_fields = TimeEntry.first.available_custom_fields.select {|field| field.format.bulk_edit_supported}
   end
 
   def bulk_update

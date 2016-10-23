@@ -75,7 +75,7 @@ class ContextMenusController < ApplicationController
 
     @options_by_custom_field = {}
     if @can[:edit]
-      custom_fields = @time_entries.map(&:editable_custom_fields).reduce(:&).reject(&:multiple?)
+      custom_fields = @time_entries.map(&:editable_custom_fields).reduce(:&).reject(&:multiple?).select {|field| field.format.bulk_edit_supported}
       custom_fields.each do |field|
         values = field.possible_values_options(@projects)
         if values.present?
