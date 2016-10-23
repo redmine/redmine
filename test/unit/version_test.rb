@@ -29,6 +29,22 @@ class VersionTest < ActiveSupport::TestCase
     assert_equal 'none', v.sharing
   end
 
+  def test_create_as_default_project_version
+    project = Project.find(1)
+    v = Version.new(:project => project, :name => '1.1',
+                    :default_project_version => '1')
+    assert v.save
+    assert_equal v, project.reload.default_version
+  end
+
+  def test_create_not_as_default_project_version
+    project = Project.find(1)
+    v = Version.new(:project => project, :name => '1.1',
+                    :default_project_version => '0')
+    assert v.save
+    assert_nil project.reload.default_version
+  end
+
   def test_invalid_effective_date_validation
     v = Version.new(:project => Project.find(1), :name => '1.1',
                     :effective_date => '99999-01-01')

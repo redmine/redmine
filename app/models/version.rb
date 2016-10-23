@@ -19,6 +19,7 @@ class Version < ActiveRecord::Base
   include Redmine::SafeAttributes
 
   after_update :update_issues_from_sharing_change
+  after_save :update_default_project_version
   before_destroy :nullify_projects_default_version
 
   belongs_to :project
@@ -65,6 +66,7 @@ class Version < ActiveRecord::Base
     'wiki_page_title',
     'status',
     'sharing',
+    'default_project_version',
     'custom_field_values',
     'custom_fields'
 
@@ -80,6 +82,12 @@ class Version < ActiveRecord::Base
 
   def attachments_deletable?(usr=User.current)
     project.present? && project.attachments_deletable?(usr)
+  end
+
+  alias :base_reload :reload
+  def reload(*args)
+    @default_project_version = nil
+    base_reload(*args)
   end
 
   def start_date
@@ -263,6 +271,18 @@ class Version < ActiveRecord::Base
     fixed_issues.empty? && !referenced_by_a_custom_field?
   end
 
+  def default_project_version
+    if @default_project_version.nil?
+      project.present? && project.default_version == self
+    else
+      @default_project_version
+    end
+  end
+
+  def default_project_version=(arg)
+    @default_project_version = (arg == '1' || arg == true) 
+  end
+
   private
 
   def load_issue_counts
@@ -288,6 +308,12 @@ class Version < ActiveRecord::Base
           VERSION_SHARINGS.index(sharing_was) > VERSION_SHARINGS.index(sharing)
         Issue.update_versions_from_sharing_change self
       end
+    end
+  end
+
+  def update_default_project_version
+    if @default_project_version && project.present?
+      project.update_columns :default_version_id => id
     end
   end
 
