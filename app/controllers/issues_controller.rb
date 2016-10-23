@@ -251,7 +251,7 @@ class IssuesController < ApplicationController
       end
     end
 
-    @custom_fields = edited_issues.map{|i|i.editable_custom_fields}.reduce(:&)
+    @custom_fields = edited_issues.map{|i|i.editable_custom_fields}.reduce(:&).select {|field| field.format.bulk_edit_supported}
     @assignables = target_projects.map(&:assignable_users).reduce(:&)
     @versions = target_projects.map {|p| p.shared_versions.open}.reduce(:&)
     @categories = target_projects.map {|p| p.issue_categories}.reduce(:&)

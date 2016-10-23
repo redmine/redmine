@@ -79,6 +79,10 @@ module Redmine
       class_attribute :totalable_supported
       self.totalable_supported = false
 
+      # Set this to false if field cannot be bulk edited
+      class_attribute :bulk_edit_supported
+      self.bulk_edit_supported = true
+
       # Restricts the classes that the custom field can be added to
       # Set to nil for no restrictions
       class_attribute :customized_class_names
@@ -861,6 +865,7 @@ module Redmine
       self.form_partial = 'custom_fields/formats/attachment'
       self.is_filter_supported = false
       self.change_no_details = true
+      self.bulk_edit_supported = false
       field_attributes :extensions_allowed
 
       def set_custom_field_value(custom_field, custom_field_value, value)
