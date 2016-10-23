@@ -600,7 +600,7 @@ span.pagination>span {white-space:nowrap;}
   margin: 0;
   padding: 3px 0 3px 0;
   padding-left: 180px; /* width of left column containing the label elements */
-  line-height: 2em;
+  min-height: 2em;
   clear:left;
 }
 
