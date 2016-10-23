@@ -4,7 +4,7 @@
 function addFile(inputEl, file, eagerUpload) {
   var attachmentsFields = $(inputEl).closest('.attachments_form').find('.attachments_fields');
   var addAttachment = $(inputEl).closest('.attachments_form').find('.add_attachment');
-  var maxFiles = ($(inputEl).prop('multiple') == true ? 10 : 1);
+  var maxFiles = ($(inputEl).attr('multiple') == 'multiple' ? 10 : 1);
 
   if (attachmentsFields.children().length < maxFiles) {
     var attachmentId = addFile.nextAttachmentId++;
@@ -89,6 +89,7 @@ function ajaxUpload(file, attachmentId, fileSpan, inputEl) {
 ajaxUpload.uploading = 0;
 
 function removeFile() {
+  $(this).closest('.attachments_form').find('.add_attachment').show();
   $(this).parent('span').remove();
   return false;
 }
