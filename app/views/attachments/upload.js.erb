@@ -3,7 +3,7 @@ var fileSpan = $('#attachments_<%= j params[:attachment_id] %>');
   fileSpan.hide();
   alert("<%= escape_javascript @attachment.errors.full_messages.join(', ') %>");
 <% else %>
-$('<input>', { type: 'hidden', name: 'attachments[<%= j params[:attachment_id] %>][token]' } ).val('<%= j @attachment.token %>').appendTo(fileSpan);
+fileSpan.find('input.token').val('<%= j @attachment.token %>');
 fileSpan.find('a.remove-upload')
   .attr({
     "data-remote": true,

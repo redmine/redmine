@@ -163,6 +163,10 @@ class CustomField < ActiveRecord::Base
     end
   end
 
+  def set_custom_field_value(custom_field_value, value)
+    format.set_custom_field_value(self, custom_field_value, value)
+  end
+
   def cast_value(value)
     format.cast_value(self, value)
   end
@@ -254,20 +258,23 @@ class CustomField < ActiveRecord::Base
   # or an empty array if value is a valid value for the custom field
   def validate_custom_value(custom_value)
     value = custom_value.value
-    errs = []
-    if value.is_a?(Array)
-      if !multiple?
-        errs << ::I18n.t('activerecord.errors.messages.invalid')
-      end
-      if is_required? && value.detect(&:present?).nil?
-        errs << ::I18n.t('activerecord.errors.messages.blank')
-      end
-    else
-      if is_required? && value.blank?
-        errs << ::I18n.t('activerecord.errors.messages.blank')
+    errs = format.validate_custom_value(custom_value)
+
+    unless errs.any?
+      if value.is_a?(Array)
+        if !multiple?
+          errs << ::I18n.t('activerecord.errors.messages.invalid')
+        end
+        if is_required? && value.detect(&:present?).nil?
+          errs << ::I18n.t('activerecord.errors.messages.blank')
+        end
+      else
+        if is_required? && value.blank?
+          errs << ::I18n.t('activerecord.errors.messages.blank')
+        end
       end
     end
-    errs += format.validate_custom_value(custom_value)
+
     errs
   end
 
@@ -279,6 +286,10 @@ class CustomField < ActiveRecord::Base
   # Returns true if value is a valid value for the custom field
   def valid_field_value?(value)
     validate_field_value(value).empty?
+  end
+
+  def after_save_custom_value(custom_value)
+    format.after_save_custom_value(self, custom_value)
   end
 
   def format_in?(*args)

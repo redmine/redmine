@@ -34,6 +34,7 @@ module Redmine
                                  options.merge(:as => :container, :dependent => :destroy, :inverse_of => :container)
           send :include, Redmine::Acts::Attachable::InstanceMethods
           before_save :attach_saved_attachments
+          after_rollback :detach_saved_attachments
           validate :warn_about_failed_attachments
         end
       end
@@ -90,7 +91,7 @@ module Redmine
               if file = attachment['file']
                 next unless file.size > 0
                 a = Attachment.create(:file => file, :author => author)
-              elsif token = attachment['token']
+              elsif token = attachment['token'].presence
                 a = Attachment.find_by_token(token)
                 unless a
                   @failed_attachment_count += 1
@@ -114,6 +115,14 @@ module Redmine
         def attach_saved_attachments
           saved_attachments.each do |attachment|
             self.attachments << attachment
+          end
+        end
+
+        def detach_saved_attachments
+          saved_attachments.each do |attachment|
+            # TODO: use #reload instead, after upgrading to Rails 5
+            # (after_rollback is called when running transactional tests in Rails 4)
+            attachment.container = nil
           end
         end
 

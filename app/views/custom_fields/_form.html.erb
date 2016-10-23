@@ -28,7 +28,9 @@
 when "IssueCustomField" %>
     <p><%= f.check_box :is_required %></p>
     <p><%= f.check_box :is_for_all, :data => {:disables => '#custom_field_project_ids input'} %></p>
+    <% if @custom_field.format.is_filter_supported %>
     <p><%= f.check_box :is_filter %></p>
+    <% end %>
     <% if @custom_field.format.searchable_supported %>
     <p><%= f.check_box :searchable %></p>
     <% end %>
@@ -57,7 +59,9 @@ when "IssueCustomField" %>
     <p><%= f.check_box :is_required %></p>
     <p><%= f.check_box :visible %></p>
     <p><%= f.check_box :editable %></p>
+    <% if @custom_field.format.is_filter_supported %>
     <p><%= f.check_box :is_filter %></p>
+    <% end %>
 
 <% when "ProjectCustomField" %>
     <p><%= f.check_box :is_required %></p>
@@ -65,19 +69,27 @@ when "IssueCustomField" %>
     <% if @custom_field.format.searchable_supported %>
     <p><%= f.check_box :searchable %></p>
     <% end %>
+    <% if @custom_field.format.is_filter_supported %>
     <p><%= f.check_box :is_filter %></p>
+    <% end %>
 
 <% when "VersionCustomField" %>
     <p><%= f.check_box :is_required %></p>
+    <% if @custom_field.format.is_filter_supported %>
     <p><%= f.check_box :is_filter %></p>
+    <% end %>
 
 <% when "GroupCustomField" %>
     <p><%= f.check_box :is_required %></p>
+    <% if @custom_field.format.is_filter_supported %>
     <p><%= f.check_box :is_filter %></p>
+    <% end %>
 
 <% when "TimeEntryCustomField" %>
     <p><%= f.check_box :is_required %></p>
+    <% if @custom_field.format.is_filter_supported %>
     <p><%= f.check_box :is_filter %></p>
+    <% end %>
 
 <% else %>
     <p><%= f.check_box :is_required %></p>

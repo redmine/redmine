@@ -48,6 +48,10 @@ class CustomFieldValue
     value.to_s
   end
 
+  def value=(v)
+    @value = custom_field.set_custom_field_value(self, v)
+  end
+
   def validate_value
     custom_field.validate_custom_value(self).each do |message|
       customized.errors.add(:base, custom_field.name + ' ' + message)

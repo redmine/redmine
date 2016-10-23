@@ -67,6 +67,10 @@ module Redmine
       class_attribute :multiple_supported
       self.multiple_supported = false
 
+      # Set this to true if the format supports filtering on custom values
+      class_attribute :is_filter_supported
+      self.is_filter_supported = true
+
       # Set this to true if the format supports textual search on custom values
       class_attribute :searchable_supported
       self.searchable_supported = false
@@ -87,6 +91,9 @@ module Redmine
       class_attribute :change_as_diff
       self.change_as_diff = false
 
+      class_attribute :change_no_details
+      self.change_no_details = false
+
       def self.add(name)
         self.format_name = name
         Redmine::FieldFormat.add(name, self)
@@ -105,6 +112,19 @@ module Redmine
 
       def label
         "label_#{name}"
+      end
+
+      def set_custom_field_value(custom_field, custom_field_value, value)
+        if value.is_a?(Array)
+          value = value.map(&:to_s).reject{|v| v==''}.uniq
+          if value.empty?
+            value << ''
+          end
+        else
+          value = value.to_s
+        end
+
+        value
       end
 
       def cast_custom_value(custom_value)
@@ -169,6 +189,7 @@ module Redmine
 
       # Returns the validation error messages for custom_value
       # Should return an empty array if custom_value is valid
+      # custom_value is a CustomFieldValue.
       def validate_custom_value(custom_value)
         values = Array.wrap(custom_value.value).reject {|value| value.to_s == ''}
         errors = values.map do |value|
@@ -179,6 +200,10 @@ module Redmine
 
       def validate_single_value(custom_field, value, customized=nil)
         []
+      end
+
+      # CustomValue after_save callback
+      def after_save_custom_value(custom_field, custom_value)
       end
 
       def formatted_custom_value(view, custom_value, html=false)
@@ -828,6 +853,110 @@ module Redmine
           end
         end
         scope.sort.collect{|u| [u.to_s, u.id.to_s] }
+      end
+    end
+
+    class AttachementFormat < Base
+      add 'attachment'
+      self.form_partial = 'custom_fields/formats/attachment'
+      self.is_filter_supported = false
+      self.change_no_details = true
+
+      def set_custom_field_value(custom_field, custom_field_value, value)
+        attachment_present = false
+
+        if value.is_a?(Hash)
+          attachment_present = true
+          value = value.except(:blank)
+
+          if value.values.any? && value.values.all? {|v| v.is_a?(Hash)}
+            value = value.values.first
+          end
+
+          if value.key?(:id)
+            value = set_custom_field_value_by_id(custom_field, custom_field_value, value[:id])
+          elsif value[:token].present?
+            if attachment = Attachment.find_by_token(value[:token])
+              value = attachment.id.to_s
+            else
+              value = ''
+            end
+          elsif value.key?(:file)
+            attachment = Attachment.new(:file => value[:file], :author => User.current)
+            if attachment.save
+              value = attachment.id.to_s
+            else
+              value = ''
+            end
+          else
+            attachment_present = false
+            value = ''
+          end
+        elsif value.is_a?(String)
+          value = set_custom_field_value_by_id(custom_field, custom_field_value, value)
+        end
+        custom_field_value.instance_variable_set "@attachment_present", attachment_present
+
+        value
+      end
+
+      def set_custom_field_value_by_id(custom_field, custom_field_value, id)
+        attachment = Attachment.find_by_id(id)
+        if attachment && attachment.container.is_a?(CustomValue) && attachment.container.customized == custom_field_value.customized
+          id.to_s
+        else
+          ''
+        end
+      end
+      private :set_custom_field_value_by_id
+
+      def cast_single_value(custom_field, value, customized=nil)
+        Attachment.find_by_id(value.to_i) if value.present? && value.respond_to?(:to_i)
+      end
+
+      def validate_custom_value(custom_value)
+        errors = []
+
+        if custom_value.instance_variable_get("@attachment_present") && custom_value.value.blank?
+          errors << ::I18n.t('activerecord.errors.messages.invalid')
+        end
+
+        errors.uniq
+      end
+
+      def after_save_custom_value(custom_field, custom_value)
+        if custom_value.value_changed?
+          if custom_value.value.present?
+            attachment = Attachment.where(:id => custom_value.value.to_s).first
+            if attachment
+              attachment.container = custom_value
+              attachment.save!
+            end
+          end
+          if custom_value.value_was.present?
+            attachment = Attachment.where(:id => custom_value.value_was.to_s).first
+            if attachment
+              attachment.destroy
+            end
+          end
+        end
+      end
+
+      def edit_tag(view, tag_id, tag_name, custom_value, options={})
+        attachment = nil
+        if custom_value.value.present? #&& custom_value.value == custom_value.value_was
+          attachment = Attachment.find_by_id(custom_value.value)
+        end
+
+        view.hidden_field_tag("#{tag_name}[blank]", "") +
+          view.render(:partial => 'attachments/form',
+            :locals => {
+              :attachment_param => tag_name,
+              :multiple => false,
+              :description => false,
+              :saved_attachments => [attachment].compact,
+              :filedrop => false
+            })
       end
     end
   end
