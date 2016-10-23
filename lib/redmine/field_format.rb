@@ -861,6 +861,7 @@ module Redmine
       self.form_partial = 'custom_fields/formats/attachment'
       self.is_filter_supported = false
       self.change_no_details = true
+      field_attributes :extensions_allowed
 
       def set_custom_field_value(custom_field, custom_field_value, value)
         attachment_present = false
@@ -917,8 +918,18 @@ module Redmine
       def validate_custom_value(custom_value)
         errors = []
 
-        if custom_value.instance_variable_get("@attachment_present") && custom_value.value.blank?
-          errors << ::I18n.t('activerecord.errors.messages.invalid')
+        if custom_value.value.blank?
+          if custom_value.instance_variable_get("@attachment_present")
+            errors << ::I18n.t('activerecord.errors.messages.invalid')
+          end
+        else
+          if custom_value.value.present?
+            attachment = Attachment.where(:id => custom_value.value.to_s).first
+            extensions = custom_value.custom_field.extensions_allowed
+            if attachment && extensions.present? && !attachment.extension_in?(extensions)
+              errors << "#{::I18n.t('activerecord.errors.messages.invalid')} (#{l(:setting_attachment_extensions_allowed)}: #{extensions})"
+            end
+          end
         end
 
         errors.uniq

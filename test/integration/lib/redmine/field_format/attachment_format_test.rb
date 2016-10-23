@@ -153,4 +153,42 @@ class AttachmentFieldFormatTest < Redmine::IntegrationTest
     assert_equal attachment.id.to_s, custom_value.value
     assert_equal custom_value, attachment.reload.container
   end
+
+  def test_create_with_valid_extension
+    @field.extensions_allowed = "txt, log"
+    @field.save!
+
+    attachment = new_record(Attachment) do
+      assert_difference 'Issue.count' do
+        post '/projects/ecookbook/issues', {
+            :issue => {
+              :subject => "Blank",
+              :custom_field_values => {
+                @field.id => {:file => uploaded_test_file("testfile.txt", "text/plain")}
+              }
+            }
+          }
+        assert_response 302
+      end
+    end
+  end
+
+  def test_create_with_invalid_extension_should_fail
+    @field.extensions_allowed = "png, jpeg"
+    @field.save!
+
+    attachment = new_record(Attachment) do
+      assert_no_difference 'Issue.count' do
+        post '/projects/ecookbook/issues', {
+            :issue => {
+              :subject => "Blank",
+              :custom_field_values => {
+                @field.id => {:file => uploaded_test_file("testfile.txt", "text/plain")}
+              }
+            }
+          }
+        assert_response :success
+      end
+    end
+  end
 end

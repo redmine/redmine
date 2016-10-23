@@ -87,7 +87,8 @@ class CustomField < ActiveRecord::Base
     'text_formatting',
     'edit_tag_style',
     'user_role',
-    'version_status'
+    'version_status',
+    'extensions_allowed'
 
   def format
     @format ||= Redmine::FieldFormat.find(field_format)

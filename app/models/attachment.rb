@@ -354,20 +354,35 @@ class Attachment < ActiveRecord::Base
     end
   end
 
-  # Returns true if the extension is allowed, otherwise false
+  # Returns true if the extension is allowed regarding allowed/denied
+  # extensions defined in application settings, otherwise false
   def self.valid_extension?(extension)
-    extension = extension.downcase.sub(/\A\.+/, '')
-
     denied, allowed = [:attachment_extensions_denied, :attachment_extensions_allowed].map do |setting|
-      Setting.send(setting).to_s.split(",").map {|s| s.strip.downcase.sub(/\A\.+/, '')}.reject(&:blank?)
+      Setting.send(setting)
     end
-    if denied.present? && denied.include?(extension)
+    if denied.present? && extension_in?(extension, denied)
       return false
     end
-    unless allowed.blank? || allowed.include?(extension)
+    if allowed.present? && !extension_in?(extension, allowed)
       return false
     end
     true
+  end
+
+  # Returns true if extension belongs to extensions list.
+  def self.extension_in?(extension, extensions)
+    extension = extension.downcase.sub(/\A\.+/, '')
+
+    unless extensions.is_a?(Array)
+      extensions = extensions.to_s.split(",").map(&:strip)
+    end
+    extensions = extensions.map {|s| s.downcase.sub(/\A\.+/, '')}.reject(&:blank?)
+    extensions.include?(extension)
+  end
+
+  # Returns true if attachment's extension belongs to extensions list.
+  def extension_in?(extensions)
+    self.class.extension_in?(File.extname(filename), extensions)
   end
 
   private
