@@ -92,7 +92,7 @@ when "IssueCustomField" %>
     </label>
     <% Role.givable.sorted.each do |role| %>
       <label class="block custom_field_role" style="padding-left:2em;">
-        <%= check_box_tag 'custom_field[role_ids][]', role.id, @custom_field.roles.include?(role), :id => nil %>
+        <%= check_box_tag 'custom_field[role_ids][]', role.id, @custom_field.roles.to_a.include?(role), :id => nil %>
         <%= role.name %>
       </label>
     <% end %>
@@ -103,7 +103,7 @@ when "IssueCustomField" %>
   <% Tracker.sorted.each do |tracker| %>
     <%= check_box_tag "custom_field[tracker_ids][]",
                       tracker.id,
-                      (@custom_field.trackers.include? tracker),
+                      (@custom_field.trackers.to_a.include? tracker),
                       :id => "custom_field_tracker_ids_#{tracker.id}" %>
     <label class="no-css" for="custom_field_tracker_ids_<%=tracker.id%>">
       <%= tracker.name %>
