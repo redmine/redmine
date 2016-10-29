@@ -59,7 +59,7 @@ class ContextMenusController < ApplicationController
   end
 
   def time_entries
-    @time_entries = TimeEntry.where(:id => params[:ids]).preload(:project).to_a
+    @time_entries = TimeEntry.where(:id => params[:ids]).preload(:project, :user).to_a
     (render_404; return) unless @time_entries.present?
     if (@time_entries.size == 1)
       @time_entry = @time_entries.first
