@@ -18,6 +18,41 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 module MyHelper
+  # Renders the blocks
+  def render_blocks(blocks, user, options={})
+    s = ''.html_safe
+
+    if blocks.present?
+      blocks.each do |block|
+        content = render_block_content(block, user)
+        if content.present?
+          if options[:edit]
+            close = link_to("", {:action => "remove_block", :block => block}, :method => 'post', :class => "close-icon")
+            content = close + content_tag('div', content, :class => 'handle')
+          end
+
+          s << content_tag('div', content, :class => "mypage-box", :id => "block-#{block}")
+        end
+      end
+    end
+    s
+  end
+
+  # Renders a single block content
+  def render_block_content(block, user)
+    unless MyController::BLOCKS.keys.include?(block)
+      Rails.logger.warn("Unknown block \"#{block}\" found in #{user.login} (id=#{user.id}) preferences")
+      return
+    end
+
+    begin
+      render(:partial => "my/blocks/#{block}", :locals => {:user => user})
+    rescue ActionView::MissingTemplate
+      Rails.logger.warn("Template missing for block \"#{block}\" found in #{user.login} (id=#{user.id}) preferences")
+      return nil
+    end
+  end
+
   def calendar_items(startdt, enddt)
     Issue.visible.
       where(:project_id => User.current.projects.map(&:id)).

@@ -1077,6 +1077,10 @@ div.wiki img {vertical-align:middle; max-width:100%;}
   color:#505050;
   line-height:1.5em;
 }
+.mypage-box .close-icon {
+  float:right;
+  z-index:500;
+}
 
 .handle {cursor: move;}
 

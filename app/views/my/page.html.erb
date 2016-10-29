@@ -5,30 +5,15 @@
 <h2><%=l(:label_my_page)%></h2>
 
 <div id="list-top">
-  <% @blocks['top'].each do |b|
-     next unless MyController::BLOCKS.keys.include? b  %>
-  <div class="mypage-box">
-    <%= render :partial => "my/blocks/#{b}", :locals => { :user => @user } %>
-  </div>
-  <% end if @blocks['top'] %>
+  <%= render_blocks(@blocks['top'], @user) %>
 </div>
 
 <div id="list-left" class="splitcontentleft">
-  <% @blocks['left'].each do |b|
-     next unless MyController::BLOCKS.keys.include? b %>
-  <div class="mypage-box">
-    <%= render :partial => "my/blocks/#{b}", :locals => { :user => @user } %>
-  </div>
-  <% end if @blocks['left'] %>
+  <%= render_blocks(@blocks['left'], @user) %>
 </div>
 
 <div id="list-right" class="splitcontentright">
-  <% @blocks['right'].each do |b|
-     next unless MyController::BLOCKS.keys.include? b %>
-  <div class="mypage-box">
-    <%= render :partial => "my/blocks/#{b}", :locals => { :user => @user } %>
-  </div>
-  <% end if @blocks['right'] %>
+  <%= render_blocks(@blocks['right'], @user) %>
 </div>
 
 <%= context_menu issues_context_menu_path %>

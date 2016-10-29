@@ -14,24 +14,15 @@
 <h2><%=l(:label_my_page)%></h2>
 
 <div id="list-top" class="block-receiver">
-  <% @blocks['top'].each do |b|
-     next unless MyController::BLOCKS.keys.include? b %>
-  <%= render :partial => 'block', :locals => {:user => @user, :block_name => b} %>
-  <% end if @blocks['top'] %>
+  <%= render_blocks(@blocks['top'], @user, :edit => true) %>
 </div>
 
 <div id="list-left" class="splitcontentleft block-receiver">
-  <% @blocks['left'].each do |b|
-     next unless MyController::BLOCKS.keys.include? b %>
-  <%= render :partial => 'block', :locals => {:user => @user, :block_name => b} %>
-  <% end if @blocks['left'] %>
+  <%= render_blocks(@blocks['left'], @user, :edit => true) %>
 </div>
 
 <div id="list-right" class="splitcontentright block-receiver">
-  <% @blocks['right'].each do |b|
-     next unless MyController::BLOCKS.keys.include? b %>
-  <%= render :partial => 'block', :locals => {:user => @user, :block_name => b} %>
-  <% end if @blocks['right'] %>
+  <%= render_blocks(@blocks['right'], @user, :edit => true) %>
 </div>
 
 <%= javascript_tag "initMyPageSortable('top', '#{ escape_javascript url_for(:action => "order_blocks", :group => "top") }');" %>
