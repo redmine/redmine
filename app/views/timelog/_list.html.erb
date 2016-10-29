@@ -1,4 +1,4 @@
-<%= form_tag({}) do -%>
+<%= form_tag({}, :data => {:cm_url => time_entries_context_menu_path}) do -%>
 <%= hidden_field_tag 'back_url', url_for(:params => request.query_parameters), :id => nil %>
 <div class="autoscroll">
 <table class="list time-entries">
@@ -60,4 +60,4 @@
 </div>
 <% end -%>
 
-<%= context_menu time_entries_context_menu_path %>
+<%= context_menu %>

@@ -96,7 +96,9 @@ end %>
   <%= link_to_new_subtask(@issue) if User.current.allowed_to?(:manage_subtasks, @project) %>
 </div>
 <p><strong><%=l(:label_subtask_plural)%></strong></p>
+<%= form_tag({}, :data => {:cm_url => issues_context_menu_path}) do %>
 <%= render_descendants_tree(@issue) unless @issue.leaf? %>
+<% end %>
 </div>
 <% end %>
 
@@ -157,4 +159,4 @@ end %>
     <%= auto_discovery_link_tag(:atom, {:format => 'atom', :key => User.current.rss_key}, :title => "#{@issue.project} - #{@issue.tracker} ##{@issue.id}: #{@issue.subject}") %>
 <% end %>
 
-<%= context_menu issues_context_menu_path %>
+<%= context_menu %>

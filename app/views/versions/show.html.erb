@@ -36,7 +36,7 @@
 </div>
 
 <% if @issues.present? %>
-<%= form_tag({}) do -%>
+<%= form_tag({}, :data => {:cm_url => issues_context_menu_path}) do -%>
   <table class="list related-issues">
   <caption><%= l(:label_related_issues) %></caption>
   <%- @issues.each do |issue| -%>
@@ -47,7 +47,7 @@
   <% end %>
   </table>
 <% end %>
-<%= context_menu issues_context_menu_path %>
+<%= context_menu %>
 <% end %>
 </div>
 

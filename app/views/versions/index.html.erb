@@ -23,7 +23,7 @@
     <%= render(:partial => "wiki/content",
                :locals => {:content => version.wiki_page.content}) if version.wiki_page %>
     <% if (issues = @issues_by_version[version]) && issues.size > 0 %>
-      <%= form_tag({}) do -%>
+      <%= form_tag({}, :data => {:cm_url => issues_context_menu_path}) do -%>
         <table class="list related-issues">
         <caption><%= l(:label_related_issues) %></caption>
         <% issues.each do |issue| -%>
@@ -99,4 +99,4 @@
 
 <% html_title(l(:label_roadmap)) %>
 
-<%= context_menu issues_context_menu_path %>
+<%= context_menu %>

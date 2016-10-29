@@ -1,5 +1,5 @@
 <% if issues && issues.any? %>
-<%= form_tag({}) do %>
+<%= form_tag({}, :data => {:cm_url => issues_context_menu_path}) do %>
   <table class="list list-simple issues">
     <thead><tr>
     <th class="id">#</th>

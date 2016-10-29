@@ -7,7 +7,7 @@
 <p><strong><%=l(:label_related_issues)%></strong></p>
 
 <% if @relations.present? %>
-<form>
+<%= form_tag({}, :data => {:cm_url => issues_context_menu_path}) do %>
 <table class="list issues">
 <% @relations.each do |relation| %>
   <% other_issue = relation.other_issue(@issue) -%>
@@ -30,7 +30,7 @@
   </tr>
 <% end %>
 </table>
-</form>
+<% end %>
 <% end %>
 
 <%= form_for @relation, {

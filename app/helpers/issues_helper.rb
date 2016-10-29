@@ -90,7 +90,7 @@ module IssuesHelper
   end
 
   def render_descendants_tree(issue)
-    s = '<form><table class="list issues">'
+    s = '<table class="list issues">'
     issue_list(issue.descendants.visible.preload(:status, :priority, :tracker, :assigned_to).sort_by(&:lft)) do |child, level|
       css = "issue issue-#{child.id} hascontextmenu #{child.css_classes}"
       css << " idnt idnt-#{level}" if level > 0
@@ -102,7 +102,7 @@ module IssuesHelper
              content_tag('td', child.disabled_core_fields.include?('done_ratio') ? '' : progress_bar(child.done_ratio), :class=> 'done_ratio'),
              :class => css)
     end
-    s << '</table></form>'
+    s << '</table>'
     s.html_safe
   end
 

@@ -1165,7 +1165,7 @@ module ApplicationHelper
     end
   end
 
-  def context_menu(url)
+  def context_menu
     unless @context_menu_included
       content_for :header_tags do
         javascript_include_tag('context_menu') +
@@ -1178,7 +1178,7 @@ module ApplicationHelper
       end
       @context_menu_included = true
     end
-    javascript_tag "contextMenuInit('#{ url_for(url) }')"
+    nil
   end
 
   def calendar_for(field_id)

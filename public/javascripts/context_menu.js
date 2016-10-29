@@ -2,7 +2,6 @@
    Copyright (C) 2006-2016  Jean-Philippe Lang */
 
 var contextMenuObserving;
-var contextMenuUrl;
 
 function contextMenuRightClick(event) {
   var target = $(event.target);
@@ -98,13 +97,16 @@ function contextMenuShow(event) {
   var window_height;
   var max_width;
   var max_height;
+  var url;
 
   $('#context-menu').css('left', (render_x + 'px'));
   $('#context-menu').css('top', (render_y + 'px'));
   $('#context-menu').html('');
 
+  url = $(event.target).parents('form').first().data('cm-url');
+
   $.ajax({
-    url: contextMenuUrl,
+    url: url,
     data: $(event.target).parents('form').first().serialize(),
     success: function(data, textStatus, jqXHR) {
       $('#context-menu').html(data);
@@ -208,8 +210,7 @@ function contextMenuClearDocumentSelection() {
   }
 }
 
-function contextMenuInit(url) {
-  contextMenuUrl = url;
+function contextMenuInit() {
   contextMenuCreate();
   contextMenuUnselectAll();
   
@@ -243,5 +244,6 @@ function window_size() {
 }
 
 $(document).ready(function(){
+  contextMenuInit();
   $('input[type=checkbox].toggle-selection').on('change', toggleIssuesSelection);
 });

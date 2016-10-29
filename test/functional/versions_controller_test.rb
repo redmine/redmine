@@ -36,7 +36,7 @@ class VersionsControllerTest < Redmine::ControllerTest
     assert_select 'h3', :text => Version.find(1).name, :count => 0
 
     # Context menu on issues
-    assert_select "script", :text => Regexp.new(Regexp.escape("contextMenuInit('/issues/context_menu')"))
+    assert_select "form[data-cm-url=?]", '/issues/context_menu'
     assert_select "div#sidebar" do
       # Links to versions anchors
       assert_select 'a[href=?]', '#2.0'
