@@ -90,4 +90,22 @@ class UserPreference < ActiveRecord::Base
   def my_page_layout=(arg)
     self[:my_page_layout] = arg
   end
+
+  def remove_block(block)
+    block = block.to_s.underscore
+    %w(top left right).each do |f|
+      (my_page_layout[f] ||= []).delete(block)
+    end
+    my_page_layout
+  end
+
+  def add_block(block)
+    block = block.to_s.underscore
+    return unless Redmine::MyPage.blocks.key?(block)
+
+    remove_block(block)
+    # add it on top
+    my_page_layout['top'] ||= []
+    my_page_layout['top'].unshift(block)
+  end
 end
