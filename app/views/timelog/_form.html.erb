@@ -8,7 +8,7 @@
     <% elsif params[:issue_id] %>
       <%= hidden_field_tag 'issue_id', params[:issue_id] %>
     <% else %>
-      <p><%= f.select :project_id, project_tree_options_for_select(Project.allowed_to(:log_time).to_a, :selected => @time_entry.project, :include_blank => true) %></p>
+      <p><%= f.select :project_id, project_tree_options_for_select(Project.allowed_to(:log_time).to_a, :selected => @time_entry.project, :include_blank => true), :required => true %></p>
     <% end %>
   <% end %>
   <p>
