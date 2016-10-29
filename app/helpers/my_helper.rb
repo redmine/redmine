@@ -59,7 +59,7 @@ module MyHelper
     Redmine::MyPage.block_options.each do |label, block|
       options << content_tag('option', label, :value => block, :disabled => disabled.include?(block))
     end
-    content_tag('select', options, :id => "block-select")
+    select_tag('block', options, :id => "block-select")
   end
 
   def calendar_items(startdt, enddt)
