@@ -27,7 +27,7 @@ module MyHelper
         content = render_block_content(block, user)
         if content.present?
           if options[:edit]
-            close = link_to("", {:action => "remove_block", :block => block}, :method => 'post', :class => "close-icon")
+            close = link_to(l(:button_delete), {:action => "remove_block", :block => block}, :method => 'post', :class => "icon-only icon-close")
             content = close + content_tag('div', content, :class => 'handle')
           end
 

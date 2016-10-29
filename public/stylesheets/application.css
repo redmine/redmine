@@ -1077,24 +1077,11 @@ div.wiki img {vertical-align:middle; max-width:100%;}
   color:#505050;
   line-height:1.5em;
 }
-.mypage-box .close-icon {
+.mypage-box .icon-close {
   float:right;
-  z-index:500;
 }
 
 .handle {cursor: move;}
-
-a.close-icon {
-  display:block;
-  margin-top:3px;
-  overflow:hidden;
-  width:12px;
-  height:12px;
-  background-repeat: no-repeat;
-  cursor:pointer;
-  background-image:url('../images/close.png');
-}
-a.close-icon:hover {background-image:url('../images/close_hl.png');}
 
 /***** Gantt chart *****/
 .gantt_hdr {
@@ -1224,6 +1211,8 @@ a.close-icon:hover {background-image:url('../images/close_hl.png');}
 .icon-not-ok { background-image: url(../images/false.png); }
 .icon-link-break { background-image: url(../images/link_break.png); }
 .icon-list { background-image: url(../images/text_list_bullets.png); }
+.icon-close { background-image: url(../images/close.png); }
+.icon-close:hover { background-image: url(../images/close_hl.png); }
 
 .icon-file { background-image: url(../images/files/default.png); }
 .icon-file.text-plain { background-image: url(../images/files/text.png); }
