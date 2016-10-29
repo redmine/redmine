@@ -1,21 +1,17 @@
-<h3>
-  <%= link_to l(:label_spent_time), time_entries_path(:user_id => 'me') %>
-  (<%= l(:label_last_n_days, 7) %>)
-</h3>
 <%
 entries = timelog_items
 entries_by_day = entries.group_by(&:spent_on)
 %>
-
 <% if User.current.allowed_to?(:log_time, nil, :global => true) %>
 <div class="contextual">
   <%= link_to l(:button_log_time), new_time_entry_path, :class => "icon icon-add" %>
 </div>
 <% end %>
 
-<div class="total-hours">
-<p><%= l(:label_total_time) %>: <%= html_hours("%.2f" % entries.sum(&:hours).to_f) %></p>
-</div>
+<h3>
+  <%= link_to l(:label_spent_time), time_entries_path(:user_id => 'me') %>
+  (<%= l(:label_last_n_days, 7) %>: <%= l_hours_short entries.sum(&:hours) %>)
+</h3>
 
 <% if entries.any? %>
 <table class="list time-entries">
@@ -56,4 +52,6 @@ entries_by_day = entries.group_by(&:spent_on)
 <% end -%>
 </tbody>
 </table>
+<% else %>
+  <p class="nodata"><%= l(:label_no_data) %></p>
 <% end %>
