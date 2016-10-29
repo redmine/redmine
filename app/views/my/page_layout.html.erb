@@ -1,12 +1,9 @@
 <div class="contextual">
-<% if @block_options.present? %>
-  <%= form_tag({:action => "add_block"}, :id => "block-form") do %>
+
+<%= form_tag({:action => "add_block"}, :id => "block-form") do %>
   <%= label_tag('block-select', l(:label_my_page_block)) %>:
-  <%= select_tag 'block',
-                 content_tag('option') + options_for_select(@block_options),
-                 :id => "block-select" %>
+  <%= block_select_tag(@user) %>
   <%= link_to l(:button_add), '#', :onclick => '$("#block-form").submit()', :class => 'icon icon-add' %>
-  <% end %>
 <% end %>
 <%= link_to l(:button_back), {:action => 'page'}, :class => 'icon icon-cancel' %>
 </div>

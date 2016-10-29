@@ -40,7 +40,7 @@ module MyHelper
 
   # Renders a single block content
   def render_block_content(block, user)
-    unless MyController::BLOCKS.keys.include?(block)
+    unless Redmine::MyPage.blocks.key?(block)
       Rails.logger.warn("Unknown block \"#{block}\" found in #{user.login} (id=#{user.id}) preferences")
       return
     end
@@ -51,6 +51,15 @@ module MyHelper
       Rails.logger.warn("Template missing for block \"#{block}\" found in #{user.login} (id=#{user.id}) preferences")
       return nil
     end
+  end
+
+  def block_select_tag(user)
+    disabled = user.pref.my_page_layout.values.flatten
+    options = content_tag('option')
+    Redmine::MyPage.block_options.each do |label, block|
+      options << content_tag('option', label, :value => block, :disabled => disabled.include?(block))
+    end
+    content_tag('select', options, :id => "block-select")
   end
 
   def calendar_items(startdt, enddt)

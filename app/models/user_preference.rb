@@ -82,4 +82,12 @@ class UserPreference < ActiveRecord::Base
 
   def textarea_font; self[:textarea_font] end
   def textarea_font=(value); self[:textarea_font]=value; end
+
+  def my_page_layout
+    self[:my_page_layout] ||= Redmine::MyPage.default_layout.deep_dup
+  end
+
+  def my_page_layout=(arg)
+    self[:my_page_layout] = arg
+  end
 end

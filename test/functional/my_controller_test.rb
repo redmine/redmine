@@ -52,7 +52,7 @@ class MyControllerTest < Redmine::ControllerTest
   end
 
   def test_page_with_all_blocks
-    blocks = MyController::BLOCKS.keys
+    blocks = Redmine::MyPage.blocks.keys
     preferences = User.find(2).pref
     preferences[:my_page_layout] = {'top' => blocks}
     preferences.save!

@@ -27,19 +27,6 @@ class MyController < ApplicationController
   helper :users
   helper :custom_fields
 
-  BLOCKS = { 'issuesassignedtome' => :label_assigned_to_me_issues,
-             'issuesreportedbyme' => :label_reported_issues,
-             'issueswatched' => :label_watched_issues,
-             'news' => :label_news_latest,
-             'calendar' => :label_calendar,
-             'documents' => :label_document_plural,
-             'timelog' => :label_spent_time
-           }.merge(Redmine::Views::MyPage::Block.additional_blocks).freeze
-
-  DEFAULT_LAYOUT = {  'left' => ['issuesassignedtome'],
-                      'right' => ['issuesreportedbyme']
-                   }.freeze
-
   def index
     page
     render :action => 'page'
@@ -48,7 +35,7 @@ class MyController < ApplicationController
   # Show user's page
   def page
     @user = User.current
-    @blocks = @user.pref[:my_page_layout] || DEFAULT_LAYOUT
+    @blocks = @user.pref.my_page_layout
   end
 
   # Edit user's account
@@ -146,13 +133,7 @@ class MyController < ApplicationController
   # User's page layout configuration
   def page_layout
     @user = User.current
-    @blocks = @user.pref[:my_page_layout] || DEFAULT_LAYOUT.dup
-    @block_options = []
-    BLOCKS.each do |k, v|
-      unless @blocks.values.flatten.include?(k)
-        @block_options << [l("my.blocks.#{v}", :default => [v, v.to_s.humanize]), k.dasherize]
-      end
-    end
+    @blocks = @user.pref.my_page_layout
   end
 
   # Add a block to user's page
@@ -160,14 +141,14 @@ class MyController < ApplicationController
   # params[:block] : id of the block to add
   def add_block
     block = params[:block].to_s.underscore
-    if block.present? && BLOCKS.key?(block)
+    if block.present? && Redmine::MyPage.blocks.key?(block)
       @user = User.current
-      layout = @user.pref[:my_page_layout] || {}
+      layout = @user.pref.my_page_layout
       # remove if already present in a group
       %w(top left right).each {|f| (layout[f] ||= []).delete block }
       # add it on top
       layout['top'].unshift block
-      @user.pref[:my_page_layout] = layout
+      @user.pref.my_page_layout = layout
       @user.pref.save
     end
     redirect_to my_page_layout_path
@@ -179,9 +160,9 @@ class MyController < ApplicationController
     block = params[:block].to_s.underscore
     @user = User.current
     # remove block in all groups
-    layout = @user.pref[:my_page_layout] || {}
+    layout = @user.pref.my_page_layout
     %w(top left right).each {|f| (layout[f] ||= []).delete block }
-    @user.pref[:my_page_layout] = layout
+    @user.pref.my_page_layout = layout
     @user.pref.save
     redirect_to my_page_layout_path
   end
@@ -196,13 +177,13 @@ class MyController < ApplicationController
       group_items = (params["blocks"] || []).collect(&:underscore)
       group_items.each {|s| s.sub!(/^block_/, '')}
       if group_items and group_items.is_a? Array
-        layout = @user.pref[:my_page_layout] || {}
+        layout = @user.pref.my_page_layout
         # remove group blocks if they are presents in other groups
         %w(top left right).each {|f|
           layout[f] = (layout[f] || []) - group_items
         }
         layout[group] = group_items
-        @user.pref[:my_page_layout] = layout
+        @user.pref.my_page_layout = layout
         @user.pref.save
       end
     end
