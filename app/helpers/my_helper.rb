@@ -45,8 +45,9 @@ module MyHelper
       return
     end
 
+    settings = user.pref.my_page_settings(block)
     begin
-      render(:partial => "my/blocks/#{block}", :locals => {:user => user})
+      render(:partial => "my/blocks/#{block}", :locals => {:user => user, :settings => settings})
     rescue ActionView::MissingTemplate
       Rails.logger.warn("Template missing for block \"#{block}\" found in #{user.login} (id=#{user.id}) preferences")
       return nil
@@ -107,13 +108,18 @@ module MyHelper
       to_a
   end
 
-  def timelog_items
-    TimeEntry.
-      where("#{TimeEntry.table_name}.user_id = ? AND #{TimeEntry.table_name}.spent_on BETWEEN ? AND ?", User.current.id, User.current.today - 6, User.current.today).
+  def timelog_items(settings)
+    days = settings[:days].to_i
+    days = 7 if days < 1 || days > 365
+
+    entries = TimeEntry.
+      where("#{TimeEntry.table_name}.user_id = ? AND #{TimeEntry.table_name}.spent_on BETWEEN ? AND ?", User.current.id, User.current.today - (days - 1), User.current.today).
       joins(:activity, :project).
       references(:issue => [:tracker, :status]).
       includes(:issue => [:tracker, :status]).
       order("#{TimeEntry.table_name}.spent_on DESC, #{Project.table_name}.name ASC, #{Tracker.table_name}.position ASC, #{Issue.table_name}.id ASC").
       to_a
+
+    return entries, days
   end
 end

@@ -26,6 +26,7 @@ class RoutingMyTest < Redmine::RoutingTest
     should_route 'POST /my/account/destroy' => 'my#destroy'
 
     should_route 'GET /my/page' => 'my#page'
+    should_route 'POST /my/page' => 'my#update_page'
     should_route 'GET /my' => 'my#index'
 
     should_route 'GET /my/api_key' => 'my#show_api_key'

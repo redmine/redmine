@@ -130,6 +130,17 @@ class MyController < ApplicationController
     redirect_to my_account_path
   end
 
+  def update_page
+    @user = User.current
+    block_settings = params[:settings] || {}
+
+    block_settings.each do |block, settings|
+      @user.pref.update_block_settings(block, settings)
+    end
+    @user.pref.save
+    @updated_blocks = block_settings.keys
+  end
+
   # User's page layout configuration
   def page_layout
     @user = User.current

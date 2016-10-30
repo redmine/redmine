@@ -1,17 +1,36 @@
 <%
-entries = timelog_items
+entries, days = timelog_items(settings)
 entries_by_day = entries.group_by(&:spent_on)
 %>
-<% if User.current.allowed_to?(:log_time, nil, :global => true) %>
+
 <div class="contextual">
-  <%= link_to l(:button_log_time), new_time_entry_path, :class => "icon icon-add" %>
+  <%= link_to l(:button_log_time), new_time_entry_path, :class => "icon icon-add" if User.current.allowed_to?(:log_time, nil, :global => true) %>
+  <%= link_to_function l(:label_options), "$('#timelog-settings').toggle();", :class => 'icon-only icon-settings' %>
 </div>
-<% end %>
 
 <h3>
   <%= link_to l(:label_spent_time), time_entries_path(:user_id => 'me') %>
-  (<%= l(:label_last_n_days, 7) %>: <%= l_hours_short entries.sum(&:hours) %>)
+  (<%= l(:label_last_n_days, days) %>: <%= l_hours_short entries.sum(&:hours) %>)
 </h3>
+
+
+<div id="timelog-settings" style="display:none;">
+  <%= form_tag({}, :remote => true) do %>
+    <div class="box">
+      <p>
+      <label>
+        <%= l(:button_show) %>:
+        <%= text_field_tag 'settings[timelog][days]', days, :size => 6 %>
+        <%= l(:label_day_plural) %>
+      </label>
+      </p>
+    </div>
+    <p>
+      <%= submit_tag l(:button_save) %>
+      <%= link_to_function l(:button_cancel), "$('#timelog-settings').toggle();" %>
+    </p>
+  <% end %>
+</div>
 
 <% if entries.any? %>
 <%= form_tag({}, :data => {:cm_url => time_entries_context_menu_path}) do %>

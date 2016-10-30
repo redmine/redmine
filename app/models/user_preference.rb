@@ -91,6 +91,19 @@ class UserPreference < ActiveRecord::Base
     self[:my_page_layout] = arg
   end
 
+  def my_page_settings(block=nil)
+    s = self[:my_page_settings] ||= {}
+    if block
+      s[block] ||= {} 
+    else
+      s
+    end
+  end
+
+  def my_page_settings=(arg)
+    self[:my_page_settings] = arg
+  end
+
   def remove_block(block)
     block = block.to_s.underscore
     %w(top left right).each do |f|
@@ -107,5 +120,10 @@ class UserPreference < ActiveRecord::Base
     # add it on top
     my_page_layout['top'] ||= []
     my_page_layout['top'].unshift(block)
+  end
+
+  def update_block_settings(block, settings)
+    block_settings = my_page_settings(block).merge(settings.symbolize_keys)
+    my_page_settings[block] = block_settings
   end
 end
