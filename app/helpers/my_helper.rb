@@ -108,7 +108,7 @@ module MyHelper
       to_a
   end
 
-  def timelog_items(settings)
+  def timelog_items(settings={})
     days = settings[:days].to_i
     days = 7 if days < 1 || days > 365
 

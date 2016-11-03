@@ -37,7 +37,7 @@ class MyHelperTest < Redmine::HelperTest
     entry = TimeEntry.generate!(:spent_on => Date.today, :user_id => 2, :project_id => 1)
     assert_nil entry.issue
 
-    assert_include entry, timelog_items
+    assert_include entry, timelog_items.first
   end
 
   def test_timelog_items_should_include_time_entries_with_issue
@@ -45,6 +45,6 @@ class MyHelperTest < Redmine::HelperTest
     entry = TimeEntry.generate!(:spent_on => Date.today, :user_id => 2, :project_id => 1, :issue_id => 1)
     assert_not_nil entry.issue
 
-    assert_include entry, timelog_items
+    assert_include entry, timelog_items.first
   end
 end
