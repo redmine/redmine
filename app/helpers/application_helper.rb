@@ -426,7 +426,7 @@ module ApplicationHelper
   end
 
   def html_hours(text)
-    text.gsub(%r{(\d+)\.(\d+)}, '<span class="hours hours-int">\1</span><span class="hours hours-dec">.\2</span>').html_safe
+    text.gsub(%r{(\d+)([\.:])(\d+)}, '<span class="hours hours-int">\1</span><span class="hours hours-dec">\2\3</span>').html_safe
   end
 
   def authoring(created, author, options={})

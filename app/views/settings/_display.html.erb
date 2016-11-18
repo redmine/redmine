@@ -15,6 +15,8 @@
 
 <p><%= setting_select :time_format, Setting::TIME_FORMATS.collect {|f| [::I18n.l(Time.now, :locale => locale, :format => f), f]}, :blank => :label_language_based %></p>
 
+<p><%= setting_select :timespan_format, [["%.2f" % 0.75, 'decimal'], ['0:45 h', 'minutes']], :blank => false %></p>
+
 <p><%= setting_select :user_format, @options[:user_format] %></p>
 
 <p><%= setting_check_box :gravatar_enabled %></p>

@@ -45,11 +45,11 @@ module Redmine
 
     def l_hours(hours)
       hours = hours.to_f
-      l((hours < 2.0 ? :label_f_hour : :label_f_hour_plural), :value => ("%.2f" % hours.to_f))
+      l((hours < 2.0 ? :label_f_hour : :label_f_hour_plural), :value => format_hours(hours))
     end
 
     def l_hours_short(hours)
-      l(:label_f_hour_short, :value => ("%.2f" % hours.to_f))
+      l(:label_f_hour_short, :value => format_hours(hours.to_f))
     end
 
     def ll(lang, str, arg=nil)
@@ -80,6 +80,18 @@ module Redmine
       zone = user.time_zone
       local = zone ? time.in_time_zone(zone) : (time.utc? ? time.localtime : time)
       (include_date ? "#{format_date(local)} " : "") + ::I18n.l(local, options)
+    end
+
+    def format_hours(hours)
+      return "" if hours.blank?
+
+      if Setting.timespan_format == 'minutes'
+        h = hours.floor
+        m = ((hours - h) * 60).round
+        "%d:%02d" % [ h, m ]
+      else
+        "%.2f" % hours.to_f
+      end
     end
 
     def day_name(day)

@@ -52,9 +52,9 @@
   <% total = 0 -%>
   <% @report.periods.each do |period| -%>
     <% sum = sum_hours(select_hours(@report.hours, @report.columns, period.to_s)); total += sum -%>
-    <td class="hours"><%= html_hours("%.2f" % sum) if sum > 0 %></td>
+    <td class="hours"><%= html_hours(l_hours_short(sum)) if sum > 0 %></td>
   <% end -%>
-  <td class="hours"><%= html_hours("%.2f" % total) if total > 0 %></td>
+  <td class="hours"><%= html_hours(l_hours_short(total)) if total > 0 %></td>
   </tr>
 </tbody>
 </table>

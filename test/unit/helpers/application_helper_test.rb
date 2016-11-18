@@ -1544,4 +1544,24 @@ RAW
     stubs(:request).returns(stub(:env => {'HTTP_REFERER' => "/path?utf8=\u2713&foo=bar"}))
     assert_equal "/path?foo=bar", back_url
   end
+
+  def test_hours_formatting
+    set_language_if_valid 'en'
+
+    with_settings :timespan_format => 'minutes' do
+      assert_equal '0:45', format_hours(0.75)
+      assert_equal '0:45 h', l_hours_short(0.75)
+      assert_equal '0:45 hour', l_hours(0.75)
+    end
+    with_settings :timespan_format => 'decimal' do
+      assert_equal '0.75', format_hours(0.75)
+      assert_equal '0.75 h', l_hours_short(0.75)
+      assert_equal '0.75 hour', l_hours(0.75)
+    end
+  end
+
+  def test_html_hours
+    assert_equal '<span class="hours hours-int">0</span><span class="hours hours-dec">:45</span>', html_hours('0:45')
+    assert_equal '<span class="hours hours-int">0</span><span class="hours hours-dec">.75</span>', html_hours('0.75')
+  end
 end

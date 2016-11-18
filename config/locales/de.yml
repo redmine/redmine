@@ -1047,6 +1047,7 @@ de:
   setting_thumbnails_enabled: Vorschaubilder von Dateianhängen anzeigen
   setting_thumbnails_size: Größe der Vorschaubilder (in Pixel)
   setting_time_format: Zeitformat
+  setting_timespan_format: Format für Zeitspannen
   setting_unsubscribe: Erlaubt Benutzern das eigene Benutzerkonto zu löschen
   setting_user_format: Benutzer-Anzeigeformat
   setting_welcome_text: Willkommenstext
