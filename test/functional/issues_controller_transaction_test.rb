@@ -263,7 +263,7 @@ class IssuesControllerTransactionTest < Redmine::ControllerTest
       assert_response :success
     end
 
-    assert_select 'input[name=?][value=?]', 'time_entry[hours]', '2.5'
+    assert_select 'input[name=?][value=?]', 'time_entry[hours]', '2.50'
     assert_select 'input[name=?][value=?]', 'time_entry[comments]', 'should not be added'
     assert_select 'select[name=?]', 'time_entry[activity_id]' do
       assert_select 'option[value=?][selected=selected]', TimeEntryActivity.first.id.to_s
