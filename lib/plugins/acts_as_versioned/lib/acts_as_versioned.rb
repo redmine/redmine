@@ -469,9 +469,10 @@ module ActiveRecord #:nodoc:
 
           # Finds versions of a specific model.  Takes an options hash like <tt>find</tt>
           def find_versions(id, options = {})
-            versioned_class.all({
-              :conditions => ["#{versioned_foreign_key} = ?", id],
-              :order      => 'version' }.merge(options))
+            versioned_class.
+                where(options[:conditions] || {versioned_foreign_key => id}).
+                limit(options[:limit]).
+                order('version')
           end
 
           # Returns an array of columns that are versioned.  See non_versioned_columns
