@@ -8,9 +8,9 @@
   <% total = 0 -%>
   <% @report.periods.each do |period| -%>
     <% sum = sum_hours(select_hours(hours_for_value, @report.columns, period.to_s)); total += sum -%>
-    <td class="hours"><%= html_hours(l_hours_short(sum)) if sum > 0 %></td>
+    <td class="hours"><%= html_hours(format_hours(sum)) if sum > 0 %></td>
   <% end -%>
-  <td class="hours"><%= html_hours(l_hours_short(total)) if total > 0 %></td>
+  <td class="hours"><%= html_hours(format_hours(total)) if total > 0 %></td>
 </tr>
 <% if criterias.length > level+1 -%>
   <%= render(:partial => 'report_criteria', :locals => {:criterias => criterias, :hours => hours_for_value, :level => (level + 1)}) %>
