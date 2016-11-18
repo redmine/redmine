@@ -168,7 +168,7 @@ class TimelogController < ApplicationController
   end
 
   def bulk_edit
-    @available_activities = TimeEntryActivity.shared.active
+    @available_activities = @projects.map(&:activities).reduce(:&)
     @custom_fields = TimeEntry.first.available_custom_fields.select {|field| field.format.bulk_edit_supported}
   end
 
@@ -231,7 +231,10 @@ private
   end
 
   def find_time_entries
-    @time_entries = TimeEntry.where(:id => params[:id] || params[:ids]).preload(:project, :user).to_a
+    @time_entries = TimeEntry.where(:id => params[:id] || params[:ids]).
+      preload(:project => :time_entry_activities).
+      preload(:user).to_a
+
     raise ActiveRecord::RecordNotFound if @time_entries.empty?
     raise Unauthorized unless @time_entries.all? {|t| t.editable_by?(User.current)}
     @projects = @time_entries.collect(&:project).compact.uniq
