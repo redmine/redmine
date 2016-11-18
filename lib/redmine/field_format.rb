@@ -960,7 +960,7 @@ module Redmine
 
       def edit_tag(view, tag_id, tag_name, custom_value, options={})
         attachment = nil
-        if custom_value.value.present? #&& custom_value.value == custom_value.value_was
+        if custom_value.value.present?
           attachment = Attachment.find_by_id(custom_value.value)
         end
 
