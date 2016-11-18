@@ -1215,3 +1215,4 @@ pt:
   label_font_default: Default font
   label_font_monospace: Monospaced font
   label_font_proportional: Proportional font
+  setting_timespan_format: Time span format
