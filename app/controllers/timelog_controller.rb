@@ -19,6 +19,7 @@ class TimelogController < ApplicationController
   menu_item :time_entries
 
   before_action :find_time_entry, :only => [:show, :edit, :update]
+  before_action :check_editability, :only => [:edit, :update]
   before_action :find_time_entries, :only => [:bulk_edit, :bulk_update, :destroy]
   before_action :authorize, :only => [:show, :edit, :update, :bulk_edit, :bulk_update, :destroy]
 
@@ -221,13 +222,16 @@ class TimelogController < ApplicationController
 private
   def find_time_entry
     @time_entry = TimeEntry.find(params[:id])
+    @project = @time_entry.project
+  rescue ActiveRecord::RecordNotFound
+    render_404
+  end
+
+  def check_editability
     unless @time_entry.editable_by?(User.current)
       render_403
       return false
     end
-    @project = @time_entry.project
-  rescue ActiveRecord::RecordNotFound
-    render_404
   end
 
   def find_time_entries
