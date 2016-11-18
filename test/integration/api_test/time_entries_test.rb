@@ -48,6 +48,17 @@ class Redmine::ApiTest::TimeEntriesTest < Redmine::ApiTest::Base
     assert_select 'time_entry id', :text => '2'
   end
 
+  test "GET /time_entries/:id.xml on closed project should return the time entry" do
+    project = TimeEntry.find(2).project
+    project.close
+    project.save!
+
+    get '/time_entries/2.xml', {}, credentials('jsmith')
+    assert_response :success
+    assert_equal 'application/xml', @response.content_type
+    assert_select 'time_entry id', :text => '2'
+  end
+
   test "POST /time_entries.xml with issue_id should create time entry" do
     assert_difference 'TimeEntry.count' do
       post '/time_entries.xml', {:time_entry => {:issue_id => '1', :spent_on => '2010-12-02', :hours => '3.5', :activity_id => '11'}}, credentials('jsmith')
