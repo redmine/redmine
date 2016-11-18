@@ -860,7 +860,7 @@ module Redmine
       end
     end
 
-    class AttachementFormat < Base
+    class AttachmentFormat < Base
       add 'attachment'
       self.form_partial = 'custom_fields/formats/attachment'
       self.is_filter_supported = false
