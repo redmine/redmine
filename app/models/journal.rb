@@ -125,7 +125,7 @@ class Journal < ActiveRecord::Base
   end
 
   def attachments
-    journalized.respond_to?(:attachments) ? journalized.attachments : nil
+    journalized.respond_to?(:attachments) ? journalized.attachments : []
   end
 
   # Returns a string of css classes
