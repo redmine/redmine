@@ -313,12 +313,6 @@ td.center {text-align:center;}
 
 h3.version { background: url(../images/package.png) no-repeat 0% 50%; padding-left: 20px; }
 
-div.issues h3 { background: url(../images/ticket.png) no-repeat 0% 50%; padding-left: 20px; }
-div.members h3 { background: url(../images/group.png) no-repeat 0% 50%; padding-left: 20px; }
-div.news h3 { background: url(../images/news.png) no-repeat 0% 50%; padding-left: 20px; }
-div.projects h3 { background: url(../images/projects.png) no-repeat 0% 50%; padding-left: 20px; }
-div.spent_time h3 { background: url(../images/time.png) no-repeat 0% 50%; padding-left: 20px; }
-
 #watchers select {width: 95%; display: block;}
 #watchers a.delete {opacity: 0.4; margin-left: 5px;}
 #watchers a.delete:hover {opacity: 1;}
@@ -1210,6 +1204,7 @@ div.wiki img {vertical-align:middle; max-width:100%;}
 .icon-workflows { background-image: url(../images/ticket_go.png); }
 .icon-custom-fields { background-image: url(../images/textfield.png); }
 .icon-plugins { background-image: url(../images/plugin.png); }
+.icon-news { background: url(../images/news.png); }
 
 .icon-file { background-image: url(../images/files/default.png); }
 .icon-file.text-plain { background-image: url(../images/files/text.png); }
