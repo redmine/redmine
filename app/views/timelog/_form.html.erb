@@ -13,9 +13,9 @@
   <% end %>
   <p>
     <%= f.text_field :issue_id, :size => 6 %>
-    <% if @time_entry.issue.try(:visible?) %>
-      <span id="time_entry_issue"><%= "#{@time_entry.issue.tracker.name} ##{@time_entry.issue.id}: #{@time_entry.issue.subject}" %></span>
-    <% end %>
+    <span id="time_entry_issue">
+      <%=  link_to_issue(@time_entry.issue) if @time_entry.issue.try(:visible?) %>
+    </span>
   </p>
   <p><%= f.date_field :spent_on, :size => 10, :required => true %><%= calendar_for('time_entry_spent_on') %></p>
   <p><%= f.text_field :hours, :size => 6, :required => true %></p>
@@ -28,22 +28,20 @@
 </div>
 
 <%= javascript_tag do %>
-<% if @time_entry.new_record? %>
   $(document).ready(function(){
     $('#time_entry_project_id, #time_entry_issue_id').change(function(){
       $.ajax({
-        url: '<%= escape_javascript new_time_entry_path(:format => 'js') %>',
+        url: '<%= escape_javascript(@time_entry.new_record? ? new_time_entry_path(:format => 'js') : edit_time_entry_path(:format => 'js')) %>',
         type: 'post',
-        data: $('#new_time_entry').serialize()
+        data: $(this).closest('form').serialize()
       });
     });
   });
-<% end %>
 
   observeAutocompleteField('time_entry_issue_id', '<%= escape_javascript auto_complete_issues_path(:project_id => @project, :scope => (@project ? nil : 'all'))%>', {
     select: function(event, ui) {
-      $('#time_entry_issue').text(ui.item.label);
-      $('#time_entry_issue_id').blur();
+      $('#time_entry_issue').text('');
+      $('#time_entry_issue_id').val(ui.item.value).change();
     }
   });
 <% end %>

@@ -27,7 +27,8 @@ class RoutingTimelogsTest < Redmine::RoutingTest
     should_route 'POST /time_entries' => 'timelog#create'
 
     should_route 'GET /time_entries/22/edit' => 'timelog#edit', :id => '22'
-    should_route 'PUT /time_entries/22' => 'timelog#update', :id => '22'
+    should_route 'PATCH /time_entries/22/edit' => 'timelog#edit', :id => '22'
+    should_route 'PATCH /time_entries/22' => 'timelog#update', :id => '22'
     should_route 'DELETE /time_entries/22' => 'timelog#destroy', :id => '22'
   end
 

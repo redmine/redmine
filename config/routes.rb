@@ -215,6 +215,10 @@ Rails.application.routes.draw do
   match '/time_entries/context_menu', :to => 'context_menus#time_entries', :as => :time_entries_context_menu, :via => [:get, :post]
 
   resources :time_entries, :controller => 'timelog', :except => :destroy do
+    member do
+      # Used when updating the edit form of an existing time entry
+      patch 'edit', :to => 'timelog#edit'
+    end
     collection do
       get 'report'
       get 'bulk_edit'
