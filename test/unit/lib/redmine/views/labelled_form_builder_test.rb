@@ -27,4 +27,22 @@ class Redmine::Views::LabelledFormBuilderTest < Redmine::HelperTest
       assert_equal output, '<label for="issue_subject">Subject</label>'
     end
   end
+
+  def test_hours_field_should_display_formatted_value_if_valid
+    entry = TimeEntry.new(:hours => '2.5')
+    entry.validate
+
+    labelled_form_for(entry) do |f|
+      assert_include 'value="2.50"', f.hours_field(:hours)
+    end
+  end
+
+  def test_hours_field_should_display_entered_value_if_invalid
+    entry = TimeEntry.new(:hours => '2.z')
+    entry.validate
+
+    labelled_form_for(entry) do |f|
+      assert_include 'value="2.z"', f.hours_field(:hours)
+    end
+  end
 end
