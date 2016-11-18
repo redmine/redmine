@@ -78,21 +78,6 @@ pre, code {font-family: Consolas, Menlo, "Liberation Mono", Courier, monospace;}
 #admin-menu ul {margin: 0;  padding: 0;}
 #admin-menu li {margin: 0;  padding: 0 0 6px 0; list-style-type:none;}
 
-#admin-menu a { background-position: 0% 40%; background-repeat: no-repeat; padding-left: 20px; padding-top: 2px; padding-bottom: 3px;}
-#admin-menu a.projects { background-image: url(../images/projects.png); }
-#admin-menu a.users { background-image: url(../images/user.png); }
-#admin-menu a.groups { background-image: url(../images/group.png); }
-#admin-menu a.roles { background-image: url(../images/database_key.png); }
-#admin-menu a.trackers { background-image: url(../images/ticket.png); }
-#admin-menu a.issue_statuses { background-image: url(../images/ticket_edit.png); }
-#admin-menu a.workflows { background-image: url(../images/ticket_go.png); }
-#admin-menu a.custom_fields { background-image: url(../images/textfield.png); }
-#admin-menu a.enumerations { background-image: url(../images/text_list_bullets.png); }
-#admin-menu a.settings { background-image: url(../images/changeset.png); }
-#admin-menu a.plugins { background-image: url(../images/plugin.png); }
-#admin-menu a.info { background-image: url(../images/help.png); }
-#admin-menu a.server_authentication { background-image: url(../images/server_key.png); }
-
 #main {background-color:#EEEEEE;}
 
 #sidebar{ float: right; width: 22%; position: relative; z-index: 9; padding: 0; margin: 0;}
@@ -1219,6 +1204,12 @@ div.wiki img {vertical-align:middle; max-width:100%;}
 .icon-close { background-image: url(../images/close.png); }
 .icon-close:hover { background-image: url(../images/close_hl.png); }
 .icon-settings { background-image: url(../images/changeset.png); }
+.icon-group { background-image: url(../images/group.png); }
+.icon-roles { background-image: url(../images/database_key.png); }
+.icon-issue-edit { background-image: url(../images/ticket_edit.png); }
+.icon-workflows { background-image: url(../images/ticket_go.png); }
+.icon-custom-fields { background-image: url(../images/textfield.png); }
+.icon-plugins { background-image: url(../images/plugin.png); }
 
 .icon-file { background-image: url(../images/files/default.png); }
 .icon-file.text-plain { background-image: url(../images/files/text.png); }

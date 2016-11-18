@@ -207,22 +207,32 @@ Redmine::MenuManager.map :application_menu do |menu|
 end
 
 Redmine::MenuManager.map :admin_menu do |menu|
-  menu.push :projects, {:controller => 'admin', :action => 'projects'}, :caption => :label_project_plural
-  menu.push :users, {:controller => 'users'}, :caption => :label_user_plural
-  menu.push :groups, {:controller => 'groups'}, :caption => :label_group_plural
-  menu.push :roles, {:controller => 'roles'}, :caption => :label_role_and_permissions
-  menu.push :trackers, {:controller => 'trackers'}, :caption => :label_tracker_plural
+  menu.push :projects, {:controller => 'admin', :action => 'projects'}, :caption => :label_project_plural,
+            :html => {:class => 'icon icon-projects'}
+  menu.push :users, {:controller => 'users'}, :caption => :label_user_plural,
+            :html => {:class => 'icon icon-user'}
+  menu.push :groups, {:controller => 'groups'}, :caption => :label_group_plural,
+            :html => {:class => 'icon icon-group'}
+  menu.push :roles, {:controller => 'roles'}, :caption => :label_role_and_permissions,
+            :html => {:class => 'icon icon-roles'}
+  menu.push :trackers, {:controller => 'trackers'}, :caption => :label_tracker_plural,
+            :html => {:class => 'icon icon-issue'}
   menu.push :issue_statuses, {:controller => 'issue_statuses'}, :caption => :label_issue_status_plural,
-            :html => {:class => 'issue_statuses'}
-  menu.push :workflows, {:controller => 'workflows', :action => 'edit'}, :caption => :label_workflow
+            :html => {:class => 'icon icon-issue-edit'}
+  menu.push :workflows, {:controller => 'workflows', :action => 'edit'}, :caption => :label_workflow,
+            :html => {:class => 'icon icon-workflows'}
   menu.push :custom_fields, {:controller => 'custom_fields'},  :caption => :label_custom_field_plural,
-            :html => {:class => 'custom_fields'}
-  menu.push :enumerations, {:controller => 'enumerations'}
-  menu.push :settings, {:controller => 'settings'}
+            :html => {:class => 'icon icon-custom-fields'}
+  menu.push :enumerations, {:controller => 'enumerations'},
+            :html => {:class => 'icon icon-list'}
+  menu.push :settings, {:controller => 'settings'},
+            :html => {:class => 'icon icon-settings'}
   menu.push :ldap_authentication, {:controller => 'auth_sources', :action => 'index'},
-            :html => {:class => 'server_authentication'}
-  menu.push :plugins, {:controller => 'admin', :action => 'plugins'}, :last => true
-  menu.push :info, {:controller => 'admin', :action => 'info'}, :caption => :label_information_plural, :last => true
+            :html => {:class => 'icon icon-server-authentication'}
+  menu.push :plugins, {:controller => 'admin', :action => 'plugins'}, :last => true,
+            :html => {:class => 'icon icon-plugins'}
+  menu.push :info, {:controller => 'admin', :action => 'info'}, :caption => :label_information_plural, :last => true,
+            :html => {:class => 'icon icon-help'}
 end
 
 Redmine::MenuManager.map :project_menu do |menu|
