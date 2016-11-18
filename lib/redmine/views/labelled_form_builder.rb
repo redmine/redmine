@@ -42,6 +42,15 @@ class Redmine::Views::LabelledFormBuilder < ActionView::Helpers::FormBuilder
     label_for_field(field, options) + super(field, priority_zones, options, html_options.except(:label)).html_safe
   end
 
+  # A field for entering hours value
+  def hours_field(field, options={})
+    # display the value before type cast when the entered value is not valid
+    if @object.errors[field].blank?
+      options = options.merge(:value => format_hours(@object.send field))
+    end
+    text_field field, options
+  end
+
   # Returns a label tag for the given field
   def label_for_field(field, options = {})
     return ''.html_safe if options.delete(:no_label)
