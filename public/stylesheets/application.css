@@ -424,7 +424,7 @@ div.journal ul.details a:hover,  ul.revision-info a:hover {color:#D14848;}
 
 div#activity dl, #search-results { margin-left: 2em; }
 div#activity dd, #search-results dd { margin-bottom: 1em; padding-left: 18px; font-size: 0.9em; }
-div#activity dt, #search-results dt { margin-bottom: 0px; padding-left: 20px; line-height: 18px; background-position: 0 50%; background-repeat: no-repeat; }
+#search-results dt { margin-bottom: 0px; padding-left: 20px; line-height: 18px; background-position: 0 50%; background-repeat: no-repeat; }
 div#activity dt.me .time { border-bottom: 1px solid #999; }
 div#activity dt .time { color: #777; font-size: 80%; }
 div#activity dd .description, #search-results dd .description { font-style: italic; }
@@ -439,20 +439,6 @@ div#activity dt { overflow: hidden; white-space: nowrap; text-overflow: ellipsis
 div#search-results-counts {float:right;}
 div#search-results-counts ul { margin-top: 0.5em; }
 div#search-results-counts  li { list-style-type:none; float: left; margin-left: 1em; }
-
-dt.issue { background-image: url(../images/ticket.png); }
-dt.issue-edit { background-image: url(../images/ticket_edit.png); }
-dt.issue-closed { background-image: url(../images/ticket_checked.png); }
-dt.issue-note { background-image: url(../images/ticket_note.png); }
-dt.changeset { background-image: url(../images/changeset.png); }
-dt.news { background-image: url(../images/news.png); }
-dt.message { background-image: url(../images/message.png); }
-dt.reply { background-image: url(../images/comments.png); }
-dt.wiki-page { background-image: url(../images/wiki_edit.png); }
-dt.attachment { background-image: url(../images/attachment.png); }
-dt.document { background-image: url(../images/document.png); }
-dt.project { background-image: url(../images/projects.png); }
-dt.time-entry { background-image: url(../images/time.png); }
 
 #search-results dt.issue.closed { background-image: url(../images/ticket_checked.png); }
 
@@ -1158,11 +1144,11 @@ div.wiki img {vertical-align:middle; max-width:100%;}
 .open .icon-folder { background-image: url(../images/folder_open.png); }
 .icon-package { background-image: url(../images/package.png); }
 .icon-user { background-image: url(../images/user.png); }
-.icon-projects { background-image: url(../images/projects.png); }
+.icon-project, .icon-projects { background-image: url(../images/projects.png); }
 .icon-help { background-image: url(../images/help.png); }
 .icon-attachment  { background-image: url(../images/attachment.png); }
 .icon-history  { background-image: url(../images/history.png); }
-.icon-time  { background-image: url(../images/time.png); }
+.icon-time-entry, .icon-time  { background-image: url(../images/time.png); }
 .icon-time-add  { background-image: url(../images/time_add.png); }
 .icon-stats  { background-image: url(../images/stats.png); }
 .icon-warning  { background-image: url(../images/warning.png); }
@@ -1205,6 +1191,14 @@ div.wiki img {vertical-align:middle; max-width:100%;}
 .icon-custom-fields { background-image: url(../images/textfield.png); }
 .icon-plugins { background-image: url(../images/plugin.png); }
 .icon-news { background: url(../images/news.png); }
+.icon-issue-closed { background-image: url(../images/ticket_checked.png); }
+.icon-issue-note { background-image: url(../images/ticket_note.png); }
+.icon-changeset { background-image: url(../images/changeset.png); }
+.icon-message { background-image: url(../images/message.png); }
+.icon-reply { background-image: url(../images/comments.png); }
+.icon-wiki-page { background-image: url(../images/wiki_edit.png); }
+.icon-document { background-image: url(../images/document.png); }
+.icon-project { background-image: url(../images/projects.png); }
 
 .icon-file { background-image: url(../images/files/default.png); }
 .icon-file.text-plain { background-image: url(../images/files/text.png); }
