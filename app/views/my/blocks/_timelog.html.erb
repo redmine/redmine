@@ -46,7 +46,7 @@ entries_by_day = entries.group_by(&:spent_on)
   <tr class="odd">
     <td><strong><%= day == User.current.today ? l(:label_today).titleize : format_date(day) %></strong></td>
     <td colspan="2"></td>
-    <td class="hours"><em><%= html_hours(l_hours_short(entries_by_day[day].sum(&:hours))) %></em></td>
+    <td class="hours"><em><%= html_hours(format_hours(entries_by_day[day].sum(&:hours))) %></em></td>
   </tr>
   <% entries_by_day[day].each do |entry| -%>
   <tr class="time-entry hascontextmenu">
@@ -56,7 +56,7 @@ entries_by_day = entries.group_by(&:spent_on)
     </td>
     <td class="subject"><%= entry.project %> <%= h(' - ') + link_to_issue(entry.issue, :truncate => 50) if entry.issue %></td>
     <td class="comments"><%= entry.comments %></td>
-    <td class="hours"><%= html_hours(l_hours_short(entry.hours)) %></td>
+    <td class="hours"><%= html_hours(format_hours(entry.hours)) %></td>
   </tr>
   <% end -%>
 <% end -%>
