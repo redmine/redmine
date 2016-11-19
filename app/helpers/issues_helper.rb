@@ -129,6 +129,7 @@ module IssuesHelper
              content_tag('td', other_issue.status, :class => 'status') +
              content_tag('td', other_issue.start_date, :class => 'start_date') +
              content_tag('td', other_issue.due_date, :class => 'due_date') +
+             content_tag('td', other_issue.disabled_core_fields.include?('done_ratio') ? '' : progress_bar(other_issue.done_ratio), :class=> 'done_ratio') +
              content_tag('td', link, :class => 'buttons'),
              :id => "relation-#{relation.id}",
              :class => css)
