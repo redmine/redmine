@@ -72,7 +72,7 @@ class Project < ActiveRecord::Base
   validates_uniqueness_of :identifier, :if => Proc.new {|p| p.identifier_changed?}
   validates_length_of :name, :maximum => 255
   validates_length_of :homepage, :maximum => 255
-  validates_length_of :identifier, :in => 1..IDENTIFIER_MAX_LENGTH
+  validates_length_of :identifier, :maximum => IDENTIFIER_MAX_LENGTH
   # downcase letters, digits, dashes but not digits only
   validates_format_of :identifier, :with => /\A(?!\d+$)[a-z0-9\-_]*\z/, :if => Proc.new { |p| p.identifier_changed? }
   # reserved words
