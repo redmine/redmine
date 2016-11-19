@@ -1228,3 +1228,4 @@ pl:
   label_font_monospace: Monospaced font
   label_font_proportional: Proportional font
   setting_timespan_format: Time span format
+  label_table_of_contents: Table of contents

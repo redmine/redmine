@@ -1201,3 +1201,4 @@ bg:
   error_no_projects_with_tracker_allowed_for_new_issue: There are no projects with trackers
     for which you can create an issue
   setting_timespan_format: Time span format
+  label_table_of_contents: Table of contents
