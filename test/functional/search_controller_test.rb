@@ -94,7 +94,7 @@ class SearchControllerTest < Redmine::ControllerTest
 
     assert_select '#search-results' do
       assert_select 'dt.issue a', :text => /Bug #5/
-      assert_select 'dt.issue.closed a', :text => /Bug #8 \(Closed\)/
+      assert_select 'dt.issue-closed a', :text => /Bug #8 \(Closed\)/
     end
   end
 
