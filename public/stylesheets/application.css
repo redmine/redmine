@@ -482,6 +482,7 @@ ul.projects li {list-style-type:none;}
 #projects-index ul.projects li.root {margin-bottom: 1em;}
 #projects-index ul.projects li.child {margin-top: 1em;}
 #projects-index ul.projects div.root a.project { font-family: "Trebuchet MS", Verdana, sans-serif; font-weight: bold; font-size: 16px; margin: 0 0 10px 0; }
+#projects-index a.icon-fav {padding-left:0; padding-right:20px; background-position:98% 50%;}
 
 #notified-projects>ul, #tracker_project_ids>ul, #custom_field_project_ids>ul {max-height:250px; overflow-y:auto;}
 
