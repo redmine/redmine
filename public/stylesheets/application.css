@@ -478,7 +478,7 @@ ul.projects li {list-style-type:none;}
   -moz-column-width: 400px;
   -moz-column-gap : 0.5rem;
 }
-#projects-index ul.projects ul.projects { border-left: 3px solid #e0e0e0; padding-left:1em;}
+#projects-index ul.projects li.root>ul.projects { border-left: 3px solid #e0e0e0; padding-left:1em;}
 #projects-index ul.projects li.root {margin-bottom: 1em;}
 #projects-index ul.projects li.child {margin-top: 1em;}
 #projects-index ul.projects div.root a.project { font-family: "Trebuchet MS", Verdana, sans-serif; font-weight: bold; font-size: 16px; margin: 0 0 10px 0; }
