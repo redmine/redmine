@@ -221,16 +221,15 @@ table.files tr.file td.digest { font-size: 80%; }
 table.members td.roles, table.memberships td.roles { width: 45%; }
 
 tr.message { height: 2.6em; }
-tr.message td.subject { padding-left: 20px; }
 tr.message td.created_on { white-space: nowrap; }
 tr.message td.last_message { font-size: 80%; white-space: nowrap; }
-tr.message.locked td.subject { background: url(../images/locked.png) no-repeat 0 1px; }
-tr.message.sticky td.subject { background: url(../images/bullet_go.png) no-repeat 0 1px; font-weight: bold; }
+tr.message.sticky td.subject { font-weight: bold; }
 
 tr.version.closed, tr.version.closed a { color: #999; }
 tr.version td.name { padding-left: 20px; }
-tr.version.shared td.name { background: url(../images/link.png) no-repeat 0% 70%; }
 tr.version td.date, tr.version td.status, tr.version td.sharing { text-align: center; white-space:nowrap; }
+
+tr.member td.icon-user {background:transparent;}
 
 tr.user td {width:13%;white-space: nowrap;}
 td.username, td.firstname, td.lastname, td.email {text-align:left !important;}
@@ -275,7 +274,7 @@ a.sort { padding-right: 16px; background-position: 100% 50%; background-repeat: 
 a.sort.asc  { background-image: url(../images/sort_asc.png); }
 a.sort.desc { background-image: url(../images/sort_desc.png); }
 
-table.boards a.board, h3.comments { background: url(../images/comment.png) no-repeat 0% 50%; padding-left: 20px; }
+table.boards a.board { background: url(../images/comment.png) no-repeat 0% 50%; padding-left: 20px; }
 table.boards td.last-message {text-align:left;font-size:80%;}
 
 div.table-list.boards .table-list-cell.name {width: 30%;}
@@ -319,7 +318,7 @@ td.center {text-align:center;}
 span#watchers_inputs {overflow:auto; display:block;}
 span.search_for_watchers {display:block;}
 span.search_for_watchers, span.add_attachment {font-size:80%; line-height:2.5em;}
-span.search_for_watchers a, span.add_attachment a {padding-left:16px; background: url(../images/bullet_add.png) no-repeat 0 50%; }
+span.add_attachment a {padding-left:16px; background: url(../images/bullet_add.png) no-repeat 0 50%; }
 
 
 .highlight { background-color: #FCFD8D;}
@@ -482,7 +481,6 @@ ul.projects li {list-style-type:none;}
 #projects-index ul.projects li.root {margin-bottom: 1em;}
 #projects-index ul.projects li.child {margin-top: 1em;}
 #projects-index ul.projects div.root a.project { font-family: "Trebuchet MS", Verdana, sans-serif; font-weight: bold; font-size: 16px; margin: 0 0 10px 0; }
-.my-project { padding-left: 18px; background: url(../images/fav.png) no-repeat 0 50%; }
 
 #notified-projects>ul, #tracker_project_ids>ul, #custom_field_project_ids>ul {max-height:250px; overflow-y:auto;}
 
@@ -657,13 +655,13 @@ span.required {color: #bb0000;}
 
 .attachments_fields input.description, #existing-attachments input.description {margin-left:4px; width:340px;}
 .attachments_fields>span, #existing-attachments>span {display:block; white-space:nowrap;}
-.attachments_fields input.filename, #existing-attachments .filename {border:0; width:250px; color:#555; background-color:inherit; background:url(../images/attachment.png) no-repeat 1px 50%; padding-left:18px;}
+.attachments_fields input.filename, #existing-attachments .filename {border:0; width:250px; color:#555; background-color:inherit; }
 .tabular input.filename {max-width:75% !important;}
 .attachments_fields input.filename {height:1.8em;}
 .attachments_fields .ajax-waiting input.filename {background:url(../images/hourglass.png) no-repeat 0px 50%;}
 .attachments_fields .ajax-loading input.filename {background:url(../images/loading.gif) no-repeat 0px 50%;}
 .attachments_fields div.ui-progressbar { width: 100px; height:14px; margin: 2px 0 -5px 8px; display: inline-block; }
-a.remove-upload {background: url(../images/delete.png) no-repeat 1px 50%; width:1px; display:inline-block; padding-left:16px;}
+
 a.remove-upload:hover {text-decoration:none !important;}
 .existing-attachment.deleted .filename {text-decoration:line-through; color:#999 !important;}
 
@@ -702,9 +700,6 @@ select.bool_cf {width:auto !important;}
 
 #users_for_watcher {height: 200px; overflow:auto;}
 #users_for_watcher label {display: block;}
-
-table.members td.name {padding-left: 20px;}
-table.members td.group, table.members td.groupnonmember, table.members td.groupanonymous {background: url(../images/group.png) no-repeat 0% 1px;}
 
 input#principal_search, input#user_search {width:90%}
 .roles-selection label {display:inline-block; width:210px;}
@@ -1151,12 +1146,12 @@ div.wiki img {vertical-align:middle; max-width:100%;}
 .icon-fav  { background-image: url(../images/fav.png); }
 .icon-fav-off  { background-image: url(../images/fav_off.png); }
 .icon-reload  { background-image: url(../images/reload.png); }
-.icon-lock  { background-image: url(../images/locked.png); }
+.icon-lock, .icon-locked  { background-image: url(../images/locked.png); }
 .icon-unlock  { background-image: url(../images/unlock.png); }
 .icon-checked  { background-image: url(../images/toggle_check.png); }
 .icon-details  { background-image: url(../images/zoom_in.png); }
 .icon-report  { background-image: url(../images/report.png); }
-.icon-comment  { background-image: url(../images/comment.png); }
+.icon-comment, .icon-comments  { background-image: url(../images/comment.png); }
 .icon-summary  { background-image: url(../images/lightning.png); }
 .icon-server-authentication { background-image: url(../images/server_key.png); }
 .icon-issue { background-image: url(../images/ticket.png); }
@@ -1164,7 +1159,7 @@ div.wiki img {vertical-align:middle; max-width:100%;}
 .icon-zoom-out { background-image: url(../images/zoom_out.png); }
 .icon-magnifier { background-image: url(../images/magnifier.png); }
 .icon-passwd { background-image: url(../images/textfield_key.png); }
-.icon-test { background-image: url(../images/bullet_go.png); }
+.icon-arrow-right, .icon-test, .icon-sticky { background-image: url(../images/bullet_go.png); }
 .icon-email { background-image: url(../images/email.png); }
 .icon-email-disabled { background-image: url(../images/email_disabled.png); }
 .icon-email-add { background-image: url(../images/email_add.png); }
@@ -1179,7 +1174,7 @@ div.wiki img {vertical-align:middle; max-width:100%;}
 .icon-close { background-image: url(../images/close.png); }
 .icon-close:hover { background-image: url(../images/close_hl.png); }
 .icon-settings { background-image: url(../images/changeset.png); }
-.icon-group { background-image: url(../images/group.png); }
+.icon-group, .icon-groupnonmember, .icon-groupanonymous { background-image: url(../images/group.png); }
 .icon-roles { background-image: url(../images/database_key.png); }
 .icon-issue-edit { background-image: url(../images/ticket_edit.png); }
 .icon-workflows { background-image: url(../images/ticket_go.png); }
@@ -1194,6 +1189,8 @@ div.wiki img {vertical-align:middle; max-width:100%;}
 .icon-wiki-page { background-image: url(../images/wiki_edit.png); }
 .icon-document { background-image: url(../images/document.png); }
 .icon-project { background-image: url(../images/projects.png); }
+.icon-add-bullet { background-image: url(../images/bullet_add.png); }
+.icon-shared { background-image: url(../images/link.png) };
 
 .icon-file { background-image: url(../images/files/default.png); }
 .icon-file.text-plain { background-image: url(../images/files/text.png); }

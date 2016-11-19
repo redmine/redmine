@@ -13,10 +13,10 @@ function addFile(inputEl, file, eagerUpload) {
     if (!param) {param = 'attachments'};
 
     fileSpan.append(
-        $('<input>', { type: 'text', 'class': 'filename readonly', name: param +'[' + attachmentId + '][filename]', readonly: 'readonly'} ).val(file.name),
+        $('<input>', { type: 'text', 'class': 'icon icon-attachment filename readonly', name: param +'[' + attachmentId + '][filename]', readonly: 'readonly'} ).val(file.name),
         $('<input>', { type: 'text', 'class': 'description', name: param + '[' + attachmentId + '][description]', maxlength: 255, placeholder: $(inputEl).data('description-placeholder') } ).toggle(!eagerUpload),
         $('<input>', { type: 'hidden', 'class': 'token', name: param + '[' + attachmentId + '][token]'} ),
-        $('<a>&nbsp</a>').attr({ href: "#", 'class': 'remove-upload' }).click(removeFile).toggle(!eagerUpload)
+        $('<a>&nbsp</a>').attr({ href: "#", 'class': 'icon-only icon-del remove-upload' }).click(removeFile).toggle(!eagerUpload)
     ).appendTo(attachmentsFields);
 
     if ($(inputEl).data('description') == 0) {
@@ -26,7 +26,7 @@ function addFile(inputEl, file, eagerUpload) {
     if(eagerUpload) {
       ajaxUpload(file, attachmentId, fileSpan, inputEl);
     }
-    
+
     addAttachment.toggle(attachmentsFields.children().length < maxFiles);
     return attachmentId;
   }
@@ -112,7 +112,7 @@ function uploadBlob(blob, uploadUrl, attachmentId, options) {
     contentType: 'application/octet-stream',
     beforeSend: function(jqXhr, settings) {
       jqXhr.setRequestHeader('Accept', 'application/js');
-      // attach proper File object 
+      // attach proper File object
       settings.data = blob;
     },
     xhr: function() {

@@ -31,11 +31,11 @@
       <fieldset><legend><%= l(:field_notes) %></legend>
       <%= f.text_area :notes, :cols => 60, :rows => 10, :class => 'wiki-edit', :no_label => true %>
       <%= wikitoolbar_for 'issue_notes' %>
-  
+
       <% if @issue.safe_attribute? 'private_notes' %>
       <%= f.check_box :private_notes, :no_label => true %> <label for="issue_private_notes"><%= l(:field_private_notes) %></label>
       <% end %>
-  
+
       <%= call_hook(:view_issues_edit_notes_bottom, { :issue => @issue, :notes => @notes, :form => f }) %>
       </fieldset>
 
@@ -45,7 +45,7 @@
         <div id="existing-attachments" style="<%= @issue.deleted_attachment_ids.blank? ? 'display:none;' : '' %>">
           <% @issue.attachments.each do |attachment| %>
           <span class="existing-attachment">
-            <%= text_field_tag '', attachment.filename, :class => "filename", :disabled => true %>
+            <%= text_field_tag '', attachment.filename, :class => "icon icon-attachment filename", :disabled => true %>
             <label>
               <%= check_box_tag 'issue[deleted_attachment_ids][]',
                                 attachment.id,
