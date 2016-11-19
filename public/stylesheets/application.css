@@ -1180,7 +1180,7 @@ div.wiki img {vertical-align:middle; max-width:100%;}
 .icon-workflows { background-image: url(../images/ticket_go.png); }
 .icon-custom-fields { background-image: url(../images/textfield.png); }
 .icon-plugins { background-image: url(../images/plugin.png); }
-.icon-news { background: url(../images/news.png); }
+.icon-news { background-image: url(../images/news.png); }
 .icon-issue-closed { background-image: url(../images/ticket_checked.png); }
 .icon-issue-note { background-image: url(../images/ticket_note.png); }
 .icon-changeset { background-image: url(../images/changeset.png); }
