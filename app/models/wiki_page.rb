@@ -45,6 +45,7 @@ class WikiPage < ActiveRecord::Base
   validates_presence_of :title
   validates_format_of :title, :with => /\A[^,\.\/\?\;\|\s]*\z/
   validates_uniqueness_of :title, :scope => :wiki_id, :case_sensitive => false
+  validates_length_of :title, maximum: 255
   validates_associated :content
   attr_protected :id
 
