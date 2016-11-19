@@ -3,7 +3,13 @@
 <% end %>
 
 <div class="contextual">
-    <%= render_project_action_links %>
+  <%= form_tag({}, :method => :get) do %>
+    <label for="closed">
+      <%= check_box_tag 'closed', 1, params[:closed], :onchange => "this.form.submit();" %>
+      <%= l(:label_show_closed_projects) %>
+    </label>
+  <% end %>
+  <%= render_project_action_links %>
 </div>
 
 <h2><%= l(:label_project_plural) %></h2>
@@ -20,14 +26,6 @@
 
 <% other_formats_links do |f| %>
   <%= f.link_to 'Atom', :url => {:key => User.current.rss_key} %>
-<% end %>
-
-<% content_for :sidebar do %>
-  <%= form_tag({}, :method => :get) do %>
-    <h3><%= l(:label_project_plural) %></h3>
-    <label for="closed"><%= check_box_tag 'closed', 1, params[:closed] %> <%= l(:label_show_closed_projects) %></label>
-    <p><%= submit_tag l(:button_apply), :class => 'button-small', :name => nil %></p>
-  <% end %>
 <% end %>
 
 <% html_title(l(:label_project_plural)) -%>
