@@ -17,6 +17,7 @@
 
 class AdminController < ApplicationController
   layout 'admin'
+  self.main_menu = false
   menu_item :projects, :only => :projects
   menu_item :plugins, :only => :plugins
   menu_item :info, :only => :info

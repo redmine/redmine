@@ -17,6 +17,7 @@
 
 class IssueStatusesController < ApplicationController
   layout 'admin'
+  self.main_menu = false
 
   before_action :require_admin, :except => :index
   before_action :require_admin_or_api_request, :only => :index

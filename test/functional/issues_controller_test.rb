@@ -2594,7 +2594,7 @@ class IssuesControllerTest < Redmine::ControllerTest
                     :subject => ''}
     assert_response :success
     # no project menu
-    assert_select '#main-menu', 0
+    assert_select '#main-menu a.overview', 0
   end
 
   def test_post_create_should_send_a_notification

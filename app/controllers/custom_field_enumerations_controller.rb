@@ -17,6 +17,7 @@
 
 class CustomFieldEnumerationsController < ApplicationController
   layout 'admin'
+  self.main_menu = false
 
   before_action :require_admin
   before_action :find_custom_field

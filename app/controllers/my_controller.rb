@@ -16,6 +16,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class MyController < ApplicationController
+  self.main_menu = false
   before_action :require_login
   # let user change user's password when user has to
   skip_before_action :check_password_change, :only => :password

@@ -22,6 +22,9 @@ module Redmine
 
     module MenuController
       def self.included(base)
+        base.class_attribute :main_menu
+        base.main_menu = true
+
         base.extend(ClassMethods)
       end
 
@@ -51,6 +54,14 @@ module Redmine
         self.class.menu_items
       end
 
+      def current_menu(project)
+        if project && !project.new_record?
+          :project_menu
+        elsif self.class.main_menu
+          :application_menu
+        end
+      end
+
       # Returns the menu item name according to the current action
       def current_menu_item
         @current_menu_item ||= menu_items[controller_name.to_sym][:actions][action_name.to_sym] ||
@@ -77,12 +88,14 @@ module Redmine
 
       # Renders the application main menu
       def render_main_menu(project)
-        render_menu((project && !project.new_record?) ? :project_menu : :application_menu, project)
+        if menu_name = controller.current_menu(project)
+          render_menu(menu_name, project)
+        end
       end
 
       def display_main_menu?(project)
-        menu_name = project && !project.new_record? ? :project_menu : :application_menu
-        Redmine::MenuManager.items(menu_name).children.present?
+        menu_name = controller.current_menu(project)
+        menu_name.present? && Redmine::MenuManager.items(menu_name).children.present?
       end
 
       def render_menu(menu, project=nil)

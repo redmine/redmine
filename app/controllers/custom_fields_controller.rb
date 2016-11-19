@@ -17,6 +17,7 @@
 
 class CustomFieldsController < ApplicationController
   layout 'admin'
+  self.main_menu = false
 
   before_action :require_admin
   before_action :build_new_custom_field, :only => [:new, :create]

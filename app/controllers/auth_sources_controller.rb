@@ -17,6 +17,7 @@
 
 class AuthSourcesController < ApplicationController
   layout 'admin'
+  self.main_menu = false
   menu_item :ldap_authentication
 
   before_action :require_admin

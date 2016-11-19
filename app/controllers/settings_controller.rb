@@ -17,6 +17,7 @@
 
 class SettingsController < ApplicationController
   layout 'admin'
+  self.main_menu = false
   menu_item :plugins, :only => :plugin
 
   helper :queries

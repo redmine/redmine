@@ -63,4 +63,17 @@ class MenuManagerTest < Redmine::IntegrationTest
       end
     end
   end
+
+  def test_main_menu_should_select_projects_tab_on_project_list
+    get '/projects'
+    assert_select '#main-menu' do
+      assert_select 'a.projects'
+      assert_select 'a.projects.selected'
+    end
+  end
+
+  def test_main_menu_should_not_show_up_on_account
+    get '/login'
+    assert_select '#main-menu', 0
+  end
 end

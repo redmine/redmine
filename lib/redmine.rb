@@ -203,7 +203,21 @@ Redmine::MenuManager.map :account_menu do |menu|
 end
 
 Redmine::MenuManager.map :application_menu do |menu|
-  # Empty
+  menu.push :projects, {:controller => 'projects', :action => 'index'},
+    :permission => nil,
+    :caption => :label_project_plural
+  menu.push :activity, {:controller => 'activities', :action => 'index'}
+  menu.push :issues,   {:controller => 'issues', :action => 'index'},
+    :if => Proc.new {User.current.allowed_to?(:view_issues, nil, :global => true)},
+    :caption => :label_issue_plural
+  menu.push :time_entries, {:controller => 'timelog', :action => 'index'},
+    :if => Proc.new {User.current.allowed_to?(:view_time_entries, nil, :global => true)},
+    :caption => :label_spent_time
+  menu.push :gantt, { :controller => 'gantts', :action => 'show' }, :caption => :label_gantt
+  menu.push :calendar, { :controller => 'calendars', :action => 'show' }, :caption => :label_calendar
+
+  menu.push :news, {:controller => 'news', :action => 'index'},
+    :caption => :label_news_plural
 end
 
 Redmine::MenuManager.map :admin_menu do |menu|

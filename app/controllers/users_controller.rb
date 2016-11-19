@@ -17,6 +17,7 @@
 
 class UsersController < ApplicationController
   layout 'admin'
+  self.main_menu = false
 
   before_action :require_admin, :except => :show
   before_action :find_user, :only => [:show, :edit, :update, :destroy]

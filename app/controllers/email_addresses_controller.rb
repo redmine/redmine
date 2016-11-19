@@ -16,6 +16,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class EmailAddressesController < ApplicationController
+  self.main_menu = false
   before_action :find_user, :require_admin_or_current_user
   before_action :find_email_address, :only => [:update, :destroy]
   require_sudo_mode :create, :update, :destroy
