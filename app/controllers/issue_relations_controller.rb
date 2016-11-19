@@ -16,6 +16,8 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class IssueRelationsController < ApplicationController
+  helper :issues
+
   before_action :find_issue, :authorize, :only => [:index, :create]
   before_action :find_relation, :only => [:show, :destroy]
 
