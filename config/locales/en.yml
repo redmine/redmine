@@ -1000,6 +1000,7 @@ en:
   label_relations: Relations
   label_new_project_issue_tab_enabled: Display the "New issue" tab
   label_new_object_tab_enabled: Display the "+" drop-down
+  label_table_of_contents: Table of contents
   label_font_default: Default font
   label_font_monospace: Monospaced font
   label_font_proportional: Proportional font

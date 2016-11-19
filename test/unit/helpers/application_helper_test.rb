@@ -1092,6 +1092,8 @@ EXPECTED
   end
 
   def test_table_of_content
+    set_language_if_valid 'en'
+
     raw = <<-RAW
 {{toc}}
 
@@ -1124,6 +1126,7 @@ h2. "Project Name !/attachments/1234/logo_small.gif! !/attachments/5678/logo_2.p
 RAW
 
     expected =  '<ul class="toc">' +
+                  '<li><strong>Table of contents</strong></li>' +
                   '<li><a href="#Title">Title</a>' +
                     '<ul>' +
                       '<li><a href="#Subtitle-with-a-Wiki-link">Subtitle with a Wiki link</a></li>' +
@@ -1153,6 +1156,8 @@ RAW
   end
 
   def test_table_of_content_should_generate_unique_anchors
+    set_language_if_valid 'en'
+
     raw = <<-RAW
 {{toc}}
 
@@ -1164,6 +1169,7 @@ h2. Subtitle
 RAW
 
     expected =  '<ul class="toc">' +
+                  '<li><strong>Table of contents</strong></li>' +
                   '<li><a href="#Title">Title</a>' +
                     '<ul>' +
                       '<li><a href="#Subtitle">Subtitle</a></li>' +
@@ -1180,6 +1186,8 @@ RAW
   end
 
   def test_table_of_content_should_contain_included_page_headings
+    set_language_if_valid 'en'
+
     raw = <<-RAW
 {{toc}}
 
@@ -1189,6 +1197,7 @@ h1. Included
 RAW
 
     expected = '<ul class="toc">' +
+               '<li><strong>Table of contents</strong></li>' +
                '<li><a href="#Included">Included</a></li>' +
                '<li><a href="#Child-page-1">Child page 1</a></li>' +
                '</ul>'

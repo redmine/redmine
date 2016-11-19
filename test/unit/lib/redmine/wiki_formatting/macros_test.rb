@@ -239,6 +239,8 @@ class Redmine::WikiFormatting::MacrosTest < Redmine::HelperTest
   end
 
   def test_macro_collapse_should_not_break_toc
+    set_language_if_valid 'en'
+
     text =  <<-RAW
 {{toc}}
 
@@ -249,7 +251,7 @@ h2. Heading
 }}"
 RAW
 
-    expected_toc = '<ul class="toc"><li><a href="#Title">Title</a><ul><li><a href="#Heading">Heading</a></li></ul></li></ul>'
+    expected_toc = '<ul class="toc"><li><strong>Table of contents</strong></li><li><a href="#Title">Title</a><ul><li><a href="#Heading">Heading</a></li></ul></li></ul>'
 
     assert_include expected_toc, textilizable(text).gsub(/[\r\n]/, '')
   end

@@ -1009,6 +1009,7 @@ fr:
   label_relations: Relations
   label_new_project_issue_tab_enabled: Afficher l'onglet "Nouvelle demande"
   label_new_object_tab_enabled: Afficher le menu déroulant "+"
+  label_table_of_contents: Contenu
   label_font_default: Police par défaut
   label_font_monospace: Police non proportionnelle
   label_font_proportional: Police proportionnelle
