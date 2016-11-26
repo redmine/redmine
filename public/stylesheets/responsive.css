@@ -125,18 +125,40 @@
     background: inherit;
   }
 
-  /* this represents the dropdown arrow to left of the mobile project menu */
-  #header .jump-box-arrow:before {
+  /* styles for combobox within quick-search (#project_quick_jump_box) */
+  #project-jump.drdn {
+    position: absolute;
+    top: 0px;
+    left: 0;
+
+    width: 100%;
+    max-width: 100%;
+    height: 2em;
+    height: 64px;
+    padding: 5px;
+    padding-right: 72px;
+    padding-left: 20px;
+  }
+  #project-jump .drdn-trigger {
+    font-size:1.5em;
+    font-weight:bold;
+    display:block;
+    width:100%;
+    color:#fff;
+    padding-left:24px;
+    background:transparent;
+    height:50px;
+    line-height:40px;
+    border:0;
+  }
+  #project-jump .drdn-trigger:before {
     /* set a font-size in order to achive same result in different themes */
     font-family: Verdana, sans-serif;
-    font-size: 2em;
-    line-height: 64px;
+    font-size: 1.5em;
 
     position: absolute;
     left: 0;
-
-    width: 2em;
-    padding: 0 .5em;
+    padding: 0 8px;
     /* achieve dropdwon arrow by scaling a caret character */
     content: '^';
     -webkit-transform: scale(1,-.8);
@@ -147,39 +169,27 @@
 
     opacity: .6;
   }
+  #project-jump.expanded .drdn-trigger:before {
+    -webkit-transform: scale(1,.8);
+        -ms-transform: scale(1,.8);
+            transform: scale(1,.8);
+	padding-top:8px;
+  }
 
-  /* styles for combobox within quick-search (#project_quick_jump_box) */
-  #header #quick-search select {
-    font-size: 1.5em;
-    font-weight: bold;
-    line-height: 1.2;
-
-    position: absolute;
-    top: 15px;
-    left: 0;
-
-    float: left;
-
-    width: 100%;
-    max-width: 100%;
-    height: 2em;
-    height: 35px;
-    padding: 5px;
-    padding-right: 72px;
-    padding-left: 50px;
-
-    text-indent: .01px;
-
-    color: inherit;
-    border: 0;
-    -webkit-border-radius: 0;
-    border-radius: 0;
-    background: none;
-    -webkit-box-shadow: none;
-    box-shadow: none;
-    /* hide default browser arrow */
-    -webkit-appearance: none;
-    -moz-appearance: none;
+  #project-jump .drdn-content {
+	position:absolute;
+    left:0px;
+    top:64px;
+    width:100%;
+    font-size:15px;
+    font-weight:normal;
+  }
+  #project-jump .drdn-content .autocomplete {
+    height:40px;
+	font-size:20px;
+  }
+  #project-jump .drdn-content a {
+    padding:8px;
   }
 
   #header #quick-search form {

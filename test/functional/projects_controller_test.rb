@@ -52,6 +52,12 @@ class ProjectsControllerTest < Redmine::ControllerTest
     assert_select 'feed>entry', :count => Project.visible(User.current).count
   end
 
+  def test_index_js
+    xhr :get, :index, :format => 'js', :q => 'coo'
+    assert_response :success
+    assert_equal 'text/javascript', response.content_type
+  end
+
   test "#index by non-admin user with view_time_entries permission should show overall spent time link" do
     @request.session[:user_id] = 3
     get :index

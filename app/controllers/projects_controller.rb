@@ -45,6 +45,13 @@ class ProjectsController < ApplicationController
         end
         @projects = scope.to_a
       }
+      format.js {
+        if params[:q].present?
+          @projects = Project.visible.like(params[:q]).to_a
+        else
+          @projects = User.current.projects.to_a
+        end
+      }
       format.api  {
         @offset, @limit = api_offset_and_limit
         @project_count = scope.count

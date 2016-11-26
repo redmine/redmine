@@ -138,8 +138,8 @@ class WelcomeControllerTest < Redmine::ControllerTest
     @request.session[:user_id] = 2
 
     get :index
-    assert_select "#header select" do
-      assert_select "option", :text => 'Foo & Bar'
+    assert_select "#header #project-jump" do
+      assert_select "a", :text => 'Foo & Bar'
     end
   end
 

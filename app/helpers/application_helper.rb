@@ -330,22 +330,40 @@ module ApplicationHelper
       content_tag 'p', l(:label_no_data), :class => "nodata"
     end
   end
+ 
+  # Returns an array of projects that are displayed in the quick-jump box
+  def projects_for_jump_box(user=User.current)
+    if user.logged?
+      user.projects.active.select(:id, :name, :identifier, :lft, :rgt).to_a
+    else
+      []
+    end
+  end
+
+  def render_projects_for_jump_box(projects, selected=nil)
+    s = ''.html_safe
+    project_tree(projects) do |project, level|
+      padding = level * 16
+      text = content_tag('span', project.name, :style => "padding-left:#{padding}px;")
+      s << link_to(text, project_path(project, :jump => current_menu_item), :title => project.name, :class => (project == selected ? 'selected' : nil))
+    end
+    s
+  end
 
   # Renders the project quick-jump box
   def render_project_jump_box
-    return unless User.current.logged?
-    projects = User.current.projects.active.select(:id, :name, :identifier, :lft, :rgt).to_a
+    projects = projects_for_jump_box(User.current)
     if projects.any?
-      options =
-        ("<option value=''>#{ l(:label_jump_to_a_project) }</option>" +
-         '<option value="" disabled="disabled">---</option>').html_safe
+      text = @project.try(:name) || l(:label_jump_to_a_project)
+      trigger = content_tag('span', text, :class => 'drdn-trigger')
+      q = text_field_tag('q', '', :id => 'projects-quick-search', :class => 'autocomplete', :data => {:automcomplete_url => projects_path(:format => 'js')})
+      content = content_tag('div',
+            content_tag('div', q, :class => 'quick-search') + 
+            content_tag('div', render_projects_for_jump_box(projects, @project), :class => 'drdn-items selection'),
+          :class => 'drdn-content'
+        )
 
-      options << project_tree_options_for_select(projects, :selected => @project) do |p|
-        { :value => project_path(:id => p, :jump => current_menu_item) }
-      end
-
-      content_tag( :span, nil, :class => 'jump-box-arrow') +
-      select_tag('project_quick_jump_box', options, :onchange => 'if (this.value != \'\') { window.location = this.value; }')
+      content_tag('span', trigger + content, :id => "project-jump", :class => "drdn")
     end
   end
 
