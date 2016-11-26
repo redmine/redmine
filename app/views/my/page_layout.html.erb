@@ -3,7 +3,7 @@
 <%= form_tag({:action => "add_block"}, :id => "block-form") do %>
   <%= label_tag('block-select', l(:label_my_page_block)) %>:
   <%= block_select_tag(@user) %>
-  <%= link_to l(:button_add), '#', :onclick => '$("#block-form").submit()', :class => 'icon icon-add' %>
+  <%= link_to l(:button_add), '#', :onclick => '$("#block-form").submit(); return false;', :class => 'icon icon-add' %>
 <% end %>
 <%= link_to l(:button_back), {:action => 'page'}, :class => 'icon icon-cancel' %>
 </div>
