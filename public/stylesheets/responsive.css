@@ -596,7 +596,6 @@
     margin-bottom: .5em;
     padding-left: 0; /* reset left padding in order to use whole space */
     white-space: normal;
-    color: transparent;
   }
 
   #content>.contextual a,
