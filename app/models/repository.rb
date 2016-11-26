@@ -37,7 +37,9 @@ class Repository < ActiveRecord::Base
   # has_many :changesets, :dependent => :destroy is too slow for big repositories
   before_destroy :clear_changesets
 
+  validates_length_of :login, maximum: 60, allow_nil: true
   validates_length_of :password, :maximum => 255, :allow_nil => true
+  validates_length_of :root_url, :url, maximum: 255
   validates_length_of :identifier, :maximum => IDENTIFIER_MAX_LENGTH, :allow_blank => true
   validates_uniqueness_of :identifier, :scope => :project_id
   validates_exclusion_of :identifier, :in => %w(browse show entry raw changes annotate diff statistics graph revisions revision)
