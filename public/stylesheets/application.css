@@ -233,6 +233,7 @@ table.list caption { text-align: left; padding: 0.5em 0.5em 0.5em 0; }
 #role-permissions-trackers table.list th {white-space:normal;}
 
 .table-list-cell {display: table-cell; vertical-align: top; padding:2px; }
+.table-list div.buttons {width: 15%;}
 
 tr.project td.name a { white-space:nowrap; }
 tr.project.closed, tr.project.archived { color: #aaa; }
