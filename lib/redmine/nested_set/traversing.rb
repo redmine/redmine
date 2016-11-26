@@ -61,7 +61,7 @@ module Redmine
 
       # Returns the siblings
       def siblings
-        nested_set_scope.where(:parent_id => parent_id).where("id <> ?", id)
+        nested_set_scope.where(:parent_id => parent_id).where("#{self.class.table_name}.id <> ?", id)
       end
 
       # Returns the ancestors
