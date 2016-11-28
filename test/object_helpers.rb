@@ -65,7 +65,7 @@ module ObjectHelpers
     @generated_tracker_name.succ!
     tracker = Tracker.new(attributes)
     tracker.name = @generated_tracker_name.dup if tracker.name.blank?
-    tracker.default_status ||= IssueStatus.order('position').first || IssueStatus.generate!
+    tracker.default_status ||= IssueStatus.order(:position).first || IssueStatus.generate!
     yield tracker if block_given?
     tracker
   end

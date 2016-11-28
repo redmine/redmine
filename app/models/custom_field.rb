@@ -249,7 +249,7 @@ class CustomField < ActiveRecord::Base
 
   # to move in project_custom_field
   def self.for_all
-    where(:is_for_all => true).order('position').to_a
+    where(:is_for_all => true).order(:position).to_a
   end
 
   def type_name
