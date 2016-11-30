@@ -1193,9 +1193,8 @@ ca:
   mail_body_password_updated: "La seva contrasenya s'ha canviat."
   label_no_preview: Previsualització no disponible
   error_no_tracker_allowed_for_new_issue_in_project: "El projecte no disposa de cap tipus d'assumpte sobre el qual vostè pugui crear un assumpte"
-  label_tracker_all: All trackers
-  label_new_project_issue_tab_enabled: Display the "New issue" tab
-  setting_new_item_menu_tab: Project menu tab for creating new objects
-  label_new_object_tab_enabled: Display the "+" drop-down
-  error_no_projects_with_tracker_allowed_for_new_issue: There are no projects with trackers
-    for which you can create an issue
+  label_tracker_all: "Tots els tipus d'assumpte"
+  label_new_project_issue_tab_enabled: Mostrar la pestanya "Nou assumpte"
+  setting_new_item_menu_tab: Pestanya de nous objectes en el menu de cada projecte
+  label_new_object_tab_enabled: Mostrar el llistat desplegable "+"
+  error_no_projects_with_tracker_allowed_for_new_issue: "Cap projecte disposa d'un tipus d'assumpte sobre el qual vostè pugui crear un assumpte"
