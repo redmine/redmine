@@ -1236,9 +1236,9 @@ es:
   setting_new_item_menu_tab: Pestaña de creación de nuevos objetos en el menú de cada proyecto
   label_new_object_tab_enabled: Mostrar la lista desplegable "+"
   error_no_projects_with_tracker_allowed_for_new_issue: Ningún proyecto dispone de un tipo sobre el cual puedas crear una petición
-  field_textarea_font: Font used for text areas
-  label_font_default: Default font
-  label_font_monospace: Monospaced font
-  label_font_proportional: Proportional font
+  field_textarea_font: Fuente usada en las áreas de texto
+  label_font_default: Fuente por defecto
+  label_font_monospace: Fuente Monospaced
+  label_font_proportional: Fuente Proportional
   setting_timespan_format: Time span format
   label_table_of_contents: Table of contents
