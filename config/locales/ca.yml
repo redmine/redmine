@@ -981,7 +981,7 @@ ca:
   description_choose_project: "Projectes"
   description_date_to: "Introduir data final"
   description_query_sort_criteria_attribute: "Atribut d'ordenació"
-  description_wiki_subpages_reassign: "Esculli la nova pagina pare"
+  description_wiki_subpages_reassign: "Esculli la nova pàgina pare"
   description_selected_columns: "Columnes seleccionades"
   label_parent_revision: "Pare"
   label_child_revision: "Fill"
