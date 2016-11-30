@@ -1198,9 +1198,9 @@ ca:
   setting_new_item_menu_tab: Pestanya de nous objectes en el menu de cada projecte
   label_new_object_tab_enabled: Mostrar el llistat desplegable "+"
   error_no_projects_with_tracker_allowed_for_new_issue: "Cap projecte disposa d'un tipus d'assumpte sobre el qual vostè pugui crear un assumpte"
-  field_textarea_font: Font used for text areas
-  label_font_default: Default font
-  label_font_monospace: Monospaced font
-  label_font_proportional: Proportional font
+  field_textarea_font: Font utilitzada en les text àrea
+  label_font_default: Font per defecte
+  label_font_monospace: Font Monospaced
+  label_font_proportional: Font Proportional
   setting_timespan_format: Time span format
   label_table_of_contents: Table of contents
