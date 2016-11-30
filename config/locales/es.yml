@@ -1216,30 +1216,26 @@ es:
   label_default_values_for_new_users: Valor predeterminado para nuevos usuarios
   setting_sys_api_key: Clave de la API
   setting_lost_password: ¿Olvidaste la contraseña?
-  mail_subject_security_notification: Security notification
-  mail_body_security_notification_change: ! '%{field} was changed.'
-  mail_body_security_notification_change_to: ! '%{field} was changed to %{value}.'
-  mail_body_security_notification_add: ! '%{field} %{value} was added.'
-  mail_body_security_notification_remove: ! '%{field} %{value} was removed.'
-  mail_body_security_notification_notify_enabled: Email address %{value} now receives
-    notifications.
-  mail_body_security_notification_notify_disabled: Email address %{value} no longer
-    receives notifications.
-  mail_body_settings_updated: ! 'The following settings were changed:'
-  field_remote_ip: IP address
-  label_wiki_page_new: New wiki page
-  label_relations: Relations
-  button_filter: Filter
-  mail_body_password_updated: Your password has been changed.
-  label_no_preview: No preview available
-  error_no_tracker_allowed_for_new_issue_in_project: The project doesn't have any trackers
-    for which you can create an issue
-  label_tracker_all: All trackers
-  label_new_project_issue_tab_enabled: Display the "New issue" tab
-  setting_new_item_menu_tab: Project menu tab for creating new objects
-  label_new_object_tab_enabled: Display the "+" drop-down
-  error_no_projects_with_tracker_allowed_for_new_issue: There are no projects with trackers
-    for which you can create an issue
+  mail_subject_security_notification: Notificación de seguridad
+  mail_body_security_notification_change: ! '%{field} modificado.'
+  mail_body_security_notification_change_to: ! '%{field} modificado por %{value}.'
+  mail_body_security_notification_add: ! '%{field} %{value} añadido.'
+  mail_body_security_notification_remove: ! '%{field} %{value} eliminado.'
+  mail_body_security_notification_notify_enabled: Se han activado las notificaciones para el correo electrónico %{value}
+  mail_body_security_notification_notify_disabled: Se han desactivado las notificaciones para el correo electrónico %{value}
+  mail_body_settings_updated: ! 'Las siguientes opciones han sido actualizadas:'
+  field_remote_ip: Dirección IP
+  label_wiki_page_new: Nueva pagina wiki
+  label_relations: Relaciones
+  button_filter: Filtro
+  mail_body_password_updated: Su contraseña se ha cambiado.
+  label_no_preview: No hay vista previa disponible
+  error_no_tracker_allowed_for_new_issue_in_project: El proyecto no dispone de ningún tipo sobre el cual puedas crear una petición
+  label_tracker_all: Todos los tipos
+  label_new_project_issue_tab_enabled: Mostrar la pestaña "Nueva petición"
+  setting_new_item_menu_tab: Pestaña de creación de nuevos objetos en el menú de cada proyecto
+  label_new_object_tab_enabled: Mostrar la lista desplegable "+"
+  error_no_projects_with_tracker_allowed_for_new_issue: Ningún proyecto dispone de un tipo sobre el cual puedas crear una petición
   field_textarea_font: Font used for text areas
   label_font_default: Default font
   label_font_monospace: Monospaced font
