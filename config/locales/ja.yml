@@ -246,7 +246,7 @@ ja:
   field_author: 作成者
   field_created_on: 作成日
   field_updated_on: 更新日
-  field_field_format: 書式
+  field_field_format: 形式
   field_is_for_all: 全プロジェクト向け
   field_possible_values: 選択肢
   field_regexp: 正規表現
@@ -369,7 +369,7 @@ ja:
   setting_emails_footer: メールのフッタ
   setting_protocol: プロトコル
   setting_per_page_options: ページごとの表示件数
-  setting_user_format: ユーザー名の表示書式
+  setting_user_format: ユーザー名の表示形式
   setting_activity_days_default: プロジェクトの活動ページに表示される日数
   setting_display_subprojects_issues: サブプロジェクトのチケットをメインプロジェクトに表示する
   setting_enabled_scm: 使用するバージョン管理システム
