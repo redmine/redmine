@@ -204,7 +204,16 @@
 								<% end %>
 								
 							<% else %>
-								<%= javascript_tag 'jQuery("#explorermenu").append("<li><a tabindex=-1>No NeuroML2 or SWC files found!</a></li>");' %>
+								<%= javascript_tag do -%>
+									var noFilesMsg = "No NeuroML2 or SWC files found!";
+									 $("#moreBtn")
+									 	.attr("disabled", true);
+									 $("#showGeppettoBtn")
+									 	.attr("disabled", true)
+										.removeClass("btn-success")
+										.attr("data-content", noFilesMsg)
+										.removeAttr("data-title"); 
+								<% end -%>
 							<% end %>
 						<% end %>	
 					<% end %>
