@@ -939,7 +939,7 @@ ja:
   text_warn_on_leaving_unsaved: このページから移動すると、保存されていないデータが失われます。
   text_scm_path_encoding_note: "デフォルト: UTF-8"
   text_mercurial_repository_note: "ローカルリポジトリ (例: /hgrepo, c:\\hgrepo)"
-  text_git_repository_note: "Bare、かつ、ローカルリポジトリ (例: /gitrepo, c:\\gitrepo)"
+  text_git_repository_note: "ローカルのベア(bare)リポジトリ (例: /gitrepo, c:\\gitrepo)"
   text_scm_command: コマンド
   text_scm_command_version: バージョン
   text_scm_config: バージョン管理システムのコマンドをconfig/configuration.ymlで設定できます。設定後、Redmineを再起動してください。
