@@ -1217,11 +1217,10 @@ ja:
   label_new_project_issue_tab_enabled: '"新しいチケット" タブを表示'
   setting_new_item_menu_tab: 新規オブジェクト作成タブ
   label_new_object_tab_enabled: '"+" ドロップダウンを表示'
-  error_no_projects_with_tracker_allowed_for_new_issue: There are no projects with trackers
-    for which you can create an issue
+  error_no_projects_with_tracker_allowed_for_new_issue: チケットを追加できるプロジェクトがありません
   field_textarea_font: テキストエリアのフォント
   label_font_default: デフォルト
   label_font_monospace: 等幅
   label_font_proportional: プロポーショナル
-  setting_timespan_format: Time span format
-  label_table_of_contents: Table of contents
+  setting_timespan_format: 時間の形式
+  label_table_of_contents: 目次
