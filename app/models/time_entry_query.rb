@@ -122,7 +122,11 @@ class TimeEntryQuery < Query
   end
 
   def default_columns_names
-    @default_columns_names ||= [:project, :spent_on, :user, :activity, :issue, :comments, :hours]
+    @default_columns_names ||= begin
+      default_columns = [:spent_on, :user, :activity, :issue, :comments, :hours]
+
+      project.present? ? default_columns : [:project] | default_columns
+    end
   end
 
   def default_totalable_names
