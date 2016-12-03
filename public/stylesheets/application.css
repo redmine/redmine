@@ -313,7 +313,7 @@ table.query-columns td.buttons {
 }
 table.query-columns td.buttons input[type=button] {width:35px;}
 .query-totals {text-align:right; margin-top:-2.3em;}
-.query-totals>span {margin-left:0.6em;}
+.query-totals>span:not(:first-child) {margin-left:0.6em;}
 .query-totals .value {font-weight:bold;}
 
 td.center {text-align:center;}

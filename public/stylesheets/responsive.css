@@ -534,7 +534,7 @@
   html.flyout-is-active {
     overflow: hidden;
   }
- 
+
   .flyout-is-active #wrapper, .flyout-is-active #header {
     right: 250px; /* when left flyout is active, move body and header to the right (same amount like flyout-menu's width) */
   }
@@ -717,6 +717,12 @@
 
   span#watchers_inputs {
     width: 100%;
+  }
+
+  /* issues page */
+  body.controller-issues p.query-totals {
+    margin-top: 0px;
+    text-align: left;
   }
 
   /* subtasks and related issues list on issue show */
