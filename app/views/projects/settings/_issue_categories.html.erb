@@ -8,7 +8,7 @@
   <tbody>
 <% for category in @project.issue_categories %>
   <% unless category.new_record? %>
-  <tr class="<%= cycle 'odd', 'even' %>">
+  <tr>
     <td class="name"><%= category.name  %></td>
     <td><%= category.assigned_to.name if category.assigned_to %></td>
     <td class="buttons">

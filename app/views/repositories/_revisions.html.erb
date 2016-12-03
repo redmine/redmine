@@ -33,7 +33,7 @@ end %>
 <% show_diff = revisions.size > 1 %>
 <% line_num = 1 %>
 <% revisions.each do |changeset| %>
-<tr class="changeset <%= cycle 'odd', 'even' %>">
+<tr class="changeset">
 <% id_style = (show_revision_graph ? "padding-left:#{(graph_space + 1) * 20}px" : nil) %>
 <%= content_tag(:td, :class => 'id', :style => id_style) do %>
   <%= link_to_revision(changeset, @repository) %>

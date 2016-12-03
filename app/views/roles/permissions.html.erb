@@ -33,7 +33,7 @@
         </tr>
     <% end %>
     <% perms_by_module[mod].each do |permission| %>
-        <tr class="<%= cycle('odd', 'even') %> permission-<%= permission.name %>">
+        <tr class="permission-<%= permission.name %>">
         <td class="name">
             <%= link_to_function('',
                                  "toggleCheckboxesBySelector('.permission-#{permission.name} input')",

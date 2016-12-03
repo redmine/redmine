@@ -13,7 +13,7 @@
   <tbody>
   <% principal.memberships.preload(:member_roles => :role).each do |membership| %>
   <% next if membership.new_record? %>
-  <tr id="member-<%= membership.id %>" class="<%= cycle 'odd', 'even' %> class">
+  <tr id="member-<%= membership.id %>" class="class">
   <td class="project name">
     <%= link_to_project membership.project %>
   </td>

@@ -25,7 +25,7 @@
         </td>
       </tr>
       <% Tracker::CORE_FIELDS.each do |field| %>
-      <tr class="<%= cycle("odd", "even") %>">
+      <tr>
         <td class="name">
           <%= link_to_function('', "toggleCheckboxesBySelector('input.core-field-#{field}')",
                                :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}",
@@ -48,7 +48,7 @@
           </td>
         </tr>
         <% @custom_fields.each do |field| %>
-        <tr class="<%= cycle("odd", "even") %>">
+        <tr>
           <td class="name">
             <%= link_to_function('', "toggleCheckboxesBySelector('input.custom-field-#{field.id}')",
                                  :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}",

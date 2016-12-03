@@ -26,7 +26,7 @@
   </tr>
   <% end -%>
   <% container.attachments.each do |file| %>
-  <tr class="file <%= cycle("odd", "even") %>">
+  <tr class="file">
     <td class="filename"><%= link_to_attachment file, :download => true, :title => file.description %></td>
     <td class="created_on"><%= format_time(file.created_on) %></td>
     <td class="filesize"><%= number_to_human_size(file.filesize) %></td>

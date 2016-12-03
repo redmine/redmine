@@ -3,7 +3,7 @@
 <% if @plugins.any? %>
 <table class="list plugins">
     <% @plugins.each do |plugin| %>
-        <tr id="plugin-<%= plugin.id %>" class="<%= cycle('odd', 'even') %>">
+        <tr id="plugin-<%= plugin.id %>">
         <td class="name"><span class="name"><%= plugin.name %></span>
             <%= content_tag('span', plugin.description, :class => 'description') unless plugin.description.blank? %>
             <%= content_tag('span', link_to(plugin.url, plugin.url), :class => 'url') unless plugin.url.blank? %>

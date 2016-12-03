@@ -4,7 +4,7 @@
     <div class="table-list-cell"><%= l(:label_board) %></div>
   </div>
   <%= render_boards_tree(@project.boards) do |board, level| %>
-  <div class="table-list-row <%= cycle 'odd', 'even' %>">
+  <div class="table-list-row">
     <div class="table-list-cell name" style="padding-left: <%= 2 + level * 16 %>px">
       <%= link_to board.name, project_board_path(@project, board) %>
     </div>

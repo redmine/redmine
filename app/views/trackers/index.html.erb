@@ -13,7 +13,7 @@
   </tr></thead>
   <tbody>
 <% for tracker in @trackers %>
-  <tr class="<%= cycle("odd", "even") %>">
+  <tr>
   <td class="name"><%= link_to tracker.name, edit_tracker_path(tracker) %></td>
   <td>
     <% unless tracker.workflow_rules.count > 0 %>
