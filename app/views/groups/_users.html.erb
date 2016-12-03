@@ -8,7 +8,7 @@
     </tr></thead>
     <tbody>
     <% @group.users.sort.each do |user| %>
-      <tr id="user-<%= user.id %>">
+      <tr id="user-<%= user.id %>" class="<%= cycle 'odd', 'even' %>">
         <td class="name"><%= link_to_user user %></td>
         <td class="buttons">
           <%= delete_link group_user_path(@group, :user_id => user), :remote => true %>

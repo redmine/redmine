@@ -37,7 +37,7 @@
   </tr></thead>
   <tbody>
 <% for user in @users -%>
-  <tr class="<%= user.css_classes %>">
+  <tr class="<%= user.css_classes %> <%= cycle("odd", "even") %>">
   <td class="username"><%= avatar(user, :size => "14") %><%= link_to user.login, edit_user_path(user) %></td>
   <td class="firstname"><%= user.firstname %></td>
   <td class="lastname"><%= user.lastname %></td>

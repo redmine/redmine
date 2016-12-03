@@ -17,7 +17,7 @@
 <tbody>
 <% i = 0 -%>
 <% @committers.each do |committer, user_id| -%>
-  <tr>
+  <tr class="<%= cycle 'odd', 'even' %>">
     <td><%= committer %></td>
     <td>
       <%= hidden_field_tag "committers[#{i}][]", committer, :id => nil %>

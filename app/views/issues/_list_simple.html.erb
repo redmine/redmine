@@ -9,7 +9,7 @@
     </tr></thead>
     <tbody>
     <% for issue in issues %>
-    <tr id="issue-<%= h(issue.id) %>" class="hascontextmenu <%= issue.css_classes %>">
+    <tr id="issue-<%= h(issue.id) %>" class="hascontextmenu <%= cycle('odd', 'even') %> <%= issue.css_classes %>">
       <td class="id">
         <%= check_box_tag("ids[]", issue.id, false, :style => 'display:none;', :id => nil) %>
         <%= link_to("#{issue.tracker} ##{issue.id}", issue_path(issue)) %>

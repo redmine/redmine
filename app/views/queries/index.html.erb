@@ -9,7 +9,7 @@
 <% else %>
   <table class="list">
   <% @queries.each do |query| %>
-    <tr>
+    <tr class="<%= cycle('odd', 'even') %>">
       <td class="name">
         <%= link_to query.name, :controller => 'issues', :action => 'index', :project_id => @project, :query_id => query %>
       </td>

@@ -24,7 +24,7 @@
 <tbody>
   <% for old_status in [nil] + @statuses %>
   <% next if old_status.nil? && name != 'always' %>
-  <tr>
+  <tr class="<%= cycle("odd", "even") %>">
     <td class="name">
       <%= link_to_function('', "toggleCheckboxesBySelector('table.transitions-#{name} input.old-status-#{old_status.try(:id) || 0}')",
                            :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}",

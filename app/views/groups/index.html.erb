@@ -24,7 +24,7 @@
   </tr></thead>
   <tbody>
 <% @groups.each do |group| %>
-  <tr id="group-<%= group.id %>" class="<%= "builtin" if group.builtin? %>">
+  <tr id="group-<%= group.id %>" class="<%= cycle 'odd', 'even' %> <%= "builtin" if group.builtin? %>">
     <td class="name"><%= link_to group, edit_group_path(group) %></td>
     <td class="user_count"><%= (@user_count_by_group_id[group.id] || 0) unless group.builtin? %></td>
     <td class="buttons"><%= delete_link group unless group.builtin? %></td>

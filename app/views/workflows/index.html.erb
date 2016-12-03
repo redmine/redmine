@@ -17,7 +17,7 @@
 </thead>
 <tbody>
 <% @trackers.each do |tracker| -%>
-<tr>
+<tr class="<%= cycle('odd', 'even') %>">
   <td class="name"><%= tracker.name %></td>
   <% @roles.each do |role| -%>
   <% count = @workflow_counts[[tracker.id, role.id]] || 0 %>

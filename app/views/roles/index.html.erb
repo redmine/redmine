@@ -12,7 +12,7 @@
   </tr></thead>
   <tbody>
 <% for role in @roles %>
-  <tr class="<%= role.builtin? ? "builtin" : "givable" %>">
+  <tr class="<%= cycle("odd", "even") %> <%= role.builtin? ? "builtin" : "givable" %>">
   <td class="name"><%= content_tag(role.builtin? ? 'em' : 'span', link_to(role.name, edit_role_path(role))) %></td>
   <td class="buttons">
     <%= reorder_handle(role) unless role.builtin? %>

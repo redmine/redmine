@@ -17,6 +17,7 @@
 <tbody>
 <% grouped_query_results(entries, @query, @entry_count_by_group) do |entry, group_name, group_count, group_totals| -%>
   <% if group_name %>
+    <% reset_cycle %>
     <tr class="group open">
       <td colspan="<%= @query.inline_columns.size + 2 %>">
         <span class="expander" onclick="toggleRowGroup(this);">&nbsp;</span>
@@ -30,7 +31,7 @@
       </td>
     </tr>
   <% end %>
-  <tr id="time-entry-<%= entry.id %>" class="time-entry hascontextmenu">
+  <tr id="time-entry-<%= entry.id %>" class="time-entry <%= cycle("odd", "even") %> hascontextmenu">
     <td class="checkbox hide-when-print"><%= check_box_tag("ids[]", entry.id, false, :id => nil) %></td>
     <%= raw @query.inline_columns.map {|column| "<td class=\"#{column.css_classes}\">#{column_content(column, entry)}</td>"}.join %>
     <td class="buttons">

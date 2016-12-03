@@ -16,6 +16,7 @@
   <tbody>
   <% grouped_issue_list(issues, @query, @issue_count_by_group) do |issue, level, group_name, group_count, group_totals| -%>
   <% if group_name %>
+    <% reset_cycle %>
     <tr class="group open">
       <td colspan="<%= query.inline_columns.size + 1 %>">
         <span class="expander" onclick="toggleRowGroup(this);">&nbsp;</span>
@@ -25,7 +26,7 @@
       </td>
     </tr>
   <% end %>
-  <tr id="issue-<%= issue.id %>" class="hascontextmenu <%= issue.css_classes %> <%= level > 0 ? "idnt idnt-#{level}" : nil %>">
+  <tr id="issue-<%= issue.id %>" class="hascontextmenu <%= cycle('odd', 'even') %> <%= issue.css_classes %> <%= level > 0 ? "idnt idnt-#{level}" : nil %>">
     <td class="checkbox hide-when-print"><%= check_box_tag("ids[]", issue.id, false, :id => nil) %></td>
     <%= raw query.inline_columns.map {|column| "<td class=\"#{column.css_classes}\">#{column_content(column, issue)}</td>"}.join %>
   </tr>

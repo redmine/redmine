@@ -60,7 +60,7 @@
         </td>
       </tr>
       <% @fields.each do |field, name| %>
-      <tr>
+      <tr class="<%= cycle("odd", "even") %>">
         <td class="name">
           <%= name %> <%= content_tag('span', '*', :class => 'required') if field_required?(field) %>
         </td>
@@ -80,7 +80,7 @@
           </td>
         </tr>
         <% @custom_fields.each do |field| %>
-        <tr>
+        <tr class="<%= cycle("odd", "even") %>">
           <td class="name">
             <%= field.name %> <%= content_tag('span', '*', :class => 'required') if field_required?(field) %>
           </td>
