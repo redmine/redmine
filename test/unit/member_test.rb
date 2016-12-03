@@ -38,6 +38,12 @@ class MemberTest < ActiveSupport::TestCase
     @jsmith = Member.find(1)
   end
 
+  def test_sorted_scope_on_project_members
+    members = Project.find(1).members.sorted.to_a
+    roles = members.map {|m| m.roles.sort.first}
+    assert_equal roles, roles.sort
+  end
+
   def test_create
     member = Member.new(:project_id => 1, :user_id => 4, :role_ids => [1, 2])
     assert member.save
