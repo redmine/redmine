@@ -59,7 +59,10 @@ class ContextMenusController < ApplicationController
   end
 
   def time_entries
-    @time_entries = TimeEntry.where(:id => params[:ids]).preload(:project).to_a
+    @time_entries = TimeEntry.where(:id => params[:ids]).
+      preload(:project => :time_entry_activities).
+      preload(:user).to_a
+
     (render_404; return) unless @time_entries.present?
     if (@time_entries.size == 1)
       @time_entry = @time_entries.first
@@ -67,7 +70,7 @@ class ContextMenusController < ApplicationController
 
     @projects = @time_entries.collect(&:project).compact.uniq
     @project = @projects.first if @projects.size == 1
-    @activities = TimeEntryActivity.shared.active
+    @activities = @projects.map(&:activities).reduce(:&)
 
     edit_allowed = @time_entries.all? {|t| t.editable_by?(User.current)}
     @can = {:edit => edit_allowed, :delete => edit_allowed}
