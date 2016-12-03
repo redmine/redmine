@@ -17,7 +17,8 @@
 <table>
 <tr>
     <th><%= l(:field_estimated_hours) %></th>
-    <td class="total-hours"><%= html_hours(l_hours(@version.estimated_hours)) %></td>
+    <td class="total-hours"><%= link_to html_hours(l_hours(@version.estimated_hours)),
+                                        project_issues_path(@version.project, :set_filter => 1, :status_id => '*', :fixed_version_id => @version.id, :c => [:tracker, :status, :subject, :estimated_hours], :t => [:estimated_hours]) %></td>
 </tr>
 <% if User.current.allowed_to_view_all_time_entries?(@project) %>
 <tr>
