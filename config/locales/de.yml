@@ -262,8 +262,8 @@ de:
   error_no_tracker_in_project: Diesem Projekt ist kein Tracker zugeordnet. Bitte überprüfen Sie die Projekteinstellungen.
   error_scm_annotate: "Der Eintrag existiert nicht oder kann nicht annotiert werden."
   error_scm_annotate_big_text_file: Der Eintrag kann nicht umgesetzt werden, da er die maximale Textlänge überschreitet.
-  error_scm_command_failed: "Beim Zugriff auf das Projektarchiv ist ein Fehler aufgetreten: %{value}"
-  error_scm_not_found: Eintrag und/oder Revision existiert nicht im Projektarchiv.
+  error_scm_command_failed: "Beim Zugriff auf das Repository ist ein Fehler aufgetreten: %{value}"
+  error_scm_not_found: Eintrag und/oder Revision existiert nicht im Repository.
   error_session_expired: Ihre Sitzung ist abgelaufen. Bitte melden Sie sich erneut an.
   error_unable_delete_issue_status: "Der Ticket-Status konnte nicht gelöscht werden."
   error_unable_to_connect: Fehler beim Verbinden (%{value})
@@ -710,9 +710,9 @@ de:
   label_report: Bericht
   label_report_plural: Berichte
   label_reported_issues: Erstellte Tickets
-  label_repository: Projektarchiv
+  label_repository: Repository
   label_repository_new: Neues Repository
-  label_repository_plural: Projektarchive
+  label_repository_plural: Repositories
   label_required: Erforderlich
   label_result_plural: Resultate
   label_reverse_chronological_order: in umgekehrter zeitlicher Reihenfolge
@@ -904,7 +904,7 @@ de:
   permission_add_project: Projekt erstellen
   permission_add_subprojects: Unterprojekte erstellen
   permission_add_documents: Dokumente hinzufügen
-  permission_browse_repository: Projektarchiv ansehen
+  permission_browse_repository: Repository ansehen
   permission_close_project: Schließen / erneutes Öffnen eines Projekts
   permission_comment_news: News kommentieren
   permission_commit_access: Commit-Zugriff
@@ -936,7 +936,7 @@ de:
   permission_manage_project_activities: Aktivitäten (Zeiterfassung) verwalten
   permission_manage_public_queries: Öffentliche Filter verwalten
   permission_manage_related_issues: Zugehörige Tickets verwalten
-  permission_manage_repository: Projektarchiv verwalten
+  permission_manage_repository: Repository verwalten
   permission_manage_subtasks: Unteraufgaben verwalten
   permission_manage_versions: Versionen verwalten
   permission_manage_wiki: Wiki verwalten
@@ -968,7 +968,7 @@ de:
   project_module_gantt: Gantt
   project_module_issue_tracking: Ticket-Verfolgung
   project_module_news: News
-  project_module_repository: Projektarchiv
+  project_module_repository: Repository
   project_module_time_tracking: Zeiterfassung
   project_module_wiki: Wiki
   project_status_active: aktiv
@@ -1042,7 +1042,7 @@ de:
   setting_session_lifetime: Längste Dauer einer Sitzung
   setting_session_timeout: Zeitüberschreitung bei Inaktivität
   setting_start_of_week: Wochenanfang
-  setting_sys_api_enabled: Webservice zur Verwaltung der Projektarchive benutzen
+  setting_sys_api_enabled: Webservice zur Verwaltung der Repositories benutzen
   setting_text_formatting: Textformatierung
   setting_thumbnails_enabled: Vorschaubilder von Dateianhängen anzeigen
   setting_thumbnails_size: Größe der Vorschaubilder (in Pixel)
@@ -1093,7 +1093,7 @@ de:
   text_length_between: "Länge zwischen %{min} und %{max} Zeichen."
   text_line_separated: Mehrere Werte sind erlaubt (eine Zeile pro Wert).
   text_load_default_configuration: Standard-Konfiguration laden
-  text_mercurial_repository_note: Lokales repository (e.g. /hgrepo, c:\hgrepo)
+  text_mercurial_repository_note: Lokales Repository (e.g. /hgrepo, c:\hgrepo)
   text_min_max_length_info: 0 heißt keine Beschränkung
   text_no_configuration_data: "Rollen, Tracker, Ticket-Status und Workflows wurden noch nicht konfiguriert.\nEs ist sehr zu empfehlen, die Standard-Konfiguration zu laden. Sobald sie geladen ist, können Sie diese abändern."
   text_own_membership_delete_confirmation: "Sie sind dabei, einige oder alle Ihre Berechtigungen zu entfernen. Es ist möglich, dass Sie danach das Projekt nicht mehr ansehen oder bearbeiten dürfen.\nSind Sie sicher, dass Sie dies tun möchten?"
@@ -1104,7 +1104,7 @@ de:
   text_reassign_time_entries: 'Gebuchte Aufwände diesem Ticket zuweisen:'
   text_regexp_info: z. B. ^[A-Z0-9]+$
   text_repository_identifier_info: 'Kleinbuchstaben (a-z), Ziffern, Binde- und Unterstriche erlaubt.<br />Einmal gespeichert, kann die Kennung nicht mehr geändert werden.'
-  text_repository_usernames_mapping: "Bitte legen Sie die Zuordnung der Redmine-Benutzer zu den Benutzernamen der Commit-Nachrichten des Projektarchivs fest.\nBenutzer mit identischen Redmine- und Projektarchiv-Benutzernamen oder -E-Mail-Adressen werden automatisch zugeordnet."
+  text_repository_usernames_mapping: "Bitte legen Sie die Zuordnung der Redmine-Benutzer zu den Benutzernamen der Commit-Nachrichten des Repositories fest.\nBenutzer mit identischen Redmine- und Repository-Benutzernamen oder -E-Mail-Adressen werden automatisch zugeordnet."
   text_rmagick_available: RMagick verfügbar (optional)
   text_scm_command: Kommando
   text_scm_command_not_available: SCM-Kommando ist nicht verfügbar. Bitte prüfen Sie die Einstellungen im Administrationspanel.
