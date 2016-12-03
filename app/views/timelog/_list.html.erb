@@ -17,7 +17,6 @@
 <tbody>
 <% grouped_query_results(entries, @query, @entry_count_by_group) do |entry, group_name, group_count, group_totals| -%>
   <% if group_name %>
-    <% reset_cycle %>
     <tr class="group open">
       <td colspan="<%= @query.inline_columns.size + 2 %>">
         <span class="expander" onclick="toggleRowGroup(this);">&nbsp;</span>
