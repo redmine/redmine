@@ -597,6 +597,7 @@ function beforeShowDatePicker(input, inst) {
     }, options );
 
     return this.sortable($.extend({
+      axis: 'y',
       handle: ".sort-handle",
       helper: function(event, ui){
         ui.children('td').each(function(){
