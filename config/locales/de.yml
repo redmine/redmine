@@ -725,7 +725,7 @@ de:
   label_roadmap_overdue: "seit %{value} verspätet"
   label_role: Rolle
   label_role_and_permissions: Rollen und Rechte
-  label_role_anonymous: Anonymous
+  label_role_anonymous: Anonym
   label_role_new: Neue Rolle
   label_role_non_member: Nichtmitglied
   label_role_plural: Rollen
@@ -888,7 +888,7 @@ de:
   notice_new_password_must_be_different: Das neue Passwort muss sich vom dem Aktuellen unterscheiden
   notice_no_issue_selected: "Kein Ticket ausgewählt! Bitte wählen Sie die Tickets, die Sie bearbeiten möchten."
   notice_not_authorized: Sie sind nicht berechtigt, auf diese Seite zuzugreifen.
-  notice_not_authorized_archived_project: Das Projekt wurde archiviert und ist daher nicht nicht verfügbar.
+  notice_not_authorized_archived_project: Das Projekt wurde archiviert und ist daher nicht verfügbar.
   notice_successful_connection: Verbindung erfolgreich.
   notice_successful_create: Erfolgreich angelegt
   notice_successful_delete: Erfolgreich gelöscht.
@@ -966,7 +966,7 @@ de:
   project_module_documents: Dokumente
   project_module_files: Dateien
   project_module_gantt: Gantt
-  project_module_issue_tracking: Ticket-Verfolgung
+  project_module_issue_tracking: Tickets
   project_module_news: News
   project_module_repository: Repository
   project_module_time_tracking: Zeiterfassung
@@ -976,14 +976,14 @@ de:
   project_status_closed: geschlossen
 
   setting_activity_days_default: Anzahl Tage pro Seite der Projekt-Aktivität
-  setting_app_subtitle: Applikations-Untertitel
-  setting_app_title: Applikations-Titel
+  setting_app_subtitle: Applikationsuntertitel
+  setting_app_title: Applikationstitel
   setting_attachment_max_size: Max. Dateigröße
   setting_autofetch_changesets: Changesets automatisch abrufen
   setting_autologin: Automatische Anmeldung läuft ab nach
   setting_bcc_recipients: E-Mails als Blindkopie (BCC) senden
   setting_cache_formatted_text: Formatierten Text im Cache speichern
-  setting_commit_cross_project_ref: Erlauben auf Tickets aller anderen Projekte zu referenzieren
+  setting_commit_cross_project_ref: Erlauben Tickets aller anderen Projekte zu referenzieren
   setting_commit_fix_keywords: Schlüsselwörter (Status)
   setting_commit_logtime_activity_id: Aktivität für die Zeiterfassung
   setting_commit_logtime_enabled: Aktiviere Zeiterfassung via Commit-Nachricht
@@ -1011,18 +1011,18 @@ de:
   setting_gravatar_enabled: Gravatar-Benutzerbilder benutzen
   setting_host_name: Hostname
   setting_issue_done_ratio: Berechne den Ticket-Fortschritt mittels
-  setting_issue_done_ratio_issue_field: Ticket-Feld %-erledigt
+  setting_issue_done_ratio_issue_field: Ticket-Feld % erledigt
   setting_issue_done_ratio_issue_status: Ticket-Status
   setting_issue_group_assignment: Ticketzuweisung an Gruppen erlauben
   setting_issue_list_default_columns: Standard-Spalten in der Ticket-Auflistung
   setting_issues_export_limit: Max. Anzahl Tickets bei CSV/PDF-Export
   setting_jsonp_enabled: JSONP Unterstützung aktivieren
-  setting_link_copied_issue: Tickets beim kopieren verlinken
+  setting_link_copied_issue: Tickets beim Kopieren verlinken
   setting_login_required: Authentifizierung erforderlich
   setting_mail_from: E-Mail-Absender
   setting_mail_handler_api_enabled: Abruf eingehender E-Mails aktivieren
   setting_mail_handler_api_key: API-Schlüssel für eingehende E-Mails
-  setting_sys_api_key: API-Schlüssel für Webservice zur Projektarchiv-Verwaltung
+  setting_sys_api_key: API-Schlüssel für Webservice zur Repository-Verwaltung
   setting_mail_handler_body_delimiters: "Schneide E-Mails nach einer dieser Zeilen ab"
   setting_mail_handler_excluded_filenames: Anhänge nach Namen ausschließen
   setting_new_project_user_role_id: Rolle, die einem Nicht-Administrator zugeordnet wird, der ein Projekt erstellt
@@ -1076,7 +1076,7 @@ de:
   text_git_repository_note: Repository steht für sich alleine (bare) und liegt lokal (z.B. /gitrepo, c:\gitrepo)
   text_issue_added: "Ticket %{id} wurde erstellt von %{author}."
   text_issue_category_destroy_assignments: Kategorie-Zuordnung entfernen
-  text_issue_category_destroy_question: "Einige Tickets (%{count}) sind dieser Kategorie zugeodnet. Was möchten Sie tun?"
+  text_issue_category_destroy_question: "Einige Tickets (%{count}) sind dieser Kategorie zugeordnet. Was möchten Sie tun?"
   text_issue_category_reassign_to: Tickets dieser Kategorie zuordnen
   text_issue_conflict_resolution_add_notes: Meine Änderungen übernehmen und alle anderen Änderungen verwerfen
   text_issue_conflict_resolution_cancel: Meine Änderungen verwerfen und %{link} neu anzeigen
