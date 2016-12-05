@@ -831,15 +831,12 @@ module ApplicationHelper
     return unless User.current.logged?
     projects = User.current.memberships.collect(&:project).compact.select(&:active?).uniq
     if projects.any?
-      options =
-        ("<option value=''>#{ l(:label_jump_to_a_project) }</option>" +
-         '<option value="" disabled="disabled">---</option>').html_safe
-
-      options << project_tree_options_for_select(projects, :selected => @project) do |p|
-        { :value => project_path(:id => p, :jump => current_menu_item) }
-      end
-
-      select_tag('project_quick_jump_box', options, :onchange => 'if (this.value != \'\') { window.location = this.value; }', :style => 'display:none;')
+      #options = project_tree_options_for_select(projects, :selected => @project) do |p|
+        #{ :value => project_path(:id => p, :jump => current_menu_item) }
+      #end
+      options = project_tree_options_for_select(projects, :selected => @project)
+      content_tag('ul', options, :class => 'dropdown-menu')
+      #select_tag('project_quick_jump_box', options, :onchange => 'if (this.value != \'\') { window.location = this.value; }', :style => 'display:none;')
     end
   end
   
@@ -863,14 +860,15 @@ module ApplicationHelper
     s = ''
     project_tree(projects) do |project, level|
       name_prefix = (level > 0 ? '&nbsp;' * 2 * level + '&#187; ' : '').html_safe
-      tag_options = {:value => project.id}
-      if project == options[:selected] || (options[:selected].respond_to?(:include?) && options[:selected].include?(project))
+      #tag_options = {:value => project.id}
+      tag_options = {}
+      if project == options[:gselected] || (options[:selected].respond_to?(:include?) && options[:selected].include?(project))
         tag_options[:selected] = 'selected'
       else
         tag_options[:selected] = nil
       end
       tag_options.merge!(yield(project)) if block_given?
-      s << content_tag('option', name_prefix + h(project), tag_options)
+      s << content_tag('li', link_to(name_prefix + h(project), {:url => project.id}), tag_options)
     end
     s.html_safe
   end
@@ -1101,7 +1099,6 @@ module ApplicationHelper
 
     text = text.dup
     macros = catch_macros(text)
-    
     
     text = Redmine::WikiFormatting.to_html(Setting.text_formatting, text, :object => obj, :attribute => attr)
     

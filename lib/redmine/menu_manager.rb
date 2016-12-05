@@ -86,11 +86,15 @@ module Redmine
       end
 
       def render_menu(menu, project=nil)
+        content_tag('ul', render_menu_items(menu, project))
+      end
+
+      def render_menu_items(menu, project=nil)
         links = []
         menu_items_for(menu, project) do |node|
           links << render_menu_node(node, project)
         end
-        links.empty? ? nil : content_tag('ul', links.join("\n").html_safe, :class => "nav")
+        links.empty? ? nil : links.join("\n").html_safe
       end
 
       def render_menu_node(node, project=nil)

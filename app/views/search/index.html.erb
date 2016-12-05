@@ -31,7 +31,6 @@
         <% p = e.project %>
         <div>
         <dt class="<%= e.event_type %>">
-          <%= content_tag('span', h(e.project), :class => 'project') unless @project == e.project %>
           <%= link_to(highlight_tokens(e.event_title.truncate(255), @tokens), e.event_url) %>
         </dt>
         <dd class="searchDD">

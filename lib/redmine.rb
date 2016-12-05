@@ -207,8 +207,15 @@ Redmine::MenuManager.map :account_menu do |menu|
   menu.push :projects, { :controller => 'projects', :action => 'index' }, :caption => 'Explore OSB'
   menu.push :login, :signin_path, :if => Proc.new { !User.current.logged? }
   menu.push :register, :register_path, :if => Proc.new { !User.current.logged? && Setting.self_registration? }
-#  menu.push :my_account, { :controller => 'my', :action => 'account' }, :if => Proc.new { User.current.logged? }
-  menu.push :logout, :signout_path, :html => {:method => 'post', :id => 'logout_link'}, :caption => '<icon class="icon-signout"/>'.html_safe, :if => Proc.new { User.current.logged? }
+  #menu.push :loggedas, link_to_user(User.current, :format => :username), :if => Proc.new { User.current.logged? }
+  menu.push :my_account, { :controller => 'users', :action => 'show' }, :if => Proc.new { User.current.logged? }
+  menu.push :logout, :signout_path, :html => {:method => 'post',
+                                              :id => 'logout_link',
+                                              :alt => 'Sign Out',
+                                              :title => 'Sign Out'
+                                             },
+            :caption => '<icon class="icon-signout"/>'.html_safe,
+            :if => Proc.new { User.current.logged? }
 end
 
 Redmine::MenuManager.map :application_menu do |menu|

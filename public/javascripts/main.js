@@ -1,22 +1,21 @@
-jQuery(function()
-{
+$(document).ready(function() {
 	// **************
 	// COMMON
 	// **************
 	var $window = jQuery(window);
 	
 	// -- SIDE BAR
-	 setTimeout(function () {
+	 /* setTimeout(function () {
 	      $('.bs-docs-sidenav').affix({
 	        offset: {
 	          top: function () { return $window.width() <= 980 ? 290 : 210 }
 	        , bottom: 270
 	        }
 	      })
-	    }, 100)
+	    }, 100) */
 	    
 	// -- Bootstrap widget calls
-	jQuery('.dropdown-toggle').dropdown();
+	// jQuery('.dropdown-toggle').dropdown();
 	jQuery(".alert").alert();
 	jQuery('.popoverlink').popover();
 	jQuery('.tooltiplink').tooltip();
@@ -38,11 +37,23 @@ jQuery(function()
 	// **************
 	// HEADER
 	// **************
-	jQuery("#header_menu > ul").addClass("pull-right");
+	/*jQuery("#header_menu > ul").addClass("pull-right");
 	jQuery("#header_menu > ul").append('<li id="loggedelement"></li>');
 	jQuery("#loggedas > a").appendTo("#loggedelement");
-	jQuery("#loggedas").remove();
-	
+	jQuery("#loggedas").remove();*/
+
+  
+    $("#searchLink").click(function(){
+        $(this).closest("form").submit();
+        return false;
+    });
+    
+    $("#toolsLink").click(function(){
+        $(this).children("icon")
+            .toggleClass("icon-plus-sign")
+            .toggleClass("icon-minus-sign");
+        $("#project_quick_jump_box").toggle();
+    });
 	
 	// **************
 	// PROJECT PAGE
@@ -307,9 +318,6 @@ function getMainModel(pathToRepo, defaultModel){
 
 function open3DExplorer(file, projectIdentifier, mainModelButton)
 {
-	if(mainModelButton==undefined){
-		mainModelButton=false;
-	}
 	showGeppetto();
 
 	if (!Detector.webgl) {
@@ -364,33 +372,6 @@ function open3DExplorer(file, projectIdentifier, mainModelButton)
 	currentModel=file;
 }
 
-function toggleFullScreen()
-{
-	if(jQuery("#mainheader").is(":visible") == true)
-	{
-		jQuery("#main").removeClass("container");
-		jQuery("#main").children("br").first().remove();
-		jQuery("#main").children("br").first().remove();
-		jQuery("#main").children("br").first().remove();
-		jQuery(".fullscreen").html(" Exit Full Screen");
-		jQuery(".navbar-fixed-top").hide();
-		jQuery("#mainheader").hide();
-		jQuery("footer").hide();
-		resizeIframe();
-	}
-	else
-	{
-		jQuery("#main").prepend("<br/>");
-		jQuery("#main").prepend("<br/>");
-		jQuery("#main").prepend("<br/>");
-		jQuery("#main").addClass("container");
-		jQuery(".fullscreen").html(" Full Screen");
-		jQuery(".navbar-fixed-top").show();
-		jQuery("#mainheader").show();
-		jQuery("footer").show();
-		resizeIframe();
-	}
-}
 function disableOSBExplorer()
 {
 	jQuery("#osbexplorerbutton").css("background-color","grey");
