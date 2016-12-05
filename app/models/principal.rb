@@ -29,11 +29,12 @@ class Principal < ActiveRecord::Base
   has_many :members, :foreign_key => 'user_id', :dependent => :destroy
   has_many :memberships,
            lambda {preload(:project, :roles).
-                   joins(:project).
-                   where("#{Project.table_name}.status<>#{Project::STATUS_ARCHIVED}")},
+               joins(:project)},
            :class_name => 'Member',
            :foreign_key => 'user_id'
-  has_many :projects, :through => :memberships
+  has_many :projects,
+           lambda {where("#{Project.table_name}.status<>#{Project::STATUS_ARCHIVED}")},
+           :through => :memberships
   has_many :issue_categories, :foreign_key => 'assigned_to_id', :dependent => :nullify
 
   validate :validate_status
