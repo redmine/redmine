@@ -81,17 +81,40 @@ body {
     width: 230px;
 }
 
-.mainContentIndex {
+.indexNoUser {
     text-align: center;
+}
+
+.indexNoUser .btn {
+
+/* From redmine */    margin: 0 0.5em;
+}
+
+#welcomeMainContainer {
+    padding-top: 2em;
 }
 
 #learnMoreContainer {
     margin: 0 auto;
+    text-align: center;
+    display: none;
 }
 
 .mainContentMargins {
     margin-left: 30px;
     margin-right: 30px;
+}
+
+.table-bordered-rows {
+    border: 1px solid #ddd;
+    border-collapse: separate;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}
+
+.table-bordered-rows td + td {
+    border-left: none
 }
 
 .sampleThumbnail {
@@ -212,6 +235,8 @@ body {
 #main {
     height: 100%
 }
+
+
 /* From redmine */
 /***** Diff *****/
 
@@ -683,22 +708,19 @@ tr.open span.expander:before {
     color: #777;
 }
 
-.footer-links {
-    margin: 10px 0;
-}
-
-.footer-links li {
+.footer-links > li {
     display: inline;
-    padding: 0 2px;
 }
 
 .footer-links li:first-child {
     padding-left: 0;
 }
 
-.footer .license {
-    margin-left: 200px;
+.footer-links > li + li::before {
+    padding: 0.3em;
+    content: " \00b7 ";
 }
+
 /* Sections
  -------------------------------------------------- */
 /* padding for in-page bookmarks and fixed navbar */
@@ -774,8 +796,8 @@ section > ul li {
     color: #37ABC8;
 }
 
-#login-form {
-    padding: 40px;
+.login-form {
+    padding: 6em;;
 }
 
 .sidetitle {
@@ -904,12 +926,15 @@ hr.soften {
 
 icon {
     text-decoration: none !important;
-    margin-right: 5px;
 }
 
 icon:hover {
     color: #37abc8 !important;
     text-decoration: none;
+}
+
+td > icon {
+    padding-right: 0.5em;
 }
 
 .icon-small {
@@ -1012,10 +1037,6 @@ section p {
     margin-top: 5px;
 }
 
-.search-btn {
-    background-color: #000;
-}
-
 #quick-search form {
     clear: none;
     float: left;
@@ -1112,12 +1133,17 @@ section p {
     margin-top: 20px;
 }
 
+.lead-logo {
+    width: 8%;
+    margin-right: 25px;
+}
+
 .btn-group a {
     display: inline-block;
 }
 
 #osblogo {
-    margin: 10px 30px 10px 30px;
+    margin: 10px 50px 10px 30px;
     width: 212px;
     height: 30px;
     background-image: url("/images/osblogo.png");
