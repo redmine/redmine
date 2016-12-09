@@ -1,4 +1,4 @@
-html {overflow-y:scroll;}
+html {overflow-y:scroll; overflow-x:hidden;}
 body { font-family: Verdana, sans-serif; font-size: 12px; color:#333; margin: 0; padding: 0; min-width: 900px; }
 
 h1, h2, h3, h4 {font-family: "Trebuchet MS", Verdana, sans-serif;padding: 2px 10px 1px 0px;margin: 0 0 10px 0;}
