@@ -689,6 +689,14 @@ JSON
     assert_select 'errors error', :text => "Subject cannot be blank"
   end
 
+  test "PUT /issues/:id.xml with invalid assignee should return error" do
+    user = User.generate!
+    put '/issues/6.xml', {:issue => {:assigned_to_id => user.id}}, credentials('jsmith')
+
+    assert_response :unprocessable_entity
+    assert_select 'errors error', :text => "Assignee is invalid"
+  end
+
   test "PUT /issues/:id.json" do
     assert_difference('Journal.count') do
       put '/issues/6.json',

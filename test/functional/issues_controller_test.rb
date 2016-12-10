@@ -4440,7 +4440,7 @@ class IssuesControllerTest < Redmine::ControllerTest
                     :assigned_to_id => nil),
       Issue.create!(:project_id => 2, :tracker_id => 3, :status_id => 2,
                     :priority_id => 1, :subject => 'issue 2', :author_id => 2,
-                    :assigned_to_id => 3)
+                    :assigned_to_id => 2)
     ]
     assert_difference 'Issue.count', issues.size do
       post :bulk_update, :ids => issues.map(&:id), :copy => '1', 
@@ -4496,7 +4496,7 @@ class IssuesControllerTest < Redmine::ControllerTest
       post :bulk_update, :ids => [1], :copy => '1',
            :notes => 'Copying one issue',
            :issue => {
-             :project_id => '', :tracker_id => '', :assigned_to_id => '4',
+             :project_id => '', :tracker_id => '',
              :status_id => '3', :start_date => '2009-12-01', :due_date => '2009-12-31'
            }
     end

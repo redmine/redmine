@@ -676,19 +676,25 @@ class QueryTest < ActiveSupport::TestCase
   def test_filter_assigned_to_me
     user = User.find(2)
     group = Group.find(10)
-    User.current = user
-    i1 = Issue.generate!(:project_id => 1, :tracker_id => 1, :assigned_to => user)
-    i2 = Issue.generate!(:project_id => 1, :tracker_id => 1, :assigned_to => group)
-    i3 = Issue.generate!(:project_id => 1, :tracker_id => 1, :assigned_to => Group.find(11))
     group.users << user
+    other_group = Group.find(11)
+    Member.create!(:project_id => 1, :principal => group, :role_ids => [1])
+    Member.create!(:project_id => 1, :principal => other_group, :role_ids => [1])
+    User.current = user
 
-    query = IssueQuery.new(:name => '_', :filters => { 'assigned_to_id' => {:operator => '=', :values => ['me']}})
-    result = query.issues
-    assert_equal Issue.visible.where(:assigned_to_id => ([2] + user.reload.group_ids)).sort_by(&:id), result.sort_by(&:id)
-
-    assert result.include?(i1)
-    assert result.include?(i2)
-    assert !result.include?(i3)
+    with_settings :issue_group_assignment => '1' do 
+      i1 = Issue.generate!(:project_id => 1, :tracker_id => 1, :assigned_to => user)
+      i2 = Issue.generate!(:project_id => 1, :tracker_id => 1, :assigned_to => group)
+      i3 = Issue.generate!(:project_id => 1, :tracker_id => 1, :assigned_to => other_group)
+  
+      query = IssueQuery.new(:name => '_', :filters => { 'assigned_to_id' => {:operator => '=', :values => ['me']}})
+      result = query.issues
+      assert_equal Issue.visible.where(:assigned_to_id => ([2] + user.reload.group_ids)).sort_by(&:id), result.sort_by(&:id)
+  
+      assert result.include?(i1)
+      assert result.include?(i2)
+      assert !result.include?(i3)
+    end
   end
 
   def test_user_custom_field_filtered_on_me
@@ -1689,7 +1695,7 @@ class QueryTest < ActiveSupport::TestCase
     @issue1 = Issue.generate!(:project => @project, :assigned_to_id => @manager.id)
     @issue2 = Issue.generate!(:project => @project, :assigned_to_id => @developer.id)
     @issue3 = Issue.generate!(:project => @project, :assigned_to_id => @boss.id)
-    @issue4 = Issue.generate!(:project => @project, :assigned_to_id => @guest.id)
+    @issue4 = Issue.generate!(:project => @project, :author_id => @guest.id, :assigned_to_id => @guest.id)
     @issue5 = Issue.generate!(:project => @project)
 
     @query = IssueQuery.new(:name => '_', :project => @project)

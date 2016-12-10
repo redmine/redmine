@@ -243,14 +243,14 @@ class IssueTest < ActiveSupport::TestCase
 
   def test_anonymous_should_not_see_private_issues_with_issues_visibility_set_to_default
     Role.anonymous.update!(:issues_visibility => 'default')
-    issue = Issue.generate!(:author => User.anonymous, :assigned_to => User.anonymous, :is_private => true)
+    issue = Issue.generate!(:author => User.anonymous, :is_private => true)
     assert_nil Issue.where(:id => issue.id).visible(User.anonymous).first
     assert !issue.visible?(User.anonymous)
   end
 
   def test_anonymous_should_not_see_private_issues_with_issues_visibility_set_to_own
     assert Role.anonymous.update!(:issues_visibility => 'own')
-    issue = Issue.generate!(:author => User.anonymous, :assigned_to => User.anonymous, :is_private => true)
+    issue = Issue.generate!(:author => User.anonymous, :is_private => true)
     assert_nil Issue.where(:id => issue.id).visible(User.anonymous).first
     assert !issue.visible?(User.anonymous)
   end
@@ -344,24 +344,27 @@ class IssueTest < ActiveSupport::TestCase
   def test_visible_scope_for_member_with_groups_should_return_assigned_issues
     user = User.find(8)
     assert user.groups.any?
-    Member.create!(:principal => user.groups.first, :project_id => 1, :role_ids => [2])
+    group = user.groups.first
+    Member.create!(:principal => group, :project_id => 1, :role_ids => [2])
     Role.non_member.remove_permission!(:view_issues)
 
-    issue = Issue.create!(:project_id => 1, :tracker_id => 1, :author_id => 3,
-      :status_id => 1, :priority => IssuePriority.all.first,
-      :subject => 'Assignment test',
-      :assigned_to => user.groups.first,
-      :is_private => true)
-
-    Role.find(2).update! :issues_visibility => 'default'
-    issues = Issue.visible(User.find(8)).to_a
-    assert issues.any?
-    assert issues.include?(issue)
-
-    Role.find(2).update! :issues_visibility => 'own'
-    issues = Issue.visible(User.find(8)).to_a
-    assert issues.any?
-    assert_include issue, issues
+    with_settings :issue_group_assignment => '1' do
+      issue = Issue.create!(:project_id => 1, :tracker_id => 1, :author_id => 3,
+        :status_id => 1, :priority => IssuePriority.all.first,
+        :subject => 'Assignment test',
+        :assigned_to => group,
+        :is_private => true)
+  
+      Role.find(2).update! :issues_visibility => 'default'
+      issues = Issue.visible(User.find(8)).to_a
+      assert issues.any?
+      assert issues.include?(issue)
+  
+      Role.find(2).update! :issues_visibility => 'own'
+      issues = Issue.visible(User.find(8)).to_a
+      assert issues.any?
+      assert_include issue, issues
+    end
   end
 
   def test_visible_scope_for_member_with_limited_tracker_ids
@@ -458,6 +461,7 @@ class IssueTest < ActiveSupport::TestCase
 
   def test_visible_and_nested_set_scopes
     user = User.generate!
+    Member.create!(:project_id => 1, :principal => user, :role_ids => [1])
     parent = Issue.generate!(:assigned_to => user)
     assert parent.visible?(user)
     child1 = Issue.generate!(:parent_issue_id => parent.id, :assigned_to => user)
@@ -761,13 +765,6 @@ class IssueTest < ActiveSupport::TestCase
                             :project_id => 1, :author => user,
                             :assigned_to => user)
     assert_equal [1, 2, 3, 4, 5], issue.new_statuses_allowed_to(user).map(&:id)
-
-    group = Group.generate!
-    group.users << user
-    issue = Issue.generate!(:tracker => tracker, :status => status,
-                            :project_id => 1, :author => user,
-                            :assigned_to => group)
-    assert_equal [1, 2, 3, 4, 5], issue.new_statuses_allowed_to(user).map(&:id)
   end
 
   def test_new_statuses_allowed_to_should_consider_group_assignment
@@ -775,12 +772,16 @@ class IssueTest < ActiveSupport::TestCase
     WorkflowTransition.create!(:role_id => 1, :tracker_id => 1,
                                :old_status_id => 1, :new_status_id => 4,
                                :author => false, :assignee => true)
-    user = User.find(2)
     group = Group.generate!
+    Member.create!(:project_id => 1, :principal => group, :role_ids => [1])
+
+    user = User.find(2)
     group.users << user
 
-    issue = Issue.generate!(:author_id => 1, :assigned_to => group)
-    assert_include 4, issue.new_statuses_allowed_to(user).map(&:id)
+    with_settings :issue_group_assignment => '1' do
+      issue = Issue.generate!(:author_id => 1, :assigned_to => group)
+      assert_include 4, issue.new_statuses_allowed_to(user).map(&:id)
+    end
   end
 
   def test_new_statuses_allowed_to_should_return_all_transitions_for_admin
@@ -893,40 +894,6 @@ class IssueTest < ActiveSupport::TestCase
                                     ]}, user
     assert_equal 'valuea', issue.custom_field_value(cf1)
     assert_nil issue.custom_field_value(cf2)
-  end
-
-  def test_safe_attributes_should_ignore_unassignable_assignee
-    issue = Issue.new(:project_id => 1, :tracker_id => 1, :author_id => 3,
-                      :status_id => 1, :priority => IssuePriority.all.first,
-                      :subject => 'test_create')
-    assert issue.valid?
-
-    # locked user, not allowed
-    issue.safe_attributes=({'assigned_to_id' => '5'})
-    assert_nil issue.assigned_to_id
-    # no member
-    issue.safe_attributes=({'assigned_to_id' => '1'})
-    assert_nil issue.assigned_to_id
-    # user 2 is ok
-    issue.safe_attributes=({'assigned_to_id' => '2'})
-    assert_equal 2, issue.assigned_to_id
-    assert issue.save
-
-    issue.reload
-    assert_equal 2, issue.assigned_to_id
-    issue.safe_attributes=({'assigned_to_id' => '5'})
-    assert_equal 2, issue.assigned_to_id
-    issue.safe_attributes=({'assigned_to_id' => '1'})
-    assert_equal 2, issue.assigned_to_id
-    # user 3 is also ok
-    issue.safe_attributes=({'assigned_to_id' => '3'})
-    assert_equal 3, issue.assigned_to_id
-    assert issue.save
-
-    # removal of assignee
-    issue.safe_attributes=({'assigned_to_id' => ''})
-    assert_nil issue.assigned_to_id
-    assert issue.save
   end
 
   def test_editable_custom_field_values_should_return_non_readonly_custom_values
@@ -1248,6 +1215,15 @@ class IssueTest < ActiveSupport::TestCase
     assert_equal orig.subject, issue.subject
     assert_equal orig.tracker, issue.tracker
     assert_equal "125", issue.custom_value_for(2).value
+  end
+
+  def test_copy_to_another_project_should_clear_assignee_if_not_valid
+    issue = Issue.generate!(:project_id => 1, :assigned_to_id => 2)
+    project = Project.generate!
+
+    issue = Issue.new.copy_from(1)
+    issue.project = project
+    assert_nil issue.assigned_to
   end
 
   def test_copy_should_copy_status
@@ -1759,14 +1735,16 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   test "#copy should not create a journal" do
-    copy = Issue.find(1).copy({:project_id => 3, :tracker_id => 2, :assigned_to_id => 3}, :link => false)
+    copy = Issue.find(1).copy({:project_id => 3, :tracker_id => 2}, :link => false)
     copy.save!
     assert_equal 0, copy.reload.journals.size
   end
 
   test "#copy should allow assigned_to changes" do
-    copy = Issue.find(1).copy(:project_id => 3, :tracker_id => 2, :assigned_to_id => 3)
-    assert_equal 3, copy.assigned_to_id
+    user = User.generate!
+    Member.create!(:project_id => 3, :principal => user, :role_ids => [1])
+    copy = Issue.find(1).copy(:project_id => 3, :tracker_id => 2, :assigned_to_id => user.id)
+    assert_equal user.id, copy.assigned_to_id
   end
 
   test "#copy should allow status changes" do
@@ -2297,8 +2275,9 @@ class IssueTest < ActiveSupport::TestCase
     assert !issue.assignable_users.include?(user)
   end
 
-  test "#assignable_users should include the current assignee" do
+  def test_assignable_users_should_include_the_current_assignee
     user = User.generate!
+    Member.create!(:project_id => 1, :principal => user, :role_ids => [1])
     issue = Issue.generate!(:assigned_to => user)
     user.lock!
 
@@ -2674,7 +2653,9 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   test "Issue#recipients should include the assigned to user if the assigned to user is active" do
-    issue = Issue.generate!(:assigned_to => User.generate!)
+    user = User.generate!
+    Member.create!(:project_id => 1, :principal => user, :role_ids => [1])
+    issue = Issue.generate!(:assigned_to => user)
     assert issue.assigned_to, "No assigned_to set for Issue"
     assert issue.recipients.include?(issue.assigned_to.mail)
   end
@@ -2692,7 +2673,9 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   test "Issue#recipients should not include the assigned user if they are only notified of owned issues" do
-    issue = Issue.generate!(:assigned_to => User.generate!)
+    user = User.generate!
+    Member.create!(:project_id => 1, :principal => user, :role_ids => [1])
+    issue = Issue.generate!(:assigned_to => user)
     issue.assigned_to.update!(:mail_notification => :only_owner)
     assert !issue.recipients.include?(issue.assigned_to.mail)
   end
@@ -2980,10 +2963,13 @@ class IssueTest < ActiveSupport::TestCase
 
   def test_assigned_to_was_with_a_group
     group = Group.find(10)
+    Member.create!(:project_id => 1, :principal => group, :role_ids => [1])
 
-    issue = Issue.generate!(:assigned_to => group)
-    issue.reload.assigned_to = nil
-    assert_equal group, issue.assigned_to_was
+    with_settings :issue_group_assignment => '1' do
+      issue = Issue.generate!(:assigned_to => group)
+      issue.reload.assigned_to = nil
+      assert_equal group, issue.assigned_to_was
+    end
   end
 
   def test_issue_overdue_should_respect_user_timezone

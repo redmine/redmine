@@ -1140,6 +1140,7 @@ class UserTest < ActiveSupport::TestCase
     project = Project.find(1)
     author = User.generate!
     assignee = User.generate!
+    Member.create!(:user => assignee, :project => project, :role_ids => [1])
     member = User.generate!
     Member.create!(:user => member, :project => project, :role_ids => [1])
     issue = Issue.generate!(:project => project, :assigned_to => assignee, :author => author)
@@ -1160,7 +1161,9 @@ class UserTest < ActiveSupport::TestCase
 
   def test_notify_about_issue_for_previous_assignee
     assignee = User.generate!(:mail_notification => 'only_assigned')
+    Member.create!(:user => assignee, :project_id => 1, :role_ids => [1])
     new_assignee = User.generate!(:mail_notification => 'only_assigned')
+    Member.create!(:user => new_assignee, :project_id => 1, :role_ids => [1])
     issue = Issue.generate!(:assigned_to => assignee)
 
     assert assignee.notify_about?(issue)

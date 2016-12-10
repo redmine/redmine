@@ -627,8 +627,9 @@ class MailerTest < ActiveSupport::TestCase
   end
 
   def test_reminder_should_include_issues_assigned_to_groups
-    with_settings :default_language => 'en' do
+    with_settings :default_language => 'en', :issue_group_assignment => '1' do
       group = Group.generate!
+      Member.create!(:project_id => 1, :principal => group, :role_ids => [1])
       group.users << User.find(2)
       group.users << User.find(3)
 

@@ -780,7 +780,7 @@ class Project < ActiveRecord::Base
   def copy(project, options={})
     project = project.is_a?(Project) ? project : Project.find(project)
 
-    to_be_copied = %w(wiki versions issue_categories issues members queries boards)
+    to_be_copied = %w(members wiki versions issue_categories issues queries boards)
     to_be_copied = to_be_copied & Array.wrap(options[:only]) unless options[:only].nil?
 
     Project.transaction do

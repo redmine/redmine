@@ -377,6 +377,11 @@ class Issue < ActiveRecord::Base
       if category
         self.category = project.issue_categories.find_by_name(category.name)
       end
+      # Clear the assignee if not available in the new project for new issues (eg. copy)
+      # For existing issue, the previous assignee is still valid, so we keep it
+      if new_record? && assigned_to && !assignable_users.include?(assigned_to)
+        self.assigned_to_id = nil
+      end
       # Keep the fixed_version if it's still valid in the new_project
       if fixed_version && fixed_version.project != project && !project.shared_versions.include?(fixed_version)
         self.fixed_version = nil
@@ -538,14 +543,7 @@ class Issue < ActiveRecord::Base
       self.status = statuses_allowed.first || default_status
     end
     if (u = attrs.delete('assigned_to_id')) && safe_attribute?('assigned_to_id')
-      if u.blank?
-        self.assigned_to_id = nil
-      else
-        u = u.to_i
-        if assignable_users.any?{|assignable_user| assignable_user.id == u}
-          self.assigned_to_id = u
-        end
-      end
+      self.assigned_to_id = u
     end
 
 
@@ -705,6 +703,12 @@ class Issue < ActiveRecord::Base
     if project && (tracker_id_changed? || project_id_changed?)
       if tracker && !project.trackers.include?(tracker)
         errors.add :tracker_id, :inclusion
+      end
+    end
+
+    if assigned_to_id_changed? && assigned_to_id.present?
+      unless assignable_users.include?(assigned_to)
+        errors.add :assigned_to_id, :invalid
       end
     end
 
@@ -868,7 +872,9 @@ class Issue < ActiveRecord::Base
   def assignable_users
     users = project.assignable_users(tracker).to_a
     users << author if author && author.active?
-    users << assigned_to if assigned_to
+    if assigned_to_id_was.present? && assignee = Principal.find_by_id(assigned_to_id_was)
+      users << assignee
+    end
     users.uniq.sort
   end
 
