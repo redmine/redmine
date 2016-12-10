@@ -158,8 +158,7 @@ module Redmine
           self.class.reorder(:id).where(:root_id => sets_to_lock).lock(lock).ids
         else
           sets_to_lock = [id, parent_id].compact
-          inner_join_statement = self.class.select(:root_id).where(id: sets_to_lock).distinct(:root_id).to_sql
-          self.class.reorder(:id).joins("INNER JOIN (#{inner_join_statement}) as i2 ON #{self.class.table_name}.root_id = i2.root_id").lock.ids
+          self.class.reorder(:id).where("root_id IN (SELECT root_id FROM #{self.class.table_name} WHERE id IN (?))", sets_to_lock).lock.ids
         end
       end
 
