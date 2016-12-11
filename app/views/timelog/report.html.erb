@@ -23,7 +23,7 @@
                                                           :style => 'width: 200px',
                                                           :disabled => (@report.criteria.length >= 3),
                                                           :id => "criterias") %>
-     <%= link_to l(:button_clear), {:project_id => @project, :issue_id => @issue, :period_type => params[:period_type], :period => params[:period], :from => @from, :to => @to, :columns => @report.columns}, :class => 'icon icon-reload' %></p>
+     <%= link_to l(:button_clear), {:params => request.query_parameters.merge(:criteria => nil)}, :class => 'icon icon-reload' %></p>
 <% end %>
 
 <% unless @report.criteria.empty? %>
