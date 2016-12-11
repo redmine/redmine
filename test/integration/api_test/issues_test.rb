@@ -414,8 +414,8 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
     json = ActiveSupport::JSON.decode(response.body)
     assert_equal parent.estimated_hours, json['issue']['estimated_hours']
     assert_equal (parent.estimated_hours.to_f + 3.0), json['issue']['total_estimated_hours']
-    assert_equal nil, json['issue']['spent_hours']
-    assert_equal nil, json['issue']['total_spent_hours']
+    assert_nil json['issue']['spent_hours']
+    assert_nil json['issue']['total_spent_hours']
   end
 
   test "POST /issues.xml should create an issue with the attributes" do

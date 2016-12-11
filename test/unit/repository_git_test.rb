@@ -149,7 +149,7 @@ class RepositoryGitTest < ActiveSupport::TestCase
       assert_equal 3, commit.filechanges.count
       change = commit.filechanges.sort_by(&:path).first
       assert_equal "README", change.path
-      assert_equal nil, change.from_path
+      assert_nil change.from_path
       assert_equal "A", change.action
 
       assert_equal NUM_HEAD, @repository.extra_info["heads"].size

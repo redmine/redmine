@@ -95,17 +95,17 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
 
     test '#authenticate with an invalid LDAP user should return nil' do
       auth = AuthSourceLdap.find(1)
-      assert_equal nil, auth.authenticate('nouser','123456')
+      assert_nil auth.authenticate('nouser','123456')
     end
 
     test '#authenticate without a login should return nil' do
       auth = AuthSourceLdap.find(1)
-      assert_equal nil, auth.authenticate('','123456')
+      assert_nil auth.authenticate('','123456')
     end
 
     test '#authenticate without a password should return nil' do
       auth = AuthSourceLdap.find(1)
-      assert_equal nil, auth.authenticate('edavis','')
+      assert_nil auth.authenticate('edavis','')
     end
 
     test '#authenticate without filter should return any user' do

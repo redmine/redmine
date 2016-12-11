@@ -243,12 +243,12 @@ class VersionTest < ActiveSupport::TestCase
 
     # Project 1 now out of the shared scope
     project_1_issue.reload
-    assert_equal nil, project_1_issue.fixed_version,
+    assert_nil project_1_issue.fixed_version,
                 "Fixed version is still set after changing the Version's sharing"
 
     # Project 5 now out of the shared scope
     project_5_issue.reload
-    assert_equal nil, project_5_issue.fixed_version,
+    assert_nil project_5_issue.fixed_version,
                 "Fixed version is still set after changing the Version's sharing"
 
     # Project 2 issue remains

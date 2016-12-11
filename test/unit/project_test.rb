@@ -353,8 +353,8 @@ class ProjectTest < ActiveSupport::TestCase
     issue_with_hierarchy_fixed_version.reload
 
     assert_equal 4, issue_with_local_fixed_version.fixed_version_id, "Fixed version was not keep on an issue local to the moved project"
-    assert_equal nil, issue_with_hierarchy_fixed_version.fixed_version_id, "Fixed version is still set after moving the Project out of the hierarchy where the version is defined in"
-    assert_equal nil, parent_issue.fixed_version_id, "Fixed version is still set after moving the Version out of the hierarchy for the issue."
+    assert_nil issue_with_hierarchy_fixed_version.fixed_version_id, "Fixed version is still set after moving the Project out of the hierarchy where the version is defined in"
+    assert_nil parent_issue.fixed_version_id, "Fixed version is still set after moving the Version out of the hierarchy for the issue."
   end
 
   def test_parent

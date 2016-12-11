@@ -201,7 +201,7 @@ class JournalTest < ActiveSupport::TestCase
 
   def test_custom_field_should_return_nil_for_non_cf_detail
     d = JournalDetail.new(:property => 'subject')
-    assert_equal nil, d.custom_field
+    assert_nil d.custom_field
   end
 
   def test_visible_details_should_include_relations_to_visible_issues_only

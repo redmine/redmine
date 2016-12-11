@@ -463,7 +463,7 @@ class UsersControllerTest < Redmine::ControllerTest
       :user => {:auth_source_id => '', :password => 'newpass123', :password_confirmation => 'newpass123'}
     }
 
-    assert_equal nil, u.reload.auth_source
+    assert_nil u.reload.auth_source
     assert u.check_password?('newpass123')
   end
 

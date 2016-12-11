@@ -611,7 +611,7 @@ class UserTest < ActiveSupport::TestCase
     @jsmith.save!
 
     user = User.try_to_login("jsmith", "jsmith")
-    assert_equal nil, user
+    assert_nil user
   end
 
   def test_try_to_login_with_locked_user_and_not_active_only_should_return_user
@@ -645,11 +645,11 @@ class UserTest < ActiveSupport::TestCase
       auth_source = AuthSourceLdap.find(1)
       AuthSource.any_instance.stubs(:initialize_ldap_con).raises(Net::LDAP::LdapError, 'Cannot connect')
 
-      assert_equal nil, User.try_to_login('edavis', 'wrong')
+      assert_nil User.try_to_login('edavis', 'wrong')
     end
 
     test "#try_to_login using LDAP" do
-      assert_equal nil, User.try_to_login('edavis', 'wrong')
+      assert_nil User.try_to_login('edavis', 'wrong')
     end
 
     test "#try_to_login using LDAP binding with user's account" do

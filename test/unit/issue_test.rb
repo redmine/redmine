@@ -1643,7 +1643,7 @@ class IssueTest < ActiveSupport::TestCase
     issue.reload
     assert_equal 2, issue.project_id
     # Cleared fixed_version
-    assert_equal nil, issue.fixed_version
+    assert_nil issue.fixed_version
   end
 
   def test_move_to_another_project_should_keep_fixed_version_when_shared_with_the_target_project
@@ -1665,7 +1665,7 @@ class IssueTest < ActiveSupport::TestCase
     issue.reload
     assert_equal 5, issue.project_id
     # Cleared fixed_version
-    assert_equal nil, issue.fixed_version
+    assert_nil issue.fixed_version
   end
 
   def test_move_to_another_project_should_keep_fixed_version_when_shared_systemwide
