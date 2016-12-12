@@ -1201,3 +1201,4 @@ bg:
   text_repository_identifier_info: 'Позволени са малки букви (a-z), цифри, тирета и _.<br />Промяна след създаването му не е възможна.'
   setting_timespan_format: Time span format
   label_table_of_contents: Table of contents
+  setting_commit_logs_formatting: Apply text formatting to commit messages

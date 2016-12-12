@@ -1189,3 +1189,4 @@ nl:
   label_font_proportional: Proportioneel lettertype
   setting_timespan_format: Tijdspanneformaat
   label_table_of_contents: Inhoudsopgave
+  setting_commit_logs_formatting: Apply text formatting to commit messages
