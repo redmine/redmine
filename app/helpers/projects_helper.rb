@@ -386,7 +386,7 @@ module ProjectsHelper
             geppettoSimulationFile["experiments"][0]["aspectConfigurations"][0]["simulatorConfiguration"] = {
                   "id" => 1,
                   "simulatorId" => "neuronSimulator",
-                  "timestep" => 0.00001,
+                  "timestep" => 0.000025,
                   "length" => 0.3
             }
           end
