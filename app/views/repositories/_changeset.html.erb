@@ -33,7 +33,9 @@
 
 </div>
 
-<%= textilizable @changeset.comments %>
+<div class="wiki changset-comments">
+  <%= format_changeset_comments @changeset %>
+</div>
 
 <% if @changeset.issues.visible.any? || User.current.allowed_to?(:manage_related_issues, @repository.project) %>
   <%= render :partial => 'related_issues' %>

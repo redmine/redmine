@@ -460,6 +460,7 @@ fr:
   setting_sys_api_key: Clé de protection de l'API
   setting_lost_password: Autoriser la réinitialisation par email de mot de passe perdu
   setting_new_item_menu_tab: Onglet de création d'objets dans le menu du project
+  setting_commit_logs_formatting: Appliquer le formattage de texte aux messages de commit
 
   permission_add_project: Créer un projet
   permission_add_subprojects: Créer des sous-projets

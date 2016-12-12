@@ -13,8 +13,8 @@
         <% end %>
         <br />
         <span class="author"><%= authoring(changeset.committed_on, changeset.author) %></span></p>
-    <div class="wiki">
-        <%= textilizable(changeset, :comments) %>
+    <div class="wiki changset-comments">
+        <%= format_changeset_comments changeset %>
     </div>
     </div>
 <% end %>

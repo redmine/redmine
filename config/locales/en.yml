@@ -448,6 +448,7 @@ en:
   setting_attachment_extensions_allowed: Allowed extensions
   setting_attachment_extensions_denied: Disallowed extensions
   setting_new_item_menu_tab: Project menu tab for creating new objects
+  setting_commit_logs_formatting: Apply text formatting to commit messages
 
   permission_add_project: Create project
   permission_add_subprojects: Create subprojects

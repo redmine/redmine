@@ -492,6 +492,7 @@ div#issue-changesets {float:right; width:45%; margin-left: 1em; margin-bottom: 1
 div#issue-changesets div.changeset { padding: 4px;}
 div#issue-changesets div.changeset { border-bottom: 1px solid #ddd; }
 div#issue-changesets p { margin-top: 0; margin-bottom: 1em;}
+.changset-comments {margin-bottom:1em; font-family:}
 
 div.journal {overflow:auto;}
 div.journal.private-notes {border-left:2px solid #d22; padding-left:4px; margin-left:-6px;}

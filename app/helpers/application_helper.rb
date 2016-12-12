@@ -254,6 +254,11 @@ module ApplicationHelper
     end
   end
 
+  def format_changeset_comments(changeset, options={})
+    method = options[:short] ? :short_comments : :comments
+    textilizable changeset, method, :formatting => Setting.commit_logs_formatting?
+  end
+
   def due_date_distance_in_words(date)
     if date
       l((date < User.current.today ? :label_roadmap_overdue : :label_roadmap_due_in), distance_of_date_in_words(User.current.today, date))
@@ -619,7 +624,13 @@ module ApplicationHelper
 
     text = text.dup
     macros = catch_macros(text)
-    text = Redmine::WikiFormatting.to_html(Setting.text_formatting, text, :object => obj, :attribute => attr)
+
+    if options[:formatting] == false
+      text = h(text)
+    else
+      formatting = options[:formatting] || Setting.text_formatting
+      text = Redmine::WikiFormatting.to_html(formatting, text, :object => obj, :attribute => attr)
+    end
 
     @parsed_headings = []
     @heading_anchors = {}

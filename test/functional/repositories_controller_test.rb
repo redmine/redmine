@@ -167,6 +167,16 @@ class RepositoriesControllerTest < Redmine::ControllerTest
     assert_select 'h2', :text => 'Revision 1'
   end
 
+  def test_revision_should_not_format_comments_when_disabled
+    Changeset.where(:id => 100).update_all(:comments => 'Simple *text*')
+
+    with_settings :commit_logs_formatting => '0' do
+      get :revision, :id => 1, :rev => 1
+      assert_response :success
+      assert_select '.changset-comments', :text => 'Simple *text*'
+    end
+  end
+
   def test_revision_should_show_add_related_issue_form
     Role.find(1).add_permission! :manage_related_issues
     @request.session[:user_id] = 2
