@@ -25,7 +25,7 @@ class TrackerTest < ActiveSupport::TestCase
   end
 
   def test_named_scope
-    assert_equal Tracker.find_by_name('Feature'), Tracker.named('feature').first
+    assert_equal Tracker.find(2), Tracker.named('feature request').first
   end
 
   def test_visible_scope_chained_with_project_rolled_up_trackers

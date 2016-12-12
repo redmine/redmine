@@ -217,9 +217,12 @@ class Redmine::I18nTest < ActiveSupport::TestCase
                'Fr' => :fr,
                'zh' => :zh,
                'zh-tw' => :"zh-TW",
-               'zh-TW' => :"zh-TW",
-               'zh-ZZ' => nil }
+               'zh-TW' => :"zh-TW"}
     to_test.each {|lang, expected| assert_equal expected, find_language(lang)}
+  end
+
+  def test_find_language_with_invalid_language_should_return_nil
+    assert_nil find_language('zh-ZZ')
   end
 
   def test_fallback
