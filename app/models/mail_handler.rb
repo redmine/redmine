@@ -561,9 +561,18 @@ class MailHandler < ActionMailer::Base
 
   # Removes the email body of text after the truncation configurations.
   def cleanup_body(body)
-    delimiters = Setting.mail_handler_body_delimiters.to_s.split(/[\r\n]+/).reject(&:blank?).map {|s| Regexp.escape(s)}
+    delimiters = Setting.mail_handler_body_delimiters.to_s.split(/[\r\n]+/).reject(&:blank?)
+
+    if Setting.mail_handler_enable_regex_delimiters?
+      begin
+        delimiters = delimiters.map {|s| Regexp.new(s)}
+      rescue RegexpError => e
+        logger.error "MailHandler: invalid regexp delimiter found in mail_handler_body_delimiters setting (#{e.message})" if logger
+      end
+    end
+
     unless delimiters.empty?
-      regex = Regexp.new("^[> ]*(#{ delimiters.join('|') })\s*[\r\n].*", Regexp::MULTILINE)
+      regex = Regexp.new("^[> ]*(#{ Regexp.union(delimiters) })\s*[\r\n].*", Regexp::MULTILINE)
       body = body.gsub(regex, '')
     end
     body.strip

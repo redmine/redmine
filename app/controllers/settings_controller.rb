@@ -34,24 +34,29 @@ class SettingsController < ApplicationController
   def edit
     @notifiables = Redmine::Notifiable.all
     if request.post?
-      if Setting.set_all_from_params(params[:settings])
+      errors = Setting.set_all_from_params(params[:settings])
+      if errors.blank?
         flash[:notice] = l(:notice_successful_update)
+        redirect_to settings_path(:tab => params[:tab])
+        return
+      else
+        @setting_errors = errors
+        # render the edit form with error messages
       end
-      redirect_to settings_path(:tab => params[:tab])
-    else
-      @options = {}
-      user_format = User::USER_FORMATS.collect{|key, value| [key, value[:setting_order]]}.sort{|a, b| a[1] <=> b[1]}
-      @options[:user_format] = user_format.collect{|f| [User.current.name(f[0]), f[0].to_s]}
-      @deliveries = ActionMailer::Base.perform_deliveries
-
-      @guessed_host_and_path = request.host_with_port.dup
-      @guessed_host_and_path << ('/'+ Redmine::Utils.relative_url_root.gsub(%r{^\/}, '')) unless Redmine::Utils.relative_url_root.blank?
-
-      @commit_update_keywords = Setting.commit_update_keywords.dup
-      @commit_update_keywords = [{}] unless @commit_update_keywords.is_a?(Array) && @commit_update_keywords.any?
-
-      Redmine::Themes.rescan
     end
+
+    @options = {}
+    user_format = User::USER_FORMATS.collect{|key, value| [key, value[:setting_order]]}.sort{|a, b| a[1] <=> b[1]}
+    @options[:user_format] = user_format.collect{|f| [User.current.name(f[0]), f[0].to_s]}
+    @deliveries = ActionMailer::Base.perform_deliveries
+
+    @guessed_host_and_path = request.host_with_port.dup
+    @guessed_host_and_path << ('/'+ Redmine::Utils.relative_url_root.gsub(%r{^\/}, '')) unless Redmine::Utils.relative_url_root.blank?
+
+    @commit_update_keywords = Setting.commit_update_keywords.dup
+    @commit_update_keywords = [{}] unless @commit_update_keywords.is_a?(Array) && @commit_update_keywords.any?
+
+    Redmine::Themes.rescan
   end
 
   def plugin

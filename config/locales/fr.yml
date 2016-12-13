@@ -150,6 +150,7 @@ fr:
         circular_dependency: "Cette relation créerait une dépendance circulaire"
         cant_link_an_issue_with_a_descendant: "Une demande ne peut pas être liée à l'une de ses sous-tâches"
         earlier_than_minimum_start_date: "ne peut pas être antérieure au %{date} à cause des demandes qui précèdent"
+        not_a_regexp: "n'est pas une expression regulière valide"
 
   actionview_instancetag_blank_option: Choisir
 
@@ -415,6 +416,7 @@ fr:
   setting_display_subprojects_issues: Afficher par défaut les demandes des sous-projets sur les projets principaux
   setting_enabled_scm: SCM activés
   setting_mail_handler_body_delimiters: "Tronquer les emails après l'une de ces lignes"
+  setting_mail_handler_enable_regex_delimiters: "Utiliser les expressions regulières"
   setting_mail_handler_api_enabled: "Activer le WS pour la réception d'emails"
   setting_mail_handler_api_key: Clé de protection de l'API
   setting_sequential_project_identifiers: Générer des identifiants de projet séquentiels

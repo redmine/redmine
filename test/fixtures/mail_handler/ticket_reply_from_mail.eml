@@ -1,0 +1,35 @@
+Return-Path: <jsmith@somenet.foo>
+Received: from osiris ([127.0.0.1])
+	by OSIRIS
+	with hMailServer; Wed, 12 Oct 2016 03:05:50 -0700
+Message-ID: <000501c8d452$a95cd7e0$0a00a8c0@osiris>
+From: "John Smith" <JSmith@somenet.foo>
+To: <redmine@somenet.foo>
+Subject: New ticket on a given project
+Date: Wed, 12 Oct 2016 13:05:38 +0300
+MIME-Version: 1.0
+Content-Type: text/plain;
+	format=flowed;
+	charset="iso-8859-1";
+	reply-type=original
+Content-Transfer-Encoding: 7bit
+X-Priority: 3
+X-MSMail-Priority: Normal
+X-Mailer: Microsoft Outlook Express 6.00.2900.2869
+X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2900.2869
+
+Project: onlinestore
+Status: Resolved
+due date: 2010-12-31
+Start Date:2010-01-01
+Assigned to: John Smith
+fixed version: alpha
+estimated hours: 2.5
+remaining hours: 1
+done ratio: 30
+
+This paragraph is before delimiter
+
+On Wed, 11 Oct at 1:05 PM, Jon Smith <jsmith@somenet.foo<mailto:jsmith@somenet.foo>> wrote:
+
+This paragraph is after the delimiter

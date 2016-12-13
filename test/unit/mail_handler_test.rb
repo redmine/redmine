@@ -977,6 +977,25 @@ class MailHandlerTest < ActiveSupport::TestCase
     end
   end
 
+  test "truncate emails using a regex delimiter" do
+    delimiter = "On .*, .* at .*, .* <.*<mailto:.*>> wrote:"
+    with_settings :mail_handler_enable_regex_delimiters => '1', :mail_handler_body_delimiters => delimiter do
+      issue = submit_email('ticket_reply_from_mail.eml')
+      assert_issue_created(issue)
+      assert issue.description.include?('This paragraph is before delimiter')
+      assert !issue.description.include?('On Wed, 11 Oct at 1:05 PM, Jon Smith <jsmith@somenet.foo<mailto:jsmith@somenet.foo>> wrote:')
+      assert !issue.description.include?('This paragraph is after the delimiter')
+    end
+
+    with_settings :mail_handler_enable_regex_delimiters => '0', :mail_handler_body_delimiters => delimiter do
+      issue = submit_email('ticket_reply_from_mail.eml')
+      assert_issue_created(issue)
+      assert issue.description.include?('This paragraph is before delimiter')
+      assert issue.description.include?('On Wed, 11 Oct at 1:05 PM, Jon Smith <jsmith@somenet.foo<mailto:jsmith@somenet.foo>> wrote:')
+      assert issue.description.include?('This paragraph is after the delimiter')
+    end
+  end
+
   def test_attachments_that_match_mail_handler_excluded_filenames_should_be_ignored
     with_settings :mail_handler_excluded_filenames => '*.vcf, *.jpg' do
       issue = submit_email('ticket_with_attachment.eml', :issue => {:project => 'onlinestore'})

@@ -120,8 +120,12 @@ class Setting < ActiveRecord::Base
 
 	# Updates multiple settings from params and sends a security notification if needed
   def self.set_all_from_params(settings)
-    return false unless settings.is_a?(Hash)
+    return nil unless settings.is_a?(Hash)
     settings = settings.dup.symbolize_keys
+
+    errors = validate_all_from_params(settings)
+    return errors if errors.present?
+
     changes = []
     settings.each do |name, value|
       next unless available_settings[name.to_s]
@@ -134,7 +138,29 @@ class Setting < ActiveRecord::Base
     if changes.any?
       Mailer.security_settings_updated(changes)
     end
-    true
+    nil
+  end
+
+  def self.validate_all_from_params(settings)
+    messages = []
+
+    if settings.key?(:mail_handler_body_delimiters) || settings.key?(:mail_handler_enable_regex_delimiters)
+      regexp = Setting.mail_handler_enable_regex_delimiters?
+      if settings.key?(:mail_handler_enable_regex_delimiters)
+        regexp = settings[:mail_handler_enable_regex_delimiters].to_s != '0'
+      end
+      if regexp
+        settings[:mail_handler_body_delimiters].to_s.split(/[\r\n]+/).each do |delimiter|
+          begin
+            Regexp.new(delimiter)
+          rescue RegexpError => e
+            messages << [:mail_handler_body_delimiters, "#{l('activerecord.errors.messages.not_a_regexp')} (#{e.message})"]
+          end
+        end
+      end
+    end
+
+    messages
   end
 
   # Sets a setting value from params
