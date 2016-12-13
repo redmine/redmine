@@ -18,7 +18,7 @@
       <td><%= checked_image custom_field.is_required? %></td>
       <% if tab[:name] == 'IssueCustomField' %>
       <td><%= checked_image custom_field.is_for_all? %></td>
-      <td><%= l(:label_x_projects, :count => @custom_fields_projects_count[custom_field.id]) if custom_field.is_a? IssueCustomField and !custom_field.is_for_all? %></td>
+      <td><%= l(:label_x_projects, :count => @custom_fields_projects_count[custom_field.id] || 0) if custom_field.is_a? IssueCustomField and !custom_field.is_for_all? %></td>
       <% end %>
       <td class="buttons">
         <%= reorder_handle(custom_field, :url => custom_field_path(custom_field), :param => 'custom_field') %>
