@@ -28,6 +28,8 @@ class CustomFieldsController < ApplicationController
     respond_to do |format|
       format.html {
         @custom_fields_by_type = CustomField.all.group_by {|f| f.class.name }
+        @custom_fields_projects_count =
+          IssueCustomField.where(is_for_all: false).joins(:projects).group(:custom_field_id).count
       }
       format.api {
         @custom_fields = CustomField.all
