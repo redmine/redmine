@@ -140,6 +140,7 @@ es-PA:
         circular_dependency: "Esta relación podría crear una dependencia circular"
         cant_link_an_issue_with_a_descendant: "Esta incidencia no puede ser ligada a una de estas tareas"
         earlier_than_minimum_start_date: "cannot be earlier than %{date} because of preceding issues"
+        not_a_regexp: "is not a valid regular expression"
 
         # Append your own errors here or at the model/attributes scope.
 

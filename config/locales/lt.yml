@@ -134,6 +134,7 @@ lt:
         circular_dependency: "Šis ryšys sukurtų ciklinę priklausomybę"
         cant_link_an_issue_with_a_descendant: "Darbas negali būti susietas su viena iš savo darbo dalių"
         earlier_than_minimum_start_date: "negali būti anksčiau už %{date} dėl ankstesnių darbų"
+        not_a_regexp: "is not a valid regular expression"
 
   actionview_instancetag_blank_option: Prašom parinkti
 

@@ -139,6 +139,7 @@ pt:
         circular_dependency: "Esta relação iria criar uma dependência circular"
         cant_link_an_issue_with_a_descendant: "Não é possível ligar uma tarefa a uma sub-tarefa que lhe é pertencente"
         earlier_than_minimum_start_date: "não pode ser antes de %{date} devido a tarefas precedentes"
+        not_a_regexp: "is not a valid regular expression"
 
   
   actionview_instancetag_blank_option: Selecione

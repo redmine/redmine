@@ -134,6 +134,7 @@ ca:
         circular_dependency: "Aquesta relació crearia una dependència circular"
         cant_link_an_issue_with_a_descendant: "Un assumpte no es pot enllaçar a una de les seves subtasques"
         earlier_than_minimum_start_date: "no pot ser anterior a %{date} derivat a les peticions precedents"
+        not_a_regexp: "is not a valid regular expression"
 
   actionview_instancetag_blank_option: "Seleccionar"
 

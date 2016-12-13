@@ -177,6 +177,7 @@ ko:
         circular_dependency: "이 관계는 순환 의존관계를 만들 수 있습니다"
         cant_link_an_issue_with_a_descendant: "일감은 하위 일감과 연결할 수 없습니다."
         earlier_than_minimum_start_date: "시작날짜 %{date}보다 앞선 시간으로 설정할 수 없습니다."
+        not_a_regexp: "is not a valid regular expression"
 
   actionview_instancetag_blank_option: 선택하세요
 

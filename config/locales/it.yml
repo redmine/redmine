@@ -135,6 +135,7 @@ it:
         circular_dependency: "Questa relazione creerebbe una dipendenza circolare"
         cant_link_an_issue_with_a_descendant: "Una segnalazione non può essere collegata a una delle sue discendenti"
         earlier_than_minimum_start_date: "non può essere precedente a %{date} a causa di una precedente segnalazione"
+        not_a_regexp: "is not a valid regular expression"
 
   actionview_instancetag_blank_option: Scegli
 

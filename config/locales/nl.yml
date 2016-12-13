@@ -128,6 +128,7 @@ nl:
         circular_dependency: "Deze relatie zou een circulaire afhankelijkheid tot gevolg hebben"
         cant_link_an_issue_with_a_descendant: "Een issue kan niet gelinked worden met een subtask"
         earlier_than_minimum_start_date: "kan niet eerder zijn dan %{date} wegens voorafgaande issues"
+        not_a_regexp: "is not a valid regular expression"
 
   actionview_instancetag_blank_option: Selecteren
 

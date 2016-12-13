@@ -129,6 +129,7 @@ ar:
         circular_dependency: "هذه العلاقة سوف تخلق علاقة تبعية دائرية"
         cant_link_an_issue_with_a_descendant: "لا يمكن ان تكون المشكلة مرتبطة بواحدة من المهام الفرعية"
         earlier_than_minimum_start_date: "cannot be earlier than %{date} because of preceding issues"
+        not_a_regexp: "is not a valid regular expression"
 
   actionview_instancetag_blank_option: الرجاء التحديد
 

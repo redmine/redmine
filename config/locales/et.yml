@@ -147,6 +147,7 @@ et:
         circular_dependency: "See suhe looks vastastikuse sõltuvuse"
         cant_link_an_issue_with_a_descendant: "Teemat ei saa sidustada tema enda alamteemaga"
         earlier_than_minimum_start_date: "Tähtpäev ei saa olla varasem kui %{date} eelnevate teemade tähtpäevade tõttu"
+        not_a_regexp: "is not a valid regular expression"
 
   actionview_instancetag_blank_option: "Palun vali"
 

@@ -207,6 +207,7 @@ ru:
         circular_dependency: "Такая связь приведет к циклической зависимости"
         cant_link_an_issue_with_a_descendant: "Задача не может быть связана со своей подзадачей"
         earlier_than_minimum_start_date: "не может быть раньше %{date} из-за предыдущих задач"
+        not_a_regexp: "is not a valid regular expression"
 
   support:
     array:
