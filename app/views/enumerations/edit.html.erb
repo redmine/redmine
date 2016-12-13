@@ -1,6 +1,6 @@
 <%= title [l(@enumeration.option_name), enumerations_path], @enumeration.name %>
 
-<%= labelled_form_for :enumeration, @enumeration, :url => enumeration_path(@enumeration), :html => {:method => :put} do |f| %>
+<%= labelled_form_for :enumeration, @enumeration, :url => enumeration_path(@enumeration), :html => {:method => :put, :multipart => true} do |f| %>
   <%= render :partial => 'form', :locals => {:f => f} %>
   <%= submit_tag l(:button_save) %>
 <% end %>

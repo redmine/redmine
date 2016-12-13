@@ -1,6 +1,6 @@
 <%= title [l(:label_user_plural), users_path], l(:label_user_new) %>
 
-<%= labelled_form_for @user do |f| %>
+<%= labelled_form_for @user, :html => {:multipart => true} do |f| %>
   <%= render :partial => 'form', :locals => { :f => f } %>
   <% if email_delivery_enabled? %>
   <p><label><%= check_box_tag 'send_information', 1, true %> <%= l(:label_send_information) %></label></p>
