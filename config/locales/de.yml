@@ -1218,3 +1218,4 @@ de:
   label_font_monospace: Monospaced font
   label_font_proportional: Proportional font
   setting_commit_logs_formatting: Apply text formatting to commit messages
+  setting_mail_handler_enable_regex_delimiters: Enable regular expressions
