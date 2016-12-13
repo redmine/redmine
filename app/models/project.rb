@@ -350,6 +350,10 @@ class Project < ActiveRecord::Base
     self.status == STATUS_ACTIVE
   end
 
+  def closed?
+    self.status == STATUS_CLOSED
+  end
+
   def archived?
     self.status == STATUS_ARCHIVED
   end
@@ -377,8 +381,12 @@ class Project < ActiveRecord::Base
   # Unarchives the project
   # All its ancestors must be active
   def unarchive
-    return false if ancestors.detect {|a| !a.active?}
-    update_attribute :status, STATUS_ACTIVE
+    return false if ancestors.detect {|a| a.archived?}
+    new_status = STATUS_ACTIVE
+    if parent
+      new_status = parent.status
+    end
+    update_attribute :status, new_status
   end
 
   def close
