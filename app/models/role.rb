@@ -219,7 +219,7 @@ class Role < ActiveRecord::Base
   end
 
   # Returns true if tracker_id belongs to the list of
-  # trackers for which permission is given 
+  # trackers for which permission is given
   def permissions_tracker_ids?(permission, tracker_id)
     permissions_tracker_ids(permission).include?(tracker_id)
   end
