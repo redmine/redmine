@@ -91,7 +91,7 @@ class IssueRelation < ActiveRecord::Base
         self.issue_to = Issue.visible(user).find_by_id(issue_id)
       end
     end
-    
+
     super(attrs)
   end
 
