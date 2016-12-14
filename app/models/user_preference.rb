@@ -94,7 +94,7 @@ class UserPreference < ActiveRecord::Base
   def my_page_settings(block=nil)
     s = self[:my_page_settings] ||= {}
     if block
-      s[block] ||= {} 
+      s[block] ||= {}
     else
       s
     end
