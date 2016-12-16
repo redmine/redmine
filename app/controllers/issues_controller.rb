@@ -343,21 +343,23 @@ class IssuesController < ApplicationController
 
   def destroy
     raise Unauthorized unless @issues.all?(&:deletable?)
-    @hours = TimeEntry.where(:issue_id => @issues.map(&:id)).sum(:hours).to_f
+    issues_and_descendants_time_entries = TimeEntry.where([
+      'issue_id IN (?)', @issues.collect(&:self_and_descendants).flatten
+    ])
+    @hours = issues_and_descendants_time_entries.sum(:hours).to_f
     if @hours > 0
       case params[:todo]
       when 'destroy'
         # nothing to do
       when 'nullify'
-        TimeEntry.where(['issue_id IN (?)', @issues]).update_all('issue_id = NULL')
+        issues_and_descendants_time_entries.update_all('issue_id = NULL')
       when 'reassign'
         reassign_to = @project.issues.find_by_id(params[:reassign_to_id])
         if reassign_to.nil?
           flash.now[:error] = l(:error_issue_not_found_in_project)
           return
         else
-          TimeEntry.where(['issue_id IN (?)', @issues]).
-            update_all("issue_id = #{reassign_to.id}")
+          issues_and_descendants_time_entries.update_all("issue_id = #{reassign_to.id}")
         end
       else
         # display the destroy form if it's a user request
