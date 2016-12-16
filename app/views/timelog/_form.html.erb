@@ -38,10 +38,37 @@
     });
   });
 
-  observeAutocompleteField('time_entry_issue_id', '<%= escape_javascript auto_complete_issues_path(:project_id => @project, :scope => (@project ? nil : 'all'))%>', {
-    select: function(event, ui) {
-      $('#time_entry_issue').text('');
-      $('#time_entry_issue_id').val(ui.item.value).change();
+  observeAutocompleteField('time_entry_issue_id',
+    function(request, callback) {
+      var url = '<%= j auto_complete_issues_path %>';
+      var data = {
+        term: request.term
+      };
+      var project_id;
+      <% if @project %>
+        project_id = '<%= @project.id %>';
+      <% else %>
+        project_id = $('#time_entry_project_id').val();
+      <% end %>
+      if(project_id){
+        data['project_id'] = project_id;
+      } else {
+        data['scope'] = 'all';
+      }
+
+      $.get(url, data, null, 'json')
+        .done(function(data){
+          callback(data);
+        })
+        .fail(function(jqXHR, status, error){
+          callback([]);
+        });
+    },
+    {
+      select: function(event, ui) {
+        $('#time_entry_issue').text('');
+        $('#time_entry_issue_id').val(ui.item.value).change();
+      }
     }
-  });
+  );
 <% end %>
