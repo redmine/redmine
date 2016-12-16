@@ -6,13 +6,6 @@
 <li><%= link_to l(:field_summary), project_issues_report_path(@project) %></li>
 <% end %>
 
-<% if User.current.allowed_to?(:view_calendar, @project, :global => true) %>
-<li><%= link_to l(:label_calendar), _project_calendar_path(@project) %></li>
-<% end %>
-<% if User.current.allowed_to?(:view_gantt, @project, :global => true) %>
-<li><%= link_to l(:label_gantt), _project_gantt_path(@project) %></li>
-<% end %>
-
 <% if User.current.allowed_to?(:import_issues, @project, :global => true) %>
 <li><%= link_to l(:button_import), new_issues_import_path %></li>
 <% end %>
