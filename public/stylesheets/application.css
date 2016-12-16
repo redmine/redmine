@@ -1231,7 +1231,6 @@ div.wiki img {vertical-align:middle; max-width:100%;}
 .icon-lock, .icon-locked  { background-image: url(../images/locked.png); }
 .icon-unlock  { background-image: url(../images/unlock.png); }
 .icon-checked  { background-image: url(../images/toggle_check.png); }
-.icon-details  { background-image: url(../images/zoom_in.png); }
 .icon-report  { background-image: url(../images/report.png); }
 .icon-comment, .icon-comments  { background-image: url(../images/comment.png); }
 .icon-summary  { background-image: url(../images/lightning.png); }
