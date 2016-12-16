@@ -84,7 +84,7 @@ class AttachmentTest < ActiveSupport::TestCase
   def test_shorted_filename_if_too_long
     file = uploaded_test_file("testfile.txt", "text/plain")
     file.instance_variable_set('@original_filename', "#{'a'*251}.txt")
-    assert 255, file.original_filename.length
+    assert_equal 255, file.original_filename.length
 
     a = Attachment.new(:container => Issue.find(1),
                        :file => file,
