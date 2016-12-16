@@ -83,7 +83,6 @@ class AttachmentTest < ActiveSupport::TestCase
 
   def test_shorted_filename_if_too_long
     file = mock_file_with_options(:original_filename => "#{'a'*251}.txt")
-    assert_equal 255, file.original_filename.length
 
     a = Attachment.new(:container => Issue.find(1),
                        :file => file,
