@@ -18,7 +18,7 @@
 class ProjectsController < ApplicationController
   menu_item :overview
   menu_item :settings, :only => :settings
-  menu_item :projects, :only => [:index, :new,  :create]
+  menu_item :projects, :only => [:index, :new, :copy, :create]
 
   before_action :find_project, :except => [ :index, :list, :new, :create, :copy ]
   before_action :authorize, :except => [ :index, :list, :new, :create, :copy, :archive, :unarchive, :destroy]

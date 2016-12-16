@@ -18,6 +18,7 @@
 require 'csv'
 
 class ImportsController < ApplicationController
+  menu_item :issues
 
   before_action :find_import, :only => [:show, :settings, :mapping, :run]
   before_action :authorize_global
