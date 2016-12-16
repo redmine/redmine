@@ -59,6 +59,25 @@ class WorkflowsControllerTest < Redmine::ControllerTest
     assert_select 'input[type=checkbox][name=?]', 'transitions[1][1][always]', 0
   end
 
+  def test_get_edit_with_role_and_tracker_should_not_include_statuses_from_roles_without_workflow_permissions
+    WorkflowTransition.delete_all
+    WorkflowTransition.create!(:role_id => 1, :tracker_id => 1, :old_status_id => 2, :new_status_id => 3)
+
+    reporter = Role.find(3)
+    reporter.remove_permission! :edit_issues
+    reporter.remove_permission! :add_issues
+    assert !reporter.consider_workflow?
+    WorkflowTransition.create!(:role_id => 3, :tracker_id => 1, :old_status_id => 1, :new_status_id => 5)
+
+    get :edit, :params => {:role_id => 2, :tracker_id => 1}
+    assert_response :success
+
+    # statuses 1 and 5 not displayed
+    statuses = IssueStatus.where(:id => [2, 3]).sorted.pluck(:name)
+    assert_equal ["New issue"] + statuses,
+      css_select('table.workflows.transitions-always tbody tr td:first').map(&:text).map(&:strip)
+  end
+
   def test_get_edit_should_include_allowed_statuses_for_new_issues
     WorkflowTransition.delete_all
     WorkflowTransition.create!(:role_id => 1, :tracker_id => 1, :old_status_id => 0, :new_status_id => 1)
