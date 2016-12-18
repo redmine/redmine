@@ -1471,6 +1471,7 @@ class Issue < ActiveRecord::Base
       # Change project and keep project
       child.send :project=, project, true
       unless child.save
+        errors.add :base, l(:error_move_of_child_not_possible, :child => "##{child.id}", :errors => child.errors.full_messages.join(", "))
         raise ActiveRecord::Rollback
       end
     end

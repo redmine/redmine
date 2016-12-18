@@ -236,6 +236,7 @@ fr:
   error_ldap_bind_credentials: "Identifiant ou mot de passe LDAP incorrect"
   error_no_tracker_allowed_for_new_issue_in_project: "Le projet ne dispose d'aucun tracker sur lequel vous pouvez créer une demande"
   error_no_projects_with_tracker_allowed_for_new_issue: "Aucun projet ne dispose d'un tracker sur lequel vous pouvez créer une demande"
+  error_move_of_child_not_possible: "La sous-tâche %{child} n'a pas pu être déplacée dans le nouveau projet : %{errors}"
 
   mail_subject_lost_password: "Votre mot de passe %{value}"
   mail_body_lost_password: 'Pour changer votre mot de passe, cliquez sur le lien suivant :'

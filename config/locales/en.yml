@@ -216,6 +216,7 @@ en:
   error_ldap_bind_credentials: "Invalid LDAP Account/Password"
   error_no_tracker_allowed_for_new_issue_in_project: "The project doesn't have any trackers for which you can create an issue"
   error_no_projects_with_tracker_allowed_for_new_issue: "There are no projects with trackers for which you can create an issue"
+  error_move_of_child_not_possible: "Subtask %{child} could not be moved to the new project: %{errors}"
 
   mail_subject_lost_password: "Your %{value} password"
   mail_body_lost_password: 'To change your password, click on the following link:'

@@ -1709,6 +1709,18 @@ class IssueTest < ActiveSupport::TestCase
     assert_equal 3, issue.tracker_id
   end
 
+  def test_move_to_another_project_should_set_error_message_on_child_failure
+    parent = Issue.generate!
+    child = Issue.generate!(:parent_issue_id => parent.id, :tracker_id => 2)
+    project = Project.generate!(:tracker_ids => [1])
+
+    parent.reload
+    parent.project_id = project.id
+    assert !parent.save
+    assert_include "Subtask ##{child.id} could not be moved to the new project: Tracker is not included in the list",
+      parent.errors[:base]
+  end
+
   def test_copy_to_the_same_project
     issue = Issue.find(1)
     copy = issue.copy
