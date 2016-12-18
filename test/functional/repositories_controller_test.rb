@@ -173,7 +173,7 @@ class RepositoriesControllerTest < Redmine::ControllerTest
     with_settings :commit_logs_formatting => '0' do
       get :revision, :id => 1, :rev => 1
       assert_response :success
-      assert_select '.changset-comments', :text => 'Simple *text*'
+      assert_select '.changeset-comments', :text => 'Simple *text*'
     end
   end
 
