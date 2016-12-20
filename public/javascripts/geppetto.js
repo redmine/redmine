@@ -124,55 +124,31 @@ function addSampleProjects(target){
 }
 
 function showSampleProject(url){
-	var ifr=$('<iframe/>', {
-        id:'geppettoSampleProject',
-        src:url,
-        style:'display:none;border:0px;width:100%;height:100%',
-        
-        load:function(){
-            $(this).show();
-            $("#wrap").hide();
-            $("footer").hide();
-            history.replaceState(null, document.title, location.pathname+"#!/sampleProject");
-            history.pushState(null, document.title, location.pathname);
+    var ifr=$('<iframe/>', {id:'geppettoSampleProject', src:url})
+        .on("load",
+            function(){
+                $(this).show();
+                $("#wrap").hide();
+                $("footer").hide();
+                history.replaceState(null, document.title, location.pathname+"#!/sampleProject");
+                history.pushState(null, document.title, location.pathname);
 
-            window.addEventListener("popstate", function() {
-              if(location.hash === "#!/sampleProject") {
-            	history.replaceState(null, document.title, location.pathname);
-            	location.replace("/");
-              }
-            }, false);
-            
-            window.addEventListener('message', function(e){
-            	if (e.data.command == 'ready') {
+                window.addEventListener("popstate", function() {
+                    if(location.hash === "#!/sampleProject") {
+            	        history.replaceState(null, document.title, location.pathname);
+            	        location.replace("/");
+                    }
+                }, false);
+                
+                window.addEventListener('message', function(e){
+            	    if (e.data.command == 'ready') {
             		document.getElementById("geppettoSampleProject").contentWindow.postMessage({"command": "$('.HomeButton').hide()"}, $("#geppettoIP").val());
-            	}
-            }, false);
-            
-        },
-        
-
-    });
+            	    }
+                }, false);
+                
+            });
     $('#geppettoHomeContainer').append(ifr);
     $('#geppettoHomeContainer').show();
-}
-
-
-function addDashboardFromMainPage(){
-	var ifr=$('<iframe/>', {
-        id:'geppettoDashboard',
-        src:geppettoIP + geppettoContextPath,
-        style:'display:none;width:90%;height:700px;border:0px;margin-bottom: 120px;margin-left: 5%;',
-        
-        load:function(){
-            $(this).show();
-            $('#learnMoreContainer').on("click", function() {
-            	$("html, body").animate({ scrollTop: $(document).height()-$(window).height() - 100 }, 1000);
-		        return false;
-		    });
-        }
-    });
-    $('#learnMoreContainer').after(ifr);
 }
 
 // Process logout
