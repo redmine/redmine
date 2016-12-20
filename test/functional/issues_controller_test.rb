@@ -4535,7 +4535,11 @@ class IssuesControllerTest < ActionController::TestCase
       assert_equal orig.project_id, copy.project_id
       assert_equal orig.tracker_id, copy.tracker_id
       assert_equal orig.status_id, copy.status_id
-      assert_equal orig.assigned_to_id, copy.assigned_to_id
+      if orig.assigned_to_id
+        assert_equal orig.assigned_to_id, copy.assigned_to_id
+      else
+        assert_nil copy.assigned_to_id
+      end
       assert_equal orig.priority_id, copy.priority_id
     end
   end

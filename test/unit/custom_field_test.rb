@@ -321,8 +321,8 @@ class CustomFieldTest < ActiveSupport::TestCase
 
   def test_float_cast_blank_value_should_return_nil
     field = CustomField.new(:field_format => 'float')
-    assert_equal nil, field.cast_value(nil)
-    assert_equal nil, field.cast_value('')
+    assert_nil field.cast_value(nil)
+    assert_nil field.cast_value('')
   end
 
   def test_float_cast_valid_value_should_return_float

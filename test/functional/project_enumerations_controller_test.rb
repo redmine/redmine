@@ -83,7 +83,7 @@ class ProjectEnumerationsControllerTest < ActionController::TestCase
     assert_equal "1", previously_inactive.custom_value_for(billable_field).value
 
     # ... QA
-    assert_equal nil, project.time_entry_activities.find_by_name("QA"), "Custom QA activity created when it wasn't modified"
+    assert_nil project.time_entry_activities.find_by_name("QA"), "Custom QA activity created when it wasn't modified"
   end
 
   def test_update_will_update_project_specific_activities

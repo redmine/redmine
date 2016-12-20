@@ -130,7 +130,7 @@ class GroupTest < ActiveSupport::TestCase
     assert group.destroy
     assert group.destroyed?
 
-    assert_equal nil, Issue.find(1).assigned_to_id
+    assert_nil Issue.find(1).assigned_to_id
   end
 
   def test_builtin_groups_should_be_created_if_missing

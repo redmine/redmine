@@ -566,7 +566,7 @@ class ChangesetTest < ActiveSupport::TestCase
                       :committer    => nil)
     assert( c.save )
     assert_equal "", c.comments
-    assert_equal nil, c.committer
+    assert_nil c.committer
     assert_equal "UTF-8", c.comments.encoding.to_s
   end
 

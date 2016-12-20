@@ -107,7 +107,7 @@ class WikiPageTest < ActiveSupport::TestCase
 
     child.wiki_id = 2
     child.save!
-    assert_equal nil, child.reload.parent_id
+    assert_nil child.reload.parent_id
   end
 
   def test_move_parent_should_move_child_page
