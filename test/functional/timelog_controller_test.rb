@@ -579,6 +579,15 @@ class TimelogControllerTest < ActionController::TestCase
     assert_not_nil TimeEntry.find_by_id(1)
   end
 
+  def test_destroy_should_redirect_to_referer
+    referer = 'http://test.host/time_entries?utf8=✓&set_filter=1&&f%5B%5D=user_id&op%5Buser_id%5D=%3D&v%5Buser_id%5D%5B%5D=me'
+    @request.env["HTTP_REFERER"] = referer
+    @request.session[:user_id] = 2
+
+    delete :destroy, :params => {:id => 1}
+    assert_redirected_to referer
+  end
+
   def test_index_all_projects
     get :index
     assert_response :success
