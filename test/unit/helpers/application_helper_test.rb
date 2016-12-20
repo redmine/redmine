@@ -1019,7 +1019,7 @@ EXPECTED
     assert_equal 'test1/test2', to_path_param('test1/test2')
     assert_equal 'test1/test2', to_path_param('/test1/test2/')
     assert_equal 'test1/test2', to_path_param('//test1/test2/')
-    assert_equal nil, to_path_param('/')
+    assert_nil to_path_param('/')
   end
 
   def test_wiki_links_in_tables

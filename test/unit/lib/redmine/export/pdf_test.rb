@@ -94,9 +94,9 @@ class PdfTest < ActiveSupport::TestCase
       assert a2.readable?
       assert (! a2.visible?)
       aa1 = Redmine::Export::PDF::RDMPdfEncoding::attach(Attachment.all, "Testfile.PNG", "UTF-8")
-      assert_equal nil, aa1
+      assert_nil aa1
       aa2 = Redmine::Export::PDF::RDMPdfEncoding::attach(Attachment.all, "test#{str2}.png", encoding)
-      assert_equal nil, aa2
+      assert_nil aa2
 
       set_tmp_attachments_directory
     end

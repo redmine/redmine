@@ -44,8 +44,8 @@ class CustomFieldVersionFormatTest < ActiveSupport::TestCase
   end
 
   def test_cast_blank_value
-    assert_equal nil, @field.cast_value(nil)
-    assert_equal nil, @field.cast_value("")
+    assert_nil @field.cast_value(nil)
+    assert_nil @field.cast_value("")
   end
 
   def test_cast_valid_value
@@ -55,6 +55,6 @@ class CustomFieldVersionFormatTest < ActiveSupport::TestCase
   end
 
   def test_cast_invalid_value
-    assert_equal nil, @field.cast_value("187")
+    assert_nil @field.cast_value("187")
   end
 end

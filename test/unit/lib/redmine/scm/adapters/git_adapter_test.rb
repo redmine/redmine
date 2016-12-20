@@ -336,7 +336,7 @@ class GitAdapterTest < ActiveSupport::TestCase
       assert_equal 15, revs1.length
       assert_equal "7234cb2750b63f47bff735edc50a1c0a433c2518",
                    revs1[0].identifier
-      assert_equal nil, revs1[0].parents
+      assert_nil revs1[0].parents
       assert_equal "899a15dba03a3b350b89c3f537e4bbe02a03cdc9",
                    revs1[1].identifier
       assert_equal 1, revs1[1].parents.length
@@ -477,8 +477,8 @@ class GitAdapterTest < ActiveSupport::TestCase
       assert entries1
       assert_equal 3, entries1.size
       f1 = entries1[1]
-      assert_equal nil, f1.name
-      assert_equal nil, f1.path
+      assert_nil f1.name
+      assert_nil f1.path
       assert_equal 'file', f1.kind
     end
 

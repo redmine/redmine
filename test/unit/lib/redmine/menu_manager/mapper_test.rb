@@ -156,7 +156,7 @@ class Redmine::MenuManager::MapperTest < ActiveSupport::TestCase
     menu_mapper.push :test_overview, { :controller => 'projects', :action => 'show'}, {}
 
     item = menu_mapper.find(:nothing)
-    assert_equal nil, item
+    assert_nil item
   end
 
   def test_delete

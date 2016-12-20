@@ -51,7 +51,7 @@ class Redmine::CodesetUtilTest < ActiveSupport::TestCase
 
   def test_to_utf8_by_setting_blank_string
     assert_equal "",  Redmine::CodesetUtil.to_utf8_by_setting("")
-    assert_equal nil, Redmine::CodesetUtil.to_utf8_by_setting(nil)
+    assert_nil Redmine::CodesetUtil.to_utf8_by_setting(nil)
   end
 
   def test_to_utf8_by_setting_returns_ascii_as_utf8
