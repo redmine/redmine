@@ -205,6 +205,18 @@ class ProjectTest < ActiveSupport::TestCase
     assert @ecookbook_sub1.unarchive
   end
 
+  def test_unarchive_a_child_of_a_closed_project_should_set_status_to_closed
+    Project.find(1).close
+    child = Project.find(3)
+    assert_equal Project::STATUS_CLOSED, child.status
+
+    child.archive
+    assert_equal Project::STATUS_ARCHIVED, child.status
+
+    child.unarchive
+    assert_equal Project::STATUS_CLOSED, child.status
+  end
+
   def test_destroy
     # 2 active members
     assert_equal 2, @ecookbook.members.size
