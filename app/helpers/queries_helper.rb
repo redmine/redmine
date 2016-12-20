@@ -43,7 +43,7 @@ module QueriesHelper
       end
     end
     # Don't group dates if there's only one (eg. time entries filters)
-    if grouped[:label_date].try(:size) == 1 
+    if grouped[:label_date].try(:size) == 1
       ungrouped << grouped.delete(:label_date).first
     end
     s = options_for_select([[]] + ungrouped)
@@ -164,31 +164,31 @@ module QueriesHelper
                       content_tag('th', h(column.caption))
   end
 
-  def column_content(column, issue)
-    value = column.value_object(issue)
+  def column_content(column, item)
+    value = column.value_object(item)
     if value.is_a?(Array)
-      value.collect {|v| column_value(column, issue, v)}.compact.join(', ').html_safe
+      value.collect {|v| column_value(column, item, v)}.compact.join(', ').html_safe
     else
-      column_value(column, issue, value)
+      column_value(column, item, value)
     end
   end
-  
-  def column_value(column, issue, value)
+
+  def column_value(column, item, value)
     case column.name
     when :id
-      link_to value, issue_path(issue)
+      link_to value, issue_path(item)
     when :subject
-      link_to value, issue_path(issue)
+      link_to value, issue_path(item)
     when :parent
       value ? (value.visible? ? link_to_issue(value, :subject => false) : "##{value.id}") : ''
     when :description
-      issue.description? ? content_tag('div', textilizable(issue, :description), :class => "wiki") : ''
+      item.description? ? content_tag('div', textilizable(item, :description), :class => "wiki") : ''
     when :done_ratio
       progress_bar(value)
     when :relations
       content_tag('span',
-        value.to_s(issue) {|other| link_to_issue(other, :subject => false, :tracker => false)}.html_safe,
-        :class => value.css_classes_for(issue))
+        value.to_s(item) {|other| link_to_issue(other, :subject => false, :tracker => false)}.html_safe,
+        :class => value.css_classes_for(item))
     when :hours, :spent_hours, :total_spent_hours, :estimated_hours
       format_hours(value)
     else
@@ -196,12 +196,12 @@ module QueriesHelper
     end
   end
 
-  def csv_content(column, issue)
-    value = column.value_object(issue)
+  def csv_content(column, item)
+    value = column.value_object(item)
     if value.is_a?(Array)
-      value.collect {|v| csv_value(column, issue, v)}.compact.join(', ')
+      value.collect {|v| csv_value(column, item, v)}.compact.join(', ')
     else
-      csv_value(column, issue, value)
+      csv_value(column, item, value)
     end
   end
 
