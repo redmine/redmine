@@ -584,7 +584,7 @@ class TimelogControllerTest < ActionController::TestCase
     @request.env["HTTP_REFERER"] = referer
     @request.session[:user_id] = 2
 
-    delete :destroy, :params => {:id => 1}
+    delete :destroy, :id => 1
     assert_redirected_to referer
   end
 
