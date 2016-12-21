@@ -183,6 +183,16 @@ module Redmine
           end
         end
 
+        def rebuild_single_tree!(root_id)
+          root = Issue.where(:parent_id => nil).find(root_id)
+          transaction do
+            where(root_id: root_id).reorder(:id).lock.ids
+            where(root_id: root_id).update_all(:lft => nil, :rgt => nil)
+            where(root_id: root_id, parent_id: nil).update_all(["lft = ?, rgt = ?", 1, 2])
+            rebuild_nodes(root_id)
+          end
+        end
+
         private
 
         def rebuild_nodes(parent_id = nil)
