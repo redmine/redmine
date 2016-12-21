@@ -151,6 +151,7 @@ pt-BR:
         cant_link_an_issue_with_a_descendant: "Uma tarefa não pode ser relaciona a uma de suas subtarefas"
         earlier_than_minimum_start_date: "cannot be earlier than %{date} because of preceding issues"
         not_a_regexp: "is not a valid regular expression"
+        open_issue_with_closed_parent: "An open issue cannot be attached to a closed parent task"
 
   actionview_instancetag_blank_option: Selecione
 

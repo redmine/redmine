@@ -135,6 +135,7 @@ lt:
         cant_link_an_issue_with_a_descendant: "Darbas negali būti susietas su viena iš savo darbo dalių"
         earlier_than_minimum_start_date: "negali būti anksčiau už %{date} dėl ankstesnių darbų"
         not_a_regexp: "is not a valid regular expression"
+        open_issue_with_closed_parent: "An open issue cannot be attached to a closed parent task"
 
   actionview_instancetag_blank_option: Prašom parinkti
 

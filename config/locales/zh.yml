@@ -135,6 +135,7 @@ zh:
         cant_link_an_issue_with_a_descendant: "问题不能关联到它的子任务"
         earlier_than_minimum_start_date: "不能早于 %{date} 由于有前置问题"
         not_a_regexp: "is not a valid regular expression"
+        open_issue_with_closed_parent: "An open issue cannot be attached to a closed parent task"
 
   actionview_instancetag_blank_option: 请选择
 

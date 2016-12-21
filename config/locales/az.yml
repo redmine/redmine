@@ -198,6 +198,7 @@ az:
         cant_link_an_issue_with_a_descendant: "Tapşırıq özünün alt tapşırığı ilə əlaqəli ola bilməz"
         earlier_than_minimum_start_date: "cannot be earlier than %{date} because of preceding issues"
         not_a_regexp: "is not a valid regular expression"
+        open_issue_with_closed_parent: "An open issue cannot be attached to a closed parent task"
 
   support:
     array:

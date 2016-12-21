@@ -160,6 +160,7 @@ gl:
         cant_link_an_issue_with_a_descendant: "As peticións non poden estar ligadas coas súas subtarefas"
         earlier_than_minimum_start_date: "Non pode ser antes de %{date} por mor de peticións anteriores"
         not_a_regexp: "is not a valid regular expression"
+        open_issue_with_closed_parent: "An open issue cannot be attached to a closed parent task"
 
   actionview_instancetag_blank_option: Por favor seleccione
 

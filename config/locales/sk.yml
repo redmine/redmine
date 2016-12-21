@@ -130,6 +130,7 @@ sk:
         cant_link_an_issue_with_a_descendant: "Nemožno prepojiť úlohu s niektorou z podúloh"
         earlier_than_minimum_start_date: "nemôže byť skorší ako %{date} z dôvodu nadväznosti na predchádzajúce úlohy"
         not_a_regexp: "is not a valid regular expression"
+        open_issue_with_closed_parent: "An open issue cannot be attached to a closed parent task"
 
   actionview_instancetag_blank_option: Vyberte
 

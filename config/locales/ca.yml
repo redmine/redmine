@@ -135,6 +135,7 @@ ca:
         cant_link_an_issue_with_a_descendant: "Un assumpte no es pot enllaçar a una de les seves subtasques"
         earlier_than_minimum_start_date: "no pot ser anterior a %{date} derivat a les peticions precedents"
         not_a_regexp: "is not a valid regular expression"
+        open_issue_with_closed_parent: "An open issue cannot be attached to a closed parent task"
 
   actionview_instancetag_blank_option: "Seleccionar"
 

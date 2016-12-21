@@ -132,6 +132,7 @@ bg:
         cant_link_an_issue_with_a_descendant: "Една задача не може да бъде свързвана към своя подзадача"
         earlier_than_minimum_start_date: "не може да бъде по-рано от %{date} поради предхождащи задачи"
         not_a_regexp: "is not a valid regular expression"
+        open_issue_with_closed_parent: "An open issue cannot be attached to a closed parent task"
 
   actionview_instancetag_blank_option: Изберете
 

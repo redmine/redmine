@@ -188,6 +188,7 @@
         cant_link_an_issue_with_a_descendant: "議題無法被連結至自己的子任務"
         earlier_than_minimum_start_date: "不能早於 %{date} 因為有前置議題"
         not_a_regexp: "is not a valid regular expression"
+        open_issue_with_closed_parent: "An open issue cannot be attached to a closed parent task"
 
       # You can define own errors for models or model attributes.
       # The values :model, :attribute and :value are always available for interpolation.

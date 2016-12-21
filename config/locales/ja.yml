@@ -152,6 +152,7 @@ ja:
         cant_link_an_issue_with_a_descendant: "親子関係にあるチケット間での関連の設定はできません"
         earlier_than_minimum_start_date: "を%{date}より前にすることはできません。先行するチケットがあります"
         not_a_regexp: "is not a valid regular expression"
+        open_issue_with_closed_parent: "An open issue cannot be attached to a closed parent task"
 
   actionview_instancetag_blank_option: 選んでください
 

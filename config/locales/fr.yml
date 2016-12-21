@@ -151,6 +151,7 @@ fr:
         cant_link_an_issue_with_a_descendant: "Une demande ne peut pas être liée à l'une de ses sous-tâches"
         earlier_than_minimum_start_date: "ne peut pas être antérieure au %{date} à cause des demandes qui précèdent"
         not_a_regexp: "n'est pas une expression regulière valide"
+        open_issue_with_closed_parent: "Une demande ouverte ne peut pas être rattachée à une demande fermée"
 
   actionview_instancetag_blank_option: Choisir
 

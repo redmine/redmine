@@ -330,4 +330,13 @@ class IssueSubtaskingTest < ActiveSupport::TestCase
     parent.generate_child!(:estimated_hours => 7)
     assert_equal 12, parent.reload.total_estimated_hours
   end
+
+  def test_open_issue_with_closed_parent_should_not_validate
+    parent = Issue.generate!(:status_id => 5)
+    child = Issue.generate!
+
+    child.parent_issue_id = parent.id
+    assert !child.save
+    assert_include I18n.t("activerecord.errors.messages.open_issue_with_closed_parent"), child.errors.full_messages
+  end
 end
