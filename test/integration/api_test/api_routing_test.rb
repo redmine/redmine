@@ -34,6 +34,11 @@ class Redmine::ApiTest::ApiRoutingTest < Redmine::ApiTest::Routing
     should_route 'GET /enumerations/issue_priorities' => 'enumerations#index', :type => 'issue_priorities'
   end
 
+  def test_files
+    should_route 'GET /projects/foo/files' => 'files#index', :project_id => 'foo'
+    should_route 'POST /projects/foo/files' => 'files#create', :project_id => 'foo'
+  end
+
   def test_groups
     should_route 'GET /groups' => 'groups#index'
     should_route 'POST /groups' => 'groups#create'

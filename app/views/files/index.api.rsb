@@ -1,0 +1,14 @@
+api.array :files do
+  @containers.each do |container|
+    container.attachments.each do |attachment|
+      api.file do
+        render_api_attachment_attributes(attachment, api)
+        if container.is_a?(Version)
+          api.version :id => container.id, :name => container.name
+        end
+        api.digest attachment.digest
+        api.downloads attachment.downloads
+      end
+    end
+  end
+end

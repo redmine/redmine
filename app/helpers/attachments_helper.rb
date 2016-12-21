@@ -51,19 +51,26 @@ module AttachmentsHelper
     end
   end
 
-  def render_api_attachment(attachment, api)
+  def render_api_attachment(attachment, api, options={})
     api.attachment do
-      api.id attachment.id
-      api.filename attachment.filename
-      api.filesize attachment.filesize
-      api.content_type attachment.content_type
-      api.description attachment.description
-      api.content_url download_named_attachment_url(attachment, attachment.filename)
-      if attachment.thumbnailable?
-        api.thumbnail_url thumbnail_url(attachment)
-      end
-      api.author(:id => attachment.author.id, :name => attachment.author.name) if attachment.author
-      api.created_on attachment.created_on
+      render_api_attachment_attributes(attachment, api)
+      options.each { |key, value| eval("api.#{key} value") }
     end
+  end
+
+  def render_api_attachment_attributes(attachment, api)
+    api.id attachment.id
+    api.filename attachment.filename
+    api.filesize attachment.filesize
+    api.content_type attachment.content_type
+    api.description attachment.description
+    api.content_url download_named_attachment_url(attachment, attachment.filename)
+    if attachment.thumbnailable?
+      api.thumbnail_url thumbnail_url(attachment)
+    end
+    if attachment.author
+      api.author(:id => attachment.author.id, :name => attachment.author.name)
+    end
+    api.created_on attachment.created_on
   end
 end
