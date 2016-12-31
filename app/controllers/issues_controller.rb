@@ -364,7 +364,7 @@ class IssuesController < ApplicationController
           flash.now[:error] = l(:error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted)
           return
         else
-          time_entries.update_all(:issue_id => reassign_to.id)
+          time_entries.update_all(:issue_id => reassign_to.id, :project_id => reassign_to.project_id)
         end
       else
         # display the destroy form if it's a user request
