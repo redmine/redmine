@@ -136,6 +136,18 @@ class AttachmentsTest < Redmine::IntegrationTest
     assert_include "$('#attachments_1').remove();", response.body
   end
 
+  def test_download_should_set_sendfile_header
+    set_fixtures_attachments_directory
+    Rack::Sendfile.any_instance.stubs(:variation).returns("X-Sendfile")
+
+    get "/attachments/download/4"
+    assert_response :success
+    assert_not_nil response.headers["X-Sendfile"]
+
+  ensure
+    set_tmp_attachments_directory
+  end
+
   private
 
   def ajax_upload(filename, content, attachment_id=1)
