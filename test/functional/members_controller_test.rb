@@ -117,6 +117,16 @@ class MembersControllerTest < Redmine::ControllerTest
     assert_redirected_to '/projects/ecookbook/settings/members'
   end
 
+  def test_update_locked_member_should_be_allowed
+    User.find(3).lock!
+
+    put :update, :id => 2, :membership => {:role_ids => [1]}
+    assert_response 302
+    member = Member.find(2)
+    assert member.user.locked?
+    assert_equal [1], member.role_ids
+  end
+
   def test_update_should_not_add_unmanaged_roles
     role = Role.find(1)
     role.update! :all_roles_managed => false
@@ -155,6 +165,14 @@ class MembersControllerTest < Redmine::ControllerTest
     end
     assert_redirected_to '/projects/ecookbook/settings/members'
     assert !User.find(3).member_of?(Project.find(1))
+  end
+
+  def test_destroy_locked_member_should_be_allowed
+    assert User.find(3).lock!
+
+    assert_difference 'Member.count', -1 do
+      delete :destroy, :id => 2
+    end
   end
 
   def test_destroy_should_fail_with_unmanaged_roles

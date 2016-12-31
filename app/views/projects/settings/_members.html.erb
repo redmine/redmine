@@ -1,5 +1,5 @@
 <% roles = Role.find_all_givable
-   members = @project.memberships.active.sorted.to_a %>
+   members = @project.memberships.sorted.to_a %>
 
 <p><%= link_to l(:label_member_new), new_project_membership_path(@project), :remote => true, :class => "icon icon-add" %></p>
 
