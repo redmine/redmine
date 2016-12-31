@@ -1221,3 +1221,5 @@ cs:
   setting_mail_handler_enable_regex_delimiters: Enable regular expressions
   error_move_of_child_not_possible: 'Subtask %{child} could not be moved to the new
     project: %{errors}'
+  error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: Spent time cannot
+    be reassigned to an issue that is about to be deleted

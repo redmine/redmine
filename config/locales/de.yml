@@ -1222,3 +1222,5 @@ de:
   label_font_proportional: Proportional font
   setting_commit_logs_formatting: Apply text formatting to commit messages
   setting_mail_handler_enable_regex_delimiters: Enable regular expressions
+  error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: Spent time cannot
+    be reassigned to an issue that is about to be deleted
