@@ -7,6 +7,10 @@ class SudoModeTest < Redmine::IntegrationTest
     Redmine::SudoMode.stubs(:enabled?).returns(true)
   end
 
+  def teardown
+    travel_back
+  end
+
   def test_sudo_mode_should_be_active_after_login
     log_user("admin", "admin")
     get "/users/new"
