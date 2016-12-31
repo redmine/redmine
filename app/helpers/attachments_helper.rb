@@ -34,7 +34,12 @@ module AttachmentsHelper
   def link_to_attachments(container, options = {})
     options.assert_valid_keys(:author, :thumbnails)
 
-    attachments = container.attachments.preload(:author).to_a
+    attachments = if container.attachments.loaded?
+      container.attachments
+    else
+      container.attachments.preload(:author).to_a
+    end
+
     if attachments.any?
       options = {
         :editable => container.attachments_editable?,
