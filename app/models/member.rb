@@ -135,7 +135,7 @@ class Member < ActiveRecord::Base
     if principal.is_a?(Group)
       !user.nil? && user.groups.include?(principal)
     else
-      self.user == user
+      self.principal == user
     end
   end
 
