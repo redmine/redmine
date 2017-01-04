@@ -1236,3 +1236,5 @@ es:
   setting_new_item_menu_tab: Pestaña de creación de nuevos objetos en el menú de cada proyecto
   label_new_object_tab_enabled: Mostrar la lista desplegable "+"
   error_no_projects_with_tracker_allowed_for_new_issue: Ningún proyecto dispone de un tipo sobre el cual puedas crear una petición
+  error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: Spent time cannot
+    be reassigned to an issue that is about to be deleted
