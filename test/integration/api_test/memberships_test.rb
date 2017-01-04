@@ -37,20 +37,17 @@ class Redmine::ApiTest::MembershipsTest < Redmine::ApiTest::Base
     assert_response :success
     assert_equal 'application/json', @response.content_type
     json = ActiveSupport::JSON.decode(response.body)
-    assert_equal({
-      "memberships" =>
-        [{"id"=>1,
-          "project" => {"name"=>"eCookbook", "id"=>1},
-          "roles" => [{"name"=>"Manager", "id"=>1}],
-          "user" => {"name"=>"John Smith", "id"=>2}},
-         {"id"=>2,
-          "project" => {"name"=>"eCookbook", "id"=>1},
-          "roles" => [{"name"=>"Developer", "id"=>2}],
-          "user" => {"name"=>"Dave Lopper", "id"=>3}}],
-     "limit" => 25,
-     "total_count" => 2,
-     "offset" => 0},
-     json)
+    assert_equal 3,  json["total_count"]
+    assert_equal 25, json["limit"]
+    assert_equal 0,  json["offset"]
+    assert_include({
+        "id"=>1,
+        "project" => {"name"=>"eCookbook", "id"=>1},
+        "roles" => [{"name"=>"Manager", "id"=>1}],
+        "user" => {"name"=>"John Smith", "id"=>2}
+      },
+      json["memberships"]
+    )
   end
 
   test "GET /projects/:project_id/memberships.xml should succeed for closed project" do
@@ -59,6 +56,15 @@ class Redmine::ApiTest::MembershipsTest < Redmine::ApiTest::Base
     assert !project.reload.active?
     get '/projects/1/memberships.json', {}, credentials('jsmith')
     assert_response :success
+  end
+
+  test "GET /projects/:project_id/memberships.xml should include locked users" do
+    assert User.find(3).lock!
+    get '/projects/ecookbook/memberships.xml', {}, credentials('jsmith')
+    assert_response :success
+    assert_select 'memberships[type=array] membership id', :text => '2' do
+      assert_select '~ user[id="3"][name="Dave Lopper"]'
+    end
   end
 
   test "POST /projects/:project_id/memberships.xml should create the membership" do
