@@ -1189,3 +1189,5 @@ de:
   label_any_open_issues: irgendein offenes Ticket
   label_no_open_issues: kein offenes Ticket
   label_default_values_for_new_users: Standardwerte für neue Benutzer
+  error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: Spent time cannot
+    be reassigned to an issue that is about to be deleted

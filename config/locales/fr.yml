@@ -232,6 +232,7 @@ fr:
   error_invalid_csv_file_or_settings: "Le fichier n'est pas un fichier CSV ou n'est pas conforme aux paramètres sélectionnés"
   error_can_not_read_import_file: "Une erreur est survenue lors de la lecture du fichier à importer"
   error_attachment_extension_not_allowed: "L'extension %{extension} n'est pas autorisée"
+  error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: "Le temps passé ne peut pas être réaffecté à une demande qui va être supprimée"
 
   mail_subject_lost_password: "Votre mot de passe %{value}"
   mail_body_lost_password: 'Pour changer votre mot de passe, cliquez sur le lien suivant :'

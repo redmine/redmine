@@ -1201,3 +1201,5 @@ pt-BR:
   label_any_open_issues: Quaisquer tarefas abertas
   label_no_open_issues: Sem tarefas abertas
   label_default_values_for_new_users: Valor padrão para novos usuários
+  error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: Spent time cannot
+    be reassigned to an issue that is about to be deleted

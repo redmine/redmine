@@ -1184,3 +1184,5 @@ en-GB:
   setting_attachment_extensions_allowed: Allowed extensions
   setting_attachment_extensions_denied: Disallowed extensions
   label_default_values_for_new_users: Default values for new users
+  error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: Spent time cannot
+    be reassigned to an issue that is about to be deleted

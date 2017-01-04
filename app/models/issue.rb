@@ -1042,6 +1042,15 @@ class Issue < ActiveRecord::Base
     end
   end
 
+  # Returns a scope of the given issues and their descendants
+  def self.self_and_descendants(issues)
+    Issue.joins("JOIN #{Issue.table_name} ancestors" +
+        " ON ancestors.root_id = #{Issue.table_name}.root_id" +
+        " AND ancestors.lft <= #{Issue.table_name}.lft AND ancestors.rgt >= #{Issue.table_name}.rgt"
+      ).
+      where(:ancestors => {:id => issues.map(&:id)})
+  end
+
   # Finds an issue relation given its id.
   def find_relation(relation_id)
     IssueRelation.where("issue_to_id = ? OR issue_from_id = ?", id, id).find(relation_id)
