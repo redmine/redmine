@@ -169,4 +169,22 @@ class ActivitiesControllerTest < Redmine::ControllerTest
       assert_select 'input[name=show_news][checked=checked]'
     end
   end
+
+  def test_index_should_not_show_next_page_link
+    @request.session[:user_id] = 2
+
+    get :index
+    assert_response :success
+    assert_select '.pagination a', :text => /Previous/
+    assert_select '.pagination a', :text => /Next/, :count => 0
+  end
+
+  def test_index_up_to_yesterday_should_show_next_page_link
+    @request.session[:user_id] = 2
+
+    get :index, :from => (User.find(2).today-1)
+    assert_response :success
+    assert_select '.pagination a', :text => /Previous/
+    assert_select '.pagination a', :text => /Next/
+  end
 end
