@@ -1,0 +1,60 @@
+<% if display_main_menu?(@project) %>
+    <% category =  getCustomField(@project,"Category")  %>
+    <% isProjectOrShowcase = (category=="Project" or category=="Showcase") %>
+    <script>
+     var repourl="<%= getHttpRepositoryURL(@project) %>";
+     var repopath="<%= getHttpRepositoryPath(@project.repository) %>";
+     var neuroml2files = <%= raw getNML2Files(@project.repository) %>;
+     var swcfiles = <%= raw getSWCFiles(@project.repository) %>;
+     var synapsefiles = <%= raw getSynapsesFiles() %>;
+     var channelfiles = <%= raw getChannelFiles() %>;
+     var cellfiles = <%= raw getCellFiles() %>;
+     var networkfiles = <%= raw getNetworkFiles() %>;
+     var defaultMainModel = "<%= getDefaultMainModel() %>";
+     var project_identifier = "<%= @project.identifier %>";
+     var project_repository = "<%= @project.repository %>";
+     var isProjectOrShowcase = "<%= isProjectOrShowcase %>";
+    </script>
+    <% if isProjectOrShowcase %>
+        <% @neuroml2files = getNML2Files(@project.repository) %>
+	<% @swcfiles = getSWCFiles(@project.repository) %>
+	<% @repourl=getHttpRepositoryURL(@project) %>
+	<% @repopath=getHttpRepositoryPath(@project.repository) %>
+	<% @synapsefiles = getSynapsesFiles() %>
+	<% @channelfiles = getChannelFiles() %>
+	<% @cellfiles = getCellFiles() %>
+	<% @networkfiles = getNetworkFiles() %>
+	<% @defaultMainModel = getDefaultMainModel() %>
+    <% end %>
+<!-- project-header has content not hidden when geppetto iframe shown -->
+<div class="project-title">
+    <span id="pname"><%= @project.name %></span>
+    <% if isProjectOrShowcase %>
+        <div class="btn-group-lg" role="group" id="showGroup">
+            <button id="showGeppettoBtn" bottom data-title="Hello there!" data-content="Click here to explore this model!" class="btn btn-success" href=#><i class=icon-eye-open></i> Explore model</button>
+            <button id="showProjectBtn" class="btn showProject" href="#"><i class="icon-hand-left"></i> Return to project  </button>
+            <button id="moreBtn" class="btn dropdown-toggle" data-toggle="dropdown" href="#">More <span class="caret"></span></button>
+            <ul class="dropdown-menu" id="explorermenu" role="menu" aria-labelledby="dropdownMenu"></ul></li>
+        </div>
+    <% end %>
+</div>
+<div class="project-header">
+    <div class="badges">
+        <%= getBadges(@project) %>
+        <a class="twitterbutton icon-twitter-sign tooltiplink clickable" data-toggle='tooltip' data-placement='right' title='Share this project on Twitter!' href="https://twitter.com/intent/tweet?text=Check out the <%= @project.name %> project on Open Source Brain! via @osbteam&tw_p=tweetbutton&url=<%= Rack::Utils.escape(url_for(:only_path => false)) %>" target="_blank"></a>
+    </div>
+    <% if category=="Project" %>
+	<%= getProjectBreadcrumb(@project) %>
+    <% end %>
+    <nav class="navbar navbar-default">
+	<div id="container-fluid">
+	    <% if display_main_menu?(@project) %>
+		<!--<%= render_main_menu(@project) %>-->
+                <ul class="nav navbar-nav">
+                    <%= render_menu_items :project_menu, @project %>
+                </ul>
+	    <% end %>
+	</div>
+    </nav>
+</div>
+<% end %>

@@ -86,7 +86,7 @@ module ApplicationHelper
     return ""
   end
   
-  def getCustomFieldAndId(project, field) 
+  def getCustomFieldAndId(project, field)
     project.custom_field_values.each do |value| 
       if value.custom_field.name == field
         return [value.custom_field.id, value.value]
@@ -96,21 +96,10 @@ module ApplicationHelper
   end
   
   def getStars(nostars)
-    stars=" <i class='icon-question-sign'></i>"
-    stars=(nostars=="1")?" <i class='icon-star'></i>":stars
-    stars=(nostars=="2")?" <i class='icon-star'></i><i class='icon-star'></i>":stars
-    stars=(nostars=="3")?" <i class='icon-star'></i><i class='icon-star'></i><i class='icon-star'></i>":stars
-    stars=(nostars=="4")?" <i class='icon-star'></i><i class='icon-star'></i><i class='icon-star'></i><i class='icon-star'></i>":stars
-  end
-  
-  def getBadge(project, field)
-    value=getCustomField(project, field)
-    if(value!="-1")
-      stars=getStars(value).html_safe
-      badge='<span class="badge '+getBadgeClass(value)+'">'+field+' '+stars+'</span>&nbsp;&nbsp;'
-      return badge.html_safe
+    if nostars.to_i > 0
+      stars = "<i class='icon-star'></i>" * nostars.to_i
     else
-      return ""
+      stars = "<i class='icon-question-sign'></i>"
     end
   end
   
@@ -156,24 +145,46 @@ module ApplicationHelper
 
   def getSimulatorBadge(project, field)
     value=getCustomField(project, field)
-    return getTooltipedBadgeAlign(project, field, field, 'How well can the curated NeuroML/PyNN version of the model be run in this simulator? ' + getSupport(value) + ". Click here to see models with same support rate.", 'pull-left')
+    return getBadge(project, field, field, "How well can the curated NeuroML/PyNN version of the model be run in this simulator? " + getSupport(value) + ". Click here to see models with same support rate.")
   end
 
-  def getTooltipedBadge(project, field, text, tooltip)
-    value=getCustomField(project, field)
-    return getTooltipedBadgeAlign(project, field, text+': '+getLevel(value), tooltip + " Click here to see other models with same characteristics.", 'pull-right')
-  end
+  #def getTooltipedBadge(project, field, text, tooltip)
+  #  value=getCustomField(project, field)
+  #  return getTooltipedBadgeAlign(project, field, text+': '+getLevel(value), tooltip + " Click here to see other models with same characteristics.", 'pull-right')
+  #end
     
-  def getTooltipedBadgeAlign(project, field, text, tooltip, align)
-    fieldId, value = getCustomFieldAndId(project, field)
-    if(value!="-1")
-      stars=getStars(value).html_safe
-      badge='<span class="badge tooltiplink '+ align + ' ' + getBadgeClass(value) + '" data-toggle="tooltip" data-placement="bottom" title="'+ tooltip +'">'+text+' '+stars+'</span>'
-      badge_link = create_link_to_search_by_custom_field(fieldId, value, badge)
-      return badge_link.html_safe
-    else
+  def getBadge(project, field, text, tooltip, align='', classes='')
+    fieldId, fieldValue = getCustomFieldAndId(project, field)
+    if fieldValue == "-1"
       return ""
     end
+    if field != "Endorsement"
+      levelText = ": " + getLevel(fieldValue).html_safe
+      stars = getStars(fieldValue).html_safe
+    else
+      levelText = ""
+      stars = ""
+    end
+    badge='<div class="label tooltiplink ' + getBadgeClass(fieldValue) + ' ' + classes+  ' ' + align + ' ' + '" data-toggle="tooltip" data-placement="right" title="'+ tooltip + ' Click here to see other models with same characteristics.">' + text + levelText+' '+stars+'</div>'
+    badge_link = create_link_to_search_by_custom_field(fieldId, fieldValue, badge)
+    return badge_link.html_safe
+  end
+
+  def getBadges(project)
+    badges = ""
+    if isEndorsedNotBestPractice?(project)
+      badges << getBadge(project, 'Endorsement', 'OSB endorsed project', 'This project is endorsed by OSB and is officially supported.', '', 'label label-info') << "\n"
+    end
+    if isBestPractice?(project)
+      badges << getBadge(project, 'Endorsement', 'OSB best practice project', 'This project is endorsed by OSB and has been identified as fulfilling OSB best practices for projects.', '', 'label label-success') << "\n"
+    end
+    if isEndorsedOrBestPractice?(project)
+      badges << getBadge(project,'Curation level', 'Curation against published models', 'How well does the curated NeuroML/PyNN version of this model reproduce published models? See Status for more details.', 'pull-right') << "\n"
+    end
+    if (!isEndorsedNotBestPractice?(project) and !isBestPractice?(project))
+      badges << getBadge(project, 'Endorsement', 'User project', 'This is a personal user project and has not yet been endorsed by OSB. Please get in contact (info@opensourcebrain.org) to have this project endorsed!', '', 'label label-warning') << "\n"
+    end
+    return badges.html_safe
   end
   
   def getBadgeForTags(project, field, text, tooltip, align, classes, allowEditing=false)
@@ -232,15 +243,6 @@ module ApplicationHelper
     end
     return outputLink.html_safe  
   end    
-      
-  def getGeneralBadge(project, field, text, tooltip, align, classes)
-    fieldId, fieldValue = getCustomFieldAndId(project, field)
-    label = (text != '') ? text: fieldValueItem
-    tooltipLabel = (text != '') ? tooltip: fieldValueItem
-    badge='<span class="tooltiplink ' + classes+ ' ' + align + ' ' + '" data-toggle="tooltip" data-placement="right" title="'+ tooltipLabel + ' Click here to see other models with same characteristics.">' + label +'</span>'
-    badge_link = create_link_to_search_by_custom_field(fieldId, fieldValue, badge)
-    return badge_link.html_safe
-  end
 
   #Create link to search by custom field page 
   def link_to_search_by_custom_field(project, field)
@@ -256,21 +258,18 @@ module ApplicationHelper
     return create_link_to_search_by_custom_field(fieldId, fieldValue, fieldValue)
   end
   
-  def getStatusBadges(project, addBr=true)
-    @badges=""
-    @badges+= getSimulatorBadge(project,'NeuroML v2.x support')+"  "
-    @badges+= getSimulatorBadge(project,'NeuroML v1.x support')+"  "
-    @badges+= getSimulatorBadge(project,'PyNN support')+"  "
-    if addBr
-      @badges+= "<br/><br/>" 
-    end
-    @badges+= getSimulatorBadge(project,'NEURON support')+"  "
-    @badges+= getSimulatorBadge(project,'GENESIS 2 support') +"  "
-    @badges+= getSimulatorBadge(project,'MOOSE support') +"  "
-    @badges+= getSimulatorBadge(project,'PSICS support') +"  "
-    @badges+= getSimulatorBadge(project,'NEST support') +"  "
-    @badges+= getSimulatorBadge(project,'Brian support') +"  "
-    return @badges.html_safe
+  def getStatusBadges(project)
+    badges=""
+    badges+= getSimulatorBadge(project,'NeuroML v2.x support')+"  "
+    badges+= getSimulatorBadge(project,'NeuroML v1.x support')+"  "
+    badges+= getSimulatorBadge(project,'PyNN support')+"  "
+    badges+= getSimulatorBadge(project,'NEURON support')+"  "
+    badges+= getSimulatorBadge(project,'GENESIS 2 support') +"  "
+    badges+= getSimulatorBadge(project,'MOOSE support') +"  "
+    badges+= getSimulatorBadge(project,'PSICS support') +"  "
+    badges+= getSimulatorBadge(project,'NEST support') +"  "
+    badges+= getSimulatorBadge(project,'Brian support') +"  "
+    return badges.html_safe
   end
                 
   def getProjectBreadcrumb(project)

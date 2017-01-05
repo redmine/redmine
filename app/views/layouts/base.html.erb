@@ -6,8 +6,15 @@
         <meta name="description" content="Open Source Brain is a resource for sharing and collaboratively developing computational models of neural systems.">
         <meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE">
         <%= csrf_meta_tag %>
-        <%= favicon %> 
+        <%= favicon %>
         <%= heads_for_theme %>
+        <script>
+         hasGeppettoServer = <%= Rails.application.config.serversIP["hasGeppettoServer"] %>;
+         geppettoIP = "<%= Rails.application.config.serversIP['geppettoIP']  %>";
+         geppettoContextPath = "<%= Rails.application.config.serversIP["geppettoContextPath"]  %>";
+         redmineLogin = "<%= User.current.login %>";
+         redmineHashed = "<%= User.current.hashed_password %>";
+        </script>
         <%= javascript_include_tag 'jquery-3.1.1.min.js' %>
         <%= javascript_include_tag 'jquery-ui.min.js' %>
         <%= javascript_include_tag 'bootstrap.min.js' %>
@@ -33,7 +40,22 @@
         
         <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/1.0.9/cookieconsent.min.js"></script>
         <!-- End Cookie Consent plugin -->
+	<script>window.twttr = (function(d, s, id) {
+             var js, fjs = d.getElementsByTagName(s)[0],
+                 t = window.twttr || {};
+             if (d.getElementById(id)) return t;
+             js = d.createElement(s);
+             js.id = id;
+             js.src = "https://platform.twitter.com/widgets.js";
+             fjs.parentNode.insertBefore(js, fjs);
 
+             t._e = [];
+             t.ready = function(f) {
+                 t._e.push(f);
+             };
+
+             return t;
+         }(document, "script", "twitter-wjs"));</script>
     </head>
     <body class="<%= h body_css_classes %>">
         <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -57,7 +79,7 @@
                         <div class="form-group">
 	                    <%= hidden_field_tag(controller.default_search_scope, 1, :id => nil) if controller.default_search_scope %>
 	                    <%= hidden_field_tag("projects", 1) %>
-	                    <%= text_field_tag 'q', @question, :size => 20, :class => 'small', :accesskey => accesskey(:quick_search), :placeholder => 'search projects' %>
+	                    <%= text_field_tag 'q', @question, :size => 20, :class => 'form-control', :accesskey => accesskey(:quick_search), :placeholder => 'search projects' %>
                         </div>
 	                <button href="#" class="btn search-btn">
                             <icon class="icon-search"/>
@@ -70,427 +92,49 @@
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">My Projects <span class="caret"></span></a>
                                 <%= render_project_jump_box %>
                             </li>
-	                <% end %>
-	            <%= render_menu_items :account_menu -%>
-	            <!--<%= content_tag('li', "#{l(:label_logged_as)} #{link_to_user(User.current, :format => :username)}".html_safe, :id => 'loggedas') if User.current.logged? %>-->
+                        <% end %>
+                        <%= render_menu_items :account_menu %>
+                        <% if User.current.logged? %>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%= User.current.login %>  <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><%= link_to('My Profile', user_path(User.current)) %></li>
+                                    <li><%= link_to('Logout', :signout) %></li>
+                                </ul>
+                            </li>
+                        <% end %>
                     </ul>
                 </div>
             </div>
         </nav>
-	<div id='geppettoHomeContainer'></div>
+	<!--<div id='geppettoHomeContainer'></div>-->
 	<!-- CONTENT -->
-	<div id="wrap">
-	    <div id="content">
-		<div id="main" class="container">
-		    <br/></br/><br/>
-		    <% if display_main_menu?(@project) %>
-			<% category =  getCustomField(@project,"Category")  %>
-			<% isAProject = (category=="Project" or category=="Showcase") %>
-			<% if isAProject %>
-			    <% @neuroml2files = getNML2Files(@project.repository) %>
-			    <% @swcfiles = getSWCFiles(@project.repository) %>
-			    <% @repourl=getHttpRepositoryURL(@project) %>
-			    <% @repopath=getHttpRepositoryPath(@project.repository) %>
-			    <% @synapsefiles = getSynapsesFiles() %>
-			    <% @channelfiles = getChannelFiles() %>
-			    <% @cellfiles = getCellFiles() %>
-			    <% @networkfiles = getNetworkFiles() %>
-			    <% @defaultMainModel = getDefaultMainModel() %>
-			<% end %>
-			<!-- If we are inside a project then we show the project header -->
-			<div id="mainheader" class="page-header mainContentMargins">
-			    <div id="titleHeader">
-				<span id="pname"><%= @project.name %><small id="author"> </small></span>
-				<script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
-				<%= javascript_tag 'jQuery("#pname").after("<div class=btn-group id=showGroup><button id=showGeppettoBtn onclick=open3DExplorer(encodeURIComponent(getMainModel(&quot;'+ @repourl + @repopath + '&quot;,&quot;'+ @defaultMainModel + '&quot;)),&quot;' + @project.identifier + '&quot;,&quot;true&quot;); data-placement=bottom data-title=\"Hello there!\" data-content=\"Click here to explore this model!\" class=\"btn btn-success\" href=#><i class=icon-eye-open></i> Explore model </button></div>");'%>
-				<%= javascript_tag 'jQuery("#showGeppettoBtn").after("<button id=showProjectBtn class=\"btn showProject\" href=# onclick=showProject();><i class=icon-hand-left></i> Return to project  </button>");'%>
-				<%= javascript_tag 'var projectBtnPopover=setTimeout(function(){ if(jQuery("#geppettoContainer")[0]==undefined){jQuery("#showGeppettoBtn").popover("show");} }, 3000);'%>
-				<%= javascript_tag 'setTimeout(function(){ jQuery("#showGeppettoBtn").popover("destroy"); }, 10000);'%>
-				<%= javascript_tag 'jQuery("#showProjectBtn").after("<button id=moreBtn class=\"btn dropdown-toggle\"  data-toggle=dropdown href=#>More <span class=caret></span></button><ul class=dropdown-menu id=explorermenu role=menu aria-labelledby=dropdownMenu></ul></li>");'%>
-			    </div>
-			    <div id="projectHeader">
-				<% if isBestPractice?(@project) %>
-				    <%= getGeneralBadge(@project, 'Endorsement', 'OSB best practice project', 'This project is endorsed by OSB and has been identified as fulfilling OSB best practices for projects.', '', 'label label-success') %>
-				    <a class="twitterbutton icon-twitter-sign tooltiplink clickable" data-toggle='tooltip' data-placement='right' title='Share this project on Twitter!' href="https://twitter.com/share?text=Check out the <%= @project.name %> project on Open Source Brain! via @osbteam&tw_p=tweetbutton&url=<%= Rack::Utils.escape(url_for(:only_path => false)) %>" target="_blank"></a>
-				    <%= getTooltipedBadge(@project,'Curation level','Curation against published models','How well does the curated NeuroML/PyNN version of this model reproduce published models? See Status for more details.') %> 
-				    <br/><br/>
-				    <% if category=="Project" %>
-					<%= getProjectBreadcrumb(@project) %>
-				    <% end %>
-				<% elsif isEndorsedNotBestPractice?(@project) %>
-				    <%= getGeneralBadge(@project, 'Endorsement', 'OSB endorsed project', 'This project is endorsed by OSB and is officially supported.', '', 'label label-info') %>
-				    <a class="twitterbutton icon-twitter-sign tooltiplink clickable" data-toggle='tooltip' data-placement='right' title='Share this project on Twitter!' href="https://twitter.com/share?text=Check out the <%= @project.name %> project on Open Source Brain! via @osbteam&tw_p=tweetbutton&url=<%= Rack::Utils.escape(url_for(:only_path => false)) %>" target="_blank"></a>
-				    <%= getTooltipedBadge(@project,'Curation level','Curation against published models','How well does the curated NeuroML/PyNN version of this model reproduce published models? See Status for more details.') %> 
-				    <br/><br/>
-				    <% if category=="Project" %>
-					<%= getProjectBreadcrumb(@project) %>
-				    <% end %>
-				<% else %>
-				    <% if isAProject %>
-					<%= getGeneralBadge(@project, 'Endorsement', 'User project', 'This is a personal user project and has not yet been endorsed by OSB. Please get in contact (info@opensourcebrain.org) to have this project endorsed!', '', 'label label-warning') %>
-				    <% end %>
-				    <a class="twitterbutton icon-twitter-sign tooltiplink clickable" data-toggle='tooltip' data-placement='right' title='Share on Twitter!' href="https://twitter.com/share?text=Checkout <%= @project.name %> project on Open Source Brain! via @osbteam&tw_p=tweetbutton&url=<%= Rack::Utils.escape(url_for(:only_path => false)) %>" target="_blank"></a>
-				    <br/><br/>
-				<% end %>
-	  			
-				<div class="navbar">
-				    <div id="menucontainer" class="navbar-inner">
-					<% if display_main_menu?(@project) %>
-						<% category =  getCustomField(@project,"Category")  %>
-						<% isAProject = (category=="Project" or category=="Showcase") %>
-						<% if isAProject %>
-							<% @neuroml2files = getNML2Files(@project.repository) %>
-							<% @swcfiles = getSWCFiles(@project.repository) %>
-							<% @repourl=getHttpRepositoryURL(@project) %>
-							<% @repopath=getHttpRepositoryPath(@project.repository) %>
-							<% @synapsefiles = getSynapsesFiles() %>
-							<% @channelfiles = getChannelFiles() %>
-							<% @cellfiles = getCellFiles() %>
-							<% @networkfiles = getNetworkFiles() %>
-							<% @defaultMainModel = getDefaultMainModel() %>
-						<% end %>
-						<!-- If we are inside a project then we show the project header -->
-						<div id="mainheader" class="page-header mainContentMargins">
-							<div id="titleHeader">
-						  		<span id="pname"><%= @project.name %><small id="author"> </small></span>
-						  		<script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
-								<%= javascript_tag 'jQuery("#pname").after("<div class=btn-group id=showGroup><button id=showGeppettoBtn onclick=open3DExplorer(encodeURIComponent(getMainModel(&quot;'+ @repourl + @repopath + '&quot;,&quot;'+ @defaultMainModel + '&quot;)),&quot;' + @project.identifier + '&quot;,&quot;true&quot;); data-placement=bottom data-title=\"Hello there!\" data-content=\"Click here to explore this model!\" class=\"btn btn-success\" href=#><i class=icon-eye-open></i> Explore model </button></div>");'%>
-								<%= javascript_tag 'jQuery("#showGeppettoBtn").after("<button id=showProjectBtn class=\"btn showProject\" href=# onclick=showProject();><i class=icon-hand-left></i> Return to project  </button>");'%>
-								<%= javascript_tag 'var projectBtnPopover=setTimeout(function(){ if(jQuery("#geppettoContainer")[0]==undefined){jQuery("#showGeppettoBtn").popover("show");} }, 3000);'%>
-								<%= javascript_tag 'setTimeout(function(){ jQuery("#showGeppettoBtn").popover("destroy"); }, 10000);'%>
-						  		<%= javascript_tag 'jQuery("#showProjectBtn").after("<button id=moreBtn class=\"btn dropdown-toggle\"  data-toggle=dropdown href=#>More <span class=caret></span></button><ul class=dropdown-menu id=explorermenu role=menu aria-labelledby=dropdownMenu></ul></li>");'%>
-							</div>
-							<div id="projectHeader">
-								<% if isBestPractice?(@project) %>
-									<%= getGeneralBadge(@project, 'Endorsement', 'OSB best practice project', 'This project is endorsed by OSB and has been identified as fulfilling OSB best practices for projects.', '', 'label label-success') %>
-									<a class="twitterbutton icon-twitter-sign tooltiplink clickable" data-toggle='tooltip' data-placement='right' title='Share this project on Twitter!' href="https://twitter.com/share?text=Check out the <%= @project.name %> project on Open Source Brain! via @osbteam&tw_p=tweetbutton&url=<%= Rack::Utils.escape(url_for(:only_path => false)) %>" target="_blank"></a>
-									<%= getTooltipedBadge(@project,'Curation level','Curation against published models','How well does the curated NeuroML/PyNN version of this model reproduce published models? See Status for more details.') %> 
-									<br/><br/>
-									<% if category=="Project" %>
-										<%= getProjectBreadcrumb(@project) %>
-									<% end %>
-								<% elsif isEndorsedNotBestPractice?(@project) %>
-									<%= getGeneralBadge(@project, 'Endorsement', 'OSB endorsed project', 'This project is endorsed by OSB and is officially supported.', '', 'label label-info') %>
-									<a class="twitterbutton icon-twitter-sign tooltiplink clickable" data-toggle='tooltip' data-placement='right' title='Share this project on Twitter!' href="https://twitter.com/share?text=Check out the <%= @project.name %> project on Open Source Brain! via @osbteam&tw_p=tweetbutton&url=<%= Rack::Utils.escape(url_for(:only_path => false)) %>" target="_blank"></a>
-									<%= getTooltipedBadge(@project,'Curation level','Curation against published models','How well does the curated NeuroML/PyNN version of this model reproduce published models? See Status for more details.') %> 
-									<br/><br/>
-									<% if category=="Project" %>
-										<%= getProjectBreadcrumb(@project) %>
-									<% end %>
-								<% else %>
-									<% if isAProject %>
-										<%= getGeneralBadge(@project, 'Endorsement', 'User project', 'This is a personal user project and has not yet been endorsed by OSB. Please get in contact (info@opensourcebrain.org) to have this project endorsed!', '', 'label label-warning') %>
-									<% end %>
-									<a class="twitterbutton icon-twitter-sign tooltiplink clickable" data-toggle='tooltip' data-placement='right' title='Share on Twitter!' href="https://twitter.com/share?text=Checkout <%= @project.name %> project on Open Source Brain! via @osbteam&tw_p=tweetbutton&url=<%= Rack::Utils.escape(url_for(:only_path => false)) %>" target="_blank"></a>
-									<br/><br/>
-								<% end %>
-	  							
-								<div class="navbar">
-									<div id="menucontainer" class="navbar-inner">
-										<% if display_main_menu?(@project) %>
-											<%= render_main_menu(@project) %>
-										<% end %>
-										<% if isAProject %>
-											<%= javascript_tag 'jQuery("#menucontainer > ul li:eq(-2)").after("<li class=dropdown><a class=dropdown-toggle data-toggle=dropdown href=#> Other tools <b class=caret></b></a><ul class=dropdown-menu id=othertoolsmenu role=menu aria-labelledby=dropdownMenu></ul></li>");' %>
-										<% end %>
-									</div>
-								</div>
-							</div>
-						</div>
-
-						
-						
-						<% if isAProject %>
-							
-							<% if(@repourl && @project.repository != nil && ((not @neuroml2files.empty?) || (not @swcfiles.empty?)))%>
-								
-								
-								<% if not @networkfiles.empty? %>
-									<%= javascript_tag 'jQuery("#explorermenu").append("<li class=\"dropdown-submenu pull-left explorerSubmenu\"><a tabindex=-1 href=#>Networks</a><ul class=dropdown-menu id=networkmenu></ul></li>");' %>
-									<% for nml2file in @networkfiles %>
-										<%= javascript_tag 'jQuery("#networkmenu").append("<li id='+ nml2file.rpartition('/').last + '><a href=# tabindex=-1 onclick=open3DExplorer(encodeURIComponent(&quot;'+ @repourl + @repopath + nml2file + '&quot;),&quot;' + @project.identifier + '&quot;);>'+ nml2file + '</a></li>");'%>
-									<% end %>
-									</ul>
-								<% end %>
-								<% if not @channelfiles.empty? %>
-									<%= javascript_tag 'jQuery("#explorermenu").append("<li class=\"dropdown-submenu pull-left explorerSubmenu\" ><a tabindex=-1 href=#>Channels</a><ul class=dropdown-menu id=channelmenu></ul></li>");' %>
-									<% for nml2file in @channelfiles %>
-										<%= javascript_tag 'jQuery("#channelmenu").append("<li><a  href=# tabindex=-1 onclick=open3DExplorer(encodeURIComponent(&quot;'+ @repourl + @repopath + nml2file + '&quot;),&quot;' + @project.identifier + '&quot;);>'+ nml2file + '</a></li>");'%>
-									<% end %>
-									</ul>
-								<% end %>
-								<% if not @synapsefiles.empty? %>
-									<%= javascript_tag 'jQuery("#explorermenu").append("<li class=\"dropdown-submenu pull-left explorerSubmenu\" ><a tabindex=-1 href=#>Synapses</a><ul class=dropdown-menu id=synapsesmenu></ul></li>");' %>
-									<% for nml2file in @synapsefiles %>
-										<%= javascript_tag 'jQuery("#synapsesmenu").append("<li><a  href=# tabindex=-1 onclick=open3DExplorer(encodeURIComponent(&quot;'+ @repourl + @repopath + nml2file + '&quot;),&quot;' + @project.identifier + '&quot;);>'+ nml2file + '</a></li>");'%>
-									<% end %>
-									</ul>
-								<% end %>
-								<% if not @cellfiles.empty? %>
-									<%= javascript_tag 'jQuery("#explorermenu").append("<li class=\"dropdown-submenu pull-left explorerSubmenu\" ><a tabindex=-1 href=#>Cells</a><ul class=dropdown-menu id=cellsmenu></ul></li>");' %>
-									<% for nml2file in @cellfiles %>
-										<% @neuroml2files.delete(nml2file) %>
-										<%= javascript_tag 'jQuery("#cellsmenu").append("<li><a  href=# tabindex=-1 onclick=open3DExplorer(encodeURIComponent(&quot;'+ @repourl + @repopath + nml2file + '&quot;),&quot;' + @project.identifier + '&quot;);>'+ nml2file + '</a></li>");'%>
-									<% end %>
-									</ul>
-								<% end %>
-								<% if (not @neuroml2files.empty?) %>
-									<%= javascript_tag 'jQuery("#explorermenu").append("<li class=\"dropdown-submenu pull-left explorerSubmenu\" ><a tabindex=-1 href=#>Other</a><ul class=dropdown-menu id=othermenu></ul></li>");' %>
-									<% for nml2file in @neuroml2files %>
-										<% if not nml2file.ends_with?(".net.nml", ".channel.nml", ".synapse.nml", ".cell.nml") %>
-											<%= javascript_tag 'jQuery("#othermenu").append("<li><a  href=# tabindex=-1 onclick=open3DExplorer(encodeURIComponent(&quot;'+ @repourl + @repopath + nml2file + '&quot;),&quot;' + @project.identifier + '&quot;);>'+ nml2file + '</a></li>");'%>
-										<% end %>									
-									<% end %>
-								<% end %>
-								<% if (not @swcfiles.empty?) %>
-									<%= javascript_tag 'jQuery("#explorermenu").append("<li class=\"dropdown-submenu pull-left explorerSubmenu\" ><a tabindex=-1 href=#>SWC</a><ul class=dropdown-menu id=swc></ul></li>");' %>
-									<% for swcfile in @swcfiles %>
-										<%= javascript_tag 'jQuery("#swc").append("<li><a  href=# tabindex=-1 onclick=open3DExplorer(encodeURIComponent(&quot;'+ @repourl + @repopath + swcfile + '&quot;),&quot;' + @project.identifier + '&quot;);>'+ swcfile + '</a></li>");'%>
-									<% end %>
-								<% end %>
-								
-							<% else %>
-								<%= javascript_tag do -%>
-									var noFilesMsg = "No NeuroML2 or SWC files found!";
-									 $("#moreBtn")
-									 	.attr("disabled", true);
-									 $("#showGeppettoBtn")
-									 	.attr("disabled", true)
-										.removeClass("btn-success")
-										.attr("data-content", noFilesMsg)
-										.removeAttr("data-title"); 
-								<% end -%>
-							<% end %>
-						<% end %>	
-					<% end %>
-				    </div>
-				</div>
-			    </div>
-			</div>
-
-			
-			
-			<% if isAProject %>
-			    
-			    <% if(@repourl && @project.repository != nil && ((not @neuroml2files.empty?) || (not @swcfiles.empty?)))%>
-				
-				
-				<% if not @networkfiles.empty? %>
-				    <%= javascript_tag 'jQuery("#explorermenu").append("<li class=\"dropdown-submenu pull-left explorerSubmenu\"><a tabindex=-1 href=#>Networks</a><ul class=dropdown-menu id=networkmenu></ul></li>");' %>
-				    <% for nml2file in @networkfiles %>
-					<%= javascript_tag 'jQuery("#networkmenu").append("<li id='+ nml2file.rpartition('/').last + '><a href=# tabindex=-1 onclick=open3DExplorer(encodeURIComponent(&quot;'+ @repourl + @repopath + nml2file + '&quot;),&quot;' + @project.identifier + '&quot;);>'+ nml2file + '</a></li>");'%>
-				    <% end %>
-		    </ul>
-				<% end %>
-				<% if not @channelfiles.empty? %>
-				    <%= javascript_tag 'jQuery("#explorermenu").append("<li class=\"dropdown-submenu pull-left explorerSubmenu\" ><a tabindex=-1 href=#>Channels</a><ul class=dropdown-menu id=channelmenu></ul></li>");' %>
-				    <% for nml2file in @channelfiles %>
-					<%= javascript_tag 'jQuery("#channelmenu").append("<li><a  href=# tabindex=-1 onclick=open3DExplorer(encodeURIComponent(&quot;'+ @repourl + @repopath + nml2file + '&quot;),&quot;' + @project.identifier + '&quot;);>'+ nml2file + '</a></li>");'%>
-				    <% end %>
-		    </ul>
-				<% end %>
-				<% if not @synapsefiles.empty? %>
-				    <%= javascript_tag 'jQuery("#explorermenu").append("<li class=\"dropdown-submenu pull-left explorerSubmenu\" ><a tabindex=-1 href=#>Synapses</a><ul class=dropdown-menu id=synapsesmenu></ul></li>");' %>
-				    <% for nml2file in @synapsefiles %>
-					<%= javascript_tag 'jQuery("#synapsesmenu").append("<li><a  href=# tabindex=-1 onclick=open3DExplorer(encodeURIComponent(&quot;'+ @repourl + @repopath + nml2file + '&quot;),&quot;' + @project.identifier + '&quot;);>'+ nml2file + '</a></li>");'%>
-				    <% end %>
-		    </ul>
-				<% end %>
-				<% if not @cellfiles.empty? %>
-				    <%= javascript_tag 'jQuery("#explorermenu").append("<li class=\"dropdown-submenu pull-left explorerSubmenu\" ><a tabindex=-1 href=#>Cells</a><ul class=dropdown-menu id=cellsmenu></ul></li>");' %>
-				    <% for nml2file in @cellfiles %>
-					<% @neuroml2files.delete(nml2file) %>
-					<%= javascript_tag 'jQuery("#cellsmenu").append("<li><a  href=# tabindex=-1 onclick=open3DExplorer(encodeURIComponent(&quot;'+ @repourl + @repopath + nml2file + '&quot;),&quot;' + @project.identifier + '&quot;);>'+ nml2file + '</a></li>");'%>
-				    <% end %>
-		    </ul>
-				<% end %>
-				<% if (not @neuroml2files.empty?) %>
-				    <%= javascript_tag 'jQuery("#explorermenu").append("<li class=\"dropdown-submenu pull-left explorerSubmenu\" ><a tabindex=-1 href=#>Other</a><ul class=dropdown-menu id=othermenu></ul></li>");' %>
-				    <% for nml2file in @neuroml2files %>
-					<% if not nml2file.ends_with?(".net.nml", ".channel.nml", ".synapse.nml", ".cell.nml") %>
-					    <%= javascript_tag 'jQuery("#othermenu").append("<li><a  href=# tabindex=-1 onclick=open3DExplorer(encodeURIComponent(&quot;'+ @repourl + @repopath + nml2file + '&quot;),&quot;' + @project.identifier + '&quot;);>'+ nml2file + '</a></li>");'%>
-					<% end %>									
-				    <% end %>
-				<% end %>
-				<% if (not @swcfiles.empty?) %>
-				    <%= javascript_tag 'jQuery("#explorermenu").append("<li class=\"dropdown-submenu pull-left explorerSubmenu\" ><a tabindex=-1 href=#>SWC</a><ul class=dropdown-menu id=swc></ul></li>");' %>
-				    <% for swcfile in @swcfiles %>
-					<%= javascript_tag 'jQuery("#swc").append("<li><a  href=# tabindex=-1 onclick=open3DExplorer(encodeURIComponent(&quot;'+ @repourl + @repopath + swcfile + '&quot;),&quot;' + @project.identifier + '&quot;);>'+ swcfile + '</a></li>");'%>
-				    <% end %>
-				<% end %>
-				
-			    <% else %>
-				<%= javascript_tag 'jQuery("#explorermenu").append("<li><a tabindex=-1>No NeuroML2 or SWC files found!</a></li>");' %>
-			    <% end %>
-			<% end %>	
-		    <% end %>
-		    <div id="mainContent" class="mainContentMargins">
-			<%= call_hook :view_layouts_base_content %>
-			<%= render_flash_messages %>
-			<!-- page specific content -->
-			<%= yield %>
-		    </div>
-		    <div id="ajax-modal" style="display:none;"></div>
-		</div>
-	    </div>
-	    
-
-	    
-	    
-
+	<div id="main" class="container">
+	    <%= render_flash_messages %>
+	    <!-- page specific content -->
+	    <%= yield %>
+	    <div id="ajax-modal" style="display:none;"></div>
 	</div>
-		<!-- FOOTER -->
-		<%= call_hook :view_layouts_base_body_bottom %>
-		<footer class="footer">
-			<div class="container">
-				<a href="https://twitter.com/OSBTeam" class="twitter-follow-button" data-show-count="true" data-lang="en">Follow @OSBTeam</a>
-				<script>
-				!function(d,s,id){
-					var js,fjs=d.getElementsByTagName(s)[0];
-					if(!d.getElementById(id)){
-						js=d.createElement(s);
-						js.id=id;
-						js.src="//platform.twitter.com/widgets.js";
-						fjs.parentNode.insertBefore(js,fjs);
-					}
-				}
-				(document,"script","twitter-wjs");
-				</script>
-				
-				<a href="http://www.wellcome.ac.uk/" id="wellcomelogolink"> <div id="wellcomelogo"></div> </a>
-				
-				<div>
-					<ul class="footer-links">
-						<li>
-							<a href="/docs#Getting_Started">Help</a> |
-						</li>
-						<li>
-							<a href="/docs/Research_Themes">Research Themes</a> |
-						</li> 
-						<li>
-							<a href="/about.html">About</a>
-						</li>
-					</ul>
-					<div class="license">The Open Source Brain Initiative 2016. Website powered by <%= link_to Redmine::Info.app_name, Redmine::Info.url %></div>
-				</div>
-			</div>
-		</footer>
-	</body>
+	<!-- FOOTER -->
+	<%= call_hook :view_layouts_base_body_bottom %>
+	<footer class="footer">
+	    <div class="container">
+		<a href="https://twitter.com/OSBTeam" class="twitter-follow-button" data-show-count="true" data-lang="en">Follow @OSBTeam</a>
+		<a href="http://www.wellcome.ac.uk/" id="wellcomelogolink"><div id="wellcomelogo"></div> </a>
+		
+		<ul class="footer-links">
+		    <li>
+			<a href="/docs#Getting_Started">Help</a>
+		    </li>
+		    <li>
+			<a href="/docs/Research_Themes">Research Themes</a>
+		    </li>
+		    <li>
+			<a href="/about.html">About</a>
+		    </li>
+		</ul>
+		<p class="license">The Open Source Brain Initiative 2016. Website powered by <%= link_to Redmine::Info.app_name, Redmine::Info.url %></p>
+	    </div>
+	</footer>
+    </body>
 </html>
-<script>
-hasGeppettoServer = <%= Rails.application.config.serversIP["hasGeppettoServer"] %>;
-geppettoIP = "<%= Rails.application.config.serversIP['geppettoIP']  %>";
-geppettoContextPath = "<%= Rails.application.config.serversIP["geppettoContextPath"]  %>";
-redmineLogin = "<%= User.current.login %>";
-redmineHashed = "<%= User.current.hashed_password %>";
-</script>
-<script>
-handleSizingResponse = function(e) {
-  if(e.origin == 'http://remote-domain.com') {
-    var action = e.data.split(':')[0]
-    if(action == 'sizing') {
-      resizeCanvas(e.data.split(':')[1]);
-    } else {
-      console.log("Unknown message: "+e.data);
-    }
-  }
-}
-window.addEventListener('message', handleSizingResponse, false);
-$("#moreBtn").click(function(){
-	clearTimeout(projectBtnPopover);
-	$("#showGeppettoBtn").popover("destroy");
-});
-</script>
-<script>
-<% if isAProject %>
-	function processCurrentProjects(text){
-		var currentProjects = JSON.parse(text);
-		var currentProjectDict = {};
-		
-		//Iterate over the geppetto projects and create a dictionary by models
-		for (projectIndex in currentProjects){
-			var projectName = currentProjects[projectIndex].name.split(" - ");
-			
-			if (!(projectName[0] in currentProjectDict)){
-				currentProjectDict[projectName[0]] = [];
-			}
-			
-			currentProjectDict[projectName[0]].push(currentProjects[projectIndex]);
-		}
-		
-		//Create a submenu with all the geppetto projects plus a New Project option
-		for (var modelKey in currentProjectDict){
-			var filenameEscape = modelKey.concat(".nml").replace(/([ #;?&,.+*~\':"!^$[\]()=>|\/@])/g,"\\$1");
-			var subMenu = "<ul class=dropdown-menu>";
-			for (var projectKey in currentProjectDict[modelKey]){
-				subMenu += "<li><a href=# tabindex=-1 onclick=open3DExplorer(" + currentProjectDict[modelKey][projectKey].id + ",'<%= @project.identifier%>');>Project: " + modelKey + "</a></li>";
-			}	
-			subMenu += "<li><a href=# tabindex=-1 onclick=" + $("[id=" + filenameEscape + "]").find('a').attr("onclick") + ">New Project</a></li>";
-			subMenu += "</ul>";	
-			//This can be used to parse the id if we use to whole path instead of the file name .replace(/([ #;?&,.+*~\':"!^$[\]()=>|\/@])/g,"\\\\$1");
-			// Delete link for the parent option
-			$("[id=" + filenameEscape + "]").append(subMenu);
-			$("[id=" + filenameEscape + "]").first('a').removeAttr("href").prop('onclick',null).off('click');
-			// Add dropdown option
-			$("[id=" + filenameEscape + "]").addClass('dropdown-submenu');
-		}
-	};
-	<% @repourl=getHttpRepositoryURL(@project) %>
-	<% if(@repourl && @project.repository != nil && (not @neuroml2files.empty?))%>
-		callGeppetto("projectswithref?reference=<%= @project.identifier%>", processCurrentProjects, true);
-	<% end %>
-<% end %>
-</script>
-<script>
-$('#logout_link').click(function(e){
-	callGeppetto("logout?outputFormat=json", processLogout, false);
-	return false;
-});
-</script>
-<script>
-jQuery(function()
-{
-	$('#menucontainer').find('.issues').parent().appendTo('#othertoolsmenu');
-	$('#menucontainer').find('.activity').parent().appendTo('#othertoolsmenu');
-	$('#menucontainer').find('.files').parent().appendTo('#othertoolsmenu');
-	$('#menucontainer').find('.repository').parent().appendTo('#othertoolsmenu');
-})	
-</script>
-<script>
-
-jQuery(function()
-{	
-	//Show project page
-	<% if @project!=nil %>
-		var geturl=getParameterByName('explorer');
-		if(geturl!='')
-		{
-			open3DExplorer(geturl, '<%= @project.identifier%>');
-		}
-		else
-		{
-			<% if @neuroml2files!=nil %>
-				if(<%= @neuroml2files.empty? %>) {
-					disableOSBExplorer();
-					jQuery("#osbexplorermessage").html("The current project doesn't contain any NeuroML2 file. Help converting this model to be able to use OSB 3D Explorer or raise an issue to do so!");
-				}
-				else if(<%= (@repourl and @repourl["https://github"]==nil)==true%>) {
-					disableOSBExplorer();
-					jQuery("#osbexplorermessage").html("Sorry, OSB 3D Explorer is currently available only for repositories hosted on GitHub.");
-				}
-				else if (!Detector.webgl) {
-					disableOSBExplorer();
-					jQuery("#osbexplorermessage").html("Sorry, your browser doesn\'t support <a href='http://khronos.org/webgl/wiki/Getting_a_WebGL_Implementation'>WebGL</a> which is required to use OSB 3D Explorer.");
-				}
-				else if (!checkCookie) {
-					disableOSBExplorer();
-					jQuery("#osbexplorermessage").html("Sorry, your cookies are disabled in your browser. Please, enable them if you want to use OSB 3D Explorer.");
-				}
-			<% end %>
-		}
-	<% end %>
-	
-	
-	
-})
-</script>
