@@ -5,14 +5,14 @@ $(document).ready(function() {
 	var $window = jQuery(window);
 	
 	// -- SIDE BAR
-	 /* setTimeout(function () {
+    setTimeout(function () {
 	      $('.bs-docs-sidenav').affix({
 	        offset: {
 	          top: function () { return $window.width() <= 980 ? 290 : 210 }
 	        , bottom: 270
 	        }
 	      })
-	    }, 100) */
+	    }, 100)
 	    
 	// -- Bootstrap widget calls
 	// jQuery('.dropdown-toggle').dropdown();
@@ -20,14 +20,11 @@ $(document).ready(function() {
 	jQuery('.popoverlink').popover();
 	jQuery('.tooltiplink').tooltip();
 	    
-	// -- Add bootstrap class to all the tables
-	jQuery('table').not(jQuery(".wrapped-channelml table")).addClass('table table-bordered table-hover');
 	jQuery('.wrapped-channelml .table-border-summary').addClass('table');
 	// jQuery(":submit").addClass('btn btn-success btn-large');
 	jQuery('button').addClass('btn');
 	jQuery('.jstElements button').addClass('btn-square');
 	jQuery('.jstElements').addClass('btn-group');
-	jQuery('form').addClass('form-horizontal');
 	jQuery('.buttons a').addClass("btn");
 	replaceIconWithFontAwesome();
 	
@@ -263,7 +260,7 @@ function toggleProjectButton(){
 }
 
 function showGeppetto(){
-	clearTimeout(projectBtnPopover);
+        //clearTimeout(projectBtnPopover);
 	toggleProjectButton();
 	$("#geppettoContainer").show();
 	$("#mainContent").hide();
