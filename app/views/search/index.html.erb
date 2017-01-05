@@ -1,3 +1,7 @@
+<% content_for :header_tags do %>
+    <script src="/javascripts/search.js"></script>
+<% end %>
+    
 <h2><%= l(:label_search) %></h2>
 
 <div id="search_box" class="box">
@@ -26,59 +30,64 @@
       <%= render_results_by_type(@results_by_type) unless @scope.size == 1 %>
     </div>
     <h3><%= l(:label_result_plural) %> (<%= @results_by_type.values.sum %>)</h3>
-    <dl id="search-results">
-      <% @results.each do |e| %>
+    <a href="#" class="btn exp-col-btn expand-btn">Expand</a>
+    <div id="results" role="tab-list" aria-multiselectable="true">
+      <% @results.each_with_index do |e, i| %>
         <% p = e.project %>
-        <div>
-        <dt class="<%= e.event_type %>">
-          <%= link_to(highlight_tokens(e.event_title.truncate(255), @tokens), e.event_url) %>
-        </dt>
-        <dd class="searchDD">
-        	<% if e.event_type == "project" %>
-	        	<%= textilizable(p.short_description_without_image, :project => p) %>
-        	<% else %>
-	        	<span class="description"><%= textilizable(highlight_tokens(e.event_description, @tokens), :project => p) %></span>
-	        	<div>
-					<div><i>Project description:<%= textilizable(p.short_description_without_image, :project => p) %></i></div>
-	        	</div>
-        	<% end %>
-        	
-        	<div>
-        		<div>
-		        	<% if isBestPractice?(p) %>
-						<%= getGeneralBadge(p, 'Endorsement', 'OSB best practice project', 'This project is endorsed by OSB and has been identified as fulfilling OSB best practices for projects.', '', 'label label-success') %>
-						<%= getTooltipedBadge(p,'Curation level','Curation against published models','How well does the curated NeuroML/PyNN version of this model reproduce published models? See Status for more details.') %>
-		        	<% elsif isEndorsedNotBestPractice?(p) %>
-						<%= getGeneralBadge(p, 'Endorsement', 'OSB endorsed project', 'This project is endorsed by OSB and is officially supported.', '', 'label label-info') %>
-						<%= getTooltipedBadge(p,'Curation level','Curation against published models','How well does the curated NeuroML/PyNN version of this model reproduce published models? See Status for more details.') %>
-		        	<% else %>
-		        		<% category =  getCustomField(p,"Category")  %>
-						<% isAProject = (category=="Project" or category=="Showcase") %>
-			        	<% if isAProject %>
-							<%= getGeneralBadge(p, 'Endorsement', 'User project', 'This is a personal user project and has not yet been endorsed by OSB. Please get in contact (info@opensourcebrain.org) to have this project endorsed!', '', 'label label-warning') %>
-						<% end %>
-					<% end %>	
-				</div>
-        	</div>
+          <div class="result">
+              <div class="result-header" role="tab" id="heading<%= i %>">
+                  <h4 class="mb-0">
+                      <%= link_to(highlight_tokens(e.event_title, @tokens), e.event_url) %>
+                      <a class="<%= e.event_type %>" data-toggle="collapse"
+                         data-parent="#accordion" href="#collapse<%= i %>" aria-expanded="true" aria-controls="collapse<%= i %>"
+                         alt="Show description…" title="Show description…">
+                          <i class="icon-caret-down"></i>
+                          <!--<%= e.event_title.truncate(255) %>-->
+                      </a>
+                  </h4>
+              </div>
+              <div id="collapse<%= i %>" class="result-info collapse" role="tabpanel" aria-labelled-by="collapse<%= i %>">
+                  <div class="card-block">
+        	      <% if e.event_type == "project" %>
+  	        	  <%= textilizable(p.short_description_without_image, :project => p) %>
+        	      <% else %>
+	        	  <span class="description"><%= textilizable(highlight_tokens(e.event_description, @tokens), :project => p) %></span>
+	        	  <div>
+			      <div><i>Project description:<%= textilizable(p.short_description_without_image, :project => p) %></i></div>
+	        	  </div>
+        	      <% end %>
+        	      
+        	      <div>
+		          <% if isBestPractice?(p) %>
+			      <%= getBadge(p, 'Endorsement', 'OSB best practice project', 'This project is endorsed by OSB and has been identified as fulfilling OSB best practices for projects.', '', 'label label-success') %>
+			      <%= getBadge(p,'Curation level','Curation against published models','How well does the curated NeuroML/PyNN version of this model reproduce published models? See Status for more details.') %>
+		          <% elsif isEndorsedNotBestPractice?(p) %>
+			      <%= getBadge(p, 'Endorsement', 'OSB endorsed project', 'This project is endorsed by OSB and is officially supported.', '', 'label label-info') %>
+			      <%= getBadge(p,'Curation level','Curation against published models','How well does the curated NeuroML/PyNN version of this model reproduce published models? See Status for more details.') %>
+		          <% else %>
+		              <% category =  getCustomField(p,"Category")  %>
+			      <% isAProject = (category=="Project" or category=="Showcase") %>
+			      <% if isAProject %>
+				  <%= getBadge(p, 'Endorsement', 'User project', 'This is a personal user project and has not yet been endorsed by OSB. Please get in contact (info@opensourcebrain.org) to have this project endorsed!', '', 'label label-warning') %>
+			      <% end %>
+			  <% end %>	
+        	      </div>
 
-        	<div>
-        		<div><%= getStatusBadges(p, false) %></div>
-        	</div>
-        	
-        	<% tags=getCustomField(p,'Tag') %>
-        	<% if tags!=nil and tags!='' %>
-				<div>
-					<div><%= getGeneralBadge(p, 'Tag', '', '', '', 'label label-success') %></div>
-				</div>
-			<% end %>
+        	      <%= getStatusBadges(p) %>
+        	      
+        	      <% tags=getCustomField(p,'Tag') %>
+        	      <% if tags!=nil and tags!='' %>
+			  <div>
+			      <div><%= getBadge(p, 'Tag', '', '', '', 'label label-success') %></div>
+			  </div>
+		      <% end %>
 
-			<div>
-				<div><b>Last updated:</b></div>
-				<div><%= format_time(e.event_datetime) %></div>
-        	</div>	
-        
-        </dd>
-        </div>
+		      <div class="last-updated">
+			  <b>Last updated:</b> <%= format_time(e.event_datetime) %>
+        	      </div>
+                  </div>
+              </div>
+          </div>
       <% end %>
     </dl>
 <% end %>

@@ -29,7 +29,7 @@
         	<div>
         		<div>
 		        	<% if isBestPractice?(p) %>
-						<%= getGeneralBadge(p, 'Endorsement', 'OSB best practice project', 'This project is endorsed by OSB and has been identified as fulfilling OSB best practices for projects.', '', 'label label-success') %>
+						<%= getBadge(p, 'Endorsement', 'OSB best practice project', 'This project is endorsed by OSB and has been identified as fulfilling OSB best practices for projects.', '', 'label label-success') %>
 						<%= getTooltipedBadge(p,'Curation level','Curation against published models','How well does the curated NeuroML/PyNN version of this model reproduce published models? See Status for more details.') %>
 		        	<% elsif isEndorsedNotBestPractice?(p) %>
 						<%= getGeneralBadge(p, 'Endorsement', 'OSB endorsed project', 'This project is endorsed by OSB and is officially supported.', '', 'label label-info') %>
