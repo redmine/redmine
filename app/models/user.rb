@@ -678,9 +678,8 @@ class User < Principal
       return true if admin?
 
       # authorize if user has at least one role that has this permission
-      rls = self.roles.to_a
-      rls << builtin_role
-      rls.any? {|role|
+      roles = self.roles.to_a | [builtin_role]
+      roles.any? {|role|
         role.allowed_to?(action) &&
         (block_given? ? yield(role, self) : true)
       }
