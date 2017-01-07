@@ -1,8 +1,23 @@
 == Redmine changelog
 
 Redmine - project management software
-Copyright (C) 2006-2016  Jean-Philippe Lang
+Copyright (C) 2006-2017  Jean-Philippe Lang
 http://www.redmine.org/
+
+== 2017-01-07 v3.2.5
+
+* Defect #14658: Wrong activity timezone on user page
+* Defect #22034: Locked users disappear from project settings
+* Defect #24092: bundler error: selenium-webdriver requires Ruby version >= 2.0.
+* Defect #24156: Redmine might create many AnonymousUser and AnonymousGroup entries
+* Defect #24297: Show action not allowed for time entries in closed projects
+* Defect #24348: acts_as_versioned use old style (Rails 2.x) of method call for #all
+* Defect #24646: X-Sendfile is missing in response headers
+* Defect #24693: Spent time on subtasks should also be reassigned when deleting an issue
+* Defect #24718: Prevent from reassigning spent time to an issue that is going to be deleted
+* Defect #24722: Error when trying to reassign spent time when deleting issues from different projects
+* Patch #24283: Validate length of string fields
+* Patch #24296: Add tablename to siblings query to prevent AmbiguousColumn errors
 
 == 2016-10-10 v3.2.4
 
