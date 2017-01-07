@@ -162,6 +162,7 @@ class User < Principal
   alias :base_reload :reload
   def reload(*args)
     @name = nil
+    @roles = nil
     @projects_by_role = nil
     @project_ids_by_role = nil
     @membership_by_project_id = nil
