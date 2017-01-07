@@ -434,7 +434,7 @@ class ApplicationController < ActionController::Base
       return false
     end
 
-    if path.match(%r{/(login|account/register)})
+    if path.match(%r{/(login|account/register|account/lost_password)})
       return false
     end
 
