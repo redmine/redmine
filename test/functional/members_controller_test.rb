@@ -110,6 +110,17 @@ class MembersControllerTest < Redmine::ControllerTest
     assert_match /alert/, response.body, "Alert message not sent"
   end
 
+  def test_edit
+    get :edit, :id => 2
+    assert_response :success
+    assert_select 'input[name=?][value=?][checked=checked]', 'membership[role_ids][]', '2'
+  end
+
+  def test_xhr_edit
+    xhr :get, :edit, :id => 2
+    assert_response :success
+  end
+
   def test_update
     assert_no_difference 'Member.count' do
       put :update, :id => 2, :membership => {:role_ids => [1], :user_id => 3}

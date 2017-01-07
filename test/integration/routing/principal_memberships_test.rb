@@ -21,6 +21,7 @@ class RoutingPrincipalMembershipsTest < Redmine::RoutingTest
   def test_user_memberships
     should_route 'GET /users/123/memberships/new' => 'principal_memberships#new', :user_id => '123'
     should_route 'POST /users/123/memberships' => 'principal_memberships#create', :user_id => '123'
+    should_route 'GET /users/123/memberships/55/edit' => 'principal_memberships#edit', :user_id => '123', :id => '55'
     should_route 'PUT /users/123/memberships/55' => 'principal_memberships#update', :user_id => '123', :id => '55'
     should_route 'DELETE /users/123/memberships/55' => 'principal_memberships#destroy', :user_id => '123', :id => '55'
   end
@@ -28,6 +29,7 @@ class RoutingPrincipalMembershipsTest < Redmine::RoutingTest
   def test_group_memberships
     should_route 'GET /groups/123/memberships/new' => 'principal_memberships#new', :group_id => '123'
     should_route 'POST /groups/123/memberships' => 'principal_memberships#create', :group_id => '123'
+    should_route 'GET /groups/123/memberships/55/edit' => 'principal_memberships#edit', :group_id => '123', :id => '55'
     should_route 'PUT /groups/123/memberships/55' => 'principal_memberships#update', :group_id => '123', :id => '55'
     should_route 'DELETE /groups/123/memberships/55' => 'principal_memberships#destroy', :group_id => '123', :id => '55'
   end

@@ -80,6 +80,10 @@ class MembersController < ApplicationController
     end
   end
 
+  def edit
+    @roles = Role.givable.to_a
+  end
+
   def update
     if params[:membership]
       @member.set_editable_role_ids(params[:membership][:role_ids])

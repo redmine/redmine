@@ -21,7 +21,7 @@ class PrincipalMembershipsController < ApplicationController
 
   before_action :require_admin
   before_action :find_principal, :only => [:new, :create]
-  before_action :find_membership, :only => [:update, :destroy]
+  before_action :find_membership, :only => [:edit, :update, :destroy]
 
   def new
     @projects = Project.active.all
@@ -38,6 +38,10 @@ class PrincipalMembershipsController < ApplicationController
       format.html { redirect_to_principal @principal }
       format.js
     end
+  end
+
+  def edit
+    @roles = Role.givable.to_a
   end
 
   def update

@@ -113,7 +113,7 @@ Rails.application.routes.draw do
     end
 
     shallow do
-      resources :memberships, :controller => 'members', :only => [:index, :show, :new, :create, :update, :destroy] do
+      resources :memberships, :controller => 'members' do
         collection do
           get 'autocomplete'
         end

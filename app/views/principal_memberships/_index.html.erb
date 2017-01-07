@@ -1,5 +1,3 @@
-<% roles = Role.find_all_givable %>
-
 <p><%= link_to l(:label_add_projects), new_principal_membership_path(principal), :remote => true, :class => "icon icon-add" %></p>
 
 <% if principal.memberships.any? %>
@@ -19,26 +17,13 @@
   </td>
   <td class="roles">
     <span id="member-<%= membership.id %>-roles"><%=h membership.roles.sort.collect(&:to_s).join(', ') %></span>
-    <%= form_for(:membership, :remote => true,
-                 :url => principal_membership_path(principal, membership), :method => :put,
-                 :html => {:id => "member-#{membership.id}-roles-form",
-                           :style => 'display:none;'}) do %>
-        <p><% roles.each do |role| %>
-        <label><%= check_box_tag 'membership[role_ids][]', role.id, membership.roles.include?(role),
-                                                           :disabled => membership.member_roles.detect {|mr| mr.role_id == role.id && !mr.inherited_from.nil?},
-                                                           :id => nil %> <%=h role %></label><br />
-        <% end %></p>
-        <%= hidden_field_tag 'membership[role_ids][]', '', :id => nil %>
-        <p><%= submit_tag l(:button_change) %>
-        <%= link_to_function l(:button_cancel),
-                             "$('#member-#{membership.id}-roles').show(); $('#member-#{membership.id}-roles-form').hide(); return false;"
-            %></p>
-    <% end %>
+    <div id="member-<%= membership.id %>-form"></div>
   </td>
   <td class="buttons">
-      <%= link_to_function l(:button_edit),
-                           "$('#member-#{membership.id}-roles').hide(); $('#member-#{membership.id}-roles-form').show(); return false;",
-                           :class => 'icon icon-edit'
+      <%= link_to l(:button_edit),
+                  edit_principal_membership_path(principal, membership),
+                  :remote => true,
+                  :class => 'icon icon-edit'
           %>
       <%= delete_link principal_membership_path(principal, membership), :remote => true if membership.deletable? %>
   </td>

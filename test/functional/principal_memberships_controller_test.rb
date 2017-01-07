@@ -105,6 +105,17 @@ class PrincipalMembershipsControllerTest < Redmine::ControllerTest
     assert_include 'Role cannot be empty', response.body, "Error message not sent"
   end
 
+  def test_edit_user_membership
+    get :edit, :user_id => 2, :id => 1
+    assert_response :success
+    assert_select 'input[name=?][value=?][checked=checked]', 'membership[role_ids][]', '1'
+  end
+
+  def test_xhr_edit_user_membership
+    xhr :get, :edit, :user_id => 2, :id => 1
+    assert_response :success
+  end
+
   def test_update_user_membership
     assert_no_difference 'Member.count' do
       put :update, :user_id => 2, :id => 1, :membership => {:role_ids => [2]}
@@ -120,7 +131,7 @@ class PrincipalMembershipsControllerTest < Redmine::ControllerTest
       assert_equal 'text/javascript', response.content_type
     end
     assert_equal [2], Member.find(1).role_ids
-    assert_include 'tab-content-memberships', response.body
+    assert_include '$("#member-1-roles").html("Developer").show();', response.body
   end
 
   def test_destroy_user_membership

@@ -46,6 +46,14 @@ module PrincipalMembershipsHelper
     end
   end
 
+  def edit_principal_membership_path(principal, *args)
+    if principal.is_a?(Group)
+      edit_group_membership_path(principal, *args)
+    else
+      edit_user_membership_path(principal, *args)
+    end
+  end
+
   def principal_membership_path(principal, membership, *args)
     if principal.is_a?(Group)
       group_membership_path(principal, membership, *args)
