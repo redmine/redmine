@@ -1,4 +1,4 @@
-<% memberships = principal.memberships.preload(:member_roles => :role).sorted_by_project.to_a %>
+<% memberships = principal.memberships.preload(:member_roles, :roles).sorted_by_project.to_a %>
 
 <p><%= link_to l(:label_add_projects), new_principal_membership_path(principal), :remote => true, :class => "icon icon-add" %></p>
 
