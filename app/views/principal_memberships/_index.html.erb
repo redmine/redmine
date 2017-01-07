@@ -1,6 +1,8 @@
+<% memberships = principal.memberships.preload(:member_roles => :role).sorted_by_project.to_a %>
+
 <p><%= link_to l(:label_add_projects), new_principal_membership_path(principal), :remote => true, :class => "icon icon-add" %></p>
 
-<% if principal.memberships.any? %>
+<% if memberships.any? %>
 <table class="list memberships">
   <thead><tr>
     <th><%= l(:label_project) %></th>
@@ -9,7 +11,7 @@
       <%= call_table_header_hook principal %>
   </tr></thead>
   <tbody>
-  <% principal.memberships.preload(:member_roles => :role).each do |membership| %>
+  <% memberships.each do |membership| %>
   <% next if membership.new_record? %>
   <tr id="member-<%= membership.id %>" class="<%= cycle 'odd', 'even' %> class">
   <td class="project name">

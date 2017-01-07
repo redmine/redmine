@@ -37,6 +37,10 @@ class Member < ActiveRecord::Base
       reorder("#{Role.table_name}.position").
       order(Principal.fields_for_order_statement)
   }
+  scope :sorted_by_project, lambda {
+    includes(:project).
+      reorder("#{Project.table_name}.lft")
+  }
 
   alias :base_reload :reload
   def reload(*args)
