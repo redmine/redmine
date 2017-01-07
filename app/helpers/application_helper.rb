@@ -797,8 +797,20 @@ module ApplicationHelper
   #     identifier:version:1.0.0
   #     identifier:source:some/file
   def parse_redmine_links(text, default_project, obj, attr, only_path, options)
-    text.gsub!(%r{<a( [^>]+?)?>(.*?)</a>|([\s\(,\-\[\>]|^)(!)?(([a-z0-9\-_]+):)?(attachment|document|version|forum|news|message|project|commit|source|export)?(((#)|((([a-z0-9\-_]+)\|)?(r)))((\d+)((#note)?-(\d+))?)|(:)([^"\s<>][^\s<>]*?|"[^"]+?"))(?=(?=[[:punct:]][^A-Za-z0-9_/])|,|\s|\]|<|$)}) do |m|
-      tag_content, leading, esc, project_prefix, project_identifier, prefix, repo_prefix, repo_identifier, sep, identifier, comment_suffix, comment_id = $2, $3, $4, $5, $6, $7, $12, $13, $10 || $14 || $20, $16 || $21, $17, $19
+    text.gsub!(LINKS_RE) do |_|
+      tag_content = $~[:tag_content]
+      leading = $~[:leading]
+      esc = $~[:esc]
+      project_prefix = $~[:project_prefix]
+      project_identifier = $~[:project_identifier]
+      prefix = $~[:prefix]
+      repo_prefix = $~[:repo_prefix]
+      repo_identifier = $~[:repo_identifier]
+      sep = $~[:sep1] || $~[:sep2] || $~[:sep3]
+      identifier = $~[:identifier1] || $~[:identifier2]
+      comment_suffix = $~[:comment_suffix]
+      comment_id = $~[:comment_id]
+
       if tag_content
         $&
       else
@@ -933,6 +945,39 @@ module ApplicationHelper
     end
   end
 
+  LINKS_RE =
+      %r{
+            <a( [^>]+?)?>(?<tag_content>.*?)</a>|
+            (?<leading>[\s\(,\-\[\>]|^)
+            (?<esc>!)?
+            (?<project_prefix>(?<project_identifier>[a-z0-9\-_]+):)?
+            (?<prefix>attachment|document|version|forum|news|message|project|commit|source|export)?
+            (
+              (
+                (?<sep1>\#)|
+                (
+                  (?<repo_prefix>(?<repo_identifier>[a-z0-9\-_]+)\|)?
+                  (?<sep2>r)
+                )
+              )
+              (
+                (?<identifier1>\d+)
+                (?<comment_suffix>
+                  (\#note)?
+                  -(?<comment_id>\d+)
+                )?
+              )|
+              (?<sep3>:)
+              (?<identifier2>[^"\s<>][^\s<>]*?|"[^"]+?")
+            )
+            (?=
+              (?=[[:punct:]][^A-Za-z0-9_/])|
+              ,|
+              \s|
+              \]|
+              <|
+              $)
+      }x
   HEADING_RE = /(<h(\d)( [^>]+)?>(.+?)<\/h(\d)>)/i unless const_defined?(:HEADING_RE)
 
   def parse_sections(text, project, obj, attr, only_path, options)
