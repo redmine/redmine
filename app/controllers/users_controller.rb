@@ -69,7 +69,7 @@ class UsersController < ApplicationController
     end
 
     # show projects based on current user visibility
-    @memberships = @user.memberships.where(Project.visible_condition(User.current)).to_a
+    @memberships = @user.memberships.preload(:roles, :project).where(Project.visible_condition(User.current)).to_a
 
     respond_to do |format|
       format.html {

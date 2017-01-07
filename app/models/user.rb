@@ -546,6 +546,10 @@ class User < Principal
     @membership_by_project_id[project_id]
   end
 
+  def roles
+    @roles ||= Role.joins(members: :project).where(["#{Project.table_name}.status <> ?", Project::STATUS_ARCHIVED]).where(Member.arel_table[:user_id].eq(id)).uniq
+  end
+
   # Returns the user's bult-in role
   def builtin_role
     @builtin_role ||= Role.non_member
@@ -673,9 +677,9 @@ class User < Principal
       return true if admin?
 
       # authorize if user has at least one role that has this permission
-      roles = memberships.collect {|m| m.roles}.flatten.uniq
-      roles << (self.logged? ? Role.non_member : Role.anonymous)
-      roles.any? {|role|
+      rls = self.roles.to_a
+      rls << builtin_role
+      rls.any? {|role|
         role.allowed_to?(action) &&
         (block_given? ? yield(role, self) : true)
       }
