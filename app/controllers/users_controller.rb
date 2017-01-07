@@ -73,7 +73,7 @@ class UsersController < ApplicationController
     respond_to do |format|
       format.html {
         events = Redmine::Activity::Fetcher.new(User.current, :author => @user).events(nil, nil, :limit => 10)
-        @events_by_day = events.group_by(&:event_date)
+        @events_by_day = events.group_by {|event| User.current.time_to_date(event.event_datetime)}
         render :layout => 'base'
       }
       format.api
