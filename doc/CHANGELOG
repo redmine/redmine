@@ -1,8 +1,33 @@
 == Redmine changelog
 
 Redmine - project management software
-Copyright (C) 2006-2016  Jean-Philippe Lang
+Copyright (C) 2006-2017  Jean-Philippe Lang
 http://www.redmine.org/
+
+== 2017-01-07 v3.3.2
+
+* Defect #13622: "Clear" button in Spent Time Report tab also clears global filters
+* Defect #14658: Wrong activity timezone on user page
+* Defect #14817: Redmine loses filters after deleting a spent time
+* Defect #22034: Locked users disappear from project settings
+* Defect #23922: Time Entries context menu/bulk edit shows activities not available for the time entry's project
+* Defect #24000: z-index children menu should be greater than content
+* Defect #24092: bundler error: selenium-webdriver requires Ruby version >= 2.0.
+* Defect #24156: Redmine might create many AnonymousUser and AnonymousGroup entries
+* Defect #24274: Query totals and query buttons overlaps on small screens
+* Defect #24297: Show action not allowed for time entries in closed projects
+* Defect #24311: Project field disappears when target project disallows user to edit the project
+* Defect #24348: acts_as_versioned use old style (Rails 2.x) of method call for #all
+* Defect #24595: Unarchive link for a subproject of a closed project does not work
+* Defect #24646: X-Sendfile is missing in response headers
+* Defect #24693: Spent time on subtasks should also be reassigned when deleting an issue
+* Defect #24718: Prevent from reassigning spent time to an issue that is going to be deleted
+* Defect #24722: Error when trying to reassign spent time when deleting issues from different projects
+* Patch #24003: Catalan Translation
+* Patch #24004: Spanish & Spanish (PA) Translation
+* Patch #24062: Allow only vertical reorderingin sortable lists
+* Patch #24283: Validate length of string fields
+* Patch #24296: Add tablename to siblings query to prevent AmbiguousColumn errors
 
 == 2016-10-10 v3.3.1
 
