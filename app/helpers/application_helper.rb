@@ -466,9 +466,7 @@ module ApplicationHelper
   end
 
   def syntax_highlight_lines(name, content)
-    lines = []
-    syntax_highlight(name, content).each_line { |line| lines << line }
-    lines
+    syntax_highlight(name, content).each_line.to_a
   end
 
   def syntax_highlight(name, content)
