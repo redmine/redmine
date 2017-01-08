@@ -102,7 +102,9 @@ class BoardsController < ApplicationController
   end
 
   def destroy
-    @board.destroy
+    if @board.destroy
+      flash[:notice] = l(:notice_successful_delete)
+    end
     redirect_to_settings_in_projects
   end
 
