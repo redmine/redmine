@@ -280,7 +280,7 @@ class Version < ActiveRecord::Base
   end
 
   def default_project_version=(arg)
-    @default_project_version = (arg == '1' || arg == true) 
+    @default_project_version = (arg == '1' || arg == true)
   end
 
   private
