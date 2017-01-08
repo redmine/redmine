@@ -1209,12 +1209,12 @@ cs:
   setting_new_item_menu_tab: Záložka v menu projektu pro vytváření nových objektů
   label_new_object_tab_enabled: Zobrazit rozbalovací menu "+"
   error_no_projects_with_tracker_allowed_for_new_issue: Neexistují projekty s frontou, pro kterou lze vytvořit úkol
-  field_textarea_font: Font used for text areas
-  label_font_default: Default font
-  label_font_monospace: Monospaced font
-  label_font_proportional: Proportional font
-  setting_timespan_format: Time span format
-  label_table_of_contents: Table of contents
+  field_textarea_font: Písmo použité pro textová pole
+  label_font_default: Výchozí písmo
+  label_font_monospace: Neproporcionální písmo
+  label_font_proportional: Proporciální písmo
+  setting_timespan_format: Formát časového intervalu
+  label_table_of_contents: Obsah
   setting_commit_logs_formatting: Apply text formatting to commit messages
   setting_mail_handler_enable_regex_delimiters: Enable regular expressions
   error_move_of_child_not_possible: 'Subtask %{child} could not be moved to the new
