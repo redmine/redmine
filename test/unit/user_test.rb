@@ -875,7 +875,6 @@ class UserTest < ActiveSupport::TestCase
 
   def test_roles_for_project_with_non_member_with_private_project_should_return_no_roles
     Project.find(1).update_attribute :is_public, false
-  
     roles = User.find(8).roles_for_project(Project.find(1))
     assert_equal [], roles.map(&:name)
   end
@@ -903,7 +902,6 @@ class UserTest < ActiveSupport::TestCase
 
   def test_roles_for_project_with_anonymous_with_private_project_should_return_no_roles
     Project.find(1).update_attribute :is_public, false
-  
     roles = User.anonymous.roles_for_project(Project.find(1))
     assert_equal [], roles.map(&:name)
   end
