@@ -22,7 +22,7 @@ class FilesController < ApplicationController
   before_action :authorize
   accept_api_auth :index, :create
 
-  helper :attachments 
+  helper :attachments
   helper :sort
   include SortHelper
 
