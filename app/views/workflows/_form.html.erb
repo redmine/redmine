@@ -29,12 +29,17 @@
       <%= link_to_function('', "toggleCheckboxesBySelector('table.transitions-#{name} input.old-status-#{old_status.try(:id) || 0}')",
                            :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}",
                            :class => 'icon-only icon-checked') %>
-
-      <%= old_status ? old_status.name : content_tag('em', l(:label_issue_new)) %>
+      <% if old_status %>
+        <% old_status_name = old_status.name %>
+        <%= old_status_name %>
+      <% else %>
+        <% old_status_name = l(:label_issue_new) %>
+        <%= content_tag('em', old_status_name) %>
+      <% end %>
     </td>
     <% for new_status in @statuses -%>
     <% checked = workflows.detect {|w| w.old_status == old_status && w.new_status == new_status} %>
-    <td class="<%= checked ? 'enabled' : '' %>">
+    <td class="<%= checked ? 'enabled' : '' %>" title="<%= old_status_name %> &#187; <%= new_status.name %>">
       <%= transition_tag workflows, old_status, new_status, name %>
     </td>
     <% end -%>
