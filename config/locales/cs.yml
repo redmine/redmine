@@ -1201,13 +1201,11 @@ cs:
   button_filter: Filtr
   mail_body_password_updated: Vaše heslo bylo změněno.
   label_no_preview: Náhled není k dispozici
-  error_no_tracker_allowed_for_new_issue_in_project: The project doesn't have any trackers
-    for which you can create an issue
-  label_tracker_all: All trackers
+  error_no_tracker_allowed_for_new_issue_in_project: Projekt neobsahuje žádnou frontu, pro kterou lze vytvořit úkol
+  label_tracker_all: Všechny fronty
   label_new_project_issue_tab_enabled: Zobraz záložku "Nový úkol"
-  setting_new_item_menu_tab: Project menu tab for creating new objects
-  label_new_object_tab_enabled: Display the "+" drop-down
-  error_no_projects_with_tracker_allowed_for_new_issue: There are no projects with trackers
-    for which you can create an issue
+  setting_new_item_menu_tab: Záložka v menu projektu pro vytváření nových objektů
+  label_new_object_tab_enabled: Zobrazit rozbalovací menu "+"
+  error_no_projects_with_tracker_allowed_for_new_issue: Neexistují projekty s frontou, pro kterou lze vytvořit úkol
   error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: Spent time cannot
     be reassigned to an issue that is about to be deleted
