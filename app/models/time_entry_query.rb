@@ -42,65 +42,38 @@ class TimeEntryQuery < Query
   def initialize_available_filters
     add_available_filter "spent_on", :type => :date_past
 
-    principals = []
-    versions = []
-    if project
-      principals += project.principals.visible.sort
-      unless project.leaf?
-        subprojects = project.descendants.visible.to_a
-        if subprojects.any?
-          add_available_filter "subproject_id",
-            :type => :list_subprojects,
-            :values => subprojects.collect{|s| [s.name, s.id.to_s] }
-          principals += Principal.member_of(subprojects).visible
-        end
-      end
-      versions = project.shared_versions.to_a
-    else
-      if all_projects.any?
-        # members of visible projects
-        principals += Principal.member_of(all_projects).visible
-        # project filter
-        project_values = []
-        if User.current.logged? && User.current.memberships.any?
-          project_values << ["<< #{l(:label_my_projects).downcase} >>", "mine"]
-        end
-        project_values += all_projects_values
-        add_available_filter("project_id",
-          :type => :list, :values => project_values
-        ) unless project_values.empty?
-      end
+    add_available_filter("project_id",
+      :type => :list, :values => lambda { project_values }
+    ) if project.nil?
+
+    if project && !project.leaf?
+      add_available_filter "subproject_id",
+        :type => :list_subprojects,
+        :values => lambda { subproject_values }
     end
 
     add_available_filter("issue_id", :type => :tree, :label => :label_issue)
     add_available_filter("issue.tracker_id",
       :type => :list,
       :name => l("label_attribute_of_issue", :name => l(:field_tracker)),
-      :values => Tracker.sorted.map {|t| [t.name, t.id.to_s]})
+      :values => lambda { Tracker.sorted.map {|t| [t.name, t.id.to_s]} })
     add_available_filter("issue.status_id",
       :type => :list,
       :name => l("label_attribute_of_issue", :name => l(:field_status)),
-      :values => IssueStatus.sorted.map {|s| [s.name, s.id.to_s]})
+      :values => lambda { IssueStatus.sorted.map {|s| [s.name, s.id.to_s]} })
     add_available_filter("issue.fixed_version_id",
       :type => :list,
       :name => l("label_attribute_of_issue", :name => l(:field_fixed_version)),
-      :values => Version.sort_by_status(versions).collect{|s| ["#{s.project.name} - #{s.name}", s.id.to_s, l("version_status_#{s.status}")] })
+      :values => lambda { fixed_version_values }) if project
 
-    principals.uniq!
-    principals.sort!
-    users = principals.select {|p| p.is_a?(User)}
-
-    users_values = []
-    users_values << ["<< #{l(:label_me)} >>", "me"] if User.current.logged?
-    users_values += users.collect{|s| [s.name, s.id.to_s] }
     add_available_filter("user_id",
-      :type => :list_optional, :values => users_values
-    ) unless users_values.empty?
+      :type => :list_optional, :values => lambda { author_values }
+    )
 
     activities = (project ? project.activities : TimeEntryActivity.shared)
     add_available_filter("activity_id",
       :type => :list, :values => activities.map {|a| [a.name, a.id.to_s]}
-    ) unless activities.empty?
+    )
 
     add_available_filter "comments", :type => :text
     add_available_filter "hours", :type => :float

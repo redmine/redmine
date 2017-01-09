@@ -118,6 +118,28 @@ class QueryTest < ActiveSupport::TestCase
     assert_not_include 'start_date', query.available_filters
   end
 
+  def test_filter_values_without_project_should_be_arrays
+    q = IssueQuery.new
+    assert_nil q.project
+
+    q.available_filters.each do |name, filter|
+      values = filter.values
+      assert (values.nil? || values.is_a?(Array)),
+        "#values for #{name} filter returned a #{values.class.name}"
+    end
+  end
+
+  def test_filter_values_with_project_should_be_arrays
+    q = IssueQuery.new(:project => Project.find(1))
+    assert_not_nil q.project
+
+    q.available_filters.each do |name, filter|
+      values = filter.values
+      assert (values.nil? || values.is_a?(Array)),
+        "#values for #{name} filter returned a #{values.class.name}"
+    end
+  end
+
   def find_issues_with_query(query)
     Issue.joins(:status, :tracker, :project, :priority).where(
          query.statement

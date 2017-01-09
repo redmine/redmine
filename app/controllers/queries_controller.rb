@@ -17,7 +17,7 @@
 
 class QueriesController < ApplicationController
   menu_item :issues
-  before_action :find_query, :except => [:new, :create, :index]
+  before_action :find_query, :only => [:edit, :update, :destroy]
   before_action :find_optional_project, :only => [:new, :create]
 
   accept_api_auth :index
@@ -83,6 +83,25 @@ class QueriesController < ApplicationController
   def destroy
     @query.destroy
     redirect_to_items(:set_filter => 1)
+  end
+
+  # Returns the values for a query filter
+  def filter
+    q = query_class.new
+    if params[:project_id].present?
+      q.project = Project.find(params[:project_id])
+    end
+
+    unless User.current.allowed_to?(q.class.view_permission, q.project, :global => true)
+      raise Unauthorized
+    end
+
+    filter = q.available_filters[params[:name].to_s]
+    values = filter ? filter.values : []
+
+    render :json => values
+  rescue ActiveRecord::RecordNotFound
+    render_404
   end
 
   private

@@ -160,6 +160,40 @@ class QueryAssociationCustomFieldColumn < QueryCustomFieldColumn
   end
 end
 
+class QueryFilter
+  include Redmine::I18n
+
+  def initialize(field, options)
+    @field = field.to_s
+    @options = options
+    @options[:name] ||= l(options[:label] || "field_#{field}".gsub(/_id$/, ''))
+    # Consider filters with a Proc for values as remote by default
+    @remote = options.key?(:remote) ? options[:remote] : options[:values].is_a?(Proc)
+  end
+
+  def [](arg)
+    if arg == :values
+      values
+    else
+      @options[arg]
+    end
+  end
+
+  def values
+    @values ||= begin
+      values = @options[:values]
+      if values.is_a?(Proc)
+        values = values.call
+      end
+      values
+    end
+  end
+
+  def remote
+    @remote
+  end
+end
+
 class Query < ActiveRecord::Base
   class StatementInvalid < ::ActiveRecord::StatementInvalid
   end
@@ -404,12 +438,17 @@ class Query < ActiveRecord::Base
   # Returns a representation of the available filters for JSON serialization
   def available_filters_as_json
     json = {}
-    available_filters.each do |field, options|
-      options = options.slice(:type, :name, :values)
-      if options[:values] && values_for(field)
-        missing = Array(values_for(field)).select(&:present?) - options[:values].map(&:last)
-        if missing.any? && respond_to?(method = "find_#{field}_filter_values")
-          options[:values] += send(method, missing)
+    available_filters.each do |field, filter|
+      options = {:type => filter[:type], :name => filter[:name]}
+      options[:remote] = true if filter.remote
+
+      if has_filter?(field) || !filter.remote
+        options[:values] = filter.values
+        if options[:values] && values_for(field)
+          missing = Array(values_for(field)).select(&:present?) - options[:values].map(&:last)
+          if missing.any? && respond_to?(method = "find_#{field}_filter_values")
+            options[:values] += send(method, missing)
+          end
         end
       end
       json[field] = options.stringify_keys
@@ -432,6 +471,65 @@ class Query < ActiveRecord::Base
     @all_projects_values = values
   end
 
+  def project_values
+    project_values = []
+    if User.current.logged? && User.current.memberships.any?
+      project_values << ["<< #{l(:label_my_projects).downcase} >>", "mine"]
+    end
+    project_values += all_projects_values
+    project_values
+  end
+
+  def subproject_values
+    project.descendants.visible.collect{|s| [s.name, s.id.to_s] }
+  end
+
+  def principals
+    @principal ||= begin
+      principals = []
+      if project
+        principals += project.principals.visible
+        unless project.leaf?
+          principals += Principal.member_of(project.descendants.visible).visible
+        end
+      else
+        principals += Principal.member_of(all_projects).visible
+      end
+      principals.uniq!
+      principals.sort!
+      principals.reject! {|p| p.is_a?(GroupBuiltin)}
+      principals
+    end
+  end
+
+  def users
+    principals.select {|p| p.is_a?(User)}
+  end
+
+  def author_values
+    author_values = []
+    author_values << ["<< #{l(:label_me)} >>", "me"] if User.current.logged?
+    author_values += users.collect{|s| [s.name, s.id.to_s] }
+    author_values
+  end
+
+  def assigned_to_values
+    assigned_to_values = []
+    assigned_to_values << ["<< #{l(:label_me)} >>", "me"] if User.current.logged?
+    assigned_to_values += (Setting.issue_group_assignment? ? principals : users).collect{|s| [s.name, s.id.to_s] }
+    assigned_to_values
+  end
+
+  def fixed_version_values
+    versions = []
+    if project
+      versions = project.shared_versions.to_a
+    else
+      versions = Version.visible.where(:sharing => 'system').to_a
+    end
+    Version.sort_by_status(versions).collect{|s| ["#{s.project.name} - #{s.name}", s.id.to_s, l("version_status_#{s.status}")] }
+  end
+
   # Adds available filters
   def initialize_available_filters
     # implemented by sub-classes
@@ -441,7 +539,7 @@ class Query < ActiveRecord::Base
   # Adds an available filter
   def add_available_filter(field, options)
     @available_filters ||= ActiveSupport::OrderedHash.new
-    @available_filters[field] = options
+    @available_filters[field] = QueryFilter.new(field, options)
     @available_filters
   end
 
@@ -457,9 +555,6 @@ class Query < ActiveRecord::Base
     unless @available_filters
       initialize_available_filters
       @available_filters ||= {}
-      @available_filters.each do |field, options|
-        options[:name] ||= l(options[:label] || "field_#{field}".gsub(/_id$/, ''))
-      end
     end
     @available_filters
   end

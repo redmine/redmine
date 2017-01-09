@@ -18,7 +18,12 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class QueriesControllerTest < Redmine::ControllerTest
-  fixtures :projects, :users, :members, :member_roles, :roles, :trackers, :issue_statuses, :issue_categories, :enumerations, :issues, :custom_fields, :custom_values, :queries, :enabled_modules
+  fixtures :projects, :enabled_modules,
+           :users, :email_addresses,
+           :members, :member_roles, :roles,
+           :trackers, :issue_statuses, :issue_categories, :enumerations, :versions,
+           :issues, :custom_fields, :custom_values,
+           :queries
 
   def setup
     User.current = nil
@@ -396,5 +401,25 @@ class QueriesControllerTest < Redmine::ControllerTest
     get :new, :subject => 'foo/bar'
     assert_response :success
     assert_include 'addFilter("subject", "=", ["foo\/bar"]);', response.body
+  end
+
+  def test_filter_with_project_id_should_return_filter_values
+    @request.session[:user_id] = 2
+    get :filter, :project_id => 1, :name => 'fixed_version_id'
+
+    assert_response :success
+    assert_equal 'application/json', response.content_type
+    json = ActiveSupport::JSON.decode(response.body)
+    assert_include ["eCookbook - 2.0", "3", "open"], json
+  end
+
+  def test_filter_without_project_id_should_return_filter_values
+    @request.session[:user_id] = 2
+    get :filter, :name => 'fixed_version_id'
+
+    assert_response :success
+    assert_equal 'application/json', response.content_type
+    json = ActiveSupport::JSON.decode(response.body)
+    assert_include ["OnlineStore - Systemwide visible version", "7", "open"], json
   end
 end

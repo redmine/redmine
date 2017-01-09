@@ -120,6 +120,18 @@ function initFilters() {
 function addFilter(field, operator, values) {
   var fieldId = field.replace('.', '_');
   var tr = $('#tr_'+fieldId);
+  
+  var filterOptions = availableFilters[field];
+  if (!filterOptions) return;
+
+  if (filterOptions['remote'] && filterOptions['values'] == null) {
+    $.getJSON(filtersUrl, {'name': field}).done(function(data) {
+      filterOptions['values'] = data;
+      addFilter(field, operator, values) ;
+    });
+    return;
+  }
+
   if (tr.length > 0) {
     tr.show();
   } else {
@@ -134,7 +146,7 @@ function addFilter(field, operator, values) {
   });
 }
 
-function buildFilterRow(field, operator, values) {
+function buildFilterRow(field, operator, values, loadedValues) {
   var fieldId = field.replace('.', '_');
   var filterTable = $("#filters-table");
   var filterOptions = availableFilters[field];
@@ -212,8 +224,8 @@ function buildFilterRow(field, operator, values) {
     );
     $('#values_'+fieldId).val(values[0]);
     select = tr.find('td.values select');
-    for (i = 0; i < allProjects.length; i++) {
-      var filterValue = allProjects[i];
+    for (i = 0; i < filterValues.length; i++) {
+      var filterValue = filterValues[i];
       var option = $('<option>');
       option.val(filterValue[1]).text(filterValue[0]);
       if (values[0] == filterValue[1]) { option.attr('selected', true); }
