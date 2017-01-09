@@ -146,7 +146,7 @@ function addFilter(field, operator, values) {
   });
 }
 
-function buildFilterRow(field, operator, values, loadedValues) {
+function buildFilterRow(field, operator, values) {
   var fieldId = field.replace('.', '_');
   var filterTable = $("#filters-table");
   var filterOptions = availableFilters[field];
