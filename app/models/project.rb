@@ -535,7 +535,11 @@ class Project < ActiveRecord::Base
   end
 
   def <=>(project)
-    name.downcase <=> project.name.downcase
+    begin
+      name.downcase <=> project.name.downcase
+    rescue
+      name.downcase <=> project
+    end
   end
 
   def to_s
