@@ -104,87 +104,97 @@ module ApplicationHelper
   end
   
   def getBadgeClass(value)
-    if(value=="3" or value=="4" )
-      badgeClass="badge-success"
-    elsif(value=="2" )
-      badgeClass="badge-info" 
-    elsif(value=="1")
-      badgeClass="badge-warning"
-    else
-      badgeClass="badge-default"
+    case value
+    when ("3".."4") then "badge-success"
+    when "2" then "badge-info"
+    when "1" then "badge-warning"
+    else "badge-default"
     end
   end
   
   def getLevel(value)
-    if(value=="3" or value=="4" )
-      level="Good"
-    elsif(value=="2" )
-      level="Medium" 
-    elsif(value=="1")
-      level="Low"
-    elsif(value=="0")
-      level="TBD"
-    else
-      level="Irrelevant"
+    case value
+    when ("3".."4") then "Good"
+    when "2" then "Medium"
+    when "1" then "Low"
+    when "0" then "TBD"
+    else "Irrelevant"
     end
   end
   
-  def getSupport(value)
-    if(value=="3" or value=="4" )
-        level="3/3 stars"
-    elsif(value=="2" )
-      level="2/3 stars" 
-    elsif(value=="1")
-      level="1/3 stars"
-    elsif(value=="-1")
-      level="This model is not yet supported by this simulator"
+  @@badges = {"Endorsement" => {"2" => {base_text: "OSB best practice project",
+                                        tooltip: "This project is endorsed by OSB and has been identified
+                                              as fulfilling OSB best practices for projects."},
+                                "1" => {base_text: "OSB endorsed project",
+                                          tooltip: "This project is endorsed by OSB and is officially supported."},
+                                "0" => {base_text: "User Project",
+                                        tooltip: "This is a personal user project and has not yet been endorsed by OSB.
+                                          Please get in contact (info@opensourcebrain.org) to have this project endorsed!"}},
+              "Curation level" => {"0" => "", # do not display
+                                   default: {base_text: "Curation against published models",
+                                             tooltip: "How well does the curated NeuroML/PyNN version of this model 
+                                                      reproduce published models? See Status for more details.",
+                                             has_stars: true}},
+              "Simulator" =>
+              lambda {|name|
+                {"" => "",
+                 "-1" => "",
+                 "0" => "",
+                  default: {base_text: "%s support" % name,
+                            tooltip: "How well can the curated NeuroML/PyNN version of the model be run in this simulator? Click here to see models with same support rate.",
+                            has_stars: true}}
+              }
+               # Simulators added here by following routine
+             }
+
+  @@simulators = ["NeuroML v2.x", "NeuroML v1.x", "PyNN", "NEURON", "GENESIS 2", "MOOSE", "PSICS", "NEST", "Brian"]
+  for simulator in @@simulators
+    @@badges["#{simulator} support"] = @@badges["Simulator"].call(simulator)
+  end
+
+  def getBadge(project, badge_type, custom_classes='', tipPlace='right')
+    id, value = getCustomFieldAndId(project, badge_type)
+
+    if @@badges[badge_type][value]
+      data = @@badges[badge_type][value]
     else
-      level="Not yet determined. May be supported."
+      data = @@badges[badge_type][:default]
     end
-  end
 
-  def getSimulatorBadge(project, field)
-    value=getCustomField(project, field)
-    return getBadge(project, field, field, "How well can the curated NeuroML/PyNN version of the model be run in this simulator? " + getSupport(value) + ". Click here to see models with same support rate.")
-  end
-
-  #def getTooltipedBadge(project, field, text, tooltip)
-  #  value=getCustomField(project, field)
-  #  return getTooltipedBadgeAlign(project, field, text+': '+getLevel(value), tooltip + " Click here to see other models with same characteristics.", 'pull-right')
-  #end
-    
-  def getBadge(project, field, text, tooltip, align='', classes='')
-    fieldId, fieldValue = getCustomFieldAndId(project, field)
-    if fieldValue == "-1"
+    if data.blank?
       return ""
     end
-    if field != "Endorsement"
-      levelText = ": " + getLevel(fieldValue).html_safe
-      stars = getStars(fieldValue).html_safe
-    else
-      levelText = ""
-      stars = ""
+
+    classes = "#{getBadgeClass(value)} #{custom_classes}"
+    tooltip = "#{data[:tooltip]} Click here to see other models with same characteristics."
+    text = data[:base_text]
+    if data[:has_stars]
+      text += " "+getStars(value)
     end
-    badge='<div class="label tooltiplink ' + getBadgeClass(fieldValue) + ' ' + classes+  ' ' + align + ' ' + '" data-toggle="tooltip" data-placement="right" title="'+ tooltip + ' Click here to see other models with same characteristics.">' + text + levelText+' '+stars+'</div>'
-    badge_link = create_link_to_search_by_custom_field(fieldId, fieldValue, badge)
-    return badge_link.html_safe
+
+    # TODO: move html to template, just return the data here
+    link = create_link_to_search_by_custom_field(id, value, text)
+    return "<div class=\"label tooltiplink #{classes}\" data-toggle=\"tooltip\" data-placement=\"#{tipPlace}\" title=\"#{tooltip}\">#{link}</div>".html_safe
   end
 
-  def getBadges(project)
+  def getBaseBadge(tooltip, content, tipPlace='right', classes='')
+    return "<div class=\"label tooltiplink #{classes}\" data-toggle=\"tooltip\" data-placement=\"#{tipPlace}\" title=\"#{tooltip}\">#{content}</div>".html_safe
+  end
+  
+  def getSimulatorBadges(project, custom_classes='', tipPlace='right')
     badges = ""
-    if isEndorsedNotBestPractice?(project)
-      badges << getBadge(project, 'Endorsement', 'OSB endorsed project', 'This project is endorsed by OSB and is officially supported.', '', 'label label-info') << "\n"
-    end
-    if isBestPractice?(project)
-      badges << getBadge(project, 'Endorsement', 'OSB best practice project', 'This project is endorsed by OSB and has been identified as fulfilling OSB best practices for projects.', '', 'label label-success') << "\n"
-    end
-    if isEndorsedOrBestPractice?(project)
-      badges << getBadge(project,'Curation level', 'Curation against published models', 'How well does the curated NeuroML/PyNN version of this model reproduce published models? See Status for more details.', 'pull-right') << "\n"
-    end
-    if (!isEndorsedNotBestPractice?(project) and !isBestPractice?(project))
-      badges << getBadge(project, 'Endorsement', 'User project', 'This is a personal user project and has not yet been endorsed by OSB. Please get in contact (info@opensourcebrain.org) to have this project endorsed!', '', 'label label-warning') << "\n"
+    for simulator in @@simulators
+      badges << getBadge(project, "#{simulator} support", custom_classes, tipPlace)
     end
     return badges.html_safe
+  end
+  
+  def getCurationBadge(project, custom_classes='', tipPlace='right')
+    getBadge(project, "Curation level", custom_classes, tipPlace)
+  end
+
+  def getEndorsementBadge(project, custom_classes='', tipPlace='right')
+    getBadge(project, "Endorsement", custom_classes, tipPlace)
   end
   
   def getBadgeForTags(project, field, text, tooltip, align, classes, allowEditing=false)
@@ -192,10 +202,9 @@ module ApplicationHelper
     outputLink = ''
     for fieldValueItem in fieldValue.split(',')
       #outputLink << ", " unless outputLink.length == 0
-      label = (text != '') ? text: fieldValueItem
-      tooltipLabel = (text != '') ? tooltip: fieldValueItem
-      badge='<span class="tooltiplink ' + classes+ ' ' + align + ' ' + '" data-toggle="tooltip" data-placement="right" title="'+ tooltipLabel + '. Click here to see other models with same characteristics.">'+ label  +'</span>'
-      outputLink << create_link_to_search_by_custom_field(fieldId, fieldValueItem, badge, '~')
+      label = (text != '') ? text : fieldValueItem
+      tooltipLabel = (text != '') ? tooltip : fieldValueItem
+      outputLink << getBaseBadge("#{tooltipLabel}. Click here to see other models with same tag.", create_link_to_search_by_custom_field(fieldId, fieldValueItem, label, '~'), "right", "badge-info")
       if allowEditing
         #TODO: Substitute space in fieldValueItem with underscore
         deleteBadgeIcon='<a href="#" id="' + fieldValueItem + '" class="delete_tag"><icon class="icon-minus-sign"/></a>'
@@ -228,12 +237,12 @@ module ApplicationHelper
         if (neuroelectroContent["objects"].length > 0)
           neuroelectroContentId = neuroelectroContent["objects"][0]["id"]
           label = neuroelectroContent["objects"][0]["name"]
-          neuroElectroBadge = '<span class="tooltiplink label badge-external ' + align + ' ' + '" data-toggle="tooltip" data-placement="right" title="Click here to find experimental data related to this ID on the NeuroElectro website.">NeuroElectro<i class="icon-external-link"></i></span>'.html_safe
+          neuroElectroBadge = '<div class="tooltiplink label badge-external ' + align + ' ' + '" data-toggle="tooltip" data-placement="right" title="Click here to find experimental data related to this ID on the NeuroElectro website.">NeuroElectro<i class="icon-external-link"></i></div>'.html_safe
           neuroElectroBadgeLink = link_to(neuroElectroBadge.html_safe, "http://www.neuroelectro.org/neuron/#{neuroelectroContentId}", :target => "_blank")  
         end
         
-        badge = '<span class="tooltiplink ' + classes+ ' ' + align + ' ' + '" data-toggle="tooltip" data-placement="right" title="NeuroLex ID: '+ tooltipLabel + '. Click here to see other models in OSB using this NeuroLex ID.">'+ label  +'</span>'
-        neuroLexBadge = '<span class="tooltiplink label badge-external ' + align + ' ' + '" data-toggle="tooltip" data-placement="right" title="Click here to go to this ID on the NeuroLex website.">NeuroLex<i class="icon-external-link"></i></span>'
+        badge = '<div class="label tooltiplink ' + classes+ ' ' + align + ' ' + '" data-toggle="tooltip" data-placement="right" title="NeuroLex ID: '+ tooltipLabel + '. Click here to see other models in OSB using this NeuroLex ID.">'+ label  +'</div>'
+        neuroLexBadge = '<div class="tooltiplink label badge-external ' + align + ' ' + '" data-toggle="tooltip" data-placement="right" title="Click here to go to this ID on the NeuroLex website.">NeuroLex<i class="icon-external-link"></i></div>'
         outputLink << '<div>' + create_link_to_search_by_custom_field(fieldId, fieldValueItem, badge, '~') + link_to(neuroLexBadge.html_safe, "http://neurolex.org/wiki/#{fieldValueItem}", :target => "_blank")
         if neuroElectroBadgeLink != nil
           outputLink << neuroElectroBadgeLink 
@@ -257,20 +266,6 @@ module ApplicationHelper
     end   
     return create_link_to_search_by_custom_field(fieldId, fieldValue, fieldValue)
   end
-  
-  def getStatusBadges(project)
-    badges=""
-    badges+= getSimulatorBadge(project,'NeuroML v2.x support')+"  "
-    badges+= getSimulatorBadge(project,'NeuroML v1.x support')+"  "
-    badges+= getSimulatorBadge(project,'PyNN support')+"  "
-    badges+= getSimulatorBadge(project,'NEURON support')+"  "
-    badges+= getSimulatorBadge(project,'GENESIS 2 support') +"  "
-    badges+= getSimulatorBadge(project,'MOOSE support') +"  "
-    badges+= getSimulatorBadge(project,'PSICS support') +"  "
-    badges+= getSimulatorBadge(project,'NEST support') +"  "
-    badges+= getSimulatorBadge(project,'Brian support') +"  "
-    return badges.html_safe
-  end
                 
   def getProjectBreadcrumb(project)
     spine=getCustomField(project,"Spine classification")
@@ -283,23 +278,18 @@ module ApplicationHelper
     bc<<'<li>'
     url = {:controller => 'projects', :action => 'index', :params => {:spine=> spine}, :anchor => 'cells_graph'}
     bc<< link_to(spine, url)
-    bc<<'<span class="divider">/</span></li>'
     bc<<'<li>'
     url = {:controller => 'projects', :action => 'index', :params => {:spine=> spine, :family=>family}, :anchor => 'cells_graph'}
     bc<< link_to(family, url)
-    bc<<'<span class="divider">/</span></li>'
     bc<<'<li>'
     url = {:controller => 'projects', :action => 'index', :params => {:spine=> spine, :family=>family, :specie=>specie}, :anchor => 'cells_graph'}
     bc<< link_to(specie, url)
-    bc<<'<span class="divider">/</span></li>'
     bc<<'<li>'
     url = {:controller => 'projects', :action => 'index', :params => {:spine=> spine, :family=>family, :specie=>specie, :brain=>brain}, :anchor => 'cells_graph'}
     bc<< link_to(brain, url)
-    bc<<'<span class="divider">/</span></li>'
     bc<<'<li>'
     url = {:controller => 'projects', :action => 'index', :params => {:spine=> spine, :family=>family, :specie=>specie, :brain=>brain, :cell=>cell}, :anchor => 'cells_graph'}
     bc<< link_to(cell, url)
-    bc<<'<span class="divider">/</span></li>'
     bc<<'<li class="active">'+ project.name + '</li>'
     bc<<'</ul>'
     return bc.html_safe()
@@ -344,7 +334,7 @@ module ApplicationHelper
   end
   
   def getHttpRepositoryPath(repository)
-    if (repository.scm_name == 'Mercurial')
+    if (repository != nil and repository.scm_name == 'Mercurial')
       return "/raw/default/"
     else  
       return "/master/"
@@ -380,13 +370,13 @@ module ApplicationHelper
     repo=getCustomField(project,"GitHub repository")
     if(repo!=nil)
       @repourl=repo.dup
-      if @repourl.starts_with?"git:"
+      if @repourl.starts_with? "git:"
         @repourl["git:"]="https:"
       end
-      if @repourl.ends_with?".git"
+      if @repourl.ends_with? ".git"
         @repourl[".git"]=""
       end
-      if (@repourl.starts_with?"https://github") == false 
+      if (@repourl.starts_with? "https://github") == false 
         return nil
       else
         @repourl["https://github"]="https://raw.githubusercontent"
@@ -867,7 +857,8 @@ module ApplicationHelper
         tag_options[:selected] = nil
       end
       tag_options.merge!(yield(project)) if block_given?
-      s << content_tag('li', link_to(name_prefix + h(project), {:url => project.id}), tag_options)
+      #s << content_tag('li', link_to_project(project name_prefix + h(project), {:project_id => project.id}), tag_options)
+      s << content_tag('li', link_to_project(project), tag_options)
     end
     s.html_safe
   end

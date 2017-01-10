@@ -40,7 +40,8 @@
 </div>
 <div class="project-header">
     <div class="badges">
-        <%= getBadges(@project) %>
+        <%= getEndorsementBadge(@project) %>
+        <%= getCurationBadge(@project, "pull-right", tipPlace="bottom") %>
         <a class="twitterbutton icon-twitter-sign tooltiplink clickable" data-toggle='tooltip' data-placement='right' title='Share this project on Twitter!' href="https://twitter.com/intent/tweet?text=Check out the <%= @project.name %> project on Open Source Brain! via @osbteam&tw_p=tweetbutton&url=<%= Rack::Utils.escape(url_for(:only_path => false)) %>" target="_blank"></a>
     </div>
     <% if category=="Project" %>
