@@ -1,109 +1,96 @@
 <div class="contextual"> 
-<%= link_to(l(:button_edit), edit_user_path(@user), :class => 'btn icon icon-edit pull-right') if User.current.admin? || User.current == @user %>
+    <%= link_to(l(:button_edit), edit_user_path(@user), :class => 'btn icon icon-edit pull-right') if User.current.admin? || User.current == @user %>
 </div> 
 
 <p class="big-lead pagination-centered capitalize"><%= avatar(@user, :size => "70", :class => "img-rounded") %> <%=h @user.name %></p>
 
-<div class="row-fluid"> 
-	<div class="span6">
-		
-	<ul class="unstyled">
-	  <% unless @user.pref.hide_mail %>
-	    <li>
-			<%=l(:field_mail)%>:
-			<% if User.current.logged? %>	
-				<%= mail_to(h(@user.mail), nil, :encode => 'javascript') %>
-			<% else %>
-				<%= link_to('(log in for contact details)'.html_safe, { :controller => 'account', :action => 'login' })%>
-			<% end %>	
-	    	 
-	    </li>
-	  <% end %>
-	  <% @user.visible_custom_field_values.each do |custom_value| %>
-	    <% if !custom_value.value.blank? %>
-	
-	      <% if custom_value.custom_field.name == 'URL' %>
-	        <li><a href="<%=h show_http_value(custom_value) %>"><%=h show_value(custom_value) %></a></li>
-	      <% elsif custom_value.custom_field.name == 'INCF Profile' %>
-	        <% if show_value(custom_value).index('incf.org') == nil %>
-	          <li><a href="http://www.incf.org/community/people/<%=h show_value(custom_value) %>/person_view"><%=h custom_value.custom_field.name%></a></li>
-	        <% else %>
-	          <li><a href="<%=h show_http_value(custom_value) %>"><%=h custom_value.custom_field.name%></a></li>
-	        <% end %>
-	
-	      <% elsif custom_value.custom_field.name == 'GitHub username' %>
-	
-	        <% if show_value(custom_value).index('github.com') == nil %>
-	          <li><a href="https://github.com/<%=h show_value(custom_value) %>" target="_blank">GitHub user</a></li>
-	        <% else %>
-	          <li><a href="<%=h show_http_value(custom_value) %>" target="_blank">GitHub user</a></li>
-	        <% end %>
-	      <% elsif custom_value.custom_field.name == 'Bitbucket username' %>
-	
-	        <% if show_value(custom_value).index('bitbucket.com') == nil %>
-	          <li><a href="https://bitbucket.com/<%=h show_value(custom_value) %>" target="_blank">Bitbucket user</a></li>
-	        <% else %>
-	          <li><a href="<%=h show_http_value(custom_value) %>" target="_blank">Bitbucket user</a></li>
-	        <% end %>
-		
-		  <% elsif custom_value.custom_field.name == 'ORCID ID' %>
-			<li><%=h custom_value.custom_field.name%>: <a href="http://orcid.org/<%=h show_value(custom_value) %>" target="_blank"><%=h show_value(custom_value) %></a></li>
-	    
-	      <% elsif custom_value.custom_field.name == 'Neurotree ID' %>
-			<li><%=h custom_value.custom_field.name%>: <a href="http://neurotree.org/neurotree/tree.php?pid=<%=h show_value(custom_value) %>" target="_blank"><%=h show_value(custom_value) %></a></li>
-	    
-	      <% else %>
-	        <li><%=h custom_value.custom_field.name%>: <%=h show_value(custom_value) %></li>
-	      <% end %>
-	        
-	    <% end %>
-	  <% end %>
-	    <li><%=l(:label_registered_on)%>: <%= format_date(@user.created_on) %></li>
-	  
-	  <% unless @user.last_login_on.nil? %>
-	    <!--<li><%=l(:field_last_login_on)%>: <%= format_date(@user.last_login_on) %></li>-->
-	  <% end %>
-	</ul>
+<div class="row">
+    <div class="col-md-6">
+        <ul>
+            <% unless @user.pref.hide_mail %>
+                <li>
+	            <%=l(:field_mail)%>:
+	            <% if User.current.logged? %>	
+	                <%= mail_to(h(@user.mail), nil, :encode => 'javascript') %>
+	            <% else %>
+	                <%= link_to('(log in for contact details)'.html_safe, { :controller => 'account', :action => 'login' })%>
+	            <% end %>	
+                </li>
+            <% end %>
+            <% @user.visible_custom_field_values.each do |custom_value| %>
+                <% if !custom_value.value.blank? %>
+                    <% if custom_value.custom_field.name == 'URL' %>
+                        <li><a href="<%=h show_http_value(custom_value) %>"><%=h show_value(custom_value) %></a></li>
+                    <% elsif custom_value.custom_field.name == 'INCF Profile' %>
+                        <% if show_value(custom_value).index('incf.org') == nil %>
+                            <li><a href="http://www.incf.org/community/people/<%=h show_value(custom_value) %>/person_view"><%=h custom_value.custom_field.name%></a></li>
+                        <% else %>
+                            <li><a href="<%=h show_http_value(custom_value) %>"><%=h custom_value.custom_field.name%></a></li>
+                        <% end %>
+                    <% elsif custom_value.custom_field.name == 'GitHub username' %>
+                        <% if show_value(custom_value).index('github.com') == nil %>
+                            <li><a href="https://github.com/<%=h show_value(custom_value) %>" target="_blank">GitHub user</a></li>
+                        <% else %>
+                            <li><a href="<%=h show_http_value(custom_value) %>" target="_blank">GitHub user</a></li>
+                        <% end %>
+                    <% elsif custom_value.custom_field.name == 'Bitbucket username' %>
+                        <% if show_value(custom_value).index('bitbucket.com') == nil %>
+                            <li><a href="https://bitbucket.com/<%=h show_value(custom_value) %>" target="_blank">Bitbucket user</a></li>
+                        <% else %>
+                            <li><a href="<%=h show_http_value(custom_value) %>" target="_blank">Bitbucket user</a></li>
+                        <% end %>
+                    <% elsif custom_value.custom_field.name == 'ORCID ID' %>
+                        <li><%=h custom_value.custom_field.name%>: <a href="http://orcid.org/<%=h show_value(custom_value) %>" target="_blank"><%=h show_value(custom_value) %></a></li>
+                    <% elsif custom_value.custom_field.name == 'Neurotree ID' %>
+                        <li><%=h custom_value.custom_field.name%>: <a href="http://neurotree.org/neurotree/tree.php?pid=<%=h show_value(custom_value) %>" target="_blank"><%=h show_value(custom_value) %></a></li>
+                    <% else %>
+                        <li><%=h custom_value.custom_field.name%>: <%=h show_value(custom_value) %></li>
+                    <% end %>
+                <% end %>
+            <% end %>
+            <li><%=l(:label_registered_on)%>: <%= format_date(@user.created_on) %></li>
+            <% unless @user.last_login_on.nil? %>
+                <!--<li><%=l(:field_last_login_on)%>: <%= format_date(@user.last_login_on) %></li>-->
+            <% end %>
+        </ul>
 
-	<% unless @events_by_day.empty? %>
-		<%= link_to l(:label_activity), {:controller => 'activities',
-		                :action => 'index', :id => nil, :user_id => @user,
-		                :from => @events_by_day.keys.first}, :class=>"btn" %>
-		
-		<% content_for :header_tags do %>
-			<%= auto_discovery_link_tag(:atom, :controller => 'activities', :action => 'index', :user_id => @user, :format => :atom, :key => User.current.rss_key) %>
-		<% end %>
-	<% end %>
-	<br/></br/>
+        <% unless @events_by_day.empty? %>
+            <%= link_to l(:label_activity), {:controller => 'activities',
+                                             :action => 'index', :id => nil, :user_id => @user,
+                                             :from => @events_by_day.keys.first}, :class=>"btn" %>
+            <% content_for :header_tags do %>
+                <%= auto_discovery_link_tag(:atom, :controller => 'activities', :action => 'index', :user_id => @user, :format => :atom, :key => User.current.rss_key) %>
+            <% end %>
+        <% end %>
 
-	<p class="lead"><%=l(:label_group_plural)%></p>
-	<% @myGroups.each do |group| %>
-		<p><a href="/groups/<%= group.id %>"><%= group.name %></a></p>
-	<% end %>
-	</div>
-	
-	
-	<div class="span6">
-		<% unless @memberships.empty? %>
-			<table class="projecttable table">
-				<thead>
-					<tr>
-						<td><h4>User projects </h4></td>
-						<td class="noborder pull-right"></td> 	
-					<tr>
-				</thead>
+        <h3><%=l(:label_group_plural)%></h3>
+        <ul>
+            <% @myGroups.each do |group| %>
+                <li><a href="/groups/<%= group.id %>"><%= group.name %></a></p>
+            <% end %>
+        </ul>
+    </div>
+    <div class="col-md-6">
+        <% unless @memberships.empty? %>
+            <table class="table table-bordered-rows table-hover projecttable">
+                <thead>
+	            <tr>
+	                <td><h4>User projects </h4></td>
+	                <td class="noborder pull-right"></td>
+	                <tr>
+                </thead>
 
-				<ul class="unstyled">
-				<% for membership in @memberships %>
-				  <tr><td colspan="2"><icon class=" icon-list-alt"></icon><%= link_to_project(membership.project) %>
-				    <br/><span class="smallText"><%=h membership.roles.sort.collect(&:to_s).join(', ') %>, <%= format_date(membership.created_on) %></span></td></tr>
-				<% end %>
-				</ul>
-			</table>
-		<% end %>
-	</div>
+                <ul>
+	            <% for membership in @memberships %>
+	                <tr><td colspan="2"><icon class="icon-list-alt"></icon><%= link_to_project(membership.project) %>
+	                    <br/><span class="smallText"><%=h membership.roles.sort.collect(&:to_s).join(', ') %>, <%= format_date(membership.created_on) %></span></td></tr>
+	            <% end %>
+                </ul>
+            </table>
+        <% end %>
+    </div>
 </div>
-	
+
 
 
 
