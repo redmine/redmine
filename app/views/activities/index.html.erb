@@ -1,3 +1,4 @@
+<%= render "projects/header" %>
 <div id="projectbody"> 
 <h2><%= @author.nil? ? "": l(:label_user_activity, link_to_user(@author)).html_safe %></h2>
 <% other_formats_links do |f| %>

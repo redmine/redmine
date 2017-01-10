@@ -1,3 +1,4 @@
+<%= render "projects/header" %>
 <div class="contextual">
 <%= link_to(l(:label_attachment_new), new_project_file_path(@project), :class => 'pull-right btn icon icon-add') if User.current.allowed_to?(:manage_files, @project) %>
 </div>
