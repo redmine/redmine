@@ -229,8 +229,8 @@ function showErrorMessageInOSBExplorer(file, message){
 	}
 
 	// If there isn't webgl support display warn message
-	jQuery("#mainContent").hide();
-	jQuery("#mainContent").before("<div id='geppettoContainer'><div id='osbexplorermessage'></div>");
+	jQuery(".project-main").hide();
+	jQuery(".project-main").before("<div id='geppettoContainer'><div id='osbexplorermessage'></div>");
 	jQuery("#osbexplorermessage").html(message + "<br /><br /> You can also <a href='"+ decodedfile + "' target='_blank'>download the file</a> or <a href='"+ repoFilePath + "' target='_blank'>view the file content online</a>.<br /><br />");
 }
 
@@ -260,27 +260,26 @@ function toggleProjectButton(){
 }
 
 function showGeppetto(){
-        //clearTimeout(projectBtnPopover);
-	toggleProjectButton();
-	$("#geppettoContainer").show();
-	$("#mainContent").hide();
-	$('#projectHeader').hide();
-	hideFooter();
-//	$('#main').css("background-color","rgb(35, 35, 35)");
-//	$('#main').css("color","white");
-
+    //clearTimeout(projectBtnPopover);
+    toggleProjectButton();
+    $("#geppettoContainer").show();
+    $(".project-main").hide();
+    $(".project-header").hide()
+    hideFooter();
+    //	$('#main').css("background-color","rgb(35, 35, 35)");
+    //	$('#main').css("color","white");
 }
 
 function showProject(){
-	var projectUrl = '//' + location.host + location.pathname;
-	if(history.pushState) {history.pushState(null, null, projectUrl);}
-	toggleProjectButton();
-	$("#geppettoContainer").hide();
-	$("#mainContent").show();
-	$('#projectHeader').show();
-	showFooter();
-//	$('#main').css("background-color","white");
-//	$('#main').css("color","black");
+    var projectUrl = '//' + location.host + location.pathname;
+    if(history.pushState) {history.pushState(null, null, projectUrl);}
+    toggleProjectButton();
+    $("#geppettoContainer").hide();
+    $(".project-main").show();
+    $(".project-header").show();
+    showFooter();
+    //	$('#main').css("background-color","white");
+    //	$('#main').css("color","black");
 }
 
 
@@ -346,7 +345,7 @@ function open3DExplorer(file, projectIdentifier, mainModelButton)
 					    	}
 					    	else{
 					    		//iframe load
-					    		jQuery("#mainContent").before("<div id='geppettoContainer'><iframe id='3dframe' style='width:100%;height:100%;border:0px;' src='" + $("#geppettoIP").val() + $("#geppettoContextPath").val() + "geppetto?load_project_from_url=" + urlGeppettoFile + "'></iframe>");
+					    		$(".project-header").before("<div id='geppettoContainer'><iframe id='3dframe' style='width:100%;height:100%;border:0px;' src='" + $("#geppettoIP").val() + $("#geppettoContextPath").val() + "geppetto?load_project_from_url=" + urlGeppettoFile + "'></iframe>");
 					    	}
 				    	}
 				    }
@@ -360,7 +359,7 @@ function open3DExplorer(file, projectIdentifier, mainModelButton)
 	    	}
 	    	else{
 	    		//iframe load
-	    		jQuery("#mainContent").before("<div id='geppettoContainer'><iframe id='3dframe' style='width:100%;height:100%;border:0px;' src='" + $("#geppettoIP").val()  + $("#geppettoContextPath").val() + "geppetto?load_project_from_id=" + file + "'></iframe>");
+	    		$(".project-header").before("<div id='geppettoContainer'><iframe id='3dframe' style='width:100%;height:100%;border:0px;' src='" + $("#geppettoIP").val()  + $("#geppettoContextPath").val() + "geppetto?load_project_from_id=" + file + "'></iframe>");
 	    	}
 		}
 		

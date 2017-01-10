@@ -45,7 +45,7 @@ $(document).ready(function(){
                 var menu_title = submenu.charAt(0).toUpperCase() + submenu.slice(1);
                 if (submenus[submenu] != "") {
                     $("#explorermenu").append("<li class=\"menu-item dropdown dropdown-submenu pull-left explorerSubmenu\"><a class=\"dropdown-toggle\" data-toggle=\"dropdown\" tabindex=-1 href=#>"+ menu_title +"</a><ul class=dropdown-menu id=\""+ submenu +"-menu\"></ul></li>");
-                    for (var i=0; i<networkfiles.length; i++) {
+                    for (var i=0; i<files.length; i++) {
                         var file = files[i];
                         var basename = file.split('/').slice(-1)[0];
                         $("#"+submenu+"-menu").append("<li class=\"submenu-item\" id=" + basename + "><a href=# tabindex=-1 id=\""+ file + "\">"+ file +"</a></li>");
@@ -95,7 +95,8 @@ $(document).ready(function(){
     }
 
    $("#showGeppettoBtn").click(function(){
-        open3DExplorer(encodeURIComponent(getMainModel(repourl+repopath, defaultMainModel)), project_identifier, "true");
+       open3DExplorer(encodeURIComponent(getMainModel(repourl+repopath, defaultMainModel)), project_identifier, "true");
+       hideFooter();
     });
 
     $(".explorerSubmenu li[class='submenu-item']").click(function(){
