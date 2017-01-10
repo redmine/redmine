@@ -103,5 +103,7 @@ $(document).ready(function(){
         open3DExplorer(encodeURIComponent(repourl+repopath+filename), project_identifier);
     });
 
-    
+    $(".delete_tag").click(function(){deleteTag("' + @project.identifier + '",$(this).attr("id")); return false;});
+
+    $("#add_new_tag").click(function(){addNewTag("' + @project.identifier + '",$("#new_tag").val()); return false;});
 });
