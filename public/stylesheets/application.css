@@ -5,7 +5,8 @@ html {
 body {
     font-size: 14px;
     line-height: 20px;
-    height: 100%;
+    position: relative;
+    min-height: 100%
 }
 /* Used to stick footer to the bottom */
 
@@ -15,10 +16,10 @@ body {
 
 #main {
     overflow: auto;
-    padding-bottom: 100px;
-    /*this needs to be bigger than footer height*/
-    
-    margin: 0;
+    padding-top: 55px;
+    /* padding-bottom: 100px; */
+    padding-left: 1.5em;
+    padding-right: 1.5em;
     width: 100%;
 }
 
@@ -26,8 +27,15 @@ body {
     margin-top: -5px;
 }
 
-#titleHeader {
-    height: 40px;
+.project-title {
+    display: inline-block;
+    padding-top: 1em;
+    width: 100%;
+}
+
+.project-main {
+    /* for footer */
+    margin-bottom: 100px;
 }
 
 #pname {
@@ -39,7 +47,7 @@ body {
     text-align: right;
 }
 
-#showGroup .dropdown-submenu > a:after {
+/*#showGroup .dropdown-submenu > a:after {
     display: block;
     float: left;
     width: 0;
@@ -51,7 +59,14 @@ body {
     border-style: solid;
     border-width: 5px 5px 5px 0;
     content: " ";
-}
+}*/
+
+.dropdown-submenu{position:relative;}
+.dropdown-submenu>.dropdown-menu{top:0;left:100%;margin-top:-6px;margin-left:-1px;-webkit-border-radius:0 6px 6px 6px;-moz-border-radius:0 6px 6px 6px;border-radius:0 6px 6px 6px;}
+/*.dropdown-submenu:hover>.dropdown-menu{display:block;}*/
+.dropdown-submenu>a:after{display:block;content:" ";float:right;width:0;height:0;border-color:transparent;border-style:solid;border-width:5px 0 5px 5px;border-left-color:#cccccc;margin-top:5px;margin-right:-10px;}
+.dropdown-submenu:hover>a:after{border-left-color:#ffffff;}
+.dropdown-submenu.pull-left{float:none;}.dropdown-submenu.pull-left>.dropdown-menu{left:-100%;margin-left:10px;-webkit-border-radius:6px 0 6px 6px;-moz-border-radius:6px 0 6px 6px;border-radius:6px 0 6px 6px;}
 
 #showGroup {
     float: right;
@@ -66,12 +81,14 @@ body {
     font-size: 18px;
 }
 
-.explorerSubmenu .dropdown-menu {
+/*.explorerSubmenu .dropdown-menu {
     margin-left: 0!important;
     left: auto!important;
     right: 220px;
     width: 600px;
-}
+}*/
+
+#
 
 #moreBtn:after {
     clear: both
@@ -79,6 +96,8 @@ body {
 
 #explorermenu {
     width: 230px;
+    left: auto;
+    top: auto;
 }
 
 .indexNoUser {
@@ -170,6 +189,10 @@ body {
     color: #88aa00;
 }
 
+#projecthighlights {
+    text-align: center;
+}
+
 #projecthighlightsLink {
     color: #88aa00;
 }
@@ -238,11 +261,6 @@ body {
     right: 0;
     bottom: 0;
 }
-
-#main {
-    height: 100%
-}
-
 
 /* From redmine */
 /***** Diff *****/
@@ -579,8 +597,8 @@ tr.open span.expander:before {
  -------------------------------------------------- */
 
 .bs-docs-sidenav {
-    width: 228px;
-    margin: 30px 0 0;
+    width: 200px;
+    /*margin: 30px 0 0;*/
     padding: 0;
     background-color: #fff;
     -webkit-border-radius: 6px;
@@ -644,7 +662,7 @@ tr.open span.expander:before {
 }
 
 .bs-docs-sidenav.affix {
-    top: 40px;
+    top: 70px;
 }
 
 #project_overview_list_2.bs-docs-sidenav.affix,
@@ -704,8 +722,12 @@ tr.open span.expander:before {
     text-align: center;
     border-top: 1px solid #e5e5e5;
     background-color: #f5f5f5;
-    position: relative;
-    margin-top: -80px;
+    /*position: relative;
+    margin-top: -80px;*/
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
     height: 100px;
     padding-top: 20px;
 }
@@ -732,16 +754,9 @@ tr.open span.expander:before {
  -------------------------------------------------- */
 /* padding for in-page bookmarks and fixed navbar */
 
-section:first-child {
-    padding-top: 30px;
-}
-
-section {
-    padding-top: 20px;
-}
-
 section > .page-header,
 section > .lead {
+    margin-top: 0;
     color: #5a5a5a;
 }
 
@@ -818,10 +833,10 @@ section > ul li {
 }
 
 .nolabelcontrols {
-    *display: inline-block;
-    *padding-left: 20px;
+    display: inline-block;
+    padding-left: 20px;
     margin-left: 180px;
-    *margin-left: 0;
+    margin-left: 0;
 }
 
 .controls {
@@ -1150,7 +1165,7 @@ section p {
 }
 
 #osblogo {
-    margin: 10px 50px 10px 30px;
+    margin: 10px 50px 10px 10px;
     width: 212px;
     height: 30px;
     background-image: url("/images/osblogo.png");
@@ -1164,6 +1179,10 @@ section p {
         background-image: url('/images/osblogo@2x.png');
         background-size: 212px 30px;
     }
+}
+
+.icon-twitter-sign {
+    vertical-align: middle !important;
 }
 
 .twitter-follow-button {
@@ -1205,6 +1224,10 @@ section p {
         background-image: url('/images/osbcircle@2x.png');
         background-size: 250px 257px;
     }
+}
+
+.breadcrumb {
+    margin-top: 10px;
 }
 
 .filter {
@@ -1901,6 +1924,19 @@ input[type="checkbox"] {
 }
 /* SEARCH RESULTS */
 
+.exp-col-btn {
+    background:url('../images/buttons.png') no-repeat !important;
+    width:80px;
+    height:38px;
+    text-indent:-9999px;
+    overflow:hidden;
+    border:none !important;
+}
+
+.expand-btn:hover{ background-position:0 -38px;}
+.collapse-btn{ background-position:0 -76px !important;}
+.collapse-btn:hover{ background-position:0 bottom;}
+
 .searchDD > div {
     clear: both;
 }
@@ -1910,12 +1946,29 @@ input[type="checkbox"] {
     margin: 5px 5px 0px 0px;
 }
 
-#search-results > div:nth-child(even) {
+.search-results {
+    list-style-type: none;
+}
+
+.search-results > li {
+    padding: 2em 0 2em 0;
+}
+
+.search-results > li:nth-child(even) {
     background: #ddd;
 }
 
-#search-results > div {
+.search-results > div {
     padding: 10px 0px 35px 5px;
+}
+
+.result {
+    margin: 1em 0 1.5em 0;
+}
+
+.result-info {
+    margin: 0 2em 0 2em;
+    background-color: #ddd;
 }
 /* TAGS */
 
@@ -1943,13 +1996,6 @@ input[type="checkbox"] {
     margin-bottom: 0px;
 }
 
-#neuroLexIdsContainer span {
-    margin: 0px 30px 0px 0px;
-}
-
-#neuroLexIdsContainer div {
-    margin: 5px 0px;
-}
 /* HELP */
 
 #project_overview_sections h3,
@@ -2018,5 +2064,30 @@ input[type="checkbox"] {
 }
 
 i:first-child {
-    margin-left: 5px;
+    /*margin-right: 5px;*/
+}
+
+.logout-btn {
+     background:none!important;
+     border:none; 
+     padding: 3px 20px;
+     font: inherit;
+     cursor: pointer;
+}
+
+form.logout:hover {
+    background-color: #f2f2f2;
+}
+
+form.new-project {
+    padding-top: 9em;
+}
+
+.label > a {
+    color: white;
+}
+
+.label > a:hover {
+    text-decoration: none;
+    color: white;
 }
