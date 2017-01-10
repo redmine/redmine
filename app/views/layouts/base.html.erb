@@ -99,7 +99,12 @@
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%= User.current.login %>  <span class="caret"></span></a>
                                 <ul class="dropdown-menu">
                                     <li><%= link_to('My Profile', user_path(User.current)) %></li>
-                                    <li><%= link_to('Logout', :signout) %></li>
+                                    <li>
+                                        <form accept-charset="UTF-8" action="/logout" method="post" class="logout">
+                                            <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+                                            <input name="commit" type="submit" value="Sign out" class="logout-btn">
+                                        </form>
+                                    </li>
                                 </ul>
                             </li>
                         <% end %>
@@ -107,7 +112,6 @@
                 </div>
             </div>
         </nav>
-	<!--<div id='geppettoHomeContainer'></div>-->
 	<!-- CONTENT -->
 	<div id="main" class="container">
 	    <%= render_flash_messages %>
