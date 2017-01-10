@@ -36,6 +36,11 @@ class ProjectsController < ApplicationController
 
   # Lists visible projects
   def index
+    # try to redirect to the requested menu item
+    if params[:jump] && redirect_to_menu_item(params[:jump])
+      return
+    end
+
     scope = Project.visible.sorted
 
     respond_to do |format|

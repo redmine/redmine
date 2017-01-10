@@ -745,6 +745,16 @@ class ProjectsControllerTest < Redmine::ControllerTest
     assert_select_error /Identifier cannot be blank/
   end
 
+  def test_jump_without_project_id_should_redirect_to_active_tab
+    get :index, :jump => 'issues'
+    assert_redirected_to '/issues'
+  end
+
+  def test_jump_should_not_redirect_to_unknown_tab
+    get :index, :jump => 'foobar'
+    assert_response :success
+  end
+
   def test_jump_should_redirect_to_active_tab
     get :show, :id => 1, :jump => 'issues'
     assert_redirected_to '/projects/ecookbook/issues'

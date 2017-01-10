@@ -68,12 +68,21 @@ module Redmine
                                  menu_items[controller_name.to_sym][:default]
       end
 
+      # Redirects user to the menu item
+      # Returns false if user is not authorized
+      def redirect_to_menu_item(name)
+        redirect_to_project_menu_item(nil, name)
+      end
+
       # Redirects user to the menu item of the given project
       # Returns false if user is not authorized
       def redirect_to_project_menu_item(project, name)
-        item = Redmine::MenuManager.items(:project_menu).detect {|i| i.name.to_s == name.to_s}
+        menu = project.nil? ? :application_menu : :project_menu
+        item = Redmine::MenuManager.items(menu).detect {|i| i.name.to_s == name.to_s}
         if item && item.allowed?(User.current, project)
-          redirect_to({item.param => project}.merge(item.url))
+          url = item.url
+          url = {item.param => project}.merge(url) if project
+          redirect_to url
           return true
         end
         false
