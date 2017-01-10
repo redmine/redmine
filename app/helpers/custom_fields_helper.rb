@@ -83,7 +83,7 @@ module CustomFieldsHelper
 
     content_tag "label", content +
       (required ? " <span class=\"required\">*</span>".html_safe : ""),
-      :class => "control-label",
+      :class => "control-label col-sm-2",
       :for => "#{name}_custom_field_values_#{custom_value.custom_field.id}"
   end
 

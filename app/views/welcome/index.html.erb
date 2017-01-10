@@ -106,8 +106,8 @@ $.ajax({
 
 	<!-- PROJECTS -->
 	<div id="myprojects" class="tab-pane">
-		<div class="row-fluid" id="welcomeMainContainer">
-			<div class="span8" style="margin-left: 0px;">
+		<div class="container-fluid" id="welcomeMainContainer">
+			<div class="col-xs-12 col-md-8">
 				<% unless @events_by_day.empty? %>
 				<div id="activity">
 					<% @actID=0 %>
@@ -139,7 +139,6 @@ $.ajax({
 				<% end %>
 				<% if @events_by_day.empty? %>
 					<p class="lead">You have no activities yet! Why don't you start by creating a new project?</p>
-					<br/></br/><br/>
 					<icon class="icon-coffee icon-xxxlarge"></icon>
 					<icon class="icon-lightbulb icon-xxxlarge"></icon>
 					<icon class="icon-beaker icon-xxxlarge"></icon>
@@ -147,34 +146,34 @@ $.ajax({
 			</div>
 			
 		
-				<div class="span4">
-					<table class="projecttable table">
+				<div class="col-xs-6 col-md-4">
+					<table class="table table-bordered-rows table-hover projecttable">
 						<thead>
 							<tr>
-								<td><h4>Your projects </h4></td>
+								<td><h4>Your projects</h4></td>
 								<td class="noborder pull-right">
-									<button type="button" class="btn btn-success icon-plus"  onclick="location.href='/projects/new';"> New project</button>
+									<button type="button" class="btn btn-success" onclick="location.href='/projects/new';"><i class="icon-plus"></i> New project</button>
 									<a href="/docs#Creating_Your_Own_Project"><icon style="font-size: 20px;" class="icon-large icon-question-sign"/></a>
 								</td> 	
-							<tr>
+							</tr>
 						</thead>
 						<% if @projects.any? %>
 							<%= call_hook(:view_welcome_index_left, :projects => @projects) %>
 							<% unless @memberships.empty? %>
 								
 									<% for membership in @memberships %>
-										<tr><td colspan="2"><icon class=" icon-list-alt"></icon><%= link_to_project(membership.project) %></td></tr>
+										<tr><td colspan="2"><icon class="icon-list-alt"></icon><%= link_to_project(membership.project) %></td></tr>
 									<% end %>
 								
 							<% end %>
 						<% end %>
 					</table>
 					
-					<table class="projecttable table">
+					<table class="table table-bordered-rows table-hover projecttable">
 						<thead>
 							<tr>
 								<td><h4>Latest projects added on OSB</h4></td> 	
-							<tr>
+							</tr>
 						</thead>
 							<% maxprjcount=3 %>
 							<% i=0 %>
