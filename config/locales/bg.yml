@@ -1208,3 +1208,4 @@ bg:
   text_repository_identifier_info: 'Позволени са малки букви (a-z), цифри, тирета и _.<br />Промяна след създаването му не е възможна.'
   error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: Spent time cannot
     be reassigned to an issue that is about to be deleted
+  setting_timelog_required_fields: Required fields for time logs
