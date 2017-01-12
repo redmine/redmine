@@ -1,0 +1,10 @@
+<%= form_tag({:action => 'edit', :tab => 'timelog'}) do %>
+
+<div class="box tabular settings">
+<p><%= setting_multiselect(:timelog_required_fields,
+        [[l(:field_issue), 'issue_id'], [l(:field_comments), 'comments'] ]) %></p>
+
+</div>
+
+<%= submit_tag l(:button_save) %>
+<% end %>

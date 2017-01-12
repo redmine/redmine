@@ -283,3 +283,6 @@ non_working_week_days:
   - '7'
 new_item_menu_tab:
   default: 2
+timelog_required_fields:
+  serialized: true
+  default: []

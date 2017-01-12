@@ -172,4 +172,13 @@ class TimeEntryTest < ActiveSupport::TestCase
                           :activity => activity)
     assert_equal project.id, te.project.id
   end
+
+  def test_create_with_required_issue_id_and_comment_should_be_validated
+    with_settings :timelog_required_fields => ['issue_id' , 'comments'] do
+      entry = TimeEntry.new(:project => Project.find(1), :spent_on => Date.today, :user => User.find(1), :activity => TimeEntryActivity.first, :hours => 1)
+
+      assert !entry.save
+      assert_equal ["Comment cannot be blank", "Issue cannot be blank"], entry.errors.full_messages.sort
+    end
+  end
 end
