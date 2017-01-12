@@ -25,18 +25,70 @@ class Token < ActiveRecord::Base
   cattr_accessor :validity_time
   self.validity_time = 1.day
 
+  class << self
+    attr_reader :actions
+
+    def add_action(name, options)
+      options.assert_valid_keys(:max_instances, :validity_time)
+      @actions ||= {}
+      @actions[name.to_s] = options
+    end
+  end
+
+  add_action :api,       max_instances: 1,  validity_time: nil
+  add_action :autologin, max_instances: 10, validity_time: Proc.new { Setting.autologin.to_i.days }
+  add_action :feeds,     max_instances: 1,  validity_time: nil
+  add_action :recovery,  max_instances: 1,  validity_time: Proc.new { Token.validity_time }
+  add_action :register,  max_instances: 1,  validity_time: Proc.new { Token.validity_time }
+  add_action :session,   max_instances: 10, validity_time: nil
+
   def generate_new_token
     self.value = Token.generate_token_value
   end
 
   # Return true if token has expired
   def expired?
-    return Time.now > self.created_on + self.class.validity_time
+    return created_on < self.class.invalid_when_created_before(action)
+  end
+
+  def max_instances
+    Token.actions.has_key?(action) ? Token.actions[action][:max_instances] : 1
+  end
+
+  def self.invalid_when_created_before(action = nil)
+    if Token.actions.has_key?(action)
+      validity_time = Token.actions[action][:validity_time]
+      validity_time = validity_time.call(action) if validity_time.respond_to? :call
+    else
+      validity_time = self.validity_time
+    end
+
+    if validity_time.nil?
+      0
+    else
+      Time.now - validity_time
+    end
   end
 
   # Delete all expired tokens
   def self.destroy_expired
-    Token.where("action NOT IN (?) AND created_on < ?", ['feeds', 'api', 'session'], Time.now - validity_time).delete_all
+    t = Token.arel_table
+
+    # Unknown actions have default validity_time
+    condition = t[:action].not_in(self.actions.keys).and(t[:created_on].lt(invalid_when_created_before))
+
+    self.actions.each do |action, options|
+      validity_time = invalid_when_created_before(action)
+
+      # Do not delete tokens, which don't become invalid
+      next if validity_time.nil?
+
+      condition = condition.or(
+        t[:action].eq(action).and(t[:created_on].lt(validity_time))
+      )
+    end
+
+    Token.where(condition).delete_all
   end
 
   # Returns the active user who owns the key for the given action
@@ -80,8 +132,8 @@ class Token < ActiveRecord::Base
   def delete_previous_tokens
     if user
       scope = Token.where(:user_id => user.id, :action => action)
-      if action == 'session'
-        ids = scope.order(:updated_on => :desc).offset(9).ids
+      if max_instances > 1
+        ids = scope.order(:updated_on => :desc).offset(max_instances - 1).ids
         if ids.any?
           Token.delete(ids)
         end
