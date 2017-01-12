@@ -48,7 +48,8 @@ class Token < ActiveRecord::Base
 
   # Return true if token has expired
   def expired?
-    return created_on < self.class.invalid_when_created_before(action)
+    validity_time = self.class.invalid_when_created_before(action)
+    validity_time.present? && created_on < validity_time
   end
 
   def max_instances
@@ -63,9 +64,7 @@ class Token < ActiveRecord::Base
       validity_time = self.validity_time
     end
 
-    if validity_time.nil?
-      0
-    else
+    if validity_time
       Time.now - validity_time
     end
   end
