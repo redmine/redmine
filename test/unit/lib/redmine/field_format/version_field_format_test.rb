@@ -83,6 +83,6 @@ class Redmine::VersionFieldFormatTest < ActionView::TestCase
     query = Query.new(:project => project)
 
     assert_not_include version.name, field.possible_values_options(project).map(&:first)
-    assert_include version.name, field.query_filter_options(query)[:values].map(&:first)
+    assert_include version.name, field.query_filter_options(query)[:values].call.map(&:first)
   end
 end

@@ -552,7 +552,7 @@ module Redmine
       end
 
       def query_filter_options(custom_field, query)
-        {:type => :list_optional, :values => query_filter_values(custom_field, query)}
+        {:type => :list_optional, :values => lambda { query_filter_values(custom_field, query) }}
       end
 
       protected
@@ -809,6 +809,10 @@ module Redmine
         if custom_field.user_role.is_a?(Array)
           custom_field.user_role.map!(&:to_s).reject!(&:blank?)
         end
+      end
+
+      def query_filter_values(*args)
+        [["<< #{l(:label_me)} >>", "me"]] + super
       end
     end
 
