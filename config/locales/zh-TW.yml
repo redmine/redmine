@@ -489,6 +489,7 @@
   setting_display_subprojects_issues: 預設於父專案中顯示子專案的議題
   setting_enabled_scm: 啟用的 SCM
   setting_mail_handler_body_delimiters: "截去郵件中包含下列值之後的內容"
+  setting_mail_handler_enable_regex_delimiters: "啟用規則運算式"
   setting_mail_handler_api_enabled: 啟用處理傳入電子郵件的服務
   setting_mail_handler_api_key: 傳入電子郵件網頁服務 API 金鑰
   setting_sys_api_key: 儲存機制管理網頁服務 API 金鑰
@@ -534,6 +535,7 @@
   setting_attachment_extensions_allowed: 允許使用的附檔名
   setting_attachment_extensions_denied: 禁止使用的副檔名
   setting_new_item_menu_tab: 建立新物件的專案功能分頁
+  setting_commit_logs_formatting: 套用文字格式至認可訊息
 
   permission_add_project: 建立專案
   permission_add_subprojects: 建立子專案
@@ -1286,8 +1288,6 @@
   description_date_from: 輸入起始日期
   description_date_to: 輸入結束日期
   text_repository_identifier_info: '僅允許使用小寫英文字母 (a-z), 阿拉伯數字, 虛線與底線。<br />一旦儲存之後, 代碼便無法再次被更改。'
-  setting_commit_logs_formatting: Apply text formatting to commit messages
-  setting_mail_handler_enable_regex_delimiters: Enable regular expressions
   error_move_of_child_not_possible: 'Subtask %{child} could not be moved to the new
     project: %{errors}'
   error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: Spent time cannot
