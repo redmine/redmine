@@ -47,9 +47,10 @@ class Journal < ActiveRecord::Base
 
   scope :visible, lambda {|*args|
     user = args.shift || User.current
+    private_notes_condition = Project.allowed_to_condition(user, :view_private_notes, *args)
     joins(:issue => :project).
       where(Issue.visible_condition(user, *args)).
-      where("(#{Journal.table_name}.private_notes = ? OR (#{Project.allowed_to_condition(user, :view_private_notes, *args)}))", false)
+      where("(#{Journal.table_name}.private_notes = ? OR #{Journal.table_name}.user_id = ? OR (#{private_notes_condition}))", false, user.id)
   }
 
   safe_attributes 'notes',

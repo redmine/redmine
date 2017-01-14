@@ -1605,6 +1605,20 @@ class IssuesControllerTest < Redmine::ControllerTest
     assert_select "#change-#{journal.id}", 0
   end
 
+  def test_show_should_display_private_notes_created_by_current_user
+    User.find(3).roles_for_project(Project.find(1)).each do |role|
+      role.remove_permission! :view_private_notes
+    end
+    visible = Journal.create!(:journalized => Issue.find(2), :notes => 'Private notes', :private_notes => true, :user_id => 3)
+    not_visible = Journal.create!(:journalized => Issue.find(2), :notes => 'Private notes', :private_notes => true, :user_id => 1)
+    @request.session[:user_id] = 3
+
+    get :show, :id => 2
+    assert_response :success
+    assert_select "#change-#{visible.id}", 1
+    assert_select "#change-#{not_visible.id}", 0
+  end
+
   def test_show_atom
     get :show, :id => 2, :format => 'atom'
     assert_response :success
