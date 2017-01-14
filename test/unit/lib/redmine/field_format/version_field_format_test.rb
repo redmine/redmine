@@ -82,7 +82,19 @@ class Redmine::VersionFieldFormatTest < ActionView::TestCase
     version = Version.generate!(:project => project, :status => 'locked')
     query = Query.new(:project => project)
 
-    assert_not_include version.name, field.possible_values_options(project).map(&:first)
-    assert_include version.name, field.query_filter_options(query)[:values].call.map(&:first)
+    full_name = "#{version.project} - #{version.name}"
+    assert_not_include full_name, field.possible_values_options(project).map(&:first)
+    assert_include full_name, field.query_filter_options(query)[:values].call.map(&:first)
+  end
+
+  def test_query_filter_options_should_include_version_status_for_grouping
+    field = IssueCustomField.new(:field_format => 'version', :version_status => ["open"])
+    project = Project.find(1)
+    version = Version.generate!(:project => project, :status => 'locked')
+    query = Query.new(:project => project)
+
+    full_name = "#{version.project} - #{version.name}"
+    assert_include [full_name, version.id.to_s, l(:version_status_locked)],
+      field.query_filter_options(query)[:values].call
   end
 end

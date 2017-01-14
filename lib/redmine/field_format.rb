@@ -826,7 +826,7 @@ module Redmine
       field_attributes :version_status
 
       def possible_values_options(custom_field, object=nil)
-        versions_options(custom_field, object)
+        possible_values_records(custom_field, object).sort.collect{|v| [v.to_s, v.id.to_s] }
       end
 
       def before_custom_field_save(custom_field)
@@ -839,13 +839,14 @@ module Redmine
       protected
 
       def query_filter_values(custom_field, query)
-        versions_options(custom_field, query.project, true)
+        versions = possible_values_records(custom_field, query.project, true)
+        Version.sort_by_status(versions).collect{|s| ["#{s.project.name} - #{s.name}", s.id.to_s, l("version_status_#{s.status}")] }
       end
 
-      def versions_options(custom_field, object, all_statuses=false)
+      def possible_values_records(custom_field, object=nil, all_statuses=false)
         if object.is_a?(Array)
           projects = object.map {|o| o.respond_to?(:project) ? o.project : nil}.compact.uniq
-          projects.map {|project| possible_values_options(custom_field, project)}.reduce(:&) || []
+          projects.map {|project| possible_values_records(custom_field, project)}.reduce(:&) || []
         elsif object.respond_to?(:project) && object.project
           scope = object.project.shared_versions
           filtered_versions_options(custom_field, scope, all_statuses)
@@ -864,7 +865,7 @@ module Redmine
             scope = scope.where(:status => statuses.map(&:to_s))
           end
         end
-        scope.sort.collect{|u| [u.to_s, u.id.to_s] }
+        scope
       end
     end
 
