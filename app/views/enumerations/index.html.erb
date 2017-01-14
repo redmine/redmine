@@ -4,6 +4,9 @@
 <h3><%= l(klass::OptionName) %></h3>
 
 <% enumerations = klass.shared %>
+
+<p><%= link_to l(:label_enumeration_new), new_enumeration_path(:type => klass.name) %></p>
+
 <% if enumerations.any? %>
 <table class="list enumerations"><thead>
 <tr>
@@ -26,8 +29,6 @@
 </table>
 <% reset_cycle %>
 <% end %>
-
-<p><%= link_to l(:label_enumeration_new), new_enumeration_path(:type => klass.name) %></p>
 <% end %>
 
 <% html_title(l(:label_enumerations)) -%>
