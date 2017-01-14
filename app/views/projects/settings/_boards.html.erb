@@ -1,3 +1,7 @@
+<% if User.current.allowed_to?(:manage_boards, @project) %>
+<p><%= link_to l(:label_board_new), new_project_board_path(@project), :class => 'icon icon-add' %></p>
+<% end %>
+
 <% if @project.boards.any? %>
 <div class="table-list boards">
   <div class="table-list-header">
@@ -26,8 +30,4 @@
 
 <% else %>
 <p class="nodata"><%= l(:label_no_data) %></p>
-<% end %>
-
-<% if User.current.allowed_to?(:manage_boards, @project) %>
-<p><%= link_to l(:label_board_new), new_project_board_path(@project), :class => 'icon icon-add' %></p>
 <% end %>
