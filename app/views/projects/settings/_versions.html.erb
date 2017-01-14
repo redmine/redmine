@@ -2,7 +2,7 @@
 
 <%= form_tag(settings_project_path(@project, :tab => 'versions'), :method => :get) do %>
 <fieldset><legend><%= l(:label_filter_plural) %></legend>
-<label for='status'><%= l(:field_status) %> :</label>
+<label for='status'><%= l(:field_status) %>:</label>
 <%= select_tag 'version_status', options_for_select([[l(:label_all), '']] + Version::VERSION_STATUSES.collect {|s| [l("version_status_#{s}"), s]}, @version_status), :onchange => "this.form.submit(); return false;"  %>
 <label for='name'><%= l(:label_version) %>:</label>
 <%= text_field_tag 'version_name', @version_name, :size => 30 %>
