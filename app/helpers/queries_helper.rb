@@ -30,7 +30,7 @@ module QueriesHelper
         group = query.is_a?(IssueQuery) ? :label_relations : nil
       elsif field =~ /^(.+)\./
         # association filters
-        group = "field_#{$1}"
+        group = "field_#{$1}".to_sym
       elsif %w(member_of_group assigned_to_role).include?(field)
         group = :field_assigned_to
       elsif field_options[:type] == :date_past || field_options[:type] == :date
