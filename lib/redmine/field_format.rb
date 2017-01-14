@@ -812,7 +812,11 @@ module Redmine
       end
 
       def query_filter_values(*args)
-        [["<< #{l(:label_me)} >>", "me"]] + super
+        values = []
+        if User.current.logged?
+          values << ["<< #{l(:label_me)} >>", "me"]
+        end
+        values + super
       end
     end
 
