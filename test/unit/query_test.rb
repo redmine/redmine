@@ -877,6 +877,49 @@ class QueryTest < ActiveSupport::TestCase
     assert_equal [1, 3, 7, 8], find_issues_with_query(query).map(&:id).uniq.sort
   end
 
+  def test_filter_on_version_custom_field
+    field = IssueCustomField.generate!(:field_format => 'version', :is_filter => true)
+    issue = Issue.generate!(:project_id => 1, :tracker_id => 1, :custom_field_values => {field.id.to_s => '2'})
+
+    query = IssueQuery.new(:name => '_')
+    filter_name = "cf_#{field.id}"
+    assert_include filter_name, query.available_filters.keys
+
+    query.filters = {filter_name => {:operator => '=', :values => ['2']}}
+    issues = find_issues_with_query(query)
+    assert_equal [issue.id], issues.map(&:id).sort
+  end
+
+  def test_filter_on_attribute_of_version_custom_field
+    field = IssueCustomField.generate!(:field_format => 'version', :is_filter => true)
+    version = Version.generate!(:effective_date => '2017-01-14')
+    issue = Issue.generate!(:project_id => 1, :tracker_id => 1, :custom_field_values => {field.id.to_s => version.id.to_s})
+
+    query = IssueQuery.new(:name => '_')
+    filter_name = "cf_#{field.id}.due_date"
+    assert_include filter_name, query.available_filters.keys
+
+    query.filters = {filter_name => {:operator => '=', :values => ['2017-01-14']}}
+    issues = find_issues_with_query(query)
+    assert_equal [issue.id], issues.map(&:id).sort
+  end
+
+  def test_filter_on_custom_field_of_version_custom_field
+    field = IssueCustomField.generate!(:field_format => 'version', :is_filter => true)
+    attr = VersionCustomField.generate!(:field_format => 'string', :is_filter => true)
+
+    version = Version.generate!(:custom_field_values => {attr.id.to_s => 'ABC'})
+    issue = Issue.generate!(:project_id => 1, :tracker_id => 1, :custom_field_values => {field.id.to_s => version.id.to_s})
+
+    query = IssueQuery.new(:name => '_')
+    filter_name = "cf_#{field.id}.cf_#{attr.id}"
+    assert_include filter_name, query.available_filters.keys
+
+    query.filters = {filter_name => {:operator => '=', :values => ['ABC']}}
+    issues = find_issues_with_query(query)
+    assert_equal [issue.id], issues.map(&:id).sort
+  end
+
   def test_filter_on_relations_with_a_specific_issue
     IssueRelation.delete_all
     IssueRelation.create!(:relation_type => "relates", :issue_from => Issue.find(1), :issue_to => Issue.find(2))

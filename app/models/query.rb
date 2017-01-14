@@ -808,9 +808,13 @@ class Query < ActiveRecord::Base
         end
       end
 
-      if field =~ /cf_(\d+)$/
+      if field =~ /^cf_(\d+)\.cf_(\d+)$/
+        filters_clauses << sql_for_chained_custom_field(field, operator, v, $1, $2)
+      elsif field =~ /cf_(\d+)$/
         # custom field
         filters_clauses << sql_for_custom_field(field, operator, v, $1)
+      elsif field =~ /^cf_(\d+)\.(.+)$/
+        filters_clauses << sql_for_custom_field_attribute(field, operator, v, $1, $2)
       elsif respond_to?(method = "sql_for_#{field.gsub('.','_')}_field")
         # specific statement
         filters_clauses << send(method, field, operator, v)
@@ -949,6 +953,46 @@ class Query < ActiveRecord::Base
       "SELECT #{customized_class.table_name}.id FROM #{customized_class.table_name}" +
       " LEFT OUTER JOIN #{db_table} ON #{db_table}.customized_type='#{customized_class}' AND #{db_table}.customized_id=#{customized_class.table_name}.id AND #{db_table}.custom_field_id=#{custom_field_id}" +
       " WHERE (#{where}) AND (#{filter[:field].visibility_by_project_condition}))"
+  end
+
+  def sql_for_chained_custom_field(field, operator, value, custom_field_id, chained_custom_field_id)
+    not_in = nil
+    if operator == '!'
+      # Makes ! operator work for custom fields with multiple values
+      operator = '='
+      not_in = 'NOT'
+    end
+
+    filter = available_filters[field]
+    target_class = filter[:through].format.target_class
+
+    "#{queried_table_name}.id #{not_in} IN (" +
+      "SELECT customized_id FROM #{CustomValue.table_name}" +
+      " WHERE customized_type='#{queried_class}' AND custom_field_id=#{custom_field_id}" +
+      "  AND value <> '' AND CAST(value AS integer) IN (" +
+      "  SELECT customized_id FROM #{CustomValue.table_name}" +
+      "  WHERE customized_type='#{target_class}' AND custom_field_id=#{chained_custom_field_id}" +
+      "  AND #{sql_for_field(field, operator, value, CustomValue.table_name, 'value')}))"
+    
+  end
+
+  def sql_for_custom_field_attribute(field, operator, value, custom_field_id, attribute)
+    attribute = 'effective_date' if attribute == 'due_date'
+    not_in = nil
+    if operator == '!'
+      # Makes ! operator work for custom fields with multiple values
+      operator = '='
+      not_in = 'NOT'
+    end
+
+    filter = available_filters[field]
+    target_table_name = filter[:field].format.target_class.table_name
+
+    "#{queried_table_name}.id #{not_in} IN (" +
+      "SELECT customized_id FROM #{CustomValue.table_name}" +
+      " WHERE customized_type='#{queried_class}' AND custom_field_id=#{custom_field_id}" +
+      "  AND value <> '' AND CAST(value AS integer) IN (" +
+      "  SELECT id FROM #{target_table_name} WHERE #{sql_for_field(field, operator, value, filter[:field].format.target_class.table_name, attribute)}))"
   end
 
   # Helper method to generate the WHERE sql for a +field+, +operator+ and a +value+
@@ -1124,10 +1168,47 @@ class Query < ActiveRecord::Base
     })
   end
 
+  # Adds filters for custom fields associated to the custom field target class
+  # Eg. having a version custom field "Milestone" for issues and a date custom field "Release date"
+  # for versions, it will add an issue filter on Milestone'e Release date.
+  def add_chained_custom_field_filters(field)
+    klass = field.format.target_class
+    if klass
+      CustomField.where(:is_filter => true, :type => "#{klass.name}CustomField").each do |chained|
+        options = chained.query_filter_options(self)
+
+        filter_id = "cf_#{field.id}.cf_#{chained.id}"
+        filter_name = chained.name
+
+        add_available_filter filter_id, options.merge({
+          :name => l(:label_attribute_of_object, :name => chained.name, :object_name => field.name),
+          :field => chained,
+          :through => field
+        })
+      end
+    end
+  end
+
   # Adds filters for the given custom fields scope
   def add_custom_fields_filters(scope, assoc=nil)
     scope.visible.where(:is_filter => true).sorted.each do |field|
       add_custom_field_filter(field, assoc)
+      if assoc.nil?
+        add_chained_custom_field_filters(field)
+
+        if field.format.target_class && field.format.target_class == Version
+          add_available_filter "cf_#{field.id}.due_date",
+            :type => :date,
+            :field => field,
+            :name => l(:label_attribute_of_object, :name => l(:field_effective_date), :object_name => field.name)
+
+          add_available_filter "cf_#{field.id}.status",
+            :type => :list,
+            :field => field,
+            :name => l(:label_attribute_of_object, :name => l(:field_status), :object_name => field.name),
+            :values => Version::VERSION_STATUSES.map{|s| [l("version_status_#{s}"), s] }
+        end
+      end
     end
   end
 

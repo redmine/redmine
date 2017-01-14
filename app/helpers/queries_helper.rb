@@ -28,6 +28,8 @@ module QueriesHelper
         group = :label_relations
       elsif field_options[:type] == :tree
         group = query.is_a?(IssueQuery) ? :label_relations : nil
+      elsif field =~ /^cf_\d+\./
+        group = (field_options[:through] || field_options[:field]).try(:name)
       elsif field =~ /^(.+)\./
         # association filters
         group = "field_#{$1}".to_sym
@@ -48,7 +50,7 @@ module QueriesHelper
     end
     s = options_for_select([[]] + ungrouped)
     if grouped.present?
-      localized_grouped = grouped.map {|k,v| [l(k), v]}
+      localized_grouped = grouped.map {|k,v| [k.is_a?(Symbol) ? l(k) : k.to_s, v]}
       s << grouped_options_for_select(localized_grouped)
     end
     s
