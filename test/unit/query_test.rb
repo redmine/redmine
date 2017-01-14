@@ -704,15 +704,15 @@ class QueryTest < ActiveSupport::TestCase
     Member.create!(:project_id => 1, :principal => other_group, :role_ids => [1])
     User.current = user
 
-    with_settings :issue_group_assignment => '1' do 
+    with_settings :issue_group_assignment => '1' do
       i1 = Issue.generate!(:project_id => 1, :tracker_id => 1, :assigned_to => user)
       i2 = Issue.generate!(:project_id => 1, :tracker_id => 1, :assigned_to => group)
       i3 = Issue.generate!(:project_id => 1, :tracker_id => 1, :assigned_to => other_group)
-  
+
       query = IssueQuery.new(:name => '_', :filters => { 'assigned_to_id' => {:operator => '=', :values => ['me']}})
       result = query.issues
       assert_equal Issue.visible.where(:assigned_to_id => ([2] + user.reload.group_ids)).sort_by(&:id), result.sort_by(&:id)
-  
+
       assert result.include?(i1)
       assert result.include?(i2)
       assert !result.include?(i3)
@@ -1873,6 +1873,23 @@ class QueryTest < ActiveSupport::TestCase
     assert_equal "table.field > '#{Query.connection.quoted_date f}' AND table.field <= '#{Query.connection.quoted_date t}'", c
   ensure
     ActiveRecord::Base.default_timezone = :local # restore Redmine default
+  end
+
+  def test_filter_on_subprojects
+    query = IssueQuery.new(:name => '_', :project => Project.find(1))
+    filter_name = "subproject_id"
+    assert_include filter_name, query.available_filters.keys
+
+    # "is" operator should include issues of parent project + issues of the selected subproject
+    query.filters = {filter_name => {:operator => '=', :values => ['3']}}
+    issues = find_issues_with_query(query)
+    assert_equal [1, 2, 3, 5, 7, 8, 11, 12, 13, 14], issues.map(&:id).sort
+
+    # "is not" operator should include issues of parent project + issues of all active subprojects - issues of the selected subprojects
+    query = IssueQuery.new(:name => '_', :project => Project.find(1))
+    query.filters = {filter_name => {:operator => '!', :values => ['3']}}
+    issues = find_issues_with_query(query)
+    assert_equal [1, 2, 3, 6, 7, 8, 9, 10, 11, 12], issues.map(&:id).sort
   end
 
 end
