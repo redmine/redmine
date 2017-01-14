@@ -93,20 +93,15 @@ class IssuesController < ApplicationController
   end
 
   def show
-    @journals = @issue.journals.
-                  preload(:details).
-                  preload(:user => :email_address).
-                  reorder(:created_on, :id).to_a
-    @journals.each_with_index {|j,i| j.indice = i+1}
-    @journals.reject!(&:private_notes?) unless User.current.allowed_to?(:view_private_notes, @issue.project)
-    Journal.preload_journals_details_custom_fields(@journals)
-    @journals.select! {|journal| journal.notes? || journal.visible_details.any?}
-    @journals.reverse! if User.current.wants_comments_in_reverse_order?
-
+    @journals = @issue.visible_journals_with_index
     @changesets = @issue.changesets.visible.preload(:repository, :user).to_a
-    @changesets.reverse! if User.current.wants_comments_in_reverse_order?
-
     @relations = @issue.relations.select {|r| r.other_issue(@issue) && r.other_issue(@issue).visible? }
+
+    if User.current.wants_comments_in_reverse_order?
+      @journals.reverse!
+      @changesets.reverse!
+    end
+
     @allowed_statuses = @issue.new_statuses_allowed_to(User.current)
     @priorities = IssuePriority.active
     @time_entry = TimeEntry.new(:issue => @issue, :project => @issue.project)

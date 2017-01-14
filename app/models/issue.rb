@@ -813,6 +813,21 @@ class Issue < ActiveRecord::Base
     scope
   end
 
+  # Returns the journals that are visible to user with their index
+  # Used to display the issue history
+  def visible_journals_with_index(user=User.current)
+    result = journals.
+      preload(:details).
+      preload(:user => :email_address).
+      reorder(:created_on, :id).to_a
+
+    result.each_with_index {|j,i| j.indice = i+1}
+    result.reject!(&:private_notes?) unless User.current.allowed_to?(:view_private_notes, project)
+    Journal.preload_journals_details_custom_fields(result)
+    result.select! {|journal| journal.notes? || journal.visible_details.any?}
+    result
+  end
+
   # Returns the initial status of the issue
   # Returns nil for a new issue
   def status_was
