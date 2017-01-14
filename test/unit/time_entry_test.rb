@@ -18,6 +18,8 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class TimeEntryTest < ActiveSupport::TestCase
+  include Redmine::I18n
+
   fixtures :issues, :projects, :users, :time_entries,
            :members, :roles, :member_roles,
            :trackers, :issue_statuses,
@@ -174,6 +176,7 @@ class TimeEntryTest < ActiveSupport::TestCase
   end
 
   def test_create_with_required_issue_id_and_comment_should_be_validated
+    set_language_if_valid 'en'
     with_settings :timelog_required_fields => ['issue_id' , 'comments'] do
       entry = TimeEntry.new(:project => Project.find(1), :spent_on => Date.today, :user => User.find(1), :activity => TimeEntryActivity.first, :hours => 1)
 
