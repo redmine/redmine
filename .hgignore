@@ -1,6 +1,7 @@
 syntax: glob
 
 .project
+.idea
 .loadpath
 .powrc
 .rvmrc
