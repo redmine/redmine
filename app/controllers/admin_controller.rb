@@ -76,7 +76,6 @@ class AdminController < ApplicationController
   end
 
   def info
-    @db_adapter_name = ActiveRecord::Base.connection.adapter_name
     @checklist = [
       [:text_default_administrator_account_changed, User.default_admin_account_changed?],
       [:text_file_repository_writable, File.writable?(Attachment.storage_path)],
