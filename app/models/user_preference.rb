@@ -36,14 +36,16 @@ class UserPreference < ActiveRecord::Base
 
   def initialize(attributes=nil, *args)
     super
-    if new_record? && !(attributes && attributes.key?(:hide_mail))
-      self.hide_mail = Setting.default_users_hide_mail?
-    end
-    if new_record? && !(attributes && attributes.key?(:time_zone))
-      self.time_zone = Setting.default_users_time_zone
-    end
-    if new_record? && !(attributes && attributes.key?(:no_self_notified))
-      self.no_self_notified = true
+    if new_record?
+      unless attributes && attributes.key?(:hide_mail)
+        self.hide_mail = Setting.default_users_hide_mail?
+      end
+      unless attributes && attributes.key?(:time_zone)
+        self.time_zone = Setting.default_users_time_zone
+      end
+      unless attributes && attributes.key?(:no_self_notified)
+        self.no_self_notified = true
+      end
     end
     self.others ||= {}
   end
