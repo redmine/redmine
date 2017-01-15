@@ -41,6 +41,8 @@
 
   <div class="tabular settings">
     <p><%= setting_check_box :default_users_hide_mail, :label => :field_hide_mail %></p>
+
+    <p><%= setting_select :default_users_time_zone, ActiveSupport::TimeZone.all.collect {|z| [ z.to_s, z.name ]}, :label => :field_time_zone, :blank => :label_none %></p>
   </div>
 </fieldset>
 
