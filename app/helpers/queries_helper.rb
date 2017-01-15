@@ -191,8 +191,12 @@ module QueriesHelper
       content_tag('span',
         value.to_s(item) {|other| link_to_issue(other, :subject => false, :tracker => false)}.html_safe,
         :class => value.css_classes_for(item))
-    when :hours, :spent_hours, :total_spent_hours, :estimated_hours
+    when :hours, :estimated_hours
       format_hours(value)
+    when :spent_hours
+      link_to_if(value > 0, format_hours(value), project_time_entries_path(item.project, :issue_id => "#{item.id}"))
+    when :total_spent_hours
+      link_to_if(value > 0, format_hours(value), project_time_entries_path(item.project, :issue_id => "~#{item.id}"))
     else
       format_object(value)
     end
