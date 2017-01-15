@@ -358,20 +358,18 @@ module ApplicationHelper
   # Renders the project quick-jump box
   def render_project_jump_box
     projects = projects_for_jump_box(User.current)
-    if projects.any?
-      text = @project.try(:name) || l(:label_jump_to_a_project)
-      trigger = content_tag('span', text, :class => 'drdn-trigger')
-      q = text_field_tag('q', '', :id => 'projects-quick-search', :class => 'autocomplete', :data => {:automcomplete_url => projects_path(:format => 'js')})
-      all = link_to(l(:label_project_all), projects_path(:jump => current_menu_item), :class => (@project.nil? && controller.class.main_menu ? 'selected' : nil))
-      content = content_tag('div',
-            content_tag('div', q, :class => 'quick-search') + 
-            content_tag('div', render_projects_for_jump_box(projects, @project), :class => 'drdn-items projects selection') +
-            content_tag('div', all, :class => 'drdn-items all-projects selection'),
-          :class => 'drdn-content'
-        )
+    text = @project.try(:name) || l(:label_jump_to_a_project)
+    trigger = content_tag('span', text, :class => 'drdn-trigger')
+    q = text_field_tag('q', '', :id => 'projects-quick-search', :class => 'autocomplete', :data => {:automcomplete_url => projects_path(:format => 'js')})
+    all = link_to(l(:label_project_all), projects_path(:jump => current_menu_item), :class => (@project.nil? && controller.class.main_menu ? 'selected' : nil))
+    content = content_tag('div',
+          content_tag('div', q, :class => 'quick-search') +
+          content_tag('div', render_projects_for_jump_box(projects, @project), :class => 'drdn-items projects selection') +
+          content_tag('div', all, :class => 'drdn-items all-projects selection'),
+        :class => 'drdn-content'
+      )
 
-      content_tag('span', trigger + content, :id => "project-jump", :class => "drdn")
-    end
+    content_tag('span', trigger + content, :id => "project-jump", :class => "drdn")
   end
 
   def project_tree_options_for_select(projects, options = {})
