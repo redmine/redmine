@@ -143,7 +143,7 @@ class Repository::Git < Repository
     return if prev_db_heads.sort == repo_heads.sort
 
     h["db_consistent"]  ||= {}
-    if changesets.count == 0
+    if ! changesets.exists?
       h["db_consistent"]["ordering"] = 1
       merge_extra_info(h)
       self.save

@@ -16,7 +16,7 @@
   <tr class="<%= cycle("odd", "even") %>">
   <td class="name"><%= link_to tracker.name, edit_tracker_path(tracker) %></td>
   <td>
-    <% unless tracker.workflow_rules.count > 0 %>
+    <% unless tracker.workflow_rules.exists? %>
       <span class="icon icon-warning">
         <%= l(:text_tracker_no_workflow) %> (<%= link_to l(:button_edit), workflows_edit_path(:tracker_id => tracker) %>)
       </span>
