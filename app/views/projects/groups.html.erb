@@ -1,5 +1,5 @@
-<div class="tab-pane row-fluid" id="listcells">
-	<div class="span3 navbar">
+<div class="tab-pane row" id="listcells">
+	<div class="col-sm-3 navbar">
 		<div class="nav">
 			<form class="filterform form-search" action="#">
 				<div class="input-prepend">
@@ -16,8 +16,8 @@
 			</ul>
 		</div>
 	</div>
-	<div class="span9 tab-content">
-		<div id="groupsSummary" style="color:#37abc8;margin:20px auto;text-align:center;">
+	<div class="col-sm-9 tab-content">
+		<div class="summary">
 			There are currently <%= @groups.length %> groups in OSB. <br/><br/>Click an entry in the list on the left to see more information about a group.
 		</div>
 		<% for group in @groups %>
