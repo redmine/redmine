@@ -72,7 +72,7 @@ module CustomFieldsHelper
       custom_field_tag_id(prefix, custom_value.custom_field),
       custom_field_tag_name(prefix, custom_value.custom_field),
       custom_value,
-      :class => "#{custom_value.custom_field.field_format}_cf"
+      :class => "#{custom_value.custom_field.field_format}_cf form-control"
   end
 
   # Return custom field label tag
@@ -89,7 +89,7 @@ module CustomFieldsHelper
 
   # Return custom field tag with its label tag
   def custom_field_tag_with_label(name, custom_value, options={})
-    custom_field_label_tag(name, custom_value, options) + ("<div class='controls'>" + custom_field_tag(name, custom_value) + "</div>").html_safe()
+    custom_field_label_tag(name, custom_value, options) + ("<div class='control-label col-sm-3'>" + custom_field_tag(name, custom_value) + "</div>").html_safe()
   end
 
   def custom_field_tag_for_bulk_edit(name, custom_field, projects=nil, value='')
