@@ -1297,9 +1297,6 @@ class Query < ActiveRecord::Base
     joins = []
 
     if order_options
-      if order_options.include?('authors')
-        joins << "LEFT OUTER JOIN #{User.table_name} authors ON authors.id = #{queried_table_name}.author_id"
-      end
       order_options.scan(/cf_\d+/).uniq.each do |name|
         column = available_columns.detect {|c| c.name.to_s == name}
         join = column && column.custom_field.join_for_order_statement

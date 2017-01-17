@@ -505,4 +505,16 @@ class IssueQuery < Query
   IssueRelation::TYPES.keys.each do |relation_type|
     alias_method "sql_for_#{relation_type}_field".to_sym, :sql_for_relations
   end
+
+  def joins_for_order_statement(order_options)
+    joins = [super]
+
+    if order_options
+      if order_options.include?('authors')
+        joins << "LEFT OUTER JOIN #{User.table_name} authors ON authors.id = #{queried_table_name}.author_id"
+      end
+    end
+
+    joins.any? ? joins.join(' ') : nil
+  end
 end
