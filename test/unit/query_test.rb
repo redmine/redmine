@@ -1170,6 +1170,14 @@ class QueryTest < ActiveSupport::TestCase
     assert !q.has_column?(category_column)
   end
 
+  def test_has_column_should_return_true_for_default_column
+    with_settings :issue_list_default_columns => %w(tracker subject) do
+      q = IssueQuery.new
+      assert q.has_column?(:tracker)
+      assert !q.has_column?(:category)
+    end
+  end
+
   def test_inline_and_block_columns
     q = IssueQuery.new
     q.column_names = ['subject', 'description', 'tracker']

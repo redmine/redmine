@@ -679,7 +679,8 @@ class Query < ActiveRecord::Base
   end
 
   def has_column?(column)
-    column_names && column_names.include?(column.is_a?(QueryColumn) ? column.name : column)
+    name = column.is_a?(QueryColumn) ? column.name : column
+    columns.detect {|c| c.name == name}
   end
 
   def has_custom_field_column?
