@@ -538,6 +538,7 @@
   setting_attachment_extensions_denied: 禁止使用的副檔名
   setting_new_item_menu_tab: 建立新物件的專案功能分頁
   setting_commit_logs_formatting: 套用文字格式至認可訊息
+  setting_timelog_required_fields: 工時記錄必填欄位
 
   permission_add_project: 建立專案
   permission_add_subprojects: 建立子專案
@@ -1290,5 +1291,4 @@
   description_date_from: 輸入起始日期
   description_date_to: 輸入結束日期
   text_repository_identifier_info: '僅允許使用小寫英文字母 (a-z), 阿拉伯數字, 虛線與底線。<br />一旦儲存之後, 代碼便無法再次被更改。'
-  setting_timelog_required_fields: Required fields for time logs
   label_attribute_of_object: '%{object_name}''s %{name}'
