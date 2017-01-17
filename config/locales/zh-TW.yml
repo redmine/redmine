@@ -299,6 +299,7 @@
   error_ldap_bind_credentials: "無效的 LDAP 帳號/密碼"
   error_no_tracker_allowed_for_new_issue_in_project: "此專案沒有您可用來建立新議題的追蹤標籤"
   error_no_projects_with_tracker_allowed_for_new_issue: "此追蹤標籤沒有您可用來建立新議題的專案"
+  error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: "無法將耗用工時重新分配給即將被刪除的問題"
 
   mail_subject_lost_password: 您的 Redmine 網站密碼
   mail_body_lost_password: '欲變更您的 Redmine 網站密碼, 請點選以下鏈結:'
@@ -1278,5 +1279,3 @@
   description_date_from: 輸入起始日期
   description_date_to: 輸入結束日期
   text_repository_identifier_info: '僅允許使用小寫英文字母 (a-z), 阿拉伯數字, 虛線與底線。<br />一旦儲存之後, 代碼便無法再次被更改。'
-  error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: Spent time cannot
-    be reassigned to an issue that is about to be deleted
