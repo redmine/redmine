@@ -910,10 +910,8 @@ eu:
   project_module_calendar: Egutegia
   button_edit_associated_wikipage: "Esleitutako wiki orria editatu: %{page_title}"
   field_text: Testu eremua
-  label_user_mail_option_only_owner: "Jabea naizen gauzetarako barrarik"
   setting_default_notification_option: "Lehenetsitako ohartarazpen aukera"
   label_user_mail_option_only_my_events: "Behatzen ditudan edo partaide naizen gauzetarako bakarrik"
-  label_user_mail_option_only_assigned: "Niri esleitutako gauzentzat bakarrik"
   label_user_mail_option_none: "Gertakaririk ez"
   field_member_of_group: "Esleituta duenaren taldea"
   field_assigned_to_role: "Esleituta duenaren rola"
@@ -1225,3 +1223,5 @@ eu:
     be reassigned to an issue that is about to be deleted
   setting_timelog_required_fields: Required fields for time logs
   label_attribute_of_object: '%{object_name}''s %{name}'
+  label_user_mail_option_only_assigned: Only for things I watch or I am assigned to
+  label_user_mail_option_only_owner: Only for things I watch or I am the owner of

@@ -957,10 +957,8 @@ ko:
   project_module_calendar: 달력
   button_edit_associated_wikipage: "연관된 위키 페이지 %{page_title} 수정"
   field_text: 텍스트 영역
-  label_user_mail_option_only_owner: 내가 저자인 사항만
   setting_default_notification_option: 기본 알림 옵션
   label_user_mail_option_only_my_events: 내가 지켜보거나 속해있는 사항만
-  label_user_mail_option_only_assigned: 나에게 할당된 사항만
   label_user_mail_option_none: 알림 없음
   field_member_of_group: 할당된 사람의 그룹
   field_assigned_to_role: 할당된 사람의 역할
@@ -1263,3 +1261,5 @@ ko:
     be reassigned to an issue that is about to be deleted
   setting_timelog_required_fields: Required fields for time logs
   label_attribute_of_object: '%{object_name}''s %{name}'
+  label_user_mail_option_only_assigned: Only for things I watch or I am assigned to
+  label_user_mail_option_only_owner: Only for things I watch or I am the owner of

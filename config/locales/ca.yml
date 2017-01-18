@@ -912,10 +912,8 @@ ca:
 
   button_edit_associated_wikipage: "Editar pàgines Wiki asociades: %{page_title}"
   field_text: "Camp de text"
-  label_user_mail_option_only_owner: "Només pels objectes creats per mi"
   setting_default_notification_option: "Opció de notificació per defecte"
   label_user_mail_option_only_my_events: "Només pels objectes on estic en vigilància o involucrat"
-  label_user_mail_option_only_assigned: "Només pels objectes on estic assignat"
   label_user_mail_option_none: "Sense notificacions"
   field_member_of_group: "Assignat al grup"
   field_assigned_to_role: "Assignat al rol"
@@ -1214,3 +1212,5 @@ ca:
     be reassigned to an issue that is about to be deleted
   setting_timelog_required_fields: Required fields for time logs
   label_attribute_of_object: '%{object_name}''s %{name}'
+  label_user_mail_option_only_assigned: Only for things I watch or I am assigned to
+  label_user_mail_option_only_owner: Only for things I watch or I am the owner of

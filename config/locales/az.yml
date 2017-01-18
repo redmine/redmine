@@ -686,9 +686,7 @@ az:
   label_user_mail_no_self_notified: "Tərəfimdən edilən dəyişikliklər haqqında məni xəbərdar etməmək"
   label_user_mail_option_all: "Mənim layihələrimdəki bütün hadisələr haqqında"
   label_user_mail_option_selected: "Yalnız seçilən layihədəki bütün hadisələr haqqında..."
-  label_user_mail_option_only_owner: Yalnız sahibi olduğum obyektlər üçün
   label_user_mail_option_only_my_events: Yalnız izlədiyim və ya iştirak etdiyim obyektlər üçün
-  label_user_mail_option_only_assigned: Yalnız mənə təyin edilən obyektlər üçün
   label_user_new: Yeni istifadəçi
   label_user_plural: İstifadəçilər
   label_version: Variant
@@ -1319,3 +1317,5 @@ az:
     be reassigned to an issue that is about to be deleted
   setting_timelog_required_fields: Required fields for time logs
   label_attribute_of_object: '%{object_name}''s %{name}'
+  label_user_mail_option_only_assigned: Only for things I watch or I am assigned to
+  label_user_mail_option_only_owner: Only for things I watch or I am the owner of

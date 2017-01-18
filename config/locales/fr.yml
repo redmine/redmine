@@ -876,8 +876,6 @@ fr:
   label_user_mail_option_selected: "Pour tous les événements des projets sélectionnés..."
   label_user_mail_option_none: Aucune notification
   label_user_mail_option_only_my_events: Seulement pour ce que je surveille
-  label_user_mail_option_only_assigned: Seulement pour ce qui m'est assigné
-  label_user_mail_option_only_owner: Seulement pour ce que j'ai créé
   label_user_mail_no_self_notified: "Je ne veux pas être notifié des changements que j'effectue"
   label_registration_activation_by_email: activation du compte par email
   label_registration_manual_activation: activation manuelle du compte
@@ -1226,3 +1224,5 @@ fr:
   mail_body_security_notification_notify_disabled: Les notifications ont été désactivées pour l'adresse %{value}
   field_remote_ip: Adresse IP
   label_no_preview: No preview available
+  label_user_mail_option_only_assigned: Only for things I watch or I am assigned to
+  label_user_mail_option_only_owner: Only for things I watch or I am the owner of

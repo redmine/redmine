@@ -896,10 +896,8 @@
   project_module_calendar: Kalender
   button_edit_associated_wikipage: "Rediger tilhørende Wiki-side: %{page_title}"
   field_text: Tekstfelt
-  label_user_mail_option_only_owner: Kun for ting jeg eier
   setting_default_notification_option: Standardvalg for varslinger
   label_user_mail_option_only_my_events: Kun for ting jeg overvåker eller er involvert i
-  label_user_mail_option_only_assigned: Kun for ting jeg er tildelt
   label_user_mail_option_none: Ingen hendelser
   field_member_of_group: Den tildeltes gruppe
   field_assigned_to_role: Den tildeltes rolle
@@ -1214,3 +1212,5 @@
     be reassigned to an issue that is about to be deleted
   setting_timelog_required_fields: Required fields for time logs
   label_attribute_of_object: '%{object_name}''s %{name}'
+  label_user_mail_option_only_assigned: Only for things I watch or I am assigned to
+  label_user_mail_option_only_owner: Only for things I watch or I am the owner of

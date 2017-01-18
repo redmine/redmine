@@ -788,8 +788,6 @@ et:
   label_user_mail_option_selected: "Kõigist tegevustest ainult valitud projektides..."
   label_user_mail_option_none: "Teavitusi ei saadeta"
   label_user_mail_option_only_my_events: "Ainult mu jälgitavatest või minuga seotud tegevustest"
-  label_user_mail_option_only_assigned: "Ainult minu teha olevate asjade kohta"
-  label_user_mail_option_only_owner: "Ainult mu oma asjade kohta"
   label_user_mail_no_self_notified: "Ära teavita mind mu enda tehtud muudatustest"
   label_registration_activation_by_email: "e-kirjaga"
   label_registration_manual_activation: "käsitsi"
@@ -1229,3 +1227,5 @@ et:
     be reassigned to an issue that is about to be deleted
   setting_timelog_required_fields: Required fields for time logs
   label_attribute_of_object: '%{object_name}''s %{name}'
+  label_user_mail_option_only_assigned: Only for things I watch or I am assigned to
+  label_user_mail_option_only_owner: Only for things I watch or I am the owner of

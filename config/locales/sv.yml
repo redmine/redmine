@@ -846,8 +846,6 @@ sv:
   label_user_mail_option_selected: "För alla händelser i markerade projekt..."
   label_user_mail_option_none: "Inga händelser"
   label_user_mail_option_only_my_events: "Endast för saker jag bevakar eller är inblandad i"
-  label_user_mail_option_only_assigned: "Endast för saker jag är tilldelad"
-  label_user_mail_option_only_owner: "Endast för saker jag äger"
   label_user_mail_no_self_notified: "Jag vill inte bli underrättad om ändringar som jag har gjort"
   label_registration_activation_by_email: kontoaktivering med mail
   label_registration_manual_activation: manuell kontoaktivering
@@ -1257,3 +1255,5 @@ sv:
     be reassigned to an issue that is about to be deleted
   setting_timelog_required_fields: Required fields for time logs
   label_attribute_of_object: '%{object_name}''s %{name}'
+  label_user_mail_option_only_assigned: Only for things I watch or I am assigned to
+  label_user_mail_option_only_owner: Only for things I watch or I am the owner of

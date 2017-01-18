@@ -923,10 +923,8 @@ gl:
   project_module_calendar: "Calendario"
   button_edit_associated_wikipage: "Editar a páxina do wiki asociada: %{page_title}"
   field_text: "Campo de texto"
-  label_user_mail_option_only_owner: "Só para as cousas das que son o propietario"
   setting_default_notification_option: "Opción de notificación predeterminada"
   label_user_mail_option_only_my_events: "Só para as cousas que sigo ou nas que estou involucrado"
-  label_user_mail_option_only_assigned: "Só para cousas que teño asignadas"
   label_user_mail_option_none: "Non hai eventos."
   field_member_of_group: "Grupo do asignado"
   field_assigned_to_role: "Rol do asignado"
@@ -1232,3 +1230,5 @@ gl:
     be reassigned to an issue that is about to be deleted
   setting_timelog_required_fields: Required fields for time logs
   label_attribute_of_object: '%{object_name}''s %{name}'
+  label_user_mail_option_only_assigned: Only for things I watch or I am assigned to
+  label_user_mail_option_only_owner: Only for things I watch or I am the owner of

@@ -865,8 +865,6 @@ bg:
   label_user_mail_option_selected: "За всички събития само в избраните проекти..."
   label_user_mail_option_none: "Само за наблюдавани или в които участвам (автор или назначени на мен)"
   label_user_mail_option_only_my_events: Само за неща, в които съм включен/а
-  label_user_mail_option_only_assigned: Само за неща, назначени на мен
-  label_user_mail_option_only_owner: Само за неща, на които аз съм собственик
   label_user_mail_no_self_notified: "Не искам известия за извършени от мен промени"
   label_registration_activation_by_email: активиране на профила по email
   label_registration_manual_activation: ръчно активиране
@@ -1210,3 +1208,5 @@ bg:
     be reassigned to an issue that is about to be deleted
   setting_timelog_required_fields: Required fields for time logs
   label_attribute_of_object: '%{object_name}''s %{name}'
+  label_user_mail_option_only_assigned: Only for things I watch or I am assigned to
+  label_user_mail_option_only_owner: Only for things I watch or I am the owner of

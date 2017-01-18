@@ -726,8 +726,6 @@ he:
   label_user_mail_option_all: "לכל אירוע בכל הפרויקטים שלי"
   label_user_mail_option_selected: "לכל אירוע בפרויקטים שבחרתי בלבד..."
   label_user_mail_option_only_my_events: עבור דברים שאני צופה או מעורב בהם בלבד
-  label_user_mail_option_only_assigned: עבור דברים שאני אחראי עליהם בלבד
-  label_user_mail_option_only_owner: עבור דברים שאני הבעלים שלהם בלבד
   label_user_mail_no_self_notified: "אני לא רוצה שיודיעו לי על שינויים שאני מבצע"
   label_registration_activation_by_email: הפעל חשבון באמצעות דוא"ל
   label_registration_manual_activation: הפעלת חשבון ידנית
@@ -1229,3 +1227,5 @@ he:
     be reassigned to an issue that is about to be deleted
   setting_timelog_required_fields: Required fields for time logs
   label_attribute_of_object: '%{object_name}''s %{name}'
+  label_user_mail_option_only_assigned: Only for things I watch or I am assigned to
+  label_user_mail_option_only_owner: Only for things I watch or I am the owner of

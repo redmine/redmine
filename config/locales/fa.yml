@@ -729,8 +729,6 @@ fa:
   label_user_mail_option_selected: "برای هر خبر تنها در پروژه‌های گزینش شده..."
   label_user_mail_option_none: "هیچ خبری"
   label_user_mail_option_only_my_events: "تنها برای چیزهایی که دیده‌بان هستم یا در آن‌ها درگیر هستم"
-  label_user_mail_option_only_assigned: "تنها برای چیزهایی که به من واگذار شده"
-  label_user_mail_option_only_owner: "تنها برای چیزهایی که من دارنده آن‌ها هستم"
   label_user_mail_no_self_notified: "نمی‌خواهم از تغییراتی که خودم می‌دهم آگاه شوم"
   label_registration_activation_by_email: فعالسازی حساب با ایمیل
   label_registration_manual_activation: فعالسازی حساب دستی
@@ -1225,3 +1223,5 @@ fa:
     be reassigned to an issue that is about to be deleted
   setting_timelog_required_fields: Required fields for time logs
   label_attribute_of_object: '%{object_name}''s %{name}'
+  label_user_mail_option_only_assigned: Only for things I watch or I am assigned to
+  label_user_mail_option_only_owner: Only for things I watch or I am the owner of

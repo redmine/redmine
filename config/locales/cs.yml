@@ -735,8 +735,6 @@ cs:
   label_user_mail_option_selected: "Pro všechny události vybraných projektů..."
   label_user_mail_option_none: "Žádné události"
   label_user_mail_option_only_my_events: "Jen pro věci, co sleduji nebo jsem v nich zapojen"
-  label_user_mail_option_only_assigned: "Jen pro věci, ke kterým sem přiřazen"
-  label_user_mail_option_only_owner: "Jen pro věci, které vlastním"
   label_user_mail_no_self_notified: "Nezasílat informace o mnou vytvořených změnách"
   label_registration_activation_by_email: aktivace účtu emailem
   label_registration_manual_activation: manuální aktivace účtu
@@ -1223,3 +1221,5 @@ cs:
     be reassigned to an issue that is about to be deleted
   setting_timelog_required_fields: Required fields for time logs
   label_attribute_of_object: '%{object_name}''s %{name}'
+  label_user_mail_option_only_assigned: Only for things I watch or I am assigned to
+  label_user_mail_option_only_owner: Only for things I watch or I am the owner of

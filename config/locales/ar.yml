@@ -757,8 +757,6 @@ ar:
   label_user_mail_option_selected: "الخيارات المظللة فقط"
   label_user_mail_option_none: "لم يتم تحديد اي خيارات"
   label_user_mail_option_only_my_events: "السماح لي فقط بمشاهدة الاحداث الخاصة"
-  label_user_mail_option_only_assigned: "فقط الخيارات التي تم تعيينها"
-  label_user_mail_option_only_owner: "فقط للخيارات التي املكها"
   label_user_mail_no_self_notified: "لا تريد إعلامك بالتغيرات التي تجريها بنفسك"
   label_registration_activation_by_email: حساب التنشيط عبر البريد الإلكتروني
   label_registration_manual_activation: تنشيط الحساب اليدوي
@@ -1224,3 +1222,5 @@ ar:
     be reassigned to an issue that is about to be deleted
   setting_timelog_required_fields: Required fields for time logs
   label_attribute_of_object: '%{object_name}''s %{name}'
+  label_user_mail_option_only_assigned: Only for things I watch or I am assigned to
+  label_user_mail_option_only_owner: Only for things I watch or I am the owner of

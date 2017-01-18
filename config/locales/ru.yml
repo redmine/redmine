@@ -696,9 +696,7 @@ ru:
   label_user_mail_no_self_notified: "Не извещать об изменениях, которые я сделал сам"
   label_user_mail_option_all: "О всех событиях во всех моих проектах"
   label_user_mail_option_selected: "О всех событиях только в выбранном проекте..."
-  label_user_mail_option_only_owner: Только для объектов, для которых я являюсь владельцем
   label_user_mail_option_only_my_events: Только для объектов, которые я отслеживаю или в которых участвую
-  label_user_mail_option_only_assigned: Только для объектов, которые назначены мне
   label_user_new: Новый пользователь
   label_user_plural: Пользователи
   label_version: Версия
@@ -1326,3 +1324,5 @@ ru:
     be reassigned to an issue that is about to be deleted
   setting_timelog_required_fields: Required fields for time logs
   label_attribute_of_object: '%{object_name}''s %{name}'
+  label_user_mail_option_only_assigned: Only for things I watch or I am assigned to
+  label_user_mail_option_only_owner: Only for things I watch or I am the owner of

@@ -961,10 +961,8 @@ vi:
   button_edit_associated_wikipage: "Chỉnh sửa trang Wiki liên quan: %{page_title}"
   text_are_you_sure_with_children: Xóa vấn đề và tất cả vấn đề con?  
   field_text: Trường văn bản
-  label_user_mail_option_only_owner: Chỉ những thứ tôi sở hữu
   setting_default_notification_option: Tuỳ chọn thông báo mặc định
   label_user_mail_option_only_my_events: Chỉ những thứ tôi theo dõi hoặc liên quan
-  label_user_mail_option_only_assigned: Chỉ những thứ tôi được phân công
   label_user_mail_option_none: Không có sự kiện
   field_member_of_group: Nhóm thụ hưởng
   field_assigned_to_role: Quyền thụ hưởng
@@ -1277,3 +1275,5 @@ vi:
     be reassigned to an issue that is about to be deleted
   setting_timelog_required_fields: Required fields for time logs
   label_attribute_of_object: '%{object_name}''s %{name}'
+  label_user_mail_option_only_assigned: Only for things I watch or I am assigned to
+  label_user_mail_option_only_owner: Only for things I watch or I am the owner of

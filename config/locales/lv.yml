@@ -903,10 +903,8 @@ lv:
   project_module_calendar: Calendar
   button_edit_associated_wikipage: "Edit associated Wiki page: %{page_title}"
   field_text: Text field
-  label_user_mail_option_only_owner: Tikai par uzdevumiem, ko esmu izveidojis
   setting_default_notification_option: Default notification option
   label_user_mail_option_only_my_events: Tikai par uzdevumiem, kurus novēroju vai kuros esmu iesaistījies
-  label_user_mail_option_only_assigned: Tikai par uzdevumiem, kas ir piešķirti man
   label_user_mail_option_none: Ne par ko
   field_member_of_group: Assignee's group
   field_assigned_to_role: Assignee's role
@@ -1218,3 +1216,5 @@ lv:
     be reassigned to an issue that is about to be deleted
   setting_timelog_required_fields: Required fields for time logs
   label_attribute_of_object: '%{object_name}''s %{name}'
+  label_user_mail_option_only_assigned: Only for things I watch or I am assigned to
+  label_user_mail_option_only_owner: Only for things I watch or I am the owner of

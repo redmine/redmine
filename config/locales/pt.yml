@@ -916,10 +916,8 @@ pt:
   project_module_calendar: Calendário
   button_edit_associated_wikipage: "Editar página Wiki associada: %{page_title}"
   field_text: Campo de texto
-  label_user_mail_option_only_owner: Apenas para tarefas das quais sou proprietário
   setting_default_notification_option: Opção predefinida de notificação
   label_user_mail_option_only_my_events: Apenas para tarefas que observo ou em que estou envolvido
-  label_user_mail_option_only_assigned: Apenas para tarefas que me foram atribuídas
   label_user_mail_option_none: Sem eventos
   field_member_of_group: Grupo do titular
   field_assigned_to_role: Função do titular
@@ -1227,3 +1225,5 @@ pt:
     be reassigned to an issue that is about to be deleted
   setting_timelog_required_fields: Required fields for time logs
   label_attribute_of_object: '%{object_name}''s %{name}'
+  label_user_mail_option_only_assigned: Only for things I watch or I am assigned to
+  label_user_mail_option_only_owner: Only for things I watch or I am the owner of

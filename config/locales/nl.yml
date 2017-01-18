@@ -891,10 +891,8 @@ nl:
   project_module_calendar: Kalender
   button_edit_associated_wikipage: "Bijbehorende wikipagina bewerken: %{page_title}"
   field_text: Tekstveld
-  label_user_mail_option_only_owner: Alleen voor activiteiten waarvan ik de auteur ben
   setting_default_notification_option: Standaardinstelling voor mededelingen
   label_user_mail_option_only_my_events: Alleen voor activiteiten die ik volg of waarbij ik betrokken ben
-  label_user_mail_option_only_assigned: Alleen voor activiteiten die aan mij zijn toegewezen
   label_user_mail_option_none: Bij geen enkele activiteit
   field_member_of_group: Groep van toegewezen persoon
   field_assigned_to_role: Rol van toegewezen persoon
@@ -1199,3 +1197,5 @@ nl:
     be reassigned to an issue that is about to be deleted
   setting_timelog_required_fields: Required fields for time logs
   label_attribute_of_object: '%{object_name}''s %{name}'
+  label_user_mail_option_only_assigned: Only for things I watch or I am assigned to
+  label_user_mail_option_only_owner: Only for things I watch or I am the owner of
