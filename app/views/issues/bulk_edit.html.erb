@@ -186,6 +186,13 @@
 </fieldset>
 </div>
 
+<% if @values_by_custom_field.present? %>
+<div class="flash warning">
+  <%= l(:warning_fields_cleared_on_bulk_edit) %>:<br /> 
+  <%= safe_join(@values_by_custom_field.map {|field, ids| content_tag "span", "#{field.name} (#{ids.size})"}, ', ') %>
+</div>
+<% end %>
+
 <p>
   <% if @copy %>
     <%= hidden_field_tag 'copy', '1' %>

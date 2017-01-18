@@ -213,6 +213,16 @@ class IssuesController < ApplicationController
 
     edited_issues = Issue.where(:id => @issues.map(&:id)).to_a
 
+    @values_by_custom_field = {}
+    edited_issues.each do |issue|
+      issue.custom_field_values.each do |c|
+        if c.value_present?
+          @values_by_custom_field[c.custom_field] ||= []
+          @values_by_custom_field[c.custom_field] << issue.id
+        end
+      end
+    end
+
     @allowed_projects = Issue.allowed_target_projects
     if params[:issue]
       @target_project = @allowed_projects.detect {|p| p.id.to_s == params[:issue][:project_id].to_s}
@@ -243,6 +253,15 @@ class IssuesController < ApplicationController
         edited_issues.each {|issue| issue.status = @target_status}
       end
     end
+
+    edited_issues.each do |issue|
+      issue.custom_field_values.each do |c|
+        if c.value_present? && @values_by_custom_field[c.custom_field]
+          @values_by_custom_field[c.custom_field].delete(issue.id)
+        end
+      end
+    end
+    @values_by_custom_field.delete_if {|k,v| v.blank?}
 
     @custom_fields = edited_issues.map{|i|i.editable_custom_fields}.reduce(:&).select {|field| field.format.bulk_edit_supported}
     @assignables = target_projects.map(&:assignable_users).reduce(:&)

@@ -4067,6 +4067,23 @@ class IssuesControllerTest < Redmine::ControllerTest
     assert_select 'input[name=?]', "issue[custom_field_values][#{field2.id}]"
   end
 
+  def test_bulk_edit_should_warn_about_custom_field_values_about_to_be_cleared
+    CustomField.delete_all
+
+    cleared = IssueCustomField.generate!(:name => 'Cleared', :tracker_ids => [2], :is_for_all => true)
+    CustomValue.create!(:customized => Issue.find(2), :custom_field => cleared, :value => 'foo')
+
+    not_cleared = IssueCustomField.generate!(:name => 'Not cleared', :tracker_ids => [2, 3], :is_for_all => true)
+    CustomValue.create!(:customized => Issue.find(2), :custom_field => not_cleared, :value => 'bar')
+    @request.session[:user_id] = 2
+
+    get :bulk_edit, :ids => [1, 2], :issue => {:tracker_id => 3}
+    assert_response :success
+    assert_select '.warning', :text => /automatic deletion of values/
+    assert_select '.warning span', :text => 'Cleared (1)'
+    assert_select '.warning span', :text => /Not cleared/, :count => 0
+  end
+
   def test_bulk_update
     @request.session[:user_id] = 2
     # update issues priority
