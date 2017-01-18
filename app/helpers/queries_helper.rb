@@ -231,13 +231,7 @@ module QueriesHelper
   end
 
   def query_to_csv(items, query, options={})
-    options ||= {}
-    columns = (options[:columns] == 'all' ? query.available_inline_columns : query.inline_columns)
-    query.available_block_columns.each do |column|
-      if options[column.name].present?
-        columns << column
-      end
-    end
+    columns = query.columns
 
     Redmine::Export::CSV.generate do |csv|
       # csv header fields
@@ -310,10 +304,8 @@ module QueriesHelper
     else
       tags << hidden_field_tag("f[]", "", :id => nil)
     end
-    if query.column_names.present?
-      query.column_names.each do |name|
-        tags << hidden_field_tag("c[]", name, :id => nil)
-      end
+    query.columns.each do |column|
+      tags << hidden_field_tag("c[]", column.name, :id => nil)
     end
     if query.totalable_names.present?
       query.totalable_names.each do |name|

@@ -985,9 +985,10 @@ class TimelogControllerTest < Redmine::ControllerTest
         assert_select 'input[name=?][value=?]', 'op[spent_on]', '>='
         assert_select 'input[name=?][value=?]', 'v[spent_on][]', '2007-04-01'
         # columns
-        assert_select 'input[name=?][value=?]', 'c[]', 'spent_on'
-        assert_select 'input[name=?][value=?]', 'c[]', 'user'
-        assert_select 'input[name=?]', 'c[]', 2
+        assert_select 'input[name=?][type=hidden][value=?]', 'c[]', 'spent_on'
+        assert_select 'input[name=?][type=hidden][value=?]', 'c[]', 'user'
+        assert_select 'input[name=?][type=hidden]', 'c[]', 2
+        assert_select 'input[name=?][value=?]', 'c[]', 'all_inline'
       end
     end
   end

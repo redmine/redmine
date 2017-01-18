@@ -670,6 +670,9 @@ class Query < ActiveRecord::Base
     if names
       names = names.select {|n| n.is_a?(Symbol) || !n.blank? }
       names = names.collect {|n| n.is_a?(Symbol) ? n : n.to_sym }
+      if names.delete(:all_inline)
+        names = available_inline_columns.map(&:name) | names
+      end
       # Set column_names to nil if default columns
       if names == default_columns_names
         names = nil
