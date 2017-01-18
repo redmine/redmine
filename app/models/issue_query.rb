@@ -516,16 +516,16 @@ class IssueQuery < Query
       if order_options.include?('users')
         joins << "LEFT OUTER JOIN #{User.table_name} ON #{User.table_name}.id = #{queried_table_name}.assigned_to_id"
       end
-      if order_options.include?('fixed_version')
+      if order_options.include?('versions')
         joins << "LEFT OUTER JOIN #{Version.table_name} ON #{Version.table_name}.id = #{queried_table_name}.fixed_version_id"
       end
-      if order_options.include?('category')
+      if order_options.include?('issue_categories')
         joins << "LEFT OUTER JOIN #{IssueCategory.table_name} ON #{IssueCategory.table_name}.id = #{queried_table_name}.category_id"
       end
-      if order_options.include?('tracker')
+      if order_options.include?('trackers')
         joins << "LEFT OUTER JOIN #{Tracker.table_name} ON #{Tracker.table_name}.id = #{queried_table_name}.tracker_id"
       end
-      if order_options.include?('enumeration')
+      if order_options.include?('enumerations')
         joins << "LEFT OUTER JOIN #{IssuePriority.table_name} ON #{IssuePriority.table_name}.id = #{queried_table_name}.priority_id"
       end
     end
