@@ -89,7 +89,7 @@ class QueriesHelperTest < Redmine::HelperTest
     ]
 
     with_locale 'fr' do
-      csv = query_to_csv(issues, IssueQuery.new, :columns => 'all')
+      csv = query_to_csv(issues, IssueQuery.new(:column_names => ['id', "cf_#{f.id}"]))
       assert_include "Oui", csv
       assert_include "Non", csv
     end
