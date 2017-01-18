@@ -1900,4 +1900,19 @@ class QueryTest < ActiveSupport::TestCase
     assert_equal [1, 2, 3, 6, 7, 8, 9, 10, 11, 12], issues.map(&:id).sort
   end
 
+  def test_filter_updated_on_none_should_return_issues_with_updated_on_equal_with_created_on
+    query = IssueQuery.new(:name => '_', :project => Project.find(1))
+
+    query.filters = {'updated_on' => {:operator => '!*', :values => ['']}}
+    issues = find_issues_with_query(query)
+    assert_equal [3, 6, 7, 8, 9, 10, 14], issues.map(&:id).sort
+  end
+
+  def test_filter_updated_on_any_should_return_issues_with_updated_on_greater_than_created_on
+    query = IssueQuery.new(:name => '_', :project => Project.find(1))
+
+    query.filters = {'updated_on' => {:operator => '*', :values => ['']}}
+    issues = find_issues_with_query(query)
+    assert_equal [1, 2, 5, 11, 12, 13], issues.map(&:id).sort
+  end
 end

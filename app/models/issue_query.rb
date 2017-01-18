@@ -449,6 +449,17 @@ class IssueQuery < Query
     end
   end
 
+  def sql_for_updated_on_field(field, operator, value)
+    case operator
+    when "!*"
+      "#{Issue.table_name}.updated_on = #{Issue.table_name}.created_on"
+    when "*"
+      "#{Issue.table_name}.updated_on > #{Issue.table_name}.created_on"
+    else
+      sql_for_field("updated_on", operator, value, Issue.table_name, "updated_on")
+    end
+  end
+
   def sql_for_issue_id_field(field, operator, value)
     if operator == "="
       # accepts a comma separated list of ids
