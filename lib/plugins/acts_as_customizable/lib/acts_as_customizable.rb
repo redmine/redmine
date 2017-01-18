@@ -29,6 +29,7 @@ module Redmine
           self.customizable_options = options
           has_many :custom_values, lambda {includes(:custom_field).order("#{CustomField.table_name}.position")},
                                    :as => :customized,
+                                   :inverse_of => :customized,
                                    :dependent => :delete_all,
                                    :validate => false
 
