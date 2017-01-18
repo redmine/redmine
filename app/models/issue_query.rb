@@ -273,9 +273,9 @@ class IssueQuery < Query
       limit(options[:limit]).
       offset(options[:offset])
 
-    scope = scope.preload(:custom_values)
-    if has_column?(:author)
-      scope = scope.preload(:author)
+    scope = scope.preload([:tracker, :priority, :author, :assigned_to, :fixed_version, :category] & columns.map(&:name))
+    if has_custom_field_column?
+      scope = scope.preload(:custom_values)
     end
 
     issues = scope.to_a
@@ -512,6 +512,21 @@ class IssueQuery < Query
     if order_options
       if order_options.include?('authors')
         joins << "LEFT OUTER JOIN #{User.table_name} authors ON authors.id = #{queried_table_name}.author_id"
+      end
+      if order_options.include?('users')
+        joins << "LEFT OUTER JOIN #{User.table_name} ON #{User.table_name}.id = #{queried_table_name}.assigned_to_id"
+      end
+      if order_options.include?('fixed_version')
+        joins << "LEFT OUTER JOIN #{Version.table_name} ON #{Version.table_name}.id = #{queried_table_name}.fixed_version_id"
+      end
+      if order_options.include?('category')
+        joins << "LEFT OUTER JOIN #{IssueCategory.table_name} ON #{IssueCategory.table_name}.id = #{queried_table_name}.category_id"
+      end
+      if order_options.include?('tracker')
+        joins << "LEFT OUTER JOIN #{Tracker.table_name} ON #{Tracker.table_name}.id = #{queried_table_name}.tracker_id"
+      end
+      if order_options.include?('enumeration')
+        joins << "LEFT OUTER JOIN #{IssuePriority.table_name} ON #{IssuePriority.table_name}.id = #{queried_table_name}.priority_id"
       end
     end
 

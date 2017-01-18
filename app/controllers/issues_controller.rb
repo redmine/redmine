@@ -66,8 +66,7 @@ class IssuesController < ApplicationController
       @issue_count = @query.issue_count
       @issue_pages = Paginator.new @issue_count, @limit, params['page']
       @offset ||= @issue_pages.offset
-      @issues = @query.issues(:include => [:assigned_to, :tracker, :priority, :category, :fixed_version],
-                              :order => sort_clause,
+      @issues = @query.issues(:order => sort_clause,
                               :offset => @offset,
                               :limit => @limit)
       @issue_count_by_group = @query.issue_count_by_group
@@ -402,7 +401,7 @@ class IssuesController < ApplicationController
         sort_init(@query.sort_criteria.empty? ? [['id', 'desc']] : @query.sort_criteria)
         sort_update(@query.sortable_columns, 'issues_index_sort')
         limit = 500
-        issue_ids = @query.issue_ids(:order => sort_clause, :limit => (limit + 1), :include => [:assigned_to, :tracker, :priority, :category, :fixed_version])
+        issue_ids = @query.issue_ids(:order => sort_clause, :limit => (limit + 1))
         if (idx = issue_ids.index(@issue.id)) && idx < limit
           if issue_ids.size < 500
             @issue_position = idx + 1
