@@ -36,7 +36,6 @@ class ProjectsHelperTest < Redmine::HelperTest
   def setup
     super
     set_language_if_valid('en')
-    User.current = nil
   end
 
   def test_link_to_version_within_project

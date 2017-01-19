@@ -38,7 +38,6 @@ class IssuesHelperTest < Redmine::HelperTest
   def setup
     super
     set_language_if_valid('en')
-    User.current = nil
   end
 
   def test_issue_heading

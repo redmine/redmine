@@ -278,7 +278,10 @@ module Redmine
   end
 
   class HelperTest < ActionView::TestCase
-    
+    def setup
+      super
+      User.current = nil
+    end
   end
 
   class ControllerTest < ActionController::TestCase

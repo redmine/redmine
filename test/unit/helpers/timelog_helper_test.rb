@@ -32,10 +32,6 @@ class TimelogHelperTest < Redmine::HelperTest
                       :attachments,
                       :enumerations
 
-  def setup
-    super
-  end
-
   def test_activities_collection_for_select_options_should_return_array_of_activity_names_and_ids
     activities = activity_collection_for_select_options
     assert activities.include?(["Design", 9])

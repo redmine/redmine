@@ -38,6 +38,7 @@ class ActivitiesHelperTest < Redmine::HelperTest
   end
 
   def setup
+    super
     MockEvent.clear
   end
 

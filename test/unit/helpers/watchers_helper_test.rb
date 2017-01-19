@@ -27,7 +27,6 @@ class WatchersHelperTest < Redmine::HelperTest
   def setup
     super
     set_language_if_valid('en')
-    User.current = nil
   end
 
   test '#watcher_link with a non-watched object' do

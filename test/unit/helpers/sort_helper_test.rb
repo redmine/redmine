@@ -23,6 +23,7 @@ class SortHelperTest < Redmine::HelperTest
   include ERB::Util
 
   def setup
+    super
     @session = nil
     @sort_param = nil
   end
