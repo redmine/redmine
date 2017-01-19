@@ -278,9 +278,12 @@ module Redmine
   end
 
   class HelperTest < ActionView::TestCase
+    include Redmine::I18n
+
     def setup
       super
       User.current = nil
+      ::I18n.locale = 'en'
     end
   end
 

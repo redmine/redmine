@@ -18,7 +18,6 @@
 require File.expand_path('../../../test_helper', __FILE__)
 
 class IssuesHelperTest < Redmine::HelperTest
-  include Redmine::I18n
   include IssuesHelper
   include CustomFieldsHelper
   include ERB::Util
@@ -34,11 +33,6 @@ class IssuesHelperTest < Redmine::HelperTest
            :custom_fields,
            :attachments,
            :versions
-
-  def setup
-    super
-    set_language_if_valid('en')
-  end
 
   def test_issue_heading
     assert_equal "Bug #1", issue_heading(Issue.find(1))

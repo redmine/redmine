@@ -19,15 +19,9 @@ require File.expand_path('../../../test_helper', __FILE__)
 
 class WatchersHelperTest < Redmine::HelperTest
   include WatchersHelper
-  include Redmine::I18n
   include Rails.application.routes.url_helpers
 
   fixtures :users, :issues
-
-  def setup
-    super
-    set_language_if_valid('en')
-  end
 
   test '#watcher_link with a non-watched object' do
     expected = link_to(

@@ -21,7 +21,6 @@ require File.expand_path('../../../test_helper', __FILE__)
 
 class SearchHelperTest < Redmine::HelperTest
   include SearchHelper
-  include Redmine::I18n
   include ERB::Util
 
   def test_highlight_single_token

@@ -20,7 +20,6 @@ require File.expand_path('../../../test_helper', __FILE__)
 class ProjectsHelperTest < Redmine::HelperTest
   include ApplicationHelper
   include ProjectsHelper
-  include Redmine::I18n
   include ERB::Util
   include Rails.application.routes.url_helpers
 
@@ -32,11 +31,6 @@ class ProjectsHelperTest < Redmine::HelperTest
            :members,
            :groups_users,
            :enabled_modules
-
-  def setup
-    super
-    set_language_if_valid('en')
-  end
 
   def test_link_to_version_within_project
     @project = Project.find(2)

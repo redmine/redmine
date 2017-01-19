@@ -19,7 +19,6 @@ require File.expand_path('../../../test_helper', __FILE__)
 
 class SettingsHelperTest < Redmine::HelperTest
   include SettingsHelper
-  include Redmine::I18n
   include ERB::Util
 
   def test_date_format_setting_options_should_include_human_readable_format

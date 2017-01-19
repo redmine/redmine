@@ -20,7 +20,6 @@ require File.expand_path('../../../test_helper', __FILE__)
 class CustomFieldsHelperTest < Redmine::HelperTest
   include ApplicationHelper
   include CustomFieldsHelper
-  include Redmine::I18n
   include ERB::Util
 
   def test_format_boolean_value
