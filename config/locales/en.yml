@@ -370,6 +370,8 @@ en:
   field_default_version: Default version
   field_remote_ip: IP address
   field_textarea_font: Font used for text areas
+  field_updated_by: Updated by
+  field_last_updated_by: Last updated by
 
   setting_app_title: Application title
   setting_app_subtitle: Application subtitle

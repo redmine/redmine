@@ -719,6 +719,93 @@ class QueryTest < ActiveSupport::TestCase
     end
   end
 
+  def test_filter_updated_by
+    user = User.generate!
+    Journal.create!(:user_id => user.id, :journalized => Issue.find(2), :notes => 'Notes')
+    Journal.create!(:user_id => user.id, :journalized => Issue.find(3), :notes => 'Notes')
+    Journal.create!(:user_id => 2, :journalized => Issue.find(3), :notes => 'Notes')
+
+    query = IssueQuery.new(:name => '_')
+    filter_name = "updated_by"
+    assert_include filter_name, query.available_filters.keys
+
+    query.filters = {filter_name => {:operator => '=', :values => [user.id]}}
+    assert_equal [2, 3], find_issues_with_query(query).map(&:id).sort
+
+    query.filters = {filter_name => {:operator => '!', :values => [user.id]}}
+    assert_equal (Issue.ids.sort - [2, 3]), find_issues_with_query(query).map(&:id).sort
+  end
+
+  def test_filter_updated_by_should_ignore_private_notes_that_are_not_visible
+    user = User.generate!
+    Journal.create!(:user_id => user.id, :journalized => Issue.find(2), :notes => 'Notes', :private_notes => true)
+    Journal.create!(:user_id => user.id, :journalized => Issue.find(3), :notes => 'Notes')
+
+    query = IssueQuery.new(:name => '_')
+    filter_name = "updated_by"
+    assert_include filter_name, query.available_filters.keys
+
+    with_current_user User.anonymous do
+      query.filters = {filter_name => {:operator => '=', :values => [user.id]}}
+      assert_equal [3], find_issues_with_query(query).map(&:id).sort
+    end
+  end
+
+  def test_filter_updated_by_me
+    user = User.generate!
+    Journal.create!(:user_id => user.id, :journalized => Issue.find(2), :notes => 'Notes')
+
+    with_current_user user do
+      query = IssueQuery.new(:name => '_')
+      filter_name = "updated_by"
+      assert_include filter_name, query.available_filters.keys
+  
+      query.filters = {filter_name => {:operator => '=', :values => ['me']}}
+      assert_equal [2], find_issues_with_query(query).map(&:id).sort
+    end
+  end
+
+  def test_filter_last_updated_by
+    user = User.generate!
+    Journal.create!(:user_id => user.id, :journalized => Issue.find(2), :notes => 'Notes')
+    Journal.create!(:user_id => user.id, :journalized => Issue.find(3), :notes => 'Notes')
+    Journal.create!(:user_id => 2, :journalized => Issue.find(3), :notes => 'Notes')
+
+    query = IssueQuery.new(:name => '_')
+    filter_name = "last_updated_by"
+    assert_include filter_name, query.available_filters.keys
+
+    query.filters = {filter_name => {:operator => '=', :values => [user.id]}}
+    assert_equal [2], find_issues_with_query(query).map(&:id).sort
+  end
+
+  def test_filter_last_updated_by_should_ignore_private_notes_that_are_not_visible
+    user1 = User.generate!
+    user2 = User.generate!
+    Journal.create!(:user_id => user1.id, :journalized => Issue.find(2), :notes => 'Notes')
+    Journal.create!(:user_id => user2.id, :journalized => Issue.find(2), :notes => 'Notes', :private_notes => true)
+
+    query = IssueQuery.new(:name => '_')
+    filter_name = "last_updated_by"
+    assert_include filter_name, query.available_filters.keys
+
+    with_current_user User.anonymous do
+      query.filters = {filter_name => {:operator => '=', :values => [user1.id]}}
+      assert_equal [2], find_issues_with_query(query).map(&:id).sort
+
+      query.filters = {filter_name => {:operator => '=', :values => [user2.id]}}
+      assert_equal [], find_issues_with_query(query).map(&:id).sort
+    end
+
+    with_current_user User.find(2) do
+      query.filters = {filter_name => {:operator => '=', :values => [user1.id]}}
+      assert_equal [], find_issues_with_query(query).map(&:id).sort
+
+      query.filters = {filter_name => {:operator => '=', :values => [user2.id]}}
+      assert_equal [2], find_issues_with_query(query).map(&:id).sort
+    end
+  end
+
   def test_user_custom_field_filtered_on_me
     User.current = User.find(2)
     cf = IssueCustomField.create!(:field_format => 'user', :is_for_all => true, :is_filter => true, :name => 'User custom field', :tracker_ids => [1])

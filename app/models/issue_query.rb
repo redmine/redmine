@@ -165,6 +165,14 @@ class IssueQuery < Query
 
     add_available_filter "issue_id", :type => :integer, :label => :label_issue
 
+    add_available_filter("updated_by",
+      :type => :list, :values => lambda { author_values }
+    )
+
+    add_available_filter("last_updated_by",
+      :type => :list, :values => lambda { author_values }
+    )
+
     Tracker.disabled_core_fields(trackers).each {|field|
       delete_available_filter field
     }
@@ -339,6 +347,27 @@ class IssueQuery < Query
       to_a
   rescue ::ActiveRecord::StatementInvalid => e
     raise StatementInvalid.new(e.message)
+  end
+
+  def sql_for_updated_by_field(field, operator, value)
+    neg = (operator == '!' ? 'NOT' : '')
+    subquery = "SELECT 1 FROM #{Journal.table_name}" +
+      " WHERE #{Journal.table_name}.journalized_type='Issue' AND #{Journal.table_name}.journalized_id=#{Issue.table_name}.id" +
+      " AND (#{sql_for_field field, '=', value, Journal.table_name, 'user_id'})" +
+      " AND (#{Journal.visible_notes_condition(User.current, :skip_pre_condition => true)})"
+
+    "#{neg} EXISTS (#{subquery})"
+  end
+
+  def sql_for_last_updated_by_field(field, operator, value)
+    neg = (operator == '!' ? 'NOT' : '')
+    subquery = "SELECT 1 FROM #{Journal.table_name} sj" +
+      " WHERE sj.journalized_type='Issue' AND sj.journalized_id=#{Issue.table_name}.id AND (#{sql_for_field field, '=', value, 'sj', 'user_id'})" +
+      " AND sj.id = (SELECT MAX(#{Journal.table_name}.id) FROM #{Journal.table_name}" +
+      "   WHERE #{Journal.table_name}.journalized_type='Issue' AND #{Journal.table_name}.journalized_id=#{Issue.table_name}.id" +
+      "   AND (#{Journal.visible_notes_condition(User.current, :skip_pre_condition => true)}))"
+
+    "#{neg} EXISTS (#{subquery})"
   end
 
   def sql_for_watcher_id_field(field, operator, value)

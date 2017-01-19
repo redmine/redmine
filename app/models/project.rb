@@ -173,13 +173,14 @@ class Project < ActiveRecord::Base
   # Returns a SQL conditions string used to find all projects for which +user+ has the given +permission+
   #
   # Valid options:
-  # * :project => limit the condition to project
-  # * :with_subprojects => limit the condition to project and its subprojects
-  # * :member => limit the condition to the user projects
+  # * :skip_pre_condition => true       don't check that the module is enabled (eg. when the condition is already set elsewhere in the query)
+  # * :project => project               limit the condition to project
+  # * :with_subprojects => true         limit the condition to project and its subprojects
+  # * :member => true                   limit the condition to the user projects
   def self.allowed_to_condition(user, permission, options={})
     perm = Redmine::AccessControl.permission(permission)
     base_statement = (perm && perm.read? ? "#{Project.table_name}.status <> #{Project::STATUS_ARCHIVED}" : "#{Project.table_name}.status = #{Project::STATUS_ACTIVE}")
-    if perm && perm.project_module
+    if !options[:skip_pre_condition] && perm && perm.project_module
       # If the permission belongs to a project module, make sure the module is enabled
       base_statement << " AND #{Project.table_name}.id IN (SELECT em.project_id FROM #{EnabledModule.table_name} em WHERE em.name='#{perm.project_module}')"
     end
