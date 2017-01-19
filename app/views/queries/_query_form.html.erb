@@ -43,7 +43,7 @@
 
 <p class="buttons">
   <%= link_to_function l(:button_apply), '$("#query_form").submit()', :class => 'icon icon-checked' %>
-  <%= link_to l(:button_clear), { :set_filter => 1, :project_id => @project }, :class => 'icon icon-reload'  %>
+  <%= link_to l(:button_clear), { :set_filter => 1, :sort => '', :project_id => @project }, :class => 'icon icon-reload'  %>
   <% if @query.new_record? %>
     <% if User.current.allowed_to?(:save_queries, @project, :global => true) %>
       <%= link_to_function l(:button_save),
