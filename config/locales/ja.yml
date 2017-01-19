@@ -1236,3 +1236,5 @@ ja:
   label_attribute_of_object: '%{object_name}''s %{name}'
   warning_fields_cleared_on_bulk_edit: Changes will result in the automatic deletion
     of values from one or more fields on the selected objects
+  field_updated_by: Updated by
+  field_last_updated_by: Last updated by

@@ -1239,3 +1239,5 @@ bs:
   label_user_mail_option_only_owner: Only for things I watch or I am the owner of
   warning_fields_cleared_on_bulk_edit: Changes will result in the automatic deletion
     of values from one or more fields on the selected objects
+  field_updated_by: Updated by
+  field_last_updated_by: Last updated by
