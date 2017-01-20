@@ -1158,7 +1158,7 @@ es:
   label_search_attachments_yes: Buscar adjuntos por nombre de archivo y descripciones
   label_search_attachments_no: No buscar adjuntos
   label_search_attachments_only: Sólo Buscar adjuntos
-  label_search_open_issues_only: Sólo Abrir Peticiones
+  label_search_open_issues_only: Sólo Peticiones Abiertas
   field_address: Correo electrónico
   setting_max_additional_emails: Número Máximo de correos electrónicos adicionales
   label_email_address_plural: Correo Electrónicos
