@@ -352,8 +352,8 @@ ja:
   setting_bcc_recipients: 宛先を非表示(bcc)
   setting_plain_text_mail: プレインテキスト形式(HTMLなし)
   setting_host_name: ホスト名とパス
-  setting_text_formatting: テキストの書式
-  setting_cache_formatted_text: 書式化されたテキストをキャッシュする
+  setting_text_formatting: テキスト書式
+  setting_cache_formatted_text: テキスト書式の変換結果をキャッシュ
   setting_wiki_compression: Wiki履歴を圧縮する
   setting_feeds_limit: Atomフィードの項目数の上限
   setting_default_projects_public: デフォルトで新しいプロジェクトは公開にする
