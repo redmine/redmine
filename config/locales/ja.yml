@@ -1218,5 +1218,4 @@ ja:
   setting_new_item_menu_tab: 新規オブジェクト作成タブ
   label_new_object_tab_enabled: '"+" ドロップダウンを表示'
   error_no_projects_with_tracker_allowed_for_new_issue: チケットを追加できるプロジェクトがありません
-  error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: Spent time cannot
-    be reassigned to an issue that is about to be deleted
+  error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: 削除対象チケットへの作業時間の再割り当てはできません
