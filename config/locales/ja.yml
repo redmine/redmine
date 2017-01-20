@@ -151,8 +151,8 @@ ja:
         circular_dependency: "この関係では、循環依存になります"
         cant_link_an_issue_with_a_descendant: "親子関係にあるチケット間での関連の設定はできません"
         earlier_than_minimum_start_date: "を%{date}より前にすることはできません。先行するチケットがあります"
-        not_a_regexp: "is not a valid regular expression"
-        open_issue_with_closed_parent: "An open issue cannot be attached to a closed parent task"
+        not_a_regexp: "は正しい正規表現ではありません"
+        open_issue_with_closed_parent: "完了したチケットに未完了の子チケットを追加することはできません"
 
   actionview_instancetag_blank_option: 選んでください
 
@@ -1226,10 +1226,9 @@ ja:
   label_font_proportional: プロポーショナル
   setting_timespan_format: 時間の形式
   label_table_of_contents: 目次
-  setting_commit_logs_formatting: Apply text formatting to commit messages
-  setting_mail_handler_enable_regex_delimiters: Enable regular expressions
-  error_move_of_child_not_possible: 'Subtask %{child} could not be moved to the new
-    project: %{errors}'
+  setting_commit_logs_formatting: コミットメッセージにテキスト書式を適用
+  setting_mail_handler_enable_regex_delimiters: 正規表現を使用
+  error_move_of_child_not_possible: '子チケット %{child} を指定されたプロジェクトに移動できませんでした: %{errors}'
   error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: 削除対象チケットへの作業時間の再割り当てはできません
   setting_timelog_required_fields: Required fields for time logs
   label_attribute_of_object: '%{object_name}''s %{name}'
