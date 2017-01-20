@@ -1024,12 +1024,13 @@
   label_readonly: 唯讀
   label_required: 必填
   label_hidden: 隱藏
-  label_attribute_of_project: "專案是 %{name}"
-  label_attribute_of_issue: "議題是 %{name}"
-  label_attribute_of_author: "作者是 %{name}"
-  label_attribute_of_assigned_to: "被分派者是 %{name}"
-  label_attribute_of_user: "用戶是 %{name}"
-  label_attribute_of_fixed_version: "版本是 %{name}"
+  label_attribute_of_project: "專案的 %{name}"
+  label_attribute_of_issue: "議題的 %{name}"
+  label_attribute_of_author: "作者的 %{name}"
+  label_attribute_of_assigned_to: "被分派者的 %{name}"
+  label_attribute_of_user: "用戶的 %{name}"
+  label_attribute_of_fixed_version: "版本的 %{name}"
+  label_attribute_of_object: "%{object_name}的 %{name}"
   label_cross_project_descendants: 與子專案共用
   label_cross_project_tree: 與專案樹共用
   label_cross_project_hierarchy: 與專案階層架構共用
@@ -1289,7 +1290,6 @@
   description_date_from: 輸入起始日期
   description_date_to: 輸入結束日期
   text_repository_identifier_info: '僅允許使用小寫英文字母 (a-z), 阿拉伯數字, 虛線與底線。<br />一旦儲存之後, 代碼便無法再次被更改。'
-  label_attribute_of_object: '%{object_name}''s %{name}'
   label_user_mail_option_only_assigned: Only for things I watch or I am assigned to
   label_user_mail_option_only_owner: Only for things I watch or I am the owner of
   warning_fields_cleared_on_bulk_edit: Changes will result in the automatic deletion
