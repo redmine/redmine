@@ -29,13 +29,13 @@ class AutoCompletesController < ApplicationController
         scope = scope.open(status == 'o')
       end
       if issue_id.present?
-        scope = scope.where("#{Issue.table_name}.id <> ?", issue_id.to_i)
+        scope = scope.where.not(:id => issue_id.to_i)
       end
       if q.match(/\A#?(\d+)\z/)
         @issues << scope.find_by_id($1.to_i)
       end
 
-      @issues += scope.where("LOWER(#{Issue.table_name}.subject) LIKE LOWER(?)", "%#{q}%").order("#{Issue.table_name}.id DESC").limit(10).to_a
+      @issues += scope.where("LOWER(#{Issue.table_name}.subject) LIKE LOWER(?)", "%#{q}%").order(:id => :desc).limit(10).to_a
       @issues.compact!
     end
     render :layout => false
