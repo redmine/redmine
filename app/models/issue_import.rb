@@ -74,7 +74,7 @@ class IssueImport < Import
 
   private
 
-  def build_object(row)
+  def build_object(row, item)
     issue = Issue.new
     issue.author = user
     issue.notify = false
@@ -139,11 +139,15 @@ class IssueImport < Import
     end
     if parent_issue_id = row_value(row, 'parent_issue_id')
       if parent_issue_id =~ /\A(#)?(\d+)\z/
-        parent_issue_id = $2
+        parent_issue_id = $2.to_i
         if $1
           attributes['parent_issue_id'] = parent_issue_id
-        elsif issue_id = items.where(:position => parent_issue_id).first.try(:obj_id)
-          attributes['parent_issue_id'] = issue_id
+        else
+          if parent_issue_id > item.position
+            add_callback(parent_issue_id, 'set_as_parent', item.position)
+          elsif issue_id = items.where(:position => parent_issue_id).first.try(:obj_id)
+            attributes['parent_issue_id'] = issue_id
+          end
         end
       else
         attributes['parent_issue_id'] = parent_issue_id
@@ -182,5 +186,18 @@ class IssueImport < Import
     end
 
     issue
+  end
+
+  # Callback that sets issue as the parent of a previously imported issue
+  def set_as_parent_callback(issue, child_position)
+    child_id = items.where(:position => child_position).first.try(:obj_id)
+    return unless child_id
+
+    child = Issue.find_by_id(child_id)
+    return unless child
+
+    child.parent_issue_id = issue.id
+    child.save!
+    issue.reload
   end
 end
