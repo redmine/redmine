@@ -145,6 +145,14 @@ class IssueQuery < Query
         :type => :list, :values => [["<< #{l(:label_me)} >>", "me"]]
     end
 
+    add_available_filter("updated_by",
+      :type => :list, :values => lambda { author_values }
+    )
+
+    add_available_filter("last_updated_by",
+      :type => :list, :values => lambda { author_values }
+    )
+
     if project && !project.leaf?
       add_available_filter "subproject_id",
         :type => :list_subprojects,
@@ -164,14 +172,6 @@ class IssueQuery < Query
     add_available_filter "child_id", :type => :tree, :label => :label_subtask_plural
 
     add_available_filter "issue_id", :type => :integer, :label => :label_issue
-
-    add_available_filter("updated_by",
-      :type => :list, :values => lambda { author_values }
-    )
-
-    add_available_filter("last_updated_by",
-      :type => :list, :values => lambda { author_values }
-    )
 
     Tracker.disabled_core_fields(trackers).each {|field|
       delete_available_filter field
