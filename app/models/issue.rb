@@ -98,6 +98,12 @@ class Issue < ActiveRecord::Base
     ids.compact!
     ids.any? ? where(:assigned_to_id => ids) : none
   }
+  scope :like, lambda {|q|
+    q = q.to_s
+    if q.present?
+      where("LOWER(#{table_name}.subject) LIKE LOWER(?)", "%#{q}%")
+    end
+  }
 
   before_validation :clear_disabled_fields
   before_create :default_assign

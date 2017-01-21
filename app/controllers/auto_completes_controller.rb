@@ -35,7 +35,7 @@ class AutoCompletesController < ApplicationController
         @issues << scope.find_by_id($1.to_i)
       end
 
-      @issues += scope.where("LOWER(#{Issue.table_name}.subject) LIKE LOWER(?)", "%#{q}%").order(:id => :desc).limit(10).to_a
+      @issues += scope.like(q).order(:id => :desc).limit(10).to_a
       @issues.compact!
     end
     render :layout => false
