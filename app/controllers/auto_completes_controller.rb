@@ -21,11 +21,20 @@ class AutoCompletesController < ApplicationController
   def issues
     @issues = []
     q = (params[:q] || params[:term]).to_s.strip
+    status = params[:status].to_s
+    issue_id = params[:issue_id].to_s
     if q.present?
       scope = Issue.cross_project_scope(@project, params[:scope]).visible
+      if status.present?
+        scope = scope.open(status == 'o')
+      end
+      if issue_id.present?
+        scope = scope.where("#{Issue.table_name}.id <> ?", issue_id.to_i)
+      end
       if q.match(/\A#?(\d+)\z/)
         @issues << scope.find_by_id($1.to_i)
       end
+
       @issues += scope.where("LOWER(#{Issue.table_name}.subject) LIKE LOWER(?)", "%#{q}%").order("#{Issue.table_name}.id DESC").limit(10).to_a
       @issues.compact!
     end

@@ -81,4 +81,25 @@ class AutoCompletesControllerTest < Redmine::ControllerTest
     assert_equal 13, issue['value']
     assert_equal 'Bug #13: Subproject issue two', issue['label']
   end
+
+  def test_auto_complete_with_status_o_should_return_open_issues_only
+    get :issues, :project_id => 'ecookbook', :q => 'issue', :status => 'o'
+    assert_response :success
+    assert_include "Issue due today", response.body
+    assert_not_include "closed", response.body
+  end
+
+  def test_auto_complete_with_status_c_should_return_closed_issues_only
+    get :issues, :project_id => 'ecookbook', :q => 'issue', :status => 'c'
+    assert_response :success
+    assert_include "closed", response.body
+    assert_not_include "Issue due today", response.body
+  end
+
+  def test_auto_complete_with_issue_id_should_not_return_that_issue
+    get :issues, :project_id => 'ecookbook', :q => 'issue', :issue_id => '12'
+    assert_response :success
+    assert_include "issue", response.body
+    assert_not_include "Bug #12: Closed issue on a locked version", response.body
+  end
 end
