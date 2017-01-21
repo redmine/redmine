@@ -79,13 +79,13 @@ class Issue < ActiveRecord::Base
   scope :open, lambda {|*args|
     is_closed = args.size > 0 ? !args.first : false
     joins(:status).
-    where("#{IssueStatus.table_name}.is_closed = ?", is_closed)
+    where(:issue_statuses => {:is_closed => is_closed})
   }
 
-  scope :recently_updated, lambda { order("#{Issue.table_name}.updated_on DESC") }
+  scope :recently_updated, lambda { order(:updated_on => :desc) }
   scope :on_active_project, lambda {
     joins(:project).
-    where("#{Project.table_name}.status = ?", Project::STATUS_ACTIVE)
+    where(:projects => {:status => Project::STATUS_ACTIVE})
   }
   scope :fixed_version, lambda {|versions|
     ids = [versions].flatten.compact.map {|v| v.is_a?(Version) ? v.id : v}
