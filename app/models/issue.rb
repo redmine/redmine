@@ -89,7 +89,7 @@ class Issue < ActiveRecord::Base
   }
   scope :fixed_version, lambda {|versions|
     ids = [versions].flatten.compact.map {|v| v.is_a?(Version) ? v.id : v}
-    ids.any? ? where(:fixed_version_id => ids) : where('1=0')
+    ids.any? ? where(:fixed_version_id => ids) : none
   }
   scope :assigned_to, lambda {|arg|
     arg = Array(arg).uniq
