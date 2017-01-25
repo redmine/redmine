@@ -258,11 +258,13 @@ module IssuesHelper
 
     s = ''.html_safe
     values.each_with_index do |value, i|
+      attr_value = show_value(value)
+      next if attr_value.blank?
+
       if value.custom_field.text_formatting == 'full'
-        attr_value = content_tag('div', show_value(value), class: 'wiki')
-      else
-        attr_value = show_value(value)
+        attr_value = content_tag('div', attr_value, class: 'wiki')
       end
+
       content =
           content_tag('hr') +
           content_tag('p', content_tag('strong', custom_field_name_tag(value.custom_field) )) +
