@@ -303,6 +303,7 @@
   error_no_projects_with_tracker_allowed_for_new_issue: "此追蹤標籤沒有您可用來建立新議題的專案"
   error_move_of_child_not_possible: "子任務 %{child} 無法被搬移至新的專案: %{errors}"
   error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: "無法將耗用工時重新分配給即將被刪除的問題"
+  warning_fields_cleared_on_bulk_edit: "選取物件的變更將導致一個或多個欄位之內容值被自動刪除"
 
   mail_subject_lost_password: 您的 Redmine 網站密碼
   mail_body_lost_password: '欲變更您的 Redmine 網站密碼, 請點選以下鏈結:'
@@ -453,6 +454,8 @@
   field_default_version: 預設版本
   field_remote_ip: IP 位址
   field_textarea_font: 文字區域使用的字型
+  field_updated_by: 更新者
+  field_last_updated_by: 上次更新者
 
   setting_app_title: 標題
   setting_app_subtitle: 副標題
@@ -949,6 +952,8 @@
   label_user_mail_option_selected: "只提醒我所選擇專案中的事件..."
   label_user_mail_option_none: "取消提醒"
   label_user_mail_option_only_my_events: "只提醒我觀察中或參與中的事物"
+  label_user_mail_option_only_assigned: "只提醒我觀察中或分派給我的事物"
+  label_user_mail_option_only_owner: "只提醒我觀察中或擁有者為我的事物"
   label_user_mail_no_self_notified: "不提醒我自己所做的變更"
   label_registration_activation_by_email: 透過電子郵件啟用帳戶
   label_registration_manual_activation: 手動啟用帳戶
@@ -1290,9 +1295,3 @@
   description_date_from: 輸入起始日期
   description_date_to: 輸入結束日期
   text_repository_identifier_info: '僅允許使用小寫英文字母 (a-z), 阿拉伯數字, 虛線與底線。<br />一旦儲存之後, 代碼便無法再次被更改。'
-  label_user_mail_option_only_assigned: Only for things I watch or I am assigned to
-  label_user_mail_option_only_owner: Only for things I watch or I am the owner of
-  warning_fields_cleared_on_bulk_edit: Changes will result in the automatic deletion
-    of values from one or more fields on the selected objects
-  field_updated_by: Updated by
-  field_last_updated_by: Last updated by
