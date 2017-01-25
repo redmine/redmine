@@ -90,7 +90,7 @@ module IssuesHelper
   end
 
   def render_descendants_tree(issue)
-    s = '<table class="list issues">'
+    s = '<table class="list issues odd-even">'
     issue_list(issue.descendants.visible.preload(:status, :priority, :tracker, :assigned_to).sort_by(&:lft)) do |child, level|
       css = "issue issue-#{child.id} hascontextmenu #{child.css_classes}"
       css << " idnt idnt-#{level}" if level > 0
@@ -135,7 +135,7 @@ module IssuesHelper
              :class => css)
     end
 
-    content_tag('table', s, :class => 'list issues')
+    content_tag('table', s, :class => 'list issues odd-even')
   end
 
   def issue_estimated_hours_details(issue)
