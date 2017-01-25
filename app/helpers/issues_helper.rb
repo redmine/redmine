@@ -256,7 +256,7 @@ module IssuesHelper
     values = issue.visible_custom_field_values.select {|value| value.custom_field.full_width_layout?}
     return if values.empty?
 
-    s = ''
+    s = ''.html_safe
     values.each_with_index do |value, i|
       if value.custom_field.text_formatting == 'full'
         attr_value = content_tag('div', show_value(value), class: 'wiki')
@@ -269,7 +269,7 @@ module IssuesHelper
           content_tag('div', attr_value, class: 'value')
       s << content_tag('div', content, class: "cf_#{value.custom_field.id} attribute")
     end
-    s.html_safe
+    s
   end
 
   # Returns the path for updating the issue form
