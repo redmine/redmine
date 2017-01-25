@@ -67,9 +67,10 @@ module Redmine
           while right.size < rows
             right << nil
           end
-  
-          half = (issue.visible_custom_field_values.size / 2.0).ceil
-          issue.visible_custom_field_values.each_with_index do |custom_value, i|
+
+          custom_field_values = issue.visible_custom_field_values.reject {|value| value.custom_field.full_width_layout?}
+          half = (custom_field_values.size / 2.0).ceil
+          custom_field_values.each_with_index do |custom_value, i|
             (i < half ? left : right) << [custom_value.custom_field.name, show_value(custom_value, false)]
           end
   
@@ -128,7 +129,17 @@ module Redmine
             :inline_attachments => false
           )
           pdf.RDMwriteFormattedCell(35+155, 5, '', '', text, issue.attachments, "LRB")
-  
+
+          custom_field_values = issue.visible_custom_field_values.select {|value| value.custom_field.full_width_layout?}
+          custom_field_values.each do |value|
+            pdf.SetFontStyle('B',9)
+            pdf.RDMCell(35+155, 5, value.custom_field.name, "LRT", 1)
+            pdf.SetFontStyle('',9)
+
+            text = show_value(value, false)
+            pdf.RDMwriteFormattedCell(35+155, 5, '', '', text, issue.attachments, "LRB")
+          end
+
           unless issue.leaf?
             truncate_length = (!is_cjk? ? 90 : 65)
             pdf.SetFontStyle('B',9)
