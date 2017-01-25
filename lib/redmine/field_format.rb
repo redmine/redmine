@@ -386,11 +386,11 @@ module Redmine
       end
 
       def edit_tag(view, tag_id, tag_name, custom_value, options={})
-        view.text_area_tag(tag_name, custom_value.value, options.merge(:id => tag_id, :rows => 3))
+        view.text_area_tag(tag_name, custom_value.value, options.merge(:id => tag_id, :rows => 8))
       end
 
       def bulk_edit_tag(view, tag_id, tag_name, custom_field, objects, value, options={})
-        view.text_area_tag(tag_name, value, options.merge(:id => tag_id, :rows => 3)) +
+        view.text_area_tag(tag_name, value, options.merge(:id => tag_id, :rows => 8)) +
           '<br />'.html_safe +
           bulk_clear_tag(view, tag_id, tag_name, custom_field, value)
       end
