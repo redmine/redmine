@@ -349,8 +349,8 @@ table.list tbody tr.group:hover { background-color:inherit; }
 table td {padding:2px;}
 table p {margin:0;}
 
-table.list tbody tr:nth-child(odd), table.list.odd-even tbody tr.odd, #issue-changesets div.changeset:nth-child(odd) { background-color:#f6f7f8; }
-table.list tbody tr:nth-child(even), table.list.odd-even tbody tr.even, #issue-changesets div.changeset:nth-child(even) { background-color: #fff; }
+table.list:not(.odd-even) tbody tr:nth-child(odd), .odd, #issue-changesets div.changeset:nth-child(odd) { background-color:#f6f7f8; }
+table.list:not(.odd-even) tbody tr:nth-child(even), .even, #issue-changesets div.changeset:nth-child(even) { background-color: #fff; }
 
 tr.builtin td.name {font-style:italic;}
 
