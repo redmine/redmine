@@ -384,6 +384,7 @@ fr:
   field_textarea_font: Police utilisée pour les champs texte
   field_updated_by: Mise à jour par
   field_last_updated_by: Dernière mise à jour par
+  field_full_width_layout: Afficher sur toute la largeur
 
   setting_app_title: Titre de l'application
   setting_app_subtitle: Sous-titre de l'application

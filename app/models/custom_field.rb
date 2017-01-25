@@ -89,7 +89,8 @@ class CustomField < ActiveRecord::Base
     'edit_tag_style',
     'user_role',
     'version_status',
-    'extensions_allowed'
+    'extensions_allowed',
+    'full_width_layout'
 
   def format
     @format ||= Redmine::FieldFormat.find(field_format)
@@ -184,6 +185,10 @@ class CustomField < ActiveRecord::Base
 
   def totalable?
     format.totalable_supported
+  end
+
+  def full_width_layout?
+    full_width_layout == '1'
   end
 
   # Returns a ORDER BY clause that can used to sort customized

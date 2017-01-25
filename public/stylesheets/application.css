@@ -463,8 +463,8 @@ div.issue div.subject h3 {margin: 0; margin-bottom: 0.1em;}
 div.issue span.private, div.journal span.private { position:relative; bottom: 2px; text-transform: uppercase; background: #d22; color: #fff; font-weight:bold; padding: 0px 2px 0px 2px; font-size: 60%; margin-right: 2px; border-radius: 2px;}
 div.issue .next-prev-links {color:#999;}
 div.issue .attributes {margin-top: 2em;}
-div.issue .attribute {padding-left:180px; clear:left; min-height: 1.8em;}
-div.issue .attribute .label {width: 170px; margin-left:-180px; font-weight:bold; float:left; overflow:hidden; text-overflow: ellipsis;}
+div.issue .attributes .attribute {padding-left:180px; clear:left; min-height: 1.8em;}
+div.issue .attributes .attribute .label {width: 170px; margin-left:-180px; font-weight:bold; float:left;  overflow:hidden; text-overflow: ellipsis;}
 div.issue .attribute .value {overflow:hidden; text-overflow: ellipsis;}
 div.issue.overdue .due-date .value { color: #c22; }
 

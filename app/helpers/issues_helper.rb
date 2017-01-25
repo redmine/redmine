@@ -239,8 +239,8 @@ module IssuesHelper
     r.to_html
   end
 
-  def render_custom_fields_rows(issue)
-    values = issue.visible_custom_field_values
+  def render_half_width_custom_fields_rows(issue)
+    values = issue.visible_custom_field_values.reject {|value| value.custom_field.full_width_layout?}
     return if values.empty?
     half = (values.size / 2.0).ceil
     issue_fields_rows do |rows|
@@ -250,6 +250,26 @@ module IssuesHelper
         rows.send m, custom_field_name_tag(value.custom_field), show_value(value), :class => css
       end
     end
+  end
+
+  def render_full_width_custom_fields_rows(issue)
+    values = issue.visible_custom_field_values.select {|value| value.custom_field.full_width_layout?}
+    return if values.empty?
+
+    s = ''
+    values.each_with_index do |value, i|
+      if value.custom_field.text_formatting == 'full'
+        attr_value = content_tag('div', show_value(value), class: 'wiki')
+      else
+        attr_value = show_value(value)
+      end
+      content =
+          content_tag('hr') +
+          content_tag('p', content_tag('strong', custom_field_name_tag(value.custom_field) )) +
+          content_tag('div', attr_value, class: 'value')
+      s << content_tag('div', content, class: "cf_#{value.custom_field.id} attribute")
+    end
+    s.html_safe
   end
 
   # Returns the path for updating the issue form

@@ -126,6 +126,20 @@ class CustomFieldsControllerTest < Redmine::ControllerTest
     assert_select '[name=?]', 'custom_field[default_value]', 0
   end
 
+  def test_setting_full_width_layout_shoul_be_present_only_for_long_text_issue_custom_field
+    get :new, :type => 'IssueCustomField', :custom_field => {:field_format => 'text'}
+    assert_response :success
+    assert_select '[name=?]', 'custom_field[full_width_layout]'
+
+    get :new, :type => 'IssueCustomField', :custom_field => {:field_format => 'list'}
+    assert_response :success
+    assert_select '[name=?]', 'custom_field[full_width_layout]', 0
+
+    get :new, :type => 'TimeEntryCustomField', :custom_field => {:field_format => 'text'}
+    assert_response :success
+    assert_select '[name=?]', 'custom_field[full_width_layout]', 0
+  end
+
   def test_new_js
     xhr :get, :new, :type => 'IssueCustomField', :custom_field => {:field_format => 'list'}, :format => 'js'
     assert_response :success
