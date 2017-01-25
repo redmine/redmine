@@ -1,7 +1,7 @@
 <%= form_tag({}, :data => {:cm_url => time_entries_context_menu_path}) do -%>
 <%= hidden_field_tag 'back_url', url_for(:params => request.query_parameters), :id => nil %>
 <div class="autoscroll">
-<table class="list time-entries">
+<table class="list odd-even time-entries">
 <thead>
   <tr>
     <th class="checkbox hide-when-print">

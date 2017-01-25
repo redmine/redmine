@@ -25,7 +25,7 @@
     </tr></thead>
   <tbody>
 <% @versions.sort.each do |version| %>
-    <tr class="version <%= cycle 'odd', 'even' %> <%=h version.status %> <%= 'shared' if version.project != @project %>">
+    <tr class="version <%=h version.status %> <%= 'shared' if version.project != @project %>">
     <td class="name <%= 'icon icon-shared' if version.project != @project %>"><%= link_to_version version %></td>
     <td class="date"><%= format_date(version.effective_date) %></td>
     <td class="description"><%= version.description %></td>
@@ -39,7 +39,7 @@
       <% end %>
      </td>
     </tr>
-<% end; reset_cycle %>
+<% end %>
     </tbody>
 </table>
 <% else %>

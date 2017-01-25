@@ -34,7 +34,7 @@
     <% end %>
     <% perms_by_module[mod].each do |permission| %>
         <% humanized_perm_name = l_or_humanize(permission.name, :prefix => 'permission_') %>
-        <tr class="<%= cycle('odd', 'even') %> permission-<%= permission.name %>">
+        <tr class="permission-<%= permission.name %>">
         <td class="name">
             <%= link_to_function('',
                                  "toggleCheckboxesBySelector('.permission-#{permission.name} input')",

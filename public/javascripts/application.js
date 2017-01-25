@@ -697,10 +697,6 @@ function beforeShowDatePicker(input, inst) {
           type: 'put',
           dataType: 'script',
           data: data,
-          success: function(data){
-            sortable.children(":even").removeClass("even").addClass("odd");
-            sortable.children(":odd").removeClass("odd").addClass("even");
-          },
           error: function(jqXHR, textStatus, errorThrown){
             alert(jqXHR.status);
             sortable.sortable("cancel");

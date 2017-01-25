@@ -4,7 +4,7 @@
 
 <table class="list">
 <% @checklist.each do |label, result| %>
-  <tr class="<%= cycle 'odd', 'even' %>">
+  <tr>
     <td class="name"><%= label.is_a?(Symbol) ? l(label) : label %></td>
     <td class="tick"><span class="icon-only <%= (result ? 'icon-ok' : 'icon-error') %>"></span></td>
   </tr>

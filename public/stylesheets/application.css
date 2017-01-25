@@ -320,6 +320,8 @@ table.permissions td.role {color:#999;font-size:90%;font-weight:normal !importan
 
 tr.wiki-page-version td.updated_on, tr.wiki-page-version td.author {text-align:center;}
 
+div.mypage-box table.time-entries tr.time-entry { background-color: #fff; }
+div.mypage-box table.time-entries tr.odd { background-color:#f6f7f8; }
 tr.time-entry { text-align: center; white-space: nowrap; }
 tr.time-entry td.issue, tr.time-entry td.comments, tr.time-entry td.subject, tr.time-entry td.activity { text-align: left; white-space: normal; }
 td.hours { text-align: right; font-weight: bold; padding-right: 0.5em; }
@@ -333,7 +335,7 @@ table.plugins span.url { display: block; font-size: 0.9em; }
 
 table.list.enumerations {table-layout: fixed; margin-bottom: 2em;}
 
-tr.group td { padding: 0.8em 0 0.5em 0.3em; border-bottom: 1px solid #ccc; text-align:left; }
+tr.group td { padding: 0.8em 0 0.5em 0.3em; border-bottom: 1px solid #ccc; text-align:left; background-color: #fff;}
 tr.group span.name {font-weight:bold;}
 tr.group span.count {font-weight:bold; position:relative; top:-1px; color:#fff; font-size:10px; background:#9DB9D5; padding:0px 6px 1px 6px; border-radius:3px; margin-left:4px;}
 tr.group span.totals {color: #aaa; font-size: 80%;}
@@ -346,8 +348,9 @@ table.list tbody tr:hover { background-color:#ffffdd; }
 table.list tbody tr.group:hover { background-color:inherit; }
 table td {padding:2px;}
 table p {margin:0;}
-.odd {background-color:#f6f7f8;}
-.even {background-color: #fff;}
+
+table.list tbody tr:nth-child(odd), table.list.odd-even tbody tr.odd, #issue-changesets div.changeset:nth-child(odd) { background-color:#f6f7f8; }
+table.list tbody tr:nth-child(even), table.list.odd-even tbody tr.even, #issue-changesets div.changeset:nth-child(even) { background-color: #fff; }
 
 tr.builtin td.name {font-style:italic;}
 

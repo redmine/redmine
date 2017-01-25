@@ -13,7 +13,7 @@
   <tbody>
   <% memberships.each do |membership| %>
   <% next if membership.new_record? %>
-  <tr id="member-<%= membership.id %>" class="<%= cycle 'odd', 'even' %> class">
+  <tr id="member-<%= membership.id %>" class="class">
   <td class="project name">
     <%= link_to_project membership.project %>
   </td>
@@ -31,7 +31,7 @@
   </td>
       <%= call_table_row_hook principal, membership %>
   </tr>
-  <% end; reset_cycle %>
+  <% end %>
   </tbody>
 </table>
 <% else %>

@@ -49,7 +49,7 @@
       </thead>
       <tbody>
       <% @trackers.each do |tracker| %>
-        <tr class="<%= cycle("odd", "even") %>">
+        <tr>
           <td class="name">
             <%= link_to tracker.name, project_issues_path(@project, :set_filter => 1, :tracker_id => tracker.id) %>
           </td>
