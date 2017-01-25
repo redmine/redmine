@@ -90,9 +90,10 @@ when "IssueCustomField" %>
             :data => {:enables => '.custom_field_role input'} %>
       <%= l(:label_visibility_roles) %>:
     </label>
+    <% role_ids = @custom_field.role_ids %>
     <% Role.givable.sorted.each do |role| %>
       <label class="block custom_field_role" style="padding-left:2em;">
-        <%= check_box_tag 'custom_field[role_ids][]', role.id, @custom_field.roles.to_a.include?(role), :id => nil %>
+        <%= check_box_tag 'custom_field[role_ids][]', role.id, role_ids.include?(role.id), :id => nil %>
         <%= role.name %>
       </label>
     <% end %>
@@ -100,10 +101,11 @@ when "IssueCustomField" %>
   </fieldset>
 
   <fieldset class="box" id="custom_field_tracker_ids"><legend><%=l(:label_tracker_plural)%></legend>
+  <% tracker_ids = @custom_field.tracker_ids %>
   <% Tracker.sorted.each do |tracker| %>
     <%= check_box_tag "custom_field[tracker_ids][]",
                       tracker.id,
-                      (@custom_field.trackers.to_a.include? tracker),
+                      tracker_ids.include?(tracker.id),
                       :id => "custom_field_tracker_ids_#{tracker.id}" %>
     <label class="no-css" for="custom_field_tracker_ids_<%=tracker.id%>">
       <%= tracker.name %>
