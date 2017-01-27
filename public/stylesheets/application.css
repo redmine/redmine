@@ -513,7 +513,6 @@ div#activity span.project:after, #search-results span.project:after { content: "
 div#activity dd span.description, #search-results dd span.description { display:block; color: #808080; }
 div#activity dt.grouped {margin-left:5em;}
 div#activity dd.grouped {margin-left:9em;}
-div#activity dt { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; height: 18px;}
 
 #search-results dd { margin-bottom: 1em; padding-left: 20px; margin-left:0px; }
 
