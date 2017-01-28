@@ -221,6 +221,7 @@ bg:
   error_no_projects_with_tracker_allowed_for_new_issue: Няма проекти с тракери за които можете да създавате задачи
   error_move_of_child_not_possible: 'Подзадача %{child} не беше преместена в новия проект: %{errors}'
   error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: Употребеното време не може да бъде прехвърлено на задача, която ще бъде изтрита
+  warning_fields_cleared_on_bulk_edit: Промените ще предизвикат автоматично изтриване на стойности от едно или повече полета на избраните обекти
 
   mail_subject_lost_password: "Вашата парола (%{value})"
   mail_body_lost_password: 'За да смените паролата си, използвайте следния линк:'
@@ -371,6 +372,9 @@ bg:
   field_default_version: Версия по подразбиране
   field_remote_ip: IP адрес
   field_textarea_font: Шрифт за текстови блокове
+  field_updated_by: Обновено от
+  field_last_updated_by: Последно обновено от
+  field_full_width_layout: Пълна широчина
 
   setting_app_title: Заглавие
   setting_app_subtitle: Описание
@@ -456,6 +460,7 @@ bg:
   setting_attachment_extensions_denied: Разрешени типове на файлове
   setting_new_item_menu_tab: Меню-елемент за добавяне на нови обекти (+)
   setting_commit_logs_formatting: Прилагане на форматиране за съобщенията при поверяване
+  setting_timelog_required_fields: Задължителни полета за записи за изразходваното време
 
   permission_add_project: Създаване на проект
   permission_add_subprojects: Създаване на подпроекти
@@ -866,6 +871,8 @@ bg:
   label_user_mail_option_selected: "За всички събития само в избраните проекти..."
   label_user_mail_option_none: "Само за наблюдавани или в които участвам (автор или назначени на мен)"
   label_user_mail_option_only_my_events: Само за неща, в които съм включен/а
+  label_user_mail_option_only_assigned: Само за неща, които наблюдавам или са назначени на мен
+  label_user_mail_option_only_owner: Само за неща, които наблюдавам или съм техен собственик
   label_user_mail_no_self_notified: "Не искам известия за извършени от мен промени"
   label_registration_activation_by_email: активиране на профила по email
   label_registration_manual_activation: ръчно активиране
@@ -947,6 +954,7 @@ bg:
   label_attribute_of_assigned_to: Assignee's %{name}
   label_attribute_of_user: User's %{name}
   label_attribute_of_fixed_version: Target version's %{name}
+  label_attribute_of_object: "%{name} на %{object_name}"
   label_cross_project_descendants: С подпроекти
   label_cross_project_tree: С дърво на проектите
   label_cross_project_hierarchy: С проектна йерархия
@@ -1205,12 +1213,3 @@ bg:
   description_date_from: Въведете начална дата
   description_date_to: Въведете крайна дата
   text_repository_identifier_info: 'Позволени са малки букви (a-z), цифри, тирета и _.<br />Промяна след създаването му не е възможна.'
-  setting_timelog_required_fields: Required fields for time logs
-  label_attribute_of_object: '%{object_name}''s %{name}'
-  label_user_mail_option_only_assigned: Only for things I watch or I am assigned to
-  label_user_mail_option_only_owner: Only for things I watch or I am the owner of
-  warning_fields_cleared_on_bulk_edit: Changes will result in the automatic deletion
-    of values from one or more fields on the selected objects
-  field_updated_by: Updated by
-  field_last_updated_by: Last updated by
-  field_full_width_layout: Full width layout
