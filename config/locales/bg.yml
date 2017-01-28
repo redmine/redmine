@@ -217,6 +217,7 @@ bg:
   error_ldap_bind_credentials: Невалидни LDAP име/парола
   error_no_tracker_allowed_for_new_issue_in_project: Проектът няма тракери, за които да създавате задачи
   error_no_projects_with_tracker_allowed_for_new_issue: Няма проекти с тракери за които можете да създавате задачи
+  error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: Употребеното време не може да бъде прехвърлено на задача, която ще бъде изтрита
 
   mail_subject_lost_password: "Вашата парола (%{value})"
   mail_body_lost_password: 'За да смените паролата си, използвайте следния линк:'
@@ -1195,5 +1196,3 @@ bg:
   description_date_from: Въведете начална дата
   description_date_to: Въведете крайна дата
   text_repository_identifier_info: 'Позволени са малки букви (a-z), цифри, тирета и _.<br />Промяна след създаването му не е възможна.'
-  error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: Spent time cannot
-    be reassigned to an issue that is about to be deleted
