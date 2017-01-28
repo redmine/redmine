@@ -538,6 +538,16 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal 'd8e8fca2dc0f896fd7cb4cb0031ba249', attachment.digest
   end
 
+  def test_invalid_utf8
+    issue = submit_email(
+              'invalid_utf8.eml',
+              :issue => {:project => 'ecookbook'}
+            )
+    assert_kind_of Issue, issue
+    description = "\xD0\x97\xD0\xB4\xD1\x80\xD0\xB0\xD0\xB2\xD1\x81\xD1\x82\xD0\xB2\xD1\x83\xD0\xB9\xD1\x82\xD0\xB5?".force_encoding('UTF-8')
+    assert_equal description, issue.description
+  end
+
   def test_gmail_with_attachment_ja
     issue = submit_email(
               'gmail_with_attachment_ja.eml',
