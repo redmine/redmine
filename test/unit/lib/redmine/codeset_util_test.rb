@@ -91,7 +91,7 @@ class Redmine::CodesetUtilTest < ActiveSupport::TestCase
     s2 = Redmine::CodesetUtil.replace_invalid_utf8(s1)
     assert s2.valid_encoding?
     assert_equal "UTF-8", s2.encoding.to_s
-    assert_equal "??????", s2
+    assert_equal "\xe3\x81\x93\xe3\x82\x93\xe3\x81\xab\xe3\x81\xa1??".force_encoding("UTF-8"), s2
   end
 
   test "#to_utf8 should replace invalid non utf8" do
