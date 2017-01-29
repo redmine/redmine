@@ -101,6 +101,11 @@ class IssuesController < ApplicationController
       @changesets.reverse!
     end
 
+    if User.current.allowed_to?(:view_time_entries, @project)
+      Issue.load_visible_spent_hours([@issue])
+      Issue.load_visible_total_spent_hours([@issue])
+    end
+
     respond_to do |format|
       format.html {
         @allowed_statuses = @issue.new_statuses_allowed_to(User.current)
