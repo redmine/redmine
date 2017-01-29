@@ -207,8 +207,8 @@ module Redmine
         page = Wiki.find_page(args.first.to_s, :project => @project)
         raise 'Page not found' if page.nil? || !User.current.allowed_to?(:view_wiki_pages, page.wiki.project)
         @included_wiki_pages ||= []
-        raise 'Circular inclusion detected' if @included_wiki_pages.include?(page.title)
-        @included_wiki_pages << page.title
+        raise 'Circular inclusion detected' if @included_wiki_pages.include?(page.id)
+        @included_wiki_pages << page.id
         out = textilizable(page.content, :text, :attachments => page.attachments, :headings => false)
         @included_wiki_pages.pop
         out
