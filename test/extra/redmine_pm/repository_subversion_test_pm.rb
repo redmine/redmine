@@ -19,7 +19,7 @@ require File.expand_path('../test_case', __FILE__)
 require 'tmpdir'
 
 class RedminePmTest::RepositorySubversionTest < RedminePmTest::TestCase
-  fixtures :projects, :users, :members, :roles, :member_roles, :auth_sources
+  fixtures :projects, :users, :members, :roles, :member_roles, :auth_sources, :enabled_modules
 
   SVN_BIN = Redmine::Configuration['scm_subversion_command'] || "svn"
 
@@ -35,6 +35,11 @@ class RedminePmTest::RepositorySubversionTest < RedminePmTest::TestCase
 
   def test_anonymous_read_on_public_repo_without_permission_should_fail
     Role.anonymous.remove_permission! :browse_repository
+    assert_failure "ls", svn_url
+  end
+
+  def test_anonymous_read_on_public_project_with_module_disabled_should_fail
+    Project.find(1).disable_module! :repository
     assert_failure "ls", svn_url
   end
 
@@ -128,6 +133,15 @@ class RedminePmTest::RepositorySubversionTest < RedminePmTest::TestCase
     end
   end
 
+  def test_member_read_on_private_repo_with_module_disabled_should_fail
+    Role.find(2).add_permission! :browse_repository
+    Project.find(1).update_attribute :is_public, false
+    Project.find(1).disable_module! :repository
+    with_credentials "dlopper", "foo" do
+      assert_failure "ls", svn_url
+    end
+  end
+
   def test_member_commit_on_public_repo_with_permission_should_succeed
     Role.find(2).add_permission! :commit_access
     with_credentials "dlopper", "foo" do
@@ -153,6 +167,15 @@ class RedminePmTest::RepositorySubversionTest < RedminePmTest::TestCase
   def test_member_commit_on_private_repo_without_permission_should_fail
     Role.find(2).remove_permission! :commit_access
     Project.find(1).update_attribute :is_public, false
+    with_credentials "dlopper", "foo" do
+      assert_failure "mkdir --message Creating_a_directory", svn_url(random_filename)
+    end
+  end
+
+  def test_member_commit_on_private_repo_with_module_disabled_should_fail
+    Role.find(2).add_permission! :commit_access
+    Project.find(1).update_attribute :is_public, false
+    Project.find(1).disable_module! :repository
     with_credentials "dlopper", "foo" do
       assert_failure "mkdir --message Creating_a_directory", svn_url(random_filename)
     end
