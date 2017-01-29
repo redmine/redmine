@@ -27,7 +27,11 @@ class TimeEntry < ActiveRecord::Base
   attr_protected :user_id, :tyear, :tmonth, :tweek
 
   acts_as_customizable
-  acts_as_event :title => Proc.new {|o| "#{l_hours(o.hours)} (#{(o.issue || o.project).event_title})"},
+  acts_as_event :title => Proc.new { |o|
+                  related   = o.issue if o.issue && o.issue.visible?
+                  related ||= o.project
+                  "#{l_hours(o.hours)} (#{related.event_title})"
+                },
                 :url => Proc.new {|o| {:controller => 'timelog', :action => 'index', :project_id => o.project, :issue_id => o.issue}},
                 :author => :user,
                 :group => :issue,
