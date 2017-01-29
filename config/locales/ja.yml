@@ -197,7 +197,7 @@ ja:
   notice_unable_delete_version: バージョンを削除できません
   notice_unable_delete_time_entry: 作業時間を削除できません
   notice_issue_done_ratios_updated: チケットの進捗率を更新しました。
-  notice_gantt_chart_truncated: ガントチャートは、最大表示項目数(%{max})を超えたため切り捨てられました。
+  notice_gantt_chart_truncated: ガントチャートは、最大表示件数(%{max})を超えたため切り捨てられました。
 
   error_can_t_load_default_data: "デフォルト設定がロードできませんでした: %{value}"
   error_scm_not_found: リポジトリに、エントリ/リビジョンが存在しません。
@@ -355,7 +355,7 @@ ja:
   setting_text_formatting: テキスト書式
   setting_cache_formatted_text: テキスト書式の変換結果をキャッシュ
   setting_wiki_compression: Wiki履歴を圧縮する
-  setting_feeds_limit: Atomフィードの項目数の上限
+  setting_feeds_limit: Atomフィードの最大出力件数
   setting_default_projects_public: デフォルトで新しいプロジェクトは公開にする
   setting_autofetch_changesets: コミットを自動取得する
   setting_sys_api_enabled: リポジトリ管理用のWebサービスを有効にする
@@ -396,7 +396,7 @@ ja:
   setting_default_notification_option: デフォルトのメール通知オプション
   setting_commit_logtime_enabled: コミット時に作業時間を記録する
   setting_commit_logtime_activity_id: 作業時間の作業分類
-  setting_gantt_items_limit: ガントチャート最大表示項目数
+  setting_gantt_items_limit: ガントチャート最大表示件数
   setting_default_projects_tracker_ids: 新規プロジェクトにおいてデフォルトで有効になるトラッカー
 
   permission_add_project: プロジェクトの追加
@@ -1165,8 +1165,8 @@ ja:
   label_member_management_selected_roles_only: 次のロールのみ
   label_password_required: この操作を続行するにはパスワードを入力してください
   label_total_spent_time: 合計作業時間
-  notice_import_finished: "%{count}件の項目をすべてインポートしました"
-  notice_import_finished_with_errors: "全%{total}件中%{count}件の項目がインポートできませんでした"
+  notice_import_finished: "%{count}件のデータをすべてインポートしました"
+  notice_import_finished_with_errors: "全%{total}件中%{count}件のデータがインポートできませんでした"
   error_invalid_file_encoding: このファイルのエンコーディングは正しい%{encoding}ではありません
   error_invalid_csv_file_or_settings: このファイルはCSVファイルではないか、以下の設定と一致していません
   error_can_not_read_import_file: インポート元のファイルを読み込み中にエラーが発生しました
