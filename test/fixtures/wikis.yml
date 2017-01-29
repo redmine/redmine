@@ -9,3 +9,8 @@ wikis_002:
   start_page: Start page
   project_id: 2
   id: 2
+wikis_005:
+  status: 1
+  start_page: Wiki
+  project_id: 5
+  id: 5
