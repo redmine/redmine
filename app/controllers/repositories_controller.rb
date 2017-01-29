@@ -443,7 +443,7 @@ class RepositoriesController < ApplicationController
   end
 
   def disposition(path)
-    if Redmine::MimeType.is_type?('image', @path) || Redmine::MimeType.of(@path) == "application/pdf"
+    if Redmine::MimeType.of(@path) == "application/pdf"
       'inline'
     else
       'attachment'
