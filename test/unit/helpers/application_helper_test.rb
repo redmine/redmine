@@ -665,6 +665,7 @@ RAW
   end
 
   def test_wiki_links
+    User.current = User.find_by_login('jsmith')
     russian_eacape = CGI.escape(@russian_test)
     to_test = {
       '[[CookBook documentation]]' =>
@@ -746,6 +747,9 @@ RAW
       # project does not exist
       '[[unknowproject:Start]]' => '[[unknowproject:Start]]',
       '[[unknowproject:Start|Page title]]' => '[[unknowproject:Start|Page title]]',
+      # missing permission to view wiki in project
+      '[[private-child:]]' => '[[private-child:]]',
+      '[[private-child:Wiki]]' => '[[private-child:Wiki]]',
     }
     @project = Project.find(1)
     to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text) }

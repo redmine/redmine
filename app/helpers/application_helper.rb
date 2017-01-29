@@ -693,7 +693,7 @@ module ApplicationHelper
           title ||= identifier if page.blank?
         end
 
-        if link_project && link_project.wiki
+        if link_project && link_project.wiki && User.current.allowed_to?(:view_wiki_pages, link_project)
           # extract anchor
           anchor = nil
           if page =~ /^(.+?)\#(.+)$/
