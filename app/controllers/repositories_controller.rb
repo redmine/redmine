@@ -177,7 +177,7 @@ class RepositoriesController < ApplicationController
       send_opt = { :filename => filename_for_content_disposition(@path.split('/').last) }
       send_type = Redmine::MimeType.of(@path)
       send_opt[:type] = send_type.to_s if send_type
-      send_opt[:disposition] = (Redmine::MimeType.is_type?('image', @path) && !is_raw ? 'inline' : 'attachment')
+      send_opt[:disposition] = 'attachment'
       send_data @content, send_opt
     else
       # Prevent empty lines when displaying a file with Windows style eol
