@@ -219,7 +219,7 @@ class AttachmentsController < ApplicationController
   end
 
   def disposition(attachment)
-    if attachment.is_image? || attachment.is_pdf?
+    if attachment.is_pdf?
       'inline'
     else
       'attachment'
