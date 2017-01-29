@@ -115,6 +115,9 @@ class AccountTest < Redmine::IntegrationTest
     assert !token.expired?
 
     get "/account/lost_password", :token => token.value
+    assert_redirected_to '/account/lost_password'
+
+    follow_redirect!
     assert_response :success
     assert_select 'input[type=hidden][name=token][value=?]', token.value
     assert_select 'input[name=new_password]'
