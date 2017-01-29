@@ -381,11 +381,22 @@ class AccountControllerTest < ActionController::TestCase
     end
   end
 
-  def test_get_lost_password_with_token_should_display_the_password_recovery_form
+  def test_get_lost_password_with_token_should_redirect_with_token_in_session
     user = User.find(2)
     token = Token.create!(:action => 'recovery', :user => user)
 
     get :lost_password, :token => token.value
+    assert_redirected_to '/account/lost_password'
+
+    assert_equal token.value, request.session[:password_recovery_token]
+  end
+
+  def test_get_lost_password_with_token_in_session_should_display_the_password_recovery_form
+    user = User.find(2)
+    token = Token.create!(:action => 'recovery', :user => user)
+    request.session[:password_recovery_token] = token.value
+
+    get :lost_password
     assert_response :success
     assert_template 'password_recovery'
 

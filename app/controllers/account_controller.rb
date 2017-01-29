@@ -58,12 +58,20 @@ class AccountController < ApplicationController
   # Lets user choose a new password
   def lost_password
     (redirect_to(home_url); return) unless Setting.lost_password?
-    if params[:token]
-      @token = Token.find_token("recovery", params[:token].to_s)
+    if prt = (params[:token] || session[:password_recovery_token])
+      @token = Token.find_token("recovery", prt.to_s)
       if @token.nil? || @token.expired?
         redirect_to home_url
         return
       end
+
+      # redirect to remove the token query parameter from the URL and add it to the session
+      if request.query_parameters[:token].present?
+        session[:password_recovery_token] = @token.value
+        redirect_to lost_password_url
+        return
+      end
+
       @user = @token.user
       unless @user && @user.active?
         redirect_to home_url
