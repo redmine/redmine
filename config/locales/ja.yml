@@ -1230,10 +1230,9 @@ ja:
   setting_mail_handler_enable_regex_delimiters: 正規表現を使用
   error_move_of_child_not_possible: '子チケット %{child} を指定されたプロジェクトに移動できませんでした: %{errors}'
   error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: 削除対象チケットへの作業時間の再割り当てはできません
-  setting_timelog_required_fields: Required fields for time logs
-  label_attribute_of_object: '%{object_name}''s %{name}'
-  warning_fields_cleared_on_bulk_edit: Changes will result in the automatic deletion
-    of values from one or more fields on the selected objects
-  field_updated_by: Updated by
-  field_last_updated_by: Last updated by
+  setting_timelog_required_fields: 作業時間の必須入力フィールド
+  label_attribute_of_object: '%{object_name}の %{name}'
+  warning_fields_cleared_on_bulk_edit: この編集操作により次のフィールドの値がチケットから削除されます
+  field_updated_by: 更新者
+  field_last_updated_by: 最終更新者
   field_full_width_layout: Full width layout
