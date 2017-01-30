@@ -220,9 +220,17 @@ module ApplicationHelper
   end
 
   def thumbnail_tag(attachment)
-    link_to image_tag(thumbnail_path(attachment), :srcset => "#{thumbnail_path(attachment, :size => Setting.thumbnails_size.to_i * 2)} 2x"),
-      named_attachment_path(attachment, attachment.filename),
+    link_to(
+      image_tag(
+        thumbnail_path(attachment),
+        :srcset => "#{thumbnail_path(attachment, :size => Setting.thumbnails_size.to_i * 2)} 2x"
+      ),
+      named_attachment_path(
+        attachment,
+        attachment.filename
+      ),
       :title => attachment.filename
+    )
   end
 
   def toggle_link(name, id, options={})
@@ -335,7 +343,7 @@ module ApplicationHelper
       content_tag 'p', l(:label_no_data), :class => "nodata"
     end
   end
- 
+
   # Returns an array of projects that are displayed in the quick-jump box
   def projects_for_jump_box(user=User.current)
     if user.logged?
