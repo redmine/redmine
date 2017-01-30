@@ -111,6 +111,11 @@ class IssuesController < ApplicationController
     @time_entry = TimeEntry.new(:issue => @issue, :project => @issue.project)
     @relation = IssueRelation.new
 
+    if User.current.allowed_to?(:view_time_entries, @project)
+      Issue.load_visible_spent_hours([@issue])
+      Issue.load_visible_total_spent_hours([@issue])
+    end
+
     respond_to do |format|
       format.html {
         retrieve_previous_and_next_issue_ids
