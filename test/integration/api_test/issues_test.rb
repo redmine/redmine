@@ -350,6 +350,37 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
     end
   end
 
+  test "GET /issues/:id.xml should contains visible spent_hours only" do
+    user = User.find_by_login('jsmith')
+    Role.find(1).update(:time_entries_visibility => 'own')
+    parent = Issue.find(3)
+    child = Issue.generate!(:parent_issue_id => parent.id)
+    TimeEntry.generate!(:user => user, :hours => 5.5, :issue_id => parent.id)
+    TimeEntry.generate!(:user => user, :hours => 2, :issue_id => child.id)
+    TimeEntry.generate!(:user => User.find(1), :hours => 100, :issue_id => child.id)
+    get '/issues/3.xml', {} , credentials(user.login)
+
+    assert_equal 'application/xml', response.content_type
+    assert_select 'issue' do
+      assert_select 'spent_hours',           '5.5'
+    end
+  end
+
+  test "GET /issues/:id.json should contains visible spent_hours only" do
+    user = User.find_by_login('jsmith')
+    Role.find(1).update(:time_entries_visibility => 'own')
+    parent = Issue.find(3)
+    child = Issue.generate!(:parent_issue_id => parent.id)
+    TimeEntry.generate!(:user => user, :hours => 5.5, :issue_id => parent.id)
+    TimeEntry.generate!(:user => user, :hours => 2, :issue_id => child.id)
+    TimeEntry.generate!(:user => User.find(1), :hours => 100, :issue_id => child.id)
+    get '/issues/3.json', {} , credentials(user.login)
+
+    assert_equal 'application/json', response.content_type
+    json = ActiveSupport::JSON.decode(response.body)
+    assert_equal 5.5, json['issue']['spent_hours']
+  end
+
   test "POST /issues.xml should create an issue with the attributes" do
 
 payload = <<-XML
