@@ -169,6 +169,12 @@ RAW
     end
   end
 
+  def test_attached_images_with_hires_naming
+    attachment = Attachment.generate!(:filename => 'image@2x.png')
+      assert_equal %(<p><img src="/attachments/download/#{attachment.id}/image@2x.png" srcset="/attachments/download/#{attachment.id}/image@2x.png 2x" alt="" /></p>),
+        textilizable("!image@2x.png!", :attachments => [attachment])
+  end
+
   def test_attached_images_filename_extension
     set_tmp_attachments_directory
     a1 = Attachment.new(
