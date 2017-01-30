@@ -52,6 +52,10 @@ module GravatarHelper
       src = h(gravatar_url(email, options))
       options = DEFAULT_OPTIONS.merge(options)
       [:class, :alt, :title].each { |opt| options[opt] = h(options[opt]) }
+
+      # double the size for hires displays
+      options[:srcset] = "#{gravatar_url(email, options.merge(size: options[:size].to_i * 2))} 2x"
+
       image_tag src, options
     end
     
