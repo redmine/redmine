@@ -793,6 +793,8 @@ module Redmine
             end
           end
           scope.sorted
+        elsif object.nil?
+          Principal.member_of(Project.visible.to_a).sorted.select {|p| p.is_a?(User)}
         else
           []
         end
@@ -811,12 +813,8 @@ module Redmine
         end
       end
 
-      def query_filter_values(*args)
-        values = []
-        if User.current.logged?
-          values << ["<< #{l(:label_me)} >>", "me"]
-        end
-        values + super
+      def query_filter_values(custom_field, query)
+        query.author_values
       end
     end
 
