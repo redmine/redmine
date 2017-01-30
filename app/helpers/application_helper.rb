@@ -636,7 +636,7 @@ module ApplicationHelper
 
     parse_sections(text, project, obj, attr, only_path, options)
     text = parse_non_pre_blocks(text, obj, macros) do |text|
-      [:parse_inline_attachments, :parse_wiki_links, :parse_redmine_links].each do |method_name|
+      [:parse_inline_attachments, :parse_hires_images, :parse_wiki_links, :parse_redmine_links].each do |method_name|
         send method_name, text, project, obj, attr, only_path, options
       end
     end
@@ -679,6 +679,15 @@ module ApplicationHelper
       parsed << "</#{tag}>"
     end
     parsed
+  end
+
+  # add srcset attribute to img tags if filename includes @2x, @3x, etc.
+  # to support hires displays
+  def parse_hires_images(text, project, obj, attr, only_path, options)
+    text.gsub!(/src="([^"]+@(\dx)\.(bmp|gif|jpg|jpe|jpeg|png))"/i) do |m|
+      filename, dpr = $1, $2
+      m + " srcset=\"#{filename} #{dpr}\""
+    end
   end
 
   def parse_inline_attachments(text, project, obj, attr, only_path, options)
