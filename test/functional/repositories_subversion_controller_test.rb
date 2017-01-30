@@ -183,11 +183,11 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
       end
     end
 
-    def test_entry_should_send_images_inline
+    def test_entry_should_send_images_as_attachment
       get :entry, :id => PRJ_ID,
           :path => repository_path_hash(['subversion_test', 'folder', 'subfolder', 'rubylogo.gif'])[:param]
       assert_response :success
-      assert_equal 'inline; filename="rubylogo.gif"', response.headers['Content-Disposition']
+      assert_equal 'attachment; filename="rubylogo.gif"', response.headers['Content-Disposition']
     end
 
     def test_entry_at_given_revision
