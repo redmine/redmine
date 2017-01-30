@@ -793,8 +793,6 @@ module Redmine
             end
           end
           scope.sorted
-        elsif object.nil?
-          Principal.member_of(Project.visible.to_a).sorted.select {|p| p.is_a?(User)}
         else
           []
         end
