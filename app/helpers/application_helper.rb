@@ -220,7 +220,7 @@ module ApplicationHelper
   end
 
   def thumbnail_tag(attachment)
-    link_to image_tag(thumbnail_path(attachment)),
+    link_to image_tag(thumbnail_path(attachment), :srcset => "#{thumbnail_path(attachment, :size => Setting.thumbnails_size.to_i * 2)} 2x"),
       named_attachment_path(attachment, attachment.filename),
       :title => attachment.filename
   end
