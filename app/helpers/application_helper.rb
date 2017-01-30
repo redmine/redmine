@@ -223,7 +223,8 @@ module ApplicationHelper
     link_to(
       image_tag(
         thumbnail_path(attachment),
-        :srcset => "#{thumbnail_path(attachment, :size => Setting.thumbnails_size.to_i * 2)} 2x"
+        :srcset => "#{thumbnail_path(attachment, :size => Setting.thumbnails_size.to_i * 2)} 2x",
+        :width => Setting.thumbnails_size 
       ),
       named_attachment_path(
         attachment,
