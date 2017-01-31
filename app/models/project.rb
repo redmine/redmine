@@ -40,7 +40,7 @@ class Project < ActiveRecord::Base
   has_many :versions, :dependent => :destroy
   belongs_to :default_version, :class_name => 'Version'
   has_many :time_entries, :dependent => :destroy
-  has_many :queries, :class_name => 'IssueQuery', :dependent => :delete_all
+  has_many :queries, :dependent => :delete_all
   has_many :documents, :dependent => :destroy
   has_many :news, lambda {includes(:author)}, :dependent => :destroy
   has_many :issue_categories, lambda {order("#{IssueCategory.table_name}.name")}, :dependent => :delete_all
@@ -1055,12 +1055,12 @@ class Project < ActiveRecord::Base
   # Copies queries from +project+
   def copy_queries(project)
     project.queries.each do |query|
-      new_query = IssueQuery.new
+      new_query = query.class.new
       new_query.attributes = query.attributes.dup.except("id", "project_id", "sort_criteria", "user_id", "type")
       new_query.sort_criteria = query.sort_criteria if query.sort_criteria
       new_query.project = self
       new_query.user_id = query.user_id
-      new_query.role_ids = query.role_ids if query.visibility == IssueQuery::VISIBILITY_ROLES
+      new_query.role_ids = query.role_ids if query.visibility == ::Query::VISIBILITY_ROLES
       self.queries << new_query
     end
   end
