@@ -43,15 +43,15 @@ class Project < ActiveRecord::Base
   has_many :queries, :dependent => :delete_all
   has_many :documents, :dependent => :destroy
   has_many :news, lambda {includes(:author)}, :dependent => :destroy
-  has_many :issue_categories, lambda {order("#{IssueCategory.table_name}.name")}, :dependent => :delete_all
-  has_many :boards, lambda {order("position ASC")}, :dependent => :destroy
-  has_one :repository, lambda {where(["is_default = ?", true])}
+  has_many :issue_categories, lambda {order(:name)}, :dependent => :delete_all
+  has_many :boards, lambda {order(:position)}, :dependent => :destroy
+  has_one :repository, lambda {where(:is_default => true)}
   has_many :repositories, :dependent => :destroy
   has_many :changesets, :through => :repository
   has_one :wiki, :dependent => :destroy
   # Custom field for the project issues
   has_and_belongs_to_many :issue_custom_fields,
-                          lambda {order("#{CustomField.table_name}.position")},
+                          lambda {order(:position)},
                           :class_name => 'IssueCustomField',
                           :join_table => "#{table_name_prefix}custom_fields_projects#{table_name_suffix}",
                           :association_foreign_key => 'custom_field_id'
