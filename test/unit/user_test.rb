@@ -643,7 +643,7 @@ class UserTest < ActiveSupport::TestCase
   if ldap_configured?
     test "#try_to_login using LDAP with failed connection to the LDAP server" do
       auth_source = AuthSourceLdap.find(1)
-      AuthSource.any_instance.stubs(:initialize_ldap_con).raises(Net::LDAP::Error, 'Cannot connect')
+      AuthSource.any_instance.stubs(:initialize_ldap_con).raises(Net::LDAP::LdapError, 'Cannot connect')
 
       assert_nil User.try_to_login('edavis', 'wrong')
     end

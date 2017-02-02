@@ -26,7 +26,7 @@ gem "rbpdf", "~> 1.19.0"
 
 # Optional gem for LDAP authentication
 group :ldap do
-  gem "net-ldap", "~> 0.12.1"
+  gem "net-ldap", "~> 0.12.0"
 end
 
 # Optional gem for OpenID authentication

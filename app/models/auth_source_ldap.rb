@@ -21,7 +21,7 @@ require 'timeout'
 
 class AuthSourceLdap < AuthSource
   NETWORK_EXCEPTIONS = [
-    Net::LDAP::Error,
+    Net::LDAP::LdapError,
     Errno::ECONNABORTED, Errno::ECONNREFUSED, Errno::ECONNRESET,
     Errno::EHOSTDOWN, Errno::EHOSTUNREACH,
     SocketError
@@ -117,7 +117,7 @@ class AuthSourceLdap < AuthSource
     if filter.present?
       Net::LDAP::Filter.construct(filter)
     end
-  rescue Net::LDAP::Error, Net::LDAP::FilterSyntaxInvalidError
+  rescue Net::LDAP::LdapError, Net::LDAP::FilterSyntaxInvalidError
     nil
   end
 
