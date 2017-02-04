@@ -456,6 +456,7 @@
   field_textarea_font: 文字區域使用的字型
   field_updated_by: 更新者
   field_last_updated_by: 上次更新者
+  field_full_width_layout: 全寬度式版面配置
 
   setting_app_title: 標題
   setting_app_subtitle: 副標題
@@ -1295,4 +1296,3 @@
   description_date_from: 輸入起始日期
   description_date_to: 輸入結束日期
   text_repository_identifier_info: '僅允許使用小寫英文字母 (a-z), 阿拉伯數字, 虛線與底線。<br />一旦儲存之後, 代碼便無法再次被更改。'
-  field_full_width_layout: Full width layout
