@@ -1235,4 +1235,4 @@ ja:
   warning_fields_cleared_on_bulk_edit: この編集操作により次のフィールドの値がチケットから削除されます
   field_updated_by: 更新者
   field_last_updated_by: 最終更新者
-  field_full_width_layout: Full width layout
+  field_full_width_layout: ワイド表示
