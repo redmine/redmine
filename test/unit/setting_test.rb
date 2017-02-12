@@ -110,7 +110,7 @@ class SettingTest < ActiveSupport::TestCase
 
   def test_setting_serialied_as_binary_should_be_loaded_as_utf8_encoded_strings
     yaml = <<-YAML
---- 
+---
 - keywords: !binary |
     Zml4ZXMsY2xvc2VzLNC40YHQv9GA0LDQstC70LXQvdC+LNCz0L7RgtC+0LLQ
     vizRgdC00LXQu9Cw0L3QvixmaXhlZA==
