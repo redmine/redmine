@@ -153,7 +153,6 @@ class SearchTest < ActiveSupport::TestCase
     unless sqlite?
       issue1 = Issue.generate!(:subject => "Special chars: ÖÖ")
       issue2 = Issue.generate!(:subject => "Special chars: Öö")
-  
       r = Issue.search_results('ÖÖ')
       assert_include issue1, r
       assert_include issue2, r
@@ -164,7 +163,6 @@ class SearchTest < ActiveSupport::TestCase
     if mysql?
       issue1 = Issue.generate!(:subject => "OO")
       issue2 = Issue.generate!(:subject => "oo")
-  
       r = Issue.search_results('ÖÖ')
       assert_include issue1, r
       assert_include issue2, r
@@ -178,10 +176,8 @@ class SearchTest < ActiveSupport::TestCase
       ActiveRecord::Base.connection.execute("CREATE EXTENSION IF NOT EXISTS unaccent")
       Redmine::Database.reset
       assert Redmine::Database.postgresql_unaccent?
-
       issue1 = Issue.generate!(:subject => "OO")
       issue2 = Issue.generate!(:subject => "oo")
-  
       r = Issue.search_results('ÖÖ')
       assert_include issue1, r
       assert_include issue2, r
