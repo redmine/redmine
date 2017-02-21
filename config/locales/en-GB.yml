@@ -751,7 +751,6 @@ en-GB:
   label_age: Age
   label_change_properties: Change properties
   label_general: General
-  label_more: More
   label_scm: SCM
   label_plugins: Plugins
   label_ldap_authentication: LDAP authentication

@@ -765,7 +765,6 @@ ar:
   label_age: العمر
   label_change_properties: تغيير الخصائص
   label_general: عامة
-  label_more: أكثر
   label_scm: scm
   label_plugins: الإضافات
   label_ldap_authentication: مصادقة LDAP

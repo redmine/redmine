@@ -654,7 +654,6 @@ uk:
   setting_user_format: Users display format
   label_age: Age
   label_file_added: File added
-  label_more: More
   field_default_value: Default value
   label_scm: SCM
   label_general: General

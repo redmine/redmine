@@ -699,7 +699,6 @@ hr:
   label_age: Starost
   label_change_properties: Promijeni svojstva
   label_general: Općenito
-  label_more: Još
   label_scm: SCM
   label_plugins: Plugins
   label_ldap_authentication: LDAP autentikacija

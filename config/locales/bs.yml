@@ -679,7 +679,6 @@ bs:
   label_age: Starost
   label_change_properties: Promjena osobina
   label_general: Generalno
-  label_more: Više
   label_scm: SCM
   label_plugins: Plugin-ovi
   label_ldap_authentication: LDAP authentifikacija

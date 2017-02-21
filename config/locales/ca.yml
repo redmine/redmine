@@ -729,7 +729,6 @@ ca:
   label_age: "Edat"
   label_change_properties: "Canvia les propietats"
   label_general: "General"
-  label_more: "Més"
   label_scm: "SCM"
   label_plugins: "Complements"
   label_ldap_authentication: "Autenticació LDAP"

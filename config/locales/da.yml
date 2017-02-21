@@ -600,7 +600,6 @@ da:
   label_age: Alder
   label_change_properties: Ændre indstillinger
   label_general: Generelt
-  label_more: Mere
   label_scm: SCM
   label_plugins: Plugins
   label_ldap_authentication: LDAP-godkendelse

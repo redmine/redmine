@@ -743,7 +743,6 @@ cs:
   label_age: Věk
   label_change_properties: Změnit vlastnosti
   label_general: Obecné
-  label_more: Více
   label_scm: SCM
   label_plugins: Doplňky
   label_ldap_authentication: Autentifikace LDAP

@@ -678,7 +678,6 @@ fi:
   setting_user_format: Käyttäjien esitysmuoto
   text_status_changed_by_changeset: "Päivitetty muutosversioon %{value}."
   text_issues_destroy_confirmation: 'Oletko varma että haluat poistaa valitut tapahtumat ?'
-  label_more: Lisää
   label_issue_added: Tapahtuma lisätty
   label_issue_updated: Tapahtuma päivitetty
   label_document_added: Dokumentti lisätty

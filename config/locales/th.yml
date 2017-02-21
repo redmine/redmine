@@ -591,7 +591,6 @@ th:
   label_age: อายุ
   label_change_properties: เปลี่ยนคุณสมบัติ
   label_general: ทั่วๆ ไป
-  label_more: อื่น ๆ
   label_scm: ตัวจัดการต้นฉบับ
   label_plugins: ส่วนเสริม
   label_ldap_authentication: การยืนยันตัวตนโดยใช้ LDAP

@@ -705,7 +705,6 @@ lv:
   label_age: Vecums
   label_change_properties: Mainīt atribūtus
   label_general: Galvenais
-  label_more: Vēl
   label_scm: SCM
   label_plugins: Spraudņi
   label_ldap_authentication: LDAP pilnvarošana

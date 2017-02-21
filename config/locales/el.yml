@@ -682,7 +682,6 @@ el:
   label_age: Ηλικία
   label_change_properties: Αλλαγή ιδιοτήτων
   label_general: Γενικά
-  label_more: Περισσότερα
   label_scm: SCM
   label_plugins: Plugins
   label_ldap_authentication: Πιστοποίηση LDAP

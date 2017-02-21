@@ -723,7 +723,6 @@ sr:
   label_age: Старост
   label_change_properties: Промени својства
   label_general: Општи
-  label_more: Више
   label_scm: SCM
   label_plugins: Додатне компоненте
   label_ldap_authentication: LDAP потврда идентитета

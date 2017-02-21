@@ -796,7 +796,6 @@ et:
   label_age: "Vanus"
   label_change_properties: "Muuda omadusi"
   label_general: "Üldine"
-  label_more: "Rohkem"
   label_scm: "Lähtekoodi haldusvahend"
   label_plugins: "Lisamoodulid"
   label_ldap_authentication: "LDAP autentimine"

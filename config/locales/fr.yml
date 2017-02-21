@@ -888,7 +888,6 @@ fr:
   label_age: Âge
   label_change_properties: Changer les propriétés
   label_general: Général
-  label_more: Plus
   label_scm: SCM
   label_plugins: Plugins
   label_ldap_authentication: Authentification LDAP

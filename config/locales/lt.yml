@@ -862,7 +862,6 @@ lt:
   label_age: Amžius
   label_change_properties: Pakeisti nustatymus
   label_general: Bendri(-as)
-  label_more: Daugiau
   label_scm: SCM
   label_plugins: Įskiepiai
   label_ldap_authentication: LDAP autentifikacija

@@ -725,7 +725,6 @@ mk:
   label_age: Age
   label_change_properties: Change properties
   label_general: Општо
-  label_more: Повеќе
   label_scm: SCM
   label_plugins: Додатоци
   label_ldap_authentication: LDAP автентикација

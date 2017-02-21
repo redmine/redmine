@@ -690,7 +690,6 @@ id:
   label_age: Umur
   label_change_properties: Rincian perubahan
   label_general: Umum
-  label_more: Lanjut
   label_scm: SCM
   label_plugins: Plugin
   label_ldap_authentication: Otentikasi LDAP

@@ -626,7 +626,6 @@ pt-BR:
   label_age: Idade
   label_change_properties: Alterar propriedades
   label_general: Geral
-  label_more: Mais
   label_scm: 'Controle de versão:'
   label_plugins: Plugins
   label_ldap_authentication: Autenticação LDAP

@@ -775,7 +775,6 @@ ja:
   label_age: 経過期間
   label_change_properties: プロパティの変更
   label_general: 全般
-  label_more: 続き
   label_scm: バージョン管理システム
   label_plugins: プラグイン
   label_ldap_authentication: LDAP認証

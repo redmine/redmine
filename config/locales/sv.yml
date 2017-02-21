@@ -854,7 +854,6 @@ sv:
   label_age: Ålder
   label_change_properties: Ändra inställningar
   label_general: Allmänt
-  label_more: Mer
   label_scm: SCM
   label_plugins: Tillägg
   label_ldap_authentication: LDAP-autentisering

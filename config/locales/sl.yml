@@ -655,7 +655,6 @@ sl:
   label_age: Starost
   label_change_properties: Sprememba lastnosti
   label_general: Splošno
-  label_more: Več
   label_scm: SCM
   label_plugins: Vtičniki
   label_ldap_authentication: LDAP overovljanje

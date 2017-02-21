@@ -711,7 +711,6 @@ mn:
   label_age: Нас
   label_change_properties: Тохиргоог өөрчлөх
   label_general: Ерөнхий
-  label_more: Цааш нь
   label_scm: SCM
   label_plugins: Модулууд
   label_ldap_authentication: LDAP нэвтрэх горим

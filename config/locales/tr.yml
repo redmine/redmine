@@ -605,7 +605,6 @@ tr:
   label_age: Yaş
   label_change_properties: Özellikleri değiştir
   label_general: Genel
-  label_more: Daha fazla
   label_scm: KY
   label_plugins: Eklentiler
   label_ldap_authentication: LDAP Denetimi

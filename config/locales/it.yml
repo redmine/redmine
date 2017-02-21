@@ -659,7 +659,6 @@ it:
   label_associated_revisions: Revisioni associate
   setting_user_format: Formato visualizzazione utenti
   text_status_changed_by_changeset: "Applicata nel changeset %{value}."
-  label_more: Altro
   text_issues_destroy_confirmation: 'Sei sicuro di voler eliminare le segnalazioni selezionate?'
   label_scm: SCM
   text_select_project_modules: 'Seleziona i moduli abilitati per questo progetto:'

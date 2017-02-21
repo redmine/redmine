@@ -655,7 +655,6 @@ vi:
   label_age: Thời gian
   label_change_properties: Thay đổi thuộc tính
   label_general: Tổng quan
-  label_more: Chi tiết
   label_scm: SCM
   label_plugins: Module
   label_ldap_authentication: Chứng thực LDAP

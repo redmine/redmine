@@ -881,7 +881,6 @@ bg:
   label_age: Възраст
   label_change_properties: Промяна на настройки
   label_general: Основни
-  label_more: Още
   label_scm: SCM (Система за контрол на версиите)
   label_plugins: Плъгини
   label_ldap_authentication: LDAP оторизация

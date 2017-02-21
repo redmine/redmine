@@ -723,7 +723,6 @@ ko:
   label_age: 마지막 수정일
   label_change_properties: 속성 변경
   label_general: 일반
-  label_more: 제목 및 설명 수정
   label_scm: 형상관리시스템
   label_plugins: 플러그인
   label_ldap_authentication: LDAP 인증

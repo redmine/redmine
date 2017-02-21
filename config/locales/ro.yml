@@ -661,7 +661,6 @@ ro:
   label_age: vechime
   label_change_properties: Schimbă proprietățile
   label_general: General
-  label_more: Mai mult
   label_scm: SCM
   label_plugins: Plugin-uri
   label_ldap_authentication: autentificare LDAP

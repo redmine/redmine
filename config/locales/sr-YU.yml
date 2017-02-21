@@ -725,7 +725,6 @@ sr-YU:
   label_age: Starost
   label_change_properties: Promeni svojstva
   label_general: Opšti
-  label_more: Više
   label_scm: SCM
   label_plugins: Dodatne komponente
   label_ldap_authentication: LDAP potvrda identiteta

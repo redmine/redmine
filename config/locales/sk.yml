@@ -590,7 +590,6 @@ sk:
   label_age: Vek
   label_change_properties: Zmeniť vlastnosti
   label_general: Všeobecné
-  label_more: Viac
   label_scm: SCM
   label_plugins: Pluginy
   label_ldap_authentication: Autentifikácia LDAP
