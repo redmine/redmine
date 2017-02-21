@@ -709,7 +709,6 @@ hr:
   label_preferences: Preferences
   label_chronological_order: U kronološkom redoslijedu
   label_reverse_chronological_order: U obrnutom kronološkom redoslijedu
-  label_planning: Planiranje
   label_incoming_emails: Dolazne poruke e-pošte
   label_generate_key: Generiraj ključ
   label_issue_watchers: Promatrači

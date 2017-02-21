@@ -721,7 +721,6 @@ mn:
   label_preferences: Тохиргоо
   label_chronological_order: Цагаан толгойн үсгийн дарааллаар
   label_reverse_chronological_order: Урвуу цагаан толгойн үсгийн дарааллаар
-  label_planning: Төлөвлөлт
   label_incoming_emails: Ирсэн мэйлүүд
   label_generate_key: Түлхүүр үүсгэх
   label_issue_watchers: Ажиглагчид

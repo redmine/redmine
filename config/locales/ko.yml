@@ -733,7 +733,6 @@ ko:
   label_preferences: 설정
   label_chronological_order: 시간 순으로 정렬
   label_reverse_chronological_order: 시간 역순으로 정렬
-  label_planning: 프로젝트계획
   label_incoming_emails: 수신 메일
   label_generate_key: 키 생성
   label_issue_watchers: 일감관람자

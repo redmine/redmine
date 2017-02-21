@@ -705,7 +705,6 @@ sk:
   enumeration_doc_categories: Kategórie dokumentov
   enumeration_activities: Aktivity (sledovanie času)
   error_scm_annotate: "Položka neexistuje, alebo nemôže byť komentovaná."
-  label_planning: Plánovanie
   text_subprojects_destroy_warning: "Jeho podprojekty: %{value} budú tiež vymazané."
   label_and_its_subprojects: "%{value} a jeho podprojekty"
   mail_body_reminder: "Nasledovné úlohy (%{count}), ktoré sú vám priradené, majú byť hotové za %{days} dní:"

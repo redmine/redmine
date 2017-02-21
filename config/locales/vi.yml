@@ -665,7 +665,6 @@ vi:
   label_preferences: Cấu hình
   label_chronological_order: Bài cũ xếp trước
   label_reverse_chronological_order: Bài mới xếp trước
-  label_planning: Kế hoạch
   label_incoming_emails: Nhận mail
   label_generate_key: Tạo mã
   label_issue_watchers: Theo dõi

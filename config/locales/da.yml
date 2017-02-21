@@ -722,7 +722,6 @@ da:
   label_overall_activity: Overordnet aktivitet
   setting_default_projects_public: Nye projekter er offentlige som standard
   error_scm_annotate: "Filen findes ikke, eller kunne ikke annoteres."
-  label_planning: Planlægning
   text_subprojects_destroy_warning: "Dets underprojekter(er): %{value} vil også blive slettet."
   permission_edit_issues: Redigér sager
   setting_diff_max_lines_displayed: Højeste antal forskelle der vises

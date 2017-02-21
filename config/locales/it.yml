@@ -708,7 +708,6 @@ it:
   label_overall_activity: Attività generale
   setting_default_projects_public: I nuovi progetti sono pubblici in modo predefinito
   error_scm_annotate: "L'oggetto non esiste o non può essere annotato."
-  label_planning: Pianificazione
   text_subprojects_destroy_warning: "Anche i suoi sottoprogetti: %{value} verranno eliminati."
   label_and_its_subprojects: "%{value} ed i suoi sottoprogetti"
   mail_body_reminder: "%{count} segnalazioni che ti sono state assegnate scadranno nei prossimi %{days} giorni:"

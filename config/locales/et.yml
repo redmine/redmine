@@ -806,7 +806,6 @@ et:
   label_preferences: "Eelistused"
   label_chronological_order: "kronoloogiline"
   label_reverse_chronological_order: "tagurpidi kronoloogiline"
-  label_planning: "Planeerimine"
   label_incoming_emails: "Sissetulevad e-kirjad"
   label_generate_key: "Genereeri võti"
   label_issue_watchers: "Jälgijad"

@@ -601,7 +601,6 @@ th:
   label_preferences: ค่าที่ชอบใจ
   label_chronological_order: เรียงจากเก่าไปใหม่
   label_reverse_chronological_order: เรียงจากใหม่ไปเก่า
-  label_planning: การวางแผน
 
   button_login: เข้าระบบ
   button_submit: จัดส่งข้อมูล

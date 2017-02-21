@@ -705,7 +705,6 @@ uk:
   label_overall_activity: Overall activity
   setting_default_projects_public: New projects are public by default
   error_scm_annotate: "The entry does not exist or can not be annotated."
-  label_planning: Planning
   text_subprojects_destroy_warning: "Its subproject(s): %{value} will be also deleted."
   label_and_its_subprojects: "%{value} and its subprojects"
   mail_body_reminder: "%{count} issue(s) that are assigned to you are due in the next %{days} days:"

@@ -735,7 +735,6 @@ mk:
   label_preferences: Preferences
   label_chronological_order: Во хронолошки ред
   label_reverse_chronological_order: In reverse chronological order
-  label_planning: Планирање
   label_incoming_emails: Дојдовни е-пораки
   label_generate_key: Генерирај клуч
   label_issue_watchers: Watchers

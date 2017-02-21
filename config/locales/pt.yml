@@ -623,7 +623,6 @@ pt:
   label_preferences: Preferências
   label_chronological_order: Em ordem cronológica
   label_reverse_chronological_order: Em ordem cronológica inversa
-  label_planning: Planeamento
   label_incoming_emails: E-mails recebidos
   label_generate_key: Gerar uma chave
   label_issue_watchers: Observadores

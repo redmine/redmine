@@ -665,7 +665,6 @@ sl:
   label_preferences: Preference
   label_chronological_order: Kronološko
   label_reverse_chronological_order: Obrnjeno kronološko
-  label_planning: Načrtovanje
   label_incoming_emails: Prihajajoča e-pošta
   label_generate_key: Ustvari ključ
   label_issue_watchers: Spremljevalci

@@ -864,7 +864,6 @@ sv:
   label_preferences: Användarinställningar
   label_chronological_order: I kronologisk ordning
   label_reverse_chronological_order: I omvänd kronologisk ordning
-  label_planning: Planering
   label_incoming_emails: Inkommande mail
   label_generate_key: Generera en nyckel
   label_issue_watchers: Bevakare

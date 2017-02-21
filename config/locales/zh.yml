@@ -752,7 +752,6 @@ zh:
   label_preferences: 首选项
   label_chronological_order: 按时间顺序
   label_reverse_chronological_order: 按时间顺序（倒序）
-  label_planning: 计划
   label_incoming_emails: 接收邮件
   label_generate_key: 生成一个key
   label_issue_watchers: 跟踪者

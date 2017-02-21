@@ -692,7 +692,6 @@ el:
   label_preferences: Προτιμήσεις
   label_chronological_order: Κατά χρονολογική σειρά
   label_reverse_chronological_order: Κατά αντίστροφη χρονολογική σειρά
-  label_planning: Σχεδιασμός
   label_incoming_emails: Εισερχόμενα email
   label_generate_key: Δημιουργία κλειδιού
   label_issue_watchers: Παρατηρητές

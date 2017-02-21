@@ -891,7 +891,6 @@ bg:
   label_preferences: Предпочитания
   label_chronological_order: Хронологичен ред
   label_reverse_chronological_order: Обратен хронологичен ред
-  label_planning: Планиране
   label_incoming_emails: Входящи e-mail-и
   label_generate_key: Генериране на ключ
   label_issue_watchers: Наблюдатели

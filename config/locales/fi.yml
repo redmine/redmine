@@ -729,7 +729,6 @@ fi:
   setting_default_projects_public: Uudet projektit ovat oletuksena julkisia
   label_overall_activity: Kokonaishistoria
   error_scm_annotate: "Merkintää ei ole tai siihen ei voi lisätä selityksiä."
-  label_planning: Suunnittelu
   text_subprojects_destroy_warning: "Tämän aliprojekti(t): %{value} tullaan myös poistamaan."
   label_and_its_subprojects: "%{value} ja aliprojektit"
   mail_body_reminder: "%{count} sinulle nimettyä tapahtuma(a) erääntyy %{days} päivä sisään:"

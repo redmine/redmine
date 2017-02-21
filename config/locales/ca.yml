@@ -739,7 +739,6 @@ ca:
   label_preferences: "Preferències"
   label_chronological_order: "En ordre cronològic"
   label_reverse_chronological_order: "En ordre cronològic invers"
-  label_planning: "Planificació"
   label_incoming_emails: "Correu electrònics d'entrada"
   label_generate_key: "Generar una clau"
   label_issue_watchers: "Vigilàncies"

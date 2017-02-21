@@ -689,7 +689,6 @@ bs:
   label_preferences: Postavke
   label_chronological_order: Hronološki poredak
   label_reverse_chronological_order: Reverzni hronološki poredak
-  label_planning: Planiranje
   label_incoming_emails: Dolazni email-ovi
   label_generate_key: Generiši ključ
   label_issue_watchers: Praćeno od

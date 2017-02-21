@@ -785,7 +785,6 @@ ja:
   label_preferences: 設定
   label_chronological_order: 古い順
   label_reverse_chronological_order: 新しい順
-  label_planning: 計画
   label_incoming_emails: 受信メール
   label_generate_key: キーの生成
   label_issue_watchers: ウォッチャー

@@ -753,7 +753,6 @@ cs:
   label_preferences: Nastavení
   label_chronological_order: V chronologickém pořadí
   label_reverse_chronological_order: V obrácaném chronologickém pořadí
-  label_planning: Plánování
   label_incoming_emails: Příchozí e-maily
   label_generate_key: Generovat klíč
   label_issue_watchers: Sledování
