@@ -1114,10 +1114,6 @@ sv:
   description_all_columns: Alla kolumner
   description_issue_category_reassign: Välj ärendekategori
   description_wiki_subpages_reassign: Välj ny föräldersida
-  description_date_range_list: Välj intervall från listan
-  description_date_range_interval: Ange intervall genom att välja start- och slutdatum
-  description_date_from: Ange startdatum
-  description_date_to: Ange slutdatum
   text_repository_identifier_info: 'Endast gemener (a-z), siffror, streck och understreck är tillåtna.<br />När identifieraren sparats kan den inte ändras.'
   notice_account_not_activated_yet: Du har inte aktiverat ditt konto än. Om du vill få ett nytt aktiveringsbrev, <a href="%{url}"> klicka på denna länk </a>.
   notice_account_locked: Ditt konto är låst.

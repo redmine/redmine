@@ -974,16 +974,12 @@ cs:
   description_project_scope: Rozsah vyhledávání
   description_filter: Filtr
   description_user_mail_notification: Nastavení emailových notifikací
-  description_date_from: Zadejte počáteční datum
   description_message_content: Obsah zprávy
   description_available_columns: Dostupné sloupce
-  description_date_range_interval: Zvolte rozsah výběrem počátečního a koncového data
   description_issue_category_reassign: Zvolte kategorii úkolu
   description_search: Vyhledávací pole
   description_notes: Poznámky
-  description_date_range_list: Zvolte rozsah ze seznamu
   description_choose_project: Projekty
-  description_date_to: Zadejte datum
   description_query_sort_criteria_attribute: Třídící atribut
   description_wiki_subpages_reassign: Zvolte novou rodičovskou stránku
   description_selected_columns: Vybraný sloupec

@@ -974,16 +974,12 @@ zh:
   description_project_scope: 搜索范围
   description_filter: 过滤器
   description_user_mail_notification: 邮件通知设置
-  description_date_from: 输入开始日期
   description_message_content: 信息内容
   description_available_columns: 备选列
-  description_date_range_interval: 按开始日期和结束日期选择范围
   description_issue_category_reassign: 选择问题类别
   description_search: 搜索字段
   description_notes: 批注
-  description_date_range_list: 从列表中选择范围
   description_choose_project: 项目
-  description_date_to: 输入结束日期
   description_query_sort_criteria_attribute: 排序方式
   description_wiki_subpages_reassign: 选择父页面
   description_selected_columns: 已选列

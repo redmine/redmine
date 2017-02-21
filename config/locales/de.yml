@@ -229,10 +229,6 @@ de:
   description_all_columns: Alle Spalten
   description_available_columns: Verfügbare Spalten
   description_choose_project: Projekte
-  description_date_from: Startdatum eintragen
-  description_date_range_interval: Zeitraum durch Start- und Enddatum festlegen
-  description_date_range_list: Zeitraum aus einer Liste wählen
-  description_date_to: Enddatum eintragen
   description_filter: Filter
   description_issue_category_reassign: Neue Kategorie wählen
   description_message_content: Nachrichteninhalt

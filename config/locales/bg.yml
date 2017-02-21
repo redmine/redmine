@@ -1208,8 +1208,4 @@ bg:
   description_issue_category_reassign: Изберете категория
   description_wiki_subpages_reassign: Изберете нова родителска страница
   description_all_columns: Всички колони
-  description_date_range_list: Изберете диапазон от списъка
-  description_date_range_interval: Изберете диапазон чрез задаване на начална и крайна дати
-  description_date_from: Въведете начална дата
-  description_date_to: Въведете крайна дата
   text_repository_identifier_info: 'Позволени са малки букви (a-z), цифри, тирета и _.<br />Промяна след създаването му не е възможна.'

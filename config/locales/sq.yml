@@ -1007,10 +1007,6 @@ sq:
   description_all_columns: All Columns
   description_issue_category_reassign: Choose issue category
   description_wiki_subpages_reassign: Choose new parent page
-  description_date_range_list: Choose range from list
-  description_date_range_interval: Choose range by selecting start and end date
-  description_date_from: Enter start date
-  description_date_to: Enter end date
   error_session_expired: Your session has expired. Please login again.
   text_session_expiration_settings: "Warning: changing these settings may expire the current sessions including yours."
   setting_session_lifetime: Session maximum lifetime

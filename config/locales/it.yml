@@ -970,16 +970,12 @@ it:
   description_project_scope: Ambito della ricerca
   description_filter: Filtro
   description_user_mail_notification: Impostazioni notifica via mail
-  description_date_from: Inserisci la data d'inizio
   description_message_content: Contenuto del messaggio
   description_available_columns: Colonne disponibili
-  description_date_range_interval: Scegli l'intervallo selezionando la data di inizio e di fine
   description_issue_category_reassign: Scegli la categoria della segnalazione
   description_search: Campo di ricerca
   description_notes: Note
-  description_date_range_list: Scegli l'intervallo dalla lista
   description_choose_project: Progetti
-  description_date_to: Inserisci la data di fine
   description_query_sort_criteria_attribute: Attributo di ordinamento
   description_wiki_subpages_reassign: Scegli la nuova pagina padre
   description_selected_columns: Colonne selezionate

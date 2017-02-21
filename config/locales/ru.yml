@@ -1076,16 +1076,12 @@ ru:
   description_project_scope: Область поиска
   description_filter: Фильтр
   description_user_mail_notification: Настройки почтовых оповещений
-  description_date_from: Введите дату начала
   description_message_content: Содержание сообщения
   description_available_columns: Доступные столбцы
-  description_date_range_interval: Выберите диапазон, установив дату начала и дату окончания
   description_issue_category_reassign: Выберите категорию задачи
   description_search: Поле поиска
   description_notes: Примечания
-  description_date_range_list: Выберите диапазон из списка
   description_choose_project: Проекты
-  description_date_to: Введите дату выполнения
   description_query_sort_criteria_attribute: Критерий сортировки
   description_wiki_subpages_reassign: Выбрать новую родительскую страницу
   description_selected_columns: Выбранные столбцы

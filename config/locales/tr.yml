@@ -979,16 +979,12 @@ tr:
   description_project_scope: Arama kapsamı
   description_filter: Süzgeç
   description_user_mail_notification: E-posta bildirim ayarları
-  description_date_from: Başlangıç tarihini gir
   description_message_content: Mesaj içeriği
   description_available_columns: Kullanılabilir Sütunlar
-  description_date_range_interval: Başlangıç ve bitiş tarihini seçerek tarih aralığını belirleyin
   description_issue_category_reassign: İş kategorisini seçin
   description_search: Arama alanı
   description_notes: Notlar
-  description_date_range_list: Listeden tarih aralığını seçin
   description_choose_project: Projeler
-  description_date_to: Bitiş tarihini gir
   description_query_sort_criteria_attribute: Sıralama ölçütü
   description_wiki_subpages_reassign: Yeni üst sayfa seç
   description_selected_columns: Seçilmiş Sütunlar

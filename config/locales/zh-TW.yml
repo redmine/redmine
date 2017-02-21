@@ -1291,8 +1291,4 @@
   description_all_columns: 所有欄位
   description_issue_category_reassign: 選擇議題分類
   description_wiki_subpages_reassign: 選擇新的父頁面
-  description_date_range_list: 從清單中選取範圍
-  description_date_range_interval: 選擇起始與結束日期以設定範圍區間
-  description_date_from: 輸入起始日期
-  description_date_to: 輸入結束日期
   text_repository_identifier_info: '僅允許使用小寫英文字母 (a-z), 阿拉伯數字, 虛線與底線。<br />一旦儲存之後, 代碼便無法再次被更改。'

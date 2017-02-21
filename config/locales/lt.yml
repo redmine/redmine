@@ -1179,10 +1179,6 @@ lt:
   description_all_columns: AVisi stulpeliai
   description_issue_category_reassign: Pasirinkti darbo kategoriją
   description_wiki_subpages_reassign: Pasirinkti naują pagrindinį puslapį
-  description_date_range_list: Pasirinkitę diapazoną iš sąrašo
-  description_date_range_interval: Pasirinkite diapazoną pasirinkdami pradžios ir pabaigos datas
-  description_date_from: Įvesti pradžios datą
-  description_date_to: Įvesti pabaigos datą
   text_repository_identifier_info: 'Leidžiamos tik mažosios raidės (a-z), skaitmenys, brūkšneliai ir pabraukimo simboliai.<br />Kartą išsaugojus pakeitimai negalimi'
   label_wiki_page_new: New wiki page
   label_relations: Relations

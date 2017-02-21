@@ -1066,16 +1066,12 @@ az:
   description_project_scope: Layihənin həcmi
   description_filter: Filtr
   description_user_mail_notification: E-poçt Mail xəbərdarlıqlarının sazlaması
-  description_date_from: Başlama tarixini daxil edin
   description_message_content: Mesajın kontenti
   description_available_columns: Mövcud sütunlar
-  description_date_range_interval: Tarixlər diapazonunu seçin
   description_issue_category_reassign: Məsələnin kateqoriyasını seçin
   description_search: Axtarış sahəsi
   description_notes: Qeyd
-  description_date_range_list: Siyahıdan diapazonu seçin
   description_choose_project: Layihələr
-  description_date_to: Yerinə yetirilmə tarixini daxil edin
   description_query_sort_criteria_attribute: Çeşidləmə meyarları
   description_wiki_subpages_reassign: Yeni valideyn səhifəsini seçmək
   description_selected_columns: Seçilmiş sütunlar

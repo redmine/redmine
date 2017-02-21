@@ -951,16 +951,12 @@ nl:
   description_project_scope: Zoekbereik
   description_filter: Filteren
   description_user_mail_notification: Instellingen voor e-mailnotificaties
-  description_date_from: Startdatum invullen
   description_message_content: Berichtinhoud
   description_available_columns: Beschikbare kolommen
-  description_date_range_interval: Bereik bij het selecteren van een start- en einddatum kiezen
   description_issue_category_reassign: Issuecategorie kiezen
   description_search: Zoekveld
   description_notes: Notities
-  description_date_range_list: Bereik vanuit de lijst kiezen
   description_choose_project: Projecten
-  description_date_to: Einddatum invullen
   description_query_sort_criteria_attribute: Attribuut sorteren
   description_wiki_subpages_reassign: Nieuwe hoofdpagina kiezen
   description_selected_columns: Geselecteerde kolommen

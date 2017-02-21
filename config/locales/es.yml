@@ -1010,16 +1010,12 @@ es:
   description_project_scope: Ámbito de búsqueda
   description_filter: Filtro
   description_user_mail_notification: Configuración de notificaciones por correo
-  description_date_from: Introduzca la fecha de inicio
   description_message_content: Contenido del mensaje
   description_available_columns: Columnas disponibles
-  description_date_range_interval: Elija el rango seleccionando la fecha de inicio y fin
   description_issue_category_reassign: Elija la categoría de la petición
   description_search: Campo de búsqueda
   description_notes: Notas
-  description_date_range_list: Elija el rango en la lista
   description_choose_project: Proyectos
-  description_date_to: Introduzca la fecha fin
   description_query_sort_criteria_attribute: Atributo de ordenación
   description_wiki_subpages_reassign: Elija la nueva página padre
   description_selected_columns: Columnas seleccionadas

@@ -999,16 +999,12 @@ ja:
   description_project_scope: 検索範囲
   description_filter: Filter
   description_user_mail_notification: メール通知の設定
-  description_date_from: 開始日
   description_message_content: 内容
   description_available_columns: 利用できる項目
-  description_date_range_interval: 日付で指定
   description_issue_category_reassign: 新しいカテゴリを選択してください
   description_search: 検索キーワード
   description_notes: 注記
-  description_date_range_list: 一覧から選択
   description_choose_project: プロジェクト
-  description_date_to: 終了日
   description_query_sort_criteria_attribute: 項目
   description_wiki_subpages_reassign: 新しい親ページを選択してください
   description_selected_columns: 選択された項目

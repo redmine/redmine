@@ -962,16 +962,12 @@ sk:
   description_project_scope: Rozsah vyhľadávania
   description_filter: Filter
   description_user_mail_notification: Nastavenia upozornení emailom
-  description_date_from: Zadajte počiatočný dátum
   description_message_content: Obsah správy
   description_available_columns: Dostupné stĺpce
-  description_date_range_interval: Zvoľte obdobie zadaním počiatočného a koncového dátumu
   description_issue_category_reassign: Vybrať kategóriu úlohy
   description_search: Vyhľadávanie
   description_notes: Poznámky
-  description_date_range_list: Vyberte zo zoznamu obdobie
   description_choose_project: Projekty
-  description_date_to: Zadajte koncový dátum
   description_query_sort_criteria_attribute: Atribút triedenia
   description_wiki_subpages_reassign: Vybrať novú nadradenú stránku
   description_selected_columns: Vybrané stĺpce

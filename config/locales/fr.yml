@@ -1212,10 +1212,6 @@ fr:
   description_all_columns: Toutes les colonnes
   description_issue_category_reassign: Choisir une catégorie
   description_wiki_subpages_reassign: Choisir une nouvelle page parent
-  description_date_range_list: Choisir une période prédéfinie
-  description_date_range_interval: Choisir une période
-  description_date_from: Date de début
-  description_date_to: Date de fin
   text_repository_identifier_info: 'Seuls les lettres minuscules (a-z), chiffres, tirets et tirets bas sont autorisés.<br />Un fois sauvegardé, l''identifiant ne pourra plus être modifié.'
   label_parent_task_attributes_derived: Calculé à partir des sous-tâches
   label_parent_task_attributes_independent: Indépendent des sous-tâches

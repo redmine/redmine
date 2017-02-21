@@ -1023,16 +1023,12 @@ vi:
   description_project_scope: Phạm vi tìm kiếm
   description_filter: Lọc
   description_user_mail_notification: Thiết lập email thông báo
-  description_date_from: Nhập ngày bắt đầu
   description_message_content: Nội dung thông điệp
   description_available_columns: Các cột có sẵn
-  description_date_range_interval: Chọn khoảng thời gian giữa ngày bắt đầu và kết thúc
   description_issue_category_reassign: Chọn danh mục vấn đề
   description_search: Trường tìm kiếm
   description_notes: Các chú ý
-  description_date_range_list: Chọn khoảng từ danh sách
   description_choose_project: Các dự án
-  description_date_to: Nhập ngày kết thúc
   description_query_sort_criteria_attribute: Sắp xếp thuộc tính
   description_wiki_subpages_reassign: Chọn một trang cấp trên
   label_parent_revision: Cha
