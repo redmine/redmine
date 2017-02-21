@@ -13,7 +13,12 @@ $(document).ready(function() {
 	        }
 	      })
 	    }, 100)
-	    
+
+    var hash = window.location.hash;
+    if (hash) {
+        var selectedTab = $('.nav li a[href="' + hash + '"]');
+        selectedTab.trigger('click', true);
+    }
 	// -- Bootstrap widget calls
 	// jQuery('.dropdown-toggle').dropdown();
 	jQuery(".alert").alert();

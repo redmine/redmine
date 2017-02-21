@@ -57,6 +57,23 @@
 
              return t;
          }(document, "script", "twitter-wjs"));</script>
+
+        <script>
+            window.addEventListener('message',function(e) {
+                var key = e.message ? 'message' : 'data';
+                var data = e[key];
+                // if iframe is at dashboard but parent is on project, navigate to homepage
+                if (e.origin + "/" != geppettoIP) { return; }
+                if ((data == geppettoIP + "org.geppetto.frontend/") &&
+                    window.location.search != ""){
+                    if (redmineLogin != "") {
+                        window.location = "/#workspace";
+                    } else {
+                        window.location = "/";
+                    }
+                }
+            },false);
+        </script>
     </head>
     <body class="<%= h body_css_classes %>">
         <nav class="navbar navbar-inverse navbar-fixed-top">
