@@ -544,6 +544,14 @@ class RedCloth3 < String
                 ratts = shelve( ratts ) if ratts
                 rows << "\t\t<tr#{ ratts }>\n#{ cells.join( "\n" ) }\n\t\t</tr>"
             end
+            if rows[0] =~ /th/
+                rows.insert(0,"\t<thead>")
+                rows.insert(2, "\t</thead>\n\t<tbody>")
+            else
+                rows.insert(0, "\t<thead></thead>\n\t<tbody>")
+            end
+            rows << "\t</tbody>\n\t<tfoot></tfoot>"
+
             "\t<table#{ tatts }>\n#{ rows.join( "\n" ) }\n\t</table>\n\n"
         end
     end
