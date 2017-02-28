@@ -82,7 +82,6 @@ class Attachment < ActiveRecord::Base
   def file=(incoming_file)
     unless incoming_file.nil?
       @temp_file = incoming_file
-      if @temp_file.size > 0
         if @temp_file.respond_to?(:original_filename)
           self.filename = @temp_file.original_filename
           self.filename.force_encoding("UTF-8")
@@ -91,7 +90,6 @@ class Attachment < ActiveRecord::Base
           self.content_type = @temp_file.content_type.to_s.chomp
         end
         self.filesize = @temp_file.size
-      end
     end
   end
 
@@ -107,7 +105,7 @@ class Attachment < ActiveRecord::Base
   # Copies the temporary file to its final location
   # and computes its MD5 hash
   def files_to_final_location
-    if @temp_file && (@temp_file.size > 0)
+    if @temp_file
       self.disk_directory = target_directory
       self.disk_filename = Attachment.disk_filename(filename, disk_directory)
       logger.info("Saving attachment '#{self.diskfile}' (#{@temp_file.size} bytes)") if logger

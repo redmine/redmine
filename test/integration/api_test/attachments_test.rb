@@ -171,4 +171,23 @@ class Redmine::ApiTest::AttachmentsTest < Redmine::ApiTest::Base
       end
     end
   end
+
+  test "POST /uploads.json should create an empty file and return a valid token" do
+    set_tmp_attachments_directory
+    assert_difference 'Attachment.count' do
+      post '/uploads.json', '', {"CONTENT_TYPE" => 'application/octet-stream'}.merge(credentials('jsmith'))
+      assert_response :created
+
+    end
+
+    json = ActiveSupport::JSON.decode(response.body)
+    assert_kind_of Hash, json['upload']
+    token = json['upload']['token']
+    assert token.present?
+
+    assert attachment = Attachment.find_by_token(token)
+    assert_equal 0, attachment.filesize
+    assert attachment.digest.present?
+    assert File.exist? attachment.diskfile
+  end
 end
