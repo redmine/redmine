@@ -76,7 +76,9 @@ class CustomFieldsController < ApplicationController
 
   def destroy
     begin
-      @custom_field.destroy
+      if @custom_field.destroy
+        flash[:notice] = l(:notice_successful_delete)
+      end
     rescue
       flash[:error] = l(:error_can_not_delete_custom_field)
     end
