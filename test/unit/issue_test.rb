@@ -810,7 +810,6 @@ class IssueTest < ActiveSupport::TestCase
     assert_include 'tracker_id', issue.safe_attribute_names
     assert_include 'status_id', issue.safe_attribute_names
     assert_include 'subject', issue.safe_attribute_names
-    assert_include 'description', issue.safe_attribute_names
     assert_include 'custom_field_values', issue.safe_attribute_names
     assert_include 'custom_fields', issue.safe_attribute_names
     assert_include 'lock_version', issue.safe_attribute_names
