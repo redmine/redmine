@@ -276,6 +276,7 @@ class IssueQuery < Query
 
     scope = Issue.visible.
       joins(:status, :project).
+      preload(:priority).
       where(statement).
       includes(([:status, :project] + (options[:include] || [])).uniq).
       where(options[:conditions]).
@@ -284,7 +285,7 @@ class IssueQuery < Query
       limit(options[:limit]).
       offset(options[:offset])
 
-    scope = scope.preload([:tracker, :priority, :author, :assigned_to, :fixed_version, :category] & columns.map(&:name))
+    scope = scope.preload([:tracker, :author, :assigned_to, :fixed_version, :category] & columns.map(&:name))
     if has_custom_field_column?
       scope = scope.preload(:custom_values)
     end
