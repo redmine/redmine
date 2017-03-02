@@ -140,6 +140,9 @@ class IssueQuery < Query
         :values => [[l(:general_text_yes), "1"], [l(:general_text_no), "0"]]
     end
 
+    add_available_filter "attachment",
+      :type => :text, :name => l(:label_attachment)
+
     if User.current.logged?
       add_available_filter "watcher_id",
         :type => :list, :values => [["<< #{l(:label_me)} >>", "me"]]
@@ -435,6 +438,18 @@ class IssueQuery < Query
     va = value.map {|v| v == '0' ? self.class.connection.quoted_false : self.class.connection.quoted_true}.uniq.join(',')
 
     "#{Issue.table_name}.is_private #{op} (#{va})"
+  end
+
+  def sql_for_attachment_field(field, operator, value)
+    case operator
+    when "*", "!*"
+      e = (operator == "*" ? "EXISTS" : "NOT EXISTS")
+      "#{e} (SELECT 1 FROM #{Attachment.table_name} a WHERE a.container_type = 'Issue' AND a.container_id = #{Issue.table_name}.id)"
+    when "~", "!~"
+      c = sql_contains("a.filename", value.first)
+      e = (operator == "~" ? "EXISTS" : "NOT EXISTS")
+      "#{e} (SELECT 1 FROM #{Attachment.table_name} a WHERE a.container_type = 'Issue' AND a.container_id = #{Issue.table_name}.id AND #{c})"
+    end
   end
 
   def sql_for_parent_id_field(field, operator, value)

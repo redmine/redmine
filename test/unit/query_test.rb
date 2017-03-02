@@ -29,7 +29,8 @@ class QueryTest < ActiveSupport::TestCase
            :queries,
            :projects_trackers,
            :custom_fields_trackers,
-           :workflows
+           :workflows,
+           :attachments
 
   def setup
     User.current = nil
@@ -1192,6 +1193,38 @@ class QueryTest < ActiveSupport::TestCase
 
     query.filters = {"child_id" => {:operator => '~', :values =>  '99999999999'}}
     assert_equal [].map(&:id).sort, find_issues_with_query(query)
+  end
+
+  def test_filter_on_attachment_any
+    query = IssueQuery.new(:name => '_')
+    query.filters = {"attachment" => {:operator => '*', :values =>  ['']}}
+    issues = find_issues_with_query(query)
+    assert issues.any?
+    assert_nil issues.detect {|issue| issue.attachments.empty?}
+  end
+
+  def test_filter_on_attachment_none
+    query = IssueQuery.new(:name => '_')
+    query.filters = {"attachment" => {:operator => '!*', :values =>  ['']}}
+    issues = find_issues_with_query(query)
+    assert issues.any?
+    assert_nil issues.detect {|issue| issue.attachments.any?}
+  end
+
+  def test_filter_on_attachment_contains
+    query = IssueQuery.new(:name => '_')
+    query.filters = {"attachment" => {:operator => '~', :values =>  ['error281']}}
+    issues = find_issues_with_query(query)
+    assert issues.any?
+    assert_nil issues.detect {|issue| ! issue.attachments.any? {|attachment| attachment.filename.include?('error281')}}
+  end
+
+  def test_filter_on_attachment_not_contains
+    query = IssueQuery.new(:name => '_')
+    query.filters = {"attachment" => {:operator => '!~', :values =>  ['error281']}}
+    issues = find_issues_with_query(query)
+    assert issues.any?
+    assert_nil issues.detect {|issue| issue.attachments.any? {|attachment| attachment.filename.include?('error281')}}
   end
 
   def test_statement_should_be_nil_with_no_filters
