@@ -18,9 +18,12 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class VersionsControllerTest < Redmine::ControllerTest
-  fixtures :projects, :versions, :issues, :users, :roles, :members,
-           :member_roles, :enabled_modules, :issue_statuses,
-           :issue_categories, :enumerations
+  fixtures :projects, :enabled_modules,
+           :trackers, :projects_trackers,
+           :versions, :issue_statuses, :issue_categories, :enumerations,
+           :issues,
+           :users, :email_addresses,
+           :roles, :members, :member_roles
 
   def setup
     User.current = nil
