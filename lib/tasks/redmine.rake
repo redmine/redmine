@@ -103,6 +103,9 @@ DESC
       Target.connection.reset_pk_sequence!(table_name) if Target.primary_key
       target_count = Target.count
       abort "Some records were not migrated" unless source_count == target_count
+
+      Object.send(:remove_const, :Target)
+      Object.send(:remove_const, :Source)
     end
   end
 
