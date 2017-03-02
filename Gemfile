@@ -15,7 +15,7 @@ gem "actionpack-xml_parser"
 gem "roadie-rails"
 gem "mimemagic"
 
-gem "nokogiri", "~> 1.6.8"
+gem "nokogiri", (RUBY_VERSION >= "2.1" ? ">= 1.7.0" : "~> 1.6.8")
 gem "i18n", "~> 0.7.0"
 
 # Request at least rails-html-sanitizer 1.0.3 because of security advisories 
