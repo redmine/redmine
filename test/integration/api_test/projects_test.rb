@@ -114,6 +114,14 @@ class Redmine::ApiTest::ProjectsTest < Redmine::ApiTest::Base
     assert_select 'issue_categories[type=array] issue_category[id="2"][name=Recipes]'
   end
 
+  test "GET /projects/:id.xml with include=time_entry_activities should return activities" do
+    get '/projects/1.xml?include=time_entry_activities'
+    assert_response :success
+    assert_equal 'application/xml', @response.content_type
+
+    assert_select 'time_entry_activities[type=array] time_entry_activity[id="10"][name=Development]'
+  end
+
   test "GET /projects/:id.xml with include=trackers should return trackers" do
     get '/projects/1.xml?include=trackers'
     assert_response :success

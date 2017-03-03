@@ -120,11 +120,16 @@ module ProjectsHelper
       end
     end if include_in_api_response?('issue_categories')
 
+    api.array :time_entry_activities do
+      project.activities.each do |activity|
+        api.time_entry_activity(:id => activity.id, :name => activity.name)
+      end
+    end if include_in_api_response?('time_entry_activities')
+
     api.array :enabled_modules do
       project.enabled_modules.each do |enabled_module|
         api.enabled_module(:id => enabled_module.id, :name => enabled_module.name)
       end
     end if include_in_api_response?('enabled_modules')
-
   end
 end
