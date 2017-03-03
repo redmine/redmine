@@ -68,13 +68,15 @@ class TimeEntryQueryTest < ActiveSupport::TestCase
     TimeEntry.generate!(:activity => override, :hours => 2.0)
     TimeEntry.generate!(:activity => other, :hours => 4.0)
 
-    query = TimeEntryQuery.new(:name => '_')
-    query.add_filter('activity_id', '=', [system.id.to_s])
-    assert_equal 3.0, query.results_scope.sum(:hours)
+    with_current_user User.find(2) do
+      query = TimeEntryQuery.new(:name => '_')
+      query.add_filter('activity_id', '=', [system.id.to_s])
+      assert_equal 3.0, query.results_scope.sum(:hours)
 
-    query = TimeEntryQuery.new(:name => '_')
-    query.add_filter('activity_id', '!', [system.id.to_s])
-    assert_equal 4.0, query.results_scope.sum(:hours)
+      query = TimeEntryQuery.new(:name => '_')
+      query.add_filter('activity_id', '!', [system.id.to_s])
+      assert_equal 4.0, query.results_scope.sum(:hours)
+    end
   end
 
   def test_project_query_should_include_project_issue_custom_fields_only_as_filters

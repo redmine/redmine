@@ -24,6 +24,11 @@ class Redmine::VersionFieldFormatTest < ActionView::TestCase
            :issue_statuses, :issue_categories, :issue_relations, :workflows,
            :enumerations
 
+  def setup
+    super
+    User.current = nil
+  end
+
   def test_version_status_should_reject_blank_values
     field = IssueCustomField.new(:name => 'Foo', :field_format => 'version', :version_status => ["open", ""])
     field.save!
