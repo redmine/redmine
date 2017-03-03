@@ -82,6 +82,22 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
     end
   end
 
+  test "GET /issues.xml with attachments" do
+    get '/issues.xml?include=attachments'
+
+    assert_response :success
+    assert_equal 'application/xml', @response.content_type
+
+    assert_select 'issue id', :text => '3' do
+      assert_select '~ attachments attachment', 4
+    end
+
+    assert_select 'issue id', :text => '1' do
+      assert_select '~ attachments'
+      assert_select '~ attachments attachment', 0
+    end
+  end
+
   test "GET /issues.xml with invalid query params" do
     get '/issues.xml', {:f => ['start_date'], :op => {:start_date => '='}}
 
