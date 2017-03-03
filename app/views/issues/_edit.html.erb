@@ -69,7 +69,7 @@
     <%= hidden_field_tag 'last_journal_id', params[:last_journal_id] || @issue.last_journal_id %>
     <%= submit_tag l(:button_submit) %>
     <%= preview_link preview_edit_issue_path(:project_id => @project, :id => @issue), 'issue-form' %>
-    | <%= link_to l(:button_cancel), {}, :onclick => "$('#update').hide(); return false;" %>
+    | <%= link_to l(:button_cancel), issue_path(id: @issue.id), :onclick => params[:action] == 'show' ? "$('#update').hide(); return false;" : '' %>
 
     <%= hidden_field_tag 'prev_issue_id', @prev_issue_id if @prev_issue_id %>
     <%= hidden_field_tag 'next_issue_id', @next_issue_id if @next_issue_id %>

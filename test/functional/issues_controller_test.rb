@@ -4852,4 +4852,20 @@ class IssuesControllerTest < Redmine::ControllerTest
     User.add_to_project(user, Project.find(2), Role.find_by_name('Manager'))
     user
   end
+
+  def test_cancel_edit_link_for_issue_show_action_should_have_onclick_action
+    @request.session[:user_id] = 1
+
+    get :show, :id => 1
+    assert_response :success
+    assert_select 'a[href=?][onclick=?]', "/issues/1", "$('#update').hide(); return false;", :text => 'Cancel'
+  end
+
+  def test_cancel_edit_link_for_issue_edit_action_should_not_have_onclick_action
+    @request.session[:user_id] = 1
+
+    get :edit, :id => 1
+    assert_response :success
+    assert_select 'a[href=?][onclick=?]', "/issues/1", "", :text => 'Cancel'
+  end
 end
