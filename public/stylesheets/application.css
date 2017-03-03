@@ -1131,6 +1131,12 @@ div.wiki img {vertical-align:middle; max-width:100%;}
 
 .handle {cursor: move;}
 
+body.action-page_layout .block-receiver .contextual {
+  display: none;
+}
+body.action-page_layout .block-receiver .hascontextmenu {
+  cursor: move;
+}
 /***** Gantt chart *****/
 .gantt_hdr {
   position:absolute;
