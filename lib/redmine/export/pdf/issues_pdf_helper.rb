@@ -138,7 +138,7 @@ module Redmine
             pdf.SetFontStyle('B',9)
             pdf.RDMCell(35+155, 5, value.custom_field.name, "LRT", 1)
             pdf.SetFontStyle('',9)
-            pdf.RDMwriteFormattedCell(35+155, 5, '', '', text, issue.attachments, "LRB")
+            pdf.RDMwriteHTMLCell(35+155, 5, '', '', text, issue.attachments, "LRB")
           end
 
           unless issue.leaf?
