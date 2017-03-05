@@ -1021,6 +1021,7 @@ fr:
   label_font_default: Police par défaut
   label_font_monospace: Police non proportionnelle
   label_font_proportional: Police proportionnelle
+  label_last_notes: Dernières notes
 
   button_login: Connexion
   button_submit: Soumettre
