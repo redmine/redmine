@@ -986,6 +986,7 @@ class IssuesControllerTest < Redmine::ControllerTest
   end
 
   def test_index_with_last_notes_column_should_display_private_notes_with_permission_only
+    journal = Journal.create!(:journalized => Issue.find(2), :notes => 'Public notes', :user_id => 1)
     journal = Journal.create!(:journalized => Issue.find(2), :notes => 'Privates notes', :private_notes => true, :user_id => 1)
     @request.session[:user_id] = 2
 
@@ -997,7 +998,7 @@ class IssuesControllerTest < Redmine::ControllerTest
 
     get :index, :set_filter => 1, :c => %w(subject last_notes)
     assert_response :success
-    assert_select 'td.last_notes[colspan="3"]', :text => 'A comment with inline image:  and a reference to #1 and r2.'
+    assert_select 'td.last_notes[colspan="3"]', :text => 'Public notes'
   end
 
   def test_index_with_description_and_last_notes_columns_should_display_column_name
