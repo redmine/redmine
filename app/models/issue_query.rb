@@ -43,6 +43,7 @@ class IssueQuery < Query
     QueryColumn.new(:done_ratio, :sortable => "#{Issue.table_name}.done_ratio", :groupable => true),
     QueryColumn.new(:created_on, :sortable => "#{Issue.table_name}.created_on", :default_order => 'desc'),
     QueryColumn.new(:closed_on, :sortable => "#{Issue.table_name}.closed_on", :default_order => 'desc'),
+    QueryColumn.new(:last_updated_by, :sortable => lambda {User.fields_for_order_statement("last_journal_user")}),
     QueryColumn.new(:relations, :caption => :label_related_issues),
     QueryColumn.new(:description, :inline => false)
   ]
@@ -297,6 +298,9 @@ class IssueQuery < Query
     end
     if has_column?(:total_spent_hours)
       Issue.load_visible_total_spent_hours(issues)
+    end
+    if has_column?(:last_updated_by)
+      Issue.load_visible_last_updated_by(issues)
     end
     if has_column?(:relations)
       Issue.load_visible_relations(issues)
@@ -571,6 +575,11 @@ class IssueQuery < Query
       end
       if order_options.include?('users')
         joins << "LEFT OUTER JOIN #{User.table_name} ON #{User.table_name}.id = #{queried_table_name}.assigned_to_id"
+      end
+      if order_options.include?('last_journal_user')
+        joins << "LEFT OUTER JOIN #{Journal.table_name} ON #{Journal.table_name}.id = (SELECT MAX(#{Journal.table_name}.id) FROM #{Journal.table_name}" +
+                " WHERE #{Journal.table_name}.journalized_type='Issue' AND #{Journal.table_name}.journalized_id=#{Issue.table_name}.id AND #{Journal.visible_notes_condition(User.current, :skip_pre_condition => true)})" +
+                " LEFT OUTER JOIN #{User.table_name} last_journal_user ON last_journal_user.id = #{Journal.table_name}.user_id";
       end
       if order_options.include?('versions')
         joins << "LEFT OUTER JOIN #{Version.table_name} ON #{Version.table_name}.id = #{queried_table_name}.fixed_version_id"

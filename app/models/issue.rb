@@ -245,6 +245,7 @@ class Issue < ActiveRecord::Base
     @spent_hours = nil
     @total_spent_hours = nil
     @total_estimated_hours = nil
+    @last_updated_by = nil
     base_reload(*args)
   end
 
@@ -1069,6 +1070,14 @@ class Issue < ActiveRecord::Base
     @relations ||= IssueRelation::Relations.new(self, (relations_from + relations_to).sort)
   end
 
+  def last_updated_by
+    if @last_updated_by
+      @last_updated_by.presence
+    else
+      journals.reorder(:id => :desc).first.try(:user)
+    end
+  end
+
   # Preloads relations for a collection of issues
   def self.load_relations(issues)
     if issues.any?
@@ -1130,6 +1139,23 @@ class Issue < ActiveRecord::Base
         " AND ancestors.lft <= #{Issue.table_name}.lft AND ancestors.rgt >= #{Issue.table_name}.rgt"
       ).
       where(:ancestors => {:id => issues.map(&:id)})
+  end
+
+  # Preloads users who updated last a collection of issues
+  def self.load_visible_last_updated_by(issues, user=User.current)
+     if issues.any?
+      issue_ids = issues.map(&:id)
+      journals = Journal.joins(issue: :project).preload(:user).
+        where(:journalized_type => 'Issue', :journalized_id => issue_ids).
+        where("#{Journal.table_name}.id = (SELECT MAX(j.id) FROM #{Journal.table_name} j" +
+              " WHERE j.journalized_type='Issue' AND j.journalized_id=#{Journal.table_name}.journalized_id" +
+              " AND #{Journal.visible_notes_condition(user, :skip_pre_condition => true)})").to_a
+
+      issues.each do |issue|
+        journal = journals.detect {|j| j.journalized_id == issue.id}
+        issue.instance_variable_set("@last_updated_by", journal.try(:user) || '')
+      end
+    end
   end
 
   # Finds an issue relation given its id.

@@ -741,6 +741,18 @@ class IssuesControllerTest < Redmine::ControllerTest
     assert_response :success
   end
 
+  def test_index_sort_by_last_updated_by
+    get :index, :sort => 'last_updated_by'
+    assert_response :success
+    assert_select 'table.issues.sort-by-last-updated-by.sort-asc'
+  end
+
+  def test_index_sort_by_last_updated_by_desc
+    get :index, :sort => 'last_updated_by:desc'
+    assert_response :success
+    assert_select 'table.issues.sort-by-last-updated-by.sort-desc'
+  end
+
   def test_index_sort_by_spent_hours
     get :index, :sort => 'spent_hours:desc'
     assert_response :success
@@ -968,6 +980,13 @@ class IssuesControllerTest < Redmine::ControllerTest
 
     assert_select 'td.parent', :text => "#{parent.tracker} ##{parent.id}"
     assert_select 'td.parent a[title=?]', parent.subject
+  end
+
+  def test_index_with_last_updated_by_column
+    get :index, :c => %w(subject last_updated_by), :issue_id => '1,2,3', :sort => 'id', :set_filter => '1'
+
+    assert_select 'td.last_updated_by'
+    assert_equal ["John Smith", "John Smith", ""], css_select('td.last_updated_by').map(&:text)
   end
 
   def test_index_with_estimated_hours_total

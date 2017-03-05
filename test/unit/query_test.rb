@@ -29,7 +29,7 @@ class QueryTest < ActiveSupport::TestCase
            :queries,
            :projects_trackers,
            :custom_fields_trackers,
-           :workflows,
+           :workflows, :journals,
            :attachments
 
   INTEGER_KLASS = RUBY_VERSION >= "2.4" ? Integer : Fixnum
@@ -762,7 +762,7 @@ class QueryTest < ActiveSupport::TestCase
       query = IssueQuery.new(:name => '_')
       filter_name = "updated_by"
       assert_include filter_name, query.available_filters.keys
-  
+
       query.filters = {filter_name => {:operator => '=', :values => ['me']}}
       assert_equal [2], find_issues_with_query(query).map(&:id).sort
     end
@@ -1322,6 +1322,19 @@ class QueryTest < ActiveSupport::TestCase
     assert_not_nil issues.first.instance_variable_get("@spent_hours")
   end
 
+  def test_query_should_preload_last_updated_by
+    with_current_user User.find(2) do
+      q = IssueQuery.new(:name => '_', :column_names => [:subject, :last_updated_by])
+      q.filters = {"issue_id" => {:operator => '=', :values => ['1,2,3']}}
+      assert q.has_column?(:last_updated_by)
+
+      issues = q.issues.sort_by(&:id)
+      assert issues.all? {|issue| !issue.instance_variable_get("@last_updated_by").nil?}
+      assert_equal ["User", "User", "NilClass"], issues.map { |i| i.last_updated_by.class.name}
+      assert_equal ["John Smith", "John Smith", ""], issues.map { |i| i.last_updated_by.to_s }
+    end
+  end
+
   def test_groupable_columns_should_include_custom_fields
     q = IssueQuery.new
     column = q.groupable_columns.detect {|c| c.name == :cf_1}
@@ -1381,6 +1394,16 @@ class QueryTest < ActiveSupport::TestCase
       q = IssueQuery.new
       assert q.sortable_columns.has_key?('author')
       assert_equal %w(authors.lastname authors.firstname authors.id), q.sortable_columns['author']
+    end
+  end
+
+  def test_sortable_columns_should_sort_last_updated_by_according_to_user_format_setting
+    with_settings :user_format => 'lastname_comma_firstname' do
+      q = IssueQuery.new
+      q.sort_criteria = [['last_updated_by', 'desc']]
+
+      assert q.sortable_columns.has_key?('last_updated_by')
+      assert_equal %w(last_journal_user.lastname last_journal_user.firstname last_journal_user.id), q.sortable_columns['last_updated_by']
     end
   end
 
