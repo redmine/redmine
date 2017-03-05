@@ -1083,8 +1083,7 @@ class Issue < ActiveRecord::Base
     if @last_notes
       @last_notes
     else
-      notes = self.journals.visible.where.not(notes: '').to_a
-      notes.last.notes unless notes.empty?
+      journals.where.not(notes: '').reorder(:id => :desc).first.try(:notes)
     end
   end
 
