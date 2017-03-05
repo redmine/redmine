@@ -185,6 +185,8 @@ module QueriesHelper
       value ? (value.visible? ? link_to_issue(value, :subject => false) : "##{value.id}") : ''
     when :description
       item.description? ? content_tag('div', textilizable(item, :description), :class => "wiki") : ''
+    when :last_notes
+      item.last_notes.present? ? content_tag('div', textilizable(item, :last_notes), :class => "wiki") : ''
     when :done_ratio
       progress_bar(value)
     when :relations

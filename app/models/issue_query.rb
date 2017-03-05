@@ -45,7 +45,8 @@ class IssueQuery < Query
     QueryColumn.new(:closed_on, :sortable => "#{Issue.table_name}.closed_on", :default_order => 'desc'),
     QueryColumn.new(:last_updated_by, :sortable => lambda {User.fields_for_order_statement("last_journal_user")}),
     QueryColumn.new(:relations, :caption => :label_related_issues),
-    QueryColumn.new(:description, :inline => false)
+    QueryColumn.new(:description, :inline => false),
+    QueryColumn.new(:last_notes, :caption => :label_last_notes, :inline => false)
   ]
 
   def initialize(attributes=nil, *args)
@@ -304,6 +305,9 @@ class IssueQuery < Query
     end
     if has_column?(:relations)
       Issue.load_visible_relations(issues)
+    end
+    if has_column?(:last_notes)
+      Issue.load_visible_last_notes(issues)
     end
     issues
   rescue ::ActiveRecord::StatementInvalid => e

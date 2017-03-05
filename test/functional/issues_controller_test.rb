@@ -971,6 +971,43 @@ class IssuesControllerTest < Redmine::ControllerTest
     assert_equal 'application/pdf', response.content_type
   end
 
+  def test_index_with_last_notes_column
+    get :index, :set_filter => 1, :c => %w(subject last_notes)
+
+    assert_response :success
+    assert_select 'table.issues thead th', 3 # columns: chekbox + id + subject
+
+    assert_select 'td.last_notes[colspan="3"]', :text => 'Some notes with Redmine links: #2, r2.'
+    assert_select 'td.last_notes[colspan="3"]', :text => 'A comment with inline image:  and a reference to #1 and r2.'
+
+    get :index, :set_filter => 1, :c => %w(subject last_notes), :format => 'pdf'
+    assert_response :success
+    assert_equal 'application/pdf', response.content_type
+  end
+
+  def test_index_with_last_notes_column_should_display_private_notes_with_permission_only
+    journal = Journal.create!(:journalized => Issue.find(2), :notes => 'Privates notes', :private_notes => true, :user_id => 1)
+    @request.session[:user_id] = 2
+
+    get :index, :set_filter => 1, :c => %w(subject last_notes)
+    assert_response :success
+    assert_select 'td.last_notes[colspan="3"]', :text => 'Privates notes'
+
+    Role.find(1).remove_permission! :view_private_notes
+
+    get :index, :set_filter => 1, :c => %w(subject last_notes)
+    assert_response :success
+    assert_select 'td.last_notes[colspan="3"]', :text => 'A comment with inline image:  and a reference to #1 and r2.'
+  end
+
+  def test_index_with_description_and_last_notes_columns_should_display_column_name
+    get :index, :set_filter => 1, :c => %w(subject last_notes description)
+    assert_response :success
+
+    assert_select 'td.last_notes[colspan="3"] span', :text => 'Last notes'
+    assert_select 'td.description[colspan="3"] span', :text => 'Description'
+  end
+
   def test_index_with_parent_column
     Issue.delete_all
     parent = Issue.generate!

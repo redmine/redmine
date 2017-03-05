@@ -278,8 +278,8 @@ module Redmine
             table_width = col_width.inject(0, :+)
           end
   
-          # use full width if the description is displayed
-          if table_width > 0 && query.has_column?(:description)
+          # use full width if the description or last_notes are displayed
+          if table_width > 0 && (query.has_column?(:description) || query.has_column?(:last_notes))
             col_width = col_width.map {|w| w * (page_width - right_margin - left_margin) / table_width}
             table_width = col_width.inject(0, :+)
           end
@@ -339,6 +339,13 @@ module Redmine
               pdf.RDMwriteHTMLCell(0, 5, 10, '', issue.description.to_s, issue.attachments, "LRBT")
               pdf.set_auto_page_break(false)
             end
+
+            if query.has_column?(:last_notes) && issue.last_notes.present?
+              pdf.set_x(10)
+              pdf.set_auto_page_break(true, bottom_margin)
+              pdf.RDMwriteHTMLCell(0, 5, 10, '', issue.last_notes.to_s, [], "LRBT")
+              pdf.set_auto_page_break(false)
+          end
           end
   
           if issues.size == Setting.issues_export_limit.to_i

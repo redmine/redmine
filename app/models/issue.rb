@@ -246,6 +246,7 @@ class Issue < ActiveRecord::Base
     @total_spent_hours = nil
     @total_estimated_hours = nil
     @last_updated_by = nil
+    @last_notes = nil
     base_reload(*args)
   end
 
@@ -1078,6 +1079,15 @@ class Issue < ActiveRecord::Base
     end
   end
 
+  def last_notes
+    if @last_notes
+      @last_notes
+    else
+      notes = self.journals.visible.where.not(notes: '').to_a
+      notes.last.notes unless notes.empty?
+    end
+  end
+
   # Preloads relations for a collection of issues
   def self.load_relations(issues)
     if issues.any?
@@ -1154,6 +1164,22 @@ class Issue < ActiveRecord::Base
       issues.each do |issue|
         journal = journals.detect {|j| j.journalized_id == issue.id}
         issue.instance_variable_set("@last_updated_by", journal.try(:user) || '')
+      end
+    end
+  end
+
+  # Preloads visible last notes for a collection of issues
+  def self.load_visible_last_notes(issues, user=User.current)
+    if issues.any?
+      issue_ids = issues.map(&:id)
+
+      notes = Journal.joins(issue: :project).where.not(notes: '').
+        where(Journal.visible_notes_condition(User.current, :skip_pre_condition => true)).
+        where(:issues => {:id => issue_ids}).order("#{Journal.table_name}.id ASC").to_a
+
+      issues.each do |issue|
+        note = notes.select{|note| note.journalized_id == issue.id}
+        issue.instance_variable_set "@last_notes", (note.empty? ? '' : note.last.notes)
       end
     end
   end

@@ -1302,10 +1302,10 @@ class QueryTest < ActiveSupport::TestCase
 
   def test_inline_and_block_columns
     q = IssueQuery.new
-    q.column_names = ['subject', 'description', 'tracker']
+    q.column_names = ['subject', 'description', 'tracker', 'last_notes']
 
     assert_equal [:id, :subject, :tracker], q.inline_columns.map(&:name)
-    assert_equal [:description], q.block_columns.map(&:name)
+    assert_equal [:description, :last_notes], q.block_columns.map(&:name)
   end
 
   def test_custom_field_columns_should_be_inline
@@ -1333,6 +1333,13 @@ class QueryTest < ActiveSupport::TestCase
       assert_equal ["User", "User", "NilClass"], issues.map { |i| i.last_updated_by.class.name}
       assert_equal ["John Smith", "John Smith", ""], issues.map { |i| i.last_updated_by.to_s }
     end
+  end
+
+  def test_query_should_preload_last_notes
+    q = IssueQuery.new(:name => '_', :column_names => [:subject, :last_notes])
+    assert q.has_column?(:last_notes)
+    issues = q.issues
+    assert_not_nil issues.first.instance_variable_get("@last_notes")
   end
 
   def test_groupable_columns_should_include_custom_fields

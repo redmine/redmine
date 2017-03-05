@@ -1014,6 +1014,7 @@ en:
   label_font_default: Default font
   label_font_monospace: Monospaced font
   label_font_proportional: Proportional font
+  label_last_notes: Last notes
 
   button_login: Login
   button_submit: Submit
