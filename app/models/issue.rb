@@ -1172,14 +1172,16 @@ class Issue < ActiveRecord::Base
   def self.load_visible_last_notes(issues, user=User.current)
     if issues.any?
       issue_ids = issues.map(&:id)
-
-      notes = Journal.joins(issue: :project).where.not(notes: '').
-        where(Journal.visible_notes_condition(User.current, :skip_pre_condition => true)).
-        where(:issues => {:id => issue_ids}).order("#{Journal.table_name}.id ASC").to_a
+      journals = Journal.joins(issue: :project).
+        where(:journalized_type => 'Issue', :journalized_id => issue_ids).
+        where("#{Journal.table_name}.id = (SELECT MAX(j.id) FROM #{Journal.table_name} j" +
+              " WHERE j.journalized_type='Issue' AND j.journalized_id=#{Journal.table_name}.journalized_id" +
+              " AND j.notes <> ''" +
+              " AND #{Journal.visible_notes_condition(user, :skip_pre_condition => true)})").to_a
 
       issues.each do |issue|
-        note = notes.select{|note| note.journalized_id == issue.id}
-        issue.instance_variable_set "@last_notes", (note.empty? ? '' : note.last.notes)
+        journal = journals.detect {|j| j.journalized_id == issue.id}
+        issue.instance_variable_set("@last_notes", journal.try(:notes) || '')
       end
     end
   end
