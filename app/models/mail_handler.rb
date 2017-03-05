@@ -445,19 +445,21 @@ class MailHandler < ActionMailer::Base
   def plain_text_body
     return @plain_text_body unless @plain_text_body.nil?
 
-    parts = if (text_parts = email.all_parts.select {|p| p.mime_type == 'text/plain'}).present?
-              text_parts
-            elsif (html_parts = email.all_parts.select {|p| p.mime_type == 'text/html'}).present?
-              html_parts
-            else
-              [email]
-            end
+    @plain_text_body = email_parts_to_text(email.all_parts.select {|p| p.mime_type == 'text/plain'}).presence
 
+    @plain_text_body ||= email_parts_to_text(email.all_parts.select {|p| p.mime_type == 'text/html'}).presence
+
+    @plain_text_body ||= email_parts_to_text([email])
+
+    @plain_text_body
+  end
+
+  def email_parts_to_text(parts)
     parts.reject! do |part|
       part.attachment?
     end
 
-    @plain_text_body = parts.map do |p|
+    parts.map do |p|
       body_charset = Mail::RubyVer.respond_to?(:pick_encoding) ?
                        Mail::RubyVer.pick_encoding(p.charset).to_s : p.charset
 
@@ -465,8 +467,6 @@ class MailHandler < ActionMailer::Base
       # convert html parts to text
       p.mime_type == 'text/html' ? self.class.html_body_to_text(body) : self.class.plain_text_body_to_text(body)
     end.join("\r\n")
-
-    @plain_text_body
   end
 
   def cleaned_up_text_body

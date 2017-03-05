@@ -623,6 +623,11 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_include 'third', issue.description
   end
 
+  def test_empty_text_part_should_not_stop_looking_for_content
+    issue = submit_email('empty_text_part.eml', :issue => {:project => 'ecookbook'})
+    assert_equal 'The html part.', issue.description
+  end
+
   def test_attachment_text_part_should_be_added_as_issue_attachment
     issue = submit_email('multiple_text_parts.eml', :issue => {:project => 'ecookbook'})
     assert_not_include 'Plain text attachment', issue.description
