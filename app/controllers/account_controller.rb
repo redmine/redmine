@@ -80,13 +80,18 @@ class AccountController < ApplicationController
         return
       end
       if request.post?
-        @user.password, @user.password_confirmation = params[:new_password], params[:new_password_confirmation]
-        if @user.save
-          @token.destroy
-          Mailer.password_updated(@user)
-          flash[:notice] = l(:notice_account_password_updated)
-          redirect_to signin_path
-          return
+        if @user.must_change_passwd? && @user.check_password?(params[:new_password])
+          flash.now[:error] = l(:notice_new_password_must_be_different)
+        else
+          @user.password, @user.password_confirmation = params[:new_password], params[:new_password_confirmation]
+          @user.must_change_passwd = false
+          if @user.save
+            @token.destroy
+            Mailer.password_updated(@user)
+            flash[:notice] = l(:notice_account_password_updated)
+            redirect_to signin_path
+            return
+          end
         end
       end
       render :template => "account/password_recovery"
