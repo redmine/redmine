@@ -1160,7 +1160,7 @@ class Issue < ActiveRecord::Base
         group(:journalized_id).
         maximum(:id).
         values
-      journals = Journal.where(:id => journal_ids).to_a
+      journals = Journal.where(:id => journal_ids).preload(:user).to_a
 
       issues.each do |issue|
         journal = journals.detect {|j| j.journalized_id == issue.id}
