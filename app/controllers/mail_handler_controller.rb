@@ -16,6 +16,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class MailHandlerController < ActionController::Base
+  include Redmine::Hook::Helper
   before_action :check_credential
 
   # Displays the email submission form
@@ -26,7 +27,8 @@ class MailHandlerController < ActionController::Base
   def index
     options = params.dup
     email = options.delete(:email)
-    if MailHandler.receive(email, options)
+    if object = MailHandler.receive(email, options)
+      call_issues_hook(object)
       head :created
     else
       head :unprocessable_entity
@@ -39,6 +41,15 @@ class MailHandlerController < ActionController::Base
     User.current = nil
     unless Setting.mail_handler_api_enabled? && params[:key].to_s == Setting.mail_handler_api_key
       render :plain => 'Access denied. Incoming emails WS is disabled or key is invalid.', :status => 403
+    end
+  end
+
+  def call_issues_hook(object)
+    case object
+    when Issue
+      call_hook(:controller_issues_new_after_save, { :params => params, :issue => object })
+    when Journal
+      call_hook(:controller_issues_edit_after_save, { :params => params, :issue => object.issue, :journal => object })
     end
   end
 end
