@@ -378,7 +378,7 @@ module ApplicationHelper
         :class => 'drdn-content'
       )
 
-    content_tag('span', trigger + content, :id => "project-jump", :class => "drdn")
+    content_tag('div', trigger + content, :id => "project-jump", :class => "drdn")
   end
 
   def project_tree_options_for_select(projects, options = {})
