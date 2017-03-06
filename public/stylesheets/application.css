@@ -1982,6 +1982,10 @@ input[type="checkbox"] {
 }
 /* TAGS */
 
+.delete-tag {
+    padding-right: 10px;
+}
+
 #tagsContainer .control-label {
     float: left;
     margin-top: 5px;

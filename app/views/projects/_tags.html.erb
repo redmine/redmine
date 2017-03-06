@@ -8,7 +8,7 @@
     <% if roles.include? 'Developer' or roles.include? 'Manager' or User.current.admin? %>
 	<%= label_tag 'omv_title', 'Add a tag', :class => "control-label" %>
 	<div class="controls">
-	    <%= text_field_tag 'new_tag', '', :size => 40, :class =>'input-medium', :id=>'new_tag' %>
+	    <%= text_field_tag 'new_tag', '', :size => 40, :class =>'input-medium form-control', :id=>'new_tag' %>
 	</div>	
 	<a href="#" id="add_new_tag"><icon class="icon-plus-sign"/></a>
 	<% availableTags = getAvailableTags() %>

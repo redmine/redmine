@@ -555,10 +555,10 @@ function deleteTag(projectName, tag){
 var warnLeavingUnsavedMessage;
 function warnLeavingUnsaved(message) {
   warnLeavingUnsavedMessage = message;
-  $('form').live('submit', function(){
+  $('form').on('submit', function(){
     $('textarea').removeData('changed');
   });
-  $('textarea').live('change', function(){
+  $('textarea').on('change', function(){
     $(this).data('changed', 'changed');
   });
   window.onbeforeunload = function(){

@@ -208,7 +208,7 @@ module ApplicationHelper
       outputLink << getBaseBadge("#{tooltipLabel}. Click here to see other models with same tag.", create_link_to_search_by_custom_field(fieldId, fieldValueItem, label, '~'), "right", "badge-info")
       if allowEditing
         #TODO: Substitute space in fieldValueItem with underscore
-        deleteBadgeIcon='<a href="#" id="' + fieldValueItem + '" class="delete_tag"><icon class="icon-minus-sign"/></a>'
+        deleteBadgeIcon='<a href="#" id="' + fieldValueItem + '" class="delete-tag"><icon class="icon-minus-sign"/></a>'
         outputLink << deleteBadgeIcon
       end  
     end
