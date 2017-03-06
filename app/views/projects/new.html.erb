@@ -1,10 +1,4 @@
 <div class="pull-right sidetitle">New project <i class="icon-asterisk"></i></div>
 <%= form_for @project, :html => { class: 'form-horizontal new-project' } do |f| %>
     <%= render :partial => 'form', :locals => { :f => f, :hiddenNonRequiredFields => true } %>
-    <div class="view control-group">
-        <div class="nolabelcontrols">
-	    <%= submit_tag l(:button_create), :class=>"btn btn-success btn-large"%>
-            <a href="/docs#Creating_Your_Own_Project" target="_blank"><icon class="icon-3x icon-question-sign"/></a>
-	</div>
-    </div>
 <% end %> 
