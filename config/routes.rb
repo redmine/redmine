@@ -262,6 +262,7 @@ RedmineApp::Application.routes.draw do
   # TODO: delete /time_entries for bulk deletion
   match '/time_entries/destroy', :to => 'timelog#destroy', :via => :delete
 
+  get 'projects/:id/models', :to => 'projects#models'
   get 'projects/:id/activity', :to => 'activities#index'
   get 'projects/:id/activity.:format', :to => 'activities#index'
   get 'activity', :to => 'activities#index'

@@ -32,8 +32,7 @@
         <div class="btn-group-lg" role="group" id="showGroup">
             <button id="showGeppettoBtn" bottom data-title="Hello there!" data-content="Click here to explore this model!" class="btn btn-success" href=#><i class=icon-eye-open></i> Explore model</button>
             <button id="showProjectBtn" class="btn showProject" href="#"><i class="icon-hand-left"></i> Return to project  </button>
-            <button id="moreBtn" class="btn dropdown-toggle" data-toggle="dropdown" href="#">More <span class="caret"></span></button>
-            <ul class="dropdown-menu" id="explorermenu" role="menu" aria-labelledby="dropdownMenu"></ul></li>
+            <a href="<%= @project.identifier %>/models" id="moreBtn" class="btn btn-default" data-toggle="collapse" data-target="#explorermenu" aria-expanded="false" aria-controls="collapseExample">More</span></a>
         </div>
     <% end %>
 </div>

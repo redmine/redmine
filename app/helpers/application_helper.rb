@@ -126,6 +126,7 @@ module ApplicationHelper
                                         tooltip: "This project is endorsed by OSB and has been identified
                                               as fulfilling OSB best practices for projects."},
                                 "1" => {base_text: "OSB endorsed project",
+                                        class: "label-primary",
                                           tooltip: "This project is endorsed by OSB and is officially supported."},
                                 "0" => {base_text: "User Project",
                                         tooltip: "This is a personal user project and has not yet been endorsed by OSB.
@@ -165,7 +166,7 @@ module ApplicationHelper
       return ""
     end
 
-    classes = "#{getBadgeClass(value)} #{custom_classes}"
+    classes = "#{data[:class].nil? ? getBadgeClass(value) : data[:class]} #{custom_classes}"
     tooltip = "#{data[:tooltip]} Click here to see other models with same characteristics."
     text = data[:base_text]
     if data[:has_stars]
@@ -1089,9 +1090,9 @@ module ApplicationHelper
 
     text = text.dup
     macros = catch_macros(text)
-    
+
     text = Redmine::WikiFormatting.to_html(Setting.text_formatting, text, :object => obj, :attribute => attr)
-    
+
     @parsed_headings = []
     @heading_anchors = {}
     @current_section = 0 if options[:edit_section_links]
@@ -1677,6 +1678,7 @@ module ApplicationHelper
     options.merge!({:builder => Redmine::Views::LabelledFormBuilder})
     fields_for(*args, &proc)
   end
+
 
   def labelled_remote_form_for(*args, &proc)
     ActiveSupport::Deprecation.warn "ApplicationHelper#labelled_remote_form_for is deprecated and will be removed in Redmine 2.2."

@@ -14,6 +14,15 @@ $(document).ready(function(){
 	}
     }
 
+    function hasModels(){
+        return (repourl && project_repository != "" && ((neuroml2files != "") || (swcfiles != "")));
+    }
+
+    if (!hasModels()) {
+        $("#moreBtn").hide();
+        $("#showGeppettoBtn").hide();
+    }
+
     $("#moreBtn").click(function(){
 	clearTimeout(projectBtnPopover);
 	$("#showGeppettoBtn").popover("destroy");
@@ -35,7 +44,7 @@ $(document).ready(function(){
     setTimeout(function(){ $("#showGeppettoBtn").popover("destroy"); }, 5000);
 
     if (isProjectOrShowcase) {
-        if (repourl && project_repository != "" && ((neuroml2files != "") || (swcfiles != ""))) {
+        if (hasModels()){
             var submenus = {"networks": networkfiles, "channels": channelfiles,
                             "synapses": synapsefiles, "cells": cellfiles,
                             "other": neuroml2files, "swc": swcfiles};
@@ -44,15 +53,16 @@ $(document).ready(function(){
                 // capitalize title
                 var menu_title = submenu.charAt(0).toUpperCase() + submenu.slice(1);
                 if (submenus[submenu] != "") {
-                    $("#explorermenu").append("<li class=\"menu-item dropdown dropdown-submenu pull-left explorerSubmenu\"><a class=\"dropdown-toggle\" data-toggle=\"dropdown\" tabindex=-1 href=#>"+ menu_title +"</a><ul class=dropdown-menu id=\""+ submenu +"-menu\"></ul></li>");
+                    $("#explorermenu").append("<li class=\"explorerSubmenu\"><a class=\"dropdown-toggle\" data-toggle=\"dropdown\" tabindex=-1 href=#>"+ menu_title +"</a><ul id=\""+ submenu +"-menu\"></ul></li>");
                     for (var i=0; i<files.length; i++) {
                         var file = files[i];
                         var basename = file.split('/').slice(-1)[0];
-                        $("#"+submenu+"-menu").append("<li class=\"submenu-item\" id=" + basename + "><a href=# tabindex=-1 id=\""+ file + "\">"+ file +"</a></li>");
+                        $("#"+submenu+"-menu").append("<li class=\"submenu-item\" id=" + basename + "><a href=# tabindex=-1 id=\""+ file + "\">"+ basename +"</a></li>");
                     }
                 }
             }
-        } else {
+        callGeppetto("projectswithref?reference=" + project_identifier, processCurrentProjects, true);}
+    else {
             $("#explorermenu").append("<li><a tabindex=-1>No NeuroML2 or SWC files found!</a></li>");
         }
     }
@@ -77,7 +87,7 @@ $(document).ready(function(){
 	    var filenameEscape = modelKey.concat(".nml").replace(/([ #;?&,.+*~\':"!^$[\]()=>|\/@])/g,"\\$1");
 	    var subMenu = "<ul class=dropdown-menu>";
 	    for (var projectKey in currentProjectDict[modelKey]){
-	        subMenu += "<li><a href=# tabindex=-1 onclick=open3DExplorer(" + currentProjectDict[modelKey][projectKey].id + ",'<%= @project.identifier%>');>Project: " + modelKey + "</a></li>";
+	        subMenu += "<li><a href=# tabindex=-1 onclick=open3DExplorer(" + currentProjectDict[modelKey][projectKey].id + ",project_identifier)Project: " + modelKey + "</a></li>";
 	    }	
 	    subMenu += "<li><a href=# tabindex=-1 onclick=" + $("[id=" + filenameEscape + "]").find('a').attr("onclick") + ">New Project</a></li>";
 	    subMenu += "</ul>";	
