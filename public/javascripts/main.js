@@ -19,6 +19,13 @@ $(document).ready(function() {
         var selectedTab = $('.nav li a[href="' + hash + '"]');
         selectedTab.trigger('click', true);
     }
+
+    $('.nav-tabs a, .nav-stacked a').click(function (e) {
+          $(this).tab('show');
+          var scrollmem = $('body').scrollTop() || $('html').scrollTop();
+          window.location.hash = this.hash;
+          $('html,body').scrollTop(scrollmem);
+      });
 	// -- Bootstrap widget calls
 	// jQuery('.dropdown-toggle').dropdown();
 	jQuery(".alert").alert();
@@ -70,9 +77,7 @@ $(document).ready(function() {
 	}
 	
 	// -- Transforms redmine selected in bootstrap active flag
-	jQuery("li > .selected").parent().addClass("active");
 	jQuery(".tabli").attr("data-toggle","tab");
-	jQuery('.tab-content .tab-pane').first().addClass('active in');
 	
 	// -- Builds the nav menu in the ovewview section
 	jQuery("#project_overview_sections section").each(function(){
@@ -263,7 +268,6 @@ function toggleProjectButton(){
 }
 
 function showGeppetto(){
-    //clearTimeout(projectBtnPopover);
     toggleProjectButton();
     $("#geppettoContainer").show();
     $(".project-main").hide();

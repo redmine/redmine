@@ -2,7 +2,7 @@
     <p class="lead">Explore Open Source Brain</p>
     <!-- This begins the vertical tab on the left-->
     <div class="tabbable tabs-left">
-        <ul class="nav nav-stacked col-md-2">
+        <ul class="nav nav-stacked col-md-2" data-tabs="tabs">
             <li><a href="#projecthighlights" id="projecthighlightsLink" data-toggle="tab">Project Highlights</a></li>
             <li><a href="#cells" id="cellsLink" data-toggle="tab">All Cells and Networks</a></li>
             <% if !User.current.logged? %>
@@ -17,7 +17,7 @@
         </ul>
         
         <div class="tab-content col-md-10">
-            <div class="tab-pane active" id="projecthighlights">
+            <div class="tab-pane" id="projecthighlights">
 	        <p class="projectHighlightTitle">Neocortex</p>
 	        <p class="projectHighlight singlecell"><a href="/projects/l5bpyrcellhayetal2011">Hay et al. 2011</a></p>
 	        <p class="projectHighlight singlecell"><a href="/projects/l23dendriticspikes">Smith et al. 2013</a></p>
