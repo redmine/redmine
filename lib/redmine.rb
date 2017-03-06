@@ -81,6 +81,7 @@ Redmine::Scm::Base.add "Filesystem"
 # Permissions
 Redmine::AccessControl.map do |map|
   map.permission :view_project, {:projects => [:show], :activities => [:index]}, :public => true, :read => true
+  map.permission :view_models, {:projects => [:models]}, :public => true, :read => true
   map.permission :search_project, {:search => :index}, :public => true, :read => true
   map.permission :add_project, {:projects => [:new, :create]}, :require => :loggedin
   map.permission :edit_project, {:projects => [:settings, :edit, :update]}, :require => :member
@@ -258,7 +259,7 @@ Redmine::MenuManager.map :project_menu do |menu|
               :if => Proc.new { |p| p.wiki && !p.wiki.new_record? }
   menu.push :boards, { :controller => 'boards', :action => 'index', :id => nil }, :param => :project_id,
               :if => Proc.new { |p| p.boards.any? }, :caption => :label_board_plural
-  menu.push :files, { :controller => 'files', :action => 'index' }, :caption => :label_file_plural, :param => :project_id
+  #menu.push :files, { :controller => 'files', :action => 'index' }, :caption => :label_file_plural, :param => :project_id
   menu.push :repository, { :controller => 'repositories', :action => 'show', :repository_id => nil, :path => nil, :rev => nil },
               :if => Proc.new { |p| p.repository && !p.repository.new_record? }
   menu.push :settings, { :controller => 'projects', :action => 'settings' }, :last => true
