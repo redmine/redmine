@@ -244,10 +244,8 @@ function hideFooter(){
 	$('footer').hide();
 }
 
-
-
 function showFooter(){
-	$('#main').css("padding-bottom","100px");
+	$('#main').css("padding-bottom","120px");
 	$('footer').show();
 }
 
