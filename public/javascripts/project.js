@@ -23,11 +23,6 @@ $(document).ready(function(){
         $("#showGeppettoBtn").hide();
     }
 
-    $("#moreBtn").click(function(){
-	clearTimeout(projectBtnPopover);
-	$("#showGeppettoBtn").popover("destroy");
-    });
-
     $("#showProjectBtn").click(function(){
         var projectUrl = '//' + location.host + location.pathname;
 	if(history.pushState) {history.pushState(null, null, projectUrl);}
@@ -38,10 +33,6 @@ $(document).ready(function(){
 	showFooter();
         //showProject();
     });
-
-    projectBtnPopover=setTimeout(function(){ if($("#geppettoContainer")[0]==undefined){$("#showGeppettoBtn").popover("show");} }, 3000);
-
-    setTimeout(function(){ $("#showGeppettoBtn").popover("destroy"); }, 5000);
 
     if (isProjectOrShowcase) {
         if (hasModels()){
