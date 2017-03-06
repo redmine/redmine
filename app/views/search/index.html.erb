@@ -52,9 +52,9 @@
   	        	    <%= textilizable(p.short_description_without_image, :project => p) %>
         	        <% else %>
 	        	    <span class="description"><%= textilizable(highlight_tokens(e.event_description, @tokens), :project => p) %></span>
-	        	    <div>
-			        <div><i>Project description:<%= textilizable(p.short_description_without_image, :project => p) %></i></div>
-	        	    </div>
+			    <div>
+                                <i>Project description:<%= textilizable(p.short_description_without_image, :project => p) %></i>
+                            </div>
         	        <% end %>
         	        
         	        <div class="badges">
@@ -65,9 +65,7 @@
         	        
         	        <% tags=getCustomField(p,'Tag') %>
         	        <% if tags!=nil and tags!='' %>
-			    <div>
-			        <div><%= getBadge(p, 'Tag', '', '', '', 'label label-success') %></div>
-			    </div>
+			    <div><%= getBadge(p, 'Tag', '', '', '', 'label label-success') %></div>
 		        <% end %>
 
 		        <div class="last-updated">

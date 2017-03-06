@@ -81,13 +81,13 @@ function initFilters() {
   $('#filters-table td.field input[type=checkbox]').each(function() {
     toggleFilter($(this).val());
   });
-  $('#filters-table td.field input[type=checkbox]').live('click', function() {
+  $('#filters-table td.field input[type=checkbox]').on('click', function() {
     toggleFilter($(this).val());
   });
-  $('#filters-table .toggle-multiselect').live('click', function() {
+  $('#filters-table .toggle-multiselect').on('click', function() {
     toggleMultiSelect($(this).siblings('select'));
   });
-  $('#filters-table input[type=text]').live('keypress', function(e) {
+  $('#filters-table input[type=text]').on('keypress', function(e) {
     if (e.keyCode == 13) submit_query_form("query_form");
   });
 }
@@ -120,7 +120,7 @@ function buildFilterRow(field, operator, values) {
 
   var tr = $('<tr class="filter">').attr('id', 'tr_'+fieldId).html(
     '<td class="field"><input checked="checked" id="cb_'+fieldId+'" name="f[]" value="'+field+'" type="checkbox"><label for="cb_'+fieldId+'"> '+filterOptions['name']+'</label></td>' +
-    '<td class="operator"><select id="operators_'+fieldId+'" name="op['+field+']"></td>' +
+    '<td class="operator"><select class="value form-control" id="operators_'+fieldId+'" name="op['+field+']"></td>' +
     '<td class="values"></td>'
   );
   filterTable.append(tr);
@@ -138,10 +138,7 @@ function buildFilterRow(field, operator, values) {
   case "list_optional":
   case "list_status":
   case "list_subprojects":
-    tr.find('td.values').append(
-      '<span style="display:none;"><select class="value" id="values_'+fieldId+'_1" name="v['+field+'][]"></select>' +
-      ' <span class="toggle-multiselect">&nbsp;</span></span>'
-    );
+    tr.find('td.values').append('<select class="value form-control" id="values_'+fieldId+'_1" name="v['+field+'][]"></select>');
     select = tr.find('td.values select');
     if (values.length > 1) { select.attr('multiple', true); }
     for (i = 0; i < filterValues.length; i++) {
@@ -160,9 +157,9 @@ function buildFilterRow(field, operator, values) {
   case "date":
   case "date_past":
     tr.find('td.values').append(
-      '<span style="display:none;"><input type="text" name="v['+field+'][]" id="values_'+fieldId+'_1" size="10" class="value date_value" /></span>' +
-      ' <span style="display:none;"><input type="text" name="v['+field+'][]" id="values_'+fieldId+'_2" size="10" class="value date_value" /></span>' +
-      ' <span style="display:none;"><input type="text" name="v['+field+'][]" id="values_'+fieldId+'" size="3" class="value" /> '+labelDayPlural+'</span>'
+      '<input type="text" name="v['+field+'][]" id="values_'+fieldId+'_1" size="10" class="value date_value form-control" />' +
+      ' <input type="text" name="v['+field+'][]" id="values_'+fieldId+'_2" size="10" class="value date_value form-control" />' +
+      ' <input type="text" name="v['+field+'][]" id="values_'+fieldId+'" size="3" class="value form-control" /> '+labelDayPlural+''
     );
     $('#values_'+fieldId+'_1').val(values[0]).datepicker(datepickerOptions);
     $('#values_'+fieldId+'_2').val(values[1]).datepicker(datepickerOptions);
@@ -171,14 +168,14 @@ function buildFilterRow(field, operator, values) {
   case "string":
   case "text":
     tr.find('td.values').append(
-      '<span style="display:none;"><input type="text" name="v['+field+'][]" id="values_'+fieldId+'" size="30" class="value" /></span>'
+      '<input type="text" name="v['+field+'][]" id="values_'+fieldId+'" size="30" class="value form-control" />'
     );
     $('#values_'+fieldId).val(values[0]);
     break;
   case "relation":
     tr.find('td.values').append(
-      '<span style="display:none;"><input type="text" name="v['+field+'][]" id="values_'+fieldId+'" size="6" class="value" /></span>' +
-      '<span style="display:none;"><select class="value" name="v['+field+'][]" id="values_'+fieldId+'_1"></select></span>'
+      '<input type="text" name="v['+field+'][]" id="values_'+fieldId+'" size="6" class="value form-control" />' +
+      '<select class="value form-control" name="v['+field+'][]" id="values_'+fieldId+'_1"></select>'
     );
     $('#values_'+fieldId).val(values[0]);
     select = tr.find('td.values select');
@@ -192,8 +189,8 @@ function buildFilterRow(field, operator, values) {
   case "integer":
   case "float":
     tr.find('td.values').append(
-      '<span style="display:none;"><input type="text" name="v['+field+'][]" id="values_'+fieldId+'_1" size="6" class="value" /></span>' +
-      ' <span style="display:none;"><input type="text" name="v['+field+'][]" id="values_'+fieldId+'_2" size="6" class="value" /></span>'
+      '<input type="text" name="v['+field+'][]" id="values_'+fieldId+'_1" size="6" class="value form-control" />' +
+      ' <input type="text" name="v['+field+'][]" id="values_'+fieldId+'_2" size="6" class="value form-control" />'
     );
     $('#values_'+fieldId+'_1').val(values[0]);
     $('#values_'+fieldId+'_2').val(values[1]);
