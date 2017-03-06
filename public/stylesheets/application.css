@@ -974,6 +974,15 @@ td > icon {
     width: 266px;
 }
 
+.cells-tabs {
+    text-align: center;
+}
+
+.cells-browser {
+    visibility: hidden;
+    margin-right: -12px !important;
+}
+
 #technology .nav {
     width: 266px;
 }
@@ -1281,6 +1290,10 @@ section > p {
     font-weight: 600;
     word-wrap: break-word;
     overflow: visible;
+}
+
+body.treetext, body.treelinktext {
+    position: static;
 }
 
 .treetext {

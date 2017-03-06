@@ -1,68 +1,67 @@
-
-	<div class="tab-pane row-fluid" id="listpeople">
-		<div class="span3 navbar">
-			<div class="nav">
-				<form class="filterform form-search" action="#">
-					<div class="input-prepend">
-						<span class="add-on"><i class="icon-filter"></i></span>
-						<input id="peoplefilter"class="filter search-query" type="text" placeholder="Filter people...">
-					</div>
-				</form>
-				<ul id="peoplelist" class="nav overflow-list">
-					<% for user in @users %>
-					<li class="capitalize">
-						<a data-toggle="tab" href="#user<%= user.id %>"><%= user.name %></a>
-					</li>
-					<% end %>
-				</ul>
-			</div>
+<div class="tab-pane row" id="listpeople">
+    <div class="col-sm-3 navbar">
+	<div class="nav">
+	    <form class="filterform form-search" action="#">
+		<div class="input-prepend">
+		    <span class="add-on"><i class="icon-filter"></i></span>
+		    <input id="peoplefilter" class="filter search-query form-control" type="text" placeholder="Filter people...">
 		</div>
-		<div class="span9 tab-content">
-			<div id="peopleSummary" style="color:#37abc8;margin:20px auto;text-align:center;">
-			There are currently <%= @users.length %> users in OSB.
-			</div>
-			<% for user in @users %>
-			<div class="tab-pane" id="user<%= user.id %>">
-				<h3><a class="capitalize" href="<%= user_path(user) %>"><%= user.name %></a></h3>
-				<% unless user.pref.hide_mail %>
-				<p>
-					<%= l(:field_mail)%>: 
-					<% if User.current.logged? %>	
-						<%= mail_to(h(user.mail)) %>
-					<% else %>
-    					<%= link_to('(log in for contact details)'.html_safe, { :controller => 'account', :action => 'login' })%>
-					<% end %>	
-				</p>
-				<% end %>
-				<p>
-					Member since <%= format_date(user.created_on) %>
-				</p>
-				<% @memberships = user.memberships.all(:conditions => Project.visible_condition(User.current)) %>
-				<% unless @memberships.empty? %>
-				<h4><icon class="icon-folder-close"></icon> <%= l(:label_project_plural)%></h4>
-				<ul class="nav overflow-list projects-list">
-					<% for membership in @memberships %>
-					<li>
-						<%= link_to_project(membership.project) %>(<%= h membership.roles.sort.collect(&:to_s).join(', ') %>, <%= format_date(membership.created_on) %>)
-					</li>
-					<% end %>
-				</ul>
-				<% end %>
-			</div>
-			<% end %>
-		</div>
+	    </form>
+	    <ul id="peoplelist" class="nav overflow-list">
+		<% for user in @users %>
+		    <li class="capitalize">
+			<a data-toggle="tab" href="#user<%= user.id %>"><%= user.name %></a>
+		    </li>
+		<% end %>
+	    </ul>
 	</div>
-	
-	<script>
-	jQuery(function()
-	{
-		// -- Add filter
-		setupFilter('#peoplefilter', '#peoplelist');
-		// -- Expands the first element of every list
-		jQuery.each(jQuery(".projects-list"), function()
-		{
-			jQuery(this).find("a").first().click();
-		});
-		jQuery('#peoplelist a').click(function(){jQuery('#peopleSummary').hide();});
-	})
-	</script>
+    </div>
+    <div class="col-sm-9 tab-content">
+	<div class="summary">
+	    There are currently <%= @users.length %> users in OSB.
+	</div>
+	<% for user in @users %>
+	    <div class="tab-pane" id="user<%= user.id %>">
+		<h3><a class="capitalize" href="<%= user_path(user) %>"><%= user.name %></a></h3>
+		<% unless user.pref.hide_mail %>
+		    <p>
+			<%= l(:field_mail)%>: 
+			<% if User.current.logged? %>	
+			    <%= mail_to(h(user.mail)) %>
+			<% else %>
+    			    <%= link_to('(log in for contact details)'.html_safe, { :controller => 'account', :action => 'login' })%>
+			<% end %>	
+		    </p>
+		<% end %>
+		<p>
+		    Member since <%= format_date(user.created_on) %>
+		</p>
+		<% @memberships = user.memberships.all(:conditions => Project.visible_condition(User.current)) %>
+		<% unless @memberships.empty? %>
+		    <h4><icon class="icon-folder-close"></icon> <%= l(:label_project_plural)%></h4>
+		    <ul class="nav overflow-list projects-list">
+			<% for membership in @memberships %>
+			    <li>
+				<%= link_to_project(membership.project) %>(<%= h membership.roles.sort.collect(&:to_s).join(', ') %>, <%= format_date(membership.created_on) %>)
+			    </li>
+			<% end %>
+		    </ul>
+		<% end %>
+	    </div>
+	<% end %>
+    </div>
+</div>
+
+<script>
+ jQuery(function()
+     {
+	 // -- Add filter
+	 setupFilter('#peoplefilter', '#peoplelist');
+	 // -- Expands the first element of every list
+	 jQuery.each(jQuery(".projects-list"), function()
+	     {
+		 jQuery(this).find("a").first().click();
+	     });
+	 jQuery('#peoplelist a').click(function(){jQuery('#peopleSummary').hide();});
+     })
+</script>
