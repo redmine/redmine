@@ -40,7 +40,7 @@
 
 <!-- Introduce for recaptcha plugin-->
 <div class="control-group">
-<%= recaptcha_tags :public_key => Setting.plugin_recaptcha['recaptcha_public_key'], :ssl => true %>
+<%= recaptcha_tags :site_key => Setting.plugin_recaptcha['recaptcha_public_key'] %>
 </div>
 
 </div>
