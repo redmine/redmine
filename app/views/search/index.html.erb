@@ -29,7 +29,7 @@
     <div id="search-results-counts">
         <%= render_results_by_type(@results_by_type) unless @scope.size == 1 %>
     </div>
-    <h3><%= l(:label_result_plural) %> (<%= @results_by_type.values.sum %>)</h3>
+    <h3 class="results-title"><%= l(:label_result_plural) %> (<%= @results_by_type.values.sum %>)</h3>
     <a href="#" class="btn exp-col-btn expand-btn">Expand</a>
     <div id="results" role="tab-list" aria-multiselectable="true">
         <% @results.each_with_index do |e, i| %>

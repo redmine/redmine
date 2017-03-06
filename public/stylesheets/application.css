@@ -1925,6 +1925,14 @@ input[type="checkbox"] {
 }
 /* SEARCH RESULTS */
 
+.results-title {
+    display: inline-block;
+}
+
+.card-block {
+    padding: 1em;
+}
+
 .exp-col-btn {
     background:url('../images/buttons.png') no-repeat !important;
     width:80px;
@@ -1968,8 +1976,9 @@ input[type="checkbox"] {
 }
 
 .result-info {
-    margin: 0 2em 0 2em;
-    background-color: #ddd;
+    border-radius: 1em;
+    margin: 0 2em 2em 2em;
+    background-color: #eee;
 }
 /* TAGS */
 
