@@ -21,7 +21,6 @@
 <% if @editable %>
 <% if @content.current_version? %>
   <%= link_to_if_authorized(l(:button_edit), {:action => 'edit', :id => @page.title}, :class => 'btn icon icon-edit', :accesskey => accesskey(:edit)) %>
-  <%= watcher_link(@page, User.current) %>
   <%= link_to_if_authorized(l(:button_lock), {:action => 'protect', :id => @page.title, :protected => 1}, :method => :post, :class => 'btn icon icon-lock') if !@page.protected? %>
   <%= link_to_if_authorized(l(:button_unlock), {:action => 'protect', :id => @page.title, :protected => 0}, :method => :post, :class => 'btn icon icon-unlock') if @page.protected? %>
   <%= link_to_if_authorized(l(:button_rename), {:action => 'rename', :id => @page.title}, :class => 'btn icon icon-move') %>
@@ -35,9 +34,8 @@
 
 <div class="clearfix"></div>
 
-<div class="span3 pull-right" style="margin-top:20px; margin-bottom: 20px;">
-
-  <table class='borderless projecttable'>
+<div class="col-sm-2 pull-right">
+  <table class="table table-bordered-rows table-hover projecttable">
     <thead>
       <tr>
         <td>Contributors</td>
@@ -45,7 +43,7 @@
     </thead>
 <tr>
 	<td>
-	  <ul class="unstyled">
+	  <ul class="list-unstyled">
 	    <% contributors(@project, @page).each do |user_id, committer| %>
 	      <li>
 	      	<% if user_id != committer[:name].to_s.split('<').first  %>
@@ -89,8 +87,6 @@
 <% end %>
 
 <%= render(:partial => "wiki/content", :locals => {:content => @content}) %>
-
-<%= link_to_attachments @page %>
 
 <% if @editable && authorize_for('wiki', 'add_attachment') %>
 <div id="wiki_add_attachment">
