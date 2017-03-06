@@ -826,7 +826,7 @@ section > ul li {
 .sidetitle {
     font-size: 40pt;
     color: #777777;
-    margin-top: 40px;
+    margin-top: 20px;
 }
 
 .popoverform {
@@ -1024,7 +1024,7 @@ a:hover {
     color: #297385;
 }
 
-section p {
+section > p {
     margin-bottom: 20px;
     font-size: 21px;
     font-weight: 200;
@@ -2041,6 +2041,10 @@ input[type="checkbox"] {
     width: 700px;
     margin-top: 30px;
     margin-bottom: 30px;
+}
+
+#help-home {
+    float: left;
 }
 
 #helpTitle i {

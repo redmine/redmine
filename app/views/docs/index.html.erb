@@ -1,15 +1,15 @@
 <%= javascript_include_tag('docs.js') %>
 
 
-<div class="row pull-right sidetitle" id="helpTitle">
-	<div style="float: left;">
-	    <% if(@path != 'Help') %>
+<div class="row pull-right sidetitle col-sm-12" id="helpTitle">
+    <% if(@path != 'Help') %>
+        <div id="help-home">
 	        <a href="/docs#Getting_Started" alt="Go to help home" title="Go to help home">
 		    <i class="icon-question-sign"></i> 
 		</a>
-	    <% end %>
         </div>
-	<%= customiseTitle(@path) %> 
+    <% end %>
+    <%= customiseTitle(@path) %>
 </div>
 
 <div class="row" id="docContainer">
