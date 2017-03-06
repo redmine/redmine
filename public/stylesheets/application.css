@@ -597,7 +597,7 @@ tr.open span.expander:before {
  -------------------------------------------------- */
 
 .bs-docs-sidenav {
-    width: 200px;
+    /* width: 200px; */
     /*margin: 30px 0 0;*/
     padding: 0;
     background-color: #fff;
@@ -630,6 +630,7 @@ tr.open span.expander:before {
 }
 
 .bs-docs-sidenav > .active > a {
+    color: white;
     position: relative;
     z-index: 2;
     padding: 9px 15px;
@@ -2043,10 +2044,6 @@ input[type="checkbox"] {
     font-size: 45px;
     vertical-align: middle;
     padding-left: 15px;
-}
-
-#docContainer .page-header {
-    border-bottom-width: 5px;
 }
 
 #docContainer h4 {
