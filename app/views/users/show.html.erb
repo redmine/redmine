@@ -2,11 +2,11 @@
     <%= link_to(l(:button_edit), edit_user_path(@user), :class => 'btn icon icon-edit pull-right') if User.current.admin? || User.current == @user %>
 </div> 
 
-<p class="big-lead pagination-centered capitalize"><%= avatar(@user, :size => "70", :class => "img-rounded") %> <%=h @user.name %></p>
+<p class="big-lead center capitalize"><%= avatar(@user, :size => "70", :class => "img-rounded") %> <%=h @user.name %></p>
 
 <div class="row">
     <div class="col-md-6">
-        <ul>
+        <ul class="list-unstyled">
             <% unless @user.pref.hide_mail %>
                 <li>
 	            <%=l(:field_mail)%>:
@@ -57,7 +57,7 @@
         <% unless @events_by_day.empty? %>
             <%= link_to l(:label_activity), {:controller => 'activities',
                                              :action => 'index', :id => nil, :user_id => @user,
-                                             :from => @events_by_day.keys.first}, :class=>"btn" %>
+                                             :from => @events_by_day.keys.first}, :class=>"btn btn-default" %>
             <% content_for :header_tags do %>
                 <%= auto_discovery_link_tag(:atom, :controller => 'activities', :action => 'index', :user_id => @user, :format => :atom, :key => User.current.rss_key) %>
             <% end %>
