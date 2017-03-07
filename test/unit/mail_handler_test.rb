@@ -628,6 +628,11 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal 'The html part.', issue.description
   end
 
+  def test_empty_text_and_html_part_should_make_an_empty_description
+    issue = submit_email('empty_text_and_html_part.eml', :issue => {:project => 'ecookbook'})
+    assert_equal '', issue.description
+  end
+
   def test_attachment_text_part_should_be_added_as_issue_attachment
     issue = submit_email('multiple_text_parts.eml', :issue => {:project => 'ecookbook'})
     assert_not_include 'Plain text attachment', issue.description

@@ -1,0 +1,35 @@
+From JSmith@somenet.foo  Fri Mar 22 08:30:28 2013
+From: John Smith <JSmith@somenet.foo>
+Content-Type: multipart/mixed; boundary="Apple-Mail=_33C8180A-B097-4B87-A925-441300BDB9C9"
+Message-Id: <BB533668-3CC8-41CA-A951-0A5D8EA37FB0@somenet.foo>
+Mime-Version: 1.0 (Mac OS X Mail 6.3 \(1503\))
+Subject: Test with an empty text part
+Date: Fri, 22 Mar 2013 17:30:20 +0200
+To: redmine@somenet.foo
+X-Mailer: Apple Mail (2.1503)
+
+
+
+--Apple-Mail=_33C8180A-B097-4B87-A925-441300BDB9C9
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
+
+
+--Apple-Mail=_33C8180A-B097-4B87-A925-441300BDB9C9
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html;
+	charset=us-ascii
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://ww=
+w.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns=3D"http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8" />
+</head>
+<body>
+</body>
+</html>
+
+
+--Apple-Mail=_33C8180A-B097-4B87-A925-441300BDB9C9--

@@ -445,13 +445,19 @@ class MailHandler < ActionMailer::Base
   def plain_text_body
     return @plain_text_body unless @plain_text_body.nil?
 
+    # check if we have any plain-text parts with content
     @plain_text_body = email_parts_to_text(email.all_parts.select {|p| p.mime_type == 'text/plain'}).presence
 
+    # if not, we try to parse the body from the HTML-parts
     @plain_text_body ||= email_parts_to_text(email.all_parts.select {|p| p.mime_type == 'text/html'}).presence
 
-    @plain_text_body ||= email_parts_to_text([email])
+    # If there is still no body found, and there are no mime-parts defined,
+    # we use the whole raw mail body
+    @plain_text_body ||= email_parts_to_text([email]).presence if email.all_parts.empty?
 
-    @plain_text_body
+    # As a fallback we return an empty plain text body (e.g. if we have only
+    # empty text parts but a non-text attachment)
+    @plain_text_body ||= ""
   end
 
   def email_parts_to_text(parts)
