@@ -89,9 +89,13 @@ $(document).ready(function(){
 
 	    // Add dropdown option
         }
-        $("ul.projects li[class='submenu-item']").click(function(){
+        $("ul li[class='submenu-item']").click(function(){
             var id = $(this).children().attr("id");
-            open3DExplorer(parseInt(id), project_identifier);
+            if (!isNaN(parseInt(id))) {
+                open3DExplorer(parseInt(id), project_identifier);
+            } else {
+                open3DExplorer(encodeURIComponent(repourl+repopath+id), project_identifier);
+            }
         });
     };
 
