@@ -18,6 +18,8 @@ $(document).ready(function() {
     if (hash) {
         var selectedTab = $('.nav li a[href="' + hash + '"]');
         selectedTab.trigger('click', true);
+        if (hash == "#workspace")
+            hideFooter();
     }
 
     $('.nav-tabs a, .nav-stacked a').click(function (e) {
