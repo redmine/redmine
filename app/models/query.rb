@@ -984,7 +984,7 @@ class Query < ActiveRecord::Base
       "  SELECT customized_id FROM #{CustomValue.table_name}" +
       "  WHERE customized_type='#{target_class}' AND custom_field_id=#{chained_custom_field_id}" +
       "  AND #{sql_for_field(field, operator, value, CustomValue.table_name, 'value')}))"
-    
+
   end
 
   def sql_for_custom_field_attribute(field, operator, value, custom_field_id, attribute)
@@ -1048,7 +1048,7 @@ class Query < ActiveRecord::Base
       end
     when "!*"
       sql = "#{db_table}.#{db_field} IS NULL"
-      sql << " OR #{db_table}.#{db_field} = ''" if is_custom_filter
+      sql << " OR #{db_table}.#{db_field} = ''" if (is_custom_filter || [:text, :string].include?(type_for(field)))
     when "*"
       sql = "#{db_table}.#{db_field} IS NOT NULL"
       sql << " AND #{db_table}.#{db_field} <> ''" if is_custom_filter
