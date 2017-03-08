@@ -1,1 +1,1 @@
-$ENTER_ID.select();
+initOSBGeppetto("cell", $ENTER_ID);
