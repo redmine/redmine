@@ -1,50 +1,77 @@
-<div class="row pull-right lead sidetitle ">OSB Sign up <i class="icon-pencil"></i></div>
+<div class="row pull-right sidetitle">OSB Sign up <i class="icon-pencil"></i></div>
 
-<%= labelled_form_for @user, :url => register_path do |f| %>
-<%= error_messages_for 'user' %>
+<%= labelled_form_for @user, :html => { :class => "form-horizontal new-user" }, :url => register_path do |f| %>
+    <%= error_messages_for 'user' %>
+    <% if @user.auth_source_id.nil? %>
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="user_login">
+                <%= l(:field_login) %>
+            </label>
+            <%= f.text_field :login, :size => 25, :required => true, :no_label => true, :class => 'form-control col-sm-2' %>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="user_password">
+                <%= l(:field_password) %>
+            </label>
+            <%= f.password_field :password, :size => 25, :required => true, :no_label => true, :class => 'form-control col-sm-2' %>
+ 	    <div class="popoverform"><icon class="popoverlink icon-2x icon-lightbulb"target="_blank" data-toggle="popover" data-trigger="hover" title="" 
+                                           data-content="<%= l(:text_caracters_minimum, :count => Setting.password_min_length) %>" data-original-title="Password"></icon></div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="user_password_confirmation">
+                <%= l(:field_password_confirmation) %>
+            </label>
+            <%= f.password_field :password_confirmation, :size => 25, :required => true, :no_label => true, :class => 'form-control col-sm-2' %>
+        </div>
+    <% end %>
 
-<div class="box tabular">
+    <div class="form-group">
+        <label class="col-sm-2 control-label" for="user_firstname">
+            <%= l(:field_firstname) %>
+        </label>
+        <%= f.text_field :firstname, :required => true, :no_label => true, :class => 'form-control col-sm-2' %>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label" for="user_lastname">
+            <%= l(:field_lastname) %>
+        </label>
+        <%= f.text_field :lastname, :required => true, :no_label => true, :class => 'form-control col-sm-2' %>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label" for="user_mail">
+            <%= l(:field_lastname) %>
+        </label>
+        <%= f.text_field :mail, :required => true, :no_label => true, :class => 'form-control col-sm-2' %>
+    </div>
 
-<div id="registerForm">
-<% if @user.auth_source_id.nil? %>
-  <div class="control-group"><%= f.text_field :login, :size => 25, :required => true %></div>
+    <% if Setting.openid? %>
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="user_identity_url">
+                <%= l(:field_identity_url) %>
+            </label>
+            <%= f.text_field :identity_url, :no_label => true, :class => 'form-control col-sm-2' %>
+        </div>
+    <% end %>
 
-  <div class="control-group"><%= f.password_field :password, :size => 25, :required => true %>
- 	 <div class="popoverform"><icon class="popoverlink icon-2x icon-lightbulb"target="_blank" data-toggle="popover" data-trigger="hover" title="" data-content="<%= l(:text_caracters_minimum, :count => Setting.password_min_length) %>" data-original-title="Password"></icon></div>
-  </div>
-
-  <div class="control-group"><%= f.password_field :password_confirmation, :size => 25, :required => true %></div>
-<% end %>
-
-<div class="control-group"><%= f.text_field :firstname, :required => true %></div>
-<div class="control-group"><%= f.text_field :lastname, :required => true %></div>
-<div class="control-group"><%= f.text_field :mail, :required => true %></div>
-
-<% if Setting.openid? %>
-  <div class="control-group"><%= f.text_field :identity_url  %></div>
-<% end %>
-
-<% @user.custom_field_values.select {|v| v.required?}.each do |value| %>
-  <div class="control-group"><%= custom_field_tag_with_label :user, value %>
-  	<% if value.custom_field.name=="URL" %>
+    <% @user.custom_field_values.select {|v| v.required?}.each do |value| %>
+        <div class="form-group"><%= custom_field_tag_with_label :user, value %>
+  	    <% if value.custom_field.name=="URL" %>
   		<div class="popoverform"><icon class="popoverlink icon-2x icon-lightbulb"target="_blank" data-toggle="popover" data-trigger="hover" title="" data-content="You should provide a valid URL to a lab, instituion, company or software project webpage with which you are directly associated." data-original-title="Affiliation"></icon></div>
-  	<% end %>
-  </div>
-<% end %>
+  	    <% end %>
+        </div>
+    <% end %>
 
-<div class="control-group">
-	<div class="nolabelcontrols">
-		<%= submit_tag l(:button_submit), :class => "btn btn-large btn-success" %>
-	</div>
-</div>
+    <div class="form-group">
+        <div class="col-sm-2 col-sm-offset-2">
+	    <%= submit_tag l(:button_submit), :class => "btn btn-large btn-success" %>
+        </div>
+    </div>
 
-<!-- Introduce for recaptcha plugin-->
-<div class="control-group">
-<%= recaptcha_tags :site_key => Setting.plugin_recaptcha['recaptcha_public_key'] %>
-</div>
-
-</div>
-</div>
-
+    <!-- Introduce for recaptcha plugin-->
+    <div class="form-group">
+        <div class="col-sm-2 col-sm-offset-2">
+            <%= recaptcha_tags :site_key => Setting.plugin_recaptcha['recaptcha_public_key'] %>
+        </div>
+    </div>
 <% end %>
 

@@ -2103,6 +2103,10 @@ i:first-child {
      cursor: pointer;
 }
 
+form.new-user {
+    margin-top: 8em;
+}
+
 form.logout:hover {
     background-color: #f2f2f2;
 }
