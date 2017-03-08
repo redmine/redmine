@@ -232,8 +232,10 @@ class MailHandlerTest < ActiveSupport::TestCase
   end
 
   def test_add_issue_with_custom_fields
+    mutiple = IssueCustomField.generate!(:field_format => 'list', :name => 'OS', :multiple => true, :possible_values => ['Linux', 'Windows', 'Mac OS X'])
+
     issue = submit_email('ticket_with_custom_fields.eml',
-      :issue => {:project => 'onlinestore'}, :allow_override => ['database', 'Searchable_field']
+      :issue => {:project => 'onlinestore'}, :allow_override => ['database', 'Searchable_field', 'OS']
     )
     assert issue.is_a?(Issue)
     assert !issue.new_record?
@@ -241,6 +243,7 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal 'New ticket with custom field values', issue.subject
     assert_equal 'PostgreSQL', issue.custom_field_value(1)
     assert_equal 'Value for a custom field', issue.custom_field_value(2)
+    assert_equal ['Mac OS X', 'Windows'], issue.custom_field_value(mutiple.id).sort
     assert !issue.description.match(/^searchable field:/i)
   end
 

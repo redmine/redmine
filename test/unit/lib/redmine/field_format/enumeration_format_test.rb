@@ -87,5 +87,14 @@ class Redmine::EnumerationFieldFormatTest < ActionView::TestCase
 
   def test_value_from_keyword_should_return_enumeration_id
     assert_equal @foo.id, @field.value_from_keyword('foo', nil)
+    assert_nil @field.value_from_keyword('baz', nil)
+  end
+
+  def test_value_from_keyword_for_multiple_custom_field_should_return_enumeration_ids
+    @field.multiple = true
+    @field.save!
+    assert_equal [@foo.id, @bar.id], @field.value_from_keyword('foo, bar', nil)
+    assert_equal [@foo.id], @field.value_from_keyword('foo, baz', nil)
+    assert_equal [], @field.value_from_keyword('baz', nil)
   end
 end

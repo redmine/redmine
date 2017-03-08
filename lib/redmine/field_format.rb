@@ -167,18 +167,44 @@ module Redmine
       def value_from_keyword(custom_field, keyword, object)
         possible_values_options = possible_values_options(custom_field, object)
         if possible_values_options.present?
-          keyword = keyword.to_s
-          if v = possible_values_options.detect {|text, id| keyword.casecmp(text)  == 0}
-            if v.is_a?(Array)
-              v.last
-            else
-              v
+          parse_keyword(custom_field, keyword) do |k|
+            if v = possible_values_options.detect {|text, id| k.casecmp(text) == 0}
+              if v.is_a?(Array)
+                v.last
+              else
+                v
+              end
             end
           end
         else
           keyword
         end
       end
+
+      def parse_keyword(custom_field, keyword, &block)
+        separator = Regexp.escape ","
+        keyword = keyword.to_s
+
+        if custom_field.multiple?
+          values = []
+          while keyword.length > 0
+            k = keyword.dup
+            loop do
+              if value = yield(k.strip)
+                values << value
+                break
+              elsif k.slice!(/#{separator}([^#{separator}]*)\Z/).nil?
+                break
+              end
+            end
+            keyword.slice!(/\A#{Regexp.escape k}#{separator}?/)
+          end
+          values
+        else
+          yield keyword.strip
+        end
+      end
+      protected :parse_keyword
 
       # Returns the validation errors for custom_field
       # Should return an empty array if custom_field is valid
@@ -766,8 +792,9 @@ module Redmine
       end
 
       def value_from_keyword(custom_field, keyword, object)
-        value = custom_field.enumerations.where("LOWER(name) LIKE LOWER(?)", keyword).first
-        value ? value.id : nil
+        parse_keyword(custom_field, keyword) do |k|
+          custom_field.enumerations.where("LOWER(name) LIKE LOWER(?)", k).first.try(:id)
+        end
       end
     end
 
@@ -800,8 +827,9 @@ module Redmine
 
       def value_from_keyword(custom_field, keyword, object)
         users = possible_values_records(custom_field, object).to_a
-        user = Principal.detect_by_keyword(users, keyword)
-        user ? user.id : nil
+        parse_keyword(custom_field, keyword) do |k|
+          Principal.detect_by_keyword(users, k).try(:id)
+        end
       end
 
       def before_custom_field_save(custom_field)
