@@ -172,7 +172,8 @@ class Member < ActiveRecord::Base
     end
   end
 
-  # Creates memberships for principal with the attributes
+  # Creates memberships for principal with the attributes, or add the roles
+  # if the membership already exists.
   # * project_ids : one or more project ids
   # * role_ids : ids of the roles to give to each membership
   #
