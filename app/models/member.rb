@@ -183,7 +183,7 @@ class Member < ActiveRecord::Base
     members = []
     if attributes
       project_ids = Array.wrap(attributes[:project_ids] || attributes[:project_id])
-      role_ids = attributes[:role_ids]
+      role_ids = Array.wrap(attributes[:role_ids])
       project_ids.each do |project_id|
         member = Member.find_or_new(project_id, principal)
         member.role_ids |= role_ids
