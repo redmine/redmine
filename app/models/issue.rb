@@ -530,10 +530,17 @@ class Issue < ActiveRecord::Base
         self.tracker_id = t
       end
     end
-    if project
+    if project && tracker.nil?
       # Set a default tracker to accept custom field values
       # even if tracker is not specified
-      self.tracker ||= allowed_target_trackers(user).first
+      allowed_trackers = allowed_target_trackers(user)
+
+      if attrs['parent_issue_id'].present?
+        # If parent_issue_id is present, the first tracker for which this field
+        # is not disabled is chosen as default
+        self.tracker = allowed_trackers.detect {|t| t.core_fields.include?('parent_issue_id')}
+      end
+      self.tracker ||= allowed_trackers.first
     end
 
     statuses_allowed = new_statuses_allowed_to(user)

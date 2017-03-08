@@ -1920,6 +1920,32 @@ class IssuesControllerTest < Redmine::ControllerTest
     end
   end
 
+  def test_new_should_default_to_first_tracker
+    @request.session[:user_id] = 2
+
+    get :new, :project_id => 1
+    assert_response :success
+    assert_select 'select[name=?]', 'issue[tracker_id]' do
+      assert_select 'option', 3
+      assert_select 'option[value="1"][selected=selected]'
+    end
+  end
+
+  def test_new_with_parent_issue_id_should_default_to_first_tracker_without_disabled_parent_field
+    tracker = Tracker.find(1)
+    tracker.core_fields -= ['parent_issue_id']
+    tracker.save!
+    @request.session[:user_id] = 2
+
+    get :new, :project_id => 1, :issue => {:parent_issue_id => 1}
+    assert_response :success
+    assert_select 'select[name=?]', 'issue[tracker_id]' do
+      assert_select 'option', 2
+      assert_select 'option[value="2"][selected=selected]'
+      assert_select 'option[value="1"]', 0
+    end
+  end
+
   def test_new_without_allowed_trackers_should_respond_with_403
     role = Role.find(1)
     role.set_permission_trackers 'add_issues', []
