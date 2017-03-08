@@ -292,8 +292,6 @@ module ProjectsHelper
       geppettoTmpPath = "geppetto/tmp/"
       simulationTemplates = "simulationTemplates/"
       scripts = "scripts/"
-      utils = "utils/"
-      controlPanels = "controlPanels/"
       
        # Delete old files (older than max age (seconds))
       Dir[publicResourcesPath + geppettoTmpPath + "*"].each do |filename| 
@@ -315,34 +313,18 @@ module ProjectsHelper
         ######################
         # JS & CONTROL PANEL #
         ######################
-        geppettoUtilsJsFile = File.read(publicResourcesPath + geppettoResourcesPath + scripts + utils + "osbUtils.js")
-        if docType == 'net' || docType == 'cell'
-          if docType == 'net'
+        if docType == 'net'
             geppettoJsFile = File.read(publicResourcesPath + geppettoResourcesPath + scripts + "osbNetworkScript.js")
-            geppettoControlPanelJsonFile = File.read(publicResourcesPath + geppettoResourcesPath + controlPanels + "osbNetworkControlPanel.json")
-          else
+        elsif docType == 'cell'
             geppettoJsFile = File.read(publicResourcesPath + geppettoResourcesPath + scripts + "osbCellScript.js")
-            geppettoControlPanelJsonFile = File.read(publicResourcesPath + geppettoResourcesPath + controlPanels + "osbCellControlPanel.json")
-          end
-          geppettoCellUtilsJsFile = File.read(publicResourcesPath + geppettoResourcesPath + scripts + utils + "osbCellUtils.js")   
-          geppettoJsFile.insert(0, geppettoCellUtilsJsFile)
         elsif docType == 'channel' 
           geppettoJsFile = File.read(publicResourcesPath + geppettoResourcesPath + scripts + "osbChannelScript.js")
         elsif docType == 'synapse'
           geppettoJsFile = File.read(publicResourcesPath + geppettoResourcesPath + scripts + "osbSynapseScript.js")
         else
           geppettoJsFile = File.read(publicResourcesPath + geppettoResourcesPath + scripts + "osbGenericScript.js")  
-          geppettoCellUtilsJsFile = File.read(publicResourcesPath + geppettoResourcesPath + scripts + utils + "osbCellUtils.js")   
-          geppettoJsFile.insert(0, geppettoCellUtilsJsFile)
-          geppettoControlPanelJsonFile = File.read(publicResourcesPath + geppettoResourcesPath + controlPanels + "osbNetworkControlPanel.json")
         end
          
-        # Parse js file
-        unless geppettoControlPanelJsonFile.nil?
-          geppettoControlPanelJsonFile.delete!("\r\n")
-          geppettoUtilsJsFile.gsub! '$CONTROL_PANEL', geppettoControlPanelJsonFile
-        end
-        geppettoJsFile.insert(0, geppettoUtilsJsFile)
         geppettoJsFile.gsub! '$ENTER_ID', entity
         geppettoJsFile.gsub!(/\s*\/\/.*/, '')
         geppettoJsFile.gsub!(/\/\*!.*?\*\//m, '')
@@ -404,7 +386,7 @@ module ProjectsHelper
             geppettoSimulationFile["experiments"][0]["aspectConfigurations"][0]["simulatorConfiguration"] = {
                   "id" => 1,
                   "simulatorId" => "neuronSimulator",
-                  "timestep" => 0.00001,
+                  "timestep" => 0.000025,
                   "length" => 0.3
             }
           end
