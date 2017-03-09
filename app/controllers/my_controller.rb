@@ -142,12 +142,6 @@ class MyController < ApplicationController
     @updated_blocks = block_settings.keys
   end
 
-  # User's page layout configuration
-  def page_layout
-    @user = User.current
-    @blocks = @user.pref.my_page_layout
-  end
-
   # Add a block to user's page
   # The block is added on top of the page
   # params[:block] : id of the block to add
@@ -155,7 +149,7 @@ class MyController < ApplicationController
     @user = User.current
     @user.pref.add_block params[:block]
     @user.pref.save
-    redirect_to my_page_layout_path
+    redirect_to my_page_path
   end
 
   # Remove a block to user's page
@@ -164,18 +158,17 @@ class MyController < ApplicationController
     @user = User.current
     @user.pref.remove_block params[:block]
     @user.pref.save
-    redirect_to my_page_layout_path
+    redirect_to my_page_path
   end
 
   # Change blocks order on user's page
   # params[:group] : group to order (top, left or right)
   # params[:blocks] : array of block ids of the group
   def order_blocks
-    group = params[:group]
     @user = User.current
-    if group.is_a?(String)
-      group_items = (params["blocks"] || []).collect(&:underscore)
-      group_items.each {|s| s.sub!(/^block_/, '')}
+    group = params[:group].to_s
+    if %w(top left right).include? group
+      group_items = (params[:blocks] || []).collect(&:underscore)
       # remove group blocks if they are presents in other groups
       group_items.each {|s| @user.pref.remove_block(s)}
       @user.pref.my_page_layout[group] = group_items

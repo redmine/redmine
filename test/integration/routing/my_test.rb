@@ -36,7 +36,6 @@ class RoutingMyTest < Redmine::RoutingTest
     should_route 'GET /my/password' => 'my#password'
     should_route 'POST /my/password' => 'my#password'
 
-    should_route 'GET /my/page_layout' => 'my#page_layout'
     should_route 'POST /my/add_block' => 'my#add_block'
     should_route 'POST /my/remove_block' => 'my#remove_block'
     should_route 'POST /my/order_blocks' => 'my#order_blocks'

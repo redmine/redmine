@@ -26,10 +26,9 @@ module MyHelper
       blocks.each do |block|
         content = render_block_content(block, user)
         if content.present?
-          if options[:edit]
-            close = link_to(l(:button_delete), {:action => "remove_block", :block => block}, :method => 'post', :class => "icon-only icon-close")
-            content = close + content_tag('div', content, :class => 'handle')
-          end
+          handle = content_tag('span', '', :class => 'hanlde sort-handle')
+          close = link_to(l(:button_delete), {:action => "remove_block", :block => block}, :method => 'post', :class => "icon-only icon-close")
+          content = content_tag('div', handle + close, :class => 'contextual') + content
 
           s << content_tag('div', content, :class => "mypage-box", :id => "block-#{block}")
         end
@@ -60,7 +59,7 @@ module MyHelper
     Redmine::MyPage.block_options.each do |label, block|
       options << content_tag('option', label, :value => block, :disabled => disabled.include?(block))
     end
-    select_tag('block', options, :id => "block-select")
+    select_tag('block', options, :id => "block-select", :onchange => "this.form.submit();")
   end
 
   def calendar_items(startdt, enddt)

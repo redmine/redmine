@@ -1115,28 +1115,23 @@ div.wiki img {vertical-align:middle; max-width:100%;}
 
 /***** My page layout *****/
 .block-receiver {
-  border:1px dashed #c0c0c0;
-  margin-bottom: 20px;
-  padding: 15px 0 15px 0;
+  border:1px dashed #fff;
+  padding: 15px 0 0 0;
 }
-
+.dragging .block-receiver {
+  border:1px dashed #777;
+  margin-bottom: 20px;
+}
 .mypage-box {
+  border:1px solid #ddd;
+  padding:8px;
   margin:0 0 20px 0;
   color:#505050;
   line-height:1.5em;
 }
-.mypage-box .icon-close {
-  float:right;
-}
 
 .handle {cursor: move;}
 
-body.action-page_layout .block-receiver .contextual {
-  display: none;
-}
-body.action-page_layout .block-receiver .hascontextmenu {
-  cursor: move;
-}
 /***** Gantt chart *****/
 .gantt_hdr {
   position:absolute;

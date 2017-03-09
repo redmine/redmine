@@ -710,21 +710,6 @@ function beforeShowDatePicker(input, inst) {
   }
 }( jQuery ));
 
-function initMyPageSortable(list, url) {
-  $('#list-'+list).sortable({
-    connectWith: '.block-receiver',
-    tolerance: 'pointer',
-    update: function(){
-      $.ajax({
-        url: url,
-        type: 'post',
-        data: {'blocks': $.map($('#list-'+list).children(), function(el){return $(el).attr('id');})}
-      });
-    }
-  });
-  $("#list-top, #list-left, #list-right").disableSelection();
-}
-
 var warnLeavingUnsavedMessage;
 function warnLeavingUnsaved(message) {
   warnLeavingUnsavedMessage = message;

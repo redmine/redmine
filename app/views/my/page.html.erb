@@ -1,21 +1,50 @@
 <div class="contextual">
-    <%= link_to l(:label_personalize_page), {:action => 'page_layout'}, :class => 'icon icon-edit' %>
+  <%= form_tag({:action => "add_block"}, :id => "block-form") do %>
+    <%= label_tag('block-select', l(:button_add)) %>:
+    <%= block_select_tag(@user) %>
+  <% end %>
 </div>
 
 <h2><%=l(:label_my_page)%></h2>
 
-<div id="list-top">
+<div id="my-page">
+<div id="list-top" class="block-receiver">
   <%= render_blocks(@blocks['top'], @user) %>
 </div>
 
-<div id="list-left" class="splitcontentleft">
+<div id="list-left" class="splitcontentleft block-receiver">
   <%= render_blocks(@blocks['left'], @user) %>
 </div>
 
-<div id="list-right" class="splitcontentright">
+<div id="list-right" class="splitcontentright block-receiver">
   <%= render_blocks(@blocks['right'], @user) %>
+</div>
 </div>
 
 <%= context_menu %>
+
+<%= javascript_tag do %>
+$(document).ready(function(){
+  $('#list-top, #list-left, #list-right').sortable({
+    connectWith: '.block-receiver',
+    tolerance: 'pointer',
+    start: function(event, ui){$(this).parent().addClass('dragging');},
+    stop: function(event, ui){$(this).parent().removeClass('dragging');},
+    update: function(event, ui){
+      // trigger the call on the list that receives the block only
+      if ($(this).find(ui.item).length > 0) {
+        $.ajax({
+          url: "<%= escape_javascript url_for(:action => "order_blocks") %>",
+          type: 'post',
+          data: {
+            'group': $(this).attr('id').replace(/^list-/, ''),
+            'blocks': $.map($(this).children(), function(el){return $(el).attr('id').replace(/^block-/, '');})
+          }
+        });
+      }
+    }
+  });
+});
+<% end %>
 
 <% html_title(l(:label_my_page)) -%>

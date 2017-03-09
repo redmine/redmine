@@ -233,25 +233,20 @@ class MyControllerTest < Redmine::ControllerTest
     assert_equal({:days => "14"}, user.reload.pref.my_page_settings('timelog'))
   end
 
-  def test_page_layout
-    get :page_layout
-    assert_response :success
-  end
-
   def test_add_block
     post :add_block, :block => 'issuesreportedbyme'
-    assert_redirected_to '/my/page_layout'
+    assert_redirected_to '/my/page'
     assert User.find(2).pref[:my_page_layout]['top'].include?('issuesreportedbyme')
   end
 
   def test_add_invalid_block_should_redirect
     post :add_block, :block => 'invalid'
-    assert_redirected_to '/my/page_layout'
+    assert_redirected_to '/my/page'
   end
 
   def test_remove_block
     post :remove_block, :block => 'issuesassignedtome'
-    assert_redirected_to '/my/page_layout'
+    assert_redirected_to '/my/page'
     assert !User.find(2).pref[:my_page_layout].values.flatten.include?('issuesassignedtome')
   end
 

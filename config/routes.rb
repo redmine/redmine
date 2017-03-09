@@ -80,7 +80,6 @@ Rails.application.routes.draw do
   post 'my/api_key', :to => 'my#reset_api_key'
   post 'my/rss_key', :to => 'my#reset_rss_key', :as => 'my_rss_key'
   match 'my/password', :controller => 'my', :action => 'password', :via => [:get, :post]
-  match 'my/page_layout', :controller => 'my', :action => 'page_layout', :via => :get
   match 'my/add_block', :controller => 'my', :action => 'add_block', :via => :post
   match 'my/remove_block', :controller => 'my', :action => 'remove_block', :via => :post
   match 'my/order_blocks', :controller => 'my', :action => 'order_blocks', :via => :post
