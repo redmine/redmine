@@ -14,7 +14,7 @@
     </tr>
   </thead>
   <tbody>
-  <% grouped_issue_list(issues, @query, @issue_count_by_group) do |issue, level, group_name, group_count, group_totals| -%>
+  <% grouped_issue_list(issues, query, issue_count_by_group) do |issue, level, group_name, group_count, group_totals| -%>
   <% if group_name %>
     <% reset_cycle %>
     <tr class="group open">
@@ -30,10 +30,10 @@
     <td class="checkbox hide-when-print"><%= check_box_tag("ids[]", issue.id, false, :id => nil) %></td>
     <%= raw query.inline_columns.map {|column| "<td class=\"#{column.css_classes}\">#{column_content(column, issue)}</td>"}.join %>
   </tr>
-  <% @query.block_columns.each do |column|
+  <% query.block_columns.each do |column|
        if (text = column_content(column, issue)) && text.present? -%>
   <tr class="<%= current_cycle %>">
-    <td colspan="<%= @query.inline_columns.size + 1 %>" class="<%= column.css_classes %>">
+    <td colspan="<%= query.inline_columns.size + 1 %>" class="<%= column.css_classes %>">
       <% if query.block_columns.count > 1 %>
         <span><%= column.caption %></span>
       <% end %>
