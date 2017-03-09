@@ -245,13 +245,6 @@ class IssueQuery < Query
     raise StatementInvalid.new(e.message)
   end
 
-  # Returns the issue count by group or nil if query is not grouped
-  def issue_count_by_group
-    grouped_query do |scope|
-      scope.count
-    end
-  end
-
   # Returns sum of all the issue's estimated_hours
   def total_for_estimated_hours(scope)
     map_total(scope.sum(:estimated_hours)) {|t| t.to_f.round(2)}

@@ -299,12 +299,14 @@ module Redmine
           totals_by_group = query.totals_by_group
           render_table_header(pdf, query, col_width, row_height, table_width)
           previous_group = false
+          result_count_by_group = query.result_count_by_group
+
           issue_list(issues) do |issue, level|
             if query.grouped? &&
                  (group = query.group_by_column.value(issue)) != previous_group
               pdf.SetFontStyle('B',10)
               group_label = group.blank? ? 'None' : group.to_s.dup
-              group_label << " (#{query.issue_count_by_group[group]})"
+              group_label << " (#{result_count_by_group[group]})"
               pdf.bookmark group_label, 0, -1
               pdf.RDMCell(table_width, row_height * 2, group_label, 'LR', 1, 'L')
               pdf.SetFontStyle('',8)

@@ -69,7 +69,6 @@ class IssuesController < ApplicationController
       @issues = @query.issues(:order => sort_clause,
                               :offset => @offset,
                               :limit => @limit)
-      @issue_count_by_group = @query.issue_count_by_group
 
       respond_to do |format|
         format.html { render :template => 'issues/index', :layout => !request.xhr? }

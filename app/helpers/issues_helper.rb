@@ -32,9 +32,9 @@ module IssuesHelper
     end
   end
 
-  def grouped_issue_list(issues, query, issue_count_by_group, &block)
+  def grouped_issue_list(issues, query, &block)
     ancestors = []
-    grouped_query_results(issues, query, issue_count_by_group) do |issue, group_name, group_count, group_totals|
+    grouped_query_results(issues, query) do |issue, group_name, group_count, group_totals|
       while (ancestors.any? && !issue.is_descendant_of?(ancestors.last))
         ancestors.pop
       end

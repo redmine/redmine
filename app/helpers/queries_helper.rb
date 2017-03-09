@@ -115,7 +115,8 @@ module QueriesHelper
     render :partial => 'queries/columns', :locals => {:query => query, :tag_name => tag_name}
   end
 
-  def grouped_query_results(items, query, item_count_by_group, &block)
+  def grouped_query_results(items, query, &block)
+    result_count_by_group = query.result_count_by_group
     previous_group, first = false, true
     totals_by_group = query.totalable_columns.inject({}) do |h, column|
       h[column] = query.total_by_group_for(column)
@@ -132,7 +133,7 @@ module QueriesHelper
             group_name = format_object(group)
           end
           group_name ||= ""
-          group_count = item_count_by_group ? item_count_by_group[group] : nil
+          group_count = result_count_by_group ? result_count_by_group[group] : nil
           group_totals = totals_by_group.map {|column, t| total_tag(column, t[group] || 0)}.join(" ").html_safe
         end
       end

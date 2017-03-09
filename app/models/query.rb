@@ -846,6 +846,13 @@ class Query < ActiveRecord::Base
     filters_clauses.any? ? filters_clauses.join(' AND ') : nil
   end
 
+  # Returns the result count by group or nil if query is not grouped
+  def result_count_by_group
+    grouped_query do |scope|
+      scope.count
+    end
+  end
+
   # Returns the sum of values for the given column
   def total_for(column)
     total_with_scope(column, base_scope)

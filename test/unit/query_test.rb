@@ -1653,7 +1653,7 @@ class QueryTest < ActiveSupport::TestCase
 
   def test_issue_count_by_association_group
     q = IssueQuery.new(:name => '_', :group_by => 'assigned_to')
-    count_by_group = q.issue_count_by_group
+    count_by_group = q.result_count_by_group
     assert_kind_of Hash, count_by_group
     assert_equal %w(NilClass User), count_by_group.keys.collect {|k| k.class.name}.uniq.sort
     assert_equal %W(#{INTEGER_KLASS}), count_by_group.values.collect {|k| k.class.name}.uniq
@@ -1662,7 +1662,7 @@ class QueryTest < ActiveSupport::TestCase
 
   def test_issue_count_by_list_custom_field_group
     q = IssueQuery.new(:name => '_', :group_by => 'cf_1')
-    count_by_group = q.issue_count_by_group
+    count_by_group = q.result_count_by_group
     assert_kind_of Hash, count_by_group
     assert_equal %w(NilClass String), count_by_group.keys.collect {|k| k.class.name}.uniq.sort
     assert_equal %W(#{INTEGER_KLASS}), count_by_group.values.collect {|k| k.class.name}.uniq
@@ -1671,7 +1671,7 @@ class QueryTest < ActiveSupport::TestCase
 
   def test_issue_count_by_date_custom_field_group
     q = IssueQuery.new(:name => '_', :group_by => 'cf_8')
-    count_by_group = q.issue_count_by_group
+    count_by_group = q.result_count_by_group
     assert_kind_of Hash, count_by_group
     assert_equal %w(Date NilClass), count_by_group.keys.collect {|k| k.class.name}.uniq.sort
     assert_equal %W(#{INTEGER_KLASS}), count_by_group.values.collect {|k| k.class.name}.uniq
@@ -1681,7 +1681,7 @@ class QueryTest < ActiveSupport::TestCase
     Issue.update_all("assigned_to_id = NULL")
 
     q = IssueQuery.new(:name => '_', :group_by => 'assigned_to')
-    count_by_group = q.issue_count_by_group
+    count_by_group = q.result_count_by_group
     assert_kind_of Hash, count_by_group
     assert_equal 1, count_by_group.keys.size
     assert_nil count_by_group.keys.first

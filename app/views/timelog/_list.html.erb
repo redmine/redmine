@@ -15,7 +15,7 @@
   </tr>
 </thead>
 <tbody>
-<% grouped_query_results(entries, @query, @entry_count_by_group) do |entry, group_name, group_count, group_totals| -%>
+<% grouped_query_results(entries, @query) do |entry, group_name, group_count, group_totals| -%>
   <% if group_name %>
     <% reset_cycle %>
     <tr class="group open">
