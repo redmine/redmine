@@ -514,7 +514,6 @@ ro:
   label_internal: Intern
   label_last_changes: "ultimele %{count} schimbări"
   label_change_view_all: Afișează toate schimbările
-  label_personalize_page: Personalizează aceasta pagina
   label_comment: Comentariu
   label_comment_plural: Comentarii
   label_x_comments:
@@ -891,7 +890,6 @@ ro:
   error_can_not_remove_role: This role is in use and can not be deleted.
   error_can_not_delete_tracker: This tracker contains issues and cannot be deleted.
   field_principal: Principal
-  label_my_page_block: My page block
   notice_failed_to_save_members: "Failed to save member(s): %{errors}."
   text_zoom_out: Zoom out
   text_zoom_in: Zoom in

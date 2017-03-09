@@ -487,7 +487,6 @@ he:
   label_my_page: הדף שלי
   label_my_account: החשבון שלי
   label_my_projects: הפרויקטים שלי
-  label_my_page_block: בלוק הדף שלי
   label_administration: ניהול
   label_login: התחבר
   label_logout: התנתק
@@ -575,7 +574,6 @@ he:
   label_internal: פנימי
   label_last_changes: "%{count} שינוים אחרונים"
   label_change_view_all: צפה בכל השינוים
-  label_personalize_page: התאם אישית דף זה
   label_comment: תגובה
   label_comment_plural: תגובות
   label_x_comments:

@@ -586,7 +586,6 @@ sv:
   label_my_page: Min sida
   label_my_account: Mitt konto
   label_my_projects: Mina projekt
-  label_my_page_block: '"Min sida"-block'
   label_administration: Administration
   label_login: Logga in
   label_logout: Logga ut
@@ -681,7 +680,6 @@ sv:
   label_internal: Intern
   label_last_changes: "senaste %{count} ändringar"
   label_change_view_all: Visa alla ändringar
-  label_personalize_page: Anpassa denna sida
   label_comment: Kommentar
   label_comment_plural: Kommentarer
   label_x_comments:

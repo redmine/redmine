@@ -567,7 +567,6 @@ az:
   label_more_than_ago: gündən əvvəl
   label_my_account: Mənim hesabım
   label_my_page: Mənim səhifəm
-  label_my_page_block: Mənim səhifəmin bloku
   label_my_projects: Mənim layihələrim
   label_new: Yeni
   label_new_statuses_allowed: İcazə verilən yeni statuslar
@@ -595,7 +594,6 @@ az:
   label_password_lost: Parolun bərpası
   label_permissions_report: Giriş hüquqları üzrə hesabat 
   label_permissions: Giriş hüquqları
-  label_personalize_page: bu səhifəni fərdiləşdirmək
   label_please_login: Xahiş edirik, daxil olun.
   label_plugins: Modullar
   label_precedes: növbəti

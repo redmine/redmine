@@ -577,7 +577,6 @@ ru:
   label_more_than_ago: более, чем дней(я) назад
   label_my_account: Моя учётная запись
   label_my_page: Моя страница
-  label_my_page_block: Блок моей страницы
   label_my_projects: Мои проекты
   label_new: Новый
   label_new_statuses_allowed: Разрешенные новые статусы
@@ -605,7 +604,6 @@ ru:
   label_password_lost: Восстановление пароля
   label_permissions_report: Отчёт по правам доступа
   label_permissions: Права доступа
-  label_personalize_page: Персонализировать данную страницу
   label_please_login: Пожалуйста, войдите.
   label_plugins: Модули
   label_precedes: следующая

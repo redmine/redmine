@@ -483,7 +483,6 @@ ca:
   label_my_page: "La meva pàgina"
   label_my_account: "El meu compte"
   label_my_projects: "Els meus projectes"
-  label_my_page_block: "Els meus blocs de pàgina"
   label_administration: "Administració"
   label_login: "Iniciar sessió"
   label_logout: "Tancar sessió"
@@ -571,7 +570,6 @@ ca:
   label_internal: "Intern"
   label_last_changes: "últims %{count} canvis"
   label_change_view_all: "Visualitza tots els canvis"
-  label_personalize_page: "Personalitza aquesta pàgina"
   label_comment: "Comentari"
   label_comment_plural: "Comentaris"
   label_x_comments:

@@ -418,7 +418,6 @@ uk:
   label_internal: Внутрішній
   label_last_changes: "останні %{count} змін"
   label_change_view_all: Проглянути всі зміни
-  label_personalize_page: Персоналізувати цю сторінку
   label_comment: Коментувати
   label_comment_plural: Коментарі
   label_x_comments:
@@ -893,7 +892,6 @@ uk:
   error_can_not_remove_role: This role is in use and can not be deleted.
   error_can_not_delete_tracker: This tracker contains issues and cannot be deleted.
   field_principal: Principal
-  label_my_page_block: My page block
   notice_failed_to_save_members: "Failed to save member(s): %{errors}."
   text_zoom_out: Zoom out
   text_zoom_in: Zoom in

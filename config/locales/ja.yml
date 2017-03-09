@@ -522,7 +522,6 @@ ja:
   label_my_page: マイページ
   label_my_account: 個人設定
   label_my_projects: マイプロジェクト
-  label_my_page_block: マイページパーツ
   label_administration: 管理
   label_login: ログイン
   label_logout: ログアウト
@@ -611,7 +610,6 @@ ja:
   label_internal: 内部
   label_last_changes: "最新の変更 %{count}件"
   label_change_view_all: すべての変更を表示
-  label_personalize_page: このページをパーソナライズする
   label_comment: コメント
   label_comment_plural: コメント
   label_x_comments:

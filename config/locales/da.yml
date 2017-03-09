@@ -457,7 +457,6 @@ da:
   label_internal: Intern
   label_last_changes: "sidste %{count} ændringer"
   label_change_view_all: Vis alle ændringer
-  label_personalize_page: Tilret denne side
   label_comment: Kommentar
   label_comment_plural: Kommentarer
   label_x_comments:
@@ -912,7 +911,6 @@ da:
   error_can_not_remove_role: Denne rolle er i brug og kan ikke slettes.
   error_can_not_delete_tracker: Denne type indeholder sager og kan ikke slettes.
   field_principal: Principal
-  label_my_page_block: blok
   notice_failed_to_save_members: "Fejl under lagring af medlem(mer): %{errors}."
   text_zoom_out: Zoom ud
   text_zoom_in: Zoom ind

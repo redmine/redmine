@@ -509,7 +509,6 @@ vi:
   label_internal: Nội bộ
   label_last_changes: "%{count} thay đổi cuối"
   label_change_view_all: Xem mọi thay đổi
-  label_personalize_page: Điều chỉnh trang này
   label_comment: Bình luận
   label_comment_plural: Bình luận
   label_x_comments:
@@ -947,7 +946,6 @@ vi:
   error_can_not_remove_role: Quyền này đang được dùng và không thể xóa được.
   error_can_not_delete_tracker: Theo dõi này chứa vấn đề và không thể xóa được.
   field_principal: Chủ yếu
-  label_my_page_block: Block trang của tôi
   notice_failed_to_save_members: "Thất bại khi lưu thành viên : %{errors}."
   text_zoom_out: Thu nhỏ
   text_zoom_in: Phóng to

@@ -479,7 +479,6 @@ sr-YU:
   label_my_page: Moja stranica
   label_my_account: Moj nalog
   label_my_projects: Moji projekti
-  label_my_page_block: My page block
   label_administration: Administracija
   label_login: Prijava
   label_logout: Odjava
@@ -567,7 +566,6 @@ sr-YU:
   label_internal: Unutrašnji
   label_last_changes: "poslednjih %{count} promena"
   label_change_view_all: Prikaži sve promene
-  label_personalize_page: Personalizuj ovu stranu
   label_comment: Komentar
   label_comment_plural: Komentari
   label_x_comments:

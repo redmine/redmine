@@ -554,7 +554,6 @@ mn:
   label_internal: Дотоод
   label_last_changes: "сүүлийн %{count} өөрчлөлтүүд"
   label_change_view_all: Бүх өөрчлөлтүүдийг харах
-  label_personalize_page: Энэ хуудсыг өөрт зориулан өөрчлөх
   label_comment: Тайлбар
   label_comment_plural: Тайлбарууд
   label_x_comments:
@@ -897,7 +896,6 @@ mn:
   error_can_not_remove_role: This role is in use and can not be deleted.
   error_can_not_delete_tracker: This tracker contains issues and cannot be deleted.
   field_principal: Principal
-  label_my_page_block: My page block
   notice_failed_to_save_members: "Failed to save member(s): %{errors}."
   text_zoom_out: Zoom out
   text_zoom_in: Zoom in

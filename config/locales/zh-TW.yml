@@ -685,7 +685,6 @@
   label_my_page: 帳戶首頁
   label_my_account: 我的帳戶
   label_my_projects: 我的專案
-  label_my_page_block: 帳戶首頁區塊
   label_administration: 網站管理
   label_login: 登入
   label_logout: 登出
@@ -783,7 +782,6 @@
   label_internal: 內部
   label_last_changes: "最近 %{count} 個變更"
   label_change_view_all: 檢視全部的變更
-  label_personalize_page: 自訂版面
   label_comment: 回應
   label_comment_plural: 回應
   label_x_comments:

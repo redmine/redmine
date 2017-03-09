@@ -447,7 +447,6 @@ sk:
   label_internal: Interný
   label_last_changes: "posledných %{count} zmien"
   label_change_view_all: Zobraziť všetky zmeny
-  label_personalize_page: Prispôsobiť túto stránku
   label_comment: Komentár
   label_comment_plural: Komentáre
   label_x_comments:
@@ -891,7 +890,6 @@ sk:
   error_can_not_remove_role: "Táto rola sa používa a nemôže byť vymazaná."
   error_can_not_delete_tracker: "Tento front obsahuje úlohy a nemôže byť vymazaný."
   field_principal: Objednávateľ
-  label_my_page_block: Blok obsahu
   notice_failed_to_save_members: "Nepodarilo sa uložiť členov: %{errors}."
   text_zoom_out: Oddialiť
   text_zoom_in: Priblížiť

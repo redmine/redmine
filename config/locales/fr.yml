@@ -613,7 +613,6 @@ fr:
   label_my_page: Ma page
   label_my_account: Mon compte
   label_my_projects: Mes projets
-  label_my_page_block: Blocs disponibles
   label_administration: Administration
   label_login: Connexion
   label_logout: Déconnexion
@@ -710,7 +709,6 @@ fr:
   label_internal: Interne
   label_last_changes: "%{count} derniers changements"
   label_change_view_all: Voir tous les changements
-  label_personalize_page: Personnaliser cette page
   label_comment: Commentaire
   label_comment_plural: Commentaires
   label_x_comments:

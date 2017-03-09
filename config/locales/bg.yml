@@ -603,7 +603,6 @@ bg:
   label_my_page: Лична страница
   label_my_account: Профил
   label_my_projects: Проекти, в които участвам
-  label_my_page_block: Блокове в личната страница
   label_administration: Администрация
   label_login: Вход
   label_logout: Изход
@@ -701,7 +700,6 @@ bg:
   label_internal: Вътрешен
   label_last_changes: "последни %{count} промени"
   label_change_view_all: Виж всички промени
-  label_personalize_page: Персонализиране
   label_comment: Коментар
   label_comment_plural: Коментари
   label_x_comments:

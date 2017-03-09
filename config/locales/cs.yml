@@ -495,7 +495,6 @@ cs:
   label_my_page: Moje stránka
   label_my_account: Můj účet
   label_my_projects: Moje projekty
-  label_my_page_block: Bloky na mé stránce
   label_administration: Administrace
   label_login: Přihlášení
   label_logout: Odhlášení
@@ -583,7 +582,6 @@ cs:
   label_internal: Interní
   label_last_changes: "posledních %{count} změn"
   label_change_view_all: Zobrazit všechny změny
-  label_personalize_page: Přizpůsobit tuto stránku
   label_comment: Komentář
   label_comment_plural: Komentáře
   label_x_comments:

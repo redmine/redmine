@@ -601,7 +601,6 @@ en:
   label_my_page: My page
   label_my_account: My account
   label_my_projects: My projects
-  label_my_page_block: My page block
   label_administration: Administration
   label_login: Sign in
   label_logout: Sign out
@@ -699,7 +698,6 @@ en:
   label_internal: Internal
   label_last_changes: "last %{count} changes"
   label_change_view_all: View all changes
-  label_personalize_page: Personalize this page
   label_comment: Comment
   label_comment_plural: Comments
   label_x_comments:

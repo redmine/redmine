@@ -409,7 +409,6 @@ it:
   label_internal: Interno
   label_last_changes: "ultime %{count} modifiche"
   label_change_view_all: Tutte le modifiche
-  label_personalize_page: Personalizza la pagina
   label_comment: Commento
   label_comment_plural: Commenti
   label_x_comments:
@@ -896,7 +895,6 @@ it:
   error_can_not_remove_role: Questo ruolo è in uso e non può essere eliminato.
   error_can_not_delete_tracker: Questo tracker contiene segnalazioni e non può essere eliminato.
   field_principal: Principale
-  label_my_page_block: La mia pagina di blocco
   notice_failed_to_save_members: "Impossibile salvare il membro(i): %{errors}."
   text_zoom_out: Riduci ingrandimento
   text_zoom_in: Aumenta ingrandimento

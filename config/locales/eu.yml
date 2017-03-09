@@ -553,7 +553,6 @@ eu:
   label_internal: Barnekoa
   label_last_changes: "azken %{count} aldaketak"
   label_change_view_all: Aldaketa guztiak ikusi
-  label_personalize_page: Orri hau pertsonalizatu
   label_comment: Iruzkin
   label_comment_plural: Iruzkinak
   label_x_comments:
@@ -897,7 +896,6 @@ eu:
   error_can_not_remove_role: Rol hau erabiltzen hari da eta ezin da ezabatu.
   error_can_not_delete_tracker: Aztarnari honek zereginak ditu eta ezin da ezabatu.
   field_principal: Ekintzaile
-  label_my_page_block: "Nire orriko blokea"
   notice_failed_to_save_members: "Kidea(k) gordetzean errorea: %{errors}."
   text_zoom_out: Zooma txikiagotu
   text_zoom_in: Zooma handiagotu

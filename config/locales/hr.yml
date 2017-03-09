@@ -544,7 +544,6 @@ hr:
   label_internal: Interno
   label_last_changes: "Posljednjih %{count} promjena"
   label_change_view_all: Prikaz svih promjena
-  label_personalize_page: Prilagodite ovu stranicu
   label_comment: Komentar
   label_comment_plural: Komentari
   label_x_comments:
@@ -895,7 +894,6 @@ hr:
   error_can_not_remove_role: This role is in use and can not be deleted.
   error_can_not_delete_tracker: This tracker contains issues and cannot be deleted.
   field_principal: Principal
-  label_my_page_block: My page block
   notice_failed_to_save_members: "Failed to save member(s): %{errors}."
   text_zoom_out: Zoom out
   text_zoom_in: Zoom in

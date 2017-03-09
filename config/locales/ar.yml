@@ -512,7 +512,6 @@ ar:
   label_my_page: الصفحة الخاصة بي
   label_my_account: حسابي
   label_my_projects: مشاريعي الخاصة
-  label_my_page_block: حجب صفحتي الخاصة
   label_administration: إدارة النظام
   label_login: تسجيل الدخول
   label_logout: تسجيل الخروج
@@ -601,7 +600,6 @@ ar:
   label_internal: الداخلية
   label_last_changes: "آخر التغييرات %{count}"
   label_change_view_all: عرض كافة التغييرات
-  label_personalize_page: تخصيص هذه الصفحة
   label_comment: تعليق
   label_comment_plural: تعليقات
   label_x_comments:

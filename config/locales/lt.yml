@@ -588,7 +588,6 @@ lt:
   label_my_page: Mano puslapis
   label_my_account: Mano paskyra
   label_my_projects: Mano projektai
-  label_my_page_block: Mano puslapio blokas
   label_administration: Administravimas
   label_login: Prisijungti
   label_logout: Atsijungti
@@ -685,7 +684,6 @@ lt:
   label_internal: Vidinis
   label_last_changes: "paskutiniai %{count} pokyčiai(-ių)"
   label_change_view_all: Peržiūrėti visus pakeitimus
-  label_personalize_page: Suasmeninti šį puslapį
   label_comment: Komentaras
   label_comment_plural: Komentarai
   label_x_comments:

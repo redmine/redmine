@@ -538,7 +538,6 @@ et:
   label_my_page: "Minu leht"
   label_my_account: "Minu konto"
   label_my_projects: "Minu projektid"
-  label_my_page_block: "Uus blokk"
   label_administration: "Seadistused"
   label_login: "Logi sisse"
   label_logout: "Logi välja"
@@ -631,7 +630,6 @@ et:
   label_internal: "Sisemine"
   label_last_changes: "viimased %{count} muudatust"
   label_change_view_all: "Kõik muudatused"
-  label_personalize_page: "Kujunda leht ümber"
   label_comment: "Kommentaar"
   label_comment_plural: "Kommentaarid"
   label_x_comments:

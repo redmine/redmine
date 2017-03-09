@@ -524,7 +524,6 @@ pl:
   label_password_lost: Zapomniane hasło
   label_permissions: Uprawnienia
   label_permissions_report: Raport uprawnień
-  label_personalize_page: Personalizuj tę stronę
   label_please_login: Zaloguj się
   label_plugins: Wtyczki
   label_precedes: poprzedza
@@ -915,7 +914,6 @@ pl:
   error_can_not_remove_role: Ta rola przypisana jest niektórym użytkownikom i nie może zostać usunięta.
   error_can_not_delete_tracker: Ten typ przypisany jest do części zagadnień i nie może zostać usunięty.
   field_principal: Przełożony
-  label_my_page_block: Elementy
   notice_failed_to_save_members: "Nie można zapisać uczestników: %{errors}."
   text_zoom_out: Zmniejsz
   text_zoom_in: Powiększ

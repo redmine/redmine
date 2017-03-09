@@ -536,7 +536,6 @@ id:
   label_internal: Internal
   label_last_changes: "%{count} perubahan terakhir"
   label_change_view_all: Tampilkan semua perubahan
-  label_personalize_page: Personalkan halaman ini
   label_comment: Komentar
   label_comment_plural: Komentar
   label_x_comments:
@@ -900,7 +899,6 @@ id:
   error_can_not_remove_role: This role is in use and can not be deleted.
   error_can_not_delete_tracker: This tracker contains issues and cannot be deleted.
   field_principal: Principal
-  label_my_page_block: My page block
   notice_failed_to_save_members: "Failed to save member(s): %{errors}."
   text_zoom_out: Zoom out
   text_zoom_in: Zoom in

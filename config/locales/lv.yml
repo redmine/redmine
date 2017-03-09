@@ -548,7 +548,6 @@ lv:
   label_internal: Iekšējais
   label_last_changes: "pēdējās %{count} izmaiņas"
   label_change_view_all: Skatīt visas izmaiņas
-  label_personalize_page: Pielāgot šo lapu
   label_comment: Komentārs
   label_comment_plural: Komentāri
   label_x_comments:
@@ -890,7 +889,6 @@ lv:
   error_can_not_delete_tracker: This tracker contains issues and cannot be deleted.
   label_project_copy_notifications: Send email notifications during the project copy
   field_principal: Principal
-  label_my_page_block: My page block
   notice_failed_to_save_members: "Failed to save member(s): %{errors}."
   text_zoom_out: Zoom out
   text_zoom_in: Zoom in

@@ -489,7 +489,6 @@ fa:
   label_my_page: صفحه خودم
   label_my_account: تنظیمات خودم
   label_my_projects: پروژه‌های خودم
-  label_my_page_block: بخش صفحه خودم
   label_administration: مدیریت
   label_login: نام کاربری
   label_logout: خروج
@@ -577,7 +576,6 @@ fa:
   label_internal: درونی
   label_last_changes: "%{count} تغییر آخر"
   label_change_view_all: دیدن همه تغییرات
-  label_personalize_page: سفارشی نمودن این صفحه
   label_comment: نظر
   label_comment_plural: نظر ها
   label_x_comments:

@@ -638,7 +638,6 @@ de:
   label_more_than_ago: vor mehr als
   label_my_account: Mein Konto
   label_my_page: Meine Seite
-  label_my_page_block: Verfügbare Widgets
   label_my_projects: Meine Projekte
   label_my_queries: Meine eigenen Abfragen
   label_new: Neu
@@ -671,7 +670,6 @@ de:
   label_password_required: Bitte geben Sie Ihr Passwort ein
   label_permissions: Berechtigungen
   label_permissions_report: Berechtigungsübersicht
-  label_personalize_page: Diese Seite anpassen
   label_please_login: Anmelden
   label_plugins: Plugins
   label_precedes: Vorgänger von

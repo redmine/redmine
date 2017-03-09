@@ -479,7 +479,6 @@ mk:
   label_my_page: Мојата страна
   label_my_account: Мојот профил
   label_my_projects: Мои проекти
-  label_my_page_block: Блок елемент
   label_administration: Администрација
   label_login: Најави се
   label_logout: Одјави се
@@ -567,7 +566,6 @@ mk:
   label_internal: Internal
   label_last_changes: "последни %{count} промени"
   label_change_view_all: Прегледај ги сите промени
-  label_personalize_page: Прилагоди ја странава
   label_comment: Коментар
   label_comment_plural: Коментари
   label_x_comments:

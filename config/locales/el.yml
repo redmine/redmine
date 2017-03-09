@@ -530,7 +530,6 @@ el:
   label_internal: Εσωτερικό
   label_last_changes: "Τελευταίες %{count} αλλαγές"
   label_change_view_all: Προβολή όλων των αλλαγών
-  label_personalize_page: Προσαρμογή σελίδας
   label_comment: Σχόλιο
   label_comment_plural: Σχόλια
   label_x_comments:
@@ -896,7 +895,6 @@ el:
   error_can_not_remove_role: This role is in use and can not be deleted.
   error_can_not_delete_tracker: This tracker contains issues and cannot be deleted.
   field_principal: Principal
-  label_my_page_block: My page block
   notice_failed_to_save_members: "Failed to save member(s): %{errors}."
   text_zoom_out: Zoom out
   text_zoom_in: Zoom in

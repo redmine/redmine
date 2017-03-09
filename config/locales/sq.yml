@@ -519,7 +519,6 @@ sq:
   label_my_page: Faqja ime
   label_my_account: Llogaria ime
   label_my_projects: Projektet e mia
-  label_my_page_block: My page block
   label_administration: Administrim
   label_login: Login
   label_logout: Dalje
@@ -612,7 +611,6 @@ sq:
   label_internal: I brendshem
   label_last_changes: "%{count} ndryshimet e fundit"
   label_change_view_all: Shih gjithe ndryshimet
-  label_personalize_page: Personalizo kete Faqe
   label_comment: Koment
   label_comment_plural: Komente
   label_x_comments:

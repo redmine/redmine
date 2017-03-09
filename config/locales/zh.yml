@@ -494,7 +494,6 @@ zh:
   label_my_page: 我的工作台
   label_my_account: 我的帐号
   label_my_projects: 我的项目
-  label_my_page_block: 我的工作台模块
   label_administration: 管理
   label_login: 登录
   label_logout: 退出
@@ -582,7 +581,6 @@ zh:
   label_internal: 内部
   label_last_changes: "最近的 %{count} 次变更"
   label_change_view_all: 查看所有变更
-  label_personalize_page: 个性化定制本页
   label_comment: 评论
   label_comment_plural: 评论
   label_x_comments:

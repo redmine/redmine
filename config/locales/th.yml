@@ -448,7 +448,6 @@ th:
   label_internal: ภายใน
   label_last_changes: "last %{count} เปลี่ยนแปลง"
   label_change_view_all: ดูการเปลี่ยนแปลงทั้งหมด
-  label_personalize_page: ปรับแต่งหน้านี้
   label_comment: ความเห็น
   label_comment_plural: ความเห็น
   label_x_comments:
@@ -893,7 +892,6 @@ th:
   error_can_not_remove_role: This role is in use and can not be deleted.
   error_can_not_delete_tracker: This tracker contains issues and cannot be deleted.
   field_principal: Principal
-  label_my_page_block: My page block
   notice_failed_to_save_members: "Failed to save member(s): %{errors}."
   text_zoom_out: Zoom out
   text_zoom_in: Zoom in
