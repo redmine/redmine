@@ -28,6 +28,7 @@ $(document).ready(function(){
   $('#list-top, #list-left, #list-right').sortable({
     connectWith: '.block-receiver',
     tolerance: 'pointer',
+    handle: '.sort-handle',
     start: function(event, ui){$(this).parent().addClass('dragging');},
     stop: function(event, ui){$(this).parent().removeClass('dragging');},
     update: function(event, ui){

@@ -26,7 +26,7 @@ module MyHelper
       blocks.each do |block|
         content = render_block_content(block, user)
         if content.present?
-          handle = content_tag('span', '', :class => 'hanlde sort-handle')
+          handle = content_tag('span', '', :class => 'sort-handle')
           close = link_to(l(:button_delete), {:action => "remove_block", :block => block}, :method => 'post', :class => "icon-only icon-close")
           content = content_tag('div', handle + close, :class => 'contextual') + content
 
