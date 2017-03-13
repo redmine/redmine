@@ -1159,7 +1159,7 @@ class Issue < ActiveRecord::Base
 
   # Preloads users who updated last a collection of issues
   def self.load_visible_last_updated_by(issues, user=User.current)
-     if issues.any?
+    if issues.any?
       issue_ids = issues.map(&:id)
       journal_ids = Journal.joins(issue: :project).
         where(:journalized_type => 'Issue', :journalized_id => issue_ids).
