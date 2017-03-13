@@ -23,8 +23,6 @@ class AdminController < ApplicationController
   menu_item :info, :only => :info
 
   before_action :require_admin
-  helper :sort
-  include SortHelper
 
   def index
     @no_configuration_data = Redmine::DefaultData::Loader::no_data?

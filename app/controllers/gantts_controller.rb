@@ -26,8 +26,6 @@ class GanttsController < ApplicationController
   helper :projects
   helper :queries
   include QueriesHelper
-  helper :sort
-  include SortHelper
   include Redmine::Export::PDF
 
   def show
