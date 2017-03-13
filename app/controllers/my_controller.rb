@@ -147,18 +147,29 @@ class MyController < ApplicationController
   # params[:block] : id of the block to add
   def add_block
     @user = User.current
-    @user.pref.add_block params[:block]
-    @user.pref.save
-    redirect_to my_page_path
+    @block = params[:block]
+    if @user.pref.add_block @block
+      @user.pref.save
+      respond_to do |format|
+        format.html { redirect_to my_page_path }
+        format.js
+      end
+    else
+      render_error :status => 422
+    end
   end
 
   # Remove a block to user's page
   # params[:block] : id of the block to remove
   def remove_block
     @user = User.current
-    @user.pref.remove_block params[:block]
+    @block = params[:block]
+    @user.pref.remove_block @block
     @user.pref.save
-    redirect_to my_page_path
+    respond_to do |format|
+      format.html { redirect_to my_page_path }
+      format.js
+    end
   end
 
   # Change blocks order on user's page

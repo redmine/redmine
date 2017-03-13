@@ -227,7 +227,7 @@ class MyControllerTest < Redmine::ControllerTest
 
     xhr :post, :update_page, :settings => {'timelog' => {'days' => '14'}}
     assert_response :success
-    assert_include '$("#block-timelog").html(', response.body
+    assert_include '$("#block-timelog").replaceWith(', response.body
     assert_include '14 days', response.body
 
     assert_equal({:days => "14"}, user.reload.pref.my_page_settings('timelog'))
@@ -239,14 +239,27 @@ class MyControllerTest < Redmine::ControllerTest
     assert User.find(2).pref[:my_page_layout]['top'].include?('issuesreportedbyme')
   end
 
-  def test_add_invalid_block_should_redirect
+  def test_add_block_xhr
+    xhr :post, :add_block, :block => 'issuesreportedbyme'
+    assert_response :success
+    assert_include 'issuesreportedbyme', User.find(2).pref[:my_page_layout]['top']
+  end
+
+  def test_add_invalid_block_should_error
     post :add_block, :block => 'invalid'
-    assert_redirected_to '/my/page'
+    assert_response 422
   end
 
   def test_remove_block
     post :remove_block, :block => 'issuesassignedtome'
     assert_redirected_to '/my/page'
+    assert !User.find(2).pref[:my_page_layout].values.flatten.include?('issuesassignedtome')
+  end
+
+  def test_remove_block_xhr
+    xhr :post, :remove_block, :block => 'issuesassignedtome'
+    assert_response :success
+    assert_include '$("#block-issuesassignedtome").remove();', response.body
     assert !User.find(2).pref[:my_page_layout].values.flatten.include?('issuesassignedtome')
   end
 
