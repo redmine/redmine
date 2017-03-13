@@ -206,8 +206,8 @@ class Redmine::UiTest::IssuesTest < Redmine::UiTest::Base
       :trackers => Tracker.where(:name => 'Feature request')
     )
 
-    Role.non_member.add_permission! :edit_issues
-    Role.non_member.remove_permission! :add_issues, :add_issue_notes
+    Role.non_member.add_permission! :edit_issues, :add_issues
+    Role.non_member.remove_permission! :add_issue_notes
 
     log_user('someone', 'foo')
     visit '/issues/1'
