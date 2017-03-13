@@ -105,6 +105,10 @@ class TimeEntryQuery < Query
   def default_totalable_names
     [:hours]
   end
+ 
+  def default_sort_criteria
+    [['spent_on', 'desc']]
+  end
 
   def base_scope
     TimeEntry.visible.
@@ -114,7 +118,7 @@ class TimeEntryQuery < Query
   end
 
   def results_scope(options={})
-    order_option = [group_by_sort_order, options[:order]].flatten.reject(&:blank?)
+    order_option = [group_by_sort_order, (options[:order] || sort_clause)].flatten.reject(&:blank?)
 
     base_scope.
       order(order_option).

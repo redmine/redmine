@@ -53,97 +53,6 @@
 #
 
 module SortHelper
-  class SortCriteria
-
-    def initialize
-      @criteria = []
-    end
-
-    def available_criteria=(criteria)
-      unless criteria.is_a?(Hash)
-        criteria = criteria.inject({}) {|h,k| h[k] = k; h}
-      end
-      @available_criteria = criteria
-    end
-
-    def from_param(param)
-      @criteria = param.to_s.split(',').collect {|s| s.split(':')[0..1]}
-      normalize!
-    end
-
-    def criteria=(arg)
-      @criteria = arg
-      normalize!
-    end
-
-    def to_param
-      @criteria.collect {|k,o| k + (o ? '' : ':desc')}.join(',')
-    end
-
-    # Returns an array of SQL fragments used to sort the list
-    def to_sql
-      sql = @criteria.collect do |k,o|
-        if s = @available_criteria[k]
-          s = [s] unless s.is_a?(Array)
-          s.collect {|c| append_order(c, o ? "ASC" : "DESC")}
-        end
-      end.flatten.compact
-      sql.blank? ? nil : sql
-    end
-
-    def to_a
-      @criteria.dup
-    end
-
-    def add!(key, asc)
-      @criteria.delete_if {|k,o| k == key}
-      @criteria = [[key, asc]] + @criteria
-      normalize!
-    end
-
-    def add(*args)
-      r = self.class.new.from_param(to_param)
-      r.add!(*args)
-      r
-    end
-
-    def first_key
-      @criteria.first && @criteria.first.first
-    end
-
-    def first_asc?
-      @criteria.first && @criteria.first.last
-    end
-
-    def empty?
-      @criteria.empty?
-    end
-
-    private
-
-    def normalize!
-      @criteria ||= []
-      @criteria = @criteria.collect {|s| s = Array(s); [s.first, (s.last == false || s.last == 'desc') ? false : true]}
-      @criteria = @criteria.select {|k,o| @available_criteria.has_key?(k)} if @available_criteria
-      @criteria.slice!(3)
-      self
-    end
-
-    # Appends ASC/DESC to the sort criterion unless it has a fixed order
-    def append_order(criterion, order)
-      if criterion =~ / (asc|desc)$/i
-        criterion
-      else
-        "#{criterion} #{order}"
-      end
-    end
-
-    # Appends DESC to the sort criterion unless it has a fixed order
-    def append_desc(criterion)
-      append_order(criterion, "DESC")
-    end
-  end
-
   def sort_name
     controller_name + '_' + action_name + '_sort'
   end
@@ -173,10 +82,8 @@ module SortHelper
   #
   def sort_update(criteria, sort_name=nil)
     sort_name ||= self.sort_name
-    @sort_criteria = SortCriteria.new
-    @sort_criteria.available_criteria = criteria
-    @sort_criteria.from_param(params[:sort] || session[sort_name])
-    @sort_criteria.criteria = @sort_default if @sort_criteria.empty?
+    @sort_criteria = Redmine::SortCriteria.new(params[:sort] || session[sort_name] || @sort_default)
+    @sortable_columns = criteria
     session[sort_name] = @sort_criteria.to_param
   end
 
@@ -190,7 +97,7 @@ module SortHelper
   # Use this to sort the controller's table items collection.
   #
   def sort_clause()
-    @sort_criteria.to_sql
+    @sort_criteria.sort_clause(@sortable_columns)
   end
 
   def sort_criteria

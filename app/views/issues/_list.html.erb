@@ -1,7 +1,7 @@
 <%= form_tag({}, :data => {:cm_url => issues_context_menu_path}) do -%>
 <%= hidden_field_tag 'back_url', url_for(:params => request.query_parameters), :id => nil %>
 <div class="autoscroll">
-<table class="list issues odd-even <%= sort_css_classes %>">
+<table class="list issues odd-even <%= query.css_classes %>">
   <thead>
     <tr>
       <th class="checkbox hide-when-print">
@@ -9,7 +9,7 @@
               :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}" %>
       </th>
       <% query.inline_columns.each do |column| %>
-        <%= column_header(column) %>
+        <%= column_header(query, column) %>
       <% end %>
     </tr>
   </thead>

@@ -37,15 +37,10 @@ class IssuesController < ApplicationController
   helper :queries
   include QueriesHelper
   helper :repositories
-  helper :sort
-  include SortHelper
   helper :timelog
 
   def index
     retrieve_query
-    sort_init(@query.sort_criteria.empty? ? [['id', 'desc']] : @query.sort_criteria)
-    sort_update(@query.sortable_columns)
-    @query.sort_criteria = sort_criteria.to_a
 
     if @query.valid?
       case params[:format]
@@ -66,9 +61,7 @@ class IssuesController < ApplicationController
       @issue_count = @query.issue_count
       @issue_pages = Paginator.new @issue_count, @limit, params['page']
       @offset ||= @issue_pages.offset
-      @issues = @query.issues(:order => sort_clause,
-                              :offset => @offset,
-                              :limit => @limit)
+      @issues = @query.issues(:offset => @offset, :limit => @limit)
 
       respond_to do |format|
         format.html { render :template => 'issues/index', :layout => !request.xhr? }
@@ -421,10 +414,8 @@ class IssuesController < ApplicationController
     else
       retrieve_query_from_session
       if @query
-        sort_init(@query.sort_criteria.empty? ? [['id', 'desc']] : @query.sort_criteria)
-        sort_update(@query.sortable_columns, 'issues_index_sort')
         limit = 500
-        issue_ids = @query.issue_ids(:order => sort_clause, :limit => (limit + 1))
+        issue_ids = @query.issue_ids(:limit => (limit + 1))
         if (idx = issue_ids.index(@issue.id)) && idx < limit
           if issue_ids.size < 500
             @issue_position = idx + 1

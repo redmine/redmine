@@ -215,7 +215,7 @@ class IssuesCustomFieldsVisibilityTest < Redmine::ControllerTest
     # ValueB is not visible to user and ignored while sorting
     assert_equal %w(ValueB ValueA ValueC), issues_in_list.map{|i| i.custom_field_value(@field2)}
 
-    get :index, :set_filter => '1', "cf_#{@field2.id}" => '*'
+    get :index, :set_filter => '1', "cf_#{@field2.id}" => '*', :sort => "cf_#{@field2.id}"
     assert_equal %w(ValueA ValueC), issues_in_list.map{|i| i.custom_field_value(@field2)}
 
     CustomField.update_all(:field_format => 'list')

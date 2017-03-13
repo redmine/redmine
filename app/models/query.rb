@@ -377,6 +377,7 @@ class Query < ActiveRecord::Base
     self.group_by = params[:group_by] || (params[:query] && params[:query][:group_by])
     self.column_names = params[:c] || (params[:query] && params[:query][:column_names])
     self.totalable_names = params[:t] || (params[:query] && params[:query][:totalable_names])
+    self.sort_criteria = params[:sort] || (params[:query] && params[:query][:sort_criteria])
     self
   end
 
@@ -710,37 +711,40 @@ class Query < ActiveRecord::Base
     options[:totalable_names] || default_totalable_names || []
   end
 
+  def default_sort_criteria
+    []
+  end
+
   def sort_criteria=(arg)
-    c = []
-    if arg.is_a?(Hash)
-      arg = arg.keys.sort.collect {|k| arg[k]}
-    end
-    if arg
-      c = arg.select {|k,o| !k.to_s.blank?}.slice(0,3).collect {|k,o| [k.to_s, (o == 'desc' || o == false) ? 'desc' : 'asc']}
-    end
-    write_attribute(:sort_criteria, c)
+    c = Redmine::SortCriteria.new(arg)
+    write_attribute(:sort_criteria, c.to_a)
+    c
   end
 
   def sort_criteria
-    read_attribute(:sort_criteria) || []
+    c = read_attribute(:sort_criteria)
+    if c.blank?
+      c = default_sort_criteria
+    end
+    Redmine::SortCriteria.new(c)
   end
 
-  def sort_criteria_key(arg)
-    sort_criteria && sort_criteria[arg] && sort_criteria[arg].first
+  def sort_criteria_key(index)
+    sort_criteria[index].try(:first)
   end
 
-  def sort_criteria_order(arg)
-    sort_criteria && sort_criteria[arg] && sort_criteria[arg].last
+  def sort_criteria_order(index)
+    sort_criteria[index].try(:last)
   end
 
-  def sort_criteria_order_for(key)
-    sort_criteria.detect {|k, order| key.to_s == k}.try(:last)
+  def sort_clause
+    sort_criteria.sort_clause(sortable_columns)
   end
 
   # Returns the SQL sort order that should be prepended for grouping
   def group_by_sort_order
     if column = group_by_column
-      order = (sort_criteria_order_for(column.name) || column.default_order || 'asc').try(:upcase)
+      order = (sort_criteria.order_for(column.name) || column.default_order || 'asc').try(:upcase)
       Array(column.sortable).map {|s| "#{s} #{order}"}
     end
   end
@@ -876,6 +880,14 @@ class Query < ActiveRecord::Base
     totals = totalable_columns.map {|column| [column, total_by_group_for(column)]}
     yield totals if block_given?
     totals
+  end
+
+  def css_classes
+    s = sort_criteria.first
+    if s.present?
+      key, asc = s
+      "sort-by-#{key.to_s.dasherize} sort-#{asc}"
+    end
   end
 
   private

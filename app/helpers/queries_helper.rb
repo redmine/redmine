@@ -161,10 +161,28 @@ module QueriesHelper
     content_tag('span', label + " " + value, :class => "total-for-#{column.name.to_s.dasherize}")
   end
 
-  def column_header(column)
-    column.sortable ? sort_header_tag(column.name.to_s, :caption => column.caption,
-                                                        :default_order => column.default_order) :
-                      content_tag('th', h(column.caption))
+  def column_header(query, column)
+    if column.sortable?
+      css, order = nil, column.default_order
+      if column.name.to_s == query.sort_criteria.first_key
+        if query.sort_criteria.first_asc?
+          css = 'sort asc'
+          order = 'desc'
+        else
+          css = 'sort desc'
+          order = 'asc'
+        end
+      end
+      sort_param = { :sort => query.sort_criteria.add(column.name, order).to_param }
+      content = link_to(column.caption,
+          {:params => request.query_parameters.merge(sort_param)},
+          :title => l(:label_sort_by, "\"#{column.caption}\""),
+          :class => css
+        )
+    else
+      content = column.caption
+    end
+    content_tag('th', content)
   end
 
   def column_content(column, item)
@@ -257,19 +275,26 @@ module QueriesHelper
       raise ::Unauthorized unless @query.visible?
       @query.project = @project
       session[session_key] = {:id => @query.id, :project_id => @query.project_id} if use_session
-      sort_clear
     elsif api_request? || params[:set_filter] || !use_session || session[session_key].nil? || session[session_key][:project_id] != (@project ? @project.id : nil)
       # Give it a name, required to be valid
       @query = klass.new(:name => "_", :project => @project)
       @query.build_from_params(params)
-      session[session_key] = {:project_id => @query.project_id, :filters => @query.filters, :group_by => @query.group_by, :column_names => @query.column_names, :totalable_names => @query.totalable_names} if use_session
+      session[session_key] = {:project_id => @query.project_id, :filters => @query.filters, :group_by => @query.group_by, :column_names => @query.column_names, :totalable_names => @query.totalable_names, :sort => @query.sort_criteria.to_a} if use_session
     else
       # retrieve from session
       @query = nil
       @query = klass.find_by_id(session[session_key][:id]) if session[session_key][:id]
-      @query ||= klass.new(:name => "_", :filters => session[session_key][:filters], :group_by => session[session_key][:group_by], :column_names => session[session_key][:column_names], :totalable_names => session[session_key][:totalable_names])
+      @query ||= klass.new(:name => "_", :filters => session[session_key][:filters], :group_by => session[session_key][:group_by], :column_names => session[session_key][:column_names], :totalable_names => session[session_key][:totalable_names], :sort_criteria => session[session_key][:sort])
       @query.project = @project
     end
+    if params[:sort].present?
+      @query.sort_criteria = params[:sort]
+      if use_session
+        session[session_key] ||= {}
+        session[session_key][:sort] = @query.sort_criteria.to_a
+      end
+    end
+    @query
   end
 
   def retrieve_query_from_session(klass=IssueQuery)
@@ -281,7 +306,7 @@ module QueriesHelper
         @query = IssueQuery.find_by_id(session_data[:id])
         return unless @query
       else
-        @query = IssueQuery.new(:name => "_", :filters => session_data[:filters], :group_by => session_data[:group_by], :column_names => session_data[:column_names], :totalable_names => session_data[:totalable_names])
+        @query = IssueQuery.new(:name => "_", :filters => session_data[:filters], :group_by => session_data[:group_by], :column_names => session_data[:column_names], :totalable_names => session_data[:totalable_names], :sort_criteria => session[session_key][:sort])
       end
       if session_data.has_key?(:project_id)
         @query.project_id = session_data[:project_id]
@@ -318,8 +343,15 @@ module QueriesHelper
     if query.group_by.present?
       tags << hidden_field_tag("group_by", query.group_by, :id => nil)
     end
+    if query.sort_criteria.present?
+      tags << hidden_field_tag("sort", query.sort_criteria.to_param, :id => nil)
+    end
 
     tags
+  end
+ 
+  def query_hidden_sort_tag(query)
+    hidden_field_tag("sort", query.sort_criteria.to_param, :id => nil)
   end
 
   # Returns the queries that are rendered in the sidebar

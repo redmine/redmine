@@ -234,6 +234,10 @@ class IssueQuery < Query
     Setting.issue_list_default_totals.map(&:to_sym)
   end
 
+  def default_sort_criteria
+    [['id', 'desc']]
+  end
+
   def base_scope
     Issue.visible.joins(:status, :project).where(statement)
   end
@@ -267,7 +271,7 @@ class IssueQuery < Query
   # Returns the issues
   # Valid options are :order, :offset, :limit, :include, :conditions
   def issues(options={})
-    order_option = [group_by_sort_order, options[:order]].flatten.reject(&:blank?)
+    order_option = [group_by_sort_order, (options[:order] || sort_clause)].flatten.reject(&:blank?)
 
     scope = Issue.visible.
       joins(:status, :project).
@@ -309,7 +313,7 @@ class IssueQuery < Query
 
   # Returns the issues ids
   def issue_ids(options={})
-    order_option = [group_by_sort_order, options[:order]].flatten.reject(&:blank?)
+    order_option = [group_by_sort_order, (options[:order] || sort_clause)].flatten.reject(&:blank?)
 
     Issue.visible.
       joins(:status, :project).

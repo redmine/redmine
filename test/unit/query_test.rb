@@ -1441,7 +1441,7 @@ class QueryTest < ActiveSupport::TestCase
 
   def test_default_sort
     q = IssueQuery.new
-    assert_equal [], q.sort_criteria
+    assert_equal [['id', 'desc']], q.sort_criteria
   end
 
   def test_set_sort_criteria_with_hash

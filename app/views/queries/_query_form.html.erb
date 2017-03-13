@@ -1,5 +1,6 @@
 <%= hidden_field_tag 'set_filter', '1' %>
 <%= hidden_field_tag 'type', @query.type, :disabled => true, :id => 'query_type' %>
+<%= query_hidden_sort_tag(@query) %>
 
 <div id="query_form_with_buttons" class="hide-when-print">
 <div id="query_form_content">

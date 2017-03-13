@@ -27,13 +27,9 @@ class JournalsController < ApplicationController
   helper :custom_fields
   helper :queries
   include QueriesHelper
-  helper :sort
-  include SortHelper
 
   def index
     retrieve_query
-    sort_init 'id', 'desc'
-    sort_update(@query.sortable_columns)
     if @query.valid?
       @journals = @query.journals(:order => "#{Journal.table_name}.created_on DESC",
                                   :limit => 25)

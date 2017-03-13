@@ -32,8 +32,6 @@ class TimelogController < ApplicationController
 
   rescue_from Query::StatementInvalid, :with => :query_statement_invalid
 
-  helper :sort
-  include SortHelper
   helper :issues
   include TimelogHelper
   helper :custom_fields
@@ -43,9 +41,7 @@ class TimelogController < ApplicationController
 
   def index
     retrieve_time_entry_query
-    sort_init(@query.sort_criteria.empty? ? [['spent_on', 'desc']] : @query.sort_criteria)
-    sort_update(@query.sortable_columns)
-    scope = time_entry_scope(:order => sort_clause).
+    scope = time_entry_scope.
       preload(:issue => [:project, :tracker, :status, :assigned_to, :priority]).
       preload(:project, :user)
 

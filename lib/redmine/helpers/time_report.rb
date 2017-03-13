@@ -46,6 +46,7 @@ module Redmine
           time_columns = %w(tyear tmonth tweek spent_on)
           @hours = []
           @scope.includes(:activity).
+              reorder(nil).
               group(@criteria.collect{|criteria| @available_criteria[criteria][:sql]} + time_columns).
               joins(@criteria.collect{|criteria| @available_criteria[criteria][:joins]}.compact).
               sum(:hours).each do |hash, hours|
