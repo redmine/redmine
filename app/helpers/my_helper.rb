@@ -93,13 +93,17 @@ module MyHelper
     Issue.visible.open.
       where(:author_id => User.current.id).
       limit(10).
-      includes(:status, :project, :tracker).
+      includes(:status, :project, :tracker, :priority).
       references(:status, :project, :tracker).
       order("#{Issue.table_name}.updated_on DESC")
   end
 
   def issueswatched_items
-    Issue.visible.open.on_active_project.watched_by(User.current.id).recently_updated.limit(10)
+    Issue.visible.open.
+      on_active_project.watched_by(User.current.id).
+      preload(:status, :project, :tracker, :priority).
+      recently_updated.
+      limit(10)
   end
 
   def news_items
