@@ -24,17 +24,22 @@ module MyHelper
 
     if blocks.present?
       blocks.each do |block|
-        content = render_block_content(block, user)
-        if content.present?
-          handle = content_tag('span', '', :class => 'sort-handle')
-          close = link_to(l(:button_delete), {:action => "remove_block", :block => block}, :method => 'post', :class => "icon-only icon-close")
-          content = content_tag('div', handle + close, :class => 'contextual') + content
-
-          s << content_tag('div', content, :class => "mypage-box", :id => "block-#{block}")
-        end
+        s << render_block(block, user).to_s
       end
     end
     s
+  end
+
+  # Renders a single block
+  def render_block(block, user)
+    content = render_block_content(block, user)
+    if content.present?
+      handle = content_tag('span', '', :class => 'sort-handle')
+      close = link_to(l(:button_delete), {:action => "remove_block", :block => block}, :method => 'post', :class => "icon-only icon-close")
+      content = content_tag('div', handle + close, :class => 'contextual') + content
+
+      content_tag('div', content, :class => "mypage-box", :id => "block-#{block}")
+    end
   end
 
   # Renders a single block content
