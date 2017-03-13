@@ -43,38 +43,36 @@ class IssuesController < ApplicationController
     retrieve_query
 
     if @query.valid?
-      case params[:format]
-      when 'csv', 'pdf'
-        @limit = Setting.issues_export_limit.to_i
-        if params[:columns] == 'all'
-          @query.column_names = @query.available_inline_columns.map(&:name)
-        end
-      when 'atom'
-        @limit = Setting.feeds_limit.to_i
-      when 'xml', 'json'
-        @offset, @limit = api_offset_and_limit
-        @query.column_names = %w(author)
-      else
-        @limit = per_page_option
-      end
-
-      @issue_count = @query.issue_count
-      @issue_pages = Paginator.new @issue_count, @limit, params['page']
-      @offset ||= @issue_pages.offset
-      @issues = @query.issues(:offset => @offset, :limit => @limit)
-
       respond_to do |format|
-        format.html { render :template => 'issues/index', :layout => !request.xhr? }
+        format.html {
+          @issue_count = @query.issue_count
+          @issue_pages = Paginator.new @issue_count, per_page_option, params['page']
+          @issues = @query.issues(:offset => @issue_pages.offset, :limit => @issue_pages.per_page)
+          render :layout => !request.xhr?
+        }
         format.api  {
+          @offset, @limit = api_offset_and_limit
+          @query.column_names = %w(author)
+          @issue_count = @query.issue_count
+          @issues = @query.issues(:offset => @offset, :limit => @limit)
           Issue.load_visible_relations(@issues) if include_in_api_response?('relations')
         }
-        format.atom { render_feed(@issues, :title => "#{@project || Setting.app_title}: #{l(:label_issue_plural)}") }
-        format.csv  { send_data(query_to_csv(@issues, @query, params[:csv]), :type => 'text/csv; header=present', :filename => 'issues.csv') }
-        format.pdf  { send_file_headers! :type => 'application/pdf', :filename => 'issues.pdf' }
+        format.atom {
+          @issues = @query.issues(:limit => Setting.feeds_limit.to_i)
+          render_feed(@issues, :title => "#{@project || Setting.app_title}: #{l(:label_issue_plural)}")
+        }
+        format.csv  {
+          @issues = @query.issues(:limit => Setting.issues_export_limit.to_i)
+          send_data(query_to_csv(@issues, @query, params[:csv]), :type => 'text/csv; header=present', :filename => 'issues.csv')
+        }
+        format.pdf  {
+          @issues = @query.issues(:limit => Setting.issues_export_limit.to_i)
+          send_file_headers! :type => 'application/pdf', :filename => 'issues.pdf'
+        }
       end
     else
       respond_to do |format|
-        format.html { render(:template => 'issues/index', :layout => !request.xhr?) }
+        format.html { render :layout => !request.xhr? }
         format.any(:atom, :csv, :pdf) { head 422 }
         format.api { render_validation_errors(@query) }
       end
