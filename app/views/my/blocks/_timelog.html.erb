@@ -15,7 +15,7 @@ entries_by_day = entries.group_by(&:spent_on)
 
 
 <div id="timelog-settings" style="display:none;">
-  <%= form_tag({}, :remote => true) do %>
+  <%= form_tag(my_page_path, :remote => true) do %>
     <div class="box">
       <p>
       <label>
