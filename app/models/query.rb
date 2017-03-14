@@ -386,6 +386,22 @@ class Query < ActiveRecord::Base
     new(attributes).build_from_params(params)
   end
 
+  def as_params
+    params = {}
+    filters.each do |field, options|
+      params[:f] ||= []
+      params[:f] << field
+      params[:op] ||= {}
+      params[:op][field] = options[:operator]
+      params[:v] ||= {}
+      params[:v][field] = options[:values]
+    end
+    params[:c] = column_names
+    params[:sort] = sort_criteria.to_param
+    params[:set_filter] = 1
+    params
+  end
+
   def validate_query_filters
     filters.each_key do |field|
       if values_for(field)

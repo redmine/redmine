@@ -1,9 +1,0 @@
-<% watched_issues = issueswatched_items %>
-<h3>
-  <%= link_to l(:label_watched_issues),
-        issues_path(:set_filter => 1, :watcher_id => 'me', :sort => 'updated_on:desc') %>
-  (<%= watched_issues.limit(nil).count %>)
-</h3>
-
-
-<%= render :partial => 'issues/list_simple', :locals => { :issues => watched_issues.to_a } %>

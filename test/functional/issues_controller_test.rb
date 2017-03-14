@@ -797,7 +797,7 @@ class IssuesControllerTest < Redmine::ControllerTest
     assert_equal columns, session[:issue_query][:column_names].map(&:to_s)
 
     # ensure only these columns are kept in the selected columns list
-    assert_select 'select#selected_columns option' do
+    assert_select 'select[name=?] option', 'c[]' do
       assert_select 'option', 3
       assert_select 'option[value=tracker]'
       assert_select 'option[value=project]', 0

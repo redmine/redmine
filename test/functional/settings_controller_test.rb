@@ -51,7 +51,7 @@ class SettingsControllerTest < Redmine::ControllerTest
       assert_response :success
     end
 
-    assert_select 'select[id=selected_columns][name=?]', 'settings[issue_list_default_columns][]' do
+    assert_select 'select[name=?]', 'settings[issue_list_default_columns][]' do
       assert_select 'option', 4
       assert_select 'option[value=tracker]', :text => 'Tracker'
       assert_select 'option[value=subject]', :text => 'Subject'
@@ -59,7 +59,7 @@ class SettingsControllerTest < Redmine::ControllerTest
       assert_select 'option[value=updated_on]', :text => 'Updated'
     end
 
-    assert_select 'select[id=available_columns]' do
+    assert_select 'select[name=?]', 'available_columns[]' do
       assert_select 'option[value=tracker]', 0
       assert_select 'option[value=priority]', :text => 'Priority'
     end

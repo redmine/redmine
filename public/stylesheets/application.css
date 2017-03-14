@@ -1132,6 +1132,7 @@ div.wiki img {vertical-align:middle; max-width:100%;}
 
 .handle {cursor: move;}
 
+#my-page .list th.checkbox, #my-page .list td.checkbox {display:none;}
 /***** Gantt chart *****/
 .gantt_hdr {
   position:absolute;

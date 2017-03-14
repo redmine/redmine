@@ -161,7 +161,7 @@ module QueriesHelper
     content_tag('span', label + " " + value, :class => "total-for-#{column.name.to_s.dasherize}")
   end
 
-  def column_header(query, column)
+  def column_header(query, column, options={})
     if column.sortable?
       css, order = nil, column.default_order
       if column.name.to_s == query.sort_criteria.first_key
@@ -173,11 +173,21 @@ module QueriesHelper
           order = 'asc'
         end
       end
-      sort_param = { :sort => query.sort_criteria.add(column.name, order).to_param }
-      content = link_to(column.caption,
-          {:params => request.query_parameters.merge(sort_param)},
+      param_key = options[:sort_param] || :sort
+      sort_param = { param_key => query.sort_criteria.add(column.name, order).to_param }
+      while sort_param.keys.first.to_s =~ /^(.+)\[(.+)\]$/
+        sort_param = {$1 => {$2 => sort_param.values.first}}
+      end
+      link_options = {
           :title => l(:label_sort_by, "\"#{column.caption}\""),
           :class => css
+        }
+      if options[:sort_link_options]
+        link_options.merge! options[:sort_link_options]
+      end
+      content = link_to(column.caption,
+          {:params => request.query_parameters.deep_merge(sort_param)},
+          link_options
         )
     else
       content = column.caption

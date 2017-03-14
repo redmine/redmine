@@ -51,6 +51,47 @@ class MyControllerTest < Redmine::ControllerTest
     end
   end
 
+  def test_page_with_assigned_issues_block_and_no_custom_settings
+    preferences = User.find(2).pref
+    preferences.my_page_layout = {'top' => ['issuesassignedtome']}
+    preferences.my_page_settings = nil
+    preferences.save!
+
+    get :page
+    assert_select '#block-issuesassignedtome' do
+      assert_select 'table.issues' do
+        assert_select 'th a[data-remote=true][data-method=post]', :text => 'Tracker'
+      end
+      assert_select '#issuesassignedtome-settings' do
+        assert_select 'select[name=?]', 'settings[issuesassignedtome][columns][]'
+      end
+    end
+  end
+
+  def test_page_with_assigned_issues_block_and_custom_columns
+    preferences = User.find(2).pref
+    preferences.my_page_layout = {'top' => ['issuesassignedtome']}
+    preferences.my_page_settings = {'issuesassignedtome' => {:columns => ['tracker', 'subject', 'due_date']}}
+    preferences.save!
+
+    get :page
+    assert_select '#block-issuesassignedtome' do
+      assert_select 'table.issues td.due_date'
+    end
+  end
+
+  def test_page_with_assigned_issues_block_and_custom_sort
+    preferences = User.find(2).pref
+    preferences.my_page_layout = {'top' => ['issuesassignedtome']}
+    preferences.my_page_settings = {'issuesassignedtome' => {:sort => 'due_date'}}
+    preferences.save!
+
+    get :page
+    assert_select '#block-issuesassignedtome' do
+      assert_select 'table.issues.sort-by-due-date'
+    end
+  end
+
   def test_page_with_all_blocks
     blocks = Redmine::MyPage.blocks.keys
     preferences = User.find(2).pref

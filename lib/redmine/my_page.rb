@@ -20,13 +20,13 @@ module Redmine
     include Redmine::I18n
 
     CORE_BLOCKS = {
-        'issuesassignedtome' => :label_assigned_to_me_issues,
-        'issuesreportedbyme' => :label_reported_issues,
-        'issueswatched' => :label_watched_issues,
-        'news' => :label_news_latest,
-        'calendar' => :label_calendar,
-        'documents' => :label_document_plural,
-        'timelog' => :label_spent_time
+        'issuesassignedtome' => {:label => :label_assigned_to_me_issues, :partial => 'my/blocks/issues'},
+        'issuesreportedbyme' => {:label => :label_reported_issues, :partial => 'my/blocks/issues'},
+        'issueswatched' => {:label => :label_watched_issues, :partial => 'my/blocks/issues'},
+        'news' => {:label => :label_news_latest, :partial => 'my/blocks/news'},
+        'calendar' => {:label => :label_calendar, :partial => 'my/blocks/calendar'},
+        'documents' => {:label => :label_document_plural, :partial => 'my/blocks/documents'},
+        'timelog' => {:label => :label_spent_time, :partial => 'my/blocks/timelog'}
       }
 
     # Returns the available blocks
@@ -36,8 +36,9 @@ module Redmine
 
     def self.block_options
       options = []
-      blocks.each do |k, v|
-        options << [l("my.blocks.#{v}", :default => [v, v.to_s.humanize]), k.dasherize]
+      blocks.each do |block, block_options|
+        label = block_options[:label]
+        options << [l("my.blocks.#{label}", :default => [label, label.to_s.humanize]), block.dasherize]
       end
       options
     end
@@ -46,7 +47,7 @@ module Redmine
     def self.additional_blocks
       @@additional_blocks ||= Dir.glob("#{Redmine::Plugin.directory}/*/app/views/my/blocks/_*.{rhtml,erb}").inject({}) do |h,file|
         name = File.basename(file).split('.').first.gsub(/^_/, '')
-        h[name] = name.to_sym
+        h[name] = {:label => name.to_sym, :partial => "my/blocks/#{name}"}
         h
       end
     end

@@ -25,6 +25,7 @@
 
 <%= javascript_tag do %>
 $(document).ready(function(){
+  $('#block-select').val('');
   $('#list-top, #list-left, #list-right').sortable({
     connectWith: '.block-receiver',
     tolerance: 'pointer',

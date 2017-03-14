@@ -44,16 +44,17 @@ module MyHelper
 
   # Renders a single block content
   def render_block_content(block, user)
-    unless Redmine::MyPage.blocks.key?(block)
+    unless block_definition = Redmine::MyPage.blocks[block]
       Rails.logger.warn("Unknown block \"#{block}\" found in #{user.login} (id=#{user.id}) preferences")
       return
     end
 
     settings = user.pref.my_page_settings(block)
+    partial = block_definition[:partial]
     begin
-      render(:partial => "my/blocks/#{block}", :locals => {:user => user, :settings => settings})
+      render(:partial => partial, :locals => {:user => user, :settings => settings, :block => block})
     rescue ActionView::MissingTemplate
-      Rails.logger.warn("Template missing for block \"#{block}\" found in #{user.login} (id=#{user.id}) preferences")
+      Rails.logger.warn("Partial \"#{partial}\" missing for block \"#{block}\" found in #{user.login} (id=#{user.id}) preferences")
       return nil
     end
   end
@@ -80,30 +81,38 @@ module MyHelper
     Document.visible.order("#{Document.table_name}.created_on DESC").limit(10).to_a
   end
 
-  def issuesassignedtome_items
-    Issue.visible.open.
-      assigned_to(User.current).
-      limit(10).
-      includes(:status, :project, :tracker, :priority).
-      references(:status, :project, :tracker, :priority).
-      order("#{IssuePriority.table_name}.position DESC, #{Issue.table_name}.updated_on DESC")
+  def issues_items(block, settings)
+    send "#{block}_items", settings
   end
 
-  def issuesreportedbyme_items
-    Issue.visible.open.
-      where(:author_id => User.current.id).
-      limit(10).
-      includes(:status, :project, :tracker, :priority).
-      references(:status, :project, :tracker).
-      order("#{Issue.table_name}.updated_on DESC")
+  def issuesassignedtome_items(settings)
+    query = IssueQuery.new(:name => l(:label_assigned_to_me_issues), :user => User.current)
+    query.add_filter 'assigned_to_id', '=', ['me']
+    query.column_names = settings[:columns].presence || ['project', 'tracker', 'status', 'subject']
+    query.sort_criteria = settings[:sort].presence || [['priority', 'desc'], ['updated_on', 'desc']]
+    issues = query.issues(:limit => 10)
+
+    return issues, query
   end
 
-  def issueswatched_items
-    Issue.visible.open.
-      on_active_project.watched_by(User.current.id).
-      preload(:status, :project, :tracker, :priority).
-      recently_updated.
-      limit(10)
+  def issuesreportedbyme_items(settings)
+    query = IssueQuery.new(:name => l(:label_reported_issues), :user => User.current)
+    query.add_filter 'author_id', '=', ['me']
+    query.column_names = settings[:columns].presence || ['project', 'tracker', 'status', 'subject']
+    query.sort_criteria = settings[:sort].presence || [['updated_on', 'desc']]
+    issues = query.issues(:limit => 10)
+
+    return issues, query
+  end
+
+  def issueswatched_items(settings)
+    query = IssueQuery.new(:name => l(:label_watched_issues), :user => User.current)
+    query.add_filter 'watcher_id', '=', ['me']
+    query.column_names = settings[:columns].presence || ['project', 'tracker', 'status', 'subject']
+    query.sort_criteria = settings[:sort].presence || [['updated_on', 'desc']]
+    issues = query.issues(:limit => 10)
+
+    return issues, query
   end
 
   def news_items

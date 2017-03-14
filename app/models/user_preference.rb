@@ -128,6 +128,7 @@ class UserPreference < ActiveRecord::Base
   end
 
   def update_block_settings(block, settings)
+    block = block.to_s
     block_settings = my_page_settings(block).merge(settings.symbolize_keys)
     my_page_settings[block] = block_settings
   end
