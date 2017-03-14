@@ -361,11 +361,6 @@ table.boards td.last-message {text-align:left;font-size:80%;}
 
 div.table-list.boards .table-list-cell.name {width: 30%;}
 
-#content table.list-simple {table-layout:fixed;}
-#content table.list-simple td {white-space:nowrap; overflow:hidden; text-overflow: ellipsis; text-align:left;}
-#content table.list-simple th.id, #content table.list-simple th.project {width:18%;}
-#content table.list-simple th.status {width:14%;}
-
 table.messages td.last_message {text-align:left;}
 
 #query_form_content {font-size:90%;}
