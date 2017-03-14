@@ -1,7 +1,7 @@
 <% issues, query = issues_items(block, settings) %>
 
 <div class="contextual">
-  <%= link_to_function l(:label_options), "$('##{block}-settings').toggle();", :class => 'icon-only icon-settings' %>
+  <%= link_to_function l(:label_options), "$('##{block}-settings').toggle();", :class => 'icon-only icon-settings', :title => l(:label_options) %>
 </div>
 
 <h3>

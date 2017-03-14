@@ -5,7 +5,7 @@ entries_by_day = entries.group_by(&:spent_on)
 
 <div class="contextual">
   <%= link_to l(:button_log_time), new_time_entry_path, :class => "icon icon-add" if User.current.allowed_to?(:log_time, nil, :global => true) %>
-  <%= link_to_function l(:label_options), "$('#timelog-settings').toggle();", :class => 'icon-only icon-settings' %>
+  <%= link_to_function l(:label_options), "$('#timelog-settings').toggle();", :class => 'icon-only icon-settings', :title => l(:label_options) %>
 </div>
 
 <h3>
