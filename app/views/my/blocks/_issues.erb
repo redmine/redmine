@@ -6,7 +6,8 @@
 </div>
 
 <h3>
-  <%= link_to query.name, issues_path(query.as_params) %>
+  <%= "#{query.project} |" if query.project %>
+  <%= link_to query.name, _project_issues_path(query.project, query.as_params) %>
   (<%= query.issue_count %>)
 </h3>
 
@@ -38,7 +39,7 @@
 
 <% content_for :header_tags do %>
 <%= auto_discovery_link_tag(:atom,
-                            issues_path(query.as_params.merge(:format => 'atom', :key => User.current.rss_key)),
+                            _project_issues_path(query.project, query.as_params.merge(:format => 'atom', :key => User.current.rss_key)),
                             {:title => query.name}) %>
 <% end %>
 

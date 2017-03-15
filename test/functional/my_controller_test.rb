@@ -108,7 +108,7 @@ class MyControllerTest < Redmine::ControllerTest
     end
   end
 
-  def test_page_with_issuequery_block_and_selected_query
+  def test_page_with_issuequery_block_and_global_query
     user = User.find(2)
     query = IssueQuery.create!(:name => 'All issues', :user => user, :column_names => [:tracker, :subject, :status, :assigned_to])
     user.pref.my_page_layout = {'top' => ['issuequery']}
@@ -119,6 +119,7 @@ class MyControllerTest < Redmine::ControllerTest
     assert_response :success
 
     assert_select '#block-issuequery' do
+      assert_select 'a[href=?]', "/issues?query_id=#{query.id}"
       # assert number of columns (columns from query + id column + checkbox column)
       assert_select 'table.issues th', 6
       # assert results limit
@@ -127,7 +128,27 @@ class MyControllerTest < Redmine::ControllerTest
     end
   end
 
-  def test_page_with_issuequery_block_and_selected_query_and_custom_columns
+  def test_page_with_issuequery_block_and_project_query
+    user = User.find(2)
+    query = IssueQuery.create!(:name => 'All issues', :project => Project.find(1), :user => user, :column_names => [:tracker, :subject, :status, :assigned_to])
+    user.pref.my_page_layout = {'top' => ['issuequery']}
+    user.pref.my_page_settings = {'issuequery' => {:query_id => query.id}}
+    user.pref.save!
+
+    get :page
+    assert_response :success
+
+    assert_select '#block-issuequery' do
+      assert_select 'a[href=?]', "/projects/ecookbook/issues?query_id=#{query.id}"
+      # assert number of columns (columns from query + id column + checkbox column)
+      assert_select 'table.issues th', 6
+      # assert results limit
+      assert_select 'table.issues tr.issue', 10
+      assert_select 'table.issues td.assigned_to'
+    end
+  end
+
+  def test_page_with_issuequery_block_and_query_should_display_custom_columns
     user = User.find(2)
     query = IssueQuery.create!(:name => 'All issues', :user => user, :column_names => [:tracker, :subject, :status, :assigned_to])
     user.pref.my_page_layout = {'top' => ['issuequery']}
