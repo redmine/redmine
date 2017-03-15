@@ -266,12 +266,12 @@ class MyControllerTest < Redmine::ControllerTest
     user = User.generate!(:language => 'en')
     @request.session[:user_id] = user.id
 
-    xhr :post, :update_page, :settings => {'timelog' => {'days' => '14'}}
+    xhr :post, :update_page, :settings => {'issuesassignedtome' => {'columns' => ['subject', 'due_date']}}
     assert_response :success
-    assert_include '$("#block-timelog").replaceWith(', response.body
-    assert_include '14 days', response.body
+    assert_include '$("#block-issuesassignedtome").replaceWith(', response.body
+    assert_include 'Due date', response.body
 
-    assert_equal({:days => "14"}, user.reload.pref.my_page_settings('timelog'))
+    assert_equal({:columns => ['subject', 'due_date']}, user.reload.pref.my_page_settings('issuesassignedtome'))
   end
 
   def test_add_block
@@ -321,6 +321,7 @@ class MyControllerTest < Redmine::ControllerTest
   end
 
   def test_reset_rss_key_without_existing_key
+    Token.delete_all
     assert_nil User.find(2).rss_token
     post :reset_rss_key
 

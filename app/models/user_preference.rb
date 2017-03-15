@@ -23,7 +23,7 @@ class UserPreference < ActiveRecord::Base
 
   attr_protected :others, :user_id
 
-  before_save :set_others_hash
+  before_save :set_others_hash, :clear_unused_block_settings
 
   safe_attributes 'hide_mail',
     'time_zone',
@@ -132,4 +132,10 @@ class UserPreference < ActiveRecord::Base
     block_settings = my_page_settings(block).merge(settings.symbolize_keys)
     my_page_settings[block] = block_settings
   end
+
+  def clear_unused_block_settings
+    blocks = my_page_layout.values.flatten
+    my_page_settings.keep_if {|block, settings| blocks.include?(block)}
+  end
+  private :clear_unused_block_settings
 end

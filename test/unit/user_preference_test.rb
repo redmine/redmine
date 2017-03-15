@@ -93,4 +93,15 @@ class UserPreferenceTest < ActiveSupport::TestCase
     up[:foo] = 'bar'
     assert_equal 'bar', up[:foo]
   end
+
+  def test_removing_a_block_should_clear_its_settings
+    up = User.find(2).pref
+    up.my_page_layout = {'top' => ['news', 'documents']}
+    up.my_page_settings = {'news' => {:foo => 'bar'}, 'documents' => {:baz => 'quz'}}
+    up.save!
+
+    up.remove_block 'news'
+    up.save!
+    assert_equal ['documents'], up.my_page_settings.keys
+  end
 end
