@@ -23,6 +23,7 @@ module Redmine
         'issuesassignedtome' => {:label => :label_assigned_to_me_issues, :partial => 'my/blocks/issues'},
         'issuesreportedbyme' => {:label => :label_reported_issues, :partial => 'my/blocks/issues'},
         'issueswatched' => {:label => :label_watched_issues, :partial => 'my/blocks/issues'},
+        'issuequery' => {:label => :label_issue_plural, :partial => 'my/blocks/issues'},
         'news' => {:label => :label_news_latest, :partial => 'my/blocks/news'},
         'calendar' => {:label => :label_calendar, :partial => 'my/blocks/calendar'},
         'documents' => {:label => :label_document_plural, :partial => 'my/blocks/documents'},

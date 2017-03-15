@@ -118,6 +118,17 @@ module MyHelper
     return issues, query
   end
 
+  def issuequery_items(settings)
+    query = IssueQuery.visible.find_by_id(settings[:query_id])
+    return unless query
+
+    query.column_names = settings[:columns] if settings[:columns].present?
+    query.sort_criteria = settings[:sort] if settings[:sort].present?
+    issues = query.issues(:limit => 10)
+
+    return issues, query
+  end
+
   def news_items
     News.visible.
       where(:project_id => User.current.projects.map(&:id)).

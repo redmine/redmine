@@ -19,7 +19,7 @@ require File.expand_path('../../test_helper', __FILE__)
 
 class MyControllerTest < Redmine::ControllerTest
   fixtures :users, :email_addresses, :user_preferences, :roles, :projects, :members, :member_roles,
-  :issues, :issue_statuses, :trackers, :enumerations, :custom_fields, :auth_sources
+  :issues, :issue_statuses, :trackers, :enumerations, :custom_fields, :auth_sources, :queries
 
   def setup
     @request.session[:user_id] = 2
@@ -89,6 +89,58 @@ class MyControllerTest < Redmine::ControllerTest
     get :page
     assert_select '#block-issuesassignedtome' do
       assert_select 'table.issues.sort-by-due-date'
+    end
+  end
+ 
+  def test_page_with_issuequery_block_and_no_settings
+    user = User.find(2)
+    user.pref.my_page_layout = {'top' => ['issuequery']}
+    user.pref.save!
+
+    get :page
+    assert_response :success
+
+    assert_select '#block-issuequery' do
+      assert_select 'h3', :text => 'Issues'
+      assert_select 'select[name=?]', 'settings[issuequery][query_id]' do
+        assert_select 'option[value="5"]', :text => 'Open issues by priority and tracker'
+      end
+    end
+  end
+
+  def test_page_with_issuequery_block_and_selected_query
+    user = User.find(2)
+    query = IssueQuery.create!(:name => 'All issues', :user => user, :column_names => [:tracker, :subject, :status, :assigned_to])
+    user.pref.my_page_layout = {'top' => ['issuequery']}
+    user.pref.my_page_settings = {'issuequery' => {:query_id => query.id}}
+    user.pref.save!
+
+    get :page
+    assert_response :success
+
+    assert_select '#block-issuequery' do
+      # assert number of columns (columns from query + id column + checkbox column)
+      assert_select 'table.issues th', 6
+      # assert results limit
+      assert_select 'table.issues tr.issue', 10
+      assert_select 'table.issues td.assigned_to'
+    end
+  end
+
+  def test_page_with_issuequery_block_and_selected_query_and_custom_columns
+    user = User.find(2)
+    query = IssueQuery.create!(:name => 'All issues', :user => user, :column_names => [:tracker, :subject, :status, :assigned_to])
+    user.pref.my_page_layout = {'top' => ['issuequery']}
+    user.pref.my_page_settings = {'issuequery' => {:query_id => query.id, :columns => [:subject, :due_date]}}
+    user.pref.save!
+
+    get :page
+    assert_response :success
+
+    assert_select '#block-issuequery' do
+      # assert number of columns (columns from query + id column + checkbox column)
+      assert_select 'table.issues th', 4
+      assert_select 'table.issues th', :text => 'Due date'
     end
   end
 
