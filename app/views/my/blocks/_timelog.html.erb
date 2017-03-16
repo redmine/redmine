@@ -44,7 +44,7 @@
     <td class="hours"><em><%= html_hours(format_hours(entries_by_day[day].sum(&:hours))) %></em></td>
   </tr>
   <% entries_by_day[day].each do |entry| -%>
-  <tr class="time-entry hascontextmenu">
+  <tr id="time-entry-<%= entry.id %>" class="time-entry hascontextmenu">
     <td class="activity">
       <%= check_box_tag("ids[]", entry.id, false, :style => 'display:none;', :id => nil) %>
       <%= entry.activity %>
