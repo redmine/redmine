@@ -47,26 +47,29 @@ module MyHelper
 
   # Renders a single block content
   def render_block_content(block, user)
-    unless block_definition = Redmine::MyPage.blocks[block]
+    unless block_definition = Redmine::MyPage.find_block(block)
       Rails.logger.warn("Unknown block \"#{block}\" found in #{user.login} (id=#{user.id}) preferences")
       return
     end
 
     settings = user.pref.my_page_settings(block)
-    partial = block_definition[:partial]
-    begin
-      render(:partial => partial, :locals => {:user => user, :settings => settings, :block => block})
-    rescue ActionView::MissingTemplate
-      Rails.logger.warn("Partial \"#{partial}\" missing for block \"#{block}\" found in #{user.login} (id=#{user.id}) preferences")
-      return nil
+    if partial = block_definition[:partial]
+      begin
+        render(:partial => partial, :locals => {:user => user, :settings => settings, :block => block})
+      rescue ActionView::MissingTemplate
+        Rails.logger.warn("Partial \"#{partial}\" missing for block \"#{block}\" found in #{user.login} (id=#{user.id}) preferences")
+        return nil
+      end
+    else
+      send "render_#{block_definition[:name]}_block", block, settings
     end
   end
 
   def block_select_tag(user)
-    disabled = user.pref.my_page_layout.values.flatten
+    blocks_in_use = user.pref.my_page_layout.values.flatten
     options = content_tag('option')
-    Redmine::MyPage.block_options.each do |label, block|
-      options << content_tag('option', label, :value => block, :disabled => disabled.include?(block))
+    Redmine::MyPage.block_options(blocks_in_use).each do |label, block|
+      options << content_tag('option', label, :value => block, :disabled => block.blank?)
     end
     select_tag('block', options, :id => "block-select", :onchange => "$('#block-form').submit();")
   end
@@ -88,45 +91,47 @@ module MyHelper
     send "#{block}_items", settings
   end
 
-  def issuesassignedtome_items(settings)
+  def render_issuesassignedtome_block(block, settings)
     query = IssueQuery.new(:name => l(:label_assigned_to_me_issues), :user => User.current)
     query.add_filter 'assigned_to_id', '=', ['me']
     query.column_names = settings[:columns].presence || ['project', 'tracker', 'status', 'subject']
     query.sort_criteria = settings[:sort].presence || [['priority', 'desc'], ['updated_on', 'desc']]
     issues = query.issues(:limit => 10)
 
-    return issues, query
+    render :partial => 'my/blocks/issues', :locals => {:query => query, :issues => issues, :block => block}
   end
 
-  def issuesreportedbyme_items(settings)
+  def render_issuesreportedbyme_block(block, settings)
     query = IssueQuery.new(:name => l(:label_reported_issues), :user => User.current)
     query.add_filter 'author_id', '=', ['me']
     query.column_names = settings[:columns].presence || ['project', 'tracker', 'status', 'subject']
     query.sort_criteria = settings[:sort].presence || [['updated_on', 'desc']]
     issues = query.issues(:limit => 10)
 
-    return issues, query
+    render :partial => 'my/blocks/issues', :locals => {:query => query, :issues => issues, :block => block}
   end
 
-  def issueswatched_items(settings)
+  def render_issueswatched_block(block, settings)
     query = IssueQuery.new(:name => l(:label_watched_issues), :user => User.current)
     query.add_filter 'watcher_id', '=', ['me']
     query.column_names = settings[:columns].presence || ['project', 'tracker', 'status', 'subject']
     query.sort_criteria = settings[:sort].presence || [['updated_on', 'desc']]
     issues = query.issues(:limit => 10)
 
-    return issues, query
+    render :partial => 'my/blocks/issues', :locals => {:query => query, :issues => issues, :block => block}
   end
 
-  def issuequery_items(settings)
+  def render_issuequery_block(block, settings)
     query = IssueQuery.visible.find_by_id(settings[:query_id])
-    return unless query
 
-    query.column_names = settings[:columns] if settings[:columns].present?
-    query.sort_criteria = settings[:sort] if settings[:sort].present?
-    issues = query.issues(:limit => 10)
-
-    return issues, query
+    if query
+      query.column_names = settings[:columns] if settings[:columns].present?
+      query.sort_criteria = settings[:sort] if settings[:sort].present?
+      issues = query.issues(:limit => 10)
+      render :partial => 'my/blocks/issues', :locals => {:query => query, :issues => issues, :block => block, :settings => settings}
+    else
+      render :partial => 'my/blocks/issue_query_selection', :locals => {:block => block, :settings => settings}
+    end
   end
 
   def news_items

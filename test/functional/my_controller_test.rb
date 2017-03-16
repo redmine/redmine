@@ -165,6 +165,35 @@ class MyControllerTest < Redmine::ControllerTest
     end
   end
 
+  def test_page_with_multiple_issuequery_blocks
+    user = User.find(2)
+    query1 = IssueQuery.create!(:name => 'All issues', :user => user, :column_names => [:tracker, :subject, :status, :assigned_to])
+    query2 = IssueQuery.create!(:name => 'Other issues', :user => user, :column_names => [:tracker, :subject, :priority])
+    user.pref.my_page_layout = {'top' => ['issuequery__1', 'issuequery']}
+    user.pref.my_page_settings = {
+        'issuequery' => {:query_id => query1.id, :columns => [:subject, :due_date]},
+        'issuequery__1' => {:query_id => query2.id}
+      }
+    user.pref.save!
+
+    get :page
+    assert_response :success
+
+    assert_select '#block-issuequery' do
+      assert_select 'h3', :text => /All issues/
+      assert_select 'table.issues th', :text => 'Due date'
+    end
+
+    assert_select '#block-issuequery__1' do
+      assert_select 'h3', :text => /Other issues/
+      assert_select 'table.issues th', :text => 'Priority'
+    end
+
+    assert_select '#block-select' do
+      assert_select 'option[value=?]:not([disabled])', 'issuequery__2', :text => 'Issues'
+    end
+  end
+
   def test_page_with_all_blocks
     blocks = Redmine::MyPage.blocks.keys
     preferences = User.find(2).pref
@@ -348,15 +377,15 @@ class MyControllerTest < Redmine::ControllerTest
   end
 
   def test_add_block
-    post :add_block, :block => 'issuesreportedbyme'
+    post :add_block, :block => 'issueswatched'
     assert_redirected_to '/my/page'
-    assert User.find(2).pref[:my_page_layout]['top'].include?('issuesreportedbyme')
+    assert User.find(2).pref[:my_page_layout]['top'].include?('issueswatched')
   end
 
   def test_add_block_xhr
-    xhr :post, :add_block, :block => 'issuesreportedbyme'
+    xhr :post, :add_block, :block => 'issueswatched'
     assert_response :success
-    assert_include 'issuesreportedbyme', User.find(2).pref[:my_page_layout]['top']
+    assert_include 'issueswatched', User.find(2).pref[:my_page_layout]['top']
   end
 
   def test_add_invalid_block_should_error

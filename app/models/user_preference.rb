@@ -109,6 +109,7 @@ class UserPreference < ActiveRecord::Base
     self[:my_page_settings] = arg
   end
 
+  # Removes block from the user page layout
   def remove_block(block)
     block = block.to_s.underscore
     %w(top left right).each do |f|
@@ -117,9 +118,12 @@ class UserPreference < ActiveRecord::Base
     my_page_layout
   end
 
+  # Adds block to the user page layout
+  # Returns nil if block is not valid or if it's already
+  # present in the user page layout
   def add_block(block)
     block = block.to_s.underscore
-    return unless Redmine::MyPage.blocks.key?(block)
+    return unless Redmine::MyPage.valid_block?(block, my_page_layout.values.flatten)
 
     remove_block(block)
     # add it on top

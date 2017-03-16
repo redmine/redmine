@@ -20,10 +20,10 @@ module Redmine
     include Redmine::I18n
 
     CORE_BLOCKS = {
-        'issuesassignedtome' => {:label => :label_assigned_to_me_issues, :partial => 'my/blocks/issues'},
-        'issuesreportedbyme' => {:label => :label_reported_issues, :partial => 'my/blocks/issues'},
-        'issueswatched' => {:label => :label_watched_issues, :partial => 'my/blocks/issues'},
-        'issuequery' => {:label => :label_issue_plural, :partial => 'my/blocks/issues'},
+        'issuesassignedtome' => {:label => :label_assigned_to_me_issues},
+        'issuesreportedbyme' => {:label => :label_reported_issues},
+        'issueswatched' => {:label => :label_watched_issues},
+        'issuequery' => {:label => :label_issue_plural, :max_occurs => 3},
         'news' => {:label => :label_news_latest, :partial => 'my/blocks/news'},
         'calendar' => {:label => :label_calendar, :partial => 'my/blocks/calendar'},
         'documents' => {:label => :label_document_plural, :partial => 'my/blocks/documents'},
@@ -35,13 +35,34 @@ module Redmine
       CORE_BLOCKS.merge(additional_blocks).freeze
     end
 
-    def self.block_options
+    def self.block_options(blocks_in_use=[])
       options = []
       blocks.each do |block, block_options|
+        indexes = blocks_in_use.map {|n|
+          if n =~ /\A#{block}(__(\d+))?\z/
+            $2.to_i
+          end
+        }.compact
+
+        occurs = indexes.size
+        block_id = indexes.any? ? "#{block}__#{indexes.max + 1}" : block
+        disabled = (occurs >= (Redmine::MyPage.blocks[block][:max_occurs] || 1))
+        block_id = nil if disabled
+
         label = block_options[:label]
-        options << [l("my.blocks.#{label}", :default => [label, label.to_s.humanize]), block.dasherize]
+        options << [l("my.blocks.#{label}", :default => [label, label.to_s.humanize]), block_id]
       end
       options
+    end
+
+    def self.valid_block?(block, blocks_in_use=[])
+      block.present? && block_options(blocks_in_use).map(&:last).include?(block)
+    end
+
+    def self.find_block(block)
+      block.to_s =~  /\A(.*?)(__\d+)?\z/
+      name = $1
+      blocks.has_key?(name) ? blocks[name].merge(:name => name) : nil
     end
 
     # Returns the additional blocks that are defined by plugin partials

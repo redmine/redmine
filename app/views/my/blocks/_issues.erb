@@ -1,6 +1,3 @@
-<% issues, query = issues_items(block, settings) %>
-
-<% if query %>
 <div class="contextual">
   <%= link_to_function l(:label_options), "$('##{block}-settings').toggle();", :class => 'icon-only icon-settings', :title => l(:label_options) %>
 </div>
@@ -41,29 +38,4 @@
 <%= auto_discovery_link_tag(:atom,
                             _project_issues_path(query.project, query.as_params.merge(:format => 'atom', :key => User.current.rss_key)),
                             {:title => query.name}) %>
-<% end %>
-
-<% else %>
-<% visible_queries = IssueQuery.visible.sorted %>
-
-<h3>
-  <%= l(:label_issue_plural) %>
-</h3>
-
-<div id="<%= block %>-settings">
-  <%= form_tag(my_page_path, :remote => true) do %>
-    <div class="box">
-      <p>
-        <label>
-          <%= l(:label_query) %>
-          <%= select_tag 'settings[issuequery][query_id]', content_tag("option") + options_from_collection_for_select(visible_queries, :id, :name, settings[:query_id]) %>
-        </label>
-      </p>
-    </div>
-    <p>
-      <%= submit_tag l(:button_save) %>
-    </p>
-  <% end %>
-</div>
-
 <% end %>
