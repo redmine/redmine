@@ -1,8 +1,3 @@
-<%
-entries, days = timelog_items(settings)
-entries_by_day = entries.group_by(&:spent_on)
-%>
-
 <div class="contextual">
   <%= link_to_function l(:label_options), "$('#timelog-settings').toggle();", :class => 'icon-only icon-settings', :title => l(:label_options) %>
 </div>

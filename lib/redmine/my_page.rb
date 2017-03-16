@@ -24,10 +24,10 @@ module Redmine
         'issuesreportedbyme' => {:label => :label_reported_issues},
         'issueswatched' => {:label => :label_watched_issues},
         'issuequery' => {:label => :label_issue_plural, :max_occurs => 3},
-        'news' => {:label => :label_news_latest, :partial => 'my/blocks/news'},
-        'calendar' => {:label => :label_calendar, :partial => 'my/blocks/calendar'},
-        'documents' => {:label => :label_document_plural, :partial => 'my/blocks/documents'},
-        'timelog' => {:label => :label_spent_time, :partial => 'my/blocks/timelog'}
+        'news' => {:label => :label_news_latest},
+        'calendar' => {:label => :label_calendar},
+        'documents' => {:label => :label_document_plural},
+        'timelog' => {:label => :label_spent_time}
       }
 
     # Returns the available blocks

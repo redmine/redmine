@@ -65,6 +65,7 @@ module MyHelper
     end
   end
 
+  # Returns the select tag used to add a block to My page
   def block_select_tag(user)
     blocks_in_use = user.pref.my_page_layout.values.flatten
     options = content_tag('option')
@@ -74,21 +75,22 @@ module MyHelper
     select_tag('block', options, :id => "block-select", :onchange => "$('#block-form').submit();")
   end
 
-  def calendar_items(startdt, enddt)
-    Issue.visible.
+  def render_calendar_block(block, settings)
+    calendar = Redmine::Helpers::Calendar.new(User.current.today, current_language, :week)
+    calendar.events = Issue.visible.
       where(:project_id => User.current.projects.map(&:id)).
-      where("(start_date>=? and start_date<=?) or (due_date>=? and due_date<=?)", startdt, enddt, startdt, enddt).
+      where("(start_date>=? and start_date<=?) or (due_date>=? and due_date<=?)", calendar.startdt, calendar.enddt, calendar.startdt, calendar.enddt).
       includes(:project, :tracker, :priority, :assigned_to).
       references(:project, :tracker, :priority, :assigned_to).
       to_a
+
+    render :partial => 'my/blocks/calendar', :locals => {:calendar => calendar, :block => block}
   end
 
-  def documents_items
-    Document.visible.order("#{Document.table_name}.created_on DESC").limit(10).to_a
-  end
+  def render_documents_block(block, settings)
+    documents = Document.visible.order("#{Document.table_name}.created_on DESC").limit(10).to_a
 
-  def issues_items(block, settings)
-    send "#{block}_items", settings
+    render :partial => 'my/blocks/documents', :locals => {:block => block, :documents => documents}
   end
 
   def render_issuesassignedtome_block(block, settings)
@@ -134,17 +136,19 @@ module MyHelper
     end
   end
 
-  def news_items
-    News.visible.
+  def render_news_block(block, settings)
+    news = News.visible.
       where(:project_id => User.current.projects.map(&:id)).
       limit(10).
       includes(:project, :author).
       references(:project, :author).
       order("#{News.table_name}.created_on DESC").
       to_a
+
+    render :partial => 'my/blocks/news', :locals => {:block => block, :news => news}
   end
 
-  def timelog_items(settings={})
+  def render_timelog_block(block, settings)
     days = settings[:days].to_i
     days = 7 if days < 1 || days > 365
 
@@ -155,7 +159,8 @@ module MyHelper
       includes(:issue => [:tracker, :status]).
       order("#{TimeEntry.table_name}.spent_on DESC, #{Project.table_name}.name ASC, #{Tracker.table_name}.position ASC, #{Issue.table_name}.id ASC").
       to_a
+    entries_by_day = entries.group_by(&:spent_on)
 
-    return entries, days
+    render :partial => 'my/blocks/timelog', :locals => {:block => block, :entries => entries, :entries_by_day => entries_by_day, :days => days}
   end
 end
