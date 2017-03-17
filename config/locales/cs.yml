@@ -627,7 +627,7 @@ cs:
   label_revision: Revize
   label_revision_plural: Revizí
   label_revision_id: "Revize %{value}"
-  label_associated_revisions: Související verze
+  label_associated_revisions: Související revize
   label_added: přidáno
   label_modified: změněno
   label_copied: zkopírováno
