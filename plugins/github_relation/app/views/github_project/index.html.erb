@@ -1,0 +1,15 @@
+<h2>GithubRelationController#index</h2>
+<%= form_tag(get_data_github_project_index_path, :method => :put) do %>
+  <%= hidden_field_tag :project_id, params[:project_id] %>
+  <table>
+    <tr>
+      <th><%= label_tag :login, 'login' %></th>
+      <td><%= text_field_tag :login %></td>
+    </tr>
+    <tr>
+      <th><%= label_tag :password, 'password' %></th>
+      <td><%= text_field_tag :password %></td>
+    </tr>
+  </table>
+  <%= submit_tag "get_data", {class: "btn"} %>
+<% end %>
