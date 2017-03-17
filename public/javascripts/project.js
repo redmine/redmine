@@ -1,6 +1,12 @@
 $(document).ready(function(){
-    //$("#pname").after("");
- 
+
+    // 'activate' selected tab in project navbar
+    $("li > .selected").parent().addClass("active");
+
+    var geturl=getParameterByName('explorer');
+    if(geturl != '')
+        open3DExplorer(geturl, project_identifier);
+
     function toggleProjectButton(){
 	if($("#showGeppettoBtn").is(":visible")){
 	    $("#showGeppettoBtn").hide();
@@ -78,9 +84,9 @@ $(document).ready(function(){
 	    var filenameEscape = modelKey.concat(".nml").replace(/([ \[#;?&,.+*~\':"!^$\]()=>|\/@])/g,"\\$1");
 	    var subMenu = "<ul class=\"projects\">";
 	    for (var projectKey in currentProjectDict[modelKey]){
-	        subMenu += "<li class=\"submenu-item\"><a href=# tabindex=-1 id=" + currentProjectDict[modelKey][projectKey].id + ">Project:" + modelKey + "</a></li>";
+	        subMenu += "<li class=\"submenu-item user-project\"><a href=# tabindex=-1 id=" + currentProjectDict[modelKey][projectKey].id + ">Project:" + modelKey + "</a></li>";
 	    }	
-	    subMenu += "<li class=\"submenu-item\"><a href=# tabindex=-1 onclick=" + $("[id=" + filenameEscape + "]").find('a').attr("onclick") + ">New Project</a></li>";
+	    subMenu += "<li class=\"submenu-item user-project\"><a href=# tabindex=-1 onclick=" + $("[id=" + filenameEscape + "]").find('a').attr("onclick") + ">New Project</a></li>";
 	    subMenu += "</ul>";	
 	    //This can be used to parse the id if we use to whole path instead of the file name .replace(/([ #;?&,.+*~\':"!^$[\]()=>|\/@])/g,"\\\\$1");
 	    // Delete link for the parent option
@@ -89,12 +95,10 @@ $(document).ready(function(){
 
 	    // Add dropdown option
         }
-        $("ul li[class='submenu-item']").click(function(){
+        $("ul li[class='submenu-item user-project']").click(function(){
             var id = $(this).children().attr("id");
             if (!isNaN(parseInt(id))) {
                 open3DExplorer(parseInt(id), project_identifier);
-            } else {
-                open3DExplorer(encodeURIComponent(repourl+repopath+id), project_identifier);
             }
         });
     };
