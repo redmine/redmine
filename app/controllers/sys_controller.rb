@@ -61,6 +61,7 @@ class SysController < ActionController::Base
     end
     projects.each do |project|
       project.repositories.each do |repository|
+        repository.fetch_all if repository.scm_adapter == Redmine::Scm::Adapters::GitAdapter
         repository.fetch_changesets
       end
     end
