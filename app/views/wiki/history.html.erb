@@ -5,7 +5,7 @@
 <%= form_tag({:controller => 'wiki', :action => 'diff',
               :project_id => @page.project, :id => @page.title},
               :method => :get) do %>
-<table class="list wiki-page-versions">
+<table class="table table-bordered table-hover projecttable wiki-page-versions">
 <thead><tr>
     <th>#</th>
     <th></th>

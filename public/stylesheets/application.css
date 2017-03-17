@@ -1937,6 +1937,10 @@ input[type="checkbox"] {
 .wiki thead {
     background: #ddd;
 }
+
+.wiki-page-version > .checkbox {
+    display: table-cell;
+}
 /* SEARCH RESULTS */
 
 .results-title {
