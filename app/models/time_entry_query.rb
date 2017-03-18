@@ -91,6 +91,8 @@ class TimeEntryQuery < Query
                             map {|cf| QueryCustomFieldColumn.new(cf) }
     @available_columns += issue_custom_fields.visible.
                             map {|cf| QueryAssociationCustomFieldColumn.new(:issue, cf, :totalable => false) }
+    @available_columns += ProjectCustomField.visible.
+                            map {|cf| QueryAssociationCustomFieldColumn.new(:project, cf) }
     @available_columns
   end
 
