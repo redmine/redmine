@@ -435,7 +435,7 @@ input[type="submit"] { -webkit-appearance: button; }
 fieldset {border: 1px solid #e4e4e4; margin:0;}
 legend {color: #333;}
 hr { width: 100%; height: 1px; background: #ccc; border: 0;}
-blockquote { font-style: italic; border-left: 3px solid #e0e0e0; padding-left: 0.6em; margin-left: 2.4em;}
+blockquote { font-style: italic; border-left: 3px solid #e0e0e0; padding-left: 0.6em; margin-left: 0;}
 blockquote blockquote { margin-left: 0;}
 abbr, span.field-description[title] { border-bottom: 1px dotted #aaa; cursor: help; }
 textarea.wiki-edit {width:99%; resize:vertical;}
