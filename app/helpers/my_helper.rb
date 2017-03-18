@@ -132,7 +132,8 @@ module MyHelper
       issues = query.issues(:limit => 10)
       render :partial => 'my/blocks/issues', :locals => {:query => query, :issues => issues, :block => block, :settings => settings}
     else
-      render :partial => 'my/blocks/issue_query_selection', :locals => {:block => block, :settings => settings}
+      queries = IssueQuery.visible.sorted
+      render :partial => 'my/blocks/issue_query_selection', :locals => {:queries => queries, :block => block, :settings => settings}
     end
   end
 

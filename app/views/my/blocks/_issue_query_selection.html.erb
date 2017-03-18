@@ -1,5 +1,3 @@
-<% visible_queries = IssueQuery.visible.sorted %>
-
 <h3>
   <%= l(:label_issue_plural) %>
 </h3>
@@ -10,7 +8,7 @@
       <p>
         <label>
           <%= l(:label_query) %>
-          <%= select_tag "settings[#{block}][query_id]", content_tag("option") + options_from_collection_for_select(visible_queries, :id, :name, settings[:query_id]) %>
+          <%= select_tag "settings[#{block}][query_id]", content_tag("option") + options_from_collection_for_select(queries, :id, :name, settings[:query_id]) %>
         </label>
       </p>
     </div>
