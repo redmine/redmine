@@ -655,7 +655,7 @@ ru:
   label_scm: Тип хранилища
   label_search: Поиск
   label_search_titles_only: Искать только в названиях
-  label_send_information: Отправить пользователю информацию по учётной записи
+  label_send_information: Отправить новый пароль пользователю
   label_send_test_email: Послать email для проверки
   label_settings: Настройки
   label_show_completed_versions: Показывать завершённые версии
