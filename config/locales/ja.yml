@@ -734,7 +734,7 @@ ja:
   label_message_new: 新しいメッセージ
   label_message_posted: メッセージの追加
   label_reply_plural: 返答
-  label_send_information: 新しいパスワードをユーザーに送信
+  label_send_information: アカウント情報をユーザーに送信
   label_year: 年
   label_month: 月
   label_week: 週

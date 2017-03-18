@@ -848,7 +848,7 @@ fr:
   label_message_new: Nouveau message
   label_message_posted: Message ajouté
   label_reply_plural: Réponses
-  label_send_information: Envoyer le mot de passe à l'utilisateur par email
+  label_send_information: Envoyer les informations à l'utilisateur
   label_year: Année
   label_month: Mois
   label_week: Semaine
