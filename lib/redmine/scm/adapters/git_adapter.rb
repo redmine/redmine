@@ -166,6 +166,7 @@ module Redmine
         def lastrev(path, rev)
           return nil if path.nil?
           cmd_args = %w|log --no-color --encoding=UTF-8 --date=iso --pretty=fuller --no-merges -n 1|
+          cmd_args << '--no-renames' if self.class.client_version_above?([2, 9])
           cmd_args << rev if rev
           cmd_args << "--" << path unless path.empty?
           lines = []
@@ -194,6 +195,7 @@ module Redmine
         def revisions(path, identifier_from, identifier_to, options={})
           revs = Revisions.new
           cmd_args = %w|log --no-color --encoding=UTF-8 --raw --date=iso --pretty=fuller --parents --stdin|
+          cmd_args << '--no-renames' if self.class.client_version_above?([2, 9])
           cmd_args << "--reverse" if options[:reverse]
           cmd_args << "-n" << "#{options[:limit].to_i}" if options[:limit]
           cmd_args << "--" << scm_iconv(@path_encoding, 'UTF-8', path) if path && !path.empty?
@@ -312,6 +314,7 @@ module Redmine
           cmd_args = []
           if identifier_to
             cmd_args << "diff" << "--no-color" <<  identifier_to << identifier_from
+            cmd_args << '--no-renames' if self.class.client_version_above?([2, 9])
           else
             cmd_args << "show" << "--no-color" << identifier_from
           end
