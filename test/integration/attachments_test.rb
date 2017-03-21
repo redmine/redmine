@@ -22,7 +22,8 @@ class AttachmentsTest < Redmine::IntegrationTest
            :users, :email_addresses,
            :roles, :members, :member_roles,
            :trackers, :projects_trackers,
-           :issues, :issue_statuses, :enumerations
+           :issues, :issue_statuses, :enumerations,
+           :attachments
 
   def test_upload_should_set_default_content_type
     log_user('jsmith', 'jsmith')
