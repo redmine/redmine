@@ -44,13 +44,13 @@
             :remote => true,
             :method => 'get',
             :title => l(:button_quote),
-            :class => 'icon icon-comment'
+            :class => 'icon-only icon-comment'
           ) if !@topic.locked? && authorize_for('messages', 'reply') %>
       <%= link_to(
             '',
             {:action => 'edit', :id => message},
             :title => l(:button_edit),
-            :class => 'icon icon-edit'
+            :class => 'icon-only icon-edit'
           ) if message.editable_by?(User.current) %>
       <%= link_to(
             '',
@@ -58,7 +58,7 @@
             :method => :post,
             :data => {:confirm => l(:text_are_you_sure)},
             :title => l(:button_delete),
-            :class => 'icon icon-del'
+            :class => 'icon-only icon-del'
           ) if message.destroyable_by?(User.current) %>
     </div>
   <h4>
