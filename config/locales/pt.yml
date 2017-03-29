@@ -1173,9 +1173,9 @@ pt:
   button_import: Importar
   field_total_estimated_hours: Total de tempo estimado
   label_api: API
-  label_total_plural: Totals
-  label_assigned_issues: Assigned issues
-  label_field_format_enumeration: Key/value list
+  label_total_plural: Totais
+  label_assigned_issues: Tarefas atribuídas
+  label_field_format_enumeration: Lista chave/valor
   label_f_hour_short: '%{value} h'
   field_default_version: Versão por defeito
   error_attachment_extension_not_allowed: A extensão %{extension} do ficheiro anexado não é permitida
