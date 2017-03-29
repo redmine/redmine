@@ -1177,12 +1177,11 @@ pt:
   label_assigned_issues: Assigned issues
   label_field_format_enumeration: Key/value list
   label_f_hour_short: '%{value} h'
-  field_default_version: Default version
-  error_attachment_extension_not_allowed: Attachment extension %{extension} is not allowed
-  setting_attachment_extensions_allowed: Allowed extensions
-  setting_attachment_extensions_denied: Disallowed extensions
-  label_any_open_issues: any open issues
-  label_no_open_issues: no open issues
-  label_default_values_for_new_users: Default values for new users
-  error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: Spent time cannot
-    be reassigned to an issue that is about to be deleted
+  field_default_version: Versão por defeito
+  error_attachment_extension_not_allowed: A extensão %{extension} do ficheiro anexado não é permitida
+  setting_attachment_extensions_allowed: Extensões permitidas
+  setting_attachment_extensions_denied: Extensões não permitidas
+  label_any_open_issues: Quaisquer tarefas abertas
+  label_no_open_issues: Sem tarefas abertas
+  label_default_values_for_new_users: Valores por defeito para novo utilizadores
+  error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: O tempo gasto não pode ser alterado numa tarefa que será apagada
