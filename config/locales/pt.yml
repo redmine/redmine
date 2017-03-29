@@ -1187,28 +1187,24 @@ pt:
   label_default_values_for_new_users: Valores por defeito para novo utilizadores
   setting_sys_api_key: Chave da API
   setting_lost_password: Perdi a palavra-chave
-  mail_subject_security_notification: Security notification
-  mail_body_security_notification_change: ! '%{field} was changed.'
-  mail_body_security_notification_change_to: ! '%{field} was changed to %{value}.'
-  mail_body_security_notification_add: ! '%{field} %{value} was added.'
-  mail_body_security_notification_remove: ! '%{field} %{value} was removed.'
-  mail_body_security_notification_notify_enabled: Email address %{value} now receives
-    notifications.
-  mail_body_security_notification_notify_disabled: Email address %{value} no longer
-    receives notifications.
-  mail_body_settings_updated: ! 'The following settings were changed:'
-  field_remote_ip: IP address
-  label_wiki_page_new: New wiki page
-  label_relations: Relations
-  button_filter: Filter
-  mail_body_password_updated: Your password has been changed.
-  label_no_preview: No preview available
-  error_no_tracker_allowed_for_new_issue_in_project: The project doesn't have any trackers
-    for which you can create an issue
-  label_tracker_all: All trackers
-  label_new_project_issue_tab_enabled: Display the "New issue" tab
-  setting_new_item_menu_tab: Project menu tab for creating new objects
-  label_new_object_tab_enabled: Display the "+" drop-down
-  error_no_projects_with_tracker_allowed_for_new_issue: There are no projects with trackers
-    for which you can create an issue
+  mail_subject_security_notification: Notificação de segurança
+  mail_body_security_notification_change: ! '%{field} foi modificado.'
+  mail_body_security_notification_change_to: ! '%{field} foi modificado para %{value}.'
+  mail_body_security_notification_add: ! '%{field} %{value} foi adicionado.'
+  mail_body_security_notification_remove: ! '%{field} %{value} foi removido.'
+  mail_body_security_notification_notify_enabled: O email %{value} agora recebe notificações.
+  mail_body_security_notification_notify_disabled: O email %{value} já não recebe notificações.
+  mail_body_settings_updated: ! 'As seguintes configurações foram modificadas:'
+  field_remote_ip: Endereço IP
+  label_wiki_page_new: Nova página wiki
+  label_relations: Relações
+  button_filter: Filtro
+  mail_body_password_updated: A sua palavra-chave foi atualizada.
+  label_no_preview: Sem pré-visualização disponível
+  error_no_tracker_allowed_for_new_issue_in_project: O projeto não possui nenhum tipo de tarefa para o qual você pode criar uma tarefa
+  label_tracker_all: Todos os tipos de tarefa
+  label_new_project_issue_tab_enabled: Apresentar a aba "Nova tarefa"
+  setting_new_item_menu_tab: Aba de Projeto para criar novos objetos
+  label_new_object_tab_enabled: Apresentar a aba "+"
+  error_no_projects_with_tracker_allowed_for_new_issue: Não há projetos com tipos de tarefa para os quais você pode criar uma tarefa
   error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: O tempo gasto não pode ser alterado numa tarefa que será apagada
