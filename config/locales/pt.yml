@@ -139,8 +139,8 @@ pt:
         circular_dependency: "Esta relação iria criar uma dependência circular"
         cant_link_an_issue_with_a_descendant: "Não é possível ligar uma tarefa a uma sub-tarefa que lhe é pertencente"
         earlier_than_minimum_start_date: "não pode ser antes de %{date} devido a tarefas precedentes"
-        not_a_regexp: "is not a valid regular expression"
-        open_issue_with_closed_parent: "An open issue cannot be attached to a closed parent task"
+        not_a_regexp: "não é uma expressão regular válida"
+        open_issue_with_closed_parent: "Uma tarefa aberta não pode ser relacionada com uma tarefa pai fechada"
 
   actionview_instancetag_blank_option: Selecione
 
@@ -1195,24 +1195,23 @@ pt:
   setting_new_item_menu_tab: Aba de Projeto para criar novos objetos
   label_new_object_tab_enabled: Apresentar a aba "+"
   error_no_projects_with_tracker_allowed_for_new_issue: Não há projetos com tipos de tarefa para os quais você pode criar uma tarefa
-  field_textarea_font: Font used for text areas
+  field_textarea_font: Fonte para áreas de texto
   label_font_default: Default font
-  label_font_monospace: Monospaced font
-  label_font_proportional: Proportional font
-  setting_timespan_format: Time span format
-  label_table_of_contents: Table of contents
-  setting_commit_logs_formatting: Apply text formatting to commit messages
-  setting_mail_handler_enable_regex_delimiters: Enable regular expressions
-  error_move_of_child_not_possible: 'Subtask %{child} could not be moved to the new
+  label_font_monospace: Fonte Monospaced
+  label_font_proportional: Fonte proporcional
+  setting_timespan_format: Formato de Data/Hora
+  label_table_of_contents: Índice
+  setting_commit_logs_formatting: Aplicar formatação de texto às mensagens de commit
+  setting_mail_handler_enable_regex_delimiters: Ativar a utilização de expressões regulares
+  error_move_of_child_not_possible: 'A sub-tarefa %{child} não pode ser movida para o novo
     project: %{errors}'
   error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: O tempo gasto não pode ser alterado numa tarefa que será apagada
-  setting_timelog_required_fields: Required fields for time logs
-  label_attribute_of_object: '%{object_name}''s %{name}'
-  label_user_mail_option_only_assigned: Only for things I watch or I am assigned to
-  label_user_mail_option_only_owner: Only for things I watch or I am the owner of
-  warning_fields_cleared_on_bulk_edit: Changes will result in the automatic deletion
-    of values from one or more fields on the selected objects
-  field_updated_by: Updated by
-  field_last_updated_by: Last updated by
-  field_full_width_layout: Full width layout
+  setting_timelog_required_fields: Campos obrigatórios para o registo de tempo
+  label_attribute_of_object: '%{object_name} %{name}'
+  label_user_mail_option_only_assigned: Apenas para tarefas que observo ou que me estão atribuídas
+  label_user_mail_option_only_owner: Apenas para tarefas que observo ou que eu criei
+  warning_fields_cleared_on_bulk_edit: As alterações vão apagar valores de um ou mais campos nos objetos selecionados
+  field_updated_by: Atualizado por
+  field_last_updated_by: Última atualização por
+  field_full_width_layout: Layout utiliza toda a largura
   label_last_notes: Last notes
