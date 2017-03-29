@@ -196,7 +196,7 @@ pt:
   mail_subject_account_activation_request: "Pedido de ativação da conta %{value}"
   mail_body_account_activation_request: "Um novo utilizador (%{value}) registou-se. A sua conta está à espera de aprovação:"
   mail_subject_reminder: "Tem %{count} tarefa(s) para entregar nos próximos %{days} dias"
-  mail_body_reminder: "%{count} tarefa(s) que estão atribuídas a si estão agendadas para estarem completas nos próximos %{days} dias:"
+  mail_body_reminder: "%{count} tarefa(s) que estão atribuídas a si estão agendadas para serem terminadas nos próximos %{days} dias:"
 
   field_name: Nome
   field_description: Descrição
@@ -558,13 +558,13 @@ pt:
   label_loading: A carregar...
   label_relation_new: Nova relação
   label_relation_delete: Apagar relação
-  label_relates_to: relacionado a
-  label_duplicates: duplica
-  label_duplicated_by: duplicado por
-  label_blocks: bloqueia
-  label_blocked_by: bloqueado por
-  label_precedes: precede
-  label_follows: segue
+  label_relates_to: Relacionado a
+  label_duplicates: Duplica
+  label_duplicated_by: Duplicado por
+  label_blocks: Bloqueia
+  label_blocked_by: Bloqueada por
+  label_precedes: Precede
+  label_follows: Segue
   label_stay_logged_in: Guardar sessão
   label_disabled: desativado
   label_show_completed_versions: Mostrar versões acabadas
@@ -580,13 +580,13 @@ pt:
   label_reply_plural: Respostas
   label_send_information: Enviar dados da conta para o utilizador
   label_year: Ano
-  label_month: mês
+  label_month: Mês
   label_week: Semana
   label_date_from: De
-  label_date_to: Para
+  label_date_to: A
   label_language_based: Baseado na língua do utilizador
   label_sort_by: "Ordenar por %{value}"
-  label_send_test_email: enviar um e-mail de teste
+  label_send_test_email: Enviar um e-mail de teste
   label_feeds_access_key_created_on: "Chave Atom criada há %{value} atrás"
   label_module_plural: Módulos
   label_added_time_by: "Adicionado por %{author} há %{age} atrás"
@@ -600,8 +600,8 @@ pt:
   label_theme: Tema
   label_default: Padrão
   label_search_titles_only: Procurar apenas em títulos
-  label_user_mail_option_all: "Para qualquer evento em todos os meus projetos"
-  label_user_mail_option_selected: "Para qualquer evento apenas nos projetos selecionados..."
+  label_user_mail_option_all: "Qualquer evento em todos os meus projetos"
+  label_user_mail_option_selected: "Qualquer evento mas apenas nos projetos selecionados"
   label_user_mail_no_self_notified: "Não quero ser notificado de alterações feitas por mim"
   label_registration_activation_by_email: Ativação da conta por e-mail
   label_registration_manual_activation: Ativação manual da conta
@@ -673,9 +673,9 @@ pt:
   text_subprojects_destroy_warning: "O(s) seu(s) sub-projeto(s): %{value} também será/serão apagado(s)."
   text_workflow_edit: Selecione uma função e um tipo de tarefa para editar o fluxo de trabalho
   text_are_you_sure: Tem a certeza?
-  text_tip_issue_begin_day: tarefa a começar neste dia
-  text_tip_issue_end_day: tarefa a acabar neste dia
-  text_tip_issue_begin_end_day: tarefa a começar e acabar neste dia
+  text_tip_issue_begin_day: tarefa inicia neste dia
+  text_tip_issue_end_day: tarefa termina neste dia
+  text_tip_issue_begin_end_day: tarefa a iniciar e terminar neste dia
   text_caracters_maximum: "máximo %{count} caráteres."
   text_caracters_minimum: "Deve ter pelo menos %{count} caráteres."
   text_length_between: "Deve ter entre %{min} e %{max} caráteres."
@@ -705,7 +705,7 @@ pt:
   text_user_wrote: "%{value} escreveu:"
   text_enumeration_destroy_question: "%{count} objetos estão atribuídos a este valor."
   text_enumeration_category_reassign_to: 'Re-atribuí-los para este valor:'
-  text_email_delivery_not_configured: "Entrega por e-mail não está configurada, e as notificação estão desativadas.\nConfigure o seu servidor de SMTP em config/configuration.yml e reinicie a aplicação para ativar estas funcionalidades."
+  text_email_delivery_not_configured: "O envio de e-mail não está configurado, e as notificação estão desativadas.\nConfigure o seu servidor de SMTP em config/configuration.yml e reinicie a aplicação para ativar estas funcionalidades."
 
   default_role_manager: Gestor
   default_role_developer: Programador
@@ -750,7 +750,7 @@ pt:
   permission_select_project_modules: Selecionar módulos do projeto
   permission_edit_wiki_pages: Editar páginas da wiki
   permission_add_issue_watchers: Adicionar observadores
-  permission_view_gantt: ver diagrama de Gantt
+  permission_view_gantt: Ver diagrama de Gantt
   permission_move_issues: Mover tarefas
   permission_manage_issue_relations: Gerir relações de tarefas
   permission_delete_wiki_pages: Apagar páginas de wiki
@@ -777,7 +777,7 @@ pt:
   permission_view_wiki_pages: Ver wiki
   permission_rename_wiki_pages: Renomear páginas de wiki
   permission_edit_time_entries: Editar entradas de tempo
-  permission_edit_own_issue_notes: Editar as prórpias notas
+  permission_edit_own_issue_notes: Editar as próprias notas
   setting_gravatar_enabled: Utilizar ícones Gravatar
   label_example: Exemplo
   text_repository_usernames_mapping: "Selecionar ou atualizar o utilizador de Redmine mapeado a cada nome de utilizador encontrado no repositório.\nUtilizadores com o mesmo nome de utilizador ou e-mail no Redmine e no repositório são mapeados automaticamente."
@@ -866,7 +866,7 @@ pt:
   label_update_issue_done_ratios: Atualizar percentagens de progresso da tarefa
   setting_start_of_week: Iniciar calendários a
   permission_view_issues: Ver tarefas
-  label_display_used_statuses_only: Só exibir estados empregues por este tipo de tarefa
+  label_display_used_statuses_only: Exibir apenas estados utilizados por este tipo de tarefa
   label_revision_id: Revisão %{value}
   label_api_access_key: Chave de acesso API
   label_api_access_key_created_on: Chave de acesso API criada há %{value}
@@ -1045,8 +1045,8 @@ pt:
   label_attribute_of_assigned_to: "%{name} do utilizador titular"
   label_attribute_of_fixed_version: "%{name} da Versão"
   label_copy_subtasks: Copiar sub-tarefas
-  label_copied_to: copiado para
-  label_copied_from: copiado de
+  label_copied_to: Copiado para
+  label_copied_from: Copiado de
   label_any_issues_in_project: tarefas do projeto
   label_any_issues_not_in_project: tarefas sem projeto
   field_private_notes: Notas privadas
@@ -1081,8 +1081,7 @@ pt:
   notice_account_not_activated_yet: Ainda não ativou a sua conta. Se desejar
     receber um novo e-mail de ativação, por favor clique <a href="%{url}">nesta ligação</a>.
   notice_account_locked: A sua conta está bloqueada.
-  notice_account_register_done: A conta foi criada com sucesso! Um e-mail contendo
-    as instruções para ativar a sua conta foi enviado para %{email}.
+  notice_account_register_done: A conta foi criada com sucesso! Um e-mail contendo as instruções para ativar a sua conta foi enviado para %{email}.
   label_hidden: Escondido
   label_visibility_private: apenas para mim
   label_visibility_roles: apenas para estas funções
@@ -1098,8 +1097,7 @@ pt:
   label_link_values_to: Ligação de valores ao URL
   setting_force_default_language_for_anonymous: Forçar língua por omissão para utilizadores anónimos
   setting_force_default_language_for_loggedin: Forçar língua por omissão para utilizadores registados
-  label_custom_field_select_type: Selecione o tipo de objeto ao qual o campo personalizado
-    será atribuído
+  label_custom_field_select_type: Selecione o tipo de objeto ao qual o campo personalizado será atribuído
   label_issue_assigned_to_updated: Utilizador titular atualizado
   label_check_for_updates: Verificar atualizações
   label_latest_compatible_version: Última versão compatível
