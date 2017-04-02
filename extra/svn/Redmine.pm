@@ -58,7 +58,7 @@ Authen::Simple::LDAP (and IO::Socket::SSL if LDAPS is used):
      RedmineDbUser "redmine"
      RedmineDbPass "password"
      ## Optional where clause (fulltext search would be slow and
-     ## database dependant).
+     ## database dependent).
      # RedmineDbWhereClause "and members.role_id IN (1,2)"
      ## Optional credentials cache size
      # RedmineCacheCredsMax 50

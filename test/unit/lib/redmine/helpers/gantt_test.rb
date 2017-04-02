@@ -59,7 +59,7 @@ class Redmine::Helpers::GanttHelperTest < Redmine::HelperTest
     assert_equal 2, @gantt.number_of_rows
   end
 
-  test "#number_of_rows with no project should return the total number of rows for all the projects, resursively" do
+  test "#number_of_rows with no project should return the total number of rows for all the projects, recursively" do
     p1, p2 = Project.generate!, Project.generate!
     create_gantt(nil)
     # fix the return value of #number_of_rows_on_project() to an arbitrary value

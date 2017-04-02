@@ -136,7 +136,7 @@ class Enumeration < ActiveRecord::Base
   end
 
   # Overrides Redmine::Acts::Positioned#set_default_position so that enumeration overrides
-  # get the same position as the overriden enumeration
+  # get the same position as the overridden enumeration
   def set_default_position
     if position.nil? && parent
       self.position = parent.position
@@ -145,7 +145,7 @@ class Enumeration < ActiveRecord::Base
   end
 
   # Overrides Redmine::Acts::Positioned#update_position so that overrides get the same
-  # position as the overriden enumeration
+  # position as the overridden enumeration
   def update_position
     super
     if position_changed?
@@ -159,7 +159,7 @@ class Enumeration < ActiveRecord::Base
   end
 
   # Overrides Redmine::Acts::Positioned#remove_position so that enumeration overrides
-  # get the same position as the overriden enumeration
+  # get the same position as the overridden enumeration
   def remove_position
     if parent_id.blank?
       super

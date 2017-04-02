@@ -194,7 +194,7 @@ class Member < ActiveRecord::Base
     members
   end
 
-  # Finds or initilizes a Member for the given project and principal
+  # Finds or initializes a Member for the given project and principal
   def self.find_or_new(project, principal)
     project_id = project.is_a?(Project) ? project.id : project
     principal_id = principal.is_a?(Principal) ? principal.id : principal

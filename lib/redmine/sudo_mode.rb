@@ -183,7 +183,7 @@ module Redmine
     #
     # Calling this method also turns was_used? to true, therefore
     # it is important to only call this when sudo is actually needed, as the last
-    # condition to determine wether a change can be done or not.
+    # condition to determine whether a change can be done or not.
     #
     # If you do it wrong, timeout of the sudo mode will happen too late or not at
     # all.

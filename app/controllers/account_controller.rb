@@ -42,7 +42,7 @@ class AccountController < ApplicationController
       authenticate_user
     end
   rescue AuthSourceException => e
-    logger.error "An error occured when authenticating #{params[:username]}: #{e.message}"
+    logger.error "An error occurred when authenticating #{params[:username]}: #{e.message}"
     render_error :message => e.message
   end
 

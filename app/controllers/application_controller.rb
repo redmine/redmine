@@ -646,7 +646,7 @@ class ApplicationController < ActionController::Base
     render_error "An error occurred while executing the query and has been logged. Please report this error to your Redmine administrator."
   end
 
-  # Renders a 200 response for successfull updates or deletions via the API
+  # Renders a 200 response for successful updates or deletions via the API
   def render_api_ok
     render_api_head :ok
   end

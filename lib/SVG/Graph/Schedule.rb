@@ -51,7 +51,7 @@ module SVG
     # 
     # = Notes
     # 
-    # The default stylesheet handles upto 10 data sets, if you
+    # The default stylesheet handles up to 10 data sets, if you
     # use more you must create your own stylesheet and add the
     # additional settings for the extra data sets. You will know
     # if you go over 10 data sets as they will have no style and
@@ -138,7 +138,7 @@ module SVG
       # Note that the data must be in time,value pairs, and that the date format
       # may be any date that is parseable by ParseDate.
       # Also note that, in this example, we're mixing scales; the data from d1
-      # will probably not be discernable if both data sets are plotted on the same
+      # will probably not be discernible if both data sets are plotted on the same
       # graph, since d1 is too granular.
       def add_data data
         @data = [] unless @data

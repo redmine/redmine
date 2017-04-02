@@ -43,7 +43,7 @@ class CommentsController < ApplicationController
   private
 
   # ApplicationController's find_model_object sets it based on the controller
-  # name so it needs to be overriden and set to @news instead
+  # name so it needs to be overridden and set to @news instead
   def find_model_object
     super
     @news = @object

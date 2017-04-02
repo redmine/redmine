@@ -1099,7 +1099,7 @@ class UserTest < ActiveSupport::TestCase
   test "#allowed_to? for normal users" do
     project = Project.find(1)
     assert_equal true, @jsmith.allowed_to?(:delete_messages, project)    #Manager
-    assert_equal false, @dlopper.allowed_to?(:delete_messages, project) #Developper
+    assert_equal false, @dlopper.allowed_to?(:delete_messages, project) #Developer
   end
 
   test "#allowed_to? with empty array should return false" do
@@ -1114,7 +1114,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "#allowed_to? with with options[:global] should return true if user has one role with the permission" do
-    @dlopper2 = User.find(5) #only Developper on a project, not Manager anywhere
+    @dlopper2 = User.find(5) #only Developer on a project, not Manager anywhere
     @anonymous = User.find(6)
     assert_equal true, @jsmith.allowed_to?(:delete_issue_watchers, nil, :global => true)
     assert_equal false, @dlopper2.allowed_to?(:delete_issue_watchers, nil, :global => true)
@@ -1125,7 +1125,7 @@ class UserTest < ActiveSupport::TestCase
 
   # this is just a proxy method, the test only calls it to ensure it doesn't break trivially
   test "#allowed_to_globally?" do
-    @dlopper2 = User.find(5) #only Developper on a project, not Manager anywhere
+    @dlopper2 = User.find(5) #only Developer on a project, not Manager anywhere
     @anonymous = User.find(6)
     assert_equal true, @jsmith.allowed_to_globally?(:delete_issue_watchers)
     assert_equal false, @dlopper2.allowed_to_globally?(:delete_issue_watchers)

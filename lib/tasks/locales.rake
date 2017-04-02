@@ -111,7 +111,7 @@ END_DESC
     files.each do |path|
       # Skip certain locales
       (puts "Skipping #{path}"; next) if File.basename(path, ".yml") =~ skips
-      # TODO: Check for dupliate/existing keys
+      # TODO: Check for duplicate/existing keys
       puts "Adding #{key_list} to #{path}"
       File.open(path, 'a') do |file|
         adds.each do |kv|

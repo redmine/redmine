@@ -117,7 +117,7 @@ Overrides:
 
 Examples:
   No project specified, emails MUST contain the 'Project' keyword, otherwise
-  they will be dropped (not recommanded):
+  they will be dropped (not recommended):
 
     rdm-mailhandler.rb --url http://redmine.domain.foo --key secret
 
@@ -165,7 +165,7 @@ END_DESC
     begin
       response = Net::HTTPS.post_form(URI.parse(uri), data, headers, :no_check_certificate => no_check_certificate, :certificate_bundle => certificate_bundle)
     rescue SystemCallError, IOError => e # connection refused, etc.
-      warn "An error occured while contacting your Redmine server: #{e.message}"
+      warn "An error occurred while contacting your Redmine server: #{e.message}"
       return 75 # temporary failure
     end
     debug "Response received: #{response.code}"
