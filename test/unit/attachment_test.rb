@@ -27,17 +27,6 @@ class AttachmentTest < ActiveSupport::TestCase
   # in transactional fixtures (https://github.com/rails/rails/pull/18458)
   self.use_transactional_fixtures = false
 
-  class MockFile
-    attr_reader :original_filename, :content_type, :content, :size
-
-    def initialize(attributes)
-      @original_filename = attributes[:original_filename]
-      @content_type = attributes[:content_type]
-      @content = attributes[:content] || "Content"
-      @size = content.size
-    end
-  end
-
   def setup
     set_tmp_attachments_directory
   end
@@ -224,23 +213,29 @@ class AttachmentTest < ActiveSupport::TestCase
     assert_equal 'text/plain', a.content_type
   end
 
-  def test_identical_attachments_should_reuse_same_file
-    a1 = Attachment.create!(:container => Issue.find(1),
-                            :file => uploaded_test_file("testfile.txt", ""),
-                            :author => User.find(1))
-    a2 = Attachment.create!(:container => Issue.find(1),
-                            :file => uploaded_test_file("testfile.txt", ""),
-                            :author => User.find(1))
+  def test_attachments_with_same_content_should_reuse_same_file
+    a1 = Attachment.create!(:container => Issue.find(1), :author => User.find(1),
+                            :file => mock_file(:filename => 'foo', :content => 'abcd'))
+    a2 = Attachment.create!(:container => Issue.find(1), :author => User.find(1),
+                            :file => mock_file(:filename => 'bar', :content => 'abcd'))
     assert_equal a1.diskfile, a2.diskfile
   end
 
+  def test_attachments_with_same_filename_at_the_same_time_should_not_overwrite
+    a1 = Attachment.create!(:container => Issue.find(1), :author => User.find(1),
+                            :file => mock_file(:filename => 'foo', :content => 'abcd'))
+    a2 = Attachment.create!(:container => Issue.find(1), :author => User.find(1),
+                            :file => mock_file(:filename => 'foo', :content => 'efgh'))
+    assert_not_equal a1.diskfile, a2.diskfile
+  end
+
   def test_filename_should_be_basenamed
-    a = Attachment.new(:file => MockFile.new(:original_filename => "path/to/the/file"))
+    a = Attachment.new(:file => mock_file(:original_filename => "path/to/the/file"))
     assert_equal 'file', a.filename
   end
 
   def test_filename_should_be_sanitized
-    a = Attachment.new(:file => MockFile.new(:original_filename => "valid:[] invalid:?%*|\"'<>chars"))
+    a = Attachment.new(:file => mock_file(:original_filename => "valid:[] invalid:?%*|\"'<>chars"))
     assert_equal 'valid_[] invalid_chars', a.filename
   end
 

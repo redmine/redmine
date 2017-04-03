@@ -52,29 +52,18 @@ class ActiveSupport::TestCase
     fixture_file_upload("files/#{name}", mime, true)
   end
 
-  # Mock out a file
-  def self.mock_file
-    file = 'a_file.png'
-    file.stubs(:size).returns(32)
-    file.stubs(:original_filename).returns('a_file.png')
-    file.stubs(:content_type).returns('image/png')
-    file.stubs(:read).returns(false)
-    file
-  end
+  def mock_file(options=nil)
+    options ||= {
+        :original_filename => 'a_file.png',
+        :content_type => 'image/png',
+        :size => 32
+      }
 
-  def mock_file
-    self.class.mock_file
+    Redmine::MockFile.new(options)
   end
 
   def mock_file_with_options(options={})
-    file = ''
-    file.stubs(:size).returns(32)
-    original_filename = options[:original_filename] || nil
-    file.stubs(:original_filename).returns(original_filename)
-    content_type = options[:content_type] || nil
-    file.stubs(:content_type).returns(content_type)
-    file.stubs(:read).returns(false)
-    file
+    mock_file(options)
   end
 
   # Use a temporary directory for attachment related tests
@@ -257,6 +246,26 @@ class ActiveSupport::TestCase
 end
 
 module Redmine
+  class MockFile
+    attr_reader :size, :original_filename, :content_type
+  
+    def initialize(options={})
+      @size = options[:size] || 32
+      @original_filename = options[:original_filename] || options[:filename]
+      @content_type = options[:content_type]
+      @content = options[:content] || 'x'*size
+    end
+  
+    def read(*args)
+      if @eof
+        false
+      else
+        @eof = true
+        @content
+      end
+    end
+  end
+
   class RoutingTest < ActionDispatch::IntegrationTest
     def should_route(arg)
       arg = arg.dup
