@@ -26,6 +26,11 @@ namespace :redmine do
     task :move_to_subdirectories => :environment do
       Attachment.move_from_root_to_target_directory
     end
+
+    desc 'Updates attachment digests to SHA256'
+    task :update_digests => :environment do
+      Attachment.update_digests_to_sha256
+    end
   end
 
   namespace :tokens do

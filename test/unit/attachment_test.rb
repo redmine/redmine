@@ -332,6 +332,14 @@ class AttachmentTest < ActiveSupport::TestCase
     assert_equal 'text/plain', attachment.content_type
   end
 
+  def test_update_digest_to_sha256_should_update_digest
+    set_fixtures_attachments_directory
+    attachment = Attachment.find 6
+    assert attachment.readable?
+    attachment.update_digest_to_sha256!
+    assert_equal 'ac5c6e99a21ae74b2e3f5b8e5b568be1b9107cd7153d139e822b9fe5caf50938', attachment.digest
+  end
+
   def test_update_attachments
     attachments = Attachment.where(:id => [2, 3]).to_a
 
@@ -430,4 +438,5 @@ class AttachmentTest < ActiveSupport::TestCase
   else
     puts '(ImageMagick convert not available)'
   end
+
 end

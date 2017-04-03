@@ -252,7 +252,7 @@ class Attachment < ActiveRecord::Base
 
   # Returns true if the file is readable
   def readable?
-    File.readable?(diskfile)
+    disk_filename.present? && File.readable?(diskfile)
   end
 
   # Returns the attachment token
@@ -349,6 +349,27 @@ class Attachment < ActiveRecord::Base
   def self.move_from_root_to_target_directory
     Attachment.where("disk_directory IS NULL OR disk_directory = ''").find_each do |attachment|
       attachment.move_to_target_directory!
+    end
+  end
+
+  # Updates digests to SHA256 for all attachments that have a MD5 digest
+  # (ie. created before Redmine 3.4)
+  def self.update_digests_to_sha256
+    Attachment.where("length(digest) < 64").find_each do |attachment|
+      attachment.update_digest_to_sha256!
+    end
+  end
+
+  # Updates attachment digest to SHA256
+  def update_digest_to_sha256!
+    if readable?
+      sha = Digest::SHA256.new
+      File.open(diskfile, 'rb') do |f|
+        while buffer = f.read(8192)
+          sha.update(buffer)
+        end
+      end
+      update_column :digest, sha.hexdigest
     end
   end
 
