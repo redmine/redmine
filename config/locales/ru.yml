@@ -1300,28 +1300,26 @@ ru:
   label_new_project_issue_tab_enabled: Отображать вкладку "Новая задача"
   setting_new_item_menu_tab: Вкладка меню проекта для создания новых объектов
   label_new_object_tab_enabled: Отображать выпадающий список "+"
-  error_no_projects_with_tracker_allowed_for_new_issue: There are no projects with trackers
-    for which you can create an issue
-  field_textarea_font: Font used for text areas
-  label_font_default: Default font
-  label_font_monospace: Monospaced font
-  label_font_proportional: Proportional font
+  error_no_projects_with_tracker_allowed_for_new_issue: Отсутствуют проекты, по трекерам которых вы можете создавать задачи
+  field_textarea_font: Шрифт для текстовых полей
+  label_font_default: Шрифт по умолчанию
+  label_font_monospace: Моноширинный шрифт
+  label_font_proportional: Пропорциональный шрифт
   setting_timespan_format: Time span format
-  label_table_of_contents: Table of contents
-  setting_commit_logs_formatting: Apply text formatting to commit messages
-  setting_mail_handler_enable_regex_delimiters: Enable regular expressions
-  error_move_of_child_not_possible: 'Subtask %{child} could not be moved to the new
+  label_table_of_contents: Содержание
+  setting_commit_logs_formatting: Использовать форматирование текста для комментариев хранилища
+  setting_mail_handler_enable_regex_delimiters: Использовать регулярные выражения
+  error_move_of_child_not_possible: 'Подзадача %{child} не может быть перемещена в новый
     project: %{errors}'
   error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: Spent time cannot
     be reassigned to an issue that is about to be deleted
-  setting_timelog_required_fields: Required fields for time logs
-  label_attribute_of_object: '%{object_name}''s %{name}'
-  label_user_mail_option_only_assigned: Only for things I watch or I am assigned to
-  label_user_mail_option_only_owner: Only for things I watch or I am the owner of
-  warning_fields_cleared_on_bulk_edit: Changes will result in the automatic deletion
-    of values from one or more fields on the selected objects
-  field_updated_by: Updated by
-  field_last_updated_by: Last updated by
-  field_full_width_layout: Full width layout
-  label_last_notes: Last notes
+  setting_timelog_required_fields: Обязательные поля для трудозатрат
+  label_attribute_of_object: '%{name} объекта %{object_name}'
+  label_user_mail_option_only_assigned: Только для объектов, которые назначены мне
+  label_user_mail_option_only_owner: Только для объектов, для которых я являюсь владельцем
+  warning_fields_cleared_on_bulk_edit: Изменения приведут к удалению значений одного или нескольких полей выбранных объектов
+  field_updated_by: Кем изменено
+  field_last_updated_by: Последний изменивший
+  field_full_width_layout: Растягивать по ширине страницы
+  label_last_notes: Последние примечания
   field_digest: Checksum
