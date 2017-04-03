@@ -324,7 +324,7 @@ ru:
   field_description: Описание
   field_done_ratio: Готовность
   field_downloads: Загрузки
-  field_due_date: Дата завершения
+  field_due_date: Срок завершения
   field_editable: Редактируемое
   field_effective_date: Дата
   field_estimated_hours: Оценка трудозатрат
@@ -632,7 +632,7 @@ ru:
   label_related_issues: Связанные задачи
   label_relates_to: связана с
   label_relation_delete: Удалить связь
-  label_relation_new: Новое отношение
+  label_relation_new: Новая связь
   label_renamed: переименовано
   label_reply_plural: Ответы
   label_report: Отчёт
