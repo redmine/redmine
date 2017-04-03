@@ -63,7 +63,7 @@ class LayoutTest < Redmine::IntegrationTest
     Role.anonymous.add_permission! :add_issues
 
     get '/projects/ecookbook/issues/new'
-    assert_select 'head script[src=?]', '/javascripts/jstoolbar/jstoolbar-textile.min.js'
+    assert_select 'head script[src^=?]', '/javascripts/jstoolbar/jstoolbar-textile.min.js?'
   end
 
   def test_calendar_header_tags

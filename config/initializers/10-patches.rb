@@ -187,3 +187,54 @@ module ActionController
     end
   end
 end
+
+# Adds asset_id parameters to assets like Rails 3 to invalidate caches in browser
+module ActionView
+  module Helpers
+    module AssetUrlHelper
+      @@cache_asset_timestamps = Rails.env.production?
+      @@asset_timestamps_cache = {}
+      @@asset_timestamps_cache_guard = Mutex.new
+
+      def asset_path_with_asset_id(source, options = {})
+        asset_id = rails_asset_id(source, options)
+        unless asset_id.blank?
+          source += "?#{asset_id}"
+        end
+        asset_path(source, options)
+      end
+      alias :path_to_asset :asset_path_with_asset_id
+
+      def rails_asset_id(source, options = {})
+        if asset_id = ENV["RAILS_ASSET_ID"]
+          asset_id
+        else
+          if @@cache_asset_timestamps && (asset_id = @@asset_timestamps_cache[source])
+            asset_id
+          else
+            extname = compute_asset_extname(source, options)
+            path = File.join(Rails.public_path, "#{source}#{extname}")
+            exist = false
+            if File.exist? path
+              exist = true
+            else
+              path = File.join(Rails.public_path, compute_asset_path("#{source}#{extname}", options))
+              if File.exist? path
+                exist = true
+              end
+            end
+            asset_id = exist ? File.mtime(path).to_i.to_s : ''
+
+            if @@cache_asset_timestamps
+              @@asset_timestamps_cache_guard.synchronize do
+                @@asset_timestamps_cache[source] = asset_id
+              end
+            end
+
+            asset_id
+          end
+        end
+      end
+    end
+  end
+end
