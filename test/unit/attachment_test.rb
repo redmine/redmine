@@ -221,6 +221,15 @@ class AttachmentTest < ActiveSupport::TestCase
     assert_equal a1.diskfile, a2.diskfile
   end
 
+  def test_attachments_with_same_content_should_not_reuse_same_file_if_deleted
+    a1 = Attachment.create!(:container => Issue.find(1), :author => User.find(1),
+                            :file => mock_file(:filename => 'foo', :content => 'abcd'))
+    a1.delete_from_disk
+    a2 = Attachment.create!(:container => Issue.find(1), :author => User.find(1),
+                            :file => mock_file(:filename => 'bar', :content => 'abcd'))
+    assert_not_equal a1.diskfile, a2.diskfile
+  end
+
   def test_attachments_with_same_filename_at_the_same_time_should_not_overwrite
     a1 = Attachment.create!(:container => Issue.find(1), :author => User.find(1),
                             :file => mock_file(:filename => 'foo', :content => 'abcd'))
