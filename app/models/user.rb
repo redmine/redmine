@@ -129,6 +129,10 @@ class User < Principal
   after_save :update_notified_project_ids, :destroy_tokens, :deliver_security_notification
   after_destroy :deliver_security_notification
 
+  scope :admin, lambda {|*args|
+    admin = args.size > 0 ? !!args.first : true
+    where(:admin => admin)
+  }
   scope :in_group, lambda {|group|
     group_id = group.is_a?(Group) ? group.id : group.to_i
     where("#{User.table_name}.id IN (SELECT gu.user_id FROM #{table_name_prefix}groups_users#{table_name_suffix} gu WHERE gu.group_id = ?)", group_id)
@@ -707,7 +711,7 @@ class User < Principal
   # Returns true if the user is allowed to delete the user's own account
   def own_account_deletable?
     Setting.unsubscribe? &&
-      (!admin? || User.active.where("admin = ? AND id <> ?", true, id).exists?)
+      (!admin? || User.active.admin.where("id <> ?", id).exists?)
   end
 
   safe_attributes 'firstname',

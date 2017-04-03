@@ -36,6 +36,24 @@ class UserTest < ActiveSupport::TestCase
     @dlopper = User.find(3)
   end
 
+  def test_admin_scope_without_args_should_return_admin_users
+    users = User.admin.to_a
+    assert users.any?
+    assert users.all? {|u| u.admin == true}
+  end
+
+  def test_admin_scope_with_true_should_return_admin_users
+    users = User.admin(true).to_a
+    assert users.any?
+    assert users.all? {|u| u.admin == true}
+  end
+
+  def test_admin_scope_with_false_should_return_non_admin_users
+    users = User.admin(false).to_a
+    assert users.any?
+    assert users.all? {|u| u.admin == false}
+  end
+
   def test_sorted_scope_should_sort_user_by_display_name
     # Use .active to ignore anonymous with localized display name
     assert_equal User.active.map(&:name).map(&:downcase).sort,
@@ -1049,7 +1067,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_own_account_deletable_should_be_false_for_a_single_admin
-    User.where(["admin = ? AND id <> ?", true, 1]).delete_all
+    User.admin.where("id <> ?", 1).delete_all
 
     with_settings :unsubscribe => '1' do
       assert_equal false, User.find(1).own_account_deletable?
