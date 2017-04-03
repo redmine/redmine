@@ -12,7 +12,7 @@
     <%= sort_header_tag('created_on', :caption => l(:label_date), :default_order => 'desc') %>
     <%= sort_header_tag('size', :caption => l(:field_filesize), :default_order => 'desc') %>
     <%= sort_header_tag('downloads', :caption => l(:label_downloads_abbr), :default_order => 'desc') %>
-    <th>MD5</th>
+    <th><%= l(:field_digest) %></th>
     <th></th>
   </tr></thead>
   <tbody>
@@ -31,7 +31,7 @@
     <td class="created_on"><%= format_time(file.created_on) %></td>
     <td class="filesize"><%= number_to_human_size(file.filesize) %></td>
     <td class="downloads"><%= file.downloads %></td>
-    <td class="digest"><%= file.digest %></td>
+    <td class="digest"><%= file.digest_type %>: <%= file.digest %></td>
     <td class="buttons">
     <%= link_to(image_tag('delete.png'), attachment_path(file),
                                          :data => {:confirm => l(:text_are_you_sure)}, :method => :delete) if delete_allowed %>

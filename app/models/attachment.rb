@@ -404,6 +404,11 @@ class Attachment < ActiveRecord::Base
     self.class.extension_in?(File.extname(filename), extensions)
   end
 
+  # returns either MD5 or SHA256 depending on the way self.digest was computed
+  def digest_type
+    digest.size < 64 ? "MD5" : "SHA256" if digest.present?
+  end
+
   private
 
   # Physically deletes the file from the file system
