@@ -125,6 +125,14 @@ class TimelogControllerTest < Redmine::ControllerTest
     assert_select 'option', :text => '--- Please select ---'
   end
 
+  def test_get_edit_should_show_projects_select
+    @request.session[:user_id] = 2
+    get :edit, :params => {:id => 2, :project_id => nil}
+    assert_response :success
+
+    assert_select 'select[name=?]', 'time_entry[project_id]'
+  end
+
   def test_post_create
     @request.session[:user_id] = 3
     assert_difference 'TimeEntry.count' do
@@ -485,6 +493,37 @@ class TimelogControllerTest < Redmine::ControllerTest
         :issue_id => '5'
       }
     }
+    assert_response :success
+    assert_select_error /Issue is invalid/
+  end
+
+  def test_update_should_allow_to_change_project
+    entry = TimeEntry.generate!(:project_id => 1)
+
+    @request.session[:user_id] = 1
+    put :update, :params => {
+      :id => entry.id,
+      :time_entry => {
+        :project_id => '2'
+      }
+    }
+    assert_response 302
+    entry.reload
+
+    assert_equal 2, entry.project_id
+  end
+
+  def test_update_should_fail_with_issue_from_another_project
+    entry = TimeEntry.generate!(:project_id => 1, :issue_id => 1)
+
+    @request.session[:user_id] = 1
+    put :update, :params => {
+      :id => entry.id,
+      :time_entry => {
+        :project_id => '2'
+      }
+    }
+
     assert_response :success
     assert_select_error /Issue is invalid/
   end

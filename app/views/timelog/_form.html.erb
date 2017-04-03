@@ -2,15 +2,14 @@
 <%= back_url_hidden_field_tag %>
 
 <div class="box tabular">
-  <% if @time_entry.new_record? %>
-    <% if params[:project_id] %>
-      <%= hidden_field_tag 'project_id', params[:project_id] %>
-    <% elsif params[:issue_id] %>
-      <%= hidden_field_tag 'issue_id', params[:issue_id] %>
-    <% else %>
-      <p><%= f.select :project_id, project_tree_options_for_select(Project.allowed_to(:log_time).to_a, :selected => @time_entry.project, :include_blank => true), :required => true %></p>
-    <% end %>
+  <% if @time_entry.new_record? && params[:project_id] %>
+    <%= hidden_field_tag 'project_id', params[:project_id] %>
+  <% elsif @time_entry.new_record? && params[:issue_id] %>
+    <%= hidden_field_tag 'issue_id', params[:issue_id] %>
+  <% else %>
+    <p><%= f.select :project_id, project_tree_options_for_select(Project.allowed_to(:log_time).to_a, :selected => @time_entry.project, :include_blank => true), :required => true %></p>
   <% end %>
+
   <p>
     <%= f.text_field :issue_id, :size => 6, :required => Setting.timelog_required_fields.include?('issue_id') %>
     <span id="time_entry_issue">
@@ -29,6 +28,9 @@
 
 <%= javascript_tag do %>
   $(document).ready(function(){
+    $('#time_entry_project_id').change(function(){
+      $('#time_entry_issue_id').val('');
+    });
     $('#time_entry_project_id, #time_entry_issue_id').change(function(){
       $.ajax({
         url: '<%= escape_javascript(@time_entry.new_record? ? new_time_entry_path(:format => 'js') : edit_time_entry_path(:format => 'js')) %>',
@@ -45,10 +47,10 @@
         term: request.term
       };
       var project_id;
-      <% if @project %>
-        project_id = '<%= @project.id %>';
+      <% if @time_entry.new_record? && @project %>
+      project_id = '<%= @project.id %>';
       <% else %>
-        project_id = $('#time_entry_project_id').val();
+      project_id = $('#time_entry_project_id').val();
       <% end %>
       if(project_id){
         data['project_id'] = project_id;
