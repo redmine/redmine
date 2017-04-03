@@ -164,10 +164,7 @@ class IssueQuery < Query
         :values => lambda { subproject_values }
     end
 
-
-    issue_custom_fields = project ? project.all_issue_custom_fields : IssueCustomField.where(:is_for_all => true)
     add_custom_fields_filters(issue_custom_fields)
-
     add_associations_custom_fields_filters :project, :author, :assigned_to, :fixed_version
 
     IssueRelation::TYPES.each do |relation_type, options|
@@ -186,10 +183,7 @@ class IssueQuery < Query
   def available_columns
     return @available_columns if @available_columns
     @available_columns = self.class.available_columns.dup
-    @available_columns += (project ?
-                            project.all_issue_custom_fields :
-                            IssueCustomField
-                           ).visible.collect {|cf| QueryCustomFieldColumn.new(cf) }
+    @available_columns += issue_custom_fields.visible.collect {|cf| QueryCustomFieldColumn.new(cf) }
 
     if User.current.allowed_to?(:view_time_entries, project, :global => true)
       index = @available_columns.find_index {|column| column.name == :total_estimated_hours}

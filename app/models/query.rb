@@ -551,6 +551,15 @@ class Query < ActiveRecord::Base
     Version.sort_by_status(versions).collect{|s| ["#{s.project.name} - #{s.name}", s.id.to_s, l("version_status_#{s.status}")] }
   end
 
+  # Returns a scope of issue custom fields that are available as columns or filters
+  def issue_custom_fields
+    if project
+      project.rolled_up_custom_fields
+    else
+      IssueCustomField.all
+    end
+  end
+
   # Adds available filters
   def initialize_available_filters
     # implemented by sub-classes
