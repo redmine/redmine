@@ -94,6 +94,10 @@ class AttachmentTest < ActiveSupport::TestCase
   end
 
   def test_copy_should_preserve_attributes
+
+    # prevent re-use of data from other attachments with equal contents
+    Attachment.where('id <> 1').destroy_all
+
     a = Attachment.find(1)
     copy = a.copy
 
@@ -220,14 +224,14 @@ class AttachmentTest < ActiveSupport::TestCase
     assert_equal 'text/plain', a.content_type
   end
 
-  def test_identical_attachments_at_the_same_time_should_not_overwrite
+  def test_identical_attachments_should_reuse_same_file
     a1 = Attachment.create!(:container => Issue.find(1),
                             :file => uploaded_test_file("testfile.txt", ""),
                             :author => User.find(1))
     a2 = Attachment.create!(:container => Issue.find(1),
                             :file => uploaded_test_file("testfile.txt", ""),
                             :author => User.find(1))
-    assert a1.disk_filename != a2.disk_filename
+    assert_equal a1.diskfile, a2.diskfile
   end
 
   def test_filename_should_be_basenamed

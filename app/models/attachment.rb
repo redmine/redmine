@@ -56,6 +56,7 @@ class Attachment < ActiveRecord::Base
   before_create :files_to_final_location
   after_rollback :delete_from_disk, :on => :create
   after_commit :delete_from_disk, :on => :destroy
+  after_commit :reuse_existing_file_if_possible, :on => :create
 
   safe_attributes 'filename', 'content_type', 'description'
 
@@ -410,6 +411,24 @@ class Attachment < ActiveRecord::Base
   end
 
   private
+
+  def reuse_existing_file_if_possible
+    with_lock do
+      if existing = Attachment
+                      .lock
+                      .where(digest: self.digest, filesize: self.filesize)
+                      .where('id <> ? and disk_filename <> ?',
+                             self.id, self.disk_filename)
+                      .first
+
+        original_diskfile = self.diskfile
+        self.update_columns disk_directory: existing.disk_directory,
+                            disk_filename: existing.disk_filename
+        File.delete(original_diskfile) if File.exist?(original_diskfile)
+      end
+    end
+  end
+
 
   # Physically deletes the file from the file system
   def delete_from_disk!
