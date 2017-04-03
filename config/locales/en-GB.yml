@@ -691,8 +691,8 @@ en-GB:
   label_relation_new: New relation
   label_relation_delete: Delete relation
   label_relates_to: related to
-  label_duplicates: duplicates
-  label_duplicated_by: duplicated by
+  label_duplicates: is duplicate of
+  label_duplicated_by: has duplicate
   label_blocks: blocks
   label_blocked_by: blocked by
   label_precedes: precedes

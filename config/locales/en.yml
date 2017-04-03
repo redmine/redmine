@@ -814,8 +814,8 @@ en:
   label_relation_new: New relation
   label_relation_delete: Delete relation
   label_relates_to: Related to
-  label_duplicates: Duplicates
-  label_duplicated_by: Duplicated by
+  label_duplicates: Is duplicate of
+  label_duplicated_by: Has duplicate
   label_blocks: Blocks
   label_blocked_by: Blocked by
   label_precedes: Precedes
