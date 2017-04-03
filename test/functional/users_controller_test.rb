@@ -342,6 +342,12 @@ class UsersControllerTest < Redmine::ControllerTest
     assert_select 'a', :text => 'Activate'
   end
 
+  def test_edit_should_be_denied_for_anonymous
+    assert User.find(6).anonymous?
+    get :edit, :params => {:id => 6}
+    assert_response 404
+  end
+
   def test_update
     ActionMailer::Base.deliveries.clear
     put :update, :params => {
@@ -593,6 +599,12 @@ class UsersControllerTest < Redmine::ControllerTest
     assert_nil ActionMailer::Base.deliveries.last
   end
 
+  def test_update_should_be_denied_for_anonymous
+    assert User.find(6).anonymous?
+    put :update, :params => {:id => 6}
+    assert_response 404
+  end
+
   def test_destroy
     assert_difference 'User.count', -1 do
       delete :destroy, :params => {:id => 2}
@@ -608,6 +620,14 @@ class UsersControllerTest < Redmine::ControllerTest
       get :destroy, :params => {:id => 2}
     end
     assert_response 403
+  end
+
+  def test_destroy_should_be_denied_for_anonymous
+    assert User.find(6).anonymous?
+    assert_no_difference 'User.count' do
+      put :destroy, :params => {:id => 6}
+    end
+    assert_response 404
   end
 
   def test_destroy_should_redirect_to_back_url_param

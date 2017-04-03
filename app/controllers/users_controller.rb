@@ -20,7 +20,8 @@ class UsersController < ApplicationController
   self.main_menu = false
 
   before_action :require_admin, :except => :show
-  before_action :find_user, :only => [:show, :edit, :update, :destroy]
+  before_action ->{ find_user(false) }, :only => :show
+  before_action :find_user, :only => [:edit, :update, :destroy]
   accept_api_auth :index, :show, :create, :update, :destroy
 
   helper :sort
@@ -174,10 +175,12 @@ class UsersController < ApplicationController
 
   private
 
-  def find_user
+  def find_user(logged = true)
     if params[:id] == 'current'
       require_login || return
       @user = User.current
+    elsif logged
+      @user = User.logged.find(params[:id])
     else
       @user = User.find(params[:id])
     end
