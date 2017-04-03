@@ -140,7 +140,7 @@ class UsersController < ApplicationController
 
       if was_activated
         Mailer.account_activated(@user).deliver
-      elsif @user.active? && params[:send_information] && @user.password.present? && @user.auth_source_id.nil? && @user != User.current
+      elsif @user.active? && params[:send_information] && @user != User.current
         Mailer.account_information(@user, @user.password).deliver
       end
 

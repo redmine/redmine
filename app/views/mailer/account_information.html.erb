@@ -4,7 +4,9 @@
 <p><%= l(:mail_body_account_information) %>:</p>
 <ul>
     <li><%= l(:field_login) %>: <%= @user.login %></li>
+    <% if @password %>
     <li><%= l(:field_password) %>: <%= @password %></li>
+    <% end %>
 </ul>
 <% end %>
 
