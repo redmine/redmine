@@ -290,7 +290,7 @@ ja:
   field_host: ホスト
   field_port: ポート
   field_account: アカウント
-  field_base_dn: 検索範囲
+  field_base_dn: ベースDN
   field_attr_login: ログイン名属性
   field_attr_firstname: 名前属性
   field_attr_lastname: 苗字属性
