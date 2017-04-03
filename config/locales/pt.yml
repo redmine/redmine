@@ -1215,3 +1215,4 @@ pt:
   field_last_updated_by: Última atualização por
   field_full_width_layout: Layout utiliza toda a largura
   label_last_notes: Last notes
+  field_digest: Checksum

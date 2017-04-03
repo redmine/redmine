@@ -1206,3 +1206,4 @@ bg:
   description_all_columns: Всички колони
   text_repository_identifier_info: 'Позволени са малки букви (a-z), цифри, тирета и _.<br />Промяна след създаването му не е възможна.'
   label_last_notes: Last notes
+  field_digest: Checksum

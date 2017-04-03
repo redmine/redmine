@@ -1218,3 +1218,4 @@ uk:
   label_user_mail_option_only_assigned: Only for things I watch or I am assigned to
   label_user_mail_option_only_owner: Only for things I watch or I am the owner of
   label_last_notes: Last notes
+  field_digest: Checksum
