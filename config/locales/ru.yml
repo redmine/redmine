@@ -1309,5 +1309,4 @@ ru:
   setting_new_item_menu_tab: Вкладка меню проекта для создания новых объектов
   label_new_object_tab_enabled: Отображать выпадающий список "+"
   error_no_projects_with_tracker_allowed_for_new_issue: Отсутствуют проекты, по трекерам которых вы можете создавать задачи
-  error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: Spent time cannot
-    be reassigned to an issue that is about to be deleted
+  error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: Затраченное время не может быть переназначено на задачу, которая будет удалена
