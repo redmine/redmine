@@ -15,7 +15,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require "digest/md5"
+require "digest"
 require "fileutils"
 
 class Attachment < ActiveRecord::Base
@@ -116,20 +116,20 @@ class Attachment < ActiveRecord::Base
       unless File.directory?(path)
         FileUtils.mkdir_p(path)
       end
-      md5 = Digest::MD5.new
+      sha = Digest::SHA256.new
       File.open(diskfile, "wb") do |f|
         if @temp_file.respond_to?(:read)
           buffer = ""
           while (buffer = @temp_file.read(8192))
             f.write(buffer)
-            md5.update(buffer)
+            sha.update(buffer)
           end
         else
           f.write(@temp_file)
-          md5.update(@temp_file)
+          sha.update(@temp_file)
         end
       end
-      self.digest = md5.hexdigest
+      self.digest = sha.hexdigest
     end
     @temp_file = nil
 

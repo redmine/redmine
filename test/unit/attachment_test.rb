@@ -62,7 +62,7 @@ class AttachmentTest < ActiveSupport::TestCase
     assert_equal 59, a.filesize
     assert_equal 'text/plain', a.content_type
     assert_equal 0, a.downloads
-    assert_equal '1478adae0d4eb06d35897518540e25d6', a.digest
+    assert_equal '6bc2eb7e87cfbf9145065689aaa8b5f513089ca0af68e2dc41f9cc025473d106', a.digest
 
     assert a.disk_directory
     assert_match %r{\A\d{4}/\d{2}\z}, a.disk_directory
@@ -188,7 +188,7 @@ class AttachmentTest < ActiveSupport::TestCase
     assert_equal 59, a.filesize
     assert_equal 'text/plain', a.content_type
     assert_equal 0, a.downloads
-    assert_equal '1478adae0d4eb06d35897518540e25d6', a.digest
+    assert_equal '6bc2eb7e87cfbf9145065689aaa8b5f513089ca0af68e2dc41f9cc025473d106', a.digest
     diskfile = a.diskfile
     assert File.exist?(diskfile)
     assert_equal 59, File.size(a.diskfile)

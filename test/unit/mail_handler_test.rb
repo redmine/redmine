@@ -522,7 +522,7 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal 10790, attachment.filesize
     assert File.exist?(attachment.diskfile)
     assert_equal 10790, File.size(attachment.diskfile)
-    assert_equal 'caaf384198bcbc9563ab5c058acd73cd', attachment.digest
+    assert_equal '4474dd534c36bdd212e2efc549507377c3e77147c9167b66dedcebfe9da8807f', attachment.digest
   end
 
   def test_thunderbird_with_attachment_ja
@@ -538,7 +538,7 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal 5, attachment.filesize
     assert File.exist?(attachment.diskfile)
     assert_equal 5, File.size(attachment.diskfile)
-    assert_equal 'd8e8fca2dc0f896fd7cb4cb0031ba249', attachment.digest
+    assert_equal 'f2ca1bb6c7e907d06dafe4687e579fce76b37e4e93b7605022da52e6ccc26fd2', attachment.digest
   end
 
   def test_invalid_utf8
@@ -564,7 +564,7 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal 5, attachment.filesize
     assert File.exist?(attachment.diskfile)
     assert_equal 5, File.size(attachment.diskfile)
-    assert_equal 'd8e8fca2dc0f896fd7cb4cb0031ba249', attachment.digest
+    assert_equal 'f2ca1bb6c7e907d06dafe4687e579fce76b37e4e93b7605022da52e6ccc26fd2', attachment.digest
   end
 
   def test_thunderbird_with_attachment_latin1
@@ -582,7 +582,7 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal 130, attachment.filesize
     assert File.exist?(attachment.diskfile)
     assert_equal 130, File.size(attachment.diskfile)
-    assert_equal '4d80e667ac37dddfe05502530f152abb', attachment.digest
+    assert_equal '5635d67364de20432247e651dfe86fcb2265ad5e9750bd8bba7319a86363e738', attachment.digest
   end
 
   def test_gmail_with_attachment_latin1
@@ -600,7 +600,7 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal 5, attachment.filesize
     assert File.exist?(attachment.diskfile)
     assert_equal 5, File.size(attachment.diskfile)
-    assert_equal 'd8e8fca2dc0f896fd7cb4cb0031ba249', attachment.digest
+    assert_equal 'f2ca1bb6c7e907d06dafe4687e579fce76b37e4e93b7605022da52e6ccc26fd2', attachment.digest
   end
 
   def test_mail_with_attachment_latin2
