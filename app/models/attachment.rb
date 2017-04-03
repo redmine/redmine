@@ -422,9 +422,16 @@ class Attachment < ActiveRecord::Base
                       .first
 
         original_diskfile = self.diskfile
-        self.update_columns disk_directory: existing.disk_directory,
-                            disk_filename: existing.disk_filename
-        File.delete(original_diskfile) if File.exist?(original_diskfile)
+        existing_diskfile = existing.diskfile
+
+        if File.readable?(original_diskfile) &&
+          File.readable?(existing_diskfile) &&
+          FileUtils.identical?(original_diskfile, existing_diskfile)
+
+          self.update_columns disk_directory: existing.disk_directory,
+                              disk_filename: existing.disk_filename
+          File.delete(original_diskfile)
+        end
       end
     end
   end
