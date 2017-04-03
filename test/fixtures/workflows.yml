@@ -1924,3 +1924,10 @@ WorkflowTransitions_276:
   id: 276
   tracker_id: 2
   type: WorkflowTransition
+WorkflowTransitions_277:
+  new_status_id: 1
+  role_id: 2
+  old_status_id: 0
+  id: 277
+  tracker_id: 1
+  type: WorkflowTransition

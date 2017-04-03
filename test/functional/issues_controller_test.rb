@@ -4581,7 +4581,7 @@ class IssuesControllerTest < Redmine::ControllerTest
       assert_not_nil copy
       assert_equal orig.project_id, copy.project_id
       assert_equal orig.tracker_id, copy.tracker_id
-      assert_equal orig.status_id, copy.status_id
+      assert_equal 1, copy.status_id
       if orig.assigned_to_id
         assert_equal orig.assigned_to_id, copy.assigned_to_id
       else

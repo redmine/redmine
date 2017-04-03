@@ -952,7 +952,7 @@ class Project < ActiveRecord::Base
     # get copied before their children
     project.issues.reorder('root_id, lft').each do |issue|
       new_issue = Issue.new
-      new_issue.copy_from(issue, :subtasks => false, :link => false)
+      new_issue.copy_from(issue, :subtasks => false, :link => false, :keep_status => true)
       new_issue.project = self
       # Changing project resets the custom field values
       # TODO: handle this in Issue#project=

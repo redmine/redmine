@@ -794,13 +794,13 @@ class IssueTest < ActiveSupport::TestCase
     assert_equal expected_statuses, issue.new_statuses_allowed_to(admin)
   end
 
-  def test_new_statuses_allowed_to_should_return_allowed_statuses_and_current_status_when_copying
+  def test_new_statuses_allowed_to_should_return_allowed_statuses_when_copying
     Tracker.find(1).generate_transitions! :role_id => 1, :clear => true, 0 => [1, 3]
 
     orig = Issue.generate!(:project_id => 1, :tracker_id => 1, :status_id => 4)
     issue = orig.copy
-    assert_equal [1, 3, 4], issue.new_statuses_allowed_to(User.find(2)).map(&:id)
-    assert_equal 4, issue.status_id
+    assert_equal [1, 3], issue.new_statuses_allowed_to(User.find(2)).map(&:id)
+    assert_equal 1, issue.status_id
   end
 
   def test_safe_attributes_names_should_not_include_disabled_field
@@ -1225,11 +1225,11 @@ class IssueTest < ActiveSupport::TestCase
     assert_nil issue.assigned_to
   end
 
-  def test_copy_should_copy_status
+  def test_copy_with_keep_status_should_copy_status
     orig = Issue.find(8)
     assert orig.status != orig.default_status
 
-    issue = Issue.new.copy_from(orig)
+    issue = Issue.new.copy_from(orig, :keep_status => true)
     assert issue.save
     issue.reload
     assert_equal orig.status, issue.status
@@ -1331,7 +1331,7 @@ class IssueTest < ActiveSupport::TestCase
     assert copied_open.save
     assert_nil copied_open.closed_on
 
-    copied_closed = Issue.find(8).copy
+    copied_closed = Issue.find(8).copy({}, :keep_status => 1)
     assert copied_closed.save
     assert_not_nil copied_closed.closed_on
   end
