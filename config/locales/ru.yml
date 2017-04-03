@@ -1311,8 +1311,7 @@ ru:
   setting_mail_handler_enable_regex_delimiters: Использовать регулярные выражения
   error_move_of_child_not_possible: 'Подзадача %{child} не может быть перемещена в новый
     project: %{errors}'
-  error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: Spent time cannot
-    be reassigned to an issue that is about to be deleted
+  error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: Затраченное время не может быть переназначено на задачу, которая будет удалена
   setting_timelog_required_fields: Обязательные поля для трудозатрат
   label_attribute_of_object: '%{name} объекта %{object_name}'
   label_user_mail_option_only_assigned: Только для объектов, которые назначены мне
