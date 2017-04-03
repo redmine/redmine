@@ -413,7 +413,9 @@ class Attachment < ActiveRecord::Base
   private
 
   def reuse_existing_file_if_possible
-    with_lock do
+    original_diskfile = nil
+
+    reused = with_lock do
       if existing = Attachment
                       .lock
                       .where(digest: self.digest, filesize: self.filesize)
@@ -430,9 +432,11 @@ class Attachment < ActiveRecord::Base
 
           self.update_columns disk_directory: existing.disk_directory,
                               disk_filename: existing.disk_filename
-          File.delete(original_diskfile)
         end
       end
+    end
+    if reused
+      File.delete(original_diskfile)
     end
   end
 
