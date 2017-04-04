@@ -412,6 +412,7 @@ class IssuesController < ApplicationController
     else
       retrieve_query_from_session
       if @query
+        @per_page = per_page_option
         limit = 500
         issue_ids = @query.issue_ids(:limit => (limit + 1))
         if (idx = issue_ids.index(@issue.id)) && idx < limit
@@ -422,6 +423,11 @@ class IssuesController < ApplicationController
           @prev_issue_id = issue_ids[idx - 1] if idx > 0
           @next_issue_id = issue_ids[idx + 1] if idx < (issue_ids.size - 1)
         end
+        query_params = @query.as_params
+        if @issue_position
+          query_params = query_params.merge(:page => (@issue_position / per_page_option) + 1, :per_page => per_page_option)
+        end
+        @query_path = _project_issues_path(@query.project, query_params)
       end
     end
   end

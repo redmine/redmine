@@ -130,6 +130,7 @@ class IssuesTest < Redmine::IntegrationTest
       get '/issues/5'
       assert_response :success
       assert_select '.next-prev-links .position', :text => '3 of 5'
+      assert_select '.next-prev-links .position a[href^=?]', '/projects/ecookbook/issues?'
     end
   end
 
