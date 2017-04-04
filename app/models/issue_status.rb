@@ -116,6 +116,7 @@ class IssueStatus < ActiveRecord::Base
 
   # Deletes associated workflows
   def delete_workflow_rules
-    WorkflowRule.where(["old_status_id = :id OR new_status_id = :id", {:id => id}]).delete_all
+    WorkflowRule.where(:old_status_id => id).delete_all
+    WorkflowRule.where(:new_status_id => id).delete_all
   end
 end
