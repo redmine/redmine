@@ -172,19 +172,33 @@ class TimelogController < ApplicationController
   def bulk_update
     attributes = parse_params_for_bulk_update(params[:time_entry])
 
-    unsaved_time_entry_ids = []
+    unsaved_time_entries = []
+    saved_time_entries = []
+
     @time_entries.each do |time_entry|
       time_entry.reload
       time_entry.safe_attributes = attributes
       call_hook(:controller_time_entries_bulk_edit_before_save, { :params => params, :time_entry => time_entry })
-      unless time_entry.save
-        logger.info "time entry could not be updated: #{time_entry.errors.full_messages}" if logger && logger.info?
-        # Keep unsaved time_entry ids to display them in flash error
-        unsaved_time_entry_ids << time_entry.id
+      if time_entry.save
+        saved_time_entries << time_entry
+      else
+        unsaved_time_entries << time_entry
       end
     end
-    set_flash_from_bulk_time_entry_save(@time_entries, unsaved_time_entry_ids)
-    redirect_back_or_default project_time_entries_path(@projects.first)
+
+    if unsaved_time_entries.empty?
+      flash[:notice] = l(:notice_successful_update) unless saved_time_entries.empty?
+      redirect_back_or_default project_time_entries_path(@projects.first)
+    else
+      @saved_time_entries = @time_entries
+      @unsaved_time_entries = unsaved_time_entries
+      @time_entries = TimeEntry.where(:id => unsaved_time_entries.map(&:id)).
+        preload(:project => :time_entry_activities).
+        preload(:user).to_a
+
+      bulk_edit
+      render :action => 'bulk_edit'
+    end
   end
 
   def destroy
@@ -241,17 +255,6 @@ private
     @project = @projects.first if @projects.size == 1
   rescue ActiveRecord::RecordNotFound
     render_404
-  end
-
-  def set_flash_from_bulk_time_entry_save(time_entries, unsaved_time_entry_ids)
-    if unsaved_time_entry_ids.empty?
-      flash[:notice] = l(:notice_successful_update) unless time_entries.empty?
-    else
-      flash[:error] = l(:notice_failed_to_save_time_entries,
-                        :count => unsaved_time_entry_ids.size,
-                        :total => time_entries.size,
-                        :ids => '#' + unsaved_time_entry_ids.join(', #'))
-    end
   end
 
   def find_optional_issue

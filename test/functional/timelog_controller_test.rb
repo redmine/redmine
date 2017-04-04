@@ -582,8 +582,8 @@ class TimelogControllerTest < Redmine::ControllerTest
     @request.session[:user_id] = 2
     post :bulk_update, :params => {:ids => [1, 2], :time_entry => { :hours => 'A'}}
 
-    assert_response 302
-    assert_match /Failed to save 2 time entrie/, flash[:error]
+    assert_response :success
+    assert_select_error /Failed to save 2 time entrie/
   end
 
   def test_bulk_update_on_different_projects
