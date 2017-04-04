@@ -92,12 +92,13 @@ class IssueStatus < ActiveRecord::Base
     if is_closed_changed? && is_closed == true
       # First we update issues that have a journal for when the current status was set,
       # a subselect is used to update all issues with a single query
-      subselect = "SELECT MAX(j.created_on) FROM #{Journal.table_name} j" +
-        " JOIN #{JournalDetail.table_name} d ON d.journal_id = j.id" +
-        " WHERE j.journalized_type = 'Issue' AND j.journalized_id = #{Issue.table_name}.id" +
-        " AND d.property = 'attr' AND d.prop_key = 'status_id' AND d.value = :status_id"
-      Issue.where(:status_id => id, :closed_on => nil).
-        update_all(["closed_on = (#{subselect})", {:status_id => id.to_s}])
+      subquery = Journal.joins(:details).
+        where(:journalized_type => 'Issue').
+        where("journalized_id = #{Issue.table_name}.id").
+        where(:journal_details => {:property => 'attr', :prop_key => 'status_id', :value => id.to_s}).
+        select("MAX(created_on)").
+        to_sql
+      Issue.where(:status_id => id, :closed_on => nil).update_all("closed_on = (#{subquery})")
 
       # Then we update issues that don't have a journal which means the
       # current status was set on creation
