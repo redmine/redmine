@@ -417,6 +417,20 @@ class User < Principal
     token.value
   end
 
+  def delete_session_token(value)
+    Token.where(:user_id => id, :action => 'session', :value => value).delete_all
+  end
+
+  # Generates a new autologin token and returns its value
+  def generate_autologin_token
+    token = Token.create!(:user_id => id, :action => 'autologin')
+    token.value
+  end
+
+  def delete_autologin_token(value)
+    Token.where(:user_id => id, :action => 'autologin', :value => value).delete_all
+  end
+  
   # Returns true if token is a valid session token for the user whose id is user_id
   def self.verify_session_token(user_id, token)
     return false if user_id.blank? || token.blank?
