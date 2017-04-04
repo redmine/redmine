@@ -228,6 +228,8 @@ module QueriesHelper
       link_to_if(value > 0, format_hours(value), project_time_entries_path(item.project, :issue_id => "#{item.id}"))
     when :total_spent_hours
       link_to_if(value > 0, format_hours(value), project_time_entries_path(item.project, :issue_id => "~#{item.id}"))
+    when :attachments
+      value.to_a.map {|a| format_object(a)}.join(" ").html_safe
     else
       format_object(value)
     end
@@ -243,20 +245,25 @@ module QueriesHelper
   end
 
   def csv_value(column, object, value)
-    format_object(value, false) do |value|
-      case value.class.name
-      when 'Float'
-        sprintf("%.2f", value).gsub('.', l(:general_csv_decimal_separator))
-      when 'IssueRelation'
-        value.to_s(object)
-      when 'Issue'
-        if object.is_a?(TimeEntry)
-          "#{value.tracker} ##{value.id}: #{value.subject}"
+    case column.name
+    when :attachments
+      value.to_a.map {|a| a.filename}.join("\n")
+    else
+      format_object(value, false) do |value|
+        case value.class.name
+        when 'Float'
+          sprintf("%.2f", value).gsub('.', l(:general_csv_decimal_separator))
+        when 'IssueRelation'
+          value.to_s(object)
+        when 'Issue'
+          if object.is_a?(TimeEntry)
+            "#{value.tracker} ##{value.id}: #{value.subject}"
+          else
+            value.id
+          end
         else
-          value.id
+          value
         end
-      else
-        value
       end
     end
   end

@@ -1023,6 +1023,26 @@ class IssuesControllerTest < Redmine::ControllerTest
     assert_equal ["John Smith", "John Smith", ""], css_select('td.last_updated_by').map(&:text)
   end
 
+  def test_index_with_attachments_column
+    get :index, :c => %w(subject attachments), :set_filter => '1', :sort => 'id'
+    assert_response :success
+
+    assert_select 'td.attachments'
+    assert_select 'tr#issue-2' do
+      assert_select 'td.attachments' do
+        assert_select 'a', :text => 'source.rb'
+        assert_select 'a', :text => 'picture.jpg'
+      end
+    end
+  end
+
+  def test_index_with_attachments_column_as_csv
+    get :index, :c => %w(subject attachments), :set_filter => '1', :sort => 'id', :format => 'csv'
+    assert_response :success
+
+    assert_include "\"source.rb\npicture.jpg\"", response.body
+  end
+
   def test_index_with_estimated_hours_total
     Issue.delete_all
     Issue.generate!(:estimated_hours => 5.5)

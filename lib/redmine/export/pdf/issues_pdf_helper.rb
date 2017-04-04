@@ -374,8 +374,11 @@ module Redmine
               show_value(cv, false)
             else
               value = issue.send(column.name)
-              if column.name == :subject
+              case column.name
+              when :subject
                 value = "  " * level + value
+              when :attachments
+                value = value.to_a.map {|a| a.filename}.join("\n")
               end
               if value.is_a?(Date)
                 format_date(value)

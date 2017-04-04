@@ -45,6 +45,7 @@ class IssueQuery < Query
     QueryColumn.new(:closed_on, :sortable => "#{Issue.table_name}.closed_on", :default_order => 'desc'),
     QueryColumn.new(:last_updated_by, :sortable => lambda {User.fields_for_order_statement("last_journal_user")}),
     QueryColumn.new(:relations, :caption => :label_related_issues),
+    QueryColumn.new(:attachments, :caption => :label_attachment_plural),
     QueryColumn.new(:description, :inline => false),
     QueryColumn.new(:last_notes, :caption => :label_last_notes, :inline => false)
   ]
@@ -278,7 +279,7 @@ class IssueQuery < Query
       limit(options[:limit]).
       offset(options[:offset])
 
-    scope = scope.preload([:tracker, :author, :assigned_to, :fixed_version, :category] & columns.map(&:name))
+    scope = scope.preload([:tracker, :author, :assigned_to, :fixed_version, :category, :attachments] & columns.map(&:name))
     if has_custom_field_column?
       scope = scope.preload(:custom_values)
     end
