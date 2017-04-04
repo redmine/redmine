@@ -19,6 +19,8 @@ module Redmine
   module MyPage
     include Redmine::I18n
 
+    CORE_GROUPS = ['top', 'left', 'right']
+
     CORE_BLOCKS = {
         'issuesassignedtome' => {:label => :label_assigned_to_me_issues},
         'issuesreportedbyme' => {:label => :label_reported_issues},
@@ -29,6 +31,10 @@ module Redmine
         'documents' => {:label => :label_document_plural},
         'timelog' => {:label => :label_spent_time}
       }
+
+    def self.groups
+      CORE_GROUPS.dup.freeze
+    end
 
     # Returns the available blocks
     def self.blocks

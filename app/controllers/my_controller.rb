@@ -37,6 +37,7 @@ class MyController < ApplicationController
   # Show user's page
   def page
     @user = User.current
+    @groups = @user.pref.my_page_groups
     @blocks = @user.pref.my_page_layout
   end
 
@@ -178,14 +179,8 @@ class MyController < ApplicationController
   # params[:blocks] : array of block ids of the group
   def order_blocks
     @user = User.current
-    group = params[:group].to_s
-    if %w(top left right).include? group
-      group_items = (params[:blocks] || []).collect(&:underscore)
-      # remove group blocks if they are presents in other groups
-      group_items.each {|s| @user.pref.remove_block(s)}
-      @user.pref.my_page_layout[group] = group_items
-      @user.pref.save
-    end
+    @user.pref.order_blocks params[:group], params[:blocks]
+    @user.pref.save
     head 200
   end
 end

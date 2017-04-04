@@ -8,17 +8,11 @@
 <h2><%=l(:label_my_page)%></h2>
 
 <div id="my-page">
-<div id="list-top" class="block-receiver">
-  <%= render_blocks(@blocks['top'], @user) %>
-</div>
-
-<div id="list-left" class="splitcontentleft block-receiver">
-  <%= render_blocks(@blocks['left'], @user) %>
-</div>
-
-<div id="list-right" class="splitcontentright block-receiver">
-  <%= render_blocks(@blocks['right'], @user) %>
-</div>
+<% @groups.each do |group| %>
+  <div id="list-<%= group %>" class="block-receiver">
+    <%= render_blocks(@blocks[group], @user) %>
+  </div>
+<% end %>
 </div>
 
 <%= context_menu %>
@@ -26,7 +20,7 @@
 <%= javascript_tag do %>
 $(document).ready(function(){
   $('#block-select').val('');
-  $('#list-top, #list-left, #list-right').sortable({
+  $('.block-receiver').sortable({
     connectWith: '.block-receiver',
     tolerance: 'pointer',
     handle: '.sort-handle',

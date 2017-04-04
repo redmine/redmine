@@ -88,6 +88,14 @@ class UserPreference < ActiveRecord::Base
   def textarea_font; self[:textarea_font] end
   def textarea_font=(value); self[:textarea_font]=value; end
 
+  # Returns the names of groups that are displayed on user's page
+  # Example:
+  #   preferences.my_page_groups
+  #   # => ['top', 'left, 'right']
+  def my_page_groups
+    Redmine::MyPage.groups
+  end
+
   def my_page_layout
     self[:my_page_layout] ||= Redmine::MyPage.default_layout.deep_dup
   end
@@ -110,10 +118,12 @@ class UserPreference < ActiveRecord::Base
   end
 
   # Removes block from the user page layout
+  # Example:
+  #   preferences.remove_block('news')
   def remove_block(block)
     block = block.to_s.underscore
-    %w(top left right).each do |f|
-      (my_page_layout[f] ||= []).delete(block)
+    my_page_layout.keys.each do |group|
+      my_page_layout[group].delete(block)
     end
     my_page_layout
   end
@@ -126,9 +136,22 @@ class UserPreference < ActiveRecord::Base
     return unless Redmine::MyPage.valid_block?(block, my_page_layout.values.flatten)
 
     remove_block(block)
-    # add it on top
-    my_page_layout['top'] ||= []
-    my_page_layout['top'].unshift(block)
+    # add it to the first group
+    group = my_page_groups.first
+    my_page_layout[group] ||= []
+    my_page_layout[group].unshift(block)
+  end
+
+  # Sets the block order for the given group.
+  # Example:
+  #   preferences.order_blocks('left', ['issueswatched', 'news'])
+  def order_blocks(group, blocks)
+    group = group.to_s
+    if Redmine::MyPage.groups.include?(group) && blocks.present?
+      blocks = blocks.map(&:underscore) & my_page_layout.values.flatten
+      blocks.each {|block| remove_block(block)}
+      my_page_layout[group] = blocks
+    end
   end
 
   def update_block_settings(block, settings)

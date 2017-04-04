@@ -217,11 +217,11 @@
     display: none;
   }
 
-  .splitcontentleft {
+  .splitcontentleft, #list-left {
     width: 100%;
   }
 
-  .splitcontentright {
+  .splitcontentright, #list-right {
     width: 100%;
   }
 

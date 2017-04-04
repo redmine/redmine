@@ -411,9 +411,23 @@ class MyControllerTest < Redmine::ControllerTest
   end
 
   def test_order_blocks
-    xhr :post, :order_blocks, :group => 'left', 'blocks' => ['documents', 'calendar', 'latestnews']
+    pref = User.find(2).pref
+    pref.my_page_layout = {'left' => ['news', 'calendar','documents']}
+    pref.save!
+    
+    xhr :post, :order_blocks, :group => 'left', :blocks => ['documents', 'calendar', 'news']
     assert_response :success
-    assert_equal ['documents', 'calendar', 'latestnews'], User.find(2).pref[:my_page_layout]['left']
+    assert_equal ['documents', 'calendar', 'news'], User.find(2).pref.my_page_layout['left']
+  end
+
+  def test_move_block
+    pref = User.find(2).pref
+    pref.my_page_layout = {'left' => ['news','documents'], 'right' => ['calendar']}
+    pref.save!
+    
+    xhr :post, :order_blocks, :group => 'left', :blocks => ['news', 'calendar', 'documents']
+    assert_response :success
+    assert_equal({'left' => ['news', 'calendar', 'documents'], 'right' => []}, User.find(2).pref.my_page_layout)
   end
 
   def test_reset_rss_key_with_existing_key

@@ -428,8 +428,8 @@ div.square {
 .message .contextual { margin-top: 0; }
 
 .splitcontent {overflow:auto;}
-.splitcontentleft{float:left; width:49%;}
-.splitcontentright{float:right; width:49%;}
+.splitcontentleft, #list-left {float:left; width:49%;}
+.splitcontentright, #list-right {float:right; width:49%;}
 form {display: inline;}
 input, select {vertical-align: middle; margin-top: 1px; margin-bottom: 1px;}
 input[type="submit"] { -webkit-appearance: button; }
