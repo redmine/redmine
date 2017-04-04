@@ -206,7 +206,7 @@ class IssueQuery < Query
 
     if User.current.allowed_to?(:set_issues_private, nil, :global => true) ||
       User.current.allowed_to?(:set_own_issues_private, nil, :global => true)
-      @available_columns << QueryColumn.new(:is_private, :sortable => "#{Issue.table_name}.is_private")
+      @available_columns << QueryColumn.new(:is_private, :sortable => "#{Issue.table_name}.is_private", :groupable => true)
     end
 
     disabled_fields = Tracker.disabled_core_fields(trackers).map {|field| field.sub(/_id$/, '')}
