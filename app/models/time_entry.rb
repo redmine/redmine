@@ -54,6 +54,9 @@ class TimeEntry < ActiveRecord::Base
     joins(:project).
     where(TimeEntry.visible_condition(args.shift || User.current, *args))
   }
+  scope :left_join_issue, lambda {
+    joins("LEFT OUTER JOIN #{Issue.table_name} ON #{Issue.table_name}.id = #{TimeEntry.table_name}.issue_id")
+  }
   scope :on_issue, lambda {|issue|
     joins(:issue).
     where("#{Issue.table_name}.root_id = #{issue.root_id} AND #{Issue.table_name}.lft >= #{issue.lft} AND #{Issue.table_name}.rgt <= #{issue.rgt}")

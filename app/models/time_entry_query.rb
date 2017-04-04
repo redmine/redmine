@@ -115,7 +115,7 @@ class TimeEntryQuery < Query
   def base_scope
     TimeEntry.visible.
       joins(:project, :user).
-      joins("LEFT OUTER JOIN issues ON issues.id = time_entries.issue_id").
+      left_join_issue.
       where(statement)
   end
 
