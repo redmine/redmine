@@ -103,11 +103,9 @@ class Project < ActiveRecord::Base
     where(Project.allowed_to_condition(user, permission, *args))
   }
   scope :like, lambda {|arg|
-    if arg.blank?
-      where(nil)
-    else
-      pattern = "%#{arg.to_s.strip.downcase}%"
-      where("LOWER(identifier) LIKE :p OR LOWER(name) LIKE :p", :p => pattern)
+    if arg.present?
+      pattern = "%#{arg.to_s.strip}%"
+      where("LOWER(identifier) LIKE LOWER(:p) OR LOWER(name) LIKE LOWER(:p)", :p => pattern)
     end
   }
   scope :sorted, lambda {order(:lft)}
