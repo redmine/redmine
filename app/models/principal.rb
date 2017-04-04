@@ -28,8 +28,7 @@ class Principal < ActiveRecord::Base
 
   has_many :members, :foreign_key => 'user_id', :dependent => :destroy
   has_many :memberships,
-           lambda {joins(:project).
-                   where("#{Project.table_name}.status<>#{Project::STATUS_ARCHIVED}")},
+           lambda {joins(:project).where.not(:projects => {:status => Project::STATUS_ARCHIVED})},
            :class_name => 'Member',
            :foreign_key => 'user_id'
   has_many :projects, :through => :memberships
