@@ -375,7 +375,7 @@ bg:
   field_updated_by: Обновено от
   field_last_updated_by: Последно обновено от
   field_full_width_layout: Пълна широчина
-  field_digest: Checksum
+  field_digest: Контролна сума
 
   setting_app_title: Заглавие
   setting_app_subtitle: Описание
@@ -1015,7 +1015,7 @@ bg:
   label_font_default: Шрифт по подразбиране
   label_font_monospace: Monospaced шрифт
   label_font_proportional: Пропорционален шрифт
-  label_last_notes: Last notes
+  label_last_notes: Последни коментари
 
   button_login: Вход
   button_submit: Изпращане
