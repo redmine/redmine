@@ -1314,8 +1314,8 @@ ru:
   error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: Затраченное время не может быть переназначено на задачу, которая будет удалена
   setting_timelog_required_fields: Обязательные поля для трудозатрат
   label_attribute_of_object: '%{name} объекта %{object_name}'
-  label_user_mail_option_only_assigned: Только для объектов, которые назначены мне
-  label_user_mail_option_only_owner: Только для объектов, для которых я являюсь владельцем
+  label_user_mail_option_only_assigned: Только для объектов, которые я отслеживаю или которые мне назначены
+  label_user_mail_option_only_owner: Только для объектов, которые я отслеживаю или для которых я владелец
   warning_fields_cleared_on_bulk_edit: Изменения приведут к удалению значений одного или нескольких полей выбранных объектов
   field_updated_by: Кем изменено
   field_last_updated_by: Последний изменивший
