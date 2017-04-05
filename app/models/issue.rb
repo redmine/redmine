@@ -1003,7 +1003,7 @@ class Issue < ActiveRecord::Base
 
   # Returns the number of hours spent on this issue
   def spent_hours
-    @spent_hours ||= time_entries.sum(:hours) || 0
+    @spent_hours ||= time_entries.sum(:hours) || 0.0
   end
 
   # Returns the total number of hours spent on this issue and its descendants
@@ -1042,7 +1042,7 @@ class Issue < ActiveRecord::Base
     if issues.any?
       hours_by_issue_id = TimeEntry.visible(user).where(:issue_id => issues.map(&:id)).group(:issue_id).sum(:hours)
       issues.each do |issue|
-        issue.instance_variable_set "@spent_hours", (hours_by_issue_id[issue.id] || 0)
+        issue.instance_variable_set "@spent_hours", (hours_by_issue_id[issue.id] || 0.0)
       end
     end
   end
@@ -1055,7 +1055,7 @@ class Issue < ActiveRecord::Base
           " AND parent.lft <= #{Issue.table_name}.lft AND parent.rgt >= #{Issue.table_name}.rgt").
         where("parent.id IN (?)", issues.map(&:id)).group("parent.id").sum(:hours)
       issues.each do |issue|
-        issue.instance_variable_set "@total_spent_hours", (hours_by_issue_id[issue.id] || 0)
+        issue.instance_variable_set "@total_spent_hours", (hours_by_issue_id[issue.id] || 0.0)
       end
     end
   end
