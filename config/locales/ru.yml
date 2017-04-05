@@ -1305,7 +1305,7 @@ ru:
   label_font_default: Шрифт по умолчанию
   label_font_monospace: Моноширинный шрифт
   label_font_proportional: Пропорциональный шрифт
-  setting_timespan_format: Time span format
+  setting_timespan_format: Формат промежутка времени
   label_table_of_contents: Содержание
   setting_commit_logs_formatting: Использовать форматирование текста для комментариев хранилища
   setting_mail_handler_enable_regex_delimiters: Использовать регулярные выражения
