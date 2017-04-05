@@ -18,7 +18,7 @@ gem "mimemagic"
 gem "nokogiri", (RUBY_VERSION >= "2.1" ? ">= 1.7.0" : "~> 1.6.8")
 gem "i18n", "~> 0.7.0"
 
-# Request at least rails-html-sanitizer 1.0.3 because of security advisories 
+# Request at least rails-html-sanitizer 1.0.3 because of security advisories
 gem "rails-html-sanitizer", ">= 1.0.3"
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
