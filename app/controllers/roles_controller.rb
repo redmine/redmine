@@ -92,10 +92,11 @@ class RolesController < ApplicationController
   end
 
   def destroy
-    @role.destroy
-    redirect_to roles_path
-  rescue
-    flash[:error] =  l(:error_can_not_remove_role)
+    begin
+      @role.destroy
+    rescue
+      flash[:error] =  l(:error_can_not_remove_role)
+    end
     redirect_to roles_path
   end
 
