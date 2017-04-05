@@ -375,6 +375,7 @@ bg:
   field_updated_by: Обновено от
   field_last_updated_by: Последно обновено от
   field_full_width_layout: Пълна широчина
+  field_digest: Checksum
 
   setting_app_title: Заглавие
   setting_app_subtitle: Описание
@@ -1014,6 +1015,7 @@ bg:
   label_font_default: Шрифт по подразбиране
   label_font_monospace: Monospaced шрифт
   label_font_proportional: Пропорционален шрифт
+  label_last_notes: Last notes
 
   button_login: Вход
   button_submit: Изпращане
@@ -1205,5 +1207,3 @@ bg:
   description_wiki_subpages_reassign: Изберете нова родителска страница
   description_all_columns: Всички колони
   text_repository_identifier_info: 'Позволени са малки букви (a-z), цифри, тирета и _.<br />Промяна след създаването му не е възможна.'
-  label_last_notes: Last notes
-  field_digest: Checksum
