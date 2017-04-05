@@ -336,6 +336,15 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
     assert_equal 1, json['issue']['children'].select {|child| child.key?('children')}.size
   end
 
+  test "GET /issues/:id.json with no spent time should return floats" do
+    issue = Issue.generate!
+    get "/issues/#{issue.id}.json"
+
+    json = ActiveSupport::JSON.decode(response.body)
+    assert_kind_of Float, json['issue']['spent_hours']
+    assert_kind_of Float, json['issue']['total_spent_hours']
+  end
+
   def test_show_should_include_issue_attributes
     get '/issues/1.xml'
     assert_select 'issue>is_private', :text => 'false'
