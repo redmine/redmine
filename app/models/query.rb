@@ -340,6 +340,15 @@ class Query < ActiveRecord::Base
     @all_projects_values = values
   end
 
+  # Returns a scope of issue custom fields that are available as columns or filters
+  def issue_custom_fields
+    if project
+      project.rolled_up_custom_fields
+    else
+      IssueCustomField.all
+    end
+  end
+
   # Adds available filters
   def initialize_available_filters
     # implemented by sub-classes

@@ -140,12 +140,4 @@ class TimeEntryQuery < Query
     end
     self
   end
-
-  def issue_custom_fields
-    if project
-      project.all_issue_custom_fields
-    else
-      IssueCustomField.where(:is_for_all => true)
-    end
-  end
 end
