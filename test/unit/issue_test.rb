@@ -803,6 +803,16 @@ class IssueTest < ActiveSupport::TestCase
     assert_equal 1, issue.status_id
   end
 
+  def test_safe_attributes_names_should_be_updated_when_changing_project
+    issue = Issue.new
+    with_current_user(User.find(2)) do
+      assert_not_include 'watcher_user_ids', issue.safe_attribute_names
+
+      issue.project_id = 1
+      assert_include 'watcher_user_ids', issue.safe_attribute_names
+    end
+  end
+
   def test_safe_attributes_names_should_not_include_disabled_field
     tracker = Tracker.new(:core_fields => %w(assigned_to_id fixed_version_id))
 

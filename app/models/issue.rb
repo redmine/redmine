@@ -375,6 +375,9 @@ class Issue < ActiveRecord::Base
   def project=(project, keep_tracker=false)
     project_was = self.project
     association(:project).writer(project)
+    if project != project_was
+      @safe_attribute_names = nil
+    end
     if project_was && project && project_was != project
       @assignable_versions = nil
 

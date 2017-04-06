@@ -1,1 +1,4 @@
 replaceIssueFormWith('<%= escape_javascript(render :partial => 'form') %>');
+<% if params[:form_update_triggered_by] == "issue_project_id" %>
+$("#watchers_form_container").html('<%= escape_javascript(render :partial => 'issues/watchers_form') %>');
+<% end %>
