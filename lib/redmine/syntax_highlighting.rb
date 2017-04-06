@@ -40,6 +40,16 @@ module Redmine
       rescue
         ERB::Util.h(text)
       end
+
+      def language_supported?(language)
+        if highlighter.respond_to? :language_supported?
+          highlighter.language_supported? language
+        else
+          true
+        end
+      rescue
+        false
+      end
     end
 
     module CodeRay
@@ -57,6 +67,12 @@ module Redmine
         # Should not return outer pre tag
         def highlight_by_language(text, language)
           ::CodeRay.scan(text, language).html(:wrap => :span)
+        end
+
+        def language_supported?(language)
+          ::CodeRay::Scanners.list.include?(language.to_s.downcase.to_sym)
+        rescue
+          false
         end
       end
     end
