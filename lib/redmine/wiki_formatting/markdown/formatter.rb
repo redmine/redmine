@@ -35,7 +35,7 @@ module Redmine
         end
 
         def block_code(code, language)
-          if language.present?
+          if language.present? && Redmine::SyntaxHighlighting.language_supported?(language)
             "<pre><code class=\"#{CGI.escapeHTML language} syntaxhl\">" +
               Redmine::SyntaxHighlighting.highlight_by_language(code, language) +
               "</code></pre>"
