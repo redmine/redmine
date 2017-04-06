@@ -6,8 +6,8 @@ var contextMenuObserving;
 function contextMenuRightClick(event) {
   var target = $(event.target);
   if (target.is('a')) {return;}
-  var tr = target.parents('tr').first();
-  if (!tr.hasClass('hascontextmenu')) {return;}
+  var tr = target.closest('.hascontextmenu').first();
+  if (tr.length < 1) {return;}
   event.preventDefault();
   if (!contextMenuIsSelected(tr)) {
     contextMenuUnselectAll();
@@ -28,8 +28,8 @@ function contextMenuClick(event) {
   contextMenuHide();
   if (target.is('a') || target.is('img')) { return; }
   if (event.which == 1 || (navigator.appVersion.match(/\bMSIE\b/))) {
-    var tr = target.parents('tr').first();
-    if (tr.length && tr.hasClass('hascontextmenu')) {
+    var tr = target.closest('.hascontextmenu').first();
+    if (tr.length > 0) {
       // a row was clicked, check if the click was on checkbox
       if (target.is('input')) {
         // a checkbox may be clicked
@@ -104,6 +104,7 @@ function contextMenuShow(event) {
   $('#context-menu').html('');
 
   url = $(event.target).parents('form').first().data('cm-url');
+  if (url == null) {alert('no url'); return;}
 
   $.ajax({
     url: url,
@@ -224,7 +225,7 @@ function contextMenuInit() {
 function toggleIssuesSelection(el) {
   var checked = $(this).prop('checked');
   var boxes = $(this).parents('table').find('input[name=ids\\[\\]]');
-  boxes.prop('checked', checked).parents('tr').toggleClass('context-menu-selection', checked);
+  boxes.prop('checked', checked).parents('.hascontextmenu').toggleClass('context-menu-selection', checked);
 }
 
 function window_size() {
