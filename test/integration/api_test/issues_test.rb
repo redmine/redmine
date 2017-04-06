@@ -322,7 +322,6 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
 
     json = ActiveSupport::JSON.decode(response.body)
     assert_kind_of Float, json['issue']['spent_hours']
-    assert_kind_of Float, json['issue']['total_spent_hours']
   end
 
   def test_show_should_include_issue_attributes
