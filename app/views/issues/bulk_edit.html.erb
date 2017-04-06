@@ -108,19 +108,30 @@
 </p>
 <% end %>
 
-<% if @copy && @attachments_present %>
-<%= hidden_field_tag 'copy_attachments', '0' %>
+<% if @copy && (@attachments_present || @subtasks_present || @watchers_present) %>
 <p>
-  <label for='copy_attachments'><%= l(:label_copy_attachments) %></label>
-  <%= check_box_tag 'copy_attachments', '1', params[:copy_attachments] != '0' %>
-</p>
-<% end %>
-
-<% if @copy && @subtasks_present %>
-<%= hidden_field_tag 'copy_subtasks', '0' %>
-<p>
-  <label for='copy_subtasks'><%= l(:label_copy_subtasks) %></label>
-  <%= check_box_tag 'copy_subtasks', '1', params[:copy_subtasks] != '0' %>
+  <label><%= l(:button_copy) %></label>
+  <% if @attachments_present %>
+    <label class="block">
+      <%= hidden_field_tag 'copy_attachments', '0' %>
+      <%= check_box_tag 'copy_attachments', '1', params[:copy_attachments] != '0' %>
+      <%= l(:label_attachment_plural) %>
+    </label>
+  <% end %>
+  <% if @subtasks_present %>
+    <label class="block">
+      <%= hidden_field_tag 'copy_subtasks', '0' %>
+      <%= check_box_tag 'copy_subtasks', '1', params[:copy_subtasks] != '0' %>
+      <%= l(:label_subtask_plural) %>
+    </label>
+  <% end %>
+  <% if @watchers_present %>
+    <label class="block">
+      <%= hidden_field_tag 'copy_watchers', '0' %>
+      <%= check_box_tag 'copy_watchers', '1',  params[:copy_watchers] != '0' %>
+      <%= l(:label_issue_watchers) %>
+    </label>
+  <% end %>
 </p>
 <% end %>
 

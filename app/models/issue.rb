@@ -276,6 +276,9 @@ class Issue < ActiveRecord::Base
         attachement.copy(:container => self)
       end
     end
+    unless options[:watchers] == false
+      self.watcher_user_ids = issue.watcher_user_ids.dup
+    end
     @copied_from = issue
     @copy_options = options
     self

@@ -3065,6 +3065,16 @@ class IssuesControllerTest < Redmine::ControllerTest
     assert_select 'input[type=checkbox][name=copy_subtasks][checked=checked][value="1"]'
   end
 
+  def test_new_as_copy_should_preserve_watchers
+    @request.session[:user_id] = 2
+    user = User.generate!
+    Watcher.create!(:watchable => Issue.find(1), :user => user)
+    get :new, :project_id => 1, :copy_from => 1
+
+    assert_select 'input[type=checkbox][name=?][checked=checked]', 'issue[watcher_user_ids][]', 1
+    assert_select 'input[type=checkbox][name=?][checked=checked][value=?]', 'issue[watcher_user_ids][]', user.id.to_s
+  end
+
   def test_new_as_copy_with_invalid_issue_should_respond_with_404
     @request.session[:user_id] = 2
     get :new, :project_id => 1, :copy_from => 99999
@@ -4723,6 +4733,20 @@ class IssuesControllerTest < Redmine::ControllerTest
     end
     copy = Issue.where(:parent_id => nil).order("id DESC").first
     assert_equal count, copy.descendants.count
+  end
+
+  def test_bulk_copy_should_allow_copying_the_subtasks
+    Watcher.create!(:watchable => Issue.find(1), :user => User.find(3))
+    @request.session[:user_id] = 2
+
+    assert_difference 'Issue.count' do
+      post :bulk_update, :ids => [1], :copy => '1', :copy_watchers => '1',
+           :issue => {
+             :project_id => ''
+           }
+    end
+    copy = Issue.order(:id => :desc).first
+    assert_equal 1, copy.watchers.count
   end
 
   def test_bulk_copy_should_not_copy_selected_subtasks_twice

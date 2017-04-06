@@ -265,6 +265,7 @@ class IssuesController < ApplicationController
     if @copy
       @attachments_present = @issues.detect {|i| i.attachments.any?}.present?
       @subtasks_present = @issues.detect {|i| !i.leaf?}.present?
+      @watchers_present = User.current.allowed_to?(:add_issue_watchers, @projects) && Watcher.where(:watchable_type => 'Issue', :watchable_id => @issues.map(&:id)).exists?
     end
 
     @safe_attributes = edited_issues.map(&:safe_attribute_names).reduce(:&)
@@ -280,6 +281,7 @@ class IssuesController < ApplicationController
     attributes = parse_params_for_bulk_update(params[:issue])
     copy_subtasks = (params[:copy_subtasks] == '1')
     copy_attachments = (params[:copy_attachments] == '1')
+    copy_watchers = (params[:copy_watchers] == '1')
 
     if @copy
       unless User.current.allowed_to?(:copy_issues, @projects)
@@ -291,6 +293,9 @@ class IssuesController < ApplicationController
       end
       unless User.current.allowed_to?(:add_issues, target_projects)
         raise ::Unauthorized
+      end
+      unless User.current.allowed_to?(:add_issue_watchers, @projects)
+        copy_watchers = false
       end
     else
       unless @issues.all?(&:attributes_editable?)
@@ -313,6 +318,7 @@ class IssuesController < ApplicationController
         issue = orig_issue.copy({},
           :attachments => copy_attachments,
           :subtasks => copy_subtasks,
+          :watchers => copy_watchers,
           :link => link_copy?(params[:link_copy])
         )
       else
@@ -484,7 +490,8 @@ class IssuesController < ApplicationController
         @link_copy = link_copy?(params[:link_copy]) || request.get?
         @copy_attachments = params[:copy_attachments].present? || request.get?
         @copy_subtasks = params[:copy_subtasks].present? || request.get?
-        @issue.copy_from(@copy_from, :attachments => @copy_attachments, :subtasks => @copy_subtasks, :link => @link_copy)
+        @copy_watchers = User.current.allowed_to?(:add_issue_watchers, @project)
+        @issue.copy_from(@copy_from, :attachments => @copy_attachments, :subtasks => @copy_subtasks, :watchers => @copy_watchers, :link => @link_copy)
         @issue.parent_issue_id = @copy_from.parent_id
       rescue ActiveRecord::RecordNotFound
         render_404
