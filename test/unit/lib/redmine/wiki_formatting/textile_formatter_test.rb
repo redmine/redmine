@@ -166,6 +166,12 @@ EXPECTED
     )
   end
 
+  def test_kbd
+    assert_html_output({
+      '<kbd>test</kbd>'         => '<kbd>test</kbd>'
+    }, false)
+  end
+
   def test_use_of_backslashes_followed_by_numbers_in_headers
     assert_html_output({
       'h1. 2009\02\09'      => '<h1>2009\02\09</h1>'
