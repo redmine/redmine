@@ -19,6 +19,7 @@ gem "mimemagic"
 
 gem "nokogiri", "~> 1.6.8"
 gem "i18n", "~> 0.7.0"
+gem "ffi", "1.9.14", :platforms => :mingw if RUBY_VERSION < "2.0"
 
 # Request at least rails-html-sanitizer 1.0.3 because of security advisories 
 gem "rails-html-sanitizer", ">= 1.0.3"
@@ -76,7 +77,8 @@ if File.exist?(database_file)
         gem "pg", "~> 0.18.1", :platforms => [:mri, :mingw, :x64_mingw]
         gem "activerecord-jdbcpostgresql-adapter", :platforms => :jruby
       when /sqlite3/
-        gem "sqlite3", :platforms => [:mri, :mingw, :x64_mingw]
+        gem "sqlite3", (RUBY_VERSION < "2.0" && RUBY_PLATFORM =~ /mingw/ ? "1.3.12" : "~>1.3.12"),
+                       :platforms => [:mri, :mingw, :x64_mingw]
         gem "jdbc-sqlite3", ">= 3.8.10.1", :platforms => :jruby
         gem "activerecord-jdbcsqlite3-adapter", :platforms => :jruby
       when /sqlserver/
