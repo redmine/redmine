@@ -2129,3 +2129,64 @@ form.new-project {
     margin: 20px auto;
     text-align: center;
 }
+
+/*Tutorial Page*/
+
+.tutorial{
+	background-color:#2a2a2a;
+	color:white;
+}
+
+.tutorial .row{
+	width:90%;
+	margin:0 auto;
+}
+
+.tutorialCard{
+	display: block;
+    width: 350px;
+    height: 179px;
+    padding: 30px 40px;
+    color: #fff;
+    font-size: 20px;
+    text-align: center;
+    cursor:pointer;
+    border:2px solid white;
+    font-family: Consolas;
+}
+
+.tutorialCard:hover{
+	color:#f60;
+	border:2px solid #f60;
+}
+
+#hhtutorial{
+	background-image: url('/images/hhtutorial.png');
+}
+
+#synaptictutorial{
+	background-image: url('/images/synaptictutorial.png');
+}
+
+#createtutorial{
+	background-image: url('/images/createtutorial.png');
+}
+
+.tutorialTitle{
+	text-align:center;
+	font-size:50px;
+	margin-top:20px;
+	margin-bottom:50px;
+}
+
+.tutorialText{
+	margin-bottom:50px;
+	font-size:18px;	
+	text-align:center;
+}
+.tutorialText accent{
+	color:#8a0;
+}
+
+/*End Tutorial Page*/
+

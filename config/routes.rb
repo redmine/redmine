@@ -23,6 +23,7 @@ RedmineApp::Application.routes.draw do
   ## OSB specific
   get '/docs(/:path)', :to => 'docs#index', defaults: { path: 'Help' }, :constraints => {:path => /.*/}
   match 'about', :to => 'about#index'
+  match 'tutorials', :to => 'tutorials#index'
   match 'status', :to => 'status#index'
   match 'projects/adminnew', :to => 'projects#adminnew', :via => :post
   
