@@ -609,6 +609,22 @@ class IssueTest < ActiveSupport::TestCase
     assert_equal version, issue.fixed_version
   end
 
+  def test_default_assigned_to_based_on_category_should_be_set_on_create
+    user = User.find(3)
+    category = IssueCategory.create!(:project_id => 1, :name => 'With default assignee', :assigned_to_id => 3)
+
+    issue = Issue.generate!(:project_id => 1, :category_id => category.id)
+    assert_equal user, issue.assigned_to
+  end
+
+  def test_default_assigned_to_based_on_project_should_be_set_on_create
+    user = User.find(3)
+    Project.find(1).update!(:default_assigned_to_id => user.id)
+
+    issue = Issue.generate!(:project_id => 1)
+    assert_equal user, issue.assigned_to
+  end
+
   def test_should_not_update_custom_fields_on_changing_tracker_with_different_custom_fields
     issue = Issue.create!(:project_id => 1, :tracker_id => 1, :author_id => 1,
                           :status_id => 1, :subject => 'Test',
