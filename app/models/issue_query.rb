@@ -538,7 +538,7 @@ class IssueQuery < Query
 
     if relation_options[:sym] == field && !options[:reverse]
       sqls = [sql, sql_for_relations(field, operator, value, :reverse => true)]
-      sql = sqls.join(["!", "!*", "!p"].include?(operator) ? " AND " : " OR ")
+      sql = sqls.join(["!", "!*", "!p", '!o'].include?(operator) ? " AND " : " OR ")
     end
     "(#{sql})"
   end
