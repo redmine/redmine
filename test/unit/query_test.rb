@@ -897,7 +897,7 @@ class QueryTest < ActiveSupport::TestCase
     assert_include 2, ids
   end
 
-  def test_filter_on_relations_with_no_open_issues
+  def test_filter_on_blocked_by_no_open_issues
     IssueRelation.delete_all
     # Issue 1 is blocked by 8, which is closed
     IssueRelation.create!(:relation_type => "blocked", :issue_from => Issue.find(1), :issue_to => Issue.find(8))
@@ -906,6 +906,20 @@ class QueryTest < ActiveSupport::TestCase
 
     query = IssueQuery.new(:name => '_')
     query.filters = {"blocked" => {:operator => "!o", :values => ['']}}
+    ids = find_issues_with_query(query).map(&:id)
+    assert_equal [], ids & [2]
+    assert_include 1, ids
+  end
+
+  def test_filter_on_related_with_no_open_issues
+    IssueRelation.delete_all
+    # Issue 1 is blocked by 8, which is closed
+    IssueRelation.create!(relation_type: 'relates', issue_from: Issue.find(1), issue_to: Issue.find(8))
+    # Issue 2 is blocked by 3, which is open
+    IssueRelation.create!(relation_type: 'relates', issue_from: Issue.find(2), issue_to: Issue.find(3))
+
+    query = IssueQuery.new(:name => '_')
+    query.filters = { 'relates' => { operator: '!o', values: [''] } }
     ids = find_issues_with_query(query).map(&:id)
     assert_equal [], ids & [2]
     assert_include 1, ids
