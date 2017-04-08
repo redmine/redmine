@@ -494,7 +494,15 @@ class RedCloth3 < String
         style << "text-align:#{ h_align( $& ) };" if text =~ A_HLGN
 
         cls, id = $1, $2 if cls =~ /^(.*?)#(.*)$/
-        
+
+        # add wiki-class- and wiki-id- to classes and ids to prevent setting of
+        # arbitrary classes and ids
+        cls = cls.split(/\s+/).map do |c|
+          c.starts_with?('wiki-class-') ? c : "wiki-class-#{c}"
+        end.join(' ') if cls
+
+        id = id.starts_with?('wiki-id-') ? id : "wiki-id-#{id}" if id
+
         atts = ''
         atts << " style=\"#{ style.join }\"" unless style.empty?
         atts << " class=\"#{ cls }\"" unless cls.to_s.empty?
@@ -1097,7 +1105,7 @@ class RedCloth3 < String
                         first.match(/<#{ OFFTAGS }([^>]*)>/)
                         tag = $1
                         $2.to_s.match(/(class\=("[^"]+"|'[^']+'))/i)
-                        tag << " #{$1}" if $1
+                        tag << " #{$1}" if $1 && tag == 'code'
                         @pre_list << "<#{ tag }>#{ aftertag }"
                     end
                 elsif $1 and codepre > 0
@@ -1202,8 +1210,8 @@ class RedCloth3 < String
         end
     end
     
-    ALLOWED_TAGS = %w(redpre pre code notextile)
     
+    ALLOWED_TAGS = %w(redpre pre code kbd notextile)
     def escape_html_tags(text)
       text.gsub!(%r{<(\/?([!\w]+)[^<>\n]*)(>?)}) {|m| ALLOWED_TAGS.include?($2) ? "<#{$1}#{$3}" : "&lt;#{$1}#{'&gt;' unless $3.blank?}" }
     end

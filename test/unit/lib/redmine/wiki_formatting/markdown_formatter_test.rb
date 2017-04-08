@@ -70,6 +70,15 @@ STR
     end
   end
 
+  def test_should_not_allow_invalid_language_for_code_blocks
+    text = <<-STR
+~~~foo
+test
+~~~
+STR
+    assert_equal "<pre>test\n</pre>", @formatter.new(text).to_html
+  end
+
   def test_external_links_should_have_external_css_class
     text = 'This is a [link](http://example.net/)'
     assert_equal '<p>This is a <a href="http://example.net/" class="external">link</a></p>', @formatter.new(text).to_html.strip

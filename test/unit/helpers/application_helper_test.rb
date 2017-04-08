@@ -117,7 +117,8 @@ class ApplicationHelperTest < ActionView::TestCase
     to_test = {
       '!http://foo.bar/image.jpg!' => '<img src="http://foo.bar/image.jpg" alt="" />',
       'floating !>http://foo.bar/image.jpg!' => 'floating <span style="float:right"><img src="http://foo.bar/image.jpg" alt="" /></span>',
-      'with class !(some-class)http://foo.bar/image.jpg!' => 'with class <img src="http://foo.bar/image.jpg" class="some-class" alt="" />',
+      'with class !(some-class)http://foo.bar/image.jpg!' => 'with class <img src="http://foo.bar/image.jpg" class="wiki-class-some-class" alt="" />',
+      'with class !(wiki-class-foo)http://foo.bar/image.jpg!' => 'with class <img src="http://foo.bar/image.jpg" class="wiki-class-foo" alt="" />',
       'with style !{width:100px;height:100px}http://foo.bar/image.jpg!' => 'with style <img src="http://foo.bar/image.jpg" style="width:100px;height:100px;" alt="" />',
       'with title !http://foo.bar/image.jpg(This is a title)!' => 'with title <img src="http://foo.bar/image.jpg" title="This is a title" alt="This is a title" />',
       'with title !http://foo.bar/image.jpg(This is a double-quoted "title")!' => 'with title <img src="http://foo.bar/image.jpg" title="This is a double-quoted &quot;title&quot;" alt="This is a double-quoted &quot;title&quot;" />',
@@ -905,11 +906,11 @@ RAW
       "<pre><div>content</div></pre>" => "<pre>&lt;div&gt;content&lt;/div&gt;</pre>",
       "HTML comment: <!-- no comments -->" => "<p>HTML comment: &lt;!-- no comments --&gt;</p>",
       "<!-- opening comment" => "<p>&lt;!-- opening comment</p>",
-      # remove attributes except class
-      "<pre class='foo'>some text</pre>" => "<pre class='foo'>some text</pre>",
-      '<pre class="foo">some text</pre>' => '<pre class="foo">some text</pre>',
-      "<pre class='foo bar'>some text</pre>" => "<pre class='foo bar'>some text</pre>",
-      '<pre class="foo bar">some text</pre>' => '<pre class="foo bar">some text</pre>',
+      # remove attributes including class
+      "<pre class='foo'>some text</pre>" => "<pre>some text</pre>",
+      '<pre class="foo">some text</pre>' => '<pre>some text</pre>',
+      "<pre class='foo bar'>some text</pre>" => "<pre>some text</pre>",
+      '<pre class="foo bar">some text</pre>' => '<pre>some text</pre>',
       "<pre onmouseover='alert(1)'>some text</pre>" => "<pre>some text</pre>",
       # xss
       '<pre><code class=""onmouseover="alert(1)">text</code></pre>' => '<pre><code>text</code></pre>',

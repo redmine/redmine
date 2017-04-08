@@ -984,7 +984,7 @@ div.wiki table, div.wiki td, div.wiki th {
   padding: 4px;
 }
 
-div.wiki .noborder, div.wiki .noborder td, div.wiki .noborder th {border:0;}
+div.wiki .wiki-class-noborder, div.wiki .wiki-class-noborder td, div.wiki .wiki-class-noborder th {border:0;}
 
 div.wiki .external {
   background-position: 0% 60%;
