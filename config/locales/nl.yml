@@ -1198,3 +1198,4 @@ nl:
   field_full_width_layout: Full width layout
   label_last_notes: Last notes
   field_digest: Checksum
+  field_default_assigned_to: Default assignee
