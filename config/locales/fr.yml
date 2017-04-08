@@ -386,6 +386,7 @@ fr:
   field_last_updated_by: Dernière mise à jour par
   field_full_width_layout: Afficher sur toute la largeur
   field_digest: Checksum
+  field_default_assigned_to: Assigné par défaut
 
   setting_app_title: Titre de l'application
   setting_app_subtitle: Sous-titre de l'application

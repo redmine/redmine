@@ -1762,10 +1762,14 @@ class Issue < ActiveRecord::Base
     end
   end
 
-  # Default assignment based on category
+  # Default assignment based on project or category
   def default_assign
-    if assigned_to.nil? && category && category.assigned_to
-      self.assigned_to = category.assigned_to
+    if assigned_to.nil?
+      if category && category.assigned_to
+        self.assigned_to = category.assigned_to
+      elsif project && project.default_assigned_to
+        self.assigned_to = project.default_assigned_to
+      end
     end
   end
 

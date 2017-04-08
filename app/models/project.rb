@@ -39,6 +39,7 @@ class Project < ActiveRecord::Base
   has_many :issue_changes, :through => :issues, :source => :journals
   has_many :versions, :dependent => :destroy
   belongs_to :default_version, :class_name => 'Version'
+  belongs_to :default_assigned_to, :class_name => 'Principal'
   has_many :time_entries, :dependent => :destroy
   has_many :queries, :dependent => :delete_all
   has_many :documents, :dependent => :destroy
@@ -743,7 +744,8 @@ class Project < ActiveRecord::Base
     'tracker_ids',
     'issue_custom_field_ids',
     'parent_id',
-    'default_version_id'
+    'default_version_id',
+    'default_assigned_to_id'
 
   safe_attributes 'enabled_module_names',
     :if => lambda {|project, user|

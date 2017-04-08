@@ -374,6 +374,7 @@ en:
   field_last_updated_by: Last updated by
   field_full_width_layout: Full width layout
   field_digest: Checksum
+  field_default_assigned_to: Default assignee
 
   setting_app_title: Application title
   setting_app_subtitle: Application subtitle

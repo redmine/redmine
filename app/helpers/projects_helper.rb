@@ -89,6 +89,11 @@ module ProjectsHelper
     version_options_for_select(versions, project.default_version)
   end
 
+  def project_default_assigned_to_options(project)
+    assignable_users = (project.assignable_users.to_a + [project.default_assigned_to]).uniq.compact
+    principals_options_for_select(assignable_users, project.default_assigned_to)
+  end
+
   def format_version_sharing(sharing)
     sharing = 'none' unless Version::VERSION_SHARINGS.include?(sharing)
     l("label_version_sharing_#{sharing}")

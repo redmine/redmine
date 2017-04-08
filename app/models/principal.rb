@@ -105,6 +105,7 @@ class Principal < ActiveRecord::Base
   scope :sorted, lambda { order(*Principal.fields_for_order_statement)}
 
   before_create :set_default_empty_values
+  before_destroy :nullify_projects_default_assigned_to
 
   def reload(*args)
     @project_ids = nil
@@ -178,6 +179,10 @@ class Principal < ActiveRecord::Base
       principal ||= principals.detect {|a| keyword.casecmp(a.name) == 0}
     end
     principal
+  end
+
+  def nullify_projects_default_assigned_to
+    Project.where(default_assigned_to: self).update_all(default_assigned_to_id: nil)
   end
 
   protected

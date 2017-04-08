@@ -27,7 +27,7 @@ class Member < ActiveRecord::Base
   validate :validate_role
   attr_protected :id
 
-  before_destroy :set_issue_category_nil
+  before_destroy :set_issue_category_nil, :remove_from_project_default_assigned_to
 
   scope :active, lambda { joins(:principal).where(:users => {:status => Principal::STATUS_ACTIVE})}
 
@@ -148,6 +148,13 @@ class Member < ActiveRecord::Base
       # remove category based auto assignments for this member
       IssueCategory.where(["project_id = ? AND assigned_to_id = ?", project_id, user_id]).
         update_all("assigned_to_id = NULL")
+    end
+  end
+
+  def remove_from_project_default_assigned_to
+    if user_id && project && project.default_assigned_to_id == user_id
+      # remove project based auto assignments for this member
+      project.update_column(:default_assigned_to_id, nil)
     end
   end
 
