@@ -44,9 +44,7 @@ class Redmine::WikiFormatting::TextileFormatterTest < ActionView::TestCase
       '*two*words*'           => '<strong>two*words</strong>',
       '*two * words*'         => '<strong>two * words</strong>',
       '*two* *words*'         => '<strong>two</strong> <strong>words</strong>',
-      '*(two)* *(words)*'     => '<strong>(two)</strong> <strong>(words)</strong>',
-      # with class
-      '*(foo)two words*'      => '<strong class="foo">two words</strong>'
+      '*(two)* *(words)*'     => '<strong>(two)</strong> <strong>(words)</strong>'
     )
   end
 
@@ -164,6 +162,12 @@ EXPECTED
     assert_html_output(
       'this is a <script>'      => 'this is a &lt;script&gt;'
     )
+  end
+
+  def test_kbd
+    assert_html_output({
+      '<kbd>test</kbd>'         => '<kbd>test</kbd>'
+    }, false)
   end
 
   def test_use_of_backslashes_followed_by_numbers_in_headers
@@ -527,6 +531,50 @@ Content 2
 STR
 
     assert_match /\Ah1.\tHeading 1\s+Content 1\z/, @formatter.new(text).get_section(1).first
+  end
+
+  def test_should_not_allow_arbitrary_class_attribute_on_offtags
+    %w(code pre kbd).each do |tag|
+      assert_html_output({"<#{tag} class=\"foo\">test</#{tag}>" => "<#{tag}>test</#{tag}>"}, false)
+    end
+
+    assert_html_output({"<notextile class=\"foo\">test</notextile>" => "test"}, false)
+  end
+
+  def test_should_allow_valid_language_class_attribute_on_code_tags
+    assert_html_output({"<code class=\"ruby\">test</code>" => "<code class=\"ruby syntaxhl\"><span class=\"CodeRay\">test</span></code>"}, false)
+  end
+
+  def test_should_not_allow_valid_language_class_attribute_on_non_code_offtags
+    %w(pre kbd).each do |tag|
+      assert_html_output({"<#{tag} class=\"ruby\">test</#{tag}>" => "<#{tag}>test</#{tag}>"}, false)
+    end
+
+    assert_html_output({"<notextile class=\"ruby\">test</notextile>" => "test"}, false)
+  end
+
+  def test_should_prefix_class_attribute_on_tags
+    assert_html_output({
+      '!(foo)test.png!' => "<p><img src=\"test.png\" class=\"wiki-class-foo\" alt=\"\" /></p>",
+      '%(foo)test%'     => "<p><span class=\"wiki-class-foo\">test</span></p>",
+      'p(foo). test'    => "<p class=\"wiki-class-foo\">test</p>",
+      '|(foo). test|'   => "<table>\n\t\t<tr>\n\t\t\t<td class=\"wiki-class-foo\">test</td>\n\t\t</tr>\n\t</table>",
+    }, false)
+  end
+
+  def test_should_prefix_id_attribute_on_tags
+    assert_html_output({
+      '!(#foo)test.png!' => "<p><img src=\"test.png\" id=\"wiki-id-foo\" alt=\"\" /></p>",
+      '%(#foo)test%'     => "<p><span id=\"wiki-id-foo\">test</span></p>",
+      'p(#foo). test'    => "<p id=\"wiki-id-foo\">test</p>",
+      '|(#foo). test|'   => "<table>\n\t\t<tr>\n\t\t\t<td id=\"wiki-id-foo\">test</td>\n\t\t</tr>\n\t</table>",
+    }, false)
+  end
+
+  def test_should_not_prefix_class_and_id_attributes_already_prefixed
+    assert_html_output({
+      '!(wiki-class-foo#wiki-id-bar)test.png!' => "<p><img src=\"test.png\" class=\"wiki-class-foo\" id=\"wiki-id-bar\" alt=\"\" /></p>",
+    }, false)
   end
 
   private
