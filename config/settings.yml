@@ -31,6 +31,8 @@ login_required:
 self_registration:
   default: '2'
   security_notifications: 1
+show_custom_fields_on_registration:
+  default: 1
 lost_password:
   default: 1
   security_notifications: 1

@@ -394,6 +394,7 @@ fr:
   setting_default_language: Langue par défaut
   setting_login_required: Authentification obligatoire
   setting_self_registration: Inscription des nouveaux utilisateurs
+  setting_show_custom_fields_on_registration: Afficher les champs personnalisés sur le formulaire d'inscription
   setting_attachment_max_size: Taille maximale des fichiers
   setting_issues_export_limit: Limite d'exportation des demandes
   setting_mail_from: Adresse d'émission
