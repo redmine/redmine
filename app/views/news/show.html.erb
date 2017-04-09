@@ -33,6 +33,9 @@
 
 <div id="comments" style="margin-bottom:16px;">
 <h3 class="comments"><%= l(:label_comment_plural) %></h3>
+<% if @news.commentable? && @comments.size >= 3 %>
+  <p><%= toggle_link l(:label_comment_add), "add_comment_form", :focus => "comment_comments", :scroll => "comment_comments" %></p>
+<% end %>
 <% @comments.each do |comment| %>
     <% next if comment.new_record? %>
     <div class="contextual">
