@@ -905,10 +905,6 @@ hr.soften {
     font-size: 14px;
 }
 
-div[class*="E_"] > icon{
-    margin-left: 1em;
-}
-
 .time {
     font-size: 13px;
     font-weight: 200;
@@ -965,6 +961,10 @@ td > icon {
 .nav-list > .active > a:hover,
 .nav-list > .active > a:focus {
     background-color: #37abc8;
+}
+
+.nav > li.active {
+    background-color: #eee;
 }
 
 #cells .nav {
