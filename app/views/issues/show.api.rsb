@@ -76,5 +76,7 @@ api.issue do
     @issue.watcher_users.each do |user|
       api.user :id => user.id, :name => user.name
     end
-  end if include_in_api_response?('watchers') && User.current.allowed_to?(:view_issue_watchers, @issue.project)
+  end if include_in_api_response?('watchers') \
+    && (User.current.allowed_to?(:add_issue_watchers, @issue.project) || (@issue.watchers.present? && User.current.allowed_to?(:view_issue_watchers, @issue.project)))
+  
 end
