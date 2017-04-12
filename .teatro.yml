@@ -1,0 +1,12 @@
+stage:
+  before:
+    - cp config/configuration.yml.example config/configuration.yml
+    - cp config/database.teatro.yml config/database.yml
+    - mkdir -p tmp tmp/pdf public/plugin_assets
+    - chmod -R 755 files log tmp public/plugin_assets
+    - export REDMINE_LANG=en
+
+  database:
+    - bundle exec rake generate_secret_token db:create db:migrate
+    - bundle exec rake redmine:load_default_data
+    - bundle exec rake db:seed
