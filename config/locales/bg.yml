@@ -376,6 +376,7 @@ bg:
   field_last_updated_by: Последно обновено от
   field_full_width_layout: Пълна широчина
   field_digest: Контролна сума
+  field_default_assigned_to: Назначение по подразбиране
 
   setting_app_title: Заглавие
   setting_app_subtitle: Описание
@@ -383,6 +384,7 @@ bg:
   setting_default_language: Език по подразбиране
   setting_login_required: Изискване за вход в Redmine
   setting_self_registration: Регистрация от потребители
+  setting_show_custom_fields_on_registration: Показване на потребителските полета при регистрацията
   setting_attachment_max_size: Максимална големина на прикачен файл
   setting_issues_export_limit: Максимален брой задачи за експорт
   setting_mail_from: E-mail адрес за емисии
@@ -1207,5 +1209,3 @@ bg:
   description_wiki_subpages_reassign: Изберете нова родителска страница
   description_all_columns: Всички колони
   text_repository_identifier_info: 'Позволени са малки букви (a-z), цифри, тирета и _.<br />Промяна след създаването му не е възможна.'
-  field_default_assigned_to: Default assignee
-  setting_show_custom_fields_on_registration: Show custom fields on registration
