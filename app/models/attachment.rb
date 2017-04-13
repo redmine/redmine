@@ -417,27 +417,33 @@ class Attachment < ActiveRecord::Base
 
     reused = with_lock do
       if existing = Attachment
-                      .lock
                       .where(digest: self.digest, filesize: self.filesize)
                       .where('id <> ? and disk_filename <> ?',
                              self.id, self.disk_filename)
                       .first
+        existing.with_lock do
 
-        original_diskfile = self.diskfile
-        existing_diskfile = existing.diskfile
+          original_diskfile = self.diskfile
+          existing_diskfile = existing.diskfile
 
-        if File.readable?(original_diskfile) &&
-          File.readable?(existing_diskfile) &&
-          FileUtils.identical?(original_diskfile, existing_diskfile)
+          if File.readable?(original_diskfile) &&
+            File.readable?(existing_diskfile) &&
+            FileUtils.identical?(original_diskfile, existing_diskfile)
 
-          self.update_columns disk_directory: existing.disk_directory,
-                              disk_filename: existing.disk_filename
+            self.update_columns disk_directory: existing.disk_directory,
+                                disk_filename: existing.disk_filename
+          end
         end
       end
     end
     if reused
       File.delete(original_diskfile)
     end
+  rescue ActiveRecord::StatementInvalid, ActiveRecord::RecordNotFound
+    # Catch and ignore lock errors. It is not critical if deduplication does
+    # not happen, therefore we do not retry.
+    # with_lock throws ActiveRecord::RecordNotFound if the record isnt there
+    # anymore, thats why this is caught and ignored as well.
   end
 
 
