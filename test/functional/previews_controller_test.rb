@@ -47,7 +47,7 @@ class PreviewsControllerTest < Redmine::ControllerTest
     assert_select 'legend', :text => 'Notes'
   end
 
-  def test_preview_issue_notes_with_no_change_to_description
+  def test_preview_issue_notes_with_change_to_description
     @request.session[:user_id] = 2
     post :issue, :project_id => '1', :id => 1,
          :issue => {:description => 'Changed description', :notes => 'Foo'}
@@ -58,7 +58,7 @@ class PreviewsControllerTest < Redmine::ControllerTest
 
   def test_preview_journal_notes_for_update
     @request.session[:user_id] = 2
-    post :issue, :project_id => '1', :id => 1, :notes => 'Foo'
+    post :issue, :project_id => '1', :id => 1, :journal => {:notes => 'Foo'}
     assert_response :success
     assert_select 'legend', :text => 'Notes'
     assert_select 'p', :text => 'Foo'
@@ -67,7 +67,7 @@ class PreviewsControllerTest < Redmine::ControllerTest
   def test_preview_issue_notes_should_support_links_to_existing_attachments
     Attachment.generate!(:container => Issue.find(1), :filename => 'foo.bar')
     @request.session[:user_id] = 2
-    post :issue, :project_id => '1', :id => 1, :notes => 'attachment:foo.bar'
+    post :issue, :project_id => '1', :id => 1, :issue => {:notes => 'attachment:foo.bar'}
     assert_response :success
     assert_select 'a.attachment', :text => 'foo.bar'
   end

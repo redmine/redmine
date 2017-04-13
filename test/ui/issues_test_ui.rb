@@ -310,4 +310,26 @@ class Redmine::UiTest::IssuesTest < Redmine::UiTest::Base
       assert !page.has_css?('span.total-for-estimated-hours')
     end
   end
+
+  def test_update_journal_notes_with_preview
+    log_user('admin', 'admin')
+
+    visit '/issues/1'
+    # Click on the edit button
+    page.first('#change-2 a.icon-edit').click
+    # Check that the textarea is displayed
+    assert page.has_css?('#change-2 textarea')
+    assert page.first('#change-2 textarea').has_content?('Some notes with Redmine links')
+    # Update the notes
+    fill_in 'Notes', :with => 'Updated notes'
+    # Preview the change
+    click_on 'Preview'
+    assert page.has_css?('#journal_2_preview')
+    assert page.first('#journal_2_preview').has_content?('Updated notes')
+    # Save
+    click_on 'Save'
+
+    sleep 1
+    assert_equal 'Updated notes', Journal.find(2).notes
+  end
 end

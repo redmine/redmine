@@ -2,7 +2,7 @@
              :remote => true,
              :method => 'put',
              :id => "journal-#{@journal.id}-form") do %>
-    <%= label_tag "notes", l(:description_notes), :class => "hidden-for-sighted" %>
+    <%= label_tag "notes", l(:description_notes), :class => "hidden-for-sighted", :for => "journal_#{@journal.id}_notes" %>
     <%= text_area_tag 'journal[notes]', @journal.notes,
           :id => "journal_#{@journal.id}_notes",
           :class => 'wiki-edit',
