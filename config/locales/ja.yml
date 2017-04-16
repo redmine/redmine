@@ -291,10 +291,10 @@ ja:
   field_port: ポート
   field_account: アカウント
   field_base_dn: ベースDN
-  field_attr_login: ログイン名属性
-  field_attr_firstname: 名前属性
-  field_attr_lastname: 苗字属性
-  field_attr_mail: メール属性
+  field_attr_login: ログインIDの属性
+  field_attr_firstname: 名の属性
+  field_attr_lastname: 姓の属性
+  field_attr_mail: メールアドレスの属性
   field_onthefly: あわせてユーザーを作成
   field_start_date: 開始日
   field_done_ratio: 進捗率
