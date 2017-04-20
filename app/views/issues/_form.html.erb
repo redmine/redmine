@@ -1,22 +1,22 @@
 <%= labelled_fields_for :issue, @issue do |f| %>
 <%= call_hook(:view_issues_form_details_top, { :issue => @issue, :form => f }) %>
+<%= hidden_field_tag 'form_update_triggered_by', '' %>
 
 <% if @issue.safe_attribute? 'is_private' %>
-<div class="control-group">
-  <label class="inline control-label" for="issue_is_private" id="issue_is_private_label"><%= l(:field_is_private) %></label>
-  <div class="controls"><%= f.check_box :is_private, :no_label => true %></div>
+<div id="issue_is_private_wrap" class="control-group">
+    <label class="inline control-label" for="issue_is_private" id="issue_is_private_label"><%= l(:field_is_private) %></label>
+    <div class="controls"><%= f.check_box :is_private, :no_label => true %></div>
 </div>
 <% end %>
 
-<% if @issue.safe_attribute? 'project_id' %>
-<div class="control-group">
-	<%= f.select :project_id, project_tree_options_for_select(@issue.allowed_target_projects, :selected => @issue.project), {:required => true},
-                :onchange => "updateIssueFrom('#{escape_javascript project_issue_form_path(@project, :id => @issue, :format => 'js')}')" %></div>
+<% if (@issue.safe_attribute?('project_id') || @issue.project_id_changed?) && (!@issue.new_record? || @project.nil? || @issue.copy?) %>
+<div class="control-group"><%= f.select :project_id, project_tree_options_for_select(@issue.allowed_target_projects, :selected => @issue.project), {:required => true},
+                :onchange => "updateIssueFrom('#{escape_javascript update_issue_form_path(@project, @issue)}', this)" %></div>
 <% end %>
 
 <% if @issue.safe_attribute? 'tracker_id' %>
-<div class="control-group"><%= f.select :tracker_id, @issue.project.trackers.collect {|t| [t.name, t.id]}, {:required => true},
-                :onchange => "updateIssueFrom('#{escape_javascript project_issue_form_path(@project, :id => @issue, :format => 'js')}')" %></div>
+<div class="control-group"><%= f.select :tracker_id, trackers_options_for_select(@issue), {:required => true},
+                :onchange => "updateIssueFrom('#{escape_javascript update_issue_form_path(@project, @issue)}', this)" %></div>
 <% end %>
 
 <% if @issue.safe_attribute? 'subject' %>
@@ -26,7 +26,7 @@
 <% if @issue.safe_attribute? 'description' %>
 <div class="control-group">
   <%= f.label_for_field :description, :required => @issue.required_attribute?('description') %>
-  <%= link_to_function image_tag('edit.png'), '$(this).hide(); $("#issue_description_and_toolbar").show()' unless @issue.new_record? %>
+  <%= link_to_function content_tag(:span, l(:button_edit), :class => 'icon icon-edit'), '$(this).hide(); $("#issue_description_and_toolbar").show()' unless @issue.new_record? %>
   <%= content_tag 'span', :id => "issue_description_and_toolbar", :style => (@issue.new_record? ? nil : 'display:none') do %>
     <%= f.text_area :description,
                    :cols => 60,

@@ -1,6 +1,7 @@
 <%= wiki_page_breadcrumb(@page) %>
 
 <div class="bs-docs bs-docs-editing">
+<h2><%= @page.pretty_title %></h2>
 <%= form_for @content, :as => :content,
             :url => {:action => 'update', :id => @page.title},
             :html => {:method => :put, :multipart => true, :id => 'wiki_form'} do |f| %>
@@ -22,7 +23,7 @@
       <%= fp.select :parent_id,
                     content_tag('option', '', :value => '') +
                        wiki_page_options_for_select(
-                         @wiki.pages.includes(:parent).all -
+                         @wiki.pages.includes(:parent).to_a -
                          @page.self_and_descendants, @page.parent) %>
      </div>
     </div>
@@ -35,8 +36,9 @@
 
 <div class="control-group">
 	<div class="nolabelcontrols">
-		<%= submit_tag l(:button_save), :class => "btn btn-large btn-success baseline" %>
-   		<%= preview_link({:controller => 'wiki', :action => 'preview', :project_id => @project, :id => @page.title }, 'wiki_form') %>
+	    <%= submit_tag l(:button_save), :class => "btn btn-large btn-success baseline" %>
+   	    <%= preview_link({:controller => 'wiki', :action => 'preview', :project_id => @project, :id => @page.title }, 'wiki_form') %>
+            | <%= link_to l(:button_cancel), wiki_page_edit_cancel_path(@page) %>
    	</div>
 </div>
     

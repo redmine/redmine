@@ -1,10 +1,11 @@
-<% reply_links = authorize_for('issues', 'edit') -%>
+<% reply_links = issue.notes_addable? -%>
 <% for journal in journals %>
   <div id="change-<%= journal.id %>" class="<%= journal.css_classes %>">
     <div id="note-<%= journal.indice %>">
-    <h4><%= link_to "##{journal.indice}", {:anchor => "note-#{journal.indice}"}, :class => "journal-link btn" %>
+    <h4><a href="#note-<%= journal.indice %>" class="journal-link btn">#<%= journal.indice %></a>
     <%= avatar(journal.user, :size => "24") %>
-    <%= authoring journal.created_on, journal.user, :label => :label_updated_time_by %></h4>
+    <%= authoring journal.created_on, journal.user, :label => :label_updated_time_by %>
+    <%= content_tag('span', l(:field_is_private), :class => 'private') if journal.private_notes? %></h4>
 
     <% if journal.details.any? %>
     <ul class="details">
@@ -12,6 +13,13 @@
        <li><%= string %></li>
       <% end %>
     </ul>
+    <% if Setting.thumbnails_enabled? && (thumbnail_attachments = journal_thumbnail_attachments(journal)).any? %>
+      <div class="thumbnails">
+        <% thumbnail_attachments.each do |attachment| %>
+          <div><%= thumbnail_tag(attachment) %></div>
+        <% end %>
+      </div>
+    <% end %>
     <% end %>
     <%= render_notes(issue, journal, :reply_links => reply_links) unless journal.notes.blank? %>
     </div>

@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,65 +17,11 @@
 
 require File.expand_path('../../../test_helper', __FILE__)
 
-class RoutingIssueRelationsTest < ActionController::IntegrationTest
+class RoutingIssueRelationsTest < Redmine::RoutingTest
   def test_issue_relations
-    assert_routing(
-        { :method => 'get', :path => "/issues/1/relations" },
-        { :controller => 'issue_relations', :action => 'index',
-          :issue_id => '1' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/issues/1/relations.xml" },
-        { :controller => 'issue_relations', :action => 'index',
-          :issue_id => '1', :format => 'xml' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/issues/1/relations.json" },
-        { :controller => 'issue_relations', :action => 'index',
-          :issue_id => '1', :format => 'json' }
-      )
-    assert_routing(
-        { :method => 'post', :path => "/issues/1/relations" },
-        { :controller => 'issue_relations', :action => 'create',
-          :issue_id => '1' }
-      )
-    assert_routing(
-        { :method => 'post', :path => "/issues/1/relations.xml" },
-        { :controller => 'issue_relations', :action => 'create',
-          :issue_id => '1', :format => 'xml' }
-      )
-    assert_routing(
-        { :method => 'post', :path => "/issues/1/relations.json" },
-        { :controller => 'issue_relations', :action => 'create',
-          :issue_id => '1', :format => 'json' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/relations/23" },
-        { :controller => 'issue_relations', :action => 'show', :id => '23' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/relations/23.xml" },
-        { :controller => 'issue_relations', :action => 'show', :id => '23',
-          :format => 'xml' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/relations/23.json" },
-        { :controller => 'issue_relations', :action => 'show', :id => '23',
-          :format => 'json' }
-      )
-    assert_routing(
-        { :method => 'delete', :path => "/relations/23" },
-        { :controller => 'issue_relations', :action => 'destroy', :id => '23' }
-      )
-    assert_routing(
-        { :method => 'delete', :path => "/relations/23.xml" },
-        { :controller => 'issue_relations', :action => 'destroy', :id => '23',
-          :format => 'xml' }
-      )
-    assert_routing(
-        { :method => 'delete', :path => "/relations/23.json" },
-        { :controller => 'issue_relations', :action => 'destroy', :id => '23',
-          :format => 'json' }
-      )
+    should_route 'GET /issues/1/relations' => 'issue_relations#index', :issue_id => '1'
+    should_route 'POST /issues/1/relations' => 'issue_relations#create', :issue_id => '1'
+
+    should_route 'DELETE /relations/23' => 'issue_relations#destroy', :id => '23'
   end
 end

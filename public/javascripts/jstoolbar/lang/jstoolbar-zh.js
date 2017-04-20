@@ -7,6 +7,7 @@ jsToolBar.strings['Code'] = '程序代码';
 jsToolBar.strings['Heading 1'] = '标题 1';
 jsToolBar.strings['Heading 2'] = '标题 2';
 jsToolBar.strings['Heading 3'] = '标题 3';
+jsToolBar.strings['Highlighted code'] = 'Highlighted code';
 jsToolBar.strings['Unordered list'] = '无序列表';
 jsToolBar.strings['Ordered list'] = '排序列表';
 jsToolBar.strings['Quote'] = '引用';

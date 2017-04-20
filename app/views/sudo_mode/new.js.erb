@@ -1,0 +1,4 @@
+var sudo_modal = $('#sudo-modal').length ? $('#sudo-modal') : $("<div>", {id: "sudo-modal"}).appendTo($("body"));
+sudo_modal.hide().html('<%= escape_javascript render partial: 'sudo_mode/new_modal' %>');
+showModal('sudo-modal', '400px');
+$('#sudo_password').focus();

@@ -17,7 +17,7 @@
 }
 
 .jstElements button span {
-    display : none;	
+    display : none;
 }
 .jstElements span {
     display : inline;
@@ -34,4 +34,54 @@
 
 /* Buttons
 -------------------------------------------------------- */
-
+.jstb_strong {
+    background-image: url(../images/jstoolbar/bt_strong.png);
+}
+.jstb_em {
+    background-image: url(../images/jstoolbar/bt_em.png);
+}
+.jstb_ins {
+    background-image: url(../images/jstoolbar/bt_ins.png);
+}
+.jstb_del {
+    background-image: url(../images/jstoolbar/bt_del.png);
+}
+.jstb_code {
+    background-image: url(../images/jstoolbar/bt_code.png);
+}
+.jstb_h1 {
+    background-image: url(../images/jstoolbar/bt_h1.png);
+}
+.jstb_h2 {
+    background-image: url(../images/jstoolbar/bt_h2.png);
+}
+.jstb_h3 {
+    background-image: url(../images/jstoolbar/bt_h3.png);
+}
+.jstb_ul {
+    background-image: url(../images/jstoolbar/bt_ul.png);
+}
+.jstb_ol {
+    background-image: url(../images/jstoolbar/bt_ol.png);
+}
+.jstb_bq {
+    background-image: url(../images/jstoolbar/bt_bq.png);
+}
+.jstb_unbq {
+    background-image: url(../images/jstoolbar/bt_bq_remove.png);
+}
+.jstb_pre {
+    background-image: url(../images/jstoolbar/bt_pre.png);
+}
+.jstb_precode {
+    background-image: url(../images/jstoolbar/bt_precode.png);
+}
+.jstb_link {
+    background-image: url(../images/jstoolbar/bt_link.png);
+}
+.jstb_img {
+    background-image: url(../images/jstoolbar/bt_img.png);
+}
+.jstb_help {
+    background-image: url(../images/help.png);
+}

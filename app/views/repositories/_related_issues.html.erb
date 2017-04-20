@@ -11,25 +11,27 @@
 <ul>
 <% @changeset.issues.visible.each do |issue| %>
   <li id="<%= "related-issue-#{issue.id}" %>"><%= link_to_issue issue %>
-    <%= link_to(image_tag('link_break.png'),
+    <%= link_to(l(:label_relation_delete),
                 {:controller => 'repositories', :action => 'remove_related_issue',
                   :id => @project, :repository_id => @repository.identifier_param,
                   :rev => @changeset.identifier, :issue_id => issue},
                 :remote => true,
                 :method => :delete,
                 :data => {:confirm => l(:text_are_you_sure)},
-                :title => l(:label_relation_delete)) if manage_allowed %>
+                :title => l(:label_relation_delete),
+                :class => 'icon-only icon-link-break'
+               ) if manage_allowed %>
   </li>
 <% end %>
 </ul>
 
 <% if manage_allowed %>
-  <%= form_for(@issue, :as => :issue, :remote => true,
-       :url => {:controller => 'repositories', :action => 'add_related_issue',
+  <%= form_tag({:controller => 'repositories', :action => 'add_related_issue',
                 :id => @project, :repository_id => @repository.identifier_param,
                 :rev => @changeset.identifier},
+       :remote => true,
        :method => :post,
-       :html => {:id => 'new-relation-form', :style => (@issue ? '' : 'display: none;')}) do |f| %>
+       :id => 'new-relation-form', :style => (@issue ? '' : 'display: none;')) do |f| %>
   <%= l(:label_issue) %> #<%= text_field_tag 'issue_id', '', :size => 10 %>
   <%= submit_tag l(:button_add) %>
   <%= toggle_link l(:button_cancel), 'new-relation-form'%>

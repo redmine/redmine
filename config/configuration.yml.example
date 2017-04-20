@@ -6,90 +6,65 @@
 #
 # Note that this file needs to be a valid YAML file.
 # DO NOT USE TABS! Use 2 spaces instead of tabs for identation.
-#
-# == Outgoing email settings (email_delivery setting)
-#
-# === Common configurations
-#
-# ==== Sendmail command
-#
-# production:
-#   email_delivery:
-#     delivery_method: :sendmail
-#
-# ==== Simple SMTP server at localhost
-#
-# production:
-#   email_delivery:
-#     delivery_method: :smtp
-#     smtp_settings:
-#       address: "localhost"
-#       port: 25
-#
-# ==== SMTP server at example.com using LOGIN authentication and checking HELO for foo.com
-#
-# production:
-#   email_delivery:
-#     delivery_method: :smtp
-#     smtp_settings:
-#       address: "example.com"
-#       port: 25
-#       authentication: :login
-#       domain: 'foo.com'
-#       user_name: 'myaccount'
-#       password: 'password'
-#
-# ==== SMTP server at example.com using PLAIN authentication
-#
-# production:
-#   email_delivery:
-#     delivery_method: :smtp
-#     smtp_settings:
-#       address: "example.com"
-#       port: 25
-#       authentication: :plain
-#       domain: 'example.com'
-#       user_name: 'myaccount'
-#       password: 'password'
-#
-# ==== SMTP server at using TLS (GMail)
-#
-# This might require some additional configuration. See the guides at:
-# http://www.redmine.org/projects/redmine/wiki/EmailConfiguration
-#
-# production:
-#   email_delivery:
-#     delivery_method: :smtp
-#     smtp_settings:
-#       enable_starttls_auto: true
-#       address: "smtp.gmail.com"
-#       port: 587
-#       domain: "smtp.gmail.com" # 'your.domain.com' for GoogleApps
-#       authentication: :plain
-#       user_name: "your_email@gmail.com"
-#       password: "your_password"
-#
-#
-# === More configuration options
-#
-# See the "Configuration options" at the following website for a list of the
-# full options allowed:
-#
-# http://wiki.rubyonrails.org/rails/pages/HowToSendEmailsWithActionMailer
-
 
 # default configuration options for all environments
 default:
-  # Outgoing emails configuration (see examples above)
+  # Outgoing emails configuration
+  # See the examples below and the Rails guide for more configuration options:
+  # http://guides.rubyonrails.org/action_mailer_basics.html#action-mailer-configuration
   email_delivery:
-    delivery_method: :smtp
-    smtp_settings:
-      address: smtp.example.net
-      port: 25
-      domain: example.net
-      authentication: :login
-      user_name: "redmine@example.net"
-      password: "redmine"
+
+  # ==== Simple SMTP server at localhost
+  #
+  #  email_delivery:
+  #    delivery_method: :smtp
+  #    smtp_settings:
+  #      address: "localhost"
+  #      port: 25
+  #
+  # ==== SMTP server at example.com using LOGIN authentication and checking HELO for foo.com
+  #
+  #  email_delivery:
+  #    delivery_method: :smtp
+  #    smtp_settings:
+  #      address: "example.com"
+  #      port: 25
+  #      authentication: :login
+  #      domain: 'foo.com'
+  #      user_name: 'myaccount'
+  #      password: 'password'
+  #
+  # ==== SMTP server at example.com using PLAIN authentication
+  #
+  #  email_delivery:
+  #    delivery_method: :smtp
+  #    smtp_settings:
+  #      address: "example.com"
+  #      port: 25
+  #      authentication: :plain
+  #      domain: 'example.com'
+  #      user_name: 'myaccount'
+  #      password: 'password'
+  #
+  # ==== SMTP server at using TLS (GMail)
+  # This might require some additional configuration. See the guides at:
+  # http://www.redmine.org/projects/redmine/wiki/EmailConfiguration
+  #
+  #  email_delivery:
+  #    delivery_method: :smtp
+  #    smtp_settings:
+  #      enable_starttls_auto: true
+  #      address: "smtp.gmail.com"
+  #      port: 587
+  #      domain: "smtp.gmail.com" # 'your.domain.com' for GoogleApps
+  #      authentication: :plain
+  #      user_name: "your_email@gmail.com"
+  #      password: "your_password"
+  #
+  # ==== Sendmail command
+  #
+  #  email_delivery:
+  #    delivery_method: :sendmail
 
   # Absolute path to the directory where attachments are stored.
   # The default is the 'files' directory in your Redmine instance.
@@ -133,6 +108,33 @@ default:
   scm_bazaar_command:
   scm_darcs_command:
 
+  # SCM paths validation.
+  #
+  # You can configure a regular expression for each SCM that will be used to
+  # validate the path of new repositories (eg. path entered by users with the
+  # "Manage repositories" permission and path returned by reposman.rb).
+  # The regexp will be wrapped with \A \z, so it must match the whole path.
+  # And the regexp is case sensitive.
+  #
+  # You can match the project identifier by using %project% in the regexp.
+  #
+  # You can also set a custom hint message for each SCM that will be displayed
+  # on the repository form instead of the default one.
+  #
+  # Examples:
+  # scm_subversion_path_regexp: file:///svnpath/[a-z0-9_]+
+  # scm_subversion_path_info: SVN URL (eg. file:///svnpath/foo)
+  #
+  # scm_git_path_regexp: /gitpath/%project%(\.[a-z0-9_])?/
+  #
+  scm_subversion_path_regexp:
+  scm_mercurial_path_regexp:
+  scm_git_path_regexp:
+  scm_cvs_path_regexp:
+  scm_bazaar_path_regexp:
+  scm_darcs_path_regexp:
+  scm_filesystem_path_regexp:
+
   # Absolute path to the SCM commands errors (stderr) log file.
   # The default is to log in the 'log' directory of your Redmine instance.
   # Example:
@@ -168,14 +170,22 @@ default:
   # same secret token on each machine.
   #secret_token: 'change it to a long random string'
 
+  # Requires users to re-enter their password for sensitive actions (editing
+  # of account data, project memberships, application settings, user, group,
+  # role, auth source management and project deletion). Disabled by default.
+  # Timeout is set in minutes.
+  #
+  #sudo_mode: true
+  #sudo_mode_timeout: 15
+
   # Absolute path (e.g. /usr/bin/convert, c:/im/convert.exe) to
   # the ImageMagick's `convert` binary. Used to generate attachment thumbnails.
   #imagemagick_convert_command:
 
-  # Configuration of RMagcik font.
+  # Configuration of RMagick font.
   #
-  # Redmine uses RMagcik in order to export gantt png.
-  # You don't need this setting if you don't install RMagcik.
+  # Redmine uses RMagick in order to export gantt png.
+  # You don't need this setting if you don't install RMagick.
   #
   # In CJK (Chinese, Japanese and Korean),
   # in order to show CJK characters correctly,

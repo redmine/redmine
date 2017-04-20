@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -65,7 +65,7 @@ class MemberTest < ActiveSupport::TestCase
 
   def test_validate
     member = Member.new(:project_id => 1, :user_id => 2, :role_ids => [2])
-    # same use can't have more than one membership for a project
+    # same use cannot have more than one membership for a project
     assert !member.save
 
     # must have one role at least
@@ -79,9 +79,8 @@ class MemberTest < ActiveSupport::TestCase
     member = Member.new(:project_id => 1, :user_id => user.id, :role_ids => [])
     assert !member.save
     assert_include I18n.translate('activerecord.errors.messages.empty'), member.errors[:role]
-    str = "R\xc3\xb4le doit \xc3\xaatre renseign\xc3\xa9(e)"
-    str.force_encoding('UTF-8') if str.respond_to?(:force_encoding)
-    assert_equal str, [member.errors.full_messages].flatten.join
+    assert_equal "R\xc3\xb4le doit \xc3\xaatre renseign\xc3\xa9(e)".force_encoding('UTF-8'),
+      [member.errors.full_messages].flatten.join
   end
 
   def test_validate_member_role
@@ -92,6 +91,16 @@ class MemberTest < ActiveSupport::TestCase
     assert user.save
     member = Member.new(:project_id => 1, :user_id => user.id, :role_ids => [5])
     assert !member.save
+  end
+
+  def test_set_issue_category_nil_should_handle_nil_values
+    m = Member.new
+    assert_nil m.user
+    assert_nil m.project
+
+    assert_nothing_raised do
+      m.set_issue_category_nil
+    end
   end
 
   def test_destroy
@@ -105,6 +114,33 @@ class MemberTest < ActiveSupport::TestCase
     assert_raise(ActiveRecord::RecordNotFound) { Member.find(@jsmith.id) }
     category1.reload
     assert_nil category1.assigned_to_id
+  end
+
+  def test_destroy_should_trigger_callbacks_only_once
+    Member.class_eval { def destroy_test_callback; end}
+    Member.after_destroy :destroy_test_callback
+
+    m = Member.create!(:user_id => 1, :project_id => 1, :role_ids => [1,3])
+
+    Member.any_instance.expects(:destroy_test_callback).once
+    assert_difference 'Member.count', -1 do
+      assert_difference 'MemberRole.count', -2 do
+        m.destroy
+      end
+    end
+    assert m.destroyed?
+  ensure
+    Member._destroy_callbacks.delete(:destroy_test_callback)
+  end
+
+  def test_roles_should_be_unique
+    m = Member.new(:user_id => 1, :project_id => 1)
+    m.member_roles.build(:role_id => 1)
+    m.member_roles.build(:role_id => 1)
+    m.save!
+    m.reload
+    assert_equal 1, m.roles.count
+    assert_equal [1], m.roles.ids
   end
 
   def test_sort_without_roles
@@ -122,5 +158,36 @@ class MemberTest < ActiveSupport::TestCase
 
     assert_equal -1, a <=> b
     assert_equal 1,  b <=> a
+  end
+
+  def test_managed_roles_should_return_all_roles_for_role_with_all_roles_managed
+    member = Member.new
+    member.roles << Role.generate!(:permissions => [:manage_members], :all_roles_managed => true)
+    assert_equal Role.givable.all, member.managed_roles
+  end
+
+  def test_managed_roles_should_return_all_roles_for_admins
+    member = Member.new(:user => User.find(1))
+    member.roles << Role.generate!
+    assert_equal Role.givable.all, member.managed_roles
+  end
+
+  def test_managed_roles_should_return_limited_roles_for_role_without_all_roles_managed
+    member = Member.new
+    member.roles << Role.generate!(:permissions => [:manage_members], :all_roles_managed => false, :managed_role_ids => [2, 3])
+    assert_equal [2, 3], member.managed_roles.map(&:id).sort
+  end
+
+  def test_managed_roles_should_cumulated_managed_roles
+    member = Member.new
+    member.roles << Role.generate!(:permissions => [:manage_members], :all_roles_managed => false, :managed_role_ids => [3])
+    member.roles << Role.generate!(:permissions => [:manage_members], :all_roles_managed => false, :managed_role_ids => [2])
+    assert_equal [2, 3], member.managed_roles.map(&:id).sort
+  end
+
+  def test_managed_roles_should_return_no_roles_for_role_without_permission
+    member = Member.new
+    member.roles << Role.generate!(:all_roles_managed => true)
+    assert_equal [], member.managed_roles
   end
 end

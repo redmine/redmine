@@ -17,8 +17,8 @@
             {:controller => 'repositories', :action => 'show',:id => @project, :repository_id => repository.identifier_param} if repository.identifier.present? %>
       </td>
       <td><%= checked_image repository.is_default? %></td>
-      <td><%=h repository.scm_name %></td>
-      <td><%=h repository.url %></td>
+      <td><%= repository.scm_name %></td>
+      <td><%= repository.url %></td>
       <td class="buttons">
       <% if User.current.allowed_to?(:manage_repository, @project) %>
         <%= link_to(l(:label_user_plural), committers_repository_path(repository),

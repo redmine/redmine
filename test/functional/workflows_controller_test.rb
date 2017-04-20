@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -31,16 +31,13 @@ class WorkflowsControllerTest < ActionController::TestCase
     assert_template 'index'
 
     count = WorkflowTransition.where(:role_id => 1, :tracker_id => 2).count
-    assert_tag :tag => 'a', :content => count.to_s,
-                            :attributes => { :href => '/workflows/edit?role_id=1&amp;tracker_id=2' }
+    assert_select 'a[href=?]', '/workflows/edit?role_id=1&tracker_id=2', :content => count.to_s
   end
 
   def test_get_edit
     get :edit
     assert_response :success
     assert_template 'edit'
-    assert_not_nil assigns(:roles)
-    assert_not_nil assigns(:trackers)
   end
 
   def test_get_edit_with_role_and_tracker
@@ -57,18 +54,28 @@ class WorkflowsControllerTest < ActionController::TestCase
     assert_equal [2, 3, 5], assigns(:statuses).collect(&:id)
 
     # allowed transitions
-    assert_tag :tag => 'input', :attributes => { :type => 'checkbox',
-                                                 :name => 'issue_status[3][5][]',
-                                                 :value => 'always',
-                                                 :checked => 'checked' }
+    assert_select 'input[type=checkbox][name=?][value="1"][checked=checked]', 'transitions[3][5][always]'
     # not allowed
-    assert_tag :tag => 'input', :attributes => { :type => 'checkbox',
-                                                 :name => 'issue_status[3][2][]',
-                                                 :value => 'always',
-                                                 :checked => nil }
+    assert_select 'input[type=checkbox][name=?][value="1"]:not([checked=checked])', 'transitions[3][2][always]'
     # unused
-    assert_no_tag :tag => 'input', :attributes => { :type => 'checkbox',
-                                                    :name => 'issue_status[1][1][]' }
+    assert_select 'input[type=checkbox][name=?]', 'transitions[1][1][always]', 0
+  end
+
+  def test_get_edit_should_include_allowed_statuses_for_new_issues
+    WorkflowTransition.delete_all
+    WorkflowTransition.create!(:role_id => 1, :tracker_id => 1, :old_status_id => 0, :new_status_id => 1)
+
+    get :edit, :role_id => 1, :tracker_id => 1
+    assert_response :success
+    assert_select 'td', 'New issue'
+    assert_select 'input[type=checkbox][name=?][value="1"][checked=checked]', 'transitions[0][1][always]'
+  end
+
+  def test_get_edit_with_all_roles_and_all_trackers
+    get :edit, :role_id => 'all', :tracker_id => 'all'
+    assert_response :success
+    assert_equal Role.sorted.to_a, assigns(:roles)
+    assert_equal Tracker.sorted.to_a, assigns(:trackers)
   end
 
   def test_get_edit_with_role_and_tracker_and_all_statuses
@@ -81,32 +88,49 @@ class WorkflowsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:statuses)
     assert_equal IssueStatus.count, assigns(:statuses).size
 
-    assert_tag :tag => 'input', :attributes => { :type => 'checkbox',
-                                                 :name => 'issue_status[1][1][]',
-                                                 :value => 'always',
-                                                 :checked => nil }
+    assert_select 'input[type=checkbox][name=?]', 'transitions[1][1][always]'
   end
 
   def test_post_edit
+    WorkflowTransition.delete_all
+
     post :edit, :role_id => 2, :tracker_id => 1,
-      :issue_status => {
-        '4' => {'5' => ['always']},
-        '3' => {'1' => ['always'], '2' => ['always']}
+      :transitions => {
+        '4' => {'5' => {'always' => '1'}},
+        '3' => {'1' => {'always' => '1'}, '2' => {'always' => '1'}}
       }
-    assert_redirected_to '/workflows/edit?role_id=2&tracker_id=1'
+    assert_response 302
 
     assert_equal 3, WorkflowTransition.where(:tracker_id => 1, :role_id => 2).count
     assert_not_nil  WorkflowTransition.where(:role_id => 2, :tracker_id => 1, :old_status_id => 3, :new_status_id => 2).first
     assert_nil      WorkflowTransition.where(:role_id => 2, :tracker_id => 1, :old_status_id => 5, :new_status_id => 4).first
   end
 
-  def test_post_edit_with_additional_transitions
+  def test_post_edit_with_allowed_statuses_for_new_issues
+    WorkflowTransition.delete_all
+
     post :edit, :role_id => 2, :tracker_id => 1,
-      :issue_status => {
-        '4' => {'5' => ['always']},
-        '3' => {'1' => ['author'], '2' => ['assignee'], '4' => ['author', 'assignee']}
+      :transitions => {
+        '0' => {'1' => {'always' => '1'}, '2' => {'always' => '1'}}
       }
-    assert_redirected_to '/workflows/edit?role_id=2&tracker_id=1'
+    assert_response 302
+
+    assert WorkflowTransition.where(:role_id => 2, :tracker_id => 1, :old_status_id => 0, :new_status_id => 1).any?
+    assert WorkflowTransition.where(:role_id => 2, :tracker_id => 1, :old_status_id => 0, :new_status_id => 2).any?
+    assert_equal 2, WorkflowTransition.where(:tracker_id => 1, :role_id => 2).count
+  end
+
+  def test_post_edit_with_additional_transitions
+    WorkflowTransition.delete_all
+  
+    post :edit, :role_id => 2, :tracker_id => 1,
+      :transitions => {
+        '4' => {'5' => {'always' => '1', 'author' => '0', 'assignee' => '0'}},
+        '3' => {'1' => {'always' => '0', 'author' => '1', 'assignee' => '0'},
+                '2' => {'always' => '0', 'author' => '0', 'assignee' => '1'},
+                '4' => {'always' => '0', 'author' => '1', 'assignee' => '1'}}
+      }
+    assert_response 302
 
     assert_equal 4, WorkflowTransition.where(:tracker_id => 1, :role_id => 2).count
 
@@ -124,20 +148,11 @@ class WorkflowsControllerTest < ActionController::TestCase
     assert w.assignee
   end
 
-  def test_clear_workflow
-    assert WorkflowTransition.where(:role_id => 1, :tracker_id => 2).count > 0
-
-    post :edit, :role_id => 1, :tracker_id => 2
-    assert_equal 0, WorkflowTransition.where(:role_id => 1, :tracker_id => 2).count
-  end
-
   def test_get_permissions
     get :permissions
 
     assert_response :success
     assert_template 'permissions'
-    assert_not_nil assigns(:roles)
-    assert_not_nil assigns(:trackers)
   end
 
   def test_get_permissions_with_role_and_tracker
@@ -150,13 +165,13 @@ class WorkflowsControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'permissions'
 
-    assert_select 'input[name=role_id][value=1]'
-    assert_select 'input[name=tracker_id][value=2]'
+    assert_select 'input[name=?][value="1"]', 'role_id[]'
+    assert_select 'input[name=?][value="2"]', 'tracker_id[]'
 
     # Required field
-    assert_select 'select[name=?]', 'permissions[assigned_to_id][2]' do
-      assert_select 'option[value=]'
-      assert_select 'option[value=][selected=selected]', 0
+    assert_select 'select[name=?]', 'permissions[2][assigned_to_id]' do
+      assert_select 'option[value=""]'
+      assert_select 'option[value=""][selected=selected]', 0
       assert_select 'option[value=readonly]', :text => 'Read-only'
       assert_select 'option[value=readonly][selected=selected]', 0
       assert_select 'option[value=required]', :text => 'Required'
@@ -164,9 +179,9 @@ class WorkflowsControllerTest < ActionController::TestCase
     end
 
     # Read-only field
-    assert_select 'select[name=?]', 'permissions[fixed_version_id][3]' do
-      assert_select 'option[value=]'
-      assert_select 'option[value=][selected=selected]', 0
+    assert_select 'select[name=?]', 'permissions[3][fixed_version_id]' do
+      assert_select 'option[value=""]'
+      assert_select 'option[value=""][selected=selected]', 0
       assert_select 'option[value=readonly]', :text => 'Read-only'
       assert_select 'option[value=readonly][selected=selected]'
       assert_select 'option[value=required]', :text => 'Required'
@@ -174,9 +189,9 @@ class WorkflowsControllerTest < ActionController::TestCase
     end
 
     # Other field
-    assert_select 'select[name=?]', 'permissions[due_date][3]' do
-      assert_select 'option[value=]'
-      assert_select 'option[value=][selected=selected]', 0
+    assert_select 'select[name=?]', 'permissions[3][due_date]' do
+      assert_select 'option[value=""]'
+      assert_select 'option[value=""][selected=selected]', 0
       assert_select 'option[value=readonly]', :text => 'Read-only'
       assert_select 'option[value=readonly][selected=selected]', 0
       assert_select 'option[value=required]', :text => 'Required'
@@ -193,8 +208,8 @@ class WorkflowsControllerTest < ActionController::TestCase
 
     # Custom field that is always required
     # The default option is "(Required)"
-    assert_select 'select[name=?]', "permissions[#{cf.id}][3]" do
-      assert_select 'option[value=]'
+    assert_select 'select[name=?]', "permissions[3][#{cf.id}]" do
+      assert_select 'option[value=""]'
       assert_select 'option[value=readonly]', :text => 'Read-only'
       assert_select 'option[value=required]', 0
     end
@@ -209,31 +224,84 @@ class WorkflowsControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'permissions'
 
-    assert_select 'select[name=?]:not(.disabled)', "permissions[#{cf1.id}][1]"
-    assert_select 'select[name=?]:not(.disabled)', "permissions[#{cf3.id}][1]"
+    assert_select 'select[name=?]:not(.disabled)', "permissions[1][#{cf1.id}]"
+    assert_select 'select[name=?]:not(.disabled)', "permissions[1][#{cf3.id}]"
 
-    assert_select 'select[name=?][disabled=disabled]', "permissions[#{cf2.id}][1]" do
-      assert_select 'option[value=][selected=selected]', :text => 'Hidden'
+    assert_select 'select[name=?][disabled=disabled]', "permissions[1][#{cf2.id}]" do
+      assert_select 'option[value=""][selected=selected]', :text => 'Hidden'
     end
   end
 
-  def test_get_permissions_with_role_and_tracker_and_all_statuses
+  def test_get_permissions_with_missing_permissions_for_roles_should_default_to_no_change
+    WorkflowPermission.delete_all
+    WorkflowPermission.create!(:role_id => 1, :tracker_id => 2, :old_status_id => 1, :field_name => 'assigned_to_id', :rule => 'required')
+
+    get :permissions, :role_id => [1, 2], :tracker_id => 2
+    assert_response :success
+
+    assert_select 'select[name=?]', 'permissions[1][assigned_to_id]' do
+      assert_select 'option[selected]', 1
+      assert_select 'option[selected][value=no_change]'
+    end
+  end
+
+  def test_get_permissions_with_different_permissions_for_roles_should_default_to_no_change
+    WorkflowPermission.delete_all
+    WorkflowPermission.create!(:role_id => 1, :tracker_id => 2, :old_status_id => 1, :field_name => 'assigned_to_id', :rule => 'required')
+    WorkflowPermission.create!(:role_id => 2, :tracker_id => 2, :old_status_id => 1, :field_name => 'assigned_to_id', :rule => 'readonly')
+
+    get :permissions, :role_id => [1, 2], :tracker_id => 2
+    assert_response :success
+
+    assert_select 'select[name=?]', 'permissions[1][assigned_to_id]' do
+      assert_select 'option[selected]', 1
+      assert_select 'option[selected][value=no_change]'
+    end
+  end
+
+  def test_get_permissions_with_same_permissions_for_roles_should_default_to_permission
+    WorkflowPermission.delete_all
+    WorkflowPermission.create!(:role_id => 1, :tracker_id => 2, :old_status_id => 1, :field_name => 'assigned_to_id', :rule => 'required')
+    WorkflowPermission.create!(:role_id => 2, :tracker_id => 2, :old_status_id => 1, :field_name => 'assigned_to_id', :rule => 'required')
+
+    get :permissions, :role_id => [1, 2], :tracker_id => 2
+    assert_response :success
+
+    assert_select 'select[name=?]', 'permissions[1][assigned_to_id]' do
+      assert_select 'option[selected]', 1
+      assert_select 'option[selected][value=required]'
+    end
+  end
+
+  def test_get_permissions_with_role_and_tracker_and_all_statuses_should_show_all_statuses
     WorkflowTransition.delete_all
 
     get :permissions, :role_id => 1, :tracker_id => 2, :used_statuses_only => '0'
     assert_response :success
-    assert_equal IssueStatus.sorted.all, assigns(:statuses)
+    assert_equal IssueStatus.sorted.to_a, assigns(:statuses)
+  end
+
+  def test_get_permissions_should_set_css_class
+    WorkflowPermission.delete_all
+    WorkflowPermission.create!(:role_id => 1, :tracker_id => 2, :old_status_id => 1, :field_name => 'assigned_to_id', :rule => 'required')
+    cf = IssueCustomField.create!(:name => 'Foo', :field_format => 'string', :tracker_ids => [2])
+    WorkflowPermission.create!(:role_id => 1, :tracker_id => 2, :old_status_id => 1, :field_name => cf.id, :rule => 'required')
+
+    get :permissions, :role_id => 1, :tracker_id => 2
+    assert_response :success
+    assert_select 'td.required > select[name=?]', 'permissions[1][assigned_to_id]'
+    assert_select 'td.required > select[name=?]', "permissions[1][#{cf.id}]"
   end
 
   def test_post_permissions
     WorkflowPermission.delete_all
 
     post :permissions, :role_id => 1, :tracker_id => 2, :permissions => {
-      'assigned_to_id' => {'1' => '', '2' => 'readonly', '3' => ''},
-      'fixed_version_id' => {'1' => 'required', '2' => 'readonly', '3' => ''},
-      'due_date' => {'1' => '', '2' => '', '3' => ''},
+      '1' => {'assigned_to_id' => '', 'fixed_version_id' => 'required', 'due_date' => ''},
+      '2' => {'assigned_to_id' => 'readonly', 'fixed_version_id' => 'readonly', 'due_date' => ''},
+      '3' => {'assigned_to_id' => '',  'fixed_version_id' => '', 'due_date' => ''}
     }
-    assert_redirected_to '/workflows/permissions?role_id=1&tracker_id=2'
+    assert_response 302
 
     workflows = WorkflowPermission.all
     assert_equal 3, workflows.size
@@ -246,37 +314,21 @@ class WorkflowsControllerTest < ActionController::TestCase
     assert workflows.detect {|wf| wf.old_status_id == 2 && wf.field_name == 'fixed_version_id' && wf.rule == 'readonly'}
   end
 
-  def test_post_permissions_should_clear_permissions
-    WorkflowPermission.delete_all
-    WorkflowPermission.create!(:role_id => 1, :tracker_id => 2, :old_status_id => 2, :field_name => 'assigned_to_id', :rule => 'required')
-    WorkflowPermission.create!(:role_id => 1, :tracker_id => 2, :old_status_id => 2, :field_name => 'fixed_version_id', :rule => 'required')
-    wf1 = WorkflowPermission.create!(:role_id => 1, :tracker_id => 3, :old_status_id => 2, :field_name => 'fixed_version_id', :rule => 'required')
-    wf2 = WorkflowPermission.create!(:role_id => 2, :tracker_id => 2, :old_status_id => 3, :field_name => 'fixed_version_id', :rule => 'readonly')
-
-    post :permissions, :role_id => 1, :tracker_id => 2
-    assert_redirected_to '/workflows/permissions?role_id=1&tracker_id=2'
-
-    workflows = WorkflowPermission.all
-    assert_equal 2, workflows.size
-    assert wf1.reload
-    assert wf2.reload
-  end
-
   def test_get_copy
     get :copy
     assert_response :success
     assert_template 'copy'
     assert_select 'select[name=source_tracker_id]' do
-      assert_select 'option[value=1]', :text => 'Bug'
+      assert_select 'option[value="1"]', :text => 'Bug'
     end
     assert_select 'select[name=source_role_id]' do
-      assert_select 'option[value=2]', :text => 'Developer'
+      assert_select 'option[value="2"]', :text => 'Developer'
     end
     assert_select 'select[name=?]', 'target_tracker_ids[]' do
-      assert_select 'option[value=3]', :text => 'Support request'
+      assert_select 'option[value="3"]', :text => 'Support request'
     end
     assert_select 'select[name=?]', 'target_role_ids[]' do
-      assert_select 'option[value=1]', :text => 'Manager'
+      assert_select 'option[value="1"]', :text => 'Manager'
     end
   end
 

@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -21,6 +21,7 @@ class AuthSourcesController < ApplicationController
 
   before_filter :require_admin
   before_filter :find_auth_source, :only => [:edit, :update, :test_connection, :destroy]
+  require_sudo_mode :update, :destroy
 
   def index
     @auth_source_pages, @auth_sources = paginate AuthSource, :per_page => 25

@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -29,6 +29,7 @@ class RepositoryTest < ActiveSupport::TestCase
            :changesets,
            :changes,
            :users,
+           :email_addresses,
            :members,
            :member_roles,
            :roles,
@@ -48,14 +49,13 @@ class RepositoryTest < ActiveSupport::TestCase
                         :log_encoding => ''
                       )
     assert !repo.save
-    assert_include "Commit messages encoding can't be blank",
+    assert_include "Commit messages encoding cannot be blank",
                    repo.errors.full_messages
   end
 
   def test_blank_log_encoding_error_message_fr
     set_language_if_valid 'fr'
-    str = "Encodage des messages de commit doit \xc3\xaatre renseign\xc3\xa9(e)"
-    str.force_encoding('UTF-8') if str.respond_to?(:force_encoding)
+    str = "Encodage des messages de commit doit \xc3\xaatre renseign\xc3\xa9(e)".force_encoding('UTF-8')
     repo = Repository::Bazaar.new(
                         :project      => Project.find(3),
                         :url          => "/test"
@@ -74,6 +74,36 @@ class RepositoryTest < ActiveSupport::TestCase
 
     project = Project.find(3)
     assert_equal repository, project.repository
+  end
+
+  def test_2_repositories_with_same_identifier_in_different_projects_should_be_valid
+    Repository::Subversion.create!(:project_id => 2, :identifier => 'foo', :url => 'file:///foo')
+    r = Repository::Subversion.new(:project_id => 3, :identifier => 'foo', :url => 'file:///bar')
+    assert r.save
+  end
+
+  def test_2_repositories_with_same_identifier_should_not_be_valid
+    Repository::Subversion.create!(:project_id => 3, :identifier => 'foo', :url => 'file:///foo')
+    r = Repository::Subversion.new(:project_id => 3, :identifier => 'foo', :url => 'file:///bar')
+    assert !r.save
+  end
+
+  def test_2_repositories_with_blank_identifier_should_not_be_valid
+    Repository::Subversion.create!(:project_id => 3, :identifier => '', :url => 'file:///foo')
+    r = Repository::Subversion.new(:project_id => 3, :identifier => '', :url => 'file:///bar')
+    assert !r.save
+  end
+
+  def test_2_repositories_with_blank_identifier_and_one_as_default_should_not_be_valid
+    Repository::Subversion.create!(:project_id => 3, :identifier => '', :url => 'file:///foo', :is_default => true)
+    r = Repository::Subversion.new(:project_id => 3, :identifier => '', :url => 'file:///bar')
+    assert !r.save
+  end
+
+  def test_2_repositories_with_blank_and_nil_identifier_should_not_be_valid
+    Repository::Subversion.create!(:project_id => 3, :identifier => nil, :url => 'file:///foo')
+    r = Repository::Subversion.new(:project_id => 3, :identifier => '', :url => 'file:///bar')
+    assert !r.save
   end
 
   def test_first_repository_should_be_set_as_default
@@ -175,7 +205,7 @@ class RepositoryTest < ActiveSupport::TestCase
 
   def test_destroy_should_delete_parents_associations
     changeset = Changeset.find(102)
-    changeset.parents = Changeset.where(:id => [100, 101]).all
+    changeset.parents = Changeset.where(:id => [100, 101]).to_a
     assert_difference 'Changeset.connection.select_all("select * from changeset_parents").count', -2 do
       Repository.find(10).destroy
     end
@@ -183,7 +213,7 @@ class RepositoryTest < ActiveSupport::TestCase
 
   def test_destroy_should_delete_issues_associations
     changeset = Changeset.find(102)
-    changeset.issues = Issue.where(:id => [1, 2]).all
+    changeset.issues = Issue.where(:id => [1, 2]).to_a
     assert_difference 'Changeset.connection.select_all("select * from changesets_issues").count', -2 do
       Repository.find(10).destroy
     end
@@ -213,7 +243,7 @@ class RepositoryTest < ActiveSupport::TestCase
 
     # make sure issue 1 is not already closed
     fixed_issue = Issue.find(1)
-    assert !fixed_issue.status.is_closed?
+    assert !fixed_issue.closed?
     old_status = fixed_issue.status
 
     with_settings :notified_events => %w(issue_added issue_updated) do
@@ -223,7 +253,7 @@ class RepositoryTest < ActiveSupport::TestCase
 
     # fixed issues
     fixed_issue.reload
-    assert fixed_issue.status.is_closed?
+    assert fixed_issue.closed?
     assert_equal 90, fixed_issue.done_ratio
     assert_equal [101], fixed_issue.changeset_ids
 
@@ -394,5 +424,90 @@ class RepositoryTest < ActiveSupport::TestCase
     assert_nothing_raised do
       [r1, r2].sort
     end
+  end
+
+  def test_stats_by_author_reflect_changesets_and_changes
+    repository = Repository.find(10)
+
+    expected = {"Dave Lopper"=>{:commits_count=>10, :changes_count=>3}}
+    assert_equal expected, repository.stats_by_author
+
+    set = Changeset.create!(
+      :repository => repository,
+      :committer => 'dlopper',
+      :committed_on => Time.now,
+      :revision => 101,
+      :comments => 'Another commit by foo.'
+    )
+    Change.create!(:changeset => set, :action => 'A', :path => '/path/to/file1')
+    Change.create!(:changeset => set, :action => 'A', :path => '/path/to/file2')
+    expected = {"Dave Lopper"=>{:commits_count=>11, :changes_count=>5}}
+    assert_equal expected, repository.stats_by_author
+  end
+
+  def test_stats_by_author_honnor_committers
+    # in fact it is really tested above, but let's have a dedicated test
+    # to ensure things are dynamically linked to Users
+    User.find_by_login("dlopper").update_attribute(:firstname, "Dave's")
+    repository = Repository.find(10)
+    expected = {"Dave's Lopper"=>{:commits_count=>10, :changes_count=>3}}
+    assert_equal expected, repository.stats_by_author
+  end
+
+  def test_stats_by_author_doesnt_drop_unmapped_users
+    repository = Repository.find(10)
+    Changeset.create!(
+      :repository => repository,
+      :committer => 'unnamed <foo@bar.net>',
+      :committed_on => Time.now,
+      :revision => 101,
+      :comments => 'Another commit by foo.'
+    )
+
+    assert repository.stats_by_author.has_key?("unnamed <foo@bar.net>")
+  end
+
+  def test_stats_by_author_merge_correctly
+    # as we honnor users->committer map and it's not injective,
+    # we must be sure merges happen correctly and stats are not
+    # wiped out when two source counts map to the same user.
+    #
+    # Here we have Changeset's with committer="dlopper" and others
+    # with committer="dlopper <dlopper@somefoo.net>"
+    repository = Repository.find(10)
+
+    expected = {"Dave Lopper"=>{:commits_count=>10, :changes_count=>3}}
+    assert_equal expected, repository.stats_by_author
+
+    set = Changeset.create!(
+      :repository => repository,
+      :committer => 'dlopper <dlopper@somefoo.net>',
+      :committed_on => Time.now,
+      :revision => 101,
+      :comments => 'Another commit by foo.'
+    )
+
+    expected = {"Dave Lopper"=>{:commits_count=>11, :changes_count=>3}}
+    assert_equal expected, repository.stats_by_author
+  end
+
+  def test_fetch_changesets
+    # 2 repositories in fixtures
+    Repository::Subversion.any_instance.expects(:fetch_changesets).twice.returns(true)
+    Repository.fetch_changesets
+  end
+
+  def test_repository_class
+    assert_equal Repository::Subversion, Repository.repository_class('Subversion')
+    assert_equal Repository::Git, Repository.repository_class('Git')
+    assert_nil Repository.factory('Serializer')
+    assert_nil Repository.factory('Query')
+  end
+
+  def test_factory
+    assert_instance_of Repository::Subversion, Repository.factory('Subversion')
+    assert_instance_of Repository::Git, Repository.factory('Git')
+    assert_nil Repository.factory('Serializer')
+    assert_nil Repository.factory('Query')
   end
 end

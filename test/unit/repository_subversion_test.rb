@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -54,6 +54,37 @@ class RepositorySubversionTest < ActiveSupport::TestCase
       assert repo.save
       assert_equal [], repo.errors[:url]
       assert repo.destroy
+    end
+  end
+
+  def test_url_should_be_validated_against_regexp_set_in_configuration
+    Redmine::Configuration.with 'scm_subversion_path_regexp' => 'file:///svnpath/[a-z]+' do
+      repo = Repository::Subversion.new(:project => @project, :identifier => 'test')
+      repo.url = 'http://foo'
+      assert !repo.valid?
+      assert repo.errors[:url].present?
+
+      repo.url = 'file:///svnpath/foo/bar'
+      assert !repo.valid?
+      assert repo.errors[:url].present?
+
+      repo.url = 'file:///svnpath/foo'
+      assert repo.valid?
+    end
+  end
+
+  def test_url_should_be_validated_against_regexp_set_in_configuration_with_project_identifier
+    Redmine::Configuration.with 'scm_subversion_path_regexp' => 'file:///svnpath/%project%(\.[a-z]+)?' do
+      repo = Repository::Subversion.new(:project => @project, :identifier => 'test')
+      repo.url = 'file:///svnpath/invalid'
+      assert !repo.valid?
+      assert repo.errors[:url].present?
+
+      repo.url = 'file:///svnpath/subproject1'
+      assert repo.valid?
+
+      repo.url = 'file:///svnpath/subproject1.foo'
+      assert repo.valid?
     end
   end
 
@@ -202,13 +233,7 @@ class RepositorySubversionTest < ActiveSupport::TestCase
 
     def test_log_encoding_ignore_setting
       with_settings :commit_logs_encoding => 'windows-1252' do
-        s1 = "\xC2\x80"
-        s2 = "\xc3\x82\xc2\x80"
-        if s1.respond_to?(:force_encoding)
-          s1.force_encoding('ISO-8859-1')
-          s2.force_encoding('UTF-8')
-          assert_equal s1.encode('UTF-8'), s2
-        end
+        s2 = "\xc3\x82\xc2\x80".force_encoding('UTF-8')
         c = Changeset.new(:repository => @repository,
                           :comments   => s2,
                           :revision   => '123',

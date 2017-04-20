@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -20,7 +20,7 @@ require 'action_view/helpers/form_helper'
 class Redmine::Views::LabelledFormBuilder < ActionView::Helpers::FormBuilder
   include Redmine::I18n
 
-  (field_helpers.map(&:to_s) - %w(radio_button hidden_field fields_for check_box) +
+  (field_helpers.map(&:to_s) - %w(radio_button hidden_field fields_for check_box label) +
         %w(date_select)).each do |selector|
     src = <<-END_SRC
     def #{selector}(field, options = {})

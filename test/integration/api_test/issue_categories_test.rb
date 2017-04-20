@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -24,24 +24,18 @@ class Redmine::ApiTest::IssueCategoriesTest < Redmine::ApiTest::Base
            :members,
            :enabled_modules
 
-  def setup
-    Setting.rest_api_enabled = '1'
-  end
-
   test "GET /projects/:project_id/issue_categories.xml should return the issue categories" do
     get '/projects/1/issue_categories.xml', {}, credentials('jsmith')
     assert_response :success
     assert_equal 'application/xml', @response.content_type
-    assert_tag :tag => 'issue_categories',
-      :child => {:tag => 'issue_category', :child => {:tag => 'id', :content => '2'}}
+    assert_select 'issue_categories issue_category id', :text => '2'
   end
 
   test "GET /issue_categories/:id.xml should return the issue category" do
     get '/issue_categories/2.xml', {}, credentials('jsmith')
     assert_response :success
     assert_equal 'application/xml', @response.content_type
-    assert_tag :tag => 'issue_category',
-      :child => {:tag => 'id', :content => '2'}
+    assert_select 'issue_category id', :text => '2'
   end
 
   test "POST /projects/:project_id/issue_categories.xml should return create issue category" do
@@ -63,7 +57,7 @@ class Redmine::ApiTest::IssueCategoriesTest < Redmine::ApiTest::Base
     assert_response :unprocessable_entity
     assert_equal 'application/xml', @response.content_type
 
-    assert_tag 'errors', :child => {:tag => 'error', :content => "Name can't be blank"}
+    assert_select 'errors error', :text => "Name cannot be blank"
   end
 
   test "PUT /issue_categories/:id.xml with valid parameters should update the issue category" do
@@ -82,7 +76,7 @@ class Redmine::ApiTest::IssueCategoriesTest < Redmine::ApiTest::Base
     assert_response :unprocessable_entity
     assert_equal 'application/xml', @response.content_type
 
-    assert_tag 'errors', :child => {:tag => 'error', :content => "Name can't be blank"}
+    assert_select 'errors error', :text => "Name cannot be blank"
   end
 
   test "DELETE /issue_categories/:id.xml should destroy the issue category" do

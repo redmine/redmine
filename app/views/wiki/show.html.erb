@@ -17,7 +17,9 @@
 		<% end if User.current.allowed_to?(:export_wiki_pages, @project) %>
 	</div>
 </div>
-<div class="contextual btn-group pull-right">
+<% if User.current.allowed_to?(:edit_wiki_pages, @project) %>
+<%= link_to l(:label_wiki_page_new), new_project_wiki_page_path(@project), :remote => true, :class => 'icon icon-add' %>
+<% end %>
 <% if @editable %>
 <% if @content.current_version? %>
   <%= link_to_if_authorized(l(:button_edit), {:action => 'edit', :id => @page.title}, :class => 'btn icon icon-edit', :accesskey => accesskey(:edit)) %>
@@ -81,7 +83,7 @@
     <br />
     <em><%= @content.author ? link_to_user(@content.author) : l(:label_user_anonymous)
          %>, <%= format_time(@content.updated_on) %> </em><br />
-    <%=h @content.comments %>
+    <%= @content.comments %>
     </p>
     <hr />
 <% end %>

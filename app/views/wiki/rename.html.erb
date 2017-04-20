@@ -1,6 +1,6 @@
 <%= wiki_page_breadcrumb(@page) %>
 
-<h2><%= h @original_title %></h2>
+<h2><%= @original_title %></h2>
 
 <%= error_messages_for 'page' %>
 
@@ -13,9 +13,14 @@
 <p><%= f.select :parent_id,
                 content_tag('option', '', :value => '') + 
                   wiki_page_options_for_select(
-                    @wiki.pages.includes(:parent).all - @page.self_and_descendants,
+                    @wiki.pages.includes(:parent).to_a - @page.self_and_descendants,
                     @page.parent),
                 :label => :field_parent_title %></p>
+
+<% if @page.safe_attribute? 'wiki_id' %>
+<p><%= f.select :wiki_id, wiki_page_wiki_options_for_select(@page), :label => :label_project %></p>
+<% end %>
+
 </div>
 <%= submit_tag l(:button_rename) %>
 <% end %>

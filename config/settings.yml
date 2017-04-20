@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -27,26 +27,45 @@ welcome_text:
   default:
 login_required:
   default: 0
+  security_notifications: 1
 self_registration:
   default: '2'
+  security_notifications: 1
 lost_password:
   default: 1
+  security_notifications: 1
 unsubscribe:
   default: 1
 password_min_length:
   format: int
   default: 8
+  security_notifications: 1
+# Maximum password age in days
+password_max_age:
+  format: int
+  default: 0
+  security_notifications: 1
+# Maximum number of additional email addresses per user
+max_additional_emails:
+  format: int
+  default: 5
 # Maximum lifetime of user sessions in minutes
 session_lifetime:
   format: int
   default: 0
+  security_notifications: 1
 # User session timeout in minutes
 session_timeout:
   format: int
   default: 0
+  security_notifications: 1
 attachment_max_size:
   format: int
   default: 5120
+attachment_extensions_allowed:
+  default:
+attachment_extensions_denied:
+  default:
 issues_export_limit:
   format: int
   default: 500
@@ -55,6 +74,8 @@ activity_days_default:
   default: 30
 per_page_options:
   default: '25,50,100'
+search_results_per_page:
+  default: 10
 mail_from:
   default: redmine@example.net
 bcc_recipients:
@@ -77,6 +98,7 @@ host_name:
   default: localhost:3000
 protocol:
   default: http
+  security_notifications: 1
 feeds_limit:
   format: int
   default: 15
@@ -100,12 +122,15 @@ enabled_scm:
   - Cvs
   - Bazaar
   - Git
+  security_notifications: 1
 autofetch_changesets:
   default: 1
 sys_api_enabled:
   default: 0
+  security_notifications: 1
 sys_api_key:
   default: ''
+  security_notifications: 1
 commit_cross_project_ref:
   default: 0
 commit_ref_keywords:
@@ -136,6 +161,14 @@ cross_project_issue_relations:
 # Enables subtasks to be in other projects
 cross_project_subtasks:
   default: 'tree'
+parent_issue_dates:
+  default: 'derived'
+parent_issue_priority:
+  default: 'derived'
+parent_issue_done_ratio:
+  default: 'derived'
+link_copied_issue:
+  default: 'ask'
 issue_group_assignment:
   default: 0
 default_issue_start_date_to_creation_date:
@@ -151,8 +184,10 @@ mail_handler_excluded_filenames:
   default: ''
 mail_handler_api_enabled:
   default: 0
+  security_notifications: 1
 mail_handler_api_key:
   default:
+  security_notifications: 1
 issue_list_default_columns:
   serialized: true
   default:
@@ -162,6 +197,9 @@ issue_list_default_columns:
   - subject
   - assigned_to
   - updated_on
+issue_list_default_totals:
+  serialized: true
+  default: []
 display_subprojects_issues:
   default: 1
 issue_done_ratio:
@@ -183,7 +221,7 @@ default_projects_modules:
   - gantt
 default_projects_tracker_ids:
   serialized: true
-  default: 
+  default:
 # Role given to a non-admin user who creates a project
 new_project_user_role_id:
   format: int
@@ -192,6 +230,8 @@ sequential_project_identifiers:
   default: 0
 # encodings used to convert repository files content to UTF-8
 # multiple values accepted, comma separated
+default_users_hide_mail:
+  default: 1
 repositories_encodings:
   default: ''
 # encoding used to convert commit logs to UTF-8
@@ -210,14 +250,17 @@ gravatar_enabled:
   default: 0
 openid:
   default: 0
+  security_notifications: 1
 gravatar_default:
   default: ''
 start_of_week:
   default: ''
 rest_api_enabled:
   default: 0
+  security_notifications: 1
 jsonp_enabled:
   default: 0
+  security_notifications: 1
 default_notification_option:
   default: 'only_my_events'
 emails_header:
@@ -232,3 +275,5 @@ non_working_week_days:
   default:
   - '6'
   - '7'
+new_item_menu_tab:
+  default: 2

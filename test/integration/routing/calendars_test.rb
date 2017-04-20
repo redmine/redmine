@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,16 +17,9 @@
 
 require File.expand_path('../../../test_helper', __FILE__)
 
-class RoutingCalendarsTest < ActionController::IntegrationTest
+class RoutingCalendarsTest < Redmine::RoutingTest
   def test_calendars
-    assert_routing(
-        { :method => 'get', :path => "/issues/calendar" },
-        { :controller => 'calendars', :action => 'show' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/projects/project-name/issues/calendar" },
-        { :controller => 'calendars', :action => 'show',
-          :project_id => 'project-name' }
-      )
+    should_route 'GET /issues/calendar' => 'calendars#show'
+    should_route 'GET /projects/foo/issues/calendar' => 'calendars#show', :project_id => 'foo'
   end
 end

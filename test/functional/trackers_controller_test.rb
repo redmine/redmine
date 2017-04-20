@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -18,7 +18,7 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class TrackersControllerTest < ActionController::TestCase
-  fixtures :trackers, :projects, :projects_trackers, :users, :issues, :custom_fields
+  fixtures :trackers, :projects, :projects_trackers, :users, :issues, :custom_fields, :issue_statuses
 
   def setup
     User.current = nil
@@ -51,7 +51,7 @@ class TrackersControllerTest < ActionController::TestCase
 
   def test_create
     assert_difference 'Tracker.count' do
-      post :create, :tracker => { :name => 'New tracker', :project_ids => ['1', '', ''], :custom_field_ids => ['1', '6', ''] }
+      post :create, :tracker => { :name => 'New tracker', :default_status_id => 1, :project_ids => ['1', '', ''], :custom_field_ids => ['1', '6', ''] }
     end
     assert_redirected_to :action => 'index'
     tracker = Tracker.order('id DESC').first
@@ -62,9 +62,9 @@ class TrackersControllerTest < ActionController::TestCase
     assert_equal 0, tracker.workflow_rules.count
   end
 
-  def create_with_disabled_core_fields
+  def test_create_with_disabled_core_fields
     assert_difference 'Tracker.count' do
-      post :create, :tracker => { :name => 'New tracker', :core_fields => ['assigned_to_id', 'fixed_version_id', ''] }
+      post :create, :tracker => { :name => 'New tracker', :default_status_id => 1, :core_fields => ['assigned_to_id', 'fixed_version_id', ''] }
     end
     assert_redirected_to :action => 'index'
     tracker = Tracker.order('id DESC').first
@@ -74,7 +74,7 @@ class TrackersControllerTest < ActionController::TestCase
 
   def test_create_new_with_workflow_copy
     assert_difference 'Tracker.count' do
-      post :create, :tracker => { :name => 'New tracker' }, :copy_workflow_from => 1
+      post :create, :tracker => { :name => 'New tracker', :default_status_id => 1 }, :copy_workflow_from => 1
     end
     assert_redirected_to :action => 'index'
     tracker = Tracker.find_by_name('New tracker')
@@ -89,7 +89,7 @@ class TrackersControllerTest < ActionController::TestCase
     end
     assert_response :success
     assert_template 'new'
-    assert_error_tag :content => /name #{ESCAPED_CANT} be blank/i
+    assert_select_error /name cannot be blank/i
   end
 
   def test_edit
@@ -99,17 +99,10 @@ class TrackersControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'edit'
 
-    assert_tag :input, :attributes => { :name => 'tracker[project_ids][]',
-                                        :value => '1',
-                                        :checked => 'checked' }
+    assert_select 'input[name=?][value="1"][checked=checked]', 'tracker[project_ids][]'
+    assert_select 'input[name=?][value="2"]:not([checked])', 'tracker[project_ids][]'
 
-    assert_tag :input, :attributes => { :name => 'tracker[project_ids][]',
-                                        :value => '2',
-                                        :checked => nil }
-
-    assert_tag :input, :attributes => { :name => 'tracker[project_ids][]',
-                                        :value => '',
-                                        :type => 'hidden'}
+    assert_select 'input[name=?][value=""][type=hidden]', 'tracker[project_ids][]'
   end
 
   def test_edit_should_check_core_fields
@@ -127,7 +120,7 @@ class TrackersControllerTest < ActionController::TestCase
     assert_select 'input[name=?][value=category_id]', 'tracker[core_fields][]'
     assert_select 'input[name=?][value=category_id][checked=checked]', 'tracker[core_fields][]', 0
 
-    assert_select 'input[name=?][value=][type=hidden]', 'tracker[core_fields][]'
+    assert_select 'input[name=?][value=""][type=hidden]', 'tracker[core_fields][]'
   end
 
   def test_update
@@ -154,17 +147,17 @@ class TrackersControllerTest < ActionController::TestCase
     put :update, :id => 1, :tracker => { :name => '' }
     assert_response :success
     assert_template 'edit'
-    assert_error_tag :content => /name #{ESCAPED_CANT} be blank/i
+    assert_select_error /name cannot be blank/i
   end
 
   def test_move_lower
    tracker = Tracker.find_by_position(1)
-   put :update, :id => 1, :tracker => { :move_to => 'lower' }
+   put :update, :id => 1, :tracker => { :position => '2' }
    assert_equal 2, tracker.reload.position
   end
 
   def test_destroy
-    tracker = Tracker.create!(:name => 'Destroyable')
+    tracker = Tracker.generate!(:name => 'Destroyable')
     assert_difference 'Tracker.count', -1 do
       delete :destroy, :id => tracker.id
     end
@@ -187,10 +180,10 @@ class TrackersControllerTest < ActionController::TestCase
 
     assert_select 'form' do
       assert_select 'input[type=checkbox][name=?][value=assigned_to_id]', 'trackers[1][core_fields][]'
-      assert_select 'input[type=checkbox][name=?][value=2]', 'trackers[1][custom_field_ids][]'
+      assert_select 'input[type=checkbox][name=?][value="2"]', 'trackers[1][custom_field_ids][]'
 
-      assert_select 'input[type=hidden][name=?][value=]', 'trackers[1][core_fields][]'
-      assert_select 'input[type=hidden][name=?][value=]', 'trackers[1][custom_field_ids][]'
+      assert_select 'input[type=hidden][name=?][value=""]', 'trackers[1][core_fields][]'
+      assert_select 'input[type=hidden][name=?][value=""]', 'trackers[1][custom_field_ids][]'
     end
   end
 

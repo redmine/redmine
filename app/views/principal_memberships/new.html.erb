@@ -1,0 +1,6 @@
+<h2><%= l(:label_add_projects) %></h2>
+
+<%= form_for :membership, :url => user_memberships_path(@principal), :method => :post do |f| %>
+  <%= render :partial => 'new_form' %>
+  <p><%= submit_tag l(:button_add), :name => nil %></p>
+<% end %>

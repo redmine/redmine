@@ -23,7 +23,7 @@
 </ul>
 
 <%= form_tag(bulk_update_issues_path, :id => 'bulk_edit_form') do %>
-<%= @issues.collect {|i| hidden_field_tag('ids[]', i.id)}.join("\n").html_safe %>
+<%= @issues.collect {|i| hidden_field_tag('ids[]', i.id, :id => nil)}.join("\n").html_safe %>
 <div class="box tabular">
 <fieldset class="attributes">
 <legend><%= l(:label_change_properties) %></legend>
@@ -33,8 +33,9 @@
 <p>
   <label for="issue_project_id"><%= l(:field_project) %></label>
   <%= select_tag('issue[project_id]',
-                 content_tag('option', l(:label_no_change_option), :value => '') + 
-                   project_tree_options_for_select(@allowed_projects, :selected => @target_project),
+                 project_tree_options_for_select(@allowed_projects,
+                   :include_blank => ((!@copy || (@projects & @allowed_projects == @projects)) ? l(:label_no_change_option) : false),
+                   :selected => @target_project),
                  :onchange => "updateBulkEditFrom('#{escape_javascript url_for(:action => 'bulk_edit', :format => 'js')}')") %>
 </p>
 <% end %>
@@ -92,9 +93,17 @@
 
 <% @custom_fields.each do |custom_field| %>
   <p>
-    <label><%= h(custom_field.name) %></label>
+    <label><%= custom_field.name %></label>
     <%= custom_field_tag_for_bulk_edit('issue', custom_field, @issues, @issue_params[:custom_field_values][custom_field.id.to_s]) %>
   </p>
+<% end %>
+
+<% if @copy && Setting.link_copied_issue == 'ask' %>
+<p>
+  <label for='link_copy'><%= l(:label_link_copied_issue) %></label>
+  <%= hidden_field_tag 'link_copy', '0' %>
+  <%= check_box_tag 'link_copy', '1', params[:link_copy] != 0 %>
+</p>
 <% end %>
 
 <% if @copy && @attachments_present %>
@@ -132,13 +141,13 @@
   <%= text_field_tag 'issue[parent_issue_id]', '', :size => 10, :value => @issue_params[:parent_issue_id] %>
   <label class="inline"><%= check_box_tag 'issue[parent_issue_id]', 'none', (@issue_params[:parent_issue_id] == 'none'), :id => nil, :data => {:disables => '#issue_parent_issue_id'} %><%= l(:button_clear) %></label>
 </p>
-<%= javascript_tag "observeAutocompleteField('issue_parent_issue_id', '#{escape_javascript auto_complete_issues_path(:project_id => @project)}')" %>
+<%= javascript_tag "observeAutocompleteField('issue_parent_issue_id', '#{escape_javascript auto_complete_issues_path(:project_id => @project, :scope => Setting.cross_project_subtasks)}')" %>
 <% end %>
 
 <% if @safe_attributes.include?('start_date') %>
 <p>
   <label for='issue_start_date'><%= l(:field_start_date) %></label>
-  <%= text_field_tag 'issue[start_date]', '', :value => @issue_params[:start_date], :size => 10 %><%= calendar_for('issue_start_date') %>
+  <%= date_field_tag 'issue[start_date]', '', :value => @issue_params[:start_date], :size => 10 %><%= calendar_for('issue_start_date') %>
   <label class="inline"><%= check_box_tag 'issue[start_date]', 'none', (@issue_params[:start_date] == 'none'), :id => nil, :data => {:disables => '#issue_start_date'} %><%= l(:button_clear) %></label>
 </p>
 <% end %>
@@ -146,8 +155,16 @@
 <% if @safe_attributes.include?('due_date') %>
 <p>
   <label for='issue_due_date'><%= l(:field_due_date) %></label>
-  <%= text_field_tag 'issue[due_date]', '', :value => @issue_params[:due_date], :size => 10 %><%= calendar_for('issue_due_date') %>
+  <%= date_field_tag 'issue[due_date]', '', :value => @issue_params[:due_date], :size => 10 %><%= calendar_for('issue_due_date') %>
   <label class="inline"><%= check_box_tag 'issue[due_date]', 'none', (@issue_params[:due_date] == 'none'), :id => nil, :data => {:disables => '#issue_due_date'} %><%= l(:button_clear) %></label>
+</p>
+<% end %>
+
+<% if @safe_attributes.include?('estimated_hours') %>
+<p>
+  <label for='issue_estimated_hours'><%= l(:field_estimated_hours) %></label>
+  <%= text_field_tag 'issue[estimated_hours]', '', :value => @issue_params[:estimated_hours], :size => 10 %>
+  <label class="inline"><%= check_box_tag 'issue[estimated_hours]', 'none', (@issue_params[:estimated_hours] == 'none'), :id => nil, :data => {:disables => '#issue_estimated_hours'} %><%= l(:button_clear) %></label>
 </p>
 <% end %>
 
@@ -185,7 +202,7 @@
 <%= javascript_tag do %>
 $(window).load(function(){
   $(document).on('change', 'input[data-disables]', function(){
-    if ($(this).attr('checked')){
+    if ($(this).prop('checked')){
       $($(this).data('disables')).attr('disabled', true).val('');
     } else {
       $($(this).data('disables')).attr('disabled', false);

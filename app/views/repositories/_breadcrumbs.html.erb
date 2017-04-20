@@ -1,4 +1,4 @@
-<%= link_to(@repository.identifier.present? ? h(@repository.identifier) : 'root',
+<%= link_to(@repository.identifier.present? ? @repository.identifier : 'root',
       :action => 'show', :id => @project,
       :repository_id => @repository.identifier_param,
       :path => nil, :rev => @rev) %>
@@ -13,11 +13,11 @@ dirs.each do |dir|
     link_path << '/' unless link_path.empty?
     link_path << "#{dir}"
     %>
-    / <%= link_to h(dir), :action => 'show', :id => @project, :repository_id => @repository.identifier_param,
+    / <%= link_to dir, :action => 'show', :id => @project, :repository_id => @repository.identifier_param,
                 :path => to_path_param(link_path), :rev => @rev %>
 <% end %>
 <% if filename %>
-    / <%= link_to h(filename),
+    / <%= link_to filename,
                    :action => 'changes', :id => @project, :repository_id => @repository.identifier_param,
                    :path => to_path_param("#{link_path}/#{filename}"), :rev => @rev %>
 <% end %>
@@ -26,6 +26,6 @@ dirs.each do |dir|
   # For Mercurial *tip*, @rev and @changeset are nil.
   rev_text = @changeset.nil? ? @rev : format_revision(@changeset)
 %>
-<%= "@ #{h rev_text}" unless rev_text.blank? %>
+<%= "@ #{rev_text}" unless rev_text.blank? %>
 
 <% html_title(with_leading_slash(path)) -%>

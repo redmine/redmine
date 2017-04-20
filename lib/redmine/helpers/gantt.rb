@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -19,6 +19,9 @@ module Redmine
   module Helpers
     # Simple class to handle gantt chart data
     class Gantt
+      class MaxLinesLimitReached < Exception
+      end
+
       include ERB::Util
       include Redmine::I18n
       include Redmine::Utils::DateCalculation
@@ -56,8 +59,8 @@ module Redmine
             @month_from = 1
           end
         else
-          @month_from ||= Date.today.month
-          @year_from ||= Date.today.year
+          @month_from ||= User.current.today.month
+          @year_from ||= User.current.today.year
         end
         zoom = (options[:zoom] || User.current.pref[:gantt_zoom]).to_i
         @zoom = (zoom > 0 && zoom < 5) ? zoom : 2
@@ -74,7 +77,6 @@ module Redmine
         @subjects = ''
         @lines = ''
         @number_of_rows = nil
-        @issue_ancestors = []
         @truncated = false
         if options.has_key?(:max_rows)
           @max_rows = options[:max_rows]
@@ -167,7 +169,7 @@ module Redmine
             where("child.id IN (?)", ids).
             order("#{Project.table_name}.lft ASC").
             uniq.
-            all
+            to_a
         else
           @projects = []
         end
@@ -197,10 +199,13 @@ module Redmine
         @subjects = '' unless options[:only] == :lines
         @lines = '' unless options[:only] == :subjects
         @number_of_rows = 0
-        Project.project_tree(projects) do |project, level|
-          options[:indent] = indent + level * options[:indent_increment]
-          render_project(project, options)
-          break if abort?
+        begin
+          Project.project_tree(projects) do |project, level|
+            options[:indent] = indent + level * options[:indent_increment]
+            render_project(project, options)
+          end
+        rescue MaxLinesLimitReached
+          @truncated = true
         end
         @subjects_rendered = true unless options[:only] == :lines
         @lines_rendered = true unless options[:only] == :subjects
@@ -208,53 +213,53 @@ module Redmine
       end
 
       def render_project(project, options={})
-        subject_for_project(project, options) unless options[:only] == :lines
-        line_for_project(project, options) unless options[:only] == :subjects
-        options[:top] += options[:top_increment]
-        options[:indent] += options[:indent_increment]
-        @number_of_rows += 1
-        return if abort?
-        issues = project_issues(project).select {|i| i.fixed_version.nil?}
-        self.class.sort_issues!(issues)
-        if issues
+        render_object_row(project, options)
+        increment_indent(options) do
+          # render issue that are not assigned to a version
+          issues = project_issues(project).select {|i| i.fixed_version.nil?}
           render_issues(issues, options)
-          return if abort?
+          # then render project versions and their issues
+          versions = project_versions(project)
+          self.class.sort_versions!(versions)
+          versions.each do |version|
+            render_version(project, version, options)
+          end
         end
-        versions = project_versions(project)
-        self.class.sort_versions!(versions)
-        versions.each do |version|
-          render_version(project, version, options)
-        end
-        # Remove indent to hit the next sibling
-        options[:indent] -= options[:indent_increment]
-      end
-
-      def render_issues(issues, options={})
-        @issue_ancestors = []
-        issues.each do |i|
-          subject_for_issue(i, options) unless options[:only] == :lines
-          line_for_issue(i, options) unless options[:only] == :subjects
-          options[:top] += options[:top_increment]
-          @number_of_rows += 1
-          break if abort?
-        end
-        options[:indent] -= (options[:indent_increment] * @issue_ancestors.size)
       end
 
       def render_version(project, version, options={})
-        # Version header
-        subject_for_version(version, options) unless options[:only] == :lines
-        line_for_version(version, options) unless options[:only] == :subjects
+        render_object_row(version, options)
+        increment_indent(options) do
+          issues = version_issues(project, version)
+          render_issues(issues, options)
+        end
+      end
+
+      def render_issues(issues, options={})
+        self.class.sort_issues!(issues)
+        ancestors = []
+        issues.each do |issue|
+          while ancestors.any? && !issue.is_descendant_of?(ancestors.last)
+            ancestors.pop
+            decrement_indent(options)
+          end
+          render_object_row(issue, options)
+          unless issue.leaf?
+            ancestors << issue
+            increment_indent(options)
+          end
+        end
+        decrement_indent(options, ancestors.size)
+      end
+
+      def render_object_row(object, options)
+        class_name = object.class.name.downcase
+        send("subject_for_#{class_name}", object, options) unless options[:only] == :lines
+        send("line_for_#{class_name}", object, options) unless options[:only] == :subjects
         options[:top] += options[:top_increment]
         @number_of_rows += 1
-        return if abort?
-        issues = version_issues(project, version)
-        if issues
-          self.class.sort_issues!(issues)
-          # Indent issues
-          options[:indent] += options[:indent_increment]
-          render_issues(issues, options)
-          options[:indent] -= options[:indent_increment]
+        if @max_rows && @number_of_rows >= @max_rows
+          raise MaxLinesLimitReached
         end
       end
 
@@ -265,157 +270,65 @@ module Redmine
         end
       end
 
-      def subject_for_project(project, options)
-        case options[:format]
-        when :html
-          html_class = ""
-          html_class << 'icon icon-projects '
-          html_class << (project.overdue? ? 'project-overdue' : '')
-          s = view.link_to_project(project).html_safe
-          subject = view.content_tag(:span, s,
-                                     :class => html_class).html_safe
-          html_subject(options, subject, :css => "project-name")
-        when :image
-          image_subject(options, project.name)
-        when :pdf
-          pdf_new_page?(options)
-          pdf_subject(options, project.name)
+      def increment_indent(options, factor=1)
+        options[:indent] += options[:indent_increment] * factor
+        if block_given?
+          yield
+          decrement_indent(options, factor)
         end
       end
 
+      def decrement_indent(options, factor=1)
+        increment_indent(options, -factor)
+      end
+
+      def subject_for_project(project, options)
+        subject(project.name, options, project)
+      end
+
       def line_for_project(project, options)
-        # Skip versions that don't have a start_date or due date
+        # Skip projects that don't have a start_date or due date
         if project.is_a?(Project) && project.start_date && project.due_date
-          options[:zoom] ||= 1
-          options[:g_width] ||= (self.date_to - self.date_from + 1) * options[:zoom]
-          coords = coordinates(project.start_date, project.due_date, nil, options[:zoom])
-          label = h(project)
-          case options[:format]
-          when :html
-            html_task(options, coords, :css => "project task", :label => label, :markers => true)
-          when :image
-            image_task(options, coords, :label => label, :markers => true, :height => 3)
-          when :pdf
-            pdf_task(options, coords, :label => label, :markers => true, :height => 0.8)
-          end
-        else
-          ''
+          label = project.name
+          line(project.start_date, project.due_date, nil, true, label, options, project)
         end
       end
 
       def subject_for_version(version, options)
-        case options[:format]
-        when :html
-          html_class = ""
-          html_class << 'icon icon-package '
-          html_class << (version.behind_schedule? ? 'version-behind-schedule' : '') << " "
-          html_class << (version.overdue? ? 'version-overdue' : '')
-          html_class << ' version-closed' unless version.open?
-          if version.start_date && version.due_date && version.completed_percent
-            progress_date = calc_progress_date(version.start_date,
-                                               version.due_date, version.completed_percent)
-            html_class << ' behind-start-date' if progress_date < self.date_from
-            html_class << ' over-end-date' if progress_date > self.date_to
-          end
-          s = view.link_to_version(version).html_safe
-          subject = view.content_tag(:span, s,
-                                     :class => html_class).html_safe
-          html_subject(options, subject, :css => "version-name",
-                       :id => "version-#{version.id}")
-        when :image
-          image_subject(options, version.to_s_with_project)
-        when :pdf
-          pdf_new_page?(options)
-          pdf_subject(options, version.to_s_with_project)
-        end
+        subject(version.to_s_with_project, options, version)
       end
 
       def line_for_version(version, options)
         # Skip versions that don't have a start_date
         if version.is_a?(Version) && version.due_date && version.start_date
-          options[:zoom] ||= 1
-          options[:g_width] ||= (self.date_to - self.date_from + 1) * options[:zoom]
-          coords = coordinates(version.start_date,
-                               version.due_date, version.completed_percent,
-                               options[:zoom])
-          label = "#{h version} #{h version.completed_percent.to_i.to_s}%"
+          label = "#{h(version)} #{h(version.completed_percent.to_f.round)}%"
           label = h("#{version.project} -") + label unless @project && @project == version.project
-          case options[:format]
-          when :html
-            html_task(options, coords, :css => "version task",
-                      :label => label, :markers => true, :version => version)
-          when :image
-            image_task(options, coords, :label => label, :markers => true, :height => 3)
-          when :pdf
-            pdf_task(options, coords, :label => label, :markers => true, :height => 0.8)
-          end
-        else
-          ''
+          line(version.start_date, version.due_date,  version.completed_percent, true, label, options, version)
         end
       end
 
       def subject_for_issue(issue, options)
-        while @issue_ancestors.any? && !issue.is_descendant_of?(@issue_ancestors.last)
-          @issue_ancestors.pop
-          options[:indent] -= options[:indent_increment]
-        end
-        output = case options[:format]
-        when :html
-          css_classes = ''
-          css_classes << ' issue-overdue' if issue.overdue?
-          css_classes << ' issue-behind-schedule' if issue.behind_schedule?
-          css_classes << ' icon icon-issue' unless Setting.gravatar_enabled? && issue.assigned_to
-          css_classes << ' issue-closed' if issue.closed?
-          if issue.start_date && issue.due_before && issue.done_ratio
-            progress_date = calc_progress_date(issue.start_date,
-                                               issue.due_before, issue.done_ratio)
-            css_classes << ' behind-start-date' if progress_date < self.date_from
-            css_classes << ' over-end-date' if progress_date > self.date_to
-          end
-          s = "".html_safe
-          if issue.assigned_to.present?
-            assigned_string = l(:field_assigned_to) + ": " + issue.assigned_to.name
-            s << view.avatar(issue.assigned_to,
-                             :class => 'gravatar icon-gravatar',
-                             :size => 10,
-                             :title => assigned_string).to_s.html_safe
-          end
-          s << view.link_to_issue(issue).html_safe
-          subject = view.content_tag(:span, s, :class => css_classes).html_safe
-          html_subject(options, subject, :css => "issue-subject",
-                       :title => issue.subject, :id => "issue-#{issue.id}") + "\n"
-        when :image
-          image_subject(options, issue.subject)
-        when :pdf
-          pdf_new_page?(options)
-          pdf_subject(options, issue.subject)
-        end
-        unless issue.leaf?
-          @issue_ancestors << issue
-          options[:indent] += options[:indent_increment]
-        end
-        output
+        subject(issue.subject, options, issue)
       end
 
       def line_for_issue(issue, options)
         # Skip issues that don't have a due_before (due_date or version's due_date)
         if issue.is_a?(Issue) && issue.due_before
-          coords = coordinates(issue.start_date, issue.due_before, issue.done_ratio, options[:zoom])
           label = "#{issue.status.name} #{issue.done_ratio}%"
-          case options[:format]
-          when :html
-            html_task(options, coords,
-                      :css => "task " + (issue.leaf? ? 'leaf' : 'parent'),
-                      :label => label, :issue => issue,
-                      :markers => !issue.leaf?)
-          when :image
-            image_task(options, coords, :label => label)
-          when :pdf
-            pdf_task(options, coords, :label => label)
+          markers = !issue.leaf?
+          line(issue.start_date, issue.due_before, issue.done_ratio, markers, label, options, issue)
         end
-        else
-          ''
-        end
+      end
+
+      def subject(label, options, object=nil)
+        send "#{options[:format]}_subject", options, label, object
+      end
+
+      def line(start_date, end_date, done_ratio, markers, label, options, object=nil)
+        options[:zoom] ||= 1
+        options[:g_width] ||= (self.date_to - self.date_from + 1) * options[:zoom]
+        coords = coordinates(start_date, end_date, done_ratio, options[:zoom])
+        send "#{options[:format]}_task", options, coords, markers, label, object
       end
 
       # Generates a gantt image
@@ -515,9 +428,9 @@ module Redmine
         lines(:image => gc, :top => top, :zoom => zoom,
               :subject_width => subject_width, :format => :image)
         # today red line
-        if Date.today >= @date_from and Date.today <= date_to
+        if User.current.today >= @date_from and User.current.today <= date_to
           gc.stroke('red')
-          x = (Date.today - @date_from + 1) * zoom + subject_width
+          x = (User.current.today - @date_from + 1) * zoom + subject_width
           gc.line(x, headers_height, x, headers_height + g_height - 1)
         end
         gc.draw(imgl)
@@ -529,7 +442,7 @@ module Redmine
         pdf = ::Redmine::Export::PDF::ITCPDF.new(current_language)
         pdf.SetTitle("#{l(:label_gantt)} #{project}")
         pdf.alias_nb_pages
-        pdf.footer_date = format_date(Date.today)
+        pdf.footer_date = format_date(User.current.today)
         pdf.AddPage("L")
         pdf.SetFontStyle('B', 12)
         pdf.SetX(15)
@@ -547,6 +460,10 @@ module Redmine
           if self.months < 3
             show_days = true
             headers_height = 3 * header_height
+            if self.months < 2
+              show_day_num = true
+              headers_height = 4 * header_height
+            end
           end
         end
         g_width = PDF.right_pane_width
@@ -591,6 +508,25 @@ module Redmine
             week_f = week_f + 7
           end
         end
+        # Day numbers headers
+        if show_day_num
+          left = subject_width
+          height = header_height
+          day_num = self.date_from
+          wday = self.date_from.cwday
+          pdf.SetFontStyle('B', 7)
+          (self.date_to - self.date_from + 1).to_i.times do
+            width = zoom
+            pdf.SetY(y_start + header_height * 2)
+            pdf.SetX(left)
+            pdf.SetTextColor(non_working_week_days.include?(wday) ? 150 : 0)
+            pdf.RDMCell(width, height, day_num.day.to_s, "LTR", 0, "C")
+            left = left + width
+            day_num = day_num + 1
+            wday = wday + 1
+            wday = 1 if wday > 7
+          end
+        end
         # Days headers
         if show_days
           left = subject_width
@@ -599,8 +535,9 @@ module Redmine
           pdf.SetFontStyle('B', 7)
           (self.date_to - self.date_from + 1).to_i.times do
             width = zoom
-            pdf.SetY(y_start + 2 * header_height)
+            pdf.SetY(y_start + header_height * (show_day_num ? 3 : 2))
             pdf.SetX(left)
+            pdf.SetTextColor(non_working_week_days.include?(wday) ? 150 : 0)
             pdf.RDMCell(width, height, day_name(wday).first, "LTR", 0, "C")
             left = left + width
             wday = wday + 1
@@ -609,6 +546,7 @@ module Redmine
         end
         pdf.SetY(y_start)
         pdf.SetX(15)
+        pdf.SetTextColor(0)
         pdf.RDMCell(subject_width + g_width - 15, headers_height, "", 1)
         # Tasks
         top = headers_height + y_start
@@ -654,8 +592,8 @@ module Redmine
                 coords[:bar_progress_end] = self.date_to - self.date_from + 1
               end
             end
-            if progress_date < Date.today
-              late_date = [Date.today, end_date].min
+            if progress_date < User.current.today
+              late_date = [User.current.today, end_date].min
               if late_date > self.date_from && late_date > start_date
                 if late_date < self.date_to
                   coords[:bar_late_end] = late_date - self.date_from + 1
@@ -696,20 +634,6 @@ module Redmine
         versions.sort!
       end
 
-      def current_limit
-        if @max_rows
-          @max_rows - @number_of_rows
-        else
-          nil
-        end
-      end
-
-      def abort?
-        if @max_rows && @number_of_rows >= @max_rows
-          @truncated = true
-        end
-      end
-
       def pdf_new_page?(options)
         if options[:top] > 180
           options[:pdf].Line(15, options[:top], PDF::TotalWidth, options[:top])
@@ -719,18 +643,79 @@ module Redmine
         end
       end
 
-      def html_subject(params, subject, options={})
+      def html_subject_content(object)
+        case object
+        when Issue
+          issue = object
+          css_classes = ''
+          css_classes << ' issue-overdue' if issue.overdue?
+          css_classes << ' issue-behind-schedule' if issue.behind_schedule?
+          css_classes << ' icon icon-issue' unless Setting.gravatar_enabled? && issue.assigned_to
+          css_classes << ' issue-closed' if issue.closed?
+          if issue.start_date && issue.due_before && issue.done_ratio
+            progress_date = calc_progress_date(issue.start_date,
+                                               issue.due_before, issue.done_ratio)
+            css_classes << ' behind-start-date' if progress_date < self.date_from
+            css_classes << ' over-end-date' if progress_date > self.date_to
+          end
+          s = "".html_safe
+          if issue.assigned_to.present?
+            assigned_string = l(:field_assigned_to) + ": " + issue.assigned_to.name
+            s << view.avatar(issue.assigned_to,
+                             :class => 'gravatar icon-gravatar',
+                             :size => 10,
+                             :title => assigned_string).to_s.html_safe
+          end
+          s << view.link_to_issue(issue).html_safe
+          view.content_tag(:span, s, :class => css_classes).html_safe
+        when Version
+          version = object
+          html_class = ""
+          html_class << 'icon icon-package '
+          html_class << (version.behind_schedule? ? 'version-behind-schedule' : '') << " "
+          html_class << (version.overdue? ? 'version-overdue' : '')
+          html_class << ' version-closed' unless version.open?
+          if version.start_date && version.due_date && version.completed_percent
+            progress_date = calc_progress_date(version.start_date,
+                                               version.due_date, version.completed_percent)
+            html_class << ' behind-start-date' if progress_date < self.date_from
+            html_class << ' over-end-date' if progress_date > self.date_to
+          end
+          s = view.link_to_version(version).html_safe
+          view.content_tag(:span, s, :class => html_class).html_safe
+        when Project
+          project = object
+          html_class = ""
+          html_class << 'icon icon-projects '
+          html_class << (project.overdue? ? 'project-overdue' : '')
+          s = view.link_to_project(project).html_safe
+          view.content_tag(:span, s, :class => html_class).html_safe
+        end
+      end
+
+      def html_subject(params, subject, object)
         style = "position: absolute;top:#{params[:top]}px;left:#{params[:indent]}px;"
         style << "width:#{params[:subject_width] - params[:indent]}px;" if params[:subject_width]
-        output = view.content_tag(:div, subject,
-                                  :class => options[:css], :style => style,
-                                  :title => options[:title],
-                                  :id => options[:id])
+        content = html_subject_content(object) || subject
+        tag_options = {:style => style}
+        case object
+        when Issue
+          tag_options[:id] = "issue-#{object.id}"
+          tag_options[:class] = "issue-subject"
+          tag_options[:title] = object.subject
+        when Version
+          tag_options[:id] = "version-#{object.id}"
+          tag_options[:class] = "version-name"
+        when Project
+          tag_options[:class] = "project-name"
+        end
+        output = view.content_tag(:div, content, tag_options)
         @subjects << output
         output
       end
 
       def pdf_subject(params, subject, options={})
+        pdf_new_page?(params)
         params[:pdf].SetY(params[:top])
         params[:pdf].SetX(15)
         char_limit = PDF::MaxCharactorsForSubject - params[:indent]
@@ -760,8 +745,20 @@ module Redmine
         rels
       end
 
-      def html_task(params, coords, options={})
+      def html_task(params, coords, markers, label, object)
         output = ''
+
+        css = "task " + case object
+          when Project
+            "project"
+          when Version
+            "version"
+          when Issue
+            object.leaf? ? 'leaf' : 'parent'
+          else
+            ""
+          end
+
         # Renders the task bar, with progress and late
         if coords[:bar_start] && coords[:bar_end]
           width = coords[:bar_end] - coords[:bar_start] - 2
@@ -769,13 +766,13 @@ module Redmine
           style << "top:#{params[:top]}px;"
           style << "left:#{coords[:bar_start]}px;"
           style << "width:#{width}px;"
-          html_id = "task-todo-issue-#{options[:issue].id}" if options[:issue]
-          html_id = "task-todo-version-#{options[:version].id}" if options[:version]
+          html_id = "task-todo-issue-#{object.id}" if object.is_a?(Issue)
+          html_id = "task-todo-version-#{object.id}" if object.is_a?(Version)
           content_opt = {:style => style,
-                         :class => "#{options[:css]} task_todo",
+                         :class => "#{css} task_todo",
                          :id => html_id}
-          if options[:issue]
-            rels = issue_relations(options[:issue])
+          if object.is_a?(Issue)
+            rels = issue_relations(object)
             if rels.present?
               content_opt[:data] = {"rels" => rels.to_json}
             end
@@ -789,7 +786,7 @@ module Redmine
             style << "width:#{width}px;"
             output << view.content_tag(:div, '&nbsp;'.html_safe,
                                        :style => style,
-                                       :class => "#{options[:css]} task_late")
+                                       :class => "#{css} task_late")
           end
           if coords[:bar_progress_end]
             width = coords[:bar_progress_end] - coords[:bar_start] - 2
@@ -797,16 +794,16 @@ module Redmine
             style << "top:#{params[:top]}px;"
             style << "left:#{coords[:bar_start]}px;"
             style << "width:#{width}px;"
-            html_id = "task-done-issue-#{options[:issue].id}" if options[:issue]
-            html_id = "task-done-version-#{options[:version].id}" if options[:version]
+            html_id = "task-done-issue-#{object.id}" if object.is_a?(Issue)
+            html_id = "task-done-version-#{object.id}" if object.is_a?(Version)
             output << view.content_tag(:div, '&nbsp;'.html_safe,
                                        :style => style,
-                                       :class => "#{options[:css]} task_done",
+                                       :class => "#{css} task_done",
                                        :id => html_id)
           end
         end
         # Renders the markers
-        if options[:markers]
+        if markers
           if coords[:start]
             style = ""
             style << "top:#{params[:top]}px;"
@@ -814,7 +811,7 @@ module Redmine
             style << "width:15px;"
             output << view.content_tag(:div, '&nbsp;'.html_safe,
                                        :style => style,
-                                       :class => "#{options[:css]} marker starting")
+                                       :class => "#{css} marker starting")
           end
           if coords[:end]
             style = ""
@@ -823,23 +820,23 @@ module Redmine
             style << "width:15px;"
             output << view.content_tag(:div, '&nbsp;'.html_safe,
                                        :style => style,
-                                       :class => "#{options[:css]} marker ending")
+                                       :class => "#{css} marker ending")
           end
         end
         # Renders the label on the right
-        if options[:label]
+        if label
           style = ""
           style << "top:#{params[:top]}px;"
           style << "left:#{(coords[:bar_end] || 0) + 8}px;"
           style << "width:15px;"
-          output << view.content_tag(:div, options[:label],
+          output << view.content_tag(:div, label,
                                      :style => style,
-                                     :class => "#{options[:css]} label")
+                                     :class => "#{css} label")
         end
         # Renders the tooltip
-        if options[:issue] && coords[:bar_start] && coords[:bar_end]
+        if object.is_a?(Issue) && coords[:bar_start] && coords[:bar_end]
           s = view.content_tag(:span,
-                               view.render_issue_tooltip(options[:issue]).html_safe,
+                               view.render_issue_tooltip(object).html_safe,
                                :class => "tip")
           style = ""
           style << "position: absolute;"
@@ -855,8 +852,12 @@ module Redmine
         output
       end
 
-      def pdf_task(params, coords, options={})
-        height = options[:height] || 2
+      def pdf_task(params, coords, markers, label, object)
+        cell_height_ratio = params[:pdf].get_cell_height_ratio()
+        params[:pdf].set_cell_height_ratio(0.1)
+
+        height = 2
+        height /= 2 if markers
         # Renders the task bar, with progress and late
         if coords[:bar_start] && coords[:bar_end]
           params[:pdf].SetY(params[:top] + 1.5)
@@ -877,7 +878,7 @@ module Redmine
           end
         end
         # Renders the markers
-        if options[:markers]
+        if markers
           if coords[:start]
             params[:pdf].SetY(params[:top] + 1)
             params[:pdf].SetX(params[:subject_width] + coords[:start] - 1)
@@ -892,14 +893,17 @@ module Redmine
           end
         end
         # Renders the label on the right
-        if options[:label]
+        if label
           params[:pdf].SetX(params[:subject_width] + (coords[:bar_end] || 0) + 5)
-          params[:pdf].RDMCell(30, 2, options[:label])
+          params[:pdf].RDMCell(30, 2, label)
         end
+
+        params[:pdf].set_cell_height_ratio(cell_height_ratio)
       end
 
-      def image_task(params, coords, options={})
-        height = options[:height] || 6
+      def image_task(params, coords, markers, label, object)
+        height = 6
+        height /= 2 if markers
         # Renders the task bar, with progress and late
         if coords[:bar_start] && coords[:bar_end]
           params[:image].fill('#aaa')
@@ -923,7 +927,7 @@ module Redmine
           end
         end
         # Renders the markers
-        if options[:markers]
+        if markers
           if coords[:start]
             x = params[:subject_width] + coords[:start]
             y = params[:top] - height / 2
@@ -938,11 +942,11 @@ module Redmine
           end
         end
         # Renders the label on the right
-        if options[:label]
+        if label
           params[:image].fill('black')
           params[:image].text(params[:subject_width] + (coords[:bar_end] || 0) + 5,
                               params[:top] + 1,
-                              options[:label])
+                              label)
         end
       end
     end

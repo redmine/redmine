@@ -1,10 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html lang="<%= current_language %>">
     <head>
         <title><%= h html_title %></title>
+        <meta charset="utf-8" />
         <meta http-equiv="content-type" content="text/html; charset=utf-8">
         <meta name="description" content="Open Source Brain is a resource for sharing and collaboratively developing computational models of neural systems.">
         <meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
         <%= csrf_meta_tag %>
         <%= favicon %>
         <%= heads_for_theme %>
@@ -16,7 +18,6 @@
          redmineHashed = "<%= User.current.hashed_password %>";
         </script>
         <%= javascript_include_tag 'jquery-3.1.1.min.js' %>
-        <%= javascript_include_tag 'jquery-ui.min.js' %>
         <%= javascript_include_tag 'bootstrap.min.js' %>
         <%= javascript_include_tag 'moment.min.js' %>
         <%= javascript_include_tag 'main.js' %>
@@ -25,12 +26,14 @@
         <%= javascript_include_tag 'geppetto.js' %>
         <%= javascript_include_tag 'Detector.js' %>
         <%= javascript_include_tag 'prettify.js' %>
-        <%= stylesheet_link_tag 'jquery/jquery-ui-1.9.2', :media => 'all' %>
+        <%= stylesheet_link_tag 'jquery/jquery-ui-1.11.0', 'application', 'responsive', :media => 'all' %>
         <%= stylesheet_link_tag 'application', :media => 'all' %>
         <%= stylesheet_link_tag 'bootstrap', :media => 'all' %>
         <%= stylesheet_link_tag 'font-awesome', :media => 'all' %>
         <%= stylesheet_link_tag 'gpt-icons', :media => 'all' %>
         <%= stylesheet_link_tag 'prettify', :media => 'all' %>
+        <%= stylesheet_link_tag 'rtl', :media => 'all' if l(:direction) == 'rtl' %>
+        <%= javascript_heads %>
         <%= call_hook :view_layouts_base_html_head %>
         <!-- page specific tags -->
         <%= yield :header_tags -%>
@@ -54,7 +57,6 @@
              t.ready = function(f) {
                  t._e.push(f);
              };
-
              return t;
          }(document, "script", "twitter-wjs"));</script>
 
@@ -76,6 +78,7 @@
         </script>
     </head>
     <body class="<%= h body_css_classes %>" id="bootstrap-overrides">
+        <%= call_hook :view_layouts_base_body_top %>
         <nav class="navbar navbar-inverse navbar-fixed-top">
             <div class="container-fluid">
                 <div class="navbar-header">
@@ -93,7 +96,8 @@
 	            <%= hidden_field_tag("geppettoContextPath", Rails.application.config.serversIP["geppettoContextPath"]) %>
 	            <%= hidden_field_tag("geppettoIP", Rails.application.config.serversIP["geppettoIP"]) %>
 	            <%= hidden_field_tag("serverIP", Rails.application.config.serversIP["serverIP"]) %>
-	            <%= form_tag('/search', :method => :get, :class => 'navbar-form navbar-left') do %>
+
+	            <%= form_tag({:controller => 'search', :action => 'index', :id => @project}, :method => :get, :class => 'navbar-form navbar-left') do %>
                         <div class="form-group">
 	                    <%= hidden_field_tag(controller.default_search_scope, 1, :id => nil) if controller.default_search_scope %>
 	                    <%= hidden_field_tag("projects", 1) %>
@@ -139,6 +143,8 @@
 	</div>
 	<!-- FOOTER -->
 	<%= call_hook :view_layouts_base_body_bottom %>
+        <div id="ajax-indicator" style="display:none;"><span><%= l(:label_loading) %></span></div>
+        <div id="ajax-modal" style="display:none;"></div>
 	<footer class="footer">
 	    <div class="container">
 		<a href="https://twitter.com/OSBTeam" class="twitter-follow-button" data-show-count="true" data-lang="en">Follow @OSBTeam</a>

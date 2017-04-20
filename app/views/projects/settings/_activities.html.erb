@@ -5,7 +5,7 @@
     <th><%= l(:field_name) %></th>
     <th><%= l(:enumeration_system_activity) %></th>
     <% TimeEntryActivity.new.available_custom_fields.each do |value| %>
-    <th><%= h value.name %></th>
+    <th><%= value.name %></th>
     <% end %>
     <th><%= l(:field_active) %></th>
   </tr></thead>
@@ -15,7 +15,7 @@
   <tr class="<%= cycle('odd', 'even') %>">
     <td class="name">
       <%= ff.hidden_field :parent_id, :value => enumeration.id unless enumeration.project %>
-      <%= h(enumeration) %>
+      <%= enumeration %>
     </td>
     <td class="tick"><%= checked_image !enumeration.project %></td>
     <% enumeration.custom_field_values.each do |value| %>

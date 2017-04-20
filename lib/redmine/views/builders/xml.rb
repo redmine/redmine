@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -30,9 +30,10 @@ module Redmine
           target!
         end
 
-        def method_missing(sym, *args, &block)
+        # Overrides Builder::XmlBase#tag! to format timestamps in ISO 8601
+        def tag!(sym, *args, &block)
           if args.size == 1 && args.first.is_a?(::Time)
-            __send__ sym, args.first.xmlschema, &block
+            tag! sym, args.first.xmlschema, &block
           else
             super
           end

@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,45 +17,15 @@
 
 require File.expand_path('../../../test_helper', __FILE__)
 
-class RoutingWatchersTest < ActionController::IntegrationTest
+class RoutingWatchersTest < Redmine::RoutingTest
   def test_watchers
-    assert_routing(
-        { :method => 'get', :path => "/watchers/new" },
-        { :controller => 'watchers', :action => 'new' }
-      )
-    assert_routing(
-        { :method => 'post', :path => "/watchers/append" },
-        { :controller => 'watchers', :action => 'append' }
-      )
-    assert_routing(
-        { :method => 'post', :path => "/watchers" },
-        { :controller => 'watchers', :action => 'create' }
-      )
-    assert_routing(
-        { :method => 'delete', :path => "/watchers" },
-        { :controller => 'watchers', :action => 'destroy' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/watchers/autocomplete_for_user" },
-        { :controller => 'watchers', :action => 'autocomplete_for_user' }
-      )
-    assert_routing(
-        { :method => 'post', :path => "/watchers/watch" },
-        { :controller => 'watchers', :action => 'watch' }
-      )
-    assert_routing(
-        { :method => 'delete', :path => "/watchers/watch" },
-        { :controller => 'watchers', :action => 'unwatch' }
-      )
-    assert_routing(
-        { :method => 'post', :path => "/issues/12/watchers.xml" },
-        { :controller => 'watchers', :action => 'create',
-          :object_type => 'issue', :object_id => '12', :format => 'xml' }
-      )
-    assert_routing(
-        { :method => 'delete', :path => "/issues/12/watchers/3.xml" },
-        { :controller => 'watchers', :action => 'destroy',
-          :object_type => 'issue', :object_id => '12', :user_id => '3', :format => 'xml'}
-      )
+    should_route 'GET /watchers/new' => 'watchers#new'
+    should_route 'POST /watchers/append' => 'watchers#append'
+    should_route 'POST /watchers' => 'watchers#create'
+    should_route 'DELETE /watchers' => 'watchers#destroy'
+    should_route 'GET /watchers/autocomplete_for_user' => 'watchers#autocomplete_for_user'
+
+    should_route 'POST /watchers/watch' => 'watchers#watch'
+    should_route 'DELETE /watchers/watch' => 'watchers#unwatch'
   end
 end

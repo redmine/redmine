@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -20,7 +20,7 @@ require File.expand_path('../../test_helper', __FILE__)
 class RepositoriesDarcsControllerTest < ActionController::TestCase
   tests RepositoriesController
 
-  fixtures :projects, :users, :roles, :members, :member_roles,
+  fixtures :projects, :users, :email_addresses, :roles, :members, :member_roles,
            :repositories, :enabled_modules
 
   REPOSITORY_PATH = Rails.root.join('tmp/test/darcs_repository').to_s
@@ -102,7 +102,7 @@ class RepositoriesDarcsControllerTest < ActionController::TestCase
           :path => repository_path_hash(['images', 'edit.png'])[:param]
       assert_response :success
       assert_template 'changes'
-      assert_tag :tag => 'h2', :content => 'edit.png'
+      assert_select 'h2', :text => /edit.png/
     end
 
     def test_diff
@@ -116,11 +116,7 @@ class RepositoriesDarcsControllerTest < ActionController::TestCase
         assert_response :success
         assert_template 'diff'
         # Line 22 removed
-        assert_tag :tag => 'th',
-                   :content => '22',
-                   :sibling => { :tag => 'td',
-                                 :attributes => { :class => /diff_out/ },
-                                 :content => /def remove/ }
+        assert_select 'th.line-num:contains(22) ~ td.diff_out', :text => /def remove/
       end
     end
 

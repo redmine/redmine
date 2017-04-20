@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -43,9 +43,27 @@ class CustomFieldUserFormatTest < ActiveSupport::TestCase
     assert_equal (projects.first.users & projects.last.users).sort.map {|u| [u.name, u.id.to_s]}, possible_values_options
   end
 
+  def test_possible_custom_value_options_should_not_include_locked_users
+    custom_value = CustomValue.new(:customized => Issue.find(1), :custom_field => @field)
+    assert_include '2', @field.possible_custom_value_options(custom_value).map(&:last)
+
+    assert User.find(2).lock!
+    assert_not_include '2', @field.possible_custom_value_options(custom_value).map(&:last)
+  end
+
+  def test_possible_custom_value_options_should_include_user_that_was_assigned_to_the_custom_value
+    user = User.generate!
+    custom_value = CustomValue.new(:customized => Issue.find(1), :custom_field => @field)
+    assert_not_include user.id.to_s, @field.possible_custom_value_options(custom_value).map(&:last)
+
+    custom_value.value = user.id
+    custom_value.save!
+    assert_include user.id.to_s, @field.possible_custom_value_options(custom_value).map(&:last)
+  end
+
   def test_cast_blank_value
-    assert_equal nil, @field.cast_value(nil)
-    assert_equal nil, @field.cast_value("")
+    assert_nil @field.cast_value(nil)
+    assert_nil @field.cast_value("")
   end
 
   def test_cast_valid_value
@@ -55,6 +73,6 @@ class CustomFieldUserFormatTest < ActiveSupport::TestCase
   end
 
   def test_cast_invalid_value
-    assert_equal nil, @field.cast_value("187")
+    assert_nil @field.cast_value("187")
   end
 end

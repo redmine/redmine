@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -31,8 +31,10 @@ class FilesController < ApplicationController
                 'size' => "#{Attachment.table_name}.filesize",
                 'downloads' => "#{Attachment.table_name}.downloads"
 
-    @containers = [ Project.includes(:attachments).reorder(sort_clause).find(@project.id)]
-    @containers += @project.versions.includes(:attachments).reorder(sort_clause).all.sort.reverse
+    @containers = [Project.includes(:attachments).
+                     references(:attachments).reorder(sort_clause).find(@project.id)]
+    @containers += @project.versions.includes(:attachments).
+                    references(:attachments).reorder(sort_clause).to_a.sort.reverse
     render :layout => !request.xhr?
   end
 
@@ -45,9 +47,16 @@ class FilesController < ApplicationController
     attachments = Attachment.attach_files(container, params[:attachments])
     render_attachment_warning_if_needed(container)
 
-    if !attachments.empty? && !attachments[:files].blank? && Setting.notified_events.include?('file_added')
-      Mailer.attachments_added(attachments[:files]).deliver
+    if attachments[:files].present?
+      if Setting.notified_events.include?('file_added')
+        Mailer.attachments_added(attachments[:files]).deliver
+      end
+      flash[:notice] = l(:label_file_added)
+      redirect_to project_files_path(@project)
+    else
+      flash.now[:error] = l(:label_attachment) + " " + l('activerecord.errors.messages.invalid')
+      new
+      render :action => 'new'
     end
-    redirect_to project_files_path(@project)
   end
 end

@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -23,20 +23,16 @@ class TrackersController < ApplicationController
   accept_api_auth :index
 
   def index
+    @trackers = Tracker.sorted.to_a
     respond_to do |format|
-      format.html {
-        @tracker_pages, @trackers = paginate Tracker.sorted, :per_page => 25
-        render :action => "index", :layout => false if request.xhr?
-      }
-      format.api {
-        @trackers = Tracker.sorted.all
-      }
+      format.html { render :layout => false if request.xhr? }
+      format.api
     end
   end
 
   def new
     @tracker ||= Tracker.new(params[:tracker])
-    @trackers = Tracker.sorted.all
+    @trackers = Tracker.sorted.to_a
     @projects = Project.all
   end
 
@@ -63,12 +59,22 @@ class TrackersController < ApplicationController
   def update
     @tracker = Tracker.find(params[:id])
     if @tracker.update_attributes(params[:tracker])
-      flash[:notice] = l(:notice_successful_update)
-      redirect_to trackers_path
-      return
+      respond_to do |format|
+        format.html {
+          flash[:notice] = l(:notice_successful_update)
+          redirect_to trackers_path(:page => params[:page])
+        }
+        format.js { render :nothing => true }
+      end
+    else
+      respond_to do |format|
+        format.html {
+          edit
+          render :action => 'edit'
+        }
+        format.js { render :nothing => true, :status => 422 }
+      end
     end
-    edit
-    render :action => 'edit'
   end
 
   def destroy
@@ -95,7 +101,7 @@ class TrackersController < ApplicationController
       redirect_to fields_trackers_path
       return
     end
-    @trackers = Tracker.sorted.all
+    @trackers = Tracker.sorted.to_a
     @custom_fields = IssueCustomField.all.sort
   end
 end

@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -18,14 +18,31 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class TimeEntryQueryTest < ActiveSupport::TestCase
-  fixtures :projects, :users, :enumerations
+  fixtures :issues, :projects, :users,
+           :members, :roles, :member_roles,
+           :trackers, :issue_statuses,
+           :projects_trackers,
+           :journals, :journal_details,
+           :issue_categories, :enumerations,
+           :groups_users,
+           :enabled_modules
+
+  def test_cross_project_activity_filter_should_propose_non_active_activities
+    activity = TimeEntryActivity.create!(:name => 'Disabled', :active => false)
+    assert !activity.active?
+
+    query = TimeEntryQuery.new(:name => '_')
+    assert options = query.available_filters['activity_id']
+    assert values = options[:values]
+    assert_include ["Disabled", activity.id.to_s], values
+  end
 
   def test_activity_filter_should_consider_system_and_project_activities
     TimeEntry.delete_all
     system = TimeEntryActivity.create!(:name => 'Foo')
+    TimeEntry.generate!(:activity => system, :hours => 1.0)
     override = TimeEntryActivity.create!(:name => 'Foo', :parent_id => system.id, :project_id => 1)
     other = TimeEntryActivity.create!(:name => 'Bar')
-    TimeEntry.generate!(:activity => system, :hours => 1.0)
     TimeEntry.generate!(:activity => override, :hours => 2.0)
     TimeEntry.generate!(:activity => other, :hours => 4.0)
 
@@ -36,5 +53,29 @@ class TimeEntryQueryTest < ActiveSupport::TestCase
     query = TimeEntryQuery.new(:name => '_')
     query.add_filter('activity_id', '!', [system.id.to_s])
     assert_equal 4.0, query.results_scope.sum(:hours)
+  end
+
+  def test_project_query_should_include_project_issue_custom_fields_only_as_filters
+    global = IssueCustomField.generate!(:is_for_all => true, :is_filter => true)
+    field_on_project = IssueCustomField.generate!(:is_for_all => false, :project_ids => [3], :is_filter => true)
+    field_not_on_project = IssueCustomField.generate!(:is_for_all => false, :project_ids => [1,2], :is_filter => true)
+
+    query = TimeEntryQuery.new(:project => Project.find(3))
+
+    assert_include "issue.cf_#{global.id}", query.available_filters.keys
+    assert_include "issue.cf_#{field_on_project.id}", query.available_filters.keys
+    assert_not_include "issue.cf_#{field_not_on_project.id}", query.available_filters.keys
+  end
+
+  def test_project_query_should_include_project_issue_custom_fields_only_as_columns
+    global = IssueCustomField.generate!(:is_for_all => true, :is_filter => true)
+    field_on_project = IssueCustomField.generate!(:is_for_all => false, :project_ids => [3], :is_filter => true)
+    field_not_on_project = IssueCustomField.generate!(:is_for_all => false, :project_ids => [1,2], :is_filter => true)
+
+    query = TimeEntryQuery.new(:project => Project.find(3))
+
+    assert_include "issue.cf_#{global.id}", query.available_columns.map(&:name).map(&:to_s)
+    assert_include "issue.cf_#{field_on_project.id}", query.available_columns.map(&:name).map(&:to_s)
+    assert_not_include "issue.cf_#{field_not_on_project.id}", query.available_columns.map(&:name).map(&:to_s)
   end
 end

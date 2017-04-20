@@ -1,0 +1,12 @@
+api.array :results, api_meta(:total_count => @result_count, :offset => @offset, :limit => @limit) do
+  @results.each do |result|
+    api.result do
+      api.id          result.id
+      api.title       result.event_title
+      api.type        result.event_type
+      api.url         url_for(result.event_url(:only_path => false))
+      api.description result.event_description
+      api.datetime    result.event_datetime
+    end
+  end
+end

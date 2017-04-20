@@ -7,23 +7,23 @@
 <p><label for="query_name"><%=l(:field_name)%></label>
 <%= text_field 'query', 'name', :size => 80 %></p>
 
-<% if User.current.admin? || User.current.allowed_to?(:manage_public_queries, @project) %>
+<% if User.current.admin? || User.current.allowed_to?(:manage_public_queries, @query.project) %>
 <p><label><%=l(:field_visible)%></label>
   <label class="block"><%= radio_button 'query', 'visibility', Query::VISIBILITY_PRIVATE %> <%= l(:label_visibility_private) %></label>
+  <label class="block"><%= radio_button 'query', 'visibility', Query::VISIBILITY_PUBLIC %> <%= l(:label_visibility_public) %></label>
   <label class="block"><%= radio_button 'query', 'visibility', Query::VISIBILITY_ROLES %> <%= l(:label_visibility_roles) %>:</label>
   <% Role.givable.sorted.each do |role| %>
     <label class="block role-visibility"><%= check_box_tag 'query[role_ids][]', role.id, @query.roles.include?(role), :id => nil %> <%= role.name %></label>
   <% end %>
-  <label class="block"><%= radio_button 'query', 'visibility', Query::VISIBILITY_PUBLIC %> <%= l(:label_visibility_public) %></label>
   <%= hidden_field_tag 'query[role_ids][]', '' %>
 </p>
 <% end %>
 
 <p><label for="query_is_for_all"><%=l(:field_is_for_all)%></label>
-<%= check_box_tag 'query_is_for_all', 1, @query.project.nil?,
-      :disabled => (!@query.new_record? && (@query.project.nil? || (@query.is_public? && !User.current.admin?))) %></p>
+<%= check_box_tag 'query_is_for_all', 1, @query.project.nil?, :class => (User.current.admin? ? '' : 'disable-unless-private') %></p>
 
-<fieldset><legend><%= l(:label_options) %></legend>
+<% unless params[:gantt] %>
+<fieldset id="options"><legend><%= l(:label_options) %></legend>
 <p><label for="query_default_columns"><%=l(:label_default_columns)%></label>
 <%= check_box_tag 'default_columns', 1, @query.has_default_columns?, :id => 'query_default_columns',
       :onclick => 'if (this.checked) {$("#columns").hide();} else {$("#columns").show();}' %></p>
@@ -34,22 +34,27 @@
 <p><label><%= l(:button_show) %></label>
 <%= available_block_columns_tags(@query) %></p>
 
-<% if params[:gantt] %>
-  <p><label><%= l(:label_gantt) %></label>
+<p><label><%= l(:label_total_plural) %></label>
+<%= available_totalable_columns_tags(@query) %></p>
+</fieldset>
+<% else %>
+<fieldset id="options"><legend><%= l(:label_options) %></legend>
+  <p><label><%= l(:button_show) %></label>
   <label class="inline"><%= check_box_tag "query[draw_relations]", "1", @query.draw_relations %> <%= l(:label_related_issues) %></label>
   <label class="inline"><%= check_box_tag "query[draw_progress_line]", "1", @query.draw_progress_line %> <%= l(:label_gantt_progress_line) %></label>
   </p>
-<% end %>
 </fieldset>
+<% end %>
 </div>
 
 <fieldset id="filters"><legend><%= l(:label_filter_plural) %></legend>
 <%= render :partial => 'queries/filters', :locals => {:query => query}%>
 </fieldset>
 
+<% unless params[:gantt] %>
 <fieldset><legend><%= l(:label_sort) %></legend>
 <% 3.times do |i| %>
-<%= i+1 %>: 
+<%= content_tag(:span, "#{i+1}:", :class => 'query_sort_criteria_count')%>
 <%= label_tag "query_sort_criteria_attribute_" + i.to_s,
               l(:description_query_sort_criteria_attribute), :class => "hidden-for-sighted" %>
 <%= select_tag("query[sort_criteria][#{i}][]",
@@ -63,10 +68,13 @@
 <br />
 <% end %>
 </fieldset>
+<% end %>
 
+<% unless params[:gantt] %>
 <%= content_tag 'fieldset', :id => 'columns', :style => (query.has_default_columns? ? 'display:none;' : nil) do %>
 <legend><%= l(:field_column_names) %></legend>
 <%= render :partial => 'queries/columns', :locals => {:query => query}%>
+<% end %>
 <% end %>
 
 </div>
@@ -74,8 +82,11 @@
 <%= javascript_tag do %>
 $(document).ready(function(){
   $("input[name='query[visibility]']").change(function(){
-    var checked = $('#query_visibility_1').is(':checked');
-    $("input[name='query[role_ids][]'][type=checkbox]").attr('disabled', !checked);
+    var roles_checked = $('#query_visibility_1').is(':checked');
+    var private_checked = $('#query_visibility_0').is(':checked');
+    $("input[name='query[role_ids][]'][type=checkbox]").attr('disabled', !roles_checked);
+    if (!private_checked) $("input.disable-unless-private").attr('checked', false);
+    $("input.disable-unless-private").attr('disabled', !private_checked);
   }).trigger('change');
 });
 <% end %>

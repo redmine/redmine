@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -21,16 +21,16 @@ class RoleTest < ActiveSupport::TestCase
   fixtures :roles, :workflows, :trackers
 
   def test_sorted_scope
-    assert_equal Role.all.sort, Role.sorted.all
+    assert_equal Role.all.sort, Role.sorted.to_a
   end
 
   def test_givable_scope
-    assert_equal Role.all.reject(&:builtin?).sort, Role.givable.all
+    assert_equal Role.all.reject(&:builtin?).sort, Role.givable.to_a
   end
 
   def test_builtin_scope
-    assert_equal Role.all.select(&:builtin?).sort, Role.builtin(true).all.sort
-    assert_equal Role.all.reject(&:builtin?).sort, Role.builtin(false).all.sort
+    assert_equal Role.all.select(&:builtin?).sort, Role.builtin(true).to_a.sort
+    assert_equal Role.all.reject(&:builtin?).sort, Role.builtin(false).to_a.sort
   end
 
   def test_copy_from
@@ -47,18 +47,20 @@ class RoleTest < ActiveSupport::TestCase
 
   def test_copy_workflows
     source = Role.find(1)
-    assert_equal 90, source.workflow_rules.size
+    rule_count = source.workflow_rules.count
+    assert rule_count > 0
 
     target = Role.new(:name => 'Target')
     assert target.save
     target.workflow_rules.copy(source)
     target.reload
-    assert_equal 90, target.workflow_rules.size
+    assert_equal rule_count, target.workflow_rules.size
   end
 
   def test_permissions_should_be_unserialized_with_its_coder
-    Role::PermissionsAttributeCoder.expects(:load).once
-    Role.find(1).permissions
+    Role::PermissionsAttributeCoder.stubs(:load).returns([:foo, :bar])
+    role = Role.find(1)
+    assert_equal [:foo, :bar], role.permissions
   end
 
   def test_add_permission
@@ -78,6 +80,17 @@ class RoleTest < ActiveSupport::TestCase
     role.reload
     assert ! role.permissions.include?(perm[0])
     assert_equal size - 2, role.permissions.size
+  end
+
+  def test_has_permission
+    role = Role.create!(:name => 'Test', :permissions => [:view_issues, :edit_issues])
+    assert_equal true, role.has_permission?(:view_issues)
+    assert_equal false, role.has_permission?(:delete_issues)
+  end
+
+  def test_has_permission_without_permissions
+    role = Role.create!(:name => 'Test')
+    assert_equal false, role.has_permission?(:delete_issues)
   end
 
   def test_name

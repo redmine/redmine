@@ -15,14 +15,14 @@
 <% else %>
 <%= l(:label_missing_feeds_access_key) %>
 <% end %>
-(<%= link_to l(:button_reset), {:action => 'reset_rss_key'}, :method => :post %>)
+(<%= link_to l(:button_reset), my_rss_key_path, :method => :post %>)
 </p>
 
 <% if Setting.rest_api_enabled? %>
 <h4><%= l(:label_api_access_key) %></h4>
 <div>
-  <%= link_to_function(l(:button_show), "$('#api-access-key').toggle();")%>
-  <pre id='api-access-key' class='autoscroll'><%= h(@user.api_key) %></pre>
+  <%= link_to l(:button_show), my_api_key_path, :remote => true %>
+  <pre id='api-access-key' class='autoscroll'></pre>
 </div>
 <%= javascript_tag("$('#api-access-key').hide();") %>
 <p>
@@ -31,6 +31,6 @@
 <% else %>
 <%= l(:label_missing_api_access_key) %>
 <% end %>
-(<%= link_to l(:button_reset), {:action => 'reset_api_key'}, :method => :post %>)
+(<%= link_to l(:button_reset), my_api_key_path, :method => :post %>)
 </p>
 <% end %>

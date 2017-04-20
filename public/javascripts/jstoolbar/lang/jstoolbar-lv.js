@@ -8,6 +8,7 @@ jsToolBar.strings['Code'] = 'Iekļauts kods';
 jsToolBar.strings['Heading 1'] = 'Virsraksts 1';
 jsToolBar.strings['Heading 2'] = 'Virsraksts 2';
 jsToolBar.strings['Heading 3'] = 'Virsraksts 3';
+jsToolBar.strings['Highlighted code'] = 'Highlighted code';
 jsToolBar.strings['Unordered list'] = 'Nesakārtots saraksts';
 jsToolBar.strings['Ordered list'] = 'Sakārtots saraksts';
 jsToolBar.strings['Quote'] = 'Citēt';

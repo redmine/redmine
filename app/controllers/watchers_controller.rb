@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -40,8 +40,11 @@ class WatchersController < ApplicationController
     else
       user_ids << params[:user_id]
     end
-    user_ids.flatten.compact.uniq.each do |user_id|
-      Watcher.create(:watchable => @watched, :user_id => user_id)
+    users = User.active.visible.where(:id => user_ids.flatten.compact.uniq)
+    users.each do |user|
+      @watchables.each do |watchable|
+        Watcher.create(:watchable => watchable, :user => user)
+      end
     end
     respond_to do |format|
       format.html { redirect_to_referer_or {render :text => 'Watcher added.', :layout => true}}
@@ -53,7 +56,10 @@ class WatchersController < ApplicationController
   def append
     if params[:watcher].is_a?(Hash)
       user_ids = params[:watcher][:user_ids] || [params[:watcher][:user_id]]
-      @users = User.active.where(:id => user_ids).all
+      @users = User.active.visible.where(:id => user_ids).to_a
+    end
+    if @users.blank?
+      render :nothing => true
     end
     if @users.blank?
       render :nothing => true
@@ -61,12 +67,17 @@ class WatchersController < ApplicationController
   end
 
   def destroy
-    @watched.set_watcher(User.find(params[:user_id]), false)
+    user = User.find(params[:user_id])
+    @watchables.each do |watchable|
+      watchable.set_watcher(user, false)
+    end
     respond_to do |format|
       format.html { redirect_to :back }
       format.js
       format.api { render_api_ok }
     end
+  rescue ActiveRecord::RecordNotFound
+    render_404
   end
 
   def autocomplete_for_user
@@ -78,30 +89,21 @@ class WatchersController < ApplicationController
 
   def find_project
     if params[:object_type] && params[:object_id]
-      klass = Object.const_get(params[:object_type].camelcase)
-      return false unless klass.respond_to?('watched_by')
-      @watched = klass.find(params[:object_id])
-      @project = @watched.project
+      @watchables = find_objets_from_params
+      @projects = @watchables.map(&:project).uniq
+      if @projects.size == 1
+        @project = @projects.first
+      end
     elsif params[:project_id]
       @project = Project.visible.find_by_param(params[:project_id])
     end
-  rescue
-    render_404
   end
 
   def find_watchables
-    klass = Object.const_get(params[:object_type].camelcase) rescue nil
-    if klass && klass.respond_to?('watched_by')
-      @watchables = klass.where(:id => Array.wrap(params[:object_id])).all
-      raise Unauthorized if @watchables.any? {|w|
-        if w.respond_to?(:visible?)
-          !w.visible?
-        elsif w.respond_to?(:project) && w.project
-          !w.project.visible?
-        end
-      }
+    @watchables = find_objets_from_params
+    unless @watchables.present?
+      render_404
     end
-    render_404 unless @watchables.present?
   end
 
   def set_watcher(watchables, user, watching)
@@ -115,15 +117,36 @@ class WatchersController < ApplicationController
   end
 
   def users_for_new_watcher
-    users = []
+    scope = nil
     if params[:q].blank? && @project.present?
-      users = @project.users.sorted
+      scope = @project.users
     else
-      users = User.active.sorted.like(params[:q]).limit(100)
+      scope = User.all.limit(100)
     end
-    if @watched
-      users -= @watched.watcher_users
+    users = scope.active.visible.sorted.like(params[:q]).to_a
+    if @watchables && @watchables.size == 1
+      users -= @watchables.first.watcher_users
     end
     users
+  end
+
+  def find_objets_from_params
+    klass = Object.const_get(params[:object_type].camelcase) rescue nil
+    return unless klass && klass.respond_to?('watched_by')
+
+    scope = klass.where(:id => Array.wrap(params[:object_id]))
+    if klass.reflect_on_association(:project)
+      scope = scope.preload(:project => :enabled_modules)
+    end
+    objects = scope.to_a
+
+    raise Unauthorized if objects.any? do |w|
+      if w.respond_to?(:visible?)
+        !w.visible?
+      elsif w.respond_to?(:project) && w.project
+        !w.project.visible?
+      end
+    end
+    objects
   end
 end

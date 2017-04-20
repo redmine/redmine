@@ -1,4 +1,4 @@
-<h2><%= @query.new_record? ? l(:label_calendar) : h(@query.name) %></h2>
+<h2><%= @query.new_record? ? l(:label_calendar) : @query.name %></h2>
 
 <%= form_tag({:controller => 'calendars', :action => 'show', :project_id => @project},
              :method => :get, :id => 'query_form') do %>
@@ -11,7 +11,7 @@
 </fieldset>
 
 <p style="float:right;">
-  <%= link_to_previous_month(@year, @month) %> | <%= link_to_next_month(@year, @month) %>
+  <%= link_to_previous_month(@year, @month, :accesskey => accesskey(:previous)) %> | <%= link_to_next_month(@year, @month, :accesskey => accesskey(:next)) %>
 </p>
 
 <p class="buttons">
@@ -28,6 +28,8 @@
 <%= error_messages_for 'query' %>
 <% if @query.valid? %>
 <%= render :partial => 'common/calendar', :locals => {:calendar => @calendar} %>
+
+<%= call_hook(:view_calendars_show_bottom, :year => @year, :month => @month, :project => @project, :query => @query) %>
 
 <p class="legend cal">
   <span class="starting"><%= l(:text_tip_issue_begin_day) %></span>

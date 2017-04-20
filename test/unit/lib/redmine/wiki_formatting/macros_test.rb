@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -207,12 +207,14 @@ class Redmine::WikiFormatting::MacrosTest < ActionView::TestCase
 
   def test_macro_collapse
     text = "{{collapse\n*Collapsed* block of text\n}}"
-    result = textilizable(text)
-
-    assert_select_in result, 'div.collapsed-text'
-    assert_select_in result, 'strong', :text => 'Collapsed'
-    assert_select_in result, 'a.collapsible.collapsed', :text => 'Show'
-    assert_select_in result, 'a.collapsible', :text => 'Hide'
+    with_locale 'en' do
+      result = textilizable(text)
+  
+      assert_select_in result, 'div.collapsed-text'
+      assert_select_in result, 'strong', :text => 'Collapsed'
+      assert_select_in result, 'a.collapsible.collapsed', :text => 'Show'
+      assert_select_in result, 'a.collapsible', :text => 'Hide'
+    end
   end
 
   def test_macro_collapse_with_one_arg
@@ -308,6 +310,15 @@ RAW
                    :title => "testfile.PNG")
     assert_equal "<p>#{link}</p>",
                  textilizable("{{thumbnail(testfile.png)}}", :object => Issue.find(14))
+  end
+
+  def test_macro_thumbnail_with_full_path
+    link = link_to('<img alt="testfile.PNG" src="http://test.host/attachments/thumbnail/17" />'.html_safe,
+                   "http://test.host/attachments/17",
+                   :class => "thumbnail",
+                   :title => "testfile.PNG")
+    assert_equal "<p>#{link}</p>",
+                 textilizable("{{thumbnail(testfile.png)}}", :object => Issue.find(14), :only_path => false)
   end
 
   def test_macro_thumbnail_with_size

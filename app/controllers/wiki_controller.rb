@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -69,6 +69,25 @@ class WikiController < ApplicationController
     return false
   end
 
+  def new
+    @page = WikiPage.new(:wiki => @wiki, :title => params[:title])
+    unless User.current.allowed_to?(:edit_wiki_pages, @project)
+      render_403
+      return
+    end
+    if request.post?
+      @page.title = '' unless editable?
+      @page.validate
+      if @page.errors[:title].blank?
+        path = project_wiki_page_path(@project, @page.title)
+        respond_to do |format|
+          format.html { redirect_to path }
+          format.js   { render :js => "window.location = #{path.to_json}" }
+        end
+      end
+    end
+  end
+
   # display a page (in editing mode if it doesn't exist)
   def show
     if params[:version] && !User.current.allowed_to?(:view_wiki_edits, @project)
@@ -87,7 +106,7 @@ class WikiController < ApplicationController
     end
     if User.current.allowed_to?(:export_wiki_pages, @project)
       if params[:format] == 'pdf'
-        send_data(wiki_page_to_pdf(@page, @project), :type => 'application/pdf', :filename => "#{@page.title}.pdf")
+        send_file_headers! :type => 'application/pdf', :filename => "#{@page.title}.pdf"
         return
       elsif params[:format] == 'html'
         export = render_to_string :action => 'export', :layout => false
@@ -161,7 +180,7 @@ class WikiController < ApplicationController
     @content.author = User.current
 
     if @page.save_with_content(@content)
-      attachments = Attachment.attach_files(@page, params[:attachments])
+      attachments = Attachment.attach_files(@page, params[:attachments] || (params[:wiki_page] && params[:wiki_page][:uploads]))
       render_attachment_warning_if_needed(@page)
       call_hook(:controller_wiki_edit_after_save, { :params => params, :page => @page})
 
@@ -194,11 +213,6 @@ class WikiController < ApplicationController
       }
       format.api { render_api_head :conflict }
     end
-  rescue ActiveRecord::RecordNotSaved
-    respond_to do |format|
-      format.html { render :action => 'edit' }
-      format.api { render_validation_errors(@content) }
-    end
   end
 
   # rename a page
@@ -207,9 +221,10 @@ class WikiController < ApplicationController
     @page.redirect_existing_links = true
     # used to display the *original* title if some AR validation errors occur
     @original_title = @page.pretty_title
-    if request.post? && @page.update_attributes(params[:wiki_page])
+    @page.safe_attributes = params[:wiki_page]
+    if request.post? && @page.save
       flash[:notice] = l(:notice_successful_update)
-      redirect_to project_wiki_page_path(@project, @page.title)
+      redirect_to project_wiki_page_path(@page.project, @page.title)
     end
   end
 
@@ -228,7 +243,7 @@ class WikiController < ApplicationController
       reorder('version DESC').
       limit(@version_pages.per_page + 1).
       offset(@version_pages.offset).
-      all
+      to_a
 
     render :layout => false if request.xhr?
   end
@@ -279,9 +294,12 @@ class WikiController < ApplicationController
   def destroy_version
     return render_403 unless editable?
 
-    @content = @page.content_for_version(params[:version])
-    @content.destroy
-    redirect_to_referer_or history_project_wiki_page_path(@project, @page.title)
+    if content = @page.content.versions.find_by_version(params[:version])
+      content.destroy
+      redirect_to_referer_or history_project_wiki_page_path(@project, @page.title)
+    else
+      render_404
+    end
   end
 
   # Export wiki to a single pdf or html file
@@ -289,16 +307,14 @@ class WikiController < ApplicationController
     @pages = @wiki.pages.
                       order('title').
                       includes([:content, {:attachments => :author}]).
-                      all
+                      to_a
     respond_to do |format|
       format.html {
         export = render_to_string :action => 'export_multiple', :layout => false
         send_data(export, :type => 'text/html', :filename => "wiki.html")
       }
       format.pdf {
-        send_data(wiki_pages_to_pdf(@pages, @project),
-                  :type => 'application/pdf',
-                  :filename => "#{@project.identifier}.pdf")
+        send_file_headers! :type => 'application/pdf', :filename => "#{@project.identifier}.pdf"
       }
     end
   end
@@ -336,7 +352,7 @@ private
   def find_existing_or_new_page
     @page = @wiki.find_or_new_page(params[:id])
     if @wiki.page_found_with_redirect?
-      redirect_to params.update(:id => @page.title)
+      redirect_to_page @page
     end
   end
 
@@ -348,7 +364,15 @@ private
       return
     end
     if @wiki.page_found_with_redirect?
-      redirect_to params.update(:id => @page.title)
+      redirect_to_page @page
+    end
+  end
+
+  def redirect_to_page(page)
+    if page.project && page.project.visible?
+      redirect_to :action => action_name, :project_id => page.project, :id => page.title
+    else
+      render_404
     end
   end
 
@@ -369,6 +393,6 @@ private
                 reorder("#{WikiPage.table_name}.title").
                 includes(:wiki => :project).
                 includes(:parent).
-                all
+                to_a
   end
 end

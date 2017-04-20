@@ -31,6 +31,7 @@ module ActiveRecord
         #   to give it an entire string that is interpolated if you need a tighter scope than just a foreign key.
         #   Example: <tt>acts_as_list :scope => 'todo_list_id = #{todo_list_id} AND completed = 0'</tt>
         def acts_as_list(options = {})
+          ActiveSupport::Deprecation.warn "The acts_as_list plugin will be removed from Redmine 4 core, use the acts_as_list gem or similar implementation instead."
           configuration = { :column => "position", :scope => "1 = 1" }
           configuration.update(options) if options.is_a?(Hash)
 

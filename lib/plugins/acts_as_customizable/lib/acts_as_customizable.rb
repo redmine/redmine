@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -27,9 +27,8 @@ module Redmine
           return if self.included_modules.include?(Redmine::Acts::Customizable::InstanceMethods)
           cattr_accessor :customizable_options
           self.customizable_options = options
-          has_many :custom_values, :as => :customized,
-                                   :include => :custom_field,
-                                   :order => "#{CustomField.table_name}.position",
+          has_many :custom_values, lambda {includes(:custom_field).order("#{CustomField.table_name}.position")},
+                                   :as => :customized,
                                    :dependent => :delete_all,
                                    :validate => false
 
@@ -46,7 +45,7 @@ module Redmine
         end
 
         def available_custom_fields
-          CustomField.where("type = '#{self.class.name}CustomField'").sorted.all
+          CustomField.where("type = '#{self.class.name}CustomField'").sorted.to_a
         end
 
         # Sets the values of the object's custom fields
@@ -93,12 +92,12 @@ module Redmine
             if field.multiple?
               values = custom_values.select { |v| v.custom_field == field }
               if values.empty?
-                values << custom_values.build(:customized => self, :custom_field => field, :value => nil)
+                values << custom_values.build(:customized => self, :custom_field => field)
               end
               x.value = values.map(&:value)
             else
               cv = custom_values.detect { |v| v.custom_field == field }
-              cv ||= custom_values.build(:customized => self, :custom_field => field, :value => nil)
+              cv ||= custom_values.build(:customized => self, :custom_field => field)
               x.value = cv.value
             end
             x.value_was = x.value.dup if x.value
@@ -150,6 +149,14 @@ module Redmine
           custom_values.each(&:save)
           @custom_field_values_changed = false
           true
+        end
+
+        def reassign_custom_field_values
+          if @custom_field_values
+            values = @custom_field_values.inject({}) {|h,v| h[v.custom_field_id] = v.value; h}
+            @custom_field_values = nil
+            self.custom_field_values = values
+          end
         end
 
         def reset_custom_values!

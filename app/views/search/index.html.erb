@@ -6,7 +6,6 @@
 
 <div id="search_box" class="box">
     <%= form_tag({}, :method => :get, :id => 'search-form') do %>
-
         <p><%= text_field_tag 'q', @question, :size => 60, :id => 'search-input' %>
             <%= project_select_tag %>
             <%= hidden_field_tag 'all_words', '', :id => nil %>
@@ -20,6 +19,19 @@
                 <label><%= check_box_tag t, 1, @scope.include?(t) %> <%= type_label(t) %></label>
             <% end %>
         </p>
+        <fieldset class="collapsible collapsed">
+            <legend onclick="toggleFieldset(this);"><%= l(:label_options) %></legend>
+            <div id="options-content" style="display:none;">
+                <p><label><%= check_box_tag 'open_issues', 1, @open_issues %> <%= l(:label_search_open_issues_only) %></label></p>
+                <p>
+                    <label><%= radio_button_tag 'attachments', '0', @search_attachments == '0' %> <%= l(:label_search_attachments_no) %></label>
+                    <label><%= radio_button_tag 'attachments', '1', @search_attachments == '1' %> <%= l(:label_search_attachments_yes) %></label>
+                    <label><%= radio_button_tag 'attachments', 'only', @search_attachments == 'only' %> <%= l(:label_search_attachments_only) %></label>
+                </p>
+                <%= call_hook(:view_search_index_options_content_bottom) %>
+            </div>
+        </fieldset>
+        <%= hidden_field_tag 'options', '', :id => 'show-options' %>
 
         <p><%= submit_tag l(:button_submit) %></p>
     <% end %>
@@ -27,9 +39,9 @@
 
 <% if @results %>
     <div id="search-results-counts">
-        <%= render_results_by_type(@results_by_type) unless @scope.size == 1 %>
+        <%= render_results_by_type(@results_count_by_type) unless @scope.size == 1 %>
     </div>
-    <h3 class="results-title"><%= l(:label_result_plural) %> (<%= @results_by_type.values.sum %>)</h3>
+    <h3 class="results-title"><%= l(:label_result_plural) %> (<%= @result_count %>)</h3>
     <a href="#" class="btn exp-col-btn expand-btn">Expand</a>
     <div id="results" role="tab-list" aria-multiselectable="true">
         <% @results.each_with_index do |e, i| %>
@@ -78,28 +90,27 @@
     </dl>
 <% end %>
 
-<p class="pagination">
-    <% if @pagination_previous_date %>
-        <%= link_to_content_update("\xc2\xab " + l(:label_previous),
-                                   params.merge(:previous => 1,
-                                                :offset => @pagination_previous_date.strftime("%Y%m%d%H%M%S"))) %>&nbsp;
-    <% end %>
-    <% if @pagination_next_date %>
-        <%= link_to_content_update(l(:label_next) + " \xc2\xbb",
-                                   params.merge(:previous => nil,
-                                                :offset => @pagination_next_date.strftime("%Y%m%d%H%M%S"))) %>
-    <% end %>
-</p>
+<% if @result_pages %>
+<span class="pagination"><%= pagination_links_full @result_pages, @result_count, :per_page_links => false %></span>
+<% end %>
 
 <% html_title(l(:label_search)) -%>
 
 <%= javascript_tag do %>
- $("#search-types a").click(function(e){
-     e.preventDefault();
-     $("#search-types input[type=checkbox]").attr('checked', false);
-     $(this).siblings("input[type=checkbox]").attr('checked', true);
-     if ($("#search-input").val() != "") {
-         $("#search-form").submit();
-     }
- });
+$("#search-types a").click(function(e){
+  e.preventDefault();
+  $("#search-types input[type=checkbox]").prop('checked', false);
+  $(this).siblings("input[type=checkbox]").prop('checked', true);
+  if ($("#search-input").val() != "") {
+    $("#search-form").submit();
+  }
+});
+
+$("#search-form").submit(function(){
+  $("#show-options").val($("#options-content").is(":visible") ? '1' : '0');
+});
+
+<% if params[:options] == '1' %>
+toggleFieldset($("#options-content"));
+<% end %>
 <% end %>

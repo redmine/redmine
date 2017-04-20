@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -47,13 +47,12 @@ class GroupTest < ActiveSupport::TestCase
     set_language_if_valid 'en'
     g = Group.new
     assert !g.save
-    assert_include "Name can't be blank", g.errors.full_messages
+    assert_include "Name cannot be blank", g.errors.full_messages
   end
 
   def test_blank_name_error_message_fr
     set_language_if_valid 'fr'
-    str = "Nom doit \xc3\xaatre renseign\xc3\xa9(e)"
-    str.force_encoding('UTF-8') if str.respond_to?(:force_encoding)
+    str = "Nom doit \xc3\xaatre renseign\xc3\xa9(e)".force_encoding('UTF-8')
     g = Group.new
     assert !g.save
     assert_include str, g.errors.full_messages
@@ -125,12 +124,46 @@ class GroupTest < ActiveSupport::TestCase
   end
 
   def test_destroy_should_unassign_issues
-    group = Group.first
+    group = Group.find(10)
     Issue.where(:id => 1).update_all(["assigned_to_id = ?", group.id])
 
     assert group.destroy
     assert group.destroyed?
 
-    assert_equal nil, Issue.find(1).assigned_to_id
+    assert_nil Issue.find(1).assigned_to_id
+  end
+
+  def test_builtin_groups_should_be_created_if_missing
+    Group.delete_all
+
+    assert_difference 'Group.count', 2 do
+      group = Group.anonymous
+      assert_equal GroupAnonymous, group.class
+
+      group = Group.non_member
+      assert_equal GroupNonMember, group.class
+    end
+  end
+
+  def test_builtin_in_group_should_be_uniq
+    group = GroupAnonymous.new
+    group.name = 'Foo'
+    assert !group.save
+  end
+
+  def test_builtin_in_group_should_not_accept_users
+    group = Group.anonymous
+    assert_raise RuntimeError do
+      group.users << User.find(1)
+    end
+    assert_equal 0, group.reload.users.count
+  end
+
+  def test_sorted_scope_should_sort_groups_alphabetically
+    Group.delete_all
+    b = Group.generate!(:name => 'B')
+    a = Group.generate!(:name => 'A')
+
+    assert_equal %w(A B), Group.sorted.to_a.map(&:name)
   end
 end
