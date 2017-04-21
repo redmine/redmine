@@ -357,7 +357,11 @@ class Project < ActiveRecord::Base
   end
 
   def archived?
-    self.status == STATUS_ARCHIVED
+    if @status?
+      self.status == STATUS_ARCHIVED
+    :
+      false
+    end
   end
 
   # Archives the project and its descendants

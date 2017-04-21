@@ -17,12 +17,11 @@
          redmineLogin = "<%= User.current.login %>";
          redmineHashed = "<%= User.current.hashed_password %>";
         </script>
-        <%= javascript_include_tag 'jquery-3.1.1.min.js' %>
+        <%= javascript_heads %>
         <%= javascript_include_tag 'bootstrap.min.js' %>
         <%= javascript_include_tag 'moment.min.js' %>
         <%= javascript_include_tag 'main.js' %>
         <%= javascript_include_tag 'yaml.js' %>
-        <%= javascript_include_tag 'application.js' %>
         <%= javascript_include_tag 'geppetto.js' %>
         <%= javascript_include_tag 'Detector.js' %>
         <%= javascript_include_tag 'prettify.js' %>
@@ -33,7 +32,6 @@
         <%= stylesheet_link_tag 'gpt-icons', :media => 'all' %>
         <%= stylesheet_link_tag 'prettify', :media => 'all' %>
         <%= stylesheet_link_tag 'rtl', :media => 'all' if l(:direction) == 'rtl' %>
-        <%= javascript_heads %>
         <%= call_hook :view_layouts_base_html_head %>
         <!-- page specific tags -->
         <%= yield :header_tags -%>
@@ -143,8 +141,8 @@
 	</div>
 	<!-- FOOTER -->
 	<%= call_hook :view_layouts_base_body_bottom %>
-        <div id="ajax-indicator" style="display:none;"><span><%= l(:label_loading) %></span></div>
-        <div id="ajax-modal" style="display:none;"></div>
+        <!--<div id="ajax-indicator" style="display:none;"><span><%- l(:label_loading) %></span></div>
+        <!--<div id="ajax-modal" style="display:none;"></div>-->
 	<footer class="footer">
 	    <div class="container">
 		<a href="https://twitter.com/OSBTeam" class="twitter-follow-button" data-show-count="true" data-lang="en">Follow @OSBTeam</a>

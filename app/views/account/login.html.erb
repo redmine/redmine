@@ -1,7 +1,7 @@
 <%= call_hook :view_account_login_top %>
 <div class="pull-right sidetitle">OSB Sign in <i class="icon-signin"></i></div>
 <%= form_tag(signin_path, :class => 'form-horizontal login-form', onsubmit: 'return keepAnchorOnSignIn(this);') do %>
-    
+    <%= back_url_hidden_field_tag %>
     <div class="form-group">
     	<label class="col-sm-2 control-label" for="username">
             <%= l(:field_login)%>:
