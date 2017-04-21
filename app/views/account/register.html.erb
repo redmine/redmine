@@ -56,10 +56,20 @@
     <% @user.custom_field_values.select {|v| v.required?}.each do |value| %>
         <div class="form-group"><%= custom_field_tag_with_label :user, value %>
   	    <% if value.custom_field.name=="URL" %>
-  		<div class="popoverform"><icon class="popoverlink icon-2x icon-lightbulb"target="_blank" data-toggle="popover" data-trigger="hover" title="" data-content="You should provide a valid URL to a lab, instituion, company or software project webpage with which you are directly associated." data-original-title="Affiliation"></icon></div>
+  		    <div class="popoverform"><icon class="popoverlink icon-2x icon-lightbulb"target="_blank" data-toggle="popover" data-trigger="hover" title="" data-content="You should provide a valid URL to a lab, instituion, company or software project webpage with which you are directly associated." data-original-title="Affiliation"></icon></div>
   	    <% end %>
         </div>
     <% end %>
+
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Activation token (optional)</label>
+        <div class="control-label col-sm-3">
+            <%= text_field_tag :activation_token, params[:activation_token], :class=> 'form-control col-sm-2' %>
+        </div>
+        <div class="popoverform"><icon class="popoverlink icon-2x icon-lightbulb"target="_blank" data-toggle="popover" data-trigger="hover" title="" data-content="If you were given an activation token please type it here." data-original-title="Activation Token"></icon></div>
+    </div>
+
 
     <div class="form-group">
         <div class="col-sm-2 col-sm-offset-2">
@@ -67,11 +77,6 @@
         </div>
     </div>
 
-    <!-- Introduce for recaptcha plugin-->
-    <div class="form-group">
-        <div class="col-sm-2 col-sm-offset-2">
-            <%= recaptcha_tags :site_key => Setting.plugin_recaptcha['recaptcha_public_key'] %>
-        </div>
-    </div>
+
 <% end %>
 

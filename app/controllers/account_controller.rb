@@ -153,13 +153,24 @@ class AccountController < ApplicationController
           @user.password, @user.password_confirmation = user_params[:password], user_params[:password_confirmation]
         end
 
-        case Setting.self_registration
-        when '1'
-          register_by_email_activation(@user)
-        when '3'
-          register_automatically(@user)
-        else
-          register_manually_by_administrator(@user)
+        skip = false
+
+        if params[:activation_token]
+          if params[:activation_token]=="student"
+            skip = true
+            register_automatically(@user)
+          end
+        end
+        
+        if !(skip)
+          case Setting.self_registration
+          when '1'
+            register_by_email_activation(@user)
+          when '3'
+            register_automatically(@user)
+          else
+            register_manually_by_administrator(@user)
+          end
         end
         
         #Geppetto register
