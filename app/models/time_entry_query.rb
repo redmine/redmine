@@ -107,7 +107,7 @@ class TimeEntryQuery < Query
   def default_totalable_names
     [:hours]
   end
- 
+
   def default_sort_criteria
     [['spent_on', 'desc']]
   end
