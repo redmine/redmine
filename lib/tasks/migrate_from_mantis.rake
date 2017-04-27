@@ -113,7 +113,7 @@ task :migrate_from_mantis => :environment do
     class MantisProject < ActiveRecord::Base
       self.table_name = :mantis_project_table
       has_many :versions, :class_name => "MantisVersion", :foreign_key => :project_id
-      has_many :categories, :class_name => "MantisCategory", :foreign_key => :project_id
+      #has_many :categories, :class_name => "MantisCategory", :foreign_key => :project_id
       has_many :news, :class_name => "MantisNews", :foreign_key => :project_id
       has_many :members, :class_name => "MantisProjectUser", :foreign_key => :project_id
 
@@ -261,7 +261,7 @@ task :migrate_from_mantis => :environment do
       Project.destroy_all
       projects_map = {}
       versions_map = {}
-      categories_map = {}
+      #categories_map = {}
       MantisProject.all.each do |project|
         p = Project.new :name => encode(project.name),
                         :description => encode(project.description)
@@ -285,19 +285,19 @@ task :migrate_from_mantis => :environment do
         project.versions.each do |version|
           v = Version.new :name => encode(version.version),
                           :description => encode(version.description),
-                          :effective_date => (version.date_order ? version.date_order.to_date : nil)
+                          :effective_date => (version.date_order ? Time.at(version.date_order).to_date : nil)
           v.project = p
           v.save
           versions_map[version.id] = v.id
         end
 
         # Project categories
-        project.categories.each do |category|
-          g = IssueCategory.new :name => category.category[0,30]
-          g.project = p
-          g.save
-          categories_map[category.category] = g.id
-        end
+        #project.categories.each do |category|
+        #  g = IssueCategory.new :name => category.category[0,30]
+        #  g.project = p
+        #  g.save
+        #  categories_map[category.category] = g.id
+        #end
       end
       puts
 
@@ -312,10 +312,10 @@ task :migrate_from_mantis => :environment do
                       :subject => encode(bug.summary),
                       :description => encode(bug.bug_text.full_description),
                       :priority => PRIORITY_MAPPING[bug.priority] || DEFAULT_PRIORITY,
-                      :created_on => bug.date_submitted,
-                      :updated_on => bug.last_updated
+                      :created_on => (bug.date_submitted ? Time.at(bug.date_submitted).to_date : nil),
+                      :updated_on => (bug.last_updated ? Time.at(bug.last_updated).to_date : nil)
         i.author = User.find_by_id(users_map[bug.reporter_id])
-        i.category = IssueCategory.find_by_project_id_and_name(i.project_id, bug.category[0,30]) unless bug.category.blank?
+        #i.category = IssueCategory.find_by_project_id_and_name(i.project_id, bug.category[0,30]) unless bug.category.blank?
         i.fixed_version = Version.find_by_project_id_and_name(i.project_id, bug.fixed_in_version) unless bug.fixed_in_version.blank?
         i.tracker = (bug.severity == 10 ? TRACKER_FEATURE : TRACKER_BUG)
         i.status = STATUS_MAPPING[bug.status] || i.status
@@ -336,7 +336,7 @@ task :migrate_from_mantis => :environment do
         bug.bug_notes.each do |note|
           next unless users_map[note.reporter_id]
           n = Journal.new :notes => encode(note.bug_note_text.note),
-                          :created_on => note.date_submitted
+                          :created_on => (note.date_submitted ? Time.at(note.date_submitted).to_date : nil)
           n.user = User.find_by_id(users_map[note.reporter_id])
           n.journalized = i
           n.save
@@ -344,7 +344,7 @@ task :migrate_from_mantis => :environment do
 
         # Bug files
         bug.bug_files.each do |file|
-          a = Attachment.new :created_on => file.date_added
+          a = Attachment.new :created_on => (file.date_added ? Time.at(file.date_added).to_date : nil)
           a.file = file
           a.author = User.first
           a.container = i
@@ -383,7 +383,7 @@ task :migrate_from_mantis => :environment do
         n = News.new :project_id => projects_map[news.project_id],
                      :title => encode(news.headline[0..59]),
                      :description => encode(news.body),
-                     :created_on => news.date_posted
+                     :created_on => (news.date_posted ? Time.at(news.date_posted).to_date : nil)
         n.author = User.find_by_id(users_map[news.poster_id])
         n.save
         print '.'
@@ -428,7 +428,7 @@ task :migrate_from_mantis => :environment do
       puts "Projects:        #{Project.count}/#{MantisProject.count}"
       puts "Memberships:     #{Member.count}/#{MantisProjectUser.count}"
       puts "Versions:        #{Version.count}/#{MantisVersion.count}"
-      puts "Categories:      #{IssueCategory.count}/#{MantisCategory.count}"
+      #puts "Categories:      #{IssueCategory.count}/#{MantisCategory.count}"
       puts "Bugs:            #{Issue.count}/#{MantisBug.count}"
       puts "Bug notes:       #{Journal.count}/#{MantisBugNote.count}"
       puts "Bug files:       #{Attachment.count}/#{MantisBugFile.count}"
