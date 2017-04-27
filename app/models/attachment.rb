@@ -235,8 +235,11 @@ class Attachment < ActiveRecord::Base
     end
   end
 
+  EXPLICIT_TEXT_EXT_LIST = %w(.js)
+
   def is_text?
-    Redmine::MimeType.is_type?('text', filename)
+    EXPLICIT_TEXT_EXT_LIST.include?(File.extname(filename).downcase) ||
+      Redmine::MimeType.is_type?('text', filename)
   end
 
   def is_image?
