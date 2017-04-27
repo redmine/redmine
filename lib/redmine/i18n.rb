@@ -181,7 +181,7 @@ module Redmine
 
         def init_translations(locale)
           locale = locale.to_s
-          paths = ::I18n.load_path.select {|path| File.basename(path, '.*') == locale}
+          paths = ::I18n.load_path.select {|path| File.basename(path, '.*') == locale.to_s}
           load_translations(paths)
           translations[locale] ||= {}
         end
