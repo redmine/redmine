@@ -1,7 +1,3 @@
-<% content_for :header_tags do %>
-    <script src="/javascripts/project.js"></script>
-<% end %>
-<%= render "projects/header" %>
 <div id="projectbody"> 
 <h2><%= @author.nil? ? "": l(:label_user_activity, link_to_user(@author)).html_safe %></h2>
 <% other_formats_links do |f| %>
@@ -19,7 +15,7 @@
   <%= content_tag('span', e.project, :class => 'project') if @project.nil? || @project != e.project %>
   <%= link_to format_activity_title(e.event_title), e.event_url %>
   </dt>
-  <dd class="<%= "grouped" if in_group %> row-fluid"><span class="description"><%= format_activity_description(e.event_description) %></span>
+  <dd class="<%= "grouped" if in_group %>"><span class="description"><%= format_activity_description(e.event_description) %></span>
   <span class="author"><%= link_to_user(e.event_author) if e.respond_to?(:event_author) %></span></dd>
 <% end -%>
 </dl>

@@ -1,3 +1,7 @@
+<%= render "header" %>
 <%= render_tabs project_settings_tabs %>
 
+<% content_for :header_tags do %>
+    <script src="/javascripts/project.js"></script>
+<% end %>
 <% html_title(l(:label_settings)) -%>

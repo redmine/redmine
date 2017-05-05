@@ -19,8 +19,6 @@
     <button class="tab-left" type="button" onclick="moveTabLeft(this);"></button>
     <button class="tab-right" type="button" onclick="moveTabRight(this);"></button>
   </div>
-</div>
-
 <% tabs.each do |tab| -%>
   <%= content_tag('div', render(:partial => tab[:partial], :locals => {:tab => tab} ),
                        :id => "tab-content-#{tab[:name]}",
