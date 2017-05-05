@@ -26,6 +26,7 @@ gem "roadie-rails"
 gem "mimemagic"
 gem "thread_safe"
 gem "byebug"
+gem 'activerecord-deprecated_finders', require: 'active_record/deprecated_finders'
 
 gem "nokogiri", "~> 1.6.8"
 gem "i18n", "~> 0.7.0"
