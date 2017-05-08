@@ -39,7 +39,7 @@
 
 <% if @results %>
     <div id="search-results-counts">
-        <%= render_results_by_type(@results_count_by_type) unless @scope.size == 1 %>
+        <%= render_results_by_type(@result_count_by_type) unless @scope.size == 1 %>
     </div>
     <h3 class="results-title"><%= l(:label_result_plural) %> (<%= @result_count %>)</h3>
     <a href="#" class="btn exp-col-btn expand-btn">Expand</a>

@@ -19,6 +19,41 @@
 
 module WikiHelper
   include Redmine::Export::PDF::WikiPdfHelper
+  
+  def contributors(project, page)
+    contributorsDict = ActiveSupport::OrderedHash.new
+
+    versions = page.content.versions.
+      select("id, author_id, version").
+      reorder('version DESC').
+      all
+
+    versions.each do |ver|
+      unless ver.author.id.nil?
+        contributorsDict[ver.author.id] = {:name => ver.author.name, :contributorTo => 'wiki contributor'}
+      end
+    end
+
+    unless project.repository.nil?
+      project.repository.committers.each do |committer, user_id|
+        unless user_id.nil?
+          if contributorsDict.has_key?(user_id)
+            contributorsDict[user_id] = {:name => committer, :contributorTo => 'wiki & code contributor'}
+          else
+            contributorsDict[user_id] = {:name => committer, :contributorTo => 'code contributor'}
+          end
+        else
+          contributorsDict[committer.to_s.split('<').first] = {:name => committer, :contributorTo => 'code contributor'}
+        end
+      end
+    end
+
+    #    project.memberships.each do |user|
+    #      contributorsDict[user.user_id] = user.name
+    #    end
+
+    return contributorsDict
+  end
 
   def wiki_page_options_for_select(pages, selected = nil, parent = nil, level = 0)
     pages = pages.group_by(&:parent) unless pages.is_a?(Hash)

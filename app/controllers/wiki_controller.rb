@@ -41,6 +41,8 @@ class WikiController < ApplicationController
   include AttachmentsHelper
   helper :watchers
   include Redmine::Export::PDF
+  helper :application
+  include ApplicationHelper
 
   # List of pages, sorted alphabetically and by parent (hierarchy)
   def index
@@ -65,7 +67,7 @@ class WikiController < ApplicationController
     repourl=getCustomField(@project,"GitHub repository")
     browseurl=url_for({:controller => 'projects', :action => 'show', :id => @project.id})+"/repository"
     membersurl=url_for({:controller => 'projects', :action => 'show', :id => @project.id})+"/#members"
-    render_error({:message => "There is not yet a wiki page for this project on OSB. You can <a href='#{repourl}'>clone</a> this project, <a href='#{browseurl}'>browse</a> its repository or get in <a href='#{membersurl}'>contact</a> with the developers if you have questions.", :status => ""}.merge(options))
+    render_error({:message => "There is not yet a wiki page for this project on OSB. You can <a href='#{repourl}'>clone</a> this project, <a href='#{browseurl}'>browse</a> its repository or get in <a href='#{membersurl}'>contact</a> with the developers if you have questions.".html_safe, :status => ""}.merge(options))
     return false
   end
 

@@ -8,7 +8,7 @@ body { font-family: Verdana, sans-serif; font-size: 12px; color:#333; margin: 0;
 h1, h2, h3, h4 {font-family: "Trebuchet MS", Verdana, sans-serif;padding: 2px 10px 1px 0px;margin: 0 0 10px 0;}
 #content h1, h2, h3, h4 {color: #555;}
 h2, .wiki h1 {font-size: 20px;}
-h3, .wiki h2 {font-size: 16px;}
+h3, .wiki h2 {font-size: 30px;}
 h4, .wiki h3 {font-size: 13px;}
 
 pre, code {font-family: Consolas, Menlo, "Liberation Mono", Courier, monospace;}
@@ -3380,4 +3380,8 @@ color: #555; text-shadow: 1px 1px 0 #fff;
 
 .members .label {
     color: #5a5a5a;
+}
+
+.btn-toolbar {
+    margin-right: 30px;
 }

@@ -95,7 +95,7 @@
 	            <%= hidden_field_tag("geppettoIP", Rails.application.config.serversIP["geppettoIP"]) %>
 	            <%= hidden_field_tag("serverIP", Rails.application.config.serversIP["serverIP"]) %>
 
-	            <%= form_tag({:controller => 'search', :action => 'index', :id => @project}, :method => :get, :class => 'navbar-form navbar-left') do %>
+	            <%= form_tag({:controller => 'search', :action => 'index'}, :method => :get, :class => 'navbar-form navbar-left') do %>
                         <div class="form-group">
 	                    <%= hidden_field_tag(controller.default_search_scope, 1, :id => nil) if controller.default_search_scope %>
 	                    <%= hidden_field_tag("projects", 1) %>

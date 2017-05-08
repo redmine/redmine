@@ -2,21 +2,21 @@
     <script src="/javascripts/project.js"></script>
 <% end %>
 <%= render "projects/header" %>
-<div class="row">
-	<div class="btn-toolbar pull-right">
-	    <% other_formats_links do |f| %>
 
-		  <div class="btn-group">
-			  <a class="btn dropdown-toggle icon-share" data-toggle="dropdown" href="#"> Export <span class="caret"></span></a>
-	          <ul class="dropdown-menu">
+<div class="row">
+    <div class="btn-toolbar pull-right">
+	<% other_formats_links do |f| %>
+
+	    <div class="btn-group">
+		<a class="btn dropdown-toggle icon-share" data-toggle="dropdown" href="#"> Export <span class="caret"></span></a>
+	        <ul class="dropdown-menu">
 	            <li><%= f.link_to 'PDF', :url => params, :caption=>"PDF" %></li>
 	            <li><%= f.link_to 'HTML', :url => params, :caption=>"HTML" %></li>
 	            <li><%= f.link_to 'TXT', :url => params, :caption=>"TXT" %></li>
-	          </ul>
-          </div>
-		<% end if User.current.allowed_to?(:export_wiki_pages, @project) %>
-	</div>
-</div>
+	        </ul>
+            </div>
+	<% end if User.current.allowed_to?(:export_wiki_pages, @project) %>
+
 <% if User.current.allowed_to?(:edit_wiki_pages, @project) %>
 <%= link_to l(:label_wiki_page_new), new_project_wiki_page_path(@project), :remote => true, :class => 'icon icon-add' %>
 <% end %>
@@ -31,99 +31,100 @@
   <%= link_to_if_authorized(l(:button_rollback), {:action => 'edit', :id => @page.title, :version => @content.version }, :class => 'btn icon icon-cancel') %>
 <% end %>
 <% end %>
-<%= link_to_if_authorized(l(:label_history), {:action => 'history', :id => @page.title}, :class => 'btn icon icon-history') %>
-</div>
+<%= link_to_if_authorized(l(:label_history), {:action => 'history', :id => @page.title}, :class => 'btn btn-default icon icon-history') %>
+    </div>
+        </div>
 
-<div class="clearfix"></div>
 
-<div class="col-sm-2 pull-right">
-  <table class="table table-bordered-rows table-hover projecttable">
-    <thead>
-      <tr>
-        <td>Contributors</td>
-      <tr>
-    </thead>
-<tr>
-	<td>
-	  <ul class="list-unstyled">
-	    <% contributors(@project, @page).each do |user_id, committer| %>
-	      <li>
-	      	<% if user_id != committer[:name].to_s.split('<').first  %>
-	      		<a href="/users/<%= user_id %>"><%= committer[:name].to_s.split('<').first %> (<%= committer[:contributorTo] %>)</a>
-	      	<% else %>
-	      		<%= committer[:name].to_s.split('<').first %> (<%= committer[:contributorTo] %>)
-	      	<% end %>		
-	      </li>
-	    <% end %>	  	
-	  </ul>
-	</td>
-  </tr>
-  </table>	
-</div>
 
-<%= wiki_page_breadcrumb(@page) %>
+    <div class="col-sm-2 pull-right">
+        <table class="table table-bordered-rows table-hover projecttable">
+            <thead>
+                <tr>
+                    <td>Contributors</td>
+                    <tr>
+            </thead>
+            <tr>
+	        <td>
+	            <ul class="list-unstyled">
+	                <% contributors(@project, @page).each do |user_id, committer| %>
+	                    <li>
+	      	                <% if user_id != committer[:name].to_s.split('<').first  %>
+	      		            <a href="/users/<%= user_id %>"><%= committer[:name].to_s.split('<').first %> (<%= committer[:contributorTo] %>)</a>
+	      	                <% else %>
+	      		            <%= committer[:name].to_s.split('<').first %> (<%= committer[:contributorTo] %>)
+	      	                <% end %>		
+	                    </li>
+	                <% end %>	  	
+	            </ul>
+	        </td>
+            </tr>
+        </table>	
+    </div>
 
-<% unless @content.current_version? %>
-  <%= title [@page.pretty_title, project_wiki_page_path(@page.project, @page.title, :version => nil)],
+    <%= wiki_page_breadcrumb(@page) %>
+
+    <% unless @content.current_version? %>
+        <%= title [@page.pretty_title, project_wiki_page_path(@page.project, @page.title, :version => nil)],
         [l(:label_history), history_project_wiki_page_path(@page.project, @page.title)],
         "#{l(:label_version)} #{@content.version}" %>
 
-    <p>
-    <%= link_to(("\xc2\xab " + l(:label_previous)),
-                :action => 'show', :id => @page.title, :project_id => @page.project,
-                :version => @content.previous.version) + " - " if @content.previous %>
-    <%= "#{l(:label_version)} #{@content.version}/#{@page.content.version}" %>
-    <%= '('.html_safe + link_to(l(:label_diff), :controller => 'wiki', :action => 'diff',
-                      :id => @page.title, :project_id => @page.project,
-                      :version => @content.version) + ')'.html_safe if @content.previous %> - 
-    <%= link_to((l(:label_next) + " \xc2\xbb"), :action => 'show',
-                :id => @page.title, :project_id => @page.project,
-                :version => @content.next.version) + " - " if @content.next %>
-    <%= link_to(l(:label_current_version), :action => 'show', :id => @page.title, :project_id => @page.project, :version => nil) %>
-    <br />
-    <em><%= @content.author ? link_to_user(@content.author) : l(:label_user_anonymous)
-         %>, <%= format_time(@content.updated_on) %> </em><br />
-    <%= @content.comments %>
-    </p>
-    <hr />
-<% end %>
+        <p>
+            <%= link_to(("\xc2\xab " + l(:label_previous)),
+                        :action => 'show', :id => @page.title, :project_id => @page.project,
+                        :version => @content.previous.version) + " - " if @content.previous %>
+            <%= "#{l(:label_version)} #{@content.version}/#{@page.content.version}" %>
+            <%= '('.html_safe + link_to(l(:label_diff), :controller => 'wiki', :action => 'diff',
+                                        :id => @page.title, :project_id => @page.project,
+                                        :version => @content.version) + ')'.html_safe if @content.previous %> - 
+            <%= link_to((l(:label_next) + " \xc2\xbb"), :action => 'show',
+                        :id => @page.title, :project_id => @page.project,
+                        :version => @content.next.version) + " - " if @content.next %>
+            <%= link_to(l(:label_current_version), :action => 'show', :id => @page.title, :project_id => @page.project, :version => nil) %>
+            <br />
+            <em><%= @content.author ? link_to_user(@content.author) : l(:label_user_anonymous)
+                %>, <%= format_time(@content.updated_on) %> </em><br />
+            <%= @content.comments %>
+        </p>
+        <hr />
+    <% end %>
 
-<%= render(:partial => "wiki/content", :locals => {:content => @content}) %>
+    <%= render(:partial => "wiki/content", :locals => {:content => @content}) %>
 
 <% if @editable && authorize_for('wiki', 'add_attachment') %>
-<div id="wiki_add_attachment">
-<p><%= link_to l(:label_attachment_new), {}, :onclick => "$('#add_attachment_form').show(); return false;",
-                                             :id => 'attach_files_link' %></p>
-<%= form_tag({:controller => 'wiki', :action => 'add_attachment',
-              :project_id => @project, :id => @page.title},
-             :multipart => true, :id => "add_attachment_form",
-             :style => "display:none;") do %>
-  <div class="box">
-  <p><%= render :partial => 'attachments/form' %></p>
-  </div>
-<%= submit_tag l(:button_add) %>
-<%= link_to l(:button_cancel), {}, :onclick => "$('#add_attachment_form').hide(); return false;" %>
-<% end %>
-</div>
+    <div id="wiki_add_attachment">
+        <p><%= link_to l(:label_attachment_new), {}, :onclick => "$('#add_attachment_form').show(); return false;",
+            :id => 'attach_files_link' %></p>
+        <%= form_tag({:controller => 'wiki', :action => 'add_attachment',
+                      :project_id => @project, :id => @page.title},
+                     :multipart => true, :id => "add_attachment_form",
+                     :style => "display:none;") do %>
+            <div class="box">
+                <p><%= render :partial => 'attachments/form' %></p>
+            </div>
+            <%= submit_tag l(:button_add) %>
+            <%= link_to l(:button_cancel), {}, :onclick => "$('#add_attachment_form').hide(); return false;" %>
+        <% end %>
+    </div>
 <% end %>
 
 <% unless @bibliography.empty? %>
 
-<div id="bibliography" style="border-top: 1px solid;">
+    <div id="bibliography" style="border-top: 1px solid;">
 	<h4>Bibliography</h4>
 	
 	<% @bibliography.each do |bibliographyItem| %>
-		<div style="margin-bottom: 15px;">
-			<% bibliographyItem[:authors].each_with_index do |author, i| %>
-			<%= author %><% if i == (bibliographyItem[:authors].length - 2) %> and <% else %>,<% end %><% end %>
-			<i><%= link_to bibliographyItem[:title], bibliographyItem[:url] %></i> <%= bibliographyItem[:source] %>, <%= bibliographyItem[:date] %>, <%= bibliographyItem[:volume] %>(<%= bibliographyItem[:issue] %>): <%= bibliographyItem[:pages] %> 
-		</div>	
+	    <div style="margin-bottom: 15px;">
+		<% bibliographyItem[:authors].each_with_index do |author, i| %>
+		    <%= author %><% if i == (bibliographyItem[:authors].length - 2) %> and <% else %>,<% end %><% end %>
+		<i><%= link_to bibliographyItem[:title], bibliographyItem[:url] %></i> <%= bibliographyItem[:source] %>, <%= bibliographyItem[:date] %>, <%= bibliographyItem[:volume] %>(<%= bibliographyItem[:issue] %>): <%= bibliographyItem[:pages] %> 
+	    </div>	
 	<% end %>	
-</div>
+    </div>
 <% end %>
 
 <% content_for :sidebar do %>
-  <%= render :partial => 'sidebar' %>
+    <%= render :partial => 'sidebar' %>
 <% end %>
 
 <% html_title @page.pretty_title %>
