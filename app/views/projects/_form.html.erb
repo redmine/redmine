@@ -23,9 +23,7 @@
         </div>
 	<div class="popoverform"><icon class="popoverlink icon-2x icon-lightbulb" target="_blank" data-toggle="popover" data-trigger="hover" title="" data-content="The description will appear on the overview page of the project. Use this field to detail the purpose of the model. If the entry for project description is: 'github:README.md' then the README.md file from the GitHub repository, where your code is hosted, should be retrieved and used for the description." data-original-title="Project Description"></icon></div>
     </div>
-    <div class="form-group" 
-         <% if hiddenNonRequiredFields == true %>style="display: none"<% end %>	
-    >
+    <div class="form-group" <% if hiddenNonRequiredFields == true %>style="display: none"<% end %>>
 	<% tags = getCustomField(@project,'Tags') %>
 	<% roles = User.current.roles_for_project(@project).collect(&:name) %>
 	<%= render :partial=>'tags', :locals=>{:tags=>tags, :roles=>roles} %>

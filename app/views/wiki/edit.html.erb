@@ -30,8 +30,8 @@
   <% end %>
 <% end %>
 
-<div class="control-group"><label class="control-label"><%= l(:field_comments) %></label><div class="controls"><%= f.text_field :comments, :class => 'input-xxlarge', :placeholder=>'Write a small message here explaining this change. (Optional)' %></div></div>
-<div class="control-group"><label class="control-label"><%=l(:label_attachment_plural)%></label><div class="controls"><%= render :partial => 'attachments/form' %></div></div>
+<div class="form-group"><label class="col-sm-2 control-label"><%= l(:field_comments) %></label><div class="col-sm-3"><%= f.text_field :comments, :class => 'input-xxlarge', :placeholder=>'Write a small message here explaining this change. (Optional)' %></div></div>
+<div class="form-group"><label class="col-sm-2 control-label"><%=l(:label_attachment_plural)%></label><div class="col-sm-3"><%= render :partial => 'attachments/form' %></div></div>
 </div>
 
 <div class="control-group">

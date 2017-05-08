@@ -5,17 +5,18 @@
             :method => 'post',
             :remote => true do |f| %>
 
-  <%= render_error_messages @page.errors.full_messages_for(:title) %>
+    <%= render_error_messages @page.errors.full_messages_for(:title) %>
 
-  <div class="box tabular">
-    <p>
-      <%= f.text_field :title, :name => 'title', :size => 60, :required => true %>
-      <em class="info"><%= l(:text_unallowed_characters) %>: , . / ? ; : |</em>
-    </p>
-  </div>
-
-  <p class="buttons">
-    <%= submit_tag l(:label_next), :name => nil %>
-    <%= submit_tag l(:button_cancel), :name => nil, :onclick => "hideModal(this);", :type => 'button' %>
-  </p>
+    <div class="form-group">
+        <div class="col-sm-3">
+            <%= f.text_field :title, :name => 'title', :size => 60, :required => true %>
+        </div>
+        <em class="info"><%= l(:text_unallowed_characters) %>: , . / ? ; : |</em>
+    </div>
+    <br>
+    <div class="row pull-right">
+            <%= submit_tag l(:label_next), :name => nil, :class=>'btn btn-success btn-large'%>
+            <%= submit_tag l(:button_cancel), :name => nil, :onclick => "hideModal(this);", :class => 'btn btn-default btn-large' %>
+    </div>
+    
 <% end %>

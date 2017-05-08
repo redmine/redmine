@@ -133,6 +133,7 @@ module ApplicationHelper
                                         class: "label-primary",
                                           tooltip: "This project is endorsed by OSB and is officially supported."},
                                 "0" => {base_text: "User Project",
+                                        class: "label-warning",
                                         tooltip: "This is a personal user project and has not yet been endorsed by OSB.
                                           Please get in contact (info@opensourcebrain.org) to have this project endorsed!"}},
               "Curation level" => {"0" => "", # do not display
@@ -999,9 +1000,9 @@ module ApplicationHelper
   end
 
   def other_formats_links(&block)
-    concat('<div class="row pull-right">'.html_safe )
+    #concat('<div class="row pull-right">'.html_safe )
     yield Redmine::Views::OtherFormatsBuilder.new(self)
-    concat('</div>'.html_safe)
+    #concat('</div>'.html_safe)
   end
 
   def page_header_title

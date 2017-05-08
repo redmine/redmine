@@ -11,7 +11,7 @@
 	          </ul>
           </div>
           <div class="btn-group">
-	      <%= f.link_to 'Atom', {:url => params.merge(:from => nil, :key => User.current.rss_key),:class=>"btn icon-rss btn-rss", :caption=>" News feed"}%>
+	      <%= f.link_to 'Atom', {:url => params.merge(:from => nil, :key => User.current.rss_key),:class=>"btn btn-default icon-rss btn-rss", :caption=>" News feed"}%>
 	  </div>	
 		<% end %>
 	</div>

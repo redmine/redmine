@@ -1,9 +1,15 @@
-<div id="projectbody"> 
-<h2><%= @author.nil? ? "": l(:label_user_activity, link_to_user(@author)).html_safe %></h2>
-<% other_formats_links do |f| %>
-  <%= f.link_to 'Atom', {:url => params.merge(:from => nil, :key => User.current.rss_key),:class=>"btn icon-rss btn-rss", :caption=>" News feed"}%>
+<% content_for :header_tags do %>
+    <script src="/javascripts/project.js"></script>
 <% end %>
-<br/> 
+<%= render "projects/header" %>
+
+<div id="projectbody"> 
+    <h2><%= @author.nil? ? "": l(:label_user_activity, link_to_user(@author)).html_safe %></h2>
+    <div class="pull-right">
+        <% other_formats_links do |f| %>
+            <%= f.link_to 'Atom', {:url => params.merge(:from => nil, :key => User.current.rss_key),:class=>"btn btn-default icon-rss btn-rss", :caption=>" News feed"}%>
+        <% end %>
+    </div>
 <div id="activity">
 <% @events_by_day.keys.sort.reverse.each do |day| %>
 <h3><%= format_activity_day(day) %></h3>

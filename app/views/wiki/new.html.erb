@@ -6,10 +6,8 @@
   <%= render_error_messages @page.errors.full_messages_for(:title) %>
 
   <div class="box tabular">
-    <p>
       <%= f.text_field :title, :name => 'title', :size => 60, :required => true %>
       <em class="info"><%= l(:text_unallowed_characters) %>: , . / ? ; : |</em>
-    </p>
   </div>
 
   <%= submit_tag(l(:label_next)) %>
