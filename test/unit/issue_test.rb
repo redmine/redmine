@@ -354,12 +354,12 @@ class IssueTest < ActiveSupport::TestCase
         :subject => 'Assignment test',
         :assigned_to => group,
         :is_private => true)
-  
+
       Role.find(2).update! :issues_visibility => 'default'
       issues = Issue.visible(User.find(8)).to_a
       assert issues.any?
       assert issues.include?(issue)
-  
+
       Role.find(2).update! :issues_visibility => 'own'
       issues = Issue.visible(User.find(8)).to_a
       assert issues.any?
