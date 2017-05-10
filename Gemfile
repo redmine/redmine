@@ -12,7 +12,7 @@ gem "request_store", "1.0.5"
 gem "mime-types", (RUBY_VERSION >= "2.0" ? "~> 3.0" : "~> 2.99")
 gem "protected_attributes"
 gem "actionpack-xml_parser"
-gem "roadie-rails"
+gem "roadie-rails", "~> 1.1.1"
 gem "mimemagic"
 
 gem "nokogiri", (RUBY_VERSION >= "2.1" ? ">= 1.7.0" : "~> 1.6.8")
