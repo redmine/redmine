@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -18,7 +18,15 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class IssueStatusTest < ActiveSupport::TestCase
-  fixtures :issue_statuses, :issues, :roles, :trackers
+  fixtures :projects, :users, :members, :member_roles, :roles,
+           :groups_users,
+           :trackers, :projects_trackers,
+           :enabled_modules,
+           :versions,
+           :issue_statuses, :issue_categories, :issue_relations, :workflows,
+           :enumerations,
+           :issues, :journals, :journal_details,
+           :custom_fields, :custom_fields_projects, :custom_fields_trackers, :custom_values
 
   def test_create
     status = IssueStatus.new :name => "Assigned"
@@ -28,7 +36,6 @@ class IssueStatusTest < ActiveSupport::TestCase
 
     status.name = "Test Status"
     assert status.save
-    assert !status.is_default
   end
 
   def test_destroy
@@ -43,30 +50,7 @@ class IssueStatusTest < ActiveSupport::TestCase
   def test_destroy_status_in_use
     # Status assigned to an Issue
     status = Issue.find(1).status
-    assert_raise(RuntimeError, "Can't delete status") { status.destroy }
-  end
-
-  def test_default
-    status = IssueStatus.default
-    assert_kind_of IssueStatus, status
-  end
-
-  def test_change_default
-    status = IssueStatus.find(2)
-    assert !status.is_default
-    status.is_default = true
-    assert status.save
-    status.reload
-
-    assert_equal status, IssueStatus.default
-    assert !IssueStatus.find(1).is_default
-  end
-
-  def test_reorder_should_not_clear_default_status
-    status = IssueStatus.default
-    status.move_to_bottom
-    status.reload
-    assert status.is_default?
+    assert_raise(RuntimeError, "Cannot delete status") { status.destroy }
   end
 
   def test_new_statuses_allowed_to
@@ -112,12 +96,46 @@ class IssueStatusTest < ActiveSupport::TestCase
   end
 
   def test_sorted_scope
-    assert_equal IssueStatus.all.sort, IssueStatus.sorted.all
+    assert_equal IssueStatus.all.sort, IssueStatus.sorted.to_a
   end
 
   def test_named_scope
     status = IssueStatus.named("resolved").first
     assert_not_nil status
     assert_equal "Resolved", status.name
+  end
+
+  def test_setting_status_as_closed_should_set_closed_on_for_issues_without_status_journal
+    issue = Issue.generate!(:status_id => 1, :created_on => 2.days.ago)
+    assert_nil issue.closed_on
+
+    issue.status.update! :is_closed => true
+
+    issue.reload
+    assert issue.closed?
+    assert_equal issue.created_on, issue.closed_on
+  end
+
+  def test_setting_status_as_closed_should_set_closed_on_for_issues_with_status_journal
+    issue = Issue.generate!(:status_id => 1, :created_on => 2.days.ago)
+    issue.init_journal(User.find(1))
+    issue.status_id = 2
+    issue.save!
+
+    issue.status.update! :is_closed => true
+
+    issue.reload
+    assert issue.closed?
+    assert_equal issue.journals.first.created_on, issue.closed_on
+  end
+
+  def test_setting_status_as_closed_should_not_set_closed_on_for_issues_with_other_status
+    issue = Issue.generate!(:status_id => 2)
+
+    IssueStatus.find(1).update! :is_closed => true
+
+    issue.reload
+    assert !issue.closed?
+    assert_nil issue.closed_on
   end
 end

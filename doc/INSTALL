@@ -1,15 +1,15 @@
 == Redmine installation
 
 Redmine - project management software
-Copyright (C) 2006-2014  Jean-Philippe Lang
+Copyright (C) 2006-2016  Jean-Philippe Lang
 http://www.redmine.org/
 
 
 == Requirements
 
-* Ruby 1.8.7, 1.9.2, 1.9.3 or 2.0.0
+* Ruby >= 1.9.3
 * RubyGems
-* Bundler >= 1.0.21
+* Bundler >= 1.5.0
 
 * A database:
   * MySQL (tested with MySQL 5.1)
@@ -18,7 +18,8 @@ http://www.redmine.org/
   * SQLServer (tested with SQLServer 2012)
 
 Optional:
-* SCM binaries (e.g. svn, git...), for repository browsing (must be available in PATH)
+* SCM binaries (e.g. svn, git...), for repository browsing (must be
+  available in PATH)
 * ImageMagick (to enable Gantt export to png images)
 
 == Installation
@@ -30,36 +31,37 @@ Optional:
 3. Configure the database parameters in config/database.yml
    for the "production" environment (default database is MySQL and ruby1.9)
 
-   If you're running Redmine with MySQL and ruby1.8, replace the adapter name
-   with `mysql`
-
 4. Install the required gems by running:
      bundle install --without development test
 
-   If ImageMagick is not installed on your system, you should skip the installation
-   of the rmagick gem using:
+   If ImageMagick is not installed on your system, you should skip the
+   installation of the rmagick gem using:
      bundle install --without development test rmagick
 
-   Only the gems that are needed by the adapters you've specified in your database
-   configuration file are actually installed (eg. if your config/database.yml
-   uses the 'mysql2' adapter, then only the mysql2 gem will be installed). Don't
-   forget to re-run `bundle install` when you change config/database.yml for using
-   other database adapters.
+   Only the gems that are needed by the adapters you've specified in your
+   database configuration file are actually installed (eg. if your
+   config/database.yml uses the 'mysql2' adapter, then only the mysql2 gem
+   will be installed). Don't forget to re-run `bundle install` when you
+   change config/database.yml for using other database adapters.
 
-   If you need to load some gems that are not required by Redmine core (eg. fcgi),
-   you can create a file named Gemfile.local at the root of your redmine directory.
+   If you need to load some gems that are not required by Redmine core
+   (eg. fcgi), you can create a file named Gemfile.local at the root of
+   your redmine directory.
    It will be loaded automatically when running `bundle install`.
 
 5. Generate a session store secret
    
    Redmine stores session data in cookies by default, which requires
    a secret to be generated. Under the application main directory run:
-     rake generate_secret_token
+     bundle exec rake generate_secret_token
+
+   Alternatively, you can store this secret in config/secrets.yml:
+   http://guides.rubyonrails.org/upgrading_ruby_on_rails.html#config-secrets-yml
 
 6. Create the database structure
    
    Under the application main directory run:
-     rake db:migrate RAILS_ENV="production"
+     bundle exec rake db:migrate RAILS_ENV="production"
    
    It will create all the tables and an administrator account.
 
@@ -75,7 +77,7 @@ Optional:
 8. Test the installation by running the WEBrick web server
    
    Under the main application directory run:
-     ruby script/rails server -e production
+     ruby bin/rails server -e production
    
    Once WEBrick has started, point your browser to http://localhost:3000/
    You should now see the application welcome page.

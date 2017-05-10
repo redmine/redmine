@@ -31,6 +31,10 @@
   </tr>
 </table>
 
-<% content_for :header_tags do %>
-<%= javascript_include_tag 'select_list_move' %>
+<%= javascript_tag do %>
+$(document).ready(function(){
+  $('.query-columns').closest('form').submit(function(){
+    $('#selected_columns option').prop('selected', true);
+  });
+});
 <% end %>

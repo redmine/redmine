@@ -4,7 +4,7 @@ class AddEnumerationsPosition < ActiveRecord::Migration
     Enumeration.all.group_by(&:opt).each do |opt, enums|
       enums.each_with_index do |enum, i|
         # do not call model callbacks
-        Enumeration.update_all "position = #{i+1}", {:id => enum.id}
+        Enumeration.where({:id => enum.id}).update_all("position = #{i+1}")
       end
     end
   end

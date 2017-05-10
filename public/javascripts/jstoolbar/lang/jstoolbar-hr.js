@@ -7,6 +7,7 @@ jsToolBar.strings['Code'] = 'Inline Code';
 jsToolBar.strings['Heading 1'] = 'Naslov 1';
 jsToolBar.strings['Heading 2'] = 'Naslov 2';
 jsToolBar.strings['Heading 3'] = 'Naslov 3';
+jsToolBar.strings['Highlighted code'] = 'Highlighted code';
 jsToolBar.strings['Unordered list'] = 'Graficke oznake';
 jsToolBar.strings['Ordered list'] = 'Numeriranje';
 jsToolBar.strings['Quote'] = 'Citat';

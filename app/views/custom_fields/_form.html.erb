@@ -3,6 +3,7 @@
 <div class="box tabular">
 <div class="control-group"><%= f.text_field :name, :required => true %></div>
 <div class="control-group"><%= f.select :field_format, custom_field_formats_for_select(@custom_field), {}, :disabled => !@custom_field.new_record? %></div>
+<div class="control-group"><%= f.text_area :description, :rows => 7 %></div>
 
 <% if @custom_field.format_in? 'list', 'user', 'version' %>
 <div class="control-group">
@@ -96,6 +97,32 @@ when "IssueCustomField" %>
 
 <% end %>
 <%= call_hook(:"view_custom_fields_form_#{@custom_field.type.to_s.underscore}", :custom_field => @custom_field, :form => f) %>
+</div>
+
+<% if @custom_field.is_a?(IssueCustomField) %>
+  <fieldset class="box" id="custom_field_tracker_ids"><legend><%=l(:label_tracker_plural)%></legend>
+  <% Tracker.sorted.each do |tracker| %>
+    <%= check_box_tag "custom_field[tracker_ids][]",
+                      tracker.id,
+                      (@custom_field.trackers.include? tracker),
+                      :id => "custom_field_tracker_ids_#{tracker.id}" %>
+    <label class="no-css" for="custom_field_tracker_ids_<%=tracker.id%>">
+      <%= tracker.name %>
+    </label>
+  <% end %>
+  <%= hidden_field_tag "custom_field[tracker_ids][]", '' %>
+  <p><%= check_all_links 'custom_field_tracker_ids' %></p>
+  </fieldset>
+
+  <fieldset class="box" id="custom_field_project_ids"><legend><%= l(:label_project_plural) %></legend>
+    <% project_ids = @custom_field.project_ids.to_a %>
+    <%= render_project_nested_lists(Project.all) do |p|
+      content_tag('label', check_box_tag('custom_field[project_ids][]', p.id, project_ids.include?(p.id), :id => nil) + ' ' + p)
+    end %>
+    <%= hidden_field_tag('custom_field[project_ids][]', '', :id => nil) %>
+    <p><%= check_all_links 'custom_field_project_ids' %></p>
+  </fieldset>
+<% end %>
 </div>
 
 <% include_calendar_headers_tags %>

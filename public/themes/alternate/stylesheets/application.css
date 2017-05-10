@@ -13,6 +13,15 @@ h2, h3, h4, .wiki h1, .wiki h2, .wiki h3 {border-bottom: 0px;}
 #main-menu li a { background-color: #507AAA; font-weight: bold;}
 #main-menu li a:hover { background: #507AAA; text-decoration: underline; }
 #main-menu li a.selected, #main-menu li a.selected:hover { background-color:#EEEEEE; }
+#main-menu li a.new-object { background-color:#507AAA; text-decoration: none; }
+
+#main-menu .menu-children {
+  border-right: 1px solid #507AAA;
+  border-bottom: 1px solid #507AAA;
+  border-left: 1px solid #507AAA;
+}
+#main-menu .menu-children li a:hover { background-color: #507AAA;}
+
 
 /* Tables */
 table.list tbody td, table.list tbody tr:hover td { border: solid 1px #d7d7d7; }

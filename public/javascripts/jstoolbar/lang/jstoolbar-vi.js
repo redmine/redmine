@@ -7,6 +7,7 @@ jsToolBar.strings['Code'] = 'Mã chung dòng';
 jsToolBar.strings['Heading 1'] = 'Tiêu đề 1';
 jsToolBar.strings['Heading 2'] = 'Tiêu đề 2';
 jsToolBar.strings['Heading 3'] = 'Tiêu đề 3';
+jsToolBar.strings['Highlighted code'] = 'Highlighted code';
 jsToolBar.strings['Unordered list'] = 'Danh sách không thứ tự';
 jsToolBar.strings['Ordered list'] = 'Danh sách có thứ tự';
 jsToolBar.strings['Quote'] = 'Trích dẫn';

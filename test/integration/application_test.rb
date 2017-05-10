@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,7 +17,7 @@
 
 require File.expand_path('../../test_helper', __FILE__)
 
-class ApplicationTest < ActionController::IntegrationTest
+class ApplicationTest < Redmine::IntegrationTest
   include Redmine::I18n
 
   fixtures :projects, :trackers, :issue_statuses, :issues,
@@ -32,33 +32,33 @@ class ApplicationTest < ActionController::IntegrationTest
     Setting.default_language = 'en'
 
     # a french user
-    get 'projects', { }, 'HTTP_ACCEPT_LANGUAGE' => 'fr,fr-fr;q=0.8,en-us;q=0.5,en;q=0.3'
+    get '/projects', { }, 'HTTP_ACCEPT_LANGUAGE' => 'fr,fr-fr;q=0.8,en-us;q=0.5,en;q=0.3'
     assert_response :success
-    assert_tag :tag => 'h2', :content => 'Projets'
+    assert_select 'h2', :text => 'Projets'
     assert_equal :fr, current_language
     assert_select "html[lang=?]", "fr"
 
     # then an italien user
-    get 'projects', { }, 'HTTP_ACCEPT_LANGUAGE' => 'it;q=0.8,en-us;q=0.5,en;q=0.3'
+    get '/projects', { }, 'HTTP_ACCEPT_LANGUAGE' => 'it;q=0.8,en-us;q=0.5,en;q=0.3'
     assert_response :success
-    assert_tag :tag => 'h2', :content => 'Progetti'
+    assert_select 'h2', :text => 'Progetti'
     assert_equal :it, current_language
     assert_select "html[lang=?]", "it"
 
     # not a supported language: default language should be used
-    get 'projects', { }, 'HTTP_ACCEPT_LANGUAGE' => 'zz'
+    get '/projects', { }, 'HTTP_ACCEPT_LANGUAGE' => 'zz'
     assert_response :success
-    assert_tag :tag => 'h2', :content => 'Projects'
+    assert_select 'h2', :text => 'Projects'
     assert_select "html[lang=?]", "en"
   end
 
   def test_token_based_access_should_not_start_session
     # issue of a private project
-    get 'issues/4.atom'
+    get '/issues/4.atom'
     assert_response 302
 
     rss_key = User.find(2).rss_key
-    get "issues/4.atom?key=#{rss_key}"
+    get "/issues/4.atom?key=#{rss_key}"
     assert_response 200
     assert_nil session[:user_id]
   end
@@ -75,5 +75,23 @@ class ApplicationTest < ActionController::IntegrationTest
     assert_include "Invalid form authenticity token.", response.body
   ensure
     ActionController::Base.allow_forgery_protection = false
+  end
+
+  def test_localization_should_be_set_correctly_on_invalid_token
+    ActionController::Base.allow_forgery_protection = true
+    Setting.default_language = 'en'
+    post '/issues', { }, 'HTTP_ACCEPT_LANGUAGE' => 'fr,fr-fr;q=0.8,en-us;q=0.5,en;q=0.3'
+    assert_response 422
+    assert_equal :fr, current_language
+    assert_select "html[lang=?]", "fr"
+  ensure
+    ActionController::Base.allow_forgery_protection = false
+  end
+
+  def test_require_login_with_pdf_format_should_not_error
+    with_settings :login_required => '1' do
+      get '/issues/1.pdf'
+      assert_response 302
+    end
   end
 end

@@ -1,4 +1,4 @@
-# Update to 2.2, 2.4, 2.5 by Karel Picman <karel.picman@kontron.com>
+# Update to 2.2, 2.4, 2.5, 2.6, 3.1, 3.3 by Karel Picman <karel.picman@kontron.com>
 # Update to 1.1 by Michal Gebauer <mishak@mishak.net>
 # Updated by Josef Liška <jl@chl.cz>
 # CZ translation by Maxim Krušina | Massimo Filippi, s.r.o. | maxim@mxm.cz
@@ -134,7 +134,7 @@ cs:
         not_same_project: "nepatří stejnému projektu"
         circular_dependency: "Tento vztah by vytvořil cyklickou závislost"
         cant_link_an_issue_with_a_descendant: "Úkol nemůže být spojen s jedním z jeho dílčích úkolů"
-        earlier_than_minimum_start_date: "cannot be earlier than %{date} because of preceding issues"
+        earlier_than_minimum_start_date: "nemůže být dříve než %{date} kvůli předřazeným úkolům"
 
   actionview_instancetag_blank_option: Prosím vyberte
 
@@ -146,11 +146,12 @@ cs:
   general_csv_separator: ','
   general_csv_decimal_separator: '.'
   general_csv_encoding: UTF-8
-  general_pdf_encoding: UTF-8
+  general_pdf_fontname: freesans
+  general_pdf_monospaced_fontname: freemono
   general_first_day_of_week: '1'
 
   notice_account_updated: Účet byl úspěšně změněn.
-  notice_account_invalid_creditentials: Chybné jméno nebo heslo
+  notice_account_invalid_credentials: Chybné jméno nebo heslo
   notice_account_password_updated: Heslo bylo úspěšně změněno.
   notice_account_wrong_password: Chybné heslo
   notice_account_register_done: Účet byl úspěšně vytvořen. Pro aktivaci účtu klikněte na odkaz v emailu, který vám byl zaslán.
@@ -554,10 +555,6 @@ cs:
   label_open_issues_plural: otevřené
   label_closed_issues: uzavřený
   label_closed_issues_plural: uzavřené
-  label_x_open_issues_abbr_on_total:
-    zero:  0 otevřených / %{total}
-    one:   1 otevřený / %{total}
-    other: "%{count} otevřených / %{total}"
   label_x_open_issues_abbr:
     zero:  0 otevřených
     one:   1 otevřený
@@ -578,7 +575,6 @@ cs:
   label_used_by: Použito
   label_details: Detaily
   label_add_note: Přidat poznámku
-  label_per_page: Na stránku
   label_calendar: Kalendář
   label_months_from: měsíců od
   label_gantt: Ganttův diagram
@@ -693,10 +689,6 @@ cs:
   label_blocked_by: blokován
   label_precedes: předchází
   label_follows: následuje
-  label_end_to_start: od konce do začátku
-  label_end_to_end: od konce do konce
-  label_start_to_start: od začátku do začátku
-  label_start_to_end: od začátku do konce
   label_stay_logged_in: Zůstat přihlášený
   label_disabled: zakázán
   label_show_completed_versions: Zobrazit dokončené verze
@@ -1080,8 +1072,8 @@ cs:
   label_in_the_next_days: v přístích
   label_in_the_past_days: v minulých
   label_attribute_of_user: "%{name} uživatel(e/ky)"
-  text_turning_multiple_off: Jestliže zakážete více hodnot, 
-    hodnoty budou smazány za účelem rezervace pouze jediné hodnoty na položku.    
+  text_turning_multiple_off: Jestliže zakážete více hodnot,
+    hodnoty budou smazány za účelem rezervace pouze jediné hodnoty na položku.
   label_attribute_of_issue: "%{name} úkolu"
   permission_add_documents: Přidat dokument
   permission_edit_documents: Upravit dokumenty
@@ -1093,7 +1085,7 @@ cs:
   field_generate_password: Generovat heslo
   setting_default_projects_tracker_ids: Výchozí fronta pro nové projekty
   label_total_time: Celkem
-  notice_account_not_activated_yet: Neaktivovali jste si dosud Váš účet. 
+  notice_account_not_activated_yet: Neaktivovali jste si dosud Váš účet.
     Pro opětovné zaslání aktivačního emailu <a href="%{url}">klikněte na tento odkaz</a>, prosím.
   notice_account_locked: Váš účet je uzamčen.
   label_hidden: Skrytý
@@ -1104,8 +1096,8 @@ cs:
   notice_new_password_must_be_different: Nové heslo se musí lišit od stávajícího
   setting_mail_handler_excluded_filenames: Vyřadit přílohy podle jména
   text_convert_available: ImageMagick convert k dispozici (volitelné)
-  label_link: Odkaz 
-  label_only: jenom 
+  label_link: Odkaz
+  label_only: jenom
   label_drop_down_list: rozbalovací seznam
   label_checkboxes: zaškrtávátka
   label_link_values_to: Propojit hodnoty s URL
@@ -1114,3 +1106,106 @@ cs:
   setting_force_default_language_for_loggedin: Vynutit výchozí jazyk pro přihlášené uživatele
     users
   label_custom_field_select_type: Vybrat typ objektu, ke kterému bude přiřazeno uživatelské pole
+  label_issue_assigned_to_updated: Přiřazený uživatel aktualizován
+  label_check_for_updates: Zkontroluj aktualizace
+  label_latest_compatible_version: Poslední kompatibilní verze
+  label_unknown_plugin: Nezámý plugin
+  label_radio_buttons: radio tlačítka
+  label_group_anonymous: Anonymní uživatelé
+  label_group_non_member: Nečleni
+  label_add_projects: Přidat projekty
+  field_default_status: Výchozí stav
+  text_subversion_repository_note: 'Např.: file:///, http://, https://, svn://, svn+[tunnelscheme]://'
+  field_users_visibility: Viditelnost uživatelů
+  label_users_visibility_all: Všichni aktivní uživatelé
+  label_users_visibility_members_of_visible_projects: Členové viditelných projektů
+  label_edit_attachments: Editovat přiložené soubory
+  setting_link_copied_issue: Vytvořit odkazy na kopírované úkol
+  label_link_copied_issue: Vytvořit odkaz na kopírovaný úkol
+  label_ask: Zeptat se
+  label_search_attachments_yes: Vyhledat názvy a popisy souborů
+  label_search_attachments_no: Nevyhledávat soubory
+  label_search_attachments_only: Vyhledávat pouze soubory
+  label_search_open_issues_only: Pouze otevřené úkoly
+  field_address: Email
+  setting_max_additional_emails: Maximální počet dalších emailových adres
+  label_email_address_plural: Emaily
+  label_email_address_add: Přidat emailovou adresu
+  label_enable_notifications: Povolit notifikace
+  label_disable_notifications: Zakázat notifikace
+  setting_search_results_per_page: Vyhledaných výsledků na stránku
+  label_blank_value: prázdný
+  permission_copy_issues: Kopírovat úkoly
+  error_password_expired: Platnost vašeho hesla vypršela a administrátor vás žádá o jeho změnu.
+  field_time_entries_visibility: Viditelnost časových záznamů
+  setting_password_max_age: Změna hesla je vyžadována po
+  label_parent_task_attributes: Atributy rodičovského úkolu
+  label_parent_task_attributes_derived: Vypočteno z dílčích úkolů
+  label_parent_task_attributes_independent: Nezávisle na dílčích úkolech
+  label_time_entries_visibility_all: Všechny zaznamenané časy
+  label_time_entries_visibility_own: Zaznamenané časy vytvořené uživatelem
+  label_member_management: Správa členů
+  label_member_management_all_roles: Všechny role
+  label_member_management_selected_roles_only: Pouze tyto role
+  label_password_required: Pro pokračování potvrďte vaše heslo
+  label_total_spent_time: Celkem strávený čas
+  notice_import_finished: "%{count} položek bylo naimportováno"
+  notice_import_finished_with_errors: "%{count} z %{total} položek nemohlo být naimportováno"
+  error_invalid_file_encoding: Soubor není platným souborem s kódováním %{encoding}
+  error_invalid_csv_file_or_settings: Soubor není CSV soubor nebo neodpovídá
+    níže uvedenému nastavení
+  error_can_not_read_import_file: Chyba při čtení souboru pro import
+  permission_import_issues: Import úkolů
+  label_import_issues: Import úkolů
+  label_select_file_to_import: Vyberte soubor pro import
+  label_fields_separator: Oddělovač pole
+  label_fields_wrapper: Oddělovač textu
+  label_encoding: Kódování
+  label_comma_char: Čárka
+  label_semi_colon_char: Středník
+  label_quote_char: Uvozovky
+  label_double_quote_char: Dvojté uvozovky
+  label_fields_mapping: Mapování polí
+  label_file_content_preview: Náhled obsahu souboru
+  label_create_missing_values: Vytvořit chybějící hodnoty
+  button_import: Import
+  field_total_estimated_hours: Celkový odhadovaný čas
+  label_api: API
+  label_total_plural: Celkem
+  label_assigned_issues: Přiřazené úkoly
+  label_field_format_enumeration: Seznam klíčů/hodnot
+  label_f_hour_short: '%{value} hod'
+  field_default_version: Výchozí verze
+  error_attachment_extension_not_allowed: Přípona přílohy %{extension} není povolena
+  setting_attachment_extensions_allowed: Povolené přípony
+  setting_attachment_extensions_denied: Nepovolené přípony
+  label_any_open_issues: otevřené úkoly
+  label_no_open_issues: bez otevřených úkolů
+  label_default_values_for_new_users: Výchozí hodnoty pro nové uživatele
+  error_ldap_bind_credentials: Neplatný účet/heslo LDAP
+  setting_sys_api_key: API klíč
+  setting_lost_password: Zapomenuté heslo
+  mail_subject_security_notification: Bezpečnostní upozornění
+  mail_body_security_notification_change: ! '%{field} bylo změněno.'
+  mail_body_security_notification_change_to: ! '%{field} bylo změněno na %{value}.'
+  mail_body_security_notification_add: ! '%{field} %{value} bylo přidáno.'
+  mail_body_security_notification_remove: ! '%{field} %{value} was removed.'
+  mail_body_security_notification_notify_enabled: Email %{value} nyní dostává
+    notifikace.
+  mail_body_security_notification_notify_disabled: Email %{value} už nedostává
+    notifikace.
+  mail_body_settings_updated: ! 'The following settings were changed:'
+  field_remote_ip: IP adresa
+  label_wiki_page_new: Nová wiki stránka
+  label_relations: Relace
+  button_filter: Filtr
+  mail_body_password_updated: Vaše heslo bylo změněno.
+  label_no_preview: Náhled není k dispozici
+  error_no_tracker_allowed_for_new_issue_in_project: Projekt neobsahuje žádnou frontu, pro kterou lze vytvořit úkol
+  label_tracker_all: Všechny fronty
+  label_new_project_issue_tab_enabled: Zobraz záložku "Nový úkol"
+  setting_new_item_menu_tab: Záložka v menu projektu pro vytváření nových objektů
+  label_new_object_tab_enabled: Zobrazit rozbalovací menu "+"
+  error_no_projects_with_tracker_allowed_for_new_issue: Neexistují projekty s frontou, pro kterou lze vytvořit úkol
+  error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: Spent time cannot
+    be reassigned to an issue that is about to be deleted

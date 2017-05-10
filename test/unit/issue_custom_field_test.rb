@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -26,7 +26,7 @@ class IssueCustomFieldTest < ActiveSupport::TestCase
     set_language_if_valid 'en'
     field = IssueCustomField.new(:name => 'Field', :field_format => 'string', :visible => false)
     assert !field.save
-    assert_include "Roles can't be blank", field.errors.full_messages
+    assert_include "Roles cannot be blank", field.errors.full_messages
     field.role_ids = [1, 2]
     assert field.save
   end

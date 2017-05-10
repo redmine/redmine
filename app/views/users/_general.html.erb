@@ -1,6 +1,6 @@
 <%= labelled_form_for @user, :html => {:autocomplete => 'off'} do |f| %>
   <%= render :partial => 'form', :locals => { :f => f } %>
-  <% if @user.active? && email_delivery_enabled? -%>
+  <% if @user.active? && email_delivery_enabled? && @user != User.current -%>
     <p><label><%= check_box_tag 'send_information', 1, true %> <%= l(:label_send_information) %></label></p>
   <% end -%>
   <p><%= submit_tag l(:button_save), :class=>"btn btn-large btn-success" %></p>

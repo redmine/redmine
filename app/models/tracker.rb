@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -24,6 +24,7 @@ class Tracker < ActiveRecord::Base
   CORE_FIELDS_ALL = (CORE_FIELDS_UNDISABLABLE + CORE_FIELDS).freeze
 
   before_destroy :check_integrity
+  belongs_to :default_status, :class_name => 'IssueStatus'
   has_many :issues
   has_many :workflow_rules, :dependent => :delete_all do
     def copy(source_tracker)
@@ -33,16 +34,40 @@ class Tracker < ActiveRecord::Base
 
   has_and_belongs_to_many :projects
   has_and_belongs_to_many :custom_fields, :class_name => 'IssueCustomField', :join_table => "#{table_name_prefix}custom_fields_trackers#{table_name_suffix}", :association_foreign_key => 'custom_field_id'
-  acts_as_list
+  acts_as_positioned
 
   attr_protected :fields_bits
 
+  validates_presence_of :default_status
   validates_presence_of :name
   validates_uniqueness_of :name
   validates_length_of :name, :maximum => 30
 
-  scope :sorted, lambda { order("#{table_name}.position ASC") }
+  scope :sorted, lambda { order(:position) }
   scope :named, lambda {|arg| where("LOWER(#{table_name}.name) = LOWER(?)", arg.to_s.strip)}
+
+  # Returns the trackers that are visible by the user.
+  #
+  # Examples:
+  #   project.trackers.visible(user)
+  #   => returns the trackers that are visible by the user in project
+  #
+  #   Tracker.visible(user)
+  #   => returns the trackers that are visible by the user in at least on project
+  scope :visible, lambda {|*args|
+    user = args.shift || User.current
+    condition = Project.allowed_to_condition(user, :view_issues) do |role, user|
+      unless role.permissions_all_trackers?(:view_issues)
+        tracker_ids = role.permissions_tracker_ids(:view_issues)
+        if tracker_ids.any?
+          "#{Tracker.table_name}.id IN (#{tracker_ids.join(',')})"
+        else
+          '1=0'
+        end
+      end
+    end
+    joins(:projects).where(condition).uniq
+  }
 
   def to_s; name end
 
@@ -53,17 +78,15 @@ class Tracker < ActiveRecord::Base
   # Returns an array of IssueStatus that are used
   # in the tracker's workflows
   def issue_statuses
-    if @issue_statuses
-      return @issue_statuses
-    elsif new_record?
-      return []
-    end
+    @issue_statuses ||= IssueStatus.where(:id => issue_status_ids).to_a.sort
+  end
 
-    ids = WorkflowTransition.
-            connection.select_rows("SELECT DISTINCT old_status_id, new_status_id FROM #{WorkflowTransition.table_name} WHERE tracker_id = #{id} AND type = 'WorkflowTransition'").
-            flatten.
-            uniq
-    @issue_statuses = IssueStatus.where(:id => ids).all.sort
+  def issue_status_ids
+    if new_record?
+      []
+    else
+      @issue_status_ids ||= WorkflowTransition.where(:tracker_id => id).uniq.pluck(:old_status_id, :new_status_id).flatten.uniq
+    end
   end
 
   def disabled_core_fields
@@ -92,7 +115,7 @@ class Tracker < ActiveRecord::Base
   # Returns the fields that are disabled for all the given trackers
   def self.disabled_core_fields(trackers)
     if trackers.present?
-      trackers.uniq.map(&:disabled_core_fields).reduce(:&)
+      trackers.map(&:disabled_core_fields).reduce(:&)
     else
       []
     end
@@ -109,6 +132,6 @@ class Tracker < ActiveRecord::Base
 
 private
   def check_integrity
-    raise Exception.new("Can't delete tracker") if Issue.where(:tracker_id => self.id).any?
+    raise Exception.new("Cannot delete tracker") if Issue.where(:tracker_id => self.id).any?
   end
 end

@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -28,18 +28,31 @@ module Redmine
         yield self
       end
 
-      def register(name, formatter, helper, options={})
+      def register(name, *args)
+        options = args.last.is_a?(Hash) ? args.pop : {}
         name = name.to_s
         raise ArgumentError, "format name '#{name}' is already taken" if @@formatters[name]
+
+        formatter, helper, parser = args.any? ?
+          args :
+          %w(Formatter Helper HtmlParser).map {|m| "Redmine::WikiFormatting::#{name.classify}::#{m}".constantize rescue nil}
+
+        raise "A formatter class is required" if formatter.nil? 
+
         @@formatters[name] = {
           :formatter => formatter,
           :helper => helper,
+          :html_parser => parser,
           :label => options[:label] || name.humanize
         }
       end
 
       def formatter
         formatter_for(Setting.text_formatting)
+      end
+
+      def html_parser
+        html_parser_for(Setting.text_formatting)
       end
 
       def formatter_for(name)
@@ -50,6 +63,11 @@ module Redmine
       def helper_for(name)
         entry = @@formatters[name.to_s]
         (entry && entry[:helper]) || Redmine::WikiFormatting::NullFormatter::Helper
+      end
+
+      def html_parser_for(name)
+        entry = @@formatters[name.to_s]
+        (entry && entry[:html_parser]) || Redmine::WikiFormatting::HtmlParser
       end
 
       def format_names
@@ -94,7 +112,7 @@ module Redmine
     module LinksHelper
       AUTO_LINK_RE = %r{
                       (                          # leading text
-                        <\w+.*?>|                # leading HTML tag, or
+                        <\w+[^>]*?>|             # leading HTML tag, or
                         [\s\(\[,;]|              # leading punctuation, or
                         ^                        # beginning of line
                       )
@@ -111,20 +129,20 @@ module Redmine
                       (?=<|\s|$)
                      }x unless const_defined?(:AUTO_LINK_RE)
 
-      # Destructively remplaces urls into clickable links
+      # Destructively replaces urls into clickable links
       def auto_link!(text)
         text.gsub!(AUTO_LINK_RE) do
           all, leading, proto, url, post = $&, $1, $2, $3, $6
           if leading =~ /<a\s/i || leading =~ /![<>=]?/
-            # don't replace URL's that are already linked
-            # and URL's prefixed with ! !> !< != (textile images)
+            # don't replace URLs that are already linked
+            # and URLs prefixed with ! !> !< != (textile images)
             all
           else
-            # Idea below : an URL with unbalanced parethesis and
+            # Idea below : an URL with unbalanced parenthesis and
             # ending by ')' is put into external parenthesis
             if ( url[-1]==?) and ((url.count("(") - url.count(")")) < 0 ) )
-              url=url[0..-2] # discard closing parenth from url
-              post = ")"+post # add closing parenth to post
+              url=url[0..-2] # discard closing parenthesis from url
+              post = ")"+post # add closing parenthesis to post
             end
             content = proto + url
             href = "#{proto=="www."?"http://www.":proto}#{url}"
@@ -133,9 +151,9 @@ module Redmine
         end
       end
 
-      # Destructively remplaces email addresses into clickable links
+      # Destructively replaces email addresses into clickable links
       def auto_mailto!(text)
-        text.gsub!(/([\w\.!#\$%\-+.]+@[A-Za-z0-9\-]+(\.[A-Za-z0-9\-]+)+)/) do
+        text.gsub!(/([\w\.!#\$%\-+.\/]+@[A-Za-z0-9\-]+(\.[A-Za-z0-9\-]+)+)/) do
           mail = $1
           if text.match(/<a\b[^>]*>(.*)(#{Regexp.escape(mail)})(.*)<\/a>/)
             mail

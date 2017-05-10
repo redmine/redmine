@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,9 +17,10 @@
 
 require File.expand_path('../../../../test_helper', __FILE__)
 
-class ThemesTest < ActionController::IntegrationTest
+class ThemesTest < Redmine::IntegrationTest
 
   def setup
+    Redmine::Themes.rescan
     @theme = Redmine::Themes.themes.last
     Setting.ui_theme = @theme.id
   end
@@ -32,14 +33,14 @@ class ThemesTest < ActionController::IntegrationTest
     get '/'
 
     assert_response :success
-    assert_select "link[rel=stylesheet][href^=/themes/#{@theme.dir}/stylesheets/application.css]"
+    assert_select "link[rel=stylesheet][href^=?]", "/themes/#{@theme.dir}/stylesheets/application.css"
   end
 
   def test_without_theme_js
     get '/'
 
     assert_response :success
-    assert_select "script[src^=/themes/#{@theme.dir}/javascripts/theme.js]", 0
+    assert_select "script[src^=?]", "/themes/#{@theme.dir}/javascripts/theme.js", 0
   end
 
   def test_with_theme_js
@@ -48,7 +49,7 @@ class ThemesTest < ActionController::IntegrationTest
     get '/'
 
     assert_response :success
-    assert_select "script[src^=/themes/#{@theme.dir}/javascripts/theme.js]", 1
+    assert_select "script[src^=?]", "/themes/#{@theme.dir}/javascripts/theme.js", 1
   ensure
     @theme.javascripts.delete 'theme'
   end
@@ -57,7 +58,7 @@ class ThemesTest < ActionController::IntegrationTest
     get '/'
 
     assert_response :success
-    assert_select 'link[rel=shortcut icon][href^=/favicon.ico]'
+    assert_select 'link[rel="shortcut icon"][href^="/favicon.ico"]'
   end
 
   def test_use_theme_favicon_if_theme_provides_one
@@ -66,7 +67,7 @@ class ThemesTest < ActionController::IntegrationTest
     get '/'
 
     assert_response :success
-    assert_select "link[rel=shortcut icon][href^=/themes/#{@theme.dir}/favicon/a.ico]"
+    assert_select 'link[rel="shortcut icon"][href^=?]', "/themes/#{@theme.dir}/favicon/a.ico"
   ensure
     @theme.favicons.delete 'a.ico'
   end
@@ -76,8 +77,8 @@ class ThemesTest < ActionController::IntegrationTest
     get '/'
 
     assert_response :success
-    assert_select "link[rel=shortcut icon]", 1
-    assert_select "link[rel=shortcut icon][href^=/themes/#{@theme.dir}/favicon/b.ico]"
+    assert_select 'link[rel="shortcut icon"]', 1
+    assert_select 'link[rel="shortcut icon"][href^=?]', "/themes/#{@theme.dir}/favicon/b.ico"
   ensure
     @theme.favicons.delete("b.ico")
     @theme.favicons.delete("a.png")
@@ -90,9 +91,9 @@ class ThemesTest < ActionController::IntegrationTest
     get '/'
 
     assert_response :success
-    assert_select "link[rel=stylesheet][href^=/foo/themes/#{@theme.dir}/stylesheets/application.css]"
-    assert_select "script[src^=/foo/themes/#{@theme.dir}/javascripts/theme.js]"
-    assert_select "link[rel=shortcut icon][href^=/foo/themes/#{@theme.dir}/favicon/a.ico]"
+    assert_select "link[rel=stylesheet][href^=?]", "/foo/themes/#{@theme.dir}/stylesheets/application.css"
+    assert_select "script[src^=?]", "/foo/themes/#{@theme.dir}/javascripts/theme.js"
+    assert_select 'link[rel="shortcut icon"][href^=?]', "/foo/themes/#{@theme.dir}/favicon/a.ico"
   ensure
     Redmine::Utils.relative_url_root = ''
   end

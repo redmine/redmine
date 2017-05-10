@@ -1,5 +1,7 @@
+#encoding: utf-8
+#
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -42,9 +44,7 @@ class Redmine::WikiFormatting::TextileFormatterTest < ActionView::TestCase
       '*two*words*'           => '<strong>two*words</strong>',
       '*two * words*'         => '<strong>two * words</strong>',
       '*two* *words*'         => '<strong>two</strong> <strong>words</strong>',
-      '*(two)* *(words)*'     => '<strong>(two)</strong> <strong>(words)</strong>',
-      # with class
-      '*(foo)two words*'      => '<strong class="foo">two words</strong>'
+      '*(two)* *(words)*'     => '<strong>(two)</strong> <strong>(words)</strong>'
     )
   end
 
@@ -57,6 +57,10 @@ class Redmine::WikiFormatting::TextileFormatterTest < ActionView::TestCase
         assert_html_output text => html
       end
     end
+  end
+
+  def test_modifier_should_work_with_one_non_ascii_character
+    assert_html_output "*Ä*" => "<strong>Ä</strong>"
   end
 
   def test_styles
@@ -110,6 +114,20 @@ class Redmine::WikiFormatting::TextileFormatterTest < ActionView::TestCase
     )
   end
 
+  def test_lang_attribute
+    assert_html_output(
+      '*[fr]French*'      => '<strong lang="fr">French</strong>',
+      '*[fr-fr]French*'   => '<strong lang="fr-fr">French</strong>',
+      '*[fr_fr]French*'   => '<strong lang="fr_fr">French</strong>'
+    )
+  end
+
+  def test_lang_attribute_should_ignore_invalid_value
+    assert_html_output(
+      '*[fr3]French*'      => '<strong>[fr3]French</strong>'
+    )
+  end
+
   def test_nested_lists
     raw = <<-RAW
 # Item 1
@@ -144,6 +162,12 @@ EXPECTED
     assert_html_output(
       'this is a <script>'      => 'this is a &lt;script&gt;'
     )
+  end
+
+  def test_kbd
+    assert_html_output({
+      '<kbd>test</kbd>'         => '<kbd>test</kbd>'
+    }, false)
   end
 
   def test_use_of_backslashes_followed_by_numbers_in_headers
@@ -223,6 +247,46 @@ RAW
   <tr><td>cell11</td><td>cell12</td><td></td></tr>
   <tr><td>cell21</td><td></td><td>cell23</td></tr>
   <tr><td>cell31</td><td>cell32</td><td>cell33</td></tr>
+</table>
+EXPECTED
+
+    assert_equal expected.gsub(%r{\s+}, ''), to_html(raw).gsub(%r{\s+}, '')
+  end
+
+  def test_table_with_alignment
+    raw = <<-RAW
+|>. right|
+|<. left|
+|<>. justify|
+RAW
+
+    expected = <<-EXPECTED
+<table>
+  <tr><td style="text-align:right;">right</td></tr>
+  <tr><td style="text-align:left;">left</td></tr>
+  <tr><td style="text-align:justify;">justify</td></tr>
+</table>
+EXPECTED
+
+    assert_equal expected.gsub(%r{\s+}, ''), to_html(raw).gsub(%r{\s+}, '')
+  end
+
+  def test_table_with_trailing_whitespace
+    raw = <<-RAW
+This is a table with trailing whitespace in one row:
+
+|cell11|cell12|
+|cell21|cell22| 
+|cell31|cell32|
+RAW
+
+    expected = <<-EXPECTED
+<p>This is a table with trailing whitespace in one row:</p>
+
+<table>
+  <tr><td>cell11</td><td>cell12</td></tr>
+  <tr><td>cell21</td><td>cell22</td></tr>
+  <tr><td>cell31</td><td>cell32</td></tr>
 </table>
 EXPECTED
 
@@ -467,6 +531,50 @@ Content 2
 STR
 
     assert_match /\Ah1.\tHeading 1\s+Content 1\z/, @formatter.new(text).get_section(1).first
+  end
+
+  def test_should_not_allow_arbitrary_class_attribute_on_offtags
+    %w(code pre kbd).each do |tag|
+      assert_html_output({"<#{tag} class=\"foo\">test</#{tag}>" => "<#{tag}>test</#{tag}>"}, false)
+    end
+
+    assert_html_output({"<notextile class=\"foo\">test</notextile>" => "test"}, false)
+  end
+
+  def test_should_allow_valid_language_class_attribute_on_code_tags
+    assert_html_output({"<code class=\"ruby\">test</code>" => "<code class=\"ruby syntaxhl\"><span class=\"CodeRay\">test</span></code>"}, false)
+  end
+
+  def test_should_not_allow_valid_language_class_attribute_on_non_code_offtags
+    %w(pre kbd).each do |tag|
+      assert_html_output({"<#{tag} class=\"ruby\">test</#{tag}>" => "<#{tag}>test</#{tag}>"}, false)
+    end
+
+    assert_html_output({"<notextile class=\"ruby\">test</notextile>" => "test"}, false)
+  end
+
+  def test_should_prefix_class_attribute_on_tags
+    assert_html_output({
+      '!(foo)test.png!' => "<p><img src=\"test.png\" class=\"wiki-class-foo\" alt=\"\" /></p>",
+      '%(foo)test%'     => "<p><span class=\"wiki-class-foo\">test</span></p>",
+      'p(foo). test'    => "<p class=\"wiki-class-foo\">test</p>",
+      '|(foo). test|'   => "<table>\n\t\t<tr>\n\t\t\t<td class=\"wiki-class-foo\">test</td>\n\t\t</tr>\n\t</table>",
+    }, false)
+  end
+
+  def test_should_prefix_id_attribute_on_tags
+    assert_html_output({
+      '!(#foo)test.png!' => "<p><img src=\"test.png\" id=\"wiki-id-foo\" alt=\"\" /></p>",
+      '%(#foo)test%'     => "<p><span id=\"wiki-id-foo\">test</span></p>",
+      'p(#foo). test'    => "<p id=\"wiki-id-foo\">test</p>",
+      '|(#foo). test|'   => "<table>\n\t\t<tr>\n\t\t\t<td id=\"wiki-id-foo\">test</td>\n\t\t</tr>\n\t</table>",
+    }, false)
+  end
+
+  def test_should_not_prefix_class_and_id_attributes_already_prefixed
+    assert_html_output({
+      '!(wiki-class-foo#wiki-id-bar)test.png!' => "<p><img src=\"test.png\" class=\"wiki-class-foo\" id=\"wiki-id-bar\" alt=\"\" /></p>",
+    }, false)
   end
 
   private

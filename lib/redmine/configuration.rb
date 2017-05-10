@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -58,6 +58,7 @@ module Redmine
           end
         end
 
+        check_regular_expressions
         @config
       end
 
@@ -82,10 +83,11 @@ module Redmine
       def load_from_yaml(filename, env)
         yaml = nil
         begin
-          yaml = YAML::load_file(filename)
+          yaml = YAML::load(ERB.new(File.read(filename)).result)
         rescue ArgumentError
-          $stderr.puts "Your Redmine configuration file located at #{filename} is not a valid YAML file and could not be loaded."
-          exit 1
+          abort "Your Redmine configuration file located at #{filename} is not a valid YAML file and could not be loaded."
+        rescue SyntaxError => e
+          abort "A syntax error occurred when parsing your Redmine configuration file located at #{filename} with ERB:\n#{e.message}"
         end
         conf = {}
         if yaml.is_a?(Hash)
@@ -96,8 +98,7 @@ module Redmine
             conf.merge!(yaml[env])
           end
         else
-          $stderr.puts "Your Redmine configuration file located at #{filename} is not a valid Redmine configuration file."
-          exit 1
+          abort "Your Redmine configuration file located at #{filename} is not a valid Redmine configuration file."
         end
         conf
       end
@@ -107,6 +108,19 @@ module Redmine
         if File.file?(deprecated_email_conf)
           warn "Storing outgoing emails configuration in config/email.yml is deprecated. You should now store it in config/configuration.yml using the email_delivery setting."
           @config.merge!({'email_delivery' => load_from_yaml(deprecated_email_conf, env)})
+        end
+      end
+
+      # Checks the validness of regular expressions set for repository paths at startup
+      def check_regular_expressions
+        @config.each do |name, value|
+          if value.present? && name =~ /^scm_.+_path_regexp$/
+            begin
+              Regexp.new value.to_s.strip
+            rescue => e
+              abort "Invalid regular expression set as #{name} setting in your Redmine configuration file:\n#{e.message}"
+            end
+          end
         end
       end
     end

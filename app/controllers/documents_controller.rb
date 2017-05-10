@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -24,10 +24,11 @@ class DocumentsController < ApplicationController
   before_filter :authorize
 
   helper :attachments
+  helper :custom_fields
 
   def index
     @sort_by = %w(category date title author).include?(params[:sort_by]) ? params[:sort_by] : 'category'
-    documents = @project.documents.includes(:attachments, :category).all
+    documents = @project.documents.includes(:attachments, :category).to_a
     case @sort_by
     when 'date'
       @grouped = documents.group_by {|d| d.updated_on.to_date }
@@ -43,7 +44,7 @@ class DocumentsController < ApplicationController
   end
 
   def show
-    @attachments = @document.attachments.all
+    @attachments = @document.attachments.to_a
   end
 
   def new
@@ -69,7 +70,7 @@ class DocumentsController < ApplicationController
 
   def update
     @document.safe_attributes = params[:document]
-    if request.put? and @document.save
+    if @document.save
       flash[:notice] = l(:notice_successful_update)
       redirect_to document_path(@document)
     else

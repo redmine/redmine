@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,7 +17,7 @@
 
 class JournalDetail < ActiveRecord::Base
   belongs_to :journal
-  before_save :normalize_values
+  attr_protected :id
 
   def custom_field
     if property == 'cf'
@@ -25,12 +25,15 @@ class JournalDetail < ActiveRecord::Base
     end
   end
 
-  private
-
-  def normalize_values
-    self.value = normalize(value)
-    self.old_value = normalize(old_value)
+  def value=(arg)
+    write_attribute :value, normalize(arg)
   end
+
+  def old_value=(arg)
+    write_attribute :old_value, normalize(arg)
+  end
+
+  private
 
   def normalize(v)
     case v

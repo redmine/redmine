@@ -2,7 +2,7 @@
 # by Francisco Fernando García Nieto (ffgarcianieto@gmail.com)
 # Redmine spanish translation:
 # by J. Cayetano Delgado (Cayetano _dot_ Delgado _at_ ioko _dot_ com)
-# Contributors: @borjacampina
+# Contributors: @borjacampina @jgutierrezvega
 
 es:
   number:
@@ -253,6 +253,7 @@ es:
   error_scm_annotate_big_text_file: "La entrada no puede anotarse, al superar el tamaño máximo para ficheros de texto."
   error_scm_command_failed: "Se produjo un error al acceder al repositorio: %{value}"
   error_scm_not_found: "La entrada y/o la revisión no existe en el repositorio."
+  error_ldap_bind_credentials: Cuenta/Contraseña LDAP incorrecta
   field_account: Cuenta
   field_activity: Actividad
   field_admin: Administrador
@@ -340,9 +341,10 @@ es:
   general_csv_decimal_separator: ','
   general_csv_encoding: ISO-8859-15
   general_csv_separator: ';'
+  general_pdf_fontname: freesans
+  general_pdf_monospaced_fontname: freemono
   general_first_day_of_week: '1'
-  general_lang_name: 'Español'
-  general_pdf_encoding: UTF-8
+  general_lang_name: 'Spanish (Español)'
   general_text_No: 'No'
   general_text_Yes: 'Sí'
   general_text_no: 'no'
@@ -390,10 +392,6 @@ es:
   label_chronological_order: En orden cronológico
   label_closed_issues: cerrada
   label_closed_issues_plural: cerradas
-  label_x_open_issues_abbr_on_total:
-    zero:  0 abiertas / %{total}
-    one:   1 abierta / %{total}
-    other: "%{count} abiertas / %{total}"
   label_x_open_issues_abbr:
     zero:  0 abiertas
     one:   1 abierta
@@ -442,8 +440,6 @@ es:
   label_downloads_abbr: D/L
   label_duplicated_by: duplicada por
   label_duplicates: duplicada de
-  label_end_to_end: fin a fin
-  label_end_to_start: fin a principio
   label_enumeration_new: Nuevo valor
   label_enumerations: Listas de valores
   label_environment: Entorno
@@ -548,7 +544,6 @@ es:
   label_overall_activity: Actividad global
   label_overview: Vistazo
   label_password_lost: ¿Olvidaste la contraseña?
-  label_per_page: Por página
   label_permissions: Permisos
   label_permissions_report: Informe de permisos
   label_personalize_page: Personalizar esta página
@@ -614,8 +609,6 @@ es:
   label_sort_lower: Bajar
   label_sort_lowest: Último
   label_spent_time: Tiempo dedicado
-  label_start_to_end: principio a fin
-  label_start_to_start: principio a principio
   label_statistics: Estadísticas
   label_stay_logged_in: Mantener la sesión abierta
   label_string: Texto
@@ -662,13 +655,13 @@ es:
   mail_body_account_information_external: "Puede usar su cuenta %{value} para conectarse."
   mail_body_lost_password: 'Para cambiar su contraseña, haga clic en el siguiente enlace:'
   mail_body_register: 'Para activar su cuenta, haga clic en el siguiente enlace:'
-  mail_body_reminder: "%{count} peticion(es) asignadas a tí finalizan en los próximos %{days} días:"
+  mail_body_reminder: "%{count} peticion(es) asignadas a ti finalizan en los próximos %{days} días:"
   mail_subject_account_activation_request: "Petición de activación de cuenta %{value}"
   mail_subject_lost_password: "Tu contraseña del %{value}"
   mail_subject_register: "Activación de la cuenta del %{value}"
   mail_subject_reminder: "%{count} peticion(es) finalizan en los próximos %{days} días"
   notice_account_activated: Su cuenta ha sido activada. Ya puede conectarse.
-  notice_account_invalid_creditentials: Usuario o contraseña inválido.
+  notice_account_invalid_credentials: Usuario o contraseña inválido.
   notice_account_lost_email_sent: Se le ha enviado un correo con instrucciones para elegir una nueva contraseña.
   notice_account_password_updated: Contraseña modificada correctamente.
   notice_account_pending: "Su cuenta ha sido creada y está pendiende de la aprobación por parte del administrador."
@@ -938,7 +931,7 @@ es:
   label_subtask_plural: Subtareas
   label_project_copy_notifications: Enviar notificaciones por correo electrónico durante la copia del proyecto
   error_can_not_delete_custom_field: Fue imposible eliminar el campo personalizado
-  error_unable_to_connect: Fue imposible conectar con (%{value})
+  error_unable_to_connect: Fue imposible conectarse (%{value})
   error_can_not_remove_role: Este rol está en uso y no puede ser eliminado.
   error_can_not_delete_tracker: Este tipo contiene peticiones y no puede ser eliminado.
   field_principal: Principal
@@ -1145,3 +1138,103 @@ es:
   setting_force_default_language_for_anonymous: Forzar lenguaje por defecto a usuarios anónimos
   setting_force_default_language_for_loggedin: Forzar lenguaje por defecto para usuarios identificados
   label_custom_field_select_type: Seleccione el tipo de objeto al que unir el campo personalizado
+  label_issue_assigned_to_updated: Persona asignada actualizada
+  label_check_for_updates: Comprobar actualizaciones
+  label_latest_compatible_version: Útima versión compatible
+  label_unknown_plugin: Plugin desconocido
+  label_radio_buttons: Botones de selección excluyentes
+  label_group_anonymous: Usuarios anónimos
+  label_group_non_member: Usuarios no miembros
+  label_add_projects: Añadir Proyectos
+  field_default_status: Estado Predeterminado
+  text_subversion_repository_note: 'Ejemplos: file:///, http://, https://, svn://, svn+[tunnelscheme]://'
+  field_users_visibility: Visibilidad de Usuarios
+  label_users_visibility_all: Todos los Usuarios Activos
+  label_users_visibility_members_of_visible_projects: Miembros de Proyectos Visibles
+  label_edit_attachments: Editar archivos adjuntos
+  setting_link_copied_issue: Enlazar petición cuando se copia
+  label_link_copied_issue: Enlazar petición copiada
+  label_ask: Preguntar
+  label_search_attachments_yes: Buscar adjuntos por nombre de archivo y descripciones
+  label_search_attachments_no: No buscar adjuntos
+  label_search_attachments_only: Sólo Buscar adjuntos
+  label_search_open_issues_only: Sólo Abrir Peticiones
+  field_address: Correo electrónico
+  setting_max_additional_emails: Número Máximo de correos electrónicos adicionales
+  label_email_address_plural: Correo Electrónicos
+  label_email_address_add: Añadir correos electrónicos
+  label_enable_notifications: Permitir Notificaciones
+  label_disable_notifications: No Permitir Notificaciones
+  setting_search_results_per_page: Buscar resultados por página
+  label_blank_value: blanco
+  permission_copy_issues: Copiar petición
+  error_password_expired: Tu contraseña ha expirado o tu administrador requiere que la cambies.
+  field_time_entries_visibility: Visibilidad de las entradas de tiempo
+  setting_password_max_age: Requiere cambiar de contraseña después de
+  label_parent_task_attributes: Atributos de la tarea padre
+  label_parent_task_attributes_derived: Calculada de las subtareas
+  label_parent_task_attributes_independent: Independiente de las subtareas
+  label_time_entries_visibility_all: Todos los registros de tiempo
+  label_time_entries_visibility_own: Los registros de tiempo creados por el usuario
+  label_member_management: Administración de Miembros
+  label_member_management_all_roles: Todos los roles
+  label_member_management_selected_roles_only: Sólo estos roles
+  label_password_required: Confirme su contraseña para continuar
+  label_total_spent_time: Tiempo total dedicado
+  notice_import_finished: "%{count} elementos han sido importados"
+  notice_import_finished_with_errors: "%{count} de %{total} elementos no pudieron ser importados"
+  error_invalid_file_encoding: El archivo no utiliza %{encoding} válida
+  error_invalid_csv_file_or_settings: El archivo no es un archivo CSV o no coincide con la
+    configuración
+  error_can_not_read_import_file: Ocurrió un error mientras se leía el archivo a importar
+  permission_import_issues: Importar Peticiones
+  label_import_issues: Importar petición
+  label_select_file_to_import: Selecciona el archivo a importar
+  label_fields_separator: Separador de Campos
+  label_fields_wrapper: Envoltorio de Campo
+  label_encoding: Codificación
+  label_comma_char: Coma
+  label_semi_colon_char: Punto y Coma
+  label_quote_char: Comilla Simple
+  label_double_quote_char: Comilla Doble
+  label_fields_mapping: Mapeo de Campos
+  label_file_content_preview: Vista Previa del contenido
+  label_create_missing_values: Crear valores no presentes
+  button_import: Importar
+  field_total_estimated_hours: Total de Tiempo Estimado
+  label_api: API
+  label_total_plural: Totales
+  label_assigned_issues: Peticiones Asignadas
+  label_field_format_enumeration: Lista Llave/valor
+  label_f_hour_short: '%{value} h'
+  field_default_version: Version Predeterminada
+  error_attachment_extension_not_allowed: Extensión adjuntada %{extension} no es permitida
+  setting_attachment_extensions_allowed: Extensiones Permitidas
+  setting_attachment_extensions_denied: Extensiones Prohibidas
+  label_any_open_issues: cualquier peticiones abierta
+  label_no_open_issues: peticiones cerradas
+  label_default_values_for_new_users: Valor predeterminado para nuevos usuarios
+  setting_sys_api_key: Clave de la API
+  setting_lost_password: ¿Olvidaste la contraseña?
+  mail_subject_security_notification: Notificación de seguridad
+  mail_body_security_notification_change: ! '%{field} modificado.'
+  mail_body_security_notification_change_to: ! '%{field} modificado por %{value}.'
+  mail_body_security_notification_add: ! '%{field} %{value} añadido.'
+  mail_body_security_notification_remove: ! '%{field} %{value} eliminado.'
+  mail_body_security_notification_notify_enabled: Se han activado las notificaciones para el correo electrónico %{value}
+  mail_body_security_notification_notify_disabled: Se han desactivado las notificaciones para el correo electrónico %{value}
+  mail_body_settings_updated: ! 'Las siguientes opciones han sido actualizadas:'
+  field_remote_ip: Dirección IP
+  label_wiki_page_new: Nueva pagina wiki
+  label_relations: Relaciones
+  button_filter: Filtro
+  mail_body_password_updated: Su contraseña se ha cambiado.
+  label_no_preview: No hay vista previa disponible
+  error_no_tracker_allowed_for_new_issue_in_project: El proyecto no dispone de ningún tipo sobre el cual puedas crear una petición
+  label_tracker_all: Todos los tipos
+  label_new_project_issue_tab_enabled: Mostrar la pestaña "Nueva petición"
+  setting_new_item_menu_tab: Pestaña de creación de nuevos objetos en el menú de cada proyecto
+  label_new_object_tab_enabled: Mostrar la lista desplegable "+"
+  error_no_projects_with_tracker_allowed_for_new_issue: Ningún proyecto dispone de un tipo sobre el cual puedas crear una petición
+  error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: Spent time cannot
+    be reassigned to an issue that is about to be deleted

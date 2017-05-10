@@ -1,3 +1,6 @@
+/* Redmine - project management software
+   Copyright (C) 2006-2016  Jean-Philippe Lang */
+
 var draw_gantt = null;
 var draw_top;
 var draw_right;
@@ -165,8 +168,8 @@ function drawGanttHandler() {
   else
     draw_gantt = Raphael(folder);
   setDrawArea();
-  if ($("#draw_progress_line").attr('checked'))
+  if ($("#draw_progress_line").prop('checked'))
     drawGanttProgressLines();
-  if ($("#draw_relations").attr('checked'))
+  if ($("#draw_relations").prop('checked'))
     drawRelations();
 }

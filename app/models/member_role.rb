@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -26,6 +26,7 @@ class MemberRole < ActiveRecord::Base
 
   validates_presence_of :role
   validate :validate_role_member
+  attr_protected :id
 
   def validate_role_member
     errors.add :role_id, :invalid if role && !role.member?
@@ -35,10 +36,17 @@ class MemberRole < ActiveRecord::Base
     !inherited_from.nil?
   end
 
+  # Destroys the MemberRole without destroying its Member if it doesn't have
+  # any other roles
+  def destroy_without_member_removal
+    @member_removal = false
+    destroy
+  end
+
   private
 
   def remove_member_if_empty
-    if member.roles.empty?
+    if @member_removal != false && member.roles.empty?
       member.destroy
     end
   end

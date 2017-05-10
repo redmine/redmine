@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -27,27 +27,13 @@ class Redmine::ApiTest::QueriesTest < Redmine::ApiTest::Base
            :enabled_modules,
            :queries
 
-  def setup
-    Setting.rest_api_enabled = '1'
-  end
-
   test "GET /queries.xml should return queries" do
     get '/queries.xml'
 
     assert_response :success
     assert_equal 'application/xml', @response.content_type
-    assert_tag :tag => 'queries',
-      :attributes => {:type => 'array'},
-      :child => {
-        :tag => 'query',
-        :child => {
-          :tag => 'id',
-          :content => '4',
-          :sibling => {
-            :tag => 'name',
-            :content => 'Public query for all projects'
-          }
-        }
-      }
+    assert_select 'queries[type=array] query id', :text => '4' do
+      assert_select '~ name', :text => 'Public query for all projects'
+    end
   end
 end

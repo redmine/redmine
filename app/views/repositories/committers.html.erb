@@ -18,9 +18,9 @@
 <% i = 0 -%>
 <% @committers.each do |committer, user_id| -%>
   <tr class="<%= cycle 'odd', 'even' %>">
-    <td><%=h committer %></td>
+    <td><%= committer %></td>
     <td>
-      <%= hidden_field_tag "committers[#{i}][]", committer %>
+      <%= hidden_field_tag "committers[#{i}][]", committer, :id => nil %>
       <%= select_tag "committers[#{i}][]",
                       content_tag(
                             'option',

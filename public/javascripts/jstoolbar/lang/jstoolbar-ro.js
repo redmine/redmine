@@ -7,6 +7,7 @@ jsToolBar.strings['Code'] = 'Fragment de cod';
 jsToolBar.strings['Heading 1'] = 'Heading 1';
 jsToolBar.strings['Heading 2'] = 'Heading 2';
 jsToolBar.strings['Heading 3'] = 'Heading 3';
+jsToolBar.strings['Highlighted code'] = 'Highlighted code';
 jsToolBar.strings['Unordered list'] = 'Listă pe puncte';
 jsToolBar.strings['Ordered list'] = 'Listă ordonată';
 jsToolBar.strings['Quote'] = 'Citează';

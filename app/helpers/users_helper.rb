@@ -1,7 +1,7 @@
 # encoding: utf-8
 #
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -42,14 +42,18 @@ module UsersHelper
     end
   end
 
+  def additional_emails_link(user)
+    if user.email_addresses.count > 1 || Setting.max_additional_emails.to_i > 0
+      link_to l(:label_email_address_plural), user_email_addresses_path(@user), :class => 'icon icon-email-add', :remote => true
+    end
+  end
+
   def user_settings_tabs
-    tabs = [{:name => 'general', :partial => 'users/general', :label => :label_general}]
-    
-    if User.current.admin?
-      tabs.insert 1, {:name => 'memberships', :partial => 'users/memberships', :label => :label_project_plural}
-      if Group.all.any?
-        tabs.insert 1, {:name => 'groups', :partial => 'users/groups', :label => :label_group_plural}
-      end
+    tabs = [{:name => 'general', :partial => 'users/general', :label => :label_general},
+            {:name => 'memberships', :partial => 'users/memberships', :label => :label_project_plural}
+            ]
+    if Group.givable.any?
+      tabs.insert 1, {:name => 'groups', :partial => 'users/groups', :label => :label_group_plural}
     end
     tabs
   end

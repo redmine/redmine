@@ -7,10 +7,19 @@
 <% end %>
 </div>
 
-<h2><%=h @document.title %></h2>
+<h2><%= @document.title %></h2>
 
-<p><em><%=h @document.category.name %><br />
+<p><em><%= @document.category.name %><br />
 <%= format_date @document.created_on %></em></p>
+
+<% if @document.custom_field_values.any? %>
+<ul>
+  <% render_custom_field_values(@document) do |custom_field, formatted| %>
+    <li><span class="label"><%= custom_field.name %>:</span> <%= formatted %></li>
+  <% end %>
+</ul>
+<% end %>
+
 <div class="wiki">
 <%= textilizable @document, :description, :attachments => @document.attachments %>
 </div>

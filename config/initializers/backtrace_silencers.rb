@@ -5,3 +5,7 @@
 
 # You can also remove all the silencers if you're trying do debug a problem that might steem from framework code.
 # Rails.backtrace_cleaner.remove_silencers!
+
+# Do not remove plugins backtrace
+Rails.backtrace_cleaner.remove_silencers!
+Rails.backtrace_cleaner.add_silencer { |line| line !~ /^\/?(app|config|lib|plugins|test)/ }

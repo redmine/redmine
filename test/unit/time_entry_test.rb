@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -26,6 +26,38 @@ class TimeEntryTest < ActiveSupport::TestCase
            :issue_categories, :enumerations,
            :groups_users,
            :enabled_modules
+
+  def test_visibility_with_permission_to_view_all_time_entries
+    user = User.generate!
+    role = Role.generate!(:permissions => [:view_time_entries], :time_entries_visibility => 'all')
+    Role.non_member.remove_permission! :view_time_entries
+    project = Project.find(1)
+    User.add_to_project user, project, role
+    own = TimeEntry.generate! :user => user, :project => project
+    other = TimeEntry.generate! :user => User.find(2), :project => project
+
+    assert TimeEntry.visible(user).find_by_id(own.id)
+    assert TimeEntry.visible(user).find_by_id(other.id)
+
+    assert own.visible?(user)
+    assert other.visible?(user)
+  end
+
+  def test_visibility_with_permission_to_view_own_time_entries
+    user = User.generate!
+    role = Role.generate!(:permissions => [:view_time_entries], :time_entries_visibility => 'own')
+    Role.non_member.remove_permission! :view_time_entries
+    project = Project.find(1)
+    User.add_to_project user, project, role
+    own = TimeEntry.generate! :user => user, :project => project
+    other = TimeEntry.generate! :user => User.find(2), :project => project
+
+    assert TimeEntry.visible(user).find_by_id(own.id)
+    assert_nil TimeEntry.visible(user).find_by_id(other.id)
+
+    assert own.visible?(user)
+    assert_equal false, other.visible?(user)
+  end
 
   def test_hours_format
     assertions = { "2"      => 2.0,
@@ -108,6 +140,14 @@ class TimeEntryTest < ActiveSupport::TestCase
                           :user     => anon,
                           :activity => activity)
     assert_equal 1, te.errors.count
+  end
+
+  def test_acitivity_should_belong_to_project_activities
+    activity = TimeEntryActivity.create!(:name => 'Other project activity', :project_id => 2, :active => true)
+
+    entry = TimeEntry.new(:spent_on => Date.today, :hours => 1.0, :user => User.find(1), :project_id => 1, :activity => activity)
+    assert !entry.valid?
+    assert_include I18n.translate('activerecord.errors.messages.inclusion'), entry.errors[:activity_id]
   end
 
   def test_spent_on_with_2_digits_year_should_not_be_valid

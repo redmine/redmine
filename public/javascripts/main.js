@@ -5,14 +5,14 @@ $(document).ready(function() {
 	var $window = jQuery(window);
 	
 	// -- SIDE BAR
-    setTimeout(function () {
+    /*setTimeout(function () {
 	      $('.bs-docs-sidenav').affix({
 	        offset: {
 	          top: function () { return $window.width() <= 980 ? 290 : 210 }
 	        , bottom: 270
 	        }
 	      })
-	    }, 100)
+	    }, 100)*/
 
     var hash = window.location.hash;
     if (hash) {
@@ -30,9 +30,9 @@ $(document).ready(function() {
       });
 	// -- Bootstrap widget calls
 	// jQuery('.dropdown-toggle').dropdown();
-	jQuery(".alert").alert();
-	jQuery('.popoverlink').popover();
-	jQuery('.tooltiplink').tooltip();
+	// jQuery(".alert").alert();
+	//$('.popoverlink').popover();
+	//$('.tooltiplink').tooltip();
 	    
 	jQuery('.wrapped-channelml .table-border-summary').addClass('table');
 	// jQuery(":submit").addClass('btn btn-success btn-large');

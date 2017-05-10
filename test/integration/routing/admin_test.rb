@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,31 +17,13 @@
 
 require File.expand_path('../../../test_helper', __FILE__)
 
-class RoutingAdminTest < ActionController::IntegrationTest
+class RoutingAdminTest < Redmine::RoutingTest
   def test_administration_panel
-    assert_routing(
-        { :method => 'get', :path => "/admin" },
-        { :controller => 'admin', :action => 'index' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/admin/projects" },
-        { :controller => 'admin', :action => 'projects' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/admin/plugins" },
-        { :controller => 'admin', :action => 'plugins' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/admin/info" },
-        { :controller => 'admin', :action => 'info' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/admin/test_email" },
-        { :controller => 'admin', :action => 'test_email' }
-      )
-    assert_routing(
-        { :method => 'post', :path => "/admin/default_configuration" },
-        { :controller => 'admin', :action => 'default_configuration' }
-      )
+    should_route 'GET /admin' => 'admin#index'
+    should_route 'GET /admin/projects' => 'admin#projects'
+    should_route 'GET /admin/plugins' => 'admin#plugins'
+    should_route 'GET /admin/info' => 'admin#info'
+    should_route 'POST /admin/test_email' => 'admin#test_email'
+    should_route 'POST /admin/default_configuration' => 'admin#default_configuration'
   end
 end

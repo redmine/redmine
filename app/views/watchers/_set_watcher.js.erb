@@ -1,2 +1,3 @@
 <% selector = ".#{watcher_css(watched)}" %>
 $("<%= selector %>").each(function(){$(this).replaceWith("<%= escape_javascript watcher_link(watched, user) %>")});
+$('#watchers').html('<%= escape_javascript(render(:partial => 'watchers/watchers', :locals => {:watched => watched.first})) %>');

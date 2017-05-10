@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -19,7 +19,10 @@ require File.expand_path('../../../../../test_helper', __FILE__)
 require 'redmine/field_format'
 
 class Redmine::UserFieldFormatTest < ActionView::TestCase
-  fixtures :projects, :roles, :users, :members, :member_roles
+  fixtures :projects, :roles, :users, :members, :member_roles,
+           :trackers,
+           :issue_statuses, :issue_categories, :issue_relations, :workflows,
+           :enumerations
 
   def test_user_role_should_reject_blank_values
     field = IssueCustomField.new(:name => 'Foo', :field_format => 'user', :user_role => ["1", ""])

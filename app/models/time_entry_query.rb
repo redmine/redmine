@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -22,6 +22,7 @@ class TimeEntryQuery < Query
   self.available_columns = [
     QueryColumn.new(:project, :sortable => "#{Project.table_name}.name", :groupable => true),
     QueryColumn.new(:spent_on, :sortable => ["#{TimeEntry.table_name}.spent_on", "#{TimeEntry.table_name}.created_on"], :default_order => 'desc', :groupable => true),
+    QueryColumn.new(:tweek, :sortable => ["#{TimeEntry.table_name}.spent_on", "#{TimeEntry.table_name}.created_on"], :caption => l(:label_week)),
     QueryColumn.new(:user, :sortable => lambda {User.fields_for_order_statement}, :groupable => true),
     QueryColumn.new(:activity, :sortable => "#{TimeEntryActivity.table_name}.position", :groupable => true),
     QueryColumn.new(:issue, :sortable => "#{Issue.table_name}.id"),
@@ -40,20 +41,20 @@ class TimeEntryQuery < Query
 
     principals = []
     if project
-      principals += project.principals.sort
+      principals += project.principals.visible.sort
       unless project.leaf?
-        subprojects = project.descendants.visible.all
+        subprojects = project.descendants.visible.to_a
         if subprojects.any?
           add_available_filter "subproject_id",
             :type => :list_subprojects,
             :values => subprojects.collect{|s| [s.name, s.id.to_s] }
-          principals += Principal.member_of(subprojects)
+          principals += Principal.member_of(subprojects).visible
         end
       end
     else
       if all_projects.any?
         # members of visible projects
-        principals += Principal.member_of(all_projects)
+        principals += Principal.member_of(all_projects).visible
         # project filter
         project_values = []
         if User.current.logged? && User.current.memberships.any?
@@ -76,7 +77,7 @@ class TimeEntryQuery < Query
       :type => :list_optional, :values => users_values
     ) unless users_values.empty?
 
-    activities = (project ? project.activities : TimeEntryActivity.shared.active)
+    activities = (project ? project.activities : TimeEntryActivity.shared)
     add_available_filter("activity_id",
       :type => :list, :values => activities.map {|a| [a.name, a.id.to_s]}
     ) unless activities.empty?
@@ -85,7 +86,9 @@ class TimeEntryQuery < Query
     add_available_filter "hours", :type => :float
 
     add_custom_fields_filters(TimeEntryCustomField)
-    add_associations_custom_fields_filters :project, :issue, :user
+    add_associations_custom_fields_filters :project
+    add_custom_fields_filters(issue_custom_fields, :issue)
+    add_associations_custom_fields_filters :user
   end
 
   def available_columns
@@ -93,7 +96,7 @@ class TimeEntryQuery < Query
     @available_columns = self.class.available_columns.dup
     @available_columns += TimeEntryCustomField.visible.
                             map {|cf| QueryCustomFieldColumn.new(cf) }
-    @available_columns += IssueCustomField.visible.
+    @available_columns += issue_custom_fields.visible.
                             map {|cf| QueryAssociationCustomFieldColumn.new(:issue, cf) }
     @available_columns
   end
@@ -109,7 +112,8 @@ class TimeEntryQuery < Query
       where(statement).
       order(order_option).
       joins(joins_for_order_statement(order_option.join(','))).
-      includes(:activity)
+      includes(:activity).
+      references(:activity)
   end
 
   def sql_for_activity_id_field(field, operator, value)

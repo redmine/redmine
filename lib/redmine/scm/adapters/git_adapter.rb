@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -25,7 +25,7 @@ module Redmine
         # Git executable name
         GIT_BIN = Redmine::Configuration['scm_git_command'] || "git"
 
-        class GitBranch < Branch 
+        class GitBranch < Branch
           attr_accessor :is_default
         end
 
@@ -47,10 +47,7 @@ module Redmine
           end
 
           def scm_command_version
-            scm_version = scm_version_from_command_line.dup
-            if scm_version.respond_to?(:force_encoding)
-              scm_version.force_encoding('ASCII-8BIT')
-            end
+            scm_version = scm_version_from_command_line.dup.force_encoding('ASCII-8BIT')
             if m = scm_version.match(%r{\A(.*?)((\d+\.)+\d+)})
               m[2].scan(%r{\d+}).collect(&:to_i)
             end
@@ -99,10 +96,12 @@ module Redmine
 
         def tags
           return @tags if @tags
+          @tags = []
           cmd_args = %w|tag|
           git_cmd(cmd_args) do |io|
             @tags = io.readlines.sort!.map{|t| t.strip}
           end
+          @tags
         rescue ScmCommandAborted
           nil
         end
@@ -113,7 +112,7 @@ module Redmine
           default_bras = bras.select{|x| x.is_default == true}
           return default_bras.first.to_s if ! default_bras.empty?
           master_bras = bras.select{|x| x.to_s == 'master'}
-          master_bras.empty? ? bras.first.to_s : 'master' 
+          master_bras.empty? ? bras.first.to_s : 'master'
         end
 
         def entry(path=nil, identifier=nil)
@@ -145,10 +144,7 @@ module Redmine
                 type = $1
                 sha  = $2
                 size = $3
-                name = $4
-                if name.respond_to?(:force_encoding)
-                  name.force_encoding(@path_encoding)
-                end
+                name = $4.force_encoding(@path_encoding)
                 full_path = p.empty? ? name : "#{p}/#{name}"
                 n      = scm_iconv('UTF-8', @path_encoding, name)
                 full_p = scm_iconv('UTF-8', @path_encoding, full_path)
@@ -170,6 +166,7 @@ module Redmine
         def lastrev(path, rev)
           return nil if path.nil?
           cmd_args = %w|log --no-color --encoding=UTF-8 --date=iso --pretty=fuller --no-merges -n 1|
+          cmd_args << '--no-renames' if self.class.client_version_above?([2, 9])
           cmd_args << rev if rev
           cmd_args << "--" << path unless path.empty?
           lines = []
@@ -198,6 +195,7 @@ module Redmine
         def revisions(path, identifier_from, identifier_to, options={})
           revs = Revisions.new
           cmd_args = %w|log --no-color --encoding=UTF-8 --raw --date=iso --pretty=fuller --parents --stdin|
+          cmd_args << '--no-renames' if self.class.client_version_above?([2, 9])
           cmd_args << "--reverse" if options[:reverse]
           cmd_args << "-n" << "#{options[:limit].to_i}" if options[:limit]
           cmd_args << "--" << scm_iconv(@path_encoding, 'UTF-8', path) if path && !path.empty?
@@ -319,6 +317,7 @@ module Redmine
           else
             cmd_args << "show" << "--no-color" << identifier_from
           end
+          cmd_args << '--no-renames' if self.class.client_version_above?([2, 9])
           cmd_args << "--" <<  scm_iconv(@path_encoding, 'UTF-8', path) unless path.empty?
           diff = []
           git_cmd(cmd_args) do |io|

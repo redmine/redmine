@@ -24,6 +24,7 @@ jsToolBar.strings['Code'] = 'Koodiblokk';
 jsToolBar.strings['Heading 1'] = '1. taseme pealkiri';
 jsToolBar.strings['Heading 2'] = '2. taseme pealkiri';
 jsToolBar.strings['Heading 3'] = '3. taseme pealkiri';
+jsToolBar.strings['Highlighted code'] = 'Highlighted code';
 jsToolBar.strings['Unordered list'] = 'Täpitud nimekiri';
 jsToolBar.strings['Ordered list'] = 'Nummerdatud nimekiri';
 jsToolBar.strings['Quote'] = 'Tsitaat: aste juurde';

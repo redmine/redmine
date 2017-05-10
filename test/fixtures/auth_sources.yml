@@ -3,7 +3,7 @@ auth_sources_001:
   id: 1
   type: AuthSourceLdap
   name: 'LDAP test server'
-  host: '127.0.0.1'
+  host: '<%= $redmine_test_ldap_server %>'
   port: 389
   base_dn: 'OU=Person,DC=redmine,DC=org'
   attr_login: uid

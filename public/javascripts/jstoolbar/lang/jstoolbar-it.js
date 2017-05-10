@@ -10,6 +10,7 @@ jsToolBar.strings['Code'] = 'Codice sorgente';
 jsToolBar.strings['Heading 1'] = 'Titolo 1';
 jsToolBar.strings['Heading 2'] = 'Titolo 2';
 jsToolBar.strings['Heading 3'] = 'Titolo 3';
+jsToolBar.strings['Highlighted code'] = 'Highlighted code';
 jsToolBar.strings['Unordered list'] = 'Elenco puntato';
 jsToolBar.strings['Ordered list'] = 'Elenco numerato';
 jsToolBar.strings['Quote'] = 'Aumenta rientro';

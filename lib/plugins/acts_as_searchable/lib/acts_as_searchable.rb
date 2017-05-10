@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -23,14 +23,18 @@ module Redmine
       end
 
       module ClassMethods
+        # Adds the search methods to the class.
+        #
         # Options:
         # * :columns - a column or an array of columns to search
         # * :project_key - project foreign key (default to project_id)
-        # * :date_column - name of the datetime column (default to created_on)
-        # * :sort_order - name of the column used to sort results (default to :date_column or created_on)
-        # * :permission - permission required to search the model (default to :view_"objects")
+        # * :date_column - name of the datetime column used to sort results (default to :created_on)
+        # * :permission - permission required to search the model
+        # * :scope - scope used to search results
+        # * :preload - associations to preload when loading results for display
         def acts_as_searchable(options = {})
           return if self.included_modules.include?(Redmine::Acts::Searchable::InstanceMethods)
+          options.assert_valid_keys(:columns, :project_key, :date_column, :permission, :scope, :preload)
 
           cattr_accessor :searchable_options
           self.searchable_options = options
@@ -42,11 +46,12 @@ module Redmine
           end
 
           searchable_options[:project_key] ||= "#{table_name}.project_id"
-          searchable_options[:date_column] ||= "#{table_name}.created_on"
-          searchable_options[:order_column] ||= searchable_options[:date_column]
+          searchable_options[:date_column] ||= :created_on
 
-          # Should we search custom fields on this model ?
-          searchable_options[:search_custom_fields] = !reflect_on_association(:custom_values).nil?
+          # Should we search additional associations on this model ?
+          searchable_options[:search_custom_fields] = reflect_on_association(:custom_values).present?
+          searchable_options[:search_attachments] = reflect_on_association(:attachments).present?
+          searchable_options[:search_journals] = reflect_on_association(:journals).present?
 
           send :include, Redmine::Acts::Searchable::InstanceMethods
         end
@@ -58,80 +63,152 @@ module Redmine
         end
 
         module ClassMethods
-          # Searches the model for the given tokens
-          # projects argument can be either nil (will search all projects), a project or an array of projects
-          # Returns the results and the results count
-          def search(tokens, projects=nil, options={})
-            if projects.is_a?(Array) && projects.empty?
-              # no results
-              return [[], 0]
-            end
-
-            # TODO: make user an argument
-            user = User.current
+          # Searches the model for the given tokens and user visibility.
+          # The projects argument can be either nil (will search all projects), a project or an array of projects.
+          # Returns an array that contains the rank and id of all results.
+          # In current implementation, the rank is the record timestamp converted as an integer.
+          #
+          # Valid options:
+          # * :titles_only - searches tokens in the first searchable column only
+          # * :all_words - searches results that match all token
+          # * :
+          # * :limit - maximum number of results to return
+          #
+          # Example:
+          #   Issue.search_result_ranks_and_ids("foo")
+          #   # => [[1419595329, 69], [1419595622, 123]]
+          def search_result_ranks_and_ids(tokens, user=User.current, projects=nil, options={})
             tokens = [] << tokens unless tokens.is_a?(Array)
-            projects = [] << projects unless projects.nil? || projects.is_a?(Array)
-
-            limit_options = {}
-            limit_options[:limit] = options[:limit] if options[:limit]
+            projects = [] << projects if projects.is_a?(Project)
 
             columns = searchable_options[:columns]
             columns = columns[0..0] if options[:titles_only]
 
-            token_clauses = columns.collect {|column| "(LOWER(#{column}) LIKE ?)"}
+            r = []
+            queries = 0
 
-            if !options[:titles_only] && searchable_options[:search_custom_fields]
-              searchable_custom_fields = CustomField.where(:type => "#{self.name}CustomField", :searchable => true)
-              fields_by_visibility = searchable_custom_fields.group_by {|field|
-                field.visibility_by_project_condition(searchable_options[:project_key], user, "cfs.custom_field_id")
-              }
-              # only 1 subquery for all custom fields with the same visibility statement
-              fields_by_visibility.each do |visibility, fields|
-                ids = fields.map(&:id).join(',')
-                sql = "#{table_name}.id IN (SELECT cfs.customized_id FROM #{CustomValue.table_name} cfs" +
-                  " WHERE cfs.customized_type='#{self.name}' AND cfs.customized_id=#{table_name}.id AND LOWER(cfs.value) LIKE ?" +
-                  " AND cfs.custom_field_id IN (#{ids})" +
-                  " AND #{visibility})"
-                token_clauses << sql
+            unless options[:attachments] == 'only'
+              r = fetch_ranks_and_ids(
+                search_scope(user, projects, options).
+                where(search_tokens_condition(columns, tokens, options[:all_words])),
+                options[:limit]
+              )
+              queries += 1
+
+              if !options[:titles_only] && searchable_options[:search_custom_fields]
+                searchable_custom_fields = CustomField.where(:type => "#{self.name}CustomField", :searchable => true).to_a
+  
+                if searchable_custom_fields.any?
+                  fields_by_visibility = searchable_custom_fields.group_by {|field|
+                    field.visibility_by_project_condition(searchable_options[:project_key], user, "#{CustomValue.table_name}.custom_field_id")
+                  }
+                  clauses = []
+                  fields_by_visibility.each do |visibility, fields|
+                    clauses << "(#{CustomValue.table_name}.custom_field_id IN (#{fields.map(&:id).join(',')}) AND (#{visibility}))"
+                  end
+                  visibility = clauses.join(' OR ')
+  
+                  r |= fetch_ranks_and_ids(
+                    search_scope(user, projects, options).
+                    joins(:custom_values).
+                    where(visibility).
+                    where(search_tokens_condition(["#{CustomValue.table_name}.value"], tokens, options[:all_words])),
+                    options[:limit]
+                  )
+                  queries += 1
+                end
+              end
+
+              if !options[:titles_only] && searchable_options[:search_journals]
+                r |= fetch_ranks_and_ids(
+                  search_scope(user, projects, options).
+                  joins(:journals).
+                  where("#{Journal.table_name}.private_notes = ? OR (#{Project.allowed_to_condition(user, :view_private_notes)})", false).
+                  where(search_tokens_condition(["#{Journal.table_name}.notes"], tokens, options[:all_words])),
+                  options[:limit]
+                )
+                queries += 1
               end
             end
 
-            sql = (['(' + token_clauses.join(' OR ') + ')'] * tokens.size).join(options[:all_words] ? ' AND ' : ' OR ')
+            if searchable_options[:search_attachments] && (options[:titles_only] ? options[:attachments] == 'only' : options[:attachments] != '0')
+              r |= fetch_ranks_and_ids(
+                search_scope(user, projects, options).
+                joins(:attachments).
+                where(search_tokens_condition(["#{Attachment.table_name}.filename", "#{Attachment.table_name}.description"], tokens, options[:all_words])),
+                options[:limit]
+              )
+              queries += 1
+            end
 
-            tokens_conditions = [sql, * (tokens.collect {|w| "%#{w.downcase}%"} * token_clauses.size).sort]
+            if queries > 1
+              r = r.sort.reverse
+              if options[:limit] && r.size > options[:limit]
+                r = r[0, options[:limit]]
+              end
+            end
 
-            scope = self.scoped
-            project_conditions = []
-            if searchable_options.has_key?(:permission)
-              project_conditions << Project.allowed_to_condition(user, searchable_options[:permission] || :view_project)
-            elsif respond_to?(:visible)
+            r
+          end
+
+          def search_tokens_condition(columns, tokens, all_words)
+            token_clauses = columns.map {|column| "(#{search_token_match_statement(column)})"}
+            sql = (['(' + token_clauses.join(' OR ') + ')'] * tokens.size).join(all_words ? ' AND ' : ' OR ')
+            [sql, * (tokens.collect {|w| "%#{w}%"} * token_clauses.size).sort]
+          end
+          private :search_tokens_condition
+
+          def search_token_match_statement(column, value='?')
+            Redmine::Database.like(column, value)
+          end
+          private :search_token_match_statement
+
+          def fetch_ranks_and_ids(scope, limit)
+            scope.
+              reorder(searchable_options[:date_column] => :desc, :id => :desc).
+              limit(limit).
+              uniq.
+              pluck(searchable_options[:date_column], :id).
+              # converts timestamps to integers for faster sort
+              map {|timestamp, id| [timestamp.to_i, id]}
+          end
+          private :fetch_ranks_and_ids
+
+          # Returns the search scope for user and projects
+          def search_scope(user, projects, options={})
+            if projects.is_a?(Array) && projects.empty?
+              # no results
+              return none
+            end
+
+            scope = (searchable_options[:scope] || self)
+            if scope.is_a? Proc
+              scope = scope.call(options)
+            end
+
+            if respond_to?(:visible) && !searchable_options.has_key?(:permission)
               scope = scope.visible(user)
             else
-              ActiveSupport::Deprecation.warn "acts_as_searchable with implicit :permission option is deprecated. Add a visible scope to the #{self.name} model or use explicit :permission option."
-              project_conditions << Project.allowed_to_condition(user, "view_#{self.name.underscore.pluralize}".to_sym)
+              permission = searchable_options[:permission] || :view_project
+              scope = scope.where(Project.allowed_to_condition(user, permission))
             end
-            # TODO: use visible scope options instead
-            project_conditions << "#{searchable_options[:project_key]} IN (#{projects.collect(&:id).join(',')})" unless projects.nil?
-            project_conditions = project_conditions.empty? ? nil : project_conditions.join(' AND ')
 
-            results = []
-            results_count = 0
-
-            scope = scope.
-              includes(searchable_options[:include]).
-              order("#{searchable_options[:order_column]} " + (options[:before] ? 'DESC' : 'ASC')).
-              where(project_conditions).
-              where(tokens_conditions)
-
-            results_count = scope.count
-
-            scope_with_limit = scope.limit(options[:limit])
-            if options[:offset]
-              scope_with_limit = scope_with_limit.where("#{searchable_options[:date_column]} #{options[:before] ? '<' : '>'} ?", options[:offset])
+            if projects
+              scope = scope.where("#{searchable_options[:project_key]} IN (?)", projects.map(&:id))
             end
-            results = scope_with_limit.all
+            scope
+          end
+          private :search_scope
 
-            [results, results_count]
+          # Returns search results of given ids
+          def search_results_from_ids(ids)
+            where(:id => ids).preload(searchable_options[:preload]).to_a
+          end
+
+          # Returns search results with same arguments as search_result_ranks_and_ids
+          def search_results(*args)
+            ranks_and_ids = search_result_ranks_and_ids(*args)
+            search_results_from_ids(ranks_and_ids.map(&:last))
           end
         end
       end

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>Redmine code coverage</title>
+<style>
+html {overflow-y:scroll;}
+body {font-family:"Lucida Grande","Lucida Sans",Verdana,Helvetica,Arial,sans-serif; font-size:80%;}
+h1 {color:#777; margin-bottom:0.2em;}
+h2 {color:#aaa;margin-top:1em;font-size:18px;}
+table {width:100%; border-collapse:collapse;}
+th, td {border:1px solid #e2e2e2;}
+td {text-align:right; font-family:"Bitstream Vera Sans Mono","Monaco","Courier New",monospace;}
+td.filename {text-align:left; font-family:"Lucida Grande","Lucida Sans",Verdana,Helvetica,Arial,sans-serif;}
+th {background:#e2e2e2;}
+#generation {color:#777; font-size:90%;}
+a, a:link, a:visited {color:#169; text-decoration:none;}
+a:hover, a:active {color:#c61a1a; text-decoration:underline;}
+div.percent {height:1em; empty-cells:show; padding:0px; border-collapse:collapse; width:100px !important; float:left; margin:0 0.5em 0 0.5em;}
+div.percent div {float:left; height:1em; padding:0px !important;}
+div.percent div.covered {background:#8c7;}
+div.percent div.uncovered {background:#d76;}
+</style>
+</head>
+<body>
+<h1>Redmine code coverage</h1>
+<p id='generation'>
+  Generated on <%= now %> (<%= revision_link %>).
+  More information about this environment at <a href='http://www.redmine.org/projects/redmine/wiki/Continuous_integration'>redmine.org</a>.
+</p>
+
+<table class="file_list">
+  <thead>
+    <tr>
+      <th>File</th>
+      <th colspan="2">% covered</th>
+      <th>Lines</th>
+      <th>Relevant</th>
+      <th>Covered</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% result.source_files.each do |source_file| %>
+    <tr>
+      <td class="filename"><%= link_to_source_file(source_file) %></td>
+      <td><%= "%.1f" % source_file.covered_percent %> %</td>
+      <td>
+        <div class="percent">
+          <div class="covered" style="width:<%= source_file.covered_percent.to_i %>px"></div>
+          <div class="uncovered" style="width:<%= 100 - source_file.covered_percent.to_i %>px"></div>
+        </div>
+      </td>
+      <td><%= source_file.lines.count %></td>
+      <td><%= source_file.covered_lines.count + source_file.missed_lines.count %></td>
+      <td><%= source_file.covered_lines.count %></td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>  
+</body>
+</html>

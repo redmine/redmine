@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,16 +17,9 @@
 
 require File.expand_path('../../../test_helper', __FILE__)
 
-class RoutingCommentsTest < ActionController::IntegrationTest
+class RoutingCommentsTest < Redmine::RoutingTest
   def test_comments
-    assert_routing(
-        { :method => 'post', :path => "/news/567/comments" },
-        { :controller => 'comments', :action => 'create', :id => '567' }
-      )
-    assert_routing(
-        { :method => 'delete', :path => "/news/567/comments/15" },
-        { :controller => 'comments', :action => 'destroy', :id => '567',
-          :comment_id => '15' }
-      )
+    should_route 'POST /news/567/comments' => 'comments#create', :id => '567'
+    should_route 'DELETE /news/567/comments/15' => 'comments#destroy', :id => '567', :comment_id => '15'
   end
 end

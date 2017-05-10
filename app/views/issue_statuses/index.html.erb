@@ -5,28 +5,25 @@
 
 <h2><%=l(:label_issue_status_plural)%></h2>
 
-<table class="list">
+<table class="list issue_statuses">
   <thead><tr>
   <th><%=l(:field_status)%></th>
   <% if Issue.use_status_for_done_ratio? %>
   <th><%=l(:field_done_ratio)%></th>
   <% end %>
-  <th><%=l(:field_is_default)%></th>
   <th><%=l(:field_is_closed)%></th>
-  <th><%=l(:button_sort)%></th>
   <th></th>
   </tr></thead>
   <tbody>
 <% for status in @issue_statuses %>
   <tr class="<%= cycle("odd", "even") %>">
-  <td class="name"><%= link_to h(status.name), edit_issue_status_path(status) %></td>
+  <td class="name"><%= link_to status.name, edit_issue_status_path(status) %></td>
   <% if Issue.use_status_for_done_ratio? %>
-  <td><%= h status.default_done_ratio %></td>
+  <td><%= status.default_done_ratio %></td>
   <% end %>
-  <td><%= checked_image status.is_default? %></td>
   <td><%= checked_image status.is_closed? %></td>
-  <td class="reorder"><%= reorder_links('issue_status', {:action => 'update', :id => status}, :put) %></td>
   <td class="buttons">
+    <%= reorder_handle(status) %>
     <%= delete_link issue_status_path(status) %>
   </td>
   </tr>
@@ -34,6 +31,8 @@
   </tbody>
 </table>
 
-<p class="pagination"><%= pagination_links_full @issue_status_pages %></p>
-
 <% html_title(l(:label_issue_status_plural)) -%>
+
+<%= javascript_tag do %>
+  $(function() { $("table.issue_statuses tbody").positionedItems(); });
+<% end %>

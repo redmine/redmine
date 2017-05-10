@@ -2,7 +2,7 @@
     <%= error_messages_for 'issue', 'time_entry' %>
     <%= render :partial => 'conflict' if @conflict %>
     <div class="box">
-    <% if @edit_allowed || !@allowed_statuses.empty? %>
+    <% if @issue.attributes_editable? %>
         <fieldset class="tabular"><legend><%= l(:label_change_properties) %></legend>
         <div id="all_attributes">
         <%= render :partial => 'form', :locals => {:f => f} %>
@@ -12,11 +12,13 @@
     <% if User.current.allowed_to?(:log_time, @project) %>
         <fieldset class="tabular"><legend><%= l(:button_log_time) %></legend>
         <%= labelled_fields_for :time_entry, @time_entry do |time_entry| %>
+        <div class="splitcontent">
         <div class="splitcontentleft">
         <p><%= time_entry.text_field :hours, :size => 6, :label => :label_spent_time %> <%= l(:field_hours) %></p>
         </div>
         <div class="splitcontentright">
         <p><%= time_entry.select :activity_id, activity_collection_for_select_options %></p>
+        </div>
         </div>
         <p><%= time_entry.text_field :comments, :size => 60 %></p>
         <% @time_entry.custom_field_values.each do |value| %>
@@ -25,27 +27,34 @@
         <% end %>
     </fieldset>
     <% end %>
-
-    <fieldset><legend><%= l(:field_notes) %></legend>
-    <%= f.text_area :notes, :cols => 60, :rows => 10, :class => 'wiki-edit', :no_label => true %>
-    <%= wikitoolbar_for 'issue_notes' %>
-
-    <% if @issue.safe_attribute? 'private_notes' %>
-    <%= f.check_box :private_notes, :no_label => true %> <label for="issue_private_notes"><%= l(:field_private_notes) %></label>
+    <% if @issue.notes_addable? %>
+      <fieldset><legend><%= l(:field_notes) %></legend>
+      <%= f.text_area :notes, :cols => 60, :rows => 10, :class => 'wiki-edit', :no_label => true %>
+      <%= wikitoolbar_for 'issue_notes' %>
+  
+      <% if @issue.safe_attribute? 'private_notes' %>
+      <%= f.check_box :private_notes, :no_label => true %> <label for="issue_private_notes"><%= l(:field_private_notes) %></label>
+      <% end %>
+  
+      <%= call_hook(:view_issues_edit_notes_bottom, { :issue => @issue, :notes => @notes, :form => f }) %>
+      </fieldset>
+  
+      <fieldset><legend><%= l(:label_attachment_plural) %></legend>
+      <p><%= render :partial => 'attachments/form', :locals => {:container => @issue} %></p>
+      </fieldset>
     <% end %>
-
-    <%= call_hook(:view_issues_edit_notes_bottom, { :issue => @issue, :notes => @notes, :form => f }) %>
-    </fieldset>
-
-    <fieldset><legend><%= l(:label_attachment_plural) %></legend>
-    <p><%= render :partial => 'attachments/form', :locals => {:container => @issue} %></p>
-    </fieldset>
     </div>
 
     <%= f.hidden_field :lock_version %>
     <%= hidden_field_tag 'last_journal_id', params[:last_journal_id] || @issue.last_journal_id %>
     <%= submit_tag l(:button_submit) %>
     <%= preview_link preview_edit_issue_path(:project_id => @project, :id => @issue), 'issue-form' %>
+    | <%= link_to l(:button_cancel), {}, :onclick => "$('#update').hide(); return false;" %>
+
+    <%= hidden_field_tag 'prev_issue_id', @prev_issue_id if @prev_issue_id %>
+    <%= hidden_field_tag 'next_issue_id', @next_issue_id if @next_issue_id %>
+    <%= hidden_field_tag 'issue_position', @issue_position if @issue_position %>
+    <%= hidden_field_tag 'issue_count', @issue_count if @issue_count %>
 <% end %>
 
 <div id="preview" class="wiki"></div>

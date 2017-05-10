@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -27,28 +27,15 @@ class Redmine::ApiTest::VersionsTest < Redmine::ApiTest::Base
            :enabled_modules,
            :versions
 
-  def setup
-    Setting.rest_api_enabled = '1'
-  end
-
   test "GET /projects/:project_id/versions.xml should return project versions" do
     get '/projects/1/versions.xml'
 
     assert_response :success
     assert_equal 'application/xml', @response.content_type
-    assert_tag :tag => 'versions',
-      :attributes => {:type => 'array'},
-      :child => {
-        :tag => 'version',
-        :child => {
-          :tag => 'id',
-          :content => '2',
-          :sibling => {
-            :tag => 'name',
-            :content => '1.0'
-          }
-        }
-      }
+
+    assert_select 'versions[type=array] version id', :text => '2' do
+      assert_select '~ name', :text => '1.0'
+    end
   end
 
   test "POST /projects/:project_id/versions.xml should create the version" do
@@ -61,7 +48,7 @@ class Redmine::ApiTest::VersionsTest < Redmine::ApiTest::Base
 
     assert_response :created
     assert_equal 'application/xml', @response.content_type
-    assert_tag 'version', :child => {:tag => 'id', :content => version.id.to_s}
+    assert_select 'version id', :text => version.id.to_s
   end
 
   test "POST /projects/:project_id/versions.xml should create the version with due date" do
@@ -75,7 +62,7 @@ class Redmine::ApiTest::VersionsTest < Redmine::ApiTest::Base
 
     assert_response :created
     assert_equal 'application/xml', @response.content_type
-    assert_tag 'version', :child => {:tag => 'id', :content => version.id.to_s}
+    assert_select 'version id', :text => version.id.to_s
   end
 
   test "POST /projects/:project_id/versions.xml should create the version with custom fields" do
@@ -107,7 +94,7 @@ class Redmine::ApiTest::VersionsTest < Redmine::ApiTest::Base
     end
 
     assert_response :unprocessable_entity
-    assert_tag :errors, :child => {:tag => 'error', :content => "Name can't be blank"}
+    assert_select 'errors error', :text => "Name cannot be blank"
   end
 
   test "GET /versions/:id.xml should return the version" do

@@ -1,4 +1,7 @@
 <div class="contextual">
+<% if User.current.allowed_to?(:edit_wiki_pages, @project) %>
+<%= link_to l(:label_wiki_page_new), new_project_wiki_page_path(@project), :remote => true, :class => 'icon icon-add' %>
+<% end %>
 <%= watcher_link(@wiki, User.current) %>
 </div>
 
@@ -12,7 +15,7 @@
 <h3><%= format_date(date) %></h3>
 <ul>
 <% @pages_by_date[date].each do |page| %>
-    <li><%= link_to h(page.pretty_title), :action => 'show', :id => page.title, :project_id => page.project %></li>
+    <li><%= link_to page.pretty_title, :action => 'show', :id => page.title, :project_id => page.project %></li>
 <% end %>
 </ul>
 <% end %>

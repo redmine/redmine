@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -27,7 +27,7 @@ module Redmine
           super
           callback = request.params[:callback] || request.params[:jsonp]
           if callback && Setting.jsonp_enabled?
-            self.jsonp = callback.to_s.gsub(/[^a-zA-Z0-9_]/, '')
+            self.jsonp = callback.to_s.gsub(/[^a-zA-Z0-9_.]/, '')
           end
         end
 

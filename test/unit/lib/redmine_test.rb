@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -62,12 +62,11 @@ class RedmineTest < ActiveSupport::TestCase
   end
 
   def test_project_menu
-    assert_number_of_items_in_menu :project_menu, 14
+    assert_number_of_items_in_menu :project_menu, 13
     assert_menu_contains_item_named :project_menu, :overview
     assert_menu_contains_item_named :project_menu, :activity
     assert_menu_contains_item_named :project_menu, :roadmap
     assert_menu_contains_item_named :project_menu, :issues
-    assert_menu_contains_item_named :project_menu, :new_issue
     assert_menu_contains_item_named :project_menu, :calendar
     assert_menu_contains_item_named :project_menu, :gantt
     assert_menu_contains_item_named :project_menu, :news
@@ -77,10 +76,5 @@ class RedmineTest < ActiveSupport::TestCase
     assert_menu_contains_item_named :project_menu, :files
     assert_menu_contains_item_named :project_menu, :repository
     assert_menu_contains_item_named :project_menu, :settings
-  end
-
-  def test_new_issue_should_have_root_as_a_parent
-    new_issue = get_menu_item(:project_menu, :new_issue)
-    assert_equal :root, new_issue.parent.name
   end
 end

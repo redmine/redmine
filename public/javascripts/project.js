@@ -60,7 +60,7 @@ $(document).ready(function(){
             }
             callGeppetto("projectswithref?reference=" + project_identifier, processCurrentProjects, true);}
     else {
-            $("#explorermenu").append("<li><a tabindex=-1>No NeuroML2 or SWC files found!</a></li>");
+            $("#explorermenu").append("<li>No NeuroML2 or SWC files found!</li>");
         }
     }
 

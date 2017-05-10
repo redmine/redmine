@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,224 +17,50 @@
 
 require File.expand_path('../../../test_helper', __FILE__)
 
-class RoutingTimelogsTest < ActionController::IntegrationTest
+class RoutingTimelogsTest < Redmine::RoutingTest
   def test_timelogs_global
-    assert_routing(
-        { :method => 'get', :path => "/time_entries" },
-        { :controller => 'timelog', :action => 'index' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/time_entries.csv" },
-        { :controller => 'timelog', :action => 'index', :format => 'csv' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/time_entries.atom" },
-        { :controller => 'timelog', :action => 'index', :format => 'atom' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/time_entries/new" },
-        { :controller => 'timelog', :action => 'new' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/time_entries/22/edit" },
-        { :controller => 'timelog', :action => 'edit', :id => '22' }
-      )
-    assert_routing(
-        { :method => 'post', :path => "/time_entries" },
-        { :controller => 'timelog', :action => 'create' }
-      )
-    assert_routing(
-        { :method => 'put', :path => "/time_entries/22" },
-        { :controller => 'timelog', :action => 'update', :id => '22' }
-      )
-    assert_routing(
-        { :method => 'delete', :path => "/time_entries/55" },
-        { :controller => 'timelog', :action => 'destroy', :id => '55' }
-      )
+    should_route 'GET /time_entries' => 'timelog#index'
+    should_route 'GET /time_entries.csv' => 'timelog#index', :format => 'csv'
+    should_route 'GET /time_entries.atom' => 'timelog#index', :format => 'atom'
+    should_route 'GET /time_entries/new' => 'timelog#new'
+    should_route 'POST /time_entries/new' => 'timelog#new'
+    should_route 'POST /time_entries' => 'timelog#create'
+
+    should_route 'GET /time_entries/22/edit' => 'timelog#edit', :id => '22'
+    should_route 'PUT /time_entries/22' => 'timelog#update', :id => '22'
+    should_route 'DELETE /time_entries/22' => 'timelog#destroy', :id => '22'
   end
 
   def test_timelogs_scoped_under_project
-    assert_routing(
-        { :method => 'get', :path => "/projects/567/time_entries" },
-        { :controller => 'timelog', :action => 'index', :project_id => '567' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/projects/567/time_entries.csv" },
-        { :controller => 'timelog', :action => 'index', :project_id => '567',
-          :format => 'csv' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/projects/567/time_entries.atom" },
-        { :controller => 'timelog', :action => 'index', :project_id => '567',
-          :format => 'atom' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/projects/567/time_entries/new" },
-        { :controller => 'timelog', :action => 'new', :project_id => '567' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/projects/567/time_entries/22/edit" },
-        { :controller => 'timelog', :action => 'edit',
-          :id => '22', :project_id => '567' }
-      )
-    assert_routing(
-        { :method => 'post', :path => "/projects/567/time_entries" },
-        { :controller => 'timelog', :action => 'create',
-          :project_id => '567' }
-      )
-    assert_routing(
-        { :method => 'put', :path => "/projects/567/time_entries/22" },
-        { :controller => 'timelog', :action => 'update',
-          :id => '22', :project_id => '567' }
-      )
-    assert_routing(
-        { :method => 'delete', :path => "/projects/567/time_entries/55" },
-        { :controller => 'timelog', :action => 'destroy',
-          :id => '55', :project_id => '567' }
-      )
+    should_route 'GET /projects/foo/time_entries' => 'timelog#index', :project_id => 'foo'
+    should_route 'GET /projects/foo/time_entries.csv' => 'timelog#index', :project_id => 'foo', :format => 'csv'
+    should_route 'GET /projects/foo/time_entries.atom' => 'timelog#index', :project_id => 'foo', :format => 'atom'
+    should_route 'GET /projects/foo/time_entries/new' => 'timelog#new', :project_id => 'foo'
+    should_route 'POST /projects/foo/time_entries' => 'timelog#create', :project_id => 'foo'
   end
 
   def test_timelogs_scoped_under_issues
-    assert_routing(
-        { :method => 'get', :path => "/issues/234/time_entries" },
-        { :controller => 'timelog', :action => 'index', :issue_id => '234' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/issues/234/time_entries.csv" },
-        { :controller => 'timelog', :action => 'index', :issue_id => '234',
-          :format => 'csv' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/issues/234/time_entries.atom" },
-        { :controller => 'timelog', :action => 'index', :issue_id => '234',
-          :format => 'atom' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/issues/234/time_entries/new" },
-        { :controller => 'timelog', :action => 'new', :issue_id => '234' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/issues/234/time_entries/22/edit" },
-        { :controller => 'timelog', :action => 'edit', :id => '22',
-          :issue_id => '234' }
-      )
-    assert_routing(
-        { :method => 'post', :path => "/issues/234/time_entries" },
-        { :controller => 'timelog', :action => 'create', :issue_id => '234' }
-      )
-    assert_routing(
-        { :method => 'put', :path => "/issues/234/time_entries/22" },
-        { :controller => 'timelog', :action => 'update', :id => '22',
-          :issue_id => '234' }
-      )
-    assert_routing(
-        { :method => 'delete', :path => "/issues/234/time_entries/55" },
-        { :controller => 'timelog', :action => 'destroy', :id => '55',
-          :issue_id => '234' }
-      )
-  end
-
-  def test_timelogs_scoped_under_project_and_issues
-    assert_routing(
-        { :method => 'get',
-          :path => "/projects/ecookbook/issues/234/time_entries" },
-        { :controller => 'timelog', :action => 'index',
-          :issue_id => '234', :project_id => 'ecookbook' }
-      )
-    assert_routing(
-        { :method => 'get',
-          :path => "/projects/ecookbook/issues/234/time_entries.csv" },
-        { :controller => 'timelog', :action => 'index',
-          :issue_id => '234', :project_id => 'ecookbook', :format => 'csv' }
-      )
-    assert_routing(
-        { :method => 'get',
-          :path => "/projects/ecookbook/issues/234/time_entries.atom" },
-        { :controller => 'timelog', :action => 'index',
-          :issue_id => '234', :project_id => 'ecookbook', :format => 'atom' }
-      )
-    assert_routing(
-        { :method => 'get',
-          :path => "/projects/ecookbook/issues/234/time_entries/new" },
-        { :controller => 'timelog', :action => 'new',
-          :issue_id => '234', :project_id => 'ecookbook' }
-      )
-    assert_routing(
-        { :method => 'get',
-          :path => "/projects/ecookbook/issues/234/time_entries/22/edit" },
-        { :controller => 'timelog', :action => 'edit', :id => '22',
-          :issue_id => '234', :project_id => 'ecookbook' }
-      )
-    assert_routing(
-        { :method => 'post',
-          :path => "/projects/ecookbook/issues/234/time_entries" },
-        { :controller => 'timelog', :action => 'create',
-          :issue_id => '234', :project_id => 'ecookbook' }
-      )
-    assert_routing(
-        { :method => 'put',
-          :path => "/projects/ecookbook/issues/234/time_entries/22" },
-        { :controller => 'timelog', :action => 'update', :id => '22',
-          :issue_id => '234', :project_id => 'ecookbook' }
-      )
-    assert_routing(
-        { :method => 'delete',
-          :path => "/projects/ecookbook/issues/234/time_entries/55" },
-        { :controller => 'timelog', :action => 'destroy', :id => '55',
-          :issue_id => '234', :project_id => 'ecookbook' }
-      )
+    should_route 'GET /issues/234/time_entries' => 'timelog#index', :issue_id => '234'
+    should_route 'GET /issues/234/time_entries.csv' => 'timelog#index', :issue_id => '234', :format => 'csv'
+    should_route 'GET /issues/234/time_entries.atom' => 'timelog#index', :issue_id => '234', :format => 'atom'
+    should_route 'GET /issues/234/time_entries/new' => 'timelog#new', :issue_id => '234'
+    should_route 'POST /issues/234/time_entries' => 'timelog#create', :issue_id => '234'
   end
 
   def test_timelogs_report
-    assert_routing(
-        { :method => 'get',
-          :path => "/time_entries/report" },
-        { :controller => 'timelog', :action => 'report' }
-      )
-    assert_routing(
-        { :method => 'get',
-          :path => "/time_entries/report.csv" },
-        { :controller => 'timelog', :action => 'report', :format => 'csv' }
-      )
-    assert_routing(
-        { :method => 'get',
-          :path => "/issues/234/time_entries/report" },
-        { :controller => 'timelog', :action => 'report', :issue_id => '234' }
-      )
-    assert_routing(
-        { :method => 'get',
-          :path => "/issues/234/time_entries/report.csv" },
-        { :controller => 'timelog', :action => 'report', :issue_id => '234',
-          :format => 'csv' }
-      )
-    assert_routing(
-        { :method => 'get',
-          :path => "/projects/567/time_entries/report" },
-        { :controller => 'timelog', :action => 'report', :project_id => '567' }
-      )
-    assert_routing(
-        { :method => 'get',
-          :path => "/projects/567/time_entries/report.csv" },
-        { :controller => 'timelog', :action => 'report', :project_id => '567',
-          :format => 'csv' }
-      )
+    should_route 'GET /time_entries/report' => 'timelog#report'
+    should_route 'GET /time_entries/report.csv' => 'timelog#report', :format => 'csv'
+
+    should_route 'GET /projects/foo/time_entries/report' => 'timelog#report', :project_id => 'foo'
+    should_route 'GET /projects/foo/time_entries/report.csv' => 'timelog#report', :project_id => 'foo', :format => 'csv'
+
+    should_route 'GET /issues/234/time_entries/report' => 'timelog#report', :issue_id => '234'
+    should_route 'GET /issues/234/time_entries/report.csv' => 'timelog#report', :issue_id => '234', :format => 'csv'
   end
 
   def test_timelogs_bulk_edit
-    assert_routing(
-        { :method => 'delete',
-          :path => "/time_entries/destroy" },
-        { :controller => 'timelog', :action => 'destroy' }
-      )
-    assert_routing(
-        { :method => 'post',
-          :path => "/time_entries/bulk_update" },
-        { :controller => 'timelog', :action => 'bulk_update' }
-      )
-    assert_routing(
-        { :method => 'get',
-          :path => "/time_entries/bulk_edit" },
-        { :controller => 'timelog', :action => 'bulk_edit' }
-      )
+    should_route 'GET /time_entries/bulk_edit' => 'timelog#bulk_edit'
+    should_route 'POST /time_entries/bulk_update' => 'timelog#bulk_update'
+    should_route 'DELETE /time_entries/destroy' => 'timelog#destroy'
   end
 end

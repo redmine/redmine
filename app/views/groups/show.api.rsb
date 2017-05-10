@@ -1,6 +1,7 @@
 api.group do
   api.id         @group.id
   api.name       @group.lastname
+  api.builtin    @group.builtin_type if @group.builtin_type
 
   render_api_custom_values @group.visible_custom_field_values, api
 
@@ -8,7 +9,7 @@ api.group do
     @group.users.each do |user|
       api.user :id => user.id, :name => user.name
     end
-  end if include_in_api_response?('users')
+  end if include_in_api_response?('users') && !@group.builtin?
 
   api.array :memberships do
     @group.memberships.each do |membership|

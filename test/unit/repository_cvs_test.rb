@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -22,7 +22,7 @@ class RepositoryCvsTest < ActiveSupport::TestCase
 
   include Redmine::I18n
 
-  REPOSITORY_PATH = Rails.root.join('tmp/test/cvs_repository').to_s
+  REPOSITORY_PATH = repository_path('cvs')
   REPOSITORY_PATH.gsub!(/\//, "\\") if Redmine::Platform.mswin?
   # CVS module
   MODULE_NAME    = 'test'
@@ -46,14 +46,13 @@ class RepositoryCvsTest < ActiveSupport::TestCase
                           :root_url     => REPOSITORY_PATH
                         )
     assert !repo.save
-    assert_include "Module can't be blank",
+    assert_include "Module cannot be blank",
                    repo.errors.full_messages
   end
 
   def test_blank_module_error_message_fr
     set_language_if_valid 'fr'
-    str = "Module doit \xc3\xaatre renseign\xc3\xa9(e)"
-    str.force_encoding('UTF-8') if str.respond_to?(:force_encoding)
+    str = "Module doit \xc3\xaatre renseign\xc3\xa9(e)".force_encoding('UTF-8')
     repo = Repository::Cvs.new(
                           :project       => @project,
                           :identifier    => 'test',
@@ -75,14 +74,13 @@ class RepositoryCvsTest < ActiveSupport::TestCase
                           :url          => MODULE_NAME
                         )
     assert !repo.save
-    assert_include "CVSROOT can't be blank",
+    assert_include "CVSROOT cannot be blank",
                    repo.errors.full_messages
   end
 
   def test_blank_cvsroot_error_message_fr
     set_language_if_valid 'fr'
-    str = "CVSROOT doit \xc3\xaatre renseign\xc3\xa9(e)"
-    str.force_encoding('UTF-8') if str.respond_to?(:force_encoding)
+    str = "CVSROOT doit \xc3\xaatre renseign\xc3\xa9(e)".force_encoding('UTF-8')
     repo = Repository::Cvs.new(
                           :project       => @project,
                           :identifier    => 'test',
@@ -93,6 +91,24 @@ class RepositoryCvsTest < ActiveSupport::TestCase
                         )
     assert !repo.save
     assert_include str, repo.errors.full_messages
+  end
+
+  def test_root_url_should_be_validated_against_regexp_set_in_configuration
+    Redmine::Configuration.with 'scm_cvs_path_regexp' => '/cvspath/[a-z]+' do
+      repo = Repository::Cvs.new(
+        :project       => @project,
+        :identifier    => 'test',
+        :log_encoding  => 'UTF-8',
+        :path_encoding => '',
+        :url           => MODULE_NAME
+      )
+      repo.root_url = '/wrong_path'
+      assert !repo.valid?
+      assert repo.errors[:root_url].present?
+
+      repo.root_url = '/cvspath/foo'
+      assert repo.valid?
+    end
   end
 
   if File.directory?(REPOSITORY_PATH)
@@ -159,14 +175,26 @@ class RepositoryCvsTest < ActiveSupport::TestCase
       @repository.fetch_changesets
       @project.reload
       assert_equal CHANGESETS_NUM, @repository.changesets.count
+
+      rev3_commit = @repository.changesets.find_by_revision('3')
+      assert_equal "3", rev3_commit.revision
+      assert_equal "LANG", rev3_commit.committer
+      assert_equal 2, rev3_commit.filechanges.length
+      filechanges = rev3_commit.filechanges.order(:path => :asc)
+      assert_equal "1.2", filechanges[0].revision
+      assert_equal "1.2", filechanges[1].revision
+      assert_equal "/README", filechanges[0].path
+      assert_equal "/sources/watchers_controller.rb", filechanges[1].path
+
       entries = @repository.entries('', '3')
       assert_kind_of Redmine::Scm::Adapters::Entries, entries
       assert_equal 3, entries.size
-      assert_equal entries[2].name, "README"
-      assert_equal entries[2].lastrev.time, Time.gm(2007, 12, 13, 16, 27, 22)
-      assert_equal entries[2].lastrev.identifier, '3'
-      assert_equal entries[2].lastrev.revision, '3'
-      assert_equal entries[2].lastrev.author, 'LANG'
+      assert_equal "README", entries[2].name
+      assert_equal 'UTF-8', entries[2].path.encoding.to_s
+      assert_equal Time.gm(2007, 12, 13, 16, 27, 22), entries[2].lastrev.time
+      assert_equal '3', entries[2].lastrev.identifier
+      assert_equal '3', entries[2].lastrev.revision
+      assert_equal 'LANG', entries[2].lastrev.author
     end
 
     def test_entries_invalid_path
