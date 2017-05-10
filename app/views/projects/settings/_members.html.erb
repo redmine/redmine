@@ -1,8 +1,9 @@
 <% roles = Role.find_all_givable
    members = @project.memberships.includes(:member_roles, :roles, :principal).to_a.sort %>
-<p><%= link_to l(:label_member_new), new_project_membership_path(@project), :remote => true, :class => "icon icon-add" %></p>
+<p><%# link_to l(:label_member_new), new_project_membership_path(@project), :remote => true, :class => "icon icon-add" %></p>
 
 <% if members.any? %>
+    <div class="col-sm-7">
 <table class="list members">
   <thead><tr> 
     <th><%= l(:label_user) %> / <%= l(:label_group) %></th>
@@ -52,12 +53,12 @@
 <% end; reset_cycle %>
   </tbody>
 </table>
+</div>
 <% else %>
 <p class="nodata"><%= l(:label_no_data) %></p>
 <% end %>
-</div>
 
-<div class="splitcontentright">
+<div class="col-sm-5">
 <% if roles.any? %>
   <%= form_for(@member, {:as => :membership, :url => project_memberships_path(@project), :remote => true, :method => :post}) do |f| %>
     <fieldset><legend><%=l(:label_member_new)%></legend>
