@@ -1723,7 +1723,7 @@ module ApplicationHelper
         :href => "#",
         :onclick => %|submitPreview("#{escape_javascript url_for(url)}", "#{escape_javascript form}", "#{escape_javascript target}"); return false;|,
         :accesskey => accesskey(:preview),
-        :class => 'btn btn-large icon-search'
+        :class => 'btn btn-large btn-default baseline'
       }.merge(options)
   end
 

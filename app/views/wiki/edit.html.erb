@@ -1,3 +1,5 @@
+<%= render "projects/header" %>
+
 <%= wiki_page_breadcrumb(@page) %>
 
 <div class="bs-docs bs-docs-editing">
@@ -12,7 +14,6 @@
 <% end %>
 <%= error_messages_for 'content' %>
 
-<div class="box tabular">
 <%= text_area_tag 'content[text]', @text, :cols => 100, :rows => 25, :class => 'wiki-edit input-block-level', :accesskey => accesskey(:edit) %>
 <br/><br/>
 <% if @page.safe_attribute_names.include?('parent_id') && @wiki.pages.any? %>
@@ -30,16 +31,21 @@
   <% end %>
 <% end %>
 
-<div class="form-group"><label class="col-sm-2 control-label"><%= l(:field_comments) %></label><div class="col-sm-3"><%= f.text_field :comments, :class => 'input-xxlarge', :placeholder=>'Write a small message here explaining this change. (Optional)' %></div></div>
-<div class="form-group"><label class="col-sm-2 control-label"><%=l(:label_attachment_plural)%></label><div class="col-sm-3"><%= render :partial => 'attachments/form' %></div></div>
+<div class="form-group">
+    <label class="col-sm-2 control-label"><%= l(:field_comments) %></label>
+    <div class="col-sm-10">
+        <%= f.text_field :comments, :class => 'input-xxlarge form-control', :placeholder=>'Write a small message here explaining this change. (Optional)' %>
+    </div>
+</div>
+<div class="form-group">
+    <label class="col-sm-2 control-label"><%=l(:label_attachment_plural)%></label>
+    <div class="col-sm-10"><%= render :partial => 'attachments/form' %></div>
 </div>
 
 <div class="control-group">
-	<div class="nolabelcontrols">
 	    <%= submit_tag l(:button_save), :class => "btn btn-large btn-success baseline" %>
-   	    <%= preview_link({:controller => 'wiki', :action => 'preview', :project_id => @project, :id => @page.title }, 'wiki_form') %>
+   	    <%= preview_link({:controller => 'wiki', :action => 'preview', :project_id => @project, :id => @page.title, :class => "btn btn-default" }, 'wiki_form') %>
             | <%= link_to l(:button_cancel), wiki_page_edit_cancel_path(@page) %>
-   	</div>
 </div>
     
 <%= wikitoolbar_for 'content_text' %>
