@@ -14,7 +14,7 @@ gem "mime-types", (RUBY_VERSION >= "2.0" ? "~> 3.0" : "~> 2.99")
 gem "protected_attributes"
 gem "actionpack-action_caching"
 gem "actionpack-xml_parser"
-gem "roadie-rails"
+gem "roadie-rails", "~> 1.1.1"
 gem "mimemagic"
 
 gem "nokogiri", "~> 1.6.8"
