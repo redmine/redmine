@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -69,7 +69,7 @@ class RepositoriesController < ApplicationController
       @repository.merge_extra_info(attrs[:attrs_extra])
     end
     @repository.project = @project
-    if request.put? && @repository.save
+    if @repository.save
       redirect_to settings_project_path(@project, :tab => 'repositories')
     else
       render :action => 'edit'
@@ -92,9 +92,9 @@ class RepositoriesController < ApplicationController
 
   def committers
     @committers = @repository.committers
-    @users = @project.users
+    @users = @project.users.to_a
     additional_user_ids = @committers.collect(&:last).collect(&:to_i) - @users.collect(&:id)
-    @users += User.where(:id => additional_user_ids).all unless additional_user_ids.empty?
+    @users += User.where(:id => additional_user_ids).to_a unless additional_user_ids.empty?
     @users.compact!
     @users.sort!
     if request.post? && params[:committers].is_a?(Hash)
@@ -173,7 +173,7 @@ class RepositoriesController < ApplicationController
       limit(@changeset_pages.per_page).
       offset(@changeset_pages.offset).
       includes(:user, :repository, :parents).
-      all
+      to_a
 
     respond_to do |format|
       format.html { render :layout => false if request.xhr? }
@@ -196,22 +196,26 @@ class RepositoriesController < ApplicationController
     # If the entry is a dir, show the browser
     (show; return) if @entry.is_dir?
 
-    @content = @repository.cat(@path, @rev)
-    (show_error_not_found; return) unless @content
-    if is_raw ||
-         (@content.size && @content.size > Setting.file_max_size_displayed.to_i.kilobyte) ||
-         ! is_entry_text_data?(@content, @path)
+    if is_raw
       # Force the download
       send_opt = { :filename => filename_for_content_disposition(@path.split('/').last) }
       send_type = Redmine::MimeType.of(@path)
       send_opt[:type] = send_type.to_s if send_type
-      send_opt[:disposition] = (Redmine::MimeType.is_type?('image', @path) && !is_raw ? 'inline' : 'attachment')
-      send_data @content, send_opt
+      send_opt[:disposition] = disposition(@path)
+      send_data @repository.cat(@path, @rev), send_opt
     else
-      # Prevent empty lines when displaying a file with Windows style eol
-      # TODO: UTF-16
-      # Is this needs? AttachmentsController reads file simply.
-      @content.gsub!("\r\n", "\n")
+      if !@entry.size || @entry.size <= Setting.file_max_size_displayed.to_i.kilobyte
+        content = @repository.cat(@path, @rev)
+        (show_error_not_found; return) unless content
+
+        if content.size <= Setting.file_max_size_displayed.to_i.kilobyte &&
+           is_entry_text_data?(content, @path)
+          # TODO: UTF-16
+          # Prevent empty lines when displaying a file with Windows style eol
+          # Is this needed? AttachmentsController simply reads file.
+          @content = content.gsub("\r\n", "\n")
+        end
+      end
       @changeset = @repository.find_changeset_by_name(@rev)
     end
   end
@@ -386,7 +390,7 @@ class RepositoriesController < ApplicationController
   end
 
   def graph_commits_per_month(repository)
-    @date_to = Date.today
+    @date_to = User.current.today
     @date_from = @date_to << 11
     @date_from = Date.civil(@date_from.year, @date_from.month, 1)
     commits_by_day = Changeset.
@@ -405,7 +409,8 @@ class RepositoriesController < ApplicationController
     changes_by_day.each {|c| changes_by_month[(@date_to.month - c.first.to_date.month) % 12] += c.last }
 
     fields = []
-    12.times {|m| fields << month_name(((Date.today.month - 1 - m) % 12) + 1)}
+    today = User.current.today
+    12.times {|m| fields << month_name(((today.month - 1 - m) % 12) + 1)}
 
     graph = SVG::Graph::Bar.new(
       :height => 300,
@@ -433,23 +438,24 @@ class RepositoriesController < ApplicationController
   end
 
   def graph_commits_per_author(repository)
-    commits_by_author = Changeset.where("repository_id = ?", repository.id).group(:committer).count
-    commits_by_author.to_a.sort! {|x, y| x.last <=> y.last}
+    #data
+    stats = repository.stats_by_author
+    fields, commits_data, changes_data = [], [], []
+    stats.each do |name, hsh|
+      fields << name
+      commits_data << hsh[:commits_count]
+      changes_data << hsh[:changes_count]
+    end
 
-    changes_by_author = Change.joins(:changeset).where("#{Changeset.table_name}.repository_id = ?", repository.id).group(:committer).count
-    h = changes_by_author.inject({}) {|o, i| o[i.first] = i.last; o}
-
-    fields = commits_by_author.collect {|r| r.first}
-    commits_data = commits_by_author.collect {|r| r.last}
-    changes_data = commits_by_author.collect {|r| h[r.first] || 0}
-
+    #expand to 10 values if needed
     fields = fields + [""]*(10 - fields.length) if fields.length<10
     commits_data = commits_data + [0]*(10 - commits_data.length) if commits_data.length<10
     changes_data = changes_data + [0]*(10 - changes_data.length) if changes_data.length<10
 
-    # Remove email adress in usernames
+    # Remove email address in usernames
     fields = fields.collect {|c| c.gsub(%r{<.+@.+>}, '') }
 
+    #prepare graph
     graph = SVG::Graph::BarHorizontal.new(
       :height => 30 * commits_data.length,
       :width => 800,
@@ -470,5 +476,13 @@ class RepositoriesController < ApplicationController
       :title => l(:label_change_plural)
     )
     graph.burn
+  end
+
+  def disposition(path)
+    if Redmine::MimeType.of(@path) == "application/pdf"
+      'inline'
+    else
+      'attachment'
+    end
   end
 end

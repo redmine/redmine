@@ -14,24 +14,34 @@
 
 <p><%= setting_text_field :password_min_length, :size => 6 %></p>
 
-<p><%= setting_check_box :lost_password, :label => :label_password_lost %></p>
+<p>
+  <%= setting_select :password_max_age, [[l(:label_disabled), 0]] + [7, 30, 60, 90, 180, 365].collect{|days| [l('datetime.distance_in_words.x_days', :count => days), days.to_s]} %>
+</p>
+
+<p><%= setting_check_box :lost_password %></p>
+
+<p><%= setting_text_field :max_additional_emails, :size => 6 %></p>
 
 <p><%= setting_check_box :openid, :disabled => !Object.const_defined?(:OpenID) %></p>
-
-<p><%= setting_check_box :rest_api_enabled %></p>
-
-<p><%= setting_check_box :jsonp_enabled %></p>
 </div>
 
 <fieldset class="box">
   <legend><%= l(:label_session_expiration) %></legend>
 
   <div class="tabular settings">
-    <p><%= setting_select :session_lifetime, [[l(:label_disabled), 0]] + [1, 7, 30, 60, 365].collect{|days| [l('datetime.distance_in_words.x_days', :count => days), (days * 60 * 24).to_s]} %></p>
-    <p><%= setting_select :session_timeout, [[l(:label_disabled), 0]] + [1, 2, 4, 8, 12, 24, 48].collect{|hours| [l('datetime.distance_in_words.x_hours', :count => hours), (hours * 60).to_s]} %></p>
+    <p><%= setting_select :session_lifetime, session_lifetime_options %></p>
+    <p><%= setting_select :session_timeout, session_timeout_options %></p>
   </div>
   
   <p><em class="info"><%= l(:text_session_expiration_settings) %></em></p>
+</fieldset>
+
+<fieldset class="box">
+  <legend><%= l(:label_default_values_for_new_users) %></legend>
+
+  <div class="tabular settings">
+    <p><%= setting_check_box :default_users_hide_mail, :label => :field_hide_mail %></p>
+  </div>
 </fieldset>
 
 <%= submit_tag l(:button_save) %>

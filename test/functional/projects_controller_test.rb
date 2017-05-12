@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -18,11 +18,12 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class ProjectsControllerTest < ActionController::TestCase
-  fixtures :projects, :versions, :users, :roles, :members,
+  fixtures :projects, :versions, :users, :email_addresses, :roles, :members,
            :member_roles, :issues, :journals, :journal_details,
            :trackers, :projects_trackers, :issue_statuses,
            :enabled_modules, :enumerations, :boards, :messages,
-           :attachments, :custom_fields, :custom_values, :time_entries
+           :attachments, :custom_fields, :custom_values, :time_entries,
+           :wikis, :wiki_pages, :wiki_contents, :wiki_content_versions
 
   def setup
     @request.session[:user_id] = nil
@@ -74,6 +75,14 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_select 'a[href=?]', '/time_entries', 0
   end
 
+  test "#index by non-admin user with permission should show add project link" do
+    Role.find(1).add_permission! :add_project
+    @request.session[:user_id] = 2
+    get :index
+    assert_template 'index'
+    assert_select 'a[href=?]', '/projects/new'
+  end
+
   test "#new by admin user should accept get" do
     @request.session[:user_id] = 1
 
@@ -103,10 +112,19 @@ class ProjectsControllerTest < ActionController::TestCase
 
     assert_select 'select[name=?]', 'project[parent_id]' do
       # parent project selected
-      assert_select 'option[value=1][selected=selected]'
+      assert_select 'option[value="1"][selected=selected]'
       # no empty value
-      assert_select 'option[value=]', 0
+      assert_select 'option[value=""]', 0
     end
+  end
+
+  def test_new_should_not_display_invalid_search_link
+    @request.session[:user_id] = 1
+
+    get :new
+    assert_response :success
+    assert_select '#quick-search form[action=?]', '/search'
+    assert_select '#quick-search a[href=?]', '/search'
   end
 
   test "#create by admin user should create a new project" do
@@ -342,6 +360,27 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_select 'li', :text => /Development status/, :count => 0
   end
 
+  def test_show_should_not_display_blank_custom_fields_with_multiple_values
+    f1 = ProjectCustomField.generate! :field_format => 'list', :possible_values => %w(Foo Bar), :multiple => true
+    f2 = ProjectCustomField.generate! :field_format => 'list', :possible_values => %w(Baz Qux), :multiple => true
+    project = Project.generate!(:custom_field_values => {f2.id.to_s => %w(Qux)})
+
+    get :show, :id => project.id
+    assert_response :success
+
+    assert_select 'li', :text => /#{f1.name}/, :count => 0
+    assert_select 'li', :text => /#{f2.name}/
+  end
+
+  def test_show_should_not_display_blank_text_custom_fields
+    f1 = ProjectCustomField.generate! :field_format => 'text'
+
+    get :show, :id => 1
+    assert_response :success
+
+    assert_select 'li', :text => /#{f1.name}/, :count => 0
+  end
+
   def test_show_should_not_fail_when_custom_values_are_nil
     project = Project.find_by_identifier('ecookbook')
     project.custom_values.first.update_attribute(:value, nil)
@@ -408,6 +447,32 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_response 302
   end
 
+  def test_setting_with_wiki_module_and_no_wiki
+    Project.find(1).wiki.destroy
+    Role.find(1).add_permission! :manage_wiki
+    @request.session[:user_id] = 2
+
+    get :settings, :id => 1
+    assert_response :success
+    assert_template 'settings'
+
+    assert_select 'form[action=?]', '/projects/ecookbook/wiki' do
+      assert_select 'input[name=?]', 'wiki[start_page]'
+    end
+  end
+
+  def test_settings_should_show_locked_members
+    user = User.generate!
+    member = User.add_to_project(user, Project.find(1))
+    user.lock!
+    assert user.reload.locked?
+    @request.session[:user_id] = 2
+
+    get :settings, :id => 'ecookbook', :tab => 'members'
+    assert_response :success
+    assert_select "tr#member-#{member.id}"
+  end
+
   def test_update
     @request.session[:user_id] = 2 # manager
     post :update, :id => 1, :project => {:name => 'Test changed name',
@@ -422,7 +487,7 @@ class ProjectsControllerTest < ActionController::TestCase
     post :update, :id => 1, :project => {:name => ''}
     assert_response :success
     assert_template 'settings'
-    assert_error_tag :content => /name #{ESCAPED_CANT} be blank/i
+    assert_select_error /name cannot be blank/i
   end
 
   def test_update_should_be_denied_for_member_on_closed_project
@@ -440,6 +505,17 @@ class ProjectsControllerTest < ActionController::TestCase
     post :update, :id => 1, :project => {:name => 'Closed'}
     assert_response 302
     assert_equal 'eCookbook', Project.find(1).name
+  end
+
+  def test_update_child_project_without_parent_permission_should_not_show_validation_error
+    child = Project.generate_with_parent!
+    user = User.generate!
+    User.add_to_project(user, child, Role.generate!(:permissions => [:edit_project]))
+    @request.session[:user_id] = user.id
+
+    post :update, :id => child.id, :project => {:name => 'Updated'}
+    assert_response 302
+    assert_match /Successful update/, flash[:notice]
   end
 
   def test_modules
@@ -555,6 +631,20 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_response 404
   end
 
+  def test_get_copy_should_preselect_custom_fields
+    field1 = IssueCustomField.generate!(:is_for_all => false)
+    field2 = IssueCustomField.generate!(:is_for_all => false)
+    source = Project.generate!(:issue_custom_fields => [field1])
+    @request.session[:user_id] = 1
+
+    get :copy, :id => source.id
+    assert_response :success
+    assert_select 'fieldset#project_issue_custom_fields' do
+      assert_select 'input[type=checkbox][value=?][checked=checked]', field1.id.to_s
+      assert_select 'input[type=checkbox][value=?]:not([checked])', field2.id.to_s
+    end
+  end
+
   def test_post_copy_should_copy_requested_items
     @request.session[:user_id] = 1 # admin
     CustomField.delete_all
@@ -583,6 +673,13 @@ class ProjectsControllerTest < ActionController::TestCase
     post :copy, :id => 1, :project => {:name => 'Copy', :identifier => 'unique-copy'}
     assert_response :redirect
     assert_redirected_to :controller => 'projects', :action => 'settings', :id => 'unique-copy'
+  end
+
+  def test_post_copy_with_failure
+    @request.session[:user_id] = 1
+    post :copy, :id => 1, :project => {:name => 'Copy', :identifier => ''}
+    assert_response :success
+    assert_template 'copy'
   end
 
   def test_jump_should_redirect_to_active_tab

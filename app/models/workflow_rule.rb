@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -20,10 +20,11 @@ class WorkflowRule < ActiveRecord::Base
 
   belongs_to :role
   belongs_to :tracker
-  belongs_to :old_status, :class_name => 'IssueStatus', :foreign_key => 'old_status_id'
-  belongs_to :new_status, :class_name => 'IssueStatus', :foreign_key => 'new_status_id'
+  belongs_to :old_status, :class_name => 'IssueStatus'
+  belongs_to :new_status, :class_name => 'IssueStatus'
 
-  validates_presence_of :role, :tracker, :old_status
+  validates_presence_of :role, :tracker
+  attr_protected :id
 
   # Copies workflows from source to targets
   def self.copy(source_tracker, source_role, target_trackers, target_roles)
@@ -34,8 +35,8 @@ class WorkflowRule < ActiveRecord::Base
     target_trackers = [target_trackers].flatten.compact
     target_roles = [target_roles].flatten.compact
 
-    target_trackers = Tracker.sorted.all if target_trackers.empty?
-    target_roles = Role.all if target_roles.empty?
+    target_trackers = Tracker.sorted.to_a if target_trackers.empty?
+    target_roles = Role.all.select(&:consider_workflow?) if target_roles.empty?
 
     target_trackers.each do |target_tracker|
       target_roles.each do |target_role|

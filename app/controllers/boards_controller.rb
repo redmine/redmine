@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -25,7 +25,7 @@ class BoardsController < ApplicationController
   helper :watchers
 
   def index
-    @boards = @project.boards.includes(:project, :last_message => :author).all
+    @boards = @project.boards.preload(:project, :last_message => :author).to_a
     # show the board if there is only one
     if @boards.size == 1
       @board = @boards.first
@@ -45,12 +45,12 @@ class BoardsController < ApplicationController
         @topic_pages = Paginator.new @topic_count, per_page_option, params['page']
         @topics =  @board.topics.
           reorder("#{Message.table_name}.sticky DESC").
-          includes(:last_reply).
+          joins("LEFT OUTER JOIN #{Message.table_name} last_replies_messages ON last_replies_messages.id = #{Message.table_name}.last_reply_id").
           limit(@topic_pages.per_page).
           offset(@topic_pages.offset).
           order(sort_clause).
           preload(:author, {:last_reply => :author}).
-          all
+          to_a
         @message = Message.new(:board => @board)
         render :action => 'show', :layout => !request.xhr?
       }
@@ -59,7 +59,7 @@ class BoardsController < ApplicationController
           reorder('created_on DESC').
           includes(:author, :board).
           limit(Setting.feeds_limit.to_i).
-          all
+          to_a
         render_feed(@messages, :title => "#{@project}: #{@board}")
       }
     end
@@ -87,9 +87,18 @@ class BoardsController < ApplicationController
   def update
     @board.safe_attributes = params[:board]
     if @board.save
-      redirect_to_settings_in_projects
+      respond_to do |format|
+        format.html {
+          flash[:notice] = l(:notice_successful_update)
+          redirect_to_settings_in_projects
+        }
+        format.js { render :nothing => true }
+      end
     else
-      render :action => 'edit'
+      respond_to do |format|
+        format.html { render :action => 'edit' }
+        format.js { render :nothing => true, :status => 422 }
+      end
     end
   end
 

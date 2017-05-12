@@ -12,6 +12,15 @@ body{ color:#303030; background:#e8eaec; }
 #main-menu li a { background-color: #578bb8; border-right: 1px solid #fff; font-size: 90%; padding: 4px 8px 4px 8px; font-weight: bold; }
 #main-menu li a:hover { background-color: #80b0da; color: #ffffff; }
 #main-menu li a.selected, #main-menu li a.selected:hover { background-color: #80b0da; color: #ffffff; }
+#main-menu li a.new-object { background-color:#80b0da; }
+
+#main-menu .menu-children {
+  border-right: 1px solid #80b0da;
+  border-bottom: 1px solid #80b0da;
+  border-left: 1px solid #80b0da;
+}
+#main-menu .menu-children li a { border-right: none; }
+#main-menu .menu-children li a:hover { background-color: #80b0da }
 
 #footer { background-color: #578bb8; border: 0; color: #fff;}
 #footer a { color: #fff; font-weight: bold; }

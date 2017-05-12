@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,25 +17,13 @@
 
 require File.expand_path('../../../test_helper', __FILE__)
 
-class RoutingJournalsTest < ActionController::IntegrationTest
+class RoutingJournalsTest < Redmine::RoutingTest
   def test_journals
-    assert_routing(
-        { :method => 'post', :path => "/issues/1/quoted" },
-        { :controller => 'journals', :action => 'new', :id => '1' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/issues/changes" },
-        { :controller => 'journals', :action => 'index' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/journals/diff/1" },
-        { :controller => 'journals', :action => 'diff', :id => '1' }
-      )
-    ["get", "post"].each do |method|
-      assert_routing(
-          { :method => method, :path => "/journals/edit/1" },
-          { :controller => 'journals', :action => 'edit', :id => '1' }
-        )
-    end
+    should_route 'POST /issues/1/quoted' => 'journals#new', :id => '1'
+    should_route 'GET /issues/changes' => 'journals#index'
+    should_route 'GET /journals/1/diff' => 'journals#diff', :id => '1'
+
+    should_route 'GET /journals/1/edit' => 'journals#edit', :id => '1'
+    should_route 'PUT /journals/1' => 'journals#update', :id => '1'
   end
 end

@@ -1,7 +1,14 @@
 <%= error_messages_for @group %>
 
+<<<<<<< HEAD
 <fieldset class="box tabular">
   <div class="control-group"><%= f.text_field :name, :required => true, :size => 60 %></div>
+=======
+<div class="box tabular">
+  <p><%= f.text_field :name, :required => true, :size => 60,
+           :disabled => !@group.safe_attribute?('name')  %></p>
+
+>>>>>>> 3.3.3
   <% @group.custom_field_values.each do |value| %>
     <div class="control-group"><%= custom_field_tag_with_label :group, value %></div>
   <% end %>

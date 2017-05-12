@@ -12,6 +12,7 @@ attachments_001:
   filesize: 28
   filename: error281.txt
   author_id: 2
+  description: An attachment
 attachments_002: 
   created_on: 2007-01-27 15:08:27 +01:00
   downloads: 0
@@ -42,7 +43,7 @@ attachments_003:
 attachments_004: 
   created_on: 2006-07-19 21:07:27 +02:00
   container_type: Issue
-  container_id: 3
+  container_id: 2
   downloads: 0
   disk_filename: 060719210727_source.rb
   disk_directory: "2006/07"
@@ -78,7 +79,7 @@ attachments_006:
   filesize: 157
   filename: archive.zip
   author_id: 2
-  content_type: application/octet-stream
+  content_type: application/zip
 attachments_007: 
   created_on: 2006-07-19 21:07:27 +02:00
   container_type: Issue
@@ -91,7 +92,7 @@ attachments_007:
   filesize: 157
   filename: archive.zip
   author_id: 1
-  content_type: application/octet-stream
+  content_type: application/zip
 attachments_008: 
   created_on: 2006-07-19 21:07:27 +02:00
   container_type: Project

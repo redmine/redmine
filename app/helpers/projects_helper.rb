@@ -1,7 +1,7 @@
 # encoding: utf-8
 #
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -30,7 +30,7 @@ module ProjectsHelper
   end
 
   def project_settings_tabs
-    tabs = [{:name => 'info', :action => :edit_project, :partial => 'projects/edit', :label => :label_information_plural},
+    tabs = [{:name => 'info', :action => :edit_project, :partial => 'projects/edit', :label => :label_information_plural, :class => 'active'},
             {:name => 'modules', :action => :select_project_modules, :partial => 'projects/settings/modules', :label => :label_module_plural},
             {:name => 'members', :action => :manage_members, :partial => 'projects/settings/members', :label => :label_member_plural},
             {:name => 'versions', :action => :manage_versions, :partial => 'projects/settings/versions', :label => :label_version_plural},
@@ -59,10 +59,16 @@ module ProjectsHelper
 
   def render_project_action_links
     links = []
-    links << link_to(l(:label_project_new), {:controller => 'projects', :action => 'new'}, :class => 'icon icon-add') if User.current.allowed_to?(:add_project, nil, :global => true)
-    links << link_to(l(:label_issue_view_all), issues_path) if User.current.allowed_to?(:view_issues, nil, :global => true)
-    links << link_to(l(:label_overall_spent_time), time_entries_path) if User.current.allowed_to?(:view_time_entries, nil, :global => true)
-    links << link_to(l(:label_overall_activity), { :controller => 'activities', :action => 'index', :id => nil })
+    if User.current.allowed_to?(:add_project, nil, :global => true)
+      links << link_to(l(:label_project_new), new_project_path, :class => 'icon icon-add')
+    end
+    if User.current.allowed_to?(:view_issues, nil, :global => true)
+      links << link_to(l(:label_issue_view_all), issues_path)
+    end
+    if User.current.allowed_to?(:view_time_entries, nil, :global => true)
+      links << link_to(l(:label_overall_spent_time), time_entries_path)
+    end
+    links << link_to(l(:label_overall_activity), activity_path)
     links.join(" | ").html_safe
   end
 
@@ -249,6 +255,14 @@ module ProjectsHelper
     end
   end
 
+  def project_default_version_options(project)
+    versions = project.shared_versions.open.to_a
+    if project.default_version && !versions.include?(project.default_version)
+      versions << project.default_version
+    end
+    version_options_for_select(versions, project.default_version)
+  end
+
   def format_version_sharing(sharing)
     sharing = 'none' unless Version::VERSION_SHARINGS.include?(sharing)
     l("label_version_sharing_#{sharing}")
@@ -420,5 +434,38 @@ module ProjectsHelper
         
       geppettoSimulationFileObj = {"geppettoSimulationFile" => geppettoTmpPath + @geppettoSimulationFilePath}
       return geppettoSimulationFileObj
+
+  def render_boards_tree(boards, parent=nil, level=0, &block)
+    selection = boards.select {|b| b.parent == parent}
+    return '' if selection.empty?
+
+    s = ''.html_safe
+    selection.each do |board|
+      node = capture(board, level, &block)
+      node << render_boards_tree(boards, board, level+1, &block)
+      s << content_tag('div', node)
+    end
+    content_tag('div', s, :class => 'sort-level')
+  end
+
+  def render_api_includes(project, api)
+    api.array :trackers do
+      project.trackers.each do |tracker|
+        api.tracker(:id => tracker.id, :name => tracker.name)
+      end
+    end if include_in_api_response?('trackers')
+
+    api.array :issue_categories do
+      project.issue_categories.each do |category|
+        api.issue_category(:id => category.id, :name => category.name)
+      end
+    end if include_in_api_response?('issue_categories')
+
+    api.array :enabled_modules do
+      project.enabled_modules.each do |enabled_module|
+        api.enabled_module(:id => enabled_module.id, :name => enabled_module.name)
+      end
+    end if include_in_api_response?('enabled_modules')
+  end
   end
 end

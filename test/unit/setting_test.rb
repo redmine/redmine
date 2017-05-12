@@ -1,5 +1,7 @@
+# encoding: utf-8
+#
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -20,10 +22,14 @@ require File.expand_path('../../test_helper', __FILE__)
 class SettingTest < ActiveSupport::TestCase
 
   def teardown
+    Setting.delete_all
     Setting.clear_cache
   end
 
   def test_read_default
+    Setting.delete_all
+    Setting.clear_cache
+
     assert_equal "Redmine", Setting.app_title
     assert Setting.self_registration?
     assert !Setting.login_required?
@@ -100,5 +106,26 @@ class SettingTest < ActiveSupport::TestCase
     with_settings :per_page_options => '25, 10, 50' do
       assert_equal [10, 25, 50], Setting.per_page_options_array
     end
+  end
+
+  def test_setting_serialied_as_binary_should_be_loaded_as_utf8_encoded_strings
+    yaml = <<-YAML
+--- 
+- keywords: !binary |
+    Zml4ZXMsY2xvc2VzLNC40YHQv9GA0LDQstC70LXQvdC+LNCz0L7RgtC+0LLQ
+    vizRgdC00LXQu9Cw0L3QvixmaXhlZA==
+
+  done_ratio: "100"
+  status_id: "5"
+YAML
+
+    Setting.commit_update_keywords = {}
+    assert_equal 1, Setting.where(:name => 'commit_update_keywords').update_all(:value => yaml)
+    Setting.clear_cache
+
+    assert_equal 'UTF-8', Setting.commit_update_keywords.first['keywords'].encoding.name
+  ensure
+    Setting.where(:name => 'commit_update_keywords').delete_all
+    Setting.clear_cache
   end
 end

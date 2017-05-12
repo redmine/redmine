@@ -1,94 +1,385 @@
-body, #wrapper { direction: rtl;}
+html {direction:rtl;}
+h1, h2, h3, h4 {padding:2px 00px 1px 10px;}
+/***** Layout *****/
+#top-menu {padding:2px 6px 0px 2px;}
+#top-menu li {float:right;}
+#top-menu a {margin-right:0;margin-left:8px;}
+#top-menu #loggedas {float:left;margin-right:0;margin-left:0.5em;}
 
-#quick-search { float: left; }
-#main-menu { margin-left: -500px; left: auto; right: 6px; margin-right: 0px;}
-#main-menu li { float: right; }
-#top-menu ul { float: right; }
-#account { float: left; }
-#top-menu #loggedas { float: left; }
-#top-menu li { float: right; }
-.tabular label.floating
-{
-    margin-right: 0;
-    margin-left: auto;
-    text-align: right;
+#account {float:left;}
+
+#header {padding:4px 6px 20px 8px;}
+
+#quick-search {float:left;}
+
+#main-menu {left:auto;right:6px;margin-right:0;margin-left:-500px;}
+#main-menu li {float:right;margin:0px 0px 0px 2px;}
+
+#admin-menu a {padding-left:0;padding-right:20px;}
+
+#sidebar {float:left;}
+* html #sidebar hr{ left: auto; right: -6px; }
+#sidebar .contextual { margin-right: 0;  margin-left: 1em;}
+#sidebar ul li {margin: 0px 0px 0px 2px;}
+
+#content {border-right:0 solid #ddd; border-left:1px solid #ddd;}
+* html #content{padding-right:0;}
+#main.nosidebar #content{border-left:0;}
+
+#login-form table {margin-left:auto; margin-right:auto;}
+div.modal p.buttons {text-align:left;}
+
+input#openid_url {padding-left:0px; padding-right:18px;}
+
+/***** Links *****/
+
+#sidebar a.selected {padding:1px 2px 2px 3px; margin-left:0px; margin-right:-2px;}
+#admin-menu a.selected {padding-left:0!important; padding-right:20px!important; background-position:right 2px 40%;}
+
+a.collapsible {padding-left:0px; padding-right:12px; background: url(../images/arrow_expanded.png) no-repeat right -3px top 40%;}
+a.collapsible.collapsed {background: url(../images/arrow_collapsed.png) no-repeat right -5px top 40%;}
+
+/***** Tables *****/
+table.list td {padding-left:0px; padding-right:10px;}
+table.list td.name, table.list td.description, table.list td.subject, table.list td.comments, table.list td.roles {text-align:right;}
+table.list td.buttons {text-align:left; }
+table.list td.buttons a {padding-right: 0em; padding-left: 0.6em;}
+table.list caption {text-align:right; padding: 0.5em 0 0.5em 0.5em;}
+
+tr.project.idnt td.name span {padding-right:0px; padding-left:16px;}
+tr.project.idnt-1 td.name {padding-left:0; padding-right:0.5em;}
+tr.project.idnt-2 td.name {padding-left:0; padding-right:2em;}
+tr.project.idnt-3 td.name {padding-left:0; padding-right:3.5em;}
+tr.project.idnt-4 td.name {padding-left:0; padding-right:5em;}
+tr.project.idnt-5 td.name {padding-left:0; padding-right:6.5em;}
+tr.project.idnt-6 td.name {padding-left:0; padding-right:8em;}
+tr.project.idnt-7 td.name {padding-left:0; padding-right:9.5em;}
+tr.project.idnt-8 td.name {padding-left:0; padding-right:11em;}
+tr.project.idnt-9 td.name {padding-left:0; padding-right:12.5em;}
+
+tr.issue td.subject, tr.issue td.relations { text-align:right; }
+tr.issue td.done_ratio table.progress { margin-left:auto; margin-right: auto;}
+
+table.issues td.description {padding:4px 24px 4px 4px; text-align:right;}
+
+tr.issue.idnt td.subject a {padding-left: 0; padding-right: 16px;}
+tr.issue.idnt-1 td.subject {padding-left:0; padding-right: 0.5em;}
+tr.issue.idnt-2 td.subject {padding-left:0; padding-right: 2em;}
+tr.issue.idnt-3 td.subject {padding-left:0; padding-right: 3.5em;}
+tr.issue.idnt-4 td.subject {padding-left:0; padding-right: 5em;}
+tr.issue.idnt-5 td.subject {padding-left:0; padding-right: 6.5em;}
+tr.issue.idnt-6 td.subject {padding-left:0; padding-right: 8em;}
+tr.issue.idnt-7 td.subject {padding-left:0; padding-right: 9.5em;}
+tr.issue.idnt-8 td.subject {padding-left:0; padding-right: 11em;}
+tr.issue.idnt-9 td.subject {padding-left:0; padding-right: 12.5em;}
+
+tr.entry td.filename {text-align:right;}
+tr.entry td.filename_no_report {text-align:right;}
+tr.entry td.size {text-align:left;}
+tr.entry td.age {text-align:left;}
+tr.entry.file td.filename a {margin-left:0px; margin-right:16px;}
+tr.entry.file td.filename_no_report a {margin-left:0px; margin-right:16px;}
+
+tr span.expander {padding-left:0; padding-right:8px; margin-right:0;}
+
+table.files tbody th {text-align:right;}
+table.files tr.file td.filename {text-align:right; padding-left:0; padding-right:24px;}
+
+tr.message td.subject { padding-left:0px; padding-right:20px; }
+
+tr.version td.name { padding-left:0px; padding-right:20px; }
+
+tr.user td.username, tr.user td.firstname, tr.user td.lastname, tr.user td.email {text-align:right;}
+
+tr.time-entry td.issue, tr.time-entry td.comments {text-align:right; }
+td.hours {text-align:left; padding-right: 0em ;padding-left: 0.5em; }
+
+table.plugins td.configure { text-align:left; padding-right:0em; padding-left: 1em; }
+
+table.list tbody tr.group td { padding: 0.8em 0.3em 0.5em 0; text-align:right;}
+table.list tbody tr.group span.count {margin-left:0px; margin-right:4px;}
+
+a.sort {padding-right:0; padding-left:16px;}
+
+table.attributes th {text-align:right;}
+
+table.boards a.board, h3.comments {padding-left:0px; padding-right:20px; }
+table.boards td.last-message {text-align:right;}
+
+table.messages td.last_message {text-align:right;}
+
+h3.version {padding-left:0px; padding-right:20px;}
+
+div.issues h3 {padding-left:0px; padding-right:20px;}
+div.members h3 {padding-left:0px; padding-right:20px;}
+div.news h3 {padding-left:0px; padding-right:20px;}
+div.projects h3 {padding-left:0px; padding-right:20px;}
+
+#watchers li {margin: 0px 0px 0px 2px; padding: 0px 0px 0px 0px;}
+#watchers img.gravatar {margin: 0 0 2px 4px;}
+
+span.search_for_watchers a, span.add_attachment a {padding-left:px; padding-right:16px; background: url(../images/bullet_add.png) no-repeat right 50%; }
+
+div.square {float:right;}
+.contextual {float:left; padding-left:0px; padding-right:10px;}
+
+.splitcontentleft{float:right;}
+.splitcontentright{float:left;}
+
+blockquote {border-left:0px solid #e0e0e0; padding-left:0em; margin-left:2em;  border-right:3px solid #e0e0e0; padding-right:0.6em; margin-right:2.4em;}
+blockquote blockquote { margin-right:0;}
+
+div.issue div.subject div div {padding-left:0px; padding-right:16px;}
+
+div.issue span.private, div.journal span.private {margin-right:0px; margin-left:2px;}
+
+fieldset.collapsible>legend {padding-left:0px; padding-right:16px; background: url(../images/arrow_expanded.png) no-repeat right 40%;}
+
+fieldset#filters td.add-filter {text-align:left; }
+
+.toggle-multiselect {background: url(../images/bullet_toggle_plus.png) no-repeat right 40%; padding-left:0px; padding-right:8px; margin-right:0;}
+
+div#issue-changesets {float:left;  margin-left:0em; margin-right:1em; padding-left:0em; padding-right:1em;}
+
+.journal ul.details img {margin:0 4px -3px 0;}
+
+div.journal.private-notes {border-left:0px solid #d22; padding-left:0px; margin-left:0px; border-right:2px solid #d22; padding-right:4px; margin-right:-6px;}
+
+div#activity dl, #search-results {margin-left:0em; margin-right:2em;}
+div#activity dd, #search-results dd {padding-left:0px; padding-right:18px;}
+div#activity dt, #search-results dt {padding-left:0px; padding-right:20px; background-position:right 50%;}
+
+div#activity dt.grouped {margin-left:0em; margin-right:5em;}
+div#activity dd.grouped {margin-left:0em; margin-right:9em;}
+
+#search-results dd {padding-left:0px; margin-left:0px; padding-right:20px; margin-right:0px; }
+
+div#search-results-counts {float:left;}
+div#search-results-counts  li {float:right; margin-left:0em; margin-right:1em; }
+
+div#version-summary { float:left; margin-left:0px; margin-right:16px;}
+div#version-summary th, div#version-summary td.total-hours { text-align:left;}
+
+table#time-report td.hours, table#time-report th.period, table#time-report th.total { text-align:left; padding-right:0em; padding-left: 0.5em; }
+
+ul.projects {padding-left:0em; padding-right:1em;}
+ul.projects ul {padding-left:0em; padding-right:1.6em;}
+
+#projects-index ul.projects ul.projects {border-left:0px solid #e0e0e0; padding-left:0em; border-right:3px solid #e0e0e0; padding-right:1em;}
+.my-project { padding-left:0px;  padding-right:18px; background: url(../images/fav.png) no-repeat right 50%; }
+
+/***** Tabular forms ******/
+.tabular p{
+  padding-left:0px; padding-right:180px; /* width of left column containing the label elements */
+  clear:right;
 }
-.tabular label
-{
-    float: right;
-    margin-left: auto;
+
+.tabular label{
+  float:right;
+  text-align:left;
+  /* width of left column */
+  margin-left:0px; margin-right:-180px;
 }
-.tabular p
-{
-    clear: right;
+
+.tabular label.floating{
+  margin-left: 0px; margin-right:0px;
+  text-align:right;
 }
-.tabular label.block { text-align: right; }
-.icon
-{
-       background-position: 100% 40%;
-       padding-right: 20px;
-       padding-left: 0px;
+
+.tabular label.block{
+  margin-left:0px !important; margin-right:0px !important;
+  text-align:right;
 }
-div#activity dt, #search-results dt
-{
-    background-position: 100% 50%;
-    padding-right: 20px;
-    padding-left: 0px;
+
+.tabular label.inline{
+  margin-left:0px !important; margin-right:5px !important;
 }
-#content .tabs ul li { float: right; }
-#content .tabs ul { padding-left: auto; padding-right: 1em; }
-table.progress { float: right; }
-.contextual { float: left; }
-.icon22 { background-position: 100% 40%; padding-right: 26px; padding-left: auto; }
-h3, .wiki h2 { padding: 10px 2px 1px 0; }
-.tooltip span.tip { text-align: right; }
-tr.issue td.subject { text-align: right; }
-tr.time-entry td.subject, tr.time-entry td.comments { text-align: right; }
-#sidebar { float: left; }
-#main.nosidebar #content { border-width: 1px; border-style: solid; border-color: #D7D7D7 #BBBBBB #BBBBBB #D7D7D7;}
-.tabular.settings label { margin-left: auto; }
-.splitcontentleft { float: right; }
-.splitcontentright { float: left; }
-p.progress-info { clear: right; }
-table.list td.buttons a { padding-right: 20px; }
-.filecontent { direction: ltr; }
-.entries { direction: ltr; }
-.changeset-changes { direction: ltr; padding-left: 2em }
-.changesets { direction: ltr; }
-div#issue-changesets { float: left; margin-right: 1em; margin-left: 0 }
-div#issue-changesets div.wiki { direction: ltr; padding-left: 2em }
-#activity dt, .journal { clear: right; }
-.journal-link { float: left; }
-div.wiki pre { direction: ltr; }
 
-ul.projects { padding-right: 1em; padding-left: 0; }
-ul.projects ul.projects { border-right: 3px solid #e0e0e0; border-left: 0; }
-.my-project { padding-right: 18px; padding-left: 0; background-position: 100% 50%; }
+label.no-css {
+  text-align:right;
+  margin-left:0px; margin-right:0px;
+}
 
-#admin-menu a { background-position: 100% 40%; padding-right: 20px; padding-left: 0;}
-input#openid_url { background-position: 100% 50%; padding-right: 18px; padding-left: 0; }
+.tabular.settings p{padding-left:0px; padding-right:300px; }
+.tabular.settings label{margin-left:0px; margin-right:-300px;}
 
-tr.project.idnt td.name span { background: url(../images/bullet_arrow_left.png) no-repeat 100% 50%; padding-right: 16px; padding-left: 0; }
-tr.project.idnt-1 td.name { padding-right: 0.5em; }
-tr.project.idnt-2 td.name { padding-right: 2em; }
-tr.project.idnt-3 td.name { padding-right: 3.5em; }
-tr.project.idnt-4 td.name { padding-right: 5em; }
-tr.project.idnt-5 td.name { padding-right: 6.5em; }
-tr.project.idnt-6 td.name { padding-right: 8em; }
-tr.project.idnt-7 td.name { padding-right: 9.5em; }
-tr.project.idnt-8 td.name { padding-right: 11em; }
-tr.project.idnt-9 td.name { padding-right: 12.5em; }
+fieldset#notified_events .parent {padding-left:0px; padding-right:20px; }
 
-tr.issue.idnt td.subject a { background: url(../images/bullet_arrow_left.png) no-repeat 100% 50%; padding-right: 16px; padding-left: 0; }
-tr.issue.idnt-1 td.subject { padding-right: 0.5em; }
-tr.issue.idnt-2 td.subject { padding-right: 2em; }
-tr.issue.idnt-3 td.subject { padding-right: 3.5em; }
-tr.issue.idnt-4 td.subject { padding-right: 5em; }
-tr.issue.idnt-5 td.subject { padding-right: 6.5em; }
-tr.issue.idnt-6 td.subject { padding-right: 8em; }
-tr.issue.idnt-7 td.subject { padding-right: 9.5em; }
-tr.issue.idnt-8 td.subject { padding-right: 11em; }
-tr.issue.idnt-9 td.subject { padding-right: 12.5em; }
+.check_box_group {padding:2px 2px 4px 4px;}
+.check_box_group label {margin-right: 0px !important; text-align: right;}
+#attachments_fields input.description {margin-left:0px; margin-right:4px;}
 
-div.wiki ul.toc { margin-right: 0; margin-left: 12px; }
-div.wiki ul.toc li li { margin-right: 1.5em; margin-left: 0; }
+#attachments_fields input.filename {background:url(../images/attachment.png) no-repeat right 1px top 50%; padding-left:0px; padding-right:18px;}
+#attachments_fields .ajax-waiting input.filename {background:url(../images/hourglass.png) no-repeat right top 50%;}
+#attachments_fields .ajax-loading input.filename {background:url(../images/loading.gif) no-repeat right top 50%;}
+#attachments_fields div.ui-progressbar {margin: 2px 8px -5px 0;}
+
+a.remove-upload {background: url(../images/delete.png) no-repeat right 1px top 50%; padding-left:0px; padding-right:16px;}
+
+div.thumbnails div {margin-right:0px; margin-left:2px;}
+
+p.other-formats { text-align:left; }
+
+a.atom { background: url(../images/feed.png) no-repeat right 1px top 50%; padding: 2px 16px 3px 0; }
+
+em.info.error {padding-left:0; padding-right:20px; background:url(../images/exclamation.png) no-repeat right 50%;}
+
+table.members td.name {padding-right: 20px; padding-left:0; }
+table.members td.group, table.members td.groupnonmember, table.members td.groupanonymous {background: url(../images/group.png) no-repeat right 50%;}
+
+input.autocomplete {
+  background: #fff url(../images/magnifier.png) no-repeat right 2px top 50%; padding-left:0px !important; padding-right:20px !important;
+}
+
+.role-visibility {padding-right:2em; padding-left:0;}
+
+/***** Flash & error messages ****/
+#errorExplanation, div.flash, .nodata, .warning, .conflict {
+  padding: 4px 30px 4px 4px;
+}
+
+div.flash.error, #errorExplanation {
+  background: url(../images/exclamation.png) right 8px top 50% no-repeat;
+}
+
+div.flash.notice {
+  background: url(../images/true.png) right 8px top 5px no-repeat;
+}
+
+div.flash.warning, .conflict {
+  background: url(../images/warning.png) right 8px top 5px no-repeat;
+  text-align:right;
+}
+
+/***** Ajax indicator ******/
+#ajax-indicator {
+  left:auto; right:40%;
+}
+
+#ajax-indicator span {
+  background-position: right 40%;
+  background-image: url(../images/loading.gif);
+  padding-left:0px; padding-right:26px;
+}
+
+/***** Calendar *****/
+table.cal td p.day-num {text-align:left;}
+table.cal .starting a, p.cal.legend .starting {background: url(../images/bullet_go.png) no-repeat right -1px top -2px; padding-left:0px; padding-right:16px;}
+table.cal .ending a, p.cal.legend .ending {background: url(../images/bullet_end.png) no-repeat right -1px top -2px; padding-left:0px; padding-right:16px;}
+table.cal .starting.ending a, p.cal.legend .starting.ending {background: url(../images/bullet_diamond.png) no-repeat right -1px top -2px; padding-left:0px; padding-right:16px;}
+
+/***** Tooltips ******/
+.tooltip span.tip{text-align:right;}
+
+div.tooltip:hover span.tip{
+  left:auto; right:24px;
+}
+
+img.ui-datepicker-trigger {
+  margin-left:0px; margin-right:4px;
+}
+
+/***** Progress bar *****/
+table.progress {
+  float:right;
+  margin: 1px 0px 1px 6px;
+}
+p.progress-info {clear:right;}
+
+/***** Tabs *****/
+#content .tabs ul {padding-left:0em; padding-right:0.5em;}
+#content .tabs ul li {
+  float:right;
+  margin-right:0px; margin-left:4px;
+}
+
+div.tabs-buttons {right:auto; left:0;}
+
+button.tab-left {
+  right:auto; left:20px;
+}
+
+button.tab-right {
+  right:auto; left:20px;
+}
+
+/***** Diff *****/
+
+/***** Wiki *****/
+
+div.wiki .external {
+  background-position:right 60%;
+  padding-left:0px; padding-right:12px;
+}
+
+div.wiki pre {
+  margin: 1em 1.6em 1em 1em;
+}
+
+div.wiki ul.toc {
+  margin-right:0px; margin-left:12px;
+  margin-left:0;    margin-right:0;
+}
+
+div.wiki ul.toc.right { float: left; margin-left:0; margin-right:12px;}
+div.wiki ul.toc.left  { float:right; margin-right:0; margin-left:12px;}
+div.wiki ul.toc li li {margin-left:0em; margin-right:1.5em;}
+
+a.wiki-anchor {margin-left:0px; margin-right:6px;}
+
+/***** My page layout *****/
+
+/***** Gantt chart *****/
+.gantt_hdr {
+  border-right:0px solid #c0c0c0; border-left:1px solid #c0c0c0;
+}
+
+.task.parent.marker.starting{margin-left:0px; margin-right:-4px; left:auto; right:0;}
+.task.parent.marker.ending {margin-left:0px; margin-right:-4px; right:auto; left:0px;}
+
+.version.marker {margin-left:0; margin-right:-4px;}
+
+.project.marker {margin-left:0; margin-right:-4px;}
+
+/***** Icons *****/
+.icon {
+  background-position: right 50%;
+  padding-left:0; padding-right:20px;
+}
+
+div.issue img.gravatar {
+  float: right;
+  margin: 0 0 0 6px;
+}
+
+div.issue table img.gravatar {
+  float: right;
+  margin: 0 0em 0 0.5em;
+}
+
+h2 img.gravatar {margin: -2px 0 -4px 4px;}
+h3 img.gravatar {margin: -4px 0 -4px 4px;}
+h4 img.gravatar {margin: -6px 0 -4px 4px;}
+td.username img.gravatar {margin:0 0 0 0.5em; }
+#activity dt img.gravatar {float:right; margin:0 0 1em 1em;}
+/* Used on 12px Gravatar img tags without the icon background */
+.icon-gravatar {float:right; margin-right:px; margin-left:4px;}
+
+#activity dt, .journal {clear:right;}
+
+.journal-link {float:left;}
+
+/* Custom JQuery styles */
+.ui-datepicker-title select {margin-left:4px !important; margin-right:0 !important;}
+
+/************* CodeRay styles *************/
+.syntaxhl .line-numbers {margin:0px 0px 0px 5px;}
+
+/***** Media print specific styles *****/
+@media print {
+}
+
+/* Accessibility specific styles */
+.hidden-for-sighted {
+  left:auto; right:-10000px;
+}

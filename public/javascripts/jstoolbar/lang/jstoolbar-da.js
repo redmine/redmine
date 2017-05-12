@@ -7,6 +7,7 @@ jsToolBar.strings['Code'] = 'Inline-kode';
 jsToolBar.strings['Heading 1'] = 'Overskrift 1';
 jsToolBar.strings['Heading 2'] = 'Overskrift 2';
 jsToolBar.strings['Heading 3'] = 'Overskrift 3';
+jsToolBar.strings['Highlighted code'] = 'Highlighted code';
 jsToolBar.strings['Unordered list'] = 'Unummereret liste';
 jsToolBar.strings['Ordered list'] = 'Nummereret liste';
 jsToolBar.strings['Quote'] = 'Citér';

@@ -1,17 +1,7 @@
-<h2><%=h @status %></h2>
+<h2><%= @status %></h2>
 
 <% if @message.present? %>
-	<% if @status!="" %>
-		<div id="errorExplanation" class="alert alert-error fade in">
-			<button type="button" class="close" data-dismiss="alert">×</button>
-	    	<strong>Error</strong> <%=h @message.html_safe %></a>
-	  	</div>
-	<% else %>
-		<div id="errorExplanation" class="alert alert-info fade in">
-			<button type="button" class="close" data-dismiss="alert">×</button>
-	    	<strong>Info</strong> <%=h @message.html_safe %></a>
-	  	</div>
-	<% end %>
+  <p id="errorExplanation"><%= @message %></p>
 <% end %>
 <p><a href="javascript:history.back()"><%= l(:button_back) %></a></p>
 

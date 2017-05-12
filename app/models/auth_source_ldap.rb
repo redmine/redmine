@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -20,9 +20,16 @@ require 'net/ldap/dn'
 require 'timeout'
 
 class AuthSourceLdap < AuthSource
+  NETWORK_EXCEPTIONS = [
+    Net::LDAP::LdapError,
+    Errno::ECONNABORTED, Errno::ECONNREFUSED, Errno::ECONNRESET,
+    Errno::EHOSTDOWN, Errno::EHOSTUNREACH,
+    SocketError
+  ]
+
   validates_presence_of :host, :port, :attr_login
   validates_length_of :name, :host, :maximum => 60, :allow_nil => true
-  validates_length_of :account, :account_password, :base_dn, :filter, :maximum => 255, :allow_blank => true
+  validates_length_of :account, :account_password, :base_dn, :maximum => 255, :allow_blank => true
   validates_length_of :attr_login, :attr_firstname, :attr_lastname, :attr_mail, :maximum => 30, :allow_nil => true
   validates_numericality_of :port, :only_integer => true
   validates_numericality_of :timeout, :only_integer => true, :allow_blank => true
@@ -45,17 +52,22 @@ class AuthSourceLdap < AuthSource
         return attrs.except(:dn)
       end
     end
-  rescue Net::LDAP::LdapError => e
+  rescue *NETWORK_EXCEPTIONS => e
     raise AuthSourceException.new(e.message)
   end
 
-  # test the connection to the LDAP
+  # Test the connection to the LDAP
   def test_connection
     with_timeout do
       ldap_con = initialize_ldap_con(self.account, self.account_password)
       ldap_con.open { }
+
+      if self.account.present? && !self.account.include?("$login") && self.account_password.present?
+        ldap_auth = authenticate_dn(self.account, self.account_password)
+        raise AuthSourceException.new(l(:error_ldap_bind_credentials)) if !ldap_auth
+      end
     end
-  rescue Net::LDAP::LdapError => e
+  rescue *NETWORK_EXCEPTIONS => e
     raise AuthSourceException.new(e.message)
   end
 
@@ -85,7 +97,7 @@ class AuthSourceLdap < AuthSource
       results << attrs
     end
     results
-  rescue Net::LDAP::LdapError => e
+  rescue *NETWORK_EXCEPTIONS => e
     raise AuthSourceException.new(e.message)
   end
 
@@ -105,7 +117,7 @@ class AuthSourceLdap < AuthSource
     if filter.present?
       Net::LDAP::Filter.construct(filter)
     end
-  rescue Net::LDAP::LdapError
+  rescue Net::LDAP::LdapError, Net::LDAP::FilterSyntaxInvalidError
     nil
   end
 
@@ -175,26 +187,23 @@ class AuthSourceLdap < AuthSource
     end
     attrs = {}
     search_filter = base_filter & Net::LDAP::Filter.eq(self.attr_login, login)
-
     ldap_con.search( :base => self.base_dn,
                      :filter => search_filter,
                      :attributes=> search_attributes) do |entry|
-
       if onthefly_register?
         attrs = get_user_attributes_from_ldap_entry(entry)
       else
         attrs = {:dn => entry.dn}
       end
-
       logger.debug "DN found for #{login}: #{attrs[:dn]}" if logger && logger.debug?
     end
-
     attrs
   end
 
   def self.get_attr(entry, attr_name)
     if !attr_name.blank?
-      entry[attr_name].is_a?(Array) ? entry[attr_name].first : entry[attr_name]
+      value = entry[attr_name].is_a?(Array) ? entry[attr_name].first : entry[attr_name]
+      value.to_s.force_encoding('UTF-8')
     end
   end
 end

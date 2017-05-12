@@ -1,0 +1,12 @@
+<%= l(:mail_body_settings_updated) %>
+
+<% @changes.each do |name| %>
+  * <%= l("setting_#{name}") %>
+<% end %>
+
+<%= @url %>
+
+<%= l(:field_user) %>: <%= User.current.login %>
+<%= l(:field_remote_ip) %>: <%= User.current.remote_ip %>
+<%= l(:label_date) %>: <%= format_time Time.now, true %>
+

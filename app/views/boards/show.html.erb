@@ -10,7 +10,7 @@
 
 <div id="add-message" style="display:none;">
 <% if User.current.allowed_to?(:add_messages, @board.project) %>
-<h2><%= link_to h(@board.name), project_board_path(@project, @board) %> &#187; <%= l(:label_message_new) %></h2>
+<h2><%= link_to @board.name, project_board_path(@project, @board) %> &#187; <%= l(:label_message_new) %></h2>
 <%= form_for @message, :url => new_board_message_path(@board), :html => {:multipart => true, :id => 'message-form'} do |f| %>
   <%= render :partial => 'messages/form', :locals => {:f => f} %>
   <p><%= submit_tag l(:button_create) %>
@@ -21,8 +21,8 @@
 <% end %>
 </div>
 
-<h2><%=h @board.name %></h2>
-<p class="subtitle"><%=h @board.description %></p>
+<h2><%= @board.name %></h2>
+<p class="subtitle"><%= @board.description %></p>
 
 <% if @topics.any? %>
 <table class="list messages">
@@ -36,7 +36,7 @@
   <tbody>
   <% @topics.each do |topic| %>
     <tr class="message <%= cycle 'odd', 'even' %> <%= topic.sticky? ? 'sticky' : '' %> <%= topic.locked? ? 'locked' : '' %>">
-      <td class="subject"><%= link_to h(topic.subject), board_message_path(@board, topic) %></td>
+      <td class="subject"><%= link_to topic.subject, board_message_path(@board, topic) %></td>
       <td class="author"><%= link_to_user(topic.author) %></td>
       <td class="created_on"><%= format_time(topic.created_on) %></td>
       <td class="reply-count"><%= topic.replies_count %></td>
@@ -50,7 +50,7 @@
   <% end %>
   </tbody>
 </table>
-<p class="pagination"><%= pagination_links_full @topic_pages, @topic_count %></p>
+<span class="pagination"><%= pagination_links_full @topic_pages, @topic_count %></span>
 <% else %>
 <p class="nodata"><%= l(:label_no_data) %></p>
 <% end %>

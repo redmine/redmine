@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -169,13 +169,14 @@ class IssueRelationTest < ActiveSupport::TestCase
     assert_not_equal [], r.errors[:base]
   end
 
-  def test_create_should_make_journal_entry
+  def test_create_with_initialized_journals_should_create_journals
     from = Issue.find(1)
     to   = Issue.find(2)
     from_journals = from.journals.size
     to_journals   = to.journals.size
     relation = IssueRelation.new(:issue_from => from, :issue_to => to,
                                  :relation_type => IssueRelation::TYPE_PRECEDES)
+    relation.init_journals User.find(1)
     assert relation.save
     from.reload
     to.reload
@@ -192,12 +193,13 @@ class IssueRelationTest < ActiveSupport::TestCase
     assert_nil   to.journals.last.details.last.old_value
   end
 
-  def test_delete_should_make_journal_entry
+  def test_destroy_with_initialized_journals_should_create_journals
     relation = IssueRelation.find(1)
     from = relation.issue_from
     to   = relation.issue_to
     from_journals = from.journals.size
     to_journals   = to.journals.size
+    relation.init_journals User.find(1)
     assert relation.destroy
     from.reload
     to.reload
@@ -211,5 +213,24 @@ class IssueRelationTest < ActiveSupport::TestCase
     assert_equal 'blocked', to.journals.last.details.last.prop_key
     assert_equal '10', to.journals.last.details.last.old_value
     assert_nil   to.journals.last.details.last.value
+  end
+
+  def test_to_s_should_return_the_relation_string
+    set_language_if_valid 'en'
+    relation = IssueRelation.find(1)
+    assert_equal "Blocks #9", relation.to_s(relation.issue_from)
+    assert_equal "Blocked by #10", relation.to_s(relation.issue_to)
+  end
+
+  def test_to_s_without_argument_should_return_the_relation_string_for_issue_from
+    set_language_if_valid 'en'
+    relation = IssueRelation.find(1)
+    assert_equal "Blocks #9", relation.to_s
+  end
+
+  def test_to_s_should_accept_a_block_as_custom_issue_formatting
+    set_language_if_valid 'en'
+    relation = IssueRelation.find(1)
+    assert_equal "Blocks Bug #9", relation.to_s {|issue| "#{issue.tracker} ##{issue.id}"}
   end
 end

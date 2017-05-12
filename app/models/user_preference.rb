@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -25,6 +25,12 @@ class UserPreference < ActiveRecord::Base
 
   def initialize(attributes=nil, *args)
     super
+    if new_record? && !(attributes && attributes.key?(:hide_mail))
+      self.hide_mail = Setting.default_users_hide_mail?
+    end
+    if new_record? && !(attributes && attributes.key?(:no_self_notified))
+      self.no_self_notified = true
+    end
     self.others ||= {}
   end
 
@@ -59,4 +65,7 @@ class UserPreference < ActiveRecord::Base
 
   def no_self_notified; (self[:no_self_notified] == true || self[:no_self_notified] == '1'); end
   def no_self_notified=(value); self[:no_self_notified]=value; end
+
+  def activity_scope; Array(self[:activity_scope]) ; end
+  def activity_scope=(value); self[:activity_scope]=value ; end
 end

@@ -133,7 +133,7 @@ zh:
         not_same_project: "不属于同一个项目"
         circular_dependency: "此关联将导致循环依赖"
         cant_link_an_issue_with_a_descendant: "问题不能关联到它的子任务"
-        earlier_than_minimum_start_date: "cannot be earlier than %{date} because of preceding issues"
+        earlier_than_minimum_start_date: "不能早于 %{date} 由于有前置问题"
 
   actionview_instancetag_blank_option: 请选择
 
@@ -145,11 +145,12 @@ zh:
   general_csv_separator: ','
   general_csv_decimal_separator: '.'
   general_csv_encoding: gb18030
-  general_pdf_encoding: gb18030
+  general_pdf_fontname: stsongstdlight
+  general_pdf_monospaced_fontname: stsongstdlight
   general_first_day_of_week: '7'
 
   notice_account_updated: 帐号更新成功
-  notice_account_invalid_creditentials: 无效的用户名或密码
+  notice_account_invalid_credentials: 无效的用户名或密码
   notice_account_password_updated: 密码更新成功
   notice_account_wrong_password: 密码错误
   notice_account_register_done: 帐号创建成功，请使用注册确认邮件中的链接来激活您的帐号。
@@ -177,7 +178,7 @@ zh:
   notice_unable_delete_version: 无法删除版本
   notice_unable_delete_time_entry: 无法删除工时
   notice_issue_done_ratios_updated: 问题完成度已更新。
-  notice_gantt_chart_truncated: "The chart was truncated because it exceeds the maximum number of items that can be displayed (%{max})"
+  notice_gantt_chart_truncated: "由于项目数量超过可显示的最大值 (%{max})，故此甘特图将截断超出部分"
 
   error_can_t_load_default_data: "无法载入默认设置：%{value}"
   error_scm_not_found: "版本库中不存在该条目和（或）其修订版本。"
@@ -260,7 +261,7 @@ zh:
   field_admin: 管理员
   field_last_login_on: 最后登录
   field_language: 语言
-  field_effective_date: 日期
+  field_effective_date: 截止日期
   field_password: 密码
   field_new_password: 新密码
   field_password_confirmation: 确认
@@ -553,10 +554,6 @@ zh:
   label_open_issues_plural: 打开
   label_closed_issues: 已关闭
   label_closed_issues_plural: 已关闭
-  label_x_open_issues_abbr_on_total:
-    zero:  0 打开 / %{total}
-    one:   1 打开 / %{total}
-    other: "%{count} 打开 / %{total}"
   label_x_open_issues_abbr:
     zero:  0 打开
     one:   1 打开
@@ -577,7 +574,6 @@ zh:
   label_used_by: 使用中
   label_details: 详情
   label_add_note: 添加说明
-  label_per_page: 每页
   label_calendar: 日历
   label_months_from: 个月以来
   label_gantt: 甘特图
@@ -692,10 +688,6 @@ zh:
   label_blocked_by: 被阻挡
   label_precedes: 优先于
   label_follows: 跟随于
-  label_end_to_start: 结束-开始
-  label_end_to_end: 结束-结束
-  label_start_to_start: 开始-开始
-  label_start_to_end: 开始-结束
   label_stay_logged_in: 保持登录状态
   label_disabled: 禁用
   label_show_completed_versions: 显示已完成的版本
@@ -740,7 +732,7 @@ zh:
   label_user_mail_option_selected: "收取选中项目的所有通知..."
   label_user_mail_option_none: "不收取任何通知"
   label_user_mail_option_only_my_events: "只收取我跟踪或参与的项目的通知"
-  label_user_mail_option_only_assigned: "只收取分配给我的"
+  label_user_mail_option_only_assigned: "只收取指派给我的"
   label_user_mail_option_only_owner: 只收取由我创建的
   label_user_mail_no_self_notified: "不要发送对我自己提交的修改的通知"
   label_registration_activation_by_email: 通过邮件认证激活帐号
@@ -942,17 +934,17 @@ zh:
   label_news_comment_added: 添加到新闻的评论
   button_expand_all: 展开所有
   button_collapse_all: 合拢所有
-  label_additional_workflow_transitions_for_assignee: 当用户是问题的分配对象时所允许的问题状态转换
+  label_additional_workflow_transitions_for_assignee: 当用户是问题的指派对象时所允许的问题状态转换
   label_additional_workflow_transitions_for_author: 当用户是问题作者时所允许的问题状态转换
   label_bulk_edit_selected_time_entries: 批量修改选定的时间条目
   text_time_entries_destroy_confirmation: 是否确定要删除选定的时间条目？
-  label_role_anonymous: Anonymous
-  label_role_non_member: Non member
+  label_role_anonymous: 匿名用户
+  label_role_non_member: 非成员用户
   label_issue_note_added: 问题备注已添加
   label_issue_status_updated: 问题状态更新
   label_issue_priority_updated: 问题优先级更新
-  label_issues_visibility_own: 创建或分配给用户的问题
-  field_issues_visibility: 问题可见
+  label_issues_visibility_own: 用户创建或被指派的问题
+  field_issues_visibility: 问题可见度
   label_issues_visibility_all: 全部问题
   permission_set_own_issues_private: 设置自己的问题为公开或私有
   field_is_private: 私有
@@ -965,7 +957,7 @@ zh:
   text_scm_path_encoding_note: "默认: UTF-8"
   field_path_to_repository: 库路径
   field_root_directory: 根目录
-  field_cvs_module: CVS Module
+  field_cvs_module: CVS 模块
   field_cvsroot: CVSROOT
   text_mercurial_repository_note: 本地库 (e.g. /hgrepo, c:\hgrepo)
   text_scm_command: 命令
@@ -976,8 +968,8 @@ zh:
   text_git_repository_note: 库中无内容。(e.g. /gitrepo, c:\gitrepo)
   notice_issue_successful_create: 问题 %{id} 已创建。
   label_between: 介于
-  setting_issue_group_assignment: 允许问题被分配给组
-  label_diff: diff
+  setting_issue_group_assignment: 允许将问题指派给组
+  label_diff: 差异
   description_query_sort_criteria_direction: 排序方式
   description_project_scope: 搜索范围
   description_filter: 过滤器
@@ -1057,7 +1049,7 @@ zh:
   field_board_parent: 父论坛
   label_attribute_of_project: 项目 %{name}
   label_attribute_of_author: 作者 %{name}
-  label_attribute_of_assigned_to: 分配给 %{name}
+  label_attribute_of_assigned_to: 指派给 %{name}
   label_attribute_of_fixed_version: 目标版本 %{name}
   label_copy_subtasks: 复制子任务
   label_copied_to: 复制到
@@ -1101,15 +1093,113 @@ zh:
   field_must_change_passwd: 下次登录时必须修改密码
   notice_new_password_must_be_different: 新密码必须和旧密码不同
   setting_mail_handler_excluded_filenames: 移除符合下列名称的附件
-  text_convert_available: ImageMagick convert available (optional)
-  label_link: Link
-  label_only: only
-  label_drop_down_list: drop-down list
-  label_checkboxes: checkboxes
-  label_link_values_to: Link values to URL
-  setting_force_default_language_for_anonymous: Force default language for anonymous
-    users
-  setting_force_default_language_for_loggedin: Force default language for logged-in
-    users
-  label_custom_field_select_type: Select the type of object to which the custom field
-    is to be attached
+  text_convert_available: 可使用 ImageMagick 转换图片格式 (可选)
+  label_link: 连接
+  label_only: 仅于
+  label_drop_down_list: 下拉列表
+  label_checkboxes: 复选框
+  label_link_values_to: 链接数值至此网址
+  setting_force_default_language_for_anonymous: 强制匿名用户使用默认语言
+  setting_force_default_language_for_loggedin: 强制已登录用户使用默认语言
+  label_custom_field_select_type: 请选择需要关联自定义属性的类型
+  label_issue_assigned_to_updated: 指派人已更新
+  label_check_for_updates: 检查更新
+  label_latest_compatible_version: 最新兼容版本
+  label_unknown_plugin: 未知插件
+  label_radio_buttons: 单选按钮
+  label_group_anonymous: 匿名用户
+  label_group_non_member: 非成员用户
+  label_add_projects: 加入项目
+  field_default_status: 默认状态
+  text_subversion_repository_note: '示例: file:///, http://, https://, svn://, svn+[tunnelscheme]://'
+  field_users_visibility: 用户可见度
+  label_users_visibility_all: 所有活动用户
+  label_users_visibility_members_of_visible_projects: 可见项目中的成员
+  label_edit_attachments: 编辑附件
+  setting_link_copied_issue: 复制时关联问题
+  label_link_copied_issue: 关联已复制的问题
+  label_ask: 询问
+  label_search_attachments_yes: 搜索附件的文件名和描述
+  label_search_attachments_no: 不搜索附件
+  label_search_attachments_only: 只搜索附件
+  label_search_open_issues_only: 只搜索进行中的问题
+  field_address: 邮件地址
+  setting_max_additional_emails: 其它电子邮件地址上限
+  label_email_address_plural: 电子邮件
+  label_email_address_add: 增加电子邮件地址
+  label_enable_notifications: 启用通知
+  label_disable_notifications: 禁用通知
+  setting_search_results_per_page: 每一页的搜索结果数
+  label_blank_value: 空白
+  permission_copy_issues: 复制问题
+  error_password_expired: 您的密码已经过期或是管理员要求您修改密码.
+  field_time_entries_visibility: 工时记录可见度
+  setting_password_max_age: 密码有效期
+  label_parent_task_attributes: 父问题属性
+  label_parent_task_attributes_derived: 从子任务计算导出
+  label_parent_task_attributes_independent: 与子任务无关
+  label_time_entries_visibility_all: 所有工时记录
+  label_time_entries_visibility_own: 用户自己创建的工时记录
+  label_member_management: 成员管理
+  label_member_management_all_roles: 所有角色
+  label_member_management_selected_roles_only: 只限下列角色
+  label_password_required: 确认您的密码后继续
+  label_total_spent_time: 总体耗时
+  notice_import_finished: 成功导入 %{count} 个项目
+  notice_import_finished_with_errors: 有 %{count} 个项目无法导入(共计 %{total} 个)
+  error_invalid_file_encoding: 这不是一个有效的 %{encoding} 编码文件
+  error_invalid_csv_file_or_settings: 这不是一个CSV文件或者不符合以下设置
+  error_can_not_read_import_file: 读取导入文件时发生错误
+  permission_import_issues: 问题导入
+  label_import_issues: 问题导入
+  label_select_file_to_import: 选择要导入的文件
+  label_fields_separator: 字段分隔符
+  label_fields_wrapper: 字段包装识别符
+  label_encoding: 编码
+  label_comma_char: 逗号(,)
+  label_semi_colon_char: 分号(;)
+  label_quote_char: 单引号(')
+  label_double_quote_char: 双引号(")
+  label_fields_mapping: 字段映射
+  label_file_content_preview: 文件内容预览
+  label_create_missing_values: 创建缺失的数值
+  button_import: 导入
+  field_total_estimated_hours: 预估工时统计
+  label_api: API
+  label_total_plural: 总计
+  label_assigned_issues: 被指派的问题
+  label_field_format_enumeration: 键/值 清单
+  label_f_hour_short: '%{value} 小时'
+  field_default_version: 默认版本
+  error_attachment_extension_not_allowed: 不允许上传此类型 %{extension} 附件
+  setting_attachment_extensions_allowed: 允许上传的附件类型
+  setting_attachment_extensions_denied: 禁止上传的附件类型
+  label_any_open_issues: 任意进行中的问题
+  label_no_open_issues: 任意已关闭的问题
+  label_default_values_for_new_users: 新用户默认值
+  error_ldap_bind_credentials: 无效的LDAP账号或密码
+  setting_sys_api_key: 版本库管理网页服务 API 密钥
+  setting_lost_password: 忘记密码
+  mail_subject_security_notification: 安全通知
+  mail_body_security_notification_change: "%{field} 已变更."
+  mail_body_security_notification_change_to: "%{field} 已变更为 %{value}."
+  mail_body_security_notification_add: "%{field} %{value} 已增加."
+  mail_body_security_notification_remove: "%{field} %{value} 已移除."
+  mail_body_security_notification_notify_enabled: 邮件地址 %{value} 开始接收通知.
+  mail_body_security_notification_notify_disabled: 邮件地址 %{value} 不再接收通知.
+  mail_body_settings_updated: "下列设置已更新:"
+  field_remote_ip: IP 地址
+  label_wiki_page_new: 新建Wiki页面
+  label_relations: 相关的问题
+  button_filter: 设置为过滤条件
+  mail_body_password_updated: 您的密码已经变更。
+  label_no_preview: 没有可以显示的预览内容
+  error_no_tracker_allowed_for_new_issue_in_project: 项目没有任何跟踪标签，您不能创建一个问题
+  label_tracker_all: 所有跟踪标签
+  label_new_project_issue_tab_enabled: 显示“新建问题”标签
+  setting_new_item_menu_tab: 建立新对象条目的项目菜单栏目
+  label_new_object_tab_enabled: 显示 "+" 为下拉列表
+  error_no_projects_with_tracker_allowed_for_new_issue: There are no projects with trackers
+    for which you can create an issue
+  error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: Spent time cannot
+    be reassigned to an issue that is about to be deleted

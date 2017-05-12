@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -16,10 +16,10 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class JournalsController < ApplicationController
-  before_filter :find_journal, :only => [:edit, :diff]
+  before_filter :find_journal, :only => [:edit, :update, :diff]
   before_filter :find_issue, :only => [:new]
   before_filter :find_optional_project, :only => [:index]
-  before_filter :authorize, :only => [:new, :edit, :diff]
+  before_filter :authorize, :only => [:new, :edit, :update, :diff]
   accept_rss_auth :index
   menu_item :issues
 
@@ -34,7 +34,6 @@ class JournalsController < ApplicationController
     retrieve_query
     sort_init 'id', 'desc'
     sort_update(@query.sortable_columns)
-
     if @query.valid?
       @journals = @query.journals(:order => "#{Journal.table_name}.created_on DESC",
                                   :limit => 25)
@@ -50,9 +49,17 @@ class JournalsController < ApplicationController
     if params[:detail_id].present?
       @detail = @journal.details.find_by_id(params[:detail_id])
     else
-      @detail = @journal.details.detect {|d| d.prop_key == 'description'}
+      @detail = @journal.details.detect {|d| d.property == 'attr' && d.prop_key == 'description'}
     end
-    (render_404; return false) unless @issue && @detail
+    unless @issue && @detail
+      render_404
+      return false
+    end
+    if @detail.property == 'cf'
+      unless @detail.custom_field && @detail.custom_field.visible_by?(@issue.project, User.current)
+        raise ::Unauthorized
+      end
+    end
     @diff = Redmine::Helpers::Diff.new(@detail.value, @detail.old_value)
   end
 
@@ -75,22 +82,20 @@ class JournalsController < ApplicationController
 
   def edit
     (render_403; return false) unless @journal.editable_by?(User.current)
-    if request.post?
-      @journal.update_attributes(:notes => params[:notes]) if params[:notes]
-      @journal.destroy if @journal.details.empty? && @journal.notes.blank?
-      call_hook(:controller_journals_edit_post, { :journal => @journal, :params => params})
-      respond_to do |format|
-        format.html { redirect_to issue_path(@journal.journalized) }
-        format.js { render :action => 'update' }
-      end
-    else
-      respond_to do |format|
-        format.html {
-          # TODO: implement non-JS journal update
-          render :nothing => true
-        }
-        format.js
-      end
+    respond_to do |format|
+      # TODO: implement non-JS journal update
+      format.js
+    end
+  end
+
+  def update
+    (render_403; return false) unless @journal.editable_by?(User.current)
+    @journal.update_attributes(:notes => params[:notes]) if params[:notes]
+    @journal.destroy if @journal.details.empty? && @journal.notes.blank?
+    call_hook(:controller_journals_edit_post, { :journal => @journal, :params => params})
+    respond_to do |format|
+      format.html { redirect_to issue_path(@journal.journalized) }
+      format.js
     end
   end
 

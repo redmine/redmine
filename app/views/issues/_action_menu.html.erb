@@ -1,7 +1,7 @@
 <div class="contextual btn-group pull-right">
-<%= link_to l(:button_update), edit_issue_path(@issue), :onclick => 'showAndScrollTo("update", "issue_notes"); return false;', :class => 'btn icon icon-edit', :accesskey => accesskey(:edit) if @issue.editable? %>
-<%= link_to l(:button_log_time), new_issue_time_entry_path(@issue), :class => 'btn icon icon-time-add' if User.current.allowed_to?(:log_time, @project) %>
-<%= watcher_tag(@issue, User.current) %> 
-<%= link_to l(:button_copy), project_copy_issue_path(@project, @issue), :class => 'btn icon icon-copy' if User.current.allowed_to?(:add_issues, @project) %>
-<%= link_to l(:button_delete), issue_path(@issue), :data => {:confirm => issues_destroy_confirmation_message(@issue)}, :method => :delete, :class => 'btn icon icon-del' if User.current.allowed_to?(:delete_issues, @project) %>
+<%= link_to l(:button_edit), edit_issue_path(@issue), :onclick => 'showAndScrollTo("update", "issue_notes"); return false;', :class => 'icon icon-edit', :accesskey => accesskey(:edit) if @issue.editable? %>
+<%= link_to l(:button_log_time), new_issue_time_entry_path(@issue), :class => 'icon icon-time-add' if User.current.allowed_to?(:log_time, @project) %>
+<%= watcher_link(@issue, User.current) %>
+<%= link_to l(:button_copy), project_copy_issue_path(@project, @issue), :class => 'icon icon-copy' if User.current.allowed_to?(:copy_issues, @project) && Issue.allowed_target_projects.any? %>
+<%= link_to l(:button_delete), issue_path(@issue), :data => {:confirm => issues_destroy_confirmation_message(@issue)}, :method => :delete, :class => 'icon icon-del' if @issue.deletable? %>
 </div>

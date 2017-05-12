@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -30,12 +30,12 @@ module Redmine
         clear_listeners_instances
       end
 
-      # Returns all the listerners instances.
+      # Returns all the listener instances.
       def listeners
         @@listeners ||= @@listener_classes.collect {|listener| listener.instance}
       end
 
-      # Returns the listeners instances for the given hook.
+      # Returns the listener instances for the given hook.
       def hook_listeners(hook)
         @@hook_listeners[hook] ||= listeners.select {|listener| listener.respond_to?(hook)}
       end
@@ -61,68 +61,6 @@ module Redmine
             hls.each {|listener| response << listener.send(hook, context)}
           end
         end
-      end
-    end
-
-    # Base class for hook listeners.
-    class Listener
-      include Singleton
-      include Redmine::I18n
-
-      # Registers the listener
-      def self.inherited(child)
-        Redmine::Hook.add_listener(child)
-        super
-      end
-
-    end
-
-    # Listener class used for views hooks.
-    # Listeners that inherit this class will include various helpers by default.
-    class ViewListener < Listener
-      include ERB::Util
-      include ActionView::Helpers::TagHelper
-      include ActionView::Helpers::FormHelper
-      include ActionView::Helpers::FormTagHelper
-      include ActionView::Helpers::FormOptionsHelper
-      include ActionView::Helpers::JavaScriptHelper
-      include ActionView::Helpers::NumberHelper
-      include ActionView::Helpers::UrlHelper
-      include ActionView::Helpers::AssetTagHelper
-      include ActionView::Helpers::TextHelper
-      include Rails.application.routes.url_helpers
-      include ApplicationHelper
-
-      # Default to creating links using only the path.  Subclasses can
-      # change this default as needed
-      def self.default_url_options
-        {:only_path => true }
-      end
-
-      # Helper method to directly render a partial using the context:
-      #
-      #   class MyHook < Redmine::Hook::ViewListener
-      #     render_on :view_issues_show_details_bottom, :partial => "show_more_data"
-      #   end
-      #
-      def self.render_on(hook, options={})
-        define_method hook do |context|
-          if context[:hook_caller].respond_to?(:render)
-            context[:hook_caller].send(:render, {:locals => context}.merge(options))
-          elsif context[:controller].is_a?(ActionController::Base)
-            context[:controller].send(:render_to_string, {:locals => context}.merge(options))
-          else
-            raise "Cannot render #{self.name} hook from #{context[:hook_caller].class.name}"
-          end
-        end
-      end
-      
-      def controller
-        nil
-      end
-      
-      def config
-        ActionController::Base.config
       end
     end
 
@@ -161,6 +99,3 @@ module Redmine
     end
   end
 end
-
-ApplicationHelper.send(:include, Redmine::Hook::Helper)
-ActionController::Base.send(:include, Redmine::Hook::Helper)

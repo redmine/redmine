@@ -7,6 +7,7 @@ jsToolBar.strings['Code'] = 'Уграђени кôд';
 jsToolBar.strings['Heading 1'] = 'Наслов 1';
 jsToolBar.strings['Heading 2'] = 'Наслов 2';
 jsToolBar.strings['Heading 3'] = 'Наслов 3';
+jsToolBar.strings['Highlighted code'] = 'Highlighted code';
 jsToolBar.strings['Unordered list'] = 'Листа набрајања';
 jsToolBar.strings['Ordered list'] = 'Уређена листа';
 jsToolBar.strings['Quote'] = 'Под наводницима';

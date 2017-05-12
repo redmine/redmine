@@ -1,4 +1,4 @@
-<h1><%= link_to(h(@news.title), @news_url) %></h1>
+<h1><%= link_to(@news.title, @news_url) %></h1>
 
 <p><%= l(:text_user_wrote, :value => h(@comment.author)) %></p>
 

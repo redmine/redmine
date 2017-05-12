@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -68,6 +68,8 @@ class Redmine::PluginTest < ActiveSupport::TestCase
     assert_not_nil menu_item
     assert_equal 'Foo', menu_item.caption
     assert_equal '/foo', menu_item.url
+  ensure
+    Redmine::MenuManager.map(:project_menu).delete(:foo_menu_item)
   end
 
   def test_delete_menu_item
@@ -78,6 +80,8 @@ class Redmine::PluginTest < ActiveSupport::TestCase
       end
     end
     assert_nil Redmine::MenuManager.items(:project_menu).detect {|i| i.name == :foo_menu_item}
+  ensure
+    Redmine::MenuManager.map(:project_menu).delete(:foo_menu_item)
   end
 
   def test_directory_with_override
@@ -172,5 +176,11 @@ class Redmine::PluginTest < ActiveSupport::TestCase
         requires_redmine_plugin(:missing, :version => '0.1.0')
       end
     end
+  end
+
+  def test_settings_warns_about_possible_partial_collision
+    @klass.register(:foo) { settings :partial => 'foo/settings' }
+    Rails.logger.expects(:warn)
+    @klass.register(:bar) { settings :partial => 'foo/settings' }
   end
 end

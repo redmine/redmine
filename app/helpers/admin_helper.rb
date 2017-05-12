@@ -1,7 +1,7 @@
 # encoding: utf-8
 #
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -23,5 +23,13 @@ module AdminHelper
                         [l(:project_status_active), '1'],
                         [l(:project_status_closed), '5'],
                         [l(:project_status_archived), '9']], selected.to_s)
+  end
+
+  def plugin_data_for_updates(plugins)
+    data = {"v" => Redmine::VERSION.to_s, "p" => {}}
+    plugins.each do |plugin|
+      data["p"].merge! plugin.id => {"v" => plugin.version, "n" => plugin.name, "a" => plugin.author}
+    end
+    data
   end
 end

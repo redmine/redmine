@@ -157,15 +157,16 @@ pt-BR:
   general_text_Yes: 'Sim'
   general_text_no: 'não'
   general_text_yes: 'sim'
-  general_lang_name: 'Português(Brasil)'
+  general_lang_name: 'Portuguese/Brasil (Português/Brasil)'
   general_csv_separator: ';'
   general_csv_decimal_separator: ','
   general_csv_encoding: ISO-8859-1
-  general_pdf_encoding: UTF-8
+  general_pdf_fontname: freesans
+  general_pdf_monospaced_fontname: freemono
   general_first_day_of_week: '1'
 
   notice_account_updated: Conta atualizada com sucesso.
-  notice_account_invalid_creditentials: Usuário ou senha inválido.
+  notice_account_invalid_credentials: Usuário ou senha inválido.
   notice_account_password_updated: Senha alterada com sucesso.
   notice_account_wrong_password: Senha inválida.
   notice_account_register_done: Conta criada com sucesso. Para ativar sua conta, clique no link que lhe foi enviado por e-mail.
@@ -195,6 +196,7 @@ pt-BR:
   error_issue_not_found_in_project: 'A tarefa não foi encontrada ou não pertence a este projeto'
   error_no_tracker_in_project: 'Não há um tipo de tarefa associado a este projeto. Favor verificar as configurações do projeto.'
   error_no_default_issue_status: 'A situação padrão para tarefa não está definida. Favor verificar sua configuração (Vá em "Administração -> Situação da tarefa").'
+  error_ldap_bind_credentials: "Conta/Palavra-chave do LDAP não é válida"
 
   mail_subject_lost_password: "Sua senha do %{value}."
   mail_body_lost_password: 'Para mudar sua senha, clique no link abaixo:'
@@ -452,10 +454,6 @@ pt-BR:
   label_open_issues_plural: Abertas
   label_closed_issues: Fechada
   label_closed_issues_plural: Fechadas
-  label_x_open_issues_abbr_on_total:
-    zero:  0 aberta / %{total}
-    one:   1 aberta / %{total}
-    other: "%{count} abertas / %{total}"
   label_x_open_issues_abbr:
     zero:  0 aberta
     one:   1 aberta
@@ -476,7 +474,6 @@ pt-BR:
   label_used_by: Usado por
   label_details: Detalhes
   label_add_note: Adicionar nota
-  label_per_page: Por página
   label_calendar: Calendário
   label_months_from: meses a partir de
   label_gantt: Gantt
@@ -582,10 +579,6 @@ pt-BR:
   label_blocked_by: bloqueado por
   label_precedes: precede
   label_follows: segue
-  label_end_to_start: fim para o início
-  label_end_to_end: fim para fim
-  label_start_to_start: início para início
-  label_start_to_end: início para fim
   label_stay_logged_in: Permanecer logado
   label_disabled: desabilitado
   label_show_completed_versions: Exibir versões completas
@@ -1125,9 +1118,113 @@ pt-BR:
   label_drop_down_list: lista suspensa
   label_checkboxes: checkboxes
   label_link_values_to: Valores do link para URL
-  setting_force_default_language_for_anonymous: Force default language for anonymous
-    users
-  setting_force_default_language_for_loggedin: Force default language for logged-in
-    users
-  label_custom_field_select_type: Select the type of object to which the custom field
-    is to be attached
+  setting_force_default_language_for_anonymous: Forçar linguagem padrão para usuários
+    anônimos
+  setting_force_default_language_for_loggedin: Forçar linguagem padrão para usuários
+    logados
+  label_custom_field_select_type: Selecione o tipo de objeto ao qual o campo personalizado
+    é para ser anexado
+  label_issue_assigned_to_updated: Atribuição atualizada
+  label_check_for_updates: Verificar atualizações
+  label_latest_compatible_version: Última versão compatível
+  label_unknown_plugin: Plugin desconhecido
+  label_radio_buttons: botões radio
+  label_group_anonymous: Usuários anônimos
+  label_group_non_member: Usuários não membros
+  label_add_projects: Adicionar projetos
+  field_default_status: Situação padrão
+  text_subversion_repository_note: 'Examplos: file:///, http://, https://, svn://, svn+[tunnelscheme]://'
+  field_users_visibility: Visibilidade do usuário
+  label_users_visibility_all: Todos usuários ativos
+  label_users_visibility_members_of_visible_projects: Membros de projetos visíveis
+  label_edit_attachments: Editar arquivos anexados
+  setting_link_copied_issue: Linkar tarefas copiadas
+  label_link_copied_issue: Linkar tarefas copiadas
+  label_ask: Perguntar
+  label_search_attachments_yes: Procurar nome do arquivo e descrição anexados
+  label_search_attachments_no: Não procurar anexados
+  label_search_attachments_only: Procurar somente anexados
+  label_search_open_issues_only: Somente tarefas abertas
+  field_address: E-mail
+  setting_max_additional_emails: Número máximo de e-mails adicionais
+  label_email_address_plural: Emails
+  label_email_address_add: Adicionar endereço de email
+  label_enable_notifications: Habilitar notificações
+  label_disable_notifications: Desabilitar notificações
+  setting_search_results_per_page: Resultados de pesquisa por página
+  label_blank_value: Branco
+  permission_copy_issues: Copiar tarefas
+  error_password_expired: Sua senha expirou ou requer atualização
+  field_time_entries_visibility: Visibilidade do log de tempo
+  setting_password_max_age: Requer troca de senha depois
+  label_parent_task_attributes: Atributos das tarefas pai
+  label_parent_task_attributes_derived: Calculado das subtarefas
+  label_parent_task_attributes_independent: Independente das subtarefas
+  label_time_entries_visibility_all: Todas as entradas de tempo
+  label_time_entries_visibility_own: Entradas de tempo criadas pelo usuário
+  label_member_management: Gerenciamento de membros
+  label_member_management_all_roles: Todas os papéis
+  label_member_management_selected_roles_only: Somente esses papéis
+  label_password_required: Confirme sua senha para continuar
+  label_total_spent_time: Tempo gasto geral
+  notice_import_finished: "%{count} itens foram importados"
+  notice_import_finished_with_errors: "%{count} fora de %{total} não puderam ser importados"
+  error_invalid_file_encoding: O arquivo não é válido %{encoding} é a codificação do arquivo
+  error_invalid_csv_file_or_settings: O arquivo não é um arquivo CSV ou não corresponde as
+    definições abaixo
+  error_can_not_read_import_file: Ocorreu um erro ao ler o arquivo para importação
+  permission_import_issues: Importar tarefas
+  label_import_issues: Importar tarefas
+  label_select_file_to_import: Selecione o arquivo para importação
+  label_fields_separator: Campo separador
+  label_fields_wrapper: Field empacotador
+  label_encoding: Codificação
+  label_comma_char: Vírgula
+  label_semi_colon_char: Ponto e vírgula
+  label_quote_char: Citar
+  label_double_quote_char: Citação dupla
+  label_fields_mapping: Mapeamento de campos
+  label_file_content_preview: Pré-visualir conteúdo do arquivo
+  label_create_missing_values: Criar valores em falta
+  button_import: Importar
+  field_total_estimated_hours: Tempo estimado geral
+  label_api: API
+  label_total_plural: Totais
+  label_assigned_issues: Tarefas atribuídas
+  label_field_format_enumeration: Chave/Lista de valores
+  label_f_hour_short: '%{value} h'
+  field_default_version: Versão padrão
+  error_attachment_extension_not_allowed: Extensão anexada %{extension} não é permitida
+  setting_attachment_extensions_allowed: Permitir extensões
+  setting_attachment_extensions_denied: Negar extensões
+  label_any_open_issues: Quaisquer tarefas abertas
+  label_no_open_issues: Sem tarefas abertas
+  label_default_values_for_new_users: Valor padrão para novos usuários
+  setting_sys_api_key: Chave de API
+  setting_lost_password: Perdi minha senha
+  mail_subject_security_notification: Notificação de segurança
+  mail_body_security_notification_change: ! '%{field} foi alterado.'
+  mail_body_security_notification_change_to: ! '%{field} foi alterado para %{value}.'
+  mail_body_security_notification_add: ! '%{field} %{value} foi adicionado.'
+  mail_body_security_notification_remove: ! '%{field} %{value} foi excluído.'
+  mail_body_security_notification_notify_enabled: Endereço de e-mail %{value} agora recebe
+    notificações.
+  mail_body_security_notification_notify_disabled: Endereço de e-mail %{value} deixou de
+    receber notificações.
+  mail_body_settings_updated: ! 'As seguintes configurações foram alteradas:'
+  field_remote_ip: Endereço IP
+  label_wiki_page_new: Nova página wiki
+  label_relations: Relações
+  button_filter: Filtro
+  mail_body_password_updated: Sua senha foi alterada.
+  label_no_preview: Não há visualização disponível
+  error_no_tracker_allowed_for_new_issue_in_project: O projeto não tem nenhum tipo de tarefa
+    para o qual você pode criar um chamado
+  label_tracker_all: Todos os tipos de tarefa
+  label_new_project_issue_tab_enabled: Exibir "Nova tarefa" em aba
+  setting_new_item_menu_tab: Aba menu do projeto para criação de novos objetos
+  label_new_object_tab_enabled: Exibir o "+" suspenso
+  error_no_projects_with_tracker_allowed_for_new_issue: There are no projects with trackers
+    for which you can create an issue
+  error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: Spent time cannot
+    be reassigned to an issue that is about to be deleted

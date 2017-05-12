@@ -1,3 +1,4 @@
+hideModal();
 $('#tab-content-users').html('<%= escape_javascript(render :partial => 'groups/users') %>');
 <% @users.each do |user| %>
   $('#user-<%= user.id %>').effect("highlight");

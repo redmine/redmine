@@ -206,7 +206,7 @@ ru:
         not_same_project: "не относится к одному проекту"
         circular_dependency: "Такая связь приведет к циклической зависимости"
         cant_link_an_issue_with_a_descendant: "Задача не может быть связана со своей подзадачей"
-        earlier_than_minimum_start_date: "cannot be earlier than %{date} because of preceding issues"
+        earlier_than_minimum_start_date: "не может быть раньше %{date} из-за предыдущих задач"
 
   support:
     array:
@@ -243,7 +243,7 @@ ru:
   button_list: Список
   button_lock: Заблокировать
   button_login: Вход
-  button_log_time: Затраченное время
+  button_log_time: Трудозатраты
   button_move: Переместить
   button_quote: Цитировать
   button_rename: Переименовать
@@ -315,17 +315,17 @@ ru:
   field_column_names: Столбцы
   field_comments: Комментарий
   field_comments_sorting: Отображение комментариев
-  field_content: Content
+  field_content: Содержимое
   field_created_on: Создано
   field_default_value: Значение по умолчанию
   field_delay: Отложить
   field_description: Описание
   field_done_ratio: Готовность
   field_downloads: Загрузки
-  field_due_date: Дата выполнения
+  field_due_date: Дата завершения
   field_editable: Редактируемое
   field_effective_date: Дата
-  field_estimated_hours: Оценка времени
+  field_estimated_hours: Оценка трудозатрат
   field_field_format: Формат
   field_filename: Файл
   field_filesize: Размер
@@ -372,14 +372,14 @@ ru:
   field_role: Роль
   field_searchable: Доступно для поиска
   field_spent_on: Дата
-  field_start_date: Начата
+  field_start_date: Дата начала
   field_start_page: Стартовая страница
   field_status: Статус
   field_subject: Тема
   field_subproject: Подпроект
   field_summary: Краткое описание
   field_text: Текстовое поле
-  field_time_entries: Затраченное время
+  field_time_entries: Трудозатраты
   field_time_zone: Часовой пояс
   field_title: Заголовок
   field_tracker: Трекер
@@ -394,9 +394,10 @@ ru:
   general_csv_decimal_separator: ','
   general_csv_encoding: UTF-8
   general_csv_separator: ';'
+  general_pdf_fontname: freesans
+  general_pdf_monospaced_fontname: freemono
   general_first_day_of_week: '1'
   general_lang_name: 'Russian (Русский)'
-  general_pdf_encoding: UTF-8
   general_text_no: 'нет'
   general_text_No: 'Нет'
   general_text_yes: 'да'
@@ -491,8 +492,6 @@ ru:
   label_downloads_abbr: Скачиваний
   label_duplicated_by: дублируется
   label_duplicates: дублирует
-  label_end_to_end: с конца к концу
-  label_end_to_start: с конца к началу
   label_enumeration_new: Новое значение
   label_enumerations: Списки значений
   label_environment: Окружение
@@ -545,9 +544,9 @@ ru:
   label_language_based: На основе языка
   label_last_changes: "менее %{count} изменений"
   label_last_login: Последнее подключение
-  label_last_month: последний месяц
+  label_last_month: прошлый месяц
   label_last_n_days: "последние %{count} дней"
-  label_last_week: последняя неделя
+  label_last_week: прошлая неделя
   label_latest_revision: Последняя редакция
   label_latest_revision_plural: Последние редакции
   label_ldap_authentication: Авторизация с помощью LDAP
@@ -605,7 +604,6 @@ ru:
   label_password_lost: Восстановление пароля
   label_permissions_report: Отчёт по правам доступа
   label_permissions: Права доступа
-  label_per_page: На страницу
   label_personalize_page: Персонализировать данную страницу
   label_planning: Планирование
   label_please_login: Пожалуйста, войдите.
@@ -669,9 +667,7 @@ ru:
   label_sort_highest: В начало
   label_sort_lower: Вниз
   label_sort_lowest: В конец
-  label_spent_time: Затраченное время
-  label_start_to_end: с начала к концу
-  label_start_to_start: с начала к началу
+  label_spent_time: Трудозатраты
   label_statistics: Статистика
   label_stay_logged_in: Оставаться в системе
   label_string: Текст
@@ -734,12 +730,6 @@ ru:
     few:   "%{count} открыто"
     many:  "%{count} открыто"
     other: "%{count} открыто"
-  label_x_open_issues_abbr_on_total:
-    zero:  "0 открыто / %{total}"
-    one:   "%{count} открыта / %{total}"
-    few:   "%{count} открыто / %{total}"
-    many:  "%{count} открыто / %{total}"
-    other: "%{count} открыто / %{total}"
   label_x_projects:
     zero:  "нет проектов"
     one:   "%{count} проект"
@@ -761,7 +751,7 @@ ru:
   mail_subject_reminder: "%{count} назначенных на Вас задач в ближайшие %{days} дней"
 
   notice_account_activated: Ваша учётная запись активирована. Вы можете войти.
-  notice_account_invalid_creditentials: Неправильное имя пользователя или пароль
+  notice_account_invalid_credentials: Неправильное имя пользователя или пароль
   notice_account_lost_email_sent: Вам отправлено письмо с инструкциями по выбору нового пароля.
   notice_account_password_updated: Пароль успешно обновлён.
   notice_account_pending: "Ваша учётная запись создана и ожидает подтверждения администратора."
@@ -808,9 +798,9 @@ ru:
   permission_edit_time_entries: Редактирование учёта времени
   permission_edit_wiki_pages: Редактирование wiki-страниц
   permission_export_wiki_pages: Экспорт wiki-страниц
-  permission_log_time: Учёт затраченного времени
+  permission_log_time: Учёт трудозатрат
   permission_view_changesets: Просмотр изменений хранилища
-  permission_view_time_entries: Просмотр затраченного времени
+  permission_view_time_entries: Просмотр трудозатрат
   permission_manage_project_activities: Управление типами действий для проекта
   permission_manage_boards: Управление форумами
   permission_manage_categories: Управление категориями задач
@@ -902,7 +892,7 @@ ru:
   text_comma_separated: Допустимы несколько значений (через запятую).
   text_custom_field_possible_values_info: 'По одному значению в каждой строке'
   text_default_administrator_account_changed: Учётная запись администратора по умолчанию изменена
-  text_destroy_time_entries_question: "На эту задачу зарегистрировано %{hours} часа(ов) затраченного времени. Что Вы хотите предпринять?"
+  text_destroy_time_entries_question: "На эту задачу зарегистрировано %{hours} часа(ов) трудозатрат. Что Вы хотите предпринять?"
   text_destroy_time_entries: Удалить зарегистрированное время
   text_diff_truncated: '... Этот diff ограничен, так как превышает максимальный отображаемый размер.'
   text_email_delivery_not_configured: "Параметры работы с почтовым сервером не настроены и функция уведомления по email не активна.\nНастроить параметры для Вашего SMTP-сервера Вы можете в файле config/configuration.yml. Для применения изменений перезапустите приложение."
@@ -966,7 +956,7 @@ ru:
   label_group_plural: Группы
   label_group: Группа
   label_group_new: Новая группа
-  label_time_entry_plural: Затраченное время
+  label_time_entry_plural: Трудозатраты
   text_journal_added: "%{label} %{value} добавлен"
   field_active: Активно
   enumeration_system_activity: Системное
@@ -1025,7 +1015,7 @@ ru:
   text_zoom_out: Отдалить
   text_zoom_in: Приблизить
   notice_unable_delete_time_entry: Невозможно удалить запись журнала.
-  label_overall_spent_time: Всего затрачено времени
+  label_overall_spent_time: Всего трудозатрат
   label_user_mail_option_none: Нет событий
   field_member_of_group: Группа назначенного
   field_assigned_to_role: Роль назначенного
@@ -1049,8 +1039,8 @@ ru:
   button_collapse_all: Свернуть все
   label_additional_workflow_transitions_for_assignee: Дополнительные переходы, когда пользователь является исполнителем
   label_additional_workflow_transitions_for_author: Дополнительные переходы, когда пользователь является автором
-  label_bulk_edit_selected_time_entries: Массовое изменение выбранных записей затраченного времени
-  text_time_entries_destroy_confirmation: Вы уверены что хотите удалить выбранные записи затраченного времени?
+  label_bulk_edit_selected_time_entries: Массовое изменение выбранных записей трудозатрат
+  text_time_entries_destroy_confirmation: Вы уверены что хотите удалить выбранные трудозатраты?
   label_role_anonymous: Аноним
   label_role_non_member: Не участник
   label_issue_note_added: Примечание добавлено
@@ -1109,7 +1099,7 @@ ru:
   button_export: Экспорт
   label_export_options: "%{export_format} параметры экспорта"
   error_attachment_too_big: Этот файл нельзя загрузить из-за превышения максимального размера файла (%{max_size})
-  notice_failed_to_save_time_entries: "Невозможно сохранить %{count} затраченное время для %{total} выбранных: %{ids}."
+  notice_failed_to_save_time_entries: "Невозможно сохранить %{count} трудозатраты %{total} выбранных: %{ids}."
   label_x_issues:
     one:   "%{count} задача"
     few:   "%{count} задачи"
@@ -1150,7 +1140,7 @@ ru:
   notice_user_successful_create: Пользователь %{id} создан.
   field_core_fields: Стандартные поля
   field_timeout: Таймаут (в секундах)
-  setting_thumbnails_enabled: Отображать превью для приложений
+  setting_thumbnails_enabled: Отображать превью для вложений
   setting_thumbnails_size: Размер первью (в пикселях)
   label_status_transitions: Статус-переходы
   label_fields_permissions: Права на изменения полей
@@ -1173,11 +1163,11 @@ ru:
   label_no_issues_in_project: нет задач в проекте
   label_any: все
   label_last_n_weeks:
-    one:   "последняя %{count} неделя"
-    few:   "последние %{count} недели"
-    many:  "последние %{count} недель"
-    other: "последние %{count} недели"
-  setting_cross_project_subtasks: Разрешить подзадачи в между проектами
+    one:   "прошлая %{count} неделя"
+    few:   "прошлые %{count} недели"
+    many:  "прошлые %{count} недель"
+    other: "прошлые %{count} недели"
+  setting_cross_project_subtasks: Разрешить подзадачи между проектами
   label_cross_project_descendants: С подпроектами
   label_cross_project_tree: С деревом проектов
   label_cross_project_hierarchy: С иерархией проектов
@@ -1218,3 +1208,105 @@ ru:
   setting_force_default_language_for_anonymous: Не определять язык для анонимных пользователей
   setting_force_default_language_for_loggedin: Не определять язык для зарегистрированных пользователей
   label_custom_field_select_type: Выберите тип объекта для которого будет создано настраиваемое поле
+  label_issue_assigned_to_updated: Исполнитель обновлен
+  label_check_for_updates: Проверить обновления
+  label_latest_compatible_version: Последняя совместимая версия
+  label_unknown_plugin: Неизвестный плагин
+  label_radio_buttons: radio buttons
+  label_group_anonymous: Анонимные пользователи
+  label_group_non_member: Не участвующие пользователи
+  label_add_projects: Добавить проекты
+  field_default_status: Статус по умолчанию
+  text_subversion_repository_note: 'Например: file:///, http://, https://, svn://, svn+[tunnelscheme]://'
+  field_users_visibility: Видимость пользователей
+  label_users_visibility_all: Все активные пользователи
+  label_users_visibility_members_of_visible_projects: Участники видимых проектов
+  label_edit_attachments: Редактировать прикреплённые файлы
+  setting_link_copied_issue: Связывать задачи при копировании
+  label_link_copied_issue: Связать скопированную задачу
+  label_ask: Спросить
+  label_search_attachments_yes: Искать в именах прикреплённых файлов и описаниях
+  label_search_attachments_no: Не искать в прикреплениях
+  label_search_attachments_only: Искать только в прикреплённых файлах
+  label_search_open_issues_only: Только в открытых задачах
+  field_address: Email
+  setting_max_additional_emails: Максимальное количество дополнительных email адресов
+  label_email_address_plural: Emails
+  label_email_address_add: Добавить email адрес
+  label_enable_notifications: Включить уведомления
+  label_disable_notifications: Выключить уведомления
+  setting_search_results_per_page: Количество найденных результатов на страницу
+  label_blank_value: пусто
+  permission_copy_issues: Копирование задач
+  error_password_expired: Время действия вашего пароля истекло или администратор потребовал сменить его.
+  field_time_entries_visibility: Видимость трудозатрат
+  setting_password_max_age: Требовать сменить пароль по истечении
+  label_parent_task_attributes: Атрибуты родительской задачи
+  label_parent_task_attributes_derived: С учётом подзадач
+  label_parent_task_attributes_independent: Без учёта подзадач
+  label_time_entries_visibility_all: Все трудозатраты
+  label_time_entries_visibility_own: Только собственные трудозатраты
+  label_member_management: Управление участниками
+  label_member_management_all_roles: Все роли
+  label_member_management_selected_roles_only: Только эти роли
+  label_password_required: Для продолжения введите свой пароль
+  label_total_spent_time: Всего затрачено времени
+  notice_import_finished: "%{count} элемент(а, ов) были импортированы"
+  notice_import_finished_with_errors: "%{count} из %{total} элемент(а, ов) не могут быть импортированы"
+  error_invalid_file_encoding: Кодировка файла не соответствует выбранной %{encoding}
+  error_invalid_csv_file_or_settings: Файл не является файлом CSV или не соответствует представленным настройкам
+  error_can_not_read_import_file: Во время чтения файла для импорта произошла ошибка
+  permission_import_issues: Импорт задач
+  label_import_issues: Импорт задач
+  label_select_file_to_import: Выберите файл для импорта
+  label_fields_separator: Разделитель
+  label_fields_wrapper: Ограничитель
+  label_encoding: Кодировка
+  label_comma_char: Запятая
+  label_semi_colon_char: Точка с запятой
+  label_quote_char: Кавычки
+  label_double_quote_char: Двойные кавычки
+  label_fields_mapping: Соответствие полей
+  label_file_content_preview: Предпросмотр содержимого файла
+  label_create_missing_values: Создать недостающие значения
+  button_import: Импорт
+  field_total_estimated_hours: Всего осталось времени
+  label_api: API
+  label_total_plural: Итоги
+  label_assigned_issues: Назначенные задачи
+  label_field_format_enumeration: Список ключ/значение
+  label_f_hour_short: '%{value} ч'
+  field_default_version: Версия по умолчанию
+  error_attachment_extension_not_allowed: Расширение %{extension} запрещено
+  setting_attachment_extensions_allowed: Допустимые расширения
+  setting_attachment_extensions_denied: Запрещённые расширения
+  label_any_open_issues: любые открытые задачи
+  label_no_open_issues: нет открытых задач
+  label_default_values_for_new_users: Значения по умолчанию для новых пользователей
+  error_ldap_bind_credentials: Неправильная Учётная запись/Пароль LDAP
+  setting_sys_api_key: API ключ
+  setting_lost_password: Восстановление пароля
+  mail_subject_security_notification: Уведомление безопасности
+  mail_body_security_notification_change: ! '%{field} изменилось.'
+  mail_body_security_notification_change_to: ! '%{field} изменилось на %{value}.'
+  mail_body_security_notification_add: ! '%{field} %{value} добавлено.'
+  mail_body_security_notification_remove: ! '%{field} %{value} удалено.'
+  mail_body_security_notification_notify_enabled: Email адрес %{value} сейчас получает
+    уведомления.
+  mail_body_security_notification_notify_disabled: Email адрес %{value} больше не
+    получает уведомления.
+  mail_body_settings_updated: ! 'Следующие настройки были изменены:'
+  field_remote_ip: IP адрес
+  label_wiki_page_new: Новая wiki-страница
+  label_relations: Связи
+  button_filter: Фильтр
+  mail_body_password_updated: Ваш пароль был изменён.
+  label_no_preview: Предпросмотр недоступен
+  error_no_tracker_allowed_for_new_issue_in_project: В проекте нет трекеров,
+    для которых можно создать задачу
+  label_tracker_all: Все трекеры
+  label_new_project_issue_tab_enabled: Отображать вкладку "Новая задача"
+  setting_new_item_menu_tab: Вкладка меню проекта для создания новых объектов
+  label_new_object_tab_enabled: Отображать выпадающий список "+"
+  error_no_projects_with_tracker_allowed_for_new_issue: Отсутствуют проекты, по трекерам которых вы можете создавать задачи
+  error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: Затраченное время не может быть переназначено на задачу, которая будет удалена

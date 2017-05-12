@@ -1,0 +1,6 @@
+<h2><%= l(:label_user_new) %></h2>
+
+<%= form_for(@group, :url => group_users_path(@group), :method => :post) do |f| %>
+  <%= render :partial => 'new_users_form' %>
+  <p><%= submit_tag l(:button_add) %></p>
+<% end %>

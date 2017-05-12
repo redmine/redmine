@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -34,6 +34,19 @@ class TokenTest < ActiveSupport::TestCase
     assert_not_equal t1.value, t2.value
     assert !Token.exists?(t1.id)
     assert  Token.exists?(t2.id)
+  end
+
+  def test_create_session_token_should_keep_last_10_tokens
+    Token.delete_all
+    user = User.find(1)
+
+    assert_difference 'Token.count', 10 do
+      10.times { Token.create!(:user => user, :action => 'session') }
+    end
+
+    assert_no_difference 'Token.count' do
+      Token.create!(:user => user, :action => 'session')
+    end
   end
 
   def test_destroy_expired_should_not_destroy_feeds_and_api_tokens

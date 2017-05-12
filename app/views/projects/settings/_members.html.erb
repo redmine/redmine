@@ -1,9 +1,9 @@
-<%= error_messages_for 'member' %>
 <% roles = Role.find_all_givable
-   members = @project.member_principals.includes(:roles, :principal).all.sort %>
+   members = @project.memberships.includes(:member_roles, :roles, :principal).to_a.sort %>
+<p><%# link_to l(:label_member_new), new_project_membership_path(@project), :remote => true, :class => "icon icon-add" %></p>
 
-<div class="splitcontentleft">
 <% if members.any? %>
+    <div class="col-sm-7">
 <table class="list members">
   <thead><tr> 
     <th><%= l(:label_user) %> / <%= l(:label_group) %></th>
@@ -22,15 +22,22 @@
                                           :method => :put,
                                           :html => { :id => "member-#{member.id}-roles-form", :class => 'hol' }}
              ) do |f| %>
-        <p><% roles.each do |role| %>
-        <label><%= check_box_tag 'membership[role_ids][]', role.id, member.roles.include?(role),
-                                                       :disabled => member.member_roles.detect {|mr| mr.role_id == role.id && !mr.inherited_from.nil?} %> <%=h role %></label><br />
-        <% end %></p>
-        <%= hidden_field_tag 'membership[role_ids][]', '' %>
-        <p><%= submit_tag l(:button_change), :class => "small" %>
-        <%= link_to_function l(:button_cancel),
-                             "$('#member-#{member.id}-roles').show(); $('#member-#{member.id}-roles-form').hide(); return false;"
-             %></p>
+        <p>
+          <% roles.each do |role| %>
+          <label>
+            <%= check_box_tag('membership[role_ids][]',
+                              role.id, member.roles.include?(role),
+                              :id => nil,
+                              :disabled => !member.role_editable?(role)) %> <%= role %>
+          </label><br />
+          <% end %>
+        </p>
+        <%= hidden_field_tag 'membership[role_ids][]', '', :id => nil %>
+        <p>
+          <%= submit_tag l(:button_save), :class => "small" %>
+          <%= link_to_function(l(:button_cancel),
+                               "$('#member-#{member.id}-roles').show(); $('#member-#{member.id}-roles-form').hide(); return false;") %>
+        </p>
       <% end %>
   </td>
   <td class="buttons">
@@ -46,12 +53,12 @@
 <% end; reset_cycle %>
   </tbody>
 </table>
+</div>
 <% else %>
 <p class="nodata"><%= l(:label_no_data) %></p>
 <% end %>
-</div>
 
-<div class="splitcontentright">
+<div class="col-sm-5">
 <% if roles.any? %>
   <%= form_for(@member, {:as => :membership, :url => project_memberships_path(@project), :remote => true, :method => :post}) do |f| %>
     <fieldset><legend><%=l(:label_member_new)%></legend>

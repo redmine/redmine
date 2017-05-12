@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -18,7 +18,18 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class CustomFieldsControllerTest < ActionController::TestCase
-  fixtures :custom_fields, :custom_values, :trackers, :users, :projects
+  fixtures :custom_fields, :custom_values,
+           :custom_fields_projects, :custom_fields_trackers,
+           :roles, :users,
+           :members, :member_roles,
+           :groups_users,
+           :trackers, :projects_trackers,
+           :enabled_modules,
+           :projects, :issues,
+           :issue_statuses,
+           :issue_categories,
+           :enumerations,
+           :workflows
 
   def setup
     @request.session[:user_id] = 1
@@ -34,7 +45,7 @@ class CustomFieldsControllerTest < ActionController::TestCase
     get :new
     assert_response :success
     assert_template 'select_type'
-    assert_select 'input[name=type]', CustomField.subclasses.size
+    assert_select 'input[name=type]', CustomFieldsHelper::CUSTOM_FIELDS_TABS.size
     assert_select 'input[name=type][checked=checked]', 1
   end
 
@@ -112,7 +123,7 @@ class CustomFieldsControllerTest < ActionController::TestCase
   end
 
   def test_new_js
-    get :new, :type => 'IssueCustomField', :custom_field => {:field_format => 'list'}, :format => 'js'
+    xhr :get, :new, :type => 'IssueCustomField', :custom_field => {:field_format => 'list'}, :format => 'js'
     assert_response :success
     assert_template 'new'
     assert_equal 'text/javascript', response.content_type
@@ -128,7 +139,7 @@ class CustomFieldsControllerTest < ActionController::TestCase
   end
 
   def test_create_list_custom_field
-    assert_difference 'CustomField.count' do
+    field = new_record(IssueCustomField) do
       post :create, :type => "IssueCustomField",
                  :custom_field => {:name => "test_post_new_list",
                                    :default_value => "",
@@ -143,9 +154,8 @@ class CustomFieldsControllerTest < ActionController::TestCase
                                    :field_format => "list",
                                    :tracker_ids => ["1", ""]}
     end
-    assert_redirected_to '/custom_fields?tab=IssueCustomField'
-    field = IssueCustomField.find_by_name('test_post_new_list')
-    assert_not_nil field
+    assert_redirected_to "/custom_fields/#{field.id}/edit"
+    assert_equal "test_post_new_list", field.name
     assert_equal ["0.1", "0.2"], field.possible_values
     assert_equal 1, field.trackers.size
   end
@@ -181,7 +191,7 @@ class CustomFieldsControllerTest < ActionController::TestCase
     get :edit, :id => 1
     assert_response :success
     assert_template 'edit'
-    assert_tag 'input', :attributes => {:name => 'custom_field[name]', :value => 'Database'}
+    assert_select 'input[name=?][value=?]', 'custom_field[name]', 'Database'
   end
 
   def test_edit_invalid_custom_field_should_render_404
@@ -191,7 +201,7 @@ class CustomFieldsControllerTest < ActionController::TestCase
 
   def test_update
     put :update, :id => 1, :custom_field => {:name => 'New name'}
-    assert_redirected_to '/custom_fields?tab=IssueCustomField'
+    assert_redirected_to '/custom_fields/1/edit'
 
     field = CustomField.find(1)
     assert_equal 'New name', field.name

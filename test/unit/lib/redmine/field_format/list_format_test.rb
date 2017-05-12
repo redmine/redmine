@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -52,7 +52,7 @@ class Redmine::ListFieldFormatTest < ActionView::TestCase
     tag = field.format.edit_tag(self, 'id', 'name', value)
     assert_select_in tag, 'select' do
       assert_select 'option', 3
-      assert_select 'option[value=]'
+      assert_select 'option[value=""]'
       assert_select 'option[value=Foo]', :text => 'Foo'
       assert_select 'option[value=Bar]', :text => 'Bar'
     end
@@ -91,7 +91,7 @@ class Redmine::ListFieldFormatTest < ActionView::TestCase
     assert_select_in tag, 'span' do
       assert_select 'input[type=radio]', 3
       assert_select 'label', :text => '(none)' do
-        assert_select 'input[value=]'
+        assert_select 'input[value=""]'
       end
       assert_select 'label', :text => 'Foo' do
         assert_select 'input[value=Foo]'
@@ -113,6 +113,18 @@ class Redmine::ListFieldFormatTest < ActionView::TestCase
       assert_select 'label', :text => 'Bar' do
         assert_select 'input[value=Bar][checked=checked]'
       end
+    end
+  end
+
+  def test_edit_tag_with_check_box_style_and_multiple_values_should_contain_hidden_field_to_clear_value
+    field = IssueCustomField.new(:field_format => 'list', :possible_values => ['Foo', 'Bar'], :is_required => false,
+      :edit_tag_style => 'check_box', :multiple => true)
+    value = CustomFieldValue.new(:custom_field => field, :customized => Issue.new)
+
+    tag = field.format.edit_tag(self, 'id', 'name', value)
+    assert_select_in tag, 'span' do
+      assert_select 'input[type=checkbox]', 2
+      assert_select 'input[type=hidden]', 1
     end
   end
 

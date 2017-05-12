@@ -7,7 +7,7 @@ class PopulateChangesetsUserId < ActiveRecord::Migration
         username, email = $1.strip, $3
         u = User.find_by_login(username)
         u ||= User.find_by_mail(email) unless email.blank?
-        Changeset.update_all("user_id = #{u.id}", ["committer = ?", committer]) unless u.nil?
+        Changeset.where(["committer = ?", committer]).update_all("user_id = #{u.id}") unless u.nil?
       end
     end
   end

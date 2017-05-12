@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -18,7 +18,7 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class CommentTest < ActiveSupport::TestCase
-  fixtures :users, :news, :comments, :projects, :enabled_modules
+  fixtures :users, :email_addresses, :news, :comments, :projects, :enabled_modules
 
   def setup
     @jsmith = User.find(2)
