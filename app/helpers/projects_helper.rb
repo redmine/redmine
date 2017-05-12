@@ -331,27 +331,6 @@ module ProjectsHelper
         geppettoJsFile.delete!("\r\n")
       end  
       
-      geppettoSimulationFile = {
-        "id" => 1,
-        "name" => filename.rpartition('.').first + ((filenameSplit[1] != "nml")? " - " + filenameSplit[1]:""),
-        "activeExperimentId" => 1,
-        "experiments" => [{
-           "id" => 1,
-           "name" => filenameSplit[0] + " - " + filenameSplit[1],
-           "status" => "DESIGN",
-           "creationDate" => DateTime.now.strftime('%Q'),
-           "lastModified" => DateTime.now.strftime('%Q'),
-           "script" => Rails.application.config.serversIP["serverIP"] + geppettoTmpPath + @geppettoJsFilePath,
-           "aspectConfigurations" => [
-              {
-                "id" => 1,
-                "instance" => entity
-               }
-            ] 
-        }],
-        "geppettoModel"=> { "id" => 1, "url" => Rails.application.config.serversIP["serverIP"] + geppettoTmpPath + @geppettoModelFilePath, "type" => "GEPPETTO_PROJECT"}
-      }
-      
       ##############
       # SIMULATION #
       ##############
@@ -381,15 +360,37 @@ module ProjectsHelper
             
             if targetComponent
               target = targetComponent.captures
-            end    
-  
-            geppettoSimulationFile["experiments"][0]["aspectConfigurations"][0]["simulatorConfiguration"] = {
-                  "id" => 1,
-                  "simulatorId" => "neuronSimulator",
-                  "timestep" => 0.00001,
-                  "length" => 0.3
+            end
+
+            geppettoSimulationFile = {
+              "id" => 1,
+              "name" => target[0],
+              "activeExperimentId" => 1,
+              "experiments" => [{
+                                  "id" => 1,
+                                  "name" => filenameSplit[0]+ " - " + filenameSplit[1],
+                                  "status" => "DESIGN",
+                                  "creationDate" => DateTime.now.strftime('%Q'),
+                                  "lastModified" => DateTime.now.strftime('%Q'),
+                                  "script" => Rails.application.config.serversIP["serverIP"] + geppettoTmpPath + @geppettoJsFilePath,
+                                  "aspectConfigurations" => [
+                                    {
+                                      "id" => 1,
+                                      "instance" => target[0],
+                                      "simulatorConfiguration" => {
+                                        "id" => 1,
+                                        "simulatorId" => "neuronSimulator",
+                                        "timestep" => 0.000025,
+                                        "length" => 0.3
+                                      }
+                                    }
+                                  ] 
+                                }],
+              "geppettoModel"=> { "id" => 1, "url" => Rails.application.config.serversIP["serverIP"] + geppettoTmpPath + @geppettoModelFilePath, "type" => "GEPPETTO_PROJECT"}
             }
           end
+
+          geppettoJsFile.gsub! entity, target[0]
         
           File.write(publicResourcesPath + geppettoTmpPath + @geppettoJsFilePath, geppettoJsFile)
           geppettoTmpJsFile.close
@@ -407,7 +408,7 @@ module ProjectsHelper
       end 
 
       geppettoModelFile.gsub! '$ENTER_MODEL_URL', url
-      geppettoModelFile.gsub! '$ENTER_ID', entity
+      geppettoModelFile.gsub! '$ENTER_ID', target[0]
       geppettoModelFile.gsub! '$ENTER_REFERENCE_URL', (@project!=nil) ? @project.identifier : "testing"
       
       # Write file to disc and change permissions to allow access from Geppetto             
