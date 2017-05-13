@@ -406,7 +406,10 @@ class Mailer < ActionMailer::Base
     end
 
     issues_by_assignee.each do |assignee, issues|
-      reminder(assignee, issues, days).deliver if assignee.is_a?(User) && assignee.active?
+      if assignee.is_a?(User) && assignee.active? && issues.present?
+        visible_issues = issues.select {|i| i.visible?(assignee)}
+        reminder(assignee, visible_issues, days).deliver if visible_issues.present?
+      end
     end
   end
 

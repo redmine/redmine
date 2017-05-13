@@ -663,6 +663,25 @@ class MailerTest < ActiveSupport::TestCase
     end
   end
 
+  def test_reminders_should_only_include_issues_the_user_can_see
+    with_settings :default_language => 'en' do
+      user = User.find(3)
+      member = Member.create!(:project_id => 2, :principal => user, :role_ids => [1])
+      Issue.create!(:project_id => 2, :tracker_id => 1, :status_id => 1,
+                      :subject => 'Issue dlopper should not see', :assigned_to_id => 3,
+                      :due_date => 5.days.from_now,
+                      :author_id => 2)
+      member.destroy
+      ActionMailer::Base.deliveries.clear
+
+      Mailer.reminders(:days => 42)
+      assert_equal 1, ActionMailer::Base.deliveries.size
+      mail = last_email
+      assert mail.bcc.include?('dlopper@somenet.foo')
+      assert_mail_body_no_match 'Issue dlopper should not see', mail
+    end
+  end
+
   def test_security_notification
     set_language_if_valid User.find(1).language
     with_settings :emails_footer => "footer without link" do
