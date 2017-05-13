@@ -356,11 +356,12 @@ module ApplicationHelper
   end
 
   def render_projects_for_jump_box(projects, selected=nil)
+    jump = params[:jump].presence || current_menu_item
     s = ''.html_safe
     project_tree(projects) do |project, level|
       padding = level * 16
       text = content_tag('span', project.name, :style => "padding-left:#{padding}px;")
-      s << link_to(text, project_path(project, :jump => current_menu_item), :title => project.name, :class => (project == selected ? 'selected' : nil))
+      s << link_to(text, project_path(project, :jump => jump), :title => project.name, :class => (project == selected ? 'selected' : nil))
     end
     s
   end
@@ -369,8 +370,10 @@ module ApplicationHelper
   def render_project_jump_box
     projects = projects_for_jump_box(User.current)
     text = @project.try(:name) || l(:label_jump_to_a_project)
+    url = autocomplete_projects_path(:format => 'js', :jump => current_menu_item)
+
     trigger = content_tag('span', text, :class => 'drdn-trigger')
-    q = text_field_tag('q', '', :id => 'projects-quick-search', :class => 'autocomplete', :data => {:automcomplete_url => autocomplete_projects_path(:format => 'js')}, :autocomplete => 'off')
+    q = text_field_tag('q', '', :id => 'projects-quick-search', :class => 'autocomplete', :data => {:automcomplete_url => url}, :autocomplete => 'off')
     all = link_to(l(:label_project_all), projects_path(:jump => current_menu_item), :class => (@project.nil? && controller.class.main_menu ? 'selected' : nil))
     content = content_tag('div',
           content_tag('div', q, :class => 'quick-search') +
