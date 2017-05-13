@@ -20,8 +20,8 @@ class ProjectsController < ApplicationController
   menu_item :settings, :only => :settings
   menu_item :projects, :only => [:index, :new, :copy, :create]
 
-  before_action :find_project, :except => [ :index, :list, :new, :create, :copy ]
-  before_action :authorize, :except => [ :index, :list, :new, :create, :copy, :archive, :unarchive, :destroy]
+  before_action :find_project, :except => [ :index, :autocomplete, :list, :new, :create, :copy ]
+  before_action :authorize, :except => [ :index, :autocomplete, :list, :new, :create, :copy, :archive, :unarchive, :destroy]
   before_action :authorize_global, :only => [:new, :create]
   before_action :require_admin, :only => [ :copy, :archive, :unarchive, :destroy ]
   accept_rss_auth :index
@@ -50,13 +50,6 @@ class ProjectsController < ApplicationController
         end
         @projects = scope.to_a
       }
-      format.js {
-        if params[:q].present?
-          @projects = Project.visible.like(params[:q]).to_a
-        else
-          @projects = User.current.projects.to_a
-        end
-      }
       format.api  {
         @offset, @limit = api_offset_and_limit
         @project_count = scope.count
@@ -65,6 +58,18 @@ class ProjectsController < ApplicationController
       format.atom {
         projects = scope.reorder(:created_on => :desc).limit(Setting.feeds_limit.to_i).to_a
         render_feed(projects, :title => "#{Setting.app_title}: #{l(:label_project_latest)}")
+      }
+    end
+  end
+
+  def autocomplete
+    respond_to do |format|
+      format.js {
+        if params[:q].present?
+          @projects = Project.visible.like(params[:q]).to_a
+        else
+          @projects = User.current.projects.to_a
+        end
       }
     end
   end

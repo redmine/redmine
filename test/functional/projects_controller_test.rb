@@ -52,8 +52,8 @@ class ProjectsControllerTest < Redmine::ControllerTest
     assert_select 'feed>entry', :count => Project.visible(User.current).count
   end
 
-  def test_index_js
-    xhr :get, :index, :format => 'js', :q => 'coo'
+  def test_autocomplete_js
+    xhr :get, :autocomplete, :format => 'js', :q => 'coo'
     assert_response :success
     assert_equal 'text/javascript', response.content_type
   end

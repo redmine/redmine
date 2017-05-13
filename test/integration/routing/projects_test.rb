@@ -24,6 +24,8 @@ class RoutingProjectsTest < Redmine::RoutingTest
     should_route 'GET /projects/new' => 'projects#new'
     should_route 'POST /projects' => 'projects#create'
 
+    should_route 'GET /projects/autocomplete.js' => 'projects#autocomplete', :format => 'js'
+
     should_route 'GET /projects/foo' => 'projects#show', :id => 'foo'
     should_route 'PUT /projects/foo' => 'projects#update', :id => 'foo'
     should_route 'DELETE /projects/foo' => 'projects#destroy', :id => 'foo'

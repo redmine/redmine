@@ -101,6 +101,10 @@ Rails.application.routes.draw do
   delete 'issues/:object_id/watchers/:user_id' => 'watchers#destroy', :object_type => 'issue'
 
   resources :projects do
+    collection do
+      get 'autocomplete'
+    end
+
     member do
       get 'settings(/:tab)', :action => 'settings', :as => 'settings'
       post 'modules'
