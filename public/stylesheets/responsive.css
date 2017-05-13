@@ -685,6 +685,33 @@
     padding-top: 1em;
   }
 
+  /* Gantt charts */
+  /*
+   * [1] override inline styles with important
+   * [2] keep border between subjects and gantt area
+   * [3] remove whitespace between subjects and gantt area
+   * [4] maintain width due to [3]
+   */
+  .gantt_subjects_column {
+    width: 60% !important; /* [1] */
+  }
+
+  .gantt_subjects_container {
+    width: 100% !important;
+    overflow: hidden;
+  }
+
+  .gantt_subjects_column .gantt_hdr {
+    width: 100% !important;
+    border-right: 1px solid #c0c0c0; /* [2] */
+    right: 0 !important; /* [2] */
+  }
+
+  #gantt_area {
+    left: -2px; /* [3] */
+    margin-right: -2px; /* [4] */
+  }
+
   /*----------------------------------------*\
     G) FORMS
   \*----------------------------------------*/
