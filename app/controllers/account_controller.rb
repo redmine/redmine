@@ -34,12 +34,12 @@ class AccountController < ApplicationController
 
   # Login request and validation
   def login
-    if request.get?
+    if request.post?
+      authenticate_user
+    else
       if User.current.logged?
         redirect_back_or_default home_url, :referer => true
       end
-    else
-      authenticate_user
     end
   rescue AuthSourceException => e
     logger.error "An error occurred when authenticating #{params[:username]}: #{e.message}"
