@@ -31,8 +31,8 @@ $(document).ready(function() {
 	// -- Bootstrap widget calls
 	// jQuery('.dropdown-toggle').dropdown();
 	// jQuery(".alert").alert();
-	//$('.popoverlink').popover();
-	//$('.tooltiplink').tooltip();
+	$('.popoverlink').popover();
+	$('.tooltiplink').tooltip();
 	    
 	jQuery('.wrapped-channelml .table-border-summary').addClass('table');
 	// jQuery(":submit").addClass('btn btn-success btn-large');
