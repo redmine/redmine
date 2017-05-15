@@ -62,7 +62,13 @@
     <% end %>
 
 <% unless @user.force_default_language? %>
-<p><%= f.select :language, lang_options_for_select %></p>
+    <!--<p><%# f.select :language, lang_options_for_select %></p>-->
+    <div class="form-group">
+        <label class="col-sm-2 control-label" for="user_language">
+            <%= l(:field_language) %>
+        </label>
+        <%= f.select :language, lang_options_for_select, {:no_label => true},  {:class =>'form-control col-sm-2'} %>
+    </div>
 <% end %>
 
     <div class="form-group">
