@@ -1,0 +1,324 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<title>RedmineWikiFormatting (Markdown)</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<style type="text/css">
+    body { font:80% Verdana,Tahoma,Arial,sans-serif; }
+    h1, h2, h3, h4 {  font-family: Trebuchet MS,Georgia,"Times New Roman",serif; }
+    pre, code { font-size:120%; }
+    pre code { font-size:100%; }
+    pre {
+        margin: 1em 1em 1em 1.6em;
+        padding: 2px;
+        background-color: #fafafa;
+        border: 1px solid #e2e2e2;
+        width: auto;
+        overflow-x: auto;
+        overflow-y: hidden;
+    }
+    a.new { color: #b73535; }
+
+    .syntaxhl .class { color:#258; font-weight:bold }
+    .syntaxhl .comment  { color:#385; }
+    .syntaxhl .delimiter { color:black }
+    .syntaxhl .function { color:#06B; font-weight:bold }
+    .syntaxhl .inline { background-color: hsla(0,0%,0%,0.07); color: black }
+    .syntaxhl .inline-delimiter { font-weight: bold; color: #666 }
+    .syntaxhl .instance-variable { color:#33B }
+    .syntaxhl .keyword { color:#939; font-weight:bold }
+    .syntaxhl .string .content { color: #46a }
+    .syntaxhl .string .delimiter { color:#46a }
+</style>
+</head>
+
+<body>
+<h1><a name="1" class="wiki-page"></a>Wiki記法 (Markdown)</h1>
+
+    <h2><a name="2" class="wiki-page"></a>Links</h2>
+
+        <h3><a name="3" class="wiki-page">Redmine内のリンク</a></h3>
+
+        <p>RedmineはWiki記法が使える箇所のどこからでも、チケット・チェンジセット・Wikiページなどのリソースへのリンクができます。</p>
+        <ul>
+            <li>チケットへのリンク: <strong>#124</strong> (終了したチケットは <del><a href="#" class="issue" title="bulk edit doesn't change the category or fixed version properties (Closed)">#124</a></del> のように取り消し線付きで表示されます)</li>
+            <li>チケットの注記へのリンク: <strong>#124-6</strong> または <strong>#124#note-6</strong></li>
+        </ul>
+
+        <p>Wikiへのリンク:</p>
+
+        <ul>
+            <li><strong>[[Guide]]</strong> "Guide"という名称のページへのリンク: <a href="#" class="wiki-page">Guide</a></li>
+            <li><strong>[[Guide#further-reading]]</strong> "Guide"というページ内の"further-reading"というアンカーに飛びます。見出しには自動的にアンカーが設定されるのでこのようにリンク先とすることができます: <a href="#" class="wiki-page">Guide</a></li>
+            <li><strong>[[Guide|User manual]]</strong> "Guide"というページへのリンクを異なるテキストで表示: <a href="#" class="wiki-page">User manual</a></li>
+        </ul>
+
+        <p>別のプロジェクトのwikiへのリンクも可能です:</p>
+
+        <ul>
+            <li><strong>[[sandbox:some page]]</strong> sandboxというプロジェクトのwikiの"some page"という名称のページへのリンク</li>
+            <li><strong>[[sandbox:]]</strong> sanbdoxというプロジェクトのwikiのメインページへのリンク</li>
+        </ul>
+
+        <p>存在しないwikiページへのリンクは赤で表示されます。 例: <a href="#" class="wiki-page new">Nonexistent page</a>.</p>
+
+        <p>そのほかのリソースへのリンク:</p>
+
+        <ul>
+            <li>文書:
+                <ul>
+                    <li><strong>document#17</strong> (id 17の文書へのリンク)</li>
+                    <li><strong>document:Greetings</strong> ("Greetings" というタイトルの文書へのリンク)</li>
+                    <li><strong>document:"Some document"</strong> (文書のタイトルに空白が含まれる場合はダブルクォーテーションで囲んでください)</li>
+                    <li><strong>sandbox:document:"Some document"</strong> ("sandbox" というプロジェクトの "Some document" というタイトルの文書へのリンク)</li>
+                </ul>
+            </li>
+        </ul>
+
+        <ul>
+            <li>バージョン:
+                <ul>
+                    <li><strong>version#3</strong> (id 3のバージョンへのリンク)</li>
+                    <li><strong>version:1.0.0</strong> ("1.0.0"という名称のバージョンへのリンク)</li>
+                    <li><strong>version:"1.0 beta 2"</strong></li>
+                    <li><strong>sandbox:version:1.0.0</strong> ("sandbox"というプロジェクトの "1.0.0" という名称のバージョンへのリンク)</li>
+                </ul>
+            </li>
+        </ul>
+
+        <ul>
+            <li>添付ファイル:
+                <ul>
+                    <li><strong>attachment:file.zip</strong> (現在のオブジェクトに添付された file.zip というファイルへのリンク)</li>
+                    <li>現在のオブジェクト上の添付ファイルのみリンク先として指定できます (例えばあるチケットからは、そのチケットに添付されたファイルのみリンク先にできます)</li>
+                </ul>
+            </li>
+        </ul>
+
+        <ul>
+            <li>チェンジセット:
+                <ul>
+                    <li><strong>r758</strong>                       (チェンジセットへのリンク)</li>
+                    <li><strong>commit:c6f4d0fd</strong>            (ハッシュ値によるチェンジセットへのリンク)</li>
+                    <li><strong>svn1|r758</strong>                  (複数のリポジトリが設定されたプロジェクトで、特定のリポジトリのチェンジセットへのリンク)</li>
+                    <li><strong>commit:hg|c6f4d0fd</strong>         (ハッシュ値による、特定のリポジトリのチェンジセットへのリンク)</li>
+                    <li><strong>sandbox:r758</strong>               (他のプロジェクトのチェンジセットへのリンク)</li>
+                    <li><strong>sandbox:commit:c6f4d0fd</strong>    (ハッシュ値による、他のプロジェクトのチェンジセットへのリンク)</li>
+                </ul>
+            </li>
+        </ul>
+
+        <ul>
+             <li>リポジトリ内のファイル:
+                <ul>
+                    <li><strong>source:some/file</strong>           (プロジェクトのリポジトリ内の /some/file というファイルへのリンク)</li>
+                    <li><strong>source:some/file@52</strong>        (ファイルのリビジョン52へのリンク)</li>
+                    <li><strong>source:some/file#L120</strong>      (ファイルの120行目へのリンク)</li>
+                    <li><strong>source:some/file@52#L120</strong>   (リビジョン52のファイルの120行目へのリンク)</li>
+                    <li><strong>source:"some file@52#L120"</strong> (URLにスペースが含まれる場合はダブルクォーテーションで囲んでください)</li>
+                    <li><strong>export:some/file</strong>           (ファイルのダウンロードを強制)</li>
+                    <li><strong>source:svn1|some/file</strong>      (複数のリポジトリが設定されたプロジェクトで、特定のリポジトリのファイルへのリンク)</li>
+                    <li><strong>sandbox:source:some/file</strong>   ("sandbox" というプロジェクトのリポジトリ上の /some/file というファイルへのリンク)</li>
+                    <li><strong>sandbox:export:some/file</strong>   (ファイルのダウンロードを強制)</li>
+                </ul>
+            </li>
+        </ul>
+
+        <ul>
+            <li>フォーラム:
+                <ul>
+                    <li><strong>forum#1</strong> (id 1のフォーラムへのリンク)</li>
+                    <li><strong>forum:Support</strong> ("Support"という名称のフォーラムへのリンク)</li>
+                    <li><strong>forum:"Technical Support"</strong> (フォーラム名に空白が含まれる場合はダブルクォーテーションで囲んでください)</li>
+                </ul>
+            </li>
+        </ul>
+
+        <ul>
+            <li>フォーラムのメッセージ:
+                <ul>
+                    <li><strong>message#1218</strong> (id 1218のメッセージへのリンク)</li>
+                </ul>
+            </li>
+        </ul>
+
+        <ul>
+            <li>プロジェクト:
+                <ul>
+                    <li><strong>project#3</strong> (id 3のプロジェクトへのリンク)</li>
+                    <li><strong>project:someproject</strong> ("someproject"という名称のプロジェクトへのリンク)</li>
+                    <li><strong>project:"some project"</strong> (プロジェクト名に空白が含まれる場合はダブルクォーテーションで囲んでください)</li>
+                </ul>
+             </li>
+        </ul>
+
+        <ul>
+            <li>ニュース:
+                <ul>
+                    <li><strong>news#2</strong> (id 2のニュースへのリンク)</li>
+                    <li><strong>news:Greetings</strong> ("Greetings"というタイトルのニュースへのリンク)</li>
+                    <li><strong>news:"First Release"</strong> (タイトルに空白が含まれる場合はダブルクォーテーションで囲んでください)</li>
+                </ul>
+            </li>
+        </ul>
+
+        <p>エスケープ:</p>
+
+        <ul>
+            <li>テキストをRedmineのリンクとして解釈させたくない場合は感嘆符 ! を前につけてください。</li>
+        </ul>
+
+
+        <h3><a name="4" class="wiki-page"></a>外部リンク</h3>
+
+        <p>HTTP URLとメールアドレスは自動的にリンクになります:</p>
+
+<pre>
+http://www.redmine.org, someone@foo.bar
+</pre>
+
+        <p>上記記述の表示例です: <a class="external" href="http://www.redmine.org">http://www.redmine.org</a>, <a href="mailto:someone@foo.bar" class="email">someone@foo.bar</a></p>
+
+        <p>URLのかわりに別のテキストを表示させたい場合は、通常のMarkdown記法が利用できます:</p>
+
+<pre>
+[Redmine web site](http://www.redmine.org)
+</pre>
+
+        <p>上記記述の表示例です: <a href="http://www.redmine.org" class="external">Redmine web site</a></p>
+
+
+    <h2><a name="5" class="wiki-page"></a>テキストの書式</h2>
+
+
+    <p>見出し、太字、テーブル、リスト等は、RedmineはMarkdownでの記述に対応しています。Markdownの詳細は <a class="external" href="http://daringfireball.net/projects/markdown/syntax">http://daringfireball.net/projects/markdown/syntax</a> を参照してください。Markdownの一例を以下に示しますが、実際にはここで取り上げた以外の記法にも対応しています。</p>
+
+        <h3><a name="6" class="wiki-page"></a>文字の書式</h3>
+
+<pre>
+* **太字**
+* *斜体*
+* ***太字で斜体***
+* ~~取り消し線~~
+</pre>
+
+        <p>表示例:</p>
+
+        <ul>
+            <li><strong>太字</strong></li>
+            <li><em>斜体</em></li>
+            <li><em><strong>太字で斜体</strong></em></li>
+            <li><del>取り消し線</del></li>
+        </ul>
+
+        <h3><a name="7" class="wiki-page"></a>画像</h3>
+
+        <ul>
+            <li><strong>![](image_url)</strong> image_urlで指定されたURLの画像を表示 (Markdownの記法)</li>
+            <li>Wikiページに添付された画像があれば、ファイル名を指定して画像を表示させることができます: <strong>![](attached_image)</strong></li>
+        </ul>
+
+        <h3><a name="8" class="wiki-page"></a>見出し</h3>
+
+<pre>
+# Heading
+## Subheading
+### Subsubheading
+</pre>
+
+        <p>Redmineは見出しにアンカーを設定するので、"#Heading", "#Subheading"のように記述して見出しへのリンクが行えます。</p>
+
+
+        <h3><a name="10" class="wiki-page"></a>引用</h3>
+
+        <p>段落を <strong>&gt;</strong> で開始してください。</p>
+
+<pre>
+&gt; Rails is a full-stack framework for developing database-backed web applications according to the Model-View-Control pattern.
+To go live, all you need to add is a database and a web server.
+</pre>
+
+        <p>表示例:</p>
+
+        <blockquote>
+                <p>Rails is a full-stack framework for developing database-backed web applications according to the Model-View-Control pattern.<br />To go live, all you need to add is a database and a web server.</p>
+        </blockquote>
+
+
+        <h3><a name="11" class="wiki-page"></a>目次</h3>
+
+<pre>
+{{toc}} =&gt; 目次(左寄せ)
+{{&gt;toc}} =&gt; 目次(右寄せ)
+</pre>
+
+        <h3><a name="14" class="wiki-page"></a>区切り線</h3>
+
+<pre>
+---
+</pre>
+
+    <h2><a name="12" class="wiki-page"></a>マクロ</h2>
+
+    <p>Redmineには以下の組み込みマクロが用意されています:</p>
+
+    <p>
+    <dl>
+      <dt><code>hello_world</code></dt>
+      <dd><p>サンプルのマクロです。</p></dd>
+
+      <dt><code>macro_list</code></dt>
+      <dd><p>利用可能なマクロの一覧を表示します。マクロの説明があればそれも表示します。</p></dd>
+
+      <dt><code>child_pages</code></dt>
+      <dd><p>子ページの一覧を表示します。引数の指定が無ければ現在のwikiページの子ページを表示します。以下は使用例です:</p>
+      <pre><code>{{child_pages}} -- wikiページでのみ使用可能です
+{{child_pages(depth=2)}} -- 2階層分のみ表示します</code></pre></dd>
+
+      <dt><code>include</code></dt>
+      <dd><p>別のWikiページの内容を挿入します。 以下は使用例です:</p>
+      <pre><code>{{include(Foo)}}</code></pre>
+      <p>別プロジェクトのWikiページを挿入することもできます:</p>
+      <pre><code>{{include(projectname:Foo)}}</code></pre></dd>
+
+      <dt><code>collapse</code></dt>
+      <dd><p>折り畳まれた状態のテキストを挿入します。以下は使用例です:</p>
+      <pre><code>{{collapse(詳細を表示...)
+この部分はデフォルトでは折り畳まれた状態で表示されます。
+リンクをクリックすると展開されます。
+}}</code></pre></dd>
+
+      <dt><code>thumbnail</code></dt>
+      <dd><p>添付ファイルのクリック可能なサムネイル画像を表示します。以下は使用例です:</p>
+      <pre>{{thumbnail(image.png)}}
+{{thumbnail(image.png, size=300, title=Thumbnail)}}</pre></dd>
+    </dl>
+    </p>
+
+    <h2><a name="13" class="wiki-page"></a>コードハイライト</h2>
+
+    <p>Redmineのコードハイライトは <a href="http://coderay.rubychan.de/" class="external">CodeRay</a> という、Rubyで記述された高速なライブラリを使用しています。現時点では c, clojure, cpp (c++, cplusplus), css, delphi (pascal), diff (patch), erb (eruby, rhtml), go, groovy, haml, html (xhtml), java, javascript (ecmascript, ecma_script, java_script, js), json, lua, php, python, ruby (irb), sass, sql, taskpaper, text (plain, plaintext), xml, yaml (yml) に対応しています。括弧内の名前はコードハイライトの指定時に利用できる別名です。</p>
+
+    <p>Wiki記法に対応している箇所であればどこでも以下の記述によりコードハイライトが利用できます (言語名・別名では大文字・小文字は区別されません):</p>
+
+<pre>
+~~~ ruby
+  Place your code here.
+~~~
+</pre>
+
+    <p>表示例:</p>
+
+<pre><code class="ruby syntaxhl"><span class="CodeRay"><span class="comment"># The Greeter class</span>
+<span class="keyword">class</span> <span class="class">Greeter</span>
+  <span class="keyword">def</span> <span class="function">initialize</span>(name)
+    <span class="instance-variable">@name</span> = name.capitalize
+  <span class="keyword">end</span>
+
+  <span class="keyword">def</span> <span class="function">salute</span>
+    puts <span class="string"><span class="delimiter">"</span><span class="content">Hello </span><span class="inline"><span class="inline-delimiter">#{</span><span class="instance-variable">@name</span><span class="inline-delimiter">}</span></span><span class="content">!</span><span class="delimiter">"</span></span>
+  <span class="keyword">end</span>
+<span class="keyword">end</span></span></code>
+</pre>
+</body>
+</html>

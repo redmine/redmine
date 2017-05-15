@@ -1,3 +1,6 @@
+/* Redmine - project management software
+   Copyright (C) 2006-2016  Jean-Philippe Lang */
+
 $(document).ready(function() {
   /* 
   If we're viewing a tag or branch, don't display it in the

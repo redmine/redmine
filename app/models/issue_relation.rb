@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -26,12 +26,14 @@ class IssueRelation < ActiveRecord::Base
     end
 
     def to_s(*args)
-      map {|relation| "#{l(relation.label_for(@issue))} ##{relation.other_issue(@issue).id}"}.join(', ')
+      map {|relation| relation.to_s(@issue)}.join(', ')
     end
   end
 
-  belongs_to :issue_from, :class_name => 'Issue', :foreign_key => 'issue_from_id'
-  belongs_to :issue_to, :class_name => 'Issue', :foreign_key => 'issue_to_id'
+  include Redmine::SafeAttributes
+
+  belongs_to :issue_from, :class_name => 'Issue'
+  belongs_to :issue_to, :class_name => 'Issue'
 
   TYPE_RELATES      = "relates"
   TYPE_DUPLICATES   = "duplicates"
@@ -72,8 +74,26 @@ class IssueRelation < ActiveRecord::Base
 
   attr_protected :issue_from_id, :issue_to_id
   before_save :handle_issue_order
-  after_create  :create_journal_after_create
-  after_destroy :create_journal_after_delete
+  after_create  :call_issues_relation_added_callback
+  after_destroy :call_issues_relation_removed_callback
+
+  safe_attributes 'relation_type',
+    'delay',
+    'issue_to_id'
+
+  def safe_attributes=(attrs, user=User.current)
+    return unless attrs.is_a?(Hash)
+    attrs = attrs.deep_dup
+
+    if issue_id = attrs.delete('issue_to_id')
+      if issue_id.to_s.strip.match(/\A#?(\d+)\z/)
+        issue_id = $1.to_i
+        self.issue_to = Issue.visible(user).find_by_id(issue_id)
+      end
+    end
+    
+    super(attrs)
+  end
 
   def visible?(user=User.current)
     (issue_from.nil? || issue_from.visible?(user)) && (issue_to.nil? || issue_to.visible?(user))
@@ -101,11 +121,8 @@ class IssueRelation < ActiveRecord::Base
                 Setting.cross_project_issue_relations?
         errors.add :issue_to_id, :not_same_project
       end
-      # detect circular dependencies depending wether the relation should be reversed
-      if TYPES.has_key?(relation_type) && TYPES[relation_type][:reverse]
-        errors.add :base, :circular_dependency if issue_from.all_dependent_issues.include? issue_to
-      else
-        errors.add :base, :circular_dependency if issue_to.all_dependent_issues.include? issue_from
+      if circular_dependency?
+        errors.add :base, :circular_dependency
       end
       if issue_from.is_descendant_of?(issue_to) || issue_from.is_ancestor_of?(issue_to)
         errors.add :base, :cant_link_an_issue_with_a_descendant
@@ -132,6 +149,16 @@ class IssueRelation < ActiveRecord::Base
     TYPES[relation_type] ?
         TYPES[relation_type][(self.issue_from_id == issue.id) ? :name : :sym_name] :
         :unknow
+  end
+
+  def to_s(issue=nil)
+    issue ||= issue_from
+    issue_text = block_given? ? yield(other_issue(issue)) : "##{other_issue(issue).try(:id)}"
+    s = []
+    s << l(label_for(issue))
+    s << "(#{l('datetime.distance_in_words.x_days', :count => delay)})" if delay && delay != 0
+    s << issue_text
+    s.join(' ')
   end
 
   def css_classes_for(issue)
@@ -168,6 +195,11 @@ class IssueRelation < ActiveRecord::Base
     r == 0 ? id <=> relation.id : r
   end
 
+  def init_journals(user)
+    issue_from.init_journal(user) if issue_from
+    issue_to.init_journal(user) if issue_to
+  end
+
   private
 
   # Reverses the relation if needed so that it gets stored in the proper way
@@ -182,29 +214,35 @@ class IssueRelation < ActiveRecord::Base
     end
   end
 
-  def create_journal_after_create
-    journal = issue_from.init_journal(User.current)
-    journal.details << JournalDetail.new(:property => 'relation',
-                                         :prop_key => relation_type_for(issue_from),
-                                         :value    => issue_to.id)
-    journal.save
-    journal = issue_to.init_journal(User.current)
-    journal.details << JournalDetail.new(:property => 'relation',
-                                         :prop_key => relation_type_for(issue_to),
-                                         :value    => issue_from.id)
-    journal.save
+  # Returns true if the relation would create a circular dependency
+  def circular_dependency?
+    case relation_type
+    when 'follows'
+      issue_from.would_reschedule? issue_to
+    when 'precedes'
+      issue_to.would_reschedule? issue_from
+    when 'blocked'
+      issue_from.blocks? issue_to
+    when 'blocks'
+      issue_to.blocks? issue_from
+    else
+      false
+    end
   end
 
-  def create_journal_after_delete
-    journal = issue_from.init_journal(User.current)
-    journal.details << JournalDetail.new(:property  => 'relation',
-                                         :prop_key  => relation_type_for(issue_from),
-                                         :old_value => issue_to.id)
-    journal.save
-    journal = issue_to.init_journal(User.current)
-    journal.details << JournalDetail.new(:property  => 'relation',
-                                         :prop_key  => relation_type_for(issue_to),
-                                         :old_value => issue_from.id)
-    journal.save
+  def call_issues_relation_added_callback
+    call_issues_callback :relation_added
+  end
+
+  def call_issues_relation_removed_callback
+    call_issues_callback :relation_removed
+  end
+
+  def call_issues_callback(name)
+    [issue_from, issue_to].each do |issue|
+      if issue
+        issue.send name, self
+      end
+    end
   end
 end

@@ -2,6 +2,7 @@
 user_preferences_001: 
   others: |
     --- 
+    :no_self_notified: false
     :my_page_layout: 
       left: 
       - latestnews
@@ -17,6 +18,15 @@ user_preferences_001:
 user_preferences_002: 
   others: |
     --- 
+    :no_self_notified: false
+  
+  id: 2
+  user_id: 2
+  hide_mail: true
+user_preferences_003: 
+  others: |
+    --- 
+    :no_self_notified: false
     :my_page_layout: 
       left: 
       - latestnews
@@ -26,6 +36,6 @@ user_preferences_002:
       top: 
       - calendar
   
-  id: 2
+  id: 3
   user_id: 3
   hide_mail: false

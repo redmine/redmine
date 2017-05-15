@@ -7,6 +7,7 @@ jsToolBar.strings['Code'] = 'کد درون خطی';
 jsToolBar.strings['Heading 1'] = 'سربرگ ۱';
 jsToolBar.strings['Heading 2'] = 'سربرگ ۲';
 jsToolBar.strings['Heading 3'] = 'سربرگ ۳';
+jsToolBar.strings['Highlighted code'] = 'Highlighted code';
 jsToolBar.strings['Unordered list'] = 'فهرست بدون شماره';
 jsToolBar.strings['Ordered list'] = 'فهرست با شماره';
 jsToolBar.strings['Quote'] = 'تو بردن';

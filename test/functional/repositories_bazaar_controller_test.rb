@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -20,13 +20,13 @@ require File.expand_path('../../test_helper', __FILE__)
 class RepositoriesBazaarControllerTest < ActionController::TestCase
   tests RepositoriesController
 
-  fixtures :projects, :users, :roles, :members, :member_roles,
+  fixtures :projects, :users, :email_addresses, :roles, :members, :member_roles,
            :repositories, :enabled_modules
 
   REPOSITORY_PATH = Rails.root.join('tmp/test/bazaar_repository').to_s
   REPOSITORY_PATH_TRUNK = File.join(REPOSITORY_PATH, "trunk")
   PRJ_ID = 3
-  CHAR_1_UTF8_HEX   = "\xc3\x9c"
+  CHAR_1_UTF8_HEX   = "\xc3\x9c".dup.force_encoding('UTF-8')
 
   def setup
     User.current = nil
@@ -36,10 +36,6 @@ class RepositoriesBazaarControllerTest < ActionController::TestCase
                     :url          => REPOSITORY_PATH_TRUNK,
                     :log_encoding => 'UTF-8')
     assert @repository
-    @char_1_utf8 = CHAR_1_UTF8_HEX.dup
-    if @char_1_utf8.respond_to?(:force_encoding)
-      @char_1_utf8.force_encoding('UTF-8')
-    end
   end
 
   if File.directory?(REPOSITORY_PATH)
@@ -90,7 +86,7 @@ class RepositoriesBazaarControllerTest < ActionController::TestCase
           :path => repository_path_hash(['doc-mkdir.txt'])[:param]
       assert_response :success
       assert_template 'changes'
-      assert_tag :tag => 'h2', :content => 'doc-mkdir.txt'
+      assert_select 'h2', :text => /doc-mkdir.txt/
     end
 
     def test_entry_show
@@ -99,10 +95,7 @@ class RepositoriesBazaarControllerTest < ActionController::TestCase
       assert_response :success
       assert_template 'entry'
       # Line 19
-      assert_tag :tag => 'th',
-                 :content => /29/,
-                 :attributes => { :class => /line-num/ },
-                 :sibling => { :tag => 'td', :content => /Show help message/ }
+      assert_select 'tr#L29 td.line-code', :text => /Show help message/
     end
 
     def test_entry_download
@@ -130,11 +123,7 @@ class RepositoriesBazaarControllerTest < ActionController::TestCase
         assert_response :success
         assert_template 'diff'
         # Line 11 removed
-        assert_tag :tag => 'th',
-                   :content => '11',
-                   :sibling => { :tag => 'td',
-                                 :attributes => { :class => /diff_out/ },
-                                 :content => /Display more information/ }
+        assert_select 'th.line-num:contains(11) ~ td.diff_out', :text => /Display more information/
       end
     end
 
@@ -168,7 +157,7 @@ class RepositoriesBazaarControllerTest < ActionController::TestCase
       assert_select "th.line-num", :text => '1' do
         assert_select "+ td.revision" do
           assert_select "a", :text => '2'
-          assert_select "+ td.author", :text => "test &amp;" do
+          assert_select "+ td.author", :text => "test &" do
             assert_select "+ td",
                           :text => "author escaping test"
           end
@@ -176,31 +165,29 @@ class RepositoriesBazaarControllerTest < ActionController::TestCase
       end
     end
 
-    if REPOSITORY_PATH.respond_to?(:force_encoding)
-      def test_annotate_author_non_ascii
-        log_encoding = nil
-        if Encoding.locale_charmap == "UTF-8" ||
-             Encoding.locale_charmap == "ISO-8859-1"
-          log_encoding = Encoding.locale_charmap
-        end
-        unless log_encoding.nil?
-          repository = Repository::Bazaar.create(
-                        :project      => @project,
-                        :url          => File.join(REPOSITORY_PATH, "author_non_ascii"),
-                        :identifier => 'author_non_ascii',
-                        :log_encoding => log_encoding)
-          assert repository
-          get :annotate, :id => PRJ_ID, :repository_id => 'author_non_ascii',
-              :path => repository_path_hash(['author-non-ascii-test.txt'])[:param]
-          assert_response :success
-          assert_template 'annotate'
-          assert_select "th.line-num", :text => '1' do
-            assert_select "+ td.revision" do
-              assert_select "a", :text => '2'
-              assert_select "+ td.author", :text => "test #{@char_1_utf8}" do
-                assert_select "+ td",
-                              :text => "author non ASCII test"
-              end
+    def test_annotate_author_non_ascii
+      log_encoding = nil
+      if Encoding.locale_charmap == "UTF-8" ||
+           Encoding.locale_charmap == "ISO-8859-1"
+        log_encoding = Encoding.locale_charmap
+      end
+      unless log_encoding.nil?
+        repository = Repository::Bazaar.create(
+                      :project      => @project,
+                      :url          => File.join(REPOSITORY_PATH, "author_non_ascii"),
+                      :identifier => 'author_non_ascii',
+                      :log_encoding => log_encoding)
+        assert repository
+        get :annotate, :id => PRJ_ID, :repository_id => 'author_non_ascii',
+            :path => repository_path_hash(['author-non-ascii-test.txt'])[:param]
+        assert_response :success
+        assert_template 'annotate'
+        assert_select "th.line-num", :text => '1' do
+          assert_select "+ td.revision" do
+            assert_select "a", :text => '2'
+            assert_select "+ td.author", :text => "test #{CHAR_1_UTF8_HEX}" do
+              assert_select "+ td",
+                            :text => "author non ASCII test"
             end
           end
         end

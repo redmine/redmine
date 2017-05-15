@@ -7,6 +7,7 @@ jsToolBar.strings['Code'] = 'Quelltext';
 jsToolBar.strings['Heading 1'] = 'Überschrift 1. Ordnung';
 jsToolBar.strings['Heading 2'] = 'Überschrift 2. Ordnung';
 jsToolBar.strings['Heading 3'] = 'Überschrift 3. Ordnung';
+jsToolBar.strings['Highlighted code'] = 'Highlighted code';
 jsToolBar.strings['Unordered list'] = 'Aufzählungsliste';
 jsToolBar.strings['Ordered list'] = 'Nummerierte Liste';
 jsToolBar.strings['Quote'] = 'Quote';

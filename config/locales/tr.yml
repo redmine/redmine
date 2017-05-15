@@ -152,14 +152,15 @@ tr:
   general_text_Yes: 'Evet'
   general_text_no: 'hayır'
   general_text_yes: 'evet'
-  general_lang_name: 'Türkçe'
+  general_lang_name: 'Turkish (Türkçe)'
   general_csv_separator: ','
   general_csv_encoding: ISO-8859-9
-  general_pdf_encoding: UTF-8
+  general_pdf_fontname: freesans
+  general_pdf_monospaced_fontname: freemono
   general_first_day_of_week: '7'
 
   notice_account_updated: Hesap başarıyla güncelleştirildi.
-  notice_account_invalid_creditentials: Geçersiz kullanıcı ya da parola
+  notice_account_invalid_credentials: Geçersiz kullanıcı ya da parola
   notice_account_password_updated: Parola başarıyla güncellendi.
   notice_account_wrong_password: Yanlış parola
   notice_account_register_done: Hesap başarıyla oluşturuldu. Hesabınızı etkinleştirmek için, size gönderilen e-postadaki bağlantıya tıklayın.
@@ -208,7 +209,7 @@ tr:
   field_filename: Dosya
   field_filesize: Boyut
   field_downloads: İndirilenler
-  field_author: Yazar
+  field_author: Oluşturan
   field_created_on: Oluşturulma
   field_updated_on: Güncellenme
   field_field_format: Biçim
@@ -267,7 +268,7 @@ tr:
   field_start_page: Başlangıç Sayfası
   field_subproject: Alt Proje
   field_hours: Saat
-  field_activity: Etkinlik
+  field_activity: Faaliyet
   field_spent_on: Tarih
   field_identifier: Tanımlayıcı
   field_is_filter: süzgeç olarak kullanılmış
@@ -310,7 +311,7 @@ tr:
   setting_protocol: Protokol
   setting_per_page_options: Sayfada başına öğe sayısı
   setting_user_format: Kullanıcı gösterim biçimi
-  setting_activity_days_default: Proje etkinliklerinde gösterilen gün sayısı
+  setting_activity_days_default: Proje faaliyetlerinde gösterilen gün sayısı
   setting_display_subprojects_issues: Varsayılan olarak ana projenin iş listesinde alt proje işlerini göster
 
   project_module_issue_tracking: İş Takibi
@@ -384,8 +385,8 @@ tr:
   label_assigned_to_me_issues: Bana atanmış işler
   label_last_login: Son bağlantı
   label_registered_on: Kayıt tarihi
-  label_activity: Etkinlik
-  label_overall_activity: Tüm etkinlikler
+  label_activity: Faaliyet
+  label_overall_activity: Tüm faaliyetler
   label_new: Yeni
   label_logged_as: "Kullanıcı :"
   label_environment: Çevre
@@ -433,10 +434,6 @@ tr:
   label_open_issues_plural: açık
   label_closed_issues: kapalı
   label_closed_issues_plural: kapalı
-  label_x_open_issues_abbr_on_total:
-    zero:  tamamı kapalı, toplam %{total}
-    one:   1'i' açık, toplam %{total}
-    other: "%{count} açık, toplam %{total}"
   label_x_open_issues_abbr:
     zero:  hiç açık yok
     one:   1 açık
@@ -457,7 +454,6 @@ tr:
   label_used_by: 'Kullanan: '
   label_details: Ayrıntılar
   label_add_note: Not ekle
-  label_per_page: Sayfa başına
   label_calendar: Takvim
   label_months_from: ay öncesinden itibaren
   label_gantt: İş-Zaman Çizelgesi
@@ -542,8 +538,8 @@ tr:
   label_time_tracking: Zaman Takibi
   label_change_plural: Değişiklikler
   label_statistics: İstatistikler
-  label_commits_per_month: Aylık teslim
-  label_commits_per_author: Yazar başına teslim
+  label_commits_per_month: Aylık commit
+  label_commits_per_author: Oluşturan başına commit
   label_view_diff: Farkları izle
   label_diff_inline: satır içi
   label_diff_side_by_side: Yan yana
@@ -562,10 +558,6 @@ tr:
   label_blocked_by: Engelleyen
   label_precedes: önce gelir
   label_follows: sonra gelir
-  label_end_to_start: sondan başa
-  label_end_to_end: sondan sona
-  label_start_to_start: baştan başa
-  label_start_to_end: baştan sona
   label_stay_logged_in: Sürekli bağlı kal
   label_disabled: Devredışı
   label_show_completed_versions: Tamamlanmış sürümleri göster
@@ -688,7 +680,7 @@ tr:
   text_issue_category_destroy_question: "Bazı işler (%{count}) bu kategoriye atandı. Ne yapmak istersiniz?"
   text_issue_category_destroy_assignments: Kategori atamalarını kaldır
   text_issue_category_reassign_to: İşleri bu kategoriye tekrar ata
-  text_user_mail_option: "Seçili olmayan projeler için, sadece dahil olduğunuz ya da izlediğiniz öğeler hakkında uyarılar alacaksınız (örneğin,yazarı veya atandığınız işler)."
+  text_user_mail_option: "Seçili olmayan projeler için, sadece dahil olduğunuz (oluşturan veya atanan) ya da izlediğiniz öğeler hakkında uyarılar alacaksınız."
   text_no_configuration_data: "Roller, iş tipleri, iş durumları ve işakışı henüz yapılandırılmadı.\nVarsayılan yapılandırılmanın yüklenmesi şiddetle tavsiye edilir. Bir kez yüklendiğinde yapılandırmayı değiştirebileceksiniz."
   text_load_default_configuration: Varsayılan yapılandırmayı yükle
   text_status_changed_by_changeset: "Değişiklik listesi %{value} içinde uygulandı."
@@ -800,7 +792,7 @@ tr:
   text_repository_usernames_mapping: "Redmine kullanıcı adlarını depo değişiklik kayıtlarındaki kullanıcı adlarıyla eşleştirin veya eşleştirmeleri güncelleyin.\nRedmine kullanıcı adları ile depo kullanıcı adları aynı olan kullanıcılar otomatik olarak eşlendirilecektir."
   permission_edit_own_messages: Kendi mesajlarını düzenleme
   permission_delete_own_messages: Kendi mesajlarını silme
-  label_user_activity: "%{value} kullanıcısının etkinlikleri"
+  label_user_activity: "%{value} kullanıcısının faaliyetleri"
   label_updated_time_by: "%{author} tarafından %{age} önce güncellendi"
   text_diff_truncated: '... Bu fark tam olarak gösterilemiyor çünkü gösterim için ayarlanmış üst sınırı aşıyor.'
   setting_diff_max_lines_displayed: Gösterilebilecek maksimumu fark satırı
@@ -851,7 +843,7 @@ tr:
   text_journal_deleted: "%{label} silindi (%{old})"
   text_journal_added: "%{label} %{value} eklendi"
   field_active: Etkin
-  enumeration_system_activity: Sistem Etkinlikleri
+  enumeration_system_activity: Sistem Faaliyetleri
   permission_delete_issue_watchers: İzleyicileri sil
   version_status_closed: kapalı
   version_status_locked: kilitli
@@ -903,7 +895,7 @@ tr:
   label_board_locked: Kilitli
   permission_export_wiki_pages: Wiki sayfalarını dışarı aktar
   setting_cache_formatted_text: Biçimlendirilmiş metni önbelleğe al
-  permission_manage_project_activities: Proje etkinliklerini yönetme
+  permission_manage_project_activities: Proje faaliyetlerini yönetme
   error_unable_delete_issue_status: İş durumu silinemiyor
   label_profile: Profil
   permission_manage_subtasks: Alt işleri yönetme
@@ -938,7 +930,7 @@ tr:
   label_user_search: "Kullanıcı ara:"
   field_visible: Görünür
   setting_emails_header: "E-Posta başlığı"
-  setting_commit_logtime_activity_id: Kaydedilen zaman için etkinlik
+  setting_commit_logtime_activity_id: Kaydedilen zaman için faaliyet
   text_time_logged_by_changeset: Değişiklik uygulandı %{value}.
   setting_commit_logtime_enabled: Zaman kaydını etkinleştir
   notice_gantt_chart_truncated: Görüntülenebilir öğelerin sayısını aştığı için tablo kısaltıldı (%{max})
@@ -951,7 +943,7 @@ tr:
   button_expand_all: Tümünü genişlet
   button_collapse_all: Tümünü daralt
   label_additional_workflow_transitions_for_assignee: Kullanıcı atanan olduğu zaman tanınacak ek yetkiler
-  label_additional_workflow_transitions_for_author: Kullanıcı yazar olduğu zaman tanınacak ek yetkiler
+  label_additional_workflow_transitions_for_author: Kullanıcı oluşturan olduğu zaman tanınacak ek yetkiler
   label_bulk_edit_selected_time_entries: Seçilen zaman kayıtlarını toplu olarak düzenle
   text_time_entries_destroy_confirmation: Seçilen zaman kaydını/kayıtlarını silmek istediğinize emin misiniz?
   label_role_anonymous: Anonim
@@ -1061,7 +1053,7 @@ tr:
   text_repository_identifier_info: Yalnızca küçük harfler (a-z), sayılar, tire ve alt tire kullanılabilir.<br />Kaydedilen tanımlayıcı daha sonra değiştirilemez.
   field_board_parent: Üst forum
   label_attribute_of_project: Proje %{name}
-  label_attribute_of_author: Yazar %{name}
+  label_attribute_of_author: Oluşturan %{name}
   label_attribute_of_assigned_to: Atanan %{name}
   label_attribute_of_fixed_version: Hedef sürüm %{name}
   label_copy_subtasks: Alt görevi kopyala
@@ -1110,14 +1102,119 @@ tr:
     farklı olmalı
   setting_mail_handler_excluded_filenames: Dosya adı belirtilen ekleri hariç tut
   text_convert_available: ImageMagick dönüştürmesi kullanılabilir (isteğe bağlı)
-  label_link: Link
-  label_only: only
-  label_drop_down_list: drop-down list
-  label_checkboxes: checkboxes
-  label_link_values_to: Link values to URL
-  setting_force_default_language_for_anonymous: Force default language for anonymous
-    users
-  setting_force_default_language_for_loggedin: Force default language for logged-in
-    users
-  label_custom_field_select_type: Select the type of object to which the custom field
-    is to be attached
+  label_link: Bağlantı
+  label_only: sadece
+  label_drop_down_list: seçme listesi
+  label_checkboxes: kutucuk
+  label_link_values_to: Değerleri URLye bağla
+  setting_force_default_language_for_anonymous: Anonim kullanıcılar için zorunlu dil
+    seç
+  setting_force_default_language_for_loggedin: Giriş yapmış kullanıcılar için zorunlu dil
+    seç
+  label_custom_field_select_type: Özel alanın bağlı olacağı obje tipini
+    seçin
+  label_issue_assigned_to_updated: Atanan güncellendi
+  label_check_for_updates: Güncellemeleri kontrol et
+  label_latest_compatible_version: Son uyumlul sürüm
+  label_unknown_plugin: Bilinmeyen eklenti
+  label_radio_buttons: radyo butonları
+  label_group_anonymous: Anonim kullanıcı
+  label_group_non_member: Üye olmayan kullanıcılar
+  label_add_projects: Proje ekle
+  field_default_status: Öntanımlı durum
+  text_subversion_repository_note: 'Örnek: file:///, http://, https://, svn://, svn+[tünelmetodu]://'
+  field_users_visibility: Kullanıcı görünürlüğü
+  label_users_visibility_all: Tüm aktif kullanıcılar
+  label_users_visibility_members_of_visible_projects: Görünür projelerin kullanıcıları
+  label_edit_attachments: Ekli dosyaları düzenle
+  setting_link_copied_issue: Kopyalamada işleri ilişkilendir
+  label_link_copied_issue: Kopyalanmış iş ile ilişkilendir
+  label_ask: Sor
+  label_search_attachments_yes: Ekli dosyalarada ve açıklamalarında arama yap
+  label_search_attachments_no: Ekler içinde arama yapma
+  label_search_attachments_only: Sadece ekleri ara
+  label_search_open_issues_only: Sadece açık işler
+  field_address: E-Posta
+  setting_max_additional_emails: Maksimum ek e-posta adresleri
+  label_email_address_plural: E-postalar
+  label_email_address_add: E-posta adresi ekle
+  label_enable_notifications: Bildirimleri aç
+  label_disable_notifications: Bildirimleri kapat
+  setting_search_results_per_page: Sayfa başına arama sonucu sayısı
+  label_blank_value: boş
+  permission_copy_issues: İşleri kopyala
+  error_password_expired: Parolanızın süresi dolmuş veya yönetici parolanızı değiştirmenizi
+    talep etmiş.
+  field_time_entries_visibility: Zaman kaydı görünürlüğü
+  setting_password_max_age: Bu kadar zaman sonra şifre dğiştirmeye zorla
+  label_parent_task_attributes: Üst iş özellikleri
+  label_parent_task_attributes_derived: Alt işlerden hesalanır
+  label_parent_task_attributes_independent: Alt işlerden bağımsız
+  label_time_entries_visibility_all: Tüm zaman kayıtları
+  label_time_entries_visibility_own: Kullanıcı tarafında yaratılmış zaman kayıtları
+  label_member_management: Üye yönetimi
+  label_member_management_all_roles: Tüm roller
+  label_member_management_selected_roles_only: Sadece bu roller
+  label_password_required: Devam etmek için şifrenizi doğrulayın
+  label_total_spent_time: Toplam harcanan zaman
+  notice_import_finished: "%{count} kayıt içeri aktarıldı"
+  notice_import_finished_with_errors: "%{total} kayıttan %{count} tanesi aktarılamadı"
+  error_invalid_file_encoding: Dosyanın karakter kodlaması geçerli bir %{encoding} kodlaması değil.
+  error_invalid_csv_file_or_settings: Dosya CSV dosyası değil veya aşağıdaki ayarlara uymuyor
+  error_can_not_read_import_file: İçeri aktarılacak dosyayı okurken bir hata oluştu
+  permission_import_issues: İşleri içeri aktarma
+  label_import_issues: İşleri içeri aktar
+  label_select_file_to_import: İçeri aktarılacak dosyayı seçiniz
+  label_fields_separator: Alan ayracı
+  label_fields_wrapper: Alan kılıfı
+  label_encoding: Karakter kodlaması
+  label_comma_char: Virgül
+  label_semi_colon_char: Noktalı virgül
+  label_quote_char: Tek tırnak işareti
+  label_double_quote_char: Çift tırnak işareti
+  label_fields_mapping: Alan eşleştirme
+  label_file_content_preview: Dosya içeriği önizlemesi
+  label_create_missing_values: Eşleşlmeyen alanları oluştur
+  button_import: İçeri aktar
+  field_total_estimated_hours: Toplam tahmini zaman
+  label_api: API
+  label_total_plural: Toplamlar
+  label_assigned_issues: Atanan işler
+  label_field_format_enumeration: Anahtar/Değer listesi
+  label_f_hour_short: '%{value} s'
+  field_default_version: Ön tanımlı versiyon
+  error_attachment_extension_not_allowed: Dosya uzantısına izin verilmiyor; %{extension}
+  setting_attachment_extensions_allowed: İzin verilen dosya uzantıları
+  setting_attachment_extensions_denied: Yasaklı dosya uzantıları
+  label_any_open_issues: herhangi bir açık iş
+  label_no_open_issues: hiçbir açık iş
+  label_default_values_for_new_users: Default values for new users
+  error_ldap_bind_credentials: Invalid LDAP Account/Password
+  setting_sys_api_key: API anahtarı
+  setting_lost_password: Parolamı unuttum
+  mail_subject_security_notification: Security notification
+  mail_body_security_notification_change: ! '%{field} was changed.'
+  mail_body_security_notification_change_to: ! '%{field} was changed to %{value}.'
+  mail_body_security_notification_add: ! '%{field} %{value} was added.'
+  mail_body_security_notification_remove: ! '%{field} %{value} was removed.'
+  mail_body_security_notification_notify_enabled: Email address %{value} now receives
+    notifications.
+  mail_body_security_notification_notify_disabled: Email address %{value} no longer
+    receives notifications.
+  mail_body_settings_updated: ! 'The following settings were changed:'
+  field_remote_ip: IP address
+  label_wiki_page_new: New wiki page
+  label_relations: Relations
+  button_filter: Filter
+  mail_body_password_updated: Your password has been changed.
+  label_no_preview: No preview available
+  error_no_tracker_allowed_for_new_issue_in_project: The project doesn't have any trackers
+    for which you can create an issue
+  label_tracker_all: All trackers
+  label_new_project_issue_tab_enabled: Display the "New issue" tab
+  setting_new_item_menu_tab: Project menu tab for creating new objects
+  label_new_object_tab_enabled: Display the "+" drop-down
+  error_no_projects_with_tracker_allowed_for_new_issue: There are no projects with trackers
+    for which you can create an issue
+  error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: Spent time cannot
+    be reassigned to an issue that is about to be deleted

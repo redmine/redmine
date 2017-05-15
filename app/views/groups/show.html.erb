@@ -63,3 +63,8 @@
 	</div>
 </div>
 
+<ul>
+<% @group.users.each do |user| %>
+    <li><%= user %></li>
+<% end %>
+</ul>

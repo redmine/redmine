@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -21,7 +21,7 @@ namespace :db do
   task :encrypt => :environment do
     unless (Repository.encrypt_all(:password) &&
       AuthSource.encrypt_all(:account_password))
-      raise "Some objects could not be saved after encryption, update was rollback'ed."
+      raise "Some objects could not be saved after encryption, update was rolled back."
     end
   end
 
@@ -29,7 +29,7 @@ namespace :db do
   task :decrypt => :environment do
     unless (Repository.decrypt_all(:password) &&
       AuthSource.decrypt_all(:account_password))
-      raise "Some objects could not be saved after decryption, update was rollback'ed."
+      raise "Some objects could not be saved after decryption, update was rolled back."
     end
   end
 end

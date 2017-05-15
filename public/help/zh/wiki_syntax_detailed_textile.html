@@ -1,0 +1,328 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<title>RedmineWikiFormatting</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<style type="text/css">
+    body { font:80% Verdana,Tahoma,Arial,sans-serif; }
+    h1, h2, h3, h4 {  font-family: Trebuchet MS,Georgia,"Times New Roman",serif; }
+    pre, code { font-size:120%; }
+    pre code { font-size:100%; }
+    pre {
+        margin: 1em 1em 1em 1.6em;
+        padding: 2px;
+        background-color: #fafafa;
+        border: 1px solid #e2e2e2;
+        width: auto;
+        overflow-x: auto;
+        overflow-y: hidden;
+    }
+    a.new { color: #b73535; }
+
+    .syntaxhl .class { color:#258; font-weight:bold }
+    .syntaxhl .comment  { color:#385; }
+    .syntaxhl .delimiter { color:black }
+    .syntaxhl .function { color:#06B; font-weight:bold }
+    .syntaxhl .inline { background-color: hsla(0,0%,0%,0.07); color: black }
+    .syntaxhl .inline-delimiter { font-weight: bold; color: #666 }
+    .syntaxhl .instance-variable { color:#33B }
+    .syntaxhl .keyword { color:#939; font-weight:bold }
+    .syntaxhl .string .content { color: #46a }
+    .syntaxhl .string .delimiter { color:#46a }
+</style>
+</head>
+
+<body>
+<h1><a name="1" class="wiki-page"></a>Wiki 文本格式</h1>
+
+    <h2><a name="2" class="wiki-page"></a>链接</h2>
+
+        <h3><a name="3" class="wiki-page"></a>Redmine 链接</h3>
+
+        <p>在任何使用文本格式的地方，Redmine都允许在资源（问题、变更、wiki页面...）间建立超链接。</p>
+        <ul>
+            <li>链接至一个问题： <strong>#124</strong> (显示 <del><a href="#" class="issue" title="bulk edit doesn't change the category or fixed version properties (Closed)">#124</a></del>，若该问题已结束则会用删除线来表示)</li>
+            <li>链接至一个问题的说明： <strong>#124-6</strong>, 或者 <strong>#124#note-6</strong></li>
+        </ul>
+
+        <p>Wiki链接</p>
+
+        <ul>
+            <li><strong>[[Guide]]</strong> 显示一个页面名为'Guide'的链接： <a href="#" class="wiki-page">Guide</a></li>
+            <li><strong>[[Guide#further-reading]]</strong> 链接到页面内的"further-reading"标签. 每个标题都会自动绑定一个标签，方便您进行链接: <a href="#" class="wiki-page">Guide</a></li>
+            <li><strong>[[Guide|User manual]]</strong> 使用不同的文字来显示一个页面名称为'Guide'的链接： <a href="#" class="wiki-page">User manual</a></li>
+        </ul>
+
+        <p>您也可以链接到其他项目的Wiki页面（使用项目标识）：</p>
+
+        <ul>
+            <li><strong>[[sandbox:some page]]</strong> 显示Sandbox项目wiki页面的一个名为'Some page'的链接</li>
+            <li><strong>[[sandbox:]]</strong> 显示Sandbox项目wiki首页的链接</li>
+        </ul>
+
+        <p>当页面不存在的时候，Wiki链接会以红色来显示，例如： <a href="#" class="wiki-page new">Nonexistent page</a>.</p>
+
+        <p>链接至其他资源：</p>
+
+        <ul>
+            <li>文档：
+                <ul>
+                    <li><strong>document#17</strong> (链接到id为17的文档)</li>
+                    <li><strong>document:Greetings</strong> (链接到标题为“Greeting”的文档)</li>
+                    <li><strong>document:"Some document"</strong> (文档标题包含空格时使用双引号来表示)</li>
+                    <li><strong>sandbox:document:"Some document"</strong> (链接至sandbox项目中标题为“Some document”的文档)</li>
+                </ul></li>
+        </ul>
+
+        <ul>
+            <li>版本：
+                <ul>
+                    <li><strong>version#3</strong> (链接至id为3的版本)</li>
+                    <li><strong>version:1.0.0</strong> (链接到名称为“1.0.0”的版本)</li>
+                    <li><strong>version:"1.0 beta 2"</strong>(版本名称包含空格时使用双引号来表示)</li>
+                    <li><strong>sandbox:version:1.0.0</strong> (连接至sandbox项目中的“1.0.0”版本)</li>
+                </ul></li>
+        </ul>
+
+        <ul>
+            <li>附件：
+                <ul>
+                    <li><strong>attachment:file.zip</strong> (链接至当前页面下名为file.zip的附件)</li>
+                    <li>目前，只有当前页面下的附件能够被引用（如果您在一个问题中，则仅可以引用此问题下的附件）</li>
+                </ul></li>
+        </ul>
+
+        <ul>
+            <li>变更集：
+                <ul>
+                    <li><strong>r758</strong>                       (链接至一个变更集)</li>
+                    <li><strong>commit:c6f4d0fd</strong>            (链接至一个非数字哈希的变更集)</li>
+                    <li><strong>svn1|r758</strong>                  (链接至指定版本库中的变更集，用于使用多个版本库的项目)</li>
+                    <li><strong>commit:hg|c6f4d0fd</strong>         (链接至指定版本库中，使用非数字哈希的变更集，此例子中是"hg"版本库下的哈希变更集)</li>
+                    <li><strong>sandbox:r758</strong>               (链接至其他项目的变更集)</li>
+                    <li><strong>sandbox:commit:c6f4d0fd</strong>    (链接至其他项目中，使用非数字哈希的变更集)</li>
+                </ul></li>
+        </ul>
+
+        <ul>
+             <li>版本库文件:
+                <ul>
+                    <li><strong>source:some/file</strong>           (链接至项目版本库中位于/some/file的文件)</li>
+                    <li><strong>source:some/file@52</strong>        (链接至此文件的第52版)</li>
+                    <li><strong>source:some/file#L120</strong>      (链接至此文件的第120行)</li>
+                    <li><strong>source:some/file@52#L120</strong>   (链接至此文件的第52版的第120行)</li>
+                    <li><strong>source:"some file@52#L120"</strong> (当URL中包含空格时使用双引号来表示)</li>
+                    <li><strong>export:some/file</strong>           (强制下载此文件，而不是在页面上查看)</li>
+                    <li><strong>source:svn1|some/file</strong>      (链接至指定版本库中的文件, 用于使用多个版本库的项目)</li>
+                    <li><strong>sandbox:source:some/file</strong>   (链接至"sandbox"项目的版本库中位于/some/file的文件)</li>
+                    <li><strong>sandbox:export:some/file</strong>   (强制下载"sandbox"项目的版本库中位于/some/file的文件，而不是在页面上查看)</li>
+                </ul></li>
+        </ul>
+
+        <ul>
+            <li>论坛：
+                <ul>
+                    <li><strong>forum#1</strong> (链接至id为2的论坛)</li>
+                    <li><strong>forum:Support</strong> (链接至名称为"Support"的论坛)</li>
+                    <li><strong>forum:"Technical Support"</strong> (论坛名称包含空格时使用双引号表示)</li>
+                </ul></li>
+        </ul>
+
+        <ul>
+            <li>论坛消息：
+                <ul>
+                    <li><strong>message#1218</strong> (链接至id为1218的论坛消息)</li>
+                </ul></li>
+        </ul>
+
+        <ul>
+            <li>项目:
+                <ul>
+                    <li><strong>project#3</strong> (链接至id为3的项目)</li>
+                    <li><strong>project:someproject</strong> (链接至名称为"someproject"的项目)</li>
+                    <li><strong>project:"Some Project"</strong> (项目名称包含空格时，使用双引号来表示)</li>
+                </ul></li>
+        </ul>
+
+        <ul>
+            <li>新闻:
+                <ul>
+                    <li><strong>news#2</strong> (链接至id为1的新闻)</li>
+                    <li><strong>news:Greetings</strong> (链接至名称为"Greetings"的新闻)</li>
+                    <li><strong>news:"First Release"</strong> (新闻名称包含空格时，使用双引号来表示)</li>
+                </ul></li>
+        </ul>
+
+        <p>转义字符：</p>
+
+        <ul>
+            <li>您可以在文本的前面加上感叹号(!)来避免该文本被解析成Redmine链接</li>
+        </ul>
+
+
+        <h3><a name="4" class="wiki-page"></a>外部链接</h3>
+
+        <p>HTTP链接和Email地址可以被自动转换成可点击的链接： </p>
+
+<pre>
+http://www.redmine.org, someone@foo.bar
+</pre>
+
+        <p>显示为： <a class="external" href="http://www.redmine.org">http://www.redmine.org</a>, <a href="mailto:someone@foo.bar" class="email">someone@foo.bar</a></p>
+
+        <p>如果您想要显示指定的文本而不是链接,您可以通过下列标准的 textile 语法:</p>
+
+<pre>
+"Redmine 官网":http://www.redmine.org
+</pre>
+
+        <p>显示为： <a href="http://www.redmine.org" class="external">Redmine 官网</a></p>
+
+
+    <h2><a name="5" class="wiki-page"></a>字体格式</h2>
+
+
+    <p>对于像是标题、粗体、表格、列表等文字格式， Redmine 支持使用 <a class="external" href="http://en.wikipedia.org/wiki/Textile_%28markup_language%29">http://en.wikipedia.org/wiki/Textile_(markup_language)</a> 查找关于使用这些特性的信息。下面将展示其中的一些常用的语法。</p>
+
+        <h3><a name="6" class="wiki-page"></a>字体风格</h3>
+
+<pre>
+* *粗体*
+* _斜体_
+* _*粗体 斜体*_
+* +下划线+
+* -中划线-
+</pre>
+
+        <p>显示为:</p>
+
+        <ul>
+            <li><strong>粗体</strong></li>
+            <li><em>斜体</em></li>
+            <li><em><strong>粗体 斜体</strong></em></li>
+            <li><ins>下划线</ins></li>
+            <li><del>中划线</del></li>
+        </ul>
+
+        <h3><a name="7" class="wiki-page"></a>内嵌图片</h3>
+
+        <ul>
+            <li><strong>!image_url!</strong> displays an image located at image_url (textile syntax)</li>
+            <li><strong>!&gt;image_url!</strong> right floating image</li>
+            <li>你可以上传图片附件到 wiki 页面，然后使用它的文件名作为路径： <strong>!已上传的图片.png!</strong></li>
+        </ul>
+
+        <h3><a name="8" class="wiki-page"></a>标题</h3>
+
+<pre>
+h1. 一级标题
+h2. 二级标题
+h3. 三级标题
+</pre>
+
+        <p>你可以使用“#一级标题”、“#二级标题”等等来链接到这些标题</p>
+
+
+        <h3><a name="9" class="wiki-page"></a>段落</h3>
+
+<pre>
+p&gt;. 向右对齐
+p=. 居中
+</pre>
+
+        <p style="text-align:center;">这是一个居中对齐的段落</p>
+
+
+        <h3><a name="10" class="wiki-page"></a>引用文字</h3>
+
+        <p>在段落前加上 <strong>bq.</strong></p>
+
+<pre>
+bq. Rails is a full-stack framework for developing database-backed web applications according to the Model-View-Control pattern.
+To go live, all you need to add is a database and a web server.
+</pre>
+
+        <p>显示为：</p>
+
+        <blockquote>
+                <p>Rails is a full-stack framework for developing database-backed web applications according to the Model-View-Control pattern.<br />To go live, all you need to add is a database and a web server.</p>
+        </blockquote>
+
+
+        <h3><a name="11" class="wiki-page"></a>目录</h3>
+
+<pre>
+{{toc}} =&gt; 靠左对齐目录
+{{&gt;toc}} =&gt; 靠右对齐目录
+</pre>
+
+        <h3><a name="14" class="wiki-page"></a>水平线</h3>
+
+<pre>
+---
+</pre>
+
+    <h2><a name="12" class="wiki-page"></a>宏</h2>
+
+    <p>Redmine内建了以下宏:</p>
+
+    <p>
+    <dl>
+      <dt><code>hello_world</code></dt>
+      <dd><p>宏示例.</p></dd>
+
+      <dt><code>macro_list</code></dt>
+      <dd><p>显示所有可用的宏列表，如果该宏有提供说明也会一并显示。</p></dd>
+
+      <dt><code>child_pages</code></dt>
+      <dd><p>显示一个子页面列表。默认显示当前Wiki页面的所有子页面。 示例：</p>
+      <pre><code>{{child_pages}} -- 只能在Wiki页面调用
+{{child_pages(depth=2)}} -- 显示两级子页面</code></pre></dd>
+
+      <dt><code>include</code></dt>
+      <dd><p>引用一个Wiki页面。示例：</p>
+      <pre><code>{{include(Foo)}}</code></pre>
+      <p>或者引用一个指定项目的Wiki页面：</p>
+      <pre><code>{{include(projectname:Foo)}}</code></pre></dd>
+
+      <dt><code>collapse</code></dt>
+      <dd><p>插入一个折叠文本块。示例：</p>
+      <pre><code>{{collapse(View details...)
+这是一个默认折叠的文本块。
+点击链接后将会展开此文本块.
+}}</code></pre></dd>
+
+      <dt><code>thumbnail</code></dt>
+      <dd><p>显示一个图像附件的可点击缩略图。示例:</p>
+      <pre>{{thumbnail(image.png)}}
+{{thumbnail(image.png, size=300, title=Thumbnail)}}</pre></dd>
+    </dl>
+    </p>
+
+    <h2><a name="13" class="wiki-page"></a>代码高亮</h2>
+
+    <p>Default code highlightment relies on <a href="http://coderay.rubychan.de/" class="external">CodeRay</a>, a fast syntax highlighting library written completely in Ruby. It currently supports c, clojure, cpp (c++, cplusplus), css, delphi (pascal), diff (patch), erb (eruby, rhtml), go, groovy, haml, html (xhtml), java, javascript (ecmascript, ecma_script, java_script, js), json, lua, php, python, ruby (irb), sass, sql, taskpaper, text (plain, plaintext), xml and yaml (yml) languages, where the names inside parentheses are aliases.</p>
+
+    <p>You can highlight code at any place that supports wiki formatting using this syntax (note that the language name or alias is case-insensitive):</p>
+
+<pre>
+&lt;pre&gt;&lt;code class="ruby"&gt;
+  这里写 Ruby 代码
+&lt;/code&gt;&lt;/pre&gt;
+</pre>
+
+    <p>示例：</p>
+
+<pre><code class="ruby syntaxhl"><span class="CodeRay"><span class="comment"># The Greeter class</span>
+<span class="keyword">class</span> <span class="class">Greeter</span>
+  <span class="keyword">def</span> <span class="function">initialize</span>(name)
+    <span class="instance-variable">@name</span> = name.capitalize
+  <span class="keyword">end</span>
+
+  <span class="keyword">def</span> <span class="function">salute</span>
+    puts <span class="string"><span class="delimiter">"</span><span class="content">Hello </span><span class="inline"><span class="inline-delimiter">#{</span><span class="instance-variable">@name</span><span class="inline-delimiter">}</span></span><span class="content">!</span><span class="delimiter">"</span></span>
+  <span class="keyword">end</span>
+<span class="keyword">end</span></span></code>
+</pre>
+</body>
+</html>

@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -33,12 +33,16 @@ class SysControllerTest < ActionController::TestCase
     get :projects
     assert_response :success
     assert_equal 'application/xml', @response.content_type
-    with_options :tag => 'projects' do |test|
-      test.assert_tag :children => { :count  => Project.active.has_module(:repository).count }
-      test.assert_tag 'project', :child => {:tag => 'identifier', :sibling => {:tag => 'is-public'}}
+
+    assert_select 'projects' do
+      assert_select 'project', Project.active.has_module(:repository).count
+      assert_select 'project' do
+        assert_select 'identifier'
+        assert_select 'is-public'
+      end
     end
-    assert_no_tag 'extra-info'
-    assert_no_tag 'extra_info'
+    assert_select 'extra-info', 0
+    assert_select 'extra_info', 0
   end
 
   def test_create_project_repository
@@ -54,13 +58,12 @@ class SysControllerTest < ActionController::TestCase
     assert r.is_a?(Repository::Subversion)
     assert_equal 'file:///create/project/repository/subproject2', r.url
     
-    assert_tag 'repository-subversion',
-      :child => {
-        :tag => 'id', :content => r.id.to_s,
-        :sibling => {:tag => 'url', :content => r.url}
-      }
-    assert_no_tag 'extra-info'
-    assert_no_tag 'extra_info'
+    assert_select 'repository-subversion' do
+      assert_select 'id', :text => r.id.to_s
+      assert_select 'url', :text => r.url
+    end
+    assert_select 'extra-info', 0
+    assert_select 'extra_info', 0
   end
 
   def test_create_already_existing

@@ -6,21 +6,11 @@ api.project do
   api.homepage    @project.homepage
   api.parent(:id => @project.parent.id, :name => @project.parent.name) if @project.parent && @project.parent.visible?
   api.status      @project.status
+  api.is_public   @project.is_public?
 
   render_api_custom_values @project.visible_custom_field_values, api
+  render_api_includes(@project, api)
 
   api.created_on @project.created_on
   api.updated_on @project.updated_on
-
-  api.array :trackers do
-    @project.trackers.each do |tracker|
-      api.tracker(:id => tracker.id, :name => tracker.name)
-    end
-  end if include_in_api_response?('trackers')
-
-  api.array :issue_categories do
-    @project.issue_categories.each do |category|
-      api.issue_category(:id => category.id, :name => category.name)
-    end
-  end if include_in_api_response?('issue_categories')
 end

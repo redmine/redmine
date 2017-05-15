@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -117,9 +117,13 @@ class BoardsControllerTest < ActionController::TestCase
 
     assert_select 'select[name=?]', 'board[parent_id]' do
       assert_select 'option', (Project.find(1).boards.size + 1)
-      assert_select 'option[value=]', :text => '&nbsp;'
-      assert_select 'option[value=1]', :text => 'Help'
+      assert_select 'option[value=""]'
+      assert_select 'option[value="1"]', :text => 'Help'
     end
+
+    # &nbsp; replaced by nokogiri, not easy to test in DOM assertions
+    assert_not_include '<option value=""></option>', response.body
+    assert_include '<option value="">&nbsp;</option>', response.body
   end
 
   def test_new_without_project_boards
@@ -178,7 +182,7 @@ class BoardsControllerTest < ActionController::TestCase
     assert_template 'edit'
 
     assert_select 'select[name=?]', 'board[parent_id]' do
-      assert_select 'option[value=2][selected=selected]'
+      assert_select 'option[value="2"][selected=selected]'
     end
   end
 
@@ -193,7 +197,7 @@ class BoardsControllerTest < ActionController::TestCase
 
   def test_update_position
     @request.session[:user_id] = 2
-    put :update, :project_id => 1, :id => 2, :board => { :move_to => 'highest'}
+    put :update, :project_id => 1, :id => 2, :board => { :position => 1}
     assert_redirected_to '/projects/ecookbook/settings/boards'
     board = Board.find(2)
     assert_equal 1, board.position

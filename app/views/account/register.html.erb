@@ -71,6 +71,10 @@
     </div>
 
 
+<% unless @user.force_default_language? %>
+<p><%= f.select :language, lang_options_for_select %></p>
+<% end %>
+
     <div class="form-group">
         <div class="col-sm-2 col-sm-offset-2">
 	    <%= submit_tag l(:button_submit), :class => "btn btn-large btn-success" %>

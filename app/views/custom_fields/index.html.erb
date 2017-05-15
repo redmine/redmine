@@ -9,3 +9,7 @@
 <% else %>
   <p class="nodata"><%= l(:label_no_data) %></p>
 <% end %>
+
+<%= javascript_tag do %>
+  $(function() { $("table.custom_fields tbody").positionedItems(); });
+<% end %>

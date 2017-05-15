@@ -1882,3 +1882,45 @@ WorkflowTransitions_188:
   id: 188
   tracker_id: 3
   type: WorkflowTransition
+WorkflowTransitions_271: 
+  new_status_id: 3
+  role_id: 1
+  old_status_id: 0
+  id: 271
+  tracker_id: 2
+  type: WorkflowTransition
+WorkflowTransitions_272: 
+  new_status_id: 3
+  role_id: 2
+  old_status_id: 0
+  id: 272
+  tracker_id: 1
+  type: WorkflowTransition
+WorkflowTransitions_273: 
+  new_status_id: 2
+  role_id: 1
+  old_status_id: 0
+  id: 273
+  tracker_id: 3
+  type: WorkflowTransition
+WorkflowTransitions_274: 
+  new_status_id: 2
+  role_id: 1
+  old_status_id: 0
+  id: 274
+  tracker_id: 1
+  type: WorkflowTransition
+WorkflowTransitions_275: 
+  new_status_id: 1
+  role_id: 1
+  old_status_id: 0
+  id: 275
+  tracker_id: 1
+  type: WorkflowTransition
+WorkflowTransitions_276: 
+  new_status_id: 1
+  role_id: 1
+  old_status_id: 0
+  id: 276
+  tracker_id: 2
+  type: WorkflowTransition

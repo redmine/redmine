@@ -1,13 +1,9 @@
-### From http://svn.geekdaily.org/public/rails/plugins/generally_useful/tasks/coverage_via_rcov.rake
-
 namespace :test do
   desc 'Measures test coverage'
   task :coverage do
     rm_f "coverage"
-    rm_f "coverage.data"
-    rcov = "rcov --rails --aggregate coverage.data --text-summary -Ilib --html --exclude gems/"
-    files = %w(unit functional integration).map {|dir| Dir.glob("test/#{dir}/**/*_test.rb")}.flatten.join(" ")
-    system("#{rcov} #{files}")
+    ENV["COVERAGE"] = "1"
+    Rake::Task["test"].invoke
   end
 
   desc 'Run unit and functional scm tests'
@@ -26,7 +22,7 @@ namespace :test do
   namespace :scm do
     namespace :setup do
       desc "Creates directory for test repositories"
-      task :create_dir do
+      task :create_dir => :environment do
         FileUtils.mkdir_p Rails.root + '/tmp/test'
       end
 
@@ -51,13 +47,17 @@ namespace :test do
         end
       end
 
+      def extract_tar_gz(prefix)
+        unless File.exists?("tmp/test/#{prefix}_repository")
+          # system "gunzip < test/fixtures/repositories/#{prefix}_repository.tar.gz | tar -xv -C tmp/test"
+          system "tar -xvz -C tmp/test -f test/fixtures/repositories/#{prefix}_repository.tar.gz"
+        end
+      end
+
       (supported_scms - [:subversion, :mercurial]).each do |scm|
         desc "Creates a test #{scm} repository"
         task scm => :create_dir do
-          unless File.exists?("tmp/test/#{scm}_repository")
-            # system "gunzip < test/fixtures/repositories/#{scm}_repository.tar.gz | tar -xv -C tmp/test"
-            system "tar -xvz -C tmp/test -f test/fixtures/repositories/#{scm}_repository.tar.gz"
-          end
+          extract_tar_gz(scm)
         end
       end
 
@@ -66,7 +66,7 @@ namespace :test do
     end
 
     desc "Updates installed test repositories"
-    task :update do
+    task :update => :environment do
       require 'fileutils'
       Dir.glob("tmp/test/*_repository").each do |dir|
         next unless File.basename(dir) =~ %r{^(.+)_repository$} && File.directory?(dir)
@@ -94,17 +94,17 @@ namespace :test do
     Rake::Task['test:scm:functionals'].comment = "Run the scm functional tests"
   end
 
-  Rake::TestTask.new(:rdm_routing) do |t|
+  Rake::TestTask.new(:routing) do |t|
     t.libs << "test"
     t.verbose = true
-    t.test_files = FileList['test/integration/routing/*_test.rb']
+    t.test_files = FileList['test/integration/routing/*_test.rb'] + FileList['test/integration/api_test/*_routing_test.rb']
   end
-  Rake::Task['test:rdm_routing'].comment = "Run the routing tests"
+  Rake::Task['test:routing'].comment = "Run the routing tests"
 
   Rake::TestTask.new(:ui => "db:test:prepare") do |t|
     t.libs << "test"
     t.verbose = true
-    t.test_files = FileList['test/ui/**/*_test.rb']
+    t.test_files = FileList['test/ui/**/*_test_ui.rb']
   end
   Rake::Task['test:ui'].comment = "Run the UI tests with Capybara (PhantomJS listening on port 4444 is required)"
 end

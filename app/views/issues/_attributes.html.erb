@@ -3,14 +3,14 @@
 
 <% if @issue.safe_attribute?('status_id') && @allowed_statuses.present? %>
 <div class="control-group"><%= f.select :status_id, (@allowed_statuses.collect {|p| [p.name, p.id]}), {:required => true},
-                :onchange => "updateIssueFrom('#{escape_javascript project_issue_form_path(@project, :id => @issue, :format => 'js')}')" %></div>
-
+                :onchange => "updateIssueFrom('#{escape_javascript update_issue_form_path(@project, @issue)}', this)" %></div>
+<%= hidden_field_tag 'was_default_status', @issue.status_id, :id => nil if @issue.status == @issue.default_status %>
 <% else %>
-<div class="control-group"><label><%= l(:field_status) %></label> <%= h(@issue.status.name) %></div>
+<div class="control-group"><label><%= l(:field_status) %></label> <%= @issue.status %></div>
 <% end %> 
 
 <% if @issue.safe_attribute? 'priority_id' %>
-<div class="control-group"><%= f.select :priority_id, (@priorities.collect {|p| [p.name, p.id]}), {:required => true}, :disabled => !@issue.leaf? %></div>
+<div class="control-group"><%= f.select :priority_id, (@priorities.collect {|p| [p.name, p.id]}), {:required => true} %></div>
 <% end %>
 
 <% if @issue.safe_attribute? 'assigned_to_id' %>
@@ -19,22 +19,26 @@
 
 <% if @issue.safe_attribute?('category_id') && @issue.project.issue_categories.any? %>
 <div class="control-group"><%= f.select :category_id, (@issue.project.issue_categories.collect {|c| [c.name, c.id]}), :include_blank => true, :required => @issue.required_attribute?('category_id') %>
-<%= link_to(image_tag('add.png', :style => 'vertical-align: middle;'),
+<%= link_to(l(:label_issue_category_new),
             new_project_issue_category_path(@issue.project),
             :remote => true,
             :method => 'get',
             :title => l(:label_issue_category_new),
-            :tabindex => 200) if User.current.allowed_to?(:manage_categories, @issue.project) %></div>
+            :tabindex => 200,
+            :class => 'icon-only icon-add'
+           ) if User.current.allowed_to?(:manage_categories, @issue.project) %></div>
 <% end %>
 
 <% if @issue.safe_attribute?('fixed_version_id') && @issue.assignable_versions.any? %>
 <div class="control-group"><%= f.select :fixed_version_id, version_options_for_select(@issue.assignable_versions, @issue.fixed_version), :include_blank => true, :required => @issue.required_attribute?('fixed_version_id') %>
-<%= link_to(image_tag('add.png', :style => 'vertical-align: middle;'),
+<%= link_to(l(:label_version_new),
             new_project_version_path(@issue.project),
             :remote => true,
             :method => 'get',
             :title => l(:label_version_new),
-            :tabindex => 200) if User.current.allowed_to?(:manage_versions, @issue.project) %>
+            :tabindex => 200,
+            :class => 'icon-only icon-add'
+           ) if User.current.allowed_to?(:manage_versions, @issue.project) %>
 </div>
 <% end %>
 </div>
@@ -42,23 +46,29 @@
 
 <% if @issue.safe_attribute? 'parent_issue_id' %>
 <div class="control-group" id="parent_issue"><%= f.text_field :parent_issue_id, :size => 10, :required => @issue.required_attribute?('parent_issue_id') %></div>
-<%= javascript_tag "observeAutocompleteField('issue_parent_issue_id', '#{escape_javascript auto_complete_issues_path}')" %>
+<%= javascript_tag "observeAutocompleteField('issue_parent_issue_id', '#{escape_javascript auto_complete_issues_path(:project_id => @issue.project, :scope => Setting.cross_project_subtasks)}')" %>
 <% end %>
 
 <% if @issue.safe_attribute? 'start_date' %>
-<div class="control-group"><%= f.text_field :start_date, :size => 10, :disabled => !@issue.leaf?, :required => @issue.required_attribute?('start_date') %><%= calendar_for('issue_start_date') if @issue.leaf? %></div>
+<div class="control-group" id="start_date_area">
+  <%= f.date_field(:start_date, :size => 10, :required => @issue.required_attribute?('start_date')) %>
+  <%= calendar_for('issue_start_date') %>
+</div>
 <% end %>
 
 <% if @issue.safe_attribute? 'due_date' %>
-<div class="control-group"><%= f.text_field :due_date, :size => 10, :disabled => !@issue.leaf?, :required => @issue.required_attribute?('due_date') %><%= calendar_for('issue_due_date') if @issue.leaf? %></div>
+<div class="control-group" id="due_date_area">
+  <%= f.date_field(:due_date, :size => 10, :required => @issue.required_attribute?('due_date')) %>
+  <%= calendar_for('issue_due_date') %>
+</div>
 <% end %>
 
 <% if @issue.safe_attribute? 'estimated_hours' %>
-<div class="control-group"><%= f.text_field :estimated_hours, :size => 3, :disabled => !@issue.leaf?, :required => @issue.required_attribute?('estimated_hours') %> <%= l(:field_hours) %></div>
+<div class="control-group"><%= f.text_field :estimated_hours, :size => 3, :required => @issue.required_attribute?('estimated_hours') %> <%= l(:field_hours) %></div>
 <% end %>
 
-<% if @issue.safe_attribute?('done_ratio') && @issue.leaf? && Issue.use_field_for_done_ratio? %>
-<div class="control-group"><%= f.select :done_ratio, ((0..10).to_a.collect {|r| ["#{r*10} %", r*10] }), :required => @issue.required_attribute?('done_ratio') %></dov>
+<% if @issue.safe_attribute?('done_ratio') && Issue.use_field_for_done_ratio? %>
+<div class="control-group"><%= f.select :done_ratio, ((0..10).to_a.collect {|r| ["#{r*10} %", r*10] }), :required => @issue.required_attribute?('done_ratio') %></div>
 <% end %>
 
 

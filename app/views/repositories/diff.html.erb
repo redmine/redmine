@@ -1,4 +1,8 @@
-<h2><%= l(:label_revision) %> <%= @diff_format_revisions %> <%=h @path %></h2>
+<% if @changeset && @changeset_to.nil? %>
+<%= render :partial => 'changeset' %>
+<% else %>
+<h2><%= l(:label_revision) %> <%= @diff_format_revisions %> <%= @path %></h2>
+<% end %>
 
 <!-- Choose view type -->
 <%= form_tag({:action => 'diff', :id => @project,

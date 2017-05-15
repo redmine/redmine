@@ -7,6 +7,7 @@ jsToolBar.strings['Code'] = 'Kód sorok';
 jsToolBar.strings['Heading 1'] = 'Fejléc 1';
 jsToolBar.strings['Heading 2'] = 'Fejléc 2';
 jsToolBar.strings['Heading 3'] = 'Fejléc 3';
+jsToolBar.strings['Highlighted code'] = 'Highlighted code';
 jsToolBar.strings['Unordered list'] = 'Felsorolás';
 jsToolBar.strings['Ordered list'] = 'Számozott lista';
 jsToolBar.strings['Quote'] = 'Quote';

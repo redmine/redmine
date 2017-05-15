@@ -7,6 +7,7 @@ jsToolBar.strings['Code'] = 'コード';
 jsToolBar.strings['Heading 1'] = '見出し 1';
 jsToolBar.strings['Heading 2'] = '見出し 2';
 jsToolBar.strings['Heading 3'] = '見出し 3';
+jsToolBar.strings['Highlighted code'] = 'コードハイライト';
 jsToolBar.strings['Unordered list'] = '順不同リスト';
 jsToolBar.strings['Ordered list'] = '番号つきリスト';
 jsToolBar.strings['Quote'] = '引用';

@@ -1,3 +1,6 @@
+/* Redmine - project management software
+   Copyright (C) 2006-2016  Jean-Philippe Lang */
+
 var revisionGraph = null;
 
 function drawRevisionGraph(holder, commits_hash, graph_space) {
@@ -21,6 +24,18 @@ function drawRevisionGraph(holder, commits_hash, graph_space) {
         graph_right_side = graph_x_offset + (graph_space + 1) * XSTEP,
         graph_bottom = commit_table_rows.last().position().top + commit_table_rows.last().height() - graph_y_offset;
 
+
+    var yForRow = function (index, commit) {
+      var row = commit_table_rows.eq(index);
+
+      switch (row.find("td:first").css("vertical-align")) {
+        case "middle":
+          return row.position().top + (row.height() / 2) - graph_y_offset;
+        default:
+          return row.position().top + - graph_y_offset + CIRCLE_INROW_OFFSET;
+      }
+    };
+
     revisionGraph.setSize(graph_right_side, graph_bottom);
 
     // init colors
@@ -38,7 +53,7 @@ function drawRevisionGraph(holder, commits_hash, graph_space) {
         if (!commit.hasOwnProperty("space"))
             commit.space = 0;
 
-        y = commit_table_rows.eq(max_rdmid - commit.rdmid).position().top - graph_y_offset + CIRCLE_INROW_OFFSET;
+        y = yForRow(max_rdmid - commit.rdmid);
         x = graph_x_offset + XSTEP / 2 + XSTEP * commit.space;
         revisionGraph.circle(x, y, 3)
             .attr({
@@ -52,7 +67,7 @@ function drawRevisionGraph(holder, commits_hash, graph_space) {
                 if (!parent_commit.hasOwnProperty("space"))
                     parent_commit.space = 0;
 
-                parent_y = commit_table_rows.eq(max_rdmid - parent_commit.rdmid).position().top - graph_y_offset + CIRCLE_INROW_OFFSET;
+                parent_y = yForRow(max_rdmid - parent_commit.rdmid);
                 parent_x = graph_x_offset + XSTEP / 2 + XSTEP * parent_commit.space;
                 if (parent_commit.space == commit.space) {
                     // vertical path

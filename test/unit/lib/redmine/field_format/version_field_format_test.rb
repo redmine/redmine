@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -19,7 +19,10 @@ require File.expand_path('../../../../../test_helper', __FILE__)
 require 'redmine/field_format'
 
 class Redmine::VersionFieldFormatTest < ActionView::TestCase
-  fixtures :projects, :versions, :trackers
+  fixtures :projects, :versions, :trackers,
+           :roles, :users, :members, :member_roles,
+           :issue_statuses, :issue_categories, :issue_relations, :workflows,
+           :enumerations
 
   def test_version_status_should_reject_blank_values
     field = IssueCustomField.new(:name => 'Foo', :field_format => 'version', :version_status => ["open", ""])
@@ -48,6 +51,15 @@ class Redmine::VersionFieldFormatTest < ActionView::TestCase
 
     assert_equal expected, field.possible_values_options(project).map(&:first)
   end
+ 
+  def test_possible_values_options_should_return_system_shared_versions_without_project
+    field = IssueCustomField.new(:field_format => 'version')
+    version = Version.generate!(:project => Project.find(1), :status => 'open', :sharing => 'system')
+
+    expected = Version.visible.where(:sharing => 'system').sort.map(&:name)
+    assert_include version.name, expected
+    assert_equal expected, field.possible_values_options.map(&:first)
+  end
 
   def test_possible_values_options_should_return_project_versions_with_selected_status
     field = IssueCustomField.new(:field_format => 'version', :version_status => ["open"])
@@ -55,5 +67,22 @@ class Redmine::VersionFieldFormatTest < ActionView::TestCase
     expected = project.shared_versions.sort.select {|v| v.status == "open"}.map(&:name)
 
     assert_equal expected, field.possible_values_options(project).map(&:first)
+  end
+
+  def test_cast_value_should_not_raise_error_when_array_contains_value_casted_to_nil
+    field = IssueCustomField.new(:field_format => 'version')
+    assert_nothing_raised do
+      field.cast_value([1,2, 42])
+    end
+  end
+
+  def test_query_filter_options_should_include_versions_with_any_status
+    field = IssueCustomField.new(:field_format => 'version', :version_status => ["open"])
+    project = Project.find(1)
+    version = Version.generate!(:project => project, :status => 'locked')
+    query = Query.new(:project => project)
+
+    assert_not_include version.name, field.possible_values_options(project).map(&:first)
+    assert_include version.name, field.query_filter_options(query)[:values].map(&:first)
   end
 end

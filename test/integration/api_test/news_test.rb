@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -27,25 +27,10 @@ class Redmine::ApiTest::NewsTest < Redmine::ApiTest::Base
            :enabled_modules,
            :news
 
-  def setup
-    Setting.rest_api_enabled = '1'
-  end
-
-  should_allow_api_authentication(:get, "/projects/onlinestore/news.xml")
-  should_allow_api_authentication(:get, "/projects/onlinestore/news.json")
-
   test "GET /news.xml should return news" do
     get '/news.xml'
 
-    assert_tag :tag => 'news',
-      :attributes => {:type => 'array'},
-      :child => {
-        :tag => 'news',
-        :child => {
-          :tag => 'id',
-          :content => '2'
-        }
-      }
+    assert_select 'news[type=array] news id', :text => '2'
   end
 
   test "GET /news.json should return news" do
@@ -61,15 +46,7 @@ class Redmine::ApiTest::NewsTest < Redmine::ApiTest::Base
   test "GET /projects/:project_id/news.xml should return news" do
     get '/projects/ecookbook/news.xml'
 
-    assert_tag :tag => 'news',
-      :attributes => {:type => 'array'},
-      :child => {
-        :tag => 'news',
-        :child => {
-          :tag => 'id',
-          :content => '2'
-        }
-      }
+    assert_select 'news[type=array] news id', :text => '2'
   end
 
   test "GET /projects/:project_id/news.json should return news" do

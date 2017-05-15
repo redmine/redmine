@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -101,6 +101,44 @@ class WikiPageTest < ActiveSupport::TestCase
     assert page.save
   end
 
+  def test_move_child_should_clear_parent
+    parent = WikiPage.create!(:wiki_id => 1, :title => 'Parent')
+    child = WikiPage.create!(:wiki_id => 1, :title => 'Child', :parent => parent)
+
+    child.wiki_id = 2
+    child.save!
+    assert_nil child.reload.parent_id
+  end
+
+  def test_move_parent_should_move_child_page
+    parent = WikiPage.create!(:wiki_id => 1, :title => 'Parent')
+    child = WikiPage.create!(:wiki_id => 1, :title => 'Child', :parent => parent)
+    parent.reload
+
+    parent.wiki_id = 2
+    parent.save!
+    assert_equal 2, child.reload.wiki_id
+    assert_equal parent, child.parent
+  end
+
+  def test_move_parent_with_child_with_duplicate_name_should_not_move_child
+    parent = WikiPage.create!(:wiki_id => 1, :title => 'Parent')
+    child = WikiPage.create!(:wiki_id => 1, :title => 'Child', :parent_id => parent.id)
+    parent.reload
+    # page with the same name as the child in the target wiki
+    WikiPage.create!(:wiki_id => 2, :title => 'Child')
+
+    parent.wiki_id = 2
+    parent.save!
+
+    parent.reload
+    assert_equal 2, parent.wiki_id
+
+    child.reload
+    assert_equal 1, child.wiki_id
+    assert_nil child.parent_id
+  end
+
   def test_destroy
     page = WikiPage.find(1)
     page.destroy
@@ -124,13 +162,13 @@ class WikiPageTest < ActiveSupport::TestCase
     end
   end
 
-  def test_updated_on_eager_load
-    page = WikiPage.with_updated_on.order('id').first
-    assert page.is_a?(WikiPage)
-    assert_not_nil page.read_attribute(:updated_on)
-    assert_equal Time.gm(2007, 3, 6, 23, 10, 51), page.content.updated_on
-    assert_equal page.content.updated_on, page.updated_on
-    assert_not_nil page.read_attribute(:version)
+  def test_with_updated_on_scope_should_preload_updated_on_and_version
+    page = WikiPage.with_updated_on.where(:id => 1).first
+    # make the assertions fail if attributes are not preloaded
+    WikiContent.update_all(:updated_on => '2001-01-01 10:00:00', :version => 1)
+
+    assert_equal Time.gm(2007, 3, 6, 23, 10, 51), page.updated_on
+    assert_equal 3, page.version
   end
 
   def test_descendants

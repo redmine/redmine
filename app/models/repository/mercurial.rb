@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -20,7 +20,7 @@ require 'redmine/scm/adapters/mercurial_adapter'
 class Repository::Mercurial < Repository
   # sort changesets by revision number
   has_many :changesets,
-           :order       => "#{Changeset.table_name}.id DESC",
+           lambda {order("#{Changeset.table_name}.id DESC")},
            :foreign_key => 'repository_id'
 
   attr_protected        :root_url
@@ -117,9 +117,10 @@ class Repository::Mercurial < Repository
     changesets.
       includes(:user).
       where(latest_changesets_cond(path, rev, limit)).
+      references(:user).
       limit(limit).
       order("#{Changeset.table_name}.id DESC").
-      all
+      to_a
   end
 
   def is_short_id_in_db?
@@ -155,7 +156,7 @@ class Repository::Mercurial < Repository
       # Revisions in root directory and sub directory are not equal.
       # So, in order to get correct limit, we need to get all revisions.
       # But, it is very heavy.
-      # Mercurial does not treat direcotry.
+      # Mercurial does not treat directory.
       # So, "hg log DIR" is very heavy.
       branch_limit = path.blank? ? limit : ( limit * 5 )
       args << nodes_in_branch(rev, branch_limit)

@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -18,7 +18,6 @@
 desc 'Mantis migration script'
 
 require 'active_record'
-require 'iconv' if RUBY_VERSION < '1.9'
 require 'pp'
 
 namespace :redmine do
@@ -26,15 +25,15 @@ task :migrate_from_mantis => :environment do
 
   module MantisMigrate
 
-      DEFAULT_STATUS = IssueStatus.default
+      new_status = IssueStatus.find_by_position(1)
       assigned_status = IssueStatus.find_by_position(2)
       resolved_status = IssueStatus.find_by_position(3)
       feedback_status = IssueStatus.find_by_position(4)
       closed_status = IssueStatus.where(:is_closed => true).first
-      STATUS_MAPPING = {10 => DEFAULT_STATUS,  # new
+      STATUS_MAPPING = {10 => new_status,      # new
                         20 => feedback_status, # feedback
-                        30 => DEFAULT_STATUS,  # acknowledged
-                        40 => DEFAULT_STATUS,  # confirmed
+                        30 => new_status,      # acknowledged
+                        40 => new_status,      # confirmed
                         50 => assigned_status, # assigned
                         80 => resolved_status, # resolved
                         90 => closed_status    # closed
@@ -318,8 +317,8 @@ task :migrate_from_mantis => :environment do
         i.author = User.find_by_id(users_map[bug.reporter_id])
         i.category = IssueCategory.find_by_project_id_and_name(i.project_id, bug.category[0,30]) unless bug.category.blank?
         i.fixed_version = Version.find_by_project_id_and_name(i.project_id, bug.fixed_in_version) unless bug.fixed_in_version.blank?
-        i.status = STATUS_MAPPING[bug.status] || DEFAULT_STATUS
         i.tracker = (bug.severity == 10 ? TRACKER_FEATURE : TRACKER_BUG)
+        i.status = STATUS_MAPPING[bug.status] || i.status
         i.id = bug.id if keep_bug_ids
         next unless i.save
         issues_map[bug.id] = i.id
@@ -452,12 +451,7 @@ task :migrate_from_mantis => :environment do
     end
 
     def self.encode(text)
-      if RUBY_VERSION < '1.9'
-        @ic ||= Iconv.new('UTF-8', @charset)
-        @ic.iconv text
-      else
-        text.to_s.force_encoding(@charset).encode('UTF-8')
-      end
+      text.to_s.force_encoding(@charset).encode('UTF-8')
     end
   end
 

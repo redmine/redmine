@@ -1,7 +1,17 @@
 <% changesets.each do |changeset| %>
     <div class="changeset <%= cycle('odd', 'even') %>">
     <p><%= link_to_revision(changeset, changeset.repository,
-                           { :text => "#{l(:label_revision)} #{changeset.format_identifier}",:class=>"btn"}) %><br />
+                            {:text => "#{l(:label_revision)} #{changeset.format_identifier}", :class=>"btn"}) %>
+        <% if changeset.filechanges.any? && User.current.allowed_to?(:browse_repository, changeset.project) %>
+        (<%= link_to(l(:label_diff),
+               :controller => 'repositories',
+               :action => 'diff',
+               :id     => changeset.project,
+               :repository_id => changeset.repository.identifier_param,
+               :path   => "",
+               :rev    => changeset.identifier) %>)
+        <% end %>
+        <br />
         <span class="author"><%= authoring(changeset.committed_on, changeset.author) %></span></p>
     <div class="wiki">
         <%= textilizable(changeset, :comments) %>

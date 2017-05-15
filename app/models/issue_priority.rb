@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -19,7 +19,7 @@ class IssuePriority < Enumeration
   has_many :issues, :foreign_key => 'priority_id'
 
   after_destroy {|priority| priority.class.compute_position_names}
-  after_save {|priority| priority.class.compute_position_names if priority.position_changed? && priority.position}
+  after_save {|priority| priority.class.compute_position_names if (priority.position_changed? && priority.position) || priority.active_changed?}
 
   OptionName = :enumeration_issue_priorities
 
@@ -32,7 +32,7 @@ class IssuePriority < Enumeration
   end
 
   def transfer_relations(to)
-    issues.update_all("priority_id = #{to.id}")
+    issues.update_all(:priority_id => to.id)
   end
 
   def css_classes

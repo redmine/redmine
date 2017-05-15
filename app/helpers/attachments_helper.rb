@@ -1,7 +1,7 @@
 # encoding: utf-8
 #
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -18,6 +18,15 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 module AttachmentsHelper
+
+  def container_attachments_edit_path(container)
+    object_attachments_edit_path container.class.name.underscore.pluralize, container.id
+  end
+
+  def container_attachments_path(container)
+    object_attachments_path container.class.name.underscore.pluralize, container.id
+  end
+
   # Displays view/delete links to the attachments of the given object
   # Options:
   #   :author -- author names are not displayed if set to false
@@ -25,10 +34,20 @@ module AttachmentsHelper
   def link_to_attachments(container, options = {})
     options.assert_valid_keys(:author, :thumbnails)
 
-    if container.attachments.any?
-      options = {:deletable => container.attachments_deletable?, :author => true}.merge(options)
+    attachments = container.attachments.preload(:author).to_a
+    if attachments.any?
+      options = {
+        :editable => container.attachments_editable?,
+        :deletable => container.attachments_deletable?,
+        :author => true
+      }.merge(options)
       render :partial => 'attachments/links',
-        :locals => {:attachments => container.attachments, :options => options, :thumbnails => (options[:thumbnails] && Setting.thumbnails_enabled?)}
+        :locals => {
+          :container => container,
+          :attachments => attachments,
+          :options => options,
+          :thumbnails => (options[:thumbnails] && Setting.thumbnails_enabled?)
+        }
     end
   end
 
@@ -39,7 +58,10 @@ module AttachmentsHelper
       api.filesize attachment.filesize
       api.content_type attachment.content_type
       api.description attachment.description
-      api.content_url url_for(:controller => 'attachments', :action => 'download', :id => attachment, :filename => attachment.filename, :only_path => false)
+      api.content_url download_named_attachment_url(attachment, attachment.filename)
+      if attachment.thumbnailable?
+        api.thumbnail_url thumbnail_url(attachment)
+      end
       api.author(:id => attachment.author.id, :name => attachment.author.name) if attachment.author
       api.created_on attachment.created_on
     end

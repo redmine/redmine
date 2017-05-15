@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -58,6 +58,11 @@ module Redmine
           find('input[name=login]').click
         end
         assert_equal '/my/page', current_path
+      end
+
+      setup do
+        # Set the page width higher than 900 to get the full layout with sidebar
+        page.driver.browser.manage.window.resize_to(1024, 900)
       end
 
       teardown do

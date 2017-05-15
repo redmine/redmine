@@ -133,7 +133,7 @@
 #
 # == Adding Tables
 #
-# In Textile, simple tables can be added by seperating each column by
+# In Textile, simple tables can be added by separating each column by
 # a pipe.
 #
 #     |a|simple|table|row|
@@ -165,6 +165,7 @@
 #  class RedCloth::Textile.new( str )
 
 class RedCloth3 < String
+    include Redmine::Helpers::URL
 
     VERSION = '3.0.4'
     DEFAULT_RULES = [:textile, :markdown]
@@ -341,7 +342,7 @@ class RedCloth3 < String
     A_HLGN = /(?:(?:<>|<|>|\=|[()]+)+)/
     A_VLGN = /[\-^~]/
     C_CLAS = '(?:\([^")]+\))'
-    C_LNGE = '(?:\[[^"\[\]]+\])'
+    C_LNGE = '(?:\[[a-z\-_]+\])'
     C_STYL = '(?:\{[^"}]+\})'
     S_CSPN = '(?:\\\\\d+)'
     S_RSPN = '(?:/\d+)'
@@ -384,7 +385,7 @@ class RedCloth3 < String
                 (?!\-\-)
                 (#{QTAGS_JOIN}|)      # oqs
                 (#{rcq})              # qtag
-                (\w|[^\s].*?[^\s])    # content
+                ([[:word:]]|[^\s].*?[^\s])    # content
                 (?!\-\-)
                 #{rcq}
                 (#{QTAGS_JOIN}|)      # oqa
@@ -393,7 +394,7 @@ class RedCloth3 < String
                 /(#{rcq})
                 (#{C})
                 (?::(\S+))?
-                (\w|[^\s\-].*?[^\s\-])
+                ([[:word:]]|[^\s\-].*?[^\s\-])
                 #{rcq}/xm 
             end
         [rc, ht, re, rtype]
@@ -480,7 +481,7 @@ class RedCloth3 < String
         end
 
         lang = $1 if
-            text.sub!( /\[([^)]+?)\]/, '' )
+            text.sub!( /\[([a-z\-_]+?)\]/, '' )
 
         cls = $1 if
             text.sub!( /\(([^()]+?)\)/, '' )
@@ -493,7 +494,15 @@ class RedCloth3 < String
         style << "text-align:#{ h_align( $& ) };" if text =~ A_HLGN
 
         cls, id = $1, $2 if cls =~ /^(.*?)#(.*)$/
-        
+
+        # add wiki-class- and wiki-id- to classes and ids to prevent setting of
+        # arbitrary classes and ids
+        cls = cls.split(/\s+/).map do |c|
+          c.starts_with?('wiki-class-') ? c : "wiki-class-#{c}"
+        end.join(' ') if cls
+
+        id = id.starts_with?('wiki-id-') ? id : "wiki-id-#{id}" if id
+
         atts = ''
         atts << " style=\"#{ style.join }\"" unless style.empty?
         atts << " class=\"#{ cls }\"" unless cls.to_s.empty?
@@ -525,17 +534,17 @@ class RedCloth3 < String
             tatts = pba( tatts, 'table' )
             tatts = shelve( tatts ) if tatts
             rows = []
-            fullrow.gsub!(/([^|])\n/, "\\1<br />")
+            fullrow.gsub!(/([^|\s])\s*\n/, "\\1<br />")
             fullrow.each_line do |row|
                 ratts, row = pba( $1, 'tr' ), $2 if row =~ /^(#{A}#{C}\. )(.*)/m
                 cells = []
-                row.split( /(\|)(?![^\[\|]*\]\])/ )[1..-2].each do |cell|
-                    next if cell == '|'
+                # the regexp prevents wiki links with a | from being cut as cells 
+                row.scan(/\|(_?#{S}#{A}#{C}\. ?)?((\[\[[^|\]]*\|[^|\]]*\]\]|[^|])*?)(?=\|)/) do |modifiers, cell|
                     ctyp = 'd'
-                    ctyp = 'h' if cell =~ /^_/
+                    ctyp = 'h' if modifiers && modifiers =~ /^_/
 
-                    catts = ''
-                    catts, cell = pba( $1, 'td' ), $2 if cell =~ /^(_?#{S}#{A}#{C}\. ?)(.*)/
+                    catts = nil
+                    catts = pba( modifiers, 'td' ) if modifiers
 
                     catts = shelve( catts ) if catts
                     cells << "\t\t\t<t#{ ctyp }#{ catts }>#{ cell }</t#{ ctyp }>" 
@@ -960,6 +969,8 @@ class RedCloth3 < String
             href, alt_title = check_refs( href ) if href
             url, url_title = check_refs( url )
 
+            return m unless uri_with_safe_scheme?(url)
+
             out = ''
             out << "<a#{ shelve( " href=\"#{ href }\"" ) }>" if href
             out << "<img#{ shelve( atts ) } />"
@@ -970,7 +981,7 @@ class RedCloth3 < String
                 if stln == "<p>"
                     out = "<p style=\"float:#{ algn }\">#{ out }"
                 else
-                    out = "#{ stln }<div style=\"float:#{ algn }\">#{ out }</div>"
+                    out = "#{ stln }<span style=\"float:#{ algn }\">#{ out }</span>"
                 end
             else
                 out = stln + out
@@ -986,8 +997,8 @@ class RedCloth3 < String
     end
     
     def retrieve( text ) 
-        @shelf.each_with_index do |r, i|
-            text.gsub!( " :redsh##{ i + 1 }:", r )
+        text.gsub!(/ :redsh#(\d+):/) do
+          @shelf[$1.to_i - 1] || $&
         end
     end
 
@@ -1094,7 +1105,7 @@ class RedCloth3 < String
                         first.match(/<#{ OFFTAGS }([^>]*)>/)
                         tag = $1
                         $2.to_s.match(/(class\=("[^"]+"|'[^']+'))/i)
-                        tag << " #{$1}" if $1
+                        tag << " #{$1}" if $1 && tag == 'code'
                         @pre_list << "<#{ tag }>#{ aftertag }"
                     end
                 elsif $1 and codepre > 0
@@ -1199,8 +1210,8 @@ class RedCloth3 < String
         end
     end
     
-    ALLOWED_TAGS = %w(redpre pre code notextile)
     
+    ALLOWED_TAGS = %w(redpre pre code kbd notextile)
     def escape_html_tags(text)
       text.gsub!(%r{<(\/?([!\w]+)[^<>\n]*)(>?)}) {|m| ALLOWED_TAGS.include?($2) ? "<#{$1}#{$3}" : "&lt;#{$1}#{'&gt;' unless $3.blank?}" }
     end

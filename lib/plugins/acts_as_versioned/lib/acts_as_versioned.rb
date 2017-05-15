@@ -379,7 +379,7 @@ module ActiveRecord #:nodoc:
             new_model.send("#{key}=", orig_model.send(key)) if orig_model.respond_to?(key)
           end
 
-					if self.class.columns_hash.include?(self.class.inheritance_column)
+          if self.class.columns_hash.include?(self.class.inheritance_column)
             if orig_model.is_a?(self.class.versioned_class)
               new_model[new_model.class.inheritance_column] = orig_model[self.class.versioned_inheritance_column]
             elsif new_model.is_a?(self.class.versioned_class)
@@ -447,7 +447,7 @@ module ActiveRecord #:nodoc:
 
           def write_changed_attribute(attr_name, attr_value)
             # Convert to db type for comparison. Avoids failing Float<=>String comparisons.
-            attr_value_for_db = self.class.columns_hash[attr_name.to_s].type_cast(attr_value)
+            attr_value_for_db = self.class.columns_hash[attr_name.to_s].type_cast_from_database(attr_value)
             (self.altered_attributes ||= []) << attr_name.to_s unless self.changed?(attr_name) || self.send(attr_name) == attr_value_for_db
             write_attribute(attr_name, attr_value_for_db)
           end
@@ -469,9 +469,10 @@ module ActiveRecord #:nodoc:
 
           # Finds versions of a specific model.  Takes an options hash like <tt>find</tt>
           def find_versions(id, options = {})
-            versioned_class.all({
-              :conditions => ["#{versioned_foreign_key} = ?", id],
-              :order      => 'version' }.merge(options))
+            versioned_class.
+                where(options[:conditions] || {versioned_foreign_key => id}).
+                limit(options[:limit]).
+                order('version')
           end
 
           # Returns an array of columns that are versioned.  See non_versioned_columns

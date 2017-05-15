@@ -4,6 +4,7 @@ roles_001:
   id: 1
   builtin: 0
   issues_visibility: all
+  users_visibility: all
   permissions: |
     --- 
     - :add_project
@@ -16,10 +17,10 @@ roles_001:
     - :view_issues
     - :add_issues
     - :edit_issues
+    - :copy_issues
     - :manage_issue_relations
     - :manage_subtasks
     - :add_issue_notes
-    - :move_issues
     - :delete_issues
     - :view_issue_watchers
     - :add_issue_watchers
@@ -60,6 +61,7 @@ roles_001:
     - :view_changesets
     - :manage_related_issues
     - :manage_project_activities
+    - :import_issues
 
   position: 1
 roles_002: 
@@ -67,6 +69,7 @@ roles_002:
   id: 2
   builtin: 0
   issues_visibility: default
+  users_visibility: all
   permissions: |
     --- 
     - :edit_project
@@ -76,10 +79,10 @@ roles_002:
     - :view_issues
     - :add_issues
     - :edit_issues
+    - :copy_issues
     - :manage_issue_relations
     - :manage_subtasks
     - :add_issue_notes
-    - :move_issues
     - :delete_issues
     - :view_issue_watchers
     - :save_queries
@@ -114,6 +117,7 @@ roles_003:
   id: 3
   builtin: 0
   issues_visibility: default
+  users_visibility: all
   permissions: |
     --- 
     - :edit_project
@@ -125,7 +129,6 @@ roles_003:
     - :edit_issues
     - :manage_issue_relations
     - :add_issue_notes
-    - :move_issues
     - :view_issue_watchers
     - :save_queries
     - :view_gantt
@@ -155,6 +158,7 @@ roles_004:
   id: 4
   builtin: 1
   issues_visibility: default
+  users_visibility: all
   permissions: |
     --- 
     - :view_issues
@@ -178,12 +182,13 @@ roles_004:
     - :browse_repository
     - :view_changesets
 
-  position: 4
+  position: 1
 roles_005: 
   name: Anonymous
   id: 5
   builtin: 2
   issues_visibility: default
+  users_visibility: all
   permissions: |
     --- 
     - :view_issues
@@ -198,5 +203,5 @@ roles_005:
     - :browse_repository
     - :view_changesets
 
-  position: 5
+  position: 1
 

@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -18,7 +18,7 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class WatcherTest < ActiveSupport::TestCase
-  fixtures :projects, :users, :members, :member_roles, :roles, :enabled_modules,
+  fixtures :projects, :users, :email_addresses, :members, :member_roles, :roles, :enabled_modules,
            :issues, :issue_statuses, :enumerations, :trackers, :projects_trackers,
            :boards, :messages,
            :wikis, :wiki_pages,
@@ -58,6 +58,15 @@ class WatcherTest < ActiveSupport::TestCase
     watcher_users = Issue.find(2).watcher_users
     assert_kind_of Array, watcher_users.collect{|w| w}
     assert_kind_of User, watcher_users.first
+  end
+
+  def test_watcher_users_should_be_reloaded_after_adding_a_watcher
+    issue = Issue.find(2)
+    user = User.generate!
+
+    assert_difference 'issue.watcher_users.to_a.size' do
+      issue.add_watcher user
+    end
   end
 
   def test_watcher_users_should_not_validate_user
@@ -140,7 +149,7 @@ class WatcherTest < ActiveSupport::TestCase
     assert_equal 1, @issue.remove_watcher(@user)
   end
 
-  def test_prune
+  def test_prune_with_user
     Watcher.delete_all("user_id = 9")
     user = User.find(9)
 
@@ -170,6 +179,16 @@ class WatcherTest < ActiveSupport::TestCase
 
     assert Issue.find(1).watched_by?(user)
     assert !Issue.find(4).watched_by?(user)
+  end
+
+  def test_prune_with_project
+    user = User.find(9)
+    Watcher.new(:watchable => Issue.find(4), :user => User.find(9)).save(:validate => false) # project 2
+    Watcher.new(:watchable => Issue.find(6), :user => User.find(9)).save(:validate => false) # project 5
+
+    assert Watcher.prune(:project => Project.find(5)) > 0
+    assert Issue.find(4).watched_by?(user)
+    assert !Issue.find(6).watched_by?(user)
   end
 
   def test_prune_all

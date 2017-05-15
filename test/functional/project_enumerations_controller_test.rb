@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -83,7 +83,7 @@ class ProjectEnumerationsControllerTest < ActionController::TestCase
     assert_equal "1", previously_inactive.custom_value_for(billable_field).value
 
     # ... QA
-    assert_equal nil, project.time_entry_activities.find_by_name("QA"), "Custom QA activity created when it wasn't modified"
+    assert_nil project.time_entry_activities.find_by_name("QA"), "Custom QA activity created when it wasn't modified"
   end
 
   def test_update_will_update_project_specific_activities
@@ -153,7 +153,7 @@ class ProjectEnumerationsControllerTest < ActionController::TestCase
     # second one is a dupicate
     parent = TimeEntryActivity.find(9)
     TimeEntryActivity.create!({:name => parent.name, :project_id => 1,
-                               :position => parent.position, :active => true})
+                               :position => parent.position, :active => true, :parent_id => 9})
     TimeEntry.create!({:project_id => 1, :hours => 1.0, :user => User.find(1),
                        :issue_id => 3, :activity_id => 10, :spent_on => '2009-01-01'})
     assert_equal 3, TimeEntry.where(:activity_id => 9, :project_id => 1).count

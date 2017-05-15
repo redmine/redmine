@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2009  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -33,14 +33,6 @@ class Redmine::MenuManager::MenuItemTest < ActiveSupport::TestCase
     menu.push(:child2_menu, '/test', { :parent => :parent})
   end
 
-  context "MenuItem#caption" do
-    should "be tested"
-  end
-
-  context "MenuItem#html_options" do
-    should "be tested"
-  end
-
   # context new menu item
   def test_new_menu_item_should_require_a_name
     assert_raises ArgumentError do
@@ -51,12 +43,6 @@ class Redmine::MenuManager::MenuItemTest < ActiveSupport::TestCase
   def test_new_menu_item_should_require_an_url
     assert_raises ArgumentError do
       Redmine::MenuManager::MenuItem.new(:test_missing_url)
-    end
-  end
-
-  def test_new_menu_item_should_require_the_options
-    assert_raises ArgumentError do
-      Redmine::MenuManager::MenuItem.new(:test_missing_options, '/test')
     end
   end
 

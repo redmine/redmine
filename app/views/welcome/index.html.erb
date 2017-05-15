@@ -14,7 +14,7 @@
 	    <a class="btn btn-large btn-info" href="/projects">Explore OSB</a>
 	    <a class="btn btn-large btn-success" href="/account/register">Sign up</a>
 	    <a class="btn btn-large btn-success" href="/login">Sign in</a>
-	    <a href="/docs#Getting_Started"><icon id="helpIcon" class="icon-question-sign"/></a>
+	    <a href="/docs#Getting_Started"><icon id="helpIcon" class="icon-question-sign blue-icon"/></a>
 	</div>
     </div>
 <% else %>
@@ -82,7 +82,7 @@
 								<td><h4>Your projects</h4></td>
 								<td class="noborder pull-right">
 									<button type="button" class="btn btn-success" onclick="location.href='/projects/new';"><i class="icon-plus"></i> New project</button>
-									<a href="/docs#Creating_Your_Own_Project"><icon style="font-size: 20px;" class="icon-large icon-question-sign"/></a>
+									<a href="/docs#Creating_Your_Own_Project"><icon style="font-size: 20px;" class="icon-large icon-question-sign blue-icon"/></a>
 								</td> 	
 							</tr>
 						</thead>
@@ -261,16 +261,9 @@
 		<img src="images/osbcircle.png" class="logo-help">
 	</div>
 	
-</div>
-
-
-
-	
 	<% content_for :header_tags do %>
 	<%= stylesheet_link_tag 'scm' %>
 	<%= auto_discovery_link_tag(:atom, {:controller => 'news', :action => 'index', :key => User.current.rss_key, :format => 'atom'},:title => "#{Setting.app_title}: #{l(:label_news_latest)}") %>
 	<%= auto_discovery_link_tag(:atom, {:controller => 'activities', :action => 'index', :key => User.current.rss_key, :format => 'atom'},:title => "#{Setting.app_title}: #{l(:label_activity)}") %>
 	<% end %>
-
-
 <% end %>

@@ -29,7 +29,10 @@ function makeCorsRequest(url, onloadFunction, url2, onPostLoadFunction) {
 	  };
 	
 	  xhr.onerror = function() {
-		console.log('Woops, there was an error making the request to ' + url);  
+	      console.log('Error making the request to ' + geppettoIP + geppettoContextPath + url + '. Check Geppetto server.');
+              // If we're logging in, continue anyway
+              if (url.startsWith('logout'))
+	          onloadFunction(xhr.responseText, url2, onPostLoadFunction);
 	  };
 	
 	  xhr.withCredentials = true;
