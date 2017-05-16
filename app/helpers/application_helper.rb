@@ -463,6 +463,11 @@ module ApplicationHelper
     @SWCfiles = getFilesWithExt(repository, ".swc")
     return @SWCfiles 
   end
+
+  def getJSONFiles(repository)
+    @JSONfiles = getFilesWithExt(repository, ".json")
+    return @JSONfiles 
+  end
   
   def getDefaultMainModel()
     return @defaultMainModel

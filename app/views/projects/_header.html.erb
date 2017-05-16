@@ -5,6 +5,7 @@
      var repopath="<%= getHttpRepositoryPath(@project.repository) %>";
      var neuroml2files = <%= raw getNML2Files(@project.repository) %>;
      var swcfiles = <%= raw getSWCFiles(@project.repository) %>;
+     var jsonfiles = <%= raw getJSONFiles(@project.repository) %>;
      var synapsefiles = <%= raw getSynapsesFiles() %>;
      var channelfiles = <%= raw getChannelFiles() %>;
      var cellfiles = <%= raw getCellFiles() %>;
@@ -16,14 +17,15 @@
     </script>
     <% if isProjectOrShowcase(@project) %>
         <% @neuroml2files = getNML2Files(@project.repository) %>
-	<% @swcfiles = getSWCFiles(@project.repository) %>
-	<% @repourl=getHttpRepositoryURL(@project) %>
-	<% @repopath=getHttpRepositoryPath(@project.repository) %>
-	<% @synapsefiles = getSynapsesFiles() %>
-	<% @channelfiles = getChannelFiles() %>
-	<% @cellfiles = getCellFiles() %>
-	<% @networkfiles = getNetworkFiles() %>
-	<% @defaultMainModel = getDefaultMainModel() %>
+        <% @swcfiles = getSWCFiles(@project.repository) %>
+        <% @sjsonfiles = getJSONFiles(@project.repository) %>
+        <% @repourl=getHttpRepositoryURL(@project) %>
+        <% @repopath=getHttpRepositoryPath(@project.repository) %>
+        <% @synapsefiles = getSynapsesFiles() %>
+        <% @channelfiles = getChannelFiles() %>
+        <% @cellfiles = getCellFiles() %>
+        <% @networkfiles = getNetworkFiles() %>
+        <% @defaultMainModel = getDefaultMainModel() %>
     <% end %>
 <!-- project-header has content not hidden when geppetto iframe shown -->
 <div class="project-title">

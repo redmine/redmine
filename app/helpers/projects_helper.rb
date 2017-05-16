@@ -273,6 +273,7 @@ module ProjectsHelper
   end
   
   def generateGEPPETTOSimulationFileFromUrl(url, max_age = 600)
+    
     uri = URI.parse(url)
       
       ##############################
@@ -293,6 +294,8 @@ module ProjectsHelper
       
       if filenameSplit[-1] == 'swc'
         format = 'swc'
+      elsif filenameSplit[-1] == 'json'
+        format = 'json'
       else  
         format = 'nml'
         docType = filenameSplit[-2]
@@ -345,27 +348,33 @@ module ProjectsHelper
         geppettoJsFile.delete!("\r\n")
       end  
       
-      geppettoSimulationFile = {
-        "id" => 1,
-        "name" => filename.rpartition('.').first + ((filenameSplit[1] != "nml")? " - " + filenameSplit[1]:""),
-        "activeExperimentId" => 1,
-        "experiments" => [{
-           "id" => 1,
-           "name" => filenameSplit[0] + " - " + filenameSplit[1],
-           "status" => "DESIGN",
-           "creationDate" => DateTime.now.strftime('%Q'),
-           "lastModified" => DateTime.now.strftime('%Q'),
-           "script" => Rails.application.config.serversIP["serverIP"] + geppettoTmpPath + @geppettoJsFilePath,
-           "aspectConfigurations" => [
-              {
-                "id" => 1,
-                "instance" => entity
-               }
-            ] 
-        }],
-        "geppettoModel"=> { "id" => 1, "url" => Rails.application.config.serversIP["serverIP"] + geppettoTmpPath + @geppettoModelFilePath, "type" => "GEPPETTO_PROJECT"}
-      }
       
+      if format=="json"
+        geppettoSimulationFile = JSON.parse Net::HTTP.get(URI.parse(url))
+      else
+        geppettoSimulationFile = {
+          "id" => 1,
+          "name" => filename.rpartition('.').first + ((filenameSplit[1] != "nml")? " - " + filenameSplit[1]:""),
+          "activeExperimentId" => 1,
+          "experiments" => [{
+            "id" => 1,
+            "name" => filenameSplit[0] + " - " + filenameSplit[1],
+            "status" => "DESIGN",
+            "creationDate" => DateTime.now.strftime('%Q'),
+            "lastModified" => DateTime.now.strftime('%Q'),
+            "script" => Rails.application.config.serversIP["serverIP"] + geppettoTmpPath + @geppettoJsFilePath,
+            "aspectConfigurations" => [
+                {
+                  "id" => 1,
+                  "instance" => entity
+                }
+              ] 
+          }],
+          "geppettoModel"=> { "id" => 1, "url" => Rails.application.config.serversIP["serverIP"] + geppettoTmpPath + @geppettoModelFilePath, "type" => "GEPPETTO_PROJECT"}
+        }
+    end
+    
+      byebug
       ##############
       # SIMULATION #
       ##############
