@@ -347,34 +347,28 @@ module ProjectsHelper
         geppettoJsFile.gsub!(/\/\*!.*?\*\//m, '')
         geppettoJsFile.delete!("\r\n")
       end  
-      
-      
-      if format=="json"
-        geppettoSimulationFile = JSON.parse Net::HTTP.get(URI.parse(url))
-      else
-        geppettoSimulationFile = {
+
+      geppettoSimulationFile = {
+        "id" => 1,
+        "name" => filename.rpartition('.').first + ((filenameSplit[1] != "nml")? " - " + filenameSplit[1]:""),
+        "activeExperimentId" => 1,
+        "experiments" => [{
           "id" => 1,
-          "name" => filename.rpartition('.').first + ((filenameSplit[1] != "nml")? " - " + filenameSplit[1]:""),
-          "activeExperimentId" => 1,
-          "experiments" => [{
-            "id" => 1,
-            "name" => filenameSplit[0] + " - " + filenameSplit[1],
-            "status" => "DESIGN",
-            "creationDate" => DateTime.now.strftime('%Q'),
-            "lastModified" => DateTime.now.strftime('%Q'),
-            "script" => Rails.application.config.serversIP["serverIP"] + geppettoTmpPath + @geppettoJsFilePath,
-            "aspectConfigurations" => [
-                {
-                  "id" => 1,
-                  "instance" => entity
-                }
-              ] 
-          }],
-          "geppettoModel"=> { "id" => 1, "url" => Rails.application.config.serversIP["serverIP"] + geppettoTmpPath + @geppettoModelFilePath, "type" => "GEPPETTO_PROJECT"}
-        }
-    end
-    
-      byebug
+          "name" => filenameSplit[0] + " - " + filenameSplit[1],
+          "status" => "DESIGN",
+          "creationDate" => DateTime.now.strftime('%Q'),
+          "lastModified" => DateTime.now.strftime('%Q'),
+          "script" => Rails.application.config.serversIP["serverIP"] + geppettoTmpPath + @geppettoJsFilePath,
+          "aspectConfigurations" => [
+              {
+                "id" => 1,
+                "instance" => entity
+              }
+            ] 
+        }],
+        "geppettoModel"=> { "id" => 1, "url" => Rails.application.config.serversIP["serverIP"] + geppettoTmpPath + @geppettoModelFilePath, "type" => "GEPPETTO_PROJECT"}
+      }
+
       ##############
       # SIMULATION #
       ##############
