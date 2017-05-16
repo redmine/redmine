@@ -273,6 +273,7 @@ module ProjectsHelper
   end
   
   def generateGEPPETTOSimulationFileFromUrl(url, max_age = 600)
+    
     uri = URI.parse(url)
       
       ##############################
@@ -293,6 +294,8 @@ module ProjectsHelper
       
       if filenameSplit[-1] == 'swc'
         format = 'swc'
+      elsif filenameSplit[-1] == 'json'
+        format = 'json'
       else  
         format = 'nml'
         docType = filenameSplit[-2]
@@ -344,7 +347,7 @@ module ProjectsHelper
         geppettoJsFile.gsub!(/\/\*!.*?\*\//m, '')
         geppettoJsFile.delete!("\r\n")
       end  
-      
+
       ##############
       # SIMULATION #
       ##############

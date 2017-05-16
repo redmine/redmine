@@ -1,9 +1,9 @@
-$(document).ready(function() {
+$(document).ready(function () {
 	// **************
 	// COMMON
 	// **************
 	var $window = jQuery(window);
-	
+
 	// -- SIDE BAR
     /*setTimeout(function () {
 	      $('.bs-docs-sidenav').affix({
@@ -14,37 +14,38 @@ $(document).ready(function() {
 	      })
 	    }, 100)*/
 
-    var hash = window.location.hash;
-    if (hash) {
-        var selectedTab = $('.nav li a[href="' + hash + '"]');
-        selectedTab.trigger('click', true);
-        if (hash == "#workspace")
-            hideFooter();
-    }
+	var hash = window.location.hash;
+	if (hash) {
+		var selectedTab = $('.nav li a[href="' + hash + '"]');
+		selectedTab.trigger('click', true);
+		if (hash == "#workspace")
+			hideFooter();
+	}
 
-    $('.nav-tabs a, .nav-stacked a').click(function (e) {
-          $(this).tab('show');
-          var scrollmem = $('body').scrollTop() || $('html').scrollTop();
-          window.location.hash = this.hash;
-          $('html,body').scrollTop(scrollmem);
-      });
+	$('.nav-tabs a, .nav-stacked a').click(function (e) {
+		$(this).tab('show');
+		var scrollmem = $('body').scrollTop() || $('html').scrollTop();
+		window.location.hash = this.hash;
+		$('html,body').scrollTop(scrollmem);
+	});
 	// -- Bootstrap widget calls
 	// jQuery('.dropdown-toggle').dropdown();
 	// jQuery(".alert").alert();
+
 	$('.popoverlink').popover();
 	$('.tooltiplink').tooltip();
-	    
-	jQuery('.wrapped-channelml .table-border-summary').addClass('table');
+
+  jQuery('.wrapped-channelml .table-border-summary').addClass('table');
 	// jQuery(":submit").addClass('btn btn-success btn-large');
 	jQuery('button').addClass('btn');
 	jQuery('.jstElements button').addClass('btn-square');
 	jQuery('.jstElements').addClass('btn-group');
 	jQuery('.buttons a').addClass("btn");
 	replaceIconWithFontAwesome();
-	
+
 	// make code pretty
-    window.prettyPrint && prettyPrint();
-    
+	window.prettyPrint && prettyPrint();
+
 	// **************
 	// HEADER
 	// **************
@@ -53,86 +54,77 @@ $(document).ready(function() {
 	jQuery("#loggedas > a").appendTo("#loggedelement");
 	jQuery("#loggedas").remove();*/
 
-  
-    $("#searchLink").click(function(){
-        $(this).closest("form").submit();
-        return false;
-    });
-    
-    $("#toolsLink").click(function(){
-        $(this).children("icon")
-            .toggleClass("icon-plus-sign")
-            .toggleClass("icon-minus-sign");
-        $("#project_quick_jump_box").toggle();
-    });
-	
+
+	$("#searchLink").click(function () {
+		$(this).closest("form").submit();
+		return false;
+	});
+
+	$("#toolsLink").click(function () {
+		$(this).children("icon")
+			.toggleClass("icon-plus-sign")
+			.toggleClass("icon-minus-sign");
+		$("#project_quick_jump_box").toggle();
+	});
+
 	// **************
 	// PROJECT PAGE
 	// **************
-	
+
 	// -- Split the project name field in two in the title bar
 	var splitProjectName = jQuery('#pname').html();
-	if (splitProjectName != undefined)
-	{
+	if (splitProjectName != undefined) {
 		splitProjectName = splitProjectName.split("-");
 		jQuery('#pname').html(jQuery.trim(splitProjectName[0]) + " <small>" + jQuery.trim(splitProjectName[1]) + "</small>");
 	}
-	
+
 	// -- Transforms redmine selected in bootstrap active flag
-	jQuery(".tabli").attr("data-toggle","tab");
-	
+	jQuery(".tabli").attr("data-toggle", "tab");
+
 	// -- Builds the nav menu in the ovewview section
-	jQuery("#project_overview_sections section").each(function(){
-		var id=jQuery(this).attr("id");
-		var name=jQuery(this).find(".page-header h2").html();
-		jQuery("#project_overview_list").append("<li><a href='#"+id+"'><i class='icon-chevron-right'></i>"+name+"</a></li>");
+	jQuery("#project_overview_sections section").each(function () {
+		var id = jQuery(this).attr("id");
+		var name = jQuery(this).find(".page-header h2").html();
+		jQuery("#project_overview_list").append("<li><a href='#" + id + "'><i class='icon-chevron-right'></i>" + name + "</a></li>");
 	});
-	
-	jQuery('#project_overview_list li').click(function(e)
-	{
+
+	jQuery('#project_overview_list li').click(function (e) {
 		jQuery('#project_overview_list li').removeClass('active');
-		
+
 		var $this = jQuery(this);
-		if (!$this.hasClass('active'))
-		{
+		if (!$this.hasClass('active')) {
 			$this.addClass('active');
 		}
-		
+
 	});
-	
+
 
 
 });
 
-var currentModel=undefined;
+var currentModel = undefined;
 
 // This method adds filtering abilities to a text input and a linked list
-function setupFilter(idFilter, idList)
-{
-	jQuery(idFilter).keyup(function()
-	{
+function setupFilter(idFilter, idList) {
+	jQuery(idFilter).keyup(function () {
 		var a = jQuery(this).val();
-		if (a.length > 2)
-		{
+		if (a.length > 2) {
 			// this finds all links in the list that contain the input,
 			// and hide the ones not containing the input while showing the ones that do
-			var containing = jQuery(idList + ' li').filter(function()
-			{
+			var containing = jQuery(idList + ' li').filter(function () {
 				var regex = new RegExp('\\b' + a, 'i');
 				return regex.test(jQuery('a', this).text());
 			}).slideDown();
 			jQuery(idList + ' li').not(containing).slideUp();
 		}
-		else
-		{
+		else {
 			jQuery(idList + ' li').slideDown();
 		}
 	});
 }
 
 
-function replaceIconWithFontAwesome()
-{
+function replaceIconWithFontAwesome() {
 
 	jQuery("a.icon-add").removeClass("icon-add").prepend("<icon class='icon-plus'/>");
 	jQuery("a.icon-edit").removeClass("icon-edit").prepend("<icon class='icon-edit'/>");
@@ -144,9 +136,9 @@ function replaceIconWithFontAwesome()
 	jQuery("a.icon-cancel").removeClass("icon-cancel").prepend("<icon class='icon-remove'/>");
 	jQuery("a.icon-multiple").removeClass("icon-multiple").prepend("<icon class='icon-th-large'/>");
 	jQuery("a.icon-folder").removeClass("icon-folder").prepend("<icon class='icon-folder-open-alt'/>");
-	
+
 	jQuery("a.open").removeClass("icon-folder").prepend("<icon class='icon-folder-open-alt'/>");
-	
+
 	jQuery("a.icon-package").removeClass("icon-package").prepend("<icon class='icon-folder-open-alt'/>");
 	jQuery("a.icon-user").removeClass("icon-user").prepend("<icon class='icon-user'/>");
 	jQuery("a.icon-projects").removeClass("icon-projects").prepend("<icon class='icon-folder-open-alt'/>");
@@ -175,9 +167,9 @@ function replaceIconWithFontAwesome()
 	jQuery("a.icon-test").removeClass("icon-test").prepend("<icon class='icon-folder-open-alt'/>");
 	jQuery("a.icon-file").removeClass("icon-file").prepend("<icon class='icon-file'/>");
 
-	
+
 	// JSTB
-	
+
 	jQuery(".jstb_strong").removeClass("jstb_strong").prepend("<icon class='icon-bold'/>");
 	jQuery(".jstb_em").removeClass("jstb_em").prepend("<icon class='icon-italic'/>");
 	jQuery(".jstb_ins").removeClass("jstb_ins").prepend("<icon class='icon-underline'/>");
@@ -194,9 +186,9 @@ function replaceIconWithFontAwesome()
 	jQuery(".jstb_link").removeClass("jstb_link").prepend("<icon class='icon-link'/>");
 	jQuery(".jstb_img").removeClass("jstb_img").prepend("<icon class='icon-picture'/>");
 	jQuery(".jstb_help").removeClass("jstb_help").prepend("<icon class='icon-question-sign'/>");
-	
+
 	// DT
-	
+
 	jQuery(".E_issue").prepend('<icon class="icon-edit"/>');
 	jQuery(".E_issue-edit").prepend('<icon class="icon-edit"/>');
 	jQuery(".E_issue-closed").prepend('<icon class="icon-edit"/>');
@@ -210,119 +202,116 @@ function replaceIconWithFontAwesome()
 	jQuery(".E_document").prepend('<icon class="icon-file-alt"/>');
 	jQuery(".E_project").prepend('<icon class="icon-book"/>');
 	jQuery(".E_time-entry").prepend('<icon class="icon-time"/>');
-		
-	
+
+
 }
 
-function getParameterByName(name)
-{
+function getParameterByName(name) {
 	name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
-	var regexS="[\\?&]"+name+"=([^&#]*)";
+	var regexS = "[\\?&]" + name + "=([^&#]*)";
 	var regex = new RegExp(regexS);
 	var results = regex.exec(window.location.href);
-	if(results == null)
+	if (results == null)
 		return "";
 	else
 		return decodeURIComponent(results[1].replace(/\+/g, " "));
 }
 
-function openExistingProjectIn3DExplorer(projectId, experimentId)
-{
-	
+function openExistingProjectIn3DExplorer(projectId, experimentId) {
+
 }
 
-function showErrorMessageInOSBExplorer(file, message){
+function showErrorMessageInOSBExplorer(file, message) {
 	decodedfile = decodeURIComponent(file);
-	if (file.indexOf("github") != -1){
-		repoFilePath = decodedfile.replace('raw.githubusercontent','github').replace('/master/','/blob/master/');
+	if (file.indexOf("github") != -1) {
+		repoFilePath = decodedfile.replace('raw.githubusercontent', 'github').replace('/master/', '/blob/master/');
 	}
 	else if (file.indexOf("github")) {
-		repoFilePath = decodedfile.replace('/raw/default/','/src/default/');
+		repoFilePath = decodedfile.replace('/raw/default/', '/src/default/');
 	}
 
 	// If there isn't webgl support display warn message
 	jQuery(".project-main").hide();
 	jQuery(".project-main").before("<div id='geppettoContainer'><div id='osbexplorermessage'></div>");
-	jQuery("#osbexplorermessage").html(message + "<br /><br /> You can also <a href='"+ decodedfile + "' target='_blank'>download the file</a> or <a href='"+ repoFilePath + "' target='_blank'>view the file content online</a>.<br /><br />");
+	jQuery("#osbexplorermessage").html(message + "<br /><br /> You can also <a href='" + decodedfile + "' target='_blank'>download the file</a> or <a href='" + repoFilePath + "' target='_blank'>view the file content online</a>.<br /><br />");
 }
 
-function hideFooter(){
-	$('#main').css("padding-bottom","0px");
+function hideFooter() {
+	$('#main').css("padding-bottom", "0px");
 	$('footer').hide();
 }
 
-function showFooter(){
-	$('#main').css("padding-bottom","120px");
+function showFooter() {
+	$('#main').css("padding-bottom", "120px");
 	$('footer').show();
 }
 
-function toggleProjectButton(){
-	if($("#showGeppettoBtn").is(":visible")){
+function toggleProjectButton() {
+	if ($("#showGeppettoBtn").is(":visible")) {
 		$("#showGeppettoBtn").hide();
 		$("#showProjectBtn").show();
 		$("#moreBtn").hide();
 	}
-	else{
+	else {
 		$("#showGeppettoBtn").show();
 		$("#showProjectBtn").hide();
 		$("#moreBtn").show();
 	}
 }
 
-function showGeppetto(){
-    toggleProjectButton();
-    $("#geppettoContainer").show();
-    $(".project-main").hide();
-    $(".project-header").hide()
-    hideFooter();
-    //	$('#main').css("background-color","rgb(35, 35, 35)");
-    //	$('#main').css("color","white");
+function showGeppetto() {
+	toggleProjectButton();
+	$("#geppettoContainer").show();
+	$(".project-main").hide();
+	$(".project-header").hide()
+	hideFooter();
+	//	$('#main').css("background-color","rgb(35, 35, 35)");
+	//	$('#main').css("color","white");
 }
 
-function showProject(){
-    var projectUrl = '//' + location.host + location.pathname;
-    if(history.pushState) {history.pushState(null, null, projectUrl);}
-    toggleProjectButton();
-    $("#geppettoContainer").hide();
-    $(".project-main").show();
-    $(".project-header").show();
-    showFooter();
-    //	$('#main').css("background-color","white");
-    //	$('#main').css("color","black");
+function showProject() {
+	var projectUrl = '//' + location.host + location.pathname;
+	if (history.pushState) { history.pushState(null, null, projectUrl); }
+	toggleProjectButton();
+	$("#geppettoContainer").hide();
+	$(".project-main").show();
+	$(".project-header").show();
+	showFooter();
+	//	$('#main').css("background-color","white");
+	//	$('#main').css("color","black");
 }
 
 
-function loadDiscussOSB(){	
+function loadDiscussOSB() {
 	$("#discussOSB").html('<iframe id="forum_embed_2" src="javascript:void(0)" scrolling="no" frameborder="0" width="100%" height="700"></iframe>');
-    document.getElementById("forum_embed_2").src = "https://groups.google.com/forum/embed/?place=forum/osb-discuss&showsearch=true&showpopout=true&parenturl=" + encodeURIComponent(window.location.href);
+	document.getElementById("forum_embed_2").src = "https://groups.google.com/forum/embed/?place=forum/osb-discuss&showsearch=true&showpopout=true&parenturl=" + encodeURIComponent(window.location.href);
 }
 
-function loadAnnounceOSB(){
+function loadAnnounceOSB() {
 	$("#announceOSB").html('<iframe id="forum_embed" src="javascript:void(0)" scrolling="no" frameborder="0" width="100%" height="700"></iframe>');
-	document.getElementById("forum_embed").src ="https://groups.google.com/forum/embed/?place=forum/osb-announce&showsearch=true&showpopout=true&parenturl="+encodeURIComponent(window.location.href);
+	document.getElementById("forum_embed").src = "https://groups.google.com/forum/embed/?place=forum/osb-announce&showsearch=true&showpopout=true&parenturl=" + encodeURIComponent(window.location.href);
 }
 
-function getMainModel(pathToRepo, defaultModel){
-	var mainModelUrl=pathToRepo;
+function getMainModel(pathToRepo, defaultModel) {
+	var mainModelUrl = pathToRepo;
 	$.ajax({
-        type: 'GET',
-        dataType: 'text',
-        async: false,
-        cache: false,
-        url: mainModelUrl+"_osb.yml",
-        success: function(responseData, textStatus, jqXHR) {
-            var nativeObject = YAML.parse(responseData);
-            mainModelUrl=mainModelUrl+nativeObject.mainModel;
-        },
-	    error: function(responseData, textStatus, errorThrown) {
-	    	mainModelUrl=mainModelUrl+defaultModel;
-	    }
+		type: 'GET',
+		dataType: 'text',
+		async: false,
+		cache: false,
+		url: mainModelUrl + "_osb.yml",
+		success: function (responseData, textStatus, jqXHR) {
+			var nativeObject = YAML.parse(responseData);
+			mainModelUrl = mainModelUrl + nativeObject.mainModel;
+		},
+		error: function (responseData, textStatus, errorThrown) {
+			mainModelUrl = mainModelUrl + defaultModel;
+		}
 	});
 	return mainModelUrl;
 }
 
-function open3DExplorer(file, projectIdentifier, mainModelButton)
-{
+function open3DExplorer(file, projectIdentifier, mainModelButton) {
 	showGeppetto();
 
 	if (!Detector.webgl) {
@@ -331,90 +320,100 @@ function open3DExplorer(file, projectIdentifier, mainModelButton)
 	else if (!checkCookie()) {
 		showErrorMessageInOSBExplorer(file, "Sorry, your cookies are disabled in your browser. Please, enable them if you want to use OSB 3D Explorer.");
 	}
-	else{
+	else {
 		//Change url without reloading page
 		var explorerUrl = '//' + location.host + location.pathname + '?explorer=' + encodeURIComponent(file);
-		if(history.pushState) {history.pushState(null, null, explorerUrl);}
-		
-		if (isNaN(file)){
-			if (currentModel!=file || jQuery("#geppettoContainer").length == 0){
-				$.ajax({
-				    url: "/projects/" + projectIdentifier + "/generateGEPPETTOSimulationFile?explorer=" + file,
-				    cache: false,
-				    success: function(json){
-				    	if (json.error){
-				    		alert(json.error);
-				    	}
-				    	else{
-					    	var urlGeppettoFile = $("#serverIP").val() + json.geppettoSimulationFile;
-					    	
-					    	if (jQuery("#geppettoContainer").length > 0){
-					    		document.getElementById("3dframe").contentWindow.postMessage({"command": "removeWidgets"}, $("#geppettoIP").val());
-					    		document.getElementById("3dframe").contentWindow.postMessage({"command": "loadSimulation", "url": urlGeppettoFile}, $("#geppettoIP").val());
-					    	}
-					    	else{
-					    		//iframe load
-					    		$(".project-header").before("<div id='geppettoContainer'><iframe id='3dframe' style='width:100%;height:100%;border:0px;' src='" + $("#geppettoIP").val() + $("#geppettoContextPath").val() + "geppetto?load_project_from_url=" + urlGeppettoFile + "'></iframe>");
-					    	}
-				    	}
-				    }
-				});
+		if (history.pushState) { history.pushState(null, null, explorerUrl); }
+
+		if (isNaN(file)) {
+			if (currentModel != file || jQuery("#geppettoContainer").length == 0) {
+				if (file.endsWith(".json")) {
+					//This is a session, we don't need to invoke the servlet
+					if (jQuery("#geppettoContainer").length > 0) {
+						document.getElementById("3dframe").contentWindow.postMessage({ "command": "removeWidgets" }, $("#geppettoIP").val());
+						document.getElementById("3dframe").contentWindow.postMessage({ "command": "loadSimulation", "url": file }, $("#geppettoIP").val());
+					}
+					else {
+						//iframe load
+						$(".project-header").before("<div id='geppettoContainer'><iframe id='3dframe' style='width:100%;height:100%;border:0px;' src='" + $("#geppettoIP").val() + $("#geppettoContextPath").val() + "geppetto?load_project_from_url=" + file + "'></iframe>");
+					}
+				}
+				else {
+					//This is a NeuroML or SWC file, let's invoke the servlet to generate a Geppetto project on the fly
+					$.ajax({
+						url: "/projects/" + projectIdentifier + "/generateGEPPETTOSimulationFile?explorer=" + file,
+						cache: false,
+						success: function (json) {
+							if (json.error) {
+								alert(json.error);
+							}
+							else {
+								var urlGeppettoFile = $("#serverIP").val() + json.geppettoSimulationFile;
+
+								if (jQuery("#geppettoContainer").length > 0) {
+									document.getElementById("3dframe").contentWindow.postMessage({ "command": "removeWidgets" }, $("#geppettoIP").val());
+									document.getElementById("3dframe").contentWindow.postMessage({ "command": "loadSimulation", "url": urlGeppettoFile }, $("#geppettoIP").val());
+								}
+								else {
+									//iframe load
+									$(".project-header").before("<div id='geppettoContainer'><iframe id='3dframe' style='width:100%;height:100%;border:0px;' src='" + $("#geppettoIP").val() + $("#geppettoContextPath").val() + "geppetto?load_project_from_url=" + urlGeppettoFile + "'></iframe>");
+								}
+							}
+						}
+					});
+				}
 			}
 		}
-		else{
-			if (jQuery("#geppettoContainer").length > 0){
-				document.getElementById("3dframe").contentWindow.postMessage({"command": "removeWidgets"}, $("#geppettoIP").val());
-				document.getElementById("3dframe").contentWindow.postMessage({"command": "loadSimulation", "projectId": file}, $("#geppettoIP").val());
-	    	}
-	    	else{
-	    		//iframe load
-	    		$(".project-header").before("<div id='geppettoContainer'><iframe id='3dframe' style='width:100%;height:100%;border:0px;' src='" + $("#geppettoIP").val()  + $("#geppettoContextPath").val() + "geppetto?load_project_from_id=" + file + "'></iframe>");
-	    	}
+		else {
+			if (jQuery("#geppettoContainer").length > 0) {
+				document.getElementById("3dframe").contentWindow.postMessage({ "command": "removeWidgets" }, $("#geppettoIP").val());
+				document.getElementById("3dframe").contentWindow.postMessage({ "command": "loadSimulation", "projectId": file }, $("#geppettoIP").val());
+			}
+			else {
+				//iframe load
+				$(".project-header").before("<div id='geppettoContainer'><iframe id='3dframe' style='width:100%;height:100%;border:0px;' src='" + $("#geppettoIP").val() + $("#geppettoContextPath").val() + "geppetto?load_project_from_id=" + file + "'></iframe>");
+			}
 		}
-		
-	
+
+
 	}
-	currentModel=file;
+	currentModel = file;
 }
 
-function disableOSBExplorer()
-{
-	jQuery("#osbexplorerbutton").css("background-color","grey");
-	jQuery("#osbexplorerbutton").css("color","#aaaaaa");
-	jQuery("#osbexplorerbutton").css("border-color","#444444");
-	jQuery("#osbexplorerbutton").css("cursor","default");
-	jQuery("#osbexplorerbutton").prop("onclick","");
+function disableOSBExplorer() {
+	jQuery("#osbexplorerbutton").css("background-color", "grey");
+	jQuery("#osbexplorerbutton").css("color", "#aaaaaa");
+	jQuery("#osbexplorerbutton").css("border-color", "#444444");
+	jQuery("#osbexplorerbutton").css("cursor", "default");
+	jQuery("#osbexplorerbutton").prop("onclick", "");
 }
 
-function resizeIframe() 
-{
+function resizeIframe() {
 	var height = document.documentElement.clientHeight;
 	height -= document.getElementById('3dframe').offsetTop;
 
 	// not sure how to get this dynamically
 	// height -= 176; /* whatever you set your body bottom margin/padding to be */
-	if(height<800)
-	{
-		height=800;
+	if (height < 800) {
+		height = 800;
 	}
 	document.getElementById('3dframe').style.height = height + "px";
 
 };
-function checkCookie(){
-    var cookieEnabled=(navigator.cookieEnabled)? true : false;
-    if (typeof navigator.cookieEnabled=="undefined" && !cookieEnabled){ 
-        document.cookie="testcookie";
-        cookieEnabled=(document.cookie.indexOf("testcookie")!=-1)? true : false;
-    }
-    return (cookieEnabled);
-}	
+function checkCookie() {
+	var cookieEnabled = (navigator.cookieEnabled) ? true : false;
+	if (typeof navigator.cookieEnabled == "undefined" && !cookieEnabled) {
+		document.cookie = "testcookie";
+		cookieEnabled = (document.cookie.indexOf("testcookie") != -1) ? true : false;
+	}
+	return (cookieEnabled);
+}
 // Google Analytics
 var _gaq = _gaq || [];
-_gaq.push([ '_setAccount', 'UA-29853802-1' ]);
-_gaq.push([ '_trackPageview' ]);
+_gaq.push(['_setAccount', 'UA-29853802-1']);
+_gaq.push(['_trackPageview']);
 
-(function()
-{
+(function () {
 	var ga = document.createElement('script');
 	ga.type = 'text/javascript';
 	ga.async = true;

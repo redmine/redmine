@@ -42,7 +42,7 @@ $(document).ready(function(){
 
     if (isProjectOrShowcase) {
         if (hasModels()){
-            var submenus = {"networks": networkfiles, "channels": channelfiles,
+            var submenus = {"curated": jsonfiles, "networks": networkfiles, "channels": channelfiles,
                             "synapses": synapsefiles, "cells": cellfiles,
                             "other": neuroml2files, "swc": swcfiles};
             for (var submenu in submenus) {

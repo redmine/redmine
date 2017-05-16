@@ -24,6 +24,7 @@ Rails.application.routes.draw do
   get '/docs(/:path)', :to => 'docs#index', defaults: { path: 'Help' }, :constraints => {:path => /.*/}
   match 'about', :to => 'about#index', :via => [:get, :post]
   match 'status', :to => 'status#index', :via => [:get, :post]
+  match 'tutorials', :to => 'tutorials#index', :via => [:get, :post]
   match 'projects/adminnew', :to => 'projects#adminnew', :via => :post
   
   # OSB Explorer webs
