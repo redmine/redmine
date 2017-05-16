@@ -31,10 +31,11 @@ $(document).ready(function () {
 	// -- Bootstrap widget calls
 	// jQuery('.dropdown-toggle').dropdown();
 	// jQuery(".alert").alert();
-	//$('.popoverlink').popover();
-	//$('.tooltiplink').tooltip();
 
-	jQuery('.wrapped-channelml .table-border-summary').addClass('table');
+	$('.popoverlink').popover();
+	$('.tooltiplink').tooltip();
+
+  jQuery('.wrapped-channelml .table-border-summary').addClass('table');
 	// jQuery(":submit").addClass('btn btn-success btn-large');
 	jQuery('button').addClass('btn');
 	jQuery('.jstElements button').addClass('btn-square');
