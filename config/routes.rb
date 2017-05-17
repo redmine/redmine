@@ -118,7 +118,7 @@ Rails.application.routes.draw do
 
   match 'my/account', :controller => 'my', :action => 'account', :via => [:get, :post]
   match 'my/account/destroy', :controller => 'my', :action => 'destroy', :via => [:get, :post]
-  match 'my/page', :controller => 'my', :action => 'page', :via => :get
+  match 'my/page', :to => redirect('/'), :via => [:get, :post]
   match 'my', :controller => 'my', :action => 'index', :via => :get # Redirects to my/page
   get 'my/api_key', :to => 'my#show_api_key', :as => 'my_api_key'
   post 'my/api_key', :to => 'my#reset_api_key'
