@@ -139,7 +139,7 @@ module Redmine
             :superscript => true,
             :no_intra_emphasis => true,
             :footnotes => true
-          )
+          ) unless not defined? Redmine::WikiFormatting::Markdown::HTML
         end
       end
     end
