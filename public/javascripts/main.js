@@ -217,8 +217,34 @@ function getParameterByName(name) {
 		return decodeURIComponent(results[1].replace(/\+/g, " "));
 }
 
-function openExistingProjectIn3DExplorer(projectId, experimentId) {
+function openExistingProjectIn3DExplorer(projectId) {
+	showGeppetto();
 
+	if (!Detector.webgl) {
+		showErrorMessageInOSBExplorer(file, "Your graphics card does not seem to support <a href='http://khronos.org/webgl/wiki/Getting_a_WebGL_Implementation'>WebGL</a>.<br />Find out how to get it <a href='http://get.webgl.org/'>here</a>.");
+	}
+	else if (!checkCookie()) {
+		showErrorMessageInOSBExplorer(file, "Sorry, your cookies are disabled in your browser. Please, enable them if you want to use OSB 3D Explorer.");
+	}
+	else {
+		//Change url without reloading page
+		var explorerUrl = '//' + location.host + location.pathname + '?explorer_id=' + projectId;
+		
+		if (history.pushState) { history.pushState(null, null, explorerUrl); }
+
+		if (jQuery("#geppettoContainer").length > 0) {
+			document.getElementById("3dframe").contentWindow.postMessage({ "command": "removeWidgets" }, $("#geppettoIP").val());
+			document.getElementById("3dframe").contentWindow.postMessage({ "command": "loadSimulation", "projectId": projectId}, $("#geppettoIP").val());
+			document.getElementById("3dframe").contentWindow.postMessage({ "command": "window.osbURL='http://"+location.host + location.pathname+"';"}, $("#geppettoIP").val());
+		}
+		else {
+			//iframe load
+			$(".project-header").before("<div id='geppettoContainer'><iframe id='3dframe' style='width:100%;height:100%;border:0px;' src='" + $("#geppettoIP").val() + $("#geppettoContextPath").val() + "geppetto?load_project_from_id=" + projectId + "'></iframe>");
+			setTimeout(function(){document.getElementById("3dframe").contentWindow.postMessage({ "command": "window.osbURL='http://"+location.host + location.pathname+"';"}, $("#geppettoIP").val());},8000);
+		}
+
+	}
+	currentModel = projectId;
 }
 
 function showErrorMessageInOSBExplorer(file, message) {
@@ -332,10 +358,12 @@ function open3DExplorer(file, projectIdentifier, mainModelButton) {
 					if (jQuery("#geppettoContainer").length > 0) {
 						document.getElementById("3dframe").contentWindow.postMessage({ "command": "removeWidgets" }, $("#geppettoIP").val());
 						document.getElementById("3dframe").contentWindow.postMessage({ "command": "loadSimulation", "url": file }, $("#geppettoIP").val());
+						document.getElementById("3dframe").contentWindow.postMessage({ "command": "window.osbURL='http://"+location.host + location.pathname+"';"}, $("#geppettoIP").val());
 					}
 					else {
 						//iframe load
 						$(".project-header").before("<div id='geppettoContainer'><iframe id='3dframe' style='width:100%;height:100%;border:0px;' src='" + $("#geppettoIP").val() + $("#geppettoContextPath").val() + "geppetto?load_project_from_url=" + file + "'></iframe>");
+						setTimeout(function(){document.getElementById("3dframe").contentWindow.postMessage({ "command": "window.osbURL='http://"+location.host + location.pathname+"';"}, $("#geppettoIP").val());},8000);
 					}
 				}
 				else {
@@ -353,10 +381,12 @@ function open3DExplorer(file, projectIdentifier, mainModelButton) {
 								if (jQuery("#geppettoContainer").length > 0) {
 									document.getElementById("3dframe").contentWindow.postMessage({ "command": "removeWidgets" }, $("#geppettoIP").val());
 									document.getElementById("3dframe").contentWindow.postMessage({ "command": "loadSimulation", "url": urlGeppettoFile }, $("#geppettoIP").val());
+									document.getElementById("3dframe").contentWindow.postMessage({ "command": "window.osbURL='http://"+location.host + location.pathname+"';"}, $("#geppettoIP").val());
 								}
 								else {
 									//iframe load
 									$(".project-header").before("<div id='geppettoContainer'><iframe id='3dframe' style='width:100%;height:100%;border:0px;' src='" + $("#geppettoIP").val() + $("#geppettoContextPath").val() + "geppetto?load_project_from_url=" + urlGeppettoFile + "'></iframe>");
+									setTimeout(function(){document.getElementById("3dframe").contentWindow.postMessage({ "command": "window.osbURL='http://"+location.host + location.pathname+"';"}, $("#geppettoIP").val());},8000);
 								}
 							}
 						}
