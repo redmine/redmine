@@ -1073,9 +1073,9 @@ de:
   text_issue_category_destroy_assignments: Kategorie-Zuordnung entfernen
   text_issue_category_destroy_question: "Einige Tickets (%{count}) sind dieser Kategorie zugeordnet. Was möchten Sie tun?"
   text_issue_category_reassign_to: Tickets dieser Kategorie zuordnen
-  text_issue_conflict_resolution_add_notes: Meine Änderungen übernehmen und alle anderen Änderungen verwerfen
-  text_issue_conflict_resolution_cancel: Meine Änderungen verwerfen und %{link} neu anzeigen
-  text_issue_conflict_resolution_overwrite: Meine Änderungen trotzdem übernehmen (vorherige Notizen bleiben erhalten aber manche können überschrieben werden)
+  text_issue_conflict_resolution_add_notes: Nur meine Kommentare hinzufügen, meine übrigen Änderungen verwerfen
+  text_issue_conflict_resolution_cancel: Meine Kommentare und Änderungen verwerfen und %{link} neu anzeigen
+  text_issue_conflict_resolution_overwrite: Meine Änderungen trotzdem übernehmen (bisherige Kommentare bleiben bestehen, weitere Änderungen werden möglicherweise überschrieben)
   text_issue_updated: "Ticket %{id} wurde aktualisiert von %{author}."
   text_issues_destroy_confirmation: 'Sind Sie sicher, dass Sie die ausgewählten Tickets löschen möchten?'
   text_issues_destroy_descendants_confirmation: Dies wird auch %{count} Unteraufgabe/n löschen.
