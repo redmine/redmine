@@ -458,6 +458,7 @@
   field_last_updated_by: 上次更新者
   field_full_width_layout: 全寬度式版面配置
   field_digest: 總和檢查碼
+  field_default_assigned_to: 預設被分派者
 
   setting_app_title: 標題
   setting_app_subtitle: 副標題
@@ -465,6 +466,7 @@
   setting_default_language: 預設語言
   setting_login_required: 需要驗證
   setting_self_registration: 註冊選項
+  setting_show_custom_fields_on_registration: 註冊時顯示自訂欄位
   setting_attachment_max_size: 附件大小限制
   setting_issues_export_limit: 議題匯出限制
   setting_mail_from: 寄件者電子郵件
@@ -1290,5 +1292,3 @@
   description_issue_category_reassign: 選擇議題分類
   description_wiki_subpages_reassign: 選擇新的父頁面
   text_repository_identifier_info: '僅允許使用小寫英文字母 (a-z), 阿拉伯數字, 虛線與底線。<br />一旦儲存之後, 代碼便無法再次被更改。'
-  field_default_assigned_to: Default assignee
-  setting_show_custom_fields_on_registration: Show custom fields on registration
