@@ -183,6 +183,7 @@ class ProjectsController < ApplicationController
   def technology
     respond_to do |format|
       format.html {
+        scope = Project
         unless params[:closed]
           scope = scope.active
         end

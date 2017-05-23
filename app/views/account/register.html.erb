@@ -5,13 +5,13 @@
     <% if @user.auth_source_id.nil? %>
         <div class="form-group">
             <label class="col-sm-2 control-label" for="user_login">
-                <%= l(:field_login) %>
+                <%= l(:field_login) %> *
             </label>
             <%= f.text_field :login, :size => 25, :required => true, :no_label => true, :class => 'form-control col-sm-2' %>
         </div>
         <div class="form-group">
             <label class="col-sm-2 control-label" for="user_password">
-                <%= l(:field_password) %>
+                <%= l(:field_password) %> *
             </label>
             <%= f.password_field :password, :size => 25, :required => true, :no_label => true, :class => 'form-control col-sm-2' %>
  	    <div class="popoverform"><icon class="popoverlink icon-2x icon-lightbulb"target="_blank" data-toggle="popover" data-trigger="hover" title="" 
@@ -19,7 +19,7 @@
         </div>
         <div class="form-group">
             <label class="col-sm-2 control-label" for="user_password_confirmation">
-                <%= l(:field_password_confirmation) %>
+                <%= l(:field_password_confirmation) %> *
             </label>
             <%= f.password_field :password_confirmation, :size => 25, :required => true, :no_label => true, :class => 'form-control col-sm-2' %>
         </div>
@@ -27,19 +27,19 @@
 
     <div class="form-group">
         <label class="col-sm-2 control-label" for="user_firstname">
-            <%= l(:field_firstname) %>
+            <%= l(:field_firstname) %> *
         </label>
         <%= f.text_field :firstname, :required => true, :no_label => true, :class => 'form-control col-sm-2' %>
     </div>
     <div class="form-group">
         <label class="col-sm-2 control-label" for="user_lastname">
-            <%= l(:field_lastname) %>
+            <%= l(:field_lastname) %> *
         </label>
         <%= f.text_field :lastname, :required => true, :no_label => true, :class => 'form-control col-sm-2' %>
     </div>
     <div class="form-group">
         <label class="col-sm-2 control-label" for="user_mail">
-            <%= l(:field_lastname) %>
+            <%= l(:field_mail) %> *
         </label>
         <%= f.text_field :mail, :required => true, :no_label => true, :class => 'form-control col-sm-2' %>
     </div>
