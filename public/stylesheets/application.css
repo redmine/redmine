@@ -1457,8 +1457,7 @@ tr.open span.expander:before {
  -------------------------------------------------- */
 
 .bs-docs-sidenav {
-    /* width: 200px; */
-    /*margin: 30px 0 0;*/
+    width: 100%;
     padding: 0;
     background-color: #fff;
     -webkit-border-radius: 6px;
