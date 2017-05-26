@@ -4,8 +4,11 @@ $(document).ready(function(){
     $("li > .selected").parent().addClass("active");
 
     var geturl=getParameterByName('explorer');
+    var projectId=getParameterByName('explorer_id');
     if(geturl != '')
         open3DExplorer(geturl, project_identifier);
+    else if(projectId != '')
+        openExistingProjectIn3DExplorer(projectId);
 
     function toggleProjectButton(){
 	if($("#showGeppettoBtn").is(":visible")){
