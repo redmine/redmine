@@ -33,11 +33,10 @@ $(document).ready(function(){
         var projectUrl = '//' + location.host + location.pathname;
 	if(history.pushState) {history.pushState(null, null, projectUrl);}
 	toggleProjectButton();
-	$("#geppettoContainer").hide();
+        $("#geppettoContainer").remove();
 	$(".project-main").show();
         $(".project-header").show();
 	showFooter();
-        //showProject();
     });
 
     if (isProjectOrShowcase) {
@@ -104,7 +103,7 @@ $(document).ready(function(){
     };
 
    $("#showGeppettoBtn").click(function(){
-       open3DExplorer(encodeURIComponent(getMainModel(repourl+repopath, defaultMainModel)), project_identifier, "true");
+       open3DExplorer(encodeURIComponent(getMainModel(repourl+repopath, defaultMainModel)), project_identifier);
        hideFooter();
     });
 

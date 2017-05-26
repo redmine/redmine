@@ -311,7 +311,7 @@ function getMainModel(pathToRepo, defaultModel) {
 	return mainModelUrl;
 }
 
-function open3DExplorer(file, projectIdentifier, mainModelButton) {
+function open3DExplorer(file, projectIdentifier) {
 	showGeppetto();
 
 	if (!Detector.webgl) {
