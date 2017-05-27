@@ -483,6 +483,21 @@ class ProjectTest < ActiveSupport::TestCase
     assert_equal [1,2], parent.rolled_up_trackers.collect(&:id)
   end
 
+  def test_rolled_up_statuses
+    project = Project.find(1)
+
+    WorkflowTransition.delete_all
+    WorkflowTransition.create(:role_id => 1, :tracker_id => 1, :old_status_id => 1, :new_status_id => 3)
+    WorkflowTransition.create(:role_id => 1, :tracker_id => 1, :old_status_id => 1, :new_status_id => 4)
+    WorkflowTransition.create(:role_id => 1, :tracker_id => 1, :old_status_id => 2, :new_status_id => 3)
+    WorkflowTransition.create(:role_id => 1, :tracker_id => 2, :old_status_id => 1, :new_status_id => 3)
+
+    assert_kind_of IssueStatus, project.rolled_up_statuses.first
+    assert_equal IssueStatus.find(1), project.rolled_up_statuses.first
+
+    assert_equal [1, 2, 3, 4], project.rolled_up_statuses.collect(&:id)
+  end
+
   test "#rolled_up_trackers should ignore projects with issue_tracking module disabled" do
     parent = Project.generate!
     parent.trackers = Tracker.find([1, 2])

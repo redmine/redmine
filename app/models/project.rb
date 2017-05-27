@@ -324,6 +324,7 @@ class Project < ActiveRecord::Base
     @shared_versions = nil
     @rolled_up_versions = nil
     @rolled_up_trackers = nil
+    @rolled_up_statuses = nil
     @rolled_up_custom_fields = nil
     @all_issue_custom_fields = nil
     @all_time_entry_custom_fields = nil
@@ -450,6 +451,17 @@ class Project < ActiveRecord::Base
       where(:enabled_modules => {:name => 'issue_tracking'}).
       distinct.
       sorted
+  end
+
+  def rolled_up_statuses
+    issue_status_ids = WorkflowTransition.
+      where(:tracker_id => trackers).
+      distinct.
+      pluck(:old_status_id, :new_status_id).
+      flatten.
+      uniq
+
+    IssueStatus.where(:id => issue_status_ids).sorted
   end
 
   # Closes open and locked project versions that are completed

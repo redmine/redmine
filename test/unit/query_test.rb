@@ -2093,4 +2093,30 @@ class QueryTest < ActiveSupport::TestCase
     issues = find_issues_with_query(query)
     assert_equal [1, 2, 5, 11, 12, 13], issues.map(&:id).sort
   end
+
+  def test_issue_statuses_should_return_only_statuses_used_by_that_project
+    query = IssueQuery.new(:name => '_', :project => Project.find(1))
+    query.filters = {'status_id' => {:operator => '=', :values => []}}
+
+    WorkflowTransition.delete_all
+    WorkflowTransition.create(:role_id => 1, :tracker_id => 1, :old_status_id => 1, :new_status_id => 3)
+    WorkflowTransition.create(:role_id => 1, :tracker_id => 1, :old_status_id => 1, :new_status_id => 4)
+    WorkflowTransition.create(:role_id => 1, :tracker_id => 1, :old_status_id => 2, :new_status_id => 3)
+    WorkflowTransition.create(:role_id => 1, :tracker_id => 2, :old_status_id => 1, :new_status_id => 3)
+
+    assert_equal ['1','2','3','4'], query.available_filters['status_id'][:values].map(&:second)
+  end
+
+  def test_issue_statuses_without_project_should_return_all_statuses
+    query = IssueQuery.new(:name => '_')
+    query.filters = {'status_id' => {:operator => '=', :values => []}}
+
+    WorkflowTransition.delete_all
+    WorkflowTransition.create(:role_id => 1, :tracker_id => 1, :old_status_id => 1, :new_status_id => 3)
+    WorkflowTransition.create(:role_id => 1, :tracker_id => 1, :old_status_id => 1, :new_status_id => 4)
+    WorkflowTransition.create(:role_id => 1, :tracker_id => 1, :old_status_id => 2, :new_status_id => 3)
+    WorkflowTransition.create(:role_id => 1, :tracker_id => 2, :old_status_id => 1, :new_status_id => 3)
+
+    assert_equal ['1','2','3','4','5','6'], query.available_filters['status_id'][:values].map(&:second)
+  end
 end
