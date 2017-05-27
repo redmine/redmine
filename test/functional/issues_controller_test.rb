@@ -3109,6 +3109,22 @@ class IssuesControllerTest < Redmine::ControllerTest
     assert_equal 1, issue.status_id
   end
 
+  def test_create_as_copy_should_fail_without_add_issue_permission_on_original_tracker
+    role = Role.find(2)
+    role.set_permission_trackers :add_issues, [1, 3]
+    role.save!
+    Role.non_member.remove_permission! :add_issues
+
+    issue = Issue.generate!(:project_id => 1, :tracker_id => 2)
+    @request.session[:user_id] = 3
+
+    assert_no_difference 'Issue.count' do
+      post :create, :project_id => 1, :copy_from => issue.id,
+        :issue => {:project_id => '1'}
+    end
+    assert_select_error 'Tracker is invalid'
+  end
+
   def test_create_as_copy_should_copy_attachments
     @request.session[:user_id] = 2
     issue = Issue.find(3)

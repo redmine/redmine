@@ -68,7 +68,7 @@ class Issue < ActiveRecord::Base
   validates :estimated_hours, :numericality => {:greater_than_or_equal_to => 0, :allow_nil => true, :message => :invalid}
   validates :start_date, :date => true
   validates :due_date, :date => true
-  validate :validate_issue, :validate_required_fields
+  validate :validate_issue, :validate_required_fields, :validate_permissions
   attr_protected :id
 
   scope :visible, lambda {|*args|
@@ -512,6 +512,7 @@ class Issue < ActiveRecord::Base
   # attr_accessible is too rough because we still want things like
   # Issue.new(:project => foo) to work
   def safe_attributes=(attrs, user=User.current)
+    @attributes_set_by = user
     return unless attrs.is_a?(Hash)
 
     attrs = attrs.deep_dup
@@ -772,6 +773,14 @@ class Issue < ActiveRecord::Base
           next if attribute == 'fixed_version_id' && assignable_versions.blank?
           errors.add attribute, :blank
         end
+      end
+    end
+  end
+
+  def validate_permissions
+    if @attributes_set_by && new_record? && copy?
+      unless allowed_target_trackers(@attributes_set_by).include?(tracker)
+        errors.add :tracker, :invalid
       end
     end
   end
