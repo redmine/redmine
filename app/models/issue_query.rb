@@ -82,7 +82,7 @@ class IssueQuery < Query
 
   def initialize_available_filters
     add_available_filter "status_id",
-      :type => :list_status, :values => lambda { issue_statuses }
+      :type => :list_status, :values => lambda { issue_statuses_values }
 
     add_available_filter("project_id",
       :type => :list, :values => lambda { project_values }

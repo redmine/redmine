@@ -56,11 +56,11 @@ class TimeEntryQuery < Query
     add_available_filter("issue.tracker_id",
       :type => :list,
       :name => l("label_attribute_of_issue", :name => l(:field_tracker)),
-      :values => lambda { Tracker.sorted.map {|t| [t.name, t.id.to_s]} })
+      :values => lambda { trackers.map {|t| [t.name, t.id.to_s]} })
     add_available_filter("issue.status_id",
       :type => :list,
       :name => l("label_attribute_of_issue", :name => l(:field_status)),
-      :values => lambda { IssueStatus.sorted.map {|s| [s.name, s.id.to_s]} })
+      :values => lambda { issue_statuses_values })
     add_available_filter("issue.fixed_version_id",
       :type => :list,
       :name => l("label_attribute_of_issue", :name => l(:field_fixed_version)),

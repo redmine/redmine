@@ -552,7 +552,7 @@ class Query < ActiveRecord::Base
   end
 
   # Returns a scope of issue statuses that are available as columns for filters
-  def issue_statuses
+  def issue_statuses_values
     if project
       statuses = project.rolled_up_statuses
     else
