@@ -40,6 +40,36 @@ class CustomFieldsHelperTest < Redmine::HelperTest
     assert_select_in tag, 'label span[title]', 0
   end
 
+  def test_label_tag_should_include_for_attribute_for_select_tag
+    field = CustomField.new(:name => 'Foo', :field_format => 'list')
+    s = custom_field_tag_with_label('foo', CustomValue.new(:custom_field => field))
+    assert_select_in s, 'label[for]'
+  end
+
+  def test_label_tag_should_not_include_for_attribute_for_checkboxes
+    field = CustomField.new(:name => 'Foo', :field_format => 'list', :edit_tag_style => 'check_box')
+    s = custom_field_tag_with_label('foo', CustomValue.new(:custom_field => field))
+    assert_select_in s, 'label:not([for])'
+  end
+
+  def test_label_tag_should_include_for_attribute_for_bool_as_select_tag
+    field = CustomField.new(:name => 'Foo', :field_format => 'bool')
+    s = custom_field_tag_with_label('foo', CustomValue.new(:custom_field => field))
+    assert_select_in s, 'label[for]'
+  end
+
+  def test_label_tag_should_include_for_attribute_for_bool_as_checkbox
+    field = CustomField.new(:name => 'Foo', :field_format => 'bool', :edit_tag_style => 'check_box')
+    s = custom_field_tag_with_label('foo', CustomValue.new(:custom_field => field))
+    assert_select_in s, 'label[for]'
+  end
+
+  def test_label_tag_should_not_include_for_attribute_for_bool_as_radio
+    field = CustomField.new(:name => 'Foo', :field_format => 'bool', :edit_tag_style => 'radio')
+    s = custom_field_tag_with_label('foo', CustomValue.new(:custom_field => field))
+    assert_select_in s, 'label:not([for])'
+  end
+
   def test_unknow_field_format_should_be_edited_as_string
     field = CustomField.new(:field_format => 'foo')
     value = CustomValue.new(:value => 'bar', :custom_field => field)

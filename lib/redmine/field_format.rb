@@ -620,13 +620,11 @@ module Redmine
         opts.each do |label, value|
           value ||= label
           checked = (custom_value.value.is_a?(Array) && custom_value.value.include?(value)) || custom_value.value.to_s == value
-          tag = view.send(tag_method, tag_name, value, checked, :id => tag_id)
-          # set the id on the first tag only
-          tag_id = nil
+          tag = view.send(tag_method, tag_name, value, checked, :id => nil)
           s << view.content_tag('label', tag + ' ' + label) 
         end
         if custom_value.custom_field.multiple?
-          s << view.hidden_field_tag(tag_name, '')
+          s << view.hidden_field_tag(tag_name, '', :id => nil)
         end
         css = "#{options[:class]} check_box_group"
         view.content_tag('span', s, options.merge(:class => css))

@@ -96,16 +96,23 @@ module CustomFieldsHelper
   # Return custom field label tag
   def custom_field_label_tag(name, custom_value, options={})
     required = options[:required] || custom_value.custom_field.is_required?
+    for_tag_id = options.fetch(:for_tag_id, "#{name}_custom_field_values_#{custom_value.custom_field.id}")
     content = custom_field_name_tag custom_value.custom_field
 
     content_tag "label", content +
       (required ? " <span class=\"required\">*</span>".html_safe : ""),
-      :for => "#{name}_custom_field_values_#{custom_value.custom_field.id}"
+      :for => for_tag_id
   end
 
   # Return custom field tag with its label tag
   def custom_field_tag_with_label(name, custom_value, options={})
-    custom_field_label_tag(name, custom_value, options) + custom_field_tag(name, custom_value)
+    tag = custom_field_tag(name, custom_value)
+    tag_id = nil
+    ids = tag.scan(/ id="(.+?)"/)
+    if ids.size == 1
+      tag_id = ids.first.first
+    end
+    custom_field_label_tag(name, custom_value, options.merge(:for_tag_id => tag_id)) + tag
   end
 
   # Returns the custom field tag for when bulk editing objects
