@@ -121,14 +121,14 @@
 
 <table style="width:100%; border:0; border-collapse: collapse;">
 <tr>
-<td style="width:<%= subject_width %>px; padding:0px;">
+<td style="width:<%= subject_width %>px; padding:0px;" class="gantt_subjects_column">
   <%
     style  = ""
     style += "position:relative;"
     style += "height: #{t_height + 24}px;"
     style += "width: #{subject_width + 1}px;"
   %>
-  <%= content_tag(:div, :style => style) do %>
+  <%= content_tag(:div, :style => style, :class => "gantt_subjects_container") do %>
     <%
       style  = ""
       style += "right:-2px;"
