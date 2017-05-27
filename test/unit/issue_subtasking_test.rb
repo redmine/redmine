@@ -147,10 +147,10 @@ class IssueSubtaskingTest < ActiveSupport::TestCase
       assert_equal 20, parent.reload.done_ratio
       parent.generate_child!(:done_ratio => 70)
       assert_equal 45, parent.reload.done_ratio
-  
+
       child = parent.generate_child!(:done_ratio => 0)
       assert_equal 30, parent.reload.done_ratio
-  
+
       child.generate_child!(:done_ratio => 30)
       assert_equal 30, child.reload.done_ratio
       assert_equal 40, parent.reload.done_ratio
