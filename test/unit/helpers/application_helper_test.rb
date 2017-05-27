@@ -1026,6 +1026,20 @@ EXPECTED
     assert_equal expected.gsub(%r{[\r\n\t]}, ''), textilizable(raw).gsub(%r{[\r\n\t]}, '')
   end
 
+  def test_syntax_highlight_by_coderay_alias
+    raw = <<-RAW
+<pre><code class="ecma_script">
+alert("hello, world");
+</code></pre>
+RAW
+
+    expected = <<-EXPECTED
+<pre><code class=\"ecma_script syntaxhl\"><span class=\"CodeRay\">alert(<span class=\"string\"><span class=\"delimiter\">&quot;</span><span class=\"content\">hello, world</span><span class=\"delimiter\">&quot;</span></span>);</span></code></pre>
+EXPECTED
+
+    assert_equal expected.gsub(%r{[\r\n\t]}, ''), textilizable(raw).gsub(%r{[\r\n\t]}, '')
+  end
+
   def test_to_path_param
     assert_equal 'test1/test2', to_path_param('test1/test2')
     assert_equal 'test1/test2', to_path_param('/test1/test2/')
