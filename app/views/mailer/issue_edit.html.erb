@@ -4,7 +4,7 @@
 <%= l(:text_issue_updated, :id => link_to("##{@issue.id}", @issue_url), :author => h(@journal.user)).html_safe %>
 <hr />
 
-<ul class="details">
+<ul class="journal details">
 <% details_to_strings(@journal_details, false, :only_path => false).each do |string| %>
   <li><%= string %></li>
 <% end %>

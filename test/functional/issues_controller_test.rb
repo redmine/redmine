@@ -3839,6 +3839,7 @@ class IssuesControllerTest < Redmine::ControllerTest
 
   def test_put_update_with_attachment_deletion_should_create_a_single_journal
     set_tmp_attachments_directory
+    ActionMailer::Base.deliveries.clear
     @request.session[:user_id] = 2
 
     journal = new_record(Journal) do
@@ -3853,6 +3854,12 @@ class IssuesControllerTest < Redmine::ControllerTest
     end
     assert_equal 'Removing attachments', journal.notes
     assert_equal 2, journal.details.count
+
+    assert_select_email do
+      assert_select 'ul.journal.details li', 2
+      assert_select 'del', :text => 'error281.txt'
+      assert_select 'del', :text => 'changeset_iso8859-1.diff'
+    end
   end
 
   def test_put_update_with_attachment_deletion_and_failure_should_preserve_selected_attachments

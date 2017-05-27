@@ -91,6 +91,8 @@ group :test do
   gem "rails-dom-testing"
   gem "mocha"
   gem "simplecov", "~> 0.9.1", :require => false
+  # TODO: remove this after upgrading to Rails 5
+  gem "test_after_commit"
   # For running UI tests
   gem "capybara"
   gem "selenium-webdriver", "~> 2.53.4"
