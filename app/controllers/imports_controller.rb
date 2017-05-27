@@ -52,7 +52,7 @@ class ImportsController < ApplicationController
 
   rescue CSV::MalformedCSVError => e
     flash.now[:error] = l(:error_invalid_csv_file_or_settings)
-  rescue ArgumentError, Encoding::InvalidByteSequenceError => e
+  rescue ArgumentError, EncodingError => e
     flash.now[:error] = l(:error_invalid_file_encoding, :encoding => ERB::Util.h(@import.settings['encoding']))
   rescue SystemCallError => e
     flash.now[:error] = l(:error_can_not_read_import_file)
