@@ -64,10 +64,8 @@
   unless @issue.disabled_core_fields.include?('estimated_hours')
     rows.right l(:field_estimated_hours), issue_estimated_hours_details(@issue), :class => 'estimated-hours'
   end
-  if User.current.allowed_to?(:view_time_entries, @project)
-    if @issue.total_spent_hours > 0
-      rows.right l(:label_spent_time), issue_spent_hours_details(@issue), :class => 'spent-time'
-    end
+  if User.current.allowed_to?(:view_time_entries, @project) && @issue.total_spent_hours > 0
+    rows.right l(:label_spent_time), issue_spent_hours_details(@issue), :class => 'spent-time'
   end
 end %>
 <%= render_half_width_custom_fields_rows(@issue) %>
