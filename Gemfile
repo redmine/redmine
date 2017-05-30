@@ -45,7 +45,7 @@ platforms :mri, :mingw, :x64_mingw do
 
   # Optional Markdown support, not for JRuby
   group :markdown do
-    gem "redcarpet", "~> 3.3.2"
+    gem "redcarpet", "~> 3.4.0"
   end
 end
 
