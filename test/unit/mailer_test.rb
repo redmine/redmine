@@ -649,7 +649,7 @@ class MailerTest < ActiveSupport::TestCase
   end
 
   def test_reminders_with_version_option
-    with_settings :default_language => 'en' do 
+    with_settings :default_language => 'en' do
       version = Version.generate!(:name => 'Acme', :project_id => 1)
       Issue.generate!(:assigned_to => User.find(2), :due_date => 5.days.from_now)
       Issue.generate!(:assigned_to => User.find(3), :due_date => 5.days.from_now, :fixed_version => version)
