@@ -41,13 +41,17 @@ class AccountControllerOpenidTest < Redmine::ControllerTest
       existing_user.login = 'cool_user'
       assert existing_user.save!
 
-      post :login, :openid_url => existing_user.identity_url
+      post :login, :params => {
+          :openid_url => existing_user.identity_url
+        }
       assert_redirected_to '/my/page'
     end
 
     def test_login_with_invalid_openid_provider
       Setting.self_registration = '0'
-      post :login, :openid_url => 'http;//openid.example.com/good_user'
+      post :login, :params => {
+          :openid_url => 'http;//openid.example.com/good_user'
+        }
       assert_redirected_to home_url
     end
 
@@ -61,13 +65,17 @@ class AccountControllerOpenidTest < Redmine::ControllerTest
       existing_user.login = 'cool_user'
       assert existing_user.save!
 
-      post :login, :openid_url => existing_user.identity_url
+      post :login, :params => {
+          :openid_url => existing_user.identity_url
+        }
       assert_redirected_to '/login'
     end
 
     def test_login_with_openid_with_new_user_created
       Setting.self_registration = '3'
-      post :login, :openid_url => 'http://openid.example.com/good_user'
+      post :login, :params => {
+          :openid_url => 'http://openid.example.com/good_user'
+        }
       assert_redirected_to '/my/account'
       user = User.find_by_login('cool_user')
       assert user
@@ -77,7 +85,9 @@ class AccountControllerOpenidTest < Redmine::ControllerTest
 
     def test_login_with_openid_with_new_user_and_self_registration_off
       Setting.self_registration = '0'
-      post :login, :openid_url => 'http://openid.example.com/good_user'
+      post :login, :params => {
+          :openid_url => 'http://openid.example.com/good_user'
+        }
       assert_redirected_to home_url
       user = User.find_by_login('cool_user')
       assert_nil user
@@ -85,7 +95,9 @@ class AccountControllerOpenidTest < Redmine::ControllerTest
 
     def test_login_with_openid_with_new_user_created_with_email_activation_should_have_a_token
       Setting.self_registration = '1'
-      post :login, :openid_url => 'http://openid.example.com/good_user'
+      post :login, :params => {
+          :openid_url => 'http://openid.example.com/good_user'
+        }
       assert_redirected_to '/login'
       user = User.find_by_login('cool_user')
       assert user
@@ -96,7 +108,9 @@ class AccountControllerOpenidTest < Redmine::ControllerTest
 
     def test_login_with_openid_with_new_user_created_with_manual_activation
       Setting.self_registration = '2'
-      post :login, :openid_url => 'http://openid.example.com/good_user'
+      post :login, :params => {
+          :openid_url => 'http://openid.example.com/good_user'
+        }
       assert_redirected_to '/login'
       user = User.find_by_login('cool_user')
       assert user
@@ -109,7 +123,9 @@ class AccountControllerOpenidTest < Redmine::ControllerTest
       existing_user.login = 'cool_user'
       assert existing_user.save!
 
-      post :login, :openid_url => 'http://openid.example.com/good_user'
+      post :login, :params => {
+          :openid_url => 'http://openid.example.com/good_user'
+        }
       assert_response :success
 
       assert_select 'input[name=?][value=?]', 'user[identity_url]', 'http://openid.example.com/good_user'
@@ -118,7 +134,9 @@ class AccountControllerOpenidTest < Redmine::ControllerTest
     def test_login_with_openid_with_new_user_with_missing_information_should_register
       Setting.self_registration = '3'
 
-      post :login, :openid_url => 'http://openid.example.com/good_blank_user'
+      post :login, :params => {
+          :openid_url => 'http://openid.example.com/good_blank_user'
+        }
       assert_response :success
 
       assert_select 'input[name=?]', 'user[login]'
@@ -141,15 +159,18 @@ class AccountControllerOpenidTest < Redmine::ControllerTest
       Setting.self_registration = '3'
 
       assert_difference 'User.count' do
-        post :register, :user => {
-          :login => 'good_blank_user',
-          :password => '',
-          :password_confirmation => '',
-          :firstname => 'Cool',
-          :lastname => 'User',
-          :mail => 'user@somedomain.com',
-          :identity_url => 'http://openid.example.com/good_blank_user'
-        }
+        post :register, :params => {
+            :user => {
+              :login => 'good_blank_user',
+              :password => '',
+              :password_confirmation => '',
+              :firstname => 'Cool',
+              :lastname => 'User',
+              :mail => 'user@somedomain.com',
+              :identity_url => 'http://openid.example.com/good_blank_user'
+              
+            }
+          }
         assert_response 302
       end
 

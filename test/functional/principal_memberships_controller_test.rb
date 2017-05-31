@@ -25,7 +25,9 @@ class PrincipalMembershipsControllerTest < Redmine::ControllerTest
   end
 
   def test_new_user_membership
-    get :new, :user_id => 7
+    get :new, :params => {
+        :user_id => 7
+      }
     assert_response :success
     assert_select 'label', :text => 'eCookbook' do
       assert_select 'input[name=?][value="1"]:not([disabled])', 'membership[project_ids][]'
@@ -35,7 +37,9 @@ class PrincipalMembershipsControllerTest < Redmine::ControllerTest
   def test_new_user_membership_should_disable_user_projects
     Member.create!(:user_id => 7, :project_id => 1, :role_ids => [1])
 
-    get :new, :user_id => 7
+    get :new, :params => {
+        :user_id => 7
+      }
     assert_response :success
     assert_select 'label', :text => 'eCookbook' do
       assert_select 'input[name=?][value="1"][disabled=disabled]', 'membership[project_ids][]'
@@ -43,14 +47,23 @@ class PrincipalMembershipsControllerTest < Redmine::ControllerTest
   end
 
   def test_xhr_new_user_membership
-    xhr :get, :new, :user_id => 7
+    get :new, :params => {
+        :user_id => 7
+      },
+      :xhr => true
     assert_response :success
     assert_equal 'text/javascript', response.content_type
   end
 
   def test_create_user_membership
     assert_difference 'Member.count' do
-      post :create, :user_id => 7, :membership => {:project_ids => [3], :role_ids => [2]}
+      post :create, :params => {
+          :user_id => 7,
+          :membership => {
+            :project_ids => [3],
+            :role_ids => [2]
+          }
+        }
     end
     assert_redirected_to '/users/7/edit?tab=memberships'
     member = Member.order('id DESC').first
@@ -61,7 +74,13 @@ class PrincipalMembershipsControllerTest < Redmine::ControllerTest
 
   def test_create_user_membership_with_multiple_roles
     assert_difference 'Member.count' do
-      post :create, :user_id => 7, :membership => {:project_ids => [3], :role_ids => [2, 3]}
+      post :create, :params => {
+          :user_id => 7,
+          :membership => {
+            :project_ids => [3],
+            :role_ids => [2, 3]
+          }
+        }
     end
     member = Member.order('id DESC').first
     assert_equal User.find(7), member.principal
@@ -71,7 +90,13 @@ class PrincipalMembershipsControllerTest < Redmine::ControllerTest
 
   def test_create_user_membership_with_multiple_projects_and_roles
     assert_difference 'Member.count', 2 do
-      post :create, :user_id => 7, :membership => {:project_ids => [1, 3], :role_ids => [2, 3]}
+      post :create, :params => {
+          :user_id => 7,
+          :membership => {
+            :project_ids => [1, 3],
+            :role_ids => [2, 3]
+          }
+        }
     end
     members = Member.order('id DESC').limit(2).sort_by(&:project_id)
     assert_equal 1, members[0].project_id
@@ -84,7 +109,15 @@ class PrincipalMembershipsControllerTest < Redmine::ControllerTest
 
   def test_xhr_create_user_membership
     assert_difference 'Member.count' do
-      xhr :post, :create, :user_id => 7, :membership => {:project_ids => [3], :role_ids => [2]}, :format => 'js'
+      post :create, :params => {
+          :user_id => 7,
+          :membership => {
+            :project_ids => [3],
+            :role_ids => [2]
+          },  
+          :format => 'js'
+        },
+        :xhr => true
       assert_response :success
       assert_equal 'text/javascript', response.content_type
     end
@@ -97,7 +130,14 @@ class PrincipalMembershipsControllerTest < Redmine::ControllerTest
 
   def test_xhr_create_user_membership_with_failure
     assert_no_difference 'Member.count' do
-      xhr :post, :create, :user_id => 7, :membership => {:project_ids => [3]}, :format => 'js'
+      post :create, :params => {
+          :user_id => 7,
+          :membership => {
+            :project_ids => [3]
+          },  
+          :format => 'js'
+        },
+        :xhr => true
       assert_response :success
       assert_equal 'text/javascript', response.content_type
     end
@@ -106,19 +146,32 @@ class PrincipalMembershipsControllerTest < Redmine::ControllerTest
   end
 
   def test_edit_user_membership
-    get :edit, :user_id => 2, :id => 1
+    get :edit, :params => {
+        :user_id => 2,
+        :id => 1
+      }
     assert_response :success
     assert_select 'input[name=?][value=?][checked=checked]', 'membership[role_ids][]', '1'
   end
 
   def test_xhr_edit_user_membership
-    xhr :get, :edit, :user_id => 2, :id => 1
+    get :edit, :params => {
+        :user_id => 2,
+        :id => 1
+      },
+      :xhr => true
     assert_response :success
   end
 
   def test_update_user_membership
     assert_no_difference 'Member.count' do
-      put :update, :user_id => 2, :id => 1, :membership => {:role_ids => [2]}
+      put :update, :params => {
+          :user_id => 2,
+          :id => 1,
+          :membership => {
+            :role_ids => [2]
+          }
+        }
       assert_redirected_to '/users/2/edit?tab=memberships'
     end
     assert_equal [2], Member.find(1).role_ids
@@ -126,7 +179,15 @@ class PrincipalMembershipsControllerTest < Redmine::ControllerTest
 
   def test_xhr_update_user_membership
     assert_no_difference 'Member.count' do
-      xhr :put, :update, :user_id => 2, :id => 1, :membership => {:role_ids => [2]}, :format => 'js'
+      put :update, :params => {
+          :user_id => 2,
+          :id => 1,
+          :membership => {
+            :role_ids => [2]
+          },  
+          :format => 'js'
+        },
+        :xhr => true
       assert_response :success
       assert_equal 'text/javascript', response.content_type
     end
@@ -136,7 +197,10 @@ class PrincipalMembershipsControllerTest < Redmine::ControllerTest
 
   def test_destroy_user_membership
     assert_difference 'Member.count', -1 do
-      delete :destroy, :user_id => 2, :id => 1
+      delete :destroy, :params => {
+          :user_id => 2,
+          :id => 1
+        }
     end
     assert_redirected_to '/users/2/edit?tab=memberships'
     assert_nil Member.find_by_id(1)
@@ -144,7 +208,11 @@ class PrincipalMembershipsControllerTest < Redmine::ControllerTest
 
   def test_xhr_destroy_user_membership_js_format
     assert_difference 'Member.count', -1 do
-      xhr :delete, :destroy, :user_id => 2, :id => 1
+      delete :destroy, :params => {
+          :user_id => 2,
+          :id => 1
+        },
+        :xhr => true
       assert_response :success
       assert_equal 'text/javascript', response.content_type
     end
@@ -153,20 +221,36 @@ class PrincipalMembershipsControllerTest < Redmine::ControllerTest
   end
 
   def test_xhr_new_group_membership
-    xhr :get, :new, :group_id => 10
+    get :new, :params => {
+        :group_id => 10
+      },
+      :xhr => true
     assert_response :success
     assert_equal 'text/javascript', response.content_type
   end
 
   def test_create_group_membership
     assert_difference 'Group.find(10).members.count' do
-      post :create, :group_id => 10, :membership => {:project_ids => [2], :role_ids => ['1', '2']}
+      post :create, :params => {
+          :group_id => 10,
+          :membership => {
+            :project_ids => [2],
+            :role_ids => ['1', '2']
+          }
+        }
     end
   end
 
   def test_xhr_create_group_membership
     assert_difference 'Group.find(10).members.count' do
-      xhr :post, :create, :group_id => 10, :membership => {:project_ids => [2], :role_ids => ['1', '2']}
+      post :create, :params => {
+          :group_id => 10,
+          :membership => {
+            :project_ids => [2],
+            :role_ids => ['1', '2']
+          }
+        },
+        :xhr => true
       assert_response :success
       assert_equal 'text/javascript', response.content_type
     end
@@ -175,7 +259,14 @@ class PrincipalMembershipsControllerTest < Redmine::ControllerTest
 
   def test_xhr_create_group_membership_with_failure
     assert_no_difference 'Group.find(10).members.count' do
-      xhr :post, :create, :group_id => 10, :membership => {:project_ids => [999], :role_ids => ['1', '2']}
+      post :create, :params => {
+          :group_id => 10,
+          :membership => {
+            :project_ids => [999],
+            :role_ids => ['1', '2']
+          }
+        },
+        :xhr => true
       assert_response :success
       assert_equal 'text/javascript', response.content_type
     end
@@ -184,13 +275,26 @@ class PrincipalMembershipsControllerTest < Redmine::ControllerTest
 
   def test_update_group_membership
     assert_no_difference 'Group.find(10).members.count' do
-      put :update, :group_id => 10, :id => 6, :membership => {:role_ids => ['1', '3']}
+      put :update, :params => {
+          :group_id => 10,
+          :id => 6,
+          :membership => {
+            :role_ids => ['1', '3']
+          }
+        }
     end
   end
 
   def test_xhr_update_group_membership
     assert_no_difference 'Group.find(10).members.count' do
-      xhr :post, :update, :group_id => 10, :id => 6, :membership => {:role_ids => ['1', '3']}
+      post :update, :params => {
+          :group_id => 10,
+          :id => 6,
+          :membership => {
+            :role_ids => ['1', '3']
+          }
+        },
+        :xhr => true
       assert_response :success
       assert_equal 'text/javascript', response.content_type
     end
@@ -198,13 +302,20 @@ class PrincipalMembershipsControllerTest < Redmine::ControllerTest
 
   def test_destroy_group_membership
     assert_difference 'Group.find(10).members.count', -1 do
-      delete :destroy, :group_id => 10, :id => 6
+      delete :destroy, :params => {
+          :group_id => 10,
+          :id => 6
+        }
     end
   end
 
   def test_xhr_destroy_group_membership
     assert_difference 'Group.find(10).members.count', -1 do
-      xhr :delete, :destroy, :group_id => 10, :id => 6
+      delete :destroy, :params => {
+          :group_id => 10,
+          :id => 6
+        },
+        :xhr => true
       assert_response :success
       assert_equal 'text/javascript', response.content_type
     end

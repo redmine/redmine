@@ -53,7 +53,12 @@ class CustomFieldsControllerTest < Redmine::ControllerTest
   def test_new_should_work_for_each_customized_class_and_format
     custom_field_classes.each do |klass|
       Redmine::FieldFormat.formats_for_custom_field_class(klass).each do |format|
-        get :new, :type => klass.name, :custom_field => {:field_format => format.name}
+        get :new, :params => {
+            :type => klass.name,
+            :custom_field => {
+              :field_format => format.name
+            }
+          }
         assert_response :success
 
         assert_select 'form#custom_field_form' do
@@ -67,7 +72,9 @@ class CustomFieldsControllerTest < Redmine::ControllerTest
   end
 
   def test_new_should_have_string_default_format
-    get :new, :type => 'IssueCustomField'
+    get :new, :params => {
+        :type => 'IssueCustomField'
+      }
     assert_response :success
 
     assert_select 'select[name=?]', 'custom_field[field_format]' do
@@ -76,7 +83,9 @@ class CustomFieldsControllerTest < Redmine::ControllerTest
   end
 
   def test_new_issue_custom_field
-    get :new, :type => 'IssueCustomField'
+    get :new, :params => {
+        :type => 'IssueCustomField'
+      }
     assert_response :success
 
     assert_select 'form#custom_field_form' do
@@ -91,7 +100,9 @@ class CustomFieldsControllerTest < Redmine::ControllerTest
   end
 
   def test_new_time_entry_custom_field_should_not_show_trackers_and_projects
-    get :new, :type => 'TimeEntryCustomField'
+    get :new, :params => {
+        :type => 'TimeEntryCustomField'
+      }
     assert_response :success
 
     assert_select 'form#custom_field_form' do
@@ -101,19 +112,34 @@ class CustomFieldsControllerTest < Redmine::ControllerTest
   end
 
   def test_default_value_should_be_an_input_for_string_custom_field
-    get :new, :type => 'IssueCustomField', :custom_field => {:field_format => 'string'}
+    get :new, :params => {
+        :type => 'IssueCustomField',
+        :custom_field => {
+          :field_format => 'string'
+        }
+      }
     assert_response :success
     assert_select 'input[name=?]', 'custom_field[default_value]'
   end
 
   def test_default_value_should_be_a_textarea_for_text_custom_field
-    get :new, :type => 'IssueCustomField', :custom_field => {:field_format => 'text'}
+    get :new, :params => {
+        :type => 'IssueCustomField',
+        :custom_field => {
+          :field_format => 'text'
+        }
+      }
     assert_response :success
     assert_select 'textarea[name=?]', 'custom_field[default_value]'
   end
 
   def test_default_value_should_be_a_checkbox_for_bool_custom_field
-    get :new, :type => 'IssueCustomField', :custom_field => {:field_format => 'bool'}
+    get :new, :params => {
+        :type => 'IssueCustomField',
+        :custom_field => {
+          :field_format => 'bool'
+        }
+      }
     assert_response :success
     assert_select 'select[name=?]', 'custom_field[default_value]' do
       assert_select 'option', 3
@@ -121,27 +147,54 @@ class CustomFieldsControllerTest < Redmine::ControllerTest
   end
 
   def test_default_value_should_not_be_present_for_user_custom_field
-    get :new, :type => 'IssueCustomField', :custom_field => {:field_format => 'user'}
+    get :new, :params => {
+        :type => 'IssueCustomField',
+        :custom_field => {
+          :field_format => 'user'
+        }
+      }
     assert_response :success
     assert_select '[name=?]', 'custom_field[default_value]', 0
   end
 
   def test_setting_full_width_layout_shoul_be_present_only_for_long_text_issue_custom_field
-    get :new, :type => 'IssueCustomField', :custom_field => {:field_format => 'text'}
+    get :new, :params => {
+        :type => 'IssueCustomField',
+        :custom_field => {
+          :field_format => 'text'
+        }
+      }
     assert_response :success
     assert_select '[name=?]', 'custom_field[full_width_layout]'
 
-    get :new, :type => 'IssueCustomField', :custom_field => {:field_format => 'list'}
+    get :new, :params => {
+        :type => 'IssueCustomField',
+        :custom_field => {
+          :field_format => 'list'
+        }
+      }
     assert_response :success
     assert_select '[name=?]', 'custom_field[full_width_layout]', 0
 
-    get :new, :type => 'TimeEntryCustomField', :custom_field => {:field_format => 'text'}
+    get :new, :params => {
+        :type => 'TimeEntryCustomField',
+        :custom_field => {
+          :field_format => 'text'
+        }
+      }
     assert_response :success
     assert_select '[name=?]', 'custom_field[full_width_layout]', 0
   end
 
   def test_new_js
-    xhr :get, :new, :type => 'IssueCustomField', :custom_field => {:field_format => 'list'}, :format => 'js'
+    get :new, :params => {
+        :type => 'IssueCustomField',
+        :custom_field => {
+          :field_format => 'list'
+        },  
+        :format => 'js'
+      },
+      :xhr => true
     assert_response :success
     assert_equal 'text/javascript', response.content_type
 
@@ -149,7 +202,9 @@ class CustomFieldsControllerTest < Redmine::ControllerTest
   end
 
   def test_new_with_invalid_custom_field_class_should_render_select_type
-    get :new, :type => 'UnknownCustomField'
+    get :new, :params => {
+        :type => 'UnknownCustomField'
+      }
     assert_response :success
 
     assert_select 'input[type=radio][name=type]'
@@ -157,19 +212,23 @@ class CustomFieldsControllerTest < Redmine::ControllerTest
 
   def test_create_list_custom_field
     field = new_record(IssueCustomField) do
-      post :create, :type => "IssueCustomField",
-                 :custom_field => {:name => "test_post_new_list",
-                                   :default_value => "",
-                                   :min_length => "0",
-                                   :searchable => "0",
-                                   :regexp => "",
-                                   :is_for_all => "1",
-                                   :possible_values => "0.1\n0.2\n",
-                                   :max_length => "0",
-                                   :is_filter => "0",
-                                   :is_required =>"0",
-                                   :field_format => "list",
-                                   :tracker_ids => ["1", ""]}
+      post :create, :params => {
+          :type => "IssueCustomField",
+          :custom_field => {
+            :name => "test_post_new_list",
+            :default_value => "",
+            :min_length => "0",
+            :searchable => "0",
+            :regexp => "",
+            :is_for_all => "1",
+            :possible_values => "0.1\n0.2\n",
+            :max_length => "0",
+            :is_filter => "0",
+            :is_required =>"0",
+            :field_format => "list",
+            :tracker_ids => ["1", ""]
+          }
+        }
     end
     assert_redirected_to "/custom_fields/#{field.id}/edit"
     assert_equal "test_post_new_list", field.name
@@ -179,9 +238,16 @@ class CustomFieldsControllerTest < Redmine::ControllerTest
 
   def test_create_with_project_ids
     assert_difference 'CustomField.count' do
-      post :create, :type => "IssueCustomField", :custom_field => {
-        :name => "foo", :field_format => "string", :is_for_all => "0", :project_ids => ["1", "3", ""]
-      }
+      post :create, :params => {
+          :type => "IssueCustomField",
+          :custom_field => {
+            :name => "foo",
+            :field_format => "string",
+            :is_for_all => "0",
+            :project_ids => ["1", "3", ""]
+            
+          }
+        }
       assert_response 302
     end
     field = IssueCustomField.order("id desc").first
@@ -190,7 +256,12 @@ class CustomFieldsControllerTest < Redmine::ControllerTest
 
   def test_create_with_failure
     assert_no_difference 'CustomField.count' do
-      post :create, :type => "IssueCustomField", :custom_field => {:name => ''}
+      post :create, :params => {
+          :type => "IssueCustomField",
+          :custom_field => {
+            :name => ''
+          }
+        }
     end
     assert_response :success
     assert_select_error /name cannot be blank/i
@@ -198,25 +269,38 @@ class CustomFieldsControllerTest < Redmine::ControllerTest
 
   def test_create_without_type_should_render_select_type
     assert_no_difference 'CustomField.count' do
-      post :create, :custom_field => {:name => ''}
+      post :create, :params => {
+          :custom_field => {
+            :name => ''
+          }
+        }
     end
     assert_response :success
     assert_select 'input[type=radio][name=type]'
   end
 
   def test_edit
-    get :edit, :id => 1
+    get :edit, :params => {
+        :id => 1
+      }
     assert_response :success
     assert_select 'input[name=?][value=?]', 'custom_field[name]', 'Database'
   end
 
   def test_edit_invalid_custom_field_should_render_404
-    get :edit, :id => 99
+    get :edit, :params => {
+        :id => 99
+      }
     assert_response 404
   end
 
   def test_update
-    put :update, :id => 1, :custom_field => {:name => 'New name'}
+    put :update, :params => {
+        :id => 1,
+        :custom_field => {
+          :name => 'New name'
+        }
+      }
     assert_redirected_to '/custom_fields/1/edit'
 
     field = CustomField.find(1)
@@ -224,7 +308,12 @@ class CustomFieldsControllerTest < Redmine::ControllerTest
   end
 
   def test_update_with_failure
-    put :update, :id => 1, :custom_field => {:name => ''}
+    put :update, :params => {
+        :id => 1,
+        :custom_field => {
+          :name => ''
+        }
+      }
     assert_response :success
     assert_select_error /name cannot be blank/i
   end
@@ -235,7 +324,9 @@ class CustomFieldsControllerTest < Redmine::ControllerTest
 
     assert_difference 'CustomField.count', -1 do
       assert_difference 'CustomValue.count', - custom_values_count do
-        delete :destroy, :id => 1
+        delete :destroy, :params => {
+            :id => 1
+          }
       end
     end
 

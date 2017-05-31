@@ -30,7 +30,12 @@ class PreviewsControllerTest < Redmine::ControllerTest
 
   def test_preview_new_issue
     @request.session[:user_id] = 2
-    post :issue, :project_id => '1', :issue => {:description => 'Foo'}
+    post :issue, :params => {
+        :project_id => '1',
+        :issue => {
+          :description => 'Foo'
+        }
+      }
     assert_response :success
     assert_select 'fieldset' do
       assert_select 'legend', :text => 'Description'
@@ -40,8 +45,14 @@ class PreviewsControllerTest < Redmine::ControllerTest
 
   def test_preview_issue_notes_with_no_change_to_description
     @request.session[:user_id] = 2
-    post :issue, :project_id => '1', :id => 1,
-         :issue => {:description => Issue.find(1).description, :notes => 'Foo'}
+    post :issue, :params => {
+        :project_id => '1',
+        :id => 1,
+        :issue => {
+          :description => Issue.find(1).description,
+          :notes => 'Foo'
+        }
+      }
     assert_response :success
     assert_select 'legend', :text => 'Description', :count => 0
     assert_select 'legend', :text => 'Notes'
@@ -49,8 +60,14 @@ class PreviewsControllerTest < Redmine::ControllerTest
 
   def test_preview_issue_notes_with_change_to_description
     @request.session[:user_id] = 2
-    post :issue, :project_id => '1', :id => 1,
-         :issue => {:description => 'Changed description', :notes => 'Foo'}
+    post :issue, :params => {
+        :project_id => '1',
+        :id => 1,
+        :issue => {
+          :description => 'Changed description',
+          :notes => 'Foo'
+        }
+      }
     assert_response :success
     assert_select 'legend', :text => 'Description'
     assert_select 'legend', :text => 'Notes'
@@ -58,7 +75,13 @@ class PreviewsControllerTest < Redmine::ControllerTest
 
   def test_preview_journal_notes_for_update
     @request.session[:user_id] = 2
-    post :issue, :project_id => '1', :id => 1, :journal => {:notes => 'Foo'}
+    post :issue, :params => {
+        :project_id => '1',
+        :id => 1,
+        :journal => {
+          :notes => 'Foo'
+        }
+      }
     assert_response :success
     assert_select 'legend', :text => 'Notes'
     assert_select 'p', :text => 'Foo'
@@ -67,32 +90,54 @@ class PreviewsControllerTest < Redmine::ControllerTest
   def test_preview_issue_notes_should_support_links_to_existing_attachments
     Attachment.generate!(:container => Issue.find(1), :filename => 'foo.bar')
     @request.session[:user_id] = 2
-    post :issue, :project_id => '1', :id => 1, :issue => {:notes => 'attachment:foo.bar'}
+    post :issue, :params => {
+        :project_id => '1',
+        :id => 1,
+        :issue => {
+          :notes => 'attachment:foo.bar'
+        }
+      }
     assert_response :success
     assert_select 'a.attachment', :text => 'foo.bar'
   end
 
   def test_preview_issue_with_project_changed
     @request.session[:user_id] = 2
-    post :issue, :project_id => '1', :id => 1, :issue => {:notes => 'notes', :project_id => 2}
+    post :issue, :params => {
+        :project_id => '1',
+        :id => 1,
+        :issue => {
+          :notes => 'notes',
+          :project_id => 2
+        }
+      }
     assert_response :success
     assert_select 'legend', :text => 'Notes'
   end
 
   def test_preview_new_news
-    get :news, :project_id => 1,
-                  :news => {:title => '',
-                            :description => 'News description',
-                            :summary => ''}
+    get :news, :params => {
+        :project_id => 1,
+        :news => {
+          :title => '',
+          :description => 'News description',
+          :summary => ''
+        }
+      }
     assert_response :success
     assert_select 'fieldset.preview', :text => /News description/
   end
 
   def test_preview_existing_news
-    get :news, :project_id => 1, :id => 2,
-                  :news => {:title => '',
-                            :description => 'News description',
-                            :summary => ''}
+    get :news, :params => {
+        :project_id => 1,
+        :id => 2,
+        :news => {
+          :title => '',
+          :description => 'News description',
+          :summary => ''
+        }
+      }
     assert_response :success
     assert_select 'fieldset.preview', :text => /News description/
   end

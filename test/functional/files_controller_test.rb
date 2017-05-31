@@ -37,7 +37,9 @@ class FilesControllerTest < Redmine::ControllerTest
   end
 
   def test_index
-    get :index, :project_id => 1
+    get :index, :params => {
+        :project_id => 1
+      }
     assert_response :success
 
     # file attached to the project
@@ -49,7 +51,9 @@ class FilesControllerTest < Redmine::ControllerTest
 
   def test_new
     @request.session[:user_id] = 2
-    get :new, :project_id => 1
+    get :new, :params => {
+        :project_id => 1
+      }
     assert_response :success
 
     assert_select 'select[name=?]', 'version_id'
@@ -58,7 +62,9 @@ class FilesControllerTest < Redmine::ControllerTest
   def test_new_without_versions
     Version.delete_all
     @request.session[:user_id] = 2
-    get :new, :project_id => 1
+    get :new, :params => {
+        :project_id => 1
+      }
     assert_response :success
 
     assert_select 'select[name=?]', 'version_id', 0
@@ -71,8 +77,14 @@ class FilesControllerTest < Redmine::ControllerTest
 
     with_settings :notified_events => %w(file_added) do
       assert_difference 'Attachment.count' do
-        post :create, :project_id => 1, :version_id => '',
-             :attachments => {'1' => {'file' => uploaded_test_file('testfile.txt', 'text/plain')}}
+        post :create, :params => {
+            :project_id => 1,
+            :version_id => '',
+            :attachments => {
+              '1' => {
+              'file' => uploaded_test_file('testfile.txt', 'text/plain')}    
+            }
+          }
         assert_response :redirect
       end
     end
@@ -92,8 +104,14 @@ class FilesControllerTest < Redmine::ControllerTest
     @request.session[:user_id] = 2
 
     assert_difference 'Attachment.count' do
-      post :create, :project_id => 1, :version_id => '2',
-           :attachments => {'1' => {'file' => uploaded_test_file('testfile.txt', 'text/plain')}}
+      post :create, :params => {
+          :project_id => 1,
+          :version_id => '2',
+          :attachments => {
+            '1' => {
+            'file' => uploaded_test_file('testfile.txt', 'text/plain')}    
+          }
+        }
       assert_response :redirect
     end
     assert_redirected_to '/projects/ecookbook/files'
@@ -107,7 +125,10 @@ class FilesControllerTest < Redmine::ControllerTest
     @request.session[:user_id] = 2
 
     assert_no_difference 'Attachment.count' do
-      post :create, :project_id => 1, :version_id => ''
+      post :create, :params => {
+          :project_id => 1,
+          :version_id => ''
+        }
       assert_response :success
     end
     assert_select 'div.error', 'File is invalid'

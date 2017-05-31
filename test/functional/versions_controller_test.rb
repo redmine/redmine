@@ -136,7 +136,7 @@ class VersionsControllerTest < Redmine::ControllerTest
 
   def test_new_from_issue_form
     @request.session[:user_id] = 2
-    xhr :get, :new, :params => {:project_id => '1'}
+    get :new, :params => {:project_id => '1'}, :xhr => true
     assert_response :success
     assert_equal 'text/javascript', response.content_type
   end
@@ -155,7 +155,7 @@ class VersionsControllerTest < Redmine::ControllerTest
   def test_create_from_issue_form
     @request.session[:user_id] = 2
     assert_difference 'Version.count' do
-      xhr :post, :create, :params => {:project_id => '1', :version => {:name => 'test_add_version_from_issue_form'}}
+      post :create, :params => {:project_id => '1', :version => {:name => 'test_add_version_from_issue_form'}}, :xhr => true
     end
     version = Version.find_by_name('test_add_version_from_issue_form')
     assert_not_nil version
@@ -169,7 +169,7 @@ class VersionsControllerTest < Redmine::ControllerTest
   def test_create_from_issue_form_with_failure
     @request.session[:user_id] = 2
     assert_no_difference 'Version.count' do
-      xhr :post, :create, :params => {:project_id => '1', :version => {:name => ''}}
+      post :create, :params => {:project_id => '1', :version => {:name => ''}}, :xhr => true
     end
     assert_response :success
     assert_equal 'text/javascript', response.content_type
@@ -247,12 +247,12 @@ class VersionsControllerTest < Redmine::ControllerTest
   end
 
   def test_issue_status_by
-    xhr :get, :status_by, :params => {:id => 2}
+    get :status_by, :params => {:id => 2}, :xhr => true
     assert_response :success
   end
 
   def test_issue_status_by_status
-    xhr :get, :status_by, :params => {:id => 2, :status_by => 'status'}
+    get :status_by, :params => {:id => 2, :status_by => 'status'}, :xhr => true
     assert_response :success
     assert_include 'Assigned', response.body
     assert_include 'Closed', response.body

@@ -29,7 +29,7 @@ class WikisControllerTest < Redmine::ControllerTest
     assert_nil Project.find(3).wiki
 
     assert_difference 'Wiki.count' do
-      xhr :post, :edit, :params => {:id => 3, :wiki => { :start_page => 'Start page' }}
+      post :edit, :params => {:id => 3, :wiki => { :start_page => 'Start page' }}, :xhr => true
       assert_response :success
       assert_equal 'text/javascript', response.content_type
     end
@@ -43,7 +43,7 @@ class WikisControllerTest < Redmine::ControllerTest
     @request.session[:user_id] = 1
 
     assert_no_difference 'Wiki.count' do
-      xhr :post, :edit, :params => {:id => 3, :wiki => { :start_page => '' }}
+      post :edit, :params => {:id => 3, :wiki => { :start_page => '' }}, :xhr => true
       assert_response :success
       assert_equal 'text/javascript', response.content_type
     end
@@ -56,7 +56,7 @@ class WikisControllerTest < Redmine::ControllerTest
     @request.session[:user_id] = 1
 
     assert_no_difference 'Wiki.count' do
-      xhr :post, :edit, :params => {:id => 1, :wiki => { :start_page => 'Other start page' }}
+      post :edit, :params => {:id => 1, :wiki => { :start_page => 'Other start page' }}, :xhr => true
       assert_response :success
       assert_equal 'text/javascript', response.content_type
     end

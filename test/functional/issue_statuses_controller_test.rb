@@ -51,7 +51,11 @@ class IssueStatusesControllerTest < Redmine::ControllerTest
 
   def test_create
     assert_difference 'IssueStatus.count' do
-      post :create, :issue_status => {:name => 'New status'}
+      post :create, :params => {
+          :issue_status => {
+            :name => 'New status'
+          }
+        }
     end
     assert_redirected_to :action => 'index'
     status = IssueStatus.order('id DESC').first
@@ -59,26 +63,42 @@ class IssueStatusesControllerTest < Redmine::ControllerTest
   end
 
   def test_create_with_failure
-    post :create, :issue_status => {:name => ''}
+    post :create, :params => {
+        :issue_status => {
+          :name => ''
+        }
+      }
     assert_response :success
     assert_select_error /name cannot be blank/i
   end
 
   def test_edit
-    get :edit, :id => '3'
+    get :edit, :params => {
+        :id => '3'
+      }
     assert_response :success
     assert_select 'input[name=?][value=?]', 'issue_status[name]', 'Resolved'
   end
 
   def test_update
-    put :update, :id => '3', :issue_status => {:name => 'Renamed status'}
+    put :update, :params => {
+        :id => '3',
+        :issue_status => {
+          :name => 'Renamed status'
+        }
+      }
     assert_redirected_to :action => 'index'
     status = IssueStatus.find(3)
     assert_equal 'Renamed status', status.name
   end
 
   def test_update_with_failure
-    put :update, :id => '3', :issue_status => {:name => ''}
+    put :update, :params => {
+        :id => '3',
+        :issue_status => {
+          :name => ''
+        }
+      }
     assert_response :success
     assert_select_error /name cannot be blank/i
   end
@@ -88,7 +108,9 @@ class IssueStatusesControllerTest < Redmine::ControllerTest
     Tracker.where(:default_status_id => 1).delete_all
 
     assert_difference 'IssueStatus.count', -1 do
-      delete :destroy, :id => '1'
+      delete :destroy, :params => {
+          :id => '1'
+        }
     end
     assert_redirected_to :action => 'index'
     assert_nil IssueStatus.find_by_id(1)
@@ -99,7 +121,9 @@ class IssueStatusesControllerTest < Redmine::ControllerTest
     Tracker.where(:default_status_id => 1).delete_all
 
     assert_no_difference 'IssueStatus.count' do
-      delete :destroy, :id => '1'
+      delete :destroy, :params => {
+          :id => '1'
+        }
     end
     assert_redirected_to :action => 'index'
     assert_not_nil IssueStatus.find_by_id(1)
@@ -110,7 +134,9 @@ class IssueStatusesControllerTest < Redmine::ControllerTest
     assert Tracker.where(:default_status_id => 1).any?
 
     assert_no_difference 'IssueStatus.count' do
-      delete :destroy, :id => '1'
+      delete :destroy, :params => {
+          :id => '1'
+        }
     end
     assert_redirected_to :action => 'index'
     assert_not_nil IssueStatus.find_by_id(1)

@@ -26,13 +26,18 @@ class JournalsControllerTest < Redmine::ControllerTest
   end
 
   def test_index
-    get :index, :project_id => 1
+    get :index, :params => {
+        :project_id => 1
+      }
     assert_response :success
     assert_equal 'application/atom+xml', @response.content_type
   end
 
   def test_index_with_invalid_query_id
-    get :index, :project_id => 1, :query_id => 999
+    get :index, :params => {
+        :project_id => 1,
+        :query_id => 999
+      }
     assert_response 404
   end
 
@@ -40,18 +45,23 @@ class JournalsControllerTest < Redmine::ControllerTest
     journal = Journal.create!(:journalized => Issue.find(2), :notes => 'Privates notes', :private_notes => true, :user_id => 1)
     @request.session[:user_id] = 2
 
-    get :index, :project_id => 1
+    get :index, :params => {
+        :project_id => 1
+      }
     assert_response :success
     assert_select 'entry>id', :text => "http://test.host/issues/2?journal_id=#{journal.id}"
 
     Role.find(1).remove_permission! :view_private_notes
-    get :index, :project_id => 1
+    get :index, :params => {
+        :project_id => 1
+      }
     assert_response :success
     assert_select 'entry>id', :text => "http://test.host/issues/2?journal_id=#{journal.id}", :count => 0
   end
 
   def test_index_should_show_visible_custom_fields_only
     Issue.destroy_all
+    Journal.delete_all
     field_attributes = {:field_format => 'string', :is_for_all => true, :is_filter => true, :trackers => Tracker.all}
     @fields = []
     @fields << (@field1 = IssueCustomField.create!(field_attributes.merge(:name => 'Field 1', :visible => true)))
@@ -64,8 +74,8 @@ class JournalsControllerTest < Redmine::ControllerTest
       :custom_field_values => {@field1.id => 'Value0', @field2.id => 'Value1', @field3.id => 'Value2'}
     )
     @issue.init_journal(User.find(1))
-    @issue.update_attribute :custom_field_values, {@field1.id => 'NewValue0', @field2.id => 'NewValue1', @field3.id => 'NewValue2'}
-
+    @issue.custom_field_values = {@field1.id => 'NewValue0', @field2.id => 'NewValue1', @field3.id => 'NewValue2'}
+    @issue.save!
 
     user_with_role_on_other_project = User.generate!
     User.add_to_project(user_with_role_on_other_project, Project.find(2), Role.find(3))
@@ -78,7 +88,10 @@ class JournalsControllerTest < Redmine::ControllerTest
     }
 
     users_to_test.each do |user, visible_fields|
-      get :index, :format => 'atom', :key => user.rss_key
+      get :index, :params => {
+          :format => 'atom',
+          :key => user.rss_key
+        }
       @fields.each_with_index do |field, i|
         if visible_fields.include?(field)
           assert_select "content[type=html]", { :text => /NewValue#{i}/, :count => 1 }, "User #{user.id} was not able to view #{field.name} in API"
@@ -91,7 +104,10 @@ class JournalsControllerTest < Redmine::ControllerTest
   end
 
   def test_diff_for_description_change
-    get :diff, :id => 3, :detail_id => 4
+    get :diff, :params => {
+        :id => 3,
+        :detail_id => 4
+      }
     assert_response :success
 
     assert_select 'span.diff_out', :text => /removed/
@@ -104,7 +120,10 @@ class JournalsControllerTest < Redmine::ControllerTest
     detail = JournalDetail.create!(:journal => journal, :property => 'cf', :prop_key => field.id,
       :old_value => 'Foo', :value => 'Bar')
 
-    get :diff, :id => journal.id, :detail_id => detail.id
+    get :diff, :params => {
+        :id => journal.id,
+        :detail_id => detail.id
+      }
     assert_response :success
 
     assert_select 'span.diff_out', :text => /Foo/
@@ -117,12 +136,17 @@ class JournalsControllerTest < Redmine::ControllerTest
     detail = JournalDetail.create!(:journal => journal, :property => 'cf', :prop_key => field.id,
       :old_value => 'Foo', :value => 'Bar')
 
-    get :diff, :id => journal.id, :detail_id => detail.id
+    get :diff, :params => {
+        :id => journal.id,
+        :detail_id => detail.id
+      }
     assert_response 302
   end
 
   def test_diff_should_default_to_description_diff
-    get :diff, :id => 3
+    get :diff, :params => {
+        :id => 3
+      }
     assert_response :success
 
     assert_select 'span.diff_out', :text => /removed/
@@ -131,7 +155,10 @@ class JournalsControllerTest < Redmine::ControllerTest
 
   def test_reply_to_issue
     @request.session[:user_id] = 2
-    xhr :get, :new, :id => 6
+    get :new, :params => {
+        :id => 6
+      },
+      :xhr => true
     assert_response :success
 
     assert_equal 'text/javascript', response.content_type
@@ -140,13 +167,20 @@ class JournalsControllerTest < Redmine::ControllerTest
 
   def test_reply_to_issue_without_permission
     @request.session[:user_id] = 7
-    xhr :get, :new, :id => 6
+    get :new, :params => {
+        :id => 6
+      },
+      :xhr => true
     assert_response 403
   end
 
   def test_reply_to_note
     @request.session[:user_id] = 2
-    xhr :get, :new, :id => 6, :journal_id => 4
+    get :new, :params => {
+        :id => 6,
+        :journal_id => 4
+      },
+      :xhr => true
     assert_response :success
     assert_equal 'text/javascript', response.content_type
     assert_include '> A comment with a private version', response.body
@@ -156,19 +190,30 @@ class JournalsControllerTest < Redmine::ControllerTest
     journal = Journal.create!(:journalized => Issue.find(2), :notes => 'Privates notes', :private_notes => true)
     @request.session[:user_id] = 2
 
-    xhr :get, :new, :id => 2, :journal_id => journal.id
+    get :new, :params => {
+        :id => 2,
+        :journal_id => journal.id
+      },
+      :xhr => true
     assert_response :success
     assert_equal 'text/javascript', response.content_type
     assert_include '> Privates notes', response.body
 
     Role.find(1).remove_permission! :view_private_notes
-    xhr :get, :new, :id => 2, :journal_id => journal.id
+    get :new, :params => {
+        :id => 2,
+        :journal_id => journal.id
+      },
+      :xhr => true
     assert_response 404
   end
 
   def test_edit_xhr
     @request.session[:user_id] = 1
-    xhr :get, :edit, :id => 2
+    get :edit, :params => {
+        :id => 2
+      },
+      :xhr => true
     assert_response :success
     assert_equal 'text/javascript', response.content_type
     assert_include 'textarea', response.body
@@ -179,19 +224,31 @@ class JournalsControllerTest < Redmine::ControllerTest
     @request.session[:user_id] = 2
     Role.find(1).add_permission! :edit_issue_notes
 
-    xhr :get, :edit, :id => journal.id
+    get :edit, :params => {
+        :id => journal.id
+      },
+      :xhr => true
     assert_response :success
     assert_equal 'text/javascript', response.content_type
     assert_include 'textarea', response.body
 
     Role.find(1).remove_permission! :view_private_notes
-    xhr :get, :edit, :id => journal.id
+    get :edit, :params => {
+        :id => journal.id
+      },
+      :xhr => true
     assert_response 404
   end
 
   def test_update_xhr
     @request.session[:user_id] = 1
-    xhr :post, :update, :id => 2, :journal => {:notes => 'Updated notes'}
+    post :update, :params => {
+        :id => 2,
+        :journal => {
+          :notes => 'Updated notes'
+        }
+      },
+      :xhr => true
     assert_response :success
     assert_equal 'text/javascript', response.content_type
     assert_equal 'Updated notes', Journal.find(2).notes
@@ -200,7 +257,13 @@ class JournalsControllerTest < Redmine::ControllerTest
 
   def test_update_xhr_with_private_notes_checked
     @request.session[:user_id] = 1
-    xhr :post, :update, :id => 2, :journal => {:private_notes => '1'}
+    post :update, :params => {
+        :id => 2,
+        :journal => {
+          :private_notes => '1'
+        }
+      },
+      :xhr => true
     assert_response :success
     assert_equal 'text/javascript', response.content_type
     assert_equal true, Journal.find(2).private_notes
@@ -211,7 +274,13 @@ class JournalsControllerTest < Redmine::ControllerTest
   def test_update_xhr_with_private_notes_unchecked
     Journal.find(2).update_attributes(:private_notes => true)
     @request.session[:user_id] = 1
-    xhr :post, :update, :id => 2, :journal => {:private_notes => '0'}
+    post :update, :params => {
+        :id => 2,
+        :journal => {
+          :private_notes => '0'
+        }
+      },
+      :xhr => true
     assert_response :success
     assert_equal 'text/javascript', response.content_type
     assert_equal false, Journal.find(2).private_notes
@@ -225,7 +294,13 @@ class JournalsControllerTest < Redmine::ControllerTest
     Role.find(1).add_permission! :view_private_notes
     Role.find(1).remove_permission! :set_notes_private
 
-    xhr :post, :update, :id => 2, :journal => {:private_notes => '1'}
+    post :update, :params => {
+        :id => 2,
+        :journal => {
+          :private_notes => '1'
+        }
+      },
+      :xhr => true
     assert_response :success
     assert_equal false, Journal.find(2).private_notes
   end
@@ -233,7 +308,13 @@ class JournalsControllerTest < Redmine::ControllerTest
   def test_update_xhr_with_empty_notes_should_delete_the_journal
     @request.session[:user_id] = 1
     assert_difference 'Journal.count', -1 do
-      xhr :post, :update, :id => 2, :journal => {:notes => ''}
+      post :update, :params => {
+          :id => 2,
+          :journal => {
+            :notes => ''
+          }
+        },
+        :xhr => true
       assert_response :success
       assert_equal 'text/javascript', response.content_type
     end

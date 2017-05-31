@@ -32,14 +32,18 @@ class CalendarsControllerTest < Redmine::ControllerTest
            :enumerations
 
   def test_show
-    get :show, :project_id => 1
+    get :show, :params => {
+        :project_id => 1
+      }
     assert_response :success
   end
 
   def test_show_should_run_custom_queries
     @query = IssueQuery.create!(:name => 'Calendar Query', :visibility => IssueQuery::VISIBILITY_PUBLIC)
 
-    get :show, :query_id => @query.id
+    get :show, :params => {
+        :query_id => @query.id
+      }
     assert_response :success
     assert_select 'h2', :text => 'Calendar Query'
   end
@@ -51,7 +55,10 @@ class CalendarsControllerTest < Redmine::ControllerTest
 
   def test_week_number_calculation
     with_settings :start_of_week => 7 do
-      get :show, :month => '1', :year => '2010'
+      get :show, :params => {
+          :month => '1',
+          :year => '2010'
+        }
       assert_response :success
     end
 
@@ -68,7 +75,10 @@ class CalendarsControllerTest < Redmine::ControllerTest
     end
 
     with_settings :start_of_week => 1 do
-      get :show, :month => '1', :year => '2010'
+      get :show, :params => {
+          :month => '1',
+          :year => '2010'
+        }
       assert_response :success
     end
 

@@ -54,14 +54,17 @@ class RepositoriesGitControllerTest < Redmine::ControllerTest
   def test_create_and_update
     @request.session[:user_id] = 1
     assert_difference 'Repository.count' do
-      post :create, :project_id => 'subproject1',
-                    :repository_scm => 'Git',
-                    :repository => {
-                       :url => '/test',
-                       :is_default => '0',
-                       :identifier => 'test-create',
-                       :report_last_commit => '1',
-                     }
+      post :create, :params => {
+          :project_id => 'subproject1',
+          :repository_scm => 'Git',
+          :repository => {
+            :url => '/test',
+            :is_default => '0',
+            :identifier => 'test-create',
+            :report_last_commit => '1',
+                                 
+          }
+        }
     end
     assert_response 302
     repository = Repository.order('id DESC').first
@@ -69,10 +72,13 @@ class RepositoriesGitControllerTest < Redmine::ControllerTest
     assert_equal '/test', repository.url
     assert_equal true, repository.report_last_commit
 
-    put :update, :id => repository.id,
-                 :repository => {
-                   :report_last_commit => '0'
-                 }
+    put :update, :params => {
+        :id => repository.id,
+        :repository => {
+          :report_last_commit => '0'
+          
+        }
+      }
     assert_response 302
     repo2 = Repository.find(repository.id)
     assert_equal false, repo2.report_last_commit
@@ -92,7 +98,10 @@ class RepositoriesGitControllerTest < Redmine::ControllerTest
     def test_get_new
       @request.session[:user_id] = 1
       @project.repository.destroy
-      get :new, :project_id => 'subproject1', :repository_scm => 'Git'
+      get :new, :params => {
+          :project_id => 'subproject1',
+          :repository_scm => 'Git'
+        }
       assert_response :success
       assert_select 'select[name=?]', 'repository_scm' do
         assert_select 'option[value=?][selected=selected]', 'Git'
@@ -105,7 +114,9 @@ class RepositoriesGitControllerTest < Redmine::ControllerTest
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
 
-      get :show, :id => PRJ_ID
+      get :show, :params => {
+          :id => PRJ_ID
+        }
       assert_response :success
 
       assert_select 'table.entries tbody' do
@@ -131,7 +142,10 @@ class RepositoriesGitControllerTest < Redmine::ControllerTest
       @repository.fetch_changesets
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
-      get :show, :id => PRJ_ID, :rev => 'test_branch'
+      get :show, :params => {
+          :id => PRJ_ID,
+          :rev => 'test_branch'
+        }
       assert_response :success
 
       assert_select 'table.entries tbody' do
@@ -156,7 +170,10 @@ class RepositoriesGitControllerTest < Redmine::ControllerTest
         "tag00.lightweight",
         "tag01.annotated",
        ].each do |t1|
-        get :show, :id => PRJ_ID, :rev => t1
+        get :show, :params => {
+            :id => PRJ_ID,
+            :rev => t1
+          }
         assert_response :success
 
         assert_select 'table.entries tbody tr'
@@ -169,7 +186,10 @@ class RepositoriesGitControllerTest < Redmine::ControllerTest
       @repository.fetch_changesets
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
-      get :show, :id => PRJ_ID, :path => repository_path_hash(['images'])[:param]
+      get :show, :params => {
+          :id => PRJ_ID,
+          :path => repository_path_hash(['images'])[:param]
+        }
       assert_response :success
 
       assert_select 'table.entries tbody' do
@@ -184,8 +204,11 @@ class RepositoriesGitControllerTest < Redmine::ControllerTest
       @repository.fetch_changesets
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
-      get :show, :id => PRJ_ID, :path => repository_path_hash(['images'])[:param],
+      get :show, :params => {
+          :id => PRJ_ID,
+          :path => repository_path_hash(['images'])[:param],
           :rev => '7234cb2750b63f47bff735edc50a1c0a433c2518'
+        }
       assert_response :success
 
       assert_select 'table.entries tbody' do
@@ -195,15 +218,19 @@ class RepositoriesGitControllerTest < Redmine::ControllerTest
     end
 
     def test_changes
-      get :changes, :id => PRJ_ID,
+      get :changes, :params => {
+          :id => PRJ_ID,
           :path => repository_path_hash(['images', 'edit.png'])[:param]
+        }
       assert_response :success
       assert_select 'h2', :text => /edit.png/
     end
 
     def test_entry_show
-      get :entry, :id => PRJ_ID,
+      get :entry, :params => {
+          :id => PRJ_ID,
           :path => repository_path_hash(['sources', 'watchers_controller.rb'])[:param]
+        }
       assert_response :success
       # Line 11
       assert_select 'tr#L11 td.line-code', :text => /WITHOUT ANY WARRANTY/
@@ -219,9 +246,11 @@ class RepositoriesGitControllerTest < Redmine::ControllerTest
       else
         with_settings :repositories_encodings => 'UTF-8,ISO-8859-1' do
           ['57ca437c', '57ca437c0acbbcb749821fdf3726a1367056d364'].each do |r1|
-            get :entry, :id => PRJ_ID,
-                :path => repository_path_hash(['latin-1-dir', "test-#{CHAR_1_HEX}.txt"])[:param],
-                :rev => r1
+            get :entry, :params => {
+                :id => PRJ_ID,
+              :path => repository_path_hash(['latin-1-dir', "test-#{CHAR_1_HEX}.txt"])[:param],
+              :rev => r1
+              }
             assert_response :success
             assert_select 'tr#L1 td.line-code', :text => /test-#{CHAR_1_HEX}.txt/
           end
@@ -230,17 +259,21 @@ class RepositoriesGitControllerTest < Redmine::ControllerTest
     end
 
     def test_entry_download
-      get :entry, :id => PRJ_ID,
+      get :entry, :params => {
+          :id => PRJ_ID,
           :path => repository_path_hash(['sources', 'watchers_controller.rb'])[:param],
           :format => 'raw'
+        }
       assert_response :success
       # File content
       assert @response.body.include?('WITHOUT ANY WARRANTY')
     end
 
     def test_directory_entry
-      get :entry, :id => PRJ_ID,
+      get :entry, :params => {
+          :id => PRJ_ID,
           :path => repository_path_hash(['sources'])[:param]
+        }
       assert_response :success
       assert_select 'h2 a', :text => 'sources'
       assert_select 'table.entries tbody'
@@ -255,10 +288,11 @@ class RepositoriesGitControllerTest < Redmine::ControllerTest
       assert_equal NUM_REV, @repository.changesets.count
       # Full diff of changeset 2f9c0091
       ['inline', 'sbs'].each do |dt|
-        get :diff,
+        get :diff, :params => {
             :id   => PRJ_ID,
             :rev  => '2f9c0091c754a91af7a9c478e36556b4bde8dcf7',
             :type => dt
+          }
         assert_response :success
         # Line 22 removed
         assert_select 'th.line-num:contains(22) ~ td.diff_out', :text => /def remove/
@@ -274,11 +308,12 @@ class RepositoriesGitControllerTest < Redmine::ControllerTest
       with_settings :diff_max_lines_displayed => 1000 do
         # Full diff of changeset 2f9c0091
         ['inline', 'sbs'].each do |dt|
-          get :diff,
+          get :diff, :params => {
               :id   => PRJ_ID,
               :rev  => '2f9c0091c754a91af7a9c478e36556b4bde8dcf7',
               :path => repository_path_hash(['sources', 'watchers_controller.rb'])[:param],
               :type => dt
+            }
           assert_response :success
           # Line 22 removed
           assert_select 'th.line-num:contains(22) ~ td.diff_out', :text => /def remove/
@@ -297,14 +332,20 @@ class RepositoriesGitControllerTest < Redmine::ControllerTest
         # Truncated diff of changeset 2f9c0091
         with_cache do
           with_settings :default_language => 'en' do
-            get :diff, :id   => PRJ_ID, :type => 'inline',
+            get :diff, :params => {
+                :id   => PRJ_ID,
+                :type => 'inline',
                 :rev  => '2f9c0091c754a91af7a9c478e36556b4bde8dcf7'
+              }
             assert_response :success
             assert @response.body.include?("... This diff was truncated")
           end
           with_settings :default_language => 'fr' do
-            get :diff, :id   => PRJ_ID, :type => 'inline',
+            get :diff, :params => {
+                :id   => PRJ_ID,
+                :type => 'inline',
                 :rev  => '2f9c0091c754a91af7a9c478e36556b4bde8dcf7'
+              }
             assert_response :success
             assert ! @response.body.include?("... This diff was truncated")
             assert @response.body.include?("... Ce diff")
@@ -319,11 +360,12 @@ class RepositoriesGitControllerTest < Redmine::ControllerTest
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
       ['inline', 'sbs'].each do |dt|
-        get :diff,
+        get :diff, :params => {
             :id     => PRJ_ID,
             :rev    => '61b685fbe55ab05b5ac68402d5720c1a6ac973d1',
             :rev_to => '2f9c0091c754a91af7a9c478e36556b4bde8dcf7',
             :type   => dt
+          }
         assert_response :success
         assert_select 'h2', :text => /2f9c0091:61b685fb/
         assert_select 'form[action=?]', '/projects/subproject1/repository/revisions/61b685fbe55ab05b5ac68402d5720c1a6ac973d1/diff'
@@ -341,12 +383,13 @@ class RepositoriesGitControllerTest < Redmine::ControllerTest
       assert repo
       assert_equal false, repo.is_default
       assert_equal 'test-diff-path', repo.identifier
-      get :diff,
+      get :diff, :params => {
           :id     => PRJ_ID,
           :repository_id => 'test-diff-path',
           :rev    => '61b685fbe55ab05b',
           :rev_to => '2f9c0091c754a91a',
           :type   => 'inline'
+        }
       assert_response :success
       assert_select 'form[action=?]', '/projects/subproject1/repository/test-diff-path/revisions/61b685fbe55ab05b/diff'
       assert_select 'input#rev_to[type=hidden][name=rev_to][value=?]', '2f9c0091c754a91a'
@@ -359,7 +402,11 @@ class RepositoriesGitControllerTest < Redmine::ControllerTest
         with_settings :repositories_encodings => 'UTF-8,ISO-8859-1' do
           ['57ca437c', '57ca437c0acbbcb749821fdf3726a1367056d364'].each do |r1|
             ['inline', 'sbs'].each do |dt|
-              get :diff, :id => PRJ_ID, :rev => r1, :type => dt
+              get :diff, :params => {
+                  :id => PRJ_ID,
+                  :rev => r1,
+                  :type => dt
+                }
               assert_response :success
               assert_select 'table' do
                 assert_select 'thead th.filename', :text => /latin-1-dir\/test-#{CHAR_1_HEX}.txt/
@@ -372,7 +419,11 @@ class RepositoriesGitControllerTest < Redmine::ControllerTest
     end
 
     def test_diff_should_show_filenames
-      get :diff, :id => PRJ_ID, :rev => 'deff712f05a90d96edbd70facc47d944be5897e3', :type => 'inline'
+      get :diff, :params => {
+          :id => PRJ_ID,
+          :rev => 'deff712f05a90d96edbd70facc47d944be5897e3',
+          :type => 'inline'
+        }
       assert_response :success
       # modified file
       assert_select 'th.filename', :text => 'sources/watchers_controller.rb'
@@ -388,24 +439,28 @@ class RepositoriesGitControllerTest < Redmine::ControllerTest
       assert_nil user.pref[:diff_type]
 
       @request.session[:user_id] = 1 # admin
-      get :diff,
+      get :diff, :params => {
           :id   => PRJ_ID,
           :rev  => '2f9c0091c754a91af7a9c478e36556b4bde8dcf7'
+        }
       assert_response :success
       user.reload
       assert_equal "inline", user.pref[:diff_type]
-      get :diff,
+      get :diff, :params => {
           :id   => PRJ_ID,
           :rev  => '2f9c0091c754a91af7a9c478e36556b4bde8dcf7',
           :type => 'sbs'
+        }
       assert_response :success
       user.reload
       assert_equal "sbs", user.pref[:diff_type]
     end
 
     def test_annotate
-      get :annotate, :id => PRJ_ID,
+      get :annotate, :params => {
+          :id => PRJ_ID,
           :path => repository_path_hash(['sources', 'watchers_controller.rb'])[:param]
+        }
       assert_response :success
 
       # Line 23, changeset 2f9c0091
@@ -422,16 +477,21 @@ class RepositoriesGitControllerTest < Redmine::ControllerTest
       @repository.fetch_changesets
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
-      get :annotate, :id => PRJ_ID, :rev => 'deff7',
+      get :annotate, :params => {
+          :id => PRJ_ID,
+          :rev => 'deff7',
           :path => repository_path_hash(['sources', 'watchers_controller.rb'])[:param]
+        }
       assert_response :success
       assert_select 'h2', :text => /@ deff712f/
     end
 
     def test_annotate_binary_file
       with_settings :default_language => 'en' do
-        get :annotate, :id => PRJ_ID,
+        get :annotate, :params => {
+            :id => PRJ_ID,
             :path => repository_path_hash(['images', 'edit.png'])[:param]
+          }
         assert_response :success
         assert_select 'p#errorExplanation', :text => /cannot be annotated/
       end
@@ -439,15 +499,19 @@ class RepositoriesGitControllerTest < Redmine::ControllerTest
 
     def test_annotate_error_when_too_big
       with_settings :file_max_size_displayed => 1 do
-        get :annotate, :id => PRJ_ID,
+        get :annotate, :params => {
+            :id => PRJ_ID,
             :path => repository_path_hash(['sources', 'watchers_controller.rb'])[:param],
             :rev => 'deff712f'
+          }
         assert_response :success
         assert_select 'p#errorExplanation', :text => /exceeds the maximum text file size/
 
-        get :annotate, :id => PRJ_ID,
+        get :annotate, :params => {
+            :id => PRJ_ID,
             :path => repository_path_hash(['README'])[:param],
             :rev => '7234cb2'
+          }
         assert_response :success
       end
     end
@@ -462,9 +526,11 @@ class RepositoriesGitControllerTest < Redmine::ControllerTest
       else
         with_settings :repositories_encodings => 'UTF-8,ISO-8859-1' do
           ['57ca437c', '57ca437c0acbbcb749821fdf3726a1367056d364'].each do |r1|
-            get :annotate, :id => PRJ_ID,
-                :path => repository_path_hash(['latin-1-dir', "test-#{CHAR_1_HEX}.txt"])[:param],
-                :rev => r1
+            get :annotate, :params => {
+                :id => PRJ_ID,
+              :path => repository_path_hash(['latin-1-dir', "test-#{CHAR_1_HEX}.txt"])[:param],
+              :rev => r1
+              }
             assert_select "th.line-num", :text => '1' do
               assert_select "+ td.revision" do
                 assert_select "a", :text => '57ca437c'
@@ -481,9 +547,11 @@ class RepositoriesGitControllerTest < Redmine::ControllerTest
 
     def test_annotate_latin_1_author
       ['83ca5fd546063a3c7dc2e568ba3355661a9e2b2c', '83ca5fd546063a'].each do |r1|
-        get :annotate, :id => PRJ_ID,
+        get :annotate, :params => {
+            :id => PRJ_ID,
             :path => repository_path_hash([" filename with a leading space.txt "])[:param],
             :rev => r1
+          }
         assert_select "th.line-num", :text => '1' do
           assert_select "+ td.revision" do
             assert_select "a", :text => '83ca5fd5'
@@ -501,7 +569,9 @@ class RepositoriesGitControllerTest < Redmine::ControllerTest
       @repository.fetch_changesets
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
-      get :revisions, :id => PRJ_ID
+      get :revisions, :params => {
+          :id => PRJ_ID
+        }
       assert_select 'form[method=get][action=?]', '/projects/subproject1/repository/revision'
     end
 
@@ -511,7 +581,10 @@ class RepositoriesGitControllerTest < Redmine::ControllerTest
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
       ['61b685fbe55ab05b5ac68402d5720c1a6ac973d1', '61b685f'].each do |r|
-        get :revision, :id => PRJ_ID, :rev => r
+        get :revision, :params => {
+            :id => PRJ_ID,
+            :rev => r
+          }
         assert_response :success
       end
     end
@@ -522,7 +595,10 @@ class RepositoriesGitControllerTest < Redmine::ControllerTest
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
       ['', ' ', nil].each do |r|
-        get :revision, :id => PRJ_ID, :rev => r
+        get :revision, :params => {
+            :id => PRJ_ID,
+            :rev => r
+          }
         assert_response 404
         assert_select_error /was not found/
       end
@@ -536,7 +612,9 @@ class RepositoriesGitControllerTest < Redmine::ControllerTest
       assert_equal NUM_REV, @repository.changesets.count
 
       assert_difference 'Repository.count', -1 do
-        delete :destroy, :id => @repository.id
+        delete :destroy, :params => {
+            :id => @repository.id
+          }
       end
       assert_response 302
       @project.reload
@@ -556,7 +634,9 @@ class RepositoriesGitControllerTest < Redmine::ControllerTest
       assert_equal 0, @repository.changesets.count
 
       assert_difference 'Repository.count', -1 do
-        delete :destroy, :id => @repository.id
+        delete :destroy, :params => {
+            :id => @repository.id
+          }
       end
       assert_response 302
       @project.reload

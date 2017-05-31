@@ -42,7 +42,10 @@ class RepositoriesDarcsControllerTest < Redmine::ControllerTest
     def test_get_new
       @request.session[:user_id] = 1
       @project.repository.destroy
-      get :new, :project_id => 'subproject1', :repository_scm => 'Darcs'
+      get :new, :params => {
+          :project_id => 'subproject1',
+          :repository_scm => 'Darcs'
+        }
       assert_response :success
       assert_select 'select[name=?]', 'repository_scm' do
         assert_select 'option[value=?][selected=selected]', 'Darcs'
@@ -54,7 +57,9 @@ class RepositoriesDarcsControllerTest < Redmine::ControllerTest
       @repository.fetch_changesets
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
-      get :show, :id => PRJ_ID
+      get :show, :params => {
+          :id => PRJ_ID
+        }
       assert_select 'table.entries tbody' do
         assert_select 'tr', 3
         assert_select 'tr.dir td.filename a', :text => 'images'
@@ -68,7 +73,10 @@ class RepositoriesDarcsControllerTest < Redmine::ControllerTest
       @repository.fetch_changesets
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
-      get :show, :id => PRJ_ID, :path => repository_path_hash(['images'])[:param]
+      get :show, :params => {
+          :id => PRJ_ID,
+          :path => repository_path_hash(['images'])[:param]
+        }
       assert_response :success
       assert_select 'table.entries tbody' do
         assert_select 'tr', 2
@@ -82,8 +90,11 @@ class RepositoriesDarcsControllerTest < Redmine::ControllerTest
       @repository.fetch_changesets
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
-      get :show, :id => PRJ_ID, :path => repository_path_hash(['images'])[:param],
+      get :show, :params => {
+          :id => PRJ_ID,
+          :path => repository_path_hash(['images'])[:param],
           :rev => 1
+        }
       assert_response :success
       assert_select 'table.entries tbody' do
         assert_select 'tr', 1
@@ -96,8 +107,10 @@ class RepositoriesDarcsControllerTest < Redmine::ControllerTest
       @repository.fetch_changesets
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
-      get :changes, :id => PRJ_ID,
+      get :changes, :params => {
+          :id => PRJ_ID,
           :path => repository_path_hash(['images', 'edit.png'])[:param]
+        }
       assert_response :success
       assert_select 'h2', :text => /edit.png/
     end
@@ -109,7 +122,11 @@ class RepositoriesDarcsControllerTest < Redmine::ControllerTest
       assert_equal NUM_REV, @repository.changesets.count
       # Full diff of changeset 5
       ['inline', 'sbs'].each do |dt|
-        get :diff, :id => PRJ_ID, :rev => 5, :type => dt
+        get :diff, :params => {
+            :id => PRJ_ID,
+            :rev => 5,
+            :type => dt
+          }
         assert_response :success
         # Line 22 removed
         assert_select 'th.line-num:contains(22) ~ td.diff_out', :text => /def remove/
@@ -124,7 +141,9 @@ class RepositoriesDarcsControllerTest < Redmine::ControllerTest
       assert_equal NUM_REV, @repository.changesets.count
 
       assert_difference 'Repository.count', -1 do
-        delete :destroy, :id => @repository.id
+        delete :destroy, :params => {
+            :id => @repository.id
+          }
       end
       assert_response 302
       @project.reload
@@ -144,7 +163,9 @@ class RepositoriesDarcsControllerTest < Redmine::ControllerTest
       assert_equal 0, @repository.changesets.count
 
       assert_difference 'Repository.count', -1 do
-        delete :destroy, :id => @repository.id
+        delete :destroy, :params => {
+            :id => @repository.id
+          }
       end
       assert_response 302
       @project.reload

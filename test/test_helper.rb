@@ -320,10 +320,12 @@ module Redmine
       assert_equal expected_filters.size, filter_init.scan("addFilter").size, "filters counts don't match"
     end
 
-    def process(method, path, parameters={}, session={}, flash={})
-      if parameters.key?(:params) || parameters.key?(:session)
-        raise ArgumentError if session.present?
-        super method, path, parameters[:params], parameters[:session], parameters.except(:params, :session)
+    def process(action, http_method = 'GET', *args)
+      parameters, session, flash = *args
+      if args.size == 1 && parameters[:xhr] == true
+        xhr http_method.downcase.to_sym, action, parameters.except(:xhr)
+      elsif parameters && (parameters.key?(:params) || parameters.key?(:session) || parameters.key?(:flash))
+        super action, http_method, parameters[:params], parameters[:session], parameters[:flash]
       else
         super
       end

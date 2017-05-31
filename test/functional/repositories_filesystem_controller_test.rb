@@ -43,7 +43,10 @@ class RepositoriesFilesystemControllerTest < Redmine::ControllerTest
     def test_get_new
       @request.session[:user_id] = 1
       @project.repository.destroy
-      get :new, :project_id => 'subproject1', :repository_scm => 'Filesystem'
+      get :new, :params => {
+          :project_id => 'subproject1',
+          :repository_scm => 'Filesystem'
+        }
       assert_response :success
       assert_select 'select[name=?]', 'repository_scm' do
         assert_select 'option[value=?][selected=selected]', 'Filesystem'
@@ -53,7 +56,9 @@ class RepositoriesFilesystemControllerTest < Redmine::ControllerTest
     def test_browse_root
       @repository.fetch_changesets
       @repository.reload
-      get :show, :id => PRJ_ID
+      get :show, :params => {
+          :id => PRJ_ID
+        }
       assert_response :success
 
       assert_select 'table.entries tbody' do
@@ -71,21 +76,29 @@ class RepositoriesFilesystemControllerTest < Redmine::ControllerTest
     end
 
     def test_show_no_extension
-      get :entry, :id => PRJ_ID, :path => repository_path_hash(['test'])[:param]
+      get :entry, :params => {
+          :id => PRJ_ID,
+          :path => repository_path_hash(['test'])[:param]
+        }
       assert_response :success
       assert_select 'tr#L1 td.line-code', :text => /TEST CAT/
     end
 
     def test_entry_download_no_extension
-      get :raw, :id => PRJ_ID, :path => repository_path_hash(['test'])[:param]
+      get :raw, :params => {
+          :id => PRJ_ID,
+          :path => repository_path_hash(['test'])[:param]
+        }
       assert_response :success
       assert_equal 'application/octet-stream', @response.content_type
     end
 
     def test_show_non_ascii_contents
       with_settings :repositories_encodings => 'UTF-8,EUC-JP' do
-        get :entry, :id => PRJ_ID,
+        get :entry, :params => {
+            :id => PRJ_ID,
             :path => repository_path_hash(['japanese', 'euc-jp.txt'])[:param]
+          }
         assert_response :success
         assert_select 'tr#L2 td.line-code', :text => /japanese/
         if @ruby19_non_utf8_pass
@@ -102,8 +115,10 @@ class RepositoriesFilesystemControllerTest < Redmine::ControllerTest
     def test_show_utf16
       enc = 'UTF-16'
       with_settings :repositories_encodings => enc do
-        get :entry, :id => PRJ_ID,
+        get :entry, :params => {
+            :id => PRJ_ID,
             :path => repository_path_hash(['japanese', 'utf-16.txt'])[:param]
+          }
         assert_response :success
         assert_select 'tr#L2 td.line-code', :text => /japanese/
       end
@@ -111,8 +126,10 @@ class RepositoriesFilesystemControllerTest < Redmine::ControllerTest
 
     def test_show_text_file_should_show_other_if_too_big
       with_settings :file_max_size_displayed => 1 do
-        get :entry, :id => PRJ_ID,
+        get :entry, :params => {
+            :id => PRJ_ID,
             :path => repository_path_hash(['japanese', 'big-file.txt'])[:param]
+          }
         assert_response :success
         assert_equal 'text/html', @response.content_type
         assert_select 'p.nodata'
@@ -123,7 +140,9 @@ class RepositoriesFilesystemControllerTest < Redmine::ControllerTest
       @request.session[:user_id] = 1 # admin
 
       assert_difference 'Repository.count', -1 do
-        delete :destroy, :id => @repository.id
+        delete :destroy, :params => {
+            :id => @repository.id
+          }
       end
       assert_response 302
       @project.reload
@@ -140,7 +159,9 @@ class RepositoriesFilesystemControllerTest < Redmine::ControllerTest
                       )
 
       assert_difference 'Repository.count', -1 do
-        delete :destroy, :id => @repository.id
+        delete :destroy, :params => {
+            :id => @repository.id
+          }
       end
       assert_response 302
       @project.reload

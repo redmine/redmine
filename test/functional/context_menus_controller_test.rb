@@ -35,7 +35,9 @@ class ContextMenusControllerTest < Redmine::ControllerTest
 
   def test_context_menu_one_issue
     @request.session[:user_id] = 2
-    get :issues, :ids => [1]
+    get :issues, :params => {
+        :ids => [1]
+      }
     assert_response :success
 
     assert_select 'a.icon-edit[href=?]', '/issues/1/edit', :text => 'Edit'
@@ -56,7 +58,9 @@ class ContextMenusControllerTest < Redmine::ControllerTest
 
   def test_context_menu_one_issue_by_anonymous
     with_settings :default_language => 'en' do
-      get :issues, :ids => [1]
+      get :issues, :params => {
+          :ids => [1]
+        }
       assert_response :success
 
       assert_select 'a.icon-del.disabled[href="#"]', :text => 'Delete'
@@ -65,7 +69,9 @@ class ContextMenusControllerTest < Redmine::ControllerTest
 
   def test_context_menu_multiple_issues_of_same_project
     @request.session[:user_id] = 2
-    get :issues, :ids => [1, 2]
+    get :issues, :params => {
+        :ids => [1, 2]
+      }
     assert_response :success
 
     ids = [1, 2].map {|i| "ids%5B%5D=#{i}"}.join('&')
@@ -81,7 +87,9 @@ class ContextMenusControllerTest < Redmine::ControllerTest
 
   def test_context_menu_multiple_issues_of_different_projects
     @request.session[:user_id] = 2
-    get :issues, :ids => [1, 2, 6]
+    get :issues, :params => {
+        :ids => [1, 2, 6]
+      }
     assert_response :success
 
     ids = [1, 2, 6].map {|i| "ids%5B%5D=#{i}"}.join('&')
@@ -98,7 +106,9 @@ class ContextMenusControllerTest < Redmine::ControllerTest
     field = IssueCustomField.create!(:name => 'List', :field_format => 'list',
       :possible_values => ['Foo', 'Bar'], :is_for_all => true, :tracker_ids => [1, 2, 3])
     @request.session[:user_id] = 2
-    get :issues, :ids => [1]
+    get :issues, :params => {
+        :ids => [1]
+      }
 
     assert_select "li.cf_#{field.id}" do
       assert_select 'a[href="#"]', :text => 'List'
@@ -114,7 +124,9 @@ class ContextMenusControllerTest < Redmine::ControllerTest
     field = IssueCustomField.create!(:name => 'List', :is_required => true, :field_format => 'list',
       :possible_values => ['Foo', 'Bar'], :is_for_all => true, :tracker_ids => [1, 2, 3])
     @request.session[:user_id] = 2
-    get :issues, :ids => [1, 2]
+    get :issues, :params => {
+        :ids => [1, 2]
+      }
 
     assert_select "li.cf_#{field.id}" do
       assert_select 'a[href="#"]', :text => 'List'
@@ -132,7 +144,9 @@ class ContextMenusControllerTest < Redmine::ControllerTest
     issue.custom_field_values = {field.id => 'Bar'}
     issue.save!
     @request.session[:user_id] = 2
-    get :issues, :ids => [1]
+    get :issues, :params => {
+        :ids => [1]
+      }
 
     assert_select "li.cf_#{field.id}" do
       assert_select 'a[href="#"]', :text => 'List'
@@ -147,7 +161,9 @@ class ContextMenusControllerTest < Redmine::ControllerTest
     field = IssueCustomField.create!(:name => 'Bool', :field_format => 'bool',
       :is_for_all => true, :tracker_ids => [1, 2, 3])
     @request.session[:user_id] = 2
-    get :issues, :ids => [1]
+    get :issues, :params => {
+        :ids => [1]
+      }
 
     assert_select "li.cf_#{field.id}" do
       assert_select 'a[href="#"]', :text => 'Bool'
@@ -164,7 +180,9 @@ class ContextMenusControllerTest < Redmine::ControllerTest
     field = IssueCustomField.create!(:name => 'User', :field_format => 'user',
       :is_for_all => true, :tracker_ids => [1, 2, 3])
     @request.session[:user_id] = 2
-    get :issues, :ids => [1]
+    get :issues, :params => {
+        :ids => [1]
+      }
 
     assert_select "li.cf_#{field.id}" do
       assert_select 'a[href="#"]', :text => 'User'
@@ -179,7 +197,9 @@ class ContextMenusControllerTest < Redmine::ControllerTest
   def test_context_menu_should_include_version_custom_fields
     field = IssueCustomField.create!(:name => 'Version', :field_format => 'version', :is_for_all => true, :tracker_ids => [1, 2, 3])
     @request.session[:user_id] = 2
-    get :issues, :ids => [1]
+    get :issues, :params => {
+        :ids => [1]
+      }
 
     assert_select "li.cf_#{field.id}" do
       assert_select 'a[href="#"]', :text => 'Version'
@@ -197,7 +217,9 @@ class ContextMenusControllerTest < Redmine::ControllerTest
     issue = Issue.generate!(:project_id => 1, :tracker_id => 1)
 
     @request.session[:user_id] = 2
-    get :issues, :ids => [issue.id]
+    get :issues, :params => {
+        :ids => [issue.id]
+      }
 
     assert_select "li.cf_#{enabled_cf.id}"
     assert_select "li.cf_#{disabled_cf.id}", 0
@@ -205,7 +227,9 @@ class ContextMenusControllerTest < Redmine::ControllerTest
 
   def test_context_menu_by_assignable_user_should_include_assigned_to_me_link
     @request.session[:user_id] = 2
-    get :issues, :ids => [1]
+    get :issues, :params => {
+        :ids => [1]
+      }
     assert_response :success
 
     assert_select 'a[href=?]', '/issues/bulk_update?ids%5B%5D=1&issue%5Bassigned_to_id%5D=2', :text => / me /
@@ -215,14 +239,18 @@ class ContextMenusControllerTest < Redmine::ControllerTest
     @request.session[:user_id] = 2
     version = Version.create!(:name => 'Shared', :sharing => 'system', :project_id => 1)
 
-    get :issues, :ids => [1, 4]
+    get :issues, :params => {
+        :ids => [1, 4]
+      }
     assert_response :success
 
     assert_select 'a', :text => 'eCookbook - Shared'
   end
 
   def test_context_menu_with_issue_that_is_not_visible_should_fail
-    get :issues, :ids => [1, 4] # issue 4 is not visible
+    get :issues, :params => {
+        :ids => [1, 4] # issue 4 is not visible
+      }
     assert_response 302
   end
 
@@ -233,7 +261,9 @@ class ContextMenusControllerTest < Redmine::ControllerTest
 
   def test_time_entries_context_menu
     @request.session[:user_id] = 2
-    get :time_entries, :ids => [1, 2]
+    get :time_entries, :params => {
+        :ids => [1, 2]
+      }
     assert_response :success
 
     assert_select 'a:not(.disabled)', :text => 'Edit'
@@ -241,7 +271,9 @@ class ContextMenusControllerTest < Redmine::ControllerTest
 
   def test_context_menu_for_one_time_entry
     @request.session[:user_id] = 2
-    get :time_entries, :ids => [1]
+    get :time_entries, :params => {
+        :ids => [1]
+      }
     assert_response :success
 
     assert_select 'a:not(.disabled)', :text => 'Edit'
@@ -251,7 +283,9 @@ class ContextMenusControllerTest < Redmine::ControllerTest
     field = TimeEntryCustomField.generate!(:name => "Field", :field_format => "list", :possible_values => ["foo", "bar"])
 
     @request.session[:user_id] = 2
-    get :time_entries, :ids => [1, 2]
+    get :time_entries, :params => {
+        :ids => [1, 2]
+      }
     assert_response :success
 
     assert_select "li.cf_#{field.id}" do
@@ -271,7 +305,9 @@ class ContextMenusControllerTest < Redmine::ControllerTest
     Role.find_by_name('Manager').add_permission! :edit_own_time_entries
     ids = (0..1).map {TimeEntry.generate!(:user => User.find(2)).id}
 
-    get :time_entries, :ids => ids
+    get :time_entries, :params => {
+        :ids => ids
+      }
     assert_response :success
 
     assert_select 'a:not(.disabled)', :text => 'Edit'
@@ -281,7 +317,9 @@ class ContextMenusControllerTest < Redmine::ControllerTest
     @request.session[:user_id] = 2
     Role.find_by_name('Manager').remove_permission! :edit_time_entries
     
-    get :time_entries, :ids => [1, 2]
+    get :time_entries, :params => {
+        :ids => [1, 2]
+      }
     assert_response :success
 
     assert_select 'a.disabled', :text => 'Edit'

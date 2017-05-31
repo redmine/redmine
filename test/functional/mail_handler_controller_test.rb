@@ -33,7 +33,10 @@ class MailHandlerControllerTest < Redmine::ControllerTest
     Setting.mail_handler_api_key = 'secret'
 
     assert_difference 'Issue.count' do
-      post :index, :key => 'secret', :email => IO.read(File.join(FIXTURES_PATH, 'ticket_on_given_project.eml'))
+      post :index, :params => {
+          :key => 'secret',
+          :email => IO.read(File.join(FIXTURES_PATH, 'ticket_on_given_project.eml'))
+        }
     end
     assert_response 201
   end
@@ -44,9 +47,13 @@ class MailHandlerControllerTest < Redmine::ControllerTest
     Setting.mail_handler_api_key = 'secret'
 
     assert_difference 'Issue.count' do
-      post :index, :key => 'secret',
-        :email => IO.read(File.join(FIXTURES_PATH, 'ticket_on_given_project.eml')),
-        :issue => {:is_private => '1'}
+      post :index, :params => {
+          :key => 'secret',
+          :email => IO.read(File.join(FIXTURES_PATH, 'ticket_on_given_project.eml')),
+          :issue => {
+            :is_private => '1'
+          }
+        }
     end
     assert_response 201
     issue = Issue.order(:id => :desc).first
@@ -60,7 +67,10 @@ class MailHandlerControllerTest < Redmine::ControllerTest
     Setting.mail_handler_api_key = 'secret'
 
     assert_no_difference 'Issue.count' do
-      post :index, :key => 'secret', :email => IO.read(File.join(FIXTURES_PATH, 'ticket_on_given_project.eml'))
+      post :index, :params => {
+          :key => 'secret',
+          :email => IO.read(File.join(FIXTURES_PATH, 'ticket_on_given_project.eml'))
+        }
     end
     assert_response 422
   end
@@ -71,7 +81,10 @@ class MailHandlerControllerTest < Redmine::ControllerTest
     Setting.mail_handler_api_key = 'secret'
 
     assert_no_difference 'Issue.count' do
-      post :index, :key => 'secret', :email => IO.read(File.join(FIXTURES_PATH, 'ticket_on_given_project.eml'))
+      post :index, :params => {
+          :key => 'secret',
+          :email => IO.read(File.join(FIXTURES_PATH, 'ticket_on_given_project.eml'))
+        }
     end
     assert_response 403
     assert_include 'Access denied', response.body
@@ -82,7 +95,10 @@ class MailHandlerControllerTest < Redmine::ControllerTest
     Setting.mail_handler_api_key = 'secret'
 
     assert_no_difference 'Issue.count' do
-      post :index, :key => 'wrong', :email => IO.read(File.join(FIXTURES_PATH, 'ticket_on_given_project.eml'))
+      post :index, :params => {
+          :key => 'wrong',
+          :email => IO.read(File.join(FIXTURES_PATH, 'ticket_on_given_project.eml'))
+        }
     end
     assert_response 403
     assert_include 'Access denied', response.body
@@ -92,7 +108,9 @@ class MailHandlerControllerTest < Redmine::ControllerTest
     Setting.mail_handler_api_enabled = 1
     Setting.mail_handler_api_key = 'secret'
 
-    get :new, :key => 'secret'
+    get :new, :params => {
+        :key => 'secret'
+      }
     assert_response :success
   end
 end

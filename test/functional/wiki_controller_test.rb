@@ -188,7 +188,7 @@ class WikiControllerTest < Redmine::ControllerTest
   def test_get_new_xhr
     @request.session[:user_id] = 2
 
-    xhr :get, :new, :params => {:project_id => 'ecookbook'}
+    get :new, :params => {:project_id => 'ecookbook'}, :xhr => true
     assert_response :success
     assert_include 'Unallowed characters', response.body
   end
@@ -203,7 +203,7 @@ class WikiControllerTest < Redmine::ControllerTest
   def test_post_new_xhr_with_valid_title_should_redirect_to_edit
     @request.session[:user_id] = 2
 
-    xhr :post, :new, :params => {:project_id => 'ecookbook', :title => 'New Page'}
+    post :new, :params => {:project_id => 'ecookbook', :title => 'New Page'}, :xhr => true
     assert_response :success
     assert_equal 'window.location = "/projects/ecookbook/wiki/New_Page"', response.body
   end
@@ -228,7 +228,7 @@ class WikiControllerTest < Redmine::ControllerTest
   def test_post_new_xhr_with_invalid_title_should_display_errors
     @request.session[:user_id] = 2
 
-    xhr :post, :new, :params => {:project_id => 'ecookbook', :title => 'Another page'}
+    post :new, :params => {:project_id => 'ecookbook', :title => 'Another page'}, :xhr => true
     assert_response :success
     assert_include 'Title has already been taken', response.body
   end
@@ -581,7 +581,7 @@ class WikiControllerTest < Redmine::ControllerTest
 
   def test_preview
     @request.session[:user_id] = 2
-    xhr :post, :preview, :params => {
+    post :preview, :params => {
       :project_id => 1,
       :id => 'CookBook_documentation',
       :content => {
@@ -589,14 +589,14 @@ class WikiControllerTest < Redmine::ControllerTest
         :text => 'this is a *previewed text*',
         :version => 3
       }
-    }
+    }, :xhr => true
     assert_response :success
     assert_select 'strong', :text => /previewed text/
   end
 
   def test_preview_new_page
     @request.session[:user_id] = 2
-    xhr :post, :preview, :params => {
+    post :preview, :params => {
       :project_id => 1,
       :id => 'New page',
       :content => {
@@ -604,7 +604,7 @@ class WikiControllerTest < Redmine::ControllerTest
         :comments => '',
         :version => 0
       }
-    }
+    }, :xhr => true
     assert_response :success
     assert_select 'h1', :text => /New page/
   end

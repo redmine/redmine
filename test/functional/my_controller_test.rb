@@ -238,13 +238,17 @@ class MyControllerTest < Redmine::ControllerTest
   end
 
   def test_update_account
-    post :account,
-      :user => {
-        :firstname => "Joe",
-        :login => "root",
-        :admin => 1,
-        :group_ids => ['10'],
-        :custom_field_values => {"4" => "0100562500"}
+    post :account, :params => {
+        :user => {
+          :firstname => "Joe",
+          :login => "root",
+          :admin => 1,
+          :group_ids => ['10'],
+          :custom_field_values => {
+            "4" => "0100562500"
+          }    
+          
+        }
       }
 
     assert_redirected_to '/my/account'
@@ -259,9 +263,11 @@ class MyControllerTest < Redmine::ControllerTest
 
   def test_update_account_should_send_security_notification
     ActionMailer::Base.deliveries.clear
-    post :account,
-      :user => {
-        :mail => 'foobar@example.com'
+    post :account, :params => {
+        :user => {
+          :mail => 'foobar@example.com'
+          
+        }
       }
 
     assert_not_nil (mail = ActionMailer::Base.deliveries.last)
@@ -297,7 +303,9 @@ class MyControllerTest < Redmine::ControllerTest
 
   def test_post_destroy_without_confirmation_should_destroy_account
     assert_difference 'User.count', -1 do
-      post :destroy, :confirm => '1'
+      post :destroy, :params => {
+          :confirm => '1'
+        }
     end
     assert_redirected_to '/'
     assert_match /deleted/i, flash[:notice]
@@ -307,7 +315,9 @@ class MyControllerTest < Redmine::ControllerTest
     User.any_instance.stubs(:own_account_deletable?).returns(false)
 
     assert_no_difference 'User.count' do
-      post :destroy, :confirm => '1'
+      post :destroy, :params => {
+          :confirm => '1'
+        }
     end
     assert_redirected_to '/my/account'
   end
@@ -321,17 +331,21 @@ class MyControllerTest < Redmine::ControllerTest
   end
 
   def test_update_password
-    post :password, :password => 'jsmith',
-                    :new_password => 'secret123',
-                    :new_password_confirmation => 'secret123'
+    post :password, :params => {
+        :password => 'jsmith',
+        :new_password => 'secret123',
+        :new_password_confirmation => 'secret123'
+      }
     assert_redirected_to '/my/account'
     assert User.try_to_login('jsmith', 'secret123')
   end
 
   def test_update_password_with_non_matching_confirmation
-    post :password, :password => 'jsmith',
-                    :new_password => 'secret123',
-                    :new_password_confirmation => 'secret1234'
+    post :password, :params => {
+        :password => 'jsmith',
+        :new_password => 'secret123',
+        :new_password_confirmation => 'secret1234'
+      }
     assert_response :success
     assert_select_error /Password doesn.*t match confirmation/
     assert User.try_to_login('jsmith', 'jsmith')
@@ -339,9 +353,11 @@ class MyControllerTest < Redmine::ControllerTest
 
   def test_update_password_with_wrong_password
     # wrong password
-    post :password, :password => 'wrongpassword',
-                    :new_password => 'secret123',
-                    :new_password_confirmation => 'secret123'
+    post :password, :params => {
+        :password => 'wrongpassword',
+        :new_password => 'secret123',
+        :new_password_confirmation => 'secret123'
+      }
     assert_response :success
     assert_equal 'Wrong password', flash[:error]
     assert User.try_to_login('jsmith', 'jsmith')
@@ -357,9 +373,11 @@ class MyControllerTest < Redmine::ControllerTest
 
   def test_update_password_should_send_security_notification
     ActionMailer::Base.deliveries.clear
-    post :password, :password => 'jsmith',
-                    :new_password => 'secret123',
-                    :new_password_confirmation => 'secret123'
+    post :password, :params => {
+        :password => 'jsmith',
+        :new_password => 'secret123',
+        :new_password_confirmation => 'secret123'
+      }
 
     assert_not_nil (mail = ActionMailer::Base.deliveries.last)
     assert_mail_body_no_match 'secret123', mail # just to be sure: pw should never be sent!
@@ -372,7 +390,13 @@ class MyControllerTest < Redmine::ControllerTest
     user = User.generate!(:language => 'en')
     @request.session[:user_id] = user.id
 
-    xhr :post, :update_page, :settings => {'issuesassignedtome' => {'columns' => ['subject', 'due_date']}}
+    post :update_page, :params => {
+        :settings => {
+          'issuesassignedtome' => {
+          'columns' => ['subject', 'due_date']}    
+        }
+      },
+      :xhr => true
     assert_response :success
     assert_include '$("#block-issuesassignedtome").replaceWith(', response.body
     assert_include 'Due date', response.body
@@ -381,30 +405,42 @@ class MyControllerTest < Redmine::ControllerTest
   end
 
   def test_add_block
-    post :add_block, :block => 'issueswatched'
+    post :add_block, :params => {
+        :block => 'issueswatched'
+      }
     assert_redirected_to '/my/page'
     assert User.find(2).pref[:my_page_layout]['top'].include?('issueswatched')
   end
 
   def test_add_block_xhr
-    xhr :post, :add_block, :block => 'issueswatched'
+    post :add_block, :params => {
+        :block => 'issueswatched'
+      },
+      :xhr => true
     assert_response :success
     assert_include 'issueswatched', User.find(2).pref[:my_page_layout]['top']
   end
 
   def test_add_invalid_block_should_error
-    post :add_block, :block => 'invalid'
+    post :add_block, :params => {
+        :block => 'invalid'
+      }
     assert_response 422
   end
 
   def test_remove_block
-    post :remove_block, :block => 'issuesassignedtome'
+    post :remove_block, :params => {
+        :block => 'issuesassignedtome'
+      }
     assert_redirected_to '/my/page'
     assert !User.find(2).pref[:my_page_layout].values.flatten.include?('issuesassignedtome')
   end
 
   def test_remove_block_xhr
-    xhr :post, :remove_block, :block => 'issuesassignedtome'
+    post :remove_block, :params => {
+        :block => 'issuesassignedtome'
+      },
+      :xhr => true
     assert_response :success
     assert_include '$("#block-issuesassignedtome").remove();', response.body
     assert !User.find(2).pref[:my_page_layout].values.flatten.include?('issuesassignedtome')
@@ -415,7 +451,11 @@ class MyControllerTest < Redmine::ControllerTest
     pref.my_page_layout = {'left' => ['news', 'calendar','documents']}
     pref.save!
     
-    xhr :post, :order_blocks, :group => 'left', :blocks => ['documents', 'calendar', 'news']
+    post :order_blocks, :params => {
+        :group => 'left',
+        :blocks => ['documents', 'calendar', 'news']
+      },
+      :xhr => true
     assert_response :success
     assert_equal ['documents', 'calendar', 'news'], User.find(2).pref.my_page_layout['left']
   end
@@ -425,7 +465,11 @@ class MyControllerTest < Redmine::ControllerTest
     pref.my_page_layout = {'left' => ['news','documents'], 'right' => ['calendar']}
     pref.save!
     
-    xhr :post, :order_blocks, :group => 'left', :blocks => ['news', 'calendar', 'documents']
+    post :order_blocks, :params => {
+        :group => 'left',
+        :blocks => ['news', 'calendar', 'documents']
+      },
+      :xhr => true
     assert_response :success
     assert_equal({'left' => ['news', 'calendar', 'documents'], 'right' => []}, User.find(2).pref.my_page_layout)
   end
