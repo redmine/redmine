@@ -654,7 +654,7 @@ class ApplicationController < ActionController::Base
 
   # Renders a head API response
   def render_api_head(status)
-    head :status => status
+    head status
   end
 
   # Renders API response on validation failure
