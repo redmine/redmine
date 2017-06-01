@@ -61,7 +61,7 @@
 </div>
 
 <% other_formats_links do |f| %>
-  <%= f.link_to 'CSV', :url => params %>
+  <%= f.link_to_with_query_parameters 'CSV' %>
 <% end %>
 <% end %>
 <% end %>
