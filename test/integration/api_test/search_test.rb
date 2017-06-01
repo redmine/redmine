@@ -45,7 +45,7 @@ class Redmine::ApiTest::SearchTest < Redmine::ApiTest::Base
   end
 
   test "GET /search.xml without query strings should return empty results" do
-    get '/search.xml', :q => '', :all_words => ''
+    get '/search.xml', :params => {:q => '', :all_words => ''}
 
     assert_response :success
     assert_select 'result', 0
@@ -54,7 +54,7 @@ class Redmine::ApiTest::SearchTest < Redmine::ApiTest::Base
   test "GET /search.xml with query strings should return results" do
     issue = Issue.generate!(:subject => 'searchapi')
 
-    get '/search.xml', :q => 'searchapi', :all_words => ''
+    get '/search.xml', :params => {:q => 'searchapi', :all_words => ''}
 
     assert_response :success
 
@@ -75,14 +75,14 @@ class Redmine::ApiTest::SearchTest < Redmine::ApiTest::Base
   test "GET /search.xml should paginate" do
     issue = (0..10).map {Issue.generate! :subject => 'search_with_limited_results'}.reverse.map(&:id)
 
-    get '/search.json', :q => 'search_with_limited_results', :limit => 4
+    get '/search.json', :params => {:q => 'search_with_limited_results', :limit => 4}
     json = ActiveSupport::JSON.decode(response.body)
     assert_equal 11, json['total_count']
     assert_equal 0, json['offset']
     assert_equal 4, json['limit']
     assert_equal issue[0..3], json['results'].map {|r| r['id']}
 
-    get '/search.json', :q => 'search_with_limited_results', :offset => 8, :limit => 4
+    get '/search.json', :params => {:q => 'search_with_limited_results', :offset => 8, :limit => 4}
     json = ActiveSupport::JSON.decode(response.body)
     assert_equal 11, json['total_count']
     assert_equal 8, json['offset']

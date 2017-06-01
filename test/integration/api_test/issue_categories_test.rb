@@ -25,14 +25,14 @@ class Redmine::ApiTest::IssueCategoriesTest < Redmine::ApiTest::Base
            :enabled_modules
 
   test "GET /projects/:project_id/issue_categories.xml should return the issue categories" do
-    get '/projects/1/issue_categories.xml', {}, credentials('jsmith')
+    get '/projects/1/issue_categories.xml', :headers => credentials('jsmith')
     assert_response :success
     assert_equal 'application/xml', @response.content_type
     assert_select 'issue_categories issue_category id', :text => '2'
   end
 
   test "GET /issue_categories/:id.xml should return the issue category" do
-    get '/issue_categories/2.xml', {}, credentials('jsmith')
+    get '/issue_categories/2.xml', :headers => credentials('jsmith')
     assert_response :success
     assert_equal 'application/xml', @response.content_type
     assert_select 'issue_category id', :text => '2'
@@ -40,7 +40,9 @@ class Redmine::ApiTest::IssueCategoriesTest < Redmine::ApiTest::Base
 
   test "POST /projects/:project_id/issue_categories.xml should return create issue category" do
     assert_difference 'IssueCategory.count' do
-      post '/projects/1/issue_categories.xml', {:issue_category => {:name => 'API'}}, credentials('jsmith')
+      post '/projects/1/issue_categories.xml',
+        :params => {:issue_category => {:name => 'API'}},
+        :headers => credentials('jsmith')
     end
     assert_response :created
     assert_equal 'application/xml', @response.content_type
@@ -52,7 +54,9 @@ class Redmine::ApiTest::IssueCategoriesTest < Redmine::ApiTest::Base
 
   test "POST /projects/:project_id/issue_categories.xml with invalid parameters should return errors" do
     assert_no_difference 'IssueCategory.count' do
-      post '/projects/1/issue_categories.xml', {:issue_category => {:name => ''}}, credentials('jsmith')
+      post '/projects/1/issue_categories.xml',
+        :params => {:issue_category => {:name => ''}},
+        :headers => credentials('jsmith')
     end
     assert_response :unprocessable_entity
     assert_equal 'application/xml', @response.content_type
@@ -62,7 +66,9 @@ class Redmine::ApiTest::IssueCategoriesTest < Redmine::ApiTest::Base
 
   test "PUT /issue_categories/:id.xml with valid parameters should update the issue category" do
     assert_no_difference 'IssueCategory.count' do
-      put '/issue_categories/2.xml', {:issue_category => {:name => 'API Update'}}, credentials('jsmith')
+      put '/issue_categories/2.xml',
+        :params => {:issue_category => {:name => 'API Update'}},
+        :headers => credentials('jsmith')
     end
     assert_response :ok
     assert_equal '', @response.body
@@ -71,7 +77,9 @@ class Redmine::ApiTest::IssueCategoriesTest < Redmine::ApiTest::Base
 
   test "PUT /issue_categories/:id.xml with invalid parameters should return errors" do
     assert_no_difference 'IssueCategory.count' do
-      put '/issue_categories/2.xml', {:issue_category => {:name => ''}}, credentials('jsmith')
+      put '/issue_categories/2.xml',
+        :params => {:issue_category => {:name => ''}},
+        :headers => credentials('jsmith')
     end
     assert_response :unprocessable_entity
     assert_equal 'application/xml', @response.content_type
@@ -81,7 +89,7 @@ class Redmine::ApiTest::IssueCategoriesTest < Redmine::ApiTest::Base
 
   test "DELETE /issue_categories/:id.xml should destroy the issue category" do
     assert_difference 'IssueCategory.count', -1 do
-      delete '/issue_categories/1.xml', {}, credentials('jsmith')
+      delete '/issue_categories/1.xml', :headers => credentials('jsmith')
     end
     assert_response :ok
     assert_equal '', @response.body
@@ -94,7 +102,9 @@ class Redmine::ApiTest::IssueCategoriesTest < Redmine::ApiTest::Base
 
     assert_difference 'IssueCategory.count', -1 do
       assert_difference 'Issue.where(:category_id => 2).count', 3 do
-        delete '/issue_categories/1.xml', {:reassign_to_id => 2}, credentials('jsmith')
+        delete '/issue_categories/1.xml',
+          :params => {:reassign_to_id => 2},
+          :headers => credentials('jsmith')
       end
     end
     assert_response :ok

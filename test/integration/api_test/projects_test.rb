@@ -142,8 +142,8 @@ class Redmine::ApiTest::ProjectsTest < Redmine::ApiTest::Base
     with_settings :default_projects_modules => ['issue_tracking', 'repository'] do
       assert_difference('Project.count') do
         post '/projects.xml',
-          {:project => {:name => 'API test', :identifier => 'api-test'}},
-          credentials('admin')
+          :params => {:project => {:name => 'API test', :identifier => 'api-test'}},
+          :headers => credentials('admin')
       end
     end
 
@@ -161,8 +161,8 @@ class Redmine::ApiTest::ProjectsTest < Redmine::ApiTest::Base
   test "POST /projects.xml should accept enabled_module_names attribute" do
     assert_difference('Project.count') do
       post '/projects.xml',
-        {:project => {:name => 'API test', :identifier => 'api-test', :enabled_module_names => ['issue_tracking', 'news', 'time_tracking']}},
-        credentials('admin')
+        :params => {:project => {:name => 'API test', :identifier => 'api-test', :enabled_module_names => ['issue_tracking', 'news', 'time_tracking']}},
+        :headers => credentials('admin')
     end
 
     project = Project.order('id DESC').first
@@ -172,8 +172,8 @@ class Redmine::ApiTest::ProjectsTest < Redmine::ApiTest::Base
   test "POST /projects.xml should accept tracker_ids attribute" do
     assert_difference('Project.count') do
       post '/projects.xml',
-        {:project => {:name => 'API test', :identifier => 'api-test', :tracker_ids => [1, 3]}},
-        credentials('admin')
+        :params => {:project => {:name => 'API test', :identifier => 'api-test', :tracker_ids => [1, 3]}},
+        :headers => credentials('admin')
     end
 
     project = Project.order('id DESC').first
@@ -182,7 +182,9 @@ class Redmine::ApiTest::ProjectsTest < Redmine::ApiTest::Base
 
   test "POST /projects.xml with invalid parameters should return errors" do
     assert_no_difference('Project.count') do
-      post '/projects.xml', {:project => {:name => 'API test'}}, credentials('admin')
+      post '/projects.xml',
+        :params => {:project => {:name => 'API test'}},
+        :headers => credentials('admin')
     end
 
     assert_response :unprocessable_entity
@@ -192,7 +194,9 @@ class Redmine::ApiTest::ProjectsTest < Redmine::ApiTest::Base
 
   test "PUT /projects/:id.xml with valid parameters should update the project" do
     assert_no_difference 'Project.count' do
-      put '/projects/2.xml', {:project => {:name => 'API update'}}, credentials('jsmith')
+      put '/projects/2.xml',
+        :params => {:project => {:name => 'API update'}},
+        :headers => credentials('jsmith')
     end
     assert_response :ok
     assert_equal '', @response.body
@@ -203,7 +207,9 @@ class Redmine::ApiTest::ProjectsTest < Redmine::ApiTest::Base
 
   test "PUT /projects/:id.xml should accept enabled_module_names attribute" do
     assert_no_difference 'Project.count' do
-      put '/projects/2.xml', {:project => {:name => 'API update', :enabled_module_names => ['issue_tracking', 'news', 'time_tracking']}}, credentials('admin')
+      put '/projects/2.xml',
+        :params => {:project => {:name => 'API update', :enabled_module_names => ['issue_tracking', 'news', 'time_tracking']}},
+        :headers => credentials('admin')
     end
     assert_response :ok
     assert_equal '', @response.body
@@ -213,7 +219,9 @@ class Redmine::ApiTest::ProjectsTest < Redmine::ApiTest::Base
 
   test "PUT /projects/:id.xml should accept tracker_ids attribute" do
     assert_no_difference 'Project.count' do
-      put '/projects/2.xml', {:project => {:name => 'API update', :tracker_ids => [1, 3]}}, credentials('admin')
+      put '/projects/2.xml',
+        :params => {:project => {:name => 'API update', :tracker_ids => [1, 3]}},
+        :headers => credentials('admin')
     end
     assert_response :ok
     assert_equal '', @response.body
@@ -223,7 +231,9 @@ class Redmine::ApiTest::ProjectsTest < Redmine::ApiTest::Base
 
   test "PUT /projects/:id.xml with invalid parameters should return errors" do
     assert_no_difference('Project.count') do
-      put '/projects/2.xml', {:project => {:name => ''}}, credentials('admin')
+      put '/projects/2.xml',
+        :params => {:project => {:name => ''}},
+        :headers => credentials('admin')
     end
 
     assert_response :unprocessable_entity
@@ -233,7 +243,7 @@ class Redmine::ApiTest::ProjectsTest < Redmine::ApiTest::Base
 
   test "DELETE /projects/:id.xml should delete the project" do
     assert_difference('Project.count',-1) do
-      delete '/projects/2.xml', {}, credentials('admin')
+      delete '/projects/2.xml', :headers => credentials('admin')
     end
     assert_response :ok
     assert_equal '', @response.body

@@ -43,8 +43,10 @@ class ProjectsTest < Redmine::IntegrationTest
   end
 
   def test_modules_should_not_allow_get
+    log_user("admin", "admin")
+
     assert_no_difference 'EnabledModule.count' do
-      get '/projects/1/modules', {:enabled_module_names => ['']}, credentials('jsmith')
+      get '/projects/1/modules', :params => {:enabled_module_names => ['']}
       assert_response 404
     end
   end

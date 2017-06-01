@@ -32,21 +32,21 @@ class ApplicationTest < Redmine::IntegrationTest
     Setting.default_language = 'en'
 
     # a french user
-    get '/projects', { }, 'HTTP_ACCEPT_LANGUAGE' => 'fr,fr-fr;q=0.8,en-us;q=0.5,en;q=0.3'
+    get '/projects', :headers => {'HTTP_ACCEPT_LANGUAGE' => 'fr,fr-fr;q=0.8,en-us;q=0.5,en;q=0.3'}
     assert_response :success
     assert_select 'h2', :text => 'Projets'
     assert_equal :fr, current_language
     assert_select "html[lang=?]", "fr"
 
     # then an italien user
-    get '/projects', { }, 'HTTP_ACCEPT_LANGUAGE' => 'it;q=0.8,en-us;q=0.5,en;q=0.3'
+    get '/projects', :headers => {'HTTP_ACCEPT_LANGUAGE' => 'it;q=0.8,en-us;q=0.5,en;q=0.3'}
     assert_response :success
     assert_select 'h2', :text => 'Progetti'
     assert_equal :it, current_language
     assert_select "html[lang=?]", "it"
 
     # not a supported language: default language should be used
-    get '/projects', { }, 'HTTP_ACCEPT_LANGUAGE' => 'zz'
+    get '/projects', :headers => {'HTTP_ACCEPT_LANGUAGE' => 'zz'}
     assert_response :success
     assert_select 'h2', :text => 'Projects'
     assert_select "html[lang=?]", "en"
@@ -80,7 +80,7 @@ class ApplicationTest < Redmine::IntegrationTest
   def test_localization_should_be_set_correctly_on_invalid_token
     ActionController::Base.allow_forgery_protection = true
     Setting.default_language = 'en'
-    post '/issues', { }, 'HTTP_ACCEPT_LANGUAGE' => 'fr,fr-fr;q=0.8,en-us;q=0.5,en;q=0.3'
+    post '/issues', :headers => {'HTTP_ACCEPT_LANGUAGE' => 'fr,fr-fr;q=0.8,en-us;q=0.5,en;q=0.3'}
     assert_response 422
     assert_equal :fr, current_language
     assert_select "html[lang=?]", "fr"

@@ -343,6 +343,17 @@ module Redmine
       assert_equal login, User.find(session[:user_id]).login
     end
 
+    %w(get post patch put delete head).each do |http_method|
+      class_eval %Q"
+        def #{http_method}(path, parameters = nil, headers_or_env = nil)
+          if headers_or_env.nil? && parameters.is_a?(Hash) && (parameters.key?(:params) || parameters.key?(:headers))
+            super path, parameters[:params], parameters[:headers]
+          else
+            super
+          end
+        end"
+    end
+
     def credentials(user, password=nil)
       {'HTTP_AUTHORIZATION' => ActionController::HttpAuthentication::Basic.encode_credentials(user, password || user)}
     end

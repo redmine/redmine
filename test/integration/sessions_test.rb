@@ -69,9 +69,11 @@ class SessionsTest < Redmine::IntegrationTest
 
     get '/my/password'
     assert_response 200
-    post '/my/password', :password => 'jsmith',
-                         :new_password => 'secret123',
-                         :new_password_confirmation => 'secret123'
+    post '/my/password', :params => {
+        :password => 'jsmith',
+        :new_password => 'secret123',
+        :new_password_confirmation => 'secret123'
+      }
     assert_response 302
     assert_not_equal token, session[:tk]
 
@@ -81,10 +83,10 @@ class SessionsTest < Redmine::IntegrationTest
 
   def test_simultaneous_sessions_should_be_valid
     first = open_session do |session|
-      session.post "/login", :username => 'jsmith', :password => 'jsmith'
+      session.post "/login", :params => {:username => 'jsmith', :password => 'jsmith'}
     end
     other = open_session do |session|
-      session.post "/login", :username => 'jsmith', :password => 'jsmith'
+      session.post "/login", :params => {:username => 'jsmith', :password => 'jsmith'}
     end
 
     first.get '/my/account'

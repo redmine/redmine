@@ -40,7 +40,9 @@ class Redmine::ApiTest::VersionsTest < Redmine::ApiTest::Base
 
   test "POST /projects/:project_id/versions.xml should create the version" do
     assert_difference 'Version.count' do
-      post '/projects/1/versions.xml', {:version => {:name => 'API test'}}, credentials('jsmith')
+      post '/projects/1/versions.xml',
+        :params => {:version => {:name => 'API test'}},
+        :headers => credentials('jsmith')
     end
 
     version = Version.order('id DESC').first
@@ -53,7 +55,9 @@ class Redmine::ApiTest::VersionsTest < Redmine::ApiTest::Base
 
   test "POST /projects/:project_id/versions.xml should create the version with due date" do
     assert_difference 'Version.count' do
-      post '/projects/1/versions.xml', {:version => {:name => 'API test', :due_date => '2012-01-24'}}, credentials('jsmith')
+      post '/projects/1/versions.xml',
+        :params => {:version => {:name => 'API test', :due_date => '2012-01-24'}},
+        :headers => credentials('jsmith')
     end
 
     version = Version.order('id DESC').first
@@ -69,14 +73,16 @@ class Redmine::ApiTest::VersionsTest < Redmine::ApiTest::Base
     field = VersionCustomField.generate!
 
     assert_difference 'Version.count' do
-      post '/projects/1/versions.xml', {
+      post '/projects/1/versions.xml',
+        :params => {
           :version => {
             :name => 'API test',
             :custom_fields => [
               {'id' => field.id.to_s, 'value' => 'Some value'}
             ]
           }
-        }, credentials('jsmith')
+        },
+        :headers => credentials('jsmith')
     end
 
     version = Version.order('id DESC').first
@@ -90,7 +96,9 @@ class Redmine::ApiTest::VersionsTest < Redmine::ApiTest::Base
 
   test "POST /projects/:project_id/versions.xml with failure should return the errors" do
     assert_no_difference('Version.count') do
-      post '/projects/1/versions.xml', {:version => {:name => ''}}, credentials('jsmith')
+      post '/projects/1/versions.xml',
+        :params => {:version => {:name => ''}},
+        :headers => credentials('jsmith')
     end
 
     assert_response :unprocessable_entity
@@ -110,7 +118,9 @@ class Redmine::ApiTest::VersionsTest < Redmine::ApiTest::Base
   end
 
   test "PUT /versions/:id.xml should update the version" do
-    put '/versions/2.xml', {:version => {:name => 'API update'}}, credentials('jsmith')
+    put '/versions/2.xml',
+      :params => {:version => {:name => 'API update'}},
+      :headers => credentials('jsmith')
 
     assert_response :ok
     assert_equal '', @response.body
@@ -119,7 +129,7 @@ class Redmine::ApiTest::VersionsTest < Redmine::ApiTest::Base
 
   test "DELETE /versions/:id.xml should destroy the version" do
     assert_difference 'Version.count', -1 do
-      delete '/versions/3.xml', {}, credentials('jsmith')
+      delete '/versions/3.xml', :headers => credentials('jsmith')
     end
 
     assert_response :ok

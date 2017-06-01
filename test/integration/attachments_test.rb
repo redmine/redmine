@@ -28,7 +28,9 @@ class AttachmentsTest < Redmine::IntegrationTest
   def test_upload_should_set_default_content_type
     log_user('jsmith', 'jsmith')
     assert_difference 'Attachment.count' do
-      post "/uploads.js?attachment_id=1&filename=foo.txt", "File content", {"CONTENT_TYPE" => 'application/octet-stream'}
+      post "/uploads.js?attachment_id=1&filename=foo.txt",
+        :params => "File content",
+        :headers => {"CONTENT_TYPE" => 'application/octet-stream'}
       assert_response :success
     end
     attachment = Attachment.order(:id => :desc).first
@@ -38,7 +40,9 @@ class AttachmentsTest < Redmine::IntegrationTest
   def test_upload_should_accept_content_type_param
     log_user('jsmith', 'jsmith')
     assert_difference 'Attachment.count' do
-      post "/uploads.js?attachment_id=1&filename=foo&content_type=image/jpeg", "File content", {"CONTENT_TYPE" => 'application/octet-stream'}
+      post "/uploads.js?attachment_id=1&filename=foo&content_type=image/jpeg",
+        :params => "File content",
+        :headers => {"CONTENT_TYPE" => 'application/octet-stream'}
       assert_response :success
     end
     attachment = Attachment.order(:id => :desc).first
@@ -51,7 +55,7 @@ class AttachmentsTest < Redmine::IntegrationTest
     token = ajax_upload('myupload.txt', 'File content')
 
     assert_difference 'Issue.count' do
-      post '/projects/ecookbook/issues', {
+      post '/projects/ecookbook/issues', :params => {
           :issue => {:tracker_id => 1, :subject => 'Issue with upload'},
           :attachments => {'1' => {:filename => 'myupload.txt', :description => 'My uploaded file', :token => token}}
         }
@@ -73,7 +77,7 @@ class AttachmentsTest < Redmine::IntegrationTest
 
     token = ajax_upload('myupload.jpg', 'JPEG content')
 
-    post '/issues/preview/new/ecookbook', {
+    post '/issues/preview/new/ecookbook', :params => {
         :issue => {:tracker_id => 1, :description => 'Inline upload: !myupload.jpg!'},
         :attachments => {'1' => {:filename => 'myupload.jpg', :description => 'My uploaded file', :token => token}}
       }
@@ -93,7 +97,7 @@ class AttachmentsTest < Redmine::IntegrationTest
     token = ajax_upload('myupload.txt', 'File content')
 
     assert_no_difference 'Issue.count' do
-      post '/projects/ecookbook/issues', {
+      post '/projects/ecookbook/issues', :params => {
           :issue => {:tracker_id => 1, :subject => ''},
           :attachments => {'1' => {:filename => 'myupload.txt', :description => 'My uploaded file', :token => token}}
         }
@@ -104,7 +108,7 @@ class AttachmentsTest < Redmine::IntegrationTest
     assert_select 'input[name=?][value=?]', 'attachments[p0][description]', 'My uploaded file'
 
     assert_difference 'Issue.count' do
-      post '/projects/ecookbook/issues', {
+      post '/projects/ecookbook/issues', :params => {
           :issue => {:tracker_id => 1, :subject => 'Issue with upload'},
           :attachments => {'p0' => {:filename => 'myupload.txt', :description => 'My uploaded file', :token => token}}
         }
@@ -154,7 +158,9 @@ class AttachmentsTest < Redmine::IntegrationTest
 
   def ajax_upload(filename, content, attachment_id=1)
     assert_difference 'Attachment.count' do
-      post "/uploads.js?attachment_id=#{attachment_id}&filename=#{filename}", content, {"CONTENT_TYPE" => 'application/octet-stream'}
+      post "/uploads.js?attachment_id=#{attachment_id}&filename=#{filename}",
+        :params => content,
+        :headers => {"CONTENT_TYPE" => 'application/octet-stream'}
       assert_response :success
       assert_equal 'text/javascript', response.content_type
     end

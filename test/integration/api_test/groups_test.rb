@@ -26,7 +26,7 @@ class Redmine::ApiTest::GroupsTest < Redmine::ApiTest::Base
   end
 
   test "GET /groups.xml should return givable groups" do
-    get '/groups.xml', {}, credentials('admin')
+    get '/groups.xml', :headers => credentials('admin')
     assert_response :success
     assert_equal 'application/xml', response.content_type
 
@@ -40,7 +40,7 @@ class Redmine::ApiTest::GroupsTest < Redmine::ApiTest::Base
   end
 
   test "GET /groups.xml?builtin=1 should return all groups" do
-    get '/groups.xml?builtin=1', {}, credentials('admin')
+    get '/groups.xml?builtin=1', :headers => credentials('admin')
     assert_response :success
     assert_equal 'application/xml', response.content_type
 
@@ -63,7 +63,7 @@ class Redmine::ApiTest::GroupsTest < Redmine::ApiTest::Base
   end
 
   test "GET /groups.json should return groups" do
-    get '/groups.json', {}, credentials('admin')
+    get '/groups.json', :headers => credentials('admin')
     assert_response :success
     assert_equal 'application/json', response.content_type
 
@@ -76,7 +76,7 @@ class Redmine::ApiTest::GroupsTest < Redmine::ApiTest::Base
   end
 
   test "GET /groups/:id.xml should return the group" do
-    get '/groups/10.xml', {}, credentials('admin')
+    get '/groups/10.xml', :headers => credentials('admin')
     assert_response :success
     assert_equal 'application/xml', response.content_type
 
@@ -87,7 +87,7 @@ class Redmine::ApiTest::GroupsTest < Redmine::ApiTest::Base
   end
 
   test "GET /groups/:id.xml should return the builtin group" do
-    get '/groups/12.xml', {}, credentials('admin')
+    get '/groups/12.xml', :headers => credentials('admin')
     assert_response :success
     assert_equal 'application/xml', response.content_type
 
@@ -98,7 +98,7 @@ class Redmine::ApiTest::GroupsTest < Redmine::ApiTest::Base
   end
 
   test "GET /groups/:id.xml should include users if requested" do
-    get '/groups/10.xml?include=users', {}, credentials('admin')
+    get '/groups/10.xml?include=users', :headers => credentials('admin')
     assert_response :success
     assert_equal 'application/xml', response.content_type
 
@@ -111,7 +111,7 @@ class Redmine::ApiTest::GroupsTest < Redmine::ApiTest::Base
   end
 
   test "GET /groups/:id.xml include memberships if requested" do
-    get '/groups/10.xml?include=memberships', {}, credentials('admin')
+    get '/groups/10.xml?include=memberships', :headers => credentials('admin')
     assert_response :success
     assert_equal 'application/xml', response.content_type
 
@@ -122,7 +122,9 @@ class Redmine::ApiTest::GroupsTest < Redmine::ApiTest::Base
 
   test "POST /groups.xml with valid parameters should create the group" do
     assert_difference('Group.count') do
-      post '/groups.xml', {:group => {:name => 'Test', :user_ids => [2, 3]}}, credentials('admin')
+      post '/groups.xml',
+        :params => {:group => {:name => 'Test', :user_ids => [2, 3]}},
+        :headers => credentials('admin')
       assert_response :created
       assert_equal 'application/xml', response.content_type
     end
@@ -138,7 +140,9 @@ class Redmine::ApiTest::GroupsTest < Redmine::ApiTest::Base
 
   test "POST /groups.xml with invalid parameters should return errors" do
     assert_no_difference('Group.count') do
-      post '/groups.xml', {:group => {:name => ''}}, credentials('admin')
+      post '/groups.xml',
+        :params => {:group => {:name => ''}},
+        :headers => credentials('admin')
     end
     assert_response :unprocessable_entity
     assert_equal 'application/xml', response.content_type
@@ -150,7 +154,9 @@ class Redmine::ApiTest::GroupsTest < Redmine::ApiTest::Base
 
   test "PUT /groups/:id.xml with valid parameters should update the group" do
     group = Group.generate!
-    put "/groups/#{group.id}.xml", {:group => {:name => 'New name', :user_ids => [2, 3]}}, credentials('admin')
+    put "/groups/#{group.id}.xml",
+      :params => {:group => {:name => 'New name', :user_ids => [2, 3]}},
+      :headers => credentials('admin')
     assert_response :ok
     assert_equal '', @response.body
 
@@ -160,7 +166,9 @@ class Redmine::ApiTest::GroupsTest < Redmine::ApiTest::Base
 
   test "PUT /groups/:id.xml with invalid parameters should return errors" do
     group = Group.generate!
-    put "/groups/#{group.id}.xml", {:group => {:name => ''}}, credentials('admin')
+    put "/groups/#{group.id}.xml",
+      :params => {:group => {:name => ''}},
+      :headers => credentials('admin')
     assert_response :unprocessable_entity
     assert_equal 'application/xml', response.content_type
 
@@ -172,7 +180,7 @@ class Redmine::ApiTest::GroupsTest < Redmine::ApiTest::Base
   test "DELETE /groups/:id.xml should delete the group" do
     group = Group.generate!
     assert_difference 'Group.count', -1 do
-      delete "/groups/#{group.id}.xml", {}, credentials('admin')
+      delete "/groups/#{group.id}.xml", :headers => credentials('admin')
       assert_response :ok
       assert_equal '', @response.body
     end
@@ -181,7 +189,9 @@ class Redmine::ApiTest::GroupsTest < Redmine::ApiTest::Base
   test "POST /groups/:id/users.xml should add user to the group" do
     group = Group.generate!
     assert_difference 'group.reload.users.count' do
-      post "/groups/#{group.id}/users.xml", {:user_id => 5}, credentials('admin')
+      post "/groups/#{group.id}/users.xml",
+        :params => {:user_id => 5},
+        :headers => credentials('admin')
       assert_response :ok
       assert_equal '', @response.body
     end
@@ -193,7 +203,9 @@ class Redmine::ApiTest::GroupsTest < Redmine::ApiTest::Base
     group.users << User.find(5)
 
     assert_no_difference 'group.reload.users.count' do
-      post "/groups/#{group.id}/users.xml", {:user_id => 5}, credentials('admin')
+      post "/groups/#{group.id}/users.xml",
+        :params => {:user_id => 5},
+        :headers => credentials('admin')
       assert_response :unprocessable_entity
     end
 
@@ -207,7 +219,7 @@ class Redmine::ApiTest::GroupsTest < Redmine::ApiTest::Base
     group.users << User.find(8)
 
     assert_difference 'group.reload.users.count', -1 do
-      delete "/groups/#{group.id}/users/8.xml", {}, credentials('admin')
+      delete "/groups/#{group.id}/users/8.xml", :headers => credentials('admin')
       assert_response :ok
       assert_equal '', @response.body
     end

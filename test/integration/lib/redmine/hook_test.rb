@@ -107,7 +107,7 @@ VIEW
 
   def test_controller_hook_context_should_include_request
     Redmine::Hook.add_listener(ContextTestHook)
-    post '/login', :username => 'admin', :password => 'admin'
+    post '/login', :params => {:username => 'admin', :password => 'admin'}
     assert_not_nil ContextTestHook.context
     context = ContextTestHook.context
     assert_kind_of ActionDispatch::Request, context[:request]

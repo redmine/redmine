@@ -51,7 +51,7 @@ class AttachmentFieldFormatTest < Redmine::IntegrationTest
   def test_create_with_attachment
     issue = new_record(Issue) do
       assert_difference 'Attachment.count' do
-        post '/projects/ecookbook/issues', {
+        post '/projects/ecookbook/issues', :params => {
             :issue => {
               :subject => "Subject",
               :custom_field_values => {
@@ -91,7 +91,7 @@ class AttachmentFieldFormatTest < Redmine::IntegrationTest
   def test_create_without_attachment
     issue = new_record(Issue) do
       assert_no_difference 'Attachment.count' do
-        post '/projects/ecookbook/issues', {
+        post '/projects/ecookbook/issues', :params => {
             :issue => {
               :subject => "Subject",
               :custom_field_values => {
@@ -117,7 +117,7 @@ class AttachmentFieldFormatTest < Redmine::IntegrationTest
   def test_failure_on_create_should_preserve_attachment
     attachment = new_record(Attachment) do
       assert_no_difference 'Issue.count' do
-        post '/projects/ecookbook/issues', {
+        post '/projects/ecookbook/issues', :params => {
             :issue => {
               :subject => "",
               :custom_field_values => {
@@ -136,7 +136,7 @@ class AttachmentFieldFormatTest < Redmine::IntegrationTest
 
     issue = new_record(Issue) do
       assert_no_difference 'Attachment.count' do
-        post '/projects/ecookbook/issues', {
+        post '/projects/ecookbook/issues', :params => {
             :issue => {
               :subject => "Subject",
               :custom_field_values => {
@@ -160,7 +160,7 @@ class AttachmentFieldFormatTest < Redmine::IntegrationTest
 
     attachment = new_record(Attachment) do
       assert_difference 'Issue.count' do
-        post '/projects/ecookbook/issues', {
+        post '/projects/ecookbook/issues', :params => {
             :issue => {
               :subject => "Blank",
               :custom_field_values => {
@@ -179,7 +179,7 @@ class AttachmentFieldFormatTest < Redmine::IntegrationTest
 
     attachment = new_record(Attachment) do
       assert_no_difference 'Issue.count' do
-        post '/projects/ecookbook/issues', {
+        post '/projects/ecookbook/issues', :params => {
             :issue => {
               :subject => "Blank",
               :custom_field_values => {

@@ -54,11 +54,11 @@ class Redmine::ApiTest::DisabledRestApiTest < Redmine::ApiTest::Base
       user.password = 'my_password'
     end
 
-    get "/news.xml", nil, credentials(@user.login, 'my_password')
+    get "/news.xml", :headers => credentials(@user.login, 'my_password')
     assert_response :unauthorized
     assert_equal User.anonymous, User.current
 
-    get "/news.json", nil, credentials(@user.login, 'my_password')
+    get "/news.json", :headers => credentials(@user.login, 'my_password')
     assert_response :unauthorized
     assert_equal User.anonymous, User.current
   end
@@ -67,11 +67,11 @@ class Redmine::ApiTest::DisabledRestApiTest < Redmine::ApiTest::Base
     @user = User.generate!
     @token = Token.create!(:user => @user, :action => 'api')
 
-    get "/news.xml", nil, credentials(@token.value, 'X')
+    get "/news.xml", :headers => credentials(@token.value, 'X')
     assert_response :unauthorized
     assert_equal User.anonymous, User.current
 
-    get "/news.json", nil, credentials(@token.value, 'X')
+    get "/news.json", :headers => credentials(@token.value, 'X')
     assert_response :unauthorized
     assert_equal User.anonymous, User.current
   end

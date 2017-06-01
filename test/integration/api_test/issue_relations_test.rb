@@ -28,7 +28,7 @@ class Redmine::ApiTest::IssueRelationsTest < Redmine::ApiTest::Base
            :issue_relations
 
   test "GET /issues/:issue_id/relations.xml should return issue relations" do
-    get '/issues/9/relations.xml', {}, credentials('jsmith')
+    get '/issues/9/relations.xml', :headers => credentials('jsmith')
 
     assert_response :success
     assert_equal 'application/xml', @response.content_type
@@ -38,7 +38,9 @@ class Redmine::ApiTest::IssueRelationsTest < Redmine::ApiTest::Base
 
   test "POST /issues/:issue_id/relations.xml should create the relation" do
     assert_difference('IssueRelation.count') do
-      post '/issues/2/relations.xml', {:relation => {:issue_to_id => 7, :relation_type => 'relates'}}, credentials('jsmith')
+      post '/issues/2/relations.xml',
+        :params => {:relation => {:issue_to_id => 7, :relation_type => 'relates'}},
+        :headers => credentials('jsmith')
     end
 
     relation = IssueRelation.order('id DESC').first
@@ -53,7 +55,9 @@ class Redmine::ApiTest::IssueRelationsTest < Redmine::ApiTest::Base
 
   test "POST /issues/:issue_id/relations.xml with failure should return errors" do
     assert_no_difference('IssueRelation.count') do
-      post '/issues/2/relations.xml', {:relation => {:issue_to_id => 7, :relation_type => 'foo'}}, credentials('jsmith')
+      post '/issues/2/relations.xml',
+        :params => {:relation => {:issue_to_id => 7, :relation_type => 'foo'}},
+        :headers => credentials('jsmith')
     end
 
     assert_response :unprocessable_entity
@@ -61,7 +65,7 @@ class Redmine::ApiTest::IssueRelationsTest < Redmine::ApiTest::Base
   end
 
   test "GET /relations/:id.xml should return the relation" do
-    get '/relations/2.xml', {}, credentials('jsmith')
+    get '/relations/2.xml', :headers => credentials('jsmith')
 
     assert_response :success
     assert_equal 'application/xml', @response.content_type
@@ -70,7 +74,7 @@ class Redmine::ApiTest::IssueRelationsTest < Redmine::ApiTest::Base
 
   test "DELETE /relations/:id.xml should delete the relation" do
     assert_difference('IssueRelation.count', -1) do
-      delete '/relations/2.xml', {}, credentials('jsmith')
+      delete '/relations/2.xml', :headers => credentials('jsmith')
     end
 
     assert_response :ok

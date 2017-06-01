@@ -29,7 +29,8 @@ class MenuManagerTest < Redmine::IntegrationTest
            :enabled_modules
 
   def test_project_menu_with_specific_locale
-    get '/projects/ecookbook/issues', { }, 'HTTP_ACCEPT_LANGUAGE' => 'fr,fr-fr;q=0.8,en-us;q=0.5,en;q=0.3'
+    get '/projects/ecookbook/issues',
+      :headers => {'HTTP_ACCEPT_LANGUAGE' => 'fr,fr-fr;q=0.8,en-us;q=0.5,en;q=0.3'}
 
     assert_select 'div#main-menu' do
       assert_select 'li a.activity[href=?]', '/projects/ecookbook/activity', :text => ll('fr', :label_activity)
