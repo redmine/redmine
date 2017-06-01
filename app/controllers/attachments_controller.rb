@@ -25,7 +25,7 @@ class AttachmentsController < ApplicationController
 
   # Disable check for same origin requests for JS files, i.e. attachments with
   # MIME type text/javascript.
-  skip_after_filter :verify_same_origin_request, :only => :download
+  skip_after_action :verify_same_origin_request, :only => :download
 
   accept_api_auth :show, :download, :thumbnail, :upload, :update, :destroy
 
