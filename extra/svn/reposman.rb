@@ -163,7 +163,7 @@ class Project < ActiveResource::Base
   self.format = :json
 end
 
-log("querying Redmine for projects...", :level => 1);
+log("querying Redmine for active projects with repository module enabled...", :level => 1);
 
 $redmine_host.gsub!(/^/, "http://") unless $redmine_host.match("^https?://")
 $redmine_host.gsub!(/\/$/, '')
@@ -214,8 +214,6 @@ def mswin?
 end
 
 projects.each do |project|
-  log("treating project #{project.name}", :level => 1)
-
   if project.identifier.empty?
     log("\tno identifier for project #{project.name}")
     next
@@ -223,6 +221,7 @@ projects.each do |project|
     log("\tinvalid identifier for project #{project.name} : #{project.identifier}");
     next;
   end
+  log("processing project #{project.identifier} (#{project.name})", :level => 1)
 
   repos_path = File.join($repos_base, project.identifier).gsub(File::SEPARATOR, File::ALT_SEPARATOR || File::SEPARATOR)
 
