@@ -32,17 +32,17 @@ class SysControllerTest < Redmine::ControllerTest
   def test_projects_with_repository_enabled
     get :projects
     assert_response :success
-    assert_equal 'application/xml', @response.content_type
+    assert_equal 'application/json', @response.content_type
 
-    assert_select 'projects' do
-      assert_select 'project', Project.active.has_module(:repository).count
-      assert_select 'project' do
-        assert_select 'identifier'
-        assert_select 'is-public'
-      end
-    end
-    assert_select 'extra-info', 0
-    assert_select 'extra_info', 0
+    data = ActiveSupport::JSON.decode(response.body)
+
+    assert_equal Project.active.has_module(:repository).count, data.size
+    project = data.first
+    assert project['identifier']
+    assert project['is_public']
+
+    assert_not_include 'extra-info', response.body
+    assert_not_include 'extra_info', response.body
   end
 
   def test_create_project_repository
@@ -54,18 +54,19 @@ class SysControllerTest < Redmine::ControllerTest
       :repository => { :url => 'file:///create/project/repository/subproject2'}
     }
     assert_response :created
-    assert_equal 'application/xml', @response.content_type
+    assert_equal 'application/json', @response.content_type
 
     r = Project.find(4).repository
     assert r.is_a?(Repository::Subversion)
     assert_equal 'file:///create/project/repository/subproject2', r.url
-    
-    assert_select 'repository-subversion' do
-      assert_select 'id', :text => r.id.to_s
-      assert_select 'url', :text => r.url
-    end
-    assert_select 'extra-info', 0
-    assert_select 'extra_info', 0
+
+    data = ActiveSupport::JSON.decode(response.body)
+    assert data['repository-subversion']
+    assert_equal r.id, data['repository-subversion']['id']
+    assert_equal r.url, data['repository-subversion']['url']
+
+    assert_not_include 'extra-info', response.body
+    assert_not_include 'extra_info', response.body
   end
 
   def test_create_already_existing

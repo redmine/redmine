@@ -22,7 +22,7 @@ class SysController < ActionController::Base
     p = Project.active.has_module(:repository).
           order("#{Project.table_name}.identifier").preload(:repository).to_a
     # extra_info attribute from repository breaks activeresource client
-    render :xml => p.to_xml(
+    render :json => p.to_json(
                        :only => [:id, :identifier, :name, :is_public, :status],
                        :include => {:repository => {:only => [:id, :url]}}
                      )
@@ -34,10 +34,11 @@ class SysController < ActionController::Base
       head 409
     else
       logger.info "Repository for #{project.name} was reported to be created by #{request.remote_ip}."
-      repository = Repository.factory(params[:vendor], params[:repository])
+      repository = Repository.factory(params[:vendor])
+      repository.safe_attributes = params[:repository]
       repository.project = project
       if repository.save
-        render :xml => {repository.class.name.underscore.gsub('/', '-') => {:id => repository.id, :url => repository.url}}, :status => 201
+        render :json => {repository.class.name.underscore.gsub('/', '-') => {:id => repository.id, :url => repository.url}}, :status => 201
       else
         head 422
       end

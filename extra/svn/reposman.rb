@@ -5,7 +5,7 @@ require 'find'
 require 'etc'
 require 'rubygems'
 
-Version = "1.4"
+Version = "1.5"
 SUPPORTED_SCM = %w( Subversion Darcs Mercurial Bazaar Git Filesystem )
 
 $verbose      = 0
@@ -160,7 +160,7 @@ end
 
 class Project < ActiveResource::Base
   self.headers["User-agent"] = "Redmine repository manager/#{Version}"
-  self.format = :xml
+  self.format = :json
 end
 
 log("querying Redmine for projects...", :level => 1);
