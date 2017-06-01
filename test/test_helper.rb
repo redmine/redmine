@@ -34,8 +34,12 @@ include ObjectHelpers
 
 require 'net/ldap'
 require 'mocha/setup'
+require 'fileutils'
 
 Redmine::SudoMode.disable!
+
+$redmine_tmp_attachments_directory = "#{Rails.root}/tmp/test/attachments"
+FileUtils.mkdir_p $redmine_tmp_attachments_directory
 
 class ActionView::TestCase
   helper :application
@@ -68,11 +72,7 @@ class ActiveSupport::TestCase
 
   # Use a temporary directory for attachment related tests
   def set_tmp_attachments_directory
-    Dir.mkdir "#{Rails.root}/tmp/test" unless File.directory?("#{Rails.root}/tmp/test")
-    unless File.directory?("#{Rails.root}/tmp/test/attachments")
-      Dir.mkdir "#{Rails.root}/tmp/test/attachments"
-    end
-    Attachment.storage_path = "#{Rails.root}/tmp/test/attachments"
+    Attachment.storage_path = $redmine_tmp_attachments_directory
   end
 
   def set_fixtures_attachments_directory
