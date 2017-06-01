@@ -258,7 +258,7 @@ projects.each do |project|
     project.is_public ? File.umask(0002) : File.umask(0007)
 
     if $test
-      log("\tcreate repository #{repos_path}")
+      log("\trepository #{repos_path} created")
       log("\trepository #{repos_path} registered in Redmine with url #{$svn_url}#{project.identifier}") if $svn_url;
       next
     end
@@ -275,6 +275,7 @@ projects.each do |project|
       log("\tunable to create #{repos_path} : #{e}\n")
       next
     end
+    log("\trepository #{repos_path} created");
 
     if $svn_url
       begin
@@ -284,6 +285,5 @@ projects.each do |project|
         log("\trepository #{repos_path} not registered in Redmine: #{e.message}");
       end
     end
-    log("\trepository #{repos_path} created");
   end
 end
