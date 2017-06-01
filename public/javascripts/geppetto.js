@@ -131,7 +131,7 @@ function showSampleProject(url){
         .on("load",
             function(){
                 $(this).show();
-                $("#wrap").hide();
+                $(".indexNoUser").hide();
                 $("footer").hide();
                 history.replaceState(null, document.title, location.pathname+"#!/sampleProject");
                 history.pushState(null, document.title, location.pathname);
