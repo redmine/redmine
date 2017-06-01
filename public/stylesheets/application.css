@@ -3410,9 +3410,27 @@ color: #555; text-shadow: 1px 1px 0 #fff;
     font-family: Consolas;
 }
 
+
 .tutorialCard:hover{
 	color:#f60;
 	border:2px solid #f60;
+}
+.tutorialCard .icon-check:hover{
+	color:#f60!important;
+}
+
+
+.tutorialCard.disabled{
+	color:grey;
+	border:2px solid grey;
+	cursor:default;
+}
+.tutorialCard.disabled:hover{
+	color:grey;
+	border:2px solid grey;
+}
+.tutorialCard.disabled .icon-gears:hover{
+	color:grey!important;
 }
 
 #hhtutorial{
