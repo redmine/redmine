@@ -146,11 +146,7 @@ function showSampleProject(url){
                     }
                 }, false);
                 
-                window.addEventListener('message', function(e){
-            	    if (e.data.command == 'ready') {
-            		$("#geppettoSampleProject")[0].contentWindow.postMessage({"command": "$('.HomeButton').hide()"}, $("#geppettoIP").val());
-            	    }
-                }, false);
+            	$("#geppettoSampleProject")[0].contentWindow.postMessage({"command": "$('.HomeButton').hide()"}, $("#geppettoIP").val());
                 
             });
     $('#geppettoHomeContainer').append(ifr);
