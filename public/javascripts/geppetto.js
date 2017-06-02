@@ -65,16 +65,19 @@ function createCORSRequest(method, url) {
 
 // Add dashboard in home page
 function addDashboard(){
-	jQuery("#dashboardContainer").prepend("<iframe id='geppettoDashboard' style='width:100%;height:100%;border:0px;' src='" + geppettoIP + geppettoContextPath + "'></iframe>");
+	$("#dashboardContainer").prepend("<iframe id='geppettoDashboard' style='width:100%;height:100%;border:0px;' src='" + geppettoIP + geppettoContextPath + "'></iframe>");
     window.addEventListener('message', function(e){
     	if (e.data.command == 'ready') {
-    		document.getElementById("geppettoDashboard").contentWindow.postMessage({"command": "$('.well').css('background-color','white')"}, $("#geppettoIP").val()+"/currentuser");
-    		document.getElementById("geppettoDashboard").contentWindow.postMessage({"command": "$('.dark-well').css('background-color','white')"}, $("#geppettoIP").val()+"/currentuser");
-    		document.getElementById("geppettoDashboard").contentWindow.postMessage({"command": "$('.navbar').css('background-color','white')"}, $("#geppettoIP").val()+"/currentuser");
-    		document.getElementById("geppettoDashboard").contentWindow.postMessage({"command": "$('footer').css('background-color','white')"}, $("#geppettoIP").val()+"/currentuser");
-    		document.getElementById("geppettoDashboard").contentWindow.postMessage({"command": "$('body').css('padding-top','0')"}, $("#geppettoIP").val()+"/currentuser");
-    		document.getElementById("geppettoDashboard").contentWindow.postMessage({"command": "$('#header').remove()"}, $("#geppettoIP").val()+"/currentuser");
-    		document.getElementById("geppettoDashboard").contentWindow.postMessage({"command": "if($('.project-preview').length==0){$('.dashboardAlert').html(\"You don't have any models yet! Why don\'t you start Exploring OSB and persisting any model you are interested in? All the models you will persist will appear here in your home so you can easily come back to them. Click on the help tab for more!\");}"}, $("#geppettoIP").val()+"/currentuser");
+            var dashboard = $("#geppettoDashboard");
+            if (dashboard.length > 0) {
+    		dashboard[0].contentWindow.postMessage({"command": "$('.well').css('background-color','white')"}, $("#geppettoIP").val()+"/currentuser");
+    		dashboard[0].contentWindow.postMessage({"command": "$('.dark-well').css('background-color','white')"}, $("#geppettoIP").val()+"/currentuser");
+    		dashboard[0].contentWindow.postMessage({"command": "$('.navbar').css('background-color','white')"}, $("#geppettoIP").val()+"/currentuser");
+    		dashboard[0].contentWindow.postMessage({"command": "$('footer').css('background-color','white')"}, $("#geppettoIP").val()+"/currentuser");
+    		dashboard[0].contentWindow.postMessage({"command": "$('body').css('padding-top','0')"}, $("#geppettoIP").val()+"/currentuser");
+    		dashboard[0].contentWindow.postMessage({"command": "$('#header').remove()"}, $("#geppettoIP").val()+"/currentuser");
+    		dashboard[0].contentWindow.postMessage({"command": "if($('.project-preview').length==0){$('.dashboardAlert').html(\"You don't have any models yet! Why don\'t you start Exploring OSB and persisting any model you are interested in? All the models you will persist will appear here in your home so you can easily come back to them. Click on the help tab for more!\");}"}, $("#geppettoIP").val()+"/currentuser");
+            }
     		
     	}
     }, false);
@@ -145,7 +148,7 @@ function showSampleProject(url){
                 
                 window.addEventListener('message', function(e){
             	    if (e.data.command == 'ready') {
-            		document.getElementById("geppettoSampleProject").contentWindow.postMessage({"command": "$('.HomeButton').hide()"}, $("#geppettoIP").val());
+            		$("#geppettoSampleProject").contentWindow.postMessage({"command": "$('.HomeButton').hide()"}, $("#geppettoIP").val());
             	    }
                 }, false);
                 
