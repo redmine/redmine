@@ -67,6 +67,10 @@ $(document).ready(function () {
 		$("#project_quick_jump_box").toggle();
 	});
 
+    $(".logout-btn").click(function() {
+        callGeppetto("logout?outputFormat=json", function(){}, false);
+    });
+
 	// **************
 	// PROJECT PAGE
 	// **************

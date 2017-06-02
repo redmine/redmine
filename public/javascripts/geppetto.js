@@ -154,10 +154,6 @@ function showSampleProject(url){
     $('#geppettoHomeContainer').show();
 }
 
-// Process logout
-function processLogout(url, text){
-	$('#logout_link').unbind('click').click();
-};
 // Process login. Validate login was successful and execute next call/function if needed
 function processLogin(text, url, onloadFunction){
 	//FIXME: Add validation
