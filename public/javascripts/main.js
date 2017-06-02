@@ -68,7 +68,10 @@ $(document).ready(function () {
 	});
 
     $(".logout-btn").click(function() {
-        callGeppetto("logout?outputFormat=json", function(){}, false);
+        callGeppetto("logout?outputFormat=json",
+                     // use default button event to logout redmine after geppetto logged out
+                     function(){ $(".logout-btn").off('click').click(); }, false);
+        return false;
     });
 
 	// **************
