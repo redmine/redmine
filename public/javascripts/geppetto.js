@@ -148,7 +148,7 @@ function showSampleProject(url){
                 
                 window.addEventListener('message', function(e){
             	    if (e.data.command == 'ready') {
-            		$("#geppettoSampleProject").contentWindow.postMessage({"command": "$('.HomeButton').hide()"}, $("#geppettoIP").val());
+            		$("#geppettoSampleProject")[0].contentWindow.postMessage({"command": "$('.HomeButton').hide()"}, $("#geppettoIP").val());
             	    }
                 }, false);
                 
