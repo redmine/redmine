@@ -75,12 +75,12 @@ class CustomFieldEnumerationsControllerTest < Redmine::ControllerTest
     put :update_each, :params => {
         :custom_field_id => @field.id,
         :custom_field_enumerations => {
-          @bar.id => {
+          @bar.id.to_s => {
             :position => "1",
             :name => "Baz",
             :active => "1"
           },    
-                @foo.id => {
+          @foo.id.to_s => {
             :position => "2",
             :name => "Foo",
             :active => "0"

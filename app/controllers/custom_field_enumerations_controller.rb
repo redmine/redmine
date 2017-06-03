@@ -31,7 +31,7 @@ class CustomFieldEnumerationsController < ApplicationController
 
   def create
     @value = @custom_field.enumerations.build
-    @value.safe_attributes = params[:custom_field_enumeration]
+    @value.attributes = enumeration_params
     @value.save
     respond_to do |format|
       format.html { redirect_to custom_field_enumerations_path(@custom_field) }
@@ -40,9 +40,7 @@ class CustomFieldEnumerationsController < ApplicationController
   end
 
   def update_each
-    saved = CustomFieldEnumeration.update_each(@custom_field, params[:custom_field_enumerations]) do |enumeration, enumeration_attributes|
-      enumeration.safe_attributes = enumeration_attributes
-    end
+    saved = CustomFieldEnumeration.update_each(@custom_field, update_each_params)
     if saved
       flash[:notice] = l(:notice_successful_update)
     end
@@ -72,5 +70,15 @@ class CustomFieldEnumerationsController < ApplicationController
     @value = @custom_field.enumerations.find(params[:id])
   rescue ActiveRecord::RecordNotFound
     render_404
+  end
+
+  def enumeration_params
+    params.require(:custom_field_enumeration).permit(:name, :active, :position)
+  end
+
+  def update_each_params
+    # params.require(:custom_field_enumerations).permit(:name, :active, :position) does not work here with param like this:
+    # "custom_field_enumerations":{"0":{"name": ...}, "1":{"name...}}
+    params.permit(:custom_field_enumerations => [:name, :active, :position]).require(:custom_field_enumerations)
   end
 end

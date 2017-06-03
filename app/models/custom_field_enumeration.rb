@@ -16,10 +16,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class CustomFieldEnumeration < ActiveRecord::Base
-  include Redmine::SafeAttributes
-
   belongs_to :custom_field
-  attr_accessible :name, :active, :position
 
   validates_presence_of :name, :position, :custom_field_id
   validates_length_of :name, :maximum => 60
@@ -27,10 +24,6 @@ class CustomFieldEnumeration < ActiveRecord::Base
   before_create :set_position
 
   scope :active, lambda { where(:active => true) }
-
-  safe_attributes 'name',
-    'active',
-    'position'
 
   def to_s
     name.to_s
@@ -57,7 +50,6 @@ class CustomFieldEnumeration < ActiveRecord::Base
   end
 
   def self.update_each(custom_field, attributes)
-    return unless attributes.is_a?(Hash)
     transaction do
       attributes.each do |enumeration_id, enumeration_attributes|
         enumeration = custom_field.enumerations.find_by_id(enumeration_id)
