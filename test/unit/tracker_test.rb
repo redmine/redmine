@@ -47,7 +47,7 @@ class TrackerTest < ActiveSupport::TestCase
 
     target = Tracker.new(:name => 'Target', :default_status_id => 1)
     assert target.save
-    target.workflow_rules.copy(source)
+    target.copy_workflow_rules(source)
     target.reload
     assert_equal rules_count, target.workflow_rules.size
   end

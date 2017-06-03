@@ -60,7 +60,7 @@ class RolesController < ApplicationController
     if request.post? && @role.save
       # workflow copy
       if !params[:copy_workflow_from].blank? && (copy_from = Role.find_by_id(params[:copy_workflow_from]))
-        @role.workflow_rules.copy(copy_from)
+        @role.copy_workflow_rules(copy_from)
       end
       flash[:notice] = l(:notice_successful_create)
       redirect_to roles_path

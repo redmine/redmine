@@ -29,10 +29,10 @@ class Tracker < ActiveRecord::Base
   has_many :issues
   has_many :workflow_rules, :dependent => :delete_all do
     def copy(source_tracker)
-      WorkflowRule.copy(source_tracker, nil, proxy_association.owner, nil)
+      ActiveSupport::Deprecation.warn "tracker.workflow_rules.copy is deprecated and will be removed in Redmine 4.0, use tracker.copy_worflow_rules instead"
+      proxy_association.owner.copy_workflow_rules(source_tracker)
     end
   end
-
   has_and_belongs_to_many :projects
   has_and_belongs_to_many :custom_fields, :class_name => 'IssueCustomField', :join_table => "#{table_name_prefix}custom_fields_trackers#{table_name_suffix}", :association_foreign_key => 'custom_field_id'
   acts_as_positioned
@@ -119,6 +119,10 @@ class Tracker < ActiveRecord::Base
     self.fields_bits = bits
     @disabled_core_fields = nil
     core_fields
+  end
+
+  def copy_workflow_rules(source_tracker)
+    WorkflowRule.copy(source_tracker, nil, self, nil)
   end
 
   # Returns the fields that are disabled for all the given trackers

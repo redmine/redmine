@@ -61,7 +61,8 @@ class Role < ActiveRecord::Base
   before_destroy :check_deletable
   has_many :workflow_rules, :dependent => :delete_all do
     def copy(source_role)
-      WorkflowRule.copy(nil, source_role, nil, proxy_association.owner)
+      ActiveSupport::Deprecation.warn "role.workflow_rules.copy is deprecated and will be removed in Redmine 4.0, use role.copy_worflow_rules instead"
+      proxy_association.owner.copy_workflow_rules(source_role)
     end
   end
   has_and_belongs_to_many :custom_fields, :join_table => "#{table_name_prefix}custom_fields_roles#{table_name_suffix}", :foreign_key => "role_id"
@@ -259,6 +260,10 @@ class Role < ActiveRecord::Base
     self.permissions_tracker_ids = permissions_tracker_ids.merge(h)
 
     self
+  end
+
+  def copy_workflow_rules(source_role)
+    WorkflowRule.copy(nil, source_role, nil, self)
   end
 
   # Find all the roles that can be given to a project member
