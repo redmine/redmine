@@ -57,7 +57,7 @@ class EnumerationsController < ApplicationController
   end
 
   def update
-    if @enumeration.update_attributes(params[:enumeration])
+    if @enumeration.update_attributes(enumeration_params)
       respond_to do |format|
         format.html {
           flash[:notice] = l(:notice_successful_update)
@@ -91,7 +91,7 @@ class EnumerationsController < ApplicationController
 
   def build_new_enumeration
     class_name = params[:enumeration] && params[:enumeration][:type] || params[:type]
-    @enumeration = Enumeration.new_subclass_instance(class_name, params[:enumeration])
+    @enumeration = Enumeration.new_subclass_instance(class_name, enumeration_params)
     if @enumeration.nil?
       render_404
     end
@@ -101,5 +101,10 @@ class EnumerationsController < ApplicationController
     @enumeration = Enumeration.find(params[:id])
   rescue ActiveRecord::RecordNotFound
     render_404
+  end
+
+  def enumeration_params
+    # can't require enumeration on #new action
+    params.permit(:enumeration => [:name, :active, :is_default])[:enumeration]
   end
 end
