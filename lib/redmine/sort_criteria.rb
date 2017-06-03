@@ -23,7 +23,7 @@ module Redmine
         replace arg
       elsif arg.is_a?(String)
         replace arg.split(',').collect {|s| s.split(':')[0..1]}
-      elsif arg.is_a?(Hash)
+      elsif arg.respond_to?(:values)
         replace arg.values
       elsif arg
         raise ArgumentError.new("SortCriteria#new takes an Array, String or Hash, not a #{arg.class.name}.")
