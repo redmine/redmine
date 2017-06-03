@@ -69,7 +69,7 @@ class RepositoriesController < ApplicationController
     @users += User.where(:id => additional_user_ids).to_a unless additional_user_ids.empty?
     @users.compact!
     @users.sort!
-    if request.post? && params[:committers].is_a?(Hash)
+    if request.post? && params[:committers].present?
       # Build a hash with repository usernames as keys and corresponding user ids as values
       @repository.committer_ids = params[:committers].values.inject({}) {|h, c| h[c.first] = c.last; h}
       flash[:notice] = l(:notice_successful_update)
