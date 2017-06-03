@@ -247,6 +247,8 @@ class Changeset < ActiveRecord::Base
       unless issue.save
         logger.warn("Issue ##{issue.id} could not be saved by changeset #{id}: #{issue.errors.full_messages}") if logger
       end
+    else
+      issue.clear_journal
     end
     issue
   end

@@ -813,6 +813,11 @@ class Issue < ActiveRecord::Base
     @current_journal
   end
 
+  # Clears the current journal
+  def clear_journal
+    @current_journal = nil
+  end
+
   # Returns the names of attributes that are journalized when updating the issue
   def journalized_attribute_names
     names = Issue.column_names - %w(id root_id lft rgt lock_version created_on updated_on closed_on)
