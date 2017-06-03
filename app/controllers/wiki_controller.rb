@@ -156,7 +156,7 @@ class WikiController < ApplicationController
 
     @content = @page.content || WikiContent.new(:page => @page)
     content_params = params[:content]
-    if content_params.nil? && params[:wiki_page].is_a?(Hash)
+    if content_params.nil? && params[:wiki_page].present?
       content_params = params[:wiki_page].slice(:text, :comments, :version)
     end
     content_params ||= {}
