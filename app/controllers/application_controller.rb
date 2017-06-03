@@ -454,14 +454,16 @@ class ApplicationController < ActionController::Base
 
   # Redirects to the request referer if present, redirects to args or call block otherwise.
   def redirect_to_referer_or(*args, &block)
-    redirect_to :back
-  rescue ::ActionController::RedirectBackError
-    if args.any?
-      redirect_to *args
-    elsif block_given?
-      block.call
+    if referer = request.headers["Referer"]
+      redirect_to referer
     else
-      raise "#redirect_to_referer_or takes arguments or a block"
+      if args.any?
+        redirect_to *args
+      elsif block_given?
+        block.call
+      else
+        raise "#redirect_to_referer_or takes arguments or a block"
+      end
     end
   end
 
