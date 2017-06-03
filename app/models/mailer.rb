@@ -61,7 +61,7 @@ class Mailer < ActionMailer::Base
     to = issue.notified_users
     cc = issue.notified_watchers - to
     issue.each_notification(to + cc) do |users|
-      Mailer.issue_add(issue, to & users, cc & users).deliver
+      issue_add(issue, to & users, cc & users).deliver
     end
   end
 
@@ -95,7 +95,7 @@ class Mailer < ActionMailer::Base
     cc = journal.notified_watchers - to
     journal.each_notification(to + cc) do |users|
       issue.each_notification(users) do |users2|
-        Mailer.issue_edit(journal, to & users2, cc & users2).deliver
+        issue_edit(journal, to & users2, cc & users2).deliver
       end
     end
   end
@@ -317,7 +317,7 @@ class Mailer < ActionMailer::Base
     # TODO: maybe not the best way to handle this
     return if user.admin? && user.login == 'admin' && user.mail == 'admin@example.net'
 
-    Mailer.security_notification(user,
+    security_notification(user,
       message: :mail_body_password_updated,
       title: :button_change_password,
       url: {controller: 'my', action: 'password'}
@@ -359,7 +359,7 @@ class Mailer < ActionMailer::Base
     return unless changes.present?
 
     users = User.active.where(admin: true).to_a
-    Mailer.settings_updated(users, changes).deliver
+    settings_updated(users, changes).deliver
   end
 
   def test_email(user)
