@@ -45,7 +45,7 @@ class PrincipalMembershipsController < ApplicationController
   end
 
   def update
-    @membership.attributes = params[:membership]
+    @membership.attributes = params.require(:membership).permit(:role_ids => [])
     @membership.save
     respond_to do |format|
       format.html { redirect_to_principal @principal }
