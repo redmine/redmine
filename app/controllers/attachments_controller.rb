@@ -114,11 +114,9 @@ class AttachmentsController < ApplicationController
 
   # Update all the attachments of a container
   def update_all
-    if params[:attachments].is_a?(Hash)
-      if Attachment.update_attachments(@attachments, params[:attachments])
-        redirect_back_or_default home_path
-        return
-      end
+    if Attachment.update_attachments(@attachments, update_all_params)
+      redirect_back_or_default home_path
+      return
     end
     render :action => 'edit_all'
   end
@@ -224,5 +222,10 @@ class AttachmentsController < ApplicationController
     else
       'attachment'
     end
+  end
+
+  # Returns attachments param for #update_all
+  def update_all_params
+    params.permit(:attachments => [:filename, :description]).require(:attachments)
   end
 end
