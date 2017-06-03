@@ -368,7 +368,7 @@ class Project < ActiveRecord::Base
 
     if version_ids.any? &&
       Issue.
-        includes(:project).
+        joins(:project).
         where("#{Project.table_name}.lft < ? OR #{Project.table_name}.rgt > ?", lft, rgt).
         where(:fixed_version_id => version_ids).
         exists?
