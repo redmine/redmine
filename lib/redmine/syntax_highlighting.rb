@@ -55,6 +55,15 @@ module Redmine
     module CodeRay
       require 'coderay'
 
+      def self.retrieve_supported_languages
+        ::CodeRay::Scanners.list +
+        # Add CodeRay scanner aliases
+        ::CodeRay::Scanners.plugin_hash.keys.map(&:to_sym) -
+        # Remove internal CodeRay scanners
+        %w(debug default raydebug scanner).map(&:to_sym)
+      end
+      private_class_method :retrieve_supported_languages
+
       class << self
         # Highlights +text+ as the content of +filename+
         # Should not return line numbers nor outer pre tag
@@ -70,10 +79,7 @@ module Redmine
         end
 
         def language_supported?(language)
-          supported_languages =
-            ::CodeRay::Scanners.list +
-            ::CodeRay::Scanners.plugin_hash.keys.map(&:to_sym) -
-            %w(debug default raydebug scanner).map(&:to_sym)
+          supported_languages = retrieve_supported_languages
           supported_languages.include?(language.to_s.downcase.to_sym)
         rescue
           false
