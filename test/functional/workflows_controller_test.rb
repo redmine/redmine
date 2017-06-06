@@ -50,7 +50,7 @@ class WorkflowsControllerTest < Redmine::ControllerTest
     statuses = IssueStatus.where(:id => [2, 3, 5]).sorted.pluck(:name)
     assert_equal ["New issue"] + statuses,
       css_select('table.workflows.transitions-always tbody tr td:first').map(&:text).map(&:strip)
-    
+
     # allowed transitions
     assert_select 'input[type=checkbox][name=?][value="1"][checked=checked]', 'transitions[3][5][always]'
     # not allowed
@@ -150,7 +150,7 @@ class WorkflowsControllerTest < Redmine::ControllerTest
 
   def test_post_edit_with_additional_transitions
     WorkflowTransition.delete_all
-  
+
     post :edit, :params => {
       :role_id => 2,
       :tracker_id => 1,
@@ -413,7 +413,7 @@ class WorkflowsControllerTest < Redmine::ControllerTest
         :target_tracker_ids => ['2', '3'], :target_role_ids => ['1', '3']
       }
       assert_response 200
-      assert_select 'div.flash.error', :text => 'Please select a source tracker or role' 
+      assert_select 'div.flash.error', :text => 'Please select a source tracker or role'
     end
   end
 
