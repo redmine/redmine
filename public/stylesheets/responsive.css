@@ -755,6 +755,11 @@
     width: 100%;
   }
 
+  /* issue edit form */
+  label[for='issue_description'] ~ a .icon-edit {
+    word-wrap: normal;
+  }
+
   /* issues page */
   body.controller-issues p.query-totals {
     margin-top: 0px;
