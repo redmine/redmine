@@ -71,7 +71,7 @@ class CustomField < ActiveRecord::Base
     'field_format',
     'possible_values',
     'regexp',
-    'min_lnegth',
+    'min_length',
     'max_length',
     'is_required',
     'is_for_all',
