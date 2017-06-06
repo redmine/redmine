@@ -625,6 +625,18 @@ class IssueTest < ActiveSupport::TestCase
     assert_equal user, issue.assigned_to
   end
 
+  def test_default_assigned_to_with_required_assignee_should_validate
+    category = IssueCategory.create!(:project_id => 1, :name => 'With default assignee', :assigned_to_id => 3)
+    Issue.any_instance.stubs(:required_attribute_names).returns(['assigned_to_id'])
+
+    issue = Issue.new(:project_id => 1, :tracker_id => 1, :author_id => 1, :subject => 'Default')
+    assert !issue.save
+    assert issue.errors['assigned_to_id'].present?
+
+    issue = Issue.new(:project_id => 1, :tracker_id => 1, :author_id => 1, :subject => 'Default', :category_id => category.id)
+    assert_save issue
+  end
+
   def test_should_not_update_custom_fields_on_changing_tracker_with_different_custom_fields
     issue = Issue.create!(:project_id => 1, :tracker_id => 1, :author_id => 1,
                           :status_id => 1, :subject => 'Test',

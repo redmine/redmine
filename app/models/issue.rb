@@ -105,8 +105,8 @@ class Issue < ActiveRecord::Base
     end
   }
 
+  before_validation :default_assign, on: :create
   before_validation :clear_disabled_fields
-  before_create :default_assign
   before_save :close_duplicates, :update_done_ratio_from_issue_status,
               :force_updated_on_change, :update_closed_on, :set_assigned_to_was
   after_save {|issue| issue.send :after_project_change if !issue.id_changed? && issue.project_id_changed?}
