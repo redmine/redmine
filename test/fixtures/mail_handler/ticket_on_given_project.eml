@@ -10,9 +10,9 @@ Date: Sun, 22 Jun 2008 12:28:07 +0200
 MIME-Version: 1.0
 Content-Type: text/plain;
 	format=flowed;
-	charset="iso-8859-1";
+	charset="utf-8";
 	reply-type=original
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 X-Priority: 3
 X-MSMail-Priority: Normal
 X-Mailer: Microsoft Outlook Express 6.00.2900.2869
@@ -47,7 +47,7 @@ BREAK
 
 This paragraph is between delimiters.
 
----
+---=C2=A0
 
 This paragraph is after the delimiter so it shouldn't appear.
 

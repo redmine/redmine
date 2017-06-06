@@ -963,7 +963,7 @@ class MailHandlerTest < ActiveSupport::TestCase
       assert_issue_created(issue)
       assert issue.description.include?('This paragraph is before delimiters')
       assert issue.description.include?('--- This line starts with a delimiter')
-      assert !issue.description.match(/^---$/)
+      assert !issue.description.match(/^---#{"\u00A0"}$/)
       assert !issue.description.include?('This paragraph is after the delimiter')
     end
   end

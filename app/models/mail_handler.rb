@@ -578,7 +578,7 @@ class MailHandler < ActionMailer::Base
     end
 
     unless delimiters.empty?
-      regex = Regexp.new("^[> ]*(#{ Regexp.union(delimiters) })\s*[\r\n].*", Regexp::MULTILINE)
+      regex = Regexp.new("^[> ]*(#{ Regexp.union(delimiters) })[[:blank:]]*[\r\n].*", Regexp::MULTILINE)
       body = body.gsub(regex, '')
     end
     body.strip
