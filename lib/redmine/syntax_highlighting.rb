@@ -72,7 +72,8 @@ module Redmine
         def language_supported?(language)
           supported_languages =
             ::CodeRay::Scanners.list +
-            ::CodeRay::Scanners.plugin_hash.keys.map(&:to_sym)
+            ::CodeRay::Scanners.plugin_hash.keys.map(&:to_sym) -
+            %w(debug default raydebug scanner).map(&:to_sym)
           supported_languages.include?(language.to_s.downcase.to_sym)
         rescue
           false
