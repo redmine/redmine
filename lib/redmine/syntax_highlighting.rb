@@ -64,6 +64,8 @@ module Redmine
       end
       private_class_method :retrieve_supported_languages
 
+      SUPPORTED_LANGUAGES = retrieve_supported_languages
+
       class << self
         # Highlights +text+ as the content of +filename+
         # Should not return line numbers nor outer pre tag
@@ -79,8 +81,7 @@ module Redmine
         end
 
         def language_supported?(language)
-          supported_languages = retrieve_supported_languages
-          supported_languages.include?(language.to_s.downcase.to_sym)
+          SUPPORTED_LANGUAGES.include?(language.to_s.downcase.to_sym)
         rescue
           false
         end
