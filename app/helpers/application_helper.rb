@@ -346,6 +346,14 @@ module ApplicationHelper
     end
   end
 
+  # Returns the default scope for the quick search form
+  # Could be 'all', 'my_projects', 'subprojects' or nil (current project)
+  def default_search_project_scope
+    if @project && !@project.leaf?
+      'subprojects'
+    end
+  end
+
   # Returns an array of projects that are displayed in the quick-jump box
   def projects_for_jump_box(user=User.current)
     if user.logged?
