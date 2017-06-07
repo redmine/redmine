@@ -1238,3 +1238,4 @@ bs:
   field_digest: Checksum
   field_default_assigned_to: Default assignee
   setting_show_custom_fields_on_registration: Show custom fields on registration
+  permission_view_news: View news

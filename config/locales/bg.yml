@@ -1209,3 +1209,4 @@ bg:
   description_wiki_subpages_reassign: Изберете нова родителска страница
   description_all_columns: Всички колони
   text_repository_identifier_info: 'Позволени са малки букви (a-z), цифри, тирета и _.<br />Промяна след създаването му не е възможна.'
+  permission_view_news: View news
