@@ -82,6 +82,9 @@ else
   warn("Please configure your config/database.yml first")
 end
 
+gem 'dotenv-rails', groups: [:development, :test]
+gem 'httparty'
+
 group :development do
   gem "rdoc", "~> 4.3"
   gem "yard"
