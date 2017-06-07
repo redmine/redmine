@@ -35,6 +35,7 @@ module Redmine
               javascript_include_tag('jstoolbar/jstoolbar') +
               javascript_include_tag('jstoolbar/markdown') +
               javascript_include_tag("jstoolbar/lang/jstoolbar-#{current_language.to_s.downcase}") +
+              javascript_tag("var wikiImageMimeTypes = #{Redmine::MimeType.by_type('image').to_json};") +
               stylesheet_link_tag('jstoolbar')
             end
             @heads_for_wiki_formatter_included = true

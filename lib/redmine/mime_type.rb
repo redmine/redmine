@@ -53,6 +53,11 @@ module Redmine
       map
     end
 
+    # returns all full mime types for a given (top level) type
+    def self.by_type(type)
+      MIME_TYPES.keys.select{|m| m.start_with? "#{type}/"}
+    end
+
     # returns mime type for name or nil if unknown
     def self.of(name)
       return nil unless name.present?

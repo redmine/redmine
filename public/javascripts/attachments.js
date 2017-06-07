@@ -58,6 +58,7 @@ function ajaxUpload(file, attachmentId, fileSpan, inputEl) {
         progressEventHandler: onProgress.bind(progressSpan)
       })
       .done(function(result) {
+        addInlineAttachmentMarkup(file);
         progressSpan.progressbar( 'value', 100 ).remove();
         fileSpan.find('input.description, a').css('display', 'inline-block');
       })
@@ -175,9 +176,11 @@ function handleFileDropEvent(e) {
   blockEventPropagation(e);
 
   if ($.inArray('Files', e.dataTransfer.types) > -1) {
+    handleFileDropEvent.target = e.target;
     uploadAndAttachFiles(e.dataTransfer.files, $('input:file.filedrop').first());
   }
 }
+handleFileDropEvent.target = '';
 
 function dragOverHandler(e) {
   $(this).addClass('fileover');
@@ -201,6 +204,49 @@ function setupFileDrop() {
           drop: handleFileDropEvent
       }).addClass('filedroplistner');
     });
+  }
+}
+
+function addInlineAttachmentMarkup(file) {
+  // insert uploaded image inline if dropped area is currently focused textarea
+  if($(handleFileDropEvent.target).hasClass('wiki-edit') && $.inArray(file.type, window.wikiImageMimeTypes) > -1) {
+    var $textarea = $(handleFileDropEvent.target);
+    var cursorPosition = $textarea.prop('selectionStart');
+    var description = $textarea.val();
+    var sanitizedFilename = file.name.replace(/[\/\?\%\*\:\|\"\'<>\n\r]+/, '_');
+    var inlineFilename = encodeURIComponent(sanitizedFilename);
+    var newLineBefore = true;
+    var newLineAfter = true;
+    if(cursorPosition === 0 || description.substr(cursorPosition-1,1).match(/\r|\n/)) {
+      newLineBefore = false;
+    }
+    if(description.substr(cursorPosition,1).match(/\r|\n/)) {
+      newLineAfter = false;
+    }
+
+    $textarea.val(
+      description.substring(0, cursorPosition)
+      + (newLineBefore ? '\n' : '')
+      + inlineFilename
+      + (newLineAfter ? '\n' : '')
+      + description.substring(cursorPosition, description.length)
+    );
+
+    $textarea.prop({
+      'selectionStart': cursorPosition + newLineBefore,
+      'selectionEnd': cursorPosition + inlineFilename.length + newLineBefore
+    });
+    $textarea.closest('.jstEditor')
+      .siblings('.jstElements')
+      .find('.jstb_img').click();
+
+    // move cursor into next line
+    cursorPosition = $textarea.prop('selectionStart');
+    $textarea.prop({
+      'selectionStart': cursorPosition + 1,
+      'selectionEnd': cursorPosition + 1
+    });
+
   }
 }
 
