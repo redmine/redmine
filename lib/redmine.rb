@@ -131,7 +131,7 @@ Redmine::AccessControl.map do |map|
   end
 
   map.project_module :news do |map|
-    map.permission :view_news, {:news => [:index, :show]}, :public => true, :read => true
+    map.permission :view_news, {:news => [:index, :show]}, :read => true
     map.permission :manage_news, {:news => [:new, :create, :edit, :update, :destroy], :comments => [:destroy], :attachments => :upload}, :require => :member
     map.permission :comment_news, {:comments => :create}
   end

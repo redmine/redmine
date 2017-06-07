@@ -926,6 +926,7 @@ de:
   permission_manage_files: Dateien verwalten
   permission_manage_issue_relations: Ticket-Beziehungen verwalten
   permission_manage_members: Mitglieder verwalten
+  permission_view_news: News ansehen
   permission_manage_news: News verwalten
   permission_manage_project_activities: Aktivitäten (Zeiterfassung) verwalten
   permission_manage_public_queries: Öffentliche Filter verwalten

@@ -509,6 +509,7 @@ fr:
   permission_view_time_entries: Voir le temps passé
   permission_edit_time_entries: Modifier les temps passés
   permission_edit_own_time_entries: Modifier son propre temps passé
+  permission_view_news: Voir les annonces
   permission_manage_news: Gérer les annonces
   permission_comment_news: Commenter les annonces
   permission_view_documents: Voir les documents

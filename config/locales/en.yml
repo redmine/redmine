@@ -497,6 +497,7 @@ en:
   permission_view_time_entries: View spent time
   permission_edit_time_entries: Edit time logs
   permission_edit_own_time_entries: Edit own time logs
+  permission_view_news: View news
   permission_manage_news: Manage news
   permission_comment_news: Comment news
   permission_view_documents: View documents

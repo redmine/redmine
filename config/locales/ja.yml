@@ -427,6 +427,7 @@ ja:
   permission_edit_time_entries: 作業時間の編集
   permission_edit_own_time_entries: 自身が記入した作業時間の編集
   permission_manage_project_activities: 作業分類 (時間管理) の管理
+  permission_view_news: ニュースの閲覧
   permission_manage_news: ニュースの管理
   permission_comment_news: ニュースへのコメント
   permission_view_documents: 文書の閲覧

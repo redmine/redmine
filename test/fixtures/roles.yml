@@ -36,6 +36,7 @@ roles_001:
     - :view_time_entries
     - :edit_time_entries
     - :delete_time_entries
+    - :view_news
     - :manage_news
     - :comment_news
     - :view_documents
@@ -92,6 +93,7 @@ roles_002:
     - :log_time
     - :view_time_entries
     - :edit_own_time_entries
+    - :view_news
     - :manage_news
     - :comment_news
     - :view_documents
@@ -137,6 +139,7 @@ roles_003:
     - :view_calendar
     - :log_time
     - :view_time_entries
+    - :view_news
     - :manage_news
     - :comment_news
     - :view_documents
@@ -174,6 +177,7 @@ roles_004:
     - :view_calendar
     - :log_time
     - :view_time_entries
+    - :view_news
     - :comment_news
     - :view_documents
     - :view_wiki_pages
@@ -200,6 +204,7 @@ roles_005:
     - :view_gantt
     - :view_calendar
     - :view_time_entries
+    - :view_news
     - :view_documents
     - :view_wiki_pages
     - :view_wiki_edits
