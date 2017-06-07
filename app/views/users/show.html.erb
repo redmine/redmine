@@ -26,7 +26,7 @@
 <h3><%=l(:label_issue_plural)%></h3>
 <ul>
   <li><%= link_to l(:label_assigned_issues),
-        issues_path(:set_filter => 1, :assigned_to_id => @user.id, :sort => 'priority:desc,updated_on:desc') %>:
+        issues_path(:set_filter => 1, :assigned_to_id => ([@user.id] + @user.group_ids).join("|"), :sort => 'priority:desc,updated_on:desc') %>:
       <%= Issue.visible.open.assigned_to(@user).count %>
   <li><%= link_to l(:label_reported_issues),
         issues_path(:set_filter => 1, :status_id => '*', :author_id => @user.id) %>:
