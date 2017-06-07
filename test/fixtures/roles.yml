@@ -50,6 +50,7 @@ roles_001:
     - :protect_wiki_pages
     - :delete_wiki_pages
     - :rename_wiki_pages
+    - :view_messages
     - :add_messages
     - :edit_messages
     - :delete_messages
@@ -102,6 +103,7 @@ roles_002:
     - :edit_wiki_pages
     - :protect_wiki_pages
     - :delete_wiki_pages
+    - :view_messages
     - :add_messages
     - :edit_own_messages
     - :delete_own_messages
@@ -145,6 +147,7 @@ roles_003:
     - :view_wiki_edits
     - :edit_wiki_pages
     - :delete_wiki_pages
+    - :view_messages
     - :add_messages
     - :manage_boards
     - :view_files
@@ -176,6 +179,7 @@ roles_004:
     - :view_wiki_pages
     - :view_wiki_edits
     - :edit_wiki_pages
+    - :view_messages
     - :add_messages
     - :view_files
     - :manage_files
@@ -199,6 +203,7 @@ roles_005:
     - :view_documents
     - :view_wiki_pages
     - :view_wiki_edits
+    - :view_messages
     - :view_files
     - :browse_repository
     - :view_changesets

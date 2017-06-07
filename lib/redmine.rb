@@ -169,7 +169,7 @@ Redmine::AccessControl.map do |map|
   end
 
   map.project_module :boards do |map|
-    map.permission :view_messages, {:boards => [:index, :show], :messages => [:show]}, :public => true, :read => true
+    map.permission :view_messages, {:boards => [:index, :show], :messages => [:show]}, :read => true
     map.permission :add_messages, {:messages => [:new, :reply, :quote], :attachments => :upload}
     map.permission :edit_messages, {:messages => :edit, :attachments => :upload}, :require => :member
     map.permission :edit_own_messages, {:messages => :edit, :attachments => :upload}, :require => :loggedin
