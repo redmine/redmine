@@ -32,6 +32,39 @@ class AccountController < ApplicationController
     end
   end
 
+  def login_callback
+    if valid_genius_center_sign?(params[:ticket], ENV['GC_CREDENTIAL'], params[:sign])
+      options = {
+          ticket: params[:ticket],
+          app_id: ENV['GC_APP_ID'],
+          sign: sign_for_genius_center(ENV['GC_APP_ID'], params[:ticket], ENV['GC_CREDENTIAL'])
+      }
+      puts options
+      response = HTTParty.post(ENV['GC_ADDRESS'], body: options).parsed_response
+      if response['status']['code'] == 0
+        addr = EmailAddress.find_by_address(response['user']['email'])
+        #                       TODO-impl: should redirect to user profile page to submit user profile
+        if addr.nil?
+          if register_user(response['user'])
+            logger.info "New user from GeniusCenter: email: #{response['user']['email']}"
+          else
+            flash[:warning] = 'Failed register user information, please contact admin.'
+            redirect_to home_path and return
+          end
+        end
+        user = EmailAddress.find_by_address(response['user']['email']).user
+        logger.info "User logged from GeniusCenter: user.id = #{user.id}"
+        successful_authentication(addr.user)
+      else
+        flash[:warning] = response['status']['msg']
+        redirect_to home_url
+      end
+    else
+      flash[:warning] = 'Parameters are invalid'
+      redirect_to home_url
+    end
+  end
+
   # Login request and validation
   def login
     if request.post?
@@ -371,5 +404,31 @@ class AccountController < ApplicationController
   def account_locked(user, redirect_path=signin_path)
     flash[:error] = l(:notice_account_locked)
     redirect_to redirect_path
+  end
+
+  def add_user_to_db(user_info)
+    user = User.new(language: 'en',
+                    auth_source_id: AuthSource.find_by(type: 'User').id, #TODO-check: ???
+                    status: 1, # STATUS_ACTIVE
+                    login: 'gc'+Time.now.to_i.to_s,
+                    mail: user_info['email'],
+                    firstname: user_info['user_name'],
+                    lastname: user_info['user_name'], #TODO-verify
+                    admin: false)
+    user.pref
+    user.save && EmailAddress.create(user: @user, address: info['email']).save
+  end
+
+  def valid_genius_center_sign?(*info, got_sign)
+    expected = Digest::MD5::hexdigest(info.join('-'))
+    return true if expected == got_sign.to_s
+    puts 'Sign Validation for:  ' + info.join(' - ')
+    puts 'Expected: ' + expected
+    puts 'GOT:      ' + got_sign
+    false
+  end
+
+  def sign_for_genius_center(*info)
+    Digest::MD5::hexdigest(info.join('-'))
   end
 end

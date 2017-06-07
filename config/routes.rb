@@ -389,4 +389,5 @@ Rails.application.routes.draw do
       end
     end
   end
+  get 'login_callback', to: 'account#login_callback'
 end
