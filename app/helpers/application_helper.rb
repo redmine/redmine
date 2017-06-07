@@ -224,7 +224,7 @@ module ApplicationHelper
       image_tag(
         thumbnail_path(attachment),
         :srcset => "#{thumbnail_path(attachment, :size => Setting.thumbnails_size.to_i * 2)} 2x",
-        :width => Setting.thumbnails_size 
+        :width => Setting.thumbnails_size
       ),
       named_attachment_path(
         attachment,
@@ -810,6 +810,9 @@ module ApplicationHelper
   #  Projects:
   #     project:someproject -> Link to project named "someproject"
   #     project#3 -> Link to project with id 3
+  #  Users:
+  #     user:jsmith -> Link to user with login jsmith
+  #     @jsmith -> Link to user with login jsmith
   #
   #   Links can refer other objects from other projects, using project identifier:
   #     identifier:r52
@@ -826,8 +829,8 @@ module ApplicationHelper
       prefix = $~[:prefix]
       repo_prefix = $~[:repo_prefix]
       repo_identifier = $~[:repo_identifier]
-      sep = $~[:sep1] || $~[:sep2] || $~[:sep3]
-      identifier = $~[:identifier1] || $~[:identifier2]
+      sep = $~[:sep1] || $~[:sep2] || $~[:sep3] || $~[:sep4]
+      identifier = $~[:identifier1] || $~[:identifier2] || $~[:identifier3]
       comment_suffix = $~[:comment_suffix]
       comment_id = $~[:comment_id]
 
@@ -899,9 +902,7 @@ module ApplicationHelper
               end
             end
           elsif sep == ':'
-            # removes the double quotes if any
-            name = identifier.gsub(%r{^"(.*)"$}, "\\1")
-            name = CGI.unescapeHTML(name)
+            name = remove_double_quotes(identifier)
             case prefix
             when 'document'
               if project && document = project.documents.visible.find_by_title(name)
@@ -957,7 +958,14 @@ module ApplicationHelper
               if p = Project.visible.where("identifier = :s OR LOWER(name) = :s", :s => name.downcase).first
                 link = link_to_project(p, {:only_path => only_path}, :class => 'project')
               end
+            when 'user'
+              u = User.visible.where(:login => name, :type => 'User').first
+              link = link_to_user(u) if u
             end
+          elsif "@"
+            name = remove_double_quotes(identifier)
+            u = User.visible.where(:login => name, :type => 'User').first
+            link = link_to_user(u) if u
           end
         end
         (leading + (link || "#{project_prefix}#{prefix}#{repo_prefix}#{sep}#{identifier}#{comment_suffix}"))
@@ -971,7 +979,7 @@ module ApplicationHelper
             (?<leading>[\s\(,\-\[\>]|^)
             (?<esc>!)?
             (?<project_prefix>(?<project_identifier>[a-z0-9\-_]+):)?
-            (?<prefix>attachment|document|version|forum|news|message|project|commit|source|export)?
+            (?<prefix>attachment|document|version|forum|news|message|project|commit|source|export|user)?
             (
               (
                 (?<sep1>\#)|
@@ -987,8 +995,14 @@ module ApplicationHelper
                   -(?<comment_id>\d+)
                 )?
               )|
+              (
               (?<sep3>:)
               (?<identifier2>[^"\s<>][^\s<>]*?|"[^"]+?")
+              )|
+              (
+              (?<sep4>@)
+              (?<identifier3>[a-z0-9_\-@\.]*)
+              )
             )
             (?=
               (?=[[:punct:]][^A-Za-z0-9_/])|
@@ -1464,5 +1478,11 @@ module ApplicationHelper
     helper = Redmine::WikiFormatting.helper_for(Setting.text_formatting)
     extend helper
     return self
+  end
+
+  # remove double quotes if any
+  def remove_double_quotes(identifier)
+    name = identifier.gsub(%r{^"(.*)"$}, "\\1")
+    return CGI.unescapeHTML(name)
   end
 end

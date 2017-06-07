@@ -37,7 +37,7 @@ module Redmine
           args :
           %w(Formatter Helper HtmlParser).map {|m| "Redmine::WikiFormatting::#{name.classify}::#{m}".constantize rescue nil}
 
-        raise "A formatter class is required" if formatter.nil? 
+        raise "A formatter class is required" if formatter.nil?
 
         @@formatters[name] = {
           :formatter => formatter,
@@ -153,7 +153,7 @@ module Redmine
 
       # Destructively replaces email addresses into clickable links
       def auto_mailto!(text)
-        text.gsub!(/([\w\.!#\$%\-+.\/]+@[A-Za-z0-9\-]+(\.[A-Za-z0-9\-]+)+)/) do
+        text.gsub!(/((?<!@)\b[\w\.!#\$%\-+.\/]+@[A-Za-z0-9\-]+(\.[A-Za-z0-9\-]+)+)/) do
           mail = $1
           if text.match(/<a\b[^>]*>(.*)(#{Regexp.escape(mail)})(.*)<\/a>/)
             mail
@@ -161,7 +161,7 @@ module Redmine
             %(<a class="email" href="mailto:#{ERB::Util.html_escape mail}">#{ERB::Util.html_escape mail}</a>).html_safe
           end
         end
-      end      
+      end
     end
 
     # Default formatter module

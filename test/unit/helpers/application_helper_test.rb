@@ -383,10 +383,23 @@ RAW
       # invalid expressions
       'source:'                     => 'source:',
       # url hash
-      "http://foo.bar/FAQ#3"       => '<a class="external" href="http://foo.bar/FAQ#3">http://foo.bar/FAQ#3</a>',
+      "http://foo.bar/FAQ#3"        => '<a class="external" href="http://foo.bar/FAQ#3">http://foo.bar/FAQ#3</a>',
+      # user
+      'user:jsmith'                 => link_to_user(User.find_by_id(2)),
+      '@jsmith'                     => link_to_user(User.find_by_id(2)),
+      # invalid user
+      'user:foobar'                 => 'user:foobar',
     }
     @project = Project.find(1)
     to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text), "#{text} failed" }
+  end
+
+  def test_user_links_with_email_as_login_name_should_not_be_parsed
+    u = User.generate!(:login => 'jsmith@somenet.foo')
+    raw = "@jsmith@somenet.foo should not be parsed in jsmith@somenet.foo"
+
+    assert_match %r{<p><a class="user active".*>#{u.name}</a> should not be parsed in <a class="email" href="mailto:jsmith@somenet.foo">jsmith@somenet.foo</a></p>},
+      textilizable(raw, :project => Project.find(1))
   end
 
   def test_should_not_parse_redmine_links_inside_link

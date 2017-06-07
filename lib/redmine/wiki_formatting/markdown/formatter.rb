@@ -66,6 +66,10 @@ module Redmine
           html.gsub!(/(\w):&quot;(.+?)&quot;/) do
             "#{$1}:\"#{$2}\""
           end
+          # restore user links with @ in login name eg. [@jsmith@somenet.foo]
+          html.gsub!(%r{[@\A]<a href="mailto:(.*?)">(.*?)</a>}) do
+            "@#{$2}"
+          end
           html
         end
 
