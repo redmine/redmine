@@ -10,6 +10,7 @@
 <%= render :partial => 'date_range' %>
 <% end %>
 
+<% if @query.valid? %>
 <% if @entries.empty? %>
 <p class="nodata"><%= l(:label_no_data) %></p>
 <% else %>
@@ -36,6 +37,7 @@
   </p>
   <% end %>
 </div>
+<% end %>
 <% end %>
 
 <% content_for :sidebar do %>

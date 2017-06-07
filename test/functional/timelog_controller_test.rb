@@ -989,6 +989,14 @@ class TimelogControllerTest < Redmine::ControllerTest
     assert_equal 3, values.size
   end
 
+  def test_index_with_invalid_date_filter_should_not_validate
+    @request.session[:user_id] = 2
+
+    get :index, :params => {:set_filter => '1', :f => ['spent_on'], :op => {'spent_on' => '='}, :v => {'spent_on' => ['2016-09-010']}}
+    assert_select_error 'Date is invalid'
+    assert_select 'table.time-entries', 0
+  end
+
   def test_index_with_query
     query = TimeEntryQuery.new(:project_id => 1, :name => 'Time Entry Query', :visibility => 2)
     query.save!

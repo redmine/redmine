@@ -26,6 +26,7 @@
      <%= link_to l(:button_clear), {:params => request.query_parameters.merge(:criteria => nil)}, :class => 'icon icon-reload' %></p>
 <% end %>
 
+<% if @query.valid? %>
 <% unless @report.criteria.empty? %>
 <% if @report.hours.empty? %>
 <p class="nodata"><%= l(:label_no_data) %></p>
@@ -62,6 +63,7 @@
 
 <% other_formats_links do |f| %>
   <%= f.link_to_with_query_parameters 'CSV' %>
+<% end %>
 <% end %>
 <% end %>
 <% end %>
