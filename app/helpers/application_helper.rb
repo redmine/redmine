@@ -962,7 +962,7 @@ module ApplicationHelper
               u = User.visible.where(:login => name, :type => 'User').first
               link = link_to_user(u) if u
             end
-          elsif "@"
+          elsif sep == "@"
             name = remove_double_quotes(identifier)
             u = User.visible.where(:login => name, :type => 'User').first
             link = link_to_user(u) if u
