@@ -407,7 +407,9 @@ module ProjectsHelper
             }
           end
 
-          geppettoJsFile.gsub! entity, target[0]
+          if target
+            geppettoJsFile.gsub! entity, target[0]
+          end
         
           File.write(publicResourcesPath + geppettoTmpPath + @geppettoJsFilePath, geppettoJsFile)
           geppettoTmpJsFile.close
@@ -425,7 +427,7 @@ module ProjectsHelper
       end 
 
       geppettoModelFile.gsub! '$ENTER_MODEL_URL', url
-      geppettoModelFile.gsub! '$ENTER_ID', target[0]
+      geppettoModelFile.gsub! '$ENTER_ID', target ? target[0] : entity
       geppettoModelFile.gsub! '$ENTER_REFERENCE_URL', (@project!=nil) ? @project.identifier : "testing"
       
       # Write file to disc and change permissions to allow access from Geppetto             
