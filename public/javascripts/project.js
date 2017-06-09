@@ -27,6 +27,27 @@ $(document).ready(function(){
         return (repourl && project_repository != "" && ((neuroml2files != "") || (swcfiles != "")));
     }
 
+    $("#modelFilter").keyup(function (){
+        var filter, lis, a;
+        filter = this.value.toUpperCase();
+        lis = $(".submenu-item");
+
+        if (filter)
+            $(".collapse").collapse("show");
+        else
+            $(".collapse").collapse("hide");
+        
+        // Loop through all list items, and hide those who don't match the search query
+        for (var i = 0; i < lis.length; i++) {
+            a = lis[i].getElementsByTagName("a")[0];
+            if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                lis[i].style.display = "";
+            } else {
+                lis[i].style.display = "none";
+            }
+        }
+    });
+
     if (!hasModels()) {
         $("#moreBtn").hide();
         $("#showGeppettoBtn").hide();
@@ -52,7 +73,7 @@ $(document).ready(function(){
                 // capitalize title
                 var menu_title = submenu.charAt(0).toUpperCase() + submenu.slice(1);
                 if (submenus[submenu] != "") {
-                    $("#explorermenu").append("<li class=\"explorerSubmenu\"><a data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapse" + submenu + "\">"+ menu_title +"</span> <i class=\"icon-caret-down\"></i><ul role=\"tabpanel\" class=\"collapse\" id=\"collapse" + submenu + "\"></ul></li>");
+                    $("#explorermenu").append("<li class=\"explorerSubmenu\"><a data-toggle=\"collapse\" data-parent=\"#accordion\" class=\"collapsed\" href=\"#collapse" + submenu + "\">"+ menu_title +"</span> <i class=\"icon-caret-right\"></i><ul role=\"tabpanel\" class=\"collapse \" id=\"collapse" + submenu + "\"></ul></li>");
                     for (var i=0; i<files.length; i++) {
                         var file = files[i];
                         var basename = file.split('/').slice(-1)[0];
@@ -119,4 +140,11 @@ $(document).ready(function(){
 
     $("#add_new_tag").click(function(){addNewTag(project_identifier,$("#new_tag").val()); return false;});
 
+    $(".collapse")
+        .on('shown.bs.collapse', function(){
+            $(this).parent().find(".icon-caret-right").removeClass("icon-caret-right").addClass("icon-caret-down");
+        })
+        .on('hidden.bs.collapse', function(){
+            $(this).parent().find(".icon-caret-down").removeClass("icon-caret-down").addClass("icon-caret-right");
+        });
 });

@@ -648,7 +648,7 @@ div.project-title {
 
 .project-main {
     /* for footer */
-    margin-bottom: 100px;
+    /*margin-bottom: 100px;*/
 }
 
 #pname {
@@ -687,25 +687,12 @@ div.project-title {
     font-size: 18px;
 }
 
-/*.explorerSubmenu .dropdown-menu {
-    margin-left: 0!important;
-    left: auto!important;
-    right: 220px;
-    width: 600px;
-}*/
-
 .center {
     text-align: center;
 }
 
 #moreBtn:after {
     clear: both
-}
-
-#explorermenu {
-    width: 230px;
-    left: auto;
-    top: auto;
 }
 
 .indexNoUser {
@@ -3463,5 +3450,61 @@ color: #555; text-shadow: 1px 1px 0 #fff;
 
 /*End Tutorial Page*/
 
+.scrollbox {
+    height: 500px;
+    overflow: auto;
+}
 
+#modelFilter {
+    background-image: url('../images/searchicon.png');
+    background-position: 10px 12px;
+    background-repeat: no-repeat;
+    width: 100%;
+    font-size: 16px;
+    padding: 12px 20px 12px 40px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 12px;
+}
 
+#explorermenu {
+    width: 100%;
+    left: auto;
+    top: auto;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+#explorermenu li a {
+    border: 1px solid #ddd;
+    margin-top: -1px;
+    background-color: #f6f6f6;
+    padding: 8px;
+    text-decoration: none;
+    font-size: 15px;
+    color: black;
+    display: block;
+}
+
+#explorermenu li a.collapsed:hover:not(.explorerSubmenu) {
+    background-color: #eee;
+}
+
+.explorerSubmenu {
+    background-color: #e2e2e2;
+    cursor: default;
+}
+
+.submenu-item a {
+    border: 0px !important;
+    color: #337ab7 !important;
+}
+
+.submenu-item a:hover {
+    text-decoration: underline !important;
+}
+
+ul.collapse {
+    list-style-type: disc;
+}
