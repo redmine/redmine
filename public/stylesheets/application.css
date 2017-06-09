@@ -3476,14 +3476,14 @@ color: #555; text-shadow: 1px 1px 0 #fff;
     margin: 0;
 }
 
-#explorermenu li a {
+#explorermenu li > a {
     border: 1px solid #ddd;
-    margin-top: -1px;
-    background-color: #f6f6f6;
+    background-color: #f8f8f8;
     padding: 8px;
+    margin-bottom: -1px;
     text-decoration: none;
     font-size: 15px;
-    color: black;
+    color: #777;
     display: block;
 }
 
@@ -3492,7 +3492,7 @@ color: #555; text-shadow: 1px 1px 0 #fff;
 }
 
 .explorerSubmenu {
-    background-color: #e2e2e2;
+    background-color: #e7e7e7;
     cursor: default;
 }
 
@@ -3505,6 +3505,10 @@ color: #555; text-shadow: 1px 1px 0 #fff;
     text-decoration: underline !important;
 }
 
-ul.collapse {
+ul[role=tabpanel] {
     list-style-type: disc;
+}
+
+ul[role=tabpanel] li a{
+    padding: 4px !important;
 }
