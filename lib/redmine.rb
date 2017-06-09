@@ -259,7 +259,7 @@ Redmine::MenuManager.map :project_menu do |menu|
   menu.push :models, { :controller => 'projects', :action => 'models' }
   #menu.push :roadmap, { :controller => 'versions', :action => 'index' }, :param => :project_id,
   #            :if => Proc.new { |p| p.shared_versions.any? }
-  menu.push :issues, { :controller => 'issues', :action => 'index' }, :param => :project_id, :caption => :label_issue_plural
+  #menu.push :issues, { :controller => 'issues', :action => 'index' }, :param => :project_id, :caption => :label_issue_plural
   #menu.push :new_issue, { :controller => 'issues', :action => 'new', :copy_from => nil }, :param => :project_id, :caption => :label_issue_new,
               #:html => { :accesskey => Redmine::AccessKeys.key_for(:new_issue) },
               #:if => Proc.new { |p| Setting.new_item_menu_tab == '1' && Issue.allowed_target_trackers(p).any? },
