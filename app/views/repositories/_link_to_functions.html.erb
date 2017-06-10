@@ -1,13 +1,22 @@
 <% if @entry && @entry.kind == 'file' %>
 
+<%
+tabs = []
+tabs << { name: 'entry', label: :button_view,
+          url: {:action => 'entry', :id => @project, :repository_id => @repository.identifier_param, :path => to_path_param(@path), :rev => @rev }
+        } if @repository.supports_cat?
+
+tabs << { name: 'changes', label: :label_history,
+          url: {:action => 'changes', :id => @project, :repository_id => @repository.identifier_param, :path => to_path_param(@path), :rev => @rev }
+        }
+tabs << { name: 'annotate', label: :button_annotate,
+          url: {:action => 'annotate', :id => @project, :repository_id => @repository.identifier_param, :path => to_path_param(@path), :rev => @rev }
+        } if @repository.supports_annotate?
+%>
+
+<%= render :partial => 'common/tabs', :locals => {:tabs => tabs, :selected_tab => action_name} %>
+
 <p>
-<% if @repository.supports_cat? %>
-    <%= link_to_if action_name != 'entry', l(:button_view), {:action => 'entry', :id => @project, :repository_id => @repository.identifier_param, :path => to_path_param(@path), :rev => @rev } %> |
-<% end %>
-<%= link_to_if action_name != 'changes', l(:label_history), {:action => 'changes', :id => @project, :repository_id => @repository.identifier_param, :path => to_path_param(@path), :rev => @rev } %> |
-<% if @repository.supports_annotate? %>
-    <%= link_to_if action_name != 'annotate', l(:button_annotate), {:action => 'annotate', :id => @project, :repository_id => @repository.identifier_param, :path => to_path_param(@path), :rev => @rev } %> |
-<% end %>
 <%= link_to(l(:button_download),
             {:action => 'raw', :id => @project,
              :repository_id => @repository.identifier_param,
