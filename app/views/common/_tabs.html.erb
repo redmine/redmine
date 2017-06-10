@@ -4,7 +4,7 @@
     <li><%= link_to l(tab[:label]), (tab[:url] || { :tab => tab[:name] }),
                                     :id => "tab-#{tab[:name]}",
                                     :class => (tab[:name] != selected_tab ? nil : 'selected'),
-                                    :onclick => "showTab('#{tab[:name]}', this.href); this.blur(); return false;" %></li>
+                                    :onclick => tab[:partial] ? "showTab('#{tab[:name]}', this.href); this.blur(); return false;" : nil %></li>
   <% end -%>
   </ul>
   <div class="tabs-buttons" style="display:none;">
@@ -17,5 +17,5 @@
   <%= content_tag('div', render(:partial => tab[:partial], :locals => {:tab => tab} ),
                        :id => "tab-content-#{tab[:name]}",
                        :style => (tab[:name] != selected_tab ? 'display:none' : nil),
-                       :class => 'tab-content') %>
+                       :class => 'tab-content') if tab[:partial] %>
 <% end -%>
