@@ -65,7 +65,15 @@ class WikisControllerTest < Redmine::ControllerTest
     assert_equal 'Other start page', wiki.start_page
   end
 
-  def test_destroy
+  def test_get_destroy_should_ask_confirmation
+    @request.session[:user_id] = 1
+    assert_no_difference 'Wiki.count' do
+      get :destroy, :params => {:id => 1}
+      assert_response :success
+    end
+  end
+
+  def test_post_destroy_should_delete_wiki
     @request.session[:user_id] = 1
     post :destroy, :params => {:id => 1, :confirm => 1}
     assert_redirected_to :controller => 'projects',
