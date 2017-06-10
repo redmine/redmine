@@ -454,6 +454,7 @@ div.issue div.subject div div { padding-left: 16px; }
 div.issue div.subject p {margin: 0; margin-bottom: 0.1em; font-size: 90%; color: #999;}
 div.issue div.subject>div>p { margin-top: 0.5em; }
 div.issue div.subject h3 {margin: 0; margin-bottom: 0.1em;}
+div.issue p.author {margin-top:0.5em;}
 div.issue span.private, div.journal span.private { position:relative; bottom: 2px; text-transform: uppercase; background: #d22; color: #fff; font-weight:bold; padding: 0px 2px 0px 2px; font-size: 60%; margin-right: 2px; border-radius: 2px;}
 div.issue .next-prev-links {color:#999;}
 div.issue .attributes {margin-top: 2em;}
@@ -1311,7 +1312,7 @@ img.gravatar {
 
 div.issue img.gravatar {
   float: left;
-  margin: 0 6px 0 0;
+  margin: 0 12px 6px 0;
 }
 
 div.gravatar-with-child {
