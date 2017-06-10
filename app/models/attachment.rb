@@ -31,7 +31,7 @@ class Attachment < ActiveRecord::Base
   attr_protected :id
 
   acts_as_event :title => :filename,
-                :url => Proc.new {|o| {:controller => 'attachments', :action => 'download', :id => o.id, :filename => o.filename}}
+                :url => Proc.new {|o| {:controller => 'attachments', :action => 'show', :id => o.id, :filename => o.filename}}
 
   acts_as_activity_provider :type => 'files',
                             :permission => :view_files,
@@ -249,6 +249,10 @@ class Attachment < ActiveRecord::Base
 
   def is_pdf?
     Redmine::MimeType.of(filename) == "application/pdf"
+  end
+
+  def previewable?
+    is_text? || is_image?
   end
 
   # Returns true if the file is readable
