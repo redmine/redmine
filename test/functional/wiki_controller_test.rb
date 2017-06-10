@@ -36,7 +36,7 @@ class WikiControllerTest < Redmine::ControllerTest
     assert_select 'ul.pages-hierarchy>li>a[href=?]', '/projects/ecookbook/wiki/Page_with_an_inline_image',
       :text => 'Page with an inline image'
   end
-  
+
   def test_export_link
     Role.anonymous.add_permission! :export_wiki_pages
     get :show, :params => {:project_id => 'ecookbook'}
@@ -113,7 +113,7 @@ class WikiControllerTest < Redmine::ControllerTest
     assert_response :success
     assert_select 'div#sidebar', :text => /Side bar content for test_show_with_sidebar/
   end
-  
+
   def test_show_should_display_section_edit_links
     @request.session[:user_id] = 2
     get :show, :params => {:project_id => 1, :id => 'Page with sections'}
@@ -309,7 +309,7 @@ class WikiControllerTest < Redmine::ControllerTest
     get :edit, :params => {:project_id => 'ecookbook', :id => 'Page_with_sections', :section => 2}
 
     assert_response :success
-    
+
     page = WikiPage.find_by_title('Page_with_sections')
     section, hash = Redmine::WikiFormatting::Textile::Formatter.new(page.content.text).get_section(2)
 
