@@ -85,7 +85,7 @@ class AttachmentsControllerTest < Redmine::ControllerTest
     set_tmp_attachments_directory
   end
 
-  def test_save_diff_type
+  def test_show_should_save_diff_type_as_user_preference
     user1 = User.find(1)
     user1.pref[:diff_type] = nil
     user1.preference.save
@@ -222,7 +222,7 @@ class AttachmentsControllerTest < Redmine::ControllerTest
     assert_select 'img.filecontent', :src => attachments(:attachments_010).filename
   end
 
-  def test_show_other
+  def test_show_other_with_no_preview
     @request.session[:user_id] = 2
     get :show, :params => {
         :id => 6
