@@ -6376,4 +6376,32 @@ class IssuesControllerTest < Redmine::ControllerTest
     assert_response :success
     assert_select 'a[href=?][onclick=?]', "/issues/1", "", :text => 'Cancel'
   end
+
+  def test_show_should_display_author_gravatar_only_when_not_assigned
+    issue = Issue.find(1)
+    assert_nil issue.assigned_to_id
+    @request.session[:user_id] = 1
+
+    with_settings :gravatar_enabled => '1' do
+      get :show, :id => issue.id
+      assert_select 'div.gravatar-with-child' do
+        assert_select 'img.gravatar', 1
+      end
+    end
+  end
+
+  def test_show_should_display_author_and_assignee_gravatars_when_assigned
+    issue = Issue.find(1)
+    issue.assigned_to_id = 2
+    issue.save!
+    @request.session[:user_id] = 1
+
+    with_settings :gravatar_enabled => '1' do
+      get :show, :id => issue.id
+      assert_select 'div.gravatar-with-child' do
+        assert_select 'img.gravatar', 2
+        assert_select 'img.gravatar-child', 1
+      end
+    end
+  end
 end
