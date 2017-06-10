@@ -272,6 +272,14 @@ class AttachmentsControllerTest < Redmine::ControllerTest
     assert_response 403
   end
 
+  def test_show_issue_attachment_should_highlight_issues_menu_item
+    get :show, :params => {
+        :id => 4
+      }
+    assert_response :success
+    assert_select '#main-menu a.issues.selected'
+  end
+
   def test_show_invalid_should_respond_with_404
     get :show, :params => {
         :id => 999

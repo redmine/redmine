@@ -272,6 +272,7 @@ Redmine::MenuManager.map :project_menu do |menu|
               :parent => :new_object
   menu.push :new_file, {:controller => 'files', :action => 'new'}, :param => :project_id, :caption => :label_attachment_new,
               :parent => :new_object
+
   menu.push :overview, { :controller => 'projects', :action => 'show' }
   menu.push :activity, { :controller => 'activities', :action => 'index' }
   menu.push :roadmap, { :controller => 'versions', :action => 'index' }, :param => :project_id,

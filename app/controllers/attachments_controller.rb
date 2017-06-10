@@ -154,6 +154,22 @@ class AttachmentsController < ApplicationController
     end
   end
 
+  # Returns the menu item that should be selected when viewing an attachment
+  def current_menu_item
+    if @attachment
+      case @attachment.container
+      when WikiPage
+        :wiki
+      when Message
+        :boards
+      when Project, Version
+        :files
+      else
+        @attachment.container.class.name.pluralize.downcase.to_sym
+      end
+    end
+  end
+
   private
 
   def find_attachment
