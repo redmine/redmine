@@ -1314,6 +1314,18 @@ div.issue img.gravatar {
   margin: 0 6px 0 0;
 }
 
+div.gravatar-with-child {
+  position: relative;
+}
+
+div.gravatar-with-child > img.gravatar:nth-child(2) {
+  position: absolute;
+  top: 30px;
+  left: 30px;
+  border-radius: 20%;
+  border: 2px solid rgba(255, 255, 255, 0.9);
+}
+
 h2 img.gravatar {margin: -2px 4px -4px 0;}
 h3 img.gravatar {margin: -4px 4px -4px 0;}
 h4 img.gravatar {margin: -2px 4px -4px 0;}

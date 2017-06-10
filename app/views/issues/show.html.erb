@@ -25,7 +25,10 @@
     </div>
   <% end %>
 
-  <%= avatar(@issue.author, :size => "50") %>
+  <div class="gravatar-with-child">
+    <%= avatar(@issue.author, :size => "50") %>
+    <%= avatar(@issue.assigned_to, :size => "22", :class => "gravatar gravatar-child") if @issue.assigned_to %>
+  </div>
 
 <div class="subject">
 <%= render_issue_subject_with_tree(@issue) %>
