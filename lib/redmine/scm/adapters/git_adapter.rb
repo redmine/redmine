@@ -338,7 +338,7 @@ module Redmine
           content = nil
           git_cmd(cmd_args) { |io| io.binmode; content = io.read }
           # git annotates binary files
-          return nil if content.is_binary_data?
+          return nil if ScmData.binary?(content)
           identifier = ''
           # git shows commit author on the first occurrence only
           authors_by_commit = {}
