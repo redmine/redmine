@@ -1,10 +1,10 @@
 <% if @entry && @entry.kind == 'file' %>
 
 <p>
-<%= link_to_if action_name != 'changes', l(:label_history), {:action => 'changes', :id => @project, :repository_id => @repository.identifier_param, :path => to_path_param(@path), :rev => @rev } %> |
 <% if @repository.supports_cat? %>
     <%= link_to_if action_name != 'entry', l(:button_view), {:action => 'entry', :id => @project, :repository_id => @repository.identifier_param, :path => to_path_param(@path), :rev => @rev } %> |
 <% end %>
+<%= link_to_if action_name != 'changes', l(:label_history), {:action => 'changes', :id => @project, :repository_id => @repository.identifier_param, :path => to_path_param(@path), :rev => @rev } %> |
 <% if @repository.supports_annotate? %>
     <%= link_to_if action_name != 'annotate', l(:button_annotate), {:action => 'annotate', :id => @project, :repository_id => @repository.identifier_param, :path => to_path_param(@path), :rev => @rev } %> |
 <% end %>
