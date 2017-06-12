@@ -1232,4 +1232,4 @@ ja:
   label_last_notes: 最新の注記
   field_digest: チェックサム
   field_default_assigned_to: デフォルトの担当者
-  setting_show_custom_fields_on_registration: Show custom fields on registration
+  setting_show_custom_fields_on_registration: アカウント登録画面でカスタムフィールドを表示
