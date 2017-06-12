@@ -3,10 +3,14 @@
 <% end %>
 <%= render "projects/header" %>
 <div class="project-main">
-    <input type="text" id="modelFilter" placeholder="Search for model file…">
+    <form>
+        <input type="text" id="modelFilter" placeholder="Search for model file…">
+        <button class="cl-icon" type="reset"></button>
+    </form>
     <div class="scrollbox">
         <ul id="explorermenu">
             <!-- populated by project.js -->
         </ul>
+        <p class="no-match" style="display: none;">No models matching query.</p>
     </div>
 </div>

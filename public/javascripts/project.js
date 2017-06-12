@@ -26,8 +26,7 @@ $(document).ready(function(){
     function hasModels(){
         return (repourl && project_repository != "" && ((neuroml2files != "") || (swcfiles != "")));
     }
-
-    $("#modelFilter").keyup(function (){
+    var doFilter = function (){
         var filter, lis, a;
         filter = this.value.toUpperCase();
         lis = $(".submenu-item");
@@ -46,7 +45,26 @@ $(document).ready(function(){
                 lis[i].style.display = "none";
             }
         }
-    });
+
+        var menus = $(".explorerSubmenu");
+        for (var i = 0; i < menus.length; i++) {
+            if ($(menus[i]).find("a > ul > li:not([style*='display: none'])").length == 0) {
+                menus[i].style.display = "none";
+            } else {
+                menus[i].style.display = "";
+            }
+        }
+
+        if ($(".explorerSubmenu > a > ul > li:not([style*='display: none'])").length == 0) {
+            $(".no-match").css('display', 'block');
+        } else {
+            $(".no-match").css('display', 'none');
+        }
+    }
+
+    $("#modelFilter").keyup(doFilter);
+    $(".cl-icon").click(doFilter);
+    $(".cl-icon").removeClass("btn");
 
     if (!hasModels()) {
         $("#moreBtn").hide();

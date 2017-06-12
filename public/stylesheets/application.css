@@ -3455,11 +3455,15 @@ color: #555; text-shadow: 1px 1px 0 #fff;
     overflow: auto;
 }
 
+#modelFilter,.cl-icon {
+	position: relative;
+	padding: 10px;
+}
 #modelFilter {
     background-image: url('../images/searchicon.png');
     background-position: 10px 12px;
     background-repeat: no-repeat;
-    width: 100%;
+    width: 25%;
     font-size: 16px;
     padding: 12px 20px 12px 40px;
     border: 1px solid #ddd;
@@ -3511,4 +3515,38 @@ ul[role=tabpanel] {
 
 ul[role=tabpanel] li a{
     padding: 4px !important;
+}
+
+.cl-icon {
+    border:1px solid transparent;
+    background-color: transparent;
+    display: inline-block;
+    vertical-align: middle;
+    outline: 0;
+    cursor: pointer;
+}
+.cl-icon:after {
+    content: "X";
+    display: block;
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    background-color: #FA9595;
+    z-index:1;
+    right: 35px;
+    top: 0;
+    bottom: 10px;
+    margin: auto;
+    padding: 0 3px;
+    border-radius: 50%;
+    text-align: center;
+    color: white;
+    font-weight: normal;
+    outline: 0;
+    font-size: 12px;
+    box-shadow: 0 0 2px #E50F0F;
+    cursor: pointer;
+}
+#modelFilter:not(:valid) ~ .cl-icon {
+    display: none;
 }
