@@ -1,6 +1,6 @@
 <div id="tagsContainer">
     <% if !tags.blank? %>
-	<span class="lead">Tags:
+	<p style="display: inline;">Tags:
 	    <%= getBadgeForTags(@project, 'Tags', '', '', '', 'label label-success',(roles.include? 'Developer' or roles.include? 'Manager' or User.current.admin?)) %>
 	</p>
     <% end %>
