@@ -15,7 +15,7 @@ h1, h2, h3, h4 {padding:2px 00px 1px 10px;}
 #main-menu {left:auto;right:6px;margin-right:0;margin-left:-500px;}
 #main-menu li {float:right;margin:0px 0px 0px 2px;}
 
-#admin-menu a {padding-left:0;padding-right:20px;}
+#admin-menu a {padding-left:0;padding-right:20px;background-position: right center;}
 
 #sidebar {float:left;}
 * html #sidebar hr{ left: auto; right: -6px; }
@@ -34,7 +34,7 @@ input#openid_url {padding-left:0px; padding-right:18px;}
 /***** Links *****/
 
 #sidebar a.selected {padding:1px 2px 2px 3px; margin-left:0px; margin-right:-2px;}
-#admin-menu a.selected {padding-left:0!important; padding-right:20px!important; background-position:right 2px 40%;}
+#admin-menu a.selected {padding-left:0!important; padding-right:20px!important; background-position: right center;}
 
 a.collapsible {padding-left:0px; padding-right:12px; background: url(../images/arrow_expanded.png) no-repeat right -3px top 40%;}
 a.collapsible.collapsed {background: url(../images/arrow_collapsed.png) no-repeat right -5px top 40%;}
@@ -43,7 +43,7 @@ a.collapsible.collapsed {background: url(../images/arrow_collapsed.png) no-repea
 table.list td {padding-left:0px; padding-right:10px;}
 table.list td.name, table.list td.description, table.list td.subject, table.list td.comments, table.list td.roles {text-align:right;}
 table.list td.buttons {text-align:left; }
-table.list td.buttons a {padding-right: 0em; padding-left: 0.6em;}
+table.list td.buttons a { padding-left: 0.6em;}
 table.list caption {text-align:right; padding: 0.5em 0 0.5em 0.5em;}
 
 tr.project.idnt td.name span {padding-right:0px; padding-left:16px;}
