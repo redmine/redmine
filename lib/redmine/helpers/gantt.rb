@@ -314,7 +314,10 @@ module Redmine
       def line_for_issue(issue, options)
         # Skip issues that don't have a due_before (due_date or version's due_date)
         if issue.is_a?(Issue) && issue.due_before
-          label = "#{issue.status.name} #{issue.done_ratio}%"
+          label = issue.status.name.dup
+          unless issue.disabled_core_fields.include?('done_ratio')
+            label << " #{issue.done_ratio}%"
+          end
           markers = !issue.leaf?
           line(issue.start_date, issue.due_before, issue.done_ratio, markers, label, options, issue)
         end
