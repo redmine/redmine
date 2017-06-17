@@ -16,13 +16,4 @@ tabs << { name: 'annotate', label: :button_annotate,
 
 <%= render :partial => 'common/tabs', :locals => {:tabs => tabs, :selected_tab => action_name} %>
 
-<p>
-<%= link_to(l(:button_download),
-            {:action => 'raw', :id => @project,
-             :repository_id => @repository.identifier_param,
-             :path => to_path_param(@path),
-             :rev => @rev}, class: 'icon icon-download') if @repository.supports_cat? %>
-<%= "(#{number_to_human_size(@entry.size)})" if @entry.size %>
-</p>
-
 <% end %>

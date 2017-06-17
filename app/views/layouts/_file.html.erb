@@ -1,10 +1,12 @@
+<div class="contextual">
+  <%= link_to_attachment @attachment, :text => "#{l(:button_download)} (#{number_to_human_size(@attachment.filesize)})", :download => true, :class => 'icon icon-download' -%>
+</div>
+
 <h2><%=h @attachment.filename %></h2>
 
 <div class="attachments">
 <p><%= "#{@attachment.description} - " unless @attachment.description.blank? %>
    <span class="author"><%= link_to_user(@attachment.author) %>, <%= format_time(@attachment.created_on) %></span></p>
-<p><%= link_to_attachment @attachment, :text => l(:button_download), :download => true, :class => 'icon icon-download' -%>
-   <span class="size">(<%= number_to_human_size @attachment.filesize %>)</span></p>
 </div>
 <%= yield %>
 

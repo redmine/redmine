@@ -2,6 +2,15 @@
   <%= javascript_include_tag 'repository_navigation' %>
 <% end %>
 
+<% if @entry && @repository.supports_cat? %>
+  <% download_label = @entry.size ? "#{l :button_download} (#{number_to_human_size @entry.size})" : l(:button_download) %>
+  <%= link_to(download_label,
+              {:action => 'raw', :id => @project,
+               :repository_id => @repository.identifier_param,
+               :path => to_path_param(@path),
+               :rev => @rev}, class: 'icon icon-download') %>
+<% end %>
+
 <%= link_to l(:label_statistics),
             {:action => 'stats', :id => @project, :repository_id => @repository.identifier_param},
             :class => 'icon icon-stats' if @repository.supports_all_revisions? %>
