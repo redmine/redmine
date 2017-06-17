@@ -1,1 +1,7 @@
-<p class="nodata"><%= l(:label_no_preview) %></p>
+<p class="nodata">
+  <% if defined? download_link %>
+    <%= t(:label_no_preview_alternative_html, link: download_link) %>
+  <% else %>
+    <%= l(:label_no_preview) %>
+  <% end %>
+</p>

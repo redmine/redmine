@@ -207,7 +207,7 @@ class AttachmentsControllerTest < Redmine::ControllerTest
         }
       assert_response :success
       assert_equal 'text/html', @response.content_type
-      assert_select '.nodata', :text => 'No preview available'
+      assert_select '.nodata', :text => 'No preview available. Download the file instead.'
     end
     set_tmp_attachments_directory
   end
@@ -228,7 +228,7 @@ class AttachmentsControllerTest < Redmine::ControllerTest
         :id => 6
       }
     assert_equal 'text/html', @response.content_type
-    assert_select '.nodata', :text => 'No preview available'
+    assert_select '.nodata', :text => 'No preview available. Download the file instead.'
     set_tmp_attachments_directory
   end
 

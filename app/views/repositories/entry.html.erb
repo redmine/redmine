@@ -17,7 +17,15 @@
 <% elsif @content %>
   <%= render :partial => 'common/file', :locals => {:filename => @path, :content => @content} %>
 <% else %>
-  <%= render :partial => 'common/other' %>
+  <%= render :partial => 'common/other',
+             :locals => {
+               :download_link => @repository.supports_cat? ? link_to(
+                 l(:label_no_preview_download),
+                 { :action => 'raw', :id => @project,
+                   :repository_id => @repository.identifier_param,
+                   :path => to_path_param(@path),
+                   :rev => @rev },
+                :class => 'icon icon-download') : nil } %>
 <% end %>
 
 <% content_for :header_tags do %>

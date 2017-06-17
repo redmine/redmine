@@ -1224,6 +1224,8 @@ fr:
   mail_body_security_notification_notify_enabled: Les notifications ont été activées pour l'adresse %{value}
   mail_body_security_notification_notify_disabled: Les notifications ont été désactivées pour l'adresse %{value}
   field_remote_ip: Adresse IP
-  label_no_preview: No preview available
+  label_no_preview: Aucun aperçu disponible
+  label_no_preview_alternative_html: Aucun aperçu disponible. Veuillez %{link} le fichier.
+  label_no_preview_download: télécharger
   label_user_mail_option_only_assigned: Only for things I watch or I am assigned to
   label_user_mail_option_only_owner: Only for things I watch or I am the owner of

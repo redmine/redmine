@@ -654,6 +654,8 @@ de:
   label_no_change_option: (Keine Änderung)
   label_no_data: Nichts anzuzeigen
   label_no_preview: Keine Vorschau verfügbar
+  label_no_preview_alternative_html: Keine Vorschau verfügbar. Sie können die Datei stattdessen %{link}.
+  label_no_preview_download: herunterladen
   label_no_issues_in_project: keine Tickets im Projekt
   label_nobody: Niemand
   label_none: kein
