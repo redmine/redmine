@@ -105,6 +105,6 @@ if File.exists?(local_gemfile)
 end
 
 # Load plugins' Gemfiles
-Dir.glob File.join(Redmine::Plugin.directory, "*/{Gemfile,PluginGemfile}") do |file|
+Dir.glob File.expand_path("../plugins/*/{Gemfile,PluginGemfile}", __FILE__) do |file|
   eval_gemfile file
 end
