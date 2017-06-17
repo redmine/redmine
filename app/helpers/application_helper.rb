@@ -821,6 +821,7 @@ module ApplicationHelper
   #  Users:
   #     user:jsmith -> Link to user with login jsmith
   #     @jsmith -> Link to user with login jsmith
+  #     user#2 -> Link to user with id 2
   #
   #   Links can refer other objects from other projects, using project identifier:
   #     identifier:r52
@@ -908,6 +909,9 @@ module ApplicationHelper
               if p = Project.visible.find_by_id(oid)
                 link = link_to_project(p, {:only_path => only_path}, :class => 'project')
               end
+            when 'user'
+              u = User.visible.where(:id => oid, :type => 'User').first
+              link = link_to_user(u) if u
             end
           elsif sep == ':'
             name = remove_double_quotes(identifier)

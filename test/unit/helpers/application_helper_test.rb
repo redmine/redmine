@@ -386,6 +386,7 @@ RAW
       "http://foo.bar/FAQ#3"        => '<a class="external" href="http://foo.bar/FAQ#3">http://foo.bar/FAQ#3</a>',
       # user
       'user:jsmith'                 => link_to_user(User.find_by_id(2)),
+      'user#2'                      => link_to_user(User.find_by_id(2)),
       '@jsmith'                     => link_to_user(User.find_by_id(2)),
       # invalid user
       'user:foobar'                 => 'user:foobar',
