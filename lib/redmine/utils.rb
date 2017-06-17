@@ -64,11 +64,22 @@ module Redmine
     end
 
     module Shell
+
+      module_function
+
       def shell_quote(str)
         if Redmine::Platform.mswin?
           '"' + str.gsub(/"/, '\\"') + '"'
         else
           "'" + str.gsub(/'/, "'\"'\"'") + "'"
+        end
+      end
+
+      def shell_quote_command(command)
+        if Redmine::Platform.mswin? && RUBY_PLATFORM == 'java'
+          command
+        else
+          shell_quote(command)
         end
       end
     end
