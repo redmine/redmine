@@ -82,10 +82,10 @@ class AttachmentFieldFormatTest < Redmine::IntegrationTest
     assert_equal 1, link.size
     assert_equal "testfile.txt", link.text
 
-    # download the attachment
+    # preview the attachment
     get link.attr('href')
     assert_response :success
-    assert_equal "text/plain", response.content_type
+    assert_template :file
   end
 
   def test_create_without_attachment
