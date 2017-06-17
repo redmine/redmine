@@ -75,15 +75,6 @@ default:
   # attachments_storage_path: D:/redmine/files
   attachments_storage_path:
 
-  # Absolute path to the directory where plugins are stored.
-  # The default is the 'plugins' directory in your Redmine instance.
-  # Your Redmine instance needs to have read permission on this
-  # directory.
-  # Examples:
-  # plugins_path: /var/redmine/plugins
-  # plugins_path: D:/redmine/plugins
-  plugins_path:
-
   # Configuration of the autologin cookie.
   # autologin_cookie_name: the name of the cookie (default: autologin)
   # autologin_cookie_path: the cookie path (default: /)
