@@ -1216,3 +1216,5 @@
   field_default_assigned_to: Default assignee
   setting_show_custom_fields_on_registration: Show custom fields on registration
   permission_view_news: View news
+  label_no_preview_alternative_html: No preview available. %{link} the file instead.
+  label_no_preview_download: Download
