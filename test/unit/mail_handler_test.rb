@@ -42,7 +42,8 @@ class MailHandlerTest < ActiveSupport::TestCase
 
   def test_add_issue_with_specific_overrides
     issue = submit_email('ticket_on_given_project.eml',
-      :allow_override => ['status', 'start_date', 'due_date', 'assigned_to', 'fixed_version', 'estimated_hours', 'done_ratio']
+      :allow_override => ['status', 'start_date', 'due_date', 'assigned_to',
+                          'fixed_version', 'estimated_hours', 'done_ratio']
     )
     assert issue.is_a?(Issue)
     assert !issue.new_record?
@@ -232,7 +233,9 @@ class MailHandlerTest < ActiveSupport::TestCase
   end
 
   def test_add_issue_with_custom_fields
-    mutiple = IssueCustomField.generate!(:field_format => 'list', :name => 'OS', :multiple => true, :possible_values => ['Linux', 'Windows', 'Mac OS X'])
+    mutiple = IssueCustomField.generate!(:field_format => 'list',
+                                         :name => 'OS', :multiple => true,
+                                         :possible_values => ['Linux', 'Windows', 'Mac OS X'])
 
     issue = submit_email('ticket_with_custom_fields.eml',
       :issue => {:project => 'onlinestore'}, :allow_override => ['database', 'Searchable_field', 'OS']
@@ -248,7 +251,10 @@ class MailHandlerTest < ActiveSupport::TestCase
   end
 
   def test_add_issue_with_version_custom_fields
-    field = IssueCustomField.create!(:name => 'Affected version', :field_format => 'version', :is_for_all => true, :tracker_ids => [1,2,3])
+    field = IssueCustomField.create!(:name => 'Affected version',
+                                     :field_format => 'version',
+                                     :is_for_all => true,
+                                     :tracker_ids => [1,2,3])
 
     issue = submit_email('ticket_with_custom_fields.eml',
       :issue => {:project => 'ecookbook'}, :allow_override => ['affected version']
@@ -470,7 +476,9 @@ class MailHandlerTest < ActiveSupport::TestCase
   end
 
   def test_add_issue_with_invalid_project_should_be_assigned_to_default_project
-    issue = submit_email('ticket_on_given_project.eml', :issue => {:project => 'ecookbook'}, :allow_override => 'project') do |email|
+    issue = submit_email('ticket_on_given_project.eml',
+                         :issue => {:project => 'ecookbook'},
+                         :allow_override => 'project') do |email|
       email.gsub!(/^Project:.+$/, 'Project: invalid')
     end
     assert issue.is_a?(Issue)
@@ -809,7 +817,10 @@ class MailHandlerTest < ActiveSupport::TestCase
   end
 
   def test_update_issue_with_attribute_changes
-    journal = submit_email('ticket_reply_with_status.eml', :allow_override => ['status','assigned_to','start_date','due_date', 'float field'])
+    journal = submit_email('ticket_reply_with_status.eml',
+                           :allow_override => ['status', 'assigned_to',
+                                               'start_date', 'due_date',
+                                               'float field'])
     assert journal.is_a?(Journal)
     issue = Issue.find(journal.issue.id)
     assert_equal User.find_by_login('jsmith'), journal.user
@@ -887,7 +898,9 @@ class MailHandlerTest < ActiveSupport::TestCase
   end
 
   def test_replying_to_a_private_note_should_add_reply_as_private
-    private_journal = Journal.create!(:notes => 'Private notes', :journalized => Issue.find(1), :private_notes => true, :user_id => 2)
+    private_journal = Journal.create!(:notes => 'Private notes',
+                                      :journalized => Issue.find(1),
+                                      :private_notes => true, :user_id => 2)
 
     assert_difference 'Journal.count' do
       journal = submit_email('ticket_reply.eml') do |email|
@@ -1064,13 +1077,13 @@ class MailHandlerTest < ActiveSupport::TestCase
       ['jsmith@example.net', 'John'] => ['jsmith@example.net', 'John', '-'],
       ['jsmith@example.net', 'John Smith'] => ['jsmith@example.net', 'John', 'Smith'],
       ['jsmith@example.net', 'John Paul Smith'] => ['jsmith@example.net', 'John', 'Paul Smith'],
-      ['jsmith@example.net', 'AVeryLongFirstnameThatExceedsTheMaximumLength Smith'] => ['jsmith@example.net', 'AVeryLongFirstnameThatExceedsT', 'Smith'],
-      ['jsmith@example.net', 'John AVeryLongLastnameThatExceedsTheMaximumLength'] => ['jsmith@example.net', 'John', 'AVeryLongLastnameThatExceedsTh']
+      ['jsmith@example.net', 'AVeryLongFirstnameThatExceedsTheMaximumLength Smith'] =>
+         ['jsmith@example.net', 'AVeryLongFirstnameThatExceedsT', 'Smith'],
+      ['jsmith@example.net', 'John AVeryLongLastnameThatExceedsTheMaximumLength'] =>
+         ['jsmith@example.net', 'John', 'AVeryLongLastnameThatExceedsTh']
     }
-
     to_test.each do |attrs, expected|
       user = MailHandler.new_user_from_attributes(attrs.first, attrs.last)
-
       assert user.valid?, user.errors.full_messages.to_s
       assert_equal attrs.first, user.mail
       assert_equal expected[0], user.login
