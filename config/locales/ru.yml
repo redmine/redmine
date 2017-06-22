@@ -327,7 +327,7 @@ ru:
   field_due_date: Срок завершения
   field_editable: Редактируемое
   field_effective_date: Дата
-  field_estimated_hours: Оценка трудозатрат
+  field_estimated_hours: Оценка временных затрат
   field_field_format: Формат
   field_filename: Файл
   field_filesize: Размер
@@ -1262,7 +1262,7 @@ ru:
   label_file_content_preview: Предпросмотр содержимого файла
   label_create_missing_values: Создать недостающие значения
   button_import: Импорт
-  field_total_estimated_hours: Всего осталось времени
+  field_total_estimated_hours: Общая оценка временных затрат
   label_api: API
   label_total_plural: Итоги
   label_assigned_issues: Назначенные задачи
