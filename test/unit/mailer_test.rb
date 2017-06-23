@@ -1,3 +1,5 @@
+# encoding: utf-8
+#
 # Redmine - project management software
 # Copyright (C) 2006-2016  Jean-Philippe Lang
 #
@@ -598,6 +600,19 @@ class MailerTest < ActiveSupport::TestCase
     assert mail.bcc.include?('dlopper@somenet.foo')
     assert_mail_body_match 'Bug #3: Error 281 when updating a recipe', mail
     assert_equal '1 issue(s) due in the next 42 days', mail.subject
+  end
+
+  def test_reminders_language_auto
+    with_settings :default_language => 'fr' do
+      user = User.find(3)
+      user.update_attribute :language, ''
+      Mailer.reminders(:days => 42)
+      assert_equal 1, ActionMailer::Base.deliveries.size
+      mail = last_email
+      assert mail.bcc.include?('dlopper@somenet.foo')
+      assert_mail_body_match 'Bug #3: Error 281 when updating a recipe', mail
+      assert_equal "1 demande(s) arrivent à échéance (42)", mail.subject
+    end
   end
 
   def test_reminders_should_not_include_closed_issues
