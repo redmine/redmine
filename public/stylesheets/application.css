@@ -365,6 +365,7 @@ div.table-list.boards .table-list-cell.name {width: 30%;}
 table.messages td.last_message {text-align:left;}
 
 #query_form_content {font-size:90%;}
+#query_form_with_buttons > p.contextual {font-size:12px; margin:12px 0px;}
 
 .query_sort_criteria_count {
   display: inline-block;
