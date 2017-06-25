@@ -1354,6 +1354,8 @@ font-weight: bold;
 color: #555; text-shadow: 1px 1px 0 #fff;
 }
 
+.repository-graph {width:75%; margin-bottom:2em;}
+
 /* Custom JQuery styles */
 .ui-datepicker-title select {width:70px !important; margin-top:-2px !important; margin-right:4px !important;}
 

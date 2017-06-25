@@ -15,8 +15,6 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require 'SVG/Graph/Bar'
-require 'SVG/Graph/BarHorizontal'
 require 'digest/sha1'
 require 'redmine/scm/adapters'
 
@@ -262,6 +260,7 @@ class RepositoriesController < ApplicationController
   def stats
   end
 
+  # Returns JSON data for repository graphs
   def graph
     data = nil
     case params[:graph]
@@ -271,8 +270,7 @@ class RepositoriesController < ApplicationController
       data = graph_commits_per_author(@repository)
     end
     if data
-      headers["Content-Type"] = "image/svg+xml"
-      send_data(data, :type => "image/svg+xml", :disposition => "inline")
+      render :json => data
     else
       render_404
     end
@@ -341,51 +339,33 @@ class RepositoriesController < ApplicationController
   end
 
   def graph_commits_per_month(repository)
-    @date_to = User.current.today
-    @date_from = @date_to << 11
-    @date_from = Date.civil(@date_from.year, @date_from.month, 1)
+    date_to = User.current.today
+    date_from = date_to << 11
+    date_from = Date.civil(date_from.year, date_from.month, 1)
     commits_by_day = Changeset.
-      where("repository_id = ? AND commit_date BETWEEN ? AND ?", repository.id, @date_from, @date_to).
+      where("repository_id = ? AND commit_date BETWEEN ? AND ?", repository.id, date_from, date_to).
       group(:commit_date).
       count
     commits_by_month = [0] * 12
-    commits_by_day.each {|c| commits_by_month[(@date_to.month - c.first.to_date.month) % 12] += c.last }
+    commits_by_day.each {|c| commits_by_month[(date_to.month - c.first.to_date.month) % 12] += c.last }
 
     changes_by_day = Change.
       joins(:changeset).
-      where("#{Changeset.table_name}.repository_id = ? AND #{Changeset.table_name}.commit_date BETWEEN ? AND ?", repository.id, @date_from, @date_to).
+      where("#{Changeset.table_name}.repository_id = ? AND #{Changeset.table_name}.commit_date BETWEEN ? AND ?", repository.id, date_from, date_to).
       group(:commit_date).
       count
     changes_by_month = [0] * 12
-    changes_by_day.each {|c| changes_by_month[(@date_to.month - c.first.to_date.month) % 12] += c.last }
+    changes_by_day.each {|c| changes_by_month[(date_to.month - c.first.to_date.month) % 12] += c.last }
 
     fields = []
     today = User.current.today
     12.times {|m| fields << month_name(((today.month - 1 - m) % 12) + 1)}
 
-    graph = SVG::Graph::Bar.new(
-      :height => 300,
-      :width => 800,
-      :fields => fields.reverse,
-      :stack => :side,
-      :scale_integers => true,
-      :step_x_labels => 2,
-      :show_data_values => false,
-      :graph_title => l(:label_commits_per_month),
-      :show_graph_title => true
-    )
-
-    graph.add_data(
-      :data => commits_by_month[0..11].reverse,
-      :title => l(:label_revision_plural)
-    )
-
-    graph.add_data(
-      :data => changes_by_month[0..11].reverse,
-      :title => l(:label_change_plural)
-    )
-
-    graph.burn
+    data = {
+      :labels => fields.reverse,
+      :commits => commits_by_month[0..11].reverse,
+      :changes => changes_by_month[0..11].reverse
+    }
   end
 
   def graph_commits_per_author(repository)
@@ -406,27 +386,11 @@ class RepositoriesController < ApplicationController
     # Remove email address in usernames
     fields = fields.collect {|c| c.gsub(%r{<.+@.+>}, '') }
 
-    #prepare graph
-    graph = SVG::Graph::BarHorizontal.new(
-      :height => 30 * commits_data.length,
-      :width => 800,
-      :fields => fields,
-      :stack => :side,
-      :scale_integers => true,
-      :show_data_values => false,
-      :rotate_y_labels => false,
-      :graph_title => l(:label_commits_per_author),
-      :show_graph_title => true
-    )
-    graph.add_data(
-      :data => commits_data,
-      :title => l(:label_revision_plural)
-    )
-    graph.add_data(
-      :data => changes_data,
-      :title => l(:label_change_plural)
-    )
-    graph.burn
+    data = {
+      :labels => fields.reverse,
+      :commits => commits_data.reverse,
+      :changes => changes_data.reverse
+    }
   end
 
   def disposition(path)

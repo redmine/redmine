@@ -1,20 +1,98 @@
 <h2><%= l(:label_statistics) %></h2>
 
-<p>
-<%= tag("embed",
-        :type => "image/svg+xml", :src => url_for(:controller => 'repositories',
-        :action => 'graph', :id => @project,
-        :repository_id => @repository.identifier_param,
-        :graph => "commits_per_month")) %>
-</p>
-<p>
-<%= tag("embed",
-        :type => "image/svg+xml", :src => url_for(:controller => 'repositories',
-        :action => 'graph', :id => @project,
-        :repository_id => @repository.identifier_param,
-        :graph => "commits_per_author")) %>
-</p>
+<div class="repository-graph">
+  <canvas id="commits_per_month"></canvas>
+</div>
+
+<div class="repository-graph">
+  <canvas id="commits_per_author"></canvas>
+</div>
+
+
+<%= javascript_tag do %>
+$(document).ready(function(){
+  $.getJSON(<%= raw url_for(:controller => 'repositories',
+    :action => 'graph', :id => @project,
+    :repository_id => @repository.identifier_param,
+    :graph => "commits_per_month").to_json %>, function(data){
+
+    var chartData = {
+      labels: data['labels'],
+      datasets: [{
+        label: <%= raw l(:label_revision_plural).to_json %>,
+        backgroundColor: 'rgba(255, 99, 132, 0.7)',
+        borderColor: 'rgb(255, 99, 132)',
+        borderWidth: 1,
+        data: data['commits']
+      }, {
+        label: <%= raw l(:label_change_plural).to_json %>,
+        backgroundColor: 'rgba(54, 162, 235, 0.7)',
+        borderColor: 'rgb(54, 162, 235)',
+        data: data['changes']
+      }]
+    };
+    new Chart(document.getElementById("commits_per_month").getContext("2d"), {
+      type: 'bar',
+      data: chartData,
+      options: {
+        elements: {
+          rectangle: {borderWidth: 2}
+        },
+        responsive: true,
+        legend: {position: 'right'},
+        title: {
+          display: true,
+          text: <%= raw l(:label_commits_per_month).to_json %>
+        }
+      }
+    });
+  });
+
+  $.getJSON(<%= raw url_for(:controller => 'repositories',
+    :action => 'graph', :id => @project,
+    :repository_id => @repository.identifier_param,
+    :graph => "commits_per_author").to_json %>, function(data){
+
+    var chartData = {
+      labels: data['labels'],
+      datasets: [{
+        label: <%= raw l(:label_revision_plural).to_json %>,
+        backgroundColor: 'rgba(255, 99, 132, 0.7)',
+        borderColor: 'rgb(255, 99, 132)',
+        borderWidth: 1,
+        data: data['commits']
+      }, {
+        label: <%= raw l(:label_change_plural).to_json %>,
+        backgroundColor: 'rgba(54, 162, 235, 0.7)',
+        borderColor: 'rgb(54, 162, 235)',
+        data: data['changes']
+      }]
+    };
+
+    new Chart(document.getElementById("commits_per_author").getContext("2d"), {
+      type: 'horizontalBar',
+      data: chartData,
+      options: {
+        elements: {
+          rectangle: {borderWidth: 2}
+        },
+        responsive: true,
+        legend: {position: 'right'},
+        title: {
+          display: true,
+          text: <%= raw l(:label_commits_per_author).to_json %>
+        }
+      }
+    });
+  });
+});
+<% end %>
+
 
 <p><%= link_to l(:button_back), :action => 'show', :id => @project %></p>
 
 <% html_title(l(:label_repository), l(:label_statistics)) -%>
+
+<% content_for :header_tags do %>
+  <%= javascript_include_tag "Chart.bundle.min" %>
+<% end %>
