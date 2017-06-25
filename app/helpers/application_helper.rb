@@ -818,10 +818,10 @@ module ApplicationHelper
   #     export:some/file -> Force the download of the file
   #   Forum messages:
   #     message#1218 -> Link to message with id 1218
-  #  Projects:
+  #   Projects:
   #     project:someproject -> Link to project named "someproject"
   #     project#3 -> Link to project with id 3
-  #  Users:
+  #   Users:
   #     user:jsmith -> Link to user with login jsmith
   #     @jsmith -> Link to user with login jsmith
   #     user#2 -> Link to user with id 2
