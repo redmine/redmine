@@ -1235,3 +1235,4 @@ ja:
   setting_show_custom_fields_on_registration: アカウント登録画面でカスタムフィールドを表示
   label_no_preview_alternative_html: このファイルはプレビューできません。 %{link} してください。
   label_no_preview_download: ダウンロード
+  setting_close_duplicate_issues: Close duplicate issues automatically

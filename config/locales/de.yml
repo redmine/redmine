@@ -1230,3 +1230,4 @@ de:
   field_full_width_layout: Full width layout
   label_last_notes: Last notes
   field_digest: Checksum
+  setting_close_duplicate_issues: Close duplicate issues automatically
