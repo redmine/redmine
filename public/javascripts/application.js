@@ -1,5 +1,5 @@
 /* Redmine - project management software
-   Copyright (C) 2006-2016  Jean-Philippe Lang */
+   Copyright (C) 2006-2017  Jean-Philippe Lang */
 
 function checkAll(id, checked) {
   $('#'+id).find('input[type=checkbox]:enabled').prop('checked', checked);
