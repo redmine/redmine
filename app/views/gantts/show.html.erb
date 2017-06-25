@@ -14,6 +14,9 @@
              :method => :get, :id => 'query_form') do %>
 <%= hidden_field_tag 'set_filter', '1' %>
 <%= hidden_field_tag 'gantt', '1' %>
+
+<div id="query_form_with_buttons" class="hide-when-print">
+<div id="query_form_content">
 <fieldset id="filters" class="collapsible <%= @query.new_record? ? "" : "collapsed" %>">
   <legend onclick="toggleFieldset(this);"><%= l(:label_filter_plural) %></legend>
   <div style="<%= @query.new_record? ? "" : "display: none;" %>">
@@ -53,6 +56,7 @@
     </table>
   </div>
 </fieldset>
+</div>
 
 <p class="contextual">
   <%= gantt_zoom_link(@gantt, :in) %>
@@ -76,6 +80,7 @@
                        :class => 'icon icon-save' %>
 <% end %>
 </p>
+</div>
 <% end %>
 
 <%= error_messages_for 'query' %>

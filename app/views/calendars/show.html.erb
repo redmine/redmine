@@ -3,6 +3,9 @@
 <%= form_tag({:controller => 'calendars', :action => 'show', :project_id => @project},
              :method => :get, :id => 'query_form') do %>
 <%= hidden_field_tag 'set_filter', '1' %>
+
+<div id="query_form_with_buttons" class="hide-when-print">
+<div id="query_form_content">
 <fieldset id="filters" class="collapsible <%= @query.new_record? ? "" : "collapsed" %>">
   <legend onclick="toggleFieldset(this);"><%= l(:label_filter_plural) %></legend>
   <div style="<%= @query.new_record? ? "" : "display: none;" %>">
@@ -13,6 +16,7 @@
 <p style="float:right;">
   <%= link_to_previous_month(@year, @month, :accesskey => accesskey(:previous)) %> | <%= link_to_next_month(@year, @month, :accesskey => accesskey(:next)) %>
 </p>
+</div>
 
 <p class="buttons">
 <%= label_tag('month', l(:label_month)) %>
@@ -23,6 +27,7 @@
 <%= link_to_function l(:button_apply), '$("#query_form").submit()', :class => 'icon icon-checked' %>
 <%= link_to l(:button_clear), { :project_id => @project, :set_filter => 1 }, :class => 'icon icon-reload' %>
 </p>
+</div>
 <% end %>
 
 <%= error_messages_for 'query' %>
