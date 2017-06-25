@@ -462,6 +462,7 @@ en:
   setting_new_item_menu_tab: Project menu tab for creating new objects
   setting_commit_logs_formatting: Apply text formatting to commit messages
   setting_timelog_required_fields: Required fields for time logs
+  setting_close_duplicate_issues: Close duplicate issues automatically
 
   permission_add_project: Create project
   permission_add_subprojects: Create subprojects

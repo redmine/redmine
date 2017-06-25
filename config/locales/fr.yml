@@ -474,6 +474,7 @@ fr:
   setting_new_item_menu_tab: Onglet de création d'objets dans le menu du project
   setting_commit_logs_formatting: Appliquer le formattage de texte aux messages de commit
   setting_timelog_required_fields: Champs obligatoire pour les temps passés
+  setting_close_duplicate_issues: Fermer les doublons automatiquement
 
   permission_add_project: Créer un projet
   permission_add_subprojects: Créer des sous-projets

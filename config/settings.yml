@@ -173,6 +173,8 @@ parent_issue_done_ratio:
   default: 'derived'
 link_copied_issue:
   default: 'ask'
+close_duplicate_issues:
+  default: 1
 issue_group_assignment:
   default: 0
 default_issue_start_date_to_creation_date:

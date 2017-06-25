@@ -1798,7 +1798,7 @@ class Issue < ActiveRecord::Base
 
   # Closes duplicates if the issue is being closed
   def close_duplicates
-    if closing?
+    if Setting.close_duplicate_issues? && closing?
       duplicates.each do |duplicate|
         # Reload is needed in case the duplicate was updated by a previous duplicate
         duplicate.reload
