@@ -37,6 +37,18 @@ class TimeEntryReportsControllerTest < Redmine::ControllerTest
   def test_report_at_project_level
     get :report, :params => {:project_id => 'ecookbook'}
     assert_response :success
+
+    # query form
+    assert_select 'form#query_form' do
+      assert_select 'div#query_form_with_buttons.hide-when-print' do
+        assert_select 'div#query_form_content' do
+          assert_select 'fieldset#filters.collapsible'
+          assert_select 'fieldset#options'
+        end
+        assert_select 'p.buttons'
+      end
+    end
+
     assert_select 'form#query_form[action=?]', '/projects/ecookbook/time_entries/report'
   end
 
