@@ -816,11 +816,19 @@ module ApplicationHelper
   #     source:some/file#L120 -> Link to line 120 of the file
   #     source:some/file@52#L120 -> Link to line 120 of the file's revision 52
   #     export:some/file -> Force the download of the file
+  #   Forums:
+  #     forum#1 -> Link to forum with id 1
+  #     forum:Support -> Link to forum named "Support"
+  #     forum:"Technical Support" -> Link to forum named "Technical Support"
   #   Forum messages:
   #     message#1218 -> Link to message with id 1218
   #   Projects:
   #     project:someproject -> Link to project named "someproject"
   #     project#3 -> Link to project with id 3
+  #   News:
+  #     news#2 -> Link to news item with id 1
+  #     news:Greetings -> Link to news item named "Greetings"
+  #     news:"First Release" -> Link to news item named "First Release"
   #   Users:
   #     user:jsmith -> Link to user with login jsmith
   #     @jsmith -> Link to user with login jsmith
