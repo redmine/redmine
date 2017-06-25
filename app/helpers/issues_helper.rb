@@ -347,6 +347,8 @@ module IssuesHelper
     end
   end
 
+  MultipleValuesDetail = Struct.new(:property, :prop_key, :custom_field, :old_value, :value)
+
   # Returns the textual representation of a journal details
   # as an array of strings
   def details_to_strings(details, no_html=false, options={})
@@ -370,15 +372,14 @@ module IssuesHelper
       strings << show_detail(detail, no_html, options)
     end
     if values_by_field.present?
-      multiple_values_detail = Struct.new(:property, :prop_key, :custom_field, :old_value, :value)
       values_by_field.each do |field, changes|
         if changes[:added].any?
-          detail = multiple_values_detail.new('cf', field.id.to_s, field)
+          detail = MultipleValuesDetail.new('cf', field.id.to_s, field)
           detail.value = changes[:added]
           strings << show_detail(detail, no_html, options)
         end
         if changes[:deleted].any?
-          detail = multiple_values_detail.new('cf', field.id.to_s, field)
+          detail = MultipleValuesDetail.new('cf', field.id.to_s, field)
           detail.old_value = changes[:deleted]
           strings << show_detail(detail, no_html, options)
         end
