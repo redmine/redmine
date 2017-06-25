@@ -377,7 +377,10 @@ module ApplicationHelper
   # Renders the project quick-jump box
   def render_project_jump_box
     projects = projects_for_jump_box(User.current)
-    text = @project.try(:name) || l(:label_jump_to_a_project)
+    if @project && @project.persisted?
+      text = @project.name_was
+    end
+    text ||= l(:label_jump_to_a_project)
     url = autocomplete_projects_path(:format => 'js', :jump => current_menu_item)
 
     trigger = content_tag('span', text, :class => 'drdn-trigger')
