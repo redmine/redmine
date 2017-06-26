@@ -98,14 +98,4 @@ class NewsController < ApplicationController
     @news.destroy
     redirect_to project_news_index_path(@project)
   end
-
-  private
-
-  def find_optional_project
-    return true unless params[:project_id]
-    @project = Project.find(params[:project_id])
-    authorize
-  rescue ActiveRecord::RecordNotFound
-    render_404
-  end
 end
