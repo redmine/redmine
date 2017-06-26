@@ -272,35 +272,31 @@ class ApplicationController < ActionController::Base
   end
 
   # Find project of id params[:id]
-  def find_project
-    @project = Project.find(params[:id])
+  def find_project(project_id=params[:id])
+    @project = Project.find(project_id)
   rescue ActiveRecord::RecordNotFound
     render_404
   end
 
   # Find project of id params[:project_id]
   def find_project_by_project_id
-    @project = Project.find(params[:project_id])
-  rescue ActiveRecord::RecordNotFound
-    render_404
+    find_project(params[:project_id])
   end
 
   # Find project of id params[:id] if present
   def find_optional_project_by_id
     if params[:id].present?
-      @project = Project.find(params[:id])
+      find_project(params[:id])
     end
-  rescue ActiveRecord::RecordNotFound
-    render_404
   end
 
   # Find a project based on params[:project_id]
+  # and authorize the user for the requested action
   def find_optional_project
-    @project = Project.find(params[:project_id]) unless params[:project_id].blank?
-    allowed = User.current.allowed_to?({:controller => params[:controller], :action => params[:action]}, @project, :global => true)
-    allowed ? true : deny_access
-  rescue ActiveRecord::RecordNotFound
-    render_404
+    if params[:project_id].present?
+      find_project(params[:project_id])
+    end
+    authorize_global
   end
 
   # Finds and sets @project based on @object.project
