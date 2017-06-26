@@ -1191,8 +1191,7 @@ zh:
   label_new_project_issue_tab_enabled: 显示“新建问题”标签
   setting_new_item_menu_tab: 建立新对象条目的项目菜单栏目
   label_new_object_tab_enabled: 显示 "+" 为下拉列表
-  error_no_projects_with_tracker_allowed_for_new_issue: There are no projects with trackers
-    for which you can create an issue
+  error_no_projects_with_tracker_allowed_for_new_issue: 当前项目中不包含对应的跟踪类型，不能创建该类型的工作项。
   field_textarea_font: Font used for text areas
   label_font_default: Default font
   label_font_monospace: Monospaced font
