@@ -25,7 +25,6 @@ class TimelogController < ApplicationController
 
   before_action :find_optional_issue, :only => [:new, :create]
   before_action :find_optional_project, :only => [:index, :report]
-  before_action :authorize_global, :only => [:new, :create, :index, :report]
 
   accept_rss_auth :index
   accept_api_auth :index, :show, :create, :update, :destroy
@@ -261,17 +260,10 @@ private
     if params[:issue_id].present?
       @issue = Issue.find(params[:issue_id])
       @project = @issue.project
+      authorize
     else
       find_optional_project
     end
-  end
-
-  def find_optional_project
-    if params[:project_id].present?
-      @project = Project.find(params[:project_id])
-    end
-  rescue ActiveRecord::RecordNotFound
-    render_404
   end
 
   # Returns the TimeEntry scope for index and report actions
