@@ -47,6 +47,14 @@ class NewsControllerTest < Redmine::ControllerTest
     assert_response 404
   end
 
+  def test_index_without_permission_should_fail
+    Role.all.each {|r| r.remove_permission! :view_news}
+    @request.session[:user_id] = 2
+
+    get :index
+    assert_response 403
+  end
+
   def test_show
     get :show, :params => {
         :id => 1

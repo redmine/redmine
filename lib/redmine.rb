@@ -217,6 +217,7 @@ Redmine::MenuManager.map :application_menu do |menu|
   menu.push :calendar, { :controller => 'calendars', :action => 'show' }, :caption => :label_calendar
 
   menu.push :news, {:controller => 'news', :action => 'index'},
+    :if => Proc.new {User.current.allowed_to?(:view_news, nil, :global => true)},
     :caption => :label_news_plural
 end
 
