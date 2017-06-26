@@ -16,7 +16,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class SearchController < ApplicationController
-  before_action :find_optional_project
+  before_action :find_optional_project_by_id, :authorize_global
   accept_api_auth :index
 
   def index
@@ -86,14 +86,5 @@ class SearchController < ApplicationController
       format.html { render :layout => false if request.xhr? }
       format.api  { @results ||= []; render :layout => false }
     end
-  end
-
-private
-  def find_optional_project
-    return true unless params[:id]
-    @project = Project.find(params[:id])
-    check_project_privacy
-  rescue ActiveRecord::RecordNotFound
-    render_404
   end
 end

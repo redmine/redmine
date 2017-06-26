@@ -285,8 +285,16 @@ class ApplicationController < ActionController::Base
     render_404
   end
 
+  # Find project of id params[:id] if present
+  def find_optional_project_by_id
+    if params[:id].present?
+      @project = Project.find(params[:id])
+    end
+  rescue ActiveRecord::RecordNotFound
+    render_404
+  end
+
   # Find a project based on params[:project_id]
-  # TODO: some subclasses override this, see about merging their logic
   def find_optional_project
     @project = Project.find(params[:project_id]) unless params[:project_id].blank?
     allowed = User.current.allowed_to?({:controller => params[:controller], :action => params[:action]}, @project, :global => true)
