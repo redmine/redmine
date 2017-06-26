@@ -1177,5 +1177,4 @@ zh:
   label_any_open_issues: 任意进行中的问题
   label_no_open_issues: 任意已关闭的问题
   label_default_values_for_new_users: 新用户默认值
-  error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: Spent time cannot
-    be reassigned to an issue that is about to be deleted
+  error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: 已用耗时不能重新分配到即将被删除的任务里。
