@@ -1217,4 +1217,4 @@ zh:
   permission_view_news: 查看新闻
   label_no_preview_alternative_html: 无法预览。请使用文件 %{link} 查阅。
   label_no_preview_download: 下载
-  setting_close_duplicate_issues: Close duplicate issues automatically
+  setting_close_duplicate_issues: 自动关闭重复的问题
