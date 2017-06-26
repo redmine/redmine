@@ -3561,3 +3561,13 @@ ul[role=tabpanel] li a{
 #project_overview_sections section {
     padding-bottom: 0.25em;
 }
+
+.group-page {
+    margin-left: 4em;
+    margin-right: 4em;
+}
+
+.group-project-table {
+    float: right;
+    width: auto !important;
+}
