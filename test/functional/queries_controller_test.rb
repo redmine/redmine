@@ -244,6 +244,31 @@ class QueriesControllerTest < Redmine::ControllerTest
     assert_select 'input[name=?]', 'query[name]'
   end
 
+  def test_create_query_without_permission_should_fail
+    Role.all.each {|r| r.remove_permission! :save_queries, :manage_public_queries}
+
+    @request.session[:user_id] = 2
+    assert_no_difference '::Query.count' do
+      post :create, :params => {
+          :project_id => 'ecookbook',
+          :query => {:name => 'Foo'}
+        }
+    end
+    assert_response 403
+  end
+
+  def test_create_global_query_without_permission_should_fail
+    Role.all.each {|r| r.remove_permission! :save_queries, :manage_public_queries}
+
+    @request.session[:user_id] = 2
+    assert_no_difference '::Query.count' do
+      post :create, :params => {
+          :query => {:name => 'Foo'}
+        }
+    end
+    assert_response 403
+  end
+
   def test_create_global_query_from_gantt
     @request.session[:user_id] = 1
     assert_difference 'IssueQuery.count' do

@@ -114,13 +114,6 @@ class QueriesController < ApplicationController
     render_404
   end
 
-  def find_optional_project
-    @project = Project.find(params[:project_id]) if params[:project_id]
-    render_403 unless User.current.allowed_to?(:save_queries, @project, :global => true)
-  rescue ActiveRecord::RecordNotFound
-    render_404
-  end
-
   def update_query_from_params
     @query.project = params[:query_is_for_all] ? nil : @project
     @query.build_from_params(params)
