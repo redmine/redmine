@@ -260,6 +260,9 @@ class ApplicationController < ActionController::Base
     else
       if @project && @project.archived?
         render_403 :message => :notice_not_authorized_archived_project
+      elsif @project && !@project.allows_to?(:controller => ctrl, :action => action)
+        # Project module is disabled
+        render_403
       else
         deny_access
       end
