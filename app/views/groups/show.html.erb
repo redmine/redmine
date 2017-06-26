@@ -1,62 +1,62 @@
 <div class="row-fluid">
-	<div class="row-fluid col-md-12">
-		<p class="big-lead center"><%=h @group %></p>
+    <div class="row-fluid col-md-12">
+	<p class="big-lead center"><%=h @group %></p>
 	
-		<img src="../images/<%= @group.custom_field_values[4] %>.png"
-			alt="<%= @group.custom_field_values[4] %>" /><br/>
-		
-		
-		<p>
-			Principal investigator: <b><%= @group.custom_field_values[1] %></b><br/>
-			<%= @group.custom_field_values[3] %>, <%= @group.custom_field_values[2] %>   <br/>
-			<a href="<%=  @group.custom_field_values[0] %>" target="_blank">Group page (external link)</a><br/>
-			Joined OSB: <%= format_date(@group.created_on) %>
-		</p>
-	</div>	
-	<div class="row-fluid">
-		<div class="col-md-6">
-			
-			<p class="lead"><%=l(:label_member_plural)%></p>
-			
-			<% @group.users.each do |user| %>
-				<p><%= avatar(user, :size => "50", :class=>"img-rounded") %> <%= link_to_user user %></p>
-			<% end %>
-		</div>
-		
-		
-		<div class="col-md-6">
-		    <table class="table table-bordered-rows table-hover projecttable">
-			<% if @group.memberships.empty?  %>
-					<thead>
-						<tr>
-							<td><h4>Members' projects </h4></td>
-							<td class="noborder pull-right"></td> 	
-						<tr>
-					</thead>
-					<% addedProjects = Array.new %>
-					<% @group.users.each do |user| %>
-						<% user.memberships.each do |membership| %>
-							<% next if membership.new_record? %>
-							<% next if addedProjects.include?(membership.project.id) %>
-							<% addedProjects.push(membership.project.id) %>
-							<tr><td colspan="2"><icon class=" icon-list-alt"></icon><%= link_to_project membership.project %></td></tr>
-						<% end %>
-					<% end %>
-			<% else %>
-					<thead>
-						<tr>
-							<td><h4>Group projects </h4></td>
-							<td class="noborder pull-right"></td> 	
-						<tr>
-					</thead>
-					
-					<% @group.memberships.each do |membership| %>
-						<% next if membership.new_record? %>
-						<tr><td colspan="2"><icon class=" icon-list-alt"></icon><%= link_to_project membership.project %></td></tr>
-					<% end %>
-				
-			<% end %>
-			</table>
-		</div>
+	<img src="../images/<%= @group.custom_field_values[4] %>.png"
+alt="<%= @group.custom_field_values[4] %>" /><br/>
+	
+	
+	<p>
+	    Principal investigator: <b><%= @group.custom_field_values[1] %></b><br/>
+	    <%= @group.custom_field_values[3] %>, <%= @group.custom_field_values[2] %>   <br/>
+	    <a href="<%=  @group.custom_field_values[0] %>" target="_blank">Group page (external link)</a><br/>
+	    Joined OSB: <%= format_date(@group.created_on) %>
+	</p>
+    </div>	
+    <div class="row-fluid">
+	<div class="col-md-6">
+	    
+	    <p class="lead"><%=l(:label_member_plural)%></p>
+	    
+	    <% @group.users.each do |user| %>
+		<p><%= avatar(user, :size => "50", :class=>"img-rounded") %> <%= link_to_user user %></p>
+	    <% end %>
 	</div>
+	
+	
+	<div class="col-md-6">
+	    <table class="table table-bordered-rows table-hover projecttable">
+		<% if @group.memberships.empty?  %>
+		    <thead>
+			<tr>
+			    <td><h4>Members' projects </h4></td>
+			    <td class="noborder pull-right"></td> 	
+			    <tr>
+		    </thead>
+		    <% addedProjects = Array.new %>
+		    <% @group.users.each do |user| %>
+			<% user.memberships.each do |membership| %>
+			    <% next if membership.new_record? %>
+			    <% next if addedProjects.include?(membership.project.id) %>
+			    <% addedProjects.push(membership.project.id) %>
+			    <tr><td colspan="2"><icon class=" icon-list-alt"></icon><%= link_to_project membership.project %></td></tr>
+			<% end %>
+		    <% end %>
+		<% else %>
+		    <thead>
+			<tr>
+			    <td><h4>Group projects </h4></td>
+			    <td class="noborder pull-right"></td> 	
+			    <tr>
+		    </thead>
+		    
+		    <% @group.memberships.each do |membership| %>
+			<% next if membership.new_record? %>
+			<tr><td colspan="2"><icon class=" icon-list-alt"></icon><%= link_to_project membership.project %></td></tr>
+		    <% end %>
+		    
+		<% end %>
+	    </table>
+	</div>
+    </div>
 </div>
