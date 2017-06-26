@@ -1192,30 +1192,28 @@ zh:
   setting_new_item_menu_tab: 建立新对象条目的项目菜单栏目
   label_new_object_tab_enabled: 显示 "+" 为下拉列表
   error_no_projects_with_tracker_allowed_for_new_issue: 当前项目中不包含对应的跟踪类型，不能创建该类型的工作项。
-  field_textarea_font: Font used for text areas
-  label_font_default: Default font
-  label_font_monospace: Monospaced font
-  label_font_proportional: Proportional font
-  setting_timespan_format: Time span format
-  label_table_of_contents: Table of contents
-  setting_commit_logs_formatting: Apply text formatting to commit messages
-  setting_mail_handler_enable_regex_delimiters: Enable regular expressions
-  error_move_of_child_not_possible: 'Subtask %{child} could not be moved to the new
-    project: %{errors}'
+  field_textarea_font: 用于文本区域的字体
+  label_font_default: 默认字体
+  label_font_monospace: 等款字体
+  label_font_proportional: 比例字体
+  setting_timespan_format: 时间格式设置
+  label_table_of_contents: 目录
+  setting_commit_logs_formatting: 在提交日志消息时，应用文本格式
+  setting_mail_handler_enable_regex_delimiters: 启用正则表达式
+  error_move_of_child_not_possible: '子任务 %{child} 不能移动到新项目：%{errors}'
   error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: 已用耗时不能重新分配到即将被删除的任务里。
-  setting_timelog_required_fields: Required fields for time logs
-  label_attribute_of_object: '%{object_name}''s %{name}'
-  label_user_mail_option_only_assigned: Only for things I watch or I am assigned to
-  label_user_mail_option_only_owner: Only for things I watch or I am the owner of
-  warning_fields_cleared_on_bulk_edit: Changes will result in the automatic deletion
-    of values from one or more fields on the selected objects
-  field_updated_by: Updated by
-  field_last_updated_by: Last updated by
-  field_full_width_layout: Full width layout
-  label_last_notes: Last notes
-  field_digest: Checksum
-  field_default_assigned_to: Default assignee
-  setting_show_custom_fields_on_registration: Show custom fields on registration
-  permission_view_news: View news
-  label_no_preview_alternative_html: No preview available. %{link} the file instead.
-  label_no_preview_download: Download
+  setting_timelog_required_fields: 工时登记必填字段
+  label_attribute_of_object: '%{object_name} 的 %{name} 属性'
+  label_user_mail_option_only_assigned: 只发送我关注或指派给我的相关信息
+  label_user_mail_option_only_owner: 只发送我关注或我创建的相关信息
+  warning_fields_cleared_on_bulk_edit: 修改将导致所选内容的一个或多个字段值被自动删除。
+  field_updated_by: 更新人
+  field_last_updated_by: 最近更新人
+  field_full_width_layout: 全宽布局
+  label_last_notes: 最近批注
+  field_digest: 校验和
+  field_default_assigned_to: 默认指派给
+  setting_show_custom_fields_on_registration: 注册时显示自定义字段
+  permission_view_news: 查看新闻
+  label_no_preview_alternative_html: 无法预览。请使用文件 %{link} 查阅。
+  label_no_preview_download: 下载
