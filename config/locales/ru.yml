@@ -1327,4 +1327,4 @@ ru:
   permission_view_news: Просмотр новостей
   label_no_preview_alternative_html: Предпросмотр недоступен. %{link} файл.
   label_no_preview_download: Скачать
-  setting_close_duplicate_issues: Close duplicate issues automatically
+  setting_close_duplicate_issues: Закрывать дубликаты задач автоматически
