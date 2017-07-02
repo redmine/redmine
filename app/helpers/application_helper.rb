@@ -975,7 +975,7 @@ module ApplicationHelper
               attachments = options[:attachments] || []
               attachments += obj.attachments if obj.respond_to?(:attachments)
               if attachments && attachment = Attachment.latest_attach(attachments, name)
-                link = link_to_attachment(attachment, :only_path => only_path, :download => true, :class => 'attachment')
+                link = link_to_attachment(attachment, :only_path => only_path, :class => 'attachment')
               end
             when 'project'
               if p = Project.visible.where("identifier = :s OR LOWER(name) = :s", :s => name.downcase).first
