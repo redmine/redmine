@@ -6,29 +6,29 @@ http://www.redmine.org/
 
 == 2017-04-09 v3.3.3
 
-Defect #22335: Images with non-ASCII file names are not shown in PDF
-Defect #24271: htmlentities warning
-Defect #24869: Circular inclusion detected when including a wiki page with the same name
-Defect #24875: Issues API does not respect time_entries_visibility
-Defect #24999: Mercurial 4.1 compatibility
-Defect #25371: Git 2.9 compatibility
-Defect #25478: Related to "no open issues" shows all issues
-Defect #25501: Time entries query through multiple projects by issue custom field not possible anymore
-Patch #20661: Show visible spent time link for users allowed to view time entries.
-Patch #24778: Czech localisation for 3.3-stable
-Patch #24824: Traditional Chinese translation (to r16179)
-Patch #24885: Japanese translation for 3.3-stable
-Patch #24948: Bulgarian translation for 3.3-stable
-Patch #25459: Portuguese translation for 3.3-stable
-Patch #25502: Russian translation for 3.3-stable
-Patch #25115: Support upload of empty files and fix invalid API response
-Patch #25526: Revert API change in spent_hours field in issue#show
-Defect #23793: Information leak when rendering of Wiki links
-Defect #23803: Information leak when rendering Time Entry activities
-Defect #24199: Stored XSS with SVG attachments
-Defect #24307: Redmine.pm doesn't check that the repository module is enabled on project
-Defect #24416: Use redirect to prevent password reset tokens in referers
-Defect #25503: Improper markup sanitization in user content
+* Defect #22335: Images with non-ASCII file names are not shown in PDF
+* Defect #24271: htmlentities warning
+* Defect #24869: Circular inclusion detected when including a wiki page with the same name
+* Defect #24875: Issues API does not respect time_entries_visibility
+* Defect #24999: Mercurial 4.1 compatibility
+* Defect #25371: Git 2.9 compatibility
+* Defect #25478: Related to "no open issues" shows all issues
+* Defect #25501: Time entries query through multiple projects by issue custom field not possible anymore
+* Patch #20661: Show visible spent time link for users allowed to view time entries.
+* Patch #24778: Czech localisation for 3.3-stable
+* Patch #24824: Traditional Chinese translation (to r16179)
+* Patch #24885: Japanese translation for 3.3-stable
+* Patch #24948: Bulgarian translation for 3.3-stable
+* Patch #25459: Portuguese translation for 3.3-stable
+* Patch #25502: Russian translation for 3.3-stable
+* Patch #25115: Support upload of empty files and fix invalid API response
+* Patch #25526: Revert API change in spent_hours field in issue#show
+* Defect #23793: Information leak when rendering of Wiki links
+* Defect #23803: Information leak when rendering Time Entry activities
+* Defect #24199: Stored XSS with SVG attachments
+* Defect #24307: Redmine.pm doesn't check that the repository module is enabled on project
+* Defect #24416: Use redirect to prevent password reset tokens in referers
+* Defect #25503: Improper markup sanitization in user content
 
 == 2017-01-07 v3.3.2
 
