@@ -287,7 +287,7 @@ module Redmine
           out_file << "== #{r_date} v#{v_name}\n\n"
         elsif target == 'website'
           out_file << "h1. Changelog #{v_name}\n\n" if n_branch == true
-          out_file << "h2. #{v_name} (#{r_date})\n\n"
+          out_file << "h2. version:#{v_name} (#{r_date})\n\n"
         end
 
         # Print the categories...
