@@ -4,6 +4,57 @@ Redmine - project management software
 Copyright (C) 2006-2017  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2017-07-02 v3.3.4
+
+=== [Accounts / authentication]
+
+* Patch #25653: Fix NoMethodError on HEAD requests to AccountController#register
+
+=== [Code cleanup/refactoring]
+
+* Defect #26055: Three issues with Redmine::SyntaxHighlighting::CodeRay.language_supported?
+
+=== [Gems support]
+
+* Defect #25829: mysql2 0.3 gem doesn't properly close connections
+
+=== [Importers]
+
+* Patch #25861: CSV Importer - handle UndefinedConversionErrors
+
+=== [Issues]
+
+* Defect #26072: Set default assignee before validation
+
+=== [Issues filter]
+
+* Defect #25212: User profile should link to issues assigned to user or his groups
+
+=== [Issues permissions]
+
+* Defect #25791: Bypass Tracker role-based permissions when copying issues
+
+=== [Security]
+
+* Defect #26183: Use Nokogiri 1.7.2
+
+=== [Text formatting]
+
+* Defect #25634: Highlight language aliases are no more supported
+
+=== [Translations]
+
+* Patch #26264:  Simplified Chinese translation for 3.3-stable
+
+=== [UI]
+
+* Defect #25760: Clicking custom field label should not check the first option
+
+=== [UI - Responsive]
+
+* Defect #25064: Issue description edit link corrupted in low resolution
+* Patch #25745: Optimize Gantt Charts for mobile screens
+
 == 2017-04-09 v3.3.3
 
 * Defect #22335: Images with non-ASCII file names are not shown in PDF
