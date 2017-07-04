@@ -31,7 +31,7 @@ class Member < ActiveRecord::Base
 
   scope :active, lambda { joins(:principal).where(:users => {:status => Principal::STATUS_ACTIVE})}
 
-	# Sort by first role and principal
+  # Sort by first role and principal
   scope :sorted, lambda {
     includes(:member_roles, :roles, :principal).
       reorder("#{Role.table_name}.position").

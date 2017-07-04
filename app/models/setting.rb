@@ -118,7 +118,7 @@ class Setting < ActiveRecord::Base
     setting.value
   end
 
-	# Updates multiple settings from params and sends a security notification if needed
+  # Updates multiple settings from params and sends a security notification if needed
   def self.set_all_from_params(settings)
     return nil unless settings.is_a?(Hash)
     settings = settings.dup.symbolize_keys

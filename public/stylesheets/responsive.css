@@ -173,11 +173,11 @@
     -webkit-transform: scale(1,.8);
         -ms-transform: scale(1,.8);
             transform: scale(1,.8);
-	padding-top:8px;
+    padding-top:8px;
   }
 
   #project-jump .drdn-content {
-	position:absolute;
+    position:absolute;
     left:0px;
     top:64px;
     width:100%;
@@ -186,7 +186,7 @@
   }
   #project-jump .drdn-content .autocomplete {
     height:40px;
-	font-size:20px;
+    font-size:20px;
   }
   #project-jump .drdn-content a {
     padding:8px;

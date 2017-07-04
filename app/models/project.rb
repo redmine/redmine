@@ -527,8 +527,8 @@ class Project < ActiveRecord::Base
     member
   end
 
-	# Default role that is given to non-admin users that
-	# create a project
+  # Default role that is given to non-admin users that
+  # create a project
   def self.default_member_role
     Role.givable.find_by_id(Setting.new_project_user_role_id.to_i) || Role.givable.first
   end
