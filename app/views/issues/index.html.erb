@@ -30,7 +30,6 @@
   <h3 class="title"><%= l(:label_export_options, :export_format => 'CSV') %></h3>
   <%= form_tag(_project_issues_path(@project, :format => 'csv'), :method => :get, :id => 'csv-export-form') do %>
   <%= query_as_hidden_field_tags(@query) %>
-  <%= hidden_field_tag 'sort', @sort_criteria.to_param, :id => nil %>
   <p>
     <label><%= radio_button_tag 'c[]', '', true %> <%= l(:description_selected_columns) %></label><br />
     <label><%= radio_button_tag 'c[]', 'all_inline' %> <%= l(:description_all_columns) %></label>
