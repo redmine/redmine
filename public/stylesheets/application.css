@@ -493,7 +493,7 @@ div#issue-changesets {float:right; width:45%; margin-left: 1em; margin-bottom: 1
 div#issue-changesets div.changeset { padding: 4px;}
 div#issue-changesets div.changeset { border-bottom: 1px solid #ddd; }
 div#issue-changesets p { margin-top: 0; margin-bottom: 1em;}
-.changeset-comments {margin-bottom:1em; font-family:}
+.changeset-comments {margin-bottom:1em;}
 
 div.journal {overflow:auto;}
 div.journal.private-notes {border-left:2px solid #d22; padding-left:4px; margin-left:-6px;}
@@ -1278,7 +1278,7 @@ div.wiki img {vertical-align:middle; max-width:100%;}
 .icon-document { background-image: url(../images/document.png); }
 .icon-project { background-image: url(../images/projects.png); }
 .icon-add-bullet { background-image: url(../images/bullet_add.png); }
-.icon-shared { background-image: url(../images/link.png) };
+.icon-shared { background-image: url(../images/link.png); }
 
 .icon-file { background-image: url(../images/files/default.png); }
 .icon-file.text-plain { background-image: url(../images/files/text.png); }
