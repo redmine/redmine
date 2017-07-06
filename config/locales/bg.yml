@@ -499,6 +499,7 @@ bg:
   permission_view_time_entries: Разглеждане на записите за изразходваното време
   permission_edit_time_entries: Редактиране на записите за изразходваното време
   permission_edit_own_time_entries: Редактиране на собствените записи за изразходваното време
+  permission_view_news: Разглеждане на новини
   permission_manage_news: Управление на новини
   permission_comment_news: Коментиране на новини
   permission_view_documents: Разглеждане на документи
@@ -640,6 +641,8 @@ bg:
   label_attribute_plural: Атрибути
   label_no_data: Няма изходни данни
   label_no_preview: Няма наличен преглед (preview)
+  label_no_preview_alternative_html: Няма наличен преглед (preview). %{link} файл вместо това.
+  label_no_preview_download: Изтегляне
   label_change_status: Промяна на състоянието
   label_history: История
   label_attachment: Файл
@@ -1209,6 +1212,3 @@ bg:
   description_wiki_subpages_reassign: Изберете нова родителска страница
   description_all_columns: Всички колони
   text_repository_identifier_info: 'Позволени са малки букви (a-z), цифри, тирета и _.<br />Промяна след създаването му не е възможна.'
-  permission_view_news: View news
-  label_no_preview_alternative_html: No preview available. %{link} the file instead.
-  label_no_preview_download: Download
