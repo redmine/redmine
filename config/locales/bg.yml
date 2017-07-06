@@ -464,6 +464,7 @@ bg:
   setting_new_item_menu_tab: Меню-елемент за добавяне на нови обекти (+)
   setting_commit_logs_formatting: Прилагане на форматиране за съобщенията при поверяване
   setting_timelog_required_fields: Задължителни полета за записи за изразходваното време
+  setting_close_duplicate_issues: Затваряне на дублираните задачи автоматично
 
   permission_add_project: Създаване на проект
   permission_add_subprojects: Създаване на подпроекти
@@ -1212,4 +1213,3 @@ bg:
   description_wiki_subpages_reassign: Изберете нова родителска страница
   description_all_columns: Всички колони
   text_repository_identifier_info: 'Позволени са малки букви (a-z), цифри, тирета и _.<br />Промяна след създаването му не е възможна.'
-  setting_close_duplicate_issues: Close duplicate issues automatically
