@@ -546,6 +546,7 @@
   setting_new_item_menu_tab: 建立新物件的專案功能分頁
   setting_commit_logs_formatting: 套用文字格式至認可訊息
   setting_timelog_required_fields: 工時記錄必填欄位
+  setting_close_duplicate_issues: 自動結束重複的議題
 
   permission_add_project: 建立專案
   permission_add_subprojects: 建立子專案
@@ -1295,4 +1296,3 @@
   description_issue_category_reassign: 選擇議題分類
   description_wiki_subpages_reassign: 選擇新的父頁面
   text_repository_identifier_info: '僅允許使用小寫英文字母 (a-z), 阿拉伯數字, 虛線與底線。<br />一旦儲存之後, 代碼便無法再次被更改。'
-  setting_close_duplicate_issues: Close duplicate issues automatically
