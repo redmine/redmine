@@ -581,6 +581,7 @@
   permission_view_time_entries: 檢視耗用工時
   permission_edit_time_entries: 編輯工時紀錄
   permission_edit_own_time_entries: 編輯自己的工時記錄
+  permission_view_news: 檢視新聞
   permission_manage_news: 管理新聞
   permission_comment_news: 回應新聞
   permission_view_documents: 檢視文件
@@ -721,7 +722,9 @@
   label_attribute: 屬性
   label_attribute_plural: 屬性
   label_no_data: 沒有任何資料可供顯示
-  label_no_preview: 沒有任何預覽可供使用
+  label_no_preview: 無法預覽
+  label_no_preview_alternative_html: 無法預覽. 請改為使用 %{link} 此檔案.
+  label_no_preview_download: 下載
   label_change_status: 變更狀態
   label_history: 歷史
   label_attachment: 檔案
@@ -1292,6 +1295,3 @@
   description_issue_category_reassign: 選擇議題分類
   description_wiki_subpages_reassign: 選擇新的父頁面
   text_repository_identifier_info: '僅允許使用小寫英文字母 (a-z), 阿拉伯數字, 虛線與底線。<br />一旦儲存之後, 代碼便無法再次被更改。'
-  permission_view_news: View news
-  label_no_preview_alternative_html: No preview available. %{link} the file instead.
-  label_no_preview_download: Download
