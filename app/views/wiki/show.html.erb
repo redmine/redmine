@@ -1,6 +1,6 @@
 <div class="contextual">
 <% if User.current.allowed_to?(:edit_wiki_pages, @project) %>
-<%= link_to l(:label_wiki_page_new), new_project_wiki_page_path(@project), :remote => true, :class => 'icon icon-add' %>
+<%= link_to l(:label_wiki_page_new), new_project_wiki_page_path(:project_id => @project, :parent => @page.title), :remote => true, :class => 'icon icon-add' %>
 <% end %>
 <% if @editable %>
 <% if @content.current_version? %>

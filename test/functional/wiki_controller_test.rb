@@ -208,6 +208,13 @@ class WikiControllerTest < Redmine::ControllerTest
     assert_equal 'window.location = "/projects/ecookbook/wiki/New_Page"', response.body
   end
 
+  def test_post_new_should_redirect_to_edit_with_parent
+    @request.session[:user_id] = 2
+
+    post :new, :params => {:project_id => 'ecookbook', :title => 'New_Page', :parent => 'Child_1'}
+    assert_redirected_to '/projects/ecookbook/wiki/New_Page?parent=Child_1'
+  end
+
   def test_post_new_with_invalid_title_should_display_errors
     @request.session[:user_id] = 2
 

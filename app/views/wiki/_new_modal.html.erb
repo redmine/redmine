@@ -1,7 +1,7 @@
 <h3 class="title"><%=l(:label_wiki_page_new)%></h3>
 
 <%= labelled_form_for :page, @page,
-            :url => new_project_wiki_page_path(@project),
+            :url => new_project_wiki_page_path(:project_id => @project, :parent => params[:parent]),
             :method => 'post',
             :remote => true do |f| %>
 
