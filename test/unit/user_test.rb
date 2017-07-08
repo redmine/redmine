@@ -952,6 +952,14 @@ class UserTest < ActiveSupport::TestCase
     assert_equal [2], user.projects_by_role[Role.find(2)].collect(&:id).sort
   end
 
+  def test_project_ids_by_role_should_not_poison_cache_when_first_called_from_chained_scopes
+    user = User.find(2)
+    project = Project.find(1)
+
+    project.children.visible(user)
+    assert_equal [1, 2, 5], user.project_ids_by_role.values.flatten.sort
+  end
+
   def test_accessing_projects_by_role_with_no_projects_should_return_an_empty_array
     user = User.find(2)
     assert_equal [], user.projects_by_role[Role.find(3)]
