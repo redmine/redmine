@@ -66,8 +66,8 @@ REDMINE_TEST_DAV_SERVER environment variable to specify another host.
 Running Capybara tests
 ======================
 
-You need to have PhantomJS WebDriver listening on port 4444:
-`phantomjs --webdriver 4444`
+You need to have ChromeDriver installed and available in your PATH:
+https://sites.google.com/a/chromium.org/chromedriver/
 
 Capybara tests can be run with:
 `rake test:ui`

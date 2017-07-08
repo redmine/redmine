@@ -17,21 +17,52 @@
 
 require File.expand_path('../../test_helper', __FILE__)
 require 'capybara/rails'
+require 'fileutils'
+require 'timeout'
 
-Capybara.default_driver = :selenium
-Capybara.register_driver :selenium do |app|
-  # Use the following driver definition to test locally using Chrome
-  # (also requires chromedriver to be in PATH)
-  # Capybara::Selenium::Driver.new(app, :browser => :chrome)
-  # Add :switches => %w[--lang=en] to force default browser locale to English
-  # Default for Selenium remote driver is to connect to local host on port 4444 
-  # This can be change using :url => 'http://localhost:9195' if necessary
-  # PhantomJS 1.8 now directly supports Webdriver Wire API,
-  # simply run it with `phantomjs --webdriver 4444`
-  # Add :desired_capabilities => Selenium::WebDriver::Remote::Capabilities.internet_explorer)
-  # to run on Selenium Grid Hub with IE
-  Capybara::Selenium::Driver.new(app, :browser => :remote)
+module Redmine
+  module UiTest
+    module Downloads
+      DOWNLOADS_PATH = File.expand_path(File.join(Rails.root, 'tmp', 'downloads'))
+
+      def clear_downloaded_files
+        FileUtils.rm downloaded_files
+      end
+
+      def downloaded_files
+        Dir.glob("#{DOWNLOADS_PATH}/*").reject {|f| f=~/crdownload$/}
+      end
+
+      def downloaded_file
+        Timeout.timeout(5) do
+          while downloaded_files.empty?
+            sleep 0.2
+          end
+        end
+        downloaded_files.first
+      end
+    end
+  end
 end
+
+FileUtils.mkdir_p Redmine::UiTest::Downloads::DOWNLOADS_PATH
+
+Capybara.register_driver :chrome do |app|
+  Capybara::Selenium::Driver.new(app,
+      :browser => :chrome,
+      :desired_capabilities => Selenium::WebDriver::Remote::Capabilities.chrome(
+        'chromeOptions' => {
+          'args' => [ "--window-size=1024,900" ],
+          'prefs' => {
+            'download.default_directory' => Redmine::UiTest::Downloads::DOWNLOADS_PATH,
+            'download.prompt_for_download' => false,
+            'plugins.plugins_disabled' => ["Chrome PDF Viewer"]
+          }
+        }
+      )
+    )
+end
+Capybara.default_driver = :chrome
 
 # default: 2
 Capybara.default_wait_time = 2
@@ -41,6 +72,7 @@ module Redmine
     # Base class for UI tests
     class Base < ActionDispatch::IntegrationTest
       include Capybara::DSL
+      include Redmine::UiTest::Downloads
 
       # Stop ActiveRecord from wrapping tests in transactions
       # Transactional fixtures do not work with Selenium tests, because Capybara
@@ -61,8 +93,7 @@ module Redmine
       end
 
       setup do
-        # Set the page width higher than 900 to get the full layout with sidebar
-        page.driver.browser.manage.window.resize_to(1024, 900)
+        clear_downloaded_files
       end
 
       teardown do

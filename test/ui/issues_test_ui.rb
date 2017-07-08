@@ -332,4 +332,19 @@ class Redmine::UiTest::IssuesTest < Redmine::UiTest::Base
     sleep 1
     assert_equal 'Updated notes', Journal.find(2).notes
   end
+
+  def test_index_as_csv_should_reflect_sort
+    log_user('admin', 'admin')
+
+    visit '/issues'
+    # Sort issues by subject
+    click_on 'Subject'
+    click_on 'CSV'
+    click_on 'Export'
+
+    csv = CSV.read(downloaded_file)
+    subject_index = csv.shift.index('Subject')
+    subjects = csv.map {|row| row[subject_index]}
+    assert_equal subjects.sort, subjects
+  end
 end
