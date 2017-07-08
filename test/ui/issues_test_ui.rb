@@ -32,7 +32,6 @@ class Redmine::UiTest::IssuesTest < Redmine::UiTest::Base
       fill_in 'Subject', :with => 'new test issue'
       fill_in 'Description', :with => 'new issue'
       select '0 %', :from => 'Done'
-      fill_in 'Due date', :with => ''
       fill_in 'Searchable field', :with => 'Value for field 2'
       # click_button 'Create' would match both 'Create' and 'Create and continue' buttons
       find('input[name=commit]').click
@@ -133,52 +132,6 @@ class Redmine::UiTest::IssuesTest < Redmine::UiTest::Base
 
     issue = Issue.order('id desc').first
     assert_equal ['Dave Lopper', 'Some Watcher'], issue.watcher_users.map(&:name).sort
-  end
-
-  def test_create_issue_start_due_date
-    with_settings :default_issue_start_date_to_creation_date => 0 do
-      log_user('jsmith', 'jsmith')
-      visit '/projects/ecookbook/issues/new'
-      assert_equal "", page.find('input#issue_start_date').value
-      assert_equal "", page.find('input#issue_due_date').value
-      page.first('p#start_date_area img').click
-      page.first("td.ui-datepicker-days-cell-over a").click
-      assert_equal Date.today.to_s, page.find('input#issue_start_date').value
-      page.first('p#due_date_area img').click
-      page.first("td.ui-datepicker-days-cell-over a").click
-      assert_equal Date.today.to_s, page.find('input#issue_due_date').value
-    end
-  end
-
-  def test_default_due_date_proposed_in_date_picker
-    log_user('jsmith', 'jsmith')
-    visit '/projects/ecookbook/issues/new'
-
-    # Future start date: due date should default to start date
-    fill_in 'Start date', :with => '2027-04-01'
-    fill_in 'Due date', :with => ''
-    page.first('p#due_date_area img').click
-    page.first("td.ui-datepicker-days-cell-over a").click
-    assert_equal '2027-04-01', page.find('input#issue_due_date').value
-
-    # Passed start date: due date should default to today
-    fill_in 'Start date', :with => '2012-04-01'
-    fill_in 'Due date', :with => ''
-    page.first('p#due_date_area img').click
-    page.first("td.ui-datepicker-days-cell-over a").click
-    assert_equal Date.today.to_s, page.find('input#issue_due_date').value
-  end
-
-  def test_default_start_date_proposed_in_date_picker
-    log_user('jsmith', 'jsmith')
-    visit '/projects/ecookbook/issues/new'
-
-    # Passed due date: start date should default to due date
-    fill_in 'Start date', :with => ''
-    fill_in 'Due date', :with => '2012-04-01'
-    page.first('p#start_date_area img').click
-    page.first("td.ui-datepicker-days-cell-over a").click
-    assert_equal '2012-04-01', page.find('input#issue_start_date').value
   end
 
   def test_preview_issue_description
