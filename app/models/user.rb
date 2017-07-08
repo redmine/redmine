@@ -603,36 +603,40 @@ class User < Principal
   # Includes the projects that the user is a member of and the projects
   # that grant custom permissions to the builtin groups.
   def project_ids_by_role
-    return @project_ids_by_role if @project_ids_by_role
-
-    group_class = anonymous? ? GroupAnonymous : GroupNonMember
-    group_id = group_class.pluck(:id).first
-
-    members = Member.joins(:project, :member_roles).
-      where("#{Project.table_name}.status <> 9").
-      where("#{Member.table_name}.user_id = ? OR (#{Project.table_name}.is_public = ? AND #{Member.table_name}.user_id = ?)", self.id, true, group_id).
-      pluck(:user_id, :role_id, :project_id)
-
-    hash = {}
-    members.each do |user_id, role_id, project_id|
-      # Ignore the roles of the builtin group if the user is a member of the project
-      next if user_id != id && project_ids.include?(project_id)
-
-      hash[role_id] ||= []
-      hash[role_id] << project_id
-    end
-
-    result = Hash.new([])
-    if hash.present?
-      roles = Role.where(:id => hash.keys).to_a
-      hash.each do |role_id, proj_ids|
-        role = roles.detect {|r| r.id == role_id}
-        if role
-          result[role] = proj_ids.uniq
+    # Clear project condition for when called from chained scopes
+    # eg. project.children.visible(user)
+    Project.unscoped do
+      return @project_ids_by_role if @project_ids_by_role
+  
+      group_class = anonymous? ? GroupAnonymous : GroupNonMember
+      group_id = group_class.pluck(:id).first
+  
+      members = Member.joins(:project, :member_roles).
+        where("#{Project.table_name}.status <> 9").
+        where("#{Member.table_name}.user_id = ? OR (#{Project.table_name}.is_public = ? AND #{Member.table_name}.user_id = ?)", self.id, true, group_id).
+        pluck(:user_id, :role_id, :project_id)
+  
+      hash = {}
+      members.each do |user_id, role_id, project_id|
+        # Ignore the roles of the builtin group if the user is a member of the project
+        next if user_id != id && project_ids.include?(project_id)
+  
+        hash[role_id] ||= []
+        hash[role_id] << project_id
+      end
+  
+      result = Hash.new([])
+      if hash.present?
+        roles = Role.where(:id => hash.keys).to_a
+        hash.each do |role_id, proj_ids|
+          role = roles.detect {|r| r.id == role_id}
+          if role
+            result[role] = proj_ids.uniq
+          end
         end
       end
+      @project_ids_by_role = result
     end
-    @project_ids_by_role = result
   end
 
   # Returns the ids of visible projects

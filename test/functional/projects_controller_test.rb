@@ -543,6 +543,16 @@ class ProjectsControllerTest < Redmine::ControllerTest
     assert_select 'a', :text => /Private child/
   end
 
+  def test_show_by_member_on_leaf_project_should_display_issue_counts
+    @request.session[:user_id] = 2
+    get :show, :params => {
+        :id => 'onlinestore'
+      }
+    assert_response :success
+    # Make sure there's a > 0 issue count
+    assert_select 'table.issue-report td.total a', :text => %r{\A[1-9]\d*\z}
+  end
+
   def test_settings
     @request.session[:user_id] = 2 # manager
     get :settings, :params => {
