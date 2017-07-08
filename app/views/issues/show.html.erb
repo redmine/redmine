@@ -167,3 +167,14 @@ end %>
 <% end %>
 
 <%= context_menu %>
+
+<%= javascript_tag do %>
+$(document).ready(function(){
+  $(window).on('load hashchange',function(){
+    var hash = location.hash;
+    if (hash.match(/^#(change|note)-\d+$/)){
+      $('div' + hash).addClass('highlight').removeClass('highlight', 2000)
+    }
+  });
+});
+<% end %>
