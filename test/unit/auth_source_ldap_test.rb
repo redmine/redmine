@@ -150,7 +150,7 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
     end
 
     def test_search_with_exception_should_return_an_empty_array
-      Net::LDAP.stubs(:new).raises(Net::LDAP::LdapError, 'Cannot connect')
+      Net::LDAP.stubs(:new).raises(Net::LDAP::Error, 'Cannot connect')
 
       results = AuthSource.search("exa")
       assert_equal [], results
@@ -169,7 +169,7 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
       auth_source.host = "badhost"
       auth_source.save!
 
-      assert_raise Net::LDAP::Error do
+      assert_raise AuthSourceException do
         auth_source.test_connection
       end
     end
@@ -179,7 +179,7 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
       auth_source.port = 1234
       auth_source.save!
 
-      assert_raise Net::LDAP::Error do
+      assert_raise AuthSourceException do
         auth_source.test_connection
       end
     end

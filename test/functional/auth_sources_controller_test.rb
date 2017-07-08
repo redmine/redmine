@@ -174,7 +174,7 @@ class AuthSourcesControllerTest < Redmine::ControllerTest
   end
 
   def test_test_connection_with_failure
-    AuthSourceLdap.any_instance.stubs(:initialize_ldap_con).raises(Net::LDAP::LdapError.new("Something went wrong"))
+    AuthSourceLdap.any_instance.stubs(:initialize_ldap_con).raises(Net::LDAP::Error.new("Something went wrong"))
 
     get :test_connection, :params => {
         :id => 1
