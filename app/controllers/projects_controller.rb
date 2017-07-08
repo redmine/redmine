@@ -147,6 +147,7 @@ class ProjectsController < ApplicationController
     end
 
     @users_by_role = @project.users_by_role
+    @subprojects = @project.children.visible.to_a
     @news = @project.news.limit(5).includes(:author, :project).reorder("#{News.table_name}.created_on DESC").to_a
     @trackers = @project.rolled_up_trackers.visible
 
@@ -158,8 +159,6 @@ class ProjectsController < ApplicationController
     if User.current.allowed_to_view_all_time_entries?(@project)
       @total_hours = TimeEntry.visible.where(cond).sum(:hours).to_f
     end
-
-    @subprojects = @project.children.visible.to_a
 
     @key = User.current.rss_key
 
