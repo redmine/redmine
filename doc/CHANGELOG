@@ -45,7 +45,7 @@ http://www.redmine.org/
 * Feature #12598: Add tooltip on Workflow matrix for helping in big ones
 * Feature #16484: Add default timezone for new users
 * Feature #24780: Add tooltip on Permissions report matrix
-* Feature #24790:  Add tooltip on trackers summary matrix
+* Feature #24790: Add tooltip on trackers summary matrix
 
 === [Attachments]
 
@@ -84,7 +84,7 @@ http://www.redmine.org/
 * Feature #16549: Set multiple values in emails for list custom fields
 * Feature #23265: Group versions by status in version custom field filter
 * Patch #21705: Option for long text custom fields to be displayed using full width
-* Patch #24801:  Flash messages on CustomFields destroy
+* Patch #24801: Flash messages on CustomFields destroy
 
 === [Database]
 
@@ -217,7 +217,7 @@ http://www.redmine.org/
 === [Project settings]
 
 * Defect #23470: Disable "Select project modules" permission does not apply to the new project form
-* Feature #22608:  Enable filtering versions on Project -> Settings -> Versions
+* Feature #22608: Enable filtering versions on Project -> Settings -> Versions
 * Feature #24011: Add option to set a new version as default directly from New Version page
 
 === [REST API]
@@ -378,7 +378,7 @@ http://www.redmine.org/
 
 === [Translations]
 
-* Patch #26264:  Simplified Chinese translation for 3.3-stable
+* Patch #26264: Simplified Chinese translation for 3.3-stable
 
 === [UI]
 
@@ -912,7 +912,7 @@ http://www.redmine.org/
 * Defect #19444: Fix typo in wiki_syntax_detailed.html
 * Defect #19538: Keywords in commit messages: journal entries are created even if nothing was changed
 * Defect #19569: Field permissions not working properly with inherited memberships
-* Defect #19580: "Required" and "Read-only" rules on "Fields Permissions" screen are not colored 
+* Defect #19580: "Required" and "Read-only" rules on "Fields Permissions" screen are not colored
 * Defect #13583: Space between lines in nested lists not equal
 * Defect #19161: 500 Internal error: sorting for column mail at Administration/User
 * Defect #19163: Bulk edit form shows additional custom fields
@@ -2029,7 +2029,7 @@ It is in v2.5.0.
 * Feature #10635: Adding time like "123 Min" is invalid
 * Patch #9998: Make attachement "Optional Description" less wide
 * Patch #10066: i18n not working with russian gem
-* Patch #10128: Disable IE 8 compatibility mode to fix wrong div.autoscroll scroll bar behaviour 
+* Patch #10128: Disable IE 8 compatibility mode to fix wrong div.autoscroll scroll bar behaviour
 * Patch #10155: Russian translation changed
 * Patch #10464: Enhanced PDF output for Issues list
 * Patch #10470: Efficiently process new git revisions in a single batch
@@ -3813,7 +3813,7 @@ It is in v2.5.0.
 
 * simple SVN browser added (just needs svn binaries in PATH)
 * comments can now be added on news
-* "my page" is now customizable 
+* "my page" is now customizable
 * more powerfull and savable filters for issues lists
 * improved issues change history
 * new functionality: move an issue to another project or tracker
@@ -3852,7 +3852,7 @@ It is in v2.5.0.
 * token based "lost password" functionality
 * user self-registration functionality (optional)
 * custom fields now available for issues, users and projects
-* new custom field format "text" (displayed as a textarea field) 
+* new custom field format "text" (displayed as a textarea field)
 * project & administration drop down menus in navigation bar for quicker access
 * text formatting is preserved for long text fields (issues, projects and news descriptions)
 * urls and emails are turned into clickable links in long text fields
