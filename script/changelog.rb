@@ -310,7 +310,7 @@ module Redmine
           out_file << "\n"
         end
 
-        out_file << summary(v_name, target, i_cnt, nc_i_cnt, no_of_issues, c_cnt)
+        summary(v_name, target, i_cnt, nc_i_cnt, no_of_issues, c_cnt)
 
         out_file.close
       end
