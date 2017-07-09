@@ -115,6 +115,8 @@ class TimeEntryQuery < Query
   def base_scope
     TimeEntry.visible.
       joins(:project, :user).
+      includes(:activity).
+      references(:activity).
       left_join_issue.
       where(statement)
   end
@@ -124,9 +126,7 @@ class TimeEntryQuery < Query
 
     base_scope.
       order(order_option).
-      joins(joins_for_order_statement(order_option.join(','))).
-      includes(:activity).
-      references(:activity)
+      joins(joins_for_order_statement(order_option.join(',')))
   end
 
   # Returns sum of all the spent hours
