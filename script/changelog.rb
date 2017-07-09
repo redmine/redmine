@@ -191,7 +191,7 @@ module Redmine
 
           issue_hash = { 'id'       => tr.css('td.id > a').text.to_i,
                          'tracker'  => tr.css('td.tracker').text,
-                         'subject'  => tr.css('td.subject> a').text }
+                         'subject'  => tr.css('td.subject> a').text.strip }
           @changelog_items[cat].push(issue_hash)
         end
       end
