@@ -4,6 +4,26 @@ Redmine - project management software
 Copyright (C) 2006-2017  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2017-07-09 v3.4.1
+
+=== [Issues list]
+
+* Defect #26364: Sort is not reflected when export CSV of issues list
+
+=== [Projects]
+
+* Defect #26376: Wrong issue counts and spent time on project overview
+
+=== [Translations]
+
+* Patch #26344: Bulgarian translation
+* Patch #26365: Traditional Chinese translation
+
+=== [UI]
+
+* Defect #26325: Wrong CSS syntax
+* Defect #26350: Don't display file download button while on repository directory entries
+
 == 2017-07-02 v3.4.0
 
 === [Accounts / authentication]
