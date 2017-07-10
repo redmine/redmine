@@ -422,6 +422,31 @@ module ProjectsHelper
             geppettoModelFile = File.read(publicResourcesPath + geppettoResourcesPath + simulationTemplates + "GeppettoNeuroMLModel.xmi")
           end 
         elsif format == 'swc'
+           geppettoSimulationFile = {
+              "id" => 1,
+              "name" => entity,
+              "activeExperimentId" => 1,
+              "experiments" => [{
+                                  "id" => 1,
+                                  "name" => filenameSplit[0]+ " - " + filenameSplit[1],
+                                  "status" => "DESIGN",
+                                  "creationDate" => DateTime.now.strftime('%Q'),
+                                  "lastModified" => DateTime.now.strftime('%Q'),
+                                  "aspectConfigurations" => [
+                                    {
+                                      "id" => 1,
+                                      "instance" => entity,
+                                      "simulatorConfiguration" => {
+                                        "id" => 1,
+                                        "simulatorId" => "neuronSimulator",
+                                        "timestep" => 0.000025,
+                                        "length" => 0.3
+                                      }
+                                    }
+                                  ]
+                                }],
+              "geppettoModel"=> { "id" => 1, "url" => Rails.application.config.serversIP["serverIP"] + geppettoTmpPath + @geppettoModelFilePath, "type" => "GEPPETTO_PROJECT"}
+            }
           geppettoModelFile = File.read(publicResourcesPath + geppettoResourcesPath + simulationTemplates + "GeppettoSWCModel.xmi")
         end  
       end 
