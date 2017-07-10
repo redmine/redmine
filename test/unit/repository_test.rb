@@ -279,20 +279,18 @@ class RepositoryTest < ActiveSupport::TestCase
     repository = Repository::Mercurial.create(
                     :project => Project.find( 4 ),
                     :url => '/foo/bar/baz' )
-    comment = <<-COMMENT
-    This is a loooooooooooooooooooooooooooong comment                                                   
-                                                                                                       
-                                                                                            
-    COMMENT
+    long_whitespace = "                                                "
+    expected_comment = "This is a loooooooooooooooooooooooooooong comment"
+    comment = "#{expected_comment}#{long_whitespace}\n"
+    3.times {comment << "#{long_whitespace}\n"}
     changeset = Changeset.new(
       :comments => comment, :commit_date => Time.now,
       :revision => 0, :scmid => 'f39b7922fb3c',
       :committer => 'foo <foo@example.com>',
       :committed_on => Time.now, :repository => repository )
     assert( changeset.save )
-    assert_not_equal( comment, changeset.comments )
-    assert_equal( 'This is a loooooooooooooooooooooooooooong comment',
-                  changeset.comments )
+    assert_not_equal comment, changeset.comments
+    assert_equal     expected_comment, changeset.comments
   end
 
   def test_for_urls_strip_cvs
