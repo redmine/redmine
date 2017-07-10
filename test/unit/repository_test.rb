@@ -291,6 +291,8 @@ class RepositoryTest < ActiveSupport::TestCase
     assert(changeset.save)
     assert_not_equal comment, changeset.comments
     assert_equal     expected_comment, changeset.comments
+    assert_equal     expected_comment, changeset.short_comments
+    assert_equal     "", changeset.long_comments
   end
 
   def test_for_urls_strip_cvs
