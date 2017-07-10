@@ -277,7 +277,7 @@ class RepositoryTest < ActiveSupport::TestCase
 
   def test_for_changeset_comments_strip
     repository = Repository::Mercurial.create(
-                    :project => Project.find( 4 ),
+                    :project => Project.find(4),
                     :url => '/foo/bar/baz' )
     long_whitespace = "                                                "
     expected_comment = "This is a loooooooooooooooooooooooooooong comment"
@@ -287,8 +287,8 @@ class RepositoryTest < ActiveSupport::TestCase
       :comments => comment, :commit_date => Time.now,
       :revision => 0, :scmid => 'f39b7922fb3c',
       :committer => 'foo <foo@example.com>',
-      :committed_on => Time.now, :repository => repository )
-    assert( changeset.save )
+      :committed_on => Time.now, :repository => repository)
+    assert(changeset.save)
     assert_not_equal comment, changeset.comments
     assert_equal     expected_comment, changeset.comments
   end
