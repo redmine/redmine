@@ -242,6 +242,20 @@ class SettingsControllerTest < Redmine::ControllerTest
     assert_equal({'sample_setting' => 'Value'}, Setting.plugin_foo)
   end
 
+  def test_post_empty_plugin_settings
+    Redmine::Plugin.register(:foo) do
+      settings :partial => 'not blank', # so that configurable? is true
+        :default => {'sample_setting' => 'Plugin setting value'}
+    end
+
+    post :plugin, :params => {
+      :id => 'foo'
+    }
+    assert_redirected_to '/settings/plugin/foo'
+
+    assert_equal({}, Setting.plugin_foo)
+  end
+
   def test_post_non_configurable_plugin_settings
     Redmine::Plugin.register(:foo) {}
 
