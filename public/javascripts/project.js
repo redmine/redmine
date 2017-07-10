@@ -126,19 +126,20 @@ $(document).ready(function(){
 	    for (var projectKey in currentProjectDict[modelKey]){
 	        subMenu += "<li class=\"submenu-item user-project\"><a href=# tabindex=-1 id=" + currentProjectDict[modelKey][projectKey].id + ">Project:" + modelKey + "</a></li>";
 	    }	
-	    subMenu += "<li class=\"submenu-item user-project\"><a href=# tabindex=-1 onclick=" + $("[id=" + filenameEscape + "]").find('a').attr("onclick") + ">New Project</a></li>";
+	    subMenu += "<li class=\"submenu-item user-project\"><a href=# tabindex=-1 id=" + modelKey + ">New Project</a></li>";
 	    subMenu += "</ul>";	
 	    //This can be used to parse the id if we use to whole path instead of the file name .replace(/([ #;?&,.+*~\':"!^$[\]()=>|\/@])/g,"\\\\$1");
 	    // Delete link for the parent option
 	    $("[id=" + filenameEscape + "]").append(subMenu);
 	    $("[id=" + filenameEscape + "]").first('a').removeAttr("href").prop('onclick',null).off('click');
-
-	    // Add dropdown option
         }
         $("ul li[class='submenu-item user-project']").click(function(){
             var id = $(this).children().attr("id");
             if (!isNaN(parseInt(id))) {
                 open3DExplorer(parseInt(id), project_identifier);
+            } else {
+                id = $(this).parent().prev().attr("id");
+                open3DExplorer(encodeURIComponent(repourl+repopath+id), project_identifier);
             }
         });
     };
@@ -148,8 +149,8 @@ $(document).ready(function(){
        hideFooter();
     });
 
-    $(".explorerSubmenu li[class='submenu-item']").click(function(){
-        var id = $(this).children().attr("id");
+    $(".explorerSubmenu li[class='submenu-item'] a").click(function(){
+        var id = $(this).attr("id");
         open3DExplorer(encodeURIComponent(repourl+repopath+id), project_identifier);
     });
 
