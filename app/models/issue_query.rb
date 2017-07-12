@@ -73,7 +73,7 @@ class IssueQuery < Query
     options[:draw_progress_line] = (arg == '1' ? '1' : nil)
   end
 
-  def build_from_params(params)
+  def build_from_params(params, defaults={})
     super
     self.draw_relations = params[:draw_relations] || (params[:query] && params[:query][:draw_relations])
     self.draw_progress_line = params[:draw_progress_line] || (params[:query] && params[:query][:draw_progress_line])

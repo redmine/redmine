@@ -93,12 +93,13 @@ module QueriesHelper
     tags
   end
 
-  def available_totalable_columns_tags(query)
+  def available_totalable_columns_tags(query, options={})
+    tag_name = (options[:name] || 't') + '[]'
     tags = ''.html_safe
     query.available_totalable_columns.each do |column|
-      tags << content_tag('label', check_box_tag('t[]', column.name.to_s, query.totalable_columns.include?(column), :id => nil) + " #{column.caption}", :class => 'inline')
+      tags << content_tag('label', check_box_tag(tag_name, column.name.to_s, query.totalable_columns.include?(column), :id => nil) + " #{column.caption}", :class => 'inline')
     end
-    tags << hidden_field_tag('t[]', '')
+    tags << hidden_field_tag(tag_name, '')
     tags
   end
 
@@ -282,7 +283,7 @@ module QueriesHelper
   end
 
   # Retrieve query from session or build a new query
-  def retrieve_query(klass=IssueQuery, use_session=true)
+  def retrieve_query(klass=IssueQuery, use_session=true, options={})
     session_key = klass.name.underscore.to_sym
 
     if params[:query_id].present?
@@ -295,7 +296,7 @@ module QueriesHelper
     elsif api_request? || params[:set_filter] || !use_session || session[session_key].nil? || session[session_key][:project_id] != (@project ? @project.id : nil)
       # Give it a name, required to be valid
       @query = klass.new(:name => "_", :project => @project)
-      @query.build_from_params(params)
+      @query.build_from_params(params, options[:defaults])
       session[session_key] = {:project_id => @query.project_id, :filters => @query.filters, :group_by => @query.group_by, :column_names => @query.column_names, :totalable_names => @query.totalable_names, :sort => @query.sort_criteria.to_a} if use_session
     else
       # retrieve from session

@@ -475,6 +475,8 @@ fr:
   setting_commit_logs_formatting: Appliquer le formattage de texte aux messages de commit
   setting_timelog_required_fields: Champs obligatoire pour les temps passés
   setting_close_duplicate_issues: Fermer les doublons automatiquement
+  setting_time_entry_list_defaults: Affichage par défaut de la liste des temps passés
+
 
   permission_add_project: Créer un projet
   permission_add_subprojects: Créer des sous-projets

@@ -272,6 +272,6 @@ private
   end
 
   def retrieve_time_entry_query
-    retrieve_query(TimeEntryQuery, false)
+    retrieve_query(TimeEntryQuery, false, :defaults => Setting.time_entry_list_defaults.symbolize_keys)
   end
 end

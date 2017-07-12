@@ -303,9 +303,14 @@ module Redmine
       Issue.where(:id => ids).sort_by {|issue| ids.index(issue.id)}
     end
   
-    # Return the columns that are displayed in the list
+    # Return the columns that are displayed in the issue list
     def columns_in_issues_list
       css_select('table.issues thead th:not(.checkbox)').map(&:text)
+    end
+  
+    # Return the columns that are displayed in the list
+    def columns_in_list
+      css_select('table.list thead th:not(.checkbox)').map(&:text).select(&:present?)
     end
   
     # Verifies that the query filters match the expected filters

@@ -191,7 +191,7 @@ class TimeEntryQuery < Query
   end
 
   # Accepts :from/:to params as shortcut filters
-  def build_from_params(params)
+  def build_from_params(params, defaults={})
     super
     if params[:from].present? && params[:to].present?
       add_filter('spent_on', '><', [params[:from], params[:to]])

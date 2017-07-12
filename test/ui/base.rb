@@ -94,11 +94,15 @@ module Redmine
 
       setup do
         clear_downloaded_files
+        Setting.delete_all
+        Setting.clear_cache
       end
 
       teardown do
         Capybara.reset_sessions!    # Forget the (simulated) browser state
         Capybara.use_default_driver # Revert Capybara.current_driver to Capybara.default_driver
+        Setting.delete_all
+        Setting.clear_cache
       end
     end
   end

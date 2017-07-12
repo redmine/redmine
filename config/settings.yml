@@ -210,6 +210,16 @@ issue_list_default_totals:
   default: []
 display_subprojects_issues:
   default: 1
+time_entry_list_defaults:
+  serialized: true
+  default:
+    column_names:
+    - spent_on
+    - user
+    - activity
+    - issue
+    - comments
+    - hours
 issue_done_ratio:
   default: 'issue_field'
 default_projects_public:

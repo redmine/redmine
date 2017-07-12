@@ -1,3 +1,5 @@
+# encoding: utf-8
+#
 # Redmine - project management software
 # Copyright (C) 2006-2017  Jean-Philippe Lang
 #
@@ -68,5 +70,32 @@ class Redmine::UiTest::TimelogTest < Redmine::UiTest::Base
     assert_equal "/projects/ecookbook/time_entries", current_path
     entries = TimeEntry.where(:id => [1,2,3]).to_a
     assert entries.all? {|entry| entry.hours == 7.0}
+  end
+
+  def test_default_query_setting
+    # Display the list with the default settings
+    visit '/time_entries'
+    within 'table.time-entries thead' do
+      assert page.has_no_link?('Tracker')
+      assert page.has_text?('Comment')
+    end
+
+    # Change the default columns
+    log_user 'admin', 'admin'
+    visit '/settings?tab=timelog'
+    # Remove a column
+    select 'Comment', :from => 'Selected Columns'
+    click_on "â†"
+    # Add a column
+    select 'Tracker', :from => 'Available Columns'
+    click_on "â†’"
+    click_on 'Save'
+
+    # Display the list with updated settings
+    visit '/time_entries'
+    within 'table.time-entries thead' do
+      assert page.has_link?('Tracker')
+      assert page.has_no_text?('Comment')
+    end
   end
 end

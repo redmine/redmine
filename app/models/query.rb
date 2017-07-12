@@ -365,7 +365,7 @@ class Query < ActiveRecord::Base
   end
 
   # Builds the query from the given params
-  def build_from_params(params)
+  def build_from_params(params, defaults={})
     if params[:fields] || params[:f]
       self.filters = {}
       add_filters(params[:fields] || params[:f], params[:operators] || params[:op], params[:values] || params[:v])
@@ -374,10 +374,12 @@ class Query < ActiveRecord::Base
         add_short_filter(field, params[field]) if params[field]
       end
     end
-    self.group_by = params[:group_by] || (params[:query] && params[:query][:group_by])
-    self.column_names = params[:c] || (params[:query] && params[:query][:column_names])
-    self.totalable_names = params[:t] || (params[:query] && params[:query][:totalable_names])
-    self.sort_criteria = params[:sort] || (params[:query] && params[:query][:sort_criteria])
+
+    query_params = params[:query] || defaults || {}
+    self.group_by = params[:group_by] || query_params[:group_by]
+    self.column_names = params[:c] || query_params[:column_names]
+    self.totalable_names = params[:t] || query_params[:totalable_names]
+    self.sort_criteria = params[:sort] || query_params[:sort_criteria]
     self
   end
 

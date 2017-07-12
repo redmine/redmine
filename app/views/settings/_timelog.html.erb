@@ -6,5 +6,19 @@
 
 </div>
 
+<fieldset class="box">
+  <legend><%= l(:setting_time_entry_list_defaults) %></legend>
+
+  <% query = TimeEntryQuery.new(Setting.time_entry_list_defaults) %>
+  <%= render_query_columns_selection(query,
+        :name => 'settings[time_entry_list_defaults][column_names]') %>
+
+  <p>
+    <label><%= l(:label_total_plural) %></label>
+    <%= available_totalable_columns_tags(query,
+          :name => 'settings[time_entry_list_defaults][totalable_names]') %>
+  </p>
+</fieldset>
+
 <%= submit_tag l(:button_save) %>
 <% end %>
