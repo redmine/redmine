@@ -8,7 +8,7 @@
       <%= select_tag 'available_columns',
               options_for_select(query_available_inline_columns_options(query)),
               :id => available_tag_id,
-              :multiple => true, :size => 10, :style => "width:150px",
+              :multiple => true, :size => 10,
               :ondblclick => "moveOptions(this.form.#{available_tag_id}, this.form.#{selected_tag_id});" %>
   </span>
   <span class="buttons">
@@ -22,7 +22,7 @@
       <%= select_tag tag_name,
               options_for_select(query_selected_inline_columns_options(query)),
               :id => selected_tag_id,
-              :multiple => true, :size => 10, :style => "width:150px",
+              :multiple => true, :size => 10,
               :ondblclick => "moveOptions(this.form.#{selected_tag_id}, this.form.#{available_tag_id});" %>
   </span>
   <span class="buttons">

@@ -384,6 +384,9 @@ table.messages td.last_message {text-align:left;}
   width:35px;
   display:block;
 }
+.query-columns select {
+  width:150px;
+}
 
 .query-totals {text-align:right;}
 .query-totals>span:not(:first-child) {margin-left:0.6em;}
