@@ -372,16 +372,19 @@ table.messages td.last_message {text-align:left;}
   min-width: 1em;
 }
 
-table.query-columns {
-  border-collapse: collapse;
-  border: 0;
+.query-columns>span {
+  display:inline-block;
+  height:100%;
+  vertical-align: middle;
+}
+.query-columns label {
+  display:block;
+}
+.query-columns .buttons input[type=button] {
+  width:35px;
+  display:block;
 }
 
-table.query-columns td.buttons {
-  vertical-align: middle;
-  text-align: center;
-}
-table.query-columns td.buttons input[type=button] {width:35px;}
 .query-totals {text-align:right;}
 .query-totals>span:not(:first-child) {margin-left:0.6em;}
 .query-totals .value {font-weight:bold;}
