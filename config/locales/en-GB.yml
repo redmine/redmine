@@ -265,7 +265,7 @@ en-GB:
   field_effective_date: Due date
   field_password: Password
   field_new_password: New password
-  field_password_confirmation: Confirmation
+  field_password_confirmation: Confirm password
   field_version: Version
   field_type: Type
   field_host: Host

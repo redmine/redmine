@@ -53,7 +53,7 @@
         </div>
     <% end %>
 
-    <% @user.custom_field_values.select {|v| v.required?}.each do |value| %>
+    <% @user.custom_field_values.select {|v| ["URL","GitHub username","ORCID ID","What is your interest in OSB?"].include? v.custom_field.name}.each do |value| %>
         <div class="form-group"><%= custom_field_tag_with_label :user, value %>
   	    <% if value.custom_field.name=="URL" %>
   		    <div class="popoverform"><icon class="popoverlink icon-2x icon-lightbulb"target="_blank" data-toggle="popover" data-trigger="hover" title="" data-content="You should provide a valid URL to a lab, instituion, company or software project webpage with which you are directly associated." data-original-title="Affiliation"></icon></div>
