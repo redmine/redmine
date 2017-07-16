@@ -1297,6 +1297,14 @@ RAW
     end
   end
 
+  def test_textilizable_with_formatting_set_to_false_should_not_format_text
+    assert_equal '*text*', textilizable("*text*", :formatting => false)
+  end
+
+  def test_textilizable_with_formatting_set_to_true_should_format_text
+    assert_equal '<p><strong>text</strong></p>', textilizable("*text*", :formatting => true)
+  end
+
   def test_parse_redmine_links_should_handle_a_tag_without_attributes
     text = '<a>http://example.com</a>'
     expected = text.dup

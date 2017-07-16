@@ -651,7 +651,7 @@ module ApplicationHelper
     if options[:formatting] == false
       text = h(text)
     else
-      formatting = options[:formatting] || Setting.text_formatting
+      formatting = Setting.text_formatting
       text = Redmine::WikiFormatting.to_html(formatting, text, :object => obj, :attribute => attr)
     end
 
