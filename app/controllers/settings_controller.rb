@@ -67,7 +67,8 @@ class SettingsController < ApplicationController
     end
 
     if request.post?
-      Setting.send "plugin_#{@plugin.id}=", params[:settings].permit!.to_h
+      setting = params[:settings] ? params[:settings].permit!.to_h : {}
+      Setting.send "plugin_#{@plugin.id}=", setting
       flash[:notice] = l(:notice_successful_update)
       redirect_to plugin_settings_path(@plugin)
     else
