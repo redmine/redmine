@@ -4,6 +4,25 @@ Redmine - project management software
 Copyright (C) 2006-2017  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2017-07-16 v3.4.2
+
+=== [Administration]
+
+* Defect #26393: Error when unchecking all settings on some plugins configurations
+
+=== [Attachments]
+
+* Defect #26379: Fix thumbnail rendering for images with height >> width
+
+=== [Time tracking]
+
+* Defect #26387: Error displaying time entries filtered by Activity
+
+=== [UI]
+
+* Defect #26445: Text formatting not applied to commit messages even if enabled in settings
+* Patch #26424: Avatar Spacing in Headlines
+
 == 2017-07-09 v3.4.1
 
 === [Issues list]
