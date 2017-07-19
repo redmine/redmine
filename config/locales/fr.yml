@@ -240,6 +240,7 @@ fr:
   error_move_of_child_not_possible: "La sous-tâche %{child} n'a pas pu être déplacée dans le nouveau projet : %{errors}"
   error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: "Le temps passé ne peut pas être réaffecté à une demande qui va être supprimée"
   warning_fields_cleared_on_bulk_edit: "Les changements apportés entraîneront la suppression automatique des valeurs d'un ou plusieurs champs sur les objets sélectionnés"
+  error_exceeds_maximum_hours_per_day: "Impossible de saisir plus de %{max_hours} heures pour le même jour (%{logged_hours} heures ont déjà été saisies)"
 
   mail_subject_lost_password: "Votre mot de passe %{value}"
   mail_body_lost_password: 'Pour changer votre mot de passe, cliquez sur le lien suivant :'
@@ -476,7 +477,8 @@ fr:
   setting_timelog_required_fields: Champs obligatoire pour les temps passés
   setting_close_duplicate_issues: Fermer les doublons automatiquement
   setting_time_entry_list_defaults: Affichage par défaut de la liste des temps passés
-
+  setting_timelog_accept_0_hours: Autoriser la saisie de temps avec 0 heure
+  setting_timelog_max_hours_per_day: Maximum d'heures pouvant être saisies par un utilisateur sur un jour
 
   permission_add_project: Créer un projet
   permission_add_subprojects: Créer des sous-projets

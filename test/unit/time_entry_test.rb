@@ -91,6 +91,34 @@ class TimeEntryTest < ActiveSupport::TestCase
     assert_nil TimeEntry.new.hours
   end
 
+  def test_should_accept_0_hours
+    entry = TimeEntry.generate
+    entry.hours = 0
+    assert entry.save
+  end
+
+  def test_should_not_accept_0_hours_if_disabled
+    with_settings :timelog_accept_0_hours => '0' do
+      entry = TimeEntry.generate
+      entry.hours = 0
+      assert !entry.save
+      assert entry.errors[:hours].present?
+    end
+  end
+
+  def test_should_not_accept_more_than_maximum_hours_per_day_and_user
+    with_settings :timelog_max_hours_per_day => '8' do
+      entry = TimeEntry.generate(:spent_on => '2017-07-16', :hours => 6.0, :user_id => 2)
+      assert entry.save
+
+      entry = TimeEntry.generate(:spent_on => '2017-07-16', :hours => 1.5, :user_id => 2)
+      assert entry.save
+
+      entry = TimeEntry.generate(:spent_on => '2017-07-16', :hours => 3.0, :user_id => 2)
+      assert !entry.save
+    end
+  end
+
   def test_spent_on_with_blank
     c = TimeEntry.new
     c.spent_on = ''

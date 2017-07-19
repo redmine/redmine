@@ -139,7 +139,7 @@ module ObjectHelpers
     version
   end
 
-  def TimeEntry.generate!(attributes={})
+  def TimeEntry.generate(attributes={})
     entry = TimeEntry.new(attributes)
     entry.user ||= User.find(2)
     entry.issue ||= Issue.find(1) unless entry.project
@@ -147,6 +147,11 @@ module ObjectHelpers
     entry.activity ||= TimeEntryActivity.first
     entry.spent_on ||= Date.today
     entry.hours ||= 1.0
+    entry
+  end
+
+  def TimeEntry.generate!(attributes={}, &block)
+    entry = TimeEntry.generate(attributes, &block)
     entry.save!
     entry
   end

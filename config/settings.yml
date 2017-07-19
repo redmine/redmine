@@ -302,3 +302,8 @@ new_item_menu_tab:
 timelog_required_fields:
   serialized: true
   default: []
+timelog_accept_0_hours:
+  default: 1
+timelog_max_hours_per_day:
+  format: int
+  default: 999

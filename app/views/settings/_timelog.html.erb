@@ -4,6 +4,9 @@
 <p><%= setting_multiselect(:timelog_required_fields,
         [[l(:field_issue), 'issue_id'], [l(:field_comments), 'comments'] ]) %></p>
 
+<p><%= setting_text_field :timelog_max_hours_per_day, :size => 6 %></p>
+
+<p><%= setting_check_box :timelog_accept_0_hours %></p>
 </div>
 
 <fieldset class="box">

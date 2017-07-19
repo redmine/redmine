@@ -122,7 +122,19 @@ class TimeEntry < ActiveRecord::Base
   end
 
   def validate_time_entry
-    errors.add :hours, :invalid if hours && (hours < 0 || hours >= 1000)
+    if hours
+      errors.add :hours, :invalid if hours < 0
+      errors.add :hours, :invalid if hours == 0.0 && hours_changed? && !Setting.timelog_accept_0_hours?
+
+      max_hours = Setting.timelog_max_hours_per_day.to_f
+      if hours_changed? && max_hours > 0.0
+        logged_hours = other_hours_with_same_user_and_day
+        if logged_hours + hours > max_hours
+          errors.add :base, I18n.t(:error_exceeds_maximum_hours_per_day,
+            :logged_hours => format_hours(logged_hours), :max_hours => format_hours(max_hours))
+        end
+      end
+    end
     errors.add :project_id, :invalid if project.nil?
     errors.add :issue_id, :invalid if (issue_id && !issue) || (issue && project!=issue.project) || @invalid_issue_id
     errors.add :activity_id, :inclusion if activity_id_changed? && project && !project.activities.include?(activity)
@@ -165,5 +177,19 @@ class TimeEntry < ActiveRecord::Base
   # Returns the custom fields that can be edited by the given user
   def editable_custom_fields(user=nil)
     editable_custom_field_values(user).map(&:custom_field).uniq
+  end
+
+  private
+
+  # Returns the hours that were logged in other time entries for the same user and the same day
+  def other_hours_with_same_user_and_day
+    if user_id && spent_on
+      TimeEntry.
+        where(:user_id => user_id, :spent_on => spent_on).
+        where.not(:id => id).
+        sum(:hours).to_f
+    else
+      0.0
+    end
   end
 end
