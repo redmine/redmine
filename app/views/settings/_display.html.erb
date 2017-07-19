@@ -19,11 +19,11 @@
 
 <p><%= setting_select :user_format, @options[:user_format] %></p>
 
-<p><%= setting_check_box :gravatar_enabled %></p>
+<p><%= setting_check_box :gravatar_enabled, :data => {:enables => '#settings_gravatar_default'} %></p>
 
 <p><%= setting_select :gravatar_default, [["Wavatars", 'wavatar'], ["Identicons", 'identicon'], ["Monster ids", 'monsterid'], ["Retro", 'retro'], ["Mystery man", 'mm']], :blank => :label_none %></p>
 
-<p><%= setting_check_box :thumbnails_enabled %></p>
+<p><%= setting_check_box :thumbnails_enabled, :data => {:enables => '#settings_thumbnails_size'} %></p>
 
 <p><%= setting_text_field :thumbnails_size, :size => 6 %></p>
 
