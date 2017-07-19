@@ -229,7 +229,8 @@ module Redmine
         out
       end
 
-      desc "Displays a clickable thumbnail of an attached image. Examples:\n\n" +
+      desc "Displays a clickable thumbnail of an attached image.\n" +
+             "Default size is 200 pixels. Examples:\n\n" +
              "{{thumbnail(image.png)}}\n" +
              "{{thumbnail(image.png, size=300, title=Thumbnail)}} -- with custom title and size"
       macro :thumbnail do |obj, args|
@@ -239,7 +240,7 @@ module Redmine
         size = options[:size]
         raise 'Invalid size parameter' unless size.nil? || size.match(/^\d+$/)
         size = size.to_i
-        size = nil unless size > 0
+        size = 200 unless size > 0
         if obj && obj.respond_to?(:attachments) && attachment = Attachment.latest_attach(obj.attachments, filename)
           title = options[:title] || attachment.title
           thumbnail_url = url_for(:controller => 'attachments', :action => 'thumbnail', :id => attachment, :size => size, :only_path => @only_path)
