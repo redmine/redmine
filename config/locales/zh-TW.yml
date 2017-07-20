@@ -304,6 +304,7 @@
   error_move_of_child_not_possible: "子任務 %{child} 無法被搬移至新的專案: %{errors}"
   error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: "無法將耗用工時重新分配給即將被刪除的問題"
   warning_fields_cleared_on_bulk_edit: "選取物件的變更將導致一個或多個欄位之內容值被自動刪除"
+  error_exceeds_maximum_hours_per_day: "工時記錄單日不能超過 %{max_hours} 小時 (目前已登錄 %{logged_hours} 小時)"
 
   mail_subject_lost_password: 您的 Redmine 網站密碼
   mail_body_lost_password: '欲變更您的 Redmine 網站密碼, 請點選以下鏈結:'
@@ -547,6 +548,9 @@
   setting_commit_logs_formatting: 套用文字格式至認可訊息
   setting_timelog_required_fields: 工時記錄必填欄位
   setting_close_duplicate_issues: 自動結束重複的議題
+  setting_time_entry_list_defaults: 工時記錄清單預設值
+  setting_timelog_accept_0_hours: 允許工時為 0 的工時記錄
+  setting_timelog_max_hours_per_day: 單一用戶每日工時之最大值
 
   permission_add_project: 建立專案
   permission_add_subprojects: 建立子專案
@@ -1296,8 +1300,3 @@
   description_issue_category_reassign: 選擇議題分類
   description_wiki_subpages_reassign: 選擇新的父頁面
   text_repository_identifier_info: '僅允許使用小寫英文字母 (a-z), 阿拉伯數字, 虛線與底線。<br />一旦儲存之後, 代碼便無法再次被更改。'
-  error_exceeds_maximum_hours_per_day: Cannot log more than %{max_hours} hours on the
-    same day (%{logged_hours} hours have already been logged)
-  setting_time_entry_list_defaults: Timelog list defaults
-  setting_timelog_accept_0_hours: Accept time logs with 0 hours
-  setting_timelog_max_hours_per_day: Maximum hours that can be logged per day and user
