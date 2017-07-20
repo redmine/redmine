@@ -28,7 +28,7 @@ module ProjectsHelper
             {:name => 'wiki', :action => :manage_wiki, :partial => 'projects/settings/wiki', :label => :label_wiki},
             {:name => 'repositories', :action => :manage_repository, :partial => 'projects/settings/repositories', :label => :label_repository_plural},
             {:name => 'boards', :action => :manage_boards, :partial => 'projects/settings/boards', :label => :label_board_plural},
-            {:name => 'activities', :action => :manage_project_activities, :partial => 'projects/settings/activities', :label => :enumeration_activities}
+            {:name => 'activities', :action => :manage_project_activities, :partial => 'projects/settings/activities', :label => :label_time_tracking}
             ]
     tabs.select {|tab| User.current.allowed_to?(tab[:action], @project)}
   end
