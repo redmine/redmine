@@ -146,6 +146,7 @@ function showSampleProject(url){
                 }, false);
                 
             	$("#geppettoSampleProject")[0].contentWindow.postMessage({"command": "$('.HomeButton').hide()"}, $("#geppettoIP").val());
+                $("#geppettoSampleProject")[0].contentWindow.postMessage({"command": "G.enableLocalStorage(false)"}, $("#geppettoIP").val());
                 
             });
     $('#geppettoHomeContainer').append(ifr);
