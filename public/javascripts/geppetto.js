@@ -129,10 +129,10 @@ function addSampleProjects(target){
 }
 
 function showSampleProject(url){
-    var ifr=$('<iframe/>', {id:'geppettoSampleProject', src:url})
-        .on("load",
+    var ifr=$('<iframe/>', {id:'geppettoSampleProject', src:url, style: 'width:100%;height:100%;border:0px;'});
+    window.setTimeout(function(){ifr.show();}, 2000);
+    ifr.on("load",
             function(){
-                $(this).show();
                 $(".indexNoUser").hide();
                 $("footer").hide();
                 history.replaceState(null, document.title, location.pathname+"#!/sampleProject");
