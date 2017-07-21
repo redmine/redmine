@@ -130,11 +130,15 @@ function addSampleProjects(target){
 
 function showSampleProject(url){
     var ifr=$('<iframe/>', {id:'geppettoSampleProject', src:url, style: 'width:100%;height:100%;border:0px;'});
-    window.setTimeout(function(){ifr.show();}, 2000);
+    $("#geppettoSampleProject")[0].contentWindow.postMessage({"command": "G.enableLocalStorage(false)"}, $("#geppettoIP").val());
+    $("#geppettoSampleProject")[0].contentWindow.postMessage({"command": "GEPPETTO.ViewController.clearViewMonitor()"}, $("#geppettoIP").val());
+    window.setTimeout(function(){
+        ifr.show();
+        $("footer").hide();
+    }, 2000);
     ifr.on("load",
             function(){
                 $(".indexNoUser").hide();
-                $("footer").hide();
                 history.replaceState(null, document.title, location.pathname+"#!/sampleProject");
                 history.pushState(null, document.title, location.pathname);
 
@@ -147,6 +151,7 @@ function showSampleProject(url){
                 
             	$("#geppettoSampleProject")[0].contentWindow.postMessage({"command": "$('.HomeButton').hide()"}, $("#geppettoIP").val());
                 $("#geppettoSampleProject")[0].contentWindow.postMessage({"command": "G.enableLocalStorage(false)"}, $("#geppettoIP").val());
+                $("#geppettoSampleProject")[0].contentWindow.postMessage({"command": "GEPPETTO.ViewController.clearViewMonitor()"}, $("#geppettoIP").val());
                 
             });
     $('#geppettoHomeContainer').append(ifr);
