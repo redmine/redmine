@@ -187,18 +187,29 @@ class IssueQuery < Query
     @available_columns += issue_custom_fields.visible.collect {|cf| QueryCustomFieldColumn.new(cf) }
 
     if User.current.allowed_to?(:view_time_entries, project, :global => true)
+      # insert the columns after total_estimated_hours or at the end
       index = @available_columns.find_index {|column| column.name == :total_estimated_hours}
       index = (index ? index + 1 : -1)
-      # insert the column after total_estimated_hours or at the end
+
+      subselect = "SELECT SUM(hours) FROM #{TimeEntry.table_name}" +
+        " JOIN #{Project.table_name} ON #{Project.table_name}.id = #{TimeEntry.table_name}.project_id" +
+        " WHERE (#{TimeEntry.visible_condition(User.current)}) AND #{TimeEntry.table_name}.issue_id = #{Issue.table_name}.id"
+
       @available_columns.insert index, QueryColumn.new(:spent_hours,
-        :sortable => "COALESCE((SELECT SUM(hours) FROM #{TimeEntry.table_name} WHERE #{TimeEntry.table_name}.issue_id = #{Issue.table_name}.id), 0)",
+        :sortable => "COALESCE((#{subselect}), 0)",
         :default_order => 'desc',
         :caption => :label_spent_time,
         :totalable => true
       )
+
+      subselect = "SELECT SUM(hours) FROM #{TimeEntry.table_name}" +
+        " JOIN #{Project.table_name} ON #{Project.table_name}.id = #{TimeEntry.table_name}.project_id" +
+        " JOIN #{Issue.table_name} subtasks ON subtasks.id = #{TimeEntry.table_name}.issue_id" +
+        " WHERE (#{TimeEntry.visible_condition(User.current)})" +
+        " AND subtasks.root_id = #{Issue.table_name}.root_id AND subtasks.lft >= #{Issue.table_name}.lft AND subtasks.rgt <= #{Issue.table_name}.rgt"
+
       @available_columns.insert index+1, QueryColumn.new(:total_spent_hours,
-        :sortable => "COALESCE((SELECT SUM(hours) FROM #{TimeEntry.table_name} JOIN #{Issue.table_name} subtasks ON subtasks.id = #{TimeEntry.table_name}.issue_id" +
-          " WHERE subtasks.root_id = #{Issue.table_name}.root_id AND subtasks.lft >= #{Issue.table_name}.lft AND subtasks.rgt <= #{Issue.table_name}.rgt), 0)",
+        :sortable => "COALESCE((#{subselect}), 0)",
         :default_order => 'desc',
         :caption => :label_total_spent_time
       )
@@ -251,15 +262,10 @@ class IssueQuery < Query
 
   # Returns sum of all the issue's time entries hours
   def total_for_spent_hours(scope)
-    total = if group_by_column.try(:name) == :project
-      # TODO: remove this when https://github.com/rails/rails/issues/21922 is fixed
-      # We have to do a custom join without the time_entries.project_id column
-      # that would trigger a ambiguous column name error
-      scope.joins("JOIN (SELECT issue_id, hours FROM #{TimeEntry.table_name}) AS joined_time_entries ON joined_time_entries.issue_id = #{Issue.table_name}.id").
-        sum("joined_time_entries.hours")
-    else
-      scope.joins(:time_entries).sum("#{TimeEntry.table_name}.hours")
-    end
+    total = scope.joins(:time_entries).
+      where(TimeEntry.visible_condition(User.current)).
+      sum("#{TimeEntry.table_name}.hours")
+
     map_total(total) {|t| t.to_f.round(2)}
   end
 

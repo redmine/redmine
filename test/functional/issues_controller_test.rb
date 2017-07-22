@@ -941,6 +941,22 @@ class IssuesControllerTest < Redmine::ControllerTest
     assert_equal hours.sort.reverse, hours
   end
 
+  def test_index_sort_by_spent_hours_should_sort_by_visible_spent_hours
+    TimeEntry.delete_all
+    TimeEntry.generate!(:issue => Issue.generate!(:project_id => 1), :hours => 3)
+    TimeEntry.generate!(:issue => Issue.generate!(:project_id => 3), :hours => 4)
+
+    get :index, :params => {:sort => "spent_hours:desc", :c => ['subject','spent_hours']}
+    assert_response :success
+    assert_equal [4.0, 3.0, 0.0], issues_in_list.map(&:spent_hours)[0..2]
+
+    Project.find(3).disable_module!(:time_tracking)
+
+    get :index, :params => {:sort => "spent_hours:desc", :c => ['subject','spent_hours']}
+    assert_response :success
+    assert_equal [3.0, 0.0, 0.0], issues_in_list.map(&:spent_hours)[0..2]
+  end
+
   def test_index_sort_by_total_spent_hours
     get :index, :params => {
         :sort => 'total_spent_hours:desc'
@@ -1377,6 +1393,22 @@ class IssuesControllerTest < Redmine::ControllerTest
     assert_response :success
     assert_select '.query-totals'
     assert_select ".total-for-cf-#{field.id} span.value", :text => '9'
+  end
+
+  def test_index_with_spent_time_total_should_sum_visible_spent_time_only
+    TimeEntry.delete_all
+    TimeEntry.generate!(:issue => Issue.generate!(:project_id => 1), :hours => 3)
+    TimeEntry.generate!(:issue => Issue.generate!(:project_id => 3), :hours => 4)
+
+    get :index, :params => {:t => ["spent_hours"]}
+    assert_response :success
+    assert_select ".total-for-spent-hours span.value", :text => '7.00'
+
+    Project.find(3).disable_module!(:time_tracking)
+
+    get :index, :params => {:t => ["spent_hours"]}
+    assert_response :success
+    assert_select ".total-for-spent-hours span.value", :text => '3.00'
   end
 
   def test_index_totals_should_default_to_settings
