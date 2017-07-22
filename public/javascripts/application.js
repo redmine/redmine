@@ -120,7 +120,7 @@ function initFilters() {
 function addFilter(field, operator, values) {
   var fieldId = field.replace('.', '_');
   var tr = $('#tr_'+fieldId);
-  
+
   var filterOptions = availableFilters[field];
   if (!filterOptions) return;
 
@@ -587,6 +587,8 @@ function observeSearchfield(fieldId, targetId, url) {
 $(document).ready(function(){
   $(".drdn .autocomplete").val('');
 
+  // This variable is used to focus selected project
+  var selected;
   $(".drdn-trigger").click(function(e){
     var drdn = $(this).closest(".drdn");
     if (drdn.hasClass("expanded")) {
@@ -594,6 +596,8 @@ $(document).ready(function(){
     } else {
       $(".drdn").removeClass("expanded");
       drdn.addClass("expanded");
+      selected = $('.drdn-items a.selected'); // Store selected project
+      selected.focus(); // Calling focus to scroll to selected project
       if (!isMobile()) {
         drdn.find(".autocomplete").focus();
       }
@@ -603,14 +607,22 @@ $(document).ready(function(){
   $(document).click(function(e){
     if ($(e.target).closest(".drdn").length < 1) {
       $(".drdn.expanded").removeClass("expanded");
-    } 
+    }
   });
 
   observeSearchfield('projects-quick-search', null, $('#projects-quick-search').data('automcomplete-url'));
 
   $(".drdn-content").keydown(function(event){
     var items = $(this).find(".drdn-items");
-    var focused = items.find("a:focus");
+
+    // If a project is selected set focused to selected only once
+    if (selected && selected.length > 0) {
+      var focused = selected;
+      selected = undefined;
+    }
+    else {
+      var focused = items.find("a:focus");
+    }
     switch (event.which) {
     case 40: //down
       if (focused.length > 0) {
