@@ -16,7 +16,7 @@
           <%= hidden_field_tag "#{attachment_param}[p#{i}][id]", attachment.id %>
         <% else %>
           <%= text_field_tag("#{attachment_param}[p#{i}][description]", attachment.description, :maxlength => 255, :placeholder => l(:label_optional_description), :class => 'description') if description %>
-          <%= link_to('&nbsp;'.html_safe, attachment_path(attachment, :attachment_id => "p#{i}", :format => 'js'), :method => 'delete', :remote => true, :class => 'remove-upload') %>
+          <%= link_to('&nbsp;'.html_safe, attachment_path(attachment, :attachment_id => "p#{i}", :format => 'js'), :method => 'delete', :remote => true, :class => 'icon-only icon-del remove-upload') %>
           <%= hidden_field_tag "#{attachment_param}[p#{i}][token]", attachment.token %>
         <% end %>
       </span>
