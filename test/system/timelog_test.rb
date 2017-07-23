@@ -87,10 +87,10 @@ class TimelogTest < ApplicationSystemTestCase
     visit '/settings?tab=timelog'
     # Remove a column
     select 'Comment', :from => 'Selected Columns'
-    click_on "←"
+    page.first('input[type=button].move-left').click
     # Add a column
     select 'Tracker', :from => 'Available Columns'
-    click_on "→"
+    page.first('input[type=button].move-right').click
     click_on 'Save'
 
     # Display the list with updated settings

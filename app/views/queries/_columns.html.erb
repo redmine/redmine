@@ -12,9 +12,9 @@
               :ondblclick => "moveOptions(this.form.#{available_tag_id}, this.form.#{selected_tag_id});" %>
   </span>
   <span class="buttons">
-      <input type="button" value="&#8594;"
+      <input type="button" value="&#8594;" class="move-right"
        onclick="moveOptions(this.form.<%= available_tag_id %>, this.form.<%= selected_tag_id %>);" />
-      <input type="button" value="&#8592;"
+      <input type="button" value="&#8592;" class="move-left"
        onclick="moveOptions(this.form.<%= selected_tag_id %>, this.form.<%= available_tag_id %>);" />
   </span>
   <span>
