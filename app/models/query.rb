@@ -934,12 +934,7 @@ class Query < ActiveRecord::Base
   def grouped_query(&block)
     r = nil
     if grouped?
-      begin
-        # Rails3 will raise an (unexpected) RecordNotFound if there's only a nil group value
-        r = yield base_group_scope
-      rescue ActiveRecord::RecordNotFound
-        r = {nil => yield(base_scope)}
-      end
+      r = yield base_group_scope
       c = group_by_column
       if c.is_a?(QueryCustomFieldColumn)
         r = r.keys.inject({}) {|h, k| h[c.custom_field.cast_value(k)] = r[k]; h}
