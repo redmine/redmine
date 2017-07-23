@@ -59,12 +59,7 @@ class Role < ActiveRecord::Base
   }
 
   before_destroy :check_deletable
-  has_many :workflow_rules, :dependent => :delete_all do
-    def copy(source_role)
-      ActiveSupport::Deprecation.warn "role.workflow_rules.copy is deprecated and will be removed in Redmine 4.0, use role.copy_worflow_rules instead"
-      proxy_association.owner.copy_workflow_rules(source_role)
-    end
-  end
+  has_many :workflow_rules, :dependent => :delete_all
   has_and_belongs_to_many :custom_fields, :join_table => "#{table_name_prefix}custom_fields_roles#{table_name_suffix}", :foreign_key => "role_id"
 
   has_and_belongs_to_many :managed_roles, :class_name => 'Role',

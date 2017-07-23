@@ -27,12 +27,7 @@ class Tracker < ActiveRecord::Base
   before_destroy :check_integrity
   belongs_to :default_status, :class_name => 'IssueStatus'
   has_many :issues
-  has_many :workflow_rules, :dependent => :delete_all do
-    def copy(source_tracker)
-      ActiveSupport::Deprecation.warn "tracker.workflow_rules.copy is deprecated and will be removed in Redmine 4.0, use tracker.copy_worflow_rules instead"
-      proxy_association.owner.copy_workflow_rules(source_tracker)
-    end
-  end
+  has_many :workflow_rules, :dependent => :delete_all
   has_and_belongs_to_many :projects
   has_and_belongs_to_many :custom_fields, :class_name => 'IssueCustomField', :join_table => "#{table_name_prefix}custom_fields_trackers#{table_name_suffix}", :association_foreign_key => 'custom_field_id'
   acts_as_positioned

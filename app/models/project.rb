@@ -421,14 +421,6 @@ class Project < ActiveRecord::Base
     @allowed_parents
   end
 
-  # Sets the parent of the project with authorization check
-  def set_allowed_parent!(p)
-    ActiveSupport::Deprecation.warn "Project#set_allowed_parent! is deprecated and will be removed in Redmine 4, use #safe_attributes= instead."
-    p = p.id if p.is_a?(Project)
-    send :safe_attributes, {:project_id => p}
-    save
-  end
-
   # Sets the parent of the project and saves the project
   # Argument can be either a Project, a String, a Fixnum or nil
   def set_parent!(p)
@@ -844,11 +836,6 @@ class Project < ActiveRecord::Base
         false
       end
     end
-  end
-
-  def member_principals
-    ActiveSupport::Deprecation.warn "Project#member_principals is deprecated and will be removed in Redmine 4.0. Use #memberships.active instead."
-    memberships.active
   end
 
   # Returns a new unsaved Project instance with attributes copied from +project+
