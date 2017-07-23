@@ -1,4 +1,4 @@
-class SaltUserPasswords < ActiveRecord::Migration
+class SaltUserPasswords < ActiveRecord::Migration[4.2]
   
   def self.up
     say_with_time "Salting user passwords, this may take some time..." do

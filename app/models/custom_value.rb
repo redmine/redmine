@@ -18,7 +18,6 @@
 class CustomValue < ActiveRecord::Base
   belongs_to :custom_field
   belongs_to :customized, :polymorphic => true
-  attr_protected :id
 
   after_save :custom_field_after_save_custom_value
 

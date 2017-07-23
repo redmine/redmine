@@ -26,7 +26,6 @@ class Wiki < ActiveRecord::Base
   validates_presence_of :start_page
   validates_format_of :start_page, :with => /\A[^,\.\/\?\;\|\:]*\z/
   validates_length_of :start_page, maximum: 255
-  attr_protected :id
 
   before_destroy :delete_redirects
 

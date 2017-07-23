@@ -1,4 +1,4 @@
-class AddCustomFieldsDefaultValue < ActiveRecord::Migration
+class AddCustomFieldsDefaultValue < ActiveRecord::Migration[4.2]
   def self.up
     add_column :custom_fields, :default_value, :text
   end

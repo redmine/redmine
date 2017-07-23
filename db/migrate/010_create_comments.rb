@@ -1,4 +1,4 @@
-class CreateComments < ActiveRecord::Migration
+class CreateComments < ActiveRecord::Migration[4.2]
   def self.up
     create_table :comments do |t|
       t.column :commented_type, :string, :limit => 30, :default => "", :null => false

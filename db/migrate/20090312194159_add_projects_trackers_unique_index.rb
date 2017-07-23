@@ -1,4 +1,4 @@
-class AddProjectsTrackersUniqueIndex < ActiveRecord::Migration
+class AddProjectsTrackersUniqueIndex < ActiveRecord::Migration[4.2]
   def self.up
     remove_duplicates
     add_index :projects_trackers, [:project_id, :tracker_id], :name => :projects_trackers_unique, :unique => true

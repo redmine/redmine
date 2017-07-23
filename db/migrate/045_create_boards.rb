@@ -1,4 +1,4 @@
-class CreateBoards < ActiveRecord::Migration
+class CreateBoards < ActiveRecord::Migration[4.2]
   def self.up
     create_table :boards do |t|
       t.column :project_id, :integer, :null => false

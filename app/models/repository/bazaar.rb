@@ -18,7 +18,6 @@
 require 'redmine/scm/adapters/bazaar_adapter'
 
 class Repository::Bazaar < Repository
-  attr_protected :root_url
   validates_presence_of :url, :log_encoding
 
   def self.human_attribute_name(attribute_key_name, *args)

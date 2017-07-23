@@ -77,7 +77,7 @@ module Redmine
       # Stop ActiveRecord from wrapping tests in transactions
       # Transactional fixtures do not work with Selenium tests, because Capybara
       # uses a separate server thread, which the transactions would be hidden
-      self.use_transactional_fixtures = false
+      self.use_transactional_tests = false
 
       # Should not depend on locale since Redmine displays login page
       # using default browser locale which depend on system locale for "real" browsers drivers

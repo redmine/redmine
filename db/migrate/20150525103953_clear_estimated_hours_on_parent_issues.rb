@@ -1,4 +1,4 @@
-class ClearEstimatedHoursOnParentIssues < ActiveRecord::Migration
+class ClearEstimatedHoursOnParentIssues < ActiveRecord::Migration[4.2]
   def self.up
     # Clears estimated hours on parent issues
     Issue.where("rgt > lft + 1 AND estimated_hours > 0").update_all :estimated_hours => nil

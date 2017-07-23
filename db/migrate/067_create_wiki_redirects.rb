@@ -1,4 +1,4 @@
-class CreateWikiRedirects < ActiveRecord::Migration
+class CreateWikiRedirects < ActiveRecord::Migration[4.2]
   def self.up
     create_table :wiki_redirects do |t|
       t.column :wiki_id, :integer, :null => false

@@ -18,15 +18,15 @@
 require File.expand_path('../../../test_helper', __FILE__)
 
 class RoutingRepositoriesTest < Redmine::RoutingTest
+
   def setup
-    @path_hash  = repository_path_hash(%w[path to file.c])
-    assert_equal "path/to/file.c", @path_hash[:path]
-    assert_equal "path/to/file.c", @path_hash[:param]
+    @paths = ['path/to/file.c', 'path/to/index.html']
   end
 
   def test_repositories_resources
     should_route 'GET /projects/foo/repositories/new' => 'repositories#new', :project_id => 'foo'
     should_route 'POST /projects/foo/repositories' => 'repositories#create', :project_id => 'foo'
+
     should_route 'GET /repositories/1/edit' => 'repositories#edit', :id => '1'
     should_route 'PUT /repositories/1' => 'repositories#update', :id => '1'
     should_route 'DELETE /repositories/1' => 'repositories#destroy', :id => '1'
@@ -53,19 +53,15 @@ class RoutingRepositoriesTest < Redmine::RoutingTest
     should_route 'GET /projects/foo/repository/revisions.atom' => 'repositories#revisions', :id => 'foo', :format => 'atom'
 
     should_route 'GET /projects/foo/repository/revisions/2457' => 'repositories#revision', :id => 'foo', :rev => '2457'
-    should_route 'GET /projects/foo/repository/revisions/2457/show' => 'repositories#show', :id => 'foo', :rev => '2457'
-    should_route 'GET /projects/foo/repository/revisions/2457/diff' => 'repositories#diff', :id => 'foo', :rev => '2457'
+    should_route 'GET /projects/foo/repository/revisions/2457/show' => 'repositories#show', :id => 'foo', :rev => '2457', :format => 'html'
+    should_route 'GET /projects/foo/repository/revisions/2457/diff' => 'repositories#diff', :id => 'foo', :rev => '2457', :format => 'html'
 
-    should_route "GET /projects/foo/repository/revisions/2457/show/#{@path_hash[:path]}" => 'repositories#show',
-      :id => 'foo', :rev => '2457', :path => @path_hash[:param]
-    should_route "GET /projects/foo/repository/revisions/2457/diff/#{@path_hash[:path]}" => 'repositories#diff',
-      :id => 'foo', :rev => '2457', :path => @path_hash[:param]
-    should_route "GET /projects/foo/repository/revisions/2457/entry/#{@path_hash[:path]}" => 'repositories#entry',
-      :id => 'foo', :rev => '2457', :path => @path_hash[:param]
-    should_route "GET /projects/foo/repository/revisions/2457/raw/#{@path_hash[:path]}" => 'repositories#raw',
-      :id => 'foo', :rev => '2457', :path => @path_hash[:param]
-    should_route "GET /projects/foo/repository/revisions/2457/annotate/#{@path_hash[:path]}" => 'repositories#annotate',
-      :id => 'foo', :rev => '2457', :path => @path_hash[:param]
+    %w(show diff entry raw annotate).each do |action|
+      @paths.each do |path|
+        should_route "GET /projects/foo/repository/revisions/2457/#{action}/#{path}" => "repositories##{action}",
+          :id => 'foo', :rev => '2457', :path => path, :format => 'html'
+      end
+    end
   end
 
   def test_repositories_revisions_with_repository_id
@@ -74,53 +70,37 @@ class RoutingRepositoriesTest < Redmine::RoutingTest
     should_route 'GET /projects/foo/repository/foo/revisions.atom' => 'repositories#revisions', :id => 'foo', :repository_id => 'foo', :format => 'atom'
 
     should_route 'GET /projects/foo/repository/foo/revisions/2457' => 'repositories#revision', :id => 'foo', :repository_id => 'foo', :rev => '2457'
-    should_route 'GET /projects/foo/repository/foo/revisions/2457/show' => 'repositories#show', :id => 'foo', :repository_id => 'foo', :rev => '2457'
-    should_route 'GET /projects/foo/repository/foo/revisions/2457/diff' => 'repositories#diff', :id => 'foo', :repository_id => 'foo', :rev => '2457'
+    should_route 'GET /projects/foo/repository/foo/revisions/2457/show' => 'repositories#show', :id => 'foo', :repository_id => 'foo', :rev => '2457', :format => 'html'
+    should_route 'GET /projects/foo/repository/foo/revisions/2457/diff' => 'repositories#diff', :id => 'foo', :repository_id => 'foo', :rev => '2457', :format => 'html'
 
-    should_route "GET /projects/foo/repository/foo/revisions/2457/show/#{@path_hash[:path]}" => 'repositories#show',
-      :id => 'foo', :repository_id => 'foo', :rev => '2457', :path => @path_hash[:param]
-    should_route "GET /projects/foo/repository/foo/revisions/2457/diff/#{@path_hash[:path]}" => 'repositories#diff',
-      :id => 'foo', :repository_id => 'foo', :rev => '2457', :path => @path_hash[:param]
-    should_route "GET /projects/foo/repository/foo/revisions/2457/entry/#{@path_hash[:path]}" => 'repositories#entry',
-      :id => 'foo', :repository_id => 'foo', :rev => '2457', :path => @path_hash[:param]
-    should_route "GET /projects/foo/repository/foo/revisions/2457/raw/#{@path_hash[:path]}" => 'repositories#raw',
-      :id => 'foo', :repository_id => 'foo', :rev => '2457', :path => @path_hash[:param]
-    should_route "GET /projects/foo/repository/foo/revisions/2457/annotate/#{@path_hash[:path]}" => 'repositories#annotate',
-      :id => 'foo', :repository_id => 'foo', :rev => '2457', :path => @path_hash[:param]
+    %w(show diff entry raw annotate).each do |action|
+      @paths.each do |path|
+        should_route "GET /projects/foo/repository/foo/revisions/2457/#{action}/#{path}" => "repositories##{action}",
+          :id => 'foo', :repository_id => 'foo', :rev => '2457', :path => path, :format => 'html'
+      end
+    end
   end
 
   def test_repositories_non_revisions_path
-    should_route 'GET /projects/foo/repository/changes' => 'repositories#changes', :id => 'foo'
+    should_route 'GET /projects/foo/repository/changes' => 'repositories#changes', :id => 'foo', :format => 'html'
 
-    should_route "GET /projects/foo/repository/changes/#{@path_hash[:path]}" => 'repositories#changes',
-      :id => 'foo', :path => @path_hash[:param]
-    should_route "GET /projects/foo/repository/diff/#{@path_hash[:path]}" => 'repositories#diff',
-      :id => 'foo', :path => @path_hash[:param]
-    should_route "GET /projects/foo/repository/browse/#{@path_hash[:path]}" => 'repositories#browse',
-      :id => 'foo', :path => @path_hash[:param]
-    should_route "GET /projects/foo/repository/entry/#{@path_hash[:path]}" => 'repositories#entry',
-      :id => 'foo', :path => @path_hash[:param]
-    should_route "GET /projects/foo/repository/raw/#{@path_hash[:path]}" => 'repositories#raw',
-      :id => 'foo', :path => @path_hash[:param]
-    should_route "GET /projects/foo/repository/annotate/#{@path_hash[:path]}" => 'repositories#annotate',
-      :id => 'foo', :path => @path_hash[:param]
+    %w(changes diff browse entry raw annotate).each do |action|
+      @paths.each do |path|
+        should_route "GET /projects/foo/repository/#{action}/#{path}" => "repositories##{action}",
+          :id => 'foo', :path => path, :format => 'html'
+      end
+    end
   end
 
   def test_repositories_non_revisions_path_with_repository_id
-    should_route 'GET /projects/foo/repository/svn/changes' => 'repositories#changes', :id => 'foo', :repository_id => 'svn'
+    should_route 'GET /projects/foo/repository/svn/changes' => 'repositories#changes', :id => 'foo', :repository_id => 'svn', :format => 'html'
 
-    should_route "GET /projects/foo/repository/svn/changes/#{@path_hash[:path]}" => 'repositories#changes',
-      :id => 'foo', :repository_id => 'svn', :path => @path_hash[:param]
-    should_route "GET /projects/foo/repository/svn/diff/#{@path_hash[:path]}" => 'repositories#diff',
-      :id => 'foo', :repository_id => 'svn', :path => @path_hash[:param]
-    should_route "GET /projects/foo/repository/svn/browse/#{@path_hash[:path]}" => 'repositories#browse',
-      :id => 'foo', :repository_id => 'svn', :path => @path_hash[:param]
-    should_route "GET /projects/foo/repository/svn/entry/#{@path_hash[:path]}" => 'repositories#entry',
-      :id => 'foo', :repository_id => 'svn', :path => @path_hash[:param]
-    should_route "GET /projects/foo/repository/svn/raw/#{@path_hash[:path]}" => 'repositories#raw',
-      :id => 'foo', :repository_id => 'svn', :path => @path_hash[:param]
-    should_route "GET /projects/foo/repository/svn/annotate/#{@path_hash[:path]}" => 'repositories#annotate',
-      :id => 'foo', :repository_id => 'svn', :path => @path_hash[:param]
+    %w(changes diff browse entry raw annotate).each do |action|
+      @paths.each do |path|
+        should_route "GET /projects/foo/repository/svn/#{action}/#{path}" => "repositories##{action}",
+          :id => 'foo', :repository_id => 'svn', :path => path, :format => 'html'
+      end
+    end
   end
 
   def test_repositories_related_issues

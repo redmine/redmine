@@ -1,4 +1,4 @@
-class AddAuthSourcesTimeout < ActiveRecord::Migration
+class AddAuthSourcesTimeout < ActiveRecord::Migration[4.2]
   def up
     add_column :auth_sources, :timeout, :integer
   end

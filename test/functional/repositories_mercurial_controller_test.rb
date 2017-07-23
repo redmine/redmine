@@ -17,7 +17,7 @@
 
 require File.expand_path('../../test_helper', __FILE__)
 
-class RepositoriesMercurialControllerTest < Redmine::ControllerTest
+class RepositoriesMercurialControllerTest < Redmine::RepositoryControllerTest
   tests RepositoriesController
 
   fixtures :projects, :users, :email_addresses, :roles, :members, :member_roles,
@@ -31,6 +31,7 @@ class RepositoriesMercurialControllerTest < Redmine::ControllerTest
   ruby19_non_utf8_pass = Encoding.default_external.to_s != 'UTF-8'
 
   def setup
+    super
     User.current = nil
     @project    = Project.find(PRJ_ID)
     @repository = Repository::Mercurial.create(

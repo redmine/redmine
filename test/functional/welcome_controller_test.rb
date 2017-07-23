@@ -77,13 +77,6 @@ class WelcomeControllerTest < Redmine::ControllerTest
     end
   end
 
-  def test_robots
-    get :robots
-    assert_response :success
-    assert_equal 'text/plain', @response.content_type
-    assert @response.body.match(%r{^Disallow: /projects/ecookbook/issues\r?$})
-  end
-
   def test_warn_on_leaving_unsaved_turn_on
     user = User.find(2)
     user.pref.warn_on_leaving_unsaved = '1'

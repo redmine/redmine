@@ -1,4 +1,4 @@
-class AddRepositoriesExtraInfo < ActiveRecord::Migration
+class AddRepositoriesExtraInfo < ActiveRecord::Migration[4.2]
   def self.up
     add_column :repositories, :extra_info, :text
   end

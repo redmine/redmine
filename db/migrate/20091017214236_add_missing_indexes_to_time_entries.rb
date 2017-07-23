@@ -1,4 +1,4 @@
-class AddMissingIndexesToTimeEntries < ActiveRecord::Migration
+class AddMissingIndexesToTimeEntries < ActiveRecord::Migration[4.2]
   def self.up
     add_index :time_entries, :activity_id
     add_index :time_entries, :user_id

@@ -1,9 +1,6 @@
 # Redmine - project management software
 # Copyright (C) 2006-2017  Jean-Philippe Lang
 #
-# FileSystem adapter
-# File written by Paul Rivier, at Demotera.
-#
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
@@ -18,32 +15,14 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require 'redmine/scm/adapters/filesystem_adapter'
+require File.expand_path('../../test_helper', __FILE__)
 
-class Repository::Filesystem < Repository
-  validates_presence_of :url
+class WelcomeTest < Redmine::IntegrationTest
 
-  def self.human_attribute_name(attribute_key_name, *args)
-    attr_name = attribute_key_name.to_s
-    if attr_name == "url"
-      attr_name = "root_directory"
-    end
-    super(attr_name, *args)
-  end
-
-  def self.scm_adapter_class
-    Redmine::Scm::Adapters::FilesystemAdapter
-  end
-
-  def self.scm_name
-    'Filesystem'
-  end
-
-  def supports_all_revisions?
-    false
-  end
-
-  def fetch_changesets
-    nil
+  def test_robots
+    get '/robots.txt'
+    assert_response :success
+    assert_equal 'text/plain', @response.content_type
+    assert @response.body.match(%r{^Disallow: /projects/ecookbook/issues\r?$})
   end
 end

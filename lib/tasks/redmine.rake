@@ -160,31 +160,27 @@ DESC
 
     namespace :test do
       desc 'Runs the plugins unit tests.'
-      Rake::TestTask.new :units => "db:test:prepare" do |t|
-        t.libs << "test"
-        t.verbose = true
-        t.pattern = "plugins/#{ENV['NAME'] || '*'}/test/unit/**/*_test.rb"
+      task :units => "db:test:prepare" do |t|
+        $: << "test"
+        Minitest.rake_run ["plugins/#{ENV['NAME'] || '*'}/test/unit/**/*_test.rb"]
       end
 
       desc 'Runs the plugins functional tests.'
-      Rake::TestTask.new :functionals => "db:test:prepare" do |t|
-        t.libs << "test"
-        t.verbose = true
-        t.pattern = "plugins/#{ENV['NAME'] || '*'}/test/functional/**/*_test.rb"
+      task :functionals => "db:test:prepare" do |t|
+        $: << "test"
+        Minitest.rake_run ["plugins/#{ENV['NAME'] || '*'}/test/functional/**/*_test.rb"]
       end
 
       desc 'Runs the plugins integration tests.'
-      Rake::TestTask.new :integration => "db:test:prepare" do |t|
-        t.libs << "test"
-        t.verbose = true
-        t.pattern = "plugins/#{ENV['NAME'] || '*'}/test/integration/**/*_test.rb"
+      task :integration => "db:test:prepare" do |t|
+        $: << "test"
+        Minitest.rake_run ["plugins/#{ENV['NAME'] || '*'}/test/integration/**/*_test.rb"]
       end
 
       desc 'Runs the plugins ui tests.'
-      Rake::TestTask.new :ui => "db:test:prepare" do |t|
-        t.libs << "test"
-        t.verbose = true
-        t.pattern = "plugins/#{ENV['NAME'] || '*'}/test/ui/**/*_test.rb"
+      task :ui => "db:test:prepare" do |t|
+        $: << "test"
+        Minitest.rake_run ["plugins/#{ENV['NAME'] || '*'}/test/ui/**/*_test.rb"]
       end
     end
   end

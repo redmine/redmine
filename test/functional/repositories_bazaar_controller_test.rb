@@ -17,7 +17,7 @@
 
 require File.expand_path('../../test_helper', __FILE__)
 
-class RepositoriesBazaarControllerTest < Redmine::ControllerTest
+class RepositoriesBazaarControllerTest < Redmine::RepositoryControllerTest
   tests RepositoriesController
 
   fixtures :projects, :users, :email_addresses, :roles, :members, :member_roles,
@@ -29,6 +29,7 @@ class RepositoriesBazaarControllerTest < Redmine::ControllerTest
   CHAR_1_UTF8_HEX   = "\xc3\x9c".dup.force_encoding('UTF-8')
 
   def setup
+    super
     User.current = nil
     @project = Project.find(PRJ_ID)
     @repository = Repository::Bazaar.create(

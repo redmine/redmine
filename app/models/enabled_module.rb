@@ -21,7 +21,6 @@ class EnabledModule < ActiveRecord::Base
 
   validates_presence_of :name
   validates_uniqueness_of :name, :scope => :project_id
-  attr_protected :id
 
   after_create :module_enabled
 

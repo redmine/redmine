@@ -4,18 +4,16 @@ if Gem::Version.new(Bundler::VERSION) < Gem::Version.new('1.5.0')
   abort "Redmine requires Bundler 1.5.0 or higher (you're using #{Bundler::VERSION}).\nPlease update with 'gem update bundler'."
 end
 
-gem "rails", "4.2.8"
-gem "jquery-rails", "~> 3.1.4"
+gem "rails", "5.1.2"
 gem "coderay", "~> 1.1.1"
 gem "request_store", "1.0.5"
 gem "mime-types", "~> 3.0"
-gem "protected_attributes"
 gem "actionpack-xml_parser"
-gem "roadie-rails", "~> 1.1.1"
+gem "roadie-rails"
 gem "roadie", "~> 3.2.1"
 gem "mimemagic"
 
-gem "nokogiri", (RUBY_VERSION >= "2.1" ? "~> 1.7.2" : "~> 1.6.8")
+gem "nokogiri", "~> 1.7.2"
 gem "i18n", "~> 0.7.0"
 
 # Request at least rails-html-sanitizer 1.0.3 because of security advisories
@@ -85,12 +83,9 @@ group :development do
 end
 
 group :test do
-  gem "minitest"
   gem "rails-dom-testing"
   gem "mocha"
   gem "simplecov", "~> 0.14.1", :require => false
-  # TODO: remove this after upgrading to Rails 5
-  gem "test_after_commit", "~> 0.4.2"
   # For running UI tests
   gem "capybara"
   gem "selenium-webdriver", "~> 2.53.4"

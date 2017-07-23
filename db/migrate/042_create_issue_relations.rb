@@ -1,4 +1,4 @@
-class CreateIssueRelations < ActiveRecord::Migration
+class CreateIssueRelations < ActiveRecord::Migration[4.2]
   def self.up
     create_table :issue_relations do |t|
       t.column :issue_from_id, :integer, :null => false

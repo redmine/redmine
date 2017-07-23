@@ -68,7 +68,7 @@ class SearchController < ApplicationController
     fetcher = Redmine::Search::Fetcher.new(
       @question, User.current, @scope, projects_to_search,
       :all_words => @all_words, :titles_only => @titles_only, :attachments => @search_attachments, :open_issues => @open_issues,
-      :cache => params[:page].present?, :params => params
+      :cache => params[:page].present?, :params => params.to_unsafe_hash
     )
 
     if fetcher.tokens.present?

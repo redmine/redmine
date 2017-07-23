@@ -1,4 +1,4 @@
-class CreateCustomFieldEnumerations < ActiveRecord::Migration
+class CreateCustomFieldEnumerations < ActiveRecord::Migration[4.2]
   def change
     create_table :custom_field_enumerations do |t|
       t.integer :custom_field_id, :null => false

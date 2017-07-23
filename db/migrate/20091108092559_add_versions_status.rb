@@ -1,4 +1,4 @@
-class AddVersionsStatus < ActiveRecord::Migration
+class AddVersionsStatus < ActiveRecord::Migration[4.2]
   def self.up
     add_column :versions, :status, :string, :default => 'open'
     Version.update_all("status = 'open'")

@@ -1,4 +1,4 @@
-class AddRepositoriesPermissions < ActiveRecord::Migration
+class AddRepositoriesPermissions < ActiveRecord::Migration[4.2]
   # model removed
   class Permission < ActiveRecord::Base; end
 

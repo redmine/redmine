@@ -47,7 +47,6 @@ class WikiPage < ActiveRecord::Base
   validates_uniqueness_of :title, :scope => :wiki_id, :case_sensitive => false
   validates_length_of :title, maximum: 255
   validates_associated :content
-  attr_protected :id
 
   validate :validate_parent_title
   before_destroy :delete_redirects
@@ -80,6 +79,10 @@ class WikiPage < ActiveRecord::Base
   end
 
   def safe_attributes=(attrs, user=User.current)
+    if attrs.respond_to?(:to_unsafe_hash)
+      attrs = attrs.to_unsafe_hash
+    end
+
     return unless attrs.is_a?(Hash)
     attrs = attrs.deep_dup
 
@@ -122,7 +125,7 @@ class WikiPage < ActiveRecord::Base
 
   # Moves child pages if page was moved
   def handle_children_move
-    if !new_record? && wiki_id_changed?
+    if !new_record? && saved_change_to_wiki_id?
       children.each do |child|
         child.wiki_id = wiki_id
         child.redirect_existing_links = redirect_existing_links

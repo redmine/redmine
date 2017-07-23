@@ -68,6 +68,10 @@ module Redmine
         end
 
         def save_attachments(attachments, author=User.current)
+          if attachments.respond_to?(:to_unsafe_hash)
+            attachments = attachments.to_unsafe_hash
+          end
+
           if attachments.is_a?(Hash)
             attachments = attachments.stringify_keys
             attachments = attachments.to_a.sort {|a, b|
@@ -86,7 +90,7 @@ module Redmine
           if attachments.is_a?(Array)
             @failed_attachment_count = 0
             attachments.each do |attachment|
-              next unless attachment.is_a?(Hash)
+              next unless attachment.present?
               a = nil
               if file = attachment['file']
                 a = Attachment.create(:file => file, :author => author)

@@ -29,8 +29,6 @@ class Enumeration < ActiveRecord::Base
   before_destroy :check_integrity
   before_save    :check_default
 
-  attr_protected :type
-
   validates_presence_of :name
   validates_uniqueness_of :name, :scope => [:type, :project_id]
   validates_length_of :name, :maximum => 30
@@ -148,7 +146,7 @@ class Enumeration < ActiveRecord::Base
   # position as the overridden enumeration
   def update_position
     super
-    if position_changed?
+    if saved_change_to_position?
       self.class.where.not(:parent_id => nil).update_all(
         "position = coalesce((
           select position

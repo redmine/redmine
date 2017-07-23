@@ -72,7 +72,6 @@ class IssueRelation < ActiveRecord::Base
   validates_uniqueness_of :issue_to_id, :scope => :issue_from_id
   validate :validate_issue_relation
 
-  attr_protected :issue_from_id, :issue_to_id
   before_save :handle_issue_order
   after_create  :call_issues_relation_added_callback
   after_destroy :call_issues_relation_removed_callback
@@ -82,6 +81,10 @@ class IssueRelation < ActiveRecord::Base
     'issue_to_id'
 
   def safe_attributes=(attrs, user=User.current)
+    if attrs.respond_to?(:to_unsafe_hash)
+      attrs = attrs.to_unsafe_hash
+    end
+
     return unless attrs.is_a?(Hash)
     attrs = attrs.deep_dup
 

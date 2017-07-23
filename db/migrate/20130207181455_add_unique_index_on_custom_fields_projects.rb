@@ -1,4 +1,4 @@
-class AddUniqueIndexOnCustomFieldsProjects < ActiveRecord::Migration
+class AddUniqueIndexOnCustomFieldsProjects < ActiveRecord::Migration[4.2]
   def up
     table_name = "#{CustomField.table_name_prefix}custom_fields_projects#{CustomField.table_name_suffix}"
     duplicates = CustomField.connection.select_rows("SELECT custom_field_id, project_id FROM #{table_name} GROUP BY custom_field_id, project_id HAVING COUNT(*) > 1")

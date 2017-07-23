@@ -1,4 +1,4 @@
-class AddUniqueIndexToIssueRelations < ActiveRecord::Migration
+class AddUniqueIndexToIssueRelations < ActiveRecord::Migration[4.2]
   def self.up
 
     # Remove duplicates

@@ -79,34 +79,28 @@ namespace :test do
       end
     end
 
-    Rake::TestTask.new(:units => "db:test:prepare") do |t|
-      t.libs << "test"
-      t.verbose = true
-      t.warning = false
-      t.test_files = FileList['test/unit/repository*_test.rb'] + FileList['test/unit/lib/redmine/scm/**/*_test.rb']
+    task(:units => "db:test:prepare") do |t|
+      $: << "test"
+      Minitest.rake_run FileList['test/unit/repository*_test.rb'] + FileList['test/unit/lib/redmine/scm/**/*_test.rb']
     end
     Rake::Task['test:scm:units'].comment = "Run the scm unit tests"
 
-    Rake::TestTask.new(:functionals => "db:test:prepare") do |t|
-      t.libs << "test"
-      t.verbose = true
-      t.warning = false
-      t.test_files = FileList['test/functional/repositories*_test.rb']
+    task(:functionals => "db:test:prepare") do |t|
+      $: << "test"
+      Minitest.rake_run FileList['test/functional/repositories*_test.rb']
     end
     Rake::Task['test:scm:functionals'].comment = "Run the scm functional tests"
   end
 
-  Rake::TestTask.new(:routing) do |t|
-    t.libs << "test"
-    t.verbose = true
-    t.test_files = FileList['test/integration/routing/*_test.rb'] + FileList['test/integration/api_test/*_routing_test.rb']
+  task(:routing) do |t|
+    $: << "test"
+    Minitest.rake_run FileList['test/integration/routing/*_test.rb'] + FileList['test/integration/api_test/*_routing_test.rb']
   end
   Rake::Task['test:routing'].comment = "Run the routing tests"
 
-  Rake::TestTask.new(:ui => "db:test:prepare") do |t|
-    t.libs << "test"
-    t.verbose = true
-    t.test_files = FileList['test/ui/**/*_test_ui.rb']
+  task(:ui => "db:test:prepare") do |t|
+    $: << "test"
+    Minitest.rake_run FileList['test/ui/**/*_test_ui.rb']
   end
   Rake::Task['test:ui'].comment = "Run the UI tests with Capybara (PhantomJS listening on port 4444 is required)"
 end

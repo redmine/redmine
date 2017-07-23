@@ -17,7 +17,7 @@
 
 require File.expand_path('../../test_helper', __FILE__)
 
-class RepositoriesDarcsControllerTest < Redmine::ControllerTest
+class RepositoriesDarcsControllerTest < Redmine::RepositoryControllerTest
   tests RepositoriesController
 
   fixtures :projects, :users, :email_addresses, :roles, :members, :member_roles,
@@ -28,6 +28,7 @@ class RepositoriesDarcsControllerTest < Redmine::ControllerTest
   NUM_REV = 6
 
   def setup
+    super
     User.current = nil
     @project = Project.find(PRJ_ID)
     @repository = Repository::Darcs.create(

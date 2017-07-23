@@ -1,4 +1,4 @@
-class ChangeRepositoriesToFullSti < ActiveRecord::Migration
+class ChangeRepositoriesToFullSti < ActiveRecord::Migration[4.2]
   def up
     Repository.connection.
          select_rows("SELECT id, type FROM #{Repository.table_name}").

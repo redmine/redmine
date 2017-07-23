@@ -1,4 +1,4 @@
-class AddCustomValueCustomizedIndex < ActiveRecord::Migration
+class AddCustomValueCustomizedIndex < ActiveRecord::Migration[4.2]
   def self.up
     add_index :custom_values, [:customized_type, :customized_id], :name => :custom_values_customized
   end

@@ -212,8 +212,6 @@ class Query < ActiveRecord::Base
   serialize :sort_criteria, Array
   serialize :options, Hash
 
-  attr_protected :project_id, :user_id
-
   validates_presence_of :name
   validates_length_of :name, :maximum => 255
   validates :visibility, :inclusion => { :in => [VISIBILITY_PUBLIC, VISIBILITY_ROLES, VISIBILITY_PRIVATE] }
@@ -223,7 +221,7 @@ class Query < ActiveRecord::Base
   end
 
   after_save do |query|
-    if query.visibility_changed? && query.visibility != VISIBILITY_ROLES
+    if query.saved_change_to_visibility? && query.visibility != VISIBILITY_ROLES
       query.roles.clear
     end
   end
@@ -623,7 +621,7 @@ class Query < ActiveRecord::Base
 
   # Add multiple filters using +add_filter+
   def add_filters(fields, operators, values)
-    if fields.is_a?(Array) && operators.is_a?(Hash) && (values.nil? || values.is_a?(Hash))
+    if fields.present? && operators.present?
       fields.each do |field|
         add_filter(field, operators[field], values && values[field])
       end

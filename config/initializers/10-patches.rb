@@ -27,6 +27,30 @@ module ActiveRecord
     end
   end
   class Relation ; undef open ; end
+
+  # Workaround for a Rails 5.1 regression that breaks queries with a condition
+  # on a table that has a column with the same name as the table
+  # (eg. comments.comments). It breaks has_many associations to these tables as well.
+  # https://github.com/rails/rails/commit/c6a62dc327c54baec87306f5c381e13cacc00a19
+  #
+  # Examples (without the following workaround applied):
+  #   Comment.where(:comments => {:id => 1})
+  #   TypeError: can't cast Hash
+  #
+  #   News.first.comments.count
+  #   TypeError: can't cast Hash
+  class PredicateBuilder
+
+    protected
+    alias :create_binds_for_hash_without_comments_fix :create_binds_for_hash
+    def create_binds_for_hash(attributes)
+      if attributes["comments"].is_a?(Hash)
+        return create_binds_for_hash_without_comments_fix attributes["comments"]
+      else
+        create_binds_for_hash_without_comments_fix attributes
+      end
+    end
+  end  
 end
 
 module ActionView
@@ -201,7 +225,7 @@ module ActionView
         unless asset_id.blank?
           source += "?#{asset_id}"
         end
-        asset_path(source, options)
+        asset_path(source, options.merge(skip_pipeline: true))
       end
       alias :path_to_asset :asset_path_with_asset_id
 
@@ -218,7 +242,7 @@ module ActionView
             if File.exist? path
               exist = true
             else
-              path = File.join(Rails.public_path, compute_asset_path("#{source}#{extname}", options))
+              path = File.join(Rails.public_path, public_compute_asset_path("#{source}#{extname}", options))
               if File.exist? path
                 exist = true
               end

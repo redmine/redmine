@@ -77,7 +77,6 @@ class Role < ActiveRecord::Base
 
   serialize :permissions, ::Role::PermissionsAttributeCoder
   store :settings, :accessors => [:permissions_all_trackers, :permissions_tracker_ids]
-  attr_protected :builtin
 
   validates_presence_of :name
   validates_uniqueness_of :name

@@ -24,8 +24,6 @@ class TimeEntry < ActiveRecord::Base
   belongs_to :user
   belongs_to :activity, :class_name => 'TimeEntryActivity'
 
-  attr_protected :user_id, :tyear, :tmonth, :tweek
-
   acts_as_customizable
   acts_as_event :title => Proc.new { |o|
                   related   = o.issue if o.issue && o.issue.visible?

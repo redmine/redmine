@@ -1,4 +1,4 @@
-class ChangeWikiContentsTextLimit < ActiveRecord::Migration
+class ChangeWikiContentsTextLimit < ActiveRecord::Migration[4.2]
   def self.up
     # Migrates MySQL databases only
     # Postgres would raise an error (see http://dev.rubyonrails.org/ticket/3818)

@@ -1,4 +1,4 @@
-class CreateEnabledModules < ActiveRecord::Migration
+class CreateEnabledModules < ActiveRecord::Migration[4.2]
   def self.up
     create_table :enabled_modules do |t|
       t.column :project_id, :integer

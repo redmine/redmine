@@ -23,7 +23,6 @@ class WikiContent < ActiveRecord::Base
   belongs_to :author, :class_name => 'User'
   validates_presence_of :text
   validates_length_of :comments, :maximum => 1024, :allow_nil => true
-  attr_protected :id
 
   acts_as_versioned
 
@@ -60,7 +59,6 @@ class WikiContent < ActiveRecord::Base
   class Version
     belongs_to :page, :class_name => '::WikiPage'
     belongs_to :author, :class_name => '::User'
-    attr_protected :data
 
     acts_as_event :title => Proc.new {|o| "#{l(:label_wiki_edit)}: #{o.page.title} (##{o.version})"},
                   :description => :comments,
@@ -161,11 +159,11 @@ class WikiContent < ActiveRecord::Base
 
   def send_notification
     # new_record? returns false in after_save callbacks
-    if id_changed?
+    if saved_change_to_id?
       if Setting.notified_events.include?('wiki_content_added')
         Mailer.wiki_content_added(self).deliver
       end
-    elsif text_changed?
+    elsif saved_change_to_text?
       if Setting.notified_events.include?('wiki_content_updated')
         Mailer.wiki_content_updated(self).deliver
       end

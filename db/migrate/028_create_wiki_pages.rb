@@ -1,4 +1,4 @@
-class CreateWikiPages < ActiveRecord::Migration
+class CreateWikiPages < ActiveRecord::Migration[4.2]
   def self.up
     create_table :wiki_pages do |t|
       t.column :wiki_id, :integer, :null => false

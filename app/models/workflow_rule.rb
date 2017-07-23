@@ -24,7 +24,6 @@ class WorkflowRule < ActiveRecord::Base
   belongs_to :new_status, :class_name => 'IssueStatus'
 
   validates_presence_of :role, :tracker
-  attr_protected :id
 
   # Copies workflows from source to targets
   def self.copy(source_tracker, source_role, target_trackers, target_roles)

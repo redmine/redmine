@@ -1,4 +1,4 @@
-class AddMissingIndexesToWatchers < ActiveRecord::Migration
+class AddMissingIndexesToWatchers < ActiveRecord::Migration[4.2]
   def self.up
     add_index :watchers, :user_id
     add_index :watchers, [:watchable_id, :watchable_type]

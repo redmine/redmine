@@ -1,4 +1,4 @@
-class ChangeProjectsIdentifierLimit < ActiveRecord::Migration
+class ChangeProjectsIdentifierLimit < ActiveRecord::Migration[4.2]
   def self.up
     change_column :projects, :identifier, :string, :limit => nil
   end

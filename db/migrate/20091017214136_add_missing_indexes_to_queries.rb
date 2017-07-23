@@ -1,4 +1,4 @@
-class AddMissingIndexesToQueries < ActiveRecord::Migration
+class AddMissingIndexesToQueries < ActiveRecord::Migration[4.2]
   def self.up
     add_index :queries, :project_id
     add_index :queries, :user_id

@@ -259,7 +259,7 @@ class UsersControllerTest < Redmine::ControllerTest
 
   def test_create_with_failure
     assert_no_difference 'User.count' do
-      post :create, :params => {:user => {}}
+      post :create, :params => {:user => {:login => 'foo'}}
     end
     assert_response :success
     assert_select_error /Email cannot be blank/
@@ -268,7 +268,9 @@ class UsersControllerTest < Redmine::ControllerTest
   def test_create_with_failure_sould_preserve_preference
     assert_no_difference 'User.count' do
       post :create, :params => {
-        :user => {},
+        :user => {
+          :login => 'foo'
+        },
         :pref => {
           'no_self_notified' => '1',
           'hide_mail' => '1',

@@ -23,7 +23,7 @@ class AttachmentTest < ActiveSupport::TestCase
   fixtures :users, :email_addresses, :projects, :roles, :members, :member_roles,
            :enabled_modules, :issues, :trackers, :attachments
 
-  self.use_transactional_fixtures = false
+  self.use_transactional_tests = false
 
   def setup
     set_tmp_attachments_directory

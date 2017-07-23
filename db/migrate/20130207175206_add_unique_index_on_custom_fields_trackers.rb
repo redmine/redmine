@@ -1,4 +1,4 @@
-class AddUniqueIndexOnCustomFieldsTrackers < ActiveRecord::Migration
+class AddUniqueIndexOnCustomFieldsTrackers < ActiveRecord::Migration[4.2]
   def up
     table_name = "#{CustomField.table_name_prefix}custom_fields_trackers#{CustomField.table_name_suffix}"
     duplicates = CustomField.connection.select_rows("SELECT custom_field_id, tracker_id FROM #{table_name} GROUP BY custom_field_id, tracker_id HAVING COUNT(*) > 1")

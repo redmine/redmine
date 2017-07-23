@@ -17,7 +17,6 @@
 
 class JournalDetail < ActiveRecord::Base
   belongs_to :journal
-  attr_protected :id
 
   def custom_field
     if property == 'cf'

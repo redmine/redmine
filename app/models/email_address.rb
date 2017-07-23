@@ -19,7 +19,6 @@ class EmailAddress < ActiveRecord::Base
   include Redmine::SafeAttributes
 
   belongs_to :user
-  attr_protected :id
 
   after_create :deliver_security_notification_create
   after_update :destroy_tokens, :deliver_security_notification_update
@@ -63,17 +62,17 @@ class EmailAddress < ActiveRecord::Base
 
   # send a security notification to user that an email has been changed (notified/not notified)
   def deliver_security_notification_update
-    if address_changed?
-      recipients = [user, address_was]
+    if saved_change_to_address?
+      recipients = [user, address_before_last_save]
       options = {
         message: :mail_body_security_notification_change_to,
         field: :field_mail,
         value: address
       }
-    elsif notify_changed?
+    elsif saved_change_to_notify?
       recipients = [user, address]
       options = {
-        message: notify_was ? :mail_body_security_notification_notify_disabled : :mail_body_security_notification_notify_enabled,
+        message: notify_before_last_save ? :mail_body_security_notification_notify_disabled : :mail_body_security_notification_notify_enabled,
         value: address
       }
     end
@@ -103,7 +102,7 @@ class EmailAddress < ActiveRecord::Base
   # This helps to keep the account secure in case the associated email account
   # was compromised.
   def destroy_tokens
-    if address_changed? || destroyed?
+    if saved_change_to_address? || destroyed?
       tokens = ['recovery']
       Token.where(:user_id => user_id, :action => tokens).delete_all
     end

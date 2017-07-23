@@ -39,7 +39,6 @@ class Version < ActiveRecord::Base
   validates :effective_date, :date => true
   validates_inclusion_of :status, :in => VERSION_STATUSES
   validates_inclusion_of :sharing, :in => VERSION_SHARINGS
-  attr_protected :id
 
   scope :named, lambda {|arg| where("LOWER(#{table_name}.name) = LOWER(?)", arg.to_s.strip)}
   scope :like, lambda {|arg|
@@ -302,10 +301,10 @@ class Version < ActiveRecord::Base
 
   # Update the issue's fixed versions. Used if a version's sharing changes.
   def update_issues_from_sharing_change
-    if sharing_changed?
-      if VERSION_SHARINGS.index(sharing_was).nil? ||
+    if saved_change_to_sharing?
+      if VERSION_SHARINGS.index(sharing_before_last_save).nil? ||
           VERSION_SHARINGS.index(sharing).nil? ||
-          VERSION_SHARINGS.index(sharing_was) > VERSION_SHARINGS.index(sharing)
+          VERSION_SHARINGS.index(sharing_before_last_save) > VERSION_SHARINGS.index(sharing)
         Issue.update_versions_from_sharing_change self
       end
     end

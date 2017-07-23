@@ -1,4 +1,4 @@
-class AddWorkflowsRuleFields < ActiveRecord::Migration
+class AddWorkflowsRuleFields < ActiveRecord::Migration[4.2]
   def up
     add_column :workflows, :field_name, :string, :limit => 30
     add_column :workflows, :rule, :string, :limit => 30

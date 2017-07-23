@@ -82,7 +82,6 @@ class Setting < ActiveRecord::Base
   validates_numericality_of :value, :only_integer => true, :if => Proc.new { |setting|
     (s = available_settings[setting.name]) && s['format'] == 'int'
   }
-  attr_protected :id
 
   # Hash used to cache setting values
   @cached_settings = {}

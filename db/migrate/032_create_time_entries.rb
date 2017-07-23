@@ -1,4 +1,4 @@
-class CreateTimeEntries < ActiveRecord::Migration
+class CreateTimeEntries < ActiveRecord::Migration[4.2]
   def self.up
     create_table :time_entries do |t|
       t.column :project_id,  :integer,  :null => false

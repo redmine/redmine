@@ -1,4 +1,4 @@
-class CreateImports < ActiveRecord::Migration
+class CreateImports < ActiveRecord::Migration[4.2]
   def change
     create_table :imports do |t|
       t.string :type

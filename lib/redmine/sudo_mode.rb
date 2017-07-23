@@ -31,7 +31,7 @@ module Redmine
       #
       # taken from https://github.com/brianhempel/hash_to_hidden_fields
       def hash_to_hidden_fields(hash)
-        cleaned_hash = hash.reject { |k, v| v.nil? }
+        cleaned_hash = hash.to_unsafe_h.reject { |k, v| v.nil? }
         pairs = cleaned_hash.to_query.split(Rack::Utils::DEFAULT_SEP)
         tags = pairs.map do |pair|
           key, value = pair.split('=', 2).map { |str| Rack::Utils.unescape(str) }

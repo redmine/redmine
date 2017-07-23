@@ -69,7 +69,6 @@ class Issue < ActiveRecord::Base
   validates :start_date, :date => true
   validates :due_date, :date => true
   validate :validate_issue, :validate_required_fields, :validate_permissions
-  attr_protected :id
 
   scope :visible, lambda {|*args|
     joins(:project).
@@ -108,16 +107,14 @@ class Issue < ActiveRecord::Base
   before_validation :default_assign, on: :create
   before_validation :clear_disabled_fields
   before_save :close_duplicates, :update_done_ratio_from_issue_status,
-              :force_updated_on_change, :update_closed_on, :set_assigned_to_was
-  after_save {|issue| issue.send :after_project_change if !issue.id_changed? && issue.project_id_changed?}
+              :force_updated_on_change, :update_closed_on
+  after_save {|issue| issue.send :after_project_change if !issue.saved_change_to_id? && issue.saved_change_to_project_id?}
   after_save :reschedule_following_issues, :update_nested_set_attributes,
              :update_parent_attributes, :delete_selected_attachments, :create_journal
   # Should be after_create but would be called before previous after_save callbacks
   after_save :after_create_from_copy
   after_destroy :update_parent_attributes
   after_create :send_notification
-  # Keep it at the end of after_save callbacks
-  after_save :clear_assigned_to_was
 
   # Returns a SQL conditions string used to find all issues visible by the specified user
   def self.visible_condition(user, options={})
@@ -208,7 +205,7 @@ class Issue < ActiveRecord::Base
     end
   end
 
-  def create_or_update
+  def create_or_update(*args)
     super
   ensure
     @status_was = nil
@@ -512,6 +509,10 @@ class Issue < ActiveRecord::Base
   # attr_accessible is too rough because we still want things like
   # Issue.new(:project => foo) to work
   def safe_attributes=(attrs, user=User.current)
+    if attrs.respond_to?(:to_unsafe_hash)
+      attrs = attrs.to_unsafe_hash
+    end
+
     @attributes_set_by = user
     return unless attrs.is_a?(Hash)
 
@@ -586,8 +587,7 @@ class Issue < ActiveRecord::Base
       attrs['custom_fields'].select! {|c| editable_custom_field_ids.include?(c['id'].to_s)}
     end
 
-    # mass-assignment security bypass
-    assign_attributes attrs, :without_protection => true
+    assign_attributes attrs
   end
 
   def disabled_core_fields
@@ -1007,32 +1007,27 @@ class Issue < ActiveRecord::Base
     statuses
   end
 
-  # Returns the previous assignee (user or group) if changed
-  def assigned_to_was
-    # assigned_to_id_was is reset before after_save callbacks
-    user_id = @previous_assigned_to_id || assigned_to_id_was
-    if user_id && user_id != assigned_to_id
-      @assigned_to_was ||= Principal.find_by_id(user_id)
-    end
-  end
-
   # Returns the original tracker
   def tracker_was
-    Tracker.find_by_id(tracker_id_was)
+    Tracker.find_by_id(tracker_id_in_database)
+  end
+
+  # Returns the previous assignee whenever we're before the save
+  # or in after_* callbacks
+  def previous_assignee
+    # This is how ActiveRecord::AttributeMethods::Dirty checks if we're in a after_* callback
+    if previous_assigned_to_id = mutation_tracker.equal?(mutations_from_database) ? assigned_to_id_in_database : assigned_to_id_before_last_save
+      Principal.find_by_id(previous_assigned_to_id)
+    end
   end
 
   # Returns the users that should be notified
   def notified_users
-    notified = []
     # Author and assignee are always notified unless they have been
     # locked or don't want to be notified
-    notified << author if author
-    if assigned_to
-      notified += (assigned_to.is_a?(Group) ? assigned_to.users : [assigned_to])
-    end
-    if assigned_to_was
-      notified += (assigned_to_was.is_a?(Group) ? assigned_to_was.users : [assigned_to_was])
-    end
+    notified = [author, assigned_to, previous_assignee].compact.uniq
+    notified = notified.map {|n| n.is_a?(Group) ? n.users : n}.flatten
+    notified.uniq!
     notified = notified.select {|u| u.active? && u.notify_about?(self)}
 
     notified += project.notified_users
@@ -1587,7 +1582,7 @@ class Issue < ActiveRecord::Base
 
     # Move subtasks that were in the same project
     children.each do |child|
-      next unless child.project_id == project_id_was
+      next unless child.project_id == project_id_before_last_save
       # Change project and keep project
       child.send :project=, project, true
       unless child.save
@@ -1644,7 +1639,7 @@ class Issue < ActiveRecord::Base
   end
 
   def update_nested_set_attributes
-    if parent_id_changed?
+    if saved_change_to_parent_id?
       update_nested_set_attributes_on_parent_change
     end
     remove_instance_variable(:@parent_issue) if instance_variable_defined?(:@parent_issue)
@@ -1652,7 +1647,7 @@ class Issue < ActiveRecord::Base
 
   # Updates the nested set for when an existing issue is moved
   def update_nested_set_attributes_on_parent_change
-    former_parent_id = parent_id_was
+    former_parent_id = parent_id_before_last_save
     # delete invalid relations of all descendants
     self_and_descendants.each do |issue|
       issue.relations.each do |relation|
@@ -1789,7 +1784,7 @@ class Issue < ActiveRecord::Base
 
   # Updates start/due dates of following issues
   def reschedule_following_issues
-    if start_date_changed? || due_date_changed?
+    if saved_change_to_start_date? || saved_change_to_due_date?
       relations_from.each do |relation|
         relation.set_issue_to_dates
       end
@@ -1846,18 +1841,6 @@ class Issue < ActiveRecord::Base
     if notify? && Setting.notified_events.include?('issue_added')
       Mailer.deliver_issue_add(self)
     end
-  end
-
-  # Stores the previous assignee so we can still have access
-  # to it during after_save callbacks (assigned_to_id_was is reset)
-  def set_assigned_to_was
-    @previous_assigned_to_id = assigned_to_id_was
-  end
-
-  # Clears the previous assignee at the end of after_save callbacks
-  def clear_assigned_to_was
-    @assigned_to_was = nil
-    @previous_assigned_to_id = nil
   end
 
   def clear_disabled_fields

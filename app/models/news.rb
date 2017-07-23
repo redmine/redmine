@@ -24,7 +24,6 @@ class News < ActiveRecord::Base
   validates_presence_of :title, :description
   validates_length_of :title, :maximum => 60
   validates_length_of :summary, :maximum => 255
-  attr_protected :id
 
   acts_as_attachable :edit_permission => :manage_news,
                      :delete_permission => :manage_news

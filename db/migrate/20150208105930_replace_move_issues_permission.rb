@@ -1,4 +1,4 @@
-class ReplaceMoveIssuesPermission < ActiveRecord::Migration
+class ReplaceMoveIssuesPermission < ActiveRecord::Migration[4.2]
   def self.up
     Role.all.each do |role|
       if role.has_permission?(:edit_issues) && !role.has_permission?(:move_issues)

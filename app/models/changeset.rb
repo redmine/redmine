@@ -46,7 +46,6 @@ class Changeset < ActiveRecord::Base
   validates_presence_of :repository_id, :revision, :committed_on, :commit_date
   validates_uniqueness_of :revision, :scope => :repository_id
   validates_uniqueness_of :scmid, :scope => :repository_id, :allow_nil => true
-  attr_protected :id
 
   scope :visible, lambda {|*args|
     joins(:repository => :project).

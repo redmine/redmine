@@ -1,4 +1,4 @@
-class PopulateIssuesClosedOn < ActiveRecord::Migration
+class PopulateIssuesClosedOn < ActiveRecord::Migration[4.2]
   def up
     closed_status_ids = IssueStatus.where(:is_closed => true).pluck(:id)
     if closed_status_ids.any?

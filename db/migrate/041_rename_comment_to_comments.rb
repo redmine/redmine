@@ -1,4 +1,4 @@
-class RenameCommentToComments < ActiveRecord::Migration
+class RenameCommentToComments < ActiveRecord::Migration[4.2]
   def self.up
     rename_column(:comments, :comment, :comments) if ActiveRecord::Base.connection.columns(Comment.table_name).detect{|c| c.name == "comment"}
     rename_column(:wiki_contents, :comment, :comments) if ActiveRecord::Base.connection.columns(WikiContent.table_name).detect{|c| c.name == "comment"}

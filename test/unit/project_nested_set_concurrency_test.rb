@@ -18,7 +18,7 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class ProjectNestedSetConcurrencyTest < ActiveSupport::TestCase
-  self.use_transactional_fixtures = false
+  self.use_transactional_tests = false
 
   def setup
     CustomField.delete_all

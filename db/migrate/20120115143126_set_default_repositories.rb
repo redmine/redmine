@@ -1,4 +1,4 @@
-class SetDefaultRepositories < ActiveRecord::Migration
+class SetDefaultRepositories < ActiveRecord::Migration[4.2]
   def self.up
     Repository.update_all(["is_default = ?", false])
     # Sets the last repository as default in case multiple repositories exist for the same project

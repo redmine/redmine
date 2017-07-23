@@ -23,7 +23,7 @@ module RedminePmTest
     
     # Cannot use transactional fixtures here: database
     # will be accessed from Redmine.pm with its own connection
-    self.use_transactional_fixtures = false
+    self.use_transactional_tests = false
   
     def test_dummy
     end

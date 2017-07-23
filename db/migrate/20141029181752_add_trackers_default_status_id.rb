@@ -1,4 +1,4 @@
-class AddTrackersDefaultStatusId < ActiveRecord::Migration
+class AddTrackersDefaultStatusId < ActiveRecord::Migration[4.2]
   def up
     add_column :trackers, :default_status_id, :integer
 

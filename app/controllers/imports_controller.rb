@@ -109,9 +109,9 @@ class ImportsController < ApplicationController
   end
 
   def update_from_params
-    if params[:import_settings].is_a?(Hash)
+    if params[:import_settings].present?
       @import.settings ||= {}
-      @import.settings.merge!(params[:import_settings])
+      @import.settings.merge!(params[:import_settings].to_unsafe_hash)
       @import.save!
     end
   end

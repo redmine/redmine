@@ -22,7 +22,6 @@ class Message < ActiveRecord::Base
   acts_as_tree :counter_cache => :replies_count, :order => "#{Message.table_name}.created_on ASC"
   acts_as_attachable
   belongs_to :last_reply, :class_name => 'Message'
-  attr_protected :id
 
   acts_as_searchable :columns => ['subject', 'content'],
                      :preload => {:board => :project},
@@ -69,9 +68,9 @@ class Message < ActiveRecord::Base
   end
 
   def update_messages_board
-    if board_id_changed?
+    if saved_change_to_board_id?
       Message.where(["id = ? OR parent_id = ?", root.id, root.id]).update_all({:board_id => board_id})
-      Board.reset_counters!(board_id_was)
+      Board.reset_counters!(board_id_before_last_save)
       Board.reset_counters!(board_id)
     end
   end

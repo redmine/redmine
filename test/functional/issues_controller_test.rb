@@ -6426,7 +6426,7 @@ class IssuesControllerTest < Redmine::ControllerTest
     @request.session[:user_id] = 1
 
     with_settings :gravatar_enabled => '1' do
-      get :show, :id => issue.id
+      get :show, :params => {:id => issue.id}
       assert_select 'div.gravatar-with-child' do
         assert_select 'img.gravatar', 1
       end
@@ -6440,7 +6440,7 @@ class IssuesControllerTest < Redmine::ControllerTest
     @request.session[:user_id] = 1
 
     with_settings :gravatar_enabled => '1' do
-      get :show, :id => issue.id
+      get :show, :params => {:id => issue.id}
       assert_select 'div.gravatar-with-child' do
         assert_select 'img.gravatar', 2
         assert_select 'img.gravatar-child', 1

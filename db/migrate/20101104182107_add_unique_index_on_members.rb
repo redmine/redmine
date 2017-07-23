@@ -1,4 +1,4 @@
-class AddUniqueIndexOnMembers < ActiveRecord::Migration
+class AddUniqueIndexOnMembers < ActiveRecord::Migration[4.2]
   def self.up
     # Clean and reassign MemberRole rows if needed
     MemberRole.where("member_id NOT IN (SELECT id FROM #{Member.table_name})").delete_all

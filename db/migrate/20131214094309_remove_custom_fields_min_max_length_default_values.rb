@@ -1,4 +1,4 @@
-class RemoveCustomFieldsMinMaxLengthDefaultValues < ActiveRecord::Migration
+class RemoveCustomFieldsMinMaxLengthDefaultValues < ActiveRecord::Migration[4.2]
   def up
     change_column :custom_fields, :min_length, :int, :default => nil, :null => true
     change_column :custom_fields, :max_length, :int, :default => nil, :null => true

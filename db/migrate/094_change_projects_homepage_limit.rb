@@ -1,4 +1,4 @@
-class ChangeProjectsHomepageLimit < ActiveRecord::Migration
+class ChangeProjectsHomepageLimit < ActiveRecord::Migration[4.2]
   def self.up
     change_column :projects, :homepage, :string, :limit => nil, :default => ''
   end

@@ -28,7 +28,6 @@ class Board < ActiveRecord::Base
   validates_length_of :name, :maximum => 30
   validates_length_of :description, :maximum => 255
   validate :validate_board
-  attr_protected :id
 
   scope :visible, lambda {|*args|
     joins(:project).

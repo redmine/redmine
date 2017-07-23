@@ -101,7 +101,7 @@ class UsersController < ApplicationController
         format.html {
           flash[:notice] = l(:notice_user_successful_create, :id => view_context.link_to(@user.login, user_path(@user)))
           if params[:continue]
-            attrs = params[:user].slice(:generate_password)
+            attrs = {:generate_password => @user.generate_password }
             redirect_to new_user_path(:user => attrs)
           else
             redirect_to edit_user_path(@user)

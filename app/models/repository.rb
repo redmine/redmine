@@ -48,7 +48,6 @@ class Repository < ActiveRecord::Base
   # Checks if the SCM is enabled when creating a repository
   validate :repo_create_validation, :on => :create
   validate :validate_repository_path
-  attr_protected :id
 
   safe_attributes 'identifier',
     'login',

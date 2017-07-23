@@ -1,4 +1,4 @@
-class ChangeRepositoriesExtraInfoLimit < ActiveRecord::Migration
+class ChangeRepositoriesExtraInfoLimit < ActiveRecord::Migration[4.2]
   def up
     if ActiveRecord::Base.connection.adapter_name =~ /mysql/i
       max_size = 16.megabytes

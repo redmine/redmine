@@ -19,7 +19,6 @@
 require 'redmine/scm/adapters/git_adapter'
 
 class Repository::Git < Repository
-  attr_protected :root_url
   validates_presence_of :url
 
   safe_attributes 'report_last_commit'

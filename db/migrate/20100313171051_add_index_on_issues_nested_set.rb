@@ -1,4 +1,4 @@
-class AddIndexOnIssuesNestedSet < ActiveRecord::Migration
+class AddIndexOnIssuesNestedSet < ActiveRecord::Migration[4.2]
   def self.up
     add_index :issues, [:root_id, :lft, :rgt]
   end

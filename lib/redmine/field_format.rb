@@ -972,7 +972,7 @@ module Redmine
       end
 
       def after_save_custom_value(custom_field, custom_value)
-        if custom_value.value_changed?
+        if custom_value.saved_change_to_value?
           if custom_value.value.present?
             attachment = Attachment.where(:id => custom_value.value.to_s).first
             if attachment
@@ -980,8 +980,8 @@ module Redmine
               attachment.save!
             end
           end
-          if custom_value.value_was.present?
-            attachment = Attachment.where(:id => custom_value.value_was.to_s).first
+          if custom_value.value_before_last_save.present?
+            attachment = Attachment.where(:id => custom_value.value_before_last_save.to_s).first
             if attachment
               attachment.destroy
             end

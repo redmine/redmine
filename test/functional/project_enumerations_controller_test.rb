@@ -29,7 +29,7 @@ class ProjectEnumerationsControllerTest < Redmine::ControllerTest
            :custom_fields_trackers, :custom_values,
            :time_entries
 
-  self.use_transactional_fixtures = false
+  self.use_transactional_tests = false
 
   def setup
     @request.session[:user_id] = nil

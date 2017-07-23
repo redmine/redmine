@@ -27,7 +27,7 @@ class IssueTransactionTest < ActiveSupport::TestCase
            :custom_fields, :custom_fields_projects, :custom_fields_trackers, :custom_values,
            :time_entries
 
-  self.use_transactional_fixtures = false
+  self.use_transactional_tests = false
 
   def test_invalid_move_to_another_project
     lft1 = new_issue_lft

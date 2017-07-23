@@ -1,4 +1,4 @@
-class AddCommentsPermissions < ActiveRecord::Migration
+class AddCommentsPermissions < ActiveRecord::Migration[4.2]
   # model removed
   class Permission < ActiveRecord::Base; end
 

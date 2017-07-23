@@ -1,4 +1,4 @@
-class ChangeJournalDetailsValuesToText < ActiveRecord::Migration
+class ChangeJournalDetailsValuesToText < ActiveRecord::Migration[4.2]
   def self.up
     change_column :journal_details, :old_value, :text
     change_column :journal_details, :value, :text

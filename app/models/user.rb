@@ -99,9 +99,6 @@ class User < Principal
   attr_accessor :last_before_login_on
   attr_accessor :remote_ip
 
-  # Prevents unauthorized assignments
-  attr_protected :password, :password_confirmation, :hashed_password
-
   LOGIN_LENGTH_LIMIT = 60
   MAIL_LENGTH_LIMIT = 60
 
@@ -771,9 +768,9 @@ class User < Principal
         case mail_notification
         when 'selected', 'only_my_events'
           # user receives notifications for created/assigned issues on unselected projects
-          object.author == self || is_or_belongs_to?(object.assigned_to) || is_or_belongs_to?(object.assigned_to_was)
+          object.author == self || is_or_belongs_to?(object.assigned_to) || is_or_belongs_to?(object.previous_assignee)
         when 'only_assigned'
-          is_or_belongs_to?(object.assigned_to) || is_or_belongs_to?(object.assigned_to_was)
+          is_or_belongs_to?(object.assigned_to) || is_or_belongs_to?(object.previous_assignee)
         when 'only_owner'
           object.author == self
         end
@@ -845,7 +842,7 @@ class User < Principal
   # This helps to keep the account secure in case the associated email account
   # was compromised.
   def destroy_tokens
-    if hashed_password_changed? || (status_changed? && !active?)
+    if saved_change_to_hashed_password? || (saved_change_to_status? && !active?)
       tokens = ['recovery', 'autologin', 'session']
       Token.where(:user_id => id, :action => tokens).delete_all
     end
@@ -900,16 +897,16 @@ class User < Principal
     }
 
     deliver = false
-    if (admin? && id_changed? && active?) ||    # newly created admin
-       (admin? && admin_changed? && active?) || # regular user became admin
-       (admin? && status_changed? && active?)   # locked admin became active again
+    if (admin? && saved_change_to_id? && active?) ||    # newly created admin
+       (admin? && saved_change_to_admin? && active?) || # regular user became admin
+       (admin? && saved_change_to_status? && active?)   # locked admin became active again
 
        deliver = true
        options[:message] = :mail_body_security_notification_add
 
     elsif (admin? && destroyed? && active?) ||      # active admin user was deleted
-          (!admin? && admin_changed? && active?) || # admin is no longer admin
-          (admin? && status_changed? && !active?)   # admin was locked
+          (!admin? && saved_change_to_admin? && active?) || # admin is no longer admin
+          (admin? && saved_change_to_status? && !active?)   # admin was locked
 
           deliver = true
           options[:message] = :mail_body_security_notification_remove

@@ -30,7 +30,6 @@ class IssueStatus < ActiveRecord::Base
   validates_uniqueness_of :name
   validates_length_of :name, :maximum => 30
   validates_inclusion_of :default_done_ratio, :in => 0..100, :allow_nil => true
-  attr_protected :id
 
   scope :sorted, lambda { order(:position) }
   scope :named, lambda {|arg| where("LOWER(#{table_name}.name) = LOWER(?)", arg.to_s.strip)}
@@ -89,7 +88,7 @@ class IssueStatus < ActiveRecord::Base
 
   # Updates issues closed_on attribute when an existing status is set as closed.
   def handle_is_closed_change
-    if is_closed_changed? && is_closed == true
+    if saved_change_to_is_closed? && is_closed == true
       # First we update issues that have a journal for when the current status was set,
       # a subselect is used to update all issues with a single query
       subquery = Journal.joins(:details).

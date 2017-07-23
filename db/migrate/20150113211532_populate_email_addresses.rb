@@ -1,4 +1,4 @@
-class PopulateEmailAddresses < ActiveRecord::Migration
+class PopulateEmailAddresses < ActiveRecord::Migration[4.2]
   def self.up
     t = EmailAddress.connection.quoted_true
     n = EmailAddress.connection.quoted_date(Time.now)

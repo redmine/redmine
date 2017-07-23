@@ -17,7 +17,7 @@
 
 require File.expand_path('../../test_helper', __FILE__)
 
-class RepositoriesCvsControllerTest < Redmine::ControllerTest
+class RepositoriesCvsControllerTest < Redmine::RepositoryControllerTest
   tests RepositoriesController
 
   fixtures :projects, :users, :email_addresses, :roles, :members, :member_roles,
@@ -31,6 +31,7 @@ class RepositoriesCvsControllerTest < Redmine::ControllerTest
   NUM_REV = 7
 
   def setup
+    super
     Setting.default_language = 'en'
     User.current = nil
 

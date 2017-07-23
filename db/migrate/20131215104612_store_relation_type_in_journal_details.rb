@@ -1,4 +1,4 @@
-class StoreRelationTypeInJournalDetails < ActiveRecord::Migration
+class StoreRelationTypeInJournalDetails < ActiveRecord::Migration[4.2]
 
   MAPPING = {
     "label_relates_to" => "relates",

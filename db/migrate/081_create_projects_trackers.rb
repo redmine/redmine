@@ -1,4 +1,4 @@
-class CreateProjectsTrackers < ActiveRecord::Migration
+class CreateProjectsTrackers < ActiveRecord::Migration[4.2]
   def self.up
     create_table :projects_trackers, :id => false do |t|
       t.column :project_id, :integer, :default => 0, :null => false

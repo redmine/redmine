@@ -1,4 +1,4 @@
-class ChangeUsersMailNotificationToString < ActiveRecord::Migration
+class ChangeUsersMailNotificationToString < ActiveRecord::Migration[4.2]
   def self.up
     rename_column :users, :mail_notification, :mail_notification_bool
     add_column :users, :mail_notification, :string, :default => '', :null => false

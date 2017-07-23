@@ -138,7 +138,7 @@ class MyController < ApplicationController
     block_settings = params[:settings] || {}
 
     block_settings.each do |block, settings|
-      @user.pref.update_block_settings(block, settings)
+      @user.pref.update_block_settings(block, settings.to_unsafe_hash)
     end
     @user.pref.save
     @updated_blocks = block_settings.keys

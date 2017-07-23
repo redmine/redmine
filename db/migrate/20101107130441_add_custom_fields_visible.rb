@@ -1,4 +1,4 @@
-class AddCustomFieldsVisible < ActiveRecord::Migration
+class AddCustomFieldsVisible < ActiveRecord::Migration[4.2]
   def self.up
     add_column :custom_fields, :visible, :boolean, :null => false, :default => true
     CustomField.update_all("visible = #{CustomField.connection.quoted_true}")

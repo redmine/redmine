@@ -3045,14 +3045,14 @@ class IssueTest < ActiveSupport::TestCase
     assert_equal IssueStatus.find(3), issue.status
   end
 
-  def test_assigned_to_was_with_a_group
+  def test_previous_assignee_with_a_group
     group = Group.find(10)
     Member.create!(:project_id => 1, :principal => group, :role_ids => [1])
 
     with_settings :issue_group_assignment => '1' do
       issue = Issue.generate!(:assigned_to => group)
       issue.reload.assigned_to = nil
-      assert_equal group, issue.assigned_to_was
+      assert_equal group, issue.previous_assignee
     end
   end
 

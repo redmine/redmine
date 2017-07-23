@@ -1,4 +1,4 @@
-class AddMissingIndexesToJournals < ActiveRecord::Migration
+class AddMissingIndexesToJournals < ActiveRecord::Migration[4.2]
   def self.up
     add_index :journals, :user_id
     add_index :journals, :journalized_id

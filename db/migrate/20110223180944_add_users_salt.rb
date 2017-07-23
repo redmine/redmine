@@ -1,4 +1,4 @@
-class AddUsersSalt < ActiveRecord::Migration
+class AddUsersSalt < ActiveRecord::Migration[4.2]
   def self.up
     add_column :users, :salt, :string, :limit => 64
   end

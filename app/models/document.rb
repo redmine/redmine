@@ -31,7 +31,6 @@ class Document < ActiveRecord::Base
 
   validates_presence_of :project, :title, :category
   validates_length_of :title, :maximum => 255
-  attr_protected :id
 
   after_create :send_notification
 

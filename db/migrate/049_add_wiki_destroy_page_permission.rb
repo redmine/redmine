@@ -1,4 +1,4 @@
-class AddWikiDestroyPagePermission < ActiveRecord::Migration
+class AddWikiDestroyPagePermission < ActiveRecord::Migration[4.2]
   # model removed
   class Permission < ActiveRecord::Base; end
 

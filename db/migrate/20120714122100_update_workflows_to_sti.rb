@@ -1,4 +1,4 @@
-class UpdateWorkflowsToSti < ActiveRecord::Migration
+class UpdateWorkflowsToSti < ActiveRecord::Migration[4.2]
   def up
     WorkflowRule.update_all "type = 'WorkflowTransition'"
   end

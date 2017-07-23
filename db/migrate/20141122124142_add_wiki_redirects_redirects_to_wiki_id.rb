@@ -1,4 +1,4 @@
-class AddWikiRedirectsRedirectsToWikiId < ActiveRecord::Migration
+class AddWikiRedirectsRedirectsToWikiId < ActiveRecord::Migration[4.2]
   def self.up
     add_column :wiki_redirects, :redirects_to_wiki_id, :integer
     WikiRedirect.update_all "redirects_to_wiki_id = wiki_id"

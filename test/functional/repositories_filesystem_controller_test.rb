@@ -17,7 +17,7 @@
 
 require File.expand_path('../../test_helper', __FILE__)
 
-class RepositoriesFilesystemControllerTest < Redmine::ControllerTest
+class RepositoriesFilesystemControllerTest < Redmine::RepositoryControllerTest
   tests RepositoriesController
 
   fixtures :projects, :users, :email_addresses, :roles, :members, :member_roles,
@@ -27,6 +27,7 @@ class RepositoriesFilesystemControllerTest < Redmine::ControllerTest
   PRJ_ID = 3
 
   def setup
+    super
     @ruby19_non_utf8_pass = Encoding.default_external.to_s != 'UTF-8'
     User.current = nil
     Setting.enabled_scm << 'Filesystem' unless Setting.enabled_scm.include?('Filesystem')

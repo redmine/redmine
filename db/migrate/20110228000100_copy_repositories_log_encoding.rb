@@ -1,4 +1,4 @@
-class CopyRepositoriesLogEncoding < ActiveRecord::Migration
+class CopyRepositoriesLogEncoding < ActiveRecord::Migration[4.2]
   def self.up
     encoding = Setting.commit_logs_encoding.to_s.strip
     encoding = encoding.blank? ? 'UTF-8' : encoding

@@ -23,7 +23,6 @@ class Repository::Mercurial < Repository
            lambda {order("#{Changeset.table_name}.id DESC")},
            :foreign_key => 'repository_id'
 
-  attr_protected        :root_url
   validates_presence_of :url
 
   # number of changesets to fetch at once

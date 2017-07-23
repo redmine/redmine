@@ -1,4 +1,4 @@
-class AddDeleteWikiPagesAttachmentsPermission < ActiveRecord::Migration
+class AddDeleteWikiPagesAttachmentsPermission < ActiveRecord::Migration[4.2]
   def self.up
     Role.all.each do |r|
       r.add_permission!(:delete_wiki_pages_attachments) if r.has_permission?(:edit_wiki_pages)

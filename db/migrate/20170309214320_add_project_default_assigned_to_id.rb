@@ -1,4 +1,4 @@
-class AddProjectDefaultAssignedToId < ActiveRecord::Migration
+class AddProjectDefaultAssignedToId < ActiveRecord::Migration[4.2]
   def up
     add_column :projects, :default_assigned_to_id, :integer, :default => nil
     # Try to copy existing settings from the plugin if redmine_default_assign plugin was used

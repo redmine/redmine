@@ -1,4 +1,4 @@
-class AddIssuesClosedOn < ActiveRecord::Migration
+class AddIssuesClosedOn < ActiveRecord::Migration[4.2]
   def up
     add_column :issues, :closed_on, :datetime, :default => nil
   end

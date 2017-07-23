@@ -1,4 +1,4 @@
-class SplitDocumentsPermissions < ActiveRecord::Migration
+class SplitDocumentsPermissions < ActiveRecord::Migration[4.2]
   def up
     # :manage_documents permission split into 3 permissions:
     # :add_documents, :edit_documents and :delete_documents

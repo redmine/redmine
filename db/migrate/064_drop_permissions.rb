@@ -1,4 +1,4 @@
-class DropPermissions < ActiveRecord::Migration
+class DropPermissions < ActiveRecord::Migration[4.2]
   def self.up
     drop_table :permissions
     drop_table :permissions_roles

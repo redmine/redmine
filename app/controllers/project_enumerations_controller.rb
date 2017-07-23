@@ -20,15 +20,8 @@ class ProjectEnumerationsController < ApplicationController
   before_action :authorize
 
   def update
-    if params[:enumerations]
-      saved = Project.transaction do
-        params[:enumerations].each do |id, activity|
-          @project.update_or_create_time_entry_activity(id, activity)
-        end
-      end
-      if saved
-        flash[:notice] = l(:notice_successful_update)
-      end
+    if @project.update_or_create_time_entry_activities(update_params)
+      flash[:notice] = l(:notice_successful_update)
     end
 
     redirect_to settings_project_path(@project, :tab => 'activities')
@@ -40,5 +33,13 @@ class ProjectEnumerationsController < ApplicationController
     end
     flash[:notice] = l(:notice_successful_update)
     redirect_to settings_project_path(@project, :tab => 'activities')
+  end
+
+  private
+
+  def update_params
+    params.
+      permit(:enumerations => [:parent_id, :active, {:custom_field_values => {}}]).
+      require(:enumerations)
   end
 end

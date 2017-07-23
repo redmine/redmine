@@ -1,4 +1,4 @@
-class InsertBuiltinGroups < ActiveRecord::Migration
+class InsertBuiltinGroups < ActiveRecord::Migration[4.2]
   def up
     Group.reset_column_information
 

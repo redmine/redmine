@@ -1,4 +1,4 @@
-class ChangeWikiContentsCommentsLimitTo1024 < ActiveRecord::Migration
+class ChangeWikiContentsCommentsLimitTo1024 < ActiveRecord::Migration[4.2]
   def self.up
     change_column :wiki_content_versions, :comments, :string, :limit => 1024, :default => ''
     change_column :wiki_contents, :comments, :string, :limit => 1024, :default => ''

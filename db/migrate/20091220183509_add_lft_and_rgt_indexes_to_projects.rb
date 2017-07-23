@@ -1,4 +1,4 @@
-class AddLftAndRgtIndexesToProjects < ActiveRecord::Migration
+class AddLftAndRgtIndexesToProjects < ActiveRecord::Migration[4.2]
   def self.up
     add_index :projects, :lft
     add_index :projects, :rgt

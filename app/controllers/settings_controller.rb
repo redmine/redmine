@@ -34,7 +34,7 @@ class SettingsController < ApplicationController
   def edit
     @notifiables = Redmine::Notifiable.all
     if request.post?
-      errors = Setting.set_all_from_params(params[:settings])
+      errors = Setting.set_all_from_params(params[:settings].to_unsafe_hash)
       if errors.blank?
         flash[:notice] = l(:notice_successful_update)
         redirect_to settings_path(:tab => params[:tab])

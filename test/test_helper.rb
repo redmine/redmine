@@ -49,7 +49,7 @@ end
 class ActiveSupport::TestCase
   include ActionDispatch::TestProcess
 
-  self.use_transactional_fixtures = true
+  self.use_transactional_tests = true
   self.use_instantiated_fixtures  = false
 
   def uploaded_test_file(name, mime)
@@ -324,16 +324,16 @@ module Redmine
       end
       assert_equal expected_filters.size, filter_init.scan("addFilter").size, "filters counts don't match"
     end
+  end
 
-    def process(action, http_method = 'GET', *args)
-      parameters, session, flash = *args
-      if args.size == 1 && parameters[:xhr] == true
-        xhr http_method.downcase.to_sym, action, parameters.except(:xhr)
-      elsif parameters && (parameters.key?(:params) || parameters.key?(:session) || parameters.key?(:flash))
-        super action, http_method, parameters[:params], parameters[:session], parameters[:flash]
-      else
-        super
-      end
+  class RepositoryControllerTest < ControllerTest
+    def setup
+      super
+      # We need to explicitly set Accept header to html otherwise
+      # requests that ends with a known format like:
+      # GET /projects/foo/repository/entry/image.png would be
+      # treated as image/png requests, resulting in a 406 error.
+      request.env["HTTP_ACCEPT"] = "text/html"
     end
   end
 
@@ -344,19 +344,11 @@ module Redmine
       assert_nil session[:user_id]
       assert_response :success
 
-      post "/login", :username => login, :password => password
+      post "/login", :params => {
+          :username => login,
+          :password => password
+        }
       assert_equal login, User.find(session[:user_id]).login
-    end
-
-    %w(get post patch put delete head).each do |http_method|
-      class_eval %Q"
-        def #{http_method}(path, parameters = nil, headers_or_env = nil)
-          if headers_or_env.nil? && parameters.is_a?(Hash) && (parameters.key?(:params) || parameters.key?(:headers))
-            super path, parameters[:params], parameters[:headers]
-          else
-            super
-          end
-        end"
     end
 
     def credentials(user, password=nil)
@@ -390,7 +382,9 @@ module Redmine
       def upload(format, content, credentials)
         set_tmp_attachments_directory
         assert_difference 'Attachment.count' do
-          post "/uploads.#{format}", content, {"CONTENT_TYPE" => 'application/octet-stream'}.merge(credentials)
+          post "/uploads.#{format}",
+            :params => content,
+            :headers => {"CONTENT_TYPE" => 'application/octet-stream'}.merge(credentials)
           assert_response :created
         end
         data = response_data

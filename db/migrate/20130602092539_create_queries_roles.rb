@@ -1,4 +1,4 @@
-class CreateQueriesRoles < ActiveRecord::Migration
+class CreateQueriesRoles < ActiveRecord::Migration[4.2]
   def self.up
     create_table :queries_roles, :id => false do |t|
       t.column :query_id, :integer, :null => false

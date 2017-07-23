@@ -1,4 +1,4 @@
-class SetDocAndFilesNotifications < ActiveRecord::Migration
+class SetDocAndFilesNotifications < ActiveRecord::Migration[4.2]
   # model removed
   class Permission < ActiveRecord::Base; end
 

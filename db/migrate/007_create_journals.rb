@@ -1,4 +1,4 @@
-class CreateJournals < ActiveRecord::Migration
+class CreateJournals < ActiveRecord::Migration[4.2]
 
   # model removed, but needed for data migration
   class IssueHistory < ActiveRecord::Base; belongs_to :issue; end

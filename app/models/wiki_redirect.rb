@@ -20,7 +20,6 @@ class WikiRedirect < ActiveRecord::Base
 
   validates_presence_of :wiki_id, :title, :redirects_to
   validates_length_of :title, :redirects_to, :maximum => 255
-  attr_protected :id
 
   before_save :set_redirects_to_wiki_id
 

@@ -1,4 +1,4 @@
-class InsertAllowedStatusesForNewIssues < ActiveRecord::Migration
+class InsertAllowedStatusesForNewIssues < ActiveRecord::Migration[4.2]
   def self.up
     # Adds the default status for all trackers and roles
     sql = "INSERT INTO #{WorkflowTransition.table_name} (tracker_id, old_status_id, new_status_id, role_id, type)" +

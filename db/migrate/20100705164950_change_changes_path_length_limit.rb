@@ -1,4 +1,4 @@
-class ChangeChangesPathLengthLimit < ActiveRecord::Migration
+class ChangeChangesPathLengthLimit < ActiveRecord::Migration[4.2]
   def self.up
     # these are two steps to please MySQL 5 on Win32
     change_column :changes, :path, :text, :default => nil, :null => true
