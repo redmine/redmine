@@ -86,9 +86,10 @@ group :test do
   gem "rails-dom-testing"
   gem "mocha"
   gem "simplecov", "~> 0.14.1", :require => false
-  # For running UI tests
-  gem "capybara"
-  gem "selenium-webdriver", "~> 2.53.4"
+  # For running system tests
+  gem 'puma', '~> 3.7'
+  gem "capybara", '~> 2.13'
+  gem "selenium-webdriver"
 end
 
 local_gemfile = File.join(File.dirname(__FILE__), "Gemfile.local")

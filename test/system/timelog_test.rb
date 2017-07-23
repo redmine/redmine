@@ -17,9 +17,11 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../base', __FILE__)
+require File.expand_path('../../application_system_test_case', __FILE__)
 
-class Redmine::UiTest::TimelogTest < Redmine::UiTest::Base
+Capybara.default_max_wait_time = 2
+
+class TimelogTest < ApplicationSystemTestCase
   fixtures :projects, :users, :email_addresses, :roles, :members, :member_roles,
            :trackers, :projects_trackers, :enabled_modules, :issue_statuses, :issues,
            :enumerations, :custom_fields, :custom_values, :custom_fields_trackers,
@@ -85,10 +87,10 @@ class Redmine::UiTest::TimelogTest < Redmine::UiTest::Base
     visit '/settings?tab=timelog'
     # Remove a column
     select 'Comment', :from => 'Selected Columns'
-    click_on "â†"
+    click_on "←"
     # Add a column
     select 'Tracker', :from => 'Available Columns'
-    click_on "â†’"
+    click_on "→"
     click_on 'Save'
 
     # Display the list with updated settings

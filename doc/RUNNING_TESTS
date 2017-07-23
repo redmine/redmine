@@ -70,4 +70,4 @@ You need to have ChromeDriver installed and available in your PATH:
 https://sites.google.com/a/chromium.org/chromedriver/
 
 Capybara tests can be run with:
-`rake test:ui`
+`rails test:system`
