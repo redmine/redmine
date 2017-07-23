@@ -61,7 +61,7 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   end
 
   def downloaded_files
-    Dir.glob("#{DOWNLOADS_PATH}/*").reject {|f| f=~/crdownload$/}
+    Dir.glob("#{DOWNLOADS_PATH}/*").reject {|f| f=~/\.(tmp|crdownload)$/}
   end
 
   # Returns the path of the download file
