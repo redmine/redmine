@@ -1,2 +1,0 @@
-#!/usr/bin/env ruby
-abort "script/rails no longer exists, please use bin/rails instead."
