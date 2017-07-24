@@ -53,7 +53,8 @@ module ApplicationHelper
     if user.is_a?(User)
       name = h(user.name(options[:format]))
       if user.active? || (User.current.admin? && user.logged?)
-        link_to name, user_path(user), :class => user.css_classes
+        only_path = options[:only_path].nil? ? true : options[:only_path]
+        link_to name, user_url(user, :only_path => only_path), :class => user.css_classes
       else
         name
       end
@@ -905,7 +906,7 @@ module ApplicationHelper
               end
             when 'user'
               u = User.visible.where(:id => oid, :type => 'User').first
-              link = link_to_user(u) if u
+              link = link_to_user(u, :only_path => only_path) if u
             end
           elsif sep == ':'
             name = remove_double_quotes(identifier)
@@ -966,12 +967,12 @@ module ApplicationHelper
               end
             when 'user'
               u = User.visible.where(:login => name, :type => 'User').first
-              link = link_to_user(u) if u
+              link = link_to_user(u, :only_path => only_path) if u
             end
           elsif sep == "@"
             name = remove_double_quotes(identifier)
             u = User.visible.where(:login => name, :type => 'User').first
-            link = link_to_user(u) if u
+            link = link_to_user(u, :only_path => only_path) if u
           end
         end
         (leading + (link || "#{project_prefix}#{prefix}#{repo_prefix}#{sep}#{identifier}#{comment_suffix}"))

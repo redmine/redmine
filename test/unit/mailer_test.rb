@@ -193,6 +193,14 @@ class MailerTest < ActiveSupport::TestCase
     Redmine::Utils.relative_url_root = relative_url_root
   end
 
+  def test_link_to_user_in_email
+    issue = Issue.generate!(:description => '@jsmith')
+    assert Mailer.deliver_issue_add(issue)
+    assert_select_email do
+      assert_select "a[href=?]", "http://localhost:3000/users/2", :text => 'John Smith'
+    end
+  end
+
   def test_email_headers
     issue = Issue.find(1)
     Mailer.deliver_issue_add(issue)
