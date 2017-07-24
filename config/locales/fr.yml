@@ -15,8 +15,11 @@ fr:
 
     day_names: [dimanche, lundi, mardi, mercredi, jeudi, vendredi, samedi]
     abbr_day_names: [dim, lun, mar, mer, jeu, ven, sam]
+
+    # Don't forget the nil at the beginning; there's no such thing as a 0th month
     month_names: [~, janvier, février, mars, avril, mai, juin, juillet, août, septembre, octobre, novembre, décembre]
     abbr_month_names: [~, jan., fév., mar., avr., mai, juin, juil., août, sept., oct., nov., déc.]
+    # Used in date_select and datime_select.
     order:
       - :day
       - :month
@@ -154,15 +157,16 @@ fr:
   general_text_Yes: 'Oui'
   general_text_no: 'non'
   general_text_yes: 'oui'
-  general_lang_name: 'Français'
+  general_lang_name: 'French (Français)'
   general_csv_separator: ';'
   general_csv_decimal_separator: ','
   general_csv_encoding: ISO-8859-1
-  general_pdf_encoding: UTF-8
+  general_pdf_fontname: freesans
+  general_pdf_monospaced_fontname: freemono
   general_first_day_of_week: '1'
 
   notice_account_updated: Le compte a été mis à jour avec succès.
-  notice_account_invalid_creditentials: Identifiant ou mot de passe invalide.
+  notice_account_invalid_credentials: Identifiant ou mot de passe invalide.
   notice_account_password_updated: Mot de passe mis à jour avec succès.
   notice_account_wrong_password: Mot de passe incorrect
   notice_account_register_done: Un message contenant les instructions pour activer votre compte vous a été envoyé à l'adresse %{email}.
@@ -183,35 +187,55 @@ fr:
   notice_email_sent: "Un email a été envoyé à %{value}"
   notice_email_error: "Erreur lors de l'envoi de l'email (%{value})"
   notice_feeds_access_key_reseted: "Votre clé d'accès aux flux Atom a été réinitialisée."
+  notice_api_access_key_reseted: Votre clé d'accès API a été réinitialisée.
   notice_failed_to_save_issues: "%{count} demande(s) sur les %{total} sélectionnées n'ont pas pu être mise(s) à jour : %{ids}."
   notice_failed_to_save_time_entries: "%{count} temps passé(s) sur les %{total} sélectionnés n'ont pas pu être mis à jour: %{ids}."
+  notice_failed_to_save_members: "Erreur lors de la sauvegarde des membres: %{errors}."
   notice_no_issue_selected: "Aucune demande sélectionnée ! Cochez les demandes que vous voulez mettre à jour."
   notice_account_pending: "Votre compte a été créé et attend l'approbation de l'administrateur."
   notice_default_data_loaded: Paramétrage par défaut chargé avec succès.
   notice_unable_delete_version: Impossible de supprimer cette version.
+  notice_unable_delete_time_entry: Impossible de supprimer le temps passé.
   notice_issue_done_ratios_updated: L'avancement des demandes a été mis à jour.
-  notice_api_access_key_reseted: Votre clé d'accès API a été réinitialisée.
   notice_gantt_chart_truncated: "Le diagramme a été tronqué car il excède le nombre maximal d'éléments pouvant être affichés (%{max})"
   notice_issue_successful_create: "Demande %{id} créée."
   notice_issue_update_conflict: "La demande a été mise à jour par un autre utilisateur pendant que vous la modifiez."
   notice_account_deleted: "Votre compte a été définitivement supprimé."
   notice_user_successful_create: "Utilisateur %{id} créé."
   notice_new_password_must_be_different: Votre nouveau mot de passe doit être différent de votre mot de passe actuel
+  notice_import_finished: "%{count} éléments ont été importé(s)"
+  notice_import_finished_with_errors: "%{count} élément(s) sur %{total} n'ont pas pu être importé(s)"
 
   error_can_t_load_default_data: "Une erreur s'est produite lors du chargement du paramétrage : %{value}"
   error_scm_not_found: "L'entrée et/ou la révision demandée n'existe pas dans le dépôt."
   error_scm_command_failed: "Une erreur s'est produite lors de l'accès au dépôt : %{value}"
   error_scm_annotate: "L'entrée n'existe pas ou ne peut pas être annotée."
+  error_scm_annotate_big_text_file: Cette entrée ne peut pas être annotée car elle excède la taille maximale.
   error_issue_not_found_in_project: "La demande n'existe pas ou n'appartient pas à ce projet"
+  error_no_tracker_in_project: "Aucun tracker n'est associé à ce projet. Vérifier la configuration du projet."
+  error_no_default_issue_status: "Aucun statut de demande n'est défini par défaut. Vérifier votre configuration (Administration -> Statuts de demandes)."
+  error_can_not_delete_custom_field: Impossible de supprimer le champ personnalisé
+  error_can_not_delete_tracker: Ce tracker contient des demandes et ne peut pas être supprimé.
+  error_can_not_remove_role: Ce rôle est utilisé et ne peut pas être supprimé.
   error_can_not_reopen_issue_on_closed_version: 'Une demande assignée à une version fermée ne peut pas être réouverte'
   error_can_not_archive_project: "Ce projet ne peut pas être archivé"
+  error_issue_done_ratios_not_updated: L'avancement des demandes n'a pas pu être mis à jour.
   error_workflow_copy_source: 'Veuillez sélectionner un tracker et/ou un rôle source'
   error_workflow_copy_target: 'Veuillez sélectionner les trackers et rôles cibles'
-  error_issue_done_ratios_not_updated: L'avancement des demandes n'a pas pu être mis à jour.
+  error_unable_delete_issue_status: Impossible de supprimer le statut de demande
+  error_unable_to_connect: Connexion impossible (%{value})
   error_attachment_too_big: Ce fichier ne peut pas être attaché car il excède la taille maximale autorisée (%{max_size})
   error_session_expired: "Votre session a expiré. Veuillez vous reconnecter."
-
   warning_attachments_not_saved: "%{count} fichier(s) n'ont pas pu être sauvegardés."
+  error_password_expired: "Votre mot de passe a expiré ou nécessite d'être changé."
+  error_invalid_file_encoding: "Le fichier n'est pas un fichier %{encoding} valide"
+  error_invalid_csv_file_or_settings: "Le fichier n'est pas un fichier CSV ou n'est pas conforme aux paramètres sélectionnés"
+  error_can_not_read_import_file: "Une erreur est survenue lors de la lecture du fichier à importer"
+  error_attachment_extension_not_allowed: "L'extension %{extension} n'est pas autorisée"
+  error_ldap_bind_credentials: "Identifiant ou mot de passe LDAP incorrect"
+  error_no_tracker_allowed_for_new_issue_in_project: "Le projet ne dispose d'aucun tracker sur lequel vous pouvez créer une demande"
+  error_no_projects_with_tracker_allowed_for_new_issue: "Aucun projet ne dispose d'un tracker sur lequel vous pouvez créer une demande"
+  error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: "Le temps passé ne peut pas être réaffecté à une demande qui va être supprimée"
 
   mail_subject_lost_password: "Votre mot de passe %{value}"
   mail_body_lost_password: 'Pour changer votre mot de passe, cliquez sur le lien suivant :'
@@ -227,7 +251,8 @@ fr:
   mail_body_wiki_content_added: "La page wiki '%{id}' a été ajoutée par %{author}."
   mail_subject_wiki_content_updated: "Page wiki '%{id}' mise à jour"
   mail_body_wiki_content_updated: "La page wiki '%{id}' a été mise à jour par %{author}."
-
+  mail_body_settings_updated: "Les paramètres suivants ont été modifiés :"
+  mail_body_password_updated: "Votre mot de passe a été changé."
 
   field_name: Nom
   field_description: Description
@@ -236,6 +261,7 @@ fr:
   field_firstname: Prénom
   field_lastname: Nom
   field_mail: Email
+  field_address: Email
   field_filename: Fichier
   field_filesize: Taille
   field_downloads: Téléchargements
@@ -265,6 +291,7 @@ fr:
   field_priority: Priorité
   field_fixed_version: Version cible
   field_user: Utilisateur
+  field_principal: Principal
   field_role: Rôle
   field_homepage: Site web
   field_is_public: Public
@@ -309,6 +336,7 @@ fr:
   field_redirect_existing_links: Rediriger les liens existants
   field_estimated_hours: Temps estimé
   field_column_names: Colonnes
+  field_time_entries: Temps passé
   field_time_zone: Fuseau horaire
   field_searchable: Utilisé pour les recherches
   field_default_value: Valeur par défaut
@@ -320,13 +348,20 @@ fr:
   field_content: Contenu
   field_group_by: Grouper par
   field_sharing: Partage
-  field_active: Actif
   field_parent_issue: Tâche parente
+  field_member_of_group: Groupe de l'assigné
+  field_assigned_to_role: Rôle de l'assigné
+  field_text: Champ texte
   field_visible: Visible
   field_warn_on_leaving_unsaved: "M'avertir lorsque je quitte une page contenant du texte non sauvegardé"
   field_issues_visibility: Visibilité des demandes
   field_is_private: Privée
   field_commit_logs_encoding: Encodage des messages de commit
+  field_scm_path_encoding: Encodage des chemins
+  field_path_to_repository: Chemin du dépôt
+  field_root_directory: Répertoire racine
+  field_cvsroot: CVSROOT
+  field_cvs_module: Module
   field_repository_is_default: Dépôt principal
   field_multiple: Valeurs multiples
   field_auth_source_ldap_filter: Filtre LDAP
@@ -337,6 +372,11 @@ fr:
   field_inherit_members: Hériter les membres
   field_generate_password: Générer un mot de passe
   field_must_change_passwd: Doit changer de mot de passe à la prochaine connexion
+  field_default_status: Statut par défaut
+  field_users_visibility: Visibilité des utilisateurs
+  field_time_entries_visibility: Visibilité du temps passé
+  field_total_estimated_hours: Temps estimé total
+  field_default_version: Version par défaut
 
   setting_app_title: Titre de l'application
   setting_app_subtitle: Sous-titre de l'application
@@ -364,6 +404,8 @@ fr:
   setting_cross_project_issue_relations: Autoriser les relations entre demandes de différents projets
   setting_cross_project_subtasks: Autoriser les sous-tâches dans des projets différents
   setting_issue_list_default_columns: Colonnes affichées par défaut sur la liste des demandes
+  setting_repositories_encodings: Encodages des fichiers et des dépôts
+  setting_emails_header: En-tête des emails
   setting_emails_footer: Pied-de-page des emails
   setting_protocol: Protocole
   setting_per_page_options: Options d'objets affichés par page
@@ -376,24 +418,26 @@ fr:
   setting_mail_handler_api_key: Clé de protection de l'API
   setting_sequential_project_identifiers: Générer des identifiants de projet séquentiels
   setting_gravatar_enabled: Afficher les Gravatar des utilisateurs
+  setting_gravatar_default: Image Gravatar par défaut
   setting_diff_max_lines_displayed: Nombre maximum de lignes de diff affichées
   setting_file_max_size_displayed: Taille maximum des fichiers texte affichés en ligne
   setting_repository_log_display_limit: "Nombre maximum de révisions affichées sur l'historique d'un fichier"
   setting_openid: "Autoriser l'authentification et l'enregistrement OpenID"
+  setting_password_max_age: Expiration des mots de passe après
   setting_password_min_length: Longueur minimum des mots de passe
   setting_new_project_user_role_id: Rôle donné à un utilisateur non-administrateur qui crée un projet
   setting_default_projects_modules: Modules activés par défaut pour les nouveaux projets
   setting_issue_done_ratio: Calcul de l'avancement des demandes
-  setting_issue_done_ratio_issue_status: Utiliser le statut
   setting_issue_done_ratio_issue_field: 'Utiliser le champ % effectué'
-  setting_rest_api_enabled: Activer l'API REST
-  setting_gravatar_default: Image Gravatar par défaut
+  setting_issue_done_ratio_issue_status: Utiliser le statut
   setting_start_of_week: Jour de début des calendriers
+  setting_rest_api_enabled: Activer l'API REST
   setting_cache_formatted_text: Mettre en cache le texte formaté
+  setting_default_notification_option: Option de notification par défaut
   setting_commit_logtime_enabled: Permettre la saisie de temps
   setting_commit_logtime_activity_id: Activité pour le temps saisi
   setting_gantt_items_limit: Nombre maximum d'éléments affichés sur le gantt
-  setting_issue_group_assignment: Permettre l'assignement des demandes aux groupes
+  setting_issue_group_assignment: Permettre l'assignation des demandes aux groupes
   setting_default_issue_start_date_to_creation_date: Donner à la date de début d'une nouvelle demande la valeur de la date du jour
   setting_commit_cross_project_ref: Permettre le référencement et la résolution des demandes de tous les autres projets
   setting_unsubscribe: Permettre aux utilisateurs de supprimer leur propre compte
@@ -407,6 +451,14 @@ fr:
   setting_mail_handler_excluded_filenames: Exclure les fichiers attachés par leur nom
   setting_force_default_language_for_anonymous: Forcer la langue par défault pour les utilisateurs anonymes
   setting_force_default_language_for_loggedin: Forcer la langue par défault pour les utilisateurs identifiés
+  setting_link_copied_issue: Lier les demandes lors de la copie
+  setting_max_additional_emails: Nombre maximal d'adresses email additionnelles
+  setting_search_results_per_page: Résultats de recherche affichés par page
+  setting_attachment_extensions_allowed: Extensions autorisées
+  setting_attachment_extensions_denied: Extensions non autorisées
+  setting_sys_api_key: Clé de protection de l'API
+  setting_lost_password: Autoriser la réinitialisation par email de mot de passe perdu
+  setting_new_item_menu_tab: Onglet de création d'objets dans le menu du project
 
   permission_add_project: Créer un projet
   permission_add_subprojects: Créer des sous-projets
@@ -414,11 +466,13 @@ fr:
   permission_close_project: Fermer / réouvrir le projet
   permission_select_project_modules: Choisir les modules
   permission_manage_members: Gérer les membres
+  permission_manage_project_activities: Gérer les activités
   permission_manage_versions: Gérer les versions
   permission_manage_categories: Gérer les catégories de demandes
   permission_view_issues: Voir les demandes
   permission_add_issues: Créer des demandes
   permission_edit_issues: Modifier les demandes
+  permission_copy_issues: Copier les demandes
   permission_manage_issue_relations: Gérer les relations
   permission_set_issues_private: Rendre les demandes publiques ou privées
   permission_set_own_issues_private: Rendre ses propres demandes publiques ou privées
@@ -468,9 +522,9 @@ fr:
   permission_delete_messages: Supprimer les messages
   permission_delete_own_messages: Supprimer ses propres messages
   permission_export_wiki_pages: Exporter les pages
-  permission_manage_project_activities: Gérer les activités
   permission_manage_subtasks: Gérer les sous-tâches
   permission_manage_related_issues: Gérer les demandes associées
+  permission_import_issues: Importer des demandes
 
   project_module_issue_tracking: Suivi des demandes
   project_module_time_tracking: Suivi du temps passé
@@ -480,6 +534,8 @@ fr:
   project_module_wiki: Wiki
   project_module_repository: Dépôt de sources
   project_module_boards: Forums de discussion
+  project_module_calendar: Calendrier
+  project_module_gantt: Gantt
 
   label_user: Utilisateur
   label_user_plural: Utilisateurs
@@ -498,12 +554,13 @@ fr:
   label_issue_new: Nouvelle demande
   label_issue_plural: Demandes
   label_issue_view_all: Voir toutes les demandes
+  label_issues_by: "Demandes par %{value}"
   label_issue_added: Demande ajoutée
   label_issue_updated: Demande mise à jour
   label_issue_note_added: Note ajoutée
   label_issue_status_updated: Statut changé
+  label_issue_assigned_to_updated: Assigné changé
   label_issue_priority_updated: Priorité changée
-  label_issues_by: "Demandes par %{value}"
   label_document: Document
   label_document_new: Nouveau document
   label_document_plural: Documents
@@ -519,6 +576,7 @@ fr:
   label_member_plural: Membres
   label_tracker: Tracker
   label_tracker_plural: Trackers
+  label_tracker_all: Tous les trackers
   label_tracker_new: Nouveau tracker
   label_workflow: Workflow
   label_issue_status: Statut de demandes
@@ -538,6 +596,7 @@ fr:
   label_register: S'enregistrer
   label_login_with_open_id_option: S'authentifier avec OpenID
   label_password_lost: Mot de passe perdu
+  label_password_required: Confirmez votre mot de passe pour continuer
   label_home: Accueil
   label_my_page: Ma page
   label_my_account: Mon compte
@@ -548,6 +607,7 @@ fr:
   label_logout: Déconnexion
   label_help: Aide
   label_reported_issues: Demandes soumises
+  label_assigned_issues: Demandes assignées
   label_assigned_to_me_issues: Demandes qui me sont assignées
   label_last_login: Dernière connexion
   label_registered_on: Inscrit le
@@ -596,6 +656,7 @@ fr:
   label_version: Version
   label_version_new: Nouvelle version
   label_version_plural: Versions
+  label_close_versions: Fermer les versions terminées
   label_confirmation: Confirmation
   label_export_to: 'Formats disponibles :'
   label_read: Lire...
@@ -604,10 +665,6 @@ fr:
   label_open_issues_plural: ouverts
   label_closed_issues: fermé
   label_closed_issues_plural: fermés
-  label_x_open_issues_abbr_on_total:
-    zero:  0 ouverte sur %{total}
-    one:   1 ouverte sur %{total}
-    other: "%{count} ouvertes sur %{total}"
   label_x_open_issues_abbr:
     zero:  0 ouverte
     one:   1 ouverte
@@ -621,6 +678,7 @@ fr:
     one:   1 demande
     other: "%{count} demandes"
   label_total: Total
+  label_total_plural: Totaux
   label_total_time: Temps total
   label_permissions: Permissions
   label_current_status: Statut actuel
@@ -634,7 +692,6 @@ fr:
   label_used_by: Utilisé par
   label_details: Détails
   label_add_note: Ajouter une note
-  label_per_page: Par page
   label_calendar: Calendrier
   label_months_from: mois depuis
   label_gantt: Gantt
@@ -663,6 +720,9 @@ fr:
   label_in_more_than: dans plus de
   label_in_the_next_days: dans les prochains jours
   label_in_the_past_days: dans les derniers jours
+  label_greater_or_equal: '>='
+  label_less_or_equal: '<='
+  label_between: entre
   label_in: dans
   label_today: aujourd'hui
   label_all_time: toute la période
@@ -683,13 +743,18 @@ fr:
   label_any_issues_in_project: une demande du projet
   label_any_issues_not_in_project: une demande hors du projet
   label_no_issues_in_project: aucune demande du projet
+  label_any_open_issues: une demande ouverte
+  label_no_open_issues: aucune demande ouverte
   label_day_plural: jours
   label_repository: Dépôt
   label_repository_new: Nouveau dépôt
   label_repository_plural: Dépôts
   label_browse: Parcourir
+  label_branch: Branche
+  label_tag: Tag
   label_revision: Révision
   label_revision_plural: Révisions
+  label_revision_id: "Révision %{value}"
   label_associated_revisions: Révisions associées
   label_added: ajouté
   label_modified: modifié
@@ -699,6 +764,7 @@ fr:
   label_latest_revision: Dernière révision
   label_latest_revision_plural: Dernières révisions
   label_view_revisions: Voir les révisions
+  label_view_all_revisions: Voir toutes les révisions
   label_max_size: Taille maximale
   label_sort_highest: Remonter en premier
   label_sort_higher: Remonter
@@ -716,6 +782,7 @@ fr:
   label_wiki_edit_plural: Révisions wiki
   label_wiki_page: Page wiki
   label_wiki_page_plural: Pages wiki
+  label_wiki_page_new: Nouvelle page wiki
   label_index_by_title: Index par titre
   label_index_by_date: Index par date
   label_current_version: Version actuelle
@@ -724,13 +791,17 @@ fr:
   label_changes_details: Détails de tous les changements
   label_issue_tracking: Suivi des demandes
   label_spent_time: Temps passé
+  label_total_spent_time: Temps passé total
+  label_overall_spent_time: Temps passé global
   label_f_hour: "%{value} heure"
   label_f_hour_plural: "%{value} heures"
+  label_f_hour_short: "%{value} h"
   label_time_tracking: Suivi du temps
   label_change_plural: Changements
   label_statistics: Statistiques
   label_commits_per_month: Commits par mois
   label_commits_per_author: Commits par auteur
+  label_diff: diff
   label_view_diff: Voir les différences
   label_diff_inline: en ligne
   label_diff_side_by_side: côte à côte
@@ -752,10 +823,6 @@ fr:
   label_follows: Suit
   label_copied_to: Copié vers
   label_copied_from: Copié depuis
-  label_end_to_start: fin à début
-  label_end_to_end: fin à fin
-  label_start_to_start: début à début
-  label_start_to_end: début à fin
   label_stay_logged_in: Rester connecté
   label_disabled: désactivé
   label_show_completed_versions: Voir les versions passées
@@ -763,6 +830,8 @@ fr:
   label_board: Forum
   label_board_new: Nouveau forum
   label_board_plural: Forums
+  label_board_locked: Verrouillé
+  label_board_sticky: Sticky
   label_topic_plural: Discussions
   label_message_plural: Messages
   label_message_last: Dernier message
@@ -778,6 +847,8 @@ fr:
   label_language_based: Basé sur la langue de l'utilisateur
   label_sort_by: "Trier par %{value}"
   label_send_test_email: Envoyer un email de test
+  label_feeds_access_key: Clé d'accès Atom
+  label_missing_feeds_access_key: Clé d'accès Atom manquante
   label_feeds_access_key_created_on: "Clé d'accès Atom créée il y a %{value}"
   label_module_plural: Modules
   label_added_time_by: "Ajouté par %{author} il y a %{age}"
@@ -789,11 +860,16 @@ fr:
   label_default_columns: Colonnes par défaut
   label_no_change_option: (Pas de changement)
   label_bulk_edit_selected_issues: Modifier les demandes sélectionnées
+  label_bulk_edit_selected_time_entries: Modifier les temps passés sélectionnés
   label_theme: Thème
   label_default: Défaut
   label_search_titles_only: Uniquement dans les titres
   label_user_mail_option_all: "Pour tous les événements de tous mes projets"
   label_user_mail_option_selected: "Pour tous les événements des projets sélectionnés..."
+  label_user_mail_option_none: Aucune notification
+  label_user_mail_option_only_my_events: Seulement pour ce que je surveille
+  label_user_mail_option_only_assigned: Seulement pour ce qui m'est assigné
+  label_user_mail_option_only_owner: Seulement pour ce que j'ai créé
   label_user_mail_no_self_notified: "Je ne veux pas être notifié des changements que j'effectue"
   label_registration_activation_by_email: activation du compte par email
   label_registration_manual_activation: activation manuelle du compte
@@ -824,27 +900,25 @@ fr:
   label_date_from_to: Du %{start} au %{end}
   label_wiki_content_added: Page wiki ajoutée
   label_wiki_content_updated: Page wiki mise à jour
-  label_group_plural: Groupes
   label_group: Groupe
+  label_group_plural: Groupes
   label_group_new: Nouveau groupe
+  label_group_anonymous: Utilisateurs anonymes
+  label_group_non_member: Utilisateurs non membres
   label_time_entry_plural: Temps passé
   label_version_sharing_none: Non partagé
   label_version_sharing_descendants: Avec les sous-projets
   label_version_sharing_hierarchy: Avec toute la hiérarchie
   label_version_sharing_tree: Avec tout l'arbre
   label_version_sharing_system: Avec tous les projets
+  label_update_issue_done_ratios: Mettre à jour l'avancement des demandes
   label_copy_source: Source
   label_copy_target: Cible
   label_copy_same_as_target: Comme la cible
-  label_update_issue_done_ratios: Mettre à jour l'avancement des demandes
   label_display_used_statuses_only: N'afficher que les statuts utilisés dans ce tracker
   label_api_access_key: Clé d'accès API
-  label_api_access_key_created_on: Clé d'accès API créée il y a %{value}
-  label_feeds_access_key: Clé d'accès Atom
   label_missing_api_access_key: Clé d'accès API manquante
-  label_missing_feeds_access_key: Clé d'accès Atom manquante
-  label_close_versions: Fermer les versions terminées
-  label_revision_id: Révision %{value}
+  label_api_access_key_created_on: Clé d'accès API créée il y a %{value}
   label_profile: Profil
   label_subtask_plural: Sous-tâches
   label_project_copy_notifications: Envoyer les notifications durant la copie du projet
@@ -855,11 +929,15 @@ fr:
   label_issues_visibility_all: Toutes les demandes
   label_issues_visibility_public: Toutes les demandes non privées
   label_issues_visibility_own: Demandes créées par ou assignées à l'utilisateur
+  label_git_report_last_commit: Afficher le dernier commit des fichiers et répertoires
+  label_parent_revision: Parent
+  label_child_revision: Enfant
   label_export_options: Options d'exportation %{export_format}
   label_copy_attachments: Copier les fichiers
   label_copy_subtasks: Copier les sous-tâches
   label_item_position: "%{position} sur %{count}"
   label_completed_versions: Versions passées
+  label_search_for_watchers: Rechercher des observateurs
   label_session_expiration: Expiration des sessions
   label_show_closed_projects: Voir les projets fermés
   label_status_transitions: Changements de statut
@@ -885,8 +963,51 @@ fr:
   label_only: seulement
   label_drop_down_list: liste déroulante
   label_checkboxes: cases à cocher
+  label_radio_buttons: boutons radio
   label_link_values_to: Lier les valeurs vers l'URL
   label_custom_field_select_type: Selectionner le type d'objet auquel attacher le champ personnalisé
+  label_check_for_updates: Vérifier les mises à jour
+  label_latest_compatible_version: Dernière version compatible
+  label_unknown_plugin: Plugin inconnu
+  label_add_projects: Ajouter des projets
+  label_users_visibility_all: Tous les utilisateurs actifs
+  label_users_visibility_members_of_visible_projects: Membres des projets visibles
+  label_edit_attachments: Modifier les fichiers attachés
+  label_link_copied_issue: Lier la demande copiée
+  label_ask: Demander
+  label_search_attachments_yes: Rechercher les noms et descriptions de fichiers
+  label_search_attachments_no: Ne pas rechercher les fichiers
+  label_search_attachments_only: Rechercher les fichiers uniquement
+  label_search_open_issues_only: Demandes ouvertes uniquement
+  label_email_address_plural: Emails
+  label_email_address_add: Ajouter une adresse email
+  label_enable_notifications: Activer les notifications
+  label_disable_notifications: Désactiver les notifications
+  label_blank_value: non renseigné
+  label_parent_task_attributes: Attributs des tâches parentes
+  label_time_entries_visibility_all: Tous les temps passés
+  label_time_entries_visibility_own: Ses propres temps passés
+  label_member_management: Gestion des membres
+  label_member_management_all_roles: Tous les rôles
+  label_member_management_selected_roles_only: Ces rôles uniquement
+  label_import_issues: Importer des demandes
+  label_select_file_to_import: Sélectionner le fichier à importer
+  label_fields_separator: Séparateur de champs
+  label_fields_wrapper: Délimiteur de texte
+  label_encoding: Encodage
+  label_comma_char: Virgule
+  label_semi_colon_char: Point virgule
+  label_quote_char: Apostrophe
+  label_double_quote_char: Double apostrophe
+  label_fields_mapping: Correspondance des champs
+  label_file_content_preview: Aperçu du contenu du fichier
+  label_create_missing_values: Créer les valeurs manquantes
+  label_api: API
+  label_field_format_enumeration: Liste clé/valeur
+  label_default_values_for_new_users: Valeurs par défaut pour les nouveaux utilisateurs
+  label_relations: Relations
+  label_new_project_issue_tab_enabled: Afficher l'onglet "Nouvelle demande"
+  label_new_object_tab_enabled: Afficher le menu déroulant "+"
 
   button_login: Connexion
   button_submit: Soumettre
@@ -900,6 +1021,7 @@ fr:
   button_create_and_continue: Créer et continuer
   button_test: Tester
   button_edit: Modifier
+  button_edit_associated_wikipage: "Modifier la page wiki associée: %{page_title}"
   button_add: Ajouter
   button_change: Changer
   button_apply: Appliquer
@@ -939,6 +1061,8 @@ fr:
   button_delete_my_account: Supprimer mon compte
   button_close: Fermer
   button_reopen: Réouvrir
+  button_import: Importer
+  button_filter: Filtrer
 
   status_active: actif
   status_registered: enregistré
@@ -952,6 +1076,8 @@ fr:
   version_status_locked: verrouillé
   version_status_closed: fermé
 
+  field_active: Actif
+
   text_select_mail_notifications: Actions pour lesquelles une notification par e-mail est envoyée
   text_regexp_info: ex. ^[A-Z0-9]+$
   text_min_max_length_info: 0 pour aucune restriction
@@ -959,6 +1085,11 @@ fr:
   text_subprojects_destroy_warning: "Ses sous-projets : %{value} seront également supprimés."
   text_workflow_edit: Sélectionner un tracker et un rôle pour éditer le workflow
   text_are_you_sure: Êtes-vous sûr ?
+  text_journal_changed: "%{label} changé de %{old} à %{new}"
+  text_journal_changed_no_detail: "%{label} mis à jour"
+  text_journal_set_to: "%{label} mis à %{value}"
+  text_journal_deleted: "%{label} %{old} supprimé"
+  text_journal_added: "%{label} %{value} ajouté"
   text_tip_issue_begin_day: tâche commençant ce jour
   text_tip_issue_end_day: tâche finissant ce jour
   text_tip_issue_begin_end_day: tâche commençant et finissant ce jour
@@ -984,17 +1115,19 @@ fr:
   text_time_logged_by_changeset: "Appliqué par commit %{value}"
   text_issues_destroy_confirmation: 'Êtes-vous sûr de vouloir supprimer la ou les demandes(s) selectionnée(s) ?'
   text_issues_destroy_descendants_confirmation: "Cela entrainera également la suppression de %{count} sous-tâche(s)."
+  text_time_entries_destroy_confirmation: "Etes-vous sûr de vouloir supprimer les temps passés sélectionnés ?"
   text_select_project_modules: 'Sélectionner les modules à activer pour ce projet :'
   text_default_administrator_account_changed: Compte administrateur par défaut changé
   text_file_repository_writable: Répertoire de stockage des fichiers accessible en écriture
   text_plugin_assets_writable: Répertoire public des plugins accessible en écriture
   text_rmagick_available: Bibliothèque RMagick présente (optionnelle)
+  text_convert_available: Binaire convert de ImageMagick présent (optionel)
   text_destroy_time_entries_question: "%{hours} heures ont été enregistrées sur les demandes à supprimer. Que voulez-vous faire ?"
   text_destroy_time_entries: Supprimer les heures
   text_assign_time_entries_to_project: Reporter les heures sur le projet
   text_reassign_time_entries: 'Reporter les heures sur cette demande:'
   text_user_wrote: "%{value} a écrit :"
-  text_enumeration_destroy_question: "Cette valeur est affectée à %{count} objets."
+  text_enumeration_destroy_question: "La valeur « %{name} » est affectée à %{count} objet(s)."
   text_enumeration_category_reassign_to: 'Réaffecter les objets à cette valeur:'
   text_email_delivery_not_configured: "L'envoi de mail n'est pas configuré, les notifications sont désactivées.\nConfigurez votre serveur SMTP dans config/configuration.yml et redémarrez l'application pour les activer."
   text_repository_usernames_mapping: "Vous pouvez sélectionner ou modifier l'utilisateur Redmine associé à chaque nom d'utilisateur figurant dans l'historique du dépôt.\nLes utilisateurs avec le même identifiant ou la même adresse mail seront automatiquement associés."
@@ -1005,7 +1138,17 @@ fr:
   text_wiki_page_destroy_children: "Supprimer les sous-pages et toutes leurs descedantes"
   text_wiki_page_reassign_children: "Réaffecter les sous-pages à cette page"
   text_own_membership_delete_confirmation: "Vous allez supprimer tout ou partie de vos permissions sur ce projet et ne serez peut-être plus autorisé à modifier ce projet.\nEtes-vous sûr de vouloir continuer ?"
+  text_zoom_in: Zoom avant
+  text_zoom_out: Zoom arrière
   text_warn_on_leaving_unsaved: "Cette page contient du texte non sauvegardé qui sera perdu si vous quittez la page."
+  text_scm_path_encoding_note: "Défaut : UTF-8"
+  text_subversion_repository_note: "Exemples (en fonction des protocoles supportés) : file:///, http://, https://, svn://, svn+[tunnelscheme]://"
+  text_git_repository_note: "Chemin vers un dépôt vide et local (exemples : /gitrepo, c:\\gitrepo)"
+  text_mercurial_repository_note: "Chemin vers un dépôt local (exemples : /hgrepo, c:\\hgrepo)"
+  text_scm_command: Commande
+  text_scm_command_version: Version
+  text_scm_config: Vous pouvez configurer les commandes des SCM dans config/configuration.yml. Redémarrer l'application après modification.
+  text_scm_command_not_available: Ce SCM n'est pas disponible. Vérifier les paramètres dans la section administration.
   text_issue_conflict_resolution_overwrite: "Appliquer quand même ma mise à jour (les notes précédentes seront conservées mais des changements pourront être écrasés)"
   text_issue_conflict_resolution_add_notes: "Ajouter mes notes et ignorer mes autres changements"
   text_issue_conflict_resolution_cancel: "Annuler ma mise à jour et réafficher %{link}"
@@ -1039,84 +1182,34 @@ fr:
   enumeration_issue_priorities: Priorités des demandes
   enumeration_doc_categories: Catégories des documents
   enumeration_activities: Activités (suivi du temps)
-  label_greater_or_equal: ">="
-  label_less_or_equal: "<="
-  label_between: entre
-  label_view_all_revisions: Voir toutes les révisions
-  label_tag: Tag
-  label_branch: Branche
-  error_no_tracker_in_project: "Aucun tracker n'est associé à ce projet. Vérifier la configuration du projet."
-  error_no_default_issue_status: "Aucun statut de demande n'est défini par défaut. Vérifier votre configuration (Administration -> Statuts de demandes)."
-  text_journal_changed: "%{label} changé de %{old} à %{new}"
-  text_journal_changed_no_detail: "%{label} mis à jour"
-  text_journal_set_to: "%{label} mis à %{value}"
-  text_journal_deleted: "%{label} %{old} supprimé"
-  text_journal_added: "%{label} %{value} ajouté"
   enumeration_system_activity: Activité système
-  label_board_sticky: Sticky
-  label_board_locked: Verrouillé
-  error_unable_delete_issue_status: Impossible de supprimer le statut de demande
-  error_can_not_delete_custom_field: Impossible de supprimer le champ personnalisé
-  error_unable_to_connect: Connexion impossible (%{value})
-  error_can_not_remove_role: Ce rôle est utilisé et ne peut pas être supprimé.
-  error_can_not_delete_tracker: Ce tracker contient des demandes et ne peut pas être supprimé.
-  field_principal: Principal
-  notice_failed_to_save_members: "Erreur lors de la sauvegarde des membres: %{errors}."
-  text_zoom_out: Zoom arrière
-  text_zoom_in: Zoom avant
-  notice_unable_delete_time_entry: Impossible de supprimer le temps passé.
-  label_overall_spent_time: Temps passé global
-  field_time_entries: Temps passé
-  project_module_gantt: Gantt
-  project_module_calendar: Calendrier
-  button_edit_associated_wikipage: "Modifier la page wiki associée: %{page_title}"
-  field_text: Champ texte
-  label_user_mail_option_only_owner: Seulement pour ce que j'ai créé
-  setting_default_notification_option: Option de notification par défaut
-  label_user_mail_option_only_my_events: Seulement pour ce que je surveille
-  label_user_mail_option_only_assigned: Seulement pour ce qui m'est assigné
-  label_user_mail_option_none: Aucune notification
-  field_member_of_group: Groupe de l'assigné
-  field_assigned_to_role: Rôle de l'assigné
-  setting_emails_header: En-tête des emails
-  label_bulk_edit_selected_time_entries: Modifier les temps passés sélectionnés
-  text_time_entries_destroy_confirmation: "Etes-vous sûr de vouloir supprimer les temps passés sélectionnés ?"
-  field_scm_path_encoding: Encodage des chemins
-  text_scm_path_encoding_note: "Défaut : UTF-8"
-  field_path_to_repository: Chemin du dépôt
-  field_root_directory: Répertoire racine
-  field_cvs_module: Module
-  field_cvsroot: CVSROOT
-  text_mercurial_repository_note: "Dépôt local (exemples : /hgrepo, c:\\hgrepo)"
-  text_scm_command: Commande
-  text_scm_command_version: Version
-  label_git_report_last_commit: Afficher le dernier commit des fichiers et répertoires
-  text_scm_config: Vous pouvez configurer les commandes des SCM dans config/configuration.yml. Redémarrer l'application après modification.
-  text_scm_command_not_available: Ce SCM n'est pas disponible. Vérifier les paramètres dans la section administration.
-  label_diff: diff
-  text_git_repository_note: Repository is bare and local (e.g. /gitrepo, c:\gitrepo)
-  description_query_sort_criteria_direction: Ordre de tri
-  description_project_scope: Périmètre de recherche
   description_filter: Filtre
-  description_user_mail_notification: Option de notification
-  description_date_from: Date de début
-  description_message_content: Contenu du message
-  description_available_columns: Colonnes disponibles
-  description_all_columns: Toutes les colonnes
-  description_date_range_interval: Choisir une période
-  description_issue_category_reassign: Choisir une catégorie
   description_search: Champ de recherche
-  description_notes: Notes
-  description_date_range_list: Choisir une période prédéfinie
   description_choose_project: Projets
-  description_date_to: Date de fin
+  description_project_scope: Périmètre de recherche
+  description_notes: Notes
+  description_message_content: Contenu du message
   description_query_sort_criteria_attribute: Critère de tri
-  description_wiki_subpages_reassign: Choisir une nouvelle page parent
+  description_query_sort_criteria_direction: Ordre de tri
+  description_user_mail_notification: Option de notification
+  description_available_columns: Colonnes disponibles
   description_selected_columns: Colonnes sélectionnées
-  label_parent_revision: Parent
-  label_child_revision: Enfant
-  error_scm_annotate_big_text_file: Cette entrée ne peut pas être annotée car elle excède la taille maximale.
-  setting_repositories_encodings: Encodages des fichiers et des dépôts
-  label_search_for_watchers: Rechercher des observateurs
+  description_all_columns: Toutes les colonnes
+  description_issue_category_reassign: Choisir une catégorie
+  description_wiki_subpages_reassign: Choisir une nouvelle page parent
+  description_date_range_list: Choisir une période prédéfinie
+  description_date_range_interval: Choisir une période
+  description_date_from: Date de début
+  description_date_to: Date de fin
   text_repository_identifier_info: 'Seuls les lettres minuscules (a-z), chiffres, tirets et tirets bas sont autorisés.<br />Un fois sauvegardé, l''identifiant ne pourra plus être modifié.'
-  text_convert_available: Binaire convert de ImageMagick présent (optionel)
+  label_parent_task_attributes_derived: Calculé à partir des sous-tâches
+  label_parent_task_attributes_independent: Indépendent des sous-tâches
+  mail_subject_security_notification: Notification de sécurité
+  mail_body_security_notification_change: ! '%{field} modifié(e).'
+  mail_body_security_notification_change_to: ! '%{field} changé(e) en %{value}.'
+  mail_body_security_notification_add: ! '%{field} %{value} ajouté(e).'
+  mail_body_security_notification_remove: ! '%{field} %{value} supprimé(e).'
+  mail_body_security_notification_notify_enabled: Les notifications ont été activées pour l'adresse %{value}
+  mail_body_security_notification_notify_disabled: Les notifications ont été désactivées pour l'adresse %{value}
+  field_remote_ip: Adresse IP
+  label_no_preview: No preview available

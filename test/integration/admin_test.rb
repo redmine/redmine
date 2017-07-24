@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,7 +17,7 @@
 
 require File.expand_path('../../test_helper', __FILE__)
 
-class AdminTest < ActionController::IntegrationTest
+class AdminTest < Redmine::IntegrationTest
   fixtures :projects, :trackers, :issue_statuses, :issues,
            :enumerations, :users, :issue_categories,
            :projects_trackers,
@@ -45,10 +45,10 @@ class AdminTest < ActionController::IntegrationTest
     assert_kind_of User, logged_user
     assert_equal "Paul", logged_user.firstname
 
-    put "users/#{user.id}", :id => user.id, :user => { :status => User::STATUS_LOCKED }
+    put "/users/#{user.id}", :id => user.id, :user => { :status => User::STATUS_LOCKED }
     assert_redirected_to "/users/#{ user.id }/edit"
     locked_user = User.try_to_login("psmith", "psmith09")
-    assert_equal nil, locked_user
+    assert_nil locked_user
   end
 
   test "Add a user as an anonymous user should fail" do

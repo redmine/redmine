@@ -1,0 +1,30 @@
+<h2><%= l(:label_edit_attachments) %></h2> 
+
+<%= error_messages_for *@attachments %>
+
+<%= form_tag(container_attachments_path(@container), :method => 'patch') do %>
+  <%= back_url_hidden_field_tag %>
+  <div class="box attachments">
+  <table>
+  <% @attachments.each do |attachment| %>
+    <tr>
+      <td colspan="2">
+        <span class="icon icon-attachment"><%= attachment.filename_was %></span>
+        <span class="size">(<%= number_to_human_size attachment.filesize %>)</span>
+        <span class="author"><%= attachment.author %>, <%= format_time(attachment.created_on) %></span>
+      </td>
+    </tr>
+    <tr id="attachment-<%= attachment.id %>">
+      <td><%= text_field_tag "attachments[#{attachment.id}][filename]", attachment.filename, :size => 40 %></td>
+      <td>
+        <%= text_field_tag "attachments[#{attachment.id}][description]", attachment.description, :size => 80, :placeholder => l(:label_optional_description) %>
+      </td>
+    </tr>
+  <% end %>
+  </table>
+  </div>
+  <p>
+    <%= submit_tag l(:button_save) %>
+    <%= link_to l(:button_cancel), back_url if back_url.present? %>
+  </p>
+<% end %>

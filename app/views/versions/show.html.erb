@@ -5,9 +5,9 @@
 <%= call_hook(:view_versions_show_contextual, { :version => @version, :project => @project }) %>
 </div>
 
-<h2><%= h(@version.name) %></h2>
+<h2><%= @version.name %></h2>
 
-<div id="roadmap">
+<div id="roadmap" class="<%= @version.css_classes %>">
 <%= render :partial => 'versions/overview', :locals => {:version => @version} %>
 <%= render(:partial => "wiki/content", :locals => {:content => @version.wiki_page.content}) if @version.wiki_page %>
 
@@ -19,7 +19,7 @@
     <th><%= l(:field_estimated_hours) %></th>
     <td class="total-hours"><%= html_hours(l_hours(@version.estimated_hours)) %></td>
 </tr>
-<% if User.current.allowed_to?(:view_time_entries, @project) %>
+<% if User.current.allowed_to_view_all_time_entries?(@project) %>
 <tr>
     <th><%= l(:label_spent_time) %></th>
     <td class="total-hours"><%= html_hours(l_hours(@version.spent_hours)) %></td>

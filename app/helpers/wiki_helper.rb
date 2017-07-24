@@ -1,7 +1,7 @@
 # encoding: utf-8
 #
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -18,6 +18,42 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 module WikiHelper
+  include Redmine::Export::PDF::WikiPdfHelper
+  
+  def contributors(project, page)
+    contributorsDict = ActiveSupport::OrderedHash.new
+
+    versions = page.content.versions.
+      select("id, author_id, version").
+      reorder('version DESC').
+      all
+
+    versions.each do |ver|
+      unless ver.author.id.nil?
+        contributorsDict[ver.author.id] = {:name => ver.author.name, :contributorTo => 'wiki contributor'}
+      end
+    end
+
+    unless project.repository.nil?
+      project.repository.committers.each do |committer, user_id|
+        unless user_id.nil?
+          if contributorsDict.has_key?(user_id)
+            contributorsDict[user_id] = {:name => committer, :contributorTo => 'wiki & code contributor'}
+          else
+            contributorsDict[user_id] = {:name => committer, :contributorTo => 'code contributor'}
+          end
+        else
+          contributorsDict[committer.to_s.split('<').first] = {:name => committer, :contributorTo => 'code contributor'}
+        end
+      end
+    end
+
+    #    project.memberships.each do |user|
+    #      contributorsDict[user.user_id] = user.name
+    #    end
+
+    return contributorsDict
+  end
 
   def wiki_page_options_for_select(pages, selected = nil, parent = nil, level = 0)
     pages = pages.group_by(&:parent) unless pages.is_a?(Hash)
@@ -35,45 +71,32 @@ module WikiHelper
     s
   end
 
+  def wiki_page_wiki_options_for_select(page)
+    projects = Project.allowed_to(:rename_wiki_pages).joins(:wiki).preload(:wiki).to_a
+    projects << page.project unless projects.include?(page.project)
+
+    project_tree_options_for_select(projects, :selected => page.project) do |project|
+      wiki_id = project.wiki.try(:id)
+      {:value => wiki_id, :selected => wiki_id == page.wiki_id}
+    end
+  end
+
   def wiki_page_breadcrumb(page)
     breadcrumb(page.ancestors.reverse.collect {|parent|
       link_to(h(parent.pretty_title), {:controller => 'wiki', :action => 'show', :id => parent.title, :project_id => parent.project, :version => nil})
     })
   end
 
-  def contributors(project, page)
-    contributorsDict = ActiveSupport::OrderedHash.new
-
-    versions = page.content.versions.
-      select("id, author_id, version").
-      reorder('version DESC').
-      all
-
-    versions.each do |ver|
-      unless ver.author.id.nil?
-        contributorsDict[ver.author.id] = {:name => ver.author.name, :contributorTo => 'wiki contributor'}
-      end    
-    end
-
-    unless project.repository.nil?
-      project.repository.committers.each do |committer, user_id|
-        unless user_id.nil?
-          if contributorsDict.has_key?(user_id)
-            contributorsDict[user_id] = {:name => committer, :contributorTo => 'wiki & code contributor'}
-          else
-            contributorsDict[user_id] = {:name => committer, :contributorTo => 'code contributor'}
-          end
-        else  
-          contributorsDict[committer.to_s.split('<').first] = {:name => committer, :contributorTo => 'code contributor'}
-        end  
+  # Returns the path for the Cancel link when editing a wiki page
+  def wiki_page_edit_cancel_path(page)
+    if page.new_record?
+      if parent = page.parent
+        project_wiki_page_path(parent.project, parent.title)
+      else
+        project_wiki_index_path(page.project)
       end
+    else
+      project_wiki_page_path(page.project, page.title)
     end
-
-    #    project.memberships.each do |user|
-    #      contributorsDict[user.user_id] = user.name
-    #    end
-
-    return contributorsDict
   end
-
 end

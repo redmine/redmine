@@ -126,31 +126,31 @@ ja:
         body: "次の項目を確認してください。"
 
       messages:
-        inclusion: "は一覧にありません。"
-        exclusion: "は予約されています。"
-        invalid: "は不正な値です。"
-        confirmation: "が一致しません。"
-        accepted: "を受諾してください。"
-        empty: "を入力してください。"
-        blank: "を入力してください。"
-        too_long: "は%{count}文字以内で入力してください。"
-        too_short: "は%{count}文字以上で入力してください。"
-        wrong_length: "は%{count}文字で入力してください。"
-        taken: "はすでに存在します。"
-        not_a_number: "は数値で入力してください。"
-        not_a_date: "は日付を入力してください。"
-        greater_than: "は%{count}より大きい値にしてください。"
-        greater_than_or_equal_to: "は%{count}以上の値にしてください。"
-        equal_to: "は%{count}にしてください。"
-        less_than: "は%{count}より小さい値にしてください。"
-        less_than_or_equal_to: "は%{count}以下の値にしてください。"
-        odd: "は奇数にしてください。"
-        even: "は偶数にしてください。"
-        greater_than_start_date: "を開始日より後にしてください。"
-        not_same_project: "同じプロジェクトに属していません。"
-        circular_dependency: "この関係では、循環依存になります。"
-        cant_link_an_issue_with_a_descendant: "親子関係にあるチケット間での関連の設定はできません。"
-        earlier_than_minimum_start_date: "を%{date}より前にすることはできません。先行するチケットがあります。"
+        inclusion: "は一覧にありません"
+        exclusion: "は予約されています"
+        invalid: "は不正な値です"
+        confirmation: "が一致しません"
+        accepted: "を受諾してください"
+        empty: "を入力してください"
+        blank: "を入力してください"
+        too_long: "は%{count}文字以内で入力してください"
+        too_short: "は%{count}文字以上で入力してください"
+        wrong_length: "は%{count}文字で入力してください"
+        taken: "はすでに存在します"
+        not_a_number: "は数値で入力してください"
+        not_a_date: "は日付を入力してください"
+        greater_than: "は%{count}より大きい値にしてください"
+        greater_than_or_equal_to: "は%{count}以上の値にしてください"
+        equal_to: "は%{count}にしてください"
+        less_than: "は%{count}より小さい値にしてください"
+        less_than_or_equal_to: "は%{count}以下の値にしてください"
+        odd: "は奇数にしてください"
+        even: "は偶数にしてください"
+        greater_than_start_date: "を開始日より後にしてください"
+        not_same_project: "同じプロジェクトに属していません"
+        circular_dependency: "この関係では、循環依存になります"
+        cant_link_an_issue_with_a_descendant: "親子関係にあるチケット間での関連の設定はできません"
+        earlier_than_minimum_start_date: "を%{date}より前にすることはできません。先行するチケットがあります"
 
   actionview_instancetag_blank_option: 選んでください
 
@@ -162,19 +162,12 @@ ja:
   general_csv_separator: ','
   general_csv_decimal_separator: '.'
   general_csv_encoding: CP932
-  ## Redmine 1.2.0 現在、この値によって、pdfの出力のフォントを切り替えています。
-  ## CRuby では CP932 にしてください。
-  ## JRuby 1.6.2 (ruby-1.8.7-p330) では、CP932 ですと
-  ## Iconv::InvalidEncoding例外が発生します。
-  ## JRuby では、SJIS か Shift_JIS にしてください。
-  ## ご存知の通り、CP932 と SJIS は別物ですが、
-  ## そこまでの検証はしていません。
-  # general_pdf_encoding: SJIS
-  general_pdf_encoding: CP932
+  general_pdf_fontname: kozminproregular
+  general_pdf_monospaced_fontname: kozminproregular
   general_first_day_of_week: '7'
 
   notice_account_updated: アカウントが更新されました。
-  notice_account_invalid_creditentials: ユーザー名もしくはパスワードが無効です
+  notice_account_invalid_credentials: ユーザー名もしくはパスワードが無効です
   notice_account_password_updated: パスワードが更新されました。
   notice_account_wrong_password: パスワードが違います
   notice_account_register_done: アカウントを作成しました。アカウントを有効にするための手順を記載したメールを %{email} 宛に送信しました。
@@ -194,15 +187,15 @@ ja:
   notice_email_error: "メール送信中にエラーが発生しました (%{value})"
   notice_feeds_access_key_reseted: Atomアクセスキーを初期化しました。
   notice_api_access_key_reseted: APIアクセスキーを初期化しました。
-  notice_failed_to_save_issues: "全%{total}件中%{count}件のチケットが保存できませんでした: %{ids}."
-  notice_failed_to_save_members: "メンバーの保存に失敗しました: %{errors}."
+  notice_failed_to_save_issues: "全%{total}件中%{count}件のチケットが保存できませんでした: %{ids}。"
+  notice_failed_to_save_members: "メンバーの保存に失敗しました: %{errors}。"
   notice_no_issue_selected: "チケットが選択されていません! 更新対象のチケットを選択してください。"
   notice_account_pending: アカウントを作成しました。システム管理者の承認待ちです。
   notice_default_data_loaded: デフォルト設定をロードしました。
   notice_unable_delete_version: バージョンを削除できません
   notice_unable_delete_time_entry: 作業時間を削除できません
   notice_issue_done_ratios_updated: チケットの進捗率を更新しました。
-  notice_gantt_chart_truncated: ガントチャートは、最大表示項目数(%{max})を超えたたため切り捨てられました。
+  notice_gantt_chart_truncated: ガントチャートは、最大表示項目数(%{max})を超えたため切り捨てられました。
 
   error_can_t_load_default_data: "デフォルト設定がロードできませんでした: %{value}"
   error_scm_not_found: リポジトリに、エントリ/リビジョンが存在しません。
@@ -244,8 +237,8 @@ ja:
   field_description: 説明
   field_summary: サマリー
   field_is_required: 必須
-  field_firstname: 名前
-  field_lastname: 苗字
+  field_firstname: 名
+  field_lastname: 姓
   field_mail: メールアドレス
   field_filename: ファイル
   field_filesize: サイズ
@@ -257,8 +250,8 @@ ja:
   field_is_for_all: 全プロジェクト向け
   field_possible_values: 選択肢
   field_regexp: 正規表現
-  field_min_length: 最小値
-  field_max_length: 最大値
+  field_min_length: 最短長
+  field_max_length: 最大長
   field_value: 値
   field_category: カテゴリ
   field_title: タイトル
@@ -281,7 +274,7 @@ ja:
   field_is_public: 公開
   field_parent: 親プロジェクト名
   field_is_in_roadmap: チケットをロードマップに表示する
-  field_login: ログイン
+  field_login: ログインID
   field_mail_notification: メール通知
   field_admin: システム管理者
   field_last_login_on: 最終接続日
@@ -313,7 +306,7 @@ ja:
   field_activity: 活動
   field_spent_on: 日付
   field_identifier: 識別子
-  field_is_filter: フィルタとして使う
+  field_is_filter: フィルタとして使用
   field_issue_to: 関連するチケット
   field_delay: 遅延
   field_assignable: このロールにチケットを割り当て可能
@@ -322,7 +315,7 @@ ja:
   field_column_names: 項目
   field_time_entries: 時間を記録
   field_time_zone: タイムゾーン
-  field_searchable: 検索条件に設定可能とする
+  field_searchable: 検索対象
   field_default_value: デフォルト値
   field_comments_sorting: コメントの表示順
   field_parent_title: 親ページ
@@ -348,19 +341,19 @@ ja:
   setting_app_title: アプリケーションのタイトル
   setting_app_subtitle: アプリケーションのサブタイトル
   setting_welcome_text: ウェルカムメッセージ
-  setting_default_language: 既定の言語
+  setting_default_language: デフォルトの言語
   setting_login_required: 認証が必要
   setting_self_registration: ユーザーによるアカウント登録
   setting_attachment_max_size: 添付ファイルサイズの上限
   setting_issues_export_limit: エクスポートするチケット数の上限
   setting_mail_from: 送信元メールアドレス
-  setting_bcc_recipients: ブラインドカーボンコピーで受信(bcc)
-  setting_plain_text_mail: プレインテキストのみ(HTMLなし)
-  setting_host_name: ホスト名
+  setting_bcc_recipients: 宛先を非表示(bcc)
+  setting_plain_text_mail: プレインテキスト形式(HTMLなし)
+  setting_host_name: ホスト名とパス
   setting_text_formatting: テキストの書式
   setting_cache_formatted_text: 書式化されたテキストをキャッシュする
   setting_wiki_compression: Wiki履歴を圧縮する
-  setting_feeds_limit: フィード内容の上限
+  setting_feeds_limit: Atomフィードの項目数の上限
   setting_default_projects_public: デフォルトで新しいプロジェクトは公開にする
   setting_autofetch_changesets: コミットを自動取得する
   setting_sys_api_enabled: リポジトリ管理用のWebサービスを有効にする
@@ -375,7 +368,7 @@ ja:
   setting_emails_header: メールのヘッダ
   setting_emails_footer: メールのフッタ
   setting_protocol: プロトコル
-  setting_per_page_options: ページ毎の表示件数
+  setting_per_page_options: ページごとの表示件数
   setting_user_format: ユーザー名の表示書式
   setting_activity_days_default: プロジェクトの活動ページに表示される日数
   setting_display_subprojects_issues: サブプロジェクトのチケットをメインプロジェクトに表示する
@@ -394,8 +387,8 @@ ja:
   setting_new_project_user_role_id: システム管理者以外のユーザーが作成したプロジェクトに設定するロール
   setting_default_projects_modules: 新規プロジェクトにおいてデフォルトで有効になるモジュール
   setting_issue_done_ratio: 進捗率の算出方法
-  setting_issue_done_ratio_issue_field: チケットのフィールドを使用する
-  setting_issue_done_ratio_issue_status: チケットのステータスを使用する
+  setting_issue_done_ratio_issue_field: チケットのフィールドを使用
+  setting_issue_done_ratio_issue_status: チケットのステータスに連動
   setting_start_of_week: 週の開始曜日
   setting_rest_api_enabled: RESTによるWebサービスを有効にする
   setting_default_notification_option: デフォルトのメール通知オプション
@@ -431,7 +424,7 @@ ja:
   permission_view_time_entries: 作業時間の閲覧
   permission_edit_time_entries: 作業時間の編集
   permission_edit_own_time_entries: 自身が記入した作業時間の編集
-  permission_manage_project_activities: 作業分類 (時間トラッキング) の管理
+  permission_manage_project_activities: 作業分類 (時間管理) の管理
   permission_manage_news: ニュースの管理
   permission_comment_news: ニュースへのコメント
   permission_view_documents: 文書の閲覧
@@ -460,7 +453,7 @@ ja:
   permission_manage_subtasks: 子チケットの管理
 
   project_module_issue_tracking: チケットトラッキング
-  project_module_time_tracking: 時間トラッキング
+  project_module_time_tracking: 時間管理
   project_module_news: ニュース
   project_module_documents: 文書
   project_module_files: ファイル
@@ -487,14 +480,14 @@ ja:
   label_issue: チケット
   label_issue_new: 新しいチケット
   label_issue_plural: チケット
-  label_issue_view_all: すべてのチケットを見る
+  label_issue_view_all: すべてのチケットを表示
   label_issues_by: "%{value} 別のチケット"
-  label_issue_added: チケットが追加されました
-  label_issue_updated: チケットが更新されました
+  label_issue_added: チケットの追加
+  label_issue_updated: チケットの更新
   label_document: 文書
   label_document_new: 新しい文書
   label_document_plural: 文書
-  label_document_added: 文書が追加されました
+  label_document_added: 文書の追加
   label_role: ロール
   label_role_plural: ロール
   label_role_new: 新しいロール
@@ -549,8 +542,8 @@ ja:
   label_subproject_plural: サブプロジェクト
   label_subproject_new: 新しいサブプロジェクト
   label_and_its_subprojects: "%{value} とサブプロジェクト"
-  label_min_max_length: 最小値 - 最大値の長さ
-  label_list: リストから選択
+  label_min_max_length: 最短 - 最大長
+  label_list: リスト
   label_date: 日付
   label_integer: 整数
   label_float: 小数
@@ -566,16 +559,16 @@ ja:
   label_attachment_new: 新しいファイル
   label_attachment_delete: ファイルを削除
   label_attachment_plural: ファイル
-  label_file_added: ファイルが追加されました
+  label_file_added: ファイルの追加
   label_report: レポート
   label_report_plural: レポート
   label_news: ニュース
   label_news_new: ニュースを追加
   label_news_plural: ニュース
   label_news_latest: 最新ニュース
-  label_news_view_all: すべてのニュースを見る
-  label_news_added: ニュースが追加されました
-  label_news_comment_added: ニュースにコメントが追加されました
+  label_news_view_all: すべてのニュースを表示
+  label_news_added: ニュースの追加
+  label_news_comment_added: ニュースへのコメント追加
   label_settings: 設定
   label_overview: 概要
   label_version: バージョン
@@ -590,10 +583,6 @@ ja:
   label_open_issues_plural: 未完了
   label_closed_issues: 完了
   label_closed_issues_plural: 完了
-  label_x_open_issues_abbr_on_total:
-    zero:  0件未完了 / 全%{total}件
-    one:   1件未完了 / 全%{total}件
-    other: "%{count}件未完了 / 全%{total}件"
   label_x_open_issues_abbr:
     zero:  0件未完了
     one:   1件未完了
@@ -605,7 +594,7 @@ ja:
   label_total: 合計
   label_permissions: 権限
   label_current_status: 現在のステータス
-  label_new_statuses_allowed: ステータスの移行先
+  label_new_statuses_allowed: 遷移できるステータス
   label_all: すべて
   label_none: なし
   label_nobody: 無記名
@@ -614,13 +603,12 @@ ja:
   label_used_by: 使用中
   label_details: 詳細
   label_add_note: 注記を追加
-  label_per_page: ページ毎
   label_calendar: カレンダー
   label_months_from: ヶ月分
   label_gantt: ガントチャート
   label_internal: 内部
   label_last_changes: "最新の変更 %{count}件"
-  label_change_view_all: すべての変更を見る
+  label_change_view_all: すべての変更を表示
   label_personalize_page: このページをパーソナライズする
   label_comment: コメント
   label_comment_plural: コメント
@@ -676,8 +664,8 @@ ja:
   label_deleted: 削除
   label_latest_revision: 最新リビジョン
   label_latest_revision_plural: 最新リビジョン
-  label_view_revisions: リビジョンを見る
-  label_view_all_revisions: すべてのリビジョンを見る
+  label_view_revisions: リビジョンを表示
+  label_view_all_revisions: すべてのリビジョンを表示
   label_max_size: サイズの上限
   label_sort_highest: 一番上へ
   label_sort_higher: 上へ
@@ -702,17 +690,17 @@ ja:
   label_feed_plural: フィード
   label_changes_details: 全変更の詳細
   label_issue_tracking: チケットトラッキング
-  label_spent_time: 作業時間の記録
-  label_overall_spent_time: すべての作業時間の記録
+  label_spent_time: 作業時間
+  label_overall_spent_time: すべての作業時間
   label_f_hour: "%{value}時間"
   label_f_hour_plural: "%{value}時間"
-  label_time_tracking: 時間トラッキング
+  label_time_tracking: 時間管理
   label_change_plural: 変更
   label_statistics: 統計
   label_commits_per_month: 月別のコミット
   label_commits_per_author: 起票者別のコミット
   label_diff: 差分
-  label_view_diff: 差分を見る
+  label_view_diff: 差分を表示
   label_diff_inline: インライン
   label_diff_side_by_side: 横に並べる
   label_options: オプション
@@ -727,14 +715,10 @@ ja:
   label_relates_to: 関連している
   label_duplicates: 次のチケットと重複
   label_duplicated_by: 次のチケットが重複
-  label_blocks: ブロックしている
-  label_blocked_by: ブロックされている
+  label_blocks: ブロック先
+  label_blocked_by: ブロック元
   label_precedes: 次のチケットに先行
   label_follows: 次のチケットに後続
-  label_end_to_start: 最後-最初
-  label_end_to_end: 最後-最後
-  label_start_to_start: 最初-最初
-  label_start_to_end: 最初-最後
   label_stay_logged_in: ログインを維持
   label_disabled: 無効
   label_show_completed_versions: 完了したバージョンを表示
@@ -748,7 +732,7 @@ ja:
   label_message_plural: メッセージ
   label_message_last: 最新のメッセージ
   label_message_new: 新しいメッセージ
-  label_message_posted: メッセージが追加されました
+  label_message_posted: メッセージの追加
   label_reply_plural: 返答
   label_send_information: アカウント情報をユーザーに送信
   label_year: 年
@@ -757,7 +741,7 @@ ja:
   label_date_from: "日付指定: "
   label_date_to: から
   label_language_based: ユーザーの言語の設定に従う
-  label_sort_by: "並び替え %{value}"
+  label_sort_by: "並べ替え %{value}"
   label_send_test_email: テストメールを送信
   label_feeds_access_key: Atomアクセスキー
   label_missing_feeds_access_key: Atomアクセスキーが見つかりません
@@ -769,11 +753,11 @@ ja:
   label_jump_to_a_project: プロジェクトへ移動...
   label_file_plural: ファイル
   label_changeset_plural: 更新履歴
-  label_default_columns: 既定の項目
+  label_default_columns: デフォルトの項目
   label_no_change_option: (変更無し)
   label_bulk_edit_selected_issues: チケットの一括編集
   label_theme: テーマ
-  label_default: 既定
+  label_default: デフォルト
   label_search_titles_only: タイトルのみ
   label_user_mail_option_all: "参加しているプロジェクトのすべての通知"
   label_user_mail_option_selected: "選択したプロジェクトのすべての通知..."
@@ -786,7 +770,7 @@ ja:
   label_registration_manual_activation: 手動でアカウントを有効化
   label_registration_automatic_activation: 自動でアカウントを有効化
   label_display_per_page: "1ページに: %{value}"
-  label_age: 年齢
+  label_age: 経過期間
   label_change_properties: プロパティの変更
   label_general: 全般
   label_more: 続き
@@ -794,7 +778,7 @@ ja:
   label_plugins: プラグイン
   label_ldap_authentication: LDAP認証
   label_downloads_abbr: DL
-  label_optional_description: 任意のコメント
+  label_optional_description: 説明 (任意)
   label_add_another_file: 別のファイルを追加
   label_preferences: 設定
   label_chronological_order: 古い順
@@ -802,19 +786,19 @@ ja:
   label_planning: 計画
   label_incoming_emails: 受信メール
   label_generate_key: キーの生成
-  label_issue_watchers: チケットのウォッチャー
+  label_issue_watchers: ウォッチャー
   label_example: 例
   label_display: 表示
   label_sort: ソート条件
   label_ascending: 昇順
   label_descending: 降順
   label_date_from_to: "%{start}から%{end}まで"
-  label_wiki_content_added: Wikiページが追加されました
-  label_wiki_content_updated: Wikiページが更新されました
+  label_wiki_content_added: Wikiページの追加
+  label_wiki_content_updated: Wikiページの更新
   label_group: グループ
   label_group_plural: グループ
   label_group_new: 新しいグループ
-  label_time_entry_plural: 作業時間の記録
+  label_time_entry_plural: 作業時間
   label_version_sharing_none: 共有しない
   label_version_sharing_descendants: サブプロジェクト単位
   label_version_sharing_hierarchy: プロジェクト階層単位
@@ -894,7 +878,7 @@ ja:
 
   field_active: 有効
 
-  text_select_mail_notifications: どのメール通知を送信するか、アクションを選択してください。
+  text_select_mail_notifications: メール通知の送信対象とする操作を選択してください。
   text_regexp_info: 例) ^[A-Z0-9]+$
   text_min_max_length_info: 0だと無制限になります
   text_project_destroy_confirmation: 本当にこのプロジェクトと関連データを削除しますか？
@@ -938,7 +922,7 @@ ja:
   text_destroy_time_entries: 記録された作業時間を含めて削除
   text_assign_time_entries_to_project: 記録された作業時間をプロジェクト自体に割り当て
   text_reassign_time_entries: '記録された作業時間をこのチケットに再割り当て：'
-  text_user_wrote: "%{value} は書きました:"
+  text_user_wrote: "%{value} さんは書きました:"
   text_enumeration_destroy_question: "%{count}個のオブジェクトがこの値に割り当てられています。"
   text_enumeration_category_reassign_to: '次の値に割り当て直す:'
   text_email_delivery_not_configured: "メールを送信するために必要な設定が行われていないため、メール通知は利用できません。\nconfig/configuration.ymlでSMTPサーバの設定を行い、アプリケーションを再起動してください。"
@@ -985,7 +969,7 @@ ja:
 
   enumeration_issue_priorities: チケットの優先度
   enumeration_doc_categories: 文書カテゴリ
-  enumeration_activities: 作業分類 (時間トラッキング)
+  enumeration_activities: 作業分類 (時間管理)
   enumeration_system_activity: システム作業分類
   label_additional_workflow_transitions_for_assignee: チケット担当者に追加で許可する遷移
   label_additional_workflow_transitions_for_author: チケット作成者に追加で許可する遷移
@@ -995,9 +979,9 @@ ja:
   label_role_anonymous: 匿名ユーザー
   label_role_non_member: 非メンバー
 
-  label_issue_note_added: 注記が追加されました
-  label_issue_status_updated: ステータスが更新されました
-  label_issue_priority_updated: 優先度が更新されました
+  label_issue_note_added: 注記の追加
+  label_issue_status_updated: ステータスの更新
+  label_issue_priority_updated: 優先度の更新
   label_issues_visibility_own: 作成者か担当者であるチケット
   field_issues_visibility: 表示できるチケット
   label_issues_visibility_all: すべてのチケット
@@ -1033,7 +1017,7 @@ ja:
   button_export: エクスポート
   label_export_options: "%{export_format} エクスポート設定"
   error_attachment_too_big: このファイルはアップロードできません。添付ファイルサイズの上限(%{max_size})を超えています。
-  notice_failed_to_save_time_entries: "全%{total}件中%{count}件の作業時間が保存できませんでした: %{ids}."
+  notice_failed_to_save_time_entries: "全%{total}件中%{count}件の作業時間が保存できませんでした: %{ids}。"
   label_x_issues:
     zero:  0 チケット
     one:   1 チケット
@@ -1050,7 +1034,7 @@ ja:
   text_issue_conflict_resolution_overwrite: 自分の編集内容の保存を強行 (他のユーザーの更新内容は注記を除き上書きされます)
   notice_issue_update_conflict: このチケットを編集中に他のユーザーが更新しました。
   text_issue_conflict_resolution_cancel: 自分の編集内容を破棄し %{link} を再表示
-  permission_manage_related_issues: 関連するチケットの管理
+  permission_manage_related_issues: リビジョンとチケットの関連の管理
   field_auth_source_ldap_filter: LDAPフィルタ
   label_search_for_watchers: ウォッチャーを検索して追加
   notice_account_deleted: アカウントが削除されました。
@@ -1122,7 +1106,7 @@ ja:
   notice_account_locked: アカウントがロックされています
   label_hidden: 非表示
   label_visibility_private: 自分のみ
-  label_visibility_roles: 以下のロールのみ
+  label_visibility_roles: 次のロールのみ
   label_visibility_public: すべてのユーザー
   field_must_change_passwd: 次回ログイン時にパスワード変更を強制
   notice_new_password_must_be_different: 新しいパスワードは現在のパスワードと異なるものでなければなりません
@@ -1133,6 +1117,105 @@ ja:
   label_drop_down_list: ドロップダウンリスト
   label_checkboxes: チェックボックス
   label_link_values_to: 値に設定するリンクURL
-  setting_force_default_language_for_anonymous: 匿名ユーザーに既定の言語を強制
-  setting_force_default_language_for_loggedin: ログインユーザーに既定の言語を強制
+  setting_force_default_language_for_anonymous: 匿名ユーザーにデフォルトの言語を強制
+  setting_force_default_language_for_loggedin: ログインユーザーにデフォルトの言語を強制
   label_custom_field_select_type: カスタムフィールドを追加するオブジェクトを選択してください
+  label_issue_assigned_to_updated: 担当者の更新
+  label_check_for_updates: アップデートを確認
+  label_latest_compatible_version: 互換性のある最新バージョン
+  label_unknown_plugin: 不明なプラグイン
+  label_radio_buttons: ラジオボタン
+  label_group_anonymous: 匿名ユーザー
+  label_group_non_member: 非メンバー
+  label_add_projects: プロジェクトの追加
+  field_default_status: デフォルトのステータス
+  text_subversion_repository_note: '例: file:///, http://, https://, svn://, svn+[tunnelscheme]://'
+  field_users_visibility: 表示できるユーザー
+  label_users_visibility_all: すべてのアクティブなユーザー
+  label_users_visibility_members_of_visible_projects: 見ることができるプロジェクトのメンバー
+  label_edit_attachments: 添付ファイルの編集
+  setting_link_copied_issue: チケットをコピーしたときに関連を設定
+  label_link_copied_issue: コピーしたチケットに関連を設定
+  label_ask: 都度選択
+  label_search_attachments_yes: 添付ファイルの名前と説明も検索
+  label_search_attachments_no: 添付ファイルを除外
+  label_search_attachments_only: 添付ファイルのみ検索
+  label_search_open_issues_only: 未完了のチケットのみ
+  field_address: メールアドレス
+  setting_max_additional_emails: 追加メールアドレス数の上限
+  label_email_address_plural: メールアドレス
+  label_email_address_add: メールアドレスの追加
+  label_enable_notifications: 通知を有効にする
+  label_disable_notifications: 通知を無効にする
+  setting_search_results_per_page: ページごとの検索結果表示件数
+  label_blank_value: 空
+  permission_copy_issues: チケットのコピー
+  error_password_expired: パスワードの有効期限が過ぎたか、システム管理者より変更を求められています。
+  field_time_entries_visibility: 表示できる作業時間
+  setting_password_max_age: パスワードの有効期限
+  label_parent_task_attributes: 親チケットの値の算出方法
+  label_parent_task_attributes_derived: 子チケットの値から算出
+  label_parent_task_attributes_independent: 子チケットから独立
+  label_time_entries_visibility_all: すべての作業時間
+  label_time_entries_visibility_own: 自身が登録した作業時間
+  label_member_management: メンバーの管理
+  label_member_management_all_roles: すべてのロール
+  label_member_management_selected_roles_only: 次のロールのみ
+  label_password_required: この操作を続行するにはパスワードを入力してください
+  label_total_spent_time: 合計作業時間
+  notice_import_finished: "%{count}件の項目をすべてインポートしました"
+  notice_import_finished_with_errors: "全%{total}件中%{count}件の項目がインポートできませんでした"
+  error_invalid_file_encoding: このファイルのエンコーディングは正しい%{encoding}ではありません
+  error_invalid_csv_file_or_settings: このファイルはCSVファイルではないか、以下の設定と一致していません
+  error_can_not_read_import_file: インポート元のファイルを読み込み中にエラーが発生しました
+  permission_import_issues: チケットのインポート
+  label_import_issues: チケットのインポート
+  label_select_file_to_import: インポートするファイルを選択してください
+  label_fields_separator: 区切り文字
+  label_fields_wrapper: 文字列の引用符
+  label_encoding: エンコーディング
+  label_comma_char: コンマ
+  label_semi_colon_char: セミコロン
+  label_quote_char: シングルクォート
+  label_double_quote_char: ダブルクォート
+  label_fields_mapping: フィールドの対応関係
+  label_file_content_preview: ファイル内容のプレビュー
+  label_create_missing_values: 存在しない値は新規作成
+  button_import: インポート
+  field_total_estimated_hours: 合計予定工数
+  label_api: API
+  label_total_plural: 合計
+  label_assigned_issues: 担当しているチケット
+  label_field_format_enumeration: キー・バリュー リスト
+  label_f_hour_short: '%{value}時間'
+  field_default_version: デフォルトのバージョン
+  error_attachment_extension_not_allowed: 拡張子が %{extension} のファイルの添付は禁止されています
+  setting_attachment_extensions_allowed: 許可する拡張子
+  setting_attachment_extensions_denied: 禁止する拡張子
+  label_any_open_issues: 未完了のチケット
+  label_no_open_issues: なし または完了したチケット
+  label_default_values_for_new_users: 新しいユーザーのデフォルト設定
+  error_ldap_bind_credentials: LDAPアカウント/パスワードが無効です
+  setting_sys_api_key: APIキー
+  setting_lost_password: パスワードの再発行
+  mail_subject_security_notification: セキュリティ通知
+  mail_body_security_notification_change: ! '%{field} が変更されました。'
+  mail_body_security_notification_change_to: ! '%{field} が %{value} に変更されました。'
+  mail_body_security_notification_add: ! '%{field} に %{value} が追加されました。'
+  mail_body_security_notification_remove: ! '%{field} から %{value} が削除されました。'
+  mail_body_security_notification_notify_enabled: メールアドレス %{value} に今後の通知が送信されます。
+  mail_body_security_notification_notify_disabled: メールアドレス %{value} には今後は通知が送信されません。
+  mail_body_settings_updated: ! '下記の設定が変更されました:'
+  field_remote_ip: IPアドレス
+  label_wiki_page_new: 新しいWikiページ
+  label_relations: 関係
+  button_filter: フィルタ
+  mail_body_password_updated: パスワードが変更されました。
+  label_no_preview: このファイルはプレビューできません
+  error_no_tracker_allowed_for_new_issue_in_project: このプロジェクトにはチケットの追加が許可されているトラッカーがありません
+  label_tracker_all: すべてのトラッカー
+  label_new_project_issue_tab_enabled: '"新しいチケット" タブを表示'
+  setting_new_item_menu_tab: 新規オブジェクト作成タブ
+  label_new_object_tab_enabled: '"+" ドロップダウンを表示'
+  error_no_projects_with_tracker_allowed_for_new_issue: チケットを追加できるプロジェクトがありません
+  error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: 削除対象チケットへの作業時間の再割り当てはできません

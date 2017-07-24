@@ -1,0 +1,89 @@
+= Redmine Bitbucket Hook
+
+This plugin allows you to update your local Mercurial repositories in Redmine when changes have been pushed to Bitbucket.
+
+This plugin was originally a fork from Redmine Github Hook from Jakob Skjerning ( http://github.com/koppen/redmine_github_hook ). Alessio Caiazza converted it to work with BitBucket. Unfortunately Alessio got very busy and the plugin fell behind. That's when I took over and made sure it stayed current with Redmine and BitBucket development. For instance, Redmine version 2 changed how plugins work or BitBucket added support for Git repo's.
+
+While I've submitted pull requests for Alessio Caiazza to merge into his repo, they've pretty much gone ignored. So my repo (https://bitbucket.org/petersanchez/redmine-bitbucket) should be the most recent / working version.
+
+== Description
+
+Redmine <http://redmine.org> has supported Mercurial repositories for a long time, allowing you to browse your code and view your changesets directly in Redmine. For this purpose, Redmine relies on local clones of the Mercurial repositories.
+
+If your shared repository is on a remote machine - for example on Bitbucket - this unfortunately means a bit of legwork to keep the local, Redmine-accessible repository up-to-date. The common approach is to set up a cronjob that pulls in any changes with regular intervals and updates Redmine with them.
+
+That approach works perfectly fine, but is a bit heavy-handed and cumbersome. The Redmine Bitbucket Hook plugin allows Bitbucket to notify your Redmine installation when changes have been pushed to a repository, triggering an update of your local repository and Redmine data only when it is actually necessary.
+
+
+== Installation
+
+1. Installing the plugin
+   1. Install the json gem <http://json.rubyforge.org/> on the machine where Redmine is running.
+   2. Follow the plugin installation procedure at http://www.redmine.org/wiki/redmine/Plugins.
+   3. This directory MUST BE NAMED: redmine_bitbucket_hook   - For example, to clone it to your plugins directory, do: hg clone https://bitbucket.org/petersanchez/redmine-bitbucket redmine_bitbucket_hook
+   4. Restart your Redmine.
+   5. If you already have a local Mercurial repository set up and working from Redmine go to step 3, otherwise continue at step 2.
+
+2. Adding a Mercurial repository to a project (note, this should work whether you want to use Redmine Bitbucket Hook or not). Either follow the instructions at http://www.redmine.org/wiki/redmine/HowTo_keep_in_sync_your_git_repository_for_redmine or the ones below:
+   1. Go to the directory on your Redmine machine where you want to keep your repository, for example /home/redmine/repositories/.
+   2. Get a clone of the repository into that location: hg clone http://bitbucket.org/nolith/redmine-bitbucket. This creates a repository directory at /home/redmine/repositories/redmine-bitbucket/.
+   3. Open Redmine in your browser and navigate to the Settings for the project you want to add a Mercurial repository to.
+   4. Under the Repository tab, choose Mercurial as your SCM and enter the full path to the repository directory from step 2; /home/redmine/repositories/redmine-bitbucket/ . Click "Create".
+   5. Click the new "Repository" link in the main navigation to verify that your repository integration works - this might take a while as Redmine is fetching all commits.
+
+3. Connecting Bitbucket to Redmine
+   1. Go to the repository Admin interface on Bitbucket and click the 'Service' link on 'Additional options/settings' menu.
+   2. Under "Services Administration" add a new "POST" service.
+   3. Compile the URL field with: "[redmine_installation_url]/bitbucket_hook" (for example "http://example.com/bitbucket_hook").
+
+That's it. Bitbucket will now send a HTTP POST to the Redmine Bitbucket Hook plugin whenever changes are pushed to Bitbucket. The plugin then takes care of pulling the changes to the local repository and updating the Redmine database with them.
+
+
+== Test
+
+You can test your plugin using curl. Put the following in a file called "test.txt"
+
+payload={"repository": {"name": "YOUR_REPO_NAME"}}
+
+Remember, the name has to match the Redmine project identifier. So if the repo and redmine project were named "some_project", then replace "YOUR_REPO_NAME" with "some_project"
+
+Then simply use the following command:
+
+curl -X POST -d @test.txt http://www.your-redmine-domain.com/bitbucket_hook
+
+You should simply receive "OK" as a response. Anything else and there was trouble. You can check your logs to troubleshoot.
+
+
+== Assumptions
+
+* Your project identifier in Redmine is the same as the project name on Bitbucket.
+* Redmine >= 0.8 <= 2.1.2 running on a *nix-like system.
+* Mercurial available on the commandline and the repository has the bitbucket url as a default path.
+
+
+== License
+
+Copyright (c) 2012 Peter Sanchez
+Copyright (c) 2010 Alessio Caiazza
+Copyright (c) 2009 Jakob Skjerning
+
+Permission is hereby granted, free of charge, to any person
+obtaining a copy of this software and associated documentation
+files (the "Software"), to deal in the Software without
+restriction, including without limitation the rights to use,
+copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the
+Software is furnished to do so, subject to the following
+conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+OTHER DEALINGS IN THE SOFTWARE.

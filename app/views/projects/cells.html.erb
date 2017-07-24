@@ -1,11 +1,19 @@
 <div class="tabbable">
 	<div class="row pagination-centered">
-		<div id="view-tab" class="btn-group" data-toggle="buttons-radio">
-  			<button class="btn btn-large active" href="#graph" id="graphLink" data-toggle="tab"><icon class="icon-circle-blank"></icon> Graph view</button>
-  			<button class="btn btn-large" href="#listcells" id="listcellsLink" data-toggle="tab"><icon class="icon-th-list"></icon> List view</button>
-  			<button class="btn btn-large" href="#gallery" id="galleryLink" data-toggle="tab"><icon class="icon-th-large"></icon> Gallery view</button>
-  			<button class="btn btn-large" href="#tags" id="tagsLink" data-toggle="tab"><icon class="icon-cloud"></icon> Tags view</button>
-		</div>
+	    <div id="view-tab" class="btn-group" data-toggle="buttons">
+                <label class="btn btn-large active">
+  		    <input type="radio" href="#graph" id="graphLink" data-toggle="tab"><icon class="icon-circle-blank"></icon> Graph view
+                </label>
+                <label class="btn btn-large">
+  		    <input type="radio" href="#listcells" id="listcellsLink" data-toggle="tab"><icon class="icon-th-list"></icon> List view
+                </label>
+                <label class="btn btn-large">
+  		    <input type="radio" href="#gallery" id="galleryLink" data-toggle="tab"><icon class="icon-th-large"></icon> Gallery view
+                </label>
+                <label class="btn btn-large">
+  		    <input type="radio" href="#tags" id="tagsLink" data-toggle="tab"><icon class="icon-cloud"></icon> Tags view
+                </label>
+	    </div>
 		<br/><br/><br/>
 	</div>
 	<!-- This begins the graph or list section -->
@@ -21,12 +29,12 @@
 			<% end %>	
 	    </div>
 	    <div class="tab-pane row-fluid" id="listcells">
-	    	<div class="span4 navbar">
+                <div class="col-sm-4 navbar">
 		    	<div class="nav">
 		    		<form class="filterform form-search" action="#">
 		    			<div class="input-prepend">
 						  <span class="add-on"><i class="icon-filter"></i></span>
-						  <input id="cellsfilter" class="filter search-query" type="text" placeholder="Filter projects...">
+						  <input id="cellsfilter" class="filter search-query form-control" type="text" placeholder="Filter projects...">
 						</div>
 					</form>
 			    	<ul id="cellslist" class="nav overflow-list">
@@ -36,11 +44,11 @@
 					</ul>
 				 </div>
 			 </div>	 	
-			<div class="span8 tab-content">
+			<div class="col-sm-8 tab-content">
 				<% for p in @modelProjects %>
 					<div class="tab-pane" id="cell<%= p.id %>"">
 						<a class="btn btn-large btn-info pull-right" href="<%= url_for({:controller => 'projects', :action => 'show', :id => p}) %>"><icon class="icon-folder-open"></icon> Open project</a>
-						<br/><br/>
+						<br/>
 						<%= textilizable(p.short_description, :project => p) %>
 					</div>
 				<% end %>
@@ -56,10 +64,10 @@
 			                    <a href="#"><%= textilizable(galleryImage[:image]) %></a>
 			                </div>
 			                <div class="caption row-fluid">
-			                    <div class="span4">
+			                    <div class="col-sm-4">
 			                    	<h3><a href="<%= url_for({:controller => 'projects', :action => 'show', :id => galleryImage[:project]}) %>"><%= galleryImage[:project].name %></a></h3>
 			                    </div>
-			                	<div class="span8">
+			                	<div class="col-sm-8">
 			                		<p><%= textilizable(galleryImage[:project].description, :project => galleryImage[:project]) %></p>
 			                	</div>
 			                </div>
@@ -74,7 +82,7 @@
 		    </div>
 		</div>	
 		
-		<div class="tab-pane row-fluid" id="tags" style="height:500px;width:800px;">
+		<div class="tab-pane row" id="tags" style="height:500px;width:800px;">
 			<!-- Only display if html5/tagcanvas is not supported -->
 			<div id="tagsNotSupported" class="alert" style="display:none">
 			  <button type="button" class="close" data-dismiss="alert">&times;</button>

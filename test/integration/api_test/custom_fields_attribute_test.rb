@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -20,10 +20,6 @@ require File.expand_path('../../../test_helper', __FILE__)
 class Redmine::ApiTest::CustomFieldsAttributeTest < Redmine::ApiTest::Base
   fixtures :users
 
-  def setup
-    Setting.rest_api_enabled = '1'
-  end
-
   def test_integer_custom_fields_should_accept_strings
     field = GroupCustomField.generate!(:field_format => 'int')
 
@@ -42,5 +38,26 @@ class Redmine::ApiTest::CustomFieldsAttributeTest < Redmine::ApiTest::Base
     assert_response :created
     group = Group.order('id DESC').first
     assert_equal "52", group.custom_field_value(field)
+  end
+
+  def test_multivalued_custom_fields_should_accept_an_array
+    field = GroupCustomField.generate!(
+      :field_format => 'list',
+      :multiple => true,
+      :possible_values => ["V1", "V2", "V3"],
+      :default_value => "V2"
+    )
+
+payload = <<-JSON
+{"group": {"name":"Foooo",
+"custom_field_values":{"#{field.id}":["V1","V3"]}
+}
+}
+JSON
+
+    post '/groups.json', payload, {'CONTENT_TYPE' => 'application/json'}.merge(credentials('admin'))
+    assert_response :created
+    group = Group.order('id DESC').first
+    assert_equal ["V1", "V3"], group.custom_field_value(field).sort
   end
 end

@@ -2,47 +2,92 @@
 
 <div id="user_form">
 	<!--[form:user]-->
-	<fieldset class="box tabular"> 
-	  <legend><%=l(:label_information_plural)%></legend>
-	  <div class="control-group"><%= f.text_field :login, :required => true, :size => 25  %></div>
-	  <div class="control-group"><%= f.text_field :firstname, :required => true %></div>
-	  <div class="control-group"><%= f.text_field :lastname, :required => true %></div>
-	  <div class="control-group"><%= f.text_field :mail, :required => true %></div>
-	  <div class="control-group"><%= f.select :language, lang_options_for_select %></div>
-	  <% if Setting.openid? %>
-	  <div class="control-group"><%= f.text_field :identity_url  %></div>
-	  <% end %>
+    <fieldset class="form-horizontal"> 
+	    <legend><%=l(:label_information_plural)%></legend>
+	    <div class="form-group">
+                <label class="col-sm-2 control-label" for="login">
+                    <%= l(:field_login) %>:
+                </label>
+                <%= f.text_field :login, :no_label => true, :required => true, :class => 'form-control col-sm-2'%>
+            </div>
+	    <div class="form-group">
+                <label class="col-sm-2 control-label" for="firstname">
+                    <%= l(:field_firstname) %>:
+                </label>
+                <%= f.text_field :firstname, :no_label => true, :required => true, :class => 'form-control col-sm-2'%>
+            </div>
+	    <div class="form-group">
+                <label class="col-sm-2 control-label" for="firstname">
+                    <%= l(:field_lastname) %>:
+                </label>
+                <%= f.text_field :lastname, :no_label => true, :required => true, :class => 'form-control col-sm-2'%>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="firstname">
+                    <%= l(:field_mail) %>:
+                </label>
+                <%= f.text_field :mail, :no_label => true, :required => true, :class => 'form-control col-sm-2' %>
+            </div>
+	    <div class="form-group">
+                <label class="col-sm-2 control-label" for="language">
+                    <%= l(:field_language) %>:
+                </label>
+                <%= f.select :language, lang_options_for_select, :no_label => true, :class => 'form-control col-sm-2' %>
+            </div>
+	    <% if Setting.openid? %>
+	        <div class="form-group">
+                    <label class="col-sm-2 control-label" for="identity">
+                        <%= l(:field_identity_url) %>:
+                    </label>
+                    <%= f.text_field :identity_url, :no_label => true, :class => 'form-control col-sm-2' %>
+                </div>
+	    <% end %>
 	
-	  <% @user.custom_field_values.each do |value| %>
-	    <div class="control-group"><%= custom_field_tag_with_label :user, value %></div>
-	  <% end %>
-	
-	  <div class="control-group"><%= f.check_box :admin, :disabled => (@user == User.current) %></div>
-	  <%= call_hook(:view_users_form, :user => @user, :form => f) %>
+	    <% @user.custom_field_values.each do |value| %>
+	        <div class="form-group"><%= custom_field_tag_with_label :user, value, :classes => 'col-sm-2' %></div>
+	    <% end %>
+	    
+	    <div class="form-group">
+                <label class="col-sm-2 control-label" for="admin">
+                    <%= l(:field_admin) %>:
+                </label>
+                <%= f.check_box :admin, :no_label => true, :disabled => (@user == User.current) %>
+            </div>
+	    <%= call_hook(:view_users_form, :user => @user, :form => f) %>
 	</fieldset>
-	<fieldset class="box tabular">
-	  <legend><%=l(:label_authentication)%></legend>
-	  <% unless @auth_sources.empty? %>
-		<div class="control-group"><%= f.select :auth_source_id, ([[l(:label_internal), ""]] + @auth_sources.collect { |a| [a.name, a.id] }), {}, :onchange => "if (this.value=='') {$('#password_fields').show();} else {$('#password_fields').hide();}" %></div>
-	  <% end %>
-	  <div id="password_fields" style="<%= 'display:none;' if @user.auth_source %>">
-	  	<div class="control-group"><%= f.password_field :password, :required => true, :size => 25  %>
-	  		<em class="info"><%= l(:text_caracters_minimum, :count => Setting.password_min_length) %></em>
+	<fieldset class="form-horizontal">
+	    <legend><%=l(:label_authentication)%></legend>
+	    <% unless @auth_sources.empty? %>
+		<div class="form-group">
+                    <%= f.select :auth_source_id, ([[l(:label_internal), ""]] + @auth_sources.collect { |a| [a.name, a.id] }), {}, :onchange => "if (this.value=='') {$('#password_fields').show();} else {$('#password_fields').hide();}" %></div>
+	    <% end %>
+	    <div id="password_fields" style="<%= 'display:none;' if @user.auth_source %>">
+	  	<div class="form-group">
+                    <label class="col-sm-2 control-label" for="user_password">
+                        <%= l(:field_password) %>
+                    </label>
+                    <%= f.password_field :password, :no_label => true, :required => true, :size => 25, :class => 'form-control col-sm-2'  %>
+	  	    <em class="info"><%= l(:text_caracters_minimum, :count => Setting.password_min_length) %></em>
 	  	</div>
-	  	<div class="control-group"><%= f.password_field :password_confirmation, :required => true, :size => 25  %></div>
-	  </div>
+	  	<div class="form-group">
+                    <label class="col-sm-2 control-label" for="user_password_confirmation">
+                        <%= l(:field_password_confirmation) %>
+                    </label>
+                    <%= f.password_field :password_confirmation, :no_label => true, :required => true, :size => 25, :class => 'form-control col-sm-2'  %>
+                </div>
+	    </div>
 	</fieldset>
 	
-	<fieldset class="box">
-	  <legend><%=l(:field_mail_notification)%></legend>
-	  <%= render :partial => 'users/mail_notifications' %>
+	<fieldset class="form-horizontal">
+	    <legend><%=l(:field_mail_notification)%></legend>
+	    <%= render :partial => 'users/mail_notifications' %>
 	</fieldset>
 	
-	<fieldset class="box tabular">
-	  <legend><%=l(:label_preferences)%></legend>
-	  <%= render :partial => 'users/preferences' %>
+	<fieldset class="form-horizontal">
+	    <legend><%=l(:label_preferences)%></legend>
+	    <%= render :partial => 'users/preferences' %>
 	</fieldset>
- 
+        
 </div>
 <div style="clear:left;"></div>
 <!--[eoform:user]-->

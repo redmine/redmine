@@ -1,7 +1,7 @@
 # encoding: utf-8
 #
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -28,6 +28,8 @@ module CustomFieldsHelper
      :label => :label_project_plural},
     {:name => 'VersionCustomField', :partial => 'custom_fields/index',
      :label => :label_version_plural},
+    {:name => 'DocumentCustomField', :partial => 'custom_fields/index',
+     :label => :label_document_plural},
     {:name => 'UserCustomField', :partial => 'custom_fields/index',
      :label => :label_user_plural},
     {:name => 'GroupCustomField', :partial => 'custom_fields/index',
@@ -49,6 +51,15 @@ module CustomFieldsHelper
     CUSTOM_FIELDS_TABS.map {|h| [l(h[:label]), h[:name]]}
   end
 
+  def custom_field_title(custom_field)
+    items = []
+    items << [l(:label_custom_field_plural), custom_fields_path]
+    items << [l(custom_field.type_name), custom_fields_path(:tab => custom_field.class.name)] if custom_field
+    items << (custom_field.nil? || custom_field.new_record? ? l(:label_custom_field_new) : custom_field.name) 
+
+    title(*items)
+  end
+
   def render_custom_field_format_partial(form, custom_field)
     partial = custom_field.format.form_partial
     if partial
@@ -67,29 +78,35 @@ module CustomFieldsHelper
   end
 
   # Return custom field html tag corresponding to its format
-  def custom_field_tag(prefix, custom_value)
+  def custom_field_tag(prefix, custom_value, options={})
     custom_value.custom_field.format.edit_tag self,
       custom_field_tag_id(prefix, custom_value.custom_field),
       custom_field_tag_name(prefix, custom_value.custom_field),
       custom_value,
-      :class => "#{custom_value.custom_field.field_format}_cf"
+      :class => "#{custom_value.custom_field.field_format}_cf form-control #{options[:classes]}"
   end
 
+  # Return custom field name tag
+  def custom_field_name_tag(custom_field)
+    title = custom_field.description.presence
+    css = title ? "field-description" : nil
+    content_tag 'span', custom_field.name, :title => title, :class => css
+  end
+  
   # Return custom field label tag
   def custom_field_label_tag(name, custom_value, options={})
     required = options[:required] || custom_value.custom_field.is_required?
-    title = custom_value.custom_field.description.presence
-    content = content_tag 'span', custom_value.custom_field.name, :title => title
+    content = custom_field_name_tag custom_value.custom_field
 
     content_tag "label", content +
       (required ? " <span class=\"required\">*</span>".html_safe : ""),
-      :class => "control-label",
+      :class => "control-label col-sm-2",
       :for => "#{name}_custom_field_values_#{custom_value.custom_field.id}"
   end
 
   # Return custom field tag with its label tag
   def custom_field_tag_with_label(name, custom_value, options={})
-    custom_field_label_tag(name, custom_value, options) + ("<div class='controls'>" + custom_field_tag(name, custom_value) + "</div>").html_safe()
+    custom_field_label_tag(name, custom_value, options) + ("<div class='control-label col-sm-3'>" + custom_field_tag(name, custom_value, options) + "</div>").html_safe()
   end
 
   def custom_field_tag_for_bulk_edit(name, custom_field, projects=nil, value='')
@@ -162,6 +179,17 @@ module CustomFieldsHelper
     Redmine::FieldFormat.as_select(custom_field.class.customized_class.name)
   end
 
+  # Yields the given block for each custom field value of object that should be
+  # displayed, with the custom field and the formatted value as arguments
+  def render_custom_field_values(object, &block)
+    object.visible_custom_field_values.each do |custom_value|
+      formatted = show_value(custom_value)
+      if formatted.present?
+        yield custom_value.custom_field, formatted
+      end
+    end
+  end
+
   # Renders the custom_values in api views
   def render_api_custom_values(custom_values, api)
     api.array :custom_fields do
@@ -183,7 +211,11 @@ module CustomFieldsHelper
     end unless custom_values.empty?
   end
 
-  def edit_tag_style_tag(form)
-    form.select :edit_tag_style, [[l(:label_drop_down_list), ''], [l(:label_checkboxes), 'check_box']], :label => :label_display
+  def edit_tag_style_tag(form, options={})
+    select_options = [[l(:label_drop_down_list), ''], [l(:label_checkboxes), 'check_box']]
+    if options[:include_radio]
+      select_options << [l(:label_radio_buttons), 'radio']
+    end
+    form.select :edit_tag_style, select_options, :label => :label_display
   end
 end

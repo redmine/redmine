@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -20,13 +20,15 @@ class ProjectEnumerationsController < ApplicationController
   before_filter :authorize
 
   def update
-    if request.put? && params[:enumerations]
-      Project.transaction do
+    if params[:enumerations]
+      saved = Project.transaction do
         params[:enumerations].each do |id, activity|
           @project.update_or_create_time_entry_activity(id, activity)
         end
       end
-      flash[:notice] = l(:notice_successful_update)
+      if saved
+        flash[:notice] = l(:notice_successful_update)
+      end
     end
 
     redirect_to settings_project_path(@project, :tab => 'activities')

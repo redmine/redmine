@@ -1,9 +1,9 @@
-<div class="span4 navbar">
+<div class="col-sm-3 navbar">
 	<div class="nav">
 		<form class="filterform form-search" action="#">
 			<div class="input-prepend">
 			  <span class="add-on"><i class="icon-filter"></i></span>
-			  <input id="cellsfilter" class="filter search-query" type="text" placeholder="Filter projects...">
+			  <input id="cellsfilter" class="filter search-query form-control" type="text" placeholder="Filter projects...">
 			</div>
 		</form>
     	<ul id="cellslist" class="nav overflow-list">
@@ -13,7 +13,7 @@
 		</ul>
 	 </div>
  </div>	 	
-<div class="span8 tab-content">
+<div class="col-sm-9 tab-content">
 	<div id="projectsSummary" style="color:#37abc8;margin:20px auto;text-align:center;">
 	There are currently <%= @modelProjects.length %> cell and network projects in OSB. <br/><br/>Select a project in the list on the left to see a short description.
 	</div>

@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -31,10 +31,9 @@ class RolesControllerTest < ActionController::TestCase
     assert_template 'index'
 
     assert_not_nil assigns(:roles)
-    assert_equal Role.order('builtin, position').all, assigns(:roles)
+    assert_equal Role.order('builtin, position').to_a, assigns(:roles)
 
-    assert_tag :tag => 'a', :attributes => { :href => '/roles/1/edit' },
-                            :content => 'Manager'
+    assert_select 'a[href="/roles/1/edit"]', :text => 'Manager'
   end
 
   def test_new
@@ -55,7 +54,7 @@ class RolesControllerTest < ActionController::TestCase
 
     assert_select 'form' do
       # blank name
-      assert_select 'input[name=?][value=]', 'role[name]'
+      assert_select 'input[name=?][value=""]', 'role[name]'
       # edit_project permission checked
       assert_select 'input[type=checkbox][name=?][value=edit_project][checked=checked]', 'role[permissions][]'
       # add_project permission not checked
@@ -63,7 +62,7 @@ class RolesControllerTest < ActionController::TestCase
       assert_select 'input[type=checkbox][name=?][value=add_project][checked=checked]', 'role[permissions][]', 0
       # workflow copy selected
       assert_select 'select[name=?]', 'copy_workflow_from' do
-        assert_select 'option[value=2][selected=selected]'
+        assert_select 'option[value="2"][selected=selected]'
       end
     end
   end
@@ -75,7 +74,7 @@ class RolesControllerTest < ActionController::TestCase
 
     assert_response :success
     assert_template 'new'
-    assert_tag :tag => 'div', :attributes => { :id => 'errorExplanation' }
+    assert_select 'div#errorExplanation'
   end
 
   def test_create_without_workflow_copy
@@ -133,6 +132,22 @@ class RolesControllerTest < ActionController::TestCase
     assert_equal [:edit_project], role.permissions
   end
 
+  def test_update_trackers_permissions
+    put :update, :id => 1, :role => {
+      :permissions_all_trackers => {'add_issues' => '0'},
+      :permissions_tracker_ids => {'add_issues' => ['1', '3', '']}
+    }
+
+    assert_redirected_to '/roles'
+    role = Role.find(1)
+
+    assert_equal({'add_issues' => '0'}, role.permissions_all_trackers)
+    assert_equal({'add_issues' => ['1', '3']}, role.permissions_tracker_ids)
+
+    assert_equal false, role.permissions_all_trackers?(:add_issues)
+    assert_equal [1, 3], role.permissions_tracker_ids(:add_issues).sort
+  end
+
   def test_update_with_failure
     put :update, :id => 1, :role => {:name => ''}
     assert_response :success
@@ -160,17 +175,10 @@ class RolesControllerTest < ActionController::TestCase
     assert_template 'permissions'
 
     assert_not_nil assigns(:roles)
-    assert_equal Role.order('builtin, position').all, assigns(:roles)
+    assert_equal Role.order('builtin, position').to_a, assigns(:roles)
 
-    assert_tag :tag => 'input', :attributes => { :type => 'checkbox',
-                                                 :name => 'permissions[3][]',
-                                                 :value => 'add_issues',
-                                                 :checked => 'checked' }
-
-    assert_tag :tag => 'input', :attributes => { :type => 'checkbox',
-                                                 :name => 'permissions[3][]',
-                                                 :value => 'delete_issues',
-                                                 :checked => nil }
+    assert_select 'input[name=?][type=checkbox][value=add_issues][checked=checked]', 'permissions[3][]'
+    assert_select 'input[name=?][type=checkbox][value=delete_issues]:not([checked])', 'permissions[3][]'
   end
 
   def test_post_permissions
@@ -189,28 +197,28 @@ class RolesControllerTest < ActionController::TestCase
   end
 
   def test_move_highest
-    put :update, :id => 3, :role => {:move_to => 'highest'}
+    put :update, :id => 3, :role => {:position => 1}
     assert_redirected_to '/roles'
     assert_equal 1, Role.find(3).position
   end
 
   def test_move_higher
     position = Role.find(3).position
-    put :update, :id => 3, :role => {:move_to => 'higher'}
+    put :update, :id => 3, :role => {:position => position - 1}
     assert_redirected_to '/roles'
     assert_equal position - 1, Role.find(3).position
   end
 
   def test_move_lower
     position = Role.find(2).position
-    put :update, :id => 2, :role => {:move_to => 'lower'}
+    put :update, :id => 2, :role => {:position => position + 1}
     assert_redirected_to '/roles'
     assert_equal position + 1, Role.find(2).position
   end
 
   def test_move_lowest
-    put :update, :id => 2, :role => {:move_to => 'lowest'}
+    put :update, :id => 2, :role => {:position => Role.givable.count}
     assert_redirected_to '/roles'
-    assert_equal Role.count, Role.find(2).position
+    assert_equal Role.givable.count, Role.find(2).position
   end
 end

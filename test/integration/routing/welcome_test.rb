@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,15 +17,9 @@
 
 require File.expand_path('../../../test_helper', __FILE__)
 
-class RoutingWelcomeTest < ActionController::IntegrationTest
+class RoutingWelcomeTest < Redmine::RoutingTest
   def test_welcome
-    assert_routing(
-        { :method => 'get', :path => "/" },
-        { :controller => 'welcome', :action => 'index' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/robots.txt" },
-        { :controller => 'welcome', :action => 'robots' }
-      )
+    should_route 'GET /' => 'welcome#index'
+    should_route 'GET /robots.txt' => 'welcome#robots'
   end
 end

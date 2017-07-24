@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -60,12 +60,20 @@ class AccountController < ApplicationController
   # Lets user choose a new password
   def lost_password
     (redirect_to(home_url); return) unless Setting.lost_password?
-    if params[:token]
-      @token = Token.find_token("recovery", params[:token].to_s)
+    if prt = (params[:token] || session[:password_recovery_token])
+      @token = Token.find_token("recovery", prt.to_s)
       if @token.nil? || @token.expired?
         redirect_to home_url
         return
       end
+
+      # redirect to remove the token query parameter from the URL and add it to the session
+      if request.query_parameters[:token].present?
+        session[:password_recovery_token] = @token.value
+        redirect_to lost_password_url
+        return
+      end
+
       @user = @token.user
       oldPassword = @user.hashed_password
       unless @user && @user.active?
@@ -76,6 +84,7 @@ class AccountController < ApplicationController
         @user.password, @user.password_confirmation = params[:new_password], params[:new_password_confirmation]
         if @user.save
           @token.destroy
+          Mailer.password_updated(@user)
           flash[:notice] = l(:notice_account_password_updated)
           
           #Geppetto update
@@ -98,7 +107,8 @@ class AccountController < ApplicationController
       return
     else
       if request.post?
-        user = User.find_by_mail(params[:mail].to_s)
+        email = params[:mail].to_s
+        user = User.find_by_mail(email)
         # user not found
         unless user
           flash.now[:error] = l(:notice_account_unknown_email)
@@ -116,7 +126,9 @@ class AccountController < ApplicationController
         # create a new token for password recovery
         token = Token.new(:user => user, :action => "recovery")
         if token.save
-          Mailer.lost_password(token).deliver
+          # Don't use the param to send the email
+          recipent = user.mails.detect {|e| email.casecmp(e) == 0} || user.mail
+          Mailer.lost_password(token, recipent).deliver
           flash[:notice] = l(:notice_account_lost_email_sent)
           redirect_to signin_path
           return
@@ -135,6 +147,7 @@ class AccountController < ApplicationController
       user_params = params[:user] || {}
       @user = User.new
       @user.safe_attributes = user_params
+      @user.pref.attributes = params[:pref] if params[:pref]
       @user.admin = false
       @user.register
       if session[:auth_source_registration]
@@ -153,13 +166,24 @@ class AccountController < ApplicationController
           @user.password, @user.password_confirmation = user_params[:password], user_params[:password_confirmation]
         end
 
-        case Setting.self_registration
-        when '1'
-          register_by_email_activation(@user)
-        when '3'
-          register_automatically(@user)
-        else
-          register_manually_by_administrator(@user)
+        skip = false
+
+        if params[:activation_token]
+          if params[:activation_token]=="student"
+            skip = true
+            register_automatically(@user)
+          end
+        end
+        
+        if !(skip)
+          case Setting.self_registration
+          when '1'
+            register_by_email_activation(@user)
+          when '3'
+            register_automatically(@user)
+          else
+            register_manually_by_administrator(@user)
+          end
         end
         
         #Geppetto register
@@ -224,6 +248,7 @@ class AccountController < ApplicationController
       # Valid user
       if user.active?
         successful_authentication(user)
+        update_sudo_timestamp! # activate Sudo Mode
       else
         handle_inactive_user(user)
       end
@@ -287,11 +312,15 @@ class AccountController < ApplicationController
 
   def set_autologin_cookie(user)
     token = Token.create(:user => user, :action => 'autologin')
+    secure = Redmine::Configuration['autologin_cookie_secure']
+    if secure.nil?
+      secure = request.ssl?
+    end
     cookie_options = {
       :value => token.value,
       :expires => 1.year.from_now,
-      :path => (Redmine::Configuration['autologin_cookie_path'] || '/'),
-      :secure => (Redmine::Configuration['autologin_cookie_secure'] ? true : false),
+      :path => (Redmine::Configuration['autologin_cookie_path'] || RedmineApp::Application.config.relative_url_root || '/'),
+      :secure => secure,
       :httponly => true
     }
     cookies[autologin_cookie_name] = cookie_options
@@ -306,7 +335,7 @@ class AccountController < ApplicationController
 
   def invalid_credentials
     logger.warn "Failed login for '#{params[:username]}' from #{request.remote_ip} at #{Time.now.utc}"
-    flash.now[:error] = l(:notice_account_invalid_creditentials)
+    flash.now[:error] = l(:notice_account_invalid_credentials)
   end
 
   # Register a user for email activation.
@@ -316,7 +345,7 @@ class AccountController < ApplicationController
     token = Token.new(:user => user, :action => "register")
     if user.save and token.save
       Mailer.register(token).deliver
-      flash[:notice] = l(:notice_account_register_done, :email => user.mail)
+      flash[:notice] = l(:notice_account_register_done, :email => ERB::Util.h(user.mail))
       redirect_to signin_path
     else
       yield if block_given?

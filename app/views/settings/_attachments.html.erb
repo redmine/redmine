@@ -1,0 +1,21 @@
+<%= form_tag({:action => 'edit', :tab => 'attachments'}) do %>
+
+<div class="box tabular settings">
+<p><%= setting_text_field :attachment_max_size, :size => 6 %> <%= l(:"number.human.storage_units.units.kb") %></p>
+
+<p><%= setting_text_area :attachment_extensions_allowed %>
+<em class="info"><%= l(:text_comma_separated) %> <%= l(:label_example) %>: txt, png</em></p>
+
+<p><%= setting_text_area :attachment_extensions_denied %>
+<em class="info"><%= l(:text_comma_separated) %> <%= l(:label_example) %>: js, swf</em></p>
+
+<p><%= setting_text_field :file_max_size_displayed, :size => 6 %> <%= l(:"number.human.storage_units.units.kb") %></p>
+
+<p><%= setting_text_field :diff_max_lines_displayed, :size => 6 %></p>
+
+<p><%= setting_text_field :repositories_encodings, :size => 60 %>
+<em class="info"><%= l(:text_comma_separated) %></em></p>
+</div>
+
+<%= submit_tag l(:button_save) %>
+<% end %>

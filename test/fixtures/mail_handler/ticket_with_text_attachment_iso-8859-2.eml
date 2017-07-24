@@ -1,0 +1,31 @@
+Date: Thu, 14 Jan 2016 18:32:45 +0100
+From: John Smith <JSmith@somenet.foo>
+To: redmine@somenet.foo
+Message-ID: <7A3.L9Yi.1Ki1}PMZiV5.1Mbzkz@seznam.cz>
+Subject: issue #21742
+Mime-Version: 1.0
+Content-Type: multipart/mixed;
+ boundary="=_08d580646981073f1a667ba3=898e56d9-3d29-5ed2-9c9a-cc3a5d9474b5_=";
+ charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Mailer: szn-ebox-4.5.88
+
+
+--=_08d580646981073f1a667ba3=898e56d9-3d29-5ed2-9c9a-cc3a5d9474b5_=
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: base64
+
+
+--=_08d580646981073f1a667ba3=898e56d9-3d29-5ed2-9c9a-cc3a5d9474b5_=
+Content-Type: text/plain;
+ charset=UTF-8;
+ name=latin2.txt
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: attachment;
+ filename=latin2.txt;
+ size=19
+
+p=F8=EDli=B9 =BEluou=E8k=FD k=F9n=
+
+--=_08d580646981073f1a667ba3=898e56d9-3d29-5ed2-9c9a-cc3a5d9474b5_=--

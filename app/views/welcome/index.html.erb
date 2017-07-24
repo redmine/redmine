@@ -1,93 +1,22 @@
+<% content_for :header_tags do %>
+  <script src="/javascripts/welcome.js"></script>
+<% end %>
+<div id="geppettoHomeContainer"></div>
 <% if not User.current.logged? %>
-
-<!-- HEADER -->
-<div class="row-fluid mainContentIndex">
-		<p class="big-lead"><img src="images/osbcircle.png" style="width:8%; margin-right:25px">Modelling the brain, together</p>
-		<p class="lead"><strong>Open Source Brain</strong> is a resource for sharing and collaboratively developing computational models of neural systems.</p>
-		<p class="lead"><strong>Try exploring one of these models:</strong></p>
-		<div id="learnMoreContainer" class="row-fluid"style="text-align: center; display:none;"></div>
-		<br/>
-		<br/>
-		<p class="lead">Explore OSB to see all the rest, create an account to add your own models and <strong>run simulations</strong>!</p>
-		<p>
-			<a class="btn btn-large btn-info" href="/projects">
-				Explore OSB
-			</a>
-			&nbsp;&nbsp;&nbsp;&nbsp; 	  
-			<a class="btn btn-large btn-success" href="/account/register">
-				Sign up
-			</a>
-			&nbsp;&nbsp;&nbsp;&nbsp; 	  
-			<a class="btn btn-large btn-success" href="/login">
-				Sign in
-			</a>
-			<a href="/docs#Getting_Started"><icon id="helpIcon" class="icon-question-sign"/></a>
-		</p>
-
-</div>
-
-<script>
-jQuery(function()
-{
-	//Load Geppetto Project links
-	callGeppetto("", addSampleProjectsToHome, true);  
-});
-</script>
-<!--
-<div class="carousel slide" id="carouselMainPage">
-    <div class="carousel-inner" id="carouselInner">
-		<div class="item active">
-            <div class="bannerImage">
-                <a href="#"><img src="images/osbcircle.png"></a>
-            </div>
-        </div>
+    <!-- HEADER -->
+    <div class="row-fluid indexNoUser">
+	<p class="big-lead"><img src="images/osbcircle.png" class="lead-logo">Modelling the brain, together</p>
+	<p class="lead"><strong>Open Source Brain</strong> is a resource for sharing and collaboratively developing computational models of neural systems.</p>
+	<p class="lead"><strong>Try exploring one of these models:</strong></p>
+	<div id="learnMoreContainer" class="row"></div>
+	<p class="lead">Explore OSB to see all the rest, create an account to add your own models and <strong>run simulations</strong>!</p>
+	<div>
+	    <a class="btn btn-large btn-info" href="/projects">Explore OSB</a>
+	    <a class="btn btn-large btn-success" href="/account/register">Sign up</a>
+	    <a class="btn btn-large btn-success" href="/login">Sign in</a>
+	    <a href="/docs#Getting_Started"><icon id="helpIcon" class="icon-question-sign blue-icon"/></a>
+	</div>
     </div>
-
-    <div class="control-box" style="display: none">                            
-        <a data-slide="prev" href="#carouselMainPage" class="carousel-control left">‹</a>
-        <a data-slide="next" href="#carouselMainPage" class="carousel-control right">›</a>
-    </div>
-</div>
-
-<br/>
-
-<div>
-    <p ><strong>Read about the <a href="docs/Help/Meetings#OSB_2015">OSB 2015 Workshop</a></strong></p>
-</div>
-
-<script>
-jQuery(function()
-{
-	//Init carousel for gallery view 
-	$('#carouselMainPage').carousel({
-	  pause: true,
-	  interval: false
-    });
-})
-</script>
-
-<script>
-jQuery(function()
-{
-	//
-$.ajax({
-	url: "/welcome/welcome_carousel",
-	cache: false,
-	async: true,
-	success: function(html){
-		
-		$("#carouselInner").append(html);
-		$(".control-box").show();
-    },
-    error: function( xhr, textStatus, errorThrown ) {
-      console.log("Error loading carousel " + textStatus);
-    }
-  });
-  
-
-});
-</script>
--->
 <% else %>
 
 <!-- HEADER -->
@@ -105,29 +34,29 @@ $.ajax({
 <div class="tab-content">
 
 	<!-- PROJECTS -->
-	<div id="myprojects" class="tab-pane">
-		<div class="row-fluid" id="welcomeMainContainer">
-			<div class="span8" style="margin-left: 0px;">
+	<div id="myprojects" class="tab-pane active in">
+		<div class="container-fluid" id="welcomeMainContainer">
+			<div class="col-xs-12 col-md-8">
 				<% unless @events_by_day.empty? %>
 				<div id="activity">
 					<% @actID=0 %>
 					<% @events_by_day.keys.sort.reverse.each do |day| %>
 						<% @actID=@actID+1 %>
-						<div class="row-fluid activity-item">
+						<div class="row activity-item">
 						<% @events_by_day[day].sort {|x,y| y.event_datetime <=> x.event_datetime }.each do |e| -%>
 							<% @actID=@actID+1 %>
-								<div class="row-fluid activity-item">
-						  			<div class="span05 <%= "E_"+e.event_type %> <%= User.current.logged? && e.respond_to?(:event_author) && User.current == e.event_author ? 'me' : nil %>"></div>
-							  		<div class="span11">
-							  			<div class="time row-fluid" id="<%= 'T'+@actID.to_s() %>"><%= javascript_tag "jQuery('#{'#T'+@actID.to_s()}').html(moment('#{e.event_datetime}', 'YYYY-MM-DD HH:mm:ss Z').fromNow());" %></div>
-							  			<div class="author row-fluid"><strong><%= link_to_user(e.event_author) if e.respond_to?(:event_author) %> edited
+								<div class="row activity-item">
+						  			<div class="col-md-1 <%= "E_"+e.event_type %> <%= User.current.logged? && e.respond_to?(:event_author) && User.current == e.event_author ? 'me' : nil %>"></div>
+							  		<div class="col-md-9">
+							  			<div class="time row" id="<%= 'T'+@actID.to_s() %>"><%= javascript_tag "jQuery('#{'#T'+@actID.to_s()}').html(moment('#{e.event_datetime}', 'YYYY-MM-DD HH:mm:ss Z').fromNow());" %></div>
+							  			<div class="author row"><strong><%= link_to_user(e.event_author) if e.respond_to?(:event_author) %> edited
 							  			
 							  			<%= content_tag('span', h(e.project), :class => 'project-title') if @project.nil? || @project != e.project %></strong></div>
-							  			<div class="row-fluid">
+							  			<div class="row">
 							  			<%= avatar(e.event_author, :size => "50", :class => "img-rounded") if e.respond_to?(:event_author) %>
 							  			<%= link_to format_activity_title(e.event_title), e.event_url %>
 							  			</div>
-							  			<div class="row-fluid">
+							  			<div class="row">
 							  				<div class="description"><%= format_activity_description(e.event_description) %></div>
 						  				</div>
 						  			</div>
@@ -139,7 +68,6 @@ $.ajax({
 				<% end %>
 				<% if @events_by_day.empty? %>
 					<p class="lead">You have no activities yet! Why don't you start by creating a new project?</p>
-					<br/></br/><br/>
 					<icon class="icon-coffee icon-xxxlarge"></icon>
 					<icon class="icon-lightbulb icon-xxxlarge"></icon>
 					<icon class="icon-beaker icon-xxxlarge"></icon>
@@ -147,34 +75,34 @@ $.ajax({
 			</div>
 			
 		
-				<div class="span4">
-					<table class="projecttable table">
+				<div class="col-xs-6 col-md-4">
+					<table class="table table-bordered-rows table-hover projecttable">
 						<thead>
 							<tr>
-								<td><h4>Your projects </h4></td>
+								<td><h4>Your projects</h4></td>
 								<td class="noborder pull-right">
-									<button type="button" class="btn btn-success icon-plus"  onclick="location.href='/projects/new';"> New project</button>
-									<a href="/docs#Creating_Your_Own_Project"><icon style="font-size: 20px;" class="icon-large icon-question-sign"/></a>
+									<button type="button" class="btn btn-success" onclick="location.href='/projects/new';"><i class="icon-plus"></i> New project</button>
+									<a href="/docs#Creating_Your_Own_Project"><icon style="font-size: 20px;" class="icon-large icon-question-sign blue-icon"/></a>
 								</td> 	
-							<tr>
+							</tr>
 						</thead>
 						<% if @projects.any? %>
 							<%= call_hook(:view_welcome_index_left, :projects => @projects) %>
 							<% unless @memberships.empty? %>
 								
 									<% for membership in @memberships %>
-										<tr><td colspan="2"><icon class=" icon-list-alt"></icon><%= link_to_project(membership.project) %></td></tr>
+										<tr><td colspan="2"><icon class="icon-list-alt"></icon><%= link_to_project(membership.project) %></td></tr>
 									<% end %>
 								
 							<% end %>
 						<% end %>
 					</table>
 					
-					<table class="projecttable table">
+					<table class="table table-bordered-rows table-hover projecttable">
 						<thead>
 							<tr>
 								<td><h4>Latest projects added on OSB</h4></td> 	
-							<tr>
+							</tr>
 						</thead>
 							<% maxprjcount=3 %>
 							<% i=0 %>
@@ -182,7 +110,7 @@ $.ajax({
 								<%if(i<maxprjcount)%>
 									<% @project = project %>
 									<% i=i+1 %>
-										<tr><td><icon class=" icon-list-alt"></icon> <%= link_to_project project %></td></tr> 
+										<tr><td><icon class="icon-list-alt"></icon><%= link_to_project project %></td></tr> 
 								<% else break;%>
 								<% end %>
 							<% end %>
@@ -201,26 +129,6 @@ $.ajax({
 	<div id="workspace" class="tab-pane">
 		<div class="row-fluid" id="dashboardContainer">
 		</div>
-		<script>
-			jQuery(function(){
-				callGeppetto("", addDashboard, true);
-				
-				$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-
-				  var target = $(e.target).attr("href") // activated tab
-				  switch(target){
-				  	case "#workspace":
-				  		hideFooter();
-    					$('#mainContent').removeClass("mainContentMargins");
-    					break;
-    				default:
-    					showFooter();
-    					$('#mainContent').addClass("mainContentMargins");
-    					break;
-				  }
-				});
-			});
-		</script>
 	</div>
 	
 	<!-- NEWS -->
@@ -274,7 +182,6 @@ $.ajax({
 		One of the most straightforward features is simple three-dimensional pan, zoom, and rotation functionality.  This works both with the mouse as well as more precise control with the navigation buttons on the left hand panel.
 		</p>
 		<img src="images/help/Fig-1-Pan-Zoom.gif" class="img-help">
-		
 		<p>
 		<strong>Explore the models</strong>
 		</br>
@@ -354,16 +261,9 @@ $.ajax({
 		<img src="images/osbcircle.png" class="logo-help">
 	</div>
 	
-</div>
-
-
-
-	
 	<% content_for :header_tags do %>
 	<%= stylesheet_link_tag 'scm' %>
 	<%= auto_discovery_link_tag(:atom, {:controller => 'news', :action => 'index', :key => User.current.rss_key, :format => 'atom'},:title => "#{Setting.app_title}: #{l(:label_news_latest)}") %>
 	<%= auto_discovery_link_tag(:atom, {:controller => 'activities', :action => 'index', :key => User.current.rss_key, :format => 'atom'},:title => "#{Setting.app_title}: #{l(:label_activity)}") %>
 	<% end %>
-
-
 <% end %>

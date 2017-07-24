@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -18,13 +18,17 @@
 class Wiki < ActiveRecord::Base
   include Redmine::SafeAttributes
   belongs_to :project
-  has_many :pages, :class_name => 'WikiPage', :dependent => :destroy, :order => 'title'
-  has_many :redirects, :class_name => 'WikiRedirect', :dependent => :delete_all
+  has_many :pages, lambda {order('title')}, :class_name => 'WikiPage', :dependent => :destroy
+  has_many :redirects, :class_name => 'WikiRedirect'
 
   acts_as_watchable
 
   validates_presence_of :start_page
   validates_format_of :start_page, :with => /\A[^,\.\/\?\;\|\:]*\z/
+  validates_length_of :start_page, maximum: 255
+  attr_protected :id
+
+  before_destroy :delete_redirects
 
   safe_attributes 'start_page'
 
@@ -51,11 +55,11 @@ class Wiki < ActiveRecord::Base
     title = start_page if title.blank?
     title = Wiki.titleize(title)
     page = pages.where("LOWER(title) = LOWER(?)", title).first
-    if !page && !(options[:with_redirect] == false)
+    if page.nil? && options[:with_redirect] != false
       # search for a redirect
       redirect = redirects.where("LOWER(title) = LOWER(?)", title).first
       if redirect
-        page = find_page(redirect.redirects_to, :with_redirect => false)
+        page = redirect.target_page
         @page_found_with_redirect = true
       end
     end
@@ -65,6 +69,12 @@ class Wiki < ActiveRecord::Base
   # Returns true if the last page was found with a redirect
   def page_found_with_redirect?
     @page_found_with_redirect
+  end
+
+  # Deletes all redirects from/to the wiki
+  def delete_redirects
+    WikiRedirect.where(:wiki_id => id).delete_all
+    WikiRedirect.where(:redirects_to_wiki_id => id).delete_all
   end
 
   # Finds a page by title

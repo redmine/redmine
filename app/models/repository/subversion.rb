@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -42,7 +42,7 @@ class Repository::Subversion < Repository
     revisions = scm.revisions(path, rev, nil, :limit => limit)
     if revisions
       identifiers = revisions.collect(&:identifier).compact
-      changesets.where(:revision => identifiers).reorder("committed_on DESC").includes(:repository, :user).all
+      changesets.where(:revision => identifiers).reorder("committed_on DESC").includes(:repository, :user).to_a
     else
       []
     end

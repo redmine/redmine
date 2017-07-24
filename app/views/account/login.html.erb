@@ -1,51 +1,77 @@
 <%= call_hook :view_account_login_top %>
-<div class="pull-right lead sidetitle">OSB Sign in <i class="icon-signin"></i></div>
-<div id="login-form">
-	<%= form_tag(signin_path) do %>
-	<%= back_url_hidden_field_tag %>
+<div class="pull-right sidetitle">OSB Sign in <i class="icon-signin"></i></div>
+<%= form_tag(signin_path, :class => 'form-horizontal login-form', onsubmit: 'return keepAnchorOnSignIn(this);') do %>
+    <%= back_url_hidden_field_tag %>
+    <div class="form-group">
+    	<label class="col-sm-2 control-label" for="username">
+            <%= l(:field_login)%>:
+        </label>
+	<div class="col-sm-3">
+            <input type="text" name="username" tabindex="1" class="form-control">
+        </div>
+    </div>
 
+    <div class="form-group">
+	<label class="col-sm-2 control-label" for="password">
+            <%= l(:field_password)%>:
+        </label>
+	<div class="col-sm-3">
+            <input type="password" name="password" tabindex="2" class="form-control">
+        </div>
+    </div>
+    
+    <% if Setting.openid? %>
+	<div class="form-group">
+	    <label class="col-sm-2 control-label" for="openid_url">
+                <%= l(:field_identity_url)%>
+            </label>
+	    <div class="col-sm-3">
+                <input type="text" name="openid_url", tabindex="3" class="form-control">
+            </div>
+	</div>
+    <% end %>
 
-		<div class="control-group">
-			<label class="control-label" for="username"><%= l(:field_login)%>:</label>
-			<div class="controls"><%= text_field_tag 'username', params[:username], :tabindex => '1' %></div>
-		</div>
-		<div class="control-group">
-			<label class="control-label" for="password"><%= l(:field_password)%>:</label>
-			<div class="controls"><%= password_field_tag 'password', nil, :tabindex => '2' %></div>
-		</div>
-		
-		<% if Setting.openid? %>
-			<div class="control-group">
-				<label class="control-label" for="openid_url"><%= l(:field_identity_url)%></label>
-				<div class="controls"><%= text_field_tag "openid_url", nil, :tabindex => '3' %></div>
-			</div>
-		<% end %>
-		<div class="control-group">
-			<% if Setting.autologin? %> <label for="autologin"><%= check_box_tag 'autologin', 1, false, :tabindex => 4 %> <%= l(:label_stay_logged_in) %></label> <% end %>
-		</div>
-		<div class="control-group">
-			<div class="nolabelcontrols"><input type="submit" class="btn btn-large btn-success" id="loginButton" name="login" value="<%= l(:button_login)%> &#187;" tabindex="5"/></div>
-		</div>
-		<div class="control-group">
-			<% if Setting.lost_password? %>
-				<div class="nolabelcontrols"><%= link_to l(:label_password_lost), lost_password_path %></div>
-			<% end %>
-		</div>
+    <% if Setting.autologin? %>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <div class="checkbox">
+                    <label for="autologin">
+                        <input id="accept" id="autologin" name="autologin" type="checkbox" value="1" tabindex="4">
+                        <%= l(:label_stay_logged_in) %>
+                    </label>
+                </div>
+            </div>
+        </div>
+    <% end %>
 
-	<% end %>
-</div>
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+	    <button type="submit" class="btn btn-large btn-success" id="loginButton" name="login" tabindex="5">
+                <%= l(:button_login)%>
+            </button>
+        </div>
+    </div>
+
+    <% if Setting.lost_password? %>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+	        <%= link_to l(:label_password_lost), lost_password_path %>
+            </div>
+        </div>
+    <% end %>
+<% end %>
 
 <%= call_hook :view_account_login_bottom %>
 
 <% if params[:username].present? %>
-<%= javascript_tag "$('#password').focus();" %>
+    <%= javascript_tag "$('#password').focus();" %>
 <% else %>
-<%= javascript_tag "$('#username').focus();" %>
+    <%= javascript_tag "$('#username').focus();" %>
 <% end %>
 
 <script>
-$('#loginButton').click(function(e){
-	e.preventDefault();
-    callGeppetto("logout?outputFormat=json", processOSBLogin, false);
-});
+ $('#loginButton').click(function(e){
+     e.preventDefault();
+     callGeppetto("logout?outputFormat=json", processOSBLogin, false);
+ });
 </script>

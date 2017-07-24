@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -22,6 +22,7 @@ class ProjectsHelperTest < ActionView::TestCase
   include ProjectsHelper
   include Redmine::I18n
   include ERB::Util
+  include Rails.application.routes.url_helpers
 
   fixtures :projects, :trackers, :issue_statuses, :issues,
            :enumerations, :users, :issue_categories,
@@ -41,12 +42,19 @@ class ProjectsHelperTest < ActionView::TestCase
   def test_link_to_version_within_project
     @project = Project.find(2)
     User.current = User.find(1)
-    assert_equal '<a href="/versions/5">Alpha</a>', link_to_version(Version.find(5))
+    assert_equal '<a title="07/01/2006" href="/versions/5">Alpha</a>', link_to_version(Version.find(5))
   end
 
   def test_link_to_version
     User.current = User.find(1)
-    assert_equal '<a href="/versions/5">OnlineStore - Alpha</a>', link_to_version(Version.find(5))
+    assert_equal '<a title="07/01/2006" href="/versions/5">OnlineStore - Alpha</a>', link_to_version(Version.find(5))
+  end
+
+  def test_link_to_version_without_effective_date
+    User.current = User.find(1)
+    version = Version.find(5)
+    version.effective_date = nil
+    assert_equal '<a href="/versions/5">OnlineStore - Alpha</a>', link_to_version(version)
   end
 
   def test_link_to_private_version

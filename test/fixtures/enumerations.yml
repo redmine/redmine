@@ -78,11 +78,13 @@ enumerations_012:
   type: Enumeration
   is_default: true
   active: true
+  position: 1
 enumerations_013:
   name: Another Enumeration
   id: 13
   type: Enumeration
   active: true
+  position: 2
 enumerations_014: 
   name: Inactive Activity
   id: 14

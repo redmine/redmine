@@ -1,111 +1,116 @@
+<% content_for :header_tags do %>
+    <script src="/javascripts/search.js"></script>
+<% end %>
+
 <h2><%= l(:label_search) %></h2>
 
 <div id="search_box" class="box">
-<%= form_tag({}, :method => :get, :id => 'search-form') do %>
+    <%= form_tag({}, :method => :get, :id => 'search-form') do %>
+        <p><%= text_field_tag 'q', @question, :size => 60, :id => 'search-input' %>
+            <%= project_select_tag %>
+            <%= hidden_field_tag 'all_words', '', :id => nil %>
+            <label class="inline-element"><%= check_box_tag 'all_words', 1, @all_words %> <%= l(:label_all_words) %></label>
+            <%= hidden_field_tag 'titles_only', '', :id => nil %>
+            <label class="inline-element"><%= check_box_tag 'titles_only', 1, @titles_only %> <%= l(:label_search_titles_only) %></label>
+        </p>
 
-<p><%= text_field_tag 'q', @question, :size => 60, :id => 'search-input' %>
-<%= project_select_tag %>
-<%= hidden_field_tag 'all_words', '', :id => nil %>
-<label class="inline-element"><%= check_box_tag 'all_words', 1, @all_words %> <%= l(:label_all_words) %></label>
-<%= hidden_field_tag 'titles_only', '', :id => nil %>
-<label class="inline-element"><%= check_box_tag 'titles_only', 1, @titles_only %> <%= l(:label_search_titles_only) %></label>
-</p>
+        <p id="search-types">
+            <% @object_types.each do |t| %>
+                <label><%= check_box_tag t, 1, @scope.include?(t) %> <%= type_label(t) %></label>
+            <% end %>
+        </p>
+        <fieldset class="collapsible collapsed">
+            <legend onclick="toggleFieldset(this);"><%= l(:label_options) %></legend>
+            <div id="options-content" style="display:none;">
+                <p><label><%= check_box_tag 'open_issues', 1, @open_issues %> <%= l(:label_search_open_issues_only) %></label></p>
+                <p>
+                    <label><%= radio_button_tag 'attachments', '0', @search_attachments == '0' %> <%= l(:label_search_attachments_no) %></label>
+                    <label><%= radio_button_tag 'attachments', '1', @search_attachments == '1' %> <%= l(:label_search_attachments_yes) %></label>
+                    <label><%= radio_button_tag 'attachments', 'only', @search_attachments == 'only' %> <%= l(:label_search_attachments_only) %></label>
+                </p>
+                <%= call_hook(:view_search_index_options_content_bottom) %>
+            </div>
+        </fieldset>
+        <%= hidden_field_tag 'options', '', :id => 'show-options' %>
 
-<p id="search-types">
-<% @object_types.each do |t| %>
-<label><%= check_box_tag t, 1, @scope.include?(t) %> <%= type_label(t) %></label>
-<% end %>
-</p>
-
-<p><%= submit_tag l(:button_submit) %></p>
-<% end %>
+        <p><%= submit_tag l(:button_submit) %></p>
+    <% end %>
 </div>
 
 <% if @results %>
     <div id="search-results-counts">
-      <%= render_results_by_type(@results_by_type) unless @scope.size == 1 %>
+        <%= render_results_by_type(@result_count_by_type) unless @scope.size == 1 %>
     </div>
-    <h3><%= l(:label_result_plural) %> (<%= @results_by_type.values.sum %>)</h3>
-    <dl id="search-results">
-      <% @results.each do |e| %>
-        <% p = e.project %>
-        <div>
-        <dt class="<%= e.event_type %>">
-          <%= content_tag('span', h(e.project), :class => 'project') unless @project == e.project %>
-          <%= link_to(highlight_tokens(e.event_title.truncate(255), @tokens), e.event_url) %>
-        </dt>
-        <dd class="searchDD">
-        	<% if e.event_type == "project" %>
-	        	<%= textilizable(p.short_description_without_image, :project => p) %>
-        	<% else %>
-	        	<span class="description"><%= textilizable(highlight_tokens(e.event_description, @tokens), :project => p) %></span>
-	        	<div>
-					<div><i>Project description:<%= textilizable(p.short_description_without_image, :project => p) %></i></div>
-	        	</div>
-        	<% end %>
-        	
-        	<div>
-        		<div>
-		        	<% if isBestPractice?(p) %>
-						<%= getGeneralBadge(p, 'Endorsement', 'OSB best practice project', 'This project is endorsed by OSB and has been identified as fulfilling OSB best practices for projects.', '', 'label label-success') %>
-						<%= getTooltipedBadge(p,'Curation level','Curation against published models','How well does the curated NeuroML/PyNN version of this model reproduce published models? See Status for more details.') %>
-		        	<% elsif isEndorsedNotBestPractice?(p) %>
-						<%= getGeneralBadge(p, 'Endorsement', 'OSB endorsed project', 'This project is endorsed by OSB and is officially supported.', '', 'label label-info') %>
-						<%= getTooltipedBadge(p,'Curation level','Curation against published models','How well does the curated NeuroML/PyNN version of this model reproduce published models? See Status for more details.') %>
-		        	<% else %>
-		        		<% category =  getCustomField(p,"Category")  %>
-						<% isAProject = (category=="Project" or category=="Showcase") %>
-			        	<% if isAProject %>
-							<%= getGeneralBadge(p, 'Endorsement', 'User project', 'This is a personal user project and has not yet been endorsed by OSB. Please get in contact (info@opensourcebrain.org) to have this project endorsed!', '', 'label label-warning') %>
-						<% end %>
-					<% end %>	
-				</div>
-        	</div>
+    <h3 class="results-title"><%= l(:label_result_plural) %> (<%= @result_count %>)</h3>
+    <a href="#" class="btn exp-col-btn expand-btn">Expand</a>
+    <div id="results" role="tab-list" aria-multiselectable="true">
+        <% @results.each_with_index do |e, i| %>
+            <% p = e.project %>
+            <div class="result">
+                <div class="result-header" role="tab" id="heading<%= i %>">
+                    <h4 class="mb-0">
+                        <%= link_to(highlight_tokens(e.event_title, @tokens), e.event_url) %>
+                        <a class="<%= e.event_type %>" data-toggle="collapse"
+                           data-parent="#accordion" href="#collapse<%= i %>" aria-expanded="true" aria-controls="collapse<%= i %>"
+                           alt="Show description…" title="Show description…">
+                            <i class="icon-caret-down"></i>
+                            <!--<%= e.event_title.truncate(255) %>-->
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapse<%= i %>" class="result-info collapse" role="tabpanel" aria-labelled-by="collapse<%= i %>">
+                    <div class="card-block">
+        	        <% if e.event_type == "project" %>
+  	        	    <%= textilizable(p.short_description_without_image, :project => p) %>
+        	        <% else %>
+	        	    <span class="description"><%= textilizable(highlight_tokens(e.event_description, @tokens), :project => p) %></span>
+			    <div>
+                                <i>Project description:<%= textilizable(p.short_description_without_image, :project => p) %></i>
+                            </div>
+        	        <% end %>
+        	        
+        	        <div class="badges">
+                            <%= getEndorsementBadge(p) %>
+                            <%= getCurationBadge(p) %>
+        	            <%= getSimulatorBadges(p) %>
+        	        </div>
+        	        
+        	        <% tags=getCustomField(p,'Tag') %>
+        	        <% if tags!=nil and tags!='' %>
+			    <div><%= getBadge(p, 'Tag', '', '', '', 'label label-success') %></div>
+		        <% end %>
 
-        	<div>
-        		<div><%= getStatusBadges(p, false) %></div>
-        	</div>
-        	
-        	<% tags=getCustomField(p,'Tag') %>
-        	<% if tags!=nil and tags!='' %>
-				<div>
-					<div><%= getGeneralBadge(p, 'Tag', '', '', '', 'label label-success') %></div>
-				</div>
-			<% end %>
-
-			<div>
-				<div><b>Last updated:</b></div>
-				<div><%= format_time(e.event_datetime) %></div>
-        	</div>	
-        
-        </dd>
-        </div>
-      <% end %>
+		        <div class="last-updated">
+			    <b>Last updated:</b> <%= format_time(e.event_datetime) %>
+        	        </div>
+                    </div>
+                </div>
+            </div>
+        <% end %>
     </dl>
 <% end %>
 
-<p class="pagination">
-<% if @pagination_previous_date %>
-<%= link_to_content_update("\xc2\xab " + l(:label_previous),
-      params.merge(:previous => 1,
-                   :offset => @pagination_previous_date.strftime("%Y%m%d%H%M%S"))) %>&nbsp;
+<% if @result_pages %>
+<span class="pagination"><%= pagination_links_full @result_pages, @result_count, :per_page_links => false %></span>
 <% end %>
-<% if @pagination_next_date %>
-<%= link_to_content_update(l(:label_next) + " \xc2\xbb",
-      params.merge(:previous => nil,
-                   :offset => @pagination_next_date.strftime("%Y%m%d%H%M%S"))) %>
-<% end %>
-</p>
 
 <% html_title(l(:label_search)) -%>
 
 <%= javascript_tag do %>
 $("#search-types a").click(function(e){
   e.preventDefault();
-  $("#search-types input[type=checkbox]").attr('checked', false);
-  $(this).siblings("input[type=checkbox]").attr('checked', true);
+  $("#search-types input[type=checkbox]").prop('checked', false);
+  $(this).siblings("input[type=checkbox]").prop('checked', true);
   if ($("#search-input").val() != "") {
     $("#search-form").submit();
   }
 });
+
+$("#search-form").submit(function(){
+  $("#show-options").val($("#options-content").is(":visible") ? '1' : '0');
+});
+
+<% if params[:options] == '1' %>
+toggleFieldset($("#options-content"));
+<% end %>
 <% end %>

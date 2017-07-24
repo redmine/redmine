@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -43,6 +43,18 @@ class GanttsControllerTest < ActionController::TestCase
     assert_select "div a.issue", /##{i.id}/
   end
 
+  def test_gantt_at_minimal_zoom
+    get :show, :project_id => 1, :zoom => 1
+    assert_response :success
+    assert_equal 1, assigns(:gantt).zoom
+  end
+
+  def test_gantt_at_maximal_zoom
+    get :show, :project_id => 1, :zoom => 4
+    assert_response :success
+    assert_equal 4, assigns(:gantt).zoom
+  end
+
   def test_gantt_should_work_without_issue_due_dates
     Issue.update_all("due_date = NULL")
     get :show, :project_id => 1
@@ -73,11 +85,11 @@ class GanttsControllerTest < ActionController::TestCase
     get :show
     assert_response :success
     assert_template 'gantts/show'
-    assert_tag 'a', :content => /eCookbook/
+    assert_select 'a', :text => /eCookbook/
     # Root private project
-    assert_no_tag 'a', {:content => /OnlineStore/}
+    assert_select 'a', :text => /OnlineStore/, :count => 0
     # Private children of a public project
-    assert_no_tag 'a', :content => /Private child of eCookbook/
+    assert_select 'a', :text => /Private child of eCookbook/, :count => 0
   end
 
   def test_gantt_should_display_relations

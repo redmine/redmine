@@ -7,6 +7,7 @@ jsToolBar.strings['Code'] = 'Koodi näkymä';
 jsToolBar.strings['Heading 1'] = 'Otsikko 1';
 jsToolBar.strings['Heading 2'] = 'Otsikko 2';
 jsToolBar.strings['Heading 3'] = 'Otsikko 3';
+jsToolBar.strings['Highlighted code'] = 'Highlighted code';
 jsToolBar.strings['Unordered list'] = 'Järjestämätön lista';
 jsToolBar.strings['Ordered list'] = 'Järjestetty lista';
 jsToolBar.strings['Quote'] = 'Quote';

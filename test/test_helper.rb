@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -15,7 +15,15 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-#require 'shoulda'
+if ENV["COVERAGE"]
+  require 'simplecov'
+  require File.expand_path(File.dirname(__FILE__) + "/coverage/html_formatter")
+  SimpleCov.formatter = Redmine::Coverage::HtmlFormatter
+  SimpleCov.start 'rails'
+end
+
+$redmine_test_ldap_server = ENV['REDMINE_TEST_LDAP_SERVER'] || '127.0.0.1'
+
 ENV["RAILS_ENV"] = "test"
 require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
 require 'rails/test_help'
@@ -24,7 +32,15 @@ require Rails.root.join('test', 'mocks', 'open_id_authentication_mock.rb').to_s
 require File.expand_path(File.dirname(__FILE__) + '/object_helpers')
 include ObjectHelpers
 
-require 'awesome_nested_set/version'
+require 'net/ldap'
+require 'mocha/setup'
+
+Redmine::SudoMode.disable!
+
+class ActionView::TestCase
+  helper :application
+  include ApplicationHelper
+end
 
 class ActiveSupport::TestCase
   include ActionDispatch::TestProcess
@@ -32,28 +48,8 @@ class ActiveSupport::TestCase
   self.use_transactional_fixtures = true
   self.use_instantiated_fixtures  = false
 
-  ESCAPED_CANT  = 'can&#x27;t'
-  ESCAPED_UCANT = 'Can&#x27;t'
-  # Rails 4.0.2
-  #ESCAPED_CANT  = 'can&#39;t'
-  #ESCAPED_UCANT = 'Can&#39;t'
-
-  def log_user(login, password)
-    User.anonymous
-    get "/login"
-    assert_equal nil, session[:user_id]
-    assert_response :success
-    assert_template "account/login"
-    post "/login", :username => login, :password => password
-    assert_equal login, User.find(session[:user_id]).login
-  end
-
   def uploaded_test_file(name, mime)
     fixture_file_upload("files/#{name}", mime, true)
-  end
-
-  def credentials(user, password=nil)
-    {'HTTP_AUTHORIZATION' => ActionController::HttpAuthentication::Basic.encode_credentials(user, password || user)}
   end
 
   # Mock out a file
@@ -127,14 +123,8 @@ class ActiveSupport::TestCase
     ::I18n.locale = saved_localed
   end
 
-  def change_user_password(login, new_password)
-    user = User.where(:login => login).first
-    user.password, user.password_confirmation = new_password, new_password
-    user.save!
-  end
-
   def self.ldap_configured?
-    @test_ldap = Net::LDAP.new(:host => '127.0.0.1', :port => 389)
+    @test_ldap = Net::LDAP.new(:host => $redmine_test_ldap_server, :port => 389)
     return @test_ldap.bind
   rescue Exception => e
     # LDAP is not listening
@@ -145,9 +135,15 @@ class ActiveSupport::TestCase
     Redmine::Thumbnail.convert_available?
   end
 
+  def convert_installed?
+    self.class.convert_installed?
+  end
+
   # Returns the path to the test +vendor+ repository
   def self.repository_path(vendor)
-    Rails.root.join("tmp/test/#{vendor.downcase}_repository").to_s
+    path = Rails.root.join("tmp/test/#{vendor.downcase}_repository").to_s
+    # Unlike ruby, JRuby returns Rails.root with backslashes under Windows
+    path.tr("\\", "/")
   end
 
   # Returns the url of the subversion test repository
@@ -169,6 +165,38 @@ class ActiveSupport::TestCase
     hs
   end
 
+  def sqlite?
+    ActiveRecord::Base.connection.adapter_name =~ /sqlite/i
+  end
+
+  def mysql?
+    ActiveRecord::Base.connection.adapter_name =~ /mysql/i
+  end
+
+  def postgresql?
+    ActiveRecord::Base.connection.adapter_name =~ /postgresql/i
+  end
+
+  def quoted_date(date)
+    date = Date.parse(date) if date.is_a?(String)
+    ActiveRecord::Base.connection.quoted_date(date)
+  end
+
+  # Asserts that a new record for the given class is created
+  # and returns it
+  def new_record(klass, &block)
+    new_records(klass, 1, &block).first
+  end
+
+  # Asserts that count new records for the given class are created
+  # and returns them as an array order by object id
+  def new_records(klass, count, &block)
+    assert_difference "#{klass}.count", count do
+      yield
+    end
+    klass.order(:id => :desc).limit(count).to_a.reverse
+  end
+
   def assert_save(object)
     saved = object.save
     message = "#{object.class} could not be saved"
@@ -177,8 +205,8 @@ class ActiveSupport::TestCase
     assert_equal true, saved, message
   end
 
-  def assert_error_tag(options={})
-    assert_tag({:attributes => { :id => 'errorExplanation' }}.merge(options))
+  def assert_select_error(arg)
+    assert_select '#errorExplanation', :text => arg
   end
 
   def assert_include(expected, s, message=nil)
@@ -190,8 +218,16 @@ class ActiveSupport::TestCase
   end
 
   def assert_select_in(text, *args, &block)
-    d = HTML::Document.new(CGI::unescapeHTML(String.new(text))).root
+    d = Nokogiri::HTML(CGI::unescapeHTML(String.new(text))).root
     assert_select(d, *args, &block)
+  end
+
+  def assert_select_email(*args, &block)
+    email = ActionMailer::Base.deliveries.last
+    assert_not_nil email
+    html_body = email.parts.detect {|part| part.content_type.include?('text/html')}.try(&:body)
+    assert_not_nil html_body
+    assert_select_in html_body.encoded, *args, &block
   end
 
   def assert_mail_body_match(expected, mail, message=nil)
@@ -214,281 +250,114 @@ class ActiveSupport::TestCase
     mail.parts.first.body.encoded
   end
 
-  # awesome_nested_set new node lft and rgt value changed this refactor revision.
-  #   https://github.com/collectiveidea/awesome_nested_set/commit/199fca9bb938e40200cd90714dc69247ef017c61
-  # The reason of behavior change is that "self.class.base_class.unscoped" was added to this line.
-  #   https://github.com/collectiveidea/awesome_nested_set/commit/199fca9bb9#diff-f61b59a5e6319024e211b0ffdd0e4ef1R273
-  # It seems correct behavior because of this line comment.
-  #   https://github.com/collectiveidea/awesome_nested_set/blame/199fca9bb9/lib/awesome_nested_set/model.rb#L278
+  # Returns the lft value for a new root issue
   def new_issue_lft
-    ::AwesomeNestedSet::VERSION > "2.1.6" ? Issue.maximum(:rgt) + 1 : 1
+    1
   end
 end
 
 module Redmine
+  class RoutingTest < ActionDispatch::IntegrationTest
+    def should_route(arg)
+      arg = arg.dup
+      request = arg.keys.detect {|key| key.is_a?(String)}
+      raise ArgumentError unless request
+      options = arg.slice!(request)
+
+      raise ArgumentError unless request =~ /\A(GET|POST|PUT|PATCH|DELETE)\s+(.+)\z/
+      method, path = $1.downcase.to_sym, $2
+
+      raise ArgumentError unless arg.values.first =~ /\A(.+)#(.+)\z/
+      controller, action = $1, $2
+
+      assert_routing(
+        {:method => method, :path => path},
+        options.merge(:controller => controller, :action => action)
+      )
+    end
+  end
+
+  class IntegrationTest < ActionDispatch::IntegrationTest
+    def log_user(login, password)
+      User.anonymous
+      get "/login"
+      assert_nil session[:user_id]
+      assert_response :success
+      assert_template "account/login"
+      post "/login", :username => login, :password => password
+      assert_equal login, User.find(session[:user_id]).login
+    end
+
+    def credentials(user, password=nil)
+      {'HTTP_AUTHORIZATION' => ActionController::HttpAuthentication::Basic.encode_credentials(user, password || user)}
+    end
+  end
+
   module ApiTest
+    API_FORMATS = %w(json xml).freeze
+
     # Base class for API tests
-    class Base < ActionDispatch::IntegrationTest
-      # Test that a request allows the three types of API authentication
-      #
-      # * HTTP Basic with username and password
-      # * HTTP Basic with an api key for the username
-      # * Key based with the key=X parameter
-      #
-      # @param [Symbol] http_method the HTTP method for request (:get, :post, :put, :delete)
-      # @param [String] url the request url
-      # @param [optional, Hash] parameters additional request parameters
-      # @param [optional, Hash] options additional options
-      # @option options [Symbol] :success_code Successful response code (:success)
-      # @option options [Symbol] :failure_code Failure response code (:unauthorized)
-      def self.should_allow_api_authentication(http_method, url, parameters={}, options={})
-        should_allow_http_basic_auth_with_username_and_password(http_method, url, parameters, options)
-        should_allow_http_basic_auth_with_key(http_method, url, parameters, options)
-        should_allow_key_based_auth(http_method, url, parameters, options)
+    class Base < Redmine::IntegrationTest
+      def setup
+        Setting.rest_api_enabled = '1'
       end
-    
-      # Test that a request allows the username and password for HTTP BASIC
-      #
-      # @param [Symbol] http_method the HTTP method for request (:get, :post, :put, :delete)
-      # @param [String] url the request url
-      # @param [optional, Hash] parameters additional request parameters
-      # @param [optional, Hash] options additional options
-      # @option options [Symbol] :success_code Successful response code (:success)
-      # @option options [Symbol] :failure_code Failure response code (:unauthorized)
-      def self.should_allow_http_basic_auth_with_username_and_password(http_method, url, parameters={}, options={})
-        success_code = options[:success_code] || :success
-        failure_code = options[:failure_code] || :unauthorized
-    
-        context "should allow http basic auth using a username and password for #{http_method} #{url}" do
-          context "with a valid HTTP authentication" do
-            setup do
-              @user = User.generate! do |user|
-                user.admin = true
-                user.password = 'my_password'
-              end
-              send(http_method, url, parameters, credentials(@user.login, 'my_password'))
-            end
-    
-            should_respond_with success_code
-            should_respond_with_content_type_based_on_url(url)
-            should "login as the user" do
-              assert_equal @user, User.current
-            end
-          end
-    
-          context "with an invalid HTTP authentication" do
-            setup do
-              @user = User.generate!
-              send(http_method, url, parameters, credentials(@user.login, 'wrong_password'))
-            end
-    
-            should_respond_with failure_code
-            should_respond_with_content_type_based_on_url(url)
-            should "not login as the user" do
-              assert_equal User.anonymous, User.current
-            end
-          end
-    
-          context "without credentials" do
-            setup do
-              send(http_method, url, parameters)
-            end
-    
-            should_respond_with failure_code
-            should_respond_with_content_type_based_on_url(url)
-            should "include_www_authenticate_header" do
-              assert @controller.response.headers.has_key?('WWW-Authenticate')
-            end
-          end
-        end
+
+      def teardown
+        Setting.rest_api_enabled = '0'
       end
-    
-      # Test that a request allows the API key with HTTP BASIC
-      #
-      # @param [Symbol] http_method the HTTP method for request (:get, :post, :put, :delete)
-      # @param [String] url the request url
-      # @param [optional, Hash] parameters additional request parameters
-      # @param [optional, Hash] options additional options
-      # @option options [Symbol] :success_code Successful response code (:success)
-      # @option options [Symbol] :failure_code Failure response code (:unauthorized)
-      def self.should_allow_http_basic_auth_with_key(http_method, url, parameters={}, options={})
-        success_code = options[:success_code] || :success
-        failure_code = options[:failure_code] || :unauthorized
-    
-        context "should allow http basic auth with a key for #{http_method} #{url}" do
-          context "with a valid HTTP authentication using the API token" do
-            setup do
-              @user = User.generate! do |user|
-                user.admin = true
-              end
-              @token = Token.create!(:user => @user, :action => 'api')
-              send(http_method, url, parameters, credentials(@token.value, 'X'))
-            end
-            should_respond_with success_code
-            should_respond_with_content_type_based_on_url(url)
-            should_be_a_valid_response_string_based_on_url(url)
-            should "login as the user" do
-              assert_equal @user, User.current
-            end
-          end
-    
-          context "with an invalid HTTP authentication" do
-            setup do
-              @user = User.generate!
-              @token = Token.create!(:user => @user, :action => 'feeds')
-              send(http_method, url, parameters, credentials(@token.value, 'X'))
-            end
-            should_respond_with failure_code
-            should_respond_with_content_type_based_on_url(url)
-            should "not login as the user" do
-              assert_equal User.anonymous, User.current
-            end
-          end
-        end
+
+      # Uploads content using the XML API and returns the attachment token
+      def xml_upload(content, credentials)
+        upload('xml', content, credentials)
       end
-    
-      # Test that a request allows full key authentication
-      #
-      # @param [Symbol] http_method the HTTP method for request (:get, :post, :put, :delete)
-      # @param [String] url the request url, without the key=ZXY parameter
-      # @param [optional, Hash] parameters additional request parameters
-      # @param [optional, Hash] options additional options
-      # @option options [Symbol] :success_code Successful response code (:success)
-      # @option options [Symbol] :failure_code Failure response code (:unauthorized)
-      def self.should_allow_key_based_auth(http_method, url, parameters={}, options={})
-        success_code = options[:success_code] || :success
-        failure_code = options[:failure_code] || :unauthorized
-    
-        context "should allow key based auth using key=X for #{http_method} #{url}" do
-          context "with a valid api token" do
-            setup do
-              @user = User.generate! do |user|
-                user.admin = true
-              end
-              @token = Token.create!(:user => @user, :action => 'api')
-              # Simple url parse to add on ?key= or &key=
-              request_url = if url.match(/\?/)
-                              url + "&key=#{@token.value}"
-                            else
-                              url + "?key=#{@token.value}"
-                            end
-              send(http_method, request_url, parameters)
-            end
-            should_respond_with success_code
-            should_respond_with_content_type_based_on_url(url)
-            should_be_a_valid_response_string_based_on_url(url)
-            should "login as the user" do
-              assert_equal @user, User.current
-            end
-          end
-    
-          context "with an invalid api token" do
-            setup do
-              @user = User.generate! do |user|
-                user.admin = true
-              end
-              @token = Token.create!(:user => @user, :action => 'feeds')
-              # Simple url parse to add on ?key= or &key=
-              request_url = if url.match(/\?/)
-                              url + "&key=#{@token.value}"
-                            else
-                              url + "?key=#{@token.value}"
-                            end
-              send(http_method, request_url, parameters)
-            end
-            should_respond_with failure_code
-            should_respond_with_content_type_based_on_url(url)
-            should "not login as the user" do
-              assert_equal User.anonymous, User.current
-            end
-          end
-        end
-    
-        context "should allow key based auth using X-Redmine-API-Key header for #{http_method} #{url}" do
-          setup do
-            @user = User.generate! do |user|
-              user.admin = true
-            end
-            @token = Token.create!(:user => @user, :action => 'api')
-            send(http_method, url, parameters, {'X-Redmine-API-Key' => @token.value.to_s})
-          end
-          should_respond_with success_code
-          should_respond_with_content_type_based_on_url(url)
-          should_be_a_valid_response_string_based_on_url(url)
-          should "login as the user" do
-            assert_equal @user, User.current
-          end
-        end
+
+      # Uploads content using the JSON API and returns the attachment token
+      def json_upload(content, credentials)
+        upload('json', content, credentials)
       end
-    
-      # Uses should_respond_with_content_type based on what's in the url:
-      #
-      # '/project/issues.xml' => should_respond_with_content_type :xml
-      # '/project/issues.json' => should_respond_with_content_type :json
-      #
-      # @param [String] url Request
-      def self.should_respond_with_content_type_based_on_url(url)
-        case
-        when url.match(/xml/i)
-          should "respond with XML" do
-            assert_equal 'application/xml', @response.content_type
-          end
-        when url.match(/json/i)
-          should "respond with JSON" do
-            assert_equal 'application/json', @response.content_type
-          end
+
+      def upload(format, content, credentials)
+        set_tmp_attachments_directory
+        assert_difference 'Attachment.count' do
+          post "/uploads.#{format}", content, {"CONTENT_TYPE" => 'application/octet-stream'}.merge(credentials)
+          assert_response :created
+        end
+        data = response_data
+        assert_kind_of Hash, data['upload']
+        token = data['upload']['token']
+        assert_not_nil token
+        token
+      end
+
+      # Parses the response body based on its content type
+      def response_data
+        unless response.content_type.to_s =~ /^application\/(.+)/
+          raise "Unexpected response type: #{response.content_type}"
+        end
+        format = $1
+        case format
+        when 'xml'
+          Hash.from_xml(response.body)
+        when 'json'
+          ActiveSupport::JSON.decode(response.body)
         else
-          raise "Unknown content type for should_respond_with_content_type_based_on_url: #{url}"
-        end
-      end
-    
-      # Uses the url to assert which format the response should be in
-      #
-      # '/project/issues.xml' => should_be_a_valid_xml_string
-      # '/project/issues.json' => should_be_a_valid_json_string
-      #
-      # @param [String] url Request
-      def self.should_be_a_valid_response_string_based_on_url(url)
-        case
-        when url.match(/xml/i)
-          should_be_a_valid_xml_string
-        when url.match(/json/i)
-          should_be_a_valid_json_string
-        else
-          raise "Unknown content type for should_be_a_valid_response_based_on_url: #{url}"
-        end
-      end
-    
-      # Checks that the response is a valid JSON string
-      def self.should_be_a_valid_json_string
-        should "be a valid JSON string (or empty)" do
-          assert(response.body.blank? || ActiveSupport::JSON.decode(response.body))
-        end
-      end
-    
-      # Checks that the response is a valid XML string
-      def self.should_be_a_valid_xml_string
-        should "be a valid XML string" do
-          assert REXML::Document.new(response.body)
-        end
-      end
-    
-      def self.should_respond_with(status)
-        should "respond with #{status}" do
-          assert_response status
+          raise "Unknown response format: #{format}"
         end
       end
     end
-  end
-end
 
-# URL helpers do not work with config.threadsafe!
-# https://github.com/rspec/rspec-rails/issues/476#issuecomment-4705454
-ActionView::TestCase::TestController.instance_eval do
-  helper Rails.application.routes.url_helpers
-end
-ActionView::TestCase::TestController.class_eval do
-  def _routes
-    Rails.application.routes
+    class Routing < Redmine::RoutingTest
+      def should_route(arg)
+        arg = arg.dup
+        request = arg.keys.detect {|key| key.is_a?(String)}
+        raise ArgumentError unless request
+        options = arg.slice!(request)
+  
+        API_FORMATS.each do |format|
+          format_request = request.sub /$/, ".#{format}"
+          super options.merge(format_request => arg[request], :format => format)
+        end
+      end
+    end
   end
 end

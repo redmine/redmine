@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -66,6 +66,16 @@ class IssuesHelperTest < ActionView::TestCase
     Issue.find(2).update_attribute :parent_issue_id, 1
     assert_equal l(:text_issues_destroy_confirmation),
                  issues_destroy_confirmation_message(Issue.find([1, 2]))
+  end
+
+  def test_issues_destroy_confirmation_message_with_issues_that_share_descendants
+    root = Issue.generate!
+    child = Issue.generate!(:parent_issue_id => root.id)
+    Issue.generate!(:parent_issue_id => child.id)
+
+    assert_equal l(:text_issues_destroy_confirmation) + "\n" +
+                   l(:text_issues_destroy_descendants_confirmation, :count => 1),
+                 issues_destroy_confirmation_message([root.reload, child.reload])
   end
 
   test 'show_detail with no_html should show a changing attribute' do
@@ -193,10 +203,23 @@ class IssuesHelperTest < ActionView::TestCase
     assert_match '6.30', show_detail(detail, true)
   end
 
+  test 'show_detail should not show values with a description attribute' do
+    detail = JournalDetail.new(:property => 'attr', :prop_key => 'description',
+                               :old_value => 'Foo', :value => 'Bar')
+    assert_equal 'Description updated', show_detail(detail, true)
+  end
+
   test 'show_detail should show old and new values with a custom field' do
     detail = JournalDetail.new(:property => 'cf', :prop_key => '1',
                                :old_value => 'MySQL', :value => 'PostgreSQL')
     assert_equal 'Database changed from MySQL to PostgreSQL', show_detail(detail, true)
+  end
+
+  test 'show_detail should not show values with a long text custom field' do
+    field = IssueCustomField.create!(:name => "Long field", :field_format => 'text')
+    detail = JournalDetail.new(:property => 'cf', :prop_key => field.id,
+                               :old_value => 'Foo', :value => 'Bar')
+    assert_equal 'Long field updated', show_detail(detail, true)
   end
 
   test 'show_detail should show added file' do
@@ -215,9 +238,9 @@ class IssuesHelperTest < ActionView::TestCase
     detail = JournalDetail.new(:property => 'relation',
                                :prop_key => 'precedes',
                                :value    => 1)
-    assert_equal "Precedes Bug #1: Can't print recipes added", show_detail(detail, true)
+    assert_equal "Precedes Bug #1: Cannot print recipes added", show_detail(detail, true)
     str = link_to("Bug #1", "/issues/1", :class => Issue.find(1).css_classes)
-    assert_equal "<strong>Precedes</strong> <i>#{str}: #{ESCAPED_UCANT} print recipes</i> added",
+    assert_equal "<strong>Precedes</strong> <i>#{str}: Cannot print recipes</i> added",
                   show_detail(detail, false)
   end
 
@@ -245,11 +268,11 @@ class IssuesHelperTest < ActionView::TestCase
     detail = JournalDetail.new(:property  => 'relation',
                                :prop_key  => 'precedes',
                                :old_value => 1)
-    assert_equal "Precedes deleted (Bug #1: Can't print recipes)", show_detail(detail, true)
+    assert_equal "Precedes deleted (Bug #1: Cannot print recipes)", show_detail(detail, true)
     str = link_to("Bug #1",
                   "/issues/1",
                   :class => Issue.find(1).css_classes)
-    assert_equal "<strong>Precedes</strong> deleted (<i>#{str}: #{ESCAPED_UCANT} print recipes</i>)",
+    assert_equal "<strong>Precedes</strong> deleted (<i>#{str}: Cannot print recipes</i>)",
                  show_detail(detail, false)
   end
 
@@ -271,5 +294,46 @@ class IssuesHelperTest < ActionView::TestCase
 
     assert_equal "Precedes deleted (Issue ##{issue.id})", show_detail(detail, true)
     assert_equal "<strong>Precedes</strong> deleted (<i>Issue ##{issue.id}</i>)", show_detail(detail, false)
+  end
+
+  def test_details_to_strings_with_multiple_values_removed_from_custom_field
+    field = IssueCustomField.generate!(:name => 'User', :field_format => 'user', :multiple => true)
+    details = []
+    details << JournalDetail.new(:property => 'cf', :prop_key => field.id.to_s, :old_value => '1', :value => nil)
+    details << JournalDetail.new(:property => 'cf', :prop_key => field.id.to_s, :old_value => '3', :value => nil)
+
+    assert_equal ["User deleted (Dave Lopper, Redmine Admin)"], details_to_strings(details, true)
+    assert_equal ["<strong>User</strong> deleted (<del><i>Dave Lopper, Redmine Admin</i></del>)"], details_to_strings(details, false)
+  end
+
+  def test_details_to_strings_with_multiple_values_added_to_custom_field
+    field = IssueCustomField.generate!(:name => 'User', :field_format => 'user', :multiple => true)
+    details = []
+    details << JournalDetail.new(:property => 'cf', :prop_key => field.id.to_s, :old_value => nil, :value => '1')
+    details << JournalDetail.new(:property => 'cf', :prop_key => field.id.to_s, :old_value => nil, :value => '3')
+
+    assert_equal ["User Dave Lopper, Redmine Admin added"], details_to_strings(details, true)
+    assert_equal ["<strong>User</strong> <i>Dave Lopper, Redmine Admin</i> added"], details_to_strings(details, false)
+  end
+
+  def test_details_to_strings_with_multiple_values_added_and_removed_from_custom_field
+    field = IssueCustomField.generate!(:name => 'User', :field_format => 'user', :multiple => true)
+    details = []
+    details << JournalDetail.new(:property => 'cf', :prop_key => field.id.to_s, :old_value => nil, :value => '1')
+    details << JournalDetail.new(:property => 'cf', :prop_key => field.id.to_s, :old_value => '2', :value => nil)
+    details << JournalDetail.new(:property => 'cf', :prop_key => field.id.to_s, :old_value => '3', :value => nil)
+
+    assert_equal [
+      "User Redmine Admin added",
+      "User deleted (Dave Lopper, John Smith)"
+      ], details_to_strings(details, true)
+    assert_equal [
+      "<strong>User</strong> <i>Redmine Admin</i> added",
+      "<strong>User</strong> deleted (<del><i>Dave Lopper, John Smith</i></del>)"
+      ], details_to_strings(details, false)
+  end
+
+  def test_find_name_by_reflection_should_return_nil_for_missing_record
+    assert_nil find_name_by_reflection('status', 99)
   end
 end

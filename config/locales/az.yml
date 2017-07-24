@@ -384,9 +384,10 @@ az:
   general_csv_decimal_separator: ','
   general_csv_encoding: UTF-8
   general_csv_separator: ';'
+  general_pdf_fontname: freesans
+  general_pdf_monospaced_fontname: freemono
   general_first_day_of_week: '1'
-  general_lang_name: 'Azerbaijanian (Azeri)'
-  general_pdf_encoding: UTF-8
+  general_lang_name: 'Azerbaijani (Azeri)'
   general_text_no: 'xeyr'
   general_text_No: 'Xeyr'
   general_text_yes: 'bəli'
@@ -481,8 +482,6 @@ az:
   label_downloads_abbr: Yükləmələr
   label_duplicated_by: çoxaldılır
   label_duplicates: çoxaldır
-  label_end_to_end: sondan sona doğru
-  label_end_to_start: sondan əvvələ doğru
   label_enumeration_new: Yeni qiymət
   label_enumerations: Qiymətlərin siyahısı
   label_environment: Mühit
@@ -595,7 +594,6 @@ az:
   label_password_lost: Parolun bərpası
   label_permissions_report: Giriş hüquqları üzrə hesabat 
   label_permissions: Giriş hüquqları
-  label_per_page: Səhifəyə
   label_personalize_page: bu səhifəni fərdiləşdirmək
   label_planning: Planlaşdırma
   label_please_login: Xahiş edirik, daxil olun.
@@ -660,8 +658,6 @@ az:
   label_sort_lower: Aşağı
   label_sort_lowest: Sona qayıt
   label_spent_time: Sərf olunan vaxt
-  label_start_to_end: əvvəldən axıra doğru
-  label_start_to_start: əvvəldən əvvələ doğru
   label_statistics: Statistika
   label_stay_logged_in: Sistemdə qalmaq
   label_string: Mətn
@@ -724,12 +720,6 @@ az:
     few:   "%{count} açıqdır"
     many:  "%{count} açıqdır"
     other: "%{count} açıqdır"
-  label_x_open_issues_abbr_on_total:
-    zero:  "0 açıqdır / %{total}"
-    one:   "1 açıqdır / %{total}"
-    few:   "%{count} açıqdır / %{total}"
-    many:  "%{count} açıqdır / %{total}"
-    other: "%{count} açıqdır / %{total}"
   label_x_projects:
     zero:  "layihələr yoxdur"
     one:   "1 layihə"
@@ -751,7 +741,7 @@ az:
   mail_subject_reminder: "yaxın %{days} gün üçün Sizə təyin olunan %{count}"
 
   notice_account_activated: Sizin uçot qeydiniz aktivləşdirilib. Sistemə daxil ola bilərsiniz.
-  notice_account_invalid_creditentials: İstifadəçi adı və ya parolu düzgün deyildir
+  notice_account_invalid_credentials: İstifadəçi adı və ya parolu düzgün deyildir
   notice_account_lost_email_sent: Sizə yeni parolun seçimi ilə bağlı təlimatı əks etdirən məktub göndərilmişdir.
   notice_account_password_updated: Parol müvəffəqiyyətlə yeniləndi.
   notice_account_pending: "Sizin uçot qeydiniz yaradıldı və inzibatçının təsdiqini gözləyir."
@@ -1209,3 +1199,109 @@ az:
     users
   label_custom_field_select_type: Select the type of object to which the custom field
     is to be attached
+  label_issue_assigned_to_updated: Assignee updated
+  label_check_for_updates: Check for updates
+  label_latest_compatible_version: Latest compatible version
+  label_unknown_plugin: Unknown plugin
+  label_radio_buttons: radio buttons
+  label_group_anonymous: Anonymous users
+  label_group_non_member: Non member users
+  label_add_projects: Add projects
+  field_default_status: Default status
+  text_subversion_repository_note: 'Examples: file:///, http://, https://, svn://, svn+[tunnelscheme]://'
+  field_users_visibility: Users visibility
+  label_users_visibility_all: All active users
+  label_users_visibility_members_of_visible_projects: Members of visible projects
+  label_edit_attachments: Edit attached files
+  setting_link_copied_issue: Link issues on copy
+  label_link_copied_issue: Link copied issue
+  label_ask: Ask
+  label_search_attachments_yes: Search attachment filenames and descriptions
+  label_search_attachments_no: Do not search attachments
+  label_search_attachments_only: Search attachments only
+  label_search_open_issues_only: Open issues only
+  field_address: e-poçt
+  setting_max_additional_emails: Maximum number of additional email addresses
+  label_email_address_plural: Emails
+  label_email_address_add: Add email address
+  label_enable_notifications: Enable notifications
+  label_disable_notifications: Disable notifications
+  setting_search_results_per_page: Search results per page
+  label_blank_value: blank
+  permission_copy_issues: Copy issues
+  error_password_expired: Your password has expired or the administrator requires you
+    to change it.
+  field_time_entries_visibility: Time logs visibility
+  setting_password_max_age: Require password change after
+  label_parent_task_attributes: Parent tasks attributes
+  label_parent_task_attributes_derived: Calculated from subtasks
+  label_parent_task_attributes_independent: Independent of subtasks
+  label_time_entries_visibility_all: All time entries
+  label_time_entries_visibility_own: Time entries created by the user
+  label_member_management: Member management
+  label_member_management_all_roles: All roles
+  label_member_management_selected_roles_only: Only these roles
+  label_password_required: Confirm your password to continue
+  label_total_spent_time: Cəmi sərf olunan vaxt
+  notice_import_finished: "%{count} items have been imported"
+  notice_import_finished_with_errors: "%{count} out of %{total} items could not be imported"
+  error_invalid_file_encoding: The file is not a valid %{encoding} encoded file
+  error_invalid_csv_file_or_settings: The file is not a CSV file or does not match the
+    settings below
+  error_can_not_read_import_file: An error occurred while reading the file to import
+  permission_import_issues: Import issues
+  label_import_issues: Import issues
+  label_select_file_to_import: Select the file to import
+  label_fields_separator: Field separator
+  label_fields_wrapper: Field wrapper
+  label_encoding: Encoding
+  label_comma_char: Comma
+  label_semi_colon_char: Semicolon
+  label_quote_char: Quote
+  label_double_quote_char: Double quote
+  label_fields_mapping: Fields mapping
+  label_file_content_preview: File content preview
+  label_create_missing_values: Create missing values
+  button_import: Import
+  field_total_estimated_hours: Total estimated time
+  label_api: API
+  label_total_plural: Totals
+  label_assigned_issues: Assigned issues
+  label_field_format_enumeration: Key/value list
+  label_f_hour_short: '%{value} h'
+  field_default_version: Default version
+  error_attachment_extension_not_allowed: Attachment extension %{extension} is not allowed
+  setting_attachment_extensions_allowed: Allowed extensions
+  setting_attachment_extensions_denied: Disallowed extensions
+  label_any_open_issues: any open issues
+  label_no_open_issues: no open issues
+  label_default_values_for_new_users: Default values for new users
+  error_ldap_bind_credentials: Invalid LDAP Account/Password
+  setting_sys_api_key: API açar
+  setting_lost_password: Parolun bərpası
+  mail_subject_security_notification: Security notification
+  mail_body_security_notification_change: ! '%{field} was changed.'
+  mail_body_security_notification_change_to: ! '%{field} was changed to %{value}.'
+  mail_body_security_notification_add: ! '%{field} %{value} was added.'
+  mail_body_security_notification_remove: ! '%{field} %{value} was removed.'
+  mail_body_security_notification_notify_enabled: Email address %{value} now receives
+    notifications.
+  mail_body_security_notification_notify_disabled: Email address %{value} no longer
+    receives notifications.
+  mail_body_settings_updated: ! 'The following settings were changed:'
+  field_remote_ip: IP address
+  label_wiki_page_new: New wiki page
+  label_relations: Relations
+  button_filter: Filter
+  mail_body_password_updated: Your password has been changed.
+  label_no_preview: No preview available
+  error_no_tracker_allowed_for_new_issue_in_project: The project doesn't have any trackers
+    for which you can create an issue
+  label_tracker_all: All trackers
+  label_new_project_issue_tab_enabled: Display the "New issue" tab
+  setting_new_item_menu_tab: Project menu tab for creating new objects
+  label_new_object_tab_enabled: Display the "+" drop-down
+  error_no_projects_with_tracker_allowed_for_new_issue: There are no projects with trackers
+    for which you can create an issue
+  error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: Spent time cannot
+    be reassigned to an issue that is about to be deleted

@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -43,10 +43,10 @@ class MessagesController < ApplicationController
     @reply_pages = Paginator.new @reply_count, REPLIES_PER_PAGE, page
     @replies =  @topic.children.
       includes(:author, :attachments, {:board => :project}).
-      reorder("#{Message.table_name}.created_on ASC").
+      reorder("#{Message.table_name}.created_on ASC, #{Message.table_name}.id ASC").
       limit(@reply_pages.per_page).
       offset(@reply_pages.offset).
-      all
+      to_a
 
     @reply = Message.new(:subject => "RE: #{@message.subject}")
     render :action => "show", :layout => false if request.xhr?

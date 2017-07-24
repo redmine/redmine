@@ -176,7 +176,7 @@ ko:
         not_same_project: "는 같은 프로젝트에 속해 있지 않습니다"
         circular_dependency: "이 관계는 순환 의존관계를 만들 수 있습니다"
         cant_link_an_issue_with_a_descendant: "일감은 하위 일감과 연결할 수 없습니다."
-        earlier_than_minimum_start_date: "cannot be earlier than %{date} because of preceding issues"
+        earlier_than_minimum_start_date: "시작날짜 %{date}보다 앞선 시간으로 설정할 수 없습니다."
 
   actionview_instancetag_blank_option: 선택하세요
 
@@ -188,11 +188,12 @@ ko:
   general_csv_separator: ','
   general_csv_decimal_separator: '.'
   general_csv_encoding: CP949
-  general_pdf_encoding: CP949
+  general_pdf_fontname: hysmyeongjostdmedium
+  general_pdf_monospaced_fontname: hysmyeongjostdmedium
   general_first_day_of_week: '7'
 
   notice_account_updated: 계정이 성공적으로 변경되었습니다.
-  notice_account_invalid_creditentials: 잘못된 계정 또는 비밀번호
+  notice_account_invalid_credentials: 잘못된 계정 또는 비밀번호
   notice_account_password_updated: 비밀번호가 잘 변경되었습니다.
   notice_account_wrong_password: 잘못된 비밀번호
   notice_account_register_done: 계정이 잘 만들어졌습니다. 계정을 활성화하시려면 받은 메일의 링크를 클릭해주세요.
@@ -315,7 +316,7 @@ ko:
   field_is_filter: 검색조건으로 사용됨
   field_issue_to_id: 연관된 일감
   field_delay: 지연
-  field_assignable: 이 역할에게 일감을 맡길 수 있음
+  field_assignable: 일감을 맡길 수 있음
   field_redirect_existing_links: 기존의 링크로 돌려보냄(redirect)
   field_estimated_hours: 추정시간
   field_column_names: 컬럼
@@ -346,7 +347,7 @@ ko:
   setting_wiki_compression: 위키 이력 압축
   setting_feeds_limit: 피드에 포함할 항목의 수
   setting_default_projects_public: 새 프로젝트를 공개로 설정
-  setting_autofetch_changesets: 커밋(commit)된 변경묶음을 자동으로 가져오기
+  setting_autofetch_changesets: 커밋을 자동으로 가져오기
   setting_sys_api_enabled: 저장소 관리에 WS를 사용
   setting_commit_ref_keywords: 일감 참조에 사용할 키워드들
   setting_commit_fix_keywords: 일감 해결에 사용할 키워드들
@@ -367,7 +368,7 @@ ko:
   setting_sequential_project_identifiers: 프로젝트 식별자를 순차적으로 생성
   setting_gravatar_enabled: 그라바타 사용자 아이콘 사용
   setting_diff_max_lines_displayed: 차이점(diff) 보기에 표시할 최대 줄수
-  setting_repository_log_display_limit: 저장소 보기에 표시할 개정판 이력의 최대 갯수
+  setting_repository_log_display_limit: 저장소 보기에 표시할 개정이력의 최대 갯수
   setting_file_max_size_displayed: 바로 보여줄 텍스트파일의 최대 크기
   setting_openid: OpenID 로그인과 등록 허용
   setting_password_min_length: 최소 암호 길이
@@ -412,7 +413,7 @@ ko:
   permission_protect_wiki_pages: 프로젝트 위키 페이지
   permission_manage_repository: 저장소 관리
   permission_browse_repository: 저장소 둘러보기
-  permission_view_changesets: 변경묶음보기
+  permission_view_changesets: 변경묶음 보기
   permission_commit_access: 변경로그 보기
   permission_manage_boards: 게시판 관리
   permission_view_messages: 메시지 보기
@@ -545,10 +546,6 @@ ko:
   label_open_issues_plural: 진행중
   label_closed_issues: 완료됨
   label_closed_issues_plural: 완료됨
-  label_x_open_issues_abbr_on_total:
-    zero:  "총 %{total} 건 모두 완료"
-    one:   "한 건 진행 중 / 총 %{total} 건 중 "
-    other: "%{count} 건 진행 중 / 총 %{total} 건"
   label_x_open_issues_abbr:
     zero:  모두 완료
     one:   한 건 진행 중
@@ -569,7 +566,6 @@ ko:
   label_used_by: 사용됨
   label_details: 자세히
   label_add_note: 일감덧글 추가
-  label_per_page: 페이지별
   label_calendar: 달력
   label_months_from: 개월 동안 | 다음부터
   label_gantt: Gantt 챠트
@@ -679,10 +675,6 @@ ko:
   label_blocked_by: "다음 일감에게 막혀 있음:"
   label_precedes: "다음에 진행할 일감:"
   label_follows: "다음 일감을 우선 진행:"
-  label_end_to_start: "끝에서 시작"
-  label_end_to_end: "끝에서 끝"
-  label_start_to_start: "시작에서 시작" 
-  label_start_to_end: "시작에서 끝"
   label_stay_logged_in: 로그인 유지
   label_disabled: 비활성화
   label_show_completed_versions: 완료된 버전 보기
@@ -719,9 +711,9 @@ ko:
   label_theme: 테마
   label_default: 기본
   label_search_titles_only: 제목에서만 찾기
-  label_user_mail_option_all: "내가 속한 프로젝트로들부터 모든 메일 받기"
+  label_user_mail_option_all: "내가 속한 프로젝트들로부터 모든 메일 받기"
   label_user_mail_option_selected: "선택한 프로젝트들로부터 모든 메일 받기.."
-  label_user_mail_no_self_notified: "내가 만든 변경사항들에 대해서는 알림메일을 받지 않습니다."
+  label_user_mail_no_self_notified: "내가 만든 변경사항들에 대해서는 알림을 받지 않습니다."
   label_registration_activation_by_email: 메일로 계정을 활성화하기
   label_registration_automatic_activation: 자동 계정 활성화
   label_registration_manual_activation: 수동 계정 활성화
@@ -966,7 +958,7 @@ ko:
   label_user_mail_option_only_owner: 내가 저자인 사항만
   setting_default_notification_option: 기본 알림 옵션
   label_user_mail_option_only_my_events: 내가 지켜보거나 속해있는 사항만
-  label_user_mail_option_only_assigned: 내에게 할당된 사항만
+  label_user_mail_option_only_assigned: 나에게 할당된 사항만
   label_user_mail_option_none: 알림 없음
   field_member_of_group: 할당된 사람의 그룹
   field_assigned_to_role: 할당된 사람의 역할
@@ -981,7 +973,7 @@ ko:
   notice_gantt_chart_truncated: "표시할 수 있는 최대 항목수(%{max})를 초과하여 차트가 잘렸습니다."
   setting_gantt_items_limit: "Gantt 차트에 표시되는 최대 항목수"
   field_warn_on_leaving_unsaved: "저장하지 않은 페이지를 빠져나갈 때 나에게 알림"
-  text_warn_on_leaving_unsaved: "현재 페이지는 저장되지 않은 문자가 있습니다. 이 페이지를 빠져나가면 내용을 잃을것입니다."
+  text_warn_on_leaving_unsaved: "현재 페이지는 저장되지 않은 문자가 있습니다. 이 페이지를 빠져나가면 내용을 잃을 것입니다."
   label_my_queries: "내 검색 양식"
   text_journal_changed_no_detail: "%{label}이 변경되었습니다."
   label_news_comment_added: "뉴스에 설명이 추가되었습니다."
@@ -991,8 +983,8 @@ ko:
   label_additional_workflow_transitions_for_author: "사용자가 저자일 때 허용되는 추가 상태"
   label_bulk_edit_selected_time_entries: "선택된 소요 시간 대량 편집"
   text_time_entries_destroy_confirmation: "선택한 소요 시간 항목을 삭제하시겠습니까?"
-  label_role_anonymous: Anonymous
-  label_role_non_member: Non member
+  label_role_anonymous: 익명
+  label_role_non_member: 비회원
 
   label_issue_note_added: "덧글이 추가되었습니다."
   label_issue_status_updated: "상태가 변경되었습니다."
@@ -1005,7 +997,7 @@ ko:
   permission_set_issues_private: "일감을 공개나 비공개로 설정"
   label_issues_visibility_public: "비공개 일감 제외"
   text_issues_destroy_descendants_confirmation: "%{count} 개의 하위 일감을 삭제할 것입니다."
-  field_commit_logs_encoding: "커밋(commit) 기록 인코딩"
+  field_commit_logs_encoding: "커밋 기록 인코딩"
   field_scm_path_encoding: "경로 인코딩"
   text_scm_path_encoding_note: "기본: UTF-8"
   field_path_to_repository: "저장소 경로"
@@ -1015,7 +1007,7 @@ ko:
   text_mercurial_repository_note: "로컬 저장소 (예: /hgrepo, c:\\hgrepo)"
   text_scm_command: "명령"
   text_scm_command_version: "버전"
-  label_git_report_last_commit: "파일이나 폴더의 마지막 커밋(commit)을 보고"
+  label_git_report_last_commit: "파일이나 폴더의 마지막 커밋을 보고"
   text_scm_config: "SCM 명령을 config/configuration.yml에서 수정할 수 있습니다. 수정후에는 재시작하십시오."
   text_scm_command_not_available: "SCM 명령을 사용할 수 없습니다. 관리 페이지의 설정을 검사하십시오."
   notice_issue_successful_create: "%{id} 일감이 생성되었습니다."
@@ -1116,13 +1108,13 @@ ko:
   label_no_issues_in_project: 다음 프로젝트의 일감 제외
   label_any: 모두
   label_last_n_weeks: 최근 %{count} 주
-  setting_cross_project_subtasks: 다른 프로젝트의 일감을 상위 일감으로 지정하는 것을 허용
+  setting_cross_project_subtasks: 다른 프로젝트로부터 상위 일감 지정 허용
   label_cross_project_descendants: 하위 프로젝트
   label_cross_project_tree: 최상위 및 모든 하위 프로젝트
   label_cross_project_hierarchy: 상위 및 하위 프로젝트
   label_cross_project_system: 모든 프로젝트
   button_hide: 숨기기
-  setting_non_working_week_days: 비근무일 (non-working days)
+  setting_non_working_week_days: 휴일
   label_in_the_next_days: 다음
   label_in_the_past_days: 지난
   label_attribute_of_user: "사용자의 %{name}"
@@ -1133,7 +1125,7 @@ ko:
   permission_delete_documents: 문서 삭제
   label_gantt_progress_line: 진행 선
   setting_jsonp_enabled: JSONP 허용
-  field_inherit_members: 상위 프로젝트로부터 구성원을 상속
+  field_inherit_members: 상위 프로젝트 구성원 상속
   field_closed_on: 완료일
   field_generate_password: 비밀번호 생성
   setting_default_projects_tracker_ids: 새 프로젝트에 기본적으로 추가할 일감 유형
@@ -1144,7 +1136,7 @@ ko:
   label_visibility_private: 자신 만
   label_visibility_roles: 다음 역할 만
   label_visibility_public: 모든 사용자
-  field_must_change_passwd: 다음 로그온 시 반드시 암호를 변경해야 함
+  field_must_change_passwd: 다음 로그온 시 암호 변경
   notice_new_password_must_be_different: 새 암호는 현재 암호와 달라야 합니다.
   setting_mail_handler_excluded_filenames: 제외할 첨부 파일명
   text_convert_available: ImageMagick 변환 사용 가능 (옵션)
@@ -1156,3 +1148,104 @@ ko:
   setting_force_default_language_for_anonymous: 익명 사용자의 기본 언어 강제
   setting_force_default_language_for_loggedin: 로그인 사용자의 기본 언어 강제
   label_custom_field_select_type: 사용자 정의 필드에 추가할 대상을 선택해주세요.
+  label_issue_assigned_to_updated: 담당자 업데이트
+  label_check_for_updates: 업데이트 확인
+  label_latest_compatible_version: 최종 호환 버전
+  label_unknown_plugin: 알 수 없는 플러그인
+  label_radio_buttons: radio buttons
+  label_group_anonymous: 익명 사용자
+  label_group_non_member: 비회원 사용자
+  label_add_projects: 프로젝트 추가
+  field_default_status: 초기 상태
+  text_subversion_repository_note: '예: file:///, http://, https://, svn://, svn+[tunnelscheme]://'
+  field_users_visibility: 사용자 가시성
+  label_users_visibility_all: 모든 활성 사용자
+  label_users_visibility_members_of_visible_projects: 보이는 프로젝트 회원
+  label_edit_attachments: 첨부파일 편집
+  setting_link_copied_issue: 복사할 때 일감 연결
+  label_link_copied_issue: 복사한 일감 연결
+  label_ask: 물어보기
+  label_search_attachments_yes: 첨부파일명과 설명만 검색
+  label_search_attachments_no: 첨부는 검색하지 않음
+  label_search_attachments_only: 첨부만 검색
+  label_search_open_issues_only: 열린 일감만
+  field_address: 메일
+  setting_max_additional_emails: 허용하는 메일주소 개수
+  label_email_address_plural: 메일주소
+  label_email_address_add: 메일주소 추가
+  label_enable_notifications: 알림 켜기
+  label_disable_notifications: 알림 끄기
+  setting_search_results_per_page: 페이지당 검색 결과
+  label_blank_value: blank
+  permission_copy_issues: 일감 복사
+  error_password_expired: 암호가 만료되었거나 관리자가 변경하도록 설정하였습니다.
+  field_time_entries_visibility: 시간기록 가시성
+  setting_password_max_age: 암호 변경 주기
+  label_parent_task_attributes: 상위일감 속성
+  label_parent_task_attributes_derived: 하위일감으로부터 계산
+  label_parent_task_attributes_independent: 하위일감과 별도로 계산
+  label_time_entries_visibility_all: 모든 시간기록
+  label_time_entries_visibility_own: 이 사용자가 생성한 시간기록
+  label_member_management: 회원 관리
+  label_member_management_all_roles: 모든 역할
+  label_member_management_selected_roles_only: 선택된 역할 만
+  label_password_required: 계속하려면 암호를 확인해야 합니다.
+  label_total_spent_time: 총 소요시간
+  notice_import_finished: "총 %{count} 건을 가져왔습니다"
+  notice_import_finished_with_errors: "총 %{total} 건 중 %{count} 건을 가져오지 못했습니다"
+  error_invalid_file_encoding: 이 파일은 정상적인 %{encoding} 파일이 아닙니다.
+  error_invalid_csv_file_or_settings: 이 파일은 CSV 파일이 아니거나 아래 조건에 맞지 않습니다.
+  error_can_not_read_import_file: 가져오기 파일을 읽을 수 없습니다.
+  permission_import_issues: 일감 가져오기
+  label_import_issues: 일감 가져오기
+  label_select_file_to_import: 가져올 파일 선택
+  label_fields_separator: 구분자
+  label_fields_wrapper: 묶음 기호
+  label_encoding: 인코딩
+  label_comma_char: 쉼표(,)
+  label_semi_colon_char: 세미콜론(;)
+  label_quote_char: 작은따옴표
+  label_double_quote_char: 큰따옴표
+  label_fields_mapping: 항목 연결
+  label_file_content_preview: 내용 미리보기
+  label_create_missing_values: 값이 없으면 자동으로 만들기
+  button_import: 가져오기
+  field_total_estimated_hours: 추정 시간
+  label_api: API
+  label_total_plural: 합계
+  label_assigned_issues: 할당된 일감
+  label_field_format_enumeration: 키/값 목록
+  label_f_hour_short: '%{value} h'
+  field_default_version: 기본 버전
+  error_attachment_extension_not_allowed: 첨부의 확장자 %{extension}은(는) 허용되지 않습니다.
+  setting_attachment_extensions_allowed: 허용되는 확장자
+  setting_attachment_extensions_denied: 허용되지 않는 확장자
+  label_any_open_issues: any open issues
+  label_no_open_issues: no open issues
+  label_default_values_for_new_users: 새 사용자 기본값
+  error_ldap_bind_credentials: 잘못된 LDAP 계정/암호
+  setting_sys_api_key: API 키
+  setting_lost_password: 비밀번호 찾기
+  mail_subject_security_notification: 보안 알림
+  mail_body_security_notification_change: ! '%{field}이(가) 변경되었습니다.'
+  mail_body_security_notification_change_to: ! '%{field}이(가) %{value}(으)로 변경되었습니다.'
+  mail_body_security_notification_add: ! '%{field}에 %{value}이(가) 추가되었습니다.'
+  mail_body_security_notification_remove: ! '%{field}에 %{value}이(가) 삭제되었습니다.'
+  mail_body_security_notification_notify_enabled: 이제 %{value}(으)로 알람이 발송됩니다.
+  mail_body_security_notification_notify_disabled: '%{value}(으)로 더 이상 알람이 발송되지 않습니다.'
+  mail_body_settings_updated: ! '다음의 설정이 변경되었습니다:'
+  field_remote_ip: IP 주소
+  label_wiki_page_new: 새 위키 페이지
+  label_relations: 관계
+  button_filter: 필터
+  mail_body_password_updated: 암호가 변경되었습니다.
+  label_no_preview: 미리보기 없음
+  error_no_tracker_allowed_for_new_issue_in_project: 프로젝트에 사용할 수 있는 일감 유형이 없습니다
+  label_tracker_all: 모든 유형
+  label_new_project_issue_tab_enabled: '"새 일감" 탭 표시'
+  setting_new_item_menu_tab: 프로젝트 메뉴의 새로 만들기 탭
+  label_new_object_tab_enabled: 메뉴에 "+" 탭 표시
+  error_no_projects_with_tracker_allowed_for_new_issue: There are no projects with trackers
+    for which you can create an issue
+  error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: Spent time cannot
+    be reassigned to an issue that is about to be deleted

@@ -26,3 +26,6 @@ custom_fields_trackers_008:
 custom_fields_trackers_009: 
   custom_field_id: 8
   tracker_id: 3
+custom_fields_trackers_010: 
+  custom_field_id: 9
+  tracker_id: 1

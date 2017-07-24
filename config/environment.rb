@@ -1,4 +1,4 @@
-# Load the rails application
+# Load the Rails application
 require File.expand_path('../application', __FILE__)
 
 # Make sure there's no plugin in vendor/plugin before starting
@@ -10,5 +10,5 @@ if Dir.glob(File.join(vendor_plugins_dir, "*")).any?
   exit 1
 end
 
-# Initialize the rails application
-RedmineApp::Application.initialize!
+# Initialize the Rails application
+Rails.application.initialize!

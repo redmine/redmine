@@ -1,19 +1,19 @@
 <%= javascript_include_tag('docs.js') %>
 
 
-<div class="row pull-right lead sidetitle " id="helpTitle">
-	<div style="float: left;">
-	<% if(@path != 'Help') %>
-		<a href="/docs#Getting_Started" alt="Go to help home" title="Go to help home">
-		<i class="icon-question-sign"></i> 
+<div class="row pull-right sidetitle col-sm-12" id="helpTitle">
+    <% if(@path != 'Help') %>
+        <div id="help-home">
+	        <a href="/docs#Getting_Started" alt="Go to help home" title="Go to help home">
+		    <i class="icon-question-sign"></i> 
 		</a>
-	<% end %>
-</div>
-	<%= customiseTitle(@path) %> 
+        </div>
+    <% end %>
+    <%= customiseTitle(@path) %>
 </div>
 
 <div class="row" id="docContainer">
-	<div class="span3 bs-docs-sidebar">
+	<div class="col-sm-2 bs-docs-sidebar">
 		<ul id="project_overview_list" class="nav nav-list bs-docs-sidenav">
 			
 		</ul>
@@ -28,7 +28,7 @@
 	</div>
   
   
-	<div id="project_overview_sections" class="span9">
+	<div id="project_overview_sections" class="col-sm-10">
 		<% @filesDoc.each do |fileDoc| %>
 			<section id="<%= getDivId(fileDoc) %>">
 				<div class="page-header">

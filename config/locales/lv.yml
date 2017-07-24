@@ -135,11 +135,12 @@ lv:
   general_csv_separator: ','
   general_csv_decimal_separator: '.'
   general_csv_encoding: UTF-8
-  general_pdf_encoding: UTF-8
+  general_pdf_fontname: freesans
+  general_pdf_monospaced_fontname: freemono
   general_first_day_of_week: '1'
 
   notice_account_updated: Konts tika atjaunots veiksmīgi.
-  notice_account_invalid_creditentials: Nepareizs lietotāja vārds vai parole.
+  notice_account_invalid_credentials: Nepareizs lietotāja vārds vai parole.
   notice_account_password_updated: Parole tika veiksmīgi atjaunota.
   notice_account_wrong_password: Nepareiza parole
   notice_account_register_done: Konts veiksmīgi izveidots. Lai aktivizētu kontu, spiediet uz saites, kas Jums tika nosūtīta.
@@ -519,10 +520,6 @@ lv:
   label_open_issues_plural: atvērti
   label_closed_issues: slēgts
   label_closed_issues_plural: slēgti
-  label_x_open_issues_abbr_on_total:
-    zero:  0 atvērti / %{total}
-    one:   1 atvērts / %{total}
-    other: "%{count} atvērti / %{total}"
   label_x_open_issues_abbr:
     zero:  0 atvērti
     one:   1 atvērts
@@ -543,7 +540,6 @@ lv:
   label_used_by: Izmanto
   label_details: Detaļas
   label_add_note: Pievienot piezīmi
-  label_per_page: katrā lapā
   label_calendar: Kalendārs
   label_months_from: mēneši no
   label_gantt: Ganta diagramma
@@ -651,16 +647,12 @@ lv:
   label_relation_new: Jauna relācija
   label_relation_delete: Dzēst relāciju
   label_relates_to: saistīts ar
-  label_duplicates: dublikāti
-  label_duplicated_by: dublējas ar
-  label_blocks: bloķē
-  label_blocked_by: nobloķējis
-  label_precedes: pirms
-  label_follows: seko
-  label_end_to_start: no beigām uz sākumu
-  label_end_to_end: no beigām uz beigām
-  label_start_to_start: no sākuma uz sākumu
-  label_start_to_end: no sākuma uz beigām
+  label_duplicates: Dublē uzdevumu
+  label_duplicated_by: Dublē uzdevums
+  label_blocks: Bloķē uzdevumu
+  label_blocked_by: Bloķē uzdevums
+  label_precedes: Pirms
+  label_follows: Seko pēc
   label_stay_logged_in: Atcerēties mani
   label_disabled: izslēgts
   label_show_completed_versions: Rādīt pabeigtās versijas
@@ -894,8 +886,8 @@ lv:
   error_can_not_remove_role: This role is in use and can not be deleted.
   field_parent_issue: Parent task
   error_unable_delete_issue_status: Unable to delete issue status
-  label_subtask_plural: Subtasks
-  error_can_not_delete_tracker: This tracker contains issues and can't be deleted.
+  label_subtask_plural: Apakšuzdevumi
+  error_can_not_delete_tracker: This tracker contains issues and cannot be deleted.
   label_project_copy_notifications: Send email notifications during the project copy
   field_principal: Principal
   label_my_page_block: My page block
@@ -909,11 +901,11 @@ lv:
   project_module_calendar: Calendar
   button_edit_associated_wikipage: "Edit associated Wiki page: %{page_title}"
   field_text: Text field
-  label_user_mail_option_only_owner: Only for things I am the owner of
+  label_user_mail_option_only_owner: Tikai par uzdevumiem, ko esmu izveidojis
   setting_default_notification_option: Default notification option
-  label_user_mail_option_only_my_events: Only for things I watch or I'm involved in
-  label_user_mail_option_only_assigned: Only for things I am assigned to
-  label_user_mail_option_none: No events
+  label_user_mail_option_only_my_events: Tikai par uzdevumiem, kurus novēroju vai kuros esmu iesaistījies
+  label_user_mail_option_only_assigned: Tikai par uzdevumiem, kas ir piešķirti man
+  label_user_mail_option_none: Ne par ko
   field_member_of_group: Assignee's group
   field_assigned_to_role: Assignee's role
   notice_not_authorized_archived_project: The project you're trying to access has been archived.
@@ -927,11 +919,11 @@ lv:
   setting_gantt_items_limit: Maximum number of items displayed on the gantt chart
   field_warn_on_leaving_unsaved: Warn me when leaving a page with unsaved text
   text_warn_on_leaving_unsaved: The current page contains unsaved text that will be lost if you leave this page.
-  label_my_queries: My custom queries
+  label_my_queries: Mani uzdevumu filtri
   text_journal_changed_no_detail: "%{label} updated"
   label_news_comment_added: Comment added to a news
-  button_expand_all: Expand all
-  button_collapse_all: Collapse all
+  button_expand_all: Izvērst visu
+  button_collapse_all: Savērst visu
   label_additional_workflow_transitions_for_assignee: Additional transitions allowed when the user is the assignee
   label_additional_workflow_transitions_for_author: Additional transitions allowed when the user is the author
   label_bulk_edit_selected_time_entries: Bulk edit selected time entries
@@ -942,17 +934,17 @@ lv:
   label_issue_status_updated: Status updated
   label_issue_priority_updated: Priority updated
   label_issues_visibility_own: Issues created by or assigned to the user
-  field_issues_visibility: Issues visibility
-  label_issues_visibility_all: All issues
+  field_issues_visibility: Uzdevumu redzamība
+  label_issues_visibility_all: Visi uzdevumi
   permission_set_own_issues_private: Set own issues public or private
   field_is_private: Private
   permission_set_issues_private: Set issues public or private
   label_issues_visibility_public: All non private issues
   text_issues_destroy_descendants_confirmation: This will also delete %{count} subtask(s).
-  field_commit_logs_encoding: Kodēt ziņojumus
-  field_scm_path_encoding: Path encoding
-  text_scm_path_encoding_note: "Default: UTF-8"
-  field_path_to_repository: Path to repository
+  field_commit_logs_encoding: Nodošanas ziņojumu kodējums
+  field_scm_path_encoding: Ceļa kodējums
+  text_scm_path_encoding_note: "Noklusējuma: UTF-8"
+  field_path_to_repository: Repozitorija ceļš
   field_root_directory: Root directory
   field_cvs_module: Module
   field_cvsroot: CVSROOT
@@ -1025,7 +1017,7 @@ lv:
   label_session_expiration: Session expiration
   permission_close_project: Close / reopen the project
   label_show_closed_projects: View closed projects
-  button_close: Close
+  button_close: Aizvērt
   button_reopen: Reopen
   project_status_active: active
   project_status_closed: closed
@@ -1046,9 +1038,9 @@ lv:
   label_attribute_of_author: Author's %{name}
   label_attribute_of_assigned_to: Assignee's %{name}
   label_attribute_of_fixed_version: Target version's %{name}
-  label_copy_subtasks: Copy subtasks
-  label_copied_to: copied to
-  label_copied_from: copied from
+  label_copy_subtasks: Kopēt apakšuzdevumus
+  label_copied_to: Kopēts uz
+  label_copied_from: Kopēts no
   label_any_issues_in_project: any issues in project
   label_any_issues_not_in_project: any issues not in project
   field_private_notes: Private notes
@@ -1106,3 +1098,109 @@ lv:
     users
   label_custom_field_select_type: Select the type of object to which the custom field
     is to be attached
+  label_issue_assigned_to_updated: Assignee updated
+  label_check_for_updates: Check for updates
+  label_latest_compatible_version: Latest compatible version
+  label_unknown_plugin: Unknown plugin
+  label_radio_buttons: radio buttons
+  label_group_anonymous: Anonymous users
+  label_group_non_member: Non member users
+  label_add_projects: Add projects
+  field_default_status: Default status
+  text_subversion_repository_note: 'Examples: file:///, http://, https://, svn://, svn+[tunnelscheme]://'
+  field_users_visibility: Users visibility
+  label_users_visibility_all: All active users
+  label_users_visibility_members_of_visible_projects: Members of visible projects
+  label_edit_attachments: Edit attached files
+  setting_link_copied_issue: Link issues on copy
+  label_link_copied_issue: Link copied issue
+  label_ask: Ask
+  label_search_attachments_yes: Search attachment filenames and descriptions
+  label_search_attachments_no: Do not search attachments
+  label_search_attachments_only: Search attachments only
+  label_search_open_issues_only: Open issues only
+  field_address: "E-pasts"
+  setting_max_additional_emails: Maximum number of additional email addresses
+  label_email_address_plural: Emails
+  label_email_address_add: Add email address
+  label_enable_notifications: Enable notifications
+  label_disable_notifications: Disable notifications
+  setting_search_results_per_page: Search results per page
+  label_blank_value: blank
+  permission_copy_issues: Copy issues
+  error_password_expired: Your password has expired or the administrator requires you
+    to change it.
+  field_time_entries_visibility: Time logs visibility
+  setting_password_max_age: Require password change after
+  label_parent_task_attributes: Parent tasks attributes
+  label_parent_task_attributes_derived: Calculated from subtasks
+  label_parent_task_attributes_independent: Independent of subtasks
+  label_time_entries_visibility_all: All time entries
+  label_time_entries_visibility_own: Time entries created by the user
+  label_member_management: Member management
+  label_member_management_all_roles: All roles
+  label_member_management_selected_roles_only: Only these roles
+  label_password_required: Confirm your password to continue
+  label_total_spent_time: Overall spent time
+  notice_import_finished: "%{count} items have been imported"
+  notice_import_finished_with_errors: "%{count} out of %{total} items could not be imported"
+  error_invalid_file_encoding: The file is not a valid %{encoding} encoded file
+  error_invalid_csv_file_or_settings: The file is not a CSV file or does not match the
+    settings below
+  error_can_not_read_import_file: An error occurred while reading the file to import
+  permission_import_issues: Import issues
+  label_import_issues: Import issues
+  label_select_file_to_import: Select the file to import
+  label_fields_separator: Field separator
+  label_fields_wrapper: Field wrapper
+  label_encoding: Encoding
+  label_comma_char: Comma
+  label_semi_colon_char: Semicolon
+  label_quote_char: Quote
+  label_double_quote_char: Double quote
+  label_fields_mapping: Fields mapping
+  label_file_content_preview: File content preview
+  label_create_missing_values: Create missing values
+  button_import: Import
+  field_total_estimated_hours: Total estimated time
+  label_api: API
+  label_total_plural: Totals
+  label_assigned_issues: Assigned issues
+  label_field_format_enumeration: Key/value list
+  label_f_hour_short: '%{value} h'
+  field_default_version: Default version
+  error_attachment_extension_not_allowed: Attachment extension %{extension} is not allowed
+  setting_attachment_extensions_allowed: Allowed extensions
+  setting_attachment_extensions_denied: Disallowed extensions
+  label_any_open_issues: any open issues
+  label_no_open_issues: no open issues
+  label_default_values_for_new_users: Default values for new users
+  error_ldap_bind_credentials: Invalid LDAP Account/Password
+  setting_sys_api_key: API atslēga
+  setting_lost_password: Nozaudēta parole
+  mail_subject_security_notification: Security notification
+  mail_body_security_notification_change: ! '%{field} was changed.'
+  mail_body_security_notification_change_to: ! '%{field} was changed to %{value}.'
+  mail_body_security_notification_add: ! '%{field} %{value} was added.'
+  mail_body_security_notification_remove: ! '%{field} %{value} was removed.'
+  mail_body_security_notification_notify_enabled: Email address %{value} now receives
+    notifications.
+  mail_body_security_notification_notify_disabled: Email address %{value} no longer
+    receives notifications.
+  mail_body_settings_updated: ! 'The following settings were changed:'
+  field_remote_ip: IP address
+  label_wiki_page_new: New wiki page
+  label_relations: Relations
+  button_filter: Filter
+  mail_body_password_updated: Your password has been changed.
+  label_no_preview: No preview available
+  error_no_tracker_allowed_for_new_issue_in_project: The project doesn't have any trackers
+    for which you can create an issue
+  label_tracker_all: All trackers
+  label_new_project_issue_tab_enabled: Display the "New issue" tab
+  setting_new_item_menu_tab: Project menu tab for creating new objects
+  label_new_object_tab_enabled: Display the "+" drop-down
+  error_no_projects_with_tracker_allowed_for_new_issue: There are no projects with trackers
+    for which you can create an issue
+  error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: Spent time cannot
+    be reassigned to an issue that is about to be deleted

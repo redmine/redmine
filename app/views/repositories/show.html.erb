@@ -1,3 +1,7 @@
+<% content_for :header_tags do %>
+    <script src="/javascripts/project.js"></script>
+<% end %>
+<%= render "projects/header" %>
 <% @project.visible_custom_field_values.each do |custom_value| %>
     <% if !custom_value.value.blank? %>
         <% if custom_value.custom_field.name == 'GitHub repository' %>
@@ -68,7 +72,7 @@
     <h3><%= l(:label_repository_plural) %></h3>
     <p>
       <%= @repositories.sort.collect {|repo|
-          link_to h(repo.name), 
+          link_to repo.name, 
                   {:controller => 'repositories', :action => 'show',
                    :id => @project, :repository_id => repo.identifier_param, :rev => nil, :path => nil},
                   :class => 'repository' + (repo == @repository ? ' selected' : '')

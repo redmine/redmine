@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -20,10 +20,6 @@ require File.expand_path('../../../test_helper', __FILE__)
 class Redmine::ApiTest::EnumerationsTest < Redmine::ApiTest::Base
   fixtures :enumerations
 
-  def setup
-    Setting.rest_api_enabled = '1'
-  end
-
   test "GET /enumerations/issue_priorities.xml should return priorities" do
     get '/enumerations/issue_priorities.xml'
     assert_response :success
@@ -34,5 +30,11 @@ class Redmine::ApiTest::EnumerationsTest < Redmine::ApiTest::Base
         assert_select 'name', :text => 'High'
       end
     end
+  end
+
+  test "GET /enumerations/invalid_subclass.xml should return 404" do
+    get '/enumerations/invalid_subclass.xml'
+    assert_response 404
+    assert_equal 'application/xml', response.content_type
   end
 end

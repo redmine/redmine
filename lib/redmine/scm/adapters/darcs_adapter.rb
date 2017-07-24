@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -43,10 +43,7 @@ module Redmine
           end
 
           def darcs_binary_version
-            darcsversion = darcs_binary_version_from_command_line.dup
-            if darcsversion.respond_to?(:force_encoding)
-              darcsversion.force_encoding('ASCII-8BIT')
-            end
+            darcsversion = darcs_binary_version_from_command_line.dup.force_encoding('ASCII-8BIT')
             if m = darcsversion.match(%r{\A(.*?)((\d+\.)+\d+)})
               m[2].scan(%r{\d+}).collect(&:to_i)
             end

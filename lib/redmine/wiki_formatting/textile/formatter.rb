@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -121,8 +121,14 @@ module Redmine
             text.gsub!(/<redpre#(\d+)>/) do
               content = @pre_list[$1.to_i]
               if content.match(/<code\s+class="(\w+)">\s?(.+)/m)
-                content = "<code class=\"#{$1} syntaxhl\">" +
-                  Redmine::SyntaxHighlighting.highlight_by_language($2, $1)
+                language = $1
+                text = $2
+                if Redmine::SyntaxHighlighting.language_supported?(language)
+                  content = "<code class=\"#{language} syntaxhl\">" +
+                    Redmine::SyntaxHighlighting.highlight_by_language(text, language)
+                else
+                  content = "<code>#{ERB::Util.h(text)}"
+                end
               end
               content
             end

@@ -48,6 +48,9 @@ Output example of rhmanifest::
 import re, time, cgi, urllib
 from mercurial import cmdutil, commands, node, error, hg
 
+cmdtable = {}
+command = cmdutil.command(cmdtable)
+
 _x = cgi.escape
 _u = lambda s: cgi.escape(urllib.quote(s))
 
@@ -124,16 +127,30 @@ def _manifest(ui, repo, path, rev):
 
     ui.write('</manifest>\n')
 
+@command('rhannotate',
+         [('r', 'rev', '', 'revision'),
+          ('u', 'user', None, 'list the author (long with -v)'),
+          ('n', 'number', None, 'list the revision number (default)'),
+          ('c', 'changeset', None, 'list the changeset'),
+         ],
+         'hg rhannotate [-r REV] [-u] [-n] [-c] FILE...')
 def rhannotate(ui, repo, *pats, **opts):
     rev = urllib.unquote_plus(opts.pop('rev', None))
     opts['rev'] = rev
     return commands.annotate(ui, repo, *map(urllib.unquote_plus, pats), **opts)
 
+@command('rhcat',
+               [('r', 'rev', '', 'revision')],
+               'hg rhcat ([-r REV] ...) FILE...')
 def rhcat(ui, repo, file1, *pats, **opts):
     rev = urllib.unquote_plus(opts.pop('rev', None))
     opts['rev'] = rev
     return commands.cat(ui, repo, urllib.unquote_plus(file1), *map(urllib.unquote_plus, pats), **opts)
 
+@command('rhdiff',
+               [('r', 'rev', [], 'revision'),
+                ('c', 'change', '', 'change made by revision')],
+               'hg rhdiff ([-c REV] | [-r REV] ...) [FILE]...')
 def rhdiff(ui, repo, *pats, **opts):
     """diff repository (or selected files)"""
     change = opts.pop('change', None)
@@ -143,62 +160,7 @@ def rhdiff(ui, repo, *pats, **opts):
     opts['nodates'] = True
     return commands.diff(ui, repo, *map(urllib.unquote_plus, pats), **opts)
 
-def rhlog(ui, repo, *pats, **opts):
-    rev      = opts.pop('rev')
-    bra0     = opts.pop('branch')
-    from_rev = urllib.unquote_plus(opts.pop('from', None))
-    to_rev   = urllib.unquote_plus(opts.pop('to'  , None))
-    bra      = urllib.unquote_plus(opts.pop('rhbranch', None))
-    from_rev = from_rev.replace('"', '\\"')
-    to_rev   = to_rev.replace('"', '\\"')
-    if hg.util.version() >= '1.6':
-      opts['rev'] = ['"%s":"%s"' % (from_rev, to_rev)]
-    else:
-      opts['rev'] = ['%s:%s' % (from_rev, to_rev)]
-    opts['branch'] = [bra]
-    return commands.log(ui, repo, *map(urllib.unquote_plus, pats), **opts)
-
-def rhmanifest(ui, repo, path='', **opts):
-    """output the sub-manifest of the specified directory"""
-    ui.write('<?xml version="1.0"?>\n')
-    ui.write('<rhmanifest>\n')
-    ui.write('<repository root="%s">\n' % _u(repo.root))
-    try:
-        _manifest(ui, repo, urllib.unquote_plus(path), urllib.unquote_plus(opts.get('rev')))
-    finally:
-        ui.write('</repository>\n')
-        ui.write('</rhmanifest>\n')
-
-def rhsummary(ui, repo, **opts):
-    """output the summary of the repository"""
-    ui.write('<?xml version="1.0"?>\n')
-    ui.write('<rhsummary>\n')
-    ui.write('<repository root="%s">\n' % _u(repo.root))
-    try:
-        _tip(ui, repo)
-        _tags(ui, repo)
-        _branches(ui, repo)
-        # TODO: bookmarks in core (Mercurial>=1.8)
-    finally:
-        ui.write('</repository>\n')
-        ui.write('</rhsummary>\n')
-
-cmdtable = {
-    'rhannotate': (rhannotate,
-         [('r', 'rev', '', 'revision'),
-          ('u', 'user', None, 'list the author (long with -v)'),
-          ('n', 'number', None, 'list the revision number (default)'),
-          ('c', 'changeset', None, 'list the changeset'),
-         ],
-         'hg rhannotate [-r REV] [-u] [-n] [-c] FILE...'),
-    'rhcat': (rhcat,
-               [('r', 'rev', '', 'revision')],
-               'hg rhcat ([-r REV] ...) FILE...'),
-    'rhdiff': (rhdiff,
-               [('r', 'rev', [], 'revision'),
-                ('c', 'change', '', 'change made by revision')],
-               'hg rhdiff ([-c REV] | [-r REV] ...) [FILE]...'),
-    'rhlog': (rhlog,
+@command('rhlog',
                    [
                     ('r', 'rev', [], 'show the specified revision'),
                     ('b', 'branch', [],
@@ -217,9 +179,48 @@ cmdtable = {
                       ''),
                     ('', 'template', '',
                        'display with template')],
-                   'hg rhlog [OPTION]... [FILE]'),
-    'rhmanifest': (rhmanifest,
+                   'hg rhlog [OPTION]... [FILE]')
+def rhlog(ui, repo, *pats, **opts):
+    rev      = opts.pop('rev')
+    bra0     = opts.pop('branch')
+    from_rev = urllib.unquote_plus(opts.pop('from', None))
+    to_rev   = urllib.unquote_plus(opts.pop('to'  , None))
+    bra      = urllib.unquote_plus(opts.pop('rhbranch', None))
+    from_rev = from_rev.replace('"', '\\"')
+    to_rev   = to_rev.replace('"', '\\"')
+    if hg.util.version() >= '1.6':
+      opts['rev'] = ['"%s":"%s"' % (from_rev, to_rev)]
+    else:
+      opts['rev'] = ['%s:%s' % (from_rev, to_rev)]
+    opts['branch'] = [bra]
+    return commands.log(ui, repo, *map(urllib.unquote_plus, pats), **opts)
+
+@command('rhmanifest',
                    [('r', 'rev', '', 'show the specified revision')],
-                   'hg rhmanifest [-r REV] [PATH]'),
-    'rhsummary': (rhsummary, [], 'hg rhsummary'),
-}
+                   'hg rhmanifest [-r REV] [PATH]')
+def rhmanifest(ui, repo, path='', **opts):
+    """output the sub-manifest of the specified directory"""
+    ui.write('<?xml version="1.0"?>\n')
+    ui.write('<rhmanifest>\n')
+    ui.write('<repository root="%s">\n' % _u(repo.root))
+    try:
+        _manifest(ui, repo, urllib.unquote_plus(path), urllib.unquote_plus(opts.get('rev')))
+    finally:
+        ui.write('</repository>\n')
+        ui.write('</rhmanifest>\n')
+
+@command('rhsummary',[], 'hg rhsummary')
+def rhsummary(ui, repo, **opts):
+    """output the summary of the repository"""
+    ui.write('<?xml version="1.0"?>\n')
+    ui.write('<rhsummary>\n')
+    ui.write('<repository root="%s">\n' % _u(repo.root))
+    try:
+        _tip(ui, repo)
+        _tags(ui, repo)
+        _branches(ui, repo)
+        # TODO: bookmarks in core (Mercurial>=1.8)
+    finally:
+        ui.write('</repository>\n')
+        ui.write('</rhsummary>\n')
+

@@ -10,7 +10,6 @@
   <% end -%>
 </ul>
 
-
 <script>
   $(document).ready(displayTabsButtons);
   $(window).resize(displayTabsButtons);
@@ -19,6 +18,7 @@
 <% tabs.each do |tab| -%>
   <%= content_tag('div', render(:partial => tab[:partial], :locals => {:tab => tab} ),
                        :id => "tab-content-#{tab[:name]}",
-                       :class => 'tab-pane') %>
+                       :class => "tab-pane #{tab[:class]}") %>
 <% end -%>
 </div>
+

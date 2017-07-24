@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,22 +17,14 @@
 
 require File.expand_path('../../../test_helper', __FILE__)
 
-class RoutingContextMenusTest < ActionController::IntegrationTest
+class RoutingContextMenusTest < Redmine::RoutingTest
   def test_context_menus_time_entries
-    ["get", "post"].each do |method|
-      assert_routing(
-          { :method => method, :path => "/time_entries/context_menu" },
-          { :controller => 'context_menus', :action => 'time_entries' }
-        )
-    end
+    should_route 'GET /time_entries/context_menu' => 'context_menus#time_entries'
+    should_route 'POST /time_entries/context_menu' => 'context_menus#time_entries'
   end
 
   def test_context_menus_issues
-    ["get", "post"].each do |method|
-      assert_routing(
-          { :method => method, :path => "/issues/context_menu" },
-          { :controller => 'context_menus', :action => 'issues' }
-        )
-    end
+    should_route 'GET /issues/context_menu' => 'context_menus#issues'
+    should_route 'POST /issues/context_menu' => 'context_menus#issues'
   end
 end
