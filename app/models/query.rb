@@ -15,6 +15,8 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
+require 'redmine/sort_criteria'
+
 class QueryColumn
   attr_accessor :name, :sortable, :groupable, :totalable, :default_order
   include Redmine::I18n
