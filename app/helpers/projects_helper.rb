@@ -29,6 +29,26 @@ module ProjectsHelper
     link_to_if version.visible?, format_version_name(version), { :controller => 'versions', :action => 'show', :id => version }, options
   end
 
+  def render_api_includes(project, api)
+    api.array :trackers do
+      project.trackers.each do |tracker|
+        api.tracker(:id => tracker.id, :name => tracker.name)
+      end
+    end if include_in_api_response?('trackers')
+
+    api.array :issue_categories do
+      project.issue_categories.each do |category|
+        api.issue_category(:id => category.id, :name => category.name)
+      end
+    end if include_in_api_response?('issue_categories')
+
+    api.array :enabled_modules do
+      project.enabled_modules.each do |enabled_module|
+        api.enabled_module(:id => enabled_module.id, :name => enabled_module.name)
+      end
+    end if include_in_api_response?('enabled_modules')
+  end
+
   def project_settings_tabs
     tabs = [{:name => 'info', :action => :edit_project, :partial => 'projects/edit', :label => :label_information_plural, :class => 'active'},
             {:name => 'modules', :action => :select_project_modules, :partial => 'projects/settings/modules', :label => :label_module_plural},
@@ -478,24 +498,5 @@ module ProjectsHelper
     content_tag('div', s, :class => 'sort-level')
   end
 
-  def render_api_includes(project, api)
-    api.array :trackers do
-      project.trackers.each do |tracker|
-        api.tracker(:id => tracker.id, :name => tracker.name)
-      end
-    end if include_in_api_response?('trackers')
-
-    api.array :issue_categories do
-      project.issue_categories.each do |category|
-        api.issue_category(:id => category.id, :name => category.name)
-      end
-    end if include_in_api_response?('issue_categories')
-
-    api.array :enabled_modules do
-      project.enabled_modules.each do |enabled_module|
-        api.enabled_module(:id => enabled_module.id, :name => enabled_module.name)
-      end
-    end if include_in_api_response?('enabled_modules')
-  end
   end
 end
