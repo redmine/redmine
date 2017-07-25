@@ -6,7 +6,7 @@ require 'etc'
 require 'rubygems'
 
 Version = "1.5"
-SUPPORTED_SCM = %w( Subversion Darcs Mercurial Bazaar Git Filesystem )
+SUPPORTED_SCM = %w( Subversion Mercurial Bazaar Git Filesystem )
 
 $verbose      = 0
 $quiet        = false

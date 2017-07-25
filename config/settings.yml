@@ -119,7 +119,6 @@ enabled_scm:
   serialized: true
   default:
   - Subversion
-  - Darcs
   - Mercurial
   - Cvs
   - Bazaar

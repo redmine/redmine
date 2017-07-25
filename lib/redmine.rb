@@ -66,7 +66,6 @@ require 'redmine/hook/view_listener'
 require 'redmine/plugin'
 
 Redmine::Scm::Base.add "Subversion"
-Redmine::Scm::Base.add "Darcs"
 Redmine::Scm::Base.add "Mercurial"
 Redmine::Scm::Base.add "Cvs"
 Redmine::Scm::Base.add "Bazaar"

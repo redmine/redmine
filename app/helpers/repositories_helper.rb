@@ -157,15 +157,6 @@ module RepositoriesHelper
                             :onchange => "this.name='repository[password]';"))
   end
 
-  def darcs_field_tags(form, repository)
-    content_tag('p', form.text_field(
-                     :url, :label => l(:field_path_to_repository),
-                     :size => 60, :required => true,
-                     :disabled => !repository.safe_attribute?('url')) +
-                     scm_path_info_tag(repository)) +
-    scm_log_encoding_tag(form, repository)
-  end
-
   def mercurial_field_tags(form, repository)
     content_tag('p', form.text_field(
                        :url, :label => l(:field_path_to_repository),
@@ -279,7 +270,7 @@ module RepositoriesHelper
       }
     end
     heads.sort! { |head1, head2| head1.to_s <=> head2.to_s }
-    space = nil  
+    space = nil
     heads.each do |head|
       if commits_by_scmid.include? head.scmid
         space = index_head((space || -1) + 1, head, commits_by_scmid)

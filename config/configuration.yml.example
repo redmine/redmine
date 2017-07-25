@@ -99,14 +99,12 @@ default:
   # scm_git_command:        /usr/local/bin/git                        # (default: git)
   # scm_cvs_command:        cvs                                       # (default: cvs)
   # scm_bazaar_command:     bzr.exe                                   # (default: bzr)
-  # scm_darcs_command:      darcs-1.0.9-i386-linux                    # (default: darcs)
   #
   scm_subversion_command:
   scm_mercurial_command:
   scm_git_command:
   scm_cvs_command:
   scm_bazaar_command:
-  scm_darcs_command:
 
   # SCM paths validation.
   #
@@ -132,7 +130,6 @@ default:
   scm_git_path_regexp:
   scm_cvs_path_regexp:
   scm_bazaar_path_regexp:
-  scm_darcs_path_regexp:
   scm_filesystem_path_regexp:
 
   # Absolute path to the SCM commands errors (stderr) log file.
