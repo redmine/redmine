@@ -139,11 +139,16 @@ class WikiPageTest < ActiveSupport::TestCase
     assert_nil child.parent_id
   end
 
-  def test_destroy
+  def test_destroy_should_delete_content_and_its_versions
     page = WikiPage.find(1)
-    page.destroy
+    assert_difference 'WikiPage.count', -1 do
+      assert_difference 'WikiContent.count', -1 do
+        assert_difference 'WikiContentVersion.count', -3 do
+          page.destroy
+        end
+      end
+    end
     assert_nil WikiPage.find_by_id(1)
-    # make sure that page content and its history are deleted
     assert_equal 0, WikiContent.where(:page_id => 1).count
     assert_equal 0, WikiContentVersion.where(:page_id => 1).count
   end
