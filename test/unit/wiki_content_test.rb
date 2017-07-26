@@ -61,14 +61,14 @@ class WikiContentTest < ActiveSupport::TestCase
     content = @page.content
     version_count = content.version
     content.text = "My new content"
-    assert_difference 'WikiContent::Version.count' do
+    assert_difference 'WikiContentVersion.count' do
       assert content.save
     end
     content.reload
     assert_equal version_count+1, content.version
     assert_equal version_count+1, content.versions.length
 
-    version = WikiContent::Version.order('id DESC').first
+    version = WikiContentVersion.order('id DESC').first
     assert_equal @page.id, version.page_id
     assert_equal '', version.compression
     assert_equal "My new content", version.data
@@ -79,12 +79,12 @@ class WikiContentTest < ActiveSupport::TestCase
     with_settings :wiki_compression => 'gzip' do
       content = @page.content
       content.text = "My new content"
-      assert_difference 'WikiContent::Version.count' do
+      assert_difference 'WikiContentVersion.count' do
         assert content.save
       end
     end
 
-    version = WikiContent::Version.order('id DESC').first
+    version = WikiContentVersion.order('id DESC').first
     assert_equal @page.id, version.page_id
     assert_equal 'gzip', version.compression
     assert_not_equal "My new content", version.data
@@ -127,39 +127,39 @@ class WikiContentTest < ActiveSupport::TestCase
   end
 
   def test_previous_for_first_version_should_return_nil
-    content = WikiContent::Version.find_by_page_id_and_version(1, 1)
+    content = WikiContentVersion.find_by_page_id_and_version(1, 1)
     assert_nil content.previous
   end
 
   def test_previous_for_version_should_return_previous_version
-    content = WikiContent::Version.find_by_page_id_and_version(1, 3)
+    content = WikiContentVersion.find_by_page_id_and_version(1, 3)
     assert_not_nil content.previous
     assert_equal 2, content.previous.version
   end
 
   def test_previous_for_version_with_gap_should_return_previous_available_version
-    WikiContent::Version.find_by_page_id_and_version(1, 2).destroy
+    WikiContentVersion.find_by_page_id_and_version(1, 2).destroy
 
-    content = WikiContent::Version.find_by_page_id_and_version(1, 3)
+    content = WikiContentVersion.find_by_page_id_and_version(1, 3)
     assert_not_nil content.previous
     assert_equal 1, content.previous.version
   end
 
   def test_next_for_last_version_should_return_nil
-    content = WikiContent::Version.find_by_page_id_and_version(1, 3)
+    content = WikiContentVersion.find_by_page_id_and_version(1, 3)
     assert_nil content.next
   end
 
   def test_next_for_version_should_return_next_version
-    content = WikiContent::Version.find_by_page_id_and_version(1, 1)
+    content = WikiContentVersion.find_by_page_id_and_version(1, 1)
     assert_not_nil content.next
     assert_equal 2, content.next.version
   end
 
   def test_next_for_version_with_gap_should_return_next_available_version
-    WikiContent::Version.find_by_page_id_and_version(1, 2).destroy
+    WikiContentVersion.find_by_page_id_and_version(1, 2).destroy
 
-    content = WikiContent::Version.find_by_page_id_and_version(1, 1)
+    content = WikiContentVersion.find_by_page_id_and_version(1, 1)
     assert_not_nil content.next
     assert_equal 3, content.next.version
   end

@@ -221,7 +221,6 @@ class WikiPage < ActiveRecord::Base
       if content.text_changed?
         begin
           self.content = content
-          ret = ret && content.changed?
         rescue ActiveRecord::RecordNotSaved
           ret = false
         end
