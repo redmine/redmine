@@ -107,7 +107,6 @@ Rails.application.routes.draw do
 
     member do
       get 'settings(/:tab)', :action => 'settings', :as => 'settings'
-      post 'modules'
       post 'archive'
       post 'unarchive'
       post 'close'

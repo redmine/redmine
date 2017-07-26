@@ -204,12 +204,6 @@ class ProjectsController < ApplicationController
     end
   end
 
-  def modules
-    @project.enabled_module_names = params[:enabled_module_names]
-    flash[:notice] = l(:notice_successful_update)
-    redirect_to settings_project_path(@project, :tab => 'modules')
-  end
-
   def archive
     unless @project.archive
       flash[:error] = l(:error_can_not_archive_project)
