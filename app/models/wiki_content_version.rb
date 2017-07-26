@@ -89,7 +89,7 @@ class WikiContentVersion < ActiveRecord::Base
   # Returns the previous version or nil
   def previous
     @previous ||= WikiContentVersion.
-      reorder('version DESC').
+      reorder(version: :desc).
       includes(:author).
       where("wiki_content_id = ? AND version < ?", wiki_content_id, version).first
   end
@@ -97,7 +97,7 @@ class WikiContentVersion < ActiveRecord::Base
   # Returns the next version or nil
   def next
     @next ||= WikiContentVersion.
-      reorder('version ASC').
+      reorder(version: :asc).
       includes(:author).
       where("wiki_content_id = ? AND version > ?", wiki_content_id, version).first
   end
@@ -107,7 +107,7 @@ class WikiContentVersion < ActiveRecord::Base
   # Updates page's content if the latest version is removed
   # or destroys the page if it was the only version
   def page_update_after_destroy
-    latest = page.content.versions.reorder("#{self.class.table_name}.version DESC").first
+    latest = page.content.versions.reorder(version: :desc).first
     if latest && page.content.version != latest.version
       raise ActiveRecord::Rollback unless page.content.revert_to!(latest)
     elsif latest.nil?
