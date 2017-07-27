@@ -25,19 +25,19 @@ module JournalsHelper
     ids.any? ? Attachment.where(:id => ids).select(&:thumbnailable?) : []
   end
 
-  def render_notes(issue, journal, options={})
-    content = ''
-    css_classes = "wiki"
+  # Returns the action links for an issue journal
+  def render_journal_actions(issue, journal, options={})
     links = []
     if journal.notes.present?
-      links << link_to(l(:button_quote),
-                       quoted_issue_path(issue, :journal_id => journal),
-                       :remote => true,
-                       :method => 'post',
-                       :title => l(:button_quote),
-                       :class => 'icon-only icon-comment'
-                      ) if options[:reply_links]
-
+      if options[:reply_links]
+        links << link_to(l(:button_quote),
+                         quoted_issue_path(issue, :journal_id => journal),
+                         :remote => true,
+                         :method => 'post',
+                         :title => l(:button_quote),
+                         :class => 'icon-only icon-comment'
+                        )
+      end
       if journal.editable_by?(User.current)
         links << link_to(l(:button_edit),
                          edit_journal_path(journal),
@@ -53,12 +53,13 @@ module JournalsHelper
                          :title => l(:button_delete),
                          :class => 'icon-only icon-del'
                         )
-        css_classes << " editable"
       end
     end
-    content << content_tag('div', links.join(' ').html_safe, :class => 'contextual') unless links.empty?
-    content << textilizable(journal, :notes)
-    content_tag('div', content.html_safe, :id => "journal-#{journal.id}-notes", :class => css_classes)
+    safe_join(links, ' ')
+  end
+
+  def render_notes(issue, journal, options={})
+    content_tag('div', textilizable(journal, :notes), :id => "journal-#{journal.id}-notes", :class => "wiki")
   end
 
   def render_private_notes_indicator(journal)

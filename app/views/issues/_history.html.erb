@@ -2,10 +2,15 @@
 <% for journal in journals %>
   <div id="change-<%= journal.id %>" class="<%= journal.css_classes %>">
     <div id="note-<%= journal.indice %>">
-    <h4><a href="#note-<%= journal.indice %>" class="journal-link">#<%= journal.indice %></a>
-    <%= avatar(journal.user, :size => "24") %>
-    <%= authoring journal.created_on, journal.user, :label => :label_updated_time_by %>
-    <%= render_private_notes_indicator(journal) %></h4>
+    <div class="contextual">
+      <span class="journal-actions"><%= render_journal_actions(issue, journal, :reply_links => reply_links) %></span>
+      <a href="#note-<%= journal.indice %>" class="journal-link">#<%= journal.indice %></a>
+    </div>
+    <h4>
+      <%= avatar(journal.user, :size => "24") %>
+      <%= authoring journal.created_on, journal.user, :label => :label_updated_time_by %>
+      <%= render_private_notes_indicator(journal) %>
+    </h4>
 
     <% if journal.details.any? %>
     <ul class="details">
