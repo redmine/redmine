@@ -19,7 +19,7 @@
 
 module ProjectsHelper
   def project_settings_tabs
-    tabs = [{:name => 'info', :action => :edit_project, :partial => 'projects/edit', :label => :label_information_plural},
+    tabs = [{:name => 'info', :action => :edit_project, :partial => 'projects/edit', :label => :label_project},
             {:name => 'members', :action => :manage_members, :partial => 'projects/settings/members', :label => :label_member_plural},
             {:name => 'issues', :action => :edit_project, :partial => 'projects/settings/issues', :label => :label_issue_tracking},
             {:name => 'versions', :action => :manage_versions, :partial => 'projects/settings/versions', :label => :label_version_plural,
