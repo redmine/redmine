@@ -21,6 +21,7 @@ module ProjectsHelper
   def project_settings_tabs
     tabs = [{:name => 'info', :action => :edit_project, :partial => 'projects/edit', :label => :label_information_plural},
             {:name => 'members', :action => :manage_members, :partial => 'projects/settings/members', :label => :label_member_plural},
+            {:name => 'issues', :action => :edit_project, :partial => 'projects/settings/issues', :label => :label_issue_tracking},
             {:name => 'versions', :action => :manage_versions, :partial => 'projects/settings/versions', :label => :label_version_plural,
               :url => {:tab => 'versions', :version_status => params[:version_status], :version_name => params[:version_name]}},
             {:name => 'categories', :action => :manage_categories, :partial => 'projects/settings/issue_categories', :label => :label_issue_category_plural},

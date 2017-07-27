@@ -189,7 +189,7 @@ class ProjectsController < ApplicationController
       respond_to do |format|
         format.html {
           flash[:notice] = l(:notice_successful_update)
-          redirect_to settings_project_path(@project)
+          redirect_to settings_project_path(@project, params[:tab])
         }
         format.api  { render_api_ok }
       end

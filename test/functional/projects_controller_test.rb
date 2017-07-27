@@ -879,10 +879,8 @@ class ProjectsControllerTest < Redmine::ControllerTest
         :id => source.id
       }
     assert_response :success
-    assert_select 'fieldset#project_issue_custom_fields' do
-      assert_select 'input[type=checkbox][value=?][checked=checked]', field1.id.to_s
-      assert_select 'input[type=checkbox][value=?]:not([checked])', field2.id.to_s
-    end
+    assert_select 'input[type=hidden][name=?][value=?]', 'project[issue_custom_field_ids][]', field1.id.to_s
+    assert_select 'input[type=hidden][name=?][value=?]', 'project[issue_custom_field_ids][]', field2.id.to_s, 0
   end
 
   def test_post_copy_should_copy_requested_items

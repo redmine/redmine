@@ -16,5 +16,13 @@
   <label class="block"><%= check_box_tag 'notifications', 1, params[:notifications] %> <%= l(:label_project_copy_notifications) %></label>
 </fieldset>
 
+<% @project.tracker_ids.each do |tracker_id| %>
+  <%= hidden_field_tag 'project[tracker_ids][]', tracker_id %>
+<% end %>
+
+<% @project.issue_custom_field_ids.each do |issue_custom_field_id| %>
+  <%= hidden_field_tag 'project[issue_custom_field_ids][]', issue_custom_field_id %>
+<% end %>
+
 <%= submit_tag l(:button_copy) %>
 <% end %>

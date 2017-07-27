@@ -20,14 +20,6 @@
 <p><%= f.check_box :inherit_members %></p>
 <% end %>
 
-<% if @project.safe_attribute?('default_version_id') && (default_version_options = project_default_version_options(@project)).present? %>
-  <p><%= f.select :default_version_id, project_default_version_options(@project), :include_blank => true %></p>
-<% end %>
-
-<% if @project.safe_attribute?('default_assigned_to_id') && (default_assigned_to_options = project_default_assigned_to_options(@project)).present? %>
-  <p><%= f.select :default_assigned_to_id, default_assigned_to_options, include_blank: true %></p>
-<% end %>
-
 <%= wikitoolbar_for 'project_description' %>
 
 <% @project.custom_field_values.each do |value| %>
@@ -46,34 +38,6 @@
 <% end %>
 <%= hidden_field_tag 'project[enabled_module_names][]', '' %>
 </fieldset>
-<% end %>
-
-<% if @project.new_record? || @project.module_enabled?('issue_tracking') %>
-<% unless @trackers.empty? %>
-<fieldset class="box tabular" id="project_trackers"><legend><%=l(:label_tracker_plural)%></legend>
-<% @trackers.each do |tracker| %>
-    <label class="floating">
-    <%= check_box_tag 'project[tracker_ids][]', tracker.id, @project.trackers.to_a.include?(tracker), :id => nil %>
-    <%= tracker %>
-    </label>
-<% end %>
-<%= hidden_field_tag 'project[tracker_ids][]', '' %>
-</fieldset>
-<% end %>
-
-<% unless @issue_custom_fields.empty? %>
-<fieldset class="box tabular" id="project_issue_custom_fields"><legend><%=l(:label_custom_field_plural)%></legend>
-<% @issue_custom_fields.each do |custom_field| %>
-    <label class="floating">
-  <%= check_box_tag 'project[issue_custom_field_ids][]', custom_field.id, (@project.all_issue_custom_fields.include? custom_field),
-        :disabled => (custom_field.is_for_all? ? "disabled" : nil),
-        :id => nil %>
-  <%= custom_field_name_tag(custom_field) %>
-  </label>
-<% end %>
-<%= hidden_field_tag 'project[issue_custom_field_ids][]', '' %>
-</fieldset>
-<% end %>
 <% end %>
 <!--[eoform:project]-->
 
@@ -95,16 +59,4 @@
       });
     });
   <% end %>
-<% end %>
-
-<%= javascript_tag do %>
-$(document).ready(function() {
-  $('#project_enabled_module_names_issue_tracking').on('change', function(){
-    if ($(this).prop('checked')){
-      $('#project_trackers, #project_issue_custom_fields').show();
-    } else {
-      $('#project_trackers, #project_issue_custom_fields').hide();
-    }
-  }).trigger('change');
-});
 <% end %>

@@ -1,0 +1,41 @@
+<%= labelled_form_for @project do |f| %>
+  <%= hidden_field_tag 'tab', 'issues' %>
+
+  <% unless @trackers.empty? %>
+  <fieldset class="box tabular" id="project_trackers"><legend><%=l(:label_tracker_plural)%></legend>
+  <% @trackers.each do |tracker| %>
+    <label class="floating">
+      <%= check_box_tag 'project[tracker_ids][]', tracker.id, @project.trackers.to_a.include?(tracker), :id => nil %>
+      <%= tracker %>
+    </label>
+  <% end %>
+  <%= hidden_field_tag 'project[tracker_ids][]', '' %>
+  </fieldset>
+  <% end %>
+
+  <% unless @issue_custom_fields.empty? %>
+  <fieldset class="box tabular" id="project_issue_custom_fields"><legend><%=l(:label_custom_field_plural)%></legend>
+  <% @issue_custom_fields.each do |custom_field| %>
+    <label class="floating">
+      <%= check_box_tag 'project[issue_custom_field_ids][]', custom_field.id, (@project.all_issue_custom_fields.include? custom_field),
+          :disabled => (custom_field.is_for_all? ? "disabled" : nil),
+          :id => nil %>
+      <%= custom_field_name_tag(custom_field) %>
+    </label>
+  <% end %>
+  <%= hidden_field_tag 'project[issue_custom_field_ids][]', '' %>
+  </fieldset>
+  <% end %>
+
+  <div class="box tabular">
+  <% if @project.safe_attribute?('default_version_id') %>
+    <p><%= f.select :default_version_id, project_default_version_options(@project), include_blank: l(:label_none) %></p>
+  <% end %>
+
+  <% if @project.safe_attribute?('default_assigned_to_id') %>
+    <p><%= f.select :default_assigned_to_id, project_default_assigned_to_options(@project), include_blank: l(:label_none) %></p>
+  <% end %>
+  </div>
+
+  <p><%= submit_tag l(:button_save) %></p>
+<% end %>
