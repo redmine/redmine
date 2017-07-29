@@ -6,7 +6,7 @@ h1, h2, h3, h4 {font-family: "Trebuchet MS", Verdana, sans-serif;padding: 2px 10
 h2, .wiki h1 {font-size: 20px;}
 h3, .wiki h2 {font-size: 16px;}
 h4, .wiki h3 {font-size: 13px;}
-h4 {border-bottom: 1px solid #ccc;}
+h4 {border-bottom: 1px solid #ccc; font-weight:normal;}
 pre, code {font-family: Consolas, Menlo, "Liberation Mono", Courier, monospace;}
 
 /***** Layout *****/
@@ -774,7 +774,6 @@ div.thumbnails {margin:0.6em;}
 div.thumbnails div {background:#fff;border:2px solid #ddd;display:inline-block;margin-right:2px;}
 div.thumbnails img {margin: 3px; vertical-align: middle;}
 #history div.thumbnails {margin-left: 2em;}
-#history div.highlight {background-color: #ddf;}
 
 p.other-formats { text-align: right; font-size:0.9em; color: #666; }
 .other-formats span + span:before { content: "| "; }
