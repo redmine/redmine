@@ -70,18 +70,19 @@ table.filecontent tr:target td.line-code { background-color:#DDEEFF; }
 img.filecontent { max-width: 100%; }
 
 /* 12 different colors for the annonate view */
-table.annotate tr.bloc-0 {background: #FFFFBF;}
-table.annotate tr.bloc-1 {background: #EABFFF;}
-table.annotate tr.bloc-2 {background: #BFFFFF;}
-table.annotate tr.bloc-3 {background: #FFD9BF;}
-table.annotate tr.bloc-4 {background: #E6FFBF;}
-table.annotate tr.bloc-5 {background: #BFCFFF;}
-table.annotate tr.bloc-6 {background: #FFBFEF;}
-table.annotate tr.bloc-7 {background: #FFE6BF;}
-table.annotate tr.bloc-8 {background: #FFE680;}
-table.annotate tr.bloc-9 {background: #AA80FF;}
-table.annotate tr.bloc-10 {background: #FFBFDC;}
-table.annotate tr.bloc-11 {background: #BFE4FF;}
+table.annotate tr.bloc-0 td.author {border-right-color: #FFFFBF;}
+table.annotate tr.bloc-1 td.author {border-right-color: #EABFFF;}
+table.annotate tr.bloc-2 td.author {border-right-color: #BFFFFF;}
+table.annotate tr.bloc-3 td.author {border-right-color: #FFD9BF;}
+table.annotate tr.bloc-4 td.author {border-right-color: #E6FFBF;}
+table.annotate tr.bloc-5 td.author {border-right-color: #BFCFFF;}
+table.annotate tr.bloc-6 td.author {border-right-color: #FFBFEF;}
+table.annotate tr.bloc-7 td.author {border-right-color: #FFE6BF;}
+table.annotate tr.bloc-8 td.author {border-right-color: #FFE680;}
+table.annotate tr.bloc-9 td.author {border-right-color: #AA80FF;}
+table.annotate tr.bloc-10 td.author {border-right-color: #FFBFDC;}
+table.annotate tr.bloc-11 td.author {border-right-color: #BFE4FF;}
+table.annotate tr.bloc-change {border-top:1px solid #e5e5e5;}
 
 table.annotate td.revision {
     padding:0;
@@ -94,7 +95,7 @@ table.annotate td.revision {
 table.annotate td.author {
     padding:0;
     text-align: center;
-    border-right: 1px solid #d7d7d7;
+    border-right: 6px solid #d7d7d7;
     white-space: nowrap;
     padding-left: 1em;
     padding-right: 1em;

@@ -16,7 +16,7 @@
     <% line_num = 1; previous_revision = nil %>
     <% syntax_highlight_lines(@path, Redmine::CodesetUtil.to_utf8_by_setting(@annotate.content)).each do |line| %>
       <% revision = @annotate.revisions[line_num - 1] %>
-      <tr id="L<%= line_num %>" class="bloc-<%= revision.nil? ? 0 : colors[revision.identifier || revision.revision] %>">
+      <tr id="L<%= line_num %>" class="bloc-<%= revision.nil? ? 0 : colors[revision.identifier || revision.revision] %> <%= previous_revision && revision && revision != previous_revision ? 'bloc-change' : nil%>">
         <th class="line-num"><a href="#L<%= line_num %>"><%= line_num %></a></th>
         <td class="revision">
           <% if revision && revision != previous_revision %>
