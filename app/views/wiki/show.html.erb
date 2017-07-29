@@ -14,7 +14,6 @@
   <%= link_to_if_authorized(l(:button_rollback), {:action => 'edit', :id => @page.title, :version => @content.version }, :class => 'icon icon-cancel') %>
 <% end %>
 <% end %>
-<%= link_to_if_authorized(l(:label_history), {:action => 'history', :id => @page.title}, :class => 'icon icon-history') %>
 </div>
 
 <%= wiki_page_breadcrumb(@page) %>
@@ -66,6 +65,13 @@
   <% end %>
 </div>
 </fieldset>
+
+<% if User.current.allowed_to?(:view_wiki_edits, @project) %>
+<p class="wiki-update-info">
+  <%= wiki_content_update_info(@content) %>
+ · <%= link_to l(:label_x_revisions, :count => @content.version), {:action => 'history', :id => @page.title} %>
+</p>
+<% end %>
 
 <% other_formats_links do |f| %>
   <%= f.link_to 'PDF', :url => {:id => @page.title, :version => params[:version]} %>

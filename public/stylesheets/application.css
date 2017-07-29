@@ -550,6 +550,8 @@ table#time-report .hours-dec { font-size: 0.9em; }
 div.wiki-page .contextual a {opacity: 0.4}
 div.wiki-page .contextual a:hover {opacity: 1}
 
+.wiki-update-info {text-align:right; color:#666; font-size:90%;}
+
 form .attributes select { width: 60%; }
 form .attributes select + a.icon-only { vertical-align: middle; margin-left: 4px; }
 input#issue_subject, input#document_title { width: 99%; }
