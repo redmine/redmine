@@ -40,3 +40,26 @@
 <% if @changeset.issues.visible.any? || User.current.allowed_to?(:manage_related_issues, @repository.project) %>
   <%= render :partial => 'related_issues' %>
 <% end %>
+
+<% if User.current.allowed_to?(:browse_repository, @repository.project) %>
+<%
+tabs = []
+tabs << { name: 'revision', label: :label_change_plural,
+          url: { :action => 'revision',
+                 :id     => @project,
+                 :repository_id => @repository.identifier_param,
+                 :path   => nil,
+                 :rev    => @changeset.identifier}
+        }
+
+tabs << { name: 'diff', label: :label_view_diff,
+          url: { :action => 'diff',
+                 :id     => @project,
+                 :repository_id => @repository.identifier_param,
+                 :path   => "",
+                 :rev    => @changeset.identifier }
+        } if action_name == 'diff' || @changeset.filechanges.any?
+%>
+
+<%= render :partial => 'common/tabs', :locals => {:tabs => tabs, :selected_tab => action_name} %>
+<% end %>

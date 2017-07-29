@@ -29,7 +29,6 @@
 <%= render :partial => 'changeset' %>
 
 <% if User.current.allowed_to?(:browse_repository, @project) %>
-<h3><%= l(:label_attachment_plural) %></h3>
 <ul id="changes-legend">
 <li class="change change-A"><%= l(:label_added)    %></li>
 <li class="change change-M"><%= l(:label_modified) %></li>
@@ -37,13 +36,6 @@
 <li class="change change-R"><%= l(:label_renamed)  %></li>
 <li class="change change-D"><%= l(:label_deleted)  %></li>
 </ul>
-
-<p><%= link_to(l(:label_view_diff),
-               :action => 'diff',
-               :id     => @project,
-               :repository_id => @repository.identifier_param,
-               :path   => "",
-               :rev    => @changeset.identifier) if @changeset.filechanges.any? %></p>
 
 <div class="changeset-changes">
 <%= render_changeset_changes %>
