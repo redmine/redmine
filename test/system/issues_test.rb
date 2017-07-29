@@ -134,6 +134,23 @@ class IssuesTest < ApplicationSystemTestCase
     assert_equal ['Dave Lopper', 'Some Watcher'], issue.watcher_users.map(&:name).sort
   end
 
+  def test_create_issue_with_attachment
+    set_tmp_attachments_directory
+    log_user('jsmith', 'jsmith')
+
+    issue = new_record(Issue) do
+      visit '/projects/ecookbook/issues/new'
+      fill_in 'Subject', :with => 'Issue with attachment'
+      attach_file 'attachments[dummy][file]', Rails.root.join('test/fixtures/files/testfile.txt')
+      fill_in 'attachments[1][description]', :with => 'Some description'
+      click_on 'Create'
+    end
+    assert_equal 1, issue.attachments.count
+    assert_equal 'Some description', issue.attachments.first.description
+  ensure
+    set_fixtures_attachments_directory
+  end
+
   def test_preview_issue_description
     log_user('jsmith', 'jsmith')
     visit '/projects/ecookbook/issues/new'
