@@ -34,6 +34,7 @@
 <br />
 
 <% unless @replies.empty? %>
+<div id="replies">
 <h3 class="comments icon icon-comments"><%= l(:label_reply_plural) %> (<%= @reply_count %>)</h3>
 <% if !@topic.locked? && authorize_for('messages', 'reply') && @replies.size >= 3 %>
   <p><%= toggle_link l(:button_reply), "reply", :focus => 'message_content', :scroll => "message_content" %></p>
@@ -74,6 +75,7 @@
   <%= link_to_attachments message, :author => false, :thumbnails => true %>
   </div>
 <% end %>
+</div>
 <span class="pagination"><%= pagination_links_full @reply_pages, @reply_count, :per_page_links => false %></span>
 <% end %>
 
