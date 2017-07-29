@@ -503,6 +503,7 @@ div#issue-changesets p { margin-top: 0; margin-bottom: 1em;}
 .changeset-comments {margin-bottom:1em;}
 
 div.journal {overflow:auto;}
+div.journal .contextual {margin-top: 0;}
 div.journal.private-notes {border-left:2px solid #d22; padding-left:4px; margin-left:-6px;}
 div.journal ul.details, ul.revision-info {color:#959595; margin-bottom: 1.5em;}
 div.journal ul.details a, ul.revision-info a {color:#70A7CD;}
@@ -1343,8 +1344,6 @@ td.username img.gravatar {margin: 0 0.5em 0 0; vertical-align: top;}
 .icon-gravatar {float: left; margin-right: 4px;}
 
 #activity dt, .journal {clear: left;}
-
-.journal-link {float: right;}
 
 h2 img { vertical-align:middle; }
 
