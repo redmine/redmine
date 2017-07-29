@@ -51,4 +51,50 @@ class MyPageTest < ApplicationSystemTestCase
     assert page.has_css?('table.issues.sort-by-tracker')
     assert page.has_css?('table.issues.sort-desc')
   end
+
+  def test_add_block
+    preferences = User.find(2).pref
+    preferences.my_page_layout = {'top' => ['issuesassignedtome']}
+    preferences.save!
+
+    log_user('jsmith', 'jsmith')
+    visit '/my/page'
+    select 'Watched issues', :from => 'Add'
+
+    assert page.has_css?('#block-issueswatched')
+    assert_equal({'top' => ['issueswatched', 'issuesassignedtome']},
+      preferences.reload.my_page_layout)
+  end
+
+  def test_add_issue_query_block
+    preferences = User.find(2).pref
+    preferences.my_page_layout = {'top' => ['issuesassignedtome']}
+    preferences.save!
+    query = IssueQuery.create!(:name => 'My query', :user_id => 2)
+
+    log_user('jsmith', 'jsmith')
+    visit '/my/page'
+    select 'Issues', :from => 'Add'
+    # Select which query to display
+    select query.name, :from => 'Custom query'
+    click_on 'Save'
+
+    assert page.has_css?('#block-issuequery table.issues')
+    assert_equal({'top' => ['issuequery', 'issuesassignedtome']}, preferences.reload.my_page_layout)
+    assert_equal({:query_id => query.id.to_s}, preferences.my_page_settings['issuequery'])
+  end
+
+  def test_remove_block
+    preferences = User.find(2).pref
+    preferences.my_page_layout = {'top' => ['issuesassignedtome']}
+    preferences.save!
+
+    log_user('jsmith', 'jsmith')
+    visit '/my/page'
+    within '#block-issuesassignedtome' do
+      click_on 'Delete'
+    end
+    assert page.has_no_css?('#block-issuesassignedtome')
+    assert_equal({'top' => []}, preferences.reload.my_page_layout)
+  end
 end

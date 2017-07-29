@@ -1141,7 +1141,7 @@ div.wiki img {vertical-align:middle; max-width:100%;}
   line-height:1.5em;
 }
 
-.mypage-box>.contextual {opacity:0; transition: opacity 0.2s;}
+.mypage-box>.contextual {opacity:0.001; transition: opacity 0.2s;}
 .mypage-box:hover>.contextual {opacity:1;}
 
 .handle {cursor: move;}

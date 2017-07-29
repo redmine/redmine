@@ -151,6 +151,27 @@ class IssuesTest < ApplicationSystemTestCase
     set_fixtures_attachments_directory
   end
 
+  def test_create_issue_with_new_target_version
+    log_user('jsmith', 'jsmith')
+
+    assert_difference 'Issue.count' do
+      assert_difference 'Version.count' do
+        visit '/projects/ecookbook/issues/new'
+        fill_in 'Subject', :with => 'With a new version'
+        click_on 'New version'
+        within '#ajax-modal' do
+          fill_in 'Name', :with => '4.0'
+          click_on 'Create'
+        end
+        click_on 'Create'
+      end
+    end
+
+    issue = Issue.order('id desc').first
+    assert_not_nil issue.fixed_version
+    assert_equal '4.0', issue.fixed_version.name
+  end
+
   def test_preview_issue_description
     log_user('jsmith', 'jsmith')
     visit '/projects/ecookbook/issues/new'
