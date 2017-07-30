@@ -105,6 +105,6 @@ class EnumerationsController < ApplicationController
 
   def enumeration_params
     # can't require enumeration on #new action
-    params.permit(:enumeration => [:name, :active, :is_default])[:enumeration]
+    params.permit(:enumeration => [:name, :active, :is_default, :position])[:enumeration]
   end
 end
