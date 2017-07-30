@@ -27,7 +27,7 @@ class IssueNestedSetConcurrencyTest < ActiveSupport::TestCase
   self.use_transactional_fixtures = false
 
   def setup
-    skip if sqlite?
+    skip if sqlite? || mysql?
     CustomField.delete_all
   end
 
@@ -36,8 +36,6 @@ class IssueNestedSetConcurrencyTest < ActiveSupport::TestCase
   end
 
   def test_concurrency
-    skip if mysql?
-
     # Generates an issue and destroys it in order
     # to load all needed classes before starting threads
     i = Issue.generate!
