@@ -3,6 +3,9 @@
 <%= link_to l(:label_wiki_page_new), new_project_wiki_page_path(@project), :remote => true, :class => 'icon icon-add' %>
 <% end %>
 <%= watcher_link(@wiki, User.current) %>
+<% if User.current.allowed_to?(:manage_wiki, @project) %>
+<%= link_to l(:button_delete), {:controller => 'wikis', :action => 'destroy', :id => @project}, :class => 'icon icon-del' %>
+<% end %>
 </div>
 
 <h2><%= l(:label_index_by_title) %></h2>

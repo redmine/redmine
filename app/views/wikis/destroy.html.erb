@@ -7,5 +7,6 @@
 <%= form_tag({:controller => 'wikis', :action => 'destroy', :id => @project}) do %>
   <%= hidden_field_tag "confirm", 1 %>
   <%= submit_tag l(:button_delete) %>
-  <%= link_to l(:button_cancel), settings_project_path(@project, :tab => 'wiki') %>
+  <%= link_to l(:button_cancel), :back %>
 <% end %>
+
