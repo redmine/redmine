@@ -760,6 +760,8 @@ class TimelogControllerTest < Redmine::ControllerTest
   end
 
   def test_index_at_project_level
+    @request.session[:user_id] = 2
+
     get :index, :params => {:project_id => 'ecookbook', :c => ['project']}
     assert_response :success
 
