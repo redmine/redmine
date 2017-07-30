@@ -843,6 +843,25 @@ class WikiControllerTest < Redmine::ControllerTest
     assert_equal project.wiki.id, page.wiki_id
   end
 
+  def test_rename_as_start_page
+    @request.session[:user_id] = 2
+
+    post :rename, :params => {
+      :project_id => 'ecookbook',
+      :id => 'Another_page',
+      :wiki_page => {
+        :wiki_id => '1',
+        :title => 'Another_page',
+        :redirect_existing_links => '1',
+        :is_start_page => '1'
+      }
+    }
+    assert_redirected_to '/projects/ecookbook/wiki/Another_page'
+
+    wiki = Wiki.find(1)
+    assert_equal 'Another_page', wiki.start_page
+  end
+
   def test_destroy_a_page_without_children_should_not_ask_confirmation
     @request.session[:user_id] = 2
     delete :destroy, :params => {:project_id => 1, :id => 'Child_2'}

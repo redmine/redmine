@@ -155,7 +155,7 @@ Redmine::AccessControl.map do |map|
     map.permission :delete_wiki_pages, {:wiki => [:destroy, :destroy_version]}, :require => :member
     map.permission :delete_wiki_pages_attachments, {}
     map.permission :protect_wiki_pages, {:wiki => :protect}, :require => :member
-    map.permission :manage_wiki, {:wikis => [:edit, :destroy]}, :require => :member
+    map.permission :manage_wiki, {:wikis => [:edit, :destroy], :wiki => :rename}, :require => :member
   end
 
   map.project_module :repository do |map|

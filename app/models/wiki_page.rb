@@ -50,7 +50,7 @@ class WikiPage < ActiveRecord::Base
 
   validate :validate_parent_title
   before_destroy :delete_redirects
-  before_save :handle_rename_or_move
+  before_save :handle_rename_or_move, :update_wiki_start_page
   after_save :handle_children_move
 
   # eager load information about last updates, without loading text
@@ -61,6 +61,9 @@ class WikiPage < ActiveRecord::Base
 
   safe_attributes 'parent_id', 'parent_title', 'title', 'redirect_existing_links', 'wiki_id',
     :if => lambda {|page, user| page.new_record? || user.allowed_to?(:rename_wiki_pages, page.project)}
+
+  safe_attributes 'is_start_page',
+    :if => lambda {|page, user| user.allowed_to?(:manage_wiki, page.project)}
 
   def initialize(attributes=nil, *args)
     super
@@ -211,6 +214,24 @@ class WikiPage < ActiveRecord::Base
     parent_page = t.blank? ? nil : self.wiki.find_page(t)
     self.parent = parent_page
   end
+
+  def is_start_page
+    if @is_start_page.nil?
+      @is_start_page = wiki.try(:start_page) == title_was
+    end
+    @is_start_page
+  end
+
+  def is_start_page=(arg)
+    @is_start_page = arg == '1' || arg == true
+  end
+
+  def update_wiki_start_page
+    if is_start_page
+      wiki.update_attribute :start_page, title
+    end
+  end
+  private :update_wiki_start_page
 
   # Saves the page and its content if text was changed
   # Return true if the page was saved

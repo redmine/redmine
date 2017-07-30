@@ -9,6 +9,9 @@
                      :html => { :method => :post } do |f| %>
 <div class="box tabular">
 <p><%= f.text_field :title, :required => true, :size => 100  %></p>
+<% if @page.safe_attribute? 'is_start_page' %>
+<p><%= f.check_box :is_start_page, :label => :field_start_page, :disabled => @page.is_start_page %></p>
+<% end %>
 <p><%= f.check_box :redirect_existing_links %></p>
 <p><%= f.select :parent_id,
                 content_tag('option', '', :value => '') + 

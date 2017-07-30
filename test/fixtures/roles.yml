@@ -51,6 +51,7 @@ roles_001:
     - :protect_wiki_pages
     - :delete_wiki_pages
     - :rename_wiki_pages
+    - :manage_wiki
     - :view_messages
     - :add_messages
     - :edit_messages
