@@ -592,21 +592,6 @@ class ProjectsControllerTest < Redmine::ControllerTest
     assert_response 403
   end
 
-  def test_setting_with_wiki_module_and_no_wiki
-    Project.find(1).wiki.destroy
-    Role.find(1).add_permission! :manage_wiki
-    @request.session[:user_id] = 2
-
-    get :settings, :params => {
-        :id => 1
-      }
-    assert_response :success
-
-    assert_select 'form[action=?]', '/projects/ecookbook/wiki' do
-      assert_select 'input[name=?]', 'wiki[start_page]'
-    end
-  end
-
   def test_settings_should_accept_version_status_filter
     @request.session[:user_id] = 2
 

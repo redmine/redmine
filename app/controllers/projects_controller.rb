@@ -177,7 +177,6 @@ class ProjectsController < ApplicationController
     @version_status = params[:version_status] || 'open'
     @version_name = params[:version_name]
     @versions = @project.shared_versions.status(@version_status).like(@version_name)
-    @wiki ||= @project.wiki || Wiki.new(:project => @project)
   end
 
   def edit
