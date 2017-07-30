@@ -7,14 +7,14 @@ http://www.redmine.org/
 
 == Requirements
 
-* Ruby >= 1.9.3
+* Ruby >= 2.2.1
 * RubyGems
 * Bundler >= 1.5.0
 
 * A database:
-  * MySQL (tested with MySQL 5.1)
-  * PostgreSQL (tested with PostgreSQL 9.1)
-  * SQLite3 (tested with SQLite 3.7)
+  * MySQL (tested with MySQL 5.7)
+  * PostgreSQL (tested with PostgreSQL 9.5)
+  * SQLite3 (tested with SQLite 3.11)
   * SQLServer (tested with SQLServer 2012)
 
 Optional:
