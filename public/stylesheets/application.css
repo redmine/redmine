@@ -479,7 +479,7 @@ fieldset#filters td.field { width:230px; }
 fieldset#filters td.operator { width:130px; }
 fieldset#filters td.operator select {max-width:120px;}
 fieldset#filters td.values { white-space:nowrap; }
-fieldset#filters td.values select {min-width:130px; max-width:200px;}
+fieldset#filters td.values select {min-width:130px;}
 fieldset#filters td.values input {height:1em;}
 
 #filters-table {width:60%; float:left;}
