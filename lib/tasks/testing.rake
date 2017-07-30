@@ -97,10 +97,4 @@ namespace :test do
     Minitest.rake_run FileList['test/integration/routing/*_test.rb'] + FileList['test/integration/api_test/*_routing_test.rb']
   end
   Rake::Task['test:routing'].comment = "Run the routing tests"
-
-  task(:ui => "db:test:prepare") do |t|
-    $: << "test"
-    Minitest.rake_run FileList['test/ui/**/*_test_ui.rb']
-  end
-  Rake::Task['test:ui'].comment = "Run the UI tests with Capybara (PhantomJS listening on port 4444 is required)"
 end
