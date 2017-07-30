@@ -124,6 +124,18 @@ class EnumerationsControllerTest < Redmine::ControllerTest
     assert_select_error /name cannot be blank/i
   end
 
+  def test_update_position
+    assert_equal 2, Enumeration.find(2).position
+    put :update, :params => {
+          :id => 2,
+          :enumeration => {
+            :position => 1,
+        }
+      }
+    assert_response 302
+    assert_equal 1, Enumeration.find(2).position
+  end
+
   def test_destroy_enumeration_not_in_use
     assert_difference 'IssuePriority.count', -1 do
       delete :destroy, :params => {
