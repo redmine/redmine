@@ -113,6 +113,13 @@ class TimeEntryQuery < Query
     [['spent_on', 'desc']]
   end
 
+  # If a filter against a single issue is set, returns its id, otherwise nil.
+  def filtered_issue_id
+    if value_for('issue_id').to_s =~ /\A(\d+)\z/
+      $1
+    end
+  end
+
   def base_scope
     TimeEntry.visible.
       joins(:project, :user).
