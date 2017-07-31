@@ -121,7 +121,7 @@ module Redmine
         end
         @current_theme
       end
-    
+
       # Returns the header tags for the current theme
       def heads_for_theme
         if current_theme && current_theme.javascripts.include?('theme')
