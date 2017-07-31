@@ -17,9 +17,9 @@
 
 module Redmine
   module SubclassFactory
-    def self.included(base) 
+    def self.included(base)
       base.extend ClassMethods
-    end 
+    end
 
     module ClassMethods
       def get_subclass(class_name)
