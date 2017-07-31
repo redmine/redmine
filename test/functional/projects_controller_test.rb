@@ -64,6 +64,16 @@ class ProjectsControllerTest < Redmine::ControllerTest
     assert_equal 'text/javascript', response.content_type
   end
 
+  def test_autocomplete_js_with_blank_search_term
+    get :autocomplete, :params => {
+        :format => 'js',
+        :q => ''
+      },
+      :xhr => true
+    assert_response :success
+    assert_equal 'text/javascript', response.content_type
+  end
+
   test "#index by non-admin user with view_time_entries permission should show overall spent time link" do
     @request.session[:user_id] = 3
     get :index
