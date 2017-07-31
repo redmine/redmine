@@ -4,21 +4,21 @@
   <fieldset class="box tabular">
     <legend><%= l(:label_options) %></legend>
     <p>
-      <label><%= l(:label_fields_separator) %></label>
+      <label for="import_settings_separator"><%= l(:label_fields_separator) %></label>
       <%= select_tag 'import_settings[separator]',
             options_for_select([[l(:label_comma_char), ','], [l(:label_semi_colon_char), ';']], @import.settings['separator']) %>
     </p>
     <p>
-      <label><%= l(:label_fields_wrapper) %></label>
+      <label for="import_settings_wrapper"><%= l(:label_fields_wrapper) %></label>
       <%= select_tag 'import_settings[wrapper]',
           options_for_select([[l(:label_quote_char), "'"], [l(:label_double_quote_char), '"']], @import.settings['wrapper']) %>
     </p>
     <p>
-      <label><%= l(:label_encoding) %></label>
+      <label for="import_settings_encoding"><%= l(:label_encoding) %></label>
       <%= select_tag 'import_settings[encoding]', options_for_select(Setting::ENCODINGS, @import.settings['encoding']) %>
     </p>
     <p>
-      <label><%= l(:setting_date_format) %></label>
+      <label for="import_settings_date_format"><%= l(:setting_date_format) %></label>
       <%= select_tag 'import_settings[date_format]', options_for_select(date_format_options, @import.settings['date_format']) %>
     </p>
   </fieldset>

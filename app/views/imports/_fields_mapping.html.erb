@@ -1,35 +1,35 @@
 <p>
-  <label><%= l(:label_project) %></label>
+  <label for="import_mapping_project_id"><%= l(:label_project) %></label>
   <%= select_tag 'import_settings[mapping][project_id]',
         options_for_select(project_tree_options_for_select(@import.allowed_target_projects, :selected => @import.project)),
         :id => 'import_mapping_project_id' %>
 </p>
 <p>
-  <label><%= l(:label_tracker) %></label>
+  <label for="import_mapping_tracker"><%= l(:label_tracker) %></label>
   <%= mapping_select_tag @import, 'tracker', :required => true,
         :values => @import.allowed_target_trackers.sorted.map {|t| [t.name, t.id]} %>
 </p>
 <p>
-  <label><%= l(:field_status) %></label>
+  <label for="import_mapping_status"><%= l(:field_status) %></label>
   <%= mapping_select_tag @import, 'status' %>
 </p>
 
 <div class="splitcontent">
 <div class="splitcontentleft">
 <p>
-  <label><%= l(:field_subject) %></label>
+  <label for="import_mapping_subject"><%= l(:field_subject) %></label>
   <%= mapping_select_tag @import, 'subject', :required => true %>
 </p>
 <p>
-  <label><%= l(:field_description) %></label>
+  <label for="import_mapping_description"><%= l(:field_description) %></label>
   <%= mapping_select_tag @import, 'description' %>
 </p>
 <p>
-  <label><%= l(:field_priority) %></label>
+  <label for="import_mapping_priority"><%= l(:field_priority) %></label>
   <%= mapping_select_tag @import, 'priority' %>
 </p>
 <p>
-  <label><%= l(:field_category) %></label>
+  <label for="import_mapping_category"><%= l(:field_category) %></label>
   <%= mapping_select_tag @import, 'category' %>
   <% if User.current.allowed_to?(:manage_categories, @import.project) %>
     <label class="block">
@@ -39,11 +39,11 @@
   <% end %>
 </p>
 <p>
-  <label><%= l(:field_assigned_to) %></label>
+  <label for="import_mapping_assigned_to"><%= l(:field_assigned_to) %></label>
   <%= mapping_select_tag @import, 'assigned_to' %>
 </p>
 <p>
-  <label><%= l(:field_fixed_version) %></label>
+  <label for="import_mapping_fixed_version"><%= l(:field_fixed_version) %></label>
   <%= mapping_select_tag @import, 'fixed_version' %>
   <% if User.current.allowed_to?(:manage_versions, @import.project) %>
     <label class="block">
@@ -54,7 +54,7 @@
 </p>
 <% @custom_fields.each do |field| %>
   <p>
-    <label><%= field.name %></label>
+    <label for="import_mapping_cf_<% field.id %>"><%= field.name %></label>
     <%= mapping_select_tag @import, "cf_#{field.id}" %>
   </p>
 <% end %>
@@ -62,27 +62,27 @@
 
 <div class="splitcontentright">
 <p>
-  <label><%= l(:field_is_private) %></label>
+  <label for="import_mapping_is_private"><%= l(:field_is_private) %></label>
   <%= mapping_select_tag @import, 'is_private' %>
 </p>
 <p>
-  <label><%= l(:field_parent_issue) %></label>
+  <label for="import_mapping_parent_issue_id"><%= l(:field_parent_issue) %></label>
   <%= mapping_select_tag @import, 'parent_issue_id' %>
 </p>
 <p>
-  <label><%= l(:field_start_date) %></label>
+  <label for="import_mapping_start_date"><%= l(:field_start_date) %></label>
   <%= mapping_select_tag @import, 'start_date' %>
 </p>
 <p>
-  <label><%= l(:field_due_date) %></label>
+  <label for="import_mapping_due_date"><%= l(:field_due_date) %></label>
   <%= mapping_select_tag @import, 'due_date' %>
 </p>
 <p>
-  <label><%= l(:field_estimated_hours) %></label>
+  <label for="import_mapping_estimated_hours"><%= l(:field_estimated_hours) %></label>
   <%= mapping_select_tag @import, 'estimated_hours' %>
 </p>
 <p>
-  <label><%= l(:field_done_ratio) %></label>
+  <label for="import_mapping_done_ratio"><%= l(:field_done_ratio) %></label>
   <%= mapping_select_tag @import, 'done_ratio' %>
 </p>
 </div>
