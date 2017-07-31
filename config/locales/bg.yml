@@ -222,6 +222,7 @@ bg:
   error_move_of_child_not_possible: 'Подзадача %{child} не беше преместена в новия проект: %{errors}'
   error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: Употребеното време не може да бъде прехвърлено на задача, която ще бъде изтрита
   warning_fields_cleared_on_bulk_edit: Промените ще предизвикат автоматично изтриване на стойности от едно или повече полета на избраните обекти
+  error_exceeds_maximum_hours_per_day: Не можете да запишете повече от %{max_hours} часа на един ден (%{logged_hours} часове вече са записани)
 
   mail_subject_lost_password: "Вашата парола (%{value})"
   mail_body_lost_password: 'За да смените паролата си, използвайте следния линк:'
@@ -465,6 +466,9 @@ bg:
   setting_commit_logs_formatting: Прилагане на форматиране за съобщенията при поверяване
   setting_timelog_required_fields: Задължителни полета за записи за изразходваното време
   setting_close_duplicate_issues: Затваряне на дублираните задачи автоматично
+  setting_time_entry_list_defaults: Конфигурация по подразбиране за записите за изразходваното време
+  setting_timelog_accept_0_hours: Приемане на записи с 0 часа
+  setting_timelog_max_hours_per_day: Максимум часове, които могат да бъдат записани за ден и за потребител
 
   permission_add_project: Създаване на проект
   permission_add_subprojects: Създаване на подпроекти
@@ -1213,9 +1217,4 @@ bg:
   description_wiki_subpages_reassign: Изберете нова родителска страница
   description_all_columns: Всички колони
   text_repository_identifier_info: 'Позволени са малки букви (a-z), цифри, тирета и _.<br />Промяна след създаването му не е възможна.'
-  error_exceeds_maximum_hours_per_day: Cannot log more than %{max_hours} hours on the
-    same day (%{logged_hours} hours have already been logged)
-  setting_time_entry_list_defaults: Timelog list defaults
-  setting_timelog_accept_0_hours: Accept time logs with 0 hours
-  setting_timelog_max_hours_per_day: Maximum hours that can be logged per day and user
   label_x_revisions: "%{count} revisions"
