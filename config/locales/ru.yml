@@ -270,7 +270,7 @@ ru:
   default_doc_category_user: Пользовательская документация
   default_issue_status_in_progress: В работе
   default_issue_status_closed: Закрыта
-  default_issue_status_feedback: Обратная связь
+  default_issue_status_feedback: Нужен отклик
   default_issue_status_new: Новая
   default_issue_status_rejected: Отклонена
   default_issue_status_resolved: Решена
