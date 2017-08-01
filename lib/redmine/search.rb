@@ -82,13 +82,11 @@ module Redmine
       # Returns the results for the given offset and limit
       def results(offset, limit)
         result_ids_to_load = result_ids[offset, limit] || []
-  
         results_by_scope = Hash.new {|h,k| h[k] = []}
         result_ids_to_load.group_by(&:first).each do |scope, scope_and_ids|
           klass = scope.singularize.camelcase.constantize
           results_by_scope[scope] += klass.search_results_from_ids(scope_and_ids.map(&:last))
         end
-  
         result_ids_to_load.map do |scope, id|
           results_by_scope[scope].detect {|record| record.id == id}
         end.compact
@@ -110,7 +108,6 @@ module Redmine
           cache_key = ActiveSupport::Cache.expand_cache_key(
             [@question, @user.id, @scope.sort, @options, project_ids.sort]
           )
-  
           Redmine::Search.cache_store.fetch(cache_key, :force => !@cache) do
             load_result_ids
           end
