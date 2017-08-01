@@ -159,7 +159,7 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
     def test_test_connection_with_correct_host_and_port
       auth_source = AuthSourceLdap.find(1)
 
-      assert_nothing_raised Net::LDAP::Error do
+      assert_nothing_raised do
         auth_source.test_connection
       end
     end
