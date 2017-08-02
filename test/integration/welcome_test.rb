@@ -18,6 +18,8 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class WelcomeTest < Redmine::IntegrationTest
+  fixtures :users, :email_addresses,
+           :projects, :enabled_modules, :members, :member_roles, :roles
 
   def test_robots
     get '/robots.txt'
