@@ -2279,11 +2279,13 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   def test_overdue
-    assert Issue.new(:due_date => 1.day.ago.to_date).overdue?
-    assert !Issue.new(:due_date => Date.today).overdue?
-    assert !Issue.new(:due_date => 1.day.from_now.to_date).overdue?
+    User.current = nil
+    today = User.current.today
+    assert  Issue.new(:due_date => (today - 1.day).to_date).overdue?
+    assert !Issue.new(:due_date => today).overdue?
+    assert !Issue.new(:due_date => (today + 1.day).to_date).overdue?
     assert !Issue.new(:due_date => nil).overdue?
-    assert !Issue.new(:due_date => 1.day.ago.to_date,
+    assert !Issue.new(:due_date => (today - 1.day).to_date,
                       :status => IssueStatus.where(:is_closed => true).first
                       ).overdue?
   end
