@@ -831,7 +831,7 @@ div.thumbnails img {margin: 3px; vertical-align: middle;}
 }
 
 #tab-content-users .splitcontentleft {width: 64%;}
-#tab-content-users .splitcontentright {width: 34%;}
+#tab-content-users .splitcontentright {width: 50%;}
 #tab-content-users fieldset {padding:1em; margin-bottom: 1em;}
 #tab-content-users fieldset legend {font-weight: bold;}
 #tab-content-users fieldset label {display: block;}
