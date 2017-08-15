@@ -2,3 +2,6 @@
 <%= form_for @project, :html => { class: 'form-horizontal new-project' } do |f| %>
     <%= render :partial => 'form', :locals => { :f => f, :hiddenNonRequiredFields => true } %>
 <% end %> 
+<% content_for :header_tags do %>
+    <script src="/javascripts/project.js"></script>
+<% end %>

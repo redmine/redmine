@@ -323,6 +323,7 @@ class ProjectsController < ApplicationController
       unless User.current.admin?
         @project.add_default_member(User.current)
       end
+      Mailer.project_add(@project).deliver
       respond_to do |format|
         format.html {
           flash[:success] = l(:notice_successful_create)
