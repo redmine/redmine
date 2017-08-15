@@ -130,8 +130,6 @@ function addSampleProjects(target){
 
 function showSampleProject(url){
     var ifr=$('<iframe/>', {id:'geppettoSampleProject', src:url, style: 'width:100%;height:100%;border:0px;'});
-    $("#geppettoSampleProject")[0].contentWindow.postMessage({"command": "G.enableLocalStorage(false)"}, $("#geppettoIP").val());
-    $("#geppettoSampleProject")[0].contentWindow.postMessage({"command": "GEPPETTO.ViewController.clearViewMonitor()"}, $("#geppettoIP").val());
     window.setTimeout(function(){
         ifr.show();
         $("footer").hide();
@@ -150,8 +148,6 @@ function showSampleProject(url){
                 }, false);
                 
             	$("#geppettoSampleProject")[0].contentWindow.postMessage({"command": "$('.HomeButton').hide()"}, $("#geppettoIP").val());
-                $("#geppettoSampleProject")[0].contentWindow.postMessage({"command": "G.enableLocalStorage(false)"}, $("#geppettoIP").val());
-                $("#geppettoSampleProject")[0].contentWindow.postMessage({"command": "GEPPETTO.ViewController.clearViewMonitor()"}, $("#geppettoIP").val());
                 
             });
     $('#geppettoHomeContainer').append(ifr);
