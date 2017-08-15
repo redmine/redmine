@@ -1,6 +1,5 @@
 $(document).ready(function(){
 
-    autoFillProjectIdentifier();
     // 'activate' selected tab in project navbar
     $("li > .selected").parent().addClass("active");
 
