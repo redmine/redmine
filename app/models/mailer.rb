@@ -40,15 +40,14 @@ class Mailer < ActionMailer::Base
   end
 
   def project_add(project)
-    recipients = User.active.where(:admin => true)
     redmine_headers 'Project' => project.identifier,
                     'Project-Id' => project.id
     message_id project
     references project
     @project = project
-    @users = recipients
+    @users = User.find(1)
     #@project_url = url_for(:controller => 'project', :action => 'show', :id => project.id)
-    mail :to => recipients,
+    mail :to => "info@opensourcebrain.org",
       :subject => "New OSB Project: #{project.name}"
   end
 
