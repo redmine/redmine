@@ -98,31 +98,35 @@ function addSampleProjects(target){
     makeCorsRequest("currentuser", processCurrentUser, "geppettoProjectsCompact", function(data) {
 	var jsonData=JSON.parse(data);
 	for(var i=0;i<jsonData.length;i++){
-	    var geppettoProjectUrl=geppettoIP+geppettoContextPath+"geppetto?load_project_from_id="+jsonData[i].id;
 	    var iconClass="gpt-neuron sampleModelIcon"; //the default
 	    switch(jsonData[i].name) {
-	    case "Primary Auditory Cortex Network":
+            case "Primary Auditory Cortex Network":
+                url="/projects/acnet2/models?explorer=https%253A%252F%252Fraw.githubusercontent.com%252FOpenSourceBrain%252FACnet2%252Fmaster%252FosbSessions%252Fsample%252FSample_Session.json";
 		iconClass="acnet2SampleThumbnail sampleThumbnail";
 		break;
 	        
 	    case "CA1 Pyramidal Cell":
+                url="/projects/opensourcebrain.org/projects/ca1pyramidalcell/models?explorer=https%253A%252F%252Fraw.githubusercontent.com%252FOpenSourceBrain%252FCA1PyramidalCell%252Fmaster%252FneuroConstruct%252FgeneratedNeuroML2%252FBigCA1.net.nml";
 		iconClass="ca1SampleThumbnail sampleThumbnail";
 		break;
 	        
 	    case "Izhikevich Spiking Neuron Model":
+                url="/projects/izhikevichmodel?explorer=https%253A%252F%252Fraw.githubusercontent.com%252FOpenSourceBrain%252FIzhikevichModel%252Fmaster%252FNeuroML2%252FIzh2007One.net.nml";
 		iconClass="izhiSampleThumbnail sampleThumbnail";
 		break;
 	        
 	    case "L23 Cell":
+                url="/projects/blue-brain-project-showcase/models?explorer=https%253A%252F%252Fraw.githubusercontent.com%252FOpenSourceBrain%252FBlueBrainProjectShowcase%252Fmaster%252FNMC%252FNeuroML2%252FcADpyr229_L23_PC_5ecbf9b163.net.nml";
 		iconClass="l23SampleThumbnail sampleThumbnail";
 		break;
 	        
 	    case "Hodgkin-Huxley Neuron":
+                url="/projects/hodgkin-huxley-tutorial?explorer=https%253A%252F%252Fraw.githubusercontent.com%252Fopenworm%252Fhodgkin_huxley_tutorial%252Fmaster%252FTutorial%252FSource%252FHHCellNetwork.net.nml";
 		iconClass="hhcellSampleThumbnail sampleThumbnail";
 		break;
 	    }
-	    
-	    $(target).append("<div class='sampleModel' onclick='showSampleProject(\""+geppettoProjectUrl+"\")'><div class='"+iconClass+"'></div><a class='sampleModelLabel'>"+jsonData[i].name+"</a></div>");	
+
+            $(target).append("<a href="+url+"><div class='sampleModel'><div class='"+iconClass+"'></div><a class='sampleModelLabel' href="+url+">"+jsonData[i].name+"</a></div></a>");
 	}
 	
     });	
