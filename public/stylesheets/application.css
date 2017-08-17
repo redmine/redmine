@@ -713,7 +713,6 @@ div.project-title {
 #learnMoreContainer {
     margin: 0 auto;
     text-align: center;
-    display: none;
 }
 
 .mainContentMargins {
@@ -819,16 +818,6 @@ div.thumbnails img {margin: 3px; vertical-align: middle;}
 .sampleModel:hover {
     -webkit-filter: hue-rotate(170deg);
     filter: hue-rotate(170deg);
-}
-
-.sampleModelLabel:hover {
-    text-decoration: none;
-}
-
-.sampleModelLabel {
-    display: block;
-    text-align: center;
-    color: inherit;
 }
 
 #tab-content-users .splitcontentleft {width: 64%;}
