@@ -5,8 +5,6 @@
 <hr/>
 <%= form_for @project, :html => { class: 'form-horizontal' } do |f| %>
 <%= render :partial => 'form', :locals => { :f => f, :hiddenNonRequiredFields => false } %>
-<br/>
-
 <% if(User.current.admin?) %>
 <div class="bs-docs bs-docs-admin ">
 	<div class="accordion" id="accordion2">
@@ -19,7 +17,7 @@
 	    <div id="collapseOne" class="accordion-body collapse">
 	      <div class="accordion-inner">
 		  <% @project.custom_field_values.each do |value| %>
-		      <div class="control-group"><%= custom_field_tag_with_label :project, value %></div>
+		      <div class="form-group"><%= custom_field_tag_with_label :project, value, :class => 'col-sm-2' %></div>
 		  <% end %>
 		  <%= call_hook(:view_projects_form, :project => @project, :form => f) %>
 	      </div>

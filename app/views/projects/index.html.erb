@@ -66,12 +66,12 @@
 	            <div class="cells-tabs">
 	                <div id="view-tab" class="btn-group" data-toggle="buttons">
                             <a href="#cells_graph" data-toggle="tab">
-                                <label class="btn btn-default">
+                                <label class="btn btn-default active">
   		                    <input type="radio" class="cells-browser"><icon class="icon-circle-blank"></icon> Graph view
                                     </label>
                                 </a>
                                 <a href="#cells_list" data-toggle="tab">
-                                    <label class="btn btn-default active">
+                                    <label class="btn btn-default">
   		                    <input type="radio" class="cells-browser"><icon class="icon-th-list"></icon> List view
                                     </label>
                                 </a>
@@ -91,7 +91,7 @@
 	            <!-- This begins the graph or list section -->
 	            <div class="tab-content" id="cells">
 
-	                <div class="tab-pane" id="cells_graph">
+	                <div class="tab-pane active" id="cells_graph">
 	                    <div style="text-align:center;">
 		                <img src="/images/logo/osbcircle.png" class="icon-spin pagination-centered loading-image">
 		                <br/>
@@ -102,7 +102,7 @@
 	                    </div>	
 	                </div>
 
-	                <div class="tab-pane row active" id="cells_list">
+	                <div class="tab-pane row" id="cells_list">
 	                    <div style="text-align:center;">
 		                <img src="/images/logo/osbcircle.png" class="icon-spin pagination-centered loading-image">
 		                <br/>
@@ -257,7 +257,6 @@
          loadTab(selectedTab);
          function loadTab(tabName){
              if (tabName == "welcomeMainContainer"){
-                 callGeppetto("", addSampleProjectsToExploreOSB, true);
                  loadNextTab(tabName);
              }
              else if (tabName == "projecthighlights"){
