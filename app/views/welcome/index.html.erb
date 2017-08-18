@@ -136,11 +136,10 @@
 								<td><h4>Latest projects added on OSB</h4></td> 	
 							</tr>
 						</thead>
-							<% maxprjcount=3 %>
+							<% maxprjcount=5 %>
 							<% i=0 %>
-							<% for project in @projects %>
+							<% for project in Project.all.order('created_on desc') %>
 								<%if(i<maxprjcount)%>
-									<% @project = project %>
 									<% i=i+1 %>
 										<tr><td><icon class="icon-list-alt"></icon><%= link_to_project project %></td></tr> 
 								<% else break;%>
