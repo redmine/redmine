@@ -117,14 +117,14 @@
 								</td> 	
 							</tr>
 						</thead>
-						<% if @projects.any? %>
+						<% if User.current.projects.any? || @projects.any? %>
 						    <%= call_hook(:view_welcome_index_left, :projects => @projects) %>
                                                     <% for project in @projects %>
 							<tr><td colspan="2"><icon class="icon-list-alt"></icon><%= link_to_project(project) %></td></tr>
 						    <% end %>
-						    <% unless @user.memberships.empty? %>
-							<% for membership in @user.memberships %>
-							    <tr><td colspan="2"><icon class="icon-list-alt"></icon><%= link_to_project(membership.project) %></td></tr>
+						    <% unless User.current.projects.empty? %>
+							<% for project in User.current.projects %>
+							    <tr><td colspan="2"><icon class="icon-list-alt"></icon><%= link_to_project(project) %></td></tr>
 							<% end %>
 						    <% end %>
 						<% end %>
