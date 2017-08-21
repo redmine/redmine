@@ -2,6 +2,7 @@
     <script src="/javascripts/project.js"></script>
 <% end %>
 <%= render "projects/header" %>
+<div class="project-main">
 <% @project.visible_custom_field_values.each do |custom_value| %>
     <% if !custom_value.value.blank? %>
         <% if custom_value.custom_field.name == 'GitHub repository' %>
@@ -80,7 +81,7 @@
     </p>
   <% end %>
 <% end %>
-
+</div>
 <% content_for :header_tags do %>
   <%= stylesheet_link_tag "scm" %>
 <% end %>
