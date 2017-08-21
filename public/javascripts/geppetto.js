@@ -65,7 +65,7 @@ function createCORSRequest(method, url) {
 
 // Add dashboard in home page
 function addDashboard(){
-    $("#dashboardContainer").prepend("<iframe id='geppettoDashboard' style='width:100%;height:100%;border:0px;' src='" + geppettoIP + geppettoContextPath + "'></iframe>");
+    $("#dashboardContainer").prepend("<iframe id='geppettoDashboard' src='" + geppettoIP + geppettoContextPath + "'></iframe>");
     window.addEventListener('message', function(e){
     	if (e.data.command == 'ready') {
             var dashboard = $("#geppettoDashboard");
