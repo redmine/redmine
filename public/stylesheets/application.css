@@ -835,6 +835,13 @@ div.thumbnails img {margin: 3px; vertical-align: middle;}
     height: 100%;
 }
 
+#geppettoDashboard {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
 #workspace {
     position: absolute;
     top: 97px;
@@ -863,6 +870,13 @@ input#principal_search, input#user_search {width:90%}
     left: 0;
     right: 0;
     bottom: 0;
+}
+
+#geppettoFrame {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: 0;
 }
 
 /* From redmine */
