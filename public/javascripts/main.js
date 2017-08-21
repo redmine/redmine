@@ -2,7 +2,7 @@ $(document).ready(function () {
     // **************
     // COMMON
     // **************
-    var $window = jQuery(window);
+    var $window = $(window);
 
     // -- SIDE BAR
     /*setTimeout(function () {
@@ -29,18 +29,15 @@ $(document).ready(function () {
 	$('html,body').scrollTop(scrollmem);
     });
     // -- Bootstrap widget calls
-    // jQuery('.dropdown-toggle').dropdown();
-    // jQuery(".alert").alert();
-
     $('.popoverlink').popover();
     $('.tooltiplink').tooltip();
 
-    jQuery('.wrapped-channelml .table-border-summary').addClass('table');
-    // jQuery(":submit").addClass('btn btn-success btn-large');
-    jQuery('button').addClass('btn');
-    jQuery('.jstElements button').addClass('btn-square');
-    jQuery('.jstElements').addClass('btn-group');
-    jQuery('.buttons a').addClass("btn");
+    $('.wrapped-channelml .table-border-summary').addClass('table');
+    // $(":submit").addClass('btn btn-success btn-large');
+    $('button').addClass('btn');
+    $('.jstElements button').addClass('btn-square');
+    $('.jstElements').addClass('btn-group');
+    $('.buttons a').addClass("btn");
     replaceIconWithFontAwesome();
 
     // make code pretty
@@ -49,12 +46,6 @@ $(document).ready(function () {
     // **************
     // HEADER
     // **************
-    /*jQuery("#header_menu > ul").addClass("pull-right");
-      jQuery("#header_menu > ul").append('<li id="loggedelement"></li>');
-      jQuery("#loggedas > a").appendTo("#loggedelement");
-      jQuery("#loggedas").remove();*/
-
-
     $("#searchLink").click(function () {
 	$(this).closest("form").submit();
 	return false;
@@ -79,26 +70,26 @@ $(document).ready(function () {
     // **************
 
     // -- Split the project name field in two in the title bar
-    var splitProjectName = jQuery('#pname').html();
+    var splitProjectName = $('#pname').html();
     if (splitProjectName != undefined) {
 	splitProjectName = splitProjectName.split("-");
-	jQuery('#pname').html(jQuery.trim(splitProjectName[0]) + " <small>" + jQuery.trim(splitProjectName[1]) + "</small>");
+	$('#pname').html($.trim(splitProjectName[0]) + " <small>" + $.trim(splitProjectName[1]) + "</small>");
     }
 
     // -- Transforms redmine selected in bootstrap active flag
-    jQuery(".tabli").attr("data-toggle", "tab");
+    $(".tabli").attr("data-toggle", "tab");
 
     // -- Builds the nav menu in the ovewview section
-    jQuery("#project_overview_sections section").each(function () {
-	var id = jQuery(this).attr("id");
-	var name = jQuery(this).find(".page-header h2").html();
-	jQuery("#project_overview_list").append("<li><a href='#" + id + "'><i class='icon-chevron-right'></i>" + name + "</a></li>");
+    $("#project_overview_sections section").each(function () {
+	var id = $(this).attr("id");
+	var name = $(this).find(".page-header h2").html();
+	$("#project_overview_list").append("<li><a href='#" + id + "'><i class='icon-chevron-right'></i>" + name + "</a></li>");
     });
 
-    jQuery('#project_overview_list li').click(function (e) {
-	jQuery('#project_overview_list li').removeClass('active');
+    $('#project_overview_list li').click(function (e) {
+	$('#project_overview_list li').removeClass('active');
 
-	var $this = jQuery(this);
+	var $this = $(this);
 	if (!$this.hasClass('active')) {
 	    $this.addClass('active');
 	}
@@ -113,104 +104,96 @@ var currentModel = undefined;
 
 // This method adds filtering abilities to a text input and a linked list
 function setupFilter(idFilter, idList) {
-    jQuery(idFilter).keyup(function () {
-	var a = jQuery(this).val();
+    $(idFilter).keyup(function () {
+	var a = $(this).val();
 	if (a.length > 2) {
 	    // this finds all links in the list that contain the input,
 	    // and hide the ones not containing the input while showing the ones that do
-	    var containing = jQuery(idList + ' li').filter(function () {
+	    var containing = $(idList + ' li').filter(function () {
 		var regex = new RegExp('\\b' + a, 'i');
-		return regex.test(jQuery('a', this).text());
+		return regex.test($('a', this).text());
 	    }).slideDown();
-	    jQuery(idList + ' li').not(containing).slideUp();
+	    $(idList + ' li').not(containing).slideUp();
 	}
 	else {
-	    jQuery(idList + ' li').slideDown();
+	    $(idList + ' li').slideDown();
 	}
     });
 }
 
 
 function replaceIconWithFontAwesome() {
-
-    jQuery("a.icon-add").removeClass("icon-add").prepend("<icon class='icon-plus'/>");
-    jQuery("a.icon-edit").removeClass("icon-edit").prepend("<icon class='icon-edit'/>");
-    jQuery("a.icon-copy").removeClass("icon-copy").prepend("<icon class='icon-copy'/>");
-    jQuery("a.icon-duplicate").removeClass("icon-duplicate").prepend("<icon class='icon-copy'/>");
-    jQuery("a.icon-del").removeClass("icon-del").prepend("<icon class='icon-trash'/>");
-    jQuery("a.icon-move").removeClass("icon-move").prepend("<icon class='icon-move'/>");
-    jQuery("a.icon-save").removeClass("icon-save").prepend("<icon class='icon-save'/>");
-    jQuery("a.icon-cancel").removeClass("icon-cancel").prepend("<icon class='icon-remove'/>");
-    jQuery("a.icon-multiple").removeClass("icon-multiple").prepend("<icon class='icon-th-large'/>");
-    jQuery("a.icon-folder").removeClass("icon-folder").prepend("<icon class='icon-folder-open-alt'/>");
-
-    jQuery("a.open").removeClass("icon-folder").prepend("<icon class='icon-folder-open-alt'/>");
-
-    jQuery("a.icon-package").removeClass("icon-package").prepend("<icon class='icon-folder-open-alt'/>");
-    jQuery("a.icon-user").removeClass("icon-user").prepend("<icon class='icon-user'/>");
-    jQuery("a.icon-projects").removeClass("icon-projects").prepend("<icon class='icon-folder-open-alt'/>");
-    jQuery("a.icon-help").removeClass("icon-help").prepend("<icon class='icon-help'/>");
-    jQuery("a.icon-attachment").removeClass("icon-attachment").prepend("<icon class='icon-paper-clip'/>");
-    jQuery("a.icon-history").removeClass("icon-history").prepend("<icon class='icon-time'/>");
-    jQuery("a.icon-time").removeClass("icon-time").prepend("<icon class='icon-time'/>");
-    jQuery("a.icon-time-add").removeClass("icon-time-add").prepend("<icon class='icon-folder-open-alt'/>");
-    jQuery("a.icon-stats").removeClass("icon-stats").prepend("<icon class='icon-bar-chart'/>");
-    jQuery("a.icon-warning").removeClass("icon-warning").prepend("<icon class='icon-folder-open-alt'/>");
-    jQuery("a.icon-fav").removeClass("icon-fav").prepend("<icon class='icon-heart'/>");
-    jQuery("a.icon-fav-off").removeClass("icon-fav-off").prepend("<icon class='icon-heart-empty'/>");
-    jQuery("a.icon-reload").removeClass("icon-reload").prepend("<icon class='icon-repeat'/>");
-    jQuery("a.icon-lock").removeClass("icon-lock").prepend("<icon class='icon-lock'/>");
-    jQuery("a.icon-unlock").removeClass("icon-unlock").prepend("<icon class='icon-unlock'/>");
-    jQuery("a.icon-checked").removeClass("icon-checked").prepend("<icon class='icon-check'/>");
-    jQuery("a.icon-details").removeClass("icon-details").prepend("<icon class='icon-folder-open-alt'/>");
-    jQuery("a.icon-report").removeClass("icon-report").prepend("<icon class='icon-list-alt'/>");
-    jQuery("a.icon-comment").removeClass("icon-comment").prepend("<icon class='icon-comment'/>");
-    jQuery("a.icon-summary").removeClass("icon-summary").prepend("<icon class='icon-folder-open-alt'/>");
-    jQuery("a.icon-server-authentication").removeClass("icon-server-authentication").prepend("<icon class='icon-folder-open-alt'/>");
-    jQuery("a.icon-issue").removeClass("icon-issue").prepend("<icon class='icon-folder-open-alt'/>");
-    jQuery("a.icon-zoom-in").removeClass("icon-zoom-in").prepend("<icon class='icon-folder-open-alt'/>");
-    jQuery("a.icon-zoom-out").removeClass("icon-zoom-out").prepend("<icon class='icon-folder-open-alt'/>");
-    jQuery("a.icon-passwd").removeClass("icon-passwd").prepend("<icon class='icon-folder-open-alt'/>");
-    jQuery("a.icon-test").removeClass("icon-test").prepend("<icon class='icon-folder-open-alt'/>");
-    jQuery("a.icon-file").removeClass("icon-file").prepend("<icon class='icon-file'/>");
-
+    $("a.icon-add").removeClass("icon-add").prepend("<icon class='icon-plus'/>");
+    $("a.icon-edit").removeClass("icon-edit").prepend("<icon class='icon-edit'/>");
+    $("a.icon-copy").removeClass("icon-copy").prepend("<icon class='icon-copy'/>");
+    $("a.icon-duplicate").removeClass("icon-duplicate").prepend("<icon class='icon-copy'/>");
+    $("a.icon-del").removeClass("icon-del").prepend("<icon class='icon-trash'/>");
+    $("a.icon-move").removeClass("icon-move").prepend("<icon class='icon-move'/>");
+    $("a.icon-save").removeClass("icon-save").prepend("<icon class='icon-save'/>");
+    $("a.icon-cancel").removeClass("icon-cancel").prepend("<icon class='icon-remove'/>");
+    $("a.icon-multiple").removeClass("icon-multiple").prepend("<icon class='icon-th-large'/>");
+    $("a.icon-folder").removeClass("icon-folder").prepend("<icon class='icon-folder-open-alt'/>");
+    $("a.open").removeClass("icon-folder").prepend("<icon class='icon-folder-open-alt'/>");
+    $("a.icon-package").removeClass("icon-package").prepend("<icon class='icon-folder-open-alt'/>");
+    $("a.icon-user").removeClass("icon-user").prepend("<icon class='icon-user'/>");
+    $("a.icon-projects").removeClass("icon-projects").prepend("<icon class='icon-folder-open-alt'/>");
+    $("a.icon-help").removeClass("icon-help").prepend("<icon class='icon-help'/>");
+    $("a.icon-attachment").removeClass("icon-attachment").prepend("<icon class='icon-paper-clip'/>");
+    $("a.icon-history").removeClass("icon-history").prepend("<icon class='icon-time'/>");
+    $("a.icon-time").removeClass("icon-time").prepend("<icon class='icon-time'/>");
+    $("a.icon-time-add").removeClass("icon-time-add").prepend("<icon class='icon-folder-open-alt'/>");
+    $("a.icon-stats").removeClass("icon-stats").prepend("<icon class='icon-bar-chart'/>");
+    $("a.icon-warning").removeClass("icon-warning").prepend("<icon class='icon-folder-open-alt'/>");
+    $("a.icon-fav").removeClass("icon-fav").prepend("<icon class='icon-heart'/>");
+    $("a.icon-fav-off").removeClass("icon-fav-off").prepend("<icon class='icon-heart-empty'/>");
+    $("a.icon-reload").removeClass("icon-reload").prepend("<icon class='icon-repeat'/>");
+    $("a.icon-lock").removeClass("icon-lock").prepend("<icon class='icon-lock'/>");
+    $("a.icon-unlock").removeClass("icon-unlock").prepend("<icon class='icon-unlock'/>");
+    $("a.icon-checked").removeClass("icon-checked").prepend("<icon class='icon-check'/>");
+    $("a.icon-details").removeClass("icon-details").prepend("<icon class='icon-folder-open-alt'/>");
+    $("a.icon-report").removeClass("icon-report").prepend("<icon class='icon-list-alt'/>");
+    $("a.icon-comment").removeClass("icon-comment").prepend("<icon class='icon-comment'/>");
+    $("a.icon-summary").removeClass("icon-summary").prepend("<icon class='icon-folder-open-alt'/>");
+    $("a.icon-server-authentication").removeClass("icon-server-authentication").prepend("<icon class='icon-folder-open-alt'/>");
+    $("a.icon-issue").removeClass("icon-issue").prepend("<icon class='icon-folder-open-alt'/>");
+    $("a.icon-zoom-in").removeClass("icon-zoom-in").prepend("<icon class='icon-folder-open-alt'/>");
+    $("a.icon-zoom-out").removeClass("icon-zoom-out").prepend("<icon class='icon-folder-open-alt'/>");
+    $("a.icon-passwd").removeClass("icon-passwd").prepend("<icon class='icon-folder-open-alt'/>");
+    $("a.icon-test").removeClass("icon-test").prepend("<icon class='icon-folder-open-alt'/>");
+    $("a.icon-file").removeClass("icon-file").prepend("<icon class='icon-file'/>");
 
     // JSTB
-
-    jQuery(".jstb_strong").removeClass("jstb_strong").prepend("<icon class='icon-bold'/>");
-    jQuery(".jstb_em").removeClass("jstb_em").prepend("<icon class='icon-italic'/>");
-    jQuery(".jstb_ins").removeClass("jstb_ins").prepend("<icon class='icon-underline'/>");
-    jQuery(".jstb_del").removeClass("jstb_del").prepend("<icon class='icon-strikethrough'/>");
-    jQuery(".jstb_code").removeClass("jstb_code").prepend("<icon class='icon-code'/>");
-    jQuery(".jstb_h1").removeClass("jstb_h1").prepend("<icon class='icon-h1'/>");
-    jQuery(".jstb_h2").removeClass("jstb_h2").prepend("<icon class='icon-h2'/>");
-    jQuery(".jstb_h3").removeClass("jstb_h3").prepend("<icon class='icon-h3'/>");
-    jQuery(".jstb_ul").removeClass("jstb_ul").prepend("<icon class='icon-list-ul'/>");
-    jQuery(".jstb_ol").removeClass("jstb_ol").prepend("<icon class='icon-list-ol'/>");
-    jQuery(".jstb_bq").removeClass("jstb_bq").prepend("<icon class='icon-indent-right'/>");
-    jQuery(".jstb_unbq").removeClass("jstb_unbq").prepend("<icon class='icon-indent-left'/>");
-    jQuery(".jstb_pre").removeClass("jstb_pre").prepend("<icon class='icon-pre'/>");
-    jQuery(".jstb_link").removeClass("jstb_link").prepend("<icon class='icon-link'/>");
-    jQuery(".jstb_img").removeClass("jstb_img").prepend("<icon class='icon-picture'/>");
-    jQuery(".jstb_help").removeClass("jstb_help").prepend("<icon class='icon-question-sign'/>");
+    $(".jstb_strong").removeClass("jstb_strong").prepend("<icon class='icon-bold'/>");
+    $(".jstb_em").removeClass("jstb_em").prepend("<icon class='icon-italic'/>");
+    $(".jstb_ins").removeClass("jstb_ins").prepend("<icon class='icon-underline'/>");
+    $(".jstb_del").removeClass("jstb_del").prepend("<icon class='icon-strikethrough'/>");
+    $(".jstb_code").removeClass("jstb_code").prepend("<icon class='icon-code'/>");
+    $(".jstb_h1").removeClass("jstb_h1").prepend("<icon class='icon-h1'/>");
+    $(".jstb_h2").removeClass("jstb_h2").prepend("<icon class='icon-h2'/>");
+    $(".jstb_h3").removeClass("jstb_h3").prepend("<icon class='icon-h3'/>");
+    $(".jstb_ul").removeClass("jstb_ul").prepend("<icon class='icon-list-ul'/>");
+    $(".jstb_ol").removeClass("jstb_ol").prepend("<icon class='icon-list-ol'/>");
+    $(".jstb_bq").removeClass("jstb_bq").prepend("<icon class='icon-indent-right'/>");
+    $(".jstb_unbq").removeClass("jstb_unbq").prepend("<icon class='icon-indent-left'/>");
+    $(".jstb_pre").removeClass("jstb_pre").prepend("<icon class='icon-pre'/>");
+    $(".jstb_link").removeClass("jstb_link").prepend("<icon class='icon-link'/>");
+    $(".jstb_img").removeClass("jstb_img").prepend("<icon class='icon-picture'/>");
+    $(".jstb_help").removeClass("jstb_help").prepend("<icon class='icon-question-sign'/>");
 
     // DT
-
-    jQuery(".E_issue").prepend('<icon class="icon-edit"/>');
-    jQuery(".E_issue-edit").prepend('<icon class="icon-edit"/>');
-    jQuery(".E_issue-closed").prepend('<icon class="icon-edit"/>');
-    jQuery(".E_issue-note").prepend('<icon class="icon-edit"/>');
-    jQuery(".E_changeset").prepend('<icon class="icon-cog"/>');
-    jQuery(".E_news").prepend('<icon class="icon-bullhorn"/>');
-    jQuery(".E_message").prepend('<icon class="icon-comment"/>');
-    jQuery(".E_reply").prepend('<icon class="icon-reply"/>');
-    jQuery(".E_wiki-page").prepend('<icon class="icon-font"/>');
-    jQuery(".E_attachment").prepend('<icon class="icon-paper-clip"/>');
-    jQuery(".E_document").prepend('<icon class="icon-file-alt"/>');
-    jQuery(".E_project").prepend('<icon class="icon-book"/>');
-    jQuery(".E_time-entry").prepend('<icon class="icon-time"/>');
-
-
+    $(".E_issue").prepend('<icon class="icon-edit"/>');
+    $(".E_issue-edit").prepend('<icon class="icon-edit"/>');
+    $(".E_issue-closed").prepend('<icon class="icon-edit"/>');
+    $(".E_issue-note").prepend('<icon class="icon-edit"/>');
+    $(".E_changeset").prepend('<icon class="icon-cog"/>');
+    $(".E_news").prepend('<icon class="icon-bullhorn"/>');
+    $(".E_message").prepend('<icon class="icon-comment"/>');
+    $(".E_reply").prepend('<icon class="icon-reply"/>');
+    $(".E_wiki-page").prepend('<icon class="icon-font"/>');
+    $(".E_attachment").prepend('<icon class="icon-paper-clip"/>');
+    $(".E_document").prepend('<icon class="icon-file-alt"/>');
+    $(".E_project").prepend('<icon class="icon-book"/>');
+    $(".E_time-entry").prepend('<icon class="icon-time"/>');
 }
 
 function getParameterByName(name) {
@@ -234,9 +217,9 @@ function showErrorMessageInOSBExplorer(file, message) {
     }
 
     // If there isn't webgl support display warn message
-    jQuery(".project-main").hide();
-    jQuery(".project-main").before("<div id='geppettoContainer'><div id='osbexplorermessage'></div>");
-    jQuery("#osbexplorermessage").html(message + "<br /><br /> You can also <a href='" + decodedfile + "' target='_blank'>download the file</a> or <a href='" + repoFilePath + "' target='_blank'>view the file content online</a>.<br /><br />");
+    $(".project-main").hide();
+    $(".project-main").before("<div id='geppettoContainer'><div id='osbexplorermessage'></div>");
+    $("#osbexplorermessage").html(message + "<br /><br /> You can also <a href='" + decodedfile + "' target='_blank'>download the file</a> or <a href='" + repoFilePath + "' target='_blank'>view the file content online</a>.<br /><br />");
 }
 
 function hideFooter() {
@@ -268,8 +251,6 @@ function showGeppetto() {
     $(".project-main").hide();
     $(".project-header").hide()
     hideFooter();
-    //	$('#main').css("background-color","rgb(35, 35, 35)");
-    //	$('#main').css("color","white");
 }
 
 function showProject() {
@@ -280,10 +261,7 @@ function showProject() {
     $(".project-main").show();
     $(".project-header").show();
     showFooter();
-    //	$('#main').css("background-color","white");
-    //	$('#main').css("color","black");
 }
-
 
 function loadDiscussOSB() {
     $("#discussOSB").html('<iframe id="forum_embed_2" src="javascript:void(0)" scrolling="no" frameborder="0" width="100%" height="700"></iframe>');
