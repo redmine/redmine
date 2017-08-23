@@ -3484,7 +3484,7 @@ color: #555; text-shadow: 1px 1px 0 #fff;
     padding: 8px;
     margin-bottom: -1px;
     text-decoration: none;
-    font-size: 15px;
+    font-size: 1em;
     color: #777;
     display: block;
 }
@@ -3496,6 +3496,19 @@ color: #555; text-shadow: 1px 1px 0 #fff;
 .explorerSubmenu {
     background-color: #e7e7e7;
     cursor: default;
+    width: auto;
+    display: inline-block;
+    vertical-align: top;
+    overflow-wrap: break-word;
+}
+
+.path {
+    font-size: 0.85em;
+}
+
+.explorerSubmenu [id^=collap] {
+    padding-left: 0;
+    list-style-type: none;
 }
 
 .submenu-item a {

@@ -94,7 +94,7 @@ $(document).ready(function(){
                     for (var i=0; i<files.length; i++) {
                         var file = files[i];
                         var basename = file.split('/').slice(-1)[0];
-                        $("#"+"collapse"+submenu).append("<li class=\"submenu-item\" id=" + basename + "><a href=# tabindex=-1 id=\""+ file + "\">"+ file +"</a></li>");
+                        $("#"+"collapse"+submenu).append("<li class=\"submenu-item\" id=" + basename + "><a href=# tabindex=-1 id=\""+ file + "\"><span class=\"path\">" + file.split('/').slice(0,-1).join('/') + "/</span>" + basename+ "</a></li>");
                     }
                 }
             }
