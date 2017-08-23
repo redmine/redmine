@@ -166,5 +166,5 @@ $(document).ready(function(){
             $(this).parent().find(".icon-caret-down").removeClass("icon-caret-down").addClass("icon-caret-right");
         });
 
-    $(".collapse").collapse('show');
+    $("#explorermenu .collapse").collapse('show');
 });
