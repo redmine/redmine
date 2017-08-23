@@ -135,6 +135,10 @@ input#openid_url { background: url(../images/openid-bg.gif) no-repeat; backgroun
 
 .mobile-show {display: none;}
 
+.search-btn:hover {
+    background-color: buttonface;
+}
+
 /***** Links *****/
 a:hover, a:active{ color: #c61a1a; text-decoration: underline;}
 a img{ border: 0; }
@@ -3485,6 +3489,7 @@ color: #555; text-shadow: 1px 1px 0 #fff;
     margin-bottom: -1px;
     text-decoration: none;
     font-size: 1em;
+    font-weight: bold;
     color: #777;
     display: block;
 }
@@ -3497,6 +3502,7 @@ color: #555; text-shadow: 1px 1px 0 #fff;
     background-color: #e7e7e7;
     cursor: default;
     width: auto;
+    max-width: 20%;
     display: inline-block;
     vertical-align: top;
     overflow-wrap: break-word;
@@ -3504,6 +3510,7 @@ color: #555; text-shadow: 1px 1px 0 #fff;
 
 .path {
     font-size: 0.85em;
+    font-weight: normal;
 }
 
 .explorerSubmenu [id^=collap] {
