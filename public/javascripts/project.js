@@ -89,6 +89,7 @@ $(document).ready(function(){
                 var files = submenus[submenu];
                 // capitalize title
                 var menu_title = submenu.charAt(0).toUpperCase() + submenu.slice(1);
+                $(".explorerSubmenu").css('max-width', 100/Object.values(submenus).filter((x) => x!="").length + '%')
                 if (submenus[submenu] != "") {
                     $("#explorermenu").append("<li class=\"explorerSubmenu\"><a data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapse" + submenu + "\">"+ menu_title +"</span> <i class=\"icon-caret-right\"></i><ul role=\"tabpanel\" class=\"collapse \" id=\"collapse" + submenu + "\"></ul></li>");
                     for (var i=0; i<files.length; i++) {
