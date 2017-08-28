@@ -491,8 +491,8 @@ payload = <<-XML
   <project_id>1</project_id>
   <tracker_id>2</tracker_id>
   <status_id>3</status_id>
-  <subject>API test</subject>
   <category_id>2</category_id>
+  <subject>API test</subject>
 </issue>
 XML
 
