@@ -492,6 +492,7 @@ payload = <<-XML
   <tracker_id>2</tracker_id>
   <status_id>3</status_id>
   <subject>API test</subject>
+  <category_id>2</category_id>
 </issue>
 XML
 
@@ -504,6 +505,7 @@ XML
     assert_equal 1, issue.project_id
     assert_equal 2, issue.tracker_id
     assert_equal 3, issue.status_id
+    assert_equal 2, issue.category_id
     assert_equal 'API test', issue.subject
 
     assert_response :created
@@ -546,6 +548,7 @@ payload = <<-JSON
     "project_id": "1",
     "tracker_id": "2",
     "status_id": "3",
+    "category_id": "2",
     "subject": "API test"
   }
 }
@@ -561,6 +564,7 @@ JSON
     assert_equal 1, issue.project_id
     assert_equal 2, issue.tracker_id
     assert_equal 3, issue.status_id
+    assert_equal 2, issue.category_id
     assert_equal 'API test', issue.subject
   end
 
