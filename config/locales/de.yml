@@ -875,7 +875,7 @@ de:
   notice_failed_to_save_members: "Benutzer konnte nicht gespeichert werden: %{errors}."
   notice_failed_to_save_time_entries: "%{count} von %{total} ausgewählten Zeiteinträgen konnte(n) nicht gespeichert werden: %{ids}"
   notice_feeds_access_key_reseted: Ihr Atom-Zugriffsschlüssel wurde zurückgesetzt.
-  notice_file_not_found: Anhang existiert nicht oder ist gelöscht worden.
+  notice_file_not_found: Die angefragte Seite existiert nicht oder wurde entfernt.
   notice_gantt_chart_truncated: Die Grafik ist unvollständig, da das Maximum der anzeigbaren Aufgaben überschritten wurde (%{max})
   notice_issue_done_ratios_updated: Der Ticket-Fortschritt wurde aktualisiert.
   notice_issue_successful_create: Ticket %{id} erstellt.
