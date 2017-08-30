@@ -858,7 +858,7 @@ es:
   label_branch: Rama
   error_no_tracker_in_project: Este proyecto no tiene asociados tipos de peticiones. Por favor, revise la configuración.
   error_no_default_issue_status: No se ha definido un estado de petición por defecto. Por favor, revise la configuración (en "Administración" -> "Estados de las peticiones").
-  text_journal_changed: "%{label} cambiado %{old} por %{new}"
+  text_journal_changed: "%{label} cambiado de %{old} a %{new}"
   text_journal_set_to: "%{label} establecido a %{value}"
   text_journal_deleted: "%{label} eliminado (%{old})"
   label_group_plural: Grupos
