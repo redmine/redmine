@@ -1,3 +1,5 @@
+# encoding: utf-8
+#
 # Redmine - project management software
 # Copyright (C) 2006-2017  Jean-Philippe Lang
 #
@@ -1085,6 +1087,26 @@ class WikiControllerTest < Redmine::ControllerTest
     assert_equal 'attachment; filename="CookBook_documentation.txt"',
                   @response.headers['Content-Disposition']
     assert_include 'h1. CookBook documentation v2', @response.body
+  end
+
+  def test_show_filename_should_be_uri_encoded_for_ms_browsers
+    @request.session[:user_id] = 2
+    title = 'Этика_менеджмента'
+    %w|pdf html txt|.each do |format|
+      # Non-MS browsers
+      @request.user_agent = ""
+      get :show, :params => {:project_id => 1, :id => title, :format => format}
+      assert_response :success
+      assert_equal "attachment; filename=\"#{title}.#{format}\"",
+                    @response.headers['Content-Disposition']
+      # Microsoft's browsers: filename should be URI encoded
+      @request.user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36 Edge/15.15063'
+      get :show, :params => {:project_id => 1, :id => title, :format => format}
+      assert_response :success
+      filename = URI.encode("#{title}.#{format}")
+      assert_equal "attachment; filename=\"#{filename}\"",
+                    @response.headers['Content-Disposition']
+    end
   end
 
   def test_edit_unprotected_page

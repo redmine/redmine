@@ -100,14 +100,14 @@ class WikiController < ApplicationController
 
     if User.current.allowed_to?(:export_wiki_pages, @project)
       if params[:format] == 'pdf'
-        send_file_headers! :type => 'application/pdf', :filename => "#{@page.title}.pdf"
+        send_file_headers! :type => 'application/pdf', :filename => filename_for_content_disposition("#{@page.title}.pdf")
         return
       elsif params[:format] == 'html'
         export = render_to_string :action => 'export', :layout => false
-        send_data(export, :type => 'text/html', :filename => "#{@page.title}.html")
+        send_data(export, :type => 'text/html', :filename => filename_for_content_disposition("#{@page.title}.html"))
         return
       elsif params[:format] == 'txt'
-        send_data(@content.text, :type => 'text/plain', :filename => "#{@page.title}.txt")
+        send_data(@content.text, :type => 'text/plain', :filename => filename_for_content_disposition("#{@page.title}.txt"))
         return
       end
     end
