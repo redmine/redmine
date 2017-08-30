@@ -859,6 +859,7 @@
   label_latest_revision_plural: 最新的修訂版清單
   label_view_revisions: 檢視修訂版清單
   label_view_all_revisions: 檢視所有的的修訂版清單
+  label_x_revisions: "%{count} 個修訂版"
   label_max_size: 最大長度
   label_sort_highest: 移動至開頭
   label_sort_higher: 往上移動
@@ -1300,4 +1301,3 @@
   description_issue_category_reassign: 選擇議題分類
   description_wiki_subpages_reassign: 選擇新的父頁面
   text_repository_identifier_info: '僅允許使用小寫英文字母 (a-z), 阿拉伯數字, 虛線與底線。<br />一旦儲存之後, 代碼便無法再次被更改。'
-  label_x_revisions: "%{count} revisions"
