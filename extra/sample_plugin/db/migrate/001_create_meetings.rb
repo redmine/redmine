@@ -1,6 +1,6 @@
 # Sample plugin migration
 # Use rake db:migrate_plugins to migrate installed plugins
-class CreateMeetings < ActiveRecord::Migration
+class CreateMeetings < ActiveRecord::Migration[4.2]
   def self.up
     create_table :meetings do |t|
       t.column :project_id, :integer, :null => false
