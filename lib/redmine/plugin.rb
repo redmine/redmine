@@ -483,14 +483,15 @@ module Redmine #:nodoc:
 
         def current_version(plugin=current_plugin)
           # Delete migrations that don't match .. to_i will work because the number comes first
+          sm_table = ::ActiveRecord::SchemaMigration.table_name
           ::ActiveRecord::Base.connection.select_values(
-            "SELECT version FROM #{schema_migrations_table_name}"
+            "SELECT version FROM #{sm_table}"
           ).delete_if{ |v| v.match(/-#{plugin.id}$/) == nil }.map(&:to_i).max || 0
         end
       end
 
       def migrated
-        sm_table = self.class.schema_migrations_table_name
+        sm_table = ::ActiveRecord::SchemaMigration.table_name
         ::ActiveRecord::Base.connection.select_values(
           "SELECT version FROM #{sm_table}"
         ).delete_if{ |v| v.match(/-#{current_plugin.id}$/) == nil }.map(&:to_i).sort
