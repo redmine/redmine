@@ -703,6 +703,7 @@ div.project-title {
 
 .indexNoUser {
     text-align: center;
+    padding-top: 3.5em;
 }
 
 .indexNoUser .btn {
@@ -742,6 +743,10 @@ div.project-title {
     width: 100%;
     height: 100%;
     vertical-align: bottom;
+}
+
+a.sample:hover {
+    text-decoration: none;
 }
 
 .sampleThumbnail {
