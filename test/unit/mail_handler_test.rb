@@ -318,6 +318,7 @@ class MailHandlerTest < ActiveSupport::TestCase
 
   def test_add_issue_by_anonymous_user
     Role.anonymous.add_permission!(:add_issues)
+    Role.anonymous.add_permission!(:add_issue_watchers)
     assert_no_difference 'User.count' do
       issue = submit_email(
                 'ticket_by_unknown_user.eml',
@@ -326,6 +327,9 @@ class MailHandlerTest < ActiveSupport::TestCase
               )
       assert issue.is_a?(Issue)
       assert issue.author.anonymous?
+      issue.reload
+      assert issue.watched_by?(User.find_by_mail('dlopper@somenet.foo'))
+      assert_equal 1, issue.watchers.size
     end
   end
 
