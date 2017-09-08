@@ -12,7 +12,7 @@ gem "actionpack-xml_parser"
 gem "roadie-rails", "~> 1.2.1"
 gem "roadie", "~> 3.2.1"
 gem "mimemagic"
-
+gem "tzinfo-data"
 gem "nokogiri", "~> 1.8.0"
 gem "i18n", "~> 0.7.0"
 
