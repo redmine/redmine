@@ -777,6 +777,7 @@ bg:
   label_latest_revision_plural: Последни ревизии
   label_view_revisions: Виж ревизиите
   label_view_all_revisions: Разглеждане на всички ревизии
+  label_x_revisions: "%{count} ревизии"
   label_max_size: Максимална големина
   label_sort_highest: Премести най-горе
   label_sort_higher: Премести по-горе
@@ -1217,4 +1218,3 @@ bg:
   description_wiki_subpages_reassign: Изберете нова родителска страница
   description_all_columns: Всички колони
   text_repository_identifier_info: 'Позволени са малки букви (a-z), цифри, тирета и _.<br />Промяна след създаването му не е възможна.'
-  label_x_revisions: "%{count} revisions"
