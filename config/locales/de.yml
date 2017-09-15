@@ -146,8 +146,8 @@ de:
         circular_dependency: "Diese Beziehung würde eine zyklische Abhängigkeit erzeugen"
         cant_link_an_issue_with_a_descendant: "Ein Ticket kann nicht mit einer Ihrer Unteraufgaben verlinkt werden"
         earlier_than_minimum_start_date: "kann wegen eines Vorgängertickets nicht vor %{date} liegen"
-        not_a_regexp: "is not a valid regular expression"
-        open_issue_with_closed_parent: "An open issue cannot be attached to a closed parent task"
+        not_a_regexp: "Ist kein korrekter regulärer Ausdruck"
+        open_issue_with_closed_parent: "Ein offenes Ticket kann nicht an einen geschlossenen Vater gehängt werden"
 
   actionview_instancetag_blank_option: Bitte auswählen
 
@@ -1210,24 +1210,23 @@ de:
   label_new_object_tab_enabled: Dropdown-Menü "+" anzeigen
   label_table_of_contents: Inhaltsverzeichnis
   error_no_projects_with_tracker_allowed_for_new_issue: Es gibt keine Projekte mit Trackern, für welche sie Tickets erzeugen können
-  field_textarea_font: Font used for text areas
-  label_font_default: Default font
-  label_font_monospace: Monospaced font
-  label_font_proportional: Proportional font
-  setting_commit_logs_formatting: Apply text formatting to commit messages
-  setting_mail_handler_enable_regex_delimiters: Enable regular expressions
+  field_textarea_font: Schriftart für Textbereiche
+  label_font_default: Strandardschrift
+  label_font_monospace: Nichtproporzionale Schrift
+  label_font_proportional: Proportionale Schrift
+  setting_commit_logs_formatting: Textformatierung für Commit Nachrichten
+  setting_mail_handler_enable_regex_delimiters: Reguläre Ausdrücke erlauben
   error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: Zeitbuchungen für Tickets, die gelöscht werden sind nicht möglich
-  setting_timelog_required_fields: Required fields for time logs
+  setting_timelog_required_fields: Erforderliche Felder für Zeitbuchungen
   label_attribute_of_object: '%{object_name}''s %{name}'
-  label_user_mail_option_only_assigned: Only for things I watch or I am assigned to
-  label_user_mail_option_only_owner: Only for things I watch or I am the owner of
-  warning_fields_cleared_on_bulk_edit: Changes will result in the automatic deletion
-    of values from one or more fields on the selected objects
-  field_updated_by: Updated by
-  field_last_updated_by: Last updated by
-  field_full_width_layout: Full width layout
-  label_last_notes: Last notes
-  field_digest: Checksum
+  label_user_mail_option_only_assigned: Nur für Dinge, die ich beobachte oder die mir zugewiesen sind
+  label_user_mail_option_only_owner: Nur für Dinge, die ich beobachte oder die mir gehören
+  warning_fields_cleared_on_bulk_edit: Diese Änderungen werden eine automatische Löschung von ein oder mehreren Werten auf den selektierten Objekten zur Folge haben
+  field_updated_by: Geändert von
+  field_last_updated_by: Zuletzt geändert von
+  field_full_width_layout: Layout mit voller Breite
+  label_last_notes: Letzte Kommentare
+  field_digest: Checksumme
   setting_close_duplicate_issues: Close duplicate issues automatically
   error_exceeds_maximum_hours_per_day: Cannot log more than %{max_hours} hours on the
     same day (%{logged_hours} hours have already been logged)
