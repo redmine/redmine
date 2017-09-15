@@ -96,10 +96,10 @@ class QueriesControllerTest < Redmine::ControllerTest
         :f => ["status_id", "assigned_to_id"],
         :op => {
           "assigned_to_id" => "=", "status_id" => "o"
-        },  
+        },
         :v => {
           "assigned_to_id" => ["1"], "status_id" => ["1"]
-        },  
+        },
         :query => {
           "name" => "test_new_project_public_query", "visibility" => "2"
         }
@@ -120,10 +120,10 @@ class QueriesControllerTest < Redmine::ControllerTest
         :fields => ["status_id", "assigned_to_id"],
         :operators => {
           "assigned_to_id" => "=", "status_id" => "o"
-        },  
+        },
         :values => {
           "assigned_to_id" => ["1"], "status_id" => ["1"]
-        },  
+        },
         :query => {
           "name" => "test_new_project_private_query", "visibility" => "0"
         }
@@ -144,10 +144,10 @@ class QueriesControllerTest < Redmine::ControllerTest
         :fields => ["status_id", "assigned_to_id"],
         :operators => {
           "assigned_to_id" => "=", "status_id" => "o"
-        },  
+        },
         :values => {
           "assigned_to_id" => ["1"], "status_id" => ["1"]
-        },  
+        },
         :query => {
           "name" => "test_create_project_roles_query", "visibility" => "1", "role_ids" => ["1", "2", ""]
         }
@@ -165,13 +165,13 @@ class QueriesControllerTest < Redmine::ControllerTest
         :fields => ["status_id", "assigned_to_id"],
         :operators => {
           "assigned_to_id" => "=", "status_id" => "o"
-        },  
+        },
         :values => {
           "assigned_to_id" => ["me"], "status_id" => ["1"]
-        },  
+        },
         :query => {
           "name" => "test_new_global_private_query", "visibility" => "0"
-        },  
+        },
         :c => ["", "tracker", "subject", "priority", "category"]
       }
 
@@ -189,10 +189,10 @@ class QueriesControllerTest < Redmine::ControllerTest
         :fields => ["assigned_to_id"],
         :operators => {
           "assigned_to_id" => "="
-        },  
+        },
         :values => {
           "assigned_to_id" => ["me"]
-        },  
+        },
         :query => {
           "name" => "test_new_global_query"
         }
@@ -212,15 +212,15 @@ class QueriesControllerTest < Redmine::ControllerTest
         :default_columns => '1',
         :operators => {
           "status_id" => "o"
-        },  
+        },
         :values => {
           "status_id" => ["1"]
-        },  
+        },
         :query => {
           :name => "test_new_with_sort",
           :visibility => "2",
           :sort_criteria => {
-          "0" => ["due_date", "desc"], "1" => ["tracker", ""]}    
+          "0" => ["due_date", "desc"], "1" => ["tracker", ""]}
         }
       }
 
@@ -276,10 +276,10 @@ class QueriesControllerTest < Redmine::ControllerTest
           :gantt => 1,
           :operators => {
             "status_id" => "o"
-          },  
+          },
           :values => {
             "status_id" => ["1"]
-          },  
+          },
           :query => {
             :name => "test_create_from_gantt",
             :draw_relations => '1',
@@ -302,10 +302,10 @@ class QueriesControllerTest < Redmine::ControllerTest
           :gantt => 1,
           :operators => {
             "status_id" => "o"
-          },  
+          },
           :values => {
             "status_id" => ["1"]
-          },  
+          },
           :query => {
             :name => "test_create_from_gantt",
             :draw_relations => '0',
@@ -409,10 +409,10 @@ class QueriesControllerTest < Redmine::ControllerTest
           :f => ["spent_on"],
           :op => {
             "spent_on" => "="
-          },  
+          },
           :v => {
             "spent_on" => ["2016-07-14"]
-          },  
+          },
           :query => {
             "name" => "test_new_project_public_query", "visibility" => "2"
           }
@@ -498,10 +498,10 @@ class QueriesControllerTest < Redmine::ControllerTest
         :fields => ["status_id", "assigned_to_id"],
         :operators => {
           "assigned_to_id" => "=", "status_id" => "o"
-        },  
+        },
         :values => {
           "assigned_to_id" => ["me"], "status_id" => ["1"]
-        },  
+        },
         :query => {
           "name" => "test_edit_global_private_query", "visibility" => "2"
         }
@@ -522,10 +522,10 @@ class QueriesControllerTest < Redmine::ControllerTest
         :fields => ["status_id", "assigned_to_id"],
         :operators => {
           "assigned_to_id" => "=", "status_id" => "o"
-        },  
+        },
         :values => {
           "assigned_to_id" => ["1"], "status_id" => ["1"]
-        },  
+        },
         :query => {
           "name" => "test_edit_global_public_query", "visibility" => "2"
         }
