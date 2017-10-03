@@ -458,6 +458,12 @@ module ApplicationHelper
     @defaultMainModel = ""
     return @NML2files 
   end
+
+  # Checks whether a file has a standard *.nml (XML) or *.nml.h5 (HDF5) extension
+  def isNML_XMLorHDF5(filename)
+    return filename.end_with?('.nml') || filename.end_with?('.nml.h5') || filename.end_with?('.nml.hdf5') 
+  end
+
   
   def getSWCFiles(repository)
     @SWCfiles = getFilesWithExt(repository, ".swc")
