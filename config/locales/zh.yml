@@ -1218,9 +1218,8 @@ zh:
   label_no_preview_alternative_html: 无法预览。请使用文件 %{link} 查阅。
   label_no_preview_download: 下载
   setting_close_duplicate_issues: 自动关闭重复的问题
-  error_exceeds_maximum_hours_per_day: Cannot log more than %{max_hours} hours on the
-    same day (%{logged_hours} hours have already been logged)
-  setting_time_entry_list_defaults: Timelog list defaults
-  setting_timelog_accept_0_hours: Accept time logs with 0 hours
-  setting_timelog_max_hours_per_day: Maximum hours that can be logged per day and user
-  label_x_revisions: "%{count} revisions"
+  error_exceeds_maximum_hours_per_day: 当日内无法计入超过 %{max_hours} 的工时 (%{logged_hours} 工时已被记录)
+  setting_time_entry_list_defaults: 默认日志一览
+  setting_timelog_accept_0_hours: 允许计入0小时工时
+  setting_timelog_max_hours_per_day: 每用户每天最大可计入工时上限
+  label_x_revisions: "%{count} 修订"
