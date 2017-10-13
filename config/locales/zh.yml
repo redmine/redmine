@@ -1194,7 +1194,7 @@ zh:
   error_no_projects_with_tracker_allowed_for_new_issue: 当前项目中不包含对应的跟踪类型，不能创建该类型的工作项。
   field_textarea_font: 用于文本区域的字体
   label_font_default: 默认字体
-  label_font_monospace: 等款字体
+  label_font_monospace: 等宽字体
   label_font_proportional: 比例字体
   setting_timespan_format: 时间格式设置
   label_table_of_contents: 目录
