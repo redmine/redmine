@@ -35,8 +35,7 @@ class TimeEntryQuery < Query
 
   def initialize(attributes=nil, *args)
     super attributes
-    self.filters ||= {}
-    add_filter('spent_on', '*') unless filters.present?
+    self.filters ||= { 'spent_on' => {:operator => "*", :values => []} }
   end
 
   def initialize_available_filters
