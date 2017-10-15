@@ -592,4 +592,19 @@ class QueriesControllerTest < Redmine::ControllerTest
     json = ActiveSupport::JSON.decode(response.body)
     assert_include ["OnlineStore - Systemwide visible version", "7", "open"], json
   end
+
+  def test_subproject_filter_time_entries_with_project_id_should_return_filter_values
+    @request.session[:user_id] = 2
+    get :filter, :params => {
+        :project_id => 1,
+        :type => 'TimeEntryQuery',
+        :name => 'subproject_id'
+      }
+
+    assert_response :success
+    assert_equal 'application/json', response.content_type
+    json = ActiveSupport::JSON.decode(response.body)
+    assert_equal 4, json.count
+    assert_include ["Private child of eCookbook","5"], json
+  end
 end
