@@ -4,6 +4,12 @@ Redmine - project management software
 Copyright (C) 2006-2017  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2017-10-15 v3.2.8
+
+=== [Security]
+
+* Defect #27186: XSS vulnerabilities
+
 == 2017-07-02 v3.2.7
 
 === [Accounts / authentication]
