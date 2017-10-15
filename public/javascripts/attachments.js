@@ -214,7 +214,8 @@ function addInlineAttachmentMarkup(file) {
     var cursorPosition = $textarea.prop('selectionStart');
     var description = $textarea.val();
     var sanitizedFilename = file.name.replace(/[\/\?\%\*\:\|\"\'<>\n\r]+/, '_');
-    var inlineFilename = encodeURIComponent(sanitizedFilename);
+    var inlineFilename = encodeURIComponent(sanitizedFilename)
+      .replace(/[!()]/g, function(match) { return "%" + match.charCodeAt(0).toString(16) });
     var newLineBefore = true;
     var newLineAfter = true;
     if(cursorPosition === 0 || description.substr(cursorPosition-1,1).match(/\r|\n/)) {
