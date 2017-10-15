@@ -33,7 +33,9 @@
   <% end %>
   <tr id="time-entry-<%= entry.id %>" class="time-entry <%= cycle("odd", "even") %> hascontextmenu">
     <td class="checkbox hide-when-print"><%= check_box_tag("ids[]", entry.id, false, :id => nil) %></td>
-    <%= raw @query.inline_columns.map {|column| "<td class=\"#{column.css_classes}\">#{column_content(column, entry)}</td>"}.join %>
+    <% @query.inline_columns.each do |column| %>
+    <%= content_tag('td', column_content(column, entry), :class => column.css_classes) %>
+    <% end %>
     <td class="buttons">
     <% if entry.editable_by?(User.current) -%>
         <%= link_to l(:button_edit), edit_time_entry_path(entry),
