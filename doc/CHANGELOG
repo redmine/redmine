@@ -4,6 +4,66 @@ Redmine - project management software
 Copyright (C) 2006-2017  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2017-10-15 v3.4.3
+
+=== [Administration]
+
+* Defect #26564: Enumerations sorting does not work
+
+=== [Custom fields]
+
+* Defect #26468: Using custom fields of type "File" leads to unsolvable error if filetype is not allowed
+
+=== [Issues]
+
+* Defect #26627: Editing issues no longer sends notifications to previous assignee
+
+=== [Issues list]
+
+* Defect #26471: Issue Query: inconsistency between spent_hours sum and sum of shown spent_hours values
+
+=== [PDF export]
+
+* Defect #25702: Exporting wiki page with specific table to PDF causes 500
+
+=== [Roadmap]
+
+* Patch #26492: % is not valid without a format specifier
+
+=== [SCM]
+
+* Defect #26403: The second and subsequent lines of commit messages are not displayed in repository browser
+* Defect #26645: git 2.14 compatibility
+
+=== [Text formatting]
+
+* Patch #26682: URL-escape the ! character in generated markup for dropped uploads
+
+=== [Time tracking]
+
+* Defect #26520: Blank "Issue" field on the "Log time" from the "Spent time - Details" page for an issue
+* Defect #26667: Filtering time entries after issue's target version doesn't work as expected in some cases
+* Defect #26780: Translation for label_week in time report is not working
+
+=== [Translations]
+
+* Patch #26703: German translations in 3.4-stable
+* Patch #27034: Patch for updated Chinese translation
+
+=== [UI]
+
+* Defect #26568: Multiple Selection List Filter View - items are cut off from view
+* Patch #26395: Jump to project autocomplete: focus selected project
+* Patch #26689: Add title to author's and assignee's icon
+
+=== [Wiki]
+
+* Defect #26599: Corrupted file name when exporting a wiki page with Non-ASCII title using Microsoft's browsers
+
+=== [Security]
+
+* Defect #27186: XSS vulnerabilities
+
 == 2017-07-16 v3.4.2
 
 === [Administration]
