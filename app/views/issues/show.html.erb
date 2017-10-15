@@ -26,8 +26,8 @@
   <% end %>
 
   <div class="gravatar-with-child">
-    <%= avatar(@issue.author, :size => "50") %>
-    <%= avatar(@issue.assigned_to, :size => "22", :class => "gravatar gravatar-child") if @issue.assigned_to %>
+    <%= avatar(@issue.author, :size => "50", :title => l(:field_author)) %>
+    <%= avatar(@issue.assigned_to, :size => "22", :class => "gravatar gravatar-child", :title => l(:field_assigned_to)) if @issue.assigned_to %>
   </div>
 
 <div class="subject">
