@@ -1883,8 +1883,6 @@ class IssueTest < ActiveSupport::TestCase
     issue = Issue.find(2)
     issue.assigned_to = nil
     assert_include user.mail, issue.recipients
-    issue.save!
-    assert !issue.recipients.include?(user.mail)
   end
 
   def test_recipients_should_not_include_users_that_cannot_view_the_issue
@@ -2443,9 +2441,8 @@ class IssueTest < ActiveSupport::TestCase
 
   def test_update_should_notify_previous_assignee
     ActionMailer::Base.deliveries.clear
-    user = User.find(3)
-    user.members.update_all ["mail_notification = ?", false]
-    user.update! :mail_notification => 'only_assigned'
+    user = User.generate!(:mail_notification => 'only_assigned')
+    Issue.where(:id => 2).update_all(:assigned_to_id => user.id)
 
     with_settings :notified_events => %w(issue_updated) do
       issue = Issue.find(2)

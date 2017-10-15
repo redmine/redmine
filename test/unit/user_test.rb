@@ -1196,10 +1196,6 @@ class UserTest < ActiveSupport::TestCase
     issue.assigned_to = new_assignee
     assert assignee.notify_about?(issue)
     assert new_assignee.notify_about?(issue)
-
-    issue.save!
-    assert !assignee.notify_about?(issue)
-    assert new_assignee.notify_about?(issue)
   end
 
   def test_notify_about_news
