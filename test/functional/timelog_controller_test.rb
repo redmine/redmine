@@ -791,6 +791,27 @@ class TimelogControllerTest < Redmine::ControllerTest
     assert_select '.total-for-hours', :text => 'Hours: 5.00'
   end
 
+  def test_index_at_project_level_with_multiple_issue_fixed_version_ids
+    version = Version.generate!(:project_id => 1)
+    version2 = Version.generate!(:project_id => 1)
+    issue = Issue.generate!(:project_id => 1, :fixed_version => version)
+    issue2 = Issue.generate!(:project_id => 1, :fixed_version => version2)
+    TimeEntry.generate!(:issue => issue, :hours => 2)
+    TimeEntry.generate!(:issue => issue2, :hours => 3)
+    @request.session[:user_id] = 2
+
+    get :index, :params => {
+      :project_id => 'ecookbook',
+      :f => ['issue.fixed_version_id'],
+      :op => {'issue.fixed_version_id' => '='},
+      :v => {'issue.fixed_version_id' => [version.id.to_s,version2.id.to_s]}
+    }
+    assert_response :success
+
+    assert_select 'tr.time-entry', 2
+    assert_select '.total-for-hours', :text => 'Hours: 5.00'
+  end
+
   def test_index_at_project_level_with_date_range
     get :index, :params => {
       :project_id => 'ecookbook',
