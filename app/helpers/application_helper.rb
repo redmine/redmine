@@ -176,7 +176,8 @@ module ApplicationHelper
     end
     case object.class.name
     when 'Array'
-      object.map {|o| format_object(o, html)}.join(', ').html_safe
+      formatted_objects = object.map {|o| format_object(o, html)}
+      html ? safe_join(formatted_objects, ', ') : formatted_objects.join(', ')
     when 'Time'
       format_time(object)
     when 'Date'
