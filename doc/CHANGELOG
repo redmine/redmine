@@ -4,6 +4,32 @@ Redmine - project management software
 Copyright (C) 2006-2017  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2017-10-15 v3.3.5
+
+=== [PDF export]
+
+* Defect #25702: Exporting wiki page with specific table to PDF causes 500
+
+=== [SCM]
+
+* Defect #26645: git 2.14 compatibility
+
+=== [Time tracking]
+
+* Defect #26780: Translation for label_week in time report is not working
+
+=== [Translations]
+
+* Patch #27006: German translations for 3.3-stable
+
+=== [Wiki]
+
+* Defect #26599: Corrupted file name when exporting a wiki page with Non-ASCII title using Microsoft's browsers
+
+=== [Security]
+
+* Defect #27186: XSS vulnerabilities
+
 == 2017-07-02 v3.3.4
 
 === [Accounts / authentication]
