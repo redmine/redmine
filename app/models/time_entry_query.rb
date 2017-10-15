@@ -160,7 +160,7 @@ class TimeEntryQuery < Query
   end
 
   def sql_for_issue_fixed_version_id_field(field, operator, value)
-    issue_ids = Issue.where(:fixed_version_id => value.first.to_i).pluck(:id)
+    issue_ids = Issue.where(:fixed_version_id => value.map(&:to_i)).pluck(:id)
     case operator
     when "="
       if issue_ids.any?
