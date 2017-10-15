@@ -64,7 +64,7 @@ class TimeEntryQuery < Query
     add_available_filter("issue.fixed_version_id",
       :type => :list,
       :name => l("label_attribute_of_issue", :name => l(:field_fixed_version)),
-      :values => lambda { fixed_version_values }) if project
+      :values => lambda { fixed_version_values })
 
     add_available_filter("user_id",
       :type => :list_optional, :values => lambda { author_values }
