@@ -1,6 +1,6 @@
 <div class="contextual">
 <%= link_to l(:button_log_time), 
-            _new_time_entry_path(@project, @issue),
+            _new_time_entry_path(@project, @query.filtered_issue_id),
             :class => 'icon icon-time-add' if User.current.allowed_to?(:log_time, @project, :global => true) %>
 </div>
 
