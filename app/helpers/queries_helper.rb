@@ -129,7 +129,8 @@ module QueriesHelper
   def column_content(column, issue)
     value = column.value_object(issue)
     if value.is_a?(Array)
-      value.collect {|v| column_value(column, issue, v)}.compact.join(', ').html_safe
+      values = value.collect {|v| column_value(column, issue, v)}.compact
+      safe_join(values, ', ')
     else
       column_value(column, issue, value)
     end
