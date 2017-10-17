@@ -6,6 +6,7 @@ end
 
 gem "rails", "4.2.8"
 gem "addressable", "2.4.0" if RUBY_VERSION < "2.0"
+gem "public_suffix", "~> 2.0.5" if RUBY_VERSION < "2.1"
 gem "jquery-rails", "~> 3.1.4"
 gem "coderay", "~> 1.1.1"
 gem "request_store", "1.0.5"
