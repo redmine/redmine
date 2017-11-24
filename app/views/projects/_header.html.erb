@@ -45,9 +45,9 @@
 	<% if @repourl.include? "github" %>
 	    <span class="gh-badges">
 		<% @repoID = @repourl.split('/')[-2..-1].join('/') %>
-		<% {'issues' => 'https://github.com/'+@repoID+'/issues/',
-		    'forks' => 'https://github.com/'+@repoID,
-		    'stars' => 'https://github.com/'+@repoID}.each do |shield_type, link| %>
+		<% {'issues' => 'https://github.com/'+@repoID+'/issues',
+		    'forks' => 'https://github.com/'+@repoID+'/network',
+		    'stars' => 'https://github.com/'+@repoID+'/stargazers'}.each do |shield_type, link| %>
 		    <%= link_to link, :class => "gh-badge" do %>
 			<%= image_tag "https://img.shields.io/github/"+shield_type+"/"+@repoID+".svg?style=flat" %>
 		    <% end %>
