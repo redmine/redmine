@@ -173,3 +173,25 @@ function drawGanttHandler() {
   if ($("#draw_relations").prop('checked'))
     drawRelations();
 }
+
+function resizableSubjectColumn(){
+  $('.issue-subject, .project-name, .version-name').each(function(){
+    $(this).width($(".gantt_subjects_column").width()-$(this).position().left);
+  });
+  $('td.gantt_subjects_column').resizable({
+    alsoResize: '.gantt_subjects_container, .gantt_subjects_container>.gantt_hdr, .project-name, .issue-subject, .version-name',
+    minWidth: 100,
+    handles: 'e',
+    containment: '#content',
+    create: function( event, ui ) {
+      $('.ui-resizable-e').css('cursor','ew-resize');
+    }
+  }).on('resize', function (e) {
+      e.stopPropagation();
+  });
+  if(isMobile()) {
+    $('td.gantt_subjects_column').resizable('disable');
+  }else{
+    $('td.gantt_subjects_column').resizable('enable');
+  };
+}

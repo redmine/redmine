@@ -137,7 +137,6 @@
   <%= content_tag(:div, :style => style, :class => "gantt_subjects_container") do %>
     <%
       style  = ""
-      style += "right:-2px;"
       style += "width: #{subject_width}px;"
       style += "height: #{headers_height}px;"
       style += 'background: #eee;'
@@ -145,7 +144,6 @@
     <%= content_tag(:div, "", :style => style, :class => "gantt_hdr") %>
     <%
       style  = ""
-      style += "right:-2px;"
       style += "width: #{subject_width}px;"
       style += "height: #{t_height}px;"
       style += 'border-left: 1px solid #c0c0c0;'
@@ -272,7 +270,7 @@
      wday = 1 if wday > 7
     %>
   <% end %>
-<% end %> 
+<% end %>
 
 <% ###### Days headers ####### %>
 <% if show_days %>
@@ -369,10 +367,14 @@
 
 <%= javascript_tag do %>
   var issue_relation_type = <%= raw Redmine::Helpers::Gantt::DRAW_TYPES.to_json %>;
-  $(document).ready(drawGanttHandler);
-  $(window).resize(drawGanttHandler);
   $(function() {
+    drawGanttHandler();
+    resizableSubjectColumn();
     $("#draw_relations").change(drawGanttHandler);
     $("#draw_progress_line").change(drawGanttHandler);
+  });
+  $(window).resize(function() {
+    drawGanttHandler();
+    resizableSubjectColumn();
   });
 <% end %>
