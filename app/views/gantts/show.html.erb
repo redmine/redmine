@@ -151,7 +151,9 @@
     %>
     <%= content_tag(:div, "", :style => style, :class => "gantt_hdr") %>
     <%= content_tag(:div, :class => "gantt_subjects") do %>
-      <%= @gantt.subjects.html_safe %>
+      <%= form_tag({}, :data => {:cm_url => issues_context_menu_path}) do -%>
+        <%= @gantt.subjects.html_safe %>
+      <% end %>
     <% end %>
   <% end %>
 </td>
@@ -378,3 +380,4 @@
     resizableSubjectColumn();
   });
 <% end %>
+<%= context_menu %>

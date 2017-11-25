@@ -670,6 +670,7 @@ module Redmine
                              :title => assigned_string).to_s.html_safe
           end
           s << view.link_to_issue(issue).html_safe
+          s << view.content_tag(:input, nil, :type => 'checkbox', :name => 'ids[]', :value => issue.id, :style => 'display:none;', :class => 'toggle-selection')
           view.content_tag(:span, s, :class => css_classes).html_safe
         when Version
           version = object
@@ -704,7 +705,7 @@ module Redmine
         case object
         when Issue
           tag_options[:id] = "issue-#{object.id}"
-          tag_options[:class] = "issue-subject"
+          tag_options[:class] = "issue-subject hascontextmenu"
           tag_options[:title] = object.subject
         when Version
           tag_options[:id] = "version-#{object.id}"
