@@ -1085,6 +1085,10 @@ a.close-icon:hover {background-image:url('../images/close_hl.png');}
 .gantt_subjects { font-size: 0.8em; }
 .gantt_subjects div { line-height:16px;height:16px;overflow:hidden;white-space:nowrap;text-overflow: ellipsis; }
 
+.gantt_subjects .issue-subject img.icon-gravatar {
+  margin: 2px 5px 0px 2px;
+}
+
 .task {
   position: absolute;
   height:8px;

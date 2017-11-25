@@ -663,7 +663,7 @@ module Redmine
             assigned_string = l(:field_assigned_to) + ": " + issue.assigned_to.name
             s << view.avatar(issue.assigned_to,
                              :class => 'gravatar icon-gravatar',
-                             :size => 10,
+                             :size => 13,
                              :title => assigned_string).to_s.html_safe
           end
           s << view.link_to_issue(issue).html_safe
