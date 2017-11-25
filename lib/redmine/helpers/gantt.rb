@@ -842,6 +842,7 @@ module Redmine
           s = view.content_tag(:span,
                                view.render_issue_tooltip(object).html_safe,
                                :class => "tip")
+          s += view.content_tag(:input, nil, :type => 'checkbox', :name => 'ids[]', :value => object.id, :style => 'display:none;', :class => 'toggle-selection')
           style = ""
           style << "position: absolute;"
           style << "top:#{params[:top]}px;"
@@ -850,7 +851,7 @@ module Redmine
           style << "height:12px;"
           output << view.content_tag(:div, s.html_safe,
                                      :style => style,
-                                     :class => "tooltip")
+                                     :class => "tooltip hascontextmenu")
         end
         @lines << output
         output

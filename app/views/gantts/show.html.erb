@@ -305,7 +305,9 @@
   <% end %>
 <% end %>
 
-<%= @gantt.lines.html_safe %>
+<%= form_tag({}, :data => {:cm_url => issues_context_menu_path}) do -%>
+  <%= @gantt.lines.html_safe %>
+<% end %>
 
 <% ###### Today red line (excluded from cache) ###### %>
 <% if User.current.today >= @gantt.date_from and User.current.today <= @gantt.date_to %>

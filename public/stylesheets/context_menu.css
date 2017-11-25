@@ -54,3 +54,6 @@
 .context-menu-selection { background-color:#507AAA !important; color:#f8f8f8 !important; }
 .context-menu-selection a, .context-menu-selection a:hover { color:#f8f8f8 !important; }
 .context-menu-selection:hover { background-color:#507AAA !important; color:#f8f8f8  !important; }
+div#gantt_area .context-menu-selection { background-color: rgba(80, 122, 170, 0.48) !important; }
+div#gantt_area .context-menu-selection:hover { background-color: rgba(80, 122, 170, 0.48) !important; }
+div#gantt_area .context-menu-selection a { color: #169 !important; }
