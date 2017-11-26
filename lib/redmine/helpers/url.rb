@@ -27,7 +27,7 @@ module Redmine
     
         # Other URLs need to be parsed
         schemes.include? URI.parse(uri).scheme
-      rescue URI::InvalidURIError
+      rescue URI::Error
         false
       end
     end
