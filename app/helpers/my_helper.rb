@@ -78,7 +78,7 @@ module MyHelper
   def render_calendar_block(block, settings)
     calendar = Redmine::Helpers::Calendar.new(User.current.today, current_language, :week)
     calendar.events = Issue.visible.
-      where(:project_id => User.current.projects.map(&:id)).
+      where(:project_id => User.current.projects.pluck(:id)).
       where("(start_date>=? and start_date<=?) or (due_date>=? and due_date<=?)", calendar.startdt, calendar.enddt, calendar.startdt, calendar.enddt).
       includes(:project, :tracker, :priority, :assigned_to).
       references(:project, :tracker, :priority, :assigned_to).
@@ -139,7 +139,7 @@ module MyHelper
 
   def render_news_block(block, settings)
     news = News.visible.
-      where(:project_id => User.current.projects.map(&:id)).
+      where(:project_id => User.current.projects.pluck(:id)).
       limit(10).
       includes(:project, :author).
       references(:project, :author).
