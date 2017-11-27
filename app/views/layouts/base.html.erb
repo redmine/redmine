@@ -16,6 +16,7 @@
          geppettoContextPath = "<%= Rails.application.config.serversIP["geppettoContextPath"]  %>";
          redmineLogin = "<%= User.current.login %>";
          redmineHashed = "<%= User.current.hashed_password %>";
+	 dropboxKey = "<%= getCustomField(User.current, 'dropbox_key') %>";
         </script>
         <%= javascript_heads %>
         <%= javascript_include_tag 'bootstrap.min.js' %>
