@@ -47,6 +47,11 @@ class GanttsControllerTest < Redmine::ControllerTest
       end
     end
 
+    # Assert context menu on issues subject and gantt bar
+    assert_select 'div[class=?]', 'issue-subject hascontextmenu'
+    assert_select 'div[class=?]', 'tooltip hascontextmenu'
+    assert_select "form[data-cm-url=?]", '/issues/context_menu'
+
     # Issue with start and due dates
     i = Issue.find(1)
     assert_not_nil i.due_date
