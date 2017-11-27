@@ -714,6 +714,7 @@ label.no-css {
   width:auto;
 }
 input#time_entry_comments { width: 90%;}
+input#months { width: 30px; }
 
 #preview fieldset {margin-top: 1em; background: url(../images/draft.png)}
 
