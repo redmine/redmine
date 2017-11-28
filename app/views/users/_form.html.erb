@@ -44,7 +44,12 @@
 	    <% end %>
 	
 	    <% @user.custom_field_values.each do |value| %>
-	        <div class="form-group"><%= custom_field_tag_with_label :user, value, :classes => 'col-sm-2' %></div>
+	        <div class="form-group">
+		    <%= custom_field_tag_with_label :user, value, :classes => 'col-sm-2' %>
+		    <% if value.custom_field.name == "dropbox_key" %>
+			<%= link_to "Get Geppetto Dropbox Key", "https://www.dropbox.com/oauth2/authorize?locale=en_US&client_id=kbved8e6wnglk4h&response_type=code", target: "_blank", class: "btn btn-default dropbox-link" %>
+		    <% end %>
+		</div>
 	    <% end %>
 	    
 	    <div class="form-group">
