@@ -337,20 +337,19 @@
 </tr>
 </table>
 
-<table style="width:100%">
-<tr>
-  <td style="text-align:left;">
-    <%= link_to("\xc2\xab " + l(:label_previous),
-                               {:params => request.query_parameters.merge(@gantt.params_previous)},
-                               :accesskey => accesskey(:previous)) %>
-  </td>
-  <td style="text-align:right;">
-    <%= link_to(l(:label_next) + " \xc2\xbb",
-                               {:params => request.query_parameters.merge(@gantt.params_next)},
-                               :accesskey => accesskey(:next)) %>
-  </td>
-</tr>
-</table>
+<span class="pagination">
+  <ul class="pages">
+    <li class="previous page">
+      <%= link_to("\xc2\xab " + l(:label_previous),
+                                 {:params => request.query_parameters.merge(@gantt.params_previous)},
+                                 :accesskey => accesskey(:previous)) %>
+    </li><li class="next page">
+      <%= link_to(l(:label_next) + " \xc2\xbb",
+                                 {:params => request.query_parameters.merge(@gantt.params_next)},
+                                 :accesskey => accesskey(:next)) %>
+    </li>
+  </ul>
+</span>
 
 <% other_formats_links do |f| %>
   <%= f.link_to_with_query_parameters 'PDF', @gantt.params %>
