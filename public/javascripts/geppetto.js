@@ -70,6 +70,7 @@ function addDashboard(){
     	if (e.data.command == 'ready') {
             var dashboard = $("#geppettoDashboard");
             if (dashboard.length > 0) {
+		dashboard[0].contentWindow.postMessage({"command": "window.osbURL='http://"+location.host+"/';"}, $("#geppettoIP").val()+"/currentuser");
     		dashboard[0].contentWindow.postMessage({"command": "$('.well').css('background-color','white')"}, $("#geppettoIP").val()+"/currentuser");
     		dashboard[0].contentWindow.postMessage({"command": "$('.dark-well').css('background-color','white')"}, $("#geppettoIP").val()+"/currentuser");
     		dashboard[0].contentWindow.postMessage({"command": "$('.navbar').css('background-color','white')"}, $("#geppettoIP").val()+"/currentuser");
