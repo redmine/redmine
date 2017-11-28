@@ -2749,18 +2749,16 @@ div.splitcontentleft > h2 {
 .active .bannerImage img {
     display: block;
     margin: 0 auto;
+    max-width: 80%;
 }
 
 #carouselMainPage .caption {
     margin-top: 60px;
+    margin-left: 5em;
 }
 
 #carouselMainPage .caption img {
     display: none;
-}
-
-#carouselMainPage .carousel-control {
-    top: 200px;
 }
 
 #carouselMainPage {
@@ -2769,12 +2767,21 @@ div.splitcontentleft > h2 {
 }
 
 #carouselMainPage .carousel-control {
-    top: 150px;
+    border-radius: 10px;
+    height: 2em;
+    width: 2em;
 }
 
 .carousel-control {
     font-family: Verdana;
     font-size: 50px;
+}
+
+.carousel-control.left {
+    margin-left: 2em;
+}
+.carousel-control.right {
+    margin-left: 2em;
 }
 /* SEARCH FORM */
 
