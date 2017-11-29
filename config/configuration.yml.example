@@ -1,11 +1,11 @@
 # = Redmine configuration file
 #
-# Each environment has it's own configuration options.  If you are only
+# Each environment has its own configuration options.  If you are only
 # running in production, only the production block needs to be configured.
 # Environment specific configuration options override the default ones.
 #
 # Note that this file needs to be a valid YAML file.
-# DO NOT USE TABS! Use 2 spaces instead of tabs for identation.
+# DO NOT USE TABS! Use 2 spaces instead of tabs for indentation.
 
 # default configuration options for all environments
 default:
