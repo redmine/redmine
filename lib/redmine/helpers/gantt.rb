@@ -301,9 +301,9 @@ module Redmine
       def line_for_version(version, options)
         # Skip versions that don't have a start_date
         if version.is_a?(Version) && version.due_date && version.start_date
-          label = "#{h(version)} #{h(version.completed_percent.to_f.round)}%"
+          label = "#{h(version)} #{h(version.visible_fixed_issues.completed_percent.to_f.round)}%"
           label = h("#{version.project} -") + label unless @project && @project == version.project
-          line(version.start_date, version.due_date,  version.completed_percent, true, label, options, version)
+          line(version.start_date, version.due_date,  version.visible_fixed_issues.completed_percent, true, label, options, version)
         end
       end
 
@@ -679,9 +679,9 @@ module Redmine
           html_class << (version.behind_schedule? ? 'version-behind-schedule' : '') << " "
           html_class << (version.overdue? ? 'version-overdue' : '')
           html_class << ' version-closed' unless version.open?
-          if version.start_date && version.due_date && version.completed_percent
+          if version.start_date && version.due_date && version.visible_fixed_issues.completed_percent
             progress_date = calc_progress_date(version.start_date,
-                                               version.due_date, version.completed_percent)
+                                               version.due_date, version.visible_fixed_issues.completed_percent)
             html_class << ' behind-start-date' if progress_date < self.date_from
             html_class << ' over-end-date' if progress_date > self.date_to
           end

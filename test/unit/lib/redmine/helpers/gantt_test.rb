@@ -314,7 +314,7 @@ class Redmine::Helpers::GanttHelperTest < Redmine::HelperTest
     version = Version.generate!(:name => 'Foo', :project => @project)
     version.stubs(:start_date).returns(today - 7)
     version.stubs(:due_date).returns(today + 7)
-    version.stubs(:completed_percent).returns(30)
+    version.stubs(:visible_fixed_issues => stub(:completed_percent => 30))
     @output_buffer = @gantt.line_for_version(version, :format => :html)
     assert_select "div.version.label", :text => /Foo/
     assert_select "div.version.label", :text => /30%/
