@@ -14,22 +14,22 @@
 </ul>
 <% end %>
 
-<% if version.fixed_issues.visible.count > 0 %>
-    <%= progress_bar([version.fixed_issues.visible.closed_percent, version.fixed_issues.visible.completed_percent],
+<% if version.visible_fixed_issues.count > 0 %>
+    <%= progress_bar([version.visible_fixed_issues.closed_percent, version.visible_fixed_issues.completed_percent],
                      :titles =>
-                       ["%s: %0.0f%%" % [l(:label_closed_issues_plural), version.fixed_issues.visible.closed_percent],
-                        "%s: %0.0f%%" % [l(:field_done_ratio), version.fixed_issues.visible.completed_percent]],
-                     :legend => ('%0.0f%%' % version.fixed_issues.visible.completed_percent)) %>
+                       ["%s: %0.0f%%" % [l(:label_closed_issues_plural), version.visible_fixed_issues.closed_percent],
+                        "%s: %0.0f%%" % [l(:field_done_ratio), version.visible_fixed_issues.completed_percent]],
+                     :legend => ('%0.0f%%' % version.visible_fixed_issues.completed_percent)) %>
     <p class="progress-info">
-      <%= link_to(l(:label_x_issues, :count => version.fixed_issues.visible.count),
+      <%= link_to(l(:label_x_issues, :count => version.visible_fixed_issues.count),
                   version_filtered_issues_path(version, :status_id => '*')) %>
       &nbsp;
-      (<%= link_to_if(version.fixed_issues.visible.closed_count > 0,
-                      l(:label_x_closed_issues_abbr, :count => version.fixed_issues.visible.closed_count),
+      (<%= link_to_if(version.visible_fixed_issues.closed_count > 0,
+                      l(:label_x_closed_issues_abbr, :count => version.visible_fixed_issues.closed_count),
                       version_filtered_issues_path(version, :status_id => 'c')) %>
       &#8212;
-      <%= link_to_if(version.fixed_issues.visible.open_count > 0,
-                     l(:label_x_open_issues_abbr, :count => version.fixed_issues.visible.open_count),
+      <%= link_to_if(version.visible_fixed_issues.open_count > 0,
+                     l(:label_x_open_issues_abbr, :count => version.visible_fixed_issues.open_count),
                      version_filtered_issues_path(version, :status_id => 'o')) %>)
     </p>
 <% else %>

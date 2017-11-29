@@ -57,9 +57,9 @@ module VersionsHelper
     h = Hash.new {|k,v| k[v] = [0, 0]}
     begin
       # Total issue count
-      version.fixed_issues.visible.group(criteria).count.each {|c,s| h[c][0] = s}
+      version.visible_fixed_issues.group(criteria).count.each {|c,s| h[c][0] = s}
       # Open issues count
-      version.fixed_issues.visible.open.group(criteria).count.each {|c,s| h[c][1] = s}
+      version.visible_fixed_issues.open.group(criteria).count.each {|c,s| h[c][1] = s}
     rescue ActiveRecord::RecordNotFound
     # When grouping by an association, Rails throws this exception if there's no result (bug)
     end

@@ -176,6 +176,7 @@ class Version < ActiveRecord::Base
   alias :base_reload :reload
   def reload(*args)
     @default_project_version = nil
+    @visible_fixed_issues = nil
     base_reload(*args)
   end
 
@@ -255,6 +256,10 @@ class Version < ActiveRecord::Base
   # Returns the total amount of closed issues for this version.
   def closed_issues_count
     fixed_issues.closed_count
+  end
+
+  def visible_fixed_issues
+    @visible_fixed_issues ||= fixed_issues.visible
   end
 
   def wiki_page

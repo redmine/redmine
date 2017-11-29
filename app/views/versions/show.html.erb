@@ -12,12 +12,12 @@
 <%= render(:partial => "wiki/content", :locals => {:content => @version.wiki_page.content}) if @version.wiki_page %>
 
 <div id="version-summary">
-<% if @version.fixed_issues.visible.estimated_hours > 0 || User.current.allowed_to?(:view_time_entries, @project) %>
+<% if @version.visible_fixed_issues.estimated_hours > 0 || User.current.allowed_to?(:view_time_entries, @project) %>
 <fieldset class="time-tracking"><legend><%= l(:label_time_tracking) %></legend>
 <table>
 <tr>
     <th><%= l(:field_estimated_hours) %></th>
-    <td class="total-hours"><%= link_to html_hours(l_hours(@version.fixed_issues.visible.estimated_hours)),
+    <td class="total-hours"><%= link_to html_hours(l_hours(@version.visible_fixed_issues.estimated_hours)),
                                         project_issues_path(@version.project, :set_filter => 1, :status_id => '*', :fixed_version_id => @version.id, :c => [:tracker, :status, :subject, :estimated_hours], :t => [:estimated_hours]) %></td>
 </tr>
 <% if User.current.allowed_to_view_all_time_entries?(@project) %>
