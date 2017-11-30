@@ -44,7 +44,7 @@
     <div class="badges">
         <%= getEndorsementBadge(@project) %>
         <%= getCurationBadge(@project, "pull-right", tipPlace="bottom") %>
-	<% if @repourl.include? "github" %>
+	<% if (not @repourl.nil?) && (@repourl.include? "github") %>
 	    <span class="gh-badges">
 		<% @repoID = @repourl.split('/')[-2..-1].join('/') %>
 		<% {'issues' => 'https://github.com/'+@repoID+'/issues',
