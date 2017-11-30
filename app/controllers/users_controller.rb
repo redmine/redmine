@@ -182,7 +182,8 @@ class UsersController < ApplicationController
         rescue => e
           print "Error requesting url: #{geppettoRegisterURL}"
         else
-          geppettoRegisterContent = JSON.parse(geppettoRegisterContent.read)
+          json = geppettoRegisterContent.read
+          geppettoRegisterContent = json && json.length >= 2 ? JSON.parse(json) : nil
           #TODO verified content
         end
       end
