@@ -459,6 +459,11 @@ module ApplicationHelper
     return @NML2files 
   end
 
+  def getH5Files(repository)
+    @h5files = getFilesWithExt(repository, ".h5")
+    return @h5files
+  end
+
   # Checks whether a file has a standard *.nml (XML) or *.nml.h5 (HDF5) extension
   def isNML_XMLorHDF5(filename)
     return filename.end_with?('.nml') || filename.end_with?('.nml.h5') || filename.end_with?('.nml.hdf5') 
@@ -487,7 +492,12 @@ module ApplicationHelper
         @defaultMainModel=nml2file
       end
     end
-    return @networkfiles
+    for h5file in @h5files
+      if h5file.ends_with?(".net.nml.h5")
+        @networkfiles.push(h5file)
+      end
+    end
+    return @networkfiles.sort()
   end  
   
   def getChannelFiles()
@@ -498,7 +508,12 @@ module ApplicationHelper
         @defaultMainModel=nml2file
       end
     end
-    return @channelfiles
+    for h5file in @h5files
+      if h5file.ends_with?(".channel.nml.h5")
+        @channelfiles.push(h5file)
+      end
+    end
+    return @channelfiles.sort()
   end
   
   def getSynapsesFiles()
@@ -509,7 +524,12 @@ module ApplicationHelper
         @defaultMainModel=nml2file
       end
     end
-    return @synapsefiles
+    for h5file in @h5files
+      if h5file.ends_with?(".synapse.nml.h5")
+        @synapsefiles.push(h5file)
+      end
+    end
+    return @synapsefiles.sort()
   end
   
   def getCellFiles()
@@ -520,7 +540,12 @@ module ApplicationHelper
         @defaultMainModel=nml2file
       end
     end
-    return @cellfiles
+    for h5file in @h5files
+      if h5file.ends_with?(".cell.nml.h5")
+        @cellfiles.push(h5file)
+      end
+    end
+    return @cellfiles.sort()
   end  
   
   def getFilesWithExt(repository, ext)

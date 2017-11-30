@@ -4,6 +4,7 @@
      var repourl="<%= getHttpRepositoryURL(@project) %>";
      var repopath="<%= getHttpRepositoryPath(@project.repository) %>";
      var neuroml2files = <%= raw getNML2Files(@project.repository) %>;
+     var h5files = <%= raw getH5Files(@project.repository) %>;
      var swcfiles = <%= raw getSWCFiles(@project.repository) %>;
      var jsonfiles = <%= raw getJSONFiles(@project.repository) %>;
      var synapsefiles = <%= raw getSynapsesFiles() %>;
@@ -17,6 +18,7 @@
     </script>
     <% if isProjectOrShowcase(@project) %>
         <% @neuroml2files = getNML2Files(@project.repository) %>
+        <% @h5files = getH5Files(@project.repository) %>
         <% @swcfiles = getSWCFiles(@project.repository) %>
         <% @sjsonfiles = getJSONFiles(@project.repository) %>
         <% @repourl=getHttpRepositoryURL(@project) %>
