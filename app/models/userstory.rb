@@ -5,6 +5,21 @@
 #Nikolas Lendvoy - 200234841
 #Shayan Khan - 200361210
 
+require 'erb'
+require 'sinatra'
+
+get '/US/' do
+	erb :userstory
+end
+
+post '/US/' do
+    user = params[:user]
+    want = params[:want]
+		action = params[:action]
+
+    erb :userstory_index, :locals => {'user' => user, 'want' => want, 'action' => action}
+end
+
 #defines Userstory class
 class Userstory
 	#constructor
@@ -13,7 +28,7 @@ class Userstory
 		@want = want
 		@action = action
 	end
-	
+
 	#prints the userstory
 	def print
 		ustory = "As a #{@user} I want to do/have #{@want} so I can #{@action}"
