@@ -115,7 +115,6 @@ function processLogin(text, url, onloadFunction){
     //FIXME: Add validation
     if (url !== ""){
 	makeCorsRequest(url, onloadFunction);
-	location.reload();
     }
     else{
 	onloadFunction();	
