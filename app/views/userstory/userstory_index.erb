@@ -1,16 +1,7 @@
 <html>
   <style>
-  .message-box{
-    height: 100px;
-    width: 80%;
-    margin: auto;
-  }
   *{
     font-family: Verdana;
-  }
-  .message_form{
-    text-align: center;
-    margin: auto;
   }
   header{
     border: 1px solid black;
@@ -41,7 +32,18 @@
     font-size: 1.5em;
     padding:5px;
   }
+  span{
+    color: #628DB6;
+  }
+  .center{
+    text-align: center;
+  }
   </style>
+  <script>
+    function goBack() {
+      window.history.back()
+    }
+  </script>
   <head>
     <title>Userstory</title>
   </head>
@@ -50,6 +52,9 @@
       <p><b>Redmine</b><p>
     </header>
     <h1> User Story: </h1>
-    <p>As a <%= user %> I want to do/have <%= want %> so that I can <%= action %>.</p>
+    <p class="center">As a <span><i><%= user %></i></span> I want to do/have <span><i><%= want %></i></span> so that I can <span><i><%= action %></i></span>.</p>
+    <footer>
+      <button onclick="goBack()">Back</button>
+    </footer>
   </body>
 </html>
