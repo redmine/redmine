@@ -647,26 +647,6 @@ function initMyPageSortable(list, url) {
   $("#list-top, #list-left, #list-right").disableSelection();
 }
 
-function addNewTag(projectName, tag){
-	$.ajax({
-	    url: "/projects/" + projectName + "/addTag?tag="+tag,
-	    cache: false,
-	    success: function(html){
-	      $("#tagsContainer").replaceWith(html);
-	    }
-	});
-}
-
-function deleteTag(projectName, tag){
-	$.ajax({
-	    url: "/projects/" + projectName + "/removeTag?tag="+tag,
-	    cache: false,
-	    success: function(html){
-	      $("#tagsContainer").replaceWith(html);
-	    }
-	});
-}
-
 var warnLeavingUnsavedMessage;
 function warnLeavingUnsaved(message) {
   warnLeavingUnsavedMessage = message;

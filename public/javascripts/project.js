@@ -155,7 +155,31 @@ $(document).ready(function(){
         open3DExplorer(encodeURIComponent(repourl+repopath+id), project_identifier);
     });
 
-    $(".delete_tag").click(function(){deleteTag(project_identifier,$(this).attr("id")); return false;});
+    function addNewTag(projectName, tag){
+	$.ajax({
+	    url: "/projects/" + projectName + "/addTag?tag="+tag,
+	    cache: false,
+	    success: function(html){
+	        $("#tagsContainer").replaceWith(html);
+                $("#add_new_tag").click(function(){addNewTag(project_identifier,$("#new_tag").val()); return false;});
+                $(".delete-tag").click(function(){deleteTag(project_identifier,$(this).attr("id")); return false;});
+	    }
+	});
+    }
+
+    function deleteTag(projectName, tag){
+	$.ajax({
+	    url: "/projects/" + projectName + "/removeTag?tag="+tag,
+	    cache: false,
+	    success: function(html){
+	        $("#tagsContainer").replaceWith(html);
+                $(".delete-tag").click(function(){deleteTag(project_identifier,$(this).attr("id")); return false;});
+                $("#add_new_tag").click(function(){addNewTag(project_identifier,$("#new_tag").val()); return false;});
+	    }
+	});
+    }
+
+    $(".delete-tag").click(function(){deleteTag(project_identifier,$(this).attr("id")); return false;});
 
     $("#add_new_tag").click(function(){addNewTag(project_identifier,$("#new_tag").val()); return false;});
 
