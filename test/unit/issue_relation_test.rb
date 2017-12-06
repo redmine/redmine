@@ -65,6 +65,20 @@ class IssueRelationTest < ActiveSupport::TestCase
     assert_equal from, relation.issue_to
   end
 
+  def test_cannot_create_inverse_relates_relations
+    from = Issue.find(1)
+    to = Issue.find(2)
+
+    relation1 = IssueRelation.new :issue_from => from, :issue_to => to,
+                                  :relation_type => IssueRelation::TYPE_RELATES
+    assert relation1.save
+
+    relation2 = IssueRelation.new :issue_from => to, :issue_to => from,
+                                  :relation_type => IssueRelation::TYPE_RELATES
+    assert !relation2.save
+    assert_not_equal [], relation2.errors[:base]
+  end
+
   def test_follows_relation_should_not_be_reversed_if_validation_fails
     from = Issue.find(1)
     to = Issue.find(2)

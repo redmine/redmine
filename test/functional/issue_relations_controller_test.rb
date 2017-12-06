@@ -82,8 +82,8 @@ class IssueRelationsControllerTest < Redmine::ControllerTest
       assert_equal 'text/javascript', response.content_type
     end
     relation = IssueRelation.order('id DESC').first
-    assert_equal 3, relation.issue_from_id
-    assert_equal 1, relation.issue_to_id
+    assert_equal 1, relation.issue_from_id
+    assert_equal 3, relation.issue_to_id
 
     assert_include 'Bug #1', response.body
   end
