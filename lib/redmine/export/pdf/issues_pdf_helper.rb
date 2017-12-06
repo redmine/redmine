@@ -384,6 +384,8 @@ module Redmine
                 format_date(value)
               elsif value.is_a?(Time)
                 format_time(value)
+              elsif value.is_a?(Float)
+                sprintf "%.2f", value
               else
                 value
               end
