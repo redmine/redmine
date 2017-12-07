@@ -141,7 +141,7 @@ module Redmine
         def entries(path=nil, identifier=nil, options={})
           p1 = scm_iconv(@path_encoding, 'UTF-8', path)
           manifest = hg('rhmanifest', '-r', CGI.escape(hgrev(identifier)),
-                        CGI.escape(without_leading_slash(p1.to_s))) do |io|
+                        '--', CGI.escape(without_leading_slash(p1.to_s))) do |io|
             output = io.read.force_encoding('UTF-8')
             begin
               parse_xml(output)['rhmanifest']['repository']['manifest']
@@ -184,7 +184,7 @@ module Redmine
           hg_args = ['log', '--debug', '-C', '--style', self.class.template_path]
           hg_args << '-r' << "#{hgrev(identifier_from)}:#{hgrev(identifier_to)}"
           hg_args << '--limit' << options[:limit] if options[:limit]
-          hg_args << hgtarget(path) unless path.blank?
+          hg_args << '--' << hgtarget(path) unless path.blank?
           log = hg(*hg_args) do |io|
             output = io.read.force_encoding('UTF-8')
             begin
@@ -240,7 +240,7 @@ module Redmine
           end
           unless path.blank?
             p = scm_iconv(@path_encoding, 'UTF-8', path)
-            hg_args << CGI.escape(hgtarget(p))
+            hg_args << '--' << CGI.escape(hgtarget(p))
           end
           diff = []
           hg *hg_args do |io|
@@ -255,7 +255,7 @@ module Redmine
 
         def cat(path, identifier=nil)
           p = CGI.escape(scm_iconv(@path_encoding, 'UTF-8', path))
-          hg 'rhcat', '-r', CGI.escape(hgrev(identifier)), hgtarget(p) do |io|
+          hg 'rhcat', '-r', CGI.escape(hgrev(identifier)), '--', hgtarget(p) do |io|
             io.binmode
             io.read
           end
@@ -266,7 +266,7 @@ module Redmine
         def annotate(path, identifier=nil)
           p = CGI.escape(scm_iconv(@path_encoding, 'UTF-8', path))
           blame = Annotate.new
-          hg 'rhannotate', '-ncu', '-r', CGI.escape(hgrev(identifier)), hgtarget(p) do |io|
+          hg 'rhannotate', '-ncu', '-r', CGI.escape(hgrev(identifier)), '--', hgtarget(p) do |io|
             io.each_line do |line|
               line.force_encoding('ASCII-8BIT')
               next unless line =~ %r{^([^:]+)\s(\d+)\s([0-9a-f]+):\s(.*)$}
