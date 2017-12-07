@@ -21,6 +21,7 @@ class MercurialAdapterTest < ActiveSupport::TestCase
   HELPERS_DIR        = Redmine::Scm::Adapters::MercurialAdapter::HELPERS_DIR
   TEMPLATE_NAME      = Redmine::Scm::Adapters::MercurialAdapter::TEMPLATE_NAME
   TEMPLATE_EXTENSION = Redmine::Scm::Adapters::MercurialAdapter::TEMPLATE_EXTENSION
+  HgCommandArgumentError = Redmine::Scm::Adapters::MercurialAdapter::HgCommandArgumentError
 
   REPOSITORY_PATH = repository_path('mercurial')
   CHAR_1_HEX = "\xc3\x9c"
@@ -441,6 +442,24 @@ class MercurialAdapterTest < ActiveSupport::TestCase
                                 ""
                               )
       assert_equal "UTF-8", adpt2.path_encoding
+    end
+
+    def test_bad_early_options
+      assert_raise HgCommandArgumentError do
+        @adapter.diff('sources/welcome_controller.rb', '--config=alias.rhdiff=!xterm')
+      end
+      assert_raise HgCommandArgumentError do
+        @adapter.entries('--debugger')
+      end
+      assert_raise HgCommandArgumentError do
+        @adapter.revisions(nil, nil, nil, limit: '--repo=otherrepo')
+      end
+      assert_raise HgCommandArgumentError do
+        @adapter.nodes_in_branch('default', limit: '--repository=otherrepo')
+      end
+      assert_raise HgCommandArgumentError do
+        @adapter.nodes_in_branch('-Rotherrepo')
+      end
     end
 
     private
