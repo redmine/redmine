@@ -21,6 +21,7 @@ class MercurialAdapterTest < ActiveSupport::TestCase
   HELPERS_DIR        = Redmine::Scm::Adapters::MercurialAdapter::HELPERS_DIR
   TEMPLATE_NAME      = Redmine::Scm::Adapters::MercurialAdapter::TEMPLATE_NAME
   TEMPLATE_EXTENSION = Redmine::Scm::Adapters::MercurialAdapter::TEMPLATE_EXTENSION
+  HgCommandAborted   = Redmine::Scm::Adapters::MercurialAdapter::HgCommandAborted
   HgCommandArgumentError = Redmine::Scm::Adapters::MercurialAdapter::HgCommandArgumentError
 
   REPOSITORY_PATH = repository_path('mercurial')
@@ -445,19 +446,18 @@ class MercurialAdapterTest < ActiveSupport::TestCase
     end
 
     def test_bad_early_options
-      assert_raise HgCommandArgumentError do
-        @adapter.diff('sources/welcome_controller.rb', '--config=alias.rhdiff=!xterm')
-      end
+      assert_nil @adapter.diff('sources/welcome_controller.rb',
+                               '--config=alias.rhdiff=!xterm')
       assert_raise HgCommandArgumentError do
         @adapter.entries('--debugger')
       end
-      assert_raise HgCommandArgumentError do
+      assert_raise HgCommandAborted do
         @adapter.revisions(nil, nil, nil, limit: '--repo=otherrepo')
       end
-      assert_raise HgCommandArgumentError do
+      assert_raise HgCommandAborted do
         @adapter.nodes_in_branch('default', limit: '--repository=otherrepo')
       end
-      assert_raise HgCommandArgumentError do
+      assert_raise HgCommandAborted do
         @adapter.nodes_in_branch('-Rotherrepo')
       end
     end
