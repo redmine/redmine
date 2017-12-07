@@ -82,6 +82,7 @@ namespace :test do
     Rake::TestTask.new(:units => "db:test:prepare") do |t|
       t.libs << "test"
       t.verbose = true
+      t.warning = false
       t.test_files = FileList['test/unit/repository*_test.rb'] + FileList['test/unit/lib/redmine/scm/**/*_test.rb']
     end
     Rake::Task['test:scm:units'].comment = "Run the scm unit tests"
@@ -89,6 +90,7 @@ namespace :test do
     Rake::TestTask.new(:functionals => "db:test:prepare") do |t|
       t.libs << "test"
       t.verbose = true
+      t.warning = false
       t.test_files = FileList['test/functional/repositories*_test.rb']
     end
     Rake::Task['test:scm:functionals'].comment = "Run the scm functional tests"
