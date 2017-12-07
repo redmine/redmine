@@ -32,6 +32,8 @@ module Redmine
 
         # raised if hg command exited with error, e.g. unknown revision.
         class HgCommandAborted < CommandFailed; end
+        # raised if bad command argument detected before executing hg.
+        class HgCommandArgumentError < CommandFailed; end
 
         class << self
           def client_command
@@ -286,8 +288,21 @@ module Redmine
           end
         end
 
+        # command options which may be processed earlier, by faulty parser in hg
+        HG_EARLY_BOOL_ARG = /^--(debugger|profile|traceback)$/
+        HG_EARLY_LIST_ARG = /^(--(config|cwd|repo(sitory)?)\b|-R)/
+        private_constant :HG_EARLY_BOOL_ARG, :HG_EARLY_LIST_ARG
+
         # Runs 'hg' command with the given args
         def hg(*args, &block)
+          # as of hg 4.4.1, early parsing of bool options is not terminated at '--'
+          if args.any? { |s| s =~ HG_EARLY_BOOL_ARG }
+            raise HgCommandArgumentError, "malicious command argument detected"
+          end
+          if args.take_while { |s| s != '--' }.any? { |s| s =~ HG_EARLY_LIST_ARG }
+            raise HgCommandArgumentError, "malicious command argument detected"
+          end
+
           repo_path = root_url || url
           full_args = ['-R', repo_path, '--encoding', 'utf-8']
           full_args << '--config' << "extensions.redminehelper=#{HG_HELPER_EXT}"
