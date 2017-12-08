@@ -408,7 +408,7 @@ module ProjectsHelper
 
             geppettoSimulationFile = {
               "id" => 1,
-              "name" => target[0],
+              "name" => @project.identifier,
               "activeExperimentId" => 1,
               "experiments" => [{
                                   "id" => 1,

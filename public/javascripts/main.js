@@ -307,7 +307,7 @@ function checkBrowserCapabilities() {
 function addGeppettoIframe(src) {
     $(".project-header").before("<div id='geppettoContainer'><iframe id='geppettoFrame' src=" + $("#geppettoIP").val() + $("#geppettoContextPath").val() + src + "></iframe></div>");
     setTimeout(function(){
-        window.frames["geppettoFrame"].contentWindow.postMessage({ "command": "window.osbURL='http://"+location.host + location.pathname+"';"}, $("#geppettoIP").val());
+        window.frames["geppettoFrame"].contentWindow.postMessage({ "command": "window.osbURL='http://"+location.host+"/';"}, $("#geppettoIP").val());
         window.frames["geppettoFrame"].contentWindow.postMessage({"command": "$('.HomeButton').hide()"}, $("#geppettoIP").val());
     },8000);
 }
@@ -315,7 +315,7 @@ function addGeppettoIframe(src) {
 function sendProjectToIframe(uri) {
     window.frames["geppettoFrame"].contentWindow.postMessage({"command": "removeWidgets" }, $("#geppettoIP").val());
     window.frames["geppettoFrame"].contentWindow.postMessage($.extend({"command": "loadSimulation"}, uri), $("#geppettoIP").val());
-    window.frames["geppettoFrame"].contentWindow.postMessage({"command": "window.osbURL='http://"+location.host + location.pathname+"';"}, $("#geppettoIP").val());
+    window.frames["geppettoFrame"].contentWindow.postMessage({"command": "window.osbURL='http://"+location.host+"/';"}, $("#geppettoIP").val());
     window.frames["geppettoFrame"].contentWindow.postMessage({"command": "$('.HomeButton').hide()"}, $("#geppettoIP").val());
 }
 
