@@ -385,6 +385,21 @@ class AccountControllerTest < Redmine::ControllerTest
     end
   end
 
+  def test_lost_password_with_whitespace_should_send_email_to_the_address
+    Token.delete_all
+
+    assert_difference 'ActionMailer::Base.deliveries.size' do
+      assert_difference 'Token.count' do
+        post :lost_password, params: {
+          mail: ' JSmith@somenet.foo  '
+        }
+        assert_redirected_to '/login'
+      end
+    end
+    mail = ActionMailer::Base.deliveries.last
+    assert_equal ['jsmith@somenet.foo'], mail.bcc
+  end
+
   def test_lost_password_using_additional_email_address_should_send_email_to_the_address
     EmailAddress.create!(:user_id => 2, :address => 'anotherAddress@foo.bar')
     Token.delete_all
