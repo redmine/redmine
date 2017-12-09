@@ -217,7 +217,6 @@ cs:
   mail_subject_wiki_content_updated: "'%{id}' Wiki stránka byla aktualizována"
   mail_body_wiki_content_updated: "'%{id}' Wiki stránka byla aktualizována od %{author}."
 
-
   field_name: Název
   field_description: Popis
   field_summary: Přehled
