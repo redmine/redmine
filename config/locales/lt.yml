@@ -4,6 +4,7 @@
 # and Gytis Gurklys gytis.gurklys@gmail.com
 # and Andrius Kriučkovas andrius.kriuckovas@gmail.com
 # and Gediminas Muižis gediminas.muizis@gmail.com
+# and Marius Žilėnas m.zilenas@litrail.lt
 
 lt:
   # Text direction: Left-to-Right (ltr) or Right-to-Left (rtl)
@@ -363,7 +364,7 @@ lt:
   field_time_entries_visibility: Laiko įrašų matomumas
   field_total_estimated_hours: Visas įsivertinas laikas
   field_default_version: Numatytoji versija
-  field_remote_ip: IP address
+  field_remote_ip: IP adresas
 
   setting_app_title: Programos pavadinimas
   setting_app_subtitle: Programos paantraštė
@@ -1184,18 +1185,18 @@ lt:
   description_date_from: Įvesti pradžios datą
   description_date_to: Įvesti pabaigos datą
   text_repository_identifier_info: 'Leidžiamos tik mažosios raidės (a-z), skaitmenys, brūkšneliai ir pabraukimo simboliai.<br />Kartą išsaugojus pakeitimai negalimi'
-  label_wiki_page_new: New wiki page
-  label_relations: Relations
-  button_filter: Filter
-  mail_body_password_updated: Your password has been changed.
-  label_no_preview: No preview available
-  error_no_tracker_allowed_for_new_issue_in_project: The project doesn't have any trackers
-    for which you can create an issue
-  label_tracker_all: All trackers
-  label_new_project_issue_tab_enabled: Display the "New issue" tab
-  setting_new_item_menu_tab: Project menu tab for creating new objects
-  label_new_object_tab_enabled: Display the "+" drop-down
-  error_no_projects_with_tracker_allowed_for_new_issue: There are no projects with trackers
-    for which you can create an issue
-  error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: Spent time cannot
-    be reassigned to an issue that is about to be deleted
+  label_wiki_page_new: Naujas wiki puslapis
+  label_relations: Ryšiai
+  button_filter: Filtras
+  mail_body_password_updated: Slaptažodis pakeistas.
+  label_no_preview: Peržiūra negalima
+  error_no_tracker_allowed_for_new_issue_in_project: Projektas neturi jokių pėdsekių,
+    kuriems galima būtų sukurti darbą
+  label_tracker_all: Visi pėdsekiai
+  label_new_project_issue_tab_enabled: Rodyti "Naujo darbo kortelę"
+  setting_new_item_menu_tab: Projekto meniu ąselė naujų objektų kūrimui
+  label_new_object_tab_enabled: Rodyti "+" išskleidžiąmąjį sąrašą
+  error_no_projects_with_tracker_allowed_for_new_issue: Nėra projektų su pėdsekiais,
+    kuriems galima būtų sukurti darbą
+  error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: Dirbtas laikas negali būti
+    iš naujo paskirtas darbui, kuris bus ištrintas
