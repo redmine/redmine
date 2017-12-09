@@ -728,11 +728,11 @@ cs:
   label_theme: Téma
   label_default: Výchozí
   label_search_titles_only: Vyhledávat pouze v názvech
-  label_user_mail_option_all: "Pro všechny události všech mých projektů"
-  label_user_mail_option_selected: "Pro všechny události vybraných projektů..."
-  label_user_mail_option_none: "Žádné události"
-  label_user_mail_option_only_my_events: "Jen pro věci, co sleduji nebo jsem v nich zapojen"
-  label_user_mail_no_self_notified: "Nezasílat informace o mnou vytvořených změnách"
+  label_user_mail_option_all: Pro všechny události všech mých projektů
+  label_user_mail_option_selected: Pro všechny události vybraných projektů...
+  label_user_mail_option_none: Žádné události
+  label_user_mail_option_only_my_events: Jen pro věci, co sleduji nebo jsem v nich zapojen
+  label_user_mail_no_self_notified: Nezasílat informace o mnou vytvořených změnách
   label_registration_activation_by_email: aktivace účtu emailem
   label_registration_manual_activation: manuální aktivace účtu
   label_registration_automatic_activation: automatická aktivace účtu
