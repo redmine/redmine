@@ -1226,10 +1226,10 @@ cs:
   permission_view_news: Zobraz novinky
   label_no_preview_alternative_html: "Náhled není k dispozici. Soubor: %{link}."
   label_no_preview_download: Stažení
-  setting_close_duplicate_issues: Close duplicate issues automatically
-  error_exceeds_maximum_hours_per_day: Cannot log more than %{max_hours} hours on the
-    same day (%{logged_hours} hours have already been logged)
-  setting_time_entry_list_defaults: Timelog list defaults
-  setting_timelog_accept_0_hours: Accept time logs with 0 hours
-  setting_timelog_max_hours_per_day: Maximum hours that can be logged per day and user
-  label_x_revisions: "%{count} revisions"
+  setting_close_duplicate_issues: Automaticky uzavři duplicitní úkoly
+  error_exceeds_maximum_hours_per_day: Není možné zapsat více než %{max_hours}hod v ten
+    samý den (%{logged_hours}hod bylo již vykázáno)
+  setting_time_entry_list_defaults: Výchozí hodnoty pro zápis stráveného času
+  setting_timelog_accept_0_hours: Akceptovat zápis času 0hod
+  setting_timelog_max_hours_per_day: Maximum hodin, které mohou být vykázány jedním uživatelem za jeden den
+  label_x_revisions: "%{count} revizí"
