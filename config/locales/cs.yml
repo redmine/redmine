@@ -1,4 +1,4 @@
-# Update to 2.2, 2.4, 2.5, 2.6, 3.1, 3.3 by Karel Picman <karel.picman@kontron.com>
+# Update to 2.2, 2.4, 2.5, 2.6, 3.1, 3.3,.. by Karel Picman <karel.picman@kontron.com>
 # Update to 1.1 by Michal Gebauer <mishak@mishak.net>
 # Updated by Josef Liška <jl@chl.cz>
 # CZ translation by Maxim Krušina | Massimo Filippi, s.r.o. | maxim@mxm.cz
@@ -1181,12 +1181,12 @@ cs:
   mail_body_security_notification_change: ! '%{field} bylo změněno.'
   mail_body_security_notification_change_to: ! '%{field} bylo změněno na %{value}.'
   mail_body_security_notification_add: ! '%{field} %{value} bylo přidáno.'
-  mail_body_security_notification_remove: ! '%{field} %{value} was removed.'
+  mail_body_security_notification_remove: ! '%{field} %{value} bylo odebráno.'
   mail_body_security_notification_notify_enabled: Email %{value} nyní dostává
     notifikace.
   mail_body_security_notification_notify_disabled: Email %{value} už nedostává
     notifikace.
-  mail_body_settings_updated: ! 'The following settings were changed:'
+  mail_body_settings_updated: ! 'Následující nastavení byla změněna:'
   field_remote_ip: IP adresa
   label_wiki_page_new: Nová wiki stránka
   label_relations: Relace
@@ -1209,8 +1209,8 @@ cs:
   setting_mail_handler_enable_regex_delimiters: Enable regular expressions
   error_move_of_child_not_possible: 'Subtask %{child} could not be moved to the new
     project: %{errors}'
-  error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: Spent time cannot
-    be reassigned to an issue that is about to be deleted
+  error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: Strávený čas nemůže
+    být přiřazen k úkolu, který se bude mazat
   setting_timelog_required_fields: Required fields for time logs
   label_attribute_of_object: '%{object_name}''s %{name}'
   label_user_mail_option_only_assigned: Only for things I watch or I am assigned to
