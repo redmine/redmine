@@ -15,12 +15,12 @@ cs:
       short: "%b %d"
       long: "%B %d, %Y"
 
-    day_names: [Neděle, Pondělí, Úterý, Středa, Čtvrtek, Pátek, Sobota]
-    abbr_day_names: [Ne, Po, Út, St, Čt, Pá, So]
+    day_names: [neděle, pondělí, úterý, středa, čtvrtek, pátek, sobota]
+    abbr_day_names: [ne, po, út, st, čt, pá, so]
 
     # Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names: [~, Leden, Únor, Březen, Duben, Květen, Červen, Červenec, Srpen, Září, Říjen, Listopad, Prosinec]
-    abbr_month_names: [~, Led, Úno, Bře, Dub, Kvě, Čer, Čec, Srp, Zář, Říj, Lis, Pro]
+    month_names: [~, leden, únor, březen, duben, květen, červen, červenec, srpen, září, říjen, listopad, prosinec]
+    abbr_month_names: [~, led, úno, bře, dub, kvě, čer, čec, srp, zář, říj, lis, pro]
     # Used in date_select and datime_select.
     order:
       - :year
@@ -41,40 +41,40 @@ cs:
       half_a_minute: "půl minuty"
       less_than_x_seconds:
         one:   "méně než sekunda"
-        other: "méně než %{count} sekund"
+        other: "méně než %{count} sekund(y)"
       x_seconds:
         one:   "1 sekunda"
         other: "%{count} sekund"
       less_than_x_minutes:
         one:   "méně než minuta"
-        other: "méně než %{count} minut"
+        other: "méně než %{count} minut(y)"
       x_minutes:
         one:   "1 minuta"
         other: "%{count} minut"
       about_x_hours:
         one:   "asi 1 hodina"
-        other: "asi %{count} hodin"
+        other: "asi %{count} hodin(y)"
       x_hours:
         one:   "1 hodina"
-        other: "%{count} hodin"
+        other: "%{count} hodin(y)"
       x_days:
         one:   "1 den"
-        other: "%{count} dnů"
+        other: "%{count} dny(ů)"
       about_x_months:
         one:   "asi 1 měsíc"
-        other: "asi %{count} měsíců"
+        other: "asi %{count} měsíce(ů)"
       x_months:
         one:   "1 měsíc"
-        other: "%{count} měsíců"
+        other: "%{count} měsíc(ů)"
       about_x_years:
         one:   "asi 1 rok"
-        other: "asi %{count} let"
+        other: "asi %{count} roky(ů)"
       over_x_years:
         one:   "více než 1 rok"
-        other: "více než %{count} roky"
+        other: "více než %{count} roky(ů)"
       almost_x_years:
         one:   "témeř 1 rok"
-        other: "téměř %{count} roky"
+        other: "téměř %{count} roky(ů)"
 
   number:
     # Výchozí formát pro čísla
@@ -728,8 +728,8 @@ cs:
   label_theme: Téma
   label_default: Výchozí
   label_search_titles_only: Vyhledávat pouze v názvech
-  label_user_mail_option_all: Pro všechny události všech mých projektů
-  label_user_mail_option_selected: Pro všechny události vybraných projektů...
+  label_user_mail_option_all: Pro všechny události všech mých projektech
+  label_user_mail_option_selected: Pro všechny události na vybraných projektech...
   label_user_mail_option_none: Žádné události
   label_user_mail_option_only_my_events: Jen pro věci, co sleduji nebo jsem v nich zapojen
   label_user_mail_no_self_notified: Nezasílat informace o mnou vytvořených změnách
@@ -960,7 +960,7 @@ cs:
   label_git_report_last_commit: Reportovat poslední commit pro soubory a adresáře
   text_scm_config: Můžete si nastavit vaše SCM příkazy v config/configuration.yml. Restartujte, prosím, aplikaci po jejich úpravě.
   text_scm_command_not_available: SCM příkaz není k dispozici. Zkontrolujte, prosím, nastavení v panelu Administrace.
-  notice_issue_successful_create: Úkol %{id} vytvořen.
+  notice_issue_successful_create: Úkol %{id} byl vytvořen.
   label_between: mezi
   setting_issue_group_assignment: Povolit přiřazení úkolu skupině
   label_diff: rozdíl
@@ -990,9 +990,9 @@ cs:
   error_attachment_too_big: Soubor nemůže být nahrán, protože jeho velikost je větší než maximální (%{max_size})
   notice_failed_to_save_time_entries: "Chyba při ukládání %{count} časov(ých/ého) záznam(ů) z %{total} vybraného: %{ids}."
   label_x_issues:
-    zero:  0 Úkol
-    one:   1 Úkol
-    other: "%{count} Úkoly"
+    zero:  0 úkol
+    one:   1 úkol
+    other: "%{count} úkolů"
   label_repository_new: Nový repositář
   field_repository_is_default: Hlavní repositář
   label_copy_attachments: Kopírovat přílohy
@@ -1165,7 +1165,7 @@ cs:
   label_total_plural: Celkem
   label_assigned_issues: Přiřazené úkoly
   label_field_format_enumeration: Seznam klíčů/hodnot
-  label_f_hour_short: '%{value} hod'
+  label_f_hour_short: '%{value}hod'
   field_default_version: Výchozí verze
   error_attachment_extension_not_allowed: Přípona přílohy %{extension} není povolena
   setting_attachment_extensions_allowed: Povolené přípony
