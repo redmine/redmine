@@ -135,8 +135,8 @@ cs:
         circular_dependency: "Tento vztah by vytvořil cyklickou závislost"
         cant_link_an_issue_with_a_descendant: "Úkol nemůže být spojen s jedním z jeho dílčích úkolů"
         earlier_than_minimum_start_date: "nemůže být dříve než %{date} kvůli předřazeným úkolům"
-        not_a_regexp: "is not a valid regular expression"
-        open_issue_with_closed_parent: "An open issue cannot be attached to a closed parent task"
+        not_a_regexp: "není platný regulární výraz"
+        open_issue_with_closed_parent: "Otevřený úkol nemůže být přiřazen pod uzavřený rodičovský úkol"
 
   actionview_instancetag_blank_option: Prosím vyberte
 
@@ -1204,28 +1204,28 @@ cs:
   label_font_proportional: Proporciální písmo
   setting_timespan_format: Formát časového intervalu
   label_table_of_contents: Obsah
-  setting_commit_logs_formatting: Apply text formatting to commit messages
-  setting_mail_handler_enable_regex_delimiters: Enable regular expressions
-  error_move_of_child_not_possible: 'Subtask %{child} could not be moved to the new
-    project: %{errors}'
+  setting_commit_logs_formatting: Použij textové formátování pro popisky comitů
+  setting_mail_handler_enable_regex_delimiters: Povol regulární výrazy
+  error_move_of_child_not_possible: 'Dílčí úkol %{child} nemůže být přesunut do nového
+    projektu: %{errors}'
   error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: Strávený čas nemůže
     být přiřazen k úkolu, který se bude mazat
-  setting_timelog_required_fields: Required fields for time logs
-  label_attribute_of_object: '%{object_name}''s %{name}'
-  label_user_mail_option_only_assigned: Only for things I watch or I am assigned to
-  label_user_mail_option_only_owner: Only for things I watch or I am the owner of
-  warning_fields_cleared_on_bulk_edit: Changes will result in the automatic deletion
-    of values from one or more fields on the selected objects
-  field_updated_by: Updated by
-  field_last_updated_by: Last updated by
-  field_full_width_layout: Full width layout
-  label_last_notes: Last notes
-  field_digest: Checksum
-  field_default_assigned_to: Default assignee
-  setting_show_custom_fields_on_registration: Show custom fields on registration
-  permission_view_news: View news
-  label_no_preview_alternative_html: No preview available. %{link} the file instead.
-  label_no_preview_download: Download
+  setting_timelog_required_fields: Požadovaná pole pro zapisování času
+  label_attribute_of_object: "%{object_name} %{name}"
+  label_user_mail_option_only_assigned: Pouze pro věci, které sleduji nebo jsem na ně přiřazený
+  label_user_mail_option_only_owner: Pouze pro věci, které sleduji nebo jsem jejich vlastníkem
+  warning_fields_cleared_on_bulk_edit: Změny způsobí automatické smazání
+   hodnot z jednoho nebo více polí vybraných objektů
+  field_updated_by: Aktualizoval
+  field_last_updated_by: Naposledy změnil
+  field_full_width_layout: Celá šířka schematu
+  label_last_notes: Poslední poznámky
+  field_digest: Kontrolní součet
+  field_default_assigned_to: Výchozí přiřazený uživatel
+  setting_show_custom_fields_on_registration: Zobraz uživatelská pole při registraci
+  permission_view_news: Zobraz novinky
+  label_no_preview_alternative_html: "Náhled není k dispozici. Soubor: %{link}."
+  label_no_preview_download: Stažení
   setting_close_duplicate_issues: Close duplicate issues automatically
   error_exceeds_maximum_hours_per_day: Cannot log more than %{max_hours} hours on the
     same day (%{logged_hours} hours have already been logged)
