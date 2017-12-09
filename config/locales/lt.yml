@@ -135,8 +135,8 @@ lt:
         circular_dependency: "Šis ryšys sukurtų ciklinę priklausomybę"
         cant_link_an_issue_with_a_descendant: "Darbas negali būti susietas su viena iš savo darbo dalių"
         earlier_than_minimum_start_date: "negali būti anksčiau už %{date} dėl ankstesnių darbų"
-        not_a_regexp: "is not a valid regular expression"
-        open_issue_with_closed_parent: "An open issue cannot be attached to a closed parent task"
+        not_a_regexp: "neteisingas reguliarusis reiškinys"
+        open_issue_with_closed_parent: "Atviras darbas negali būti pridėtas prie uždarytos tėvinės užduoties"
 
   actionview_instancetag_blank_option: Prašom parinkti
 
@@ -1190,31 +1190,31 @@ lt:
   label_new_object_tab_enabled: Rodyti "+" išskleidžiąmąjį sąrašą
   error_no_projects_with_tracker_allowed_for_new_issue: Nėra projektų su pėdsekiais,
     kuriems galima būtų sukurti darbą
-  field_textarea_font: Font used for text areas
-  label_font_default: Default font
-  label_font_monospace: Monospaced font
-  label_font_proportional: Proportional font
-  setting_timespan_format: Time span format
-  label_table_of_contents: Table of contents
-  setting_commit_logs_formatting: Apply text formatting to commit messages
-  setting_mail_handler_enable_regex_delimiters: Enable regular expressions
-  error_move_of_child_not_possible: 'Subtask %{child} could not be moved to the new
-    project: %{errors}'
+  field_textarea_font: Šriftas naudojamas teksto sritims
+  label_font_default: Numatytasis šriftas
+  label_font_monospace: Lygiaplotis šriftas
+  label_font_proportional: Įvairiaplotis šriftas
+  setting_timespan_format: Laiko tarpo formatas
+  label_table_of_contents: Turinio lentelė
+  setting_commit_logs_formatting: Pritaikyti teksto formatavimą patvirtinimo žinutėms
+  setting_mail_handler_enable_regex_delimiters: Įjungti reguliariuosius reiškinius
+  error_move_of_child_not_possible: 'Darbo dalis %{child} negali būti perkelta į naują 
+    projektą: %{errors}'
   error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: Dirbtas laikas negali būti
     iš naujo paskirtas darbui, kuris bus ištrintas
-  setting_timelog_required_fields: Required fields for time logs
+  setting_timelog_required_fields: Privalomi laukai laiko registracijai
   label_attribute_of_object: '%{object_name}''s %{name}'
-  label_user_mail_option_only_assigned: Only for things I watch or I am assigned to
-  label_user_mail_option_only_owner: Only for things I watch or I am the owner of
-  warning_fields_cleared_on_bulk_edit: Changes will result in the automatic deletion
-    of values from one or more fields on the selected objects
-  field_updated_by: Updated by
-  field_last_updated_by: Last updated by
-  field_full_width_layout: Full width layout
-  label_last_notes: Last notes
-  field_digest: Checksum
-  field_default_assigned_to: Default assignee
-  setting_show_custom_fields_on_registration: Show custom fields on registration
-  permission_view_news: View news
-  label_no_preview_alternative_html: No preview available. %{link} the file instead.
-  label_no_preview_download: Download
+  label_user_mail_option_only_assigned: Tik dalykai, kuriuos stebiu arba esu įtrauktas
+  label_user_mail_option_only_owner: Tik dalykai, kuriuos stebiu arba esu jų savininkas
+  warning_fields_cleared_on_bulk_edit: Pakeitimai iššauks automatinį reikšmių
+    pašalinimą iš vieno arba kelių laukų pažymėtiems objektams
+  field_updated_by: Atnaujino
+  field_last_updated_by: Paskutinį kartą atnaujino
+  field_full_width_layout: Viso pločio išdėstymas
+  label_last_notes: Paskutinės pastabos
+  field_digest: Kontrolinė suma
+  field_default_assigned_to: Numatytasis paskirtasis
+  setting_show_custom_fields_on_registration: Rodyti individualizuotus laukus registracijoje
+  permission_view_news: Žiūrėti naujienas
+  label_no_preview_alternative_html: Peržiūra neprieinama. Naudokite failą %{link}.
+  label_no_preview_download: Atsisiųsti
