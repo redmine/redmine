@@ -138,7 +138,7 @@ module RepositoriesHelper
     select_tag('repository_scm',
                options_for_select(scm_options, repository.class.name.demodulize),
                :disabled => (repository && !repository.new_record?),
-               :data => {:remote => true, :method => 'get'})
+               :data => {:remote => true, :method => 'get', :url => new_project_repository_path(repository.project)})
   end
 
   def with_leading_slash(path)
