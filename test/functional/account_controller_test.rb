@@ -220,6 +220,15 @@ class AccountControllerTest < Redmine::ControllerTest
     assert_response 302
   end
 
+  def test_login_should_strip_whitespaces_from_user_name
+    post :login, :params => {
+        :username => ' jsmith ',
+        :password => 'jsmith'
+      }
+    assert_response 302
+    assert_equal 2, @request.session[:user_id]
+  end
+
   def test_get_logout_should_not_logout
     @request.session[:user_id] = 2
     get :logout
