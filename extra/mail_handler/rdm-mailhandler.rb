@@ -186,7 +186,7 @@ END_DESC
         warn "Failed to contact your Redmine server (#{response.code})."
         return 75
       when 201
-        debug "Proccessed successfully"
+        debug "Processed successfully"
         return 0
       else
         return 1
