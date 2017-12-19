@@ -84,6 +84,6 @@ class ReportsController < ApplicationController
   private
 
   def find_issue_statuses
-    @statuses = IssueStatus.sorted.to_a
+    @statuses = @project.rolled_up_statuses.sorted.to_a
   end
 end

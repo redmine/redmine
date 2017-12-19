@@ -44,6 +44,32 @@ class ReportsControllerTest < Redmine::ControllerTest
     end
   end
 
+  def test_get_issue_report_details_by_tracker_should_show_only_statuses_used_by_the_project
+    WorkflowTransition.delete_all
+    WorkflowTransition.create(:role_id => 1, :tracker_id => 1, :old_status_id => 1, :new_status_id => 5)
+    WorkflowTransition.create(:role_id => 1, :tracker_id => 1, :old_status_id => 1, :new_status_id => 4)
+    WorkflowTransition.create(:role_id => 1, :tracker_id => 1, :old_status_id => 2, :new_status_id => 5)
+    WorkflowTransition.create(:role_id => 1, :tracker_id => 2, :old_status_id => 1, :new_status_id => 6)
+
+    get :issue_report_details, :params => {
+      :id => 1,
+      :detail => 'tracker'
+    }
+
+    assert_response :success
+    assert_select 'table.list tbody :nth-child(1)' do
+      assert_select 'td', :text => 'Bug'
+      assert_select ':nth-child(2)', :text => '3' # status:1
+      assert_select ':nth-child(3)', :text => '-' # status:2
+      assert_select ':nth-child(4)', :text => '-' # status:4
+      assert_select ':nth-child(5)', :text => '3' # status:5
+      assert_select ':nth-child(6)', :text => '-' # status:6
+      assert_select ':nth-child(7)', :text => '3' # open
+      assert_select ':nth-child(8)', :text => '3' # closed
+      assert_select ':nth-child(9)', :text => '6' # total
+    end
+  end
+
   def test_get_issue_report_details_by_tracker_should_show_issue_count
     Issue.delete_all
     Issue.generate!(:tracker_id => 1)
