@@ -1242,10 +1242,9 @@ pt-BR:
   permission_view_news: Ver notícias
   label_no_preview_alternative_html: Visualização não disponível. Faça o %{link} do arquivo.
   label_no_preview_download: download
-  setting_close_duplicate_issues: Close duplicate issues automatically
-  error_exceeds_maximum_hours_per_day: Cannot log more than %{max_hours} hours on the
-    same day (%{logged_hours} hours have already been logged)
-  setting_time_entry_list_defaults: Timelog list defaults
-  setting_timelog_accept_0_hours: Accept time logs with 0 hours
-  setting_timelog_max_hours_per_day: Maximum hours that can be logged per day and user
-  label_x_revisions: "%{count} revisions"
+  setting_close_duplicate_issues: Fechar tarefas duplicadas automaticamente
+  error_exceeds_maximum_hours_per_day: Não é possível registrar mais de %{max_hours} horas no mesmo dia (%{logged_hours} horas já foram registradas)
+  setting_time_entry_list_defaults: Registro de horas padrão
+  setting_timelog_accept_0_hours: Aceitar registros de horas com 0 horas
+  setting_timelog_max_hours_per_day: Máximo de horas que podem ser registradas por dia por usuário
+  label_x_revisions: "%{count} revisões"
