@@ -148,7 +148,7 @@ pt-BR:
         greater_than_start_date: "deve ser maior que a data inicial"
         not_same_project: "não pertence ao mesmo projeto"
         circular_dependency: "Esta relação geraria uma dependência circular"
-        cant_link_an_issue_with_a_descendant: "Uma tarefa não pode ser relaciona a uma de suas subtarefas"
+        cant_link_an_issue_with_a_descendant: "Uma tarefa não pode ser relacionada a uma de suas subtarefas"
         earlier_than_minimum_start_date: "cannot be earlier than %{date} because of preceding issues"
         not_a_regexp: "is not a valid regular expression"
         open_issue_with_closed_parent: "An open issue cannot be attached to a closed parent task"
@@ -250,7 +250,7 @@ pt-BR:
   field_role: Cargo
   field_homepage: Página do projeto
   field_is_public: Público
-  field_parent: Sub-projeto de
+  field_parent: Subprojeto de
   field_is_in_roadmap: Exibir no planejamento
   field_login: Usuário
   field_mail_notification: Notificações por e-mail
@@ -313,14 +313,14 @@ pt-BR:
   setting_feeds_limit: Número de registros por Feed
   setting_default_projects_public: Novos projetos são públicos por padrão
   setting_autofetch_changesets: Obter commits automaticamente
-  setting_sys_api_enabled: Ativa WS para gerenciamento do repositório (SVN)
+  setting_sys_api_enabled: Ativar WS para gerenciamento do repositório (SVN)
   setting_commit_ref_keywords: Palavras-chave de referência
   setting_commit_fix_keywords: Definição de palavras-chave
   setting_autologin: Auto-login
   setting_date_format: Formato da data
   setting_time_format: Formato de hora
   setting_cross_project_issue_relations: Permitir relacionar tarefas entre projetos
-  setting_issue_list_default_columns: Colunas padrão visíveis na lista de tarefas
+  setting_issue_list_default_columns: Colunas na lista de tarefas por padrão
   setting_emails_footer: Rodapé do e-mail
   setting_protocol: Protocolo
   setting_per_page_options: Número de itens exibidos por página
@@ -422,7 +422,7 @@ pt-BR:
   label_date: Data
   label_integer: Inteiro
   label_float: Decimal
-  label_boolean: Boleano
+  label_boolean: Booleano
   label_string: Texto
   label_text: Texto longo
   label_attribute: Atributo
@@ -863,7 +863,7 @@ pt-BR:
   field_sharing: Compartilhamento
   label_version_sharing_hierarchy: Com a hierarquia do projeto
   label_version_sharing_system: Com todos os projetos
-  label_version_sharing_descendants: Com sub-projetos
+  label_version_sharing_descendants: Com subprojetos
   label_version_sharing_tree: Com a árvore do projeto
   label_version_sharing_none: Sem compartilhamento
   error_can_not_archive_project: Este projeto não pode ser arquivado
@@ -885,13 +885,13 @@ pt-BR:
   permission_view_issues: Ver tarefas
   label_display_used_statuses_only: Somente exibir situações que são usadas por este tipo de tarefa
   label_revision_id: Revisão %{value}
-  label_api_access_key: Chave de acesso a API
+  label_api_access_key: Chave de acesso à API
   button_show: Exibir
-  label_api_access_key_created_on: Chave de acesso a API criado a %{value} atrás
+  label_api_access_key_created_on: Chave de acesso à API criado há %{value} atrás
   label_feeds_access_key: Chave de acesso ao Atom
-  notice_api_access_key_reseted: Sua chave de acesso a API foi redefinida.
-  setting_rest_api_enabled: Habilitar a api REST
-  label_missing_api_access_key: Chave de acesso a API faltando
+  notice_api_access_key_reseted: Sua chave de acesso à API foi redefinida.
+  setting_rest_api_enabled: Habilitar a API REST
+  label_missing_api_access_key: Chave de acesso à API faltando
   label_missing_feeds_access_key: Chave de acesso ao Atom faltando
   text_line_separated: Múltiplos valores permitidos (uma linha para cada valor).
   setting_mail_handler_body_delimiters: Truncar e-mails após uma destas linhas
@@ -928,7 +928,7 @@ pt-BR:
   button_edit_associated_wikipage: "Editar página wiki relacionada: %{page_title}"
   field_text: Campo de texto
   setting_default_notification_option: Opção padrão de notificação
-  label_user_mail_option_only_my_events: Somente para as coisas que eu esteja observando ou esteja envolvido
+  label_user_mail_option_only_my_events: Somente de tarefas que observo ou que esteja envolvido
   label_user_mail_option_none: Sem eventos
   field_member_of_group: Responsável pelo grupo
   field_assigned_to_role: Papel do responsável
@@ -1026,7 +1026,7 @@ pt-BR:
   text_issue_conflict_resolution_cancel: Descartar todas as minhas mudanças e reexibir %{link}
   permission_manage_related_issues: Gerenciar tarefas relacionadas
   field_auth_source_ldap_filter: Filtro LDAP
-  label_search_for_watchers: Procurar por outros observadores para adiconar
+  label_search_for_watchers: Procurar por outros observadores para adicionar
   notice_account_deleted: Sua conta foi excluída permanentemente.
   setting_unsubscribe: Permitir aos usuários excluir sua própria conta
   button_delete_my_account: Excluir minha conta
@@ -1035,8 +1035,8 @@ pt-BR:
     Sua conta será excluída permanentemente, sem qualquer forma de reativá-la.
   error_session_expired: A sua sessão expirou. Por favor, faça login novamente.
   text_session_expiration_settings: "Aviso: a alteração dessas configurações pode expirar as sessões atuais, incluindo a sua."
-  setting_session_lifetime: duração máxima da sessão
-  setting_session_timeout: tempo limite de inatividade da sessão
+  setting_session_lifetime: Duração máxima da sessão
+  setting_session_timeout: Tempo limite de inatividade da sessão
   label_session_expiration: "Expiração da sessão"
   permission_close_project: Fechar / reabrir o projeto
   label_show_closed_projects: Visualizar projetos fechados
@@ -1130,8 +1130,8 @@ pt-BR:
   label_users_visibility_all: Todos usuários ativos
   label_users_visibility_members_of_visible_projects: Membros de projetos visíveis
   label_edit_attachments: Editar arquivos anexados
-  setting_link_copied_issue: Linkar tarefas copiadas
-  label_link_copied_issue: Linkar tarefas copiadas
+  setting_link_copied_issue: Relacionar tarefas copiadas
+  label_link_copied_issue: Relacionar tarefas copiadas
   label_ask: Perguntar
   label_search_attachments_yes: Procurar nome do arquivo e descrição anexados
   label_search_attachments_no: Não procurar anexados
@@ -1162,7 +1162,7 @@ pt-BR:
   notice_import_finished: "%{count} itens foram importados"
   notice_import_finished_with_errors: "%{count} fora de %{total} não puderam ser importados"
   error_invalid_file_encoding: O arquivo não é válido %{encoding} é a codificação do arquivo
-  error_invalid_csv_file_or_settings: O arquivo não é um arquivo CSV ou não corresponde as
+  error_invalid_csv_file_or_settings: O arquivo não é um arquivo CSV ou não corresponde às
     definições abaixo
   error_can_not_read_import_file: Ocorreu um erro ao ler o arquivo para importação
   permission_import_issues: Importar tarefas
@@ -1176,7 +1176,7 @@ pt-BR:
   label_quote_char: Citar
   label_double_quote_char: Citação dupla
   label_fields_mapping: Mapeamento de campos
-  label_file_content_preview: Pré-visualir conteúdo do arquivo
+  label_file_content_preview: Pré-visualizar conteúdo do arquivo
   label_create_missing_values: Criar valores em falta
   button_import: Importar
   field_total_estimated_hours: Tempo estimado geral
@@ -1191,7 +1191,7 @@ pt-BR:
   setting_attachment_extensions_denied: Negar extensões
   label_any_open_issues: Quaisquer tarefas abertas
   label_no_open_issues: Sem tarefas abertas
-  label_default_values_for_new_users: Valor padrão para novos usuários
+  label_default_values_for_new_users: Valores padrões para novos usuários
   setting_sys_api_key: Chave de API
   setting_lost_password: Perdi minha senha
   mail_subject_security_notification: Notificação de segurança
@@ -1217,33 +1217,31 @@ pt-BR:
   setting_new_item_menu_tab: Aba menu do projeto para criação de novos objetos
   label_new_object_tab_enabled: Exibir o "+" suspenso
   error_no_projects_with_tracker_allowed_for_new_issue: Não há projetos com tipos de tarefa para os quais você pode criar uma tarefa
-  field_textarea_font: Font used for text areas
-  label_font_default: Default font
-  label_font_monospace: Monospaced font
-  label_font_proportional: Proportional font
-  setting_timespan_format: Time span format
-  label_table_of_contents: Table of contents
-  setting_commit_logs_formatting: Apply text formatting to commit messages
-  setting_mail_handler_enable_regex_delimiters: Enable regular expressions
-  error_move_of_child_not_possible: 'Subtask %{child} could not be moved to the new
-    project: %{errors}'
+  field_textarea_font: Fonte usada para áreas de texto
+  label_font_default: Fonte padrão
+  label_font_monospace: Fonte monoespaçada
+  label_font_proportional: Fonte proporcional
+  setting_timespan_format: Formato de tempo
+  label_table_of_contents: Índice
+  setting_commit_logs_formatting: Aplicar formatação de texto às mensagens de commit
+  setting_mail_handler_enable_regex_delimiters: Ativar a utilização de expressões regulares
+  error_move_of_child_not_possible: 'A subtarefa %{child} não pode ser movida para o novo projeto: %{errors}'
   error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: O tempo gasto não pode ser alterado numa tarefa que será apagada
-  setting_timelog_required_fields: Required fields for time logs
-  label_attribute_of_object: '%{object_name}''s %{name}'
-  label_user_mail_option_only_assigned: Only for things I watch or I am assigned to
-  label_user_mail_option_only_owner: Only for things I watch or I am the owner of
-  warning_fields_cleared_on_bulk_edit: Changes will result in the automatic deletion
-    of values from one or more fields on the selected objects
-  field_updated_by: Updated by
-  field_last_updated_by: Last updated by
-  field_full_width_layout: Full width layout
-  label_last_notes: Last notes
-  field_digest: Checksum
-  field_default_assigned_to: Default assignee
-  setting_show_custom_fields_on_registration: Show custom fields on registration
-  permission_view_news: View news
-  label_no_preview_alternative_html: No preview available. %{link} the file instead.
-  label_no_preview_download: Download
+  setting_timelog_required_fields: Campos obrigatórios para registro de horas
+  label_attribute_of_object: '%{object_name} %{name}'
+  label_user_mail_option_only_assigned: Somente de tarefas que observo ou que estão atribuídas a mim
+  label_user_mail_option_only_owner: Somente de tarefas que observo ou que foram criadas por mim
+  warning_fields_cleared_on_bulk_edit: As alterações vão apagar valores de um ou mais campos nos objetos selecionados
+  field_updated_by: Atualizado por
+  field_last_updated_by: Última atualização por
+  field_full_width_layout: Layout utiliza toda a largura
+  label_last_notes: Últimas notas
+  field_digest: Verificador
+  field_default_assigned_to: Responsável padrão
+  setting_show_custom_fields_on_registration: Mostrar campos personalizados no registro
+  permission_view_news: Ver notícias
+  label_no_preview_alternative_html: Visualização não disponível. Faça o %{link} do arquivo.
+  label_no_preview_download: download
   setting_close_duplicate_issues: Close duplicate issues automatically
   error_exceeds_maximum_hours_per_day: Cannot log more than %{max_hours} hours on the
     same day (%{logged_hours} hours have already been logged)
