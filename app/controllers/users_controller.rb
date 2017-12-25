@@ -29,6 +29,8 @@ class UsersController < ApplicationController
   helper :custom_fields
   include CustomFieldsHelper
   helper :principal_memberships
+  helper :activities
+  include ActivitiesHelper
 
   require_sudo_mode :create, :update, :destroy
 
