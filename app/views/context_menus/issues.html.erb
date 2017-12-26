@@ -39,7 +39,7 @@
     <ul>
     <% @priorities.each do |p| -%>
         <li><%= context_menu_link p.name, bulk_update_issues_path(:ids => @issue_ids, :issue => {'priority_id' => p}, :back_url => @back), :method => :post,
-                                  :selected => (@issue && p == @issue.priority), :disabled => (!@can[:edit] || @issues.detect {|i| !i.leaf?}) %></li>
+                                  :selected => (@issue && p == @issue.priority), :disabled => (!@can[:edit]) %></li>
     <% end -%>
     </ul>
   </li>
