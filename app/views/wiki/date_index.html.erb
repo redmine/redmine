@@ -14,7 +14,7 @@
 <p class="nodata"><%= l(:label_no_data) %></p>
 <% end %>
 
-<% @pages_by_date.keys.sort.reverse.each do |date| %>
+<% @pages_by_date.keys.sort.reverse_each do |date| %>
 <h3><%= format_date(date) %></h3>
 <ul>
 <% @pages_by_date[date].each do |page| %>

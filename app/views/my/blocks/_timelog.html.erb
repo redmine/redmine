@@ -37,7 +37,7 @@
 <th><%= l(:field_hours) %></th>
 </tr></thead>
 <tbody>
-<% entries_by_day.keys.sort.reverse.each do |day| %>
+<% entries_by_day.keys.sort.reverse_each do |day| %>
   <tr class="odd">
     <td><strong><%= day == User.current.today ? l(:label_today).titleize : format_date(day) %></strong></td>
     <td colspan="2"></td>

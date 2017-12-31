@@ -32,7 +32,7 @@ module RedmineDiff
         aelem = a[aindex]
         next unless bmatches.has_key? aelem
         k = nil
-        bmatches[aelem].reverse.each { |bindex|
+        bmatches[aelem].reverse_each { |bindex|
           if k && (thresh[k] > bindex) && (thresh[k-1] < bindex)
             thresh[k] = bindex
           else

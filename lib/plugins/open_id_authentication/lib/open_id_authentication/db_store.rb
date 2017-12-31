@@ -29,7 +29,7 @@ module OpenIdAuthentication
           Association.find_all_by_server_url_and_handle(server_url, handle)
         end
 
-      assocs.reverse.each do |assoc|
+      assocs.reverse_each do |assoc|
         a = assoc.from_record
         if a.expires_in == 0
           assoc.destroy
