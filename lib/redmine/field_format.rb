@@ -248,7 +248,10 @@ module Redmine
             url = url_from_pattern(custom_field, single_value, customized)
             [text, url]
           end
-          links = texts_and_urls.sort_by(&:first).map {|text, url| view.link_to_if uri_with_safe_scheme?(url), text, url}
+          links = texts_and_urls.sort_by(&:first).map do |text, url|
+            css_class = (url =~ /^https?:\/\//) ? 'external' : nil
+            view.link_to_if uri_with_safe_scheme?(url), text, url, :class => css_class
+          end
           links.join(', ').html_safe
         else
           casted
@@ -442,7 +445,8 @@ module Redmine
               url = "http://" + url
             end
           end
-          view.link_to value.to_s.truncate(40), url
+          css_class = (url =~ /^https?:\/\//) ? 'external' : nil
+          view.link_to value.to_s.truncate(40), url, :class => css_class
         else
           value.to_s
         end
