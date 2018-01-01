@@ -162,25 +162,25 @@ DESC
       desc 'Runs the plugins unit tests.'
       task :units => "db:test:prepare" do |t|
         $: << "test"
-        Minitest.rake_run ["plugins/#{ENV['NAME'] || '*'}/test/unit/**/*_test.rb"]
+        Rails::TestUnit::Runner.rake_run ["plugins/#{ENV['NAME'] || '*'}/test/unit/**/*_test.rb"]
       end
 
       desc 'Runs the plugins functional tests.'
       task :functionals => "db:test:prepare" do |t|
         $: << "test"
-        Minitest.rake_run ["plugins/#{ENV['NAME'] || '*'}/test/functional/**/*_test.rb"]
+        Rails::TestUnit::Runner.rake_run ["plugins/#{ENV['NAME'] || '*'}/test/functional/**/*_test.rb"]
       end
 
       desc 'Runs the plugins integration tests.'
       task :integration => "db:test:prepare" do |t|
         $: << "test"
-        Minitest.rake_run ["plugins/#{ENV['NAME'] || '*'}/test/integration/**/*_test.rb"]
+        Rails::TestUnit::Runner.rake_run ["plugins/#{ENV['NAME'] || '*'}/test/integration/**/*_test.rb"]
       end
 
       desc 'Runs the plugins ui tests.'
       task :ui => "db:test:prepare" do |t|
         $: << "test"
-        Minitest.rake_run ["plugins/#{ENV['NAME'] || '*'}/test/ui/**/*_test.rb"]
+        Rails::TestUnit::Runner.rake_run ["plugins/#{ENV['NAME'] || '*'}/test/ui/**/*_test.rb"]
       end
     end
   end

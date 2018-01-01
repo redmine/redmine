@@ -81,20 +81,20 @@ namespace :test do
 
     task(:units => "db:test:prepare") do |t|
       $: << "test"
-      Minitest.rake_run FileList['test/unit/repository*_test.rb'] + FileList['test/unit/lib/redmine/scm/**/*_test.rb']
+      Rails::TestUnit::Runner.rake_run FileList['test/unit/repository*_test.rb'] + FileList['test/unit/lib/redmine/scm/**/*_test.rb']
     end
     Rake::Task['test:scm:units'].comment = "Run the scm unit tests"
 
     task(:functionals => "db:test:prepare") do |t|
       $: << "test"
-      Minitest.rake_run FileList['test/functional/repositories*_test.rb']
+      Rails::TestUnit::Runner.rake_run FileList['test/functional/repositories*_test.rb']
     end
     Rake::Task['test:scm:functionals'].comment = "Run the scm functional tests"
   end
 
   task(:routing) do |t|
     $: << "test"
-    Minitest.rake_run FileList['test/integration/routing/*_test.rb'] + FileList['test/integration/api_test/*_routing_test.rb']
+    Rails::TestUnit::Runner.rake_run FileList['test/integration/routing/*_test.rb'] + FileList['test/integration/api_test/*_routing_test.rb']
   end
   Rake::Task['test:routing'].comment = "Run the routing tests"
 end
