@@ -28,6 +28,10 @@
 <div class="box tabular">
   <div>
     <p>
+      <label for="time_entry_project_id"><%= l(:field_project) %></label>
+      <%= select :time_entry, :project_id, project_tree_options_for_select(Project.allowed_to(:log_time).to_a, :include_blank => true), :required => true %>
+    </p>
+    <p>
       <label for="time_entry_issue_id"><%= l(:field_issue) %></label>
       <%= text_field :time_entry, :issue_id, :size => 6 %>
     </p>
