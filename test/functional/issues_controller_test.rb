@@ -3860,6 +3860,7 @@ class IssuesControllerTest < Redmine::ControllerTest
 
     assert_select 'input[type=checkbox][name=?][checked=checked]', 'issue[watcher_user_ids][]', 1
     assert_select 'input[type=checkbox][name=?][checked=checked][value=?]', 'issue[watcher_user_ids][]', user.id.to_s
+    assert_select 'input[type=hidden][name=?][value=?]', 'issue[watcher_user_ids][]', '', 1
   end
 
   def test_new_as_copy_with_invalid_issue_should_respond_with_404
@@ -4194,6 +4195,46 @@ class IssuesControllerTest < Redmine::ControllerTest
     end
     issue = Issue.order('id DESC').first
     assert_equal 1, issue.project_id
+  end
+
+  def test_create_as_copy_with_watcher_user_ids_should_copy_watchers
+    @request.session[:user_id] = 2
+    copied = Issue.generate!
+    copied.add_watcher User.find(2)
+    copied.add_watcher User.find(3)
+
+    assert_difference 'Issue.count' do
+      post :create, :params => {
+          :project_id => 1,
+          :copy_from => copied.id,
+          :issue => {
+            :subject => 'Copy cleared watchers',
+            :watcher_user_ids => ['', '3']
+          }
+        }
+    end
+    issue = Issue.order('id DESC').first
+    assert_equal [3], issue.watcher_user_ids
+  end
+
+  def test_create_as_copy_without_watcher_user_ids_should_not_copy_watchers
+    @request.session[:user_id] = 2
+    copied = Issue.generate!
+    copied.add_watcher User.find(2)
+    copied.add_watcher User.find(3)
+
+    assert_difference 'Issue.count' do
+      post :create, :params => {
+          :project_id => 1,
+          :copy_from => copied.id,
+          :issue => {
+            :subject => 'Copy cleared watchers',
+            :watcher_user_ids => ['']
+          }
+        }
+    end
+    issue = Issue.order('id DESC').first
+    assert_equal [], issue.watcher_user_ids
   end
 
   def test_get_edit
