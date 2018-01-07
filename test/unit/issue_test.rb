@@ -128,7 +128,7 @@ class IssueTest < ActiveSupport::TestCase
 
   def test_estimated_hours_should_be_validated
     set_language_if_valid 'en'
-    ['-2'].each do |invalid|
+    ['-2', '123abc'].each do |invalid|
       issue = Issue.new(:estimated_hours => invalid)
       assert !issue.valid?
       assert_include 'Estimated time is invalid', issue.errors.full_messages
