@@ -1302,6 +1302,7 @@ RAW
   end
 
   def test_avatar_enabled
+    tag_for_anonymous_re = %r{src="/images/anonymous.png(\?\d+)?"}
     with_settings :gravatar_enabled => '1' do
       assert avatar(User.find_by_mail('jsmith@somenet.foo')).include?(Digest::MD5.hexdigest('jsmith@somenet.foo'))
       assert avatar('jsmith <jsmith@somenet.foo>').include?(Digest::MD5.hexdigest('jsmith@somenet.foo'))
@@ -1313,8 +1314,10 @@ RAW
       # The default class of the img tag should be gravatar
       assert avatar('jsmith <jsmith@somenet.foo>').include?('class="gravatar"')
       assert !avatar('jsmith <jsmith@somenet.foo>', :class => 'picture').include?('class="gravatar"')
-      assert_nil avatar('jsmith')
-      assert_nil avatar(nil)
+      assert_match tag_for_anonymous_re, avatar('jsmith')
+      assert_match tag_for_anonymous_re, avatar(nil)
+      # Avatar for anonymous user
+      assert_match tag_for_anonymous_re, avatar(User.anonymous)
     end
   end
 
