@@ -296,6 +296,7 @@ class MailHandler < ActionMailer::Base
     if email.attachments && email.attachments.any?
       email.attachments.each do |attachment|
         next unless accept_attachment?(attachment)
+        next unless attachment.body.decoded.size > 0
         obj.attachments << Attachment.create(:container => obj,
                           :file => attachment.body.decoded,
                           :filename => attachment.filename,

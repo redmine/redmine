@@ -1,0 +1,58 @@
+Return-Path: <jsmith@somenet.foo>
+Received: from osiris ([127.0.0.1])
+	by OSIRIS
+	with hMailServer ; Sat, 21 Jun 2008 15:53:25 +0200
+Message-ID: <002301c8d3a6$2cdf6950$0a00a8c0@osiris>
+From: "John Smith" <jsmith@somenet.foo>
+To: <redmine@somenet.foo>
+Subject: Ticket created by email with attachment
+Date: Sat, 21 Jun 2008 15:53:25 +0200
+MIME-Version: 1.0
+Content-Type: multipart/mixed;
+	boundary="----=_NextPart_000_001F_01C8D3B6.F05C5270"
+X-Priority: 3
+X-MSMail-Priority: Normal
+X-Mailer: Microsoft Outlook Express 6.00.2900.2869
+X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2900.2869
+
+This is a multi-part message in MIME format.
+
+------=_NextPart_000_001F_01C8D3B6.F05C5270
+Content-Type: multipart/alternative;
+	boundary="----=_NextPart_001_0020_01C8D3B6.F05C5270"
+
+
+------=_NextPart_001_0020_01C8D3B6.F05C5270
+Content-Type: text/plain;
+	charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+
+This is  a new ticket with attachments
+------=_NextPart_001_0020_01C8D3B6.F05C5270
+Content-Type: text/html;
+	charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD>
+<META http-equiv=3DContent-Type content=3D"text/html; =
+charset=3Diso-8859-1">
+<META content=3D"MSHTML 6.00.2900.2883" name=3DGENERATOR>
+<STYLE></STYLE>
+</HEAD>
+<BODY bgColor=3D#ffffff>
+<DIV><FONT face=3DArial size=3D2>This is&nbsp; a new ticket with=20
+attachments</FONT></DIV></BODY></HTML>
+
+------=_NextPart_001_0020_01C8D3B6.F05C5270--
+
+------=_NextPart_000_001F_01C8D3B6.F05C5270
+Content-Type: application/json;
+	name="response.json"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+	filename="response.json"
+
+
+------=_NextPart_000_001F_01C8D3B6.F05C5270--
+
