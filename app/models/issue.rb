@@ -424,7 +424,7 @@ class Issue < ActiveRecord::Base
   end
 
   def estimated_hours=(h)
-    write_attribute :estimated_hours, (h.is_a?(String) ? h.to_hours : h)
+    write_attribute :estimated_hours, (h.is_a?(String) ? (h.to_hours || h) : h)
   end
 
   safe_attributes 'project_id',
