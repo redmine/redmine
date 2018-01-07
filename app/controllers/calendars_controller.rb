@@ -39,6 +39,7 @@ class CalendarsController < ApplicationController
     @calendar = Redmine::Helpers::Calendar.new(Date.civil(@year, @month, 1), current_language, :month)
     retrieve_query
     @query.group_by = nil
+    @query.sort_criteria = nil
     if @query.valid?
       events = []
       events += @query.issues(:include => [:tracker, :assigned_to, :priority],
