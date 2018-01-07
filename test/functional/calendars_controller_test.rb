@@ -29,7 +29,8 @@ class CalendarsControllerTest < Redmine::ControllerTest
            :issue_statuses,
            :issue_relations,
            :issue_categories,
-           :enumerations
+           :enumerations,
+           :queries
 
   def test_show
     get :show, :params => {
@@ -104,5 +105,23 @@ class CalendarsControllerTest < Redmine::ControllerTest
       assert_select 'td.even', :text => '4'
       assert_select 'td.even', :text => '10'
     end
+  end
+
+  def test_show_custom_query_with_multiple_sort_criteria
+    get :show, :params => {
+        :query_id => 5
+      }
+
+    assert_response :success
+    assert_select 'h2', :text => 'Open issues by priority and tracker'
+  end
+
+  def test_show_custom_query_with_group_by_option
+    get :show, :params => {
+        :query_id => 6
+      }
+      
+    assert_response :success
+    assert_select 'h2', :text => 'Open issues grouped by tracker'
   end
 end
