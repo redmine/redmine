@@ -631,6 +631,14 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal content, File.read(attachment.diskfile).force_encoding('CP852')
   end
 
+  def test_empty_attachment_should_not_be_imported
+    issue = submit_email(
+              'ticket_with_empty_attachment.eml',
+              issue: { project: 'ecookbook' }
+            )
+    assert_equal 0, issue.attachments.size
+  end
+
   def test_multiple_inline_text_parts_should_be_appended_to_issue_description
     issue = submit_email('multiple_text_parts.eml', :issue => {:project => 'ecookbook'})
     assert_include 'first', issue.description
