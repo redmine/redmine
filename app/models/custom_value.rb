@@ -37,12 +37,18 @@ class CustomValue < ActiveRecord::Base
     custom_field.editable?
   end
 
-  def visible?
-    custom_field.visible?
+  def visible?(user=User.current)
+    if custom_field.visible?
+      true
+    elsif customized.respond_to?(:project)
+      custom_field.visible_by?(customized.project, user)
+    else
+      false
+    end
   end
 
   def attachments_visible?(user)
-    visible? && customized && customized.visible?(user)
+    visible?(user) && customized && customized.visible?(user)
   end
 
   def required?
