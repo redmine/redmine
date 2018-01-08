@@ -4,6 +4,60 @@ Redmine - project management software
 Copyright (C) 2006-2017  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2018-01-08 v3.3.6
+
+=== [Administration]
+
+* Defect #27586: "Uncheck all" icon at the upper left corner in workflow status transitions page is not working
+
+=== [Calendar]
+
+* Patch #27139: Fix for project link background in calendar tooltips
+
+=== [Email receiving]
+
+* Patch #27885: Empty email attachments are imported to Redmine, creating broken DB records
+
+=== [Gantt]
+
+* Defect #26410: Gravatar icon is misaligned in gantt
+
+=== [Gems support]
+
+* Defect #27206: cannot install public_suffix if ruby < 2.1
+
+=== [Issues]
+
+* Defect #27110: Changing the tracker to a tracker with the tracker field set to read-only won't work
+* Defect #27881: No validation errors when entering an invalid "Estimate hours" value
+* Patch #27663: Same relates relation can be created twice
+* Patch #27695: Fix ActiveRecord::RecordNotUnique errors when trying to add certain issue relations
+
+=== [Issues list]
+
+* Defect #27533: Cannot change the priority of the parent issue in issue query context menu when parent priority is independent of children
+
+=== [SCM]
+
+* Defect #27333: Switching SCM fails after validation error in "New repository" page
+
+=== [Security]
+
+* Defect #27516: Remote command execution through mercurial adapter
+
+=== [Translations]
+
+* Patch #27642: Spanish translation update (jstoolbar-es.js)
+* Patch #27649: Spanish/Panama translation update (jstoolbar-es-pa.js)
+* Patch #27765: Lithuanian translation for 3.3-stable
+* Patch #27766: Czech translation for 3.3-stable
+* Patch #27835: Brazilian translation for 3.3-stable
+
+=== [UI]
+
+* Defect #19578: Issues reports table header overlaping
+* Defect #26699: Anonymous user should have their icon
+
 == 2017-10-15 v3.3.5
 
 === [PDF export]
