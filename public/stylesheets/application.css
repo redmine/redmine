@@ -2091,24 +2091,14 @@ a.gh-badge:hover {
     margin-top: 20px;
 }
 
-#wellcomelogolink {
-    float: right;
-}
-
 #wellcomelogo {
     float: right;
-    width: 154px;
-    height: 41px;
-    background-image: url("/images/wellcomelogo.png");
-    margin-bottom: 10px;
-    clear: both;
+    margin-top: -1em;
 }
 
-@media all and (-webkit-min-device-pixel-ratio: 1.5) {
-    #wellcomelogo {
-        background-image: url('/images/wellcomelogo@2x.png');
-        background-size: 154px 41px;
-    }
+#wellcomelogo img {
+    max-width: 6em;
+    max-height: 6em;
 }
 
 #osbcircle {
