@@ -157,6 +157,17 @@ class IssueSubtaskingTest < ActiveSupport::TestCase
     end
   end
 
+  def test_parent_done_ratio_should_be_rounded_down_to_the_nearest_integer
+    with_settings :parent_issue_done_ratio => 'derived' do
+      parent = Issue.generate!
+      parent.generate_child!(:done_ratio => 20)
+      parent.generate_child!(:done_ratio => 20)
+      parent.generate_child!(:done_ratio => 10)
+      # (20 + 20 + 10) / 3 = 16.666...
+      assert_equal 16, parent.reload.done_ratio
+    end
+  end
+
   def test_parent_done_ratio_should_be_weighted_by_estimated_times_if_any
     with_settings :parent_issue_done_ratio => 'derived' do
       parent = Issue.generate!

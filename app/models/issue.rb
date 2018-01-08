@@ -1704,7 +1704,7 @@ class Issue < ActiveRecord::Base
               estimated * ratio
             }.sum
             progress = done / (average * children.count)
-            p.done_ratio = progress.round
+            p.done_ratio = progress.floor
           end
         end
       end
