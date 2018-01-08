@@ -3389,7 +3389,7 @@ color: #555; text-shadow: 1px 1px 0 #fff;
 
 .tutorial .row{
 	width:90%;
-	margin:0 auto;
+	margin:0 1em 0 12em;
 }
 
 .tutorialCard{
@@ -3448,7 +3448,7 @@ color: #555; text-shadow: 1px 1px 0 #fff;
 }
 
 .tutorialText{
-	margin-bottom:50px;
+	margin-bottom:90px;
 	font-size:18px;	
 	text-align:center;
 }
