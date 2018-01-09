@@ -2915,6 +2915,10 @@ input[type="checkbox"] {
     color: #5a5a5a;
 }
 
+#project_overview_sections img {
+    max-width: 100%;
+}
+
 #docContainer section:first-child {
     padding-top: 10px;
 }
