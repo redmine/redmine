@@ -502,8 +502,8 @@ class ApplicationController < ActionController::Base
   end
 
   # Handler for ActionView::MissingTemplate exception
-  def missing_template
-    logger.warn "Missing template, responding with 404"
+  def missing_template(exception)
+    logger.warn "Missing template, responding with 404: #{exception}"
     @project = nil
     render_404
   end
