@@ -1,3 +1,6 @@
+<% content_for :header_tags do %>
+  <script src="/javascripts/explore.js"></script>
+<% end %>
 <div class="explore-view view">
     <p class="lead">Explore Open Source Brain</p>
     <!-- This begins the vertical tab on the left-->
@@ -5,9 +8,6 @@
         <ul class="nav nav-stacked col-md-3" data-tabs="tabs">
             <li><a href="#projecthighlights" id="projecthighlightsLink" data-toggle="tab">Project Highlights</a></li>
             <li><a href="#cells" id="cellsLink" data-toggle="tab">All Cells and Networks</a></li>
-            <% if !User.current.logged? %>
-                <li><a href="#welcomeMainContainer" id="welcomeMainContainerLink" data-toggle="tab">Sample Models</a></li>
-            <% end %>
             <li><a href="#technology" id="technologyLink" data-toggle="tab">Technology</a></li>
             <li><a href="#groups" id="groupsLink" data-toggle="tab">Research Groups</a></li>
             <li><a href="#people" id="peopleLink" data-toggle="tab">People</a></li>
@@ -44,20 +44,6 @@
 	        <p class="projectHighlight network"><a href="/projects/pyloricnetwork">Prinz et al. 2014</a></p>
 	        <p class="projectHighlight singlecell"><a href="/projects/hodgkin-huxley-tutorial">Hodgkin & Huxley 1952</a></p>
 	    </div>
-            
-            <!-- This begins the cells and network section -->
-            <% if !User.current.logged? %>
-                <div class="tab-pane" id="welcomeMainContainer">
-	            <div id="welcomeMainContainerLoadDialog" style="text-align:center;">
-	                <img src="/images/logo/osbcircle.png" class="icon-spin pagination-centered loading-image">
-	                <br/>
-	                <br/>
-	                <p>
-	                    Please be patient, the OSB visualiser dashboard is being generated for you.
-	                </p>
-	            </div>
-                </div>
-            <% end %>
             
             <!-- This begins the cells and network section -->
             <div class="tab-pane" id="cells">
@@ -201,91 +187,5 @@
         </div>
     </div> 
 </div>
-
-<script>
- jQuery(function()
-     {
-         var selectedTab = "projecthighlights";
-         var tabList = ['projecthighlights','welcomeMainContainer','cells_list','cells_graph',  'cells_gallery', 'cells_tags', 'technology', 'groups', 'people', 'informationOSB','announceOSB','discussOSB']
-         if (redmineLogin == ""){
-             selectedTab = "projecthighlights";
-             tabList.splice(0,0,selectedTab);
-         }	
-         
-         //Read if a new tab is pass as a parameter in the url 	
-         var a = location.href.split("#");
-         if (a[1] == 'cells'){
-             selectedTab = 'cells_list';
-         }
-         else if ( a.length > 1 && tabList.indexOf(a[1]) > -1){
-             selectedTab = a[1];
-         }
-         
-         var subTabCellsList =['cells_graph', 'cells_list', 'cells_gallery', 'cells_tags']	
-         if (subTabCellsList.indexOf(selectedTab) > -1){
-             $("#cellsLink").trigger("click");
-         }
-         //Display tab selected by url 	
-         $("#"+selectedTab+"Link").trigger("click");	
-
-
-         //If a tab is selected we load it immediately 
-         function switchTabsPriority(tabId){
-             tabName = tabId.replace("Link","");
-             index = tabList.indexOf(tabName);
-             if (index != -1){
-                 tabList.splice(index, 1);
-                 tabList.splice(0,0,tabName);
-             }
-         }
-         
-         $(".nav-tabs a, #view-tab button").click(function(){
-             if(history.pushState) {
-                 history.pushState(null, null, $(this).attr('href'));
-             }
-             switchTabsPriority($(this).attr('id'));
-         });
-         
-         function loadNextTab(currentTab){
-             index = tabList.indexOf(currentTab);
-             tabList.splice(index, 1);
-             if (tabList.length > 0){
-                 loadTab(tabList[0]);
-             }
-         }
-         //Load tabs sequentially 	
-         loadTab(selectedTab);
-         function loadTab(tabName){
-             if (tabName == "welcomeMainContainer"){
-                 loadNextTab(tabName);
-             }
-             else if (tabName == "projecthighlights"){
-                 loadNextTab(tabName);
-             }
-             else if (tabName == "announceOSB"){
-                 loadAnnounceOSB();
-                 loadNextTab(tabName);
-             }
-             else if (tabName == "discussOSB"){
-                 loadDiscussOSB();
-                 loadNextTab(tabName);
-             }
-             else{
-                 $.ajax({
-                     url: "/projects/"+tabName,
-                     async: true,
-                     success: function(html){
-                         $("#"+tabName).html(html);
-                         loadNextTab(tabName);
-                     },
-                     error: function( xhr, textStatus, errorThrown ) {
-                         console.log("Error loading tab: " + textStatus);
-                     }
-                 });
-             }
-         }	
-     })
-</script>
-
 
 <%= javascript_include_tag('d3.v3.js') %>
