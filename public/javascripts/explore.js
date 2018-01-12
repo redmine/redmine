@@ -12,16 +12,16 @@ $(document).ready(
         });
 
         // Cells
-        var subTabCellsList = ['cells_graph', 'cells_list', 'cells_gallery', 'cells_tags'];	
+        var subTabCellsList = ['#cells_graph', '#cells_list', '#cells_gallery', '#cells_tags'];
         $("#cellsLink").click(function() {
             for (var i=0; i<subTabCellsList.length; ++i) {
                 var tab = subTabCellsList[i];
                 (function(tab){
                     $.ajax({
-                        url: "/projects/"+tab,
+                        url: "/projects/"+tab.substr(1),
                         async: true,
                         success: function(html){
-                            $("#"+tab).html(html);
+                            $(tab).html(html);
                         },
                         error: function( xhr, textStatus, errorThrown ) {
                             console.log("Error loading tab: " + textStatus);
@@ -32,15 +32,15 @@ $(document).ready(
         });
 
         // Other
-        var otherTabs = ['technology', 'groups', 'people'];
+        var otherTabs = ['#technology', '#groups', '#people'];
         for (var i=0; i<otherTabs.length; ++i) {
-            $('#' + otherTabs[i] + 'Link').click(function(tab) {
+            $(otherTabs[i] + 'Link').click(function(tab) {
                 return function() {
                     $.ajax({
-                        url: "/projects/"+tab,
+                        url: "/projects/"+tab.substr(1),
                         async: true,
                         success: function(html){
-                            $("#"+tab).html(html);
+                            $(tab).html(html);
                         },
                         error: function( xhr, textStatus, errorThrown ) {
                             console.log("Error loading tab: " + textStatus);
@@ -51,20 +51,20 @@ $(document).ready(
         }
 
         //Read if a new tab is pass as a parameter in the url 	
-        var a = location.href.split("#");
-        if (a[1] == 'cells'){
-            selectedTab = 'cells_list';
+        var hash = location.hash;
+        if (hash == '#cells'){
+            selectedTab = '#cells_list';
         }
-        else if (a.length > 1) {
-            selectedTab = a[1];
+        else if (hash.length > 0) {
+            selectedTab = hash;
         } else {
             // no parameter, show project highlights
-            selectedTab = "projecthighlights";
+            selectedTab = "#projecthighlights";
         }
 
         if (subTabCellsList.indexOf(selectedTab) > -1){
             $("#cellsLink").trigger("click");
         } else {
-            $("#"+selectedTab+"Link").trigger("click");
+            $(selectedTab+"Link").trigger("click");
         }
     });

@@ -3,17 +3,6 @@ $(document).ready(function () {
     // COMMON
     // **************
     var $window = $(window);
-
-    // -- SIDE BAR
-    /*setTimeout(function () {
-      $('.bs-docs-sidenav').affix({
-      offset: {
-      top: function () { return $window.width() <= 980 ? 290 : 210 }
-      , bottom: 270
-      }
-      })
-      }, 100)*/
-
     var hash = window.location.hash;
     if (hash) {
 	var selectedTab = $('.nav li a[href="' + hash + '"]');
@@ -25,7 +14,6 @@ $(document).ready(function () {
     $('.nav-tabs a, .nav-stacked a').click(function (e) {
 	$(this).tab('show');
 	var scrollmem = $('body').scrollTop() || $('html').scrollTop();
-	window.location.hash = this.hash;
 	$('html,body').scrollTop(scrollmem);
     });
     // -- Bootstrap widget calls
