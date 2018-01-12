@@ -207,7 +207,7 @@ function getParameterByName(name) {
 	return decodeURIComponent(results[1].replace(/\+/g, " "));
 }
 
-function showErrorMessageInOSBExplorer(file, message) {
+function showErrorMessageInOSBExplorer(message, file) {
     decodedfile = decodeURIComponent(file);
     if (file.indexOf("github") != -1) {
 	repoFilePath = decodedfile.replace('raw.githubusercontent', 'github').replace('/master/', '/blob/master/');
@@ -219,7 +219,9 @@ function showErrorMessageInOSBExplorer(file, message) {
     // If there isn't webgl support display warn message
     $(".project-main").hide();
     $(".project-main").before("<div id='geppettoContainer'><div id='osbexplorermessage'></div>");
-    $("#osbexplorermessage").html(message + "<br /><br /> You can also <a href='" + decodedfile + "' target='_blank'>download the file</a> or <a href='" + repoFilePath + "' target='_blank'>view the file content online</a>.<br /><br />");
+    if (file) {
+        $("#osbexplorermessage").html(message + "<br /><br /> You can also <a href='" + decodedfile + "' target='_blank'>download the file</a> or <a href='" + repoFilePath + "' target='_blank'>view the file content online</a>.<br /><br />");
+    }
 }
 
 function hideFooter() {
@@ -294,11 +296,11 @@ function getMainModel(pathToRepo, defaultModel) {
 
 function checkBrowserCapabilities() {
     if (!Detector.webgl) {
-	showErrorMessageInOSBExplorer(file, "Your graphics card does not seem to support <a href='http://khronos.org/webgl/wiki/Getting_a_WebGL_Implementation'>WebGL</a>.<br />Find out how to get it <a href='http://get.webgl.org/'>here</a>.");
+	showErrorMessageInOSBExplorer("Your graphics card does not seem to support <a href='http://khronos.org/webgl/wiki/Getting_a_WebGL_Implementation'>WebGL</a>.<br />Find out how to get it <a href='http://get.webgl.org/'>here</a>.");
         return false;
     }
     else if (!checkCookie()) {
-	showErrorMessageInOSBExplorer(file, "Sorry, your cookies are disabled in your browser. Please, enable them if you want to use OSB 3D Explorer.");
+	showErrorMessageInOSBExplorer("Sorry, your cookies are disabled in your browser. Please, enable them if you want to use OSB 3D Explorer.");
         return false;
     }
     return true;
