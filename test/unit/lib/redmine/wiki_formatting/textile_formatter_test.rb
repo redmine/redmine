@@ -80,8 +80,10 @@ class Redmine::WikiFormatting::TextileFormatterTest < ActionView::TestCase
       'p{border-right:1px}. text'    => '<p style="border-right:1px;">text</p>',
       'p{border-top:1px}. text'      => '<p style="border-top:1px;">text</p>',
       'p{border-bottom:1px}. text'   => '<p style="border-bottom:1px;">text</p>',
-      'p{max-width:100px}. text'     => '<p style="max-width:100px;">text</p>',
       'p{width:50px}. text'          => '<p style="width:50px;">text</p>',
+      'p{max-width:100px}. text'     => '<p style="max-width:100px;">text</p>',
+      'p{height:40px}. text'         => '<p style="height:40px;">text</p>',
+      'p{max-height:80px}. text'     => '<p style="max-height:80px;">text</p>',
       }, false)
 
     # multiple styles
