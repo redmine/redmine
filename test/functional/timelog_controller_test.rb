@@ -721,6 +721,18 @@ class TimelogControllerTest < Redmine::ControllerTest
       assert_response :success
     end
 
+    assert_select 'table.time-entries thead' do
+      assert_select 'th.spent_on'
+      assert_select 'th.issue'
+      assert_select 'th.user'
+      assert_select 'th.hours'
+    end
+    assert_select 'table.time-entries tbody' do
+      assert_select 'td.spent_on'
+      assert_select 'td.issue'
+      assert_select 'td.user'
+      assert_select 'td.hours'
+    end
     assert_equal ['Date', 'Issue', 'User', 'Hours'], columns_in_list
   end
 
@@ -947,6 +959,8 @@ class TimelogControllerTest < Redmine::ControllerTest
       :c => %w(project spent_on issue comments hours issue.status)
     }
     assert_response :success
+
+    assert_select 'th.issue-status'
     assert_select 'td.issue-status', :text => issue.status.name
   end
 
@@ -1059,7 +1073,7 @@ class TimelogControllerTest < Redmine::ControllerTest
       :sort => field_name
     }
     assert_response :success
-    assert_select "th a.sort", :text => 'String Field'
+    assert_select "th.cf_#{field.id} a.sort", :text => 'String Field'
 
     # Make sure that values are properly sorted
     values = css_select("td.#{field_name}").map(&:text).reject(&:blank?)

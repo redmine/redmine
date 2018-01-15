@@ -195,7 +195,7 @@ module QueriesHelper
     else
       content = column.caption
     end
-    content_tag('th', content)
+    content_tag('th', content, :class => column.css_classes)
   end
 
   def column_content(column, item)

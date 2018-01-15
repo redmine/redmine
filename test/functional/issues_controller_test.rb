@@ -1012,7 +1012,12 @@ class IssuesControllerTest < Redmine::ControllerTest
     assert_response :success
 
     # query should use specified columns + id and checkbox
-    assert_select 'table.issues thead th', columns.size + 2
+    assert_select 'table.issues thead' do
+      assert_select 'th', columns.size + 2
+      assert_select 'th.tracker'
+      assert_select 'th.subject'
+      assert_select 'th.assigned_to'
+    end
 
     # columns should be stored in session
     assert_kind_of Hash, session[:issue_query]
@@ -1073,7 +1078,10 @@ class IssuesControllerTest < Redmine::ControllerTest
 
     # query should use specified columns
     assert_equal ["#", "Tracker", "Subject", "Searchable field"], columns_in_issues_list
-    assert_select 'table.issues td.cf_2.string'
+    assert_select 'table.issues' do
+      assert_select 'th.cf_2.string'
+      assert_select 'td.cf_2.string'
+    end
   end
 
   def test_index_with_multi_custom_field_column
@@ -1119,7 +1127,10 @@ class IssuesControllerTest < Redmine::ControllerTest
           :set_filter => 1,
           :c => %w(start_date)
         }
-      assert_select "table.issues td.start_date", :text => '24/08/1987'
+      assert_select 'table.issues' do
+        assert_select 'th.start_date'
+        assert_select 'td.start_date', :text => '24/08/1987'
+      end
     end
   end
 
