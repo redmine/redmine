@@ -8,7 +8,38 @@
 	<p class="big-lead"><img src="images/osbcircle.png" class="lead-logo">Modelling the brain, together</p>
 	<p class="lead"><strong>Open Source Brain</strong> is a resource for sharing and collaboratively developing computational models of neural systems.</p>
 	<p class="lead"><strong>Try exploring one of these models:</strong></p>
-	<div id="learnMoreContainer" class="row"></div>
+	<div id="learnMoreContainer" class="row">
+            <a href="/projects/acnet2/models?explorer=https%3A%2F%2Fraw.githubusercontent.com%2FOpenSourceBrain%2FACnet2%2Fmaster%2FosbSessions%2Fsample%2FSample_Session.json" class="sample">
+                <div class="sampleModel">
+                    <div class="acnet2SampleThumbnail sampleThumbnail"></div>
+                    Primary Auditory Cortex Network
+                </div>
+            </a>
+            <a href="projects/blue-brain-project-showcase/models?explorer=https%3A%2F%2Fraw.githubusercontent.com%2FOpenSourceBrain%2FBlueBrainProjectShowcase%2Fsample%2FosbSessions%2Fsample%2FSample_Session.json" class="sample">
+                <div class="sampleModel">
+                    <div class="l23SampleThumbnail sampleThumbnail"></div>
+                    L23 Cell
+                </div>
+            </a>
+            <a href="/projects/izhikevichmodel?explorer=https%3A%2F%2Fraw.githubusercontent.com%2FOpenSourceBrain%2FIzhikevichModel%2Fsample%2FosbSessions%2Fsample%2FSample_Session.json" class="sample">
+                <div class="sampleModel">
+                    <div class="izhiSampleThumbnail sampleThumbnail"></div>
+                    Izhikevich Spiking Neuron Model
+                </div>
+            </a>
+            <a href="/projects/hodgkin-huxley-tutorial?explorer=https%3A%2F%2Fraw.githubusercontent.com%2Fmattearnshaw%2Ftutorials%2Fmaster%2Fmodels%2FhodgkinHuxley%2FGEPPETTO.json" class="sample">
+                <div class="sampleModel">
+                    <div class="hhcellSampleThumbnail sampleThumbnail"></div>
+                    Hodgkin-Huxley Neuron
+                </div>
+            </a>
+            <a href="/projects/ca1pyramidalcell/models?explorer=https%3A%2F%2Fraw.githubusercontent.com%2FOpenSourceBrain%2FCA1PyramidalCell%2Fsample%2FosbSessions%2Fsample%2FSample_Session.json" class="sample">
+                <div class="sampleModel">
+                    <div class="ca1SampleThumbnail sampleThumbnail"></div>
+                    CA1 Pyramidal Cell
+                </div>
+            </a>
+        </div>
 	<p class="lead">Explore OSB to see all the rest, create an account to add your own models and <strong>run simulations</strong>!</p>
 	<div>
 	    <a class="btn btn-large btn-info" href="/projects">Explore OSB</a>
@@ -85,15 +116,16 @@
 								</td> 	
 							</tr>
 						</thead>
-						<% if @projects.any? %>
-							<%= call_hook(:view_welcome_index_left, :projects => @projects) %>
-							<% unless @memberships.empty? %>
-								
-									<% for membership in @memberships %>
-										<tr><td colspan="2"><icon class="icon-list-alt"></icon><%= link_to_project(membership.project) %></td></tr>
-									<% end %>
-								
+						<% if User.current.projects.any? || @projects.any? %>
+						    <%= call_hook(:view_welcome_index_left, :projects => @projects) %>
+                                                    <% for project in @projects %>
+							<tr><td colspan="2"><icon class="icon-list-alt"></icon><%= link_to_project(project) %></td></tr>
+						    <% end %>
+						    <% unless User.current.projects.empty? %>
+							<% for project in User.current.projects %>
+							    <tr><td colspan="2"><icon class="icon-list-alt"></icon><%= link_to_project(project) %></td></tr>
 							<% end %>
+						    <% end %>
 						<% end %>
 					</table>
 					
@@ -103,11 +135,10 @@
 								<td><h4>Latest projects added on OSB</h4></td> 	
 							</tr>
 						</thead>
-							<% maxprjcount=3 %>
+							<% maxprjcount=5 %>
 							<% i=0 %>
-							<% for project in @projects %>
+							<% for project in Project.all.order('created_on desc') %>
 								<%if(i<maxprjcount)%>
-									<% @project = project %>
 									<% i=i+1 %>
 										<tr><td><icon class="icon-list-alt"></icon><%= link_to_project project %></td></tr> 
 								<% else break;%>

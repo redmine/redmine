@@ -65,11 +65,12 @@ function createCORSRequest(method, url) {
 
 // Add dashboard in home page
 function addDashboard(){
-    $("#dashboardContainer").prepend("<iframe id='geppettoDashboard' style='width:100%;height:100%;border:0px;' src='" + geppettoIP + geppettoContextPath + "'></iframe>");
+    $("#dashboardContainer").prepend("<iframe id='geppettoDashboard' src='" + geppettoIP + geppettoContextPath + "'></iframe>");
     window.addEventListener('message', function(e){
     	if (e.data.command == 'ready') {
             var dashboard = $("#geppettoDashboard");
             if (dashboard.length > 0) {
+		dashboard[0].contentWindow.postMessage({"command": "window.osbURL='http://"+location.host+"/';"}, $("#geppettoIP").val()+"/currentuser");
     		dashboard[0].contentWindow.postMessage({"command": "$('.well').css('background-color','white')"}, $("#geppettoIP").val()+"/currentuser");
     		dashboard[0].contentWindow.postMessage({"command": "$('.dark-well').css('background-color','white')"}, $("#geppettoIP").val()+"/currentuser");
     		dashboard[0].contentWindow.postMessage({"command": "$('.navbar').css('background-color','white')"}, $("#geppettoIP").val()+"/currentuser");
@@ -84,54 +85,8 @@ function addDashboard(){
     
 }
 
-function addSampleProjectsToHome(){
-    addSampleProjects('#learnMoreContainer');
-    $('#learnMoreContainer').show();
-}
-
-function addSampleProjectsToExploreOSB(){
-    addSampleProjects('#welcomeMainContainer');
-    $('#welcomeMainContainerLoadDialog').remove();
-}
-
-function addSampleProjects(target){
-    makeCorsRequest("currentuser", processCurrentUser, "geppettoProjectsCompact", function(data) {
-	var jsonData=JSON.parse(data);
-	for(var i=0;i<jsonData.length;i++){
-	    var geppettoProjectUrl=geppettoIP+geppettoContextPath+"geppetto?load_project_from_id="+jsonData[i].id;
-	    var iconClass="gpt-neuron sampleModelIcon"; //the default
-	    switch(jsonData[i].name) {
-	    case "Primary Auditory Cortex Network":
-		iconClass="acnet2SampleThumbnail sampleThumbnail";
-		break;
-	        
-	    case "CA1 Pyramidal Cell":
-		iconClass="ca1SampleThumbnail sampleThumbnail";
-		break;
-	        
-	    case "Izhikevich Spiking Neuron Model":
-		iconClass="izhiSampleThumbnail sampleThumbnail";
-		break;
-	        
-	    case "L23 Cell":
-		iconClass="l23SampleThumbnail sampleThumbnail";
-		break;
-	        
-	    case "Hodgkin-Huxley Neuron":
-		iconClass="hhcellSampleThumbnail sampleThumbnail";
-		break;
-	    }
-	    
-	    $(target).append("<div class='sampleModel' onclick='showSampleProject(\""+geppettoProjectUrl+"\")'><div class='"+iconClass+"'></div><a class='sampleModelLabel'>"+jsonData[i].name+"</a></div>");	
-	}
-	
-    });	
-}
-
 function showSampleProject(url){
     var ifr=$('<iframe/>', {id:'geppettoSampleProject', src:url, style: 'width:100%;height:100%;border:0px;'});
-    $("#geppettoSampleProject")[0].contentWindow.postMessage({"command": "G.enableLocalStorage(false)"}, $("#geppettoIP").val());
-    $("#geppettoSampleProject")[0].contentWindow.postMessage({"command": "GEPPETTO.ViewController.clearViewMonitor()"}, $("#geppettoIP").val());
     window.setTimeout(function(){
         ifr.show();
         $("footer").hide();
@@ -150,8 +105,6 @@ function showSampleProject(url){
                 }, false);
                 
             	$("#geppettoSampleProject")[0].contentWindow.postMessage({"command": "$('.HomeButton').hide()"}, $("#geppettoIP").val());
-                $("#geppettoSampleProject")[0].contentWindow.postMessage({"command": "G.enableLocalStorage(false)"}, $("#geppettoIP").val());
-                $("#geppettoSampleProject")[0].contentWindow.postMessage({"command": "GEPPETTO.ViewController.clearViewMonitor()"}, $("#geppettoIP").val());
                 
             });
     $('#geppettoHomeContainer').append(ifr);

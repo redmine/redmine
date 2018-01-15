@@ -6,7 +6,7 @@
     <% end %>
     
     <% if roles.include? 'Developer' or roles.include? 'Manager' or User.current.admin? %>
-	<%= label_tag 'omv_title', 'Add a tag', :class => "control-label" %>
+	<%= label_tag 'omv_title', 'Add a tag', :class => "col-sm-2 control-label" %>
 	<div class="controls">
 	    <%= text_field_tag 'new_tag', '', :size => 40, :class =>'input-medium form-control', :id=>'new_tag' %>
 	</div>	

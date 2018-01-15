@@ -89,12 +89,13 @@ $(document).ready(function(){
                 var files = submenus[submenu];
                 // capitalize title
                 var menu_title = submenu.charAt(0).toUpperCase() + submenu.slice(1);
+                $(".explorerSubmenu").css('max-width', 100/Object.values(submenus).filter((x) => x!="").length + '%')
                 if (submenus[submenu] != "") {
-                    $("#explorermenu").append("<li class=\"explorerSubmenu\"><a data-toggle=\"collapse\" data-parent=\"#accordion\" class=\"collapsed\" href=\"#collapse" + submenu + "\">"+ menu_title +"</span> <i class=\"icon-caret-right\"></i><ul role=\"tabpanel\" class=\"collapse \" id=\"collapse" + submenu + "\"></ul></li>");
+                    $("#explorermenu").append("<li class=\"explorerSubmenu\"><a data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapse" + submenu + "\">"+ menu_title +"</span> <i class=\"icon-caret-right\"></i><ul role=\"tabpanel\" class=\"collapse \" id=\"collapse" + submenu + "\"></ul></li>");
                     for (var i=0; i<files.length; i++) {
                         var file = files[i];
                         var basename = file.split('/').slice(-1)[0];
-                        $("#"+"collapse"+submenu).append("<li class=\"submenu-item\" id=" + basename + "><a href=# tabindex=-1 id=\""+ file + "\">"+ basename +"</a></li>");
+                        $("#"+"collapse"+submenu).append("<li class=\"submenu-item\" id=" + basename + "><a href=# tabindex=-1 id=\""+ file + "\"><span class=\"path\">" + file.split('/').slice(0,-1).join('/') + "/</span>" + basename+ "</a></li>");
                     }
                 }
             }
@@ -154,7 +155,31 @@ $(document).ready(function(){
         open3DExplorer(encodeURIComponent(repourl+repopath+id), project_identifier);
     });
 
-    $(".delete_tag").click(function(){deleteTag(project_identifier,$(this).attr("id")); return false;});
+    function addNewTag(projectName, tag){
+	$.ajax({
+	    url: "/projects/" + projectName + "/addTag?tag="+tag,
+	    cache: false,
+	    success: function(html){
+	        $("#tagsContainer").replaceWith(html);
+                $("#add_new_tag").click(function(){addNewTag(project_identifier,$("#new_tag").val()); return false;});
+                $(".delete-tag").click(function(){deleteTag(project_identifier,$(this).attr("id")); return false;});
+	    }
+	});
+    }
+
+    function deleteTag(projectName, tag){
+	$.ajax({
+	    url: "/projects/" + projectName + "/removeTag?tag="+tag,
+	    cache: false,
+	    success: function(html){
+	        $("#tagsContainer").replaceWith(html);
+                $(".delete-tag").click(function(){deleteTag(project_identifier,$(this).attr("id")); return false;});
+                $("#add_new_tag").click(function(){addNewTag(project_identifier,$("#new_tag").val()); return false;});
+	    }
+	});
+    }
+
+    $(".delete-tag").click(function(){deleteTag(project_identifier,$(this).attr("id")); return false;});
 
     $("#add_new_tag").click(function(){addNewTag(project_identifier,$("#new_tag").val()); return false;});
 
@@ -165,4 +190,6 @@ $(document).ready(function(){
         .on('hidden.bs.collapse', function(){
             $(this).parent().find(".icon-caret-down").removeClass("icon-caret-down").addClass("icon-caret-right");
         });
+
+    $("#explorermenu .collapse").collapse('show');
 });

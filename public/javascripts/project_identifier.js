@@ -64,7 +64,7 @@ function generateProjectIdentifier(identifier, maxlength) {
 function autoFillProjectIdentifier() {
   var locked = ($('#project_identifier').val() != '');
   var maxlength = parseInt($('#project_identifier').attr('maxlength'));
-  $('#project_identifier').val('');
+  $('#project_identifier').val(generateProjectIdentifier($('#project_name').val(), maxlength));
   $('#project_name').keyup(function(){
     {
       $('#project_identifier').val(generateProjectIdentifier($('#project_name').val(), maxlength));

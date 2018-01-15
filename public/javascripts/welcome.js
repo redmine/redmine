@@ -1,8 +1,5 @@
 $(document).ready(function() {
 
-    //Load Geppetto Project links
-    callGeppetto("", addSampleProjectsToHome, true);
-
     callGeppetto("", addDashboard, true);
 
     $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {

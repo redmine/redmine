@@ -311,14 +311,17 @@ module ProjectsHelper
       if /^\d+/.match(entity)
         entity = "id" + entity
       end 
-      
-      if filenameSplit[-1] == 'swc'
-        format = 'swc'
-      elsif filenameSplit[-1] == 'json'
-        format = 'json'
-      else  
-        format = 'nml'
+
+      format = filenameSplit[-1]
+      case format
+      when 'swc'
+      when 'json'
+      when 'nml'
         docType = filenameSplit[-2]
+      when 'h5'
+        docType = filenameSplit[-3]
+      else
+        print "Unrecognized file format #{filenameSplit[-1]}"
       end
       
       ########
@@ -343,7 +346,8 @@ module ProjectsHelper
       @geppettoSimulationFilePath = File.basename(geppettoTmpSimulationFile.path)
       geppettoTmpModelFile = File.new(publicResourcesPath + geppettoTmpPath + entity + "_MODEL" + random_string + ".xmi", File::CREAT|File::TRUNC|File::RDWR, 0644)
       @geppettoModelFilePath = File.basename(geppettoTmpModelFile.path)
-      if format == 'nml'
+
+      if (format == 'nml' || format == 'h5')
         geppettoTmpJsFile = File.new(publicResourcesPath + geppettoTmpPath + entity + random_string + ".js", File::CREAT|File::TRUNC|File::RDWR, 0644)
         @geppettoJsFilePath = File.basename(geppettoTmpJsFile.path)
         
@@ -385,14 +389,17 @@ module ProjectsHelper
       rescue => e   
          print "Error requesting modelContent: #{url}"
       else
-        if format == 'nml'
+        if (format == 'nml' || format == 'h5')
           if (docType == 'net' || docType == 'cell')
             target=""
             
-            if docType == 'net'
+            if docType == 'net' and format == 'nml'
               targetComponent = /<network id="(\w*)\"/.match(modelContent.read)
-            elsif 
+            elsif format == 'nml'
               targetComponent = /<cell id="(\w*)\"/.match(modelContent.read)
+            elsif format == 'h5'
+              # slightly bad, would be better to use an h5 reader and extract the attribute
+              targetComponent = /<neuroml.*id="(\w*)\"/.match(modelContent.read)
             end
             
             if targetComponent
@@ -401,7 +408,7 @@ module ProjectsHelper
 
             geppettoSimulationFile = {
               "id" => 1,
-              "name" => target[0],
+              "name" => @project.identifier,
               "activeExperimentId" => 1,
               "experiments" => [{
                                   "id" => 1,
@@ -430,10 +437,9 @@ module ProjectsHelper
           if target
             geppettoJsFile.gsub! entity, target[0]
           end
-        
           File.write(publicResourcesPath + geppettoTmpPath + @geppettoJsFilePath, geppettoJsFile)
           geppettoTmpJsFile.close
-          
+
           if ((docType == 'net' || docType == 'cell') && target != nil && target[0] != nil)
             geppettoModelFile = File.read(publicResourcesPath + geppettoResourcesPath + simulationTemplates + "GeppettoNeuroMLModelNetworkCell.xmi")
             geppettoModelFile.gsub! '$TARGET_ID', target[0]
@@ -474,7 +480,7 @@ module ProjectsHelper
       geppettoModelFile.gsub! '$ENTER_MODEL_URL', url
       geppettoModelFile.gsub! '$ENTER_ID', target ? target[0] : entity
       geppettoModelFile.gsub! '$ENTER_REFERENCE_URL', (@project!=nil) ? @project.identifier : "testing"
-      
+
       # Write file to disc and change permissions to allow access from Geppetto             
       File.write(publicResourcesPath + geppettoTmpPath + @geppettoSimulationFilePath, geppettoSimulationFile.to_json)
       File.write(publicResourcesPath + geppettoTmpPath + @geppettoModelFilePath, geppettoModelFile)

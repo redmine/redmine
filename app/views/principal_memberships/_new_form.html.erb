@@ -3,8 +3,8 @@
   <div class="objects-selection">
     <div class="projects-selection">
     <%= render_project_nested_lists(@projects) do |p| %>
-      <label>
-        <%= check_box_tag('membership[project_ids][]', p.id, false, :id => nil, :disabled => @principal.member_of?(p)) %> <%= p %>
+        <label>
+        <%= check_box_tag('membership[project_ids][]', p.id, false, :id => nil, :disabled => !@principal.member_of?(p)) %> <%= p %>
       </label>
     <% end %>
     </div>

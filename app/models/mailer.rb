@@ -39,6 +39,18 @@ class Mailer < ActionMailer::Base
     options
   end
 
+  def project_add(project)
+    redmine_headers 'Project' => project.identifier,
+                    'Project-Id' => project.id
+    message_id project
+    references project
+    @project = project
+    @users = User.find(1)
+    #@project_url = url_for(:controller => 'project', :action => 'show', :id => project.id)
+    mail :to => "info@opensourcebrain.org",
+      :subject => "New OSB Project: #{project.name}"
+  end
+
   # Builds a mail for notifying to_users and cc_users about a new issue
   def issue_add(issue, to_users, cc_users)
     redmine_headers 'Project' => issue.project.identifier,

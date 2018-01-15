@@ -3,12 +3,12 @@
 <% end %>
 <%= render "projects/header" %>
 <div class="project-main">
-    <% @project.visible_custom_field_values.each do |custom_value| %>
-        <% if !custom_value.value.blank? %>
-            <% if custom_value.custom_field.name == 'GitHub repository' %>
-		<div class="alert alert-info fade in">
-		    <button type="button" class="close" data-dismiss="alert">×</button>
-                    <strong>Note</strong> The source for this project is hosted on <a target="_blank" href='<%=h custom_value %>'>GitHub <icon class="icon-github"/></a>
+<% @project.visible_custom_field_values.each do |custom_value| %>
+    <% if !custom_value.value.blank? %>
+        <% if custom_value.custom_field.name == 'GitHub repository' %>
+			<div class="alert alert-info fade in">
+				<button type="button" class="close" data-dismiss="alert">×</button>
+            	<strong>Note</strong> The source for this project is hosted on <a target="_blank" href='<%=h custom_value %>'>GitHub <icon class="icon-github"/></a>
           	</div>
             <% end %>
         <% end %>

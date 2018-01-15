@@ -29,7 +29,7 @@ module StatusHelper
 
       #s << "Show OSB: #{showosb}, show user: #{showuser} "
 
-      s << "<table  class='list'>\n"
+      s << "<table  class='left-list'>\n"
       s << "<thead>\n"
 
       status_types.each do |status_type|
@@ -112,9 +112,7 @@ module StatusHelper
               project.visible_custom_field_values.each do |custom_value|
                 if (custom_value.custom_field.name == status_type+' support')
               
-                  
-                  value=getCustomField(project, custom_value.custom_field.name)
-                  badges = getTooltipedBadgeAlign(project, custom_value.custom_field.name, '', 'How well can the curated NeuroML/PyNN version of the model be run in this simulator? '+getSupport(value), 'pull-left')
+                  badges = getBadge(project, custom_value.custom_field.name)
                   
                   s << "<td>  "+badges+"</td>"
                 end

@@ -1,6 +1,5 @@
 html {
     height: 100%;
-    overflow-y: scroll;
 }
 
 body { font-family: Verdana, sans-serif; font-size: 12px; color:#333; margin: 0; padding: 0; min-width: 900px; }
@@ -136,6 +135,10 @@ input#openid_url { background: url(../images/openid-bg.gif) no-repeat; backgroun
 
 .mobile-show {display: none;}
 
+.search-btn:hover {
+    background-color: buttonface;
+}
+
 /***** Links *****/
 a:hover, a:active{ color: #c61a1a; text-decoration: underline;}
 a img{ border: 0; }
@@ -160,6 +163,7 @@ a.toggle-checkboxes { margin-left: 5px; padding-left: 12px; background: url(../i
 table.list, .table-list { border: 1px solid #e4e4e4;  border-collapse: collapse; width: 100%; margin-bottom: 4px; }
 table.list th, .table-list-header { background-color:#EEEEEE; padding: 4px; white-space:nowrap; font-weight:bold; }
 table.list td {text-align:center; vertical-align:top; padding-right:10px;}
+table.left-list td {text-align:left; vertical-align:top; padding-right:10px;}
 table.list td.id { width: 2%; text-align: center;}
 table.list td.name, table.list td.description, table.list td.subject, table.list td.comments, table.list td.roles {text-align: left;}
 table.list td.tick {width:15%}
@@ -699,6 +703,7 @@ div.project-title {
 
 .indexNoUser {
     text-align: center;
+    padding-top: 3.5em;
 }
 
 .indexNoUser .btn {
@@ -713,7 +718,6 @@ div.project-title {
 #learnMoreContainer {
     margin: 0 auto;
     text-align: center;
-    display: none;
 }
 
 .mainContentMargins {
@@ -738,6 +742,11 @@ div.project-title {
     border: 0px;
     width: 100%;
     height: 100%;
+    vertical-align: bottom;
+}
+
+a.sample:hover {
+    text-decoration: none;
 }
 
 .sampleThumbnail {
@@ -820,18 +829,8 @@ div.thumbnails img {margin: 3px; vertical-align: middle;}
     filter: hue-rotate(170deg);
 }
 
-.sampleModelLabel:hover {
-    text-decoration: none;
-}
-
-.sampleModelLabel {
-    display: block;
-    text-align: center;
-    color: inherit;
-}
-
 #tab-content-users .splitcontentleft {width: 64%;}
-#tab-content-users .splitcontentright {width: 34%;}
+#tab-content-users .splitcontentright {width: 50%;}
 #tab-content-users fieldset {padding:1em; margin-bottom: 1em;}
 #tab-content-users fieldset legend {font-weight: bold;}
 #tab-content-users fieldset label {display: block;}
@@ -843,6 +842,13 @@ div.thumbnails img {margin: 3px; vertical-align: middle;}
 
 #dashboardContainer {
     height: 100%;
+}
+
+#geppettoDashboard {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: 0;
 }
 
 #workspace {
@@ -873,6 +879,13 @@ input#principal_search, input#user_search {width:90%}
     left: 0;
     right: 0;
     bottom: 0;
+}
+
+#geppettoFrame {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: 0;
 }
 
 /* From redmine */
@@ -1986,6 +1999,10 @@ div.wiki pre {
     background-color: #000000;
 }
 
+a.gh-badge:hover {
+    text-decoration: none;
+}
+
 .loading-image {
     width: 100px !important;
     height: 100px !important;
@@ -2074,24 +2091,14 @@ div.wiki pre {
     margin-top: 20px;
 }
 
-#wellcomelogolink {
-    float: right;
-}
-
 #wellcomelogo {
     float: right;
-    width: 154px;
-    height: 41px;
-    background-image: url("/images/wellcomelogo.png");
-    margin-bottom: 10px;
-    clear: both;
+    margin-top: -1em;
 }
 
-@media all and (-webkit-min-device-pixel-ratio: 1.5) {
-    #wellcomelogo {
-        background-image: url('/images/wellcomelogo@2x.png');
-        background-size: 154px 41px;
-    }
+#wellcomelogo img {
+    max-width: 6em;
+    max-height: 6em;
 }
 
 #osbcircle {
@@ -2408,10 +2415,6 @@ div.splitcontentleft > h2 {
     position: relative;
     float: right;
     margin: 5px;
-}
-
-#3dsapcer {
-    height: 100px;
 }
 
 #backto {
@@ -2736,18 +2739,16 @@ div.splitcontentleft > h2 {
 .active .bannerImage img {
     display: block;
     margin: 0 auto;
+    max-width: 80%;
 }
 
 #carouselMainPage .caption {
     margin-top: 60px;
+    margin-left: 5em;
 }
 
 #carouselMainPage .caption img {
     display: none;
-}
-
-#carouselMainPage .carousel-control {
-    top: 200px;
 }
 
 #carouselMainPage {
@@ -2756,12 +2757,21 @@ div.splitcontentleft > h2 {
 }
 
 #carouselMainPage .carousel-control {
-    top: 150px;
+    border-radius: 10px;
+    height: 2em;
+    width: 2em;
 }
 
 .carousel-control {
     font-family: Verdana;
     font-size: 50px;
+}
+
+.carousel-control.left {
+    margin-left: 2em;
+}
+.carousel-control.right {
+    margin-left: 2em;
 }
 /* SEARCH FORM */
 
@@ -2903,6 +2913,10 @@ input[type="checkbox"] {
 #project_overview_sections h4,
 #project_overview_sections h5 {
     color: #5a5a5a;
+}
+
+#project_overview_sections img {
+    max-width: 100%;
 }
 
 #docContainer section:first-child {
@@ -3379,7 +3393,7 @@ color: #555; text-shadow: 1px 1px 0 #fff;
 
 .tutorial .row{
 	width:90%;
-	margin:0 auto;
+	margin:0 1em 0 12em;
 }
 
 .tutorialCard{
@@ -3438,7 +3452,7 @@ color: #555; text-shadow: 1px 1px 0 #fff;
 }
 
 .tutorialText{
-	margin-bottom:50px;
+	margin-bottom:90px;
 	font-size:18px;	
 	text-align:center;
 }
@@ -3484,7 +3498,8 @@ color: #555; text-shadow: 1px 1px 0 #fff;
     padding: 8px;
     margin-bottom: -1px;
     text-decoration: none;
-    font-size: 15px;
+    font-size: 1em;
+    font-weight: bold;
     color: #777;
     display: block;
 }
@@ -3496,6 +3511,21 @@ color: #555; text-shadow: 1px 1px 0 #fff;
 .explorerSubmenu {
     background-color: #e7e7e7;
     cursor: default;
+    width: auto;
+    max-width: 20%;
+    display: inline-block;
+    vertical-align: top;
+    overflow-wrap: break-word;
+}
+
+.path {
+    font-size: 0.85em;
+    font-weight: normal;
+}
+
+.explorerSubmenu [id^=collap] {
+    padding-left: 0;
+    list-style-type: none;
 }
 
 .submenu-item a {

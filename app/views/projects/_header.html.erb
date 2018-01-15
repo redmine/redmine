@@ -4,6 +4,7 @@
      var repourl="<%= getHttpRepositoryURL(@project) %>";
      var repopath="<%= getHttpRepositoryPath(@project.repository) %>";
      var neuroml2files = <%= raw getNML2Files(@project.repository) %>;
+     var h5files = <%= raw getH5Files(@project.repository) %>;
      var swcfiles = <%= raw getSWCFiles(@project.repository) %>;
      var jsonfiles = <%= raw getJSONFiles(@project.repository) %>;
      var synapsefiles = <%= raw getSynapsesFiles() %>;
@@ -17,6 +18,7 @@
     </script>
     <% if isProjectOrShowcase(@project) %>
         <% @neuroml2files = getNML2Files(@project.repository) %>
+        <% @h5files = getH5Files(@project.repository) %>
         <% @swcfiles = getSWCFiles(@project.repository) %>
         <% @sjsonfiles = getJSONFiles(@project.repository) %>
         <% @repourl=getHttpRepositoryURL(@project) %>
@@ -42,7 +44,19 @@
     <div class="badges">
         <%= getEndorsementBadge(@project) %>
         <%= getCurationBadge(@project, "pull-right", tipPlace="bottom") %>
-        <% if isBestPractice?(@project) %>
+	<% if (not @repourl.nil?) && (@repourl.include? "github") %>
+	    <span class="gh-badges">
+		<% @repoID = @repourl.split('/')[-2..-1].join('/') %>
+		<% {'issues' => 'https://github.com/'+@repoID+'/issues',
+		    'forks' => 'https://github.com/'+@repoID+'/network',
+		    'stars' => 'https://github.com/'+@repoID+'/stargazers'}.each do |shield_type, link| %>
+		    <%= link_to link, :class => "gh-badge" do %>
+			<%= image_tag "https://img.shields.io/github/"+shield_type+"/"+@repoID+".svg?style=flat" %>
+		    <% end %>
+		<% end %>
+	    </span>
+	<% end %>
+	<% if isBestPractice?(@project) %>
             <a class="twitterbutton icon-twitter-sign tooltiplink clickable" data-toggle='tooltip' data-placement='right' title='Share this project on Twitter!' href="https://twitter.com/intent/tweet?text=Check out the <%= @project.name %> project on Open Source Brain! via @osbteam&tw_p=tweetbutton&url=<%= Rack::Utils.escape(url_for(:only_path => false)) %>" target="_blank"></a>
         <% end %>
     </div>
