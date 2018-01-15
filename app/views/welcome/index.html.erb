@@ -27,7 +27,6 @@
   <li class="active"><a href="#myprojects" data-toggle="tab"><%= User.current.firstname %>'s Home</a></li>
   <li><a href="#workspace" data-toggle="tab">Your models</a></li>
   <li><a href="#news" data-toggle="tab">News</a></li>
-  <li><a href="#help" data-toggle="tab">Help</a></li>
   
 </ul>
 
@@ -139,128 +138,6 @@
 		</div>
 	</div>
 
-	<!-- HELP -->
-	<div id="help" class="tab-pane">
-		<img src="images/osbcircle.png" class="logo-help">
-		<p>
-		Hello! Let's go through the basics of Open Source Brain (OSB), <strong>this will take only 5 minutes to read!</strong> (yes, it's that easy).
-		</p>
-		<p>
-		This is the help section of your home screen, feel free to come back here every time you are lost, most of the anwsers you'll ever need are here! 
-		</br>
-		From your home screen you can work with any project and model available in OSB or even create your own ones.
-		To search for available projects you can click on the Explore OSB link in the top bar or use the search box.
-		</p>
-		<p>			
-		But first things first, <strong>what is an OSB project</strong>?
-		</p>
-		<p>
-		An OSB project is a container of computational neuronal models, usually these models  are directly linked to a publication, or they might all be grouped in a project by a specific technology.
-		An OSB project is always linked to a GitHub repository which stores all the models available in the given project, so if you are already familiary with GitHub you're good to go, otherwise <a href="https://guides.github.com/activities/hello-world/#what" target="_blank">here</a> you'll find all you need to know.
-		</br></br>
-		OK, so inside an OSB project there can be many models, but <strong>how do I work with a specific one</strong>?
-		</br></br>
-		Within OSB there is an online environment that will help you both explore, simulate, and work with models.
-		</br>
-		Yes that's right, you won't have to leave your browser to explore or even to simulate a specific model!
-		</br>
-		Every project has a main model as entry point, it could be the main network, or cell, etc. for the given project, to explore this model just <strong>click on the green button "Explore model" at the top right corner</strong> when inside a project.
-		To explore every other model available click on the "More" button next to it.
-		</p>
-		<img src="images/help/exploreModel.png" class="img-help">
-		
-		<p>
-		The model will load inside OSB, this might take between few seconds or up to a minute depending on the size of the model, you know how complex the brain can be right?
-		</br>
-		You are looking at the model now and you are in read mode which means you can poke around and look at the content of the model but you can't run simulations...yet (keep reading!).
-		</br>
-		So what can you do?
-		</p>
-		<p>
-		<strong>Pan and Zoom</strong>
-		</br>
-		One of the most straightforward features is simple three-dimensional pan, zoom, and rotation functionality.  This works both with the mouse as well as more precise control with the navigation buttons on the left hand panel.
-		</p>
-		<img src="images/help/Fig-1-Pan-Zoom.gif" class="img-help">
-		<p>
-		<strong>Explore the models</strong>
-		</br>
-		Models in OpenSourceBrain have descriptions associated with them.  You can access these descriptions by clicking on the “Model Description” button on the OSB toolbar.
-		<img src="images/help/ExploreModel.gif" class="img-help">
-		Clicking on individual cells in the view will let you explore further descriptions of those cells, including any inputs or Ion channels.  Clicking further into the model channels will enable you to see activation variable plots for those channels.
-		<img src="images/help/ExploreChannels.gif" class="img-help">
-		While you click through the cell descriptions, you can always go back to an earlier sheet using the history icon in the upper left hand corner of the information window.
-		<img src="images/help/ExploreHistory.gif" class="img-help">
-		</p>
-		<p>
-		<strong>Explore the network connections</strong>
-		</br>
-		OSB has a variety of widgets built in to help you explore your models.  Models like this one have a significant number of connections.  By clicking on the “Connectivity” button, you can explore the connection patterns of your model using a variety of graphical tools.
-		</br>
-		<img src="images/help/Fig-2-Connectivity.gif" class="img-help">
-		</p>
-		<p>
-		What if you want to <strong>run a simulation</strong>?
-		
-		First of all you need to persist your model, this operation will create a snapshot of the model (a copy of whatever the latest is on GitHub) which is all yours and on which you'll have write access!
-		Persisting the model is very simple, just click on the star icon on the top of the screen and wait few seconds (in order to do this, you’ll need to be logged in as a registered user of Open Source Brain).
-		
-		<img src="images/help/persist.png" class="img-help">
-		</br>
-		The model is now persisted so you can work with it, <strong>let's have a look at the experiments</strong>!
-		
-		Experiments represent a particular configuration of your model, for each experiment you'll be able to decide which state variables you want to record, which values you want to give to the parameters of the model and even what simulator you'd like to use (do you know we are also connected to the San Diego Super Computer Center?), handy no? 
-		</br>
-		<img src="images/help/Fig-3-Intro.gif" class="img-help">
-		</br>
-		Once you are logged in and the project is persisted, you can begin working with your model.  You can create new experiments for your model by clicking the “clone” button.  This will create a new experiment that is just like the one you cloned from.  You can modify parameters on any experiment you like.
-		
-		<img src="images/help/Fig-4-Clone.gif" class="img-help">
-		</p>
-		<p>
-		<strong>Recording variables</strong>
-		</br>
-		Any state variable that exists in the model can be recorded prior to running a simulation, meaning it will be possible to subsequently plot its values once the simulation is complete.   
-		You can record a variable by searching for it in the search bar (open it using the little <icon class="icon-search icon-2x"></icon> icon on the left hand side of the screen or pressing Ctrl+Space) and clicking on the Record icon <icon class="icon-circle-blank icon-2x"></icon>.  
-		The icon signifying state variables that can be recorded is <icon class="icon-superscript icon-2x"></icon>
-		</br>
-		<img src="images/help/RecordVariable.gif" class="img-help">
-		</p>
-		<p>
-		<strong>Setting a parameter</strong>
-		</br>
-		Any parameter in the model can be dynamically changed to see what the impact of different values will be.  
-		Prior to running an experiment you can modify the values by searching for the parameter name in the search bar and changing the value in the input box.  
-		The icon signifying a parameter name is <icon class="icon-signin icon-2x"></icon>
-		</br>
-		<img src="images/help/SetParameters.gif" class="img-help">
-		</p>
-		<p>
-		<strong>Run an experiment</strong>
-		</br>
-		Once you are happy with what variables you will record and your experiment parameters, you can run the experiment.  
-		</br>
-		The Run button in the upper bar should be available to you.  When you click it, the status of the experiment will change to show you both that it is queued for running and that it is completed. 
-		Playback results from a completed experiment
-		</br>
-		<img src="images/help/Fig-5-Run.gif" class="img-help">
-		
-		</p>
-		<p>
-		Once your experiment is finished, you can use the Play button to plot all the recorded variables that have been simulated.
-		</br>
-		<img src="images/help/Fig-6-Playback.gif" class="img-help">
-		</p>
-		If you want to plot a specific variable that you recorded you will be able to do so using the search bar to look for that variable and using the "Plot" icon.
-		The list of all the variables recorded in a given experiment is available clicking on the "Recorded variables" link in the Experiment table.
-		<img src="images/help/Recorded.png" class="img-help">
-		Clicking on the Results button at the top of the screen will let you rapidly access some default actions, including the ability to see the cells for which you recorded the membrane potential spiking!
-		<img src="images/help/Results.png" class="img-help">
-		Congratulations, you should now be ready to start exploring the models in OSB and run your own simulations! 
-		</br>
-		<img src="images/osbcircle.png" class="logo-help">
-	</div>
-	
 	<% content_for :header_tags do %>
 	<%= stylesheet_link_tag 'scm' %>
 	<%= auto_discovery_link_tag(:atom, {:controller => 'news', :action => 'index', :key => User.current.rss_key, :format => 'atom'},:title => "#{Setting.app_title}: #{l(:label_news_latest)}") %>
