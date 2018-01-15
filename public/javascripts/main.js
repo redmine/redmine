@@ -289,6 +289,7 @@ function addGeppettoIframe(src) {
     setTimeout(function(){
         window.frames["geppettoFrame"].contentWindow.postMessage({ "command": "window.osbURL='http://"+location.host+"/';"}, $("#geppettoIP").val());
         window.frames["geppettoFrame"].contentWindow.postMessage({"command": "$('.HomeButton').hide()"}, $("#geppettoIP").val());
+	window.frames["geppettoFrame"].contentWindow.postMessage({"command": "window.dropboxKey = \""+dropboxKey+"\";"}, $("#geppettoIP").val());
     },8000);
 }
 

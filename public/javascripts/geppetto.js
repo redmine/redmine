@@ -78,6 +78,7 @@ function addDashboard(){
     		dashboard[0].contentWindow.postMessage({"command": "$('body').css('padding-top','0')"}, $("#geppettoIP").val()+"/currentuser");
     		dashboard[0].contentWindow.postMessage({"command": "$('#header').remove()"}, $("#geppettoIP").val()+"/currentuser");
     		dashboard[0].contentWindow.postMessage({"command": "if($('.project-preview').length==0){$('.dashboardAlert').html(\"You don't have any models yet! Why don\'t you start Exploring OSB and persisting any model you are interested in? All the models you will persist will appear here in your home so you can easily come back to them. Click on the help tab for more!\");}"}, $("#geppettoIP").val()+"/currentuser");
+		dashboard[0].contentWindow.postMessage({"command": "window.dropboxKey = \""+dropboxKey+"\";"}, $("#geppettoIP").val());
             }
     	    
     	}
