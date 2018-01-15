@@ -203,6 +203,7 @@ Redmine::MenuManager.map :account_menu do |menu|
 #  menu.push :about, { :controller => 'about', :action => 'index' }, :caption => 'About'
   menu.push :administration, { :controller => 'admin', :action => 'index' }, :caption => 'Admin', :if => Proc.new { User.current.admin? }, :last => true
   menu.push :projects, { :controller => 'projects', :action => 'index' }, :caption => 'Explore OSB'
+  menu.push :help, { :controller => 'docs', :action => 'index' }, :caption => 'Help'
   menu.push :login, :signin_path, :if => Proc.new { !User.current.logged? }
   menu.push :register, :register_path, :if => Proc.new { !User.current.logged? && Setting.self_registration? }
   #menu.push :loggedas, link_to_user(User.current, :format => :username), :if => Proc.new { User.current.logged? }
