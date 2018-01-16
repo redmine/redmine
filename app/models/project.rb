@@ -349,7 +349,11 @@ class Project < ActiveRecord::Base
   end
 
   def active?
-    self.status == STATUS_ACTIVE
+    if self.attributes.key?('status')
+      return (self.status == STATUS_ACTIVE)
+    else
+      return false
+    end
   end
 
   def closed?
