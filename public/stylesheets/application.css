@@ -1599,19 +1599,18 @@ tr.open span.expander:before {
  -------------------------------------------------- */
 
 .footer {
+    margin: 0 auto;
     text-align: center;
     border-top: 1px solid #e5e5e5;
     background-color: #f5f5f5;
-    /*position: relative;
-    margin-top: -80px;*/
     position: absolute;
     right: 0;
     bottom: 0;
     left: 0;
     height: 100px;
     padding-top: 20px;
-    padding-left: 150px;
-    padding-right: 150px;
+    padding-left: 250px;
+    padding-right: 250px;
 }
 
 .footer p {
