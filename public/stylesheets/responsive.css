@@ -45,7 +45,6 @@
 
   body,
   html {
-    height: 100%;
     margin: 0;
     padding: 0;
   }
@@ -191,7 +190,8 @@
   \*----------------------------------------*/
 
   #main {
-    padding: 64px 0 0; /* padding-top equals header height */
+      padding-top: 64px; /* padding-top equals header height */
+      padding-bottom: 250px !important;
   }
 
   #main.nosidebar #content,

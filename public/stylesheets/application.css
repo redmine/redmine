@@ -2,7 +2,7 @@ html {
     height: 100%;
 }
 
-body { font-family: Verdana, sans-serif; font-size: 12px; color:#333; margin: 0; padding: 0; min-width: 900px; }
+body { font-family: Verdana, sans-serif; font-size: 12px; color:#333; margin: 0; padding: 0; }
 
 h1, h2, h3, h4 {font-family: "Trebuchet MS", Verdana, sans-serif;padding: 2px 10px 1px 0px;margin: 0 0 10px 0;}
 #content h1, h2, h3, h4 {color: #555;}
@@ -1331,11 +1331,14 @@ tr.open span.expander:before {
 /* Tablet
  ------------------------- */
 
-@media (max-width: 767px) {
+@media (max-width: 899px) {
     /* Remove any padding from the body */
     
     body {
         padding-top: 0;
+    }
+    .indexNoUser {
+        padding-top: 3em;
     }
     .masthead h1 {
         font-size: 90px;
@@ -1369,13 +1372,28 @@ tr.open span.expander:before {
     /* Unfloat the back to top link in footer */
     
     .footer {
+        position: absolute;
+        bottom: 0;
+        height: 200px !important;
         margin-left: -20px;
         margin-right: -20px;
-        padding-left: 20px;
-        padding-right: 20px;
+        padding-top: 0 !important;
+        padding-left: 20px !important;
+        padding-right: 20px !important;
     }
     .footer p {
         margin-bottom: 9px;
+    }
+    .twitter-follow-button {
+        float: none !important;
+    }
+    #wellcomelogo {
+        margin-top: 0 !important;
+        float: none !important;
+    }
+    #wellcomelogo img {
+        height: 5em;
+        width: 5em;
     }
 }
 /* Landscape phones
@@ -1592,11 +1610,15 @@ tr.open span.expander:before {
     left: 0;
     height: 100px;
     padding-top: 20px;
+    padding-left: 150px;
+    padding-right: 150px;
 }
 
 .footer p {
     margin-bottom: 0;
     color: #777;
+    padding-left: 1em;
+    padding-right: 1em;
 }
 
 .footer-links > li {
