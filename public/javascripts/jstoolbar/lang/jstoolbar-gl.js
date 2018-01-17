@@ -1,7 +1,7 @@
 jsToolBar.strings = {};
 jsToolBar.strings['Strong'] = 'Negriña';
 jsToolBar.strings['Italic'] = 'Itálica';
-jsToolBar.strings['Underline'] = 'Suliñado';
+jsToolBar.strings['Underline'] = 'Subliñado';
 jsToolBar.strings['Deleted'] = 'Tachado';
 jsToolBar.strings['Code'] = 'Código fonte';
 jsToolBar.strings['Heading 1'] = 'Encabezado 1';
@@ -13,5 +13,5 @@ jsToolBar.strings['Ordered list'] = 'Lista ordenada';
 jsToolBar.strings['Quote'] = 'Citar';
 jsToolBar.strings['Unquote'] = 'Quitar cita';
 jsToolBar.strings['Preformatted text'] = 'Texto con formato';
-jsToolBar.strings['Wiki link'] = 'Enlace a páxina Wiki';
+jsToolBar.strings['Wiki link'] = 'Ligazón a páxina Wiki';
 jsToolBar.strings['Image'] = 'Imaxe';
