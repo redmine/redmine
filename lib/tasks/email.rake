@@ -60,6 +60,9 @@ User and permissions options:
 
 Issue attributes control options:
   project=PROJECT          identifier of the target project
+  project_from_subaddress=ADDR
+                           select project from subaddress of ADDR found
+                           in To, Cc, Bcc headers
   status=STATUS            name of the target status
   tracker=TRACKER          name of the target tracker
   category=CATEGORY        name of the target category
