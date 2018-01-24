@@ -382,7 +382,7 @@ class Mailer < ActionMailer::Base
     tracker = options[:tracker] ? Tracker.find(options[:tracker]) : nil
     target_version_id = options[:version] ? Version.named(options[:version]).pluck(:id) : nil
     if options[:version] && target_version_id.blank?
-      raise ActiveRecord::RecordNotFound.new("Couldn't find Version with named #{options[:version]}")
+      raise ActiveRecord::RecordNotFound.new("Couldn't find Version named #{options[:version]}")
     end
     user_ids = options[:users]
 
