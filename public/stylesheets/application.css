@@ -928,6 +928,7 @@ p.cal.legend span {display:block;}
 .tooltip{position:relative;z-index:24;}
 .tooltip:hover{z-index:25;color:#000;}
 .tooltip span.tip{display: none; text-align:left;}
+.tooltip span.tip a { color: #169 !important; }
 
 div.tooltip:hover span.tip{
 display:block;
@@ -938,6 +939,10 @@ background-color:#fff;
 padding: 4px;
 font-size: 0.8em;
 color:#505050;
+}
+
+table.cal div.tooltip:hover span.tip {
+  top: 25px;
 }
 
 img.ui-datepicker-trigger {

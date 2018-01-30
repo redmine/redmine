@@ -1,3 +1,4 @@
+<%= form_tag({}, :data => {:cm_url => issues_context_menu_path}) do -%>
 <table class="cal">
 <thead>
 <tr><th scope="col" title="<%= l(:label_week) %>" class="week-number"></th><% 7.times do |i| %><th scope="col"><%= day_name( (calendar.first_wday+i)%7 ) %></th><% end %></tr>
@@ -11,10 +12,11 @@ while day <= calendar.enddt %>
 <p class="day-num"><%= day.day %></p>
 <% calendar.events_on(day).each do |i| %>
   <% if i.is_a? Issue %>
-  <div class="<%= i.css_classes %> <%= 'starting' if day == i.start_date %> <%= 'ending' if day == i.due_date %> tooltip">
+  <div class="<%= i.css_classes %> <%= 'starting' if day == i.start_date %> <%= 'ending' if day == i.due_date %> tooltip hascontextmenu">
   <%= "#{i.project} -" unless @project && @project == i.project %>
   <%= link_to_issue i, :truncate => 30 %>
   <span class="tip"><%= render_issue_tooltip i %></span>
+  <%= check_box_tag 'ids[]', i.id, false, :style => 'display:none;', :id => nil %>
   </div>
   <% else %>
   <span class="icon icon-package">
@@ -30,3 +32,5 @@ end %>
 </tr>
 </tbody>
 </table>
+<% end %>
+<%= context_menu %>

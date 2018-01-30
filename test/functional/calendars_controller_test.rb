@@ -48,6 +48,12 @@ class CalendarsControllerTest < Redmine::ControllerTest
         assert_select 'p.buttons'
       end
     end
+
+    # Assert context menu on issues
+    assert_select 'form[data-cm-url=?]', '/issues/context_menu'
+    assert_select 'div.issue.hascontextmenu' do
+      assert_select 'input[name=?][type=?]', 'ids[]', 'checkbox'
+    end
   end
 
   def test_show_should_run_custom_queries
