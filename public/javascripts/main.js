@@ -84,7 +84,17 @@ $(document).ready(function () {
 
     });
 
-
+    // add Geppetto Projects to the My Projects dropdown menu
+    function populateMyProjects(json) {
+        var geppettoProjects = JSON.parse(json);
+        for (var i=0; i<geppettoProjects.length; ++i) {
+            $('.projects-dropdown + .dropdown-menu').append(
+                "<li selected=selected><a href=" + window.location.origin + "/projects/" + geppettoProjects[i].name +
+                    "?explorer_id=" + geppettoProjects[i].id + ">" + geppettoProjects[i].name + "</a></li>"
+            );
+        }
+    }
+    callGeppetto("geppettoProjectsCompact", populateMyProjects, true);
 
 });
 
