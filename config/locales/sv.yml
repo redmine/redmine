@@ -134,7 +134,7 @@ sv:
         not_same_project: "tillhör inte samma projekt"
         circular_dependency: "Denna relation skulle skapa ett cirkulärt beroende"
         cant_link_an_issue_with_a_descendant: "Ett ärende kan inte länkas till ett av dess underärenden"
-        earlier_than_minimum_start_date: "kan inte vara tidigare än% {datum} på grund av föregående ärenden"
+        earlier_than_minimum_start_date: "kan inte vara tidigare än %{date} på grund av föregående ärenden"
         not_a_regexp: "is not a valid regular expression"
         open_issue_with_closed_parent: "An open issue cannot be attached to a closed parent task"
 
