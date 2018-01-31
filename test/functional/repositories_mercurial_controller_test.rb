@@ -129,7 +129,7 @@ class RepositoriesMercurialControllerTest < Redmine::RepositoryControllerTest
           assert_select 'tr', 1
           assert_select 'tr.file td.filename a', :text => 'delete.png'
         end
-  
+
         assert_select 'table.changesets tbody' do
           assert_select 'tr'
         end
@@ -154,7 +154,7 @@ class RepositoriesMercurialControllerTest < Redmine::RepositoryControllerTest
           assert_select 'tr.file td.filename a', :text => 'percent%file1.txt'
           assert_select 'tr.file td.filename a', :text => 'percentfile1.txt'
         end
-  
+
         assert_select 'table.changesets tbody' do
           assert_select 'tr td.id a', :text => /^13:/
           assert_select 'tr td.id a', :text => /^11:/
@@ -184,7 +184,7 @@ class RepositoriesMercurialControllerTest < Redmine::RepositoryControllerTest
           assert_select 'tr.file td.filename a', :text => "test-#{@char_1}-2.txt"
           assert_select 'tr.file td.filename a', :text => "test-#{@char_1}.txt"
         end
-  
+
         assert_select 'table.changesets tbody' do
           assert_select 'tr td.id a', :text => /^21:/
           assert_select 'tr td.id a', :text => /^20:/
