@@ -1,8 +1,10 @@
 User-agent: *
-<% @projects.each do |p| -%>
+<% @projects.each do |project| -%>
+<%   [project, project.id].each do |p| -%>
 Disallow: <%= url_for(:controller => 'repositories', :action => :show, :id => p) %>
 Disallow: <%= url_for(project_issues_path(:project_id => p)) %>
 Disallow: <%= url_for(project_activity_path(:id => p)) %>
+<%   end -%>
 <% end -%>
 Disallow: <%= url_for(issues_gantt_path) %>
 Disallow: <%= url_for(issues_calendar_path) %>
