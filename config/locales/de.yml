@@ -1211,7 +1211,7 @@ de:
   label_table_of_contents: Inhaltsverzeichnis
   error_no_projects_with_tracker_allowed_for_new_issue: Es gibt keine Projekte mit Trackern, für welche sie Tickets erzeugen können
   field_textarea_font: Schriftart für Textbereiche
-  label_font_default: Strandardschrift
+  label_font_default: Standardschrift
   label_font_monospace: Nichtproporzionale Schrift
   label_font_proportional: Proportionale Schrift
   setting_commit_logs_formatting: Textformatierung für Commit Nachrichten
