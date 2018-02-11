@@ -581,8 +581,4 @@ class Mailer < ActionMailer::Base
     @references_objects ||= []
     @references_objects << object
   end
-
-  def mylogger
-    Rails.logger
-  end
 end
