@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -18,9 +18,12 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class SearchControllerTest < ActionController::TestCase
-  fixtures :projects, :enabled_modules, :roles, :users, :members, :member_roles,
+  fixtures :projects, :projects_trackers,
+           :enabled_modules, :roles, :users, :members, :member_roles,
            :issues, :trackers, :issue_statuses, :enumerations,
+           :workflows,
            :custom_fields, :custom_values,
+           :custom_fields_projects, :custom_fields_trackers,
            :repositories, :changesets
 
   def setup
@@ -38,21 +41,45 @@ class SearchControllerTest < ActionController::TestCase
     assert assigns(:results).include?(Project.find(1))
   end
 
+  def test_search_on_archived_project_should_return_404
+    Project.find(3).archive
+    get :index, :id => 3
+    assert_response 404
+  end
+
+  def test_search_on_invisible_project_by_user_should_be_denied
+    @request.session[:user_id] = 7
+    get :index, :id => 2
+    assert_response 403
+  end
+
+  def test_search_on_invisible_project_by_anonymous_user_should_redirect
+    get :index, :id => 2
+    assert_response 302
+  end
+
+  def test_search_on_private_project_by_member_should_succeed
+    @request.session[:user_id] = 2
+    get :index, :id => 2
+    assert_response :success
+  end
+
   def test_search_all_projects
-    get :index, :q => 'recipe subproject commit', :all_words => ''
+    with_settings :default_language => 'en' do
+      get :index, :q => 'recipe subproject commit', :all_words => ''
+    end
     assert_response :success
     assert_template 'index'
 
     assert assigns(:results).include?(Issue.find(2))
     assert assigns(:results).include?(Issue.find(5))
     assert assigns(:results).include?(Changeset.find(101))
-    assert_tag :dt, :attributes => { :class => /issue/ },
-                    :child => { :tag => 'a',  :content => /Add ingredients categories/ },
-                    :sibling => { :tag => 'dd', :content => /should be classified by categories/ }
+    assert_select 'dt.issue a', :text => /Add ingredients categories/
+    assert_select 'dd', :text => /should be classified by categories/
 
-    assert assigns(:results_by_type).is_a?(Hash)
-    assert_equal 5, assigns(:results_by_type)['changesets']
-    assert_tag :a, :content => 'Changesets (5)'
+    assert assigns(:result_count_by_type).is_a?(Hash)
+    assert_equal 5, assigns(:result_count_by_type)['changesets']
+    assert_select 'a', :text => 'Changesets (5)'
   end
 
   def test_search_issues
@@ -64,8 +91,7 @@ class SearchControllerTest < ActionController::TestCase
     assert_equal false, assigns(:titles_only)
     assert assigns(:results).include?(Issue.find(8))
     assert assigns(:results).include?(Issue.find(5))
-    assert_tag :dt, :attributes => { :class => /issue closed/ },
-                    :child => { :tag => 'a',  :content => /Closed/ }
+    assert_select 'dt.issue.closed a',  :text => /Closed/
   end
 
   def test_search_issues_should_search_notes
@@ -155,6 +181,44 @@ class SearchControllerTest < ActionController::TestCase
     assert results.include?(Issue.find(7))
   end
 
+  def test_search_without_attachments
+    issue = Issue.generate! :subject => 'search_attachments'
+    attachment = Attachment.generate! :container => Issue.find(1), :filename => 'search_attachments.patch'
+
+    get :index, :id => 1, :q => 'search_attachments', :attachments => '0'
+    results = assigns(:results)
+    assert_equal 1, results.size
+    assert_equal issue, results.first
+  end
+
+  def test_search_attachments_only
+    issue = Issue.generate! :subject => 'search_attachments'
+    attachment = Attachment.generate! :container => Issue.find(1), :filename => 'search_attachments.patch'
+
+    get :index, :id => 1, :q => 'search_attachments', :attachments => 'only'
+    results = assigns(:results)
+    assert_equal 1, results.size
+    assert_equal attachment.container, results.first
+  end
+
+  def test_search_with_attachments
+    Issue.generate! :subject => 'search_attachments'
+    Attachment.generate! :container => Issue.find(1), :filename => 'search_attachments.patch'
+
+    get :index, :id => 1, :q => 'search_attachments', :attachments => '1'
+    results = assigns(:results)
+    assert_equal 2, results.size
+  end
+
+  def test_search_open_issues
+    Issue.generate! :subject => 'search_open'
+    Issue.generate! :subject => 'search_open', :status_id => 5
+
+    get :index, :id => 1, :q => 'search_open', :open_issues => '1'
+    results = assigns(:results)
+    assert_equal 1, results.size
+  end
+
   def test_search_all_words
     # 'all words' is on by default
     get :index, :id => 1, :q => 'recipe updating saving', :all_words => '1'
@@ -198,20 +262,24 @@ class SearchControllerTest < ActionController::TestCase
     assert_equal 1, results.size
   end
 
-  def test_search_with_offset
-    get :index, :q => 'coo', :offset => '20080806073000'
-    assert_response :success
-    results = assigns(:results)
-    assert results.any?
-    assert results.map(&:event_datetime).max < '20080806T073000'.to_time
-  end
+  def test_search_with_pagination
+    issue = (0..24).map {Issue.generate! :subject => 'search_with_limited_results'}.reverse
 
-  def test_search_previous_with_offset
-    get :index, :q => 'coo', :offset => '20080806073000', :previous => '1'
+    get :index, :q => 'search_with_limited_results'
     assert_response :success
-    results = assigns(:results)
-    assert results.any?
-    assert results.map(&:event_datetime).min >= '20080806T073000'.to_time
+    assert_equal issue[0..9], assigns(:results)
+
+    get :index, :q => 'search_with_limited_results', :page => 2
+    assert_response :success
+    assert_equal issue[10..19], assigns(:results)
+
+    get :index, :q => 'search_with_limited_results', :page => 3
+    assert_response :success
+    assert_equal issue[20..24], assigns(:results)
+
+    get :index, :q => 'search_with_limited_results', :page => 4
+    assert_response :success
+    assert_equal [], assigns(:results)
   end
 
   def test_search_with_invalid_project_id
@@ -247,8 +315,8 @@ class SearchControllerTest < ActionController::TestCase
     get :index, :q => 'escaped_once'
     assert_response :success
     assert_select '#search-results' do
-      assert_select 'dt.issue a', :text => /&lt;subject&gt;/
-      assert_select 'dd', :text => /&lt;description&gt;/
+      assert_select 'dt.issue a', :text => /<subject>/
+      assert_select 'dd', :text => /<description>/
     end
   end
 

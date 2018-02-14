@@ -3,10 +3,8 @@
 </div>
 <br/>
 <hr/>
-<%= labelled_form_for @project do |f| %>
+<%= form_for @project, :html => { class: 'form-horizontal' } do |f| %>
 <%= render :partial => 'form', :locals => { :f => f, :hiddenNonRequiredFields => false } %>
-<br/>
-
 <% if(User.current.admin?) %>
 <div class="bs-docs bs-docs-admin ">
 	<div class="accordion" id="accordion2">
@@ -18,10 +16,10 @@
 	    </div>
 	    <div id="collapseOne" class="accordion-body collapse">
 	      <div class="accordion-inner">
-				<% @project.custom_field_values.each do |value| %>
-				  <div class="control-group"><%= custom_field_tag_with_label :project, value %></div>
-				<% end %>
-				<%= call_hook(:view_projects_form, :project => @project, :form => f) %>
+		  <% @project.custom_field_values.each do |value| %>
+		      <div class="form-group"><%= custom_field_tag_with_label :project, value, :class => 'col-sm-2' %></div>
+		  <% end %>
+		  <%= call_hook(:view_projects_form, :project => @project, :form => f) %>
 	      </div>
 	    </div>
 	  </div>
@@ -34,17 +32,21 @@
 <%= submit_tag l(:button_save), :class=>"btn btn-success" %>
 <% end %>
 
-<div id="deleteModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3 id="myModalLabel">Are you sure?</h3>
-  </div>
-  <div class="modal-body">
-    <p>Are you sure you want to delete <%= @project.name %> from OSB?</p>
-    <p><strong>Note</strong>: this operation won't affect the external repository where the project is stored.</p>
-  </div>
-  <div class="modal-footer">
-    <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
-    <%= link_to " Delete project",project_path(@project), :method => :delete, :class=>"btn btn-danger icon-trash" %>
-  </div>
+<div id="deleteModal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">×</button>
+                <h3 id="myModalLabel" class="modal-title">Are you sure?</h3>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete <%= @project.name %> from OSB?</p>
+                <p><strong>Note</strong>: this operation won't affect the external repository where the project is stored.</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <%= link_to " Delete project",project_path(@project), :method => :delete, :class=>"btn btn-danger icon-trash" %>
+            </div>
+        </div>
+    </div>
 </div>

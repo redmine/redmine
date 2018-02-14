@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -32,9 +32,9 @@ class AdminController < ApplicationController
   def projects
     @status = params[:status] || 1
 
-    scope = Project.status(@status).order('lft')
+    scope = Project.status(@status).sorted
     scope = scope.like(params[:name]) if params[:name].present?
-    @projects = scope.all
+    @projects = scope.to_a
 
     render :action => "projects", :layout => false if request.xhr?
   end
@@ -51,7 +51,7 @@ class AdminController < ApplicationController
         Redmine::DefaultData::Loader::load(params[:lang])
         flash[:notice] = l(:notice_default_data_loaded)
       rescue Exception => e
-        flash[:error] = l(:error_can_t_load_default_data, e.message)
+        flash[:error] = l(:error_can_t_load_default_data, ERB::Util.h(e.message))
       end
     end
     redirect_to admin_path
@@ -63,9 +63,9 @@ class AdminController < ApplicationController
     ActionMailer::Base.raise_delivery_errors = true
     begin
       @test = Mailer.test_email(User.current).deliver
-      flash[:notice] = l(:notice_email_sent, User.current.mail)
+      flash[:notice] = l(:notice_email_sent, ERB::Util.h(User.current.mail))
     rescue Exception => e
-      flash[:error] = l(:notice_email_error, Redmine::CodesetUtil.replace_invalid_utf8(e.message))
+      flash[:error] = l(:notice_email_error, ERB::Util.h(Redmine::CodesetUtil.replace_invalid_utf8(e.message.dup)))
     end
     ActionMailer::Base.raise_delivery_errors = raise_delivery_errors
     redirect_to settings_path(:tab => 'notifications')
@@ -76,7 +76,7 @@ class AdminController < ApplicationController
     @checklist = [
       [:text_default_administrator_account_changed, User.default_admin_account_changed?],
       [:text_file_repository_writable, File.writable?(Attachment.storage_path)],
-      [:text_plugin_assets_writable,   File.writable?(Redmine::Plugin.public_directory)],
+      ["#{l :text_plugin_assets_writable} (./public/plugin_assets)",   File.writable?(Redmine::Plugin.public_directory)],
       [:text_rmagick_available,        Object.const_defined?(:Magick)],
       [:text_convert_available,        Redmine::Thumbnail.convert_available?]
     ]

@@ -1,0 +1,36 @@
+# Redmine runs tests on own continuous integration server.
+# http://www.redmine.org/projects/redmine/wiki/Continuous_integration
+# You can also run tests on your environment.
+
+install:
+  - SET PATH=C:\Ruby%ruby_version%\bin;%PATH%
+  - ruby --version
+  - gem --version
+  - git --version
+  - hg  --version
+
+build: off
+
+test_script:
+  - bundle install --without rmagick
+  - set SCMS=mercurial
+  - set RUN_ON_NOT_OFFICIAL=
+  - set RUBY_VER=1.9
+  - set BRANCH=trunk
+  - bundle exec rake config/database.yml
+  - bundle install
+  - bundle exec rake ci:setup
+  - bundle exec rake test
+
+environment:
+  global:
+    RAILS_ENV: test
+    DATABASE_ADAPTER: sqlite3
+  matrix:
+    - ruby_version: "193"
+    - ruby_version: "200"
+    - ruby_version: "200-x64"
+    - ruby_version: "21"
+    - ruby_version: "21-x64"
+    - ruby_version: "22"
+    - ruby_version: "22-x64"

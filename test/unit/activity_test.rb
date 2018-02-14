@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -76,6 +76,14 @@ class ActivityTest < ActiveSupport::TestCase
     assert_nil(events.detect {|e| e.event_author != user})
   end
 
+  def test_journal_with_notes_and_changes_should_be_returned_once
+    f = Redmine::Activity::Fetcher.new(User.anonymous, :project => Project.find(1))
+    f.scope = ['issues']
+    events = f.events
+
+    assert_equal events, events.uniq
+  end
+
   def test_files_activity
     f = Redmine::Activity::Fetcher.new(User.anonymous, :project => Project.find(1))
     f.scope = ['files']
@@ -119,6 +127,66 @@ class ActivityTest < ActiveSupport::TestCase
   def test_event_group_for_wiki_content_version
     content = WikiContent::Version.find(1)
     assert_equal content.page, content.event_group
+  end
+
+  class TestActivityProviderWithPermission
+    def self.activity_provider_options
+      {'test' => {:permission => :custom_permission}}
+    end
+  end
+
+  class TestActivityProviderWithNilPermission
+    def self.activity_provider_options
+      {'test' => {:permission => nil}}
+    end
+  end
+
+  class TestActivityProviderWithoutPermission
+    def self.activity_provider_options
+      {'test' => {}}
+    end
+  end
+
+  class MockUser
+    def initialize(*permissions)
+      @permissions = permissions
+    end
+
+    def allowed_to?(permission, *args)
+      @permissions.include?(permission)
+    end
+  end
+
+  def test_event_types_should_consider_activity_provider_permission
+    Redmine::Activity.register 'test', :class_name => 'ActivityTest::TestActivityProviderWithPermission'
+    user = MockUser.new(:custom_permission)
+    f = Redmine::Activity::Fetcher.new(user, :project => Project.find(1))
+    assert_include 'test', f.event_types
+  ensure
+    Redmine::Activity.delete 'test'
+  end
+
+  def test_event_types_should_include_activity_provider_with_nil_permission
+    Redmine::Activity.register 'test', :class_name => 'ActivityTest::TestActivityProviderWithNilPermission'
+    user = MockUser.new()
+    f = Redmine::Activity::Fetcher.new(user, :project => Project.find(1))
+    assert_include 'test', f.event_types
+  ensure
+    Redmine::Activity.delete 'test'
+  end
+
+  def test_event_types_should_use_default_permission_for_activity_provider_without_permission
+    Redmine::Activity.register 'test', :class_name => 'ActivityTest::TestActivityProviderWithoutPermission'
+
+    user = MockUser.new()
+    f = Redmine::Activity::Fetcher.new(user, :project => Project.find(1))
+    assert_not_include 'test', f.event_types
+
+    user = MockUser.new(:view_test)
+    f = Redmine::Activity::Fetcher.new(user, :project => Project.find(1))
+    assert_include 'test', f.event_types
+  ensure
+    Redmine::Activity.delete 'test'
   end
 
   private

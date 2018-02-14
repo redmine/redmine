@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -19,7 +19,7 @@ class PreviewsController < ApplicationController
   before_filter :find_project, :find_attachments
 
   def issue
-    @issue = @project.issues.find_by_id(params[:id]) unless params[:id].blank?
+    @issue = Issue.visible.find_by_id(params[:id]) unless params[:id].blank?
     if @issue
       @description = params[:issue] && params[:issue][:description]
       if @description && @description.gsub(/(\r?\n|\n\r?)/, "\n") == @issue.description.to_s.gsub(/(\r?\n|\n\r?)/, "\n")

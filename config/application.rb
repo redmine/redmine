@@ -2,12 +2,7 @@ require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
 
-if defined?(Bundler)
-  # If you precompile assets before deploying to production, use this line
-  Bundler.require(*Rails.groups(:assets => %w(development test)))
-  # If you want your assets lazily compiled in production, use this line
-  # Bundler.require(:default, :assets, Rails.env)
-end
+Bundler.require(*Rails.groups)
 
 module RedmineApp
   class Application < Rails::Application
@@ -33,7 +28,7 @@ module RedmineApp
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
 
-    I18n.enforce_available_locales = false
+    I18n.enforce_available_locales = true
 
     # Configure the default encoding used in templates for Ruby 1.9.
     config.encoding = "utf-8"
@@ -52,7 +47,34 @@ module RedmineApp
     # Do not include all helpers
     config.action_controller.include_all_helpers = false
 
-    config.session_store :cookie_store, :key => '_redmine_session'
+    # Do not supress errors in after_rollback and after_commit callbacks
+    config.active_record.raise_in_transactional_callbacks = true
+
+    # XML parameter parser removed from core in Rails 4.0
+    # and extracted to actionpack-xml_parser gem
+    config.middleware.insert_after ActionDispatch::ParamsParser, ActionDispatch::XmlParamsParser
+
+    # Sets the Content-Length header on responses with fixed-length bodies
+    config.middleware.insert_after Rack::Sendfile, Rack::ContentLength
+
+    # Verify validity of user sessions
+    config.redmine_verify_sessions = true
+
+    # Specific cache for search results, the default file store cache is not
+    # a good option as it could grow fast. A memory store (32MB max) is used
+    # as the default. If you're running multiple server processes, it's
+    # recommended to switch to a shared cache store (eg. mem_cache_store).
+    # See http://guides.rubyonrails.org/caching_with_rails.html#cache-stores
+    # for more options (same options as config.cache_store).
+    config.redmine_search_cache_store = :memory_store
+
+    # Configure log level here so that additional environment file
+    # can change it (environments/ENV.rb would take precedence over it)
+    config.log_level = Rails.env.production? ? :info : :debug
+
+    config.session_store :cookie_store,
+      :key => '_redmine_session',
+      :path => config.relative_url_root || '/'
 
     if File.exists?(File.join(File.dirname(__FILE__), 'additional_environment.rb'))
       instance_eval File.read(File.join(File.dirname(__FILE__), 'additional_environment.rb'))

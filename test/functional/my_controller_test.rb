@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -18,7 +18,7 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class MyControllerTest < ActionController::TestCase
-  fixtures :users, :user_preferences, :roles, :projects, :members, :member_roles,
+  fixtures :users, :email_addresses, :user_preferences, :roles, :projects, :members, :member_roles,
   :issues, :issue_statuses, :trackers, :enumerations, :custom_fields, :auth_sources
 
   def setup
@@ -46,7 +46,7 @@ class MyControllerTest < ActionController::TestCase
     get :page
     assert_response :success
     assert_select 'tr.time-entry' do
-      assert_select 'td.subject a[href=/issues/1]'
+      assert_select 'td.subject a[href="/issues/1"]'
       assert_select 'td.hours', :text => '2.50'
     end
   end
@@ -68,7 +68,7 @@ class MyControllerTest < ActionController::TestCase
     assert_template 'account'
     assert_equal User.find(2), assigns(:user)
 
-    assert_tag :input, :attributes => { :name => 'user[custom_field_values][4]'}
+    assert_select 'input[name=?]', 'user[custom_field_values][4]'
   end
 
   def test_my_account_should_not_show_non_editable_custom_fields
@@ -79,7 +79,7 @@ class MyControllerTest < ActionController::TestCase
     assert_template 'account'
     assert_equal User.find(2), assigns(:user)
 
-    assert_no_tag :input, :attributes => { :name => 'user[custom_field_values][4]'}
+    assert_select 'input[name=?]', 'user[custom_field_values][4]', 0
   end
 
   def test_my_account_should_show_language_select
@@ -117,16 +117,34 @@ class MyControllerTest < ActionController::TestCase
     assert user.groups.empty?
   end
 
+  def test_update_account_should_send_security_notification
+    ActionMailer::Base.deliveries.clear
+    post :account,
+      :user => {
+        :mail => 'foobar@example.com'
+      }
+
+    assert_not_nil (mail = ActionMailer::Base.deliveries.last)
+    assert_mail_body_match '0.0.0.0', mail
+    assert_mail_body_match I18n.t(:mail_body_security_notification_change_to, field: I18n.t(:field_mail), value: 'foobar@example.com'), mail
+    assert_select_email do
+      assert_select 'a[href^=?]', 'http://localhost:3000/my/account', :text => 'My account'
+    end
+    # The old email address should be notified about the change for security purposes
+    assert [mail.bcc, mail.cc].flatten.include?(User.find(2).mail)
+    assert [mail.bcc, mail.cc].flatten.include?('foobar@example.com')
+  end
+
   def test_my_account_should_show_destroy_link
     get :account
-    assert_select 'a[href=/my/account/destroy]'
+    assert_select 'a[href="/my/account/destroy"]'
   end
 
   def test_get_destroy_should_display_the_destroy_confirmation
     get :destroy
     assert_response :success
     assert_template 'destroy'
-    assert_select 'form[action=/my/account/destroy]' do
+    assert_select 'form[action="/my/account/destroy"]' do
       assert_select 'input[name=confirm]'
     end
   end
@@ -167,7 +185,7 @@ class MyControllerTest < ActionController::TestCase
                     :new_password_confirmation => 'secret1234'
     assert_response :success
     assert_template 'password'
-    assert_error_tag :content => /Password doesn&#x27;t match confirmation/
+    assert_select_error /Password doesn.*t match confirmation/
 
     # wrong password
     post :password, :password => 'wrongpassword',
@@ -191,6 +209,19 @@ class MyControllerTest < ActionController::TestCase
     get :password
     assert_not_nil flash[:error]
     assert_redirected_to '/my/account'
+  end
+
+  def test_change_password_should_send_security_notification
+    ActionMailer::Base.deliveries.clear
+    post :password, :password => 'jsmith',
+                    :new_password => 'secret123',
+                    :new_password_confirmation => 'secret123'
+
+    assert_not_nil (mail = ActionMailer::Base.deliveries.last)
+    assert_mail_body_no_match 'secret123', mail # just to be sure: pw should never be sent!
+    assert_select_email do
+      assert_select 'a[href^=?]', 'http://localhost:3000/my/password', :text => 'Change password'
+    end
   end
 
   def test_page_layout
@@ -239,6 +270,12 @@ class MyControllerTest < ActionController::TestCase
     assert User.find(2).rss_token
     assert_match /reset/, flash[:notice]
     assert_redirected_to '/my/account'
+  end
+
+  def test_show_api_key
+    get :show_api_key
+    assert_response :success
+    assert_select 'pre', User.find(2).api_key
   end
 
   def test_reset_api_key_with_existing_key

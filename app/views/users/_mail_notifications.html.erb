@@ -1,6 +1,6 @@
-<div class="control-group">
-<%= label_tag "user_mail_notification", l(:description_user_mail_notification), :class => "hidden-for-sighted" %>
-<%= select_tag(
+<div class="form-group">
+    <%= label_tag "user_mail_notification", l(:description_user_mail_notification), :class => "hidden-for-sighted col-sm-2 control-label" %>
+    <%= select_tag(
       'user[mail_notification]',
       options_for_select(
          user_mail_notification_options(@user), @user.mail_notification),
@@ -19,9 +19,9 @@
       end %>
   <p><em class="info"><%= l(:text_user_mail_option) %></em></p>
 <% end %>
-<div class="control-group">
-  <label>
-    <%= l(:label_user_mail_no_self_notified) %>
-    <%= check_box_tag 'no_self_notified', 1, @user.pref[:no_self_notified] %>
+<div class="form-group">
+  <label class="col-sm-2 control-label">
+      <%= l(:label_user_mail_no_self_notified) %>
   </label>
+  <%= check_box_tag 'no_self_notified', 1, @user.pref[:no_self_notified] %>
 </div>

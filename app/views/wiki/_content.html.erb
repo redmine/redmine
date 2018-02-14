@@ -1,4 +1,4 @@
-<div class="wiki wiki-page">
+<div class="col-sm-10 wiki wiki-page">
   <%= textilizable content, :text, :attachments => content.page.attachments,
         :edit_section_links => (@sections_editable && {:controller => 'wiki', :action => 'edit', :project_id => @page.project, :id => @page.title}) %>
 </div>

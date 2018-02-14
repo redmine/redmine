@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -75,17 +75,14 @@ class Setting < ActiveRecord::Base
                   TIS-620)
 
   cattr_accessor :available_settings
-  @@available_settings = YAML::load(File.open("#{Rails.root}/config/settings.yml"))
-  Redmine::Plugin.all.each do |plugin|
-    next unless plugin.settings
-    @@available_settings["plugin_#{plugin.id}"] = {'default' => plugin.settings[:default], 'serialized' => true}
-  end
+  self.available_settings ||= {}
 
-  validates_uniqueness_of :name
-  validates_inclusion_of :name, :in => @@available_settings.keys
+  validates_uniqueness_of :name, :if => Proc.new {|setting| setting.new_record? || setting.name_changed?}
+  validates_inclusion_of :name, :in => Proc.new {available_settings.keys}
   validates_numericality_of :value, :only_integer => true, :if => Proc.new { |setting|
-    (s = @@available_settings[setting.name]) && s['format'] == 'int'
+    (s = available_settings[setting.name]) && s['format'] == 'int'
   }
+  attr_protected :id
 
   # Hash used to cache setting values
   @cached_settings = {}
@@ -94,13 +91,16 @@ class Setting < ActiveRecord::Base
   def value
     v = read_attribute(:value)
     # Unserialize serialized settings
-    v = YAML::load(v) if @@available_settings[name]['serialized'] && v.is_a?(String)
-    v = v.to_sym if @@available_settings[name]['format'] == 'symbol' && !v.blank?
+    if available_settings[name]['serialized'] && v.is_a?(String)
+      v = YAML::load(v)
+      v = force_utf8_strings(v)
+    end
+    v = v.to_sym if available_settings[name]['format'] == 'symbol' && !v.blank?
     v
   end
 
   def value=(v)
-    v = v.to_yaml if v && @@available_settings[name] && @@available_settings[name]['serialized']
+    v = v.to_yaml if v && available_settings[name] && available_settings[name]['serialized']
     write_attribute(:value, v.to_s)
   end
 
@@ -118,30 +118,28 @@ class Setting < ActiveRecord::Base
     setting.value
   end
 
-  # Defines getter and setter for each setting
-  # Then setting values can be read using: Setting.some_setting_name
-  # or set using Setting.some_setting_name = "some value"
-  @@available_settings.each do |name, params|
-    src = <<-END_SRC
-    def self.#{name}
-      self[:#{name}]
+	# Updates multiple settings from params and sends a security notification if needed
+  def self.set_all_from_params(settings)
+    settings = (settings || {}).dup.symbolize_keys
+    changes = []
+    settings.each do |name, value|
+      previous_value = Setting[name]
+      set_from_params name, value
+      if available_settings[name.to_s]['security_notifications'] && Setting[name] != previous_value
+        changes << name
+      end
     end
-
-    def self.#{name}?
-      self[:#{name}].to_i > 0
+    if changes.any?
+      Mailer.security_settings_updated(changes)
     end
-
-    def self.#{name}=(value)
-      self[:#{name}] = value
-    end
-END_SRC
-    class_eval src, __FILE__, __LINE__
+    true
   end
 
   # Sets a setting value from params
   def self.set_from_params(name, params)
     params = params.dup
     params.delete_if {|v| v.blank? } if params.is_a?(Array)
+    params.symbolize_keys! if params.is_a?(Hash)
 
     m = "#{name}_from_params"
     if respond_to? m
@@ -194,27 +192,6 @@ END_SRC
     a
   end
 
-  def self.commit_fix_keywords
-    ActiveSupport::Deprecation.warn "Setting.commit_fix_keywords is deprecated and will be removed in Redmine 3"
-    if commit_update_keywords.is_a?(Array)
-      commit_update_keywords.first && commit_update_keywords.first['keywords']
-    end
-  end
-
-  def self.commit_fix_status_id
-    ActiveSupport::Deprecation.warn "Setting.commit_fix_status_id is deprecated and will be removed in Redmine 3"
-    if commit_update_keywords.is_a?(Array)
-      commit_update_keywords.first && commit_update_keywords.first['status_id']
-    end
-  end
-
-  def self.commit_fix_done_ratio
-    ActiveSupport::Deprecation.warn "Setting.commit_fix_done_ratio is deprecated and will be removed in Redmine 3"
-    if commit_update_keywords.is_a?(Array)
-      commit_update_keywords.first && commit_update_keywords.first['done_ratio']
-    end
-  end
-
   def self.openid?
     Object.const_defined?(:OpenID) && self[:openid].to_i > 0
   end
@@ -236,17 +213,80 @@ END_SRC
     logger.info "Settings cache cleared." if logger
   end
 
+  def self.define_plugin_setting(plugin)
+    if plugin.settings
+      name = "plugin_#{plugin.id}"
+      define_setting name, {'default' => plugin.settings[:default], 'serialized' => true}
+    end
+  end
+
+  # Defines getter and setter for each setting
+  # Then setting values can be read using: Setting.some_setting_name
+  # or set using Setting.some_setting_name = "some value"
+  def self.define_setting(name, options={})
+    available_settings[name.to_s] = options
+
+    src = <<-END_SRC
+    def self.#{name}
+      self[:#{name}]
+    end
+
+    def self.#{name}?
+      self[:#{name}].to_i > 0
+    end
+
+    def self.#{name}=(value)
+      self[:#{name}] = value
+    end
+END_SRC
+    class_eval src, __FILE__, __LINE__
+  end
+
+  def self.load_available_settings
+    YAML::load(File.open("#{Rails.root}/config/settings.yml")).each do |name, options|
+      define_setting name, options
+    end
+  end
+
+  def self.load_plugin_settings
+    Redmine::Plugin.all.each do |plugin|
+      define_plugin_setting(plugin)
+    end
+  end
+
+  load_available_settings
+  load_plugin_settings
+
 private
+
+  def force_utf8_strings(arg)
+    if arg.is_a?(String)
+      arg.dup.force_encoding('UTF-8')
+    elsif arg.is_a?(Array)
+      arg.map do |a|
+        force_utf8_strings(a)
+      end
+    elsif arg.is_a?(Hash)
+      arg = arg.dup
+      arg.each do |k,v|
+        arg[k] = force_utf8_strings(v)
+      end
+      arg
+    else
+      arg
+    end
+  end
+
   # Returns the Setting instance for the setting named name
   # (record found in database or new record with default value)
   def self.find_or_default(name)
     name = name.to_s
-    raise "There's no setting named #{name}" unless @@available_settings.has_key?(name)
-    setting = where(:name => name).first
+    raise "There's no setting named #{name}" unless available_settings.has_key?(name)
+    setting = where(:name => name).order(:id => :desc).first
     unless setting
       setting = new
       setting.name = name
-      setting.value = @@available_settings[name]['default']
+      setting.value = available_settings[name]['default']
     end
     setting
   end

@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -95,7 +95,7 @@ class VersionsControllerTest < ActionController::TestCase
     assert_template 'show'
     assert_not_nil assigns(:version)
 
-    assert_tag :tag => 'h2', :content => /1.0/
+    assert_select 'h2', :text => /1.0/
   end
 
   def test_show_should_display_nil_counts

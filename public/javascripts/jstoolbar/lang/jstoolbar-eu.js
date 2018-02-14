@@ -11,6 +11,7 @@ jsToolBar.strings['Code'] = 'Inline Code';
 jsToolBar.strings['Heading 1'] = '1 Goiburua';
 jsToolBar.strings['Heading 2'] = '2 Goiburua';
 jsToolBar.strings['Heading 3'] = '3 Goiburua';
+jsToolBar.strings['Highlighted code'] = 'Highlighted code';
 jsToolBar.strings['Unordered list'] = 'Ordenatu gabeko zerrenda';
 jsToolBar.strings['Ordered list'] = 'Ordenatutako zerrenda';
 jsToolBar.strings['Quote'] = 'Aipamena';

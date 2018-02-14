@@ -1,93 +1,53 @@
+<% content_for :header_tags do %>
+  <script src="/javascripts/welcome.js"></script>
+<% end %>
+<div id="geppettoHomeContainer"></div>
 <% if not User.current.logged? %>
-
-<!-- HEADER -->
-<div class="row-fluid mainContentIndex">
-		<p class="big-lead"><img src="images/osbcircle.png" style="width:8%; margin-right:25px">Modelling the brain, together</p>
-		<p class="lead"><strong>Open Source Brain</strong> is a resource for sharing and collaboratively developing computational models of neural systems.</p>
-		<p class="lead"><strong>Try exploring one of these models:</strong></p>
-		<div id="learnMoreContainer" class="row-fluid"style="text-align: center; display:none;"></div>
-		<br/>
-		<br/>
-		<p class="lead">Explore OSB to see all the rest, create an account to add your own models and <strong>run simulations</strong>!</p>
-		<p>
-			<a class="btn btn-large btn-info" href="/projects">
-				Explore OSB
-			</a>
-			&nbsp;&nbsp;&nbsp;&nbsp; 	  
-			<a class="btn btn-large btn-success" href="/account/register">
-				Sign up
-			</a>
-			&nbsp;&nbsp;&nbsp;&nbsp; 	  
-			<a class="btn btn-large btn-success" href="/login">
-				Sign in
-			</a>
-			<a href="/docs#Getting_Started"><icon id="helpIcon" class="icon-question-sign"/></a>
-		</p>
-
-</div>
-
-<script>
-jQuery(function()
-{
-	//Load Geppetto Project links
-	callGeppetto("", addSampleProjectsToHome, true);  
-});
-</script>
-<!--
-<div class="carousel slide" id="carouselMainPage">
-    <div class="carousel-inner" id="carouselInner">
-		<div class="item active">
-            <div class="bannerImage">
-                <a href="#"><img src="images/osbcircle.png"></a>
-            </div>
+    <!-- HEADER -->
+    <div class="row-fluid indexNoUser">
+	<p class="big-lead"><img src="images/osbcircle.png" class="lead-logo">Modelling the brain, together</p>
+	<p class="lead"><strong>Open Source Brain</strong> is a resource for sharing and collaboratively developing computational models of neural systems.</p>
+	<p class="lead"><strong>Try exploring one of these models:</strong></p>
+	<div id="learnMoreContainer" class="row">
+            <a href="/projects/acnet2/models?explorer=https%3A%2F%2Fraw.githubusercontent.com%2FOpenSourceBrain%2FACnet2%2Fmaster%2FosbSessions%2Fsample%2FSample_Session.json" class="sample">
+                <div class="sampleModel">
+                    <div class="acnet2SampleThumbnail sampleThumbnail"></div>
+                    Primary Auditory Cortex Network
+                </div>
+            </a>
+            <a href="projects/blue-brain-project-showcase/models?explorer=https%3A%2F%2Fraw.githubusercontent.com%2FOpenSourceBrain%2FBlueBrainProjectShowcase%2Fsample%2FosbSessions%2Fsample%2FSample_Session.json" class="sample">
+                <div class="sampleModel">
+                    <div class="l23SampleThumbnail sampleThumbnail"></div>
+                    L23 Cell
+                </div>
+            </a>
+            <a href="/projects/izhikevichmodel?explorer=https%3A%2F%2Fraw.githubusercontent.com%2FOpenSourceBrain%2FIzhikevichModel%2Fsample%2FosbSessions%2Fsample%2FSample_Session.json" class="sample">
+                <div class="sampleModel">
+                    <div class="izhiSampleThumbnail sampleThumbnail"></div>
+                    Izhikevich Spiking Neuron Model
+                </div>
+            </a>
+            <a href="/projects/hodgkin-huxley-tutorial?explorer=https%3A%2F%2Fraw.githubusercontent.com%2Fopensourcebrain%2Ftutorials%2Fdevelopment%2Fmodels%2FhodgkinHuxley%2FGEPPETTO.json" class="sample">
+                <div class="sampleModel">
+                    <div class="hhcellSampleThumbnail sampleThumbnail"></div>
+                    Hodgkin-Huxley Neuron
+                </div>
+            </a>
+            <a href="/projects/ca1pyramidalcell/models?explorer=https%3A%2F%2Fraw.githubusercontent.com%2FOpenSourceBrain%2FCA1PyramidalCell%2Fsample%2FosbSessions%2Fsample%2FSample_Session.json" class="sample">
+                <div class="sampleModel">
+                    <div class="ca1SampleThumbnail sampleThumbnail"></div>
+                    CA1 Pyramidal Cell
+                </div>
+            </a>
         </div>
+	<p class="lead">Explore OSB to see all the rest, create an account to add your own models and <strong>run simulations</strong>!</p>
+	<div>
+	    <a class="btn btn-large btn-info" href="/projects">Explore OSB</a>
+	    <a class="btn btn-large btn-success" href="/account/register">Sign up</a>
+	    <a class="btn btn-large btn-success" href="/login">Sign in</a>
+	    <a href="/docs#Getting_Started"><icon id="helpIcon" class="icon-question-sign blue-icon"/></a>
+	</div>
     </div>
-
-    <div class="control-box" style="display: none">                            
-        <a data-slide="prev" href="#carouselMainPage" class="carousel-control left">‹</a>
-        <a data-slide="next" href="#carouselMainPage" class="carousel-control right">›</a>
-    </div>
-</div>
-
-<br/>
-
-<div>
-    <p ><strong>Read about the <a href="docs/Help/Meetings#OSB_2015">OSB 2015 Workshop</a></strong></p>
-</div>
-
-<script>
-jQuery(function()
-{
-	//Init carousel for gallery view 
-	$('#carouselMainPage').carousel({
-	  pause: true,
-	  interval: false
-    });
-})
-</script>
-
-<script>
-jQuery(function()
-{
-	//
-$.ajax({
-	url: "/welcome/welcome_carousel",
-	cache: false,
-	async: true,
-	success: function(html){
-		
-		$("#carouselInner").append(html);
-		$(".control-box").show();
-    },
-    error: function( xhr, textStatus, errorThrown ) {
-      console.log("Error loading carousel " + textStatus);
-    }
-  });
-  
-
-});
-</script>
--->
 <% else %>
 
 <!-- HEADER -->
@@ -97,37 +57,37 @@ $.ajax({
   
   <li class="active"><a href="#myprojects" data-toggle="tab"><%= User.current.firstname %>'s Home</a></li>
   <li><a href="#workspace" data-toggle="tab">Your models</a></li>
+  <li><a href="/tutorials">Tutorials</a></li>
   <li><a href="#news" data-toggle="tab">News</a></li>
-  <li><a href="#help" data-toggle="tab">Help</a></li>
   
 </ul>
 
 <div class="tab-content">
 
 	<!-- PROJECTS -->
-	<div id="myprojects" class="tab-pane">
-		<div class="row-fluid" id="welcomeMainContainer">
-			<div class="span8" style="margin-left: 0px;">
+	<div id="myprojects" class="tab-pane active in">
+		<div class="container-fluid" id="welcomeMainContainer">
+			<div class="col-xs-12 col-md-8">
 				<% unless @events_by_day.empty? %>
 				<div id="activity">
 					<% @actID=0 %>
 					<% @events_by_day.keys.sort.reverse.each do |day| %>
 						<% @actID=@actID+1 %>
-						<div class="row-fluid activity-item">
+						<div class="row activity-item">
 						<% @events_by_day[day].sort {|x,y| y.event_datetime <=> x.event_datetime }.each do |e| -%>
 							<% @actID=@actID+1 %>
-								<div class="row-fluid activity-item">
-						  			<div class="span05 <%= "E_"+e.event_type %> <%= User.current.logged? && e.respond_to?(:event_author) && User.current == e.event_author ? 'me' : nil %>"></div>
-							  		<div class="span11">
-							  			<div class="time row-fluid" id="<%= 'T'+@actID.to_s() %>"><%= javascript_tag "jQuery('#{'#T'+@actID.to_s()}').html(moment('#{e.event_datetime}', 'YYYY-MM-DD HH:mm:ss Z').fromNow());" %></div>
-							  			<div class="author row-fluid"><strong><%= link_to_user(e.event_author) if e.respond_to?(:event_author) %> edited
+								<div class="row activity-item">
+						  			<div class="col-md-1 <%= "E_"+e.event_type %> <%= User.current.logged? && e.respond_to?(:event_author) && User.current == e.event_author ? 'me' : nil %>"></div>
+							  		<div class="col-md-9">
+							  			<div class="time row" id="<%= 'T'+@actID.to_s() %>"><%= javascript_tag "jQuery('#{'#T'+@actID.to_s()}').html(moment('#{e.event_datetime}', 'YYYY-MM-DD HH:mm:ss Z').fromNow());" %></div>
+							  			<div class="author row"><strong><%= link_to_user(e.event_author) if e.respond_to?(:event_author) %> edited
 							  			
 							  			<%= content_tag('span', h(e.project), :class => 'project-title') if @project.nil? || @project != e.project %></strong></div>
-							  			<div class="row-fluid">
+							  			<div class="row">
 							  			<%= avatar(e.event_author, :size => "50", :class => "img-rounded") if e.respond_to?(:event_author) %>
 							  			<%= link_to format_activity_title(e.event_title), e.event_url %>
 							  			</div>
-							  			<div class="row-fluid">
+							  			<div class="row">
 							  				<div class="description"><%= format_activity_description(e.event_description) %></div>
 						  				</div>
 						  			</div>
@@ -139,7 +99,6 @@ $.ajax({
 				<% end %>
 				<% if @events_by_day.empty? %>
 					<p class="lead">You have no activities yet! Why don't you start by creating a new project?</p>
-					<br/></br/><br/>
 					<icon class="icon-coffee icon-xxxlarge"></icon>
 					<icon class="icon-lightbulb icon-xxxlarge"></icon>
 					<icon class="icon-beaker icon-xxxlarge"></icon>
@@ -147,42 +106,42 @@ $.ajax({
 			</div>
 			
 		
-				<div class="span4">
-					<table class="projecttable table">
+				<div class="col-xs-6 col-md-4">
+					<table class="table table-bordered-rows table-hover projecttable">
 						<thead>
 							<tr>
-								<td><h4>Your projects </h4></td>
+								<td><h4>Your projects</h4></td>
 								<td class="noborder pull-right">
-									<button type="button" class="btn btn-success icon-plus"  onclick="location.href='/projects/new';"> New project</button>
-									<a href="/docs#Creating_Your_Own_Project"><icon style="font-size: 20px;" class="icon-large icon-question-sign"/></a>
+									<button type="button" class="btn btn-success" onclick="location.href='/projects/new';"><i class="icon-plus"></i> New project</button>
+									<a href="/docs#Creating_Your_Own_Project"><icon style="font-size: 20px;" class="icon-large icon-question-sign blue-icon"/></a>
 								</td> 	
-							<tr>
+							</tr>
 						</thead>
-						<% if @projects.any? %>
-							<%= call_hook(:view_welcome_index_left, :projects => @projects) %>
-							<% unless @memberships.empty? %>
-								
-									<% for membership in @memberships %>
-										<tr><td colspan="2"><icon class=" icon-list-alt"></icon><%= link_to_project(membership.project) %></td></tr>
-									<% end %>
-								
+						<% if User.current.projects.any? || @projects.any? %>
+						    <%= call_hook(:view_welcome_index_left, :projects => @projects) %>
+                                                    <% for project in @projects %>
+							<tr><td colspan="2"><icon class="icon-list-alt"></icon><%= link_to_project(project) %></td></tr>
+						    <% end %>
+						    <% unless User.current.projects.empty? %>
+							<% for project in User.current.projects %>
+							    <tr><td colspan="2"><icon class="icon-list-alt"></icon><%= link_to_project(project) %></td></tr>
 							<% end %>
+						    <% end %>
 						<% end %>
 					</table>
 					
-					<table class="projecttable table">
+					<table class="table table-bordered-rows table-hover projecttable">
 						<thead>
 							<tr>
 								<td><h4>Latest projects added on OSB</h4></td> 	
-							<tr>
+							</tr>
 						</thead>
-							<% maxprjcount=3 %>
+							<% maxprjcount=5 %>
 							<% i=0 %>
-							<% for project in @projects %>
+							<% for project in Project.all.order('created_on desc') %>
 								<%if(i<maxprjcount)%>
-									<% @project = project %>
 									<% i=i+1 %>
-										<tr><td><icon class=" icon-list-alt"></icon> <%= link_to_project project %></td></tr> 
+										<tr><td><icon class="icon-list-alt"></icon><%= link_to_project project %></td></tr> 
 								<% else break;%>
 								<% end %>
 							<% end %>
@@ -201,26 +160,6 @@ $.ajax({
 	<div id="workspace" class="tab-pane">
 		<div class="row-fluid" id="dashboardContainer">
 		</div>
-		<script>
-			jQuery(function(){
-				callGeppetto("", addDashboard, true);
-				
-				$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-
-				  var target = $(e.target).attr("href") // activated tab
-				  switch(target){
-				  	case "#workspace":
-				  		hideFooter();
-    					$('#mainContent').removeClass("mainContentMargins");
-    					break;
-    				default:
-    					showFooter();
-    					$('#mainContent').addClass("mainContentMargins");
-    					break;
-				  }
-				});
-			});
-		</script>
 	</div>
 	
 	<!-- NEWS -->
@@ -231,139 +170,9 @@ $.ajax({
 		</div>
 	</div>
 
-	<!-- HELP -->
-	<div id="help" class="tab-pane">
-		<img src="images/osbcircle.png" class="logo-help">
-		<p>
-		Hello! Let's go through the basics of Open Source Brain (OSB), <strong>this will take only 5 minutes to read!</strong> (yes, it's that easy).
-		</p>
-		<p>
-		This is the help section of your home screen, feel free to come back here every time you are lost, most of the anwsers you'll ever need are here! 
-		</br>
-		From your home screen you can work with any project and model available in OSB or even create your own ones.
-		To search for available projects you can click on the Explore OSB link in the top bar or use the search box.
-		</p>
-		<p>			
-		But first things first, <strong>what is an OSB project</strong>?
-		</p>
-		<p>
-		An OSB project is a container of computational neuronal models, usually these models  are directly linked to a publication, or they might all be grouped in a project by a specific technology.
-		An OSB project is always linked to a GitHub repository which stores all the models available in the given project, so if you are already familiary with GitHub you're good to go, otherwise <a href="https://guides.github.com/activities/hello-world/#what" target="_blank">here</a> you'll find all you need to know.
-		</br></br>
-		OK, so inside an OSB project there can be many models, but <strong>how do I work with a specific one</strong>?
-		</br></br>
-		Within OSB there is an online environment that will help you both explore, simulate, and work with models.
-		</br>
-		Yes that's right, you won't have to leave your browser to explore or even to simulate a specific model!
-		</br>
-		Every project has a main model as entry point, it could be the main network, or cell, etc. for the given project, to explore this model just <strong>click on the green button "Explore model" at the top right corner</strong> when inside a project.
-		To explore every other model available click on the "More" button next to it.
-		</p>
-		<img src="images/help/exploreModel.png" class="img-help">
-		
-		<p>
-		The model will load inside OSB, this might take between few seconds or up to a minute depending on the size of the model, you know how complex the brain can be right?
-		</br>
-		You are looking at the model now and you are in read mode which means you can poke around and look at the content of the model but you can't run simulations...yet (keep reading!).
-		</br>
-		So what can you do?
-		</p>
-		<p>
-		<strong>Pan and Zoom</strong>
-		</br>
-		One of the most straightforward features is simple three-dimensional pan, zoom, and rotation functionality.  This works both with the mouse as well as more precise control with the navigation buttons on the left hand panel.
-		</p>
-		<img src="images/help/Fig-1-Pan-Zoom.gif" class="img-help">
-		
-		<p>
-		<strong>Explore the models</strong>
-		</br>
-		Models in OpenSourceBrain have descriptions associated with them.  You can access these descriptions by clicking on the “Model Description” button on the OSB toolbar.
-		<img src="images/help/ExploreModel.gif" class="img-help">
-		Clicking on individual cells in the view will let you explore further descriptions of those cells, including any inputs or Ion channels.  Clicking further into the model channels will enable you to see activation variable plots for those channels.
-		<img src="images/help/ExploreChannels.gif" class="img-help">
-		While you click through the cell descriptions, you can always go back to an earlier sheet using the history icon in the upper left hand corner of the information window.
-		<img src="images/help/ExploreHistory.gif" class="img-help">
-		</p>
-		<p>
-		<strong>Explore the network connections</strong>
-		</br>
-		OSB has a variety of widgets built in to help you explore your models.  Models like this one have a significant number of connections.  By clicking on the “Connectivity” button, you can explore the connection patterns of your model using a variety of graphical tools.
-		</br>
-		<img src="images/help/Fig-2-Connectivity.gif" class="img-help">
-		</p>
-		<p>
-		What if you want to <strong>run a simulation</strong>?
-		
-		First of all you need to persist your model, this operation will create a snapshot of the model (a copy of whatever the latest is on GitHub) which is all yours and on which you'll have write access!
-		Persisting the model is very simple, just click on the star icon on the top of the screen and wait few seconds (in order to do this, you’ll need to be logged in as a registered user of Open Source Brain).
-		
-		<img src="images/help/persist.png" class="img-help">
-		</br>
-		The model is now persisted so you can work with it, <strong>let's have a look at the experiments</strong>!
-		
-		Experiments represent a particular configuration of your model, for each experiment you'll be able to decide which state variables you want to record, which values you want to give to the parameters of the model and even what simulator you'd like to use (do you know we are also connected to the San Diego Super Computer Center?), handy no? 
-		</br>
-		<img src="images/help/Fig-3-Intro.gif" class="img-help">
-		</br>
-		Once you are logged in and the project is persisted, you can begin working with your model.  You can create new experiments for your model by clicking the “clone” button.  This will create a new experiment that is just like the one you cloned from.  You can modify parameters on any experiment you like.
-		
-		<img src="images/help/Fig-4-Clone.gif" class="img-help">
-		</p>
-		<p>
-		<strong>Recording variables</strong>
-		</br>
-		Any state variable that exists in the model can be recorded prior to running a simulation, meaning it will be possible to subsequently plot its values once the simulation is complete.   
-		You can record a variable by searching for it in the search bar (open it using the little <icon class="icon-search icon-2x"></icon> icon on the left hand side of the screen or pressing Ctrl+Space) and clicking on the Record icon <icon class="icon-circle-blank icon-2x"></icon>.  
-		The icon signifying state variables that can be recorded is <icon class="icon-superscript icon-2x"></icon>
-		</br>
-		<img src="images/help/RecordVariable.gif" class="img-help">
-		</p>
-		<p>
-		<strong>Setting a parameter</strong>
-		</br>
-		Any parameter in the model can be dynamically changed to see what the impact of different values will be.  
-		Prior to running an experiment you can modify the values by searching for the parameter name in the search bar and changing the value in the input box.  
-		The icon signifying a parameter name is <icon class="icon-signin icon-2x"></icon>
-		</br>
-		<img src="images/help/SetParameters.gif" class="img-help">
-		</p>
-		<p>
-		<strong>Run an experiment</strong>
-		</br>
-		Once you are happy with what variables you will record and your experiment parameters, you can run the experiment.  
-		</br>
-		The Run button in the upper bar should be available to you.  When you click it, the status of the experiment will change to show you both that it is queued for running and that it is completed. 
-		Playback results from a completed experiment
-		</br>
-		<img src="images/help/Fig-5-Run.gif" class="img-help">
-		
-		</p>
-		<p>
-		Once your experiment is finished, you can use the Play button to plot all the recorded variables that have been simulated.
-		</br>
-		<img src="images/help/Fig-6-Playback.gif" class="img-help">
-		</p>
-		If you want to plot a specific variable that you recorded you will be able to do so using the search bar to look for that variable and using the "Plot" icon.
-		The list of all the variables recorded in a given experiment is available clicking on the "Recorded variables" link in the Experiment table.
-		<img src="images/help/Recorded.png" class="img-help">
-		Clicking on the Results button at the top of the screen will let you rapidly access some default actions, including the ability to see the cells for which you recorded the membrane potential spiking!
-		<img src="images/help/Results.png" class="img-help">
-		Congratulations, you should now be ready to start exploring the models in OSB and run your own simulations! 
-		</br>
-		<img src="images/osbcircle.png" class="logo-help">
-	</div>
-	
-</div>
-
-
-
-	
 	<% content_for :header_tags do %>
 	<%= stylesheet_link_tag 'scm' %>
 	<%= auto_discovery_link_tag(:atom, {:controller => 'news', :action => 'index', :key => User.current.rss_key, :format => 'atom'},:title => "#{Setting.app_title}: #{l(:label_news_latest)}") %>
 	<%= auto_discovery_link_tag(:atom, {:controller => 'activities', :action => 'index', :key => User.current.rss_key, :format => 'atom'},:title => "#{Setting.app_title}: #{l(:label_activity)}") %>
 	<% end %>
-
-
 <% end %>

@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -23,14 +23,16 @@ class RolesController < ApplicationController
   before_filter :find_role, :only => [:show, :edit, :update, :destroy]
   accept_api_auth :index, :show
 
+  require_sudo_mode :create, :update, :destroy
+
   def index
     respond_to do |format|
       format.html {
-        @role_pages, @roles = paginate Role.sorted, :per_page => 25
-        render :action => "index", :layout => false if request.xhr?
+        @roles = Role.sorted.to_a
+        render :layout => false if request.xhr?
       }
       format.api {
-        @roles = Role.givable.all
+        @roles = Role.givable.to_a
       }
     end
   end
@@ -47,7 +49,7 @@ class RolesController < ApplicationController
     if params[:copy].present? && @copy_from = Role.find_by_id(params[:copy])
       @role.copy_from(@copy_from)
     end
-    @roles = Role.sorted.all
+    @roles = Role.sorted.to_a
   end
 
   def create
@@ -60,7 +62,7 @@ class RolesController < ApplicationController
       flash[:notice] = l(:notice_successful_create)
       redirect_to roles_path
     else
-      @roles = Role.sorted.all
+      @roles = Role.sorted.to_a
       render :action => 'new'
     end
   end
@@ -69,11 +71,19 @@ class RolesController < ApplicationController
   end
 
   def update
-    if request.put? and @role.update_attributes(params[:role])
-      flash[:notice] = l(:notice_successful_update)
-      redirect_to roles_path
+    if @role.update_attributes(params[:role])
+      respond_to do |format|
+        format.html {
+          flash[:notice] = l(:notice_successful_update)
+          redirect_to roles_path(:page => params[:page])
+        }
+        format.js { render :nothing => true }
+      end
     else
-      render :action => 'edit'
+      respond_to do |format|
+        format.html { render :action => 'edit' }
+        format.js { render :nothing => true, :status => 422 }
+      end
     end
   end
 
@@ -86,7 +96,7 @@ class RolesController < ApplicationController
   end
 
   def permissions
-    @roles = Role.sorted.all
+    @roles = Role.sorted.to_a
     @permissions = Redmine::AccessControl.permissions.select { |p| !p.public? }
     if request.post?
       @roles.each do |role|

@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -26,10 +26,13 @@ class UsersController < ApplicationController
   include SortHelper
   helper :custom_fields
   include CustomFieldsHelper
+  helper :principal_memberships
+
+  require_sudo_mode :create, :update, :destroy
 
   def index
     sort_init 'login', 'asc'
-    sort_update %w(login firstname lastname mail admin created_on last_login_on)
+    sort_update %w(login firstname lastname admin created_on last_login_on)
 
     case params[:format]
     when 'xml', 'json'
@@ -40,18 +43,18 @@ class UsersController < ApplicationController
 
     @status = params[:status] || 1
 
-    scope = User.logged.status(@status)
+    scope = User.logged.status(@status).preload(:email_address)
     scope = scope.like(params[:name]) if params[:name].present?
     scope = scope.in_group(params[:group_id]) if params[:group_id].present?
 
     @user_count = scope.count
     @user_pages = Paginator.new @user_count, @limit, params['page']
     @offset ||= @user_pages.offset
-    @users =  scope.order(sort_clause).limit(@limit).offset(@offset).all
+    @users =  scope.order(sort_clause).limit(@limit).offset(@offset).to_a
 
     respond_to do |format|
       format.html {
-        @groups = Group.all.sort
+        @groups = Group.givable.sort
         render :layout => !request.xhr?
       }
       format.api
@@ -73,15 +76,22 @@ class UsersController < ApplicationController
     @events_by_day = events.group_by(&:event_date)
 
     unless User.current.admin?
-      if !@user.active? 
+      unless @user.visible?
         #render_error "You are not allow to see this page"
         render_404
         return
       end
     end
 
+    # show projects based on current user visibility
+    @memberships = @user.memberships.where(Project.visible_condition(User.current)).to_a
+
     respond_to do |format|
-      format.html { render :layout => 'base' }
+      format.html {
+        events = Redmine::Activity::Fetcher.new(User.current, :author => @user).events(nil, nil, :limit => 10)
+        @events_by_day = events.group_by {|event| User.current.time_to_date(event.event_datetime)}
+        render :layout => 'base'
+      }
       format.api
     end
   end
@@ -99,7 +109,8 @@ class UsersController < ApplicationController
     @user.admin = params[:user][:admin] || false
     @user.login = params[:user][:login]
     @user.password, @user.password_confirmation = params[:user][:password], params[:user][:password_confirmation] unless @user.auth_source_id
-    @user.pref.attributes = params[:pref]
+    @user.pref.attributes = params[:pref] if params[:pref]
+
     if @user.save
       Mailer.account_information(@user, @user.password).deliver if params[:send_information]
 
@@ -152,14 +163,14 @@ class UsersController < ApplicationController
     # Was the account actived ? (do it before User#save clears the change)
     was_activated = (@user.status_change == [User::STATUS_REGISTERED, User::STATUS_ACTIVE])
     # TODO: Similar to My#account
-    @user.pref.attributes = params[:pref]
+    @user.pref.attributes = params[:pref] if params[:pref]
 
     if @user.save
       @user.pref.save
 
       if was_activated
         Mailer.account_activated(@user).deliver
-      elsif @user.active? && params[:send_information] && @user.password.present? && @user.auth_source_id.nil?
+      elsif @user.active? && params[:send_information] && @user.password.present? && @user.auth_source_id.nil? && @user != User.current
         Mailer.account_information(@user, @user.password).deliver
       end
 
@@ -171,7 +182,8 @@ class UsersController < ApplicationController
         rescue => e
           print "Error requesting url: #{geppettoRegisterURL}"
         else
-          geppettoRegisterContent = JSON.parse(geppettoRegisterContent.read)
+          json = geppettoRegisterContent.read
+          geppettoRegisterContent = json && json.length >= 2 ? JSON.parse(json) : nil
           #TODO verified content
         end
       end
@@ -202,26 +214,6 @@ class UsersController < ApplicationController
     respond_to do |format|
       format.html { redirect_back_or_default(users_path) }
       format.api  { render_api_ok }
-    end
-  end
-
-  def edit_membership
-    @membership = Member.edit_membership(params[:membership_id], params[:membership], @user)
-    @membership.save
-    respond_to do |format|
-      format.html { redirect_to edit_user_path(@user, :tab => 'memberships') }
-      format.js
-    end
-  end
-
-  def destroy_membership
-    @membership = Member.find(params[:membership_id])
-    if @membership.deletable?
-      @membership.destroy
-    end
-    respond_to do |format|
-      format.html { redirect_to edit_user_path(@user, :tab => 'memberships') }
-      format.js
     end
   end
 

@@ -2,12 +2,17 @@
 <br/></br/><br/></br/><br/></br/>
 <%= error_messages_for 'user' %>
 <div class="contextual">
-<%= link_to(' '+l(:button_change_password), {:action => 'password'}, :class => 'pull-right btn icon icon-key') if @user.change_password_allowed? %>
+<%= additional_emails_link(@user) %>
+<%= link_to(l(:button_change_password), {:action => 'password'}, :class => 'pull-right btn icon icon-passwd') if @user.change_password_allowed? %>
 <%= call_hook(:view_my_account_contextual, :user => @user)%>
 </div>
 
+<h2>
+  <%= avatar_edit_link(@user, :size => "50") %>
+  <%=l(:label_my_account)%>
+</h2>
 
-
+<%= error_messages_for 'user' %>
 
 <%= labelled_form_for :user, @user,
                      :url => { :action => "account" },
@@ -30,7 +35,7 @@
   <%= call_hook(:view_my_account, :user => @user, :form => f) %>
 </fieldset>
 
-
+<p class="mobile-hide"><%= submit_tag l(:button_save) %></p>
 </div>
 
 <div class="splitcontentright">
@@ -45,6 +50,7 @@
   <%= call_hook(:view_my_account_preferences, :user => @user, :form => f) %>
 </fieldset>
 
+<p class="mobile-show"><%= submit_tag l(:button_save) %></p>
 </div>
 <%= submit_tag l(:button_save), :class=>"btn btn-large btn-success" %>
 <% end %>

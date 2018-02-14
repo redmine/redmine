@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -15,6 +15,8 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
+require 'roadie'
+
 class Mailer < ActionMailer::Base
   layout 'mailer'
   helper :application
@@ -22,9 +24,31 @@ class Mailer < ActionMailer::Base
   helper :custom_fields
 
   include Redmine::I18n
+  include Roadie::Rails::Automatic
 
   def self.default_url_options
-    { :host => Setting.host_name, :protocol => Setting.protocol }
+    options = {:protocol => Setting.protocol}
+    if Setting.host_name.to_s =~ /\A(https?\:\/\/)?(.+?)(\:(\d+))?(\/.+)?\z/i
+      host, port, prefix = $2, $4, $5
+      options.merge!({
+        :host => host, :port => port, :script_name => prefix
+      })
+    else
+      options[:host] = Setting.host_name
+    end
+    options
+  end
+
+  def project_add(project)
+    redmine_headers 'Project' => project.identifier,
+                    'Project-Id' => project.id
+    message_id project
+    references project
+    @project = project
+    @users = User.find(1)
+    #@project_url = url_for(:controller => 'project', :action => 'show', :id => project.id)
+    mail :to => "info@opensourcebrain.org",
+      :subject => "New OSB Project: #{project.name}"
   end
 
   # Builds a mail for notifying to_users and cc_users about a new issue
@@ -39,8 +63,8 @@ class Mailer < ActionMailer::Base
     @issue = issue
     @users = to_users + cc_users
     @issue_url = url_for(:controller => 'issues', :action => 'show', :id => issue)
-    mail :to => to_users.map(&:mail),
-      :cc => cc_users.map(&:mail),
+    mail :to => to_users,
+      :cc => cc_users,
       :subject => "[#{issue.project.name} - #{issue.tracker.name} ##{issue.id}] (#{issue.status.name}) #{issue.subject}"
   end
 
@@ -71,8 +95,8 @@ class Mailer < ActionMailer::Base
     @journal = journal
     @journal_details = journal.visible_details(@users.first)
     @issue_url = url_for(:controller => 'issues', :action => 'show', :id => issue, :anchor => "change-#{journal.id}")
-    mail :to => to_users.map(&:mail),
-      :cc => cc_users.map(&:mail),
+    mail :to => to_users,
+      :cc => cc_users,
       :subject => s
   end
 
@@ -95,7 +119,7 @@ class Mailer < ActionMailer::Base
     @issues_url = url_for(:controller => 'issues', :action => 'index',
                                 :set_filter => 1, :assigned_to_id => user.id,
                                 :sort => 'due_date:asc')
-    mail :to => user.mail,
+    mail :to => user,
       :subject => l(:mail_subject_reminder, :count => issues.size, :days => days)
   end
 
@@ -109,7 +133,7 @@ class Mailer < ActionMailer::Base
     @author = User.current
     @document = document
     @document_url = url_for(:controller => 'documents', :action => 'show', :id => document)
-    mail :to => document.recipients,
+    mail :to => document.notified_users,
       :subject => "[#{document.project.name}] #{l(:label_document_new)}: #{document.title}"
   end
 
@@ -127,15 +151,15 @@ class Mailer < ActionMailer::Base
     when 'Project'
       added_to_url = url_for(:controller => 'files', :action => 'index', :project_id => container)
       added_to = "#{l(:label_project)}: #{container}"
-      recipients = container.project.notified_users.select {|user| user.allowed_to?(:view_files, container.project)}.collect  {|u| u.mail}
+      recipients = container.project.notified_users.select {|user| user.allowed_to?(:view_files, container.project)}
     when 'Version'
       added_to_url = url_for(:controller => 'files', :action => 'index', :project_id => container.project)
       added_to = "#{l(:label_version)}: #{container.name}"
-      recipients = container.project.notified_users.select {|user| user.allowed_to?(:view_files, container.project)}.collect  {|u| u.mail}
+      recipients = container.project.notified_users.select {|user| user.allowed_to?(:view_files, container.project)}
     when 'Document'
       added_to_url = url_for(:controller => 'documents', :action => 'show', :id => container.id)
       added_to = "#{l(:label_document)}: #{container.title}"
-      recipients = container.recipients
+      recipients = container.notified_users
     end
     redmine_headers 'Project' => container.project.identifier
     @attachments = attachments
@@ -157,8 +181,8 @@ class Mailer < ActionMailer::Base
     references news
     @news = news
     @news_url = url_for(:controller => 'news', :action => 'show', :id => news)
-    mail :to => news.recipients,
-      :cc => news.cc_for_added_news,
+    mail :to => news.notified_users,
+      :cc => news.notified_watchers_for_added_news,
       :subject => "[#{news.project.name}] #{l(:label_news)}: #{news.title}"
   end
 
@@ -176,8 +200,8 @@ class Mailer < ActionMailer::Base
     @news = news
     @comment = comment
     @news_url = url_for(:controller => 'news', :action => 'show', :id => news)
-    mail :to => news.recipients,
-     :cc => news.watcher_recipients,
+    mail :to => news.notified_users,
+     :cc => news.notified_watchers,
      :subject => "Re: [#{news.project.name}] #{l(:label_news)}: #{news.title}"
   end
 
@@ -192,8 +216,8 @@ class Mailer < ActionMailer::Base
     @author = message.author
     message_id message
     references message.root
-    recipients = message.recipients
-    cc = ((message.root.watcher_recipients + message.board.watcher_recipients).uniq - recipients)
+    recipients = message.notified_users
+    cc = ((message.root.notified_watchers + message.board.notified_watchers).uniq - recipients)
     @message = message
     @message_url = url_for(message.event_url)
     mail :to => recipients,
@@ -211,8 +235,8 @@ class Mailer < ActionMailer::Base
                     'Wiki-Page-Id' => wiki_content.page.id
     @author = wiki_content.author
     message_id wiki_content
-    recipients = wiki_content.recipients
-    cc = wiki_content.page.wiki.watcher_recipients - recipients
+    recipients = wiki_content.notified_users
+    cc = wiki_content.page.wiki.notified_watchers - recipients
     @wiki_content = wiki_content
     @wiki_content_url = url_for(:controller => 'wiki', :action => 'show',
                                       :project_id => wiki_content.project,
@@ -232,8 +256,8 @@ class Mailer < ActionMailer::Base
                     'Wiki-Page-Id' => wiki_content.page.id
     @author = wiki_content.author
     message_id wiki_content
-    recipients = wiki_content.recipients
-    cc = wiki_content.page.wiki.watcher_recipients + wiki_content.page.watcher_recipients - recipients
+    recipients = wiki_content.notified_users
+    cc = wiki_content.page.wiki.notified_watchers + wiki_content.page.notified_watchers - recipients
     @wiki_content = wiki_content
     @wiki_content_url = url_for(:controller => 'wiki', :action => 'show',
                                       :project_id => wiki_content.project,
@@ -267,7 +291,7 @@ class Mailer < ActionMailer::Base
   #   Mailer.account_activation_request(user).deliver => sends an email to all active administrators
   def account_activation_request(user)
     # Send the email to all active administrators
-    recipients = User.active.where(:admin => true).collect { |u| u.mail }.compact
+    recipients = User.active.where(:admin => true)
     @user = user
     @url = url_for(:controller => 'users', :action => 'index',
                          :status => User::STATUS_REGISTERED,
@@ -289,12 +313,27 @@ class Mailer < ActionMailer::Base
       :subject => l(:mail_subject_register, Setting.app_title)
   end
 
-  def lost_password(token)
+  def lost_password(token, recipient=nil)
     set_language_if_valid(token.user.language)
+    recipient ||= token.user.mail
     @token = token
     @url = url_for(:controller => 'account', :action => 'lost_password', :token => token.value)
-    mail :to => token.user.mail,
+    mail :to => recipient,
       :subject => l(:mail_subject_lost_password, Setting.app_title)
+  end
+
+  # Notifies user that his password was updated
+  def self.password_updated(user)
+    # Don't send a notification to the dummy email address when changing the password
+    # of the default admin account which is required after the first login
+    # TODO: maybe not the best way to handle this
+    return if user.admin? && user.login == 'admin' && user.mail == 'admin@example.net'
+
+    Mailer.security_notification(user,
+      message: :mail_body_password_updated,
+      title: :button_change_password,
+      url: {controller: 'my', action: 'password'}
+    ).deliver
   end
 
   def register(token)
@@ -303,6 +342,36 @@ class Mailer < ActionMailer::Base
     @url = url_for(:controller => 'account', :action => 'activate', :token => token.value)
     mail :to => token.user.mail,
       :subject => l(:mail_subject_register, Setting.app_title)
+  end
+
+  def security_notification(recipients, options={})
+    redmine_headers 'Sender' => User.current.login
+    @user = Array(recipients).detect{|r| r.is_a? User }
+    set_language_if_valid(@user.try :language)
+    @message = l(options[:message],
+      field: (options[:field] && l(options[:field])),
+      value: options[:value]
+    )
+    @title = options[:title] && l(options[:title])
+    @url = options[:url] && (options[:url].is_a?(Hash) ? url_for(options[:url]) : options[:url])
+    mail :to => recipients,
+      :subject => "[#{Setting.app_title}] #{l(:mail_subject_security_notification)}"
+  end
+
+  def settings_updated(recipients, changes)
+    redmine_headers 'Sender' => User.current.login
+    @changes = changes
+    @url = url_for(controller: 'settings', action: 'index')
+    mail :to => recipients,
+      :subject => "[#{Setting.app_title}] #{l(:mail_subject_security_notification)}"
+  end
+
+	# Notifies admins about settings changes
+  def self.security_settings_updated(changes)
+    return unless changes.present?
+
+    users = User.active.where(admin: true).to_a
+    Mailer.settings_updated(users, changes).deliver
   end
 
   def test_email(user)
@@ -318,10 +387,15 @@ class Mailer < ActionMailer::Base
   # * :tracker  => id of tracker for filtering issues (defaults to all trackers)
   # * :project  => id or identifier of project to process (defaults to all projects)
   # * :users    => array of user/group ids who should be reminded
+  # * :version  => name of target version for filtering issues (defaults to none)
   def self.reminders(options={})
     days = options[:days] || 7
     project = options[:project] ? Project.find(options[:project]) : nil
     tracker = options[:tracker] ? Tracker.find(options[:tracker]) : nil
+    target_version_id = options[:version] ? Version.named(options[:version]).pluck(:id) : nil
+    if options[:version] && target_version_id.blank?
+      raise ActiveRecord::RecordNotFound.new("Couldn't find Version with named #{options[:version]}")
+    end
     user_ids = options[:users]
 
     scope = Issue.open.where("#{Issue.table_name}.assigned_to_id IS NOT NULL" +
@@ -330,6 +404,7 @@ class Mailer < ActionMailer::Base
     )
     scope = scope.where(:assigned_to_id => user_ids) if user_ids.present?
     scope = scope.where(:project_id => project.id) if project
+    scope = scope.where(:fixed_version_id => target_version_id) if target_version_id.present?
     scope = scope.where(:tracker_id => tracker.id) if tracker
     issues_by_assignee = scope.includes(:status, :assigned_to, :project, :tracker).
                               group_by(&:assigned_to)
@@ -370,20 +445,28 @@ class Mailer < ActionMailer::Base
   end
 
   def mail(headers={}, &block)
-    headers.merge! 'X-Mailer' => 'Redmine',
+    headers.reverse_merge! 'X-Mailer' => 'Redmine',
             'X-Redmine-Host' => Setting.host_name,
             'X-Redmine-Site' => Setting.app_title,
-            'X-Auto-Response-Suppress' => 'OOF',
+            'X-Auto-Response-Suppress' => 'All',
             'Auto-Submitted' => 'auto-generated',
             'From' => Setting.mail_from,
             'List-Id' => "<#{Setting.mail_from.to_s.gsub('@', '.')}>"
+
+    # Replaces users with their email addresses
+    [:to, :cc, :bcc].each do |key|
+      if headers[key].present?
+        headers[key] = self.class.email_addresses(headers[key])
+      end
+    end
 
     # Removes the author from the recipients and cc
     # if the author does not want to receive notifications
     # about what the author do
     if @author && @author.logged? && @author.pref.no_self_notified
-      headers[:to].delete(@author.mail) if headers[:to].is_a?(Array)
-      headers[:cc].delete(@author.mail) if headers[:cc].is_a?(Array)
+      addresses = @author.mails
+      headers[:to] -= addresses if headers[:to].is_a?(Array)
+      headers[:cc] -= addresses if headers[:cc].is_a?(Array)
     end
 
     if @author && @author.logged?
@@ -447,6 +530,25 @@ class Mailer < ActionMailer::Base
     end
   end
 
+  # Returns an array of email addresses to notify by
+  # replacing users in arg with their notified email addresses
+  #
+  # Example:
+  #   Mailer.email_addresses(users)
+  #   => ["foo@example.net", "bar@example.net"]
+  def self.email_addresses(arg)
+    arr = Array.wrap(arg)
+    mails = arr.reject {|a| a.is_a? Principal}
+    users = arr - mails
+    if users.any?
+      mails += EmailAddress.
+        where(:user_id => users.map(&:id)).
+        where("is_default = ? OR notify = ?", true, true).
+        pluck(:address)
+    end
+    mails
+  end
+
   private
 
   # Appends a Redmine header field (name is prepended with 'X-Redmine-')
@@ -464,7 +566,7 @@ class Mailer < ActionMailer::Base
     if rand
       hash << Redmine::Utils.random_hex(8)
     end
-    host = Setting.mail_from.to_s.gsub(%r{^.*@}, '')
+    host = Setting.mail_from.to_s.strip.gsub(%r{^.*@|>}, '')
     host = "#{::Socket.gethostname}.redmine" if host.empty?
     "#{hash.join('.')}@#{host}"
   end

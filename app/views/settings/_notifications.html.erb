@@ -30,7 +30,7 @@
 </fieldset>
 
 <div style="float:right;">
-<%= link_to l(:label_send_test_email), :controller => 'admin', :action => 'test_email' %>
+<%= link_to l(:label_send_test_email), test_email_path, :method => :post %>
 </div>
 
 <%= submit_tag l(:button_save) %>

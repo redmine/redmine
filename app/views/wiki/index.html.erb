@@ -11,13 +11,16 @@
 	          </ul>
           </div>
           <div class="btn-group">
-		  	<%= f.link_to 'Atom', {:url => params.merge(:from => nil, :key => User.current.rss_key),:class=>"btn icon-rss btn-rss", :caption=>" News feed"}%>
-		  </div>	
+	      <%= f.link_to 'Atom', {:url => params.merge(:from => nil, :key => User.current.rss_key),:class=>"btn btn-default icon-rss btn-rss", :caption=>" News feed"}%>
+	  </div>	
 		<% end %>
 	</div>
 </div>
 <% end %>
 <div class="contextual">
+<% if User.current.allowed_to?(:edit_wiki_pages, @project) %>
+<%= link_to l(:label_wiki_page_new), new_project_wiki_page_path(@project), :remote => true, :class => 'icon icon-add' %>
+<% end %>
 <%= watcher_link(@wiki, User.current) %>
 </div>
 

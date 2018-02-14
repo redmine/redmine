@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -48,25 +48,36 @@ module Redmine
       l((hours < 2.0 ? :label_f_hour : :label_f_hour_plural), :value => ("%.2f" % hours.to_f))
     end
 
-    def ll(lang, str, value=nil)
-      ::I18n.t(str.to_s, :value => value, :locale => lang.to_s.gsub(%r{(.+)\-(.+)$}) { "#{$1}-#{$2.upcase}" })
+    def l_hours_short(hours)
+      l(:label_f_hour_short, :value => ("%.2f" % hours.to_f))
+    end
+
+    def ll(lang, str, arg=nil)
+      options = arg.is_a?(Hash) ? arg : {:value => arg}
+      locale = lang.to_s.gsub(%r{(.+)\-(.+)$}) { "#{$1}-#{$2.upcase}" }
+      ::I18n.t(str.to_s, options.merge(:locale => locale))
+    end
+
+    # Localizes the given args with user's language
+    def lu(user, *args)
+      lang = user.try(:language).presence || Setting.default_language
+      ll(lang, *args) 
     end
 
     def format_date(date)
       return nil unless date
       options = {}
       options[:format] = Setting.date_format unless Setting.date_format.blank?
-      options[:locale] = User.current.language unless User.current.language.blank?
       ::I18n.l(date.to_date, options)
     end
 
-    def format_time(time, include_date = true)
+    def format_time(time, include_date=true, user=nil)
       return nil unless time
+      user ||= User.current
       options = {}
       options[:format] = (Setting.time_format.blank? ? :time : Setting.time_format)
-      options[:locale] = User.current.language unless User.current.language.blank?
       time = time.to_time if time.is_a?(String)
-      zone = User.current.time_zone
+      zone = user.time_zone
       local = zone ? time.in_time_zone(zone) : (time.utc? ? time.localtime : time)
       (include_date ? "#{format_date(local)} " : "") + ::I18n.l(local, options)
     end
@@ -90,11 +101,20 @@ module Redmine
     # Returns an array of languages names and code sorted by names, example:
     # [["Deutsch", "de"], ["English", "en"] ...]
     #
-    # The result is cached to prevent from loading all translations files.
-    def languages_options
-      ActionController::Base.cache_store.fetch "i18n/languages_options" do
-        valid_languages.map {|lang| [ll(lang.to_s, :general_lang_name), lang.to_s]}.sort {|x,y| x.first <=> y.first }
-      end      
+    # The result is cached to prevent from loading all translations files
+    # unless :cache => false option is given
+    def languages_options(options={})
+      options = if options[:cache] == false
+        valid_languages.
+          select {|locale| ::I18n.exists?(:general_lang_name, locale)}.
+          map {|lang| [ll(lang.to_s, :general_lang_name), lang.to_s]}.
+          sort {|x,y| x.first <=> y.first }
+      else
+        ActionController::Base.cache_store.fetch "i18n/languages_options/#{Redmine::VERSION}" do
+          languages_options :cache => false
+        end
+      end
+      options.map {|name, lang| [name.force_encoding("UTF-8"), lang.force_encoding("UTF-8")]}
     end
 
     def find_language(lang)
@@ -120,6 +140,7 @@ module Redmine
 
       module Implementation
         include ::I18n::Backend::Base
+        include ::I18n::Backend::Pluralization
 
         # Stores translations for the given locale in memory.
         # This uses a deep merge for the translations hash, so existing

@@ -1,0 +1,320 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<title>Formátování Wiki v Redminu</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<style type="text/css">
+    body { font:80% Verdana,Tahoma,Arial,sans-serif; }
+    h1, h2, h3, h4 {  font-family: Trebuchet MS,Georgia,"Times New Roman",serif; }
+    pre, code { font-size:120%; }
+    pre code { font-size:100%; }
+    pre {
+        margin: 1em 1em 1em 1.6em;
+        padding: 2px;
+        background-color: #fafafa;
+        border: 1px solid #e2e2e2;
+        width: auto;
+        overflow-x: auto;
+        overflow-y: hidden;
+    }
+    a.new { color: #b73535; }
+
+    .syntaxhl .class { color:#258; font-weight:bold }
+    .syntaxhl .comment  { color:#385; }
+    .syntaxhl .delimiter { color:black }
+    .syntaxhl .function { color:#06B; font-weight:bold }
+    .syntaxhl .inline { background-color: hsla(0,0%,0%,0.07); color: black }
+    .syntaxhl .inline-delimiter { font-weight: bold; color: #666 }
+    .syntaxhl .instance-variable { color:#33B }
+    .syntaxhl .keyword { color:#939; font-weight:bold }
+    .syntaxhl .string .content { color: #46a }
+    .syntaxhl .string .delimiter { color:#46a }
+</style>
+</head>
+
+<body>
+<h1><a name="1" class="wiki-page"></a>Formátování Wiki (Markdown)</h1>
+
+    <h2><a name="2" class="wiki-page"></a>Odkazy</h2>
+
+        <h3><a name="3" class="wiki-page"></a>Odkazy Redmine</h3>
+
+        <p>Redmine umožňuje hypertextové odkazy mezi jednotlivými zdroji (úkoly, revize, wiki stránky...) kdekoli, kde je použito Wiki formátování.</p>
+        <ul>
+            <li>Odkaz na úkol: <strong>#124</strong> (zobrazí <del><a href="#" class="issue" title="Hromadná změna nezmění kategorii úkolů (Uzavřeno)">#124</a></del>, odkaz je přeškrtnutý, jestliže je úkol uzavřen)</li>
+            <li>Odkaz na poznámku k úkolu: <strong>#124-6</strong>, nebo <strong>#124#note-6</strong></li>
+        </ul>
+
+        <p>Odkazy Wiki:</p>
+
+        <ul>
+            <li><strong>[[Příručka]]</strong> zobrazí odkaz na stránku nazvanou "Příručka": <a href="#" class="wiki-page">Příručka</a>.</li>
+            <li><strong>[[Příručka#čtěte-více]]</strong> Vás přenese ke kotvě "čtěte-více". Nadpisy mají automaticky přiřazené kotvy, na které se můžete odkazovat: <a href="#" class="wiki-page">Příručka</a>.</li>
+            <li><strong>[[Příručka|Uživatelský manuál]]</strong> zobrazí odkaz na tu samou stránku, ale s jiným textem: <a href="#" class="wiki-page">Uživatelský manuál</a>.</li>
+        </ul>
+
+        <p>Můžete se také odkazovat na Wiki stránky jiného projektu:</p>
+
+        <ul>
+
+        <p>Můžete se také odkazovat na Wiki stránky jiného projektu:</p>
+
+        <ul>
+            <li><strong>[[projekt_test:Nějaká stránka]]</strong> zobrazí odkaz na stránku s názvem "Nějaká stránka" na Wiki projektu projekt_test.</li>
+            <li><strong>[[projekt_test:]]</strong> zobrazí odkaz na hlavní Wiki stránku projektu projekt_test.</li>
+        </ul>
+
+        <p>Odkazy na Wiki stránky jsou zobrazeny červeně v případě, že odkazovaná stránka dosud neexistuje, např.: <a href="#" class="wiki-page new">Neexistující stránka</a>.</p>
+
+        <p>Odkazy na další zdroje:</p>
+
+        <ul>
+            <li>Dokumenty:
+                <ul>
+                    <li><strong>document#17</strong> (odkaz na dokument s ID 17)</li>
+                    <li><strong>document:Úvod</strong> (odkaz na dokument s názvem "Úvod")</li>
+                    <li><strong>document:"Nějaký dokument"</strong> (Uvozovky se mohou použít v případě, že název obsahuje mezery.)</li>
+                    <li><strong>projekt_test:document:"Nějaký dokument"</strong> (odkaz na dokument s názvem "Nějaký dokument" v jiném projektu "projekt_test")</li>
+                </ul></li>
+        </ul>
+
+        <ul>
+            <li>Verze:
+                <ul>
+                    <li><strong>version#3</strong> (odkaz na verzi s ID 3)</li>
+                    <li><strong>version:1.0.0</strong> odkaz na verzi s názvem "1.0.0")</li>
+                    <li><strong>version:"1.0 beta 2"</strong></li>
+                    <li><strong>projekt_test:version:1.0.0</strong> (odkaz na verzi "1.0.0" jiného projektu "projekt_test")</li>
+                </ul></li>
+        </ul>
+
+        <ul>
+            <li>Přílohy:
+                <ul>
+                    <li><strong>attachment:soubor.zip</strong> (odkaz na přílohu aktuálního objektu s názvem soubor.zip)</li>
+                    <li>Aktuálně mohou být odkazovány pouze přílohy aktuálního objektu (u úkolu mohou být odkazy pouze na přílohy danného úkolu).</li>
+                </ul></li>
+        </ul>
+
+        <ul>
+            <li>Revize:
+                <ul>
+                    <li><strong>r758</strong>                       (odkaz na revizi)</li>
+                    <li><strong>commit:c6f4d0fd</strong>            (odkaz na revizi s nečíselným označním revize)</li>
+                    <li><strong>svn1|r758</strong>                  (odkaz na revizi určitého repozitáře, pro projekty s více repozitáři)</li>
+                    <li><strong>commit:hg|c6f4d0fd</strong>         (odkaz na revizi  s nečíselným označním revize určitého repozitáře, pro projekty s více repozitáři)</li>
+                    <li><strong>projekt_test:r758</strong>               (odkaz na revizi jiného projektu)</li>
+                    <li><strong>projekt_test:commit:c6f4d0fd</strong>    (odkaz na revizi  s nečíselným označním revize jiného projektu)</li>
+                </ul></li>
+        </ul>
+
+        <ul>
+             <li>Soubory repositáře:
+                <ul>
+                    <li><strong>source:some/file</strong>           (odkaz na soubor umístěný v /some/file respozitáře projektu)</li>
+                    <li><strong>source:some/file@52</strong>        (odkaz na revizi souboru č. 52)</li>
+                    <li><strong>source:some/file#L120</strong>      (odkaz na 120. řádek souboru)</li>
+                    <li><strong>source:some/file@52#L120</strong>   (odkaz na 120. řádek revize souboru č. 52)</li>
+                    <li><strong>source:"some file@52#L120"</strong> (použijte uvozovky, když URL obsahuje mezery)</li>
+                    <li><strong>export:some/file</strong>           (vynutit stažení souboru)</li>
+                    <li><strong>source:svn1|some/file</strong>      (odkaz na soubor určitého repozitáře, pro projekty s více repositáři)</li>
+                    <li><strong>projekt_test:source:some/file</strong>   (odkaz na soubor umístěný v /some/file repositáře projektu "projekt_test")</li>
+                    <li><strong>projekt_test:export:some/file</strong>   (vynutit stažení souboru umístěného v /some/file repositáře projektu "projekt_test")</li>
+                </ul></li>
+        </ul>
+
+        <ul>
+            <li>Diskuzní fóra:
+                <ul>
+                    <li><strong>forum#1</strong> (odkaz na fórum s id 1</li>
+                    <li><strong>forum:Support</strong> (odkaz na fórum pojmenované Support)</li>
+                    <li><strong>forum:"Technical Support"</strong> (Použij dvojté uvozovkym jestliže název fóra obsahuje mezery.)</li>
+                </ul></li>
+        </ul>
+
+        <ul>
+            <li>Příspěvky diskuzního fóra:
+                <ul>
+                    <li><strong>message#1218</strong> (odkaz na příspěvek s ID 1218)</li>
+                </ul></li>
+        </ul>
+
+
+        <ul>
+            <li>Projekty:
+                <ul>
+                    <li><strong>project#3</strong> (odkaz na projekt s ID 3)</li>
+                    <li><strong>project:projekt_test</strong> (odkaz na projekt pojmenovaný "projekt_test")</li>
+                    <li><strong>project:"projekt test"</strong> (odkaz na projekt pojmenovaný "projekt test")</li>
+                </ul></li>
+        </ul>
+
+        <ul>
+            <li>Novinky:
+                <ul>
+                    <li><strong>news#2</strong> (odkaz na novinku id 2)</li>
+                    <li><strong>news:Greetings</strong> (odkaz na novinku "Greetings")</li>
+                    <li><strong>news:"First Release"</strong> (použij dvojté uvozovky, jestliže název novinky obsahuje mezery)</li>
+                </ul></li>
+        </ul>
+
+        <p>Escaping:</p>
+
+        <ul>
+            <li>Zabránit parsování Redmine odkazů, lze vložením vykřičníku před odkaz: !</li>
+        </ul>
+
+
+        <h3><a name="4" class="wiki-page"></a>Externí odkazy</h3>
+
+        <p>URL odkazy a emaily jsou automaticky zobrazeny jako klikací odkaz:</p>
+
+<pre>
+http://www.redmine.org, someone@foo.bar
+</pre>
+
+        <p>zobrazí: <a class="external" href="http://www.redmine.org">http://www.redmine.org</a>, <a href="mailto:someone@foo.bar" class="email">someone@foo.bar</a></p>
+
+        <p>Jestliže chcete zobrazit určitý text místo URL, můžete použít standardní syntaxi textile:</p>
+
+<pre>
+"Webová stránka Redmine":http://www.redmine.org
+</pre>
+
+        <p>zobrazí: <a href="http://www.redmine.org" class="external">Webová stránka Redmine</a></p>
+
+
+    <<h2><a name="5" class="wiki-page"></a>Formátování textu</h2>
+
+
+    <p>Pro nadpisy, tučný text, tabulky a seznamy, Redmine podporuje syntaxi Textile.  Podívejte se na <a class="external" href="http://en.wikipedia.org/wiki/Textile_%28markup_language%29">http://en.wikipedia.org/wiki/Textile_(markup_language)</a> pro informace o využití těchto vlastností. Několik příkladů je uvedeno níže, ale Textile toho dokáže mnohem víc.</p>
+
+        <h3><a name="6" class="wiki-page"></a>Styly písma</h3>
+
+<pre>
+* **tučný**
+* *kurzíva*
+* ***tučná kurzíva***
+* ~~přeškrtnutý~~
+</pre>
+
+        <p>Zobrazí:</p>
+
+        <ul>
+            <li><strong>tučný</strong></li>
+            <li><em>kurzíva</em></li>
+            <li><em><strong>tučná kurzíva</strong></em></li>
+            <li><del>přeškrtnutý</del></li>
+        </ul>
+
+        <h3><a name="7" class="wiki-page"></a>Vložené obrázky</h3>
+
+        <ul>
+            <li><strong>![](image_url)</strong> zobrazí obrázek z odkazu (syntaxe markdown)</li>
+            <li>Jestliže máte obrázek přiložený k Wiki stránce, může být zobrazen jako vložený obrázek pomocí jeho jména: <strong>![](attached_image)</strong></li>
+        </ul>
+
+        <h3><a name="8" class="wiki-page"></a>Headings</h3>
+
+<pre>
+# Nadpis 1. úrovně
+## Nadpis 2. úrovně
+### Nadpis 3. úrovně
+</pre>
+
+<p>Redmine přiřadí kotvu ke každému nadpisu, takže se na ně lze odkazovat pomocí "#Nadpis", "#Podnadpis" atd.</p>
+
+
+        <h3><a name="10" class="wiki-page"></a>Odstavce</h3>
+
+        <p>Začněte odstavec s <strong>&gt;</strong></p>
+
+<pre>
+&gt; Rails je framework pro vývoj webových aplikací podle modelu Model-View-Control.
+Vše, co je potřeba, je databázový a webový server.
+</pre>
+
+        <p>Zobrazí:</p>
+
+       <blockquote>
+                <p>Rails je framework pro vývoj webových aplikací podle modelu Model-View-Control.<br />Vše, co je potřeba, je databázový a webový server.</p>
+        </blockquote>
+
+
+        <h3><a name="11" class="wiki-page"></a>Obsah</h3>
+
+<pre>
+{{toc}} =&gt; obsah zarovnaný doleva
+{{&gt;toc}} =&gt; obsah zarovnaný doprava
+</pre>
+
+        <h3><a name="14" class="wiki-page"></a>Vodorovná čára</h3>
+
+<pre>
+---
+</pre>
+
+    <h2><a name="12" class="wiki-page"></a>Macros</h2>
+
+    <p>Redmine obsahuje následující vestavěná makra:</p>
+
+    <p>
+    <dl>
+      <dt><code>hello_world</code></dt>
+      <dd><p>Jednoduché makro.</p></dd>
+
+      <dt><code>macro_list</code></dt>
+      <dd><p>Zobrazí seznam všech dostupných maker, včetně jejich popisu, existuje-li.</p></dd>
+
+      <dt><code>child_pages</code></dt>
+      <dd><p>Zobrazí seznam dětských stránek. Bez parametrů zobrazí dětské stránky aktuální wiki stránky. Např.:</p>
+      <pre><code>{{child_pages}} -- lze použít pouze z wiki stránky
+{{child_pages(depth=2)}} -- zobrazí dětské stránky pouze do 2. úrovně</code></pre></dd>
+
+     <dt><code>include</code></dt>
+      <dd><p>Vloží Wiki stránku. Např.:</p>
+      <pre><code>{{include(Foo)}}</code></pre>
+      <p>or to include a page of a specific project wiki:</p>
+      <pre><code>{{include(projectname:Foo)}}</code></pre></dd>
+
+      <dt><code>collapse</code></dt>
+      <dd><p>Vloží sbalený blok textu. Např.:</p>
+      <pre><code>{{collapse(Zobrazit detaily...)
+Toto je blok textu, který je sbalený.
+Pro rozbalení klikněte na odkaz.
+}}</code></pre></dd>
+
+      <dt><code>thumbnail</code></dt>
+      <dd><p>Zobrazí klikací náhled obrázku. Např.:</p>
+      <pre>{{thumbnail(image.png)}}
+{{thumbnail(image.png, size=300, title=Thumbnail)}}</pre></dd>
+    </dl>
+    </p>
+
+    <h2><a name="13" class="wiki-page"></a>Zvýrazňování kódu</h2>
+
+    <p>Výchozí zvýrazňování kódu zavisí na <a href="http://coderay.rubychan.de/" class="external">CodeRay</a>, což je rychlá zvýrazňovací knihovna napsaná v Ruby. It currently supports c, clojure, cpp (c++, cplusplus), css, delphi (pascal), diff (patch), erb (eruby, rhtml), go, groovy, haml, html (xhtml), java, javascript (ecmascript, ecma_script, java_script, js), json, lua, php, python, ruby (irb), sass, sql, taskpaper, text (plain, plaintext), xml and yaml (yml) languages, where the names inside parentheses are aliases.</p>
+
+    <p>Kód můžete na stránce zvýraznit pomocí následující syntaxe (note that the language name or alias is case-insensitive):</p>
+
+<pre>
+~~~ ruby
+  Váš kód vložte zde.
+~~~
+</pre>
+
+    <p>Např:</p>
+
+<pre><code class="ruby syntaxhl"><span class="CodeRay"><span class="comment"># The Greeter class</span>
+<span class="keyword">class</span> <span class="class">Greeter</span>
+  <span class="keyword">def</span> <span class="function">initialize</span>(name)
+    <span class="instance-variable">@name</span> = name.capitalize
+  <span class="keyword">end</span>
+
+  <span class="keyword">def</span> <span class="function">salute</span>
+    puts <span class="string"><span class="delimiter">"</span><span class="content">Hello </span><span class="inline"><span class="inline-delimiter">#{</span><span class="instance-variable">@name</span><span class="inline-delimiter">}</span></span><span class="content">!</span><span class="delimiter">"</span></span>
+  <span class="keyword">end</span>
+<span class="keyword">end</span></span></code>
+</pre>
+</body>
+</html>

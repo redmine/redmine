@@ -1,5 +1,6 @@
 <div class="contextual">
-<%= link_to l(:label_profile), user_path(@user), :class => 'btn icon icon-user pull-right' %>
+<%= link_to l(:label_profile), user_path(@user), :class => 'btn btn-default icon icon-user pull-right' %>
+<%= additional_emails_link(@user) %>
 <%= change_status_link(@user) %>
 <%= delete_link user_path(@user) if User.current != @user %>
 </div>
@@ -7,4 +8,3 @@
 <%= title [l(:label_user_plural), users_path], @user.login %>
 
 <%= render_tabs user_settings_tabs %>
-

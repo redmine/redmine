@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -20,9 +20,12 @@ require File.expand_path('../../test_helper', __FILE__)
 class UsersControllerTest < ActionController::TestCase
   include Redmine::I18n
 
-  fixtures :users, :projects, :members, :member_roles, :roles,
+  fixtures :users, :email_addresses, :projects, :members, :member_roles, :roles,
            :custom_fields, :custom_values, :groups_users,
-           :auth_sources
+           :auth_sources,
+           :enabled_modules,
+           :issues, :issue_statuses,
+           :trackers
 
   def setup
     User.current = nil
@@ -64,7 +67,7 @@ class UsersControllerTest < ActionController::TestCase
     assert users.any?
     assert_equal([], (users - Group.find(10).users))
     assert_select 'select[name=group_id]' do
-      assert_select 'option[value=10][selected=selected]'
+      assert_select 'option[value="10"][selected=selected]'
     end
   end
 
@@ -75,7 +78,7 @@ class UsersControllerTest < ActionController::TestCase
     assert_template 'show'
     assert_not_nil assigns(:user)
 
-    assert_tag 'li', :content => /Phone number/
+    assert_select 'li', :text => /Phone number/
   end
 
   def test_show_should_not_display_hidden_custom_fields
@@ -86,7 +89,7 @@ class UsersControllerTest < ActionController::TestCase
     assert_template 'show'
     assert_not_nil assigns(:user)
 
-    assert_no_tag 'li', :content => /Phone number/
+    assert_select 'li', :text => /Phone number/, :count => 0
   end
 
   def test_show_should_not_fail_when_custom_values_are_nil
@@ -106,17 +109,20 @@ class UsersControllerTest < ActionController::TestCase
     assert_response 404
   end
 
-  def test_show_should_not_reveal_users_with_no_visible_activity_or_project
-    @request.session[:user_id] = nil
-    get :show, :id => 9
-    assert_response 404
-  end
-
   def test_show_inactive_by_admin
     @request.session[:user_id] = 1
     get :show, :id => 5
     assert_response 200
     assert_not_nil assigns(:user)
+  end
+
+  def test_show_user_who_is_not_visible_should_return_404
+    Role.anonymous.update! :users_visibility => 'members_of_visible_projects'
+    user = User.generate!
+
+    @request.session[:user_id] = nil
+    get :show, :id => user.id
+    assert_response 404
   end
 
   def test_show_displays_memberships_based_on_project_visibility
@@ -236,6 +242,17 @@ class UsersControllerTest < ActionController::TestCase
     assert user.check_password?(password)
   end
 
+  def test_create_and_continue
+    post :create, :user => {
+        :login => 'randompass',
+        :firstname => 'Random',
+        :lastname => 'Pass',
+        :mail => 'randompass@example.net',
+        :generate_password => '1'
+      }, :continue => '1'
+    assert_redirected_to '/users/new?user%5Bgenerate_password%5D=1'
+  end
+
   def test_create_with_failure
     assert_no_difference 'User.count' do
       post :create, :user => {}
@@ -260,14 +277,64 @@ class UsersControllerTest < ActionController::TestCase
     assert_template 'new'
 
     assert_select 'select#pref_time_zone option[selected=selected]', :text => /Paris/
-    assert_select 'input#pref_no_self_notified[value=1][checked=checked]'
+    assert_select 'input#pref_no_self_notified[value="1"][checked=checked]'
   end
+
+  def test_create_admin_should_send_security_notification
+    ActionMailer::Base.deliveries.clear
+    post :create,
+      :user => {
+        :firstname => 'Edgar',
+        :lastname => 'Schmoe',
+        :login => 'eschmoe',
+        :password => 'secret123',
+        :password_confirmation => 'secret123',
+        :mail => 'eschmoe@example.foo',
+        :admin => '1'
+      }
+
+    assert_not_nil (mail = ActionMailer::Base.deliveries.last)
+    assert_mail_body_match '0.0.0.0', mail
+    assert_mail_body_match I18n.t(:mail_body_security_notification_add, field: I18n.t(:field_admin), value: 'eschmoe'), mail
+    assert_select_email do
+      assert_select 'a[href^=?]', 'http://localhost:3000/users', :text => 'Users'
+    end
+
+    # All admins should receive this
+    User.where(admin: true, status: Principal::STATUS_ACTIVE).each do |admin|
+      assert_not_nil ActionMailer::Base.deliveries.detect{|mail| [mail.bcc, mail.cc].flatten.include?(admin.mail) }
+    end
+  end
+
+  def test_create_non_admin_should_not_send_security_notification
+    ActionMailer::Base.deliveries.clear
+    post :create,
+      :user => {
+        :firstname => 'Edgar',
+        :lastname => 'Schmoe',
+        :login => 'eschmoe',
+        :password => 'secret123',
+        :password_confirmation => 'secret123',
+        :mail => 'eschmoe@example.foo',
+        :admin => '0'
+      }
+    assert_nil ActionMailer::Base.deliveries.last
+  end
+
 
   def test_edit
     get :edit, :id => 2
     assert_response :success
     assert_template 'edit'
     assert_equal User.find(2), assigns(:user)
+  end
+
+  def test_edit_registered_user
+    assert User.find(2).register!
+
+    get :edit, :id => 2
+    assert_response :success
+    assert_select 'a', :text => 'Activate'
   end
 
   def test_update
@@ -366,7 +433,7 @@ class UsersControllerTest < ActionController::TestCase
 
     put :update, :id => u.id, :user => {:auth_source_id => '', :password => 'newpass123', :password_confirmation => 'newpass123'}
 
-    assert_equal nil, u.reload.auth_source
+    assert_nil u.reload.auth_source
     assert u.check_password?('newpass123')
   end
 
@@ -401,6 +468,92 @@ class UsersControllerTest < ActionController::TestCase
     assert_equal '1', user.pref[:no_self_notified]
   end
 
+  def test_update_assign_admin_should_send_security_notification
+    ActionMailer::Base.deliveries.clear
+    put :update, :id => 2, :user => {
+      :admin => 1
+    }
+
+    assert_not_nil (mail = ActionMailer::Base.deliveries.last)
+    assert_mail_body_match I18n.t(:mail_body_security_notification_add, field: I18n.t(:field_admin), value: User.find(2).login), mail
+
+    # All admins should receive this
+    User.where(admin: true, status: Principal::STATUS_ACTIVE).each do |admin|
+      assert_not_nil ActionMailer::Base.deliveries.detect{|mail| [mail.bcc, mail.cc].flatten.include?(admin.mail) }
+    end
+  end
+
+  def test_update_unassign_admin_should_send_security_notification
+    user = User.find(2)
+    user.admin = true
+    user.save!
+
+    ActionMailer::Base.deliveries.clear
+    put :update, :id => user.id, :user => {
+      :admin => 0
+    }
+
+    assert_not_nil (mail = ActionMailer::Base.deliveries.last)
+    assert_mail_body_match I18n.t(:mail_body_security_notification_remove, field: I18n.t(:field_admin), value: user.login), mail
+
+    # All admins should receive this
+    User.where(admin: true, status: Principal::STATUS_ACTIVE).each do |admin|
+      assert_not_nil ActionMailer::Base.deliveries.detect{|mail| [mail.bcc, mail.cc].flatten.include?(admin.mail) }
+    end
+  end
+
+  def test_update_lock_admin_should_send_security_notification
+    user = User.find(2)
+    user.admin = true
+    user.save!
+
+    ActionMailer::Base.deliveries.clear
+    put :update, :id => 2, :user => {
+      :status => Principal::STATUS_LOCKED
+    }
+
+    assert_not_nil (mail = ActionMailer::Base.deliveries.last)
+    assert_mail_body_match I18n.t(:mail_body_security_notification_remove, field: I18n.t(:field_admin), value: User.find(2).login), mail
+
+    # All admins should receive this
+    User.where(admin: true, status: Principal::STATUS_ACTIVE).each do |admin|
+      assert_not_nil ActionMailer::Base.deliveries.detect{|mail| [mail.bcc, mail.cc].flatten.include?(admin.mail) }
+    end
+
+    # if user is already locked, destroying should not send a second mail
+    # (for active admins see furtherbelow)
+    ActionMailer::Base.deliveries.clear
+    delete :destroy, :id => 1
+    assert_nil ActionMailer::Base.deliveries.last
+
+  end
+
+  def test_update_unlock_admin_should_send_security_notification
+    user = User.find(5) # already locked
+    user.admin = true
+    user.save!
+    ActionMailer::Base.deliveries.clear
+    put :update, :id => user.id, :user => {
+      :status => Principal::STATUS_ACTIVE
+    }
+
+    assert_not_nil (mail = ActionMailer::Base.deliveries.last)
+    assert_mail_body_match I18n.t(:mail_body_security_notification_add, field: I18n.t(:field_admin), value: user.login), mail
+
+    # All admins should receive this
+    User.where(admin: true, status: Principal::STATUS_ACTIVE).each do |admin|
+      assert_not_nil ActionMailer::Base.deliveries.detect{|mail| [mail.bcc, mail.cc].flatten.include?(admin.mail) }
+    end
+  end
+
+  def test_update_admin_unrelated_property_should_not_send_security_notification
+    ActionMailer::Base.deliveries.clear
+    put :update, :id => 1, :user => {
+      :firstname => 'Jimmy'
+    }
+    assert_nil ActionMailer::Base.deliveries.last
+  end
+
   def test_destroy
     assert_difference 'User.count', -1 do
       delete :destroy, :id => 2
@@ -425,77 +578,19 @@ class UsersControllerTest < ActionController::TestCase
     assert_redirected_to '/users?name=foo'
   end
 
-  def test_create_membership
-    assert_difference 'Member.count' do
-      post :edit_membership, :id => 7, :membership => { :project_id => 3, :role_ids => [2]}
-    end
-    assert_redirected_to :action => 'edit', :id => '7', :tab => 'memberships'
-    member = Member.order('id DESC').first
-    assert_equal User.find(7), member.principal
-    assert_equal [2], member.role_ids
-    assert_equal 3, member.project_id
-  end
+  def test_destroy_active_admin_should_send_security_notification
+    user = User.find(2)
+    user.admin = true
+    user.save!
+    ActionMailer::Base.deliveries.clear
+    delete :destroy, :id => user.id
 
-  def test_create_membership_js_format
-    assert_difference 'Member.count' do
-      post :edit_membership, :id => 7, :membership => {:project_id => 3, :role_ids => [2]}, :format => 'js'
-      assert_response :success
-      assert_template 'edit_membership'
-      assert_equal 'text/javascript', response.content_type
-    end
-    member = Member.order('id DESC').first
-    assert_equal User.find(7), member.principal
-    assert_equal [2], member.role_ids
-    assert_equal 3, member.project_id
-    assert_include 'tab-content-memberships', response.body
-  end
+    assert_not_nil (mail = ActionMailer::Base.deliveries.last)
+    assert_mail_body_match I18n.t(:mail_body_security_notification_remove, field: I18n.t(:field_admin), value: user.login), mail
 
-  def test_create_membership_js_format_with_failure
-    assert_no_difference 'Member.count' do
-      post :edit_membership, :id => 7, :membership => {:project_id => 3}, :format => 'js'
-      assert_response :success
-      assert_template 'edit_membership'
-      assert_equal 'text/javascript', response.content_type
+    # All admins should receive this
+    User.where(admin: true, status: Principal::STATUS_ACTIVE).each do |admin|
+      assert_not_nil ActionMailer::Base.deliveries.detect{|mail| [mail.bcc, mail.cc].flatten.include?(admin.mail) }
     end
-    assert_include 'alert', response.body, "Alert message not sent"
-    assert_include 'Role can\\\'t be empty', response.body, "Error message not sent"
-  end
-
-  def test_update_membership
-    assert_no_difference 'Member.count' do
-      put :edit_membership, :id => 2, :membership_id => 1, :membership => { :role_ids => [2]}
-      assert_redirected_to :action => 'edit', :id => '2', :tab => 'memberships'
-    end
-    assert_equal [2], Member.find(1).role_ids
-  end
-
-  def test_update_membership_js_format
-    assert_no_difference 'Member.count' do
-      put :edit_membership, :id => 2, :membership_id => 1, :membership => {:role_ids => [2]}, :format => 'js'
-      assert_response :success
-      assert_template 'edit_membership'
-      assert_equal 'text/javascript', response.content_type
-    end
-    assert_equal [2], Member.find(1).role_ids
-    assert_include 'tab-content-memberships', response.body
-  end
-
-  def test_destroy_membership
-    assert_difference 'Member.count', -1 do
-      delete :destroy_membership, :id => 2, :membership_id => 1
-    end
-    assert_redirected_to :action => 'edit', :id => '2', :tab => 'memberships'
-    assert_nil Member.find_by_id(1)
-  end
-
-  def test_destroy_membership_js_format
-    assert_difference 'Member.count', -1 do
-      delete :destroy_membership, :id => 2, :membership_id => 1, :format => 'js'
-      assert_response :success
-      assert_template 'destroy_membership'
-      assert_equal 'text/javascript', response.content_type
-    end
-    assert_nil Member.find_by_id(1)
-    assert_include 'tab-content-memberships', response.body
   end
 end

@@ -1,10 +1,7 @@
-<div class="pull-right lead sidetitle">New project <i class=" icon-asterisk"></i></div>
-<%= labelled_form_for @project do |f| %>
-<%= render :partial => 'form', :locals => { :f => f, :hiddenNonRequiredFields => true } %>
-<div class="view control-group">
-	<div class="nolabelcontrols" style="position: relative;">
-		<%= submit_tag l(:button_create), :class=>"btn btn-success btn-large"%> <a href="/docs#Creating_Your_Own_Project" target="_blank"><icon style="margin-left: 10px;position: absolute;bottom: 0px;" class="icon-3x icon-question-sign"/></a>
-	</div>
-</div>
-<%= javascript_tag "$('#project_name').focus();" %>
+<div class="pull-right sidetitle">New project <i class="icon-asterisk"></i></div>
+<%= form_for @project, :html => { class: 'form-horizontal new-project' } do |f| %>
+    <%= render :partial => 'form', :locals => { :f => f, :hiddenNonRequiredFields => true } %>
 <% end %> 
+<% content_for :header_tags do %>
+    <script src="/javascripts/project.js"></script>
+<% end %>

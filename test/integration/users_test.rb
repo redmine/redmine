@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,8 +17,8 @@
 
 require File.expand_path('../../test_helper', __FILE__)
 
-class UsersTest < ActionController::IntegrationTest
-  fixtures :users
+class UsersTest < Redmine::IntegrationTest
+  fixtures :users, :email_addresses
 
   def test_destroy_should_not_accept_get_requests
     assert_no_difference 'User.count' do

@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,64 +17,16 @@
 
 require File.expand_path('../../../test_helper', __FILE__)
 
-class RoutingIssueStatusesTest < ActionController::IntegrationTest
+class RoutingIssueStatusesTest < Redmine::RoutingTest
   def test_issue_statuses
-    assert_routing(
-        { :method => 'get', :path => "/issue_statuses" },
-        { :controller => 'issue_statuses', :action => 'index' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/issue_statuses.xml" },
-        { :controller => 'issue_statuses', :action => 'index', :format => 'xml' }
-      )
-    assert_routing(
-        { :method => 'post', :path => "/issue_statuses" },
-        { :controller => 'issue_statuses', :action => 'create' }
-      )
-    assert_routing(
-        { :method => 'post', :path => "/issue_statuses.xml" },
-        { :controller => 'issue_statuses', :action => 'create', :format => 'xml' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/issue_statuses/new" },
-        { :controller => 'issue_statuses', :action => 'new' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/issue_statuses/new.xml" },
-        { :controller => 'issue_statuses', :action => 'new', :format => 'xml' }
-      )
-    assert_routing(
-        { :method => 'get', :path => "/issue_statuses/1/edit" },
-        { :controller => 'issue_statuses', :action => 'edit', :id => '1' }
-      )
-    assert_routing(
-        { :method => 'put', :path => "/issue_statuses/1" },
-        { :controller => 'issue_statuses', :action => 'update',
-          :id => '1' }
-      )
-    assert_routing(
-        { :method => 'put', :path => "/issue_statuses/1.xml" },
-        { :controller => 'issue_statuses', :action => 'update',
-          :format => 'xml', :id => '1' }
-      )
-    assert_routing(
-        { :method => 'delete', :path => "/issue_statuses/1" },
-        { :controller => 'issue_statuses', :action => 'destroy',
-          :id => '1' }
-      )
-    assert_routing(
-        { :method => 'delete', :path => "/issue_statuses/1.xml" },
-        { :controller => 'issue_statuses', :action => 'destroy',
-          :format => 'xml', :id => '1' }
-      )
-    assert_routing(
-        { :method => 'post', :path => "/issue_statuses/update_issue_done_ratio" },
-        { :controller => 'issue_statuses', :action => 'update_issue_done_ratio' }
-      )
-    assert_routing(
-        { :method => 'post', :path => "/issue_statuses/update_issue_done_ratio.xml" },
-        { :controller => 'issue_statuses', :action => 'update_issue_done_ratio',
-          :format => 'xml' }
-      )
+    should_route 'GET /issue_statuses' => 'issue_statuses#index'
+    should_route 'POST /issue_statuses' => 'issue_statuses#create'
+    should_route 'GET /issue_statuses/new' => 'issue_statuses#new'
+
+    should_route 'GET /issue_statuses/1/edit' => 'issue_statuses#edit', :id => '1'
+    should_route 'PUT /issue_statuses/1' => 'issue_statuses#update', :id => '1'
+    should_route 'DELETE /issue_statuses/1' => 'issue_statuses#destroy', :id => '1'
+
+    should_route 'POST /issue_statuses/update_issue_done_ratio' => 'issue_statuses#update_issue_done_ratio'
   end
 end

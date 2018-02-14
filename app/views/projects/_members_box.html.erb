@@ -1,5 +1,7 @@
   <% if @users_by_role.any? %>
-    <p><% @users_by_role.keys.sort.each do |role| %>
-    <%=h role %>: <%= @users_by_role[role].sort.collect{|u| link_to_user u}.join(", ").html_safe %><br />
-    <% end %></p>
+  <div class="members">
+      <% @users_by_role.keys.sort.each do |role| %>
+      <p><span><%= role %>:</span> <%= @users_by_role[role].sort.collect{|u| link_to_user u}.join(", ").html_safe %></p>
+    <% end %>
+  </div>
   <% end %>

@@ -1,6 +1,26 @@
 <%= labelled_fields_for :pref, @user.pref do |pref_fields| %>
-<div class="control-group"><%= pref_fields.check_box :hide_mail %></div>
-<div class="control-group"><%= pref_fields.time_zone_select :time_zone, nil, :include_blank => true %></div>
-<div class="control-group"><%= pref_fields.select :comments_sorting, [[l(:label_chronological_order), 'asc'], [l(:label_reverse_chronological_order), 'desc']] %></div>
-<div class="control-group"><%= pref_fields.check_box :warn_on_leaving_unsaved %></div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label" for="hide_mail">
+            <%= l(:field_hide_mail) %>
+        </label>
+        <%= pref_fields.check_box :hide_mail, :no_label => true %>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label" for="time_zone">
+            <%= l(:field_time_zone) %>
+        </label>
+        <%= pref_fields.time_zone_select :time_zone, nil, :include_blank => true, :no_label => true %>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label" for="comments_sorting">
+            <%= l(:field_comments_sorting) %>
+        </label>
+        <%= pref_fields.select :comments_sorting, [[l(:label_chronological_order), 'asc'], [l(:label_reverse_chronological_order), 'desc']], :no_label => true %>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label" for="warn_on_leaving_unsaved">
+            <%= l(:field_warn_on_leaving_unsaved) %>
+        </label>
+        <%= pref_fields.check_box :warn_on_leaving_unsaved, :no_label => true %>
+    </div>
 <% end %>

@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -19,6 +19,9 @@ class MyController < ApplicationController
   before_filter :require_login
   # let user change user's password when user has to
   skip_before_filter :check_password_change, :only => :password
+
+  require_sudo_mode :account, only: :post
+  require_sudo_mode :reset_rss_key, :reset_api_key, :show_api_key, :destroy
 
   helper :issues
   helper :users
@@ -53,8 +56,8 @@ class MyController < ApplicationController
     @user = User.current
     @pref = @user.pref
     if request.post?
-      @user.safe_attributes = params[:user]
-      @user.pref.attributes = params[:pref]
+      @user.safe_attributes = params[:user] if params[:user]
+      @user.pref.attributes = params[:pref] if params[:pref]
       if @user.save
         @user.pref.save
         set_language_if_valid @user.language
@@ -100,6 +103,9 @@ class MyController < ApplicationController
         @user.password, @user.password_confirmation = params[:new_password], params[:new_password_confirmation]
         @user.must_change_passwd = false
         if @user.save
+          # The session token was destroyed by the password change, generate a new one
+          session[:tk] = @user.generate_session_token
+          Mailer.password_updated(@user)
           flash[:notice] = l(:notice_account_password_updated)
           redirect_to my_account_path
         end
@@ -118,6 +124,10 @@ class MyController < ApplicationController
       flash[:notice] = l(:notice_feeds_access_key_reseted)
     end
     redirect_to my_account_path
+  end
+
+  def show_api_key
+    @user = User.current
   end
 
   # Create a new API key

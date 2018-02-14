@@ -1,4 +1,5 @@
 <% custom_field_values = @issue.editable_custom_field_values %>
+<% if custom_field_values.present? %>
 <div class="splitcontent">
 <div class="splitcontentleft">
 <% i = 0 %>
@@ -12,3 +13,4 @@
 <% end -%>
 </div>
 </div>
+<% end %>

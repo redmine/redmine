@@ -110,8 +110,8 @@ en:
         invalid: "is invalid"
         confirmation: "doesn't match confirmation"
         accepted: "must be accepted"
-        empty: "can't be empty"
-        blank: "can't be blank"
+        empty: "cannot be empty"
+        blank: "cannot be blank"
         too_long: "is too long (maximum is %{count} characters)"
         too_short: "is too short (minimum is %{count} characters)"
         wrong_length: "is the wrong length (should be %{count} characters)"
@@ -141,11 +141,12 @@ en:
   general_csv_separator: ','
   general_csv_decimal_separator: '.'
   general_csv_encoding: ISO-8859-1
-  general_pdf_encoding: UTF-8
+  general_pdf_fontname: freesans
+  general_pdf_monospaced_fontname: freemono
   general_first_day_of_week: '7'
 
   notice_account_updated: Account was successfully updated.
-  notice_account_invalid_creditentials: Invalid user or password
+  notice_account_invalid_credentials: Invalid user or password
   notice_account_password_updated: Password was successfully updated.
   notice_account_wrong_password: Wrong password
   notice_account_register_done: Account was successfully created. An email containing the instructions to activate your account was sent to %{email}.
@@ -182,6 +183,8 @@ en:
   notice_account_deleted: "Your account has been permanently deleted."
   notice_user_successful_create: "User %{id} created."
   notice_new_password_must_be_different: The new password must be different from the current password
+  notice_import_finished: "%{count} items have been imported"
+  notice_import_finished_with_errors: "%{count} out of %{total} items could not be imported"
 
   error_can_t_load_default_data: "Default configuration could not be loaded: %{value}"
   error_scm_not_found: "The entry or revision was not found in the repository."
@@ -204,6 +207,15 @@ en:
   error_attachment_too_big: "This file cannot be uploaded because it exceeds the maximum allowed file size (%{max_size})"
   error_session_expired: "Your session has expired. Please login again."
   warning_attachments_not_saved: "%{count} file(s) could not be saved."
+  error_password_expired: "Your password has expired or the administrator requires you to change it."
+  error_invalid_file_encoding: "The file is not a valid %{encoding} encoded file"
+  error_invalid_csv_file_or_settings: "The file is not a CSV file or does not match the settings below"
+  error_can_not_read_import_file: "An error occurred while reading the file to import"
+  error_attachment_extension_not_allowed: "Attachment extension %{extension} is not allowed"
+  error_ldap_bind_credentials: "Invalid LDAP Account/Password"
+  error_no_tracker_allowed_for_new_issue_in_project: "The project doesn't have any trackers for which you can create an issue"
+  error_no_projects_with_tracker_allowed_for_new_issue: "There are no projects with trackers for which you can create an issue"
+  error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: "Spent time cannot be reassigned to an issue that is about to be deleted"
 
   mail_subject_lost_password: "Your %{value} password"
   mail_body_lost_password: 'To change your password, click on the following link:'
@@ -219,6 +231,15 @@ en:
   mail_body_wiki_content_added: "The '%{id}' wiki page has been added by %{author}."
   mail_subject_wiki_content_updated: "'%{id}' wiki page has been updated"
   mail_body_wiki_content_updated: "The '%{id}' wiki page has been updated by %{author}."
+  mail_subject_security_notification: "Security notification"
+  mail_body_security_notification_change: "%{field} was changed."
+  mail_body_security_notification_change_to: "%{field} was changed to %{value}."
+  mail_body_security_notification_add: "%{field} %{value} was added."
+  mail_body_security_notification_remove: "%{field} %{value} was removed."
+  mail_body_security_notification_notify_enabled: "Email address %{value} now receives notifications."
+  mail_body_security_notification_notify_disabled: "Email address %{value} no longer receives notifications."
+  mail_body_settings_updated: "The following settings were changed:"
+  mail_body_password_updated: "Your password has been changed."
 
   field_name: Name
   field_description: Description
@@ -227,6 +248,7 @@ en:
   field_firstname: First name
   field_lastname: Last name
   field_mail: Email
+  field_address: Email
   field_filename: File
   field_filesize: Size
   field_downloads: Downloads
@@ -267,7 +289,7 @@ en:
   field_admin: Administrator
   field_last_login_on: Last connection
   field_language: Language
-  field_effective_date: Date
+  field_effective_date: Due date
   field_password: Password
   field_new_password: New password
   field_password_confirmation: Confirmation
@@ -337,6 +359,12 @@ en:
   field_inherit_members: Inherit members
   field_generate_password: Generate password
   field_must_change_passwd: Must change password at next logon
+  field_default_status: Default status
+  field_users_visibility: Users visibility
+  field_time_entries_visibility: Time logs visibility
+  field_total_estimated_hours: Total estimated time
+  field_default_version: Default version
+  field_remote_ip: IP address
 
   setting_app_title: Application title
   setting_app_subtitle: Application subtitle
@@ -375,7 +403,8 @@ en:
   setting_enabled_scm: Enabled SCM
   setting_mail_handler_body_delimiters: "Truncate emails after one of these lines"
   setting_mail_handler_api_enabled: Enable WS for incoming emails
-  setting_mail_handler_api_key: API key
+  setting_mail_handler_api_key: Incoming email WS API key
+  setting_sys_api_key: Repository management WS API key
   setting_sequential_project_identifiers: Generate sequential project identifiers
   setting_gravatar_enabled: Use Gravatar user icons
   setting_gravatar_default: Default Gravatar image
@@ -383,7 +412,9 @@ en:
   setting_file_max_size_displayed: Maximum size of text files displayed inline
   setting_repository_log_display_limit: Maximum number of revisions displayed on file log
   setting_openid: Allow OpenID login and registration
+  setting_password_max_age: Require password change after
   setting_password_min_length: Minimum password length
+  setting_lost_password: Allow password reset via email
   setting_new_project_user_role_id: Role given to a non-admin user who creates a project
   setting_default_projects_modules: Default enabled modules for new projects
   setting_issue_done_ratio: Calculate the issue done ratio with
@@ -410,6 +441,12 @@ en:
   setting_mail_handler_excluded_filenames: Exclude attachments by name
   setting_force_default_language_for_anonymous: Force default language for anonymous users
   setting_force_default_language_for_loggedin: Force default language for logged-in users
+  setting_link_copied_issue: Link issues on copy
+  setting_max_additional_emails: Maximum number of additional email addresses
+  setting_search_results_per_page: Search results per page
+  setting_attachment_extensions_allowed: Allowed extensions
+  setting_attachment_extensions_denied: Disallowed extensions
+  setting_new_item_menu_tab: Project menu tab for creating new objects
 
   permission_add_project: Create project
   permission_add_subprojects: Create subprojects
@@ -423,6 +460,7 @@ en:
   permission_view_issues: View Issues
   permission_add_issues: Add issues
   permission_edit_issues: Edit issues
+  permission_copy_issues: Copy issues
   permission_manage_issue_relations: Manage issue relations
   permission_set_issues_private: Set issues public or private
   permission_set_own_issues_private: Set own issues public or private
@@ -474,6 +512,7 @@ en:
   permission_export_wiki_pages: Export wiki pages
   permission_manage_subtasks: Manage subtasks
   permission_manage_related_issues: Manage related issues
+  permission_import_issues: Import issues
 
   project_module_issue_tracking: Issue tracking
   project_module_time_tracking: Time tracking
@@ -508,6 +547,7 @@ en:
   label_issue_updated: Issue updated
   label_issue_note_added: Note added
   label_issue_status_updated: Status updated
+  label_issue_assigned_to_updated: Assignee updated
   label_issue_priority_updated: Priority updated
   label_document: Document
   label_document_new: New document
@@ -524,6 +564,7 @@ en:
   label_member_plural: Members
   label_tracker: Tracker
   label_tracker_plural: Trackers
+  label_tracker_all: All trackers
   label_tracker_new: New tracker
   label_workflow: Workflow
   label_issue_status: Issue status
@@ -543,6 +584,7 @@ en:
   label_register: Sign up
   label_login_with_open_id_option: or login with OpenID
   label_password_lost: Lost password
+  label_password_required: Confirm your password to continue
   label_home: Home
   label_my_page: My page
   label_my_account: My account
@@ -553,6 +595,7 @@ en:
   label_logout: Sign out
   label_help: Help
   label_reported_issues: Reported issues
+  label_assigned_issues: Assigned issues
   label_assigned_to_me_issues: Issues assigned to me
   label_last_login: Last connection
   label_registered_on: Registered on
@@ -580,6 +623,7 @@ en:
   label_attribute: Attribute
   label_attribute_plural: Attributes
   label_no_data: No data to display
+  label_no_preview: No preview available
   label_change_status: Change status
   label_history: History
   label_attachment: File
@@ -610,10 +654,6 @@ en:
   label_open_issues_plural: open
   label_closed_issues: closed
   label_closed_issues_plural: closed
-  label_x_open_issues_abbr_on_total:
-    zero:  0 open / %{total}
-    one:   1 open / %{total}
-    other: "%{count} open / %{total}"
   label_x_open_issues_abbr:
     zero:  0 open
     one:   1 open
@@ -627,6 +667,7 @@ en:
     one:   1 issue
     other: "%{count} issues"
   label_total: Total
+  label_total_plural: Totals
   label_total_time: Total time
   label_permissions: Permissions
   label_current_status: Current status
@@ -640,7 +681,6 @@ en:
   label_used_by: Used by
   label_details: Details
   label_add_note: Add a note
-  label_per_page: Per page
   label_calendar: Calendar
   label_months_from: months from
   label_gantt: Gantt
@@ -692,6 +732,8 @@ en:
   label_any_issues_in_project: any issues in project
   label_any_issues_not_in_project: any issues not in project
   label_no_issues_in_project: no issues in project
+  label_any_open_issues: any open issues
+  label_no_open_issues: no open issues
   label_day_plural: days
   label_repository: Repository
   label_repository_new: New repository
@@ -729,6 +771,7 @@ en:
   label_wiki_edit_plural: Wiki edits
   label_wiki_page: Wiki page
   label_wiki_page_plural: Wiki pages
+  label_wiki_page_new: New wiki page
   label_index_by_title: Index by title
   label_index_by_date: Index by date
   label_current_version: Current version
@@ -737,9 +780,11 @@ en:
   label_changes_details: Details of all changes
   label_issue_tracking: Issue tracking
   label_spent_time: Spent time
+  label_total_spent_time: Total spent time
   label_overall_spent_time: Overall spent time
   label_f_hour: "%{value} hour"
   label_f_hour_plural: "%{value} hours"
+  label_f_hour_short: "%{value} h"
   label_time_tracking: Time tracking
   label_change_plural: Changes
   label_statistics: Statistics
@@ -767,10 +812,6 @@ en:
   label_follows: Follows
   label_copied_to: Copied to
   label_copied_from: Copied from
-  label_end_to_start: end to start
-  label_end_to_end: end to end
-  label_start_to_start: start to start
-  label_start_to_end: start to end
   label_stay_logged_in: Stay logged in
   label_disabled: disabled
   label_show_completed_versions: Show completed versions
@@ -851,6 +892,8 @@ en:
   label_group: Group
   label_group_plural: Groups
   label_group_new: New group
+  label_group_anonymous: Anonymous users
+  label_group_non_member: Non member users
   label_time_entry_plural: Spent time
   label_version_sharing_none: Not shared
   label_version_sharing_descendants: With subprojects
@@ -909,8 +952,53 @@ en:
   label_only: only
   label_drop_down_list: drop-down list
   label_checkboxes: checkboxes
+  label_radio_buttons: radio buttons
   label_link_values_to: Link values to URL
   label_custom_field_select_type: Select the type of object to which the custom field is to be attached
+  label_check_for_updates: Check for updates
+  label_latest_compatible_version: Latest compatible version
+  label_unknown_plugin: Unknown plugin
+  label_add_projects: Add projects
+  label_users_visibility_all: All active users
+  label_users_visibility_members_of_visible_projects: Members of visible projects
+  label_edit_attachments: Edit attached files
+  label_link_copied_issue: Link copied issue
+  label_ask: Ask
+  label_search_attachments_yes: Search attachment filenames and descriptions
+  label_search_attachments_no: Do not search attachments
+  label_search_attachments_only: Search attachments only
+  label_search_open_issues_only: Open issues only
+  label_email_address_plural: Emails
+  label_email_address_add: Add email address
+  label_enable_notifications: Enable notifications
+  label_disable_notifications: Disable notifications
+  label_blank_value: blank
+  label_parent_task_attributes: Parent tasks attributes
+  label_parent_task_attributes_derived: Calculated from subtasks
+  label_parent_task_attributes_independent: Independent of subtasks
+  label_time_entries_visibility_all: All time entries
+  label_time_entries_visibility_own: Time entries created by the user
+  label_member_management: Member management
+  label_member_management_all_roles: All roles
+  label_member_management_selected_roles_only: Only these roles
+  label_import_issues: Import issues
+  label_select_file_to_import: Select the file to import
+  label_fields_separator: Field separator
+  label_fields_wrapper: Field wrapper
+  label_encoding: Encoding
+  label_comma_char: Comma
+  label_semi_colon_char: Semicolon
+  label_quote_char: Quote
+  label_double_quote_char: Double quote
+  label_fields_mapping: Fields mapping
+  label_file_content_preview: File content preview
+  label_create_missing_values: Create missing values
+  label_api: API
+  label_field_format_enumeration: Key/value list
+  label_default_values_for_new_users: Default values for new users
+  label_relations: Relations
+  label_new_project_issue_tab_enabled: Display the "New issue" tab
+  label_new_object_tab_enabled: Display the "+" drop-down
 
   button_login: Login
   button_submit: Submit
@@ -964,6 +1052,8 @@ en:
   button_delete_my_account: Delete my account
   button_close: Close
   button_reopen: Reopen
+  button_import: Import
+  button_filter: Filter
 
   status_active: active
   status_registered: registered
@@ -1028,7 +1118,7 @@ en:
   text_assign_time_entries_to_project: Assign reported hours to the project
   text_reassign_time_entries: 'Reassign reported hours to this issue:'
   text_user_wrote: "%{value} wrote:"
-  text_enumeration_destroy_question: "%{count} objects are assigned to this value."
+  text_enumeration_destroy_question: "%{count} objects are assigned to the value “%{name}”."
   text_enumeration_category_reassign_to: 'Reassign them to this value:'
   text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server in config/configuration.yml and restart the application to enable them."
   text_repository_usernames_mapping: "Select or update the Redmine user mapped to each username found in the repository log.\nUsers with the same Redmine and repository username or email are automatically mapped."
@@ -1043,6 +1133,7 @@ en:
   text_zoom_out: Zoom out
   text_warn_on_leaving_unsaved: "The current page contains unsaved text that will be lost if you leave this page."
   text_scm_path_encoding_note: "Default: UTF-8"
+  text_subversion_repository_note: "Examples: file:///, http://, https://, svn://, svn+[tunnelscheme]://"
   text_git_repository_note: Repository is bare and local (e.g. /gitrepo, c:\gitrepo)
   text_mercurial_repository_note: Local repository (e.g. /hgrepo, c:\hgrepo)
   text_scm_command: Command

@@ -1,0 +1,18 @@
+<h3 class="title"><%= l(:label_password_required) %></h3>
+<%= form_tag({}, remote: true) do %>
+
+  <%= hidden_field_tag '_method', request.request_method %>
+  <%= hash_to_hidden_fields @sudo_form.original_fields %>
+  <%= render_flash_messages %>
+  <div class="box tabular">
+    <p>
+      <label for="sudo_password"><%= l :field_password %><span class="required">*</span></label>
+      <%= password_field_tag :sudo_password, nil, size: 25 %>
+    </p>
+  </div>
+
+  <p class="buttons">
+    <%= submit_tag l(:button_submit), onclick: "hideModal(this);"  %>
+    <%= submit_tag l(:button_cancel), name: nil, onclick: "hideModal(this);", type: 'button' %>
+  </p>
+<% end %>

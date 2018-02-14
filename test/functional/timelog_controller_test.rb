@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -28,13 +28,27 @@ class TimelogControllerTest < ActionController::TestCase
 
   include Redmine::I18n
 
+  def test_new
+    @request.session[:user_id] = 3
+    get :new
+    assert_response :success
+    assert_template 'new'
+    assert_select 'input[name=?][type=hidden]', 'project_id', 0
+    assert_select 'input[name=?][type=hidden]', 'issue_id', 0
+    assert_select 'select[name=?]', 'time_entry[project_id]' do
+      # blank option for project
+      assert_select 'option[value=""]'
+    end
+  end
+
   def test_new_with_project_id
     @request.session[:user_id] = 3
     get :new, :project_id => 1
     assert_response :success
     assert_template 'new'
+    assert_select 'input[name=?][type=hidden]', 'project_id'
+    assert_select 'input[name=?][type=hidden]', 'issue_id', 0
     assert_select 'select[name=?]', 'time_entry[project_id]', 0
-    assert_select 'input[name=?][value=1][type=hidden]', 'time_entry[project_id]'
   end
 
   def test_new_with_issue_id
@@ -42,17 +56,9 @@ class TimelogControllerTest < ActionController::TestCase
     get :new, :issue_id => 2
     assert_response :success
     assert_template 'new'
+    assert_select 'input[name=?][type=hidden]', 'project_id', 0
+    assert_select 'input[name=?][type=hidden]', 'issue_id'
     assert_select 'select[name=?]', 'time_entry[project_id]', 0
-    assert_select 'input[name=?][value=1][type=hidden]', 'time_entry[project_id]'
-  end
-
-  def test_new_without_project
-    @request.session[:user_id] = 3
-    get :new
-    assert_response :success
-    assert_template 'new'
-    assert_select 'select[name=?]', 'time_entry[project_id]'
-    assert_select 'input[name=?]', 'time_entry[project_id]', 0
   end
 
   def test_new_without_project_should_prefill_the_form
@@ -61,9 +67,8 @@ class TimelogControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'new'
     assert_select 'select[name=?]', 'time_entry[project_id]' do
-      assert_select 'option[value=1][selected=selected]'
+      assert_select 'option[value="1"][selected=selected]'
     end
-    assert_select 'input[name=?]', 'time_entry[project_id]', 0
   end
 
   def test_new_without_project_should_deny_without_permission
@@ -87,7 +92,14 @@ class TimelogControllerTest < ActionController::TestCase
     @request.session[:user_id] = 3
     get :new, :project_id => 1
     assert_response :success
-    assert_no_tag 'option', :content => 'Inactive Activity'
+    assert_select 'option', :text => 'Inactive Activity', :count => 0
+  end
+
+  def test_post_new_as_js_should_update_activity_options
+    @request.session[:user_id] = 3
+    post :new, :time_entry => {:project_id => 1}, :format => 'js'
+    assert_response :success
+    assert_include '#time_entry_activity_id', response.body
   end
 
   def test_get_edit_existing_time
@@ -95,98 +107,185 @@ class TimelogControllerTest < ActionController::TestCase
     get :edit, :id => 2, :project_id => nil
     assert_response :success
     assert_template 'edit'
-    # Default activity selected
-    assert_tag :tag => 'form', :attributes => { :action => '/projects/ecookbook/time_entries/2' }
+    assert_select 'form[action=?]', '/time_entries/2'
   end
 
   def test_get_edit_with_an_existing_time_entry_with_inactive_activity
     te = TimeEntry.find(1)
     te.activity = TimeEntryActivity.find_by_name("Inactive Activity")
-    te.save!
+    te.save!(:validate => false)
 
     @request.session[:user_id] = 1
     get :edit, :project_id => 1, :id => 1
     assert_response :success
     assert_template 'edit'
     # Blank option since nothing is pre-selected
-    assert_tag :tag => 'option', :content => '--- Please select ---'
+    assert_select 'option', :text => '--- Please select ---'
   end
 
   def test_post_create
-    # TODO: should POST to issues’ time log instead of project. change form
-    # and routing
     @request.session[:user_id] = 3
-    post :create, :project_id => 1,
+    assert_difference 'TimeEntry.count' do
+      post :create, :project_id => 1,
                 :time_entry => {:comments => 'Some work on TimelogControllerTest',
                                 # Not the default activity
                                 :activity_id => '11',
                                 :spent_on => '2008-03-14',
                                 :issue_id => '1',
                                 :hours => '7.3'}
-    assert_redirected_to :action => 'index', :project_id => 'ecookbook'
+      assert_redirected_to '/projects/ecookbook/time_entries'
+    end
 
-    i = Issue.find(1)
-    t = TimeEntry.find_by_comments('Some work on TimelogControllerTest')
+    t = TimeEntry.order('id DESC').first
     assert_not_nil t
+    assert_equal 'Some work on TimelogControllerTest', t.comments
+    assert_equal 1, t.project_id
+    assert_equal 1, t.issue_id
     assert_equal 11, t.activity_id
     assert_equal 7.3, t.hours
     assert_equal 3, t.user_id
-    assert_equal i, t.issue
-    assert_equal i.project, t.project
   end
 
   def test_post_create_with_blank_issue
-    # TODO: should POST to issues’ time log instead of project. change form
-    # and routing
     @request.session[:user_id] = 3
-    post :create, :project_id => 1,
+    assert_difference 'TimeEntry.count' do
+      post :create, :project_id => 1,
                 :time_entry => {:comments => 'Some work on TimelogControllerTest',
                                 # Not the default activity
                                 :activity_id => '11',
                                 :issue_id => '',
                                 :spent_on => '2008-03-14',
                                 :hours => '7.3'}
-    assert_redirected_to :action => 'index', :project_id => 'ecookbook'
+      assert_redirected_to '/projects/ecookbook/time_entries'
+    end
 
-    t = TimeEntry.find_by_comments('Some work on TimelogControllerTest')
+    t = TimeEntry.order('id DESC').first
     assert_not_nil t
+    assert_equal 'Some work on TimelogControllerTest', t.comments
+    assert_equal 1, t.project_id
+    assert_nil t.issue_id
     assert_equal 11, t.activity_id
     assert_equal 7.3, t.hours
     assert_equal 3, t.user_id
   end
 
-  def test_create_and_continue
+  def test_create_on_project_with_time_tracking_disabled_should_fail
+    Project.find(1).disable_module! :time_tracking
+
     @request.session[:user_id] = 2
-    post :create, :project_id => 1,
-                :time_entry => {:activity_id => '11',
-                                :issue_id => '',
-                                :spent_on => '2008-03-14',
-                                :hours => '7.3'},
-                :continue => '1'
-    assert_redirected_to '/projects/ecookbook/time_entries/new?time_entry%5Bactivity_id%5D=11&time_entry%5Bissue_id%5D='
+    assert_no_difference 'TimeEntry.count' do
+      post :create, :time_entry => {
+        :project_id => '1', :issue_id => '',
+        :activity_id => '11', :spent_on => '2008-03-14', :hours => '7.3'
+      }
+    end
+  end
+
+  def test_create_on_project_without_permission_should_fail
+    Role.find(1).remove_permission! :log_time
+
+    @request.session[:user_id] = 2
+    assert_no_difference 'TimeEntry.count' do
+      post :create, :time_entry => {
+        :project_id => '1', :issue_id => '',
+        :activity_id => '11', :spent_on => '2008-03-14', :hours => '7.3'
+      }
+    end
+  end
+
+  def test_create_on_issue_in_project_with_time_tracking_disabled_should_fail
+    Project.find(1).disable_module! :time_tracking
+
+    @request.session[:user_id] = 2
+    assert_no_difference 'TimeEntry.count' do
+      post :create, :time_entry => {
+        :project_id => '', :issue_id => '1',
+        :activity_id => '11', :spent_on => '2008-03-14', :hours => '7.3'
+      }
+      assert_select_error /Issue is invalid/
+    end
+  end
+
+  def test_create_on_issue_in_project_without_permission_should_fail
+    Role.find(1).remove_permission! :log_time
+
+    @request.session[:user_id] = 2
+    assert_no_difference 'TimeEntry.count' do
+      post :create, :time_entry => {
+        :project_id => '', :issue_id => '1',
+        :activity_id => '11', :spent_on => '2008-03-14', :hours => '7.3'
+      }
+      assert_select_error /Issue is invalid/
+    end
+  end
+
+  def test_create_on_issue_that_is_not_visible_should_not_disclose_subject
+    issue = Issue.generate!(:subject => "issue_that_is_not_visible", :is_private => true)
+    assert !issue.visible?(User.find(3))
+
+    @request.session[:user_id] = 3
+    assert_no_difference 'TimeEntry.count' do
+      post :create, :time_entry => {
+        :project_id => '', :issue_id => issue.id.to_s,
+        :activity_id => '11', :spent_on => '2008-03-14', :hours => '7.3'
+      }
+    end
+    assert_select_error /Issue is invalid/
+    assert_select "input[name=?][value=?]", "time_entry[issue_id]", issue.id.to_s
+    assert_select "#time_entry_issue", 0
+    assert !response.body.include?('issue_that_is_not_visible')
+  end
+
+  def test_create_and_continue_at_project_level
+    @request.session[:user_id] = 2
+    assert_difference 'TimeEntry.count' do
+      post :create, :time_entry => {:project_id => '1',
+                                    :activity_id => '11',
+                                    :issue_id => '',
+                                    :spent_on => '2008-03-14',
+                                    :hours => '7.3'},
+                    :continue => '1'
+      assert_redirected_to '/time_entries/new?time_entry%5Bactivity_id%5D=11&time_entry%5Bissue_id%5D=&time_entry%5Bproject_id%5D=1'
+    end
+  end
+
+  def test_create_and_continue_at_issue_level
+    @request.session[:user_id] = 2
+    assert_difference 'TimeEntry.count' do
+      post :create, :time_entry => {:project_id => '',
+                                    :activity_id => '11',
+                                    :issue_id => '1',
+                                    :spent_on => '2008-03-14',
+                                    :hours => '7.3'},
+                    :continue => '1'
+      assert_redirected_to '/time_entries/new?time_entry%5Bactivity_id%5D=11&time_entry%5Bissue_id%5D=1&time_entry%5Bproject_id%5D='
+    end
+  end
+
+  def test_create_and_continue_with_project_id
+    @request.session[:user_id] = 2
+    assert_difference 'TimeEntry.count' do
+      post :create, :project_id => 1,
+                    :time_entry => {:activity_id => '11',
+                                    :issue_id => '',
+                                    :spent_on => '2008-03-14',
+                                    :hours => '7.3'},
+                    :continue => '1'
+      assert_redirected_to '/projects/ecookbook/time_entries/new?time_entry%5Bactivity_id%5D=11&time_entry%5Bissue_id%5D=&time_entry%5Bproject_id%5D='
+    end
   end
 
   def test_create_and_continue_with_issue_id
     @request.session[:user_id] = 2
-    post :create, :project_id => 1,
-                :time_entry => {:activity_id => '11',
-                                :issue_id => '1',
-                                :spent_on => '2008-03-14',
-                                :hours => '7.3'},
-                :continue => '1'
-    assert_redirected_to '/projects/ecookbook/issues/1/time_entries/new?time_entry%5Bactivity_id%5D=11&time_entry%5Bissue_id%5D=1'
-  end
-
-  def test_create_and_continue_without_project
-    @request.session[:user_id] = 2
-    post :create, :time_entry => {:project_id => '1',
-                                :activity_id => '11',
-                                :issue_id => '',
-                                :spent_on => '2008-03-14',
-                                :hours => '7.3'},
-                  :continue => '1'
-
-    assert_redirected_to '/time_entries/new?time_entry%5Bactivity_id%5D=11&time_entry%5Bissue_id%5D=&time_entry%5Bproject_id%5D=1'
+    assert_difference 'TimeEntry.count' do
+      post :create, :issue_id => 1,
+                    :time_entry => {:activity_id => '11',
+                                    :issue_id => '1',
+                                    :spent_on => '2008-03-14',
+                                    :hours => '7.3'},
+                    :continue => '1'
+      assert_redirected_to '/issues/1/time_entries/new?time_entry%5Bactivity_id%5D=11&time_entry%5Bissue_id%5D=1&time_entry%5Bproject_id%5D='
+    end
   end
 
   def test_create_without_log_time_permission_should_be_denied
@@ -199,6 +298,14 @@ class TimelogControllerTest < ActionController::TestCase
                                 :hours => '7.3'}
 
     assert_response 403
+  end
+
+  def test_create_without_project_and_issue_should_fail
+    @request.session[:user_id] = 2
+    post :create, :time_entry => {:issue_id => ''}
+
+    assert_response :success
+    assert_template 'new'
   end
 
   def test_create_with_failure
@@ -268,8 +375,9 @@ class TimelogControllerTest < ActionController::TestCase
     end
 
     assert_response :success
-    assert_tag 'select', :attributes => {:name => 'time_entry[project_id]'},
-      :child => {:tag => 'option', :attributes => {:value => '1', :selected => 'selected'}}
+    assert_select 'select[name=?]', 'time_entry[project_id]' do
+      assert_select 'option[value="1"][selected=selected]'
+    end
   end
 
   def test_update
@@ -328,8 +436,8 @@ class TimelogControllerTest < ActionController::TestCase
   
       # Activities
       assert_select 'select[name=?]', 'time_entry[activity_id]' do
-        assert_select 'option[value=]', :text => '(No change)'
-        assert_select 'option[value=9]', :text => 'Design'
+        assert_select 'option[value=""]', :text => '(No change)'
+        assert_select 'option[value="9"]', :text => 'Design'
       end
     end
   end
@@ -339,6 +447,16 @@ class TimelogControllerTest < ActionController::TestCase
     get :bulk_edit, :ids => [1, 2, 6]
     assert_response :success
     assert_template 'bulk_edit'
+  end
+
+  def test_bulk_edit_with_edit_own_time_entries_permission
+    @request.session[:user_id] = 2
+    Role.find_by_name('Manager').remove_permission! :edit_time_entries
+    Role.find_by_name('Manager').add_permission! :edit_own_time_entries
+    ids = (0..1).map {TimeEntry.generate!(:user => User.find(2)).id}
+
+    get :bulk_edit, :ids => ids
+    assert_response :success
   end
 
   def test_bulk_update
@@ -382,12 +500,40 @@ class TimelogControllerTest < ActionController::TestCase
     assert_response 403
   end
 
+  def test_bulk_update_with_edit_own_time_entries_permission
+    @request.session[:user_id] = 2
+    Role.find_by_name('Manager').remove_permission! :edit_time_entries
+    Role.find_by_name('Manager').add_permission! :edit_own_time_entries
+    ids = (0..1).map {TimeEntry.generate!(:user => User.find(2)).id}
+
+    post :bulk_update, :ids => ids, :time_entry => { :activity_id => 9 }
+    assert_response 302
+  end
+
+  def test_bulk_update_with_edit_own_time_entries_permissions_should_be_denied_for_time_entries_of_other_user
+    @request.session[:user_id] = 2
+    Role.find_by_name('Manager').remove_permission! :edit_time_entries
+    Role.find_by_name('Manager').add_permission! :edit_own_time_entries
+
+    post :bulk_update, :ids => [1, 2], :time_entry => { :activity_id => 9 }
+    assert_response 403
+  end
+
   def test_bulk_update_custom_field
     @request.session[:user_id] = 2
     post :bulk_update, :ids => [1, 2], :time_entry => { :custom_field_values => {'10' => '0'} }
 
     assert_response 302
     assert_equal ["0", "0"], TimeEntry.where(:id => [1, 2]).collect {|i| i.custom_value_for(10).value}
+  end
+
+  def test_bulk_update_clear_custom_field
+    field = TimeEntryCustomField.generate!(:field_format => 'string')
+    @request.session[:user_id] = 2
+    post :bulk_update, :ids => [1, 2], :time_entry => { :custom_field_values => {field.id.to_s => '__none__'} }
+
+    assert_response 302
+    assert_equal ["", ""], TimeEntry.where(:id => [1, 2]).collect {|i| i.custom_value_for(field).value}
   end
 
   def test_post_bulk_update_should_redirect_back_using_the_back_url_parameter
@@ -433,14 +579,22 @@ class TimelogControllerTest < ActionController::TestCase
     assert_not_nil TimeEntry.find_by_id(1)
   end
 
+  def test_destroy_should_redirect_to_referer
+    referer = 'http://test.host/time_entries?utf8=✓&set_filter=1&&f%5B%5D=user_id&op%5Buser_id%5D=%3D&v%5Buser_id%5D%5B%5D=me'
+    @request.env["HTTP_REFERER"] = referer
+    @request.session[:user_id] = 2
+
+    delete :destroy, :id => 1
+    assert_redirected_to referer
+  end
+
   def test_index_all_projects
     get :index
     assert_response :success
     assert_template 'index'
     assert_not_nil assigns(:total_hours)
     assert_equal "162.90", "%.2f" % assigns(:total_hours)
-    assert_tag :form,
-      :attributes => {:action => "/time_entries", :id => 'query_form'}
+    assert_select 'form#query_form[action=?]', '/time_entries'
   end
 
   def test_index_all_projects_should_show_log_time_link
@@ -448,7 +602,7 @@ class TimelogControllerTest < ActionController::TestCase
     get :index
     assert_response :success
     assert_template 'index'
-    assert_tag 'a', :attributes => {:href => '/time_entries/new'}, :content => /Log time/
+    assert_select 'a[href=?]', '/time_entries/new', :text => /Log time/
   end
 
   def test_index_my_spent_time
@@ -469,8 +623,7 @@ class TimelogControllerTest < ActionController::TestCase
     assert_equal [1, 3], assigns(:entries).collect(&:project_id).uniq.sort
     assert_not_nil assigns(:total_hours)
     assert_equal "162.90", "%.2f" % assigns(:total_hours)
-    assert_tag :form,
-      :attributes => {:action => "/projects/ecookbook/time_entries", :id => 'query_form'}
+    assert_select 'form#query_form[action=?]', '/projects/ecookbook/time_entries'
   end
 
   def test_index_with_display_subprojects_issues_to_false_should_not_include_subproject_entries
@@ -506,8 +659,7 @@ class TimelogControllerTest < ActionController::TestCase
     assert_equal 3, assigns(:entries).size
     assert_not_nil assigns(:total_hours)
     assert_equal "12.90", "%.2f" % assigns(:total_hours)
-    assert_tag :form,
-      :attributes => {:action => "/projects/ecookbook/time_entries", :id => 'query_form'}
+    assert_select 'form#query_form[action=?]', '/projects/ecookbook/time_entries'
   end
 
   def test_index_at_project_level_with_date_range_using_from_and_to_params
@@ -518,8 +670,7 @@ class TimelogControllerTest < ActionController::TestCase
     assert_equal 3, assigns(:entries).size
     assert_not_nil assigns(:total_hours)
     assert_equal "12.90", "%.2f" % assigns(:total_hours)
-    assert_tag :form,
-      :attributes => {:action => "/projects/ecookbook/time_entries", :id => 'query_form'}
+    assert_select 'form#query_form[action=?]', '/projects/ecookbook/time_entries'
   end
 
   def test_index_at_project_level_with_period
@@ -531,8 +682,7 @@ class TimelogControllerTest < ActionController::TestCase
     assert_template 'index'
     assert_not_nil assigns(:entries)
     assert_not_nil assigns(:total_hours)
-    assert_tag :form,
-      :attributes => {:action => "/projects/ecookbook/time_entries", :id => 'query_form'}
+    assert_select 'form#query_form[action=?]', '/projects/ecookbook/time_entries'
   end
 
   def test_index_at_issue_level
@@ -546,10 +696,7 @@ class TimelogControllerTest < ActionController::TestCase
     # display all time
     assert_nil assigns(:from)
     assert_nil assigns(:to)
-    # TODO: remove /projects/:project_id/issues/:issue_id/time_entries routes
-    # to use /issues/:issue_id/time_entries
-    assert_tag :form,
-      :attributes => {:action => "/projects/ecookbook/issues/1/time_entries", :id => 'query_form'}
+    assert_select 'form#query_form[action=?]', '/issues/1/time_entries'
   end
 
   def test_index_should_sort_by_spent_on_and_created_on
@@ -641,7 +788,7 @@ class TimelogControllerTest < ActionController::TestCase
       assert_select 'form[action=?][method=get]', '/projects/ecookbook/time_entries.csv' do
         # filter
         assert_select 'input[name=?][value=?]', 'f[]', 'spent_on'
-        assert_select 'input[name=?][value=?]', 'op[spent_on]', '&gt;='
+        assert_select 'input[name=?][value=?]', 'op[spent_on]', '>='
         assert_select 'input[name=?][value=?]', 'v[spent_on][]', '2007-04-01'
         # columns
         assert_select 'input[name=?][value=?]', 'c[]', 'spent_on'
@@ -661,25 +808,37 @@ class TimelogControllerTest < ActionController::TestCase
   end
 
   def test_index_at_issue_level_should_include_csv_export_dialog
-    get :index, :project_id => 'ecookbook', :issue_id => 3
+    get :index, :issue_id => 3
     assert_response :success
 
     assert_select '#csv-export-options' do
-      assert_select 'form[action=?][method=get]', '/projects/ecookbook/issues/3/time_entries.csv'
+      assert_select 'form[action=?][method=get]', '/issues/3/time_entries.csv'
     end
   end
 
   def test_index_csv_all_projects
-    Setting.date_format = '%m/%d/%Y'
-    get :index, :format => 'csv'
-    assert_response :success
-    assert_equal 'text/csv; header=present', response.content_type
+    with_settings :date_format => '%m/%d/%Y' do
+      get :index, :format => 'csv'
+      assert_response :success
+      assert_equal 'text/csv; header=present', response.content_type
+    end
   end
 
   def test_index_csv
-    Setting.date_format = '%m/%d/%Y'
-    get :index, :project_id => 1, :format => 'csv'
-    assert_response :success
-    assert_equal 'text/csv; header=present', response.content_type
+    with_settings :date_format => '%m/%d/%Y' do
+      get :index, :project_id => 1, :format => 'csv'
+      assert_response :success
+      assert_equal 'text/csv; header=present', response.content_type
+    end
+  end
+
+  def test_index_csv_should_fill_issue_column_with_tracker_id_and_subject
+    issue = Issue.find(1)
+    entry = TimeEntry.generate!(:issue => issue, :comments => "Issue column content test")
+
+    get :index, :format => 'csv'
+    line = response.body.split("\n").detect {|l| l.include?(entry.comments)}
+    assert_not_nil line
+    assert_include "#{issue.tracker} #1: #{issue.subject}", line
   end
 end

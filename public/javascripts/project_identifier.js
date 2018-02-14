@@ -1,3 +1,6 @@
+/* Redmine - project management software
+   Copyright (C) 2006-2016  Jean-Philippe Lang */
+
 // Automatic project identifier generation
 
 function generateProjectIdentifier(identifier, maxlength) {
@@ -61,7 +64,7 @@ function generateProjectIdentifier(identifier, maxlength) {
 function autoFillProjectIdentifier() {
   var locked = ($('#project_identifier').val() != '');
   var maxlength = parseInt($('#project_identifier').attr('maxlength'));
-  $('#project_identifier').val('');
+  $('#project_identifier').val(generateProjectIdentifier($('#project_name').val(), maxlength));
   $('#project_name').keyup(function(){
     {
       $('#project_identifier').val(generateProjectIdentifier($('#project_name').val(), maxlength));

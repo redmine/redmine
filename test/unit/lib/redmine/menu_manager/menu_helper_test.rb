@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -31,26 +31,6 @@ class Redmine::MenuManager::MenuHelperTest < ActionView::TestCase
     end
   end
 
-  context "MenuManager#current_menu_item" do
-    should "be tested"
-  end
-
-  context "MenuManager#render_main_menu" do
-    should "be tested"
-  end
-
-  context "MenuManager#render_menu" do
-    should "be tested"
-  end
-
-  context "MenuManager#menu_item_and_children" do
-    should "be tested"
-  end
-
-  context "MenuManager#extract_node_details" do
-    should "be tested"
-  end
-
   def test_render_single_menu_node
     node = Redmine::MenuManager::MenuItem.new(:testing, '/test', { })
     @output_buffer = render_single_menu_node(node, 'This is a test', node.url, false)
@@ -65,6 +45,20 @@ class Redmine::MenuManager::MenuHelperTest < ActionView::TestCase
     assert_select("li") do
       assert_select("a.single-node", "Single node")
     end
+  end
+
+  def test_render_menu_node_with_symbol_as_url
+    node = Redmine::MenuManager::MenuItem.new(:testing, :issues_path)
+    @output_buffer = render_menu_node(node, nil)
+
+    assert_select 'a[href="/issues"]', "Testing"
+  end
+
+  def test_render_menu_node_with_symbol_as_url_and_project
+    node = Redmine::MenuManager::MenuItem.new(:testing, :project_issues_path)
+    @output_buffer = render_menu_node(node, Project.find(1))
+
+    assert_select 'a[href="/projects/ecookbook/issues"]', "Testing"
   end
 
   def test_render_menu_node_with_nested_items
@@ -125,7 +119,7 @@ class Redmine::MenuManager::MenuHelperTest < ActionView::TestCase
     User.current = User.find(2)
 
     parent_node = Redmine::MenuManager::MenuItem.new(:parent_node,
-                                                     '/test',
+                                                     {:controller => 'issues', :action => 'index'},
                                                      {
                                                        :children => Proc.new {|p|
                                                          children = []
@@ -137,7 +131,7 @@ class Redmine::MenuManager::MenuHelperTest < ActionView::TestCase
                                                      })
 
     parent_node << Redmine::MenuManager::MenuItem.new(:child_node,
-                                                     '/test',
+                                                     {:controller => 'issues', :action => 'index'},
                                                      {
                                                        :children => Proc.new {|p|
                                                          children = []
@@ -167,6 +161,87 @@ class Redmine::MenuManager::MenuHelperTest < ActionView::TestCase
         assert_select("li a.test-child-2", "Test child 2")
       end
     end
+  end
+
+  def test_render_menu_node_with_allowed_and_unallowed_unattached_children
+    User.current = User.find(2)
+
+    parent_node = Redmine::MenuManager::MenuItem.new(:parent_node,
+                                                     {:controller => 'issues', :action => 'index'},
+                                                     {
+                                                       :children => Proc.new {|p|
+                                                         [
+                                                           Redmine::MenuManager::MenuItem.new("test_child_allowed", {:controller => 'issues', :action => 'index'}, {}),
+                                                           Redmine::MenuManager::MenuItem.new("test_child_unallowed", {:controller => 'issues', :action => 'unallowed'}, {}),
+                                                         ]
+                                                       }
+                                                     })
+
+    @output_buffer = render_menu_node(parent_node, Project.find(1))
+
+    assert_select("li") do
+      assert_select("a.parent-node", "Parent node")
+      assert_select("ul.menu-children.unattached") do
+        assert_select("li a.test-child-allowed", "Test child allowed")
+        assert_select("li a.test-child-unallowed", false)
+      end
+    end
+  end
+
+  def test_render_menu_node_with_allowed_and_unallowed_standard_children
+    User.current = User.find(6)
+
+    Redmine::MenuManager.map :some_menu do |menu|
+      menu.push(:parent_node, {:controller => 'issues', :action => 'index'}, { })
+      menu.push(:test_child_allowed, {:controller => 'issues', :action => 'index'}, {:parent => :parent_node})
+      menu.push(:test_child_unallowed, {:controller => 'issues', :action => 'new'}, {:parent => :parent_node})
+    end
+
+    @output_buffer = render_menu(:some_menu, Project.find(1))
+
+    assert_select("li") do
+      assert_select("a.parent-node", "Parent node")
+      assert_select("ul.menu-children.unattached", false)
+      assert_select("ul.menu-children") do
+        assert_select("li a.test-child-allowed", "Test child allowed")
+        assert_select("li a.test-child-unallowed", false)
+      end
+    end
+  end
+ 
+  def test_render_empty_virtual_menu_node_with_children
+
+    # only empty item with no click target
+    Redmine::MenuManager.map :menu1 do |menu|
+      menu.push(:parent_node, nil, { })
+    end
+
+    # parent with unallowed unattached child
+    Redmine::MenuManager.map :menu2 do |menu|
+      menu.push(:parent_node, nil, {:children => Proc.new {|p|
+         [Redmine::MenuManager::MenuItem.new("test_child_unallowed", {:controller => 'issues', :action => 'new'}, {})]
+       } })
+    end
+
+    # parent with unallowed standard child
+    Redmine::MenuManager.map :menu3 do |menu|
+      menu.push(:parent_node, nil, {})
+      menu.push(:test_child_unallowed, {:controller =>'issues', :action => 'new'}, {:parent => :parent_node})
+    end
+
+    # should not be displayed to anonymous
+    User.current = User.find(6)
+    assert_nil render_menu(:menu1, Project.find(1))
+    assert_nil render_menu(:menu2, Project.find(1))
+    assert_nil render_menu(:menu3, Project.find(1))
+
+    # should be displayed to an admin
+    User.current = User.find(1)
+    @output_buffer = render_menu(:menu2, Project.find(1))
+    assert_select("ul li a.parent-node", "Parent node")
+    @output_buffer = render_menu(:menu3, Project.find(1))
+    assert_select("ul li a.parent-node", "Parent node")
+
   end
 
   def test_render_menu_node_with_children_without_an_array
@@ -234,6 +309,19 @@ class Redmine::MenuManager::MenuHelperTest < ActionView::TestCase
 
     items = menu_items_for(menu_name, Project.find(1))
     assert_equal 2, items.size
+  end
+
+  def test_menu_items_for_should_skip_items_that_fail_the_permission
+    menu_name = :test_menu_items_for_should_skip_items_that_fail_the_permission
+    Redmine::MenuManager.map menu_name do |menu|
+      menu.push(:a_menu, :project_issues_path)
+      menu.push(:unallowed, :project_issues_path, :permission => :unallowed)
+    end
+
+    User.current = User.find(2)
+
+    items = menu_items_for(menu_name, Project.find(1))
+    assert_equal 1, items.size
   end
 
   def test_menu_items_for_should_skip_items_that_fail_the_conditions

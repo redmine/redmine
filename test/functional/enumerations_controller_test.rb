@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -41,8 +41,8 @@ class EnumerationsControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'new'
     assert_kind_of IssuePriority, assigns(:enumeration)
-    assert_tag 'input', :attributes => {:name => 'enumeration[type]', :value => 'IssuePriority'}
-    assert_tag 'input', :attributes => {:name => 'enumeration[name]'}
+    assert_select 'input[name=?][value=?]', 'enumeration[type]', 'IssuePriority'
+    assert_select 'input[name=?]', 'enumeration[name]'
   end
 
   def test_new_with_invalid_type_should_respond_with_404
@@ -71,7 +71,7 @@ class EnumerationsControllerTest < ActionController::TestCase
     get :edit, :id => 6
     assert_response :success
     assert_template 'edit'
-    assert_tag 'input', :attributes => {:name => 'enumeration[name]', :value => 'High'}
+    assert_select 'input[name=?][value=?]', 'enumeration[name]', 'High'
   end
 
   def test_edit_invalid_should_respond_with_404
@@ -112,7 +112,7 @@ class EnumerationsControllerTest < ActionController::TestCase
     assert_template 'destroy'
     assert_not_nil Enumeration.find_by_id(4)
     assert_select 'select[name=reassign_to_id]' do
-      assert_select 'option[value=6]', :text => 'High'
+      assert_select 'option[value="6"]', :text => 'High'
     end
   end
 

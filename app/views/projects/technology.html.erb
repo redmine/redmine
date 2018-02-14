@@ -1,10 +1,10 @@
-<div class="tab-pane row-fluid" id="listcells">
-	<div class="span4 navbar">
+<div class="tab-pane row" id="listcells">
+	<div class="col-sm-4 navbar">
     	<div class="nav">
     		<form class="filterform form-search" action="#">
     			<div class="input-prepend">
 				  <span class="add-on"><i class="icon-filter"></i></span>
-				  <input id="technologyfilter"class="filter search-query" type="text" placeholder="Filter technologies...">
+				  <input id="technologyfilter" class="filter search-query form-control" type="text" placeholder="Filter technologies...">
 				</div>
 			</form>
 	    	<ul id="technologylist" class="nav overflow-list">
@@ -14,8 +14,8 @@
 			</ul>
 		 </div>
 	 </div>	 	
-	<div class="span8 tab-content">
-		<div id="technologySummary" style="color:#37abc8;margin:20px auto;text-align:center;">
+	<div class="col-sm-8 tab-content">
+		<div class="summary">
 			There are currently <%= @showcaseProjects.length %> technology showcase projects in OSB. <br/><br/>Select a project in the list on the left to see a short description.
 		</div>
 		<% for p in @showcaseProjects %>

@@ -1,0 +1,4 @@
+<%= "Project added #{@project.name}" %>
+
+----------------------------------------
+<%= render :partial => 'project', :formats => [:text], :locals => { :project => @project, :users => @users } %>

@@ -1,6 +1,5 @@
-<div class="splitcontentleft">
 <% if @group.users.any? %>
-  <table class="list users">
+  <table class="list users" style="width: 50%; float: left;">
     <thead><tr>
       <th><%= l(:label_user) %></th>
       <th style="width:15%"></th>
@@ -19,8 +18,6 @@
 <% else %>
   <p class="nodata"><%= l(:label_no_data) %></p>
 <% end %>
-</div>
-
 <div class="splitcontentright">
   <%= form_for(@group, :remote => true, :url => group_users_path(@group),
                :html => {:method => :post}) do |f| %>

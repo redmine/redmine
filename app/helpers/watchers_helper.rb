@@ -1,7 +1,7 @@
 # encoding: utf-8
 #
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -18,11 +18,6 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 module WatchersHelper
-
-  def watcher_tag(object, user, options={})
-   	ActiveSupport::Deprecation.warn "#watcher_tag is deprecated and will be removed in Redmine 3.0. Use #watcher_link instead."
-    content_tag("btn", watcher_link(object, user), :class => watcher_css(object)+" btn")
-  end
 
   def watcher_link(objects, user)
     return '' unless user && user.logged?
@@ -63,8 +58,10 @@ module WatchersHelper
                :object_id => object.id,
                :user_id => user}
         s << ' '
-        s << link_to(image_tag('delete.png'), url,
-                     :remote => true, :method => 'delete', :class => "delete")
+        s << link_to(l(:button_delete), url,
+                     :remote => true, :method => 'delete',
+                     :class => "delete icon-only icon-del",
+                     :title => l(:button_delete))
       end
       content << content_tag('li', s, :class => "user-#{user.id}")
     end

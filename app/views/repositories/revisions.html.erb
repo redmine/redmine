@@ -17,7 +17,7 @@
                        :revisions => @changesets,
                        :entry     => nil } %>
 
-<p class="pagination"><%= pagination_links_full @changeset_pages,@changeset_count %></p>
+<span class="pagination"><%= pagination_links_full @changeset_pages,@changeset_count %></span>
 
 <% content_for :header_tags do %>
   <%= stylesheet_link_tag "scm" %>

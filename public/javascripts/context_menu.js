@@ -1,3 +1,6 @@
+/* Redmine - project management software
+   Copyright (C) 2006-2016  Jean-Philippe Lang */
+
 var contextMenuObserving;
 var contextMenuUrl;
 
@@ -31,7 +34,7 @@ function contextMenuClick(event) {
       // a row was clicked, check if the click was on checkbox
       if (target.is('input')) {
         // a checkbox may be clicked
-        if (target.attr('checked')) {
+        if (target.prop('checked')) {
           tr.addClass('context-menu-selection');
         } else {
           tr.removeClass('context-menu-selection');
@@ -64,6 +67,8 @@ function contextMenuClick(event) {
       // click is outside the rows
       if (target.is('a') && (target.hasClass('disabled') || target.hasClass('submenu'))) {
         event.preventDefault();
+      } else if (target.is('.toggle-selection') || target.is('.ui-dialog *') || $('#ajax-modal').is(':visible')) {
+        // nop
       } else {
         contextMenuUnselectAll();
       }
@@ -82,7 +87,8 @@ function contextMenuCreate() {
 
 function contextMenuShow(event) {
   var mouse_x = event.pageX;
-  var mouse_y = event.pageY;
+  var mouse_y = event.pageY;  
+  var mouse_y_c = event.clientY;  
   var render_x = mouse_x;
   var render_y = mouse_y;
   var dims;
@@ -105,7 +111,7 @@ function contextMenuShow(event) {
       menu_width = $('#context-menu').width();
       menu_height = $('#context-menu').height();
       max_width = mouse_x + 2*menu_width;
-      max_height = mouse_y + menu_height;
+      max_height = mouse_y_c + menu_height;
 
       var ws = window_size();
       window_width = ws.width;
@@ -118,12 +124,22 @@ function contextMenuShow(event) {
       } else {
        $('#context-menu').removeClass('reverse-x');
       }
+
       if (max_height > window_height) {
        render_y -= menu_height;
        $('#context-menu').addClass('reverse-y');
+        // adding class for submenu
+        if (mouse_y_c < 325) {
+          $('#context-menu .folder').addClass('down');
+        }
       } else {
-       $('#context-menu').removeClass('reverse-y');
+        // adding class for submenu
+        if (window_height - mouse_y_c < 345) {
+          $('#context-menu .folder').addClass('up');
+        } 
+        $('#context-menu').removeClass('reverse-y');
       }
+
       if (render_x <= 0) render_x = 1;
       if (render_y <= 0) render_y = 1;
       $('#context-menu').css('left', (render_x + 'px'));
@@ -131,7 +147,6 @@ function contextMenuShow(event) {
       $('#context-menu').show();
 
       //if (window.parseStylesheets) { window.parseStylesheets(); } // IE
-
     }
   });
 }
@@ -146,6 +161,7 @@ function contextMenuLastSelected() {
 }
 
 function contextMenuUnselectAll() {
+  $('input[type=checkbox].toggle-selection').prop('checked', false);
   $('.hascontextmenu').each(function(){
     contextMenuRemoveSelection($(this));
   });
@@ -180,7 +196,7 @@ function contextMenuIsSelected(tr) {
 }
 
 function contextMenuCheckSelectionBox(tr, checked) {
-  tr.find('input[type=checkbox]').attr('checked', checked);
+  tr.find('input[type=checkbox]').prop('checked', checked);
 }
 
 function contextMenuClearDocumentSelection() {
@@ -205,18 +221,9 @@ function contextMenuInit(url) {
 }
 
 function toggleIssuesSelection(el) {
-  var boxes = $(el).parents('form').find('input[type=checkbox]');
-  var all_checked = true;
-  boxes.each(function(){ if (!$(this).attr('checked')) { all_checked = false; } });
-  boxes.each(function(){
-    if (all_checked) {
-      $(this).removeAttr('checked');
-      $(this).parents('tr').removeClass('context-menu-selection');
-    } else if (!$(this).attr('checked')) {
-      $(this).attr('checked', true);
-      $(this).parents('tr').addClass('context-menu-selection');
-    }
-  });
+  var checked = $(this).prop('checked');
+  var boxes = $(this).parents('table').find('input[name=ids\\[\\]]');
+  boxes.prop('checked', checked).parents('tr').toggleClass('context-menu-selection', checked);
 }
 
 function window_size() {
@@ -234,3 +241,7 @@ function window_size() {
   }
   return {width: w, height: h};
 }
+
+$(document).ready(function(){
+  $('input[type=checkbox].toggle-selection').on('change', toggleIssuesSelection);
+});

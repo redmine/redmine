@@ -4,7 +4,7 @@ issues_001:
   project_id: 1
   updated_on: <%= 1.day.ago.to_s(:db) %>
   priority_id: 4
-  subject: Can't print recipes
+  subject: Cannot print recipes
   id: 1
   fixed_version_id: 
   category_id: 1

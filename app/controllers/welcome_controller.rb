@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -24,7 +24,7 @@ class WelcomeController < ApplicationController
     @user = User.current
     @news = News.latest User.current
     @projects = Project.latest User.current
-    @memberships = @user.memberships.all(:conditions => Project.visible_condition(User.current))
+    @memberships = @user.memberships.all #(:conditions => Project.visible_condition(User.current))
     events = Redmine::Activity::Fetcher.new(User.current, :author => @user).events(nil, nil, :limit => 10)
     @events_by_day = events.group_by(&:event_date)
   end

@@ -1,0 +1,52 @@
+<script type="text/javascript" src="/javascripts/jquery.simplyscroll.min.js"></script>
+<% content_for :header_tags do %>
+  <script src="/javascripts/welcome.js"></script>
+<% end %>
+<div class="tutorial">
+<div class="tutorialTitle">Open Source Brain Tutorials </br><icon class="icon-superscript icon-2x"></icon></div>
+
+<div>
+	<div class="tutorialText">
+		Open Source Brain offers a set of tutorials aimed at neuroscience students to provide a thorough grounding in how computational neuroscience 
+		uses mathematical analyses and computer simulations to study the behaviour of single neurons and neuronal networks.<br/>
+		<accent>The tutorials are entirely web based and don't require installing NEURON or any other tool locally.</accent>
+	</div>
+	<div class="row">
+  <div class="col-md-4">	
+  	<div id="hhtutorial" class="tutorialCard" onclick=window.location="/projects/hodgkin-huxley-tutorial?explorer=https://raw.githubusercontent.com/opensourcebrain/tutorials/development/models/hodgkinHuxley/GEPPETTO.json">
+		Simulating the Action Potential with Hodgkin-Huxley Kinetics<br/><icon class="icon-check icon-2x"></icon>
+	</div>
+	</div>
+  <div class="col-md-4">	
+  	<div id="synaptictutorial" class="tutorialCard" onclick=window.location="/projects/hodgkin-huxley-tutorial?explorer=https://raw.githubusercontent.com/opensourcebrain/tutorials/development/models/synaptic_integration/GEPPETTO.json">
+		Simulating Synaptic Integration<br/><icon class="icon-check icon-2x"></icon>
+	</div></div>
+  <div class="col-md-4">	
+  	<div id="createtutorial" class="tutorialCard" onclick=window.location="/docs#Creating_Tutorials">
+		Create your own tutorial!<br/><icon class="icon-gears icon-2x"></icon>
+	</div></div>
+</div>
+</div>
+
+</div>
+
+
+
+<script type="text/javascript">
+(function($) {
+	$(function() { //on DOM ready 
+    		jQuery("#labs").simplyScroll({
+			customClass: 'vert',
+			orientation: 'vertical',
+            auto: true,
+            manualMode: 'loop',
+			frameRate: 20,
+			speed: 1
+		});
+		$("#main").css("background-color","#2a2a2a");
+		$("body").css("background-color","#2a2a2a");
+	});
+	
+ })(jQuery);
+</script>
+

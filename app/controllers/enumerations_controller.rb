@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -32,7 +32,7 @@ class EnumerationsController < ApplicationController
       format.api {
         @klass = Enumeration.get_subclass(params[:type])
         if @klass
-          @enumerations = @klass.shared.sorted.all
+          @enumerations = @klass.shared.sorted.to_a
         else
           render_404
         end
@@ -56,11 +56,19 @@ class EnumerationsController < ApplicationController
   end
 
   def update
-    if request.put? && @enumeration.update_attributes(params[:enumeration])
-      flash[:notice] = l(:notice_successful_update)
-      redirect_to enumerations_path
+    if @enumeration.update_attributes(params[:enumeration])
+      respond_to do |format|
+        format.html {
+          flash[:notice] = l(:notice_successful_update)
+          redirect_to enumerations_path
+        }
+        format.js { render :nothing => true }
+      end
     else
-      render :action => 'edit'
+      respond_to do |format|
+        format.html { render :action => 'edit' }
+        format.js { render :nothing => true, :status => 422 }
+      end
     end
   end
 
@@ -75,7 +83,7 @@ class EnumerationsController < ApplicationController
       redirect_to enumerations_path
       return
     end
-    @enumerations = @enumeration.class.system.all - [@enumeration]
+    @enumerations = @enumeration.class.system.to_a - [@enumeration]
   end
 
   private

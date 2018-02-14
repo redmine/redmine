@@ -1,0 +1,3 @@
+<%= render :layout => 'layouts/file' do %>
+  <%= render :partial => 'common/image', :locals => {:path => download_named_attachment_url(@attachment, @attachment.filename), :alt => @attachment.filename} %>
+<% end %>

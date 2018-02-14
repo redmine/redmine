@@ -1,3 +1,7 @@
+<% content_for :header_tags do %>
+    <script src="/javascripts/project.js"></script>
+<% end %>
+<%= render "projects/header" %>
 <div class="contextual">
 <%= link_to(l(:label_attachment_new), new_project_file_path(@project), :class => 'pull-right btn icon icon-add') if User.current.allowed_to?(:manage_files, @project) %>
 </div>
@@ -20,7 +24,7 @@
   <% if container.is_a?(Version) -%>
   <tr>
     <th colspan="6">
-      <%= link_to(h(container), {:controller => 'versions', :action => 'show', :id => container}, :class => "icon icon-package") %>
+      <%= link_to(container, {:controller => 'versions', :action => 'show', :id => container}, :class => "icon icon-package") %>
     </th>
   </tr>
   <% end -%>

@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -20,27 +20,14 @@ require File.expand_path('../../../test_helper', __FILE__)
 class Redmine::ApiTest::TrackersTest < Redmine::ApiTest::Base
   fixtures :trackers
 
-  def setup
-    Setting.rest_api_enabled = '1'
-  end
-
   test "GET /trackers.xml should return trackers" do
     get '/trackers.xml'
 
     assert_response :success
     assert_equal 'application/xml', @response.content_type
-    assert_tag :tag => 'trackers',
-      :attributes => {:type => 'array'},
-      :child => {
-        :tag => 'tracker',
-        :child => {
-          :tag => 'id',
-          :content => '2',
-          :sibling => {
-            :tag => 'name',
-            :content => 'Feature request'
-          }
-        }
-      }
+
+    assert_select 'trackers[type=array] tracker id', :text => '2' do
+      assert_select '~ name', :text => 'Feature request'
+    end
   end
 end

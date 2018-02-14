@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -46,15 +46,15 @@ class CustomFieldsHelperTest < ActionView::TestCase
     value = CustomValue.new(:value => 'bar', :custom_field => field)
     field.id = 52
 
-    assert_equal '<input class="foo_cf" id="object_custom_field_values_52" name="object[custom_field_values][52]" type="text" value="bar" />',
-      custom_field_tag('object', value)
+    assert_select_in custom_field_tag('object', value),
+      'input[type=text][value=bar][name=?]', 'object[custom_field_values][52]'
   end
 
   def test_unknow_field_format_should_be_bulk_edited_as_string
     field = CustomField.new(:field_format => 'foo')
     field.id = 52
 
-    assert_include '<input class="foo_cf" id="object_custom_field_values_52" name="object[custom_field_values][52]" type="text" value="" />',
-      custom_field_tag_for_bulk_edit('object', field)
+    assert_select_in custom_field_tag_for_bulk_edit('object', field),
+      'input[type=text][value=""][name=?]', 'object[custom_field_values][52]'
   end
 end

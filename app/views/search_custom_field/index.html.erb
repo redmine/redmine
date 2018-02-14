@@ -1,72 +1,65 @@
+<% content_for :header_tags do %>
+    <script src="/javascripts/search.js"></script>
+<% end %>
+
 <h2>Search by custom field</h2>
 
 <div id="search_box" class="box">
-<%= form_tag({ :controller => 'search_custom_field', :action => 'index'}, :method => :get, :id => 'search-form') do %>
+    <%= form_tag({ :controller => 'search_custom_field', :action => 'index'}, :method => :get, :id => 'search-form') do %>
 
-<fieldset id="filters">
-  <div id="query_form_content" class="hide-when-print">
-    <%= render :partial => 'filters', :locals => {:query => @query, :available_filters => @available_filters}%>
-  </div>
-</fieldset>
+        <fieldset id="filters">
+            <div id="query_form_content" class="hide-when-print">
+                <%= render :partial => 'filters', :locals => {:query => @query, :available_filters => @available_filters}%>
+            </div>
+        </fieldset>
 
-
-<p><%= submit_tag l(:button_submit) %></p>
-<% end %>
+        <p><%= submit_tag l(:button_submit) %></p>
+    <% end %>
 </div>
 
-
+<a href="#" class="btn exp-col-btn expand-btn">Expand</a>
 <% if @projects and @projects.length > 0%>
-    <dl id="search-results">
-      <% @projects.each do |p| %>
-      	<div>
-        <dt>
-          <% url = {:controller => 'projects', :action => 'show', :id => p['id']} %>
-          <%= link_to(p['name'], url) %>
-        </dt>
-        <dd class="searchDD">
-        	<span><%= textilizable(p.short_description_without_image, :project => p) %></span>
-        	
-        	<div>
-        		<div>
-		        	<% if isBestPractice?(p) %>
-						<%= getGeneralBadge(p, 'Endorsement', 'OSB best practice project', 'This project is endorsed by OSB and has been identified as fulfilling OSB best practices for projects.', '', 'label label-success') %>
-						<%= getTooltipedBadge(p,'Curation level','Curation against published models','How well does the curated NeuroML/PyNN version of this model reproduce published models? See Status for more details.') %>
-		        	<% elsif isEndorsedNotBestPractice?(p) %>
-						<%= getGeneralBadge(p, 'Endorsement', 'OSB endorsed project', 'This project is endorsed by OSB and is officially supported.', '', 'label label-info') %>
-						<%= getTooltipedBadge(p,'Curation level','Curation against published models','How well does the curated NeuroML/PyNN version of this model reproduce published models? See Status for more details.') %>
-		        	<% else %>
-		        		<% category =  getCustomField(p,"Category")  %>
-						<% isAProject = (category=="Project" or category=="Showcase") %>
-			        	<% if isAProject %>
-							<%= getGeneralBadge(p, 'Endorsement', 'User project', 'This is a personal user project and has not yet been endorsed by OSB. Please get in contact (info@opensourcebrain.org) to have this project endorsed!', '', 'label label-warning') %>
-						<% end %>
-					<% end %>	
-				</div>
-        	</div>
+    <div id="search-results">
+        <% @projects.each_with_index do |p, i| %>
+      	    <div class="result-header" role="tab" id="heading<%= i %>">
+                <h4 class="mb-0">
+                    <% url = {:controller => 'projects', :action => 'show', :id => p['id']} %>
+                    <%= link_to(p['name'], url) %>
+                    <a class="project" data-toggle="collapse"
+                       data-parent="#accordion" href="#collapse<%= i %>" aria-expanded="true" aria-controls="collapse<%= i %>"
+                       alt="Show description…" title="Show description…">
+                        <i class="icon-caret-down"></i>
+                    </a>
+                </h4>
+            </div>
+            <div id="collapse<%= i %>" class="result-info collapse" role="tabpanel" aria-labelled-by="collapse<%= i %>">
+                <div class="card-block">
+        	    <%= textilizable(p.short_description_without_image, :project => p) %>
+                    
+                    <div class="badges">
+                        <%= getEndorsementBadge(p) %>
+                        <%= getCurationBadge(p) %>
+        	        <%= getSimulatorBadges(p) %>
+                    </div>
+        	    
+        	    <% tags=getCustomField(p,'Tag') %>
+        	    <% if tags!=nil and tags!='' and tags!=[nil] %>
+		        <div><%= getBadge(p, 'Tag', '', '', '', 'label label-success') %></div>
+		    <% end %>
 
-        	<div>
-        		<div><%= getStatusBadges(p, false) %></div>
-        	</div>
-        	
-        	
-        	<% tags=getCustomField(p,'Tag') %>
-        	<% if tags!=nil and tags!='' and tags!=[nil] %>
-				<div>
-					<div><%= getGeneralBadge(p, 'Tag', '', '', '', 'label label-success') %></div>
-				</div>
-			<% end %>
-			
-			<div>
-					<div><b>Last updated:</b></div>
-        			<div><%= format_time(p['updated_on']) %></div>
-        	</div>		
-        </dd>
-        </div>
-      <% end %>
-    </dl>
-<% else %>
-<div>
-<b>Your search criteria did not match any projects. Try fewer filters or different keywords.</b>
+		    <div class="last-updated">
+		        <b>Last updated:</b> <%= format_time(p['updated_on']) %>
+        	    </div>	
+
+                </div>
+            </div>
+        <% end %>
+            </div>
+
 </div>
+<% else %>
+    <div>
+        <b>Your search criteria did not match any projects. Try fewer filters or different keywords.</b>
+    </div>
 <% end %>
 

@@ -1,0 +1,47 @@
+<%= custom_field_title @custom_field %>
+
+<% if @custom_field.enumerations.any? %>
+<%= form_tag custom_field_enumerations_path(@custom_field), :method => 'put' do %>
+<div class="box">
+  <ul id="custom_field_enumerations" class="flat">
+  <% @custom_field.enumerations.each_with_index do |value, position| %>
+    <li>
+      <span class="sort-handle"></span>
+      <%= hidden_field_tag "custom_field_enumerations[#{value.id}][position]", position, :class => 'position' %>
+      <%= text_field_tag "custom_field_enumerations[#{value.id}][name]", value.name, :size => 40 %>
+      <%= hidden_field_tag "custom_field_enumerations[#{value.id}][active]", 0 %>
+      <label>
+        <%= check_box_tag "custom_field_enumerations[#{value.id}][active]", 1, value.active? %>
+        <%= l(:field_active) %>
+      </label>
+      <%= delete_link custom_field_enumeration_path(@custom_field, value) %>
+    </li>
+  <% end %>
+  </ul>
+</div>
+<p>
+  <%= submit_tag(l(:button_save)) %> |
+  <%= link_to l(:button_back), edit_custom_field_path(@custom_field) %>
+</p>
+<% end %>
+<% end %>
+
+<p><%= l(:label_enumeration_new) %></p>
+
+<%= form_tag custom_field_enumerations_path(@custom_field), :method => 'post', :remote => true do %>
+  <p><%= text_field_tag 'custom_field_enumeration[name]', '', :size => 40 %>
+  <%= submit_tag(l(:button_add)) %></p>
+<% end %>
+
+<%= javascript_tag do %>
+$(function() {
+  $("#custom_field_enumerations").sortable({
+    handle: ".sort-handle",
+    update: function(event, ui) {
+      $("#custom_field_enumerations li").each(function(){
+        $(this).find("input.position").val($(this).index()+1);
+      });
+    }
+  });
+});
+<% end %>

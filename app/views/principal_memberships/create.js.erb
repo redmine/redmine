@@ -1,0 +1,12 @@
+$('#tab-content-memberships').html('<%= escape_javascript(render :partial => 'principal_memberships/index', :locals => {:principal => @principal}) %>');
+hideOnLoad();
+
+<% if @members.present? && @members.all? {|m| m.persisted? } %>
+  hideModal();
+  <% @members.each do |member| %>
+    $("#member-<%= member.id %>").effect("highlight");
+  <% end %>
+<% elsif @members.present? %>
+  <% errors = @members.collect {|m| m.errors.full_messages}.flatten.uniq.join(', ') %>
+  alert('<%= raw(escape_javascript(l(:notice_failed_to_save_members, :errors => errors))) %>');
+<% end %>

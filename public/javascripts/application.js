@@ -1,8 +1,8 @@
 /* Redmine - project management software
-   Copyright (C) 2006-2014  Jean-Philippe Lang */
+   Copyright (C) 2006-2016  Jean-Philippe Lang */
 
 function checkAll(id, checked) {
-  $('#'+id).find('input[type=checkbox]:enabled').attr('checked', checked);
+  $('#'+id).find('input[type=checkbox]:enabled').prop('checked', checked);
 }
 
 function toggleCheckboxesBySelector(selector) {
@@ -10,7 +10,7 @@ function toggleCheckboxesBySelector(selector) {
   $(selector).each(function(index) {
     if (!$(this).is(':checked')) { all_checked = false; }
   });
-  $(selector).attr('checked', !all_checked);
+  $(selector).prop('checked', !all_checked);
 }
 
 function showAndScrollTo(id, focus) {
@@ -74,6 +74,31 @@ function hideFieldset(el) {
   fieldset.children('div').hide();
 }
 
+// columns selection
+function moveOptions(theSelFrom, theSelTo) {
+  $(theSelFrom).find('option:selected').detach().prop("selected", false).appendTo($(theSelTo));
+}
+
+function moveOptionUp(theSel) {
+  $(theSel).find('option:selected').each(function(){
+    $(this).prev(':not(:selected)').detach().insertAfter($(this));
+  });
+}
+
+function moveOptionTop(theSel) {
+  $(theSel).find('option:selected').detach().prependTo($(theSel));
+}
+
+function moveOptionDown(theSel) {
+  $($(theSel).find('option:selected').get().reverse()).each(function(){
+    $(this).next(':not(:selected)').detach().insertBefore($(this));
+  });
+}
+
+function moveOptionBottom(theSel) {
+  $(theSel).find('option:selected').detach().appendTo($(theSel));
+}
+
 function initFilters() {
   $('#add_filter_select').change(function() {
     addFilter($(this).val(), '', []);
@@ -81,14 +106,14 @@ function initFilters() {
   $('#filters-table td.field input[type=checkbox]').each(function() {
     toggleFilter($(this).val());
   });
-  $('#filters-table td.field input[type=checkbox]').live('click', function() {
+  $('#filters-table').on('click', 'td.field input[type=checkbox]', function() {
     toggleFilter($(this).val());
   });
-  $('#filters-table .toggle-multiselect').live('click', function() {
+  $('#filters-table').on('click', '.toggle-multiselect', function() {
     toggleMultiSelect($(this).siblings('select'));
   });
-  $('#filters-table input[type=text]').live('keypress', function(e) {
-    if (e.keyCode == 13) submit_query_form("query_form");
+  $('#filters-table').on('keypress', 'input[type=text]', function(e) {
+    if (e.keyCode == 13) $(this).closest('form').submit();
   });
 }
 
@@ -100,9 +125,9 @@ function addFilter(field, operator, values) {
   } else {
     buildFilterRow(field, operator, values);
   }
-  $('#cb_'+fieldId).attr('checked', true);
+  $('#cb_'+fieldId).prop('checked', true);
   toggleFilter(field);
-  $('#add_filter_select').val('').children('option').each(function() {
+  $('#add_filter_select').val('').find('option').each(function() {
     if ($(this).attr('value') == field) {
       $(this).attr('disabled', true);
     }
@@ -120,7 +145,7 @@ function buildFilterRow(field, operator, values) {
 
   var tr = $('<tr class="filter">').attr('id', 'tr_'+fieldId).html(
     '<td class="field"><input checked="checked" id="cb_'+fieldId+'" name="f[]" value="'+field+'" type="checkbox"><label for="cb_'+fieldId+'"> '+filterOptions['name']+'</label></td>' +
-    '<td class="operator"><select id="operators_'+fieldId+'" name="op['+field+']"></td>' +
+    '<td class="operator"><select class="value form-control" id="operators_'+fieldId+'" name="op['+field+']"></td>' +
     '<td class="values"></td>'
   );
   filterTable.append(tr);
@@ -138,10 +163,7 @@ function buildFilterRow(field, operator, values) {
   case "list_optional":
   case "list_status":
   case "list_subprojects":
-    tr.find('td.values').append(
-      '<span style="display:none;"><select class="value" id="values_'+fieldId+'_1" name="v['+field+'][]"></select>' +
-      ' <span class="toggle-multiselect">&nbsp;</span></span>'
-    );
+    tr.find('td.values').append('<select class="value form-control" id="values_'+fieldId+'_1" name="v['+field+'][]"></select>');
     select = tr.find('td.values select');
     if (values.length > 1) { select.attr('multiple', true); }
     for (i = 0; i < filterValues.length; i++) {
@@ -160,25 +182,25 @@ function buildFilterRow(field, operator, values) {
   case "date":
   case "date_past":
     tr.find('td.values').append(
-      '<span style="display:none;"><input type="text" name="v['+field+'][]" id="values_'+fieldId+'_1" size="10" class="value date_value" /></span>' +
-      ' <span style="display:none;"><input type="text" name="v['+field+'][]" id="values_'+fieldId+'_2" size="10" class="value date_value" /></span>' +
-      ' <span style="display:none;"><input type="text" name="v['+field+'][]" id="values_'+fieldId+'" size="3" class="value" /> '+labelDayPlural+'</span>'
+      '<span style="display:none;"><input type="date" name="v['+field+'][]" id="values_'+fieldId+'_1" size="10" class="value date_value form-control" /></span>' +
+      ' <span style="display:none;"><input type="date" name="v['+field+'][]" id="values_'+fieldId+'_2" size="10" class="value date_value form-control" /></span>' +
+      ' <span style="display:none;"><input type="text" name="v['+field+'][]" id="values_'+fieldId+'" size="3" class="value form-control" /> '+labelDayPlural+'</span>'
     );
-    $('#values_'+fieldId+'_1').val(values[0]).datepicker(datepickerOptions);
-    $('#values_'+fieldId+'_2').val(values[1]).datepicker(datepickerOptions);
+    $('#values_'+fieldId+'_1').val(values[0]).datepickerFallback(datepickerOptions);
+    $('#values_'+fieldId+'_2').val(values[1]).datepickerFallback(datepickerOptions);
     $('#values_'+fieldId).val(values[0]);
     break;
   case "string":
   case "text":
     tr.find('td.values').append(
-      '<span style="display:none;"><input type="text" name="v['+field+'][]" id="values_'+fieldId+'" size="30" class="value" /></span>'
+      '<input type="text" name="v['+field+'][]" id="values_'+fieldId+'" size="30" class="value form-control" />'
     );
     $('#values_'+fieldId).val(values[0]);
     break;
   case "relation":
     tr.find('td.values').append(
-      '<span style="display:none;"><input type="text" name="v['+field+'][]" id="values_'+fieldId+'" size="6" class="value" /></span>' +
-      '<span style="display:none;"><select class="value" name="v['+field+'][]" id="values_'+fieldId+'_1"></select></span>'
+      '<input type="text" name="v['+field+'][]" id="values_'+fieldId+'" size="6" class="value form-control" />' +
+      '<select class="value form-control" name="v['+field+'][]" id="values_'+fieldId+'_1"></select>'
     );
     $('#values_'+fieldId).val(values[0]);
     select = tr.find('td.values select');
@@ -189,11 +211,13 @@ function buildFilterRow(field, operator, values) {
       if (values[0] == filterValue[1]) { option.attr('selected', true); }
       select.append(option);
     }
+    break;
   case "integer":
   case "float":
+  case "tree":
     tr.find('td.values').append(
-      '<span style="display:none;"><input type="text" name="v['+field+'][]" id="values_'+fieldId+'_1" size="6" class="value" /></span>' +
-      ' <span style="display:none;"><input type="text" name="v['+field+'][]" id="values_'+fieldId+'_2" size="6" class="value" /></span>'
+      '<span style="display:none;"><input type="text" name="v['+field+'][]" id="values_'+fieldId+'_1" size="14" class="value form-control" /></span>' +
+      ' <span style="display:none;"><input type="text" name="v['+field+'][]" id="values_'+fieldId+'_2" size="14" class="value form-control" /></span>'
     );
     $('#values_'+fieldId+'_1').val(values[0]);
     $('#values_'+fieldId+'_2').val(values[1]);
@@ -248,6 +272,8 @@ function toggleOperator(field) {
     case "y":
     case "o":
     case "c":
+    case "*o":
+    case "!o":
       enableValues(field, []);
       break;
     case "><":
@@ -287,14 +313,9 @@ function toggleMultiSelect(el) {
   }
 }
 
-function submit_query_form(id) {
-  selectAllOptions("selected_columns");
-  $('#'+id).submit();
-}
-
 function showTab(name, url) {
-  $('div#content .tab-content').hide();
-  $('div.tabs a').removeClass('selected');
+  $('#tab-content-' + name).parent().find('.tab-content').hide();
+  $('#tab-content-' + name).parent().find('div.tabs a').removeClass('selected');
   $('#tab-content-' + name).show();
   $('#tab-' + name).addClass('selected');
   //replaces current URL with the "href" attribute of the current link
@@ -307,16 +328,22 @@ function showTab(name, url) {
 
 function moveTabRight(el) {
   var lis = $(el).parents('div.tabs').first().find('ul').children();
+  var bw = $(el).parents('div.tabs-buttons').outerWidth(true);
   var tabsWidth = 0;
   var i = 0;
   lis.each(function() {
     if ($(this).is(':visible')) {
-      tabsWidth += $(this).width() + 6;
+      tabsWidth += $(this).outerWidth(true);
     }
   });
-  if (tabsWidth < $(el).parents('div.tabs').first().width() - 60) { return; }
+  if (tabsWidth < $(el).parents('div.tabs').first().width() - bw) { return; }
+  $(el).siblings('.tab-left').removeClass('disabled');
   while (i<lis.length && !lis.eq(i).is(':visible')) { i++; }
+  var w = lis.eq(i).width();
   lis.eq(i).hide();
+  if (tabsWidth - w < $(el).parents('div.tabs').first().width() - bw) {
+    $(el).addClass('disabled');
+  }
 }
 
 function moveTabLeft(el) {
@@ -325,25 +352,35 @@ function moveTabLeft(el) {
   while (i < lis.length && !lis.eq(i).is(':visible')) { i++; }
   if (i > 0) {
     lis.eq(i-1).show();
+    $(el).siblings('.tab-right').removeClass('disabled');
+  }
+  if (i <= 1) {
+    $(el).addClass('disabled');
   }
 }
 
 function displayTabsButtons() {
   var lis;
-  var tabsWidth = 0;
+  var tabsWidth;
   var el;
+  var numHidden;
   $('div.tabs').each(function() {
     el = $(this);
     lis = el.find('ul').children();
+    tabsWidth = 0;
+    numHidden = 0;
     lis.each(function(){
       if ($(this).is(':visible')) {
-        tabsWidth += $(this).width() + 6;
+        tabsWidth += $(this).outerWidth(true);
+      } else {
+        numHidden++;
       }
     });
-    if ((tabsWidth < el.width() - 60) && (lis.first().is(':visible'))) {
+    var bw = $(el).parents('div.tabs-buttons').outerWidth(true);
+    if ((tabsWidth < el.width() - bw) && (lis.length === 0 || lis.first().is(':visible'))) {
       el.find('div.tabs-buttons').hide();
     } else {
-      el.find('div.tabs-buttons').show();
+      el.find('div.tabs-buttons').show().children('button.tab-left').toggleClass('disabled', numHidden == 0);
     }
   });
 }
@@ -357,16 +394,20 @@ function setPredecessorFieldsVisibility() {
   }
 }
 
-function showModal(id, width) {
+function showModal(id, width, title) {
   var el = $('#'+id).first();
   if (el.length === 0 || el.is(':visible')) {return;}
-  var title = el.find('h3.title').text();
+  if (!title) title = el.find('h3.title').text();
+  // moves existing modals behind the transparent background
+  $(".modal").zIndex(99);
   el.dialog({
     width: width,
     modal: true,
     resizable: false,
     dialogClass: 'modal',
     title: title
+  }).on('dialogclose', function(){
+    $(".modal").zIndex(101);
   });
   el.find("input[type=text], input[type=submit]").first().focus();
 }
@@ -447,11 +488,14 @@ function randomKey(size) {
   return key;
 }
 
-function updateIssueFrom(url) {
+function updateIssueFrom(url, el) {
   $('#all_attributes input, #all_attributes textarea, #all_attributes select').each(function(){
     $(this).data('valuebeforeupdate', $(this).val());
   });
-  $.ajax({
+  if (el) {
+    $("#form_update_triggered_by").val($(el).attr('id'));
+  }
+  return $.ajax({
     url: url,
     type: 'post',
     data: $('#issue-form').serialize()
@@ -483,6 +527,7 @@ function observeAutocompleteField(fieldId, url, options) {
     $('#'+fieldId).autocomplete($.extend({
       source: url,
       minLength: 2,
+      position: {collision: "flipfit"},
       search: function(){$('#'+fieldId).addClass('ajax-loading');},
       response: function(){$('#'+fieldId).removeClass('ajax-loading');}
     }, options));
@@ -520,6 +565,73 @@ function observeSearchfield(fieldId, targetId, url) {
   });
 }
 
+function beforeShowDatePicker(input, inst) {
+  var default_date = null;
+  switch ($(input).attr("id")) {
+    case "issue_start_date" :
+      if ($("#issue_due_date").size() > 0) {
+        default_date = $("#issue_due_date").val();
+      }
+      break;
+    case "issue_due_date" :
+      if ($("#issue_start_date").size() > 0) {
+        var start_date = $("#issue_start_date").val();
+        if (start_date != "") {
+          start_date = new Date(Date.parse(start_date));
+          if (start_date > new Date()) {
+            default_date = $("#issue_start_date").val();
+          }
+        }
+      }
+      break;
+  }
+  $(input).datepickerFallback("option", "defaultDate", default_date);
+}
+
+(function($){
+  $.fn.positionedItems = function(sortableOptions, options){
+    var settings = $.extend({
+      firstPosition: 1
+    }, options );
+
+    return this.sortable($.extend({
+      axis: 'y',
+      handle: ".sort-handle",
+      helper: function(event, ui){
+        ui.children('td').each(function(){
+          $(this).width($(this).width());
+        });
+        return ui;
+      },
+      update: function(event, ui) {
+        var sortable = $(this);
+        var handle = ui.item.find(".sort-handle").addClass("ajax-loading");
+        var url = handle.data("reorder-url");
+        var param = handle.data("reorder-param");
+        var data = {};
+        data[param] = {position: ui.item.index() + settings['firstPosition']};
+        $.ajax({
+          url: url,
+          type: 'put',
+          dataType: 'script',
+          data: data,
+          success: function(data){
+            sortable.children(":even").removeClass("even").addClass("odd");
+            sortable.children(":odd").removeClass("odd").addClass("even");
+          },
+          error: function(jqXHR, textStatus, errorThrown){
+            alert(jqXHR.status);
+            sortable.sortable("cancel");
+          },
+          complete: function(jqXHR, textStatus, errorThrown){
+            handle.removeClass("ajax-loading");
+          }
+        });
+      },
+    }, sortableOptions));
+  }
+}( jQuery ));
+
 function initMyPageSortable(list, url) {
   $('#list-'+list).sortable({
     connectWith: '.block-receiver',
@@ -535,33 +647,13 @@ function initMyPageSortable(list, url) {
   $("#list-top, #list-left, #list-right").disableSelection();
 }
 
-function addNewTag(projectName, tag){
-	$.ajax({
-	    url: "/projects/" + projectName + "/addTag?tag="+tag,
-	    cache: false,
-	    success: function(html){
-	      $("#tagsContainer").replaceWith(html);
-	    }
-	});
-}
-
-function deleteTag(projectName, tag){
-	$.ajax({
-	    url: "/projects/" + projectName + "/removeTag?tag="+tag,
-	    cache: false,
-	    success: function(html){
-	      $("#tagsContainer").replaceWith(html);
-	    }
-	});
-}
-
 var warnLeavingUnsavedMessage;
 function warnLeavingUnsaved(message) {
   warnLeavingUnsavedMessage = message;
-  $('form').live('submit', function(){
+  $(document).on('submit', 'form', function(){
     $('textarea').removeData('changed');
   });
-  $('textarea').live('change', function(){
+  $(document).on('change', 'textarea', function(){
     $(this).data('changed', 'changed');
   });
   window.onbeforeunload = function(){
@@ -576,14 +668,21 @@ function warnLeavingUnsaved(message) {
 }
 
 function setupAjaxIndicator() {
-  $('#ajax-indicator').bind('ajaxSend', function(event, xhr, settings) {
+  $(document).bind('ajaxSend', function(event, xhr, settings) {
     if ($('.ajax-loading').length === 0 && settings.contentType != 'application/octet-stream') {
       $('#ajax-indicator').show();
     }
   });
-  $('#ajax-indicator').bind('ajaxStop', function() {
+  $(document).bind('ajaxStop', function() {
     $('#ajax-indicator').hide();
   });
+}
+
+function setupTabs() {
+  if($('.tabs').length > 0) {
+    displayTabsButtons();
+    $(window).resize(displayTabsButtons);
+  }
 }
 
 function hideOnLoad() {
@@ -605,7 +704,7 @@ function addFormObserversForDoubleSubmit() {
 }
 
 function defaultFocus(){
-  if ($('#content :focus').length == 0) {
+  if (($('#content :focus').length == 0) && (window.location.hash == '')) {
     $('#content input[type=text], #content textarea').first().focus();
   }
 }
@@ -619,9 +718,10 @@ function toggleDisabledOnChange() {
   var checked = $(this).is(':checked');
   $($(this).data('disables')).attr('disabled', checked);
   $($(this).data('enables')).attr('disabled', !checked);
+  $($(this).data('shows')).toggle(checked);
 }
 function toggleDisabledInit() {
-  $('input[data-disables], input[data-enables]').each(toggleDisabledOnChange);
+  $('input[data-disables], input[data-enables], input[data-shows]').each(toggleDisabledOnChange);
 }
 
 //Open wiki links in a different tab
@@ -631,14 +731,60 @@ function addTargetExternalLinks() {
 	});
 }
 
+function toggleNewObjectDropdown() {
+  var dropdown = $('#new-object + ul.menu-children');
+  if(dropdown.hasClass('visible')){
+    dropdown.removeClass('visible');
+  }else{
+    dropdown.addClass('visible');
+  }
+}
+
+(function ( $ ) {
+
+  // detect if native date input is supported
+  var nativeDateInputSupported = true;
+
+  var input = document.createElement('input');
+  input.setAttribute('type','date');
+  if (input.type === 'text') {
+    nativeDateInputSupported = false;
+  }
+
+  var notADateValue = 'not-a-date';
+  input.setAttribute('value', notADateValue);
+  if (input.value === notADateValue) {
+    nativeDateInputSupported = false;
+  }
+
+  $.fn.datepickerFallback = function( options ) {
+    if (nativeDateInputSupported) {
+      return this;
+    } else {
+      return this.datepicker( options );
+    }
+  };
+}( jQuery ));
+
 $(document).ready(function(){
-  $('#content').on('change', 'input[data-disables], input[data-enables]', toggleDisabledOnChange);
+  $('#content').on('change', 'input[data-disables], input[data-enables], input[data-shows]', toggleDisabledOnChange);
   toggleDisabledInit();
 });
+
+function keepAnchorOnSignIn(form){
+  var hash = decodeURIComponent(self.document.location.hash);
+  if (hash) {
+    if (hash.indexOf("#") === -1) {
+      hash = "#" + hash;
+    }
+    form.action = form.action + hash;
+  }
+  return true;
+}
 
 $(document).ready(setupAjaxIndicator);
 $(document).ready(hideOnLoad);
 $(document).ready(addFormObserversForDoubleSubmit);
 $(document).ready(defaultFocus);
 $(document).ready(addTargetExternalLinks);
-
+$(document).ready(setupTabs);

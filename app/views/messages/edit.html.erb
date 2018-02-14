@@ -1,6 +1,6 @@
 <%= board_breadcrumb(@message) %>
 
-<h2><%= avatar(@topic.author, :size => "24") %><%=h @topic.subject %></h2>
+<h2><%= avatar(@topic.author, :size => "24") %><%= @topic.subject %></h2>
 
 <%= form_for @message, {
                :as => :message,

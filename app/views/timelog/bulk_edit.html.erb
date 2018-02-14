@@ -8,7 +8,7 @@
 </ul>
 
 <%= form_tag(bulk_update_time_entries_path, :id => 'bulk_edit_form') do %>
-<%= @time_entries.collect {|i| hidden_field_tag('ids[]', i.id)}.join.html_safe %>
+<%= @time_entries.collect {|i| hidden_field_tag('ids[]', i.id, :id => nil)}.join.html_safe %>
 <div class="box tabular">
   <div>
     <p>
@@ -18,7 +18,7 @@
 
     <p>
       <label><%= l(:field_spent_on) %></label>
-      <%= text_field :time_entry, :spent_on, :size => 10 %><%= calendar_for('time_entry_spent_on') %>
+      <%= date_field :time_entry, :spent_on, :size => 10 %><%= calendar_for('time_entry_spent_on') %>
     </p>
 
     <p>

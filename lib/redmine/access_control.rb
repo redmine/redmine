@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -58,9 +58,11 @@ module Redmine
         if action.is_a?(Symbol)
           perm = permission(action)
           !perm.nil? && perm.read?
-        else
+        elsif action.is_a?(Hash)
           s = "#{action[:controller]}/#{action[:action]}"
           permissions.detect {|p| p.actions.include?(s) && p.read?}.present?
+        else
+          raise ArgumentError.new("Symbol or a Hash expected, #{action.class.name} given: #{action}")
         end
       end
 

@@ -3,7 +3,7 @@
 <% if neuroLexIds!=nil and neuroLexIds!='' %>
 	<% neuroLexBadge = getBadgeForNeuroLexIds(@project, 'NeuroLex Ids: Cells', '', '', '', 'label label-success') %>
 	<% if neuroLexBadge != nil and neuroLexBadge != '' %>
-		<p class="lead">NeuroLex IDs used in this project:
+		<p style="display: inline;">NeuroLex IDs used in this project:
 			<%= neuroLexBadge %>
 		</p>
 	<% end %>

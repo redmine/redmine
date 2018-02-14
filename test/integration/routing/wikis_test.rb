@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,17 +17,11 @@
 
 require File.expand_path('../../../test_helper', __FILE__)
 
-class RoutingWikisTest < ActionController::IntegrationTest
-  def test_wikis_plural_admin_setup
-    ["get", "post"].each do |method|
-      assert_routing(
-          { :method => method, :path => "/projects/ladida/wiki/destroy" },
-          { :controller => 'wikis', :action => 'destroy', :id => 'ladida' }
-        )
-    end
-    assert_routing(
-        { :method => 'post', :path => "/projects/ladida/wiki" },
-        { :controller => 'wikis', :action => 'edit', :id => 'ladida' }
-      )
+class RoutingWikisTest < Redmine::RoutingTest
+  def test_wikis
+    should_route 'POST /projects/foo/wiki' => 'wikis#edit', :id => 'foo'
+
+    should_route 'GET /projects/foo/wiki/destroy' => 'wikis#destroy', :id => 'foo'
+    should_route 'POST /projects/foo/wiki/destroy' => 'wikis#destroy', :id => 'foo'
   end
 end

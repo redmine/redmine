@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -156,7 +156,7 @@ class Redmine::MenuManager::MapperTest < ActiveSupport::TestCase
     menu_mapper.push :test_overview, { :controller => 'projects', :action => 'show'}, {}
 
     item = menu_mapper.find(:nothing)
-    assert_equal nil, item
+    assert_nil item
   end
 
   def test_delete

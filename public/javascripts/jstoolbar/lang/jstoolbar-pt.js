@@ -8,6 +8,7 @@ jsToolBar.strings['Code'] = 'Código Inline';
 jsToolBar.strings['Heading 1'] = 'Cabeçalho 1';
 jsToolBar.strings['Heading 2'] = 'Cabeçalho 2';
 jsToolBar.strings['Heading 3'] = 'Cabeçalho 3';
+jsToolBar.strings['Highlighted code'] = 'Highlighted code';
 jsToolBar.strings['Unordered list'] = 'Lista não ordenada';
 jsToolBar.strings['Ordered list'] = 'Lista ordenada';
 jsToolBar.strings['Quote'] = 'Citação';

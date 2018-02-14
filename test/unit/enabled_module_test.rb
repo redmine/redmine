@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -18,11 +18,11 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class EnabledModuleTest < ActiveSupport::TestCase
-  fixtures :projects, :wikis
+  fixtures :projects, :trackers, :issue_statuses, :wikis
 
   def test_enabling_wiki_should_create_a_wiki
     CustomField.delete_all
-    project = Project.create!(:name => 'Project with wiki', :identifier => 'wikiproject')
+    project = Project.create!(:name => 'Project with wiki', :identifier => 'wikiproject', :enabled_module_names => [])
     assert_nil project.wiki
     project.enabled_module_names = ['wiki']
     project.reload

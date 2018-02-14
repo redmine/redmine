@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -27,32 +27,36 @@ class Redmine::ApiTest::TimeEntriesTest < Redmine::ApiTest::Base
            :enabled_modules,
            :time_entries
 
-  def setup
-    Setting.rest_api_enabled = '1'
-  end
-
   test "GET /time_entries.xml should return time entries" do
     get '/time_entries.xml', {}, credentials('jsmith')
     assert_response :success
     assert_equal 'application/xml', @response.content_type
-    assert_tag :tag => 'time_entries',
-      :child => {:tag => 'time_entry', :child => {:tag => 'id', :content => '2'}}
+    assert_select 'time_entries[type=array] time_entry id', :text => '2'
   end
 
   test "GET /time_entries.xml with limit should return limited results" do
     get '/time_entries.xml?limit=2', {}, credentials('jsmith')
     assert_response :success
     assert_equal 'application/xml', @response.content_type
-    assert_tag :tag => 'time_entries',
-      :children => {:count => 2}
+    assert_select 'time_entries[type=array] time_entry', 2
   end
 
   test "GET /time_entries/:id.xml should return the time entry" do
     get '/time_entries/2.xml', {}, credentials('jsmith')
     assert_response :success
     assert_equal 'application/xml', @response.content_type
-    assert_tag :tag => 'time_entry',
-      :child => {:tag => 'id', :content => '2'}
+    assert_select 'time_entry id', :text => '2'
+  end
+
+  test "GET /time_entries/:id.xml on closed project should return the time entry" do
+    project = TimeEntry.find(2).project
+    project.close
+    project.save!
+
+    get '/time_entries/2.xml', {}, credentials('jsmith')
+    assert_response :success
+    assert_equal 'application/xml', @response.content_type
+    assert_select 'time_entry id', :text => '2'
   end
 
   test "POST /time_entries.xml with issue_id should create time entry" do
@@ -109,7 +113,7 @@ class Redmine::ApiTest::TimeEntriesTest < Redmine::ApiTest::Base
     assert_response :unprocessable_entity
     assert_equal 'application/xml', @response.content_type
 
-    assert_tag 'errors', :child => {:tag => 'error', :content => "Hours can't be blank"}
+    assert_select 'errors error', :text => "Hours cannot be blank"
   end
 
   test "PUT /time_entries/:id.xml with valid parameters should update time entry" do
@@ -128,7 +132,7 @@ class Redmine::ApiTest::TimeEntriesTest < Redmine::ApiTest::Base
     assert_response :unprocessable_entity
     assert_equal 'application/xml', @response.content_type
 
-    assert_tag 'errors', :child => {:tag => 'error', :content => "Hours can't be blank"}
+    assert_select 'errors error', :text => "Hours cannot be blank"
   end
 
   test "DELETE /time_entries/:id.xml should destroy time entry" do

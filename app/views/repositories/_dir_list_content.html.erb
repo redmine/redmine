@@ -8,7 +8,7 @@
 <%  ent_path = Redmine::CodesetUtil.replace_invalid_utf8(entry.path)   %>
 <%  ent_name = Redmine::CodesetUtil.replace_invalid_utf8(entry.name)   %>
 <tr id="<%= tr_id %>" class="<%= h params[:parent_id] %> entry <%= entry.kind %>">
-<td style="padding-left: <%=18 * depth%>px;" class="<%=@repository.report_last_commit ? "filename" : "filename_no_report" %> <%=ent_name.end_with?('.nml')? "nmlfile": "" %>">
+<td style="padding-left: <%=18 * depth%>px;" class="<%=@repository.report_last_commit ? "filename" : "filename_no_report" %> <%= isNML_XMLorHDF5(ent_name) ? "nmlfile": "" %>">
 	<% if entry.is_dir? %>
 		<span class="expander" onclick="scmEntryClick('<%= tr_id %>', '<%= escape_javascript(url_for(
 		                       :action => 'show',
@@ -23,7 +23,7 @@
 	          {:action => (entry.is_dir? ? 'show' : 'changes'), :id => @project, :repository_id => @repository.identifier_param, :path => to_path_param(ent_path), :rev => @rev},
 	          :class => (entry.is_dir? ? 'icon icon-folder' : "icon icon-file #{Redmine::MimeType.css_class_of(ent_name)}")%>
 	         
-  	<%= ent_name.end_with?('.nml')? ("<a class='eyeicon' href=javascript:open3DExplorer(encodeURIComponent('" + @repourl + "/" + @mercurialPath + @rev+"/" + ent_path + "'),'" + @project.identifier + "')><i class='icon-eye-open icon-osbexplorer tooltiplink' data-toggle='tooltip' data-placement='right' title='Click here to visualise on OSB 3D Explorer'></i></a>").html_safe() :"" %>
+  	<%= isNML_XMLorHDF5(ent_name) ? ("<a class='eyeicon' href=javascript:open3DExplorer(encodeURIComponent('" + @repourl + "/" + @mercurialPath + @rev+"/" + ent_path + "'),'" + @project.identifier + "')><i class='icon-eye-open icon-osbexplorer tooltiplink' data-toggle='tooltip' data-placement='right' title='Click here to visualise on OSB 3D Explorer'></i></a>").html_safe() :"" %>
 </td>
 <td class="size"><%= (entry.size ? number_to_human_size(entry.size) : "?") unless entry.is_dir? %></td>
 <% if @repository.report_last_commit %>

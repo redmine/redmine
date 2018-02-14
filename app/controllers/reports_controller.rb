@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -20,7 +20,7 @@ class ReportsController < ApplicationController
   before_filter :find_project, :authorize, :find_issue_statuses
 
   def issue_report
-    @trackers = @project.trackers
+    @trackers = @project.rolled_up_trackers(false).visible
     @versions = @project.shared_versions.sort
     @priorities = IssuePriority.all.reverse
     @categories = @project.issue_categories
@@ -43,7 +43,7 @@ class ReportsController < ApplicationController
     case params[:detail]
     when "tracker"
       @field = "tracker_id"
-      @rows = @project.trackers
+      @rows = @project.rolled_up_trackers(false).visible
       @data = Issue.by_tracker(@project)
       @report_title = l(:field_tracker)
     when "version"
@@ -90,6 +90,6 @@ class ReportsController < ApplicationController
   private
 
   def find_issue_statuses
-    @statuses = IssueStatus.sorted.all
+    @statuses = IssueStatus.sorted.to_a
   end
 end

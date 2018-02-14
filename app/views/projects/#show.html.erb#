@@ -1,0 +1,131 @@
+<% html_title(l(:label_overview)) -%>
+
+<% content_for :header_tags do %>
+    <script src="/javascripts/project.js"></script>
+<% end %>
+<%= render "header" %>
+<div class="project-main row">
+    <% unless @project.active? %>
+	<p class="warning">
+	    <span class="icon icon-lock"><%= l(:text_project_closed) %></span>
+	</p>
+    <% end %>
+
+    <div class="col-sm-2 bs-docs-sidebar">
+	<ul id="project_overview_list" class="nav nav-list bs-docs-sidenav">
+	</ul>
+    </div>
+    
+    <div id="project_overview_sections" class="col-sm-10">
+	<!-- DESCRIPTION -->
+	<section id="description">
+	    <div class="page-header">
+		<h2>Description</h2>
+	    </div>
+            <% if @project.description.present? %>
+                <div class="wiki">
+                    <%= textilizable @project.description %>
+                </div>
+            <% end %>
+	</section>
+	<!-- SUBPROJECT -->
+	<% if @subprojects.any? %>		
+	    <section id="subprojects">
+		<div class="page-header">
+		    <h2>Sub-Projects</h2>
+		</div>
+		<p class="lead">
+		    <%= l(:label_subproject_plural)%>:
+		    <%= @subprojects.collect{|p| link_to(h(p), :action => 'show', :id => p)}.join(", ").html_safe %>
+		</p>
+	    </section>
+	<% end %>
+	<!-- STATUS -->
+	<% @project.visible_custom_field_values.each do |custom_value| %>
+	    <% if !custom_value.value.blank? %>
+		<% if custom_value.custom_field.name == 'Status info' %>
+		    <section id="status">
+			<div class="page-header">
+			    <h2>Status</h2>
+			</div>
+			<%= textilizable(show_value(custom_value, false)) %>
+			<%= getSimulatorBadges(@project) %>
+		    </section>
+		<% end %>
+	    <% end %>
+	<% end %>
+	<!-- MEMBERS -->
+	<section id="members">
+	    <div class="page-header">
+		<h2>Members</h2>
+	    </div>
+	    <%= render :partial => 'members_box' %>
+	</section>
+	<!-- CUSTOM VALUE SECTION -->
+	<% modeldb=getCustomField(@project,'ModelDB reference') %>
+	<% original=getCustomField(@project,'Original format') %>
+	<% ghrepo=getCustomField(@project,'GitHub reposit1ory') %>
+	<% bbrepo=getCustomField(@project,'Bitbucket repository') %>
+	<% tags=getCustomField(@project,'Tags') %>
+	<% neuroLexIds=getCustomField(@project,'NeuroLex Ids: Cells') %>
+	<% roles = User.current.roles_for_project(@project).collect(&:name) %>
+	<% if !modeldb.blank? or !original.blank? or !ghrepo.blank? or !bbrepo.blank? or !tags.blank? or !neuroLexIds.blank? or (roles.include? 'Developer' or roles.include? 'Manager' or User.current.admin?) %>
+	    <section id="references">
+		<div class="page-header">
+		    <h2>References</h2>
+		</div>
+		<% if !modeldb.blank? %>
+		    <p class="lead">The original published version of this model is available on
+			<% if !modeldb.starts_with? 'http://senselab.med.yale.edu/ModelDB/ShowModel.asp?model=' %>
+			    <a target="_blank" href="http://senselab.med.yale.edu/ModelDB/ShowModel.asp?model=<%= h modeldb %>"> <img alt="ModelDB" border="0" src="../images/modeldb.gif"/></a>
+			<% else %>
+			    <a target="_blank" href="<%= h modeldb %>"> <img alt="ModelDB" border="0" src="../images/modeldb.gif"/></a>
+			<% end %>
+		<% end %>
+		<% if !original.blank? %>
+		    <p class="lead">This model was originally developed in: <strong><%= h link_to_search_by_custom_field(@project, 'Original format') %></strong></p>
+		<% end %>
+		<% if !ghrepo.blank? %>
+		    <p class="lead">The code for this model is hosted on GitHub: <a href="<%= h ghrepo %>"><%= h ghrepo %></a></p>
+		<% end %>
+		<% if !bbrepo.blank? %>
+		    <p class="lead">The code for this model is hosted on Bitbucket: <a href="<%= h bbrepo %>"><%= h bbrepo %></a></p>
+		<% end %>
+		
+		<%= render :partial=>'tags', :locals=>{:tags=>tags, :roles=>roles} %>
+		
+		<%= render :partial=>'neuroLexIds', :locals=>{:neuroLexIds=>neuroLexIds} %>
+
+	    </section>
+	<% end %>
+    </div>
+</div>
+</div>
+
+  <% if @news.any? && authorize_for('news', 'index') %>
+  <div class="news box">
+    <h3><%=l(:label_news_latest)%></h3>
+    <%= render :partial => 'news/news', :collection => @news %>
+    <p><%= link_to l(:label_news_view_all), project_news_index_path(@project) %></p>
+  </div>
+  <% end %>
+
+  <% if @subprojects.any? %>
+  <div class="projects box">
+    <h3><%=l(:label_subproject_plural)%></h3>
+    <%= @subprojects.collect{|p| link_to p, project_path(p), :class => p.css_classes}.join(", ").html_safe %>
+  </div>
+  <% end %>
+
+  <%= call_hook(:view_projects_show_right, :project => @project) %>
+</div>
+
+<% content_for :sidebar do %>
+  <%= render :partial => 'projects/sidebar' %>
+<% end %>
+
+<% content_for :header_tags do %>
+<%= auto_discovery_link_tag(:atom, {:controller => 'activities', :action => 'index', :id => @project, :format => 'atom', :key => User.current.rss_key}) %>
+<% end %>
+
+<% html_title(l(:label_overview)) -%>

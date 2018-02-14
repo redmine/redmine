@@ -1,5 +1,6 @@
-<%= form_tag({:controller => 'journals', :action => 'edit', :id => @journal},
+<%= form_tag(journal_path(@journal),
              :remote => true,
+             :method => 'put',
              :id => "journal-#{@journal.id}-form") do %>
     <%= label_tag "notes", l(:description_notes), :class => "hidden-for-sighted" %>
     <%= text_area_tag :notes, @journal.notes,
