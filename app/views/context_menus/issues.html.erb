@@ -39,7 +39,7 @@
     <ul>
     <% @priorities.each do |p| -%>
         <li><%= context_menu_link p.name, bulk_update_issues_path(:ids => @issue_ids, :issue => {'priority_id' => p}, :back_url => @back), :method => :post,
-                                  :selected => (@issue && p == @issue.priority), :disabled => (!@can[:edit]) %></li>
+                                  :selected => (@issue && p == @issue.priority), :disabled => (!@can[:edit] || @issues.any?(&:priority_derived?)) %></li>
     <% end -%>
     </ul>
   </li>
@@ -97,7 +97,7 @@
     <ul>
     <% (0..10).map{|x|x*10}.each do |p| -%>
         <li><%= context_menu_link "#{p}%", bulk_update_issues_path(:ids => @issue_ids, :issue => {'done_ratio' => p}, :back_url => @back), :method => :post,
-                                      :selected => (@issue && p == @issue.done_ratio), :disabled => (!@can[:edit] || @issues.detect {|i| !i.leaf?}) %></li>
+                                      :selected => (@issue && p == @issue.done_ratio), :disabled => (!@can[:edit] || @issues.any?(&:done_ratio_derived?)) %></li>
     <% end -%>
     </ul>
   </li>
