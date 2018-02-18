@@ -6234,6 +6234,27 @@ class IssuesControllerTest < Redmine::ControllerTest
   def test_destroy_issues_with_time_entries_should_show_the_reassign_form
     @request.session[:user_id] = 2
 
+    with_settings :timelog_required_fields => [] do
+      assert_no_difference 'Issue.count' do
+        delete :destroy, :params => {
+            :ids => [1, 3]
+          }
+      end
+    end
+    assert_response :success
+
+    assert_select 'form' do
+      assert_select 'input[name=_method][value=delete]'
+      assert_select 'input[name=todo][value=destroy]'
+      assert_select 'input[name=todo][value=nullify]'
+      assert_select 'input[name=todo][value=reassign]'
+    end
+  end
+
+  def test_destroy_issues_with_time_entries_should_not_show_the_nullify_option_when_issue_is_required_for_time_entries
+    with_settings :timelog_required_fields => ['issue_id'] do
+      @request.session[:user_id] = 2
+
     assert_no_difference 'Issue.count' do
       delete :destroy, :params => {
           :ids => [1, 3]
@@ -6243,6 +6264,10 @@ class IssuesControllerTest < Redmine::ControllerTest
 
     assert_select 'form' do
       assert_select 'input[name=_method][value=delete]'
+        assert_select 'input[name=todo][value=destroy]'
+        assert_select 'input[name=todo][value=nullify]', 0
+        assert_select 'input[name=todo][value=reassign]'
+      end
     end
   end
 
@@ -6281,6 +6306,7 @@ class IssuesControllerTest < Redmine::ControllerTest
   def test_destroy_issues_and_assign_time_entries_to_project
     @request.session[:user_id] = 2
 
+    with_settings :timelog_required_fields => [] do
     assert_difference 'Issue.count', -2 do
       assert_no_difference 'TimeEntry.count' do
         delete :destroy, :params => {
@@ -6288,6 +6314,7 @@ class IssuesControllerTest < Redmine::ControllerTest
             :todo => 'nullify'
           }
       end
+    end
     end
     assert_redirected_to :action => 'index', :project_id => 'ecookbook'
     assert !(Issue.find_by_id(1) || Issue.find_by_id(3))
@@ -6365,6 +6392,23 @@ class IssuesControllerTest < Redmine::ControllerTest
     end
     assert_response :success
     assert_select '#flash_error', :text => I18n.t(:error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted)
+  end
+
+  def test_destroy_issues_and_nullify_time_entries_should_fail_when_issue_is_required_for_time_entries
+    @request.session[:user_id] = 2
+
+    with_settings :timelog_required_fields => ['issue_id'] do
+      assert_no_difference 'Issue.count' do
+        assert_no_difference 'TimeEntry.count' do
+          delete :destroy, :params => {
+              :ids => [1, 3],
+              :todo => 'nullify'
+            }
+        end
+      end
+    end
+    assert_response :success
+    assert_select '#flash_error', :text => 'Issue cannot be blank'
   end
 
   def test_destroy_issues_from_different_projects
