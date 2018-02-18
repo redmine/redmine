@@ -1424,6 +1424,7 @@ module ApplicationHelper
       if email.present?
         gravatar(email.to_s.downcase, options) rescue nil
       else
+        options[:size] &&= options[:size].to_s
         image_tag 'anonymous.png',
                   GravatarHelper::DEFAULT_OPTIONS
                     .except(:default, :rating, :ssl).merge(options)
