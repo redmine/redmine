@@ -1307,6 +1307,7 @@ RAW
       assert_match tag_for_anonymous_re, avatar(nil)
       # Avatar for anonymous user
       assert_match tag_for_anonymous_re, avatar(User.anonymous)
+      assert avatar(User.anonymous, :size => 24).include?('width="24" height="24"')
     end
   end
 
