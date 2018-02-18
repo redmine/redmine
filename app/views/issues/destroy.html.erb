@@ -6,7 +6,9 @@
 <p><strong><%= l(:text_destroy_time_entries_question, :hours => number_with_precision(@hours, :precision => 2)) %></strong></p>
 <p>
 <label><%= radio_button_tag 'todo', 'destroy', true %> <%= l(:text_destroy_time_entries) %></label><br />
+<% unless Setting.timelog_required_fields.include?('issue_id') %>
 <label><%= radio_button_tag 'todo', 'nullify', false %> <%= l(:text_assign_time_entries_to_project) %></label><br />
+<% end %>
 <% if @project %>
 <label><%= radio_button_tag 'todo', 'reassign', false, :onchange => 'if (this.checked) { $("#reassign_to_id").focus(); }' %> <%= l(:text_reassign_time_entries) %></label>
 <%= text_field_tag 'reassign_to_id', params[:reassign_to_id], :size => 6, :onfocus => '$("#todo_reassign").attr("checked", true);' %>
