@@ -10,7 +10,7 @@ ar:
       short: "%b %d"
       long: "%B %d, %Y"
 
-    day_names: [الاحد, الاثنين, الثلاثاء, الاربعاء, الخميس, الجمعة, السبت]
+    day_names: [الأحد, الاثنين, الثلاثاء, الاربعاء, الخميس, الجمعة, السبت]
     abbr_day_names: [أح, اث, ث, ار, خ, ج, س]
 
     # Don't forget the nil at the beginning; there's no such thing as a 0th month
@@ -29,7 +29,7 @@ ar:
       short: "%d %b %H:%M"
       long: "%B %d, %Y %H:%M"
     am: "صباحا"
-    pm: "مساءاً"
+    pm: "مساءً"
 
   datetime:
     distance_in_words:
@@ -42,7 +42,7 @@ ar:
         other: "%{count}ثواني "
       less_than_x_minutes:
         one:   "أقل من دقيقة"
-        other: "دقائق%{count}أقل من "
+        other: "دقائق %{count}أقل من "
       x_minutes:
         one:   "دقيقة"
         other: "%{count} دقائق"
@@ -65,11 +65,11 @@ ar:
         one:   "حوالي سنة"
         other: "سنوات  %{count}حوالي "
       over_x_years:
-        one:   "اكثر من سنة"
+        one:   "أكثر من سنة"
         other: "سنوات  %{count}أكثر من "
       almost_x_years:
         one:   "تقريبا سنة"
-        other: "سنوات %{count} نقريبا"
+        other: "سنوات %{count} تقريبا"
   number:
     format:
       separator: "."
@@ -109,25 +109,25 @@ ar:
         invalid: "غير صالح"
         confirmation: "غير متطابق"
         accepted: "مقبولة"
-        empty: "لا يمكن ان تكون فارغة"
-        blank: "لا يمكن ان تكون فارغة"
-        too_long: " %{count} طويلة جدا، الحد الاقصى هو "
-        too_short: " %{count} قصيرة جدا، الحد الادنى هو "
+        empty: "لا يمكن أن تكون فارغة"
+        blank: "لا يمكن أن تكون فارغة"
+        too_long: " %{count} طويلة جدا، الحد الأقصى هو "
+        too_short: " %{count} قصيرة جدا، الحد الأدنى هو "
         wrong_length: " %{count} خطأ في الطول، يجب ان يكون "
         taken: "لقد اتخذت سابقا"
         not_a_number: "ليس رقما"
         not_a_date: "ليس تاريخا صالحا"
-        greater_than: "%{count}يجب ان تكون اكثر من "
-        greater_than_or_equal_to: "%{count} يجب ان تكون اكثر من او تساوي"
+        greater_than: "%{count}يجب أن تكون أكثر من "
+        greater_than_or_equal_to: "%{count} يجب أن تكون أكثر من أو تساوي"
         equal_to: "%{count}يجب ان تساوي"
         less_than: " %{count}يجب ان تكون اقل من"
-        less_than_or_equal_to: " %{count} يجب ان تكون اقل من او تساوي"
+        less_than_or_equal_to: " %{count} يجب أن تكون أقل من أو تساوي"
         odd: "must be odd"
         even: "must be even"
-        greater_than_start_date: "يجب ان تكون اكثر من تاريخ البداية"
-        not_same_project: "لا ينتمي الى نفس المشروع"
+        greater_than_start_date: "يجب أن تكون أكثر من تاريخ البداية"
+        not_same_project: "لا ينتمي إلى نفس المشروع"
         circular_dependency: "هذه العلاقة سوف تخلق علاقة تبعية دائرية"
-        cant_link_an_issue_with_a_descendant: "لا يمكن ان تكون المشكلة مرتبطة بواحدة من المهام الفرعية"
+        cant_link_an_issue_with_a_descendant: "لا يمكن اأ تكون المشكلة مرتبطة بواحدة من المهام الفرعية"
         earlier_than_minimum_start_date: "cannot be earlier than %{date} because of preceding issues"
         not_a_regexp: "is not a valid regular expression"
         open_issue_with_closed_parent: "An open issue cannot be attached to a closed parent task"
@@ -138,7 +138,7 @@ ar:
   general_text_Yes: 'نعم'
   general_text_no: 'لا'
   general_text_yes: 'نعم'
-  general_lang_name: 'Arabic (عربي)'
+  general_lang_name: 'العربية'
   general_csv_separator: ','
   general_csv_decimal_separator: '.'
   general_csv_encoding: ISO-8859-1
@@ -147,69 +147,69 @@ ar:
   general_first_day_of_week: '7'
 
   notice_account_updated: لقد تم تجديد الحساب بنجاح.
-  notice_account_invalid_credentials: اسم المستخدم او كلمة المرور غير صحيحة
+  notice_account_invalid_credentials: اسم المستخدم أو كلمة المرور غير صحيحة
   notice_account_password_updated: لقد تم تجديد كلمة المرور بنجاح.
   notice_account_wrong_password: كلمة المرور غير صحيحة
-  notice_account_register_done: لقد تم انشاء حسابك بنجاح، الرجاء تأكيد الطلب من البريد الالكتروني
+  notice_account_register_done: لقد تم إنشاء حسابك بنجاح، الرجاء تأكيد الطلب من البريد الالكتروني
   notice_account_unknown_email: مستخدم غير معروف.
   notice_can_t_change_password: هذا الحساب يستخدم جهاز خارجي غير مصرح به لا يمكن تغير كلمة المرور
-  notice_account_lost_email_sent: لقد تم ارسال رسالة على بريدك بالتعليمات اللازمة لتغير كلمة المرور
-  notice_account_activated: لقد تم تفعيل حسابك، يمكنك الدخول الان
+  notice_account_lost_email_sent: لقد تم إرسال رسالة على بريدك بالتعليمات اللازمة لتغير كلمة المرور
+  notice_account_activated: لقد تم تفعيل حسابك، يمكنك الدخول الآن
   notice_successful_create: لقد تم الانشاء بنجاح
   notice_successful_update: لقد تم التحديث بنجاح
   notice_successful_delete: لقد تم الحذف بنجاح
   notice_successful_connection: لقد تم الربط بنجاح
-  notice_file_not_found: الصفحة التي تحاول الدخول اليها غير موجوده او تم حذفها
+  notice_file_not_found: الصفحة التي تحاول الدخول إليها غير موجوده أو تم حذفها
   notice_locking_conflict: تم تحديث البيانات عن طريق مستخدم آخر.
-  notice_not_authorized: غير مصرح لك الدخول الى هذه المنطقة.
-  notice_not_authorized_archived_project: المشروع الذي تحاول الدخول اليه تم ارشفته
-  notice_email_sent: "%{value}تم ارسال رسالة الى "
-  notice_email_error: " (%{value})لقد حدث خطأ ما اثناء ارسال الرسالة الى "
+  notice_not_authorized: غير مصرح لك بالدخول إلى هذه المنطقة.
+  notice_not_authorized_archived_project: المشروع الذي تحاول الدخول إليه تم أرشفته
+  notice_email_sent: "%{value}تم إرسال رسالة إلى "
+  notice_email_error: " (%{value})لقد حدث خطأ ما أثناء إرسال الرسالة إلى "
   notice_feeds_access_key_reseted: كلمة الدخول  Atomلقد تم تعديل .
   notice_api_access_key_reseted:  كلمة الدخولAPIلقد تم تعديل .
   notice_failed_to_save_issues: "فشل في حفظ الملف"
-  notice_failed_to_save_members: "فشل في حفظ الاعضاء: %{errors}."
+  notice_failed_to_save_members: "فشل في حفظ الأعضاء: %{errors}."
   notice_no_issue_selected: "لم يتم تحديد شيء، الرجاء تحديد المسألة التي تريد"
-  notice_account_pending: "لقد تم انشاء حسابك، الرجاء الانتظار حتى تتم الموافقة"
+  notice_account_pending: "لقد تم إنشاء حسابك، الرجاء الانتظار حتى تتم الموافقة"
   notice_default_data_loaded: تم تحميل التكوين الافتراضي بنجاح
   notice_unable_delete_version: غير قادر على مسح النسخة.
   notice_unable_delete_time_entry: غير قادر على مسح وقت الدخول.
   notice_issue_done_ratios_updated: لقد تم تحديث النسب.
-  notice_gantt_chart_truncated: " (%{max})لقد تم اقتطاع الرسم البياني لانه تجاوز الاحد الاقصى لعدد العناصر المسموح عرضها "
-  notice_issue_successful_create: "%{id}لقد تم انشاء "
+  notice_gantt_chart_truncated: " (%{max})لقد تم اقتطاع الرسم البياني لأنه تجاوز الحد الأقصى لعدد العناصر المسموح بعرضها "
+  notice_issue_successful_create: "%{id}لقد تم ﻹنشاء "
 
 
   error_can_t_load_default_data: "لم يتم تحميل التكوين الافتراضي كاملا %{value}"
   error_scm_not_found: "لم يتم العثور على ادخال في المستودع"
-  error_scm_command_failed: "حدث خطأ عند محاولة الوصول الى المستودع: %{value}"
+  error_scm_command_failed: "حدث خطأ عند محاولة الوصول إلى المستودع: %{value}"
   error_scm_annotate: "الادخال غير موجود."
-  error_scm_annotate_big_text_file: "لا يمكن حفظ الادخال لانه تجاوز الحد الاقصى لحجم الملف."
-  error_issue_not_found_in_project: 'لم يتم العثور على المخرج او انه ينتمي الى مشروع اخر'
-  error_no_tracker_in_project: 'لا يوجد انواع بنود عمل لهذا المشروع، الرجاء التحقق من إعدادات المشروع. '
-  error_no_default_issue_status: 'لم يتم التعرف على اي وضع افتراضي، الرجاء التحقق من التكوين الخاص بك (اذهب الى إدارة-إصدار الحالات)'
+  error_scm_annotate_big_text_file: "لا يمكن حفظ الادخال لأنه تجاوز الحد الأقصى لحجم الملف."
+  error_issue_not_found_in_project: 'لم يتم العثور على المخرج أو أنه ينتمي إلى مشروع آخر'
+  error_no_tracker_in_project: 'لا يوجد أنواع بنود عمل لهذا المشروع، الرجاء التحقق من إعدادات المشروع. '
+  error_no_default_issue_status: 'لم يتم التعرف على أي وضع افتراضي، الرجاء التحقق من التكوين الخاص بك (اذهب إلى إدارة-إصدار الحالات)'
   error_can_not_delete_custom_field: غير قادر على حذف الحقل المظلل
   error_can_not_delete_tracker: "هذا النوع من بنود العمل يحتوي على بنود نشطة ولا يمكن حذفه"
   error_can_not_remove_role: "هذا الدور قيد الاستخدام، لا يمكن حذفه"
-  error_can_not_reopen_issue_on_closed_version: 'لا يمكن إعادة فتح بند عمل معين لاصدار مقفل'
-  error_can_not_archive_project: لا يمكن ارشفة هذا المشروع
+  error_can_not_reopen_issue_on_closed_version: 'لا يمكن إعادة فتح بند عمل معين لإصدار مقفل'
+  error_can_not_archive_project: لا يمكن أرشفة هذا المشروع
   error_issue_done_ratios_not_updated: "لم يتم تحديث النسب"
-  error_workflow_copy_source: 'الرجاء اختيار نوع بند العمل او الادوار'
-  error_workflow_copy_target: 'الرجاء اختيار نوع بند العمل المستهدف او الادوار المستهدفة'
+  error_workflow_copy_source: 'الرجاء اختيار نوع بند العمل أو الأدوار'
+  error_workflow_copy_target: 'الرجاء اختيار نوع بند العمل المستهدف أو الادوار المستهدفة'
   error_unable_delete_issue_status: 'غير قادر على حذف حالة بند العمل'
   error_unable_to_connect: "تعذر الاتصال(%{value})"
-  error_attachment_too_big: " (%{max_size})لا يمكن تحميل هذا الملف، لقد تجاوز الحد الاقصى المسموح به "
+  error_attachment_too_big: " (%{max_size})لا يمكن تحميل هذا الملف، لقد تجاوز الحد الأقصى المسموح به "
   warning_attachments_not_saved: "%{count}تعذر حفظ الملف"
 
   mail_subject_lost_password: " %{value}كلمة المرور الخاصة بك "
   mail_body_lost_password: 'لتغير كلمة المرور، انقر على الروابط التالية:'
   mail_subject_register: " %{value}تفعيل حسابك "
   mail_body_register: 'لتفعيل حسابك، انقر على الروابط التالية:'
-  mail_body_account_information_external: " %{value}اصبح بامكانك استخدام حسابك للدخول"
+  mail_body_account_information_external: " %{value}أصبح بإمكانك استخدام حسابك للدخول"
   mail_body_account_information: معلومات حسابك
   mail_subject_account_activation_request: "%{value}طلب تفعيل الحساب "
   mail_body_account_activation_request: " (%{value})تم تسجيل حساب جديد، بانتظار الموافقة:"
   mail_subject_reminder: "%{count}تم تأجيل المهام التالية  "
-  mail_body_reminder: "%{count}يجب ان تقوم بتسليم المهام التالية:"
+  mail_body_reminder: "%{count}يجب أن تقوم بتسليم المهام التالية:"
   mail_subject_wiki_content_added: "'%{id}' تم اضافة صفحة ويكي"
   mail_body_wiki_content_added: "The '%{id}' تم اضافة صفحة ويكي من قبل %{author}."
   mail_subject_wiki_content_updated: "'%{id}' تم تحديث صفحة ويكي"
@@ -220,21 +220,21 @@ ar:
   field_description: الوصف
   field_summary: الملخص
   field_is_required: مطلوب
-  field_firstname: الاسم الاول
-  field_lastname: الاسم الاخير
+  field_firstname: الاسم
+  field_lastname: اللقب
   field_mail: البريد الالكتروني
   field_filename: اسم الملف
   field_filesize: حجم الملف
   field_downloads: التنزيل
   field_author: المؤلف
-  field_created_on: تم الانشاء في
+  field_created_on: تم الإنشاء في
   field_updated_on: تم التحديث
   field_field_format: تنسيق الحقل
   field_is_for_all: لكل المشروعات
   field_possible_values: قيم محتملة
   field_regexp: التعبير العادي
-  field_min_length: الحد الادنى للطول
-  field_max_length: الحد الاعلى للطول
+  field_min_length: الحد الأدنى للطول
+  field_max_length: الحد الاقصى للطول
   field_value: القيمة
   field_category: الفئة
   field_title: العنوان
@@ -247,9 +247,9 @@ ar:
   field_tracker: نوع بند العمل
   field_subject: الموضوع
   field_due_date: تاريخ النهاية
-  field_assigned_to: المحال اليه
+  field_assigned_to: المحال إليه
   field_priority: الأولوية
-  field_fixed_version: الاصدار المستهدف
+  field_fixed_version: الإصدار المستهدف
   field_user: المستخدم
   field_principal: الرئيسي
   field_role: دور
@@ -260,7 +260,7 @@ ar:
   field_login: تسجيل الدخول
   field_mail_notification: ملاحظات على البريد الالكتروني
   field_admin: المدير
-  field_last_login_on: اخر اتصال
+  field_last_login_on: آخر اتصال
   field_language: لغة
   field_effective_date: تاريخ
   field_password: كلمة المرور
@@ -273,8 +273,8 @@ ar:
   field_account: الحساب
   field_base_dn: DN قاعدة
   field_attr_login: سمة الدخول
-  field_attr_firstname: سمة الاسم الاول
-  field_attr_lastname: سمة الاسم الاخير
+  field_attr_firstname: سمة الاسم
+  field_attr_lastname: سمة اللقب
   field_attr_mail: سمة البريد الالكتروني
   field_onthefly: إنشاء حساب مستخدم على تحرك
   field_start_date: تاريخ البداية
@@ -289,10 +289,10 @@ ar:
   field_activity: النشاط
   field_spent_on: تاريخ
   field_identifier: المعرف
-  field_is_filter: استخدم كتصفية
+  field_is_filter: استخدم تصفية
   field_issue_to: بنود العمل المتصلة
   field_delay: تأخير
-  field_assignable: يمكن اسناد بنود العمل الى هذا الدور
+  field_assignable: يمكن إسناد بنود العمل إلى هذا الدور
   field_redirect_existing_links: إعادة توجيه الروابط الموجودة
   field_estimated_hours: الوقت المتوقع
   field_column_names: أعمدة
@@ -329,15 +329,15 @@ ar:
   setting_default_language: اللغة الافتراضية
   setting_login_required: مطلوب المصادقة
   setting_self_registration: التسجيل الذاتي
-  setting_attachment_max_size: الحد الاقصى للملفات المرفقة
-  setting_issues_export_limit: الحد الاقصى لتصدير بنود العمل لملفات خارجية
+  setting_attachment_max_size: الحد الأقصى للملفات المرفقة
+  setting_issues_export_limit: الحد الأقصى لتصدير بنود العمل لملفات خارجية
   setting_mail_from: انبعاثات عنوان بريدك
   setting_bcc_recipients: مستلمين النسخ المخفية (bcc)
   setting_plain_text_mail: نص عادي (no HTML)
   setting_host_name: اسم ومسار المستخدم
   setting_text_formatting: تنسيق النص
   setting_wiki_compression: ضغط تاريخ الويكي
-  setting_feeds_limit: Atom feeds الحد الاقصى لعدد البنود في
+  setting_feeds_limit: Atom feeds الحد الأقصى لعدد البنود في
   setting_default_projects_public: المشاريع الجديده متاحة للجميع افتراضيا
   setting_autofetch_changesets: الإحضار التلقائي
   setting_sys_api_enabled: من ادارة المستودع WS تمكين
@@ -347,28 +347,28 @@ ar:
   setting_date_format: تنسيق التاريخ
   setting_time_format: تنسيق الوقت
   setting_cross_project_issue_relations: السماح بإدراج بنود العمل في هذا المشروع
-  setting_issue_list_default_columns: الاعمدة الافتراضية المعروضة في قائمة بند العمل
+  setting_issue_list_default_columns: الأعمدة الافتراضية المعروضة في قائمة بند العمل
   setting_repositories_encodings: ترميز المرفقات والمستودعات
   setting_emails_header: رأس رسائل البريد الإلكتروني
   setting_emails_footer: ذيل رسائل البريد الإلكتروني
   setting_protocol: بروتوكول
   setting_per_page_options: الكائنات لكل خيارات الصفحة
   setting_user_format: تنسيق عرض المستخدم
-  setting_activity_days_default: الايام المعروضة على نشاط المشروع
-  setting_display_subprojects_issues: عرض بنود العمل للمشارع الرئيسية بشكل افتراضي
+  setting_activity_days_default: الأيام المعروضة على نشاط المشروع
+  setting_display_subprojects_issues: عرض بنود العمل للمشارع الرئيسة بشكل افتراضي
   setting_enabled_scm: SCM تمكين
   setting_mail_handler_body_delimiters: "اقتطاع رسائل البريد الإلكتروني بعد هذه الخطوط"
   setting_mail_handler_api_enabled: للرسائل الواردةWS تمكين
   setting_mail_handler_api_key: API مفتاح
-  setting_sequential_project_identifiers: انشاء معرفات المشروع المتسلسلة
-  setting_gravatar_enabled: كأيقونة مستخدمGravatar استخدام
+  setting_sequential_project_identifiers: إنشاء معرفات المشروع المتسلسلة
+  setting_gravatar_enabled:  أيقونة مستخدمGravatar استخدام
   setting_gravatar_default: الافتراضيةGravatar صورة
-  setting_diff_max_lines_displayed: الحد الاقصى لعدد الخطوط
+  setting_diff_max_lines_displayed: الحد الأقصى لعدد الخطوط
   setting_file_max_size_displayed: الحد الأقصى لحجم النص المعروض على الملفات المرفقة
-  setting_repository_log_display_limit: الحد الاقصى لعدد التنقيحات المعروضة على ملف السجل
+  setting_repository_log_display_limit: الحد الأقصى لعدد التنقيحات المعروضة على ملف السجل
   setting_openid: السماح بدخول اسم المستخدم المفتوح والتسجيل
-  setting_password_min_length: الحد الادني لطول كلمة المرور
-  setting_new_project_user_role_id: الدور المسند الى المستخدم غير المسؤول الذي يقوم بإنشاء المشروع
+  setting_password_min_length: الحد الأدني لطول كلمة المرور
+  setting_new_project_user_role_id: الدور المسند إلى المستخدم غير المسؤول الذي يقوم بإنشاء المشروع
   setting_default_projects_modules: تمكين الوحدات النمطية للمشاريع الجديدة بشكل افتراضي
   setting_issue_done_ratio: حساب نسبة بند العمل المنتهية
   setting_issue_done_ratio_issue_field: استخدم حقل بند العمل
@@ -376,61 +376,61 @@ ar:
   setting_start_of_week: بدأ التقويم
   setting_rest_api_enabled: تمكين باقي خدمات الويب
   setting_cache_formatted_text: النص المسبق تنسيقه في ذاكرة التخزين المؤقت
-  setting_default_notification_option: خيار الاعلام الافتراضي
+  setting_default_notification_option: خيار الإعلام الافتراضي
   setting_commit_logtime_enabled: تميكن وقت الدخول
   setting_commit_logtime_activity_id: النشاط في وقت الدخول
-  setting_gantt_items_limit: الحد الاقصى لعدد العناصر المعروضة على مخطط جانت
-  setting_issue_group_assignment: السماح للإحالة الى المجموعات
-  setting_default_issue_start_date_to_creation_date: استخدام التاريخ الحالي كتاريخ بدأ لبنود العمل الجديدة
+  setting_gantt_items_limit: الحد الأقصى لعدد العناصر المعروضة على مخطط جانت
+  setting_issue_group_assignment: السماح للإحالة إلى المجموعات
+  setting_default_issue_start_date_to_creation_date: استخدام التاريخ الحالي تاريخ بدأ لبنود العمل الجديدة
 
   permission_add_project: إنشاء مشروع
   permission_add_subprojects: إنشاء مشاريع فرعية
   permission_edit_project: تعديل مشروع
   permission_select_project_modules: تحديد شكل المشروع
-  permission_manage_members: إدارة الاعضاء
-  permission_manage_project_activities: ادارة اصدارات المشروع
-  permission_manage_versions: ادارة الاصدارات
-  permission_manage_categories: ادارة انواع بنود العمل
+  permission_manage_members: إدارة الأعضاء
+  permission_manage_project_activities: إدارة اصدارات المشروع
+  permission_manage_versions: إدارة الإصدارات
+  permission_manage_categories: إدارة إنواع بنود العمل
   permission_view_issues: عرض بنود العمل
   permission_add_issues: اضافة بنود العمل
   permission_edit_issues: تعديل بنود العمل
-  permission_manage_issue_relations: ادارة علاقات بنود العمل
-  permission_set_issues_private: تعين بنود العمل عامة او خاصة
-  permission_set_own_issues_private: تعين بنود العمل الخاصة بك كبنود عمل عامة او خاصة
+  permission_manage_issue_relations: إدارة علاقات بنود العمل
+  permission_set_issues_private: تعيين بنود العمل عامة أو خاصة
+  permission_set_own_issues_private: تعيين بنود العمل الخاصة بك بنود عمل عامة أو خاصة
   permission_add_issue_notes: اضافة ملاحظات
   permission_edit_issue_notes: تعديل ملاحظات
   permission_edit_own_issue_notes: تعديل ملاحظاتك
   permission_move_issues: تحريك بنود العمل
   permission_delete_issues: حذف بنود العمل
-  permission_manage_public_queries: ادارة الاستعلامات العامة
+  permission_manage_public_queries: إدارة الاستعلامات العامة
   permission_save_queries: حفظ الاستعلامات
   permission_view_gantt: عرض طريقة"جانت"
   permission_view_calendar: عرض التقويم
   permission_view_issue_watchers: عرض قائمة المراقبين
   permission_add_issue_watchers: اضافة مراقبين
   permission_delete_issue_watchers: حذف مراقبين
-  permission_log_time: الوقت المستغرق بالدخول
+  permission_log_time: الوقت المستغرق للدخول
   permission_view_time_entries: عرض الوقت المستغرق
   permission_edit_time_entries: تعديل الدخولات الزمنية
   permission_edit_own_time_entries: تعديل الدخولات الشخصية
-  permission_manage_news: ادارة الاخبار
-  permission_comment_news: اخبار التعليقات
+  permission_manage_news: إدارة الأخبار
+  permission_comment_news: أخبار التعليقات
   permission_view_documents: عرض المستندات
-  permission_manage_files: ادارة الملفات
+  permission_manage_files: إدارة الملفات
   permission_view_files: عرض الملفات
-  permission_manage_wiki: ادارة ويكي
-  permission_rename_wiki_pages: اعادة تسمية صفحات ويكي
+  permission_manage_wiki: إدارة ويكي
+  permission_rename_wiki_pages: إعادة تسمية صفحات ويكي
   permission_delete_wiki_pages: حذق صفحات ويكي
   permission_view_wiki_pages: عرض ويكي
   permission_view_wiki_edits: عرض تاريخ ويكي
   permission_edit_wiki_pages: تعديل صفحات ويكي
   permission_delete_wiki_pages_attachments: حذف المرفقات
   permission_protect_wiki_pages: حماية صفحات ويكي
-  permission_manage_repository: ادارة المستودعات
+  permission_manage_repository: إدارة المستودعات
   permission_browse_repository: استعراض المستودعات
   permission_view_changesets: عرض طاقم التغيير
   permission_commit_access: الوصول
-  permission_manage_boards: ادارة المنتديات
+  permission_manage_boards: إدارة المنتديات
   permission_view_messages: عرض الرسائل
   permission_add_messages: نشر الرسائل
   permission_edit_messages: تحرير الرسائل
@@ -438,11 +438,11 @@ ar:
   permission_delete_messages: حذف الرسائل
   permission_delete_own_messages: حذف الرسائل الخاصة
   permission_export_wiki_pages: تصدير صفحات ويكي
-  permission_manage_subtasks: ادارة المهام الفرعية
+  permission_manage_subtasks: إدارة المهام الفرعية
 
   project_module_issue_tracking: تعقب بنود العمل
   project_module_time_tracking: التعقب الزمني
-  project_module_news: الاخبار
+  project_module_news: الأخبار
   project_module_documents: المستندات
   project_module_files: الملفات
   project_module_wiki: ويكي
@@ -463,30 +463,30 @@ ar:
     one: مشروع واحد
     other: "%{count} مشاريع"
   label_project_all: كل المشاريع
-  label_project_latest: احدث المشاريع
+  label_project_latest: أحدث المشاريع
   label_issue: بند عمل
   label_issue_new: بند عمل جديد
   label_issue_plural: بنود عمل
   label_issue_view_all: عرض كل بنود العمل
   label_issues_by: " %{value}بند العمل لصحابها"
-  label_issue_added: تم اضافة بند العمل
+  label_issue_added: تم إضافة بند العمل
   label_issue_updated: تم تحديث بند العمل
-  label_issue_note_added: تم اضافة الملاحظة
+  label_issue_note_added: تم إضافة الملاحظة
   label_issue_status_updated: تم تحديث الحالة
   label_issue_priority_updated: تم تحديث الاولويات
   label_document: مستند
   label_document_new: مستند جديد
   label_document_plural: مستندات
-  label_document_added: تم اضافة مستند
+  label_document_added: تم إضافة مستند
   label_role: دور
-  label_role_plural: ادوار
+  label_role_plural: أدوار
   label_role_new: دور جديد
   label_role_and_permissions: الأدوار والصلاحيات
   label_role_anonymous: مجهول الهوية
   label_role_non_member: ليس عضو
   label_member: عضو
   label_member_new: عضو جديد
-  label_member_plural: اعضاء
+  label_member_plural: أعضاء
   label_tracker: نوع بند عمل
   label_tracker_plural: أنواع بنود العمل
   label_tracker_new: نوع بند عمل جديد
@@ -504,12 +504,12 @@ ar:
   label_enumeration_new: قيمة جديدة
   label_information: معلومة
   label_information_plural: معلومات
-  label_please_login: برجى تسجيل الدخول
+  label_please_login: يرجى تسجيل الدخول
   label_register: تسجيل
-  label_login_with_open_id_option: او الدخول بهوية مفتوحة
+  label_login_with_open_id_option: أو الدخول بهوية مفتوحة
   label_password_lost: فقدت كلمة السر
   label_home: "الصفحة الرئيسية"
-  label_my_page: الصفحة الخاصة بي
+  label_my_page: صفحتي
   label_my_account: حسابي
   label_my_projects: مشاريعي الخاصة
   label_administration: إدارة النظام
@@ -517,7 +517,7 @@ ar:
   label_logout: تسجيل الخروج
   label_help: مساعدة
   label_reported_issues: بنود العمل التي أدخلتها
-  label_assigned_to_me_issues: بنود العمل المسندة إلي
+  label_assigned_to_me_issues: بنود العمل المسندة إلى
   label_last_login: آخر اتصال
   label_registered_on: مسجل على
   label_activity: النشاط
@@ -533,7 +533,7 @@ ar:
   label_subproject_plural: مشاريع فرعية
   label_subproject_new: مشروع فرعي جديد
   label_and_its_subprojects: "قيمة المشاريع الفرعية الخاصة بك"
-  label_min_max_length: الحد الاقصى والادنى للطول
+  label_min_max_length: الحد الأقصى والأدنى للطول
   label_list: قائمة
   label_date: تاريخ
   label_integer: عدد صحيح
@@ -585,7 +585,7 @@ ar:
   label_total: الإجمالي
   label_permissions: صلاحيات
   label_current_status: الحالة الحالية
-  label_new_statuses_allowed: يسمح بادراج حالات جديدة
+  label_new_statuses_allowed: يسمح بإدراج حالات جديدة
   label_all: جميع
   label_none: لا شيء
   label_nobody: لا أحد
@@ -618,7 +618,7 @@ ar:
   label_equals: يساوي
   label_not_equals: لا يساوي
   label_in_less_than: أقل من
-  label_in_more_than: أكثر من
+  label_in_more_than: أكبر من
   label_greater_or_equal: '>='
   label_less_or_equal: '< ='
   label_between: بين
@@ -682,7 +682,7 @@ ar:
   label_changes_details: تفاصيل جميع التغييرات
   label_issue_tracking: تعقب بنود العمل
   label_spent_time: ما تم إنفاقه من الوقت
-  label_overall_spent_time: الوقت الذي تم انفاقه كاملا
+  label_overall_spent_time: الوقت الذي تم إنفاقه كاملا
   label_f_hour: "%{value} ساعة"
   label_f_hour_plural: "%{value} ساعات"
   label_time_tracking: تعقب الوقت
