@@ -140,8 +140,6 @@ a.collapsible.collapsed {background: url(../images/arrow_collapsed.png) no-repea
 
 a#toggle-completed-versions {color:#999;}
 
-a.toggle-checkboxes { margin-left: 5px; padding-left: 12px; background: url(../images/toggle_check.png) no-repeat 0% 50%; }
-
 /***** Dropdown *****/
 .drdn {position:relative;}
 .drdn-trigger {
