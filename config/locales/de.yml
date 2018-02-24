@@ -973,7 +973,6 @@ de:
   project_status_closed: geschlossen
 
   setting_activity_days_default: Anzahl Tage pro Seite der Projekt-Aktivität
-  setting_app_subtitle: Applikationsuntertitel
   setting_app_title: Applikationstitel
   setting_attachment_max_size: Max. Dateigröße
   setting_autofetch_changesets: Changesets automatisch abrufen

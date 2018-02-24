@@ -716,7 +716,6 @@ pl:
   project_module_time_tracking: Śledzenie czasu pracy
   project_module_wiki: Wiki
   setting_activity_days_default: Dni wyświetlane w aktywności projektu
-  setting_app_subtitle: Podtytuł aplikacji
   setting_app_title: Tytuł aplikacji
   setting_attachment_max_size: Maks. rozm. załącznika
   setting_autofetch_changesets: Automatyczne pobieranie zmian

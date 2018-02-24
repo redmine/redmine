@@ -369,7 +369,6 @@ lt:
   field_remote_ip: IP adresas
 
   setting_app_title: Programos pavadinimas
-  setting_app_subtitle: Programos paantraštė
   setting_welcome_text: Pasveikinimas
   setting_default_language: Numatytoji kalba
   setting_login_required: Reikalingas autentiškumo nustatymas

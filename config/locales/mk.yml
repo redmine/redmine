@@ -307,7 +307,6 @@ mk:
   field_parent_issue: Parent task
 
   setting_app_title: Наслов на апликацијата
-  setting_app_subtitle: Поднаслов на апликацијата
   setting_welcome_text: Текст за добредојде
   setting_default_language: Default јазик
   setting_login_required: Задолжителна автентикација

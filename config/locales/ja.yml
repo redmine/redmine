@@ -341,7 +341,6 @@ ja:
   field_cvs_module: モジュール
 
   setting_app_title: アプリケーションのタイトル
-  setting_app_subtitle: アプリケーションのサブタイトル
   setting_welcome_text: ウェルカムメッセージ
   setting_default_language: デフォルトの言語
   setting_login_required: 認証が必要

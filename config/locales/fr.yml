@@ -390,7 +390,6 @@ fr:
   field_default_assigned_to: Assigné par défaut
 
   setting_app_title: Titre de l'application
-  setting_app_subtitle: Sous-titre de l'application
   setting_welcome_text: Texte d'accueil
   setting_default_language: Langue par défaut
   setting_login_required: Authentification obligatoire

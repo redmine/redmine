@@ -334,7 +334,6 @@ ko:
   field_group_by: 결과를 묶어 보여줄 기준
 
   setting_app_title: 레드마인 제목
-  setting_app_subtitle: 레드마인 부제목
   setting_welcome_text: 환영 메시지
   setting_default_language: 기본 언어
   setting_login_required: 인증이 필요함

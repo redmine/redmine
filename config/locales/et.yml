@@ -347,7 +347,6 @@ et:
   field_auth_source_ldap_filter: "LDAP filter"
 
   setting_app_title: "Veebilehe pealkiri"
-  setting_app_subtitle: "Veebilehe alampealkiri"
   setting_welcome_text: "Tervitustekst"
   setting_default_language: "Vaikimisi keel"
   setting_login_required: "Autentimine on kohustuslik"

@@ -380,7 +380,6 @@ bg:
   field_default_assigned_to: Назначение по подразбиране
 
   setting_app_title: Заглавие
-  setting_app_subtitle: Описание
   setting_welcome_text: Допълнителен текст
   setting_default_language: Език по подразбиране
   setting_login_required: Изискване за вход в Redmine

@@ -286,7 +286,6 @@ tr:
   field_comments_sorting: Yorumları göster
 
   setting_app_title: Uygulama Bağlığı
-  setting_app_subtitle: Uygulama alt başlığı
   setting_welcome_text: Hoşgeldin Mesajı
   setting_default_language: Varsayılan Dil
   setting_login_required: Kimlik denetimi gerekli mi

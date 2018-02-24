@@ -293,7 +293,6 @@ bs:
   field_content: Sadržaj
 
   setting_app_title: Naslov aplikacije
-  setting_app_subtitle: Podnaslov aplikacije
   setting_welcome_text: Tekst dobrodošlice
   setting_default_language: Podrazumjevani jezik
   setting_login_required: Authentifikacija neophodna

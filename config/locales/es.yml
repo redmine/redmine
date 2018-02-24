@@ -739,7 +739,6 @@ es:
   project_module_time_tracking: Control de tiempo
   project_module_wiki: Wiki
   setting_activity_days_default: Días a mostrar en la actividad de proyecto
-  setting_app_subtitle: Subtítulo de la aplicación
   setting_app_title: Título de la aplicación
   setting_attachment_max_size: Tamaño máximo del fichero
   setting_autofetch_changesets: Autorellenar los commits del repositorio

@@ -291,7 +291,6 @@ hr:
   field_group_by: Group results by
 
   setting_app_title: Naziv aplikacije
-  setting_app_subtitle: Podnaslov aplikacije
   setting_welcome_text: Tekst dobrodošlice
   setting_default_language: Zadani jezik
   setting_login_required: Potrebna je prijava

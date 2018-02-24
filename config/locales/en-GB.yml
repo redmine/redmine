@@ -318,7 +318,6 @@ en-GB:
   field_warn_on_leaving_unsaved: "Warn me when leaving a page with unsaved text"
 
   setting_app_title: Application title
-  setting_app_subtitle: Application subtitle
   setting_welcome_text: Welcome text
   setting_default_language: Default language
   setting_login_required: Authentication required

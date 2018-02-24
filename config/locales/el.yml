@@ -290,7 +290,6 @@ el:
   field_group_by: Ομαδικά αποτελέσματα από
 
   setting_app_title: Τίτλος εφαρμογής
-  setting_app_subtitle: Υπότιτλος εφαρμογής
   setting_welcome_text: Κείμενο υποδοχής
   setting_default_language: Προεπιλεγμένη γλώσσα
   setting_login_required: Απαιτείται πιστοποίηση

@@ -261,7 +261,6 @@ it:
   field_default_value: Stato predefinito
 
   setting_app_title: Titolo applicazione
-  setting_app_subtitle: Sottotitolo applicazione
   setting_welcome_text: Testo di benvenuto
   setting_default_language: Lingua predefinita
   setting_login_required: Autenticazione richiesta

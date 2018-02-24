@@ -714,7 +714,6 @@ gl:
   project_module_time_tracking: Control de tempo
   project_module_wiki: Wiki
   setting_activity_days_default: Días a mostrar na actividade do proxecto
-  setting_app_subtitle: Subtítulo da aplicación
   setting_app_title: Título da aplicación
   setting_attachment_max_size: Tamaño máximo do ficheiro
   setting_autofetch_changesets: Autorechear as remisións do repositorio

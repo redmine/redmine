@@ -284,7 +284,6 @@ pt:
   field_parent_title: Página pai
 
   setting_app_title: Título da aplicação
-  setting_app_subtitle: Sub-título da aplicação
   setting_welcome_text: Texto de boas vindas
   setting_default_language: Língua por omissão
   setting_login_required: Autenticação obrigatória

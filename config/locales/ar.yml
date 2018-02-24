@@ -324,7 +324,6 @@ ar:
   field_cvs_module: وحدة
 
   setting_app_title: عنوان التطبيق
-  setting_app_subtitle: العنوان الفرعي للتطبيق
   setting_welcome_text: نص الترحيب
   setting_default_language: اللغة الافتراضية
   setting_login_required: مطلوب المصادقة

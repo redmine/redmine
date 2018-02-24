@@ -21,8 +21,6 @@
 
 app_title:
   default: Redmine
-app_subtitle:
-  default: Project management
 welcome_text:
   default:
 login_required:

@@ -294,7 +294,6 @@ fi:
   field_default_value: Vakioarvo
 
   setting_app_title: Ohjelman otsikko
-  setting_app_subtitle: Ohjelman alaotsikko
   setting_welcome_text: Tervehdysteksti
   setting_default_language: Vakiokieli
   setting_login_required: Pakollinen kirjautuminen

@@ -316,7 +316,6 @@ cs:
   field_visible: Viditelný
 
   setting_app_title: Název aplikace
-  setting_app_subtitle: Podtitulek aplikace
   setting_welcome_text: Uvítací text
   setting_default_language: Výchozí jazyk
   setting_login_required: Autentifikace vyžadována

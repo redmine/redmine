@@ -682,7 +682,6 @@ nl:
   project_module_time_tracking: Tijdregistratie
   project_module_wiki: Wiki
   setting_activity_days_default: Aantal weergegeven dagen bij het tabblad "Activiteit"
-  setting_app_subtitle: Applicatieondertitel
   setting_app_title: Applicatietitel
   setting_attachment_max_size: Max. grootte bijlage
   setting_autofetch_changesets: Commits automatisch ophalen

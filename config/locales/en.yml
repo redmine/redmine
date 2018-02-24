@@ -378,7 +378,6 @@ en:
   field_default_assigned_to: Default assignee
 
   setting_app_title: Application title
-  setting_app_subtitle: Application subtitle
   setting_welcome_text: Welcome text
   setting_default_language: Default language
   setting_login_required: Authentication required

@@ -270,7 +270,6 @@ th:
   field_comments_sorting: แสดงความเห็น
 
   setting_app_title: ชื่อโปรแกรม
-  setting_app_subtitle: ชื่อโปรแกรมรอง
   setting_welcome_text: ข้อความต้อนรับ
   setting_default_language: ภาษาเริ่มต้น
   setting_login_required: ต้องป้อนผู้ใช้-รหัสผ่าน

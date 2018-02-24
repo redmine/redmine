@@ -310,7 +310,6 @@ ca:
   field_parent_issue: "Tasca pare"
 
   setting_app_title: "Títol de l'aplicació"
-  setting_app_subtitle: "Subtítol de l'aplicació"
   setting_welcome_text: "Text de benvinguda"
   setting_default_language: "Idioma predeterminat"
   setting_login_required: "Es necessita autenticació"

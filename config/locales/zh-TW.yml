@@ -462,7 +462,6 @@
   field_default_assigned_to: 預設被分派者
 
   setting_app_title: 標題
-  setting_app_subtitle: 副標題
   setting_welcome_text: 歡迎詞
   setting_default_language: 預設語言
   setting_login_required: 需要驗證

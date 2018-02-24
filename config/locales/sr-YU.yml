@@ -308,7 +308,6 @@ sr-YU:
   field_parent_issue: Matični zadatak
 
   setting_app_title: Naslov aplikacije
-  setting_app_subtitle: Podnaslov aplikacije
   setting_welcome_text: Tekst dobrodošlice
   setting_default_language: Podrazumevani jezik
   setting_login_required: Obavezna potvrda identiteta

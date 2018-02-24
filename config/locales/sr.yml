@@ -306,7 +306,6 @@ sr:
   field_parent_issue: Матични задатак
 
   setting_app_title: Наслов апликације
-  setting_app_subtitle: Поднаслов апликације
   setting_welcome_text: Текст добродошлице
   setting_default_language: Подразумевани језик
   setting_login_required: Обавезна потврда идентитета
