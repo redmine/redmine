@@ -18,6 +18,9 @@
 require File.expand_path('../../../../../../test_helper', __FILE__)
 
 class IssuesPdfHelperTest < ActiveSupport::TestCase
+  fixtures :users, :projects, :roles, :members, :member_roles,
+           :enabled_modules, :issues, :trackers, :enumerations
+
   include Redmine::Export::PDF::IssuesPdfHelper
 
   def test_fetch_row_values_should_round_float_values
