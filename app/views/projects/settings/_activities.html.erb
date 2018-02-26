@@ -7,7 +7,7 @@
     <% TimeEntryActivity.new.available_custom_fields.each do |value| %>
     <th><%= value.name %></th>
     <% end %>
-    <th><%= l(:field_active) %></th>
+    <th><%= toggle_checkboxes_link('input.enumerations_active') %> <%= l(:field_active) %></th>
   </tr></thead>
 
   <% @project.activities(true).each do |enumeration| %>
@@ -24,7 +24,7 @@
     </td>
     <% end %>
     <td>
-      <%= ff.check_box :active %>
+      <%= ff.check_box :active, :class => 'enumerations_active' %>
     </td>
   </tr>
   <% end %>
