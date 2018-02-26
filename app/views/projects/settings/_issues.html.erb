@@ -2,7 +2,7 @@
   <%= hidden_field_tag 'tab', 'issues' %>
 
   <% unless @trackers.empty? %>
-  <fieldset class="box tabular" id="project_trackers"><legend><%=l(:label_tracker_plural)%></legend>
+  <fieldset class="box tabular" id="project_trackers"><legend><%= toggle_checkboxes_link('#project_trackers input[type=checkbox]') %><%= l(:label_tracker_plural)%></legend>
   <% @trackers.each do |tracker| %>
     <label class="floating">
       <%= check_box_tag 'project[tracker_ids][]', tracker.id, @project.trackers.to_a.include?(tracker), :id => nil %>
@@ -14,7 +14,7 @@
   <% end %>
 
   <% unless @issue_custom_fields.empty? %>
-  <fieldset class="box tabular" id="project_issue_custom_fields"><legend><%=l(:label_custom_field_plural)%></legend>
+  <fieldset class="box tabular" id="project_issue_custom_fields"><legend><%= toggle_checkboxes_link('#project_issue_custom_fields input[type=checkbox]:enabled') %><%=l(:label_custom_field_plural)%></legend>
   <% @issue_custom_fields.each do |custom_field| %>
     <label class="floating">
       <%= check_box_tag 'project[issue_custom_field_ids][]', custom_field.id, (@project.all_issue_custom_fields.include? custom_field),
