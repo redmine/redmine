@@ -48,7 +48,8 @@
 <div class="box tabular" id="permissions">
 <% perms_by_module = @role.setable_permissions.group_by {|p| p.project_module.to_s} %>
 <% perms_by_module.keys.sort.each do |mod| %>
-    <fieldset><legend><%= mod.blank? ? l(:label_project) : l_or_humanize(mod, :prefix => 'project_module_') %></legend>
+    <% module_name = mod.blank? ? 'module_project' : "module_#{mod}" %>
+    <fieldset id="<%= module_name %>"><legend><%= toggle_checkboxes_link("##{module_name}\ input") %><%= mod.blank? ? l(:label_project) : l_or_humanize(mod, :prefix => 'project_module_') %></legend>
     <% perms_by_module[mod].each do |permission| %>
         <label class="floating">
         <%= check_box_tag 'role[permissions][]', permission.name, (@role.permissions.include? permission.name),
