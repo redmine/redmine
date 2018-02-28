@@ -2302,7 +2302,7 @@ class IssuesControllerTest < Redmine::ControllerTest
     assert_select 'form#issue-form[action=?]', '/projects/ecookbook/issues'
     assert_select 'form#issue-form' do
       assert_select 'input[name=?]', 'issue[is_private]'
-      assert_select 'select[name=?]', 'issue[project_id]', 0
+      assert_select 'select[name=?]', 'issue[project_id]'
       assert_select 'select[name=?]', 'issue[tracker_id]'
       assert_select 'input[name=?]', 'issue[subject]'
       assert_select 'textarea[name=?]', 'issue[description]'
@@ -2326,6 +2326,36 @@ class IssuesControllerTest < Redmine::ControllerTest
     end
   end
 
+  def test_get_new_should_show_project_selector_for_project_with_subprojects
+    @request.session[:user_id] = 2
+    get :new, :params => {
+        :project_id => 1,
+        :tracker_id => 1
+      }
+    assert_response :success
+
+    assert_select 'select[name="issue[project_id]"]' do
+      assert_select 'option', 3
+      assert_select 'option[selected=selected]', :text => 'eCookbook'
+      assert_select 'option[value=?]', '5', :text => '  » Private child of eCookbook'
+      assert_select 'option[value=?]', '3', :text => '  » eCookbook Subproject 1'
+
+      # user_id 2 is not allowed to add issues on project_id 4 (it's not a member)
+      assert_select 'option[value=?]', '4', 0
+    end
+  end
+
+  def test_get_new_should_not_show_project_selector_for_project_without_subprojects
+    @request.session[:user_id] = 2
+    get :new, :params => {
+        :project_id => 2,
+        :tracker_id => 1
+      }
+    assert_response :success
+
+    assert_select 'select[name="issue[project_id]"]', 0
+  end
+
   def test_get_new_with_minimal_permissions
     Role.find(1).update_attribute :permissions, [:add_issues]
     WorkflowTransition.where(:role_id => 1).delete_all
@@ -2339,7 +2369,7 @@ class IssuesControllerTest < Redmine::ControllerTest
 
     assert_select 'form#issue-form' do
       assert_select 'input[name=?]', 'issue[is_private]', 0
-      assert_select 'select[name=?]', 'issue[project_id]', 0
+      assert_select 'select[name=?]', 'issue[project_id]'
       assert_select 'select[name=?]', 'issue[tracker_id]'
       assert_select 'input[name=?]', 'issue[subject]'
       assert_select 'textarea[name=?]', 'issue[description]'

@@ -1514,8 +1514,15 @@ class Issue < ActiveRecord::Base
   end
 
   # Returns a scope of projects that user can assign the issue to
-  def allowed_target_projects(user=User.current)
-    current_project = new_record? ? nil : project
+  def allowed_target_projects(user=User.current, context=nil)
+    if new_record? && context.is_a?(Project) && !copy?
+      current_project = context.self_and_descendants
+    elsif new_record?
+      current_project = nil
+    else
+      current_project = project
+    end
+
     self.class.allowed_target_projects(user, current_project)
   end
 
@@ -1523,8 +1530,10 @@ class Issue < ActiveRecord::Base
   # If current_project is given, it will be included in the scope
   def self.allowed_target_projects(user=User.current, current_project=nil)
     condition = Project.allowed_to_condition(user, :add_issues)
-    if current_project
+    if current_project.is_a?(Project)
       condition = ["(#{condition}) OR #{Project.table_name}.id = ?", current_project.id]
+    elsif current_project
+      condition = ["(#{condition}) AND #{Project.table_name}.id IN (?)", current_project.map(&:id)]
     end
     Project.where(condition).having_trackers
   end
