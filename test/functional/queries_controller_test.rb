@@ -490,7 +490,7 @@ class QueriesControllerTest < Redmine::ControllerTest
     assert_response 404
   end
 
-  def test_udpate_global_private_query
+  def test_update_global_private_query
     @request.session[:user_id] = 3
     put :update, :params => {
         :id => 3,
