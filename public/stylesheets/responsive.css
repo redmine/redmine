@@ -816,19 +816,19 @@
   }
 
   /* attachment upload form */
-  #attachments_fields span {
+  .attachments_fields span {
     position: relative;
     clear: both;
     margin-bottom: 1em;
     white-space: normal;
   }
-  #attachments_fields span a.remove-upload {
+  .attachments_fields span a.remove-upload {
     position: absolute;
     top: 0;
     right: 0;
   }
 
-  #attachments_fields input.description {
+  .attachments_fields input.description {
     margin-left: 0;
     width: 100%;
   }
