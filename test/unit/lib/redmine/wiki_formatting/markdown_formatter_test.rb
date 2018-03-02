@@ -98,5 +98,29 @@ STR
     assert_equal "<p>This is a list:</p>\n\n<ul>\n<li>One</li>\n<li>Two</li>\n</ul>", @formatter.new(text).to_html.strip
   end
 
+  def test_footnotes
+    text = <<-STR
+This is some text[^1].
+
+[^1]: This is the foot note
+STR
+
+    expected = <<-EXPECTED
+<p>This is some text<sup id="fnref1"><a href="#fn1" rel="footnote">1</a></sup>.</p>
+<div class="footnotes">
+<hr>
+<ol>
+
+<li id="fn1">
+<p>This is the foot note&nbsp;<a href="#fnref1" rev="footnote">&#8617;</a></p>
+</li>
+
+</ol>
+</div>
+EXPECTED
+
+    assert_equal expected.gsub(%r{[\r\n\t]}, ''), @formatter.new(text).to_html.gsub(%r{[\r\n\t]}, '')
+  end
+
   end
 end
