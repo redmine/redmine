@@ -581,6 +581,21 @@ STR
     }, false)
   end
 
+  def test_footnotes
+    text = <<-STR
+This is some text[1].
+
+fn1. This is the foot note
+STR
+
+    expected = <<-EXPECTED
+<p>This is some text<sup><a href=\"#fn1\">1</a></sup>.</p>
+<p id="fn1" class="footnote"><sup>1</sup> This is the foot note</p>
+EXPECTED
+
+    assert_equal expected.gsub(%r{[\r\n\t]}, ''), to_html(text).gsub(%r{[\r\n\t]}, '')
+  end
+
   private
 
   def assert_html_output(to_test, expect_paragraph = true)
