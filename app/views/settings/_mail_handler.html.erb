@@ -5,12 +5,16 @@
     <%= setting_text_area :mail_handler_body_delimiters, :rows => 5 %>
     <label class="block">
       <%= setting_check_box :mail_handler_enable_regex_delimiters, :label => false %>
-      <%= l(:setting_mail_handler_enable_regex_delimiters) %>
+      <%= l(:setting_mail_handler_enable_regex) %>
     </label>
     <em class="info"><%= l(:text_line_separated) %></em>
   </p>
   <p>
     <%= setting_text_field :mail_handler_excluded_filenames, :size => 60 %>
+    <label class="block">
+      <%= setting_check_box :mail_handler_enable_regex_excluded_filenames, :label => false %>
+      <%= l(:setting_mail_handler_enable_regex) %>
+    </label>
     <em class="info"><%= l(:text_comma_separated) %>
     <%= l(:label_example) %>: smime.p7s, *.vcf</em>
   </p>

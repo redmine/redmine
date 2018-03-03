@@ -185,6 +185,8 @@ mail_handler_body_delimiters:
   default: ''
 mail_handler_enable_regex_delimiters:
   default: 0
+mail_handler_enable_regex_excluded_filenames:
+  default: 0
 mail_handler_excluded_filenames:
   default: ''
 mail_handler_api_enabled:

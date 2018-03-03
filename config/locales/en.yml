@@ -414,7 +414,7 @@ en:
   setting_display_subprojects_issues: Display subprojects issues on main projects by default
   setting_enabled_scm: Enabled SCM
   setting_mail_handler_body_delimiters: "Truncate emails after one of these lines"
-  setting_mail_handler_enable_regex_delimiters: "Enable regular expressions"
+  setting_mail_handler_enable_regex: "Enable regular expressions"
   setting_mail_handler_api_enabled: Enable WS for incoming emails
   setting_mail_handler_api_key: Incoming email WS API key
   setting_sys_api_key: Repository management WS API key

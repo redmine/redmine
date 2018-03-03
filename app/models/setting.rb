@@ -143,20 +143,25 @@ class Setting < ActiveRecord::Base
   def self.validate_all_from_params(settings)
     messages = []
 
-    if settings.key?(:mail_handler_body_delimiters) || settings.key?(:mail_handler_enable_regex_delimiters)
-      regexp = Setting.mail_handler_enable_regex_delimiters?
-      if settings.key?(:mail_handler_enable_regex_delimiters)
-        regexp = settings[:mail_handler_enable_regex_delimiters].to_s != '0'
+    [[:mail_handler_enable_regex_delimiters,         :mail_handler_body_delimiters,    /[\r\n]+/],
+     [:mail_handler_enable_regex_excluded_filenames, :mail_handler_excluded_filenames, /\s*,\s*/]
+    ].each do |enable_regex, regex_field, delimiter|
+
+    if settings.key?(regex_field) || settings.key?(enable_regex)
+      regexp = Setting.send("#{enable_regex}?")
+      if settings.key?(enable_regex)
+        regexp = settings[enable_regex].to_s != '0'
       end
       if regexp
-        settings[:mail_handler_body_delimiters].to_s.split(/[\r\n]+/).each do |delimiter|
+        settings[regex_field].to_s.split(delimiter).each do |value|
           begin
-            Regexp.new(delimiter)
+            Regexp.new(value)
           rescue RegexpError => e
-            messages << [:mail_handler_body_delimiters, "#{l('activerecord.errors.messages.not_a_regexp')} (#{e.message})"]
+            messages << [regex_field, "#{l('activerecord.errors.messages.not_a_regexp')} (#{e.message})"]
           end
         end
       end
+    end
     end
 
     messages
