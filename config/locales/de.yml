@@ -146,7 +146,7 @@ de:
         circular_dependency: "Diese Beziehung würde eine zyklische Abhängigkeit erzeugen"
         cant_link_an_issue_with_a_descendant: "Ein Ticket kann nicht mit einer Ihrer Unteraufgaben verlinkt werden"
         earlier_than_minimum_start_date: "kann wegen eines Vorgängertickets nicht vor %{date} liegen"
-        not_a_regexp: "Ist kein korrekter regulärer Ausdruck"
+        not_a_regexp: "ist kein gültiger regulärer Ausdruck"
         open_issue_with_closed_parent: "Ein offenes Ticket kann nicht an einen geschlossenen Vater gehängt werden"
 
   actionview_instancetag_blank_option: Bitte auswählen
@@ -1214,7 +1214,7 @@ de:
   label_font_monospace: Nichtproportionale Schrift
   label_font_proportional: Proportionale Schrift
   setting_commit_logs_formatting: Textformatierung für Commit Nachrichten
-  setting_mail_handler_enable_regex: Reguläre Ausdrücke erlauben
+  setting_mail_handler_enable_regex: Reguläre Ausdrücke verwenden
   error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: Zeitbuchungen für Tickets, die gelöscht werden sind nicht möglich
   setting_timelog_required_fields: Erforderliche Felder für Zeitbuchungen
   label_attribute_of_object: '%{object_name}''s %{name}'
