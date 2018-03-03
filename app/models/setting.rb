@@ -147,21 +147,21 @@ class Setting < ActiveRecord::Base
      [:mail_handler_enable_regex_excluded_filenames, :mail_handler_excluded_filenames, /\s*,\s*/]
     ].each do |enable_regex, regex_field, delimiter|
 
-    if settings.key?(regex_field) || settings.key?(enable_regex)
-      regexp = Setting.send("#{enable_regex}?")
-      if settings.key?(enable_regex)
-        regexp = settings[enable_regex].to_s != '0'
-      end
-      if regexp
-        settings[regex_field].to_s.split(delimiter).each do |value|
-          begin
-            Regexp.new(value)
-          rescue RegexpError => e
-            messages << [regex_field, "#{l('activerecord.errors.messages.not_a_regexp')} (#{e.message})"]
+      if settings.key?(regex_field) || settings.key?(enable_regex)
+        regexp = Setting.send("#{enable_regex}?")
+        if settings.key?(enable_regex)
+          regexp = settings[enable_regex].to_s != '0'
+        end
+        if regexp
+          settings[regex_field].to_s.split(delimiter).each do |value|
+            begin
+              Regexp.new(value)
+            rescue RegexpError => e
+              messages << [regex_field, "#{l('activerecord.errors.messages.not_a_regexp')} (#{e.message})"]
+            end
           end
         end
       end
-    end
     end
 
     messages

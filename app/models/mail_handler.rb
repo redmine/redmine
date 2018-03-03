@@ -313,7 +313,7 @@ class MailHandler < ActionMailer::Base
       if Setting.mail_handler_enable_regex_excluded_filenames?
         regexp = %r{\A#{pattern}\z}i
       else
-      regexp = %r{\A#{Regexp.escape(pattern).gsub("\\*", ".*")}\z}i
+        regexp = %r{\A#{Regexp.escape(pattern).gsub("\\*", ".*")}\z}i
       end
       if attachment.filename.to_s =~ regexp
         logger.info "MailHandler: ignoring attachment #{attachment.filename} matching #{pattern}"
