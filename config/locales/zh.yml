@@ -1198,7 +1198,7 @@ zh:
   setting_timespan_format: 时间格式设置
   label_table_of_contents: 目录
   setting_commit_logs_formatting: 在提交日志消息时，应用文本格式
-  setting_mail_handler_enable_regex_delimiters: 启用正则表达式
+  setting_mail_handler_enable_regex: 启用正则表达式
   error_move_of_child_not_possible: '子任务 %{child} 不能移动到新项目：%{errors}'
   error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: 已用耗时不能重新分配到即将被删除的任务里。
   setting_timelog_required_fields: 工时登记必填字段

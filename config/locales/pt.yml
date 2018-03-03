@@ -1201,7 +1201,7 @@ pt:
   setting_timespan_format: Formato de Data/Hora
   label_table_of_contents: Índice
   setting_commit_logs_formatting: Aplicar formatação de texto às mensagens de commit
-  setting_mail_handler_enable_regex_delimiters: Ativar a utilização de expressões regulares
+  setting_mail_handler_enable_regex: Ativar a utilização de expressões regulares
   error_move_of_child_not_possible: 'A sub-tarefa %{child} não pode ser movida para o novo
     project: %{errors}'
   error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: O tempo gasto não pode ser alterado numa tarefa que será apagada

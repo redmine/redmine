@@ -1214,7 +1214,7 @@ de:
   label_font_monospace: Nichtproportionale Schrift
   label_font_proportional: Proportionale Schrift
   setting_commit_logs_formatting: Textformatierung für Commit Nachrichten
-  setting_mail_handler_enable_regex_delimiters: Reguläre Ausdrücke erlauben
+  setting_mail_handler_enable_regex: Reguläre Ausdrücke erlauben
   error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: Zeitbuchungen für Tickets, die gelöscht werden sind nicht möglich
   setting_timelog_required_fields: Erforderliche Felder für Zeitbuchungen
   label_attribute_of_object: '%{object_name}''s %{name}'

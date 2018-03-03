@@ -416,7 +416,7 @@ bg:
   setting_display_subprojects_issues: Задачите от подпроектите по подразбиране се показват в главните проекти
   setting_enabled_scm: Разрешена SCM
   setting_mail_handler_body_delimiters: Отрязване на e-mail-ите след един от тези редове
-  setting_mail_handler_enable_regex_delimiters: Разрешаванен на регулярни изрази
+  setting_mail_handler_enable_regex: Разрешаванен на регулярни изрази
   setting_mail_handler_api_enabled: Разрешаване на WS за входящи e-mail-и
   setting_mail_handler_api_key: API ключ за входящи e-mail-и
   setting_sys_api_key: API ключ за хранилища

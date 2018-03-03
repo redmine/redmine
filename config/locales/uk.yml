@@ -1205,7 +1205,7 @@ uk:
   setting_timespan_format: Формат часового діапазону
   label_table_of_contents: Зміст
   setting_commit_logs_formatting: Застосувати форматування тексту для повідомлення
-  setting_mail_handler_enable_regex_delimiters: Використовувати регулярні вирази
+  setting_mail_handler_enable_regex: Використовувати регулярні вирази
   error_move_of_child_not_possible: 'Підзадача %{child} не може бути перенесена в новий проект: %{errors}'
   error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: Витрачений час не можна перенести на задачу, яка має бути видалена
   setting_timelog_required_fields: Обов'язкові поля для журналу часу

@@ -1307,7 +1307,7 @@ ru:
   setting_timespan_format: Формат промежутка времени
   label_table_of_contents: Содержание
   setting_commit_logs_formatting: Использовать форматирование текста для комментариев хранилища
-  setting_mail_handler_enable_regex_delimiters: Использовать регулярные выражения
+  setting_mail_handler_enable_regex: Использовать регулярные выражения
   error_move_of_child_not_possible: 'Подзадача %{child} не может быть перемещена в новый
     project: %{errors}'
   error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: Затраченное время не может быть переназначено на задачу, которая будет удалена

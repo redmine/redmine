@@ -1196,8 +1196,8 @@ lt:
   setting_timespan_format: Laiko tarpo formatas
   label_table_of_contents: Turinio lentelė
   setting_commit_logs_formatting: Pritaikyti teksto formatavimą patvirtinimo žinutėms
-  setting_mail_handler_enable_regex_delimiters: Įjungti reguliariuosius reiškinius
-  error_move_of_child_not_possible: 'Darbo dalis %{child} negali būti perkelta į naują 
+  setting_mail_handler_enable_regex: Įjungti reguliariuosius reiškinius
+  error_move_of_child_not_possible: 'Darbo dalis %{child} negali būti perkelta į naują
     projektą: %{errors}'
   error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: Dirbtas laikas negali būti
     iš naujo paskirtas darbui, kuris bus ištrintas

@@ -1219,7 +1219,7 @@ ja:
   setting_timespan_format: 時間の形式
   label_table_of_contents: 目次
   setting_commit_logs_formatting: コミットメッセージにテキスト書式を適用
-  setting_mail_handler_enable_regex_delimiters: 正規表現を使用
+  setting_mail_handler_enable_regex: 正規表現を使用
   error_move_of_child_not_possible: '子チケット %{child} を指定されたプロジェクトに移動できませんでした: %{errors}'
   error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: 削除対象チケットへの作業時間の再割り当てはできません
   setting_timelog_required_fields: 作業時間の必須入力フィールド

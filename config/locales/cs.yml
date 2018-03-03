@@ -1204,7 +1204,7 @@ cs:
   setting_timespan_format: Formát časového intervalu
   label_table_of_contents: Obsah
   setting_commit_logs_formatting: Použij textové formátování pro popisky comitů
-  setting_mail_handler_enable_regex_delimiters: Povol regulární výrazy
+  setting_mail_handler_enable_regex: Povol regulární výrazy
   error_move_of_child_not_possible: 'Dílčí úkol %{child} nemůže být přesunut do nového
     projektu: %{errors}'
   error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: Strávený čas nemůže
