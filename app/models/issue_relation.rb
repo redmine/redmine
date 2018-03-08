@@ -31,6 +31,7 @@ class IssueRelation < ActiveRecord::Base
   end
 
   include Redmine::SafeAttributes
+  include Redmine::Utils::DateCalculation
 
   belongs_to :issue_from, :class_name => 'Issue'
   belongs_to :issue_to, :class_name => 'Issue'
@@ -189,7 +190,7 @@ class IssueRelation < ActiveRecord::Base
   def successor_soonest_start
     if (TYPE_PRECEDES == self.relation_type) && delay && issue_from &&
            (issue_from.start_date || issue_from.due_date)
-      (issue_from.due_date || issue_from.start_date) + 1 + delay
+      add_working_days((issue_from.due_date || issue_from.start_date), (1 + delay))
     end
   end
 

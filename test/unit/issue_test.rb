@@ -2078,18 +2078,30 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   def test_rescheduling_an_issue_to_a_later_due_date_should_reschedule_following_issue
-    issue1 = Issue.generate!(:start_date => '2012-10-15', :due_date => '2012-10-17')
-    issue2 = Issue.generate!(:start_date => '2012-10-15', :due_date => '2012-10-17')
-    IssueRelation.create!(:issue_from => issue1, :issue_to => issue2,
-                          :relation_type => IssueRelation::TYPE_PRECEDES)
-    assert_equal Date.parse('2012-10-18'), issue2.reload.start_date
+    with_settings :non_working_week_days => [] do
+      issue1 = Issue.generate!(:start_date => '2012-10-15', :due_date => '2012-10-17')
+      issue2 = Issue.generate!(:start_date => '2012-10-15', :due_date => '2012-10-17')
+      IssueRelation.create!(:issue_from => issue1, :issue_to => issue2,
+                            :relation_type => IssueRelation::TYPE_PRECEDES)
+      assert_equal Date.parse('2012-10-18'), issue2.reload.start_date
 
-    issue1.reload
-    issue1.due_date = '2012-10-23'
-    issue1.save!
-    issue2.reload
-    assert_equal Date.parse('2012-10-24'), issue2.start_date
-    assert_equal Date.parse('2012-10-26'), issue2.due_date
+      issue1.reload
+      issue1.due_date = '2012-10-23'
+      issue1.save!
+      issue2.reload
+      assert_equal Date.parse('2012-10-24'), issue2.start_date
+      assert_equal Date.parse('2012-10-26'), issue2.due_date
+    end
+
+    # The delay should honor non-working week days
+    with_settings :non_working_week_days => %w(6 7) do
+      issue1 = Issue.generate!(:start_date => '2014-03-10', :due_date => '2014-03-12')
+      issue2 = Issue.generate!(:start_date => '2014-03-10', :due_date => '2014-03-12')
+      IssueRelation.create!(:issue_from => issue1, :issue_to => issue2,
+                            :relation_type => IssueRelation::TYPE_PRECEDES,
+                            :delay => 8)
+      assert_equal Date.parse('2014-03-25'), issue2.reload.start_date
+    end
   end
 
   def test_rescheduling_an_issue_to_an_earlier_due_date_should_reschedule_following_issue
