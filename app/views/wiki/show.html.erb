@@ -46,7 +46,7 @@
 <%= render(:partial => "wiki/content", :locals => {:content => @content}) %>
 
 <fieldset class="collapsible collapsed">
-  <legend onclick="toggleFieldset(this);"><%= l(:label_attachment_plural) %></legend>
+  <legend onclick="toggleFieldset(this);"><%= l(:label_attachment_plural) %> (<%= @page.attachments.length %>)</legend>
   <div style="display: none;">
 
   <%= link_to_attachments @page, :thumbnails => true %>
