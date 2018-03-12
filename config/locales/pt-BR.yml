@@ -1247,3 +1247,5 @@ pt-BR:
   setting_timelog_accept_0_hours: Aceitar registros de horas com 0 horas
   setting_timelog_max_hours_per_day: Máximo de horas que podem ser registradas por dia por usuário
   label_x_revisions: "%{count} revisões"
+  error_can_not_delete_auth_source: This authentication mode is in use and cannot be
+    deleted.

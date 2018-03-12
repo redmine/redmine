@@ -1234,3 +1234,5 @@ fr:
   label_no_preview_download: télécharger
   label_user_mail_option_only_assigned: Only for things I watch or I am assigned to
   label_user_mail_option_only_owner: Only for things I watch or I am the owner of
+  error_can_not_delete_auth_source: This authentication mode is in use and cannot be
+    deleted.

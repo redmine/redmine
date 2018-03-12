@@ -1222,3 +1222,5 @@ zh:
   setting_timelog_accept_0_hours: 允许计入0小时工时
   setting_timelog_max_hours_per_day: 每用户每天最大可计入工时上限
   label_x_revisions: "%{count} 修订"
+  error_can_not_delete_auth_source: This authentication mode is in use and cannot be
+    deleted.

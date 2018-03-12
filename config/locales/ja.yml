@@ -1240,3 +1240,5 @@ ja:
   setting_timelog_accept_0_hours: 作業時間に0時間の入力を許可
   setting_timelog_max_hours_per_day: 1日・1人あたりの作業時間の上限
   label_x_revisions: "%{count}件の履歴"
+  error_can_not_delete_auth_source: This authentication mode is in use and cannot be
+    deleted.

@@ -1253,3 +1253,5 @@
   setting_timelog_accept_0_hours: Accept time logs with 0 hours
   setting_timelog_max_hours_per_day: Maximum hours that can be logged per day and user
   label_x_revisions: "%{count} revisions"
+  error_can_not_delete_auth_source: This authentication mode is in use and cannot be
+    deleted.
