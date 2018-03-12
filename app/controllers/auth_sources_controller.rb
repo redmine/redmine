@@ -68,6 +68,8 @@ class AuthSourcesController < ApplicationController
     unless @auth_source.users.exists?
       @auth_source.destroy
       flash[:notice] = l(:notice_successful_delete)
+    else
+      flash[:error] = l(:error_can_not_delete_auth_source)
     end
     redirect_to auth_sources_path
   end

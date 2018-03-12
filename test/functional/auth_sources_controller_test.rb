@@ -159,6 +159,7 @@ class AuthSourcesControllerTest < Redmine::ControllerTest
           :id => 1
         }
       assert_redirected_to '/auth_sources'
+      assert_equal 'This authentication mode is in use and cannot be deleted.', flash[:error]
     end
   end
 
