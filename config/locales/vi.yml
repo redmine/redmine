@@ -789,7 +789,6 @@ vi:
   permission_add_issue_notes: Thêm chú thích
   permission_edit_issue_notes: Sửa chú thích
   permission_edit_own_issue_notes: Sửa chú thích cá nhân
-  permission_move_issues: Chuyển vấn đề
   permission_delete_issues: Xóa vấn đề
   permission_manage_public_queries: Quản lý truy vấn công cộng
   permission_save_queries: Lưu truy vấn

@@ -742,7 +742,6 @@ th:
   permission_edit_wiki_pages: Edit wiki pages
   permission_add_issue_watchers: Add watchers
   permission_view_gantt: View gantt chart
-  permission_move_issues: Move issues
   permission_manage_issue_relations: Manage issue relations
   permission_delete_wiki_pages: Delete wiki pages
   permission_manage_boards: Manage boards

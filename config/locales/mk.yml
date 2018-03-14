@@ -371,7 +371,6 @@ mk:
   permission_add_issue_notes: Додавај белешки
   permission_edit_issue_notes: Уредувај белешки
   permission_edit_own_issue_notes: Уредувај сопствени белешки
-  permission_move_issues: Преместувај задачи
   permission_delete_issues: Бриши задачи
   permission_manage_public_queries: Manage public queries
   permission_save_queries: Save queries

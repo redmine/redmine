@@ -347,7 +347,6 @@ id:
   permission_add_issue_notes: Tambahkan catatan
   permission_edit_issue_notes: Sunting catatan
   permission_edit_own_issue_notes: Sunting catatan saya
-  permission_move_issues: Pindahkan masalah
   permission_delete_issues: Hapus masalah
   permission_manage_public_queries: Atur query publik
   permission_save_queries: Simpan query

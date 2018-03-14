@@ -751,7 +751,6 @@ da:
   permission_select_project_modules: Vælg projektmoduler
   permission_view_gantt: Se Gantt diagram
   permission_delete_messages: Slet beskeder
-  permission_move_issues: Flyt sager
   permission_edit_wiki_pages: Redigér wiki sider
   label_user_activity: "%{value}'s aktivitet"
   permission_manage_issue_relations: Administrér sags-relationer

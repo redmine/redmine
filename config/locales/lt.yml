@@ -469,7 +469,6 @@ lt:
   permission_edit_own_issue_notes: Redaguoti savo pastabas
   permission_view_private_notes:  Matyti privačias pastabas
   permission_set_notes_private: Nustatyti pastabas privačiomis
-  permission_move_issues: Perkelti darbus
   permission_delete_issues: Pašalinti darbus
   permission_manage_public_queries: Valdyti viešas užklausas
   permission_save_queries: Išsaugoti užklausas

@@ -766,7 +766,6 @@ fi:
   permission_edit_wiki_pages: Muokkaa wiki sivuja
   permission_add_issue_watchers: Lisää seuraajia
   permission_view_gantt: Näytä gantt kaavio
-  permission_move_issues: Siirrä tapahtuma
   permission_manage_issue_relations: Hallinoi tapahtuman suhteita
   permission_delete_wiki_pages: Poista wiki sivuja
   permission_manage_boards: Hallinnoi keskustelupalstaa

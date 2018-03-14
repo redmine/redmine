@@ -386,7 +386,6 @@ zh:
   permission_add_issue_notes: 添加说明
   permission_edit_issue_notes: 编辑说明
   permission_edit_own_issue_notes: 编辑自己的说明
-  permission_move_issues: 移动问题
   permission_delete_issues: 删除问题
   permission_manage_public_queries: 管理公开的查询
   permission_save_queries: 保存查询

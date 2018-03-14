@@ -371,7 +371,6 @@ sr:
   permission_add_issue_notes: Додавање белешки
   permission_edit_issue_notes: Измена белешки
   permission_edit_own_issue_notes: Измена сопствених белешки
-  permission_move_issues: Померање проблема
   permission_delete_issues: Брисање проблема
   permission_manage_public_queries: Управљање јавним упитима
   permission_save_queries: Снимање упита

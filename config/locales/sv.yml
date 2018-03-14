@@ -469,7 +469,6 @@ sv:
   permission_edit_own_issue_notes: Ändra egna ärendeanteckningar
   permission_view_private_notes: Visa privata anteckningar
   permission_set_notes_private: Ställa in anteckningar som privata
-  permission_move_issues: Flytta ärenden
   permission_delete_issues: Ta bort ärenden
   permission_manage_public_queries: Hantera publika frågor
   permission_save_queries: Spara frågor

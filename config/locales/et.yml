@@ -424,7 +424,6 @@ et:
   permission_add_issue_notes: "Märkusi lisada"
   permission_edit_issue_notes: "Märkusi muuta"
   permission_edit_own_issue_notes: "Omi märkusi muuta"
-  permission_move_issues: "Teemasid teise projekti tõsta"
   permission_delete_issues: "Teemasid kustutada"
   permission_manage_public_queries: "Avalikke päringuid hallata"
   permission_save_queries: "Päringuid salvestada"

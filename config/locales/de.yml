@@ -937,7 +937,6 @@ de:
   permission_manage_subtasks: Unteraufgaben verwalten
   permission_manage_versions: Versionen verwalten
   permission_manage_wiki: Wiki verwalten
-  permission_move_issues: Tickets verschieben
   permission_protect_wiki_pages: Wiki-Seiten schützen
   permission_rename_wiki_pages: Wiki-Seiten umbenennen
   permission_save_queries: Filter speichern

@@ -745,7 +745,6 @@ it:
   permission_edit_wiki_pages: Modifica pagine wiki
   permission_add_issue_watchers: Aggiungi osservatori
   permission_view_gantt: Vedi diagrammi gantt
-  permission_move_issues: Muovi segnalazioni
   permission_manage_issue_relations: Gestisci relazioni tra segnalazioni
   permission_delete_wiki_pages: Elimina pagine wiki
   permission_manage_boards: Gestisci forum

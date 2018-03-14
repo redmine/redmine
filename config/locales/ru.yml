@@ -809,7 +809,6 @@ ru:
   permission_manage_subtasks: Управление подзадачами
   permission_manage_versions: Управление версиями
   permission_manage_wiki: Управление Wiki
-  permission_move_issues: Перенос задач
   permission_protect_wiki_pages: Блокирование wiki-страниц
   permission_rename_wiki_pages: Переименование wiki-страниц
   permission_save_queries: Сохранение запросов

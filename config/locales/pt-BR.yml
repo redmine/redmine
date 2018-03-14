@@ -768,7 +768,6 @@ pt-BR:
   permission_edit_wiki_pages: Editar páginas wiki
   permission_add_issue_watchers: Adicionar observadores
   permission_view_gantt: Ver gráfico gantt
-  permission_move_issues: Mover tarefas
   permission_manage_issue_relations: Gerenciar relacionamentos de tarefas
   permission_delete_wiki_pages: Excluir páginas wiki
   permission_manage_boards: Gerenciar fóruns

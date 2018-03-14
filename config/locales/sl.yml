@@ -322,7 +322,6 @@ sl:
   permission_add_issue_notes: Dodaj zabeležke
   permission_edit_issue_notes: Uredi zabeležke
   permission_edit_own_issue_notes: Uredi lastne zabeležke
-  permission_move_issues: Premakni zahtevke
   permission_delete_issues: Izbriši zahtevke
   permission_manage_public_queries: Uredi javna povpraševanja
   permission_save_queries: Shrani povpraševanje

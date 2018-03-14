@@ -381,7 +381,6 @@ fa:
   permission_add_issue_notes: افزودن یادداشت
   permission_edit_issue_notes: ویرایش یادداشت
   permission_edit_own_issue_notes: ویرایش یادداشت خود
-  permission_move_issues: جابجایی موردها
   permission_delete_issues: پاک کردن موردها
   permission_manage_public_queries: مدیریت پرس‌وجوهای همگانی
   permission_save_queries: ذخیره سازی پرس‌وجوها

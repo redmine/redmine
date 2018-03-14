@@ -500,7 +500,6 @@ fr:
   permission_edit_own_issue_notes: Modifier ses propres notes
   permission_view_private_notes: Voir les notes privées
   permission_set_notes_private: Rendre les notes privées
-  permission_move_issues: Déplacer les demandes
   permission_delete_issues: Supprimer les demandes
   permission_manage_public_queries: Gérer les requêtes publiques
   permission_save_queries: Sauvegarder les requêtes

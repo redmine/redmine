@@ -799,7 +799,6 @@ az:
   permission_manage_subtasks: Alt tapşırıqların idarə edilməsi
   permission_manage_versions: Variantların idarə edilməsi
   permission_manage_wiki: Wiki-nin idarə edilməsi
-  permission_move_issues: Tapşırıqların köçürülməsi
   permission_protect_wiki_pages: Wiki-səhifələrin bloklanması
   permission_rename_wiki_pages: Wiki-səhifələrin adının dəyişdirilməsi
   permission_save_queries: Sorğuların yadda saxlanılması

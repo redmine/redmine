@@ -758,7 +758,6 @@ tr:
   permission_edit_wiki_pages: Wiki sayfalarını düzenleme
   permission_add_issue_watchers: Takipçi ekleme
   permission_view_gantt: İş-Zaman çizelgesi gösterme
-  permission_move_issues: İşlerin yerini değiştirme
   permission_manage_issue_relations: İşlerin biribiriyle bağlantılarını yönetme
   permission_delete_wiki_pages: Wiki sayfalarını silme
   permission_manage_boards: Panoları yönetme

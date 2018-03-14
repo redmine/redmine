@@ -758,7 +758,6 @@ uk:
   permission_edit_wiki_pages: Редагування wiki-сторінок
   permission_add_issue_watchers: Додати спостерігачів
   permission_view_gantt: Перегляд діаграми Ганта
-  permission_move_issues: Перенесення задач
   permission_manage_issue_relations: Управління зв'язуванням задач
   permission_delete_wiki_pages: Видалення wiki-сторінок
   permission_manage_boards: Управління форумами

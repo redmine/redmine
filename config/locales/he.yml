@@ -379,7 +379,6 @@ he:
   permission_add_issue_notes: הוספת הערות לנושאים
   permission_edit_issue_notes: עריכת רשימות
   permission_edit_own_issue_notes: עריכת הערות של עצמו
-  permission_move_issues: הזזת נושאים
   permission_delete_issues: מחיקת נושאים
   permission_manage_public_queries: ניהול שאילתות פומביות
   permission_save_queries: שמירת שאילתות

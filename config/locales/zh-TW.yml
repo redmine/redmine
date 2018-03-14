@@ -572,7 +572,6 @@
   permission_edit_own_issue_notes: 編輯自己的筆記
   permission_view_private_notes: 檢視私人筆記
   permission_set_notes_private: 設定筆記為私人筆記
-  permission_move_issues: 搬移議題
   permission_delete_issues: 刪除議題
   permission_manage_public_queries: 管理公開查詢
   permission_save_queries: 儲存查詢

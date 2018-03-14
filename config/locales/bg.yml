@@ -490,7 +490,6 @@ bg:
   permission_edit_own_issue_notes: Редактиране на собствени бележки
   permission_view_private_notes: Разглеждане на лични бележки
   permission_set_notes_private: Установяване на бележките лични
-  permission_move_issues: Преместване на задачи
   permission_delete_issues: Изтриване на задачи
   permission_manage_public_queries: Управление на публичните заявки
   permission_save_queries: Запис на запитвания (queries)

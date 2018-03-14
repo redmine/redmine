@@ -390,7 +390,6 @@ en-GB:
   permission_add_issue_notes: Add notes
   permission_edit_issue_notes: Edit notes
   permission_edit_own_issue_notes: Edit own notes
-  permission_move_issues: Move issues
   permission_delete_issues: Delete issues
   permission_manage_public_queries: Manage public queries
   permission_save_queries: Save queries

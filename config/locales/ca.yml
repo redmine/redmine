@@ -375,7 +375,6 @@ ca:
   permission_add_issue_notes: "Afegir notes"
   permission_edit_issue_notes: "Editar notes"
   permission_edit_own_issue_notes: "Editar notes pròpies"
-  permission_move_issues: "Moure assumptes"
   permission_delete_issues: "Suprimir assumptes"
   permission_manage_public_queries: "Gestionar consultes públiques"
   permission_save_queries: "Desar consultes"

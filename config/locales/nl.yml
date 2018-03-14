@@ -658,7 +658,6 @@ nl:
   permission_manage_repository: Repository beheren
   permission_manage_versions: Versiebeheer
   permission_manage_wiki: Wikibeheer
-  permission_move_issues: Issues verplaatsen
   permission_protect_wiki_pages: Wikipagina's beschermen
   permission_rename_wiki_pages: Wikipagina's hernoemen
   permission_save_queries: Queries opslaan
