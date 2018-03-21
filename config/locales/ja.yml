@@ -209,13 +209,13 @@ ja:
   error_no_default_issue_status: 'デフォルトのチケットステータスが定義されていません。設定を確認してください（管理→チケットのステータス）。'
   error_can_not_delete_custom_field: 'カスタムフィールドを削除できません。'
   error_unable_to_connect: "接続できません。 (%{value})"
-  error_can_not_remove_role: 'このロールは使用されています。削除できません。'
+  error_can_not_remove_role: 'このロールは使用中です。削除できません。'
   error_can_not_reopen_issue_on_closed_version: '終了したバージョンにひも付けされたチケットの再オープンはできません。'
   error_can_not_archive_project: このプロジェクトはアーカイブできません
   error_issue_done_ratios_not_updated: "チケットの進捗率が更新できません。"
   error_workflow_copy_source: 'コピー元となるトラッカーまたはロールを選択してください'
   error_workflow_copy_target: 'コピー先となるトラッカーとロールを選択してください'
-  error_can_not_delete_tracker: 'このトラッカーは使用されています。削除できません。'
+  error_can_not_delete_tracker: 'このトラッカーは使用中です。削除できません。'
 
   warning_attachments_not_saved: "%{count}個の添付ファイルが保存できませんでした。"
 
@@ -1239,4 +1239,4 @@ ja:
   setting_timelog_accept_0_hours: 作業時間に0時間の入力を許可
   setting_timelog_max_hours_per_day: 1日・1人あたりの作業時間の上限
   label_x_revisions: "%{count}件の履歴"
-  error_can_not_delete_auth_source: この認証方式は使用されています。削除できません。
+  error_can_not_delete_auth_source: この認証方式は使用中です。削除できません。
