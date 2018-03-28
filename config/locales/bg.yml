@@ -1216,5 +1216,4 @@ bg:
   description_wiki_subpages_reassign: Изберете нова родителска страница
   description_all_columns: Всички колони
   text_repository_identifier_info: 'Позволени са малки букви (a-z), цифри, тирета и _.<br />Промяна след създаването му не е възможна.'
-  error_can_not_delete_auth_source: This authentication mode is in use and cannot be
-    deleted.
+  error_can_not_delete_auth_source: Този режим за идентификация се използва и не може да бъде премахнат.
