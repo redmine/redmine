@@ -13,6 +13,7 @@ gem "roadie-rails", "~> 1.2.1"
 gem "roadie", "~> 3.2.1"
 gem "mimemagic"
 gem "mail", "~> 2.6.4"
+gem "csv", "~> 1.0.1" if RUBY_VERSION >= "2.5"
 
 gem "nokogiri", "~> 1.8.0"
 gem "i18n", "~> 0.7.0"
