@@ -89,5 +89,14 @@ STR
     assert_equal '<p>This is a <a href="/issues">link</a></p>', @formatter.new(text).to_html.strip
   end
 
+  def test_markdown_should_not_require_surrounded_empty_line
+    text = <<-STR
+This is a list:
+* One
+* Two
+STR
+    assert_equal "<p>This is a list:</p>\n\n<ul>\n<li>One</li>\n<li>Two</li>\n</ul>", @formatter.new(text).to_html.strip
+  end
+
   end
 end
