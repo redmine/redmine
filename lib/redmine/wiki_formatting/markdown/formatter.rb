@@ -138,7 +138,8 @@ module Redmine
             :strikethrough => true,
             :superscript => true,
             :no_intra_emphasis => true,
-            :footnotes => true
+            :footnotes => true,
+            :lax_spacing => true
           )
         end
       end
