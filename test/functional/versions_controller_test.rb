@@ -101,6 +101,30 @@ class VersionsControllerTest < Redmine::ControllerTest
     assert_select 'h2', :text => /1.0/
   end
 
+  def test_show_issue_calculations_should_take_into_account_only_visible_issues
+    issue_9 = Issue.find(9)
+    issue_9.fixed_version_id = 4
+    issue_9.estimated_hours = 3
+    issue_9.save!
+
+    issue_13 = Issue.find(13)
+    issue_13.fixed_version_id = 4
+    issue_13.estimated_hours = 2
+    issue_13.save!
+
+    @request.session[:user_id] = 7
+
+    get :show, :params => {:id => 4}
+    assert_response :success
+
+    assert_select 'p.progress-info' do
+      assert_select 'a', :text => '1 issue'
+      assert_select 'a', :text => '1 open'
+    end
+
+    assert_select '.time-tracking td.total-hours a:first-child', :text => '2.00 hours'
+  end
+
   def test_show_should_link_to_spent_time_on_version
     version = Version.generate!
     issue = Issue.generate(:fixed_version => version)
