@@ -102,4 +102,9 @@ class TimeEntryQueryTest < ActiveSupport::TestCase
     assert_include "issue.cf_#{field_on_project.id}", query.available_columns.map(&:name).map(&:to_s)
     assert_not_include "issue.cf_#{field_not_on_project.id}", query.available_columns.map(&:name).map(&:to_s)
   end
+
+  def test_issue_category_filter_should_not_be_available_in_global_queries
+    query = TimeEntryQuery.new(:project => nil, :name => '_')
+    assert !query.available_filters.has_key?('issue.category_id')
+  end
 end

@@ -65,6 +65,10 @@ class TimeEntryQuery < Query
       :type => :list,
       :name => l("label_attribute_of_issue", :name => l(:field_fixed_version)),
       :values => lambda { fixed_version_values })
+    add_available_filter "issue.category_id",
+      :type => :list_optional,
+      :name => l("label_attribute_of_issue", :name => l(:field_category)),
+      :values => lambda { project.issue_categories.collect{|s| [s.name, s.id.to_s] } } if project
 
     add_available_filter("user_id",
       :type => :list_optional, :values => lambda { author_values }
@@ -195,6 +199,10 @@ class TimeEntryQuery < Query
 
   def sql_for_issue_status_id_field(field, operator, value)
     sql_for_field("status_id", operator, value, Issue.table_name, "status_id")
+  end
+
+  def sql_for_issue_category_id_field(field, operator, value)
+    sql_for_field("category_id", operator, value, Issue.table_name, "category_id")
   end
 
   # Accepts :from/:to params as shortcut filters

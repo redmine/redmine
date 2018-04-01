@@ -1025,6 +1025,17 @@ class TimelogControllerTest < Redmine::ControllerTest
     assert_equal Tracker.where(:id => [1, 2, 3]).sorted.pluck(:name), values
   end
 
+  def test_index_with_issue_category_filter
+    get :index, :params => {
+      :project_id => 'ecookbook',
+      :f => ['issue.category_id'],
+      :op => {'issue.category_id' => '='},
+      :v => {'issue.category_id' => ['1']}
+    }
+    assert_response :success
+    assert_equal ['1', '2'], css_select('input[name="ids[]"]').map {|e| e.attr('value')}
+  end
+
   def test_index_with_filter_on_issue_custom_field
     issue = Issue.generate!(:project_id => 1, :tracker_id => 1, :custom_field_values => {2 => 'filter_on_issue_custom_field'})
     entry = TimeEntry.generate!(:issue => issue, :hours => 2.5)
