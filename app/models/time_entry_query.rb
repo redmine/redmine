@@ -30,6 +30,7 @@ class TimeEntryQuery < Query
     QueryColumn.new(:issue, :sortable => "#{Issue.table_name}.id"),
     QueryAssociationColumn.new(:issue, :tracker, :caption => :field_tracker, :sortable => "#{Tracker.table_name}.position"),
     QueryAssociationColumn.new(:issue, :status, :caption => :field_status, :sortable => "#{IssueStatus.table_name}.position"),
+    QueryAssociationColumn.new(:issue, :category, :caption => :field_category, :sortable => "#{IssueCategory.table_name}.name"),
     QueryColumn.new(:comments),
     QueryColumn.new(:hours, :sortable => "#{TimeEntry.table_name}.hours", :totalable => true),
   ]
@@ -227,6 +228,9 @@ class TimeEntryQuery < Query
       end
       if order_options.include?('trackers')
         joins << "LEFT OUTER JOIN #{Tracker.table_name} ON #{Tracker.table_name}.id = #{Issue.table_name}.tracker_id"
+      end
+      if order_options.include?('issue_categories')
+        joins << "LEFT OUTER JOIN #{IssueCategory.table_name} ON #{IssueCategory.table_name}.id = #{Issue.table_name}.category_id"
       end
     end
 
