@@ -47,6 +47,7 @@
                     :title => l(:button_delete),
                     :class => 'icon-only icon-del' %>
     <% end -%>
+        <%= link_to_context_menu %>
     </td>
   </tr>
   <% @query.block_columns.each do |column|
