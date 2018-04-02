@@ -5,7 +5,7 @@ var contextMenuObserving;
 
 function contextMenuRightClick(event) {
   var target = $(event.target);
-  if (target.is('a:not(.js-contextmenu)')) {return;}
+  if (target.is('a')) {return;}
   var tr = target.closest('.hascontextmenu').first();
   if (tr.length < 1) {return;}
   event.preventDefault();
@@ -218,7 +218,6 @@ function contextMenuInit() {
   if (!contextMenuObserving) {
     $(document).click(contextMenuClick);
     $(document).contextmenu(contextMenuRightClick);
-    $(document).on('click', '.js-contextmenu', contextMenuRightClick);
     contextMenuObserving = true;
   }
 }

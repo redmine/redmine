@@ -1240,4 +1240,3 @@ ja:
   setting_timelog_max_hours_per_day: 1日・1人あたりの作業時間の上限
   label_x_revisions: "%{count}件の履歴"
   error_can_not_delete_auth_source: この認証方式は使用中です。削除できません。
-  button_actions: Actions

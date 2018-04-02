@@ -1223,10 +1223,6 @@ module ApplicationHelper
     content_tag(:a, name, {:href => '#', :onclick => "#{function}; return false;"}.merge(html_options))
   end
 
-  def link_to_context_menu
-    link_to l(:button_actions), '#', title: l(:button_actions), class: 'icon-only icon-actions js-contextmenu'
-  end
-
   # Helper to render JSON in views
   def raw_json(arg)
     arg.to_json.to_s.gsub('/', '\/').html_safe

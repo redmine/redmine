@@ -228,7 +228,6 @@ table.list td.checkbox { width: 15px; padding: 2px 0 0 0; }
 table.list td.checkbox input {padding:0px;}
 table.list td.buttons, div.buttons { white-space:nowrap; text-align: right; }
 table.list td.buttons a, div.buttons a { margin-right: 0.6em; }
-table.list td.buttons a:last-child, div.buttons a:last-child { margin-right: 0; }
 table.list td.buttons img, div.buttons img {vertical-align:middle;}
 table.list td.reorder {width:15%; white-space:nowrap; text-align:center; }
 table.list table.progress td {padding-right:0px;}
@@ -474,7 +473,7 @@ div.issue.overdue .due-date .value { color: #c22; }
 
 #issue_tree table.issues, #relations table.issues { border: 0; }
 #issue_tree td.checkbox, #relations td.checkbox {display:none;}
-#relations td.buttons, #issue_tree td.buttons {padding:0;}
+#relations td.buttons {padding:0;}
 
 fieldset.collapsible {border-width: 1px 0 0 0;}
 fieldset.collapsible>legend { padding-left: 16px; background: url(../images/arrow_expanded.png) no-repeat 0% 40%; cursor:pointer; }
@@ -1309,7 +1308,6 @@ div.wiki img {vertical-align:middle; max-width:100%;}
 .icon-project { background-image: url(../images/projects.png); }
 .icon-add-bullet { background-image: url(../images/bullet_add.png); }
 .icon-shared { background-image: url(../images/link.png); }
-.icon-actions { background-image: url(../images/3_bullets.png); }
 
 .icon-file { background-image: url(../images/files/default.png); }
 .icon-file.text-plain { background-image: url(../images/files/text.png); }
