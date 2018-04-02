@@ -1301,3 +1301,4 @@
   text_repository_identifier_info: '僅允許使用小寫英文字母 (a-z), 阿拉伯數字, 虛線與底線。<br />一旦儲存之後, 代碼便無法再次被更改。'
   error_can_not_delete_auth_source: This authentication mode is in use and cannot be
     deleted.
+  button_actions: Actions
