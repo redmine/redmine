@@ -10,7 +10,7 @@ function toggleCheckboxesBySelector(selector) {
   $(selector).each(function(index) {
     if (!$(this).is(':checked')) { all_checked = false; }
   });
-  $(selector).prop('checked', !all_checked);
+  $(selector).prop('checked', !all_checked).trigger('change');
 }
 
 function showAndScrollTo(id, focus) {

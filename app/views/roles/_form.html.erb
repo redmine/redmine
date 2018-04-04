@@ -78,8 +78,8 @@
       <% end %>
   </thead>
   <tbody>
-    <tr>
-      <td class="name"><b><%= l(:label_tracker_all) %></b></td>
+    <tr class='permissions-all-trackers'>
+      <td class="name"><%= toggle_checkboxes_link('tr.permissions-all-trackers input[type="checkbox"]') %><b><%= l(:label_tracker_all) %></b></td>
       <% permissions.each do |permission| %>
       <td class="<%= "#{permission}_shown" %>">
         <%= hidden_field_tag "role[permissions_all_trackers][#{permission}]", '0', :id => nil %>
@@ -92,8 +92,8 @@
       <% end %>
     </tr>
     <% Tracker.sorted.all.each do |tracker| %>
-    <tr>
-      <td class="name"><%= tracker.name %></td>
+    <tr class="permissions-tracker-<%= tracker.id %>">
+      <td class="name"><%= toggle_checkboxes_link("tr.permissions-tracker-#{tracker.id} input:enabled") %><%= tracker.name %></td>
       <% permissions.each do |permission| %>
       <td class="<%= "#{permission}_shown" %>"><%= check_box_tag "role[permissions_tracker_ids][#{permission}][]",
                 tracker.id,
