@@ -446,8 +446,8 @@ div.issue {background:#ffffdd; padding:6px; margin-bottom:6px; border: 1px solid
 p.breadcrumb { font-size: 0.9em; margin: 4px 0 4px 0;}
 p.subtitle { font-size: 0.9em; margin: -6px 0 12px 0; font-style: italic; }
 p.footnote { font-size: 0.9em; margin-top: 0px; margin-bottom: 0px; }
-.ltr {direction:ltr !important; unicode-bidi:bidi-override;}
-.rtl {direction:rtl !important; unicode-bidi:bidi-override;}
+.wiki-class-ltr {direction:ltr !important; unicode-bidi:bidi-override;}
+.wiki-class-rtl {direction:rtl !important; unicode-bidi:bidi-override;}
 
 div.issue div.subject div div { padding-left: 16px; }
 div.issue div.subject p {margin: 0; margin-bottom: 0.1em; font-size: 90%; color: #999;}
