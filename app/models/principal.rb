@@ -69,15 +69,20 @@ class Principal < ActiveRecord::Base
       where({})
     else
       pattern = "%#{q}%"
-      sql = %w(login firstname lastname).map {|column| "LOWER(#{table_name}.#{column}) LIKE LOWER(:p)"}.join(" OR ")
+      sql = "LOWER(#{table_name}.login) LIKE LOWER(:p)"
       sql << " OR #{table_name}.id IN (SELECT user_id FROM #{EmailAddress.table_name} WHERE LOWER(address) LIKE LOWER(:p))"
       params = {:p => pattern}
-      if q =~ /^(.+)\s+(.+)$/
-        a, b = "#{$1}%", "#{$2}%"
-        sql << " OR (LOWER(#{table_name}.firstname) LIKE LOWER(:a) AND LOWER(#{table_name}.lastname) LIKE LOWER(:b))"
-        sql << " OR (LOWER(#{table_name}.firstname) LIKE LOWER(:b) AND LOWER(#{table_name}.lastname) LIKE LOWER(:a))"
-        params.merge!(:a => a, :b => b)
+
+      tokens = q.split(/\s+/).reject(&:blank?).map { |token| "%#{token}%" }
+      if tokens.present?
+        sql << ' OR ('
+        sql << tokens.map.with_index do |token, index|
+          params.merge!(:"token_#{index}" => token)
+          "(LOWER(#{table_name}.firstname) LIKE LOWER(:token_#{index}) OR LOWER(#{table_name}.lastname) LIKE LOWER(:token_#{index}))"
+        end.join(' AND ')
+        sql << ')'
       end
+
       where(sql, params)
     end
   }

@@ -127,6 +127,16 @@ class PrincipalTest < ActiveSupport::TestCase
     assert_equal User.find(2), results.first
   end
 
+  test "like scope should find lastname with spaces" do
+    user = User.find(1)
+    user.update_columns(:firstname => 'Leonardo', :lastname => 'da Vinci')
+
+    results = Principal.like('Leonardo da Vinci')
+
+    assert_equal 1, results.count
+    assert_equal user, results.first
+  end
+
   def test_like_scope_with_cyrillic_name
     user = User.generate!(:firstname => 'Соболев', :lastname => 'Денис')
     results = Principal.like('Собо')
