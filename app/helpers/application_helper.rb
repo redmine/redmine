@@ -1407,10 +1407,12 @@ module ApplicationHelper
       end
       if email.present?
         gravatar(email.to_s.downcase, options) rescue nil
-      else
+      elsif user.is_a?(AnonymousUser)
         image_tag 'anonymous.png',
                   GravatarHelper::DEFAULT_OPTIONS
                     .except(:default, :rating, :ssl).merge(options)
+      else
+        nil
       end
     else
       ''
