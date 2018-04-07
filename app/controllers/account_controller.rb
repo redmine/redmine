@@ -81,7 +81,7 @@ class AccountController < ApplicationController
         @user.password, @user.password_confirmation = params[:new_password], params[:new_password_confirmation]
         if @user.save
           @token.destroy
-          Mailer.password_updated(@user)
+          Mailer.password_updated(@user, { remote_ip: request.remote_ip })
           flash[:notice] = l(:notice_account_password_updated)
           redirect_to signin_path
           return

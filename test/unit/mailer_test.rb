@@ -697,6 +697,23 @@ class MailerTest < ActiveSupport::TestCase
     end
   end
 
+  def test_security_notification_with_overridden_originator_and_remote_ip
+    set_language_if_valid User.find(1).language
+    with_settings :emails_footer => "footer without link" do
+      User.current.remote_ip = '192.168.1.1'
+      assert Mailer.security_notification(User.find(1), message: :notice_account_password_updated, originator: User.find(2), remote_ip: '10.0.0.42').deliver
+      mail = last_email
+      assert_not_nil mail
+      assert_mail_body_match User.find(2).login, mail
+      assert_mail_body_match '10.0.0.42', mail
+      assert_mail_body_match I18n.t(:notice_account_password_updated), mail
+      assert_select_email do
+        assert_select "h1", false
+        assert_select "a", false
+      end
+    end
+  end
+
   def test_security_notification_should_include_title
     set_language_if_valid User.find(2).language
     with_settings :emails_footer => "footer without link" do
