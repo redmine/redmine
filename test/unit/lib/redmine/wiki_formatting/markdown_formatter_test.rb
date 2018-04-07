@@ -122,5 +122,60 @@ EXPECTED
     assert_equal expected.gsub(%r{[\r\n\t]}, ''), @formatter.new(text).to_html.gsub(%r{[\r\n\t]}, '')
   end
 
+  STR_WITH_PRE = [
+  # 0
+"# Title
+
+Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas sed libero.",
+  # 1
+"## Heading 2
+
+~~~ruby
+  def foo
+  end
+~~~
+
+Morbi facilisis accumsan orci non pharetra.
+
+```
+Pre Content:
+
+## Inside pre
+
+<tag> inside pre block
+
+Morbi facilisis accumsan orci non pharetra.
+```",
+  # 2
+"### Heading 3
+
+Nulla nunc nisi, egestas in ornare vel, posuere ac libero."]
+
+  def test_get_section_should_ignore_pre_content
+    text = STR_WITH_PRE.join("\n\n")
+
+    assert_section_with_hash STR_WITH_PRE[1..2].join("\n\n"), text, 2
+    assert_section_with_hash STR_WITH_PRE[2], text, 3
+  end
+
+  def test_update_section_should_not_escape_pre_content_outside_section
+    text = STR_WITH_PRE.join("\n\n")
+    replacement = "New text"
+
+    assert_equal [STR_WITH_PRE[0..1], "New text"].flatten.join("\n\n"),
+      @formatter.new(text).update_section(3, replacement)
+  end
+
+  private
+
+  def assert_section_with_hash(expected, text, index)
+    result = @formatter.new(text).get_section(index)
+
+    assert_kind_of Array, result
+    assert_equal 2, result.size
+    assert_equal expected, result.first, "section content did not match"
+    assert_equal Digest::MD5.hexdigest(expected), result.last, "section hash did not match"
+  end
+
   end
 end
