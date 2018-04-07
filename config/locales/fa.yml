@@ -1,3 +1,6 @@
+# In the name of God
+# Copyright (c) 2018 Bonyan Rayan Samane [https://bonyan.co]
+
 fa:
   # Text direction: Left-to-Right (ltr) or Right-to-Left (rtl)
   direction: rtl
@@ -7,15 +10,17 @@ fa:
       # When no format has been given, it uses default.
       # You can provide other formats here if you like!
       default: "%Y/%m/%d"
-      short: "%b %d"
-      long: "%B %d, %Y"
+      short: "%d %b"
+      long: "%d %B %Y"
 
     day_names: [یک‌شنبه, دوشنبه, سه‌شنبه, چهارشنبه, پنج‌شنبه, جمعه, شنبه]
     abbr_day_names: [یک, دو, سه, چهار, پنج, جمعه, شنبه]
 
+    # Not setting month names to avoid overriding Persian month names set by Peygir Persian Calendar plugin
     # Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names: [~, ژانویه, فوریه, مارس, آوریل, مه, ژوئن, ژوئیه, اوت, سپتامبر, اکتبر, نوامبر, دسامبر]
-    abbr_month_names: [~, ژان, فور, مار, آور, مه, ژوئن, ژوئیه, اوت, سپت, اکت, نوا, دسا]
+    #month_names: [~, ژانویه, فوریه, مارس, آوریل, مه, ژوئن, ژوئیه, اوت, سپتامبر, اکتبر, نوامبر, دسامبر]
+    #abbr_month_names: [~, ژان, فور, مار, آور, مه, ژوئن, ژوئیه, اوت, سپت, اکت, نوا, دسا]
+    
     # Used in date_select and datime_select.
     order:
       - :year
@@ -24,31 +29,31 @@ fa:
 
   time:
     formats:
-      default: "%Y/%m/%d - %H:%M"
-      time: "%H:%M"
+      default: "%I:%M %p %Y/%m/%d"
+      time: "ساعت %I:%M %p"
       short: "%d %b %H:%M"
       long: "%d %B %Y ساعت %H:%M"
-    am: "صبح"
-    pm: "عصر"
+    am: "ق.ظ"
+    pm: "ب.ظ"
 
   datetime:
     distance_in_words:
       half_a_minute: "نیم دقیقه"
       less_than_x_seconds:
-        one:   "کمتر از 1 ثانیه"
-        other: "کمتر از %{count} ثانیه"
+        one:   "کم‌تر از 1 ثانیه"
+        other: "کم‌تر از %{count} ثانیه"
       x_seconds:
         one:   "1 ثانیه"
         other: "%{count} ثانیه"
       less_than_x_minutes:
-        one:   "کمتر از 1 دقیقه"
-        other: "کمتر از %{count} دقیقه"
+        one:   "کم‌تر از 1 دقیقه"
+        other: "کم‌تر از %{count} دقیقه"
       x_minutes:
         one:   "1 دقیقه"
         other: "%{count} دقیقه"
       about_x_hours:
-        one:   "نزدیک 1 ساعت"
-        other: "نزدیک %{count} ساعت"
+        one:   "حدود 1 ساعت"
+        other: "حدود %{count} ساعت"
       x_hours:
         one:   "1 ساعت"
         other: "%{count} ساعت"
@@ -56,27 +61,27 @@ fa:
         one:   "1 روز"
         other: "%{count} روز"
       about_x_months:
-        one:   "نزدیک 1 ماه"
-        other: "نزدیک %{count} ماه"
+        one:   "حدود 1 ماه"
+        other: "حدود %{count} ماه"
       x_months:
         one:   "1 ماه"
         other: "%{count} ماه"
       about_x_years:
-        one:   "نزدیک 1 سال"
-        other: "نزدیک %{count} سال"
+        one:   "حدود 1 سال"
+        other: "حدود %{count} سال"
       over_x_years:
         one:   "بیش از 1 سال"
         other: "بیش از %{count} سال"
       almost_x_years:
-        one:   "نزدیک 1 سال"
-        other: "نزدیک %{count} سال"
+        one:   "حدود 1 سال"
+        other: "حدود %{count} سال"
 
   number:
-    # Default format for numbers
     format:
       separator: "٫"
       delimiter: ""
       precision: 3
+
     human:
       format:
         delimiter: ""
@@ -102,452 +107,577 @@ fa:
     errors:
       template:
         header:
-          one:    "1 ایراد از ذخیره سازی این %{model} جلوگیری کرد"
-          other:  "%{count} ایراد از ذخیره سازی این %{model} جلوگیری کرد"
+          one:    "1 ایراد از ذخیره‌سازی این %{model} جلوگیری کرد"
+          other:  "%{count} ایراد از ذخیره‌سازی این %{model} جلوگیری کرد"
       messages:
         inclusion: "در فهرست نیامده است"
-        exclusion: "رزرو شده است"
+        exclusion: "اختصاص یافته است"
         invalid: "نادرست است"
-        confirmation: "با بررسی سازگاری ندارد"
+        confirmation: "با تکرار آن برابر نیست"
         accepted: "باید پذیرفته شود"
         empty: "نمی‌تواند تهی باشد"
         blank: "نمی‌تواند تهی باشد"
         too_long: "خیلی بلند است (بیشترین اندازه %{count} نویسه است)"
-        too_short: "خیلی کوتاه است (کمترین اندازه %{count} نویسه است)"
+        too_short: "خیلی کوتاه است (کم‌ترین اندازه %{count} نویسه است)"
         wrong_length: "اندازه نادرست است (باید %{count} نویسه باشد)"
         taken: "پیش از این گرفته شده است"
-        not_a_number: "شماره درستی نیست"
+        not_a_number: "یک عدد صحیح نیست"
         not_a_date: "تاریخ درستی نیست"
-        greater_than: "باید بزرگتر از %{count} باشد"
-        greater_than_or_equal_to: "باید بزرگتر از یا برابر با %{count} باشد"
+        greater_than: "باید بزرگ‌تر از %{count} باشد"
+        greater_than_or_equal_to: "باید بزرگ‌تر از یا برابر با %{count} باشد"
         equal_to: "باید برابر با %{count} باشد"
-        less_than: "باید کمتر از %{count} باشد"
-        less_than_or_equal_to: "باید کمتر از یا برابر با %{count} باشد"
+        less_than: "باید کم‌تر از %{count} باشد"
+        less_than_or_equal_to: "باید کم‌تر از یا برابر با %{count} باشد"
         odd: "باید فرد باشد"
         even: "باید زوج باشد"
-        greater_than_start_date: "باید از تاریخ آغاز بزرگتر باشد"
-        not_same_project: "به همان پروژه وابسته نیست"
-        circular_dependency: "این وابستگی یک وابستگی دایره وار خواهد ساخت"
-        cant_link_an_issue_with_a_descendant: "یک مورد نمی‌تواند به یکی از زیر کارهایش پیوند بخورد"
-        earlier_than_minimum_start_date: "cannot be earlier than %{date} because of preceding issues"
-        not_a_regexp: "is not a valid regular expression"
-        open_issue_with_closed_parent: "An open issue cannot be attached to a closed parent task"
+        greater_than_start_date: "باید از تاریخ آغاز بزرگ‌تر باشد"
+        not_same_project: "متعلق به همان پروژه نیست"
+        circular_dependency: "این ارتباط یک وابستگی دوری خواهد ساخت"
+        cant_link_an_issue_with_a_descendant: "یک مسأله نمی‌تواند به یکی از زیر کارهایش پیوند بخورد"
+        earlier_than_minimum_start_date: "به خاطر مسائل مقدم، نمی‌تواند قبل از %{date} باشد"
+        not_a_regexp: "یک عبارت منظم معتبر نیست"
+        open_issue_with_closed_parent: "یم مسأله باز نمی‌تواند به یک مسأله پدر بسته ضمیمه شود"
 
-  actionview_instancetag_blank_option: گزینش کنید
+  actionview_instancetag_blank_option: انتخاب کنید
 
   general_text_No: 'خیر'
   general_text_Yes: 'آری'
   general_text_no: 'خیر'
   general_text_yes: 'آری'
-  general_lang_name: 'Persian (پارسی)'
+  general_lang_name: 'Persian (فارسی)'
   general_csv_separator: ','
   general_csv_decimal_separator: '.'
   general_csv_encoding: UTF-8
+  general_pdf_encoding: UTF-8
   general_pdf_fontname: DejaVuSans
-  general_pdf_monospaced_fontname: DejaVuSans
+  general_pdf_monospace_fontname: DejaVuSans
   general_first_day_of_week: '6'
 
-  notice_account_updated: حساب شما بروز شد.
+  notice_account_updated: حساب شما به‌روز شد.
   notice_account_invalid_credentials: نام کاربری یا گذرواژه نادرست است
-  notice_account_password_updated: گذرواژه بروز شد
+  notice_account_password_updated: گذرواژه به‌روز شد
   notice_account_wrong_password: گذرواژه نادرست است
-  notice_account_register_done: حساب ساخته شد. برای فعال نمودن آن، روی پیوندی که به شما ایمیل شده کلیک کنید.
+  notice_account_register_done: حساب با موفقیت ساخته شد. رایانامه‌ای حاوی دستورالعمل فعال‌سازی حساب شما به %{email} فرستاده شد.
   notice_account_unknown_email: کاربر شناخته نشد.
-  notice_can_t_change_password:  این حساب یک روش شناسایی بیرونی را به کار گرفته است. گذرواژه را نمی‌توان جایگزین کرد.
-  notice_account_lost_email_sent: یک ایمیل با راهنمایی درباره گزینش گذرواژه جدید برای شما فرستاده شد.
+  notice_account_not_activated_yet: شما هنوز حساب خود را فعال نکرده‌اید. اگر می‌خواهید یک رایانامه فعال‌سازی دیگر دریافت کنید، لطفاً <a href="%{url}">این جا کلید نمایید</a>.
+  notice_account_locked: حساب شما قفل شده است.
+  notice_can_t_change_password:  این حساب یک روش احراز هویت بیرونی را به کار گرفته است. گذرواژه را نمی‌توان تغییر داد.
+  notice_account_lost_email_sent: رایانامه‌ای حاوی دستورالعمل انتخاب یک گذرواژه جدید برای شما ارسال شد.
   notice_account_activated: حساب شما فعال شده است. اکنون می‌توانید وارد شوید.
   notice_successful_create: با موفقیت ساخته شد.
-  notice_successful_update: با موفقیت بروز شد.
-  notice_successful_delete: با موفقیت برداشته شد.
+  notice_successful_update: با موفقیت به‌روز شد.
+  notice_successful_delete: با موفقیت حذف شد.
   notice_successful_connection: با موفقیت متصل شد.
-  notice_file_not_found: صفحه درخواستی شما در دسترس نیست یا پاک شده است.
-  notice_locking_conflict: داده‌ها را کاربر دیگری بروز کرده است.
-  notice_not_authorized: شما به این صفحه دسترسی ندارید.
+  notice_file_not_found: صفحه درخواستی شما در دست‌رس نیست یا حذف شده است.
+  notice_locking_conflict: داده‌ها را کاربر دیگری به‌روز کرده است.
+  notice_not_authorized: شما به این صفحه دست‌رسی ندارید.
   notice_not_authorized_archived_project: پروژه درخواستی شما بایگانی شده است.
-  notice_email_sent: "یک ایمیل به %{value} فرستاده شد."
-  notice_email_error: "یک ایراد در فرستادن ایمیل پیش آمد (%{value})."
-  notice_feeds_access_key_reseted: کلید دسترسی Atom شما بازنشانی شد.
-  notice_api_access_key_reseted: کلید دسترسی API شما بازنشانی شد.
-  notice_failed_to_save_issues: "ذخیره سازی %{count} مورد از %{total} مورد گزینش شده شکست خورد: %{ids}."
-  notice_failed_to_save_members: "ذخیره سازی همکاران شکست خورد: %{errors}."
-  notice_no_issue_selected: "هیچ موردی انتخاب نشده است! موردهایی که می‌خواهید ویرایش کنید را انتخاب کنید."
-  notice_account_pending: "حساب شما ساخته شد و اکنون منتظر تایید مدیر سایت است."
-  notice_default_data_loaded: پیکربندی پیش‌گزیده با موفقیت بار شد.
-  notice_unable_delete_version: نگارش را نمی‌توان پاک کرد.
-  notice_unable_delete_time_entry: زمان گزارش شده را نمی‌توان پاک کرد.
-  notice_issue_done_ratios_updated: اندازه انجام شده مورد بروز شد.
+  notice_email_sent: "یک رایانامه به %{value} فرستاده شد."
+  notice_email_error: "یک ایراد در ارسال رایانامه پیش آمد (%{value})."
+  notice_feeds_access_key_reseted: کلید دست‌رسی Atom شما بازنشانی شد.
+  notice_api_access_key_reseted: کلید دست‌رسی API شما بازنشانی شد.
+  notice_failed_to_save_issues: "ذخیره %{count} مسأله از %{total} مورد انتخاب‌شده شکست خورد: %{ids}."
+  notice_failed_to_save_time_entries: "ذخیره %{count} ورودی زمان روی %{total} مورد انتخاب‌شده شکست خورد: %{ids}."
+  notice_failed_to_save_members: "ذخیره‌سازی اعضا شکست خورد: %{errors}."
+  notice_no_issue_selected: "هیچ مسأله‌ای انتخاب نشده است. لطفاً مسأله‌هایی که می‌خواهید ویرایش کنید را علامت بزنید."
+  notice_account_pending: "حساب شما ساخته شد و اکنون منتظر تأیید راه‌بر است."
+  notice_default_data_loaded: تنظیمات پیش‌فرض با موفقیت بارگذاری شد.
+  notice_unable_delete_version: نسخه را نمی‌توان حذف کرد.
+  notice_unable_delete_time_entry: زمان گزارش شده را نمی‌توان حذف کرد.
+  notice_issue_done_ratios_updated: اندازه انجام شده مسأله به‌روز شد.
   notice_gantt_chart_truncated: "نمودار بریده شد چون از بیشترین شماری که می‌توان نشان داد بزگتر است (%{max})."
-
-  error_can_t_load_default_data: "پیکربندی پیش‌گزیده نمی‌تواند بار شود: %{value}"
-  error_scm_not_found: "بخش یا نگارش در بایگانی پیدا نشد."
-  error_scm_command_failed: "ایرادی در دسترسی به بایگانی پیش آمد: %{value}"
-  error_scm_annotate: "بخش پیدا نشد یا نمی‌توان برای آن یادداشت نوشت."
-  error_issue_not_found_in_project: 'مورد پیدا نشد یا به این پروژه وابسته نیست.'
-  error_no_tracker_in_project: 'هیچ ردیابی به این پروژه پیوسته نشده است. پیکربندی پروژه را بررسی کنید.'
-  error_no_default_issue_status: 'هیچ وضعیت مورد پیش‌گزیده‌ای مشخص نشده است. پیکربندی را بررسی کنید (به «پیکربندی -> وضعیت‌های مورد» بروید).'
-  error_can_not_delete_custom_field: فیلد سفارشی را نمی‌توان پاک کرد.
-  error_can_not_delete_tracker: "این ردیاب دارای مورد است و نمی‌توان آن را پاک کرد."
-  error_can_not_remove_role: "این نقش به کار گرفته شده است و نمی‌توان آن را پاک کرد."
-  error_can_not_reopen_issue_on_closed_version: 'یک مورد که به یک نگارش بسته شده وابسته است را نمی‌توان باز کرد.'
+  notice_issue_successful_create: مسأله &#x200E;%{id} ساخته شد.
+  notice_issue_update_conflict: "در حالی که شما مشغول ویرایش مسأله بودید کاربر دیگری آن را به‌روز کرده است."
+  notice_account_deleted: "حساب شما به طور دائمی حذف شده است."
+  notice_user_successful_create: "کاربر %{id} ساخته شد."
+  notice_new_password_must_be_different: گذرواژه جدید باید متفاوت از گذرواژه فعلی باشد
+  notice_import_finished: "%{count} مورد وارد شده"
+  notice_import_finished_with_errors: "نمی‌توان %{count} مورد از %{total} را وارد کرد"
+  
+  error_can_t_load_default_data: "تنظیمات پیش‌فرض نمی‌تواند بار شود: %{value}"
+  error_scm_not_found: "بخش یا بازبینی در مخزن پیدا نشد."
+  error_scm_command_failed: "ایرادی در دست‌رسی به مخزن پیش آمد: %{value}"
+  error_scm_annotate: "یا مدخل وجود ندارد یا این که نمی‌تواند حاشیه‌نگاری شود."
+  error_scm_annotate_big_text_file: "این مدخل نمی‌تواند حاشیه‌نگاری شود، زیرا از بیشینه اندازه پرونده‌های متنی تجاوز می‌کند."
+  error_issue_not_found_in_project: 'مسأله پیدا نشد یا به این پروژه متعلق نیست.'
+  error_no_tracker_in_project: 'هیچ نوع مسأله‌ای به این پروژه مرتبط نشده است. تنظیمات پروژه را بررسی کنید.'
+  error_no_default_issue_status: 'هیچ وضعیت مسأله پیش‌فرض‌ای مشخص نشده است. تنظیمات را بررسی کنید (به «تنظیمات -> وضعیت‌های مسأله» بروید).'
+  error_can_not_delete_custom_field: بخش سفارشی را نمی‌توان حذف کرد.
+  error_can_not_delete_tracker: "این نوع مسأله دارای مسأله است و نمی‌توان آن را حذف کرد."
+  error_can_not_remove_role: "این نقش به کار گرفته شده است و نمی‌توان آن را حذف کرد."
+  error_can_not_reopen_issue_on_closed_version: 'یک مسأله که به یک نسخه بسته‌شده متعلق است را نمی‌توان باز کرد.'
   error_can_not_archive_project: این پروژه را نمی‌توان بایگانی کرد.
-  error_issue_done_ratios_not_updated: "اندازه انجام شده مورد بروز نشد."
-  error_workflow_copy_source: 'یک ردیاب یا نقش منبع را برگزینید.'
-  error_workflow_copy_target: 'ردیابها یا نقش‌های مقصد را برگزینید.'
-  error_unable_delete_issue_status: 'وضعیت مورد را نمی‌توان پاک کرد.'
+  error_issue_done_ratios_not_updated: "اندازه انجام شده مسأله به‌روز نشد."
+  error_workflow_copy_source: 'یک نوع مسأله یا نقش مبدأ را انتخاب کنید.'
+  error_workflow_copy_target: 'نوع مسأله(ها) یا نقش‌(های) مقصد را انتخاب کنید.'
+  error_unable_delete_issue_status: 'وضعیت مسأله را نمی‌توان حذف کرد.'
   error_unable_to_connect: "نمی‌توان متصل شد (%{value})"
-  warning_attachments_not_saved: "%{count} پرونده ذخیره نشد."
+  error_attachment_too_big: "این پرونده نمی‌تواند بالاگذاری شود زیرا از بیشینه اندازه مجاز پرونده‌ها (%{max_size}) تجاوز می‌کند"
+  error_session_expired: "نشست شما منقضی شده است. لطفاً دوباره وارد شوید."
+  warning_attachments_not_saved: "%{count} پرونده نتوانست ذخیره شود."
+  error_password_expired: "گذرواژه‌ی شما منقضی شده است یا راه‌بر درخواست تغییر آن را داده است."
+  error_invalid_file_encoding: "این پرونده یک پرونده با کدگذاری %{encoding} نیست"
+  error_invalid_csv_file_or_settings: "این پرونده یک پرونده CSV نیست یا با تنظیمات زیر همخوان نیست."
+  error_can_not_read_import_file: "در هنگام خواندن پرونده برای ورود، خطایی رخ داد"
+  error_attachment_extension_not_allowed: "پسوند %{extension} برای پیوست یک پسوند مجاز نیست"
+  error_ldap_bind_credentials: "حساب/گذرواژه نامعتبر LDAP"
+  error_no_tracker_allowed_for_new_issue_in_project: "پروژه هیچ نوع مسأله‌ای ندارد که بتوانید مسأله‌ای بسازید"
+  error_no_projects_with_tracker_allowed_for_new_issue: "هیچ پروژه‌ای با نوع مسأله‌ای که شما بتوانید مسأله‌ی جدید بسازید نیست."
+  error_move_of_child_not_possible: "زیرمسأله %{child} نمی‌تواند به پروژه جدید منتقل شود: %{errors}"
+  error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: "زمان صرف‌شده را نمی توان به یک مسأله که در حال حذف است اختصاص داد"
+  warning_fields_cleared_on_bulk_edit: "تغییرات منجر به حذف خودکار مقادیر از یک یا چند فیلد در اشیاء انتخاب شده خواهد شد"
 
   mail_subject_lost_password: "گذرواژه حساب %{value} شما"
-  mail_body_lost_password: 'برای جایگزینی گذرواژه خود، بر روی پیوند زیر کلیک کنید:'
-  mail_subject_register: "فعالسازی حساب %{value} شما"
-  mail_body_register: 'برای فعالسازی حساب خود، بر روی پیوند زیر کلیک کنید:'
+  mail_body_lost_password: 'برای تغییر گذرواژه خود، بر روی پیوند زیر کلیک کنید:'
+  mail_subject_register: "فعال‌سازی حساب %{value} شما"
+  mail_body_register: 'برای فعال‌سازی حساب خود، بر روی پیوند زیر کلیک کنید:'
   mail_body_account_information_external: "شما می‌توانید حساب %{value} خود را برای ورود به کار برید."
-  mail_body_account_information: داده‌های حساب شما
-  mail_subject_account_activation_request: "درخواست فعالسازی حساب %{value}"
-  mail_body_account_activation_request: "یک کاربر جدید (%{value}) نامنویسی کرده است. این حساب منتظر تایید شماست:"
-  mail_subject_reminder: "زمان رسیدگی به %{count} مورد در %{days} روز آینده سر می‌رسد"
-  mail_body_reminder: "زمان رسیدگی به %{count} مورد که به شما واگذار شده است، در %{days} روز آینده سر می‌رسد:"
-  mail_subject_wiki_content_added: "صفحه ویکی «%{id}» افزوده شد"
-  mail_body_wiki_content_added: "صفحه ویکی «%{id}» به دست %{author} افزوده شد."
-  mail_subject_wiki_content_updated: "صفحه ویکی «%{id}» بروز شد"
-  mail_body_wiki_content_updated: "صفحه ویکی «%{id}» به دست %{author} بروز شد."
+  mail_body_account_information: اطلاعات حساب شما
+  mail_subject_account_activation_request: "درخواست فعال‌سازی حساب %{value}"
+  mail_body_account_activation_request: "یک کاربر جدید (%{value}) ثبت نام کرده است. این حساب منتظر تأیید شماست:"
+  mail_subject_reminder: "زمان رسیدگی به %{count} مسأله در %{days} روز آینده سر می‌رسد"
+  mail_body_reminder: "زمان رسیدگی به %{count} مسأله که به شما واگذار شده است، در %{days} روز آینده سر می‌رسد:"
+  mail_subject_wiki_content_added: "صفحه دانش‌نامه «%{id}» افزوده شد"
+  mail_body_wiki_content_added: "صفحه دانش‌نامه «%{id}» توسط %{author} افزوده شد."
+  mail_subject_wiki_content_updated: "صفحه دانش‌نامه «%{id}» به‌روز شد"
+  mail_body_wiki_content_updated: "صفحه دانش‌نامه «%{id}» توسط %{author} به‌روز شد."
+  mail_subject_security_notification: "آگاه‌سازی امنیتی"
+  mail_body_security_notification_change: "%{field} تغییر کرد."
+  mail_body_security_notification_change_to: "%{field} به %{value} تغییر کرد."
+  mail_body_security_notification_add: "%{field} %{value} افزوده شد."
+  mail_body_security_notification_remove: "%{field} %{value} حذف شد."
+  mail_body_security_notification_notify_enabled: "از حالا نشانی رایانامه %{value} آگاه‌سازی‌ها را دریافت خواهد کرد."
+  mail_body_security_notification_notify_disabled: "نشانی رایانامه %{value} دیگر آگاه‌سازی دریافت نخواهد کرد."
+  mail_body_settings_updated: "تنظیمات زیر تغییر کردند:"
+  mail_body_password_updated: "گذرواژه شما تغییر کرد."
 
   field_name: نام
-  field_description: توضیحات
+  field_description: توضیح
   field_summary: خلاصه
   field_is_required: الزامی
   field_firstname: نام کوچک
   field_lastname: نام خانوادگی
-  field_mail: ایمیل
+  field_mail: رایانامه
+  field_address: نشانی رایانامه
   field_filename: پرونده
   field_filesize: اندازه
   field_downloads: دریافت‌ها
   field_author: نویسنده
   field_created_on: ساخته شده در
-  field_updated_on: بروز شده در
+  field_updated_on: به‌روزشده در
+  field_closed_on: بسته‌شده در
   field_field_format: قالب
   field_is_for_all: برای همه پروژه‌ها
   field_possible_values: مقادیر ممکن
   field_regexp: عبارت منظم
-  field_min_length: کمترین اندازه
+  field_min_length: کم‌ترین اندازه
   field_max_length: بیشترین اندازه
   field_value: مقدار
-  field_category: دسته بندی
+  field_category: دسته
   field_title: عنوان
   field_project: پروژه
-  field_issue: مورد
+  field_issue: مسأله
   field_status: وضعیت
-  field_notes: یادداشت
-  field_is_closed: مورد بسته شده
-  field_is_default: مقدار پیش‌گزیده
-  field_tracker: ردیاب
+  field_notes: یادداشت‌ها
+  field_is_closed: مسأله بسته شده
+  field_is_default: مقدار پیش‌فرض
+  field_tracker: نوع مسأله
   field_subject: موضوع
-  field_due_date: زمان سررسید
-  field_assigned_to: واگذار شده به
+  field_due_date: تاریخ سررسید
+  field_assigned_to: مسئول
   field_priority: اولویت
-  field_fixed_version: نگارش هدف
+  field_fixed_version: نسخه هدف
   field_user: کاربر
   field_principal: دستور دهنده
   field_role: نقش
-  field_homepage: صفحه اصلی
-  field_is_public: همگانی
+  field_homepage: صفحه خانه
+  field_is_public: عمومی
   field_parent: پروژه پدر
-  field_is_in_roadmap: این موردها در نقشه راه نشان داده شوند
-  field_login: کد پرسنلی
-  field_mail_notification: آگاه سازی‌های ایمیلی
-  field_admin: مدیر سایت
+  field_is_in_roadmap: این مسأله‌ها در نقشه راه نشان داده شوند
+  field_login: نام کاربری
+  field_mail_notification: آگاه‌سازی‌های رایانامه‌ای
+  field_admin: راه‌بر
   field_last_login_on: آخرین ورود
   field_language: زبان
   field_effective_date: تاریخ
   field_password: گذرواژه
   field_new_password: گذرواژه جدید
   field_password_confirmation: تکرار گذرواژه
-  field_version: نگارش
-  field_type: گونه
+  field_version: نسخه‌
+  field_type: نوع
   field_host: میزبان
   field_port: درگاه
   field_account: حساب
   field_base_dn: DN پایه
-  field_attr_login: نشانه کد پرسنلی
-  field_attr_firstname: نشانه نام کوچک
-  field_attr_lastname: نشانه نام خانوادگی
-  field_attr_mail: نشانه ایمیل
-  field_onthefly: ساخت کاربر بیدرنگ
+  field_attr_login: خصوصیت ورود
+  field_attr_firstname: خصوصیت نام کوچک
+  field_attr_lastname: خصوصیت نام خانوادگی
+  field_attr_mail: خصوصیت رایانامه
+  field_onthefly: ساخت کاربر بی‌درنگ
   field_start_date: تاریخ آغاز
   field_done_ratio: ٪ انجام شده
-  field_auth_source: روش شناسایی
-  field_hide_mail: ایمیل من پنهان شود
-  field_comments: نظر
+  field_auth_source: روش احراز هویت
+  field_hide_mail: رایانامه من پنهان شود
+  field_comments: توضیح
   field_url: نشانی
   field_start_page: صفحه آغاز
-  field_subproject: زیر پروژه
+  field_subproject: زیرپروژه
   field_hours: ساعت‌
-  field_activity: گزارش
+  field_activity: دسته‌بندی زمان
   field_spent_on: در تاریخ
   field_identifier: شناسه
-  field_is_filter: پالایش پذیر
-  field_issue_to: مورد وابسته
+  field_is_filter: غربال‌پذیر
+  field_issue_to: مسأله مرتبط
   field_delay: دیرکرد
-  field_assignable: موردها می‌توانند به این نقش واگذار شوند
-  field_redirect_existing_links: پیوندهای پیشین  به پیوند جدید راهنمایی شوند
-  field_estimated_hours: زمان برآورد شده
+  field_assignable: مسأله‌ها می‌توانند به این نقش واگذار شوند
+  field_redirect_existing_links: پیوندهای موجود به پیوند جدید منتقل شوند
+  field_estimated_hours: زمان برآوردشده
   field_column_names: ستون‌ها
   field_time_entries: زمان نوشتن
-  field_time_zone: پهنه زمانی
-  field_searchable: جستجو پذیر
-  field_default_value: مقدار پیش‌گزیده
-  field_comments_sorting: نمایش نظر‌ها
+  field_time_zone: محدوده زمانی
+  field_searchable: جست‌وجوپذیر
+  field_default_value: مقدار پیش‌فرض
+  field_comments_sorting: نمایش نظرات
   field_parent_title: صفحه پدر
-  field_editable: ویرایش پذیر
-  field_watcher: دیده‌بان
+  field_editable: ویرایش‌پذیر
+  field_watcher: ناظر
   field_identity_url: نشانی OpenID
   field_content: محتوا
   field_group_by: دسته بندی با
   field_sharing: اشتراک گذاری
-  field_parent_issue: فعاليت یا مورد مافوق
-  field_member_of_group: "همکار گروه واگذار شونده"
-  field_assigned_to_role: "نقش واگذار شونده"
-  field_text: فیلد متنی
+  field_parent_issue: کار پدر
+  field_member_of_group: "گروه مسئول"
+  field_assigned_to_role: "نقش مسئول"
+  field_text: بخش متنی
   field_visible: آشکار
+  field_warn_on_leaving_unsaved: هنگام خروج از صفحه‌ای با متنی ذخیره‌نشده به من اخطار بده
+  field_issues_visibility: آشکاری مسأله‌ها
+  field_is_private: محرمانه
+  field_commit_logs_encoding: کدگذاری پیام‌های تثبیت
+  field_scm_path_encoding: کدگذاری مسیر
+  field_path_to_repository: مسیر مخزن
+  field_root_directory: مسیر ریشه
+  field_cvsroot: CVSROOT
+  field_cvs_module: ابزار
+  field_repository_is_default: مخزن پیش‌فرض
+  field_multiple: چند مقدار
+  field_auth_source_ldap_filter: غربال LDAP
+  field_core_fields: بخش‌های استاندارد
+  field_timeout: "مهلت (به ثانیه)"
+  field_board_parent: انجمن پدر
+  field_private_notes: یادداشت‌های محرمانه
+  field_inherit_members: ارث‌بری اعضا
+  field_generate_password: تولید گذرواژه
+  field_must_change_passwd: لزوم تغییر گذرواژه در ورود بعدی
+  field_default_status: وضعیت پیش‌فرض
+  field_users_visibility: آشکاری کاربران
+  field_time_entries_visibility: آشکاری زمان‌های ثبت شده
+  field_total_estimated_hours: مجموع زمان برآوردشده
+  field_default_version: نسخه پیش‌فرض
+  field_remote_ip: نشانی آی‌پی
+  field_textarea_font: قلم مورد استفاده برای متن
+  field_updated_by: به‌روزرسانی شده توسط
+  field_last_updated_by: آخرین به‌روزرسانی توسط
+  field_full_width_layout: عرض تمام‌صفحه 
+  field_digest: قدرآزما 
+  field_default_assigned_to: مسئول پیش‌فرض
 
-  setting_app_title: نام برنامه
+  setting_app_title: عنوان برنامه
+  setting_app_subtitle: زیرنام برنامه
   setting_welcome_text: متن خوش‌آمد گویی
-  setting_default_language: زبان پیش‌گزیده
+  setting_default_language: زبان پیش‌فرض
   setting_login_required: الزامی بودن ورود
-  setting_self_registration: خود نام نویسی
-  setting_attachment_max_size: بیشترین اندازه پیوست
-  setting_issues_export_limit: کرانه صدور پییامدها
-  setting_mail_from: نشانی فرستنده ایمیل
-  setting_bcc_recipients: گیرندگان ایمیل دیده نشوند (bcc)
-  setting_plain_text_mail: ایمیل نوشته ساده (بدون HTML)
+  setting_self_registration: ثبت نام خود
+  setting_show_custom_fields_on_registration: نمایش بخش‌های سفارشی در ثبت نام 
+  setting_attachment_max_size: بیشینه اندازه پیوست
+  setting_issues_export_limit: محدودیت صدور مسأله‌ها
+  setting_mail_from: نشانی فرستنده رایانامه
+  setting_bcc_recipients: گیرندگان رایانامه دیده نشوند (BCC)
+  setting_plain_text_mail: رایانامه نوشتاری ساده (بدون HTML)
   setting_host_name: نام میزبان و نشانی
-  setting_text_formatting: قالب بندی نوشته
-  setting_wiki_compression: فشرده‌سازی پیشینه ویکی
-  setting_feeds_limit: کرانه محتوای خوراک
-  setting_default_projects_public: حالت پیش‌گزیده پروژه‌های جدید، همگانی است
-  setting_autofetch_changesets: دریافت خودکار تغییرات
-  setting_sys_api_enabled: فعال سازی وب سرویس برای مدیریت بایگانی
-  setting_commit_ref_keywords: کلیدواژه‌های نشانه
+  setting_text_formatting: قالب‌بندی متن
+  setting_wiki_compression: فشرده‌سازی سابقه دانش‌نامه
+  setting_feeds_limit: بیشینه تعداد موارد در خوراک‌های Atom
+  setting_default_projects_public: پروژه‌های جدید به صورت پیش‌فرض عمومی هستند
+  setting_autofetch_changesets: دریافت خودکار تثبیت‌ها
+  setting_sys_api_enabled: فعال‌سازی سرویس وب برای راه‌بر مخزن
+  setting_commit_ref_keywords: کلیدواژه‌های ارجاع
   setting_commit_fix_keywords: کلیدواژه‌های انجام
   setting_autologin: ورود خودکار
   setting_date_format: قالب تاریخ
   setting_time_format: قالب زمان
-  setting_cross_project_issue_relations: توانایی وابستگی میان پروژه‌ای موردها
-  setting_issue_list_default_columns: ستون‌های پیش‌گزیده نمایش داده شده در فهرست موردها
-  setting_emails_header: سرنویس ایمیل‌ها
-  setting_emails_footer: پانویس ایمیل‌ها
-  setting_protocol: پیوندنامه
-  setting_per_page_options: گزینه‌های اندازه داده‌های هر برگ
+  setting_timespan_format: قالب فاصله زمان
+  setting_cross_project_issue_relations: اجازه ارتباط بین‌پروژه‌ای مسأله‌ها
+  setting_cross_project_subtasks: اجازه زیرکارهای بین‌پروژه‌ای
+  setting_issue_list_default_columns: ستون‌های پیش‌فرض نمایش‌داده‌شده در فهرست مسأله‌ها
+  setting_repositories_encodings: کدگذاری پیوست‌ها و مخزن‌ها
+  setting_emails_header: سرنویس رایانامه
+  setting_emails_footer: پانویس رایانامه
+  setting_protocol: قرارداد
+  setting_per_page_options: گزینه‌های اندازه داده‌های هر صفحه
   setting_user_format: قالب نمایشی کاربران
-  setting_activity_days_default: روزهای نمایش داده شده در گزارش پروژه
-  setting_display_subprojects_issues: پیش‌گزیده نمایش موردهای زیرپروژه در پروژه پدر
-  setting_enabled_scm: فعالسازی SCM
-  setting_mail_handler_body_delimiters: "بریدن ایمیل‌ها پس از یکی از این ردیف‌ها"
-  setting_mail_handler_api_enabled: فعالسازی وب سرویس برای ایمیل‌های آمده
+  setting_activity_days_default: روزهای نمایش داده شده در خط زمان پروژه
+  setting_display_subprojects_issues: پیش‌فرض نمایش مسأله‌های زیرپروژه در پروژه پدر
+  setting_enabled_scm: فعال‌سازی SCM
+  setting_mail_handler_body_delimiters: "بریدن رایانامه‌ها پس از یکی از این ردیف‌ها"
+  setting_mail_handler_enable_regex_delimiters: "فعال‌سازی عبارات منظم"
+  setting_mail_handler_api_enabled: فعال‌سازی وب‌سرویس برای نامه‌های دریافتی
   setting_mail_handler_api_key: کلید API
+  setting_sys_api_key: کلید API وب‌سرویس مدیریت مخازن
   setting_sequential_project_identifiers: ساخت پشت سر هم شناسه پروژه
   setting_gravatar_enabled: کاربرد Gravatar برای عکس کاربر
-  setting_gravatar_default: عکس Gravatar پیش‌گزیده
+  setting_gravatar_default: عکس Gravatar پیش‌فرض
   setting_diff_max_lines_displayed: بیشترین اندازه ردیف‌های تفاوت نشان داده شده
-  setting_file_max_size_displayed: بیشترین اندازه پرونده‌های نمایش داده شده درون خطی
-  setting_repository_log_display_limit: بیشترین شمار نگارش‌های نمایش داده شده در گزارش پرونده
-  setting_openid: پذیرش ورود و نام نویسی با OpenID
-  setting_password_min_length: کمترین اندازه گذرواژه
-  setting_new_project_user_role_id: نقش داده شده به کاربری که مدیر سایت نیست و پروژه می‌سازد
-  setting_default_projects_modules: پودمان های پیش‌گزیده فعال برای پروژه‌های جدید
-  setting_issue_done_ratio: برآورد اندازه انجام شده مورد با
-  setting_issue_done_ratio_issue_field: کاربرد فیلد مورد
-  setting_issue_done_ratio_issue_status: کاربرد وضعیت مورد
+  setting_file_max_size_displayed: بیشترین اندازه پرونده‌های نمایش داده‌شده به صورت هم‌ردیف
+  setting_repository_log_display_limit: بیشترین تعداد بازبینی‌های نمایش داده‌شده در گزارش پرونده
+  setting_openid: اجازه ورود و ثبت نام با OpenID
+  setting_password_max_age: لزوم تغییر گذرواژه پس از
+  setting_password_min_length: کم‌ترین اندازه گذرواژه
+  setting_lost_password: اجازه بازنشانی گذرواژه با رایانامه
+  setting_new_project_user_role_id: نقش داده‌شده به کاربری که راه‌بر نیست و پروژه می‌سازد
+  setting_default_projects_modules: ابزارهای پیش‌فرض فعال برای پروژه‌های جدید
+  setting_issue_done_ratio: برآورد اندازه انجام شده مسأله با
+  setting_issue_done_ratio_issue_field: محاسبه بر اساس درصد پیش‌رفت مسأله
+  setting_issue_done_ratio_issue_status: محاسبه بر اساس وضعیت مسأله
   setting_start_of_week: آغاز تقویم از
-  setting_rest_api_enabled: فعالسازی وب سرویس‌های REST
-  setting_cache_formatted_text: نهان سازی نوشته‌های قالب بندی شده
-  setting_default_notification_option: آگاه سازی پیش‌گزیده
-  setting_commit_logtime_enabled: فعالسازی زمان صرف شده
-  setting_commit_logtime_activity_id: کد فعالیت زمان صرف شده
-  setting_gantt_items_limit: بیشترین شمار بخش‌های نمایش داده شده در نمودار گانت
+  setting_rest_api_enabled: فعال‌سازی وب سرویس‌های REST
+  setting_cache_formatted_text: حفظ متون قالب‌بندی‌شده در نهان‌گاه
+  setting_default_notification_option: آگاه‌سازی پیش‌فرض
+  setting_commit_logtime_enabled: فعال‌سازی ثبت زمان صرف‌شده
+  setting_commit_logtime_activity_id: دسته‌بندی زمان صرف‌شده
+  setting_gantt_items_limit: بیشترین تعداد مسائل نمایش داده شده در نمودار گانت
+  setting_issue_group_assignment: اجازه واگذاری مسأله به گروه‌ها
+  setting_default_issue_start_date_to_creation_date: استفاده از تاریخ جاری به عنوان تاریخ شروع برای مسأله‌های جدید
+  setting_commit_cross_project_ref: اجازه ارجاع و حل مسأله‌های همه پروژه‌های دیگر
+  setting_unsubscribe: کاربران اجازه حذف حساب کاربری خود را داشته باشند
+  setting_session_lifetime: بیشینه عمر نشست
+  setting_session_timeout: مهلت عدم فعالیت نشست
+  setting_thumbnails_enabled: نمایش بندانگشتی پیوست‌ها
+  setting_thumbnails_size: اندازه بندانگشتی (به پیکسل)
+  setting_non_working_week_days: روزهای تعطیل کاری
+  setting_jsonp_enabled: فعال‌سازی پشتیبانی JSONP
+  setting_default_projects_tracker_ids: انواع مسأله‌ی پیش‌فرض برای پروژه‌های جدید
+  setting_mail_handler_excluded_filenames: مستثنی کردن پیوست‌ها با نام
+  setting_force_default_language_for_anonymous: الزام زبان پیش فرض برای کاربران ناشناس
+  setting_force_default_language_for_loggedin: الزام زبان پیش‌فرض برای کاربران واردشده
+  setting_link_copied_issue: ارتباط مسائل در هنگام رونوشت
+  setting_max_additional_emails: بیشینه تعداد نشانی‌های رایانامه
+  setting_search_results_per_page: تعداد نتایج جستجو در صفحه
+  setting_attachment_extensions_allowed: پسوندهای مجاز
+  setting_attachment_extensions_denied: پسوندهای غیرمجاز
+  setting_new_item_menu_tab: منوی پروژه برای ساخت اجزاء جدید
+  setting_commit_logs_formatting: اِعمال قالب‌بندی متن روی پیام‌های تثبیت
+  setting_timelog_required_fields: بخش‌های الزامی برای ثبت زمان
 
   permission_add_project: ساخت پروژه
   permission_add_subprojects: ساخت زیرپروژه
   permission_edit_project: ویرایش پروژه
-  permission_select_project_modules: گزینش پودمان های پروژه
-  permission_manage_members: مدیریت همکاران پروژه
-  permission_manage_project_activities: مدیریت کارهای پروژه
-  permission_manage_versions: مدیریت نگارش‌ها
-  permission_manage_categories: مدیریت دسته بندی موارد
-  permission_view_issues: دیدن موردها
-  permission_add_issues: افزودن موردها
-  permission_edit_issues: ویرایش موردها
-  permission_manage_issue_relations: مدیریت وابستگی موردها
-  permission_add_issue_notes: افزودن یادداشت
-  permission_edit_issue_notes: ویرایش یادداشت
+  permission_close_project: بستن / بازگشایی پروژه
+  permission_select_project_modules: انتخاب ابزارهای پروژه
+  permission_manage_members: مدیریت اعضا
+  permission_manage_project_activities: مدیریت دسته‌بندی زمان‌های پروژه
+  permission_manage_versions: مدیریت نسخه‌ها
+  permission_manage_categories: مدیریت دسته‌های مسأله
+  permission_view_issues: مشاهده مسأله‌ها
+  permission_add_issues: افزودن مسأله‌ها
+  permission_edit_issues: ویرایش مسأله‌ها
+  permission_copy_issues: رونوشت مسائل
+  permission_manage_issue_relations: مدیریت ارتباط مسأله‌ها
+  permission_set_issues_private: تنظیم مسأله‌ها به عمومی یا محرمانه
+  permission_set_own_issues_private: تنظیم مسأله‌های خود به عمومی یا محرمانه
+  permission_add_issue_notes: افزودن یادداشت‌ها
+  permission_edit_issue_notes: ویرایش یادداشت‌ها
   permission_edit_own_issue_notes: ویرایش یادداشت خود
-  permission_delete_issues: پاک کردن موردها
-  permission_manage_public_queries: مدیریت پرس‌وجوهای همگانی
-  permission_save_queries: ذخیره سازی پرس‌وجوها
-  permission_view_gantt: دیدن نمودار گانت
-  permission_view_calendar: دیدن تقویم
-  permission_view_issue_watchers: دیدن فهرست دیده‌بان‌ها
-  permission_add_issue_watchers: افزودن دیده‌بان‌ها
-  permission_delete_issue_watchers: پاک کردن دیده‌بان‌ها
-  permission_log_time: نوشتن زمان صرف شده
-  permission_view_time_entries: دیدن زمان صرف شده
-  permission_edit_time_entries: ویرایش زمان صرف شده
-  permission_edit_own_time_entries: ویرایش زمان صرف شده خود
-  permission_manage_news: مدیریت اخبار
-  permission_comment_news: افزودن نظر شخصی به مجموعه اخبار
-  permission_view_documents: دیدن مستندات
+  permission_view_private_notes: مشاهده یادداشت‌های محرمانه
+  permission_set_notes_private: محرمانه کردن یادداشت‌ها
+  permission_move_issues: جابجایی مسأله‌ها
+  permission_delete_issues: حذف مسأله‌ها
+  permission_manage_public_queries: مدیریت جستارهای عمومی
+  permission_save_queries: ذخیره‌سازی جستارها
+  permission_view_gantt: مشاهده نمودار گانت
+  permission_view_calendar: مشاهده تقویم
+  permission_view_issue_watchers: مشاهده فهرست ناظرها
+  permission_add_issue_watchers: افزودن ناظرها
+  permission_delete_issue_watchers: حذف ناظرها
+  permission_log_time: ثبت زمان صرف‌شده
+  permission_view_time_entries: مشاهده زمان صرف‌شده
+  permission_edit_time_entries: ویرایش زمان صرف‌شده
+  permission_edit_own_time_entries: ویرایش زمان صرف‌شده خود
+  permission_view_news: مشاهده وبلاگ
+  permission_manage_news: مدیریت وبلاگ
+  permission_comment_news: نظردهی روی مطالب
+  permission_view_documents: مشاهده اسناد
+  permission_add_documents: افزودن اسناد
+  permission_edit_documents: ویرایش اسناد
+  permission_delete_documents: حذف اسناد
   permission_manage_files: مدیریت پرونده‌ها
-  permission_view_files: دیدن پرونده‌ها
-  permission_manage_wiki: مدیریت ویکی
-  permission_rename_wiki_pages: نامگذاری صفحه ویکی
-  permission_delete_wiki_pages: پاک کردن صفحه ویکی
-  permission_view_wiki_pages: دیدن ویکی
-  permission_view_wiki_edits: دیدن پیشینه ویکی
-  permission_edit_wiki_pages: ویرایش صفحه‌های ویکی
-  permission_delete_wiki_pages_attachments: پاک کردن پیوست‌های صفحه ویکی
-  permission_protect_wiki_pages: نگه‌داری صفحه‌های ویکی
-  permission_manage_repository: مدیریت بایگانی
-  permission_browse_repository: مرور و بررسی در بایگانی
-  permission_view_changesets: دیدن تغییرات
-  permission_commit_access: دسترسی تغییر بایگانی
+  permission_view_files: مشاهده پرونده‌ها
+  permission_manage_wiki: مدیریت دانش‌نامه
+  permission_rename_wiki_pages: نامگذاری صفحه دانش‌نامه
+  permission_delete_wiki_pages: حذف کردن صفحه دانش‌نامه
+  permission_view_wiki_pages: مشاهده دانش‌نامه
+  permission_view_wiki_edits: مشاهده سابقه دانش‌نامه
+  permission_edit_wiki_pages: ویرایش صفحه‌های دانش‌نامه
+  permission_delete_wiki_pages_attachments: حذف کردن پیوست‌های صفحه دانش‌نامه
+  permission_protect_wiki_pages: نگه‌داری صفحه‌های دانش‌نامه
+  permission_manage_repository: مدیریت مخزن
+  permission_browse_repository: مرور مخزن
+  permission_view_changesets: مشاهده تغییرات
+  permission_commit_access: دست‌رسی تثبیت
   permission_manage_boards: مدیریت انجمن‌ها
-  permission_view_messages: دیدن پیام‌ها
-  permission_add_messages: فرستادن پیام‌ها
+  permission_view_messages: مشاهده پیام‌ها
+  permission_add_messages: ارسال پیام‌ها
   permission_edit_messages: ویرایش پیام‌ها
   permission_edit_own_messages: ویرایش پیام خود
-  permission_delete_messages: پاک کردن پیام‌ها
-  permission_delete_own_messages: پاک کردن پیام خود
-  permission_export_wiki_pages: صدور صفحه‌های ویکی
+  permission_delete_messages: حذف پیام‌ها
+  permission_delete_own_messages: حذف پیام خود
+  permission_export_wiki_pages: صدور صفحه‌های دانش‌نامه
   permission_manage_subtasks: مدیریت زیرکارها
+  permission_manage_related_issues: مدیریت مسأله‌های مرتبط
+  permission_import_issues: وارد کردن مسائل
 
-  project_module_issue_tracking: پیگیری موردها
-  project_module_time_tracking: پیگیری زمان
-  project_module_news: اخبار
-  project_module_documents: مستندات
+  project_module_issue_tracking: پی‌گیری مسأله‌ها
+  project_module_time_tracking: ‌مدیریت زمان
+  project_module_news: وبلاگ
+  project_module_documents: اسناد
   project_module_files: پرونده‌ها
-  project_module_wiki: ویکی
-  project_module_repository: بایگانی
+  project_module_wiki: دانش‌نامه
+  project_module_repository: مخزن
   project_module_boards: انجمن‌ها
   project_module_calendar: تقویم
   project_module_gantt: گانت
 
   label_user: کاربر
-  label_user_plural: کاربر
+  label_user_plural: کاربران
   label_user_new: کاربر جدید
   label_user_anonymous: ناشناس
   label_project: پروژه
   label_project_new: پروژه جدید
-  label_project_plural: پروژه ها
+  label_project_plural: پروژه‌ها
   label_x_projects:
     zero:  بدون پروژه
     one:   "1 پروژه"
     other: "%{count} پروژه"
   label_project_all: همه پروژه‌ها
   label_project_latest: آخرین پروژه‌ها
-  label_issue: مورد
-  label_issue_new: مورد جدید
-  label_issue_plural: موردها
-  label_issue_view_all: دیدن همه موردها
-  label_issues_by: "دسته‌بندی موردها با %{value}"
-  label_issue_added: مورد افزوده شد
-  label_issue_updated: مورد بروز شد
-  label_document: مستند
-  label_document_new: مستند جدید
-  label_document_plural: مستندات
-  label_document_added: مستند افزوده شد
+  label_issue: مسأله
+  label_issue_new: مسأله جدید
+  label_issue_plural: مسأله‌ها
+  label_issue_view_all: مشاهده همه مسأله‌ها
+  label_issues_by: "مسأله‌های %{value}"
+  label_issue_added: مسأله افزوده شد
+  label_issue_updated: مسأله به‌روز شد
+  label_issue_note_added: یادداشت افزوده شد
+  label_issue_status_updated: وضعیت به‌روز شد
+  label_issue_assigned_to_updated: مسئول به‌روز شد
+  label_issue_priority_updated: اولویت به‌روز شد
+  label_document: سند
+  label_document_new: سند جدید
+  label_document_plural: اسناد
+  label_document_added: سند افزوده شد
   label_role: نقش
-  label_role_plural: نقش ها
+  label_role_plural: نقش‌ها
   label_role_new: نقش جدید
-  label_role_and_permissions: نقش‌ها و مجوز‌ها
-  label_member: همکار
-  label_member_new: همکار جدید
-  label_member_plural: همکاران
-  label_tracker: ردیاب
-  label_tracker_plural: ردیاب ها
-  label_tracker_new: ردیاب جدید
+  label_role_and_permissions: نقش‌ها و دست‌رسی‌ها
+  label_role_anonymous: ناشناس
+  label_role_non_member: غیرعضو
+  label_member: عضو
+  label_member_new: عضو جدید
+  label_member_plural: اعضا
+  label_tracker: نوع مسأله
+  label_tracker_plural: انواع مسأله‌ها
+  label_tracker_all: همه انواع مسأله‌ها
+  label_tracker_new: نوع جدید مسأله
   label_workflow: گردش کار
-  label_issue_status: وضعیت مورد
-  label_issue_status_plural: وضعیت موارد
+  label_issue_status: وضعیت مسأله
+  label_issue_status_plural: وضعیت‌های مسأله‌ها
   label_issue_status_new: وضعیت جدید
-  label_issue_category: دسته بندی مورد
-  label_issue_category_plural: دسته بندی موارد
-  label_issue_category_new: دسته بندی جدید
-  label_custom_field: فیلد سفارشی
-  label_custom_field_plural: فیلدهای سفارشی
-  label_custom_field_new: فیلد سفارشی جدید
+  label_issue_category: دسته مسأله
+  label_issue_category_plural: دسته‌بندی مسأله‌ها
+  label_issue_category_new: دسته جدید
+  label_custom_field: بخش سفارشی
+  label_custom_field_plural: بخش‌های سفارشی
+  label_custom_field_new: بخش سفارشی جدید
   label_enumerations: برشمردنی‌ها
   label_enumeration_new: مقدار جدید
-  label_information: داده
-  label_information_plural: داده ها
+  label_information: اطلاعات
+  label_information_plural: اطلاعات
   label_please_login: وارد شوید
-  label_register: نام نویسی کنید
+  label_register: ثبت نام
   label_login_with_open_id_option: یا با OpenID وارد شوید
-  label_password_lost: بازیافت گذرواژه
-  label_home: پیش خوان
-  label_my_page: صفحه خودم
-  label_my_account: تنظیمات خودم
-  label_my_projects: پروژه‌های خودم
-  label_administration: مدیریت
-  label_login: نام کاربری
+  label_password_lost: بازیابی گذرواژه
+  label_password_required: برای ادامه، گذرواژه خود را تایید کنید
+  label_home: خانه
+  label_my_page: صفحه من
+  label_my_account: حساب من
+  label_my_projects: پروژه‌های من
+  label_my_page_block: بخش صفحه من
+  label_administration: راه‌بری
+  label_login: ورود
   label_logout: خروج
   label_help: راهنما
-  label_reported_issues: موردهای گزارش شده
-  label_assigned_to_me_issues: موردهای واگذار شده به من
+  label_reported_issues: مسأله‌های گزارش شده
+  label_assigned_issues: مسائل واگذارشده
+  label_assigned_to_me_issues: مسأله‌های واگذارشده به من
   label_last_login: آخرین ورود
-  label_registered_on: نام نویسی شده در
-  label_activity: گزارش فعالیت ها
-  label_overall_activity: کل فعالیت ها روی هم رفته
-  label_user_activity: "درصد فعالیت %{value}"
+  label_registered_on: ثبت‌نام‌شده در
+  label_activity: خط زمان
+  label_overall_activity: خط زمان
+  label_user_activity: "خط زمان %{value}"
   label_new: جدید
-  label_logged_as: "نام کاربری:"
+  label_logged_as: "وارد‌شده به نام "
   label_environment: محیط
-  label_authentication: شناسایی
-  label_auth_source: روش شناسایی
-  label_auth_source_new: روش شناسایی جدید
-  label_auth_source_plural: روش های شناسایی
-  label_subproject_plural: زیرپروژه ها
+  label_authentication: احراز هویت
+  label_auth_source: روش احراز هویت
+  label_auth_source_new: روش احراز هویت جدید
+  label_auth_source_plural: روش‌های احراز هویت
+  label_subproject_plural: زیرپروژه‌ها
   label_subproject_new: زیرپروژه جدید
   label_and_its_subprojects: "%{value} و زیرپروژه‌هایش"
-  label_min_max_length: کمترین و بیشترین اندازه
+  label_min_max_length: کم‌ترین و بیشترین اندازه
   label_list: فهرست
   label_date: تاریخ
-  label_integer: شماره درست
-  label_float: شماره شناور
+  label_integer: عدد صحیح
+  label_float: عدد اعشاری
   label_boolean: درست/نادرست
-  label_string: نوشته
-  label_text: نوشته بلند
-  label_attribute: نشانه
-  label_attribute_plural: نشانه ها
+  label_string: متن
+  label_text: متن بلند
+  label_attribute: خصوصیت
+  label_attribute_plural: خصوصیت‌ها
   label_no_data: هیچ داده‌ای برای نمایش نیست
-  label_change_status: جایگزینی وضعیت
-  label_history: پیشینه
-  label_attachment: پرونده
-  label_attachment_new: پرونده جدید
-  label_attachment_delete: پاک کردن پرونده
-  label_attachment_plural: پرونده
+  label_no_preview: پیش‌نمایش موجود نیست
+  label_no_preview_alternative_html: پیش‌نمایش موجود نیست. %{link}
+  label_no_preview_download: دریافت
+  label_change_status: تغییر وضعیت
+  label_history: سابقه
+  label_attachment: پیوست
+  label_attachment_new: پیوست جدید
+  label_attachment_delete: حذف پیوست
+  label_attachment_plural: پیوست‌ها
   label_file_added: پرونده افزوده شد
   label_report: گزارش
-  label_report_plural: گزارشات
-  label_news: اخبار
-  label_news_new: افزودن خبر
-  label_news_plural: اخبار
-  label_news_latest: آخرین اخبار
-  label_news_view_all: دیدن همه اخبار
-  label_news_added: خبر افزوده شد
-  label_settings: پیکربندی
-  label_overview: در یک نگاه
-  label_version: نگارش
-  label_version_new: نگارش جدید
-  label_version_plural: نگارش ها
-  label_close_versions: بستن نگارش‌های انجام شده
-  label_confirmation: بررسی
+  label_report_plural: گزارش‌ها
+  label_news: مطلب
+  label_news_new: مطلب جدید وبلاگ
+  label_news_plural: وبلاگ
+  label_news_latest: آخرین مطالب
+  label_news_view_all: مشاهده همه مطالب
+  label_news_added: مطلب افزوده شد
+  label_news_comment_added: نظر ثبت شد
+  label_settings: تنظیمات
+  label_overview: دورنما
+  label_version: نسخه
+  label_version_new: نسخه جدید
+  label_version_plural: نسخه‌ها
+  label_close_versions: بستن نسخه‌های انجام شده
+  label_confirmation: تأیید
   label_export_to: 'قالب‌های دیگر:'
   label_read: خواندن...
-  label_public_projects: پروژه‌های همگانی
+  label_public_projects: پروژه‌های عمومی
   label_open_issues: باز
-  label_open_issues_plural: باز
+  label_open_issues_plural: باز‌ها
   label_closed_issues: بسته
-  label_closed_issues_plural: بسته
+  label_closed_issues_plural: بسته‌ها
   label_x_open_issues_abbr:
     zero:  0 باز
     one:   1 باز
@@ -556,79 +686,98 @@ fa:
     zero:  0 بسته
     one:   1 بسته
     other: "%{count} بسته"
-  label_total: مجموعا
-  label_permissions: مجوز‌ها
+  label_x_issues:
+    zero:  0 مسأله
+    one:   1 مسأله
+    other: "%{count} مسأله"
+  label_total: کل
+  label_total_plural: کل
+  label_total_time: زمان کل
+  label_permissions: دست‌رسی‌ها
   label_current_status: وضعیت کنونی
-  label_new_statuses_allowed: وضعیت‌های پذیرفتنی جدید
+  label_new_statuses_allowed: وضعیت‌های مجاز جدید
   label_all: همه
+  label_any: هر چیز
   label_none: هیچ
-  label_nobody: هیچکس
-  label_next: پسین
-  label_previous: پیشین
+  label_nobody: هیچ کس
+  label_next: بعد
+  label_previous: قبل
   label_used_by: به کار رفته در
   label_details: جزئیات
   label_add_note: افزودن یادداشت
   label_calendar: تقویم
-  label_months_from: از ماه
+  label_months_from: ماه از
   label_gantt: گانت
   label_internal: درونی
   label_last_changes: "%{count} تغییر آخر"
-  label_change_view_all: دیدن همه تغییرات
+  label_change_view_all: مشاهده همه تغییرات
+  label_personalize_page: سفارشی‌سازی این صفحه
   label_comment: نظر
-  label_comment_plural: نظر ها
+  label_comment_plural: نظرات
   label_x_comments:
     zero: بدون نظر
     one: 1 نظر
     other: "%{count} نظر"
   label_comment_add: افزودن نظر
   label_comment_added: نظر افزوده شد
-  label_comment_delete: پاک کردن نظر‌ها
-  label_query: پرس‌وجوی سفارشی
-  label_query_plural: پرس‌وجوی های سفارشی
-  label_query_new: پرس‌وجوی جدید
-  label_filter_add: افزودن پالایه
-  label_filter_plural: پالایه ها
+  label_comment_delete: حذف نظرات
+  label_query: جستار سفارشی
+  label_query_plural: جستار سفارشی
+  label_query_new: جستار جدید
+  label_my_queries: جستارهای سفارشی من
+  label_filter_add: افزودن غربال
+  label_filter_plural: غربال‌ها
   label_equals: برابر است با
   label_not_equals: برابر نیست با
-  label_in_less_than: کمتر است از
-  label_in_more_than: بیشتر است از
+  label_in_less_than: در کم‌تر از
+  label_in_more_than: در بیشتر از
+  label_in_the_next_days: در آینده
+  label_in_the_past_days: در گذشته
   label_greater_or_equal: بیشتر یا برابر است با
-  label_less_or_equal: کمتر یا برابر است با
+  label_less_or_equal: کم‌تر یا برابر است با
+  label_between: میان
   label_in: در
   label_today: امروز
   label_all_time: همیشه
   label_yesterday: دیروز
   label_this_week: این هفته
-  label_last_week: هفته پیشین
+  label_last_week: هفته قبل
+  label_last_n_weeks: "%{count} هفته گذشته"
   label_last_n_days: "%{count} روز گذشته"
   label_this_month: این ماه
-  label_last_month: ماه پیشین
+  label_last_month: ماه قبل
   label_this_year: امسال
   label_date_range: بازه تاریخ
-  label_less_than_ago: کمتر از چند روز پیشین
-  label_more_than_ago: بیشتر از چند روز پیشین
-  label_ago: روز پیشین
-  label_contains: دارد
-  label_not_contains: ندارد
+  label_less_than_ago: قبل از چند روز پیش
+  label_more_than_ago: بعد از چند روز پیش
+  label_ago: روز قبل
+  label_contains: شامل
+  label_not_contains: فاقد
+  label_any_issues_in_project: هر مسأله‌ای در پروژه
+  label_any_issues_not_in_project: هر مسأله‌ای بیرون پروژه
+  label_no_issues_in_project: مسأله‌ای در پروژه وجود ندارد
+  label_any_open_issues: هر مسأله‌ی باز
+  label_no_open_issues: بدون هیچ مسأله باز
   label_day_plural: روز
-  label_repository: بایگانی
-  label_repository_plural: بایگانی ها
-  label_browse: مرور و بررسی
-  label_branch: شاخه
+  label_repository: مخزن
+  label_repository_new: مخزن جدید
+  label_repository_plural: مخزن‌ها
+  label_browse: مرور
+  label_branch: انشعاب
   label_tag: برچسب
-  label_revision: شماره بازنگری
-  label_revision_plural: شماره بازنگری‌ها
-  label_revision_id: "بازنگری %{value}"
-  label_associated_revisions: بازنگری‌های وابسته
+  label_revision: بازبینی
+  label_revision_plural: بازبینی‌ها
+  label_revision_id: "بازبینی %{value}"
+  label_associated_revisions: بازبینی‌های مرتبط
   label_added: افزوده شده
   label_modified: پیراسته شده
   label_copied: رونویسی شده
-  label_renamed: نامگذاری شده
-  label_deleted: پاکسازی شده
-  label_latest_revision: آخرین بازنگری‌
-  label_latest_revision_plural: آخرین بازنگری‌ها
-  label_view_revisions: دیدن بازنگری‌ها
-  label_view_all_revisions: دیدن همه بازنگری‌ها
+  label_renamed: تغییرنام داده‌شده
+  label_deleted: حذف شده
+  label_latest_revision: آخرین بازبینی
+  label_latest_revision_plural: آخرین بازبینی‌ها
+  label_view_revisions: مشاهده بازبینی‌ها
+  label_view_all_revisions: مشاهده همه بازبینی‌ها
   label_max_size: بیشترین اندازه
   label_sort_highest: بردن به آغاز
   label_sort_higher: بردن به بالا
@@ -637,193 +786,312 @@ fa:
   label_roadmap: نقشه راه
   label_roadmap_due_in: "سررسید در %{value}"
   label_roadmap_overdue: "%{value} دیرکرد"
-  label_roadmap_no_issues: هیچ موردی برای این نگارش نیست
-  label_search: جستجو
-  label_result_plural: دست‌آورد
+  label_roadmap_no_issues: هیچ مسأله‌ای برای این نسخه نیست
+  label_search: جست‌وجو
+  label_result_plural: نتایج
   label_all_words: همه واژه‌ها
-  label_wiki: ویکی
-  label_wiki_edit: ویرایش ویکی
-  label_wiki_edit_plural: ویرایش ویکی
-  label_wiki_page: صفحه ویکی
-  label_wiki_page_plural: صفحه ویکی
-  label_index_by_title: شاخص بر اساس نام
-  label_index_by_date: شاخص بر اساس تاریخ
-  label_current_version: نگارش کنونی
+  label_wiki: دانش‌نامه
+  label_wiki_edit: ویرایش دانش‌نامه
+  label_wiki_edit_plural: ویرایش‌های دانش‌نامه
+  label_wiki_page: صفحه دانش‌نامه
+  label_wiki_page_plural: صفحه‌های دانش‌نامه
+  label_wiki_page_new: صفحه دانش‌نامه جدید
+  label_index_by_title: فهرست بر اساس عنوان
+  label_index_by_date: فهرست بر اساس تاریخ
+  label_current_version: نسخه کنونی
   label_preview: پیش‌نمایش
-  label_feed_plural: خوراک
-  label_changes_details: ریز همه جایگذاری‌ها
-  label_issue_tracking: پیگیری موارد
-  label_spent_time: زمان صرف شده
-  label_overall_spent_time: زمان صرف شده روی هم
+  label_feed_plural: خوراک‌ها
+  label_changes_details: جزئیات همه تغییرات
+  label_issue_tracking: پی‌گیری مسأله‌ها
+  label_spent_time: زمان صرف‌شده
+  label_total_spent_time: کل زمان صرف‌شده
+  label_overall_spent_time: مجموع زمان صرف‌شده
   label_f_hour: "%{value} ساعت"
   label_f_hour_plural: "%{value} ساعت"
-  label_time_tracking: پیگیری زمان
-  label_change_plural: جایگذاری
-  label_statistics: سرشماری
-  label_commits_per_month: تغییر در هر ماه
-  label_commits_per_author: تغییر هر نویسنده
-  label_view_diff: دیدن تفاوت‌ها
-  label_diff_inline: همراستا
-  label_diff_side_by_side: کنار به کنار
+  label_f_hour_short: "%{value} س"
+  label_time_tracking: پی‌گیری زمان
+  label_change_plural: تغییر
+  label_statistics: آمار
+  label_commits_per_month: تثبیت در هر ماه
+  label_commits_per_author: تثبیت به ازای هر نویسنده
+  label_diff: تفاوت
+  label_view_diff: مشاهده تفاوت‌ها
+  label_diff_inline: هم‌ردیف
+  label_diff_side_by_side: پهلوبه‌پهلو
   label_options: گزینه‌ها
   label_copy_workflow_from: رونویسی گردش کار از روی
-  label_permissions_report: گزارش مجوز‌ها
-  label_watched_issues: موردهای دیده‌بانی شده
-  label_related_issues: موردهای وابسته
-  label_applied_status: وضعیت به کار رفته
-  label_loading: بار گذاری...
-  label_relation_new: وابستگی جدید
-  label_relation_delete: پاک کردن وابستگی
-  label_relates_to: وابسته به
-  label_duplicates: نگارش دیگری از
-  label_duplicated_by: نگارشی دیگر در
-  label_blocks: بازداشت‌ها
-  label_blocked_by: بازداشت به دست
-  label_precedes: جلوتر است از
-  label_follows: پستر است از
-  label_stay_logged_in: وارد شده بمانید
+  label_permissions_report: گزارش دست‌رسی‌ها
+  label_watched_issues: مسأله‌های نظارت‌شده
+  label_related_issues: مسأله‌های مرتبط
+  label_applied_status: وضعیت اعمال‌شده
+  label_loading: بارگذاری...
+  label_relation_new: ارتباط جدید
+  label_relation_delete: حذف ارتباط
+  label_relates_to: مرتبط با
+  label_duplicates: تکرارکننده
+  label_duplicated_by: تکرارشونده
+  label_blocks: سدکننده
+  label_blocked_by: سدشونده
+  label_precedes: تقدم دارد بر
+  label_follows: تأخر دارد بر
+  label_copied_to: رونوشت به
+  label_copied_from: رونوشت از
+  label_stay_logged_in: وارد‌شده بمانید
   label_disabled: غیرفعال
-  label_show_completed_versions: نمایش نگارش‌های انجام شده
+  label_show_completed_versions: نمایش نسخه‌های انجام‌شده
   label_me: من
   label_board: انجمن
   label_board_new: انجمن جدید
-  label_board_plural: انجمن
+  label_board_plural: انجمن‌ها
   label_board_locked: قفل شده
   label_board_sticky: چسبناک
-  label_topic_plural: سرفصل
+  label_topic_plural: سرفصل‌ها
   label_message_plural: پیام
   label_message_last: آخرین پیام
   label_message_new: پیام جدید
   label_message_posted: پیام افزوده شد
-  label_reply_plural: پاسخ
-  label_send_information: فرستادن داده‌های حساب به کاربر
+  label_reply_plural: پاسخ‌ها
+  label_send_information: ارسال داده‌های حساب به کاربر
   label_year: سال
   label_month: ماه
   label_week: هفته
   label_date_from: از
   label_date_to: تا
   label_language_based: بر اساس زبان کاربر
-  label_sort_by: "جور کرد با %{value}"
-  label_send_test_email: فرستادن ایمیل آزمایشی
-  label_feeds_access_key: کلید دسترسی Atom
-  label_missing_feeds_access_key: کلید دسترسی Atom در دسترس نیست
-  label_feeds_access_key_created_on: "کلید دسترسی Atom %{value} پیش ساخته شده است"
-  label_module_plural: پودمان ها
-  label_added_time_by: "افزوده شده به دست %{author} در %{age} پیش"
-  label_updated_time_by: "بروز شده به دست %{author} در %{age} پیش"
-  label_updated_time: "بروز شده در %{value} پیش"
-  label_jump_to_a_project: پرش به یک پروژه...
-  label_file_plural: پرونده
-  label_changeset_plural: تغییر
-  label_default_columns: ستون‌های پیش‌گزیده
+  label_sort_by: "مرتب‌سازی با %{value}"
+  label_send_test_email: ارسال رایانامه آزمایشی
+  label_feeds_access_key: کلید دست‌رسی Atom
+  label_missing_feeds_access_key: کلید دست‌رسی Atom در دست‌رس نیست
+  label_feeds_access_key_created_on: "کلید دست‌رسی Atom در %{value} پیش ساخته شده است"
+  label_module_plural: ابزارها
+  label_added_time_by: "افزوده شده توسط %{author} در %{age} پیش"
+  label_updated_time_by: "به‌روزشده توسط %{author} در %{age} پیش"
+  label_updated_time: "به‌روزشده در %{value} پیش"
+  label_jump_to_a_project: انتخاب پروژه
+  label_file_plural: پرونده‌ها
+  label_changeset_plural: تغییرها
+  label_default_columns: ستون‌های پیش‌فرض
   label_no_change_option: (بدون تغییر)
-  label_bulk_edit_selected_issues: ویرایش گروهی‌ موردهای گزینش شده
+  label_bulk_edit_selected_issues: ویرایش دسته‌ای مسأله‌های انتخاب‌شده
+  label_bulk_edit_selected_time_entries: ویرایش دسته‌جمعی ورودی‌های زمان انتخاب‌شده
   label_theme: پوسته
-  label_default: پیش‌گزیده
-  label_search_titles_only: تنها نام‌ها جستجو شود
-  label_user_mail_option_all: "برای هر خبر در همه پروژه‌ها"
-  label_user_mail_option_selected: "برای هر خبر تنها در پروژه‌های گزینش شده..."
-  label_user_mail_option_none: "هیچ خبری"
-  label_user_mail_option_only_my_events: "تنها برای چیزهایی که دیده‌بان هستم یا در آن‌ها درگیر هستم"
+  label_default: پیش‌فرض
+  label_search_titles_only: عنوان نام‌ها جست‌وجو شود
+  label_user_mail_option_all: "برای هر رویداد در همه پروژه‌ها"
+  label_user_mail_option_selected: "برای هر رویداد تنها در پروژه‌های انتخاب‌شده..."
+  label_user_mail_option_none: "هیچ رویدادی"
+  label_user_mail_option_only_my_events: "تنها برای چیزهایی که ناظر هستم یا در آن‌ها درگیر هستم"
+  label_user_mail_option_only_assigned: "تنها برای چیزهایی که به من واگذار شده"
+  label_user_mail_option_only_owner: "تنها برای چیزهایی که من دارنده آن‌ها هستم"
   label_user_mail_no_self_notified: "نمی‌خواهم از تغییراتی که خودم می‌دهم آگاه شوم"
-  label_registration_activation_by_email: فعالسازی حساب با ایمیل
-  label_registration_manual_activation: فعالسازی حساب دستی
-  label_registration_automatic_activation: فعالسازی حساب خودکار
-  label_display_per_page: "ردیف‌ها در هر صفحه: %{value}"
+  label_registration_activation_by_email: فعال‌سازی حساب با رایانامه
+  label_registration_manual_activation: فعال‌سازی دستی حساب
+  label_registration_automatic_activation: فعال‌سازی خودکار حساب
+  label_display_per_page: "تعداد ردیف در هر صفحه: %{value}"
   label_age: سن
-  label_change_properties: ویرایش ویژگی‌ها
-  label_general: همگانی
+  label_change_properties: ویرایش خصوصیات
+  label_general: عمومی
+  label_more: بیشتر
   label_scm: SCM
   label_plugins: افزونه‌ها
-  label_ldap_authentication: شناساییLDAP
+  label_ldap_authentication: احراز هویت LDAP
   label_downloads_abbr: دریافت
-  label_optional_description: توضیحات دلخواه
+  label_optional_description: توضیح اختیاری
   label_add_another_file: افزودن پرونده دیگر
-  label_preferences: پسندها
+  label_preferences: ترجیح‌ها
   label_chronological_order: به ترتیب تاریخ
   label_reverse_chronological_order: برعکس ترتیب تاریخ
-  label_incoming_emails: ایمیل‌های آمده
+  label_planning: برنامه ریزی
+  label_incoming_emails: رایانامه‌های آمده
   label_generate_key: ساخت کلید
-  label_issue_watchers: دیده‌بان‌ها
+  label_issue_watchers: ناظرها
   label_example: نمونه
   label_display: نمایش
-  label_sort: جور کرد
+  label_sort: مرتب‌سازی
   label_ascending: افزایشی
   label_descending: کاهشی
   label_date_from_to: از %{start} تا %{end}
-  label_wiki_content_added: صفحه ویکی افزوده شد
-  label_wiki_content_updated: صفحه ویکی بروز شد
+  label_wiki_content_added: صفحه دانش‌نامه افزوده شد
+  label_wiki_content_updated: صفحه دانش‌نامه به‌روز شد
   label_group: گروه
-  label_group_plural: گروهها
+  label_group_plural: گروه‌ها
   label_group_new: گروه جدید
-  label_time_entry_plural: زمان های صرف شده
+  label_group_anonymous: کاربران ناشناس
+  label_group_non_member: کاربران غیرعضو
+  label_time_entry_plural: زمان صرف‌شده
   label_version_sharing_none: بدون اشتراک
   label_version_sharing_descendants: با زیر پروژه‌ها
   label_version_sharing_hierarchy: با رشته پروژه‌ها
   label_version_sharing_tree: با درخت پروژه
   label_version_sharing_system: با همه پروژه‌ها
-  label_update_issue_done_ratios: بروز رسانی اندازه انجام شده مورد
+  label_update_issue_done_ratios: به‌روزرسانی اندازه انجام شده مسأله
   label_copy_source: منبع
   label_copy_target: مقصد
   label_copy_same_as_target: مانند مقصد
-  label_display_used_statuses_only: تنها وضعیت‌هایی نشان داده شوند که در این ردیاب به کار رفته‌اند
-  label_api_access_key: کلید دسترسی API
-  label_missing_api_access_key: کلید دسترسی API در دسترس نیست
-  label_api_access_key_created_on: "کلید دسترسی API %{value} پیش ساخته شده است"
+  label_display_used_statuses_only: تنها وضعیت‌هایی نشان داده شوند که در این نوع مسأله به کار رفته‌اند
+  label_api_access_key: کلید دست‌رسی API
+  label_missing_api_access_key: کلید دست‌رسی API در دست‌رس نیست
+  label_api_access_key_created_on: "کلید دست‌رسی API %{value} پیش ساخته شده است"
   label_profile: نمایه
   label_subtask_plural: زیرکار
-  label_project_copy_notifications: در هنگام رونویسی پروژه ایمیل‌های آگاه‌سازی را بفرست
-  label_principal_search: "جستجو برای کاربر یا گروه:"
-  label_user_search: "جستجو برای کاربر:"
+  label_project_copy_notifications: در هنگام رونویسی پروژه رایانامه‌های آگاه‌سازی را بفرست
+  label_principal_search: "جست‌وجو برای کاربر یا دسته:"
+  label_user_search: "جست‌وجو برای کاربر:"
+  label_additional_workflow_transitions_for_author: وقتی که کاربر همان نویسنده باشد، انتقال‌های اضافی که مجاز است
+  label_additional_workflow_transitions_for_assignee: وقتی که کاربر همان مسئول باشد، انتقال‌های اضافی که مجاز است
+  label_issues_visibility_all: همه مسأله‌ها
+  label_issues_visibility_public: همه مسأله‌های غیرخصوصی
+  label_issues_visibility_own: مسأله‌هایی که کاربر، سازنده یا مسئول آن‌ها است
+  label_git_report_last_commit: گزارش تثبیت‌های اخیر برای پرونده‌ها و پوشه‌ها
+  label_parent_revision: پدر
+  label_child_revision: فرزند
+  label_export_options: "%{export_format} گزینه‌های صدور"
+  label_copy_attachments: رونوشت پیوست‌ها
+  label_copy_subtasks: رونوشت زیرکارها
+  label_item_position: "%{position} از %{count}"
+  label_completed_versions: نسخه‌های کامل‌شده
+  label_search_for_watchers: جست‌وجوی ناظرها برای افزودن
+  label_session_expiration: انقضای نشست
+  label_show_closed_projects: مشاهده پروژه‌های بسته
+  label_status_transitions: انتقال‌های وضعیت
+  label_fields_permissions: مجوزهای بخش‌ها
+  label_readonly: فقط‌خواندنی
+  label_required: الزامی
+  label_hidden: مخفی
+  label_attribute_of_project: "%{name} پروژه"
+  label_attribute_of_issue: "%{name} مسأله"
+  label_attribute_of_author: "%{name} نویسنده"
+  label_attribute_of_assigned_to: "%{name} مسئول"
+  label_attribute_of_user: "%{name} کاربر"
+  label_attribute_of_fixed_version: "%{name} نسخه هدف"
+  label_attribute_of_object: "%{name} %{object_name}"
+  label_cross_project_descendants: با زیرپروژه‌ها
+  label_cross_project_tree: با درخت پروژه
+  label_cross_project_hierarchy: با سلسله مراتب پروژه
+  label_cross_project_system: با همه پروژه‌ها
+  label_gantt_progress_line: خط پیش‌رفت
+  label_visibility_private: فقط به من
+  label_visibility_roles: فقط به این نقش‌ها
+  label_visibility_public: به هر کاربری
+  label_link: پیوند
+  label_only: فقط
+  label_drop_down_list: فهرست پایین‌ریز
+  label_checkboxes: مربع‌های علامت‌زنی
+  label_radio_buttons: انتخاب فقط یکی از گزینه‌ها
+  label_link_values_to: پیوند مقادیر به URL
+  label_custom_field_select_type: نوع شیئی را که بخش سفارشی قرار است به آن پیوست شود، انتخاب کنید
+  label_check_for_updates: آزمون به‌روزرسانی
+  label_latest_compatible_version: آخرین نسخه سازگار
+  label_unknown_plugin: افزونه ناشناخته
+  label_add_projects: افزودن پروژه‌ها
+  label_users_visibility_all: همه کاربران فعال
+  label_users_visibility_members_of_visible_projects: اعضای پروژه‌های قابل مشاهده
+  label_edit_attachments: ویرایش پرونده‌های پیوست
+  label_link_copied_issue: پیوند مسائل رونوشت شده
+  label_ask: پرسش
+  label_search_attachments_yes: جستجو در نام پیوست‌ها و توضیحاتشان
+  label_search_attachments_no: پیوست‌ها را جستجو نکن
+  label_search_attachments_only: فقط پیوست‌ها را جستجو کن
+  label_search_open_issues_only: فقط مسائل باز
+  label_email_address_plural: رایانامه‌ها
+  label_email_address_add: افزودن نشانی رایانامه
+  label_enable_notifications: فعال‌سازی آگاه‌سازی
+  label_disable_notifications: غیرفعال‌سازی آگاه‌سازی
+  label_blank_value: خالی
+  label_parent_task_attributes: خصایص مسائل پدر
+  label_parent_task_attributes_derived: محاسبه از زیرمسأله‌ها
+  label_parent_task_attributes_independent: مستقل از زیرمسأله‌ها
+  label_time_entries_visibility_all: همه زمان‌های وارد شده
+  label_time_entries_visibility_own: زمان‌های وارد شده کاربر
+  label_member_management: مدیریت عضو
+  label_member_management_all_roles: همه نقش‌ها
+  label_member_management_selected_roles_only: فقط این نقش‌ها
+  label_import_issues: ورود مسائل
+  label_select_file_to_import: انتخاب پرونده برای وارد کردن
+  label_fields_separator: جداکننده‌ی بخش‌ها
+  label_fields_wrapper: بسته‌بندی بخش‌ها
+  label_encoding: کدگذاری
+  label_comma_char: ویرگول
+  label_semi_colon_char: نقطه ویرگول
+  label_quote_char: نقل قول
+  label_double_quote_char: نقل قول دوتایی
+  label_fields_mapping: نگاشت بخش‌ها
+  label_file_content_preview: نمایش محتویات بخش
+  label_create_missing_values: ساختن مقادیر ناموجود
+  label_api: API
+  label_field_format_enumeration: فهرست کلید/مقدار
+  label_default_values_for_new_users: مقادیر پیش‌فرض برای کاربران جدید
+  label_relations: ارتباطات
+  label_new_project_issue_tab_enabled: نمایش برگه «مسأله جدید»
+  label_new_object_tab_enabled: نمایش منوی "+"
+  label_table_of_contents: فهرست محتویات
+  label_font_default: قلم پیش‌فرض
+  label_font_monospace: قلم یکنواخت
+  label_font_proportional: قلم متناسب
+  label_last_notes: آخرین یادداشت‌ها
 
   button_login: ورود
-  button_submit: ارسال
+  button_submit: ثبت
   button_save: ذخیره
-  button_check_all: گزینش همه
-  button_uncheck_all: گزینش هیچ
-  button_delete: پاک
+  button_check_all: انتخاب همه
+  button_uncheck_all: انتخاب هیچ
+  button_collapse_all: بستن همه
+  button_expand_all: گستردن همه
+  button_delete: حذف
   button_create: ساخت
   button_create_and_continue: ساخت و ادامه
   button_test: آزمایش
   button_edit: ویرایش
-  button_edit_associated_wikipage: "ویرایش صفحه ویکی وابسته: %{page_title}"
+  button_edit_associated_wikipage: "ویرایش صفحه دانش‌نامه مرتبط: %{page_title}"
   button_add: افزودن
   button_change: ویرایش
   button_apply: انجام
   button_clear: پاک
-  button_lock: گذاشتن قفل
-  button_unlock: برداشتن قفل
+  button_lock: قفل‌ کردن
+  button_unlock: باز کردن قفل
   button_download: دریافت
   button_list: فهرست
-  button_view: دیدن
+  button_view: مشاهده
   button_move: جابجایی
   button_move_and_follow: جابجایی و ادامه
-  button_back: برگشت
-  button_cancel: بازگشت
-  button_activate: فعالسازی
-  button_sort: جور کرد
+  button_back: عقب
+  button_cancel: لغو
+  button_activate: فعال‌سازی
+  button_sort: مرتب‌سازی
   button_log_time: زمان‌نویسی
-  button_rollback: برگرد به این نگارش
-  button_watch: دیده‌بانی
-  button_unwatch: نا‌دیده‌بانی
+  button_rollback: عقب‌گرد به این نسخه
+  button_watch: نظارت
+  button_unwatch: لغو نظارت
   button_reply: پاسخ
   button_archive: بایگانی
-  button_unarchive: برگشت از بایگانی
+  button_unarchive: خروج از بایگانی
   button_reset: بازنشانی
-  button_rename: نامگذاری
+  button_rename: نام‌گذاری
   button_change_password: تغییر گذرواژه
   button_copy: رونوشت
   button_copy_and_follow: رونوشت و ادامه
-  button_annotate: یادداشت
-  button_update: بروز رسانی
-  button_configure: پیکربندی
+  button_annotate: حاشیه‌نگاری
+  button_update: به‌روزرسانی
+  button_configure: تنظیمات
   button_quote: نقل قول
-  button_duplicate: نگارش دیگر
+  button_duplicate: تکثیر
   button_show: نمایش
+  button_hide: مخفی‌سازی
+  button_edit_section: ویرایش این بخش
+  button_export: صدور
+  button_delete_my_account: حذف حسابم
+  button_close: بستن
+  button_reopen: بازگشایی
+  button_import: وارد کردن مسائل
+  button_filter: غربال
 
   status_active: فعال
-  status_registered: نام‌نویسی شده
+  status_registered: ثبت‌نام‌شده
   status_locked: قفل
+
+  project_status_active: فعال
+  project_status_closed: بسته
+  project_status_archived: بایگانی‌شده
 
   version_status_open: باز
   version_status_locked: قفل
@@ -831,408 +1099,131 @@ fa:
 
   field_active: فعال
 
-  text_select_mail_notifications: فرمان‌هایی که برای آن‌ها باید ایمیل فرستاده شود را برگزینید.
+  text_select_mail_notifications: عمل‌هایی که برای آن‌ها باید رایانامه فرستاده شود را انتخاب کنید.
   text_regexp_info: برای نمونه ^[A-Z0-9]+$
-  text_min_max_length_info: 0 یعنی بدون کران
-  text_project_destroy_confirmation: آیا براستی می‌خواهید این پروژه و همه داده‌های آن را پاک کنید؟
-  text_subprojects_destroy_warning: "زیرپروژه‌های آن: %{value} هم پاک خواهند شد."
-  text_workflow_edit: یک نقش و یک ردیاب را برای ویرایش گردش کار برگزینید
+  text_min_max_length_info: 0 یعنی نامحدود
+  text_project_destroy_confirmation: آیا واقعاً می‌خواهید این پروژه و همه داده‌های آن را حذف کنید؟
+  text_subprojects_destroy_warning: "زیرپروژه‌های آن: %{value} هم حذف خواهند شد."
+  text_workflow_edit: یک نقش و یک نوع مسأله را برای ویرایش گردش کار انتخاب کنید
   text_are_you_sure: آیا این کار انجام شود؟
-  text_journal_changed: "«%{label}» از «%{old}» به «%{new}» جایگزین شد"
-  text_journal_set_to: "«%{label}» به «%{value}» تغییر یافت"
-  text_journal_deleted: "«%{label}» پاک شد (%{old})"
-  text_journal_added: "«%{label}»، «%{value}» را افزود"
-  text_tip_task_begin_day: روز آغاز مورد
-  text_tip_task_end_day: روز پایان مورد
-  text_tip_task_begin_end_day: روز آغاز و پایان مورد
+  text_journal_changed: "%{label} از «%{old}» به «%{new}» تغییر کرد"
+  text_journal_changed_no_detail: "%{label} به‌روز شد"
+  text_journal_set_to: "%{label} شد «%{value}»"
+  text_journal_deleted: "%{label} حذف شد (%{old})"
+  text_journal_added: "%{label} «%{value}» افزوده شد"
+  text_tip_issue_begin_day: روز آغاز مسأله
+  text_tip_issue_end_day: روز پایان مسأله
+  text_tip_issue_begin_end_day: روز آغاز و پایان مسأله
+  text_project_identifier_info: 'تنها حروف کوچک (a-z)، ارقام، خط تیره (-) و زیرخط (_) مجاز است و باید با یک حرف کوچک شروع شود.<br />پس از ذخیره‌سازی، شناسه نمی‌تواند تغییر کند.'
   text_caracters_maximum: "بیشترین اندازه %{count} است."
-  text_caracters_minimum: "کمترین اندازه %{count} است."
+  text_caracters_minimum: "کم‌ترین اندازه %{count} است."
   text_length_between: "باید میان %{min} و %{max} نویسه باشد."
-  text_tracker_no_workflow: هیچ گردش کاری برای این ردیاب مشخص نشده است
-  text_unallowed_characters: نویسه‌های ناپسند
-  text_comma_separated: چند مقدار پذیرفتنی است (با «,» از هم جدا شوند).
-  text_line_separated: چند مقدار پذیرفتنی است (هر مقدار در یک خط).
-  text_issues_ref_in_commit_messages: نشانه روی و بستن موردها در پیام‌های بایگانی
-  text_issue_added: "مورد %{id} به دست %{author} گزارش شد."
-  text_issue_updated: "مورد %{id} به دست %{author} بروز شد."
-  text_wiki_destroy_confirmation: آیا براستی می‌خواهید این ویکی و همه محتوای آن را پاک کنید؟
-  text_issue_category_destroy_question: "برخی موردها (%{count}) به این دسته بندی واگذار شده‌اند. می‌خواهید چه کنید؟"
-  text_issue_category_destroy_assignments: پاک کردن واگذاریها به دسته بندی موارد
-  text_issue_category_reassign_to: واگذاری دوباره موردها به این دسته بندی
-  text_user_mail_option: "برای پروژه‌های گزینش نشده، تنها ایمیل‌هایی درباره چیزهایی که دیده‌بان یا درگیر آن‌ها هستید دریافت خواهید کرد (مانند موردهایی که نویسنده آن‌ها هستید یا به شما واگذار شده‌اند)."
-  text_no_configuration_data: "نقش‌ها، ردیابها، وضعیت‌های مورد و گردش کار هنوز پیکربندی نشده‌اند. \nبه سختی پیشنهاد می‌شود که پیکربندی پیش‌گزیده را بار کنید. سپس می‌توانید آن را ویرایش کنید."
-  text_load_default_configuration: بارگذاری پیکربندی پیش‌گزیده
-  text_status_changed_by_changeset: "در تغییر %{value} بروز شده است."
+  text_tracker_no_workflow: هیچ گردش کاری برای این نوع مسأله مشخص نشده است
+  text_unallowed_characters: نویسه‌های ممنوع
+  text_comma_separated: چند مقدار مجاز است (با «,» از هم جدا شوند).
+  text_line_separated: چند مقدار مجاز است (هر مقدار در یک خط).
+  text_issues_ref_in_commit_messages: ارجاع به مسأله‌ها و بستن مسأله‌ها در پیام‌های تثبیت
+  text_issue_added: "مسأله %{id} توسط %{author} گزارش شد."
+  text_issue_updated: "مسأله %{id} توسط %{author} به‌روز شد."
+  text_wiki_destroy_confirmation: آیا واقعاً می‌خواهید این دانش‌نامه و همه محتوای آن را حذف کنید؟
+  text_issue_category_destroy_question: "برخی مسأله‌ها (%{count}) به این دسته واگذار شده‌اند. می‌خواهید چه کنید؟"
+  text_issue_category_destroy_assignments: حذف واگذاری به دسته
+  text_issue_category_reassign_to: واگذاری دوباره مسأله‌ها به این دسته
+  text_user_mail_option: "برای پروژه‌های انتخاب‌نشده، تنها رایانامه‌هایی درباره چیزهایی که ناظر یا درگیر آن‌ها هستید دریافت خواهید کرد (مانند مسأله‌هایی که نویسنده یا مسئول آن‌ها هستید)."
+  text_no_configuration_data: "نقش‌ها، انواع مسأله‌ها، وضعیت‌های مسأله و گردش کار هنوز تنظیمات نشده‌اند. \nبه سختی پیشنهاد می‌شود که تنظیمات پیش‌فرض را بار کنید. سپس می‌توانید آن را ویرایش کنید."
+  text_load_default_configuration: بارگذاری تنظیمات پیش‌فرض
+  text_status_changed_by_changeset: "در تغییر %{value} به‌روزشده است."
   text_time_logged_by_changeset: "در تغییر %{value} نوشته شده است."
-  text_issues_destroy_confirmation: 'آیا براستی می‌خواهید موردهای گزینش شده را پاک کنید؟'
-  text_select_project_modules: 'پودمان هایی که باید برای این پروژه فعال شوند را برگزینید:'
-  text_default_administrator_account_changed: حساب مدیریت پیش‌گزیده جایگزین شد
+  text_issues_destroy_confirmation: 'آیا مطمئن هستید که می‌خواهید مسأله‌های انتخاب‌شده را حذف کنید؟'
+  text_issues_destroy_descendants_confirmation: این همچنین %{count} زیرکار را حذف خواهد کرد.
+  text_time_entries_destroy_confirmation: آیا مطمئنید که می‌خواهید ورودی(های) زمان انتخاب‌شده را حذف کنید؟
+  text_select_project_modules: 'ابزارهایی که باید برای این پروژه فعال شوند را انتخاب کنید:'
+  text_default_administrator_account_changed: حساب راه‌بری پیش‌فرض تغییر کرده است
   text_file_repository_writable: پوشه پیوست‌ها نوشتنی است
   text_plugin_assets_writable: پوشه دارایی‌های افزونه‌ها نوشتنی است
-  text_rmagick_available: RMagick در دسترس است (اختیاری)
-  text_destroy_time_entries_question: "%{hours} ساعت روی موردهایی که می‌خواهید پاک کنید کار گزارش شده است. می‌خواهید چه کنید؟"
-  text_destroy_time_entries: ساعت‌های گزارش شده پاک شوند
+  text_rmagick_available: RMagick در دست‌رس است (اختیاری)
+  text_convert_available: ImageMagick convert در دست‌رس است (اختیاری)
+  text_destroy_time_entries_question: "%{hours} ساعت روی مسأله‌هایی که می‌خواهید حذف کنید کار گزارش شده است. می‌خواهید چه کنید؟"
+  text_destroy_time_entries: ساعت‌های گزارش شده حذف شوند
   text_assign_time_entries_to_project: ساعت‌های گزارش شده به پروژه واگذار شوند
-  text_reassign_time_entries: 'ساعت‌های گزارش شده به این مورد واگذار شوند:'
+  text_reassign_time_entries: 'ساعت‌های گزارش شده به این مسأله واگذار شوند:'
   text_user_wrote: "%{value} نوشت:"
-  text_enumeration_destroy_question: "%{count} داده به این برشمردنی وابسته شده‌اند."
-  text_enumeration_category_reassign_to: 'به این برشمردنی وابسته شوند:'
-  text_email_delivery_not_configured: "دریافت ایمیل پیکربندی نشده است و آگاه‌سازی‌ها غیر فعال هستند.\nکارگزار SMTP خود را در config/configuration.yml پیکربندی کنید و برنامه را بازنشانی کنید تا فعال شوند."
-  text_repository_usernames_mapping: "کاربر Redmine که به هر نام کاربری پیام‌های بایگانی نگاشت می‌شود را برگزینید.\nکاربرانی که نام کاربری یا ایمیل همسان دارند، خود به خود نگاشت می‌شوند."
+  text_enumeration_destroy_question: "%{count} مورد از مقدار «%{name}» استفاده کرده‌اند."
+  text_enumeration_category_reassign_to: 'به این مقدار تغییر کنند:'
+  text_email_delivery_not_configured: "دریافت رایانامه تنظیمات نشده است و آگاه‌سازی‌ها غیر فعال هستند.\nکارگزار SMTP خود را در config/email.yml تنظیمات کنید و برنامه را بازنشانی کنید تا فعال شوند."
+  text_repository_usernames_mapping: "حساب کاربری پی‌گیری که به هر نام کاربری مورد استفاده در پیام‌های تثبیت نگاشته می‌شود را انتخاب کنید.\nکاربرانی که نام کاربری یا رایانامه همسان دارند، خود به خود نگاشت می‌شوند."
   text_diff_truncated: '... این تفاوت بریده شده چون بیشتر از بیشترین اندازه نمایش دادنی است.'
   text_custom_field_possible_values_info: 'یک خط برای هر مقدار'
   text_wiki_page_destroy_question: "این صفحه %{descendants} زیرصفحه دارد.می‌خواهید چه کنید؟"
   text_wiki_page_nullify_children: "زیرصفحه‌ها صفحه ریشه شوند"
-  text_wiki_page_destroy_children: "زیرصفحه‌ها و زیرصفحه‌های آن‌ها پاک شوند"
-  text_wiki_page_reassign_children: "زیرصفحه‌ها به زیر این صفحه پدر بروند"
-  text_own_membership_delete_confirmation: "شما دارید برخی یا همه مجوز‌های خود را برمی‌دارید و شاید پس از این دیگر نتوانید این پروژه را ویرایش کنید.\nآیا می‌خواهید این کار را بکنید؟"
-  text_zoom_in: درشتنمایی
-  text_zoom_out: ریزنمایی
+  text_wiki_page_destroy_children: "زیرصفحه‌ها و زیرصفحه‌های آن‌ها حذف شوند"
+  text_wiki_page_reassign_children: "زیرصفحه‌ها به زیر این صفحه پدر منتقل شوند"
+  text_own_membership_delete_confirmation: "شما دارید برخی یا همه دست‌رسی‌های خود را برمی‌دارید و شاید پس از این دیگر نتوانید این پروژه را ویرایش کنید.\nآیا می‌خواهید این کار را بکنید؟"
+  text_zoom_in: بزرگ‌نمایی
+  text_zoom_out: کوچک‌نمایی
+  text_warn_on_leaving_unsaved: این صفحه حاوی متنی ذخیره‌نشده است که در صورت خروج شما، از دست خواهد رفت.
+  text_scm_path_encoding_note: "پیش‌فرض: UTF-8"
+  text_subversion_repository_note: "مثال‌ها: file:///, http://, https://, svn://, svn+[tunnelscheme]://"
+  text_git_repository_note: مخزن محلی ساده (مثل ‎/gitrepo, c:\gitrepo)
+  text_mercurial_repository_note: مخزن محلی (مثل ‎/hgrepo, c:\hgrepo)
+  text_scm_command: دستور
+  text_scm_command_version: نسخه
+  text_scm_config: می‌توانید SCM خود را در config/configuration.yml پیکربندی کنید. لطفاً برنامه را بعد از ویرایش آن بازآغاز نمایید.
+  text_scm_command_not_available: دستور SCM در دست‌رس نیست. لطفاً تنظیمات را در صفحه راه‌بری بررسی نمایید.
+  text_issue_conflict_resolution_overwrite: "تغییرات من را به هر حال اعمال کن (یادداشت‌های قبلی حفظ می‌شوند ولی بعضی تغییرات بازنویسی می‌گردند)"
+  text_issue_conflict_resolution_add_notes: "یادداشت‌های من را اضافه کن و بقیه تغییراتم را دور بریز"
+  text_issue_conflict_resolution_cancel: "همه تغییراتم را دور بریز و پیوند %{link} را دوباره نمایش بده"
+  text_account_destroy_confirmation: "آیا مطمئن هستید که می‌خواهید پیش بروید?\nحساب شما به طور دائمی حذف می‌شود، بدون هر گونه راه فعال‌سازی مجددش."
+  text_session_expiration_settings: "هشدار: تغییر این تنظیمات ممکن است نشست‌های جاری را منقضی کند، از جمله نشست شما را."
+  text_project_closed: این پروژه بسته و فقط‌خواندنی است.
+  text_turning_multiple_off: "اگر چند مقدار را غیرفعال کنید چند مقدار حذف خواهد شد تا فقط یک مقدار در هر مورد باقی بماند."
 
-  default_role_manager: مدیر سایت
+  default_role_manager: مدیر
   default_role_developer: برنامه‌نویس
   default_role_reporter: گزارش‌دهنده
   default_tracker_bug: ایراد
-  default_tracker_feature: ویژگی
+  default_tracker_feature: قابلیت
   default_tracker_support: پشتیبانی
   default_issue_status_new: جدید
-  default_issue_status_in_progress: در گردش
-  default_issue_status_resolved: درست شده
+  default_issue_status_in_progress: در حال انجام
+  default_issue_status_resolved: حل‌شده
   default_issue_status_feedback: بازخورد
   default_issue_status_closed: بسته
-  default_issue_status_rejected: برگشت خورده
-  default_doc_category_user: مستندات کاربر
-  default_doc_category_tech: مستندات فنی
-  default_priority_low: پایین
-  default_priority_normal: میانه
-  default_priority_high: بالا
-  default_priority_urgent: زود
-  default_priority_immediate: بیدرنگ
+  default_issue_status_rejected: ردشده
+  default_doc_category_user: سند کاربری
+  default_doc_category_tech: سند فنی
+  default_priority_low: کم
+  default_priority_normal: معمولی
+  default_priority_high: زیاد
+  default_priority_urgent: فوری
+  default_priority_immediate: بی‌درنگ
   default_activity_design: طراحی
-  default_activity_development: ساخت
+  default_activity_development: توسعه
 
-  enumeration_issue_priorities: اولویت‌های مورد
-  enumeration_doc_categories: دسته بندی‌های مستندات
-  enumeration_activities: فعالیت ها (پیگیری زمان)
-  enumeration_system_activity: فعالیت سیستمی
+  enumeration_issue_priorities: اولویت‌های مسأله
+  enumeration_doc_categories: دسته‌بندی اسناد
+  enumeration_activities: دسته‌بندی زمان‌ها
+  enumeration_system_activity: تابع پیش‌فرض‌های سامانه
+  description_filter: غربال
+  description_search: بخش جست‌وجو
+  description_choose_project: پروژه‌ها
+  description_project_scope: حوزه جست‌وجو
+  description_notes: یادداشت‌ها
+  description_message_content: محتوای پیغام‌ها
+  description_query_sort_criteria_attribute: خصوصیت مرتب‌سازی
+  description_query_sort_criteria_direction: جهت مرتب‌سازی
+  description_user_mail_notification: تنظیمات آگاه‌سازی رایانامه‌ای
+  description_available_columns: ستون‌های موجود
+  description_selected_columns: ستون‌های منتخب
+  description_all_columns: همه ستون‌ها
+  description_issue_category_reassign: انتخاب دسته مسأله
+  description_wiki_subpages_reassign: انتخاب صفحه پدر جدید
+  text_repository_identifier_info: 'تنها حروف کوچک (a-z)، ارقام، خط تیره (-) و زیرخط (_) مجاز است و باید با یک حرف کوچک شروع شود.<br />پس از ذخیره‌سازی، شناسه نمی‌تواند تغییر کند.'
+  description_date_range_list: انتخاب بازه از فهرست
+  description_date_range_interval: انتخاب بازه با انتخاب تاریخ شروع و پایان
+  description_date_from: تاریخ شروع را وارد کنید
+  description_date_to: تاریخ پایان را وارد کنید
+  label_peygir_times: زمان‌ها
 
-  text_tip_issue_begin_day: مورد در این روز آغاز می‌شود
-  field_warn_on_leaving_unsaved: هنگام ترک صفحه‌ای که نوشته‌های آن ذخیره نشده، به من هشدار بده
-  text_tip_issue_begin_end_day: مورد در این روز آغاز می‌شود و پایان می‌پذیرد
-  text_tip_issue_end_day: مورد در این روز پایان می‌پذیرد
-  text_warn_on_leaving_unsaved: این صفحه دارای نوشته‌های ذخیره نشده است که اگر آن را ترک کنید، از میان می‌روند.
-  label_my_queries: جستارهای سفارشی خودم
-  text_journal_changed_no_detail: "%{label} بروز شد"
-  label_news_comment_added: نظر شخصی به مجموعه اخبار افزوده شد
-  button_expand_all: باز کردن همه
-  button_collapse_all: بستن همه
-  label_additional_workflow_transitions_for_assignee: زمانی که به فرد مسئول، گذارهای بیشتر پذیرفته می‌شود
-  label_additional_workflow_transitions_for_author: زمانی که کاربر نویسنده است، گذارهای بیشتر پذیرفته می‌شود
-  label_bulk_edit_selected_time_entries: ویرایش گروهی زمان‌های گزارش شده گزینش شده
-  text_time_entries_destroy_confirmation: آیا می‌خواهید زمان‌های گزارش شده گزینش شده پاک شوند؟
-  label_role_anonymous: ناشناس
-  label_role_non_member: غیر همکار
-  label_issue_note_added: یادداشت افزوده شد
-  label_issue_status_updated: وضعیت بروز شد
-  label_issue_priority_updated: اولویت بروز شد
-  label_issues_visibility_own: موردهای ایجاد شده تو سط خود کاربر و یا محول شده به وی
-  field_issues_visibility: امکان مشاهده موارد
-  label_issues_visibility_all: همه موارد
-  permission_set_own_issues_private: اجازه دارد موردهای خود را خصوصی یا عمومی نماید
-  field_is_private: خصوصی
-  permission_set_issues_private: اجازه دارد موردها را خصوصی یا عمومی نماید
-  label_issues_visibility_public: همه موردهای غیر خصوصی
-  text_issues_destroy_descendants_confirmation: This will also delete %{count} subtask(s).
-  field_commit_logs_encoding: کدگذاری پیام‌های بایگانی
-  field_scm_path_encoding: Path encoding نحوه کدگذاری مسیر یا
-  text_scm_path_encoding_note: "Default: UTF-8"
-  field_path_to_repository: مسیر بایگانی
-  field_root_directory: Root directory
-  field_cvs_module: Module
-  field_cvsroot: CVSROOT
-  text_mercurial_repository_note: Local repository (e.g. /hgrepo, c:\hgrepo)
-  text_scm_command: Command
-  text_scm_command_version: Version
-  label_git_report_last_commit: Report last commit for files and directories
-  notice_issue_successful_create: Issue %{id} created.
-  label_between: between
-  setting_issue_group_assignment: Allow issue assignment to groups
-  label_diff: diff
-  text_git_repository_note: Repository is bare and local (e.g. /gitrepo, c:\gitrepo)
-  description_query_sort_criteria_direction: Sort direction
-  description_project_scope: Search scope
-  description_filter: Filter
-  description_user_mail_notification: Mail notification settings
-  description_message_content: Message content
-  description_available_columns: Available Columns
-  description_issue_category_reassign: Choose issue category
-  description_search: Searchfield
-  description_notes: Notes
-  description_choose_project: Projects
-  description_query_sort_criteria_attribute: Sort attribute
-  description_wiki_subpages_reassign: Choose new parent page
-  description_selected_columns: Selected Columns
-  label_parent_revision: Parent
-  label_child_revision: Child
-  error_scm_annotate_big_text_file: The entry cannot be annotated, as it exceeds the maximum text file size.
-  setting_default_issue_start_date_to_creation_date: Use current date as start date for new issues
-  button_edit_section: Edit this section
-  setting_repositories_encodings: Attachments and repositories encodings
-  description_all_columns: All Columns
-  button_export: Export
-  label_export_options: "%{export_format} export options"
-  error_attachment_too_big: This file cannot be uploaded because it exceeds the maximum allowed file size (%{max_size})
-  notice_failed_to_save_time_entries: "Failed to save %{count} time entrie(s) on %{total} selected: %{ids}."
-  label_x_issues:
-    zero:  0 مورد
-    one:   1 مورد
-    other: "%{count} مورد"
-  label_repository_new: بایگانی جدید
-  field_repository_is_default: بایگانی پیش گزیده
-  label_copy_attachments: Copy attachments
-  label_item_position: "%{position}/%{count}"
-  label_completed_versions: Completed versions
-  text_project_identifier_info: Only lower case letters (a-z), numbers, dashes and underscores are allowed.<br />Once saved, the identifier cannot be changed.
-  field_multiple: Multiple values
-  setting_commit_cross_project_ref: Allow issues of all the other projects to be referenced and fixed
-  text_issue_conflict_resolution_add_notes: Add my notes and discard my other changes
-  text_issue_conflict_resolution_overwrite: Apply my changes anyway (previous notes will be kept but some changes may be overwritten)
-  notice_issue_update_conflict: The issue has been updated by an other user while you were editing it.
-  text_issue_conflict_resolution_cancel: Discard all my changes and redisplay %{link}
-  permission_manage_related_issues: Manage related issues
-  field_auth_source_ldap_filter: LDAP filter
-  label_search_for_watchers: Search for watchers to add
-  notice_account_deleted: Your account has been permanently deleted.
-  setting_unsubscribe: Allow users to delete their own account
-  button_delete_my_account: Delete my account
-  text_account_destroy_confirmation: |-
-    Are you sure you want to proceed?
-    Your account will be permanently deleted, with no way to reactivate it.
-  error_session_expired: .مهلت اعتبار ارتباط شما با سایت پایان یافته، لطفا دوباره وارد شوید
-  text_session_expiration_settings: "اخطار: تغییر در این تنظیمات ممکن است منجر به انقضای اعتبار جلسات افراد از جمله خود شما شود"
-  setting_session_lifetime: حداکثر زمان حفظ برقراری ارتباط با سایت
-  setting_session_timeout: مدت زمان ارتباط بدون فعالیت
-  label_session_expiration: انقضای ارتباط با سایت
-  permission_close_project: باز یا بستن پروژه
-  label_show_closed_projects: نمایش پروژه های بسته شده
-  button_close: Close
-  button_reopen: Reopen
-  project_status_active: active
-  project_status_closed: closed
-  project_status_archived: archived
-  text_project_closed: This project is closed and read-only.
-  notice_user_successful_create: User %{id} created.
-  field_core_fields: Standard fields
-  field_timeout: Timeout (in seconds)
-  setting_thumbnails_enabled: Display attachment thumbnails
-  setting_thumbnails_size: Thumbnails size (in pixels)
-  label_status_transitions: نحوه تغییر وضعیت مورد
-  label_fields_permissions: مجوز فیلدها
-  label_readonly: فقط خواندنی
-  label_required: الزامی
-  text_repository_identifier_info: Only lower case letters (a-z), numbers, dashes and underscores are allowed.<br />Once saved, the identifier cannot be changed.
-  field_board_parent: Parent forum
-  label_attribute_of_project: از فرم پروژه -- %{name}
-  label_attribute_of_author: از فرم نویسنده -- %{name}
-  label_attribute_of_assigned_to: از فرم فرد مسئول -- %{name}
-  label_attribute_of_fixed_version: از فرم نگارش -- %{name}
-  label_copy_subtasks: Copy subtasks
-  label_copied_to: مواردی که کپی شده اند به
-  label_copied_from: مواردی که کپی شده اند از
-  label_any_issues_in_project: کلیه مواردی که در این پروژه باشند
-  label_any_issues_not_in_project: کلیه مواردی که در این پروژه نباشند
-  field_private_notes: یادداشت های خصوصی
-  permission_view_private_notes: مشاهده یادداشت های خصوصی
-  permission_set_notes_private: می تواند یادداشت ها را خصوصی کند
-  label_no_issues_in_project: هیچ موردی در این پروژه وجود نداشته باشد
-  label_any: همه
-  label_last_n_weeks: هفته اخیر %{count}
-  setting_cross_project_subtasks: مجوز تعریف فعالیت های بین پروژه ای
-  label_cross_project_descendants: با زیر پروژه‌ها
-  label_cross_project_tree: با درخت پروژه
-  label_cross_project_hierarchy: با رشته پروژه‌ها
-  label_cross_project_system: با همه پروژه‌ها
-  button_hide: Hide
-  setting_non_working_week_days: روزهای غیرکاری
-  label_in_the_next_days: در روزهای بعد
-  label_in_the_past_days: در روزهای گذشته
-  label_attribute_of_user: User's %{name}
-  text_turning_multiple_off: If you disable multiple values, multiple values will be
-    removed in order to preserve only one value per item.
-  label_attribute_of_issue: Issue's %{name}
-  permission_add_documents: Add documents
-  permission_edit_documents: Edit documents
-  permission_delete_documents: Delete documents
-  label_gantt_progress_line: Progress line
-  setting_jsonp_enabled: Enable JSONP support
-  field_inherit_members: همکاران هم بصورت موروثی منتقل شوند
-  field_closed_on: Closed
-  field_generate_password: Generate password
-  setting_default_projects_tracker_ids: Default trackers for new projects
-  label_total_time: کل زمان
-  text_scm_config: You can configure your SCM commands in config/configuration.yml. Please restart the application after editing it.
-  text_scm_command_not_available: SCM command is not available. Please check settings on the administration panel.
-  notice_account_not_activated_yet: You haven't activated your account yet. If you want
-    to receive a new activation email, please <a href="%{url}">click this link</a>.
-  notice_account_locked: Your account is locked.
-  label_hidden: Hidden
-  label_visibility_private: to me only
-  label_visibility_roles: to these roles only
-  label_visibility_public: to any users
-  field_must_change_passwd: Must change password at next logon
-  notice_new_password_must_be_different: The new password must be different from the
-    current password
-  setting_mail_handler_excluded_filenames: Exclude attachments by name
-  text_convert_available: ImageMagick convert available (optional)
-  label_link: Link
-  label_only: only
-  label_drop_down_list: drop-down list
-  label_checkboxes: checkboxes
-  label_link_values_to: Link values to URL
-  setting_force_default_language_for_anonymous: Force default language for anonymous
-    users
-  setting_force_default_language_for_loggedin: Force default language for logged-in
-    users
-  label_custom_field_select_type: Select the type of object to which the custom field
-    is to be attached
-  label_issue_assigned_to_updated: Assignee updated
-  label_check_for_updates: Check for updates
-  label_latest_compatible_version: Latest compatible version
-  label_unknown_plugin: Unknown plugin
-  label_radio_buttons: radio buttons
-  label_group_anonymous: Anonymous users
-  label_group_non_member: Non member users
-  label_add_projects: Add projects
-  field_default_status: Default status
-  text_subversion_repository_note: 'Examples: file:///, http://, https://, svn://, svn+[tunnelscheme]://'
-  field_users_visibility: Users visibility
-  label_users_visibility_all: All active users
-  label_users_visibility_members_of_visible_projects: Members of visible projects
-  label_edit_attachments: Edit attached files
-  setting_link_copied_issue: Link issues on copy
-  label_link_copied_issue: Link copied issue
-  label_ask: Ask
-  label_search_attachments_yes: Search attachment filenames and descriptions
-  label_search_attachments_no: Do not search attachments
-  label_search_attachments_only: Search attachments only
-  label_search_open_issues_only: Open issues only
-  field_address: ایمیل
-  setting_max_additional_emails: Maximum number of additional email addresses
-  label_email_address_plural: Emails
-  label_email_address_add: Add email address
-  label_enable_notifications: Enable notifications
-  label_disable_notifications: Disable notifications
-  setting_search_results_per_page: Search results per page
-  label_blank_value: blank
-  permission_copy_issues: Copy issues
-  error_password_expired: Your password has expired or the administrator requires you
-    to change it.
-  field_time_entries_visibility: Time logs visibility
-  setting_password_max_age: Require password change after
-  label_parent_task_attributes: Parent tasks attributes
-  label_parent_task_attributes_derived: Calculated from subtasks
-  label_parent_task_attributes_independent: Independent of subtasks
-  label_time_entries_visibility_all: All time entries
-  label_time_entries_visibility_own: Time entries created by the user
-  label_member_management: Member management
-  label_member_management_all_roles: All roles
-  label_member_management_selected_roles_only: Only these roles
-  label_password_required: Confirm your password to continue
-  label_total_spent_time: زمان صرف شده روی هم
-  notice_import_finished: "%{count} items have been imported"
-  notice_import_finished_with_errors: "%{count} out of %{total} items could not be imported"
-  error_invalid_file_encoding: The file is not a valid %{encoding} encoded file
-  error_invalid_csv_file_or_settings: The file is not a CSV file or does not match the
-    settings below
-  error_can_not_read_import_file: An error occurred while reading the file to import
-  permission_import_issues: Import issues
-  label_import_issues: Import issues
-  label_select_file_to_import: Select the file to import
-  label_fields_separator: Field separator
-  label_fields_wrapper: Field wrapper
-  label_encoding: Encoding
-  label_comma_char: Comma
-  label_semi_colon_char: Semicolon
-  label_quote_char: Quote
-  label_double_quote_char: Double quote
-  label_fields_mapping: Fields mapping
-  label_file_content_preview: File content preview
-  label_create_missing_values: Create missing values
-  button_import: Import
-  field_total_estimated_hours: Total estimated time
-  label_api: API
-  label_total_plural: Totals
-  label_assigned_issues: Assigned issues
-  label_field_format_enumeration: Key/value list
-  label_f_hour_short: '%{value} h'
-  field_default_version: Default version
-  error_attachment_extension_not_allowed: Attachment extension %{extension} is not allowed
-  setting_attachment_extensions_allowed: Allowed extensions
-  setting_attachment_extensions_denied: Disallowed extensions
-  label_any_open_issues: any open issues
-  label_no_open_issues: no open issues
-  label_default_values_for_new_users: Default values for new users
-  error_ldap_bind_credentials: Invalid LDAP Account/Password
-  setting_sys_api_key: کلید API
-  setting_lost_password: بازیافت گذرواژه
-  mail_subject_security_notification: Security notification
-  mail_body_security_notification_change: ! '%{field} was changed.'
-  mail_body_security_notification_change_to: ! '%{field} was changed to %{value}.'
-  mail_body_security_notification_add: ! '%{field} %{value} was added.'
-  mail_body_security_notification_remove: ! '%{field} %{value} was removed.'
-  mail_body_security_notification_notify_enabled: Email address %{value} now receives
-    notifications.
-  mail_body_security_notification_notify_disabled: Email address %{value} no longer
-    receives notifications.
-  mail_body_settings_updated: ! 'The following settings were changed:'
-  field_remote_ip: IP address
-  label_wiki_page_new: New wiki page
-  label_relations: Relations
-  button_filter: Filter
-  mail_body_password_updated: Your password has been changed.
-  label_no_preview: No preview available
-  error_no_tracker_allowed_for_new_issue_in_project: The project doesn't have any trackers
-    for which you can create an issue
-  label_tracker_all: All trackers
-  label_new_project_issue_tab_enabled: Display the "New issue" tab
-  setting_new_item_menu_tab: Project menu tab for creating new objects
-  label_new_object_tab_enabled: Display the "+" drop-down
-  error_no_projects_with_tracker_allowed_for_new_issue: There are no projects with trackers
-    for which you can create an issue
-  field_textarea_font: Font used for text areas
-  label_font_default: Default font
-  label_font_monospace: Monospaced font
-  label_font_proportional: Proportional font
-  setting_timespan_format: Time span format
-  label_table_of_contents: Table of contents
-  setting_commit_logs_formatting: Apply text formatting to commit messages
-  setting_mail_handler_enable_regex: Enable regular expressions
-  error_move_of_child_not_possible: 'Subtask %{child} could not be moved to the new
-    project: %{errors}'
-  error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: Spent time cannot
-    be reassigned to an issue that is about to be deleted
-  setting_timelog_required_fields: Required fields for time logs
-  label_attribute_of_object: '%{object_name}''s %{name}'
-  label_user_mail_option_only_assigned: Only for things I watch or I am assigned to
-  label_user_mail_option_only_owner: Only for things I watch or I am the owner of
-  warning_fields_cleared_on_bulk_edit: Changes will result in the automatic deletion
-    of values from one or more fields on the selected objects
-  field_updated_by: Updated by
-  field_last_updated_by: Last updated by
-  field_full_width_layout: Full width layout
-  label_last_notes: Last notes
-  field_digest: Checksum
-  field_default_assigned_to: Default assignee
-  setting_show_custom_fields_on_registration: Show custom fields on registration
-  permission_view_news: View news
-  label_no_preview_alternative_html: No preview available. %{link} the file instead.
-  label_no_preview_download: Download
-  setting_close_duplicate_issues: Close duplicate issues automatically
-  error_exceeds_maximum_hours_per_day: Cannot log more than %{max_hours} hours on the
-    same day (%{logged_hours} hours have already been logged)
-  setting_time_entry_list_defaults: Timelog list defaults
-  setting_timelog_accept_0_hours: Accept time logs with 0 hours
-  setting_timelog_max_hours_per_day: Maximum hours that can be logged per day and user
-  label_x_revisions: "%{count} revisions"
-  error_can_not_delete_auth_source: This authentication mode is in use and cannot be
-    deleted.
+  enable_analytics: فعال‌سازی تجزیه و تحلیل آماری
+  ok_submit: باشه
