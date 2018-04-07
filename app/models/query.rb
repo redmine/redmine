@@ -319,9 +319,10 @@ class Query < ActiveRecord::Base
           " INNER JOIN #{table_name_prefix}queries_roles#{table_name_suffix} qr on qr.query_id = q.id" +
           " INNER JOIN #{MemberRole.table_name} mr ON mr.role_id = qr.role_id" +
           " INNER JOIN #{Member.table_name} m ON m.id = mr.member_id AND m.user_id = ?" +
+          " INNER JOIN #{Project.table_name} p ON p.id = m.project_id AND p.status <> ?" +
           " WHERE q.project_id IS NULL OR q.project_id = m.project_id))" +
         " OR #{table_name}.user_id = ?",
-        VISIBILITY_PUBLIC, VISIBILITY_ROLES, user.id, user.id)
+        VISIBILITY_PUBLIC, VISIBILITY_ROLES, user.id, Project::STATUS_ARCHIVED, user.id)
     elsif user.logged?
       scope.where("#{table_name}.visibility = ? OR #{table_name}.user_id = ?", VISIBILITY_PUBLIC, user.id)
     else
@@ -340,7 +341,7 @@ class Query < ActiveRecord::Base
       if project
         (user.roles_for_project(project) & roles).any?
       else
-        Member.where(:user_id => user.id).joins(:roles).where(:member_roles => {:role_id => roles.map(&:id)}).any?
+        user.memberships.joins(:member_roles).where(:member_roles => {:role_id => roles.map(&:id)}).any?
       end
     else
       user == self.user

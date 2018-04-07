@@ -1790,6 +1790,11 @@ class QueryTest < ActiveSupport::TestCase
 
     assert q.visible?(User.find(1))
     assert IssueQuery.visible(User.find(1)).find_by_id(q.id)
+
+    # Should ignore archived project memberships
+    Project.find(1).archive
+    assert !q.visible?(User.find(3))
+    assert_nil IssueQuery.visible(User.find(3)).find_by_id(q.id)
   end
 
   def test_query_with_private_visibility_should_be_visible_to_owner
