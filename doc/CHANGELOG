@@ -4,6 +4,49 @@ Redmine - project management software
 Copyright (C) 2006-2017  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2018-04-07 v3.3.7
+
+=== [Custom fields]
+
+* Defect #28393: Sort issue custom fields by position in tracker UI
+
+=== [Email notifications]
+
+* Defect #28302: Security notification when changing password on password forgotten is empty
+
+=== [Gantt]
+
+* Defect #28204: Too large avatar breaks gantt when assignee is a group
+
+=== [Issues]
+
+* Defect #27862: Preformatted text overflows in preview
+* Patch #28168: Allow context-menu edit of % done and priority of parent issues if the fields are not derived
+
+=== [Security]
+
+* Defect #26857: Fix for CVE-2015-9251 in JQuery 1.11.1
+
+=== [Text formatting]
+
+* Defect #27884: RTL wiki class broken in Redmine 3.2.6
+* Defect #28331: h4, h5 and h6 headings on wiki pages should have a paragraph mark
+* Patch #28119: Enable lax_spacing for markdown formatting in order to allow markdown blocks not surrounded by empty lines
+
+=== [Translations]
+
+* Defect #28109: Incorrect interpolation in Swedish locale
+* Patch #27994: Galician translation update (jstoolbar-gl.js)
+* Patch #28102: Fix typo in Lithuanian label_version_sharing_tree
+
+=== [UI]
+
+* Defect #28208: Anonymous icon is wrongly displayed when assignee is a group
+
+=== [Wiki]
+
+* Defect #25299: Markdown pre-block could derive incorrect wiki sections
+
 == 2018-01-08 v3.3.6
 
 === [Administration]
