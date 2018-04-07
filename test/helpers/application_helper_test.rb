@@ -1286,25 +1286,63 @@ RAW
     end
   end
 
-  def test_avatar_enabled
+  def test_avatar_with_user
     with_settings :gravatar_enabled => '1' do
-      assert avatar(User.find_by_mail('jsmith@somenet.foo')).include?(Digest::MD5.hexdigest('jsmith@somenet.foo'))
-      assert avatar('jsmith <jsmith@somenet.foo>').include?(Digest::MD5.hexdigest('jsmith@somenet.foo'))
-      # Default size is 50
-      assert avatar('jsmith <jsmith@somenet.foo>').include?('size=50')
-      assert avatar('jsmith <jsmith@somenet.foo>', :size => 24).include?('size=24')
-      # Non-avatar options should be considered html options
-      assert avatar('jsmith <jsmith@somenet.foo>', :title => 'John Smith').include?('title="John Smith"')
-      # The default class of the img tag should be gravatar
-      assert avatar('jsmith <jsmith@somenet.foo>').include?('class="gravatar"')
-      assert !avatar('jsmith <jsmith@somenet.foo>', :class => 'picture').include?('class="gravatar"')
+      assert_include Digest::MD5.hexdigest('jsmith@somenet.foo'), avatar(User.find_by_mail('jsmith@somenet.foo'))
+    end
+  end
+
+  def test_avatar_with_email_string
+    with_settings :gravatar_enabled => '1' do
+      assert_include Digest::MD5.hexdigest('jsmith@somenet.foo'), avatar('jsmith <jsmith@somenet.foo>')
+    end
+  end
+
+  def test_avatar_with_anonymous_user
+    with_settings :gravatar_enabled => '1' do
+      assert_match %r{src="/images/anonymous.png(\?\d+)?"}, avatar(User.anonymous)
+    end
+  end
+
+  def test_avatar_with_group
+    with_settings :gravatar_enabled => '1' do
+      assert_nil avatar(Group.first)
+    end
+  end
+
+  def test_avatar_with_invalid_arg_should_return_nil
+    with_settings :gravatar_enabled => '1' do
       assert_nil avatar('jsmith')
       assert_nil avatar(nil)
-      # Avatar for anonymous user
-      assert_match %r{src="/images/anonymous.png(\?\d+)?"}, avatar(User.anonymous)
-      # No avatar for groups
-      assert_nil avatar(Group.first)
-      assert avatar(User.anonymous, :size => 24).include?('width="24" height="24"')
+    end
+  end
+
+  def test_avatar_default_size_should_be_50
+    with_settings :gravatar_enabled => '1' do
+      assert_include 'size=50', avatar('jsmith <jsmith@somenet.foo>')
+    end
+  end
+
+  def test_avatar_with_size_option
+    with_settings :gravatar_enabled => '1' do
+      assert_include 'size=24', avatar('jsmith <jsmith@somenet.foo>', :size => 24)
+      assert_include 'width="24" height="24"', avatar(User.anonymous, :size => 24)
+    end
+  end
+
+  def test_avatar_with_html_option
+    with_settings :gravatar_enabled => '1' do
+      # Non-avatar options should be considered html options
+      assert_include 'title="John Smith"', avatar('jsmith <jsmith@somenet.foo>', :title => 'John Smith')
+    end
+  end
+
+  def test_avatar_css_class
+    with_settings :gravatar_enabled => '1' do
+      # The default class of the img tag should be gravatar
+      assert_include 'class="gravatar"', avatar('jsmith <jsmith@somenet.foo>')
+      assert_not_include 'class="gravatar"', avatar('jsmith <jsmith@somenet.foo>', :class => 'picture')
+      assert_include 'class="picture"', avatar('jsmith <jsmith@somenet.foo>', :class => 'picture')
     end
   end
 
