@@ -1742,9 +1742,29 @@ class QueryTest < ActiveSupport::TestCase
     assert q.editable_by?(admin)
     assert !q.editable_by?(manager)
     assert q.editable_by?(developer)
+  end
 
-    # Public query for all projects
+  def test_editable_by_for_global_query
+    admin = User.find(1)
+    manager = User.find(2)
+    developer = User.find(3)
+
     q = IssueQuery.find(4)
+    q.project = Project.find(1)
+
+    assert q.editable_by?(admin)
+    assert !q.editable_by?(manager)
+    assert !q.editable_by?(developer)
+  end
+
+  def test_editable_by_for_global_query_with_project_set
+    admin = User.find(1)
+    manager = User.find(2)
+    developer = User.find(3)
+
+    q = IssueQuery.find(4)
+    q.project = Project.find(1)
+
     assert q.editable_by?(admin)
     assert !q.editable_by?(manager)
     assert !q.editable_by?(developer)

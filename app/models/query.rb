@@ -356,13 +356,13 @@ class Query < ActiveRecord::Base
     !is_private?
   end
 
-  def queried_table_name
-    @queried_table_name ||= self.class.queried_class.table_name
+  # Returns true if the query is available for all projects
+  def is_global?
+    new_record? ? project_id.nil? : project_id_in_database.nil?
   end
 
-  def initialize(attributes=nil, *args)
-    super attributes
-    @is_for_all = project.nil?
+  def queried_table_name
+    @queried_table_name ||= self.class.queried_class.table_name
   end
 
   # Builds the query from the given params
@@ -447,7 +447,7 @@ class Query < ActiveRecord::Base
     # Admin can edit them all and regular users can edit their private queries
     return true if user.admin? || (is_private? && self.user_id == user.id)
     # Members can not edit public queries that are for all project (only admin is allowed to)
-    is_public? && !@is_for_all && user.allowed_to?(:manage_public_queries, project)
+    is_public? && !is_global? && user.allowed_to?(:manage_public_queries, project)
   end
 
   def trackers
