@@ -595,11 +595,11 @@ module Redmine
                 coords[:bar_progress_end] = self.date_to - self.date_from + 1
               end
             end
-            if progress_date < User.current.today
-              late_date = [User.current.today, end_date].min
+            if progress_date <= User.current.today
+              late_date = [User.current.today, end_date].min + 1
               if late_date > self.date_from && late_date > start_date
                 if late_date < self.date_to
-                  coords[:bar_late_end] = late_date - self.date_from + 1
+                  coords[:bar_late_end] = late_date - self.date_from
                 else
                   coords[:bar_late_end] = self.date_to - self.date_from + 1
                 end

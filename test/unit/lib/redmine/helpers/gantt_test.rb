@@ -353,6 +353,20 @@ class Redmine::Helpers::GanttHelperTest < Redmine::HelperTest
     assert_select 'div.task_late[style*="width:30px"]', 1
   end
 
+  test "#line late line should be the same width as task_todo if start date and end date are the same day" do
+    create_gantt
+    @output_buffer = @gantt.line(today - 7, today - 7, 0, false, 'line', :format => :html, :zoom => 4)
+    assert_select 'div.task_late[style*="width:2px"]', 1
+    assert_select 'div.task_todo[style*="width:2px"]', 1
+  end
+
+  test "#line late line should be the same width as task_todo if start date and today are the same day" do
+    create_gantt
+    @output_buffer = @gantt.line(today, today, 0, false, 'line', :format => :html, :zoom => 4)
+    assert_select 'div.task_late[style*="width:2px"]', 1
+    assert_select 'div.task_todo[style*="width:2px"]', 1
+  end
+
   test "#line done line should start from the starting point on the left" do
     create_gantt
     @output_buffer = @gantt.line(today - 7, today + 7, 30, false, 'line', :format => :html, :zoom => 4)
