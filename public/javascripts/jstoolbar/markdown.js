@@ -166,7 +166,7 @@ jsToolBar.prototype.elements.pre = {
   type: 'button',
   title: 'Preformatted text',
   fn: {
-    wiki: function() { this.encloseLineSelection('~~~\n', '\n~~~') }
+    wiki: function() { this.encloseLineSelection('```\n', '\n```') }
   }
 }
 
@@ -178,7 +178,7 @@ jsToolBar.prototype.elements.precode = {
     wiki: function() {
       var This = this;
       this.precodeMenu(function(lang){
-        This.encloseLineSelection('~~~ ' + lang + '\n', '\n~~~\n');
+        This.encloseLineSelection('``` ' + lang + '\n', '\n```\n');
       });
     }
   }
