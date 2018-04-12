@@ -1,19 +1,21 @@
 <%= title l(:label_plugins) %>
 
 <% if @plugins.any? %>
-<table class="list plugins">
-    <% @plugins.each do |plugin| %>
-        <tr id="plugin-<%= plugin.id %>">
-        <td class="name"><span class="name"><%= plugin.name %></span>
-            <%= content_tag('span', plugin.description, :class => 'description') unless plugin.description.blank? %>
-            <%= content_tag('span', link_to(plugin.url, plugin.url), :class => 'url') unless plugin.url.blank? %>
-        </td>
-        <td class="author"><%= plugin.author_url.blank? ? plugin.author : link_to(plugin.author, plugin.author_url) %></td>
-        <td class="version"><span class="icon"><%= plugin.version %></span></td>
-        <td class="configure"><%= link_to(l(:button_configure), plugin_settings_path(plugin)) if plugin.configurable? %></td>
-        </tr>
-    <% end %>
-</table>
+<div class="autoscroll">
+  <table class="list plugins">
+      <% @plugins.each do |plugin| %>
+          <tr id="plugin-<%= plugin.id %>">
+          <td class="name"><span class="name"><%= plugin.name %></span>
+              <%= content_tag('span', plugin.description, :class => 'description') unless plugin.description.blank? %>
+              <%= content_tag('span', link_to(plugin.url, plugin.url), :class => 'url') unless plugin.url.blank? %>
+          </td>
+          <td class="author"><%= plugin.author_url.blank? ? plugin.author : link_to(plugin.author, plugin.author_url) %></td>
+          <td class="version"><span class="icon"><%= plugin.version %></span></td>
+          <td class="configure"><%= link_to(l(:button_configure), plugin_settings_path(plugin)) if plugin.configurable? %></td>
+          </tr>
+      <% end %>
+  </table>
+</div>
 <p><a href="#" id="check-for-updates"><%= l(:label_check_for_updates) %></a></p>
 <% else %>
 <p class="nodata"><%= l(:label_no_data) %></p>
