@@ -1286,9 +1286,8 @@ module ApplicationHelper
                     <embed src='" + videoUrl + ".swf' width='#{width}' height='#{height}'>
                   </object> 
                 </video>"
-              
           when 'pubmed'
-            summaryUrlBase = "http://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&retmode=xml&id=#{name}"
+            summaryUrlBase = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&retmode=xml&id=#{name}"
             uri = URI.parse(summaryUrlBase)
             response = Net::HTTP.get_response(uri)  
             if response.code_type.to_s == "Net::HTTPOK"
@@ -1301,7 +1300,7 @@ module ApplicationHelper
                 doc[:id] = pd.at_css("Item[Name=ArticleIds] Item[Name=pubmed]").text
                 doc[:date] = pd.css("Item[Name=PubDate]")[0].text.split(" ").first
                 doc[:source] = pd.css("Item[Name=FullJournalName]")[0].text
-                doc[:url] = "http://www.ncbi.nlm.nih.gov/pubmed/#{doc[:id]}"
+                doc[:url] = "https://www.ncbi.nlm.nih.gov/pubmed/#{doc[:id]}"
                 doc[:db] = "pubmed"
                 
                 doc[:volume] = pd.css("Item[Name=Volume]")[0].text
