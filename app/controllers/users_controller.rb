@@ -76,7 +76,7 @@ class UsersController < ApplicationController
     @events_by_day = events.group_by(&:event_date)
 
     unless User.current.admin?
-      unless @user.visible?
+      unless (@user.visible? && @user.active?)
         #render_error "You are not allow to see this page"
         render_404
         return
