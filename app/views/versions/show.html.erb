@@ -44,6 +44,7 @@
     <tr class="issue hascontextmenu">
       <td class="checkbox"><%= check_box_tag 'ids[]', issue.id, false, :id => nil %></td>
       <td class="subject"><%= link_to_issue(issue, :project => (@project != issue.project)) %></td>
+      <td class="buttons"><%= link_to_context_menu %></td>
     </tr>
   <% end %>
   </table>

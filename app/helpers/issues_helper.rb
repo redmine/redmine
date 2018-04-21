@@ -99,7 +99,8 @@ module IssuesHelper
              content_tag('td', link_to_issue(child, :project => (issue.project_id != child.project_id)), :class => 'subject', :style => 'width: 50%') +
              content_tag('td', h(child.status), :class => 'status') +
              content_tag('td', link_to_user(child.assigned_to), :class => 'assigned_to') +
-             content_tag('td', child.disabled_core_fields.include?('done_ratio') ? '' : progress_bar(child.done_ratio), :class=> 'done_ratio'),
+             content_tag('td', child.disabled_core_fields.include?('done_ratio') ? '' : progress_bar(child.done_ratio), :class=> 'done_ratio') +
+             content_tag('td', link_to_context_menu, :class => 'buttons'),
              :class => css)
     end
     s << '</table>'
@@ -114,14 +115,15 @@ module IssuesHelper
     relations.each do |relation|
       other_issue = relation.other_issue(issue)
       css = "issue hascontextmenu #{other_issue.css_classes}"
-      link = manage_relations ? link_to(l(:label_relation_delete),
+      buttons = manage_relations ? link_to(l(:label_relation_delete),
                                   relation_path(relation),
                                   :remote => true,
                                   :method => :delete,
                                   :data => {:confirm => l(:text_are_you_sure)},
                                   :title => l(:label_relation_delete),
                                   :class => 'icon-only icon-link-break'
-                                 ) : nil
+                                 ) :"".html_safe
+      buttons << link_to_context_menu
 
       s << content_tag('tr',
              content_tag('td', check_box_tag("ids[]", other_issue.id, false, :id => nil), :class => 'checkbox') +
@@ -130,7 +132,7 @@ module IssuesHelper
              content_tag('td', other_issue.start_date, :class => 'start_date') +
              content_tag('td', other_issue.due_date, :class => 'due_date') +
              content_tag('td', other_issue.disabled_core_fields.include?('done_ratio') ? '' : progress_bar(other_issue.done_ratio), :class=> 'done_ratio') +
-             content_tag('td', link, :class => 'buttons'),
+             content_tag('td', buttons, :class => 'buttons'),
              :id => "relation-#{relation.id}",
              :class => css)
     end

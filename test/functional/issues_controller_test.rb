@@ -1004,7 +1004,7 @@ class IssuesControllerTest < Redmine::ControllerTest
   end
 
   def test_index_with_columns
-    columns = ['tracker', 'subject', 'assigned_to']
+    columns = ['tracker', 'subject', 'assigned_to', 'buttons']
     get :index, :params => {
         :set_filter => 1,
         :c => columns
@@ -1017,6 +1017,7 @@ class IssuesControllerTest < Redmine::ControllerTest
       assert_select 'th.tracker'
       assert_select 'th.subject'
       assert_select 'th.assigned_to'
+      assert_select 'th.buttons'
     end
 
     # columns should be stored in session
@@ -1245,8 +1246,8 @@ class IssuesControllerTest < Redmine::ControllerTest
         :c => %w(subject description)
       }
 
-    assert_select 'table.issues thead th', 3 # columns: chekbox + id + subject
-    assert_select 'td.description[colspan="3"]', :text => 'Unable to print recipes'
+    assert_select 'table.issues thead th', 4 # columns: chekbox + id + subject
+    assert_select 'td.description[colspan="4"]', :text => 'Unable to print recipes'
 
     get :index, :params => {
         :set_filter => 1,
@@ -1264,10 +1265,10 @@ class IssuesControllerTest < Redmine::ControllerTest
       }
 
     assert_response :success
-    assert_select 'table.issues thead th', 3 # columns: chekbox + id + subject
+    assert_select 'table.issues thead th', 4 # columns: chekbox + id + subject
 
-    assert_select 'td.last_notes[colspan="3"]', :text => 'Some notes with Redmine links: #2, r2.'
-    assert_select 'td.last_notes[colspan="3"]', :text => 'A comment with inline image:  and a reference to #1 and r2.'
+    assert_select 'td.last_notes[colspan="4"]', :text => 'Some notes with Redmine links: #2, r2.'
+    assert_select 'td.last_notes[colspan="4"]', :text => 'A comment with inline image:  and a reference to #1 and r2.'
 
     get :index, :params => {
         :set_filter => 1,
@@ -1288,7 +1289,7 @@ class IssuesControllerTest < Redmine::ControllerTest
         :c => %w(subject last_notes)
       }
     assert_response :success
-    assert_select 'td.last_notes[colspan="3"]', :text => 'Privates notes'
+    assert_select 'td.last_notes[colspan="4"]', :text => 'Privates notes'
 
     Role.find(1).remove_permission! :view_private_notes
 
@@ -1297,7 +1298,7 @@ class IssuesControllerTest < Redmine::ControllerTest
         :c => %w(subject last_notes)
       }
     assert_response :success
-    assert_select 'td.last_notes[colspan="3"]', :text => 'Public notes'
+    assert_select 'td.last_notes[colspan="4"]', :text => 'Public notes'
   end
 
   def test_index_with_description_and_last_notes_columns_should_display_column_name
@@ -1307,8 +1308,8 @@ class IssuesControllerTest < Redmine::ControllerTest
       }
     assert_response :success
 
-    assert_select 'td.last_notes[colspan="3"] span', :text => 'Last notes'
-    assert_select 'td.description[colspan="3"] span', :text => 'Description'
+    assert_select 'td.last_notes[colspan="4"] span', :text => 'Last notes'
+    assert_select 'td.description[colspan="4"] span', :text => 'Description'
   end
 
   def test_index_with_parent_column

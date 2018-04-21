@@ -125,7 +125,7 @@ class MyControllerTest < Redmine::ControllerTest
     assert_select '#block-issuequery' do
       assert_select 'a[href=?]', "/issues?query_id=#{query.id}"
       # assert number of columns (columns from query + id column + checkbox column)
-      assert_select 'table.issues th', 6
+      assert_select 'table.issues th', 7
       # assert results limit
       assert_select 'table.issues tr.issue', 10
       assert_select 'table.issues td.assigned_to'
@@ -145,7 +145,7 @@ class MyControllerTest < Redmine::ControllerTest
     assert_select '#block-issuequery' do
       assert_select 'a[href=?]', "/projects/ecookbook/issues?query_id=#{query.id}"
       # assert number of columns (columns from query + id column + checkbox column)
-      assert_select 'table.issues th', 6
+      assert_select 'table.issues th', 7
       # assert results limit
       assert_select 'table.issues tr.issue', 10
       assert_select 'table.issues td.assigned_to'
@@ -164,7 +164,7 @@ class MyControllerTest < Redmine::ControllerTest
 
     assert_select '#block-issuequery' do
       # assert number of columns (columns from query + id column + checkbox column)
-      assert_select 'table.issues th', 4
+      assert_select 'table.issues th', 5
       assert_select 'table.issues th', :text => 'Due date'
     end
   end
