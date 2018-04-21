@@ -20,7 +20,7 @@ fa:
     # Don't forget the nil at the beginning; there's no such thing as a 0th month
     #month_names: [~, ژانویه, فوریه, مارس, آوریل, مه, ژوئن, ژوئیه, اوت, سپتامبر, اکتبر, نوامبر, دسامبر]
     #abbr_month_names: [~, ژان, فور, مار, آور, مه, ژوئن, ژوئیه, اوت, سپت, اکت, نوا, دسا]
-    
+
     # Used in date_select and datime_select.
     order:
       - :year
@@ -148,9 +148,8 @@ fa:
   general_csv_separator: ','
   general_csv_decimal_separator: '.'
   general_csv_encoding: UTF-8
-  general_pdf_encoding: UTF-8
   general_pdf_fontname: DejaVuSans
-  general_pdf_monospace_fontname: DejaVuSans
+  general_pdf_monospaced_fontname: freemono
   general_first_day_of_week: '6'
 
   notice_account_updated: حساب شما به‌روز شد.
@@ -193,7 +192,7 @@ fa:
   notice_new_password_must_be_different: گذرواژه جدید باید متفاوت از گذرواژه فعلی باشد
   notice_import_finished: "%{count} مورد وارد شده"
   notice_import_finished_with_errors: "نمی‌توان %{count} مورد از %{total} را وارد کرد"
-  
+
   error_can_t_load_default_data: "تنظیمات پیش‌فرض نمی‌تواند بار شود: %{value}"
   error_scm_not_found: "بخش یا بازبینی در مخزن پیدا نشد."
   error_scm_command_failed: "ایرادی در دست‌رسی به مخزن پیش آمد: %{value}"
@@ -378,17 +377,16 @@ fa:
   field_textarea_font: قلم مورد استفاده برای متن
   field_updated_by: به‌روزرسانی شده توسط
   field_last_updated_by: آخرین به‌روزرسانی توسط
-  field_full_width_layout: عرض تمام‌صفحه 
-  field_digest: قدرآزما 
+  field_full_width_layout: عرض تمام‌صفحه
+  field_digest: قدرآزما
   field_default_assigned_to: مسئول پیش‌فرض
 
   setting_app_title: عنوان برنامه
-  setting_app_subtitle: زیرنام برنامه
   setting_welcome_text: متن خوش‌آمد گویی
   setting_default_language: زبان پیش‌فرض
   setting_login_required: الزامی بودن ورود
   setting_self_registration: ثبت نام خود
-  setting_show_custom_fields_on_registration: نمایش بخش‌های سفارشی در ثبت نام 
+  setting_show_custom_fields_on_registration: نمایش بخش‌های سفارشی در ثبت نام
   setting_attachment_max_size: بیشینه اندازه پیوست
   setting_issues_export_limit: محدودیت صدور مسأله‌ها
   setting_mail_from: نشانی فرستنده رایانامه
@@ -420,7 +418,7 @@ fa:
   setting_display_subprojects_issues: پیش‌فرض نمایش مسأله‌های زیرپروژه در پروژه پدر
   setting_enabled_scm: فعال‌سازی SCM
   setting_mail_handler_body_delimiters: "بریدن رایانامه‌ها پس از یکی از این ردیف‌ها"
-  setting_mail_handler_enable_regex_delimiters: "فعال‌سازی عبارات منظم"
+  setting_mail_handler_enable_regex: "فعال‌سازی عبارات منظم"
   setting_mail_handler_api_enabled: فعال‌سازی وب‌سرویس برای نامه‌های دریافتی
   setting_mail_handler_api_key: کلید API
   setting_sys_api_key: کلید API وب‌سرویس مدیریت مخازن
@@ -490,7 +488,6 @@ fa:
   permission_edit_own_issue_notes: ویرایش یادداشت خود
   permission_view_private_notes: مشاهده یادداشت‌های محرمانه
   permission_set_notes_private: محرمانه کردن یادداشت‌ها
-  permission_move_issues: جابجایی مسأله‌ها
   permission_delete_issues: حذف مسأله‌ها
   permission_manage_public_queries: مدیریت جستارهای عمومی
   permission_save_queries: ذخیره‌سازی جستارها
@@ -611,7 +608,6 @@ fa:
   label_my_page: صفحه من
   label_my_account: حساب من
   label_my_projects: پروژه‌های من
-  label_my_page_block: بخش صفحه من
   label_administration: راه‌بری
   label_login: ورود
   label_logout: خروج
@@ -711,7 +707,6 @@ fa:
   label_internal: درونی
   label_last_changes: "%{count} تغییر آخر"
   label_change_view_all: مشاهده همه تغییرات
-  label_personalize_page: سفارشی‌سازی این صفحه
   label_comment: نظر
   label_comment_plural: نظرات
   label_x_comments:
@@ -891,7 +886,6 @@ fa:
   label_age: سن
   label_change_properties: ویرایش خصوصیات
   label_general: عمومی
-  label_more: بیشتر
   label_scm: SCM
   label_plugins: افزونه‌ها
   label_ldap_authentication: احراز هویت LDAP
@@ -901,7 +895,6 @@ fa:
   label_preferences: ترجیح‌ها
   label_chronological_order: به ترتیب تاریخ
   label_reverse_chronological_order: برعکس ترتیب تاریخ
-  label_planning: برنامه ریزی
   label_incoming_emails: رایانامه‌های آمده
   label_generate_key: ساخت کلید
   label_issue_watchers: ناظرها
@@ -1219,20 +1212,10 @@ fa:
   description_issue_category_reassign: انتخاب دسته مسأله
   description_wiki_subpages_reassign: انتخاب صفحه پدر جدید
   text_repository_identifier_info: 'تنها حروف کوچک (a-z)، ارقام، خط تیره (-) و زیرخط (_) مجاز است و باید با یک حرف کوچک شروع شود.<br />پس از ذخیره‌سازی، شناسه نمی‌تواند تغییر کند.'
-  description_date_range_list: انتخاب بازه از فهرست
-  description_date_range_interval: انتخاب بازه با انتخاب تاریخ شروع و پایان
-  description_date_from: تاریخ شروع را وارد کنید
-  description_date_to: تاریخ پایان را وارد کنید
-  label_peygir_times: زمان‌ها
-
-  enable_analytics: فعال‌سازی تجزیه و تحلیل آماری
-  ok_submit: باشه
-  general_pdf_monospaced_fontname: freemono
   error_exceeds_maximum_hours_per_day: Cannot log more than %{max_hours} hours on the
     same day (%{logged_hours} hours have already been logged)
   error_can_not_delete_auth_source: This authentication mode is in use and cannot be
     deleted.
-  setting_mail_handler_enable_regex: Enable regular expressions
   setting_close_duplicate_issues: Close duplicate issues automatically
   setting_time_entry_list_defaults: Timelog list defaults
   setting_timelog_accept_0_hours: Accept time logs with 0 hours
