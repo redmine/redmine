@@ -16,10 +16,9 @@ fa:
     day_names: [یک‌شنبه, دوشنبه, سه‌شنبه, چهارشنبه, پنج‌شنبه, جمعه, شنبه]
     abbr_day_names: [یک, دو, سه, چهار, پنج, جمعه, شنبه]
 
-    # Not setting month names to avoid overriding Persian month names set by Peygir Persian Calendar plugin
     # Don't forget the nil at the beginning; there's no such thing as a 0th month
-    #month_names: [~, ژانویه, فوریه, مارس, آوریل, مه, ژوئن, ژوئیه, اوت, سپتامبر, اکتبر, نوامبر, دسامبر]
-    #abbr_month_names: [~, ژان, فور, مار, آور, مه, ژوئن, ژوئیه, اوت, سپت, اکت, نوا, دسا]
+    month_names: [~, ژانویه, فوریه, مارس, آوریل, مه, ژوئن, ژوئیه, اوت, سپتامبر, اکتبر, نوامبر, دسامبر]
+    abbr_month_names: [~, ژان, فور, مار, آور, مه, ژوئن, ژوئیه, اوت, سپت, اکت, نوا, دسا]
 
     # Used in date_select and datime_select.
     order:
