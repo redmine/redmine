@@ -1265,3 +1265,4 @@ es-PA:
   label_x_revisions: "%{count} revisions"
   error_can_not_delete_auth_source: This authentication mode is in use and cannot be
     deleted.
+  button_actions: Actions
