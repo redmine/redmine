@@ -1227,3 +1227,14 @@ fa:
 
   enable_analytics: فعال‌سازی تجزیه و تحلیل آماری
   ok_submit: باشه
+  general_pdf_monospaced_fontname: freemono
+  error_exceeds_maximum_hours_per_day: Cannot log more than %{max_hours} hours on the
+    same day (%{logged_hours} hours have already been logged)
+  error_can_not_delete_auth_source: This authentication mode is in use and cannot be
+    deleted.
+  setting_mail_handler_enable_regex: Enable regular expressions
+  setting_close_duplicate_issues: Close duplicate issues automatically
+  setting_time_entry_list_defaults: Timelog list defaults
+  setting_timelog_accept_0_hours: Accept time logs with 0 hours
+  setting_timelog_max_hours_per_day: Maximum hours that can be logged per day and user
+  label_x_revisions: "%{count} revisions"
