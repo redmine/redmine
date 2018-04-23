@@ -55,6 +55,7 @@ module Redmine
         @projects = projects
         @cache = options.delete(:cache)
         @options = options
+        @nmlDBcache = nil
 
         # extract tokens from the question
         # eg. hello "bye bye" => ["hello", "bye bye"]
@@ -67,7 +68,7 @@ module Redmine
 
       # Returns the total result count
       def result_count
-        result_ids.size
+        result_ids.size + searchNMLDB.size
       end
 
       # Returns the result count by type
@@ -81,6 +82,7 @@ module Redmine
 
       # Returns the results for the given offset and limit
       def results(offset, limit)
+        offset = offset - searchNMLDB.size
         result_ids_to_load = result_ids[offset, limit] || []
   
         results_by_scope = Hash.new {|h,k| h[k] = []}
@@ -92,6 +94,24 @@ module Redmine
         result_ids_to_load.map do |scope, id|
           results_by_scope[scope].detect {|record| record.id == id}
         end.compact
+      end
+
+      def searchNMLDB(offset=0, limit=1e9)
+        if @scope.include? "neuroml_DB" and @nmlDBcache.nil?
+          summaryUrlBase = "http://spike.asu.edu:5000/api/search?q=" + @question
+          uri = URI.parse(summaryUrlBase)
+          response = Net::HTTP.get_response(uri)
+          if response.code_type.to_s == "Net::HTTPOK"
+            @nmlDBcache = JSON.parse(response.body).sort_by { |hash| hash['Name'] }
+          else
+            @nmlDBcache = []
+          end
+        end
+        if not @nmlDBcache.nil?
+          return @nmlDBcache[offset, limit]
+        else
+          return []
+        end
       end
 
       # Returns the results ids, sorted by rank
@@ -123,9 +143,11 @@ module Redmine
         ret = []
         # get all the results ranks and ids
         @scope.each do |scope|
-          klass = scope.singularize.camelcase.constantize
-          ranks_and_ids_in_scope = klass.search_result_ranks_and_ids(@tokens, User.current, @projects, @options)
-          ret += ranks_and_ids_in_scope.map {|rs| [scope, rs]}
+          if scope != "neuroml_DB"
+            klass = scope.singularize.camelcase.constantize
+            ranks_and_ids_in_scope = klass.search_result_ranks_and_ids(@tokens, User.current, @projects, @options)
+            ret += ranks_and_ids_in_scope.map {|rs| [scope, rs]}
+          end
         end
         # sort results, higher rank and id first
         ret.sort! {|a,b| b.last <=> a.last}

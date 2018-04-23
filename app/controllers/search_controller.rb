@@ -80,6 +80,7 @@ class SearchController < ApplicationController
       @result_pages = Paginator.new @result_count, @limit, params['page']
       @offset ||= @result_pages.offset
       @results = fetcher.results(@offset, @result_pages.per_page)
+      @nmlDBresults = fetcher.searchNMLDB(@offset, @result_pages.per_page)
     else
       @question = ""
     end

@@ -62,7 +62,6 @@ class UsersController < ApplicationController
   end
 
   def show
-    
     # show projects based on current user visibility
     @memberships = @user.memberships.where(Project.visible_condition(User.current)).all
     

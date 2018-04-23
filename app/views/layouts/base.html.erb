@@ -100,6 +100,7 @@
                         <div class="form-group">
 	                    <%= hidden_field_tag(controller.default_search_scope, 1, :id => nil) if controller.default_search_scope %>
 	                    <%= hidden_field_tag("projects", 1) %>
+                            <%= hidden_field_tag("neuroml_DB", 1) %>
 	                    <%= text_field_tag 'q', @question, :size => 20, :class => 'form-control', :accesskey => accesskey(:quick_search), :placeholder => 'search projects' %>
                         </div>
 	                <button href="#" class="btn search-btn">
