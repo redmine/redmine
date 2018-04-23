@@ -77,4 +77,11 @@ class MenuManagerTest < Redmine::IntegrationTest
     get '/login'
     assert_select '#main-menu', 0
   end
+
+  def test_body_should_have_main_menu_css_class_if_main_menu_is_present
+    get '/projects'
+    assert_select 'body.has-main-menu'
+    get '/'
+    assert_select 'body.has-main-menu', 0
+  end
 end

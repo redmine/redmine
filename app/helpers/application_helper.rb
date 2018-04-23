@@ -592,6 +592,7 @@ module ApplicationHelper
     end
 
     css << 'project-' + @project.identifier if @project && @project.identifier.present?
+    css << 'has-main-menu' if display_main_menu?(@project)
     css << 'controller-' + controller_name
     css << 'action-' + action_name
     css << 'avatars-' + (Setting.gravatar_enabled? ? 'on' : 'off')
