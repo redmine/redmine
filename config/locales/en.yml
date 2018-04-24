@@ -225,6 +225,7 @@ en:
 
   mail_subject_lost_password: "Your %{value} password"
   mail_body_lost_password: 'To change your password, click on the following link:'
+  mail_body_lost_password_validity: 'Please be aware that you may change the password only once using this link.'
   mail_subject_register: "Your %{value} account activation"
   mail_body_register: 'To activate your account, click on the following link:'
   mail_body_account_information_external: "You can use your %{value} account to log in."

@@ -221,6 +221,7 @@ ja:
 
   mail_subject_lost_password: "%{value} パスワード再発行"
   mail_body_lost_password: 'パスワードを変更するには、以下のリンクをクリックしてください:'
+  mail_body_lost_password_validity: 'このリンクでパスワードを再設定できるのは1回だけです。ご注意ください。'
   mail_subject_register: "%{value} アカウント登録の確認"
   mail_body_register: 'アカウント登録を完了するには、以下のアドレスをクリックしてください:'
   mail_body_account_information_external: "%{value} アカウントを使ってにログインできます。"
