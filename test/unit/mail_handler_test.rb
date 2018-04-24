@@ -43,7 +43,7 @@ class MailHandlerTest < ActiveSupport::TestCase
   def test_add_issue_with_specific_overrides
     issue = submit_email('ticket_on_given_project.eml',
       :allow_override => ['status', 'start_date', 'due_date', 'assigned_to',
-                          'fixed_version', 'estimated_hours', 'done_ratio']
+                          'fixed_version', 'estimated_hours', 'done_ratio', 'parent_issue']
     )
     assert issue.is_a?(Issue)
     assert !issue.new_record?
@@ -60,6 +60,7 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal Version.find_by_name('Alpha'), issue.fixed_version
     assert_equal 2.5, issue.estimated_hours
     assert_equal 30, issue.done_ratio
+    assert_equal Issue.find(4), issue.parent
     # keywords should be removed from the email body
     assert !issue.description.match(/^Project:/i)
     assert !issue.description.match(/^Status:/i)
@@ -81,6 +82,7 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal Version.find_by_name('Alpha'), issue.fixed_version
     assert_equal 2.5, issue.estimated_hours
     assert_equal 30, issue.done_ratio
+    assert_equal Issue.find(4), issue.parent
   end
 
   def test_add_issue_without_overrides_should_ignore_attributes
@@ -102,6 +104,7 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_nil issue.fixed_version
     assert_nil issue.estimated_hours
     assert_equal 0, issue.done_ratio
+    assert_nil issue.parent
   end
 
   def test_add_issue_to_project_specified_by_subaddress
@@ -474,6 +477,7 @@ class MailHandlerTest < ActiveSupport::TestCase
       assert_nil issue.start_date
       assert_nil issue.due_date
       assert_equal 0, issue.done_ratio
+      assert_nil issue.parent
       assert_equal 'Normal', issue.priority.to_s
       assert issue.description.include?('Lorem ipsum dolor sit amet, consectetuer adipiscing elit.')
     end

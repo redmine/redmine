@@ -38,6 +38,7 @@ Assigned to: John Smith
 fixed version: alpha
 estimated hours: 2.5
 done ratio: 30
+parent issue: 1
 
 --- This line starts with a delimiter and should not be stripped
 

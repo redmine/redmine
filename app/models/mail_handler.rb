@@ -429,7 +429,8 @@ class MailHandler < ActionMailer::Base
       'start_date' => get_keyword(:start_date, :format => '\d{4}-\d{2}-\d{2}'),
       'due_date' => get_keyword(:due_date, :format => '\d{4}-\d{2}-\d{2}'),
       'estimated_hours' => get_keyword(:estimated_hours),
-      'done_ratio' => get_keyword(:done_ratio, :format => '(\d|10)?0')
+      'done_ratio' => get_keyword(:done_ratio, :format => '(\d|10)?0'),
+      'parent_issue_id' => get_keyword(:parent_issue)
     }.delete_if {|k, v| v.blank? }
 
     attrs
