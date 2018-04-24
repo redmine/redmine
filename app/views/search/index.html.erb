@@ -94,7 +94,7 @@
                 <div class="result">
                     <div class="result-header" role="tab">
                         <h4 class="mb-0">
-                            <%= link_to(highlight_tokens("NeuroML-DB: " + e['Name'], @tokens), "https://neuroml-db.org/model_info?model_id="+e['Model_ID']) %>
+                            <%= link_to(highlight_tokens("NeuroML-DB: " + e['Name'] + " (" + e['Model_ID'] + ")", @tokens), "https://neuroml-db.org/model_info?model_id="+e['Model_ID']) %>
                         </h4>
                     </div>
                 </div>
