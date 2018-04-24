@@ -75,9 +75,9 @@ end %>
 <%= call_hook(:view_issues_show_details_bottom, :issue => @issue) %>
 </div>
 
-<% if @issue.description? || @issue.attachments.any? -%>
+<% if @issue.description? || @issue.description = "" || @issue.attachments.any? -%>
 <hr />
-<% if @issue.description? %>
+<% if @issue.description? || @issue.description = "" %>
 <div class="description">
   <div class="contextual">
   <%= link_to l(:button_quote), quoted_issue_path(@issue), :remote => true, :method => 'post', :class => 'icon icon-comment' if @issue.notes_addable? %>
