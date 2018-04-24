@@ -1231,3 +1231,5 @@ ro:
   error_can_not_delete_auth_source: This authentication mode is in use and cannot be
     deleted.
   button_actions: Actions
+  mail_body_lost_password_validity: Please be aware that you may change the password
+    only once using this link.

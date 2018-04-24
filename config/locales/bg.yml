@@ -1218,3 +1218,5 @@ bg:
   text_repository_identifier_info: 'Позволени са малки букви (a-z), цифри, тирета и _.<br />Промяна след създаването му не е възможна.'
   error_can_not_delete_auth_source: Този режим за идентификация се използва и не може да бъде премахнат.
   button_actions: Actions
+  mail_body_lost_password_validity: Please be aware that you may change the password
+    only once using this link.

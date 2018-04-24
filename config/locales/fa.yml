@@ -1221,3 +1221,5 @@ fa:
   setting_timelog_max_hours_per_day: Maximum hours that can be logged per day and user
   label_x_revisions: "%{count} revisions"
   button_actions: Actions
+  mail_body_lost_password_validity: Please be aware that you may change the password
+    only once using this link.
