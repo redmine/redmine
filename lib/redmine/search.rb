@@ -68,7 +68,7 @@ module Redmine
 
       # Returns the total result count
       def result_count
-        result_ids.size + searchNMLDB.size
+        result_ids.size + searchNMLDB(0, 1e9, true).size
       end
 
       # Returns the result count by type
@@ -82,7 +82,6 @@ module Redmine
 
       # Returns the results for the given offset and limit
       def results(offset, limit)
-        offset = offset - searchNMLDB.size
         result_ids_to_load = result_ids[offset, limit] || []
   
         results_by_scope = Hash.new {|h,k| h[k] = []}
@@ -96,7 +95,11 @@ module Redmine
         end.compact
       end
 
-      def searchNMLDB(offset=0, limit=1e9)
+      def searchNMLDB(offset=0, limit=1e9, all=false)
+        if (result_ids.size-limit < offset) and not all
+          limit = limit - results(offset,limit).size
+          offset = offset - result_ids.size
+        end
         if @scope.include? "neuroml_DB" and @nmlDBcache.nil?
           summaryUrlBase = "http://spike.asu.edu:5000/api/search?q=" + @question
           uri = URI.parse(summaryUrlBase)
@@ -107,8 +110,8 @@ module Redmine
             @nmlDBcache = []
           end
         end
-        if not @nmlDBcache.nil?
-          return @nmlDBcache[offset, limit]
+        if not @nmlDBcache.nil? and not @nmlDBcache[offset, limit].nil?
+            return @nmlDBcache[offset, limit]
         else
           return []
         end

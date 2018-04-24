@@ -44,18 +44,7 @@
     <h3 class="results-title"><%= l(:label_result_plural) %> (<%= @result_count %>)</h3>
     <a href="#" class="btn exp-col-btn expand-btn">Expand</a>
     <div id="results" role="tab-list" aria-multiselectable="true">
-        <% if (not @nmlDBresults.nil?) && (@scope.include? "neuroml_DB") %>
-            <% @nmlDBresults.each do |e| %>
-                <div class="result">
-                    <div class="result-header" role="tab">
-                        <h4 class="mb-0">
-                            <%= link_to(highlight_tokens("NeuroML-DB: " + e['Name'], @tokens), "https://neuroml-db.org/model_info?model_id="+e['Model_ID']) %>
-                        </h4>
-                    </div>
-                </div>
-            <% end %>
-        <% end %>
-        <% if @nmlDBresults.nil? or @nmlDBresults.size < 10 %>
+        <% if !@results.nil? or @results.size < 10 %>
             <% @results.each_with_index do |e, i| %>
                 <% p = e.project %>
                 <div class="result">
@@ -96,6 +85,17 @@
 			        <b>Last updated:</b> <%= format_time(e.event_datetime) %>
         	            </div>
                         </div>
+                    </div>
+                </div>
+            <% end %>
+        <% end %>
+        <% if (@results.size < 10) && (not @nmlDBresults.nil?) && (@scope.include? "neuroml_DB") %>
+            <% @nmlDBresults.each do |e| %>
+                <div class="result">
+                    <div class="result-header" role="tab">
+                        <h4 class="mb-0">
+                            <%= link_to(highlight_tokens("NeuroML-DB: " + e['Name'], @tokens), "https://neuroml-db.org/model_info?model_id="+e['Model_ID']) %>
+                        </h4>
                     </div>
                 </div>
             <% end %>
