@@ -3626,3 +3626,53 @@ ul[role=tabpanel] li a{
 .dropbox-link {
     margin-top: 7px;
 }
+.corner-ribbon{
+  width: 500px;
+  background: #e43;
+  position: absolute;
+  top: 30px;
+  left: -30px;
+  text-align: center;
+  line-height: 50px;
+  letter-spacing: 1px;
+  color: #f0f0f0;
+  transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+}
+
+.corner-ribbon.sticky{
+    position: fixed;
+    z-index: 99;
+}
+
+.corner-ribbon.shadow{
+  box-shadow: 0 0 3px rgba(0,0,0,.3);
+}
+
+.corner-ribbon.bottom-right{
+  top: auto;
+  right: -160px;
+  bottom: 55px;
+  left: auto;
+  transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+}
+
+.corner-ribbon.orange{background: #e82;}
+
+.corner-ribbon a {
+    font-size: 1.5em;
+    color: white;
+}
+
+.corner-ribbon a:hover, a:focus {
+    color: #ffe6e6;
+    text-decoration: none;
+}
+
+.nmlDBresults {
+    margin-top: 1.2em;
+    margin-bottom: -1em;
+    font-weight: bold;
+    font-size: 1.3em;
+}

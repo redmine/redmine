@@ -90,6 +90,8 @@
             <% end %>
         <% end %>
         <% if (@results.size < 10) && (not @nmlDBresults.nil?) && (@scope.include? "neuroml_DB") %>
+            <div class="nmlDBresults">The following results are from the <a href="https://neuroml-db.org">NeuroML Database</a></div>
+            <hr>
             <% @nmlDBresults.each do |e| %>
                 <div class="result">
                     <div class="result-header" role="tab">

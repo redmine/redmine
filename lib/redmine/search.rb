@@ -98,7 +98,9 @@ module Redmine
       def searchNMLDB(offset=0, limit=1e9, all=false)
         if (result_ids.size-limit < offset) and not all
           limit = limit - results(offset,limit).size
-          offset = offset - result_ids.size
+          if result_ids.size > 10
+            offset = offset - result_ids.size
+          end
         end
         if @scope.include? "neuroml_DB" and @nmlDBcache.nil?
           summaryUrlBase = "http://spike.asu.edu:5000/api/search?q=" + @question
