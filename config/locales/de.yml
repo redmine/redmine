@@ -1239,3 +1239,5 @@ de:
   text_login_required_html: Ohne erforderliche Authentifizierung sind öffentlichen Projekte und deren Inhalte ohne Anmeldung frei zugänglich. Sie können die <a href="%{anonymous_role_path}">verwendeten Berechtigungen anpassen</a>.
   label_login_required_yes: "Ja"
   label_login_required_no: "Nein, anonymen Zugriff auf öffentliche Projekte erlauben"
+  text_project_is_public_non_member: Öffentliche Projekte und deren Inhalte sind für alle angemeldeten Benutzer zugänglich.
+  text_project_is_public_anonymous: Öffentliche Projekte und deren Inhalte sind ohne Anmeldung frei zugänglich.
