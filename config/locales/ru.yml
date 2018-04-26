@@ -440,8 +440,6 @@ ru:
   label_browse: Обзор
   label_bulk_edit_selected_issues: Редактировать все выбранные задачи
   label_calendar: Календарь
-  label_calendar_filter: Включая
-  label_calendar_no_assigned: не мои
   label_change_plural: Правки
   label_change_properties: Изменить свойства
   label_change_status: Изменить статус
@@ -677,7 +675,6 @@ ru:
   label_this_week: на этой неделе
   label_this_year: этот год
   label_time_tracking: Учёт времени
-  label_timelog_today: Расход времени на сегодня
   label_today: сегодня
   label_topic_plural: Темы
   label_total: Всего

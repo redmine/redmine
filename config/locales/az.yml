@@ -430,8 +430,6 @@ az:
   label_browse: Baxış
   label_bulk_edit_selected_issues: Seçilən bütün tapşırıqları redaktə etmək
   label_calendar: Təqvim
-  label_calendar_filter: O cümlədən
-  label_calendar_no_assigned: Mənim deyil
   label_change_plural: Dəyişikliklər
   label_change_properties: Xassələri dəyişmək
   label_change_status: Statusu dəyişmək
@@ -667,7 +665,6 @@ az:
   label_this_week: bu həftə
   label_this_year: bu il
   label_time_tracking: Vaxtın uçotu
-  label_timelog_today: Bu günə sərf olunan vaxt
   label_today: bu gün
   label_topic_plural: Mövzular
   label_total: Cəmi

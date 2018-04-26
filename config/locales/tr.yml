@@ -734,7 +734,6 @@ tr:
   label_and_its_subprojects: "%{value} ve alt projeleri"
   mail_subject_reminder: "%{count} iş bir kaç güne bitecek"
   setting_mail_handler_api_key: API anahtarı
-  setting_commit_logs_encoding: Gönderim mesajlarının kodlaması (UTF-8 vs.)
   general_csv_decimal_separator: '.'
   notice_unable_delete_version: Sürüm silinemiyor
   label_renamed: yeniden adlandırılmış

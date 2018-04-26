@@ -305,8 +305,6 @@ pl:
   field_user: Użytkownik
   field_value: Wartość
   field_version: Wersja
-  field_vf_personnel: Personel
-  field_vf_watcher: Obserwator
   general_csv_decimal_separator: ','
   general_csv_encoding: UTF-8
   general_csv_separator: ';'

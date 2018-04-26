@@ -863,7 +863,6 @@ mn:
   default_tracker_support: Тусламж
   default_issue_status_new: Шинэ
   default_issue_status_in_progress: Ахицтай
-  default_issue_status_assigned: Оноогдсон
   default_issue_status_resolved: Шийдвэрлэгдсэн
   default_issue_status_feedback: Feedback
   default_issue_status_closed: Хаагдсан

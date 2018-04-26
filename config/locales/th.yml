@@ -372,7 +372,6 @@ th:
   label_registered_on: ลงทะเบียนเมื่อ
   label_activity: กิจกรรม
   label_activity_plural: กิจกรรม
-  label_activity_latest: กิจกรรมล่าสุด
   label_overall_activity: กิจกรรมโดยรวม
   label_new: ใหม่
   label_logged_as: เข้าระบบในชื่อ

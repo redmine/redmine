@@ -953,7 +953,6 @@ vi:
   project_module_gantt: Biểu đồ Gantt
   project_module_calendar: Lịch
   button_edit_associated_wikipage: "Chỉnh sửa trang Wiki liên quan: %{page_title}"
-  text_are_you_sure_with_children: Xóa vấn đề và tất cả vấn đề con?  
   field_text: Trường văn bản
   setting_default_notification_option: Tuỳ chọn thông báo mặc định
   label_user_mail_option_only_my_events: Chỉ những thứ tôi theo dõi hoặc liên quan

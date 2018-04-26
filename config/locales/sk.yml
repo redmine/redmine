@@ -161,7 +161,6 @@ sk:
   notice_successful_connection: Úspešne pripojené.
   notice_file_not_found: Stránka, ktorú se pokúšate zobraziť, neexistuje, alebo bola odstránená.
   notice_locking_conflict: Údaje boli aktualizované iným používateľom.
-  notice_scm_error: Položka a/alebo revízia v repozitári neexistuje.
   notice_not_authorized: Nemáte dostatočné oprávnenia na zobrazenie tejto stránky.
   notice_email_sent: "Na adresu %{value} bol odoslaný email"
   notice_email_error: "Pri odosielaní emailu sa vyskytla chyba (%{value})"

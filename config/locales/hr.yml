@@ -273,7 +273,6 @@ hr:
   field_spent_on: Datum
   field_identifier: Identifikator
   field_is_filter: Korišteno kao filtar
-  field_issue_to_id: Povezano s predmetom
   field_delay: Odgodeno
   field_assignable: Predmeti mogu biti dodijeljeni ovoj ulozi
   field_redirect_existing_links: Preusmjeravanje postojećih linkova
@@ -849,7 +848,6 @@ hr:
   default_tracker_feature: Funkcionalnost
   default_tracker_support: Podrška
   default_issue_status_new: Novo
-  default_issue_status_assigned: Dodijeljeno
   default_issue_status_resolved: Riješeno
   default_issue_status_feedback: Povratna informacija
   default_issue_status_closed: Zatvoreno

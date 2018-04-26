@@ -316,7 +316,6 @@ ko:
   field_spent_on: 작업시간
   field_identifier: 식별자
   field_is_filter: 검색조건으로 사용됨
-  field_issue_to_id: 연관된 일감
   field_delay: 지연
   field_assignable: 일감을 맡길 수 있음
   field_redirect_existing_links: 기존의 링크로 돌려보냄(redirect)

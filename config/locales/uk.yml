@@ -176,7 +176,6 @@ uk:
   notice_successful_connection: Підключення успішно встановлене.
   notice_file_not_found: Сторінка, на яку ви намагаєтеся зайти, не існує або видалена.
   notice_locking_conflict: Дані оновлено іншим користувачем.
-  notice_scm_error: Запису та/або виправлення немає в репозиторії.
   notice_not_authorized: У вас немає прав для відвідини даної сторінки.
   notice_email_sent: "Відправлено листа %{value}"
   notice_email_error: "Під час відправки листа відбулася помилка (%{value})"
@@ -560,7 +559,6 @@ uk:
   label_registration_activation_by_email: активація облікового запису електронною поштою
   label_registration_manual_activation: ручна активація облікового запису
   label_registration_automatic_activation: автоматична активація облыкового
-  label_my_time_report: Мій звіт витраченого часу
 
   button_login: Вхід
   button_submit: Відправити
