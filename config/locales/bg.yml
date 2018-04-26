@@ -1220,3 +1220,12 @@ bg:
   button_actions: Actions
   mail_body_lost_password_validity: Please be aware that you may change the password
     only once using this link.
+  text_login_required_html: When not requiring authentication, public projects and their
+    contents are openly available on the network. You can <a href="%{anonymous_role_path}">edit
+    the applicable permissions</a>.
+  label_login_required_yes: 'Yes'
+  label_login_required_no: No, allow anonymous access to public projects
+  text_project_is_public_non_member: Public projects and their contents are available
+    to all logged-in users.
+  text_project_is_public_anonymous: Public projects and their contents are openly available
+    on the network.
