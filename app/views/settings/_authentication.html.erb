@@ -1,7 +1,11 @@
 <%= form_tag({:action => 'edit', :tab => 'authentication'}) do %>
 
 <div class="box tabular settings">
-<p><%= setting_check_box :login_required %></p>
+<p>
+<p><%= setting_select :login_required, [[l(:label_login_required_yes), "1"],
+                                        [l(:label_login_required_no), "0"]] %>
+  <em class="info"><%= t(:text_login_required_html, anonymous_role_path: edit_role_path(Role.anonymous)) %></em>
+</p>
 
 <p><%= setting_select :autologin, [[l(:label_disabled), 0]] + [1, 7, 30, 365].collect{|days| [l('datetime.distance_in_words.x_days', :count => days), days.to_s]} %></p>
 

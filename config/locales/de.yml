@@ -1236,3 +1236,6 @@ de:
   label_x_revisions: "%{count} revisions"
   error_can_not_delete_auth_source: This authentication mode is in use and cannot be
     deleted.
+  text_login_required_html: Ohne erforderliche Authentifizierung sind öffentlichen Projekte und deren Inhalte ohne Anmeldung frei zugänglich. Sie können die <a href="%{anonymous_role_path}">verwendeten Berechtigungen anpassen</a>.
+  label_login_required_yes: "Ja"
+  label_login_required_no: "Nein, anonymen Zugriff auf öffentliche Projekte erlauben"
