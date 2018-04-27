@@ -49,7 +49,7 @@ module Redmine
 
   # Class that represents a file diff
   class DiffTable < Array
-    attr_reader :file_name
+    attr_reader :file_name, :previous_file_name
 
     # Initialize with a Diff file and the type of Diff View
     # The type view must be inline or sbs (side_by_side)
@@ -60,6 +60,7 @@ module Redmine
       @type = type
       @style = style
       @file_name = nil
+      @previous_file_name = nil
       @git_diff = false
     end
 
@@ -120,8 +121,12 @@ module Redmine
           # keep the original file name
           @file_name = file_name.sub(%r{^a/}, '')
         else
+          # remove leading a/
+          @previous_file_name = file_name.sub(%r{^a/}, '') unless file_name == "/dev/null"
           # remove leading b/
           @file_name = arg.sub(%r{^b/}, '')
+
+          @previous_file_name = nil if @previous_file_name == @file_name
         end
       elsif @style == "Subversion"
         # removing trailing "(revision nn)"

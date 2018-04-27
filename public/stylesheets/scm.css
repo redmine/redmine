@@ -73,6 +73,10 @@ table.filecontent tr:target td.line-code { background-color:#DDEEFF; }
 
 img.filecontent { max-width: 100%; }
 
+.previous-filename {
+  font-weight: normal;
+}
+
 /* 12 different colors for the annonate view */
 table.annotate tr.bloc-0 td.author {border-right-color: #FFFFBF;}
 table.annotate tr.bloc-1 td.author {border-right-color: #EABFFF;}
