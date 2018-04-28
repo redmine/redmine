@@ -227,6 +227,14 @@ module ObjectHelpers
     query
   end
 
+  def Document.generate!(attributes={})
+    document = new(attributes)
+    document.title = "Generated document" if document.title.blank?
+    document.category ||= DocumentCategory.find(1)
+    document.save!
+    document
+  end
+
   def generate_import(fixture_name='import_issues.csv')
     import = IssueImport.new
     import.user_id = 2

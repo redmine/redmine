@@ -821,7 +821,7 @@ class Project < ActiveRecord::Base
   def copy(project, options={})
     project = project.is_a?(Project) ? project : Project.find(project)
 
-    to_be_copied = %w(members wiki versions issue_categories issues queries boards)
+    to_be_copied = %w(members wiki versions issue_categories issues queries boards documents)
     to_be_copied = to_be_copied & Array.wrap(options[:only]) unless options[:only].nil?
 
     Project.transaction do
@@ -1099,6 +1099,21 @@ class Project < ActiveRecord::Base
       new_board.attributes = board.attributes.dup.except("id", "project_id", "topics_count", "messages_count", "last_message_id")
       new_board.project = self
       self.boards << new_board
+    end
+  end
+
+  # Copies documents from +project+
+  def copy_documents(project)
+    project.documents.each do |document|
+      new_document = Document.new
+      new_document.attributes = document.attributes.dup.except("id", "project_id")
+      new_document.project = self
+
+      new_document.attachments = document.attachments.map do |attachement|
+        attachement.copy(:container => new_document)
+      end
+
+      self.documents << new_document
     end
   end
 

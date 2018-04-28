@@ -341,6 +341,28 @@ class ProjectCopyTest < ActiveSupport::TestCase
     end
   end
 
+  test "#copy should copy documents" do
+    source_project = Project.find(1)
+    assert @project.copy(source_project)
+
+    assert_equal 2, @project.documents.size
+    @project.documents.each do |document|
+      assert !source_project.documents.include?(document)
+    end
+  end
+
+  test "#copy should copy document attachments" do
+    document = Document.generate!(:title => "copy with attachment", :category_id => 1, :project_id => @source_project.id)
+    Attachment.create!(:container => document, :file => uploaded_test_file("testfile.txt", "text/plain"), :author_id => 1)
+    @source_project.documents << document
+    assert @project.copy(@source_project)
+
+    copied_document = @project.documents.where(:title => "copy with attachment").first
+    assert_not_nil copied_document
+    assert_equal 1, copied_document.attachments.count, "Attachment not copied"
+    assert_equal "testfile.txt", copied_document.attachments.first.filename
+  end
+
   test "#copy should change the new issues to use the copied issue categories" do
     issue = Issue.find(4)
     issue.update_attribute(:category_id, 3)
