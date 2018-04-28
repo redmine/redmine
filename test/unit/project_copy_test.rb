@@ -303,13 +303,16 @@ class ProjectCopyTest < ActiveSupport::TestCase
     assert project.wiki
   end
 
-  test "#copy should copy wiki pages and content with hierarchy" do
+  test "#copy should copy wiki pages, attachment and content with hierarchy" do
+    @source_project.wiki.pages.first.attachments << Attachment.first.copy
     assert_difference 'WikiPage.count', @source_project.wiki.pages.size do
       assert @project.copy(@source_project)
     end
 
     assert @project.wiki
     assert_equal @source_project.wiki.pages.size, @project.wiki.pages.size
+
+    assert_equal @source_project.wiki.pages.first.attachments.first.filename, @project.wiki.pages.first.attachments.first.filename
 
     @project.wiki.pages.each do |wiki_page|
       assert wiki_page.content

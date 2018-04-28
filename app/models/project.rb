@@ -930,6 +930,7 @@ class Project < ActiveRecord::Base
         new_wiki_page = WikiPage.new(page.attributes.dup.except("id", "wiki_id", "created_on", "parent_id"))
         new_wiki_page.content = new_wiki_content
         wiki.pages << new_wiki_page
+        new_wiki_page.attachments = page.attachments.map{|attachement| attachement.copy(:container => new_wiki_page)}
         wiki_pages_map[page.id] = new_wiki_page
       end
 
