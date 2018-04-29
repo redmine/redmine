@@ -100,7 +100,7 @@ when "IssueCustomField" %>
     <%= hidden_field_tag 'custom_field[role_ids][]', '' %>
   </fieldset>
 
-  <fieldset class="box" id="custom_field_tracker_ids"><legend><%=l(:label_tracker_plural)%></legend>
+  <fieldset class="box" id="custom_field_tracker_ids"><legend><%= toggle_checkboxes_link("#custom_field_tracker_ids input[type=checkbox]") %><%=l(:label_tracker_plural)%></legend>
   <% tracker_ids = @custom_field.tracker_ids %>
   <% Tracker.sorted.each do |tracker| %>
     <%= check_box_tag "custom_field[tracker_ids][]",
@@ -112,10 +112,9 @@ when "IssueCustomField" %>
     </label>
   <% end %>
   <%= hidden_field_tag "custom_field[tracker_ids][]", '' %>
-  <p><%= check_all_links 'custom_field_tracker_ids' %></p>
   </fieldset>
 
-  <fieldset class="box"><legend><%= l(:label_project_plural) %></legend>
+  <fieldset class="box"><legend><%= toggle_checkboxes_link("#custom_field_project_ids input[type=checkbox]:enabled") %><%= l(:label_project_plural) %></legend>
     <p><%= f.check_box :is_for_all, :data => {:disables => '#custom_field_project_ids input'} %></p>
 
     <div id="custom_field_project_ids">
@@ -124,7 +123,6 @@ when "IssueCustomField" %>
         content_tag('label', check_box_tag('custom_field[project_ids][]', p.id, project_ids.include?(p.id), :id => nil) + ' ' + p)
       end %>
       <%= hidden_field_tag('custom_field[project_ids][]', '', :id => nil) %>
-      <p><%= check_all_links 'custom_field_project_ids' %></p>
     </div>
   </fieldset>
 <% end %>
