@@ -1,4 +1,9 @@
 replaceIssueFormWith('<%= escape_javascript(render :partial => 'form') %>');
-<% if params[:form_update_triggered_by] == "issue_project_id" %>
-$("#watchers_form_container").html('<%= escape_javascript(render :partial => 'issues/watchers_form') %>');
+<% case params[:form_update_triggered_by] %>
+<% when "issue_project_id" %>
+  $("#watchers_form_container").html('<%= escape_javascript(render :partial => 'issues/watchers_form') %>');
+<% when "issue_category_id" %>
+  <% if @issue.assigned_to_id.blank? %>
+    $('#issue_assigned_to_id').val('<%= @issue.category.try(:assigned_to_id) %>');
+  <% end %>
 <% end %>
