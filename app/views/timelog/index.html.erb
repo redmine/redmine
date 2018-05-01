@@ -32,8 +32,8 @@
     <label><%= radio_button_tag 'c[]', 'all_inline' %> <%= l(:description_all_columns) %></label>
   </p>
   <p class="buttons">
-    <%= submit_tag l(:button_export), :name => nil, :onclick => "hideModal(this);" %>
-    <%= submit_tag l(:button_cancel), :name => nil, :onclick => "hideModal(this);", :type => 'button' %>
+    <%= submit_tag l(:button_export), :name => nil, :onclick => "hideModal(this);", :data => { :disable_with => false } %>
+    <%= submit_tag l(:button_cancel), :name => nil, :onclick => "hideModal(this);", :type => 'button', :data => { :disable_with => false } %>
   </p>
   <% end %>
 </div>
