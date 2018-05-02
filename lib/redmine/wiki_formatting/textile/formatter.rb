@@ -120,7 +120,7 @@ module Redmine
             ## replace <pre> content
             text.gsub!(/<redpre#(\d+)>/) do
               content = @pre_list[$1.to_i]
-              if content.match(/<code\s+class="(\w+)">\s?(.+)/m)
+              if content.match(/<code\s+class=["'](\w+)["']>\s?(.+)/m)
                 language = $1
                 text = $2
                 if Redmine::SyntaxHighlighting.language_supported?(language)
