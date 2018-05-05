@@ -14,12 +14,12 @@ class RedminePluginControllerGenerator < Rails::Generators::NamedBase
   end
 
   def copy_templates
-    template 'controller.rb.erb', "#{plugin_path}/app/controllers/#{controller}_controller.rb"
-    template 'helper.rb.erb', "#{plugin_path}/app/helpers/#{controller}_helper.rb"
-    template 'functional_test.rb.erb', "#{plugin_path}/test/functional/#{controller}_controller_test.rb"
+    template 'controller.rb.erb', "#{plugin_path}/app/controllers/#{controller.underscore}_controller.rb"
+    template 'helper.rb.erb', "#{plugin_path}/app/helpers/#{controller.underscore}_helper.rb"
+    template 'functional_test.rb.erb', "#{plugin_path}/test/functional/#{controller.underscore}_controller_test.rb"
     # View template for each action.
     actions.each do |action|
-      path = "#{plugin_path}/app/views/#{controller}/#{action}.html.erb"
+      path = "#{plugin_path}/app/views/#{controller.underscore}/#{action}.html.erb"
       @action_name = action
       template 'view.html.erb', path
     end
