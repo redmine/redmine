@@ -354,7 +354,7 @@ class User < Principal
   end
 
   def generate_password?
-    generate_password == '1' || generate_password == true
+    ActiveRecord::Type::Boolean.new.deserialize(generate_password)
   end
 
   # Generate and set a random password on given length

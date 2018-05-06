@@ -152,6 +152,22 @@ class Redmine::ApiTest::UsersTest < Redmine::ApiTest::Base
     assert_select 'user id', :text => user.id.to_s
   end
 
+  test "POST /users.xml with generate_password should generate password" do
+    assert_difference('User.count') do
+      post '/users.xml',
+        :params => {
+          :user => {
+            :login => 'foo', :firstname => 'Firstname', :lastname => 'Lastname',
+            :mail => 'foo@example.net', :generate_password => 'true'
+          }
+        },
+        :headers => credentials('admin')
+    end
+
+    user = User.order('id DESC').first
+    assert user.hashed_password.present?
+  end
+
   test "POST /users.json with valid parameters should create the user" do
     assert_difference('User.count') do
       post '/users.json',
