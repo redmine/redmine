@@ -50,10 +50,13 @@ class ImportsController < ApplicationController
       redirect_to import_mapping_path(@import)
     end
 
-  rescue CSV::MalformedCSVError => e
-    flash.now[:error] = l(:error_invalid_csv_file_or_settings)
-  rescue ArgumentError, EncodingError => e
-    flash.now[:error] = l(:error_invalid_file_encoding, :encoding => ERB::Util.h(@import.settings['encoding']))
+  # TODO: Remove ArgumentError when support for Ruby 2.2 is dropped (#28689)
+  rescue CSV::MalformedCSVError, ArgumentError, EncodingError => e
+    if e.is_a?(CSV::MalformedCSVError) && e.message !~ /Invalid byte sequence/
+      flash.now[:error] = l(:error_invalid_csv_file_or_settings)
+    else
+      flash.now[:error] = l(:error_invalid_file_encoding, :encoding => ERB::Util.h(@import.settings['encoding']))
+    end
   rescue SystemCallError => e
     flash.now[:error] = l(:error_can_not_read_import_file)
   end
