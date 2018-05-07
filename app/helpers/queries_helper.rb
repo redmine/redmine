@@ -275,7 +275,7 @@ module QueriesHelper
   def query_to_csv(items, query, options={})
     columns = query.columns
 
-    Redmine::Export::CSV.generate do |csv|
+    Redmine::Export::CSV.generate(:encoding => params[:encoding]) do |csv|
       # csv header fields
       csv << columns.map {|c| c.caption.to_s}
       # csv lines
@@ -370,7 +370,7 @@ module QueriesHelper
 
     tags
   end
- 
+
   def query_hidden_sort_tag(query)
     hidden_field_tag("sort", query.sort_criteria.to_param, :id => nil)
   end

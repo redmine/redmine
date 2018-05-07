@@ -38,6 +38,7 @@
     <label><%= check_box_tag 'c[]', 'description', @query.has_column?(:description) %> <%= l(:field_description) %></label>
     <label><%= check_box_tag 'c[]', 'last_notes', @query.has_column?(:last_notes) %> <%= l(:label_last_notes) %></label>
   </p>
+  <%= export_csv_encoding_select_tag %>
   <% if @issue_count > Setting.issues_export_limit.to_i %>
   <p class="icon icon-warning">
     <%= l(:setting_issues_export_limit) %>: <%= Setting.issues_export_limit.to_i %>

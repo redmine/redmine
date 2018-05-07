@@ -1,5 +1,5 @@
 <div class="contextual">
-<%= link_to l(:button_log_time), 
+<%= link_to l(:button_log_time),
             _new_time_entry_path(@project, @issue),
             :class => 'icon icon-time-add' if User.current.allowed_to?(:log_time, @project, :global => true) %>
 </div>
@@ -24,6 +24,7 @@
                                                           :disabled => (@report.criteria.length >= 3),
                                                           :id => "criterias") %>
      <%= link_to l(:button_clear), {:params => request.query_parameters.merge(:criteria => nil)}, :class => 'icon icon-reload' %></p>
+  <%= hidden_field_tag 'encoding', l(:general_csv_encoding) unless l(:general_csv_encoding).casecmp('UTF-8') == 0 %>
 <% end %>
 
 <% if @query.valid? %>
@@ -62,9 +63,17 @@
 </div>
 
 <% other_formats_links do |f| %>
-  <%= f.link_to_with_query_parameters 'CSV' %>
+  <%= f.link_to_with_query_parameters 'CSV', {}, :onclick => "showModal('csv-export-options', '330px'); return false;" %>
 <% end %>
 <% end %>
+<div id="csv-export-options" style="display: none;">
+  <h3 class="title"><%= l(:label_export_options, :export_format => 'CSV') %></h3>
+  <%= export_csv_encoding_select_tag %>
+  <p class="buttons">
+    <%= submit_tag l(:button_export), :name => nil, :id => 'csv-export-button' %>
+    <%= submit_tag l(:button_cancel), :name => nil, :onclick => 'hideModal(this);', :type => 'button' %>
+  </p>
+</div>
 <% end %>
 <% end %>
 
@@ -74,3 +83,14 @@
 
 <% html_title(@query.new_record? ? l(:label_spent_time) : @query.name, l(:label_report)) %>
 
+
+<%= javascript_tag do %>
+$(document).ready(function(){
+  $('input#csv-export-button').click(function(){
+    $('form input#encoding').val($('select#encoding option:selected').val());
+    $('form#query_form').attr('action', '<%= report_time_entries_path(:format => 'csv') %>').submit();
+    $('form#query_form').attr('action', '<%= report_time_entries_path %>');
+    hideModal(this);
+  });
+});
+<% end %>

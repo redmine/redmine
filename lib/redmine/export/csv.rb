@@ -31,12 +31,12 @@ module Redmine
 
         class << self
 
-          def generate(&block)
+          def generate(options = {}, &block)
             col_sep = l(:general_csv_separator)
-            encoding = l(:general_csv_encoding)
+            encoding = Encoding.find(options[:encoding]) rescue Encoding.find(l(:general_csv_encoding))
 
             str = ''.force_encoding(encoding)
-            if encoding == 'UTF-8'
+            if encoding == Encoding::UTF_8
               # BOM
               str = "\xEF\xBB\xBF".force_encoding(encoding)
             end

@@ -18,7 +18,7 @@
 require File.expand_path('../../../../../test_helper', __FILE__)
 
 class CsvTest < ActiveSupport::TestCase
-
+  include Redmine::I18n
   BOM = "\xEF\xBB\xBF".force_encoding('UTF-8')
 
   def test_should_include_bom_when_utf8_encoded
@@ -26,6 +26,21 @@ class CsvTest < ActiveSupport::TestCase
       string = Redmine::Export::CSV.generate {|csv| csv << %w(Foo Bar)}
       assert_equal 'UTF-8', string.encoding.name
       assert string.starts_with?(BOM)
+    end
+  end
+
+  def test_generate_should_return_strings_with_given_encoding
+    with_locale 'en' do
+      string = Redmine::Export::CSV.generate({encoding: 'ISO-8859-3'}) {|csv| csv << %w(Foo Bar)}
+      assert_equal 'ISO-8859-3', string.encoding.name
+      assert_not_equal l(:general_csv_encoding), string.encoding.name
+    end
+  end
+
+  def test_generate_should_return_strings_with_general_csv_encoding_if_invalid_encoding_is_given
+    with_locale 'en' do
+      string = Redmine::Export::CSV.generate({encoding: 'invalid-encoding-name'}) {|csv| csv << %w(Foo Bar)}
+      assert_equal l(:general_csv_encoding), string.encoding.name
     end
   end
 end
