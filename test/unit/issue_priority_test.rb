@@ -95,6 +95,13 @@ class IssuePriorityTest < ActiveSupport::TestCase
     assert_equal 'highest', IssuePriority.active.order(:position).last.position_name
   end
 
+  def test_changing_default_priority_should_update_position_names
+    prio = IssuePriority.first
+    prio.is_default = true
+    prio.save
+    assert_equal %w(default high4 high3 high2 highest), IssuePriority.active.to_a.sort.map(&:position_name)
+  end
+
   def test_destroying_a_priority_should_update_position_names
     IssuePriority.find_by_position_name('highest').destroy
     assert_equal %w(lowest default high2 highest), IssuePriority.active.to_a.sort.map(&:position_name)
