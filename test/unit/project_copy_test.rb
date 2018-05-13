@@ -51,6 +51,14 @@ class ProjectCopyTest < ActiveSupport::TestCase
     assert_equal false, project.copy(@source_project)
   end
 
+  test "#copy should copy project attachments" do
+    Attachment.create!(:container => @source_project, :file => uploaded_test_file("testfile.txt", "text/plain"), :author_id => 1)
+    assert @project.copy(@source_project)
+
+    assert_equal 1, @project.attachments.count, "Attachment not copied"
+    assert_equal "testfile.txt", @project.attachments.first.filename
+  end
+
   test "#copy should copy issues" do
     @source_project.issues << Issue.generate!(:status => IssueStatus.find_by_name('Closed'),
                                               :subject => "copy issue status",

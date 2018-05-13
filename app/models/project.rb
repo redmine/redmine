@@ -827,6 +827,11 @@ class Project < ActiveRecord::Base
     Project.transaction do
       if save
         reload
+
+        self.attachments = project.attachments.map do |attachment|
+          attachment.copy(:container => self)
+        end
+
         to_be_copied.each do |name|
           send "copy_#{name}", project
         end
