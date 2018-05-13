@@ -552,6 +552,7 @@ en-GB:
   label_version: Version
   label_version_new: New version
   label_version_plural: Versions
+  label_version_and_files: Versions (%{count}) and Files
   label_close_versions: Close completed versions
   label_confirmation: Confirmation
   label_export_to: 'Also available in:'

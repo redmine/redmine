@@ -5,7 +5,7 @@
 
 <fieldset class="box tabular"><legend><%= l(:button_copy) %></legend>
   <label class="block"><%= check_box_tag 'only[]', 'members', true, :id => nil %> <%= l(:label_member_plural) %> (<%= @source_project.members.count %>)</label>
-  <label class="block"><%= check_box_tag 'only[]', 'versions', true, :id => nil %> <%= l(:label_version_plural) %> (<%= @source_project.versions.count %>)</label>
+  <label class="block"><%= check_box_tag 'only[]', 'versions', true, :id => nil %> <%= l(:label_version_and_files, @source_project.versions.count) %></label>
   <label class="block"><%= check_box_tag 'only[]', 'issue_categories', true, :id => nil %> <%= l(:label_issue_category_plural) %> (<%= @source_project.issue_categories.count %>)</label>
   <label class="block"><%= check_box_tag 'only[]', 'issues', true, :id => nil %> <%= l(:label_issue_plural) %> (<%= @source_project.issues.count %>)</label>
   <label class="block"><%= check_box_tag 'only[]', 'queries', true, :id => nil %> <%= l(:label_query_plural) %> (<%= @source_project.queries.count %>)</label>

@@ -788,6 +788,7 @@ de:
   label_version: Version
   label_version_new: Neue Version
   label_version_plural: Versionen
+  label_version_and_files: Versionen (%{count}) und Dateien
   label_version_sharing_descendants: Mit Unterprojekten
   label_version_sharing_hierarchy: Mit Projekthierarchie
   label_version_sharing_none: Nicht gemeinsam verwenden
