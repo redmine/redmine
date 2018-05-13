@@ -951,6 +951,11 @@ class Project < ActiveRecord::Base
     project.versions.each do |version|
       new_version = Version.new
       new_version.attributes = version.attributes.dup.except("id", "project_id", "created_on", "updated_on")
+
+      new_version.attachments = version.attachments.map do |attachment|
+        attachment.copy(:container => new_version)
+      end
+
       self.versions << new_version
     end
   end

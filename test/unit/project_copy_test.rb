@@ -284,6 +284,18 @@ class ProjectCopyTest < ActiveSupport::TestCase
     end
   end
 
+  test "#copy should copy version attachments" do
+    version = Version.generate!(:name => "copy with attachment")
+    Attachment.create!(:container => version, :file => uploaded_test_file("testfile.txt", "text/plain"), :author_id => 1)
+    @source_project.versions << version
+    assert @project.copy(@source_project)
+
+    copied_version = @project.versions.where(:name => "copy with attachment").first
+    assert_not_nil copied_version
+    assert_equal 1, copied_version.attachments.count, "Attachment not copied"
+    assert_equal "testfile.txt", copied_version.attachments.first.filename
+  end
+
   test "#copy should copy wiki" do
     assert_difference 'Wiki.count' do
       assert @project.copy(@source_project)
