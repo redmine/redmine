@@ -1242,13 +1242,9 @@ ja:
   label_x_revisions: "%{count}件の履歴"
   error_can_not_delete_auth_source: この認証方式は使用中です。削除できません。
   button_actions: 操作
-  text_login_required_html: When not requiring authentication, public projects and their
-    contents are openly available on the network. You can <a href="%{anonymous_role_path}">edit
-    the applicable permissions</a>.
-  label_login_required_yes: 'Yes'
-  label_login_required_no: No, allow anonymous access to public projects
-  text_project_is_public_non_member: Public projects and their contents are available
-    to all logged-in users.
-  text_project_is_public_anonymous: Public projects and their contents are openly available
-    on the network.
-  label_version_and_files: Versions (%{count}) and Files
+  text_login_required_html: 認証を必須としない場合、公開プロジェクトとその中の情報にはネットワーク上の誰もがアクセスできます。<a href="%{anonymous_role_path}">匿名ユーザーの権限を編集</a>できます。
+  label_login_required_yes: 'はい'
+  label_login_required_no: いいえ (匿名ユーザーに公開プロジェクトへのアクセスを許可)
+  text_project_is_public_non_member: 公開プロジェクトとその中の情報にはログイン済みの全ユーザーがアクセスできます。
+  text_project_is_public_anonymous: 公開プロジェクトとその中の情報にはネットワーク上の全ユーザーがアクセスできます。
+  label_version_and_files: バージョン (%{count}) とファイル
