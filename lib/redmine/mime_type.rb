@@ -46,6 +46,7 @@ module Redmine
       'image/x-ms-bmp' => 'bmp',
       'application/javascript' => 'js',
       'application/pdf' => 'pdf',
+      'video/mp4' => 'mp4',
     }.freeze
 
     EXTENSIONS = MIME_TYPES.inject({}) do |map, (type, exts)|

@@ -250,8 +250,16 @@ class Attachment < ActiveRecord::Base
     Redmine::MimeType.of(filename) == "application/pdf"
   end
 
+  def is_video?
+    Redmine::MimeType.is_type?('video', filename)
+  end
+
+  def is_audio?
+    Redmine::MimeType.is_type?('audio', filename)
+  end
+
   def previewable?
-    is_text? || is_image?
+    is_text? || is_image? || is_video? || is_audio?
   end
 
   # Returns true if the file is readable

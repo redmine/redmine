@@ -1,6 +1,16 @@
 <%= render :layout => 'layouts/file' do %>
-  <%= render :partial => 'common/other',
+
+  <% kind = if @attachment.is_video?
+       'video'
+     elsif @attachment.is_audio?
+       'audio'
+     end %>
+
+  <%= render :partial => "common/other",
              :locals => {
+               :kind => kind,
+               :path => download_named_attachment_url(@attachment,
+                                                      @attachment.filename),
                :download_link => link_to_attachment(
                                    @attachment,
                                    :text => l(:label_no_preview_download),

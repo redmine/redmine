@@ -1,7 +1,23 @@
-<p class="nodata">
-  <% if defined? download_link %>
-    <%= t(:label_no_preview_alternative_html, link: download_link) %>
+<% download_link = nil unless defined? download_link %>
+<% kind = nil unless defined? kind %>
+<% path = nil unless defined? path %>
+
+<% if path.present? %>
+
+  <% if kind == 'video' %>
+    <%= content_tag :video, class: 'filecontent', src: path, controls: true do %>
+      <%= render partial: 'common/no_preview', locals: { download_link: download_link } %>
+    <% end %>
+  <% elsif kind == 'audio' %>
+    <%= content_tag :audio, class: 'filecontent', src: path, controls: true do %>
+      <%= render partial: 'common/no_preview', locals: { download_link: download_link } %>
+    <% end %>
   <% else %>
-    <%= l(:label_no_preview) %>
-  <% end %>
-</p>
+    <%= render partial: 'common/no_preview', locals: { download_link: download_link } %>
+   <% end %>
+
+<% else %>
+
+  <%= render partial: 'common/no_preview', locals: { download_link: download_link } %>
+
+<% end %>

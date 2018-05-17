@@ -17,8 +17,15 @@
 <% elsif @content %>
   <%= render :partial => 'common/file', :locals => {:filename => @path, :content => @content} %>
 <% else %>
+  <% kind = if Redmine::MimeType.is_type?('video', @path)
+       'video'
+     elsif Redmine::MimeType.is_type?('audio', @path)
+       'audio'
+     end %>
   <%= render :partial => 'common/other',
              :locals => {
+               :path => (url_for(params.merge(:action => 'raw')) if @allow_download),
+               :kind => kind,
                :download_link => @repository.supports_cat? ? link_to(
                  l(:label_no_preview_download),
                  { :action => 'raw', :id => @project,
