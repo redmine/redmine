@@ -103,7 +103,7 @@ module Redmine
           end
         end
         if @scope.include? "neuroml_DB" and @nmlDBcache.nil?
-          summaryUrlBase = "http://spike.asu.edu:5000/api/search?q=" + @question
+          summaryUrlBase = "https://neuroml-db.org/api/search?q=" + @question
           uri = URI.parse(summaryUrlBase)
           response = Net::HTTP.get_response(uri)
           if response.code_type.to_s == "Net::HTTPOK"
