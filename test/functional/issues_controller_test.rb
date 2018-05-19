@@ -3916,6 +3916,29 @@ class IssuesControllerTest < Redmine::ControllerTest
     assert_select 'input[type=hidden][name=?][value=?]', 'issue[watcher_user_ids][]', '', 1
   end
 
+  def test_new_as_copy_should_not_propose_locked_watchers
+    @request.session[:user_id] = 2
+
+    issue = Issue.find(1)
+    user = User.generate!
+    user2 = User.generate!
+
+    Watcher.create!(:watchable => issue, :user => user)
+    Watcher.create!(:watchable => issue, :user => user2)
+
+    user2.status = User::STATUS_LOCKED
+    user2.save!
+    get :new, :params => {
+        :project_id => 1,
+        :copy_from => 1
+      }
+
+    assert_select 'input[type=checkbox][name=?][checked=checked]', 'issue[watcher_user_ids][]', 1
+    assert_select 'input[type=checkbox][name=?][checked=checked][value=?]', 'issue[watcher_user_ids][]', user.id.to_s
+    assert_select 'input[type=checkbox][name=?][checked=checked][value=?]', 'issue[watcher_user_ids][]', user2.id.to_s, 0
+    assert_select 'input[type=hidden][name=?][value=?]', 'issue[watcher_user_ids][]', '', 1
+  end
+
   def test_new_as_copy_with_invalid_issue_should_respond_with_404
     @request.session[:user_id] = 2
     get :new, :params => {
