@@ -275,7 +275,8 @@ class Issue < ActiveRecord::Base
       end
     end
     unless options[:watchers] == false
-      self.watcher_user_ids = issue.watcher_user_ids.dup
+      self.watcher_user_ids =
+        issue.watcher_users.select{|u| u.status == User::STATUS_ACTIVE}.map(&:id)
     end
     @copied_from = issue
     @copy_options = options

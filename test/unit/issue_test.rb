@@ -1375,6 +1375,24 @@ class IssueTest < ActiveSupport::TestCase
     assert_not_nil copied_closed.closed_on
   end
 
+  def test_copy_should_not_copy_locked_watchers
+    user = User.find(2)
+    user2 = User.find(3)
+    issue = Issue.find(8)
+
+    Watcher.create!(:user => user, :watchable => issue)
+    Watcher.create!(:user => user2, :watchable => issue)
+
+    user2.status = User::STATUS_LOCKED
+    user2.save!
+
+    issue = Issue.new.copy_from(8)
+
+    assert issue.save
+    assert issue.watched_by?(user)
+    assert !issue.watched_by?(user2)
+  end
+
   def test_should_not_call_after_project_change_on_creation
     issue = Issue.new(:project_id => 1, :tracker_id => 1, :status_id => 1,
                       :subject => 'Test', :author_id => 1)

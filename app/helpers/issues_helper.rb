@@ -310,7 +310,7 @@ module IssuesHelper
   # Returns an array of users that are proposed as watchers
   # on the new issue form
   def users_for_new_issue_watchers(issue)
-    users = issue.watcher_users
+    users = issue.watcher_users.select{|u| u.status == User::STATUS_ACTIVE}
     if issue.project.users.count <= 20
       users = (users + issue.project.users.sort).uniq
     end
