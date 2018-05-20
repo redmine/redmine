@@ -740,6 +740,12 @@ module ApplicationHelper
       link_project = project
       esc, all, page, title = $1, $2, $3, $5
       if esc.nil?
+        if page =~ /^\#(.+)$/
+          anchor = sanitize_anchor_name($1)
+          url = "##{anchor}"
+          next link_to(title.present? ? title.html_safe : h(page), url, :class => 'wiki-page')
+        end
+
         if page =~ /^([^\:]+)\:(.*)$/
           identifier, page = $1, $2
           link_project = Project.find_by_identifier(identifier) || Project.find_by_name(identifier)
