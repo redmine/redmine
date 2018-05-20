@@ -694,6 +694,15 @@ RAW
           link_to(@russian_test,
                   "/projects/ecookbook/wiki/Another_page##{russian_eacape}",
                   :class => "wiki-page"),
+      # link to anchor
+      '[[#anchor]]' =>
+          link_to("#anchor",
+                  "#anchor",
+                  :class => "wiki-page"),
+      '[[#anchor|One-section]]' =>
+          link_to("One-section",
+                  "#anchor",
+                  :class => "wiki-page"),
       # page that doesn't exist
       '[[Unknown page]]' =>
           link_to("Unknown page",
