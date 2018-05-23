@@ -305,8 +305,13 @@ jsToolBar.prototype = {
       end = this.textarea.selectionEnd;
       scrollPos = this.textarea.scrollTop;
       sel = this.textarea.value.substring(start, end);
+      if (start > 0 && this.textarea.value.substr(start-1, 1).match(/\S/)) {
+        prefix = ' ' + prefix;
+      }
+      if (this.textarea.value.substr(end, 1).match(/\S/)) {
+        suffix = suffix + ' ';
+      }
     }
-
     if (sel.match(/ $/)) { // exclude ending space char, if any
       sel = sel.substring(0, sel.length - 1);
       suffix = suffix + " ";
