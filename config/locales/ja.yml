@@ -617,7 +617,7 @@ ja:
     one: 1コメント
     other: "%{count}コメント"
   label_comment_add: コメント追加
-  label_comment_added: 追加されたコメント
+  label_comment_added: コメントが追加されました
   label_comment_delete: コメント削除
   label_query: カスタムクエリ
   label_query_plural: カスタムクエリ
