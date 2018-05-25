@@ -1,0 +1,30 @@
+body {
+    text-align: center;
+    font-family: monospace;
+    font-size: 1.5em;
+}
+
+.main {
+    margin-top: 7em;
+}
+
+#logo {
+    width: 80px;
+}
+
+.large {
+    font-size: 1.4em;
+}
+
+.small {
+    font-size: 1em;
+}
+
+a {
+    color: #37abc8;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #297385;
+}
