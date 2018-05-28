@@ -54,6 +54,12 @@ command = cmdutil.command(cmdtable)
 _x = cgi.escape
 _u = lambda s: cgi.escape(urllib.quote(s))
 
+def _changectx(repo, rev):
+    if hasattr(repo, 'changectx'):
+        return repo.changectx(rev)
+    else:
+        return repo[rev]
+
 def _tip(ui, repo):
     # see mercurial/commands.py:tip
     def tiprev():
@@ -61,7 +67,7 @@ def _tip(ui, repo):
             return len(repo) - 1
         except TypeError:  # Mercurial < 1.1
             return repo.changelog.count() - 1
-    tipctx = repo.changectx(tiprev())
+    tipctx = _changectx(repo, tiprev())
     ui.write('<tip revision="%d" node="%s"/>\n'
              % (tipctx.rev(), _x(node.hex(tipctx.node()))))
 
@@ -94,13 +100,18 @@ def _branches(ui, repo):
             return repo.branchheads(branch, closed=False)
         except TypeError:  # Mercurial < 1.2
             return repo.branchheads(branch)
+    def lookup(rev, n):
+        try:
+            return repo.lookup(rev)
+        except RuntimeError:
+            return n
     for t, n, r in sorted(iterbranches(), key=lambda e: e[2], reverse=True):
-        if repo.lookup(r) in branchheads(t):
+        if lookup(r, n) in branchheads(t):
             ui.write('<branch revision="%d" node="%s" name="%s"/>\n'
                      % (r, _x(node.hex(n)), _x(t)))
 
 def _manifest(ui, repo, path, rev):
-    ctx = repo.changectx(rev)
+    ctx = _changectx(repo, rev)
     ui.write('<manifest revision="%d" path="%s">\n'
              % (ctx.rev(), _u(path)))
 
@@ -155,7 +166,7 @@ def rhdiff(ui, repo, *pats, **opts):
     """diff repository (or selected files)"""
     change = opts.pop('change', None)
     if change:  # add -c option for Mercurial<1.1
-        base = repo.changectx(change).parents()[0].rev()
+        base = _changectx(repo, change).parents()[0].rev()
         opts['rev'] = [str(base), change]
     opts['nodates'] = True
     return commands.diff(ui, repo, *map(urllib.unquote_plus, pats), **opts)
