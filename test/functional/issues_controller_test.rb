@@ -152,7 +152,7 @@ class IssuesControllerTest < Redmine::ControllerTest
         :f => ['tracker_id'],
         :op => {
           'tracker_id' => '='
-        },  
+        },
         :v => {
           'tracker_id' => ['1']
         }
@@ -253,10 +253,10 @@ class IssuesControllerTest < Redmine::ControllerTest
         :f => [filter_name],
         :op => {
           filter_name => '='
-        },  
+        },
         :v => {
           filter_name => ['Foo']
-        },  
+        },
         :c => ['project']
       }
     assert_response :success
@@ -1459,7 +1459,7 @@ class IssuesControllerTest < Redmine::ControllerTest
         :f => ['start_date'],
         :op => {
           :start_date => '='
-        },  
+        },
         :format => 'csv'
       }
     assert_equal 'text/csv', @response.content_type
@@ -1573,6 +1573,14 @@ class IssuesControllerTest < Redmine::ControllerTest
       end
     end
     assert_select 'title', :text => "Bug #1: Cannot print recipes - eCookbook - Redmine"
+
+    # action_menu for anonymous role
+    assert_select 'div.contextual' do
+      assert_select 'a[href=?]', '/issues/1/edit'
+      assert_select "form[data-cm-url=?]", '/issues/context_menu' do
+        assert_select 'span[class=?]', 'hascontextmenu'
+      end
+    end
   end
 
   def test_show_by_manager
@@ -1594,6 +1602,18 @@ class IssuesControllerTest < Redmine::ControllerTest
       assert_select 'fieldset' do
         assert_select 'legend', :text => 'Notes'
         assert_select 'textarea[name=?]', 'issue[notes]'
+      end
+    end
+
+    # action_menu for manager role
+    assert_select "div.contextual" do
+      assert_select 'a[href=?]', '/issues/1/edit'
+      assert_select 'a[href=?]', '/issues/1/time_entries/new'
+      assert_select 'a[href=?]', '/watchers/watch?object_id=1&object_type=issue'
+      assert_select 'a[href=?]', '/projects/ecookbook/issues/1/copy'
+      assert_select 'a[href=?][data-method=?]', '/issues/1', 'delete'
+      assert_select 'form[data-cm-url=?]', '/issues/context_menu' do
+        assert_select 'span[class=?]', 'hascontextmenu'
       end
     end
   end
@@ -2664,7 +2684,7 @@ class IssuesControllerTest < Redmine::ControllerTest
           :tracker_id => 3,
           :description => 'Prefilled',
           :custom_field_values => {
-          '2' => 'Custom field value'}    
+          '2' => 'Custom field value'}
         }
       }
 
@@ -2788,7 +2808,7 @@ class IssuesControllerTest < Redmine::ControllerTest
     assert !t.disabled_core_fields.include?('parent_issue_id')
 
     get :new, :params => {
-        :project_id => 1, issue: { parent_issue_id: 1 
+        :project_id => 1, issue: { parent_issue_id: 1
       }
       }
     assert_response :success
@@ -2798,7 +2818,7 @@ class IssuesControllerTest < Redmine::ControllerTest
     t.save!
     assert t.disabled_core_fields.include?('parent_issue_id')
     get :new, :params => {
-        :project_id => 1, issue: { parent_issue_id: 1 
+        :project_id => 1, issue: { parent_issue_id: 1
       }
       }
     assert_response :success
@@ -2856,7 +2876,7 @@ class IssuesControllerTest < Redmine::ControllerTest
         :issue => {
           :tracker_id => 2,
           :status_id => 1
-        },  
+        },
         :was_default_status => 1
       }
     assert_response :success
@@ -2875,7 +2895,7 @@ class IssuesControllerTest < Redmine::ControllerTest
         :issue => {
           :project_id => 1,
           :fixed_version_id => ''
-        },  
+        },
         :form_update_triggered_by => 'issue_project_id'
       }
     assert_response :success
@@ -2903,7 +2923,7 @@ class IssuesControllerTest < Redmine::ControllerTest
               :start_date => '2010-11-07',
               :estimated_hours => '',
               :custom_field_values => {
-              '2' => 'Value for field 2'}    
+              '2' => 'Value for field 2'}
             }
           }
       end
@@ -2962,7 +2982,7 @@ class IssuesControllerTest < Redmine::ControllerTest
               :priority_id => 5,
               :estimated_hours => '',
               :custom_field_values => {
-              '2' => 'Value for field 2'}    
+              '2' => 'Value for field 2'}
             }
           }
       end
@@ -2988,7 +3008,7 @@ class IssuesControllerTest < Redmine::ControllerTest
               :priority_id => 5,
               :estimated_hours => '',
               :custom_field_values => {
-              '2' => 'Value for field 2'}    
+              '2' => 'Value for field 2'}
             }
           }
       end
@@ -3009,7 +3029,7 @@ class IssuesControllerTest < Redmine::ControllerTest
             :tracker_id => 3,
             :subject => 'This is first issue',
             :priority_id => 5
-          },  
+          },
           :continue => ''
         }
     end
@@ -3051,7 +3071,7 @@ class IssuesControllerTest < Redmine::ControllerTest
             :description => 'This is the description',
             :priority_id => 5,
             :custom_field_values => {
-            '1' => ['', 'MySQL', 'Oracle']}    
+            '1' => ['', 'MySQL', 'Oracle']}
           }
         }
     end
@@ -3074,7 +3094,7 @@ class IssuesControllerTest < Redmine::ControllerTest
             :description => 'This is the description',
             :priority_id => 5,
             :custom_field_values => {
-            '1' => ['']}    
+            '1' => ['']}
           }
         }
     end
@@ -3097,7 +3117,7 @@ class IssuesControllerTest < Redmine::ControllerTest
             :description => 'This is the description',
             :priority_id => 5,
             :custom_field_values => {
-            field.id.to_s => ['', '2', '3']}    
+            field.id.to_s => ['', '2', '3']}
           }
         }
     end
@@ -3145,8 +3165,8 @@ class IssuesControllerTest < Redmine::ControllerTest
             :due_date => '',
             :custom_field_values => {
               cf1.id.to_s => '', cf2.id.to_s => ''
-            }    
-            
+            }
+
           }
         }
       assert_response :success
@@ -3175,8 +3195,8 @@ class IssuesControllerTest < Redmine::ControllerTest
             :due_date => '',
             :custom_field_values => {
               cf1.id.to_s => '', cf2.id.to_s => ['']
-            }    
-            
+            }
+
           }
         }
       assert_response :success
@@ -3205,8 +3225,8 @@ class IssuesControllerTest < Redmine::ControllerTest
             :due_date => '2012-07-16',
             :custom_field_values => {
               cf1.id.to_s => 'value1', cf2.id.to_s => 'value2'
-            }    
-            
+            }
+
           }
         }
       assert_response 302
@@ -3232,7 +3252,7 @@ class IssuesControllerTest < Redmine::ControllerTest
             :tracker_id => 1,
             :status_id => 1,
             :subject => 'Test'
-            
+
           }
         }
       assert_response 302
@@ -3410,7 +3430,7 @@ class IssuesControllerTest < Redmine::ControllerTest
             :project_id => 3,
             :tracker_id => 2,
             :subject => 'Foo'
-          },  
+          },
           :continue => '1'
         }
       assert_redirected_to '/issues/new?issue%5Bproject_id%5D=3&issue%5Btracker_id%5D=2'
@@ -3463,7 +3483,7 @@ class IssuesControllerTest < Redmine::ControllerTest
               :priority_id => 5,
               :estimated_hours => '',
               :custom_field_values => {
-              '2' => 'Value for field 2'}    
+              '2' => 'Value for field 2'}
             }
           }
       end
@@ -3522,7 +3542,7 @@ class IssuesControllerTest < Redmine::ControllerTest
       post :create, :params => {
           :project_id => 1,
           :issue => {
-            :tracker => "A param can not be a Tracker" 
+            :tracker => "A param can not be a Tracker"
           }
         }
     end
@@ -3539,11 +3559,11 @@ class IssuesControllerTest < Redmine::ControllerTest
               :project_id => 1,
               :issue => {
                 :tracker_id => '1',
-                :subject => 'With attachment' 
-              },  
+                :subject => 'With attachment'
+              },
               :attachments => {
                 '1' => {
-                'file' => uploaded_test_file('testfile.txt', 'text/plain'), 'description' => 'test file'}    
+                'file' => uploaded_test_file('testfile.txt', 'text/plain'), 'description' => 'test file'}
               }
             }
         end
@@ -3574,11 +3594,11 @@ class IssuesControllerTest < Redmine::ControllerTest
             :project_id => 1,
             :issue => {
               :tracker_id => '1',
-              :subject => 'With attachment' 
-            },  
+              :subject => 'With attachment'
+            },
             :attachments => {
               '1' => {
-              'file' => uploaded_test_file('testfile.txt', 'text/plain'), 'description' => 'test file'}    
+              'file' => uploaded_test_file('testfile.txt', 'text/plain'), 'description' => 'test file'}
             }
           }
       end
@@ -3600,11 +3620,11 @@ class IssuesControllerTest < Redmine::ControllerTest
             :project_id => 1,
             :issue => {
               :tracker_id => '1',
-              :subject => '' 
-            },  
+              :subject => ''
+            },
             :attachments => {
               '1' => {
-              'file' => uploaded_test_file('testfile.txt', 'text/plain'), 'description' => 'test file'}    
+              'file' => uploaded_test_file('testfile.txt', 'text/plain'), 'description' => 'test file'}
             }
           }
         assert_response :success
@@ -3631,11 +3651,11 @@ class IssuesControllerTest < Redmine::ControllerTest
             :project_id => 1,
             :issue => {
               :tracker_id => '1',
-              :subject => '' 
-            },  
+              :subject => ''
+            },
             :attachments => {
               'p0' => {
-              'token' => attachment.token}    
+              'token' => attachment.token}
             }
           }
         assert_response :success
@@ -3657,11 +3677,11 @@ class IssuesControllerTest < Redmine::ControllerTest
             :project_id => 1,
             :issue => {
               :tracker_id => '1',
-              :subject => 'Saved attachments' 
-            },  
+              :subject => 'Saved attachments'
+            },
             :attachments => {
               'p0' => {
-              'token' => attachment.token}    
+              'token' => attachment.token}
             }
           }
         assert_response 302
@@ -3983,7 +4003,7 @@ class IssuesControllerTest < Redmine::ControllerTest
             :project_id => '1',
             :tracker_id => '1',
             :status_id => '1'
-          },  
+          },
           :was_default_status => '1'
         }
     end
@@ -4027,7 +4047,7 @@ class IssuesControllerTest < Redmine::ControllerTest
               :tracker_id => '3',
               :status_id => '1',
               :subject => 'Copy with attachments'
-            },  
+            },
             :copy_attachments => '1'
           }
       end
@@ -4075,7 +4095,7 @@ class IssuesControllerTest < Redmine::ControllerTest
               :tracker_id => '3',
               :status_id => '1',
               :subject => 'Copy with attachments'
-            },  
+            },
             :copy_attachments => '1',
             :attachments => {
               '1' => {
@@ -4174,7 +4194,7 @@ class IssuesControllerTest < Redmine::ControllerTest
             :tracker_id => '3',
             :status_id => '1',
             :subject => 'Copy with subtasks'
-          },  
+          },
           :copy_subtasks => '1'
         }
     end
@@ -4198,8 +4218,8 @@ class IssuesControllerTest < Redmine::ControllerTest
             :status_id => '1',
             :subject => 'Copy with subtasks',
             :custom_field_values => {
-            '2' => 'Foo'}    
-          },  
+            '2' => 'Foo'}
+          },
           :copy_subtasks => '1'
         }
     end
@@ -4380,12 +4400,12 @@ class IssuesControllerTest < Redmine::ControllerTest
         :id => 1,
         :issue => {
           :status_id => 5,
-          :priority_id => 7 
-        },  
+          :priority_id => 7
+        },
         :time_entry => {
           :hours => '2.5',
           :comments => 'test_get_edit_with_params',
-          :activity_id => 10 
+          :activity_id => 10
         }
       }
     assert_response :success
@@ -4624,7 +4644,7 @@ class IssuesControllerTest < Redmine::ControllerTest
                 :project_id => '1',
                 :tracker_id => '2',
                 :priority_id => '6'
-                
+
               }
             }
         end
@@ -4687,9 +4707,9 @@ class IssuesControllerTest < Redmine::ControllerTest
             :issue => {
               :subject => 'Custom field change',
               :custom_field_values => {
-                '1' => ['', 'Oracle', 'PostgreSQL'] 
-              }    
-              
+                '1' => ['', 'Oracle', 'PostgreSQL']
+              }
+
             }
           }
       end
@@ -4710,12 +4730,12 @@ class IssuesControllerTest < Redmine::ControllerTest
             :issue => {
               :status_id => 2,
               :assigned_to_id => 3,
-              :notes => 'Assigned to dlopper' 
-            },  
+              :notes => 'Assigned to dlopper'
+            },
             :time_entry => {
               :hours => '',
               :comments => '',
-              :activity_id => TimeEntryActivity.first 
+              :activity_id => TimeEntryActivity.first
             }
           }
       end
@@ -4741,7 +4761,7 @@ class IssuesControllerTest < Redmine::ControllerTest
       put :update, :params => {
           :id => 1,
           :issue => {
-            :notes => notes 
+            :notes => notes
           }
         }
     end
@@ -4809,12 +4829,12 @@ class IssuesControllerTest < Redmine::ControllerTest
       put :update, :params => {
           :id => 1,
           :issue => {
-            :notes => '2.5 hours added' 
-          },  
+            :notes => '2.5 hours added'
+          },
           :time_entry => {
             :hours => '2.5',
             :comments => 'test_put_update_with_note_and_spent_time',
-            :activity_id => TimeEntryActivity.first.id 
+            :activity_id => TimeEntryActivity.first.id
           }
         }
     end
@@ -4868,10 +4888,10 @@ class IssuesControllerTest < Redmine::ControllerTest
             :id => 1,
             :issue => {
               :notes => ''
-            },  
+            },
             :attachments => {
               '1' => {
-              'file' => uploaded_test_file('testfile.txt', 'text/plain'), 'description' => 'test file'}    
+              'file' => uploaded_test_file('testfile.txt', 'text/plain'), 'description' => 'test file'}
             }
           }
       end
@@ -4907,11 +4927,11 @@ class IssuesControllerTest < Redmine::ControllerTest
         put :update, :params => {
             :id => 1,
             :issue => {
-              :subject => '' 
-            },  
+              :subject => ''
+            },
             :attachments => {
               '1' => {
-              'file' => uploaded_test_file('testfile.txt', 'text/plain'), 'description' => 'test file'}    
+              'file' => uploaded_test_file('testfile.txt', 'text/plain'), 'description' => 'test file'}
             }
           }
         assert_response :success
@@ -4937,11 +4957,11 @@ class IssuesControllerTest < Redmine::ControllerTest
         put :update, :params => {
             :id => 1,
             :issue => {
-              :subject => '' 
-            },  
+              :subject => ''
+            },
             :attachments => {
               'p0' => {
-              'token' => attachment.token}    
+              'token' => attachment.token}
             }
           }
         assert_response :success
@@ -4964,10 +4984,10 @@ class IssuesControllerTest < Redmine::ControllerTest
               :id => 1,
               :issue => {
                 :notes => 'Attachment added'
-              },  
+              },
               :attachments => {
                 'p0' => {
-                'token' => attachment.token}    
+                'token' => attachment.token}
               }
             }
           assert_redirected_to '/issues/1'
@@ -4992,10 +5012,10 @@ class IssuesControllerTest < Redmine::ControllerTest
           :id => 1,
           :issue => {
             :notes => ''
-          },  
+          },
           :attachments => {
             '1' => {
-            'file' => uploaded_test_file('testfile.txt', 'text/plain')}    
+            'file' => uploaded_test_file('testfile.txt', 'text/plain')}
           }
         }
       assert_redirected_to :action => 'show', :id => '1'
@@ -5015,7 +5035,7 @@ class IssuesControllerTest < Redmine::ControllerTest
             :issue => {
               :notes => 'Removing attachments',
               :deleted_attachment_ids => ['1', '5']
-              
+
             }
           }
       end
@@ -5042,7 +5062,7 @@ class IssuesControllerTest < Redmine::ControllerTest
               :subject => '',
               :notes => 'Removing attachments',
               :deleted_attachment_ids => ['1', '5']
-              
+
             }
           }
       end
@@ -5085,7 +5105,7 @@ class IssuesControllerTest < Redmine::ControllerTest
             :subject => new_subject,
             :priority_id => '6',
             :category_id => '1' # no change
-            
+
           }
         }
       assert_equal 1, ActionMailer::Base.deliveries.size
@@ -5101,7 +5121,7 @@ class IssuesControllerTest < Redmine::ControllerTest
           :id => 1,
           :issue => {
             :notes => notes
-          },  
+          },
           :time_entry => {
             "comments"=>"", "activity_id"=>"", "hours"=>"2z"
           }
@@ -5123,7 +5143,7 @@ class IssuesControllerTest < Redmine::ControllerTest
           :id => 1,
           :issue => {
             :notes => notes
-          },  
+          },
           :time_entry => {
             "comments"=>"this is my comment", "activity_id"=>"", "hours"=>""
           }
@@ -5145,7 +5165,7 @@ class IssuesControllerTest < Redmine::ControllerTest
         :id => issue.id,
         :issue => {
           :fixed_version_id => 4
-          
+
         }
       }
 
@@ -5163,8 +5183,8 @@ class IssuesControllerTest < Redmine::ControllerTest
         :id => issue.id,
         :issue => {
           :fixed_version_id => 4
-          
-        },  
+
+        },
         :back_url => '/issues'
       }
 
@@ -5180,8 +5200,8 @@ class IssuesControllerTest < Redmine::ControllerTest
         :id => issue.id,
         :issue => {
           :fixed_version_id => 4
-          
-        },  
+
+        },
         :back_url => 'http://google.com'
       }
 
@@ -5197,7 +5217,7 @@ class IssuesControllerTest < Redmine::ControllerTest
         :issue => {
           :status_id => 6,
           :notes => 'Notes'
-        },  
+        },
         :prev_issue_id => 8,
         :next_issue_id => 12,
         :issue_position => 2,
@@ -5486,7 +5506,7 @@ class IssuesControllerTest < Redmine::ControllerTest
           :priority_id => 7,
           :assigned_to_id => '',
           :custom_field_values => {
-          '2' => ''}    
+          '2' => ''}
         }
       }
 
@@ -5516,7 +5536,7 @@ class IssuesControllerTest < Redmine::ControllerTest
             :priority_id => '',
             :assigned_to_id => group.id,
             :custom_field_values => {
-            '2' => ''}    
+            '2' => ''}
           }
         }
 
@@ -5535,7 +5555,7 @@ class IssuesControllerTest < Redmine::ControllerTest
           :priority_id => 7,
           :assigned_to_id => '',
           :custom_field_values => {
-          '2' => ''}    
+          '2' => ''}
         }
       }
 
@@ -5563,7 +5583,7 @@ class IssuesControllerTest < Redmine::ControllerTest
           :priority_id => 7,
           :assigned_to_id => '',
           :custom_field_values => {
-          '2' => ''}    
+          '2' => ''}
         }
       }
     assert_response 403
@@ -5611,7 +5631,7 @@ class IssuesControllerTest < Redmine::ControllerTest
         :id => 1,
         :issue => {
           :project_id => '2'
-        },  
+        },
         :follow => '1'
       }
     assert_redirected_to '/issues/1'
@@ -5623,7 +5643,7 @@ class IssuesControllerTest < Redmine::ControllerTest
         :id => [1, 2],
         :issue => {
           :project_id => '2'
-        },  
+        },
         :follow => '1'
       }
     assert_redirected_to '/projects/onlinestore/issues'
@@ -5730,7 +5750,7 @@ class IssuesControllerTest < Redmine::ControllerTest
           :priority_id => '',
           :assigned_to_id => '',
           :custom_field_values => {
-          '2' => '777'}    
+          '2' => '777'}
         }
       }
 
@@ -5753,7 +5773,7 @@ class IssuesControllerTest < Redmine::ControllerTest
           :priority_id => '',
           :assigned_to_id => '',
           :custom_field_values => {
-          '1' => '__none__'}    
+          '1' => '__none__'}
         }
       }
     assert_response 302
@@ -5773,7 +5793,7 @@ class IssuesControllerTest < Redmine::ControllerTest
           :priority_id => '',
           :assigned_to_id => '',
           :custom_field_values => {
-          '1' => ['MySQL', 'Oracle']}    
+          '1' => ['MySQL', 'Oracle']}
         }
       }
 
@@ -5797,7 +5817,7 @@ class IssuesControllerTest < Redmine::ControllerTest
           :priority_id => '',
           :assigned_to_id => '',
           :custom_field_values => {
-          '1' => ['__none__']}    
+          '1' => ['__none__']}
         }
       }
     assert_response 302
@@ -5953,7 +5973,7 @@ class IssuesControllerTest < Redmine::ControllerTest
             :ids => [1, 2],
             :issue => {
               :project_id => '2'
-            },  
+            },
             :copy => '1'
           }
       end
@@ -5975,7 +5995,7 @@ class IssuesControllerTest < Redmine::ControllerTest
           :ids => [1, 2, 3],
           :issue => {
             :project_id => '2'
-          },  
+          },
           :copy => '1'
         }
       assert_response 302
@@ -5990,7 +6010,7 @@ class IssuesControllerTest < Redmine::ControllerTest
         :ids => [1, 2, 3],
         :issue => {
           :project_id => ''
-        },  
+        },
         :copy => '1'
       }
     assert_response 403
@@ -6004,7 +6024,7 @@ class IssuesControllerTest < Redmine::ControllerTest
         :ids => [1, 2, 3],
         :issue => {
           :project_id => '1'
-        },  
+        },
         :copy => '1'
       }
     assert_response 403
@@ -6031,7 +6051,7 @@ class IssuesControllerTest < Redmine::ControllerTest
             :status_id => '',
             :start_date => '',
             :due_date => ''
-            
+
           }
         }
     end
@@ -6071,7 +6091,7 @@ class IssuesControllerTest < Redmine::ControllerTest
               :status_id => '1',
               :start_date => '2009-12-01',
               :due_date => '2009-12-31'
-              
+
             }
           }
       end
@@ -6101,7 +6121,7 @@ class IssuesControllerTest < Redmine::ControllerTest
             :status_id => '3',
             :start_date => '2009-12-01',
             :due_date => '2009-12-31'
-            
+
           }
         }
     end
@@ -6124,7 +6144,7 @@ class IssuesControllerTest < Redmine::ControllerTest
             :copy_attachments => '0',
             :issue => {
               :project_id => ''
-              
+
             }
           }
       end
@@ -6144,7 +6164,7 @@ class IssuesControllerTest < Redmine::ControllerTest
             :copy_attachments => '1',
             :issue => {
               :project_id => ''
-              
+
             }
           }
       end
@@ -6162,7 +6182,7 @@ class IssuesControllerTest < Redmine::ControllerTest
             :link_copy => '1',
             :issue => {
               :project_id => '1'
-              
+
             }
           }
       end
@@ -6180,7 +6200,7 @@ class IssuesControllerTest < Redmine::ControllerTest
           :copy_subtasks => '0',
           :issue => {
             :project_id => ''
-            
+
           }
         }
     end
@@ -6198,7 +6218,7 @@ class IssuesControllerTest < Redmine::ControllerTest
           :copy_subtasks => '1',
           :issue => {
             :project_id => ''
-            
+
           }
         }
     end
@@ -6217,7 +6237,7 @@ class IssuesControllerTest < Redmine::ControllerTest
           :copy_watchers => '1',
           :issue => {
             :project_id => ''
-            
+
           }
         }
     end
@@ -6237,7 +6257,7 @@ class IssuesControllerTest < Redmine::ControllerTest
           :copy_subtasks => '1',
           :issue => {
             :project_id => ''
-            
+
           }
         }
     end
@@ -6252,7 +6272,7 @@ class IssuesControllerTest < Redmine::ControllerTest
         :copy => '1',
         :issue => {
           :project_id => 2
-        },  
+        },
         :follow => '1'
       }
     issue = Issue.order('id DESC').first
