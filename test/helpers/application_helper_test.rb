@@ -1409,7 +1409,7 @@ RAW
   def test_thumbnail_tag
     a = Attachment.find(3)
     assert_select_in thumbnail_tag(a),
-      'a[href=?][title=?] img[alt="3"][src=?]',
+      'a[href=?][title=?] img[src=?]',
       "/attachments/3/logo.gif", "logo.gif", "/attachments/thumbnail/3"
   end
 
