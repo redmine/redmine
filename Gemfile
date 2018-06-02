@@ -60,7 +60,7 @@ if File.exist?(database_file)
     adapters.each do |adapter|
       case adapter
       when 'mysql2'
-        gem "mysql2", "~> 0.4.6", :platforms => [:mri, :mingw, :x64_mingw]
+        gem "mysql2", "~> 0.5.0", :platforms => [:mri, :mingw, :x64_mingw]
       when /postgresql/
         gem "pg", "~> 0.18.1", :platforms => [:mri, :mingw, :x64_mingw]
       when /sqlite3/
