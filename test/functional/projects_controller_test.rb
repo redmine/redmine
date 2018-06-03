@@ -656,6 +656,28 @@ class ProjectsControllerTest < Redmine::ControllerTest
     assert_select "tr#member-#{member.id}"
   end
 
+  def test_settings_should_show_tabs_depending_on_permission
+    @request.session[:user_id] = 3
+    role = User.find(3).roles.first
+
+    role.permissions = []
+    role.save
+    get :settings, :params => {
+      :id => 'ecookbook'
+    }
+    assert_response 403
+
+    role.add_permission! :manage_repository, :manage_boards, :manage_project_activities
+    get :settings, :params => {
+      :id => 'ecookbook'
+    }
+    assert_response :success
+    assert_select 'a[id^=tab-]', 3
+    assert_select 'a#tab-repositories'
+    assert_select 'a#tab-boards'
+    assert_select 'a#tab-activities'
+  end
+
   def test_update
     @request.session[:user_id] = 2 # manager
     post :update, :params => {
