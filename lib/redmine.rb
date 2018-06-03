@@ -126,7 +126,7 @@ Redmine::AccessControl.map do |map|
     map.permission :log_time, {:timelog => [:new, :create]}, :require => :loggedin
     map.permission :edit_time_entries, {:timelog => [:edit, :update, :destroy, :bulk_edit, :bulk_update]}, :require => :member
     map.permission :edit_own_time_entries, {:timelog => [:edit, :update, :destroy,:bulk_edit, :bulk_update]}, :require => :loggedin
-    map.permission :manage_project_activities, {:project_enumerations => [:update, :destroy]}, :require => :member
+    map.permission :manage_project_activities, {:projects => :settings, :project_enumerations => [:update, :destroy]}, :require => :member
   end
 
   map.project_module :news do |map|
@@ -164,7 +164,7 @@ Redmine::AccessControl.map do |map|
     map.permission :browse_repository, {:repositories => [:show, :browse, :entry, :raw, :annotate, :changes, :diff, :stats, :graph]}, :read => true
     map.permission :commit_access, {}
     map.permission :manage_related_issues, {:repositories => [:add_related_issue, :remove_related_issue]}
-    map.permission :manage_repository, {:repositories => [:new, :create, :edit, :update, :committers, :destroy]}, :require => :member
+    map.permission :manage_repository, {:projects => :settings, :repositories => [:new, :create, :edit, :update, :committers, :destroy]}, :require => :member
   end
 
   map.project_module :boards do |map|
@@ -174,7 +174,7 @@ Redmine::AccessControl.map do |map|
     map.permission :edit_own_messages, {:messages => :edit, :attachments => :upload}, :require => :loggedin
     map.permission :delete_messages, {:messages => :destroy}, :require => :member
     map.permission :delete_own_messages, {:messages => :destroy}, :require => :loggedin
-    map.permission :manage_boards, {:boards => [:new, :create, :edit, :update, :destroy]}, :require => :member
+    map.permission :manage_boards, {:projects => :settings, :boards => [:new, :create, :edit, :update, :destroy]}, :require => :member
   end
 
   map.project_module :calendar do |map|
