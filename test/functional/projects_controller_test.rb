@@ -658,18 +658,19 @@ class ProjectsControllerTest < Redmine::ControllerTest
 
   def test_settings_should_show_tabs_depending_on_permission
     @request.session[:user_id] = 3
-    role = User.find(3).roles.first
+    project = Project.find(1)
+    role = User.find(3).roles_for_project(project).first
 
     role.permissions = []
     role.save
     get :settings, :params => {
-      :id => 'ecookbook'
+      :id => project.id
     }
     assert_response 403
 
     role.add_permission! :manage_repository, :manage_boards, :manage_project_activities
     get :settings, :params => {
-      :id => 'ecookbook'
+      :id => project.id
     }
     assert_response :success
     assert_select 'a[id^=tab-]', 3
