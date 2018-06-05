@@ -514,6 +514,15 @@ div.journal ul.details a:hover, ul.revision-info a:hover {color:#D14848;}
 body.avatars-on div.journal {padding-left:32px;}
 div.journal h4 img.gravatar {margin-left:-32px;}
 
+#history {
+  padding: 0 6px;
+  margin-bottom: 10px;
+  border-right: 1px solid #d7d7d7;
+  border-bottom: 1px solid #d7d7d7;
+  border-left: 1px solid #d7d7d7;
+  border-radius: 0 0 3px 3px / 0 0 3px 3px;
+}
+
 #history div:target h4 {background-color:#DDEEFF;}
 
 div#activity dl, #search-results { margin-left: 2em; }
