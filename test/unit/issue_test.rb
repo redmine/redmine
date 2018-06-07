@@ -1393,6 +1393,26 @@ class IssueTest < ActiveSupport::TestCase
     assert !issue.watched_by?(user2)
   end
 
+  def test_copy_should_clear_subtasks_target_version_if_locked_or_closed
+    version = Version.new(:project => Project.find(1), :name => '2.1',)
+    version.save!
+
+    parent = Issue.generate!
+    child1 = Issue.generate!(:parent_issue_id => parent.id, :subject => 'Child 1', :fixed_version_id => 3)
+    child2 = Issue.generate!(:parent_issue_id => parent.id, :subject => 'Child 2', :fixed_version_id => version.id)
+
+    version.status = 'locked'
+    version.save!
+
+    copy = parent.reload.copy
+
+    assert_difference 'Issue.count', 3 do
+      assert copy.save
+    end
+
+    assert_equal [3, nil], copy.children.map(&:fixed_version_id)
+  end
+
   def test_should_not_call_after_project_change_on_creation
     issue = Issue.new(:project_id => 1, :tracker_id => 1, :status_id => 1,
                       :subject => 'Test', :author_id => 1)
