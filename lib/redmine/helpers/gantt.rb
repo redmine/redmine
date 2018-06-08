@@ -32,8 +32,8 @@ module Redmine
         IssueRelation::TYPE_PRECEDES => { :landscape_margin => 20, :color => '#628FEA' }
       }.freeze
 
-      # :nodoc:
       # Some utility methods for the PDF export
+      # @private
       class PDF
         MaxCharactorsForSubject = 45
         TotalWidth = 280

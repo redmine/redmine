@@ -18,7 +18,8 @@
 module Redmine
   module Scm
     module Adapters
-      class CommandFailed < StandardError #:nodoc:
+      # @private
+      class CommandFailed < StandardError
       end
     end
   end

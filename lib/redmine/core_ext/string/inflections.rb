@@ -15,10 +15,13 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-module Redmine #:nodoc:
-  module CoreExtensions #:nodoc:
-    module String #:nodoc:
+module Redmine
+  # @private
+  module CoreExtensions
+    # @private
+    module String
       # Custom string inflections
+      # @private
       module Inflections
         def with_leading_slash
           starts_with?('/') ? self : "/#{ self }"

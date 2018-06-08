@@ -21,7 +21,8 @@ require 'redmine/scm/adapters'
 module Redmine
   module Scm
     module Adapters
-      class AbstractAdapter #:nodoc:
+      # @private
+      class AbstractAdapter
         include Redmine::Utils::Shell
 
         # raised if scm command exited with error, e.g. unknown revision.

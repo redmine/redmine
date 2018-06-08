@@ -17,7 +17,8 @@
 
 module Redmine
   module MenuManager
-    class MenuError < StandardError #:nodoc:
+    # @private
+    class MenuError < StandardError
     end
 
     module MenuController

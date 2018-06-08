@@ -1,7 +1,8 @@
 require 'rexml/document'
 
 module Redmine
-  module VERSION #:nodoc:
+  # @private
+  module VERSION
     MAJOR = 3
     MINOR = 4
     TINY  = 5

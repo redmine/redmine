@@ -12,7 +12,7 @@ begin
                     'doc/RUNNING_TESTS',
                     'doc/UPGRADING'].join(',')
 
-    t.options += ['--output-dir', './doc/app', '--files', static_files]
+    t.options += ['--no-private', '--output-dir', './doc/app', '--files', static_files]
   end
 
 rescue LoadError
