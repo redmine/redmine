@@ -512,7 +512,7 @@ class Query < ActiveRecord::Base
     @principal ||= begin
       principals = []
       if project
-        principals += project.principals.visible
+        principals += Principal.member_of(project).visible
         unless project.leaf?
           principals += Principal.member_of(project.descendants.visible).visible
         end
@@ -533,14 +533,14 @@ class Query < ActiveRecord::Base
   def author_values
     author_values = []
     author_values << ["<< #{l(:label_me)} >>", "me"] if User.current.logged?
-    author_values += users.collect{|s| [s.name, s.id.to_s] }
+    author_values += users.sort_by(&:status).collect{|s| [s.name, s.id.to_s, l("status_#{User::LABEL_BY_STATUS[s.status]}")] }
     author_values
   end
 
   def assigned_to_values
     assigned_to_values = []
     assigned_to_values << ["<< #{l(:label_me)} >>", "me"] if User.current.logged?
-    assigned_to_values += (Setting.issue_group_assignment? ? principals : users).collect{|s| [s.name, s.id.to_s] }
+    assigned_to_values += (Setting.issue_group_assignment? ? principals : users).sort_by(&:status).collect{|s| [s.name, s.id.to_s, l("status_#{User::LABEL_BY_STATUS[s.status]}")] }
     assigned_to_values
   end
 

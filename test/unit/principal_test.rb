@@ -52,11 +52,11 @@ class PrincipalTest < ActiveSupport::TestCase
     assert_equal expected.map(&:id).sort, Principal.visible(user).pluck(:id).sort
   end
 
-  def test_member_of_scope_should_return_the_union_of_all_members
+  def test_member_of_scope_should_return_the_union_of_all_active_and_locked_members
     projects = Project.find([1])
-    assert_equal [3, 2], Principal.member_of(projects).sort.map(&:id)
+    assert_equal [3, 5, 2], Principal.member_of(projects).sort.map(&:id)
     projects = Project.find([1, 2])
-    assert_equal [3, 2, 8, 11], Principal.member_of(projects).sort.map(&:id)
+    assert_equal [3, 5, 2, 8, 11], Principal.member_of(projects).sort.map(&:id)
   end
 
   def test_member_of_scope_should_be_empty_for_no_projects

@@ -621,4 +621,58 @@ class QueriesControllerTest < Redmine::ControllerTest
     assert_equal 4, json.count
     assert_include ["Private child of eCookbook","5"], json
   end
+
+  def test_assignee_filter_should_return_active_and_locked_users_grouped_by_status
+    @request.session[:user_id] = 1
+    get :filter, :params => {
+        :project_id => 1,
+        :type => 'IssueQuery',
+        :name => 'assigned_to_id'
+      }
+    assert_response :success
+    assert_equal 'application/json', response.content_type
+    json = ActiveSupport::JSON.decode(response.body)
+
+    assert_equal 6, json.count
+    # "me" value should not be grouped
+    assert_include ["<< me >>", "me"], json
+    assert_include ["Dave Lopper", "3", "active"], json
+    assert_include ["Dave2 Lopper2", "5", "locked"], json
+  end
+
+  def test_author_filter_should_return_active_and_locked_users_grouped_by_status
+    @request.session[:user_id] = 1
+    get :filter, :params => {
+        :project_id => 1,
+        :type => 'IssueQuery',
+        :name => 'author_id'
+      }
+    assert_response :success
+    assert_equal 'application/json', response.content_type
+    json = ActiveSupport::JSON.decode(response.body)
+
+    assert_equal 6, json.count
+    # "me" value should not be grouped
+    assert_include ["<< me >>", "me"], json
+    assert_include ["Dave Lopper", "3", "active"], json
+    assert_include ["Dave2 Lopper2", "5", "locked"], json
+  end
+
+  def test_user_filter_should_return_active_and_locked_users_grouped_by_status
+    @request.session[:user_id] = 1
+    get :filter, :params => {
+        :project_id => 1,
+        :type => 'TimeEntryQuery',
+        :name => 'user_id'
+      }
+    assert_response :success
+    assert_equal 'application/json', response.content_type
+    json = ActiveSupport::JSON.decode(response.body)
+
+    assert_equal 6, json.count
+    # "me" value should not be grouped
+    assert_include ["<< me >>", "me"], json
+    assert_include ["Dave Lopper", "3", "active"], json
+    assert_include ["Dave2 Lopper2", "5", "locked"], json
+  end
 end

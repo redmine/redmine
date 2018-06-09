@@ -514,7 +514,7 @@ class User < Principal
     name
   end
 
-  CSS_CLASS_BY_STATUS = {
+  LABEL_BY_STATUS = {
     STATUS_ANONYMOUS  => 'anon',
     STATUS_ACTIVE     => 'active',
     STATUS_REGISTERED => 'registered',
@@ -522,7 +522,7 @@ class User < Principal
   }
 
   def css_classes
-    "user #{CSS_CLASS_BY_STATUS[status]}"
+    "user #{LABEL_BY_STATUS[status]}"
   end
 
   # Returns the current day according to user's time zone
