@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 require 'optparse'
 require 'ostruct'
+require 'date'
 
 VERSION = '1.0.0'
 
@@ -216,18 +217,7 @@ module Redmine
       end
 
       def release_date
-        @r_date.empty? ? (@release_date || parse_release_date) : @r_date
-      end
-
-      def parse_release_date
-        version_details = retrieve_version_details
-        release_date = version_details.css(RELEASE_DATE_SELECTOR).first.text
-
-        unless release_date =~ RELEASE_DATE_REGEX_COMPLETE
-          release_date = release_date.match(RELEASE_DATE_REGEX_INCOMPLETE)
-          release_date = release_date[1]
-        end
-        @release_date = release_date
+        @r_date.empty? ? (@release_date || Date.today.strftime("%Y-%m-%d")) : @r_date
       end
 
       def retrieve_version_details
