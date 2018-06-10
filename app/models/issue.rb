@@ -1301,13 +1301,16 @@ class Issue < ActiveRecord::Base
 
   # Reschedules the issue on the given date or the next working day and saves the record.
   # If the issue is a parent task, this is done by rescheduling its subtasks.
-  def reschedule_on!(date)
+  def reschedule_on!(date, journal=nil)
     return if date.nil?
     if leaf? || !dates_derived?
       if start_date.nil? || start_date != date
         if start_date && start_date > date
           # Issue can not be moved earlier than its soonest start date
           date = [soonest_start(true), date].compact.max
+        end
+        if journal
+          init_journal(journal.user)
         end
         reschedule_on(date)
         begin
@@ -1791,7 +1794,7 @@ class Issue < ActiveRecord::Base
   def reschedule_following_issues
     if start_date_changed? || due_date_changed?
       relations_from.each do |relation|
-        relation.set_issue_to_dates
+        relation.set_issue_to_dates(@current_journal)
       end
     end
   end
