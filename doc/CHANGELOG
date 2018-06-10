@@ -4,6 +4,46 @@ Redmine - project management software
 Copyright (C) 2006-2017  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2018-06-10 v3.4.6
+
+=== [Issues]
+
+* Defect #27863: If version is closed or locked  subtasks don't get copied
+* Defect #28765: Copying an issue fails if the issue is watched by a locked user
+* Patch #28649: Log automatic rescheduling of following issues to journal
+
+=== [Permissions and roles]
+
+* Defect #28693: Irrelevant permission is required to access some tabs in project settings page
+
+=== [Project settings]
+
+* Defect #27122: Filter for version name should be case-insensitive
+
+=== [SCM]
+
+* Defect #28725: Mercurial 4.6 compatibility
+
+=== [Text formatting]
+
+* Defect #28469: Syntax highlighter does not work if language name is single-quoted
+
+=== [Translations]
+
+* Patch #28881: Fix Japanese mistranslation for label_comment_added
+
+=== [UI]
+
+* Defect #22023: Issue id input should get focus after adding related issue
+
+=== [UI - Responsive]
+
+* Defect #28523: Display horizontal scroll bar of plugins table when overflow occurs on small screen
+
+=== [Wiki]
+
+* Patch #27090: Show the number of attachments on wiki pages
+
 == 2018-04-07 v3.4.5
 
 === [Custom fields]
