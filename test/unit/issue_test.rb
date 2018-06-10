@@ -2054,6 +2054,32 @@ class IssueTest < ActiveSupport::TestCase
     assert_equal Date.parse('2012-09-21'), issue2.due_date
   end
 
+  def test_rescheduling_an_issue_to_a_different_due_date_should_add_journal_to_following_issue
+    with_settings :non_working_week_days => [] do
+      issue1 = Issue.generate!(:start_date => '2012-10-15', :due_date => '2012-10-17')
+      issue2 = Issue.generate!(:start_date => '2012-10-18', :due_date => '2012-10-20')
+      IssueRelation.create!(:issue_from => issue1, :issue_to => issue2,
+                            :relation_type => IssueRelation::TYPE_PRECEDES)
+
+      assert_difference 'issue2.journals.count' do
+        issue1.reload
+        issue1.init_journal(User.find(3))
+        issue1.due_date = '2012-10-23'
+        issue1.save!
+      end
+      journal = issue2.journals.order(:id).last
+
+      start_date_detail = journal.details.find_by(:prop_key => 'start_date')
+      assert_equal '2012-10-18', start_date_detail.old_value
+      assert_equal '2012-10-24', start_date_detail.value
+
+      due_date_detail = journal.details.find_by(:prop_key => 'due_date')
+      assert_equal '2012-10-20', due_date_detail.old_value
+      assert_equal '2012-10-26', due_date_detail.value
+    end
+  end
+
+
   def test_rescheduling_reschedule_following_issue_earlier_should_consider_other_preceding_issues
     issue1 = Issue.generate!(:start_date => '2012-10-15', :due_date => '2012-10-17')
     issue2 = Issue.generate!(:start_date => '2012-10-15', :due_date => '2012-10-17')
