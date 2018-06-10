@@ -4,6 +4,28 @@ Redmine - project management software
 Copyright (C) 2006-2017  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2018-06-10 v3.3.8
+
+=== [Issues]
+
+* Patch #28649: Log automatic rescheduling of following issues to journal
+
+=== [SCM]
+
+* Defect #28725: Mercurial 4.6 compatibility
+
+=== [Text formatting]
+
+* Defect #28469: Syntax highlighter does not work if language name is single-quoted
+
+=== [Translations]
+
+* Patch #28881: Fix Japanese mistranslation for label_comment_added
+
+=== [UI]
+
+* Defect #22023: Issue id input should get focus after adding related issue
+
 == 2018-04-07 v3.3.7
 
 === [Custom fields]
