@@ -5967,10 +5967,11 @@ class IssuesControllerTest < Redmine::ControllerTest
 
   def test_bulk_copy_to_another_project
     @request.session[:user_id] = 2
-    assert_difference 'Issue.count', 2 do
+    issue_ids = [1, 2]
+    assert_difference 'Issue.count', issue_ids.size do
       assert_no_difference 'Project.find(1).issues.count' do
         post :bulk_update, :params => {
-            :ids => [1, 2],
+            :ids => issue_ids,
             :issue => {
               :project_id => '2'
             },
@@ -5980,7 +5981,7 @@ class IssuesControllerTest < Redmine::ControllerTest
     end
     assert_redirected_to '/projects/ecookbook/issues'
 
-    copies = Issue.order('id DESC').limit(issues.size)
+    copies = Issue.order('id DESC').limit(issue_ids.size)
     copies.each do |copy|
       assert_equal 2, copy.project_id
     end
