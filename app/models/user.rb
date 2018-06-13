@@ -556,7 +556,7 @@ class User < Principal
     return [] if project.nil? || project.archived?
     if membership = membership(project)
       membership.roles.to_a
-    elsif project.is_public?
+    elsif (project.has_attribute? :is_public) and project.is_public?
       project.override_roles(builtin_role)
     else
       []
