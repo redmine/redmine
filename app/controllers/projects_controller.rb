@@ -314,7 +314,9 @@ class ProjectsController < ApplicationController
     @project = Project.new
     @project.safe_attributes = params[:project]
     @githubRepo=getCustomField(@project,'GitHub repository')
-    repoDir = @githubRepo.split('/')[-2] + '_' + @githubRepo.split('/')[-1]
+    if not @githubRepo.empty?
+       repoDir = @githubRepo.split('/')[-2] + '_' + @githubRepo.split('/')[-1]
+    end
 
     if validate_parent_id && validateGitHubRepo(@githubRepo, repoDir) && @project.save
       @project.set_allowed_parent!(params[:project]['parent_id']) if params[:project].has_key?('parent_id')

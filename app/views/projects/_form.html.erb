@@ -34,7 +34,7 @@
                 <%= custom_field_tag_with_label :project, value %>
                 
 		<% if value.custom_field.name == 'GitHub repository' %>
-		    <div class="popoverform"><a class="popoverlink" href="https://github.com/new" target="_blank" data-toggle="popover" data-trigger="hover" title="" data-content="To create a new project on OSB you need a Git repository to host your code: paste here its URL (e.g. https://github.com/user/myProject.git). If you don't have one click on the Octocat to create a new one on GitHub (you may need to be logged in)! This field can be blank and you can specify it later on but you will have to contact OSB team at info@opensourcebrain.org" data-original-title="Project Repository"><icon class="icon-2x icon-github"></icon></a></div>
+		    <div class="popoverform"><a class="popoverlink" href="https://github.com/new" target="_blank" data-toggle="popover" data-trigger="hover" title="" data-content="To create a new project on OSB you need a Git repository to host your code: paste here its URL (e.g. https://github.com/user/myProject.git). If you don't have one click on the Octocat to create a new one on GitHub (you may need to be logged in)! Alternatively, leave this field blank and specify a repository later via your project's settings page." data-original-title="Project Repository"><icon class="icon-2x icon-github"></icon></a></div>
 		<% end %>
 	    </div>
 	<% end %>
