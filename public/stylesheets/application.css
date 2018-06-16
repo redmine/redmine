@@ -1345,7 +1345,7 @@ div.wiki img {vertical-align:middle; max-width:100%;}
 .sort-handle.ajax-loading { background-image: url(../images/loading.gif); }
 tr.ui-sortable-helper { border:1px solid #e4e4e4; }
 
-.contextual>*:not(:first-child), .buttons>.icon:not(:first-child) { margin-left: 5px; }
+.contextual>*:not(:first-child), .buttons>.icon:not(:first-child), .contextual .journal-actions>*:not(:first-child) { margin-left: 5px; }
 
 img.gravatar {
   vertical-align: middle;
