@@ -66,6 +66,6 @@ module WikiHelper
   end
 
   def wiki_content_update_info(content)
-    l(:label_updated_time_by, :author => content.author.name, :age => distance_of_time_in_words(Time.now, content.updated_on)).html_safe
+    l(:label_updated_time_by, :author => link_to_user(content.author), :age => time_tag(content.updated_on)).html_safe
   end
 end
