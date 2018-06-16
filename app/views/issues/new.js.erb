@@ -3,7 +3,5 @@ replaceIssueFormWith('<%= escape_javascript(render :partial => 'form') %>');
 <% when "issue_project_id" %>
   $("#watchers_form_container").html('<%= escape_javascript(render :partial => 'issues/watchers_form') %>');
 <% when "issue_category_id" %>
-  <% if @issue.assigned_to_id.blank? %>
-    $('#issue_assigned_to_id').val('<%= @issue.category.try(:assigned_to_id) %>');
-  <% end %>
+  $('#issue_assigned_to_id').find('option').first().html('<%= escape_javascript(@issue.category.try(:assigned_to).try(:name)).presence || '&nbsp;'.html_safe %>');
 <% end %>
