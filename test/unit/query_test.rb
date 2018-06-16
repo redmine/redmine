@@ -1750,7 +1750,6 @@ class QueryTest < ActiveSupport::TestCase
     developer = User.find(3)
 
     q = IssueQuery.find(4)
-    q.project = Project.find(1)
 
     assert q.editable_by?(admin)
     assert !q.editable_by?(manager)
