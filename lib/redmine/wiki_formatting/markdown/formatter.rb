@@ -141,7 +141,8 @@ module Redmine
             :superscript => true,
             :no_intra_emphasis => true,
             :footnotes => true,
-            :lax_spacing => true
+            :lax_spacing => true,
+            :underline => true
           )
         end
       end

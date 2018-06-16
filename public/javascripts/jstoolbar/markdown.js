@@ -40,6 +40,15 @@ jsToolBar.prototype.elements.em = {
   }
 }
 
+// ins
+jsToolBar.prototype.elements.ins = {
+  type: 'button',
+  title: 'Underline',
+  fn: {
+    wiki: function() { this.singleTag('_') }
+  }
+}
+
 // del
 jsToolBar.prototype.elements.del = {
   type: 'button',

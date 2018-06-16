@@ -23,8 +23,9 @@ module Redmine
         self.tags = tags.merge(
           'b' => {:pre => '**', :post => '**'},
           'strong' => {:pre => '**', :post => '**'},
-          'i' => {:pre => '_', :post => '_'},
-          'em' => {:pre => '_', :post => '_'},
+          'i' => {:pre => '*', :post => '*'},
+          'em' => {:pre => '*', :post => '*'},
+          'u' => {:pre => '_', :post => '_'},
           'strike' => {:pre => '~~', :post => '~~'},
           'h1' => {:pre => "\n\n# ", :post => "\n\n"},
           'h2' => {:pre => "\n\n## ", :post => "\n\n"},

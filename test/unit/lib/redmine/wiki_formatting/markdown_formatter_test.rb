@@ -177,5 +177,9 @@ Nulla nunc nisi, egestas in ornare vel, posuere ac libero."]
     assert_equal Digest::MD5.hexdigest(expected), result.last, "section hash did not match"
   end
 
+  def test_should_support_underlined_text
+    text = 'This _text_ should be underlined'
+    assert_equal '<p>This <u>text</u> should be underlined</p>', @formatter.new(text).to_html.strip
+  end
   end
 end
