@@ -79,6 +79,7 @@ class RepositoriesFilesystemControllerTest < Redmine::RepositoryControllerTest
     def test_show_no_extension
       get :entry, :params => {
           :id => PRJ_ID,
+          :repository_id => @repository.id,
           :path => repository_path_hash(['test'])[:param]
         }
       assert_response :success
@@ -88,6 +89,7 @@ class RepositoriesFilesystemControllerTest < Redmine::RepositoryControllerTest
     def test_entry_download_no_extension
       get :raw, :params => {
           :id => PRJ_ID,
+          :repository_id => @repository.id,
           :path => repository_path_hash(['test'])[:param]
         }
       assert_response :success
@@ -98,6 +100,7 @@ class RepositoriesFilesystemControllerTest < Redmine::RepositoryControllerTest
       with_settings :repositories_encodings => 'UTF-8,EUC-JP' do
         get :entry, :params => {
             :id => PRJ_ID,
+            :repository_id => @repository.id,
             :path => repository_path_hash(['japanese', 'euc-jp.txt'])[:param]
           }
         assert_response :success
@@ -118,6 +121,7 @@ class RepositoriesFilesystemControllerTest < Redmine::RepositoryControllerTest
       with_settings :repositories_encodings => enc do
         get :entry, :params => {
             :id => PRJ_ID,
+            :repository_id => @repository.id,
             :path => repository_path_hash(['japanese', 'utf-16.txt'])[:param]
           }
         assert_response :success
@@ -129,6 +133,7 @@ class RepositoriesFilesystemControllerTest < Redmine::RepositoryControllerTest
       with_settings :file_max_size_displayed => 1 do
         get :entry, :params => {
             :id => PRJ_ID,
+            :repository_id => @repository.id,
             :path => repository_path_hash(['japanese', 'big-file.txt'])[:param]
           }
         assert_response :success

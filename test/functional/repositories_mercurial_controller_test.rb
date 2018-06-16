@@ -97,6 +97,7 @@ class RepositoriesMercurialControllerTest < Redmine::RepositoryControllerTest
       assert_equal NUM_REV, @repository.changesets.count
       get :show, :params => {
           :id => PRJ_ID,
+          :repository_id => @repository.id,
           :path => repository_path_hash(['images'])[:param]
         }
       assert_response :success
@@ -120,6 +121,7 @@ class RepositoriesMercurialControllerTest < Redmine::RepositoryControllerTest
       [0, '0', '0885933ad4f6'].each do |r1|
         get :show, :params => {
             :id => PRJ_ID,
+            :repository_id => @repository.id,
             :path => repository_path_hash(['images'])[:param],
             :rev => r1
           }
@@ -144,6 +146,7 @@ class RepositoriesMercurialControllerTest < Redmine::RepositoryControllerTest
       [13, '13', '3a330eb32958'].each do |r1|
         get :show, :params => {
             :id => PRJ_ID,
+            :repository_id => @repository.id,
             :path => repository_path_hash(['sql_escape', 'percent%dir'])[:param],
             :rev => r1
           }
@@ -172,6 +175,7 @@ class RepositoriesMercurialControllerTest < Redmine::RepositoryControllerTest
       [21, '21', 'adf805632193'].each do |r1|
         get :show, :params => {
             :id => PRJ_ID,
+            :repository_id => @repository.id,
             :path => repository_path_hash(['latin-1-dir'])[:param],
             :rev => r1
           }
@@ -223,6 +227,7 @@ class RepositoriesMercurialControllerTest < Redmine::RepositoryControllerTest
       ].each do |bra|
         get :show, :params => {
             :id => PRJ_ID,
+            :repository_id => @repository.id,
             :rev => bra
           }
         assert_response :success
@@ -244,6 +249,7 @@ class RepositoriesMercurialControllerTest < Redmine::RepositoryControllerTest
       ].each do |tag|
         get :show, :params => {
             :id => PRJ_ID,
+            :repository_id => @repository.id,
             :rev => tag
           }
         assert_response :success
@@ -256,6 +262,7 @@ class RepositoriesMercurialControllerTest < Redmine::RepositoryControllerTest
     def test_changes
       get :changes, :params => {
           :id => PRJ_ID,
+          :repository_id => @repository.id,
           :path => repository_path_hash(['images', 'edit.png'])[:param]
         }
       assert_response :success
@@ -265,6 +272,7 @@ class RepositoriesMercurialControllerTest < Redmine::RepositoryControllerTest
     def test_entry_show
       get :entry, :params => {
           :id => PRJ_ID,
+          :repository_id => @repository.id,
           :path => repository_path_hash(['sources', 'watchers_controller.rb'])[:param]
         }
       assert_response :success
@@ -276,6 +284,7 @@ class RepositoriesMercurialControllerTest < Redmine::RepositoryControllerTest
       [21, '21', 'adf805632193'].each do |r1|
         get :entry, :params => {
             :id => PRJ_ID,
+            :repository_id => @repository.id,
           :path => repository_path_hash(['latin-1-dir', "test-#{@char_1}-2.txt"])[:param],
           :rev => r1
           }
@@ -289,6 +298,7 @@ class RepositoriesMercurialControllerTest < Redmine::RepositoryControllerTest
         [27, '27', '7bbf4c738e71'].each do |r1|
           get :entry, :params => {
               :id => PRJ_ID,
+              :repository_id => @repository.id,
             :path => repository_path_hash(['latin-1-dir', "test-#{@char_1}.txt"])[:param],
             :rev => r1
             }
@@ -301,6 +311,7 @@ class RepositoriesMercurialControllerTest < Redmine::RepositoryControllerTest
     def test_entry_download
       get :entry, :params => {
           :id => PRJ_ID,
+          :repository_id => @repository.id,
           :path => repository_path_hash(['sources', 'watchers_controller.rb'])[:param],
           :format => 'raw'
         }
@@ -316,6 +327,7 @@ class RepositoriesMercurialControllerTest < Redmine::RepositoryControllerTest
     def test_directory_entry
       get :entry, :params => {
           :id => PRJ_ID,
+          :repository_id => @repository.id,
           :path => repository_path_hash(['sources'])[:param]
         }
       assert_response :success
@@ -333,6 +345,7 @@ class RepositoriesMercurialControllerTest < Redmine::RepositoryControllerTest
         ['inline', 'sbs'].each do |dt|
           get :diff, :params => {
               :id => PRJ_ID,
+              :repository_id => @repository.id,
               :rev => r1,
               :type => dt
             }
@@ -356,6 +369,7 @@ class RepositoriesMercurialControllerTest < Redmine::RepositoryControllerTest
           ['inline', 'sbs'].each do |dt|
             get :diff, :params => {
                 :id     => PRJ_ID,
+                :repository_id => @repository.id,
                 :rev    => r1,
                 :rev_to => r2,
                 :type => dt
@@ -373,6 +387,7 @@ class RepositoriesMercurialControllerTest < Redmine::RepositoryControllerTest
           ['inline', 'sbs'].each do |dt|
             get :diff, :params => {
                 :id => PRJ_ID,
+                :repository_id => @repository.id,
                 :rev => r1,
                 :type => dt
               }
@@ -389,6 +404,7 @@ class RepositoriesMercurialControllerTest < Redmine::RepositoryControllerTest
     def test_diff_should_show_modified_filenames
       get :diff, :params => {
           :id => PRJ_ID,
+          :repository_id => @repository.id,
           :rev => '400bb8672109',
           :type => 'inline'
         }
@@ -399,6 +415,7 @@ class RepositoriesMercurialControllerTest < Redmine::RepositoryControllerTest
     def test_diff_should_show_deleted_filenames
       get :diff, :params => {
           :id => PRJ_ID,
+          :repository_id => @repository.id,
           :rev => 'b3a615152df8',
           :type => 'inline'
         }
@@ -409,6 +426,7 @@ class RepositoriesMercurialControllerTest < Redmine::RepositoryControllerTest
     def test_annotate
       get :annotate, :params => {
           :id => PRJ_ID,
+          :repository_id => @repository.id,
           :path => repository_path_hash(['sources', 'watchers_controller.rb'])[:param]
         }
       assert_response :success
@@ -429,6 +447,7 @@ class RepositoriesMercurialControllerTest < Redmine::RepositoryControllerTest
       assert_equal NUM_REV, @repository.changesets.count
       get :annotate, :params => {
           :id => PRJ_ID,
+          :repository_id => @repository.id,
           :path => repository_path_hash(['sources', 'welcome_controller.rb'])[:param]
         }
       assert_response 404
@@ -443,6 +462,7 @@ class RepositoriesMercurialControllerTest < Redmine::RepositoryControllerTest
       [2, '400bb8672109', '400', 400].each do |r1|
         get :annotate, :params => {
             :id => PRJ_ID,
+            :repository_id => @repository.id,
             :rev => r1,
             :path => repository_path_hash(['sources', 'watchers_controller.rb'])[:param]
           }
@@ -455,6 +475,7 @@ class RepositoriesMercurialControllerTest < Redmine::RepositoryControllerTest
       [21, '21', 'adf805632193'].each do |r1|
         get :annotate, :params => {
             :id => PRJ_ID,
+            :repository_id => @repository.id,
           :path => repository_path_hash(['latin-1-dir', "test-#{@char_1}-2.txt"])[:param],
           :rev => r1
           }
@@ -476,6 +497,7 @@ class RepositoriesMercurialControllerTest < Redmine::RepositoryControllerTest
         [27, '7bbf4c738e71'].each do |r1|
           get :annotate, :params => {
               :id => PRJ_ID,
+              :repository_id => @repository.id,
             :path => repository_path_hash(['latin-1-dir', "test-#{@char_1}.txt"])[:param],
             :rev => r1
             }
@@ -493,6 +515,7 @@ class RepositoriesMercurialControllerTest < Redmine::RepositoryControllerTest
         with_settings :default_language => "en" do
           get :revision, :params => {
               :id => PRJ_ID,
+              :repository_id => @repository.id,
               :rev => r
             }
           assert_response :success
@@ -510,6 +533,7 @@ class RepositoriesMercurialControllerTest < Redmine::RepositoryControllerTest
       ['', ' ', nil].each do |r|
         get :revision, :params => {
             :id => PRJ_ID,
+            :repository_id => @repository.id,
             :rev => r
           }
         assert_response 404

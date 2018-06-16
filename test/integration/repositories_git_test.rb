@@ -43,7 +43,7 @@ class RepositoriesGitTest < Redmine::IntegrationTest
     end
 
     def test_diff_two_revs
-      get '/projects/subproject1/repository/diff?rev=61b685fbe&rev_to=2f9c0091'
+      get "/projects/subproject1/repository/#{@repository.id}/diff?rev=61b685fbe&rev_to=2f9c0091"
       assert_response :success
     end
   end

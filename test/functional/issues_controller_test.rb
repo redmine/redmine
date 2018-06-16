@@ -2033,7 +2033,7 @@ class IssuesControllerTest < Redmine::ControllerTest
         :id => issue.id
       }
 
-    assert_select 'a[href=?]', '/projects/ecookbook/repository/revisions/3'
+    assert_select 'a[href=?]', '/projects/ecookbook/repository/10/revisions/3'
   end
 
   def test_show_should_display_watchers

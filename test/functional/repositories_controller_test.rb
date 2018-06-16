@@ -182,7 +182,8 @@ class RepositoriesControllerTest < Redmine::RepositoryControllerTest
 
   def test_revisions
     get :revisions, :params => {
-        :id => 1
+        :id => 1,
+        :repository_id => 10
       }
     assert_response :success
     assert_select 'table.changesets'
@@ -210,6 +211,7 @@ class RepositoriesControllerTest < Redmine::RepositoryControllerTest
   def test_revision
     get :revision, :params => {
         :id => 1,
+        :repository_id => 10,
         :rev => 1
       }
     assert_response :success
@@ -222,6 +224,7 @@ class RepositoriesControllerTest < Redmine::RepositoryControllerTest
     with_settings :commit_logs_formatting => '0' do
       get :revision, :params => {
           :id => 1,
+          :repository_id => 10,
           :rev => 1
         }
       assert_response :success
@@ -235,11 +238,12 @@ class RepositoriesControllerTest < Redmine::RepositoryControllerTest
 
     get :revision, :params => {
         :id => 1,
+        :repository_id => 10,
         :rev => 1
       }
     assert_response :success
 
-    assert_select 'form[action=?]', '/projects/ecookbook/repository/revisions/1/issues' do
+    assert_select 'form[action=?]', '/projects/ecookbook/repository/10/revisions/1/issues' do
       assert_select 'input[name=?]', 'issue_id'
     end
   end
@@ -247,6 +251,7 @@ class RepositoriesControllerTest < Redmine::RepositoryControllerTest
   def test_revision_should_not_change_the_project_menu_link
     get :revision, :params => {
         :id => 1,
+        :repository_id => 10,
         :rev => 1
       }
     assert_response :success
@@ -257,13 +262,14 @@ class RepositoriesControllerTest < Redmine::RepositoryControllerTest
   def test_revision_with_before_nil_and_afer_normal
     get :revision, :params => {
         :id => 1,
+        :repository_id => 10,
         :rev => 1
       }
     assert_response :success
 
     assert_select 'div.contextual' do
-      assert_select 'a[href=?]', '/projects/ecookbook/repository/revisions/0', 0
-      assert_select 'a[href=?]', '/projects/ecookbook/repository/revisions/2'
+      assert_select 'a[href=?]', '/projects/ecookbook/repository/10/revisions/0', 0
+      assert_select 'a[href=?]', '/projects/ecookbook/repository/10/revisions/2'
     end
   end
 
@@ -272,6 +278,7 @@ class RepositoriesControllerTest < Redmine::RepositoryControllerTest
     assert_difference 'Changeset.find(103).issues.size' do
       post :add_related_issue, :params => {
           :id => 1,
+          :repository_id => 10,
           :rev => 4,
           :issue_id => 2,
           :format => 'js'
@@ -290,6 +297,7 @@ class RepositoriesControllerTest < Redmine::RepositoryControllerTest
     assert_difference 'Changeset.find(103).issues.size' do
       post :add_related_issue, :params => {
           :id => 1,
+          :repository_id => 10,
           :rev => 4,
           :issue_id => "#2",
           :format => 'js'
@@ -304,6 +312,7 @@ class RepositoriesControllerTest < Redmine::RepositoryControllerTest
     assert_no_difference 'Changeset.find(103).issues.size' do
       post :add_related_issue, :params => {
           :id => 1,
+          :repository_id => 10,
           :rev => 4,
           :issue_id => 9999,
           :format => 'js'
@@ -323,6 +332,7 @@ class RepositoriesControllerTest < Redmine::RepositoryControllerTest
     assert_difference 'Changeset.find(103).issues.size', -1 do
       delete :remove_related_issue, :params => {
           :id => 1,
+          :repository_id => 10,
           :rev => 4,
           :issue_id => 2,
           :format => 'js'
@@ -343,6 +353,7 @@ class RepositoriesControllerTest < Redmine::RepositoryControllerTest
 
     get :graph, :params => {
         :id => 1,
+        :repository_id => 10,
         :graph => 'commits_per_month'
       }
     assert_response :success
@@ -356,6 +367,7 @@ class RepositoriesControllerTest < Redmine::RepositoryControllerTest
   def test_graph_commits_per_author
     get :graph, :params => {
         :id => 1,
+        :repository_id => 10,
         :graph => 'commits_per_author'
       }
     assert_response :success

@@ -289,13 +289,13 @@ RAW
     note_link2 = link_to('#3#note-14', {:controller => 'issues', :action => 'show', :id => 3, :anchor => 'note-14'},
                                :class => Issue.find(3).css_classes, :title => 'Bug: Error 281 when updating a recipe (New)')
 
-    revision_link = link_to('r1', {:controller => 'repositories', :action => 'revision', :id => 'ecookbook', :rev => 1},
+    revision_link = link_to('r1', {:controller => 'repositories', :action => 'revision', :id => 'ecookbook', :repository_id => 10, :rev => 1},
                                    :class => 'changeset', :title => 'My very first commit do not escaping #<>&')
-    revision_link2 = link_to('r2', {:controller => 'repositories', :action => 'revision', :id => 'ecookbook', :rev => 2},
+    revision_link2 = link_to('r2', {:controller => 'repositories', :action => 'revision', :id => 'ecookbook', :repository_id => 10, :rev => 2},
                                     :class => 'changeset', :title => 'This commit fixes #1, #2 and references #1 & #3')
 
     changeset_link2 = link_to('691322a8eb01e11fd7',
-                              {:controller => 'repositories', :action => 'revision', :id => 'ecookbook', :rev => 1},
+                              {:controller => 'repositories', :action => 'revision', :id => 'ecookbook', :repository_id => 10, :rev => 1},
                                :class => 'changeset', :title => 'My very first commit do not escaping #<>&')
 
     document_link = link_to('Test document', {:controller => 'documents', :action => 'show', :id => 1},
@@ -312,17 +312,17 @@ RAW
 
     project_url = {:controller => 'projects', :action => 'show', :id => 'subproject1'}
 
-    source_url = '/projects/ecookbook/repository/entry/some/file'
-    source_url_with_rev = '/projects/ecookbook/repository/revisions/52/entry/some/file'
-    source_url_with_ext = '/projects/ecookbook/repository/entry/some/file.ext'
-    source_url_with_rev_and_ext = '/projects/ecookbook/repository/revisions/52/entry/some/file.ext'
-    source_url_with_branch = '/projects/ecookbook/repository/revisions/branch/entry/some/file'
+    source_url = '/projects/ecookbook/repository/10/entry/some/file'
+    source_url_with_rev = '/projects/ecookbook/repository/10/revisions/52/entry/some/file'
+    source_url_with_ext = '/projects/ecookbook/repository/10/entry/some/file.ext'
+    source_url_with_rev_and_ext = '/projects/ecookbook/repository/10/revisions/52/entry/some/file.ext'
+    source_url_with_branch = '/projects/ecookbook/repository/10/revisions/branch/entry/some/file'
 
-    export_url = '/projects/ecookbook/repository/raw/some/file'
-    export_url_with_rev = '/projects/ecookbook/repository/revisions/52/raw/some/file'
-    export_url_with_ext = '/projects/ecookbook/repository/raw/some/file.ext'
-    export_url_with_rev_and_ext = '/projects/ecookbook/repository/revisions/52/raw/some/file.ext'
-    export_url_with_branch = '/projects/ecookbook/repository/revisions/branch/raw/some/file'
+    export_url = '/projects/ecookbook/repository/10/raw/some/file'
+    export_url_with_rev = '/projects/ecookbook/repository/10/revisions/52/raw/some/file'
+    export_url_with_ext = '/projects/ecookbook/repository/10/raw/some/file.ext'
+    export_url_with_rev_and_ext = '/projects/ecookbook/repository/10/revisions/52/raw/some/file.ext'
+    export_url_with_branch = '/projects/ecookbook/repository/10/revisions/branch/raw/some/file'
 
     to_test = {
       # tickets
@@ -439,11 +439,11 @@ RAW
   def test_cross_project_redmine_links
     source_link = link_to('ecookbook:source:/some/file',
                           {:controller => 'repositories', :action => 'entry',
-                           :id => 'ecookbook', :path => ['some', 'file']},
+                           :id => 'ecookbook', :repository_id => 10, :path => ['some', 'file']},
                           :class => 'source')
     changeset_link = link_to('ecookbook:r2',
                              {:controller => 'repositories', :action => 'revision',
-                              :id => 'ecookbook', :rev => 2},
+                              :id => 'ecookbook', :repository_id => 10, :rev => 2},
                              :class => 'changeset',
                              :title => 'This commit fixes #1, #2 and references #1 & #3')
     to_test = {
@@ -521,14 +521,14 @@ RAW
     hg = Repository::Mercurial.create!(:project_id => 1, :identifier => 'hg1', :url => '/foo/hg')
     Changeset.create!(:repository => hg, :committed_on => Time.now, :revision => '123', :scmid => 'abcd')
 
-    changeset_link = link_to('r2', {:controller => 'repositories', :action => 'revision', :id => 'ecookbook', :rev => 2},
+    changeset_link = link_to('r2', {:controller => 'repositories', :action => 'revision', :id => 'ecookbook', :repository_id => 10, :rev => 2},
                                     :class => 'changeset', :title => 'This commit fixes #1, #2 and references #1 & #3')
     svn_changeset_link = link_to('svn_repo-1|r123', {:controller => 'repositories', :action => 'revision', :id => 'ecookbook', :repository_id => 'svn_repo-1', :rev => 123},
                                     :class => 'changeset', :title => '')
     hg_changeset_link = link_to('hg1|abcd', {:controller => 'repositories', :action => 'revision', :id => 'ecookbook', :repository_id => 'hg1', :rev => 'abcd'},
                                     :class => 'changeset', :title => '')
 
-    source_link = link_to('source:some/file', {:controller => 'repositories', :action => 'entry', :id => 'ecookbook', :path => ['some', 'file']}, :class => 'source')
+    source_link = link_to('source:some/file', {:controller => 'repositories', :action => 'entry', :id => 'ecookbook', :repository_id => 10, :path => ['some', 'file']}, :class => 'source')
     hg_source_link = link_to('source:hg1|some/file', {:controller => 'repositories', :action => 'entry', :id => 'ecookbook', :repository_id => 'hg1', :path => ['some', 'file']}, :class => 'source')
 
     to_test = {
@@ -553,14 +553,14 @@ RAW
     hg = Repository::Mercurial.create!(:project_id => 1, :identifier => 'hg1', :url => '/foo/hg')
     Changeset.create!(:repository => hg, :committed_on => Time.now, :revision => '123', :scmid => 'abcd')
 
-    changeset_link = link_to('ecookbook:r2', {:controller => 'repositories', :action => 'revision', :id => 'ecookbook', :rev => 2},
+    changeset_link = link_to('ecookbook:r2', {:controller => 'repositories', :action => 'revision', :id => 'ecookbook', :repository_id => 10, :rev => 2},
                                     :class => 'changeset', :title => 'This commit fixes #1, #2 and references #1 & #3')
     svn_changeset_link = link_to('ecookbook:svn1|r123', {:controller => 'repositories', :action => 'revision', :id => 'ecookbook', :repository_id => 'svn1', :rev => 123},
                                     :class => 'changeset', :title => '')
     hg_changeset_link = link_to('ecookbook:hg1|abcd', {:controller => 'repositories', :action => 'revision', :id => 'ecookbook', :repository_id => 'hg1', :rev => 'abcd'},
                                     :class => 'changeset', :title => '')
 
-    source_link = link_to('ecookbook:source:some/file', {:controller => 'repositories', :action => 'entry', :id => 'ecookbook', :path => ['some', 'file']}, :class => 'source')
+    source_link = link_to('ecookbook:source:some/file', {:controller => 'repositories', :action => 'entry', :id => 'ecookbook', :repository_id => 10, :path => ['some', 'file']}, :class => 'source')
     hg_source_link = link_to('ecookbook:source:hg1|some/file', {:controller => 'repositories', :action => 'entry', :id => 'ecookbook', :repository_id => 'hg1', :path => ['some', 'file']}, :class => 'source')
 
     to_test = {
@@ -582,60 +582,62 @@ RAW
   end
 
   def test_redmine_links_git_commit
+    @project = Project.find(3)
+    r = Repository::Git.create!(:project => @project, :url => '/tmp/test/git')
+
+    c = Changeset.create!(:repository => r,
+                      :committed_on => Time.now,
+                      :revision => 'abcd',
+                      :scmid => 'abcd',
+                      :comments => 'test commit')
+
     changeset_link = link_to('abcd',
                                {
                                  :controller => 'repositories',
                                  :action     => 'revision',
                                  :id         => 'subproject1',
+                                 :repository_id => r.id,
                                  :rev        => 'abcd',
                                 },
                               :class => 'changeset', :title => 'test commit')
     to_test = {
       'commit:abcd' => changeset_link,
      }
-    @project = Project.find(3)
-    r = Repository::Git.create!(:project => @project, :url => '/tmp/test/git')
-    assert r
-    c = Changeset.new(:repository => r,
-                      :committed_on => Time.now,
-                      :revision => 'abcd',
-                      :scmid => 'abcd',
-                      :comments => 'test commit')
-    assert( c.save )
     to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text) }
   end
 
   # TODO: Bazaar commit id contains mail address, so it contains '@' and '_'.
   def test_redmine_links_mercurial_commit
+    @project = Project.find(3)
+    r = Repository::Mercurial.create!(:project => @project, :url => '/tmp/test')
+    c = Changeset.create!(:repository => r,
+                      :committed_on => Time.now,
+                      :revision => '123',
+                      :scmid => 'abcd',
+                      :comments => 'test commit')
+
     changeset_link_rev = link_to('r123',
                                   {
                                      :controller => 'repositories',
                                      :action     => 'revision',
                                      :id         => 'subproject1',
+                                     :repository_id => r.id,
                                      :rev        => '123' ,
                                   },
                               :class => 'changeset', :title => 'test commit')
     changeset_link_commit = link_to('abcd',
                                   {
-                                        :controller => 'repositories',
-                                        :action     => 'revision',
-                                        :id         => 'subproject1',
-                                        :rev        => 'abcd' ,
+                                    :controller => 'repositories',
+                                    :action     => 'revision',
+                                    :id         => 'subproject1',
+                                    :repository_id => r.id,
+                                    :rev        => 'abcd' ,
                                   },
                               :class => 'changeset', :title => 'test commit')
     to_test = {
       'r123' => changeset_link_rev,
       'commit:abcd' => changeset_link_commit,
      }
-    @project = Project.find(3)
-    r = Repository::Mercurial.create!(:project => @project, :url => '/tmp/test')
-    assert r
-    c = Changeset.new(:repository => r,
-                      :committed_on => Time.now,
-                      :revision => '123',
-                      :scmid => 'abcd',
-                      :comments => 'test commit')
-    assert( c.save )
     to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text) }
   end
 

@@ -129,9 +129,7 @@ class Repository < ActiveRecord::Base
   end
 
   def identifier_param
-    if is_default?
-      nil
-    elsif identifier.present?
+    if identifier.present?
       identifier
     else
       id.to_s

@@ -62,7 +62,7 @@ class MailerTest < ActiveSupport::TestCase
                     :text => '#1'
       # link to a changeset
       assert_select 'a[href=?][title=?]',
-                    'https://mydomain.foo/projects/ecookbook/repository/revisions/2',
+                    'https://mydomain.foo/projects/ecookbook/repository/10/revisions/2',
                     'This commit fixes #1, #2 and references #1 & #3',
                     :text => 'r2'
       # link to a description diff
@@ -102,7 +102,7 @@ class MailerTest < ActiveSupport::TestCase
                     :text => '#1'
       # link to a changeset
       assert_select 'a[href=?][title=?]',
-                    'http://mydomain.foo/rdm/projects/ecookbook/repository/revisions/2',
+                    'http://mydomain.foo/rdm/projects/ecookbook/repository/10/revisions/2',
                     'This commit fixes #1, #2 and references #1 & #3',
                     :text => 'r2'
       # link to a description diff
@@ -172,7 +172,7 @@ class MailerTest < ActiveSupport::TestCase
                     :text => '#1'
       # link to a changeset
       assert_select 'a[href=?][title=?]',
-                    'http://mydomain.foo/rdm/projects/ecookbook/repository/revisions/2',
+                    'http://mydomain.foo/rdm/projects/ecookbook/repository/10/revisions/2',
                     'This commit fixes #1, #2 and references #1 & #3',
                     :text => 'r2'
       # link to a description diff

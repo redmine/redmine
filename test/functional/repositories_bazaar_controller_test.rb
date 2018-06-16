@@ -68,6 +68,7 @@ class RepositoriesBazaarControllerTest < Redmine::RepositoryControllerTest
     def test_browse_directory
       get :show, :params => {
           :id => PRJ_ID,
+          :repository_id => @repository.id,
           :path => repository_path_hash(['directory'])[:param]
         }
       assert_response :success
@@ -82,6 +83,7 @@ class RepositoriesBazaarControllerTest < Redmine::RepositoryControllerTest
     def test_browse_at_given_revision
       get :show, :params => {
           :id => PRJ_ID,
+          :repository_id => @repository.id,
           :path => repository_path_hash([])[:param],
           :rev => 3
         }
@@ -98,6 +100,7 @@ class RepositoriesBazaarControllerTest < Redmine::RepositoryControllerTest
     def test_changes
       get :changes, :params => {
           :id => PRJ_ID,
+          :repository_id => @repository.id,
           :path => repository_path_hash(['doc-mkdir.txt'])[:param]
         }
       assert_response :success
@@ -107,6 +110,7 @@ class RepositoriesBazaarControllerTest < Redmine::RepositoryControllerTest
     def test_entry_show
       get :entry, :params => {
           :id => PRJ_ID,
+          :repository_id => @repository.id,
           :path => repository_path_hash(['directory', 'doc-ls.txt'])[:param]
         }
       assert_response :success
@@ -117,6 +121,7 @@ class RepositoriesBazaarControllerTest < Redmine::RepositoryControllerTest
     def test_entry_download
       get :entry, :params => {
           :id => PRJ_ID,
+          :repository_id => @repository.id,
           :path => repository_path_hash(['directory', 'doc-ls.txt'])[:param],
           :format => 'raw'
         }
@@ -128,6 +133,7 @@ class RepositoriesBazaarControllerTest < Redmine::RepositoryControllerTest
     def test_directory_entry
       get :entry, :params => {
           :id => PRJ_ID,
+          :repository_id => @repository.id,
           :path => repository_path_hash(['directory'])[:param]
         }
       assert_response :success
@@ -139,6 +145,7 @@ class RepositoriesBazaarControllerTest < Redmine::RepositoryControllerTest
       ['inline', 'sbs'].each do |dt|
         get :diff, :params => {
             :id => PRJ_ID,
+            :repository_id => @repository.id,
             :rev => 3,
             :type => dt
           }
@@ -151,6 +158,7 @@ class RepositoriesBazaarControllerTest < Redmine::RepositoryControllerTest
     def test_annotate
       get :annotate, :params => {
           :id => PRJ_ID,
+          :repository_id => @repository.id,
           :path => repository_path_hash(['doc-mkdir.txt'])[:param]
         }
       assert_response :success
