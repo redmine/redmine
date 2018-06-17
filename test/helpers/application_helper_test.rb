@@ -282,6 +282,11 @@ RAW
   end
 
   def test_redmine_links
+    user_with_email_login = User.generate!(:login => 'abcd@example.com')
+    user_with_email_login_2 = User.generate!(:login => 'foo.bar@example.com')
+    u_email_id = user_with_email_login.id
+    u_email_id_2 = user_with_email_login_2.id
+
     issue_link = link_to('#3', {:controller => 'issues', :action => 'show', :id => 3},
                                :class => Issue.find(3).css_classes, :title => 'Bug: Error 281 when updating a recipe (New)')
     note_link = link_to('#3-14', {:controller => 'issues', :action => 'show', :id => 3, :anchor => 'note-14'},
@@ -388,6 +393,10 @@ RAW
       'user:jsmith'                 => link_to_user(User.find_by_id(2)),
       'user#2'                      => link_to_user(User.find_by_id(2)),
       '@jsmith'                     => link_to_user(User.find_by_id(2)),
+      '@abcd@example.com'           => link_to_user(User.find_by_id(u_email_id)),
+      'user:abcd@example.com'       => link_to_user(User.find_by_id(u_email_id)),
+      '@foo.bar@example.com'        => link_to_user(User.find_by_id(u_email_id_2)),
+      'user:foo.bar@example.com'    => link_to_user(User.find_by_id(u_email_id_2)),
       # invalid user
       'user:foobar'                 => 'user:foobar',
     }
@@ -395,12 +404,36 @@ RAW
     to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text), "#{text} failed" }
   end
 
-  def test_user_links_with_email_as_login_name_should_not_be_parsed
-    u = User.generate!(:login => 'jsmith@somenet.foo')
-    raw = "@jsmith@somenet.foo should not be parsed in jsmith@somenet.foo"
+  def test_user_links_with_email_as_login_name_should_not_be_parsed_textile
+    with_settings :text_formatting => 'textile' do
+      u = User.generate!(:login => 'jsmith@somenet.foo')
 
-    assert_match %r{<p><a class="user active".*>#{u.name}</a> should not be parsed in <a class="email" href="mailto:jsmith@somenet.foo">jsmith@somenet.foo</a></p>},
-      textilizable(raw, :project => Project.find(1))
+      # user link format: @jsmith@somenet.foo
+      raw = "@jsmith@somenet.foo should not be parsed in jsmith@somenet.foo"
+      assert_match %r{<p><a class="user active".*>#{u.name}</a> should not be parsed in <a class="email" href="mailto:jsmith@somenet.foo">jsmith@somenet.foo</a></p>},
+        textilizable(raw, :project => Project.find(1))
+
+      # user link format: user:jsmith@somenet.foo
+      raw = "user:jsmith@somenet.foo should not be parsed in jsmith@somenet.foo"
+      assert_match %r{<p><a class="user active".*>#{u.name}</a> should not be parsed in <a class="email" href="mailto:jsmith@somenet.foo">jsmith@somenet.foo</a></p>},
+        textilizable(raw, :project => Project.find(1))
+    end
+  end
+
+  def test_user_links_with_email_as_login_name_should_not_be_parsed_markdown
+    with_settings :text_formatting => 'markdown' do
+      u = User.generate!(:login => 'jsmith@somenet.foo')
+
+      # user link format: @jsmith@somenet.foo
+      raw = "@jsmith@somenet.foo should not be parsed in jsmith@somenet.foo"
+      assert_match %r{<p><a class=\"user active\".*>#{u.name}</a> should not be parsed in <a href=\"mailto:jsmith@somenet.foo\">jsmith@somenet.foo</a></p>},
+        textilizable(raw, :project => Project.find(1))
+
+      # user link format: user:jsmith@somenet.foo
+      raw = "user:jsmith@somenet.foo should not be parsed in jsmith@somenet.foo"
+      assert_match %r{<p><a class=\"user active\".*>#{u.name}</a> should not be parsed in <a href=\"mailto:jsmith@somenet.foo\">jsmith@somenet.foo</a></p>},
+        textilizable(raw, :project => Project.find(1))
+    end
   end
 
   def test_should_not_parse_redmine_links_inside_link

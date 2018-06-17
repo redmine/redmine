@@ -27,9 +27,10 @@ module Redmine
 
         alias :inline_auto_link :auto_link!
         alias :inline_auto_mailto :auto_mailto!
+        alias :inline_restore_redmine_links :restore_redmine_links
 
         # auto_link rule after textile rules so that it doesn't break !image_url! tags
-        RULES = [:textile, :block_markdown_rule, :inline_auto_link, :inline_auto_mailto]
+        RULES = [:textile, :block_markdown_rule, :inline_auto_link, :inline_auto_mailto, :inline_restore_redmine_links]
 
         def initialize(*args)
           super

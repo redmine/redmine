@@ -153,7 +153,7 @@ module Redmine
 
       # Destructively replaces email addresses into clickable links
       def auto_mailto!(text)
-        text.gsub!(/((?<!@)\b[\w\.!#\$%\-+.\/]+@[A-Za-z0-9\-]+(\.[A-Za-z0-9\-]+)+)/) do
+        text.gsub!(/([\w\.!#\$%\-+.\/]+@[A-Za-z0-9\-]+(\.[A-Za-z0-9\-]+)+)/) do
           mail = $1
           if text.match(/<a\b[^>]*>(.*)(#{Regexp.escape(mail)})(.*)<\/a>/)
             mail
@@ -161,6 +161,26 @@ module Redmine
             %(<a class="email" href="mailto:#{ERB::Util.html_escape mail}">#{ERB::Util.html_escape mail}</a>).html_safe
           end
         end
+      end
+
+      def restore_redmine_links(html)
+        # restore wiki links eg. [[Foo]]
+        html.gsub!(%r{\[<a href="(.*?)">(.*?)</a>\]}) do
+          "[[#{$2}]]"
+        end
+        # restore Redmine links with double-quotes, eg. version:"1.0"
+        html.gsub!(/(\w):&quot;(.+?)&quot;/) do
+          "#{$1}:\"#{$2}\""
+        end
+        # restore user links with @ in login name eg. [@jsmith@somenet.foo]
+        html.gsub!(%r{[@\A]<a(\sclass="email")? href="mailto:(.*?)">(.*?)</a>}) do
+          "@#{$2}"
+        end
+        # restore user links with @ in login name eg. [user:jsmith@somenet.foo]
+        html.gsub!(%r{\buser:<a(\sclass="email")? href="mailto:(.*?)">(.*?)<\/a>}) do
+          "user:#{$2}"
+        end
+        html
       end
     end
 
@@ -180,6 +200,7 @@ module Redmine
           t = CGI::escapeHTML(@text)
           auto_link!(t)
           auto_mailto!(t)
+          restore_redmine_links(t)
           simple_format(t, {}, :sanitize => false)
         end
       end

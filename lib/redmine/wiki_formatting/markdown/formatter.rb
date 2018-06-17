@@ -52,24 +52,16 @@ module Redmine
       end
 
       class Formatter
+        include Redmine::WikiFormatting::LinksHelper
+        alias :inline_restore_redmine_links :restore_redmine_links
+
         def initialize(text)
           @text = text
         end
 
         def to_html(*args)
           html = formatter.render(@text)
-          # restore wiki links eg. [[Foo]]
-          html.gsub!(%r{\[<a href="(.*?)">(.*?)</a>\]}) do
-            "[[#{$2}]]"
-          end
-          # restore Redmine links with double-quotes, eg. version:"1.0"
-          html.gsub!(/(\w):&quot;(.+?)&quot;/) do
-            "#{$1}:\"#{$2}\""
-          end
-          # restore user links with @ in login name eg. [@jsmith@somenet.foo]
-          html.gsub!(%r{[@\A]<a href="mailto:(.*?)">(.*?)</a>}) do
-            "@#{$2}"
-          end
+          html = inline_restore_redmine_links(html)
           html
         end
 
