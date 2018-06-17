@@ -808,7 +808,6 @@ select.bool_cf {width:auto !important;}
 #tab-content-users .splitcontentleft {width: 64%;}
 #tab-content-users .splitcontentright {width: 34%;}
 #tab-content-users fieldset {padding:1em; margin-bottom: 1em;}
-#tab-content-users fieldset legend {font-weight: bold;}
 #tab-content-users fieldset label {display: block;}
 #tab-content-users #principals {max-height: 400px; overflow: auto;}
 

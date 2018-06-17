@@ -19,8 +19,6 @@
 <p><%= setting_check_box :show_custom_fields_on_registration,
                          :disabled => !Setting.self_registration? %></p>
 
-<p><%= setting_check_box :unsubscribe %></p>
-
 <p><%= setting_text_field :password_min_length, :size => 6 %></p>
 
 <p>
@@ -28,8 +26,6 @@
 </p>
 
 <p><%= setting_check_box :lost_password %></p>
-
-<p><%= setting_text_field :max_additional_emails, :size => 6 %></p>
 
 <p><%= setting_check_box :openid, :disabled => !Object.const_defined?(:OpenID) %></p>
 </div>
@@ -43,16 +39,6 @@
   </div>
   
   <p><em class="info"><%= l(:text_session_expiration_settings) %></em></p>
-</fieldset>
-
-<fieldset class="box">
-  <legend><%= l(:label_default_values_for_new_users) %></legend>
-
-  <div class="tabular settings">
-    <p><%= setting_check_box :default_users_hide_mail, :label => :field_hide_mail %></p>
-
-    <p><%= setting_select :default_users_time_zone, ActiveSupport::TimeZone.all.collect {|z| [ z.to_s, z.name ]}, :label => :field_time_zone, :blank => :label_none %></p>
-  </div>
 </fieldset>
 
 <%= submit_tag l(:button_save) %>
