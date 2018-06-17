@@ -702,11 +702,10 @@ class WikiControllerTest < Redmine::ControllerTest
       assert_select 'td', :text => /h1\. CookBook documentation v2/
     end
 
-    # Line 4
-    assert_select 'table.annotate tr:nth-child(4)' do
-      assert_select 'th.line-num', :text => '4'
+    # Line 2
+    assert_select 'table.annotate tr:nth-child(2)' do
+      assert_select 'th.line-num', :text => '2'
       assert_select 'td.author', :text => /John Smith/
-      assert_select 'td', :text => /Line from v1/
     end
 
     # Line 5

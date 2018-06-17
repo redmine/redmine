@@ -20,17 +20,17 @@
 
 <table class="filecontent annotate">
 <tbody>
-<% line_num = 1 %>
+<% line_num = 1; prev_version = nil %>
 <% @annotate.lines.each do |line| -%>
 <tr class="bloc-<%= colors[line[0]] %>">
     <th class="line-num"><%= line_num %></th>
     <td class="revision"><%= link_to line[0], :controller => 'wiki',
                              :action => 'show', :project_id => @project,
-                             :id => @page.title, :version => line[0] %></td>
-    <td class="author"><%= line[1] %></td>
+                             :id => @page.title, :version => line[0] unless prev_version == line[0] %></td>
+    <td class="author"><%= line[1] unless prev_version == line[0] %></td>
     <td class="line-code"><pre><%= line[2] %></pre></td>
 </tr>
-<% line_num += 1 %>
+<% line_num += 1; prev_version = line[0] %>
 <% end -%>
 </tbody>
 </table>
