@@ -1413,6 +1413,25 @@ class IssueTest < ActiveSupport::TestCase
     assert_equal [3, nil], copy.children.map(&:fixed_version_id)
   end
 
+  def test_copy_should_clear_subtasks_assignee_if_is_locked
+    user = User.find(2)
+
+    parent = Issue.generate!
+    child1 = Issue.generate!(:parent_issue_id => parent.id, :subject => 'Child 1', :assigned_to_id => 3)
+    child2 = Issue.generate!(:parent_issue_id => parent.id, :subject => 'Child 2', :assigned_to_id => user.id)
+
+    user.status = User::STATUS_LOCKED
+    user.save!
+
+    copy = parent.reload.copy
+
+    assert_difference 'Issue.count', 3 do
+      assert copy.save
+    end
+
+    assert_equal [3, nil], copy.children.map(&:assigned_to_id)
+  end
+
   def test_should_not_call_after_project_change_on_creation
     issue = Issue.new(:project_id => 1, :tracker_id => 1, :status_id => 1,
                       :subject => 'Test', :author_id => 1)

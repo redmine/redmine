@@ -1636,6 +1636,7 @@ class Issue < ActiveRecord::Base
         copy.project = project
         copy.parent_issue_id = copied_issue_ids[child.parent_id]
         copy.fixed_version_id = nil unless child.fixed_version.present? && child.fixed_version.status == 'open'
+        copy.assigned_to = nil unless child.assigned_to_id.present? && child.assigned_to.status == User::STATUS_ACTIVE
         unless copy.save
           logger.error "Could not copy subtask ##{child.id} while copying ##{@copied_from.id} to ##{id} due to validation errors: #{copy.errors.full_messages.join(', ')}" if logger
           next
