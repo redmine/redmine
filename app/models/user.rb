@@ -239,7 +239,7 @@ class User < Principal
         end
       end
     end
-    user.update_column(:last_login_on, Time.now) if user && !user.new_record? && user.active?
+    user.update_last_login_on! if user && !user.new_record? && user.active?
     user
   rescue => text
     raise text
@@ -249,7 +249,7 @@ class User < Principal
   def self.try_to_autologin(key)
     user = Token.find_active_user('autologin', key, Setting.autologin.to_i)
     if user
-      user.update_column(:last_login_on, Time.now)
+      user.update_last_login_on!
       user
     end
   end
@@ -313,6 +313,12 @@ class User < Principal
 
   def lock!
     update_attribute(:status, STATUS_LOCKED)
+  end
+
+  def update_last_login_on!
+    return if last_login_on.present? && last_login_on >= 1.minute.ago
+
+    update_column(:last_login_on, Time.now)
   end
 
   # Returns true if +clear_password+ is the correct user's password, otherwise false
