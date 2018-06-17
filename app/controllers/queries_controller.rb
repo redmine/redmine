@@ -104,6 +104,10 @@ class QueriesController < ApplicationController
     render_404
   end
 
+  def current_menu_item
+    @query ? @query.queried_class.to_s.underscore.pluralize.to_sym : nil
+  end
+
   private
 
   def find_query

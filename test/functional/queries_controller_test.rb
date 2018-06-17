@@ -77,6 +77,16 @@ class QueriesControllerTest < Redmine::ControllerTest
     assert_select 'input[name=type][value=?]', 'TimeEntryQuery'
   end
 
+  def test_new_time_entry_query_should_select_spent_time_from_main_menu
+    @request.session[:user_id] = 2
+    get :new, :params => {
+        :project_id => 1,
+        :type => 'TimeEntryQuery'
+      }
+    assert_response :success
+    assert_select '#main-menu a.time-entries.selected'
+  end
+
   def test_new_time_entry_query_with_issue_tracking_module_disabled_should_be_allowed
     Project.find(1).disable_module! :issue_tracking
 
