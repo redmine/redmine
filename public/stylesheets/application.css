@@ -1291,10 +1291,6 @@ div.wiki img {vertical-align:middle; max-width:100%;}
 .icon-email { background-image: url(../images/email.png); }
 .icon-email-disabled { background-image: url(../images/email_disabled.png); }
 .icon-email-add { background-image: url(../images/email_add.png); }
-.icon-move-up { background-image: url(../images/1uparrow.png); }
-.icon-move-top { background-image: url(../images/2uparrow.png); }
-.icon-move-down { background-image: url(../images/1downarrow.png); }
-.icon-move-bottom { background-image: url(../images/2downarrow.png); }
 .icon-ok { background-image: url(../images/true.png); }
 .icon-not-ok { background-image: url(../images/false.png); }
 .icon-link-break { background-image: url(../images/link_break.png); }
