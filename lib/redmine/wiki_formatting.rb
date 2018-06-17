@@ -180,6 +180,10 @@ module Redmine
         html.gsub!(%r{\buser:<a(\sclass="email")? href="mailto:(.*?)">(.*?)<\/a>}) do
           "user:#{$2}"
         end
+        # restore attachments links with @ in file name eg. [attachment:image@2x.png]
+        html.gsub!(%r{\battachment:<a(\sclass="email")? href="mailto:(.*?)">(.*?)</a>}) do
+          "attachment:#{$2}"
+        end
         html
       end
     end

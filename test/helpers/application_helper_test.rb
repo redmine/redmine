@@ -694,6 +694,22 @@ RAW
                  textilizable('attachment:test.txt', :attachments => [a1, a2])
   end
 
+  def test_attachment_links_to_images_with_email_format_should_not_be_parsed
+    attachment = Attachment.generate!(:filename => 'image@2x.png')
+
+    with_settings :text_formatting => 'textile' do
+      raw = "attachment:image@2x.png should not be parsed in image@2x.png"
+      assert_match %r{<p><a class="attachment" href="/attachments/#{attachment.id}/image@2x.png">image@2x.png</a> should not be parsed in <a class="email" href="mailto:image@2x.png">image@2x.png</a></p>},
+        textilizable(raw, :attachments => [attachment])
+    end
+
+    with_settings :text_formatting => 'markdown' do
+      raw = "attachment:image@2x.png should not be parsed in image@2x.png"
+      assert_match %r{<p><a class="attachment" href="/attachments/#{attachment.id}/image@2x.png">image@2x.png</a> should not be parsed in <a href="mailto:image@2x.png">image@2x.png</a></p>} ,
+        textilizable(raw, :attachments => [attachment])
+    end
+  end
+
   def test_wiki_links
     User.current = User.find_by_login('jsmith')
     russian_eacape = CGI.escape(@russian_test)
