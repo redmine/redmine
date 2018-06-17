@@ -135,8 +135,8 @@ a.user.locked, a.user.locked:link, a.user.locked:visited {color: #999;}
 #admin-menu a {line-height:1.7em;}
 #admin-menu a.selected {padding-left: 20px !important; background-position: 2px 40%;}
 
-a.collapsible {padding-left: 12px; background: url(../images/arrow_expanded.png) no-repeat -3px 40%;}
-a.collapsible.collapsed {background: url(../images/arrow_collapsed.png) no-repeat -5px 40%;}
+a.collapsible {padding-left: 12px; background: url(../images/arrow_down.png) no-repeat 0px 50%;}
+a.collapsible.collapsed {background-image: url(../images/arrow_right.png);}
 
 a#toggle-completed-versions {color:#999;}
 
@@ -150,7 +150,7 @@ a#toggle-completed-versions {color:#999;}
   text-overflow:ellipsis;
   white-space:nowrap;
   padding:3px 18px 3px 6px;
-  background:#fff url(../images/sort_desc.png) no-repeat 97% 50%;
+  background:#fff url(../images/arrow_down.png) no-repeat 97% 50%;
   cursor:pointer;
   user-select:none;
   -moz-user-select:none;
@@ -168,7 +168,7 @@ a#toggle-completed-versions {color:#999;}
   color:#555;
   z-index:99;
 }
-.drdn.expanded .drdn-trigger {background-image:url(../images/sort_asc.png);}
+.drdn.expanded .drdn-trigger {background-image:url(../images/arrow_up.png);}
 .drdn.expanded .drdn-content {display:block;}
 
 .drdn-content .quick-search {margin:8px;}
@@ -242,7 +242,7 @@ tr.project td.name a { white-space:nowrap; }
 tr.project.closed, tr.project.archived { color: #aaa; }
 tr.project.closed a, tr.project.archived a { color: #aaa; }
 
-tr.project.idnt td.name span {background: url(../images/bullet_arrow_right.png) no-repeat 0 50%; padding-left: 16px;}
+tr.project.idnt td.name span {background: url(../images/arrow_right.png) no-repeat 2px 50%; padding-left: 16px;}
 tr.project.idnt-1 td.name {padding-left: 0.5em;}
 tr.project.idnt-2 td.name {padding-left: 2em;}
 tr.project.idnt-3 td.name {padding-left: 3.5em;}
@@ -261,7 +261,7 @@ tr.issue td.relations span {white-space: nowrap;}
 table.issues td.description, table.issues td.last_notes {color:#777; font-size:90%; padding:4px 4px 4px 24px; text-align:left; white-space:normal;}
 table.issues td.description pre, table.issues td.last_notes pre {white-space:normal;}
 
-tr.issue.idnt td.subject {background: url(../images/bullet_arrow_right.png) no-repeat 0 50%;}
+tr.issue.idnt td.subject {background: url(../images/arrow_right.png) no-repeat 2px 50%;}
 tr.issue.idnt-1 td.subject {padding-left: 24px; background-position: 8px 50%;}
 tr.issue.idnt-2 td.subject {padding-left: 40px; background-position: 24px 50%;}
 tr.issue.idnt-3 td.subject {padding-left: 56px; background-position: 40px 50%;}
@@ -358,8 +358,8 @@ table.list:not(.odd-even) tbody tr:nth-child(even), .even, #issue-changesets div
 tr.builtin td.name {font-style:italic;}
 
 a.sort { padding-right: 16px; background-position: 100% 50%; background-repeat: no-repeat; }
-a.sort.asc  { background-image: url(../images/sort_asc.png); }
-a.sort.desc { background-image: url(../images/sort_desc.png); }
+a.sort.asc  { background-image: url(../images/arrow_up.png); }
+a.sort.desc { background-image: url(../images/arrow_down.png); }
 
 table.boards a.board { background: url(../images/comment.png) no-repeat 0% 50%; padding-left: 20px; }
 table.boards td.last-message {text-align:left;font-size:80%;}
@@ -479,8 +479,8 @@ div.issue.overdue .due-date .value { color: #c22; }
 #relations td.buttons, #issue_tree td.buttons {padding:0;}
 
 fieldset.collapsible {border-width: 1px 0 0 0;}
-fieldset.collapsible>legend { padding-left: 16px; background: url(../images/arrow_expanded.png) no-repeat 0% 40%; cursor:pointer; }
-fieldset.collapsible.collapsed>legend { background-image: url(../images/arrow_collapsed.png); }
+fieldset.collapsible>legend { padding-left: 18px; background: url(../images/arrow_down.png) no-repeat 4px 40%; cursor:pointer; }
+fieldset.collapsible.collapsed>legend { background-image: url(../images/arrow_right.png); }
 
 fieldset#date-range p { margin: 2px 0 2px 0; }
 fieldset#filters table { border-collapse: collapse; }
@@ -1048,13 +1048,13 @@ button.tab-left:focus, button.tab-right:focus {
 
 button.tab-left {
   right: 20px;
-  background: #eeeeee url(../images/bullet_arrow_left.png) no-repeat 50% 50%;
+  background: #eeeeee url(../images/arrow_left.png) no-repeat 50% 50%;
   border-top-left-radius:3px;
 }
 
 button.tab-right {
   right: 0;
-  background: #eeeeee url(../images/bullet_arrow_right.png) no-repeat 50% 50%;
+  background: #eeeeee url(../images/arrow_right.png) no-repeat 50% 50%;
   border-top-right-radius:3px;
 }
 
