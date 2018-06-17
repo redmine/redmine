@@ -77,6 +77,18 @@ EXPECTED
     end
   end
 
+  def test_hires_images_should_not_be_recognized_as_email_addresses
+    raw = <<-DIFF
+Image: logo@2x.png
+    DIFF
+
+    expected = <<-EXPECTED
+<p>Image: logo@2x.png</p>
+    EXPECTED
+
+    assert_equal expected.gsub(%r{[\r\n\t]}, ''), Redmine::WikiFormatting::NullFormatter::Formatter.new(raw).to_html.gsub(%r{[\r\n\t]}, '')
+  end
+
   def test_cache_key_for_saved_object_should_no_be_nil
     assert_not_nil Redmine::WikiFormatting.cache_key_for('textile', 'Text', Issue.find(1), :description)
   end

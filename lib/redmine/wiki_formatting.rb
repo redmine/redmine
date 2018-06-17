@@ -184,6 +184,10 @@ module Redmine
         html.gsub!(%r{\battachment:<a(\sclass="email")? href="mailto:(.*?)">(.*?)</a>}) do
           "attachment:#{$2}"
         end
+        # restore hires images which are misrecognized as email address eg. [printscreen@2x.png]
+        html.gsub!(%r{<a(\sclass="email")? href="mailto:[^"]+@\dx\.(bmp|gif|jpg|jpe|jpeg|png)">(.*?)</a>}) do
+          "#{$3}"
+        end
         html
       end
     end

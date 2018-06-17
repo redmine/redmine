@@ -699,13 +699,13 @@ RAW
 
     with_settings :text_formatting => 'textile' do
       raw = "attachment:image@2x.png should not be parsed in image@2x.png"
-      assert_match %r{<p><a class="attachment" href="/attachments/#{attachment.id}/image@2x.png">image@2x.png</a> should not be parsed in <a class="email" href="mailto:image@2x.png">image@2x.png</a></p>},
+      assert_match %r{<p><a class="attachment" href="/attachments/#{attachment.id}/image@2x.png">image@2x.png</a> should not be parsed in image@2x.png</p>},
         textilizable(raw, :attachments => [attachment])
     end
 
     with_settings :text_formatting => 'markdown' do
       raw = "attachment:image@2x.png should not be parsed in image@2x.png"
-      assert_match %r{<p><a class="attachment" href="/attachments/#{attachment.id}/image@2x.png">image@2x.png</a> should not be parsed in <a href="mailto:image@2x.png">image@2x.png</a></p>} ,
+      assert_match %r{<p><a class="attachment" href="/attachments/#{attachment.id}/image@2x.png">image@2x.png</a> should not be parsed in image@2x.png</p>} ,
         textilizable(raw, :attachments => [attachment])
     end
   end
