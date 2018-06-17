@@ -27,10 +27,13 @@
     background-color : #f7f7f7;
     background-position : 50% 50%;
     background-repeat: no-repeat;
+    cursor:pointer;
+    opacity:0.7;
 }
 .jstElements button:hover {
     border-color: #bbb;
-  background-color: #e5e5e5;
+    background-color: #e5e5e5;
+    opacity:1;
 }
 .jstElements button span {
     display : none;
