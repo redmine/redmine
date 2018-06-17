@@ -530,7 +530,7 @@ class Issue < ActiveRecord::Base
         self.project_id = p_id
       end
 
-      if project_id_changed? && attrs['category_id'].to_s == category_id_was.to_s
+      if project_id_changed? && attrs['category_id'].present? && attrs['category_id'].to_s == category_id_was.to_s
         # Discard submitted category on previous project
         attrs.delete('category_id')
       end
