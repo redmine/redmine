@@ -71,6 +71,7 @@ class TimelogReportTest < Redmine::ControllerTest
     get :report, :params => {:columns => 'week', :from => "2007-04-01", :to => "2007-04-30", :criteria => ['project']}
     assert_response :success
     assert_select 'tr.total td:last', :text => '8.65'
+    assert_select 'tr td.name a[href=?]', '/projects/ecookbook', :text => 'eCookbook'
   end
 
   def test_report_all_time
@@ -96,6 +97,20 @@ class TimelogReportTest < Redmine::ControllerTest
     get :report, :params => {:project_id => 1, :columns => 'month', :from => "2007-01-01", :to => "2007-12-31", :criteria => ["user", "activity"]}
     assert_response :success
     assert_select 'tr.total td:last', :text => '162.90'
+  end
+
+  def test_report_should_show_locked_users
+    @request.session[:user_id] = 1
+
+    user = User.find(2)
+    user.status = User::STATUS_LOCKED
+    user.save
+
+    get :report, :params => {:project_id => 1, :columns => 'month', :criteria => ["user", "activity"]}
+    assert_response :success
+
+    assert_select 'td.name a.user.active[href=?]', '/users/1', 1, :text => 'Redmine Admin'
+    assert_select 'td.name a.user.locked[href=?]', '/users/2', 1, :text => 'John Smith'
   end
 
   def test_report_custom_field_criteria_with_multiple_values_on_single_value_custom_field_should_not_fail
