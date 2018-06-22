@@ -7,7 +7,8 @@
       :onchange => 'if (this.value == "selected") {$("#notified-projects").show();} else {$("#notified-projects").hide();}'
      ) %>
 </p>
-<%= content_tag 'div', :id => 'notified-projects', :style => (@user.mail_notification == 'selected' ? '' : 'display:none;') do %>
+<%= content_tag 'fieldset', :id => 'notified-projects', :style => (@user.mail_notification == 'selected' ? '' : 'display:none;') do %>
+  <legend><%= toggle_checkboxes_link("#notified-projects input[type=checkbox]") %><%=l(:label_project_plural)%></legend>
   <%= render_project_nested_lists(@user.projects) do |project|
         content_tag('label', 
           check_box_tag(
