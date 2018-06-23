@@ -1,0 +1,10 @@
+<div style="clear: both;"></div>
+<%= render :partial => 'action_menu' %>
+
+<div style="clear: both;"></div>
+<% if @issue.editable? %>
+  <div id="update" style="display:none;">
+    <h3><%= l(:button_edit) %></h3>
+    <%= render :partial => 'edit' %>
+  </div>
+<% end %>

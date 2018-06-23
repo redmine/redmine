@@ -125,6 +125,8 @@ end %>
 </div>
 <% end %>
 
+<%= render partial: 'action_menu_edit' if User.current.wants_comments_in_reverse_order? %>
+
 <% if @journals.present? %>
 <div id="history">
 <h3><%=l(:label_history)%></h3>
@@ -132,17 +134,7 @@ end %>
 </div>
 <% end %>
 
-
-<div style="clear: both;"></div>
-<%= render :partial => 'action_menu' %>
-
-<div style="clear: both;"></div>
-<% if @issue.editable? %>
-  <div id="update" style="display:none;">
-  <h3><%= l(:button_edit) %></h3>
-  <%= render :partial => 'edit' %>
-  </div>
-<% end %>
+<%= render partial: 'action_menu_edit' unless User.current.wants_comments_in_reverse_order? %>
 
 <% other_formats_links do |f| %>
   <%= f.link_to 'Atom', :url => {:key => User.current.rss_key} %>
