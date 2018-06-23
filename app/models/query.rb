@@ -780,14 +780,16 @@ class Query < ActiveRecord::Base
   end
 
   def sort_clause
-    sort_criteria.sort_clause(sortable_columns)
+    if clause = sort_criteria.sort_clause(sortable_columns)
+      clause.map {|c| Arel.sql c}
+    end
   end
 
   # Returns the SQL sort order that should be prepended for grouping
   def group_by_sort_order
     if column = group_by_column
       order = (sort_criteria.order_for(column.name) || column.default_order || 'asc').try(:upcase)
-      Array(column.sortable).map {|s| "#{s} #{order}"}
+      Array(column.sortable).map {|s| Arel.sql("#{s} #{order}")}
     end
   end
 

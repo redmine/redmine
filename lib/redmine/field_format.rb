@@ -323,7 +323,7 @@ module Redmine
       # Returns nil if the custom field can not be used for sorting.
       def order_statement(custom_field)
         # COALESCE is here to make sure that blank and NULL values are sorted equally
-        "COALESCE(#{join_alias custom_field}.value, '')"
+        Arel.sql "COALESCE(#{join_alias custom_field}.value, '')"
       end
 
       # Returns a GROUP BY clause that can used to group by custom value
@@ -461,7 +461,7 @@ module Redmine
         # Make the database cast values into numeric
         # Postgresql will raise an error if a value can not be casted!
         # CustomValue validations should ensure that it doesn't occur
-        "CAST(CASE #{join_alias custom_field}.value WHEN '' THEN '0' ELSE #{join_alias custom_field}.value END AS decimal(30,3))"
+        Arel.sql "CAST(CASE #{join_alias custom_field}.value WHEN '' THEN '0' ELSE #{join_alias custom_field}.value END AS decimal(30,3))"
       end
 
       # Returns totals for the given scope
@@ -747,7 +747,7 @@ module Redmine
       end
 
       def group_statement(custom_field)
-        "COALESCE(#{join_alias custom_field}.value, '')"
+        Arel.sql "COALESCE(#{join_alias custom_field}.value, '')"
       end
 
       def join_for_order_statement(custom_field)

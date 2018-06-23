@@ -1483,7 +1483,8 @@ class QueryTest < ActiveSupport::TestCase
     c = q.available_columns.find {|col| col.is_a?(QueryCustomFieldColumn) && col.custom_field.field_format == 'string' }
     assert c
     assert c.sortable
-    issues = q.issues(:order => "#{c.sortable} ASC")
+    q.sort_criteria = [[c.name.to_s, 'asc']]
+    issues = q.issues
     values = issues.collect {|i| i.custom_value_for(c.custom_field).to_s}
     assert !values.empty?
     assert_equal values.sort, values
@@ -1494,7 +1495,8 @@ class QueryTest < ActiveSupport::TestCase
     c = q.available_columns.find {|col| col.is_a?(QueryCustomFieldColumn) && col.custom_field.field_format == 'string' }
     assert c
     assert c.sortable
-    issues = q.issues(:order => "#{c.sortable} DESC")
+    q.sort_criteria = [[c.name.to_s, 'desc']]
+    issues = q.issues
     values = issues.collect {|i| i.custom_value_for(c.custom_field).to_s}
     assert !values.empty?
     assert_equal values.sort.reverse, values
@@ -1505,7 +1507,8 @@ class QueryTest < ActiveSupport::TestCase
     c = q.available_columns.find {|col| col.is_a?(QueryCustomFieldColumn) && col.custom_field.field_format == 'float' }
     assert c
     assert c.sortable
-    issues = q.issues(:order => "#{c.sortable} ASC")
+    q.sort_criteria = [[c.name.to_s, 'asc']]
+    issues = q.issues
     values = issues.collect {|i| begin; Kernel.Float(i.custom_value_for(c.custom_field).to_s); rescue; nil; end}.compact
     assert !values.empty?
     assert_equal values.sort, values
@@ -1703,9 +1706,9 @@ class QueryTest < ActiveSupport::TestCase
 
   def test_issue_ids
     q = IssueQuery.new(:name => '_')
-    order = "issues.subject, issues.id"
-    issues = q.issues(:order => order)
-    assert_equal issues.map(&:id), q.issue_ids(:order => order)
+    q.sort_criteria = ['subject', 'id']
+    issues = q.issues
+    assert_equal issues.map(&:id), q.issue_ids
   end
 
   def test_label_for

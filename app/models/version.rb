@@ -317,7 +317,7 @@ class Version < ActiveRecord::Base
 
   def self.fields_for_order_statement(table=nil)
     table ||= table_name
-    ["(CASE WHEN #{table}.effective_date IS NULL THEN 1 ELSE 0 END)", "#{table}.effective_date", "#{table}.name", "#{table}.id"]
+    [Arel.sql("(CASE WHEN #{table}.effective_date IS NULL THEN 1 ELSE 0 END)"), "#{table}.effective_date", "#{table}.name", "#{table}.id"]
   end
 
   scope :sorted, lambda { order(fields_for_order_statement) }

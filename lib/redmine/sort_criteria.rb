@@ -97,7 +97,7 @@ module Redmine
       if criterion =~ / (asc|desc)$/i
         criterion
       else
-        "#{criterion} #{order.to_s.upcase}"
+        Arel.sql "#{criterion} #{order.to_s.upcase}"
       end
     end
   end
