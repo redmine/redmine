@@ -1953,10 +1953,14 @@ class IssueTest < ActiveSupport::TestCase
     user = User.find(3)
     user.members.update_all ["mail_notification = ?", false]
     user.update! :mail_notification => 'only_assigned'
-
     issue = Issue.find(2)
+
     issue.assigned_to = nil
     assert_include user.mail, issue.recipients
+    issue.save!
+    assert_include user.mail, issue.recipients
+
+    issue.assigned_to = User.find(2)
     issue.save!
     assert !issue.recipients.include?(user.mail)
   end

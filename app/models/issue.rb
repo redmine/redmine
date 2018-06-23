@@ -1016,8 +1016,7 @@ class Issue < ActiveRecord::Base
   # Returns the previous assignee whenever we're before the save
   # or in after_* callbacks
   def previous_assignee
-    # This is how ActiveRecord::AttributeMethods::Dirty checks if we're in a after_* callback
-    if previous_assigned_to_id = mutation_tracker.equal?(mutations_from_database) ? assigned_to_id_in_database : assigned_to_id_before_last_save
+    if previous_assigned_to_id = assigned_to_id_change_to_be_saved.nil? ? assigned_to_id_before_last_save : assigned_to_id_in_database
       Principal.find_by_id(previous_assigned_to_id)
     end
   end

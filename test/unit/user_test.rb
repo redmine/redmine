@@ -1198,6 +1198,10 @@ class UserTest < ActiveSupport::TestCase
     assert new_assignee.notify_about?(issue)
 
     issue.save!
+    assert assignee.notify_about?(issue)
+    assert new_assignee.notify_about?(issue)
+
+    issue.save!
     assert !assignee.notify_about?(issue)
     assert new_assignee.notify_about?(issue)
   end
