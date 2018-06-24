@@ -1,9 +1,5 @@
 <% @gantt.view = self %>
 <div class="contextual">
-<% if !@query.new_record? && @query.editable_by?(User.current) %>
-  <%= link_to l(:button_edit), edit_query_path(@query, :gantt => 1), :class => 'icon icon-edit' %>
-  <%= delete_link query_path(@query, :gantt => 1) %>
-<% end %>
 </div>
 
 <h2><%= @query.new_record? ? l(:label_gantt) : @query.name %></h2>
@@ -80,6 +76,10 @@
                          "$('#query_form').attr('action', '#{ @project ? new_project_query_path(@project) : new_query_path }').submit();",
                          :class => 'icon icon-save' %>
   <% end %>
+<% if !@query.new_record? && @query.editable_by?(User.current) %>
+  <%= link_to l(:button_edit), edit_query_path(@query, :gantt => 1), :class => 'icon icon-edit' %>
+  <%= delete_link query_path(@query, :gantt => 1) %>
+<% end %>
 </p>
 </div>
 <% end %>
