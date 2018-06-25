@@ -3,7 +3,7 @@
 <%= labelled_form_for @project, :url => { :action => "copy" } do |f| %>
 <%= render :partial => 'form', :locals => { :f => f } %>
 
-<fieldset class="box tabular"><legend><%= l(:button_copy) %></legend>
+<fieldset class="box tabular"><legend><%= toggle_checkboxes_link('.box input[type="checkbox"][name="only[]"]') %><%= l(:button_copy) %></legend>
   <label class="block"><%= check_box_tag 'only[]', 'members', true, :id => nil %> <%= l(:label_member_plural) %> (<%= @source_project.members.count %>)</label>
   <label class="block"><%= check_box_tag 'only[]', 'versions', true, :id => nil %> <%= l(:label_version_and_files, @source_project.versions.count) %></label>
   <label class="block"><%= check_box_tag 'only[]', 'issue_categories', true, :id => nil %> <%= l(:label_issue_category_plural) %> (<%= @source_project.issue_categories.count %>)</label>
