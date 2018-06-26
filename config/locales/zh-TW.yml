@@ -239,7 +239,7 @@
   notice_account_unknown_email: 未知的使用者
   notice_account_not_activated_yet: 您尚未完成啟用您的帳號。若您要索取新的帳號啟用 Email ，請 <a href="%{url}">點擊此連結</a> 。
   notice_account_locked: 您的帳號已被鎖定。
-  notice_can_t_change_password: 這個帳號使用外部認證方式，無法變更其密碼。
+  notice_can_t_change_password: 這個帳號使用外部驗證方式，無法變更其密碼。
   notice_account_lost_email_sent: 包含選擇新密碼指示的電子郵件，已經寄出給您。
   notice_account_activated: 您的帳號已經啟用，可用它登入系統。
   notice_successful_create: 建立成功
@@ -395,7 +395,7 @@
   field_onthefly: 即時建立使用者
   field_start_date: 開始日期
   field_done_ratio: 完成百分比
-  field_auth_source: 認證模式
+  field_auth_source: 驗證模式
   field_hide_mail: 隱藏我的電子郵件
   field_comments: 回應
   field_url: 網址
@@ -707,10 +707,10 @@
   label_new: 建立新的...
   label_logged_as: 目前登入
   label_environment: 環境
-  label_authentication: 認證
-  label_auth_source: 認證模式
-  label_auth_source_new: 建立新認證模式
-  label_auth_source_plural: 認證模式清單
+  label_authentication: 驗證
+  label_auth_source: 驗證模式
+  label_auth_source_new: 建立新驗證模式
+  label_auth_source_plural: 驗證模式清單
   label_subproject_plural: 子專案
   label_subproject_new: 建立子專案
   label_and_its_subprojects: "%{value} 與其子專案"
@@ -973,7 +973,7 @@
   label_general: 一般
   label_scm: 版本控管
   label_plugins: 外掛程式
-  label_ldap_authentication: LDAP 認證
+  label_ldap_authentication: LDAP 驗證
   label_downloads_abbr: 下載
   label_optional_description: 額外的說明
   label_add_another_file: 增加其他檔案
@@ -1299,18 +1299,12 @@
   description_issue_category_reassign: 選擇議題分類
   description_wiki_subpages_reassign: 選擇新的父頁面
   text_repository_identifier_info: '僅允許使用小寫英文字母 (a-z), 阿拉伯數字, 虛線與底線。<br />一旦儲存之後, 代碼便無法再次被更改。'
-  error_can_not_delete_auth_source: This authentication mode is in use and cannot be
-    deleted.
-  button_actions: Actions
-  mail_body_lost_password_validity: Please be aware that you may change the password
-    only once using this link.
-  text_login_required_html: When not requiring authentication, public projects and their
-    contents are openly available on the network. You can <a href="%{anonymous_role_path}">edit
-    the applicable permissions</a>.
-  label_login_required_yes: 'Yes'
-  label_login_required_no: No, allow anonymous access to public projects
-  text_project_is_public_non_member: Public projects and their contents are available
-    to all logged-in users.
-  text_project_is_public_anonymous: Public projects and their contents are openly available
-    on the network.
-  label_version_and_files: Versions (%{count}) and Files
+  error_can_not_delete_auth_source: "此驗證模式目前使用中, 無法被刪除."
+  button_actions: 動作
+  mail_body_lost_password_validity: '請注意您只能使用此鏈接更改密碼一次。'
+  text_login_required_html: 當不需要驗證時, 公開的專案與其內容在網路上是開放可用的. 您可 <a href="%{anonymous_role_path}">編輯適用的權限設定</a>.
+  label_login_required_yes: '是'
+  label_login_required_no: 否, 允許以匿名方式存取公開之專案
+  text_project_is_public_non_member: 公開之專案及其內容, 可供所有已登入的用戶使用.
+  text_project_is_public_anonymous: 公開之專案及其內容, 在網路上是開放可用的.
+  label_version_and_files: 版本 (%{count}) 與檔案
