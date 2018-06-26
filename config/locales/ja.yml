@@ -905,7 +905,7 @@ ja:
   text_issue_category_destroy_question: "%{count}件のチケットがこのカテゴリに割り当てられています。"
   text_issue_category_destroy_assignments: カテゴリの割り当てを削除する
   text_issue_category_reassign_to: チケットをこのカテゴリに再割り当てする
-  text_user_mail_option: "未選択のプロジェクトでは、ウォッチまたは関係している事柄(例: 自分が報告者もしくは担当者であるチケット)のみメールが送信されます。"
+  text_user_mail_option: "未選択のプロジェクトでは、ウォッチ中または自分が関係しているもの(例: 自分が作成または担当しているチケット)のみメールが送信されます。" 
   text_no_configuration_data: "ロール、トラッカー、チケットのステータス、ワークフローがまだ設定されていません。\nデフォルト設定のロードを強くお勧めします。ロードした後、それを修正することができます。"
   text_load_default_configuration: デフォルト設定をロード
   text_status_changed_by_changeset: "更新履歴 %{value} で適用されました。"
