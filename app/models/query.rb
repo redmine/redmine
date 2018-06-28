@@ -549,7 +549,7 @@ class Query < ActiveRecord::Base
     if project
       versions = project.shared_versions.to_a
     else
-      versions = Version.visible.where(:sharing => 'system').to_a
+      versions = Version.visible.to_a
     end
     Version.sort_by_status(versions).collect{|s| ["#{s.project.name} - #{s.name}", s.id.to_s, l("version_status_#{s.status}")] }
   end
