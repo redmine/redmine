@@ -1083,8 +1083,8 @@ ja:
   label_cross_project_system: すべてのプロジェクト
   button_hide: 隠す
   setting_non_working_week_days: 休業日
-  label_in_the_next_days: 今後N日以内
-  label_in_the_past_days: 過去N日以内
+  label_in_the_next_days: 今後N日
+  label_in_the_past_days: 過去N日
   label_attribute_of_user: ユーザーの %{name}
   text_turning_multiple_off: この設定を無効にすると、複数選択されている値のうち1個だけが保持され残りは選択解除されます。
   label_attribute_of_issue: チケットの %{name}
