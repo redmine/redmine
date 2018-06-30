@@ -605,7 +605,7 @@ class QueriesControllerTest < Redmine::ControllerTest
     assert_include ["eCookbook - 2.0", "3", "open"], json
   end
 
-  def test_filter_without_project_id_should_return_all_visible_fixed_versions
+  def test_version_filter_without_project_id_should_return_all_visible_fixed_versions
     # Remove "jsmith" user from "Private child of eCookbook" project
     Project.find(5).memberships.find_by(:user_id => 2).destroy
 
@@ -625,7 +625,6 @@ class QueriesControllerTest < Redmine::ControllerTest
     assert_include ["OnlineStore - Systemwide visible version", "7", "open"], json
     # response doesn't include non visible version
     refute_includes ["Private child of eCookbook - Private Version of public subproject", "6", "open"], json
-
   end
 
   def test_subproject_filter_time_entries_with_project_id_should_return_filter_values
