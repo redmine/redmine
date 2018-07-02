@@ -242,6 +242,7 @@ class AttachmentTest < ActiveSupport::TestCase
 
     a = Attachment.new(:filename => "test.png", :description => "Cool image")
     assert_equal "test.png (Cool image)", a.title
+    assert_equal "test.png", a.filename
   end
 
   def test_new_attachment_should_be_editable_by_author
