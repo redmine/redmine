@@ -155,7 +155,7 @@ class Attachment < ActiveRecord::Base
   end
 
   def title
-    title = filename.to_s
+    title = filename.dup
     if description.present?
       title << " (#{description})"
     end
