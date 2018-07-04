@@ -799,10 +799,10 @@ it:
   label_date_from_to: Da %{start} a %{end}
   label_greater_or_equal: ">="
   label_less_or_equal: <=
-  text_wiki_page_destroy_question: Questa pagina ha %{descendants} pagine figlie. Cosa ne vuoi fare?
-  text_wiki_page_reassign_children: Riassegna le pagine figlie al padre di questa pagina
-  text_wiki_page_nullify_children: Mantieni le pagine figlie come pagine radice
-  text_wiki_page_destroy_children: Elimina le pagine figlie e tutta la discendenza
+  text_wiki_page_destroy_question: Questa pagina ha %{descendants} sottopagine. Cosa ne vuoi fare?
+  text_wiki_page_reassign_children: Riassegna le sottopagine al principale di questa pagina
+  text_wiki_page_nullify_children: Mantieni le sottopagine come pagine radice
+  text_wiki_page_destroy_children: Elimina le sottopagine e tutta la discendenza
   setting_password_min_length: Lunghezza minima password
   field_group_by: Raggruppa risultati per
   mail_subject_wiki_content_updated: "La pagina wiki '%{id}' è stata aggiornata"
@@ -841,7 +841,7 @@ it:
   label_version_sharing_hierarchy: Con gerarchia progetto
   label_version_sharing_system: Con tutti i progetti
   label_version_sharing_descendants: Con sottoprogetti
-  label_version_sharing_tree: Con progetto padre
+  label_version_sharing_tree: Con progetto principale
   label_version_sharing_none: Nessuna condivisione
   error_can_not_archive_project: Questo progetto non può essere archiviato
   button_duplicate: Duplica
@@ -971,10 +971,10 @@ it:
   description_notes: Note
   description_choose_project: Progetti
   description_query_sort_criteria_attribute: Attributo di ordinamento
-  description_wiki_subpages_reassign: Scegli la nuova pagina padre
+  description_wiki_subpages_reassign: Scegli la nuova pagina principale
   description_selected_columns: Colonne selezionate
-  label_parent_revision: Padre
-  label_child_revision: Figlio
+  label_parent_revision: Revisione principale
+  label_child_revision: Sottorevisione
   error_scm_annotate_big_text_file: La nota non può essere salvata, supera la dimensiona massima del campo di testo.
   setting_default_issue_start_date_to_creation_date: Usa la data corrente come data d'inizio per le nuove segnalazioni
   button_edit_section: Modifica questa sezione
@@ -1030,7 +1030,7 @@ it:
   label_readonly: Sola lettura
   label_required: Richiesto
   text_repository_identifier_info: Consentiti solo lettere minuscole (a-z), numeri, trattini e trattini bassi.<br />Una volta salvato, ll'identificatore non può essere modificato.
-  field_board_parent: Forum padre
+  field_board_parent: Forum principale
   label_attribute_of_project: del progetto %{name}
   label_attribute_of_author: Author's %{name}
   label_attribute_of_assigned_to: Assegnatari %{name}
@@ -1048,7 +1048,7 @@ it:
   label_last_n_weeks: ultime %{count} settimane
   setting_cross_project_subtasks: Consenti sottoattività cross-project
   label_cross_project_descendants: Con sottoprogetti
-  label_cross_project_tree: Con progetto padre
+  label_cross_project_tree: Con progetto principale
   label_cross_project_hierarchy: Con gerarchia progetto
   label_cross_project_system: Con tutti i progetti
   button_hide: Nascondi
@@ -1123,7 +1123,7 @@ it:
   error_password_expired: La password è scaduta o l'amministratore ha richiesto che sia cambiata.
   field_time_entries_visibility: Visibilità Time logs
   setting_password_max_age: Richiesta cambio password dopo
-  label_parent_task_attributes: Attributi attività padre
+  label_parent_task_attributes: Attributi attività principale
   label_parent_task_attributes_derived: Calcolati dalle sottoattività
   label_parent_task_attributes_independent: Indipendente dalle sottoattività
   label_time_entries_visibility_all: All time entries
