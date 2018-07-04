@@ -312,8 +312,8 @@ es:
   field_new_password: Nueva contraseña
   field_notes: Notas
   field_onthefly: Creación del usuario "al vuelo"
-  field_parent: Proyecto padre
-  field_parent_title: Página padre
+  field_parent: Proyecto superior
+  field_parent_title: Página superior
   field_password: Contraseña
   field_password_confirmation: Confirmación
   field_port: Puerto
@@ -837,10 +837,10 @@ es:
   label_date_from_to: Desde %{start} hasta %{end}
   label_greater_or_equal: ">="
   label_less_or_equal: <=
-  text_wiki_page_destroy_question: Esta página tiene %{descendants} página(s) hija(s) y descendiente(s). ¿Qué desea hacer?
-  text_wiki_page_reassign_children: Reasignar páginas hijas a esta página
-  text_wiki_page_nullify_children: Dejar páginas hijas como páginas raíz
-  text_wiki_page_destroy_children: Eliminar páginas hijas y todos sus descendientes
+  text_wiki_page_destroy_question: Esta página tiene %{descendants} subpágina(s) y descendiente(s). ¿Qué desea hacer?
+  text_wiki_page_reassign_children: Reasignar subpáginas a esta página
+  text_wiki_page_nullify_children: Dejar subpáginas como páginas raíz
+  text_wiki_page_destroy_children: Eliminar subpáginas y todos sus descendientes
   setting_password_min_length: Longitud mínima de la contraseña
   field_group_by: Agrupar resultados por
   mail_subject_wiki_content_updated: "La página wiki '%{id}' ha sido actualizada"
@@ -880,7 +880,7 @@ es:
   button_copy_and_follow: Copiar y seguir
   label_version_sharing_hierarchy: Con la jerarquía del proyecto
   label_version_sharing_tree: Con el árbol del proyecto
-  label_version_sharing_descendants: Con proyectos hijo
+  label_version_sharing_descendants: Con subproyectos
   label_version_sharing_system: Con todos los proyectos
   label_version_sharing_none: No compartir
   button_duplicate: Duplicar
@@ -924,7 +924,7 @@ es:
   error_unable_delete_issue_status: Fue imposible eliminar el estado de la petición
   label_profile: Perfil
   permission_manage_subtasks: Gestionar subtareas
-  field_parent_issue: Tarea padre
+  field_parent_issue: Tarea superior
   label_subtask_plural: Subtareas
   label_project_copy_notifications: Enviar notificaciones por correo electrónico durante la copia del proyecto
   error_can_not_delete_custom_field: Fue imposible eliminar el campo personalizado
@@ -1011,10 +1011,10 @@ es:
   description_notes: Notas
   description_choose_project: Proyectos
   description_query_sort_criteria_attribute: Atributo de ordenación
-  description_wiki_subpages_reassign: Elija la nueva página padre
+  description_wiki_subpages_reassign: Elija la nueva página superior
   description_selected_columns: Columnas seleccionadas
-  label_parent_revision: Padre
-  label_child_revision: Hijo
+  label_parent_revision: Revisión superior
+  label_child_revision: Subrevisión
   setting_default_issue_start_date_to_creation_date: Utilizar la fecha actual como fecha de inicio para nuevas peticiones
   button_edit_section: Editar esta sección
   setting_repositories_encodings: Codificación de adjuntos y repositorios
@@ -1071,7 +1071,7 @@ es:
   label_readonly: Sólo lectura
   label_required: Requerido
   text_repository_identifier_info: Solo se permiten letras en minúscula (a-z), números, guiones y barras bajas.<br />Una vez guardado, el identificador no se puede cambiar.
-  field_board_parent: Foro padre
+  field_board_parent: Foro superior
   label_attribute_of_project: "%{name} del proyecto"
   label_attribute_of_author: "%{name} del autor"
   label_attribute_of_assigned_to: "%{name} de la persona asignada"
@@ -1088,7 +1088,7 @@ es:
   label_any: todos
   label_last_n_weeks: en las últimas %{count} semanas
   setting_cross_project_subtasks: Permitir subtareas cruzadas entre proyectos
-  label_cross_project_descendants: Con proyectos hijo
+  label_cross_project_descendants: Con subproyectos
   label_cross_project_tree: Con el árbol del proyecto
   label_cross_project_hierarchy: Con la jerarquía del proyecto
   label_cross_project_system: Con todos los proyectos
@@ -1161,7 +1161,7 @@ es:
   error_password_expired: Tu contraseña ha expirado o tu administrador requiere que la cambies.
   field_time_entries_visibility: Visibilidad de las entradas de tiempo
   setting_password_max_age: Requiere cambiar de contraseña después de
-  label_parent_task_attributes: Atributos de la tarea padre
+  label_parent_task_attributes: Atributos de la tarea superior
   label_parent_task_attributes_derived: Calculada de las subtareas
   label_parent_task_attributes_independent: Independiente de las subtareas
   label_time_entries_visibility_all: Todos los registros de tiempo
