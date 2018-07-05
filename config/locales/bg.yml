@@ -667,6 +667,7 @@ bg:
   label_version: Версия
   label_version_new: Нова версия
   label_version_plural: Версии
+  label_version_and_files: Версии (%{count}) и файлове
   label_close_versions: Затваряне на завършените версии
   label_confirmation: Одобрение
   label_export_to: Експорт към
@@ -1225,4 +1226,3 @@ bg:
   label_login_required_no: Не, разрешаване на анонимен достъп до публичните проекти.
   text_project_is_public_non_member: Публичните проекти са достъпни за всички влезли в Redmine потребители.
   text_project_is_public_anonymous: Публичните проекти са достъпнии тяхното съдържание са видими без ограничения в мрежата.
-  label_version_and_files: Versions (%{count}) and Files
