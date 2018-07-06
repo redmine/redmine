@@ -1073,12 +1073,13 @@ class MailHandlerTest < ActiveSupport::TestCase
     options = MailHandler.extract_options_from_env({
       'tracker' => 'defect',
       'project' => 'foo',
-      'unknown_user' => 'create'
+      'unknown_user' => 'create',
+      'no_notification' => '1'
     })
 
     assert_equal({
       :issue => {:tracker => 'defect', :project => 'foo'},
-      :unknown_user => 'create'
+      :unknown_user => 'create', :no_notification => '1'
     }, options)
   end
 
