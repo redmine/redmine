@@ -31,7 +31,8 @@ class ApplicationHelperTest < Redmine::HelperTest
            :trackers, :issue_statuses, :issues, :versions, :documents,
            :wikis, :wiki_pages, :wiki_contents,
            :boards, :messages, :news,
-           :attachments, :enumerations
+           :attachments, :enumerations,
+           :custom_values, :custom_fields, :custom_fields_projects
 
   def setup
     super
@@ -1488,6 +1489,49 @@ RAW
     Project.where(:id => 1).update_all(:identifier => 25)
     assert_equal '<a href="/projects/1">eCookbook</a>',
                  link_to_project(Project.find(1))
+  end
+
+  def test_link_to_record
+    [
+      [custom_values(:custom_values_007), '<a href="/projects/ecookbook">eCookbook</a>'],
+      [documents(:documents_001),         '<a href="/documents/1">Test document</a>'],
+      [Group.find(10),                    '<a href="/groups/10">A Team</a>'],
+      [issues(:issues_001),               link_to_issue(issues(:issues_001), :subject => false)],
+      [messages(:messages_001),           '<a href="/boards/1/topics/1">First post</a>'],
+      [news(:news_001),                   '<a href="/news/1">eCookbook first release !</a>'],
+      [projects(:projects_001),           '<a href="/projects/ecookbook">eCookbook</a>'],
+      [users(:users_001),                 '<a class="user active" href="/users/1">Redmine Admin</a>'],
+      [versions(:versions_001),           '<a title="07/01/2006" href="/versions/1">eCookbook - 0.1</a>'],
+      [wiki_pages(:wiki_pages_001),       '<a href="/projects/ecookbook/wiki/CookBook_documentation">CookBook documentation</a>']
+    ].each do |record, link|
+      assert_equal link, link_to_record(record)
+    end
+  end
+
+  def test_link_to_attachment_container
+    field = ProjectCustomField.generate!(:name => "File", :field_format => 'attachment')
+    project = projects(:projects_001)
+    project_custom_value_attachment = new_record(Attachment) do
+      project.custom_field_values = {field.id => {:file => mock_file}}
+      project.save
+    end
+
+    news_attachment = attachments(:attachments_004)
+    news_attachment.container = news(:news_001)
+    news_attachment.save!
+
+    [
+      [project_custom_value_attachment, '<a href="/projects/ecookbook">eCookbook</a>'],
+      [attachments(:attachments_002),   '<a href="/documents/1">Test document</a>'],
+      [attachments(:attachments_001),   link_to_issue(issues(:issues_003), :subject => false)],
+      [attachments(:attachments_013),   '<a href="/boards/1/topics/1">First post</a>'],
+      [news_attachment,                 '<a href="/news/1">eCookbook first release !</a>'],
+      [attachments(:attachments_008),   '<a href="/projects/ecookbook/files">Files</a>'],
+      [attachments(:attachments_009),   '<a href="/projects/ecookbook/files">Files</a>'],
+      [attachments(:attachments_003),   '<a href="/projects/ecookbook/wiki/Page_with_an_inline_image">Page with an inline image</a>'],
+    ].each do |attachment, link|
+      assert_equal link, link_to_attachment_container(attachment.container)
+    end
   end
 
   def test_principals_options_for_select_with_users

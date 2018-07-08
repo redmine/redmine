@@ -85,7 +85,7 @@ class AttachmentFieldFormatTest < Redmine::IntegrationTest
     # preview the attachment
     get link.attr('href')
     assert_response :success
-    assert_select 'h2', :text => 'testfile.txt'
+    assert_select 'h2', :text => "#{issue.tracker} ##{issue.id} » testfile.txt"
   end
 
   def test_create_without_attachment
