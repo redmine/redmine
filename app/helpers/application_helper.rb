@@ -98,10 +98,17 @@ module ApplicationHelper
   # * :download - Force download (default: false)
   def link_to_attachment(attachment, options={})
     text = options.delete(:text) || attachment.filename
-    route_method = options.delete(:download) ? :download_named_attachment_url : :named_attachment_url
-    html_options = options.slice!(:only_path)
+    if options.delete(:download)
+      route_method = :download_named_attachment_url
+      options[:filename] = attachment.filename
+    else
+      route_method = :attachment_url
+      # make sure we don't have an extraneous :filename in the options
+      options.delete(:filename)
+    end
+    html_options = options.slice!(:only_path, :filename)
     options[:only_path] = true unless options.key?(:only_path)
-    url = send(route_method, attachment, attachment.filename, options)
+    url = send(route_method, attachment, options)
     link_to text, url, html_options
   end
 
@@ -263,9 +270,8 @@ module ApplicationHelper
         :srcset => "#{thumbnail_path(attachment, :size => thumbnail_size * 2)} 2x",
         :style => "max-width: #{thumbnail_size}px; max-height: #{thumbnail_size}px;"
       ),
-      named_attachment_path(
-        attachment,
-        attachment.filename
+      attachment_path(
+        attachment
       ),
       :title => attachment.filename
     )

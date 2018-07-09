@@ -677,7 +677,7 @@ RAW
 
   def test_attachment_links
     text = 'attachment:error281.txt'
-    result = link_to("error281.txt", "/attachments/1/error281.txt",
+    result = link_to("error281.txt", "/attachments/1",
                      :class => "attachment")
     assert_equal "<p>#{result}</p>",
                  textilizable(text,
@@ -689,7 +689,7 @@ RAW
     set_tmp_attachments_directory
     a1 = Attachment.generate!(:filename => "test.txt", :created_on => 1.hour.ago)
     a2 = Attachment.generate!(:filename => "test.txt")
-    result = link_to("test.txt", "/attachments/#{a2.id}/test.txt",
+    result = link_to("test.txt", "/attachments/#{a2.id}",
                      :class => "attachment")
     assert_equal "<p>#{result}</p>",
                  textilizable('attachment:test.txt', :attachments => [a1, a2])
@@ -700,13 +700,13 @@ RAW
 
     with_settings :text_formatting => 'textile' do
       raw = "attachment:image@2x.png should not be parsed in image@2x.png"
-      assert_match %r{<p><a class="attachment" href="/attachments/#{attachment.id}/image@2x.png">image@2x.png</a> should not be parsed in image@2x.png</p>},
+      assert_match %r{<p><a class="attachment" href="/attachments/#{attachment.id}">image@2x.png</a> should not be parsed in image@2x.png</p>},
         textilizable(raw, :attachments => [attachment])
     end
 
     with_settings :text_formatting => 'markdown' do
       raw = "attachment:image@2x.png should not be parsed in image@2x.png"
-      assert_match %r{<p><a class="attachment" href="/attachments/#{attachment.id}/image@2x.png">image@2x.png</a> should not be parsed in image@2x.png</p>} ,
+      assert_match %r{<p><a class="attachment" href="/attachments/#{attachment.id}">image@2x.png</a> should not be parsed in image@2x.png</p>} ,
         textilizable(raw, :attachments => [attachment])
     end
   end
@@ -1445,16 +1445,16 @@ RAW
 
   def test_link_to_attachment
     a = Attachment.find(3)
-    assert_equal '<a href="/attachments/3/logo.gif">logo.gif</a>',
+    assert_equal '<a href="/attachments/3">logo.gif</a>',
       link_to_attachment(a)
-    assert_equal '<a href="/attachments/3/logo.gif">Text</a>',
+    assert_equal '<a href="/attachments/3">Text</a>',
       link_to_attachment(a, :text => 'Text')
-    result = link_to("logo.gif", "/attachments/3/logo.gif", :class => "foo")
+    result = link_to("logo.gif", "/attachments/3", :class => "foo")
     assert_equal result,
       link_to_attachment(a, :class => 'foo')
     assert_equal '<a href="/attachments/download/3/logo.gif">logo.gif</a>',
       link_to_attachment(a, :download => true)
-    assert_equal '<a href="http://test.host/attachments/3/logo.gif">logo.gif</a>',
+    assert_equal '<a href="http://test.host/attachments/3">logo.gif</a>',
       link_to_attachment(a, :only_path => false)
   end
 
@@ -1462,7 +1462,7 @@ RAW
     a = Attachment.find(3)
     assert_select_in thumbnail_tag(a),
       'a[href=?][title=?] img[src=?]',
-      "/attachments/3/logo.gif", "logo.gif", "/attachments/thumbnail/3"
+      "/attachments/3", "logo.gif", "/attachments/thumbnail/3"
   end
 
   def test_link_to_project
