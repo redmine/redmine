@@ -695,4 +695,41 @@ class QueriesControllerTest < Redmine::ControllerTest
     assert_include ["Dave Lopper", "3", "active"], json
     assert_include ["Dave2 Lopper2", "5", "locked"], json
   end
+
+  def test_watcher_filter_without_permission_should_show_only_me
+    # This user does not have view_issue_watchers permission
+    @request.session[:user_id] = 7
+
+    get :filter, :params => {
+        :project_id => 1,
+        :type => 'IssueQuery',
+        :name => 'watcher_id'
+      }
+    assert_response :success
+    assert_equal 'application/json', response.content_type
+    json = ActiveSupport::JSON.decode(response.body)
+
+    assert_equal 1, json.count
+    assert_equal [["<< me >>", "me"]], json
+  end
+
+  def test_watcher_filter_with_permission_should_show_members
+    # This user has view_issue_watchers permission
+    @request.session[:user_id] = 1
+
+    get :filter, :params => {
+        :project_id => 1,
+        :type => 'IssueQuery',
+        :name => 'watcher_id'
+      }
+    assert_response :success
+    assert_equal 'application/json', response.content_type
+    json = ActiveSupport::JSON.decode(response.body)
+
+    assert_equal 6, json.count
+    # "me" value should not be grouped
+    assert_include ["<< me >>", "me"], json
+    assert_include ["Dave Lopper", "3", "active"], json
+    assert_include ["Dave2 Lopper2", "5", "locked"], json
+  end
 end

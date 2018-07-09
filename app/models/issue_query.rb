@@ -148,7 +148,7 @@ class IssueQuery < Query
 
     if User.current.logged?
       add_available_filter "watcher_id",
-        :type => :list, :values => [["<< #{l(:label_me)} >>", "me"]]
+        :type => :list, :values => lambda { watcher_values }
     end
 
     add_available_filter("updated_by",

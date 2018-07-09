@@ -564,6 +564,12 @@ class Query < ActiveRecord::Base
     statuses.collect{|s| [s.name, s.id.to_s]}
   end
 
+  def watcher_values
+    watcher_values = [["<< #{l(:label_me)} >>", "me"]]
+    watcher_values += users.sort_by(&:status).collect{|s| [s.name, s.id.to_s, l("status_#{User::LABEL_BY_STATUS[s.status]}")] } if User.current.allowed_to?(:view_issue_watchers, self.project)
+    watcher_values
+  end
+
   # Returns a scope of issue custom fields that are available as columns or filters
   def issue_custom_fields
     if project
