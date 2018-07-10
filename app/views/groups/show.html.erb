@@ -1,5 +1,14 @@
 <%= title [l(:label_group_plural), groups_path], @group.name %>
 
+<% if @group.custom_field_values.any? %>
+  <ul>
+    <% render_custom_field_values(@group) do |custom_field, formatted| %>
+      <li><span class="label"><%= custom_field.name %>:</span> <%= formatted %></li>
+    <% end %>
+  </ul>
+<% end %>
+
+<h3><%= l(:label_member_plural) %></h3>
 <ul>
 <% @group.users.each do |user| %>
     <li><%= user %></li>
