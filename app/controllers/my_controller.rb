@@ -28,6 +28,7 @@ class MyController < ApplicationController
   helper :users
   helper :custom_fields
   helper :queries
+  helper :activities
 
   def index
     page

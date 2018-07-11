@@ -198,6 +198,24 @@ class MyControllerTest < Redmine::ControllerTest
     end
   end
 
+  def test_page_with_activity
+    user = User.find(2)
+    user.pref.my_page_layout = {'top' => ['activity']}
+    user.pref.save!
+
+    get :page
+    assert_response :success
+
+    assert_select 'div#block-activity' do
+      assert_select 'h3' do
+        assert_select 'a[href=?]', activity_path(from: Date.today, user_id: user.id),  :text => 'Activity'
+      end
+      assert_select 'div#activity' do
+        assert_select 'dt', 10
+      end
+    end
+  end
+
   def test_page_with_all_blocks
     blocks = Redmine::MyPage.blocks.keys
     preferences = User.find(2).pref

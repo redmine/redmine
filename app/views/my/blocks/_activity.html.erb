@@ -1,0 +1,5 @@
+<h3><%= link_to l(:label_activity), :controller => 'activities',
+                :action => 'index', :id => nil, :user_id => User.current,
+                :from => events_by_day.keys.first %></h3>
+
+<%= render :partial => 'activities/activities', :locals => {:events_by_day => events_by_day} %>

@@ -29,7 +29,8 @@ module Redmine
         'news' => {:label => :label_news_latest},
         'calendar' => {:label => :label_calendar},
         'documents' => {:label => :label_document_plural},
-        'timelog' => {:label => :label_spent_time}
+        'timelog' => {:label => :label_spent_time},
+        'activity' => {:label => :label_activity}
       }
 
     def self.groups

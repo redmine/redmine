@@ -1,0 +1,17 @@
+<div id="activity">
+<% events_by_day.keys.sort.reverse_each do |day| %>
+<h3><%= format_activity_day(day) %></h3>
+<dl>
+<% sort_activity_events(events_by_day[day]).each do |e, in_group| -%>
+  <dt class="<%= e.event_type %> icon icon-<%= e.event_type %> <%= "grouped" if in_group %> <%= User.current.logged? && e.respond_to?(:event_author) && User.current == e.event_author ? 'me' : nil %>">
+  <%= avatar(e.event_author, :size => "24") if e.respond_to?(:event_author) %>
+  <span class="time"><%= format_time(e.event_datetime, false) %></span>
+  <%= content_tag('span', e.project, :class => 'project') if @project.nil? || @project != e.project %>
+  <%= link_to format_activity_title(e.event_title), e.event_url %>
+  </dt>
+  <dd class="<%= "grouped" if in_group %>"><span class="description"><%= format_activity_description(e.event_description) %></span>
+  <span class="author"><%= link_to_user(e.event_author) if e.respond_to?(:event_author) %></span></dd>
+<% end -%>
+</dl>
+<% end -%>
+</div>
