@@ -129,13 +129,13 @@ module Redmine
                                }
 
         # Add time entry custom fields
-        custom_fields = TimeEntryCustomField.all
+        custom_fields = TimeEntryCustomField.visible
         # Add project custom fields
-        custom_fields += ProjectCustomField.all
+        custom_fields += ProjectCustomField.visible
         # Add issue custom fields
-        custom_fields += (@project.nil? ? IssueCustomField.for_all : @project.all_issue_custom_fields)
+        custom_fields += @project.nil? ? IssueCustomField.visible.for_all : @project.all_issue_custom_fields.visible
         # Add time entry activity custom fields
-        custom_fields += TimeEntryActivityCustomField.all
+        custom_fields += TimeEntryActivityCustomField.visible
 
         # Add list and boolean custom fields as available criteria
         custom_fields.select {|cf| %w(list bool).include?(cf.field_format) && !cf.multiple?}.each do |cf|
