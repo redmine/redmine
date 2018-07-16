@@ -3,39 +3,41 @@
 <% end %>
 
 <% if @project.repositories.any? %>
-<table class="list">
-  <thead>
-    <tr>
-      <th><%= l(:field_identifier) %></th>
-      <th><%= l(:field_repository_is_default) %></th>
-      <th><%= l(:label_scm) %></th>
-      <th><%= l(:label_repository) %></th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-  <% @project.repositories.sort.each do |repository| %>
-    <tr>
-      <td class="name">
-      <%= link_to repository.identifier,
-            {:controller => 'repositories', :action => 'show',:id => @project, :repository_id => repository.identifier_param} if repository.identifier.present? %>
-      </td>
-      <td><%= checked_image repository.is_default? %></td>
-      <td><%= repository.scm_name %></td>
-      <td><%= repository.url %></td>
-      <td class="buttons">
-      <% if User.current.allowed_to?(:manage_repository, @project) %>
-        <%= link_to(l(:label_user_plural), committers_repository_path(repository),
-             :class => 'icon icon-user') %>
-        <%= link_to(l(:button_edit), edit_repository_path(repository),
-             :class => 'icon icon-edit') %>
-        <%= delete_link repository_path(repository) %>
-      <% end %>
-      </td>
-    </tr>
-  <% end %>
-  </tbody>
-</table>
+<div class="autoscroll">
+  <table class="list">
+    <thead>
+      <tr>
+        <th><%= l(:field_identifier) %></th>
+        <th><%= l(:field_repository_is_default) %></th>
+        <th><%= l(:label_scm) %></th>
+        <th><%= l(:label_repository) %></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+    <% @project.repositories.sort.each do |repository| %>
+      <tr>
+        <td class="name">
+        <%= link_to repository.identifier,
+              {:controller => 'repositories', :action => 'show',:id => @project, :repository_id => repository.identifier_param} if repository.identifier.present? %>
+        </td>
+        <td><%= checked_image repository.is_default? %></td>
+        <td><%= repository.scm_name %></td>
+        <td><%= repository.url %></td>
+        <td class="buttons">
+        <% if User.current.allowed_to?(:manage_repository, @project) %>
+          <%= link_to(l(:label_user_plural), committers_repository_path(repository),
+               :class => 'icon icon-user') %>
+          <%= link_to(l(:button_edit), edit_repository_path(repository),
+               :class => 'icon icon-edit') %>
+          <%= delete_link repository_path(repository) %>
+        <% end %>
+        </td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+</div>
 <% else %>
 <p class="nodata"><%= l(:label_no_data) %></p>
 <% end %>
