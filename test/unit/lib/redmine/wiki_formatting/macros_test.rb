@@ -401,4 +401,9 @@ EXPECTED
 
     assert_equal expected.gsub(%r{[\r\n\t]}, ''), textilizable(text).gsub(%r{[\r\n\t]}, '')
   end
+
+  def test_macro_should_support_phrase_modifiers
+    text = "*{{hello_world}}*"
+    assert_match %r|\A<p><strong>Hello world!.*</strong></p>\z|, textilizable(text)
+  end
 end

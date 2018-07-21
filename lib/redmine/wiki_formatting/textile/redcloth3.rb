@@ -343,7 +343,7 @@ class RedCloth3 < String
     A_VLGN = /[\-^~]/
     C_CLAS = '(?:\([^")]+\))'
     C_LNGE = '(?:\[[a-z\-_]+\])'
-    C_STYL = '(?:\{[^"}]+\})'
+    C_STYL = '(?:\{[^{][^"}]+\})'
     S_CSPN = '(?:\\\\\d+)'
     S_RSPN = '(?:/\d+)'
     A = "(?:#{A_HLGN}?#{A_VLGN}?|#{A_VLGN}?#{A_HLGN}?)"
