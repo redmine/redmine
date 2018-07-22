@@ -628,6 +628,7 @@ class Project < ActiveRecord::Base
     s << ' root' if root?
     s << ' child' if child?
     s << (leaf? ? ' leaf' : ' parent')
+    s << ' public' if is_public?
     unless active?
       if archived?
         s << ' archived'

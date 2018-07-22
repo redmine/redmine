@@ -1006,18 +1006,27 @@ class ProjectTest < ActiveSupport::TestCase
     assert_kind_of String, p.css_classes
     assert_not_include 'archived', p.css_classes.split
     assert_not_include 'closed', p.css_classes.split
+    assert_include 'public', p.css_classes.split
   end
 
   def test_css_classes_for_archived_project
     p = Project.new
     p.status = Project::STATUS_ARCHIVED
     assert_include 'archived', p.css_classes.split
+    assert_include 'public', p.css_classes.split
   end
 
   def test_css_classes_for_closed_project
     p = Project.new
     p.status = Project::STATUS_CLOSED
     assert_include 'closed', p.css_classes.split
+    assert_include 'public', p.css_classes.split
+  end
+
+  def test_css_classes_for_private_project
+    p = Project.new
+    p.is_public = false
+    assert_not_include 'public', p.css_classes.split
   end
 
   def test_combination_of_visible_and_distinct_scopes_in_case_anonymous_group_has_memberships_should_not_error
