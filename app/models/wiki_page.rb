@@ -40,7 +40,7 @@ class WikiPage < ActiveRecord::Base
                      :permission => :view_wiki_pages,
                      :project_key => "#{Wiki.table_name}.project_id"
 
-  attr_accessor :redirect_existing_links
+  attr_accessor :redirect_existing_links, :deleted_attachment_ids
 
   validates_presence_of :title
   validates_format_of :title, :with => /\A[^,\.\/\?\;\|\s]*\z/
@@ -51,7 +51,7 @@ class WikiPage < ActiveRecord::Base
   validate :validate_parent_title
   before_destroy :delete_redirects
   before_save :handle_rename_or_move, :update_wiki_start_page
-  after_save :handle_children_move
+  after_save :handle_children_move, :delete_selected_attachments
 
   # eager load information about last updates, without loading text
   scope :with_updated_on, lambda { preload(:content_without_text) }
@@ -64,6 +64,9 @@ class WikiPage < ActiveRecord::Base
 
   safe_attributes 'is_start_page',
     :if => lambda {|page, user| user.allowed_to?(:manage_wiki, page.project)}
+
+  safe_attributes 'deleted_attachment_ids',
+    :if => lambda {|page, user| page.attachments_deletable?(user)}
 
   def initialize(attributes=nil, *args)
     super
@@ -249,6 +252,17 @@ class WikiPage < ActiveRecord::Base
       raise ActiveRecord::Rollback unless ret
     end
     ret
+  end
+
+  def deleted_attachment_ids
+    Array(@deleted_attachment_ids).map(&:to_i)
+  end
+
+  def delete_selected_attachments
+    if deleted_attachment_ids.present?
+      objects = attachments.where(:id => deleted_attachment_ids.map(&:to_i))
+      attachments.delete(objects)
+    end
   end
 
   protected

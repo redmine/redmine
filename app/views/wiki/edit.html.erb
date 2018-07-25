@@ -30,7 +30,29 @@
 <% end %>
 
 <p><label><%= l(:field_comments) %></label><%= f.text_field :comments, :size => 120, :maxlength => 1024 %></p>
-<p><label><%=l(:label_attachment_plural)%></label><%= render :partial => 'attachments/form' %></p>
+<fieldset>
+<legend><%=l(:label_attachment_plural)%></legend>
+<% if @page.attachments.any? && @page.safe_attribute?('deleted_attachment_ids') %>
+<div class="contextual"><%= link_to l(:label_edit_attachments), '#', :onclick => "$('#existing-attachments').toggle(); return false;" %></div>
+<div id="existing-attachments" style="<%= @page.deleted_attachment_ids.blank? ? 'display:none;' : '' %>">
+  <% @page.attachments.each do |attachment| %>
+  <span class="existing-attachment">
+    <%= text_field_tag '', attachment.filename, :class => "icon icon-attachment filename", :disabled => true %>
+    <label class='inline'>
+      <%= check_box_tag 'wiki_page[deleted_attachment_ids][]',
+                        attachment.id,
+                        @page.deleted_attachment_ids.include?(attachment.id),
+                        :id => nil, :class => "deleted_attachment" %> <%= l(:button_delete) %>
+    </label>
+  </span>
+  <% end %>
+  <hr />
+</div>
+<% end %>
+<div id="new-attachments" style="display:inline-block;">
+  <%= render :partial => 'attachments/form' %>
+</div>
+</fieldset>
 </div>
 
 <p>

@@ -459,6 +459,44 @@ class WikiControllerTest < Redmine::ControllerTest
     assert_equal 1, page.content.version
   end
 
+  def test_update_with_deleted_attachment_ids
+    @request.session[:user_id] = 2
+    page = WikiPage.find(4)
+    attachment = page.attachments.first
+    assert_difference 'Attachment.count', -1 do
+      put :update, :params => {
+        :project_id => page.wiki.project.id,
+        :id => page.title,
+        :content => {
+          :comments => 'delete file',
+          :text => 'edited'
+        },
+        :wiki_page => {:deleted_attachment_ids => [attachment.id]}
+      }
+    end
+    page.reload
+    refute_includes page.attachments, attachment
+  end
+
+  def test_update_with_deleted_attachment_ids_and_failure_should_preserve_selected_attachments
+    @request.session[:user_id] = 2
+    page = WikiPage.find(4)
+    attachment = page.attachments.first
+    assert_no_difference 'Attachment.count' do
+      put :update, :params => {
+        :project_id => page.wiki.project.id,
+        :id => page.title,
+        :content => {
+          :comments => 'a' * 1300,  # failure here, comment is too long
+          :text => 'edited'
+        },
+        :wiki_page => {:deleted_attachment_ids => [attachment.id]}
+      }
+    end
+    page.reload
+    assert_includes page.attachments, attachment
+  end
+
   def test_update_stale_page_should_not_raise_an_error
     @request.session[:user_id] = 2
     c = Wiki.find(1).find_page('Another_page').content
