@@ -1383,7 +1383,7 @@ class Issue < ActiveRecord::Base
   # Unassigns issues from versions that are no longer shared
   # after +project+ was moved
   def self.update_versions_from_hierarchy_change(project)
-    moved_project_ids = project.self_and_descendants.reload.collect(&:id)
+    moved_project_ids = project.self_and_descendants.reload.pluck(:id)
     # Update issues of the moved projects and issues assigned to a version of a moved project
     Issue.update_versions(
             ["#{Version.table_name}.project_id IN (?) OR #{Issue.table_name}.project_id IN (?)",
