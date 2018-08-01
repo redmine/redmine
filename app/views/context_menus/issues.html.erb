@@ -3,10 +3,10 @@
 
   <% if @issue -%>
     <li><%= context_menu_link l(:button_edit), edit_issue_path(@issue),
-            :class => 'icon-edit', :disabled => !@can[:edit] %></li>
+            :class => 'icon icon-edit', :disabled => !@can[:edit] %></li>
   <% else %>
     <li><%= context_menu_link l(:button_edit), bulk_edit_issues_path(:ids => @issue_ids),
-            :class => 'icon-edit', :disabled => !@can[:edit] %></li>
+            :class => 'icon icon-edit', :disabled => !@can[:edit] %></li>
   <% end %>
 
   <% if @allowed_statuses.present? %>
@@ -124,7 +124,7 @@
       <li><%= context_menu_link l(:button_add),
                 new_watchers_path(:object_type => 'issue', :object_id => @issue_ids),
                 :remote => true,
-                :class => 'icon-add' %></li>
+                :class => 'icon icon-add' %></li>
     </ul>
   </li>
 <% end %>
@@ -135,22 +135,22 @@
 
 <% unless @issue %>
   <li><%= context_menu_link l(:button_filter), _project_issues_path(@project, :set_filter => 1, :status_id => "*", :issue_id => @issue_ids.join(",")),
-          :class => 'icon-list' %></li>
+          :class => 'icon icon-list' %></li>
 <% end %>
 
 <% if @issue.present? %>
   <% if @can[:log_time] -%>
   <li><%= context_menu_link l(:button_log_time), new_issue_time_entry_path(@issue),
-          :class => 'icon-time-add' %></li>
+          :class => 'icon icon-time-add' %></li>
   <% end %>
   <li><%= context_menu_link l(:button_copy), project_copy_issue_path(@project, @issue),
-          :class => 'icon-copy', :disabled => !@can[:copy] %></li>
+          :class => 'icon icon-copy', :disabled => !@can[:copy] %></li>
 <% else %>
   <li><%= context_menu_link l(:button_copy), bulk_edit_issues_path(:ids => @issue_ids, :copy => '1'),
-                          :class => 'icon-copy', :disabled => !@can[:copy] %></li>
+                          :class => 'icon icon-copy', :disabled => !@can[:copy] %></li>
 <% end %>
   <li><%= context_menu_link l(:button_delete), issues_path(:ids => @issue_ids, :back_url => @back),
-                            :method => :delete, :data => {:confirm => issues_destroy_confirmation_message(@issues)}, :class => 'icon-del', :disabled => !@can[:delete] %></li>
+                            :method => :delete, :data => {:confirm => issues_destroy_confirmation_message(@issues)}, :class => 'icon icon-del', :disabled => !@can[:delete] %></li>
 
   <%= call_hook(:view_issues_context_menu_end, {:issues => @issues, :can => @can, :back => @back }) %>
 </ul>
