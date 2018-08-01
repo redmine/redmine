@@ -608,7 +608,7 @@ module Redmine
           end
         end
         # Transforms dates into pixels witdh
-        coords.keys.each do |key|
+        coords.each_key do |key|
           coords[key] = (coords[key] * zoom).floor
         end
         coords

@@ -61,7 +61,7 @@ module OpenIdAuthentication
       @code
     end
 
-    ERROR_MESSAGES.keys.each { |state| define_method("#{state}?") { @code == state } }
+    ERROR_MESSAGES.each_key { |state| define_method("#{state}?") { @code == state } }
 
     def successful?
       @code == :successful

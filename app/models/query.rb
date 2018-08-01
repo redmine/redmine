@@ -371,7 +371,7 @@ class Query < ActiveRecord::Base
       self.filters = {}
       add_filters(params[:fields] || params[:f], params[:operators] || params[:op], params[:values] || params[:v])
     else
-      available_filters.keys.each do |field|
+      available_filters.each_key do |field|
         add_short_filter(field, params[field]) if params[field]
       end
     end
@@ -989,7 +989,7 @@ class Query < ActiveRecord::Base
 
   def map_total(total, &block)
     if total.is_a?(Hash)
-      total.keys.each {|k| total[k] = yield total[k]}
+      total.each_key {|k| total[k] = yield total[k]}
     else
       total = yield total
     end

@@ -122,7 +122,7 @@ class UserPreference < ActiveRecord::Base
   #   preferences.remove_block('news')
   def remove_block(block)
     block = block.to_s.underscore
-    my_page_layout.keys.each do |group|
+    my_page_layout.each_key do |group|
       my_page_layout[group].delete(block)
     end
     my_page_layout
