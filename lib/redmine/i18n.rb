@@ -120,7 +120,7 @@ module Redmine
         valid_languages.
           select {|locale| ::I18n.exists?(:general_lang_name, locale)}.
           map {|lang| [ll(lang.to_s, :general_lang_name), lang.to_s]}.
-          sort {|x,y| x.first <=> y.first }
+          sort_by(&:first)
       else
         ActionController::Base.cache_store.fetch "i18n/languages_options/#{Redmine::VERSION}" do
           languages_options :cache => false

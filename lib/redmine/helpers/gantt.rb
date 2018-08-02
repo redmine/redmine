@@ -619,7 +619,7 @@ module Redmine
       end
 
       def self.sort_issues!(issues)
-        issues.sort! {|a, b| sort_issue_logic(a) <=> sort_issue_logic(b)}
+        issues.sort_by! {|issue| sort_issue_logic(issue)}
       end
 
       def self.sort_issue_logic(issue)

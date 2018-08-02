@@ -168,7 +168,7 @@ module Redmine
                             :from_revision => path['copyfrom-rev']
                             }
                 end if logentry['paths'] && logentry['paths']['path']
-                paths.sort! { |x,y| x[:path] <=> y[:path] }
+                paths.sort_by! {|e| e[:path]}
 
                 revisions << Revision.new({:identifier => logentry['revision'],
                               :author => (logentry['author'] ? logentry['author']['__content__'] : ""),

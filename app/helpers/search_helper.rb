@@ -55,7 +55,7 @@ module SearchHelper
   def render_results_by_type(results_by_type)
     links = []
     # Sorts types by results count
-    results_by_type.keys.sort {|a, b| results_by_type[b] <=> results_by_type[a]}.each do |t|
+    results_by_type.keys.sort_by {|k| results_by_type[k]}.reverse_each do |t|
       c = results_by_type[t]
       next if c == 0
       text = "#{type_label(t)} (#{c})"

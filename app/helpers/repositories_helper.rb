@@ -269,7 +269,7 @@ module RepositoriesHelper
         :href  => block_given? ? yield(commit.scmid) : commit.scmid
       }
     end
-    heads.sort! { |head1, head2| head1.to_s <=> head2.to_s }
+    heads.sort_by!(&:to_s)
     space = nil
     heads.each do |head|
       if commits_by_scmid.include? head.scmid
