@@ -114,6 +114,7 @@ class TimelogController < ApplicationController
               :time_entry => {
                 :project_id => params[:time_entry][:project_id],
                 :issue_id => @time_entry.issue_id,
+                :spent_on => @time_entry.spent_on,
                 :activity_id => @time_entry.activity_id
               },
               :back_url => params[:back_url]
