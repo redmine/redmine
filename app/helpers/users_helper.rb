@@ -18,12 +18,11 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 module UsersHelper
+  include ApplicationHelper
+
   def users_status_options_for_select(selected)
     user_count_by_status = User.group('status').count.to_hash
-    options_for_select([[l(:label_all), ''],
-                        ["#{l(:status_active)} (#{user_count_by_status[1].to_i})", '1'],
-                        ["#{l(:status_registered)} (#{user_count_by_status[2].to_i})", '2'],
-                        ["#{l(:status_locked)} (#{user_count_by_status[3].to_i})", '3']], selected.to_s)
+    options_for_select([[l(:label_all), '']] + (User.valid_statuses.map {|c| ["#{l('status_' + User::LABEL_BY_STATUS[c])} (#{user_count_by_status[c].to_i})", c]}), selected.to_s)
   end
 
   def user_mail_notification_options(user)
@@ -60,5 +59,33 @@ module UsersHelper
       tabs.insert 1, {:name => 'groups', :partial => 'users/groups', :label => :label_group_plural}
     end
     tabs
+  end
+
+  def users_to_csv(users)
+    Redmine::Export::CSV.generate(:encoding => params[:encoding]) do |csv|
+      columns = [
+        'login',
+        'firstname',
+        'lastname',
+        'mail',
+        'admin',
+        'created_on',
+        'last_login_on',
+        'status'
+      ]
+
+      # csv header fields
+      csv << columns.map{|column| l('field_' + column)}
+      # csv lines
+      users.each do |user|
+        csv << columns.map do |column|
+          if column == 'status'
+            l(("status_#{User::LABEL_BY_STATUS[user.status]}"))
+          else
+            format_object(user.send(column), false)
+          end
+        end
+      end
+    end
   end
 end

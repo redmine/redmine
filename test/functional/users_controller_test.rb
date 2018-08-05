@@ -64,6 +64,47 @@ class UsersControllerTest < Redmine::ControllerTest
     end
   end
 
+  def test_index_csv
+    with_settings :default_language => 'en' do
+      get :index, :params => { :format => 'csv' }
+      assert_response :success
+
+      assert_equal User.logged.status(1).count, response.body.chomp.split("\n").size - 1
+      assert_include 'active', response.body
+      assert_not_include 'locked', response.body
+      assert_equal 'text/csv; header=present', @response.content_type
+    end
+  end
+
+  def test_index_csv_with_status_filter
+    with_settings :default_language => 'en' do
+      get :index, :params => { :status => 3, :format => 'csv' }
+      assert_response :success
+
+      assert_equal User.logged.status(3).count, response.body.chomp.split("\n").size - 1
+      assert_include 'locked', response.body
+      assert_not_include 'active', response.body
+      assert_equal 'text/csv; header=present', @response.content_type
+    end
+  end
+
+  def test_index_csv_with_name_filter
+    get :index, :params => {:name => 'John', :format => 'csv'}
+    assert_response :success
+
+    assert_equal User.logged.like('John').count, response.body.chomp.split("\n").size - 1
+    assert_include 'John', response.body
+    assert_equal 'text/csv; header=present', @response.content_type
+  end
+
+  def test_index_csv_with_group_filter
+    get :index, :params => {:group_id => '10', :format => 'csv'}
+    assert_response :success
+
+    assert_equal Group.find(10).users.count, response.body.chomp.split("\n").size - 1
+    assert_equal 'text/csv; header=present', @response.content_type
+  end
+
   def test_show
     @request.session[:user_id] = nil
     get :show, :params => {:id => 2}

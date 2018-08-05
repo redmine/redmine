@@ -28,6 +28,7 @@ class UsersController < ApplicationController
   include SortHelper
   helper :custom_fields
   include CustomFieldsHelper
+  include UsersHelper
   helper :principal_memberships
   helper :activities
   include ActivitiesHelper
@@ -60,6 +61,9 @@ class UsersController < ApplicationController
       format.html {
         @groups = Group.givable.sort
         render :layout => !request.xhr?
+      }
+      format.csv {
+        send_data(users_to_csv(scope.order(sort_clause)), :type => 'text/csv; header=present', :filename => 'users.csv')
       }
       format.api
     end
