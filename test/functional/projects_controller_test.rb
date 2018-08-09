@@ -641,6 +641,27 @@ class ProjectsControllerTest < Redmine::ControllerTest
     assert_select 'a#tab-versions[href=?]', '/projects/ecookbook/settings/versions?version_name=.1&version_status='
   end
 
+  def test_settings_should_show_default_version_in_versions_tab
+    project = Project.find(1)
+    project.default_version_id = 3
+    project.save!
+
+    @request.session[:user_id] = 2
+
+    get :settings, :params => {
+        :id => 'ecookbook',
+        :tab => 'versions',
+      }
+    assert_response :success
+
+    assert_select 'table.versions tbody' do
+      # asserts that only one version is marked as default
+      assert_select 'td.tick span.icon-checked', 1
+      # asserts which version is marked as default
+      assert_select 'tr:first-child td.tick span.icon-checked', 1
+    end
+  end
+
   def test_settings_should_show_locked_members
     user = User.generate!
     member = User.add_to_project(user, Project.find(1))

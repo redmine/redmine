@@ -16,6 +16,7 @@
 <table class="list versions">
   <thead><tr>
     <th><%= l(:label_version) %></th>
+    <th><%= l(:field_default_version) %></th>
     <th><%= l(:field_effective_date) %></th>
     <th><%= l(:field_description) %></th>
     <th><%= l(:field_status) %></th>
@@ -27,6 +28,7 @@
 <% @versions.sort.each do |version| %>
     <tr class="version <%=h version.status %> <%= 'shared' if version.project != @project %>">
     <td class="name <%= 'icon icon-shared' if version.project != @project %>"><%= link_to_version version %></td>
+    <td class="tick"><%= checked_image(version.id == @project.default_version_id) %></td>
     <td class="date"><%= format_date(version.effective_date) %></td>
     <td class="description"><%= version.description %></td>
     <td class="status"><%= l("version_status_#{version.status}") %></td>
