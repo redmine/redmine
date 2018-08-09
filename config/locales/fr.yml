@@ -1231,20 +1231,14 @@ fr:
   label_no_preview: Aucun aperçu disponible
   label_no_preview_alternative_html: Aucun aperçu disponible. Veuillez %{link} le fichier.
   label_no_preview_download: télécharger
-  label_user_mail_option_only_assigned: Only for things I watch or I am assigned to
-  label_user_mail_option_only_owner: Only for things I watch or I am the owner of
-  error_can_not_delete_auth_source: This authentication mode is in use and cannot be
-    deleted.
+  label_user_mail_option_only_assigned: Seulement pour ce que je surveille ou qui m'est assigné
+  label_user_mail_option_only_owner: Seulement pour ce que je surveille ou que j'ai créé
+  error_can_not_delete_auth_source: "Ce mode d'authentification est utilisé par des comptes utilisateurs et ne peut pas être supprimé"
   button_actions: Actions
-  mail_body_lost_password_validity: Please be aware that you may change the password
-    only once using this link.
-  text_login_required_html: When not requiring authentication, public projects and their
-    contents are openly available on the network. You can <a href="%{anonymous_role_path}">edit
-    the applicable permissions</a>.
-  label_login_required_yes: 'Yes'
-  label_login_required_no: No, allow anonymous access to public projects
-  text_project_is_public_non_member: Public projects and their contents are available
-    to all logged-in users.
-  text_project_is_public_anonymous: Public projects and their contents are openly available
-    on the network.
-  label_version_and_files: Versions (%{count}) and Files
+  mail_body_lost_password_validity: "Ce lien ne vous permettra de changer de mot de passe qu'une seule fois."
+  text_login_required_html: "En désactivant l'authentification obligatoire, les projets publics et leurs contenus sont librement accessibles à toute personne sur le réseau. Vous pouvez <a href='%{anonymous_role_path}'>éditer les permissions applicables</a>."
+  label_login_required_yes: Oui
+  label_login_required_no: Non, autoriser l'accès anonyme aux projets publics
+  text_project_is_public_non_member: "Les projets publics et leurs contenussont accessibles à tout utilisateur authentifié."
+  text_project_is_public_anonymous: "Les projets publics et leurs contenussont librement accessibles à toute personne sur le réseau."
+  label_version_and_files: Versions (%{count}) et fichiers
