@@ -208,7 +208,7 @@ class MyControllerTest < Redmine::ControllerTest
 
     assert_select 'div#block-activity' do
       assert_select 'h3' do
-        assert_select 'a[href=?]', activity_path(from: Date.today, user_id: user.id),  :text => 'Activity'
+        assert_select 'a[href=?]', activity_path(from: Date.current, user_id: user.id),  :text => 'Activity'
       end
       assert_select 'div#activity' do
         assert_select 'dt', 10
