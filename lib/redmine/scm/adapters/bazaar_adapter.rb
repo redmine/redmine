@@ -94,7 +94,7 @@ module Redmine
           cmd_args << "-r#{identifier.to_i}"
           cmd_args << bzr_target(path)
           scm_cmd(*cmd_args) do |io|
-            prefix_utf8 = "#{url}/#{path}".gsub('\\', '/')
+            prefix_utf8 = "#{url}/#{path}".tr('\\', '/')
             logger.debug "PREFIX: #{prefix_utf8}"
             prefix = scm_iconv(@path_encoding, 'UTF-8', prefix_utf8)
             prefix.force_encoding('ASCII-8BIT')

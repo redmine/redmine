@@ -447,7 +447,7 @@ class Mailer < ActionMailer::Base
             'X-Auto-Response-Suppress' => 'All',
             'Auto-Submitted' => 'auto-generated',
             'From' => Setting.mail_from,
-            'List-Id' => "<#{Setting.mail_from.to_s.gsub('@', '.')}>"
+            'List-Id' => "<#{Setting.mail_from.to_s.tr('@', '.')}>"
 
     # Replaces users with their email addresses
     [:to, :cc, :bcc].each do |key|

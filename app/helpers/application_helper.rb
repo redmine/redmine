@@ -512,7 +512,7 @@ module ApplicationHelper
   end
 
   def anchor(text)
-    text.to_s.gsub(' ', '_')
+    text.to_s.tr(' ', '_')
   end
 
   def html_hours(text)

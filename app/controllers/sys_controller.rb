@@ -38,7 +38,7 @@ class SysController < ActionController::Base
       repository.safe_attributes = params[:repository]
       repository.project = project
       if repository.save
-        render :json => {repository.class.name.underscore.gsub('/', '-') => {:id => repository.id, :url => repository.url}}, :status => 201
+        render :json => {repository.class.name.underscore.tr('/', '-') => {:id => repository.id, :url => repository.url}}, :status => 201
       else
         head 422
       end
