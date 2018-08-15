@@ -59,15 +59,11 @@ module Redmine
 
     # returns mime type for name or nil if unknown
     def self.of(name)
-      return nil unless name.present?
-      extension = File.extname(name)[1..-1].to_s.downcase
-      if extension.present?
-        @known_types ||= Hash.new do |h, ext|
-          type = EXTENSIONS[ext]
-          type ||= MiniMime.lookup_by_filename("a.#{ext}").try(:content_type)
-          h[ext] = type
-        end
-        @known_types[extension]
+      ext = File.extname(name.to_s)[1..-1]
+      if ext
+        ext.downcase!
+        EXTENSIONS[ext] ||
+          ((mi = MiniMime.lookup_by_extension(ext)) && mi.content_type)
       end
     end
 

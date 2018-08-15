@@ -7,7 +7,7 @@ end
 gem "rails", "5.2.1"
 gem "coderay", "~> 1.1.1"
 gem "request_store", "1.0.5"
-gem "mini_mime", "~> 1.0"
+gem "mini_mime", "~> 1.0.1"
 gem "actionpack-xml_parser"
 gem "roadie-rails", "~> 1.3.0"
 gem "roadie", "~> 3.2.1"
