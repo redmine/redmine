@@ -22,6 +22,7 @@ class Redmine::MimeTypeTest < ActiveSupport::TestCase
   def test_of
     to_test = {'test.txt' => 'text/plain',
                'test.c' => 'text/x-c',
+               'TEST.JPG' => 'image/jpeg',
                }
     to_test.each do |name, expected|
       assert_equal expected, Redmine::MimeType.of(name)
