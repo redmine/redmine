@@ -46,15 +46,17 @@ Output example of rhmanifest::
     </rhmanifest>
 """
 import re, time, cgi, urllib
-from mercurial import cmdutil, commands, node, error, hg
+from mercurial import cmdutil, commands, node, error, hg, registrar
 
 cmdtable = {}
-command = cmdutil.command(cmdtable)
+command = registrar.command(cmdtable) if hasattr(registrar, 'command') else cmdutil.command(cmdtable)
 
 _x = cgi.escape
 _u = lambda s: cgi.escape(urllib.quote(s))
 
 def _changectx(repo, rev):
+    if isinstance(rev, str):
+       rev = repo.lookup(rev)
     if hasattr(repo, 'changectx'):
         return repo.changectx(rev)
     else:
