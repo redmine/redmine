@@ -58,7 +58,7 @@ class Redmine::WikiFormatting::MarkdownFormatterTest < ActionView::TestCase
     assert_include 'version:"1.0"', @formatter.new(text).to_html
   end
 
-  def test_should_support_syntax_highligth
+  def test_should_support_syntax_highlight
     text = <<-STR
 ~~~ruby
 def foo
