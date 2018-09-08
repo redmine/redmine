@@ -290,10 +290,16 @@ RAW
 
     issue_link = link_to('#3', {:controller => 'issues', :action => 'show', :id => 3},
                                :class => Issue.find(3).css_classes, :title => 'Bug: Error 281 when updating a recipe (New)')
+    ext_issue_link = link_to('Bug #3', {:controller => 'issues', :action => 'show', :id => 3},
+                               :class => Issue.find(3).css_classes, :title => 'Bug: Error 281 when updating a recipe (New)') + ": Error 281 when updating a recipe"
     note_link = link_to('#3-14', {:controller => 'issues', :action => 'show', :id => 3, :anchor => 'note-14'},
                                :class => Issue.find(3).css_classes, :title => 'Bug: Error 281 when updating a recipe (New)')
+    ext_note_link = link_to('Bug #3-14', {:controller => 'issues', :action => 'show', :id => 3, :anchor => 'note-14'},
+                               :class => Issue.find(3).css_classes, :title => 'Bug: Error 281 when updating a recipe (New)') + ": Error 281 when updating a recipe"
     note_link2 = link_to('#3#note-14', {:controller => 'issues', :action => 'show', :id => 3, :anchor => 'note-14'},
                                :class => Issue.find(3).css_classes, :title => 'Bug: Error 281 when updating a recipe (New)')
+    ext_note_link2 = link_to('Bug #3#note-14', {:controller => 'issues', :action => 'show', :id => 3, :anchor => 'note-14'},
+                               :class => Issue.find(3).css_classes, :title => 'Bug: Error 281 when updating a recipe (New)') + ": Error 281 when updating a recipe"
 
     revision_link = link_to('r1', {:controller => 'repositories', :action => 'revision', :id => 'ecookbook', :repository_id => 10, :rev => 1},
                                    :class => 'changeset', :title => 'My very first commit do not escaping #<>&')
@@ -338,6 +344,11 @@ RAW
       '#3#note-14'                  => note_link2,
       # should not ignore leading zero
       '#03'                         => '#03',
+      # tickets with more info
+      '##3, [##3], (##3) and ##3.'      => "#{ext_issue_link}, [#{ext_issue_link}], (#{ext_issue_link}) and #{ext_issue_link}.",
+      '##3-14'                       => ext_note_link,
+      '##3#note-14'                  => ext_note_link2,
+      '##03'                         => '##03',
       # changesets
       'r1'                          => revision_link,
       'r1.'                         => "#{revision_link}.",

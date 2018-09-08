@@ -830,6 +830,7 @@ module ApplicationHelper
   # Examples:
   #   Issues:
   #     #52 -> Link to issue #52
+  #     ##52 -> Link to issue #52, including the issue's subject
   #   Changesets:
   #     r52 -> Link to revision 52
   #     commit:a85130f -> Link to scmid starting with a85130f
@@ -917,17 +918,25 @@ module ApplicationHelper
                                :title => truncate_single_line_raw(changeset.comments, 100))
               end
             end
-          elsif sep == '#'
+          elsif sep == '#' || sep == '##'
             oid = identifier.to_i
             case prefix
             when nil
               if oid.to_s == identifier &&
                 issue = Issue.visible.find_by_id(oid)
                 anchor = comment_id ? "note-#{comment_id}" : nil
-                link = link_to("##{oid}#{comment_suffix}",
-                               issue_url(issue, :only_path => only_path, :anchor => anchor),
-                               :class => issue.css_classes,
-                               :title => "#{issue.tracker.name}: #{issue.subject.truncate(100)} (#{issue.status.name})")
+                url = issue_url(issue, :only_path => only_path, :anchor => anchor)
+                link = if sep == '##'
+                  link_to("#{issue.tracker.name} ##{oid}#{comment_suffix}",
+                          url,
+                          :class => issue.css_classes,
+                          :title => "#{issue.tracker.name}: #{issue.subject.truncate(100)} (#{issue.status.name})") + ": #{issue.subject}"
+                else
+                  link_to("##{oid}#{comment_suffix}",
+                          url,
+                          :class => issue.css_classes,
+                          :title => "#{issue.tracker.name}: #{issue.subject.truncate(100)} (#{issue.status.name})")
+                end
               end
             when 'document'
               if document = Document.visible.find_by_id(oid)
@@ -1038,7 +1047,7 @@ module ApplicationHelper
             (?<prefix>attachment|document|version|forum|news|message|project|commit|source|export|user)?
             (
               (
-                (?<sep1>\#)|
+                (?<sep1>\#\#?)|
                 (
                   (?<repo_prefix>(?<repo_identifier>[a-z0-9\-_]+)\|)?
                   (?<sep2>r)
