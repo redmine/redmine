@@ -55,6 +55,7 @@ class RoutingTimelogsTest < Redmine::RoutingTest
 
   def test_timelogs_bulk_edit
     should_route 'GET /time_entries/bulk_edit' => 'timelog#bulk_edit'
+    should_route 'POST /time_entries/bulk_edit' => 'timelog#bulk_edit'
     should_route 'POST /time_entries/bulk_update' => 'timelog#bulk_update'
     should_route 'DELETE /time_entries/destroy' => 'timelog#destroy'
   end

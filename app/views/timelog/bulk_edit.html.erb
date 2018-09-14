@@ -28,34 +28,42 @@
 <div class="box tabular">
   <div>
     <p>
+      <label><%= l(:field_project) %></label>
+      <%= select_tag('time_entry[project_id]', project_tree_options_for_select(@target_projects,
+        :include_blank => l(:label_no_change_option), :selected => @target_project),
+        :onchange => "updateBulkEditFrom('#{escape_javascript url_for(:action => 'bulk_edit', :format => 'js')}')" ) %>
+    </p>
+    <p>
       <label for="time_entry_issue_id"><%= l(:field_issue) %></label>
       <%= text_field :time_entry, :issue_id, :size => 6 %>
+      <label class="inline"><%= check_box_tag 'time_entry[issue_id]', 'none', (@time_entry_params[:issue_id] == 'none'), :id => nil, :data => {:disables => '#time_entry_issue_id'} %><%= l(:button_clear) %></label>
+      <span id="time_entry_issue"></span>
     </p>
 
     <p>
       <label for="time_entry_spent_on"><%= l(:field_spent_on) %></label>
-      <%= date_field :time_entry, :spent_on, :size => 10 %><%= calendar_for('time_entry_spent_on') %>
+      <%= date_field :time_entry, :spent_on, :size => 10, :value => @time_entry_params[:spent_on] %><%= calendar_for('time_entry_spent_on') %>
     </p>
 
     <p>
       <label for="time_entry_hours"><%= l(:field_hours) %></label>
-      <%= text_field :time_entry, :hours, :size => 6 %>
+      <%= text_field :time_entry, :hours, :size => 6, :value => @time_entry_params[:hours] %>
     </p>
 
     <% if @available_activities.any? %>
     <p>
       <label for="time_entry_activity_id"><%= l(:field_activity) %></label>
-      <%= select_tag('time_entry[activity_id]', content_tag('option', l(:label_no_change_option), :value => '') + options_from_collection_for_select(@available_activities, :id, :name)) %>
+      <%= select_tag('time_entry[activity_id]', content_tag('option', l(:label_no_change_option), :value => '') + options_from_collection_for_select(@available_activities, :id, :name, @time_entry_params[:activity_id])) %>
     </p>
     <% end %>
 
     <p>
       <label for="time_entry_comments"><%= l(:field_comments) %></label>
-      <%= text_field(:time_entry, :comments, :size => 100) %>
+      <%= text_field(:time_entry, :comments, :size => 100, :value => @time_entry_params[:comments]) %>
     </p>
 
     <% @custom_fields.each do |custom_field| %>
-      <p><label><%= h(custom_field.name) %></label> <%= custom_field_tag_for_bulk_edit('time_entry', custom_field, @time_entries) %></p>
+      <p><label><%= h(custom_field.name) %></label> <%= custom_field_tag_for_bulk_edit('time_entry', custom_field, @time_entries, @time_entry_params[:custom_field_values][custom_field.id.to_s]) %></p>
     <% end %>
 
     <%= call_hook(:view_time_entries_bulk_edit_details_bottom, { :time_entries => @time_entries }) %>
@@ -63,4 +71,48 @@
 </div>
 
 <p><%= submit_tag l(:button_submit) %></p>
+<% end %>
+
+<%= javascript_tag do %>
+  $(document).ready(function(){
+    $('#time_entry_project_id').change(function(){
+      <!-- $('#time_entry_issue_id').val(''); -->
+      $('#time_entry_issue').text('');
+    });
+  });
+
+  <% if @project || @target_project %>
+    observeAutocompleteField('time_entry_issue_id',
+      function(request, callback) {
+        var url = '<%= j auto_complete_issues_path %>';
+        var data = {
+          term: request.term
+        };
+        var project_id;
+        <% if @project %>
+          project_id = '<%= @project.id %>';
+        <% end %>
+
+        current_project_id = $('#time_entry_project_id').val();
+        if(current_project_id === ''){
+          data['project_id'] = project_id;
+        } else {
+          data['project_id'] = current_project_id;
+        }
+
+        $.get(url, data, null, 'json')
+          .done(function(data){
+            callback(data);
+          })
+          .fail(function(jqXHR, status, error){
+            callback([]);
+          });
+      },
+      {
+        select: function(event, ui, data) {
+          $('#time_entry_issue').text(ui.item.label);
+        }
+      }
+    );
+  <% end %>
 <% end %>

@@ -165,8 +165,18 @@ class TimelogController < ApplicationController
   end
 
   def bulk_edit
-    @available_activities = @projects.map(&:activities).reduce(:&)
+    @target_projects = Project.allowed_to(:log_time).to_a
     @custom_fields = TimeEntry.first.available_custom_fields.select {|field| field.format.bulk_edit_supported}
+    if params[:time_entry]
+      @target_project = @target_projects.detect {|p| p.id.to_s == params[:time_entry][:project_id].to_s}
+    end
+    if @target_project
+      @available_activities = @target_project.activities
+    else
+      @available_activities = @projects.map(&:activities).reduce(:&)
+    end
+    @time_entry_params = params[:time_entry] || {}
+    @time_entry_params[:custom_field_values] ||= {}
   end
 
   def bulk_update

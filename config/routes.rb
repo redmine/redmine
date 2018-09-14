@@ -156,7 +156,7 @@ Rails.application.routes.draw do
         end
       end
     end
-  
+
     match 'wiki/index', :controller => 'wiki', :action => 'index', :via => :get
     resources :wiki, :except => [:index, :create], :as => 'wiki_page' do
       member do
@@ -232,6 +232,8 @@ Rails.application.routes.draw do
   match '/time_entries/destroy', :to => 'timelog#destroy', :via => :delete
   # Used to update the new time entry form
   post '/time_entries/new', :to => 'timelog#new'
+  # Used to update the bulk edit time entry form
+  post '/time_entries/bulk_edit', :to => 'timelog#bulk_edit'
 
   get 'projects/:id/activity', :to => 'activities#index', :as => :project_activity
   get 'activity', :to => 'activities#index'

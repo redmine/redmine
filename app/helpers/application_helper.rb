@@ -1562,6 +1562,20 @@ module ApplicationHelper
     end
   end
 
+  # Returns an array of error messages for bulk edited items (issues, time entries)
+  def bulk_edit_error_messages(items)
+    messages = {}
+    items.each do |item|
+      item.errors.full_messages.each do |message|
+        messages[message] ||= []
+        messages[message] << item
+      end
+    end
+    messages.map { |message, items|
+      "#{message}: " + items.map {|i| "##{i.id}"}.join(', ')
+    }
+  end
+
   private
 
   def wiki_helper

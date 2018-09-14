@@ -545,6 +545,11 @@ class TimelogControllerTest < Redmine::ControllerTest
     end
 
     assert_select 'form#bulk_edit_form[action=?]', '/time_entries/bulk_update' do
+      assert_select 'select[name=?]', 'time_entry[project_id]'
+
+      # Clear issue checkbox
+      assert_select 'input[name=?][value=?]', 'time_entry[issue_id]', 'none'
+
       # System wide custom field
       assert_select 'select[name=?]', 'time_entry[custom_field_values][10]'
 
@@ -561,6 +566,34 @@ class TimelogControllerTest < Redmine::ControllerTest
 
     get :bulk_edit, :params => {:ids => [1, 2, 6]}
     assert_response :success
+  end
+
+  def test_get_bulk_edit_on_different_projects_should_propose_only_common_activites
+    project = Project.find(3)
+    TimeEntryActivity.create!(:name => 'QA', :project => project, :parent => TimeEntryActivity.find_by_name('QA'), :active => false)
+    @request.session[:user_id] = 1
+
+    get :bulk_edit, :params => {:ids => [1, 2, 4]}
+    assert_response :success
+    assert_select 'select[id=?]', 'time_entry_activity_id' do
+      assert_select 'option', 3
+      assert_select 'option[value=?]', '11', 0, :text => 'QA'
+    end
+  end
+
+  def test_get_bulk_edit_on_same_project_should_propose_project_activities
+    project = Project.find(1)
+    override_activity = TimeEntryActivity.create!({:name => "QA override", :parent => TimeEntryActivity.find_by_name("QA"), :project => project})
+
+    @request.session[:user_id] = 1
+
+    get :bulk_edit, :params => {:ids => [1, 2]}
+    assert_response :success
+
+    assert_select 'select[id=?]', 'time_entry_activity_id' do
+      assert_select 'option', 4
+      assert_select 'option[value=?]', override_activity.id.to_s, :text => 'QA override'
+    end
   end
 
   def test_bulk_edit_with_edit_own_time_entries_permission
