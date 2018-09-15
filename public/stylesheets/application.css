@@ -436,8 +436,6 @@ div.square {
 .contextual .icon {padding-top: 2px; padding-bottom: 3px;}
 .contextual input, .contextual select {font-size:0.9em;}
 .message .contextual { margin-top: 0; }
-.contextual span.hascontextmenu { background-color: transparent !important; }
-.contextual span.hascontextmenu a.js-contextmenu { color: #169 !important; }
 
 .splitcontent {overflow:auto;}
 .splitcontentleft, #list-left {float:left; width:49%;}

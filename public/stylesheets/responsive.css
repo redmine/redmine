@@ -624,14 +624,6 @@
     float: none;
   }
 
-  .contextual span.hascontextmenu a.js-contextmenu {
-      width: initial !important;
-      height: initial !important;
-      margin-top: 3px !important;
-      padding-left: 25px !important;
-  }
-  .contextual span.hascontextmenu a.js-contextmenu::after { content: ''; }
-
   /* loading indicator */
   #ajax-indicator {
     width: 60%;

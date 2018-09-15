@@ -4,10 +4,4 @@
 <%= watcher_link(@issue, User.current) %>
 <%= link_to l(:button_copy), project_copy_issue_path(@project, @issue), :class => 'icon icon-copy' if User.current.allowed_to?(:copy_issues, @project) && Issue.allowed_target_projects.any? %>
 <%= link_to l(:button_delete), issue_path(@issue), :data => {:confirm => issues_destroy_confirmation_message(@issue)}, :method => :delete, :class => 'icon icon-del' if @issue.deletable? %>
-<%= form_tag({}, :data => {:cm_url => issues_context_menu_path}) do %>
-  <span class="hascontextmenu">
-    <%= check_box_tag("ids[]", @issue.id, false, :style => 'display:none;', :id => nil) %>
-    <%= link_to_context_menu %>
-  </span>
-<% end %>
 </div>
