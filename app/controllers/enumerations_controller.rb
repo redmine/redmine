@@ -91,8 +91,10 @@ class EnumerationsController < ApplicationController
 
   def build_new_enumeration
     class_name = params[:enumeration] && params[:enumeration][:type] || params[:type]
-    @enumeration = Enumeration.new_subclass_instance(class_name, enumeration_params)
-    if @enumeration.nil?
+    @enumeration = Enumeration.new_subclass_instance(class_name)
+    if @enumeration
+      @enumeration.attributes = enumeration_params || {}
+    else
       render_404
     end
   end
@@ -105,6 +107,7 @@ class EnumerationsController < ApplicationController
 
   def enumeration_params
     # can't require enumeration on #new action
-    params.permit(:enumeration => [:name, :active, :is_default, :position])[:enumeration]
+    cf_ids = @enumeration.available_custom_fields.map{|c| c.id.to_s}
+    params.permit(:enumeration => [:name, :active, :is_default, :position, :custom_field_values => cf_ids])[:enumeration]
   end
 end
