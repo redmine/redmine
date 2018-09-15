@@ -110,7 +110,19 @@ class WorkflowsControllerTest < Redmine::ControllerTest
     assert_equal ["New issue"] + statuses,
       css_select('table.workflows.transitions-always tbody tr td:first').map(&:text).map(&:strip)
 
-    assert_select 'input[type=checkbox][name=?]', 'transitions[1][1][always]'
+    assert_select 'input[type=checkbox][name=?]', 'transitions[0][1][always]'
+  end
+
+  def test_get_edit_should_show_checked_disabled_transition_checkbox_between_same_statuses
+    get :edit, :params => {:role_id => 2, :tracker_id => 1}
+    assert_response :success
+    assert_select 'table.workflows.transitions-always tbody tr:nth-child(2)' do
+      assert_select 'td.name', :text => 'New'
+      # assert that the td is enabled
+      assert_select "td[title='New » New'][class=?]", 'enabled'
+      # assert that the checkbox is disabled and checked
+      assert_select "input[name='transitions[1][1][always]'][checked=?][disabled=?]", 'checked', 'disabled', 1
+    end
   end
 
   def test_post_edit

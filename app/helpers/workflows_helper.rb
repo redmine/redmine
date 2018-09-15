@@ -78,8 +78,10 @@ module WorkflowsHelper
     w = workflows.select {|w| w.old_status == old_status && w.new_status == new_status}.size
     
     tag_name = "transitions[#{ old_status.try(:id) || 0 }][#{new_status.id}][#{name}]"
-    if w == 0 || w == @roles.size * @trackers.size
-      
+    if old_status == new_status
+      check_box_tag(tag_name, "1", true,
+        {:disabled => true, :class => "old-status-#{old_status.try(:id) || 0} new-status-#{new_status.id}"})
+    elsif w == 0 || w == @roles.size * @trackers.size
       hidden_field_tag(tag_name, "0", :id => nil) +
       check_box_tag(tag_name, "1", w != 0,
             :class => "old-status-#{old_status.try(:id) || 0} new-status-#{new_status.id}")
