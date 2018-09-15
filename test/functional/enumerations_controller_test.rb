@@ -68,7 +68,7 @@ class EnumerationsControllerTest < Redmine::ControllerTest
   end
 
   def test_create_with_custom_field_values
-    custom_field = CustomField.generate!(:type => "TimeEntryActivityCustomField")
+    custom_field = TimeEntryActivityCustomField.generate!
     assert_difference 'TimeEntryActivity.count' do
       post :create, :params => {
           :enumeration => {
@@ -152,7 +152,7 @@ class EnumerationsControllerTest < Redmine::ControllerTest
   end
 
   def test_update_custom_field_values
-    custom_field = CustomField.generate!(:type => "TimeEntryActivityCustomField")
+    custom_field = TimeEntryActivityCustomField.generate!
     enumeration = Enumeration.find(9)
     assert_nil enumeration.custom_field_values.last.value
     put :update, :params => {
