@@ -780,6 +780,7 @@ module ApplicationHelper
       link_project = project
       esc, all, page, title = $1, $2, $3, $5
       if esc.nil?
+        page = CGI.unescapeHTML(page)
         if page =~ /^\#(.+)$/
           anchor = sanitize_anchor_name($1)
           url = "##{anchor}"

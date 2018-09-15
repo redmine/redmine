@@ -822,6 +822,25 @@ RAW
     to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text) }
   end
 
+  def test_wiki_links_with_special_characters_should_work_in_textile
+    to_test = wiki_links_with_special_characters
+
+    @project = Project.find(1)
+    with_settings :text_formatting => 'textile' do
+      to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text) }
+    end
+  end
+
+  def test_wiki_links_with_special_characters_should_work_in_markdown
+    to_test = wiki_links_with_special_characters
+
+    @project = Project.find(1)
+    with_settings :text_formatting => 'markdown' do
+      to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text).strip }
+    end
+  end
+
+
   def test_wiki_links_within_local_file_generation_context
     to_test = {
       # link to a page
@@ -1721,6 +1740,33 @@ RAW
   def test_html_hours
     assert_equal '<span class="hours hours-int">0</span><span class="hours hours-dec">:45</span>', html_hours('0:45')
     assert_equal '<span class="hours hours-int">0</span><span class="hours hours-dec">.75</span>', html_hours('0.75')
+  end
+
+  private
+
+  def wiki_links_with_special_characters
+    return {
+      '[[Jack & Coke]]' =>
+          link_to("Jack & Coke",
+                  "/projects/ecookbook/wiki/Jack_&_Coke",
+                  :class => "wiki-page new"),
+      '[[a "quoted" name]]' =>
+          link_to("a \"quoted\" name",
+                  "/projects/ecookbook/wiki/A_%22quoted%22_name",
+                  :class => "wiki-page new"),
+      '[[le français, c\'est super]]' =>
+          link_to("le français, c\'est super",
+                  "/projects/ecookbook/wiki/Le_fran%C3%A7ais_c'est_super",
+                  :class => "wiki-page new"),
+      '[[broken < less]]' =>
+          link_to("broken < less",
+                  "/projects/ecookbook/wiki/Broken_%3C_less",
+                  :class => "wiki-page new"),
+      '[[broken > more]]' =>
+          link_to("broken > more",
+                  "/projects/ecookbook/wiki/Broken_%3E_more",
+                  :class => "wiki-page new"),
+    }
   end
 
   def test_export_csv_encoding_select_tag_should_return_nil_when_general_csv_encoding_is_UTF8
