@@ -5,6 +5,8 @@
 <%= form_tag({:controller => 'wiki', :action => 'diff',
               :project_id => @page.project, :id => @page.title},
               :method => :get) do %>
+<% show_diff = @versions.size > 1 %>
+<%= submit_tag l(:label_view_diff), :class => 'small' if show_diff %>
 <table class="list wiki-page-versions">
 <thead><tr>
     <th>#</th>
@@ -16,7 +18,6 @@
     <th></th>
 </tr></thead>
 <tbody>
-<% show_diff = @versions.size > 1 %>
 <% line_num = 1 %>
 <% @versions.each do |ver| %>
 <tr class="wiki-page-version">
