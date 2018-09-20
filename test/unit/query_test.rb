@@ -1490,6 +1490,12 @@ class QueryTest < ActiveSupport::TestCase
     assert_equal [['id', 'desc']], q.sort_criteria
   end
 
+  def test_sort_criteria_should_have_only_first_three_elements
+    q = IssueQuery.new
+    q.sort_criteria = [['priority', 'desc'], ['tracker', 'asc'], ['priority', 'asc'], ['id', 'asc'], ['project', 'asc'], ['subject', 'asc']]
+    assert_equal [['priority', 'desc'], ['tracker', 'asc'], ['priority', 'asc']], q.sort_criteria
+  end
+
   def test_set_sort_criteria_with_hash
     q = IssueQuery.new
     q.sort_criteria = {'0' => ['priority', 'desc'], '2' => ['tracker']}
