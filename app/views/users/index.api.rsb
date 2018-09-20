@@ -3,6 +3,7 @@ api.array :users, api_meta(:total_count => @user_count, :offset => @offset, :lim
     api.user do
       api.id         user.id
       api.login      user.login
+      api.admin      user.admin?
       api.firstname  user.firstname
       api.lastname   user.lastname
       api.mail       user.mail
