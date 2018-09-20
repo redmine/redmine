@@ -1,4 +1,11 @@
-<p><%= link_to l(:label_version_new), new_project_version_path(@project, :back_url => ''), :class => 'icon icon-add' if User.current.allowed_to?(:manage_versions, @project) %></p>
+<% if @versions.any? %>
+  <div class="contextual">
+    <%= link_to l(:label_close_versions), close_completed_project_versions_path(@project), :class => 'icon icon-locked', :method => :put %>
+  </div>
+<% end %>
+<p>
+  <%= link_to l(:label_version_new), new_project_version_path(@project, :back_url => ''), :class => 'icon icon-add' if User.current.allowed_to?(:manage_versions, @project) %>
+</p>
 
 <%= form_tag(settings_project_path(@project, :tab => 'versions'), :method => :get) do %>
 <fieldset><legend><%= l(:label_filter_plural) %></legend>
@@ -47,9 +54,3 @@
 <% else %>
 <p class="nodata"><%= l(:label_no_data) %></p>
 <% end %>
-
-<div class="contextual">
-<% if @versions.any? %>
-  <%= link_to l(:label_close_versions), close_completed_project_versions_path(@project), :method => :put %>
-<% end %>
-</div>
