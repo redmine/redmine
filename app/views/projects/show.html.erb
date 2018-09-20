@@ -69,6 +69,7 @@
     <% end %>
     <p>
       <%= link_to l(:label_issue_view_all), project_issues_path(@project, :set_filter => 1) %>
+      | <%= link_to l(:field_summary), project_issues_report_path(@project) %>
       <% if User.current.allowed_to?(:view_calendar, @project, :global => true) %>
         | <%= link_to l(:label_calendar), project_calendar_path(@project) %>
       <% end %>
