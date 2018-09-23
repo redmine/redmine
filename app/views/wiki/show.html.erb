@@ -33,8 +33,7 @@
                       :version => @content.version) + ')'.html_safe if @content.previous %> - 
     <%= link_to((l(:label_next) + " \xc2\xbb"), :action => 'show',
                 :id => @page.title, :project_id => @page.project,
-                :version => @content.next.version) + " - " if @content.next %>
-    <%= link_to(l(:label_current_version), :action => 'show', :id => @page.title, :project_id => @page.project, :version => nil) %>
+                :version => @content.next.version) if @content.next %>
     <br />
     <em><%= @content.author ? link_to_user(@content.author) : l(:label_user_anonymous)
          %>, <%= format_time(@content.updated_on) %> </em><br />

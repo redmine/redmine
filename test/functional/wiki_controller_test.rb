@@ -65,7 +65,6 @@ class WikiControllerTest < Redmine::ControllerTest
     assert_select 'a[href=?]', '/projects/ecookbook/wiki/CookBook_documentation/1', :text => /Previous/
     assert_select 'a[href=?]', '/projects/ecookbook/wiki/CookBook_documentation/2/diff', :text => /diff/
     assert_select 'a[href=?]', '/projects/ecookbook/wiki/CookBook_documentation/3', :text => /Next/
-    assert_select 'a[href=?]', '/projects/ecookbook/wiki/CookBook_documentation', :text => /Current version/
   end
 
   def test_show_old_version_with_attachments
@@ -77,7 +76,6 @@ class WikiControllerTest < Redmine::ControllerTest
 
     get :show, :params => {:project_id => 'ecookbook', :id => page.title, :version => '1'}
     assert_response :success
-    assert_select 'a[href=?]', '/projects/ecookbook/wiki/Page_with_an_inline_image', :text => /Current version/
   end
 
   def test_show_old_version_without_permission_should_be_denied
@@ -96,7 +94,6 @@ class WikiControllerTest < Redmine::ControllerTest
     assert_select 'a', :text => /Previous/, :count => 0
     assert_select 'a', :text => /diff/, :count => 0
     assert_select 'a[href=?]', '/projects/ecookbook/wiki/CookBook_documentation/2', :text => /Next/
-    assert_select 'a[href=?]', '/projects/ecookbook/wiki/CookBook_documentation', :text => /Current version/
   end
 
   def test_show_redirected_page
