@@ -1239,6 +1239,6 @@ fr:
   text_login_required_html: "En désactivant l'authentification obligatoire, les projets publics et leurs contenus sont librement accessibles à toute personne sur le réseau. Vous pouvez <a href='%{anonymous_role_path}'>éditer les permissions applicables</a>."
   label_login_required_yes: Oui
   label_login_required_no: Non, autoriser l'accès anonyme aux projets publics
-  text_project_is_public_non_member: "Les projets publics et leurs contenussont accessibles à tout utilisateur authentifié."
-  text_project_is_public_anonymous: "Les projets publics et leurs contenussont librement accessibles à toute personne sur le réseau."
+  text_project_is_public_non_member: "Les projets publics et leurs contenus sont accessibles à tout utilisateur authentifié."
+  text_project_is_public_anonymous: "Les projets publics et leurs contenus sont librement accessibles à toute personne sur le réseau."
   label_version_and_files: Versions (%{count}) et fichiers
