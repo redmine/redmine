@@ -24,16 +24,22 @@
         "#{l(:label_revision)} #{@content.version}" %>
 
     <p>
-    <%= link_to(("\xc2\xab " + l(:label_previous)),
+    <% if @content.previous %>
+      <%= link_to ("\xc2\xab " + l(:label_previous)),
                 :action => 'show', :id => @page.title, :project_id => @page.project,
-                :version => @content.previous.version) + " - " if @content.previous %>
+                :version => @content.previous.version %> |
+    <% end %>
     <%= "#{l(:label_revision)} #{@content.version}/#{@page.content.version}" %>
-    <%= '('.html_safe + link_to(l(:label_diff), :controller => 'wiki', :action => 'diff',
+    <% if @content.previous %>
+      (<%= link_to l(:label_diff), :controller => 'wiki', :action => 'diff',
                       :id => @page.title, :project_id => @page.project,
-                      :version => @content.version) + ')'.html_safe if @content.previous %> - 
-    <%= link_to((l(:label_next) + " \xc2\xbb"), :action => 'show',
+                      :version => @content.version %>)
+    <% end %>
+    <% if @content.next %>
+      | <%= link_to (l(:label_next) + " \xc2\xbb"), :action => 'show',
                 :id => @page.title, :project_id => @page.project,
-                :version => @content.next.version) if @content.next %>
+                :version => @content.next.version %>
+    <% end %>
     <br />
     <em><%= @content.author ? link_to_user(@content.author) : l(:label_user_anonymous)
          %>, <%= format_time(@content.updated_on) %> </em><br />
