@@ -53,6 +53,11 @@ class Redmine::ApiTest::RolesTest < Redmine::ApiTest::Base
 
     assert_select 'role' do
       assert_select 'name', :text => 'Manager'
+      assert_select 'assignable', :text => 'true'
+      assert_select 'issues_visibility', :text => 'all'
+      assert_select 'time_entries_visibility', :text => 'all'
+      assert_select 'users_visibility', :text => 'all'
+
       assert_select 'role permissions[type=array]' do
         assert_select 'permission', Role.find(1).permissions.size
         assert_select 'permission', :text => 'view_issues'

@@ -1,6 +1,10 @@
 api.role do
   api.id @role.id
   api.name @role.name
+  api.assignable @role.assignable
+  api.issues_visibility @role.issues_visibility
+  api.time_entries_visibility @role.time_entries_visibility
+  api.users_visibility @role.users_visibility
   api.array :permissions do
     @role.permissions.each do |perm|
       api.permission(perm.to_s)
