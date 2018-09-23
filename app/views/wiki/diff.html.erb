@@ -7,7 +7,7 @@
 
 <%= title [@page.pretty_title, project_wiki_page_path(@page.project, @page.title, :version => nil)],
       [l(:label_history), history_project_wiki_page_path(@page.project, @page.title)],
-      "#{l(:label_version)} #{@diff.content_to.version}" %>
+      "#{l(:label_revision)} #{@diff.content_to.version}" %>
 
 <p>
 <%= l(:label_revision) %> <%= link_to @diff.content_from.version, :action => 'show', :id => @page.title, :project_id => @page.project, :version => @diff.content_from.version %>
