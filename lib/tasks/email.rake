@@ -26,7 +26,7 @@ END_DESC
 
     task :read => :environment do
       Mailer.with_synched_deliveries do
-        MailHandler.receive(STDIN.read, MailHandler.extract_options_from_env(ENV))
+        MailHandler.safe_receive(STDIN.read, MailHandler.extract_options_from_env(ENV))
       end
     end
 

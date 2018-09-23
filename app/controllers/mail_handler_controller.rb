@@ -26,7 +26,7 @@ class MailHandlerController < ActionController::Base
   def index
     options = params.dup
     email = options.delete(:email)
-    if MailHandler.receive(email, options)
+    if MailHandler.safe_receive(email, options)
       head :created
     else
       head :unprocessable_entity
