@@ -103,14 +103,13 @@ class TimeEntryQuery < Query
 
   def default_columns_names
     @default_columns_names ||= begin
-      default_columns = [:spent_on, :user, :activity, :issue, :comments, :hours]
-
+      default_columns = Setting.time_entry_list_defaults.symbolize_keys[:column_names].map(&:to_sym)
       project.present? ? default_columns : [:project] | default_columns
     end
   end
 
   def default_totalable_names
-    [:hours]
+    Setting.time_entry_list_defaults.symbolize_keys[:totalable_names].map(&:to_sym)
   end
 
   def default_sort_criteria

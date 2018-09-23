@@ -24,7 +24,7 @@ class TimelogControllerTest < Redmine::ControllerTest
            :trackers, :enumerations, :issue_statuses,
            :custom_fields, :custom_values,
            :projects_trackers, :custom_fields_trackers,
-           :custom_fields_projects
+           :custom_fields_projects, :issue_categories
 
   include Redmine::I18n
 
@@ -744,29 +744,31 @@ class TimelogControllerTest < Redmine::ControllerTest
     assert_select '.total-for-hours', :text => 'Hours: 162.90'
     assert_select 'form#query_form[action=?]', '/time_entries'
 
-    assert_equal ['Date', 'User', 'Activity', 'Issue', 'Comment', 'Hours'], columns_in_list
+    assert_equal ['Project', 'Date', 'User', 'Activity', 'Issue', 'Comment', 'Hours'], columns_in_list
     assert_select '.query-totals>span', 1
   end
 
   def test_index_with_default_query_setting
-    with_settings :time_entry_list_defaults => {'column_names' => %w(spent_on issue user hours)} do
+    with_settings :time_entry_list_defaults => {'column_names' => %w(spent_on issue user hours), 'totalable_names' => []} do
       get :index
       assert_response :success
     end
 
     assert_select 'table.time-entries thead' do
+      assert_select 'th.project'
       assert_select 'th.spent_on'
       assert_select 'th.issue'
       assert_select 'th.user'
       assert_select 'th.hours'
     end
     assert_select 'table.time-entries tbody' do
+      assert_select 'td.project'
       assert_select 'td.spent_on'
       assert_select 'td.issue'
       assert_select 'td.user'
       assert_select 'td.hours'
     end
-    assert_equal ['Date', 'Issue', 'User', 'Hours'], columns_in_list
+    assert_equal ['Project', 'Date', 'Issue', 'User', 'Hours'], columns_in_list
   end
 
   def test_index_with_default_query_setting_using_custom_field
@@ -780,7 +782,7 @@ class TimelogControllerTest < Redmine::ControllerTest
       assert_response :success
     end
 
-    assert_equal ['Date', 'User', 'Hours', 'Foo'], columns_in_list
+    assert_equal ['Project', 'Date', 'User', 'Hours', 'Foo'], columns_in_list
 
     assert_select '.total-for-hours'
     assert_select ".total-for-cf-#{field.id}"

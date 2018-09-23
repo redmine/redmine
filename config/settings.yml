@@ -219,6 +219,8 @@ time_entry_list_defaults:
     - issue
     - comments
     - hours
+    totalable_names:
+    - hours
 issue_done_ratio:
   default: 'issue_field'
 default_projects_public:
