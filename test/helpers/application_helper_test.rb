@@ -403,8 +403,10 @@ RAW
       "http://foo.bar/FAQ#3"        => '<a class="external" href="http://foo.bar/FAQ#3">http://foo.bar/FAQ#3</a>',
       # user
       'user:jsmith'                 => link_to_user(User.find_by_id(2)),
+      'user:JSMITH'                 => link_to_user(User.find_by_id(2)),
       'user#2'                      => link_to_user(User.find_by_id(2)),
       '@jsmith'                     => link_to_user(User.find_by_id(2)),
+      '@JSMITH'                     => link_to_user(User.find_by_id(2)),
       '@abcd@example.com'           => link_to_user(User.find_by_id(u_email_id)),
       'user:abcd@example.com'       => link_to_user(User.find_by_id(u_email_id)),
       '@foo.bar@example.com'        => link_to_user(User.find_by_id(u_email_id_2)),
