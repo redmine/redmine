@@ -183,4 +183,13 @@ class Redmine::PluginTest < ActiveSupport::TestCase
     Rails.logger.expects(:warn)
     @klass.register(:bar) { settings :partial => 'foo/settings' }
   end
+
+  def test_migrate_redmine_plugin
+    @klass.register :foo do
+      name 'Foo plugin'
+      version '0.0.1'
+    end
+
+    assert Redmine::Plugin.migrate('foo')
+  end
 end
