@@ -1248,3 +1248,8 @@ ja:
   text_project_is_public_non_member: 公開プロジェクトとその中の情報にはログイン済みの全ユーザーがアクセスできます。
   text_project_is_public_anonymous: 公開プロジェクトとその中の情報にはネットワーク上の全ユーザーがアクセスできます。
   label_version_and_files: バージョン (%{count}) とファイル
+  label_ldap: LDAP
+  label_ldaps_verify_none: LDAPS (without certificate check)
+  label_ldaps_verify_peer: LDAPS
+  label_ldaps_warning: It is recommended to use an encrypted LDAPS connection with certificate
+    check to prevent any manipulation during the authentication process.

@@ -1242,3 +1242,7 @@ fr:
   text_project_is_public_non_member: "Les projets publics et leurs contenus sont accessibles à tout utilisateur authentifié."
   text_project_is_public_anonymous: "Les projets publics et leurs contenus sont librement accessibles à toute personne sur le réseau."
   label_version_and_files: Versions (%{count}) et fichiers
+  label_ldap: LDAP
+  label_ldaps_verify_none: "LDAPS (sans vérification du certificat)"
+  label_ldaps_verify_peer: LDAPS
+  label_ldaps_warning: "Il est recommandé d'utiliser une connexion LDPAS avec vérification du certificat pour empêcher toute interception des données durant la procédure d'authentification."

@@ -1308,3 +1308,8 @@
   text_project_is_public_non_member: 公開之專案及其內容, 可供所有已登入的用戶使用.
   text_project_is_public_anonymous: 公開之專案及其內容, 在網路上是開放可用的.
   label_version_and_files: 版本 (%{count}) 與檔案
+  label_ldap: LDAP
+  label_ldaps_verify_none: LDAPS (without certificate check)
+  label_ldaps_verify_peer: LDAPS
+  label_ldaps_warning: It is recommended to use an encrypted LDAPS connection with certificate
+    check to prevent any manipulation during the authentication process.
