@@ -6,7 +6,9 @@
               :project_id => @page.project, :id => @page.title},
               :method => :get) do %>
 <% show_diff = @versions.size > 1 %>
-<%= submit_tag l(:label_view_diff), :class => 'small' if show_diff %>
+<% if show_diff %>
+  <p><%= submit_tag l(:label_view_diff) %></p>
+<% end %>
 <table class="list wiki-page-versions">
 <thead><tr>
     <th>#</th>
@@ -36,6 +38,8 @@
 <% end %>
 </tbody>
 </table>
-<%= submit_tag l(:label_view_diff), :class => 'small' if show_diff %>
+<% if show_diff %>
+  <p><%= submit_tag l(:label_view_diff) %></p>
+<% end %>
 <span class="pagination"><%= pagination_links_full @version_pages, @version_count %></span>
 <% end %>
