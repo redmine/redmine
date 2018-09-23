@@ -32,8 +32,9 @@ class IssuesCustomFieldsVisibilityTest < Redmine::ControllerTest
            :workflows
 
   def setup
-    CustomField.delete_all
+    CustomField.destroy_all
     Issue.delete_all
+
     field_attributes = {:field_format => 'string', :is_for_all => true, :is_filter => true, :trackers => Tracker.all}
     @fields = []
     @fields << (@field1 = IssueCustomField.create!(field_attributes.merge(:name => 'Field 1', :visible => true)))
@@ -220,7 +221,9 @@ class IssuesCustomFieldsVisibilityTest < Redmine::ControllerTest
   end
 
   def test_index_with_partial_custom_field_visibility
+    CustomValue.delete_all
     Issue.delete_all
+
     p1 = Project.generate!
     p2 = Project.generate!
     user = User.generate!

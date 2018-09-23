@@ -4874,6 +4874,7 @@ class IssuesControllerTest < Redmine::ControllerTest
     # Delete all fixtured journals, a race condition can occur causing the wrong
     # journal to get fetched in the next find.
     Journal.delete_all
+    JournalDetail.delete_all
 
     with_settings :notified_events => %w(issue_updated) do
       # anonymous user
@@ -5469,7 +5470,7 @@ class IssuesControllerTest < Redmine::ControllerTest
   end
 
   def test_bulk_edit_should_warn_about_custom_field_values_about_to_be_cleared
-    CustomField.delete_all
+    CustomField.destroy_all
 
     cleared = IssueCustomField.generate!(:name => 'Cleared', :tracker_ids => [2], :is_for_all => true)
     CustomValue.create!(:customized => Issue.find(2), :custom_field => cleared, :value => 'foo')

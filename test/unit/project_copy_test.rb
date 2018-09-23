@@ -149,7 +149,7 @@ class ProjectCopyTest < ActiveSupport::TestCase
 
   def test_copy_issues_should_reassign_version_custom_fields_to_copied_versions
     User.current = User.find(1)
-    CustomField.delete_all
+    CustomField.destroy_all
     field = IssueCustomField.generate!(:field_format => 'version', :is_for_all => true, :trackers => Tracker.all)
     source_project = Project.generate!(:trackers => Tracker.all)
     source_version = Version.generate!(:project => source_project)

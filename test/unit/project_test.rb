@@ -315,15 +315,13 @@ class ProjectTest < ActiveSupport::TestCase
   end
 
   def test_set_parent_should_add_roots_in_alphabetical_order
-    ProjectCustomField.delete_all
-    Project.delete_all
-    Project.create!(:name => 'Project C', :identifier => 'project-c').set_parent!(nil)
-    Project.create!(:name => 'Project B', :identifier => 'project-b').set_parent!(nil)
-    Project.create!(:name => 'Project D', :identifier => 'project-d').set_parent!(nil)
-    Project.create!(:name => 'Project A', :identifier => 'project-a').set_parent!(nil)
-
-    assert_equal 4, Project.count
-    assert_equal Project.all.sort_by(&:name), Project.all.sort_by(&:lft)
+    projects = new_records(Project, 4) do
+      Project.create!(:name => 'Project C', :identifier => 'project-c').set_parent!(nil)
+      Project.create!(:name => 'Project B', :identifier => 'project-b').set_parent!(nil)
+      Project.create!(:name => 'Project D', :identifier => 'project-d').set_parent!(nil)
+      Project.create!(:name => 'Project A', :identifier => 'project-a').set_parent!(nil)
+    end
+    assert_equal projects.sort_by(&:name), projects.sort_by(&:lft)
   end
 
   def test_set_parent_should_add_children_in_alphabetical_order
