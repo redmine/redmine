@@ -224,19 +224,6 @@ class CustomField < ActiveRecord::Base
     end
   end
 
-  def self.visibility_condition
-    if user.admin?
-      "1=1"
-    elsif user.anonymous?
-      "#{table_name}.visible"
-    else
-      "#{project_key} IN (SELECT DISTINCT m.project_id FROM #{Member.table_name} m" +
-        " INNER JOIN #{MemberRole.table_name} mr ON mr.member_id = m.id" +
-        " INNER JOIN #{table_name_prefix}custom_fields_roles#{table_name_suffix} cfr ON cfr.role_id = mr.role_id" +
-        " WHERE m.user_id = #{user.id} AND cfr.custom_field_id = #{id})"
-    end
-  end
-
   def <=>(field)
     position <=> field.position
   end
