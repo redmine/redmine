@@ -2134,6 +2134,20 @@ class IssuesControllerTest < Redmine::ControllerTest
     end
   end
 
+  def test_show_should_not_display_default_value_for_new_custom_field
+    prior = Issue.generate!
+    field = IssueCustomField.generate!(:name => 'WithDefault', :field_format => 'string', :default_value => 'DEFAULT')
+    after = Issue.generate!
+
+    get :show, :params => {:id => prior.id}
+    assert_response :success
+    assert_select ".cf_#{field.id} .value", :text => ''
+
+    get :show, :params => {:id => after.id}
+    assert_response :success
+    assert_select ".cf_#{field.id} .value", :text => 'DEFAULT'
+  end
+
   def test_show_should_display_private_notes_with_permission_only
     journal = Journal.create!(:journalized => Issue.find(2), :notes => 'Privates notes', :private_notes => true, :user_id => 1)
     @request.session[:user_id] = 2

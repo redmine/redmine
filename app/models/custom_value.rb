@@ -23,7 +23,7 @@ class CustomValue < ActiveRecord::Base
 
   def initialize(attributes=nil, *args)
     super
-    if new_record? && custom_field && !attributes.key?(:value)
+    if new_record? && custom_field && !attributes.key?(:value) && (customized.nil? || customized.set_custom_field_default?(self))
       self.value ||= custom_field.default_value
     end
   end

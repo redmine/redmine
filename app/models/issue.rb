@@ -259,6 +259,11 @@ class Issue < ActiveRecord::Base
     end
   end
 
+  # Overrides Redmine::Acts::Customizable::InstanceMethods#set_custom_field_default?
+  def set_custom_field_default?(custom_value)
+    new_record? || project_id_changed?|| tracker_id_changed?
+  end
+
   # Copies attributes from another issue, arg can be an id or an Issue
   def copy_from(arg, options={})
     issue = arg.is_a?(Issue) ? arg : Issue.visible.find(arg)

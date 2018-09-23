@@ -104,6 +104,12 @@ module Redmine
           @custom_field_values_changed == true
         end
 
+        # Should the default custom field value be set for the given custom_value?
+        # By default, default custom field value is set for new objects only
+        def set_custom_field_default?(custom_value)
+          new_record?
+        end
+
         def custom_value_for(c)
           field_id = (c.is_a?(CustomField) ? c.id : c.to_i)
           custom_values.detect {|v| v.custom_field_id == field_id }
