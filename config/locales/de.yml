@@ -608,7 +608,11 @@ de:
   label_latest_compatible_version: Letzte kompatible Version
   label_latest_revision: Aktuellste Revision
   label_latest_revision_plural: Aktuellste Revisionen
+  label_ldap: LDAP
   label_ldap_authentication: LDAP-Authentifizierung
+  label_ldaps_verify_none: LDAPS (ohne Zertifikatsprüfung)
+  label_ldaps_verify_peer: LDAPS
+  label_ldaps_warning: Es wird empfohlen, eine verschlüsselte LDAPS-Verbindung mit Zertifikatsprüfung zu verwenden, um Manipulationen während der Authentifizierung zu verhindern.
   label_less_or_equal: "<="
   label_less_than_ago: vor weniger als
   label_link: Link

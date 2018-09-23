@@ -43,6 +43,7 @@ class AuthSource < ActiveRecord::Base
     'attr_mail',
     'onthefly_register',
     'tls',
+    'verify_peer',
     'filter',
     'timeout'
 

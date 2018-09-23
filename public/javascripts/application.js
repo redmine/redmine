@@ -857,6 +857,12 @@ function keepAnchorOnSignIn(form){
   return true;
 }
 
+$(function ($) {
+  $('#auth_source_ldap_mode').change(function () {
+    $('.ldaps_warning').toggle($(this).val() != 'ldaps_verify_peer');
+  }).change();
+});
+
 $(document).ready(setupAjaxIndicator);
 $(document).ready(hideOnLoad);
 $(document).ready(addFormObserversForDoubleSubmit);
