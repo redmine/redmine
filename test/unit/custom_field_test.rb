@@ -340,4 +340,20 @@ class CustomFieldTest < ActiveSupport::TestCase
     assert_equal 12.5, field.cast_value('+12.5')
     assert_equal -12.5, field.cast_value('-12.5')
   end
+
+  def test_project_custom_field_visibility
+    project_field = ProjectCustomField.generate!(:visible => false, :field_format => 'list', :possible_values => %w[a b c])
+    project = Project.find(3)
+    project.custom_field_values = { project_field.id => 'a' }
+
+    # Admins can find projects with the field
+    with_current_user(User.find(1)) do
+      assert_includes Project.where(project_field.visibility_by_project_condition), project
+    end
+
+    # The field is not visible to normal users
+    with_current_user(User.find(2)) do
+      refute_includes Project.where(project_field.visibility_by_project_condition), project
+    end
+  end
 end
