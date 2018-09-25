@@ -625,10 +625,10 @@ bg:
   label_new: Нов
   label_logged_as: Здравейте,
   label_environment: Среда
-  label_authentication: Оторизация
-  label_auth_source: Начин на оторозация
-  label_auth_source_new: Нов начин на оторизация
-  label_auth_source_plural: Начини на оторизация
+  label_authentication: Удостоверяване
+  label_auth_source: Начин на удостоверяване
+  label_auth_source_new: Нов начин на удостоверяване
+  label_auth_source_plural: Начини на удостоверяване
   label_subproject_plural: Подпроекти
   label_subproject_new: Нов подпроект
   label_and_its_subprojects: "%{value} и неговите подпроекти"
@@ -892,7 +892,7 @@ bg:
   label_general: Основни
   label_scm: SCM (Система за контрол на версиите)
   label_plugins: Плъгини
-  label_ldap_authentication: LDAP оторизация
+  label_ldap_authentication: LDAP удостоверяване
   label_downloads_abbr: D/L
   label_optional_description: Незадължително описание
   label_add_another_file: Добавяне на друг файл
@@ -1227,7 +1227,6 @@ bg:
   text_project_is_public_non_member: Публичните проекти са достъпни за всички влезли в Redmine потребители.
   text_project_is_public_anonymous: Публичните проекти са достъпнии тяхното съдържание са видими без ограничения в мрежата.
   label_ldap: LDAP
-  label_ldaps_verify_none: LDAPS (without certificate check)
+  label_ldaps_verify_none: LDAP удостоверяване
   label_ldaps_verify_peer: LDAPS
-  label_ldaps_warning: It is recommended to use an encrypted LDAPS connection with certificate
-    check to prevent any manipulation during the authentication process.
+  label_ldaps_warning: препоръчително е да се използва криптирана LDAPS връзка със сертификат за предотвратяване на намеса по време на процеса на удостоверяване.
