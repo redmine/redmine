@@ -52,8 +52,9 @@ function jsToolBar(textarea) {
   this.tabsBlock.className = 'jstTabs tabs';
 
   var This = this;
-  this.writeTab = new jsTab('Write', true);
-  this.writeTab.onclick = function(event) { This.hidePreview.call(This, event); return false; };
+
+  this.editTab = new jsTab('Edit', true);
+  this.editTab.onclick = function(event) { This.hidePreview.call(This, event); return false; };
 
   this.previewTab = new jsTab('Preview');
   this.previewTab.onclick = function(event) { This.showPreview.call(This, event); return false; };
@@ -62,7 +63,7 @@ function jsToolBar(textarea) {
   elementsTab.classList = 'tab-elements';
 
   var tabs = document.createElement('ul');
-  tabs.appendChild(this.writeTab);
+  tabs.appendChild(this.editTab);
   tabs.appendChild(this.previewTab);
   tabs.appendChild(elementsTab);
   this.tabsBlock.appendChild(tabs);
@@ -404,7 +405,7 @@ jsToolBar.prototype = {
     this.toolbar.classList.add('hidden');
     this.textarea.classList.add('hidden');
     this.preview.classList.remove('hidden');
-    this.tabsBlock.getElementsByClassName('tab-write')[0].classList.remove('selected');
+    this.tabsBlock.getElementsByClassName('tab-edit')[0].classList.remove('selected');
     event.target.classList.add('selected');
 
   },
