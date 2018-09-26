@@ -4,5 +4,5 @@
   <%= render :partial => 'form', :locals => {:f => f} %>
   <%= submit_tag l(:button_create) %>
   <%= submit_tag l(:button_create_and_continue), :name => 'continue' %>
-  <%= render_cancel_button_tag_for_time_entry(@project) %>
+  <%= cancel_button_tag_for_time_entry(@project) %>
 <% end %>

@@ -115,9 +115,9 @@ module TimelogHelper
     end
   end
 
-  def render_cancel_button_tag_for_time_entry(project)
+  def cancel_button_tag_for_time_entry(project)
     fallback_path = project ? project_time_entries_path(project) : time_entries_path
-    render_cancel_button_tag(fallback_path)
+    cancel_button_tag(fallback_path)
   end
 
 end

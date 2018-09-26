@@ -1307,7 +1307,7 @@ module ApplicationHelper
     hidden_field_tag('back_url', url, :id => nil) unless url.blank?
   end
 
-  def render_cancel_button_tag(fallback_url)
+  def cancel_button_tag(fallback_url)
     url = back_url.blank? ? fallback_url : back_url
     link_to l(:button_cancel), url
   end
