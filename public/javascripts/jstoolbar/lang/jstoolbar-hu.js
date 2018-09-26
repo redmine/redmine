@@ -15,3 +15,5 @@ jsToolBar.strings['Unquote'] = 'Remove Quote';
 jsToolBar.strings['Preformatted text'] = 'Előreformázott szöveg';
 jsToolBar.strings['Wiki link'] = 'Link egy Wiki oldalra';
 jsToolBar.strings['Image'] = 'Kép';
+jsToolBar.strings['Edit'] = 'Szerkeszt';
+jsToolBar.strings['Preview'] = 'Előnézet';

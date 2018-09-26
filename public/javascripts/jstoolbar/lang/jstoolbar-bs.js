@@ -13,3 +13,5 @@ jsToolBar.strings['Ordered list'] = 'Ordered list';
 jsToolBar.strings['Preformatted text'] = 'Preformatted text';
 jsToolBar.strings['Wiki link'] = 'Link na Wiki stranicu';
 jsToolBar.strings['Image'] = 'Slika';
+jsToolBar.strings['Edit'] = 'Ispravka';
+jsToolBar.strings['Preview'] = 'Pregled';

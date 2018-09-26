@@ -15,3 +15,5 @@ jsToolBar.strings['Unquote'] = 'Supprimer indentation';
 jsToolBar.strings['Preformatted text'] = 'Texte préformaté';
 jsToolBar.strings['Wiki link'] = 'Lien vers une page Wiki';
 jsToolBar.strings['Image'] = 'Image';
+jsToolBar.strings['Edit'] = 'Modifier';
+jsToolBar.strings['Preview'] = 'Prévisualisation';

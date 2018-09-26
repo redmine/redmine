@@ -15,3 +15,5 @@ jsToolBar.strings['Unquote'] = 'Удалить цитату';
 jsToolBar.strings['Preformatted text'] = 'Заранее форматированный текст';
 jsToolBar.strings['Wiki link'] = 'Ссылка на страницу в Wiki';
 jsToolBar.strings['Image'] = 'Вставка изображения';
+jsToolBar.strings['Edit'] = 'Редактировать';
+jsToolBar.strings['Preview'] = 'Предпросмотр';

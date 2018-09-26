@@ -15,3 +15,5 @@ jsToolBar.strings['Unquote'] = 'Ukloni citat';
 jsToolBar.strings['Preformatted text'] = 'Izveden tekst';
 jsToolBar.strings['Wiki link'] = 'Link na Wiki stranicu';
 jsToolBar.strings['Image'] = 'Slika';
+jsToolBar.strings['Edit'] = 'Uredi';
+jsToolBar.strings['Preview'] = 'Brzi pregled';

@@ -15,3 +15,5 @@ jsToolBar.strings['Unquote'] = 'Sense cometes';
 jsToolBar.strings['Preformatted text'] = 'Text formatat';
 jsToolBar.strings['Wiki link'] = 'Enllaça a una pàgina Wiki';
 jsToolBar.strings['Image'] = 'Imatge';
+jsToolBar.strings['Edit'] = 'Editar';
+jsToolBar.strings['Preview'] = 'Previsualitzar';

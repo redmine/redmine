@@ -19,3 +19,5 @@ jsToolBar.strings['Unquote'] = 'Aipamena kendu';
 jsToolBar.strings['Preformatted text'] = 'Aurrez formateatutako testua';
 jsToolBar.strings['Wiki link'] = 'Wiki orri baterako esteka';
 jsToolBar.strings['Image'] = 'Irudia';
+jsToolBar.strings['Edit'] = 'Editatu';
+jsToolBar.strings['Preview'] = 'Aurreikusi';

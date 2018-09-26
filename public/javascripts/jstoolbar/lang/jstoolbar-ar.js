@@ -15,3 +15,5 @@ jsToolBar.strings['Unquote'] = 'إزالة الاقتباس';
 jsToolBar.strings['Preformatted text'] = 'نص مسبق التنسيق';
 jsToolBar.strings['Wiki link'] = 'رابط الى صفحة ويكي';
 jsToolBar.strings['Image'] = 'صورة';
+jsToolBar.strings['Edit'] = 'تعديل';
+jsToolBar.strings['Preview'] = 'معاينة';

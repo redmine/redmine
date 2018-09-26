@@ -15,4 +15,5 @@ jsToolBar.strings['Unquote'] = 'Отстрани цитат';
 jsToolBar.strings['Preformatted text'] = 'Форматиран текст';
 jsToolBar.strings['Wiki link'] = 'Врска до вики страна';
 jsToolBar.strings['Image'] = 'Слика';
-
+jsToolBar.strings['Edit'] = 'Уреди';
+jsToolBar.strings['Preview'] = 'Preview';

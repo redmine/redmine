@@ -15,3 +15,5 @@ jsToolBar.strings['Unquote'] = 'Zrušiť odsadenie';
 jsToolBar.strings['Preformatted text'] = 'Predformátovaný text';
 jsToolBar.strings['Wiki link'] = 'Odkaz na wikistránku';
 jsToolBar.strings['Image'] = 'Obrázok';
+jsToolBar.strings['Edit'] = 'Upraviť';
+jsToolBar.strings['Preview'] = 'Náhľad';

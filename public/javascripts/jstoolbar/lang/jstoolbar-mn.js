@@ -15,3 +15,5 @@ jsToolBar.strings['Unquote'] = 'Ишлэлийг устгах';
 jsToolBar.strings['Preformatted text'] = 'Өмнө нь хэлбэржсэн текст';
 jsToolBar.strings['Wiki link'] = 'Вики хуудас руу холбох';
 jsToolBar.strings['Image'] = 'Зураг';
+jsToolBar.strings['Edit'] = 'Засварлах';
+jsToolBar.strings['Preview'] = 'Ямар харагдахыг шалгах';

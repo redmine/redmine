@@ -16,3 +16,5 @@ jsToolBar.strings['Unquote'] = 'Noņemt citātu';
 jsToolBar.strings['Preformatted text'] = 'Iepriekš formatēts teksts';
 jsToolBar.strings['Wiki link'] = 'Saite uz Wiki lapu';
 jsToolBar.strings['Image'] = 'Attēls';
+jsToolBar.strings['Edit'] = 'Labot';
+jsToolBar.strings['Preview'] = 'Priekšskatījums';

@@ -15,3 +15,5 @@ jsToolBar.strings['Unquote'] = '引用解除';
 jsToolBar.strings['Preformatted text'] = '整形済みテキスト';
 jsToolBar.strings['Wiki link'] = 'Wikiページへのリンク';
 jsToolBar.strings['Image'] = '画像';
+jsToolBar.strings['Edit'] = '編集';
+jsToolBar.strings['Preview'] = 'プレビュー';

@@ -15,3 +15,5 @@ jsToolBar.strings['Unquote'] = '取消引文';
 jsToolBar.strings['Preformatted text'] = '已格式文字';
 jsToolBar.strings['Wiki link'] = '連結至 Wiki 頁面';
 jsToolBar.strings['Image'] = '圖片';
+jsToolBar.strings['Edit'] = '編輯';
+jsToolBar.strings['Preview'] = '預覽';

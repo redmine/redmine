@@ -15,3 +15,5 @@ jsToolBar.strings['Unquote'] = 'Bỏ trích dẫn';
 jsToolBar.strings['Preformatted text'] = 'Mã nguồn';
 jsToolBar.strings['Wiki link'] = 'Liên kết đến trang wiki';
 jsToolBar.strings['Image'] = 'Ảnh';
+jsToolBar.strings['Edit'] = 'Sửa';
+jsToolBar.strings['Preview'] = 'Xem trước';

@@ -32,3 +32,5 @@ jsToolBar.strings['Unquote'] = 'Tsitaat: aste madalamaks';
 jsToolBar.strings['Preformatted text'] = 'Eelvormindatud tekst';
 jsToolBar.strings['Wiki link'] = 'Vikilehe link';
 jsToolBar.strings['Image'] = 'Pilt';
+jsToolBar.strings['Edit'] = 'Muuda';
+jsToolBar.strings['Preview'] = 'Eelvaade';

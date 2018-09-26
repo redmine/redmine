@@ -15,3 +15,5 @@ jsToolBar.strings['Unquote'] = 'Fără citat';
 jsToolBar.strings['Preformatted text'] = 'Text preformatat';
 jsToolBar.strings['Wiki link'] = 'Trimitere către o pagină wiki';
 jsToolBar.strings['Image'] = 'Imagine';
+jsToolBar.strings['Edit'] = 'Editează';
+jsToolBar.strings['Preview'] = 'Previzualizare';

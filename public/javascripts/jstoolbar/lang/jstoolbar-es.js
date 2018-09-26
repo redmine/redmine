@@ -15,3 +15,5 @@ jsToolBar.strings['Unquote'] = 'Quitar cita';
 jsToolBar.strings['Preformatted text'] = 'Texto con formato';
 jsToolBar.strings['Wiki link'] = 'Enlace a página Wiki';
 jsToolBar.strings['Image'] = 'Imagen';
+jsToolBar.strings['Edit'] = 'Modificar';
+jsToolBar.strings['Preview'] = 'Previsualizar';

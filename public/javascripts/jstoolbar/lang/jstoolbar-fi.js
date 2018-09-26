@@ -15,3 +15,5 @@ jsToolBar.strings['Unquote'] = 'Remove Quote';
 jsToolBar.strings['Preformatted text'] = 'Ennaltamuotoiltu teksti';
 jsToolBar.strings['Wiki link'] = 'Linkki Wiki sivulle';
 jsToolBar.strings['Image'] = 'Kuva';
+jsToolBar.strings['Edit'] = 'Muokkaa';
+jsToolBar.strings['Preview'] = 'Esikatselu';

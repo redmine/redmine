@@ -15,3 +15,5 @@ jsToolBar.strings['Unquote'] = 'Remove Quote';
 jsToolBar.strings['Preformatted text'] = 'Předformátovaný text';
 jsToolBar.strings['Wiki link'] = 'Vložit odkaz na Wiki stránku';
 jsToolBar.strings['Image'] = 'Vložit obrázek';
+jsToolBar.strings['Edit'] = 'Upravit';
+jsToolBar.strings['Preview'] = 'Náhled';

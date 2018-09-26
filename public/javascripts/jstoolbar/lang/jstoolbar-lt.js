@@ -15,3 +15,5 @@ jsToolBar.strings['Unquote'] = 'Pašalinti citavimą';
 jsToolBar.strings['Preformatted text'] = 'Preformatuotas tekstas';
 jsToolBar.strings['Wiki link'] = 'Nuoroda į Wiki puslapį';
 jsToolBar.strings['Image'] = 'Paveikslas';
+jsToolBar.strings['Edit'] = 'Redaguoti';
+jsToolBar.strings['Preview'] = 'Peržiūra';

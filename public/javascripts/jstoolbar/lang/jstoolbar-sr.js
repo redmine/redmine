@@ -15,3 +15,5 @@ jsToolBar.strings['Unquote'] = 'Уклони наводнике';
 jsToolBar.strings['Preformatted text'] = 'Претходно форматиран текст';
 jsToolBar.strings['Wiki link'] = 'Веза према Wiki страни';
 jsToolBar.strings['Image'] = 'Слика';
+jsToolBar.strings['Edit'] = 'Измени';
+jsToolBar.strings['Preview'] = 'Преглед';

@@ -15,3 +15,5 @@ jsToolBar.strings['Unquote'] = 'Remove Quote';
 jsToolBar.strings['Preformatted text'] = 'รูปแบบข้อความคงที่';
 jsToolBar.strings['Wiki link'] = 'เชื่อมโยงไปหน้า Wiki อื่น';
 jsToolBar.strings['Image'] = 'รูปภาพ';
+jsToolBar.strings['Edit'] = 'แก้ไข';
+jsToolBar.strings['Preview'] = 'ตัวอย่างก่อนจัดเก็บ';

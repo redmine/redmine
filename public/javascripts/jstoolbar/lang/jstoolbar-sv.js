@@ -15,3 +15,5 @@ jsToolBar.strings['Unquote'] = 'Ta bort citat';
 jsToolBar.strings['Preformatted text'] = 'Förformaterad text';
 jsToolBar.strings['Wiki link'] = 'Länk till en wikisida';
 jsToolBar.strings['Image'] = 'Bild';
+jsToolBar.strings['Edit'] = 'Ändra';
+jsToolBar.strings['Preview'] = 'Förhandsgranska';

@@ -15,3 +15,5 @@ jsToolBar.strings['Unquote'] = 'بیرون آوردن';
 jsToolBar.strings['Preformatted text'] = 'نوشته قالب بندی شده';
 jsToolBar.strings['Wiki link'] = 'پیوند به برگ ویکی';
 jsToolBar.strings['Image'] = 'عکس';
+jsToolBar.strings['Edit'] = 'ویرایش';
+jsToolBar.strings['Preview'] = 'پیش‌نمایش';

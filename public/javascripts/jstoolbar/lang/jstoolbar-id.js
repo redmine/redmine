@@ -15,3 +15,5 @@ jsToolBar.strings['Unquote'] = 'Hapus kutipan';
 jsToolBar.strings['Preformatted text'] = 'Teks terformat';
 jsToolBar.strings['Wiki link'] = 'Tautkan ke halaman wiki';
 jsToolBar.strings['Image'] = 'Gambar';
+jsToolBar.strings['Edit'] = 'Sunting';
+jsToolBar.strings['Preview'] = 'Tinjauan';

@@ -15,3 +15,5 @@ jsToolBar.strings['Unquote'] = '인용 취소';
 jsToolBar.strings['Preformatted text'] = '있는 그대로 표현 (Preformatted text)';
 jsToolBar.strings['Wiki link'] = 'Wiki 페이지에 연결';
 jsToolBar.strings['Image'] = '그림';
+jsToolBar.strings['Edit'] = '편집';
+jsToolBar.strings['Preview'] = '미리보기';

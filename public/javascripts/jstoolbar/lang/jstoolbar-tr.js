@@ -13,3 +13,5 @@ jsToolBar.strings['Ordered list'] = 'Sıralı liste';
 jsToolBar.strings['Preformatted text'] = 'Preformatted text';
 jsToolBar.strings['Wiki link'] = 'Wiki sayfasına bağlantı';
 jsToolBar.strings['Image'] = 'Resim';
+jsToolBar.strings['Edit'] = 'Düzenle';
+jsToolBar.strings['Preview'] = 'Önizleme';

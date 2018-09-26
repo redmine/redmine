@@ -18,3 +18,5 @@ jsToolBar.strings['Unquote'] = 'Riduci rientro';
 jsToolBar.strings['Preformatted text'] = 'Testo preformattato';
 jsToolBar.strings['Wiki link'] = 'Collegamento a pagina Wiki';
 jsToolBar.strings['Image'] = 'Immagine';
+jsToolBar.strings['Edit'] = 'Modifica';
+jsToolBar.strings['Preview'] = 'Anteprima';
