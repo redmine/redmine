@@ -33,7 +33,7 @@ class MessagesControllerTest < Redmine::ControllerTest
 
     assert_select 'h2', :text => 'First post'
   end
-  
+
   def test_show_should_contain_reply_field_tags_for_quoting
     @request.session[:user_id] = 2
     get :show, :params => {
@@ -214,7 +214,7 @@ class MessagesControllerTest < Redmine::ControllerTest
         :id => 1,
         :reply => {
           :content => 'This is a test reply',
-          :subject => 'Test reply' 
+          :subject => 'Test reply'
         }
       }
     reply = Message.order('id DESC').first
@@ -265,9 +265,9 @@ class MessagesControllerTest < Redmine::ControllerTest
     post :preview, :params => {
         :board_id => 1,
         :message => {
-          :subject => "",
-          :content => "Previewed text"
-        }
+          :subject => ""
+        },
+        :text => "Previewed text"
       }
     assert_response :success
     assert_include 'Previewed text', response.body
@@ -280,8 +280,8 @@ class MessagesControllerTest < Redmine::ControllerTest
         :board_id => 1,
         :message => {
           :subject => "",
-          :content => "Previewed text"
-        }
+        },
+        :text => "Previewed text"
       }
     assert_response :success
     assert_include 'Previewed text', response.body

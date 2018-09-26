@@ -37,7 +37,7 @@
                    :no_label => true %>
   <% end %>
 </p>
-<%= wikitoolbar_for 'issue_description' %>
+<%= wikitoolbar_for 'issue_description', preview_issue_path(:project_id => @issue.project, :issue_id => @issue.id) %>
 <% end %>
 
 <div id="attributes" class="attributes">

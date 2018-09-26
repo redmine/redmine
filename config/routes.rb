@@ -26,9 +26,8 @@ Rails.application.routes.draw do
   get 'account/activation_email', :to => 'account#activation_email', :as => 'activation_email'
 
   match '/news/preview', :controller => 'previews', :action => 'news', :as => 'preview_news', :via => [:get, :post, :put, :patch]
-  match '/issues/preview/new/:project_id', :to => 'previews#issue', :as => 'preview_new_issue', :via => [:get, :post, :put, :patch]
-  match '/issues/preview/edit/:id', :to => 'previews#issue', :as => 'preview_edit_issue', :via => [:get, :post, :put, :patch]
   match '/issues/preview', :to => 'previews#issue', :as => 'preview_issue', :via => [:get, :post, :put, :patch]
+  match '/preview/text', :to => 'previews#text', :as => 'preview_text', :via => [:get, :post, :put, :patch]
 
   match 'projects/:id/wiki/destroy', :to => 'wikis#destroy', :via => [:get, :post]
 

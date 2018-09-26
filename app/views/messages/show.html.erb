@@ -85,9 +85,7 @@
 <%= form_for @reply, :as => :reply, :url => {:action => 'reply', :id => @topic}, :html => {:multipart => true, :id => 'message-form'} do |f| %>
   <%= render :partial => 'form', :locals => {:f => f, :replying => true} %>
   <%= submit_tag l(:button_submit) %>
-  <%= preview_link({:controller => 'messages', :action => 'preview', :board_id => @board}, 'message-form') %>
 <% end %>
-<div id="preview" class="wiki"></div>
 </div>
 <% end %>
 

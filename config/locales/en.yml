@@ -1030,6 +1030,7 @@ en:
   label_font_monospace: Monospaced font
   label_font_proportional: Proportional font
   label_last_notes: Last notes
+  label_nothing_to_preview: Nothing to preview
 
   button_login: Login
   button_submit: Submit

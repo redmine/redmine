@@ -24,7 +24,7 @@
 <p>
 <%= label_tag "message_content", l(:description_message_content), :class => "hidden-for-sighted" %>
 <%= f.text_area :content, :cols => 80, :rows => 15, :class => 'wiki-edit', :id => 'message_content' %></p>
-<%= wikitoolbar_for 'message_content' %>
+<%= wikitoolbar_for 'message_content', preview_board_message_path(:board_id => @board, :id => @message) %>
 <!--[eoform:message]-->
 
 <p><%= l(:label_attachment_plural) %><br />

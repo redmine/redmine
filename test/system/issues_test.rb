@@ -179,10 +179,10 @@ class IssuesTest < ApplicationSystemTestCase
       fill_in 'Subject', :with => 'new issue subject'
       fill_in 'Description', :with => 'new issue description'
       click_link 'Preview'
+      find 'div.wiki-preview', :visible => true, :text => 'new issue description'
     end
-    find 'div#preview fieldset', :visible => true, :text => 'new issue description'
     assert_difference 'Issue.count' do
-      find('input[name=commit]').click
+      click_button('Create')
     end
 
     issue = Issue.order('id desc').first
@@ -314,9 +314,9 @@ class IssuesTest < ApplicationSystemTestCase
     # Update the notes
     fill_in 'Notes', :with => 'Updated notes'
     # Preview the change
-    click_on 'Preview'
-    assert page.has_css?('#journal_2_preview')
-    assert page.first('#journal_2_preview').has_content?('Updated notes')
+    page.first('#change-2 a.tab-preview').click
+    assert page.has_css?('#preview_journal_2_notes')
+    assert page.first('#preview_journal_2_notes').has_content?('Updated notes')
     # Save
     click_on 'Save'
 

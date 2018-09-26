@@ -237,8 +237,7 @@ function addInlineAttachmentMarkup(file) {
       'selectionStart': cursorPosition + newLineBefore,
       'selectionEnd': cursorPosition + inlineFilename.length + newLineBefore
     });
-    $textarea.closest('.jstEditor')
-      .siblings('.jstElements')
+    $textarea.parents('.jstBlock')
       .find('.jstb_img').click();
 
     // move cursor into next line

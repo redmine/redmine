@@ -12,10 +12,8 @@
                                            :html => { :id => 'news-form', :multipart => true } do |f| %>
 <%= render :partial => 'news/form', :locals => { :f => f } %>
 <%= submit_tag l(:button_create) %>
-<%= preview_link preview_news_path(:project_id => @project), 'news-form' %> |
 <%= link_to l(:button_cancel), "#", :onclick => '$("#add-news").hide()' %>
 <% end if @project %>
-<div id="preview" class="wiki"></div>
 </div>
 
 <h2><%=l(:label_news_plural)%></h2>

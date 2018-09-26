@@ -7,12 +7,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
  * (at your option) any later version.
- * 
+ *
  * DotClear is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with DotClear; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
@@ -34,15 +34,45 @@ function jsToolBar(textarea) {
 
   this.textarea = textarea;
 
+  this.toolbarBlock = document.createElement('div');
+  this.toolbarBlock.className = 'jstBlock';
+  this.textarea.parentNode.insertBefore(this.toolbarBlock, this.textarea);
+
   this.editor = document.createElement('div');
   this.editor.className = 'jstEditor';
 
-  this.textarea.parentNode.insertBefore(this.editor,this.textarea);
+  this.preview = document.createElement('div');
+  this.preview.className = 'wiki wiki-preview hidden';
+  this.preview.setAttribute('id', 'preview_' + textarea.getAttribute('id'));
+
   this.editor.appendChild(this.textarea);
+  this.editor.appendChild(this.preview);
+
+  this.tabsBlock = document.createElement('div');
+  this.tabsBlock.className = 'jstTabs tabs';
+
+  var This = this;
+  this.writeTab = new jsTab('Write', true);
+  this.writeTab.onclick = function(event) { This.hidePreview.call(This, event); return false; };
+
+  this.previewTab = new jsTab('Preview');
+  this.previewTab.onclick = function(event) { This.showPreview.call(This, event); return false; };
+
+  var elementsTab = document.createElement('li');
+  elementsTab.classList = 'tab-elements';
+
+  var tabs = document.createElement('ul');
+  tabs.appendChild(this.writeTab);
+  tabs.appendChild(this.previewTab);
+  tabs.appendChild(elementsTab);
+  this.tabsBlock.appendChild(tabs);
 
   this.toolbar = document.createElement("div");
   this.toolbar.className = 'jstElements';
-  this.editor.parentNode.insertBefore(this.toolbar,this.editor);
+  elementsTab.appendChild(this.toolbar);
+
+  this.toolbarBlock.appendChild(this.tabsBlock);
+  this.toolbarBlock.appendChild(this.editor);
 
   // Dragable resizing
   if (this.editor.addEventListener && navigator.appVersion.match(/\bMSIE\b/))
@@ -53,19 +83,40 @@ function jsToolBar(textarea) {
     var This = this;
     this.handle.addEventListener('mousedown',function(event) { dragStart.call(This,event); },false);
     // fix memory leak in Firefox (bug #241518)
-    window.addEventListener('unload',function() { 
+    window.addEventListener('unload',function() {
       var del = This.handle.parentNode.removeChild(This.handle);
       delete(This.handle);
     },false);
-    
+
     this.editor.parentNode.insertBefore(this.handle,this.editor.nextSibling);
   }
-  
+
   this.context = null;
-  this.toolNodes = {}; // lorsque la toolbar est dessinée , cet objet est garni 
+  this.toolNodes = {}; // lorsque la toolbar est dessinée , cet objet est garni
                        // de raccourcis vers les éléments DOM correspondants aux outils.
 }
 
+function jsTab(name, selected) {
+  selected = selected || false;
+  if(typeof jsToolBar.strings == 'undefined') {
+    var tabName = name || null;
+  } else {
+    var tabName = jsToolBar.strings[name] || name || null;
+  }
+
+  var tab = document.createElement('li');
+  var link = document.createElement('a');
+  link.setAttribute('href', '#');
+  link.innerText = tabName;
+  link.className = 'tab-' + name.toLowerCase();
+
+  if (selected == true) {
+    link.classList.add('selected');
+  }
+  tab.appendChild(link)
+
+  return tab;
+}
 function jsButton(title, fn, scope, className) {
   if(typeof jsToolBar.strings == 'undefined') {
     this.title = title || null;
@@ -91,6 +142,7 @@ jsButton.prototype.draw = function() {
   if (this.icon != undefined) {
     button.style.backgroundImage = 'url('+this.icon+')';
   }
+
   if (typeof(this.fn) == 'function') {
     var This = this;
     button.onclick = function() { try { This.fn.apply(This.scope, arguments) } catch (e) {} return false; };
@@ -110,7 +162,7 @@ jsSpace.prototype.draw = function() {
   if (this.width) span.style.marginRight = this.width+'px';
 
   return span;
-} 
+}
 
 function jsCombo(title, options, scope, fn, className) {
   this.title = title || null;
@@ -136,7 +188,7 @@ jsCombo.prototype.draw = function() {
 
   var This = this;
   select.onchange = function() {
-    try { 
+    try {
       This.fn.call(This.scope, this.value);
     } catch (e) { alert(e); }
 
@@ -152,7 +204,7 @@ jsToolBar.prototype = {
   mode: 'wiki',
   elements: {},
   help_link: '',
-  
+
   getMode: function() {
     return this.mode;
   },
@@ -168,6 +220,10 @@ jsToolBar.prototype = {
 
   setHelpLink: function(link) {
     this.help_link = link;
+  },
+
+  setPreviewUrl: function(url) {
+    this.previewTab.firstChild.setAttribute('data-url', url);
   },
 
   button: function(toolName) {
@@ -292,7 +348,6 @@ jsToolBar.prototype = {
 
   encloseSelection: function(prefix, suffix, fn) {
     this.textarea.focus();
-
     prefix = prefix || '';
     suffix = suffix || '';
 
@@ -343,7 +398,24 @@ jsToolBar.prototype = {
       this.textarea.scrollTop = scrollPos;
     }
   },
+  showPreview: function(event) {
+    if (event.target.classList.contains('selected')) { return; }
+    this.preview.setAttribute('style', 'min-height: ' + this.textarea.clientHeight + 'px;')
+    this.toolbar.classList.add('hidden');
+    this.textarea.classList.add('hidden');
+    this.preview.classList.remove('hidden');
+    this.tabsBlock.getElementsByClassName('tab-write')[0].classList.remove('selected');
+    event.target.classList.add('selected');
 
+  },
+  hidePreview: function(event) {
+    if (event.target.classList.contains('selected')) { return; }
+    this.toolbar.classList.remove('hidden');
+    this.textarea.classList.remove('hidden');
+    this.preview.classList.add('hidden');
+    this.tabsBlock.getElementsByClassName('tab-preview')[0].classList.remove('selected');
+    event.target.classList.add('selected');
+  },
   stripBaseURL: function(url) {
     if (this.base_url != '') {
       var pos = url.indexOf(this.base_url);

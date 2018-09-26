@@ -449,17 +449,6 @@ function hideModal(el) {
   modal.dialog("close");
 }
 
-function submitPreview(url, form, target) {
-  $.ajax({
-    url: url,
-    type: 'post',
-    data: $('#'+form).serialize(),
-    success: function(data){
-      $('#'+target).html(data);
-    }
-  });
-}
-
 function collapseScmEntry(id) {
   $('.'+id).each(function() {
     if ($(this).hasClass('open')) {
@@ -844,6 +833,28 @@ function toggleNewObjectDropdown() {
 $(document).ready(function(){
   $('#content').on('change', 'input[data-disables], input[data-enables], input[data-shows]', toggleDisabledOnChange);
   toggleDisabledInit();
+});
+
+$(document).ready(function(){
+  $('#content').on('click', 'div.jstTabs a.tab-preview', function(event){
+    var tab = $(event.target);
+
+    var url = tab.data('url');
+    var form = tab.parents('form');
+    var jstBlock = tab.parents('.jstBlock');
+
+    var element = encodeURIComponent(jstBlock.find('.wiki-edit').val());
+    var attachments = form.find('.attachments_fields input').serialize();
+
+    $.ajax({
+      url: url,
+      type: 'post',
+      data: "text=" + element + '&' + attachments,
+      success: function(data){
+        jstBlock.find('.wiki-preview').html(data);
+      }
+    });
+  });
 });
 
 function keepAnchorOnSignIn(form){

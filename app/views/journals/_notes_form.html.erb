@@ -14,11 +14,6 @@
     <% end %>
     <%= call_hook(:view_journals_notes_form_after_notes, { :journal => @journal}) %>
     <p><%= submit_tag l(:button_save) %>
-    <%= preview_link preview_edit_issue_path(:project_id => @project, :id => @journal.issue), 
-                     "journal-#{@journal.id}-form",
-                     "journal_#{@journal.id}_preview" %> |
     <%= link_to l(:button_cancel), '#', :onclick => "$('#journal-#{@journal.id}-form').remove(); $('#journal-#{@journal.id}-notes').show(); return false;" %></p>
-
-    <div id="journal_<%= @journal.id %>_preview" class="wiki"></div>
 <% end %>
-<%= wikitoolbar_for "journal_#{@journal.id}_notes" %>
+<%= wikitoolbar_for "journal_#{@journal.id}_notes", preview_issue_path(:project_id => @project, :issue_id => @journal.issue) %>

@@ -16,10 +16,8 @@
                                            :html => { :id => 'news-form', :multipart => true, :method => :put } do |f| %>
 <%= render :partial => 'form', :locals => { :f => f } %>
 <%= submit_tag l(:button_save) %>
-<%= preview_link preview_news_path(:project_id => @project, :id => @news), 'news-form' %> |
 <%= link_to l(:button_cancel), "#", :onclick => '$("#edit-news").hide(); return false;' %>
 <% end %>
-<div id="preview" class="wiki"></div>
 </div>
 <% end %>
 
@@ -56,7 +54,7 @@
 <%= form_tag({:controller => 'comments', :action => 'create', :id => @news}, :id => "add_comment_form", :style => "display:none;") do %>
 <div class="box">
     <%= text_area 'comment', 'comments', :cols => 80, :rows => 15, :class => 'wiki-edit' %>
-    <%= wikitoolbar_for 'comment_comments' %>
+    <%= wikitoolbar_for 'comment_comments', preview_news_path(:project_id => @project, :id => @news) %>
 </div>
 <p><%= submit_tag l(:button_add) %></p>
 <% end %>

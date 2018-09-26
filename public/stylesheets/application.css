@@ -274,7 +274,6 @@ tr.issue.idnt-8 td.subject {padding-left: 136px; background-position: 120px 50%;
 tr.issue.idnt-9 td.subject {padding-left: 152px; background-position: 136px 50%;}
 
 table.issue-report {table-layout:fixed;}
-table.issue-report th {white-space: normal;}
 
 tr.entry { border: 1px solid #f8f8f8; }
 tr.entry td { white-space: nowrap; }
@@ -678,7 +677,6 @@ span.pagination>span {white-space:nowrap;}
   min-height: 2em;
   clear:left;
 }
-
 html>body .tabular p {overflow:hidden;}
 
 .tabular input, .tabular select {max-width:95%}
@@ -730,11 +728,25 @@ label.no-css {
 input#time_entry_comments { width: 90%;}
 input#months { width: 30px; }
 
-fieldset.preview {margin-top: 1em; min-width: inherit; background: url(../images/draft.png)}
+.jstBlock .jstTabs, .jstBlock .wiki-preview { width: 99%; }
+
+.jstBlock .jstTabs { padding-right: 6px; }
+.jstBlock .wiki-preview { padding: 2px; }
+.jstBlock .wiki-preview p:first-child { padding-top: 0 !important;}
+.jstBlock .wiki-preview p:last-child { padding-bottom: 0 !important;}
+#content .box .jstBlock .jstTabs li { background-color: #f6f6f6; }
+
+.tabular .wiki-preview, .tabular .jstTabs {width: 95%;}
+.tabular.settings .wiki-preview, .tabular.settings .jstTabs { width: 99%; }
+.tabular .wiki-preview p {
+  min-height: initial;
+  padding: 1em 0 1em 0 !important;
+  overflow: initial;
+}
 
 .tabular.settings p{ padding-left: 300px; }
 .tabular.settings label{ margin-left: -300px; width: 295px; }
-.tabular.settings textarea { width: 99%; }
+.tabular.settings textarea, .tabular.settings .wiki-preview, .tabular.settings .jstTabs { width: 99%; }
 
 .settings.enabled_scm table {width:100%}
 .settings.enabled_scm td.scm_name{ font-weight: bold; }

@@ -321,7 +321,7 @@ class WikiController < ApplicationController
       @attachments += page.attachments
       @previewed = page.content
     end
-    @text = params[:content][:text]
+    @text = params[:content].present? ? params[:content][:text] : params[:text]
     render :partial => 'common/preview'
   end
 

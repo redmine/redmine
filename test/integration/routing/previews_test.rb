@@ -19,14 +19,14 @@ require File.expand_path('../../../test_helper', __FILE__)
 
 class RoutingPreviewsTest < Redmine::RoutingTest
   def test_previews
-    should_route 'GET /issues/preview/new/foo' => 'previews#issue', :project_id => 'foo'
-    should_route 'PUT /issues/preview/new/foo' => 'previews#issue', :project_id => 'foo'
-    should_route 'POST /issues/preview/new/foo' => 'previews#issue', :project_id => 'foo'
-
-    should_route 'GET /issues/preview/edit/321' => 'previews#issue', :id => '321'
-    should_route 'PUT /issues/preview/edit/321' => 'previews#issue', :id => '321'
-    should_route 'POST /issues/preview/edit/321' => 'previews#issue', :id => '321'
+    should_route 'GET /issues/preview' => 'previews#issue'
+    should_route 'PUT /issues/preview' => 'previews#issue'
+    should_route 'POST /issues/preview' => 'previews#issue'
 
     should_route 'GET /news/preview' => 'previews#news'
+
+    should_route 'GET /preview/text' => 'previews#text'
+    should_route 'PUT /preview/text' => 'previews#text'
+    should_route 'POST /preview/text' => 'previews#text'
   end
 end

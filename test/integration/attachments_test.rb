@@ -77,8 +77,9 @@ class AttachmentsTest < Redmine::IntegrationTest
 
     token = ajax_upload('myupload.jpg', 'JPEG content')
 
-    post '/issues/preview/new/ecookbook', :params => {
-        :issue => {:tracker_id => 1, :description => 'Inline upload: !myupload.jpg!'},
+    post '/issues/preview', :params => {
+        :issue => {:tracker_id => 1, :project_id => 'ecookbook'},
+        :text => 'Inline upload: !myupload.jpg!',
         :attachments => {'1' => {:filename => 'myupload.jpg', :description => 'My uploaded file', :token => token}}
       }
     assert_response :success

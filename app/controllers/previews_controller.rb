@@ -16,31 +16,30 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class PreviewsController < ApplicationController
-  before_action :find_project, :find_attachments
+  before_action :find_project, :except => :text 
+  before_action :find_attachments
 
   def issue
-    @issue = Issue.visible.find_by_id(params[:id]) unless params[:id].blank?
+    @issue = Issue.visible.find_by_id(params[:issue_id]) unless params[:issue_id].blank?
     if @issue
-      @description = params[:issue] && params[:issue][:description]
-      if @description && @description.gsub(/(\r?\n|\n\r?)/, "\n") == @issue.description.to_s.gsub(/(\r?\n|\n\r?)/, "\n")
-        @description = nil
-      end
-      @notes = params[:journal] ? params[:journal][:notes] : nil
-      @notes ||= params[:issue] ? params[:issue][:notes] : nil
-    else
-      @description = (params[:issue] ? params[:issue][:description] : nil)
+      @previewed = @issue
     end
-    render :layout => false
+    @text = params[:text] ? params[:text] : nil
+    render :partial => 'common/preview'
   end
 
   def news
     if params[:id].present? && news = News.visible.find_by_id(params[:id])
       @previewed = news
     end
-    @text = (params[:news] ? params[:news][:description] : nil)
+    @text = params[:text] ? params[:text] : nil
     render :partial => 'common/preview'
   end
 
+  def text
+    @text = params[:text] ? params[:text] : nil
+    render :partial => 'common/preview'
+  end
   private
 
   def find_project

@@ -7,4 +7,4 @@
 <p id="attachments_form"><label><%= l(:label_attachment_plural) %></label><%= render :partial => 'attachments/form', :locals => {:container => @news} %></p>
 </div>
 
-<%= wikitoolbar_for 'news_description' %>
+<%= wikitoolbar_for 'news_description', preview_news_path(:project_id => @project, :id => @news) %>

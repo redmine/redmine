@@ -1,19 +1,45 @@
+.jstBlock .hidden {
+    display: none;
+}
 .jstEditor {
     padding-left: 0px;
 }
 .jstEditor textarea, .jstEditor iframe {
     margin: 0;
 }
-
 .jstHandle {
     height: 10px;
     font-size: 0.1em;
     cursor: s-resize;
     /*background: transparent url(img/resizer.png) no-repeat 45% 50%;*/
 }
-
+#content .jstTabs.tabs {
+    margin-bottom: 10px;
+}
+#content .jstTabs.tabs li {
+    height: 42px;
+}
+#content .jstTabs.tabs li:before{
+    content: '';
+    display: inline-block;
+    vertical-align: middle;
+    height: 100%;
+}
+#content .jstTabs.tabs li a {
+    display: inline-block;
+    vertical-align: bottom;
+    line-height: 19px;
+}
 .jstElements {
-    padding: 3px 3px 3px 0;
+    display: inline-block;
+    vertical-align: bottom;
+    border-bottom: 1px solid #bbbbbb;
+    padding-left: 6px;
+    height: 26px;
+}
+.wiki-preview {
+    background-color: #ffffff;
+    border: 1px solid #bbbbbb;
 }
 
 .jstElements button {

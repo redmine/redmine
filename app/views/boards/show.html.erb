@@ -14,10 +14,8 @@
 <%= form_for @message, :url => new_board_message_path(@board), :html => {:multipart => true, :id => 'message-form'} do |f| %>
   <%= render :partial => 'messages/form', :locals => {:f => f} %>
   <p><%= submit_tag l(:button_create) %>
-  <%= preview_link(preview_board_message_path(@board), 'message-form') %> |
   <%= link_to l(:button_cancel), "#", :onclick => '$("#add-message").hide(); return false;' %></p>
 <% end %>
-<div id="preview" class="wiki"></div>
 <% end %>
 </div>
 
@@ -60,7 +58,6 @@
 <% end %>
 
 <% html_title @board.name %>
-
 <% content_for :header_tags do %>
     <%= auto_discovery_link_tag(:atom, {:format => 'atom', :key => User.current.rss_key}, :title => "#{@project}: #{@board}") %>
 <% end %>

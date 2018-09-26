@@ -12,6 +12,4 @@
   <%= render :partial => 'form',
              :locals => {:f => f, :replying => !@message.parent.nil?} %>
   <%= submit_tag l(:button_save) %>
-  <%= preview_link({:controller => 'messages', :action => 'preview', :board_id => @board, :id => @message}, 'message-form') %>
 <% end %>
-<div id="preview" class="wiki"></div>
