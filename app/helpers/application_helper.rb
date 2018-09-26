@@ -1268,14 +1268,6 @@ module ApplicationHelper
     link_to l(:button_delete), url, options
   end
 
-  def preview_link(url, form, target='preview', options={})
-    content_tag 'a', l(:label_preview), {
-        :href => "#",
-        :onclick => %|submitPreview("#{escape_javascript url_for(url)}", "#{escape_javascript form}", "#{escape_javascript target}"); return false;|,
-        :accesskey => accesskey(:preview)
-      }.merge(options)
-  end
-
   def link_to_function(name, function, html_options={})
     content_tag(:a, name, {:href => '#', :onclick => "#{function}; return false;"}.merge(html_options))
   end
