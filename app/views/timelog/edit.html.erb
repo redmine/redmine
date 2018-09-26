@@ -3,4 +3,5 @@
 <%= labelled_form_for @time_entry, :url => time_entry_path(@time_entry), :html => {:multipart => true} do |f| %>
   <%= render :partial => 'form', :locals => {:f => f} %>
   <%= submit_tag l(:button_save) %>
+  <%= render_cancel_button_tag_for_time_entry(@project) %>
 <% end %>
