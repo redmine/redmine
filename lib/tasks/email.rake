@@ -56,6 +56,7 @@ User and permissions options:
   no_permission_check=1    disable permission checking when receiving
                            the email
   no_account_notice=1      disable new user account notification
+  no_notification=1        disable email notification to new user
   default_group=foo,bar    adds created user to foo and bar groups
 
 Issue attributes control options:
