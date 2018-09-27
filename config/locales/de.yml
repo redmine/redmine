@@ -1246,3 +1246,4 @@ de:
   label_login_required_no: "Nein, anonymen Zugriff auf öffentliche Projekte erlauben"
   text_project_is_public_non_member: Öffentliche Projekte und deren Inhalte sind für alle angemeldeten Benutzer zugänglich.
   text_project_is_public_anonymous: Öffentliche Projekte und deren Inhalte sind ohne Anmeldung frei zugänglich.
+  label_nothing_to_preview: Nothing to preview
