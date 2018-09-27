@@ -1323,30 +1323,22 @@ ru:
   label_no_preview_alternative_html: Предпросмотр недоступен. %{link} файл.
   label_no_preview_download: Скачать
   setting_close_duplicate_issues: Закрывать дубликаты задач автоматически
-  error_exceeds_maximum_hours_per_day: Cannot log more than %{max_hours} hours on the
-    same day (%{logged_hours} hours have already been logged)
-  setting_time_entry_list_defaults: Timelog list defaults
-  setting_timelog_accept_0_hours: Accept time logs with 0 hours
-  setting_timelog_max_hours_per_day: Maximum hours that can be logged per day and user
-  label_x_revisions: "%{count} revisions"
-  error_can_not_delete_auth_source: This authentication mode is in use and cannot be
-    deleted.
-  button_actions: Actions
-  mail_body_lost_password_validity: Please be aware that you may change the password
-    only once using this link.
-  text_login_required_html: When not requiring authentication, public projects and their
-    contents are openly available on the network. You can <a href="%{anonymous_role_path}">edit
-    the applicable permissions</a>.
-  label_login_required_yes: 'Yes'
-  label_login_required_no: No, allow anonymous access to public projects
-  text_project_is_public_non_member: Public projects and their contents are available
-    to all logged-in users.
-  text_project_is_public_anonymous: Public projects and their contents are openly available
-    on the network.
-  label_version_and_files: Versions (%{count}) and Files
+  error_exceeds_maximum_hours_per_day: Не удается зарегистрировать больше %{max_hours} часов в один день (%{logged_hours} часов уже зарегистрированы)
+  setting_time_entry_list_defaults: Список трудозатрат по умолчанию
+  setting_timelog_accept_0_hours: Принимать трудозатраты с 0 часов
+  setting_timelog_max_hours_per_day: Максимальное количество часов, которое может быть зарегистрировано в день одним пользователем
+  label_x_revisions: "%{count} изменени(я, ий)"
+  error_can_not_delete_auth_source: Этот режим аутентификации используется и не может быть удален.
+  button_actions: Действия
+  mail_body_lost_password_validity: Помните, вы можете изменить пароль только один раз, используя эту ссылку.
+  text_login_required_html: Если аутентификация не требуется, публичные проекты и их содержимое в свободном доступе. Вы можете <a href="%{anonymous_role_path}">редактировать соответствующие разрешения</a>.
+  label_login_required_yes: 'Да'
+  label_login_required_no: Нет, разрешить свободный доступ к публичным проектам.
+  text_project_is_public_non_member: Публичные проекты и их содержимое доступны всем зарегистрированным пользователям.
+  text_project_is_public_anonymous: Публичные проекты и их содержимое в свободном доступе.
+  label_version_and_files: Версии (%{count}) и файлы
   label_ldap: LDAP
-  label_ldaps_verify_none: LDAPS (without certificate check)
+  label_ldaps_verify_none: LDAPS (без проверки сертификата)
   label_ldaps_verify_peer: LDAPS
-  label_ldaps_warning: It is recommended to use an encrypted LDAPS connection with certificate
-    check to prevent any manipulation during the authentication process.
+  label_ldaps_warning: Рекомендуется использовать зашифрованное соединение LDAPS с проверкой сертификата для предотвращения любых посторонних вмешательств в процессе аутентификации.
   label_nothing_to_preview: Nothing to preview
