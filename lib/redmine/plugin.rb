@@ -450,7 +450,6 @@ module Redmine
 
     # Migrate this plugin to the given version
     def migrate(version = nil)
-      puts "Migrating #{id} (#{name})..."
       Redmine::Plugin::Migrator.migrate_plugin(self, version)
     end
 
