@@ -453,7 +453,7 @@ jsToolBar.prototype.resizeDragStop = function(event) {
 
 /* Code highlighting menu */
 jsToolBar.prototype.precodeMenu = function(fn){
-  var hlLanguages = ["c", "clojure", "cpp", "css", "diff", "erb", "go", "groovy", "haml", "html", "java", "javascript", "json", "lua", "pascal", "php", "python", "ruby", "sass", "sql", "text", "xml", "yaml"];
+  var hlLanguages = ["c", "cpp", "csharp", "css", "diff", "go", "groovy", "html", "java", "javascript", "objc", "perl", "php", "python", "r", "ruby", "sass", "scala", "shell", "sql", "swift", "xml", "yaml"];
   var menu = $("<ul style='position:absolute;'></ul>");
   for (var i = 0; i < hlLanguages.length; i++) {
     $("<li></li>").text(hlLanguages[i]).appendTo(menu).mousedown(function(){
