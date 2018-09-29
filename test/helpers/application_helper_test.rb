@@ -1094,17 +1094,33 @@ EXPECTED
 
   def test_syntax_highlight
     raw = <<-RAW
-<pre><code class="ruby">
-# Some ruby code here
+<pre><code class="ECMA_script">
+/* Hello */
+document.write("Hello World!");
 </code></pre>
 RAW
 
     expected = <<-EXPECTED
-<pre><code class="ruby syntaxhl"><span class=\"CodeRay\"><span class="comment"># Some ruby code here</span></span>
-</code></pre>
+<pre><code class=\"ECMA_script syntaxhl\"><span class=\"cm\">/* Hello */</span><span class=\"nb\">document</span><span class=\"p\">.</span><span class=\"nx\">write</span><span class=\"p\">(</span><span class=\"s2\">\"Hello World!\"</span><span class=\"p\">);</span></code></pre>
 EXPECTED
 
     assert_equal expected.gsub(%r{[\r\n\t]}, ''), textilizable(raw).gsub(%r{[\r\n\t]}, '')
+  end
+
+  def test_syntax_highlight_ampersand_in_textile
+    raw = <<-RAW
+<pre><code class="ruby">
+x = a & b
+</code></pre>
+RAW
+
+    expected = <<-EXPECTED
+<pre><code class=\"ruby syntaxhl\"><span class=\"n\">x</span> <span class=\"o\">=</span> <span class=\"n\">a</span> <span class=\"o\">&amp;</span> <span class=\"n\">b</span></code></pre>
+EXPECTED
+
+    with_settings :text_formatting => 'textile' do
+      assert_equal expected.gsub(%r{[\r\n\t]}, ''), textilizable(raw).gsub(%r{[\r\n\t]}, '')
+    end
   end
 
   def test_to_path_param

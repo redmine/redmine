@@ -547,9 +547,9 @@ STR
 
   def test_should_allow_valid_language_class_attribute_on_code_tags
     # language name is double-quoted
-    assert_html_output({"<code class=\"ruby\">test</code>" => "<code class=\"ruby syntaxhl\"><span class=\"CodeRay\">test</span></code>"}, false)
+    assert_html_output({"<code class=\"ruby\">test</code>" => "<code class=\"ruby syntaxhl\"><span class=\"nb\">test</span></code>"}, false)
     # language name is single-quoted
-    assert_html_output({"<code class='ruby'>test</code>" => "<code class=\"ruby syntaxhl\"><span class=\"CodeRay\">test</span></code>"}, false)
+    assert_html_output({"<code class='ruby'>test</code>" => "<code class=\"ruby syntaxhl\"><span class=\"nb\">test</span></code>"}, false)
   end
 
   def test_should_not_allow_valid_language_class_attribute_on_non_code_offtags

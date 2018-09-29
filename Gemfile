@@ -5,7 +5,7 @@ if Gem::Version.new(Bundler::VERSION) < Gem::Version.new('1.5.0')
 end
 
 gem "rails", "5.2.1"
-gem "coderay", "~> 1.1.1"
+gem "rouge", "~> 3.2.1"
 gem "request_store", "1.0.5"
 gem "mini_mime", "~> 1.0.1"
 gem "actionpack-xml_parser"
@@ -89,7 +89,7 @@ group :test do
   gem "mocha"
   gem "simplecov", "~> 0.14.1", :require => false
   # For running system tests
-  gem 'puma', '~> 3.7'
+  #gem 'puma', '~> 3.7'
   gem "capybara", '~> 2.13'
   gem "selenium-webdriver"
 end

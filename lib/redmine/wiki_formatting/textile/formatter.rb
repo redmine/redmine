@@ -125,6 +125,7 @@ module Redmine
                 language = $1
                 text = $2
                 if Redmine::SyntaxHighlighting.language_supported?(language)
+                  text.gsub!(/x%x%/, '&')
                   content = "<code class=\"#{language} syntaxhl\">" +
                     Redmine::SyntaxHighlighting.highlight_by_language(text, language)
                 else

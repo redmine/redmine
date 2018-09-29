@@ -66,7 +66,7 @@ end
 ~~~
 STR
     assert_select_in @formatter.new(text).to_html, 'pre code.ruby.syntaxhl' do
-      assert_select 'span.keyword', :text => 'def'
+      assert_select 'span.k', :text => 'def'
     end
   end
 
