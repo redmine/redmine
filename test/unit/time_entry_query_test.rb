@@ -25,7 +25,8 @@ class TimeEntryQueryTest < ActiveSupport::TestCase
            :journals, :journal_details,
            :issue_categories, :enumerations,
            :groups_users,
-           :enabled_modules
+           :enabled_modules,
+           :custom_fields, :custom_fields_trackers, :custom_fields_projects
 
   def test_filter_values_without_project_should_be_arrays
     q = TimeEntryQuery.new
