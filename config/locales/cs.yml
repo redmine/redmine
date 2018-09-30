@@ -275,7 +275,7 @@ cs:
   field_base_dn: Base DN
   field_attr_login: Přihlášení (atribut)
   field_attr_firstname: Jméno (atribut)
-  field_attr_lastname: Příjemní (atribut)
+  field_attr_lastname: Příjmení (atribut)
   field_attr_mail: Email (atribut)
   field_onthefly: Automatické vytváření uživatelů
   field_start_date: Začátek
@@ -1036,8 +1036,8 @@ cs:
   label_required: Vyžadováno
   text_repository_identifier_info: Jou povoleny pouze malá písmena (a-z), číslice, pomlčky a podtržítka.<br />Po uložení již nelze identifikátor změnit.
   field_board_parent: Rodičovské fórum
-  label_attribute_of_project: Projektové %{name}
-  label_attribute_of_author: Autorovo %{name}
+  label_attribute_of_project: "%{name} projektu"
+  label_attribute_of_author: "%{name} autora"
   label_attribute_of_assigned_to: "%{name} přiřazené(ho)"
   label_attribute_of_fixed_version: Cílová verze %{name}
   label_copy_subtasks: Kopírovat dílčí úkoly
@@ -1060,7 +1060,7 @@ cs:
   setting_non_working_week_days: Dny pracovního volna/klidu
   label_in_the_next_days: v přístích
   label_in_the_past_days: v minulých
-  label_attribute_of_user: "%{name} uživatel(e/ky)"
+  label_attribute_of_user: "%{name} uživatele"
   text_turning_multiple_off: Jestliže zakážete více hodnot,
     hodnoty budou smazány za účelem rezervace pouze jediné hodnoty na položku.
   label_attribute_of_issue: "%{name} úkolu"
@@ -1175,15 +1175,13 @@ cs:
   setting_sys_api_key: API klíč
   setting_lost_password: Zapomenuté heslo
   mail_subject_security_notification: Bezpečnostní upozornění
-  mail_body_security_notification_change: ! '%{field} bylo změněno.'
-  mail_body_security_notification_change_to: ! '%{field} bylo změněno na %{value}.'
-  mail_body_security_notification_add: ! '%{field} %{value} bylo přidáno.'
-  mail_body_security_notification_remove: ! '%{field} %{value} bylo odebráno.'
-  mail_body_security_notification_notify_enabled: Email %{value} nyní dostává
-    notifikace.
-  mail_body_security_notification_notify_disabled: Email %{value} už nedostává
-    notifikace.
-  mail_body_settings_updated: ! 'Následující nastavení byla změněna:'
+  mail_body_security_notification_change: "%{field} bylo změněno."
+  mail_body_security_notification_change_to: "%{field} bylo změněno na %{value}."
+  mail_body_security_notification_add: "%{field} %{value} bylo přidáno."
+  mail_body_security_notification_remove: "%{field} %{value} bylo odebráno."
+  mail_body_security_notification_notify_enabled: Email %{value} nyní dostává notifikace.
+  mail_body_security_notification_notify_disabled: Email %{value} už nedostává notifikace.
+  mail_body_settings_updated: "Následující nastavení byla změněna:"
   field_remote_ip: IP adresa
   label_wiki_page_new: Nová wiki stránka
   label_relations: Relace
@@ -1204,8 +1202,7 @@ cs:
   label_table_of_contents: Obsah
   setting_commit_logs_formatting: Použij textové formátování pro popisky comitů
   setting_mail_handler_enable_regex: Povol regulární výrazy
-  error_move_of_child_not_possible: 'Dílčí úkol %{child} nemůže být přesunut do nového
-    projektu: %{errors}'
+  error_move_of_child_not_possible: "Dílčí úkol %{child} nemůže být přesunut do nového projektu: %{errors}"
   error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: Strávený čas nemůže
     být přiřazen k úkolu, který se bude mazat
   setting_timelog_required_fields: Požadovaná pole pro zapisování času
