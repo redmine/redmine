@@ -1,5 +1,5 @@
 <% unless @text.blank? %>
   <%= textilizable @text, :attachments => @attachments, :object => @previewed %>
 <% else	%>
-  <p><%= l(:label_nothing_to_preview) %></p>
+  <p class="empty-preview"><%= l(:label_nothing_to_preview) %></p>
 <% end %>
