@@ -732,8 +732,8 @@ input#months { width: 30px; }
 
 .jstBlock .jstTabs { padding-right: 6px; }
 .jstBlock .wiki-preview { padding: 2px; }
-.jstBlock .wiki-preview p:first-child { padding-top: 0 !important;}
-.jstBlock .wiki-preview p:last-child { padding-bottom: 0 !important;}
+.jstBlock .wiki-preview p:first-child { margin-top: 0 !important;}
+.jstBlock .wiki-preview p:last-child { margin-bottom: 0 !important;}
 
 .tabular .wiki-preview, .tabular .jstTabs {width: 95%;}
 .tabular.settings .wiki-preview, .tabular.settings .jstTabs { width: 99%; }
