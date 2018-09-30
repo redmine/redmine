@@ -1231,7 +1231,7 @@ cs:
   setting_timelog_accept_0_hours: Akceptovat zápis času 0hod
   setting_timelog_max_hours_per_day: Maximum hodin, které mohou být vykázány jedním uživatelem za jeden den
   label_x_revisions: "%{count} revizí"
-  error_can_not_delete_auth_source: This authentication mode is in use and cannot be
+  error_can_not_delete_auth_source: Tento autentifikační mód se používá a nemůže být smazán.
     deleted.
   button_actions: Actions
   mail_body_lost_password_validity: Please be aware that you may change the password
