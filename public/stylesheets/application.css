@@ -734,7 +734,6 @@ input#months { width: 30px; }
 .jstBlock .wiki-preview { padding: 2px; }
 .jstBlock .wiki-preview p:first-child { padding-top: 0 !important;}
 .jstBlock .wiki-preview p:last-child { padding-bottom: 0 !important;}
-#content .box .jstBlock .jstTabs li { background-color: transparent; }
 
 .tabular .wiki-preview, .tabular .jstTabs {width: 95%;}
 .tabular.settings .wiki-preview, .tabular.settings .jstTabs { width: 99%; }
@@ -1004,7 +1003,6 @@ p.progress-info {clear: left; font-size: 80%; margin-top:-4px; color:#777;}
   list-style-type:none;
   white-space:nowrap;
   margin-right:4px;
-  background:#fff;
   position:relative;
   margin-bottom:-1px;
 }
