@@ -1246,4 +1246,4 @@ fr:
   label_ldaps_verify_none: "LDAPS (sans vérification du certificat)"
   label_ldaps_verify_peer: LDAPS
   label_ldaps_warning: "Il est recommandé d'utiliser une connexion LDPAS avec vérification du certificat pour empêcher toute interception des données durant la procédure d'authentification."
-  label_nothing_to_preview: Nothing to preview
+  label_nothing_to_preview: "Aucun texte à prévisualiser"
