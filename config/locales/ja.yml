@@ -1249,8 +1249,7 @@ ja:
   text_project_is_public_anonymous: 公開プロジェクトとその中の情報にはネットワーク上の全ユーザーがアクセスできます。
   label_version_and_files: バージョン (%{count}) とファイル
   label_ldap: LDAP
-  label_ldaps_verify_none: LDAPS (without certificate check)
+  label_ldaps_verify_none: LDAPS (証明書の検証なし)
   label_ldaps_verify_peer: LDAPS
-  label_ldaps_warning: It is recommended to use an encrypted LDAPS connection with certificate
-    check to prevent any manipulation during the authentication process.
-  label_nothing_to_preview: Nothing to preview
+  label_ldaps_warning: 認証処理中の盗聴や改ざんなどの攻撃を防ぐために、暗号化されたLDAPSによる通信 (証明書の検証あり) の使用をお勧めします。
+  label_nothing_to_preview: プレビューするものがありません
