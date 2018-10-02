@@ -149,9 +149,9 @@ pt-BR:
         not_same_project: "não pertence ao mesmo projeto"
         circular_dependency: "Esta relação geraria uma dependência circular"
         cant_link_an_issue_with_a_descendant: "Uma tarefa não pode ser relacionada a uma de suas subtarefas"
-        earlier_than_minimum_start_date: "cannot be earlier than %{date} because of preceding issues"
-        not_a_regexp: "is not a valid regular expression"
-        open_issue_with_closed_parent: "An open issue cannot be attached to a closed parent task"
+        earlier_than_minimum_start_date: "não pode ser anterior a %{date} por causa de tarefas anteriores"
+        not_a_regexp: "não é uma expressão regular válida"
+        open_issue_with_closed_parent: "Uma tarefa aberta não pode ser associada à uma tarefa pai fechada"
 
   actionview_instancetag_blank_option: Selecione
 
@@ -159,7 +159,7 @@ pt-BR:
   general_text_Yes: 'Sim'
   general_text_no: 'não'
   general_text_yes: 'sim'
-  general_lang_name: 'Portuguese/Brasil (Português/Brasil)'
+  general_lang_name: 'Portuguese/Brazil (Português/Brasil)'
   general_csv_separator: ';'
   general_csv_decimal_separator: ','
   general_csv_encoding: ISO-8859-1
@@ -1122,7 +1122,7 @@ pt-BR:
   label_group_non_member: Usuários não membros
   label_add_projects: Adicionar projetos
   field_default_status: Situação padrão
-  text_subversion_repository_note: 'Examplos: file:///, http://, https://, svn://, svn+[tunnelscheme]://'
+  text_subversion_repository_note: 'Exemplos: file:///, http://, https://, svn://, svn+[tunnelscheme]://'
   field_users_visibility: Visibilidade do usuário
   label_users_visibility_all: Todos usuários ativos
   label_users_visibility_members_of_visible_projects: Membros de projetos visíveis
@@ -1245,24 +1245,17 @@ pt-BR:
   setting_timelog_accept_0_hours: Aceitar registros de horas com 0 horas
   setting_timelog_max_hours_per_day: Máximo de horas que podem ser registradas por dia por usuário
   label_x_revisions: "%{count} revisões"
-  error_can_not_delete_auth_source: This authentication mode is in use and cannot be
-    deleted.
-  button_actions: Actions
-  mail_body_lost_password_validity: Please be aware that you may change the password
-    only once using this link.
-  text_login_required_html: When not requiring authentication, public projects and their
-    contents are openly available on the network. You can <a href="%{anonymous_role_path}">edit
-    the applicable permissions</a>.
-  label_login_required_yes: 'Yes'
-  label_login_required_no: No, allow anonymous access to public projects
-  text_project_is_public_non_member: Public projects and their contents are available
-    to all logged-in users.
-  text_project_is_public_anonymous: Public projects and their contents are openly available
-    on the network.
-  label_version_and_files: Versions (%{count}) and Files
+  error_can_not_delete_auth_source: Este modo de autenticação está sendo utilizado e não pode ser removido.
+  button_actions: Ações
+  mail_body_lost_password_validity: Por favor, esteja ciente de que você pode alterar a senha apenas uma vez utilizando este link.
+  text_login_required_html: Quando a autenticação não é obrigatória, projetos públicos e seus conteúdos estão disponíveis abertamente na rede. Você pode <a href="%{anonymous_role_path}">editar as permissões aplicáveis</a>.
+  label_login_required_yes: 'Sim'
+  label_login_required_no: Não, permitir acesso anônimo a projetos públicos
+  text_project_is_public_non_member: Projetos públicos e seus conteúdos estão disponíveis para todos os usuários logados.
+  text_project_is_public_anonymous: Projetos públicos e seus conteúdos estão disponíveis abertamente na rede.
+  label_version_and_files: Versão (%{count}) e Arquivos
   label_ldap: LDAP
-  label_ldaps_verify_none: LDAPS (without certificate check)
+  label_ldaps_verify_none: LDAPS (sem verificação de certificado)
   label_ldaps_verify_peer: LDAPS
-  label_ldaps_warning: It is recommended to use an encrypted LDAPS connection with certificate
-    check to prevent any manipulation during the authentication process.
-  label_nothing_to_preview: Nothing to preview
+  label_ldaps_warning: É recomendado utilizar uma conexão LDAPS criptografada com verificação de certificado para evitar qualquer manipulação durante o processo de autenticação.
+  label_nothing_to_preview: Nada para visualizar
