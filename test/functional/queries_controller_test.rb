@@ -624,7 +624,7 @@ class QueriesControllerTest < Redmine::ControllerTest
     # response includes systemwide visible version
     assert_include ["OnlineStore - Systemwide visible version", "7", "open"], json
     # response doesn't include non visible version
-    refute_includes ["Private child of eCookbook - Private Version of public subproject", "6", "open"], json
+    assert_not_include ["Private child of eCookbook - Private Version of public subproject", "6", "open"], json
   end
 
   def test_subproject_filter_time_entries_with_project_id_should_return_filter_values
