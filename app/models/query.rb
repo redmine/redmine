@@ -613,7 +613,6 @@ class Query < ActiveRecord::Base
     return unless values.nil? || values.is_a?(Array)
     # check if field is defined as an available filter
     if available_filters.has_key? field
-      filter_options = available_filters[field]
       filters[field] = {:operator => operator, :values => (values || [''])}
     end
   end
