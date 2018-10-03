@@ -14,13 +14,13 @@
 <tbody>
 <% for row in rows %>
 <tr>
-  <td class="name"><%= link_to row.name, aggregate_path(@project, field_name, row) %></td>
+  <td class="name"><%= link_to row.name, aggregate_path(@project, field_name, row, :subproject_id => nil) %></td>
   <% for status in @statuses %>
-    <td><%= aggregate_link data, { field_name => row.id, "status_id" => status.id }, aggregate_path(@project, field_name, row, :status_id => status.id) %></td>
+    <td><%= aggregate_link data, { field_name => row.id, "status_id" => status.id }, aggregate_path(@project, field_name, row, :status_id => status.id, :subproject_id => nil) %></td>
   <% end %>
-  <td><%= aggregate_link data, { field_name => row.id, "closed" => 0 }, aggregate_path(@project, field_name, row, :status_id => "o") %></td>
-  <td><%= aggregate_link data, { field_name => row.id, "closed" => 1 }, aggregate_path(@project, field_name, row, :status_id => "c") %></td>
-  <td><%= aggregate_link data, { field_name => row.id }, aggregate_path(@project, field_name, row, :status_id => "*") %></td>
+  <td><%= aggregate_link data, { field_name => row.id, "closed" => 0 }, aggregate_path(@project, field_name, row, :status_id => "o", :subproject_id => nil) %></td>
+  <td><%= aggregate_link data, { field_name => row.id, "closed" => 1 }, aggregate_path(@project, field_name, row, :status_id => "c", :subproject_id => nil) %></td>
+  <td><%= aggregate_link data, { field_name => row.id }, aggregate_path(@project, field_name, row, :status_id => "*", :subproject_id => nil) %></td>
 </tr>
 <% end %>
 </tbody>

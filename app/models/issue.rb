@@ -1464,28 +1464,28 @@ class Issue < ActiveRecord::Base
     end
   end
 
-  def self.by_tracker(project)
-    count_and_group_by(:project => project, :association => :tracker)
+  def self.by_tracker(project, with_subprojects=false)
+    count_and_group_by(:project => project, :association => :tracker, :with_subprojects => with_subprojects)
   end
 
-  def self.by_version(project)
-    count_and_group_by(:project => project, :association => :fixed_version)
+  def self.by_version(project, with_subprojects=false)
+    count_and_group_by(:project => project, :association => :fixed_version, :with_subprojects => with_subprojects)
   end
 
-  def self.by_priority(project)
-    count_and_group_by(:project => project, :association => :priority)
+  def self.by_priority(project, with_subprojects=false)
+    count_and_group_by(:project => project, :association => :priority, :with_subprojects => with_subprojects)
   end
 
-  def self.by_category(project)
-    count_and_group_by(:project => project, :association => :category)
+  def self.by_category(project, with_subprojects=false)
+    count_and_group_by(:project => project, :association => :category, :with_subprojects => with_subprojects)
   end
 
-  def self.by_assigned_to(project)
-    count_and_group_by(:project => project, :association => :assigned_to)
+  def self.by_assigned_to(project, with_subprojects=false)
+    count_and_group_by(:project => project, :association => :assigned_to, :with_subprojects => with_subprojects)
   end
 
-  def self.by_author(project)
-    count_and_group_by(:project => project, :association => :author)
+  def self.by_author(project, with_subprojects=false)
+    count_and_group_by(:project => project, :association => :author, :with_subprojects => with_subprojects)
   end
 
   def self.by_subproject(project)

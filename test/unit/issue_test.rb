@@ -2756,45 +2756,63 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   test "#by_tracker" do
-    User.current = User.anonymous
+    User.current = User.find(2)
     groups = Issue.by_tracker(Project.find(1))
-    assert_equal 3, groups.count
+    groups_containing_subprojects = Issue.by_tracker(Project.find(1), true)
     assert_equal 7, groups.inject(0) {|sum, group| sum + group['total'].to_i}
+    assert_equal 13, groups_containing_subprojects.inject(0) {|sum, group| sum + group['total'].to_i}
   end
 
   test "#by_version" do
-    User.current = User.anonymous
-    groups = Issue.by_version(Project.find(1))
-    assert_equal 3, groups.count
+    User.current = User.find(2)
+    project = Project.find(1)
+    Issue.generate!(:project_id => project.descendants.visible.first, :fixed_version_id => project.shared_versions.find_by(:sharing => 'tree').id)
+
+    groups = Issue.by_version(project)
+    groups_containing_subprojects = Issue.by_version(project, true)
     assert_equal 3, groups.inject(0) {|sum, group| sum + group['total'].to_i}
+    assert_equal 4, groups_containing_subprojects.inject(0) {|sum, group| sum + group['total'].to_i}
   end
 
   test "#by_priority" do
-    User.current = User.anonymous
-    groups = Issue.by_priority(Project.find(1))
-    assert_equal 4, groups.count
+    User.current = User.find(2)
+    project = Project.find(1)
+    groups = Issue.by_priority(project)
+    groups_containing_subprojects = Issue.by_priority(project, true)
     assert_equal 7, groups.inject(0) {|sum, group| sum + group['total'].to_i}
+    assert_equal 13, groups_containing_subprojects.inject(0) {|sum, group| sum + group['total'].to_i}
   end
 
   test "#by_category" do
-    User.current = User.anonymous
-    groups = Issue.by_category(Project.find(1))
-    assert_equal 2, groups.count
+    User.current = User.find(2)
+    project = Project.find(1)
+    issue_category = IssueCategory.create(:project => project.descendants.visible.first, :name => 'test category')
+    Issue.generate!(:project_id => project.descendants.visible.first, :category_id => issue_category.id)
+
+    groups = Issue.by_category(project)
+    groups_containing_subprojects = Issue.by_category(project, true)
     assert_equal 3, groups.inject(0) {|sum, group| sum + group['total'].to_i}
+    assert_equal 4, groups_containing_subprojects.inject(0) {|sum, group| sum + group['total'].to_i}
   end
 
   test "#by_assigned_to" do
-    User.current = User.anonymous
-    groups = Issue.by_assigned_to(Project.find(1))
-    assert_equal 2, groups.count
+    User.current = User.find(2)
+    project = Project.find(1)
+    Issue.generate!(:project_id => project.descendants.visible.first, :assigned_to => User.current)
+
+    groups = Issue.by_assigned_to(project)
+    groups_containing_subprojects = Issue.by_assigned_to(project, true)
     assert_equal 2, groups.inject(0) {|sum, group| sum + group['total'].to_i}
+    assert_equal 3, groups_containing_subprojects.inject(0) {|sum, group| sum + group['total'].to_i}
   end
 
   test "#by_author" do
-    User.current = User.anonymous
-    groups = Issue.by_author(Project.find(1))
-    assert_equal 4, groups.count
+    User.current = User.find(2)
+    project = Project.find(1)
+    groups = Issue.by_author(project)
+    groups_containing_subprojects = Issue.by_author(project, true)
     assert_equal 7, groups.inject(0) {|sum, group| sum + group['total'].to_i}
+    assert_equal 13, groups_containing_subprojects.inject(0) {|sum, group| sum + group['total'].to_i}
   end
 
   test "#by_subproject" do
