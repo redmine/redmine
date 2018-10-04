@@ -1507,3 +1507,14 @@ img.filecontent.image {background-image: url(../images/transparent.png);}
 img {
   image-orientation: from-image;
 }
+
+.filecontent-container {
+  position: relative;
+  margin-bottom: 20px;
+  min-height: 200px;
+}
+.filecontent-container > .filecontent {
+  position: absolute;
+  max-height: 100%;
+  max-width: 100%;
+}

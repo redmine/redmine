@@ -904,9 +904,29 @@ $(function ($) {
   }).change();
 });
 
+function setFilecontentContainerHeight() {
+  var $filecontainer = $('.filecontent-container');
+  var fileTypeSelectors = ['.image', 'video'];
+  
+  if($filecontainer.length > 0 && $filecontainer.find(fileTypeSelectors.join(',')).length === 1) {
+    var containerOffsetTop = $filecontainer.offset().top;
+    var containerMarginBottom = parseInt($filecontainer.css('marginBottom'));
+    var paginationHeight = $filecontainer.next('.pagination').height();
+    var diff = containerOffsetTop + containerMarginBottom + paginationHeight;
+
+    $filecontainer.css('height', 'calc(100vh - ' + diff + 'px)')
+  }
+}
+
+function setupAttachmentDetail() {
+  setFilecontentContainerHeight();
+  $(window).resize(setFilecontentContainerHeight);
+}
+
 $(document).ready(setupAjaxIndicator);
 $(document).ready(hideOnLoad);
 $(document).ready(addFormObserversForDoubleSubmit);
 $(document).ready(defaultFocus);
+$(document).ready(setupAttachmentDetail);
 $(document).ready(setupTabs);
 $(document).ready(setupFilePreviewNavigation);

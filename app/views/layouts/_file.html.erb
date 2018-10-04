@@ -10,7 +10,9 @@
 <p><%= "#{@attachment.description} - " unless @attachment.description.blank? %>
    <span class="author"><%= link_to_user(@attachment.author) %>, <%= format_time(@attachment.created_on) %></span></p>
 </div>
-<%= yield %>
+<div class="filecontent-container">
+  <%= yield %>
+</div>
 
 <span class="pagination filepreview">
   <%= render_pagination %>
