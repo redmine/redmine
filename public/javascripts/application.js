@@ -756,6 +756,36 @@ function setupTabs() {
   }
 }
 
+function setupFilePreviewNavigation() {
+  // only bind arrow keys when preview navigation is present
+  const element = $('.pagination.filepreview').first();
+  if (element) {
+
+    const handleArrowKey = function(selector, e){
+      const href = $(element).find(selector).attr('href');
+      if (href) {
+        window.location = href;
+        e.preventDefault();
+      }
+    };
+
+    $(document).keydown(function(e) {
+      if(e.shiftKey || e.metaKey || e.ctrlKey || e.altKey) return;
+      switch(e.key) {
+        case 'ArrowLeft':
+          handleArrowKey('.previous a', e);
+          break;
+
+        case 'ArrowRight':
+          handleArrowKey('.next a', e);
+          break;
+      }
+    });
+  }
+}
+
+
+
 function hideOnLoad() {
   $('.hol').hide();
 }
@@ -879,3 +909,4 @@ $(document).ready(hideOnLoad);
 $(document).ready(addFormObserversForDoubleSubmit);
 $(document).ready(defaultFocus);
 $(document).ready(setupTabs);
+$(document).ready(setupFilePreviewNavigation);
