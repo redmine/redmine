@@ -287,6 +287,16 @@ class AttachmentsControllerTest < Redmine::ControllerTest
     assert_response 404
   end
 
+  def test_show_renders_pagination
+    get :show, :params => { :id => 5, :type => 'inline' }
+    assert_response :success
+
+    assert_select 'ul.pages li.next', :text => /next/i
+    assert_select 'ul.pages li.previous', :text => /previous/i
+
+    set_tmp_attachments_directory
+  end
+
   def test_download_text_file
     get :download, :params => {
         :id => 4

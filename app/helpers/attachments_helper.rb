@@ -56,6 +56,14 @@ module AttachmentsHelper
     end
   end
 
+  def render_pagination
+    pagination_links_each @paginator do |text, parameters, options|
+      if att = @attachments[parameters[:page] - 1]
+        link_to text, named_attachment_path(att, att.filename)
+      end
+    end if @paginator
+  end
+
   def render_api_attachment(attachment, api, options={})
     api.attachment do
       render_api_attachment_attributes(attachment, api)

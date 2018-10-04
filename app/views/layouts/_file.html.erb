@@ -12,6 +12,10 @@
 </div>
 <%= yield %>
 
+<span class="pagination">
+  <%= render_pagination %>
+</span>
+
 <% html_title @attachment.filename %>
 
 <% content_for :header_tags do -%>

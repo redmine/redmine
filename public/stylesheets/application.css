@@ -666,6 +666,10 @@ span.pagination {margin-left:3px; color:#888; display:block;}
   font-weight: bold;
 }
 span.pagination>span {white-space:nowrap;}
+.controller-attachments.action-show span.pagination{
+  display: block;
+  margin-top: 1.2em;
+}
 
 #search-form fieldset p {margin:0.2em 0;}
 
