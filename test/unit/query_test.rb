@@ -1873,6 +1873,21 @@ class QueryTest < ActiveSupport::TestCase
     assert_nil IssueQuery.visible(User.find(1)).find_by_id(q.id)
   end
 
+  def test_build_from_params_should_not_update_query_with_nil_param_values
+    q = IssueQuery.create!(:name => 'Query',
+                           :type => "IssueQuery",
+                           :user => User.find(7),
+                           :filters => {"status_id" => {:values => ["1"], :operator => "o"}},
+                           :column_names => [:tracker, :status],
+                           :sort_criteria => ['id', 'asc'],
+                           :group_by => "project",
+                           :options => { :totalable_names=>[:estimated_hours], :draw_relations => '1', :draw_progress_line => '1' }
+                            )
+    old_attributes = q.attributes
+    q.build_from_params({})
+    assert_equal old_attributes, q.attributes
+  end
+
   test "#available_filters should include users of visible projects in cross-project view" do
     users = IssueQuery.new.available_filters["assigned_to_id"]
     assert_not_nil users

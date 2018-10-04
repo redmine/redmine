@@ -377,10 +377,10 @@ class Query < ActiveRecord::Base
     end
 
     query_params = params[:query] || defaults || {}
-    self.group_by = params[:group_by] || query_params[:group_by]
-    self.column_names = params[:c] || query_params[:column_names]
-    self.totalable_names = params[:t] || query_params[:totalable_names]
-    self.sort_criteria = params[:sort] || query_params[:sort_criteria]
+    self.group_by = params[:group_by] || query_params[:group_by] || self.group_by
+    self.column_names = params[:c] || query_params[:column_names] || self.column_names
+    self.totalable_names = params[:t] || query_params[:totalable_names] || self.totalable_names
+    self.sort_criteria = params[:sort] || query_params[:sort_criteria] || self.sort_criteria
     self
   end
 
