@@ -146,6 +146,13 @@ class RepositoriesController < ApplicationController
       send_opt[:disposition] = disposition(@path)
       send_data @repository.cat(@path, @rev), send_opt
     else
+      # set up pagination from entry to entry
+      parent_path = @path.split('/')[0...-1].join('/')
+      @entries = @repository.entries(parent_path, @rev).reject(&:is_dir?)
+      if index = @entries.index{|e| e.name == @entry.name}
+        @paginator = Redmine::Pagination::Paginator.new(@entries.size, 1, index+1)
+      end
+
       if !@entry.size || @entry.size <= Setting.file_max_size_displayed.to_i.kilobyte
         content = @repository.cat(@path, @rev)
         (show_error_not_found; return) unless content

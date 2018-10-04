@@ -32,6 +32,15 @@ module RepositoriesHelper
     end
   end
 
+  def render_pagination
+    pagination_links_each @paginator do |text, parameters, options|
+      if entry = @entries[parameters[:page] - 1]
+        ent_path = Redmine::CodesetUtil.replace_invalid_utf8(entry.path)
+        link_to text, {action: 'entry', id: @project, repository_id: @repository.identifier_param, path: to_path_param(ent_path), rev: @rev}
+      end
+    end if @paginator
+  end
+
   def render_properties(properties)
     unless properties.nil? || properties.empty?
       content = ''

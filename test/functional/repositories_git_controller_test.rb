@@ -243,6 +243,17 @@ class RepositoriesGitControllerTest < Redmine::RepositoryControllerTest
       assert_select 'tr#L11 td.line-code', :text => /WITHOUT ANY WARRANTY/
     end
 
+    def test_entry_show_should_render_pagination
+      get :entry, :params => {
+          :id => PRJ_ID,
+          :repository_id => @repository.id,
+          :path => repository_path_hash(['README'])[:param]
+        }
+      assert_response :success
+      assert_select 'ul.pages li.next', :text => /next/i
+      assert_select 'ul.pages li.previous', :text => /previous/i
+    end
+
     def test_entry_show_latin_1
       if @ruby19_non_utf8_pass
         puts_ruby19_non_utf8_pass()

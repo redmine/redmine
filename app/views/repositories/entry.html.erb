@@ -35,6 +35,10 @@
                 :class => 'icon icon-download') : nil } %>
 <% end %>
 
+<span class="pagination">
+  <%= render_pagination %>
+</span>
+
 <% content_for :header_tags do %>
 <%= stylesheet_link_tag "scm" %>
 <% end %>
