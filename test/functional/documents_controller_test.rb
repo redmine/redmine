@@ -118,10 +118,10 @@ LOREM
             :title => 'DocumentsControllerTest#test_post_new',
             :description => 'This is a new document',
             :category_id => 2
-          },  
+          },
           :attachments => {
             '1' => {
-            'file' => uploaded_test_file('testfile.txt', 'text/plain')}    
+            'file' => uploaded_test_file('testfile.txt', 'text/plain')}
           }
         }
     end
@@ -159,7 +159,7 @@ LOREM
         :document => {
           :title => 'no default',
           :description => 'This is a new document',
-          :category_id => category1.id 
+          :category_id => category1.id
         }
       }
     assert_redirected_to '/projects/ecookbook/documents'
@@ -220,7 +220,7 @@ LOREM
           :id => 1,
           :attachments => {
             '1' => {
-            'file' => uploaded_test_file('testfile.txt', 'text/plain')}    
+            'file' => uploaded_test_file('testfile.txt', 'text/plain')}
           }
         }
     end
