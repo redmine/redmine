@@ -1,5 +1,5 @@
---- 
-attachments_001: 
+---
+attachments_001:
   created_on: 2006-07-19 21:07:27 +02:00
   downloads: 0
   content_type: text/plain
@@ -13,7 +13,7 @@ attachments_001:
   filename: error281.txt
   author_id: 2
   description: An attachment
-attachments_002: 
+attachments_002:
   created_on: 2007-01-27 15:08:27 +01:00
   downloads: 0
   content_type: text/plain
@@ -26,7 +26,7 @@ attachments_002:
   filesize: 28
   filename: document.txt
   author_id: 2
-attachments_003: 
+attachments_003:
   created_on: 2006-07-19 21:07:27 +02:00
   downloads: 0
   content_type: image/gif
@@ -40,7 +40,7 @@ attachments_003:
   filename: logo.gif
   description: This is a logo
   author_id: 2
-attachments_004: 
+attachments_004:
   created_on: 2006-07-19 21:07:27 +02:00
   container_type: Issue
   container_id: 2
@@ -54,7 +54,7 @@ attachments_004:
   author_id: 2
   description: This is a Ruby source file
   content_type: application/x-ruby
-attachments_005: 
+attachments_005:
   created_on: 2006-07-19 21:07:27 +02:00
   container_type: Issue
   container_id: 3
@@ -67,7 +67,7 @@ attachments_005:
   filename: changeset_iso8859-1.diff
   author_id: 2
   content_type: text/x-diff
-attachments_006: 
+attachments_006:
   created_on: 2006-07-19 21:07:27 +02:00
   container_type: Issue
   container_id: 3
@@ -80,7 +80,7 @@ attachments_006:
   filename: archive.zip
   author_id: 2
   content_type: application/zip
-attachments_007: 
+attachments_007:
   created_on: 2006-07-19 21:07:27 +02:00
   container_type: Issue
   container_id: 4
@@ -93,7 +93,7 @@ attachments_007:
   filename: archive.zip
   author_id: 1
   content_type: application/zip
-attachments_008: 
+attachments_008:
   created_on: 2006-07-19 21:07:27 +02:00
   container_type: Project
   container_id: 1
@@ -106,7 +106,7 @@ attachments_008:
   filename: project_file.zip
   author_id: 2
   content_type: application/octet-stream
-attachments_009: 
+attachments_009:
   created_on: 2006-07-19 21:07:27 +02:00
   container_type: Version
   container_id: 1
@@ -119,7 +119,7 @@ attachments_009:
   filename: version_file.zip
   author_id: 2
   content_type: application/octet-stream
-attachments_010: 
+attachments_010:
   created_on: 2006-07-19 21:07:27 +02:00
   container_type: Issue
   container_id: 2
@@ -132,7 +132,7 @@ attachments_010:
   filename: picture.jpg
   author_id: 2
   content_type: image/jpeg
-attachments_011: 
+attachments_011:
   created_on: 2007-02-12 15:08:27 +01:00
   container_type: Document
   container_id: 1
@@ -171,7 +171,7 @@ attachments_013:
   filename: foo.zip
   author_id: 2
   content_type: application/octet-stream
-attachments_014: 
+attachments_014:
   created_on: 2006-07-19 21:07:27 +02:00
   container_type: Issue
   container_id: 3
@@ -184,7 +184,7 @@ attachments_014:
   filename: changeset_utf8.diff
   author_id: 2
   content_type: text/x-diff
-attachments_015: 
+attachments_015:
   id: 15
   created_on: 2010-07-19 21:07:27 +02:00
   container_type: Issue
@@ -198,7 +198,7 @@ attachments_015:
   author_id: 2
   content_type: text/x-diff
   description: attachement of a private issue
-attachments_016: 
+attachments_016:
   content_type: image/png
   downloads: 0
   created_on: 2010-11-23 16:14:50 +09:00
@@ -212,7 +212,7 @@ attachments_016:
   filename: testfile.png
   filesize: 2654
   author_id: 2
-attachments_017: 
+attachments_017:
   content_type: image/png
   downloads: 0
   created_on: 2010-12-23 16:14:50 +09:00
@@ -254,7 +254,7 @@ attachments_019:
   filename: Testテスト.PNG
   filesize: 3582
   author_id: 2
-attachments_020: 
+attachments_020:
   content_type: text/plain
   downloads: 0
   created_on: 2012-05-12 16:14:50 +09:00
