@@ -107,8 +107,45 @@ class Mailer < ActionMailer::Base
           "method*, or 3. use a custom Active Job instead of #deliver_later."
       else
         args = 'Mailer', @action.to_s, delivery_method.to_s, *@args
-        ::ActionMailer::DeliveryJob.set(options).perform_later(*args)
+        DeliveryJob.set(options).perform_later(*args)
       end
+    end
+  end
+
+  class DeliveryJob < ActionMailer::DeliveryJob
+    module Arguments
+      extend ActiveJob::Arguments
+      extend self
+
+      private
+
+      def serialize_argument(argument)
+        # Ensure that ActiveRecord::Base objects are fully serialized for mail
+        # sending. This circumvents the globalid gem for this job.
+        if argument.is_a?(ActiveRecord::Base)
+          argument.to_yaml
+        else
+          super
+        end
+      end
+
+      def deserialize_argument(argument)
+        if argument.is_a?(ActiveRecord::Base)
+          argument
+        else
+          super
+        end
+      end
+    end
+
+    private
+
+    def serialize_arguments(serialized_args)
+      Arguments.serialize(serialized_args)
+    end
+
+    def deserialize_arguments(serialized_args)
+      Arguments.deserialize(serialized_args)
     end
   end
 
