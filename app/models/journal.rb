@@ -94,19 +94,6 @@ class Journal < ActiveRecord::Base
     end
   end
 
-  def each_notification(users, &block)
-    if users.any?
-      users_by_details_visibility = users.group_by do |user|
-        visible_details(user)
-      end
-      users_by_details_visibility.each do |visible_details, users|
-        if notes? || visible_details.any?
-          yield(users)
-        end
-      end
-    end
-  end
-
   # Returns the JournalDetail for the given attribute, or nil if the attribute
   # was not updated
   def detail_for_attribute(attribute)
