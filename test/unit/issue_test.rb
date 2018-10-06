@@ -2529,7 +2529,7 @@ class IssueTest < ActiveSupport::TestCase
                       :subject => 'test_create', :estimated_hours => '1:30')
     with_settings :notified_events => %w(issue_added) do
       assert issue.save
-      assert_equal 1, ActionMailer::Base.deliveries.size
+      assert_equal 2, ActionMailer::Base.deliveries.size
     end
   end
 
@@ -2541,7 +2541,7 @@ class IssueTest < ActiveSupport::TestCase
                       :subject => 'test_create', :estimated_hours => '1:30')
     with_settings :notified_events => %w(issue_added issue_updated) do
       assert issue.save
-      assert_equal 1, ActionMailer::Base.deliveries.size
+      assert_equal 2, ActionMailer::Base.deliveries.size
     end
   end
 
@@ -2568,7 +2568,8 @@ class IssueTest < ActiveSupport::TestCase
       issue.init_journal User.find(1)
       issue.assigned_to = nil
       issue.save!
-      assert_include user.mail, ActionMailer::Base.deliveries.last.bcc
+
+      assert_include [user.mail], ActionMailer::Base.deliveries.map(&:bcc)
     end
   end
 
@@ -2581,7 +2582,7 @@ class IssueTest < ActiveSupport::TestCase
     issue.subject = 'Subjet update'
     with_settings :notified_events => %w(issue_updated) do
       assert issue.save
-      assert_equal 1, ActionMailer::Base.deliveries.size
+      assert_equal 2, ActionMailer::Base.deliveries.size
       ActionMailer::Base.deliveries.clear
 
       stale.init_journal(User.find(1))

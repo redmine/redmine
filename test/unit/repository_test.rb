@@ -262,14 +262,15 @@ class RepositoryTest < ActiveSupport::TestCase
     assert_equal User.find_by_login('dlopper'), journal.user
     assert_equal 'Applied in changeset r2.', journal.notes
 
-    # 2 email notifications
-    assert_equal 2, ActionMailer::Base.deliveries.size
-    mail = ActionMailer::Base.deliveries.first
-    assert_not_nil mail
-    assert mail.subject.starts_with?(
-        "[#{fixed_issue.project.name} - #{fixed_issue.tracker.name} ##{fixed_issue.id}]")
-    assert_mail_body_match(
-        "Status changed from #{old_status} to #{fixed_issue.status}", mail)
+    # 5 email notifications, 2 for #1, 3 for #2
+    assert_equal 5, ActionMailer::Base.deliveries.size
+    ActionMailer::Base.deliveries.first(2).each do |mail|
+      assert_not_nil mail
+      assert mail.subject.starts_with?(
+          "[#{fixed_issue.project.name} - #{fixed_issue.tracker.name} ##{fixed_issue.id}]")
+      assert_mail_body_match(
+          "Status changed from #{old_status} to #{fixed_issue.status}", mail)
+    end
 
     # ignoring commits referencing an issue of another project
     assert_equal [], Issue.find(4).changesets

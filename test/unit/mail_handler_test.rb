@@ -440,10 +440,11 @@ class MailHandlerTest < ActiveSupport::TestCase
       )
     end
 
-    # only 1 email for the new issue notification
-    assert_equal 1, ActionMailer::Base.deliveries.size
-    email = ActionMailer::Base.deliveries.first
-    assert_include 'Ticket by unknown user', email.subject
+    # only 2 emails for the new issue notification
+    assert_equal 2, ActionMailer::Base.deliveries.size
+    ActionMailer::Base.deliveries.each do |email|
+      assert_include 'Ticket by unknown user', email.subject
+    end
   end
 
   def test_created_user_should_have_mail_notification_to_none_with_no_notification_option
@@ -877,7 +878,7 @@ class MailHandlerTest < ActiveSupport::TestCase
   def test_update_issue_should_send_email_notification
     journal = submit_email('ticket_reply.eml')
     assert journal.is_a?(Journal)
-    assert_equal 1, ActionMailer::Base.deliveries.size
+    assert_equal 3, ActionMailer::Base.deliveries.size
   end
 
   def test_update_issue_should_not_set_defaults

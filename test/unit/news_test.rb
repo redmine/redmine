@@ -34,7 +34,7 @@ class NewsTest < ActiveSupport::TestCase
     with_settings :notified_events => %w(news_added) do
       assert news.save
     end
-    assert_equal 1, ActionMailer::Base.deliveries.size
+    assert_equal 2, ActionMailer::Base.deliveries.size
   end
 
   def test_should_include_news_for_projects_with_news_enabled

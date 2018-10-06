@@ -412,11 +412,15 @@ class MailerTest < ActiveSupport::TestCase
     journal.save!
 
     Role.find(2).add_permission! :view_private_notes
-    Mailer.deliver_issue_edit(journal)
-    assert_equal %w(dlopper@somenet.foo jsmith@somenet.foo), ActionMailer::Base.deliveries.last.bcc.sort
+    assert_difference 'ActionMailer::Base.deliveries.size', 2 do
+      Mailer.deliver_issue_edit(journal)
+    end
+    assert_equal %w(dlopper@somenet.foo jsmith@somenet.foo), ActionMailer::Base.deliveries.last(2).flat_map(&:bcc).sort
 
     Role.find(2).remove_permission! :view_private_notes
-    Mailer.deliver_issue_edit(journal)
+    assert_difference 'ActionMailer::Base.deliveries.size', 1 do
+      Mailer.deliver_issue_edit(journal)
+    end
     assert_equal %w(jsmith@somenet.foo), ActionMailer::Base.deliveries.last.bcc.sort
   end
 
@@ -534,7 +538,7 @@ class MailerTest < ActiveSupport::TestCase
   def test_wiki_content_added
     content = WikiContent.find(1)
     with_each_language_as_default do
-      assert_difference 'ActionMailer::Base.deliveries.size' do
+      assert_difference 'ActionMailer::Base.deliveries.size', 2 do
         assert Mailer.wiki_content_added(content).deliver
         assert_select_email do
           assert_select 'a[href=?]',
@@ -548,7 +552,7 @@ class MailerTest < ActiveSupport::TestCase
   def test_wiki_content_updated
     content = WikiContent.find(1)
     with_each_language_as_default do
-      assert_difference 'ActionMailer::Base.deliveries.size' do
+      assert_difference 'ActionMailer::Base.deliveries.size', 2 do
         assert Mailer.wiki_content_updated(content).deliver
         assert_select_email do
           assert_select 'a[href=?]',

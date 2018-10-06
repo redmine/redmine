@@ -50,7 +50,7 @@ class JournalTest < ActiveSupport::TestCase
     journal = issue.init_journal(user, issue)
 
     assert journal.save
-    assert_equal 1, ActionMailer::Base.deliveries.size
+    assert_equal 2, ActionMailer::Base.deliveries.size
   end
 
   def test_should_not_save_journal_with_blank_notes_and_no_details

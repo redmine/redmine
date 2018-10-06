@@ -132,7 +132,7 @@ LOREM
     assert_equal Enumeration.find(2), document.category
     assert_equal 1, document.attachments.size
     assert_equal 'testfile.txt', document.attachments.first.filename
-    assert_equal 1, ActionMailer::Base.deliveries.size
+    assert_equal 2, ActionMailer::Base.deliveries.size
   end
 
   def test_create_with_failure

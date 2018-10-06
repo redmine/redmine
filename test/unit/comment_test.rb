@@ -36,7 +36,7 @@ class CommentTest < ActiveSupport::TestCase
     Watcher.create!(:watchable => @news, :user => @jsmith)
 
     with_settings :notified_events => %w(news_comment_added) do
-      assert_difference 'ActionMailer::Base.deliveries.size' do
+      assert_difference 'ActionMailer::Base.deliveries.size', 2 do
         Comment.create!(:commented => @news, :author => @jsmith, :comments => "my comment")
       end
     end

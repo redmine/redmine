@@ -52,7 +52,7 @@ class EmailAddress < ActiveRecord::Base
     # in that case, the user is just being created and
     # should not receive this email.
     if user.mails != [address]
-      deliver_security_notification(user,
+      deliver_security_notification(
         message: :mail_body_security_notification_add,
         field: :field_mail,
         value: address
@@ -63,25 +63,26 @@ class EmailAddress < ActiveRecord::Base
   # send a security notification to user that an email has been changed (notified/not notified)
   def deliver_security_notification_update
     if saved_change_to_address?
-      recipients = [user, address_before_last_save]
       options = {
+        recipients: [address_before_last_save],
         message: :mail_body_security_notification_change_to,
         field: :field_mail,
         value: address
       }
     elsif saved_change_to_notify?
-      recipients = [user, address]
       options = {
+        recipients: [address],
         message: notify_before_last_save ? :mail_body_security_notification_notify_disabled : :mail_body_security_notification_notify_enabled,
         value: address
       }
     end
-    deliver_security_notification(recipients, options)
+    deliver_security_notification(options)
   end
 
   # send a security notification to user that an email address was deleted
   def deliver_security_notification_destroy
-    deliver_security_notification([user, address],
+    deliver_security_notification(
+      recipients: [address],
       message: :mail_body_security_notification_remove,
       field: :field_mail,
       value: address
@@ -89,8 +90,8 @@ class EmailAddress < ActiveRecord::Base
   end
 
   # generic method to send security notifications for email addresses
-  def deliver_security_notification(recipients, options={})
-    Mailer.security_notification(recipients,
+  def deliver_security_notification(options={})
+    Mailer.security_notification(user,
       options.merge(
         title: :label_my_account,
         url: {controller: 'my', action: 'account'}

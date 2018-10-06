@@ -127,7 +127,7 @@ class NewsControllerTest < Redmine::ControllerTest
     assert_equal 'This is the description', news.description
     assert_equal User.find(2), news.author
     assert_equal Project.find(1), news.project
-    assert_equal 1, ActionMailer::Base.deliveries.size
+    assert_equal 2, ActionMailer::Base.deliveries.size
   end
 
   def test_post_create_with_attachment

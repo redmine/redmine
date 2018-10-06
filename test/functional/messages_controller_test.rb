@@ -136,14 +136,17 @@ class MessagesControllerTest < Redmine::ControllerTest
     assert_equal 2, message.author_id
     assert_equal 1, message.board_id
 
-    mail = ActionMailer::Base.deliveries.last
-    assert_not_nil mail
-    assert_equal "[#{message.board.project.name} - #{message.board.name} - msg#{message.root.id}] Test created message", mail.subject
-    assert_mail_body_match 'Message body', mail
+    mails = ActionMailer::Base.deliveries
+    assert_not_empty mails
+    mails.each do |mail|
+      assert_equal "[#{message.board.project.name} - #{message.board.name} - msg#{message.root.id}] Test created message", mail.subject
+      assert_mail_body_match 'Message body', mail
+    end
+
     # author
-    assert mail.bcc.include?('jsmith@somenet.foo')
+    assert_equal ['jsmith@somenet.foo'], mails[0].bcc
     # project member
-    assert mail.bcc.include?('dlopper@somenet.foo')
+    assert_equal ['dlopper@somenet.foo'], mails[1].bcc
   end
 
   def test_get_edit
