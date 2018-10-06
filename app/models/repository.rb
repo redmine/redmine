@@ -247,7 +247,7 @@ class Repository < ActiveRecord::Base
     return nil if name.blank?
     s = name.to_s
     if s.match(/^\d*$/)
-      changesets.where("revision = ?", s).first
+      changesets.find_by(:revision => s)
     else
       changesets.where("revision LIKE ?", s + '%').first
     end

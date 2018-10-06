@@ -99,7 +99,7 @@ class Repository::Mercurial < Repository
     if /[^\d]/ =~ s or s.size > 8
       cs = changesets.where(:scmid => s).first
     else
-      cs = changesets.where(:revision => s).first
+      cs = changesets.find_by(:revision => s)
     end
     return cs if cs
     changesets.where('scmid LIKE ?', "#{s}%").first

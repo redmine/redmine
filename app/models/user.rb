@@ -492,7 +492,7 @@ class User < Principal
       user = where(:login => login).detect {|u| u.login == login}
       unless user
         # Fail over to case-insensitive if none was found
-        user = where("LOWER(login) = ?", login.downcase).first
+        user = find_by("LOWER(login) = ?", login.downcase)
       end
       user
     end
@@ -610,24 +610,24 @@ class User < Principal
     # eg. project.children.visible(user)
     Project.unscoped do
       return @project_ids_by_role if @project_ids_by_role
-  
+
       group_class = anonymous? ? GroupAnonymous : GroupNonMember
       group_id = group_class.pluck(:id).first
-  
+
       members = Member.joins(:project, :member_roles).
         where("#{Project.table_name}.status <> 9").
         where("#{Member.table_name}.user_id = ? OR (#{Project.table_name}.is_public = ? AND #{Member.table_name}.user_id = ?)", self.id, true, group_id).
         pluck(:user_id, :role_id, :project_id)
-  
+
       hash = {}
       members.each do |user_id, role_id, project_id|
         # Ignore the roles of the builtin group if the user is a member of the project
         next if user_id != id && project_ids.include?(project_id)
-  
+
         hash[role_id] ||= []
         hash[role_id] << project_id
       end
-  
+
       result = Hash.new([])
       if hash.present?
         roles = Role.where(:id => hash.keys).to_a
@@ -798,7 +798,7 @@ class User < Principal
   # Returns the anonymous user.  If the anonymous user does not exist, it is created.  There can be only
   # one anonymous user per database.
   def self.anonymous
-    anonymous_user = AnonymousUser.unscoped.first
+    anonymous_user = AnonymousUser.unscoped.find_by(:lastname => 'Anonymous')
     if anonymous_user.nil?
       anonymous_user = AnonymousUser.unscoped.create(:lastname => 'Anonymous', :firstname => '', :login => '', :status => 0)
       raise 'Unable to create the anonymous user.' if anonymous_user.new_record?

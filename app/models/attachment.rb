@@ -276,7 +276,7 @@ class Attachment < ActiveRecord::Base
   def self.find_by_token(token)
     if token.to_s =~ /^(\d+)\.([0-9a-f]+)$/
       attachment_id, attachment_digest = $1, $2
-      attachment = Attachment.where(:id => attachment_id, :digest => attachment_digest).first
+      attachment = Attachment.find_by(:id => attachment_id, :digest => attachment_digest)
       if attachment && attachment.container.nil?
         attachment
       end

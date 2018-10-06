@@ -132,7 +132,7 @@ class Principal < ActiveRecord::Base
   end
 
   def visible?(user=User.current)
-    Principal.visible(user).where(:id => id).first == self
+    Principal.visible(user).find_by(:id => id) == self
   end
 
   # Returns true if the principal is a member of project

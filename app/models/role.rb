@@ -293,7 +293,7 @@ private
   end
 
   def self.find_or_create_system_role(builtin, name)
-    role = unscoped.where(:builtin => builtin).first
+    role = unscoped.find_by(:builtin => builtin)
     if role.nil?
       role = unscoped.create(:name => name) do |r|
         r.builtin = builtin

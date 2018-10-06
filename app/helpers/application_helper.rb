@@ -964,7 +964,7 @@ module ApplicationHelper
                 link = link_to_project(p, {:only_path => only_path}, :class => 'project')
               end
             when 'user'
-              u = User.visible.where(:id => oid, :type => 'User').first
+              u = User.visible.find_by(:id => oid, :type => 'User')
               link = link_to_user(u, :only_path => only_path) if u
             end
           elsif sep == ':'
@@ -1025,12 +1025,12 @@ module ApplicationHelper
                 link = link_to_project(p, {:only_path => only_path}, :class => 'project')
               end
             when 'user'
-              u = User.visible.where("LOWER(login) = :s AND type = 'User'", :s => name.downcase).first
+              u = User.visible.find_by("LOWER(login) = :s AND type = 'User'", :s => name.downcase)
               link = link_to_user(u, :only_path => only_path) if u
             end
           elsif sep == "@"
             name = remove_double_quotes(identifier)
-            u = User.visible.where("LOWER(login) = :s AND type = 'User'", :s => name.downcase).first
+            u = User.visible.find_by("LOWER(login) = :s AND type = 'User'", :s => name.downcase)
             link = link_to_user(u, :only_path => only_path) if u
           end
         end

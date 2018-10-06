@@ -453,7 +453,7 @@ namespace :redmine do
         puts
 
         # Trac 'resolution' field as a Redmine custom field
-        r = IssueCustomField.where(:name => "Resolution").first
+        r = IssueCustomField.find_by(:name => "Resolution")
         r = IssueCustomField.new(:name => 'Resolution',
                                  :field_format => 'list',
                                  :is_filter => true) if r.nil?
