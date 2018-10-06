@@ -140,8 +140,8 @@ gl:
         invalid: "non é válido"
         confirmation: "non coincide coa confirmación"
         accepted: "debe ser aceptado"
-        empty: "non pode estar valeiro"
-        blank: "non pode estar en blanco"
+        empty: "non pode estar baleiro"
+        blank: "non pode estar en branco"
         too_long: "é demasiado longo (non máis de %{count} carácteres)"
         too_short: "é demasiado curto (non menos de %{count} carácteres)"
         wrong_length: "non ten a lonxitude correcta (debe ser de %{count} carácteres)"
@@ -424,7 +424,7 @@ gl:
   label_f_hour: "%{value} hora"
   label_f_hour_plural: "%{value} horas"
   label_feed_plural: Feeds
-  label_feeds_access_key_created_on: "Clave de acceso por Atom creada hai %{value}"
+  label_feeds_access_key_created_on: "Chave de acceso por Atom creada hai %{value}"
   label_file_added: Ficheiro engadido
   label_file_plural: Ficheiros
   label_filter_add: Engadir o filtro
@@ -433,7 +433,7 @@ gl:
   label_follows: posterior a
   label_gantt: Gantt
   label_general: Xeral
-  label_generate_key: Xerar clave
+  label_generate_key: Xerar chave
   label_help: Axuda
   label_history: Histórico
   label_home: Inicio
@@ -649,7 +649,7 @@ gl:
   notice_email_error: "Ocorreu un error enviando o correo (%{value})"
   notice_email_sent: "Enviouse un correo a %{value}"
   notice_failed_to_save_issues: "Imposible gravar %{count} petición(s) de %{total} seleccionada(s): %{ids}."
-  notice_feeds_access_key_reseted: A súa clave de acceso para Atom reiniciouse.
+  notice_feeds_access_key_reseted: A súa chave de acceso para Atom reiniciouse.
   notice_file_not_found: A páxina á que tenta acceder non existe.
   notice_locking_conflict: Os datos modificáronse por outro usuario.
   notice_no_issue_selected: "Ningunha petición seleccionada. Por favor, comprobe a petición que quere modificar"
@@ -721,8 +721,8 @@ gl:
   setting_autofetch_changesets: Autorechear as remisións do repositorio
   setting_autologin: "Identificarse automaticamente."
   setting_bcc_recipients: Ocultar as copias de carbón (bcc)
-  setting_commit_fix_keywords: Palabras clave para a corrección
-  setting_commit_ref_keywords: Palabras clave para a referencia
+  setting_commit_fix_keywords: Palabras chave para a corrección
+  setting_commit_ref_keywords: Palabras chave para a referencia
   setting_cross_project_issue_relations: Permitir relacionar peticións de distintos proxectos
   setting_date_format: Formato da data
   setting_default_language: Idioma predeterminado
@@ -739,7 +739,7 @@ gl:
   setting_login_required: Requírese identificación
   setting_mail_from: Correo dende o que enviar mensaxes
   setting_mail_handler_api_enabled: Activar o programa para mensaxes entrantes
-  setting_mail_handler_api_key: Clave da API
+  setting_mail_handler_api_key: Chave da API
   setting_per_page_options: Obxectos por páxina
   setting_plain_text_mail: só texto plano (non HTML)
   setting_protocol: Protocolo
@@ -1190,7 +1190,7 @@ gl:
   label_no_open_issues: no open issues
   label_default_values_for_new_users: Default values for new users
   error_ldap_bind_credentials: Invalid LDAP Account/Password
-  setting_sys_api_key: Clave da API
+  setting_sys_api_key: Chave da API
   setting_lost_password: "Esqueceu o contrasinal?"
   mail_subject_security_notification: Security notification
   mail_body_security_notification_change: ! '%{field} was changed.'
