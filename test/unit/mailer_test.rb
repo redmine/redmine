@@ -605,6 +605,12 @@ class MailerTest < ActiveSupport::TestCase
     end
   end
 
+  def test_test_email_later
+    user = User.find(1)
+    assert Mailer.test_email(user).deliver_later
+    assert_equal 1, ActionMailer::Base.deliveries.size
+  end
+
   def test_reminders
     Mailer.reminders(:days => 42)
     assert_equal 1, ActionMailer::Base.deliveries.size
