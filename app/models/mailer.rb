@@ -681,15 +681,6 @@ class Mailer < ActionMailer::Base
     end
   end
 
-  def self.method_missing(method, *args, &block)
-    if m = method.to_s.match(%r{^deliver_(.+)$})
-      ActiveSupport::Deprecation.warn "Mailer.deliver_#{m[1]}(*args) is deprecated. Use Mailer.#{m[1]}(*args).deliver instead."
-      send(m[1], *args).deliver
-    else
-      super
-    end
-  end
-
   # Returns an array of email addresses to notify by
   # replacing users in arg with their notified email addresses
   #
