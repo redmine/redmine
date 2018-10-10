@@ -88,7 +88,7 @@ class DocumentsController < ApplicationController
     render_attachment_warning_if_needed(@document)
 
     if attachments.present? && attachments[:files].present? && Setting.notified_events.include?('document_added')
-      Mailer.attachments_added(attachments[:files]).deliver
+      Mailer.deliver_attachments_added(attachments[:files])
     end
     redirect_to document_path(@document)
   end

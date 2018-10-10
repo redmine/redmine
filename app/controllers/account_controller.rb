@@ -87,7 +87,7 @@ class AccountController < ApplicationController
           @user.must_change_passwd = false
           if @user.save
             @token.destroy
-            Mailer.password_updated(@user, { remote_ip: request.remote_ip })
+            Mailer.deliver_password_updated(@user, User.current)
             flash[:notice] = l(:notice_account_password_updated)
             redirect_to signin_path
             return
@@ -119,7 +119,7 @@ class AccountController < ApplicationController
         if token.save
           # Don't use the param to send the email
           recipent = user.mails.detect {|e| email.casecmp(e) == 0} || user.mail
-          Mailer.lost_password(token, recipent).deliver
+          Mailer.deliver_lost_password(user, token, recipent)
           flash[:notice] = l(:notice_account_lost_email_sent)
           redirect_to signin_path
           return
@@ -313,7 +313,7 @@ class AccountController < ApplicationController
   def register_by_email_activation(user, &block)
     token = Token.new(:user => user, :action => "register")
     if user.save and token.save
-      Mailer.register(token).deliver
+      Mailer.deliver_register(user, token)
       flash[:notice] = l(:notice_account_register_done, :email => ERB::Util.h(user.mail))
       redirect_to signin_path
     else
@@ -343,7 +343,7 @@ class AccountController < ApplicationController
   def register_manually_by_administrator(user, &block)
     if user.save
       # Sends an email to the administrators
-      Mailer.account_activation_request(user).deliver
+      Mailer.deliver_account_activation_request(user)
       account_pending(user)
     else
       yield if block_given?

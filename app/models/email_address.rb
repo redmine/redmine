@@ -20,9 +20,12 @@ class EmailAddress < ActiveRecord::Base
 
   belongs_to :user
 
-  after_create :deliver_security_notification_create
-  after_update :destroy_tokens, :deliver_security_notification_update
-  after_destroy :destroy_tokens, :deliver_security_notification_destroy
+  after_update :destroy_tokens
+  after_destroy :destroy_tokens
+
+  after_create_commit :deliver_security_notification_create
+  after_update_commit :deliver_security_notification_update
+  after_destroy_commit :deliver_security_notification_destroy
 
   validates_presence_of :address
   validates_format_of :address, :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i, :allow_blank => true
@@ -91,12 +94,13 @@ class EmailAddress < ActiveRecord::Base
 
   # generic method to send security notifications for email addresses
   def deliver_security_notification(options={})
-    Mailer.security_notification(user,
+    Mailer.deliver_security_notification(user,
+      User.current,
       options.merge(
         title: :label_my_account,
         url: {controller: 'my', action: 'account'}
       )
-    ).deliver
+    )
   end
 
   # Delete all outstanding password reset tokens on email change.

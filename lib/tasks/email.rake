@@ -161,11 +161,8 @@ END_DESC
       user = User.find_by_login(args[:login])
       abort l(:notice_email_error, "User #{args[:login]} not found") unless user && user.logged?
 
-      ActionMailer::Base.raise_delivery_errors = true
       begin
-        Mailer.with_synched_deliveries do
-          Mailer.test_email(user).deliver
-        end
+        Mailer.deliver_test_email(user)
         puts l(:notice_email_sent, user.mail)
       rescue Exception => e
         abort l(:notice_email_error, e.message)

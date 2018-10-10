@@ -7,6 +7,6 @@
 <%= content_tag :h1, @title -%>
 <% end %></p>
 
-<p><%= l(:field_user) %>: <strong><%= @originator.login %></strong><br/>
+<p><%= l(:field_user) %>: <strong><%= @sender.login %></strong><br/>
 <%= l(:field_remote_ip) %>: <strong><%= @remote_ip %></strong><br/>
 <%= l(:label_date) %>: <strong><%= format_time Time.now, true %></strong></p>

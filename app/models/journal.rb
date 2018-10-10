@@ -42,7 +42,7 @@ class Journal < ActiveRecord::Base
                                             " (#{JournalDetail.table_name}.prop_key = 'status_id' OR #{Journal.table_name}.notes <> '')").distinct
 
   before_create :split_private_notes
-  after_commit :send_notification, :on => :create
+  after_create_commit :send_notification
 
   scope :visible, lambda {|*args|
     user = args.shift || User.current

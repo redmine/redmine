@@ -101,7 +101,7 @@ class UsersController < ApplicationController
     @user.pref.safe_attributes = params[:pref]
 
     if @user.save
-      Mailer.account_information(@user, @user.password).deliver if params[:send_information]
+      Mailer.deliver_account_information(@user, @user.password) if params[:send_information]
 
       respond_to do |format|
         format.html {
@@ -146,9 +146,9 @@ class UsersController < ApplicationController
       @user.pref.save
 
       if was_activated
-        Mailer.account_activated(@user).deliver
+        Mailer.deliver_account_activated(@user)
       elsif @user.active? && params[:send_information] && @user != User.current
-        Mailer.account_information(@user, @user.password).deliver
+        Mailer.deliver_account_information(@user, @user.password)
       end
 
       respond_to do |format|

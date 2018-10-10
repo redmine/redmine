@@ -106,35 +106,18 @@ end
 require 'mail'
 
 module DeliveryMethods
-  class AsyncSMTP < ::Mail::SMTP
-    def deliver!(*args)
-      Thread.start do
-        super *args
-      end
-    end
-  end
-
-  class AsyncSendmail < ::Mail::Sendmail
-    def deliver!(*args)
-      Thread.start do
-        super *args
-      end
-    end
-  end
-
   class TmpFile
     def initialize(*args); end
 
     def deliver!(mail)
       dest_dir = File.join(Rails.root, 'tmp', 'emails')
       Dir.mkdir(dest_dir) unless File.directory?(dest_dir)
-      File.open(File.join(dest_dir, mail.message_id.gsub(/[<>]/, '') + '.eml'), 'wb') {|f| f.write(mail.encoded) }
+      filename = "#{Time.now.to_i}_#{mail.message_id.gsub(/[<>]/, '')}.eml"
+      File.open(File.join(dest_dir, filename), 'wb') {|f| f.write(mail.encoded) }
     end
   end
 end
 
-ActionMailer::Base.add_delivery_method :async_smtp, DeliveryMethods::AsyncSMTP
-ActionMailer::Base.add_delivery_method :async_sendmail, DeliveryMethods::AsyncSendmail
 ActionMailer::Base.add_delivery_method :tmp_file, DeliveryMethods::TmpFile
 
 # Changes how sent emails are logged
@@ -151,16 +134,6 @@ module ActionMailer
       end
       info("\nSent email \"#{event.payload[:subject]}\" (%1.fms)#{recipients}" % event.duration)
       debug(event.payload[:mail])
-    end
-  end
-end
-
-# #deliver is deprecated in Rails 4.2
-# Prevents massive deprecation warnings
-module ActionMailer
-  class MessageDelivery < Delegator
-    def deliver
-      deliver_now
     end
   end
 end

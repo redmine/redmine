@@ -920,7 +920,7 @@ class User < Principal
 
     if deliver
       users = User.active.where(admin: true).to_a
-      Mailer.security_notification(users, options).deliver
+      Mailer.deliver_security_notification(users, User.current, options)
     end
   end
 end

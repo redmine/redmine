@@ -1,7 +1,7 @@
 <%= "#{issue.tracker.name} ##{issue.id}: #{issue.subject}" %>
 <%= issue_url %>
 
-<%= render_email_issue_attributes(issue, users.first) %>
+<%= render_email_issue_attributes(issue, user) %>
 ----------------------------------------
 <%= issue.description %>
 

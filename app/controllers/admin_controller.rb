@@ -60,16 +60,12 @@ class AdminController < ApplicationController
   end
 
   def test_email
-    raise_delivery_errors = ActionMailer::Base.raise_delivery_errors
-    # Force ActionMailer to raise delivery errors so we can catch it
-    ActionMailer::Base.raise_delivery_errors = true
     begin
-      @test = Mailer.test_email(User.current).deliver
+      Mailer.deliver_test_email(User.current)
       flash[:notice] = l(:notice_email_sent, ERB::Util.h(User.current.mail))
     rescue Exception => e
       flash[:error] = l(:notice_email_error, ERB::Util.h(Redmine::CodesetUtil.replace_invalid_utf8(e.message.dup)))
     end
-    ActionMailer::Base.raise_delivery_errors = raise_delivery_errors
     redirect_to settings_path(:tab => 'notifications')
   end
 

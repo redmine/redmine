@@ -45,7 +45,7 @@ class Message < ActiveRecord::Base
   after_create :add_author_as_watcher, :reset_counters!
   after_update :update_messages_board
   after_destroy :reset_counters!
-  after_create :send_notification
+  after_create_commit :send_notification
 
   scope :visible, lambda {|*args|
     joins(:board => :project).
@@ -114,7 +114,7 @@ class Message < ActiveRecord::Base
 
   def send_notification
     if Setting.notified_events.include?('message_posted')
-      Mailer.message_posted(self).deliver
+      Mailer.deliver_message_posted(self)
     end
   end
 end

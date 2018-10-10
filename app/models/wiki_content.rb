@@ -26,7 +26,8 @@ class WikiContent < ActiveRecord::Base
   validates_length_of :comments, :maximum => 1024, :allow_nil => true
 
   after_save :create_version
-  after_save :send_notification
+  after_create_commit :send_notification_create
+  after_update_commit :send_notification_update
 
   scope :without_text, lambda {select(:id, :page_id, :version, :updated_on)}
 
@@ -82,16 +83,17 @@ class WikiContent < ActiveRecord::Base
     versions << WikiContentVersion.new(attributes.except("id"))
   end
 
-  def send_notification
-    # new_record? returns false in after_save callbacks
-    if saved_change_to_id?
-      if Setting.notified_events.include?('wiki_content_added')
-        Mailer.wiki_content_added(self).deliver
-      end
-    elsif saved_change_to_text?
-      if Setting.notified_events.include?('wiki_content_updated')
-        Mailer.wiki_content_updated(self).deliver
-      end
+  # Notifies users that a wiki page was created
+  def send_notification_create
+    if Setting.notified_events.include?('wiki_content_added')
+      Mailer.deliver_wiki_content_added(self)
+    end
+  end
+
+  # Notifies users that a wiki page was updated
+  def send_notification_update
+    if Setting.notified_events.include?('wiki_content_updated') && saved_change_to_text?
+      Mailer.deliver_wiki_content_updated(self)
     end
   end
 

@@ -135,7 +135,7 @@ class Setting < ActiveRecord::Base
       end
     end
     if changes.any?
-      Mailer.security_settings_updated(changes)
+      Mailer.deliver_settings_updated(User.current, changes)
     end
     nil
   end

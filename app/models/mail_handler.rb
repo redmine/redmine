@@ -130,7 +130,7 @@ class MailHandler < ActionMailer::Base
           end
           add_user_to_group(handler_options[:default_group])
           unless handler_options[:no_account_notice]
-            ::Mailer.account_information(@user, @user.password).deliver
+            ::Mailer.deliver_account_information(@user, @user.password)
           end
         else
           if logger

@@ -34,6 +34,7 @@ class MailHandlerTest < ActiveSupport::TestCase
   def setup
     ActionMailer::Base.deliveries.clear
     Setting.notified_events = Redmine::Notifiable.all.collect(&:name)
+    User.current = nil
   end
 
   def teardown

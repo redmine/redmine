@@ -35,7 +35,7 @@ class News < ActiveRecord::Base
   acts_as_watchable
 
   after_create :add_author_as_watcher
-  after_create :send_notification
+  after_create_commit :send_notification
 
   scope :visible, lambda {|*args|
     joins(:project).
@@ -91,7 +91,7 @@ class News < ActiveRecord::Base
 
   def send_notification
     if Setting.notified_events.include?('news_added')
-      Mailer.news_added(self).deliver
+      Mailer.deliver_news_added(self)
     end
   end
 end

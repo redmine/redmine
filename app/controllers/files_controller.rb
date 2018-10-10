@@ -55,7 +55,7 @@ class FilesController < ApplicationController
 
     if attachments[:files].present?
       if Setting.notified_events.include?('file_added')
-        Mailer.attachments_added(attachments[:files]).deliver
+        Mailer.deliver_attachments_added(attachments[:files])
       end
       respond_to do |format|
         format.html {

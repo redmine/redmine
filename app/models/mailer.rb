@@ -26,94 +26,12 @@ class Mailer < ActionMailer::Base
   include Redmine::I18n
   include Roadie::Rails::Automatic
 
-  # This class wraps multiple generated `Mail::Message` objects and allows to
-  # deliver them all at once. It is usually used to handle multiple mails for
-  # different receivers created by a single mail event. The wrapped mails can
-  # then be delivered in one go.
-  #
-  # The public interface of the class resembles a single mail message. You can
-  # directly use any of the deliver_* methods to send the contained messages
-  # now or later.
-  class MultiMessage
-    attr_reader :mails
-
-    # @param mails [Array<Mail, Proc>] an Array of mails or Procs which create
-    #   mail objects and allow to call a method on it.
-    def initialize(action, *args)
-      @action = action
-      @args = args
-
-      @mails = []
-    end
-
-    def for(users)
-      Array.wrap(users).each do |user|
-        @mails << ActionMailer::MessageDelivery.new(Mailer, @action, user, *@args)
-      end
-      self
-    end
-
-    def deliver_later(options = {})
-      enqueue_delivery :deliver_now, options
-    end
-
-    def deliver_later!(options = {})
-      enqueue_delivery :deliver_now!, options
-    end
-
-    def processed?
-      @mails.any?(&:processed?)
-    end
-
-    # @return [Object] the delivery method of the first mail.
-    #   Usually, this is the very same value for all mails and matches the
-    #   default value of the Mailer class
-    def delivery_method
-      (@mails.first || ActionMailer::Base::NullMail.new).delivery_method
-    end
-
-    # @return [ActionMailer::Base] the delivery handler of the first mail. This
-    #   is always the `Mailer` class.
-    def delivery_handler
-      (@mails.first || ActionMailer::Base::NullMail.new).delivery_handler
-    end
-
-    private
-
-    def method_missing(method, *args, &block)
-      if method =~ /\Adeliver([_!?]|\z)/
-        @mails.each do |mail|
-          mail.public_send(method, *args, &block)
-        end
-      else
-        super
-      end
-    end
-
-    def respond_to_missing(method, *args)
-      method =~ /\Adeliver([_!?]|\z)/ || method == 'processed?' || super
-    end
-
-    # This method is slightly adapted from ActionMailer::MessageDelivery
-    def enqueue_delivery(delivery_method, options = {})
-      if processed?
-        ::Kernel.raise "You've accessed the message before asking to " \
-          "deliver it later, so you may have made local changes that would " \
-          "be silently lost if we enqueued a job to deliver it. Why? Only " \
-          "the mailer method *arguments* are passed with the delivery job! " \
-          "Do not access the message in any way if you mean to deliver it " \
-          "later. Workarounds: 1. don't touch the message before calling " \
-          "#deliver_later, 2. only touch the message *within your mailer " \
-          "method*, or 3. use a custom Active Job instead of #deliver_later."
-      else
-        args = 'Mailer', @action.to_s, delivery_method.to_s, *@args
-        ::ActionMailer::DeliveryJob.set(options).perform_later(*args)
-      end
-    end
-  end
-
+  # Overrides ActionMailer::Base#process in order to set the recipient as the current user
+  # and his language as the default locale. 
+  # The first argument of all actions of this Mailer must be a User (the recipient),
+  # otherwise an ArgumentError is raised.
   def process(action, *args)
-    user = args.shift
+    user = args.first
     raise ArgumentError, "First argument has to be a user, was #{user.inspect}" unless user.is_a?(User)
 
     initial_user = User.current
@@ -132,7 +50,8 @@ class Mailer < ActionMailer::Base
     end
   end
 
-
+  # Default URL options for generating URLs in emails based on host_name and protocol
+  # defined in application settings.
   def self.default_url_options
     options = {:protocol => Setting.protocol}
     if Setting.host_name.to_s =~ /\A(https?\:\/\/)?(.+?)(\:(\d+))?(\/.+)?\z/i
@@ -146,11 +65,8 @@ class Mailer < ActionMailer::Base
     options
   end
 
-  # Builds a mail for notifying the current user about a new issue
-  #
-  # Example:
-  #   issue_add(issue) => Mail::Message object
-  def issue_add(issue)
+  # Builds a mail for notifying user about a new issue
+  def issue_add(user, issue)
     redmine_headers 'Project' => issue.project.identifier,
                     'Issue-Id' => issue.id,
                     'Issue-Author' => issue.author.login
@@ -159,34 +75,25 @@ class Mailer < ActionMailer::Base
     references issue
     @author = issue.author
     @issue = issue
-    @users = [User.current]
+    @user = user
     @issue_url = url_for(:controller => 'issues', :action => 'show', :id => issue)
-    mail :to => User.current,
+    mail :to => user,
       :subject => "[#{issue.project.name} - #{issue.tracker.name} ##{issue.id}] (#{issue.status.name}) #{issue.subject}"
   end
 
-  # Notifies users about a new issue
+  # Notifies users about a new issue.
   #
   # Example:
-  #   Mailer.issue_add(journal).deliver => sends emails to the project's recipients
-  def self.issue_add(issue)
-    users = issue.notified_users | issue.notified_watchers
-    MultiMessage.new(:issue_add, issue).for(users)
-  end
-
-  # Notifies users about a new issue
-  #
-  # Example:
-  #   Mailer.deliver_issue_add(issue) => sends emails to the project's recipients
+  #   Mailer.deliver_issue_add(issue)
   def self.deliver_issue_add(issue)
-    issue_add(issue).deliver
+    users = issue.notified_users | issue.notified_watchers
+    users.each do |user|
+      issue_add(user, issue).deliver
+    end
   end
 
-  # Builds a mail for notifying the current user about an issue update
-  #
-  # Example:
-  #   issue_edit(journal) => Mail::Message object
-  def issue_edit(journal)
+  # Builds a mail for notifying user about an issue update
+  def issue_edit(user, journal)
     issue = journal.journalized
     redmine_headers 'Project' => issue.project.identifier,
                     'Issue-Id' => issue.id,
@@ -199,89 +106,52 @@ class Mailer < ActionMailer::Base
     s << "(#{issue.status.name}) " if journal.new_value_for('status_id')
     s << issue.subject
     @issue = issue
-    @users = [User.current]
+    @user = user
     @journal = journal
     @journal_details = journal.visible_details
     @issue_url = url_for(:controller => 'issues', :action => 'show', :id => issue, :anchor => "change-#{journal.id}")
 
-    mail :to => User.current,
+    mail :to => user,
       :subject => s
   end
 
-  # Build a MultiMessage to notify users about an issue update
+  # Notifies users about an issue update.
   #
   # Example:
-  #   Mailer.issue_edit(journal).deliver => sends emails to the project's recipients
-  def self.issue_edit(journal)
-    users  = journal.notified_users
-    users |= journal.notified_watchers
+  #   Mailer.deliver_issue_edit(journal)
+  def self.deliver_issue_edit(journal)
+    users  = journal.notified_users | journal.notified_watchers
     users.select! do |user|
       journal.notes? || journal.visible_details(user).any?
     end
-    MultiMessage.new(:issue_edit, journal).for(users)
+    users.each do |user|
+      issue_edit(user, journal).deliver
+    end
   end
 
-  # Notifies users about an issue update
-  #
-  # Example:
-  #   Mailer.deliver_issue_edit(journal) => sends emails to the project's recipients
-  def self.deliver_issue_edit(journal)
-    issue_edit(journal).deliver
-  end
-
-  # Builds a Mail::Message object used to send en email reminder to the current
-  # user about their due issues.
-  #
-  # Example:
-  #   reminder(issues, days) => Mail::Message object
-  def reminder(issues, days)
-    @issues = issues
-    @days = days
-    @issues_url = url_for(:controller => 'issues', :action => 'index',
-                                :set_filter => 1, :assigned_to_id => User.current.id,
-                                :sort => 'due_date:asc')
-    mail :to => User.current,
-      :subject => l(:mail_subject_reminder, :count => issues.size, :days => days)
-  end
-
-  # Builds a Mail::Message object used to email the given user about their due
-  # issues
-  #
-  # Example:
-  #   Mailer.reminder(user, issues, days, author).deliver => sends an email to the user
-  def self.reminder(user, issues, days)
-    MultiMessage.new(:reminder, issues, days).for(user)
-  end
-
-  # Builds a Mail::Message object used to email the current user that a document
-  # was added.
-  #
-  # Example:
-  #   document_added(document, author) => Mail::Message object
-  def document_added(document, author)
+  # Builds a mail to user about a new document.
+  def document_added(user, document, author)
     redmine_headers 'Project' => document.project.identifier
     @author = author
     @document = document
     @document_url = url_for(:controller => 'documents', :action => 'show', :id => document)
-    mail :to => User.current,
+    mail :to => user,
       :subject => "[#{document.project.name}] #{l(:label_document_new)}: #{document.title}"
   end
 
-  # Build a MultiMessage to notify users about an added document.
+  # Notifies users that document was created by author
   #
   # Example:
-  #   Mailer.document_added(document).deliver => sends emails to the document's project recipients
-  def self.document_added(document)
+  #   Mailer.deliver_document_added(document, author)
+  def self.deliver_document_added(document, author)
     users = document.notified_users
-    MultiMessage.new(:document_added, document, User.current).for(users)
+    users.each do |user|
+      document_added(user, document, author).deliver_later
+    end
   end
 
-  # Builds a Mail::Message object used to email the current user when
-  # attachements are added.
-  #
-  # Example:
-  #   attachments_added(attachments) => Mail::Message object
-  def attachments_added(attachments)
+  # Builds a mail to user about new attachements.
+  def attachments_added(user, attachments)
     container = attachments.first.container
     added_to = ''
     added_to_url = ''
@@ -301,15 +171,15 @@ class Mailer < ActionMailer::Base
     @attachments = attachments
     @added_to = added_to
     @added_to_url = added_to_url
-    mail :to => User.current,
+    mail :to => user,
       :subject => "[#{container.project.name}] #{l(:label_attachment_new)}"
   end
 
-  # Build a MultiMessage to notify users about an added attachment
+  # Notifies users about new attachments
   #
   # Example:
-  #   Mailer.attachments_added(attachments).deliver => sends emails to the project's recipients
-  def self.attachments_added(attachments)
+  #   Mailer.deliver_attachments_added(attachments)
+  def self.deliver_attachments_added(attachments)
     container = attachments.first.container
     case container.class.name
     when 'Project', 'Version'
@@ -318,40 +188,36 @@ class Mailer < ActionMailer::Base
       users = container.notified_users
     end
 
-    MultiMessage.new(:attachments_added, attachments).for(users)
+    users.each do |user|
+      attachments_added(user, attachments).deliver_later
+    end
   end
 
-  # Builds a Mail::Message object used to email the current user when a news
-  # item is added.
-  #
-  # Example:
-  #   news_added(news) => Mail::Message object
-  def news_added(news)
+  # Builds a mail to user about a new news.
+  def news_added(user, news)
     redmine_headers 'Project' => news.project.identifier
     @author = news.author
     message_id news
     references news
     @news = news
     @news_url = url_for(:controller => 'news', :action => 'show', :id => news)
-    mail :to => User.current,
+    mail :to => user,
       :subject => "[#{news.project.name}] #{l(:label_news)}: #{news.title}"
   end
 
-  # Build a MultiMessage to notify users about a new news item
+  # Notifies users about new news
   #
   # Example:
-  #   Mailer.news_added(news).deliver => sends emails to the news' project recipients
-  def self.news_added(news)
+  #   Mailer.deliver_news_added(news)
+  def self.deliver_news_added(news)
     users = news.notified_users | news.notified_watchers_for_added_news
-    MultiMessage.new(:news_added, news).for(users)
+    users.each do |user|
+      news_added(user, news).deliver_later
+    end
   end
 
-  # Builds a Mail::Message object used to email the current user when a news
-  # comment is added.
-  #
-  # Example:
-  #   news_comment_added(comment) => Mail::Message object
-  def news_comment_added(comment)
+  # Builds a mail to user about a new news comment.
+  def news_comment_added(user, comment)
     news = comment.commented
     redmine_headers 'Project' => news.project.identifier
     @author = comment.author
@@ -360,27 +226,24 @@ class Mailer < ActionMailer::Base
     @news = news
     @comment = comment
     @news_url = url_for(:controller => 'news', :action => 'show', :id => news)
-    mail :to => User.current,
+    mail :to => user,
      :subject => "Re: [#{news.project.name}] #{l(:label_news)}: #{news.title}"
   end
 
-  # Build a MultiMessage to notify users about a new news comment
+  # Notifies users about a new comment on a news
   #
   # Example:
-  #   Mailer.news_comment_added(comment).deliver => sends emails to the news' project recipients
-  def self.news_comment_added(comment)
+  #   Mailer.deliver_news_comment_added(comment)
+  def self.deliver_news_comment_added(comment)
     news = comment.commented
     users = news.notified_users | news.notified_watchers
-
-    MultiMessage.new(:news_comment_added, comment).for(users)
+    users.each do |user|
+      news_comment_added(user, comment).deliver_later
+    end
   end
 
-  # Builds a Mail::Message object used to email the current user that the
-  # specified message was posted.
-  #
-  # Example:
-  #   message_posted(message) => Mail::Message object
-  def message_posted(message)
+  # Builds a mail to user about a new message.
+  def message_posted(user, message)
     redmine_headers 'Project' => message.project.identifier,
                     'Topic-Id' => (message.parent_id || message.id)
     @author = message.author
@@ -388,28 +251,26 @@ class Mailer < ActionMailer::Base
     references message.root
     @message = message
     @message_url = url_for(message.event_url)
-    mail :to => User.current,
+    mail :to => user,
       :subject => "[#{message.board.project.name} - #{message.board.name} - msg#{message.root.id}] #{message.subject}"
   end
 
-  # Build a MultiMessage to notify users about a new forum message
+  # Notifies users about a new forum message.
   #
   # Example:
-  #   Mailer.message_posted(message).deliver => sends emails to the recipients
-  def self.message_posted(message)
+  #   Mailer.deliver_message_posted(message)
+  def self.deliver_message_posted(message)
     users  = message.notified_users
     users |= message.root.notified_watchers
     users |= message.board.notified_watchers
 
-    MultiMessage.new(:message_posted, message).for(users)
+    users.each do |user|
+      message_posted(user, message).deliver_later
+    end
   end
 
-  # Builds a Mail::Message object used to email the current user that the
-  # specified wiki content was added.
-  #
-  # Example:
-  #   wiki_content_added(wiki_content) => Mail::Message object
-  def wiki_content_added(wiki_content)
+  # Builds a mail to user about a new wiki content.
+  def wiki_content_added(user, wiki_content)
     redmine_headers 'Project' => wiki_content.project.identifier,
                     'Wiki-Page-Id' => wiki_content.page.id
     @author = wiki_content.author
@@ -418,25 +279,23 @@ class Mailer < ActionMailer::Base
     @wiki_content_url = url_for(:controller => 'wiki', :action => 'show',
                                       :project_id => wiki_content.project,
                                       :id => wiki_content.page.title)
-    mail :to => User.current,
+    mail :to => user,
       :subject => "[#{wiki_content.project.name}] #{l(:mail_subject_wiki_content_added, :id => wiki_content.page.pretty_title)}"
   end
 
-  # Build a MultiMessage to notify users about added wiki content
+  # Notifies users about a new wiki content (wiki page added).
   #
   # Example:
-  #   Mailer.wiki_content_added(wiki_content).deliver => send emails to the project's recipients
-  def self.wiki_content_added(wiki_content)
+  #   Mailer.deliver_wiki_content_added(wiki_content)
+  def self.deliver_wiki_content_added(wiki_content)
     users = wiki_content.notified_users | wiki_content.page.wiki.notified_watchers
-    MultiMessage.new(:wiki_content_added, wiki_content).for(users)
+    users.each do |user|
+      wiki_content_added(user, wiki_content).deliver_later
+    end
   end
 
-  # Builds a Mail::Message object used to email the current user about an update
-  # of the specified wiki content.
-  #
-  # Example:
-  #   wiki_content_updated(wiki_content) => Mail::Message object
-  def wiki_content_updated(wiki_content)
+  # Builds a mail to user about an update of the specified wiki content.
+  def wiki_content_updated(user, wiki_content)
     redmine_headers 'Project' => wiki_content.project.identifier,
                     'Wiki-Page-Id' => wiki_content.page.id
     @author = wiki_content.author
@@ -448,154 +307,141 @@ class Mailer < ActionMailer::Base
     @wiki_diff_url = url_for(:controller => 'wiki', :action => 'diff',
                                    :project_id => wiki_content.project, :id => wiki_content.page.title,
                                    :version => wiki_content.version)
-    mail :to => User.current,
+    mail :to => user,
       :subject => "[#{wiki_content.project.name}] #{l(:mail_subject_wiki_content_updated, :id => wiki_content.page.pretty_title)}"
   end
 
-  # Build a MultiMessage to notify users about the update of the specified wiki content
+  # Notifies users about the update of the specified wiki content
   #
   # Example:
-  #   Mailer.wiki_content_updated(wiki_content).deliver => sends an email to the project's recipients
-  def self.wiki_content_updated(wiki_content)
+  #   Mailer.deliver_wiki_content_updated(wiki_content)
+  def self.deliver_wiki_content_updated(wiki_content)
     users  = wiki_content.notified_users
     users |= wiki_content.page.notified_watchers
     users |= wiki_content.page.wiki.notified_watchers
 
-    MultiMessage.new(:wiki_content_updated, wiki_content).for(users)
+    users.each do |user|
+      wiki_content_updated(user, wiki_content).deliver_later
+    end
   end
 
-  # Builds a Mail::Message object used to email the current user their account information.
-  #
-  # Example:
-  #   account_information(password) => Mail::Message object
-  def account_information(password)
-    @user = User.current
+  # Builds a mail to user about his account information.
+  def account_information(user, password)
+    @user = user
     @password = password
     @login_url = url_for(:controller => 'account', :action => 'login')
-    mail :to => User.current.mail,
+    mail :to => user.mail,
       :subject => l(:mail_subject_register, Setting.app_title)
   end
 
-  # Build a MultiMessage to mail a user their account information
-  #
-  # Example:
-  #   Mailer.account_information(user, password).deliver => sends account information to the user
-  def self.account_information(user, password)
-    MultiMessage.new(:account_information, password).for(user)
+  # Notifies user about his account information.
+  def self.deliver_account_information(user, password)
+    account_information(user, password).deliver_later
   end
 
-  # Builds a Mail::Message object used to email the current user about an account activation request.
-  #
-  # Example:
-  #   account_activation_request(user) => Mail::Message object
-  def account_activation_request(user)
-    @user = user
+  # Builds a mail to user about an account activation request.
+  def account_activation_request(user, new_user)
+    @new_user = new_user
     @url = url_for(:controller => 'users', :action => 'index',
                          :status => User::STATUS_REGISTERED,
                          :sort_key => 'created_on', :sort_order => 'desc')
-    mail :to => User.current,
+    mail :to => user,
       :subject => l(:mail_subject_account_activation_request, Setting.app_title)
   end
 
-  # Build a MultiMessage to email all active administrators of an account activation request.
+  # Notifies admin users that an account activation request needs
+  # their approval.
   #
-  # Example:
-  #   Mailer.account_activation_request(user).deliver => sends an email to all active administrators
-  def self.account_activation_request(user)
+  # Exemple:
+  #   Mailer.deliver_account_activation_request(new_user)
+  def self.deliver_account_activation_request(new_user)
     # Send the email to all active administrators
     users = User.active.where(:admin => true)
-    MultiMessage.new(:account_activation_request, user).for(users)
+    users.each do |user|
+      account_activation_request(user, new_user).deliver_later
+    end
   end
 
-  # Builds a Mail::Message object used to email the account of the current user
-  # was activated by an administrator.
-  #
-  # Example:
-  #   account_activated => Mail::Message object
-  def account_activated
-    @user = User.current
+  # Builds a mail to notify user that his account was activated.
+  def account_activated(user)
+    @user = user
     @login_url = url_for(:controller => 'account', :action => 'login')
-    mail :to => User.current.mail,
+    mail :to => user.mail,
       :subject => l(:mail_subject_register, Setting.app_title)
   end
 
-  # Build a MultiMessage to email the specified user that their account was
-  # activated by an administrator.
+  # Notifies user that his account was activated.
   #
-  # Example:
-  #   Mailer.account_activated(user).deliver => sends an email to the registered user
-  def self.account_activated(user)
-    MultiMessage.new(:account_activated).for(user)
+  # Exemple:
+  #   Mailer.deliver_account_activated(user)
+  def self.deliver_account_activated(user)
+    account_activated(user).deliver_later
   end
 
-  # Builds a Mail::Message object used to email the lost password token to the
-  # token's user (or a different recipient).
-  #
-  # Example:
-  #   lost_password(token) => Mail::Message object
-  def lost_password(token, recipient=nil)
-    recipient ||= token.user.mail
+  # Builds a mail with the password recovery link.
+  def lost_password(user, token, recipient=nil)
+    recipient ||= user.mail
     @token = token
     @url = url_for(:controller => 'account', :action => 'lost_password', :token => token.value)
     mail :to => recipient,
       :subject => l(:mail_subject_lost_password, Setting.app_title)
   end
 
-  # Build a MultiMessage to email the token's user (or a different recipient)
-  # the lost password token for the token's user.
+  # Sends an email to user with a password recovery link.
+  # The email will be sent to the email address specifiedby recipient if provided.
   #
-  # Example:
-  #   Mailer.lost_password(token).deliver => sends an email to the user
-  def self.lost_password(token, recipient=nil)
-    MultiMessage.new(:lost_password, token, recipient).for(token.user)
+  # Exemple:
+  #   Mailer.deliver_account_activated(user, token)
+  #   Mailer.deliver_account_activated(user, token, 'foo@example.net')
+  def self.deliver_lost_password(user, token, recipient=nil)
+    lost_password(user, token, recipient).deliver_later
   end
 
-  # Notifies user that his password was updated
-  def self.password_updated(user, options={})
+  # Notifies user that his password was updated by sender.
+  #
+  # Exemple:
+  #   Mailer.deliver_password_updated(user, sender)
+  def self.deliver_password_updated(user, sender)
     # Don't send a notification to the dummy email address when changing the password
     # of the default admin account which is required after the first login
     # TODO: maybe not the best way to handle this
     return if user.admin? && user.login == 'admin' && user.mail == 'admin@example.net'
 
-    security_notification(user,
+    deliver_security_notification(user,
+      sender,
       message: :mail_body_password_updated,
       title: :button_change_password,
-      remote_ip: options[:remote_ip],
-      originator: user,
       url: {controller: 'my', action: 'password'}
-    ).deliver
+    )
   end
 
-  # Builds a Mail::Message object used to email the user activation link to the
-  # token's user.
-  #
-  # Example:
-  #   register(token) => Mail::Message object
-  def register(token)
+  # Builds a mail to user with his account activation link.
+  def register(user, token)
     @token = token
     @url = url_for(:controller => 'account', :action => 'activate', :token => token.value)
-    mail :to => token.user.mail,
+    mail :to => user.mail,
       :subject => l(:mail_subject_register, Setting.app_title)
   end
 
-  # Build a MultiMessage to email the user activation link to the token's user.
+  # Sends an mail to user with his account activation link.
   #
-  # Example:
-  #   Mailer.register(token).deliver => sends an email to the token's user
-  def self.register(token)
-    MultiMessage.new(:register, token).for(token.user)
+  # Exemple:
+  #   Mailer.deliver_register(user, token)
+  def self.deliver_register(user, token)
+    register(user, token).deliver_later
   end
 
-  # Build a Mail::Message object to email the current user and the additional
-  # recipients given in options[:recipients] about a security related event.
+  # Build a mail to user and the additional recipients given in
+  # options[:recipients] about a security related event made by sender.
   #
   # Example:
-  #   security_notification(users,
+  #   security_notification(user,
+  #     sender,
   #     message: :mail_body_security_notification_add,
   #     field: :field_mail,
   #     value: address
   #   ) => Mail::Message object
-  def security_notification(sender, options={})
+  def security_notification(user, sender, options={})
     @sender = sender
     redmine_headers 'Sender' => sender.login
     @message = l(options[:message],
@@ -603,79 +449,100 @@ class Mailer < ActionMailer::Base
       value: options[:value]
     )
     @title = options[:title] && l(options[:title])
-    @originator = options[:originator] || sender
-    @remote_ip = options[:remote_ip] || @originator.remote_ip
+    @remote_ip = options[:remote_ip] || @sender.remote_ip
     @url = options[:url] && (options[:url].is_a?(Hash) ? url_for(options[:url]) : options[:url])
-    redmine_headers 'Sender' => @originator.login
     redmine_headers 'Url' => @url
-    mail :to => [User.current, *options[:recipients]].uniq,
+    mail :to => [user, *options[:recipients]].uniq,
       :subject => "[#{Setting.app_title}] #{l(:mail_subject_security_notification)}"
   end
 
-  # Build a MultiMessage to email the given users about a security related event.
+  # Notifies the given users about a security related event made by sender.
   #
   # You can specify additional recipients in options[:recipients]. These will be
   # added to all generated mails for all given users. Usually, you'll want to
   # give only a single user when setting the additional recipients.
   #
   # Example:
-  #   Mailer.security_notification(users,
+  #   Mailer.deliver_security_notification(users,
+  #     sender,
   #     message: :mail_body_security_notification_add,
   #     field: :field_mail,
   #     value: address
-  #   ).deliver => sends a security notification to the given user(s)
-  def self.security_notification(users, options={})
-    sender = User.current
-    MultiMessage.new(:security_notification, sender, options).for(users)
+  #   )
+  def self.deliver_security_notification(users, sender, options={})
+    # Symbols cannot be serialized:
+    # ActiveJob::SerializationError: Unsupported argument type: Symbol
+    options = options.transform_values {|v| v.is_a?(Symbol) ? v.to_s : v }
+    # sender's remote_ip would be lost on serialization/deserialization
+    # we have to pass it with options
+    options[:remote_ip] ||= sender.remote_ip
+
+    Array.wrap(users).each do |user|
+      security_notification(user, sender, options).deliver_later
+    end
   end
 
-  # Build a Mail::Message object to email the current user about an updated
-  # setting.
-  #
-  # Example:
-  #   settings_updated(sender, [:host_name]) => Mail::Message object
-  def settings_updated(sender, changes)
+  # Build a mail to user about application settings changes made by sender.
+  def settings_updated(user, sender, changes, options={})
     @sender = sender
     redmine_headers 'Sender' => sender.login
     @changes = changes
+    @remote_ip = options[:remote_ip] || @sender.remote_ip
     @url = url_for(controller: 'settings', action: 'index')
-    mail :to => User.current,
+    mail :to => user,
       :subject => "[#{Setting.app_title}] #{l(:mail_subject_security_notification)}"
   end
 
-  # Build a MultiMessage to email the given users about an update of a setting.
+  # Notifies admins about application settings changes made by sender, where
+  # changes is an array of settings names.
   #
-  # Example:
-  #   Mailer.settings_updated(users, [:host_name]).deliver => sends emails to the given user(s) about the update
-  def self.settings_updated(users, changes)
-    sender = User.current
-    MultiMessage.new(:settings_updated, sender, changes).for(users)
-  end
-  
-  # Notifies admins about settings changes
-  def self.security_settings_updated(changes)
+  # Exemple:
+  #   Mailer.deliver_settings_updated(sender, [:login_required, :self_registration])
+  def self.deliver_settings_updated(sender, changes, options={})
     return unless changes.present?
 
+    # Symbols cannot be serialized:
+    # ActiveJob::SerializationError: Unsupported argument type: Symbol
+    changes = changes.map(&:to_s)
+    # sender's remote_ip would be lost on serialization/deserialization
+    # we have to pass it with options
+    options[:remote_ip] ||= sender.remote_ip
+
     users = User.active.where(admin: true).to_a
-    settings_updated(users, changes).deliver
+    users.each do |user|
+      settings_updated(user, sender, changes, options).deliver_later
+    end
   end
 
-  # Build a Mail::Message object with a test email for the current user
-  #
-  # Example:
-  #   test_email => Mail::Message object
+  # Build a test email to user.
   def test_email(user)
     @url = url_for(:controller => 'welcome')
-    mail :to => user.mail,
+    mail :to => user,
       :subject => 'Redmine test'
   end
 
-  # Build a MultiMessage to send a test email the given user
+  # Send a test email to user. Will raise error that may occur during delivery.
   #
-  # Example:
-  #   Mailer.test_email(user).deliver => send an email to the given user
-  def self.test_email(user)
-    MultiMessage.new(:test_email, user).for(user)
+  # Exemple:
+  #   Mailer.deliver_test_email(user)
+  def self.deliver_test_email(user)
+    raise_delivery_errors_was = self.raise_delivery_errors
+    self.raise_delivery_errors = true
+    # Email must be delivered synchronously so we can catch errors
+    test_email(user).deliver_now
+  ensure
+    self.raise_delivery_errors = raise_delivery_errors_was
+  end
+
+  # Builds a reminder mail to user about issues that are due in the next days.
+  def reminder(user, issues, days)
+    @issues = issues
+    @days = days
+    @issues_url = url_for(:controller => 'issues', :action => 'index',
+                                :set_filter => 1, :assigned_to_id => user.id,
+                                :sort => 'due_date:asc')
+    mail :to => user,
+      :subject => l(:mail_subject_reminder, :count => issues.size, :days => days)
   end
 
   # Sends reminders to issue assignees
@@ -731,17 +598,19 @@ class Mailer < ActionMailer::Base
     ActionMailer::Base.perform_deliveries = was_enabled
   end
 
-  # Sends emails synchronously in the given block
+  # Execute the given block with inline sending of emails if the default Async
+  # queue is used for the mailer. See the Rails guide:
+  # Using the asynchronous queue from a Rake task will generally not work because
+  # Rake will likely end, causing the in-process thread pool to be deleted, before
+  # any/all of the .deliver_later emails are processed
   def self.with_synched_deliveries(&block)
-    saved_method = ActionMailer::Base.delivery_method
-    if m = saved_method.to_s.match(%r{^async_(.+)$})
-      synched_method = m[1]
-      ActionMailer::Base.delivery_method = synched_method.to_sym
-      ActionMailer::Base.send "#{synched_method}_settings=", ActionMailer::Base.send("async_#{synched_method}_settings")
+    adapter = ActionMailer::DeliveryJob.queue_adapter
+    if adapter.is_a?(ActiveJob::QueueAdapters::AsyncAdapter)
+      ActionMailer::DeliveryJob.queue_adapter = ActiveJob::QueueAdapters::InlineAdapter.new
     end
     yield
   ensure
-    ActionMailer::Base.delivery_method = saved_method
+    ActionMailer::DeliveryJob.queue_adapter = adapter
   end
 
   def mail(headers={}, &block)
@@ -816,8 +685,6 @@ class Mailer < ActionMailer::Base
     if m = method.to_s.match(%r{^deliver_(.+)$})
       ActiveSupport::Deprecation.warn "Mailer.deliver_#{m[1]}(*args) is deprecated. Use Mailer.#{m[1]}(*args).deliver instead."
       send(m[1], *args).deliver
-    elsif action_methods.include?(method.to_s)
-      MultiMessage.new(method, *args).for(User.current)
     else
       super
     end
