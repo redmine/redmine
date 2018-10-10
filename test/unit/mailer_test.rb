@@ -44,7 +44,6 @@ class MailerTest < ActiveSupport::TestCase
       assert Mailer.deliver_issue_edit(journal)
     end
     mail = last_email
-    assert_not_nil mail
 
     assert_select_email do
       # link to the main ticket on issue id
@@ -88,7 +87,6 @@ class MailerTest < ActiveSupport::TestCase
     end
 
     mail = last_email
-    assert_not_nil mail
 
     assert_select_email do
       # link to the main ticket
@@ -124,7 +122,6 @@ class MailerTest < ActiveSupport::TestCase
     with_settings :host_name => '10.0.0.1:81/redmine', :protocol => 'http' do
       Mailer.test_email(User.find(1)).deliver_now
       mail = last_email
-      assert_not_nil mail
       assert_include 'http://10.0.0.1:81/redmine', mail_body(mail)
     end
   end
@@ -133,7 +130,6 @@ class MailerTest < ActiveSupport::TestCase
     with_settings :host_name => '10.0.0.1:81', :protocol => 'http' do
       Mailer.test_email(User.find(1)).deliver_now
       mail = last_email
-      assert_not_nil mail
       assert_include 'http://10.0.0.1:81', mail_body(mail)
     end
   end
@@ -159,7 +155,6 @@ class MailerTest < ActiveSupport::TestCase
     end
 
     mail = last_email
-    assert_not_nil mail
 
     assert_select_email do
       # link to the main ticket
@@ -206,7 +201,6 @@ class MailerTest < ActiveSupport::TestCase
     issue = Issue.find(1)
     Mailer.deliver_issue_add(issue)
     mail = last_email
-    assert_not_nil mail
     assert_equal 'All', mail.header['X-Auto-Response-Suppress'].to_s
     assert_equal 'auto-generated', mail.header['Auto-Submitted'].to_s
     assert_equal '<redmine.example.net>', mail.header['List-Id'].to_s
@@ -634,7 +628,6 @@ class MailerTest < ActiveSupport::TestCase
       sender.remote_ip = '192.168.1.1'
       assert Mailer.deliver_security_notification(User.find(1), sender, message: :notice_account_password_updated)
       mail = last_email
-      assert_not_nil mail
       assert_mail_body_match sender.login, mail
       assert_mail_body_match '192.168.1.1', mail
       assert_mail_body_match I18n.t(:notice_account_password_updated), mail
@@ -652,7 +645,6 @@ class MailerTest < ActiveSupport::TestCase
       sender.remote_ip = '192.168.1.1'
       assert Mailer.deliver_security_notification(User.find(1), sender, message: :notice_account_password_updated, remote_ip: '10.0.0.42')
       mail = last_email
-      assert_not_nil mail
       assert_mail_body_match '10.0.0.42', mail
     end
   end
@@ -728,7 +720,6 @@ class MailerTest < ActiveSupport::TestCase
       with_settings :plain_text_mail => 1 do
         assert Mailer.test_email(User.find(1)).deliver_now
         mail = last_email
-        assert_not_nil mail
         assert_include "*Header content*", mail.body.decoded
       end
     end
@@ -756,7 +747,6 @@ class MailerTest < ActiveSupport::TestCase
       with_settings :plain_text_mail => 1 do
         assert Mailer.test_email(User.find(1)).deliver_now
         mail = last_email
-        assert_not_nil mail
         assert_include "\n-- \n", mail.body.decoded
         assert_include "*Footer content*", mail.body.decoded
       end
@@ -774,7 +764,6 @@ class MailerTest < ActiveSupport::TestCase
       with_settings :plain_text_mail => 1 do
         assert Mailer.test_email(User.find(1)).deliver_now
         mail = last_email
-        assert_not_nil mail
         assert_not_include "\n-- \n", mail.body.decoded
       end
     end
