@@ -88,7 +88,7 @@ class Mailer < ActionMailer::Base
   def self.deliver_issue_add(issue)
     users = issue.notified_users | issue.notified_watchers
     users.each do |user|
-      issue_add(user, issue).deliver
+      issue_add(user, issue).deliver_later
     end
   end
 
@@ -125,7 +125,7 @@ class Mailer < ActionMailer::Base
       journal.notes? || journal.visible_details(user).any?
     end
     users.each do |user|
-      issue_edit(user, journal).deliver
+      issue_edit(user, journal).deliver_later
     end
   end
 
@@ -584,7 +584,7 @@ class Mailer < ActionMailer::Base
     issues_by_assignee.each do |assignee, issues|
       if assignee.is_a?(User) && assignee.active? && issues.present?
         visible_issues = issues.select {|i| i.visible?(assignee)}
-        reminder(assignee, visible_issues, days).deliver if visible_issues.present?
+        reminder(assignee, visible_issues, days).deliver_later if visible_issues.present?
       end
     end
   end
