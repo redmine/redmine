@@ -223,7 +223,7 @@
   general_text_Yes: '是'
   general_text_no: '否'
   general_text_yes: '是'
-  general_lang_name: 'Traditional Chinese (繁體中文)'
+  general_lang_name: 'Chinese/Traditional (繁體中文)'
   general_csv_separator: ','
   general_csv_decimal_separator: '.'
   general_csv_encoding: Big5
