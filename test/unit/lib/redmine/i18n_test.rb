@@ -249,7 +249,7 @@ class Redmine::I18nTest < ActiveSupport::TestCase
 
   def test_traditional_chinese_locale
     set_language_if_valid 'zh-TW'
-    str_tw = "Traditional Chinese (\xe7\xb9\x81\xe9\xab\x94\xe4\xb8\xad\xe6\x96\x87)".force_encoding('UTF-8')
+    str_tw = "Chinese/Traditional (\xE7\xB9\x81\xE9\xAB\x94\xE4\xB8\xAD\xE6\x96\x87)".force_encoding('UTF-8')
     assert_equal str_tw, l(:general_lang_name)
   end
 
