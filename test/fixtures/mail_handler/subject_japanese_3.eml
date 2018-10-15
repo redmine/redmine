@@ -1,0 +1,9 @@
+From: John Smith <JSmith@somenet.foo>
+To: "redmine@somenet.foo" <redmine@somenet.foo>
+Subject: =?iso-2022-jp?B?GyRCLSEbKEIgGyRCNF0/dDt6JUYlOSVIGyhC?=
+Date: Mon, 27 Aug 2018 09:30:00 +0900
+Message-ID: <87C31D42249DD0489D1A1444E3232DD7019D6183@foo.bar>
+
+The subject contains a "CIRCLED DIGIT ONE" character (U+2460).
+It is undefined in ISO-2022-JP but defined in some vendor-extended
+variants such as ISO-2022-JP-MS.

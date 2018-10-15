@@ -741,6 +741,20 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal ja, issue.subject
   end
 
+  def test_add_issue_with_iso_2022_jp_ms_subject
+    # The original subject is "① 丸数字テスト".
+    # CIRCLED DIGIT ONE character is undefined in ISO-2022-JP but
+    # defined in some vendor-extended variants such as ISO-2022-JP-MS.
+    # This test makes sure that mail gem replaces an undefined characters
+    # with a replacement character instead of breaking the whole subject.
+    issue = submit_email(
+              'subject_japanese_3.eml',
+              :issue => {:project => 'ecookbook'}
+            )
+    assert_kind_of Issue, issue
+    assert_match /丸数字テスト/, issue.subject
+  end
+
   def test_should_ignore_emails_from_locked_users
     User.find(2).lock!
 
