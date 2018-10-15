@@ -12,7 +12,7 @@ gem "actionpack-xml_parser"
 gem "roadie-rails", "~> 1.3.0"
 gem "roadie", "~> 3.2.1"
 gem "mimemagic"
-gem "mail", "~> 2.6.4"
+gem "mail", "~> 2.7.1"
 gem "csv", "~> 1.0.2" if RUBY_VERSION >= "2.3"
 
 gem "nokogiri", "~> 1.8.0"
