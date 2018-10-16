@@ -74,12 +74,12 @@ Optional:
      sudo chown -R redmine:redmine files log tmp public/plugin_assets
      sudo chmod -R 755 files log tmp public/plugin_assets
 
-8. Test the installation by running the WEBrick web server
+8. Test the installation by running the Puma web server
    
    Under the main application directory run:
      ruby bin/rails server -e production
    
-   Once WEBrick has started, point your browser to http://localhost:3000/
+   Once Puma has started, point your browser to http://localhost:3000/
    You should now see the application welcome page.
 
 9. Use the default administrator account to log in:
