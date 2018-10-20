@@ -166,7 +166,7 @@ module MyHelper
   end
 
   def render_activity_block(block, settings)
-    events_by_day = Redmine::Activity::Fetcher.new(User.current, :author => User.current).events(nil, nil, :limit => 10).group_by(&:event_date)
+    events_by_day = Redmine::Activity::Fetcher.new(User.current, :author => User.current).events(nil, nil, :limit => 10).group_by {|event| User.current.time_to_date(event.event_datetime)}
 
     render :partial => 'my/blocks/activity', :locals => {:events_by_day => events_by_day}
   end
