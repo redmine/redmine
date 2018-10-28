@@ -1034,7 +1034,7 @@ class RedCloth3 < String
     def flush_left( text )
         indt = 0
         if text =~ /^ /
-            while text !~ /^ {#{indt}}\S/
+            while text !~ /^ {#{indt}}[^ ]/
                 indt += 1
             end unless text.empty?
             if indt.nonzero?
