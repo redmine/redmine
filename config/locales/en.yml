@@ -208,6 +208,7 @@ en:
   error_unable_to_connect: "Unable to connect (%{value})"
   error_attachment_too_big: "This file cannot be uploaded because it exceeds the maximum allowed file size (%{max_size})"
   error_session_expired: "Your session has expired. Please login again."
+  error_token_expired: "This password recovery link has expired, please try again."
   warning_attachments_not_saved: "%{count} file(s) could not be saved."
   error_password_expired: "Your password has expired or the administrator requires you to change it."
   error_invalid_file_encoding: "The file is not a valid %{encoding} encoded file"

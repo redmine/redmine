@@ -62,8 +62,14 @@ class AccountController < ApplicationController
     (redirect_to(home_url); return) unless Setting.lost_password?
     if prt = (params[:token] || session[:password_recovery_token])
       @token = Token.find_token("recovery", prt.to_s)
-      if @token.nil? || @token.expired?
+      if @token.nil?
         redirect_to home_url
+        return
+      elsif @token.expired?
+        # remove expired token from session and let user try again
+        session[:password_recovery_token] = nil
+        flash[:error] = l(:error_token_expired)
+        redirect_to lost_password_url
         return
       end
 
