@@ -580,6 +580,12 @@ STR
     }, false)
   end
 
+  # TODO: Remove this test after migrating to RedCloth 4
+  def test_should_not_crash_with_special_input
+    assert_nothing_raised { to_html(" \f") }
+    assert_nothing_raised { to_html(" \v") }
+  end
+
   private
 
   def assert_html_output(to_test, expect_paragraph = true)
