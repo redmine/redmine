@@ -1262,3 +1262,4 @@ gl:
   label_ldaps_warning: Se recomenda usar unha conexión LDAPS con comprobación de
     certificado para evitar calquera manipulación durante o proceso de autenticación.
   label_nothing_to_preview: Nada que previsualizar
+  error_token_expired: This password recovery link has expired, please try again.

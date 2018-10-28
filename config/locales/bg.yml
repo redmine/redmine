@@ -1231,3 +1231,4 @@ bg:
   label_ldaps_verify_none: LDAP удостоверяване
   label_ldaps_verify_peer: LDAPS
   label_ldaps_warning: препоръчително е да се използва криптирана LDAPS връзка със сертификат за предотвратяване на намеса по време на процеса на удостоверяване.
+  error_token_expired: This password recovery link has expired, please try again.

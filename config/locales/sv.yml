@@ -1287,3 +1287,4 @@ sv:
   label_ldaps_warning: It is recommended to use an encrypted LDAPS connection with certificate
     check to prevent any manipulation during the authentication process.
   label_nothing_to_preview: Nothing to preview
+  error_token_expired: This password recovery link has expired, please try again.

@@ -1342,3 +1342,4 @@ ru:
   label_ldaps_verify_peer: LDAPS
   label_ldaps_warning: Рекомендуется использовать зашифрованное соединение LDAPS с проверкой сертификата для предотвращения любых посторонних вмешательств в процессе аутентификации.
   label_nothing_to_preview: Нет данных для предварительного просмотра
+  error_token_expired: This password recovery link has expired, please try again.
