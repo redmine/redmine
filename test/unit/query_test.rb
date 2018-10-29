@@ -2199,4 +2199,27 @@ class QueryTest < ActiveSupport::TestCase
 
     assert_equal ['1','2','3','4','5','6'], query.available_filters['status_id'][:values].map(&:second)
   end
+
+  def test_project_status_filter_should_be_available_in_global_queries
+    query = IssueQuery.new(:project => nil, :name => '_')
+    assert query.available_filters.has_key?('project.status')
+  end
+
+  def test_project_status_filter_should_be_available_when_project_has_subprojects
+    query = IssueQuery.new(:project => Project.find(1), :name => '_')
+    assert query.available_filters.has_key?('project.status')
+  end
+
+  def test_project_status_filter_should_not_be_available_when_project_is_leaf
+    query = IssueQuery.new(:project => Project.find(2), :name => '_')
+    assert !query.available_filters.has_key?('project.status')
+  end
+
+  def test_project_statuses_values_should_return_only_active_and_closed_statuses
+    query = IssueQuery.new(:project => nil, :name => '_')
+    project_status_filter = query.available_filters['project.status']
+    assert_not_nil project_status_filter
+
+    assert_equal [["active", "1"], ["closed", "5"]], project_status_filter[:values]
+  end
 end

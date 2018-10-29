@@ -165,6 +165,12 @@ class IssueQuery < Query
         :values => lambda { subproject_values }
     end
 
+    add_available_filter("project.status",
+      :type => :list,
+      :name => l(:label_attribute_of_project, :name => l(:field_status)),
+      :values => lambda { project_statuses_values }
+    ) if project.nil? || !project.leaf?
+
     add_custom_fields_filters(issue_custom_fields)
     add_associations_custom_fields_filters :project, :author, :assigned_to, :fixed_version
 
@@ -575,6 +581,10 @@ class IssueQuery < Query
       sql = sqls.join(["!", "!*", "!p", '!o'].include?(operator) ? " AND " : " OR ")
     end
     "(#{sql})"
+  end
+
+  def sql_for_project_status_field(field, operator, value, options={})
+    sql_for_field(field, operator, value, Project.table_name, "status")
   end
 
   def find_assigned_to_id_filter_values(values)

@@ -264,6 +264,25 @@ class IssuesControllerTest < Redmine::ControllerTest
     assert_equal [3, 5], issues_in_list.map(&:project_id).uniq.sort
   end
 
+  def test_index_with_project_status_filter
+    project = Project.find(2)
+    project.close
+    project.save
+
+    get :index, :params => {
+        :set_filter => 1,
+        :f => ['project.status'],
+        :op => {'project.status' => '='},
+        :v => {'project.status' => ['1']}
+      }
+
+    assert_response :success
+
+    issues = issues_in_list.map(&:id).uniq.sort
+    assert_include 1, issues
+    assert_not_include 4, issues
+  end
+
   def test_index_with_query
     get :index, :params => {
         :project_id => 1,

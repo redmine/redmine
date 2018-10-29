@@ -75,7 +75,7 @@ class QueriesHelperTest < Redmine::HelperTest
     with_locale 'en' do
       options = filters_options_for_select(IssueQuery.new)
       assert_select_in options, 'optgroup[label=?]', 'Project', 1
-      assert_select_in options, 'optgroup[label=?] > option', 'Project', 2
+      assert_select_in options, 'optgroup[label=?] > option', 'Project', 3
       assert_select_in options, 'optgroup > option[value=?]', "project.cf_#{cf1.id}", :text => "Project's Foo"
     end
   end

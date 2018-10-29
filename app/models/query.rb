@@ -579,6 +579,14 @@ class Query < ActiveRecord::Base
     end
   end
 
+  # Returns a scope of project statuses that are available as columns or filters
+  def project_statuses_values
+    project_statuses =  Project::LABEL_BY_STATUS
+    # Remove archived status from filters
+    project_statuses.delete(9)
+    project_statuses.stringify_keys.invert.to_a
+  end
+
   # Adds available filters
   def initialize_available_filters
     # implemented by sub-classes
