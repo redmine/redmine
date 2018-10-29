@@ -227,6 +227,94 @@ class MyControllerTest < Redmine::ControllerTest
     assert_select 'div.mypage-box', blocks.size
   end
 
+  def test_page_with_assigned_issues_block_should_not_show_issues_from_closed_projects
+    preferences = User.find(2).pref
+    preferences.my_page_layout = {'top' => ['issuesassignedtome']}
+    preferences.my_page_settings = {'issuesassignedtome' => {}}
+    preferences.save!
+
+    issue = Issue.find(1)
+    issue.assigned_to = User.find(2)
+    issue.save!
+
+    project = Project.find(2)
+    project.close
+    project.save
+
+    get :page
+
+    assert_response :success
+    assert_select '#block-issuesassignedtome table.issues tbody' do
+      report_url = css_select('h3 a').map {|e| e.attr('href')}.first
+      assert_match 'f%5B%5D=project.status', report_url
+      assert_match 'v%5Bproject.status%5D%5B%5D=1', report_url
+
+      assert_select 'tr', 1
+      assert_select 'tr[id=?]', 'issue-1', 1, :title => 'Cannot print recipes'
+      assert_select 'tr[id=?]', 'issue-4', 0
+    end
+  end
+
+  def test_page_with_reported_issues_block_should_not_show_issues_from_closed_projects
+    preferences = User.find(2).pref
+    preferences.my_page_layout = {'top' => ['issuesreportedbyme']}
+    preferences.my_page_settings = {'issuesreportedbyme' => {}}
+    preferences.save!
+
+    issue = Issue.find(1)
+    issue.assigned_to = User.find(2)
+    issue.save!
+
+    project = Project.find(2)
+    project.close
+    project.save
+
+    get :page
+
+    assert_response :success
+    assert_select '#block-issuesreportedbyme' do
+      report_url = css_select('h3 a').map {|e| e.attr('href')}.first
+      assert_match 'f%5B%5D=project.status', report_url
+      assert_match 'v%5Bproject.status%5D%5B%5D=1', report_url
+
+      assert_select 'table.issues tbody tr', 10
+      assert_select 'table.issues tbody tr[id=?]', 'issue-1', 1, :title => 'Cannot print recipes'
+      assert_select 'table.issues tbody tr[id=?]', 'issue-4', 0
+    end
+  end
+
+  def test_page_with_watched_issues_block_should_not_show_issues_from_closed_projects
+    preferences = User.find(2).pref
+    preferences.my_page_layout = {'top' => ['issueswatched']}
+    preferences.my_page_settings = {'issueswatched' => {}}
+    preferences.save!
+
+    issue = Issue.find(1)
+    issue.watcher_user_ids = ['1', '2']
+    issue.save!
+
+    issue2 = Issue.find(4)
+    issue2.watcher_user_ids = ['2']
+    issue2.save!
+
+    project = Project.find(2)
+    project.close
+    project.save
+
+    get :page
+
+    assert_response :success
+    assert_select '#block-issueswatched table.issues tbody' do
+      report_url = css_select('h3 a').map {|e| e.attr('href')}.first
+      assert_match 'f%5B%5D=project.status', report_url
+      assert_match 'v%5Bproject.status%5D%5B%5D=1', report_url
+
+      assert_select 'tr', 1
+      assert_select 'tr[id=?]', 'issue-1', 1, :title => 'Cannot print recipes'
+      assert_select 'tr[id=?]', 'issue-4', 0
+    end
+  end
+
   def test_my_account_should_show_editable_custom_fields
     get :account
     assert_response :success
