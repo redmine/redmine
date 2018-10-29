@@ -108,4 +108,19 @@ class TimeEntryQueryTest < ActiveSupport::TestCase
     query = TimeEntryQuery.new(:project => nil, :name => '_')
     assert !query.available_filters.has_key?('issue.category_id')
   end
+
+  def test_project_status_filter_should_be_available_in_global_queries
+    query = TimeEntryQuery.new(:project => nil, :name => '_')
+    assert query.available_filters.has_key?('project.status')
+  end
+
+  def test_project_status_filter_should_be_available_when_project_has_subprojects
+    query = TimeEntryQuery.new(:project => Project.find(1), :name => '_')
+    assert query.available_filters.has_key?('project.status')
+  end
+
+  def test_project_status_filter_should_not_be_available_when_project_is_leaf
+    query = TimeEntryQuery.new(:project => Project.find(2), :name => '_')
+    assert !query.available_filters.has_key?('project.status')
+  end
 end

@@ -986,6 +986,25 @@ class TimelogControllerTest < Redmine::ControllerTest
     assert_equal [entry].map(&:id).map(&:to_s), css_select('input[name="ids[]"]').map {|e| e.attr('value')}
   end
 
+  def test_index_with_project_status_filter
+    project = Project.find(3)
+    project.close
+    project.save
+
+    get :index, :params => {
+        :set_filter => 1,
+        :f => ['project.status'],
+        :op => {'project.status' => '='},
+        :v => {'project.status' => ['1']}
+    }
+
+    assert_response :success
+
+    time_entries = css_select('input[name="ids[]"]').map {|e| e.attr('value')}
+    assert_include '1', time_entries
+    assert_not_include '4', time_entries
+  end
+
   def test_index_with_issue_status_column
     issue = Issue.generate!(:project_id => 1, :tracker_id => 1, :status_id => 4)
     entry = TimeEntry.generate!(:issue => issue)

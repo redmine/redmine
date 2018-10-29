@@ -80,6 +80,12 @@ class TimeEntryQuery < Query
       :type => :list, :values => activities.map {|a| [a.name, a.id.to_s]}
     )
 
+    add_available_filter("project.status",
+      :type => :list,
+      :name => l(:label_attribute_of_project, :name => l(:field_status)),
+      :values => lambda { project_statuses_values }
+    ) if project.nil? || !project.leaf?
+
     add_available_filter "comments", :type => :text
     add_available_filter "hours", :type => :float
 
@@ -203,6 +209,10 @@ class TimeEntryQuery < Query
 
   def sql_for_issue_category_id_field(field, operator, value)
     sql_for_field("category_id", operator, value, Issue.table_name, "category_id")
+  end
+
+  def sql_for_project_status_field(field, operator, value, options={})
+    sql_for_field(field, operator, value, Project.table_name, "status")
   end
 
   # Accepts :from/:to params as shortcut filters
