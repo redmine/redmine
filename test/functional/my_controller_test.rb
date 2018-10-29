@@ -95,7 +95,7 @@ class MyControllerTest < Redmine::ControllerTest
       assert_select 'table.issues.sort-by-due-date'
     end
   end
- 
+
   def test_page_with_issuequery_block_and_no_settings
     user = User.find(2)
     user.pref.my_page_layout = {'top' => ['issuequery']}
@@ -272,8 +272,8 @@ class MyControllerTest < Redmine::ControllerTest
           :group_ids => ['10'],
           :custom_field_values => {
             "4" => "0100562500"
-          }    
-          
+          }
+
         }
       }
 
@@ -292,7 +292,7 @@ class MyControllerTest < Redmine::ControllerTest
     post :account, :params => {
         :user => {
           :mail => 'foobar@example.com'
-          
+
         }
       }
 
@@ -419,7 +419,7 @@ class MyControllerTest < Redmine::ControllerTest
     post :update_page, :params => {
         :settings => {
           'issuesassignedtome' => {
-          'columns' => ['subject', 'due_date']}    
+          'columns' => ['subject', 'due_date']}
         }
       },
       :xhr => true
@@ -476,7 +476,7 @@ class MyControllerTest < Redmine::ControllerTest
     pref = User.find(2).pref
     pref.my_page_layout = {'left' => ['news', 'calendar','documents']}
     pref.save!
-    
+
     post :order_blocks, :params => {
         :group => 'left',
         :blocks => ['documents', 'calendar', 'news']
@@ -490,7 +490,7 @@ class MyControllerTest < Redmine::ControllerTest
     pref = User.find(2).pref
     pref.my_page_layout = {'left' => ['news','documents'], 'right' => ['calendar']}
     pref.save!
-    
+
     post :order_blocks, :params => {
         :group => 'left',
         :blocks => ['news', 'calendar', 'documents']
