@@ -96,7 +96,7 @@ module MyHelper
   def render_issuesassignedtome_block(block, settings)
     query = IssueQuery.new(:name => l(:label_assigned_to_me_issues), :user => User.current)
     query.add_filter 'assigned_to_id', '=', ['me']
-    query.add_filter 'project.status', '=', ['1']
+    query.add_filter 'project.status', '=', ["#{Project::STATUS_ACTIVE}"]
     query.column_names = settings[:columns].presence || ['project', 'tracker', 'status', 'subject']
     query.sort_criteria = settings[:sort].presence || [['priority', 'desc'], ['updated_on', 'desc']]
     issues = query.issues(:limit => 10)
@@ -107,7 +107,7 @@ module MyHelper
   def render_issuesreportedbyme_block(block, settings)
     query = IssueQuery.new(:name => l(:label_reported_issues), :user => User.current)
     query.add_filter 'author_id', '=', ['me']
-    query.add_filter 'project.status', '=', ['1']
+    query.add_filter 'project.status', '=', ["#{Project::STATUS_ACTIVE}"]
     query.column_names = settings[:columns].presence || ['project', 'tracker', 'status', 'subject']
     query.sort_criteria = settings[:sort].presence || [['updated_on', 'desc']]
     issues = query.issues(:limit => 10)
@@ -118,7 +118,7 @@ module MyHelper
   def render_issueswatched_block(block, settings)
     query = IssueQuery.new(:name => l(:label_watched_issues), :user => User.current)
     query.add_filter 'watcher_id', '=', ['me']
-    query.add_filter 'project.status', '=', ['1']
+    query.add_filter 'project.status', '=', ["#{Project::STATUS_ACTIVE}"]
     query.column_names = settings[:columns].presence || ['project', 'tracker', 'status', 'subject']
     query.sort_criteria = settings[:sort].presence || [['updated_on', 'desc']]
     issues = query.issues(:limit => 10)
