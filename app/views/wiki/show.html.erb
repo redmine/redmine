@@ -55,7 +55,7 @@
   <div style="display: none;">
 
   <%= link_to_attachments @page, :thumbnails => true %>
-  
+
   <% if @editable && authorize_for('wiki', 'add_attachment') %>
   <div id="wiki_add_attachment">
     <%= form_tag({:controller => 'wiki', :action => 'add_attachment',
