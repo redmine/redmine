@@ -35,7 +35,7 @@ module Redmine
           json = @struct.first.to_json
           if jsonp.present?
             json = "#{jsonp}(#{json})"
-            response.content_type = 'application/javascript'
+            @response.content_type = 'application/javascript'
           end
           json
         end
