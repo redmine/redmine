@@ -20,6 +20,10 @@ require File.expand_path('../../../test_helper', __FILE__)
 class Redmine::ApiTest::AuthenticationTest < Redmine::ApiTest::Base
   fixtures :users
 
+  def teardown
+    User.current = nil
+  end
+
   def test_api_should_deny_without_credentials
     get '/users/current.xml'
     assert_response 401

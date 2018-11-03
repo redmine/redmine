@@ -26,6 +26,7 @@ class AttachmentsVisibilityTest < Redmine::ControllerTest
            :issues, :trackers, :versions
 
   def setup
+    User.current = nil
     set_tmp_attachments_directory
 
     @field = IssueCustomField.generate!(:field_format => 'attachment', :visible => true)

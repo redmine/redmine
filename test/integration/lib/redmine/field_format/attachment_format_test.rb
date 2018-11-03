@@ -35,6 +35,7 @@ class AttachmentFieldFormatTest < Redmine::IntegrationTest
            :attachments
 
   def setup
+    User.current = nil
     set_tmp_attachments_directory
     @field = IssueCustomField.generate!(:name => "File", :field_format => "attachment")
     log_user "jsmith", "jsmith"
