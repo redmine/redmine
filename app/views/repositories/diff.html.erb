@@ -1,4 +1,31 @@
 <% if @changeset && @changeset_to.nil? %>
+<div class="contextual">
+  &#171;
+  <% unless @changeset.previous.nil? -%>
+    <%= link_to_revision(@changeset.previous, @repository,
+      :text => l(:label_previous), :accesskey => accesskey(:previous)) %>
+  <% else -%>
+    <%= l(:label_previous) %>
+  <% end -%>
+|
+  <% unless @changeset.next.nil? -%>
+    <%= link_to_revision(@changeset.next, @repository,
+      :text => l(:label_next), :accesskey => accesskey(:next)) %>
+  <% else -%>
+    <%= l(:label_next) %>
+  <% end -%>
+  &#187;&nbsp;
+
+  <%= form_tag({:controller => 'repositories',
+               :action     => 'revision',
+               :id         => @project,
+               :repository_id => @repository.identifier_param,
+               :rev        => nil},
+               :method     => :get) do %>
+    <%= text_field_tag 'rev', @rev, :size => 8 %>
+    <%= submit_tag 'OK', :name => nil %>
+  <% end %>
+</div>
 <%= render :partial => 'changeset' %>
 <% else %>
 <h2><%= l(:label_revision) %> <%= @diff_format_revisions %> <%= @path %></h2>
