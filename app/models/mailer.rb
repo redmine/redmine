@@ -27,7 +27,7 @@ class Mailer < ActionMailer::Base
   include Roadie::Rails::Automatic
 
   # Overrides ActionMailer::Base#process in order to set the recipient as the current user
-  # and his language as the default locale. 
+  # and his language as the default locale.
   # The first argument of all actions of this Mailer must be a User (the recipient),
   # otherwise an ArgumentError is raised.
   def process(action, *args)
