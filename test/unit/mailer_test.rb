@@ -684,7 +684,7 @@ class MailerTest < ActiveSupport::TestCase
     # Send an email to a french user
     user = User.find(1)
     user.update_attribute :language, 'fr'
-    
+
     Mailer.deliver_account_activated(user)
     mail = last_email
     assert_mail_body_match 'Votre compte', mail
