@@ -621,6 +621,27 @@ class MailerTest < ActiveSupport::TestCase
     end
   end
 
+  def test_reminders_should_sort_issues_by_due_date
+    user = User.find(2)
+    Issue.generate!(:assigned_to => user, :due_date => 2.days.from_now, :subject => 'quux')
+    Issue.generate!(:assigned_to => user, :due_date => 0.days.from_now, :subject => 'baz')
+    Issue.generate!(:assigned_to => user, :due_date => 1.days.from_now, :subject => 'qux')
+    Issue.generate!(:assigned_to => user, :due_date => -1.days.from_now, :subject => 'foo')
+    Issue.generate!(:assigned_to => user, :due_date => -1.days.from_now, :subject => 'bar')
+    ActionMailer::Base.deliveries.clear
+
+    Mailer.reminders(:days => 7, :users => [user.id])
+    assert_equal 1, ActionMailer::Base.deliveries.size
+    assert_select_email do
+      assert_select 'li', 5
+      assert_select 'li:nth-child(1)', /foo/
+      assert_select 'li:nth-child(2)', /bar/
+      assert_select 'li:nth-child(3)', /baz/
+      assert_select 'li:nth-child(4)', /qux/
+      assert_select 'li:nth-child(5)', /quux/
+    end
+  end
+
   def test_security_notification
     set_language_if_valid User.find(1).language
     with_settings :emails_footer => "footer without link" do
