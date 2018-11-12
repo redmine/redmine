@@ -3676,3 +3676,94 @@ ul[role=tabpanel] li a{
     font-weight: bold;
     font-size: 1.3em;
 }
+
+
+.card {
+    position: relative;
+    border: 1px dashed lightgray;
+    width: 270px;
+    padding-top: 0.5em;
+    display: inline-block;
+    margin: 0.5em;
+}
+
+.card:hover .overlay {
+    opacity: 0.9;
+}
+
+.overlay {
+  position: absolute;
+  padding: 2em 1em 0 1em;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+  opacity: 0;
+  transition: .2s ease;
+  color: black;
+  font-size: 0.9em;
+  background-color: white;
+}
+
+.overlay button {
+    display: block;
+}
+
+.card-info {
+  padding: 1rem;
+  /*display: -ms-grid;
+   display: grid;
+  -ms-grid-rows: 1fr 2.5rem;
+      grid-template-rows: 1fr 2.5rem;
+  -ms-grid-columns: 3fr 1fr;
+      grid-template-columns: 3fr 1fr;*/
+}
+
+.card-img {
+    max-height: 250px;
+    max-width: 250px;
+}
+
+.card-title {
+  font-size: 1.8rem;
+  /*grid-row: 1 / 2;
+  grid-column: 1 / 2;*/
+}
+
+.card-icon {
+  grid-row: 1 / 2;
+  grid-column: 2 / 3;
+  justify-self: right;
+  width: 30px;
+  height: 30px;
+  background-color: LightBlue;
+  border-radius: 100%;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-column-align: center;
+      justify-items: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.card-desc {
+    font-size: 0.7em;
+    line-height: 1em;
+  grid-row: 2 / 3;
+  grid-column: 1 / 2;
+  -webkit-align-self: bottom;
+      -ms-flex-item-align: bottom;
+              -ms-grid-row-align: bottom;
+          align-self: bottom;
+}
+
+.card-stats {
+  -webkit-align-self: bottom;
+      -ms-flex-item-align: bottom;
+              -ms-grid-row-align: bottom;
+          align-self: bottom;
+  justify-self: right;
+}

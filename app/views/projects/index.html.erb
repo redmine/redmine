@@ -18,7 +18,32 @@
         
         <div class="tab-content col-md-9">
             <div class="tab-pane" id="projecthighlights">
-	        <p class="projectHighlightTitle">Neocortex</p>
+                <% projects = JSON.parse(File.read("public/explore.json")) %>
+                <% projects.keys.each do |k| %>
+                    <h2><%= k %></h2>
+                    <% projects[k].each do |proj| %>
+                    <div class="card">
+                        <img class="card-img" src=<%= proj['image_url'] %> alt="header" />
+                        <div class="card-info">
+                            <div class="card-title"><%= proj['name'] %></div>
+                            <div class="overlay">
+                                <p class="description"><%= proj['description'] %></p>
+                                <div>
+                                <a href="<%= proj['url'] %>">Go to project page</a><br>
+                                <a href="<%= proj['explorer_url'] %>">Open in 3D explorer</a>
+                                </div>
+                            </div>
+                            <!--<p class="card-desc"><%= proj['description'] %></p>-->
+                            <!--<p class="card-stats">6 <img src="https://placehold.it/20" alt="hi" /> 6 <img src="https://placehold.it/20" alt="hi" /></p>-->
+                        </div>
+                    </div>
+                    <% end %>
+                <% end %>
+                
+
+
+<div style="display:none;">
+                <p class="projectHighlightTitle">Neocortex</p>
 	        <p class="projectHighlight singlecell"><a href="/projects/l5bpyrcellhayetal2011">Hay et al. 2011</a></p>
 	        <p class="projectHighlight singlecell"><a href="/projects/l23dendriticspikes">Smith et al. 2013</a></p>
 	        <p class="projectHighlight singlecell"><a href="/projects/alleninstituteneuroml">Allen Institute Cell Types DB</a></p>
@@ -43,7 +68,9 @@
 	        <p class="projectHighlight singlecell"><a href="/projects/muscle_model">Boyle & Cohen 2008</a></p>
 	        <p class="projectHighlight network"><a href="/projects/pyloricnetwork">Prinz et al. 2014</a></p>
 	        <p class="projectHighlight singlecell"><a href="/projects/hodgkin-huxley-tutorial">Hodgkin & Huxley 1952</a></p>
+                </div>
 	    </div>
+           
             
             <!-- This begins the cells and network section -->
             <div class="tab-pane" id="cells">
