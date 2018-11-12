@@ -56,9 +56,13 @@
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
 	        <%= link_to l(:label_password_lost), lost_password_path %>
+            </div>      
+            <div class="col-sm-offset-2 col-sm-10">
+                <%= link_to "Not registered? Sign up here", "http://www.opensourcebrain.org/account/register" %>
             </div>
         </div>
     <% end %>
+            
 <% end %>
 
 <%= call_hook :view_account_login_bottom %>
