@@ -9,11 +9,41 @@
                     "image_url": "images/projectThumbnails/NeuroMorpho.png"
                 },
                 {
-                    "name": "MouseLight",
+                    "name": "Janelia MouseLight",
                     "url": "/projects/mouselightshowcase",
                     "explorer_url": "/projects/mouselightshowcase?explorer=https%253A%252F%252Fraw.githubusercontent.com%252FOpenSourceBrain%252FMouseLightShowcase%252Fmaster%252FNeuroML2%252FNet_Hippocampal.net.nml",
                     "description": "Showcase project on OSB for neuronal reconstructions from the Janelia MouseLight project.",
                     "image_url": "images/projectThumbnails/MouseLight.png"
+                }
+            ],
+    "Invertebrate":
+            [
+                {
+                    "name": "Hodgkin and Huxley 1952",
+                    "url": "/projects/hodgkin-huxley-tutorial",
+                    "explorer_url": "/projects/hodgkin-huxley-tutorial?explorer=https%3A%2F%2Fraw.githubusercontent.com%2Fopensourcebrain%2Ftutorials%2Fdevelopment%2Fmodels%2FhodgkinHuxley%2FGEPPETTO.json",
+                    "description": "A tutorial designed to give an overview of the Hodgkin-Huxley model",
+                    "image_url": "images/projectThumbnails/HH1952.png"
+                },
+                {
+                    "name": "Boyle & Cohen 2008",
+                    "url": "/projects/muscle_model",
+                    "explorer_url": "http://opensourcebrain.org/projects/muscle_model?explorer_id=647",
+                    "description": "A NeuroML 2 implementation of the C. elegans muscle cell model of Boyle & Cohen 2008, as used in the OpenWorm project.",
+                    "image_url": "images/projectThumbnails/BoyleCohen2008.png"
+                },
+                {
+                    "name": "Prinz et al. 2004",
+                    "url": "/projects/pyloricnetwork",
+                    "explorer_url": "http://opensourcebrain.org/projects/pyloricnetwork?explorer_id=649",
+                    "description": "Implementation of the pyloric network of the lobster stomatogastric ganglion system of Prinz, Marder, et al.",
+                    "image_url": "images/projectThumbnails/Prinz2004.png"
+                },
+                {
+                    "name": "Fitzhugh Nagumo model",
+                    "url": "/projects/fitzhugh-nagumo-fitzhugh-1969",
+                    "description": "The Fitzhugh Nagumo model is a two-dimensional simplification of the Hodgkin-Huxley model of spike generation in squid giant axons.",
+                    "image_url": "images/projectThumbnails/Fitzhugh.png"
                 }
             ],
     "Olfactory bulb":
