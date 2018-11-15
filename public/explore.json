@@ -1,0 +1,75 @@
+{"Neocortex":
+ [
+     {
+         "name": "Hay et al. 2011",
+         "url": "/projects/l5bpyrcellhayetal2011",
+         "explorer_url": "http://0.0.0.0:3000/projects/l5bpyrcellhayetal2011?explorer=https%253A%252F%252Fraw.githubusercontent.com%252FOpenSourceBrain%252FL5bPyrCellHayEtAl2011%252Fmaster%252FneuroConstruct%252FgeneratedNeuroML2%252FTestL5PC.net.nml",
+         "description": "Layer 5b Pyramidal cell constrained by experimental data on perisomatic firing properties as well as dendritic activity during backpropagation of the action potential.",
+         "image_url": "images/demo.png"
+     },
+     {
+         "name": "Smith et al. 2013",
+         "url": "/projects/l23dendriticspikes",
+         "description": "",
+         "image_url": "images/demo.png"
+     },
+     {
+         "name": "Allen Institute Cell Types DB",
+         "url": "/projects/alleninstituteneuroml",
+         "description": "",
+         "image_url": "images/demo.png"
+     },
+     {
+         "name": "Markram et al. 2015",
+         "url": "",
+         "description": "",
+         "image_url": "images/demo.png"
+     },
+     {
+         "name": "Pospichil et al. 2088",
+         "url": "",
+         "description": "",
+         "image_url": "images/demo.png"
+     },
+     {
+         "name": "Tomsett et al. 2014",
+         "url": "",
+         "description": "",
+         "image_url": "images/demo.png"
+     },
+     {
+         "name": "Traub et al. 2005",
+         "url": "",
+         "description": "",
+         "image_url": "images/demo.png"
+     },
+     {
+         "name": "Potjans & Diesmann 2014",
+         "url": "",
+         "description": "",
+         "image_url": "images/demo.png"
+     },
+     {
+         "name": "Brunel 2000",
+         "url": "",
+         "description": "",
+         "image_url": "images/demo.png"
+     },
+     {
+         "name": "Izhikevich 2003",
+         "url": "",
+         "description": "",
+         "image_url": "images/demo.png"
+     },
+     {
+         "name": "FitzHugh & Nagumo 1969",
+         "url": "",
+         "description": "",
+         "image_url": "images/demo.png"
+     }
+ ],
+ "Cerebellum":
+ [
+
+ ]
+}
