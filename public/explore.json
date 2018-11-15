@@ -1,75 +1,115 @@
-{"Neocortex":
- [
-     {
-         "name": "Hay et al. 2011",
-         "url": "/projects/l5bpyrcellhayetal2011",
-         "explorer_url": "http://0.0.0.0:3000/projects/l5bpyrcellhayetal2011?explorer=https%253A%252F%252Fraw.githubusercontent.com%252FOpenSourceBrain%252FL5bPyrCellHayEtAl2011%252Fmaster%252FneuroConstruct%252FgeneratedNeuroML2%252FTestL5PC.net.nml",
-         "description": "Layer 5b Pyramidal cell constrained by experimental data on perisomatic firing properties as well as dendritic activity during backpropagation of the action potential.",
-         "image_url": "images/demo.png"
-     },
-     {
-         "name": "Smith et al. 2013",
-         "url": "/projects/l23dendriticspikes",
-         "description": "",
-         "image_url": "images/demo.png"
-     },
-     {
-         "name": "Allen Institute Cell Types DB",
-         "url": "/projects/alleninstituteneuroml",
-         "description": "",
-         "image_url": "images/demo.png"
-     },
-     {
-         "name": "Markram et al. 2015",
-         "url": "",
-         "description": "",
-         "image_url": "images/demo.png"
-     },
-     {
-         "name": "Pospichil et al. 2088",
-         "url": "",
-         "description": "",
-         "image_url": "images/demo.png"
-     },
-     {
-         "name": "Tomsett et al. 2014",
-         "url": "",
-         "description": "",
-         "image_url": "images/demo.png"
-     },
-     {
-         "name": "Traub et al. 2005",
-         "url": "",
-         "description": "",
-         "image_url": "images/demo.png"
-     },
-     {
-         "name": "Potjans & Diesmann 2014",
-         "url": "",
-         "description": "",
-         "image_url": "images/demo.png"
-     },
-     {
-         "name": "Brunel 2000",
-         "url": "",
-         "description": "",
-         "image_url": "images/demo.png"
-     },
-     {
-         "name": "Izhikevich 2003",
-         "url": "",
-         "description": "",
-         "image_url": "images/demo.png"
-     },
-     {
-         "name": "FitzHugh & Nagumo 1969",
-         "url": "",
-         "description": "",
-         "image_url": "images/demo.png"
-     }
- ],
- "Cerebellum":
- [
-
- ]
+{
+    "Neuronal reconstructions":
+            [
+                {
+                    "name": "NeuroMorpho.Org",
+                    "url": "/projects/neuromorpho",
+                    "explorer_url": "/projects/neuromorpho/models?explorer=https%253A%252F%252Fraw.githubusercontent.com%252FOpenSourceBrain%252FNeuroMorpho%252Fmaster%252FNeuroML2%252FdCH-cobalt.CNG.cell.nml",
+                    "description": "Set of example reconstructed neuronal morphologies taken from NeuroMorpho.Org in NeuroML format.",
+                    "image_url": "images/projectThumbnails/NeuroMorpho.png"
+                },
+                {
+                    "name": "MouseLight",
+                    "url": "/projects/mouselightshowcase",
+                    "explorer_url": "/projects/mouselightshowcase?explorer=https%253A%252F%252Fraw.githubusercontent.com%252FOpenSourceBrain%252FMouseLightShowcase%252Fmaster%252FNeuroML2%252FNet_Hippocampal.net.nml",
+                    "description": "Showcase project on OSB for neuronal reconstructions from the Janelia MouseLight project.",
+                    "image_url": "images/projectThumbnails/MouseLight.png"
+                }
+            ],
+    "Olfactory bulb":
+            [
+                {
+                    "name": "Migliore et al. 2014",
+                    "url": "/projects/miglioreetal14_olfactorybulb3d",
+                    "explorer_url": "/projects/miglioreetal14_olfactorybulb3d?explorer=https%253A%252F%252Fraw.githubusercontent.com%252FOpenSourceBrain%252FMiglioreEtAl14_OlfactoryBulb3D%252Fmaster%252FosbSessions%252Fmain.osb.json",
+                    "description": "Migliore et al. (2014) 3D Model of the Olfactory Bulb",
+                    "image_url": "images/projectThumbnails/Migliore2014.png"
+                }
+            ],
+    "Neocortex":
+            [
+                {
+                    "name": "xxx",
+                    "url": "xxx",
+                    "explorer_url": "xxx.nml",
+                    "description": "xxx",
+                    "image_url": "images/projectThumbnails/xxx.png"
+                },
+                {
+                    "name": "Hay et al. 2011",
+                    "url": "/projects/l5bpyrcellhayetal2011",
+                    "explorer_url": "/projects/l5bpyrcellhayetal2011?explorer=https%253A%252F%252Fraw.githubusercontent.com%252FOpenSourceBrain%252FL5bPyrCellHayEtAl2011%252Fmaster%252FneuroConstruct%252FgeneratedNeuroML2%252FTestL5PC.net.nml",
+                    "description": "Layer 5b pyramidal cell constrained by experimental data on perisomatic firing properties as well as dendritic activity during backpropagation of the action potential.",
+                    "image_url": "images/projectThumbnails/Hay2011.png"
+                },
+                {
+                    "name": "Smith et al. 2013",
+                    "url": "/projects/l23dendriticspikes",
+                    "description": "",
+                    "image_url": "images/demo.png"
+                },
+                {
+                    "name": "Allen Institute Cell Types DB",
+                    "url": "/projects/alleninstituteneuroml",
+                    "description": "",
+                    "image_url": "images/demo.png"
+                },
+                {
+                    "name": "Markram et al. 2015",
+                    "url": "",
+                    "description": "",
+                    "image_url": "images/demo.png"
+                },
+                {
+                    "name": "Pospichil et al. 2088",
+                    "url": "",
+                    "description": "",
+                    "image_url": "images/demo.png"
+                },
+                {
+                    "name": "Tomsett et al. 2014",
+                    "url": "",
+                    "description": "",
+                    "image_url": "images/demo.png"
+                },
+                {
+                    "name": "Traub et al. 2005",
+                    "url": "",
+                    "description": "",
+                    "image_url": "images/demo.png"
+                },
+                {
+                    "name": "Potjans & Diesmann 2014",
+                    "url": "",
+                    "description": "",
+                    "image_url": "images/demo.png"
+                },
+                {
+                    "name": "Brunel 2000",
+                    "url": "",
+                    "description": "",
+                    "image_url": "images/demo.png"
+                },
+                {
+                    "name": "Izhikevich 2003",
+                    "url": "",
+                    "description": "",
+                    "image_url": "images/demo.png"
+                },
+                {
+                    "name": "FitzHugh & Nagumo 1969",
+                    "url": "",
+                    "description": "",
+                    "image_url": "images/demo.png"
+                }
+            ],
+    "Cerebellum":
+            [
+                {
+                    "name": "Granule... ",
+                    "url": "",
+                    "description": "",
+                    "image_url": "images/demo.png"
+                }
+            ]
 }

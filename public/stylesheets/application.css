@@ -3682,6 +3682,7 @@ ul[role=tabpanel] li a{
     position: relative;
     border: 1px dashed lightgray;
     width: 270px;
+    height: 350px;
     padding-top: 0.5em;
     display: inline-block;
     margin: 0.5em;
