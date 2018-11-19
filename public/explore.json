@@ -1,4 +1,35 @@
 {
+    "Cerebellum":
+            [
+                {
+                    "name": "Solinas et al. 2007",
+                    "url": "/projects/cerebellum--cerebellar-golgi-cell--solinasetal-golgicell",
+                    "explorer_url": "http://opensourcebrain.org/projects/cerebellum--cerebellar-golgi-cell--solinasetal-golgicell?explorer_id=651",
+                    "description": "Multicompartmental cerebellar Golgi cell model demonstrating ionic currents underlying pacemaking and electroresponsiveness of these cells",
+                    "image_url": "images/projectThumbnails/Solinas2007.png"
+                },
+                {
+                    "name": "xxx",
+                    "url": "xxx",
+                    "explorer_url": "xxx.nml",
+                    "description": "xxx",
+                    "image_url": "images/projectThumbnails/xxx.png"
+                },
+                {
+                    "name": "Vervaeke et al. 2010",
+                    "url": "/projects/vervaekeetalgolgicellnetwork",
+                    "explorer_url": "http://www.opensourcebrain.org/projects/vervaekeetalgolgicellnetwork/repository?explorer=https%253A%252F%252Fraw.githubusercontent.com%252FOpenSourceBrain%252FVervaekeEtAl-GolgiCellNetwork%252Fmaster%252FosbSessions%252Fmain%252Fmain.json",
+                    "description": "A network model of electrically coupled cerebellar Golgi cells, as described in Vervaeke et al. 2010",
+                    "image_url": "images/projectThumbnails/Vervaeke2010.png"
+                },
+                {
+                    "name": "xxx",
+                    "url": "xxx",
+                    "explorer_url": "xxx.nml",
+                    "description": "xxx",
+                    "image_url": "images/projectThumbnails/xxx.png"
+                }
+            ],
     "Neuronal reconstructions":
             [
                 {
@@ -128,15 +159,6 @@
                 },
                 {
                     "name": "FitzHugh & Nagumo 1969",
-                    "url": "",
-                    "description": "",
-                    "image_url": "images/demo.png"
-                }
-            ],
-    "Cerebellum":
-            [
-                {
-                    "name": "Granule... ",
                     "url": "",
                     "description": "",
                     "image_url": "images/demo.png"
