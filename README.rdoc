@@ -5,3 +5,5 @@ Redmine is a flexible project management web application written using Ruby on R
 More details can be found in the doc directory or on the official website http://www.redmine.org
 
 - This is a fork of Redmine for the Open Source Brain repository (http://www.opensourcebrain.org)
+
+This code is released under GNU General Public License v2 as outlined here: https://github.com/OpenSourceBrain/redmine/blob/master/doc/COPYING
