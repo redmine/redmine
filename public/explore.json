@@ -9,11 +9,11 @@
                     "image_url": "images/projectThumbnails/Solinas2007.png"
                 },
                 {
-                    "name": "xxx",
-                    "url": "xxx",
-                    "explorer_url": "xxx.nml",
-                    "description": "xxx",
-                    "image_url": "images/projectThumbnails/xxx.png"
+                    "name": "Maex and De Schutter 1998",
+                    "url": "/projects/grancelllayer",
+                    "explorer_url": "http://opensourcebrain.org/projects/grancelllayer?explorer_id=622",
+                    "description": "Granule Cell Layer model from: Maex and De Schutter, Synchronization of Golgi and Granule Cell Firing in a Detailed Network Model of the Cerebellar Granule Cell Layer J Neurophysiol, 1998.",
+                    "image_url": "images/projectThumbnails/MaexDeSchutter1998.png"
                 },
                 {
                     "name": "Vervaeke et al. 2010",
@@ -23,7 +23,7 @@
                     "image_url": "images/projectThumbnails/Vervaeke2010.png"
                 },
                 {
-                    "name": "xxx",
+                    "name": "Cayco-Gajic, Clopath & Silver 2017",
                     "url": "xxx",
                     "explorer_url": "xxx.nml",
                     "description": "xxx",
@@ -85,6 +85,23 @@
                     "explorer_url": "/projects/miglioreetal14_olfactorybulb3d?explorer=https%253A%252F%252Fraw.githubusercontent.com%252FOpenSourceBrain%252FMiglioreEtAl14_OlfactoryBulb3D%252Fmaster%252FosbSessions%252Fmain.osb.json",
                     "description": "Migliore et al. (2014) 3D Model of the Olfactory Bulb",
                     "image_url": "images/projectThumbnails/Migliore2014.png"
+                }
+            ],
+    "Hippocampus":
+            [
+                {
+                    "name": "Migliore et al. 2005",
+                    "url": "/projects/ca1pyramidalcell",
+                    "explorer_url": "http://opensourcebrain.org/projects/ca1pyramidalcell?explorer_id=655",
+                    "description": "Morphologically detailed model of CA1 Pyramidal cell",
+                    "image_url": "images/projectThumbnails/Migliore2005.png"
+                },
+                {
+                    "name": "xxx",
+                    "url": "xxx",
+                    "explorer_url": "xxx.nml",
+                    "description": "xxx",
+                    "image_url": "images/projectThumbnails/xxx.png"
                 }
             ],
     "Neocortex":
