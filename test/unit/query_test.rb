@@ -1490,6 +1490,12 @@ class QueryTest < ActiveSupport::TestCase
     assert_equal [['id', 'desc']], q.sort_criteria
   end
 
+  def test_sort_criteria_should_remove_blank_keys
+    q = IssueQuery.new
+    q.sort_criteria = [['priority', 'desc'], [nil, 'desc'], ['', 'asc'], ['project', 'asc']]
+    assert_equal [['priority', 'desc'], ['project', 'asc']], q.sort_criteria
+  end
+
   def test_set_sort_criteria_with_hash
     q = IssueQuery.new
     q.sort_criteria = {'0' => ['priority', 'desc'], '2' => ['tracker']}

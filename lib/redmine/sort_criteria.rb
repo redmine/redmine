@@ -87,6 +87,7 @@ module Redmine
     private
 
     def normalize!
+      self.reject! {|s| s.first.blank? }
       self.collect! {|s| s = Array(s); [s.first, (s.last == false || s.last.to_s == 'desc') ? 'desc' : 'asc']}
       self.slice!(3)
       self
