@@ -2135,6 +2135,25 @@ class IssuesControllerTest < Redmine::ControllerTest
     assert_select "div.description ~ div.attribute.cf_#{field.id} div.value", :text => 'This is a long text'
   end
 
+  def test_show_custom_fields_with_full_text_formatting_should_be_rendered_using_wiki_class
+    half_field = IssueCustomField.create!(:name => 'Half width field', :field_format => 'text', :tracker_ids => [1],
+      :is_for_all => true, :text_formatting => 'full')
+    full_field = IssueCustomField.create!(:name => 'Full width field', :field_format => 'text', :full_width_layout => '1',
+      :tracker_ids => [1], :is_for_all => true, :text_formatting => 'full')
+
+    issue = Issue.find(1)
+    issue.custom_field_values = {full_field.id => 'This is a long text', half_field.id => 'This is a short text'}
+    issue.save!
+
+    get :show, :params => {
+        :id => 1
+      }
+    assert_response :success
+
+    assert_select "div.attribute.cf_#{half_field.id} div.value div.wiki", 1
+    assert_select "div.attribute.cf_#{full_field.id} div.value div.wiki", 1
+  end
+
   def test_show_with_multi_user_custom_field
     field = IssueCustomField.create!(:name => 'Multi user', :field_format => 'user', :multiple => true,
       :tracker_ids => [1], :is_for_all => true)
