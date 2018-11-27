@@ -79,7 +79,7 @@ else
 end
 
 group :development do
-  gem "rdoc", "~> 4.3"
+  gem "rdoc"
   gem "yard"
 end
 
