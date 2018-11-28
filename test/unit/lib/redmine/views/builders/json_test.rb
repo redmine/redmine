@@ -18,6 +18,15 @@
 require File.expand_path('../../../../../../test_helper', __FILE__)
 
 class Redmine::Views::Builders::JsonTest < ActiveSupport::TestCase
+  def test_nil_and_false
+    assert_json_output({'value' => nil}) do |b|
+      b.value nil
+    end
+
+    assert_json_output({'value' => false}) do |b|
+      b.value false
+    end
+  end
 
   def test_hash
     assert_json_output({'person' => {'name' => 'Ryan', 'age' => 32}}) do |b|
