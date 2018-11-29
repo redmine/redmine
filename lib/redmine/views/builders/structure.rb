@@ -48,7 +48,7 @@ module Redmine
         end
 
         def method_missing(sym, *args, &block)
-          if args.any?
+          if args.count > 0
             if args.first.is_a?(Hash)
               if @struct.last.is_a?(Array)
                 @struct.last << args.first unless block
