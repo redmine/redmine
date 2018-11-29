@@ -217,4 +217,16 @@ class IssueImportTest < ActiveSupport::TestCase
     import.run
     assert !File.exists?(file_path)
   end
+
+  def test_run_should_consider_project_shared_versions
+    system_version = Version.generate!(:project_id => 2, :sharing => 'system', :name => '2.1')
+    system_version.save!
+
+    import = generate_import_with_mapping
+    import.mapping.merge!('fixed_version' => '9')
+    import.save!
+
+    issues = new_records(Issue, 3) { import.run }
+    assert [nil, 3, system_version.id], issues.map(&:fixed_version_id)
+  end
 end
