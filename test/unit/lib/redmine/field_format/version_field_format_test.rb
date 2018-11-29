@@ -49,6 +49,20 @@ class Redmine::VersionFieldFormatTest < ActionView::TestCase
     assert issue.valid?
   end
 
+  def test_not_existing_values_should_be_invalid
+    field = IssueCustomField.create!(:name => 'Foo', :field_format => 'version', :is_for_all => true, :trackers => Tracker.all)
+    project = Project.generate!
+    version = Version.generate!(:project => project, :status => 'closed')
+
+    field.version_status = ["open"]
+    field.save!
+
+    issue = Issue.new(:project_id => project.id, :tracker_id => 1, :custom_field_values => {field.id => version.id})
+    assert_not_include [version.name, version.id.to_s], field.possible_custom_value_options(issue.custom_value_for(field))
+    assert_equal false, issue.valid?
+    assert_include "Foo #{::I18n.t('activerecord.errors.messages.inclusion')}", issue.errors.full_messages.first
+  end
+
   def test_possible_values_options_should_return_project_versions
     field = IssueCustomField.new(:field_format => 'version')
     project = Project.find(1)

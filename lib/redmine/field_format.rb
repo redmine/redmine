@@ -736,6 +736,16 @@ module Redmine
         options
       end
 
+      def validate_custom_value(custom_value)
+        values = Array.wrap(custom_value.value).reject {|value| value.to_s == ''}
+        invalid_values = values - possible_custom_value_options(custom_value).map(&:last)
+        if invalid_values.any?
+          [::I18n.t('activerecord.errors.messages.inclusion')]
+        else
+          []
+        end
+      end
+
       def order_statement(custom_field)
         if target_class.respond_to?(:fields_for_order_statement)
           target_class.fields_for_order_statement(value_join_alias(custom_field))
