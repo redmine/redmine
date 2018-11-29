@@ -17,7 +17,10 @@
 
 module Redmine
 
+  # Exception raised when a plugin cannot be found given its id.
   class PluginNotFound < StandardError; end
+
+  # Exception raised when a plugin requirement is not met.
   class PluginRequirementError < StandardError; end
 
   # Base class for Redmine plugins.
@@ -42,10 +45,14 @@ module Redmine
   # In this example, the settings partial will be found here in the plugin directory: <tt>app/views/settings/_settings.rhtml</tt>.
   #
   # When rendered, the plugin settings value is available as the local variable +settings+
+  #
+  # See: http://www.redmine.org/projects/redmine/wiki/Plugin_Tutorial
   class Plugin
+    # Absolute path to the directory where plugins are located
     cattr_accessor :directory
     self.directory = File.join(Rails.root, 'plugins')
 
+    # Absolute path to the plublic directory where plugins assets are copied
     cattr_accessor :public_directory
     self.public_directory = File.join(Rails.root, 'public', 'plugin_assets')
 
@@ -69,7 +76,17 @@ module Redmine
     def_field :name, :description, :url, :author, :author_url, :version, :settings, :directory
     attr_reader :id
 
-    # Plugin constructor
+    # Plugin constructor: instanciates a new Redmine::Plugin with given +id+
+    # and make it evaluate the given +block+
+    #
+    # Example
+    #   Redmine::Plugin.register :example do
+    #     name 'Example plugin'
+    #     author 'John Smith'
+    #     description 'This is an example plugin for Redmine'
+    #     version '0.0.1'
+    #     requires_redmine version_or_higher: '3.0.0'
+    #   end
     def self.register(id, &block)
       p = new(id)
       p.instance_eval(&block)
@@ -171,6 +188,7 @@ module Redmine
       id
     end
 
+    # Returns the absolute path to the plugin assets directory
     def assets_directory
       File.join(directory, 'assets')
     end
