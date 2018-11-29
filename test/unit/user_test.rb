@@ -34,6 +34,7 @@ class UserTest < ActiveSupport::TestCase
     @admin = User.find(1)
     @jsmith = User.find(2)
     @dlopper = User.find(3)
+    User.current = nil
   end
 
   def test_admin_scope_without_args_should_return_admin_users
