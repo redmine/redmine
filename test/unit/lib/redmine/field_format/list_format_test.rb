@@ -37,6 +37,16 @@ class Redmine::ListFieldFormatTest < ActionView::TestCase
     assert group.valid?
   end
 
+  def test_non_existing_value_should_be_invalid
+    field = GroupCustomField.create!(:name => 'List', :field_format => 'list', :possible_values => ['Foo', 'Bar'])
+    group = Group.new(:name => 'Group')
+    group.custom_field_values = {field.id => 'Baz'}
+
+    assert_not_include 'Baz', field.possible_custom_value_options(group.custom_value_for(field))
+    assert_equal false, group.valid?
+    assert_include "List #{::I18n.t('activerecord.errors.messages.inclusion')}", group.errors.full_messages.first
+  end
+
   def test_edit_tag_should_have_id_and_name
     field = IssueCustomField.new(:field_format => 'list', :possible_values => ['Foo', 'Bar'], :is_required => false)
     value = CustomFieldValue.new(:custom_field => field, :customized => Issue.new)

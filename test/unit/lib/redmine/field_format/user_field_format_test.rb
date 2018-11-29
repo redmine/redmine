@@ -45,6 +45,21 @@ class Redmine::UserFieldFormatTest < ActionView::TestCase
     assert issue.valid?
   end
 
+  def test_non_existing_values_should_be_invalid
+    field = IssueCustomField.create!(:name => 'Foo', :field_format => 'user', :is_for_all => true, :trackers => Tracker.all)
+    project = Project.generate!
+    user = User.generate!
+    User.add_to_project(user, project, Role.find_by_name('Developer'))
+
+    field.user_role = [Role.find_by_name('Manager').id]
+    field.save!
+
+    issue = Issue.new(:project_id => project.id, :tracker_id => 1, :custom_field_values => {field.id => user.id})
+    assert_not_include [user.name, user.id.to_s], field.possible_custom_value_options(issue.custom_value_for(field))
+    assert_equal false, issue.valid?
+    assert_include "Foo #{::I18n.t('activerecord.errors.messages.inclusion')}", issue.errors.full_messages.first
+  end
+
   def test_possible_values_options_should_return_project_members
     field = IssueCustomField.new(:field_format => 'user')
     project = Project.find(1)
