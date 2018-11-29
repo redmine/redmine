@@ -127,8 +127,8 @@ module IssuesHelper
              content_tag('td', check_box_tag("ids[]", other_issue.id, false, :id => nil), :class => 'checkbox') +
              content_tag('td', relation.to_s(@issue) {|other| link_to_issue(other, :project => Setting.cross_project_issue_relations?)}.html_safe, :class => 'subject', :style => 'width: 50%') +
              content_tag('td', other_issue.status, :class => 'status') +
-             content_tag('td', other_issue.start_date, :class => 'start_date') +
-             content_tag('td', other_issue.due_date, :class => 'due_date') +
+             content_tag('td', format_date(other_issue.start_date), :class => 'start_date') +
+             content_tag('td', format_date(other_issue.due_date), :class => 'due_date') +
              content_tag('td', other_issue.disabled_core_fields.include?('done_ratio') ? '' : progress_bar(other_issue.done_ratio), :class=> 'done_ratio') +
              content_tag('td', link, :class => 'buttons'),
              :id => "relation-#{relation.id}",

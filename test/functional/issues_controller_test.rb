@@ -1754,6 +1754,21 @@ class IssuesControllerTest < Redmine::ControllerTest
     assert_response :success
   end
 
+  def test_show_should_format_related_issues_dates
+    with_settings :date_format => '%d/%m/%Y' do
+      issue = Issue.generate!(:start_date => '2018-11-29', :due_date => '2018-12-01')
+      IssueRelation.create!(:issue_from => Issue.find(1), :issue_to => issue, :relation_type => 'relates')
+  
+      get :show, :params => {
+          :id => 1
+        }
+      assert_response :success
+  
+      assert_select '#relations td.start_date', :text => '29/11/2018'
+      assert_select '#relations td.due_date', :text => '01/12/2018'
+    end
+  end
+
   def test_show_should_not_disclose_relations_to_invisible_issues
     Setting.cross_project_issue_relations = '1'
     IssueRelation.create!(:issue_from => Issue.find(1), :issue_to => Issue.find(2), :relation_type => 'relates')
