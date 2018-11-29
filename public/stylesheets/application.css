@@ -497,7 +497,8 @@ select#issue_done_ratio { width: 95px; }
 ul.projects {margin:0; padding-left:1em;}
 ul.projects ul {padding-left:1.6em;}
 ul.projects.root {margin:0; padding:0;}
-ul.projects li {list-style-type:none;}
+ul.projects li.root, ul.projects li.child {list-style-type:none;}
+ul.projects div.description li {list-style-type:initial;}
 
 #projects-index ul.projects ul.projects { border-left: 3px solid #e0e0e0; padding-left:1em;}
 #projects-index ul.projects li.root {margin-bottom: 1em;}
