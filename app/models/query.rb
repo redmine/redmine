@@ -874,6 +874,12 @@ class Query < ActiveRecord::Base
       elsif respond_to?(method = "sql_for_#{field.gsub('.','_')}_field")
         # specific statement
         filters_clauses << send(method, field, operator, v)
+      elsif field == 'subject' && v.present?
+        #multiple values
+        mv = v[0].split(",")
+        mv.each do|v|
+          filters_clauses << '(' + sql_for_field(field, operator, Array(v), queried_table_name, field) + ')'
+        end
       else
         # regular field
         filters_clauses << '(' + sql_for_field(field, operator, v, queried_table_name, field) + ')'
