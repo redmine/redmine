@@ -24,10 +24,9 @@
                 },
                 {
                     "name": "Cayco-Gajic, Clopath & Silver 2017",
-                    "url": "xxx",
-                    "explorer_url": "xxx.nml",
-                    "description": "xxx",
-                    "image_url": "images/projectThumbnails/xxx.png"
+                    "url": "/projects/grclayer-caycogajic2017",
+                    "description": "Model of cerebellar granule cell layer used to investigate how sparse synaptic connectivity influences pattern separation.",
+                    "image_url": "images/projectThumbnails/CaycoGajic2017.png"
                 }
             ],
     "Neuronal reconstructions":
@@ -107,13 +106,6 @@
     "Neocortex":
             [
                 {
-                    "name": "xxx",
-                    "url": "xxx",
-                    "explorer_url": "xxx.nml",
-                    "description": "xxx",
-                    "image_url": "images/projectThumbnails/xxx.png"
-                },
-                {
                     "name": "Hay et al. 2011",
                     "url": "/projects/l5bpyrcellhayetal2011",
                     "explorer_url": "/projects/l5bpyrcellhayetal2011?explorer=https%253A%252F%252Fraw.githubusercontent.com%252FOpenSourceBrain%252FL5bPyrCellHayEtAl2011%252Fmaster%252FneuroConstruct%252FgeneratedNeuroML2%252FTestL5PC.net.nml",
@@ -123,62 +115,79 @@
                 {
                     "name": "Smith et al. 2013",
                     "url": "/projects/l23dendriticspikes",
+                    "explorer_url": "xxx.nml",
                     "description": "",
-                    "image_url": "images/demo.png"
+                    "image_url": "images/projectThumbnails/xxx.png"
                 },
                 {
                     "name": "Allen Institute Cell Types DB",
                     "url": "/projects/alleninstituteneuroml",
+                    "explorer_url": "xxx.nml",
                     "description": "",
-                    "image_url": "images/demo.png"
+                    "image_url": "images/projectThumbnails/xxx.png"
                 },
                 {
                     "name": "Markram et al. 2015",
                     "url": "",
+                    "explorer_url": "xxx.nml",
                     "description": "",
-                    "image_url": "images/demo.png"
+                    "image_url": "images/projectThumbnails/xxx.png"
                 },
                 {
-                    "name": "Pospichil et al. 2088",
-                    "url": "",
-                    "description": "",
-                    "image_url": "images/demo.png"
+                    "name": "Pospischil et al. 2008",
+                    "url": "http://opensourcebrain.org/projects/pospischiletal2008",
+                    "explorer_url": "http://opensourcebrain.org/projects/pospischiletal2008?explorer_id=675",
+                    "description": "Minimal Hodgkin-Huxley type models for different classes of cortical and thalamic neurons",
+                    "image_url": "images/projectThumbnails/Pospischil2008.png"
                 },
                 {
-                    "name": "Tomsett et al. 2014",
+                    "name": "Sadeh et al. 2017",
                     "url": "",
+                    "explorer_url": "xxx.nml",
                     "description": "",
-                    "image_url": "images/demo.png"
+                    "image_url": "images/projectThumbnails/xxx.png"
+                },
+                {
+                    "name": "Multiscale ISN",
+                    "url": "",
+                    "explorer_url": "xxx.nml",
+                    "description": "",
+                    "image_url": "images/projectThumbnails/xxx.png"
                 },
                 {
                     "name": "Traub et al. 2005",
                     "url": "",
+                    "explorer_url": "xxx.nml",
                     "description": "",
-                    "image_url": "images/demo.png"
+                    "image_url": "images/projectThumbnails/xxx.png"
                 },
                 {
                     "name": "Potjans & Diesmann 2014",
                     "url": "",
+                    "explorer_url": "xxx.nml",
                     "description": "",
-                    "image_url": "images/demo.png"
+                    "image_url": "images/projectThumbnails/xxx.png"
                 },
                 {
                     "name": "Brunel 2000",
                     "url": "",
+                    "explorer_url": "xxx.nml",
                     "description": "",
-                    "image_url": "images/demo.png"
+                    "image_url": "images/projectThumbnails/xxx.png"
                 },
                 {
-                    "name": "Izhikevich 2003",
-                    "url": "",
-                    "description": "",
-                    "image_url": "images/demo.png"
+                    "name": "Izhikevich spiking neuron model",
+                    "url": "http://opensourcebrain.org/projects/izhikevichmodel",
+                    "explorer_url": "http://opensourcebrain.org/projects/izhikevichmodel?explorer_id=674",
+                    "description": "Spiking neuron model originally described in Izhikevich 2003, which can reproduce a range of firing behaviors",
+                    "image_url": "images/projectThumbnails/Izhikevich.png"
                 },
                 {
-                    "name": "FitzHugh & Nagumo 1969",
-                    "url": "",
-                    "description": "",
-                    "image_url": "images/demo.png"
+                    "name": "M1 Network model",
+                    "url": "http://opensourcebrain.org/projects/m1networkmodel",
+                    "explorer_url": "http://opensourcebrain.org/projects/m1networkmodel?explorer=https%253A%252F%252Fraw.githubusercontent.com%252FOpenSourceBrain%252FM1NetworkModel%252Fmaster%252FM1_5percent.net.nml",
+                    "description": "A multiscale model of mouse primary motor cortex (M1).",
+                    "image_url": "images/projectThumbnails/M1.png"
                 }
             ]
 }
