@@ -194,6 +194,11 @@ class SearchTest < ActiveSupport::TestCase
     assert_equal ['Special', 'chars', 'in a phrase Öö'], f.tokens
   end
 
+  def test_fetcher_should_exclude_single_character_tokens_except_for_chinese_characters
+    f = Redmine::Search::Fetcher.new('ca f é 漢 あ 한', User.anonymous, %w(issues), Project.all)
+    assert_equal ['ca', '漢'], f.tokens
+  end
+
   private
 
   def remove_permission(role, permission)
