@@ -39,6 +39,7 @@ class ProjectCopyTest < ActiveSupport::TestCase
            :documents
 
   def setup
+    User.current = nil
     ProjectCustomField.destroy_all
     @source_project = Project.find(2)
     @project = Project.new(:name => 'Copy Test', :identifier => 'copy-test')
