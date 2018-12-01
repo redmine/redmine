@@ -56,9 +56,8 @@ module Redmine
             # Comprehensive error message for those who used async_smtp and async_sendmail
             # delivery methods that are removed in Redmine 4.0.
             if k == 'delivery_method' && v.to_s =~ /\Aasync_(.+)/
-              $stderr.puts "Redmine now uses ActiveJob to send emails asynchronously and the :#{v} delivery method is no longer available.\n" +
+              abort "Redmine now uses ActiveJob to send emails asynchronously and the :#{v} delivery method is no longer available.\n" +
                 "Please update your config/configuration.yml to use :#$1 delivery method instead."
-              exit 1
             end
             v.symbolize_keys! if v.respond_to?(:symbolize_keys!)
             ActionMailer::Base.send("#{k}=", v)
