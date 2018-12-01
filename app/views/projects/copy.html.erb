@@ -12,6 +12,7 @@
   <label class="block"><%= check_box_tag 'only[]', 'documents', true, :id => nil %> <%= l(:label_document_plural) %> (<%= @source_project.documents.count %>)</label>
   <label class="block"><%= check_box_tag 'only[]', 'boards', true, :id => nil %> <%= l(:label_board_plural) %> (<%= @source_project.boards.count %>)</label>
   <label class="block"><%= check_box_tag 'only[]', 'wiki', true, :id => nil %> <%= l(:label_wiki_page_plural) %> (<%= @source_project.wiki.nil? ? 0 : @source_project.wiki.pages.count %>)</label>
+  <%= call_hook :view_projects_copy_only_items, project: @source_project, f: f  %>
   <%= hidden_field_tag 'only[]', '' %>
   <br />
   <label class="block"><%= check_box_tag 'notifications', 1, params[:notifications] %> <%= l(:label_project_copy_notifications) %></label>
