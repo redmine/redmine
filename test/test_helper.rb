@@ -312,7 +312,12 @@ module Redmine
     def columns_in_list
       css_select('table.list thead th:not(.checkbox)').map(&:text).select(&:present?)
     end
-  
+
+    # Returns the values that are displayed in tds with the given css class
+    def columns_values_in_list(css_class)
+      css_select("table.list tbody td.#{css_class}").map(&:text)
+    end
+
     # Verifies that the query filters match the expected filters
     def assert_query_filters(expected_filters)
       response.body =~ /initFilters\(\);\s*((addFilter\(.+\);\s*)*)/
