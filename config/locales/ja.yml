@@ -1253,4 +1253,4 @@ ja:
   label_ldaps_verify_peer: LDAPS
   label_ldaps_warning: 認証処理中の盗聴や改ざんなどの攻撃を防ぐために、暗号化されたLDAPSによる通信 (証明書の検証あり) の使用をお勧めします。
   label_nothing_to_preview: プレビューするものがありません
-  error_token_expired: This password recovery link has expired, please try again.
+  error_token_expired: パスワード再発行用のリンクはすでに失効しています。もう一度やり直してください。
