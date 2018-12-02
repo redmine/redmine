@@ -1229,24 +1229,19 @@ cs:
   setting_timelog_max_hours_per_day: Maximum hodin, které mohou být vykázány jedním uživatelem za jeden den
   label_x_revisions: "%{count} revizí"
   error_can_not_delete_auth_source: Tento autentifikační mód se používá a nemůže být smazán.
-    deleted.
-  button_actions: Actions
-  mail_body_lost_password_validity: Please be aware that you may change the password
-    only once using this link.
-  text_login_required_html: When not requiring authentication, public projects and their
-    contents are openly available on the network. You can <a href="%{anonymous_role_path}">edit
-    the applicable permissions</a>.
-  label_login_required_yes: 'Yes'
-  label_login_required_no: No, allow anonymous access to public projects
-  text_project_is_public_non_member: Public projects and their contents are available
-    to all logged-in users.
-  text_project_is_public_anonymous: Public projects and their contents are openly available
-    on the network.
-  label_version_and_files: Versions (%{count}) and Files
+  button_actions: Akce
+  mail_body_lost_password_validity: Mějte na paměti, že pomocí tohoto odkazu můžete změnit heslo pouze jednou.
+  text_login_required_html: Pokud není vyžadována autentifikace, veřejné projekty a jejich obsah jsou
+    veřejně přístupné na webu. Můžete <a href="%{anonymous_role_path}">upravit příslušná práva</a>.
+  label_login_required_yes: 'Ano'
+  label_login_required_no: Ne, umožnit anonymní přístup k veřejným projektům
+  text_project_is_public_non_member: Veřejné projekty a jejich obsah je přístupný pro všechny přihlášené uživatele.
+  text_project_is_public_anonymous: Veřejné projekty a jejich obsah je otevřeně přístupný na webu.
+  label_version_and_files: Verze (%{count}) a soubory
   label_ldap: LDAP
-  label_ldaps_verify_none: LDAPS (without certificate check)
+  label_ldaps_verify_none: LDAPS (bez ověření certifikátu)
   label_ldaps_verify_peer: LDAPS
-  label_ldaps_warning: It is recommended to use an encrypted LDAPS connection with certificate
-    check to prevent any manipulation during the authentication process.
-  label_nothing_to_preview: Nothing to preview
-  error_token_expired: This password recovery link has expired, please try again.
+  label_ldaps_warning: Je doporučeno použít šifrované LDAPS připojení s certifikátem pro zabránění
+    jakékoliv manipulace během autentifikačního procesu.
+  label_nothing_to_preview: Žádný náhled
+  error_token_expired: Tento odkaz na obnovu hesla vypršel, prosím zkuste to znovu.
