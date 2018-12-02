@@ -192,18 +192,23 @@ class ProjectTest < ActiveSupport::TestCase
   def test_unarchive
     user = @ecookbook.members.first.user
     @ecookbook.archive
-    # A subproject of an archived project can not be unarchived
-    assert !@ecookbook_sub1.unarchive
 
     # Unarchive project
     assert @ecookbook.unarchive
-    @ecookbook.reload
     assert @ecookbook.active?
     assert !@ecookbook.archived?
     assert user.projects.include?(@ecookbook)
-    # Subproject can now be unarchived
+  end
+
+  def test_unarchive_child_project_should_unarchive_ancestors
+    @ecookbook.archive
     @ecookbook_sub1.reload
-    assert @ecookbook_sub1.unarchive
+    assert_equal Project::STATUS_ARCHIVED, @ecookbook_sub1.status
+
+    @ecookbook_sub1.unarchive
+    assert_equal Project::STATUS_ACTIVE, @ecookbook_sub1.status
+    @ecookbook.reload
+    assert_equal Project::STATUS_ACTIVE, @ecookbook.status
   end
 
   def test_unarchive_a_child_of_a_closed_project_should_set_status_to_closed
