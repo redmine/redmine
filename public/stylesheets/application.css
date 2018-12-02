@@ -143,14 +143,10 @@ a#toggle-completed-versions {color:#999;}
 /***** Dropdown *****/
 .drdn {position:relative;}
 .drdn-trigger {
-  width:100%;
-  height:24px;
   box-sizing:border-box;
   overflow:hidden;
   text-overflow:ellipsis;
   white-space:nowrap;
-  padding:3px 18px 3px 6px;
-  background:#fff url(../images/arrow_down.png) no-repeat 97% 50%;
   cursor:pointer;
   user-select:none;
   -moz-user-select:none;
@@ -168,7 +164,6 @@ a#toggle-completed-versions {color:#999;}
   color:#555;
   z-index:99;
 }
-.drdn.expanded .drdn-trigger {background-image:url(../images/arrow_up.png);}
 .drdn.expanded .drdn-content {display:block;}
 
 .drdn-content .quick-search {margin:8px;}
@@ -179,13 +174,12 @@ div + .drdn-items {border-top:1px solid #ccc;}
 .drdn-items>* {
   display:block;
   border:1px solid #fff;
-  color:#555 !important;
   overflow:hidden;
   text-overflow: ellipsis;
   white-space:nowrap;
   padding:4px 8px;
 }
-.drdn-items>a:hover {text-decoration:none; background-color:#759FCF; color:#fff !important;}
+.drdn-items>a:hover {text-decoration:none;}
 .drdn-items>*:focus {border:1px dotted #bbb;}
 
 .drdn-items.selection>*:before {
@@ -205,16 +199,27 @@ div + .drdn-items {border-top:1px solid #ccc;}
 }
 .drdn-items>span {color:#999;}
 
+.contextual .drdn-content {top:18px;}
+.contextual .drdn-items {padding:2px;}
+.contextual .drdn-items>a:hover {color:#2A5685; border:1px solid #628db6; background-color:#eef5fd; border-radius:3px;}
+
 #project-jump.drdn {width:200px;display:inline-block;}
 #project-jump .drdn-trigger {
+  width:100%;
+  height:24px;
   display:inline-block;
+  padding:3px 18px 3px 6px;
   border-radius:3px;
   border:1px solid #ccc;
   margin:0 !important;
   vertical-align:middle;
   color:#555;
+  background:#fff url(../images/arrow_down.png) no-repeat 97% 50%;
 }
+#project-jump .drdn.expanded .drdn-trigger {background-image:url(../images/arrow_up.png);}
 #project-jump .drdn-content {width:280px;}
+#project-jump .drdn-items>* {color:#555 !important;}
+#project-jump .drdn-items>a:hover {background-color:#759FCF; color:#fff !important;}
 
 /***** Tables *****/
 table.list, .table-list { border: 1px solid #e4e4e4;  border-collapse: collapse; width: 100%; margin-bottom: 4px; }

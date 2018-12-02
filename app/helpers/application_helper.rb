@@ -623,6 +623,17 @@ module ApplicationHelper
     end
   end
 
+  def actions_dropdown(&block)
+    content = capture(&block)
+    if content.present?
+      trigger = content_tag('span', l(:button_actions), :class => 'icon-only icon-actions', :title => l(:button_actions))
+      trigger = content_tag('span', trigger, :class => 'drdn-trigger')
+      content = content_tag('div', content, :class => 'drdn-items')
+      content = content_tag('div', content, :class => 'drdn-content')
+      content_tag('span', trigger + content, :class => 'drdn')
+    end
+  end
+
   # Returns the theme, controller name, and action as css classes for the
   # HTML body.
   def body_css_classes

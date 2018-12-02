@@ -598,7 +598,8 @@
     white-space: normal;
   }
 
-  #content>.contextual a,
+  #content>.contextual>a,
+  #content>.contextual .drdn,
   p.buttons a {
     font-weight: bold;
 
@@ -611,12 +612,20 @@
     border: 1px solid #ddd;
     -webkit-border-radius: 3px;
     border-radius: 3px;
-    background-color: transparent;
-    background-position-x: 4px;
+  }
+  #content>.contextual .drdn-content {
+	right:initial;
+    left:0px;
+	top:40px;
+  }
+  #content>.contextual .drdn .drdn-content a {
+    padding-top: 9px;
+    padding-bottom: 9px;
   }
 
   #content>.contextual a.icon,
   p.buttons a.icon {
+    background-position-x: 4px;
     padding-left: 25px;
   }
 
