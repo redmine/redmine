@@ -13,6 +13,6 @@
 
   <p class="buttons">
     <%= submit_tag l(:button_submit), onclick: "hideModal(this);"  %>
-    <%= submit_tag l(:button_cancel), name: nil, onclick: "hideModal(this);", type: 'button' %>
+    <%= link_to_function l(:button_cancel), "hideModal(this);" %>
   </p>
 <% end %>
