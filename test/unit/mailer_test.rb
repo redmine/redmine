@@ -791,7 +791,7 @@ class MailerTest < ActiveSupport::TestCase
   end
 
   def test_should_escape_html_templates_only
-    Issue.generate!(:project_id => 1, :tracker_id => 1, :subject => 'Subject with a <tag>')
+    Issue.generate!(:project_id => 1, :tracker_id => 1, :subject => 'Subject with a <tag>', :notify => true)
     mail = last_email
     assert_equal 2, mail.parts.size
     assert_include '<tag>', text_part.body.encoded
