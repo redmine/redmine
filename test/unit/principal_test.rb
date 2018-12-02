@@ -23,6 +23,10 @@ class PrincipalTest < ActiveSupport::TestCase
   fixtures :users, :projects, :members, :member_roles, :roles,
            :email_addresses
 
+  def setup
+    User.current = nil
+  end
+
   def test_active_scope_should_return_groups_and_active_users
     result = Principal.active.to_a
     assert_include Group.first, result
