@@ -44,7 +44,7 @@ class FilesController < ApplicationController
   end
 
   def new
-    @versions = @project.versions.sort
+    @versions = @project.versions.sorted
   end
 
   def create

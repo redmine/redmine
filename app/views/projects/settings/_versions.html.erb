@@ -32,7 +32,7 @@
     <th style="width:15%"></th>
     </tr></thead>
   <tbody>
-<% @versions.sort.each do |version| %>
+<% @versions.each do |version| %>
     <tr class="version <%=h version.status %> <%= 'shared' if version.project != @project %>">
     <td class="name <%= 'icon icon-shared' if version.project != @project %>"><%= link_to_version version %></td>
     <td class="tick"><%= checked_image(version.id == @project.default_version_id) %></td>

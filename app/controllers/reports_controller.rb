@@ -21,11 +21,11 @@ class ReportsController < ApplicationController
 
   def issue_report
     @trackers = @project.rolled_up_trackers(false).visible
-    @versions = @project.shared_versions.sort
+    @versions = @project.shared_versions.sorted
     @priorities = IssuePriority.all.reverse
     @categories = @project.issue_categories
-    @assignees = (Setting.issue_group_assignment? ? @project.principals : @project.users).sort
-    @authors = @project.users.sort
+    @assignees = (Setting.issue_group_assignment? ? @project.principals : @project.users).sorted
+    @authors = @project.users.sorted
     @subprojects = @project.descendants.visible
     with_subprojects = Setting.display_subprojects_issues?
     @issues_by_tracker = Issue.by_tracker(@project, with_subprojects)
@@ -49,7 +49,7 @@ class ReportsController < ApplicationController
       @report_title = l(:field_tracker)
     when "version"
       @field = "fixed_version_id"
-      @rows = @project.shared_versions.sort
+      @rows = @project.shared_versions.sorted
       @data = Issue.by_version(@project, with_subprojects)
       @report_title = l(:field_version)
     when "priority"
@@ -64,12 +64,12 @@ class ReportsController < ApplicationController
       @report_title = l(:field_category)
     when "assigned_to"
       @field = "assigned_to_id"
-      @rows = (Setting.issue_group_assignment? ? @project.principals : @project.users).sort
+      @rows = (Setting.issue_group_assignment? ? @project.principals : @project.users).sorted
       @data = Issue.by_assigned_to(@project, with_subprojects)
       @report_title = l(:field_assigned_to)
     when "author"
       @field = "author_id"
-      @rows = @project.users.sort
+      @rows = @project.users.sorted
       @data = Issue.by_author(@project, with_subprojects)
       @report_title = l(:field_author)
     when "subproject"
