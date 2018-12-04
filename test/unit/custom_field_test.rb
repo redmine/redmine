@@ -22,6 +22,10 @@ class CustomFieldTest < ActiveSupport::TestCase
            :trackers, :issue_statuses,
            :issues
 
+  def setup
+    User.current = nil
+  end
+
   def test_create
     field = UserCustomField.new(:name => 'Money money money', :field_format => 'float')
     assert field.save
