@@ -773,6 +773,25 @@ class IssuesControllerTest < Redmine::ControllerTest
     end
   end
 
+  def test_index_csv_should_not_change_selected_columns
+    get :index, :params => {
+        :set_filter => 1,
+        :c => ["subject", "due_date"],
+        :project_id => "ecookbook"
+      }
+    assert_response :success
+    assert_equal [:subject, :due_date], session[:issue_query][:column_names]
+
+    get :index, :params => {
+        :set_filter => 1,
+        :c =>["all_inline"],
+        :project_id => "ecookbook",
+        :format => 'csv'
+      }
+    assert_response :success
+    assert_equal [:subject, :due_date], session[:issue_query][:column_names]
+  end
+
   def test_index_pdf
     ["en", "zh", "zh-TW", "ja", "ko"].each do |lang|
       with_settings :default_language => lang do

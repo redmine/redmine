@@ -40,7 +40,8 @@ class IssuesController < ApplicationController
   helper :timelog
 
   def index
-    retrieve_query
+    use_session = !request.format.csv?
+    retrieve_query(IssueQuery, use_session)
 
     if @query.valid?
       respond_to do |format|
