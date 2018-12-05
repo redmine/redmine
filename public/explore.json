@@ -96,11 +96,11 @@
                     "image_url": "images/projectThumbnails/Migliore2005.png"
                 },
                 {
-                    "name": "xxx",
-                    "url": "xxx",
-                    "explorer_url": "xxx.nml",
-                    "description": "xxx",
-                    "image_url": "images/projectThumbnails/xxx.png"
+                    "name": "Wang & Buzsáki 1996",
+                    "url": "http://opensourcebrain.org/projects/wangbuzsaki1996",
+                    "explorer_url": "http://opensourcebrain.org/projects/wangbuzsaki1996?explorer_id=678",
+                    "description": "Gamma oscillation by synaptic inhibition in a hippocampal interneuronal network model",
+                    "image_url": "images/projectThumbnails/WangBuzsaki.png"
                 }
             ],
     "Neocortex":
