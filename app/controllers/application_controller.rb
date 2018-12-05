@@ -683,7 +683,7 @@ class ApplicationController < ActionController::Base
     req = Net::HTTP.new(url.host, url.port)
     req.use_ssl = (url.scheme == 'https')
     res = req.request_head(url.path)
-    if res.code == "200"
+    if (res.code == "200" or res.code == "301")
       return true
     end
     return false
