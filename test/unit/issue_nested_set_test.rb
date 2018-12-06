@@ -24,6 +24,10 @@ class IssueNestedSetTest < ActiveSupport::TestCase
            :enumerations,
            :issues
 
+  def setup
+    User.current = nil
+  end
+
   def test_new_record_is_leaf
     i = Issue.new
     assert i.leaf?
