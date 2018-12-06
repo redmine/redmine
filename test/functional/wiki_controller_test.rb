@@ -1190,7 +1190,7 @@ class WikiControllerTest < Redmine::ControllerTest
     assert_response :success
     assert_select 'head>meta[name="robots"][content=?]', 'noindex,follow,noarchive'
 
-    # No robots meta tag in the current page
+    # No robots meta tag in the current version
     get :show, :params => {:project_id => 'ecookbook', :id => 'CookBook_documentation'}
     assert_response :success
     assert_select 'head>meta[name="robots"]', false
