@@ -99,4 +99,8 @@
   <%= render :partial => 'sidebar' %>
 <% end %>
 
+<% content_for :header_tags do %>
+  <%= robot_exclusion_tag unless @content.current_version? %>
+<% end %>
+
 <% html_title @page.pretty_title %>

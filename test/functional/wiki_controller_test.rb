@@ -1182,4 +1182,17 @@ class WikiControllerTest < Redmine::ControllerTest
     attachment = Attachment.order('id DESC').first
     assert_equal Wiki.find(1).find_page('CookBook_documentation'), attachment.container
   end
+
+  def test_old_version_should_have_robot_exclusion_tag
+    @request.session[:user_id] = 2
+    # Discourage search engines from indexing old versions
+    get :show, :params => {:project_id => 'ecookbook', :id => 'CookBook_documentation', :version => '2'}
+    assert_response :success
+    assert_select 'head>meta[name="robots"][content=?]', 'noindex,follow,noarchive'
+
+    # No robots meta tag in the current page
+    get :show, :params => {:project_id => 'ecookbook', :id => 'CookBook_documentation'}
+    assert_response :success
+    assert_select 'head>meta[name="robots"]', false
+  end
 end
