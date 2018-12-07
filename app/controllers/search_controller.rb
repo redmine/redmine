@@ -49,7 +49,7 @@ class SearchController < ApplicationController
       when 'my_projects'
         User.current.projects
       when 'subprojects'
-        @project ? (@project.self_and_descendants.active.to_a) : nil
+        @project ? (@project.self_and_descendants.to_a) : nil
       else
         @project
       end

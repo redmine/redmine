@@ -338,6 +338,46 @@ class SearchControllerTest < Redmine::ControllerTest
     assert_response 404
   end
 
+  def test_search_should_include_closed_projects
+    @request.session[:user_id] = 1
+
+    project = Project.find(5)
+    project.close
+    project.save
+
+    # scope all
+    get :index, :params => {:q => 'Issue of a private subproject', :scope => 'all'}
+    assert_response :success
+
+    assert_select '#search-results' do
+      assert_select 'dt.issue', :text => /Bug #6/
+    end
+
+    # scope my_projects
+    get :index, :params => {:q => 'Issue of a private subproject', :scope => 'my_projects'}
+    assert_response :success
+
+    assert_select '#search-results' do
+      assert_select 'dt.issue', :text => /Bug #6/
+    end
+
+    # scope subprojects
+    get :index, :params => {:id => 1, :q => 'Issue of a private subproject', :scope => 'subprojects'}
+    assert_response :success
+
+    assert_select '#search-results' do
+      assert_select 'dt.issue', :text => /Bug #6/
+    end
+
+    # scope project
+    get :index, :params => {:id => 5, :q => 'Issue of a private subproject'}
+    assert_response :success
+
+    assert_select '#search-results' do
+      assert_select 'dt.issue', :text => /Bug #6/
+    end
+  end
+
   def test_quick_jump_to_issue
     # issue of a public project
     get :index, :params => {:q => "3"}
