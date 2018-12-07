@@ -25,7 +25,8 @@ class ReportsControllerTest < Redmine::ControllerTest
            :member_roles,
            :members,
            :enabled_modules,
-           :versions
+           :versions,
+           :workflows
 
   def test_get_issue_report
     get :issue_report, :params => {
