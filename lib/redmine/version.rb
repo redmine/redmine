@@ -3,9 +3,9 @@ require 'rexml/document'
 module Redmine
   # @private
   module VERSION
-    MAJOR = 3
-    MINOR = 4
-    TINY  = 6
+    MAJOR = 4
+    MINOR = 0
+    TINY  = 0
 
     # Branch values:
     # * official release: nil
