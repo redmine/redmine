@@ -34,6 +34,7 @@ class IssuesCustomFieldsVisibilityTest < Redmine::ControllerTest
   def setup
     CustomField.destroy_all
     Issue.delete_all
+    Watcher.delete_all
 
     field_attributes = {:field_format => 'string', :is_for_all => true, :is_filter => true, :trackers => Tracker.all}
     @fields = []
