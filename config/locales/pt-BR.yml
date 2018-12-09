@@ -1259,4 +1259,4 @@ pt-BR:
   label_ldaps_verify_peer: LDAPS
   label_ldaps_warning: É recomendado utilizar uma conexão LDAPS criptografada com verificação de certificado para evitar qualquer manipulação durante o processo de autenticação.
   label_nothing_to_preview: Nada para visualizar
-  error_token_expired: This password recovery link has expired, please try again.
+  error_token_expired: Este link de recuperação de senha expirou. Por favor, tente novamente.
