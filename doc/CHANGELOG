@@ -4,6 +4,86 @@ Redmine - project management software
 Copyright (C) 2006-2017  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2018-12-09 v3.4.7
+
+=== [Custom fields]
+
+* Defect #8317: Strip whitespace from integer custom field
+* Defect #28925: Custom field values for enumerations not saved
+* Patch #29674: Missing validation for custom field formats based on RecordList
+
+=== [Email receiving]
+
+* Defect #28576: Attachments are added even if validation fails when updating an issue via email
+* Defect #29191: Cannot set no_notification option when receiving emails via  IMAP or POP3
+
+=== [Importers]
+
+* Defect #30001: CSV importer ignores shared version names of other projects
+
+=== [Issues]
+
+* Defect #28946: If assignee is locked subtasks don't get copied
+* Defect #30009: Empty sort criteria for issue query gives error
+* Defect #30027: Some styles (for ex: borders for tables) in a custom field with text formatting enabled are not displayed
+
+=== [Issues filter]
+
+* Defect #26785: Wrong columns after CSV export
+
+=== [PDF export]
+
+* Defect #28125: PNG images on a wiki page don't appear in exported PDF
+* Defect #28565: PDF export has too many whitespaces
+
+=== [REST API]
+
+* Defect #20788: REST API with JSON content missing attributes with false values
+
+=== [Rails support]
+
+* Feature #30043: Update Rails to 4.2.11
+
+=== [SCM]
+
+* Defect #29413: Mercurial 4.7 compatibility
+
+=== [Search engine]
+
+* Defect #28636: Cannot find an issue from a closed subproject when search scope is Project and its subprojects
+
+=== [Text formatting]
+
+* Defect #8395: Tags start with 'pre' are handled as 'pre' tag in Textile
+* Defect #29038: Thumbnail macro causes attachment file not found and broken filename and link
+* Defect #29247: Textile phrase modifiers break wiki macros
+* Defect #29756: \f or \v character in Textile markup may cause RegexpError exception
+
+=== [Time tracking]
+
+* Patch #29308: Time entry creation: preserve 'spent on' value when using 'Create and Continue'
+
+=== [Translations]
+
+* Patch #29702: Brazilian wiki help translation update
+* Patch #29703: Brazilian translation (jstoolbar-pt-br.js) update
+* Patch #29718: Brazilian translation update for 3.4-stable
+* Patch #29735: Galician translation fix for the words empty, blank, and key
+* Patch #29736: Galician translation update for 3.4-stable
+
+=== [UI]
+
+* Defect #29918: Related issues section ignores the date format setting
+* Defect #29950: Fix list rendering inside project description in projects#index
+
+=== [UI - Responsive]
+
+* Defect #24309: Setting page for repository does not scroll horizontally on small screens
+
+=== [Wiki]
+
+* Feature #29791: Hide "Files" section in wiki pages when printing
+
 == 2018-06-10 v3.4.6
 
 === [Issues]
