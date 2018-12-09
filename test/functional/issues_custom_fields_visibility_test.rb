@@ -29,7 +29,8 @@ class IssuesCustomFieldsVisibilityTest < Redmine::ControllerTest
            :projects_trackers,
            :enabled_modules,
            :enumerations,
-           :workflows
+           :workflows,
+           :custom_fields, :custom_fields_trackers
 
   def setup
     CustomField.destroy_all
