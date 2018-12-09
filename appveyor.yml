@@ -8,6 +8,7 @@ install:
   - gem --version
   - git --version
   - hg  --version
+  - chcp
 
 build: off
 

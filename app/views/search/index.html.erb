@@ -42,7 +42,7 @@
     <h3><%= l(:label_result_plural) %> (<%= @result_count %>)</h3>
     <dl id="search-results">
       <% @results.each do |e| %>
-        <dt class="<%= e.event_type %>">
+        <dt class="<%= e.event_type %> icon icon-<%= e.event_type %>">
           <%= content_tag('span', e.project, :class => 'project') unless @project == e.project %>
           <%= link_to(highlight_tokens(e.event_title.truncate(255), @tokens), e.event_url) %>
         </dt>

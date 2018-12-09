@@ -36,7 +36,7 @@
 
   <% if User.current.allowed_to?(:view_issues, @project) %>
   <div class="issues box">
-    <h3><%=l(:label_issue_tracking)%></h3>
+    <h3 class="icon icon-issue"><%=l(:label_issue_tracking)%></h3>
     <% if @trackers.present? %>
     <table class="list issue-report">
       <thead>
@@ -49,7 +49,7 @@
       </thead>
       <tbody>
       <% @trackers.each do |tracker| %>
-        <tr class="<%= cycle("odd", "even") %>">
+        <tr>
           <td class="name">
             <%= link_to tracker.name, project_issues_path(@project, :set_filter => 1, :tracker_id => tracker.id) %>
           </td>
@@ -59,7 +59,7 @@
           <td>
             <%= link_to (@total_issues_by_tracker[tracker].to_i - @open_issues_by_tracker[tracker].to_i), project_issues_path(@project, :set_filter => 1, :tracker_id => tracker.id, :status_id => 'c') %>
           </td>
-          <td>
+          <td class="total">
             <%= link_to @total_issues_by_tracker[tracker].to_i, project_issues_path(@project, :set_filter => 1, :tracker_id => tracker.id, :status_id => '*') %>
           </td>
         </tr>
@@ -78,6 +78,22 @@
     </p>
   </div>
   <% end %>
+
+  <% if User.current.allowed_to?(:view_time_entries, @project) %>
+  <div class="spent_time box">
+    <h3 class="icon icon-time"><%= l(:label_spent_time) %></h3>
+    <% if @total_hours.present? %>
+      <p><%= l_hours(@total_hours) %></p>
+    <% end %>
+    <p>
+    <% if User.current.allowed_to?(:log_time, @project) %>
+      <%= link_to l(:button_log_time), new_project_time_entry_path(@project) %> |
+    <% end %>
+    <%= link_to(l(:label_details), project_time_entries_path(@project)) %> |
+    <%= link_to(l(:label_report), report_project_time_entries_path(@project)) %>
+    </p>
+  </div>
+<% end %>
   <%= call_hook(:view_projects_show_left, :project => @project) %>
 </div>
 
@@ -86,7 +102,7 @@
 
   <% if @news.any? && authorize_for('news', 'index') %>
   <div class="news box">
-    <h3><%=l(:label_news_latest)%></h3>
+    <h3 class="icon icon-news"><%=l(:label_news_latest)%></h3>
     <%= render :partial => 'news/news', :collection => @news %>
     <p><%= link_to l(:label_news_view_all), project_news_index_path(@project) %></p>
   </div>
@@ -94,7 +110,7 @@
 
   <% if @subprojects.any? %>
   <div class="projects box">
-    <h3><%=l(:label_subproject_plural)%></h3>
+    <h3 class="icon icon-projects"><%=l(:label_subproject_plural)%></h3>
     <%= @subprojects.collect{|p| link_to p, project_path(p), :class => p.css_classes}.join(", ").html_safe %>
   </div>
   <% end %>
@@ -103,7 +119,7 @@
 </div>
 
 <% content_for :sidebar do %>
-  <%= render :partial => 'projects/sidebar' %>
+  <%= call_hook(:view_projects_show_sidebar_bottom, :project => @project) %>
 <% end %>
 
 <% content_for :header_tags do %>

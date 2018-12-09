@@ -135,6 +135,8 @@ it:
         circular_dependency: "Questa relazione creerebbe una dipendenza circolare"
         cant_link_an_issue_with_a_descendant: "Una segnalazione non può essere collegata a una delle sue discendenti"
         earlier_than_minimum_start_date: "non può essere precedente a %{date} a causa di una precedente segnalazione"
+        not_a_regexp: "is not a valid regular expression"
+        open_issue_with_closed_parent: "An open issue cannot be attached to a closed parent task"
 
   actionview_instancetag_blank_option: Scegli
 
@@ -407,7 +409,6 @@ it:
   label_internal: Interno
   label_last_changes: "ultime %{count} modifiche"
   label_change_view_all: Tutte le modifiche
-  label_personalize_page: Personalizza la pagina
   label_comment: Commento
   label_comment_plural: Commenti
   label_x_comments:
@@ -657,7 +658,6 @@ it:
   label_associated_revisions: Revisioni associate
   setting_user_format: Formato visualizzazione utenti
   text_status_changed_by_changeset: "Applicata nel changeset %{value}."
-  label_more: Altro
   text_issues_destroy_confirmation: 'Sei sicuro di voler eliminare le segnalazioni selezionate?'
   label_scm: SCM
   text_select_project_modules: 'Seleziona i moduli abilitati per questo progetto:'
@@ -706,7 +706,6 @@ it:
   label_overall_activity: Attività generale
   setting_default_projects_public: I nuovi progetti sono pubblici in modo predefinito
   error_scm_annotate: "L'oggetto non esiste o non può essere annotato."
-  label_planning: Pianificazione
   text_subprojects_destroy_warning: "Anche i suoi sottoprogetti: %{value} verranno eliminati."
   label_and_its_subprojects: "%{value} ed i suoi sottoprogetti"
   mail_body_reminder: "%{count} segnalazioni che ti sono state assegnate scadranno nei prossimi %{days} giorni:"
@@ -896,7 +895,6 @@ it:
   error_can_not_remove_role: Questo ruolo è in uso e non può essere eliminato.
   error_can_not_delete_tracker: Questo tracker contiene segnalazioni e non può essere eliminato.
   field_principal: Principale
-  label_my_page_block: La mia pagina di blocco
   notice_failed_to_save_members: "Impossibile salvare il membro(i): %{errors}."
   text_zoom_out: Riduci ingrandimento
   text_zoom_in: Aumenta ingrandimento
@@ -907,10 +905,8 @@ it:
   project_module_calendar: Calendario
   button_edit_associated_wikipage: "Modifica la pagina wiki associata: %{page_title}"
   field_text: Campo di testo
-  label_user_mail_option_only_owner: Solo se io sono il proprietario
   setting_default_notification_option: Opzione di notifica predefinita
   label_user_mail_option_only_my_events: Solo se sono un osservatore o sono coinvolto
-  label_user_mail_option_only_assigned: Solo quando mi assegnano attività
   label_user_mail_option_none: Nessun evento
   field_member_of_group: Gruppo dell'assegnatario
   field_assigned_to_role: Ruolo dell'assegnatario
@@ -970,16 +966,12 @@ it:
   description_project_scope: Ambito della ricerca
   description_filter: Filtro
   description_user_mail_notification: Impostazioni notifica via mail
-  description_date_from: Inserisci la data d'inizio
   description_message_content: Contenuto del messaggio
   description_available_columns: Colonne disponibili
-  description_date_range_interval: Scegli l'intervallo selezionando la data di inizio e di fine
   description_issue_category_reassign: Scegli la categoria della segnalazione
   description_search: Campo di ricerca
   description_notes: Note
-  description_date_range_list: Scegli l'intervallo dalla lista
   description_choose_project: Progetti
-  description_date_to: Inserisci la data di fine
   description_query_sort_criteria_attribute: Attributo di ordinamento
   description_wiki_subpages_reassign: Scegli la nuova pagina padre
   description_selected_columns: Colonne selezionate
@@ -1203,5 +1195,31 @@ it:
   label_new_object_tab_enabled: Display the "+" drop-down
   error_no_projects_with_tracker_allowed_for_new_issue: There are no projects with trackers
     for which you can create an issue
+  field_textarea_font: Font used for text areas
+  label_font_default: Default font
+  label_font_monospace: Monospaced font
+  label_font_proportional: Proportional font
+  setting_timespan_format: Time span format
+  label_table_of_contents: Table of contents
+  setting_commit_logs_formatting: Apply text formatting to commit messages
+  setting_mail_handler_enable_regex_delimiters: Enable regular expressions
+  error_move_of_child_not_possible: 'Subtask %{child} could not be moved to the new
+    project: %{errors}'
   error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: Spent time cannot
     be reassigned to an issue that is about to be deleted
+  setting_timelog_required_fields: Required fields for time logs
+  label_attribute_of_object: '%{object_name}''s %{name}'
+  label_user_mail_option_only_assigned: Only for things I watch or I am assigned to
+  label_user_mail_option_only_owner: Only for things I watch or I am the owner of
+  warning_fields_cleared_on_bulk_edit: Changes will result in the automatic deletion
+    of values from one or more fields on the selected objects
+  field_updated_by: Updated by
+  field_last_updated_by: Last updated by
+  field_full_width_layout: Full width layout
+  label_last_notes: Last notes
+  field_digest: Checksum
+  field_default_assigned_to: Default assignee
+  setting_show_custom_fields_on_registration: Show custom fields on registration
+  permission_view_news: View news
+  label_no_preview_alternative_html: No preview available. %{link} the file instead.
+  label_no_preview_download: Download

@@ -1,6 +1,6 @@
 <%= title [l(:label_group_plural), groups_path], l(:label_group_new) %>
 
-<%= labelled_form_for @group do |f| %>
+<%= labelled_form_for @group, :html => {:multipart => true} do |f| %>
 <%= render :partial => 'form', :locals => { :f => f } %>
 <p>
   <%= f.submit l(:button_create) %>

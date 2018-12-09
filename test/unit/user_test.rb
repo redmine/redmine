@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -34,6 +34,24 @@ class UserTest < ActiveSupport::TestCase
     @admin = User.find(1)
     @jsmith = User.find(2)
     @dlopper = User.find(3)
+  end
+
+  def test_admin_scope_without_args_should_return_admin_users
+    users = User.admin.to_a
+    assert users.any?
+    assert users.all? {|u| u.admin == true}
+  end
+
+  def test_admin_scope_with_true_should_return_admin_users
+    users = User.admin(true).to_a
+    assert users.any?
+    assert users.all? {|u| u.admin == true}
+  end
+
+  def test_admin_scope_with_false_should_return_non_admin_users
+    users = User.admin(false).to_a
+    assert users.any?
+    assert users.all? {|u| u.admin == false}
   end
 
   def test_sorted_scope_should_sort_user_by_display_name
@@ -875,7 +893,6 @@ class UserTest < ActiveSupport::TestCase
 
   def test_roles_for_project_with_non_member_with_private_project_should_return_no_roles
     Project.find(1).update_attribute :is_public, false
-  
     roles = User.find(8).roles_for_project(Project.find(1))
     assert_equal [], roles.map(&:name)
   end
@@ -903,7 +920,6 @@ class UserTest < ActiveSupport::TestCase
 
   def test_roles_for_project_with_anonymous_with_private_project_should_return_no_roles
     Project.find(1).update_attribute :is_public, false
-  
     roles = User.anonymous.roles_for_project(Project.find(1))
     assert_equal [], roles.map(&:name)
   end
@@ -934,6 +950,14 @@ class UserTest < ActiveSupport::TestCase
     assert_equal 2, user.projects_by_role.size
     assert_equal [1,5], user.projects_by_role[Role.find(1)].collect(&:id).sort
     assert_equal [2], user.projects_by_role[Role.find(2)].collect(&:id).sort
+  end
+
+  def test_project_ids_by_role_should_not_poison_cache_when_first_called_from_chained_scopes
+    user = User.find(2)
+    project = Project.find(1)
+
+    project.children.visible(user)
+    assert_equal [1, 2, 5], user.project_ids_by_role.values.flatten.sort
   end
 
   def test_accessing_projects_by_role_with_no_projects_should_return_an_empty_array
@@ -1051,7 +1075,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_own_account_deletable_should_be_false_for_a_single_admin
-    User.delete_all(["admin = ? AND id <> ?", true, 1])
+    User.admin.where("id <> ?", 1).delete_all
 
     with_settings :unsubscribe => '1' do
       assert_equal false, User.find(1).own_account_deletable?
@@ -1101,7 +1125,7 @@ class UserTest < ActiveSupport::TestCase
   test "#allowed_to? for normal users" do
     project = Project.find(1)
     assert_equal true, @jsmith.allowed_to?(:delete_messages, project)    #Manager
-    assert_equal false, @dlopper.allowed_to?(:delete_messages, project) #Developper
+    assert_equal false, @dlopper.allowed_to?(:delete_messages, project) #Developer
   end
 
   test "#allowed_to? with empty array should return false" do
@@ -1116,7 +1140,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "#allowed_to? with with options[:global] should return true if user has one role with the permission" do
-    @dlopper2 = User.find(5) #only Developper on a project, not Manager anywhere
+    @dlopper2 = User.find(5) #only Developer on a project, not Manager anywhere
     @anonymous = User.find(6)
     assert_equal true, @jsmith.allowed_to?(:delete_issue_watchers, nil, :global => true)
     assert_equal false, @dlopper2.allowed_to?(:delete_issue_watchers, nil, :global => true)
@@ -1127,7 +1151,7 @@ class UserTest < ActiveSupport::TestCase
 
   # this is just a proxy method, the test only calls it to ensure it doesn't break trivially
   test "#allowed_to_globally?" do
-    @dlopper2 = User.find(5) #only Developper on a project, not Manager anywhere
+    @dlopper2 = User.find(5) #only Developer on a project, not Manager anywhere
     @anonymous = User.find(6)
     assert_equal true, @jsmith.allowed_to_globally?(:delete_issue_watchers)
     assert_equal false, @dlopper2.allowed_to_globally?(:delete_issue_watchers)
@@ -1140,6 +1164,7 @@ class UserTest < ActiveSupport::TestCase
     project = Project.find(1)
     author = User.generate!
     assignee = User.generate!
+    Member.create!(:user => assignee, :project => project, :role_ids => [1])
     member = User.generate!
     Member.create!(:user => member, :project => project, :role_ids => [1])
     issue = Issue.generate!(:project => project, :assigned_to => assignee, :author => author)
@@ -1160,7 +1185,9 @@ class UserTest < ActiveSupport::TestCase
 
   def test_notify_about_issue_for_previous_assignee
     assignee = User.generate!(:mail_notification => 'only_assigned')
+    Member.create!(:user => assignee, :project_id => 1, :role_ids => [1])
     new_assignee = User.generate!(:mail_notification => 'only_assigned')
+    Member.create!(:user => new_assignee, :project_id => 1, :role_ids => [1])
     issue = Issue.generate!(:assigned_to => assignee)
 
     assert assignee.notify_about?(issue)
@@ -1168,10 +1195,6 @@ class UserTest < ActiveSupport::TestCase
 
     issue.assigned_to = new_assignee
     assert assignee.notify_about?(issue)
-    assert new_assignee.notify_about?(issue)
-
-    issue.save!
-    assert !assignee.notify_about?(issue)
     assert new_assignee.notify_about?(issue)
   end
 

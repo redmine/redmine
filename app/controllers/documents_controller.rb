@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -18,10 +18,10 @@
 class DocumentsController < ApplicationController
   default_search_scope :documents
   model_object Document
-  before_filter :find_project_by_project_id, :only => [:index, :new, :create]
-  before_filter :find_model_object, :except => [:index, :new, :create]
-  before_filter :find_project_from_association, :except => [:index, :new, :create]
-  before_filter :authorize
+  before_action :find_project_by_project_id, :only => [:index, :new, :create]
+  before_action :find_model_object, :except => [:index, :new, :create]
+  before_action :find_project_from_association, :except => [:index, :new, :create]
+  before_action :authorize
 
   helper :attachments
   helper :custom_fields

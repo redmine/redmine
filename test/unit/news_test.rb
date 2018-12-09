@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -46,7 +46,7 @@ class NewsTest < ActiveSupport::TestCase
   end
 
   def test_should_not_include_news_for_projects_with_news_disabled
-    EnabledModule.delete_all(["project_id = ? AND name = ?", 2, 'news'])
+    EnabledModule.where(["project_id = ? AND name = ?", 2, 'news']).delete_all
     project = Project.find(2)
 
     # Add a piece of news to the project

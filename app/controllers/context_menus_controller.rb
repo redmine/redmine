@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -19,7 +19,7 @@ class ContextMenusController < ApplicationController
   helper :watchers
   helper :issues
 
-  before_filter :find_issues, :only => :issues
+  before_action :find_issues, :only => :issues
 
   def issues
     if (@issues.size == 1)
@@ -45,7 +45,7 @@ class ContextMenusController < ApplicationController
 
     @options_by_custom_field = {}
     if @can[:edit]
-      custom_fields = @issues.map(&:editable_custom_fields).reduce(:&).reject(&:multiple?)
+      custom_fields = @issues.map(&:editable_custom_fields).reduce(:&).reject(&:multiple?).select {|field| field.format.bulk_edit_supported}
       custom_fields.each do |field|
         values = field.possible_values_options(@projects)
         if values.present?
@@ -78,7 +78,7 @@ class ContextMenusController < ApplicationController
 
     @options_by_custom_field = {}
     if @can[:edit]
-      custom_fields = @time_entries.map(&:editable_custom_fields).reduce(:&).reject(&:multiple?)
+      custom_fields = @time_entries.map(&:editable_custom_fields).reduce(:&).reject(&:multiple?).select {|field| field.format.bulk_edit_supported}
       custom_fields.each do |field|
         values = field.possible_values_options(@projects)
         if values.present?

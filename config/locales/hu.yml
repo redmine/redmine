@@ -151,6 +151,8 @@
         circular_dependency: "Ez a kapcsolat egy körkörös függőséget eredményez"
         cant_link_an_issue_with_a_descendant: "An issue can not be linked to one of its subtasks"
         earlier_than_minimum_start_date: "cannot be earlier than %{date} because of preceding issues"
+        not_a_regexp: "is not a valid regular expression"
+        open_issue_with_closed_parent: "An open issue cannot be attached to a closed parent task"
 
   actionview_instancetag_blank_option: Kérem válasszon
 
@@ -469,7 +471,6 @@
   label_internal: Belső
   label_last_changes: "utolsó %{count} változás"
   label_change_view_all: Minden változás megtekintése
-  label_personalize_page: Az oldal testreszabása
   label_comment: Megjegyzés
   label_comment_plural: Megjegyzés
   label_x_comments:
@@ -612,7 +613,6 @@
   label_age: Kor
   label_change_properties: Tulajdonságok változtatása
   label_general: Általános
-  label_more: továbbiak
   label_scm: SCM
   label_plugins: Pluginek
   label_ldap_authentication: LDAP azonosítás
@@ -622,7 +622,6 @@
   label_preferences: Tulajdonságok
   label_chronological_order: Időrendben
   label_reverse_chronological_order: Fordított időrendben
-  label_planning: Tervezés
 
   button_login: Bejelentkezés
   button_submit: Elfogad
@@ -915,7 +914,6 @@
   error_can_not_delete_tracker: Ebbe a kategóriába feladatok tartoznak és ezért nem törölhető.
   label_project_copy_notifications: Küldjön e-mail értesítéseket projektmásolás közben.
   field_principal: Felelős
-  label_my_page_block: Saját kezdőlap-blokk
   notice_failed_to_save_members: "Nem sikerült menteni a tago(ka)t: %{errors}."
   text_zoom_out: Kicsinyít
   text_zoom_in: Nagyít
@@ -926,10 +924,8 @@
   project_module_calendar: Naptár
   button_edit_associated_wikipage: "Hozzárendelt Wiki oldal szerkesztése: %{page_title}"
   field_text: Szöveg mező
-  label_user_mail_option_only_owner: Csak arról, aminek én vagyok a tulajdonosa
   setting_default_notification_option: Alapértelmezett értesítési beállítások
   label_user_mail_option_only_my_events: Csak az általam megfigyelt dolgokról vagy amiben részt veszek
-  label_user_mail_option_only_assigned: Csak a hozzámrendelt dolgokról
   label_user_mail_option_none: Semilyen eseményről
   field_member_of_group: Hozzárendelt csoport
   field_assigned_to_role: Hozzárendelt szerepkör
@@ -987,16 +983,12 @@
   description_project_scope: Search scope
   description_filter: Filter
   description_user_mail_notification: Mail notification settings
-  description_date_from: Enter start date
   description_message_content: Message content
   description_available_columns: Available Columns
-  description_date_range_interval: Choose range by selecting start and end date
   description_issue_category_reassign: Choose issue category
   description_search: Searchfield
   description_notes: Notes
-  description_date_range_list: Choose range from list
   description_choose_project: Projects
-  description_date_to: Enter end date
   description_query_sort_criteria_attribute: Sort attribute
   description_wiki_subpages_reassign: Choose new parent page
   description_selected_columns: Selected Columns
@@ -1227,5 +1219,31 @@
   label_new_object_tab_enabled: Display the "+" drop-down
   error_no_projects_with_tracker_allowed_for_new_issue: There are no projects with trackers
     for which you can create an issue
+  field_textarea_font: Font used for text areas
+  label_font_default: Default font
+  label_font_monospace: Monospaced font
+  label_font_proportional: Proportional font
+  setting_timespan_format: Time span format
+  label_table_of_contents: Table of contents
+  setting_commit_logs_formatting: Apply text formatting to commit messages
+  setting_mail_handler_enable_regex_delimiters: Enable regular expressions
+  error_move_of_child_not_possible: 'Subtask %{child} could not be moved to the new
+    project: %{errors}'
   error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: Spent time cannot
     be reassigned to an issue that is about to be deleted
+  setting_timelog_required_fields: Required fields for time logs
+  label_attribute_of_object: '%{object_name}''s %{name}'
+  label_user_mail_option_only_assigned: Only for things I watch or I am assigned to
+  label_user_mail_option_only_owner: Only for things I watch or I am the owner of
+  warning_fields_cleared_on_bulk_edit: Changes will result in the automatic deletion
+    of values from one or more fields on the selected objects
+  field_updated_by: Updated by
+  field_last_updated_by: Last updated by
+  field_full_width_layout: Full width layout
+  label_last_notes: Last notes
+  field_digest: Checksum
+  field_default_assigned_to: Default assignee
+  setting_show_custom_fields_on_registration: Show custom fields on registration
+  permission_view_news: View news
+  label_no_preview_alternative_html: No preview available. %{link} the file instead.
+  label_no_preview_download: Download

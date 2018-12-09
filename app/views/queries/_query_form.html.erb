@@ -1,0 +1,63 @@
+<%= hidden_field_tag 'set_filter', '1' %>
+<%= hidden_field_tag 'type', @query.type, :disabled => true, :id => 'query_type' %>
+<%= query_hidden_sort_tag(@query) %>
+
+<div id="query_form_with_buttons" class="hide-when-print">
+<div id="query_form_content">
+  <fieldset id="filters" class="collapsible <%= @query.new_record? ? "" : "collapsed" %>">
+    <legend onclick="toggleFieldset(this);"><%= l(:label_filter_plural) %></legend>
+    <div style="<%= @query.new_record? ? "" : "display: none;" %>">
+      <%= render :partial => 'queries/filters', :locals => {:query => @query} %>
+    </div>
+  </fieldset>
+
+  <fieldset id="options" class="collapsible collapsed">
+    <legend onclick="toggleFieldset(this);"><%= l(:label_options) %></legend>
+    <div style="display: none;">
+      <table>
+        <tr>
+          <td class="field"><%= l(:field_column_names) %></td>
+          <td><%= render_query_columns_selection(@query) %></td>
+        </tr>
+        <% if @query.groupable_columns.any? %>
+        <tr>
+          <td class="field"><label for='group_by'><%= l(:field_group_by) %></label></td>
+          <td><%= group_by_column_select_tag(@query) %></td>
+        </tr>
+        <% end %>
+        <% if @query.available_block_columns.any? %>
+        <tr>
+          <td class="field"><%= l(:button_show) %></td>
+          <td><%= available_block_columns_tags(@query) %></td>
+        </tr>
+        <% end %>
+        <% if @query.available_totalable_columns.any? %>
+        <tr>
+          <td><%= l(:label_total_plural) %></td>
+          <td><%= available_totalable_columns_tags(@query) %></td>
+        </tr>
+        <% end %>
+      </table>
+    </div>
+  </fieldset>
+</div>
+
+<p class="buttons">
+  <%= link_to_function l(:button_apply), '$("#query_form").submit()', :class => 'icon icon-checked' %>
+  <%= link_to l(:button_clear), { :set_filter => 1, :sort => '', :project_id => @project }, :class => 'icon icon-reload'  %>
+  <% if @query.new_record? %>
+    <% if User.current.allowed_to?(:save_queries, @project, :global => true) %>
+      <%= link_to_function l(:button_save),
+                           "$('#query_type').prop('disabled',false);$('#query_form').attr('action', '#{ @project ? new_project_query_path(@project) : new_query_path }').submit()",
+                           :class => 'icon icon-save' %>
+    <% end %>
+  <% else %>
+    <% if @query.editable_by?(User.current) %>
+      <%= link_to l(:button_edit), edit_query_path(@query), :class => 'icon icon-edit' %>
+      <%= delete_link query_path(@query) %>
+    <% end %>
+  <% end %>
+</p>
+</div>
+
+<%= error_messages_for @query %>

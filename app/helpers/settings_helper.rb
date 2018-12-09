@@ -1,7 +1,7 @@
 # encoding: utf-8
 #
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -25,11 +25,29 @@ module SettingsHelper
             {:name => 'api', :partial => 'settings/api', :label => :label_api},
             {:name => 'projects', :partial => 'settings/projects', :label => :label_project_plural},
             {:name => 'issues', :partial => 'settings/issues', :label => :label_issue_tracking},
+            {:name => 'timelog', :partial => 'settings/timelog', :label => :label_time_tracking},
             {:name => 'attachments', :partial => 'settings/attachments', :label => :label_attachment_plural},
             {:name => 'notifications', :partial => 'settings/notifications', :label => :field_mail_notification},
             {:name => 'mail_handler', :partial => 'settings/mail_handler', :label => :label_incoming_emails},
             {:name => 'repositories', :partial => 'settings/repositories', :label => :label_repository_plural}
             ]
+  end
+
+  def render_settings_error(errors)
+    return if errors.blank?
+    s = ''.html_safe
+    errors.each do |name, message|
+      s << content_tag('li', content_tag('b', l("setting_#{name}")) + " " + message)
+    end
+    content_tag('div', content_tag('ul', s), :id => 'errorExplanation')
+  end
+
+  def setting_value(setting)
+    value = nil
+    if params[:settings]
+      value = params[:settings][setting]
+    end
+    value || Setting.send(setting)
   end
 
   def setting_select(setting, choices, options={})
@@ -38,12 +56,12 @@ module SettingsHelper
     end
     setting_label(setting, options).html_safe +
       select_tag("settings[#{setting}]",
-                 options_for_select(choices, Setting.send(setting).to_s),
+                 options_for_select(choices, setting_value(setting).to_s),
                  options).html_safe
   end
 
   def setting_multiselect(setting, choices, options={})
-    setting_values = Setting.send(setting)
+    setting_values = setting_value(setting)
     setting_values = [] unless setting_values.is_a?(Array)
 
     content_tag("label", l(options[:label] || "setting_#{setting}")) +
@@ -65,18 +83,18 @@ module SettingsHelper
 
   def setting_text_field(setting, options={})
     setting_label(setting, options).html_safe +
-      text_field_tag("settings[#{setting}]", Setting.send(setting), options).html_safe
+      text_field_tag("settings[#{setting}]", setting_value(setting), options).html_safe
   end
 
   def setting_text_area(setting, options={})
     setting_label(setting, options).html_safe +
-      text_area_tag("settings[#{setting}]", Setting.send(setting), options).html_safe
+      text_area_tag("settings[#{setting}]", setting_value(setting), options).html_safe
   end
 
   def setting_check_box(setting, options={})
     setting_label(setting, options).html_safe +
       hidden_field_tag("settings[#{setting}]", 0, :id => nil).html_safe +
-        check_box_tag("settings[#{setting}]", 1, Setting.send("#{setting}?"), options).html_safe
+        check_box_tag("settings[#{setting}]", 1, setting_value(setting).to_s != '0', options).html_safe
   end
 
   def setting_label(setting, options={})
@@ -97,7 +115,7 @@ module SettingsHelper
 
     tag = check_box_tag('settings[notified_events][]',
       notifiable.name,
-      Setting.notified_events.include?(notifiable.name),
+      setting_value('notified_events').include?(notifiable.name),
       :id => nil,
       :data => tag_data)
 

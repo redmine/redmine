@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -57,7 +57,7 @@ class Redmine::I18nTest < ActiveSupport::TestCase
     with_settings :date_format => '' do
       valid_languages.each do |lang|
         set_language_if_valid lang
-        assert_nothing_raised "#{lang} failure" do
+        assert_nothing_raised do
           format_date(Date.today)
           format_time(Time.now)
           format_time(Time.now, false)
@@ -78,7 +78,7 @@ class Redmine::I18nTest < ActiveSupport::TestCase
   def test_time_for_each_zone
     ActiveSupport::TimeZone.all.each do |zone|
       User.current.stubs(:time_zone).returns(zone.name)
-      assert_nothing_raised "#{zone} failure" do
+      assert_nothing_raised do
         format_time(Time.now)
       end
     end
@@ -126,7 +126,7 @@ class Redmine::I18nTest < ActiveSupport::TestCase
   def test_number_to_human_size_for_each_language
     valid_languages.each do |lang|
       set_language_if_valid lang
-      assert_nothing_raised "#{lang} failure" do
+      assert_nothing_raised do
         size = number_to_human_size(257024)
         assert_match /251/, size, "#{lang} failure"
       end
@@ -148,7 +148,7 @@ class Redmine::I18nTest < ActiveSupport::TestCase
   def test_number_to_currency_for_each_language
     valid_languages.each do |lang|
       set_language_if_valid lang
-      assert_nothing_raised "#{lang} failure" do
+      assert_nothing_raised do
         number_to_currency(-1000.2)
       end
     end

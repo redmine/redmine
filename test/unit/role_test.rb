@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -45,6 +45,13 @@ class RoleTest < ActiveSupport::TestCase
     assert copy.save
   end
 
+  def test_copy_from_should_copy_managed_roles
+    orig = Role.generate!(:all_roles_managed => false, :managed_role_ids => [2, 3])
+    role = Role.new
+    role.copy_from orig
+    assert_equal [2, 3], role.managed_role_ids.sort
+  end
+
   def test_copy_workflows
     source = Role.find(1)
     rule_count = source.workflow_rules.count
@@ -52,7 +59,7 @@ class RoleTest < ActiveSupport::TestCase
 
     target = Role.new(:name => 'Target')
     assert target.save
-    target.workflow_rules.copy(source)
+    target.copy_workflow_rules(source)
     target.reload
     assert_equal rule_count, target.workflow_rules.size
   end

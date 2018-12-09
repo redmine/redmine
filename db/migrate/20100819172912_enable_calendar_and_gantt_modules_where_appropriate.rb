@@ -7,6 +7,6 @@ class EnableCalendarAndGanttModulesWhereAppropriate < ActiveRecord::Migration
   end
 
   def self.down
-    EnabledModule.delete_all("name = 'calendar' OR name = 'gantt'")
+    EnabledModule.where("name = 'calendar' OR name = 'gantt'").delete_all
   end
 end

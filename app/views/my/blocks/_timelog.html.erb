@@ -1,59 +1,63 @@
+<div class="contextual">
+  <%= link_to_function l(:label_options), "$('#timelog-settings').toggle();", :class => 'icon-only icon-settings', :title => l(:label_options) %>
+</div>
+
 <h3>
   <%= link_to l(:label_spent_time), time_entries_path(:user_id => 'me') %>
-  (<%= l(:label_last_n_days, 7) %>)
+  (<%= l(:label_last_n_days, days) %>: <%= l_hours_short entries.sum(&:hours) %>)
+  <%= link_to l(:button_log_time), new_time_entry_path, :class => "icon-only icon-add", :title => l(:button_log_time) if User.current.allowed_to?(:log_time, nil, :global => true) %>
 </h3>
-<%
-entries = timelog_items
-entries_by_day = entries.group_by(&:spent_on)
-%>
 
-<% if User.current.allowed_to?(:log_time, nil, :global => true) %>
-<div class="contextual">
-  <%= link_to l(:button_log_time), new_time_entry_path, :class => "icon icon-add" %>
-</div>
-<% end %>
 
-<div class="total-hours">
-<p><%= l(:label_total_time) %>: <%= html_hours("%.2f" % entries.sum(&:hours).to_f) %></p>
+<div id="timelog-settings" style="display:none;">
+  <%= form_tag(my_page_path, :remote => true) do %>
+    <div class="box">
+      <p>
+      <label>
+        <%= l(:button_show) %>:
+        <%= text_field_tag 'settings[timelog][days]', days, :size => 6 %>
+        <%= l(:label_day_plural) %>
+      </label>
+      </p>
+    </div>
+    <p>
+      <%= submit_tag l(:button_save) %>
+      <%= link_to_function l(:button_cancel), "$('#timelog-settings').toggle();" %>
+    </p>
+  <% end %>
 </div>
 
 <% if entries.any? %>
-<table class="list time-entries">
+<%= form_tag({}, :data => {:cm_url => time_entries_context_menu_path}) do %>
+<table class="list time-entries odd-even">
 <thead><tr>
 <th><%= l(:label_activity) %></th>
 <th><%= l(:label_project) %></th>
 <th><%= l(:field_comments) %></th>
 <th><%= l(:field_hours) %></th>
-<th></th>
 </tr></thead>
 <tbody>
 <% entries_by_day.keys.sort.reverse.each do |day| %>
-    <tr class="odd">
+  <tr class="odd">
     <td><strong><%= day == User.current.today ? l(:label_today).titleize : format_date(day) %></strong></td>
     <td colspan="2"></td>
-    <td class="hours"><em><%= html_hours("%.2f" % entries_by_day[day].sum(&:hours).to_f) %></em></td>
-    <td></td>
-    </tr>
-    <% entries_by_day[day].each do |entry| -%>
-    <tr class="time-entry" style="border-bottom: 1px solid #f5f5f5;">
-    <td class="activity"><%= entry.activity %></td>
+    <td class="hours"><em><%= html_hours(format_hours(entries_by_day[day].sum(&:hours))) %></em></td>
+  </tr>
+  <% entries_by_day[day].each do |entry| -%>
+  <tr id="time-entry-<%= entry.id %>" class="time-entry hascontextmenu">
+    <td class="activity">
+      <%= check_box_tag("ids[]", entry.id, false, :style => 'display:none;', :id => nil) %>
+      <%= entry.activity %>
+    </td>
     <td class="subject"><%= entry.project %> <%= h(' - ') + link_to_issue(entry.issue, :truncate => 50) if entry.issue %></td>
     <td class="comments"><%= entry.comments %></td>
-    <td class="hours"><%= html_hours("%.2f" % entry.hours) %></td>
-    <td class="buttons">
-    <% if entry.editable_by?(@user) -%>
-        <%= link_to l(:button_edit), {:controller => 'timelog', :action => 'edit', :id => entry},
-                    :title => l(:button_edit),
-                    :class => 'icon-only icon-edit' %>
-        <%= link_to l(:button_delete), {:controller => 'timelog', :action => 'destroy', :id => entry},
-                    :data => {:confirm => l(:text_are_you_sure)}, :method => :delete,
-                    :title => l(:button_delete),
-                    :class => 'icon-only icon-del' %>
-    <% end -%>
-    </td>
-    </tr>
-    <% end -%>
+    <td class="hours"><%= html_hours(format_hours(entry.hours)) %></td>
+  </tr>
+  <% end -%>
 <% end -%>
 </tbody>
 </table>
+<% end %>
+<% else %>
+  <p class="nodata"><%= l(:label_no_data) %></p>
 <% end %>

@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -19,6 +19,7 @@ class Version < ActiveRecord::Base
   include Redmine::SafeAttributes
 
   after_update :update_issues_from_sharing_change
+  after_save :update_default_project_version
   before_destroy :nullify_projects_default_version
 
   belongs_to :project
@@ -41,7 +42,18 @@ class Version < ActiveRecord::Base
   attr_protected :id
 
   scope :named, lambda {|arg| where("LOWER(#{table_name}.name) = LOWER(?)", arg.to_s.strip)}
+  scope :like, lambda {|arg|
+    if arg.present?
+      pattern = "%#{arg.to_s.strip}%"
+      where([Redmine::Database.like("#{Version.table_name}.name", '?'), pattern])
+    end
+  }
   scope :open, lambda { where(:status => 'open') }
+  scope :status, lambda {|status|
+    if status.present?
+      where(:status => status.to_s)
+    end
+  }
   scope :visible, lambda {|*args|
     joins(:project).
     where(Project.allowed_to_condition(args.first || User.current, :view_issues))
@@ -54,6 +66,7 @@ class Version < ActiveRecord::Base
     'wiki_page_title',
     'status',
     'sharing',
+    'default_project_version',
     'custom_field_values',
     'custom_fields'
 
@@ -69,6 +82,12 @@ class Version < ActiveRecord::Base
 
   def attachments_deletable?(usr=User.current)
     project.present? && project.attachments_deletable?(usr)
+  end
+
+  alias :base_reload :reload
+  def reload(*args)
+    @default_project_version = nil
+    base_reload(*args)
   end
 
   def start_date
@@ -197,6 +216,17 @@ class Version < ActiveRecord::Base
     end
   end
 
+  # Sort versions by status (open, locked then closed versions)
+  def self.sort_by_status(versions)
+    versions.sort do |a, b|
+      if a.status == b.status
+        a <=> b
+      else
+        b.status <=> a.status
+      end
+    end
+  end
+
   def css_classes
     [
       completed? ? 'version-completed' : 'version-incompleted',
@@ -241,6 +271,18 @@ class Version < ActiveRecord::Base
     fixed_issues.empty? && !referenced_by_a_custom_field?
   end
 
+  def default_project_version
+    if @default_project_version.nil?
+      project.present? && project.default_version == self
+    else
+      @default_project_version
+    end
+  end
+
+  def default_project_version=(arg)
+    @default_project_version = (arg == '1' || arg == true)
+  end
+
   private
 
   def load_issue_counts
@@ -266,6 +308,12 @@ class Version < ActiveRecord::Base
           VERSION_SHARINGS.index(sharing_was) > VERSION_SHARINGS.index(sharing)
         Issue.update_versions_from_sharing_change self
       end
+    end
+  end
+
+  def update_default_project_version
+    if @default_project_version && project.present?
+      project.update_columns :default_version_id => id
     end
   end
 

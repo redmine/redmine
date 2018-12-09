@@ -135,6 +135,8 @@ lt:
         circular_dependency: "Šis ryšys sukurtų ciklinę priklausomybę"
         cant_link_an_issue_with_a_descendant: "Darbas negali būti susietas su viena iš savo darbo dalių"
         earlier_than_minimum_start_date: "negali būti anksčiau už %{date} dėl ankstesnių darbų"
+        not_a_regexp: "neteisingas reguliarusis reiškinys"
+        open_issue_with_closed_parent: "Atviras darbas negali būti pridėtas prie uždarytos tėvinės užduoties"
 
   actionview_instancetag_blank_option: Prašom parinkti
 
@@ -587,7 +589,6 @@ lt:
   label_my_page: Mano puslapis
   label_my_account: Mano paskyra
   label_my_projects: Mano projektai
-  label_my_page_block: Mano puslapio blokas
   label_administration: Administravimas
   label_login: Prisijungti
   label_logout: Atsijungti
@@ -684,7 +685,6 @@ lt:
   label_internal: Vidinis
   label_last_changes: "paskutiniai %{count} pokyčiai(-ių)"
   label_change_view_all: Peržiūrėti visus pakeitimus
-  label_personalize_page: Suasmeninti šį puslapį
   label_comment: Komentaras
   label_comment_plural: Komentarai
   label_x_comments:
@@ -853,8 +853,6 @@ lt:
   label_user_mail_option_selected: "Bet kokiam įvykiui tiktai pasirinktuose projektuose ..."
   label_user_mail_option_none: "Jokių įvykių"
   label_user_mail_option_only_my_events: "Tiktai dalykai, kuriuos stebiu arba esu įtrauktas"
-  label_user_mail_option_only_assigned: "Tiktai dalykai, kuriems esu priskirtas"
-  label_user_mail_option_only_owner: "Tiktai dalykai, kurių šeimininkas esu aš"
   label_user_mail_no_self_notified: "Nenoriu būti informuotas apie pakeitimus, kuriuos pats atlieku"
   label_registration_activation_by_email: paskyros aktyvacija per e-paštą
   label_registration_manual_activation: rankinė paskyros aktyvacija
@@ -863,7 +861,6 @@ lt:
   label_age: Amžius
   label_change_properties: Pakeisti nustatymus
   label_general: Bendri(-as)
-  label_more: Daugiau
   label_scm: SCM
   label_plugins: Įskiepiai
   label_ldap_authentication: LDAP autentifikacija
@@ -873,7 +870,6 @@ lt:
   label_preferences: Savybės
   label_chronological_order: Chronologine tvarka
   label_reverse_chronological_order: Atbuline chronologine tvarka
-  label_planning: Planavimas
   label_incoming_emails: Įeinantys laiškai
   label_generate_key: Generuoti raktą
   label_issue_watchers: Stebėtojai
@@ -1180,10 +1176,6 @@ lt:
   description_all_columns: AVisi stulpeliai
   description_issue_category_reassign: Pasirinkti darbo kategoriją
   description_wiki_subpages_reassign: Pasirinkti naują pagrindinį puslapį
-  description_date_range_list: Pasirinkitę diapazoną iš sąrašo
-  description_date_range_interval: Pasirinkite diapazoną pasirinkdami pradžios ir pabaigos datas
-  description_date_from: Įvesti pradžios datą
-  description_date_to: Įvesti pabaigos datą
   text_repository_identifier_info: 'Leidžiamos tik mažosios raidės (a-z), skaitmenys, brūkšneliai ir pabraukimo simboliai.<br />Kartą išsaugojus pakeitimai negalimi'
   label_wiki_page_new: Naujas wiki puslapis
   label_relations: Ryšiai
@@ -1198,5 +1190,31 @@ lt:
   label_new_object_tab_enabled: Rodyti "+" išskleidžiąmąjį sąrašą
   error_no_projects_with_tracker_allowed_for_new_issue: Nėra projektų su pėdsekiais,
     kuriems galima būtų sukurti darbą
+  field_textarea_font: Šriftas naudojamas teksto sritims
+  label_font_default: Numatytasis šriftas
+  label_font_monospace: Lygiaplotis šriftas
+  label_font_proportional: Įvairiaplotis šriftas
+  setting_timespan_format: Laiko tarpo formatas
+  label_table_of_contents: Turinio lentelė
+  setting_commit_logs_formatting: Pritaikyti teksto formatavimą patvirtinimo žinutėms
+  setting_mail_handler_enable_regex_delimiters: Įjungti reguliariuosius reiškinius
+  error_move_of_child_not_possible: 'Darbo dalis %{child} negali būti perkelta į naują 
+    projektą: %{errors}'
   error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: Dirbtas laikas negali būti
     iš naujo paskirtas darbui, kuris bus ištrintas
+  setting_timelog_required_fields: Privalomi laukai laiko registracijai
+  label_attribute_of_object: '%{object_name}''s %{name}'
+  label_user_mail_option_only_assigned: Tik dalykai, kuriuos stebiu arba esu įtrauktas
+  label_user_mail_option_only_owner: Tik dalykai, kuriuos stebiu arba esu jų savininkas
+  warning_fields_cleared_on_bulk_edit: Pakeitimai iššauks automatinį reikšmių
+    pašalinimą iš vieno arba kelių laukų pažymėtiems objektams
+  field_updated_by: Atnaujino
+  field_last_updated_by: Paskutinį kartą atnaujino
+  field_full_width_layout: Viso pločio išdėstymas
+  label_last_notes: Paskutinės pastabos
+  field_digest: Kontrolinė suma
+  field_default_assigned_to: Numatytasis paskirtasis
+  setting_show_custom_fields_on_registration: Rodyti individualizuotus laukus registracijoje
+  permission_view_news: Žiūrėti naujienas
+  label_no_preview_alternative_html: Peržiūra neprieinama. Naudokite failą %{link}.
+  label_no_preview_download: Atsisiųsti

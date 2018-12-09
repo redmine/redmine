@@ -129,6 +129,8 @@ ar:
         circular_dependency: "هذه العلاقة سوف تخلق علاقة تبعية دائرية"
         cant_link_an_issue_with_a_descendant: "لا يمكن ان تكون المشكلة مرتبطة بواحدة من المهام الفرعية"
         earlier_than_minimum_start_date: "cannot be earlier than %{date} because of preceding issues"
+        not_a_regexp: "is not a valid regular expression"
+        open_issue_with_closed_parent: "An open issue cannot be attached to a closed parent task"
 
   actionview_instancetag_blank_option: الرجاء التحديد
 
@@ -510,7 +512,6 @@ ar:
   label_my_page: الصفحة الخاصة بي
   label_my_account: حسابي
   label_my_projects: مشاريعي الخاصة
-  label_my_page_block: حجب صفحتي الخاصة
   label_administration: إدارة النظام
   label_login: تسجيل الدخول
   label_logout: تسجيل الخروج
@@ -599,7 +600,6 @@ ar:
   label_internal: الداخلية
   label_last_changes: "آخر التغييرات %{count}"
   label_change_view_all: عرض كافة التغييرات
-  label_personalize_page: تخصيص هذه الصفحة
   label_comment: تعليق
   label_comment_plural: تعليقات
   label_x_comments:
@@ -755,8 +755,6 @@ ar:
   label_user_mail_option_selected: "الخيارات المظللة فقط"
   label_user_mail_option_none: "لم يتم تحديد اي خيارات"
   label_user_mail_option_only_my_events: "السماح لي فقط بمشاهدة الاحداث الخاصة"
-  label_user_mail_option_only_assigned: "فقط الخيارات التي تم تعيينها"
-  label_user_mail_option_only_owner: "فقط للخيارات التي املكها"
   label_user_mail_no_self_notified: "لا تريد إعلامك بالتغيرات التي تجريها بنفسك"
   label_registration_activation_by_email: حساب التنشيط عبر البريد الإلكتروني
   label_registration_manual_activation: تنشيط الحساب اليدوي
@@ -765,7 +763,6 @@ ar:
   label_age: العمر
   label_change_properties: تغيير الخصائص
   label_general: عامة
-  label_more: أكثر
   label_scm: scm
   label_plugins: الإضافات
   label_ldap_authentication: مصادقة LDAP
@@ -775,7 +772,6 @@ ar:
   label_preferences: تفضيلات
   label_chronological_order: في ترتيب زمني
   label_reverse_chronological_order: في ترتيب زمني عكسي
-  label_planning: التخطيط
   label_incoming_emails: رسائل البريد الإلكتروني الوارد
   label_generate_key: إنشاء مفتاح
   label_issue_watchers: المراقبون
@@ -984,10 +980,6 @@ ar:
   description_all_columns: كل الاعمدة
   description_issue_category_reassign: اختر التصنيف
   description_wiki_subpages_reassign: اختر صفحة جديدة
-  description_date_range_list: اختر المجال من القائمة
-  description_date_range_interval: اختر المدة عن طريق اختيار تاريخ البداية والنهاية
-  description_date_from: ادخل تاريخ البداية
-  description_date_to: ادخل تاريخ الانتهاء
   text_rmagick_available: RMagick available (optional)
   text_wiki_page_destroy_question: This page has %{descendants} child page(s) and descendant(s). What do you want to do?
   text_repository_usernames_mapping: |-
@@ -1208,5 +1200,31 @@ ar:
   label_new_object_tab_enabled: Display the "+" drop-down
   error_no_projects_with_tracker_allowed_for_new_issue: There are no projects with trackers
     for which you can create an issue
+  field_textarea_font: Font used for text areas
+  label_font_default: Default font
+  label_font_monospace: Monospaced font
+  label_font_proportional: Proportional font
+  setting_timespan_format: Time span format
+  label_table_of_contents: Table of contents
+  setting_commit_logs_formatting: Apply text formatting to commit messages
+  setting_mail_handler_enable_regex_delimiters: Enable regular expressions
+  error_move_of_child_not_possible: 'Subtask %{child} could not be moved to the new
+    project: %{errors}'
   error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: Spent time cannot
     be reassigned to an issue that is about to be deleted
+  setting_timelog_required_fields: Required fields for time logs
+  label_attribute_of_object: '%{object_name}''s %{name}'
+  label_user_mail_option_only_assigned: Only for things I watch or I am assigned to
+  label_user_mail_option_only_owner: Only for things I watch or I am the owner of
+  warning_fields_cleared_on_bulk_edit: Changes will result in the automatic deletion
+    of values from one or more fields on the selected objects
+  field_updated_by: Updated by
+  field_last_updated_by: Last updated by
+  field_full_width_layout: Full width layout
+  label_last_notes: Last notes
+  field_digest: Checksum
+  field_default_assigned_to: Default assignee
+  setting_show_custom_fields_on_registration: Show custom fields on registration
+  permission_view_news: View news
+  label_no_preview_alternative_html: No preview available. %{link} the file instead.
+  label_no_preview_download: Download

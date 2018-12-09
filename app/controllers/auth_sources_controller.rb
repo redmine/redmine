@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,10 +17,12 @@
 
 class AuthSourcesController < ApplicationController
   layout 'admin'
+  self.main_menu = false
   menu_item :ldap_authentication
 
-  before_filter :require_admin
-  before_filter :find_auth_source, :only => [:edit, :update, :test_connection, :destroy]
+  before_action :require_admin
+  before_action :build_new_auth_source, :only => [:new, :create]
+  before_action :find_auth_source, :only => [:edit, :update, :test_connection, :destroy]
   require_sudo_mode :update, :destroy
 
   def index
@@ -28,13 +30,9 @@ class AuthSourcesController < ApplicationController
   end
 
   def new
-    klass_name = params[:type] || 'AuthSourceLdap'
-    @auth_source = AuthSource.new_subclass_instance(klass_name, params[:auth_source])
-    render_404 unless @auth_source
   end
 
   def create
-    @auth_source = AuthSource.new_subclass_instance(params[:type], params[:auth_source])
     if @auth_source.save
       flash[:notice] = l(:notice_successful_create)
       redirect_to auth_sources_path
@@ -47,7 +45,8 @@ class AuthSourcesController < ApplicationController
   end
 
   def update
-    if @auth_source.update_attributes(params[:auth_source])
+    @auth_source.safe_attributes = params[:auth_source]
+    if @auth_source.save
       flash[:notice] = l(:notice_successful_update)
       redirect_to auth_sources_path
     else
@@ -88,6 +87,15 @@ class AuthSourcesController < ApplicationController
   end
 
   private
+
+  def build_new_auth_source
+    @auth_source = AuthSource.new_subclass_instance(params[:type] || 'AuthSourceLdap')
+    if @auth_source
+      @auth_source.safe_attributes = params[:auth_source]
+    else
+      render_404
+    end
+  end
 
   def find_auth_source
     @auth_source = AuthSource.find(params[:id])

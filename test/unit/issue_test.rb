@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -26,6 +26,7 @@ class IssueTest < ActiveSupport::TestCase
            :issue_statuses, :issue_categories, :issue_relations, :workflows,
            :enumerations,
            :issues, :journals, :journal_details,
+           :watchers,
            :custom_fields, :custom_fields_projects, :custom_fields_trackers, :custom_values,
            :time_entries
 
@@ -137,7 +138,7 @@ class IssueTest < ActiveSupport::TestCase
   def test_create_with_required_custom_field
     set_language_if_valid 'en'
     field = IssueCustomField.find_by_name('Database')
-    field.update_attribute(:is_required, true)
+    field.update!(:is_required => true)
 
     issue = Issue.new(:project_id => 1, :tracker_id => 1, :author_id => 1,
                       :status_id => 1, :subject => 'test_create',
@@ -242,15 +243,15 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   def test_anonymous_should_not_see_private_issues_with_issues_visibility_set_to_default
-    assert Role.anonymous.update_attribute(:issues_visibility, 'default')
-    issue = Issue.generate!(:author => User.anonymous, :assigned_to => User.anonymous, :is_private => true)
+    Role.anonymous.update!(:issues_visibility => 'default')
+    issue = Issue.generate!(:author => User.anonymous, :is_private => true)
     assert_nil Issue.where(:id => issue.id).visible(User.anonymous).first
     assert !issue.visible?(User.anonymous)
   end
 
   def test_anonymous_should_not_see_private_issues_with_issues_visibility_set_to_own
-    assert Role.anonymous.update_attribute(:issues_visibility, 'own')
-    issue = Issue.generate!(:author => User.anonymous, :assigned_to => User.anonymous, :is_private => true)
+    assert Role.anonymous.update!(:issues_visibility => 'own')
+    issue = Issue.generate!(:author => User.anonymous, :is_private => true)
     assert_nil Issue.where(:id => issue.id).visible(User.anonymous).first
     assert !issue.visible?(User.anonymous)
   end
@@ -267,7 +268,7 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   def test_visible_scope_for_non_member_with_own_issues_visibility
-    Role.non_member.update_attribute :issues_visibility, 'own'
+    Role.non_member.update! :issues_visibility => 'own'
     Issue.create!(:project_id => 1, :tracker_id => 1, :author_id => 9, :subject => 'Issue by non member')
     user = User.find(9)
 
@@ -344,24 +345,27 @@ class IssueTest < ActiveSupport::TestCase
   def test_visible_scope_for_member_with_groups_should_return_assigned_issues
     user = User.find(8)
     assert user.groups.any?
-    Member.create!(:principal => user.groups.first, :project_id => 1, :role_ids => [2])
+    group = user.groups.first
+    Member.create!(:principal => group, :project_id => 1, :role_ids => [2])
     Role.non_member.remove_permission!(:view_issues)
 
-    issue = Issue.create!(:project_id => 1, :tracker_id => 1, :author_id => 3,
-      :status_id => 1, :priority => IssuePriority.all.first,
-      :subject => 'Assignment test',
-      :assigned_to => user.groups.first,
-      :is_private => true)
+    with_settings :issue_group_assignment => '1' do
+      issue = Issue.create!(:project_id => 1, :tracker_id => 1, :author_id => 3,
+        :status_id => 1, :priority => IssuePriority.all.first,
+        :subject => 'Assignment test',
+        :assigned_to => group,
+        :is_private => true)
 
-    Role.find(2).update_attribute :issues_visibility, 'default'
-    issues = Issue.visible(User.find(8)).to_a
-    assert issues.any?
-    assert issues.include?(issue)
+      Role.find(2).update! :issues_visibility => 'default'
+      issues = Issue.visible(User.find(8)).to_a
+      assert issues.any?
+      assert issues.include?(issue)
 
-    Role.find(2).update_attribute :issues_visibility, 'own'
-    issues = Issue.visible(User.find(8)).to_a
-    assert issues.any?
-    assert_include issue, issues
+      Role.find(2).update! :issues_visibility => 'own'
+      issues = Issue.visible(User.find(8)).to_a
+      assert issues.any?
+      assert_include issue, issues
+    end
   end
 
   def test_visible_scope_for_member_with_limited_tracker_ids
@@ -458,6 +462,7 @@ class IssueTest < ActiveSupport::TestCase
 
   def test_visible_and_nested_set_scopes
     user = User.generate!
+    Member.create!(:project_id => 1, :principal => user, :role_ids => [1])
     parent = Issue.generate!(:assigned_to => user)
     assert parent.visible?(user)
     child1 = Issue.generate!(:parent_issue_id => parent.id, :assigned_to => user)
@@ -553,7 +558,7 @@ class IssueTest < ActiveSupport::TestCase
 
   def test_update_issue_with_required_custom_field
     field = IssueCustomField.find_by_name('Database')
-    field.update_attribute(:is_required, true)
+    field.update!(:is_required => true)
 
     issue = Issue.find(1)
     assert_nil issue.custom_value_for(field)
@@ -599,10 +604,26 @@ class IssueTest < ActiveSupport::TestCase
 
   def test_setting_project_should_set_version_to_default_version
     version = Version.generate!(:project_id => 1)
-    Project.find(1).update_attribute(:default_version_id, version.id)
+    Project.find(1).update!(:default_version_id => version.id)
 
     issue = Issue.new(:project_id => 1)
     assert_equal version, issue.fixed_version
+  end
+
+  def test_default_assigned_to_based_on_category_should_be_set_on_create
+    user = User.find(3)
+    category = IssueCategory.create!(:project_id => 1, :name => 'With default assignee', :assigned_to_id => 3)
+
+    issue = Issue.generate!(:project_id => 1, :category_id => category.id)
+    assert_equal user, issue.assigned_to
+  end
+
+  def test_default_assigned_to_based_on_project_should_be_set_on_create
+    user = User.find(3)
+    Project.find(1).update!(:default_assigned_to_id => user.id)
+
+    issue = Issue.generate!(:project_id => 1)
+    assert_equal user, issue.assigned_to
   end
 
   def test_default_assigned_to_with_required_assignee_should_validate
@@ -671,7 +692,8 @@ class IssueTest < ActiveSupport::TestCase
     assert_nil issue.due_date
   end
 
-  def test_changing_tracker_should_not_add_cleared_fields_to_journal
+  def test_attribute_cleared_on_tracker_change_should_be_journalized
+    CustomField.delete_all
     tracker = Tracker.find(2)
     tracker.core_fields = tracker.core_fields - %w(due_date)
     tracker.save!
@@ -686,7 +708,8 @@ class IssueTest < ActiveSupport::TestCase
       assert_nil issue.due_date
     end
     journal = Journal.order('id DESC').first
-    assert_equal 1, journal.details.count
+    details = journal.details.select {|d| d.prop_key == 'due_date'}
+    assert_equal 1, details.count
   end
 
   def test_reload_should_reload_custom_field_values
@@ -771,13 +794,6 @@ class IssueTest < ActiveSupport::TestCase
                             :project_id => 1, :author => user,
                             :assigned_to => user)
     assert_equal [1, 2, 3, 4, 5], issue.new_statuses_allowed_to(user).map(&:id)
-
-    group = Group.generate!
-    group.users << user
-    issue = Issue.generate!(:tracker => tracker, :status => status,
-                            :project_id => 1, :author => user,
-                            :assigned_to => group)
-    assert_equal [1, 2, 3, 4, 5], issue.new_statuses_allowed_to(user).map(&:id)
   end
 
   def test_new_statuses_allowed_to_should_consider_group_assignment
@@ -785,12 +801,16 @@ class IssueTest < ActiveSupport::TestCase
     WorkflowTransition.create!(:role_id => 1, :tracker_id => 1,
                                :old_status_id => 1, :new_status_id => 4,
                                :author => false, :assignee => true)
-    user = User.find(2)
     group = Group.generate!
+    Member.create!(:project_id => 1, :principal => group, :role_ids => [1])
+
+    user = User.find(2)
     group.users << user
 
-    issue = Issue.generate!(:author_id => 1, :assigned_to => group)
-    assert_include 4, issue.new_statuses_allowed_to(user).map(&:id)
+    with_settings :issue_group_assignment => '1' do
+      issue = Issue.generate!(:author_id => 1, :assigned_to => group)
+      assert_include 4, issue.new_statuses_allowed_to(user).map(&:id)
+    end
   end
 
   def test_new_statuses_allowed_to_should_return_all_transitions_for_admin
@@ -803,12 +823,23 @@ class IssueTest < ActiveSupport::TestCase
     assert_equal expected_statuses, issue.new_statuses_allowed_to(admin)
   end
 
-  def test_new_statuses_allowed_to_should_return_default_and_current_status_when_copying
-    issue = Issue.find(1).copy
-    assert_equal [1], issue.new_statuses_allowed_to(User.find(2)).map(&:id)
+  def test_new_statuses_allowed_to_should_return_allowed_statuses_when_copying
+    Tracker.find(1).generate_transitions! :role_id => 1, :clear => true, 0 => [1, 3]
 
-    issue = Issue.find(2).copy
-    assert_equal [1, 2], issue.new_statuses_allowed_to(User.find(2)).map(&:id)
+    orig = Issue.generate!(:project_id => 1, :tracker_id => 1, :status_id => 4)
+    issue = orig.copy
+    assert_equal [1, 3], issue.new_statuses_allowed_to(User.find(2)).map(&:id)
+    assert_equal 1, issue.status_id
+  end
+
+  def test_safe_attributes_names_should_be_updated_when_changing_project
+    issue = Issue.new
+    with_current_user(User.find(2)) do
+      assert_not_include 'watcher_user_ids', issue.safe_attribute_names
+
+      issue.project_id = 1
+      assert_include 'watcher_user_ids', issue.safe_attribute_names
+    end
   end
 
   def test_safe_attributes_names_should_not_include_disabled_field
@@ -818,7 +849,6 @@ class IssueTest < ActiveSupport::TestCase
     assert_include 'tracker_id', issue.safe_attribute_names
     assert_include 'status_id', issue.safe_attribute_names
     assert_include 'subject', issue.safe_attribute_names
-    assert_include 'description', issue.safe_attribute_names
     assert_include 'custom_field_values', issue.safe_attribute_names
     assert_include 'custom_fields', issue.safe_attribute_names
     assert_include 'lock_version', issue.safe_attribute_names
@@ -902,40 +932,6 @@ class IssueTest < ActiveSupport::TestCase
                                     ]}, user
     assert_equal 'valuea', issue.custom_field_value(cf1)
     assert_nil issue.custom_field_value(cf2)
-  end
-
-  def test_safe_attributes_should_ignore_unassignable_assignee
-    issue = Issue.new(:project_id => 1, :tracker_id => 1, :author_id => 3,
-                      :status_id => 1, :priority => IssuePriority.all.first,
-                      :subject => 'test_create')
-    assert issue.valid?
-
-    # locked user, not allowed
-    issue.safe_attributes=({'assigned_to_id' => '5'})
-    assert_nil issue.assigned_to_id
-    # no member
-    issue.safe_attributes=({'assigned_to_id' => '1'})
-    assert_nil issue.assigned_to_id
-    # user 2 is ok
-    issue.safe_attributes=({'assigned_to_id' => '2'})
-    assert_equal 2, issue.assigned_to_id
-    assert issue.save
-
-    issue.reload
-    assert_equal 2, issue.assigned_to_id
-    issue.safe_attributes=({'assigned_to_id' => '5'})
-    assert_equal 2, issue.assigned_to_id
-    issue.safe_attributes=({'assigned_to_id' => '1'})
-    assert_equal 2, issue.assigned_to_id
-    # user 3 is also ok
-    issue.safe_attributes=({'assigned_to_id' => '3'})
-    assert_equal 3, issue.assigned_to_id
-    assert issue.save
-
-    # removal of assignee
-    issue.safe_attributes=({'assigned_to_id' => ''})
-    assert_nil issue.assigned_to_id
-    assert issue.save
   end
 
   def test_editable_custom_field_values_should_return_non_readonly_custom_values
@@ -1259,11 +1255,20 @@ class IssueTest < ActiveSupport::TestCase
     assert_equal "125", issue.custom_value_for(2).value
   end
 
-  def test_copy_should_copy_status
+  def test_copy_to_another_project_should_clear_assignee_if_not_valid
+    issue = Issue.generate!(:project_id => 1, :assigned_to_id => 2)
+    project = Project.generate!
+
+    issue = Issue.new.copy_from(1)
+    issue.project = project
+    assert_nil issue.assigned_to
+  end
+
+  def test_copy_with_keep_status_should_copy_status
     orig = Issue.find(8)
     assert orig.status != orig.default_status
 
-    issue = Issue.new.copy_from(orig)
+    issue = Issue.new.copy_from(orig, :keep_status => true)
     assert issue.save
     issue.reload
     assert_equal orig.status, issue.status
@@ -1365,9 +1370,66 @@ class IssueTest < ActiveSupport::TestCase
     assert copied_open.save
     assert_nil copied_open.closed_on
 
-    copied_closed = Issue.find(8).copy
+    copied_closed = Issue.find(8).copy({}, :keep_status => 1)
     assert copied_closed.save
     assert_not_nil copied_closed.closed_on
+  end
+
+  def test_copy_should_not_copy_locked_watchers
+    user = User.find(2)
+    user2 = User.find(3)
+    issue = Issue.find(8)
+
+    Watcher.create!(:user => user, :watchable => issue)
+    Watcher.create!(:user => user2, :watchable => issue)
+
+    user2.status = User::STATUS_LOCKED
+    user2.save!
+
+    issue = Issue.new.copy_from(8)
+
+    assert issue.save
+    assert issue.watched_by?(user)
+    assert !issue.watched_by?(user2)
+  end
+
+  def test_copy_should_clear_subtasks_target_version_if_locked_or_closed
+    version = Version.new(:project => Project.find(1), :name => '2.1',)
+    version.save!
+
+    parent = Issue.generate!
+    child1 = Issue.generate!(:parent_issue_id => parent.id, :subject => 'Child 1', :fixed_version_id => 3)
+    child2 = Issue.generate!(:parent_issue_id => parent.id, :subject => 'Child 2', :fixed_version_id => version.id)
+
+    version.status = 'locked'
+    version.save!
+
+    copy = parent.reload.copy
+
+    assert_difference 'Issue.count', 3 do
+      assert copy.save
+    end
+
+    assert_equal [3, nil], copy.children.map(&:fixed_version_id)
+  end
+
+  def test_copy_should_clear_subtasks_assignee_if_is_locked
+    user = User.find(2)
+
+    parent = Issue.generate!
+    child1 = Issue.generate!(:parent_issue_id => parent.id, :subject => 'Child 1', :assigned_to_id => 3)
+    child2 = Issue.generate!(:parent_issue_id => parent.id, :subject => 'Child 2', :assigned_to_id => user.id)
+
+    user.status = User::STATUS_LOCKED
+    user.save!
+
+    copy = parent.reload.copy
+
+    assert_difference 'Issue.count', 3 do
+      assert copy.save
+    end
+
+    assert_equal [3, nil], copy.children.map(&:assigned_to_id)
   end
 
   def test_should_not_call_after_project_change_on_creation
@@ -1537,7 +1599,7 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   def test_should_keep_shared_version_when_changing_project
-    Version.find(2).update_attribute :sharing, 'tree'
+    Version.find(2).update! :sharing => 'tree'
 
     issue = Issue.find(2)
     assert_equal 2, issue.fixed_version_id
@@ -1670,7 +1732,7 @@ class IssueTest < ActiveSupport::TestCase
 
   def test_move_to_another_project_should_clear_fixed_version_when_not_shared
     issue = Issue.find(1)
-    issue.update_attribute(:fixed_version_id, 1)
+    issue.update!(:fixed_version_id => 3)
     issue.project = Project.find(2)
     assert issue.save
     issue.reload
@@ -1681,7 +1743,7 @@ class IssueTest < ActiveSupport::TestCase
 
   def test_move_to_another_project_should_keep_fixed_version_when_shared_with_the_target_project
     issue = Issue.find(1)
-    issue.update_attribute(:fixed_version_id, 4)
+    issue.update!(:fixed_version_id => 4)
     issue.project = Project.find(5)
     assert issue.save
     issue.reload
@@ -1692,7 +1754,7 @@ class IssueTest < ActiveSupport::TestCase
 
   def test_move_to_another_project_should_clear_fixed_version_when_not_shared_with_the_target_project
     issue = Issue.find(1)
-    issue.update_attribute(:fixed_version_id, 1)
+    issue.update!(:fixed_version_id => 3)
     issue.project = Project.find(5)
     assert issue.save
     issue.reload
@@ -1703,7 +1765,7 @@ class IssueTest < ActiveSupport::TestCase
 
   def test_move_to_another_project_should_keep_fixed_version_when_shared_systemwide
     issue = Issue.find(1)
-    issue.update_attribute(:fixed_version_id, 7)
+    issue.update!(:fixed_version_id => 7)
     issue.project = Project.find(2)
     assert issue.save
     issue.reload
@@ -1714,7 +1776,7 @@ class IssueTest < ActiveSupport::TestCase
 
   def test_move_to_another_project_should_keep_parent_if_valid
     issue = Issue.find(1)
-    issue.update_attribute(:parent_issue_id, 2)
+    issue.update! :parent_issue_id => 2
     issue.project = Project.find(3)
     assert issue.save
     issue.reload
@@ -1723,7 +1785,7 @@ class IssueTest < ActiveSupport::TestCase
 
   def test_move_to_another_project_should_clear_parent_if_not_valid
     issue = Issue.find(1)
-    issue.update_attribute(:parent_issue_id, 2)
+    issue.update! :parent_issue_id => 2
     issue.project = Project.find(2)
     assert issue.save
     issue.reload
@@ -1740,6 +1802,18 @@ class IssueTest < ActiveSupport::TestCase
     issue.reload
     assert_equal 2, issue.project_id
     assert_equal 3, issue.tracker_id
+  end
+
+  def test_move_to_another_project_should_set_error_message_on_child_failure
+    parent = Issue.generate!
+    child = Issue.generate!(:parent_issue_id => parent.id, :tracker_id => 2)
+    project = Project.generate!(:tracker_ids => [1])
+
+    parent.reload
+    parent.project_id = project.id
+    assert !parent.save
+    assert_include "Subtask ##{child.id} could not be moved to the new project: Tracker is not included in the list",
+      parent.errors[:base]
   end
 
   def test_copy_to_the_same_project
@@ -1768,14 +1842,16 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   test "#copy should not create a journal" do
-    copy = Issue.find(1).copy({:project_id => 3, :tracker_id => 2, :assigned_to_id => 3}, :link => false)
+    copy = Issue.find(1).copy({:project_id => 3, :tracker_id => 2}, :link => false)
     copy.save!
     assert_equal 0, copy.reload.journals.size
   end
 
   test "#copy should allow assigned_to changes" do
-    copy = Issue.find(1).copy(:project_id => 3, :tracker_id => 2, :assigned_to_id => 3)
-    assert_equal 3, copy.assigned_to_id
+    user = User.generate!
+    Member.create!(:project_id => 3, :principal => user, :role_ids => [1])
+    copy = Issue.find(1).copy(:project_id => 3, :tracker_id => 2, :assigned_to_id => user.id)
+    assert_equal user.id, copy.assigned_to_id
   end
 
   test "#copy should allow status changes" do
@@ -1859,13 +1935,11 @@ class IssueTest < ActiveSupport::TestCase
   def test_recipients_should_include_previous_assignee
     user = User.find(3)
     user.members.update_all ["mail_notification = ?", false]
-    user.update_attribute :mail_notification, 'only_assigned'
+    user.update! :mail_notification => 'only_assigned'
 
     issue = Issue.find(2)
     issue.assigned_to = nil
     assert_include user.mail, issue.recipients
-    issue.save!
-    assert !issue.recipients.include?(user.mail)
   end
 
   def test_recipients_should_not_include_users_that_cannot_view_the_issue
@@ -1924,7 +1998,7 @@ class IssueTest < ActiveSupport::TestCase
 
   def test_destroying_a_stale_issue_should_not_raise_an_error
     issue = Issue.find(1)
-    Issue.find(1).update_attribute :subject, "Updated"
+    Issue.find(1).update! :subject => "Updated"
 
     assert_nothing_raised do
       assert_difference 'Issue.count', -1 do
@@ -1958,6 +2032,24 @@ class IssueTest < ActiveSupport::TestCase
     assert !allowed_statuses.empty?
     closed_statuses = allowed_statuses.select {|st| st.is_closed?}
     assert !closed_statuses.empty?
+  end
+
+  def test_parent_issues_with_open_subtask_dont_allow_closed_statuses
+    parent = Issue.generate!
+    child = Issue.generate!(:parent_issue_id => parent.id)
+
+    allowed_statuses = parent.reload.new_statuses_allowed_to(users(:users_002))
+    assert allowed_statuses.any?
+    assert_equal [], allowed_statuses.select(&:is_closed?)
+  end
+
+  def test_parent_issues_with_closed_subtask_allow_closed_statuses
+    parent = Issue.generate!
+    child = Issue.generate!(:parent_issue_id => parent.id, :status_id => 5)
+
+    allowed_statuses = parent.reload.new_statuses_allowed_to(users(:users_002))
+    assert allowed_statuses.any?
+    assert allowed_statuses.select(&:is_closed?).any?
   end
 
   def test_reschedule_an_issue_without_dates
@@ -2334,8 +2426,9 @@ class IssueTest < ActiveSupport::TestCase
     assert !issue.assignable_users.include?(user)
   end
 
-  test "#assignable_users should include the current assignee" do
+  def test_assignable_users_should_include_the_current_assignee
     user = User.generate!
+    Member.create!(:project_id => 1, :principal => user, :role_ids => [1])
     issue = Issue.generate!(:assigned_to => user)
     user.lock!
 
@@ -2431,9 +2524,8 @@ class IssueTest < ActiveSupport::TestCase
 
   def test_update_should_notify_previous_assignee
     ActionMailer::Base.deliveries.clear
-    user = User.find(3)
-    user.members.update_all ["mail_notification = ?", false]
-    user.update_attribute :mail_notification, 'only_assigned'
+    user = User.generate!(:mail_notification => 'only_assigned')
+    Issue.where(:id => 2).update_all(:assigned_to_id => user.id)
 
     with_settings :notified_events => %w(issue_updated) do
       issue = Issue.find(2)
@@ -2538,6 +2630,22 @@ class IssueTest < ActiveSupport::TestCase
     end
   end
 
+  def test_custom_value_cleared_on_tracker_change_should_be_journalized
+    a = IssueCustomField.generate!(:tracker_ids => [1])
+    issue = Issue.generate!(:project_id => 1, :tracker_id => 1, :custom_field_values => {a.id.to_s => "foo"})
+    assert_equal "foo", issue.custom_field_value(a)
+
+    journal = new_record(Journal) do
+      issue.init_journal(User.first)
+      issue.tracker_id = 2
+      issue.save!
+    end
+    details = journal.details.select {|d| d.property == 'cf' && d.prop_key == a.id.to_s}
+    assert_equal 1, details.size
+    assert_equal 'foo', details.first.old_value
+    assert_nil details.first.value
+  end
+
   def test_description_eol_should_be_normalized
     i = Issue.new(:description => "CR \r LF \n CRLF \r\n")
     assert_equal "CR \r\n LF \r\n CRLF \r\n", i.description
@@ -2570,10 +2678,10 @@ class IssueTest < ActiveSupport::TestCase
   test "#done_ratio should use the issue_status according to Setting.issue_done_ratio" do
     @issue = Issue.find(1)
     @issue_status = IssueStatus.find(1)
-    @issue_status.update_attribute(:default_done_ratio, 50)
+    @issue_status.update!(:default_done_ratio => 50)
     @issue2 = Issue.find(2)
     @issue_status2 = IssueStatus.find(2)
-    @issue_status2.update_attribute(:default_done_ratio, 0)
+    @issue_status2.update!(:default_done_ratio => 0)
 
     with_settings :issue_done_ratio => 'issue_field' do
       assert_equal 0, @issue.done_ratio
@@ -2589,10 +2697,10 @@ class IssueTest < ActiveSupport::TestCase
   test "#update_done_ratio_from_issue_status should update done_ratio according to Setting.issue_done_ratio" do
     @issue = Issue.find(1)
     @issue_status = IssueStatus.find(1)
-    @issue_status.update_attribute(:default_done_ratio, 50)
+    @issue_status.update!(:default_done_ratio => 50)
     @issue2 = Issue.find(2)
     @issue_status2 = IssueStatus.find(2)
-    @issue_status2.update_attribute(:default_done_ratio, 0)
+    @issue_status2.update!(:default_done_ratio => 0)
 
     with_settings :issue_done_ratio => 'issue_field' do
       @issue.update_done_ratio_from_issue_status
@@ -2695,26 +2803,30 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   test "Issue#recipients should include the assigned to user if the assigned to user is active" do
-    issue = Issue.generate!(:assigned_to => User.generate!)
+    user = User.generate!
+    Member.create!(:project_id => 1, :principal => user, :role_ids => [1])
+    issue = Issue.generate!(:assigned_to => user)
     assert issue.assigned_to, "No assigned_to set for Issue"
     assert issue.recipients.include?(issue.assigned_to.mail)
   end
 
   test "Issue#recipients should not include users who opt out of all email" do
     issue = Issue.generate!(:author => User.generate!)
-    issue.author.update_attribute(:mail_notification, :none)
+    issue.author.update!(:mail_notification => :none)
     assert !issue.recipients.include?(issue.author.mail)
   end
 
   test "Issue#recipients should not include the issue author if they are only notified of assigned issues" do
     issue = Issue.generate!(:author => User.generate!)
-    issue.author.update_attribute(:mail_notification, :only_assigned)
+    issue.author.update!(:mail_notification => :only_assigned)
     assert !issue.recipients.include?(issue.author.mail)
   end
 
   test "Issue#recipients should not include the assigned user if they are only notified of owned issues" do
-    issue = Issue.generate!(:assigned_to => User.generate!)
-    issue.assigned_to.update_attribute(:mail_notification, :only_owner)
+    user = User.generate!
+    Member.create!(:project_id => 1, :principal => user, :role_ids => [1])
+    issue = Issue.generate!(:assigned_to => user)
+    issue.assigned_to.update!(:mail_notification => :only_owner)
     assert !issue.recipients.include?(issue.assigned_to.mail)
   end
 
@@ -3001,18 +3113,21 @@ class IssueTest < ActiveSupport::TestCase
 
   def test_assigned_to_was_with_a_group
     group = Group.find(10)
+    Member.create!(:project_id => 1, :principal => group, :role_ids => [1])
 
-    issue = Issue.generate!(:assigned_to => group)
-    issue.reload.assigned_to = nil
-    assert_equal group, issue.assigned_to_was
+    with_settings :issue_group_assignment => '1' do
+      issue = Issue.generate!(:assigned_to => group)
+      issue.reload.assigned_to = nil
+      assert_equal group, issue.assigned_to_was
+    end
   end
 
   def test_issue_overdue_should_respect_user_timezone
     user_in_europe = users(:users_001)
-    user_in_europe.pref.update_attribute :time_zone, 'UTC'
+    user_in_europe.pref.update! :time_zone => 'UTC'
 
     user_in_asia = users(:users_002)
-    user_in_asia.pref.update_attribute :time_zone, 'Hongkong'
+    user_in_asia.pref.update! :time_zone => 'Hongkong'
 
     issue = Issue.generate! :due_date => Date.parse('2016-03-20')
 

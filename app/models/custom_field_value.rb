@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -46,6 +46,18 @@ class CustomFieldValue
 
   def to_s
     value.to_s
+  end
+
+  def value=(v)
+    @value = custom_field.set_custom_field_value(self, v)
+  end
+
+  def value_present?
+    if value.is_a?(Array)
+      value.any?(&:present?)
+    else
+      value.present?
+    end
   end
 
   def validate_value

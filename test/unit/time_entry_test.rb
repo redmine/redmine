@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -18,6 +18,8 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class TimeEntryTest < ActiveSupport::TestCase
+  include Redmine::I18n
+
   fixtures :issues, :projects, :users, :time_entries,
            :members, :roles, :member_roles,
            :trackers, :issue_statuses,
@@ -171,5 +173,15 @@ class TimeEntryTest < ActiveSupport::TestCase
                           :user     => anon,
                           :activity => activity)
     assert_equal project.id, te.project.id
+  end
+
+  def test_create_with_required_issue_id_and_comment_should_be_validated
+    set_language_if_valid 'en'
+    with_settings :timelog_required_fields => ['issue_id' , 'comments'] do
+      entry = TimeEntry.new(:project => Project.find(1), :spent_on => Date.today, :user => User.find(1), :activity => TimeEntryActivity.first, :hours => 1)
+
+      assert !entry.save
+      assert_equal ["Comment cannot be blank", "Issue cannot be blank"], entry.errors.full_messages.sort
+    end
   end
 end

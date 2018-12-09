@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -38,7 +38,7 @@ class Redmine::ApiTest::AttachmentsTest < Redmine::ApiTest::Base
   end
 
   test "GET /attachments/:id.xml should return the attachment" do
-    get '/attachments/7.xml', {}, credentials('jsmith')
+    get '/attachments/7.xml', :headers => credentials('jsmith')
     assert_response :success
     assert_equal 'application/xml', @response.content_type
     assert_select 'attachment id', :text => '7' do
@@ -48,7 +48,7 @@ class Redmine::ApiTest::AttachmentsTest < Redmine::ApiTest::Base
   end
 
   test "GET /attachments/:id.xml for image should include thumbnail_url" do
-    get '/attachments/16.xml', {}, credentials('jsmith')
+    get '/attachments/16.xml', :headers => credentials('jsmith')
     assert_response :success
     assert_equal 'application/xml', @response.content_type
     assert_select 'attachment id:contains(16)' do
@@ -63,7 +63,7 @@ class Redmine::ApiTest::AttachmentsTest < Redmine::ApiTest::Base
   end
 
   test "GET /attachments/download/:id/:filename should return the attachment content" do
-    get '/attachments/download/7/archive.zip', {}, credentials('jsmith')
+    get '/attachments/download/7/archive.zip', :headers => credentials('jsmith')
     assert_response :success
     assert_equal 'application/zip', @response.content_type
     set_tmp_attachments_directory
@@ -77,32 +77,58 @@ class Redmine::ApiTest::AttachmentsTest < Redmine::ApiTest::Base
 
   test "GET /attachments/thumbnail/:id should return the thumbnail" do
     skip unless convert_installed?
-    get '/attachments/thumbnail/16', {}, credentials('jsmith')
+    get '/attachments/thumbnail/16', :headers => credentials('jsmith')
     assert_response :success
   end
 
-  test "Destroy /attachments/:id.xml should return ok and deleted Attachment" do
+  test "DELETE /attachments/:id.xml should return ok and delete Attachment" do
     assert_difference 'Attachment.count', -1 do
-      delete '/attachments/7.xml', {}, credentials('jsmith')
+      delete '/attachments/7.xml', :headers => credentials('jsmith')
       assert_response :ok
       assert_equal '', response.body
     end
     assert_nil Attachment.find_by_id(7)
   end
 
-  test "Destroy /attachments/:id.json should return ok and deleted Attachment" do
+  test "DELETE /attachments/:id.json should return ok and delete Attachment" do
     assert_difference 'Attachment.count', -1 do
-      delete '/attachments/7.json', {}, credentials('jsmith')
+      delete '/attachments/7.json', :headers => credentials('jsmith')
       assert_response :ok
       assert_equal '', response.body
     end
     assert_nil Attachment.find_by_id(7)
+  end
+
+  test "PATCH /attachments/:id.json should update the attachment" do
+    patch '/attachments/7.json',
+      :params => {:attachment => {:filename => 'renamed.zip', :description => 'updated'}},
+      :headers => credentials('jsmith')
+
+    assert_response :ok
+    assert_equal 'application/json', response.content_type
+    attachment = Attachment.find(7)
+    assert_equal 'renamed.zip', attachment.filename
+    assert_equal 'updated', attachment.description
+  end
+
+  test "PATCH /attachments/:id.json with failure should return the errors" do
+    patch '/attachments/7.json',
+      :params => {:attachment => {:filename => '', :description => 'updated'}},
+      :headers => credentials('jsmith')
+
+    assert_response 422
+    assert_equal 'application/json', response.content_type
+    json = ActiveSupport::JSON.decode(response.body)
+    assert_include "File cannot be blank", json['errors']
   end
 
   test "POST /uploads.xml should return the token" do
     set_tmp_attachments_directory
     assert_difference 'Attachment.count' do
-      post '/uploads.xml', 'File content', {"CONTENT_TYPE" => 'application/octet-stream'}.merge(credentials('jsmith'))
+      post '/uploads.xml', :headers => {
+          "RAW_POST_DATA" => 'File content',
+          "CONTENT_TYPE" => 'application/octet-stream'
+        }.merge(credentials('jsmith'))
       assert_response :created
       assert_equal 'application/xml', response.content_type
     end
@@ -111,15 +137,18 @@ class Redmine::ApiTest::AttachmentsTest < Redmine::ApiTest::Base
     assert_kind_of Hash, xml['upload']
     token = xml['upload']['token']
     assert_not_nil token
+    attachment_id = xml['upload']['id']
+    assert_not_nil attachment_id
 
     attachment = Attachment.order('id DESC').first
     assert_equal token, attachment.token
+    assert_equal attachment_id, attachment.id.to_s
     assert_nil attachment.container
     assert_equal 2, attachment.author_id
     assert_equal 'File content'.size, attachment.filesize
     assert attachment.content_type.blank?
     assert attachment.filename.present?
-    assert_match /\d+_[0-9a-z]+/, attachment.diskfile
+    assert_match %r{\d+_[0-9a-z]+}, attachment.diskfile
     assert File.exist?(attachment.diskfile)
     assert_equal 'File content', File.read(attachment.diskfile)
   end
@@ -127,7 +156,10 @@ class Redmine::ApiTest::AttachmentsTest < Redmine::ApiTest::Base
   test "POST /uploads.json should return the token" do
     set_tmp_attachments_directory
     assert_difference 'Attachment.count' do
-      post '/uploads.json', 'File content', {"CONTENT_TYPE" => 'application/octet-stream'}.merge(credentials('jsmith'))
+      post '/uploads.json', :headers => {
+          "RAW_POST_DATA" => 'File content',
+          "CONTENT_TYPE" => 'application/octet-stream'
+        }.merge(credentials('jsmith'))
       assert_response :created
       assert_equal 'application/json', response.content_type
     end
@@ -144,7 +176,10 @@ class Redmine::ApiTest::AttachmentsTest < Redmine::ApiTest::Base
   test "POST /uploads.xml should accept :filename param as the attachment filename" do
     set_tmp_attachments_directory
     assert_difference 'Attachment.count' do
-      post '/uploads.xml?filename=test.txt', 'File content', {"CONTENT_TYPE" => 'application/octet-stream'}.merge(credentials('jsmith'))
+      post '/uploads.xml?filename=test.txt', :headers => {
+          "RAW_POST_DATA" => 'File content',
+          "CONTENT_TYPE" => 'application/octet-stream'
+        }.merge(credentials('jsmith'))
       assert_response :created
     end
 
@@ -156,7 +191,10 @@ class Redmine::ApiTest::AttachmentsTest < Redmine::ApiTest::Base
   test "POST /uploads.xml should not accept other content types" do
     set_tmp_attachments_directory
     assert_no_difference 'Attachment.count' do
-      post '/uploads.xml', 'PNG DATA', {"CONTENT_TYPE" => 'image/png'}.merge(credentials('jsmith'))
+      post '/uploads.xml', :headers => {
+          "RAW_POST_DATA" => 'PNG DATA',
+          "CONTENT_TYPE" => 'image/png'
+        }.merge(credentials('jsmith'))
       assert_response 406
     end
   end
@@ -165,7 +203,10 @@ class Redmine::ApiTest::AttachmentsTest < Redmine::ApiTest::Base
     set_tmp_attachments_directory
     with_settings :attachment_max_size => 1 do
       assert_no_difference 'Attachment.count' do
-        post '/uploads.xml', ('x' * 2048), {"CONTENT_TYPE" => 'application/octet-stream'}.merge(credentials('jsmith'))
+        post '/uploads.xml', :headers => {
+            "RAW_POST_DATA" => ('x' * 2048),
+            "CONTENT_TYPE" => 'application/octet-stream'
+          }.merge(credentials('jsmith'))
         assert_response 422
         assert_select 'error', :text => /exceeds the maximum allowed file size/
       end
@@ -175,7 +216,9 @@ class Redmine::ApiTest::AttachmentsTest < Redmine::ApiTest::Base
   test "POST /uploads.json should create an empty file and return a valid token" do
     set_tmp_attachments_directory
     assert_difference 'Attachment.count' do
-      post '/uploads.json', '', {"CONTENT_TYPE" => 'application/octet-stream'}.merge(credentials('jsmith'))
+      post '/uploads.json', :headers => {
+          "CONTENT_TYPE" => 'application/octet-stream'
+        }.merge(credentials('jsmith'))
       assert_response :created
 
     end

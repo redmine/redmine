@@ -1,0 +1,14 @@
+From: John Smith <JSmith@somenet.foo>
+To: "redmine@somenet.foo" <redmine@somenet.foo>
+Subject: This is a test
+Content-Type: multipart/alternative;
+  boundary="_c20d9cfa-d16a-43a3-a7e5-71da7877ab23_"
+
+--_c20d9cfa-d16a-43a3-a7e5-71da7877ab23_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+=D0=97=D0=B4=D1=80=D0=B0=D0=B2=D1=81=D1=82=D0=B2=D1=83=D0=B9=D1=82=D0=B5=AA
+
+--_c20d9cfa-d16a-43a3-a7e5-71da7877ab23_--
+

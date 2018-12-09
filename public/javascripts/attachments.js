@@ -1,24 +1,33 @@
 /* Redmine - project management software
-   Copyright (C) 2006-2016  Jean-Philippe Lang */
+   Copyright (C) 2006-2017  Jean-Philippe Lang */
 
 function addFile(inputEl, file, eagerUpload) {
+  var attachmentsFields = $(inputEl).closest('.attachments_form').find('.attachments_fields');
+  var addAttachment = $(inputEl).closest('.attachments_form').find('.add_attachment');
+  var maxFiles = ($(inputEl).attr('multiple') == 'multiple' ? 10 : 1);
 
-  if ($('#attachments_fields').children().length < 10) {
-
+  if (attachmentsFields.children().length < maxFiles) {
     var attachmentId = addFile.nextAttachmentId++;
-
     var fileSpan = $('<span>', { id: 'attachments_' + attachmentId });
+    var param = $(inputEl).data('param');
+    if (!param) {param = 'attachments'};
 
     fileSpan.append(
-        $('<input>', { type: 'text', 'class': 'filename readonly', name: 'attachments[' + attachmentId + '][filename]', readonly: 'readonly'} ).val(file.name),
-        $('<input>', { type: 'text', 'class': 'description', name: 'attachments[' + attachmentId + '][description]', maxlength: 255, placeholder: $(inputEl).data('description-placeholder') } ).toggle(!eagerUpload),
-        $('<a>&nbsp</a>').attr({ href: "#", 'class': 'remove-upload' }).click(removeFile).toggle(!eagerUpload)
-    ).appendTo('#attachments_fields');
+        $('<input>', { type: 'text', 'class': 'icon icon-attachment filename readonly', name: param +'[' + attachmentId + '][filename]', readonly: 'readonly'} ).val(file.name),
+        $('<input>', { type: 'text', 'class': 'description', name: param + '[' + attachmentId + '][description]', maxlength: 255, placeholder: $(inputEl).data('description-placeholder') } ).toggle(!eagerUpload),
+        $('<input>', { type: 'hidden', 'class': 'token', name: param + '[' + attachmentId + '][token]'} ),
+        $('<a>&nbsp</a>').attr({ href: "#", 'class': 'icon-only icon-del remove-upload' }).click(removeFile).toggle(!eagerUpload)
+    ).appendTo(attachmentsFields);
+
+    if ($(inputEl).data('description') == 0) {
+      fileSpan.find('input.description').remove();
+    }
 
     if(eagerUpload) {
       ajaxUpload(file, attachmentId, fileSpan, inputEl);
     }
 
+    addAttachment.toggle(attachmentsFields.children().length < maxFiles);
     return attachmentId;
   }
   return null;
@@ -49,6 +58,7 @@ function ajaxUpload(file, attachmentId, fileSpan, inputEl) {
         progressEventHandler: onProgress.bind(progressSpan)
       })
       .done(function(result) {
+        addInlineAttachmentMarkup(file);
         progressSpan.progressbar( 'value', 100 ).remove();
         fileSpan.find('input.description, a').css('display', 'inline-block');
       })
@@ -80,6 +90,7 @@ function ajaxUpload(file, attachmentId, fileSpan, inputEl) {
 ajaxUpload.uploading = 0;
 
 function removeFile() {
+  $(this).closest('.attachments_form').find('.add_attachment').show();
   $(this).parent('span').remove();
   return false;
 }
@@ -102,7 +113,7 @@ function uploadBlob(blob, uploadUrl, attachmentId, options) {
     contentType: 'application/octet-stream',
     beforeSend: function(jqXhr, settings) {
       jqXhr.setRequestHeader('Accept', 'application/js');
-      // attach proper File object 
+      // attach proper File object
       settings.data = blob;
     },
     xhr: function() {
@@ -118,11 +129,16 @@ function uploadBlob(blob, uploadUrl, attachmentId, options) {
 }
 
 function addInputFiles(inputEl) {
+  var attachmentsFields = $(inputEl).closest('.attachments_form').find('.attachments_fields');
+  var addAttachment = $(inputEl).closest('.attachments_form').find('.add_attachment');
   var clearedFileInput = $(inputEl).clone().val('');
+  var sizeExceeded = false;
+  var param = $(inputEl).data('param');
+  if (!param) {param = 'attachments'};
 
   if ($.ajaxSettings.xhr().upload && inputEl.files) {
     // upload files using ajax
-    uploadAndAttachFiles(inputEl.files, inputEl);
+    sizeExceeded = uploadAndAttachFiles(inputEl.files, inputEl);
     $(inputEl).remove();
   } else {
     // browser not supporting the file API, upload on form submission
@@ -130,11 +146,11 @@ function addInputFiles(inputEl) {
     var aFilename = inputEl.value.split(/\/|\\/);
     attachmentId = addFile(inputEl, { name: aFilename[ aFilename.length - 1 ] }, false);
     if (attachmentId) {
-      $(inputEl).attr({ name: 'attachments[' + attachmentId + '][file]', style: 'display:none;' }).appendTo('#attachments_' + attachmentId);
+      $(inputEl).attr({ name: param + '[' + attachmentId + '][file]', style: 'display:none;' }).appendTo('#attachments_' + attachmentId);
     }
   }
 
-  clearedFileInput.insertAfter('#attachments_fields');
+  clearedFileInput.prependTo(addAttachment);
 }
 
 function uploadAndAttachFiles(files, inputEl) {
@@ -151,6 +167,7 @@ function uploadAndAttachFiles(files, inputEl) {
   } else {
     $.each(files, function() {addFile(inputEl, this, true);});
   }
+  return sizeExceeded;
 }
 
 function handleFileDropEvent(e) {
@@ -159,9 +176,11 @@ function handleFileDropEvent(e) {
   blockEventPropagation(e);
 
   if ($.inArray('Files', e.dataTransfer.types) > -1) {
-    uploadAndAttachFiles(e.dataTransfer.files, $('input:file.file_selector'));
+    handleFileDropEvent.target = e.target;
+    uploadAndAttachFiles(e.dataTransfer.files, $('input:file.filedrop').first());
   }
 }
+handleFileDropEvent.target = '';
 
 function dragOverHandler(e) {
   $(this).addClass('fileover');
@@ -178,14 +197,63 @@ function setupFileDrop() {
 
     $.event.fixHooks.drop = { props: [ 'dataTransfer' ] };
 
-    $('form div.box').has('input:file').each(function() {
+    $('form div.box:not(.filedroplistner)').has('input:file.filedrop').each(function() {
       $(this).on({
           dragover: dragOverHandler,
           dragleave: dragOutHandler,
           drop: handleFileDropEvent
-      });
+      }).addClass('filedroplistner');
     });
   }
 }
 
+function addInlineAttachmentMarkup(file) {
+  // insert uploaded image inline if dropped area is currently focused textarea
+  if($(handleFileDropEvent.target).hasClass('wiki-edit') && $.inArray(file.type, window.wikiImageMimeTypes) > -1) {
+    var $textarea = $(handleFileDropEvent.target);
+    var cursorPosition = $textarea.prop('selectionStart');
+    var description = $textarea.val();
+    var sanitizedFilename = file.name.replace(/[\/\?\%\*\:\|\"\'<>\n\r]+/, '_');
+    var inlineFilename = encodeURIComponent(sanitizedFilename)
+      .replace(/[!()]/g, function(match) { return "%" + match.charCodeAt(0).toString(16) });
+    var newLineBefore = true;
+    var newLineAfter = true;
+    if(cursorPosition === 0 || description.substr(cursorPosition-1,1).match(/\r|\n/)) {
+      newLineBefore = false;
+    }
+    if(description.substr(cursorPosition,1).match(/\r|\n/)) {
+      newLineAfter = false;
+    }
+
+    $textarea.val(
+      description.substring(0, cursorPosition)
+      + (newLineBefore ? '\n' : '')
+      + inlineFilename
+      + (newLineAfter ? '\n' : '')
+      + description.substring(cursorPosition, description.length)
+    );
+
+    $textarea.prop({
+      'selectionStart': cursorPosition + newLineBefore,
+      'selectionEnd': cursorPosition + inlineFilename.length + newLineBefore
+    });
+    $textarea.closest('.jstEditor')
+      .siblings('.jstElements')
+      .find('.jstb_img').click();
+
+    // move cursor into next line
+    cursorPosition = $textarea.prop('selectionStart');
+    $textarea.prop({
+      'selectionStart': cursorPosition + 1,
+      'selectionEnd': cursorPosition + 1
+    });
+
+  }
+}
+
 $(document).ready(setupFileDrop);
+$(document).ready(function(){
+  $("input.deleted_attachment").change(function(){
+    $(this).parents('.existing-attachment').toggleClass('deleted', $(this).is(":checked"));
+  }).change();
+});

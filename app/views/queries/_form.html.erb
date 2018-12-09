@@ -26,12 +26,12 @@
 <fieldset id="options"><legend><%= l(:label_options) %></legend>
 <p><label for="query_default_columns"><%=l(:label_default_columns)%></label>
 <%= check_box_tag 'default_columns', 1, @query.has_default_columns?, :id => 'query_default_columns',
-      :onclick => 'if (this.checked) {$("#columns").hide();} else {$("#columns").show();}' %></p>
+      :data => {:disables => "#columns, .block_columns input"} %></p>
 
 <p><label for="query_group_by"><%= l(:field_group_by) %></label>
 <%= select 'query', 'group_by', @query.groupable_columns.collect {|c| [c.caption, c.name.to_s]}, :include_blank => true %></p>
 
-<p><label><%= l(:button_show) %></label>
+<p class="block_columns"><label><%= l(:button_show) %></label>
 <%= available_block_columns_tags(@query) %></p>
 
 <p><label><%= l(:label_total_plural) %></label>
@@ -71,7 +71,7 @@
 <% end %>
 
 <% unless params[:gantt] %>
-<%= content_tag 'fieldset', :id => 'columns', :style => (query.has_default_columns? ? 'display:none;' : nil) do %>
+<%= content_tag 'fieldset', :id => 'columns' do %>
 <legend><%= l(:field_column_names) %></legend>
 <%= render_query_columns_selection(query) %>
 <% end %>

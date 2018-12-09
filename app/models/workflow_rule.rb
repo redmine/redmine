@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -29,7 +29,7 @@ class WorkflowRule < ActiveRecord::Base
   # Copies workflows from source to targets
   def self.copy(source_tracker, source_role, target_trackers, target_roles)
     unless source_tracker.is_a?(Tracker) || source_role.is_a?(Role)
-      raise ArgumentError.new("source_tracker or source_role must be specified")
+      raise ArgumentError.new("source_tracker or source_role must be specified, given: #{source_tracker.class.name} and #{source_role.class.name}")
     end
 
     target_trackers = [target_trackers].flatten.compact
@@ -62,7 +62,7 @@ class WorkflowRule < ActiveRecord::Base
       false
     else
       transaction do
-        delete_all :tracker_id => target_tracker.id, :role_id => target_role.id
+        where(:tracker_id => target_tracker.id, :role_id => target_role.id).delete_all
         connection.insert "INSERT INTO #{WorkflowRule.table_name} (tracker_id, role_id, old_status_id, new_status_id, author, assignee, field_name, #{connection.quote_column_name 'rule'}, type)" +
                           " SELECT #{target_tracker.id}, #{target_role.id}, old_status_id, new_status_id, author, assignee, field_name, #{connection.quote_column_name 'rule'}, type" +
                           " FROM #{WorkflowRule.table_name}" +

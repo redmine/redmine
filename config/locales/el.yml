@@ -131,6 +131,8 @@ el:
         circular_dependency: "Αυτή η σχέση θα δημιουργήσει κυκλικές εξαρτήσεις"
         cant_link_an_issue_with_a_descendant: "An issue can not be linked to one of its subtasks"
         earlier_than_minimum_start_date: "cannot be earlier than %{date} because of preceding issues"
+        not_a_regexp: "is not a valid regular expression"
+        open_issue_with_closed_parent: "An open issue cannot be attached to a closed parent task"
 
   actionview_instancetag_blank_option: Παρακαλώ επιλέξτε
 
@@ -528,7 +530,6 @@ el:
   label_internal: Εσωτερικό
   label_last_changes: "Τελευταίες %{count} αλλαγές"
   label_change_view_all: Προβολή όλων των αλλαγών
-  label_personalize_page: Προσαρμογή σελίδας
   label_comment: Σχόλιο
   label_comment_plural: Σχόλια
   label_x_comments:
@@ -680,7 +681,6 @@ el:
   label_age: Ηλικία
   label_change_properties: Αλλαγή ιδιοτήτων
   label_general: Γενικά
-  label_more: Περισσότερα
   label_scm: SCM
   label_plugins: Plugins
   label_ldap_authentication: Πιστοποίηση LDAP
@@ -690,7 +690,6 @@ el:
   label_preferences: Προτιμήσεις
   label_chronological_order: Κατά χρονολογική σειρά
   label_reverse_chronological_order: Κατά αντίστροφη χρονολογική σειρά
-  label_planning: Σχεδιασμός
   label_incoming_emails: Εισερχόμενα email
   label_generate_key: Δημιουργία κλειδιού
   label_issue_watchers: Παρατηρητές
@@ -896,7 +895,6 @@ el:
   error_can_not_remove_role: This role is in use and can not be deleted.
   error_can_not_delete_tracker: This tracker contains issues and cannot be deleted.
   field_principal: Principal
-  label_my_page_block: My page block
   notice_failed_to_save_members: "Failed to save member(s): %{errors}."
   text_zoom_out: Zoom out
   text_zoom_in: Zoom in
@@ -907,10 +905,8 @@ el:
   project_module_calendar: Calendar
   button_edit_associated_wikipage: "Edit associated Wiki page: %{page_title}"
   field_text: Text field
-  label_user_mail_option_only_owner: Only for things I am the owner of
   setting_default_notification_option: Default notification option
   label_user_mail_option_only_my_events: Only for things I watch or I'm involved in
-  label_user_mail_option_only_assigned: Only for things I am assigned to
   label_user_mail_option_none: No events
   field_member_of_group: Assignee's group
   field_assigned_to_role: Assignee's role
@@ -967,16 +963,12 @@ el:
   description_project_scope: Search scope
   description_filter: Filter
   description_user_mail_notification: Mail notification settings
-  description_date_from: Enter start date
   description_message_content: Message content
   description_available_columns: Available Columns
-  description_date_range_interval: Choose range by selecting start and end date
   description_issue_category_reassign: Choose issue category
   description_search: Searchfield
   description_notes: Notes
-  description_date_range_list: Choose range from list
   description_choose_project: Projects
-  description_date_to: Enter end date
   description_query_sort_criteria_attribute: Sort attribute
   description_wiki_subpages_reassign: Choose new parent page
   description_selected_columns: Selected Columns
@@ -1208,5 +1200,31 @@ el:
   label_new_object_tab_enabled: Display the "+" drop-down
   error_no_projects_with_tracker_allowed_for_new_issue: There are no projects with trackers
     for which you can create an issue
+  field_textarea_font: Font used for text areas
+  label_font_default: Default font
+  label_font_monospace: Monospaced font
+  label_font_proportional: Proportional font
+  setting_timespan_format: Time span format
+  label_table_of_contents: Table of contents
+  setting_commit_logs_formatting: Apply text formatting to commit messages
+  setting_mail_handler_enable_regex_delimiters: Enable regular expressions
+  error_move_of_child_not_possible: 'Subtask %{child} could not be moved to the new
+    project: %{errors}'
   error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: Spent time cannot
     be reassigned to an issue that is about to be deleted
+  setting_timelog_required_fields: Required fields for time logs
+  label_attribute_of_object: '%{object_name}''s %{name}'
+  label_user_mail_option_only_assigned: Only for things I watch or I am assigned to
+  label_user_mail_option_only_owner: Only for things I watch or I am the owner of
+  warning_fields_cleared_on_bulk_edit: Changes will result in the automatic deletion
+    of values from one or more fields on the selected objects
+  field_updated_by: Updated by
+  field_last_updated_by: Last updated by
+  field_full_width_layout: Full width layout
+  label_last_notes: Last notes
+  field_digest: Checksum
+  field_default_assigned_to: Default assignee
+  setting_show_custom_fields_on_registration: Show custom fields on registration
+  permission_view_news: View news
+  label_no_preview_alternative_html: No preview available. %{link} the file instead.
+  label_no_preview_download: Download

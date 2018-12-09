@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -16,13 +16,13 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class SysController < ActionController::Base
-  before_filter :check_enabled
+  before_action :check_enabled
 
   def projects
     p = Project.active.has_module(:repository).
           order("#{Project.table_name}.identifier").preload(:repository).to_a
     # extra_info attribute from repository breaks activeresource client
-    render :xml => p.to_xml(
+    render :json => p.to_json(
                        :only => [:id, :identifier, :name, :is_public, :status],
                        :include => {:repository => {:only => [:id, :url]}}
                      )
@@ -31,15 +31,16 @@ class SysController < ActionController::Base
   def create_project_repository
     project = Project.find(params[:id])
     if project.repository
-      render :nothing => true, :status => 409
+      head 409
     else
       logger.info "Repository for #{project.name} was reported to be created by #{request.remote_ip}."
-      repository = Repository.factory(params[:vendor], params[:repository])
+      repository = Repository.factory(params[:vendor])
+      repository.safe_attributes = params[:repository]
       repository.project = project
       if repository.save
-        render :xml => {repository.class.name.underscore.gsub('/', '-') => {:id => repository.id, :url => repository.url}}, :status => 201
+        render :json => {repository.class.name.underscore.gsub('/', '-') => {:id => repository.id, :url => repository.url}}, :status => 201
       else
-        render :nothing => true, :status => 422
+        head 422
       end
     end
   end
@@ -64,9 +65,9 @@ class SysController < ActionController::Base
         repository.fetch_changesets
       end
     end
-    render :nothing => true, :status => 200
+    head 200
   rescue ActiveRecord::RecordNotFound
-    render :nothing => true, :status => 404
+    head 404
   end
 
   protected
@@ -74,7 +75,7 @@ class SysController < ActionController::Base
   def check_enabled
     User.current = nil
     unless Setting.sys_api_enabled? && params[:key].to_s == Setting.sys_api_key
-      render :text => 'Access denied. Repository management WS is disabled or key is invalid.', :status => 403
+      render :plain => 'Access denied. Repository management WS is disabled or key is invalid.', :status => 403
       return false
     end
   end

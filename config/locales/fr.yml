@@ -150,6 +150,8 @@ fr:
         circular_dependency: "Cette relation créerait une dépendance circulaire"
         cant_link_an_issue_with_a_descendant: "Une demande ne peut pas être liée à l'une de ses sous-tâches"
         earlier_than_minimum_start_date: "ne peut pas être antérieure au %{date} à cause des demandes qui précèdent"
+        not_a_regexp: "n'est pas une expression regulière valide"
+        open_issue_with_closed_parent: "Une demande ouverte ne peut pas être rattachée à une demande fermée"
 
   actionview_instancetag_blank_option: Choisir
 
@@ -235,7 +237,9 @@ fr:
   error_ldap_bind_credentials: "Identifiant ou mot de passe LDAP incorrect"
   error_no_tracker_allowed_for_new_issue_in_project: "Le projet ne dispose d'aucun tracker sur lequel vous pouvez créer une demande"
   error_no_projects_with_tracker_allowed_for_new_issue: "Aucun projet ne dispose d'un tracker sur lequel vous pouvez créer une demande"
+  error_move_of_child_not_possible: "La sous-tâche %{child} n'a pas pu être déplacée dans le nouveau projet : %{errors}"
   error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: "Le temps passé ne peut pas être réaffecté à une demande qui va être supprimée"
+  warning_fields_cleared_on_bulk_edit: "Les changements apportés entraîneront la suppression automatique des valeurs d'un ou plusieurs champs sur les objets sélectionnés"
 
   mail_subject_lost_password: "Votre mot de passe %{value}"
   mail_body_lost_password: 'Pour changer votre mot de passe, cliquez sur le lien suivant :'
@@ -377,6 +381,12 @@ fr:
   field_time_entries_visibility: Visibilité du temps passé
   field_total_estimated_hours: Temps estimé total
   field_default_version: Version par défaut
+  field_textarea_font: Police utilisée pour les champs texte
+  field_updated_by: Mise à jour par
+  field_last_updated_by: Dernière mise à jour par
+  field_full_width_layout: Afficher sur toute la largeur
+  field_digest: Checksum
+  field_default_assigned_to: Assigné par défaut
 
   setting_app_title: Titre de l'application
   setting_app_subtitle: Sous-titre de l'application
@@ -384,6 +394,7 @@ fr:
   setting_default_language: Langue par défaut
   setting_login_required: Authentification obligatoire
   setting_self_registration: Inscription des nouveaux utilisateurs
+  setting_show_custom_fields_on_registration: Afficher les champs personnalisés sur le formulaire d'inscription
   setting_attachment_max_size: Taille maximale des fichiers
   setting_issues_export_limit: Limite d'exportation des demandes
   setting_mail_from: Adresse d'émission
@@ -401,6 +412,7 @@ fr:
   setting_autologin: Durée maximale de connexion automatique
   setting_date_format: Format de date
   setting_time_format: Format d'heure
+  setting_timespan_format: Format des temps en heures
   setting_cross_project_issue_relations: Autoriser les relations entre demandes de différents projets
   setting_cross_project_subtasks: Autoriser les sous-tâches dans des projets différents
   setting_issue_list_default_columns: Colonnes affichées par défaut sur la liste des demandes
@@ -414,6 +426,7 @@ fr:
   setting_display_subprojects_issues: Afficher par défaut les demandes des sous-projets sur les projets principaux
   setting_enabled_scm: SCM activés
   setting_mail_handler_body_delimiters: "Tronquer les emails après l'une de ces lignes"
+  setting_mail_handler_enable_regex_delimiters: "Utiliser les expressions regulières"
   setting_mail_handler_api_enabled: "Activer le WS pour la réception d'emails"
   setting_mail_handler_api_key: Clé de protection de l'API
   setting_sequential_project_identifiers: Générer des identifiants de projet séquentiels
@@ -459,6 +472,8 @@ fr:
   setting_sys_api_key: Clé de protection de l'API
   setting_lost_password: Autoriser la réinitialisation par email de mot de passe perdu
   setting_new_item_menu_tab: Onglet de création d'objets dans le menu du project
+  setting_commit_logs_formatting: Appliquer le formattage de texte aux messages de commit
+  setting_timelog_required_fields: Champs obligatoire pour les temps passés
 
   permission_add_project: Créer un projet
   permission_add_subprojects: Créer des sous-projets
@@ -494,6 +509,7 @@ fr:
   permission_view_time_entries: Voir le temps passé
   permission_edit_time_entries: Modifier les temps passés
   permission_edit_own_time_entries: Modifier son propre temps passé
+  permission_view_news: Voir les annonces
   permission_manage_news: Gérer les annonces
   permission_comment_news: Commenter les annonces
   permission_view_documents: Voir les documents
@@ -601,7 +617,6 @@ fr:
   label_my_page: Ma page
   label_my_account: Mon compte
   label_my_projects: Mes projets
-  label_my_page_block: Blocs disponibles
   label_administration: Administration
   label_login: Connexion
   label_logout: Déconnexion
@@ -698,7 +713,6 @@ fr:
   label_internal: Interne
   label_last_changes: "%{count} derniers changements"
   label_change_view_all: Voir tous les changements
-  label_personalize_page: Personnaliser cette page
   label_comment: Commentaire
   label_comment_plural: Commentaires
   label_x_comments:
@@ -868,8 +882,6 @@ fr:
   label_user_mail_option_selected: "Pour tous les événements des projets sélectionnés..."
   label_user_mail_option_none: Aucune notification
   label_user_mail_option_only_my_events: Seulement pour ce que je surveille
-  label_user_mail_option_only_assigned: Seulement pour ce qui m'est assigné
-  label_user_mail_option_only_owner: Seulement pour ce que j'ai créé
   label_user_mail_no_self_notified: "Je ne veux pas être notifié des changements que j'effectue"
   label_registration_activation_by_email: activation du compte par email
   label_registration_manual_activation: activation manuelle du compte
@@ -878,7 +890,6 @@ fr:
   label_age: Âge
   label_change_properties: Changer les propriétés
   label_general: Général
-  label_more: Plus
   label_scm: SCM
   label_plugins: Plugins
   label_ldap_authentication: Authentification LDAP
@@ -888,7 +899,6 @@ fr:
   label_preferences: Préférences
   label_chronological_order: Dans l'ordre chronologique
   label_reverse_chronological_order: Dans l'ordre chronologique inverse
-  label_planning: Planning
   label_incoming_emails: Emails entrants
   label_generate_key: Générer une clé
   label_issue_watchers: Observateurs
@@ -951,6 +961,7 @@ fr:
   label_attribute_of_assigned_to: "%{name} de l'assigné"
   label_attribute_of_user: "%{name} de l'utilisateur"
   label_attribute_of_fixed_version: "%{name} de la version cible"
+  label_attribute_of_object: "%{name} de \"%{object_name}\""
   label_cross_project_descendants: Avec les sous-projets
   label_cross_project_tree: Avec tout l'arbre
   label_cross_project_hierarchy: Avec toute la hiérarchie
@@ -1008,6 +1019,11 @@ fr:
   label_relations: Relations
   label_new_project_issue_tab_enabled: Afficher l'onglet "Nouvelle demande"
   label_new_object_tab_enabled: Afficher le menu déroulant "+"
+  label_table_of_contents: Contenu
+  label_font_default: Police par défaut
+  label_font_monospace: Police non proportionnelle
+  label_font_proportional: Police proportionnelle
+  label_last_notes: Dernières notes
 
   button_login: Connexion
   button_submit: Soumettre
@@ -1197,10 +1213,6 @@ fr:
   description_all_columns: Toutes les colonnes
   description_issue_category_reassign: Choisir une catégorie
   description_wiki_subpages_reassign: Choisir une nouvelle page parent
-  description_date_range_list: Choisir une période prédéfinie
-  description_date_range_interval: Choisir une période
-  description_date_from: Date de début
-  description_date_to: Date de fin
   text_repository_identifier_info: 'Seuls les lettres minuscules (a-z), chiffres, tirets et tirets bas sont autorisés.<br />Un fois sauvegardé, l''identifiant ne pourra plus être modifié.'
   label_parent_task_attributes_derived: Calculé à partir des sous-tâches
   label_parent_task_attributes_independent: Indépendent des sous-tâches
@@ -1212,4 +1224,8 @@ fr:
   mail_body_security_notification_notify_enabled: Les notifications ont été activées pour l'adresse %{value}
   mail_body_security_notification_notify_disabled: Les notifications ont été désactivées pour l'adresse %{value}
   field_remote_ip: Adresse IP
-  label_no_preview: No preview available
+  label_no_preview: Aucun aperçu disponible
+  label_no_preview_alternative_html: Aucun aperçu disponible. Veuillez %{link} le fichier.
+  label_no_preview_download: télécharger
+  label_user_mail_option_only_assigned: Only for things I watch or I am assigned to
+  label_user_mail_option_only_owner: Only for things I watch or I am the owner of

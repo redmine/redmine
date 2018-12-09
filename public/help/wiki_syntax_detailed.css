@@ -1,0 +1,25 @@
+body { font:80% Verdana,Tahoma,Arial,sans-serif; }
+h1, h2, h3, h4 {  font-family: Trebuchet MS,Georgia,"Times New Roman",serif; }
+pre, code { font-size:120%; }
+pre code { font-size:100%; }
+pre {
+    margin: 1em 1em 1em 1.6em;
+    padding: 2px;
+    background-color: #fafafa;
+    border: 1px solid #e2e2e2;
+    width: auto;
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+a.new { color: #b73535; }
+
+.syntaxhl .class { color:#258; font-weight:bold }
+.syntaxhl .comment  { color:#385; }
+.syntaxhl .delimiter { color:black }
+.syntaxhl .function { color:#06B; font-weight:bold }
+.syntaxhl .inline { background-color: hsla(0,0%,0%,0.07); color: black }
+.syntaxhl .inline-delimiter { font-weight: bold; color: #666 }
+.syntaxhl .instance-variable { color:#33B }
+.syntaxhl .keyword { color:#939; font-weight:bold }
+.syntaxhl .string .content { color: #46a }
+.syntaxhl .string .delimiter { color:#46a }

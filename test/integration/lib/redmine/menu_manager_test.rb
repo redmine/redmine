@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -29,7 +29,8 @@ class MenuManagerTest < Redmine::IntegrationTest
            :enabled_modules
 
   def test_project_menu_with_specific_locale
-    get '/projects/ecookbook/issues', { }, 'HTTP_ACCEPT_LANGUAGE' => 'fr,fr-fr;q=0.8,en-us;q=0.5,en;q=0.3'
+    get '/projects/ecookbook/issues',
+      :headers => {'HTTP_ACCEPT_LANGUAGE' => 'fr,fr-fr;q=0.8,en-us;q=0.5,en;q=0.3'}
 
     assert_select 'div#main-menu' do
       assert_select 'li a.activity[href=?]', '/projects/ecookbook/activity', :text => ll('fr', :label_activity)
@@ -62,5 +63,18 @@ class MenuManagerTest < Redmine::IntegrationTest
         menu.delete :hello
       end
     end
+  end
+
+  def test_main_menu_should_select_projects_tab_on_project_list
+    get '/projects'
+    assert_select '#main-menu' do
+      assert_select 'a.projects'
+      assert_select 'a.projects.selected'
+    end
+  end
+
+  def test_main_menu_should_not_show_up_on_account
+    get '/login'
+    assert_select '#main-menu', 0
   end
 end

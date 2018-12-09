@@ -60,12 +60,12 @@
         </td>
       </tr>
       <% @fields.each do |field, name| %>
-      <tr class="<%= cycle("odd", "even") %>">
+      <tr>
         <td class="name">
           <%= name %> <%= content_tag('span', '*', :class => 'required') if field_required?(field) %>
         </td>
         <% for status in @statuses -%>
-        <td class="<%= @permissions[status.id][field].try(:join, ' ') %>">
+        <td class="<%= @permissions[status.id][field].try(:join, ' ') %>" title="<%= name %> (<%= status.name %>)">
           <%= field_permission_tag(@permissions, status, field, @roles) %>
           <% unless status == @statuses.last %><a href="#" class="repeat-value">&#187;</a><% end %>
         </td>
@@ -80,12 +80,12 @@
           </td>
         </tr>
         <% @custom_fields.each do |field| %>
-        <tr class="<%= cycle("odd", "even") %>">
+        <tr>
           <td class="name">
             <%= field.name %> <%= content_tag('span', '*', :class => 'required') if field_required?(field) %>
           </td>
           <% for status in @statuses -%>
-          <td class="<%= @permissions[status.id][field.id.to_s].try(:join, ' ') %>">
+          <td class="<%= @permissions[status.id][field.id.to_s].try(:join, ' ') %>" title="<%= field.name %> (<%= status.name %>)">
             <%= field_permission_tag(@permissions, status, field, @roles) %>
             <% unless status == @statuses.last %><a href="#" class="repeat-value">&#187;</a><% end %>
           </td>

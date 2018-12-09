@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,13 +17,12 @@
 
 class AdminController < ApplicationController
   layout 'admin'
+  self.main_menu = false
   menu_item :projects, :only => :projects
   menu_item :plugins, :only => :plugins
   menu_item :info, :only => :info
 
-  before_filter :require_admin
-  helper :sort
-  include SortHelper
+  before_action :require_admin
 
   def index
     @no_configuration_data = Redmine::DefaultData::Loader::no_data?
@@ -34,7 +33,10 @@ class AdminController < ApplicationController
 
     scope = Project.status(@status).sorted
     scope = scope.like(params[:name]) if params[:name].present?
-    @projects = scope.to_a
+
+    @project_count = scope.count
+    @project_pages = Paginator.new @project_count, per_page_option, params['page']
+    @projects = scope.limit(@project_pages.per_page).offset(@project_pages.offset).to_a
 
     render :action => "projects", :layout => false if request.xhr?
   end
@@ -72,7 +74,6 @@ class AdminController < ApplicationController
   end
 
   def info
-    @db_adapter_name = ActiveRecord::Base.connection.adapter_name
     @checklist = [
       [:text_default_administrator_account_changed, User.default_admin_account_changed?],
       [:text_file_repository_writable, File.writable?(Attachment.storage_path)],

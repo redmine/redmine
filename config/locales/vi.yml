@@ -145,6 +145,8 @@ vi:
         circular_dependency: "quan hệ có thể gây ra lặp vô tận"
         cant_link_an_issue_with_a_descendant: "Một vấn đề không thể liên kết tới một trong số những tác vụ con của nó"
         earlier_than_minimum_start_date: "cannot be earlier than %{date} because of preceding issues"
+        not_a_regexp: "is not a valid regular expression"
+        open_issue_with_closed_parent: "An open issue cannot be attached to a closed parent task"
 
   direction: ltr
   date:
@@ -507,7 +509,6 @@ vi:
   label_internal: Nội bộ
   label_last_changes: "%{count} thay đổi cuối"
   label_change_view_all: Xem mọi thay đổi
-  label_personalize_page: Điều chỉnh trang này
   label_comment: Bình luận
   label_comment_plural: Bình luận
   label_x_comments:
@@ -653,7 +654,6 @@ vi:
   label_age: Thời gian
   label_change_properties: Thay đổi thuộc tính
   label_general: Tổng quan
-  label_more: Chi tiết
   label_scm: SCM
   label_plugins: Module
   label_ldap_authentication: Chứng thực LDAP
@@ -663,7 +663,6 @@ vi:
   label_preferences: Cấu hình
   label_chronological_order: Bài cũ xếp trước
   label_reverse_chronological_order: Bài mới xếp trước
-  label_planning: Kế hoạch
   label_incoming_emails: Nhận mail
   label_generate_key: Tạo mã
   label_issue_watchers: Theo dõi
@@ -947,7 +946,6 @@ vi:
   error_can_not_remove_role: Quyền này đang được dùng và không thể xóa được.
   error_can_not_delete_tracker: Theo dõi này chứa vấn đề và không thể xóa được.
   field_principal: Chủ yếu
-  label_my_page_block: Block trang của tôi
   notice_failed_to_save_members: "Thất bại khi lưu thành viên : %{errors}."
   text_zoom_out: Thu nhỏ
   text_zoom_in: Phóng to
@@ -959,10 +957,8 @@ vi:
   button_edit_associated_wikipage: "Chỉnh sửa trang Wiki liên quan: %{page_title}"
   text_are_you_sure_with_children: Xóa vấn đề và tất cả vấn đề con?  
   field_text: Trường văn bản
-  label_user_mail_option_only_owner: Chỉ những thứ tôi sở hữu
   setting_default_notification_option: Tuỳ chọn thông báo mặc định
   label_user_mail_option_only_my_events: Chỉ những thứ tôi theo dõi hoặc liên quan
-  label_user_mail_option_only_assigned: Chỉ những thứ tôi được phân công
   label_user_mail_option_none: Không có sự kiện
   field_member_of_group: Nhóm thụ hưởng
   field_assigned_to_role: Quyền thụ hưởng
@@ -1023,16 +1019,12 @@ vi:
   description_project_scope: Phạm vi tìm kiếm
   description_filter: Lọc
   description_user_mail_notification: Thiết lập email thông báo
-  description_date_from: Nhập ngày bắt đầu
   description_message_content: Nội dung thông điệp
   description_available_columns: Các cột có sẵn
-  description_date_range_interval: Chọn khoảng thời gian giữa ngày bắt đầu và kết thúc
   description_issue_category_reassign: Chọn danh mục vấn đề
   description_search: Trường tìm kiếm
   description_notes: Các chú ý
-  description_date_range_list: Chọn khoảng từ danh sách
   description_choose_project: Các dự án
-  description_date_to: Nhập ngày kết thúc
   description_query_sort_criteria_attribute: Sắp xếp thuộc tính
   description_wiki_subpages_reassign: Chọn một trang cấp trên
   label_parent_revision: Cha
@@ -1261,5 +1253,31 @@ vi:
   label_new_object_tab_enabled: Display the "+" drop-down
   error_no_projects_with_tracker_allowed_for_new_issue: There are no projects with trackers
     for which you can create an issue
+  field_textarea_font: Font used for text areas
+  label_font_default: Default font
+  label_font_monospace: Monospaced font
+  label_font_proportional: Proportional font
+  setting_timespan_format: Time span format
+  label_table_of_contents: Table of contents
+  setting_commit_logs_formatting: Apply text formatting to commit messages
+  setting_mail_handler_enable_regex_delimiters: Enable regular expressions
+  error_move_of_child_not_possible: 'Subtask %{child} could not be moved to the new
+    project: %{errors}'
   error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: Spent time cannot
     be reassigned to an issue that is about to be deleted
+  setting_timelog_required_fields: Required fields for time logs
+  label_attribute_of_object: '%{object_name}''s %{name}'
+  label_user_mail_option_only_assigned: Only for things I watch or I am assigned to
+  label_user_mail_option_only_owner: Only for things I watch or I am the owner of
+  warning_fields_cleared_on_bulk_edit: Changes will result in the automatic deletion
+    of values from one or more fields on the selected objects
+  field_updated_by: Updated by
+  field_last_updated_by: Last updated by
+  field_full_width_layout: Full width layout
+  label_last_notes: Last notes
+  field_digest: Checksum
+  field_default_assigned_to: Default assignee
+  setting_show_custom_fields_on_registration: Show custom fields on registration
+  permission_view_news: View news
+  label_no_preview_alternative_html: No preview available. %{link} the file instead.
+  label_no_preview_download: Download

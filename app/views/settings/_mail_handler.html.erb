@@ -3,6 +3,10 @@
 <div class="box tabular settings">
   <p>
     <%= setting_text_area :mail_handler_body_delimiters, :rows => 5 %>
+    <label class="block">
+      <%= setting_check_box :mail_handler_enable_regex_delimiters, :label => false %>
+      <%= l(:setting_mail_handler_enable_regex_delimiters) %>
+    </label>
     <em class="info"><%= l(:text_line_separated) %></em>
   </p>
   <p>

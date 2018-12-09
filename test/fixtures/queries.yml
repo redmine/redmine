@@ -162,4 +162,24 @@ queries_009:
     --- 
     - - priority
       - desc
+queries_010: 
+  id: 10
+  type: TimeEntryQuery
+  project_id: 1
+  visibility: 2
+  name: My spent time
+  filters: |
+    --- 
+    user_id: 
+      :values: 
+      - "me"
+      :operator: =
+
+  user_id: 1
+  column_names: 
+  group_by: 
+  sort_criteria: |
+    --- 
+    - - spent_on
+      - desc
 

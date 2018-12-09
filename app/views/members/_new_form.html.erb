@@ -7,7 +7,7 @@
   </div>
 </fieldset>
 <fieldset class="box">
-  <legend><%= l(:label_role_plural) %> <%= toggle_checkboxes_link('.roles-selection input') %></legend>
+  <legend><%= toggle_checkboxes_link('.roles-selection input') %><%= l(:label_role_plural) %></legend>
   <div class="roles-selection">
     <% User.current.managed_roles(@project).each do |role| %>
       <label><%= check_box_tag 'membership[role_ids][]', role.id, false, :id => nil %> <%= role %></label>

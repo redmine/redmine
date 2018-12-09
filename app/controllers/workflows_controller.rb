@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,8 +17,9 @@
 
 class WorkflowsController < ApplicationController
   layout 'admin'
+  self.main_menu = false
 
-  before_filter :require_admin
+  before_action :require_admin
 
   def index
     @roles = Role.sorted.select(&:consider_workflow?)
@@ -137,7 +138,11 @@ class WorkflowsController < ApplicationController
   def find_statuses
     @used_statuses_only = (params[:used_statuses_only] == '0' ? false : true)
     if @trackers && @used_statuses_only
-      @statuses = @trackers.map(&:issue_statuses).flatten.uniq.sort.presence
+      role_ids = Role.all.select(&:consider_workflow?).map(&:id)
+      status_ids = WorkflowTransition.where(
+        :tracker_id => @trackers.map(&:id), :role_id => role_ids
+      ).distinct.pluck(:old_status_id, :new_status_id).flatten.uniq
+      @statuses = IssueStatus.where(:id => status_ids).sorted.to_a.presence
     end
     @statuses ||= IssueStatus.sorted.to_a
   end

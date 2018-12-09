@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -27,6 +27,22 @@ class VersionTest < ActiveSupport::TestCase
     assert v.save
     assert_equal 'open', v.status
     assert_equal 'none', v.sharing
+  end
+
+  def test_create_as_default_project_version
+    project = Project.find(1)
+    v = Version.new(:project => project, :name => '1.1',
+                    :default_project_version => '1')
+    assert v.save
+    assert_equal v, project.reload.default_version
+  end
+
+  def test_create_not_as_default_project_version
+    project = Project.find(1)
+    v = Version.new(:project => project, :name => '1.1',
+                    :default_project_version => '0')
+    assert v.save
+    assert_nil project.reload.default_version
   end
 
   def test_invalid_effective_date_validation
@@ -259,6 +275,14 @@ class VersionTest < ActiveSupport::TestCase
     value = CustomValue.create!(:custom_field => field, :customized => Issue.first, :value => version.id)
 
     assert_equal false, version.deletable?
+  end
+
+  def test_like_scope
+    version = Version.create!(:project => Project.find(1), :name => 'Version for like scope test')
+
+    assert_includes Version.like('VERSION FOR LIKE SCOPE TEST'), version
+    assert_includes Version.like('version for like scope test'), version
+    assert_includes Version.like('like scope'), version
   end
 
   private

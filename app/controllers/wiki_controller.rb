@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -31,11 +31,11 @@
 # TODO: still being worked on
 class WikiController < ApplicationController
   default_search_scope :wiki_pages
-  before_filter :find_wiki, :authorize
-  before_filter :find_existing_or_new_page, :only => [:show, :edit, :update]
-  before_filter :find_existing_page, :only => [:rename, :protect, :history, :diff, :annotate, :add_attachment, :destroy, :destroy_version]
+  before_action :find_wiki, :authorize
+  before_action :find_existing_or_new_page, :only => [:show, :edit, :update]
+  before_action :find_existing_page, :only => [:rename, :protect, :history, :diff, :annotate, :add_attachment, :destroy, :destroy_version]
+  before_action :find_attachments, :only => [:preview]
   accept_api_auth :index, :show, :update, :destroy
-  before_filter :find_attachments, :only => [:preview]
 
   helper :attachments
   include AttachmentsHelper
@@ -95,6 +95,9 @@ class WikiController < ApplicationController
       end
       return
     end
+
+    call_hook :controller_wiki_show_before_render, content: @content, format: params[:format]
+
     if User.current.allowed_to?(:export_wiki_pages, @project)
       if params[:format] == 'pdf'
         send_file_headers! :type => 'application/pdf', :filename => filename_for_content_disposition("#{@page.title}.pdf")
@@ -153,7 +156,7 @@ class WikiController < ApplicationController
 
     @content = @page.content || WikiContent.new(:page => @page)
     content_params = params[:content]
-    if content_params.nil? && params[:wiki_page].is_a?(Hash)
+    if content_params.nil? && params[:wiki_page].present?
       content_params = params[:wiki_page].slice(:text, :comments, :version)
     end
     content_params ||= {}

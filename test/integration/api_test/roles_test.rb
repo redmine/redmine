@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -25,8 +25,8 @@ class Redmine::ApiTest::RolesTest < Redmine::ApiTest::Base
 
     assert_response :success
     assert_equal 'application/xml', @response.content_type
-    assert_equal 3, assigns(:roles).size
 
+    assert_select 'roles role', 3
     assert_select 'roles[type=array] role id', :text => '2' do
       assert_select '~ name', :text => 'Developer'
     end
@@ -37,11 +37,11 @@ class Redmine::ApiTest::RolesTest < Redmine::ApiTest::Base
 
     assert_response :success
     assert_equal 'application/json', @response.content_type
-    assert_equal 3, assigns(:roles).size
 
     json = ActiveSupport::JSON.decode(response.body)
     assert_kind_of Hash, json
     assert_kind_of Array, json['roles']
+    assert_equal 3, json['roles'].size
     assert_include({'id' => 2, 'name' => 'Developer'}, json['roles'])
   end
 

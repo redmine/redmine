@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,9 +17,10 @@
 
 class IssueStatusesController < ApplicationController
   layout 'admin'
+  self.main_menu = false
 
-  before_filter :require_admin, :except => :index
-  before_filter :require_admin_or_api_request, :only => :index
+  before_action :require_admin, :except => :index
+  before_action :require_admin_or_api_request, :only => :index
   accept_api_auth :index
 
   def index
@@ -35,7 +36,8 @@ class IssueStatusesController < ApplicationController
   end
 
   def create
-    @issue_status = IssueStatus.new(params[:issue_status])
+    @issue_status = IssueStatus.new
+    @issue_status.safe_attributes = params[:issue_status]
     if @issue_status.save
       flash[:notice] = l(:notice_successful_create)
       redirect_to issue_statuses_path
@@ -50,18 +52,19 @@ class IssueStatusesController < ApplicationController
 
   def update
     @issue_status = IssueStatus.find(params[:id])
-    if @issue_status.update_attributes(params[:issue_status])
+    @issue_status.safe_attributes = params[:issue_status]
+    if @issue_status.save
       respond_to do |format|
         format.html {
           flash[:notice] = l(:notice_successful_update)
           redirect_to issue_statuses_path(:page => params[:page])
         }
-        format.js { render :nothing => true }
+        format.js { head 200 }
       end
     else
       respond_to do |format|
         format.html { render :action => 'edit' }
-        format.js { render :nothing => true, :status => 422 }
+        format.js { head 422 }
       end
     end
   end

@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,10 +17,10 @@
 
 class MembersController < ApplicationController
   model_object Member
-  before_filter :find_model_object, :except => [:index, :new, :create, :autocomplete]
-  before_filter :find_project_from_association, :except => [:index, :new, :create, :autocomplete]
-  before_filter :find_project_by_project_id, :only => [:index, :new, :create, :autocomplete]
-  before_filter :authorize
+  before_action :find_model_object, :except => [:index, :new, :create, :autocomplete]
+  before_action :find_project_from_association, :except => [:index, :new, :create, :autocomplete]
+  before_action :find_project_by_project_id, :only => [:index, :new, :create, :autocomplete]
+  before_action :authorize
   accept_api_auth :index, :show, :create, :update, :destroy
 
   require_sudo_mode :create, :update, :destroy
@@ -78,6 +78,10 @@ class MembersController < ApplicationController
         end
       }
     end
+  end
+
+  def edit
+    @roles = Role.givable.to_a
   end
 
   def update

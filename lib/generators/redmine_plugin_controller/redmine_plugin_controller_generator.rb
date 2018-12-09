@@ -9,7 +9,7 @@ class RedminePluginControllerGenerator < Rails::Generators::NamedBase
     super
     @plugin_name = file_name.underscore
     @plugin_pretty_name = plugin_name.titleize
-    @plugin_path = "plugins/#{plugin_name}"
+    @plugin_path = File.join(Redmine::Plugin.directory, plugin_name)
     @controller_class = controller.camelize
   end
 

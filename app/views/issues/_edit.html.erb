@@ -14,7 +14,7 @@
         <%= labelled_fields_for :time_entry, @time_entry do |time_entry| %>
         <div class="splitcontent">
         <div class="splitcontentleft">
-        <p><%= time_entry.text_field :hours, :size => 6, :label => :label_spent_time %> <%= l(:field_hours) %></p>
+        <p><%= time_entry.hours_field :hours, :size => 6, :label => :label_spent_time %> <%= l(:field_hours) %></p>
         </div>
         <div class="splitcontentright">
         <p><%= time_entry.select :activity_id, activity_collection_for_select_options %></p>
@@ -31,16 +31,36 @@
       <fieldset><legend><%= l(:field_notes) %></legend>
       <%= f.text_area :notes, :cols => 60, :rows => 10, :class => 'wiki-edit', :no_label => true %>
       <%= wikitoolbar_for 'issue_notes' %>
-  
+
       <% if @issue.safe_attribute? 'private_notes' %>
       <%= f.check_box :private_notes, :no_label => true %> <label for="issue_private_notes"><%= l(:field_private_notes) %></label>
       <% end %>
-  
+
       <%= call_hook(:view_issues_edit_notes_bottom, { :issue => @issue, :notes => @notes, :form => f }) %>
       </fieldset>
-  
+
       <fieldset><legend><%= l(:label_attachment_plural) %></legend>
-      <p><%= render :partial => 'attachments/form', :locals => {:container => @issue} %></p>
+        <% if @issue.attachments.any? && @issue.safe_attribute?('deleted_attachment_ids') %>
+        <div class="contextual"><%= link_to l(:label_edit_attachments), '#', :onclick => "$('#existing-attachments').toggle(); return false;" %></div>
+        <div id="existing-attachments" style="<%= @issue.deleted_attachment_ids.blank? ? 'display:none;' : '' %>">
+          <% @issue.attachments.each do |attachment| %>
+          <span class="existing-attachment">
+            <%= text_field_tag '', attachment.filename, :class => "icon icon-attachment filename", :disabled => true %>
+            <label>
+              <%= check_box_tag 'issue[deleted_attachment_ids][]',
+                                attachment.id,
+                                @issue.deleted_attachment_ids.include?(attachment.id),
+                                :id => nil, :class => "deleted_attachment" %> <%= l(:button_delete) %>
+            </label>
+          </span>
+          <% end %>
+          <hr />
+        </div>
+        <% end %>
+
+        <div id="new-attachments" style="display:inline-block;">
+          <%= render :partial => 'attachments/form', :locals => {:container => @issue} %>
+        </div>
       </fieldset>
     <% end %>
     </div>
@@ -49,7 +69,7 @@
     <%= hidden_field_tag 'last_journal_id', params[:last_journal_id] || @issue.last_journal_id %>
     <%= submit_tag l(:button_submit) %>
     <%= preview_link preview_edit_issue_path(:project_id => @project, :id => @issue), 'issue-form' %>
-    | <%= link_to l(:button_cancel), {}, :onclick => "$('#update').hide(); return false;" %>
+    | <%= link_to l(:button_cancel), issue_path(id: @issue.id), :onclick => params[:action] == 'show' ? "$('#update').hide(); return false;" : '' %>
 
     <%= hidden_field_tag 'prev_issue_id', @prev_issue_id if @prev_issue_id %>
     <%= hidden_field_tag 'next_issue_id', @next_issue_id if @next_issue_id %>

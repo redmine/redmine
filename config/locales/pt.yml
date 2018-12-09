@@ -139,8 +139,9 @@ pt:
         circular_dependency: "Esta relação iria criar uma dependência circular"
         cant_link_an_issue_with_a_descendant: "Não é possível ligar uma tarefa a uma sub-tarefa que lhe é pertencente"
         earlier_than_minimum_start_date: "não pode ser antes de %{date} devido a tarefas precedentes"
+        not_a_regexp: "não é uma expressão regular válida"
+        open_issue_with_closed_parent: "Uma tarefa aberta não pode ser relacionada com uma tarefa pai fechada"
 
-  
   actionview_instancetag_blank_option: Selecione
 
   general_text_No: 'Não'
@@ -195,8 +196,7 @@ pt:
   mail_subject_account_activation_request: "Pedido de ativação da conta %{value}"
   mail_body_account_activation_request: "Um novo utilizador (%{value}) registou-se. A sua conta está à espera de aprovação:"
   mail_subject_reminder: "Tem %{count} tarefa(s) para entregar nos próximos %{days} dias"
-  mail_body_reminder: "%{count} tarefa(s) que estão atribuídas a si estão agendadas para estarem completas nos próximos %{days} dias:"
-
+  mail_body_reminder: "%{count} tarefa(s) que estão atribuídas a si estão agendadas para serem terminadas nos próximos %{days} dias:"
 
   field_name: Nome
   field_description: Descrição
@@ -465,7 +465,6 @@ pt:
   label_internal: Interno
   label_last_changes: "últimas %{count} alterações"
   label_change_view_all: Ver todas as alterações
-  label_personalize_page: Personalizar esta página
   label_comment: Comentário
   label_comment_plural: Comentários
   label_x_comments:
@@ -559,13 +558,13 @@ pt:
   label_loading: A carregar...
   label_relation_new: Nova relação
   label_relation_delete: Apagar relação
-  label_relates_to: relacionado a
-  label_duplicates: duplica
-  label_duplicated_by: duplicado por
-  label_blocks: bloqueia
-  label_blocked_by: bloqueado por
-  label_precedes: precede
-  label_follows: segue
+  label_relates_to: Relacionado a
+  label_duplicates: Duplica
+  label_duplicated_by: Duplicado por
+  label_blocks: Bloqueia
+  label_blocked_by: Bloqueada por
+  label_precedes: Precede
+  label_follows: Segue
   label_stay_logged_in: Guardar sessão
   label_disabled: desativado
   label_show_completed_versions: Mostrar versões acabadas
@@ -581,13 +580,13 @@ pt:
   label_reply_plural: Respostas
   label_send_information: Enviar dados da conta para o utilizador
   label_year: Ano
-  label_month: mês
+  label_month: Mês
   label_week: Semana
   label_date_from: De
-  label_date_to: Para
+  label_date_to: A
   label_language_based: Baseado na língua do utilizador
   label_sort_by: "Ordenar por %{value}"
-  label_send_test_email: enviar um e-mail de teste
+  label_send_test_email: Enviar um e-mail de teste
   label_feeds_access_key_created_on: "Chave Atom criada há %{value} atrás"
   label_module_plural: Módulos
   label_added_time_by: "Adicionado por %{author} há %{age} atrás"
@@ -601,8 +600,8 @@ pt:
   label_theme: Tema
   label_default: Padrão
   label_search_titles_only: Procurar apenas em títulos
-  label_user_mail_option_all: "Para qualquer evento em todos os meus projetos"
-  label_user_mail_option_selected: "Para qualquer evento apenas nos projetos selecionados..."
+  label_user_mail_option_all: "Qualquer evento em todos os meus projetos"
+  label_user_mail_option_selected: "Qualquer evento mas apenas nos projetos selecionados"
   label_user_mail_no_self_notified: "Não quero ser notificado de alterações feitas por mim"
   label_registration_activation_by_email: Ativação da conta por e-mail
   label_registration_manual_activation: Ativação manual da conta
@@ -611,7 +610,6 @@ pt:
   label_age: Idade
   label_change_properties: Mudar propriedades
   label_general: Geral
-  label_more: Mais
   label_scm: SCM
   label_plugins: Extensões
   label_ldap_authentication: Autenticação LDAP
@@ -621,7 +619,6 @@ pt:
   label_preferences: Preferências
   label_chronological_order: Em ordem cronológica
   label_reverse_chronological_order: Em ordem cronológica inversa
-  label_planning: Planeamento
   label_incoming_emails: E-mails recebidos
   label_generate_key: Gerar uma chave
   label_issue_watchers: Observadores
@@ -676,9 +673,9 @@ pt:
   text_subprojects_destroy_warning: "O(s) seu(s) sub-projeto(s): %{value} também será/serão apagado(s)."
   text_workflow_edit: Selecione uma função e um tipo de tarefa para editar o fluxo de trabalho
   text_are_you_sure: Tem a certeza?
-  text_tip_issue_begin_day: tarefa a começar neste dia
-  text_tip_issue_end_day: tarefa a acabar neste dia
-  text_tip_issue_begin_end_day: tarefa a começar e acabar neste dia
+  text_tip_issue_begin_day: tarefa inicia neste dia
+  text_tip_issue_end_day: tarefa termina neste dia
+  text_tip_issue_begin_end_day: tarefa a iniciar e terminar neste dia
   text_caracters_maximum: "máximo %{count} caráteres."
   text_caracters_minimum: "Deve ter pelo menos %{count} caráteres."
   text_length_between: "Deve ter entre %{min} e %{max} caráteres."
@@ -708,7 +705,7 @@ pt:
   text_user_wrote: "%{value} escreveu:"
   text_enumeration_destroy_question: "%{count} objetos estão atribuídos a este valor."
   text_enumeration_category_reassign_to: 'Re-atribuí-los para este valor:'
-  text_email_delivery_not_configured: "Entrega por e-mail não está configurada, e as notificação estão desativadas.\nConfigure o seu servidor de SMTP em config/configuration.yml e reinicie a aplicação para ativar estas funcionalidades."
+  text_email_delivery_not_configured: "O envio de e-mail não está configurado, e as notificação estão desativadas.\nConfigure o seu servidor de SMTP em config/configuration.yml e reinicie a aplicação para ativar estas funcionalidades."
 
   default_role_manager: Gestor
   default_role_developer: Programador
@@ -753,7 +750,7 @@ pt:
   permission_select_project_modules: Selecionar módulos do projeto
   permission_edit_wiki_pages: Editar páginas da wiki
   permission_add_issue_watchers: Adicionar observadores
-  permission_view_gantt: ver diagrama de Gantt
+  permission_view_gantt: Ver diagrama de Gantt
   permission_move_issues: Mover tarefas
   permission_manage_issue_relations: Gerir relações de tarefas
   permission_delete_wiki_pages: Apagar páginas de wiki
@@ -780,7 +777,7 @@ pt:
   permission_view_wiki_pages: Ver wiki
   permission_rename_wiki_pages: Renomear páginas de wiki
   permission_edit_time_entries: Editar entradas de tempo
-  permission_edit_own_issue_notes: Editar as prórpias notas
+  permission_edit_own_issue_notes: Editar as próprias notas
   setting_gravatar_enabled: Utilizar ícones Gravatar
   label_example: Exemplo
   text_repository_usernames_mapping: "Selecionar ou atualizar o utilizador de Redmine mapeado a cada nome de utilizador encontrado no repositório.\nUtilizadores com o mesmo nome de utilizador ou e-mail no Redmine e no repositório são mapeados automaticamente."
@@ -869,7 +866,7 @@ pt:
   label_update_issue_done_ratios: Atualizar percentagens de progresso da tarefa
   setting_start_of_week: Iniciar calendários a
   permission_view_issues: Ver tarefas
-  label_display_used_statuses_only: Só exibir estados empregues por este tipo de tarefa
+  label_display_used_statuses_only: Exibir apenas estados utilizados por este tipo de tarefa
   label_revision_id: Revisão %{value}
   label_api_access_key: Chave de acesso API
   label_api_access_key_created_on: Chave de acesso API criada há %{value}
@@ -903,7 +900,6 @@ pt:
   error_can_not_remove_role: Esta função está atualmente em uso e não pode ser apagada.
   error_can_not_delete_tracker: Existem ainda tarefas nesta categoria. Não é possível apagar este tipo de tarefa.
   field_principal: Principal
-  label_my_page_block: Bloco da minha página
   notice_failed_to_save_members: "Erro ao guardar o(s) membro(s): %{errors}."
   text_zoom_out: Reduzir
   text_zoom_in: Ampliar
@@ -914,10 +910,8 @@ pt:
   project_module_calendar: Calendário
   button_edit_associated_wikipage: "Editar página Wiki associada: %{page_title}"
   field_text: Campo de texto
-  label_user_mail_option_only_owner: Apenas para tarefas das quais sou proprietário
   setting_default_notification_option: Opção predefinida de notificação
   label_user_mail_option_only_my_events: Apenas para tarefas que observo ou em que estou envolvido
-  label_user_mail_option_only_assigned: Apenas para tarefas que me foram atribuídas
   label_user_mail_option_none: Sem eventos
   field_member_of_group: Grupo do titular
   field_assigned_to_role: Função do titular
@@ -977,16 +971,12 @@ pt:
   description_project_scope: Âmbito da pesquisa
   description_filter: Filtro
   description_user_mail_notification: Configurações das notificações por e-mail
-  description_date_from: Introduza data de início
   description_message_content: Conteúdo da mensagem
   description_available_columns: Colunas disponíveis
-  description_date_range_interval: Escolha o intervalo selecionando a data de início e de fim
   description_issue_category_reassign: Escolha a categoria da tarefa
   description_search: Campo de pesquisa
   description_notes: Notas
-  description_date_range_list: Escolha o intervalo da lista
   description_choose_project: Projeto
-  description_date_to: Introduza data de fim
   description_query_sort_criteria_attribute: Ordenar atributos
   description_wiki_subpages_reassign: Escolha nova página pai
   description_selected_columns: Colunas selecionadas
@@ -1055,8 +1045,8 @@ pt:
   label_attribute_of_assigned_to: "%{name} do utilizador titular"
   label_attribute_of_fixed_version: "%{name} da Versão"
   label_copy_subtasks: Copiar sub-tarefas
-  label_copied_to: copiado para
-  label_copied_from: copiado de
+  label_copied_to: Copiado para
+  label_copied_from: Copiado de
   label_any_issues_in_project: tarefas do projeto
   label_any_issues_not_in_project: tarefas sem projeto
   field_private_notes: Notas privadas
@@ -1091,8 +1081,7 @@ pt:
   notice_account_not_activated_yet: Ainda não ativou a sua conta. Se desejar
     receber um novo e-mail de ativação, por favor clique <a href="%{url}">nesta ligação</a>.
   notice_account_locked: A sua conta está bloqueada.
-  notice_account_register_done: A conta foi criada com sucesso! Um e-mail contendo
-    as instruções para ativar a sua conta foi enviado para %{email}.
+  notice_account_register_done: A conta foi criada com sucesso! Um e-mail contendo as instruções para ativar a sua conta foi enviado para %{email}.
   label_hidden: Escondido
   label_visibility_private: apenas para mim
   label_visibility_roles: apenas para estas funções
@@ -1108,8 +1097,7 @@ pt:
   label_link_values_to: Ligação de valores ao URL
   setting_force_default_language_for_anonymous: Forçar língua por omissão para utilizadores anónimos
   setting_force_default_language_for_loggedin: Forçar língua por omissão para utilizadores registados
-  label_custom_field_select_type: Selecione o tipo de objeto ao qual o campo personalizado
-    será atribuído
+  label_custom_field_select_type: Selecione o tipo de objeto ao qual o campo personalizado será atribuído
   label_issue_assigned_to_updated: Utilizador titular atualizado
   label_check_for_updates: Verificar atualizações
   label_latest_compatible_version: Última versão compatível
@@ -1207,4 +1195,29 @@ pt:
   setting_new_item_menu_tab: Aba de Projeto para criar novos objetos
   label_new_object_tab_enabled: Apresentar a aba "+"
   error_no_projects_with_tracker_allowed_for_new_issue: Não há projetos com tipos de tarefa para os quais você pode criar uma tarefa
+  field_textarea_font: Fonte para áreas de texto
+  label_font_default: Default font
+  label_font_monospace: Fonte Monospaced
+  label_font_proportional: Fonte proporcional
+  setting_timespan_format: Formato de Data/Hora
+  label_table_of_contents: Índice
+  setting_commit_logs_formatting: Aplicar formatação de texto às mensagens de commit
+  setting_mail_handler_enable_regex_delimiters: Ativar a utilização de expressões regulares
+  error_move_of_child_not_possible: 'A sub-tarefa %{child} não pode ser movida para o novo
+    project: %{errors}'
   error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: O tempo gasto não pode ser alterado numa tarefa que será apagada
+  setting_timelog_required_fields: Campos obrigatórios para o registo de tempo
+  label_attribute_of_object: '%{object_name} %{name}'
+  label_user_mail_option_only_assigned: Apenas para tarefas que observo ou que me estão atribuídas
+  label_user_mail_option_only_owner: Apenas para tarefas que observo ou que eu criei
+  warning_fields_cleared_on_bulk_edit: As alterações vão apagar valores de um ou mais campos nos objetos selecionados
+  field_updated_by: Atualizado por
+  field_last_updated_by: Última atualização por
+  field_full_width_layout: Layout utiliza toda a largura
+  label_last_notes: Last notes
+  field_digest: Checksum
+  field_default_assigned_to: Default assignee
+  setting_show_custom_fields_on_registration: Show custom fields on registration
+  permission_view_news: View news
+  label_no_preview_alternative_html: No preview available. %{link} the file instead.
+  label_no_preview_download: Download

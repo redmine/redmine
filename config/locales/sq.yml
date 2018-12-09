@@ -130,6 +130,8 @@ sq:
         circular_dependency: "Ky relacion do te krijoje nje varesi ciklike (circular dependency)"
         cant_link_an_issue_with_a_descendant: "Nje ceshtje nuk mund te lidhet me nenceshtje"
         earlier_than_minimum_start_date: "cannot be earlier than %{date} because of preceding issues"
+        not_a_regexp: "is not a valid regular expression"
+        open_issue_with_closed_parent: "An open issue cannot be attached to a closed parent task"
 
   actionview_instancetag_blank_option: Zgjidhni
 
@@ -517,7 +519,6 @@ sq:
   label_my_page: Faqja ime
   label_my_account: Llogaria ime
   label_my_projects: Projektet e mia
-  label_my_page_block: My page block
   label_administration: Administrim
   label_login: Login
   label_logout: Dalje
@@ -610,7 +611,6 @@ sq:
   label_internal: I brendshem
   label_last_changes: "%{count} ndryshimet e fundit"
   label_change_view_all: Shih gjithe ndryshimet
-  label_personalize_page: Personalizo kete Faqe
   label_comment: Koment
   label_comment_plural: Komente
   label_x_comments:
@@ -767,8 +767,6 @@ sq:
   label_user_mail_option_selected: "For any event on the selected projects only..."
   label_user_mail_option_none: "No events"
   label_user_mail_option_only_my_events: "Only for things I watch or I'm involved in"
-  label_user_mail_option_only_assigned: "Only for things I am assigned to"
-  label_user_mail_option_only_owner: "Only for things I am the owner of"
   label_user_mail_no_self_notified: "I don't want to be notified of changes that I make myself"
   label_registration_activation_by_email: account activation by email
   label_registration_manual_activation: manual account activation
@@ -777,7 +775,6 @@ sq:
   label_age: Age
   label_change_properties: Change properties
   label_general: General
-  label_more: More
   label_scm: SCM
   label_plugins: Plugins
   label_ldap_authentication: LDAP authentication
@@ -787,7 +784,6 @@ sq:
   label_preferences: Preferences
   label_chronological_order: In chronological order
   label_reverse_chronological_order: In reverse chronological order
-  label_planning: Planning
   label_incoming_emails: Incoming emails
   label_generate_key: Generate a key
   label_issue_watchers: Watchers
@@ -1007,10 +1003,6 @@ sq:
   description_all_columns: All Columns
   description_issue_category_reassign: Choose issue category
   description_wiki_subpages_reassign: Choose new parent page
-  description_date_range_list: Choose range from list
-  description_date_range_interval: Choose range by selecting start and end date
-  description_date_from: Enter start date
-  description_date_to: Enter end date
   error_session_expired: Your session has expired. Please login again.
   text_session_expiration_settings: "Warning: changing these settings may expire the current sessions including yours."
   setting_session_lifetime: Session maximum lifetime
@@ -1204,5 +1196,31 @@ sq:
   label_new_object_tab_enabled: Display the "+" drop-down
   error_no_projects_with_tracker_allowed_for_new_issue: There are no projects with trackers
     for which you can create an issue
+  field_textarea_font: Font used for text areas
+  label_font_default: Default font
+  label_font_monospace: Monospaced font
+  label_font_proportional: Proportional font
+  setting_timespan_format: Time span format
+  label_table_of_contents: Table of contents
+  setting_commit_logs_formatting: Apply text formatting to commit messages
+  setting_mail_handler_enable_regex_delimiters: Enable regular expressions
+  error_move_of_child_not_possible: 'Subtask %{child} could not be moved to the new
+    project: %{errors}'
   error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: Spent time cannot
     be reassigned to an issue that is about to be deleted
+  setting_timelog_required_fields: Required fields for time logs
+  label_attribute_of_object: '%{object_name}''s %{name}'
+  label_user_mail_option_only_assigned: Only for things I watch or I am assigned to
+  label_user_mail_option_only_owner: Only for things I watch or I am the owner of
+  warning_fields_cleared_on_bulk_edit: Changes will result in the automatic deletion
+    of values from one or more fields on the selected objects
+  field_updated_by: Updated by
+  field_last_updated_by: Last updated by
+  field_full_width_layout: Full width layout
+  label_last_notes: Last notes
+  field_digest: Checksum
+  field_default_assigned_to: Default assignee
+  setting_show_custom_fields_on_registration: Show custom fields on registration
+  permission_view_news: View news
+  label_no_preview_alternative_html: No preview available. %{link} the file instead.
+  label_no_preview_download: Download

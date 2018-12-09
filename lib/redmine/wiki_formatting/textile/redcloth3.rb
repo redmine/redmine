@@ -343,7 +343,7 @@ class RedCloth3 < String
     A_VLGN = /[\-^~]/
     C_CLAS = '(?:\([^")]+\))'
     C_LNGE = '(?:\[[a-z\-_]+\])'
-    C_STYL = '(?:\{[^"}]+\})'
+    C_STYL = '(?:\{[^{][^"}]+\})'
     S_CSPN = '(?:\\\\\d+)'
     S_RSPN = '(?:/\d+)'
     A = "(?:#{A_HLGN}?#{A_VLGN}?|#{A_VLGN}?#{A_HLGN}?)"
@@ -969,7 +969,7 @@ class RedCloth3 < String
             href, alt_title = check_refs( href ) if href
             url, url_title = check_refs( url )
 
-            return m unless uri_with_safe_scheme?(url)
+            next m unless uri_with_safe_scheme?(url)
 
             out = ''
             out << "<a#{ shelve( " href=\"#{ href }\"" ) }>" if href
@@ -1034,7 +1034,7 @@ class RedCloth3 < String
     def flush_left( text )
         indt = 0
         if text =~ /^ /
-            while text !~ /^ {#{indt}}\S/
+            while text !~ /^ {#{indt}}[^ ]/
                 indt += 1
             end unless text.empty?
             if indt.nonzero?
@@ -1049,7 +1049,7 @@ class RedCloth3 < String
     end
     
     OFFTAGS = /(code|pre|kbd|notextile)/
-    OFFTAG_MATCH = /(?:(<\/#{ OFFTAGS }>)|(<#{ OFFTAGS }[^>]*>))(.*?)(?=<\/?#{ OFFTAGS }\W|\Z)/mi
+    OFFTAG_MATCH = /(?:(<\/#{ OFFTAGS }\b>)|(<#{ OFFTAGS }\b[^>]*>))(.*?)(?=<\/?#{ OFFTAGS }\b\W|\Z)/mi
     OFFTAG_OPEN = /<#{ OFFTAGS }/
     OFFTAG_CLOSE = /<\/?#{ OFFTAGS }/
     HASTAG_MATCH = /(<\/?\w[^\n]*?>)/m

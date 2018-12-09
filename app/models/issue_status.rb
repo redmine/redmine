@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -16,6 +16,8 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class IssueStatus < ActiveRecord::Base
+  include Redmine::SafeAttributes
+
   before_destroy :check_integrity
   has_many :workflows, :class_name => 'WorkflowTransition', :foreign_key => "old_status_id"
   has_many :workflow_transitions_as_new_status, :class_name => 'WorkflowTransition', :foreign_key => "new_status_id"
@@ -32,6 +34,11 @@ class IssueStatus < ActiveRecord::Base
 
   scope :sorted, lambda { order(:position) }
   scope :named, lambda {|arg| where("LOWER(#{table_name}.name) = LOWER(?)", arg.to_s.strip)}
+
+  safe_attributes 'name',
+    'is_closed',
+    'position',
+    'default_done_ratio'
 
   # Update all the +Issues+ setting their done_ratio to the value of their +IssueStatus+
   def self.update_issue_done_ratios
@@ -66,7 +73,7 @@ class IssueStatus < ActiveRecord::Base
         end
       end
 
-      scope.uniq.to_a.sort
+      scope.distinct.to_a.sort
     else
       []
     end
@@ -85,12 +92,13 @@ class IssueStatus < ActiveRecord::Base
     if is_closed_changed? && is_closed == true
       # First we update issues that have a journal for when the current status was set,
       # a subselect is used to update all issues with a single query
-      subselect = "SELECT MAX(j.created_on) FROM #{Journal.table_name} j" +
-        " JOIN #{JournalDetail.table_name} d ON d.journal_id = j.id" +
-        " WHERE j.journalized_type = 'Issue' AND j.journalized_id = #{Issue.table_name}.id" +
-        " AND d.property = 'attr' AND d.prop_key = 'status_id' AND d.value = :status_id"
-      Issue.where(:status_id => id, :closed_on => nil).
-        update_all(["closed_on = (#{subselect})", {:status_id => id.to_s}])
+      subquery = Journal.joins(:details).
+        where(:journalized_type => 'Issue').
+        where("journalized_id = #{Issue.table_name}.id").
+        where(:journal_details => {:property => 'attr', :prop_key => 'status_id', :value => id.to_s}).
+        select("MAX(created_on)").
+        to_sql
+      Issue.where(:status_id => id, :closed_on => nil).update_all("closed_on = (#{subquery})")
 
       # Then we update issues that don't have a journal which means the
       # current status was set on creation
@@ -108,6 +116,7 @@ class IssueStatus < ActiveRecord::Base
 
   # Deletes associated workflows
   def delete_workflow_rules
-    WorkflowRule.delete_all(["old_status_id = :id OR new_status_id = :id", {:id => id}])
+    WorkflowRule.where(:old_status_id => id).delete_all
+    WorkflowRule.where(:new_status_id => id).delete_all
   end
 end

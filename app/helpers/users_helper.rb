@@ -1,7 +1,7 @@
 # encoding: utf-8
 #
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -28,6 +28,10 @@ module UsersHelper
 
   def user_mail_notification_options(user)
     user.valid_notification_options.collect {|o| [l(o.last), o.first]}
+  end
+
+  def textarea_font_options
+    [[l(:label_font_default), '']] + UserPreference::TEXTAREA_FONT_OPTIONS.map {|o| [l("label_font_#{o}"), o]}
   end
 
   def change_status_link(user)

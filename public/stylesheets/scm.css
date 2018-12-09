@@ -67,7 +67,7 @@ table.filecontent td.line-code pre {
 table.filecontent tr:target th.line-num { background-color:#E0E0E0; color: #777; }
 table.filecontent tr:target td.line-code { background-color:#DDEEFF; }
 
-img.filecontent { max-width: 100%; margin-top: 1em;}
+img.filecontent { max-width: 100%; }
 
 /* 12 different colors for the annonate view */
 table.annotate tr.bloc-0 {background: #FFFFBF;}

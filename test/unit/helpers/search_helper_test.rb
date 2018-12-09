@@ -1,7 +1,7 @@
 # encoding: utf-8
 #
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -19,9 +19,8 @@
 
 require File.expand_path('../../../test_helper', __FILE__)
 
-class SearchHelperTest < ActionView::TestCase
+class SearchHelperTest < Redmine::HelperTest
   include SearchHelper
-  include Redmine::I18n
   include ERB::Util
 
   def test_highlight_single_token

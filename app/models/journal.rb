@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -16,6 +16,8 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class Journal < ActiveRecord::Base
+  include Redmine::SafeAttributes
+
   belongs_to :journalized, :polymorphic => true
   # added as a quick fix to allow eager loading of the polymorphic association
   # since always associated to an issue, for now
@@ -38,17 +40,30 @@ class Journal < ActiveRecord::Base
                             :scope => preload({:issue => :project}, :user).
                                       joins("LEFT OUTER JOIN #{JournalDetail.table_name} ON #{JournalDetail.table_name}.journal_id = #{Journal.table_name}.id").
                                       where("#{Journal.table_name}.journalized_type = 'Issue' AND" +
-                                            " (#{JournalDetail.table_name}.prop_key = 'status_id' OR #{Journal.table_name}.notes <> '')").uniq
+                                            " (#{JournalDetail.table_name}.prop_key = 'status_id' OR #{Journal.table_name}.notes <> '')").distinct
 
   before_create :split_private_notes
-  after_create :send_notification
+  after_commit :send_notification, :on => :create
 
   scope :visible, lambda {|*args|
     user = args.shift || User.current
+    options = args.shift || {}
+
     joins(:issue => :project).
-      where(Issue.visible_condition(user, *args)).
-      where("(#{Journal.table_name}.private_notes = ? OR (#{Project.allowed_to_condition(user, :view_private_notes, *args)}))", false)
+      where(Issue.visible_condition(user, options)).
+      where(Journal.visible_notes_condition(user, :skip_pre_condition => true))
   }
+
+  safe_attributes 'notes',
+    :if => lambda {|journal, user| journal.new_record? || journal.editable_by?(user)}
+  safe_attributes 'private_notes',
+    :if => lambda {|journal, user| user.allowed_to?(:set_notes_private, journal.project)}
+
+  # Returns a SQL condition to filter out journals with notes that are not visible to user
+  def self.visible_notes_condition(user=User.current, options={})
+    private_notes_permission = Project.allowed_to_condition(user, :view_private_notes, options)
+    sanitize_sql_for_conditions(["(#{table_name}.private_notes = ? OR #{table_name}.user_id = ? OR (#{private_notes_permission}))", false, user.id])
+  end
 
   def initialize(*args)
     super
@@ -118,7 +133,7 @@ class Journal < ActiveRecord::Base
   end
 
   def attachments
-    journalized.respond_to?(:attachments) ? journalized.attachments : nil
+    journalized.respond_to?(:attachments) ? journalized.attachments : []
   end
 
   # Returns a string of css classes
@@ -219,18 +234,26 @@ class Journal < ActiveRecord::Base
   def journalize_changes
     # attributes changes
     if @attributes_before_change
-      journalized.journalized_attribute_names.each {|attribute|
+      attrs = (journalized.journalized_attribute_names + @attributes_before_change.keys).uniq
+      attrs.each do |attribute|
         before = @attributes_before_change[attribute]
         after = journalized.send(attribute)
         next if before == after || (before.blank? && after.blank?)
         add_attribute_detail(attribute, before, after)
-      }
+      end
     end
+    # custom fields changes
     if @custom_values_before_change
-      # custom fields changes
-      journalized.custom_field_values.each {|c|
-        before = @custom_values_before_change[c.custom_field_id]
-        after = c.value
+      values_by_custom_field_id = {}
+      @custom_values_before_change.each do |custom_field_id, value|
+        values_by_custom_field_id[custom_field_id] = nil
+      end
+      journalized.custom_field_values.each do |c|
+        values_by_custom_field_id[c.custom_field_id] = c.value
+      end
+
+      values_by_custom_field_id.each do |custom_field_id, after|
+        before = @custom_values_before_change[custom_field_id]
         next if before == after || (before.blank? && after.blank?)
 
         if before.is_a?(Array) || after.is_a?(Array)
@@ -239,16 +262,16 @@ class Journal < ActiveRecord::Base
 
           # values removed
           (before - after).reject(&:blank?).each do |value|
-            add_custom_value_detail(c, value, nil)
+            add_custom_field_detail(custom_field_id, value, nil)
           end
           # values added
           (after - before).reject(&:blank?).each do |value|
-            add_custom_value_detail(c, nil, value)
+            add_custom_field_detail(custom_field_id, nil, value)
           end
         else
-          add_custom_value_detail(c, before, after)
+          add_custom_field_detail(custom_field_id, before, after)
         end
-      }
+      end
     end
     start
   end
@@ -259,8 +282,8 @@ class Journal < ActiveRecord::Base
   end
 
   # Adds a journal detail for a custom field value change
-  def add_custom_value_detail(custom_value, old_value, value)
-    add_detail('cf', custom_value.custom_field_id, old_value, value)
+  def add_custom_field_detail(custom_field_id, old_value, value)
+    add_detail('cf', custom_field_id, old_value, value)
   end
 
   # Adds a journal detail

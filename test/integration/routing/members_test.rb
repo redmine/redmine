@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -22,6 +22,7 @@ class RoutingMembersTest < Redmine::RoutingTest
     should_route 'GET /projects/foo/memberships/new' => 'members#new', :project_id => 'foo'
     should_route 'POST /projects/foo/memberships' => 'members#create', :project_id => 'foo'
 
+    should_route 'GET /memberships/5234/edit' => 'members#edit', :id => '5234'
     should_route 'PUT /memberships/5234' => 'members#update', :id => '5234'
     should_route 'DELETE /memberships/5234' => 'members#destroy', :id => '5234'
 

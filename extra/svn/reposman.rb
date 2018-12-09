@@ -5,7 +5,7 @@ require 'find'
 require 'etc'
 require 'rubygems'
 
-Version = "1.4"
+Version = "1.5"
 SUPPORTED_SCM = %w( Subversion Darcs Mercurial Bazaar Git Filesystem )
 
 $verbose      = 0
@@ -160,10 +160,10 @@ end
 
 class Project < ActiveResource::Base
   self.headers["User-agent"] = "Redmine repository manager/#{Version}"
-  self.format = :xml
+  self.format = :json
 end
 
-log("querying Redmine for projects...", :level => 1);
+log("querying Redmine for active projects with repository module enabled...", :level => 1);
 
 $redmine_host.gsub!(/^/, "http://") unless $redmine_host.match("^https?://")
 $redmine_host.gsub!(/\/$/, '')
@@ -214,8 +214,6 @@ def mswin?
 end
 
 projects.each do |project|
-  log("treating project #{project.name}", :level => 1)
-
   if project.identifier.empty?
     log("\tno identifier for project #{project.name}")
     next
@@ -223,6 +221,7 @@ projects.each do |project|
     log("\tinvalid identifier for project #{project.name} : #{project.identifier}");
     next;
   end
+  log("processing project #{project.identifier} (#{project.name})", :level => 1)
 
   repos_path = File.join($repos_base, project.identifier).gsub(File::SEPARATOR, File::ALT_SEPARATOR || File::SEPARATOR)
 
@@ -258,7 +257,7 @@ projects.each do |project|
     project.is_public ? File.umask(0002) : File.umask(0007)
 
     if $test
-      log("\tcreate repository #{repos_path}")
+      log("\trepository #{repos_path} created")
       log("\trepository #{repos_path} registered in Redmine with url #{$svn_url}#{project.identifier}") if $svn_url;
       next
     end
@@ -275,6 +274,7 @@ projects.each do |project|
       log("\tunable to create #{repos_path} : #{e}\n")
       next
     end
+    log("\trepository #{repos_path} created");
 
     if $svn_url
       begin
@@ -284,6 +284,5 @@ projects.each do |project|
         log("\trepository #{repos_path} not registered in Redmine: #{e.message}");
       end
     end
-    log("\trepository #{repos_path} created");
   end
 end

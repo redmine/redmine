@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -27,6 +27,28 @@ class TimeEntryQueryTest < ActiveSupport::TestCase
            :groups_users,
            :enabled_modules
 
+  def test_filter_values_without_project_should_be_arrays
+    q = TimeEntryQuery.new
+    assert_nil q.project
+
+    q.available_filters.each do |name, filter|
+      values = filter.values
+      assert (values.nil? || values.is_a?(Array)),
+        "#values for #{name} filter returned a #{values.class.name}"
+    end
+  end
+
+  def test_filter_values_with_project_should_be_arrays
+    q = TimeEntryQuery.new(:project => Project.find(1))
+    assert_not_nil q.project
+
+    q.available_filters.each do |name, filter|
+      values = filter.values
+      assert (values.nil? || values.is_a?(Array)),
+        "#values for #{name} filter returned a #{values.class.name}"
+    end
+  end
+
   def test_cross_project_activity_filter_should_propose_non_active_activities
     activity = TimeEntryActivity.create!(:name => 'Disabled', :active => false)
     assert !activity.active?
@@ -46,13 +68,15 @@ class TimeEntryQueryTest < ActiveSupport::TestCase
     TimeEntry.generate!(:activity => override, :hours => 2.0)
     TimeEntry.generate!(:activity => other, :hours => 4.0)
 
-    query = TimeEntryQuery.new(:name => '_')
-    query.add_filter('activity_id', '=', [system.id.to_s])
-    assert_equal 3.0, query.results_scope.sum(:hours)
+    with_current_user User.find(2) do
+      query = TimeEntryQuery.new(:name => '_')
+      query.add_filter('activity_id', '=', [system.id.to_s])
+      assert_equal 3.0, query.results_scope.sum(:hours)
 
-    query = TimeEntryQuery.new(:name => '_')
-    query.add_filter('activity_id', '!', [system.id.to_s])
-    assert_equal 4.0, query.results_scope.sum(:hours)
+      query = TimeEntryQuery.new(:name => '_')
+      query.add_filter('activity_id', '!', [system.id.to_s])
+      assert_equal 4.0, query.results_scope.sum(:hours)
+    end
   end
 
   def test_project_query_should_include_project_issue_custom_fields_only_as_filters

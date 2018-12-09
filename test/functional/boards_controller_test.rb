@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,7 +17,7 @@
 
 require File.expand_path('../../test_helper', __FILE__)
 
-class BoardsControllerTest < ActionController::TestCase
+class BoardsControllerTest < Redmine::ControllerTest
   fixtures :projects, :users, :members, :member_roles, :roles, :boards, :messages, :enabled_modules
 
   def setup
@@ -25,48 +25,60 @@ class BoardsControllerTest < ActionController::TestCase
   end
 
   def test_index
-    get :index, :project_id => 1
+    get :index, :params => {
+        :project_id => 1
+      }
     assert_response :success
-    assert_template 'index'
-    assert_not_nil assigns(:boards)
-    assert_not_nil assigns(:project)
+    assert_select 'table.boards'
   end
 
   def test_index_not_found
-    get :index, :project_id => 97
+    get :index, :params => {
+        :project_id => 97
+      }
     assert_response 404
   end
 
   def test_index_should_show_messages_if_only_one_board
-    Project.find(1).boards.slice(1..-1).each(&:destroy)
+    Project.find(1).boards.to_a.slice(1..-1).each(&:destroy)
 
-    get :index, :project_id => 1
+    get :index, :params => {
+        :project_id => 1
+      }
     assert_response :success
-    assert_template 'show'
-    assert_not_nil assigns(:topics)
+
+    assert_select 'table.boards', 0
+    assert_select 'table.messages'
   end
 
   def test_show
-    get :show, :project_id => 1, :id => 1
+    get :show, :params => {
+        :project_id => 1,
+        :id => 1
+      }
     assert_response :success
-    assert_template 'show'
-    assert_not_nil assigns(:board)
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:topics)
+
+    assert_select 'table.messages tbody' do
+      assert_select 'tr', Board.find(1).topics.count
+    end
   end
 
   def test_show_should_display_sticky_messages_first
     Message.update_all(:sticky => 0)
     Message.where({:id => 1}).update_all({:sticky => 1})
 
-    get :show, :project_id => 1, :id => 1
+    get :show, :params => {
+        :project_id => 1,
+        :id => 1
+      }
     assert_response :success
 
-    topics = assigns(:topics)
-    assert_not_nil topics
-    assert topics.size > 1, "topics size was #{topics.size}"
-    assert topics.first.sticky?
-    assert topics.first.updated_on < topics.second.updated_on
+    assert_select 'table.messages tbody' do
+      # row is here...
+      assert_select 'tr.sticky'
+      # ...and in first position
+      assert_select 'tr.sticky:first-child'
+    end
   end
 
   def test_show_should_display_message_with_last_reply_first
@@ -77,18 +89,25 @@ class BoardsControllerTest < ActionController::TestCase
     reply = Message.new(:board_id => 1, :subject => 'New reply', :content => 'New reply', :author_id => 2)
     old_topic.children << reply
 
-    get :show, :project_id => 1, :id => 1
+    get :show, :params => {
+        :project_id => 1,
+        :id => 1
+      }
     assert_response :success
-    topics = assigns(:topics)
-    assert_not_nil topics
-    assert_equal old_topic, topics.first
+
+    assert_select 'table.messages tbody' do
+      assert_select "tr#message-#{old_topic.id}"
+      assert_select "tr#message-#{old_topic.id}:first-child"
+    end
   end
 
   def test_show_with_permission_should_display_the_new_message_form
     @request.session[:user_id] = 2
-    get :show, :project_id => 1, :id => 1
+    get :show, :params => {
+        :project_id => 1,
+        :id => 1
+      }
     assert_response :success
-    assert_template 'show'
 
     assert_select 'form#message-form' do
       assert_select 'input[name=?]', 'message[subject]'
@@ -96,24 +115,30 @@ class BoardsControllerTest < ActionController::TestCase
   end
 
   def test_show_atom
-    get :show, :project_id => 1, :id => 1, :format => 'atom'
+    get :show, :params => {
+        :project_id => 1,
+        :id => 1,
+        :format => 'atom'
+      }
     assert_response :success
-    assert_template 'common/feed'
-    assert_not_nil assigns(:board)
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:messages)
+
+    assert_select 'feed > entry > title', :text => 'Help: RE: post 2'
   end
 
   def test_show_not_found
-    get :index, :project_id => 1, :id => 97
+    get :index, :params => {
+        :project_id => 1,
+        :id => 97
+      }
     assert_response 404
   end
 
   def test_new
     @request.session[:user_id] = 2
-    get :new, :project_id => 1
+    get :new, :params => {
+        :project_id => 1
+      }
     assert_response :success
-    assert_template 'new'
 
     assert_select 'select[name=?]', 'board[parent_id]' do
       assert_select 'option', (Project.find(1).boards.size + 1)
@@ -130,9 +155,10 @@ class BoardsControllerTest < ActionController::TestCase
     Project.find(1).boards.delete_all
     @request.session[:user_id] = 2
 
-    get :new, :project_id => 1
+    get :new, :params => {
+        :project_id => 1
+      }
     assert_response :success
-    assert_template 'new'
 
     assert_select 'select[name=?]', 'board[parent_id]', 0
   end
@@ -140,7 +166,13 @@ class BoardsControllerTest < ActionController::TestCase
   def test_create
     @request.session[:user_id] = 2
     assert_difference 'Board.count' do
-      post :create, :project_id => 1, :board => { :name => 'Testing', :description => 'Testing board creation'}
+      post :create, :params => {
+          :project_id => 1,
+          :board => {
+            :name => 'Testing',
+            :description => 'Testing board creation'
+          }
+        }
     end
     assert_redirected_to '/projects/ecookbook/settings/boards'
     board = Board.order('id DESC').first
@@ -151,7 +183,14 @@ class BoardsControllerTest < ActionController::TestCase
   def test_create_with_parent
     @request.session[:user_id] = 2
     assert_difference 'Board.count' do
-      post :create, :project_id => 1, :board => { :name => 'Testing', :description => 'Testing', :parent_id => 2}
+      post :create, :params => {
+          :project_id => 1,
+          :board => {
+            :name => 'Testing',
+            :description => 'Testing',
+            :parent_id => 2
+          }
+        }
     end
     assert_redirected_to '/projects/ecookbook/settings/boards'
     board = Board.order('id DESC').first
@@ -161,25 +200,36 @@ class BoardsControllerTest < ActionController::TestCase
   def test_create_with_failure
     @request.session[:user_id] = 2
     assert_no_difference 'Board.count' do
-      post :create, :project_id => 1, :board => { :name => '', :description => 'Testing board creation'}
+      post :create, :params => {
+          :project_id => 1,
+          :board => {
+            :name => '',
+            :description => 'Testing board creation'
+          }
+        }
     end
     assert_response :success
-    assert_template 'new'
+    assert_select_error /Name cannot be blank/
   end
 
   def test_edit
     @request.session[:user_id] = 2
-    get :edit, :project_id => 1, :id => 2
+    get :edit, :params => {
+        :project_id => 1,
+        :id => 2
+      }
     assert_response :success
-    assert_template 'edit'
+    assert_select 'input[name=?][value=?]', 'board[name]', 'Discussion'
   end
 
   def test_edit_with_parent
     board = Board.generate!(:project_id => 1, :parent_id => 2)
     @request.session[:user_id] = 2
-    get :edit, :project_id => 1, :id => board.id
+    get :edit, :params => {
+        :project_id => 1,
+        :id => board.id
+      }
     assert_response :success
-    assert_template 'edit'
 
     assert_select 'select[name=?]', 'board[parent_id]' do
       assert_select 'option[value="2"][selected=selected]'
@@ -189,7 +239,14 @@ class BoardsControllerTest < ActionController::TestCase
   def test_update
     @request.session[:user_id] = 2
     assert_no_difference 'Board.count' do
-      put :update, :project_id => 1, :id => 2, :board => { :name => 'Testing', :description => 'Testing board update'}
+      put :update, :params => {
+          :project_id => 1,
+          :id => 2,
+          :board => {
+            :name => 'Testing',
+            :description => 'Testing board update'
+          }
+        }
     end
     assert_redirected_to '/projects/ecookbook/settings/boards'
     assert_equal 'Testing', Board.find(2).name
@@ -197,7 +254,13 @@ class BoardsControllerTest < ActionController::TestCase
 
   def test_update_position
     @request.session[:user_id] = 2
-    put :update, :project_id => 1, :id => 2, :board => { :position => 1}
+    put :update, :params => {
+        :project_id => 1,
+        :id => 2,
+        :board => {
+          :position => 1
+        }
+      }
     assert_redirected_to '/projects/ecookbook/settings/boards'
     board = Board.find(2)
     assert_equal 1, board.position
@@ -205,15 +268,25 @@ class BoardsControllerTest < ActionController::TestCase
 
   def test_update_with_failure
     @request.session[:user_id] = 2
-    put :update, :project_id => 1, :id => 2, :board => { :name => '', :description => 'Testing board update'}
+    put :update, :params => {
+        :project_id => 1,
+        :id => 2,
+        :board => {
+          :name => '',
+          :description => 'Testing board update'
+        }
+      }
     assert_response :success
-    assert_template 'edit'
+    assert_select_error /Name cannot be blank/
   end
 
   def test_destroy
     @request.session[:user_id] = 2
     assert_difference 'Board.count', -1 do
-      delete :destroy, :project_id => 1, :id => 2
+      delete :destroy, :params => {
+          :project_id => 1,
+          :id => 2
+        }
     end
     assert_redirected_to '/projects/ecookbook/settings/boards'
     assert_nil Board.find_by_id(2)

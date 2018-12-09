@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -64,11 +64,22 @@ module Redmine
     end
 
     module Shell
+
+      module_function
+
       def shell_quote(str)
         if Redmine::Platform.mswin?
           '"' + str.gsub(/"/, '\\"') + '"'
         else
           "'" + str.gsub(/'/, "'\"'\"'") + "'"
+        end
+      end
+
+      def shell_quote_command(command)
+        if Redmine::Platform.mswin? && RUBY_PLATFORM == 'java'
+          command
+        else
+          shell_quote(command)
         end
       end
     end

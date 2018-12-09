@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -107,7 +107,7 @@ VIEW
 
   def test_controller_hook_context_should_include_request
     Redmine::Hook.add_listener(ContextTestHook)
-    post '/login', :username => 'admin', :password => 'admin'
+    post '/login', :params => {:username => 'admin', :password => 'admin'}
     assert_not_nil ContextTestHook.context
     context = ContextTestHook.context
     assert_kind_of ActionDispatch::Request, context[:request]

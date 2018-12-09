@@ -1,7 +1,7 @@
 # encoding: utf-8
 #
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -43,6 +43,14 @@ module PrincipalMembershipsHelper
       new_group_membership_path(principal, *args)
     else
       new_user_membership_path(principal, *args)
+    end
+  end
+
+  def edit_principal_membership_path(principal, *args)
+    if principal.is_a?(Group)
+      edit_group_membership_path(principal, *args)
+    else
+      edit_user_membership_path(principal, *args)
     end
   end
 

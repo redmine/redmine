@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -21,7 +21,7 @@ class Redmine::ApiTest::CustomFieldsTest < Redmine::ApiTest::Base
   fixtures :users, :custom_fields
 
   test "GET /custom_fields.xml should return custom fields" do
-    get '/custom_fields.xml', {}, credentials('admin')
+    get '/custom_fields.xml', :headers => credentials('admin')
     assert_response :success
     assert_equal 'application/xml', response.content_type
 
@@ -45,7 +45,7 @@ class Redmine::ApiTest::CustomFieldsTest < Redmine::ApiTest::Base
     foo = field.enumerations.create!(:name => 'Foo')
     bar = field.enumerations.create!(:name => 'Bar')
 
-    get '/custom_fields.xml', {}, credentials('admin')
+    get '/custom_fields.xml', :headers => credentials('admin')
     assert_response :success
 
     assert_select 'possible_value' do

@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -16,7 +16,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class PreviewsController < ApplicationController
-  before_filter :find_project, :find_attachments
+  before_action :find_project, :find_attachments
 
   def issue
     @issue = Issue.visible.find_by_id(params[:id]) unless params[:id].blank?
@@ -25,8 +25,8 @@ class PreviewsController < ApplicationController
       if @description && @description.gsub(/(\r?\n|\n\r?)/, "\n") == @issue.description.to_s.gsub(/(\r?\n|\n\r?)/, "\n")
         @description = nil
       end
-      # params[:notes] is useful for preview of notes in issue history
-      @notes = params[:notes] || (params[:issue] ? params[:issue][:notes] : nil)
+      @notes = params[:journal] ? params[:journal][:notes] : nil
+      @notes ||= params[:issue] ? params[:issue][:notes] : nil
     else
       @description = (params[:issue] ? params[:issue][:description] : nil)
     end

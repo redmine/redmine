@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -28,31 +28,22 @@ class RepositoriesController < ApplicationController
   menu_item :settings, :only => [:new, :create, :edit, :update, :destroy, :committers]
   default_search_scope :changesets
 
-  before_filter :find_project_by_project_id, :only => [:new, :create]
-  before_filter :find_repository, :only => [:edit, :update, :destroy, :committers]
-  before_filter :find_project_repository, :except => [:new, :create, :edit, :update, :destroy, :committers]
-  before_filter :find_changeset, :only => [:revision, :add_related_issue, :remove_related_issue]
-  before_filter :authorize
+  before_action :find_project_by_project_id, :only => [:new, :create]
+  before_action :build_new_repository_from_params, :only => [:new, :create]
+  before_action :find_repository, :only => [:edit, :update, :destroy, :committers]
+  before_action :find_project_repository, :except => [:new, :create, :edit, :update, :destroy, :committers]
+  before_action :find_changeset, :only => [:revision, :add_related_issue, :remove_related_issue]
+  before_action :authorize
   accept_rss_auth :revisions
 
   rescue_from Redmine::Scm::Adapters::CommandFailed, :with => :show_error_command_failed
 
   def new
-    scm = params[:repository_scm] || (Redmine::Scm::Base.all & Setting.enabled_scm).first
-    @repository = Repository.factory(scm)
     @repository.is_default = @project.repository.nil?
-    @repository.project = @project
   end
 
   def create
-    attrs = pickup_extra_info
-    @repository = Repository.factory(params[:repository_scm])
-    @repository.safe_attributes = params[:repository]
-    if attrs[:attrs_extra].keys.any?
-      @repository.merge_extra_info(attrs[:attrs_extra])
-    end
-    @repository.project = @project
-    if request.post? && @repository.save
+    if @repository.save
       redirect_to settings_project_path(@project, :tab => 'repositories')
     else
       render :action => 'new'
@@ -63,32 +54,13 @@ class RepositoriesController < ApplicationController
   end
 
   def update
-    attrs = pickup_extra_info
-    @repository.safe_attributes = attrs[:attrs]
-    if attrs[:attrs_extra].keys.any?
-      @repository.merge_extra_info(attrs[:attrs_extra])
-    end
-    @repository.project = @project
+    @repository.safe_attributes = params[:repository]
     if @repository.save
       redirect_to settings_project_path(@project, :tab => 'repositories')
     else
       render :action => 'edit'
     end
   end
-
-  def pickup_extra_info
-    p       = {}
-    p_extra = {}
-    params[:repository].each do |k, v|
-      if k =~ /^extra_/
-        p_extra[k] = v
-      else
-        p[k] = v
-      end
-    end
-    {:attrs => p, :attrs_extra => p_extra}
-  end
-  private :pickup_extra_info
 
   def committers
     @committers = @repository.committers
@@ -97,7 +69,7 @@ class RepositoriesController < ApplicationController
     @users += User.where(:id => additional_user_ids).to_a unless additional_user_ids.empty?
     @users.compact!
     @users.sort!
-    if request.post? && params[:committers].is_a?(Hash)
+    if request.post? && params[:committers].present?
       # Build a hash with repository usernames as keys and corresponding user ids as values
       @repository.committer_ids = params[:committers].values.inject({}) {|h, c| h[c.first] = c.last; h}
       flash[:notice] = l(:notice_successful_update)
@@ -116,7 +88,7 @@ class RepositoriesController < ApplicationController
     @entries = @repository.entries(@path, @rev)
     @changeset = @repository.find_changeset_by_name(@rev)
     if request.xhr?
-      @entries ? render(:partial => 'dir_list_content') : render(:nothing => true)
+      @entries ? render(:partial => 'dir_list_content') : head(200)
     else
       (show_error_not_found; return) unless @entries
       @changesets = @repository.latest_changesets(@path, @rev)
@@ -200,7 +172,7 @@ class RepositoriesController < ApplicationController
     return true if Redmine::MimeType.is_type?('text', path)
     # Ruby 1.8.6 has a bug of integer divisions.
     # http://apidock.com/ruby/v1_8_6_287/String/is_binary_data%3F
-    return false if ent.is_binary_data?
+    return false if Redmine::Scm::Adapters::ScmData.binary?(ent)
     true
   end
   private :is_entry_text_data?
@@ -211,14 +183,17 @@ class RepositoriesController < ApplicationController
 
     @annotate = @repository.scm.annotate(@path, @rev)
     if @annotate.nil? || @annotate.empty?
-      (render_error l(:error_scm_annotate); return)
-    end
-    ann_buf_size = 0
-    @annotate.lines.each do |buf|
-      ann_buf_size += buf.size
-    end
-    if ann_buf_size > Setting.file_max_size_displayed.to_i.kilobyte
-      (render_error l(:error_scm_annotate_big_text_file); return)
+      @annotate = nil
+      @error_message = l(:error_scm_annotate)
+    else
+      ann_buf_size = 0
+      @annotate.lines.each do |buf|
+        ann_buf_size += buf.size
+      end
+      if ann_buf_size > Setting.file_max_size_displayed.to_i.kilobyte
+        @annotate = nil
+        @error_message = l(:error_scm_annotate_big_text_file)
+      end
     end
     @changeset = @repository.find_changeset_by_name(@rev)
   end
@@ -304,6 +279,18 @@ class RepositoriesController < ApplicationController
   end
 
   private
+
+  def build_new_repository_from_params
+    scm = params[:repository_scm] || (Redmine::Scm::Base.all & Setting.enabled_scm).first
+    unless @repository = Repository.factory(scm)
+      render_404
+      return
+    end
+
+    @repository.project = @project
+    @repository.safe_attributes = params[:repository]
+    @repository
+  end
 
   def find_repository
     @repository = Repository.find(params[:id])

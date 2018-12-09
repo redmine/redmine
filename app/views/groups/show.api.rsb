@@ -12,7 +12,7 @@ api.group do
   end if include_in_api_response?('users') && !@group.builtin?
 
   api.array :memberships do
-    @group.memberships.each do |membership|
+    @group.memberships.preload(:roles, :project).each do |membership|
       api.membership do
         api.id membership.id
         api.project :id => membership.project.id, :name => membership.project.name
@@ -22,7 +22,7 @@ api.group do
               attrs = {:id => member_role.role.id, :name => member_role.role.name}
               attrs.merge!(:inherited => true) if member_role.inherited_from.present?
               api.role attrs
-            end 
+            end
           end
         end
       end if membership.project

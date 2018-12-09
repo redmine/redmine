@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,12 +17,12 @@
 
 require File.expand_path('../../../test_helper', __FILE__)
 
-class SortHelperTest < ActionView::TestCase
+class SortHelperTest < Redmine::HelperTest
   include SortHelper
-  include Redmine::I18n
   include ERB::Util
 
   def setup
+    super
     @session = nil
     @sort_param = nil
   end
@@ -64,8 +64,8 @@ class SortHelperTest < ActionView::TestCase
     sort_init 'attr1', 'desc'
     sort_update({'attr1' => 'table1.attr1', 'attr2' => 'table2.attr2'})
 
-    assert_equal ['table1.attr1 DESC'], sort_clause
-    assert_equal 'attr1:desc', @session['foo_bar_sort']
+    assert_nil sort_clause
+    assert_equal 'invalid_key', @session['foo_bar_sort']
   end
 
   def test_invalid_order_params_sort

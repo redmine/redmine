@@ -129,6 +129,8 @@ sk:
         circular_dependency: "Tento vzťah by vytvoril cyklickú závislosť"
         cant_link_an_issue_with_a_descendant: "Nemožno prepojiť úlohu s niektorou z podúloh"
         earlier_than_minimum_start_date: "nemôže byť skorší ako %{date} z dôvodu nadväznosti na predchádzajúce úlohy"
+        not_a_regexp: "is not a valid regular expression"
+        open_issue_with_closed_parent: "An open issue cannot be attached to a closed parent task"
 
   actionview_instancetag_blank_option: Vyberte
 
@@ -445,7 +447,6 @@ sk:
   label_internal: Interný
   label_last_changes: "posledných %{count} zmien"
   label_change_view_all: Zobraziť všetky zmeny
-  label_personalize_page: Prispôsobiť túto stránku
   label_comment: Komentár
   label_comment_plural: Komentáre
   label_x_comments:
@@ -588,7 +589,6 @@ sk:
   label_age: Vek
   label_change_properties: Zmeniť vlastnosti
   label_general: Všeobecné
-  label_more: Viac
   label_scm: SCM
   label_plugins: Pluginy
   label_ldap_authentication: Autentifikácia LDAP
@@ -703,7 +703,6 @@ sk:
   enumeration_doc_categories: Kategórie dokumentov
   enumeration_activities: Aktivity (sledovanie času)
   error_scm_annotate: "Položka neexistuje, alebo nemôže byť komentovaná."
-  label_planning: Plánovanie
   text_subprojects_destroy_warning: "Jeho podprojekty: %{value} budú tiež vymazané."
   label_and_its_subprojects: "%{value} a jeho podprojekty"
   mail_body_reminder: "Nasledovné úlohy (%{count}), ktoré sú vám priradené, majú byť hotové za %{days} dní:"
@@ -891,7 +890,6 @@ sk:
   error_can_not_remove_role: "Táto rola sa používa a nemôže byť vymazaná."
   error_can_not_delete_tracker: "Tento front obsahuje úlohy a nemôže byť vymazaný."
   field_principal: Objednávateľ
-  label_my_page_block: Blok obsahu
   notice_failed_to_save_members: "Nepodarilo sa uložiť členov: %{errors}."
   text_zoom_out: Oddialiť
   text_zoom_in: Priblížiť
@@ -902,10 +900,8 @@ sk:
   project_module_calendar: Kalendár
   button_edit_associated_wikipage: "Upraviť súvisiacu wikistránku: %{page_title}"
   field_text: Textové pole
-  label_user_mail_option_only_owner: "Len pre veci, ktorých som vlastníkom"
   setting_default_notification_option: Predvolené nastavenie upozornení
   label_user_mail_option_only_my_events: Len pre veci, ktoré sledujem, alebo v ktorých som zapojený
-  label_user_mail_option_only_assigned: "Len pre veci, ktoré mi boli priradené"
   label_user_mail_option_none: "Žiadne udalosti"
   field_member_of_group: "Skupina priradeného používateľa"
   field_assigned_to_role: "Rola priradeného používateľa"
@@ -962,16 +958,12 @@ sk:
   description_project_scope: Rozsah vyhľadávania
   description_filter: Filter
   description_user_mail_notification: Nastavenia upozornení emailom
-  description_date_from: Zadajte počiatočný dátum
   description_message_content: Obsah správy
   description_available_columns: Dostupné stĺpce
-  description_date_range_interval: Zvoľte obdobie zadaním počiatočného a koncového dátumu
   description_issue_category_reassign: Vybrať kategóriu úlohy
   description_search: Vyhľadávanie
   description_notes: Poznámky
-  description_date_range_list: Vyberte zo zoznamu obdobie
   description_choose_project: Projekty
-  description_date_to: Zadajte koncový dátum
   description_query_sort_criteria_attribute: Atribút triedenia
   description_wiki_subpages_reassign: Vybrať novú nadradenú stránku
   description_selected_columns: Vybrané stĺpce
@@ -1198,5 +1190,31 @@ sk:
   label_new_object_tab_enabled: Display the "+" drop-down
   error_no_projects_with_tracker_allowed_for_new_issue: There are no projects with trackers
     for which you can create an issue
+  field_textarea_font: Font used for text areas
+  label_font_default: Default font
+  label_font_monospace: Monospaced font
+  label_font_proportional: Proportional font
+  setting_timespan_format: Time span format
+  label_table_of_contents: Table of contents
+  setting_commit_logs_formatting: Apply text formatting to commit messages
+  setting_mail_handler_enable_regex_delimiters: Enable regular expressions
+  error_move_of_child_not_possible: 'Subtask %{child} could not be moved to the new
+    project: %{errors}'
   error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: Spent time cannot
     be reassigned to an issue that is about to be deleted
+  setting_timelog_required_fields: Required fields for time logs
+  label_attribute_of_object: '%{object_name}''s %{name}'
+  label_user_mail_option_only_assigned: Only for things I watch or I am assigned to
+  label_user_mail_option_only_owner: Only for things I watch or I am the owner of
+  warning_fields_cleared_on_bulk_edit: Changes will result in the automatic deletion
+    of values from one or more fields on the selected objects
+  field_updated_by: Updated by
+  field_last_updated_by: Last updated by
+  field_full_width_layout: Full width layout
+  label_last_notes: Last notes
+  field_digest: Checksum
+  field_default_assigned_to: Default assignee
+  setting_show_custom_fields_on_registration: Show custom fields on registration
+  permission_view_news: View news
+  label_no_preview_alternative_html: No preview available. %{link} the file instead.
+  label_no_preview_download: Download

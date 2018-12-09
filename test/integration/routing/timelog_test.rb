@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -27,7 +27,8 @@ class RoutingTimelogsTest < Redmine::RoutingTest
     should_route 'POST /time_entries' => 'timelog#create'
 
     should_route 'GET /time_entries/22/edit' => 'timelog#edit', :id => '22'
-    should_route 'PUT /time_entries/22' => 'timelog#update', :id => '22'
+    should_route 'PATCH /time_entries/22/edit' => 'timelog#edit', :id => '22'
+    should_route 'PATCH /time_entries/22' => 'timelog#update', :id => '22'
     should_route 'DELETE /time_entries/22' => 'timelog#destroy', :id => '22'
   end
 
@@ -40,10 +41,7 @@ class RoutingTimelogsTest < Redmine::RoutingTest
   end
 
   def test_timelogs_scoped_under_issues
-    should_route 'GET /issues/234/time_entries' => 'timelog#index', :issue_id => '234'
-    should_route 'GET /issues/234/time_entries.csv' => 'timelog#index', :issue_id => '234', :format => 'csv'
-    should_route 'GET /issues/234/time_entries.atom' => 'timelog#index', :issue_id => '234', :format => 'atom'
-    should_route 'GET /issues/234/time_entries/new' => 'timelog#new', :issue_id => '234'
+    should_route 'GET  /issues/234/time_entries/new' => 'timelog#new', :issue_id => '234'
     should_route 'POST /issues/234/time_entries' => 'timelog#create', :issue_id => '234'
   end
 
@@ -53,9 +51,6 @@ class RoutingTimelogsTest < Redmine::RoutingTest
 
     should_route 'GET /projects/foo/time_entries/report' => 'timelog#report', :project_id => 'foo'
     should_route 'GET /projects/foo/time_entries/report.csv' => 'timelog#report', :project_id => 'foo', :format => 'csv'
-
-    should_route 'GET /issues/234/time_entries/report' => 'timelog#report', :issue_id => '234'
-    should_route 'GET /issues/234/time_entries/report.csv' => 'timelog#report', :issue_id => '234', :format => 'csv'
   end
 
   def test_timelogs_bulk_edit

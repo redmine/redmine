@@ -234,7 +234,7 @@ module SVG
       #   scales to fix the space.
       attr_accessor :width
       #   Set the path to an external stylesheet, set to '' if
-      #   you want to revert back to using the defaut internal version.
+      #   you want to revert back to using the default internal version.
       #
       #   To create an external stylesheet create a graph using the
       #   default internal version and copy the stylesheet section to

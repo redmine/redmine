@@ -332,21 +332,21 @@
 <table style="width:100%">
 <tr>
   <td style="text-align:left;">
-    <%= link_to_content_update("\xc2\xab " + l(:label_previous),
-                               params.merge(@gantt.params_previous),
+    <%= link_to("\xc2\xab " + l(:label_previous),
+                               {:params => request.query_parameters.merge(@gantt.params_previous)},
                                :accesskey => accesskey(:previous)) %>
   </td>
   <td style="text-align:right;">
-    <%= link_to_content_update(l(:label_next) + " \xc2\xbb",
-                               params.merge(@gantt.params_next),
+    <%= link_to(l(:label_next) + " \xc2\xbb",
+                               {:params => request.query_parameters.merge(@gantt.params_next)},
                                :accesskey => accesskey(:next)) %>
   </td>
 </tr>
 </table>
 
 <% other_formats_links do |f| %>
-  <%= f.link_to 'PDF', :url => params.merge(@gantt.params) %>
-  <%= f.link_to('PNG', :url => params.merge(@gantt.params)) if @gantt.respond_to?('to_image') %>
+  <%= f.link_to_with_query_parameters 'PDF', @gantt.params %>
+  <%= f.link_to_with_query_parameters('PNG', @gantt.params) if @gantt.respond_to?('to_image') %>
 <% end %>
 <% end # query.valid? %>
 

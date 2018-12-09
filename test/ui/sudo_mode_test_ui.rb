@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -22,10 +22,18 @@ class Redmine::UiTest::SudoModeTest < Redmine::UiTest::Base
 
   def setup
     Redmine::SudoMode.stubs(:enabled?).returns(true)
+    super
+  end
+
+  def teardown
+    travel_back
+    super
   end
 
   def test_add_user
     log_user('admin', 'admin')
+    expire_sudo_mode!
+    
     visit '/users/new'
 
     assert_difference 'User.count' do
@@ -49,5 +57,12 @@ class Redmine::UiTest::SudoModeTest < Redmine::UiTest::Base
         click_button 'Submit'
       end
     end
+  end
+
+  private
+
+  # sudo mode is active after sign, let it expire by advancing the time
+  def expire_sudo_mode!
+    travel_to 20.minutes.from_now
   end
 end

@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -168,7 +168,7 @@ module Redmine
             joins("LEFT JOIN #{Project.table_name} child ON #{Project.table_name}.lft <= child.lft AND #{Project.table_name}.rgt >= child.rgt").
             where("child.id IN (?)", ids).
             order("#{Project.table_name}.lft ASC").
-            uniq.
+            distinct.
             to_a
         else
           @projects = []
@@ -314,7 +314,10 @@ module Redmine
       def line_for_issue(issue, options)
         # Skip issues that don't have a due_before (due_date or version's due_date)
         if issue.is_a?(Issue) && issue.due_before
-          label = "#{issue.status.name} #{issue.done_ratio}%"
+          label = issue.status.name.dup
+          unless issue.disabled_core_fields.include?('done_ratio')
+            label << " #{issue.done_ratio}%"
+          end
           markers = !issue.leaf?
           line(issue.start_date, issue.due_before, issue.done_ratio, markers, label, options, issue)
         end

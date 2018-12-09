@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -16,11 +16,12 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class Tracker < ActiveRecord::Base
+  include Redmine::SafeAttributes
 
-  CORE_FIELDS_UNDISABLABLE = %w(project_id tracker_id subject description priority_id is_private).freeze
+  CORE_FIELDS_UNDISABLABLE = %w(project_id tracker_id subject priority_id is_private).freeze
   # Fields that can be disabled
   # Other (future) fields should be appended, not inserted!
-  CORE_FIELDS = %w(assigned_to_id category_id fixed_version_id parent_issue_id start_date due_date estimated_hours done_ratio).freeze
+  CORE_FIELDS = %w(assigned_to_id category_id fixed_version_id parent_issue_id start_date due_date estimated_hours done_ratio description).freeze
   CORE_FIELDS_ALL = (CORE_FIELDS_UNDISABLABLE + CORE_FIELDS).freeze
 
   before_destroy :check_integrity
@@ -28,10 +29,10 @@ class Tracker < ActiveRecord::Base
   has_many :issues
   has_many :workflow_rules, :dependent => :delete_all do
     def copy(source_tracker)
-      WorkflowRule.copy(source_tracker, nil, proxy_association.owner, nil)
+      ActiveSupport::Deprecation.warn "tracker.workflow_rules.copy is deprecated and will be removed in Redmine 4.0, use tracker.copy_worflow_rules instead"
+      proxy_association.owner.copy_workflow_rules(source_tracker)
     end
   end
-
   has_and_belongs_to_many :projects
   has_and_belongs_to_many :custom_fields, :class_name => 'IssueCustomField', :join_table => "#{table_name_prefix}custom_fields_trackers#{table_name_suffix}", :association_foreign_key => 'custom_field_id'
   acts_as_positioned
@@ -66,8 +67,16 @@ class Tracker < ActiveRecord::Base
         end
       end
     end
-    joins(:projects).where(condition).uniq
+    joins(:projects).where(condition).distinct
   }
+
+  safe_attributes 'name',
+    'default_status_id',
+    'is_in_roadmap',
+    'core_fields',
+    'position',
+    'custom_field_ids',
+    'project_ids'
 
   def to_s; name end
 
@@ -85,7 +94,7 @@ class Tracker < ActiveRecord::Base
     if new_record?
       []
     else
-      @issue_status_ids ||= WorkflowTransition.where(:tracker_id => id).uniq.pluck(:old_status_id, :new_status_id).flatten.uniq
+      @issue_status_ids ||= WorkflowTransition.where(:tracker_id => id).distinct.pluck(:old_status_id, :new_status_id).flatten.uniq
     end
   end
 
@@ -110,6 +119,10 @@ class Tracker < ActiveRecord::Base
     self.fields_bits = bits
     @disabled_core_fields = nil
     core_fields
+  end
+
+  def copy_workflow_rules(source_tracker)
+    WorkflowRule.copy(source_tracker, nil, self, nil)
   end
 
   # Returns the fields that are disabled for all the given trackers

@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -106,13 +106,10 @@ class TimeEntryActivityTest < ActiveSupport::TestCase
   def test_destroying_a_system_activity_should_reassign_children_activities
     project = Project.generate!
     entries = []
-
     system_activity = TimeEntryActivity.create!(:name => 'Activity')
     entries << TimeEntry.generate!(:project => project, :activity => system_activity)
-    
     project_activity = TimeEntryActivity.create!(:name => 'Activity', :project => project, :parent_id => system_activity.id)
     entries << TimeEntry.generate!(:project => project.reload, :activity => project_activity)
-
     assert_difference 'TimeEntryActivity.count', -2 do
       assert_nothing_raised do
         assert system_activity.destroy(TimeEntryActivity.find_by_name('Development'))

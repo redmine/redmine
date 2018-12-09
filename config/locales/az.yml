@@ -197,6 +197,8 @@ az:
         circular_dependency: "Belə əlaqə dövri asılılığa gətirib çıxaracaq"
         cant_link_an_issue_with_a_descendant: "Tapşırıq özünün alt tapşırığı ilə əlaqəli ola bilməz"
         earlier_than_minimum_start_date: "cannot be earlier than %{date} because of preceding issues"
+        not_a_regexp: "is not a valid regular expression"
+        open_issue_with_closed_parent: "An open issue cannot be attached to a closed parent task"
 
   support:
     array:
@@ -563,10 +565,8 @@ az:
   label_months_from: ay
   label_month: Ay
   label_more_than_ago: gündən əvvəl
-  label_more: Çox
   label_my_account: Mənim hesabım
   label_my_page: Mənim səhifəm
-  label_my_page_block: Mənim səhifəmin bloku
   label_my_projects: Mənim layihələrim
   label_new: Yeni
   label_new_statuses_allowed: İcazə verilən yeni statuslar
@@ -594,8 +594,6 @@ az:
   label_password_lost: Parolun bərpası
   label_permissions_report: Giriş hüquqları üzrə hesabat 
   label_permissions: Giriş hüquqları
-  label_personalize_page: bu səhifəni fərdiləşdirmək
-  label_planning: Planlaşdırma
   label_please_login: Xahiş edirik, daxil olun.
   label_plugins: Modullar
   label_precedes: növbəti
@@ -684,9 +682,7 @@ az:
   label_user_mail_no_self_notified: "Tərəfimdən edilən dəyişikliklər haqqında məni xəbərdar etməmək"
   label_user_mail_option_all: "Mənim layihələrimdəki bütün hadisələr haqqında"
   label_user_mail_option_selected: "Yalnız seçilən layihədəki bütün hadisələr haqqında..."
-  label_user_mail_option_only_owner: Yalnız sahibi olduğum obyektlər üçün
   label_user_mail_option_only_my_events: Yalnız izlədiyim və ya iştirak etdiyim obyektlər üçün
-  label_user_mail_option_only_assigned: Yalnız mənə təyin edilən obyektlər üçün
   label_user_new: Yeni istifadəçi
   label_user_plural: İstifadəçilər
   label_version: Variant
@@ -1066,16 +1062,12 @@ az:
   description_project_scope: Layihənin həcmi
   description_filter: Filtr
   description_user_mail_notification: E-poçt Mail xəbərdarlıqlarının sazlaması
-  description_date_from: Başlama tarixini daxil edin
   description_message_content: Mesajın kontenti
   description_available_columns: Mövcud sütunlar
-  description_date_range_interval: Tarixlər diapazonunu seçin
   description_issue_category_reassign: Məsələnin kateqoriyasını seçin
   description_search: Axtarış sahəsi
   description_notes: Qeyd
-  description_date_range_list: Siyahıdan diapazonu seçin
   description_choose_project: Layihələr
-  description_date_to: Yerinə yetirilmə tarixini daxil edin
   description_query_sort_criteria_attribute: Çeşidləmə meyarları
   description_wiki_subpages_reassign: Yeni valideyn səhifəsini seçmək
   description_selected_columns: Seçilmiş sütunlar
@@ -1303,5 +1295,31 @@ az:
   label_new_object_tab_enabled: Display the "+" drop-down
   error_no_projects_with_tracker_allowed_for_new_issue: There are no projects with trackers
     for which you can create an issue
+  field_textarea_font: Font used for text areas
+  label_font_default: Default font
+  label_font_monospace: Monospaced font
+  label_font_proportional: Proportional font
+  setting_timespan_format: Time span format
+  label_table_of_contents: Table of contents
+  setting_commit_logs_formatting: Apply text formatting to commit messages
+  setting_mail_handler_enable_regex_delimiters: Enable regular expressions
+  error_move_of_child_not_possible: 'Subtask %{child} could not be moved to the new
+    project: %{errors}'
   error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: Spent time cannot
     be reassigned to an issue that is about to be deleted
+  setting_timelog_required_fields: Required fields for time logs
+  label_attribute_of_object: '%{object_name}''s %{name}'
+  label_user_mail_option_only_assigned: Only for things I watch or I am assigned to
+  label_user_mail_option_only_owner: Only for things I watch or I am the owner of
+  warning_fields_cleared_on_bulk_edit: Changes will result in the automatic deletion
+    of values from one or more fields on the selected objects
+  field_updated_by: Updated by
+  field_last_updated_by: Last updated by
+  field_full_width_layout: Full width layout
+  label_last_notes: Last notes
+  field_digest: Checksum
+  field_default_assigned_to: Default assignee
+  setting_show_custom_fields_on_registration: Show custom fields on registration
+  permission_view_news: View news
+  label_no_preview_alternative_html: No preview available. %{link} the file instead.
+  label_no_preview_download: Download

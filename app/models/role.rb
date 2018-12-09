@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -16,6 +16,8 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class Role < ActiveRecord::Base
+  include Redmine::SafeAttributes
+
   # Custom coder for the permissions attribute that should be an
   # array of symbols. Rails 3 uses Psych which can be *unbelievably*
   # slow on some platforms (eg. mingw32).
@@ -59,7 +61,8 @@ class Role < ActiveRecord::Base
   before_destroy :check_deletable
   has_many :workflow_rules, :dependent => :delete_all do
     def copy(source_role)
-      WorkflowRule.copy(nil, source_role, nil, proxy_association.owner)
+      ActiveSupport::Deprecation.warn "role.workflow_rules.copy is deprecated and will be removed in Redmine 4.0, use role.copy_worflow_rules instead"
+      proxy_association.owner.copy_workflow_rules(source_role)
     end
   end
   has_and_belongs_to_many :custom_fields, :join_table => "#{table_name_prefix}custom_fields_roles#{table_name_suffix}", :foreign_key => "role_id"
@@ -89,12 +92,25 @@ class Role < ActiveRecord::Base
     :in => TIME_ENTRIES_VISIBILITY_OPTIONS.collect(&:first),
     :if => lambda {|role| role.respond_to?(:time_entries_visibility) && role.time_entries_visibility_changed?}
 
+  safe_attributes 'name',
+      'assignable',
+      'position',
+      'issues_visibility',
+      'users_visibility',
+      'time_entries_visibility',
+      'all_roles_managed',
+      'managed_role_ids',
+      'permissions',
+      'permissions_all_trackers',
+      'permissions_tracker_ids'
+
   # Copies attributes from another role, arg can be an id or a Role
   def copy_from(arg, options={})
     return unless arg.present?
     role = arg.is_a?(Role) ? arg : Role.find_by_id(arg.to_s)
     self.attributes = role.attributes.dup.except("id", "name", "position", "builtin", "permissions")
     self.permissions = role.permissions.dup
+    self.managed_role_ids = role.managed_role_ids.dup
     self
   end
 
@@ -204,7 +220,7 @@ class Role < ActiveRecord::Base
   end
 
   # Returns true if tracker_id belongs to the list of
-  # trackers for which permission is given 
+  # trackers for which permission is given
   def permissions_tracker_ids?(permission, tracker_id)
     permissions_tracker_ids(permission).include?(tracker_id)
   end
@@ -244,6 +260,10 @@ class Role < ActiveRecord::Base
     self.permissions_tracker_ids = permissions_tracker_ids.merge(h)
 
     self
+  end
+
+  def copy_workflow_rules(source_role)
+    WorkflowRule.copy(nil, source_role, nil, self)
   end
 
   # Find all the roles that can be given to a project member

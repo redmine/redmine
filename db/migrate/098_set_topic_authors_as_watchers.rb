@@ -10,6 +10,6 @@ class SetTopicAuthorsAsWatchers < ActiveRecord::Migration
 
   def self.down
     # Removes all message watchers
-    Watcher.delete_all("watchable_type = 'Message'")
+    Watcher.where("watchable_type = 'Message'").delete_all
   end
 end

@@ -144,6 +144,8 @@ tr:
         circular_dependency: "Bu ilişki döngüsel bağımlılık meydana getirecektir"
         cant_link_an_issue_with_a_descendant: "Bir iş, alt işlerinden birine bağlanamaz"
         earlier_than_minimum_start_date: "cannot be earlier than %{date} because of preceding issues"
+        not_a_regexp: "is not a valid regular expression"
+        open_issue_with_closed_parent: "An open issue cannot be attached to a closed parent task"
       models:
 
   actionview_instancetag_blank_option: Lütfen Seçin
@@ -157,7 +159,7 @@ tr:
   general_csv_encoding: ISO-8859-9
   general_pdf_fontname: freesans
   general_pdf_monospaced_fontname: freemono
-  general_first_day_of_week: '7'
+  general_first_day_of_week: '1'
 
   notice_account_updated: Hesap başarıyla güncelleştirildi.
   notice_account_invalid_credentials: Geçersiz kullanıcı ya da parola
@@ -460,7 +462,6 @@ tr:
   label_internal: Dahili
   label_last_changes: "Son %{count} değişiklik"
   label_change_view_all: Tüm Değişiklikleri göster
-  label_personalize_page: Bu sayfayı kişiselleştir
   label_comment: Yorum
   label_comment_plural: Yorumlar
   label_x_comments:
@@ -603,7 +604,6 @@ tr:
   label_age: Yaş
   label_change_properties: Özellikleri değiştir
   label_general: Genel
-  label_more: Daha fazla
   label_scm: KY
   label_plugins: Eklentiler
   label_ldap_authentication: LDAP Denetimi
@@ -613,7 +613,6 @@ tr:
   label_preferences: Tercihler
   label_chronological_order: Tarih sırasına göre
   label_reverse_chronological_order: Ters tarih sırasına göre
-  label_planning: Planlanıyor
 
   button_login: Giriş
   button_submit: Gönder
@@ -907,7 +906,6 @@ tr:
   error_can_not_remove_role: Bu rol kullanımda olduğundan silinemez.
   error_can_not_delete_tracker: Bu iş tipi içerisinde iş barındırdığından silinemiyor.
   field_principal: Temel
-  label_my_page_block: Kişisel sayfa bloğum
   notice_failed_to_save_members: "Üyeler kaydedilemiyor: %{errors}."
   text_zoom_out: Uzaklaş
   text_zoom_in: Yakınlaş
@@ -918,10 +916,8 @@ tr:
   project_module_calendar: Takvim
   button_edit_associated_wikipage: "İlişkilendirilmiş Wiki sayfasını düzenle: %{page_title}"
   field_text: Metin alanı
-  label_user_mail_option_only_owner: Sadece sahibi olduğum şeyler için
   setting_default_notification_option: Varsayılan bildirim seçeneği
   label_user_mail_option_only_my_events: Sadece takip ettiğim ya da içinde olduğum şeyler için
-  label_user_mail_option_only_assigned: Sadece bana atanan şeyler için
   label_user_mail_option_none: Hiç bir şey için
   field_member_of_group: Atananın grubu
   field_assigned_to_role: Atananın rolü
@@ -979,16 +975,12 @@ tr:
   description_project_scope: Arama kapsamı
   description_filter: Süzgeç
   description_user_mail_notification: E-posta bildirim ayarları
-  description_date_from: Başlangıç tarihini gir
   description_message_content: Mesaj içeriği
   description_available_columns: Kullanılabilir Sütunlar
-  description_date_range_interval: Başlangıç ve bitiş tarihini seçerek tarih aralığını belirleyin
   description_issue_category_reassign: İş kategorisini seçin
   description_search: Arama alanı
   description_notes: Notlar
-  description_date_range_list: Listeden tarih aralığını seçin
   description_choose_project: Projeler
-  description_date_to: Bitiş tarihini gir
   description_query_sort_criteria_attribute: Sıralama ölçütü
   description_wiki_subpages_reassign: Yeni üst sayfa seç
   description_selected_columns: Seçilmiş Sütunlar
@@ -1216,5 +1208,31 @@ tr:
   label_new_object_tab_enabled: Display the "+" drop-down
   error_no_projects_with_tracker_allowed_for_new_issue: There are no projects with trackers
     for which you can create an issue
+  field_textarea_font: Font used for text areas
+  label_font_default: Default font
+  label_font_monospace: Monospaced font
+  label_font_proportional: Proportional font
+  setting_timespan_format: Time span format
+  label_table_of_contents: Table of contents
+  setting_commit_logs_formatting: Apply text formatting to commit messages
+  setting_mail_handler_enable_regex_delimiters: Enable regular expressions
+  error_move_of_child_not_possible: 'Subtask %{child} could not be moved to the new
+    project: %{errors}'
   error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: Spent time cannot
     be reassigned to an issue that is about to be deleted
+  setting_timelog_required_fields: Required fields for time logs
+  label_attribute_of_object: '%{object_name}''s %{name}'
+  label_user_mail_option_only_assigned: Only for things I watch or I am assigned to
+  label_user_mail_option_only_owner: Only for things I watch or I am the owner of
+  warning_fields_cleared_on_bulk_edit: Changes will result in the automatic deletion
+    of values from one or more fields on the selected objects
+  field_updated_by: Updated by
+  field_last_updated_by: Last updated by
+  field_full_width_layout: Full width layout
+  label_last_notes: Last notes
+  field_digest: Checksum
+  field_default_assigned_to: Default assignee
+  setting_show_custom_fields_on_registration: Show custom fields on registration
+  permission_view_news: View news
+  label_no_preview_alternative_html: No preview available. %{link} the file instead.
+  label_no_preview_download: Download

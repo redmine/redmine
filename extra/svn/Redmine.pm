@@ -58,7 +58,7 @@ Authen::Simple::LDAP (and IO::Socket::SSL if LDAPS is used):
      RedmineDbUser "redmine"
      RedmineDbPass "password"
      ## Optional where clause (fulltext search would be slow and
-     ## database dependant).
+     ## database dependent).
      # RedmineDbWhereClause "and members.role_id IN (1,2)"
      ## Optional credentials cache size
      # RedmineCacheCredsMax 50
@@ -84,7 +84,7 @@ and you will have to use this reposman.rb command line to create repository :
 
 =head1 REPOSITORIES NAMING
 
-A projet repository must be named with the projet identifier. In case
+A project repository must be named with the project identifier. In case
 of multiple repositories for the same project, use the project identifier
 and the repository identifier separated with a dot:
 

@@ -1,7 +1,7 @@
 # encoding: utf-8
 #
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -116,28 +116,11 @@ module Redmine
     #
     def paginate(scope, options={})
       options = options.dup
-      finder_options = options.extract!(
-        :conditions,
-        :order,
-        :joins,
-        :include,
-        :select
-      )
-      if scope.is_a?(Symbol) || finder_options.values.compact.any?
-        return deprecated_paginate(scope, finder_options, options)
-      end
 
       paginator = paginator(scope.count, options)
       collection = scope.limit(paginator.per_page).offset(paginator.offset).to_a
 
       return paginator, collection
-    end
-
-    def deprecated_paginate(arg, finder_options, options={})
-      ActiveSupport::Deprecation.warn "#paginate with a Symbol and/or find options is depreceted and will be removed. Use a scope instead."
-      klass = arg.is_a?(Symbol) ? arg.to_s.classify.constantize : arg
-      scope = klass.scoped(finder_options)
-      paginate(scope, options)
     end
 
     def paginator(item_count, options={})
@@ -162,7 +145,7 @@ module Redmine
           if block_given?
             yield text, parameters, options
           else
-            link_to text, params.merge(parameters), options
+            link_to text, {:params => request.query_parameters.merge(parameters)}, options
           end
         end
       end

@@ -1,0 +1,19 @@
+<h3>
+  <%= l(:label_issue_plural) %>
+</h3>
+
+<div id="<%= block %>-settings">
+  <%= form_tag(my_page_path, :remote => true) do %>
+    <div class="box">
+      <p>
+        <label>
+          <%= l(:label_query) %>
+          <%= select_tag "settings[#{block}][query_id]", content_tag("option") + options_from_collection_for_select(queries, :id, :name, settings[:query_id]) %>
+        </label>
+      </p>
+    </div>
+    <p>
+      <%= submit_tag l(:button_save) %>
+    </p>
+  <% end %>
+</div>

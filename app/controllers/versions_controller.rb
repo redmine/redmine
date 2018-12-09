@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -18,10 +18,10 @@
 class VersionsController < ApplicationController
   menu_item :roadmap
   model_object Version
-  before_filter :find_model_object, :except => [:index, :new, :create, :close_completed]
-  before_filter :find_project_from_association, :except => [:index, :new, :create, :close_completed]
-  before_filter :find_project_by_project_id, :only => [:index, :new, :create, :close_completed]
-  before_filter :authorize
+  before_action :find_model_object, :except => [:index, :new, :create, :close_completed]
+  before_action :find_project_from_association, :except => [:index, :new, :create, :close_completed]
+  before_action :find_project_by_project_id, :only => [:index, :new, :create, :close_completed]
+  before_action :authorize
 
   accept_api_auth :index, :show, :create, :update, :destroy
 
@@ -38,9 +38,9 @@ class VersionsController < ApplicationController
 
         @versions = @project.shared_versions.preload(:custom_values)
         @versions += @project.rolled_up_versions.visible.preload(:custom_values) if @with_subprojects
-        @versions = @versions.uniq.sort
+        @versions = @versions.to_a.uniq.sort
         unless params[:completed]
-          @completed_versions = @versions.select(&:completed?)
+          @completed_versions = @versions.select(&:completed?).reverse
           @versions -= @completed_versions
         end
 
@@ -66,6 +66,7 @@ class VersionsController < ApplicationController
       format.html {
         @issues = @version.fixed_issues.visible.
           includes(:status, :tracker, :priority).
+          preload(:project).
           reorder("#{Tracker.table_name}.position, #{Issue.table_name}.id").
           to_a
       }

@@ -1,3 +1,11 @@
 <%= render :layout => 'layouts/file' do %>
-  <%= render :partial => 'common/other' %>
+  <%= render :partial => 'common/other',
+             :locals => {
+               :download_link => link_to_attachment(
+                                   @attachment,
+                                   :text => l(:label_no_preview_download),
+                                   :download => true,
+                                   :class => 'icon icon-download'
+                                 )
+             } %>
 <% end %>

@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -21,6 +21,7 @@ class AuthSourceException < Exception; end
 class AuthSourceTimeoutException < AuthSourceException; end
 
 class AuthSource < ActiveRecord::Base
+  include Redmine::SafeAttributes
   include Redmine::SubclassFactory
   include Redmine::Ciphering
 
@@ -30,6 +31,21 @@ class AuthSource < ActiveRecord::Base
   validates_uniqueness_of :name
   validates_length_of :name, :maximum => 60
   attr_protected :id
+
+  safe_attributes 'name',
+    'host',
+    'port',
+    'account',
+    'account_password',
+    'base_dn',
+    'attr_login',
+    'attr_firstname',
+    'attr_lastname',
+    'attr_mail',
+    'onthefly_register',
+    'tls',
+    'filter',
+    'timeout'
 
   def authenticate(login, password)
   end

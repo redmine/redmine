@@ -135,6 +135,8 @@ cs:
         circular_dependency: "Tento vztah by vytvořil cyklickou závislost"
         cant_link_an_issue_with_a_descendant: "Úkol nemůže být spojen s jedním z jeho dílčích úkolů"
         earlier_than_minimum_start_date: "nemůže být dříve než %{date} kvůli předřazeným úkolům"
+        not_a_regexp: "není platný regulární výraz"
+        open_issue_with_closed_parent: "Otevřený úkol nemůže být přiřazen pod uzavřený rodičovský úkol"
 
   actionview_instancetag_blank_option: Prosím vyberte
 
@@ -493,7 +495,6 @@ cs:
   label_my_page: Moje stránka
   label_my_account: Můj účet
   label_my_projects: Moje projekty
-  label_my_page_block: Bloky na mé stránce
   label_administration: Administrace
   label_login: Přihlášení
   label_logout: Odhlášení
@@ -581,7 +582,6 @@ cs:
   label_internal: Interní
   label_last_changes: "posledních %{count} změn"
   label_change_view_all: Zobrazit všechny změny
-  label_personalize_page: Přizpůsobit tuto stránku
   label_comment: Komentář
   label_comment_plural: Komentáře
   label_x_comments:
@@ -733,8 +733,6 @@ cs:
   label_user_mail_option_selected: "Pro všechny události vybraných projektů..."
   label_user_mail_option_none: "Žádné události"
   label_user_mail_option_only_my_events: "Jen pro věci, co sleduji nebo jsem v nich zapojen"
-  label_user_mail_option_only_assigned: "Jen pro věci, ke kterým sem přiřazen"
-  label_user_mail_option_only_owner: "Jen pro věci, které vlastním"
   label_user_mail_no_self_notified: "Nezasílat informace o mnou vytvořených změnách"
   label_registration_activation_by_email: aktivace účtu emailem
   label_registration_manual_activation: manuální aktivace účtu
@@ -743,7 +741,6 @@ cs:
   label_age: Věk
   label_change_properties: Změnit vlastnosti
   label_general: Obecné
-  label_more: Více
   label_scm: SCM
   label_plugins: Doplňky
   label_ldap_authentication: Autentifikace LDAP
@@ -753,7 +750,6 @@ cs:
   label_preferences: Nastavení
   label_chronological_order: V chronologickém pořadí
   label_reverse_chronological_order: V obrácaném chronologickém pořadí
-  label_planning: Plánování
   label_incoming_emails: Příchozí e-maily
   label_generate_key: Generovat klíč
   label_issue_watchers: Sledování
@@ -974,16 +970,12 @@ cs:
   description_project_scope: Rozsah vyhledávání
   description_filter: Filtr
   description_user_mail_notification: Nastavení emailových notifikací
-  description_date_from: Zadejte počáteční datum
   description_message_content: Obsah zprávy
   description_available_columns: Dostupné sloupce
-  description_date_range_interval: Zvolte rozsah výběrem počátečního a koncového data
   description_issue_category_reassign: Zvolte kategorii úkolu
   description_search: Vyhledávací pole
   description_notes: Poznámky
-  description_date_range_list: Zvolte rozsah ze seznamu
   description_choose_project: Projekty
-  description_date_to: Zadejte datum
   description_query_sort_criteria_attribute: Třídící atribut
   description_wiki_subpages_reassign: Zvolte novou rodičovskou stránku
   description_selected_columns: Vybraný sloupec
@@ -1207,5 +1199,31 @@ cs:
   setting_new_item_menu_tab: Záložka v menu projektu pro vytváření nových objektů
   label_new_object_tab_enabled: Zobrazit rozbalovací menu "+"
   error_no_projects_with_tracker_allowed_for_new_issue: Neexistují projekty s frontou, pro kterou lze vytvořit úkol
+  field_textarea_font: Písmo použité pro textová pole
+  label_font_default: Výchozí písmo
+  label_font_monospace: Neproporcionální písmo
+  label_font_proportional: Proporciální písmo
+  setting_timespan_format: Formát časového intervalu
+  label_table_of_contents: Obsah
+  setting_commit_logs_formatting: Použij textové formátování pro popisky comitů
+  setting_mail_handler_enable_regex_delimiters: Povol regulární výrazy
+  error_move_of_child_not_possible: 'Dílčí úkol %{child} nemůže být přesunut do nového
+    projektu: %{errors}'
   error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: Strávený čas nemůže
     být přiřazen k úkolu, který se bude mazat
+  setting_timelog_required_fields: Požadovaná pole pro zapisování času
+  label_attribute_of_object: "%{object_name} %{name}"
+  label_user_mail_option_only_assigned: Pouze pro věci, které sleduji nebo jsem na ně přiřazený
+  label_user_mail_option_only_owner: Pouze pro věci, které sleduji nebo jsem jejich vlastníkem
+  warning_fields_cleared_on_bulk_edit: Změny způsobí automatické smazání
+   hodnot z jednoho nebo více polí vybraných objektů
+  field_updated_by: Aktualizoval
+  field_last_updated_by: Naposledy změnil
+  field_full_width_layout: Celá šířka schematu
+  label_last_notes: Poslední poznámky
+  field_digest: Kontrolní součet
+  field_default_assigned_to: Výchozí přiřazený uživatel
+  setting_show_custom_fields_on_registration: Zobraz uživatelská pole při registraci
+  permission_view_news: Zobraz novinky
+  label_no_preview_alternative_html: "Náhled není k dispozici. Soubor: %{link}."
+  label_no_preview_download: Stažení

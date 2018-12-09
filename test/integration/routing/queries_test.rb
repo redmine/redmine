@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -21,6 +21,7 @@ class RoutingQueriesTest < Redmine::RoutingTest
   def test_queries
     should_route 'GET /queries/new' => 'queries#new'
     should_route 'POST /queries' => 'queries#create'
+    should_route 'GET /queries/filter' => 'queries#filter'
 
     should_route 'GET /queries/1/edit' => 'queries#edit', :id => '1'
     should_route 'PUT /queries/1' => 'queries#update', :id => '1'

@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,7 +17,7 @@
 
 require File.expand_path('../../test_helper', __FILE__)
 
-class IssueRelationsControllerTest < ActionController::TestCase
+class IssueRelationsControllerTest < Redmine::ControllerTest
   fixtures :projects,
            :users,
            :roles,
@@ -38,8 +38,14 @@ class IssueRelationsControllerTest < ActionController::TestCase
 
   def test_create
     assert_difference 'IssueRelation.count' do
-      post :create, :issue_id => 1,
-                 :relation => {:issue_to_id => '2', :relation_type => 'relates', :delay => ''}
+      post :create, :params => {
+          :issue_id => 1,
+          :relation => {
+            :issue_to_id => '2',
+            :relation_type => 'relates',
+            :delay => ''
+          }
+        }
     end
     relation = IssueRelation.order('id DESC').first
     assert_equal 1, relation.issue_from_id
@@ -49,30 +55,49 @@ class IssueRelationsControllerTest < ActionController::TestCase
 
   def test_create_on_invalid_issue
     assert_no_difference 'IssueRelation.count' do
-      post :create, :issue_id => 999,
-        :relation => {:issue_to_id => '2', :relation_type => 'relates', :delay => ''}
+      post :create, :params => {
+          :issue_id => 999,
+          :relation => {
+            :issue_to_id => '2',
+            :relation_type => 'relates',
+            :delay => ''
+          }
+        }
       assert_response 404
     end
   end
 
   def test_create_xhr
     assert_difference 'IssueRelation.count' do
-      xhr :post, :create, :issue_id => 3, :relation => {:issue_to_id => '1', :relation_type => 'relates', :delay => ''}
+      post :create, :params => {
+          :issue_id => 3,
+          :relation => {
+            :issue_to_id => '1',
+            :relation_type => 'relates',
+            :delay => ''
+          }
+        },
+        :xhr => true
       assert_response :success
-      assert_template 'create'
       assert_equal 'text/javascript', response.content_type
     end
     relation = IssueRelation.order('id DESC').first
     assert_equal 1, relation.issue_from_id
     assert_equal 3, relation.issue_to_id
 
-    assert_match /Bug #1/, response.body
+    assert_include 'Bug #1', response.body
   end
 
   def test_create_should_accept_id_with_hash
     assert_difference 'IssueRelation.count' do
-      post :create, :issue_id => 1,
-                 :relation => {:issue_to_id => '#2', :relation_type => 'relates', :delay => ''}
+      post :create, :params => {
+          :issue_id => 1,
+          :relation => {
+            :issue_to_id => '#2',
+            :relation_type => 'relates',
+            :delay => ''
+          }
+        }
     end
     relation = IssueRelation.order('id DESC').first
     assert_equal 2, relation.issue_to_id
@@ -80,8 +105,14 @@ class IssueRelationsControllerTest < ActionController::TestCase
 
   def test_create_should_strip_id
     assert_difference 'IssueRelation.count' do
-      post :create, :issue_id => 1,
-                 :relation => {:issue_to_id => ' 2  ', :relation_type => 'relates', :delay => ''}
+      post :create, :params => {
+          :issue_id => 1,
+          :relation => {
+            :issue_to_id => ' 2  ',
+            :relation_type => 'relates',
+            :delay => ''
+          }
+        }
     end
     relation = IssueRelation.order('id DESC').first
     assert_equal 2, relation.issue_to_id
@@ -90,8 +121,14 @@ class IssueRelationsControllerTest < ActionController::TestCase
   def test_create_should_not_break_with_non_numerical_id
     assert_no_difference 'IssueRelation.count' do
       assert_nothing_raised do
-        post :create, :issue_id => 1,
-                   :relation => {:issue_to_id => 'foo', :relation_type => 'relates', :delay => ''}
+        post :create, :params => {
+            :issue_id => 1,
+            :relation => {
+              :issue_to_id => 'foo',
+              :relation_type => 'relates',
+              :delay => ''
+            }
+          }
       end
     end
   end
@@ -101,10 +138,17 @@ class IssueRelationsControllerTest < ActionController::TestCase
     issue2 = Issue.generate!
 
     assert_difference 'IssueRelation.count' do
-      xhr :post, :create, :issue_id => issue2.id,
-                 :relation => {:issue_to_id => issue1.id, :relation_type => 'follows', :delay => ''}
+      post :create, :params => {
+          :issue_id => issue2.id,
+          :relation => {
+            :issue_to_id => issue1.id,
+            :relation_type => 'follows',
+            :delay => ''
+          }
+        },
+        :xhr => true
     end
-    assert_match /Followed issue/, response.body
+    assert_include 'Followed issue', response.body
   end
 
   def test_should_create_relations_with_visible_issues_only
@@ -112,32 +156,48 @@ class IssueRelationsControllerTest < ActionController::TestCase
     assert_nil Issue.visible(User.find(3)).find_by_id(4)
 
     assert_no_difference 'IssueRelation.count' do
-      post :create, :issue_id => 1,
-                 :relation => {:issue_to_id => '4', :relation_type => 'relates', :delay => ''}
+      post :create, :params => {
+          :issue_id => 1,
+          :relation => {
+            :issue_to_id => '4',
+            :relation_type => 'relates',
+            :delay => ''
+          }
+        }
     end
   end
 
   def test_create_xhr_with_failure
     assert_no_difference 'IssueRelation.count' do
-      xhr :post, :create, :issue_id => 3, :relation => {:issue_to_id => '999', :relation_type => 'relates', :delay => ''}
+      post :create, :params => {
+          :issue_id => 3,
+          :relation => {
+            :issue_to_id => '999',
+            :relation_type => 'relates',
+            :delay => ''
+          }
+        },
+        :xhr => true
 
       assert_response :success
-      assert_template 'create'
       assert_equal 'text/javascript', response.content_type
     end
-
-    assert_match /errorExplanation/, response.body
+    assert_include 'Related issue cannot be blank', response.body
   end
 
   def test_destroy
     assert_difference 'IssueRelation.count', -1 do
-      delete :destroy, :id => '2'
+      delete :destroy, :params => {
+          :id => '2'
+        }
     end
   end
 
   def test_destroy_invalid_relation
     assert_no_difference 'IssueRelation.count' do
-      delete :destroy, :id => '999'
+      delete :destroy, :params => {
+          :id => '999'
+        }
       assert_response 404
     end
   end
@@ -149,12 +209,14 @@ class IssueRelationsControllerTest < ActionController::TestCase
     end
 
     assert_difference 'IssueRelation.count', -1 do
-      xhr :delete, :destroy, :id => '2'
+      delete :destroy, :params => {
+          :id => '2'
+        },
+        :xhr => true
 
       assert_response :success
-      assert_template 'destroy'
       assert_equal 'text/javascript', response.content_type
-      assert_match /relation-2/, response.body
+      assert_include 'relation-2', response.body
     end
   end
 end

@@ -9,6 +9,6 @@
 <%= link_to_function l(:button_cancel), '$("#new-relation-form").hide();'%>
 </p>
 
-<%= javascript_tag "observeAutocompleteField('relation_issue_to_id', '#{escape_javascript auto_complete_issues_path(:project_id => @project, :scope => (Setting.cross_project_issue_relations? ? 'all' : nil))}')" %>
+<%= javascript_tag "observeAutocompleteField('relation_issue_to_id', '#{escape_javascript auto_complete_issues_path(:project_id => @project, :scope => (Setting.cross_project_issue_relations? ? 'all' : nil), :issue_id => @issue.id)}')" %>
 
 <%= javascript_tag "setPredecessorFieldsVisibility();" %>

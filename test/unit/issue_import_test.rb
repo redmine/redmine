@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -115,6 +115,19 @@ class IssueImportTest < ActiveSupport::TestCase
     assert_equal 2, issues[2].parent_id
   end
 
+  def test_backward_and_forward_reference_to_parent_should_work
+    import = generate_import('import_subtasks.csv')
+    import.settings = {
+      'separator' => ";", 'wrapper' => '"', 'encoding' => "UTF-8",
+      'mapping' => {'project_id' => '1', 'tracker' => '1', 'subject' => '2', 'parent_issue_id' => '3'}
+    }
+    import.save!
+
+    root, child1, grandchild, child2 = new_records(Issue, 4) { import.run }
+    assert_equal root, child1.parent
+    assert_equal child2, grandchild.parent
+  end
+
   def test_assignee_should_be_set
     import = generate_import_with_mapping
     import.mapping.merge!('assigned_to' => '11')
@@ -174,5 +187,17 @@ class IssueImportTest < ActiveSupport::TestCase
 
     import.run
     assert !File.exists?(file_path)
+  end
+
+  def test_run_should_consider_project_shared_versions
+    system_version = Version.generate!(:project_id => 2, :sharing => 'system', :name => '2.1')
+    system_version.save!
+
+    import = generate_import_with_mapping
+    import.mapping.merge!('fixed_version' => '9')
+    import.save!
+
+    issues = new_records(Issue, 3) { import.run }
+    assert [nil, 3, system_version.id], issues.map(&:fixed_version_id)
   end
 end

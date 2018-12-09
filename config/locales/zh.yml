@@ -134,6 +134,8 @@ zh:
         circular_dependency: "此关联将导致循环依赖"
         cant_link_an_issue_with_a_descendant: "问题不能关联到它的子任务"
         earlier_than_minimum_start_date: "不能早于 %{date} 由于有前置问题"
+        not_a_regexp: "不是一个合法的正则表达式"
+        open_issue_with_closed_parent: "无法将一个打开的问题关联至一个被关闭的父任务"
 
   actionview_instancetag_blank_option: 请选择
 
@@ -492,7 +494,6 @@ zh:
   label_my_page: 我的工作台
   label_my_account: 我的帐号
   label_my_projects: 我的项目
-  label_my_page_block: 我的工作台模块
   label_administration: 管理
   label_login: 登录
   label_logout: 退出
@@ -580,7 +581,6 @@ zh:
   label_internal: 内部
   label_last_changes: "最近的 %{count} 次变更"
   label_change_view_all: 查看所有变更
-  label_personalize_page: 个性化定制本页
   label_comment: 评论
   label_comment_plural: 评论
   label_x_comments:
@@ -732,8 +732,6 @@ zh:
   label_user_mail_option_selected: "收取选中项目的所有通知..."
   label_user_mail_option_none: "不收取任何通知"
   label_user_mail_option_only_my_events: "只收取我跟踪或参与的项目的通知"
-  label_user_mail_option_only_assigned: "只收取指派给我的"
-  label_user_mail_option_only_owner: 只收取由我创建的
   label_user_mail_no_self_notified: "不要发送对我自己提交的修改的通知"
   label_registration_activation_by_email: 通过邮件认证激活帐号
   label_registration_manual_activation: 手动激活帐号
@@ -742,7 +740,6 @@ zh:
   label_age: 提交时间
   label_change_properties: 修改属性
   label_general: 一般
-  label_more: 更多
   label_scm: SCM
   label_plugins: 插件
   label_ldap_authentication: LDAP 认证
@@ -752,7 +749,6 @@ zh:
   label_preferences: 首选项
   label_chronological_order: 按时间顺序
   label_reverse_chronological_order: 按时间顺序（倒序）
-  label_planning: 计划
   label_incoming_emails: 接收邮件
   label_generate_key: 生成一个key
   label_issue_watchers: 跟踪者
@@ -974,16 +970,12 @@ zh:
   description_project_scope: 搜索范围
   description_filter: 过滤器
   description_user_mail_notification: 邮件通知设置
-  description_date_from: 输入开始日期
   description_message_content: 信息内容
   description_available_columns: 备选列
-  description_date_range_interval: 按开始日期和结束日期选择范围
   description_issue_category_reassign: 选择问题类别
   description_search: 搜索字段
   description_notes: 批注
-  description_date_range_list: 从列表中选择范围
   description_choose_project: 项目
-  description_date_to: 输入结束日期
   description_query_sort_criteria_attribute: 排序方式
   description_wiki_subpages_reassign: 选择父页面
   description_selected_columns: 已选列
@@ -1200,4 +1192,28 @@ zh:
   setting_new_item_menu_tab: 建立新对象条目的项目菜单栏目
   label_new_object_tab_enabled: 显示 "+" 为下拉列表
   error_no_projects_with_tracker_allowed_for_new_issue: 当前项目中不包含对应的跟踪类型，不能创建该类型的工作项。
+  field_textarea_font: 用于文本区域的字体
+  label_font_default: 默认字体
+  label_font_monospace: 等宽字体
+  label_font_proportional: 比例字体
+  setting_timespan_format: 时间格式设置
+  label_table_of_contents: 目录
+  setting_commit_logs_formatting: 在提交日志消息时，应用文本格式
+  setting_mail_handler_enable_regex_delimiters: 启用正则表达式
+  error_move_of_child_not_possible: '子任务 %{child} 不能移动到新项目：%{errors}'
   error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: 已用耗时不能重新分配到即将被删除的任务里。
+  setting_timelog_required_fields: 工时登记必填字段
+  label_attribute_of_object: '%{object_name} 的 %{name} 属性'
+  label_user_mail_option_only_assigned: 只发送我关注或指派给我的相关信息
+  label_user_mail_option_only_owner: 只发送我关注或我创建的相关信息
+  warning_fields_cleared_on_bulk_edit: 修改将导致所选内容的一个或多个字段值被自动删除。
+  field_updated_by: 更新人
+  field_last_updated_by: 最近更新人
+  field_full_width_layout: 全宽布局
+  label_last_notes: 最近批注
+  field_digest: 校验和
+  field_default_assigned_to: 默认指派给
+  setting_show_custom_fields_on_registration: 注册时显示自定义字段
+  permission_view_news: 查看新闻
+  label_no_preview_alternative_html: 无法预览。请使用文件 %{link} 查阅。
+  label_no_preview_download: 下载

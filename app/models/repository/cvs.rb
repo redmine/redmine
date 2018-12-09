@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -151,7 +151,7 @@ class Repository::Cvs < Repository
           # create a new changeset....
           unless cs
             # we use a temporary revision number here (just for inserting)
-            # later on, we calculate a continous positive number
+            # later on, we calculate a continuous positive number
             tmp_time2 = tmp_time.clone.gmtime
             branch    = revision.paths[0][:branch]
             scmid     = branch + "-" + tmp_time2.strftime("%Y%m%d-%H%M%S")
@@ -163,7 +163,7 @@ class Repository::Cvs < Repository
                                   :comments     => revision.message)
             tmp_rev_num += 1
           end
-          # convert CVS-File-States to internal Action-abbrevations
+          # convert CVS-File-States to internal Action-abbreviations
           # default action is (M)odified
           action = "M"
           if revision.paths[0][:action] == "Exp" && revision.paths[0][:revision] == "1.1"

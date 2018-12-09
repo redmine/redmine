@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -26,6 +26,7 @@ class RoutingMyTest < Redmine::RoutingTest
     should_route 'POST /my/account/destroy' => 'my#destroy'
 
     should_route 'GET /my/page' => 'my#page'
+    should_route 'POST /my/page' => 'my#update_page'
     should_route 'GET /my' => 'my#index'
 
     should_route 'GET /my/api_key' => 'my#show_api_key'
@@ -35,7 +36,6 @@ class RoutingMyTest < Redmine::RoutingTest
     should_route 'GET /my/password' => 'my#password'
     should_route 'POST /my/password' => 'my#password'
 
-    should_route 'GET /my/page_layout' => 'my#page_layout'
     should_route 'POST /my/add_block' => 'my#add_block'
     should_route 'POST /my/remove_block' => 'my#remove_block'
     should_route 'POST /my/order_blocks' => 'my#order_blocks'

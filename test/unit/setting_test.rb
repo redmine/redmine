@@ -1,7 +1,7 @@
 # encoding: utf-8
 #
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -110,7 +110,7 @@ class SettingTest < ActiveSupport::TestCase
 
   def test_setting_serialied_as_binary_should_be_loaded_as_utf8_encoded_strings
     yaml = <<-YAML
---- 
+---
 - keywords: !binary |
     Zml4ZXMsY2xvc2VzLNC40YHQv9GA0LDQstC70LXQvdC+LNCz0L7RgtC+0LLQ
     vizRgdC00LXQu9Cw0L3QvixmaXhlZA==

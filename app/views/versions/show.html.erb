@@ -17,12 +17,14 @@
 <table>
 <tr>
     <th><%= l(:field_estimated_hours) %></th>
-    <td class="total-hours"><%= html_hours(l_hours(@version.estimated_hours)) %></td>
+    <td class="total-hours"><%= link_to html_hours(l_hours(@version.estimated_hours)),
+                                        project_issues_path(@version.project, :set_filter => 1, :status_id => '*', :fixed_version_id => @version.id, :c => [:tracker, :status, :subject, :estimated_hours], :t => [:estimated_hours]) %></td>
 </tr>
 <% if User.current.allowed_to_view_all_time_entries?(@project) %>
 <tr>
     <th><%= l(:label_spent_time) %></th>
-    <td class="total-hours"><%= html_hours(l_hours(@version.spent_hours)) %></td>
+    <td class="total-hours"><%= link_to html_hours(l_hours(@version.spent_hours)),
+                                        project_time_entries_path(@version.project, :set_filter => 1, :"issue.fixed_version_id" => @version.id) %></td>
 </tr>
 <% end %>
 </table>
@@ -30,12 +32,12 @@
 <% end %>
 
 <div id="status_by">
-<%= render_issue_status_by(@version, params[:status_by]) if @version.fixed_issues.count > 0 %>
+<%= render_issue_status_by(@version, params[:status_by]) if @version.fixed_issues.exists? %>
 </div>
 </div>
 
 <% if @issues.present? %>
-<%= form_tag({}) do -%>
+<%= form_tag({}, :data => {:cm_url => issues_context_menu_path}) do -%>
   <table class="list related-issues">
   <caption><%= l(:label_related_issues) %></caption>
   <%- @issues.each do |issue| -%>
@@ -46,7 +48,7 @@
   <% end %>
   </table>
 <% end %>
-<%= context_menu issues_context_menu_path %>
+<%= context_menu %>
 <% end %>
 </div>
 

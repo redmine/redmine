@@ -1,0 +1,3 @@
+<% @updated_blocks.each do |block| %>
+  $("#block-<%= block %>").replaceWith("<%= escape_javascript render_block(block.to_s, @user) %>");
+<% end %>

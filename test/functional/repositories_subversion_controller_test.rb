@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,7 +17,7 @@
 
 require File.expand_path('../../test_helper', __FILE__)
 
-class RepositoriesSubversionControllerTest < ActionController::TestCase
+class RepositoriesSubversionControllerTest < Redmine::ControllerTest
   tests RepositoriesController
 
   fixtures :projects, :users, :email_addresses, :roles, :members, :member_roles, :enabled_modules,
@@ -41,11 +41,14 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
     def test_new
       @request.session[:user_id] = 1
       @project.repository.destroy
-      get :new, :project_id => 'subproject1', :repository_scm => 'Subversion'
+      get :new, :params => {
+          :project_id => 'subproject1',
+          :repository_scm => 'Subversion'
+        }
       assert_response :success
-      assert_template 'new'
-      assert_kind_of Repository::Subversion, assigns(:repository)
-      assert assigns(:repository).new_record?
+      assert_select 'select[name=?]', 'repository_scm' do
+        assert_select 'option[value=?][selected=selected]', 'Subversion'
+      end
     end
 
     def test_show
@@ -53,16 +56,21 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
       @repository.fetch_changesets
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
-      get :show, :id => PRJ_ID
+      get :show, :params => {
+          :id => PRJ_ID
+        }
       assert_response :success
-      assert_template 'show'
-      assert_not_nil assigns(:entries)
-      assert_not_nil assigns(:changesets)
 
-      entry = assigns(:entries).detect {|e| e.name == 'subversion_test'}
-      assert_not_nil entry
-      assert_equal 'dir', entry.kind
-      assert_select 'tr.dir a[href="/projects/subproject1/repository/show/subversion_test"]'
+      assert_select 'table.entries tbody' do
+        assert_select 'tr', 1
+        assert_select 'tr.dir td.filename a', :text => 'subversion_test'
+        assert_select 'tr.dir td.filename a[href=?]', '/projects/subproject1/repository/show/subversion_test'
+      end
+
+      assert_select 'table.changesets tbody' do
+        assert_select 'tr', 10
+        assert_select 'tr td.id a', :text => '11'
+      end
 
       assert_select 'input[name=rev]'
       assert_select 'a', :text => 'Statistics'
@@ -75,9 +83,12 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
         :url => self.class.subversion_repository_url,
         :is_default => false, :identifier => 'svn')
 
-      get :show, :id => PRJ_ID, :repository_id => 'svn'
+      get :show, :params => {
+          :id => PRJ_ID,
+          :repository_id => 'svn'
+        }
       assert_response :success
-      assert_template 'show'
+
       assert_select 'tr.dir a[href="/projects/subproject1/repository/svn/show/subversion_test"]'
       # Repository menu should link to the main repo
       assert_select '#main-menu a[href="/projects/subproject1/repository"]'
@@ -88,18 +99,21 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
       @repository.fetch_changesets
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
-      get :show, :id => PRJ_ID, :path => repository_path_hash(['subversion_test'])[:param]
+      get :show, :params => {
+          :id => PRJ_ID,
+          :path => repository_path_hash(['subversion_test'])[:param]
+        }
       assert_response :success
-      assert_template 'show'
-      assert_not_nil assigns(:entries)
-      assert_equal [
-           '[folder_with_brackets]', 'folder', '.project',
-           'helloworld.c', 'textfile.txt'
-         ],
-        assigns(:entries).collect(&:name)
-      entry = assigns(:entries).detect {|e| e.name == 'helloworld.c'}
-      assert_equal 'file', entry.kind
-      assert_equal 'subversion_test/helloworld.c', entry.path
+
+      assert_select 'table.entries tbody' do
+        assert_select 'tr', 5
+        assert_select 'tr.dir td.filename a', :text => '[folder_with_brackets]'
+        assert_select 'tr.dir td.filename a', :text => 'folder'
+        assert_select 'tr.file td.filename a', :text => '.project'
+        assert_select 'tr.file td.filename a', :text => 'helloworld.c'
+        assert_select 'tr.file td.filename a', :text => 'textfile.txt'
+      end
+
       assert_select 'a.text-x-c', :text => 'helloworld.c'
     end
 
@@ -108,13 +122,21 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
       @repository.fetch_changesets
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
-      get :show, :id => PRJ_ID, :path => repository_path_hash(['subversion_test'])[:param],
+      get :show, :params => {
+          :id => PRJ_ID,
+          :path => repository_path_hash(['subversion_test'])[:param],
           :rev => 4
+        }
       assert_response :success
-      assert_template 'show'
-      assert_not_nil assigns(:entries)
-      assert_equal ['folder', '.project', 'helloworld.c', 'helloworld.rb', 'textfile.txt'],
-                   assigns(:entries).collect(&:name)
+
+      assert_select 'table.entries tbody' do
+        assert_select 'tr', 5
+        assert_select 'tr.dir td.filename a', :text => 'folder'
+        assert_select 'tr.file td.filename a', :text => '.project'
+        assert_select 'tr.file td.filename a', :text => 'helloworld.c'
+        assert_select 'tr.file td.filename a', :text => 'helloworld.rb'
+        assert_select 'tr.file td.filename a', :text => 'textfile.txt'
+      end
     end
 
     def test_file_changes
@@ -122,19 +144,21 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
       @repository.fetch_changesets
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
-      get :changes, :id => PRJ_ID,
+      get :changes, :params => {
+          :id => PRJ_ID,
           :path => repository_path_hash(['subversion_test', 'folder', 'helloworld.rb'])[:param]
+        }
       assert_response :success
-      assert_template 'changes'
 
-      changesets = assigns(:changesets)
-      assert_not_nil changesets
-      assert_equal %w(6 3 2), changesets.collect(&:revision)
+      assert_select 'table.changesets tbody' do
+        assert_select 'tr', 3
+        assert_select 'tr td.id a', :text => '6'
+        assert_select 'tr td.id a', :text => '3'
+        assert_select 'tr td.id a', :text => '2'
+      end
 
       # svn properties displayed with svn >= 1.5 only
       if Redmine::Scm::Adapters::SubversionAdapter.client_version_above?([1, 5, 0])
-        assert_not_nil assigns(:properties)
-        assert_equal 'native', assigns(:properties)['svn:eol-style']
         assert_select 'ul li' do
           assert_select 'b', :text => 'svn:eol-style'
           assert_select 'span', :text => 'native'
@@ -147,14 +171,21 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
       @repository.fetch_changesets
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
-      get :changes, :id => PRJ_ID,
+      get :changes, :params => {
+          :id => PRJ_ID,
           :path => repository_path_hash(['subversion_test', 'folder'])[:param]
+        }
       assert_response :success
-      assert_template 'changes'
 
-      changesets = assigns(:changesets)
-      assert_not_nil changesets
-      assert_equal %w(10 9 7 6 5 2), changesets.collect(&:revision)
+      assert_select 'table.changesets tbody' do
+        assert_select 'tr', 6
+        assert_select 'tr td.id a', :text => '10'
+        assert_select 'tr td.id a', :text => '9'
+        assert_select 'tr td.id a', :text => '7'
+        assert_select 'tr td.id a', :text => '6'
+        assert_select 'tr td.id a', :text => '5'
+        assert_select 'tr td.id a', :text => '2'
+      end
     end
 
     def test_entry
@@ -162,10 +193,13 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
       @repository.fetch_changesets
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
-      get :entry, :id => PRJ_ID,
+      get :entry, :params => {
+          :id => PRJ_ID,
           :path => repository_path_hash(['subversion_test', 'helloworld.c'])[:param]
+        }
       assert_response :success
-      assert_template 'entry'
+      assert_select 'h2 a', :text => 'subversion_test'
+      assert_select 'h2 a', :text => 'helloworld.c'
     end
 
     def test_entry_should_show_other_if_too_big
@@ -175,8 +209,10 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
       assert_equal NUM_REV, @repository.changesets.count
       # no files in the test repo is larger than 1KB...
       with_settings :file_max_size_displayed => 0 do
-        get :entry, :id => PRJ_ID,
+        get :entry, :params => {
+            :id => PRJ_ID,
             :path => repository_path_hash(['subversion_test', 'helloworld.c'])[:param]
+          }
         assert_response :success
         assert_equal 'text/html', @response.content_type
         assert_select 'p.nodata'
@@ -184,10 +220,12 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
     end
 
     def test_entry_should_display_images
-      get :entry, :id => PRJ_ID,
+      get :entry, :params => {
+          :id => PRJ_ID,
           :path => repository_path_hash(['subversion_test', 'folder', 'subfolder', 'rubylogo.gif'])[:param]
+        }
       assert_response :success
-      assert_template 'entry'
+      assert_select 'img[src=?]', '/projects/subproject1/repository/raw/subversion_test/folder/subfolder/rubylogo.gif'
     end
 
     def test_entry_at_given_revision
@@ -195,11 +233,12 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
       @repository.fetch_changesets
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
-      get :entry, :id => PRJ_ID,
+      get :entry, :params => {
+          :id => PRJ_ID,
           :path => repository_path_hash(['subversion_test', 'helloworld.rb'])[:param],
           :rev => 2
+        }
       assert_response :success
-      assert_template 'entry'
       # this line was removed in r3 and file was moved in r6
       assert_select 'td.line-code', :text => /Here's the code/
     end
@@ -209,8 +248,10 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
       @repository.fetch_changesets
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
-      get :entry, :id => PRJ_ID,
+      get :entry, :params => {
+          :id => PRJ_ID,
           :path => repository_path_hash(['subversion_test', 'zzz.c'])[:param]
+        }
       assert_select 'p#errorExplanation', :text => /The entry or revision was not found in the repository/
     end
 
@@ -219,8 +260,10 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
       @repository.fetch_changesets
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
-      get :raw, :id => PRJ_ID,
+      get :raw, :params => {
+          :id => PRJ_ID,
           :path => repository_path_hash(['subversion_test', 'helloworld.c'])[:param]
+        }
       assert_response :success
       assert_equal 'attachment; filename="helloworld.c"', @response.headers['Content-Disposition']
     end
@@ -230,19 +273,22 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
       @repository.fetch_changesets
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
-      get :entry, :id => PRJ_ID,
+      get :entry, :params => {
+          :id => PRJ_ID,
           :path => repository_path_hash(['subversion_test', 'folder'])[:param]
+        }
       assert_response :success
-      assert_template 'show'
-      assert_not_nil assigns(:entry)
-      assert_equal 'folder', assigns(:entry).name
+      assert_select 'h2 a', :text => 'subversion_test'
+      assert_select 'h2 a', :text => 'folder'
     end
 
     # TODO: this test needs fixtures.
     def test_revision
-      get :revision, :id => 1, :rev => 2
+      get :revision, :params => {
+          :id => 1,
+          :rev => 2
+        }
       assert_response :success
-      assert_template 'revision'
 
       assert_select 'ul' do
         assert_select 'li' do
@@ -259,13 +305,20 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
       @repository.fetch_changesets
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
-      get :revision, :id => PRJ_ID, :rev => 'something_weird'
+      get :revision, :params => {
+          :id => PRJ_ID,
+          :rev => 'something_weird'
+        }
       assert_response 404
       assert_select_error /was not found/
     end
 
     def test_invalid_revision_diff
-      get :diff, :id => PRJ_ID, :rev => '1', :rev_to => 'something_weird'
+      get :diff, :params => {
+          :id => PRJ_ID,
+          :rev => '1',
+          :rev_to => 'something_weird'
+        }
       assert_response 404
       assert_select_error /was not found/
     end
@@ -276,7 +329,10 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
       ['', ' ', nil].each do |r|
-        get :revision, :id => PRJ_ID, :rev => r
+        get :revision, :params => {
+            :id => PRJ_ID,
+            :rev => r
+          }
         assert_response 404
         assert_select_error /was not found/
       end
@@ -288,9 +344,11 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
       # Changes repository url to a subdirectory
       r.update_attribute :url, (r.url + '/test/some')
 
-      get :revision, :id => 1, :rev => 2
+      get :revision, :params => {
+          :id => 1,
+          :rev => 2
+        }
       assert_response :success
-      assert_template 'revision'
 
       assert_select 'ul' do
         assert_select 'li' do
@@ -308,9 +366,12 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
       ['inline', 'sbs'].each do |dt|
-        get :diff, :id => PRJ_ID, :rev => 3, :type => dt
+        get :diff, :params => {
+            :id => PRJ_ID,
+            :rev => 3,
+            :type => dt
+          }
         assert_response :success
-        assert_template 'diff'
         assert_select 'h2', :text => /Revision 3/
         assert_select 'th.filename', :text => 'subversion_test/textfile.txt'
       end
@@ -322,7 +383,11 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
 
-      get :diff, :id => PRJ_ID, :rev => 5, :format => 'diff'
+      get :diff, :params => {
+          :id => PRJ_ID,
+          :rev => 5,
+          :format => 'diff'
+        }
       assert_response :success
       assert_equal 'text/x-patch', @response.content_type
       assert_equal 'Index: subversion_test/folder/greeter.rb', @response.body.split(/\r?\n/).first
@@ -334,17 +399,20 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
       ['inline', 'sbs'].each do |dt|
-        get :diff, :id => PRJ_ID, :rev => 6, :rev_to => 2,
+        get :diff, :params => {
+            :id => PRJ_ID,
+            :rev => 6,
+            :rev_to => 2,
             :path => repository_path_hash(['subversion_test', 'folder'])[:param],
             :type => dt
+          }
         assert_response :success
-        assert_template 'diff'
 
-        diff = assigns(:diff)
-        assert_not_nil diff
-        # 2 files modified
-        assert_equal 2, Redmine::UnifiedDiff.new(diff).size
         assert_select 'h2', :text => /2:6/
+        # 2 files modified
+        assert_select 'table.filecontent', 2
+        assert_select 'table.filecontent thead th.filename', :text => 'greeter.rb'
+        assert_select 'table.filecontent thead th.filename', :text => 'helloworld.rb'
       end
     end
 
@@ -353,10 +421,11 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
       @repository.fetch_changesets
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
-      get :annotate, :id => PRJ_ID,
+      get :annotate, :params => {
+          :id => PRJ_ID,
           :path => repository_path_hash(['subversion_test', 'helloworld.c'])[:param]
+        }
       assert_response :success
-      assert_template 'annotate'
 
       assert_select 'tr' do
         assert_select 'th.line-num', :text => '1'
@@ -377,10 +446,12 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
       @repository.fetch_changesets
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
-      get :annotate, :id => PRJ_ID, :rev => 8,
+      get :annotate, :params => {
+          :id => PRJ_ID,
+          :rev => 8,
           :path => repository_path_hash(['subversion_test', 'helloworld.c'])[:param]
+        }
       assert_response :success
-      assert_template 'annotate'
       assert_select 'h2', :text => /@ 8/
     end
 
@@ -391,7 +462,9 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
       assert_equal NUM_REV, @repository.changesets.count
 
       assert_difference 'Repository.count', -1 do
-        delete :destroy, :id => @repository.id
+        delete :destroy, :params => {
+            :id => @repository.id
+          }
       end
       assert_response 302
       @project.reload
@@ -408,7 +481,9 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
       assert_equal 0, @repository.changesets.count
 
       assert_difference 'Repository.count', -1 do
-        delete :destroy, :id => @repository.id
+        delete :destroy, :params => {
+            :id => @repository.id
+          }
       end
       assert_response 302
       @project.reload

@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -18,11 +18,11 @@
 class NewsController < ApplicationController
   default_search_scope :news
   model_object News
-  before_filter :find_model_object, :except => [:new, :create, :index]
-  before_filter :find_project_from_association, :except => [:new, :create, :index]
-  before_filter :find_project_by_project_id, :only => [:new, :create]
-  before_filter :authorize, :except => [:index]
-  before_filter :find_optional_project, :only => :index
+  before_action :find_model_object, :except => [:new, :create, :index]
+  before_action :find_project_from_association, :except => [:new, :create, :index]
+  before_action :find_project_by_project_id, :only => [:new, :create]
+  before_action :authorize, :except => [:index]
+  before_action :find_optional_project, :only => :index
   accept_rss_auth :index
   accept_api_auth :index
 
@@ -97,15 +97,5 @@ class NewsController < ApplicationController
   def destroy
     @news.destroy
     redirect_to project_news_index_path(@project)
-  end
-
-  private
-
-  def find_optional_project
-    return true unless params[:project_id]
-    @project = Project.find(params[:project_id])
-    authorize
-  rescue ActiveRecord::RecordNotFound
-    render_404
   end
 end

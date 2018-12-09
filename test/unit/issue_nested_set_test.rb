@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -305,5 +305,24 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     assert_equal ic1, ic3.parent
     assert_equal ic2, ic4.parent
     assert ic5.root?
+  end
+
+  def test_rebuild_single_tree
+    i1 = Issue.generate!
+    i2 = i1.generate_child!
+    i3 = i1.generate_child!
+    Issue.update_all(:lft => 7, :rgt => 7)
+
+    Issue.rebuild_single_tree!(i1.id)
+
+    i1.reload
+    assert_equal [1, 6], [i1.lft, i1.rgt]
+    i2.reload
+    assert_equal [2, 3], [i2.lft, i2.rgt]
+    i3.reload
+    assert_equal [4, 5], [i3.lft, i3.rgt]
+
+    other = Issue.find(1)
+    assert_equal [7, 7], [other.lft, other.rgt]
   end
 end

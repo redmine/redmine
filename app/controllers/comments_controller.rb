@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -18,9 +18,9 @@
 class CommentsController < ApplicationController
   default_search_scope :news
   model_object News
-  before_filter :find_model_object
-  before_filter :find_project_from_association
-  before_filter :authorize
+  before_action :find_model_object
+  before_action :find_project_from_association
+  before_action :authorize
 
   def create
     raise Unauthorized unless @news.commentable?
@@ -43,7 +43,7 @@ class CommentsController < ApplicationController
   private
 
   # ApplicationController's find_model_object sets it based on the controller
-  # name so it needs to be overriden and set to @news instead
+  # name so it needs to be overridden and set to @news instead
   def find_model_object
     super
     @news = @object

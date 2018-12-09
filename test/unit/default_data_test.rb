@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -23,21 +23,24 @@ class DefaultDataTest < ActiveSupport::TestCase
 
   def test_no_data
     assert !Redmine::DefaultData::Loader::no_data?
-    Role.delete_all("builtin = 0")
-    Tracker.delete_all
-    IssueStatus.delete_all
-    Enumeration.delete_all
+    clear_data
     assert Redmine::DefaultData::Loader::no_data?
   end
 
   def test_load
+    clear_data
+    assert Redmine::DefaultData::Loader::load('en')
+    assert_not_nil DocumentCategory.first
+    assert_not_nil IssuePriority.first
+    assert_not_nil TimeEntryActivity.first
+    assert_not_nil WorkflowTransition.first
+  end
+
+  def test_load_for_all_language
     valid_languages.each do |lang|
+      clear_data
       begin
-        Role.delete_all("builtin = 0")
-        Tracker.delete_all
-        IssueStatus.delete_all
-        Enumeration.delete_all
-        assert Redmine::DefaultData::Loader::load(lang)
+        assert Redmine::DefaultData::Loader::load(lang, :workflow => false)
         assert_not_nil DocumentCategory.first
         assert_not_nil IssuePriority.first
         assert_not_nil TimeEntryActivity.first
@@ -45,5 +48,13 @@ class DefaultDataTest < ActiveSupport::TestCase
         assert false, ":#{lang} default data is invalid (#{e.message})."
       end
     end
+  end
+
+  def clear_data
+    Role.where("builtin = 0").delete_all
+    Tracker.delete_all
+    IssueStatus.delete_all
+    Enumeration.delete_all
+    WorkflowRule.delete_all
   end
 end

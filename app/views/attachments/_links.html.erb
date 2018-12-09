@@ -6,29 +6,32 @@
               :class => 'icon-only icon-edit'
              ) if options[:editable] %>
 </div>
+<table>
 <% for attachment in attachments %>
-<p><%= link_to_attachment attachment, :class => 'icon icon-attachment', :download => true -%>
-  <% if attachment.is_text? || attachment.is_image? %>
-    <%= link_to l(:button_view),
-                { :controller => 'attachments', :action => 'show',
-                  :id => attachment, :filename => attachment.filename },
-                :class => 'icon-only icon-magnifier',
-                :title => l(:button_view) %>
-  <% end %>
-  <%= " - #{attachment.description}" unless attachment.description.blank? %>
-  <span class="size">(<%= number_to_human_size attachment.filesize %>)</span>
-  <% if options[:deletable] %>
-    <%= link_to l(:button_delete), attachment_path(attachment),
-                :data => {:confirm => l(:text_are_you_sure)},
-                :method => :delete,
-                :class => 'delete icon-only icon-del',
-                :title => l(:button_delete) %>
-  <% end %>
-  <% if options[:author] %>
-    <span class="author"><%= attachment.author %>, <%= format_time(attachment.created_on) %></span>
-  <% end %>
-  </p>
+<tr>
+  <td>
+    <%= link_to_attachment attachment, class: 'icon icon-attachment' -%>
+    <span class="size">(<%= number_to_human_size attachment.filesize %>)</span>
+    <%= link_to_attachment attachment, class: 'icon-only icon-download', title: l(:button_download), download: true -%>
+  </td>
+  <td><%= attachment.description unless attachment.description.blank? %></td>
+  <td>
+    <% if options[:author] %>
+      <span class="author"><%= attachment.author %>, <%= format_time(attachment.created_on) %></span>
+    <% end %>
+  </td>
+  <td>
+    <% if options[:deletable] %>
+      <%= link_to l(:button_delete), attachment_path(attachment),
+                  :data => {:confirm => l(:text_are_you_sure)},
+                  :method => :delete,
+                  :class => 'delete icon-only icon-del',
+                  :title => l(:button_delete) %>
+    <% end %>
+  </td>
+</tr>
 <% end %>
+</table>
 <% if defined?(thumbnails) && thumbnails %>
   <% images = attachments.select(&:thumbnailable?) %>
   <% if images.any? %>

@@ -138,6 +138,8 @@ pl:
         circular_dependency: "Ta relacja może wytworzyć zapętloną zależność"
         cant_link_an_issue_with_a_descendant: "Zagadnienie nie może zostać powiązane z jednym z własnych podzagadnień"
         earlier_than_minimum_start_date: "nie może być wcześniej niż %{date} z powodu poprzedających zagadnień"
+        not_a_regexp: "is not a valid regular expression"
+        open_issue_with_closed_parent: "An open issue cannot be attached to a closed parent task"
 
   support:
     array:
@@ -492,7 +494,6 @@ pl:
   label_module_plural: Moduły
   label_month: Miesiąc
   label_months_from: miesiące od
-  label_more: Więcej
   label_more_than_ago: dni od teraz
   label_my_account: Moje konto
   label_my_page: Moja strona
@@ -523,8 +524,6 @@ pl:
   label_password_lost: Zapomniane hasło
   label_permissions: Uprawnienia
   label_permissions_report: Raport uprawnień
-  label_personalize_page: Personalizuj tę stronę
-  label_planning: Planowanie
   label_please_login: Zaloguj się
   label_plugins: Wtyczki
   label_precedes: poprzedza
@@ -915,7 +914,6 @@ pl:
   error_can_not_remove_role: Ta rola przypisana jest niektórym użytkownikom i nie może zostać usunięta.
   error_can_not_delete_tracker: Ten typ przypisany jest do części zagadnień i nie może zostać usunięty.
   field_principal: Przełożony
-  label_my_page_block: Elementy
   notice_failed_to_save_members: "Nie można zapisać uczestników: %{errors}."
   text_zoom_out: Zmniejsz
   text_zoom_in: Powiększ
@@ -926,10 +924,8 @@ pl:
   project_module_calendar: Kalendarz
   button_edit_associated_wikipage: "Edytuj powiązaną stronę Wiki: %{page_title}"
   field_text: Text field
-  label_user_mail_option_only_owner: Tylko to, czego jestem właścicielem (autorem)
   setting_default_notification_option: Domyślna opcja powiadomień
   label_user_mail_option_only_my_events: "Tylko to, co obserwuję lub w czym biorę udział"
-  label_user_mail_option_only_assigned: "Tylko to, do czego jestem przypisany"
   label_user_mail_option_none: "Brak powiadomień"
   field_member_of_group: Grupa osoby przypisanej
   field_assigned_to_role: Rola osoby przypisanej
@@ -986,16 +982,12 @@ pl:
   description_project_scope: Search scope
   description_filter: Filter
   description_user_mail_notification: Mail notification settings
-  description_date_from: Enter start date
   description_message_content: Message content
   description_available_columns: Dostępne kolumny
-  description_date_range_interval: Choose range by selecting start and end date
   description_issue_category_reassign: Choose issue category
   description_search: Searchfield
   description_notes: Notes
-  description_date_range_list: Choose range from list
   description_choose_project: Projects
-  description_date_to: Enter end date
   description_query_sort_criteria_attribute: Sort attribute
   description_wiki_subpages_reassign: Choose new parent page
   description_selected_columns: Wybrane kolumny
@@ -1223,5 +1215,31 @@ pl:
   label_new_object_tab_enabled: Display the "+" drop-down
   error_no_projects_with_tracker_allowed_for_new_issue: There are no projects with trackers
     for which you can create an issue
+  field_textarea_font: Font used for text areas
+  label_font_default: Default font
+  label_font_monospace: Monospaced font
+  label_font_proportional: Proportional font
+  setting_timespan_format: Time span format
+  label_table_of_contents: Table of contents
+  setting_commit_logs_formatting: Apply text formatting to commit messages
+  setting_mail_handler_enable_regex_delimiters: Enable regular expressions
+  error_move_of_child_not_possible: 'Subtask %{child} could not be moved to the new
+    project: %{errors}'
   error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: Spent time cannot
     be reassigned to an issue that is about to be deleted
+  setting_timelog_required_fields: Required fields for time logs
+  label_attribute_of_object: '%{object_name}''s %{name}'
+  label_user_mail_option_only_assigned: Only for things I watch or I am assigned to
+  label_user_mail_option_only_owner: Only for things I watch or I am the owner of
+  warning_fields_cleared_on_bulk_edit: Changes will result in the automatic deletion
+    of values from one or more fields on the selected objects
+  field_updated_by: Updated by
+  field_last_updated_by: Last updated by
+  field_full_width_layout: Full width layout
+  label_last_notes: Last notes
+  field_digest: Checksum
+  field_default_assigned_to: Default assignee
+  setting_show_custom_fields_on_registration: Show custom fields on registration
+  permission_view_news: View news
+  label_no_preview_alternative_html: No preview available. %{link} the file instead.
+  label_no_preview_download: Download

@@ -33,20 +33,23 @@
         </tr>
     <% end %>
     <% perms_by_module[mod].each do |permission| %>
-        <tr class="<%= cycle('odd', 'even') %> permission-<%= permission.name %>">
+        <% humanized_perm_name = l_or_humanize(permission.name, :prefix => 'permission_') %>
+        <tr class="permission-<%= permission.name %>">
         <td class="name">
             <%= link_to_function('',
                                  "toggleCheckboxesBySelector('.permission-#{permission.name} input')",
                                  :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}",
                                  :class => 'icon-only icon-checked') %>
-            <%= l_or_humanize(permission.name, :prefix => 'permission_') %>
+            <%= humanized_perm_name %>
         </td>
         <% @roles.each do |role| %>
-        <td>
-        <% if role.setable_permissions.include? permission %>
-          <%= check_box_tag "permissions[#{role.id}][]", permission.name, (role.permissions.include? permission.name), :id => nil, :class => "role-#{role.id}" %>
-        <% end %>
-        </td>
+          <% if role.setable_permissions.include? permission %>
+            <td title="<%= "#{humanized_perm_name} (#{role.name})" %>">
+              <%= check_box_tag "permissions[#{role.id}][]", permission.name, (role.permissions.include? permission.name), :id => nil, :class => "role-#{role.id}" %>
+            </td>
+          <% else %>
+            <td></td>
+          <% end %>
         <% end %>
         </tr>
     <% end %>

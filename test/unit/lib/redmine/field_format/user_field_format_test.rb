@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -45,6 +45,21 @@ class Redmine::UserFieldFormatTest < ActionView::TestCase
     assert issue.valid?
   end
 
+  def test_non_existing_values_should_be_invalid
+    field = IssueCustomField.create!(:name => 'Foo', :field_format => 'user', :is_for_all => true, :trackers => Tracker.all)
+    project = Project.generate!
+    user = User.generate!
+    User.add_to_project(user, project, Role.find_by_name('Developer'))
+
+    field.user_role = [Role.find_by_name('Manager').id]
+    field.save!
+
+    issue = Issue.new(:project_id => project.id, :tracker_id => 1, :custom_field_values => {field.id => user.id})
+    assert_not_include [user.name, user.id.to_s], field.possible_custom_value_options(issue.custom_value_for(field))
+    assert_equal false, issue.valid?
+    assert_include "Foo #{::I18n.t('activerecord.errors.messages.inclusion')}", issue.errors.full_messages.first
+  end
+
   def test_possible_values_options_should_return_project_members
     field = IssueCustomField.new(:field_format => 'user')
     project = Project.find(1)
@@ -57,5 +72,23 @@ class Redmine::UserFieldFormatTest < ActionView::TestCase
     project = Project.find(1)
 
     assert_equal ['Dave Lopper'], field.possible_values_options(project).map(&:first)
+  end
+
+  def test_value_from_keyword_should_return_user_id
+    field = IssueCustomField.new(:field_format => 'user')
+    project = Project.find(1)
+
+    assert_equal 2, field.value_from_keyword('jsmith', project)
+    assert_equal 3, field.value_from_keyword('Dave Lopper', project)
+    assert_nil field.value_from_keyword('Unknown User', project)
+  end
+
+  def test_value_from_keyword_for_multiple_custom_field_should_return_enumeration_ids
+    field = IssueCustomField.new(:field_format => 'user', :multiple => true)
+    project = Project.find(1)
+
+    assert_equal [2, 3], field.value_from_keyword('jsmith, Dave Lopper', project)
+    assert_equal [2], field.value_from_keyword('jsmith', project)
+    assert_equal [], field.value_from_keyword('Unknown User', project)
   end
 end

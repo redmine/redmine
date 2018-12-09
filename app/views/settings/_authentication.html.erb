@@ -8,7 +8,12 @@
 <p><%= setting_select :self_registration, [[l(:label_disabled), "0"],
                                            [l(:label_registration_activation_by_email), "1"],
                                            [l(:label_registration_manual_activation), "2"],
-                                           [l(:label_registration_automatic_activation), "3"]] %></p>
+                                           [l(:label_registration_automatic_activation), "3"]],
+                      :onchange =>
+                          "if (this.value != '0') { $('#settings_show_custom_fields_on_registration').removeAttr('disabled'); } else { $('#settings_show_custom_fields_on_registration').attr('disabled', true); }" %></p>
+
+<p><%= setting_check_box :show_custom_fields_on_registration,
+                         :disabled => !Setting.self_registration? %></p>
 
 <p><%= setting_check_box :unsubscribe %></p>
 
@@ -41,6 +46,8 @@
 
   <div class="tabular settings">
     <p><%= setting_check_box :default_users_hide_mail, :label => :field_hide_mail %></p>
+
+    <p><%= setting_select :default_users_time_zone, ActiveSupport::TimeZone.all.collect {|z| [ z.to_s, z.name ]}, :label => :field_time_zone, :blank => :label_none %></p>
   </div>
 </fieldset>
 

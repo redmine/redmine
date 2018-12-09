@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -150,7 +150,7 @@ class WatcherTest < ActiveSupport::TestCase
   end
 
   def test_prune_with_user
-    Watcher.delete_all("user_id = 9")
+    Watcher.where("user_id = 9").delete_all
     user = User.find(9)
 
     # public

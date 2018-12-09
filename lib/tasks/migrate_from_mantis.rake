@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -237,7 +237,7 @@ task :migrate_from_mantis => :environment do
 
       # Users
       print "Migrating users"
-      User.delete_all "login <> 'admin'"
+      User.where("login <> 'admin'").delete_all
       users_map = {}
       users_migrated = 0
       MantisUser.all.each do |user|

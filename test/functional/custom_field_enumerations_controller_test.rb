@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,7 +17,7 @@
 
 require File.expand_path('../../test_helper', __FILE__)
 
-class CustomFieldEnumerationsControllerTest < ActionController::TestCase
+class CustomFieldEnumerationsControllerTest < Redmine::ControllerTest
   fixtures :users, :email_addresses
 
   def setup
@@ -30,14 +30,24 @@ class CustomFieldEnumerationsControllerTest < ActionController::TestCase
   end
 
   def test_index
-    get :index, :custom_field_id => @field.id
+    get :index, :params => {
+        :custom_field_id => @field.id
+      }
     assert_response :success
-    assert_template 'index'
+
+    assert_select 'ul#custom_field_enumerations' do
+      assert_select 'li', 2
+    end
   end
 
   def test_create
     assert_difference 'CustomFieldEnumeration.count' do
-      post :create, :custom_field_id => @field.id, :custom_field_enumeration => { :name => 'Baz' }
+      post :create, :params => {
+          :custom_field_id => @field.id,
+          :custom_field_enumeration => {
+            :name => 'Baz' 
+          }
+        }
       assert_redirected_to "/custom_fields/#{@field.id}/enumerations"
     end
 
@@ -50,16 +60,34 @@ class CustomFieldEnumerationsControllerTest < ActionController::TestCase
 
   def test_create_xhr
     assert_difference 'CustomFieldEnumeration.count' do
-      xhr :post, :create, :custom_field_id => @field.id, :custom_field_enumeration => { :name => 'Baz' }
+      post :create, :params => {
+          :custom_field_id => @field.id,
+          :custom_field_enumeration => {
+            :name => 'Baz' 
+          }
+        },
+        :xhr => true
       assert_response :success
     end
   end
 
   def test_update_each
-    put :update_each, :custom_field_id => @field.id, :custom_field_enumerations => {
-      @bar.id => {:position => "1", :name => "Baz", :active => "1"},
-      @foo.id => {:position => "2", :name => "Foo", :active => "0"}
-    }
+    put :update_each, :params => {
+        :custom_field_id => @field.id,
+        :custom_field_enumerations => {
+          @bar.id.to_s => {
+            :position => "1",
+            :name => "Baz",
+            :active => "1"
+          },    
+          @foo.id.to_s => {
+            :position => "2",
+            :name => "Foo",
+            :active => "0"
+          }    
+          
+        }
+      }
     assert_response 302
 
     @bar.reload
@@ -75,7 +103,10 @@ class CustomFieldEnumerationsControllerTest < ActionController::TestCase
 
   def test_destroy
     assert_difference 'CustomFieldEnumeration.count', -1 do
-      delete :destroy, :custom_field_id => @field.id, :id => @foo.id
+      delete :destroy, :params => {
+          :custom_field_id => @field.id,
+          :id => @foo.id
+        }
       assert_redirected_to "/custom_fields/#{@field.id}/enumerations"
     end
 
@@ -90,9 +121,13 @@ class CustomFieldEnumerationsControllerTest < ActionController::TestCase
     group.save!
 
     assert_no_difference 'CustomFieldEnumeration.count' do
-      delete :destroy, :custom_field_id => @field.id, :id => @foo.id
-      assert_response 200
-      assert_template 'destroy'
+      delete :destroy, :params => {
+          :custom_field_id => @field.id,
+          :id => @foo.id
+        }
+      assert_response :success
+
+      assert_select 'select[name=?]', 'reassign_to_id'
     end
   end
 
@@ -102,7 +137,11 @@ class CustomFieldEnumerationsControllerTest < ActionController::TestCase
     group.save!
 
     assert_difference 'CustomFieldEnumeration.count', -1 do
-      delete :destroy, :custom_field_id => @field.id, :id => @foo.id, :reassign_to_id => @bar.id
+      delete :destroy, :params => {
+          :custom_field_id => @field.id,
+          :id => @foo.id,
+          :reassign_to_id => @bar.id
+        }
       assert_response 302
     end
 

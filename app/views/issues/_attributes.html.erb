@@ -47,7 +47,7 @@
 <div class="splitcontentright">
 <% if @issue.safe_attribute? 'parent_issue_id' %>
 <p id="parent_issue"><%= f.text_field :parent_issue_id, :size => 10, :required => @issue.required_attribute?('parent_issue_id') %></p>
-<%= javascript_tag "observeAutocompleteField('issue_parent_issue_id', '#{escape_javascript auto_complete_issues_path(:project_id => @issue.project, :scope => Setting.cross_project_subtasks)}')" %>
+<%= javascript_tag "observeAutocompleteField('issue_parent_issue_id', '#{escape_javascript auto_complete_issues_path(:project_id => @issue.project, :scope => Setting.cross_project_subtasks, :status => @issue.closed? ? 'c' : 'o', :issue_id => @issue.id)}')" %>
 <% end %>
 
 <% if @issue.safe_attribute? 'start_date' %>
@@ -65,7 +65,7 @@
 <% end %>
 
 <% if @issue.safe_attribute? 'estimated_hours' %>
-<p><%= f.text_field :estimated_hours, :size => 3, :required => @issue.required_attribute?('estimated_hours') %> <%= l(:field_hours) %></p>
+<p><%= f.hours_field :estimated_hours, :size => 3, :required => @issue.required_attribute?('estimated_hours') %> <%= l(:field_hours) %></p>
 <% end %>
 
 <% if @issue.safe_attribute?('done_ratio') && Issue.use_field_for_done_ratio? %>

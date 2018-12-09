@@ -1,0 +1,41 @@
+<div class="contextual">
+  <%= link_to_function l(:label_options), "$('##{block}-settings').toggle();", :class => 'icon-only icon-settings', :title => l(:label_options) %>
+</div>
+
+<h3>
+  <%= "#{query.project} |" if query.project %>
+  <%= link_to query.name, _project_issues_path(query.project, query.as_params) %>
+  (<%= query.issue_count %>)
+</h3>
+
+<div id="<%= block %>-settings" style="display:none;">
+  <%= form_tag(my_page_path, :remote => true) do %>
+    <div class="box">
+      <%= render_query_columns_selection(query, :name => "settings[#{block}][columns]") %>
+    </div>
+    <p>
+      <%= submit_tag l(:button_save) %>
+      <%= link_to_function l(:button_cancel), "$('##{block}-settings').toggle();" %>
+    </p>
+  <% end %>
+</div>
+
+<% if issues.any? %>
+  <%= render :partial => 'issues/list',
+             :locals => {
+               :issues => issues,
+               :query => query,
+               :query_options => {
+                 :sort_param => "settings[#{block}][sort]",
+                 :sort_link_options => {:method => :post, :remote => true}
+               }
+             } %>
+<% else %>
+  <p class="nodata"><%= l(:label_no_data) %></p>
+<% end %>
+
+<% content_for :header_tags do %>
+<%= auto_discovery_link_tag(:atom,
+                            _project_issues_path(query.project, query.as_params.merge(:format => 'atom', :key => User.current.rss_key)),
+                            {:title => query.name}) %>
+<% end %>

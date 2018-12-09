@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -37,7 +37,8 @@ class ProjectTest < ActiveSupport::TestCase
            :repositories,
            :news, :comments,
            :documents,
-           :workflows
+           :workflows,
+           :attachments
 
   def setup
     @ecookbook = Project.find(1)
@@ -236,8 +237,8 @@ class ProjectTest < ActiveSupport::TestCase
 
   def test_destroy_should_destroy_subtasks
     issues = (0..2).to_a.map {Issue.create!(:project_id => 1, :tracker_id => 1, :author_id => 1, :subject => 'test')}
-    issues[0].update_attribute :parent_issue_id, issues[1].id
-    issues[2].update_attribute :parent_issue_id, issues[1].id
+    issues[0].update! :parent_issue_id => issues[1].id
+    issues[2].update! :parent_issue_id => issues[1].id
     assert_equal 2, issues[1].children.count
 
     assert_nothing_raised do
@@ -482,6 +483,21 @@ class ProjectTest < ActiveSupport::TestCase
     assert_equal [1,2], parent.rolled_up_trackers.collect(&:id)
   end
 
+  def test_rolled_up_statuses
+    project = Project.find(1)
+
+    WorkflowTransition.delete_all
+    WorkflowTransition.create(:role_id => 1, :tracker_id => 1, :old_status_id => 1, :new_status_id => 3)
+    WorkflowTransition.create(:role_id => 1, :tracker_id => 1, :old_status_id => 1, :new_status_id => 4)
+    WorkflowTransition.create(:role_id => 1, :tracker_id => 1, :old_status_id => 2, :new_status_id => 3)
+    WorkflowTransition.create(:role_id => 1, :tracker_id => 2, :old_status_id => 1, :new_status_id => 3)
+
+    assert_kind_of IssueStatus, project.rolled_up_statuses.first
+    assert_equal IssueStatus.find(1), project.rolled_up_statuses.first
+
+    assert_equal [1, 2, 3, 4], project.rolled_up_statuses.collect(&:id)
+  end
+
   test "#rolled_up_trackers should ignore projects with issue_tracking module disabled" do
     parent = Project.generate!
     parent.trackers = Tracker.find([1, 2])
@@ -674,7 +690,7 @@ class ProjectTest < ActiveSupport::TestCase
   test "enabled_modules should define module by names and preserve ids" do
     @project = Project.find(1)
     # Remove one module
-    modules = @project.enabled_modules.slice(0..-2)
+    modules = @project.enabled_modules.to_a.slice(0..-2)
     assert modules.any?
     assert_difference 'EnabledModule.count', -1 do
       @project.enabled_module_names = modules.collect(&:name)
@@ -719,7 +735,7 @@ class ProjectTest < ActiveSupport::TestCase
   def test_enabled_module_names_should_not_recreate_enabled_modules
     project = Project.find(1)
     # Remove one module
-    modules = project.enabled_modules.slice(0..-2)
+    modules = project.enabled_modules.to_a.slice(0..-2)
     assert modules.any?
     assert_difference 'EnabledModule.count', -1 do
       project.enabled_module_names = modules.collect(&:name)
@@ -1004,12 +1020,12 @@ class ProjectTest < ActiveSupport::TestCase
     assert_include 'closed', p.css_classes.split
   end
 
-  def test_combination_of_visible_and_uniq_scopes_in_case_anonymous_group_has_memberships_should_not_error
+  def test_combination_of_visible_and_distinct_scopes_in_case_anonymous_group_has_memberships_should_not_error
     project = Project.find(1)
     member = Member.create!(:project => project, :principal => Group.anonymous, :roles => [Role.generate!])
     project.members << member
     assert_nothing_raised do
-      Project.uniq.visible.to_a
+      Project.distinct.visible.to_a
     end
   end
 end

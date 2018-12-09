@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -22,6 +22,9 @@ module Redmine
 
     module MenuController
       def self.included(base)
+        base.class_attribute :main_menu
+        base.main_menu = true
+
         base.extend(ClassMethods)
       end
 
@@ -51,18 +54,35 @@ module Redmine
         self.class.menu_items
       end
 
+      def current_menu(project)
+        if project && !project.new_record?
+          :project_menu
+        elsif self.class.main_menu
+          :application_menu
+        end
+      end
+
       # Returns the menu item name according to the current action
       def current_menu_item
         @current_menu_item ||= menu_items[controller_name.to_sym][:actions][action_name.to_sym] ||
                                  menu_items[controller_name.to_sym][:default]
       end
 
+      # Redirects user to the menu item
+      # Returns false if user is not authorized
+      def redirect_to_menu_item(name)
+        redirect_to_project_menu_item(nil, name)
+      end
+
       # Redirects user to the menu item of the given project
       # Returns false if user is not authorized
       def redirect_to_project_menu_item(project, name)
-        item = Redmine::MenuManager.items(:project_menu).detect {|i| i.name.to_s == name.to_s}
+        menu = project.nil? ? :application_menu : :project_menu
+        item = Redmine::MenuManager.items(menu).detect {|i| i.name.to_s == name.to_s}
         if item && item.allowed?(User.current, project)
-          redirect_to({item.param => project}.merge(item.url))
+          url = item.url
+          url = {item.param => project}.merge(url) if project
+          redirect_to url
           return true
         end
         false
@@ -77,12 +97,14 @@ module Redmine
 
       # Renders the application main menu
       def render_main_menu(project)
-        render_menu((project && !project.new_record?) ? :project_menu : :application_menu, project)
+        if menu_name = controller.current_menu(project)
+          render_menu(menu_name, project)
+        end
       end
 
       def display_main_menu?(project)
-        menu_name = project && !project.new_record? ? :project_menu : :application_menu
-        Redmine::MenuManager.items(menu_name).children.present?
+        menu_name = controller.current_menu(project)
+        menu_name.present? && Redmine::MenuManager.items(menu_name).children.present?
       end
 
       def render_menu(menu, project=nil)

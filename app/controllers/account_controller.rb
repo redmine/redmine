@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -19,8 +19,10 @@ class AccountController < ApplicationController
   helper :custom_fields
   include CustomFieldsHelper
 
+  self.main_menu = false
+
   # prevents login action to be filtered by check_if_login_required application scope filter
-  skip_before_filter :check_if_login_required, :check_password_change
+  skip_before_action :check_if_login_required, :check_password_change
 
   # Overrides ApplicationController#verify_authenticity_token to disable
   # token verification on openid callbacks
@@ -40,7 +42,7 @@ class AccountController < ApplicationController
       end
     end
   rescue AuthSourceException => e
-    logger.error "An error occured when authenticating #{params[:username]}: #{e.message}"
+    logger.error "An error occurred when authenticating #{params[:username]}: #{e.message}"
     render_error :message => e.message
   end
 
@@ -78,20 +80,25 @@ class AccountController < ApplicationController
         return
       end
       if request.post?
-        @user.password, @user.password_confirmation = params[:new_password], params[:new_password_confirmation]
-        if @user.save
-          @token.destroy
-          Mailer.password_updated(@user, { remote_ip: request.remote_ip })
-          flash[:notice] = l(:notice_account_password_updated)
-          redirect_to signin_path
-          return
+        if @user.must_change_passwd? && @user.check_password?(params[:new_password])
+          flash.now[:error] = l(:notice_new_password_must_be_different)
+        else
+          @user.password, @user.password_confirmation = params[:new_password], params[:new_password_confirmation]
+          @user.must_change_passwd = false
+          if @user.save
+            @token.destroy
+            Mailer.password_updated(@user, { remote_ip: request.remote_ip })
+            flash[:notice] = l(:notice_account_password_updated)
+            redirect_to signin_path
+            return
+          end
         end
       end
       render :template => "account/password_recovery"
       return
     else
       if request.post?
-        email = params[:mail].to_s
+        email = params[:mail].to_s.strip
         user = User.find_by_mail(email)
         # user not found
         unless user
@@ -131,7 +138,7 @@ class AccountController < ApplicationController
       user_params = params[:user] || {}
       @user = User.new
       @user.safe_attributes = user_params
-      @user.pref.attributes = params[:pref] if params[:pref]
+      @user.pref.safe_attributes = params[:pref]
       @user.admin = false
       @user.register
       if session[:auth_source_registration]
@@ -145,7 +152,6 @@ class AccountController < ApplicationController
           redirect_to my_account_path
         end
       else
-        @user.login = params[:user][:login]
         unless user_params[:identity_url].present? && user_params[:password].blank? && user_params[:password_confirmation].blank?
           @user.password, @user.password_confirmation = user_params[:password], user_params[:password_confirmation]
         end
@@ -274,13 +280,13 @@ class AccountController < ApplicationController
   end
 
   def set_autologin_cookie(user)
-    token = Token.create(:user => user, :action => 'autologin')
+    token = user.generate_autologin_token
     secure = Redmine::Configuration['autologin_cookie_secure']
     if secure.nil?
       secure = request.ssl?
     end
     cookie_options = {
-      :value => token.value,
+      :value => token,
       :expires => 1.year.from_now,
       :path => (Redmine::Configuration['autologin_cookie_path'] || RedmineApp::Application.config.relative_url_root || '/'),
       :secure => secure,

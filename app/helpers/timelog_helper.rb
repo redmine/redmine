@@ -1,7 +1,7 @@
 # encoding: utf-8
 #
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -19,20 +19,6 @@
 
 module TimelogHelper
   include ApplicationHelper
-
-  def render_timelog_breadcrumb
-    links = []
-    links << link_to(l(:label_project_all), {:project_id => nil, :issue_id => nil})
-    links << link_to(h(@project), {:project_id => @project, :issue_id => nil}) if @project
-    if @issue
-      if @issue.visible?
-        links << link_to_issue(@issue, :subject => false)
-      else
-        links << "##{@issue.id}"
-      end
-    end
-    breadcrumb links
-  end
 
   # Returns a collection of activities for a select field.  time_entry
   # is optional and will be used to check if the selected TimeEntryActivity

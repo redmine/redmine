@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,8 +17,8 @@
 
 class QueriesController < ApplicationController
   menu_item :issues
-  before_filter :find_query, :except => [:new, :create, :index]
-  before_filter :find_optional_project, :only => [:new, :create]
+  before_action :find_query, :only => [:edit, :update, :destroy]
+  before_action :find_optional_project, :only => [:new, :create]
 
   accept_api_auth :index
 
@@ -31,9 +31,10 @@ class QueriesController < ApplicationController
     else
       @limit = per_page_option
     end
-    @query_count = IssueQuery.visible.count
+    scope = query_class.visible
+    @query_count = scope.count
     @query_pages = Paginator.new @query_count, @limit, params['page']
-    @queries = IssueQuery.visible.
+    @queries = scope.
                     order("#{Query.table_name}.name").
                     limit(@limit).
                     offset(@offset).
@@ -45,21 +46,21 @@ class QueriesController < ApplicationController
   end
 
   def new
-    @query = IssueQuery.new
+    @query = query_class.new
     @query.user = User.current
     @query.project = @project
     @query.build_from_params(params)
   end
 
   def create
-    @query = IssueQuery.new
+    @query = query_class.new
     @query.user = User.current
     @query.project = @project
     update_query_from_params
 
     if @query.save
       flash[:notice] = l(:notice_successful_create)
-      redirect_to_issues(:query_id => @query)
+      redirect_to_items(:query_id => @query)
     else
       render :action => 'new', :layout => !request.xhr?
     end
@@ -73,7 +74,7 @@ class QueriesController < ApplicationController
 
     if @query.save
       flash[:notice] = l(:notice_successful_update)
-      redirect_to_issues(:query_id => @query)
+      redirect_to_items(:query_id => @query)
     else
       render :action => 'edit'
     end
@@ -81,12 +82,32 @@ class QueriesController < ApplicationController
 
   def destroy
     @query.destroy
-    redirect_to_issues(:set_filter => 1)
+    redirect_to_items(:set_filter => 1)
   end
 
-private
+  # Returns the values for a query filter
+  def filter
+    q = query_class.new
+    if params[:project_id].present?
+      q.project = Project.find(params[:project_id])
+    end
+
+    unless User.current.allowed_to?(q.class.view_permission, q.project, :global => true)
+      raise Unauthorized
+    end
+
+    filter = q.available_filters[params[:name].to_s]
+    values = filter ? filter.values : []
+
+    render :json => values
+  rescue ActiveRecord::RecordNotFound
+    render_404
+  end
+
+  private
+
   def find_query
-    @query = IssueQuery.find(params[:id])
+    @query = Query.find(params[:id])
     @project = @query.project
     render_403 unless @query.editable_by?(User.current)
   rescue ActiveRecord::RecordNotFound
@@ -107,15 +128,20 @@ private
     @query.sort_criteria = params[:query] && params[:query][:sort_criteria]
     @query.name = params[:query] && params[:query][:name]
     if User.current.allowed_to?(:manage_public_queries, @query.project) || User.current.admin?
-      @query.visibility = (params[:query] && params[:query][:visibility]) || IssueQuery::VISIBILITY_PRIVATE
+      @query.visibility = (params[:query] && params[:query][:visibility]) || Query::VISIBILITY_PRIVATE
       @query.role_ids = params[:query] && params[:query][:role_ids]
     else
-      @query.visibility = IssueQuery::VISIBILITY_PRIVATE
+      @query.visibility = Query::VISIBILITY_PRIVATE
     end
     @query
   end
 
-  def redirect_to_issues(options)
+  def redirect_to_items(options)
+    method = "redirect_to_#{@query.class.name.underscore}"
+    send method, options
+  end
+
+  def redirect_to_issue_query(options)
     if params[:gantt]
       if @project
         redirect_to project_gantt_path(@project, options)
@@ -125,5 +151,15 @@ private
     else
       redirect_to _project_issues_path(@project, options)
     end
+  end
+
+  def redirect_to_time_entry_query(options)
+    redirect_to _time_entries_path(@project, nil, options)
+  end
+
+  # Returns the Query subclass, IssueQuery by default
+  # for compatibility with previous behaviour
+  def query_class
+    Query.get_subclass(params[:type] || 'IssueQuery')
   end
 end

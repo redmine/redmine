@@ -126,7 +126,7 @@ div.square {float:right;}
 .splitcontentleft{float:right;}
 .splitcontentright{float:left;}
 
-blockquote {border-left:0px solid #e0e0e0; padding-left:0em; margin-left:2em;  border-right:3px solid #e0e0e0; padding-right:0.6em; margin-right:2.4em;}
+blockquote {border-left:0px solid #e0e0e0; padding-left:0em; margin-left:2em;  border-right:3px solid #e0e0e0; padding-right:0.6em; margin-right:0;}
 blockquote blockquote { margin-right:0;}
 
 div.issue div.subject div div {padding-left:0px; padding-right:16px;}
@@ -207,12 +207,12 @@ fieldset#notified_events .parent {padding-left:0px; padding-right:20px; }
 
 .check_box_group {padding:2px 2px 4px 4px;}
 .check_box_group label {margin-right: 0px !important; text-align: right;}
-#attachments_fields input.description {margin-left:0px; margin-right:4px;}
+.attachments_fields input.description {margin-left:0px; margin-right:4px;}
 
-#attachments_fields input.filename {background:url(../images/attachment.png) no-repeat right 1px top 50%; padding-left:0px; padding-right:18px;}
-#attachments_fields .ajax-waiting input.filename {background:url(../images/hourglass.png) no-repeat right top 50%;}
-#attachments_fields .ajax-loading input.filename {background:url(../images/loading.gif) no-repeat right top 50%;}
-#attachments_fields div.ui-progressbar {margin: 2px 8px -5px 0;}
+.attachments_fields input.filename {background:url(../images/attachment.png) no-repeat right 1px top 50%; padding-left:0px; padding-right:18px;}
+.attachments_fields .ajax-waiting input.filename {background:url(../images/hourglass.png) no-repeat right top 50%;}
+.attachments_fields .ajax-loading input.filename {background:url(../images/loading.gif) no-repeat right top 50%;}
+.attachments_fields div.ui-progressbar {margin: 2px 8px -5px 0;}
 
 a.remove-upload {background: url(../images/delete.png) no-repeat right 1px top 50%; padding-left:0px; padding-right:16px;}
 

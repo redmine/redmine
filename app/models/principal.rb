@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -28,9 +28,7 @@ class Principal < ActiveRecord::Base
 
   has_many :members, :foreign_key => 'user_id', :dependent => :destroy
   has_many :memberships,
-           lambda {preload(:project, :roles).
-                   joins(:project).
-                   where("#{Project.table_name}.status<>#{Project::STATUS_ARCHIVED}")},
+           lambda {joins(:project).where.not(:projects => {:status => Project::STATUS_ARCHIVED})},
            :class_name => 'Member',
            :foreign_key => 'user_id'
   has_many :projects, :through => :memberships
@@ -107,6 +105,12 @@ class Principal < ActiveRecord::Base
   scope :sorted, lambda { order(*Principal.fields_for_order_statement)}
 
   before_create :set_default_empty_values
+  before_destroy :nullify_projects_default_assigned_to
+
+  def reload(*args)
+    @project_ids = nil
+    super
+  end
 
   def name(formatter = nil)
     to_s
@@ -124,9 +128,14 @@ class Principal < ActiveRecord::Base
     Principal.visible(user).where(:id => id).first == self
   end
 
-  # Return true if the principal is a member of project
+  # Returns true if the principal is a member of project
   def member_of?(project)
-    projects.to_a.include?(project)
+    project.is_a?(Project) && project_ids.include?(project.id)
+  end
+
+  # Returns an array of the project ids that the principal is a member of
+  def project_ids
+    @project_ids ||= super.freeze
   end
 
   def <=>(principal)
@@ -170,6 +179,10 @@ class Principal < ActiveRecord::Base
       principal ||= principals.detect {|a| keyword.casecmp(a.name) == 0}
     end
     principal
+  end
+
+  def nullify_projects_default_assigned_to
+    Project.where(default_assigned_to: self).update_all(default_assigned_to_id: nil)
   end
 
   protected

@@ -1,29 +1,45 @@
-<span id="attachments_fields">
-<% if defined?(container) && container && container.saved_attachments %>
-  <% container.saved_attachments.each_with_index do |attachment, i| %>
-    <span id="attachments_p<%= i %>">
-      <%= text_field_tag("attachments[p#{i}][filename]", attachment.filename, :class => 'filename') +
-          text_field_tag("attachments[p#{i}][description]", attachment.description, :maxlength => 255, :placeholder => l(:label_optional_description), :class => 'description') +
-          link_to('&nbsp;'.html_safe, attachment_path(attachment, :attachment_id => "p#{i}", :format => 'js'), :method => 'delete', :remote => true, :class => 'remove-upload') %>
-      <%= hidden_field_tag "attachments[p#{i}][token]", "#{attachment.token}" %>
-    </span>
+<% attachment_param ||= 'attachments' %>
+<% saved_attachments ||= container.saved_attachments if defined?(container) && container %>
+<% multiple = true unless defined?(multiple) && multiple == false %>
+<% show_add = multiple || saved_attachments.blank? %>
+<% description = (defined?(description) && description == false ? false : true) %>
+<% css_class = (defined?(filedrop) && filedrop == false ? '' : 'filedrop') %>
+
+<span class="attachments_form">
+  <span class="attachments_fields">
+  <% if saved_attachments.present? %>
+    <% saved_attachments.each_with_index do |attachment, i| %>
+      <span id="attachments_p<%= i %>">
+        <%= text_field_tag("#{attachment_param}[p#{i}][filename]", attachment.filename, :class => 'filename') %>
+        <% if attachment.container_id.present? %>
+          <%= link_to l(:label_delete), "#", :onclick => "$(this).closest('.attachments_form').find('.add_attachment').show(); $(this).parent().remove(); return false;", :class => 'icon-only icon-del' %>
+          <%= hidden_field_tag "#{attachment_param}[p#{i}][id]", attachment.id %>
+        <% else %>
+          <%= text_field_tag("#{attachment_param}[p#{i}][description]", attachment.description, :maxlength => 255, :placeholder => l(:label_optional_description), :class => 'description') if description %>
+          <%= link_to('&nbsp;'.html_safe, attachment_path(attachment, :attachment_id => "p#{i}", :format => 'js'), :method => 'delete', :remote => true, :class => 'icon-only icon-del remove-upload') %>
+          <%= hidden_field_tag "#{attachment_param}[p#{i}][token]", attachment.token %>
+        <% end %>
+      </span>
+    <% end %>
   <% end %>
-<% end %>
-</span>
-<span class="add_attachment">
-<%= file_field_tag 'attachments[dummy][file]',
-      :id => nil,
-      :class => 'file_selector',
-      :multiple => true,
-      :onchange => 'addInputFiles(this);',
-      :data => {
-        :max_file_size => Setting.attachment_max_size.to_i.kilobytes,
-        :max_file_size_message => l(:error_attachment_too_big, :max_size => number_to_human_size(Setting.attachment_max_size.to_i.kilobytes)),
-        :max_concurrent_uploads => Redmine::Configuration['max_concurrent_ajax_uploads'].to_i,
-        :upload_path => uploads_path(:format => 'js'),
-        :description_placeholder => l(:label_optional_description)
-      } %>
-(<%= l(:label_max_size) %>: <%= number_to_human_size(Setting.attachment_max_size.to_i.kilobytes) %>)
+  </span>
+  <span class="add_attachment" style="<%= show_add ? nil : 'display:none;' %>">
+    <%= file_field_tag "#{attachment_param}[dummy][file]",
+        :id => nil,
+        :class => "file_selector #{css_class}",
+        :multiple => multiple,
+        :onchange => 'addInputFiles(this);',
+        :data => {
+          :max_file_size => Setting.attachment_max_size.to_i.kilobytes,
+          :max_file_size_message => l(:error_attachment_too_big, :max_size => number_to_human_size(Setting.attachment_max_size.to_i.kilobytes)),
+          :max_concurrent_uploads => Redmine::Configuration['max_concurrent_ajax_uploads'].to_i,
+          :upload_path => uploads_path(:format => 'js'),
+          :param => attachment_param,
+          :description => description,
+          :description_placeholder => l(:label_optional_description)
+        } %>
+    (<%= l(:label_max_size) %>: <%= number_to_human_size(Setting.attachment_max_size.to_i.kilobytes) %>)
+  </span>
 </span>
 
 <% content_for :header_tags do %>

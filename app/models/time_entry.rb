@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -42,6 +42,8 @@ class TimeEntry < ActiveRecord::Base
                             :scope => joins(:project).preload(:project)
 
   validates_presence_of :user_id, :activity_id, :project_id, :hours, :spent_on
+  validates_presence_of :issue_id, :if => lambda { Setting.timelog_required_fields.include?('issue_id') }
+  validates_presence_of :comments, :if => lambda { Setting.timelog_required_fields.include?('comments') }
   validates_numericality_of :hours, :allow_nil => true, :message => :invalid
   validates_length_of :comments, :maximum => 1024, :allow_nil => true
   validates :spent_on, :date => true
@@ -51,6 +53,9 @@ class TimeEntry < ActiveRecord::Base
   scope :visible, lambda {|*args|
     joins(:project).
     where(TimeEntry.visible_condition(args.shift || User.current, *args))
+  }
+  scope :left_join_issue, lambda {
+    joins("LEFT OUTER JOIN #{Issue.table_name} ON #{Issue.table_name}.id = #{TimeEntry.table_name}.issue_id")
   }
   scope :on_issue, lambda {|issue|
     joins(:issue).

@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -27,7 +27,6 @@ class AccountTest < Redmine::IntegrationTest
 
     get "/my/account"
     assert_response :success
-    assert_template "my/account"
   end
 
   def test_login_should_set_session_token
@@ -46,7 +45,11 @@ class AccountTest < Redmine::IntegrationTest
     with_settings :autologin => '7' do
       assert_difference 'Token.count', 2 do
         # User logs in with 'autologin' checked
-        post '/login', :username => user.login, :password => 'admin', :autologin => 1
+        post '/login', :params => {
+            :username => user.login,
+            :password => 'admin',
+            :autologin => 1
+          }
         assert_redirected_to '/my/page'
       end
       token = Token.where(:action => 'autologin').order(:id => :desc).first
@@ -67,7 +70,6 @@ class AccountTest < Redmine::IntegrationTest
       cookies[:autologin] = token.value
       get '/my/page'
       assert_response :success
-      assert_template 'my/page'
       assert_equal user.id, session[:user_id]
       assert_not_nil user.reload.last_login_on
     end
@@ -82,7 +84,11 @@ class AccountTest < Redmine::IntegrationTest
 
     with_settings :autologin => '7' do
       assert_difference 'Token.count', 2 do
-        post '/login', :username => 'admin', :password => 'admin', :autologin => 1
+        post '/login', :params => {
+            :username => 'admin',
+            :password => 'admin',
+            :autologin => 1
+          }
         assert_response 302
       end
       assert cookies['custom_autologin'].present?
@@ -106,10 +112,11 @@ class AccountTest < Redmine::IntegrationTest
 
     get "/account/lost_password"
     assert_response :success
-    assert_template "account/lost_password"
     assert_select 'input[name=mail]'
 
-    post "/account/lost_password", :mail => 'jSmith@somenet.foo'
+    post "/account/lost_password", :params => {
+        :mail => 'jSmith@somenet.foo'
+      }
     assert_redirected_to "/login"
 
     token = Token.first
@@ -117,19 +124,21 @@ class AccountTest < Redmine::IntegrationTest
     assert_equal 'jsmith@somenet.foo', token.user.mail
     assert !token.expired?
 
-    get "/account/lost_password", :token => token.value
+    get "/account/lost_password", :params => {
+        :token => token.value
+      }
     assert_redirected_to '/account/lost_password'
 
     follow_redirect!
     assert_response :success
-    assert_template "account/password_recovery"
     assert_select 'input[type=hidden][name=token][value=?]', token.value
     assert_select 'input[name=new_password]'
     assert_select 'input[name=new_password_confirmation]'
 
-    post "/account/lost_password",
-         :token => token.value, :new_password => 'newpass123',
-         :new_password_confirmation => 'newpass123'
+    post "/account/lost_password", :params => {
+        :token => token.value, :new_password => 'newpass123',
+        :new_password_confirmation => 'newpass123'
+      }
     assert_redirected_to "/login"
     assert_equal 'Password was successfully updated.', flash[:notice]
 
@@ -140,7 +149,10 @@ class AccountTest < Redmine::IntegrationTest
   def test_user_with_must_change_passwd_should_be_forced_to_change_its_password
     User.find_by_login('jsmith').update_attribute :must_change_passwd, true
 
-    post '/login', :username => 'jsmith', :password => 'jsmith'
+    post '/login', :params => {
+        :username => 'jsmith',
+        :password => 'jsmith'
+      }
     assert_redirected_to '/my/page'
     follow_redirect!
     assert_redirected_to '/my/password'
@@ -155,7 +167,10 @@ class AccountTest < Redmine::IntegrationTest
     user.language = 'it'
     user.save!
 
-    post '/login', :username => 'jsmith', :password => 'jsmith'
+    post '/login', :params => {
+        :username => 'jsmith',
+        :password => 'jsmith'
+      }
     assert_redirected_to '/my/page'
     follow_redirect!
     assert_redirected_to '/my/password'
@@ -167,13 +182,20 @@ class AccountTest < Redmine::IntegrationTest
   def test_user_with_must_change_passwd_should_be_able_to_change_its_password
     User.find_by_login('jsmith').update_attribute :must_change_passwd, true
 
-    post '/login', :username => 'jsmith', :password => 'jsmith'
+    post '/login', :params => {
+        :username => 'jsmith',
+        :password => 'jsmith'
+      }
     assert_redirected_to '/my/page'
     follow_redirect!
     assert_redirected_to '/my/password'
     follow_redirect!
     assert_response :success
-    post '/my/password', :password => 'jsmith', :new_password => 'newpassword', :new_password_confirmation => 'newpassword'
+    post '/my/password', :params => {
+        :password => 'jsmith',
+        :new_password => 'newpassword',
+        :new_password_confirmation => 'newpassword'
+      }
     assert_redirected_to '/my/account'
     follow_redirect!
     assert_response :success
@@ -185,7 +207,10 @@ class AccountTest < Redmine::IntegrationTest
     User.find_by_login('jsmith').update_attribute :passwd_changed_on, 14.days.ago
 
     with_settings :password_max_age => 7 do
-      post '/login', :username => 'jsmith', :password => 'jsmith'
+      post '/login', :params => {
+          :username => 'jsmith',
+          :password => 'jsmith'
+        }
       assert_redirected_to '/my/page'
       follow_redirect!
       assert_redirected_to '/my/password'
@@ -199,13 +224,20 @@ class AccountTest < Redmine::IntegrationTest
     User.find_by_login('jsmith').update_attribute :passwd_changed_on, 14.days.ago
 
     with_settings :password_max_age => 7 do
-      post '/login', :username => 'jsmith', :password => 'jsmith'
+      post '/login', :params => {
+          :username => 'jsmith',
+          :password => 'jsmith'
+        }
       assert_redirected_to '/my/page'
       follow_redirect!
       assert_redirected_to '/my/password'
       follow_redirect!
       assert_response :success
-      post '/my/password', :password => 'jsmith', :new_password => 'newpassword', :new_password_confirmation => 'newpassword'
+      post '/my/password', :params => {
+          :password => 'jsmith',
+          :new_password => 'newpassword',
+          :new_password_confirmation => 'newpassword'
+        }
       assert_redirected_to '/my/account'
       follow_redirect!
       assert_response :success
@@ -220,16 +252,17 @@ class AccountTest < Redmine::IntegrationTest
 
     get '/account/register'
     assert_response :success
-    assert_template 'account/register'
 
-    post '/account/register',
-         :user => {:login => "newuser", :language => "en",
-                   :firstname => "New", :lastname => "User", :mail => "newuser@foo.bar",
-                   :password => "newpass123", :password_confirmation => "newpass123"}
+    post '/account/register', :params => {
+        :user => {
+          :login => "newuser", :language => "en",
+          :firstname => "New", :lastname => "User", :mail => "newuser@foo.bar",
+          :password => "newpass123", :password_confirmation => "newpass123"
+        }
+      }
     assert_redirected_to '/my/account'
     follow_redirect!
     assert_response :success
-    assert_template 'my/account'
 
     user = User.find_by_login('newuser')
     assert_not_nil user
@@ -240,10 +273,13 @@ class AccountTest < Redmine::IntegrationTest
   def test_register_with_manual_activation
     Setting.self_registration = '2'
 
-    post '/account/register',
-         :user => {:login => "newuser", :language => "en",
-                   :firstname => "New", :lastname => "User", :mail => "newuser@foo.bar",
-                   :password => "newpass123", :password_confirmation => "newpass123"}
+    post '/account/register', :params => {
+        :user => {
+          :login => "newuser", :language => "en",
+          :firstname => "New", :lastname => "User", :mail => "newuser@foo.bar",
+          :password => "newpass123", :password_confirmation => "newpass123"
+        }
+      }
     assert_redirected_to '/login'
     assert !User.find_by_login('newuser').active?
   end
@@ -252,10 +288,13 @@ class AccountTest < Redmine::IntegrationTest
     Setting.self_registration = '1'
     Token.delete_all
 
-    post '/account/register',
-         :user => {:login => "newuser", :language => "en",
-                   :firstname => "New", :lastname => "User", :mail => "newuser@foo.bar",
-                   :password => "newpass123", :password_confirmation => "newpass123"}
+    post '/account/register', :params => {
+        :user => {
+          :login => "newuser", :language => "en",
+          :firstname => "New", :lastname => "User", :mail => "newuser@foo.bar",
+          :password => "newpass123", :password_confirmation => "newpass123"
+        }
+      }
     assert_redirected_to '/login'
     assert !User.find_by_login('newuser').active?
 
@@ -264,7 +303,9 @@ class AccountTest < Redmine::IntegrationTest
     assert_equal 'newuser@foo.bar', token.user.mail
     assert !token.expired?
 
-    get '/account/activate', :token => token.value
+    get '/account/activate', :params => {
+        :token => token.value
+      }
     assert_redirected_to '/login'
     log_user('newuser', 'newpass123')
   end
@@ -276,7 +317,10 @@ class AccountTest < Redmine::IntegrationTest
       {:login => 'foo', :firstname => 'Foo', :lastname => 'Smith',
        :mail => 'foo@bar.com', :auth_source_id => 66})
 
-    post '/login', :username => 'foo', :password => 'bar'
+    post '/login', :params => {
+        :username => 'foo',
+        :password => 'bar'
+      }
     assert_redirected_to '/my/page'
 
     user = User.find_by_login('foo')
@@ -291,16 +335,21 @@ class AccountTest < Redmine::IntegrationTest
     AuthSource.expects(:authenticate).returns(
       {:login => 'foo', :lastname => 'Smith', :auth_source_id => 66})
 
-    post '/login', :username => 'foo', :password => 'bar'
+    post '/login', :params => {
+        :username => 'foo',
+        :password => 'bar'
+      }
     assert_response :success
-    assert_template 'account/register'
     assert_select 'input[name=?][value=""]', 'user[firstname]'
     assert_select 'input[name=?][value=Smith]', 'user[lastname]'
     assert_select 'input[name=?]', 'user[login]', 0
     assert_select 'input[name=?]', 'user[password]', 0
 
-    post '/account/register',
-         :user => {:firstname => 'Foo', :lastname => 'Smith', :mail => 'foo@bar.com'}
+    post '/account/register', :params => {
+        :user => {
+          :firstname => 'Foo', :lastname => 'Smith', :mail => 'foo@bar.com'
+        }
+      }
     assert_redirected_to '/my/account'
 
     user = User.find_by_login('foo')
@@ -316,10 +365,13 @@ class AccountTest < Redmine::IntegrationTest
       # register a new account
       assert_difference 'User.count' do
         assert_difference 'Token.count' do
-          post '/account/register',
-             :user => {:login => "newuser", :language => "en",
-                       :firstname => "New", :lastname => "User", :mail => "newuser@foo.bar",
-                       :password => "newpass123", :password_confirmation => "newpass123"}
+          post '/account/register', :params => {
+              :user => {
+                :login => "newuser", :language => "en",
+                :firstname => "New", :lastname => "User", :mail => "newuser@foo.bar",
+                :password => "newpass123", :password_confirmation => "newpass123"
+              }
+            }
         end
       end
       user = User.order('id desc').first
@@ -328,7 +380,9 @@ class AccountTest < Redmine::IntegrationTest
 
       # try to use "lost password"
       assert_no_difference 'ActionMailer::Base.deliveries.size' do
-        post '/account/lost_password', :mail => 'newuser@foo.bar'
+        post '/account/lost_password', :params => {
+            :mail => 'newuser@foo.bar'
+          }
       end
       assert_redirected_to '/account/lost_password'
       follow_redirect!
@@ -349,7 +403,10 @@ class AccountTest < Redmine::IntegrationTest
       get activation_path
       assert_redirected_to '/login'
 
-      post '/login', :username => 'newuser', :password => 'newpass123'
+      post '/login', :params => {
+          :username => 'newuser',
+          :password => 'newpass123'
+        }
       assert_redirected_to '/my/page'
     end
   end

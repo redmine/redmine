@@ -130,6 +130,8 @@ en:
         circular_dependency: "This relation would create a circular dependency"
         cant_link_an_issue_with_a_descendant: "An issue cannot be linked to one of its subtasks"
         earlier_than_minimum_start_date: "cannot be earlier than %{date} because of preceding issues"
+        not_a_regexp: "is not a valid regular expression"
+        open_issue_with_closed_parent: "An open issue cannot be attached to a closed parent task"
 
   actionview_instancetag_blank_option: Please select
 
@@ -215,7 +217,9 @@ en:
   error_ldap_bind_credentials: "Invalid LDAP Account/Password"
   error_no_tracker_allowed_for_new_issue_in_project: "The project doesn't have any trackers for which you can create an issue"
   error_no_projects_with_tracker_allowed_for_new_issue: "There are no projects with trackers for which you can create an issue"
+  error_move_of_child_not_possible: "Subtask %{child} could not be moved to the new project: %{errors}"
   error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: "Spent time cannot be reassigned to an issue that is about to be deleted"
+  warning_fields_cleared_on_bulk_edit: "Changes will result in the automatic deletion of values from one or more fields on the selected objects"
 
   mail_subject_lost_password: "Your %{value} password"
   mail_body_lost_password: 'To change your password, click on the following link:'
@@ -365,6 +369,12 @@ en:
   field_total_estimated_hours: Total estimated time
   field_default_version: Default version
   field_remote_ip: IP address
+  field_textarea_font: Font used for text areas
+  field_updated_by: Updated by
+  field_last_updated_by: Last updated by
+  field_full_width_layout: Full width layout
+  field_digest: Checksum
+  field_default_assigned_to: Default assignee
 
   setting_app_title: Application title
   setting_app_subtitle: Application subtitle
@@ -372,6 +382,7 @@ en:
   setting_default_language: Default language
   setting_login_required: Authentication required
   setting_self_registration: Self-registration
+  setting_show_custom_fields_on_registration: Show custom fields on registration
   setting_attachment_max_size: Maximum attachment size
   setting_issues_export_limit: Issues export limit
   setting_mail_from: Emission email address
@@ -389,6 +400,7 @@ en:
   setting_autologin: Autologin
   setting_date_format: Date format
   setting_time_format: Time format
+  setting_timespan_format: Time span format
   setting_cross_project_issue_relations: Allow cross-project issue relations
   setting_cross_project_subtasks: Allow cross-project subtasks
   setting_issue_list_default_columns: Default columns displayed on the issue list
@@ -402,6 +414,7 @@ en:
   setting_display_subprojects_issues: Display subprojects issues on main projects by default
   setting_enabled_scm: Enabled SCM
   setting_mail_handler_body_delimiters: "Truncate emails after one of these lines"
+  setting_mail_handler_enable_regex_delimiters: "Enable regular expressions"
   setting_mail_handler_api_enabled: Enable WS for incoming emails
   setting_mail_handler_api_key: Incoming email WS API key
   setting_sys_api_key: Repository management WS API key
@@ -447,6 +460,8 @@ en:
   setting_attachment_extensions_allowed: Allowed extensions
   setting_attachment_extensions_denied: Disallowed extensions
   setting_new_item_menu_tab: Project menu tab for creating new objects
+  setting_commit_logs_formatting: Apply text formatting to commit messages
+  setting_timelog_required_fields: Required fields for time logs
 
   permission_add_project: Create project
   permission_add_subprojects: Create subprojects
@@ -482,6 +497,7 @@ en:
   permission_view_time_entries: View spent time
   permission_edit_time_entries: Edit time logs
   permission_edit_own_time_entries: Edit own time logs
+  permission_view_news: View news
   permission_manage_news: Manage news
   permission_comment_news: Comment news
   permission_view_documents: View documents
@@ -589,7 +605,6 @@ en:
   label_my_page: My page
   label_my_account: My account
   label_my_projects: My projects
-  label_my_page_block: My page block
   label_administration: Administration
   label_login: Sign in
   label_logout: Sign out
@@ -624,6 +639,8 @@ en:
   label_attribute_plural: Attributes
   label_no_data: No data to display
   label_no_preview: No preview available
+  label_no_preview_alternative_html: No preview available. %{link} the file instead.
+  label_no_preview_download: Download
   label_change_status: Change status
   label_history: History
   label_attachment: File
@@ -687,7 +704,6 @@ en:
   label_internal: Internal
   label_last_changes: "last %{count} changes"
   label_change_view_all: View all changes
-  label_personalize_page: Personalize this page
   label_comment: Comment
   label_comment_plural: Comments
   label_x_comments:
@@ -804,8 +820,8 @@ en:
   label_relation_new: New relation
   label_relation_delete: Delete relation
   label_relates_to: Related to
-  label_duplicates: Duplicates
-  label_duplicated_by: Duplicated by
+  label_duplicates: Is duplicate of
+  label_duplicated_by: Has duplicate
   label_blocks: Blocks
   label_blocked_by: Blocked by
   label_precedes: Precedes
@@ -857,8 +873,8 @@ en:
   label_user_mail_option_selected: "For any event on the selected projects only..."
   label_user_mail_option_none: "No events"
   label_user_mail_option_only_my_events: "Only for things I watch or I'm involved in"
-  label_user_mail_option_only_assigned: "Only for things I am assigned to"
-  label_user_mail_option_only_owner: "Only for things I am the owner of"
+  label_user_mail_option_only_assigned: "Only for things I watch or I am assigned to"
+  label_user_mail_option_only_owner: "Only for things I watch or I am the owner of"
   label_user_mail_no_self_notified: "I don't want to be notified of changes that I make myself"
   label_registration_activation_by_email: account activation by email
   label_registration_manual_activation: manual account activation
@@ -867,7 +883,6 @@ en:
   label_age: Age
   label_change_properties: Change properties
   label_general: General
-  label_more: More
   label_scm: SCM
   label_plugins: Plugins
   label_ldap_authentication: LDAP authentication
@@ -877,7 +892,6 @@ en:
   label_preferences: Preferences
   label_chronological_order: In chronological order
   label_reverse_chronological_order: In reverse chronological order
-  label_planning: Planning
   label_incoming_emails: Incoming emails
   label_generate_key: Generate a key
   label_issue_watchers: Watchers
@@ -940,6 +954,7 @@ en:
   label_attribute_of_assigned_to: "Assignee's %{name}"
   label_attribute_of_user: "User's %{name}"
   label_attribute_of_fixed_version: "Target version's %{name}"
+  label_attribute_of_object: "%{object_name}'s %{name}"
   label_cross_project_descendants: With subprojects
   label_cross_project_tree: With project tree
   label_cross_project_hierarchy: With project hierarchy
@@ -999,6 +1014,11 @@ en:
   label_relations: Relations
   label_new_project_issue_tab_enabled: Display the "New issue" tab
   label_new_object_tab_enabled: Display the "+" drop-down
+  label_table_of_contents: Table of contents
+  label_font_default: Default font
+  label_font_monospace: Monospaced font
+  label_font_proportional: Proportional font
+  label_last_notes: Last notes
 
   button_login: Login
   button_submit: Submit
@@ -1188,8 +1208,4 @@ en:
   description_all_columns: All Columns
   description_issue_category_reassign: Choose issue category
   description_wiki_subpages_reassign: Choose new parent page
-  description_date_range_list: Choose range from list
-  description_date_range_interval: Choose range by selecting start and end date
-  description_date_from: Enter start date
-  description_date_to: Enter end date
   text_repository_identifier_info: 'Only lower case letters (a-z), numbers, dashes and underscores are allowed.<br />Once saved, the identifier cannot be changed.'

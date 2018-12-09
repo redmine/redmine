@@ -135,6 +135,8 @@ he:
         circular_dependency: "קשר זה יצור תלות מעגלית"
         cant_link_an_issue_with_a_descendant: "לא ניתן לקשר נושא לתת־משימה שלו"
         earlier_than_minimum_start_date: "cannot be earlier than %{date} because of preceding issues"
+        not_a_regexp: "is not a valid regular expression"
+        open_issue_with_closed_parent: "An open issue cannot be attached to a closed parent task"
 
   actionview_instancetag_blank_option: בחר בבקשה
 
@@ -485,7 +487,6 @@ he:
   label_my_page: הדף שלי
   label_my_account: החשבון שלי
   label_my_projects: הפרויקטים שלי
-  label_my_page_block: בלוק הדף שלי
   label_administration: ניהול
   label_login: התחבר
   label_logout: התנתק
@@ -573,7 +574,6 @@ he:
   label_internal: פנימי
   label_last_changes: "%{count} שינוים אחרונים"
   label_change_view_all: צפה בכל השינוים
-  label_personalize_page: התאם אישית דף זה
   label_comment: תגובה
   label_comment_plural: תגובות
   label_x_comments:
@@ -724,8 +724,6 @@ he:
   label_user_mail_option_all: "לכל אירוע בכל הפרויקטים שלי"
   label_user_mail_option_selected: "לכל אירוע בפרויקטים שבחרתי בלבד..."
   label_user_mail_option_only_my_events: עבור דברים שאני צופה או מעורב בהם בלבד
-  label_user_mail_option_only_assigned: עבור דברים שאני אחראי עליהם בלבד
-  label_user_mail_option_only_owner: עבור דברים שאני הבעלים שלהם בלבד
   label_user_mail_no_self_notified: "אני לא רוצה שיודיעו לי על שינויים שאני מבצע"
   label_registration_activation_by_email: הפעל חשבון באמצעות דוא"ל
   label_registration_manual_activation: הפעלת חשבון ידנית
@@ -734,7 +732,6 @@ he:
   label_age: גיל
   label_change_properties: שנה מאפיינים
   label_general: כללי
-  label_more: עוד
   label_scm: מערכת ניהול תצורה
   label_plugins: תוספים
   label_ldap_authentication: הזדהות LDAP
@@ -744,7 +741,6 @@ he:
   label_preferences: העדפות
   label_chronological_order: בסדר כרונולוגי
   label_reverse_chronological_order: בסדר כרונולוגי הפוך
-  label_planning: תכנון
   label_incoming_emails: דוא"ל נכנס
   label_generate_key: צור מפתח
   label_issue_watchers: צופים
@@ -972,16 +968,12 @@ he:
   description_project_scope: Search scope
   description_filter: Filter
   description_user_mail_notification: Mail notification settings
-  description_date_from: Enter start date
   description_message_content: Message content
   description_available_columns: Available Columns
-  description_date_range_interval: Choose range by selecting start and end date
   description_issue_category_reassign: Choose issue category
   description_search: Searchfield
   description_notes: Notes
-  description_date_range_list: Choose range from list
   description_choose_project: Projects
-  description_date_to: Enter end date
   description_query_sort_criteria_attribute: Sort attribute
   description_wiki_subpages_reassign: Choose new parent page
   description_selected_columns: Selected Columns
@@ -1213,5 +1205,31 @@ he:
   label_new_object_tab_enabled: Display the "+" drop-down
   error_no_projects_with_tracker_allowed_for_new_issue: There are no projects with trackers
     for which you can create an issue
+  field_textarea_font: Font used for text areas
+  label_font_default: Default font
+  label_font_monospace: Monospaced font
+  label_font_proportional: Proportional font
+  setting_timespan_format: Time span format
+  label_table_of_contents: Table of contents
+  setting_commit_logs_formatting: Apply text formatting to commit messages
+  setting_mail_handler_enable_regex_delimiters: Enable regular expressions
+  error_move_of_child_not_possible: 'Subtask %{child} could not be moved to the new
+    project: %{errors}'
   error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: Spent time cannot
     be reassigned to an issue that is about to be deleted
+  setting_timelog_required_fields: Required fields for time logs
+  label_attribute_of_object: '%{object_name}''s %{name}'
+  label_user_mail_option_only_assigned: Only for things I watch or I am assigned to
+  label_user_mail_option_only_owner: Only for things I watch or I am the owner of
+  warning_fields_cleared_on_bulk_edit: Changes will result in the automatic deletion
+    of values from one or more fields on the selected objects
+  field_updated_by: Updated by
+  field_last_updated_by: Last updated by
+  field_full_width_layout: Full width layout
+  label_last_notes: Last notes
+  field_digest: Checksum
+  field_default_assigned_to: Default assignee
+  setting_show_custom_fields_on_registration: Show custom fields on registration
+  permission_view_news: View news
+  label_no_preview_alternative_html: No preview available. %{link} the file instead.
+  label_no_preview_download: Download

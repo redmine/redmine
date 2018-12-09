@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -16,7 +16,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class SearchController < ApplicationController
-  before_filter :find_optional_project
+  before_action :find_optional_project
   accept_api_auth :index
 
   def index
@@ -49,7 +49,7 @@ class SearchController < ApplicationController
       when 'my_projects'
         User.current.projects
       when 'subprojects'
-        @project ? (@project.self_and_descendants.active.to_a) : nil
+        @project ? (@project.self_and_descendants.to_a) : nil
       else
         @project
       end

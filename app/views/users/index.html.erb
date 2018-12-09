@@ -22,8 +22,9 @@
 <% end %>
 &nbsp;
 
+<% if @users.any? %>
 <div class="autoscroll">
-<table class="list">
+<table class="list users">
   <thead><tr>
   <%= sort_header_tag('login', :caption => l(:field_login)) %>
   <%= sort_header_tag('firstname', :caption => l(:field_firstname)) %>
@@ -36,7 +37,7 @@
   </tr></thead>
   <tbody>
 <% for user in @users -%>
-  <tr class="<%= user.css_classes %> <%= cycle("odd", "even") %>">
+  <tr class="<%= user.css_classes %>">
   <td class="username"><%= avatar(user, :size => "14") %><%= link_to user.login, edit_user_path(user) %></td>
   <td class="firstname"><%= user.firstname %></td>
   <td class="lastname"><%= user.lastname %></td>
@@ -54,5 +55,8 @@
 </table>
 </div>
 <span class="pagination"><%= pagination_links_full @user_pages, @user_count %></span>
+<% else %>
+<p class="nodata"><%= l(:label_no_data) %></p>
+<% end %>
 
 <% html_title(l(:label_user_plural)) -%>

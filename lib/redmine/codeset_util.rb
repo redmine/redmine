@@ -6,7 +6,7 @@ module Redmine
       return str if str.nil?
       str.force_encoding('UTF-8')
       if ! str.valid_encoding?
-        str = str.encode("US-ASCII", :invalid => :replace,
+        str = str.encode("UTF-16LE", :invalid => :replace,
               :undef => :replace, :replace => '?').encode("UTF-8")
       end
       str
@@ -25,11 +25,7 @@ module Redmine
         str = str.encode("UTF-8", :invalid => :replace,
               :undef => :replace, :replace => '?')
       else
-        str.force_encoding("UTF-8")
-        if ! str.valid_encoding?
-          str = str.encode("US-ASCII", :invalid => :replace,
-                :undef => :replace, :replace => '?').encode("UTF-8")
-        end
+        str = replace_invalid_utf8(str)
       end
       str
     end

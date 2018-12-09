@@ -1,5 +1,21 @@
 <h2><%= l(:label_bulk_edit_selected_time_entries) %></h2>
 
+<% if @unsaved_time_entries.present? %>
+<div id="errorExplanation">
+  <span>
+    <%= l(:notice_failed_to_save_time_entries,
+        :count => @unsaved_time_entries.size,
+        :total => @saved_time_entries.size,
+        :ids => @unsaved_time_entries.map {|i| "##{i.id}"}.join(', ')) %>
+  </span>
+  <ul>
+  <% bulk_edit_error_messages(@unsaved_time_entries).each do |message| %>
+    <li><%= message %></li>
+  <% end %>
+  </ul>
+</div>
+<% end %>
+
 <ul id="bulk-selection">
 <% @time_entries.each do |entry| %>
   <%= content_tag 'li',
@@ -12,29 +28,29 @@
 <div class="box tabular">
   <div>
     <p>
-      <label><%= l(:field_issue) %></label>
+      <label for="time_entry_issue_id"><%= l(:field_issue) %></label>
       <%= text_field :time_entry, :issue_id, :size => 6 %>
     </p>
 
     <p>
-      <label><%= l(:field_spent_on) %></label>
+      <label for="time_entry_spent_on"><%= l(:field_spent_on) %></label>
       <%= date_field :time_entry, :spent_on, :size => 10 %><%= calendar_for('time_entry_spent_on') %>
     </p>
 
     <p>
-      <label><%= l(:field_hours) %></label>
+      <label for="time_entry_hours"><%= l(:field_hours) %></label>
       <%= text_field :time_entry, :hours, :size => 6 %>
     </p>
 
     <% if @available_activities.any? %>
     <p>
-      <label><%= l(:field_activity) %></label>
+      <label for="time_entry_activity_id"><%= l(:field_activity) %></label>
       <%= select_tag('time_entry[activity_id]', content_tag('option', l(:label_no_change_option), :value => '') + options_from_collection_for_select(@available_activities, :id, :name)) %>
     </p>
     <% end %>
 
     <p>
-      <label><%= l(:field_comments) %></label>
+      <label for="time_entry_comments"><%= l(:field_comments) %></label>
       <%= text_field(:time_entry, :comments, :size => 100) %>
     </p>
 

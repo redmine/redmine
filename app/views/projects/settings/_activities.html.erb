@@ -12,7 +12,7 @@
 
   <% @project.activities(true).each do |enumeration| %>
   <%= fields_for "enumerations[#{enumeration.id}]", enumeration do |ff| %>
-  <tr class="<%= cycle('odd', 'even') %>">
+  <tr>
     <td class="name">
       <%= ff.hidden_field :parent_id, :value => enumeration.id unless enumeration.project %>
       <%= enumeration %>

@@ -4,6 +4,9 @@
 <h3><%= l(klass::OptionName) %></h3>
 
 <% enumerations = klass.shared %>
+
+<p><%= link_to l(:label_enumeration_new), new_enumeration_path(:type => klass.name), :class => 'icon icon-add' %></p>
+
 <% if enumerations.any? %>
 <table class="list enumerations"><thead>
 <tr>
@@ -13,7 +16,7 @@
     <th></th>
 </tr></thead>
 <% enumerations.each do |enumeration| %>
-<tr class="<%= cycle('odd', 'even') %>">
+<tr>
     <td class="name"><%= link_to enumeration, edit_enumeration_path(enumeration) %></td>
     <td class="tick"><%= checked_image enumeration.is_default? %></td>
     <td class="tick"><%= checked_image enumeration.active? %></td>
@@ -24,10 +27,9 @@
 </tr>
 <% end %>
 </table>
-<% reset_cycle %>
+<% else %>
+<p class="nodata"><%= l(:label_no_data) %></p>
 <% end %>
-
-<p><%= link_to l(:label_enumeration_new), new_enumeration_path(:type => klass.name) %></p>
 <% end %>
 
 <% html_title(l(:label_enumerations)) -%>

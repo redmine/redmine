@@ -151,6 +151,8 @@ ja:
         circular_dependency: "この関係では、循環依存になります"
         cant_link_an_issue_with_a_descendant: "親子関係にあるチケット間での関連の設定はできません"
         earlier_than_minimum_start_date: "を%{date}より前にすることはできません。先行するチケットがあります"
+        not_a_regexp: "は正しい正規表現ではありません"
+        open_issue_with_closed_parent: "完了したチケットに未完了の子チケットを追加することはできません"
 
   actionview_instancetag_blank_option: 選んでください
 
@@ -195,7 +197,7 @@ ja:
   notice_unable_delete_version: バージョンを削除できません
   notice_unable_delete_time_entry: 作業時間を削除できません
   notice_issue_done_ratios_updated: チケットの進捗率を更新しました。
-  notice_gantt_chart_truncated: ガントチャートは、最大表示項目数(%{max})を超えたため切り捨てられました。
+  notice_gantt_chart_truncated: ガントチャートは、最大表示件数(%{max})を超えたため切り捨てられました。
 
   error_can_t_load_default_data: "デフォルト設定がロードできませんでした: %{value}"
   error_scm_not_found: リポジトリに、エントリ/リビジョンが存在しません。
@@ -246,7 +248,7 @@ ja:
   field_author: 作成者
   field_created_on: 作成日
   field_updated_on: 更新日
-  field_field_format: 書式
+  field_field_format: 形式
   field_is_for_all: 全プロジェクト向け
   field_possible_values: 選択肢
   field_regexp: 正規表現
@@ -288,11 +290,11 @@ ja:
   field_host: ホスト
   field_port: ポート
   field_account: アカウント
-  field_base_dn: 検索範囲
-  field_attr_login: ログイン名属性
-  field_attr_firstname: 名前属性
-  field_attr_lastname: 苗字属性
-  field_attr_mail: メール属性
+  field_base_dn: ベースDN
+  field_attr_login: ログインIDの属性
+  field_attr_firstname: 名の属性
+  field_attr_lastname: 姓の属性
+  field_attr_mail: メールアドレスの属性
   field_onthefly: あわせてユーザーを作成
   field_start_date: 開始日
   field_done_ratio: 進捗率
@@ -350,10 +352,10 @@ ja:
   setting_bcc_recipients: 宛先を非表示(bcc)
   setting_plain_text_mail: プレインテキスト形式(HTMLなし)
   setting_host_name: ホスト名とパス
-  setting_text_formatting: テキストの書式
-  setting_cache_formatted_text: 書式化されたテキストをキャッシュする
+  setting_text_formatting: テキスト書式
+  setting_cache_formatted_text: テキスト書式の変換結果をキャッシュ
   setting_wiki_compression: Wiki履歴を圧縮する
-  setting_feeds_limit: Atomフィードの項目数の上限
+  setting_feeds_limit: Atomフィードの最大出力件数
   setting_default_projects_public: デフォルトで新しいプロジェクトは公開にする
   setting_autofetch_changesets: コミットを自動取得する
   setting_sys_api_enabled: リポジトリ管理用のWebサービスを有効にする
@@ -369,7 +371,7 @@ ja:
   setting_emails_footer: メールのフッタ
   setting_protocol: プロトコル
   setting_per_page_options: ページごとの表示件数
-  setting_user_format: ユーザー名の表示書式
+  setting_user_format: ユーザー名の表示形式
   setting_activity_days_default: プロジェクトの活動ページに表示される日数
   setting_display_subprojects_issues: サブプロジェクトのチケットをメインプロジェクトに表示する
   setting_enabled_scm: 使用するバージョン管理システム
@@ -394,7 +396,7 @@ ja:
   setting_default_notification_option: デフォルトのメール通知オプション
   setting_commit_logtime_enabled: コミット時に作業時間を記録する
   setting_commit_logtime_activity_id: 作業時間の作業分類
-  setting_gantt_items_limit: ガントチャート最大表示項目数
+  setting_gantt_items_limit: ガントチャート最大表示件数
   setting_default_projects_tracker_ids: 新規プロジェクトにおいてデフォルトで有効になるトラッカー
 
   permission_add_project: プロジェクトの追加
@@ -425,6 +427,7 @@ ja:
   permission_edit_time_entries: 作業時間の編集
   permission_edit_own_time_entries: 自身が記入した作業時間の編集
   permission_manage_project_activities: 作業分類 (時間管理) の管理
+  permission_view_news: ニュースの閲覧
   permission_manage_news: ニュースの管理
   permission_comment_news: ニュースへのコメント
   permission_view_documents: 文書の閲覧
@@ -497,7 +500,7 @@ ja:
   label_member_plural: メンバー
   label_tracker: トラッカー
   label_tracker_plural: トラッカー
-  label_tracker_new: 新しいトラッカーを作成
+  label_tracker_new: 新しいトラッカー
   label_workflow: ワークフロー
   label_issue_status: チケットのステータス
   label_issue_status_plural: チケットのステータス
@@ -507,8 +510,8 @@ ja:
   label_issue_category_new: 新しいカテゴリ
   label_custom_field: カスタムフィールド
   label_custom_field_plural: カスタムフィールド
-  label_custom_field_new: 新しいカスタムフィールドを作成
-  label_enumerations: 列挙項目
+  label_custom_field_new: 新しいカスタムフィールド
+  label_enumerations: 選択肢の値
   label_enumeration_new: 新しい値
   label_information: 情報
   label_information_plural: 情報
@@ -520,7 +523,6 @@ ja:
   label_my_page: マイページ
   label_my_account: 個人設定
   label_my_projects: マイプロジェクト
-  label_my_page_block: マイページパーツ
   label_administration: 管理
   label_login: ログイン
   label_logout: ログアウト
@@ -609,7 +611,6 @@ ja:
   label_internal: 内部
   label_last_changes: "最新の変更 %{count}件"
   label_change_view_all: すべての変更を表示
-  label_personalize_page: このページをパーソナライズする
   label_comment: コメント
   label_comment_plural: コメント
   label_x_comments:
@@ -698,7 +699,7 @@ ja:
   label_change_plural: 変更
   label_statistics: 統計
   label_commits_per_month: 月別のコミット
-  label_commits_per_author: 起票者別のコミット
+  label_commits_per_author: 作成者別のコミット
   label_diff: 差分
   label_view_diff: 差分を表示
   label_diff_inline: インライン
@@ -762,9 +763,9 @@ ja:
   label_user_mail_option_all: "参加しているプロジェクトのすべての通知"
   label_user_mail_option_selected: "選択したプロジェクトのすべての通知..."
   label_user_mail_option_none: "通知しない"
-  label_user_mail_option_only_my_events: "ウォッチまたは関係している事柄のみ"
-  label_user_mail_option_only_assigned: "自分が担当している事柄のみ"
-  label_user_mail_option_only_owner: "自分が作成した事柄のみ"
+  label_user_mail_option_only_my_events: "ウォッチ中または自分が関係しているもの"
+  label_user_mail_option_only_assigned: "ウォッチ中または自分が担当しているもの"
+  label_user_mail_option_only_owner: "ウォッチ中または自分が作成したもの"
   label_user_mail_no_self_notified: 自分自身による変更の通知は不要
   label_registration_activation_by_email: メールでアカウントを有効化
   label_registration_manual_activation: 手動でアカウントを有効化
@@ -773,7 +774,6 @@ ja:
   label_age: 経過期間
   label_change_properties: プロパティの変更
   label_general: 全般
-  label_more: 続き
   label_scm: バージョン管理システム
   label_plugins: プラグイン
   label_ldap_authentication: LDAP認証
@@ -783,7 +783,6 @@ ja:
   label_preferences: 設定
   label_chronological_order: 古い順
   label_reverse_chronological_order: 新しい順
-  label_planning: 計画
   label_incoming_emails: 受信メール
   label_generate_key: キーの生成
   label_issue_watchers: ウォッチャー
@@ -808,7 +807,7 @@ ja:
   label_copy_source: コピー元
   label_copy_target: コピー先
   label_copy_same_as_target: 同じコピー先
-  label_display_used_statuses_only: このトラッカーで使われているステータスのみ表示する
+  label_display_used_statuses_only: このトラッカーで使用中のステータスのみ表示
   label_api_access_key: APIアクセスキー
   label_missing_api_access_key: APIアクセスキーが見つかりません
   label_api_access_key_created_on: "APIアクセスキーは%{value}前に作成されました"
@@ -939,7 +938,7 @@ ja:
   text_warn_on_leaving_unsaved: このページから移動すると、保存されていないデータが失われます。
   text_scm_path_encoding_note: "デフォルト: UTF-8"
   text_mercurial_repository_note: "ローカルリポジトリ (例: /hgrepo, c:\\hgrepo)"
-  text_git_repository_note: "Bare、かつ、ローカルリポジトリ (例: /gitrepo, c:\\gitrepo)"
+  text_git_repository_note: "ローカルのベア(bare)リポジトリ (例: /gitrepo, c:\\gitrepo)"
   text_scm_command: コマンド
   text_scm_command_version: バージョン
   text_scm_config: バージョン管理システムのコマンドをconfig/configuration.ymlで設定できます。設定後、Redmineを再起動してください。
@@ -997,16 +996,12 @@ ja:
   description_project_scope: 検索範囲
   description_filter: Filter
   description_user_mail_notification: メール通知の設定
-  description_date_from: 開始日
   description_message_content: 内容
   description_available_columns: 利用できる項目
-  description_date_range_interval: 日付で指定
   description_issue_category_reassign: 新しいカテゴリを選択してください
   description_search: 検索キーワード
   description_notes: 注記
-  description_date_range_list: 一覧から選択
   description_choose_project: プロジェクト
-  description_date_to: 終了日
   description_query_sort_criteria_attribute: 項目
   description_wiki_subpages_reassign: 新しい親ページを選択してください
   description_selected_columns: 選択された項目
@@ -1163,8 +1158,8 @@ ja:
   label_member_management_selected_roles_only: 次のロールのみ
   label_password_required: この操作を続行するにはパスワードを入力してください
   label_total_spent_time: 合計作業時間
-  notice_import_finished: "%{count}件の項目をすべてインポートしました"
-  notice_import_finished_with_errors: "全%{total}件中%{count}件の項目がインポートできませんでした"
+  notice_import_finished: "%{count}件のデータをすべてインポートしました"
+  notice_import_finished_with_errors: "全%{total}件中%{count}件のデータがインポートできませんでした"
   error_invalid_file_encoding: このファイルのエンコーディングは正しい%{encoding}ではありません
   error_invalid_csv_file_or_settings: このファイルはCSVファイルではないか、以下の設定と一致していません
   error_can_not_read_import_file: インポート元のファイルを読み込み中にエラーが発生しました
@@ -1218,4 +1213,25 @@ ja:
   setting_new_item_menu_tab: 新規オブジェクト作成タブ
   label_new_object_tab_enabled: '"+" ドロップダウンを表示'
   error_no_projects_with_tracker_allowed_for_new_issue: チケットを追加できるプロジェクトがありません
+  field_textarea_font: テキストエリアのフォント
+  label_font_default: デフォルト
+  label_font_monospace: 等幅
+  label_font_proportional: プロポーショナル
+  setting_timespan_format: 時間の形式
+  label_table_of_contents: 目次
+  setting_commit_logs_formatting: コミットメッセージにテキスト書式を適用
+  setting_mail_handler_enable_regex_delimiters: 正規表現を使用
+  error_move_of_child_not_possible: '子チケット %{child} を指定されたプロジェクトに移動できませんでした: %{errors}'
   error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: 削除対象チケットへの作業時間の再割り当てはできません
+  setting_timelog_required_fields: 作業時間の必須入力フィールド
+  label_attribute_of_object: '%{object_name}の %{name}'
+  warning_fields_cleared_on_bulk_edit: この編集操作により次のフィールドの値がチケットから削除されます
+  field_updated_by: 更新者
+  field_last_updated_by: 最終更新者
+  field_full_width_layout: ワイド表示
+  label_last_notes: 最新の注記
+  field_digest: チェックサム
+  field_default_assigned_to: デフォルトの担当者
+  setting_show_custom_fields_on_registration: アカウント登録画面でカスタムフィールドを表示
+  label_no_preview_alternative_html: このファイルはプレビューできません。 %{link} してください。
+  label_no_preview_download: ダウンロード

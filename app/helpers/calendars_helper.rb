@@ -1,7 +1,7 @@
 # encoding: utf-8
 #
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -53,6 +53,6 @@ module CalendarsHelper
   end
 
   def link_to_month(link_name, year, month, options={})
-    link_to_content_update(h(link_name), params.merge(:year => year, :month => month), options)
+    link_to(link_name, {:params => request.query_parameters.merge(:year => year, :month => month)}, options)
   end
 end

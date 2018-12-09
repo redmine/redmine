@@ -46,24 +46,26 @@
 
 <%= render(:partial => "wiki/content", :locals => {:content => @content}) %>
 
-<%= link_to_attachments @page %>
+<fieldset class="collapsible collapsed hide-when-print">
+  <legend onclick="toggleFieldset(this);"><%= l(:label_attachment_plural) %> (<%= @page.attachments.length %>)</legend>
+  <div style="display: none;">
 
-<% if @editable && authorize_for('wiki', 'add_attachment') %>
-<div id="wiki_add_attachment">
-<p><%= link_to l(:label_attachment_new), {}, :onclick => "$('#add_attachment_form').show(); return false;",
-                                             :id => 'attach_files_link' %></p>
-<%= form_tag({:controller => 'wiki', :action => 'add_attachment',
-              :project_id => @project, :id => @page.title},
-             :multipart => true, :id => "add_attachment_form",
-             :style => "display:none;") do %>
-  <div class="box">
-  <p><%= render :partial => 'attachments/form' %></p>
+  <%= link_to_attachments @page, :thumbnails => true %>
+  
+  <% if @editable && authorize_for('wiki', 'add_attachment') %>
+  <div id="wiki_add_attachment">
+    <%= form_tag({:controller => 'wiki', :action => 'add_attachment',
+                  :project_id => @project, :id => @page.title},
+                 :multipart => true, :id => "add_attachment_form") do %>
+      <div class="box">
+      <p><%= render :partial => 'attachments/form' %></p>
+      </div>
+      <%= submit_tag l(:button_add) %>
+    <% end %>
   </div>
-<%= submit_tag l(:button_add) %>
-<%= link_to l(:button_cancel), {}, :onclick => "$('#add_attachment_form').hide(); return false;" %>
-<% end %>
+  <% end %>
 </div>
-<% end %>
+</fieldset>
 
 <% other_formats_links do |f| %>
   <%= f.link_to 'PDF', :url => {:id => @page.title, :version => params[:version]} %>

@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -138,6 +138,24 @@ class Import < ActiveRecord::Base
     settings['mapping'] || {}
   end
 
+  # Adds a callback that will be called after the item at given position is imported
+  def add_callback(position, name, *args)
+    settings['callbacks'] ||= {}
+    settings['callbacks'][position.to_i] ||= []
+    settings['callbacks'][position.to_i] << [name, args]
+    save!
+  end
+
+  # Executes the callbacks for the given object
+  def do_callbacks(position, object)
+    if callbacks = (settings['callbacks'] || {}).delete(position)
+      callbacks.each do |name, args|
+        send "#{name}_callback", object, *args
+      end
+      save!
+    end
+  end
+
   # Imports items and returns the position of the last processed item
   def run(options={})
     max_items = options[:max_items]
@@ -157,7 +175,7 @@ class Import < ActiveRecord::Base
         item = items.build
         item.position = position
 
-        if object = build_object(row)
+        if object = build_object(row, item)
           if object.save
             item.obj_id = object.id
           else
@@ -167,6 +185,8 @@ class Import < ActiveRecord::Base
 
         item.save!
         imported += 1
+
+        do_callbacks(item.position, object)
       end
       current = position
     end

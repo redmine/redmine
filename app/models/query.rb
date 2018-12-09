@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -74,13 +74,33 @@ class QueryColumn
   end
 end
 
+class QueryAssociationColumn < QueryColumn
+
+  def initialize(association, attribute, options={})
+    @association = association
+    @attribute = attribute
+    name_with_assoc = "#{association}.#{attribute}".to_sym
+    super(name_with_assoc, options)
+  end
+
+  def value_object(object)
+    if assoc = object.send(@association)
+      assoc.send @attribute
+    end
+  end
+
+  def css_classes
+    @css_classes ||= "#{@association}-#{@attribute}"
+  end
+end
+
 class QueryCustomFieldColumn < QueryColumn
 
-  def initialize(custom_field)
+  def initialize(custom_field, options={})
     self.name = "cf_#{custom_field.id}".to_sym
     self.sortable = custom_field.order_statement || false
     self.groupable = custom_field.group_statement || false
-    self.totalable = custom_field.totalable?
+    self.totalable = options.key?(:totalable) ? !!options[:totalable] : custom_field.totalable?
     @inline = true
     @cf = custom_field
   end
@@ -120,8 +140,8 @@ end
 
 class QueryAssociationCustomFieldColumn < QueryCustomFieldColumn
 
-  def initialize(association, custom_field)
-    super(custom_field)
+  def initialize(association, custom_field, options={})
+    super(custom_field, options)
     self.name = "#{association}.cf_#{custom_field.id}".to_sym
     # TODO: support sorting/grouping by association custom field
     self.sortable = false
@@ -140,9 +160,45 @@ class QueryAssociationCustomFieldColumn < QueryCustomFieldColumn
   end
 end
 
+class QueryFilter
+  include Redmine::I18n
+
+  def initialize(field, options)
+    @field = field.to_s
+    @options = options
+    @options[:name] ||= l(options[:label] || "field_#{field}".gsub(/_id$/, ''))
+    # Consider filters with a Proc for values as remote by default
+    @remote = options.key?(:remote) ? options[:remote] : options[:values].is_a?(Proc)
+  end
+
+  def [](arg)
+    if arg == :values
+      values
+    else
+      @options[arg]
+    end
+  end
+
+  def values
+    @values ||= begin
+      values = @options[:values]
+      if values.is_a?(Proc)
+        values = values.call
+      end
+      values
+    end
+  end
+
+  def remote
+    @remote
+  end
+end
+
 class Query < ActiveRecord::Base
   class StatementInvalid < ::ActiveRecord::StatementInvalid
   end
+
+  include Redmine::SubclassFactory
 
   VISIBILITY_PRIVATE = 0
   VISIBILITY_ROLES   = 1
@@ -213,7 +269,7 @@ class Query < ActiveRecord::Base
     :list => [ "=", "!" ],
     :list_status => [ "o", "=", "!", "c", "*" ],
     :list_optional => [ "=", "!", "!*", "*" ],
-    :list_subprojects => [ "*", "!*", "=" ],
+    :list_subprojects => [ "*", "!*", "=", "!" ],
     :date => [ "=", ">=", "<=", "><", "<t+", ">t+", "><t+", "t+", "t", "ld", "w", "lw", "l2w", "m", "lm", "y", ">t-", "<t-", "><t-", "t-", "!*", "*" ],
     :date_past => [ "=", ">=", "<=", "><", ">t-", "<t-", "><t-", "t-", "t", "ld", "w", "lw", "l2w", "m", "lm", "y", "!*", "*" ],
     :string => [ "=", "~", "!", "!~", "!*", "*" ],
@@ -228,6 +284,77 @@ class Query < ActiveRecord::Base
   self.available_columns = []
 
   class_attribute :queried_class
+
+  # Permission required to view the queries, set on subclasses.
+  class_attribute :view_permission
+
+  # Scope of queries that are global or on the given project
+  scope :global_or_on_project, lambda {|project|
+    where(:project_id => (project.nil? ? nil : [nil, project.id]))
+  }
+
+  scope :sorted, lambda {order(:name, :id)}
+
+  # Scope of visible queries, can be used from subclasses only.
+  # Unlike other visible scopes, a class methods is used as it
+  # let handle inheritance more nicely than scope DSL.
+  def self.visible(*args)
+    if self == ::Query
+      # Visibility depends on permissions for each subclass,
+      # raise an error if the scope is called from Query (eg. Query.visible)
+      raise Exception.new("Cannot call .visible scope from the base Query class, but from subclasses only.")
+    end
+
+    user = args.shift || User.current
+    base = Project.allowed_to_condition(user, view_permission, *args)
+    scope = joins("LEFT OUTER JOIN #{Project.table_name} ON #{table_name}.project_id = #{Project.table_name}.id").
+      where("#{table_name}.project_id IS NULL OR (#{base})")
+
+    if user.admin?
+      scope.where("#{table_name}.visibility <> ? OR #{table_name}.user_id = ?", VISIBILITY_PRIVATE, user.id)
+    elsif user.memberships.any?
+      scope.where("#{table_name}.visibility = ?" +
+        " OR (#{table_name}.visibility = ? AND #{table_name}.id IN (" +
+          "SELECT DISTINCT q.id FROM #{table_name} q" +
+          " INNER JOIN #{table_name_prefix}queries_roles#{table_name_suffix} qr on qr.query_id = q.id" +
+          " INNER JOIN #{MemberRole.table_name} mr ON mr.role_id = qr.role_id" +
+          " INNER JOIN #{Member.table_name} m ON m.id = mr.member_id AND m.user_id = ?" +
+          " INNER JOIN #{Project.table_name} p ON p.id = m.project_id AND p.status <> ?" +
+          " WHERE q.project_id IS NULL OR q.project_id = m.project_id))" +
+        " OR #{table_name}.user_id = ?",
+        VISIBILITY_PUBLIC, VISIBILITY_ROLES, user.id, Project::STATUS_ARCHIVED, user.id)
+    elsif user.logged?
+      scope.where("#{table_name}.visibility = ? OR #{table_name}.user_id = ?", VISIBILITY_PUBLIC, user.id)
+    else
+      scope.where("#{table_name}.visibility = ?", VISIBILITY_PUBLIC)
+    end
+  end
+
+  # Returns true if the query is visible to +user+ or the current user.
+  def visible?(user=User.current)
+    return true if user.admin?
+    return false unless project.nil? || user.allowed_to?(self.class.view_permission, project)
+    case visibility
+    when VISIBILITY_PUBLIC
+      true
+    when VISIBILITY_ROLES
+      if project
+        (user.roles_for_project(project) & roles).any?
+      else
+        user.memberships.joins(:member_roles).where(:member_roles => {:role_id => roles.map(&:id)}).any?
+      end
+    else
+      user == self.user
+    end
+  end
+
+  def is_private?
+    visibility == VISIBILITY_PRIVATE
+  end
+
+  def is_public?
+    !is_private?
+  end
 
   def queried_table_name
     @queried_table_name ||= self.class.queried_class.table_name
@@ -251,12 +378,33 @@ class Query < ActiveRecord::Base
     self.group_by = params[:group_by] || (params[:query] && params[:query][:group_by])
     self.column_names = params[:c] || (params[:query] && params[:query][:column_names])
     self.totalable_names = params[:t] || (params[:query] && params[:query][:totalable_names])
+    self.sort_criteria = params[:sort] || (params[:query] && params[:query][:sort_criteria])
     self
   end
 
   # Builds a new query from the given params and attributes
   def self.build_from_params(params, attributes={})
     new(attributes).build_from_params(params)
+  end
+
+  def as_params
+    if new_record?
+      params = {}
+      filters.each do |field, options|
+        params[:f] ||= []
+        params[:f] << field
+        params[:op] ||= {}
+        params[:op][field] = options[:operator]
+        params[:v] ||= {}
+        params[:v][field] = options[:values]
+      end
+      params[:c] = column_names
+      params[:sort] = sort_criteria.to_param
+      params[:set_filter] = 1
+      params
+    else
+      {:query_id => id}
+    end
   end
 
   def validate_query_filters
@@ -312,12 +460,17 @@ class Query < ActiveRecord::Base
   # Returns a representation of the available filters for JSON serialization
   def available_filters_as_json
     json = {}
-    available_filters.each do |field, options|
-      options = options.slice(:type, :name, :values)
-      if options[:values] && values_for(field)
-        missing = Array(values_for(field)).select(&:present?) - options[:values].map(&:last)
-        if missing.any? && respond_to?(method = "find_#{field}_filter_values")
-          options[:values] += send(method, missing)
+    available_filters.each do |field, filter|
+      options = {:type => filter[:type], :name => filter[:name]}
+      options[:remote] = true if filter.remote
+
+      if has_filter?(field) || !filter.remote
+        options[:values] = filter.values
+        if options[:values] && values_for(field)
+          missing = Array(values_for(field)).select(&:present?) - options[:values].map(&:last)
+          if missing.any? && respond_to?(method = "find_#{field}_filter_values")
+            options[:values] += send(method, missing)
+          end
         end
       end
       json[field] = options.stringify_keys
@@ -340,6 +493,75 @@ class Query < ActiveRecord::Base
     @all_projects_values = values
   end
 
+  def project_values
+    project_values = []
+    if User.current.logged? && User.current.memberships.any?
+      project_values << ["<< #{l(:label_my_projects).downcase} >>", "mine"]
+    end
+    project_values += all_projects_values
+    project_values
+  end
+
+  def subproject_values
+    project.descendants.visible.collect{|s| [s.name, s.id.to_s] }
+  end
+
+  def principals
+    @principal ||= begin
+      principals = []
+      if project
+        principals += project.principals.visible
+        unless project.leaf?
+          principals += Principal.member_of(project.descendants.visible).visible
+        end
+      else
+        principals += Principal.member_of(all_projects).visible
+      end
+      principals.uniq!
+      principals.sort!
+      principals.reject! {|p| p.is_a?(GroupBuiltin)}
+      principals
+    end
+  end
+
+  def users
+    principals.select {|p| p.is_a?(User)}
+  end
+
+  def author_values
+    author_values = []
+    author_values << ["<< #{l(:label_me)} >>", "me"] if User.current.logged?
+    author_values += users.collect{|s| [s.name, s.id.to_s] }
+    author_values
+  end
+
+  def assigned_to_values
+    assigned_to_values = []
+    assigned_to_values << ["<< #{l(:label_me)} >>", "me"] if User.current.logged?
+    assigned_to_values += (Setting.issue_group_assignment? ? principals : users).collect{|s| [s.name, s.id.to_s] }
+    assigned_to_values
+  end
+
+  def fixed_version_values
+    versions = []
+    if project
+      versions = project.shared_versions.to_a
+    else
+      versions = Version.visible.where(:sharing => 'system').to_a
+    end
+    Version.sort_by_status(versions).collect{|s| ["#{s.project.name} - #{s.name}", s.id.to_s, l("version_status_#{s.status}")] }
+  end
+
+  # Returns a scope of issue statuses that are available as columns for filters
+  def issue_statuses_values
+    if project
+      statuses = project.rolled_up_statuses
+    else
+      statuses = IssueStatus.all.sorted
+    end
+    statuses.collect{|s| [s.name, s.id.to_s]}
+  end
+
   # Returns a scope of issue custom fields that are available as columns or filters
   def issue_custom_fields
     if project
@@ -358,7 +580,7 @@ class Query < ActiveRecord::Base
   # Adds an available filter
   def add_available_filter(field, options)
     @available_filters ||= ActiveSupport::OrderedHash.new
-    @available_filters[field] = options
+    @available_filters[field] = QueryFilter.new(field, options)
     @available_filters
   end
 
@@ -373,9 +595,7 @@ class Query < ActiveRecord::Base
   def available_filters
     unless @available_filters
       initialize_available_filters
-      @available_filters.each do |field, options|
-        options[:name] ||= l(options[:label] || "field_#{field}".gsub(/_id$/, ''))
-      end
+      @available_filters ||= {}
     end
     @available_filters
   end
@@ -397,7 +617,7 @@ class Query < ActiveRecord::Base
       next unless expression =~ /^#{Regexp.escape(operator)}(.*)$/
       values = $1
       add_filter field, operator, values.present? ? values.split('|') : ['']
-    end || add_filter(field, '=', expression.split('|'))
+    end || add_filter(field, '=', expression.to_s.split('|'))
   end
 
   # Add multiple filters using +add_filter+
@@ -483,10 +703,17 @@ class Query < ActiveRecord::Base
     []
   end
 
+  def default_totalable_names
+    []
+  end
+
   def column_names=(names)
     if names
       names = names.select {|n| n.is_a?(Symbol) || !n.blank? }
       names = names.collect {|n| n.is_a?(Symbol) ? n : n.to_sym }
+      if names.delete(:all_inline)
+        names = available_inline_columns.map(&:name) | names
+      end
       # Set column_names to nil if default columns
       if names == default_columns_names
         names = nil
@@ -496,7 +723,8 @@ class Query < ActiveRecord::Base
   end
 
   def has_column?(column)
-    column_names && column_names.include?(column.is_a?(QueryColumn) ? column.name : column)
+    name = column.is_a?(QueryColumn) ? column.name : column
+    columns.detect {|c| c.name == name}
   end
 
   def has_custom_field_column?
@@ -520,40 +748,43 @@ class Query < ActiveRecord::Base
   end
 
   def totalable_names
-    options[:totalable_names] || Setting.issue_list_default_totals.map(&:to_sym) || []
+    options[:totalable_names] || default_totalable_names || []
+  end
+
+  def default_sort_criteria
+    []
   end
 
   def sort_criteria=(arg)
-    c = []
-    if arg.is_a?(Hash)
-      arg = arg.keys.sort.collect {|k| arg[k]}
-    end
-    if arg
-      c = arg.select {|k,o| !k.to_s.blank?}.slice(0,3).collect {|k,o| [k.to_s, (o == 'desc' || o == false) ? 'desc' : 'asc']}
-    end
-    write_attribute(:sort_criteria, c)
+    c = Redmine::SortCriteria.new(arg)
+    write_attribute(:sort_criteria, c.to_a)
+    c
   end
 
   def sort_criteria
-    read_attribute(:sort_criteria) || []
+    c = read_attribute(:sort_criteria)
+    if c.blank?
+      c = default_sort_criteria
+    end
+    Redmine::SortCriteria.new(c)
   end
 
-  def sort_criteria_key(arg)
-    sort_criteria && sort_criteria[arg] && sort_criteria[arg].first
+  def sort_criteria_key(index)
+    sort_criteria[index].try(:first)
   end
 
-  def sort_criteria_order(arg)
-    sort_criteria && sort_criteria[arg] && sort_criteria[arg].last
+  def sort_criteria_order(index)
+    sort_criteria[index].try(:last)
   end
 
-  def sort_criteria_order_for(key)
-    sort_criteria.detect {|k, order| key.to_s == k}.try(:last)
+  def sort_clause
+    sort_criteria.sort_clause(sortable_columns)
   end
 
   # Returns the SQL sort order that should be prepended for grouping
   def group_by_sort_order
     if column = group_by_column
-      order = (sort_criteria_order_for(column.name) || column.default_order || 'asc').try(:upcase)
+      order = (sort_criteria.order_for(column.name) || column.default_order || 'asc').try(:upcase)
       Array(column.sortable).map {|s| "#{s} #{order}"}
     end
   end
@@ -573,12 +804,19 @@ class Query < ActiveRecord::Base
 
   def project_statement
     project_clauses = []
-    if project && !project.descendants.active.empty?
+    active_subprojects_ids = []
+
+    active_subprojects_ids = project.descendants.active.map(&:id) if project
+    if active_subprojects_ids.any?
       if has_filter?("subproject_id")
         case operator_for("subproject_id")
         when '='
           # include the selected subprojects
-          ids = [project.id] + values_for("subproject_id").each(&:to_i)
+          ids = [project.id] + values_for("subproject_id").map(&:to_i)
+          project_clauses << "#{Project.table_name}.id IN (%s)" % ids.join(',')
+        when '!'
+          # exclude the selected subprojects
+          ids = [project.id] + active_subprojects_ids - values_for("subproject_id").map(&:to_i)
           project_clauses << "#{Project.table_name}.id IN (%s)" % ids.join(',')
         when '!*'
           # main project only
@@ -608,7 +846,7 @@ class Query < ActiveRecord::Base
       operator = operator_for(field)
 
       # "me" value substitution
-      if %w(assigned_to_id author_id user_id watcher_id).include?(field)
+      if %w(assigned_to_id author_id user_id watcher_id updated_by last_updated_by).include?(field)
         if v.delete("me")
           if User.current.logged?
             v.push(User.current.id.to_s)
@@ -625,12 +863,16 @@ class Query < ActiveRecord::Base
         end
       end
 
-      if field =~ /cf_(\d+)$/
+      if field =~ /^cf_(\d+)\.cf_(\d+)$/
+        filters_clauses << sql_for_chained_custom_field(field, operator, v, $1, $2)
+      elsif field =~ /cf_(\d+)$/
         # custom field
         filters_clauses << sql_for_custom_field(field, operator, v, $1)
-      elsif respond_to?("sql_for_#{field}_field")
+      elsif field =~ /^cf_(\d+)\.(.+)$/
+        filters_clauses << sql_for_custom_field_attribute(field, operator, v, $1, $2)
+      elsif respond_to?(method = "sql_for_#{field.gsub('.','_')}_field")
         # specific statement
-        filters_clauses << send("sql_for_#{field}_field", field, operator, v)
+        filters_clauses << send(method, field, operator, v)
       else
         # regular field
         filters_clauses << '(' + sql_for_field(field, operator, v, queried_table_name, field) + ')'
@@ -646,6 +888,13 @@ class Query < ActiveRecord::Base
     filters_clauses.reject!(&:blank?)
 
     filters_clauses.any? ? filters_clauses.join(' AND ') : nil
+  end
+
+  # Returns the result count by group or nil if query is not grouped
+  def result_count_by_group
+    grouped_query do |scope|
+      scope.count
+    end
   end
 
   # Returns the sum of values for the given column
@@ -671,6 +920,14 @@ class Query < ActiveRecord::Base
     totals = totalable_columns.map {|column| [column, total_by_group_for(column)]}
     yield totals if block_given?
     totals
+  end
+
+  def css_classes
+    s = sort_criteria.first
+    if s.present?
+      key, asc = s
+      "sort-by-#{key.to_s.dasherize} sort-#{asc}"
+    end
   end
 
   private
@@ -768,6 +1025,46 @@ class Query < ActiveRecord::Base
       " WHERE (#{where}) AND (#{filter[:field].visibility_by_project_condition}))"
   end
 
+  def sql_for_chained_custom_field(field, operator, value, custom_field_id, chained_custom_field_id)
+    not_in = nil
+    if operator == '!'
+      # Makes ! operator work for custom fields with multiple values
+      operator = '='
+      not_in = 'NOT'
+    end
+
+    filter = available_filters[field]
+    target_class = filter[:through].format.target_class
+
+    "#{queried_table_name}.id #{not_in} IN (" +
+      "SELECT customized_id FROM #{CustomValue.table_name}" +
+      " WHERE customized_type='#{queried_class}' AND custom_field_id=#{custom_field_id}" +
+      "  AND CAST(CASE value WHEN '' THEN '0' ELSE value END AS decimal(30,0)) IN (" +
+      "  SELECT customized_id FROM #{CustomValue.table_name}" +
+      "  WHERE customized_type='#{target_class}' AND custom_field_id=#{chained_custom_field_id}" +
+      "  AND #{sql_for_field(field, operator, value, CustomValue.table_name, 'value')}))"
+
+  end
+
+  def sql_for_custom_field_attribute(field, operator, value, custom_field_id, attribute)
+    attribute = 'effective_date' if attribute == 'due_date'
+    not_in = nil
+    if operator == '!'
+      # Makes ! operator work for custom fields with multiple values
+      operator = '='
+      not_in = 'NOT'
+    end
+
+    filter = available_filters[field]
+    target_table_name = filter[:field].format.target_class.table_name
+
+    "#{queried_table_name}.id #{not_in} IN (" +
+      "SELECT customized_id FROM #{CustomValue.table_name}" +
+      " WHERE customized_type='#{queried_class}' AND custom_field_id=#{custom_field_id}" +
+      "  AND CAST(CASE value WHEN '' THEN '0' ELSE value END AS decimal(30,0)) IN (" +
+      "  SELECT id FROM #{target_table_name} WHERE #{sql_for_field(field, operator, value, filter[:field].format.target_class.table_name, attribute)}))"
+  end
+
   # Helper method to generate the WHERE sql for a +field+, +operator+ and a +value+
   def sql_for_field(field, operator, value, db_table, db_field, is_custom_filter=false)
     sql = ''
@@ -810,7 +1107,7 @@ class Query < ActiveRecord::Base
       end
     when "!*"
       sql = "#{db_table}.#{db_field} IS NULL"
-      sql << " OR #{db_table}.#{db_field} = ''" if is_custom_filter
+      sql << " OR #{db_table}.#{db_field} = ''" if (is_custom_filter || [:text, :string].include?(type_for(field)))
     when "*"
       sql = "#{db_table}.#{db_field} IS NOT NULL"
       sql << " AND #{db_table}.#{db_field} <> ''" if is_custom_filter
@@ -928,11 +1225,6 @@ class Query < ActiveRecord::Base
   # Adds a filter for the given custom field
   def add_custom_field_filter(field, assoc=nil)
     options = field.query_filter_options(self)
-    if field.format.target_class && field.format.target_class <= User
-      if options[:values].is_a?(Array) && User.current.logged?
-        options[:values].unshift ["<< #{l(:label_me)} >>", "me"]
-      end
-    end
 
     filter_id = "cf_#{field.id}"
     filter_name = field.name
@@ -946,10 +1238,47 @@ class Query < ActiveRecord::Base
     })
   end
 
+  # Adds filters for custom fields associated to the custom field target class
+  # Eg. having a version custom field "Milestone" for issues and a date custom field "Release date"
+  # for versions, it will add an issue filter on Milestone'e Release date.
+  def add_chained_custom_field_filters(field)
+    klass = field.format.target_class
+    if klass
+      CustomField.where(:is_filter => true, :type => "#{klass.name}CustomField").each do |chained|
+        options = chained.query_filter_options(self)
+
+        filter_id = "cf_#{field.id}.cf_#{chained.id}"
+        filter_name = chained.name
+
+        add_available_filter filter_id, options.merge({
+          :name => l(:label_attribute_of_object, :name => chained.name, :object_name => field.name),
+          :field => chained,
+          :through => field
+        })
+      end
+    end
+  end
+
   # Adds filters for the given custom fields scope
   def add_custom_fields_filters(scope, assoc=nil)
     scope.visible.where(:is_filter => true).sorted.each do |field|
       add_custom_field_filter(field, assoc)
+      if assoc.nil?
+        add_chained_custom_field_filters(field)
+
+        if field.format.target_class && field.format.target_class == Version
+          add_available_filter "cf_#{field.id}.due_date",
+            :type => :date,
+            :field => field,
+            :name => l(:label_attribute_of_object, :name => l(:field_effective_date), :object_name => field.name)
+
+          add_available_filter "cf_#{field.id}.status",
+            :type => :list,
+            :field => field,
+            :name => l(:label_attribute_of_object, :name => l(:field_status), :object_name => field.name),
+            :values => Version::VERSION_STATUSES.map{|s| [l("version_status_#{s}"), s] }
+        end
+      end
     end
   end
 
@@ -1031,9 +1360,6 @@ class Query < ActiveRecord::Base
     joins = []
 
     if order_options
-      if order_options.include?('authors')
-        joins << "LEFT OUTER JOIN #{User.table_name} authors ON authors.id = #{queried_table_name}.author_id"
-      end
       order_options.scan(/cf_\d+/).uniq.each do |name|
         column = available_columns.detect {|c| c.name.to_s == name}
         join = column && column.custom_field.join_for_order_statement

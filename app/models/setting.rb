@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -120,9 +120,15 @@ class Setting < ActiveRecord::Base
 
 	# Updates multiple settings from params and sends a security notification if needed
   def self.set_all_from_params(settings)
-    settings = (settings || {}).dup.symbolize_keys
+    return nil unless settings.is_a?(Hash)
+    settings = settings.dup.symbolize_keys
+
+    errors = validate_all_from_params(settings)
+    return errors if errors.present?
+
     changes = []
     settings.each do |name, value|
+      next unless available_settings[name.to_s]
       previous_value = Setting[name]
       set_from_params name, value
       if available_settings[name.to_s]['security_notifications'] && Setting[name] != previous_value
@@ -132,7 +138,29 @@ class Setting < ActiveRecord::Base
     if changes.any?
       Mailer.security_settings_updated(changes)
     end
-    true
+    nil
+  end
+
+  def self.validate_all_from_params(settings)
+    messages = []
+
+    if settings.key?(:mail_handler_body_delimiters) || settings.key?(:mail_handler_enable_regex_delimiters)
+      regexp = Setting.mail_handler_enable_regex_delimiters?
+      if settings.key?(:mail_handler_enable_regex_delimiters)
+        regexp = settings[:mail_handler_enable_regex_delimiters].to_s != '0'
+      end
+      if regexp
+        settings[:mail_handler_body_delimiters].to_s.split(/[\r\n]+/).each do |delimiter|
+          begin
+            Regexp.new(delimiter)
+          rescue RegexpError => e
+            messages << [:mail_handler_body_delimiters, "#{l('activerecord.errors.messages.not_a_regexp')} (#{e.message})"]
+          end
+        end
+      end
+    end
+
+    messages
   end
 
   # Sets a setting value from params

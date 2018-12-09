@@ -4,6 +4,7 @@ api.array @klass.name.underscore.pluralize do
       api.id enumeration.id
       api.name enumeration.name
       api.is_default enumeration.is_default
+      render_api_custom_values enumeration.visible_custom_field_values, api
     end
   end
 end

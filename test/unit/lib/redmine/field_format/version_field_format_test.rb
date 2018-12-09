@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -24,6 +24,11 @@ class Redmine::VersionFieldFormatTest < ActionView::TestCase
            :issue_statuses, :issue_categories, :issue_relations, :workflows,
            :enumerations
 
+  def setup
+    super
+    User.current = nil
+  end
+
   def test_version_status_should_reject_blank_values
     field = IssueCustomField.new(:name => 'Foo', :field_format => 'version', :version_status => ["open", ""])
     field.save!
@@ -42,6 +47,20 @@ class Redmine::VersionFieldFormatTest < ActionView::TestCase
     issue = Issue.order('id DESC').first
     assert_include [version.name, version.id.to_s], field.possible_custom_value_options(issue.custom_value_for(field))
     assert issue.valid?
+  end
+
+  def test_not_existing_values_should_be_invalid
+    field = IssueCustomField.create!(:name => 'Foo', :field_format => 'version', :is_for_all => true, :trackers => Tracker.all)
+    project = Project.generate!
+    version = Version.generate!(:project => project, :status => 'closed')
+
+    field.version_status = ["open"]
+    field.save!
+
+    issue = Issue.new(:project_id => project.id, :tracker_id => 1, :custom_field_values => {field.id => version.id})
+    assert_not_include [version.name, version.id.to_s], field.possible_custom_value_options(issue.custom_value_for(field))
+    assert_equal false, issue.valid?
+    assert_include "Foo #{::I18n.t('activerecord.errors.messages.inclusion')}", issue.errors.full_messages.first
   end
 
   def test_possible_values_options_should_return_project_versions
@@ -82,7 +101,19 @@ class Redmine::VersionFieldFormatTest < ActionView::TestCase
     version = Version.generate!(:project => project, :status => 'locked')
     query = Query.new(:project => project)
 
-    assert_not_include version.name, field.possible_values_options(project).map(&:first)
-    assert_include version.name, field.query_filter_options(query)[:values].map(&:first)
+    full_name = "#{version.project} - #{version.name}"
+    assert_not_include full_name, field.possible_values_options(project).map(&:first)
+    assert_include full_name, field.query_filter_options(query)[:values].call.map(&:first)
+  end
+
+  def test_query_filter_options_should_include_version_status_for_grouping
+    field = IssueCustomField.new(:field_format => 'version', :version_status => ["open"])
+    project = Project.find(1)
+    version = Version.generate!(:project => project, :status => 'locked')
+    query = Query.new(:project => project)
+
+    full_name = "#{version.project} - #{version.name}"
+    assert_include [full_name, version.id.to_s, l(:version_status_locked)],
+      field.query_filter_options(query)[:values].call
   end
 end

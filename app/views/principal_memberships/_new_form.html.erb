@@ -1,5 +1,5 @@
 <fieldset class="box">
-  <legend><%= l(:label_project_plural) %> <%= toggle_checkboxes_link('.projects-selection input:enabled') %></legend>
+  <legend><%= toggle_checkboxes_link('.projects-selection input:enabled') %><%= l(:label_project_plural) %></legend>
   <div class="objects-selection">
     <div class="projects-selection">
     <%= render_project_nested_lists(@projects) do |p| %>
@@ -12,7 +12,7 @@
 </fieldset>
 
 <fieldset class="box">
-  <legend><%= l(:label_role_plural) %> <%= toggle_checkboxes_link('.roles-selection input') %></legend>
+  <legend><%= toggle_checkboxes_link('.roles-selection input') %><%= l(:label_role_plural) %></legend>
   <div class="roles-selection">
   <% @roles.each do |role| %>
     <label>

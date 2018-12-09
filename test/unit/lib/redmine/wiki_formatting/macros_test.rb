@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,11 +17,12 @@
 
 require File.expand_path('../../../../../test_helper', __FILE__)
 
-class Redmine::WikiFormatting::MacrosTest < ActionView::TestCase
+class Redmine::WikiFormatting::MacrosTest < Redmine::HelperTest
   include ApplicationHelper
   include ActionView::Helpers::TextHelper
   include ActionView::Helpers::SanitizeHelper
   include ERB::Util
+  include Rails.application.routes.url_helpers
   extend ActionView::Helpers::SanitizeHelper::ClassMethods
 
   fixtures :projects, :roles, :enabled_modules, :users,
@@ -238,6 +239,8 @@ class Redmine::WikiFormatting::MacrosTest < ActionView::TestCase
   end
 
   def test_macro_collapse_should_not_break_toc
+    set_language_if_valid 'en'
+
     text =  <<-RAW
 {{toc}}
 
@@ -248,7 +251,7 @@ h2. Heading
 }}"
 RAW
 
-    expected_toc = '<ul class="toc"><li><a href="#Title">Title</a><ul><li><a href="#Heading">Heading</a></li></ul></li></ul>'
+    expected_toc = '<ul class="toc"><li><strong>Table of contents</strong></li><li><a href="#Title">Title</a><ul><li><a href="#Heading">Heading</a></li></ul></li></ul>'
 
     assert_include expected_toc, textilizable(text).gsub(/[\r\n]/, '')
   end
@@ -397,5 +400,10 @@ RAW
 EXPECTED
 
     assert_equal expected.gsub(%r{[\r\n\t]}, ''), textilizable(text).gsub(%r{[\r\n\t]}, '')
+  end
+
+  def test_macro_should_support_phrase_modifiers
+    text = "*{{hello_world}}*"
+    assert_match %r|\A<p><strong>Hello world!.*</strong></p>\z|, textilizable(text)
   end
 end

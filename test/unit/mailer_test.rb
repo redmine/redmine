@@ -1,5 +1,7 @@
+# encoding: utf-8
+#
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -600,6 +602,19 @@ class MailerTest < ActiveSupport::TestCase
     assert_equal '1 issue(s) due in the next 42 days', mail.subject
   end
 
+  def test_reminders_language_auto
+    with_settings :default_language => 'fr' do
+      user = User.find(3)
+      user.update_attribute :language, ''
+      Mailer.reminders(:days => 42)
+      assert_equal 1, ActionMailer::Base.deliveries.size
+      mail = last_email
+      assert mail.bcc.include?('dlopper@somenet.foo')
+      assert_mail_body_match 'Bug #3: Error 281 when updating a recipe', mail
+      assert_equal "1 demande(s) arrivent à échéance (42)", mail.subject
+    end
+  end
+
   def test_reminders_should_not_include_closed_issues
     with_settings :default_language => 'en' do
       Issue.create!(:project_id => 1, :tracker_id => 1, :status_id => 5,
@@ -627,8 +642,9 @@ class MailerTest < ActiveSupport::TestCase
   end
 
   def test_reminder_should_include_issues_assigned_to_groups
-    with_settings :default_language => 'en' do
+    with_settings :default_language => 'en', :issue_group_assignment => '1' do
       group = Group.generate!
+      Member.create!(:project_id => 1, :principal => group, :role_ids => [1])
       group.users << User.find(2)
       group.users << User.find(3)
 
@@ -648,7 +664,7 @@ class MailerTest < ActiveSupport::TestCase
   end
 
   def test_reminders_with_version_option
-    with_settings :default_language => 'en' do 
+    with_settings :default_language => 'en' do
       version = Version.generate!(:name => 'Acme', :project_id => 1)
       Issue.generate!(:assigned_to => User.find(2), :due_date => 5.days.from_now)
       Issue.generate!(:assigned_to => User.find(3), :due_date => 5.days.from_now, :fixed_version => version)

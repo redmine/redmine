@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -55,7 +55,9 @@ class CustomFieldTest < ActiveSupport::TestCase
   end
 
   def test_default_value_should_not_be_validated_when_blank
-    field = CustomField.new(:name => 'Test', :field_format => 'list', :possible_values => ['a', 'b'], :is_required => true, :default_value => '')
+    field = CustomField.new(:name => 'Test', :field_format => 'list',
+                            :possible_values => ['a', 'b'], :is_required => true,
+                            :default_value => '')
     assert field.valid?
   end
 
@@ -250,12 +252,18 @@ class CustomFieldTest < ActiveSupport::TestCase
   end
 
   def test_changing_multiple_to_false_should_delete_multiple_values
-    field = ProjectCustomField.create!(:name => 'field', :field_format => 'list', :multiple => 'true', :possible_values => ['field1', 'field2'])
-    other = ProjectCustomField.create!(:name => 'other', :field_format => 'list', :multiple => 'true', :possible_values => ['other1', 'other2'])
-
-    item_with_multiple_values = Project.generate!(:custom_field_values => {field.id => ['field1', 'field2'], other.id => ['other1', 'other2']})
-    item_with_single_values = Project.generate!(:custom_field_values => {field.id => ['field1'], other.id => ['other2']})
-
+    field = ProjectCustomField.create!(:name => 'field', :field_format => 'list',
+                                       :multiple => 'true',
+                                       :possible_values => ['field1', 'field2'])
+    other = ProjectCustomField.create!(:name => 'other', :field_format => 'list',
+                                       :multiple => 'true',
+                                       :possible_values => ['other1', 'other2'])
+    item_with_multiple_values = Project.generate!(:custom_field_values =>
+                                                   {field.id => ['field1', 'field2'],
+                                                    other.id => ['other1', 'other2']})
+    item_with_single_values = Project.generate!(:custom_field_values =>
+                                                   {field.id => ['field1'],
+                                                    other.id => ['other2']})
     assert_difference 'CustomValue.count', -1 do
       field.multiple = false
       field.save!

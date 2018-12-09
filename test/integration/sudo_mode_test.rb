@@ -7,15 +7,20 @@ class SudoModeTest < Redmine::IntegrationTest
     Redmine::SudoMode.stubs(:enabled?).returns(true)
   end
 
+  def teardown
+    travel_back
+  end
+
   def test_sudo_mode_should_be_active_after_login
     log_user("admin", "admin")
     get "/users/new"
     assert_response :success
-    post "/users",
+    post "/users", :params => {
          :user => { :login => "psmith", :firstname => "Paul",
                     :lastname => "Smith", :mail => "psmith@somenet.foo",
                     :language => "en", :password => "psmith09",
                     :password_confirmation => "psmith09" }
+      }
     assert_response 302
 
     user = User.find_by_login("psmith")
@@ -27,23 +32,25 @@ class SudoModeTest < Redmine::IntegrationTest
     expire_sudo_mode!
     get "/users/new"
     assert_response :success
-    post "/users",
+    post "/users", :params => {
          :user => { :login => "psmith", :firstname => "Paul",
                     :lastname => "Smith", :mail => "psmith@somenet.foo",
                     :language => "en", :password => "psmith09",
                     :password_confirmation => "psmith09" }
+      }
     assert_response :success
     assert_nil User.find_by_login("psmith")
 
     assert_select 'input[name=?][value=?]', 'user[login]', 'psmith'
     assert_select 'input[name=?][value=?]', 'user[firstname]', 'Paul'
 
-    post "/users",
+    post "/users", :params => {
          :user => { :login => "psmith", :firstname => "Paul",
                     :lastname => "Smith", :mail => "psmith@somenet.foo",
                     :language => "en", :password => "psmith09",
                     :password_confirmation => "psmith09" },
          :sudo_password => 'admin'
+      }
     assert_response 302
 
     user = User.find_by_login("psmith")
@@ -57,19 +64,19 @@ class SudoModeTest < Redmine::IntegrationTest
     assert_response :success
 
     assert_no_difference 'Member.count' do
-      xhr :post, '/projects/ecookbook/memberships', membership: {role_ids: [1], user_id: 7}
+      post '/projects/ecookbook/memberships', :params => {membership: {role_ids: [1], user_id: 7}}, :xhr => true
     end
 
     assert_no_difference 'Member.count' do
-      xhr :post, '/projects/ecookbook/memberships', membership: {role_ids: [1], user_id: 7}, sudo_password: ''
+      post '/projects/ecookbook/memberships', :params => {membership: {role_ids: [1], user_id: 7}, sudo_password: ''}, :xhr => true
     end
 
     assert_no_difference 'Member.count' do
-      xhr :post, '/projects/ecookbook/memberships', membership: {role_ids: [1], user_id: 7}, sudo_password: 'wrong'
+      post '/projects/ecookbook/memberships', :params => {membership: {role_ids: [1], user_id: 7}, sudo_password: 'wrong'}, :xhr => true
     end
 
     assert_difference 'Member.count' do
-      xhr :post, '/projects/ecookbook/memberships', membership: {role_ids: [1], user_id: 7}, sudo_password: 'admin'
+      post '/projects/ecookbook/memberships', :params => {membership: {role_ids: [1], user_id: 7}, sudo_password: 'admin'}, :xhr => true
     end
     assert User.find(7).member_of?(Project.find(1))
   end
@@ -81,19 +88,19 @@ class SudoModeTest < Redmine::IntegrationTest
     assert_response :success
 
     assert_no_difference 'Member.count' do
-      post '/projects/ecookbook/memberships', membership: {role_ids: [1], user_id: 7}
+      post '/projects/ecookbook/memberships', :params => {membership: {role_ids: [1], user_id: 7}}
     end
 
     assert_no_difference 'Member.count' do
-      post '/projects/ecookbook/memberships', membership: {role_ids: [1], user_id: 7}, sudo_password: ''
+      post '/projects/ecookbook/memberships', :params => {membership: {role_ids: [1], user_id: 7}, sudo_password: ''}
     end
 
     assert_no_difference 'Member.count' do
-      post '/projects/ecookbook/memberships', membership: {role_ids: [1], user_id: 7}, sudo_password: 'wrong'
+      post '/projects/ecookbook/memberships', :params => {membership: {role_ids: [1], user_id: 7}, sudo_password: 'wrong'}
     end
 
     assert_difference 'Member.count' do
-      post '/projects/ecookbook/memberships', membership: {role_ids: [1], user_id: 7}, sudo_password: 'admin'
+      post '/projects/ecookbook/memberships', :params => {membership: {role_ids: [1], user_id: 7}, sudo_password: 'admin'}
     end
 
     assert_redirected_to '/projects/ecookbook/settings/members'
@@ -109,28 +116,28 @@ class SudoModeTest < Redmine::IntegrationTest
     get '/roles/new'
     assert_response :success
 
-    post '/roles', role: { }
+    post '/roles', :params => {role: { }}
     assert_response :success
     assert_select 'h2', 'Confirm your password to continue'
     assert_select 'form[action="/roles"]'
-    assert assigns(:sudo_form).errors.blank?
+    assert_select '#flash_error', 0
 
-    post '/roles', role: { name: 'new role', issues_visibility: 'all' }
+    post '/roles', :params => {role: { name: 'new role', issues_visibility: 'all' }}
     assert_response :success
     assert_select 'h2', 'Confirm your password to continue'
     assert_select 'form[action="/roles"]'
-    assert_match /"new role"/, response.body
-    assert assigns(:sudo_form).errors.blank?
+    assert_select 'input[type=hidden][name=?][value=?]', 'role[name]', 'new role'
+    assert_select '#flash_error', 0
 
-    post '/roles', role: { name: 'new role', issues_visibility: 'all' }, sudo_password: 'wrong'
+    post '/roles', :params => {role: { name: 'new role', issues_visibility: 'all' }, sudo_password: 'wrong'}
     assert_response :success
     assert_select 'h2', 'Confirm your password to continue'
     assert_select 'form[action="/roles"]'
-    assert_match /"new role"/, response.body
-    assert assigns(:sudo_form).errors[:password].present?
+    assert_select 'input[type=hidden][name=?][value=?]', 'role[name]', 'new role'
+    assert_select '#flash_error'
 
     assert_difference 'Role.count' do
-      post '/roles', role: { name: 'new role', issues_visibility: 'all', assignable: '1', permissions: %w(view_calendar) }, sudo_password: 'admin'
+      post '/roles', :params => {role: { name: 'new role', issues_visibility: 'all', assignable: '1', permissions: %w(view_calendar) }, sudo_password: 'admin'}
     end
     assert_redirected_to '/roles'
   end
@@ -140,28 +147,28 @@ class SudoModeTest < Redmine::IntegrationTest
     expire_sudo_mode!
     get '/my/account'
     assert_response :success
-    post '/my/account', user: { mail: 'newmail@test.com' }
+    post '/my/account', :params => {user: { mail: 'newmail@test.com' }}
     assert_response :success
     assert_select 'h2', 'Confirm your password to continue'
     assert_select 'form[action="/my/account"]'
-    assert_match /"newmail@test\.com"/, response.body
-    assert assigns(:sudo_form).errors.blank?
+    assert_select 'input[type=hidden][name=?][value=?]', 'user[mail]', 'newmail@test.com'
+    assert_select '#flash_error', 0
 
     # wrong password
-    post '/my/account', user: { mail: 'newmail@test.com' }, sudo_password: 'wrong'
+    post '/my/account', :params => {user: { mail: 'newmail@test.com' }, sudo_password: 'wrong'}
     assert_response :success
     assert_select 'h2', 'Confirm your password to continue'
     assert_select 'form[action="/my/account"]'
-    assert_match /"newmail@test\.com"/, response.body
-    assert assigns(:sudo_form).errors[:password].present?
+    assert_select 'input[type=hidden][name=?][value=?]', 'user[mail]', 'newmail@test.com'
+    assert_select '#flash_error'
 
     # correct password
-    post '/my/account', user: { mail: 'newmail@test.com' }, sudo_password: 'jsmith'
+    post '/my/account', :params => {user: { mail: 'newmail@test.com' }, sudo_password: 'jsmith'}
     assert_redirected_to '/my/account'
     assert_equal 'newmail@test.com', User.find_by_login('jsmith').mail
 
     # sudo mode should now be active and not require password again
-    post '/my/account', user: { mail: 'even.newer.mail@test.com' }
+    post '/my/account', :params => {user: { mail: 'even.newer.mail@test.com' }}
     assert_redirected_to '/my/account'
     assert_equal 'even.newer.mail@test.com', User.find_by_login('jsmith').mail
   end
@@ -169,13 +176,14 @@ class SudoModeTest < Redmine::IntegrationTest
   def test_sudo_mode_should_skip_api_requests
     with_settings :rest_api_enabled => '1' do
       assert_difference('User.count') do
-        post '/users.json', {
-          :user => {
-            :login => 'foo', :firstname => 'Firstname', :lastname => 'Lastname',
-            :mail => 'foo@example.net', :password => 'secret123',
-            :mail_notification => 'only_assigned'}
+        post '/users.json', :params => {
+            :user => {
+              :login => 'foo', :firstname => 'Firstname', :lastname => 'Lastname',
+              :mail => 'foo@example.net', :password => 'secret123',
+              :mail_notification => 'only_assigned'
+            }
           },
-          credentials('admin')
+          :headers => credentials('admin')
   
         assert_response :created
       end

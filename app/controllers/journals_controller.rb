@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -16,10 +16,10 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class JournalsController < ApplicationController
-  before_filter :find_journal, :only => [:edit, :update, :diff]
-  before_filter :find_issue, :only => [:new]
-  before_filter :find_optional_project, :only => [:index]
-  before_filter :authorize, :only => [:new, :edit, :update, :diff]
+  before_action :find_journal, :only => [:edit, :update, :diff]
+  before_action :find_issue, :only => [:new]
+  before_action :find_optional_project, :only => [:index]
+  before_action :authorize, :only => [:new, :edit, :update, :diff]
   accept_rss_auth :index
   menu_item :issues
 
@@ -27,13 +27,9 @@ class JournalsController < ApplicationController
   helper :custom_fields
   helper :queries
   include QueriesHelper
-  helper :sort
-  include SortHelper
 
   def index
     retrieve_query
-    sort_init 'id', 'desc'
-    sort_update(@query.sortable_columns)
     if @query.valid?
       @journals = @query.journals(:order => "#{Journal.table_name}.created_on DESC",
                                   :limit => 25)
@@ -90,7 +86,8 @@ class JournalsController < ApplicationController
 
   def update
     (render_403; return false) unless @journal.editable_by?(User.current)
-    @journal.update_attributes(:notes => params[:notes]) if params[:notes]
+    @journal.safe_attributes = params[:journal]
+    @journal.save
     @journal.destroy if @journal.details.empty? && @journal.notes.blank?
     call_hook(:controller_journals_edit_post, { :journal => @journal, :params => params})
     respond_to do |format|

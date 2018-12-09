@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -18,11 +18,13 @@
 require 'csv'
 
 class ImportsController < ApplicationController
+  menu_item :issues
 
-  before_filter :find_import, :only => [:show, :settings, :mapping, :run]
-  before_filter :authorize_global
+  before_action :find_import, :only => [:show, :settings, :mapping, :run]
+  before_action :authorize_global
 
   helper :issues
+  helper :queries
 
   def new
   end

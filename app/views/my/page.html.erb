@@ -1,36 +1,46 @@
 <div class="contextual">
-    <%= link_to l(:label_personalize_page), :action => 'page_layout' %>
+  <%= form_tag({:action => "add_block"}, :remote => true, :id => "block-form") do %>
+    <%= label_tag('block-select', l(:button_add)) %>:
+    <%= block_select_tag(@user) %>
+  <% end %>
 </div>
 
 <h2><%=l(:label_my_page)%></h2>
 
-<div id="list-top">
-  <% @blocks['top'].each do |b|
-     next unless MyController::BLOCKS.keys.include? b  %>
-  <div class="mypage-box">
-    <%= render :partial => "my/blocks/#{b}", :locals => { :user => @user } %>
+<div id="my-page">
+<% @groups.each do |group| %>
+  <div id="list-<%= group %>" class="block-receiver">
+    <%= render_blocks(@blocks[group], @user) %>
   </div>
-  <% end if @blocks['top'] %>
+<% end %>
 </div>
 
-<div id="list-left" class="splitcontentleft">
-  <% @blocks['left'].each do |b|
-     next unless MyController::BLOCKS.keys.include? b %>
-  <div class="mypage-box">
-    <%= render :partial => "my/blocks/#{b}", :locals => { :user => @user } %>
-  </div>
-  <% end if @blocks['left'] %>
-</div>
+<%= context_menu %>
 
-<div id="list-right" class="splitcontentright">
-  <% @blocks['right'].each do |b|
-     next unless MyController::BLOCKS.keys.include? b %>
-  <div class="mypage-box">
-    <%= render :partial => "my/blocks/#{b}", :locals => { :user => @user } %>
-  </div>
-  <% end if @blocks['right'] %>
-</div>
-
-<%= context_menu issues_context_menu_path %>
+<%= javascript_tag do %>
+$(document).ready(function(){
+  $('#block-select').val('');
+  $('.block-receiver').sortable({
+    connectWith: '.block-receiver',
+    tolerance: 'pointer',
+    handle: '.sort-handle',
+    start: function(event, ui){$(this).parent().addClass('dragging');},
+    stop: function(event, ui){$(this).parent().removeClass('dragging');},
+    update: function(event, ui){
+      // trigger the call on the list that receives the block only
+      if ($(this).find(ui.item).length > 0) {
+        $.ajax({
+          url: "<%= escape_javascript url_for(:action => "order_blocks") %>",
+          type: 'post',
+          data: {
+            'group': $(this).attr('id').replace(/^list-/, ''),
+            'blocks': $.map($(this).children(), function(el){return $(el).attr('id').replace(/^block-/, '');})
+          }
+        });
+      }
+    }
+  });
+});
+<% end %>
 
 <% html_title(l(:label_my_page)) -%>

@@ -1,32 +1,38 @@
+<% tag_id = tag_name.gsub(/[\[\]]+/, '_').sub(/_+$/, '') %>
+<% available_tag_id = "available_#{tag_id}" %>
+<% selected_tag_id = "selected_#{tag_id}" %>
+
 <table class="query-columns">
   <tr>
     <td style="padding-left:0">
-      <%= label_tag "available_columns", l(:description_available_columns) %>
+      <%= label_tag available_tag_id, l(:description_available_columns) %>
       <br />
       <%= select_tag 'available_columns',
               options_for_select(query_available_inline_columns_options(query)),
+              :id => available_tag_id,
               :multiple => true, :size => 10, :style => "width:150px",
-              :ondblclick => "moveOptions(this.form.available_columns, this.form.selected_columns);" %>
+              :ondblclick => "moveOptions(this.form.#{available_tag_id}, this.form.#{selected_tag_id});" %>
     </td>
     <td class="buttons">
       <input type="button" value="&#8594;"
-       onclick="moveOptions(this.form.available_columns, this.form.selected_columns);" /><br />
+       onclick="moveOptions(this.form.<%= available_tag_id %>, this.form.<%= selected_tag_id %>);" /><br />
       <input type="button" value="&#8592;"
-       onclick="moveOptions(this.form.selected_columns, this.form.available_columns);" />
+       onclick="moveOptions(this.form.<%= selected_tag_id %>, this.form.<%= available_tag_id %>);" />
     </td>
     <td>
-      <%= label_tag "selected_columns", l(:description_selected_columns) %>
+      <%= label_tag selected_tag_id, l(:description_selected_columns) %>
       <br />
       <%= select_tag tag_name,
               options_for_select(query_selected_inline_columns_options(query)),
-              :id => 'selected_columns', :multiple => true, :size => 10, :style => "width:150px",
-              :ondblclick => "moveOptions(this.form.selected_columns, this.form.available_columns);" %>
+              :id => selected_tag_id,
+              :multiple => true, :size => 10, :style => "width:150px",
+              :ondblclick => "moveOptions(this.form.#{selected_tag_id}, this.form.#{available_tag_id});" %>
     </td>
     <td class="buttons">
-      <input type="button" value="&#8648;" onclick="moveOptionTop(this.form.selected_columns);" /><br />
-      <input type="button" value="&#8593;" onclick="moveOptionUp(this.form.selected_columns);" /><br />
-      <input type="button" value="&#8595;" onclick="moveOptionDown(this.form.selected_columns);" /><br />
-      <input type="button" value="&#8650;" onclick="moveOptionBottom(this.form.selected_columns);" />
+      <input type="button" value="&#8648;" onclick="moveOptionTop(this.form.<%= selected_tag_id %>);" /><br />
+      <input type="button" value="&#8593;" onclick="moveOptionUp(this.form.<%= selected_tag_id %>);" /><br />
+      <input type="button" value="&#8595;" onclick="moveOptionDown(this.form.<%= selected_tag_id %>);" /><br />
+      <input type="button" value="&#8650;" onclick="moveOptionBottom(this.form.<%= selected_tag_id %>);" />
     </td>
   </tr>
 </table>
@@ -34,7 +40,7 @@
 <%= javascript_tag do %>
 $(document).ready(function(){
   $('.query-columns').closest('form').submit(function(){
-    $('#selected_columns option').prop('selected', true);
+    $('#<%= selected_tag_id %> option').prop('selected', true);
   });
 });
 <% end %>

@@ -1,0 +1,2 @@
+$("#block-<%= escape_javascript @block %>").remove();
+$("#block-select").replaceWith("<%= escape_javascript block_select_tag(@user) %>");

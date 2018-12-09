@@ -207,6 +207,8 @@ ru:
         circular_dependency: "Такая связь приведет к циклической зависимости"
         cant_link_an_issue_with_a_descendant: "Задача не может быть связана со своей подзадачей"
         earlier_than_minimum_start_date: "не может быть раньше %{date} из-за предыдущих задач"
+        not_a_regexp: "не является допустимым регулярным выражением"
+        open_issue_with_closed_parent: "Открытая задача не может быть добавлена к закрытой родительской задаче"
 
   support:
     array:
@@ -322,10 +324,10 @@ ru:
   field_description: Описание
   field_done_ratio: Готовность
   field_downloads: Загрузки
-  field_due_date: Дата завершения
+  field_due_date: Срок завершения
   field_editable: Редактируемое
   field_effective_date: Дата
-  field_estimated_hours: Оценка трудозатрат
+  field_estimated_hours: Оценка временных затрат
   field_field_format: Формат
   field_filename: Файл
   field_filesize: Размер
@@ -573,10 +575,8 @@ ru:
   label_months_from: месяцев(ца) с
   label_month: Месяц
   label_more_than_ago: более, чем дней(я) назад
-  label_more: Больше
   label_my_account: Моя учётная запись
   label_my_page: Моя страница
-  label_my_page_block: Блок моей страницы
   label_my_projects: Мои проекты
   label_new: Новый
   label_new_statuses_allowed: Разрешенные новые статусы
@@ -604,8 +604,6 @@ ru:
   label_password_lost: Восстановление пароля
   label_permissions_report: Отчёт по правам доступа
   label_permissions: Права доступа
-  label_personalize_page: Персонализировать данную страницу
-  label_planning: Планирование
   label_please_login: Пожалуйста, войдите.
   label_plugins: Модули
   label_precedes: следующая
@@ -634,7 +632,7 @@ ru:
   label_related_issues: Связанные задачи
   label_relates_to: связана с
   label_relation_delete: Удалить связь
-  label_relation_new: Новое отношение
+  label_relation_new: Новая связь
   label_renamed: переименовано
   label_reply_plural: Ответы
   label_report: Отчёт
@@ -694,9 +692,7 @@ ru:
   label_user_mail_no_self_notified: "Не извещать об изменениях, которые я сделал сам"
   label_user_mail_option_all: "О всех событиях во всех моих проектах"
   label_user_mail_option_selected: "О всех событиях только в выбранном проекте..."
-  label_user_mail_option_only_owner: Только для объектов, для которых я являюсь владельцем
   label_user_mail_option_only_my_events: Только для объектов, которые я отслеживаю или в которых участвую
-  label_user_mail_option_only_assigned: Только для объектов, которые назначены мне
   label_user_new: Новый пользователь
   label_user_plural: Пользователи
   label_version: Версия
@@ -1076,16 +1072,12 @@ ru:
   description_project_scope: Область поиска
   description_filter: Фильтр
   description_user_mail_notification: Настройки почтовых оповещений
-  description_date_from: Введите дату начала
   description_message_content: Содержание сообщения
   description_available_columns: Доступные столбцы
-  description_date_range_interval: Выберите диапазон, установив дату начала и дату окончания
   description_issue_category_reassign: Выберите категорию задачи
   description_search: Поле поиска
   description_notes: Примечания
-  description_date_range_list: Выберите диапазон из списка
   description_choose_project: Проекты
-  description_date_to: Введите дату выполнения
   description_query_sort_criteria_attribute: Критерий сортировки
   description_wiki_subpages_reassign: Выбрать новую родительскую страницу
   description_selected_columns: Выбранные столбцы
@@ -1270,7 +1262,7 @@ ru:
   label_file_content_preview: Предпросмотр содержимого файла
   label_create_missing_values: Создать недостающие значения
   button_import: Импорт
-  field_total_estimated_hours: Всего осталось времени
+  field_total_estimated_hours: Общая оценка временных затрат
   label_api: API
   label_total_plural: Итоги
   label_assigned_issues: Назначенные задачи
@@ -1309,4 +1301,29 @@ ru:
   setting_new_item_menu_tab: Вкладка меню проекта для создания новых объектов
   label_new_object_tab_enabled: Отображать выпадающий список "+"
   error_no_projects_with_tracker_allowed_for_new_issue: Отсутствуют проекты, по трекерам которых вы можете создавать задачи
+  field_textarea_font: Шрифт для текстовых полей
+  label_font_default: Шрифт по умолчанию
+  label_font_monospace: Моноширинный шрифт
+  label_font_proportional: Пропорциональный шрифт
+  setting_timespan_format: Формат промежутка времени
+  label_table_of_contents: Содержание
+  setting_commit_logs_formatting: Использовать форматирование текста для комментариев хранилища
+  setting_mail_handler_enable_regex_delimiters: Использовать регулярные выражения
+  error_move_of_child_not_possible: 'Подзадача %{child} не может быть перемещена в новый
+    project: %{errors}'
   error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: Затраченное время не может быть переназначено на задачу, которая будет удалена
+  setting_timelog_required_fields: Обязательные поля для трудозатрат
+  label_attribute_of_object: '%{name} объекта %{object_name}'
+  label_user_mail_option_only_assigned: Только для объектов, которые я отслеживаю или которые мне назначены
+  label_user_mail_option_only_owner: Только для объектов, которые я отслеживаю или для которых я владелец
+  warning_fields_cleared_on_bulk_edit: Изменения приведут к удалению значений одного или нескольких полей выбранных объектов
+  field_updated_by: Кем изменено
+  field_last_updated_by: Последний изменивший
+  field_full_width_layout: Растягивать по ширине страницы
+  label_last_notes: Последние примечания
+  field_digest: Контрольная сумма
+  field_default_assigned_to: Назначать по умолчанию
+  setting_show_custom_fields_on_registration: Показывать настраиваемые поля при регистрации
+  permission_view_news: Просмотр новостей
+  label_no_preview_alternative_html: Предпросмотр недоступен. %{link} файл.
+  label_no_preview_download: Скачать

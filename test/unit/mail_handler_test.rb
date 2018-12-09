@@ -1,7 +1,7 @@
 # encoding: utf-8
 #
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -42,7 +42,8 @@ class MailHandlerTest < ActiveSupport::TestCase
 
   def test_add_issue_with_specific_overrides
     issue = submit_email('ticket_on_given_project.eml',
-      :allow_override => ['status', 'start_date', 'due_date', 'assigned_to', 'fixed_version', 'estimated_hours', 'done_ratio']
+      :allow_override => ['status', 'start_date', 'due_date', 'assigned_to',
+                          'fixed_version', 'estimated_hours', 'done_ratio']
     )
     assert issue.is_a?(Issue)
     assert !issue.new_record?
@@ -232,8 +233,12 @@ class MailHandlerTest < ActiveSupport::TestCase
   end
 
   def test_add_issue_with_custom_fields
+    mutiple = IssueCustomField.generate!(:field_format => 'list',
+                                         :name => 'OS', :multiple => true,
+                                         :possible_values => ['Linux', 'Windows', 'Mac OS X'])
+
     issue = submit_email('ticket_with_custom_fields.eml',
-      :issue => {:project => 'onlinestore'}, :allow_override => ['database', 'Searchable_field']
+      :issue => {:project => 'onlinestore'}, :allow_override => ['database', 'Searchable_field', 'OS']
     )
     assert issue.is_a?(Issue)
     assert !issue.new_record?
@@ -241,11 +246,15 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal 'New ticket with custom field values', issue.subject
     assert_equal 'PostgreSQL', issue.custom_field_value(1)
     assert_equal 'Value for a custom field', issue.custom_field_value(2)
+    assert_equal ['Mac OS X', 'Windows'], issue.custom_field_value(mutiple.id).sort
     assert !issue.description.match(/^searchable field:/i)
   end
 
   def test_add_issue_with_version_custom_fields
-    field = IssueCustomField.create!(:name => 'Affected version', :field_format => 'version', :is_for_all => true, :tracker_ids => [1,2,3])
+    field = IssueCustomField.create!(:name => 'Affected version',
+                                     :field_format => 'version',
+                                     :is_for_all => true,
+                                     :tracker_ids => [1,2,3])
 
     issue = submit_email('ticket_with_custom_fields.eml',
       :issue => {:project => 'ecookbook'}, :allow_override => ['affected version']
@@ -467,7 +476,9 @@ class MailHandlerTest < ActiveSupport::TestCase
   end
 
   def test_add_issue_with_invalid_project_should_be_assigned_to_default_project
-    issue = submit_email('ticket_on_given_project.eml', :issue => {:project => 'ecookbook'}, :allow_override => 'project') do |email|
+    issue = submit_email('ticket_on_given_project.eml',
+                         :issue => {:project => 'ecookbook'},
+                         :allow_override => 'project') do |email|
       email.gsub!(/^Project:.+$/, 'Project: invalid')
     end
     assert issue.is_a?(Issue)
@@ -519,7 +530,7 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal 10790, attachment.filesize
     assert File.exist?(attachment.diskfile)
     assert_equal 10790, File.size(attachment.diskfile)
-    assert_equal 'caaf384198bcbc9563ab5c058acd73cd', attachment.digest
+    assert_equal '4474dd534c36bdd212e2efc549507377c3e77147c9167b66dedcebfe9da8807f', attachment.digest
   end
 
   def test_thunderbird_with_attachment_ja
@@ -535,7 +546,17 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal 5, attachment.filesize
     assert File.exist?(attachment.diskfile)
     assert_equal 5, File.size(attachment.diskfile)
-    assert_equal 'd8e8fca2dc0f896fd7cb4cb0031ba249', attachment.digest
+    assert_equal 'f2ca1bb6c7e907d06dafe4687e579fce76b37e4e93b7605022da52e6ccc26fd2', attachment.digest
+  end
+
+  def test_invalid_utf8
+    issue = submit_email(
+              'invalid_utf8.eml',
+              :issue => {:project => 'ecookbook'}
+            )
+    assert_kind_of Issue, issue
+    description = "\xD0\x97\xD0\xB4\xD1\x80\xD0\xB0\xD0\xB2\xD1\x81\xD1\x82\xD0\xB2\xD1\x83\xD0\xB9\xD1\x82\xD0\xB5?".force_encoding('UTF-8')
+    assert_equal description, issue.description
   end
 
   def test_gmail_with_attachment_ja
@@ -551,7 +572,7 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal 5, attachment.filesize
     assert File.exist?(attachment.diskfile)
     assert_equal 5, File.size(attachment.diskfile)
-    assert_equal 'd8e8fca2dc0f896fd7cb4cb0031ba249', attachment.digest
+    assert_equal 'f2ca1bb6c7e907d06dafe4687e579fce76b37e4e93b7605022da52e6ccc26fd2', attachment.digest
   end
 
   def test_thunderbird_with_attachment_latin1
@@ -569,7 +590,7 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal 130, attachment.filesize
     assert File.exist?(attachment.diskfile)
     assert_equal 130, File.size(attachment.diskfile)
-    assert_equal '4d80e667ac37dddfe05502530f152abb', attachment.digest
+    assert_equal '5635d67364de20432247e651dfe86fcb2265ad5e9750bd8bba7319a86363e738', attachment.digest
   end
 
   def test_gmail_with_attachment_latin1
@@ -587,7 +608,7 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal 5, attachment.filesize
     assert File.exist?(attachment.diskfile)
     assert_equal 5, File.size(attachment.diskfile)
-    assert_equal 'd8e8fca2dc0f896fd7cb4cb0031ba249', attachment.digest
+    assert_equal 'f2ca1bb6c7e907d06dafe4687e579fce76b37e4e93b7605022da52e6ccc26fd2', attachment.digest
   end
 
   def test_mail_with_attachment_latin2
@@ -619,6 +640,16 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_include 'first', issue.description
     assert_include 'second', issue.description
     assert_include 'third', issue.description
+  end
+
+  def test_empty_text_part_should_not_stop_looking_for_content
+    issue = submit_email('empty_text_part.eml', :issue => {:project => 'ecookbook'})
+    assert_equal 'The html part.', issue.description
+  end
+
+  def test_empty_text_and_html_part_should_make_an_empty_description
+    issue = submit_email('empty_text_and_html_part.eml', :issue => {:project => 'ecookbook'})
+    assert_equal '', issue.description
   end
 
   def test_attachment_text_part_should_be_added_as_issue_attachment
@@ -794,7 +825,10 @@ class MailHandlerTest < ActiveSupport::TestCase
   end
 
   def test_update_issue_with_attribute_changes
-    journal = submit_email('ticket_reply_with_status.eml', :allow_override => ['status','assigned_to','start_date','due_date', 'float field'])
+    journal = submit_email('ticket_reply_with_status.eml',
+                           :allow_override => ['status', 'assigned_to',
+                                               'start_date', 'due_date',
+                                               'float field'])
     assert journal.is_a?(Journal)
     issue = Issue.find(journal.issue.id)
     assert_equal User.find_by_login('jsmith'), journal.user
@@ -887,7 +921,9 @@ class MailHandlerTest < ActiveSupport::TestCase
   end
 
   def test_replying_to_a_private_note_should_add_reply_as_private
-    private_journal = Journal.create!(:notes => 'Private notes', :journalized => Issue.find(1), :private_notes => true, :user_id => 2)
+    private_journal = Journal.create!(:notes => 'Private notes',
+                                      :journalized => Issue.find(1),
+                                      :private_notes => true, :user_id => 2)
 
     assert_difference 'Journal.count' do
       journal = submit_email('ticket_reply.eml') do |email|
@@ -963,7 +999,7 @@ class MailHandlerTest < ActiveSupport::TestCase
       assert_issue_created(issue)
       assert issue.description.include?('This paragraph is before delimiters')
       assert issue.description.include?('--- This line starts with a delimiter')
-      assert !issue.description.match(/^---$/)
+      assert !issue.description.match(/^---#{"\u00A0"}$/)
       assert !issue.description.include?('This paragraph is after the delimiter')
     end
   end
@@ -997,6 +1033,25 @@ class MailHandlerTest < ActiveSupport::TestCase
       assert !issue.description.include?('This paragraph is between delimiters')
       assert !issue.description.match(/^---$/)
       assert !issue.description.include?('This paragraph is after the delimiter')
+    end
+  end
+
+  test "truncate emails using a regex delimiter" do
+    delimiter = "On .*, .* at .*, .* <.*<mailto:.*>> wrote:"
+    with_settings :mail_handler_enable_regex_delimiters => '1', :mail_handler_body_delimiters => delimiter do
+      issue = submit_email('ticket_reply_from_mail.eml')
+      assert_issue_created(issue)
+      assert issue.description.include?('This paragraph is before delimiter')
+      assert !issue.description.include?('On Wed, 11 Oct at 1:05 PM, Jon Smith <jsmith@somenet.foo<mailto:jsmith@somenet.foo>> wrote:')
+      assert !issue.description.include?('This paragraph is after the delimiter')
+    end
+
+    with_settings :mail_handler_enable_regex_delimiters => '0', :mail_handler_body_delimiters => delimiter do
+      issue = submit_email('ticket_reply_from_mail.eml')
+      assert_issue_created(issue)
+      assert issue.description.include?('This paragraph is before delimiter')
+      assert issue.description.include?('On Wed, 11 Oct at 1:05 PM, Jon Smith <jsmith@somenet.foo<mailto:jsmith@somenet.foo>> wrote:')
+      assert issue.description.include?('This paragraph is after the delimiter')
     end
   end
 
@@ -1045,13 +1100,13 @@ class MailHandlerTest < ActiveSupport::TestCase
       ['jsmith@example.net', 'John'] => ['jsmith@example.net', 'John', '-'],
       ['jsmith@example.net', 'John Smith'] => ['jsmith@example.net', 'John', 'Smith'],
       ['jsmith@example.net', 'John Paul Smith'] => ['jsmith@example.net', 'John', 'Paul Smith'],
-      ['jsmith@example.net', 'AVeryLongFirstnameThatExceedsTheMaximumLength Smith'] => ['jsmith@example.net', 'AVeryLongFirstnameThatExceedsT', 'Smith'],
-      ['jsmith@example.net', 'John AVeryLongLastnameThatExceedsTheMaximumLength'] => ['jsmith@example.net', 'John', 'AVeryLongLastnameThatExceedsTh']
+      ['jsmith@example.net', 'AVeryLongFirstnameThatExceedsTheMaximumLength Smith'] =>
+         ['jsmith@example.net', 'AVeryLongFirstnameThatExceedsT', 'Smith'],
+      ['jsmith@example.net', 'John AVeryLongLastnameThatExceedsTheMaximumLength'] =>
+         ['jsmith@example.net', 'John', 'AVeryLongLastnameThatExceedsTh']
     }
-
     to_test.each do |attrs, expected|
       user = MailHandler.new_user_from_attributes(attrs.first, attrs.last)
-
       assert user.valid?, user.errors.full_messages.to_s
       assert_equal attrs.first, user.mail
       assert_equal expected[0], user.login

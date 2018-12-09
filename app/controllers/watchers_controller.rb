@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -16,7 +16,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class WatchersController < ApplicationController
-  before_filter :require_login, :find_watchables, :only => [:watch, :unwatch]
+  before_action :require_login, :find_watchables, :only => [:watch, :unwatch]
 
   def watch
     set_watcher(@watchables, User.current, true)
@@ -26,7 +26,7 @@ class WatchersController < ApplicationController
     set_watcher(@watchables, User.current, false)
   end
 
-  before_filter :find_project, :authorize, :only => [:new, :create, :append, :destroy, :autocomplete_for_user]
+  before_action :find_project, :authorize, :only => [:new, :create, :append, :destroy, :autocomplete_for_user]
   accept_api_auth :create, :destroy
 
   def new
@@ -35,7 +35,7 @@ class WatchersController < ApplicationController
 
   def create
     user_ids = []
-    if params[:watcher].is_a?(Hash)
+    if params[:watcher]
       user_ids << (params[:watcher][:user_ids] || params[:watcher][:user_id])
     else
       user_ids << params[:user_id]
@@ -47,19 +47,19 @@ class WatchersController < ApplicationController
       end
     end
     respond_to do |format|
-      format.html { redirect_to_referer_or {render :text => 'Watcher added.', :layout => true}}
+      format.html { redirect_to_referer_or {render :html => 'Watcher added.', :status => 200, :layout => true}}
       format.js { @users = users_for_new_watcher }
       format.api { render_api_ok }
     end
   end
 
   def append
-    if params[:watcher].is_a?(Hash)
+    if params[:watcher]
       user_ids = params[:watcher][:user_ids] || [params[:watcher][:user_id]]
       @users = User.active.visible.where(:id => user_ids).to_a
     end
     if @users.blank?
-      render :nothing => true
+      head 200
     end
   end
 
@@ -69,7 +69,7 @@ class WatchersController < ApplicationController
       watchable.set_watcher(user, false)
     end
     respond_to do |format|
-      format.html { redirect_to :back }
+      format.html { redirect_to_referer_or {render :html => 'Watcher removed.', :status => 200, :layout => true} }
       format.js
       format.api { render_api_ok }
     end
@@ -108,7 +108,10 @@ class WatchersController < ApplicationController
       watchable.set_watcher(user, watching)
     end
     respond_to do |format|
-      format.html { redirect_to_referer_or {render :text => (watching ? 'Watcher added.' : 'Watcher removed.'), :layout => true}}
+      format.html {
+        text = watching ? 'Watcher added.' : 'Watcher removed.'
+        redirect_to_referer_or {render :html => text, :status => 200, :layout => true}
+      }
       format.js { render :partial => 'set_watcher', :locals => {:user => user, :watched => watchables} }
     end
   end

@@ -32,19 +32,9 @@
 
     <p id="attachments_form"><label><%= l(:label_attachment_plural) %></label><%= render :partial => 'attachments/form', :locals => {:container => @issue} %></p>
 
-    <% if @issue.safe_attribute? 'watcher_user_ids' -%>
-      <p id="watchers_form"><label><%= l(:label_issue_watchers) %></label>
-      <span id="watchers_inputs">
-        <%= watchers_checkboxes(@issue, users_for_new_issue_watchers(@issue)) %>
-      </span>
-      <span class="search_for_watchers">
-      <%= link_to l(:label_search_for_watchers),
-                  {:controller => 'watchers', :action => 'new', :project_id => @issue.project},
-                  :remote => true,
-                  :method => 'get' %>
-      </span>
-      </p>
-    <% end %>
+    <div id="watchers_form_container">
+      <%= render :partial => 'issues/watchers_form' %>
+    </div>
   </div>
 
   <%= submit_tag l(:button_create) %>

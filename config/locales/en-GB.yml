@@ -134,6 +134,8 @@ en-GB:
         circular_dependency: "This relation would create a circular dependency"
         cant_link_an_issue_with_a_descendant: "An issue cannot be linked to one of its subtasks"
         earlier_than_minimum_start_date: "cannot be earlier than %{date} because of preceding issues"
+        not_a_regexp: "is not a valid regular expression"
+        open_issue_with_closed_parent: "An open issue cannot be attached to a closed parent task"
 
   actionview_instancetag_blank_option: Please select
 
@@ -498,7 +500,6 @@ en-GB:
   label_my_page: My page
   label_my_account: My account
   label_my_projects: My projects
-  label_my_page_block: My page block
   label_administration: Administration
   label_login: Sign in
   label_logout: Sign out
@@ -588,7 +589,6 @@ en-GB:
   label_internal: Internal
   label_last_changes: "last %{count} changes"
   label_change_view_all: View all changes
-  label_personalize_page: Personalise this page
   label_comment: Comment
   label_comment_plural: Comments
   label_x_comments:
@@ -691,8 +691,8 @@ en-GB:
   label_relation_new: New relation
   label_relation_delete: Delete relation
   label_relates_to: related to
-  label_duplicates: duplicates
-  label_duplicated_by: duplicated by
+  label_duplicates: is duplicate of
+  label_duplicated_by: has duplicate
   label_blocks: blocks
   label_blocked_by: blocked by
   label_precedes: precedes
@@ -741,8 +741,6 @@ en-GB:
   label_user_mail_option_selected: "For any event on the selected projects only..."
   label_user_mail_option_none: "No events"
   label_user_mail_option_only_my_events: "Only for things I watch or I'm involved in"
-  label_user_mail_option_only_assigned: "Only for things I am assigned to"
-  label_user_mail_option_only_owner: "Only for things I am the owner of"
   label_user_mail_no_self_notified: "I don't want to be notified of changes that I make myself"
   label_registration_activation_by_email: account activation by email
   label_registration_manual_activation: manual account activation
@@ -751,7 +749,6 @@ en-GB:
   label_age: Age
   label_change_properties: Change properties
   label_general: General
-  label_more: More
   label_scm: SCM
   label_plugins: Plugins
   label_ldap_authentication: LDAP authentication
@@ -761,7 +758,6 @@ en-GB:
   label_preferences: Preferences
   label_chronological_order: In chronological order
   label_reverse_chronological_order: In reverse chronological order
-  label_planning: Planning
   label_incoming_emails: Incoming emails
   label_generate_key: Generate a key
   label_issue_watchers: Watchers
@@ -976,16 +972,12 @@ en-GB:
   description_project_scope: Search scope
   description_filter: Filter
   description_user_mail_notification: Mail notification settings
-  description_date_from: Enter start date
   description_message_content: Message content
   description_available_columns: Available Columns
-  description_date_range_interval: Choose range by selecting start and end date
   description_issue_category_reassign: Choose issue category
   description_search: Searchfield
   description_notes: Notes
-  description_date_range_list: Choose range from list
   description_choose_project: Projects
-  description_date_to: Enter end date
   description_query_sort_criteria_attribute: Sort attribute
   description_wiki_subpages_reassign: Choose new parent page
   description_selected_columns: Selected Columns
@@ -1210,5 +1202,31 @@ en-GB:
   label_new_object_tab_enabled: Display the "+" drop-down
   error_no_projects_with_tracker_allowed_for_new_issue: There are no projects with trackers
     for which you can create an issue
+  field_textarea_font: Font used for text areas
+  label_font_default: Default font
+  label_font_monospace: Monospaced font
+  label_font_proportional: Proportional font
+  setting_timespan_format: Time span format
+  label_table_of_contents: Table of contents
+  setting_commit_logs_formatting: Apply text formatting to commit messages
+  setting_mail_handler_enable_regex_delimiters: Enable regular expressions
+  error_move_of_child_not_possible: 'Subtask %{child} could not be moved to the new
+    project: %{errors}'
   error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: Spent time cannot
     be reassigned to an issue that is about to be deleted
+  setting_timelog_required_fields: Required fields for time logs
+  label_attribute_of_object: '%{object_name}''s %{name}'
+  label_user_mail_option_only_assigned: Only for things I watch or I am assigned to
+  label_user_mail_option_only_owner: Only for things I watch or I am the owner of
+  warning_fields_cleared_on_bulk_edit: Changes will result in the automatic deletion
+    of values from one or more fields on the selected objects
+  field_updated_by: Updated by
+  field_last_updated_by: Last updated by
+  field_full_width_layout: Full width layout
+  label_last_notes: Last notes
+  field_digest: Checksum
+  field_default_assigned_to: Default assignee
+  setting_show_custom_fields_on_registration: Show custom fields on registration
+  permission_view_news: View news
+  label_no_preview_alternative_html: No preview available. %{link} the file instead.
+  label_no_preview_download: Download

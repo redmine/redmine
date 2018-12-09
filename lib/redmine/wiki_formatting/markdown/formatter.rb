@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -65,6 +65,10 @@ module Redmine
           # restore Redmine links with double-quotes, eg. version:"1.0"
           html.gsub!(/(\w):&quot;(.+?)&quot;/) do
             "#{$1}:\"#{$2}\""
+          end
+          # restore user links with @ in login name eg. [@jsmith@somenet.foo]
+          html.gsub!(%r{[@\A]<a href="mailto:(.*?)">(.*?)</a>}) do
+            "@#{$2}"
           end
           html
         end

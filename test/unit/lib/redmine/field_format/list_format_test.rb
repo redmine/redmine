@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -35,6 +35,16 @@ class Redmine::ListFieldFormatTest < ActionView::TestCase
     group = Group.order('id DESC').first
     assert_equal ['Foo', 'Bar', 'Baz'], field.possible_custom_value_options(group.custom_value_for(field))
     assert group.valid?
+  end
+
+  def test_non_existing_value_should_be_invalid
+    field = GroupCustomField.create!(:name => 'List', :field_format => 'list', :possible_values => ['Foo', 'Bar'])
+    group = Group.new(:name => 'Group')
+    group.custom_field_values = {field.id => 'Baz'}
+
+    assert_not_include 'Baz', field.possible_custom_value_options(group.custom_value_for(field))
+    assert_equal false, group.valid?
+    assert_include "List #{::I18n.t('activerecord.errors.messages.inclusion')}", group.errors.full_messages.first
   end
 
   def test_edit_tag_should_have_id_and_name
@@ -164,5 +174,25 @@ class Redmine::ListFieldFormatTest < ActionView::TestCase
         assert_select 'input[value=Baz][checked=checked]'
       end
     end
+  end
+
+  def test_value_from_keyword_should_return_value
+    field = GroupCustomField.create!(:name => 'List', :field_format => 'list', :possible_values => ['Foo', 'Bar', 'Baz,qux'])
+
+    assert_equal 'Foo', field.value_from_keyword('foo', nil)
+    assert_equal 'Baz,qux', field.value_from_keyword('baz,qux', nil)
+    assert_nil field.value_from_keyword('invalid', nil)
+  end
+
+  def test_value_from_keyword_for_multiple_custom_field_should_return_values
+    field = GroupCustomField.create!(:name => 'List', :field_format => 'list', :possible_values => ['Foo', 'Bar', 'Baz,qux'], :multiple => true)
+
+    assert_equal ['Foo','Bar'], field.value_from_keyword('foo,bar', nil)
+    assert_equal ['Baz,qux'], field.value_from_keyword('baz,qux', nil)
+    assert_equal ['Baz,qux', 'Foo'], field.value_from_keyword('baz,qux,foo', nil)
+    assert_equal ['Foo'], field.value_from_keyword('foo,invalid', nil)
+    assert_equal ['Foo'], field.value_from_keyword(',foo,', nil)
+    assert_equal ['Foo'], field.value_from_keyword(',foo, ,,', nil)
+    assert_equal [], field.value_from_keyword('invalid', nil)
   end
 end

@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,7 +17,7 @@
 
 require File.expand_path('../../test_helper', __FILE__)
 
-class ImportsControllerTest < ActionController::TestCase
+class ImportsControllerTest < Redmine::ControllerTest
   fixtures :projects, :enabled_modules,
            :users, :email_addresses,
            :roles, :members, :member_roles,
@@ -44,13 +44,14 @@ class ImportsControllerTest < ActionController::TestCase
   def test_new_should_display_the_upload_form
     get :new
     assert_response :success
-    assert_template 'new'
     assert_select 'input[name=?]', 'file'
   end
 
   def test_create_should_save_the_file
     import = new_record(Import) do
-      post :create, :file => uploaded_test_file('import_issues.csv', 'text/csv')
+      post :create, :params => {
+          :file => uploaded_test_file('import_issues.csv', 'text/csv')
+        }
       assert_response 302
     end
     assert_equal 2, import.user_id
@@ -60,16 +61,28 @@ class ImportsControllerTest < ActionController::TestCase
 
   def test_get_settings_should_display_settings_form
     import = generate_import
-    get :settings, :id => import.to_param
+    get :settings, :params => {
+        :id => import.to_param
+      }
     assert_response :success
-    assert_template 'settings'
+    assert_select 'select[name=?]', 'import_settings[separator]'
+    assert_select 'select[name=?]', 'import_settings[wrapper]'
+    assert_select 'select[name=?]', 'import_settings[encoding]'
+    assert_select 'select[name=?]', 'import_settings[date_format]'
   end
 
   def test_post_settings_should_update_settings
     import = generate_import
 
-    post :settings, :id => import.to_param,
-      :import_settings => {:separator => ":", :wrapper => "|", :encoding => "UTF-8", :date_format => '%m/%d/%Y'}
+    post :settings, :params => {
+        :id => import.to_param,
+        :import_settings => {
+          :separator => ":",
+          :wrapper => "|",
+          :encoding => "UTF-8",
+          :date_format => '%m/%d/%Y'
+        }
+      }
     assert_redirected_to "/imports/#{import.to_param}/mapping"
 
     import.reload
@@ -82,8 +95,14 @@ class ImportsControllerTest < ActionController::TestCase
   def test_post_settings_should_update_total_items_count
     import = generate_import('import_iso8859-1.csv')
 
-    post :settings, :id => import.to_param,
-      :import_settings => {:separator => ";", :wrapper => '"', :encoding => "ISO-8859-1"}
+    post :settings, :params => {
+        :id => import.to_param,
+        :import_settings => {
+          :separator => ";",
+          :wrapper => '"',
+          :encoding => "ISO-8859-1"
+        }
+      }
     assert_response 302
     import.reload
     assert_equal 2, import.total_items
@@ -92,8 +111,14 @@ class ImportsControllerTest < ActionController::TestCase
   def test_post_settings_with_wrong_encoding_should_display_error
     import = generate_import('import_iso8859-1.csv')
 
-    post :settings, :id => import.to_param,
-      :import_settings => {:separator => ";", :wrapper => '"', :encoding => "UTF-8"}
+    post :settings, :params => {
+        :id => import.to_param,
+        :import_settings => {
+          :separator => ";",
+          :wrapper => '"',
+          :encoding => "UTF-8"
+        }
+      }
     assert_response 200
     import.reload
     assert_nil import.total_items
@@ -103,8 +128,14 @@ class ImportsControllerTest < ActionController::TestCase
   def test_post_settings_with_invalid_encoding_should_display_error
     import = generate_import('invalid-Shift_JIS.csv')
 
-    post :settings, :id => import.to_param,
-      :import_settings => {:separator => ";", :wrapper => '"', :encoding => "Shift_JIS"}
+    post :settings, :params => {
+        :id => import.to_param,
+        :import_settings => {
+          :separator => ";",
+          :wrapper => '"',
+          :encoding => "Shift_JIS"
+        }
+      }
     assert_response 200
     import.reload
     assert_nil import.total_items
@@ -116,9 +147,10 @@ class ImportsControllerTest < ActionController::TestCase
     import.settings = {'separator' => ";", 'wrapper' => '"', 'encoding' => "ISO-8859-1"}
     import.save!
 
-    get :mapping, :id => import.to_param
+    get :mapping, :params => {
+        :id => import.to_param
+      }
     assert_response :success
-    assert_template 'mapping'
 
     assert_select 'select[name=?]', 'import_settings[mapping][subject]' do
       assert_select 'option', 4
@@ -134,8 +166,15 @@ class ImportsControllerTest < ActionController::TestCase
   def test_post_mapping_should_update_mapping
     import = generate_import('import_iso8859-1.csv')
 
-    post :mapping, :id => import.to_param,
-      :import_settings => {:mapping => {:project_id => '1', :tracker_id => '2', :subject => '0'}}
+    post :mapping, :params => {
+        :id => import.to_param,
+        :import_settings => {
+          :mapping => {
+            :project_id => '1',
+            :tracker_id => '2',
+          :subject => '0'}    
+        }
+      }
     assert_redirected_to "/imports/#{import.to_param}/run"
     import.reload
     mapping = import.settings['mapping']
@@ -148,16 +187,20 @@ class ImportsControllerTest < ActionController::TestCase
   def test_get_run
     import = generate_import_with_mapping
 
-    get :run, :id => import
+    get :run, :params => {
+        :id => import
+      }
     assert_response :success
-    assert_template 'run'
+    assert_select '#import-progress'
   end
  
   def test_post_run_should_import_the_file
     import = generate_import_with_mapping
 
     assert_difference 'Issue.count', 3 do
-      post :run, :id => import
+      post :run, :params => {
+          :id => import
+        }
       assert_redirected_to "/imports/#{import.to_param}"
     end
 
@@ -174,12 +217,16 @@ class ImportsControllerTest < ActionController::TestCase
     import = generate_import_with_mapping
 
     assert_difference 'Issue.count', 2 do
-      post :run, :id => import
+      post :run, :params => {
+          :id => import
+        }
       assert_redirected_to "/imports/#{import.to_param}/run"
     end
 
     assert_difference 'Issue.count', 1 do
-      post :run, :id => import
+      post :run, :params => {
+          :id => import
+        }
       assert_redirected_to "/imports/#{import.to_param}"
     end
 
@@ -192,9 +239,11 @@ class ImportsControllerTest < ActionController::TestCase
     import.run
     assert_equal 0, import.unsaved_items.count
 
-    get :show, :id => import.to_param
+    get :show, :params => {
+        :id => import.to_param
+      }
     assert_response :success
-    assert_template 'show'
+
     assert_select 'ul#saved-items'
     assert_select 'ul#saved-items li', import.saved_items.count
     assert_select 'table#unsaved-items', 0
@@ -206,9 +255,11 @@ class ImportsControllerTest < ActionController::TestCase
     import.run
     assert_not_equal 0, import.unsaved_items.count
 
-    get :show, :id => import.to_param
+    get :show, :params => {
+        :id => import.to_param
+      }
     assert_response :success
-    assert_template 'show'
+
     assert_select 'table#unsaved-items'
     assert_select 'table#unsaved-items tbody tr', import.unsaved_items.count
   end

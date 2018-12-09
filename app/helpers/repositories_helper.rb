@@ -1,7 +1,7 @@
 # encoding: utf-8
 #
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -185,7 +185,7 @@ module RepositoriesHelper
                       scm_path_info_tag(repository)) +
     scm_path_encoding_tag(form, repository) +
     content_tag('p', form.check_box(
-                        :extra_report_last_commit,
+                        :report_last_commit,
                         :label => l(:label_git_report_last_commit)
                          ))
   end

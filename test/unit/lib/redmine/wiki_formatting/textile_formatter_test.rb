@@ -1,7 +1,7 @@
 #encoding: utf-8
 #
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -578,6 +578,28 @@ STR
     assert_html_output({
       '!(wiki-class-foo#wiki-id-bar)test.png!' => "<p><img src=\"test.png\" class=\"wiki-class-foo\" id=\"wiki-id-bar\" alt=\"\" /></p>",
     }, false)
+  end
+
+  # TODO: Remove this test after migrating to RedCloth 4
+  def test_should_not_crash_with_special_input
+    assert_nothing_raised { to_html(" \f") }
+    assert_nothing_raised { to_html(" \v") }
+  end
+
+  def test_should_not_handle_as_preformatted_text_tags_that_starts_with_pre
+    text = <<-STR
+<pree>
+  This is some text
+</pree>
+STR
+
+    expected = <<-EXPECTED
+<p>&lt;pree&gt;<br />
+  This is some text<br />
+&lt;/pree&gt;</p>
+EXPECTED
+
+    assert_equal expected.gsub(%r{[\r\n\t]}, ''), to_html(text).gsub(%r{[\r\n\t]}, '')
   end
 
   private

@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,9 +17,11 @@
 
 class UsersController < ApplicationController
   layout 'admin'
+  self.main_menu = false
 
-  before_filter :require_admin, :except => :show
-  before_filter :find_user, :only => [:show, :edit, :update, :destroy]
+  before_action :require_admin, :except => :show
+  before_action ->{ find_user(false) }, :only => :show
+  before_action :find_user, :only => [:edit, :update, :destroy]
   accept_api_auth :index, :show, :create, :update, :destroy
 
   helper :sort
@@ -68,7 +70,7 @@ class UsersController < ApplicationController
     end
 
     # show projects based on current user visibility
-    @memberships = @user.memberships.where(Project.visible_condition(User.current)).to_a
+    @memberships = @user.memberships.preload(:roles, :project).where(Project.visible_condition(User.current)).to_a
 
     respond_to do |format|
       format.html {
@@ -87,12 +89,10 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user = User.new(:language => Setting.default_language, :mail_notification => Setting.default_notification_option)
+    @user = User.new(:language => Setting.default_language, :mail_notification => Setting.default_notification_option, :admin => false)
     @user.safe_attributes = params[:user]
-    @user.admin = params[:user][:admin] || false
-    @user.login = params[:user][:login]
     @user.password, @user.password_confirmation = params[:user][:password], params[:user][:password_confirmation] unless @user.auth_source_id
-    @user.pref.attributes = params[:pref] if params[:pref]
+    @user.pref.safe_attributes = params[:pref]
 
     if @user.save
       Mailer.account_information(@user, @user.password).deliver if params[:send_information]
@@ -127,8 +127,6 @@ class UsersController < ApplicationController
   end
 
   def update
-    @user.admin = params[:user][:admin] if params[:user][:admin]
-    @user.login = params[:user][:login] if params[:user][:login]
     if params[:user][:password].present? && (@user.auth_source_id.nil? || params[:user][:auth_source_id].blank?)
       @user.password, @user.password_confirmation = params[:user][:password], params[:user][:password_confirmation]
     end
@@ -136,14 +134,14 @@ class UsersController < ApplicationController
     # Was the account actived ? (do it before User#save clears the change)
     was_activated = (@user.status_change == [User::STATUS_REGISTERED, User::STATUS_ACTIVE])
     # TODO: Similar to My#account
-    @user.pref.attributes = params[:pref] if params[:pref]
+    @user.pref.safe_attributes = params[:pref]
 
     if @user.save
       @user.pref.save
 
       if was_activated
         Mailer.account_activated(@user).deliver
-      elsif @user.active? && params[:send_information] && @user.password.present? && @user.auth_source_id.nil? && @user != User.current
+      elsif @user.active? && params[:send_information] && @user != User.current
         Mailer.account_information(@user, @user.password).deliver
       end
 
@@ -177,10 +175,12 @@ class UsersController < ApplicationController
 
   private
 
-  def find_user
+  def find_user(logged = true)
     if params[:id] == 'current'
       require_login || return
       @user = User.current
+    elsif logged
+      @user = User.logged.find(params[:id])
     else
       @user = User.find(params[:id])
     end

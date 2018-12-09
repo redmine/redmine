@@ -1,6 +1,7 @@
 <%= labelled_fields_for :issue, @issue do |f| %>
 <%= call_hook(:view_issues_form_details_top, { :issue => @issue, :form => f }) %>
 <%= hidden_field_tag 'form_update_triggered_by', '' %>
+<%= hidden_field_tag 'back_url', params[:back_url], :id => nil if params[:back_url].present? %>
 
 <% if @issue.safe_attribute? 'is_private' %>
 <p id="issue_is_private_wrap">
@@ -29,7 +30,7 @@
   <%= content_tag 'span', :id => "issue_description_and_toolbar", :style => (@issue.new_record? ? nil : 'display:none') do %>
     <%= f.text_area :description,
                    :cols => 60,
-                   :rows => (@issue.description.blank? ? 10 : [[10, @issue.description.length / 50].max, 100].min),
+                   :rows => [[10, @issue.description.to_s.length / 50].max, 20].min,
                    :accesskey => accesskey(:edit),
                    :class => 'wiki-edit',
                    :no_label => true %>

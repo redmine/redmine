@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,7 +17,7 @@
 
 class CalendarsController < ApplicationController
   menu_item :calendar
-  before_filter :find_optional_project
+  before_action :find_optional_project
 
   rescue_from Query::StatementInvalid, :with => :query_statement_invalid
 
@@ -25,8 +25,6 @@ class CalendarsController < ApplicationController
   helper :projects
   helper :queries
   include QueriesHelper
-  helper :sort
-  include SortHelper
 
   def show
     if params[:year] and params[:year].to_i > 1900
@@ -41,6 +39,7 @@ class CalendarsController < ApplicationController
     @calendar = Redmine::Helpers::Calendar.new(Date.civil(@year, @month, 1), current_language, :month)
     retrieve_query
     @query.group_by = nil
+    @query.sort_criteria = nil
     if @query.valid?
       events = []
       events += @query.issues(:include => [:tracker, :assigned_to, :priority],

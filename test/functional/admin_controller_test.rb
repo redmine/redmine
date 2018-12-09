@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,7 +17,7 @@
 
 require File.expand_path('../../test_helper', __FILE__)
 
-class AdminControllerTest < ActionController::TestCase
+class AdminControllerTest < Redmine::ControllerTest
   fixtures :projects, :users, :email_addresses, :roles
 
   def setup
@@ -39,34 +39,33 @@ class AdminControllerTest < ActionController::TestCase
   def test_projects
     get :projects
     assert_response :success
-    assert_template 'projects'
-    assert_not_nil assigns(:projects)
-    # active projects only
-    assert_nil assigns(:projects).detect {|u| !u.active?}
+    assert_select 'tr.project.closed', 0
   end
 
   def test_projects_with_status_filter
-    get :projects, :status => 1
+    get :projects, :params => {
+        :status => 1
+      }
     assert_response :success
-    assert_template 'projects'
-    assert_not_nil assigns(:projects)
-    # active projects only
-    assert_nil assigns(:projects).detect {|u| !u.active?}
+    assert_select 'tr.project.closed', 0
   end
 
   def test_projects_with_name_filter
-    get :projects, :name => 'store', :status => ''
+    get :projects, :params => {
+        :name => 'store',
+        :status => ''
+      }
     assert_response :success
-    assert_template 'projects'
-    projects = assigns(:projects)
-    assert_not_nil projects
-    assert_equal 1, projects.size
-    assert_equal 'OnlineStore', projects.first.name
+
+    assert_select 'tr.project td.name', :text => 'OnlineStore'
+    assert_select 'tr.project', 1
   end
 
   def test_load_default_configuration_data
     delete_configuration_data
-    post :default_configuration, :lang => 'fr'
+    post :default_configuration, :params => {
+        :lang => 'fr'
+      }
     assert_response :redirect
     assert_nil flash[:error]
     assert IssueStatus.find_by_name('Nouveau')
@@ -75,7 +74,9 @@ class AdminControllerTest < ActionController::TestCase
   def test_load_default_configuration_data_should_rescue_error
     delete_configuration_data
     Redmine::DefaultData::Loader.stubs(:load).raises(Exception.new("Something went wrong"))
-    post :default_configuration, :lang => 'fr'
+    post :default_configuration, :params => {
+        :lang => 'fr'
+      }
     assert_response :redirect
     assert_not_nil flash[:error]
     assert_match /Something went wrong/, flash[:error]
@@ -107,8 +108,7 @@ class AdminControllerTest < ActionController::TestCase
 
     get :plugins
     assert_response :success
-    assert_template 'plugins'
-    assert_equal [], assigns(:plugins)
+    assert_select '.nodata'
   end
 
   def test_plugins
@@ -125,7 +125,6 @@ class AdminControllerTest < ActionController::TestCase
 
     get :plugins
     assert_response :success
-    assert_template 'plugins'
 
     assert_select 'tr#plugin-foo' do
       assert_select 'td span.name', :text => 'Foo plugin'
@@ -140,7 +139,6 @@ class AdminControllerTest < ActionController::TestCase
   def test_info
     get :info
     assert_response :success
-    assert_template 'info'
   end
 
   def test_admin_menu_plugin_extension
@@ -160,7 +158,7 @@ class AdminControllerTest < ActionController::TestCase
   private
 
   def delete_configuration_data
-    Role.delete_all('builtin = 0')
+    Role.where('builtin = 0').delete_all
     Tracker.delete_all
     IssueStatus.delete_all
     Enumeration.delete_all

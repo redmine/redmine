@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -176,10 +176,20 @@ module Redmine
             reorder(:id).lock.ids
             update_all(:root_id => nil, :lft => nil, :rgt => nil)
             where(:parent_id => nil).update_all(["root_id = id, lft = ?, rgt = ?", 1, 2])
-            roots_with_children = joins("JOIN #{table_name} parent ON parent.id = #{table_name}.parent_id AND parent.id = parent.root_id").uniq.pluck("parent.id")
+            roots_with_children = joins("JOIN #{table_name} parent ON parent.id = #{table_name}.parent_id AND parent.id = parent.root_id").distinct.pluck("parent.id")
             roots_with_children.each do |root_id|
               rebuild_nodes(root_id)
             end
+          end
+        end
+
+        def rebuild_single_tree!(root_id)
+          root = Issue.where(:parent_id => nil).find(root_id)
+          transaction do
+            where(root_id: root_id).reorder(:id).lock.ids
+            where(root_id: root_id).update_all(:lft => nil, :rgt => nil)
+            where(root_id: root_id, parent_id: nil).update_all(["lft = ?, rgt = ?", 1, 2])
+            rebuild_nodes(root_id)
           end
         end
 

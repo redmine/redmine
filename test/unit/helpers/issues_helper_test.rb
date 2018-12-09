@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,8 +17,7 @@
 
 require File.expand_path('../../../test_helper', __FILE__)
 
-class IssuesHelperTest < ActionView::TestCase
-  include Redmine::I18n
+class IssuesHelperTest < Redmine::HelperTest
   include IssuesHelper
   include CustomFieldsHelper
   include ERB::Util
@@ -35,12 +34,6 @@ class IssuesHelperTest < ActionView::TestCase
            :attachments,
            :versions
 
-  def setup
-    super
-    set_language_if_valid('en')
-    User.current = nil
-  end
-
   def test_issue_heading
     assert_equal "Bug #1", issue_heading(Issue.find(1))
   end
@@ -56,14 +49,14 @@ class IssuesHelperTest < ActionView::TestCase
   end
 
   def test_issues_destroy_confirmation_message_with_one_parent_issue
-    Issue.find(2).update_attribute :parent_issue_id, 1
+    Issue.find(2).update! :parent_issue_id => 1
     assert_equal l(:text_issues_destroy_confirmation) + "\n" +
                    l(:text_issues_destroy_descendants_confirmation, :count => 1),
                  issues_destroy_confirmation_message(Issue.find(1))
   end
 
   def test_issues_destroy_confirmation_message_with_one_parent_issue_and_its_child
-    Issue.find(2).update_attribute :parent_issue_id, 1
+    Issue.find(2).update! :parent_issue_id => 1
     assert_equal l(:text_issues_destroy_confirmation),
                  issues_destroy_confirmation_message(Issue.find([1, 2]))
   end

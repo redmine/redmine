@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,7 +17,7 @@
 
 require File.expand_path('../../test_helper', __FILE__)
 
-class CalendarsControllerTest < ActionController::TestCase
+class CalendarsControllerTest < Redmine::ControllerTest
   fixtures :projects,
            :trackers,
            :projects_trackers,
@@ -29,32 +29,37 @@ class CalendarsControllerTest < ActionController::TestCase
            :issue_statuses,
            :issue_relations,
            :issue_categories,
-           :enumerations
+           :enumerations,
+           :queries
 
   def test_show
-    get :show, :project_id => 1
+    get :show, :params => {
+        :project_id => 1
+      }
     assert_response :success
-    assert_template :partial => '_calendar'
-    assert_not_nil assigns(:calendar)
   end
 
   def test_show_should_run_custom_queries
-    @query = IssueQuery.create!(:name => 'Calendar', :visibility => IssueQuery::VISIBILITY_PUBLIC)
+    @query = IssueQuery.create!(:name => 'Calendar Query', :visibility => IssueQuery::VISIBILITY_PUBLIC)
 
-    get :show, :query_id => @query.id
+    get :show, :params => {
+        :query_id => @query.id
+      }
     assert_response :success
+    assert_select 'h2', :text => 'Calendar Query'
   end
 
   def test_cross_project_calendar
     get :show
     assert_response :success
-    assert_template :partial => '_calendar'
-    assert_not_nil assigns(:calendar)
   end
 
   def test_week_number_calculation
     with_settings :start_of_week => 7 do
-      get :show, :month => '1', :year => '2010'
+      get :show, :params => {
+          :month => '1',
+          :year => '2010'
+        }
       assert_response :success
     end
 
@@ -71,7 +76,10 @@ class CalendarsControllerTest < ActionController::TestCase
     end
 
     with_settings :start_of_week => 1 do
-      get :show, :month => '1', :year => '2010'
+      get :show, :params => {
+          :month => '1',
+          :year => '2010'
+        }
       assert_response :success
     end
 
@@ -86,5 +94,23 @@ class CalendarsControllerTest < ActionController::TestCase
       assert_select 'td.even', :text => '4'
       assert_select 'td.even', :text => '10'
     end
+  end
+
+  def test_show_custom_query_with_multiple_sort_criteria
+    get :show, :params => {
+        :query_id => 5
+      }
+
+    assert_response :success
+    assert_select 'h2', :text => 'Open issues by priority and tracker'
+  end
+
+  def test_show_custom_query_with_group_by_option
+    get :show, :params => {
+        :query_id => 6
+      }
+      
+    assert_response :success
+    assert_select 'h2', :text => 'Open issues grouped by tracker'
   end
 end

@@ -17,13 +17,13 @@
       </div>
     <% end %>
     <header>
-      <h3 class="version"><%= link_to_version version, :name => version_anchor(version) %></h3>
+      <h3 class="icon icon-package version"><%= link_to_version version, :name => version_anchor(version) %></h3>
     </header>
     <%= render :partial => 'versions/overview', :locals => {:version => version} %>
     <%= render(:partial => "wiki/content",
                :locals => {:content => version.wiki_page.content}) if version.wiki_page %>
     <% if (issues = @issues_by_version[version]) && issues.size > 0 %>
-      <%= form_tag({}) do -%>
+      <%= form_tag({}, :data => {:cm_url => issues_context_menu_path}) do -%>
         <table class="list related-issues">
         <caption><%= l(:label_related_issues) %></caption>
         <% issues.each do |issue| -%>
@@ -85,13 +85,13 @@
 </ul>
 <% if @completed_versions.present? %>
 <p>
-  <%= link_to_function l(:label_completed_versions), 
+  <%= link_to_function l(:label_completed_versions),
                        '$("#toggle-completed-versions").toggleClass("collapsed"); $("#completed-versions").toggle()',
                        :id => 'toggle-completed-versions', :class => 'collapsible collapsed' %>
   <ul id = "completed-versions" style = "display:none;">
     <% @completed_versions.each do |version| %>
       <li><%= link_to_version version %></li>
-    <% end %>  
+    <% end %>
   </ul>
 </p>
 <% end %>
@@ -99,4 +99,4 @@
 
 <% html_title(l(:label_roadmap)) %>
 
-<%= context_menu issues_context_menu_path %>
+<%= context_menu %>

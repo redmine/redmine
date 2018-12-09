@@ -135,6 +135,8 @@ sv:
         circular_dependency: "Denna relation skulle skapa ett cirkulärt beroende"
         cant_link_an_issue_with_a_descendant: "Ett ärende kan inte länkas till ett av dess underärenden"
         earlier_than_minimum_start_date: "kan inte vara tidigare än %{date} på grund av föregående ärenden"
+        not_a_regexp: "is not a valid regular expression"
+        open_issue_with_closed_parent: "An open issue cannot be attached to a closed parent task"
 
   direction: ltr
   date:
@@ -584,7 +586,6 @@ sv:
   label_my_page: Min sida
   label_my_account: Mitt konto
   label_my_projects: Mina projekt
-  label_my_page_block: '"Min sida"-block'
   label_administration: Administration
   label_login: Logga in
   label_logout: Logga ut
@@ -679,7 +680,6 @@ sv:
   label_internal: Intern
   label_last_changes: "senaste %{count} ändringar"
   label_change_view_all: Visa alla ändringar
-  label_personalize_page: Anpassa denna sida
   label_comment: Kommentar
   label_comment_plural: Kommentarer
   label_x_comments:
@@ -844,8 +844,6 @@ sv:
   label_user_mail_option_selected: "För alla händelser i markerade projekt..."
   label_user_mail_option_none: "Inga händelser"
   label_user_mail_option_only_my_events: "Endast för saker jag bevakar eller är inblandad i"
-  label_user_mail_option_only_assigned: "Endast för saker jag är tilldelad"
-  label_user_mail_option_only_owner: "Endast för saker jag äger"
   label_user_mail_no_self_notified: "Jag vill inte bli underrättad om ändringar som jag har gjort"
   label_registration_activation_by_email: kontoaktivering med mail
   label_registration_manual_activation: manuell kontoaktivering
@@ -854,7 +852,6 @@ sv:
   label_age: Ålder
   label_change_properties: Ändra inställningar
   label_general: Allmänt
-  label_more: Mer
   label_scm: SCM
   label_plugins: Tillägg
   label_ldap_authentication: LDAP-autentisering
@@ -864,7 +861,6 @@ sv:
   label_preferences: Användarinställningar
   label_chronological_order: I kronologisk ordning
   label_reverse_chronological_order: I omvänd kronologisk ordning
-  label_planning: Planering
   label_incoming_emails: Inkommande mail
   label_generate_key: Generera en nyckel
   label_issue_watchers: Bevakare
@@ -1114,10 +1110,6 @@ sv:
   description_all_columns: Alla kolumner
   description_issue_category_reassign: Välj ärendekategori
   description_wiki_subpages_reassign: Välj ny föräldersida
-  description_date_range_list: Välj intervall från listan
-  description_date_range_interval: Ange intervall genom att välja start- och slutdatum
-  description_date_from: Ange startdatum
-  description_date_to: Ange slutdatum
   text_repository_identifier_info: 'Endast gemener (a-z), siffror, streck och understreck är tillåtna.<br />När identifieraren sparats kan den inte ändras.'
   notice_account_not_activated_yet: Du har inte aktiverat ditt konto än. Om du vill få ett nytt aktiveringsbrev, <a href="%{url}"> klicka på denna länk </a>.
   notice_account_locked: Ditt konto är låst.
@@ -1241,5 +1233,31 @@ sv:
   label_new_object_tab_enabled: Display the "+" drop-down
   error_no_projects_with_tracker_allowed_for_new_issue: There are no projects with trackers
     for which you can create an issue
+  field_textarea_font: Font used for text areas
+  label_font_default: Default font
+  label_font_monospace: Monospaced font
+  label_font_proportional: Proportional font
+  setting_timespan_format: Time span format
+  label_table_of_contents: Table of contents
+  setting_commit_logs_formatting: Apply text formatting to commit messages
+  setting_mail_handler_enable_regex_delimiters: Enable regular expressions
+  error_move_of_child_not_possible: 'Subtask %{child} could not be moved to the new
+    project: %{errors}'
   error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: Spent time cannot
     be reassigned to an issue that is about to be deleted
+  setting_timelog_required_fields: Required fields for time logs
+  label_attribute_of_object: '%{object_name}''s %{name}'
+  label_user_mail_option_only_assigned: Only for things I watch or I am assigned to
+  label_user_mail_option_only_owner: Only for things I watch or I am the owner of
+  warning_fields_cleared_on_bulk_edit: Changes will result in the automatic deletion
+    of values from one or more fields on the selected objects
+  field_updated_by: Updated by
+  field_last_updated_by: Last updated by
+  field_full_width_layout: Full width layout
+  label_last_notes: Last notes
+  field_digest: Checksum
+  field_default_assigned_to: Default assignee
+  setting_show_custom_fields_on_registration: Show custom fields on registration
+  permission_view_news: View news
+  label_no_preview_alternative_html: No preview available. %{link} the file instead.
+  label_no_preview_download: Download

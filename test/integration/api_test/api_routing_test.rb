@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -21,6 +21,8 @@ class Redmine::ApiTest::ApiRoutingTest < Redmine::ApiTest::Routing
 
   def test_attachments
     should_route 'GET /attachments/1' => 'attachments#show', :id => '1'
+    should_route 'PATCH /attachments/1' => 'attachments#update', :id => '1'
+    should_route 'DELETE /attachments/1' => 'attachments#destroy', :id => '1'
     should_route 'POST /uploads' => 'attachments#upload'
   end
 
@@ -30,6 +32,11 @@ class Redmine::ApiTest::ApiRoutingTest < Redmine::ApiTest::Routing
 
   def test_enumerations
     should_route 'GET /enumerations/issue_priorities' => 'enumerations#index', :type => 'issue_priorities'
+  end
+
+  def test_files
+    should_route 'GET /projects/foo/files' => 'files#index', :project_id => 'foo'
+    should_route 'POST /projects/foo/files' => 'files#create', :project_id => 'foo'
   end
 
   def test_groups

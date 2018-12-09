@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -84,5 +84,21 @@ class Redmine::CodesetUtilTest < ActiveSupport::TestCase
       assert_equal "UTF-8", str.encoding.to_s
       assert_equal "test??test??", str
     end
+  end
+
+  test "#replace_invalid_utf8 should replace invalid utf8" do
+    s1 = "\xe3\x81\x93\xe3\x82\x93\xe3\x81\xab\xe3\x81\xa1\xE3\x81\xFF".force_encoding("UTF-8")
+    s2 = Redmine::CodesetUtil.replace_invalid_utf8(s1)
+    assert s2.valid_encoding?
+    assert_equal "UTF-8", s2.encoding.to_s
+    assert_equal "\xe3\x81\x93\xe3\x82\x93\xe3\x81\xab\xe3\x81\xa1??".force_encoding("UTF-8"), s2
+  end
+
+  test "#to_utf8 should replace invalid non utf8" do
+    s1 = "\xa4\xb3\xa4\xf3\xa4\xcb\xa4\xc1\xa4".force_encoding("EUC-JP")
+    s2 = Redmine::CodesetUtil.to_utf8(s1, "EUC-JP")
+    assert s2.valid_encoding?
+    assert_equal "UTF-8", s2.encoding.to_s
+    assert_equal "\xe3\x81\x93\xe3\x82\x93\xe3\x81\xab\xe3\x81\xa1?".force_encoding("UTF-8"), s2
   end
 end

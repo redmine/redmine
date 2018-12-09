@@ -1,7 +1,7 @@
 # encoding: utf-8
 #
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -67,9 +67,10 @@ module Redmine
           while right.size < rows
             right << nil
           end
-  
-          half = (issue.visible_custom_field_values.size / 2.0).ceil
-          issue.visible_custom_field_values.each_with_index do |custom_value, i|
+
+          custom_field_values = issue.visible_custom_field_values.reject {|value| value.custom_field.full_width_layout?}
+          half = (custom_field_values.size / 2.0).ceil
+          custom_field_values.each_with_index do |custom_value, i|
             (i < half ? left : right) << [custom_value.custom_field.name, show_value(custom_value, false)]
           end
   
@@ -128,7 +129,18 @@ module Redmine
             :inline_attachments => false
           )
           pdf.RDMwriteFormattedCell(35+155, 5, '', '', text, issue.attachments, "LRB")
-  
+
+          custom_field_values = issue.visible_custom_field_values.select {|value| value.custom_field.full_width_layout?}
+          custom_field_values.each do |value|
+            text = show_value(value, false)
+            next if text.blank?
+
+            pdf.SetFontStyle('B',9)
+            pdf.RDMCell(35+155, 5, value.custom_field.name, "LRT", 1)
+            pdf.SetFontStyle('',9)
+            pdf.RDMwriteHTMLCell(35+155, 5, '', '', text, issue.attachments, "LRB")
+          end
+
           unless issue.leaf?
             truncate_length = (!is_cjk? ? 90 : 65)
             pdf.SetFontStyle('B',9)
@@ -266,8 +278,8 @@ module Redmine
             table_width = col_width.inject(0, :+)
           end
   
-          # use full width if the description is displayed
-          if table_width > 0 && query.has_column?(:description)
+          # use full width if the description or last_notes are displayed
+          if table_width > 0 && (query.has_column?(:description) || query.has_column?(:last_notes))
             col_width = col_width.map {|w| w * (page_width - right_margin - left_margin) / table_width}
             table_width = col_width.inject(0, :+)
           end
@@ -287,12 +299,14 @@ module Redmine
           totals_by_group = query.totals_by_group
           render_table_header(pdf, query, col_width, row_height, table_width)
           previous_group = false
+          result_count_by_group = query.result_count_by_group
+
           issue_list(issues) do |issue, level|
             if query.grouped? &&
                  (group = query.group_by_column.value(issue)) != previous_group
               pdf.SetFontStyle('B',10)
               group_label = group.blank? ? 'None' : group.to_s.dup
-              group_label << " (#{query.issue_count_by_group[group]})"
+              group_label << " (#{result_count_by_group[group]})"
               pdf.bookmark group_label, 0, -1
               pdf.RDMCell(table_width, row_height * 2, group_label, 'LR', 1, 'L')
               pdf.SetFontStyle('',8)
@@ -327,6 +341,13 @@ module Redmine
               pdf.RDMwriteHTMLCell(0, 5, 10, '', issue.description.to_s, issue.attachments, "LRBT")
               pdf.set_auto_page_break(false)
             end
+
+            if query.has_column?(:last_notes) && issue.last_notes.present?
+              pdf.set_x(10)
+              pdf.set_auto_page_break(true, bottom_margin)
+              pdf.RDMwriteHTMLCell(0, 5, 10, '', issue.last_notes.to_s, [], "LRBT")
+              pdf.set_auto_page_break(false)
+          end
           end
   
           if issues.size == Setting.issues_export_limit.to_i
@@ -353,8 +374,11 @@ module Redmine
               show_value(cv, false)
             else
               value = issue.send(column.name)
-              if column.name == :subject
+              case column.name
+              when :subject
                 value = "  " * level + value
+              when :attachments
+                value = value.to_a.map {|a| a.filename}.join("\n")
               end
               if value.is_a?(Date)
                 format_date(value)

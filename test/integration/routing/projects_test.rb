@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -23,6 +23,8 @@ class RoutingProjectsTest < Redmine::RoutingTest
     should_route 'GET /projects.atom' => 'projects#index', :format => 'atom'
     should_route 'GET /projects/new' => 'projects#new'
     should_route 'POST /projects' => 'projects#create'
+
+    should_route 'GET /projects/autocomplete.js' => 'projects#autocomplete', :format => 'js'
 
     should_route 'GET /projects/foo' => 'projects#show', :id => 'foo'
     should_route 'PUT /projects/foo' => 'projects#update', :id => 'foo'

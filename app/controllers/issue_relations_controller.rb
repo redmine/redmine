@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -16,8 +16,10 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class IssueRelationsController < ApplicationController
-  before_filter :find_issue, :authorize, :only => [:index, :create]
-  before_filter :find_relation, :only => [:show, :destroy]
+  helper :issues
+
+  before_action :find_issue, :authorize, :only => [:index, :create]
+  before_action :find_relation, :only => [:show, :destroy]
 
   accept_api_auth :index, :show, :create, :destroy
 
@@ -25,7 +27,7 @@ class IssueRelationsController < ApplicationController
     @relations = @issue.relations
 
     respond_to do |format|
-      format.html { render :nothing => true }
+      format.html { head 200 }
       format.api
     end
   end
@@ -34,7 +36,7 @@ class IssueRelationsController < ApplicationController
     raise Unauthorized unless @relation.visible?
 
     respond_to do |format|
-      format.html { render :nothing => true }
+      format.html { head 200 }
       format.api
     end
   end

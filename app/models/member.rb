@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -19,7 +19,7 @@ class Member < ActiveRecord::Base
   belongs_to :user
   belongs_to :principal, :foreign_key => 'user_id'
   has_many :member_roles, :dependent => :destroy
-  has_many :roles, lambda {uniq}, :through => :member_roles
+  has_many :roles, lambda { distinct }, :through => :member_roles
   belongs_to :project
 
   validates_presence_of :principal, :project
@@ -27,9 +27,20 @@ class Member < ActiveRecord::Base
   validate :validate_role
   attr_protected :id
 
-  before_destroy :set_issue_category_nil
+  before_destroy :set_issue_category_nil, :remove_from_project_default_assigned_to
 
   scope :active, lambda { joins(:principal).where(:users => {:status => Principal::STATUS_ACTIVE})}
+
+	# Sort by first role and principal
+  scope :sorted, lambda {
+    includes(:member_roles, :roles, :principal).
+      reorder("#{Role.table_name}.position").
+      order(Principal.fields_for_order_statement)
+  }
+  scope :sorted_by_project, lambda {
+    includes(:project).
+      reorder("#{Project.table_name}.lft")
+  }
 
   alias :base_reload :reload
   def reload(*args)
@@ -128,7 +139,7 @@ class Member < ActiveRecord::Base
     if principal.is_a?(Group)
       !user.nil? && user.groups.include?(principal)
     else
-      self.user == user
+      self.principal == user
     end
   end
 
@@ -137,6 +148,13 @@ class Member < ActiveRecord::Base
       # remove category based auto assignments for this member
       IssueCategory.where(["project_id = ? AND assigned_to_id = ?", project_id, user_id]).
         update_all("assigned_to_id = NULL")
+    end
+  end
+
+  def remove_from_project_default_assigned_to
+    if user_id && project && project.default_assigned_to_id == user_id
+      # remove project based auto assignments for this member
+      project.update_column(:default_assigned_to_id, nil)
     end
   end
 
@@ -161,7 +179,8 @@ class Member < ActiveRecord::Base
     end
   end
 
-  # Creates memberships for principal with the attributes
+  # Creates memberships for principal with the attributes, or add the roles
+  # if the membership already exists.
   # * project_ids : one or more project ids
   # * role_ids : ids of the roles to give to each membership
   #
@@ -171,16 +190,18 @@ class Member < ActiveRecord::Base
     members = []
     if attributes
       project_ids = Array.wrap(attributes[:project_ids] || attributes[:project_id])
-      role_ids = attributes[:role_ids]
+      role_ids = Array.wrap(attributes[:role_ids])
       project_ids.each do |project_id|
-        members << Member.new(:principal => principal, :role_ids => role_ids, :project_id => project_id)
+        member = Member.find_or_new(project_id, principal)
+        member.role_ids |= role_ids
+        member.save
+        members << member
       end
-      principal.members << members
     end
     members
   end
 
-  # Finds or initilizes a Member for the given project and principal
+  # Finds or initializes a Member for the given project and principal
   def self.find_or_new(project, principal)
     project_id = project.is_a?(Project) ? project.id : project
     principal_id = principal.is_a?(Principal) ? principal.id : principal
@@ -193,6 +214,6 @@ class Member < ActiveRecord::Base
   protected
 
   def validate_role
-    errors.add_on_empty :role if member_roles.empty? && roles.empty?
+    errors.add(:role, :empty) if member_roles.empty? && roles.empty?
   end
 end

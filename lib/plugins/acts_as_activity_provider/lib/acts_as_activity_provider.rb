@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -48,7 +48,7 @@ module Redmine
         end
 
         module ClassMethods
-          # Returns events of type event_type visible by user that occured between from and to
+          # Returns events of type event_type visible by user that occurred between from and to
           def find_events(event_type, user, from, to, options)
             provider_options = activity_provider_options[event_type]
             raise "#{self.name} can not provide #{event_type} events." if provider_options.nil?

@@ -18,7 +18,7 @@ dirs.each do |dir|
 <% end %>
 <% if filename %>
     / <%= link_to filename,
-                   :action => 'changes', :id => @project, :repository_id => @repository.identifier_param,
+                   :action => 'entry', :id => @project, :repository_id => @repository.identifier_param,
                    :path => to_path_param("#{link_path}/#{filename}"), :rev => @rev %>
 <% end %>
 <%

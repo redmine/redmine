@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,7 +17,7 @@
 
 require File.expand_path('../../test_helper', __FILE__)
 
-class RolesControllerTest < ActionController::TestCase
+class RolesControllerTest < Redmine::ControllerTest
   fixtures :roles, :users, :members, :member_roles, :workflows, :trackers
 
   def setup
@@ -28,29 +28,37 @@ class RolesControllerTest < ActionController::TestCase
   def test_index
     get :index
     assert_response :success
-    assert_template 'index'
 
-    assert_not_nil assigns(:roles)
-    assert_equal Role.order('builtin, position').to_a, assigns(:roles)
-
-    assert_select 'a[href="/roles/1/edit"]', :text => 'Manager'
+    assert_select 'table.roles tbody' do
+      assert_select 'tr', Role.count
+      assert_select 'a[href="/roles/1/edit"]', :text => 'Manager'
+    end
   end
 
   def test_new
     get :new
     assert_response :success
-    assert_template 'new'
+    assert_select 'input[name=?]', 'role[name]'
+    assert_select 'input[name=?]', 'role[permissions][]'
+  end
+
+  def test_new_should_prefill_permissions_with_non_member_permissions
+    role = Role.non_member
+    role.permissions = [:view_issues, :view_documents]
+    role.save!
+
+    get :new
+    assert_response :success
+    assert_equal %w(view_documents view_issues),
+      css_select('input[name="role[permissions][]"][checked=checked]').map {|e| e.attr('value')}.sort
   end
 
   def test_new_with_copy
     copy_from = Role.find(2)
 
-    get :new, :copy => copy_from.id.to_s
+    get :new, :params => {:copy => copy_from.id.to_s}
     assert_response :success
-    assert_template 'new'
-
-    role = assigns(:role)
-    assert_equal copy_from.permissions, role.permissions
+    assert_select 'input[name=?]', 'role[name]'
 
     assert_select 'form' do
       # blank name
@@ -68,20 +76,25 @@ class RolesControllerTest < ActionController::TestCase
   end
 
   def test_create_with_validaton_failure
-    post :create, :role => {:name => '',
-                         :permissions => ['add_issues', 'edit_issues', 'log_time', ''],
-                         :assignable => '0'}
-
+    post :create, :params => {
+      :role => {
+        :name => '',
+        :permissions => ['add_issues', 'edit_issues', 'log_time', ''],
+        :assignable => '0'
+      }
+    }
     assert_response :success
-    assert_template 'new'
-    assert_select 'div#errorExplanation'
+    assert_select_error /Name cannot be blank/
   end
 
   def test_create_without_workflow_copy
-    post :create, :role => {:name => 'RoleWithoutWorkflowCopy',
-                         :permissions => ['add_issues', 'edit_issues', 'log_time', ''],
-                         :assignable => '0'}
-
+    post :create, :params => {
+      :role => {
+        :name => 'RoleWithoutWorkflowCopy',
+        :permissions => ['add_issues', 'edit_issues', 'log_time', ''],
+        :assignable => '0'
+      }
+    }
     assert_redirected_to '/roles'
     role = Role.find_by_name('RoleWithoutWorkflowCopy')
     assert_not_nil role
@@ -90,54 +103,78 @@ class RolesControllerTest < ActionController::TestCase
   end
 
   def test_create_with_workflow_copy
-    post :create, :role => {:name => 'RoleWithWorkflowCopy',
-                         :permissions => ['add_issues', 'edit_issues', 'log_time', ''],
-                         :assignable => '0'},
-               :copy_workflow_from => '1'
-
+    post :create, :params => {
+      :role => {
+        :name => 'RoleWithWorkflowCopy',
+        :permissions => ['add_issues', 'edit_issues', 'log_time', ''],
+        :assignable => '0'
+      },
+      :copy_workflow_from => '1'
+    }
     assert_redirected_to '/roles'
     role = Role.find_by_name('RoleWithWorkflowCopy')
     assert_not_nil role
     assert_equal Role.find(1).workflow_rules.size, role.workflow_rules.size
   end
 
+  def test_create_with_managed_roles
+    role = new_record(Role) do
+      post :create, :params => {
+        :role => {
+          :name => 'Role',
+          :all_roles_managed => '0',
+          :managed_role_ids => ['2', '3', '']
+        }
+      }
+      assert_response 302
+    end
+    assert_equal false, role.all_roles_managed
+    assert_equal [2, 3], role.managed_role_ids.sort
+  end
+
   def test_edit
-    get :edit, :id => 1
+    get :edit, :params => {:id => 1}
     assert_response :success
-    assert_template 'edit'
-    assert_equal Role.find(1), assigns(:role)
+
+    assert_select 'input[name=?][value=?]', 'role[name]', 'Manager'
     assert_select 'select[name=?]', 'role[issues_visibility]'
   end
 
   def test_edit_anonymous
-    get :edit, :id => Role.anonymous.id
+    get :edit, :params => {:id => Role.anonymous.id}
     assert_response :success
-    assert_template 'edit'
+
+    assert_select 'input[name=?]', 'role[name]', 0
     assert_select 'select[name=?]', 'role[issues_visibility]', 0
   end
 
   def test_edit_invalid_should_respond_with_404
-    get :edit, :id => 999
+    get :edit, :params => {:id => 999}
     assert_response 404
   end
 
   def test_update
-    put :update, :id => 1,
-                :role => {:name => 'Manager',
-                          :permissions => ['edit_project', ''],
-                          :assignable => '0'}
-
+    put :update, :params => {
+      :id => 1,
+      :role => {
+        :name => 'Manager',
+        :permissions => ['edit_project', ''],
+        :assignable => '0'
+      }
+    }
     assert_redirected_to '/roles'
     role = Role.find(1)
     assert_equal [:edit_project], role.permissions
   end
 
   def test_update_trackers_permissions
-    put :update, :id => 1, :role => {
-      :permissions_all_trackers => {'add_issues' => '0'},
-      :permissions_tracker_ids => {'add_issues' => ['1', '3', '']}
+    put :update, :params => {
+      :id => 1,
+      :role => {
+        :permissions_all_trackers => {'add_issues' => '0'},
+        :permissions_tracker_ids => {'add_issues' => ['1', '3', '']}
+      }
     }
-
     assert_redirected_to '/roles'
     role = Role.find(1)
 
@@ -149,21 +186,21 @@ class RolesControllerTest < ActionController::TestCase
   end
 
   def test_update_with_failure
-    put :update, :id => 1, :role => {:name => ''}
+    put :update, :params => {:id => 1, :role => {:name => ''}}
     assert_response :success
-    assert_template 'edit'
+    assert_select_error /Name cannot be blank/
   end
 
   def test_destroy
     r = Role.create!(:name => 'ToBeDestroyed', :permissions => [:view_wiki_pages])
 
-    delete :destroy, :id => r
+    delete :destroy, :params => {:id => r}
     assert_redirected_to '/roles'
     assert_nil Role.find_by_id(r.id)
   end
 
   def test_destroy_role_in_use
-    delete :destroy, :id => 1
+    delete :destroy, :params => {:id => 1}
     assert_redirected_to '/roles'
     assert_equal 'This role is in use and cannot be deleted.', flash[:error] 
     assert_not_nil Role.find_by_id(1)
@@ -172,17 +209,19 @@ class RolesControllerTest < ActionController::TestCase
   def test_get_permissions
     get :permissions
     assert_response :success
-    assert_template 'permissions'
-
-    assert_not_nil assigns(:roles)
-    assert_equal Role.order('builtin, position').to_a, assigns(:roles)
 
     assert_select 'input[name=?][type=checkbox][value=add_issues][checked=checked]', 'permissions[3][]'
     assert_select 'input[name=?][type=checkbox][value=delete_issues]:not([checked])', 'permissions[3][]'
   end
 
   def test_post_permissions
-    post :permissions, :permissions => { '0' => '', '1' => ['edit_issues'], '3' => ['add_issues', 'delete_issues']}
+    post :permissions, :params => {
+      :permissions => {
+        '0' => '',
+        '1' => ['edit_issues'],
+        '3' => ['add_issues', 'delete_issues']
+      }
+    }
     assert_redirected_to '/roles'
 
     assert_equal [:edit_issues], Role.find(1).permissions
@@ -191,33 +230,33 @@ class RolesControllerTest < ActionController::TestCase
   end
 
   def test_clear_all_permissions
-    post :permissions, :permissions => { '0' => '' }
+    post :permissions, :params => {:permissions => { '0' => '' }}
     assert_redirected_to '/roles'
     assert Role.find(1).permissions.empty?
   end
 
   def test_move_highest
-    put :update, :id => 3, :role => {:position => 1}
+    put :update, :params => {:id => 3, :role => {:position => 1}}
     assert_redirected_to '/roles'
     assert_equal 1, Role.find(3).position
   end
 
   def test_move_higher
     position = Role.find(3).position
-    put :update, :id => 3, :role => {:position => position - 1}
+    put :update, :params => {:id => 3, :role => {:position => position - 1}}
     assert_redirected_to '/roles'
     assert_equal position - 1, Role.find(3).position
   end
 
   def test_move_lower
     position = Role.find(2).position
-    put :update, :id => 2, :role => {:position => position + 1}
+    put :update, :params => {:id => 2, :role => {:position => position + 1}}
     assert_redirected_to '/roles'
     assert_equal position + 1, Role.find(2).position
   end
 
   def test_move_lowest
-    put :update, :id => 2, :role => {:position => Role.givable.count}
+    put :update, :params => {:id => 2, :role => {:position => Role.givable.count}}
     assert_redirected_to '/roles'
     assert_equal Role.givable.count, Role.find(2).position
   end

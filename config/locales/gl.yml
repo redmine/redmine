@@ -159,6 +159,8 @@ gl:
         circular_dependency: "Esta relación podería crear unha dependencia circular"
         cant_link_an_issue_with_a_descendant: "As peticións non poden estar ligadas coas súas subtarefas"
         earlier_than_minimum_start_date: "Non pode ser antes de %{date} por mor de peticións anteriores"
+        not_a_regexp: "is not a valid regular expression"
+        open_issue_with_closed_parent: "An open issue cannot be attached to a closed parent task"
 
   actionview_instancetag_blank_option: Por favor seleccione
 
@@ -492,7 +494,6 @@ gl:
   label_module_plural: Módulos
   label_month: Mes
   label_months_from: meses de
-  label_more: Máis
   label_more_than_ago: "hai máis de"
   label_my_account: "Conta"
   label_my_page: "Páxina persoal"
@@ -521,8 +522,6 @@ gl:
   label_password_lost: "Esqueceu o contrasinal?"
   label_permissions: Permisos
   label_permissions_report: Informe de permisos
-  label_personalize_page: Personalizar esta páxina
-  label_planning: Planificación
   label_please_login: "Acceder"
   label_plugins: Complementos
   label_precedes: anterior a
@@ -910,7 +909,6 @@ gl:
   error_can_not_remove_role: "Este rol non pode eliminarse porque está a usarse."
   error_can_not_delete_tracker: "Este tipo de petición non pode eliminarse porque existen peticións deste tipo."
   field_principal: "Principal"
-  label_my_page_block: "Trebellos:"
   notice_failed_to_save_members: "Non foi posíbel gardar os membros: %{errors}."
   text_zoom_out: "Afastar"
   text_zoom_in: "Achegar"
@@ -921,10 +919,8 @@ gl:
   project_module_calendar: "Calendario"
   button_edit_associated_wikipage: "Editar a páxina do wiki asociada: %{page_title}"
   field_text: "Campo de texto"
-  label_user_mail_option_only_owner: "Só para as cousas das que son o propietario"
   setting_default_notification_option: "Opción de notificación predeterminada"
   label_user_mail_option_only_my_events: "Só para as cousas que sigo ou nas que estou involucrado"
-  label_user_mail_option_only_assigned: "Só para cousas que teño asignadas"
   label_user_mail_option_none: "Non hai eventos."
   field_member_of_group: "Grupo do asignado"
   field_assigned_to_role: "Rol do asignado"
@@ -981,16 +977,12 @@ gl:
   description_project_scope: "Ámbito da busca"
   description_filter: "Filtro"
   description_user_mail_notification: "Configuración das notificacións por correo electrónico"
-  description_date_from: "Introduza a data de inicio"
   description_message_content: "Contido da mensaxe"
   description_available_columns: "Columnas dispoñíbeis"
-  description_date_range_interval: "Escolla un intervalo seleccionando unha data de inicio e outra de fin."
   description_issue_category_reassign: "Escolla a categoría da petición."
   description_search: "Campo de busca"
   description_notes: "Notas"
-  description_date_range_list: "Escolla un intervalo da lista."
   description_choose_project: "Proxectos"
-  description_date_to: "Introduza a data de fin"
   description_query_sort_criteria_attribute: "Ordenar polo atributo"
   description_wiki_subpages_reassign: "Escoller unha nova páxina superior"
   description_selected_columns: "Columnas seleccionadas"
@@ -1129,92 +1121,118 @@ gl:
   setting_link_copied_issue: "Ligar aos tíckets ao copialos"
   label_link_copied_issue: "Ligar ao tícket copiado"
   label_ask: "Preguntar"
-  label_search_attachments_yes: Search attachment filenames and descriptions
-  label_search_attachments_no: Do not search attachments
-  label_search_attachments_only: Search attachments only
-  label_search_open_issues_only: Open issues only
+  label_search_attachments_yes: Buscar nomes e descricións dos ficheiros
+  label_search_attachments_no: Non buscar ficheiros
+  label_search_attachments_only: Buscar só ficheiros
+  label_search_open_issues_only: Só peticións abertas
   field_address: Correo electrónico
-  setting_max_additional_emails: Maximum number of additional email addresses
-  label_email_address_plural: Emails
-  label_email_address_add: Add email address
-  label_enable_notifications: Enable notifications
-  label_disable_notifications: Disable notifications
-  setting_search_results_per_page: Search results per page
-  label_blank_value: blank
-  permission_copy_issues: Copy issues
-  error_password_expired: Your password has expired or the administrator requires you
-    to change it.
-  field_time_entries_visibility: Time logs visibility
-  setting_password_max_age: Require password change after
-  label_parent_task_attributes: Parent tasks attributes
-  label_parent_task_attributes_derived: Calculated from subtasks
-  label_parent_task_attributes_independent: Independent of subtasks
-  label_time_entries_visibility_all: All time entries
-  label_time_entries_visibility_own: Time entries created by the user
-  label_member_management: Member management
-  label_member_management_all_roles: All roles
-  label_member_management_selected_roles_only: Only these roles
-  label_password_required: Confirm your password to continue
+  setting_max_additional_emails: Máximo número de enderezos de correo adicionais
+  label_email_address_plural: Correos
+  label_email_address_add: Engadir enderezo de correo
+  label_enable_notifications: Activar notificacións
+  label_disable_notifications: Desactivar notificacións
+  setting_search_results_per_page: Resultados da busca por páxina
+  label_blank_value: En branco
+  permission_copy_issues: Copiar peticións
+  error_password_expired: A túa contrasinal caducou ou o administrador obrígate
+    a cambiala.
+  field_time_entries_visibility: Visibilidade das entradas de tempo
+  setting_password_max_age: Obrigar a cambiar a contrasinal despois de
+  label_parent_task_attributes: Atributos da tarefa pai
+  label_parent_task_attributes_derived: Calculada a partir das subtarefas
+  label_parent_task_attributes_independent: Independente das subtarefas
+  label_time_entries_visibility_all: Todas as entradas de tempo
+  label_time_entries_visibility_own: Horas creadas polo usuario
+  label_member_management: Xestión de membros
+  label_member_management_all_roles: Todos os roles
+  label_member_management_selected_roles_only: Só estes roles
+  label_password_required: Confirma a túa contrasinal para continuar
   label_total_spent_time: "Tempo total empregado"
-  notice_import_finished: "%{count} items have been imported"
-  notice_import_finished_with_errors: "%{count} out of %{total} items could not be imported"
-  error_invalid_file_encoding: The file is not a valid %{encoding} encoded file
-  error_invalid_csv_file_or_settings: The file is not a CSV file or does not match the
-    settings below
-  error_can_not_read_import_file: An error occurred while reading the file to import
-  permission_import_issues: Import issues
-  label_import_issues: Import issues
-  label_select_file_to_import: Select the file to import
-  label_fields_separator: Field separator
-  label_fields_wrapper: Field wrapper
-  label_encoding: Encoding
-  label_comma_char: Comma
-  label_semi_colon_char: Semicolon
-  label_quote_char: Quote
-  label_double_quote_char: Double quote
-  label_fields_mapping: Fields mapping
-  label_file_content_preview: File content preview
-  label_create_missing_values: Create missing values
-  button_import: Import
-  field_total_estimated_hours: Total estimated time
+  notice_import_finished: "%{count} elementos foron importados"
+  notice_import_finished_with_errors: "%{count} dun total de %{total} elementos non puideron ser importados"
+  error_invalid_file_encoding: O ficheiro non é un ficheiro codificado %{encoding} válido
+  error_invalid_csv_file_or_settings: O ficheiro non é un arquivo CSV ou non coincide coas
+    opcións de abaixo
+  error_can_not_read_import_file: Aconteceu un erro lendo o ficheiro a importar
+  permission_import_issues: Importar peticións
+  label_import_issues: Importar peticións
+  label_select_file_to_import: Selecciona o ficheiro a importar
+  label_fields_separator: Separador dos campos
+  label_fields_wrapper: Envoltorio dos campos
+  label_encoding: Codificación
+  label_comma_char: Coma
+  label_semi_colon_char: Punto e coma
+  label_quote_char: Comilla simple
+  label_double_quote_char: Comilla dobre
+  label_fields_mapping: Mapeo de campos
+  label_file_content_preview: Vista previa do contido
+  label_create_missing_values: Crear valores non presentes
+  button_import: Importar
+  field_total_estimated_hours: Total de tempo estimado
   label_api: API
-  label_total_plural: Totals
-  label_assigned_issues: Assigned issues
-  label_field_format_enumeration: Key/value list
+  label_total_plural: Totais
+  label_assigned_issues: Peticións asignadas
+  label_field_format_enumeration: Listaxe chave/valor
   label_f_hour_short: '%{value} h'
-  field_default_version: Default version
-  error_attachment_extension_not_allowed: Attachment extension %{extension} is not allowed
-  setting_attachment_extensions_allowed: Allowed extensions
-  setting_attachment_extensions_denied: Disallowed extensions
-  label_any_open_issues: any open issues
-  label_no_open_issues: no open issues
-  label_default_values_for_new_users: Default values for new users
-  error_ldap_bind_credentials: Invalid LDAP Account/Password
+  field_default_version: Versión predeterminada
+  error_attachment_extension_not_allowed: A extensión anexada %{extension} non é permitida
+  setting_attachment_extensions_allowed: Extensións permitidas
+  setting_attachment_extensions_denied: Extensións prohibidas
+  label_any_open_issues: Calquera petición aberta
+  label_no_open_issues: Peticións non abertas
+  label_default_values_for_new_users: Valor predeterminado para novos usuarios
+  error_ldap_bind_credentials: A conta/contrasinal do LDAP non é válida
   setting_sys_api_key: Chave da API
-  setting_lost_password: "Esqueceu o contrasinal?"
-  mail_subject_security_notification: Security notification
-  mail_body_security_notification_change: ! '%{field} was changed.'
-  mail_body_security_notification_change_to: ! '%{field} was changed to %{value}.'
-  mail_body_security_notification_add: ! '%{field} %{value} was added.'
-  mail_body_security_notification_remove: ! '%{field} %{value} was removed.'
-  mail_body_security_notification_notify_enabled: Email address %{value} now receives
-    notifications.
-  mail_body_security_notification_notify_disabled: Email address %{value} no longer
-    receives notifications.
-  mail_body_settings_updated: ! 'The following settings were changed:'
-  field_remote_ip: IP address
-  label_wiki_page_new: New wiki page
-  label_relations: Relations
-  button_filter: Filter
-  mail_body_password_updated: Your password has been changed.
-  label_no_preview: No preview available
-  error_no_tracker_allowed_for_new_issue_in_project: The project doesn't have any trackers
-    for which you can create an issue
-  label_tracker_all: All trackers
-  label_new_project_issue_tab_enabled: Display the "New issue" tab
-  setting_new_item_menu_tab: Project menu tab for creating new objects
-  label_new_object_tab_enabled: Display the "+" drop-down
-  error_no_projects_with_tracker_allowed_for_new_issue: There are no projects with trackers
-    for which you can create an issue
-  error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: Spent time cannot
-    be reassigned to an issue that is about to be deleted
+  setting_lost_password: Esqueceu a contrasinal?
+  mail_subject_security_notification: Notificación de seguridade
+  mail_body_security_notification_change: ! '%{field} modificado.'
+  mail_body_security_notification_change_to: ! '%{field} modificado por %{value}.'
+  mail_body_security_notification_add: ! '%{field} %{value} engadido.'
+  mail_body_security_notification_remove: ! '%{field} %{value} eliminado.'
+  mail_body_security_notification_notify_enabled: O correo electrónico %{value} agora recibirá
+    notificacións
+  mail_body_security_notification_notify_disabled: O correo electrónico %{value} deixará de recibir
+    notificacións
+  mail_body_settings_updated: ! 'As seguintes opcións foron actualizadas:'
+  field_remote_ip: Enderezo IP
+  label_wiki_page_new: Nova páxina wiki
+  label_relations: Relacións
+  button_filter: Filtro
+  mail_body_password_updated: A súa contrasinal foi cambiada.
+  label_no_preview: Non hai vista previa dispoñible
+  error_no_tracker_allowed_for_new_issue_in_project: O proxecto non ten ningún tipo 
+    para que poida crear unha petición
+  label_tracker_all: Tódolos tipos
+  label_new_project_issue_tab_enabled: Amosar a lapela "Nova petición"
+  setting_new_item_menu_tab: Lapela no menú de cada proxecto para creación de novos obxectos 
+  label_new_object_tab_enabled: Amosar a lista despregable "+"
+  error_no_projects_with_tracker_allowed_for_new_issue: Non hai proxectos con tipos
+    para as que poida crear unha petición
+  field_textarea_font: Fonte usada nas áreas de texto
+  label_font_default: Fonte por defecto
+  label_font_monospace: Fonte Monospaced
+  label_font_proportional: Fonte Proporcional
+  setting_timespan_format: Formato de período temporal
+  label_table_of_contents: Índice de contidos
+  setting_commit_logs_formatting: Aplicar formateo de texto para as mensaxes de commit
+  setting_mail_handler_enable_regex_delimiters: Activar expresións regulares
+  error_move_of_child_not_possible: 'A subtarefa %{child} non se pode mover ao novo
+    proxecto: %{errors}'
+  error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: O tempo empregado non pode
+    ser reasignado a unha petición que vai ser eliminada
+  setting_timelog_required_fields: Campos obrigatorios para as imputacións de tempo
+  label_attribute_of_object: '%{object_name}''s %{name}'
+  label_user_mail_option_only_assigned: Só para as cousas que sigo ou que teño asignado
+  label_user_mail_option_only_owner: Só para as cousas que sigo ou son o propietario
+  warning_fields_cleared_on_bulk_edit: Os cambios provocarán o borrado automático
+    dos valores de un ou máis campos dos obxectos seleccionados
+  field_updated_by: Actualizado por
+  field_last_updated_by: Última actualización por
+  field_full_width_layout: Deseño para ancho completo
+  label_last_notes: Últimas notas
+  field_digest: Suma de verificación
+  field_default_assigned_to: Asignado por defecto
+  setting_show_custom_fields_on_registration: Amosar os campos personalizados no rexistro
+  permission_view_news: Ver noticias
+  label_no_preview_alternative_html: Non hai vista previa dispoñible. %{link} o ficheiro no seu lugar.
+  label_no_preview_download: Descargar

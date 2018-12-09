@@ -6,7 +6,7 @@
 
 <%= form_tag({}, :method => :get) do %>
 <fieldset><legend><%= l(:label_filter_plural) %></legend>
-<label for='status'><%= l(:field_status) %> :</label>
+<label for='status'><%= l(:field_status) %>:</label>
 <%= select_tag 'status', project_status_options_for_select(@status), :class => "small", :onchange => "this.form.submit(); return false;"  %>
 <label for='name'><%= l(:label_project) %>:</label>
 <%= text_field_tag 'name', params[:name], :size => 30 %>
@@ -16,6 +16,7 @@
 <% end %>
 &nbsp;
 
+<% if @projects.any? %>
 <div class="autoscroll">
 <table class="list">
   <thead><tr>
@@ -25,8 +26,8 @@
   <th></th>
   </tr></thead>
   <tbody>
-<% project_tree(@projects) do |project, level| %>
-  <tr class="<%= cycle("odd", "even") %> <%= project.css_classes %> <%= level > 0 ? "idnt idnt-#{level}" : nil %>">
+<% project_tree(@projects, :init_level => true) do |project, level| %>
+  <tr class="<%= project.css_classes %> <%= level > 0 ? "idnt idnt-#{level}" : nil %>">
   <td class="name"><span><%= link_to_project_settings(project, {}, :title => project.short_description) %></span></td>
   <td><%= checked_image project.is_public? %></td>
   <td><%= format_date(project.created_on) %></td>
@@ -41,3 +42,7 @@
   </tbody>
 </table>
 </div>
+<span class="pagination"><%= pagination_links_full @project_pages, @project_count %></span>
+<% else %>
+<p class="nodata"><%= l(:label_no_data) %></p>
+<% end %>

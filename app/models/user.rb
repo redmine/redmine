@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -100,7 +100,7 @@ class User < Principal
   attr_accessor :remote_ip
 
   # Prevents unauthorized assignments
-  attr_protected :login, :admin, :password, :password_confirmation, :hashed_password
+  attr_protected :password, :password_confirmation, :hashed_password
 
   LOGIN_LENGTH_LIMIT = 60
   MAIL_LENGTH_LIMIT = 60
@@ -129,6 +129,10 @@ class User < Principal
   after_save :update_notified_project_ids, :destroy_tokens, :deliver_security_notification
   after_destroy :deliver_security_notification
 
+  scope :admin, lambda {|*args|
+    admin = args.size > 0 ? !!args.first : true
+    where(:admin => admin)
+  }
   scope :in_group, lambda {|group|
     group_id = group.is_a?(Group) ? group.id : group.to_i
     where("#{User.table_name}.id IN (SELECT gu.user_id FROM #{table_name_prefix}groups_users#{table_name_suffix} gu WHERE gu.group_id = ?)", group_id)
@@ -141,7 +145,7 @@ class User < Principal
   scope :having_mail, lambda {|arg|
     addresses = Array.wrap(arg).map {|a| a.to_s.downcase}
     if addresses.any?
-      joins(:email_addresses).where("LOWER(#{EmailAddress.table_name}.address) IN (?)", addresses).uniq
+      joins(:email_addresses).where("LOWER(#{EmailAddress.table_name}.address) IN (?)", addresses).distinct
     else
       none
     end
@@ -162,7 +166,9 @@ class User < Principal
   alias :base_reload :reload
   def reload(*args)
     @name = nil
+    @roles = nil
     @projects_by_role = nil
+    @project_ids_by_role = nil
     @membership_by_project_id = nil
     @notified_projects_ids = nil
     @notified_projects_ids_changed = false
@@ -213,7 +219,7 @@ class User < Principal
 
   # Returns the user that matches provided login and password, or nil
   def self.try_to_login(login, password, active_only=true)
-    login = login.to_s
+    login = login.to_s.strip
     password = password.to_s
 
     # Make sure no one can sign in with an empty login or password
@@ -411,6 +417,20 @@ class User < Principal
     token.value
   end
 
+  def delete_session_token(value)
+    Token.where(:user_id => id, :action => 'session', :value => value).delete_all
+  end
+
+  # Generates a new autologin token and returns its value
+  def generate_autologin_token
+    token = Token.create!(:user_id => id, :action => 'autologin')
+    token.value
+  end
+
+  def delete_autologin_token(value)
+    Token.where(:user_id => id, :action => 'autologin', :value => value).delete_all
+  end
+
   # Returns true if token is a valid session token for the user whose id is user_id
   def self.verify_session_token(user_id, token)
     return false if user_id.blank? || token.blank?
@@ -545,6 +565,10 @@ class User < Principal
     @membership_by_project_id[project_id]
   end
 
+  def roles
+    @roles ||= Role.joins(members: :project).where(["#{Project.table_name}.status <> ?", Project::STATUS_ARCHIVED]).where(Member.arel_table[:user_id].eq(id)).distinct
+  end
+
   # Returns the user's bult-in role
   def builtin_role
     @builtin_role ||= Role.non_member
@@ -564,33 +588,55 @@ class User < Principal
   end
 
   # Returns a hash of user's projects grouped by roles
+  # TODO: No longer used, should be deprecated
   def projects_by_role
     return @projects_by_role if @projects_by_role
 
-    hash = Hash.new([])
+    result = Hash.new([])
+    project_ids_by_role.each do |role, ids|
+      result[role] = Project.where(:id => ids).to_a
+    end
+    @projects_by_role = result
+  end
 
-    group_class = anonymous? ? GroupAnonymous : GroupNonMember
-    members = Member.joins(:project, :principal).
-      where("#{Project.table_name}.status <> 9").
-      where("#{Member.table_name}.user_id = ? OR (#{Project.table_name}.is_public = ? AND #{Principal.table_name}.type = ?)", self.id, true, group_class.name).
-      preload(:project, :roles).
-      to_a
-
-    members.reject! {|member| member.user_id != id && project_ids.include?(member.project_id)}
-    members.each do |member|
-      if member.project
-        member.roles.each do |role|
-          hash[role] = [] unless hash.key?(role)
-          hash[role] << member.project
+  # Returns a hash of project ids grouped by roles.
+  # Includes the projects that the user is a member of and the projects
+  # that grant custom permissions to the builtin groups.
+  def project_ids_by_role
+    # Clear project condition for when called from chained scopes
+    # eg. project.children.visible(user)
+    Project.unscoped do
+      return @project_ids_by_role if @project_ids_by_role
+  
+      group_class = anonymous? ? GroupAnonymous : GroupNonMember
+      group_id = group_class.pluck(:id).first
+  
+      members = Member.joins(:project, :member_roles).
+        where("#{Project.table_name}.status <> 9").
+        where("#{Member.table_name}.user_id = ? OR (#{Project.table_name}.is_public = ? AND #{Member.table_name}.user_id = ?)", self.id, true, group_id).
+        pluck(:user_id, :role_id, :project_id)
+  
+      hash = {}
+      members.each do |user_id, role_id, project_id|
+        # Ignore the roles of the builtin group if the user is a member of the project
+        next if user_id != id && project_ids.include?(project_id)
+  
+        hash[role_id] ||= []
+        hash[role_id] << project_id
+      end
+  
+      result = Hash.new([])
+      if hash.present?
+        roles = Role.where(:id => hash.keys).to_a
+        hash.each do |role_id, proj_ids|
+          role = roles.detect {|r| r.id == role_id}
+          if role
+            result[role] = proj_ids.uniq
+          end
         end
       end
+      @project_ids_by_role = result
     end
-    
-    hash.each do |role, projects|
-      projects.uniq!
-    end
-
-    @projects_by_role = hash
   end
 
   # Returns the ids of visible projects
@@ -654,8 +700,7 @@ class User < Principal
       return true if admin?
 
       # authorize if user has at least one role that has this permission
-      roles = memberships.collect {|m| m.roles}.flatten.uniq
-      roles << (self.logged? ? Role.non_member : Role.anonymous)
+      roles = self.roles.to_a | [builtin_role]
       roles.any? {|role|
         role.allowed_to?(action) &&
         (block_given? ? yield(role, self) : true)
@@ -684,7 +729,7 @@ class User < Principal
   # Returns true if the user is allowed to delete the user's own account
   def own_account_deletable?
     Setting.unsubscribe? &&
-      (!admin? || User.active.where("admin = ? AND id <> ?", true, id).exists?)
+      (!admin? || User.active.admin.where("id <> ?", id).exists?)
   end
 
   safe_attributes 'firstname',
@@ -697,10 +742,15 @@ class User < Principal
     'custom_fields',
     'identity_url'
 
+  safe_attributes 'login',
+    :if => lambda {|user, current_user| user.new_record?}
+
   safe_attributes 'status',
     'auth_source_id',
     'generate_password',
     'must_change_passwd',
+    'login',
+    'admin',
     :if => lambda {|user, current_user| current_user.admin?}
 
   safe_attributes 'group_ids',
@@ -821,11 +871,11 @@ class User < Principal
     Message.where(['author_id = ?', id]).update_all(['author_id = ?', substitute.id])
     News.where(['author_id = ?', id]).update_all(['author_id = ?', substitute.id])
     # Remove private queries and keep public ones
-    ::Query.delete_all ['user_id = ? AND visibility = ?', id, ::Query::VISIBILITY_PRIVATE]
+    ::Query.where('user_id = ? AND visibility = ?', id, ::Query::VISIBILITY_PRIVATE).delete_all
     ::Query.where(['user_id = ?', id]).update_all(['user_id = ?', substitute.id])
     TimeEntry.where(['user_id = ?', id]).update_all(['user_id = ?', substitute.id])
-    Token.delete_all ['user_id = ?', id]
-    Watcher.delete_all ['user_id = ?', id]
+    Token.where('user_id = ?', id).delete_all
+    Watcher.where('user_id = ?', id).delete_all
     WikiContent.where(['author_id = ?', id]).update_all(['author_id = ?', substitute.id])
     WikiContent::Version.where(['author_id = ?', id]).update_all(['author_id = ?', substitute.id])
   end

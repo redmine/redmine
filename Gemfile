@@ -11,26 +11,24 @@ if RUBY_VERSION < "2.1"
 end
 gem "jquery-rails", "~> 3.1.4"
 gem "coderay", "~> 1.1.1"
-gem "builder", ">= 3.0.4"
 gem "request_store", "1.0.5"
 gem "mime-types", (RUBY_VERSION >= "2.0" ? "~> 3.0" : "~> 2.99")
 gem "protected_attributes"
-gem "actionpack-action_caching"
 gem "actionpack-xml_parser"
 gem "roadie-rails", "~> 1.1.1"
 gem "roadie", "~> 3.2.1"
 gem "mimemagic"
 gem "mail", "~> 2.6.4"
 
-gem "nokogiri", (RUBY_VERSION >= "2.1" ? "~> 1.7.2" : "~> 1.6.8")
+gem "nokogiri", (RUBY_VERSION >= "2.1" ? "~> 1.8.1" : "~> 1.6.8")
 gem "i18n", "~> 0.7.0"
 gem "ffi", "1.9.14", :platforms => :mingw if RUBY_VERSION < "2.0"
 
-# Request at least rails-html-sanitizer 1.0.3 because of security advisories 
+# Request at least rails-html-sanitizer 1.0.3 because of security advisories
 gem "rails-html-sanitizer", ">= 1.0.3"
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem 'tzinfo-data', platforms: [:mingw, :x64_mingw, :mswin, :jruby]
+gem 'tzinfo-data', platforms: [:mingw, :x64_mingw, :mswin]
 gem "rbpdf", "~> 1.19.6"
 
 # Optional gem for LDAP authentication
@@ -52,14 +50,8 @@ platforms :mri, :mingw, :x64_mingw do
 
   # Optional Markdown support, not for JRuby
   group :markdown do
-    gem "redcarpet", "~> 3.3.2"
+    gem "redcarpet", "~> 3.4.0"
   end
-end
-
-platforms :jruby do
-  # jruby-openssl is bundled with JRuby 1.7.0
-  gem "jruby-openssl" if Object.const_defined?(:JRUBY_VERSION) && JRUBY_VERSION < '1.7.0'
-  gem "activerecord-jdbc-adapter", "~> 1.3.2"
 end
 
 # Include database gems for the adapters found in the database
@@ -75,19 +67,13 @@ if File.exist?(database_file)
       case adapter
       when 'mysql2'
         gem "mysql2", "~> 0.4.6", :platforms => [:mri, :mingw, :x64_mingw]
-        gem "activerecord-jdbcmysql-adapter", :platforms => :jruby
-      when 'mysql'
-        gem "activerecord-jdbcmysql-adapter", :platforms => :jruby
       when /postgresql/
         gem "pg", "~> 0.18.1", :platforms => [:mri, :mingw, :x64_mingw]
-        gem "activerecord-jdbcpostgresql-adapter", :platforms => :jruby
       when /sqlite3/
         gem "sqlite3", (RUBY_VERSION < "2.0" && RUBY_PLATFORM =~ /mingw/ ? "1.3.12" : "~>1.3.12"),
                        :platforms => [:mri, :mingw, :x64_mingw]
-        gem "jdbc-sqlite3", ">= 3.8.10.1", :platforms => :jruby
-        gem "activerecord-jdbcsqlite3-adapter", :platforms => :jruby
       when /sqlserver/
-        gem "tiny_tds", "~> 0.6.2", :platforms => [:mri, :mingw, :x64_mingw]
+        gem "tiny_tds", (RUBY_VERSION >= "2.0" ? "~> 1.0.5" : "~> 0.7.0"), :platforms => [:mri, :mingw, :x64_mingw]
         gem "activerecord-sqlserver-adapter", :platforms => [:mri, :mingw, :x64_mingw]
       else
         warn("Unknown database adapter `#{adapter}` found in config/database.yml, use Gemfile.local to load your own database gems")
@@ -110,8 +96,10 @@ group :test do
   gem "rails-dom-testing"
   gem "mocha"
   gem "simplecov", "~> 0.9.1", :require => false
+  # TODO: remove this after upgrading to Rails 5
+  gem "test_after_commit", "~> 0.4.2"
   # For running UI tests
-  gem "capybara"
+  gem "capybara", '~> 2.13'
   gem "selenium-webdriver", "~> 2.53.4"
 end
 

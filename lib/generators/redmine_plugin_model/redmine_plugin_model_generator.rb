@@ -14,7 +14,7 @@ class RedminePluginModelGenerator < Rails::Generators::NamedBase
     super
     @plugin_name = file_name.underscore
     @plugin_pretty_name = plugin_name.titleize
-    @plugin_path = "plugins/#{plugin_name}"
+    @plugin_path = File.join(Redmine::Plugin.directory, plugin_name)
     @model_class = model.camelize
     @table_name = @model_class.tableize
     @migration_filename = "create_#{@table_name}"

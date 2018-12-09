@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -26,7 +26,7 @@ module Redmine
         if cipher_key.blank? || text.blank?
           text
         else
-          c = OpenSSL::Cipher::Cipher.new("aes-256-cbc")
+          c = OpenSSL::Cipher.new("aes-256-cbc")
           iv = c.random_iv
           c.encrypt
           c.key = cipher_key
@@ -44,7 +44,7 @@ module Redmine
             return text
           end
           text = match[1]
-          c = OpenSSL::Cipher::Cipher.new("aes-256-cbc")
+          c = OpenSSL::Cipher.new("aes-256-cbc")
           e, iv = text.split("--").map {|s| Base64.decode64(s)}
           c.decrypt
           c.key = cipher_key
@@ -58,9 +58,9 @@ module Redmine
 
       def cipher_key
         key = Redmine::Configuration['database_cipher_key'].to_s
-        key.blank? ? nil : Digest::SHA256.hexdigest(key)
+        key.blank? ? nil : Digest::SHA256.hexdigest(key)[0..31]
       end
-      
+
       def logger
         Rails.logger
       end
@@ -84,8 +84,8 @@ module Redmine
             object.send :write_attribute, attribute, clear
             raise(ActiveRecord::Rollback) unless object.save(:validation => false)
           end
-        end
-      end ? true : false
+        end ? true : false
+      end
     end
 
     private

@@ -134,6 +134,8 @@ ca:
         circular_dependency: "Aquesta relació crearia una dependència circular"
         cant_link_an_issue_with_a_descendant: "Un assumpte no es pot enllaçar a una de les seves subtasques"
         earlier_than_minimum_start_date: "no pot ser anterior a %{date} derivat a les peticions precedents"
+        not_a_regexp: "is not a valid regular expression"
+        open_issue_with_closed_parent: "An open issue cannot be attached to a closed parent task"
 
   actionview_instancetag_blank_option: "Seleccionar"
 
@@ -221,7 +223,7 @@ ca:
   field_lastname: "Cognom"
   field_mail: "Correu electrònic"
   field_filename: "Fitxer"
-  field_filesize: "Tamany"
+  field_filesize: "Mida"
   field_downloads: "Baixades"
   field_author: "Autor"
   field_created_on: "Creat"
@@ -481,7 +483,6 @@ ca:
   label_my_page: "La meva pàgina"
   label_my_account: "El meu compte"
   label_my_projects: "Els meus projectes"
-  label_my_page_block: "Els meus blocs de pàgina"
   label_administration: "Administració"
   label_login: "Iniciar sessió"
   label_logout: "Tancar sessió"
@@ -503,7 +504,7 @@ ca:
   label_subproject_plural: "Subprojectes"
   label_subproject_new: "Nou subprojecte"
   label_and_its_subprojects: "%{value} i els seus subprojectes"
-  label_min_max_length: "Longitud mín - max"
+  label_min_max_length: "Longitud mín - màx"
   label_list: "Llista"
   label_date: "Data"
   label_integer: "Numero"
@@ -569,7 +570,6 @@ ca:
   label_internal: "Intern"
   label_last_changes: "últims %{count} canvis"
   label_change_view_all: "Visualitza tots els canvis"
-  label_personalize_page: "Personalitza aquesta pàgina"
   label_comment: "Comentari"
   label_comment_plural: "Comentaris"
   label_x_comments:
@@ -727,7 +727,6 @@ ca:
   label_age: "Edat"
   label_change_properties: "Canvia les propietats"
   label_general: "General"
-  label_more: "Més"
   label_scm: "SCM"
   label_plugins: "Complements"
   label_ldap_authentication: "Autenticació LDAP"
@@ -737,7 +736,6 @@ ca:
   label_preferences: "Preferències"
   label_chronological_order: "En ordre cronològic"
   label_reverse_chronological_order: "En ordre cronològic invers"
-  label_planning: "Planificació"
   label_incoming_emails: "Correu electrònics d'entrada"
   label_generate_key: "Generar una clau"
   label_issue_watchers: "Vigilàncies"
@@ -910,14 +908,12 @@ ca:
 
   button_edit_associated_wikipage: "Editar pàgines Wiki asociades: %{page_title}"
   field_text: "Camp de text"
-  label_user_mail_option_only_owner: "Només pels objectes creats per mi"
   setting_default_notification_option: "Opció de notificació per defecte"
   label_user_mail_option_only_my_events: "Només pels objectes on estic en vigilància o involucrat"
-  label_user_mail_option_only_assigned: "Només pels objectes on estic assignat"
   label_user_mail_option_none: "Sense notificacions"
   field_member_of_group: "Assignat al grup"
   field_assigned_to_role: "Assignat al rol"
-  notice_not_authorized_archived_project: "El projecte al que intenta accedir esta arxivat."
+  notice_not_authorized_archived_project: "El projecte al que intenta accedir està arxivat."
   label_principal_search: "Cercar per usuari o grup:"
   label_user_search: "Cercar per usuari:"
   field_visible: "Visible"
@@ -936,7 +932,7 @@ ca:
   label_additional_workflow_transitions_for_assignee: "Operacions addicionals permeses quan l'usuari té assignat l'assumpte"
   label_additional_workflow_transitions_for_author: "Operacions addicionals permeses quan l'usuari és propietari de l'assumpte"
   label_bulk_edit_selected_time_entries: "Editar en bloc els registres de temps seleccionats"
-  text_time_entries_destroy_confirmation: "Esta segur de voler eliminar (l'hora seleccionada/les hores seleccionades)?"
+  text_time_entries_destroy_confirmation: "Està segur de voler eliminar (l'hora seleccionada/les hores seleccionades)?"
   label_role_anonymous: "Anònim"
   label_role_non_member: "No membre"
   label_issue_note_added: "Nota afegida"
@@ -970,29 +966,25 @@ ca:
   description_project_scope: "Àmbit de la cerca"
   description_filter: "Filtre"
   description_user_mail_notification: "Configuració de les notificacions per correu"
-  description_date_from: "Introduir data d'inici"
   description_message_content: "Contingut del missatge"
   description_available_columns: "Columnes disponibles"
-  description_date_range_interval: "Escollir un rang seleccionat de dates (inici i fi)"
   description_issue_category_reassign: "Escollir una categoria de l'assumpte"
   description_search: "Camp de cerca"
   description_notes: "Notes"
-  description_date_range_list: "Escollir un rang de la llista"
   description_choose_project: "Projectes"
-  description_date_to: "Introduir data final"
   description_query_sort_criteria_attribute: "Atribut d'ordenació"
-  description_wiki_subpages_reassign: "Esculli la nova pagina pare"
+  description_wiki_subpages_reassign: "Esculli la nova pàgina pare"
   description_selected_columns: "Columnes seleccionades"
   label_parent_revision: "Pare"
   label_child_revision: "Fill"
-  error_scm_annotate_big_text_file: "L'entrada no es pot anotar, ja que supera el tamany màxim per fitxers de text."
+  error_scm_annotate_big_text_file: "L'entrada no es pot anotar, ja que supera la mida màxima per fitxers de text."
   setting_default_issue_start_date_to_creation_date: "Utilitzar la data actual com a data inici per les noves peticions"
   button_edit_section: "Editar aquest apartat"
   setting_repositories_encodings: "Codificació per defecte pels fitxers adjunts i repositoris"
   description_all_columns: "Totes les columnes"
   button_export: "Exportar"
   label_export_options: "%{export_format} opcions d'exportació"
-  error_attachment_too_big: "Aquest fitxer no es pot pujar perquè excedeix del tamany màxim (%{max_size})"
+  error_attachment_too_big: "Aquest fitxer no es pot pujar perquè excedeix de la mida màxima (%{max_size})"
   notice_failed_to_save_time_entries: "Error al desar %{count} entrades de temps de les %{total} selecionades: %{ids}."
   label_x_issues:
     zero:  "0 assumpte"
@@ -1004,7 +996,7 @@ ca:
   label_item_position: "%{position}/%{count}"
   label_completed_versions: "Versions completades"
   text_project_identifier_info: "Només es permeten lletres en minúscula (a-z), números i guions.<br />Una vegada desat, l'identificador no es pot canviar."
-  field_multiple: "Valors multiples"
+  field_multiple: "Valors múltiples"
   setting_commit_cross_project_ref: "Permetre referenciar i resoldre peticions de tots els altres projectes"
   text_issue_conflict_resolution_add_notes: "Afegir les meves notes i descartar els altres canvis"
   text_issue_conflict_resolution_overwrite: "Aplicar els meus canvis de totes formes (les notes anteriors es mantindran però alguns canvis poden ser sobreescrits)"
@@ -1017,7 +1009,7 @@ ca:
   setting_unsubscribe: "Permetre als usuaris d'esborrar el seu propi compte"
   button_delete_my_account: "Eliminar el meu compte"
   text_account_destroy_confirmation: |-
-    Estas segur de continuar?
+    Estàs segur de continuar?
     El seu compte s'eliminarà de forma permanent, sense la possibilitat de reactivar-lo.
   error_session_expired: "La seva sessió ha expirat. Si us plau, torni a identificar-se"
   text_session_expiration_settings: "Advertència: el canvi d'aquestes opcions poden provocar la expiració de les sessions actives, incloent la seva."
@@ -1031,12 +1023,12 @@ ca:
   project_status_active: "actiu"
   project_status_closed: "tancat"
   project_status_archived: "arxivat"
-  text_project_closed: "Aquest projecte esta tancat i nomes es de lectura."
+  text_project_closed: "Aquest projecte està tancat i només és de lectura."
   notice_user_successful_create: "Usuari %{id} creat correctament."
   field_core_fields: "Camps bàsics"
   field_timeout: "Temps d'inactivitat (en segons)"
   setting_thumbnails_enabled: "Mostrar miniatures dels fitxers adjunts"
-  setting_thumbnails_size: "Tamany de les miniatures (en píxels)"
+  setting_thumbnails_size: "Mida de les miniatures (en píxels)"
   label_status_transitions: "Transicions d'estat"
   label_fields_permissions: "Permisos sobre els camps"
   label_readonly: "Només lectura"
@@ -1049,7 +1041,7 @@ ca:
   label_attribute_of_fixed_version: "%{name} de la versió objectiu"
   label_copy_subtasks: "Copiar subtasques"
   label_copied_to: "copiada a"
-  label_copied_from: "copiada desde"
+  label_copied_from: "copiada des de"
   label_any_issues_in_project: "qualsevol assumpte del projecte"
   label_any_issues_not_in_project: "qualsevol assumpte que no sigui del projecte"
   field_private_notes: "Notes privades"
@@ -1066,7 +1058,7 @@ ca:
   button_hide: "Amagar"
   setting_non_working_week_days: "Dies no laborables"
   label_in_the_next_days: "en els pròxims"
-  label_in_the_past_days: "en els anterios"
+  label_in_the_past_days: "en els anteriors"
   label_attribute_of_user: "%{name} de l'usuari"
   text_turning_multiple_off: "Si es desactiva els valors múltiples, aquest seran eliminats per deixar només un únic valor per element."
   label_attribute_of_issue: "%{name} de l'assumpte"
@@ -1075,7 +1067,7 @@ ca:
   permission_delete_documents: "Eliminar document"
   label_gantt_progress_line: "Línia de progres"
   setting_jsonp_enabled: "Habilitar suport JSONP"
-  field_inherit_members: "Heredar membres"
+  field_inherit_members: "Heretar membres"
   field_closed_on: "Tancada"
   field_generate_password: "Generar contrasenya"
   setting_default_projects_tracker_ids: "Tipus d'estats d'assumpte habilitat per defecte"
@@ -1084,7 +1076,7 @@ ca:
   text_scm_command_not_available: "L'ordre SCM que es vol utilitzar no és troba disponible. Si us plau, comprovi la configuració dins del menú d'administració"
   setting_emails_header: "Encapçalament dels correus"
   notice_account_not_activated_yet: Encara no ha activat el seu compte. Si vol rebre un nou correu d'activació, si us plau <a href="%{url}">faci clic en aquest enllaç</a>.
-  notice_account_locked: "Aquest compte esta bloquejat."
+  notice_account_locked: "Aquest compte està bloquejat."
   label_hidden: "Amagada"
   label_visibility_private: "només per mi"
   label_visibility_roles: "només per aquests rols"
@@ -1093,7 +1085,7 @@ ca:
   notice_new_password_must_be_different: "La nova contrasenya ha de ser diferent de l'actual."
   setting_mail_handler_excluded_filenames: "Excloure fitxers adjunts per nom"
   text_convert_available: "Conversió ImageMagick disponible (opcional)"
-  label_link: "Link"
+  label_link: "Enllaç"
   label_only: "només"
   label_drop_down_list: "Llista desplegable (Drop down)"
   label_checkboxes: "Camps de selecció (Checkboxes)"
@@ -1159,7 +1151,7 @@ ca:
   label_semi_colon_char: "Punt i coma"
   label_quote_char: "Comilla simple"
   label_double_quote_char: "Comilla doble"
-  label_fields_mapping: "Mapeig de camps"
+  label_fields_mapping: "Mapat de camps"
   label_file_content_preview: "Vista prèvia del contingut"
   label_create_missing_values: "Crear valors no presents"
   button_import: "Importar"
@@ -1169,8 +1161,8 @@ ca:
   label_assigned_issues: "Assumptes assignats"
   label_field_format_enumeration: "Llistat clau/valor"
   label_f_hour_short: "%{value} h"
-  field_default_version: "Versio per defecte"
-  error_attachment_extension_not_allowed: "L'extensio %{extension} no esta permesa"
+  field_default_version: "Versió per defecte"
+  error_attachment_extension_not_allowed: "L'extensió %{extension} no està permesa"
   setting_attachment_extensions_allowed: "Extensions permeses"
   setting_attachment_extensions_denied: "Extensions no permeses"
   label_any_open_issues: "qualsevol assumpte obert"
@@ -1198,5 +1190,31 @@ ca:
   setting_new_item_menu_tab: Pestanya de nous objectes en el menu de cada projecte
   label_new_object_tab_enabled: Mostrar el llistat desplegable "+"
   error_no_projects_with_tracker_allowed_for_new_issue: "Cap projecte disposa d'un tipus d'assumpte sobre el qual vostè pugui crear un assumpte"
+  field_textarea_font: Font utilitzada en les text àrea
+  label_font_default: Font per defecte
+  label_font_monospace: Font Monospaced
+  label_font_proportional: Font Proportional
+  setting_timespan_format: Time span format
+  label_table_of_contents: Table of contents
+  setting_commit_logs_formatting: Apply text formatting to commit messages
+  setting_mail_handler_enable_regex_delimiters: Enable regular expressions
+  error_move_of_child_not_possible: 'Subtask %{child} could not be moved to the new
+    project: %{errors}'
   error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: Spent time cannot
     be reassigned to an issue that is about to be deleted
+  setting_timelog_required_fields: Required fields for time logs
+  label_attribute_of_object: '%{object_name}''s %{name}'
+  label_user_mail_option_only_assigned: Only for things I watch or I am assigned to
+  label_user_mail_option_only_owner: Only for things I watch or I am the owner of
+  warning_fields_cleared_on_bulk_edit: Changes will result in the automatic deletion
+    of values from one or more fields on the selected objects
+  field_updated_by: Updated by
+  field_last_updated_by: Last updated by
+  field_full_width_layout: Full width layout
+  label_last_notes: Last notes
+  field_digest: Checksum
+  field_default_assigned_to: Default assignee
+  setting_show_custom_fields_on_registration: Show custom fields on registration
+  permission_view_news: View news
+  label_no_preview_alternative_html: No preview available. %{link} the file instead.
+  label_no_preview_download: Download

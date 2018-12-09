@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2016  Jean-Philippe Lang
+# Copyright (C) 2006-2017  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -36,6 +36,12 @@ class MemberTest < ActiveSupport::TestCase
 
   def setup
     @jsmith = Member.find(1)
+  end
+
+  def test_sorted_scope_on_project_members
+    members = Project.find(1).members.sorted.to_a
+    roles = members.map {|m| m.roles.sort.first}
+    assert_equal roles, roles.sort
   end
 
   def test_create
@@ -189,5 +195,16 @@ class MemberTest < ActiveSupport::TestCase
     member = Member.new
     member.roles << Role.generate!(:all_roles_managed => true)
     assert_equal [], member.managed_roles
+  end
+
+  def test_create_principal_memberships_should_not_error_with_2_projects_and_inheritance
+    parent = Project.generate!
+    child = Project.generate!(:parent_id => parent.id, :inherit_members => true)
+    user = User.generate!
+
+    assert_difference 'Member.count', 2 do
+      members = Member.create_principal_memberships(user, :project_ids => [parent.id, child.id], :role_ids => [1])
+      assert members.none?(&:new_record?), "Unsaved members were returned: #{members.select(&:new_record?).map{|m| m.errors.full_messages}*","}"
+    end
   end
 end
