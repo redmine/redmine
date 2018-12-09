@@ -4,6 +4,52 @@ Redmine - project management software
 Copyright (C) 2006-2017  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2018-12-09 v3.3.9
+
+=== [Custom fields]
+
+* Defect #8317: Strip whitespace from integer custom field
+
+=== [Email receiving]
+
+* Defect #28576: Attachments are added even if validation fails when updating an issue via email
+* Defect #29191: Cannot set no_notification option when receiving emails via  IMAP or POP3
+
+=== [PDF export]
+
+* Defect #28125: PNG images on a wiki page don't appear in exported PDF
+* Defect #28565: PDF export has too many whitespaces
+
+=== [REST API]
+
+* Defect #20788: REST API with JSON content missing attributes with false values
+
+=== [Rails support]
+
+* Feature #30043: Update Rails to 4.2.11
+
+=== [SCM]
+
+* Defect #29413: Mercurial 4.7 compatibility
+
+=== [Text formatting]
+
+* Defect #29038: Thumbnail macro causes attachment file not found and broken filename and link
+
+=== [Time tracking]
+
+* Patch #29308: Time entry creation: preserve 'spent on' value when using 'Create and Continue'
+
+=== [Translations]
+
+* Patch #29702: Brazilian wiki help translation update
+* Patch #29703: Brazilian translation (jstoolbar-pt-br.js) update
+* Patch #29735: Galician translation fix for the words empty, blank, and key
+
+=== [UI]
+
+* Defect #29950: Fix list rendering inside project description in projects#index
+
 == 2018-06-10 v3.3.8
 
 === [Issues]

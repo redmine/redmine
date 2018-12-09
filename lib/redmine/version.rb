@@ -4,7 +4,7 @@ module Redmine
   module VERSION #:nodoc:
     MAJOR = 3
     MINOR = 3
-    TINY  = 8
+    TINY  = 9
 
     # Branch values:
     # * official release: nil
