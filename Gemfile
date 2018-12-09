@@ -17,9 +17,6 @@ gem "csv", "~> 3.0.1" if RUBY_VERSION >= "2.3" && RUBY_VERSION < "2.6"
 gem "nokogiri", "~> 1.8.0"
 gem "i18n", "~> 0.7.0"
 
-# Request at least rails-html-sanitizer 1.0.3 because of security advisories
-gem "rails-html-sanitizer", ">= 1.0.3"
-
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :x64_mingw, :mswin]
 gem "rbpdf", "~> 1.19.6"
