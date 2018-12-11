@@ -31,7 +31,7 @@
                                 <p class="description"><%= proj['description'] %></p>
                                 <div>
                                 <a href="<%= proj['url'] %>">Go to project page</a><br>
-                                <a href="<%= proj['explorer_url'] %>">Open in 3D explorer</a>
+                                <% if proj['explorer_url'] %><a href="<%= proj['explorer_url'] %>">Open in 3D explorer</a><% end %>
                                 </div>
                             </div>
                             <!--<p class="card-desc"><%= proj['description'] %></p>-->
