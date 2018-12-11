@@ -119,6 +119,23 @@ class TimeEntryTest < ActiveSupport::TestCase
     end
   end
 
+  def test_should_accept_future_dates
+    entry = TimeEntry.generate
+    entry.spent_on = User.current.today + 1
+
+    assert entry.save
+  end
+
+  def test_should_not_accept_future_dates_if_disabled
+    with_settings :timelog_accept_future_dates => '0' do
+      entry = TimeEntry.generate
+      entry.spent_on = User.current.today + 1
+
+      assert !entry.save
+      assert entry.errors[:base].present?
+    end
+  end
+
   def test_spent_on_with_blank
     c = TimeEntry.new
     c.spent_on = ''
