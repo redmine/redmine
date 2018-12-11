@@ -1248,3 +1248,5 @@ fr:
   label_ldaps_warning: "Il est recommandé d'utiliser une connexion LDPAS avec vérification du certificat pour empêcher toute interception des données durant la procédure d'authentification."
   label_nothing_to_preview: "Aucun texte à prévisualiser"
   error_token_expired: This password recovery link has expired, please try again.
+  error_spent_on_future_date: Cannot log time on a future date
+  setting_timelog_accept_future_dates: Accept time logs on future dates

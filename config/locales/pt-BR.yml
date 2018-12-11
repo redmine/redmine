@@ -1260,3 +1260,5 @@ pt-BR:
   label_ldaps_warning: É recomendado utilizar uma conexão LDAPS criptografada com verificação de certificado para evitar qualquer manipulação durante o processo de autenticação.
   label_nothing_to_preview: Nada para visualizar
   error_token_expired: Este link de recuperação de senha expirou. Por favor, tente novamente.
+  error_spent_on_future_date: Cannot log time on a future date
+  setting_timelog_accept_future_dates: Accept time logs on future dates

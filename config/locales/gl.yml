@@ -1263,3 +1263,5 @@ gl:
     certificado para evitar calquera manipulación durante o proceso de autenticación.
   label_nothing_to_preview: Nada que previsualizar
   error_token_expired: This password recovery link has expired, please try again.
+  error_spent_on_future_date: Cannot log time on a future date
+  setting_timelog_accept_future_dates: Accept time logs on future dates

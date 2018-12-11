@@ -1245,3 +1245,5 @@ cs:
     jakékoliv manipulace během autentifikačního procesu.
   label_nothing_to_preview: Žádný náhled
   error_token_expired: Tento odkaz na obnovu hesla vypršel, prosím zkuste to znovu.
+  error_spent_on_future_date: Cannot log time on a future date
+  setting_timelog_accept_future_dates: Accept time logs on future dates
