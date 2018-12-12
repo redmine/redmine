@@ -1,6 +1,6 @@
 api.user do
   api.id         @user.id
-  api.login      @user.login if User.current.admin? || (User.current == @user)
+  api.login      @user.login
   api.admin      @user.admin? if User.current.admin? || (User.current == @user)
   api.firstname  @user.firstname
   api.lastname   @user.lastname
@@ -29,7 +29,7 @@ api.user do
               attrs = {:id => member_role.role.id, :name => member_role.role.name}
               attrs.merge!(:inherited => true) if member_role.inherited_from.present?
               api.role attrs
-            end 
+            end
           end
         end
       end if membership.project
