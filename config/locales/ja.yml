@@ -261,7 +261,7 @@ ja:
   field_project: プロジェクト
   field_issue: チケット
   field_status: ステータス
-  field_notes: 注記
+  field_notes: コメント
   field_is_closed: 終了したチケット
   field_is_default: デフォルト値
   field_tracker: トラッカー
@@ -410,9 +410,9 @@ ja:
   permission_add_issues: チケットの追加
   permission_edit_issues: チケットの編集
   permission_manage_issue_relations: 関連するチケットの管理
-  permission_add_issue_notes: 注記の追加
-  permission_edit_issue_notes: 注記の編集
-  permission_edit_own_issue_notes: 自身が記入した注記の編集
+  permission_add_issue_notes: コメントの追加
+  permission_edit_issue_notes: コメントの編集
+  permission_edit_own_issue_notes: 自身が記入したコメントの編集
   permission_delete_issues: チケットの削除
   permission_manage_public_queries: 公開クエリの管理
   permission_save_queries: クエリの保存
@@ -603,7 +603,7 @@ ja:
   label_previous: 前
   label_used_by: 使用中
   label_details: 詳細
-  label_add_note: 注記を追加
+  label_add_note: コメントを追加
   label_calendar: カレンダー
   label_months_from: ヶ月分
   label_gantt: ガントチャート
@@ -977,7 +977,7 @@ ja:
   label_role_anonymous: 匿名ユーザー
   label_role_non_member: 非メンバー
 
-  label_issue_note_added: 注記の追加
+  label_issue_note_added: コメントの追加
   label_issue_status_updated: ステータスの更新
   label_issue_priority_updated: 優先度の更新
   label_issues_visibility_own: 作成者か担当者であるチケット
@@ -999,7 +999,7 @@ ja:
   description_available_columns: 利用できる項目
   description_issue_category_reassign: 新しいカテゴリを選択してください
   description_search: 検索キーワード
-  description_notes: 注記
+  description_notes: コメント
   description_choose_project: プロジェクト
   description_query_sort_criteria_attribute: 項目
   description_wiki_subpages_reassign: 新しい親ページを選択してください
@@ -1024,8 +1024,8 @@ ja:
   text_project_identifier_info: アルファベット小文字(a-z)・数字・ハイフン・アンダースコアが使えます。最初の文字はアルファベットの小文字にしてください。<br />識別子は後で変更することはできません。
   field_multiple: 複数選択可
   setting_commit_cross_project_ref: 異なるプロジェクトのチケットの参照/修正を許可
-  text_issue_conflict_resolution_add_notes: 自分の編集内容を破棄し注記のみ追加
-  text_issue_conflict_resolution_overwrite: 自分の編集内容の保存を強行 (他のユーザーの更新内容は注記を除き上書きされます)
+  text_issue_conflict_resolution_add_notes: 自分の編集内容を破棄しコメントのみ追加
+  text_issue_conflict_resolution_overwrite: 自分の編集内容の保存を強行 (他のユーザーの更新内容はコメントを除き上書きされます)
   notice_issue_update_conflict: このチケットを編集中に他のユーザーが更新しました。
   text_issue_conflict_resolution_cancel: 自分の編集内容を破棄し %{link} を再表示
   permission_manage_related_issues: リビジョンとチケットの関連の管理
@@ -1070,9 +1070,9 @@ ja:
   label_copied_from: コピー元
   label_any_issues_in_project: 次のプロジェクト内のチケット
   label_any_issues_not_in_project: 次のプロジェクト外のチケット
-  field_private_notes: プライベート注記
-  permission_view_private_notes: プライベート注記の閲覧
-  permission_set_notes_private: 注記をプライベートに設定
+  field_private_notes: プライベートコメント
+  permission_view_private_notes: プライベートコメントの閲覧
+  permission_set_notes_private: コメントをプライベートに設定
   label_no_issues_in_project: 次のプロジェクト内のチケットを除く
   label_any: すべて
   label_last_n_weeks: 直近%{count}週間
@@ -1228,7 +1228,7 @@ ja:
   field_updated_by: 更新者
   field_last_updated_by: 最終更新者
   field_full_width_layout: ワイド表示
-  label_last_notes: 最新の注記
+  label_last_notes: 最新のコメント
   field_digest: チェックサム
   field_default_assigned_to: デフォルトの担当者
   setting_show_custom_fields_on_registration: アカウント登録画面でカスタムフィールドを表示
