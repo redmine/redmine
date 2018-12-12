@@ -43,7 +43,8 @@ class IssuesControllerTest < Redmine::ControllerTest
            :journal_details,
            :queries,
            :repositories,
-           :changesets
+           :changesets,
+           :watchers
 
   include Redmine::I18n
 
@@ -5716,6 +5717,8 @@ class IssuesControllerTest < Redmine::ControllerTest
           }
         }
       assert_response 302
+      # 4 emails for 2 members and 2 issues
+      # 1 email for a watcher of issue #2
       assert_equal 5, ActionMailer::Base.deliveries.size
     end
   end
