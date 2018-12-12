@@ -463,6 +463,9 @@ class AttachmentsControllerTest < Redmine::ControllerTest
         assert_select 'input[name=?][value=?]', 'attachments[4][description]', 'This is a Ruby source file'
       end
     end
+
+    # Link to the container in heading
+    assert_select 'h2 a', :text => "Feature request #2"
   end
 
   def test_edit_all_with_invalid_container_class_should_return_404

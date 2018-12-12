@@ -1,4 +1,6 @@
-<h2><%= l(:label_edit_attachments) %></h2> 
+<h2>
+  <%= safe_join([link_to_attachment_container(@container), l(:label_edit_attachments)].compact, ' » ') %>
+</h2>
 
 <%= error_messages_for *@attachments %>
 
