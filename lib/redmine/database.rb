@@ -64,6 +64,19 @@ module Redmine
         end
       end
 
+      # Returns a SQL statement to cast a timestamp column to a date given a time zone
+      # Returns nil if not implemented for the current database
+      def timestamp_to_date(column, time_zone)
+        if postgresql?
+          if time_zone
+            identifier = ActiveSupport::TimeZone.find_tzinfo(time_zone.name).identifier
+            "(#{column}::timestamptz AT TIME ZONE '#{identifier}')::date"
+          else
+            "#{column}::date"
+          end
+        end
+      end
+
       # Resets database information
       def reset
         @postgresql_unaccent = nil

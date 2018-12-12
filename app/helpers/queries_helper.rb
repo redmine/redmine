@@ -128,7 +128,7 @@ module QueriesHelper
     items.each do |item|
       group_name = group_count = nil
       if query.grouped?
-        group = query.group_by_column.value(item)
+        group = query.group_by_column.group_value(item)
         if first || group != previous_group
           if group.blank? && group != false
             group_name = "(#{l(:label_blank_value)})"

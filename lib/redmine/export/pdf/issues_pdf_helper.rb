@@ -303,7 +303,7 @@ module Redmine
 
           issue_list(issues) do |issue, level|
             if query.grouped? &&
-                 (group = query.group_by_column.value(issue)) != previous_group
+                 (group = query.group_by_column.group_value(issue)) != previous_group
               pdf.SetFontStyle('B',10)
               group_label = group.blank? ? 'None' : group.to_s.dup
               group_label << " (#{result_count_by_group[group]})"

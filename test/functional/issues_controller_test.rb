@@ -352,6 +352,32 @@ class IssuesControllerTest < Redmine::ControllerTest
     end
   end
 
+  def test_index_grouped_by_created_on
+    skip unless IssueQuery.new.groupable_columns.detect {|c| c.name == :created_on}
+  
+    get :index, :params => {
+        :set_filter => 1,
+        :group_by => 'created_on'
+      }
+    assert_response :success
+  
+    assert_select 'tr.group span.name', :text => '07/19/2006' do
+      assert_select '+ span.count', :text => '2'
+    end
+  end
+  
+  def test_index_grouped_by_created_on_as_pdf
+    skip unless IssueQuery.new.groupable_columns.detect {|c| c.name == :created_on}
+  
+    get :index, :params => {
+        :set_filter => 1,
+        :group_by => 'created_on',
+        :format => 'pdf'
+      }
+    assert_response :success
+    assert_equal 'application/pdf', response.content_type
+  end
+
   def test_index_with_query_grouped_by_list_custom_field
     get :index, :params => {
         :project_id => 1,

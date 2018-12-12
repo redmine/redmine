@@ -71,8 +71,28 @@ class QueryColumn
     object.send name
   end
 
+  # Returns the group that object belongs to when grouping query results
+  def group_value(object)
+    value(object)
+  end
+
   def css_classes
     name
+  end
+end
+
+class TimestampQueryColumn < QueryColumn
+
+  def groupable
+    if @groupable
+      Redmine::Database.timestamp_to_date(sortable, User.current.time_zone)
+    end
+  end
+
+  def group_value(object)
+    if time = value(object)
+      User.current.time_to_date(time)
+    end
   end
 end
 
