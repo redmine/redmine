@@ -33,8 +33,8 @@ class IssueQuery < Query
     QueryColumn.new(:updated_on, :sortable => "#{Issue.table_name}.updated_on", :default_order => 'desc'),
     QueryColumn.new(:category, :sortable => "#{IssueCategory.table_name}.name", :groupable => true),
     QueryColumn.new(:fixed_version, :sortable => lambda {Version.fields_for_order_statement}, :groupable => true),
-    QueryColumn.new(:start_date, :sortable => "#{Issue.table_name}.start_date"),
-    QueryColumn.new(:due_date, :sortable => "#{Issue.table_name}.due_date"),
+    QueryColumn.new(:start_date, :sortable => "#{Issue.table_name}.start_date", :groupable => true),
+    QueryColumn.new(:due_date, :sortable => "#{Issue.table_name}.due_date", :groupable => true),
     QueryColumn.new(:estimated_hours, :sortable => "#{Issue.table_name}.estimated_hours", :totalable => true),
     QueryColumn.new(:total_estimated_hours,
       :sortable => "COALESCE((SELECT SUM(estimated_hours) FROM #{Issue.table_name} subtasks" +

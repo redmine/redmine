@@ -333,6 +333,25 @@ class IssuesControllerTest < Redmine::ControllerTest
     assert_select 'tr.group span.count'
   end
 
+  def test_index_grouped_by_due_date
+    Issue.destroy_all
+    Issue.generate!(:due_date => '2018-08-10')
+    Issue.generate!(:due_date => '2018-08-10')
+    Issue.generate!
+
+    get :index, :params => {
+        :set_filter => 1,
+        :group_by => "due_date"
+      }
+    assert_response :success
+    assert_select 'tr.group span.name', :value => '2018-08-10' do
+      assert_select '~ span.count', value:'2'
+    end
+    assert_select 'tr.group span.name', :value => '(blank)' do
+      assert_select '~ span.count', value:'1'
+    end
+  end
+
   def test_index_with_query_grouped_by_list_custom_field
     get :index, :params => {
         :project_id => 1,
