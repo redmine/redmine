@@ -24,6 +24,7 @@ class AttachmentTest < ActiveSupport::TestCase
            :enabled_modules, :issues, :trackers, :attachments
 
   def setup
+    User.current = nil
     set_tmp_attachments_directory
   end
 
