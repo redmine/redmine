@@ -22,16 +22,6 @@ class PatchesTest < ActiveSupport::TestCase
 
   def setup
     Setting.default_language = 'en'
-    @symbols = { :a => 1, :b => 2 }
-    @keys = %w( blue green red pink orange )
-    @values = %w( 000099 009900 aa0000 cc0066 cc6633 )
-    @hash = Hash.new
-    @ordered_hash = ActiveSupport::OrderedHash.new
-
-    @keys.each_with_index do |key, index|
-      @hash[key] = @values[index]
-      @ordered_hash[key] = @values[index]
-    end
   end
 
   test "ActiveRecord::Base.human_attribute_name should transform name to field_name" do
