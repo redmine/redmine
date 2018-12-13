@@ -27,7 +27,7 @@ class MailHandlerTest < ActiveSupport::TestCase
            :workflows, :trackers, :projects_trackers,
            :versions, :enumerations, :issue_categories,
            :custom_fields, :custom_fields_trackers, :custom_fields_projects, :custom_values,
-           :boards, :messages
+           :boards, :messages, :watchers
 
   FIXTURES_PATH = File.dirname(__FILE__) + '/../fixtures/mail_handler'
 
