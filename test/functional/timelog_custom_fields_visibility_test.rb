@@ -20,7 +20,7 @@ require File.expand_path('../../test_helper', __FILE__)
 class TimelogCustomFieldsVisibilityTest < Redmine::ControllerTest
   tests TimelogController
   fixtures :projects,
-           :users,
+           :users, :email_addresses,
            :roles,
            :members,
            :member_roles,
@@ -29,7 +29,8 @@ class TimelogCustomFieldsVisibilityTest < Redmine::ControllerTest
            :projects_trackers,
            :enabled_modules,
            :enumerations,
-           :workflows
+           :workflows,
+           :custom_fields, :custom_values, :custom_fields_trackers
 
   def setup
     field_attributes = {:field_format => 'string', :is_for_all => true, :is_filter => true, :trackers => Tracker.all}
@@ -101,6 +102,7 @@ class TimelogCustomFieldsVisibilityTest < Redmine::ControllerTest
   def test_index_with_partial_custom_field_visibility_should_show_visible_custom_fields_only
     Issue.delete_all
     TimeEntry.delete_all
+    CustomValue.delete_all
     p1 = Project.generate!
     p2 = Project.generate!
     user = User.generate!
