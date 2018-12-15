@@ -430,9 +430,31 @@ class AttachmentTest < ActiveSupport::TestCase
 
       assert_difference "Dir.glob(File.join(Attachment.thumbnails_storage_path, '*.thumb')).size" do
         thumbnail = attachment.thumbnail
-        assert_equal "16_8e0294de2441577c529f170b6fb8f638_100.thumb", File.basename(thumbnail)
+        assert_equal "8e0294de2441577c529f170b6fb8f638_2654_100.thumb", File.basename(thumbnail)
         assert File.exists?(thumbnail)
       end
+    end
+
+    def test_should_reuse_thumbnail
+      a = Attachment.create!(
+        :container => Issue.find(1),
+        :file => uploaded_test_file("2010/11/101123161450_testfile_1.png", "image/png"),
+        :author => User.find(1)
+      )
+      a_thumb = b_thumb = nil
+      assert_difference "Dir.glob(File.join(Attachment.thumbnails_storage_path, '*.thumb')).size" do
+        a_thumb = a.thumbnail
+      end
+
+      b = Attachment.create!(
+        :container => Issue.find(2),
+        :file => uploaded_test_file("2010/11/101123161450_testfile_1.png", "image/png"),
+        :author => User.find(1)
+      )
+      assert_no_difference "Dir.glob(File.join(Attachment.thumbnails_storage_path, '*.thumb')).size" do
+        b_thumb = b.thumbnail
+      end
+      assert_equal a_thumb, b_thumb
     end
 
     def test_thumbnail_should_return_nil_if_generation_fails

@@ -216,7 +216,7 @@ class Attachment < ActiveRecord::Base
         size = Setting.thumbnails_size.to_i
       end
       size = 100 unless size > 0
-      target = File.join(self.class.thumbnails_storage_path, "#{id}_#{digest}_#{size}.thumb")
+      target = File.join(self.class.thumbnails_storage_path, "#{digest}_#{filesize}_#{size}.thumb")
 
       begin
         Redmine::Thumbnail.generate(self.diskfile, target, size)
