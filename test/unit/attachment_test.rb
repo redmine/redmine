@@ -457,6 +457,21 @@ class AttachmentTest < ActiveSupport::TestCase
       assert_equal a_thumb, b_thumb
     end
 
+    def test_destroy_should_destroy_thumbnails
+      a = Attachment.create!(
+        :container => Issue.find(1),
+        :file => uploaded_test_file("2010/11/101123161450_testfile_1.png", "image/png"),
+        :author => User.find(1)
+      )
+      diskfile  = a.diskfile
+      thumbnail = a.thumbnail
+      assert File.exist?(diskfile)
+      assert File.exist?(thumbnail)
+      assert a.destroy
+      refute File.exist?(diskfile)
+      refute File.exist?(thumbnail)
+    end
+
     def test_thumbnail_should_return_nil_if_generation_fails
       Redmine::Thumbnail.expects(:generate).raises(SystemCallError, 'Something went wrong')
       set_fixtures_attachments_directory
