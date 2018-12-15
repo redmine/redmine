@@ -25,6 +25,7 @@ class Redmine::AttachmentFieldFormatTest < ActionView::TestCase
   fixtures :users
 
   def setup
+    User.current = nil
     set_language_if_valid 'en'
     set_tmp_attachments_directory
   end
