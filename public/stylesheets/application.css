@@ -392,7 +392,7 @@ div.table-list.boards .table-list-cell.name {width: 30%;}
   display:block;
 }
 .query-columns select {
-  width:150px;
+  min-width:150px;
 }
 
 .query-totals {text-align:right;}
