@@ -436,6 +436,8 @@ class AttachmentTest < ActiveSupport::TestCase
     end
 
     def test_should_reuse_thumbnail
+      Attachment.clear_thumbnails
+
       a = Attachment.create!(
         :container => Issue.find(1),
         :file => uploaded_test_file("2010/11/101123161450_testfile_1.png", "image/png"),
