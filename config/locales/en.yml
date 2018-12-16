@@ -830,6 +830,7 @@ en:
   label_relation_new: New relation
   label_relation_delete: Delete relation
   label_relates_to: Related to
+  label_delete_link_to_subtask: Delete link to subtask
   label_duplicates: Is duplicate of
   label_duplicated_by: Has duplicate
   label_blocks: Blocks

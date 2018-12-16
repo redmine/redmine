@@ -90,17 +90,27 @@ module IssuesHelper
   end
 
   def render_descendants_tree(issue)
+    manage_relations = User.current.allowed_to?(:manage_subtasks, issue.project)
     s = '<table class="list issues odd-even">'
     issue_list(issue.descendants.visible.preload(:status, :priority, :tracker, :assigned_to).sort_by(&:lft)) do |child, level|
       css = "issue issue-#{child.id} hascontextmenu #{child.css_classes}"
       css << " idnt idnt-#{level}" if level > 0
+      buttons = manage_relations ? link_to(l(:label_delete_link_to_subtask),
+                                  issue_path({:id => child.id, :issue => {:parent_issue_id => ''}, :back_url => issue_path(issue.id), :no_flash => '1'}),
+                                  :method => :put,
+                                  :data => {:confirm => l(:text_are_you_sure)},
+                                  :title => l(:label_delete_link_to_subtask),
+                                  :class => 'icon-only icon-link-break'
+                                  ) : "".html_safe
+      buttons << link_to_context_menu
+
       s << content_tag('tr',
              content_tag('td', check_box_tag("ids[]", child.id, false, :id => nil), :class => 'checkbox') +
              content_tag('td', link_to_issue(child, :project => (issue.project_id != child.project_id)), :class => 'subject', :style => 'width: 50%') +
              content_tag('td', h(child.status), :class => 'status') +
              content_tag('td', link_to_user(child.assigned_to), :class => 'assigned_to') +
              content_tag('td', child.disabled_core_fields.include?('done_ratio') ? '' : progress_bar(child.done_ratio), :class=> 'done_ratio') +
-             content_tag('td', link_to_context_menu, :class => 'buttons'),
+             content_tag('td', buttons, :class => 'buttons'),
              :class => css)
     end
     s << '</table>'
