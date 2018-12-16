@@ -2,7 +2,7 @@
 <%= error_messages_for 'version' %>
 
 <div class="box tabular">
-<p><%= f.text_field :name, :size => 60, :required => true %></p>
+<p><%= f.text_field :name, :maxlength => 60, :size => 60, :required => true %></p>
 <p><%= f.text_field :description, :size => 60 %></p>
 <% unless @version.new_record? %>
   <p><%= f.select :status, Version::VERSION_STATUSES.collect {|s| [l("version_status_#{s}"), s]} %></p>
