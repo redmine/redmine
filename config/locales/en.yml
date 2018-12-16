@@ -538,7 +538,7 @@ en:
   permission_manage_subtasks: Manage subtasks
   permission_manage_related_issues: Manage related issues
   permission_import_issues: Import issues
-  permission_log_foreign_time: Log spent time for other users
+  permission_log_time_for_other_users: Log spent time for other users
 
   project_module_issue_tracking: Issue tracking
   project_module_time_tracking: Time tracking
