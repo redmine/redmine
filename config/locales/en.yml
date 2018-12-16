@@ -224,6 +224,7 @@ en:
   error_exceeds_maximum_hours_per_day: "Cannot log more than %{max_hours} hours on the same day (%{logged_hours} hours have already been logged)"
   error_can_not_delete_auth_source: "This authentication mode is in use and cannot be deleted."
   error_spent_on_future_date: "Cannot log time on a future date"
+  error_not_allowed_to_log_time_for_other_users: "Your role is not allowed to log time for other users"
 
   mail_subject_lost_password: "Your %{value} password"
   mail_body_lost_password: 'To change your password, click on the following link:'
@@ -537,6 +538,7 @@ en:
   permission_manage_subtasks: Manage subtasks
   permission_manage_related_issues: Manage related issues
   permission_import_issues: Import issues
+  permission_log_foreign_time: Log spent time for other users
 
   project_module_issue_tracking: Issue tracking
   project_module_time_tracking: Time tracking

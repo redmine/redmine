@@ -27,8 +27,10 @@ class IssuesPdfHelperTest < ActiveSupport::TestCase
     query = IssueQuery.new(:project => Project.find(1), :name => '_')
     query.column_names = [:subject, :spent_hours]
     issue = Issue.find(2)
-    TimeEntry.create(:spent_on => Date.today, :hours => 4.3432, :user => User.find(1),
+    user = User.find(1)
+    time_entry = TimeEntry.create!(:spent_on => Date.today, :hours => 4.3432, :user => user, :author => user,
                      :project_id => 1, :issue => issue, :activity => TimeEntryActivity.first)
+
     results = fetch_row_values(issue, query, 0)
     assert_equal ["2", "Add ingredients categories", "4.34"], results
   end

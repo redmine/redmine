@@ -42,6 +42,11 @@ module TimelogHelper
     collection
   end
 
+  def user_collection_for_select_options(time_entry)
+    collection = time_entry.assignable_users
+    principals_options_for_select(collection, time_entry.user_id)
+  end
+
   def select_hours(data, criteria, value)
     if value.to_s.empty?
       data.select {|row| row[criteria].blank? }

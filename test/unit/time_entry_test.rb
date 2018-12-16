@@ -185,6 +185,7 @@ class TimeEntryTest < ActiveSupport::TestCase
                           :issue    => issue,
                           :project  => project,
                           :user     => anon,
+                          :author     => anon,
                           :activity => activity)
     assert_equal 1, te.errors.count
   end
@@ -223,10 +224,27 @@ class TimeEntryTest < ActiveSupport::TestCase
   def test_create_with_required_issue_id_and_comment_should_be_validated
     set_language_if_valid 'en'
     with_settings :timelog_required_fields => ['issue_id' , 'comments'] do
-      entry = TimeEntry.new(:project => Project.find(1), :spent_on => Date.today, :user => User.find(1), :activity => TimeEntryActivity.first, :hours => 1)
+      entry = TimeEntry.new(:project => Project.find(1), :spent_on => Date.today, :author => User.find(1), :user => User.find(1), :activity => TimeEntryActivity.first, :hours => 1)
 
       assert !entry.save
       assert_equal ["Comment cannot be blank", "Issue cannot be blank"], entry.errors.full_messages.sort
     end
+  end
+
+  def test_create_should_validate_user_id
+    entry = TimeEntry.new(:spent_on => '2010-01-01',
+                          :hours    => 10,
+                          :project_id => 1,
+                          :user_id    => 4)
+
+    assert !entry.save
+    assert_equal ["User is invalid"], entry.errors.full_messages.sort
+  end
+
+  def test_assignable_users_should_include_active_project_members_with_log_time_permission
+    Role.find(2).remove_permission! :log_time
+    time_entry = TimeEntry.find(1)
+
+    assert_equal [2], time_entry.assignable_users.map(&:id)
   end
 end

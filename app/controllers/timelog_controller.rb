@@ -26,6 +26,8 @@ class TimelogController < ApplicationController
   before_action :find_optional_issue, :only => [:new, :create]
   before_action :find_optional_project, :only => [:index, :report]
 
+  before_action :authorize_logging_time_for_other_users, :only => [:create, :update]
+
   accept_rss_auth :index
   accept_api_auth :index, :show, :create, :update, :destroy
 
@@ -90,12 +92,12 @@ class TimelogController < ApplicationController
   end
 
   def new
-    @time_entry ||= TimeEntry.new(:project => @project, :issue => @issue, :user => User.current, :spent_on => User.current.today)
+    @time_entry ||= TimeEntry.new(:project => @project, :issue => @issue, :author => User.current, :spent_on => User.current.today)
     @time_entry.safe_attributes = params[:time_entry]
   end
 
   def create
-    @time_entry ||= TimeEntry.new(:project => @project, :issue => @issue, :user => User.current, :spent_on => User.current.today)
+    @time_entry ||= TimeEntry.new(:project => @project, :issue => @issue, :author => User.current, :user => User.current, :spent_on => User.current.today)
     @time_entry.safe_attributes = params[:time_entry]
     if @time_entry.project && !User.current.allowed_to?(:log_time, @time_entry.project)
       render_403
@@ -145,7 +147,6 @@ class TimelogController < ApplicationController
 
   def update
     @time_entry.safe_attributes = params[:time_entry]
-
     call_hook(:controller_timelog_edit_before_save, { :params => params, :time_entry => @time_entry })
 
     if @time_entry.save
@@ -250,6 +251,13 @@ private
   def check_editability
     unless @time_entry.editable_by?(User.current)
       render_403
+      return false
+    end
+  end
+
+  def authorize_logging_time_for_other_users
+    if !User.current.allowed_to?(:log_time_for_other_users, @project) && params['time_entry'].present? && params['time_entry']['user_id'].present? && params['time_entry']['user_id'].to_i != User.current.id
+      render_error :message => l(:error_not_allowed_to_log_time_for_other_users), :status => 403
       return false
     end
   end
