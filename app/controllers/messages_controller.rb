@@ -63,6 +63,7 @@ class MessagesController < ApplicationController
       if @message.save
         call_hook(:controller_messages_new_after_save, { :params => params, :message => @message})
         render_attachment_warning_if_needed(@message)
+        flash[:notice] = l(:notice_successful_create)
         redirect_to board_message_path(@board, @message)
       end
     end
@@ -80,6 +81,7 @@ class MessagesController < ApplicationController
       attachments = Attachment.attach_files(@reply, params[:attachments])
       render_attachment_warning_if_needed(@reply)
     end
+    flash[:notice] = l(:notice_successful_update)
     redirect_to board_message_path(@board, @topic, :r => @reply)
   end
 
@@ -101,6 +103,7 @@ class MessagesController < ApplicationController
     (render_403; return false) unless @message.destroyable_by?(User.current)
     r = @message.to_param
     @message.destroy
+    flash[:notice] = l(:notice_successful_delete)
     if @message.parent
       redirect_to board_message_path(@board, @message.parent, :r => r)
     else
