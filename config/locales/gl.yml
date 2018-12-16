@@ -1266,6 +1266,6 @@ gl:
   error_spent_on_future_date: Cannot log time on a future date
   setting_timelog_accept_future_dates: Accept time logs on future dates
   label_delete_link_to_subtask: Eliminar relación
-  error_not_allowed_to_log_time_for_other_users: Your role is not allowed to log time
+  error_not_allowed_to_log_time_for_other_users: You are not allowed to log time
     for other users
   permission_log_time_for_other_users: Log spent time for other users
