@@ -1091,6 +1091,7 @@ button.tab-left.disabled, button.tab-right.disabled {
   background-color:#f6f6f6;
   color:#505050;
   border: 1px solid #e4e4e4;
+  white-space: pre-wrap;
 }
 
 /***** Wiki *****/
