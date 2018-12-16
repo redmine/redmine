@@ -29,6 +29,10 @@ class TimeEntryTest < ActiveSupport::TestCase
            :groups_users,
            :enabled_modules
 
+  def setup
+    User.current = nil
+  end
+
   def test_visibility_with_permission_to_view_all_time_entries
     user = User.generate!
     role = Role.generate!(:permissions => [:view_time_entries], :time_entries_visibility => 'all')
