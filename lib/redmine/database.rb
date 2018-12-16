@@ -74,6 +74,14 @@ module Redmine
           else
             "#{column}::date"
           end
+        elsif mysql?
+          if time_zone
+            user_identifier = ActiveSupport::TimeZone.find_tzinfo(time_zone.name).identifier
+            local_identifier = ActiveSupport::TimeZone.find_tzinfo(Time.zone.name).identifier
+            "CONVERT_TZ(DATE(#{column}),'#{local_identifier}', '#{user_identifier}')"
+          else
+            "DATE(#{column})"
+          end
         end
       end
 
