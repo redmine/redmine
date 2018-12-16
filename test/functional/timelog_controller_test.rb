@@ -342,7 +342,7 @@ class TimelogControllerTest < Redmine::ControllerTest
     }
 
     assert_response 403
-    assert_select 'p[id=?]', 'errorExplanation', :text => 'Your role is not allowed to log time for other users'
+    assert_select 'p[id=?]', 'errorExplanation', :text => I18n.t(:error_not_allowed_to_log_time_for_other_users)
   end
 
   def test_create_and_continue_at_project_level
@@ -622,7 +622,7 @@ class TimelogControllerTest < Redmine::ControllerTest
     }
 
     assert_response 403
-    assert_select 'p[id=?]', 'errorExplanation', :text => 'Your role is not allowed to log time for other users'
+    assert_select 'p[id=?]', 'errorExplanation', :text => I18n.t(:error_not_allowed_to_log_time_for_other_users)
   end
 
   def test_get_bulk_edit
