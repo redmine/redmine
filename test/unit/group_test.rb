@@ -28,6 +28,10 @@ class GroupTest < ActiveSupport::TestCase
 
   include Redmine::I18n
 
+  def setup
+    User.current = nil
+  end
+
   def test_create
     g = Group.new(:name => 'New group')
     assert g.save

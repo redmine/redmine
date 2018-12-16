@@ -22,6 +22,7 @@ class CommentTest < ActiveSupport::TestCase
            :user_preferences, :roles, :members, :member_roles
 
   def setup
+    User.current = nil
     @jsmith = User.find(2)
     @news = News.find(1)
   end

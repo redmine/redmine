@@ -35,6 +35,7 @@ class MemberTest < ActiveSupport::TestCase
   include Redmine::I18n
 
   def setup
+    User.current = nil
     @jsmith = Member.find(1)
   end
 

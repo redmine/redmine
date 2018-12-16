@@ -23,6 +23,7 @@ class ActivityTest < ActiveSupport::TestCase
            :wikis, :wiki_pages, :wiki_contents, :wiki_content_versions
 
   def setup
+    User.current = nil
     @project = Project.find(1)
   end
 

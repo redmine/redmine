@@ -35,6 +35,7 @@ class IssueImportTest < ActiveSupport::TestCase
   include Redmine::I18n
 
   def setup
+    User.current = nil
     set_language_if_valid 'en'
   end
 

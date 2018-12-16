@@ -37,6 +37,7 @@ class SearchTest < ActiveSupport::TestCase
            :changesets
 
   def setup
+    User.current = nil
     @project = Project.find(1)
     @issue_keyword = '%unable to print recipes%'
     @issue = Issue.find(1)

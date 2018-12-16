@@ -20,6 +20,10 @@ require File.expand_path('../../test_helper', __FILE__)
 class IssuePriorityTest < ActiveSupport::TestCase
   fixtures :enumerations, :issues
 
+  def setup
+    User.current = nil
+  end
+
   def test_named_scope
     assert_equal Enumeration.find_by_name('Normal'), Enumeration.named('normal').first
   end

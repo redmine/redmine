@@ -22,6 +22,7 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
   fixtures :auth_sources
 
   def setup
+    User.current = nil
   end
 
   def test_initialize

@@ -25,6 +25,7 @@ class WatcherTest < ActiveSupport::TestCase
            :watchers
 
   def setup
+    User.current = nil
     @user = User.find(1)
     @issue = Issue.find(1)
   end

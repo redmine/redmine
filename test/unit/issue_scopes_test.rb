@@ -26,6 +26,10 @@ class IssueScopesTest < ActiveSupport::TestCase
            :issues,
            :custom_fields, :custom_fields_projects, :custom_fields_trackers, :custom_values
 
+  def setup
+    User.current = nil
+  end
+
   def test_cross_project_scope_without_project_should_return_all_issues
     ids = Issue.cross_project_scope(nil).pluck(:id).sort
     assert_equal Issue.pluck(:id).sort, ids

@@ -28,6 +28,10 @@ class TimeEntryQueryTest < ActiveSupport::TestCase
            :enabled_modules,
            :custom_fields, :custom_fields_trackers, :custom_fields_projects
 
+  def setup
+    User.current = nil
+  end
+
   def test_filter_values_without_project_should_be_arrays
     q = TimeEntryQuery.new
     assert_nil q.project

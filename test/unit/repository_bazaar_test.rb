@@ -48,6 +48,7 @@ class RepositoryBazaarTest < ActiveSupport::TestCase
   CHAR_1_LATIN1_HEX = "\xdc".force_encoding('ASCII-8BIT')
 
   def setup
+    User.current = nil
     @project = Project.find(3)
     @repository = Repository::Bazaar.create(
               :project => @project, :url => REPOSITORY_PATH_TRUNK,

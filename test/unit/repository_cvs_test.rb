@@ -29,6 +29,7 @@ class RepositoryCvsTest < ActiveSupport::TestCase
   CHANGESETS_NUM = 7
 
   def setup
+    User.current = nil
     @project = Project.find(3)
     @repository = Repository::Cvs.create(:project  => @project,
                                          :root_url => REPOSITORY_PATH,

@@ -25,6 +25,7 @@ class NewsTest < ActiveSupport::TestCase
   end
 
   def setup
+    User.current = nil
   end
 
   def test_create_should_send_email_notification

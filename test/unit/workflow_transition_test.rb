@@ -21,6 +21,7 @@ class WorkflowTransitionTest < ActiveSupport::TestCase
   fixtures :roles, :trackers, :issue_statuses
 
   def setup
+    User.current = nil
     WorkflowTransition.delete_all
   end
 

@@ -33,6 +33,10 @@ class IssueRelationTest < ActiveSupport::TestCase
 
   include Redmine::I18n
 
+  def setup
+    User.current = nil
+  end
+
   def test_create
     from = Issue.find(1)
     to = Issue.find(2)
