@@ -312,7 +312,7 @@ ja:
   field_is_filter: フィルタとして使用
   field_issue_to: 関連するチケット
   field_delay: 遅延
-  field_assignable: このロールにチケットを割り当て可能
+  field_assignable: このロールのユーザーにチケットを割り当て可能
   field_redirect_existing_links: 既存のリンクをリダイレクトする
   field_estimated_hours: 予定工数
   field_column_names: 項目
