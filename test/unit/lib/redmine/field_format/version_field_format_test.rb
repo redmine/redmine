@@ -22,7 +22,7 @@ class Redmine::VersionFieldFormatTest < ActionView::TestCase
   fixtures :projects, :versions, :trackers,
            :roles, :users, :members, :member_roles,
            :issue_statuses, :issue_categories, :issue_relations, :workflows,
-           :enumerations
+           :enumerations, :custom_fields, :custom_fields_trackers
 
   def setup
     super
