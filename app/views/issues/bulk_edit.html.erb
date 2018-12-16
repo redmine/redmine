@@ -194,6 +194,13 @@
 <legend><%= l(:field_notes) %></legend>
 <%= text_area_tag 'notes', @notes, :cols => 60, :rows => 10, :class => 'wiki-edit' %>
 <%= wikitoolbar_for 'notes' %>
+
+<% if @safe_attributes.include?('private_notes') %>
+  <label class="inline">
+  	<%= check_box_tag 'issue[private_notes]', 1, false %>
+  	<%= l(:field_private_notes) %>
+  </label>
+<% end %>
 </fieldset>
 </div>
 

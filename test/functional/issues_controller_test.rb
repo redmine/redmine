@@ -5819,6 +5819,23 @@ class IssuesControllerTest < Redmine::ControllerTest
     assert_redirected_to :controller => 'issues', :action => 'index', :project_id => 'ecookbook'
     assert_equal 'Moving two issues', Issue.find(1).journals.sort_by(&:id).last.notes
     assert_equal 'Moving two issues', Issue.find(2).journals.sort_by(&:id).last.notes
+    assert_equal false, Issue.find(1).journals.sort_by(&:id).last.private_notes
+    assert_equal false, Issue.find(2).journals.sort_by(&:id).last.private_notes
+  end
+
+  def test_bulk_update_with_private_notes
+    @request.session[:user_id] = 2
+    post :bulk_update, :params => {
+        :ids => [1, 2],
+        :notes => 'Moving two issues',
+        :issue => {:private_notes => 'true'}
+      }
+
+    assert_redirected_to :controller => 'issues', :action => 'index', :project_id => 'ecookbook'
+    assert_equal 'Moving two issues', Issue.find(1).journals.sort_by(&:id).last.notes
+    assert_equal 'Moving two issues', Issue.find(2).journals.sort_by(&:id).last.notes
+    assert_equal true, Issue.find(1).journals.sort_by(&:id).last.private_notes
+    assert_equal true, Issue.find(2).journals.sort_by(&:id).last.private_notes
   end
 
   def test_bulk_update_parent_id
