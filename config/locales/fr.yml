@@ -1251,3 +1251,5 @@ fr:
   error_spent_on_future_date: "Impossible d'enregistrer un temps passé sur une date future"
   setting_timelog_accept_future_dates: "Autoriser la saisie de temps sur une date future"
   label_delete_link_to_subtask: "Supprimer la relation avec la sous-tâche"
+  error_not_allowed_to_log_time_for_other_users: "Vous n'êtes pas autorisé à saisir le temps passé pour d'autres utilisateurs"
+  permission_log_time_for_other_users: "Saisir le temps passé pour d'autres utilisateurs"
