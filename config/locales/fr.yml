@@ -337,7 +337,7 @@ fr:
   field_is_filter: Utilisé comme filtre
   field_issue_to: Demande liée
   field_delay: Retard
-  field_assignable: Demandes assignables à ce rôle
+  field_assignable: Demandes assignables aux utilisateurs ayant ce rôle
   field_redirect_existing_links: Rediriger les liens existants
   field_estimated_hours: Temps estimé
   field_column_names: Colonnes
@@ -1247,7 +1247,7 @@ fr:
   label_ldaps_verify_peer: LDAPS
   label_ldaps_warning: "Il est recommandé d'utiliser une connexion LDPAS avec vérification du certificat pour empêcher toute interception des données durant la procédure d'authentification."
   label_nothing_to_preview: "Aucun texte à prévisualiser"
-  error_token_expired: This password recovery link has expired, please try again.
-  error_spent_on_future_date: Cannot log time on a future date
-  setting_timelog_accept_future_dates: Accept time logs on future dates
-  label_delete_link_to_subtask: Supprimer la relation
+  error_token_expired: "Ce lien de récupération de votre mot de passe a expiré, veuillez recommencer."
+  error_spent_on_future_date: "Impossible d'enregistrer un temps passé sur une date future"
+  setting_timelog_accept_future_dates: "Autoriser la saisie de temps sur une date future"
+  label_delete_link_to_subtask: "Supprimer la relation avec la sous-tâche"
