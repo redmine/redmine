@@ -1,9 +1,7 @@
 <h2><%= @issue.tracker %> #<%= @issue.id %></h2>
 <p><%= authoring @journal.created_on, @journal.user, :label => :label_updated_time_by %></p>
 
-<div class="text-diff">
-<%= simple_format_without_paragraph @diff.to_html %>
-</div>
+<pre class="text-diff"><%= @diff.to_html %></pre>
 
 <p>
   <%= link_to(l(:button_back), issue_path(@issue),

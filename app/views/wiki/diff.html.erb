@@ -24,6 +24,4 @@
       %>, <%= format_time(@diff.content_to.updated_on) %>)</em>
 </p>
 
-<div class="text-diff">
-<%= simple_format_without_paragraph @diff.to_html %>
-</div>
+<pre class="text-diff"><%= @diff.to_html %></pre>
