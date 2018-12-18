@@ -97,27 +97,27 @@
                 },
                 {
                     "name": "Wang & Buzsáki 1996",
-                    "url": "http://opensourcebrain.org/projects/wangbuzsaki1996",
+                    "url": "/projects/wangbuzsaki1996",
                     "explorer_url": "http://opensourcebrain.org/projects/wangbuzsaki1996?explorer_id=678",
                     "description": "Gamma oscillation by synaptic inhibition in a hippocampal interneuronal network model",
                     "image_url": "images/projectThumbnails/WangBuzsaki.png"
                 },
                 {
                     "name": "Ferguson el al. 2013",
-                    "url": "http://opensourcebrain.org/projects/ca1-pv-fast-firing-cell-ferguson-et-al-2013",
+                    "url": "/projects/ca1-pv-fast-firing-cell-ferguson-et-al-2013",
                     "explorer_url": "http://opensourcebrain.org/projects/ca1-pv-fast-firing-cell-ferguson-et-al-2013?explorer_id=690",
                     "description": "A two-variable simple model derived from patch-clamp recordings from the CA1 region of a whole hippocampus preparation of PV+ fast-firing cells",
                     "image_url": "images/projectThumbnails/Ferguson2013.png"
                 },
                 {
                     "name": "Pinsky and Rinzel 1994",
-                    "url": "http://www.opensourcebrain.org/projects/pinskyrinzelmodel",
+                    "url": "/projects/pinskyrinzelmodel",
                     "description": "A 2-compartment (soma and dendrite), conductance-based (Hodgin-Huxley type) model of a hippocampal CA3 pyramidal neuron",
                     "image_url": "images/projectThumbnails/PinskyRinzel.png"
                 },
                 {
                     "name": "Bezaire el al. 2016",
-                    "url": "http://www.opensourcebrain.org/projects/nc_ca1",
+                    "url": "/projects/nc_ca1",
                     "explorer_url": "http://www.opensourcebrain.org/projects/nc_ca1/repository/revisions/development/show/NeuroML2/network?explorer=https%253A%252F%252Fraw.githubusercontent.com%252Fmbezaire%252Fca1%252Fdevelopment%252FNeuroML2%252Fnetwork%252FHippocampalNet_scale10000_oc_NoInput.net.nml.h5",
                     "description": "A large-scale, detailed, biologically constrained network model of the rodent hippocampal CA1 area",
                     "image_url": "images/projectThumbnails/BezaireEtAl16.png"
@@ -136,9 +136,9 @@
                 {
                     "name": "Smith et al. 2013",
                     "url": "/projects/l23dendriticspikes",
-                    "explorer_url": "xxx.nml",
-                    "description": "",
-                    "image_url": "images/projectThumbnails/xxx.png"
+                    "explorer_url": "http://opensourcebrain.org/projects/l23dendriticspikes?explorer_id=691",
+                    "description": "Multicompartmental model of Layer 2/3 pyramidal cell used for investigating dendritic spiking",
+                    "image_url": "images/projectThumbnails/SmithEtAl2013.png"
                 },
                 {
                     "name": "Allen Institute Cell Types DB",
@@ -156,31 +156,31 @@
                 },
                 {
                     "name": "Pospischil et al. 2008",
-                    "url": "http://opensourcebrain.org/projects/pospischiletal2008",
+                    "url": "/projects/pospischiletal2008",
                     "explorer_url": "http://opensourcebrain.org/projects/pospischiletal2008?explorer_id=675",
                     "description": "Minimal Hodgkin-Huxley type models for different classes of cortical and thalamic neurons",
                     "image_url": "images/projectThumbnails/Pospischil2008.png"
                 },
                 {
                     "name": "Sadeh et al. 2017",
-                    "url": "",
-                    "explorer_url": "xxx.nml",
-                    "description": "",
-                    "image_url": "images/projectThumbnails/xxx.png"
+                    "url": "/projects/sadehetal2017-inhibitionstabilizednetworks/",
+                    "explorer_url": "http://www.opensourcebrain.org/projects/sadehetal2017-inhibitionstabilizednetworks/models?explorer=https%253A%252F%252Fraw.githubusercontent.com%252FOpenSourceBrain%252FSadehEtAl2017-InhibitionStabilizedNetworks%252Fmaster%252FPyNN%252FISN.net.nml.h5",
+                    "description": "Models of Inhibition Stabilized Networks in mammalian neocortex",
+                    "image_url": "images/projectThumbnails/SadehEtAl2017.png"
                 },
                 {
                     "name": "Multiscale ISN",
-                    "url": "",
-                    "explorer_url": "xxx.nml",
-                    "description": "",
-                    "image_url": "images/projectThumbnails/xxx.png"
+                    "url": "/projects/multiscaleisn",
+                    "explorer_url": "http://www.opensourcebrain.org/projects/multiscaleisn/models?explorer=https%253A%252F%252Fraw.githubusercontent.com%252FOpenSourceBrain%252FMultiscaleISN%252Fmaster%252FNeuroML2%252FISN_net.net.nml.h5",
+                    "description": "Inhibition Stabilized Network featuring point neurons providing input to detailed L2/3 pyramidal cells",
+                    "image_url": "images/projectThumbnails/MultiscaleISN.png"
                 },
                 {
                     "name": "Traub et al. 2005",
-                    "url": "",
-                    "explorer_url": "xxx.nml",
-                    "description": "",
-                    "image_url": "images/projectThumbnails/xxx.png"
+                    "url": "http://www.opensourcebrain.org/projects/thalamocortical",
+                    "explorer_url": "http://www.opensourcebrain.org/projects/thalamocortical?explorer=https%253A%252F%252Fraw.githubusercontent.com%252FOpenSourceBrain%252FThalamocortical%252Fmaster%252FosbSessions%252Fmain%252Fmain.json",
+                    "description": "Single-column thalamocortical network model with 14 multicompartmental cell populations",
+                    "image_url": "images/projectThumbnails/TraubEtAl2015.png"
                 },
                 {
                     "name": "Potjans & Diesmann 2014",
