@@ -23,7 +23,7 @@
                     "image_url": "images/projectThumbnails/Vervaeke2010.png"
                 },
                 {
-                    "name": "Cayco-Gajic, Clopath & Silver 2017",
+                    "name": "Cayco-Gajic, Clopath, Silver 2017",
                     "url": "/projects/grclayer-caycogajic2017",
                     "description": "Model of cerebellar granule cell layer used to investigate how sparse synaptic connectivity influences pattern separation.",
                     "image_url": "images/projectThumbnails/CaycoGajic2017.png"
@@ -143,16 +143,16 @@
                 {
                     "name": "Allen Institute Cell Types DB",
                     "url": "/projects/alleninstituteneuroml",
-                    "explorer_url": "xxx.nml",
-                    "description": "",
-                    "image_url": "images/projectThumbnails/xxx.png"
+                    "explorer_url": "http://opensourcebrain.org/projects/alleninstituteneuroml/models?explorer=https%253A%252F%252Fraw.githubusercontent.com%252FOpenSourceBrain%252FAllenInstituteNeuroML%252Fmaster%252FCellTypesDatabase%252Fmodels%252FNeuroML2%252FSomeCells2.net.nml",
+                    "description": "Conversion of cell models and data to NeuroML from Allen CellTypes Database",
+                    "image_url": "images/projectThumbnails/Allen.png"
                 },
                 {
                     "name": "Markram et al. 2015",
-                    "url": "",
-                    "explorer_url": "xxx.nml",
-                    "description": "",
-                    "image_url": "images/projectThumbnails/xxx.png"
+                    "url": "/projects/blue-brain-project-showcase/",
+                    "explorer_url": "http://opensourcebrain.org/projects/blue-brain-project-showcase/models?explorer=https%253A%252F%252Fraw.githubusercontent.com%252FOpenSourceBrain%252FBlueBrainProjectShowcase%252Fmaster%252FNMC%252FNeuroML2%252FcADpyr232_L5_TTPC1_0fb1ca4724.stepcurrent3.net.nml",
+                    "description": "A project to illustrate how models and data from the Blue Brain Project can be converted to NeuroML and PyNN",
+                    "image_url": "images/projectThumbnails/BBP.png"
                 },
                 {
                     "name": "Pospischil et al. 2008",
@@ -184,17 +184,16 @@
                 },
                 {
                     "name": "Potjans & Diesmann 2014",
-                    "url": "",
-                    "explorer_url": "xxx.nml",
-                    "description": "",
-                    "image_url": "images/projectThumbnails/xxx.png"
+                    "url": "/projects/potjansdiesmann2014",
+                    "explorer_url": "http://www.opensourcebrain.org/projects/potjansdiesmann2014?explorer=https%253A%252F%252Fraw.githubusercontent.com%252FOpenSourceBrain%252FPotjansDiesmann2014%252Fmaster%252FosbSessions%252Fmain.osb.json",
+                    "description": "Microcircuit model of early sensory cortex displaying asynchronous irregular activity with layer-specific firing rates",
+                    "image_url": "images/projectThumbnails/PotjansDiesmann2014.png"
                 },
                 {
                     "name": "Brunel 2000",
-                    "url": "",
-                    "explorer_url": "xxx.nml",
-                    "description": "",
-                    "image_url": "images/projectThumbnails/xxx.png"
+                    "url": "/projects/brunel2000",
+                    "description": "Sparsely connected spiking neuron network from Brunel 2000",
+                    "image_url": "images/projectThumbnails/Brunel2000.png"
                 },
                 {
                     "name": "Izhikevich spiking neuron model",
