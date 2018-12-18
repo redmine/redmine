@@ -103,6 +103,13 @@
                     "image_url": "images/projectThumbnails/WangBuzsaki.png"
                 },
                 {
+                    "name": "Ferguson el al. 2013",
+                    "url": "http://opensourcebrain.org/projects/ca1-pv-fast-firing-cell-ferguson-et-al-2013",
+                    "explorer_url": "http://opensourcebrain.org/projects/ca1-pv-fast-firing-cell-ferguson-et-al-2013?explorer_id=690",
+                    "description": "A two-variable simple model derived from patch-clamp recordings from the CA1 region of a whole hippocampus preparation of PV+ fast-firing cells",
+                    "image_url": "images/projectThumbnails/Ferguson2013.png"
+                },
+                {
                     "name": "Pinsky and Rinzel 1994",
                     "url": "http://www.opensourcebrain.org/projects/pinskyrinzelmodel",
                     "description": "A 2-compartment (soma and dendrite), conductance-based (Hodgin-Huxley type) model of a hippocampal CA3 pyramidal neuron",
