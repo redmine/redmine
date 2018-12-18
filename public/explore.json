@@ -114,7 +114,15 @@
                     "url": "http://www.opensourcebrain.org/projects/pinskyrinzelmodel",
                     "description": "A 2-compartment (soma and dendrite), conductance-based (Hodgin-Huxley type) model of a hippocampal CA3 pyramidal neuron",
                     "image_url": "images/projectThumbnails/PinskyRinzel.png"
+                },
+                {
+                    "name": "Bezaire el al. 2016",
+                    "url": "http://www.opensourcebrain.org/projects/nc_ca1",
+                    "explorer_url": "http://www.opensourcebrain.org/projects/nc_ca1/repository/revisions/development/show/NeuroML2/network?explorer=https%253A%252F%252Fraw.githubusercontent.com%252Fmbezaire%252Fca1%252Fdevelopment%252FNeuroML2%252Fnetwork%252FHippocampalNet_scale10000_oc_NoInput.net.nml.h5",
+                    "description": "A large-scale, detailed, biologically constrained network model of the rodent hippocampal CA1 area",
+                    "image_url": "images/projectThumbnails/BezaireEtAl16.png"
                 }
+                
             ],
     "Neocortex":
             [
