@@ -21,6 +21,7 @@
             <div class="tab-pane" id="projecthighlights">
                 <% projects = JSON.parse(File.read("public/explore.json")) %>
                 <% projects.keys.each do |k| %>
+                    <div class="project-category">
                     <h2><%= k %></h2>
                     <% projects[k].each do |proj| %>
                     <div class="card">
@@ -34,11 +35,10 @@
                                 <% if proj['explorer_url'] %><a href="<%= proj['explorer_url'] %>">Open in 3D explorer</a><% end %>
                                 </div>
                             </div>
-                            <!--<p class="card-desc"><%= proj['description'] %></p>-->
-                            <!--<p class="card-stats">6 <img src="https://placehold.it/20" alt="hi" /> 6 <img src="https://placehold.it/20" alt="hi" /></p>-->
                         </div>
                     </div>
                     <% end %>
+                    </div>
                 <% end %>
                 
 

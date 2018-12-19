@@ -716,8 +716,42 @@ div.project-title {
 }
 
 #learnMoreContainer {
-    margin: 0 auto;
+    margin: 3em auto;
+    padding-top: 2em;
+    padding-bottom: 2em;
     text-align: center;
+}
+
+.explore-option {
+    vertical-align: middle;
+    font-size: 1.5em;
+    width: 20%;
+    margin-left: 0.75em;
+    margin-right: 0.75em;
+    display: inline-block;
+    transition: transform .2s;
+}
+
+.explore-option a {
+    color: #555555;
+}
+
+.explore-option:hover {
+    transform: scale(1.1);
+}
+
+.explore-option a:hover {
+    text-decoration: none;
+}
+
+.explore-desc {
+    margin: 0.5em auto;
+    width: 90%;
+    height: 3em;
+}
+
+.explore-desc::after {
+    content: "\1f80a";
 }
 
 .mainContentMargins {
@@ -3680,12 +3714,14 @@ ul[role=tabpanel] li a{
 
 .card {
     position: relative;
-    border: 1px dashed lightgray;
+    vertical-align: middle;
+    border: 1px solid black;
+    background-color: white;
     width: 270px;
     height: 350px;
-    padding-top: 0.5em;
+    padding-top: 1em;
     display: inline-block;
-    margin: 0.5em;
+    margin: 1em;
 }
 
 .card:hover .overlay {
@@ -3728,9 +3764,8 @@ ul[role=tabpanel] li a{
 }
 
 .card-title {
-  font-size: 1.6rem;
-  /*grid-row: 1 / 2;
-  grid-column: 1 / 2;*/
+  font-size: 2rem;
+  margin-top: 0.5em;
 }
 
 .card-icon {
@@ -3767,4 +3802,25 @@ ul[role=tabpanel] li a{
               -ms-grid-row-align: bottom;
           align-self: bottom;
   justify-self: right;
+}
+
+.project-category {
+    border: 1px solid black;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    margin-bottom: 2em;
+    background-image: -webkit-repeating-radial-gradient(center center, rgba(0,0,0,.2), rgba(0,0,0,.2) 1px, transparent 1px, transparent 100%);
+  background-image: -moz-repeating-radial-gradient(center center, rgba(0,0,0,.2), rgba(0,0,0,.2) 1px, transparent 1px, transparent 100%);
+  background-image: -ms-repeating-radial-gradient(center center, rgba(0,0,0,.2), rgba(0,0,0,.2) 1px, transparent 1px, transparent 100%);
+  background-image: repeating-radial-gradient(center center, rgba(0,0,0,.2), rgba(0,0,0,.2) 1px, transparent 1px, transparent 100%);
+  -webkit-background-size: 3px 3px;
+  -moz-background-size: 3px 3px;
+  background-size: 3px 3px;
+}
+
+.project-category h2 {
+    font-size: 2em;
+    color: white;
+    text-shadow: 1px 1px 5px black;
+    font-weight: bold;
 }
