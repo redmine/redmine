@@ -14,7 +14,7 @@ gem "mimemagic"
 gem "mail", "~> 2.7.1"
 gem "csv", "~> 3.0.1" if RUBY_VERSION >= "2.3" && RUBY_VERSION < "2.6"
 
-gem "nokogiri", "~> 1.8.0"
+gem "nokogiri", "~> 1.9.0"
 gem "i18n", "~> 0.7.0"
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
