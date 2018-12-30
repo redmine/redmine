@@ -1211,41 +1211,36 @@ uk:
   field_updated_by: Оновлено
   field_last_updated_by: Востаннє оновлено
   field_full_width_layout: Макет на повну ширину
-  label_user_mail_option_only_assigned: Only for things I watch or I am assigned to
-  label_user_mail_option_only_owner: Only for things I watch or I am the owner of
-  label_last_notes: Last notes
-  field_digest: Checksum
-  field_default_assigned_to: Default assignee
-  setting_show_custom_fields_on_registration: Show custom fields on registration
-  permission_view_news: View news
-  label_no_preview_alternative_html: No preview available. %{link} the file instead.
-  label_no_preview_download: Download
-  setting_close_duplicate_issues: Close duplicate issues automatically
-  error_exceeds_maximum_hours_per_day: Cannot log more than %{max_hours} hours on the
-    same day (%{logged_hours} hours have already been logged)
-  setting_time_entry_list_defaults: Timelog list defaults
-  setting_timelog_accept_0_hours: Accept time logs with 0 hours
-  setting_timelog_max_hours_per_day: Maximum hours that can be logged per day and user
-  label_x_revisions: "%{count} revisions"
-  error_can_not_delete_auth_source: This authentication mode is in use and cannot be
-    deleted.
+  label_user_mail_option_only_assigned: Лише для об'єктів за якими я спостерігаю або до яких прикріплений
+  label_user_mail_option_only_owner: Лише для об'єктів за якими я спостерігаю або є власником
+  label_last_notes: Останні коментарі
+  field_digest: Контрольна сума
+  field_default_assigned_to: Призначити по замовчуванню
+  setting_show_custom_fields_on_registration: Показувати додаткові поля при реєстрації
+  permission_view_news: Переглядати новини
+  label_no_preview_alternative_html: Попередній перегляд недоступний. %{link} файл натомість.
+  label_no_preview_download: Завантажити
+  setting_close_duplicate_issues: Закривати дублі задач автоматично
+  error_exceeds_maximum_hours_per_day: Неможливо зареєструвати більше ніж %{max_hours} годин за один день
+    (%{logged_hours} годин вже зареєстровано)
+  setting_time_entry_list_defaults: Перелік трудозатрат по замовчуванню
+  setting_timelog_accept_0_hours: Приймати порожні трудозатрати із 0 годин
+  setting_timelog_max_hours_per_day: Максимальна кількість годин що можна зазвітувати користувачеві на дешь
+  label_x_revisions: "%{count} версій"
+  error_can_not_delete_auth_source: Цей метод аутентифікації використовується і не може бути видалений.
   button_actions: Actions
-  mail_body_lost_password_validity: Please be aware that you may change the password
-    only once using this link.
-  text_login_required_html: When not requiring authentication, public projects and their
-    contents are openly available on the network. You can <a href="%{anonymous_role_path}">edit
-    the applicable permissions</a>.
-  label_login_required_yes: 'Yes'
-  label_login_required_no: No, allow anonymous access to public projects
-  text_project_is_public_non_member: Public projects and their contents are available
-    to all logged-in users.
-  text_project_is_public_anonymous: Public projects and their contents are openly available
-    on the network.
-  label_version_and_files: Versions (%{count}) and Files
+  mail_body_lost_password_validity: Ви можете змінити пароль лише один раз використовуючи це посилання.
+  text_login_required_html: Без вимоги аутентифікації, публічні проекти та їх вміст вільно доступні в мережі. Ви можете <a href="%{anonymous_role_path}">змінити
+    необхідні права</a>.
+  label_login_required_yes: 'Так'
+  label_login_required_no: Ні, дозволити анонімний доступ до публічних проектів
+  text_project_is_public_non_member: Публічні проекти та їх вміст доступні всім зареєстрованим користувачам.
+  text_project_is_public_anonymous: Публічні проекти та їх вміст вільно доступні в мережі.
+  label_version_and_files: Версій (%{count}) і Файлів
   label_ldap: LDAP
-  label_ldaps_verify_none: LDAPS (without certificate check)
+  label_ldaps_verify_none: LDAPS (без перевірки сертифікату)
   label_ldaps_verify_peer: LDAPS
-  label_ldaps_warning: It is recommended to use an encrypted LDAPS connection with certificate
-    check to prevent any manipulation during the authentication process.
-  label_nothing_to_preview: Nothing to preview
-  error_token_expired: This password recovery link has expired, please try again.
+  label_ldaps_warning: Рекомендовано використовувати шифроване LDAPS з'єднання з перевіркою сертифікату
+    щоби попередити маніпуляції під час процесу аутентифікації.
+  label_nothing_to_preview: Нічого не має для перегляду
+  error_token_expired: Це посилання відновлення паролю застаріло, буль ласка спробуйте заново.
