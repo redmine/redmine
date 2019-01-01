@@ -1309,11 +1309,10 @@
   text_project_is_public_anonymous: 公開之專案及其內容, 在網路上是開放可用的.
   label_version_and_files: 版本 (%{count}) 與檔案
   label_ldap: LDAP
-  label_ldaps_verify_none: LDAPS (without certificate check)
+  label_ldaps_verify_none: LDAPS (不含 SSL 憑證檢查)
   label_ldaps_verify_peer: LDAPS
-  label_ldaps_warning: It is recommended to use an encrypted LDAPS connection with certificate
-    check to prevent any manipulation during the authentication process.
-  label_nothing_to_preview: Nothing to preview
+  label_ldaps_warning: 建議使用包含 SSL 憑證檢查的加密 LADPS 協定，以防止驗證過程被竄改操縱。
+  label_nothing_to_preview: 沒有可供預覽的項目
   error_token_expired: This password recovery link has expired, please try again.
   error_spent_on_future_date: Cannot log time on a future date
   setting_timelog_accept_future_dates: Accept time logs on future dates
