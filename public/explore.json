@@ -18,7 +18,8 @@
                 {
                     "name": "Vervaeke et al. 2010",
                     "url": "/projects/vervaekeetalgolgicellnetwork",
-                    "explorer_url": "http://www.opensourcebrain.org/projects/vervaekeetalgolgicellnetwork/repository?explorer=https%253A%252F%252Fraw.githubusercontent.com%252FOpenSourceBrain%252FVervaekeEtAl-GolgiCellNetwork%252Fmaster%252FosbSessions%252Fmain%252Fmain.json",
+                    "extra_link_url": "http://www.opensourcebrain.org/projects/vervaekeetalgolgicellnetwork/repository?explorer=https%253A%252F%252Fraw.githubusercontent.com%252FOpenSourceBrain%252FVervaekeEtAl-GolgiCellNetwork%252Fmaster%252FosbSessions%252Fmain%252Fmain.json",
+                    "extra_link_text": "View Figure 3C from OSB paper",
                     "description": "A network model of electrically coupled cerebellar Golgi cells, as described in Vervaeke et al. 2010",
                     "image_url": "images/projectThumbnails/Vervaeke2010.png"
                 },
@@ -51,7 +52,8 @@
                 {
                     "name": "Hodgkin and Huxley 1952",
                     "url": "/projects/hodgkin-huxley-tutorial",
-                    "explorer_url": "/projects/hodgkin-huxley-tutorial?explorer=https%3A%2F%2Fraw.githubusercontent.com%2Fopensourcebrain%2Ftutorials%2Fdevelopment%2Fmodels%2FhodgkinHuxley%2FGEPPETTO.json",
+                    "extra_link_url": "/projects/hodgkin-huxley-tutorial?explorer=https%3A%2F%2Fraw.githubusercontent.com%2Fopensourcebrain%2Ftutorials%2Fdevelopment%2Fmodels%2FhodgkinHuxley%2FGEPPETTO.json",
+                    "extra_link_text": "Run tutorial (Figure 5 from OSB paper)",
                     "description": "A tutorial designed to give an overview of the Hodgkin-Huxley model",
                     "image_url": "images/projectThumbnails/HH1952.png"
                 },
@@ -81,7 +83,8 @@
                 {
                     "name": "Migliore et al. 2014",
                     "url": "/projects/miglioreetal14_olfactorybulb3d",
-                    "explorer_url": "/projects/miglioreetal14_olfactorybulb3d?explorer=https%253A%252F%252Fraw.githubusercontent.com%252FOpenSourceBrain%252FMiglioreEtAl14_OlfactoryBulb3D%252Fmaster%252FosbSessions%252Fmain.osb.json",
+                    "extra_link_url": "/projects/miglioreetal14_olfactorybulb3d?explorer=https%253A%252F%252Fraw.githubusercontent.com%252FOpenSourceBrain%252FMiglioreEtAl14_OlfactoryBulb3D%252Fmaster%252FosbSessions%252Fmain.osb.json",
+                    "extra_link_text": "View Figure 6B from OSB paper",
                     "description": "Migliore et al. (2014) 3D Model of the Olfactory Bulb",
                     "image_url": "images/projectThumbnails/Migliore2014.png"
                 }
@@ -119,6 +122,8 @@
                     "name": "Bezaire el al. 2016",
                     "url": "/projects/nc_ca1",
                     "explorer_url": "http://www.opensourcebrain.org/projects/nc_ca1/repository/revisions/development/show/NeuroML2/network?explorer=https%253A%252F%252Fraw.githubusercontent.com%252Fmbezaire%252Fca1%252Fdevelopment%252FNeuroML2%252Fnetwork%252FHippocampalNet_scale10000_oc_NoInput.net.nml.h5",
+                    "extra_link_url": "http://www.opensourcebrain.org/projects/nc_ca1/repository/revisions/development/show/NeuroML2/network?explorer=https%253A%252F%252Fraw.githubusercontent.com%252Fmbezaire%252Fca1%252Fdevelopment%252FNeuroML2%252Fnetwork%252FHippocampalNet_scale1000_oc_NoInput.net.nml.h5",
+                    "extra_link_text": "View Figure 4I from OSB paper (slow to load)",
                     "description": "A large-scale, detailed, biologically constrained network model of the rodent hippocampal CA1 area",
                     "image_url": "images/projectThumbnails/BezaireEtAl16.png"
                 }
@@ -136,14 +141,17 @@
                 {
                     "name": "Smith et al. 2013",
                     "url": "/projects/l23dendriticspikes",
-                    "explorer_url": "http://opensourcebrain.org/projects/l23dendriticspikes?explorer_id=691",
+                    "extra_link_url": "http://opensourcebrain.org/projects/l23dendriticspikes?explorer_id=691",
+                    "extra_link_text": "View Figure 6A from OSB paper",
                     "description": "Multicompartmental model of Layer 2/3 pyramidal cell used for investigating dendritic spiking",
                     "image_url": "images/projectThumbnails/SmithEtAl2013.png"
                 },
                 {
                     "name": "Allen Institute Cell Types DB",
                     "url": "/projects/alleninstituteneuroml",
-                    "explorer_url": "http://opensourcebrain.org/projects/alleninstituteneuroml/models?explorer=https%253A%252F%252Fraw.githubusercontent.com%252FOpenSourceBrain%252FAllenInstituteNeuroML%252Fmaster%252FCellTypesDatabase%252Fmodels%252FNeuroML2%252FSomeCells2.net.nml",
+                    "explorer_url": "http://www.opensourcebrain.org/projects/alleninstituteneuroml/models?explorer=https%253A%252F%252Fraw.githubusercontent.com%252FOpenSourceBrain%252FAllenInstituteNeuroML%252Fmaster%252FCellTypesDatabase%252Fmodels%252FNeuroML2%252FNetwork_486556811.net.nml",
+                    "extra_link_url": "http://opensourcebrain.org/projects/alleninstituteneuroml/models?explorer=https%253A%252F%252Fraw.githubusercontent.com%252FOpenSourceBrain%252FAllenInstituteNeuroML%252Fmaster%252FCellTypesDatabase%252Fmodels%252FNeuroML2%252FSomeCells2.net.nml",
+                    "extra_link_text": "View Figure 3A from OSB paper (slow to load)",
                     "description": "Conversion of cell models and data to NeuroML from Allen CellTypes Database",
                     "image_url": "images/projectThumbnails/Allen.png"
                 },
