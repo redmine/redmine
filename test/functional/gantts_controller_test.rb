@@ -25,7 +25,8 @@ class GanttsControllerTest < Redmine::ControllerTest
            :member_roles,
            :members,
            :enabled_modules,
-           :versions
+           :versions,
+           :email_addresses
 
   def test_gantt_should_work
     i2 = Issue.find(2)

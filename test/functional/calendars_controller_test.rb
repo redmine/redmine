@@ -30,7 +30,8 @@ class CalendarsControllerTest < Redmine::ControllerTest
            :issue_relations,
            :issue_categories,
            :enumerations,
-           :queries
+           :queries,
+           :users, :email_addresses
 
   def test_show
     with_settings :gravatar_enabled => '1' do

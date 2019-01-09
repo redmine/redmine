@@ -33,7 +33,9 @@ class RepositoryTest < ActiveSupport::TestCase
            :members,
            :member_roles,
            :roles,
-           :enumerations
+           :enumerations,
+           :user_preferences,
+           :watchers
 
   include Redmine::I18n
 

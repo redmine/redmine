@@ -36,7 +36,7 @@ class ProjectCopyTest < ActiveSupport::TestCase
            :boards, :messages,
            :repositories,
            :news, :comments,
-           :documents
+           :documents, :attachments
 
   def setup
     User.current = nil
