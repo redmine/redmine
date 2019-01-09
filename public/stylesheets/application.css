@@ -3718,14 +3718,14 @@ ul[role=tabpanel] li a{
     border: 1px solid black;
     background-color: white;
     width: 270px;
-    height: 350px;
-    padding-top: 1em;
+    height: 290px;
+    padding-top: 1.5em;
     display: inline-block;
     margin: 1em;
 }
 
 .card:hover .overlay {
-    opacity: 0.9;
+    opacity: 0.95;
 }
 
 .overlay {
@@ -3740,7 +3740,8 @@ ul[role=tabpanel] li a{
   opacity: 0;
   transition: .2s ease;
   color: black;
-  font-size: 0.9em;
+  font-weight: bold;
+  font-size: 0.8em;
   background-color: white;
 }
 
@@ -3750,17 +3751,11 @@ ul[role=tabpanel] li a{
 
 .card-info {
   padding: 1rem;
-  /*display: -ms-grid;
-   display: grid;
-  -ms-grid-rows: 1fr 2.5rem;
-      grid-template-rows: 1fr 2.5rem;
-  -ms-grid-columns: 3fr 1fr;
-      grid-template-columns: 3fr 1fr;*/
 }
 
 .card-img {
-    max-height: 250px;
-    max-width: 250px;
+    max-height: 175px;
+    max-width: 175px;
 }
 
 .card-title {
@@ -3809,13 +3804,7 @@ ul[role=tabpanel] li a{
     padding-top: 1em;
     padding-bottom: 1em;
     margin-bottom: 2em;
-    background-image: -webkit-repeating-radial-gradient(center center, rgba(0,0,0,.2), rgba(0,0,0,.2) 1px, transparent 1px, transparent 100%);
-    background-image: -moz-repeating-radial-gradient(center center, rgba(0,0,0,.2), rgba(0,0,0,.2) 1px, transparent 1px, transparent 100%);
-    background-image: -ms-repeating-radial-gradient(center center, rgba(0,0,0,.2), rgba(0,0,0,.2) 1px, transparent 1px, transparent 100%);
-    background-image: repeating-radial-gradient(center center, rgba(0,0,0,.2), rgba(0,0,0,.2) 1px, transparent 1px, transparent 100%);
-    -webkit-background-size: 3px 3px;
-    -moz-background-size: 3px 3px;
-    background-size: 3px 3px;
+    background: rgba(51, 122, 183, 0.03);
 }
 
 .project-category h2 {
