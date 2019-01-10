@@ -64,14 +64,14 @@ DIFF
 <p>link: <a class="external" href="https://www.redmine.org">https://www.redmine.org</a><br />
 <a class="external" href="http://www.redmine.org">http://www.redmine.org</a></p>
 EXPECTED
-    
+
   end
 
   def test_supports_section_edit
     with_settings :text_formatting => 'textile' do
       assert_equal true, Redmine::WikiFormatting.supports_section_edit?
     end
-    
+
     with_settings :text_formatting => '' do
       assert_equal false, Redmine::WikiFormatting.supports_section_edit?
     end
