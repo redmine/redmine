@@ -169,6 +169,7 @@ class AccountController < ApplicationController
         skip = false
 
         if params[:activation_token]
+          byebug
           if params[:activation_token]=="student"
             skip = true
             register_automatically(@user)

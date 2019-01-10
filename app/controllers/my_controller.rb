@@ -94,6 +94,7 @@ class MyController < ApplicationController
       redirect_to my_account_path
       return
     end
+    oldPassword = @user.hashed_password
     if request.post?
       if !@user.check_password?(params[:password])
         flash.now[:error] = l(:notice_account_wrong_password)
@@ -107,6 +108,14 @@ class MyController < ApplicationController
           session[:tk] = @user.generate_session_token
           Mailer.password_updated(@user)
           flash[:notice] = l(:notice_account_password_updated)
+
+          #Geppetto update
+          geppettoRegisterURL = Rails.application.config.serversIP["geppettoIP"] + Rails.application.config.serversIP["geppettoContextPath"] + "setPassword?username=" + @user.login + "&oldPassword=" + oldPassword + "&newPassword=" + @user.hashed_password
+          begin
+            geppettoRegisterContent = open(geppettoRegisterURL)
+          rescue => e
+            print "Error requesting url: #{geppettoRegisterURL}"
+          end
           redirect_to my_account_path
         end
       end

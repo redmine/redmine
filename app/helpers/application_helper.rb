@@ -486,7 +486,7 @@ module ApplicationHelper
   def getModelFiles(ext)
     @modelFiles=[]
     @NML2files.each {|size,nml2file|
-      if nml2file.ends_with?(ext)
+      if !nml2file.nil? and nml2file.ends_with?(ext)
         @modelFiles.push([size,nml2file])
         @defaultMainModel=nml2file
       end
