@@ -12,14 +12,14 @@
                     "name": "Maex and De Schutter 1998",
                     "url": "/projects/grancelllayer",
                     "explorer_url": "http://opensourcebrain.org/projects/grancelllayer?explorer_id=622",
-                    "description": "Granule Cell Layer model from: Maex and De Schutter, Synchronization of Golgi and Granule Cell Firing in a Detailed Network Model of the Cerebellar Granule Cell Layer J Neurophysiol, 1998.",
+                    "description": "Granule Cell Layer network model with single compartment, conductance based cells",
                     "image_url": "images/projectThumbnails/MaexDeSchutter1998.png"
                 },
                 {
                     "name": "Vervaeke et al. 2010",
                     "url": "/projects/vervaekeetalgolgicellnetwork",
                     "extra_link_url": "http://www.opensourcebrain.org/projects/vervaekeetalgolgicellnetwork/repository?explorer=https%253A%252F%252Fraw.githubusercontent.com%252FOpenSourceBrain%252FVervaekeEtAl-GolgiCellNetwork%252Fmaster%252FosbSessions%252Fmain%252Fmain.json",
-                    "extra_link_text": "View Figure 3C from OSB paper",
+                    "extra_link_text": "View Figure 3C from OSB paper in 3D",
                     "description": "A network model of electrically coupled cerebellar Golgi cells, as described in Vervaeke et al. 2010",
                     "image_url": "images/projectThumbnails/Vervaeke2010.png"
                 },
@@ -84,7 +84,7 @@
                     "name": "Migliore et al. 2014",
                     "url": "/projects/miglioreetal14_olfactorybulb3d",
                     "extra_link_url": "/projects/miglioreetal14_olfactorybulb3d?explorer=https%253A%252F%252Fraw.githubusercontent.com%252FOpenSourceBrain%252FMiglioreEtAl14_OlfactoryBulb3D%252Fmaster%252FosbSessions%252Fmain.osb.json",
-                    "extra_link_text": "View Figure 6B from OSB paper",
+                    "extra_link_text": "View Figure 6B from OSB paper in 3D",
                     "description": "Migliore et al. (2014) 3D Model of the Olfactory Bulb",
                     "image_url": "images/projectThumbnails/Migliore2014.png"
                 }
@@ -123,7 +123,7 @@
                     "url": "/projects/nc_ca1",
                     "explorer_url": "http://www.opensourcebrain.org/projects/nc_ca1/repository/revisions/development/show/NeuroML2/network?explorer=https%253A%252F%252Fraw.githubusercontent.com%252Fmbezaire%252Fca1%252Fdevelopment%252FNeuroML2%252Fnetwork%252FHippocampalNet_scale10000_oc_NoInput.net.nml.h5",
                     "extra_link_url": "http://www.opensourcebrain.org/projects/nc_ca1/repository/revisions/development/show/NeuroML2/network?explorer=https%253A%252F%252Fraw.githubusercontent.com%252Fmbezaire%252Fca1%252Fdevelopment%252FNeuroML2%252Fnetwork%252FHippocampalNet_scale1000_oc_NoInput.net.nml.h5",
-                    "extra_link_text": "View Figure 4I from OSB paper (slow to load)",
+                    "extra_link_text": "View Figure 4I from OSB paper in 3D (slow to load)",
                     "description": "A large-scale, detailed, biologically constrained network model of the rodent hippocampal CA1 area",
                     "image_url": "images/projectThumbnails/BezaireEtAl16.png"
                 }
@@ -142,7 +142,7 @@
                     "name": "Smith et al. 2013",
                     "url": "/projects/l23dendriticspikes",
                     "extra_link_url": "http://opensourcebrain.org/projects/l23dendriticspikes?explorer_id=691",
-                    "extra_link_text": "View Figure 6A from OSB paper",
+                    "extra_link_text": "View Figure 6A from OSB paper in 3D",
                     "description": "Multicompartmental model of Layer 2/3 pyramidal cell used for investigating dendritic spiking",
                     "image_url": "images/projectThumbnails/SmithEtAl2013.png"
                 },
@@ -151,7 +151,7 @@
                     "url": "/projects/alleninstituteneuroml",
                     "explorer_url": "http://www.opensourcebrain.org/projects/alleninstituteneuroml/models?explorer=https%253A%252F%252Fraw.githubusercontent.com%252FOpenSourceBrain%252FAllenInstituteNeuroML%252Fmaster%252FCellTypesDatabase%252Fmodels%252FNeuroML2%252FNetwork_486556811.net.nml",
                     "extra_link_url": "http://opensourcebrain.org/projects/alleninstituteneuroml/models?explorer=https%253A%252F%252Fraw.githubusercontent.com%252FOpenSourceBrain%252FAllenInstituteNeuroML%252Fmaster%252FCellTypesDatabase%252Fmodels%252FNeuroML2%252FSomeCells2.net.nml",
-                    "extra_link_text": "View Figure 3A from OSB paper (slow to load)",
+                    "extra_link_text": "View Figure 3A from OSB paper in 3D (slow to load)",
                     "description": "Conversion of cell models and data to NeuroML from Allen CellTypes Database",
                     "image_url": "images/projectThumbnails/Allen.png"
                 },
@@ -159,7 +159,7 @@
                     "name": "Markram et al. 2015",
                     "url": "/projects/blue-brain-project-showcase/",
                     "extra_link_url": "http://opensourcebrain.org/projects/blue-brain-project-showcase/models?explorer=https%253A%252F%252Fraw.githubusercontent.com%252FOpenSourceBrain%252FBlueBrainProjectShowcase%252Fmaster%252FNMC%252FNeuroML2%252FcADpyr232_L5_TTPC1_0fb1ca4724.stepcurrent3.net.nml",
-                    "extra_link_text": "View Figure 3B from OSB paper",
+                    "extra_link_text": "View Figure 3B from OSB paper in 3D",
                     "description": "A project to illustrate how models and data from the Blue Brain Project can be converted to NeuroML and PyNN",
                     "image_url": "images/projectThumbnails/BBP.png"
                 },
@@ -173,14 +173,16 @@
                 {
                     "name": "Sadeh et al. 2017",
                     "url": "/projects/sadehetal2017-inhibitionstabilizednetworks/",
-                    "explorer_url": "http://www.opensourcebrain.org/projects/sadehetal2017-inhibitionstabilizednetworks/models?explorer=https%253A%252F%252Fraw.githubusercontent.com%252FOpenSourceBrain%252FSadehEtAl2017-InhibitionStabilizedNetworks%252Fmaster%252FPyNN%252FISN.net.nml.h5",
+                    "extra_link_url": "http://www.opensourcebrain.org/projects/sadehetal2017-inhibitionstabilizednetworks/models?explorer=https%253A%252F%252Fraw.githubusercontent.com%252FOpenSourceBrain%252FSadehEtAl2017-InhibitionStabilizedNetworks%252Fmaster%252FPyNN%252FISN.net.nml.h5",
+                    "extra_link_text": "View Figure 7B from OSB paper in 3D",
                     "description": "Models of Inhibition Stabilized Networks in mammalian neocortex",
                     "image_url": "images/projectThumbnails/SadehEtAl2017.png"
                 },
                 {
                     "name": "Multiscale ISN",
                     "url": "/projects/multiscaleisn",
-                    "explorer_url": "http://www.opensourcebrain.org/projects/multiscaleisn/models?explorer=https%253A%252F%252Fraw.githubusercontent.com%252FOpenSourceBrain%252FMultiscaleISN%252Fmaster%252FNeuroML2%252FISN_net.net.nml.h5",
+                    "extra_link_url": "http://www.opensourcebrain.org/projects/multiscaleisn/models?explorer=https%253A%252F%252Fraw.githubusercontent.com%252FOpenSourceBrain%252FMultiscaleISN%252Fmaster%252FNeuroML2%252FISN_net.net.nml.h5",
+                    "extra_link_text": "View Figure 7D from OSB paper in 3D",
                     "description": "Inhibition Stabilized Network featuring point neurons providing input to detailed L2/3 pyramidal cells",
                     "image_url": "images/projectThumbnails/MultiscaleISN.png"
                 },
@@ -189,7 +191,7 @@
                     "url": "http://www.opensourcebrain.org/projects/thalamocortical",
                     "explorer_url": "/projects/thalamocortical?explorer=https%253A%252F%252Fraw.githubusercontent.com%252FOpenSourceBrain%252FThalamocortical%252Fmaster%252FosbSessions%252Fmain%252Fmain.json",
                     "extra_link_url": "/projects/thalamocortical/models?explorer=https%253A%252F%252Fraw.githubusercontent.com%252FOpenSourceBrain%252FThalamocortical%252Fmaster%252FNeuroML2%252FpythonScripts%252Fnetbuild%252FTestMedium.net.nml",
-                    "extra_link_text": "View Figure 4A from OSB paper (slow to load)",
+                    "extra_link_text": "View Figure 4A from OSB paper in 3D (slow to load)",
                     "description": "Single-column thalamocortical network model with 14 multicompartmental cell populations",
                     "image_url": "images/projectThumbnails/TraubEtAl2015.png"
                 },
