@@ -12,7 +12,7 @@
                     "name": "Maex and De Schutter 1998",
                     "url": "/projects/grancelllayer",
                     "explorer_url": "http://opensourcebrain.org/projects/grancelllayer?explorer_id=622",
-                    "description": "Granule Cell Layer model from: Maex and De Schutter, Synchronization of Golgi and Granule Cell Firing in a Detailed Network Model of the Cerebellar Granule Cell Layer J Neurophysiol, 1998.",
+                    "description": "Granule Cell Layer network model with single compartment, conductance based cells",
                     "image_url": "images/projectThumbnails/MaexDeSchutter1998.png"
                 },
                 {
