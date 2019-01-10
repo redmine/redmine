@@ -65,6 +65,7 @@ DIFF
 <a class="external" href="http://www.redmine.org">http://www.redmine.org</a></p>
 EXPECTED
 
+    assert_equal expected.gsub(%r{[\r\n\t]}, ''), Redmine::WikiFormatting::NullFormatter::Formatter.new(raw).to_html.gsub(%r{[\r\n\t]}, '')
   end
 
   def test_supports_section_edit
