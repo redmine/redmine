@@ -217,6 +217,7 @@ class Import < ActiveRecord::Base
 
     csv_options = {:headers => false}
     csv_options[:encoding] = settings['encoding'].to_s.presence || 'UTF-8'
+    csv_options[:encoding] = 'bom|UTF-8' if csv_options[:encoding] == 'UTF-8'
     separator = settings['separator'].to_s
     csv_options[:col_sep] = separator if separator.size == 1
     wrapper = settings['wrapper'].to_s
