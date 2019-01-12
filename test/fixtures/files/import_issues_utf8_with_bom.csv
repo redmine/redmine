@@ -1,0 +1,4 @@
+﻿"priority";subject;description;start_date;due_date;parent;private;progress;custom;version;category;user;estimated_hours;tracker;status
+High;First;First description;2015-07-08;2015-08-25;;no;;PostgreSQL;;New category;dlopper;1;bug;new
+Normal;Child 1;Child description;;;1;yes;10;MySQL;2.0;New category;;2;feature request;new
+Normal;Child of existing issue;Child description;;;#2;no;20;;2.1;Printing;;3;bug;assigned
