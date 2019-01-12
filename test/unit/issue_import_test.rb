@@ -116,6 +116,15 @@ class IssueImportTest < ActiveSupport::TestCase
     assert_equal 2, issues[2].parent_id
   end
 
+  def test_import_utf8_with_bom
+    import = generate_import_with_mapping('import_issues_utf8_with_bom.csv')
+    import.settings.merge!('encoding' => 'UTF-8')
+    import.save
+
+    issues = new_records(Issue,3) { import.run }
+    assert_equal 3, issues.count
+  end
+
   def test_backward_and_forward_reference_to_parent_should_work
     import = generate_import('import_subtasks.csv')
     import.settings = {
