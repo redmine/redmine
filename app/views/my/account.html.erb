@@ -15,6 +15,7 @@
                      :url => { :action => "account" },
                      :html => { :id => 'my_account_form',
                                 :method => :post, :multipart => true } do |f| %>
+<div class="splitcontent">
 <div class="splitcontentleft">
 <fieldset class="box tabular">
   <legend><%=l(:label_information_plural)%></legend>
@@ -50,6 +51,7 @@
 </fieldset>
 
 <p class="mobile-show"><%= submit_tag l(:button_save) %></p>
+</div>
 </div>
 <% end %>
 

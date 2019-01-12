@@ -2,6 +2,7 @@
 
 <div id="user_form">
 <!--[form:user]-->
+<div class="splitcontent">
 <div class="splitcontentleft">
 <fieldset class="box tabular">
   <legend><%=l(:label_information_plural)%></legend>
@@ -50,6 +51,7 @@
   <%= render :partial => 'users/preferences' %>
   <%= call_hook(:view_users_form_preferences, :user => @user, :form => f) %>
 </fieldset>
+</div>
 </div>
 </div>
 <div style="clear:left;"></div>

@@ -8,11 +8,13 @@
 <h2><%=l(:label_my_page)%></h2>
 
 <div id="my-page">
+<div class="splitcontent">
 <% @groups.each do |group| %>
   <div id="list-<%= group %>" class="block-receiver">
     <%= render_blocks(@blocks[group], @user) %>
   </div>
 <% end %>
+</div>
 </div>
 
 <%= context_menu %>

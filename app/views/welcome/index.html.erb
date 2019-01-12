@@ -1,5 +1,6 @@
 <h2><%= l(:label_home) %></h2>
 
+<div class="splitcontent">
 <div class="splitcontentleft">
   <div class="wiki">
     <%= textilizable Setting.welcome_text %>
@@ -16,6 +17,7 @@
   </div>
   <% end %>
   <%= call_hook(:view_welcome_index_right) %>
+</div>
 </div>
 
 <% content_for :header_tags do %>

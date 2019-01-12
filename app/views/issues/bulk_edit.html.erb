@@ -28,6 +28,7 @@
 <fieldset class="attributes">
 <legend><%= l(:label_change_properties) %></legend>
 
+<div class="splitcontent">
 <div class="splitcontentleft">
 <% if @allowed_projects.present? %>
 <p>
@@ -187,6 +188,7 @@
   <%= select_tag 'issue[done_ratio]', options_for_select([[l(:label_no_change_option), '']] + (0..10).to_a.collect {|r| ["#{r*10} %", r*10] }, @issue_params[:done_ratio]) %>
 </p>
 <% end %>
+</div>
 </div>
 </fieldset>
 

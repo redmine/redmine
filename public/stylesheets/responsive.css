@@ -219,10 +219,14 @@
 
   .splitcontentleft, #list-left {
     width: 100%;
+    flex: auto;
+    margin-right: 0;
   }
 
   .splitcontentright, #list-right {
     width: 100%;
+    flex: auto;
+    margin-left: 0;
   }
 
   /*----------------------------------------*\
@@ -855,4 +859,3 @@
 
   #login-form {width:100%; margin-top:2em;}
 }
-

@@ -1,5 +1,6 @@
 <%= error_messages_for 'custom_field' %>
 
+<div class="splitcontent">
 <div class="splitcontentleft">
 <div class="box tabular">
 <p><%= f.select :field_format, custom_field_formats_for_select(@custom_field), {}, :disabled => !@custom_field.new_record? %></p>
@@ -126,6 +127,7 @@ when "IssueCustomField" %>
     </div>
   </fieldset>
 <% end %>
+</div>
 </div>
 
 <% include_calendar_headers_tags %>

@@ -4,6 +4,7 @@
 
 <h2><%= avatar @user, :size => "50" %> <%= @user.name %></h2>
 
+<div class="splitcontent">
 <div class="splitcontentleft">
 <ul>
   <li><%=l(:field_login)%>: <%= @user.login %></li>
@@ -61,5 +62,5 @@
 <% end %>
 <%= call_hook :view_account_right_bottom, :user => @user %>
 </div>
-
+</div>
 <% html_title @user.name %>
