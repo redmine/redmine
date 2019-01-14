@@ -130,8 +130,24 @@ class CalendarsControllerTest < Redmine::ControllerTest
     get :show, :params => {
         :query_id => 6
       }
-      
+
     assert_response :success
     assert_select 'h2', :text => 'Open issues grouped by tracker'
+  end
+
+  def test_show_calendar_day_css_classes
+    get :show, :params => {
+        :month => '12',
+        :year => '2016'
+      }
+    assert_response :success
+
+    assert_select 'tr:nth-child(2)' do
+      assert_select 'td.week-number', :text => '49'
+      # non working days should have "nwday" CSS class
+      assert_select 'td.nwday', 2
+      assert_select 'td.nwday', :text => '4'
+      assert_select 'td.nwday', :text => '10'
+    end
   end
 end
