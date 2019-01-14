@@ -56,7 +56,7 @@ if File.exist?(database_file)
       when 'mysql2'
         gem "mysql2", "~> 0.5.0", :platforms => [:mri, :mingw, :x64_mingw]
       when /postgresql/
-        gem "pg", "~> 1.0.0", :platforms => [:mri, :mingw, :x64_mingw]
+        gem "pg", "~> 1.1.4", :platforms => [:mri, :mingw, :x64_mingw]
       when /sqlite3/
         gem "sqlite3", "~>1.3.12", :platforms => [:mri, :mingw, :x64_mingw]
       when /sqlserver/
