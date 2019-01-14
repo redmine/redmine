@@ -55,4 +55,10 @@ module CalendarsHelper
   def link_to_month(link_name, year, month, options={})
     link_to(link_name, {:params => request.query_parameters.merge(:year => year, :month => month)}, options)
   end
+
+  def calendar_day_css_classes(calendar, day)
+    css = day.month==calendar.month ? 'even' : 'odd'
+    css << " today" if User.current.today == day
+    css
+  end
 end

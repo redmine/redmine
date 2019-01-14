@@ -8,7 +8,7 @@
 <% day = calendar.startdt
 while day <= calendar.enddt %>
 <%= ("<td class='week-number' title='#{ l(:label_week) }'>#{(day+(11-day.cwday)%7).cweek}</td>".html_safe) if day.cwday == calendar.first_wday %>
-<td class="<%= day.month==calendar.month ? 'even' : 'odd' %><%= ' today' if User.current.today == day %>">
+<td class="<%= calendar_day_css_classes(calendar, day) %>">
 <p class="day-num"><%= day.day %></p>
 <% calendar.events_on(day).each do |i| %>
   <% if i.is_a? Issue %>
