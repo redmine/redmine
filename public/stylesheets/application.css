@@ -352,13 +352,13 @@ tr.group a.toggle-all { color: #aaa; font-size: 80%; display:none; float:right; 
 tr.group:hover a.toggle-all { display:inline;}
 a.toggle-all:hover {text-decoration:none;}
 
+table.list tbody tr:hover { background-color:#ffffdd; }
+table.list tbody tr.group:hover { background-color:inherit; }
 table td {padding:2px;}
 table p {margin:0;}
 
 table.list:not(.odd-even) tbody tr:nth-child(odd), .odd, #issue-changesets div.changeset:nth-child(odd) { background-color:#f6f7f8; }
 table.list:not(.odd-even) tbody tr:nth-child(even), .even, #issue-changesets div.changeset:nth-child(even) { background-color: #fff; }
-table.list tbody tr:hover { background-color:#ffffdd !important; }
-table.list tbody tr.group:hover { background-color:inherit !important; }
 
 tr.builtin td.name {font-style:italic;}
 
