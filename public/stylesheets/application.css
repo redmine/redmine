@@ -733,11 +733,11 @@ div.project-title {
 }
 
 .explore-option a {
-    color: #555555;
+    color: #111111;
 }
 
 .explore-option:hover {
-    transform: scale(1.1);
+    opacity: 0.5;
 }
 
 .explore-option a:hover {
@@ -748,6 +748,7 @@ div.project-title {
     margin: 0.5em auto;
     width: 90%;
     height: 3em;
+    font-weight: bold;
 }
 
 .explore-desc::after {
