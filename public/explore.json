@@ -18,7 +18,7 @@
                 {
                     "name": "Vervaeke et al. 2010",
                     "url": "/projects/vervaekeetalgolgicellnetwork",
-                    "extra_link_url": "http://www.opensourcebrain.org/projects/vervaekeetalgolgicellnetwork/repository?explorer=https%253A%252F%252Fraw.githubusercontent.com%252FOpenSourceBrain%252FVervaekeEtAl-GolgiCellNetwork%252Fmaster%252FosbSessions%252Fmain%252Fmain.json",
+                    "extra_link_url": "/projects/vervaekeetalgolgicellnetwork/repository?explorer=https%253A%252F%252Fraw.githubusercontent.com%252FOpenSourceBrain%252FVervaekeEtAl-GolgiCellNetwork%252Fmaster%252FosbSessions%252Fmain%252Fmain.json",
                     "extra_link_text": "View Figure 3C from OSB paper in 3D",
                     "description": "A network model of electrically coupled cerebellar Golgi cells, as described in Vervaeke et al. 2010",
                     "image_url": "images/projectThumbnails/Vervaeke2010.png"
@@ -121,8 +121,8 @@
                 {
                     "name": "Bezaire el al. 2016",
                     "url": "/projects/nc_ca1",
-                    "explorer_url": "http://www.opensourcebrain.org/projects/nc_ca1/repository/revisions/development/show/NeuroML2/network?explorer=https%253A%252F%252Fraw.githubusercontent.com%252Fmbezaire%252Fca1%252Fdevelopment%252FNeuroML2%252Fnetwork%252FHippocampalNet_scale10000_oc_NoInput.net.nml.h5",
-                    "extra_link_url": "http://www.opensourcebrain.org/projects/nc_ca1/repository/revisions/development/show/NeuroML2/network?explorer=https%253A%252F%252Fraw.githubusercontent.com%252Fmbezaire%252Fca1%252Fdevelopment%252FNeuroML2%252Fnetwork%252FHippocampalNet_scale1000_oc_NoInput.net.nml.h5",
+                    "explorer_url": "/projects/nc_ca1/repository/revisions/development/show/NeuroML2/network?explorer=https%253A%252F%252Fraw.githubusercontent.com%252Fmbezaire%252Fca1%252Fdevelopment%252FNeuroML2%252Fnetwork%252FHippocampalNet_scale10000_oc_NoInput.net.nml.h5",
+                    "extra_link_url": "/projects/nc_ca1/repository/revisions/development/show/NeuroML2/network?explorer=https%253A%252F%252Fraw.githubusercontent.com%252Fmbezaire%252Fca1%252Fdevelopment%252FNeuroML2%252Fnetwork%252FHippocampalNet_scale1000_oc_NoInput.net.nml.h5",
                     "extra_link_text": "View Figure 4I from OSB paper in 3D (slow to load)",
                     "description": "A large-scale, detailed, biologically constrained network model of the rodent hippocampal CA1 area",
                     "image_url": "images/projectThumbnails/BezaireEtAl16.png"
@@ -149,8 +149,8 @@
                 {
                     "name": "Allen Institute Cell Types DB",
                     "url": "/projects/alleninstituteneuroml",
-                    "explorer_url": "http://www.opensourcebrain.org/projects/alleninstituteneuroml/models?explorer=https%253A%252F%252Fraw.githubusercontent.com%252FOpenSourceBrain%252FAllenInstituteNeuroML%252Fmaster%252FCellTypesDatabase%252Fmodels%252FNeuroML2%252FNetwork_486556811.net.nml",
-                    "extra_link_url": "http://opensourcebrain.org/projects/alleninstituteneuroml/models?explorer=https%253A%252F%252Fraw.githubusercontent.com%252FOpenSourceBrain%252FAllenInstituteNeuroML%252Fmaster%252FCellTypesDatabase%252Fmodels%252FNeuroML2%252FSomeCells2.net.nml",
+                    "explorer_url": "/projects/alleninstituteneuroml/models?explorer=https%253A%252F%252Fraw.githubusercontent.com%252FOpenSourceBrain%252FAllenInstituteNeuroML%252Fmaster%252FCellTypesDatabase%252Fmodels%252FNeuroML2%252FNetwork_486556811.net.nml",
+                    "extra_link_url": "/projects/alleninstituteneuroml/models?explorer=https%253A%252F%252Fraw.githubusercontent.com%252FOpenSourceBrain%252FAllenInstituteNeuroML%252Fmaster%252FCellTypesDatabase%252Fmodels%252FNeuroML2%252FSomeCells2.net.nml",
                     "extra_link_text": "View Figure 3A from OSB paper in 3D (slow to load)",
                     "description": "Conversion of cell models and data to NeuroML from Allen CellTypes Database",
                     "image_url": "images/projectThumbnails/Allen.png"
@@ -158,7 +158,7 @@
                 {
                     "name": "Markram et al. 2015",
                     "url": "/projects/blue-brain-project-showcase/",
-                    "extra_link_url": "http://opensourcebrain.org/projects/blue-brain-project-showcase/models?explorer=https%253A%252F%252Fraw.githubusercontent.com%252FOpenSourceBrain%252FBlueBrainProjectShowcase%252Fmaster%252FNMC%252FNeuroML2%252FcADpyr232_L5_TTPC1_0fb1ca4724.stepcurrent3.net.nml",
+                    "extra_link_url": "/projects/blue-brain-project-showcase/models?explorer=https%253A%252F%252Fraw.githubusercontent.com%252FOpenSourceBrain%252FBlueBrainProjectShowcase%252Fmaster%252FNMC%252FNeuroML2%252FcADpyr232_L5_TTPC1_0fb1ca4724.stepcurrent3.net.nml",
                     "extra_link_text": "View Figure 3B from OSB paper in 3D",
                     "description": "A project to illustrate how models and data from the Blue Brain Project can be converted to NeuroML and PyNN",
                     "image_url": "images/projectThumbnails/BBP.png"
@@ -173,7 +173,7 @@
                 {
                     "name": "Sadeh et al. 2017",
                     "url": "/projects/sadehetal2017-inhibitionstabilizednetworks/",
-                    "extra_link_url": "http://www.opensourcebrain.org/projects/sadehetal2017-inhibitionstabilizednetworks/models?explorer=https%253A%252F%252Fraw.githubusercontent.com%252FOpenSourceBrain%252FSadehEtAl2017-InhibitionStabilizedNetworks%252Fmaster%252FPyNN%252FISN.net.nml.h5",
+                    "extra_link_url": "/projects/sadehetal2017-inhibitionstabilizednetworks/models?explorer=https%253A%252F%252Fraw.githubusercontent.com%252FOpenSourceBrain%252FSadehEtAl2017-InhibitionStabilizedNetworks%252Fmaster%252FPyNN%252FISN.net.nml.h5",
                     "extra_link_text": "View Figure 7B from OSB paper in 3D",
                     "description": "Models of Inhibition Stabilized Networks in mammalian neocortex",
                     "image_url": "images/projectThumbnails/SadehEtAl2017.png"
@@ -181,7 +181,7 @@
                 {
                     "name": "Multiscale ISN",
                     "url": "/projects/multiscaleisn",
-                    "extra_link_url": "http://www.opensourcebrain.org/projects/multiscaleisn/models?explorer=https%253A%252F%252Fraw.githubusercontent.com%252FOpenSourceBrain%252FMultiscaleISN%252Fmaster%252FNeuroML2%252FISN_net.net.nml.h5",
+                    "extra_link_url": "/projects/multiscaleisn/models?explorer=https%253A%252F%252Fraw.githubusercontent.com%252FOpenSourceBrain%252FMultiscaleISN%252Fmaster%252FNeuroML2%252FISN_net.net.nml.h5",
                     "extra_link_text": "View Figure 7D from OSB paper in 3D",
                     "description": "Inhibition Stabilized Network featuring point neurons providing input to detailed L2/3 pyramidal cells",
                     "image_url": "images/projectThumbnails/MultiscaleISN.png"
@@ -198,7 +198,7 @@
                 {
                     "name": "Potjans & Diesmann 2014",
                     "url": "/projects/potjansdiesmann2014",
-                    "explorer_url": "http://www.opensourcebrain.org/projects/potjansdiesmann2014?explorer=https%253A%252F%252Fraw.githubusercontent.com%252FOpenSourceBrain%252FPotjansDiesmann2014%252Fmaster%252FosbSessions%252Fmain.osb.json",
+                    "explorer_url": "/projects/potjansdiesmann2014?explorer=https%253A%252F%252Fraw.githubusercontent.com%252FOpenSourceBrain%252FPotjansDiesmann2014%252Fmaster%252FosbSessions%252Fmain.osb.json",
                     "description": "Microcircuit model of early sensory cortex displaying asynchronous irregular activity with layer-specific firing rates",
                     "image_url": "images/projectThumbnails/PotjansDiesmann2014.png"
                 },
@@ -218,7 +218,7 @@
                 {
                     "name": "M1 Network model",
                     "url": "http://opensourcebrain.org/projects/m1networkmodel",
-                    "explorer_url": "http://opensourcebrain.org/projects/m1networkmodel?explorer=https%253A%252F%252Fraw.githubusercontent.com%252FOpenSourceBrain%252FM1NetworkModel%252Fmaster%252FM1_5percent.net.nml",
+                    "explorer_url": "/projects/m1networkmodel?explorer=https%253A%252F%252Fraw.githubusercontent.com%252FOpenSourceBrain%252FM1NetworkModel%252Fmaster%252FM1_5percent.net.nml",
                     "description": "A multiscale model of mouse primary motor cortex (M1).",
                     "image_url": "images/projectThumbnails/M1.png"
                 }
