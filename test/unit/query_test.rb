@@ -638,8 +638,16 @@ class QueryTest < ActiveSupport::TestCase
     issues.each {|issue| assert_equal Date.today, issue.due_date}
   end
 
+  def test_operator_tomorrow
+    query = IssueQuery.new(:project => Project.find(1), :name => '_')
+    query.add_filter('due_date', 'nd', [''])
+    issues = find_issues_with_query(query)
+    assert !issues.empty?
+    issues.each {|issue| assert_equal Date.today.tomorrow, issue.due_date}
+  end
+
   def test_operator_date_periods
-    %w(t ld w lw l2w m lm y).each do |operator|
+    %w(t ld w lw l2w m lm y nd nw nm).each do |operator|
       query = IssueQuery.new(:name => '_')
       query.add_filter('due_date', operator, [''])
       assert query.valid?
@@ -707,6 +715,40 @@ class QueryTest < ActiveSupport::TestCase
     query = IssueQuery.new(:project => Project.find(1), :name => '_')
     query.add_filter('due_date', 'w', [''])
     assert_match /issues\.due_date > '#{quoted_date "2011-04-23"} 23:59:59(\.\d+)?' AND issues\.due_date <= '#{quoted_date "2011-04-30"} 23:59:59(\.\d+)?/,
+      query.statement
+  end
+
+  def test_range_for_next_week_with_week_starting_on_monday
+    I18n.locale = :fr
+    assert_equal '1', I18n.t(:general_first_day_of_week)
+
+    Date.stubs(:today).returns(Date.parse('2011-04-29')) # Friday
+
+    query = IssueQuery.new(:project => Project.find(1), :name => '_')
+    query.add_filter('due_date', 'nw', [''])
+    assert_match /issues\.due_date > '#{quoted_date "2011-05-01"} 23:59:59(\.\d+)?' AND issues\.due_date <= '#{quoted_date "2011-05-08"} 23:59:59(\.\d+)?/,
+      query.statement
+    I18n.locale = :en
+  end
+
+  def test_range_for_next_week_with_week_starting_on_sunday
+    I18n.locale = :en
+    assert_equal '7', I18n.t(:general_first_day_of_week)
+
+    Date.stubs(:today).returns(Date.parse('2011-04-29')) # Friday
+
+    query = IssueQuery.new(:project => Project.find(1), :name => '_')
+    query.add_filter('due_date', 'nw', [''])
+    assert_match /issues\.due_date > '#{quoted_date "2011-04-30"} 23:59:59(\.\d+)?' AND issues\.due_date <= '#{quoted_date "2011-05-07"} 23:59:59(\.\d+)?/,
+      query.statement
+  end
+
+  def test_range_for_next_month
+    Date.stubs(:today).returns(Date.parse('2011-04-29')) # Friday
+
+    query = IssueQuery.new(:project => Project.find(1), :name => '_')
+    query.add_filter('due_date', 'nm', [''])
+    assert_match /issues\.due_date > '#{quoted_date "2011-04-30"} 23:59:59(\.\d+)?' AND issues\.due_date <= '#{quoted_date "2011-05-31"} 23:59:59(\.\d+)?/,
       query.statement
   end
 

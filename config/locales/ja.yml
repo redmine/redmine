@@ -635,11 +635,14 @@ ja:
   label_today: 今日
   label_all_time: 全期間
   label_yesterday: 昨日
+  label_tomorrow: 明日
   label_this_week: 今週
   label_last_week: 先週
+  label_next_week: 来週
   label_last_n_days: "直近%{count}日間"
   label_this_month: 今月
   label_last_month: 先月
+  label_next_month: 来月
   label_this_year: 今年
   label_date_range: 期間
   label_less_than_ago: N日前以降

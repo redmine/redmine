@@ -289,11 +289,14 @@ function toggleOperator(field) {
   switch (operator.val()) {
     case "!*":
     case "*":
+    case "nd":
     case "t":
     case "ld":
+    case "nw":
     case "w":
     case "lw":
     case "l2w":
+    case "nm":
     case "m":
     case "lm":
     case "y":
@@ -907,7 +910,7 @@ $(function ($) {
 function setFilecontentContainerHeight() {
   var $filecontainer = $('.filecontent-container');
   var fileTypeSelectors = ['.image', 'video'];
-  
+
   if($filecontainer.length > 0 && $filecontainer.find(fileTypeSelectors.join(',')).length === 1) {
     var containerOffsetTop = $filecontainer.offset().top;
     var containerMarginBottom = parseInt($filecontainer.css('marginBottom'));
