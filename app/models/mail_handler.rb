@@ -237,7 +237,7 @@ class MailHandler < ActionMailer::Base
     end
 
     # ignore CLI-supplied defaults for new issues
-    handler_options[:issue].clear
+    handler_options[:issue] = {}
 
     journal = issue.init_journal(user)
     if from_journal && from_journal.private_notes?
