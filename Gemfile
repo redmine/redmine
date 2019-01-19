@@ -74,7 +74,6 @@ else
 end
 
 group :development do
-  gem "rdoc"
   gem "yard"
 end
 
