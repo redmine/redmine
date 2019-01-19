@@ -1254,9 +1254,8 @@ ja:
   label_ldaps_warning: 認証処理中の盗聴や改ざんなどの攻撃を防ぐために、暗号化されたLDAPSによる通信 (証明書の検証あり) の使用をお勧めします。
   label_nothing_to_preview: プレビューするものがありません
   error_token_expired: パスワード再発行用のリンクはすでに失効しています。もう一度やり直してください。
-  error_spent_on_future_date: Cannot log time on a future date
-  setting_timelog_accept_future_dates: Accept time logs on future dates
+  error_spent_on_future_date: 未来日付の作業時間は入力できません
+  setting_timelog_accept_future_dates: 未来日付の作業時間の入力を許可
   label_delete_link_to_subtask: 関連の削除
-  error_not_allowed_to_log_time_for_other_users: You are not allowed to log time
-    for other users
-  permission_log_time_for_other_users: Log spent time for other users
+  error_not_allowed_to_log_time_for_other_users: 他のユーザーの作業時間を入力する権限がありません
+  permission_log_time_for_other_users: 他のユーザーの作業時間の入力
