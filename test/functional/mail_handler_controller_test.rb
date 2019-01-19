@@ -60,6 +60,22 @@ class MailHandlerControllerTest < Redmine::ControllerTest
     assert_equal true, issue.is_private
   end
 
+  def test_should_update_issue
+    # Enable API and set a key
+    Setting.mail_handler_api_enabled = 1
+    Setting.mail_handler_api_key = 'secret'
+
+    assert_no_difference 'Issue.count' do
+      assert_difference 'Journal.count' do
+        post :index, :params => {
+            :key => 'secret',
+            :email => IO.read(File.join(FIXTURES_PATH, 'ticket_reply.eml'))
+          }
+      end
+    end
+    assert_response 201
+  end
+
   def test_should_respond_with_422_if_not_created
     Project.find('onlinestore').destroy
 
