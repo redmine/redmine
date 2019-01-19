@@ -985,6 +985,11 @@ p.cal.legend span {display:block;}
 .tooltip span.tip{display: none; text-align:left;}
 .tooltip span.tip a { color: #169 !important; }
 
+.tooltip span.tip img.gravatar {
+  float: none;
+  margin: 0;
+}
+
 div.tooltip:hover span.tip{
 display:block;
 position:absolute;
