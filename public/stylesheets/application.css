@@ -444,9 +444,10 @@ div.square {
 .message .contextual { margin-top: 0; }
 
 .splitcontent {overflow: auto; display: flex; flex-wrap: wrap;}
-.splitcontentleft, #list-left {flex: 1; margin-right: 5px;}
-.splitcontentright, #list-right {flex: 1; margin-left: 5px;}
-#list-top {width: 100%;}
+.splitcontentleft {flex: 1; margin-right: 5px;}
+.splitcontentright {flex: 1; margin-left: 5px;}
+.splitcontenttop {flex: 2; flex-basis: 100%;}
+
 form {display: inline;}
 input, select {vertical-align: middle; margin-top: 1px; margin-bottom: 1px;}
 input[type="submit"] { -webkit-appearance: button; }
