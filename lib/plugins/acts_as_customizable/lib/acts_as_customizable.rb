@@ -27,7 +27,7 @@ module Redmine
           return if self.included_modules.include?(Redmine::Acts::Customizable::InstanceMethods)
           cattr_accessor :customizable_options
           self.customizable_options = options
-          has_many :custom_values, lambda {includes(:custom_field).order("#{CustomField.table_name}.position")},
+          has_many :custom_values, lambda {includes(:custom_field)},
                                    :as => :customized,
                                    :inverse_of => :customized,
                                    :dependent => :delete_all,
