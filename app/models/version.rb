@@ -15,6 +15,97 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
+module FixedIssuesExtension
+  # Returns the total estimated time for this version
+  # (sum of leaves estimated_hours)
+  def estimated_hours
+    @estimated_hours ||= sum(:estimated_hours).to_f
+  end
+  #
+  # Returns the total amount of open issues for this version.
+  def open_count
+    load_counts
+    @open_count
+  end
+
+  # Returns the total amount of closed issues for this version.
+  def closed_count
+    load_counts
+    @closed_count
+  end
+
+  # Returns the completion percentage of this version based on the amount of open/closed issues
+  # and the time spent on the open issues.
+  def completed_percent
+    if count == 0
+      0
+    elsif open_count == 0
+      100
+    else
+      issues_progress(false) + issues_progress(true)
+    end
+  end
+
+  # Returns the percentage of issues that have been marked as 'closed'.
+  def closed_percent
+    if count == 0
+      0
+    else
+      issues_progress(false)
+    end
+  end
+
+  private
+
+  def load_counts
+    unless @open_count
+      @open_count = 0
+      @closed_count = 0
+      self.group(:status).count.each do |status, count|
+        if status.is_closed?
+          @closed_count += count
+        else
+          @open_count += count
+        end
+      end
+    end
+  end
+
+  # Returns the average estimated time of assigned issues
+  # or 1 if no issue has an estimated time
+  # Used to weight unestimated issues in progress calculation
+  def estimated_average
+    if @estimated_average.nil?
+      average = average(:estimated_hours).to_f
+      if average == 0
+        average = 1
+      end
+      @estimated_average = average
+    end
+    @estimated_average
+  end
+
+  # Returns the total progress of open or closed issues.  The returned percentage takes into account
+  # the amount of estimated time set for this version.
+  #
+  # Examples:
+  # issues_progress(true)   => returns the progress percentage for open issues.
+  # issues_progress(false)  => returns the progress percentage for closed issues.
+  def issues_progress(open)
+    @issues_progress ||= {}
+    @issues_progress[open] ||= begin
+      progress = 0
+      if count > 0
+        ratio = open ? 'done_ratio' : 100
+
+        done = open(open).sum("COALESCE(estimated_hours, #{estimated_average}) * #{ratio}").to_f
+        progress = done / (estimated_average * count)
+      end
+      progress
+    end
+  end
+end
+
 class Version < ActiveRecord::Base
   include Redmine::SafeAttributes
 
@@ -23,96 +114,7 @@ class Version < ActiveRecord::Base
   before_destroy :nullify_projects_default_version
 
   belongs_to :project
-  has_many :fixed_issues, :class_name => 'Issue', :foreign_key => 'fixed_version_id', :dependent => :nullify do
-    # Returns the total estimated time for this version
-    # (sum of leaves estimated_hours)
-    def estimated_hours
-      @estimated_hours ||= sum(:estimated_hours).to_f
-    end
-    #
-    # Returns the total amount of open issues for this version.
-    def open_count
-      load_counts
-      @open_count
-    end
-
-    # Returns the total amount of closed issues for this version.
-    def closed_count
-      load_counts
-      @closed_count
-    end
-
-    # Returns the completion percentage of this version based on the amount of open/closed issues
-    # and the time spent on the open issues.
-    def completed_percent
-      if count == 0
-        0
-      elsif open_count == 0
-        100
-      else
-        issues_progress(false) + issues_progress(true)
-      end
-    end
-
-    # Returns the percentage of issues that have been marked as 'closed'.
-    def closed_percent
-      if count == 0
-        0
-      else
-        issues_progress(false)
-      end
-    end
-
-    private
-
-    def load_counts
-      unless @open_count
-        @open_count = 0
-        @closed_count = 0
-        self.group(:status).count.each do |status, count|
-          if status.is_closed?
-            @closed_count += count
-          else
-            @open_count += count
-          end
-        end
-      end
-    end
-
-    # Returns the average estimated time of assigned issues
-    # or 1 if no issue has an estimated time
-    # Used to weight unestimated issues in progress calculation
-    def estimated_average
-      if @estimated_average.nil?
-        average = average(:estimated_hours).to_f
-        if average == 0
-          average = 1
-        end
-        @estimated_average = average
-      end
-      @estimated_average
-    end
-
-    # Returns the total progress of open or closed issues.  The returned percentage takes into account
-    # the amount of estimated time set for this version.
-    #
-    # Examples:
-    # issues_progress(true)   => returns the progress percentage for open issues.
-    # issues_progress(false)  => returns the progress percentage for closed issues.
-    def issues_progress(open)
-      @issues_progress ||= {}
-      @issues_progress[open] ||= begin
-        progress = 0
-        if count > 0
-          ratio = open ? 'done_ratio' : 100
-
-          done = open(open).sum("COALESCE(estimated_hours, #{estimated_average}) * #{ratio}").to_f
-          progress = done / (estimated_average * count)
-        end
-        progress
-      end
-    end
-  end
+  has_many :fixed_issues, :class_name => 'Issue', :foreign_key => 'fixed_version_id', :dependent => :nullify, :extend => FixedIssuesExtension
 
   acts_as_customizable
   acts_as_attachable :view_permission => :view_files,
