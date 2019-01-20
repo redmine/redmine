@@ -81,7 +81,7 @@ module Redmine
                           # below : list unreadable files, but dont link them.
                           :path => utf_8_path,
                           :kind => (File.directory?(t1) ? 'dir' : 'file'),
-                          :size => (File.directory?(t1) ? nil : [File.size(t1)].pack('l').unpack('L').first),
+                          :size => (File.directory?(t1) ? nil : File.size(t1)),
                           :lastrev =>
                               Revision.new({:time => (File.mtime(t1)) })
                         })
