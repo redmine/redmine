@@ -217,15 +217,10 @@
     display: none;
   }
 
-  .splitcontentleft, #list-left {
+  .splitcontentleft, .splitcontentright, .splitcontenttop {
     width: 100%;
     flex: auto;
     margin-right: 0;
-  }
-
-  .splitcontentright, #list-right {
-    width: 100%;
-    flex: auto;
     margin-left: 0;
   }
 
