@@ -4,6 +4,61 @@ Redmine - project management software
 Copyright (C) 2006-2017  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2019-01-20 v4.0.1
+
+=== [Calendar]
+
+* Defect #30287: The tooltip layout of the calendar is broken
+
+=== [Code cleanup/refactoring]
+
+* Patch #30115: Move Version#fixed_issues extension to a module
+* Patch #30413: Add ".ruby-version" to svn:ignore, .git:ignore, and .hgignore
+
+=== [Database]
+
+* Defect #30171: Decrypting LDAP and SCM passwords fail if the plaintext password is longer than 31 bytes
+
+=== [Documentation]
+
+* Defect #30161: Incorrect supported Ruby version in doc/INSTALL
+
+=== [Email receiving]
+
+* Defect #30455: Adding an issue note via email fails due to NoMethodError
+
+=== [Forums]
+
+* Patch #2635: Display notice on forum updates
+
+=== [Gems support]
+
+* Defect #30353: Installing rails with Bundler 2.0 fails in 3.x
+* Patch #30241: Update nokogiri gem (~> 1.10.0)
+* Patch #30420: Update pg gem (~> 1.1.4)
+
+=== [Importers]
+
+* Patch #30412: Import UTF-8 issue CSV files with BOM and quoted strings
+
+=== [Performance]
+
+* Patch #30465: Deadlock when assigning custom values
+
+=== [Ruby support]
+
+* Feature #30118: Ruby 2.6 support
+
+=== [Translations]
+
+* Patch #29767: Traditional Chinese translation update
+* Patch #30292: Ukrainian translation update for 4.0-stable
+
+=== [UI]
+
+* Defect #30426: Table rows are not highlighted on mouseover on some pages
+* Patch #29951: Quick design fix/proposals for projects index page
+
 == 2018-12-09 v4.0.0
 
 === [Accounts / authentication]
