@@ -4,6 +4,33 @@ Redmine - project management software
 Copyright (C) 2006-2017  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2019-01-20 v3.4.8
+
+=== [Code cleanup/refactoring]
+
+* Patch #30413: Add ".ruby-version" to svn:ignore, .git:ignore, and .hgignore
+
+=== [Database]
+
+* Defect #30171: Decrypting LDAP and SCM passwords fail if the plaintext password is longer than 31 bytes
+
+=== [Gems support]
+
+* Defect #30353: Installing rails with Bundler 2.0 fails in 3.x
+
+=== [Importers]
+
+* Patch #30412: Import UTF-8 issue CSV files with BOM and quoted strings
+
+=== [Translations]
+
+* Patch #30293: Ukrainian translation update for 3.4-stable
+
+=== [UI]
+
+* Defect #30426: Table rows are not highlighted on mouseover on some pages
+* Patch #29951: Quick design fix/proposals for projects index page
+
 == 2018-12-09 v3.4.7
 
 === [Custom fields]
