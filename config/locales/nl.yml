@@ -304,7 +304,6 @@ nl:
   label_age: Leeftijd
   label_ago: dagen geleden
   label_all: alle
-  label_all_time: alles
   label_all_words: Alle woorden
   label_and_its_subprojects: "%{value} en de subprojecten."
   label_applied_status: Toegekende status

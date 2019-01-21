@@ -362,7 +362,6 @@ es-PA:
   label_age: Edad
   label_ago: hace
   label_all: todos
-  label_all_time: todo el tiempo
   label_all_words: Todas las palabras
   label_and_its_subprojects: "%{value} y proyectos secundarios"
   label_applied_status: Aplicar estado

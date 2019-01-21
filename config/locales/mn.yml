@@ -574,7 +574,6 @@ mn:
   label_less_or_equal: '<='
   label_in: дотор
   label_today: өнөөдөр
-  label_all_time: бүх хугацаа
   label_yesterday: өчигдөр
   label_this_week: энэ долоо хоног
   label_last_week: өнгөрсөн долоо хоног

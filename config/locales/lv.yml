@@ -568,7 +568,6 @@ lv:
   label_less_or_equal: '<='
   label_in: iekš
   label_today: šodien
-  label_all_time: visu laiku
   label_yesterday: vakar
   label_this_week: šonedēļ
   label_last_week: pagājušo šonedēļ

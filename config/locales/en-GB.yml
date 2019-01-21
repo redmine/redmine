@@ -611,7 +611,6 @@ en-GB:
   label_less_or_equal: '<='
   label_in: in
   label_today: today
-  label_all_time: all time
   label_yesterday: yesterday
   label_this_week: this week
   label_last_week: last week

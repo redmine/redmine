@@ -590,7 +590,6 @@ ca:
   label_less_or_equal: "<="
   label_in: "en"
   label_today: "avui"
-  label_all_time: "tot el temps"
   label_yesterday: "ahir"
   label_this_week: "aquesta setmana"
   label_last_week: "l'última setmana"

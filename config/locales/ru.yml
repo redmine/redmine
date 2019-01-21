@@ -413,7 +413,6 @@ ru:
   label_administration: Администрирование
   label_age: Возраст
   label_ago: дней(я) назад
-  label_all_time: всё время
   label_all_words: Все слова
   label_all: все
   label_and_its_subprojects: "%{value} и все подпроекты"

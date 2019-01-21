@@ -694,7 +694,6 @@ uk:
   label_downloads_abbr: Завантажень
   label_this_month: цей місяць
   label_last_n_days: "останні %{count} днів"
-  label_all_time: весь час
   label_this_year: цей рік
   label_date_range: інтервал часу
   label_last_week: попередній тиждень

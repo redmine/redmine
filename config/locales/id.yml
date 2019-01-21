@@ -556,7 +556,6 @@ id:
   label_less_or_equal: '<='
   label_in: pada
   label_today: hari ini
-  label_all_time: semua waktu
   label_yesterday: kemarin
   label_this_week: minggu ini
   label_last_week: minggu lalu

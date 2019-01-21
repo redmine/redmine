@@ -326,7 +326,6 @@ pl:
   label_age: Wiek
   label_ago: dni temu
   label_all: wszystko
-  label_all_time: cały czas
   label_all_words: Wszystkie słowa
   label_and_its_subprojects: "%{value} i podprojekty"
   label_applied_status: Stosowany status

@@ -550,7 +550,6 @@ el:
   label_less_or_equal: '<='
   label_in: σε
   label_today: σήμερα
-  label_all_time: συνέχεια
   label_yesterday: χθες
   label_this_week: αυτή την εβδομάδα
   label_last_week: την προηγούμενη εβδομάδα

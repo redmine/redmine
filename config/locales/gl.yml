@@ -335,7 +335,6 @@ gl:
   label_age: Idade
   label_ago: "hai"
   label_all: todos
-  label_all_time: todo o tempo
   label_all_words: Tódalas palabras
   label_and_its_subprojects: "%{value} e proxectos secundarios"
   label_applied_status: Aplicar estado

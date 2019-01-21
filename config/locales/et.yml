@@ -652,7 +652,6 @@ et:
   label_between: "vahemikus"
   label_in: "sisaldub hulgas"
   label_today: "täna"
-  label_all_time: "piirideta"
   label_yesterday: "eile"
   label_this_week: "sel nädalal"
   label_last_week: "eelmisel nädalal"

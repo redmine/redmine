@@ -601,7 +601,6 @@ cs:
   label_less_or_equal: '<='
   label_in: v
   label_today: dnes
-  label_all_time: vše
   label_yesterday: včera
   label_this_week: tento týden
   label_last_week: minulý týden

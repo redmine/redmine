@@ -563,7 +563,6 @@ hr:
   label_less_or_equal: '<='
   label_in: za točno
   label_today: danas
-  label_all_time: sva vremena
   label_yesterday: jučer
   label_this_week: ovog tjedna
   label_last_week: prošlog tjedna

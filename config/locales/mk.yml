@@ -586,7 +586,6 @@ mk:
   label_less_or_equal: '<='
   label_in: во
   label_today: денес
-  label_all_time: цело време
   label_yesterday: вчера
   label_this_week: оваа недела
   label_last_week: минатата недела

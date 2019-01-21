@@ -573,7 +573,6 @@ eu:
   label_less_or_equal: '<='
   label_in: hauetan
   label_today: gaur
-  label_all_time: denbora guztia
   label_yesterday: atzo
   label_this_week: aste honetan
   label_last_week: pasadan astean

@@ -683,7 +683,6 @@ it:
   label_downloads_abbr: D/L
   label_this_month: questo mese
   label_last_n_days: "ultimi %{count} giorni"
-  label_all_time: sempre
   label_this_year: quest'anno
   label_date_range: Intervallo di date
   label_last_week: ultima settimana

@@ -584,7 +584,6 @@ sr:
   label_less_or_equal: '<='
   label_in: у
   label_today: данас
-  label_all_time: све време
   label_yesterday: јуче
   label_this_week: ове седмице
   label_last_week: последње седмице

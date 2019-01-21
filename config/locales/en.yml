@@ -741,7 +741,6 @@ en:
   label_between: between
   label_in: in
   label_today: today
-  label_all_time: all time
   label_yesterday: yesterday
   label_tomorrow: tomorrow
   label_this_week: this week
