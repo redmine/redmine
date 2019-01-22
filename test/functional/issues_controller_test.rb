@@ -1067,6 +1067,8 @@ class IssuesControllerTest < Redmine::ControllerTest
       }
     assert_response :success
     hours = issues_in_list.map(&:total_estimated_hours)
+    # Removes nil because the position of NULL is database dependent
+    hours.compact!
     assert_equal hours.sort.reverse, hours
   end
 

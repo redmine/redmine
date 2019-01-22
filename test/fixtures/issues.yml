@@ -15,6 +15,7 @@ issues_001:
   status_id: 1
   start_date: <%= 1.day.ago.to_date.to_s(:db) %>
   due_date: <%= 10.day.from_now.to_date.to_s(:db) %>
+  estimated_hours: 200.0
   root_id: 1
   lft: 1
   rgt: 2
@@ -35,6 +36,7 @@ issues_002:
   status_id: 2
   start_date: <%= 2.day.ago.to_date.to_s(:db) %>
   due_date:
+  estimated_hours: 0.5
   root_id: 2
   lft: 1
   rgt: 2
@@ -56,6 +58,7 @@ issues_003:
   status_id: 1
   start_date: <%= 15.day.ago.to_date.to_s(:db) %>
   due_date: <%= 5.day.ago.to_date.to_s(:db) %>
+  estimated_hours: 1.0
   root_id: 3
   lft: 1
   rgt: 2
@@ -90,6 +93,7 @@ issues_005:
   assigned_to_id:
   author_id: 2
   status_id: 1
+  estimated_hours: 2.0
   root_id: 5
   lft: 1
   rgt: 2
