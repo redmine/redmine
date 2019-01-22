@@ -575,6 +575,18 @@ class ProjectsControllerTest < Redmine::ControllerTest
     assert_select 'table.issue-report td.total a', :text => %r{\A[1-9]\d*\z}
   end
 
+  def test_show_should_spent_and_estimated_time
+    @request.session[:user_id] = 1
+    get :show, :params => {
+        :id => 'ecookbook'
+      }
+
+    assert_select 'div.spent_time.box>ul' do
+      assert_select '>li:nth-child(1)', :text => 'Estimated time: 203.50 hours'
+      assert_select '>li:nth-child(2)', :text => 'Spent time: 162.90 hours'
+    end
+  end
+
   def test_settings
     @request.session[:user_id] = 2 # manager
     get :settings, :params => {
