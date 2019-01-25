@@ -378,12 +378,14 @@ class MailerTest < ActiveSupport::TestCase
   def test_issue_add_should_not_include_disabled_fields
     issue = Issue.find(2)
     tracker = issue.tracker
-    tracker.core_fields -= ['fixed_version_id']
+    tracker.core_fields -= ['fixed_version_id', 'start_date']
     tracker.save!
     assert Mailer.deliver_issue_add(issue)
     assert_mail_body_no_match 'Target version', last_email
+    assert_mail_body_no_match 'Start date', last_email
     assert_select_email do
       assert_select 'li', :text => /Target version/, :count => 0
+      assert_select 'li', :text => /Start date/, :count => 0
     end
   end
 
