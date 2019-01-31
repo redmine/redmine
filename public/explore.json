@@ -6,14 +6,14 @@
                     "url": "/projects/cerebellum--cerebellar-golgi-cell--solinasetal-golgicell",
                     "explorer_url": "http://opensourcebrain.org/projects/cerebellum--cerebellar-golgi-cell--solinasetal-golgicell?explorer_id=651",
                     "description": "Multicompartmental cerebellar Golgi cell model demonstrating ionic currents underlying pacemaking and electroresponsiveness of these cells",
-                    "image_url": "images/projectThumbnails/Solinas2007.png"
+                    "image_url": "/images/projectThumbnails/Solinas2007.png"
                 },
                 {
                     "name": "Maex and De Schutter 1998",
                     "url": "/projects/grancelllayer",
                     "explorer_url": "http://opensourcebrain.org/projects/grancelllayer?explorer_id=622",
                     "description": "Granule Cell Layer network model with single compartment, conductance based cells",
-                    "image_url": "images/projectThumbnails/MaexDeSchutter1998.png"
+                    "image_url": "/images/projectThumbnails/MaexDeSchutter1998.png"
                 },
                 {
                     "name": "Vervaeke et al. 2010",
@@ -21,13 +21,13 @@
                     "extra_link_url": "/projects/vervaekeetalgolgicellnetwork/repository?explorer=https%253A%252F%252Fraw.githubusercontent.com%252FOpenSourceBrain%252FVervaekeEtAl-GolgiCellNetwork%252Fmaster%252FosbSessions%252Fmain%252Fmain.json",
                     "extra_link_text": "View Figure 3C from OSB paper in 3D",
                     "description": "A network model of electrically coupled cerebellar Golgi cells, as described in Vervaeke et al. 2010",
-                    "image_url": "images/projectThumbnails/Vervaeke2010.png"
+                    "image_url": "/images/projectThumbnails/Vervaeke2010.png"
                 },
                 {
                     "name": "Cayco-Gajic, Clopath, Silver 2017",
                     "url": "/projects/grclayer-caycogajic2017",
                     "description": "Model of cerebellar granule cell layer used to investigate how sparse synaptic connectivity influences pattern separation.",
-                    "image_url": "images/projectThumbnails/CaycoGajic2017.png"
+                    "image_url": "/images/projectThumbnails/CaycoGajic2017.png"
                 }
             ],
     "Neuronal reconstructions":
@@ -37,14 +37,14 @@
                     "url": "/projects/neuromorpho",
                     "explorer_url": "/projects/neuromorpho/models?explorer=https%253A%252F%252Fraw.githubusercontent.com%252FOpenSourceBrain%252FNeuroMorpho%252Fmaster%252FNeuroML2%252FdCH-cobalt.CNG.cell.nml",
                     "description": "Set of example reconstructed neuronal morphologies taken from NeuroMorpho.Org in NeuroML format.",
-                    "image_url": "images/projectThumbnails/NeuroMorpho.png"
+                    "image_url": "/images/projectThumbnails/NeuroMorpho.png"
                 },
                 {
                     "name": "Janelia MouseLight",
                     "url": "/projects/mouselightshowcase",
                     "explorer_url": "/projects/mouselightshowcase?explorer=https%253A%252F%252Fraw.githubusercontent.com%252FOpenSourceBrain%252FMouseLightShowcase%252Fmaster%252FNeuroML2%252FNet_Hippocampal.net.nml",
                     "description": "Showcase project on OSB for neuronal reconstructions from the Janelia MouseLight project.",
-                    "image_url": "images/projectThumbnails/MouseLight.png"
+                    "image_url": "/images/projectThumbnails/MouseLight.png"
                 }
             ],
     "Invertebrate models":
@@ -55,27 +55,27 @@
                     "extra_link_url": "/projects/hodgkin-huxley-tutorial?explorer=https%3A%2F%2Fraw.githubusercontent.com%2Fopensourcebrain%2Ftutorials%2Fdevelopment%2Fmodels%2FhodgkinHuxley%2FGEPPETTO.json",
                     "extra_link_text": "Run tutorial (Figure 5 from OSB paper)",
                     "description": "A tutorial designed to give an overview of the Hodgkin-Huxley model",
-                    "image_url": "images/projectThumbnails/HH1952.png"
+                    "image_url": "/images/projectThumbnails/HH1952.png"
                 },
                 {
                     "name": "Boyle & Cohen 2008",
                     "url": "/projects/muscle_model",
                     "explorer_url": "http://opensourcebrain.org/projects/muscle_model?explorer_id=647",
                     "description": "A NeuroML 2 implementation of the C. elegans muscle cell model of Boyle & Cohen 2008, as used in the OpenWorm project.",
-                    "image_url": "images/projectThumbnails/BoyleCohen2008.png"
+                    "image_url": "/images/projectThumbnails/BoyleCohen2008.png"
                 },
                 {
                     "name": "Prinz et al. 2004",
                     "url": "/projects/pyloricnetwork",
                     "explorer_url": "http://opensourcebrain.org/projects/pyloricnetwork?explorer_id=649",
                     "description": "Implementation of the pyloric network of the lobster stomatogastric ganglion system of Prinz, Marder, et al.",
-                    "image_url": "images/projectThumbnails/Prinz2004.png"
+                    "image_url": "/images/projectThumbnails/Prinz2004.png"
                 },
                 {
                     "name": "Fitzhugh Nagumo model",
                     "url": "/projects/fitzhugh-nagumo-fitzhugh-1969",
                     "description": "The Fitzhugh Nagumo model is a two-dimensional simplification of the Hodgkin-Huxley model of spike generation in squid giant axons.",
-                    "image_url": "images/projectThumbnails/Fitzhugh.png"
+                    "image_url": "/images/projectThumbnails/Fitzhugh.png"
                 }
             ],
     "Olfactory bulb":
@@ -86,7 +86,7 @@
                     "extra_link_url": "/projects/miglioreetal14_olfactorybulb3d?explorer=https%253A%252F%252Fraw.githubusercontent.com%252FOpenSourceBrain%252FMiglioreEtAl14_OlfactoryBulb3D%252Fmaster%252FosbSessions%252Fmain.osb.json",
                     "extra_link_text": "View Figure 6B from OSB paper in 3D",
                     "description": "Migliore et al. (2014) 3D Model of the Olfactory Bulb",
-                    "image_url": "images/projectThumbnails/Migliore2014.png"
+                    "image_url": "/images/projectThumbnails/Migliore2014.png"
                 }
             ],
     "Hippocampus":
@@ -96,27 +96,27 @@
                     "url": "/projects/ca1pyramidalcell",
                     "explorer_url": "http://opensourcebrain.org/projects/ca1pyramidalcell?explorer_id=655",
                     "description": "Morphologically detailed model of CA1 Pyramidal cell",
-                    "image_url": "images/projectThumbnails/Migliore2005.png"
+                    "image_url": "/images/projectThumbnails/Migliore2005.png"
                 },
                 {
                     "name": "Wang & Buzsáki 1996",
                     "url": "/projects/wangbuzsaki1996",
                     "explorer_url": "http://opensourcebrain.org/projects/wangbuzsaki1996?explorer_id=678",
                     "description": "Gamma oscillation by synaptic inhibition in a hippocampal interneuronal network model",
-                    "image_url": "images/projectThumbnails/WangBuzsaki.png"
+                    "image_url": "/images/projectThumbnails/WangBuzsaki.png"
                 },
                 {
                     "name": "Ferguson el al. 2013",
                     "url": "/projects/ca1-pv-fast-firing-cell-ferguson-et-al-2013",
                     "explorer_url": "http://opensourcebrain.org/projects/ca1-pv-fast-firing-cell-ferguson-et-al-2013?explorer_id=690",
                     "description": "A two-variable simple model derived from patch-clamp recordings from the CA1 region of a whole hippocampus preparation of PV+ fast-firing cells",
-                    "image_url": "images/projectThumbnails/Ferguson2013.png"
+                    "image_url": "/images/projectThumbnails/Ferguson2013.png"
                 },
                 {
                     "name": "Pinsky and Rinzel 1994",
                     "url": "/projects/pinskyrinzelmodel",
                     "description": "A 2-compartment (soma and dendrite), conductance-based (Hodgin-Huxley type) model of a hippocampal CA3 pyramidal neuron",
-                    "image_url": "images/projectThumbnails/PinskyRinzel.png"
+                    "image_url": "/images/projectThumbnails/PinskyRinzel.png"
                 },
                 {
                     "name": "Bezaire el al. 2016",
@@ -125,7 +125,7 @@
                     "extra_link_url": "/projects/nc_ca1/repository/revisions/development/show/NeuroML2/network?explorer=https%253A%252F%252Fraw.githubusercontent.com%252Fmbezaire%252Fca1%252Fdevelopment%252FNeuroML2%252Fnetwork%252FHippocampalNet_scale1000_oc_NoInput.net.nml.h5",
                     "extra_link_text": "View Figure 4I from OSB paper in 3D (slow to load)",
                     "description": "A large-scale, detailed, biologically constrained network model of the rodent hippocampal CA1 area",
-                    "image_url": "images/projectThumbnails/BezaireEtAl16.png"
+                    "image_url": "/images/projectThumbnails/BezaireEtAl16.png"
                 }
                 
             ],
@@ -136,7 +136,7 @@
                     "url": "/projects/l5bpyrcellhayetal2011",
                     "explorer_url": "/projects/l5bpyrcellhayetal2011?explorer=https%253A%252F%252Fraw.githubusercontent.com%252FOpenSourceBrain%252FL5bPyrCellHayEtAl2011%252Fmaster%252FneuroConstruct%252FgeneratedNeuroML2%252FTestL5PC.net.nml",
                     "description": "Layer 5b pyramidal cell constrained by experimental data on perisomatic firing properties as well as dendritic activity during backpropagation of the action potential.",
-                    "image_url": "images/projectThumbnails/Hay2011.png"
+                    "image_url": "/images/projectThumbnails/Hay2011.png"
                 },
                 {
                     "name": "Smith et al. 2013",
@@ -144,7 +144,7 @@
                     "extra_link_url": "http://opensourcebrain.org/projects/l23dendriticspikes?explorer_id=691",
                     "extra_link_text": "View Figure 6A from OSB paper in 3D",
                     "description": "Multicompartmental model of Layer 2/3 pyramidal cell used for investigating dendritic spiking",
-                    "image_url": "images/projectThumbnails/SmithEtAl2013.png"
+                    "image_url": "/images/projectThumbnails/SmithEtAl2013.png"
                 },
                 {
                     "name": "Allen Institute Cell Types DB",
@@ -153,7 +153,7 @@
                     "extra_link_url": "/projects/alleninstituteneuroml/models?explorer=https%253A%252F%252Fraw.githubusercontent.com%252FOpenSourceBrain%252FAllenInstituteNeuroML%252Fmaster%252FCellTypesDatabase%252Fmodels%252FNeuroML2%252FSomeCells2.net.nml",
                     "extra_link_text": "View Figure 3A from OSB paper in 3D (slow to load)",
                     "description": "Conversion of cell models and data to NeuroML from Allen CellTypes Database",
-                    "image_url": "images/projectThumbnails/Allen.png"
+                    "image_url": "/images/projectThumbnails/Allen.png"
                 },
                 {
                     "name": "Markram et al. 2015",
@@ -161,14 +161,14 @@
                     "extra_link_url": "/projects/blue-brain-project-showcase/models?explorer=https%253A%252F%252Fraw.githubusercontent.com%252FOpenSourceBrain%252FBlueBrainProjectShowcase%252Fmaster%252FNMC%252FNeuroML2%252FcADpyr232_L5_TTPC1_0fb1ca4724.stepcurrent3.net.nml",
                     "extra_link_text": "View Figure 3B from OSB paper in 3D",
                     "description": "A project to illustrate how models and data from the Blue Brain Project can be converted to NeuroML and PyNN",
-                    "image_url": "images/projectThumbnails/BBP.png"
+                    "image_url": "/images/projectThumbnails/BBP.png"
                 },
                 {
                     "name": "Pospischil et al. 2008",
                     "url": "/projects/pospischiletal2008",
                     "explorer_url": "http://opensourcebrain.org/projects/pospischiletal2008?explorer_id=675",
                     "description": "Minimal Hodgkin-Huxley type models for different classes of cortical and thalamic neurons",
-                    "image_url": "images/projectThumbnails/Pospischil2008.png"
+                    "image_url": "/images/projectThumbnails/Pospischil2008.png"
                 },
                 {
                     "name": "Sadeh et al. 2017",
@@ -176,7 +176,7 @@
                     "extra_link_url": "/projects/sadehetal2017-inhibitionstabilizednetworks/models?explorer=https%253A%252F%252Fraw.githubusercontent.com%252FOpenSourceBrain%252FSadehEtAl2017-InhibitionStabilizedNetworks%252Fmaster%252FPyNN%252FISN.net.nml.h5",
                     "extra_link_text": "View Figure 7B from OSB paper in 3D",
                     "description": "Models of Inhibition Stabilized Networks in mammalian neocortex",
-                    "image_url": "images/projectThumbnails/SadehEtAl2017.png"
+                    "image_url": "/images/projectThumbnails/SadehEtAl2017.png"
                 },
                 {
                     "name": "Multiscale ISN",
@@ -184,7 +184,7 @@
                     "extra_link_url": "/projects/multiscaleisn/models?explorer=https%253A%252F%252Fraw.githubusercontent.com%252FOpenSourceBrain%252FMultiscaleISN%252Fmaster%252FNeuroML2%252FISN_net.net.nml.h5",
                     "extra_link_text": "View Figure 7D from OSB paper in 3D",
                     "description": "Inhibition Stabilized Network featuring point neurons providing input to detailed L2/3 pyramidal cells",
-                    "image_url": "images/projectThumbnails/MultiscaleISN.png"
+                    "image_url": "/images/projectThumbnails/MultiscaleISN.png"
                 },
                 {
                     "name": "Traub et al. 2005",
@@ -193,20 +193,20 @@
                     "extra_link_url": "/projects/thalamocortical/models?explorer=https%253A%252F%252Fraw.githubusercontent.com%252FOpenSourceBrain%252FThalamocortical%252Fmaster%252FNeuroML2%252FpythonScripts%252Fnetbuild%252FTestMedium.net.nml",
                     "extra_link_text": "View Figure 4A from OSB paper in 3D (slow to load)",
                     "description": "Single-column thalamocortical network model with 14 multicompartmental cell populations",
-                    "image_url": "images/projectThumbnails/TraubEtAl2015.png"
+                    "image_url": "/images/projectThumbnails/TraubEtAl2015.png"
                 },
                 {
                     "name": "Potjans & Diesmann 2014",
                     "url": "/projects/potjansdiesmann2014",
                     "explorer_url": "/projects/potjansdiesmann2014?explorer=https%253A%252F%252Fraw.githubusercontent.com%252FOpenSourceBrain%252FPotjansDiesmann2014%252Fmaster%252FosbSessions%252Fmain.osb.json",
                     "description": "Microcircuit model of early sensory cortex displaying asynchronous irregular activity with layer-specific firing rates",
-                    "image_url": "images/projectThumbnails/PotjansDiesmann2014.png"
+                    "image_url": "/images/projectThumbnails/PotjansDiesmann2014.png"
                 },
                 {
                     "name": "Brunel 2000",
                     "url": "/projects/brunel2000",
                     "description": "Sparsely connected spiking neuron network from Brunel 2000",
-                    "image_url": "images/projectThumbnails/Brunel2000.png"
+                    "image_url": "/images/projectThumbnails/Brunel2000.png"
                 },
                 {
                     "name": "Izhikevich spiking neuron model",
@@ -220,7 +220,7 @@
                     "url": "http://opensourcebrain.org/projects/m1networkmodel",
                     "explorer_url": "/projects/m1networkmodel?explorer=https%253A%252F%252Fraw.githubusercontent.com%252FOpenSourceBrain%252FM1NetworkModel%252Fmaster%252FM1_5percent.net.nml",
                     "description": "A multiscale model of mouse primary motor cortex (M1).",
-                    "image_url": "images/projectThumbnails/M1.png"
+                    "image_url": "/images/projectThumbnails/M1.png"
                 }
             ]
 }
