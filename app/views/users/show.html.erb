@@ -23,14 +23,57 @@
 </ul>
 
 <h3><%=l(:label_issue_plural)%></h3>
-<ul>
-  <li><%= link_to l(:label_assigned_issues),
-        issues_path(:set_filter => 1, :assigned_to_id => ([@user.id] + @user.group_ids).join("|"), :sort => 'priority:desc,updated_on:desc') %>:
-      <%= Issue.visible.open.assigned_to(@user).count %>
-  <li><%= link_to l(:label_reported_issues),
-        issues_path(:set_filter => 1, :status_id => '*', :author_id => @user.id) %>:
-      <%= Issue.visible.where(:author_id => @user.id).count %>
-</ul>
+
+<table class="list issue-report">
+<thead>
+  <tr>
+    <th></th>
+    <th><%=l(:label_open_issues_plural)%></th>
+    <th><%=l(:label_closed_issues_plural)%></th>
+    <th><%=l(:label_total)%></th>
+  </tr>
+</thead>
+<tbody>
+  <% assigned_to_ids = ([@user.id] + @user.group_ids).join("|") %>
+  <% sort_cond = 'priority:desc,updated_on:desc' %>
+  <tr>
+    <td class="name">
+      <%= link_to l(:label_assigned_issues),
+        issues_path(:set_filter => 1, :assigned_to_id => assigned_to_ids, :sort => sort_cond) %>
+    </td>
+    <td>
+      <%= link_to @issue_counts[:assigned][:open],
+        issues_path(:set_filter => 1, :assigned_to_id => assigned_to_ids, :sort => sort_cond) %>
+    </td>
+    <td>
+      <%= link_to @issue_counts[:assigned][:total] - @issue_counts[:assigned][:open],
+        issues_path(:set_filter => 1, :status_id => 'c', :assigned_to_id => assigned_to_ids, :sort => sort_cond) %>
+    </td>
+    <td class="total">
+      <%= link_to @issue_counts[:assigned][:total],
+        issues_path(:set_filter => 1, :status_id => '*', :assigned_to_id => assigned_to_ids, :sort => sort_cond) %>
+    </td>
+  </tr>
+  <tr>
+    <td class="name">
+      <%= link_to l(:label_reported_issues),
+        issues_path(:set_filter => 1, :author_id => @user.id, :sort => sort_cond) %>
+    </td>
+    <td>
+      <%= link_to @issue_counts[:reported][:open],
+        issues_path(:set_filter => 1, :author_id => @user.id, :sort => sort_cond) %>
+    </td>
+    <td>
+      <%= link_to @issue_counts[:reported][:total] - @issue_counts[:reported][:open],
+        issues_path(:set_filter => 1, :status_id => 'c', :author_id => @user.id, :sort => sort_cond) %>
+    </td>
+    <td class="total">
+      <%= link_to @issue_counts[:reported][:total],
+        issues_path(:set_filter => 1, :status_id => '*', :author_id => @user.id, :sort => sort_cond) %>
+    </td>
+  </tr>
+</tbody>
+</table>
 
 <% unless @memberships.empty? %>
 <h3><%=l(:label_project_plural)%></h3>

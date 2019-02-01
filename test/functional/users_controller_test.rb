@@ -185,6 +185,25 @@ class UsersControllerTest < Redmine::ControllerTest
     assert_select 'h2', :text => /John Smith/
   end
 
+  def test_show_issues_counts
+    @request.session[:user_id] = 2
+    get :show, :params => {:id => 2}
+    assert_select 'table.list.issue-report>tbody' do
+      assert_select 'tr:nth-of-type(1)' do
+        assert_select 'td:nth-of-type(1)>a', :text => 'Assigned issues'
+        assert_select 'td:nth-of-type(2)>a', :text => '1'   # open
+        assert_select 'td:nth-of-type(3)>a', :text => '0'   # closed
+        assert_select 'td:nth-of-type(4)>a', :text => '1'   # total
+      end
+      assert_select 'tr:nth-of-type(2)' do
+        assert_select 'td:nth-of-type(1)>a', :text => 'Reported issues'
+        assert_select 'td:nth-of-type(2)>a', :text => '11'  # open
+        assert_select 'td:nth-of-type(3)>a', :text => '2'   # closed
+        assert_select 'td:nth-of-type(4)>a', :text => '13'  # total
+      end
+    end
+  end
+
   def test_new
     get :new
     assert_response :success
