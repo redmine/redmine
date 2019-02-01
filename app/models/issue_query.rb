@@ -486,7 +486,13 @@ class IssueQuery < Query
   def sql_for_parent_id_field(field, operator, value)
     case operator
     when "="
-      "#{Issue.table_name}.parent_id = #{value.first.to_i}"
+      # accepts a comma separated list of ids
+      ids = value.first.to_s.scan(/\d+/).map(&:to_i).uniq
+      if ids.present?
+        "#{Issue.table_name}.parent_id IN (#{ids.join(",")})"
+      else
+        "1=0"
+      end
     when "~"
       root_id, lft, rgt = Issue.where(:id => value.first.to_i).pluck(:root_id, :lft, :rgt).first
       if root_id && lft && rgt

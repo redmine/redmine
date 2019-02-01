@@ -280,6 +280,16 @@ class QueryTest < ActiveSupport::TestCase
     assert_equal [1,3], issues.map(&:id).sort
   end
 
+  def test_operator_is_on_parent_id_should_accept_comma_separated_values
+    Issue.where(:id => [2,4]).update_all(:parent_id => 1)
+    Issue.where(:id => 5).update_all(:parent_id => 3)
+    query = IssueQuery.new(:name => '_')
+    query.add_filter("parent_id", '=', ['1,3'])
+    issues = find_issues_with_query(query)
+    assert_equal 3, issues.size
+    assert_equal [2,4,5], issues.map(&:id).sort
+  end
+
   def test_operator_between_on_issue_id_should_return_range
     query = IssueQuery.new(:name => '_')
     query.add_filter("issue_id", '><', ['2','3'])
