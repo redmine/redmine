@@ -110,7 +110,7 @@ module Redmine
       # Adds the app/{controllers,helpers,models} directories of the plugin to the autoload path
       Dir.glob File.expand_path(File.join(p.directory, 'app', '{controllers,helpers,models}')) do |dir|
         ActiveSupport::Dependencies.autoload_paths += [dir]
-        Rails.application.config.eager_load_paths += [dir] if Rails.env == 'production'
+        Rails.application.config.eager_load_paths += [dir] if Rails.application.config.eager_load
       end
 
       # Defines plugin setting if present
