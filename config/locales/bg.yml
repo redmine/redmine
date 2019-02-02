@@ -1230,10 +1230,9 @@ bg:
   label_ldaps_verify_none: LDAP удостоверяване
   label_ldaps_verify_peer: LDAPS
   label_ldaps_warning: препоръчително е да се използва криптирана LDAPS връзка със сертификат за предотвратяване на намеса по време на процеса на удостоверяване.
-  error_token_expired: This password recovery link has expired, please try again.
-  error_spent_on_future_date: Cannot log time on a future date
-  setting_timelog_accept_future_dates: Accept time logs on future dates
+  error_token_expired: Връзката за възстановяване на паролата вече е невалидна. Опитайте отново.
+  error_spent_on_future_date: Не е възможно да се отчете изразходвано време на дата в бъдещето
+  setting_timelog_accept_future_dates: Разрешено отчитане на изразходвано време на дата в бъдещето
   label_delete_link_to_subtask: Изтриване на релация
-  error_not_allowed_to_log_time_for_other_users: You are not allowed to log time
-    for other users
-  permission_log_time_for_other_users: Log spent time for other users
+  error_not_allowed_to_log_time_for_other_users: Вие нямате разрешение да записвате изразходвано време за други потребители
+  permission_log_time_for_other_users: Записване на изразходвано време за други потребители
