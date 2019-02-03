@@ -1123,6 +1123,10 @@ EXPECTED
     end
   end
 
+  def test_syntax_highlight_should_normalize_line_endings
+    assert_equal "line 1\nline 2\n", syntax_highlight("test.txt", "line 1\rline 2\r\n")
+  end
+
   def test_to_path_param
     assert_equal 'test1/test2', to_path_param('test1/test2')
     assert_equal 'test1/test2', to_path_param('/test1/test2/')

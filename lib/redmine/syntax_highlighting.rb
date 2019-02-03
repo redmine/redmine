@@ -76,6 +76,13 @@ module Redmine
         # Highlights +text+ as the content of +filename+
         # Should not return line numbers nor outer pre tag
         def highlight_by_filename(text, filename)
+          # TODO: Delete the following workaround for #30434 and
+          # test_syntax_highlight_should_normalize_line_endings in
+          # application_helper_test.rb when Rouge is improved to
+          # handle CRLF properly.
+          # See also: https://github.com/jneen/rouge/pull/1078
+          text = text.gsub(/\r\n?/, "\n")
+
           lexer =::Rouge::Lexer.guess_by_filename(filename)
           formatter = ::Rouge::Formatters::HTML.new
           ::Rouge.highlight(text, lexer, CustomHTMLLinewise.new(formatter))
