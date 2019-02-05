@@ -49,7 +49,7 @@ class Redmine::ApiTest::ApiTest < Redmine::ApiTest::Base
   def test_head_response_should_have_empty_body
     put '/users/7.xml', :params => {:user => {:login => 'foo'}}, :headers => credentials('admin')
 
-    assert_response :ok
+    assert_response :no_content
     assert_equal '', response.body
   end
 end

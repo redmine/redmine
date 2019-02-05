@@ -135,7 +135,7 @@ class Redmine::ApiTest::TimeEntriesTest < Redmine::ApiTest::Base
         :params => {:time_entry => {:comments => 'API Update'}},
         :headers => credentials('jsmith')
     end
-    assert_response :ok
+    assert_response :no_content
     assert_equal '', @response.body
     assert_equal 'API Update', TimeEntry.find(2).comments
   end
@@ -164,7 +164,7 @@ class Redmine::ApiTest::TimeEntriesTest < Redmine::ApiTest::Base
     assert_difference 'TimeEntry.count', -1 do
       delete '/time_entries/2.xml', :headers => credentials('jsmith')
     end
-    assert_response :ok
+    assert_response :no_content
     assert_equal '', @response.body
     assert_nil TimeEntry.find_by_id(2)
   end

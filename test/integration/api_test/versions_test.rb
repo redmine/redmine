@@ -122,7 +122,7 @@ class Redmine::ApiTest::VersionsTest < Redmine::ApiTest::Base
       :params => {:version => {:name => 'API update'}},
       :headers => credentials('jsmith')
 
-    assert_response :ok
+    assert_response :no_content
     assert_equal '', @response.body
     assert_equal 'API update', Version.find(2).name
   end
@@ -132,7 +132,7 @@ class Redmine::ApiTest::VersionsTest < Redmine::ApiTest::Base
       delete '/versions/3.xml', :headers => credentials('jsmith')
     end
 
-    assert_response :ok
+    assert_response :no_content
     assert_equal '', @response.body
     assert_nil Version.find_by_id(3)
   end

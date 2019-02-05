@@ -795,7 +795,7 @@ JSON
         :params => {:issue => {:subject => 'API update', :notes => 'A new note'}},
         :headers => credentials('jsmith')
 
-      assert_response :ok
+      assert_response :no_content
       assert_equal '', response.body
     end
 
@@ -819,7 +819,7 @@ JSON
     assert_difference('Issue.count', -1) do
       delete '/issues/6.xml', :headers => credentials('jsmith')
 
-      assert_response :ok
+      assert_response :no_content
       assert_equal '', response.body
     end
     assert_nil Issue.find_by_id(6)
@@ -829,7 +829,7 @@ JSON
     assert_difference('Issue.count', -1) do
       delete '/issues/6.json', :headers => credentials('jsmith')
 
-      assert_response :ok
+      assert_response :no_content
       assert_equal '', response.body
     end
     assert_nil Issue.find_by_id(6)
@@ -841,7 +841,7 @@ JSON
         :params => {:user_id => 3},
         :headers => credentials('jsmith')
 
-      assert_response :ok
+      assert_response :no_content
       assert_equal '', response.body
     end
     watcher = Watcher.order('id desc').first
@@ -855,7 +855,7 @@ JSON
     assert_difference 'Watcher.count', -1 do
       delete '/issues/1/watchers/3.xml', :headers => credentials('jsmith')
 
-      assert_response :ok
+      assert_response :no_content
       assert_equal '', response.body
     end
     assert_equal false, Issue.find(1).watched_by?(User.find(3))
@@ -972,7 +972,7 @@ JSON
                       :uploads => [{:token => token, :filename => 'test.txt',
                                     :content_type => 'text/plain'}]}},
         :headers => credentials('jsmith')
-      assert_response :ok
+      assert_response :no_content
       assert_equal '', @response.body
     end
 

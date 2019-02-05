@@ -256,7 +256,7 @@ class Redmine::ApiTest::UsersTest < Redmine::ApiTest::Base
     assert_equal 'jsmith@somenet.foo', user.mail
     assert !user.admin?
 
-    assert_response :ok
+    assert_response :no_content
     assert_equal '', @response.body
   end
 
@@ -279,7 +279,7 @@ class Redmine::ApiTest::UsersTest < Redmine::ApiTest::Base
     assert_equal 'jsmith@somenet.foo', user.mail
     assert !user.admin?
 
-    assert_response :ok
+    assert_response :no_content
     assert_equal '', @response.body
   end
 
@@ -325,7 +325,7 @@ class Redmine::ApiTest::UsersTest < Redmine::ApiTest::Base
       delete '/users/2.xml', :headers => credentials('admin')
     end
 
-    assert_response :ok
+    assert_response :no_content
     assert_equal '', @response.body
   end
 
@@ -334,7 +334,7 @@ class Redmine::ApiTest::UsersTest < Redmine::ApiTest::Base
       delete '/users/2.json', :headers => credentials('admin')
     end
 
-    assert_response :ok
+    assert_response :no_content
     assert_equal '', @response.body
   end
 end

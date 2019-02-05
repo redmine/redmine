@@ -198,9 +198,9 @@ class Redmine::ApiTest::ProjectsTest < Redmine::ApiTest::Base
         :params => {:project => {:name => 'API update'}},
         :headers => credentials('jsmith')
     end
-    assert_response :ok
+    assert_response :no_content
     assert_equal '', @response.body
-    assert_equal 'application/xml', @response.content_type
+    assert_nil @response.content_type
     project = Project.find(2)
     assert_equal 'API update', project.name
   end
@@ -211,7 +211,7 @@ class Redmine::ApiTest::ProjectsTest < Redmine::ApiTest::Base
         :params => {:project => {:name => 'API update', :enabled_module_names => ['issue_tracking', 'news', 'time_tracking']}},
         :headers => credentials('admin')
     end
-    assert_response :ok
+    assert_response :no_content
     assert_equal '', @response.body
     project = Project.find(2)
     assert_equal ['issue_tracking', 'news', 'time_tracking'], project.enabled_module_names.sort
@@ -223,7 +223,7 @@ class Redmine::ApiTest::ProjectsTest < Redmine::ApiTest::Base
         :params => {:project => {:name => 'API update', :tracker_ids => [1, 3]}},
         :headers => credentials('admin')
     end
-    assert_response :ok
+    assert_response :no_content
     assert_equal '', @response.body
     project = Project.find(2)
     assert_equal [1, 3], project.trackers.map(&:id).sort
@@ -245,7 +245,7 @@ class Redmine::ApiTest::ProjectsTest < Redmine::ApiTest::Base
     assert_difference('Project.count',-1) do
       delete '/projects/2.xml', :headers => credentials('admin')
     end
-    assert_response :ok
+    assert_response :no_content
     assert_equal '', @response.body
     assert_nil Project.find_by_id(2)
   end
