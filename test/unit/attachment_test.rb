@@ -480,6 +480,24 @@ class AttachmentTest < ActiveSupport::TestCase
       attachment = Attachment.find(16)
       assert_nil attachment.thumbnail
     end
+
+    def test_thumbnail_should_be_at_least_of_requested_size
+      set_fixtures_attachments_directory
+      attachment = Attachment.find(16)
+      Attachment.clear_thumbnails
+      [
+        [0, 100],
+        [49, 50],
+        [50, 50],
+        [51, 100],
+        [100, 100],
+        [101, 150],
+      ].each do |size, generated_size|
+        thumbnail = attachment.thumbnail(size: size)
+        assert_equal "8e0294de2441577c529f170b6fb8f638_2654_#{generated_size}.thumb",
+          File.basename(thumbnail)
+      end
+    end
   else
     puts '(ImageMagick convert not available)'
   end

@@ -209,7 +209,7 @@ class Attachment < ActiveRecord::Base
       size = options[:size].to_i
       if size > 0
         # Limit the number of thumbnails per image
-        size = (size / 50) * 50
+        size = (size / 50.0).ceil * 50
         # Maximum thumbnail size
         size = 800 if size > 800
       else
