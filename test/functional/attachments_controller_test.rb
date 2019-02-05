@@ -407,7 +407,7 @@ class AttachmentsControllerTest < Redmine::ControllerTest
     end
 
     def test_thumbnail_should_round_size
-      Redmine::Thumbnail.expects(:generate).with {|source, target, size| size == 250}
+      Redmine::Thumbnail.expects(:generate).with {|source, target, size| size == 300}
 
       @request.session[:user_id] = 2
       get :thumbnail, :params => {
