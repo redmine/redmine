@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 module ObjectHelpers
   def User.generate!(attributes={})
-    @generated_user_login ||= 'user0'
+    @generated_user_login ||= +'user0'
     @generated_user_login.succ!
     user = User.new(attributes)
     user.login = @generated_user_login.dup if user.login.blank?
@@ -19,7 +21,7 @@ module ObjectHelpers
   end
 
   def Group.generate!(attributes={})
-    @generated_group_name ||= 'Group 0'
+    @generated_group_name ||= +'Group 0'
     @generated_group_name.succ!
     group = Group.new(attributes)
     group.name = @generated_group_name.dup if group.name.blank?
@@ -29,7 +31,7 @@ module ObjectHelpers
   end
 
   def Project.generate!(attributes={})
-    @generated_project_identifier ||= 'project-0000'
+    @generated_project_identifier ||= +'project-0000'
     @generated_project_identifier.succ!
     project = Project.new(attributes)
     project.name = @generated_project_identifier.dup if project.name.blank?
@@ -51,7 +53,7 @@ module ObjectHelpers
   end
 
   def IssueStatus.generate!(attributes={})
-    @generated_status_name ||= 'Status 0'
+    @generated_status_name ||= +'Status 0'
     @generated_status_name.succ!
     status = IssueStatus.new(attributes)
     status.name = @generated_status_name.dup if status.name.blank?
@@ -61,7 +63,7 @@ module ObjectHelpers
   end
 
   def Tracker.generate(attributes={})
-    @generated_tracker_name ||= 'Tracker 0'
+    @generated_tracker_name ||= +'Tracker 0'
     @generated_tracker_name.succ!
     tracker = Tracker.new(attributes)
     tracker.name = @generated_tracker_name.dup if tracker.name.blank?
@@ -77,7 +79,7 @@ module ObjectHelpers
   end
 
   def Role.generate!(attributes={})
-    @generated_role_name ||= 'Role 0'
+    @generated_role_name ||= +'Role 0'
     @generated_role_name.succ!
     role = Role.new(attributes)
     role.name = @generated_role_name.dup if role.name.blank?
@@ -131,7 +133,7 @@ module ObjectHelpers
   end
 
   def Version.generate!(attributes={})
-    @generated_version_name ||= 'Version 0'
+    @generated_version_name ||= +'Version 0'
     @generated_version_name.succ!
     version = Version.new(attributes)
     version.name = @generated_version_name.dup if version.name.blank?
@@ -160,7 +162,7 @@ module ObjectHelpers
   end
 
   def AuthSource.generate!(attributes={})
-    @generated_auth_source_name ||= 'Auth 0'
+    @generated_auth_source_name ||= +'Auth 0'
     @generated_auth_source_name.succ!
     source = AuthSource.new(attributes)
     source.name = @generated_auth_source_name.dup if source.name.blank?
@@ -170,7 +172,7 @@ module ObjectHelpers
   end
 
   def Board.generate!(attributes={})
-    @generated_board_name ||= 'Forum 0'
+    @generated_board_name ||= +'Forum 0'
     @generated_board_name.succ!
     board = Board.new(attributes)
     board.name = @generated_board_name.dup if board.name.blank?
@@ -181,7 +183,7 @@ module ObjectHelpers
   end
 
   def Attachment.generate!(attributes={})
-    @generated_filename ||= 'testfile0'
+    @generated_filename ||= +'testfile0'
     @generated_filename.succ!
     attributes = attributes.dup
     attachment = Attachment.new(attributes)
@@ -193,7 +195,7 @@ module ObjectHelpers
   end
 
   def CustomField.generate!(attributes={})
-    @generated_custom_field_name ||= 'Custom field 0'
+    @generated_custom_field_name ||= +'Custom field 0'
     @generated_custom_field_name.succ!
     field = new(attributes)
     field.name = @generated_custom_field_name.dup if field.name.blank?
@@ -211,7 +213,7 @@ module ObjectHelpers
   end
 
   def Changeset.generate!(attributes={})
-    @generated_changeset_rev ||= '123456'
+    @generated_changeset_rev ||= +'123456'
     @generated_changeset_rev.succ!
     changeset = new(attributes)
     changeset.repository ||= Project.find(1).repository

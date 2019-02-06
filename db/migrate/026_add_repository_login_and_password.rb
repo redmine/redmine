@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddRepositoryLoginAndPassword < ActiveRecord::Migration[4.2]
   def self.up
     add_column :repositories, :login, :string, :limit => 60, :default => ""

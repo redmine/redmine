@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Redmine - project management software
 # Copyright (C) 2006-2017  Jean-Philippe Lang
 #
@@ -105,7 +107,7 @@ class CustomFieldTest < ActiveSupport::TestCase
 
   def test_possible_values_should_return_utf8_encoded_strings
     field = CustomField.new
-    s = "Value".force_encoding('BINARY')
+    s = "Value".b
     field.possible_values = s
     assert_equal [s], field.possible_values
     assert_equal 'UTF-8', field.possible_values.first.encoding.name

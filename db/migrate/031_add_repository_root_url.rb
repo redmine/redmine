@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddRepositoryRootUrl < ActiveRecord::Migration[4.2]
   def self.up
     add_column :repositories, :root_url, :string, :limit => 255, :default => ""

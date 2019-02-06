@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ChangeWikiContentsTextLimit < ActiveRecord::Migration[4.2]
   def self.up
     # Migrates MySQL databases only

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module OpenIdAuthentication
   class Association < ActiveRecord::Base
     self.table_name = :open_id_authentication_associations

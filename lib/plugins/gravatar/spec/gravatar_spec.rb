@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rubygems'
 require 'erb'  # to get "h"
 require 'active_support'  # to get "returning"

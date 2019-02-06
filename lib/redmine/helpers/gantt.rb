@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Redmine - project management software
 # Copyright (C) 2006-2017  Jean-Philippe Lang
 #
@@ -74,8 +76,8 @@ module Redmine
         end
         @date_from = Date.civil(@year_from, @month_from, 1)
         @date_to = (@date_from >> @months) - 1
-        @subjects = ''
-        @lines = ''
+        @subjects = +''
+        @lines = +''
         @number_of_rows = nil
         @truncated = false
         if options.has_key?(:max_rows)
@@ -196,8 +198,8 @@ module Redmine
                    :indent_increment => 20, :render => :subject,
                    :format => :html}.merge(options)
         indent = options[:indent] || 4
-        @subjects = '' unless options[:only] == :lines
-        @lines = '' unless options[:only] == :subjects
+        @subjects = +'' unless options[:only] == :lines
+        @lines = +'' unless options[:only] == :subjects
         @number_of_rows = 0
         begin
           Project.project_tree(projects) do |project, level|
@@ -650,7 +652,7 @@ module Redmine
         case object
         when Issue
           issue = object
-          css_classes = ''
+          css_classes = +''
           css_classes << ' issue-overdue' if issue.overdue?
           css_classes << ' issue-behind-schedule' if issue.behind_schedule?
           css_classes << ' icon icon-issue' unless Setting.gravatar_enabled? && issue.assigned_to
@@ -661,7 +663,7 @@ module Redmine
             css_classes << ' behind-start-date' if progress_date < self.date_from
             css_classes << ' over-end-date' if progress_date > self.date_to
           end
-          s = "".html_safe
+          s = (+"").html_safe
           if issue.assigned_to.present?
             assigned_string = l(:field_assigned_to) + ": " + issue.assigned_to.name
             s << view.avatar(issue.assigned_to,
@@ -674,7 +676,7 @@ module Redmine
           view.content_tag(:span, s, :class => css_classes).html_safe
         when Version
           version = object
-          html_class = ""
+          html_class = +""
           html_class << 'icon icon-package '
           html_class << (version.behind_schedule? ? 'version-behind-schedule' : '') << " "
           html_class << (version.overdue? ? 'version-overdue' : '')
@@ -689,7 +691,7 @@ module Redmine
           view.content_tag(:span, s, :class => html_class).html_safe
         when Project
           project = object
-          html_class = ""
+          html_class = +""
           html_class << 'icon icon-projects '
           html_class << (project.overdue? ? 'project-overdue' : '')
           s = view.link_to_project(project).html_safe
@@ -725,7 +727,7 @@ module Redmine
         end
         if has_children
           content = view.content_tag(:span, nil, :class => :expander) + content
-          tag_options[:class] << ' open'
+          tag_options[:class] += ' open'
         else
           if params[:indent]
             params = params.dup
@@ -733,7 +735,7 @@ module Redmine
           end
         end
         style = "position: absolute;top:#{params[:top]}px;left:#{params[:indent]}px;"
-        style << "width:#{params[:subject_width] - params[:indent]}px;" if params[:subject_width]
+        style += "width:#{params[:subject_width] - params[:indent]}px;" if params[:subject_width]
         tag_options[:style] = style
         output = view.content_tag(:div, content, tag_options)
         @subjects << output
@@ -772,7 +774,7 @@ module Redmine
       end
 
       def html_task(params, coords, markers, label, object)
-        output = ''
+        output = +''
         data_options = {}
         data_options[:collapse_expand] = "#{object.class}-#{object.id}".downcase if object
 
@@ -790,7 +792,7 @@ module Redmine
         # Renders the task bar, with progress and late
         if coords[:bar_start] && coords[:bar_end]
           width = coords[:bar_end] - coords[:bar_start] - 2
-          style = ""
+          style = +""
           style << "top:#{params[:top]}px;"
           style << "left:#{coords[:bar_start]}px;"
           style << "width:#{width}px;"
@@ -810,7 +812,7 @@ module Redmine
           output << view.content_tag(:div, '&nbsp;'.html_safe, content_opt)
           if coords[:bar_late_end]
             width = coords[:bar_late_end] - coords[:bar_start] - 2
-            style = ""
+            style = +""
             style << "top:#{params[:top]}px;"
             style << "left:#{coords[:bar_start]}px;"
             style << "width:#{width}px;"
@@ -821,7 +823,7 @@ module Redmine
           end
           if coords[:bar_progress_end]
             width = coords[:bar_progress_end] - coords[:bar_start] - 2
-            style = ""
+            style = +""
             style << "top:#{params[:top]}px;"
             style << "left:#{coords[:bar_start]}px;"
             style << "width:#{width}px;"
@@ -837,7 +839,7 @@ module Redmine
         # Renders the markers
         if markers
           if coords[:start]
-            style = ""
+            style = +""
             style << "top:#{params[:top]}px;"
             style << "left:#{coords[:start]}px;"
             style << "width:15px;"
@@ -847,7 +849,7 @@ module Redmine
                                        :data => data_options)
           end
           if coords[:end]
-            style = ""
+            style = +""
             style << "top:#{params[:top]}px;"
             style << "left:#{coords[:end] + params[:zoom]}px;"
             style << "width:15px;"
@@ -859,7 +861,7 @@ module Redmine
         end
         # Renders the label on the right
         if label
-          style = ""
+          style = +""
           style << "top:#{params[:top]}px;"
           style << "left:#{(coords[:bar_end] || 0) + 8}px;"
           style << "width:15px;"
@@ -874,7 +876,7 @@ module Redmine
                                view.render_issue_tooltip(object).html_safe,
                                :class => "tip")
           s += view.content_tag(:input, nil, :type => 'checkbox', :name => 'ids[]', :value => object.id, :style => 'display:none;', :class => 'toggle-selection')
-          style = ""
+          style = +""
           style << "position: absolute;"
           style << "top:#{params[:top]}px;"
           style << "left:#{coords[:bar_start]}px;"

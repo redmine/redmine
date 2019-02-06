@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RenameCommentToComments < ActiveRecord::Migration[4.2]
   def self.up
     rename_column(:comments, :comment, :comments) if ActiveRecord::Base.connection.columns(Comment.table_name).detect{|c| c.name == "comment"}

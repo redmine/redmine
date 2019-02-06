@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddAuthSourcesTls < ActiveRecord::Migration[4.2]
   def self.up
     add_column :auth_sources, :tls, :boolean, :default => false, :null => false

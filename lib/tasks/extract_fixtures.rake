@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 desc 'Create YAML test fixtures from data in an existing database.
 Defaults to development database. Set RAILS_ENV to override.'
 

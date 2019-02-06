@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddTokensUpdatedOn < ActiveRecord::Migration[4.2]
   def self.up
     add_column :tokens, :updated_on, :timestamp

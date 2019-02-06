@@ -1,4 +1,6 @@
 # encoding: utf-8
+# frozen_string_literal: true
+
 #
 # Redmine - project management software
 # Copyright (C) 2006-2017  Jean-Philippe Lang
@@ -69,7 +71,7 @@ module CustomFieldsHelper
 
   def custom_field_tag_name(prefix, custom_field)
     name = "#{prefix}[custom_field_values][#{custom_field.id}]"
-    name << "[]" if custom_field.multiple?
+    name += "[]" if custom_field.multiple?
     name
   end
 
@@ -80,7 +82,7 @@ module CustomFieldsHelper
   # Return custom field html tag corresponding to its format
   def custom_field_tag(prefix, custom_value)
     css = "#{custom_value.custom_field.field_format}_cf"
-    css << ' wiki-edit' if custom_value.custom_field.full_text_formatting?
+    css += ' wiki-edit' if custom_value.custom_field.full_text_formatting?
 
     custom_value.custom_field.format.edit_tag self,
       custom_field_tag_id(prefix, custom_value.custom_field),

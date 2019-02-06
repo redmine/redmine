@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Patch the data from a boolean change.
 class UpdateMailNotificationValues < ActiveRecord::Migration[4.2]
   def self.up

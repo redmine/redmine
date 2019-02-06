@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'digest/md5'
 require 'cgi'
 
@@ -61,7 +63,7 @@ module GravatarHelper
     
     # Returns the base Gravatar URL for the given email hash
     def gravatar_api_url(hash)
-      "//www.gravatar.com/avatar/#{hash}"
+      +"//www.gravatar.com/avatar/#{hash}"
     end
 
     # Return the gravatar URL for the given email address.

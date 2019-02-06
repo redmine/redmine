@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Redmine - project management software
 # Copyright (C) 2006-2017  Jean-Philippe Lang
 #
@@ -25,8 +27,8 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
   REPOSITORY_PATH = Rails.root.join('tmp/test/mercurial_repository').to_s
   NUM_REV = 34
 
-  CHAR_1_HEX = "\xc3\x9c".force_encoding('UTF-8')
-  BRANCH_CHAR_1 = "branch-#{CHAR_1_HEX}-01".force_encoding('UTF-8')
+  CHAR_1_HEX = (+"\xc3\x9c").force_encoding('UTF-8')
+  BRANCH_CHAR_1 = (+"branch-#{CHAR_1_HEX}-01").force_encoding('UTF-8')
 
   def setup
     User.current = nil
@@ -52,7 +54,7 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
 
   def test_blank_path_to_repository_error_message_fr
     set_language_if_valid 'fr'
-    str = "Chemin du d\xc3\xa9p\xc3\xb4t doit \xc3\xaatre renseign\xc3\xa9(e)".force_encoding('UTF-8')
+    str = (+"Chemin du d\xc3\xa9p\xc3\xb4t doit \xc3\xaatre renseign\xc3\xa9(e)").force_encoding('UTF-8')
     repo = Repository::Mercurial.new(
                           :project      => @project,
                           :url          => "",

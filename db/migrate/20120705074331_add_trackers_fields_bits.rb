@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddTrackersFieldsBits < ActiveRecord::Migration[4.2]
   def self.up
     add_column :trackers, :fields_bits, :integer, :default => 0

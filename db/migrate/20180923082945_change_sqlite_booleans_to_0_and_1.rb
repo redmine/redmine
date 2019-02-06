@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ChangeSqliteBooleansTo0And1 < ActiveRecord::Migration[5.2]
 
   COLUMNS = {

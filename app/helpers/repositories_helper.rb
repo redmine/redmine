@@ -1,4 +1,6 @@
 # encoding: utf-8
+# frozen_string_literal: true
+
 #
 # Redmine - project management software
 # Copyright (C) 2006-2017  Jean-Philippe Lang
@@ -87,10 +89,10 @@ module RepositoriesHelper
 
   def render_changes_tree(tree)
     return '' if tree.nil?
-    output = ''
+    output = +''
     output << '<ul>'
     tree.keys.sort.each do |file|
-      style = 'change'
+      style = +'change'
       text = File.basename(h(file))
       if s = tree[file][:s]
         style << ' folder'

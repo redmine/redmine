@@ -1,4 +1,6 @@
 # encoding: utf-8
+# frozen_string_literal: true
+
 #
 # Redmine - project management software
 # Copyright (C) 2006-2017  Jean-Philippe Lang
@@ -91,7 +93,7 @@ module Redmine
           </style>'
 
           # Strip {{toc}} tags
-          txt.gsub!(/<p>\{\{([<>]?)toc\}\}<\/p>/i, '')
+          txt = txt.gsub(/<p>\{\{([<>]?)toc\}\}<\/p>/i, '')
           writeHTMLCell(w, h, x, y, css_tag + txt, border, ln, fill)
         end
 

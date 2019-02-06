@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Redmine
   module Info
     class << self
@@ -7,7 +9,7 @@ module Redmine
       def versioned_name; "#{app_name} #{Redmine::VERSION}" end
 
       def environment
-        s = "Environment:\n"
+        s = +"Environment:\n"
         s << [
           ["Redmine version", Redmine::VERSION],
           ["Ruby version", "#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL} (#{RUBY_RELEASE_DATE}) [#{RUBY_PLATFORM}]"],

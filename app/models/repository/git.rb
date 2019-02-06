@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Redmine - project management software
 # Copyright (C) 2006-2017  Jean-Philippe Lang
 # Copyright (C) 2007  Patrick Aljord patcito@ŋmail.com

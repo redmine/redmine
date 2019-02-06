@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class FixMessagesStickyNull < ActiveRecord::Migration[4.2]
   def self.up
     Message.where('sticky IS NULL').update_all('sticky = 0')

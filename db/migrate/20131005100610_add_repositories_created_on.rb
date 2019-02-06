@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddRepositoriesCreatedOn < ActiveRecord::Migration[4.2]
   def up
     add_column :repositories, :created_on, :timestamp

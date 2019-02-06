@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddMissingIndexesToCustomFieldsTrackers < ActiveRecord::Migration[4.2]
   def self.up
     add_index :custom_fields_trackers, [:custom_field_id, :tracker_id]

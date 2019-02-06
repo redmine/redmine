@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Redmine - project management software
 # Copyright (C) 2006-2017  Jean-Philippe Lang
 #
@@ -26,8 +28,8 @@ class RepositoriesGitControllerTest < Redmine::RepositoryControllerTest
   REPOSITORY_PATH = Rails.root.join('tmp/test/git_repository').to_s
   REPOSITORY_PATH.gsub!(/\//, "\\") if Redmine::Platform.mswin?
   PRJ_ID     = 3
-  CHAR_1_HEX = "\xc3\x9c".force_encoding('UTF-8')
-  FELIX_HEX  = "Felix Sch\xC3\xA4fer".force_encoding('UTF-8')
+  CHAR_1_HEX = (+"\xc3\x9c").force_encoding('UTF-8')
+  FELIX_HEX  = (+"Felix Sch\xC3\xA4fer").force_encoding('UTF-8')
   NUM_REV = 28
 
   ## Git, Mercurial and CVS path encodings are binary.

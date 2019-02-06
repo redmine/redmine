@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class PopulateChangesetsUserId < ActiveRecord::Migration[4.2]
   def self.up
     committers = Changeset.connection.select_values("SELECT DISTINCT committer FROM #{Changeset.table_name}")

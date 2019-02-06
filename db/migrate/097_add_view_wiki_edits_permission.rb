@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddViewWikiEditsPermission < ActiveRecord::Migration[4.2]
   def self.up
     Role.all.each do |r|

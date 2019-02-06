@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddMissingIndexesToWatchers < ActiveRecord::Migration[4.2]
   def self.up
     add_index :watchers, :user_id

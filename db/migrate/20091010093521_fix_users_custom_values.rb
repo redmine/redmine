@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class FixUsersCustomValues < ActiveRecord::Migration[4.2]
   def self.up
     CustomValue.where("customized_type = 'User'").

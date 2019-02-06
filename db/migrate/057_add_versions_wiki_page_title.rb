@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddVersionsWikiPageTitle < ActiveRecord::Migration[4.2]
   def self.up
     add_column :versions, :wiki_page_title, :string

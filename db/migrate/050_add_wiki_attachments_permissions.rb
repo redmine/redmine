@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddWikiAttachmentsPermissions < ActiveRecord::Migration[4.2]
   # model removed
   class Permission < ActiveRecord::Base; end

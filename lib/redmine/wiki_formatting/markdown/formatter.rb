@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Redmine - project management software
 # Copyright (C) 2006-2017  Jean-Philippe Lang
 #
@@ -81,7 +83,7 @@ module Redmine
         end
 
         def extract_sections(index)
-          sections = ['', '', '']
+          sections = [+'', +'', +'']
           offset = 0
           i = 0
           l = 1

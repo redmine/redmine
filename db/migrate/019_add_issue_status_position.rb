@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddIssueStatusPosition < ActiveRecord::Migration[4.2]
   def self.up
     add_column :issue_statuses, :position, :integer, :default => 1

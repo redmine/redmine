@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Redmine - project management software
 # Copyright (C) 2006-2017  Jean-Philippe Lang
 #
@@ -28,8 +30,8 @@ class RepositoryGitTest < ActiveSupport::TestCase
   NUM_REV = 28
   NUM_HEAD = 6
 
-  FELIX_HEX  = "Felix Sch\xC3\xA4fer".force_encoding('UTF-8')
-  CHAR_1_HEX = "\xc3\x9c".force_encoding('UTF-8')
+  FELIX_HEX  = (+"Felix Sch\xC3\xA4fer").force_encoding('UTF-8')
+  CHAR_1_HEX = (+"\xc3\x9c").force_encoding('UTF-8')
 
   ## Git, Mercurial and CVS path encodings are binary.
   ## Subversion supports URL encoding for path.
@@ -94,7 +96,7 @@ class RepositoryGitTest < ActiveSupport::TestCase
 
   def test_blank_path_to_repository_error_message_fr
     set_language_if_valid 'fr'
-    str = "Chemin du d\xc3\xa9p\xc3\xb4t doit \xc3\xaatre renseign\xc3\xa9(e)".force_encoding('UTF-8')
+    str = (+"Chemin du d\xc3\xa9p\xc3\xb4t doit \xc3\xaatre renseign\xc3\xa9(e)").force_encoding('UTF-8')
     repo = Repository::Git.new(
                           :project      => @project,
                           :url          => "",

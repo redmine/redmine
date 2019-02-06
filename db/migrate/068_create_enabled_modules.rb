@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateEnabledModules < ActiveRecord::Migration[4.2]
   def self.up
     create_table :enabled_modules do |t|

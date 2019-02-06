@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddCustomFieldsSearchable < ActiveRecord::Migration[4.2]
   def self.up
     add_column :custom_fields, :searchable, :boolean, :default => false

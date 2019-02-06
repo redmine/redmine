@@ -1,4 +1,6 @@
 # encoding: utf-8
+# frozen_string_literal: true
+
 #
 # Redmine - project management software
 # Copyright (C) 2006-2017  Jean-Philippe Lang
@@ -408,7 +410,7 @@ class AttachmentTest < ActiveSupport::TestCase
   end
 
   def test_latest_attach_should_not_error_with_string_with_invalid_encoding
-    string = "width:50\xFE-Image.jpg".force_encoding('UTF-8')
+    string = (+"width:50\xFE-Image.jpg").force_encoding('UTF-8')
     assert_equal false, string.valid_encoding?
 
     Attachment.latest_attach(Attachment.limit(2).to_a, string)

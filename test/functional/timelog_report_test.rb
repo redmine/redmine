@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+# frozen_string_literal: true
+
 # Redmine - project management software
 # Copyright (C) 2006-2017  Jean-Philippe Lang
 #
@@ -259,8 +261,8 @@ class TimelogReportTest < Redmine::ControllerTest
   end
 
   def test_csv_big_5
-    str_utf8  = "\xe4\xb8\x80\xe6\x9c\x88".force_encoding('UTF-8')
-    str_big5  = "\xa4@\xa4\xeb".force_encoding('Big5')
+    str_utf8  = (+"\xe4\xb8\x80\xe6\x9c\x88").force_encoding('UTF-8')
+    str_big5  = (+"\xa4@\xa4\xeb").force_encoding('Big5')
     user = User.find_by_id(3)
     user.firstname = str_utf8
     user.lastname  = "test-lastname"
@@ -292,14 +294,14 @@ class TimelogReportTest < Redmine::ControllerTest
     assert_equal 'text/csv; header=present', @response.content_type
     lines = @response.body.chomp.split("\n")
     # Headers
-    s1 = "\xa5\xce\xa4\xe1,2011-11-11,\xa4u\xae\xc9\xc1`\xadp".force_encoding('Big5')
-    s2 = "\xa4u\xae\xc9\xc1`\xadp".force_encoding('Big5')
+    s1 = (+"\xa5\xce\xa4\xe1,2011-11-11,\xa4u\xae\xc9\xc1`\xadp").force_encoding('Big5')
+    s2 = (+"\xa4u\xae\xc9\xc1`\xadp").force_encoding('Big5')
     assert_equal s1, lines.first
     # Total row
     assert_equal "#{str_big5} #{user.lastname},7.30,7.30", lines[1]
     assert_equal "#{s2},7.30,7.30", lines[2]
 
-    str_tw = "Chinese/Traditional (\xe7\xb9\x81\xe9\xab\x94\xe4\xb8\xad\xe6\x96\x87)".force_encoding('UTF-8')
+    str_tw = (+"Chinese/Traditional (\xe7\xb9\x81\xe9\xab\x94\xe4\xb8\xad\xe6\x96\x87)").force_encoding('UTF-8')
     assert_equal str_tw, l(:general_lang_name)
     assert_equal 'Big5', l(:general_csv_encoding)
     assert_equal ',', l(:general_csv_separator)
@@ -307,7 +309,7 @@ class TimelogReportTest < Redmine::ControllerTest
   end
 
   def test_csv_cannot_convert_should_be_replaced_big_5
-    str_utf8  = "\xe4\xbb\xa5\xe5\x86\x85".force_encoding('UTF-8')
+    str_utf8  = (+"\xe4\xbb\xa5\xe5\x86\x85").force_encoding('UTF-8')
     user = User.find_by_id(3)
     user.firstname = str_utf8
     user.lastname  = "test-lastname"
@@ -339,10 +341,10 @@ class TimelogReportTest < Redmine::ControllerTest
     assert_equal 'text/csv; header=present', @response.content_type
     lines = @response.body.chomp.split("\n")
     # Headers
-    s1 = "\xa5\xce\xa4\xe1,2011-11-11,\xa4u\xae\xc9\xc1`\xadp".force_encoding('Big5')
+    s1 = (+"\xa5\xce\xa4\xe1,2011-11-11,\xa4u\xae\xc9\xc1`\xadp").force_encoding('Big5')
     assert_equal s1, lines.first
     # Total row
-    s2 = "\xa5H?".force_encoding('Big5')
+    s2 = (+"\xa5H?").force_encoding('Big5')
     assert_equal "#{s2} #{user.lastname},7.30,7.30", lines[1]
   end
 
@@ -374,14 +376,14 @@ class TimelogReportTest < Redmine::ControllerTest
       assert_equal 'text/csv; header=present', @response.content_type
       lines = @response.body.chomp.split("\n")
       # Headers
-      s1 = "Utilisateur;2011-11-11;Temps total".force_encoding('ISO-8859-1')
-      s2 = "Temps total".force_encoding('ISO-8859-1')
+      s1 = (+"Utilisateur;2011-11-11;Temps total").force_encoding('ISO-8859-1')
+      s2 = (+"Temps total").force_encoding('ISO-8859-1')
       assert_equal s1, lines.first
       # Total row
       assert_equal "#{user.firstname} #{user.lastname};7,30;7,30", lines[1]
       assert_equal "#{s2};7,30;7,30", lines[2]
 
-      str_fr = "French (Fran\xc3\xa7ais)".force_encoding('UTF-8')
+      str_fr = (+"French (Fran\xc3\xa7ais)").force_encoding('UTF-8')
       assert_equal str_fr, l(:general_lang_name)
       assert_equal 'ISO-8859-1', l(:general_csv_encoding)
       assert_equal ';', l(:general_csv_separator)

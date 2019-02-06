@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'active_record'
 
 module ActiveRecord
@@ -125,7 +127,7 @@ ActionMailer::Base.add_delivery_method :tmp_file, DeliveryMethods::TmpFile
 module ActionMailer
   class LogSubscriber < ActiveSupport::LogSubscriber
     def deliver(event)
-      recipients = [:to, :cc, :bcc].inject("") do |s, header|
+      recipients = [:to, :cc, :bcc].inject(+"") do |s, header|
         r = Array.wrap(event.payload[header])
         if r.any?
           s << "\n  #{header}: #{r.join(', ')}"

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class UpdateQueriesToSti < ActiveRecord::Migration[4.2]
   def up
     ::Query.update_all :type => 'IssueQuery'

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ChangeWikiContentsCommentsLimitTo1024 < ActiveRecord::Migration[4.2]
   def self.up
     change_column :wiki_content_versions, :comments, :string, :limit => 1024, :default => ''

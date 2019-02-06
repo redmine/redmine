@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Redmine - project management software
 # Copyright (C) 2006-2017  Jean-Philippe Lang
 #
@@ -276,6 +278,7 @@ module Redmine
         def scm_iconv(to, from, str)
           return nil if str.nil?
           return str if to == from && str.encoding.to_s == from
+          str = str.dup if str.frozen?
           str.force_encoding(from)
           begin
             str.encode(to)

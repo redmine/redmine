@@ -1,4 +1,6 @@
 # encoding: utf-8
+# frozen_string_literal: true
+
 #
 # Redmine - project management software
 # Copyright (C) 2006-2017  Jean-Philippe Lang
@@ -449,7 +451,7 @@ class ChangesetTest < ActiveSupport::TestCase
   def test_comments_should_be_converted_to_utf8
     proj = Project.find(3)
     # str = File.read("#{RAILS_ROOT}/test/fixtures/encoding/iso-8859-1.txt")
-    str = "Texte encod\xe9 en ISO-8859-1.".force_encoding("ASCII-8BIT")
+    str = (+"Texte encod\xe9 en ISO-8859-1.").force_encoding("ASCII-8BIT")
     r = Repository::Bazaar.create!(
             :project      => proj,
             :url          => '/tmp/test/bazaar',
@@ -461,15 +463,15 @@ class ChangesetTest < ActiveSupport::TestCase
                       :scmid        => '12345',
                       :comments     => str)
     assert( c.save )
-    str_utf8 = "Texte encod\xc3\xa9 en ISO-8859-1.".force_encoding("UTF-8")
+    str_utf8 = (+"Texte encod\xc3\xa9 en ISO-8859-1.").force_encoding("UTF-8")
     assert_equal str_utf8, c.comments
   end
 
   def test_invalid_utf8_sequences_in_comments_should_be_replaced_latin1
     proj = Project.find(3)
     # str = File.read("#{RAILS_ROOT}/test/fixtures/encoding/iso-8859-1.txt")
-    str1 = "Texte encod\xe9 en ISO-8859-1.".force_encoding("UTF-8")
-    str2 = "\xe9a\xe9b\xe9c\xe9d\xe9e test".force_encoding("ASCII-8BIT")
+    str1 = (+"Texte encod\xe9 en ISO-8859-1.").force_encoding("UTF-8")
+    str2 = (+"\xe9a\xe9b\xe9c\xe9d\xe9e test").force_encoding("ASCII-8BIT")
     r = Repository::Bazaar.create!(
             :project      => proj,
             :url          => '/tmp/test/bazaar',
@@ -488,7 +490,7 @@ class ChangesetTest < ActiveSupport::TestCase
 
   def test_invalid_utf8_sequences_in_comments_should_be_replaced_ja_jis
     proj = Project.find(3)
-    str = "test\xb5\xfetest\xb5\xfe".force_encoding('ASCII-8BIT')
+    str = (+"test\xb5\xfetest\xb5\xfe").force_encoding('ASCII-8BIT')
     r = Repository::Bazaar.create!(
             :project      => proj,
             :url          => '/tmp/test/bazaar',
@@ -504,8 +506,8 @@ class ChangesetTest < ActiveSupport::TestCase
   end
 
   def test_comments_should_be_converted_all_latin1_to_utf8
-    s1 = "\xC2\x80"
-    s2 = "\xc3\x82\xc2\x80"
+    s1 = +"\xC2\x80"
+    s2 = +"\xc3\x82\xc2\x80"
     s4 = s2.dup
     s3 = s1.dup
     s1.force_encoding('ASCII-8BIT')
@@ -530,8 +532,8 @@ class ChangesetTest < ActiveSupport::TestCase
 
   def test_invalid_utf8_sequences_in_paths_should_be_replaced
     proj = Project.find(3)
-    str1 = "Texte encod\xe9 en ISO-8859-1".force_encoding("UTF-8")
-    str2 = "\xe9a\xe9b\xe9c\xe9d\xe9e test".force_encoding("ASCII-8BIT")
+    str1 = (+"Texte encod\xe9 en ISO-8859-1").force_encoding("UTF-8")
+    str2 = (+"\xe9a\xe9b\xe9c\xe9d\xe9e test").force_encoding("ASCII-8BIT")
     r = Repository::Bazaar.create!(
             :project => proj,
             :url => '/tmp/test/bazaar',

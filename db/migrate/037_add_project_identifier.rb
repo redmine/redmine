@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddProjectIdentifier < ActiveRecord::Migration[4.2]
   def self.up
     add_column :projects, :identifier, :string, :limit => 20

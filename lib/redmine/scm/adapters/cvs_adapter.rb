@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # redMine - project management software
 # Copyright (C) 2006-2007  Jean-Philippe Lang
 #
@@ -91,7 +93,7 @@ module Redmine
         def entries(path=nil, identifier=nil, options={})
           logger.debug "<cvs> entries '#{path}' with identifier '#{identifier}'"
           path_locale = scm_iconv(@path_encoding, 'UTF-8', path)
-          path_locale.force_encoding("ASCII-8BIT")
+          path_locale = path_locale.dup.force_encoding("ASCII-8BIT")
           entries = Entries.new
           cmd_args = %w|-q rls -e|
           cmd_args << "-D" << time_to_cvstime_rlog(identifier) if identifier

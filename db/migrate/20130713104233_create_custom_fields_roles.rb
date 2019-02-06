@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateCustomFieldsRoles < ActiveRecord::Migration[4.2]
   def self.up
     create_table :custom_fields_roles, :id => false do |t|

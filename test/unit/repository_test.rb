@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Redmine - project management software
 # Copyright (C) 2006-2017  Jean-Philippe Lang
 #
@@ -58,7 +60,7 @@ class RepositoryTest < ActiveSupport::TestCase
 
   def test_blank_log_encoding_error_message_fr
     set_language_if_valid 'fr'
-    str = "Encodage des messages de commit doit \xc3\xaatre renseign\xc3\xa9(e)".force_encoding('UTF-8')
+    str = (+"Encodage des messages de commit doit \xc3\xaatre renseign\xc3\xa9(e)").force_encoding('UTF-8')
     repo = Repository::Bazaar.new(
                         :project      => Project.find(3),
                         :url          => "/test"
@@ -285,7 +287,7 @@ class RepositoryTest < ActiveSupport::TestCase
                     :url => '/foo/bar/baz' )
     long_whitespace = "                                                "
     expected_comment = "This is a loooooooooooooooooooooooooooong comment"
-    comment = "#{expected_comment}#{long_whitespace}\n"
+    comment = +"#{expected_comment}#{long_whitespace}\n"
     3.times {comment << "#{long_whitespace}\n"}
     changeset = Changeset.new(
       :comments => comment, :commit_date => Time.now,

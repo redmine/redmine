@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class SetDefaultRepositories < ActiveRecord::Migration[4.2]
   def self.up
     Repository.update_all(["is_default = ?", false])

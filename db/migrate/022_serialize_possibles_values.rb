@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class SerializePossiblesValues < ActiveRecord::Migration[4.2]
   def self.up
     CustomField.all.each do |field|

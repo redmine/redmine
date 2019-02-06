@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ChangeIssuesDescriptionLimit < ActiveRecord::Migration[4.2]
   def up
     if ActiveRecord::Base.connection.adapter_name =~ /mysql/i

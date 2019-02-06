@@ -1,4 +1,6 @@
 # encoding: utf-8
+# frozen_string_literal: true
+
 #
 # Redmine - project management software
 # Copyright (C) 2006-2017  Jean-Philippe Lang
@@ -143,7 +145,7 @@ class AttachmentsControllerTest < Redmine::ControllerTest
     assert a.save
     assert_equal 'japanese-utf-8.txt', a.filename
 
-    str_japanese = "\xe6\x97\xa5\xe6\x9c\xac\xe8\xaa\x9e".force_encoding('UTF-8')
+    str_japanese = (+"\xe6\x97\xa5\xe6\x9c\xac\xe8\xaa\x9e").force_encoding('UTF-8')
 
     get :show, :params => {
         :id => a.id

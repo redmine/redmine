@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Redmine - project management software
 # Copyright (C) 2006-2017  Jean-Philippe Lang
 #
@@ -184,6 +186,7 @@ module Redmine
       def parse_keyword(custom_field, keyword, &block)
         separator = Regexp.escape ","
         keyword = keyword.to_s
+        keyword = keyword.dup if keyword.frozen?
 
         if custom_field.multiple?
           values = []

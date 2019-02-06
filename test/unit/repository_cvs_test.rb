@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Redmine - project management software
 # Copyright (C) 2006-2017  Jean-Philippe Lang
 #
@@ -53,7 +55,7 @@ class RepositoryCvsTest < ActiveSupport::TestCase
 
   def test_blank_module_error_message_fr
     set_language_if_valid 'fr'
-    str = "Module doit \xc3\xaatre renseign\xc3\xa9(e)".force_encoding('UTF-8')
+    str = (+"Module doit \xc3\xaatre renseign\xc3\xa9(e)").force_encoding('UTF-8')
     repo = Repository::Cvs.new(
                           :project       => @project,
                           :identifier    => 'test',
@@ -81,7 +83,7 @@ class RepositoryCvsTest < ActiveSupport::TestCase
 
   def test_blank_cvsroot_error_message_fr
     set_language_if_valid 'fr'
-    str = "CVSROOT doit \xc3\xaatre renseign\xc3\xa9(e)".force_encoding('UTF-8')
+    str = (+"CVSROOT doit \xc3\xaatre renseign\xc3\xa9(e)").force_encoding('UTF-8')
     repo = Repository::Cvs.new(
                           :project       => @project,
                           :identifier    => 'test',

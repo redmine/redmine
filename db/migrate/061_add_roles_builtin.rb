@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddRolesBuiltin < ActiveRecord::Migration[4.2]
   def self.up
     add_column :roles, :builtin, :integer, :default => 0, :null => false

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddVerifyPeerToAuthSources < ActiveRecord::Migration[5.2]
   def change
     change_table :auth_sources do |t|
