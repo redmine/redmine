@@ -466,7 +466,7 @@ class RedCloth3 < String
     # Parses Textile attribute lists and builds an HTML attribute string
     def pba( text_in, element = "" )
         
-        return '' unless text_in
+        return +'' unless text_in
 
         style = []
         text = text_in.dup
@@ -504,7 +504,7 @@ class RedCloth3 < String
 
         id = id.starts_with?('wiki-id-') ? id : "wiki-id-#{id}" if id
 
-        atts = ''
+        atts = +''
         atts << " style=\"#{ style.join }\"" unless style.empty?
         atts << " class=\"#{ cls }\"" unless cls.to_s.empty?
         atts << " lang=\"#{ lang }\"" if lang
@@ -585,9 +585,9 @@ class RedCloth3 < String
                         depth << tl
                         atts = pba( atts )
                         atts = shelve( atts ) if atts
-                        lines[line_id] = "\t<#{ lT(tl) }l#{ atts }>\n\t<li>#{ content }"
+                        lines[line_id] = +"\t<#{ lT(tl) }l#{ atts }>\n\t<li>#{ content }"
                     else
-                        lines[line_id] = "\t\t<li>#{ content }"
+                        lines[line_id] = +"\t\t<li>#{ content }"
                     end
                     last_line = line_id
 
@@ -610,7 +610,7 @@ class RedCloth3 < String
     def block_textile_quotes( text )
       text.gsub!( QUOTES_RE ) do |match|
         lines = match.split( /\n/ )
-        quotes = ''
+        quotes = +''
         indent = 0
         lines.each do |line|
           line =~ QUOTES_CONTENT_RE 
@@ -638,7 +638,7 @@ class RedCloth3 < String
         text.gsub!( CODE_RE ) do |m|
             before,lang,code,after = $~[1..4]
             lang = " lang=\"#{ lang }\"" if lang
-            rip_offtags( "#{ before }<code#{ lang }>#{ code }</code>#{ after }", false )
+            rip_offtags( +"#{ before }<code#{ lang }>#{ code }</code>#{ after }", false )
         end
     end
 
@@ -850,7 +850,7 @@ class RedCloth3 < String
               post = ")"+post # add closing parenth to post
             end
             atts = pba( atts )
-            atts = " href=\"#{ htmlesc url }#{ slash }\"#{ atts }"
+            atts = +" href=\"#{ htmlesc url }#{ slash }\"#{ atts }"
             atts << " title=\"#{ htmlesc title }\"" if title
             atts = shelve( atts ) if atts
             
@@ -961,7 +961,7 @@ class RedCloth3 < String
             stln,algn,atts,url,title,href,href_a1,href_a2 = $~[1..8]
             htmlesc title
             atts = pba( atts )
-            atts = " src=\"#{ htmlesc url.dup }\"#{ atts }"
+            atts = +" src=\"#{ htmlesc url.dup }\"#{ atts }"
             atts << " title=\"#{ title }\"" if title
             atts << " alt=\"#{ title }\"" 
             # size = @getimagesize($url);
@@ -972,7 +972,7 @@ class RedCloth3 < String
 
             next m unless uri_with_safe_scheme?(url)
 
-            out = ''
+            out = +''
             out << "<a#{ shelve( " href=\"#{ href }\"" ) }>" if href
             out << "<img#{ shelve( atts ) } />"
             out << "</a>#{ href_a1 }#{ href_a2 }" if href
@@ -1095,25 +1095,25 @@ class RedCloth3 < String
                     if codepre - used_offtags.length > 0
                         htmlesc( line, :NoQuotes ) if escape_line
                         @pre_list.last << line
-                        line = ""
+                        line = +""
                     else
                         ### htmlesc is disabled between CODE tags which will be parsed with highlighter
                         ### Regexp in formatter.rb is : /<code\s+class="(\w+)">\s?(.+)/m
                         ### NB: some changes were made not to use $N variables, because we use "match"
                         ###   and it breaks following lines
                         htmlesc( aftertag, :NoQuotes ) if aftertag && escape_aftertag && !first.match(/<code\s+class="(\w+)">/)
-                        line = "<redpre##{ @pre_list.length }>"
+                        line = +"<redpre##{ @pre_list.length }>"
                         first.match(/<#{ OFFTAGS }([^>]*)>/)
                         tag = $1
                         $2.to_s.match(/(class\=("[^"]+"|'[^']+'))/i)
                         tag << " #{$1}" if $1 && tag == 'code'
-                        @pre_list << "<#{ tag }>#{ aftertag }"
+                        @pre_list << +"<#{ tag }>#{ aftertag }"
                     end
                 elsif $1 and codepre > 0
                     if codepre - used_offtags.length > 0
                         htmlesc( line, :NoQuotes ) if escape_line
                         @pre_list.last << line
-                        line = ""
+                        line = +""
                     end
                     codepre -= 1 unless codepre.zero?
                     used_offtags = {} if codepre.zero?

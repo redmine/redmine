@@ -37,7 +37,7 @@ class ApplicationHelperTest < Redmine::HelperTest
   def setup
     super
     set_tmp_attachments_directory
-    @russian_test = "\xd1\x82\xd0\xb5\xd1\x81\xd1\x82".force_encoding('UTF-8')
+    @russian_test = (+"\xd1\x82\xd0\xb5\xd1\x81\xd1\x82").force_encoding('UTF-8')
   end
 
   test "#link_to_if_authorized for authorized user should allow using the :controller and :action for the target link" do
@@ -1424,7 +1424,7 @@ RAW
   end
 
   def test_parse_redmine_links_should_handle_a_tag_without_attributes
-    text = '<a>http://example.com</a>'
+    text = +'<a>http://example.com</a>'
     expected = text.dup
     parse_redmine_links(text, nil, nil, nil, true, {})
     assert_equal expected, text
@@ -1779,7 +1779,7 @@ RAW
   end
 
   def test_truncate_single_line_non_ascii
-    ja = "\xe6\x97\xa5\xe6\x9c\xac\xe8\xaa\x9e".force_encoding('UTF-8')
+    ja = (+"\xe6\x97\xa5\xe6\x9c\xac\xe8\xaa\x9e").force_encoding('UTF-8')
     result = truncate_single_line_raw("#{ja}\n#{ja}\n#{ja}", 10)
     assert_equal "#{ja} #{ja}...", result
     assert !result.html_safe?

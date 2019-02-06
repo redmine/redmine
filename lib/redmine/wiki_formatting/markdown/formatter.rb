@@ -81,7 +81,7 @@ module Redmine
         end
 
         def extract_sections(index)
-          sections = ['', '', '']
+          sections = [+'', +'', +'']
           offset = 0
           i = 0
           l = 1

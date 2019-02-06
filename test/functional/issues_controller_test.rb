@@ -770,8 +770,8 @@ class IssuesControllerTest < Redmine::ControllerTest
 
   def test_index_csv_big_5
     with_settings :default_language => "zh-TW" do
-      str_utf8  = "\xe4\xb8\x80\xe6\x9c\x88".force_encoding('UTF-8')
-      str_big5  = "\xa4@\xa4\xeb".force_encoding('Big5')
+      str_utf8  = (+"\xe4\xb8\x80\xe6\x9c\x88").force_encoding('UTF-8')
+      str_big5  = (+"\xa4@\xa4\xeb").force_encoding('Big5')
       issue = Issue.generate!(:subject => str_utf8)
 
       get :index, :params => {
@@ -782,7 +782,7 @@ class IssuesControllerTest < Redmine::ControllerTest
       assert_equal 'text/csv; header=present', @response.content_type
       lines = @response.body.chomp.split("\n")
       header = lines[0]
-      status = "\xaa\xac\xbaA".force_encoding('Big5')
+      status = (+"\xaa\xac\xbaA").force_encoding('Big5')
       assert_include status, header
       issue_line = lines.find {|l| l =~ /^#{issue.id},/}
       assert_include str_big5, issue_line
@@ -791,7 +791,7 @@ class IssuesControllerTest < Redmine::ControllerTest
 
   def test_index_csv_cannot_convert_should_be_replaced_big_5
     with_settings :default_language => "zh-TW" do
-      str_utf8  = "\xe4\xbb\xa5\xe5\x86\x85".force_encoding('UTF-8')
+      str_utf8  = (+"\xe4\xbb\xa5\xe5\x86\x85").force_encoding('UTF-8')
       issue = Issue.generate!(:subject => str_utf8)
 
       get :index, :params => {
@@ -805,10 +805,10 @@ class IssuesControllerTest < Redmine::ControllerTest
       lines = @response.body.chomp.split("\n")
       header = lines[0]
       issue_line = lines.find {|l| l =~ /^#{issue.id},/}
-      s1 = "\xaa\xac\xbaA".force_encoding('Big5') # status
+      s1 = (+"\xaa\xac\xbaA").force_encoding('Big5') # status
       assert header.include?(s1)
       s2 = issue_line.split(",")[2]
-      s3 = "\xa5H?".force_encoding('Big5') # subject
+      s3 = (+"\xa5H?").force_encoding('Big5') # subject
       assert_equal s3, s2
     end
   end
@@ -2344,8 +2344,8 @@ class IssuesControllerTest < Redmine::ControllerTest
 
   def test_export_to_pdf_with_utf8_u_fffd
     # U+FFFD
-    s = "\xef\xbf\xbd"
-    s.force_encoding('UTF-8') if s.respond_to?(:force_encoding)
+    s = +"\xef\xbf\xbd"
+    s.force_encoding('UTF-8')
     issue = Issue.generate!(:subject => s)
     ["en", "zh", "zh-TW", "ja", "ko"].each do |lang|
       with_settings :default_language => lang do

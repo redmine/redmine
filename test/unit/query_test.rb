@@ -1826,7 +1826,7 @@ class QueryTest < ActiveSupport::TestCase
   def test_label_for_fr
     set_language_if_valid 'fr'
     q = IssueQuery.new
-    assert_equal "Assign\xc3\xa9 \xc3\xa0".force_encoding('UTF-8'), q.label_for('assigned_to_id')
+    assert_equal (+"Assign\xc3\xa9 \xc3\xa0").force_encoding('UTF-8'), q.label_for('assigned_to_id')
   end
 
   def test_editable_by

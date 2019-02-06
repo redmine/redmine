@@ -44,8 +44,8 @@ class RepositoryBazaarTest < ActiveSupport::TestCase
   RUN_LATIN1_OUTPUT_TEST = (RUBY_PLATFORM != 'java' &&
                              Encoding.locale_charmap == "ISO-8859-1")
 
-  CHAR_1_UTF8_HEX   = "\xc3\x9c".force_encoding('UTF-8')
-  CHAR_1_LATIN1_HEX = "\xdc".force_encoding('ASCII-8BIT')
+  CHAR_1_UTF8_HEX   = (+"\xc3\x9c").force_encoding('UTF-8')
+  CHAR_1_LATIN1_HEX = (+"\xdc").force_encoding('ASCII-8BIT')
 
   def setup
     User.current = nil
@@ -70,7 +70,7 @@ class RepositoryBazaarTest < ActiveSupport::TestCase
 
   def test_blank_path_to_repository_error_message_fr
     set_language_if_valid 'fr'
-    str = "Chemin du d\xc3\xa9p\xc3\xb4t doit \xc3\xaatre renseign\xc3\xa9(e)".force_encoding('UTF-8')
+    str = (+"Chemin du d\xc3\xa9p\xc3\xb4t doit \xc3\xaatre renseign\xc3\xa9(e)").force_encoding('UTF-8')
     repo = Repository::Bazaar.new(
                           :project      => @project,
                           :url          => "",

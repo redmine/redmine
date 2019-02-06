@@ -20,7 +20,7 @@ class SearchController < ApplicationController
   accept_api_auth :index
 
   def index
-    @question = params[:q] || ""
+    @question = params[:q] || +""
     @question.strip!
     @all_words = params[:all_words] ? params[:all_words].present? : true
     @titles_only = params[:titles_only] ? params[:titles_only].present? : false

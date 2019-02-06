@@ -19,7 +19,7 @@ require File.expand_path('../../../../../test_helper', __FILE__)
 
 class CsvTest < ActiveSupport::TestCase
   include Redmine::I18n
-  BOM = "\xEF\xBB\xBF".force_encoding('UTF-8')
+  BOM = (+"\xEF\xBB\xBF").force_encoding('UTF-8')
 
   def test_should_include_bom_when_utf8_encoded
     with_locale 'sk' do

@@ -159,7 +159,7 @@ module Redmine
         per_page_links = false if count.nil?
         page_param = paginator.page_param
 
-        html = '<ul class="pages">'
+        html = +'<ul class="pages">'
 
         if paginator.multiple_pages?
           # \xc2\xab(utf-8) = &#171;

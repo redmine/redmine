@@ -124,7 +124,7 @@ class Journal < ActiveRecord::Base
 
   # Returns a string of css classes
   def css_classes
-    s = 'journal'
+    s = +'journal'
     s << ' has-notes' unless notes.blank?
     s << ' has-details' unless details.blank?
     s << ' private-notes' if private_notes?

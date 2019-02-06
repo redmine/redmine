@@ -70,7 +70,7 @@ class JournalsController < ApplicationController
     end
     # Replaces pre blocks with [...]
     text = text.to_s.strip.gsub(%r{<pre>(.*?)</pre>}m, '[...]')
-    @content = "#{ll(Setting.default_language, :text_user_wrote, user)}\n> "
+    @content = +"#{ll(Setting.default_language, :text_user_wrote, user)}\n> "
     @content << text.gsub(/(\r?\n|\r\n?)/, "\n> ") + "\n\n"
   rescue ActiveRecord::RecordNotFound
     render_404

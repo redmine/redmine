@@ -44,7 +44,7 @@ module Redmine
           add_at = nil
           add_to = nil
           del_at = nil
-          deleted = ""
+          deleted = +""
           diff.each do |change|
             pos = change[1]
             if change[0] == "+"

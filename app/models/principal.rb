@@ -69,7 +69,7 @@ class Principal < ActiveRecord::Base
       where({})
     else
       pattern = "%#{q}%"
-      sql = "LOWER(#{table_name}.login) LIKE LOWER(:p)"
+      sql = +"LOWER(#{table_name}.login) LIKE LOWER(:p)"
       sql << " OR #{table_name}.id IN (SELECT user_id FROM #{EmailAddress.table_name} WHERE LOWER(address) LIKE LOWER(:p))"
       params = {:p => pattern}
 

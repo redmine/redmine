@@ -367,7 +367,7 @@ class User < Principal
   def random_password(length=40)
     chars = ("a".."z").to_a + ("A".."Z").to_a + ("0".."9").to_a
     chars -= %w(0 O 1 l)
-    password = ''
+    password = +''
     length.times {|i| password << chars[SecureRandom.random_number(chars.size)] }
     self.password = password
     self.password_confirmation = password

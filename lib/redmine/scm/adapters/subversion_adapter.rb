@@ -89,7 +89,7 @@ module Redmine
           path ||= ''
           identifier = (identifier and identifier.to_i > 0) ? identifier.to_i : "HEAD"
           entries = Entries.new
-          cmd = "#{self.class.sq_bin} list --xml #{target(path)}@#{identifier}"
+          cmd = +"#{self.class.sq_bin} list --xml #{target(path)}@#{identifier}"
           cmd << credentials_string
           shellout(cmd) do |io|
             output = io.read.force_encoding('UTF-8')
@@ -242,7 +242,7 @@ module Redmine
         private
 
         def credentials_string
-          str = ''
+          str = +''
           str << " --username #{shell_quote(@login)}" unless @login.blank?
           str << " --password #{shell_quote(@password)}" unless @login.blank? || @password.blank?
           str << " --no-auth-cache --non-interactive"

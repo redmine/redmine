@@ -42,14 +42,14 @@ module ProjectsHelper
       selected = (parent_id.blank? ? nil : Project.find(parent_id))
     end
 
-    options = ''
+    options = +''
     options << "<option value=''>&nbsp;</option>" if project.allowed_parents.include?(nil)
     options << project_tree_options_for_select(project.allowed_parents.compact, :selected => selected)
     content_tag('select', options.html_safe, :name => 'project[parent_id]', :id => 'project_parent_id')
   end
 
   def render_project_action_links
-    links = "".html_safe
+    links = (+"").html_safe
     if User.current.allowed_to?(:add_project, nil, :global => true)
       links << link_to(l(:label_project_new), new_project_path, :class => 'icon icon-add')
     end

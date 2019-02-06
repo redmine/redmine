@@ -278,7 +278,7 @@ module ApplicationHelper
   end
 
   def toggle_link(name, id, options={})
-    onclick = "$('##{id}').toggle(); "
+    onclick = +"$('##{id}').toggle(); "
     onclick << (options[:focus] ? "$('##{options[:focus]}').focus(); " : "this.blur(); ")
     onclick << "$(window).scrollTop($('##{options[:focus]}').position().top); " if options[:scroll]
     onclick << "return false;"
@@ -322,7 +322,7 @@ module ApplicationHelper
   # The given collection may be a subset of the whole project tree
   # (eg. some intermediate nodes are private and can not be seen)
   def render_project_nested_lists(projects, &block)
-    s = ''
+    s = +''
     if projects.any?
       ancestors = []
       original_project = @project
@@ -352,7 +352,7 @@ module ApplicationHelper
   end
 
   def render_page_hierarchy(pages, node=nil, options={})
-    content = ''
+    content = +''
     if pages[node]
       content << "<ul class=\"pages-hierarchy\">\n"
       pages[node].each do |page|
@@ -369,7 +369,7 @@ module ApplicationHelper
 
   # Renders flash messages
   def render_flash_messages
-    s = ''
+    s = +''
     flash.each do |k,v|
       s << content_tag('div', v.html_safe, :class => "flash #{k}", :id => "flash_#{k}")
     end
@@ -408,7 +408,7 @@ module ApplicationHelper
 
   def render_projects_for_jump_box(projects, selected=nil)
     jump = params[:jump].presence || current_menu_item
-    s = ''.html_safe
+    s = (+'').html_safe
     project_tree(projects) do |project, level|
       padding = level * 16
       text = content_tag('span', project.name, :style => "padding-left:#{padding}px;")
@@ -469,7 +469,7 @@ module ApplicationHelper
   end
 
   def principals_check_box_tags(name, principals)
-    s = ''
+    s = +''
     principals.each do |principal|
       s << "<label>#{ check_box_tag name, principal.id, false, :id => nil } #{h principal}</label>\n"
     end
@@ -478,11 +478,11 @@ module ApplicationHelper
 
   # Returns a string for users/groups option tags
   def principals_options_for_select(collection, selected=nil)
-    s = ''
+    s = +''
     if collection.include?(User.current)
       s << content_tag('option', "<< #{l(:label_me)} >>", :value => User.current.id)
     end
-    groups = ''
+    groups = +''
     collection.sort.each do |element|
       selected_attribute = ' selected="selected"' if option_value_selected?(element, selected) || element.id.to_s == selected
       (element.is_a?(Group) ? groups : s) << %(<option value="#{element.id}"#{selected_attribute}>#{h element.name}</option>)
@@ -714,7 +714,7 @@ module ApplicationHelper
   def parse_non_pre_blocks(text, obj, macros)
     s = StringScanner.new(text)
     tags = []
-    parsed = ''
+    parsed = +''
     while !s.eos?
       s.scan(/(.*?)(<(\/)?(pre|code)(.*?)>|\z)/im)
       text, full_tag, closing, tag = s[1], s[2], s[3], s[4]
@@ -1194,10 +1194,10 @@ module ApplicationHelper
       if headings.empty?
         ''
       else
-        div_class = 'toc'
+        div_class = +'toc'
         div_class << ' right' if right_align
         div_class << ' left' if left_align
-        out = "<ul class=\"#{div_class}\"><li><strong>#{l :label_table_of_contents}</strong></li><li>"
+        out = +"<ul class=\"#{div_class}\"><li><strong>#{l :label_table_of_contents}</strong></li><li>"
         root = headings.map(&:first).min
         current = root
         started = false
@@ -1258,7 +1258,7 @@ module ApplicationHelper
 
   # Renders a list of error messages
   def render_error_messages(errors)
-    html = ""
+    html = +""
     if errors.present?
       html << "<div id='errorExplanation'><ul>\n"
       errors.each do |error|

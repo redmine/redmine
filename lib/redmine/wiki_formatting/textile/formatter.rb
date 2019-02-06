@@ -63,9 +63,9 @@ module Redmine
           @pre_list = []
           text = self.dup
           rip_offtags text, false, false
-          before = ''
-          s = ''
-          after = ''
+          before = +''
+          s = +''
+          after = +''
           i = 0
           l = 1
           started = false
