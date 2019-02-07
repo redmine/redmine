@@ -1436,6 +1436,20 @@ tr.open span.expander:before {
 
 @media (max-width: 480px) {
     /* Remove padding above jumbotron */
+
+    .explore-option {
+        width: 100%;
+        margin: 0 auto;
+        margin-top: 1em;
+    }
+
+    .explore-desc {
+        height: 4em;
+    }
+
+    #learnMoreContainer {
+        margin-top: 0;
+    }
     
     body {
         padding-top: 0;
