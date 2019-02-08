@@ -11,11 +11,14 @@
 <label><%= check_box_tag 'titles_only', 1, @titles_only %> <%= l(:label_search_titles_only) %></label>
 </p>
 
-<p id="search-types">
-<% @object_types.each do |t| %>
-<label><%= check_box_tag t, 1, @scope.include?(t) %> <%= link_to type_label(t), "#" %></label>
-<% end %>
-</p>
+<fieldset class="box">
+  <legend><%= toggle_checkboxes_link('p#search-types input') %></legend>
+  <p id="search-types">
+  <% @object_types.each do |t| %>
+  <label><%= check_box_tag t, 1, @scope.include?(t) %> <%= link_to type_label(t), "#" %></label>
+  <% end %>
+  </p>
+</fieldset>
 
 <fieldset class="collapsible collapsed">
   <legend onclick="toggleFieldset(this);"><%= l(:label_options) %></legend>
