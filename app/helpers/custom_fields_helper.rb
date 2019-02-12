@@ -129,6 +129,17 @@ module CustomFieldsHelper
       :class => "#{custom_field.field_format}_cf"
   end
 
+  # Returns custom field value tag
+  def custom_field_value_tag(value)
+    attr_value = show_value(value)
+
+    if !attr_value.blank? && value.custom_field.full_text_formatting?
+      content_tag('div', attr_value, :class => 'wiki')
+    else
+      attr_value
+    end
+  end
+
   # Return a string used to display a custom value
   def show_value(custom_value, html=true)
     format_object(custom_value, html)
