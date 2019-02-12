@@ -362,4 +362,12 @@ class CustomFieldTest < ActiveSupport::TestCase
       refute_includes Project.where(project_field.visibility_by_project_condition), project
     end
   end
+
+  def test_full_text_formatting?
+    field = IssueCustomField.create!(:name => 'Long text', :field_format => 'text', :text_formatting => 'full')
+    assert field.full_text_formatting?
+
+    field2 = IssueCustomField.create!(:name => 'Another long text', :field_format => 'text')
+    assert !field2.full_text_formatting?
+  end
 end

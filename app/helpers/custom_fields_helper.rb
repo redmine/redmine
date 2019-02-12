@@ -55,7 +55,7 @@ module CustomFieldsHelper
     items = []
     items << [l(:label_custom_field_plural), custom_fields_path]
     items << [l(custom_field.type_name), custom_fields_path(:tab => custom_field.class.name)] if custom_field
-    items << (custom_field.nil? || custom_field.new_record? ? l(:label_custom_field_new) : custom_field.name) 
+    items << (custom_field.nil? || custom_field.new_record? ? l(:label_custom_field_new) : custom_field.name)
 
     title(*items)
   end
@@ -79,11 +79,14 @@ module CustomFieldsHelper
 
   # Return custom field html tag corresponding to its format
   def custom_field_tag(prefix, custom_value)
+    css = "#{custom_value.custom_field.field_format}_cf"
+    css << ' wiki-edit' if custom_value.custom_field.full_text_formatting?
+
     custom_value.custom_field.format.edit_tag self,
       custom_field_tag_id(prefix, custom_value.custom_field),
       custom_field_tag_name(prefix, custom_value.custom_field),
       custom_value,
-      :class => "#{custom_value.custom_field.field_format}_cf"
+      :class => css
   end
 
   # Return custom field name tag
@@ -92,7 +95,7 @@ module CustomFieldsHelper
     css = title ? "field-description" : nil
     content_tag 'span', custom_field.name, :title => title, :class => css
   end
-  
+
   # Return custom field label tag
   def custom_field_label_tag(name, custom_value, options={})
     required = options[:required] || custom_value.custom_field.is_required?

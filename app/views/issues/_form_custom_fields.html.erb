@@ -20,4 +20,5 @@
 
 <% custom_field_values_full_width.each do |value| %>
   <p><%= custom_field_tag_with_label :issue, value, :required => @issue.required_attribute?(value.custom_field_id) %></p>
+  <%= wikitoolbar_for "issue_custom_field_values_#{value.custom_field_id}", preview_issue_path(:project_id => @issue.project, :issue_id => @issue.id) if value.custom_field.full_text_formatting? %>
 <% end %>

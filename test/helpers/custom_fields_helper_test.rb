@@ -86,4 +86,11 @@ class CustomFieldsHelperTest < Redmine::HelperTest
     assert_select_in custom_field_tag_for_bulk_edit('object', field),
       'input[type=text][value=""][name=?]', 'object[custom_field_values][52]'
   end
+
+  def test_custom_field_tag_class_should_contain_wiki_edit_for_custom_fields_with_full_text_formatting
+    field = IssueCustomField.create!(:name => 'Long text', :field_format => 'text', :text_formatting => 'full')
+    value = CustomValue.new(:value => 'bar', :custom_field => field)
+
+    assert_select_in custom_field_tag('object', value), 'textarea[class=?]', 'text_cf wiki-edit'
+  end
 end
