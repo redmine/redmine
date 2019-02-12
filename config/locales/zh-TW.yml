@@ -1312,10 +1312,9 @@
   label_ldaps_verify_peer: LDAPS
   label_ldaps_warning: 建議使用包含 SSL 憑證檢查的加密 LADPS 協定，以防止驗證過程被竄改操縱。
   label_nothing_to_preview: 沒有可供預覽的項目
-  error_token_expired: This password recovery link has expired, please try again.
-  error_spent_on_future_date: Cannot log time on a future date
-  setting_timelog_accept_future_dates: Accept time logs on future dates
-  label_delete_link_to_subtask: 刪除關聯
-  error_not_allowed_to_log_time_for_other_users: You are not allowed to log time
-    for other users
-  permission_log_time_for_other_users: Log spent time for other users
+  error_token_expired: 此密碼復原連結已經過期, 請再試一次.
+  error_spent_on_future_date: 無法輸入未來日期的工時紀錄
+  setting_timelog_accept_future_dates: 接受輸入未來日期的工時紀錄
+  label_delete_link_to_subtask: 刪除連結至子任務的關聯
+  error_not_allowed_to_log_time_for_other_users: 您未被允許可替他人輸入工時紀錄
+  permission_log_time_for_other_users: 輸入他人的工時紀錄
