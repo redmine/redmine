@@ -1313,4 +1313,4 @@
   label_ldaps_verify_peer: LDAPS
   label_ldaps_warning: 建議使用包含 SSL 憑證檢查的加密 LADPS 協定，以防止驗證過程被竄改操縱。
   label_nothing_to_preview: 沒有可供預覽的項目
-  error_token_expired: This password recovery link has expired, please try again.
+  error_token_expired: 此密碼復原連結已經過期, 請再試一次.
