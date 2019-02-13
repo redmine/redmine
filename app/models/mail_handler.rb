@@ -91,7 +91,7 @@ class MailHandler < ActionMailer::Base
     @handler_options = options
     sender_email = email.from.to_a.first.to_s.strip
     # Ignore emails received from the application emission address to avoid hell cycles
-    if sender_email.casecmp(Setting.mail_from.to_s.strip) == 0
+    if sender_email.casecmp(Setting.mail_from_address) == 0
       if logger
         logger.info  "MailHandler: ignoring email from Redmine emission address [#{sender_email}]"
       end
