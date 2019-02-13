@@ -1398,6 +1398,23 @@ class IssuesControllerTest < Redmine::ControllerTest
     assert_select 'td.description[colspan="4"] span', :text => 'Description'
   end
 
+  def test_index_with_full_width_layout_custom_field_column_should_show_column_as_block_column
+    field = IssueCustomField.create!(:name => 'Long text', :field_format => 'text', :full_width_layout => '1',
+      :tracker_ids => [1], :is_for_all => true)
+    issue = Issue.find(1)
+    issue.custom_field_values = {field.id => 'This is a long text'}
+    issue.save!
+
+    get :index, :params => {
+        :set_filter => 1,
+        :c => ['subject', 'description', "cf_#{field.id}"]
+      }
+    assert_response :success
+
+    assert_select 'td.description[colspan="4"] span', :text => 'Description'
+    assert_select "td.cf_#{field.id} span", :text => 'Long text'
+  end
+
   def test_index_with_parent_column
     Issue.delete_all
     parent = Issue.generate!

@@ -123,7 +123,7 @@ class QueryCustomFieldColumn < QueryColumn
     self.sortable = custom_field.order_statement || false
     self.groupable = custom_field.group_statement || false
     self.totalable = options.key?(:totalable) ? !!options[:totalable] : custom_field.totalable?
-    @inline = true
+    @inline = custom_field.full_width_layout? ? false : true
     @cf = custom_field
   end
 

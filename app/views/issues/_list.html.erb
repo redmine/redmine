@@ -40,7 +40,7 @@
   <% query.block_columns.each do |column|
        if (text = column_content(column, issue)) && text.present? -%>
   <tr class="<%= current_cycle %>">
-    <td colspan="<%= query.inline_columns.size + 2 %>" class="<%= column.css_classes %>">
+    <td colspan="<%= query.inline_columns.size + 2 %>" class="<%= column.css_classes %> block_column">
       <% if query.block_columns.count > 1 %>
         <span><%= column.caption %></span>
       <% end %>
