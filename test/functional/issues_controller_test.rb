@@ -355,21 +355,21 @@ class IssuesControllerTest < Redmine::ControllerTest
 
   def test_index_grouped_by_created_on
     skip unless IssueQuery.new.groupable_columns.detect {|c| c.name == :created_on}
-  
+
     get :index, :params => {
         :set_filter => 1,
         :group_by => 'created_on'
       }
     assert_response :success
-  
+
     assert_select 'tr.group span.name', :text => '07/19/2006' do
       assert_select '+ span.count', :text => '2'
     end
   end
-  
+
   def test_index_grouped_by_created_on_as_pdf
     skip unless IssueQuery.new.groupable_columns.detect {|c| c.name == :created_on}
-  
+
     get :index, :params => {
         :set_filter => 1,
         :group_by => 'created_on',
@@ -1867,12 +1867,12 @@ class IssuesControllerTest < Redmine::ControllerTest
     with_settings :date_format => '%d/%m/%Y' do
       issue = Issue.generate!(:start_date => '2018-11-29', :due_date => '2018-12-01')
       IssueRelation.create!(:issue_from => Issue.find(1), :issue_to => issue, :relation_type => 'relates')
-  
+
       get :show, :params => {
           :id => 1
         }
       assert_response :success
-  
+
       assert_select '#relations td.start_date', :text => '29/11/2018'
       assert_select '#relations td.due_date', :text => '01/12/2018'
     end
