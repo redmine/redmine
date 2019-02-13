@@ -265,6 +265,7 @@ tr.issue td.relations { text-align: left; }
 tr.issue td.done_ratio table.progress { margin-left:auto; margin-right: auto;}
 tr.issue td.relations span {white-space: nowrap;}
 table.issues td.block_column {color:#777; font-size:90%; padding:4px 4px 4px 24px; text-align:left; white-space:normal;}
+table.issues td.block_column span {font-weight: bold; display: block; margin-bottom: 4px;}
 table.issues td.block_column pre {white-space:normal;}
 
 tr.issue.idnt td.subject {background: url(../images/arrow_right.png) no-repeat 2px 50%;}
