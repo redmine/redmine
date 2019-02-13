@@ -3828,3 +3828,7 @@ ul[role=tabpanel] li a{
     text-shadow: 1px 1px 5px black;
     font-weight: bold;
 }
+
+#cells_graph foreignObject {
+    overflow: visible;
+}

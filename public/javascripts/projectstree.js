@@ -1,7 +1,7 @@
 var m = [ 20, 10, 20, 50 ], w = 900 - m[1] - m[3], h = 800 - m[0] - m[2], i = 0, root;
 
 var tree = d3.layout.tree().size([ h, w ]).separation(function(a, b) {
-	return 100;
+	return 200;
 });
 
 var diagonal = d3.svg.diagonal().projection(function(d) {
@@ -49,7 +49,7 @@ function makeTree(source)
 	    }
 	  };
 	  childCount(0, root);  
-	  var newHeight = d3.max(levelWidth) * 150; // 20 pixels per line  
+	  var newHeight = d3.max(levelWidth) * 200; // 20 pixels per line
 	  tree = tree.size([newHeight, w]);
 	jQuery("svg").get(0).setAttribute("height", Math.max(newHeight, w) + 150);
 	
