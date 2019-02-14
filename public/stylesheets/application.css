@@ -3506,8 +3506,23 @@ color: #555; text-shadow: 1px 1px 0 #fff;
 	background-image: url('/images/hhtutorial.png');
 }
 
-#synaptictutorial{
-	background-image: url('/images/synaptictutorial.png');
+#l23tutorial {
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+}
+
+#l23tutorial::before{
+    position: absolute;
+    z-index: -1;
+    left: 0;
+    top: 0;
+    content: "";
+    background-image: url('/images/projectThumbnails/L23Tutorial.png');
+    background-size: contain;
+    width: 350px;
+    height: 179px;
+    opacity: 0.7;
 }
 
 #createtutorial{
@@ -3769,8 +3784,8 @@ ul[role=tabpanel] li a{
 }
 
 .card-img {
-    max-height: 175px;
-    max-width: 175px;
+    height: 175px;
+    width: 175px;
 }
 
 .card-title {
