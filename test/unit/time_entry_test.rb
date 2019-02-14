@@ -236,6 +236,7 @@ class TimeEntryTest < ActiveSupport::TestCase
   end
 
   def test_create_should_validate_user_id
+    set_language_if_valid 'en'
     entry = TimeEntry.new(:spent_on => '2010-01-01',
                           :hours    => 10,
                           :project_id => 1,
