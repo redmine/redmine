@@ -615,13 +615,21 @@ class Mailer < ActionMailer::Base
   end
 
   def mail(headers={}, &block)
+    # Add a display name to the From field if Setting.mail_from does not
+    # include it
+    mail_from = Mail::Address.new(Setting.mail_from)
+    if mail_from.display_name.blank? && mail_from.comments.blank?
+      mail_from.display_name =
+        (@author && @author.logged?) ? @author.name : Setting.app_title
+    end
+
     headers.reverse_merge! 'X-Mailer' => 'Redmine',
             'X-Redmine-Host' => Setting.host_name,
             'X-Redmine-Site' => Setting.app_title,
             'X-Auto-Response-Suppress' => 'All',
             'Auto-Submitted' => 'auto-generated',
-            'From' => Setting.mail_from,
-            'List-Id' => "<#{Setting.mail_from.to_s.tr('@', '.')}>"
+            'From' => mail_from.format,
+            'List-Id' => "<#{mail_from.address.to_s.tr('@', '.')}>"
 
     # Replaces users with their email addresses
     [:to, :cc, :bcc].each do |key|

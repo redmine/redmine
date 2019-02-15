@@ -249,6 +249,25 @@ class MailerTest < ActiveSupport::TestCase
     assert_equal 'Redmine app <redmine@example.net>', mail.header['From'].to_s
   end
 
+  def test_from_header_with_author_name
+    # Use the author's name or Setting.app_title as a display name
+    # when Setting.mail_from does not include a display name
+    with_settings :mail_from => 'redmine@example.net', :app_title => 'Foo' do
+      # Use @author.name as a display name
+      Issue.create!(:project_id => 1, :tracker_id => 1, :status_id => 5,
+      :subject => 'Issue created by Dave Lopper', :author_id => 3)
+      mail = last_email
+      assert_equal 'redmine@example.net', mail.from_addrs.first
+      assert_equal 'Dave Lopper <redmine@example.net>', mail.header['From'].to_s
+
+      # Use app_title if @author is nil or AnonymousUser
+      Mailer.deliver_test_email(User.find(1))
+      mail = last_email
+      assert_equal 'redmine@example.net', mail.from_addrs.first
+      assert_equal "Foo <redmine@example.net>", mail.header['From'].to_s
+    end
+  end
+
   def test_should_not_send_email_without_recipient
     news = News.first
     user = news.author
