@@ -604,10 +604,10 @@ class Query < ActiveRecord::Base
 
   # Returns a scope of project statuses that are available as columns or filters
   def project_statuses_values
-    project_statuses =  Project::LABEL_BY_STATUS
-    # Remove archived status from filters
-    project_statuses.delete(9)
-    project_statuses.stringify_keys.invert.to_a
+    [
+      [l(:project_status_active), "#{Project::STATUS_ACTIVE}"],
+      [l(:project_status_closed), "#{Project::STATUS_CLOSED}"]
+    ]
   end
 
   # Adds available filters

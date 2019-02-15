@@ -24,12 +24,6 @@ class Project < ActiveRecord::Base
   STATUS_CLOSED     = 5
   STATUS_ARCHIVED   = 9
 
-  LABEL_BY_STATUS = {
-    1 => l(:project_status_active),
-    5 => l(:project_status_closed),
-    9 => l(:project_status_archived),
-  }
-
   # Maximum length for project identifiers
   IDENTIFIER_MAX_LENGTH = 100
 
