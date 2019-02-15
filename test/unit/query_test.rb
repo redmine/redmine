@@ -2274,6 +2274,7 @@ class QueryTest < ActiveSupport::TestCase
   end
 
   def test_project_statuses_values_should_return_only_active_and_closed_statuses
+    set_language_if_valid 'en'
     query = IssueQuery.new(:project => nil, :name => '_')
     project_status_filter = query.available_filters['project.status']
     assert_not_nil project_status_filter
