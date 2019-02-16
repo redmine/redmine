@@ -198,11 +198,14 @@ class MailerTest < ActiveSupport::TestCase
   end
 
   def test_email_headers
-    issue = Issue.find(1)
-    Mailer.deliver_issue_add(issue)
+    with_settings :mail_from => 'Redmine <redmine@example.net>' do
+      issue = Issue.find(1)
+      Mailer.deliver_issue_add(issue)
+    end
     mail = last_email
     assert_equal 'All', mail.header['X-Auto-Response-Suppress'].to_s
     assert_equal 'auto-generated', mail.header['Auto-Submitted'].to_s
+    # List-Id should not include the display name "Redmine"
     assert_equal '<redmine.example.net>', mail.header['List-Id'].to_s
   end
 
