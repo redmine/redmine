@@ -765,14 +765,23 @@ class MailHandlerTest < ActiveSupport::TestCase
   end
 
   def test_should_ignore_emails_from_emission_address
+    emission_addresses = [
+      'redmine@example.net',
+      'Redmine <redmine@example.net>',
+      'redmine@example.net (Redmine)'
+    ]
     Role.anonymous.add_permission!(:add_issues)
-    assert_no_difference 'User.count' do
-      assert_equal false,
-                   submit_email(
-                     'ticket_from_emission_address.eml',
-                     :issue => {:project => 'ecookbook'},
-                     :unknown_user => 'create'
-                   )
+    emission_addresses.each do |addr|
+      with_settings :mail_from => addr do
+        assert_no_difference 'User.count' do
+          assert_equal false,
+                      submit_email(
+                        'ticket_from_emission_address.eml',
+                        :issue => {:project => 'ecookbook'},
+                        :unknown_user => 'create'
+                      )
+        end
+      end
     end
   end
 
