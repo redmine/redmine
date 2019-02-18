@@ -112,23 +112,6 @@ class SettingTest < ActiveSupport::TestCase
     end
   end
 
-  def test_mail_from_address
-    mail_from_strings = [
-      'joe@example.com',
-      '<joe@example.com>',
-      'Joe Bloggs <joe@example.com>',
-      'display_name@example.com <joe@example.com>',
-      'joe@example.com (Joe Bloggs)',
-      'joe@example.com (display_name@example.com)'
-    ]
-
-    mail_from_strings.each do |from_value|
-      with_settings :mail_from => from_value do
-        assert_equal 'joe@example.com', Setting.mail_from_address
-      end
-    end
-  end
-
   def test_setting_serialied_as_binary_should_be_loaded_as_utf8_encoded_strings
     yaml = <<-YAML
 ---

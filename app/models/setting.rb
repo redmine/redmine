@@ -228,12 +228,6 @@ class Setting < ActiveRecord::Base
     Object.const_defined?(:OpenID) && self[:openid].to_i > 0
   end
 
-  # Extracts an email address ("joe@example.com") from
-  # Setting.mail_from ("Joe Bloggs <joe@example.com>")
-  def self.mail_from_address
-    self.mail_from.to_s.gsub(/(?:.*<|>.*|\(.*\))/, '').strip
-  end
-
   # Checks if settings have changed since the values were read
   # and clears the cache hash if it's the case
   # Called once per request
