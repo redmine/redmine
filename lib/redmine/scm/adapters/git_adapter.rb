@@ -108,11 +108,11 @@ module Redmine
 
         def default_branch
           bras = self.branches
-          return nil if bras.nil?
-          default_bras = bras.select{|x| x.is_default == true}
-          return default_bras.first.to_s if ! default_bras.empty?
-          master_bras = bras.select{|x| x.to_s == 'master'}
-          master_bras.empty? ? bras.first.to_s : 'master'
+          return unless bras
+          default_bras = bras.detect{|x| x.is_default == true}
+          return default_bras.to_s if default_bras
+          master_bras = bras.detect{|x| x.to_s == 'master'}
+          master_bras ? 'master' : bras.first.to_s
         end
 
         def entry(path=nil, identifier=nil)
