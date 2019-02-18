@@ -32,7 +32,7 @@ end
 platforms :mri, :mingw, :x64_mingw do
   # Optional gem for exporting the gantt to a PNG file, not supported with jruby
   group :rmagick do
-    gem "rmagick", ">= 2.14.0"
+    gem "rmagick", "~> 2.16.0"
   end
 
   # Optional Markdown support, not for JRuby
