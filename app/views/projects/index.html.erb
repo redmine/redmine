@@ -16,9 +16,9 @@
             <li><a href="#discussOSB" id="discussOSBLink" data-toggle="tab">OSB Discussions</a></li>
             <li><a href="/tutorials">Tutorials</a></li>
         </ul>
-        
         <div class="tab-content col-md-9">
             <div class="tab-pane" id="projecthighlights">
+                <div class="project-notice">These are just a selection of some stable, well-tested projects on OSB. To see all projects click <a href="#cells" id="cellsLink" data-toggle="tab">here</a>.</div>
                 <% projects = JSON.parse(File.read("public/explore.json")) %>
                 <% projects.keys.each do |k| %>
                     <div class="project-category">
@@ -42,35 +42,6 @@
                     </div>
                 <% end %>
                 
-
-
-<div style="display:none;">
-                <p class="projectHighlightTitle">Neocortex</p>
-	        <p class="projectHighlight singlecell"><a href="/projects/l5bpyrcellhayetal2011">Hay et al. 2011</a></p>
-	        <p class="projectHighlight singlecell"><a href="/projects/l23dendriticspikes">Smith et al. 2013</a></p>
-	        <p class="projectHighlight singlecell"><a href="/projects/alleninstituteneuroml">Allen Institute Cell Types DB</a></p>
-	        <p class="projectHighlight singlecell"><a href="/projects/blue-brain-project-showcase">Markram et al. 2015</a></p>
-	        <p class="projectHighlight singlecell"><a href="/projects/pospischiletal2008">Pospischil et al. 2008</a></p>
-	        <p class="projectHighlight network"><a href="/projects/large-scale-model-of-neocortical-slice-in-vitro-exhibiting-persistent-gamma">Tomsett et al. 2014</a></p>
-	        <p class="projectHighlight network"><a href="/projects/thalamocortical">Traub et al. 2005</a></p>
-	        <p class="projectHighlight singlecell"><a href="/projects/potjansdiesmann2014">Potjans & Diesmann 2014</a></p>
-	        <p class="projectHighlight singlecell"><a href="/projects/brunel2000">Brunel 2000</a></p>
-	        <p class="projectHighlight singlecell"><a href="/projects/izhikevichmodel">Izhikevich 2003</a></p>
-	        <p class="projectHighlight singlecell"><a href="/projects/fitzhugh-nagumo-fitzhugh-1969">FitzHugh & Nagumo 1969</a></p>
-	        <p class="projectHighlightTitle">Cerebellum</p>
-	        <p class="projectHighlight network"><a href="/projects/vervaekeetalgolgicellnetwork">Vervaeke et al. 2010</a></p>
-	        <p class="projectHighlight singlecell"><a href="/projects/cerebellum--cerebellar-golgi-cell--solinasetal-golgicell">Solinas et al. 2007</a></p>
-	        <p class="projectHighlight network"><a href="/projects/grancelllayer">Maex & De Schutter 1998</a></p>
-	        <!--<p class="projectHighlight singlecell"><a href="/projects/granule-cell-layer-piasini-2014">Billings et al. 2014</a></p>-->
-	        <p class="projectHighlightTitle">Hippocampus</p>
-	        <p class="projectHighlight singlecell"><a href="/projects/pinskyrinzelmodel">Pinsky & Rinzel 1994</a></p>
-	        <p class="projectHighlightTitle">Olfactory bulb</p>
-	        <p class="projectHighlight network"><a href="/projects/d-olfactory-bulb-network">Migliore et al. 2014</a></p>
-	        <p class="projectHighlightTitle">Inverterbrate</p>
-	        <p class="projectHighlight singlecell"><a href="/projects/muscle_model">Boyle & Cohen 2008</a></p>
-	        <p class="projectHighlight network"><a href="/projects/pyloricnetwork">Prinz et al. 2014</a></p>
-	        <p class="projectHighlight singlecell"><a href="/projects/hodgkin-huxley-tutorial">Hodgkin & Huxley 1952</a></p>
-                </div>
 	    </div>
            
             
