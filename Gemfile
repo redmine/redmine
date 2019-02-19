@@ -10,8 +10,8 @@ gem "actionpack-xml_parser"
 gem "roadie-rails", "~> 1.3.0"
 gem "mimemagic"
 gem "mail", "~> 2.7.1"
-gem "csv", "~> 3.0.1" if RUBY_VERSION >= "2.3" && RUBY_VERSION < "2.6"
-gem "nokogiri", (RUBY_VERSION >= "2.3" ? "~> 1.10.0" : "~> 1.9.1")
+gem "csv", "~> 3.0.1" if RUBY_VERSION < "2.6"
+gem "nokogiri", "~> 1.10.0"
 gem "i18n", "~> 0.7.0"
 gem "rbpdf", "~> 1.19.6"
 
