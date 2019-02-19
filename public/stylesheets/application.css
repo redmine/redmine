@@ -313,6 +313,7 @@ tr.message td.last_message { font-size: 80%; white-space: nowrap; }
 tr.message.sticky td.subject { font-weight: bold; }
 
 body.avatars-on #replies .message {padding-left:32px;}
+#replies .reply:target h4 {background-color:#DDEEFF;}
 #replies h4 img.gravatar {margin-left:-32px;}
 
 tr.version.closed, tr.version.closed a { color: #999; }
