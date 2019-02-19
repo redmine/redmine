@@ -721,7 +721,7 @@ class Mailer < ActionMailer::Base
     hash = [
       "redmine",
       "#{object.class.name.demodulize.underscore}-#{object.id}",
-      timestamp.strftime("%Y%m%d%H%M%S")
+      timestamp.utc.strftime("%Y%m%d%H%M%S")
     ]
     if rand
       hash << Redmine::Utils.random_hex(8)
