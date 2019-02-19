@@ -138,4 +138,14 @@ class AutoCompletesControllerTest < Redmine::ControllerTest
     assert_include "issue", response.body
     assert_not_include "Bug #12: Closed issue on a locked version", response.body
   end
+
+  def test_auto_complete_should_return_json_content_type_response
+    get :issues, :params => {
+        :project_id => 'subproject1',
+        :q => '#13'
+      }
+
+    assert_response :success
+    assert_include 'application/json', response.headers['Content-Type']
+  end
 end
