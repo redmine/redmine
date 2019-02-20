@@ -288,13 +288,14 @@ class RedCloth3 < String
             end
         end.flatten
 
-        # standard clean up
-        incoming_entities text 
-        clean_white_space text 
-
         # start processor
         @pre_list = []
         rip_offtags text
+
+        # standard clean up
+        incoming_entities text
+        clean_white_space text
+
         no_textile text
         escape_html_tags text
         # need to do this before #hard_break and #blocks
