@@ -4,6 +4,52 @@ Redmine - project management software
 Copyright (C) 2006-2017  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2019-02-21 v4.0.2
+
+=== [Attachments]
+
+* Defect #30434: Line height is too large when previewing files with syntax highlighting if the line terminators are CRLF
+
+=== [Email receiving]
+
+* Defect #30785: Mail handler does not ignore emails sent from emission email address if Setting.mail_from includes display name
+
+=== [Gems support]
+
+* Defect #30114: Installing xpath with Bundler fails in Ruby <=2.2
+* Patch #30821: Stay in RMagick 2.16.0 and don't update to 3.0.0
+
+=== [Issues filter]
+
+* Defect #30718: Translation missing for filter by project status
+
+=== [Issues list]
+
+* Defect #30236: Accidentally clicking next to the checkbox breaks issue selection
+
+=== [Rails support]
+
+* Patch #30725: Plugin eager_load should depend on environment setting instead of name
+
+=== [SCM]
+
+* Defect #30411: Filesystem adapter does not show correct size for large files
+
+=== [Translations]
+
+* Defect #30732: Bulgarian translation update for 4.0-stable
+* Patch #30791: Traditional Chinese translation update for 4.0-stable
+
+=== [UI]
+
+* Feature #10264: Add a check/uncheck all button to search
+* Feature #30834: Links to forum replies should highlight the linked reply
+* Patch #30818: Issues autocomplete should respond with content type json
+
+=== [Wiki]
+
+* Defect #30758: Preview URL in Wiki Toolbar should be escaped
+
 == 2019-01-20 v4.0.1
 
 === [Calendar]
