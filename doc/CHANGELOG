@@ -4,6 +4,17 @@ Redmine - project management software
 Copyright (C) 2006-2017  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2019-02-21 v3.4.9
+
+=== [Gems support]
+
+* Defect #30114: Installing xpath with Bundler fails in Ruby <=2.2
+* Patch #30821: Stay in RMagick 2.16.0 and don't update to 3.0.0
+
+=== [UI]
+
+* Patch #30818: Issues autocomplete should respond with content type json
+
 == 2019-01-20 v3.4.8
 
 === [Code cleanup/refactoring]
