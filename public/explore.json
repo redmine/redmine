@@ -169,7 +169,7 @@
                 {
                     "name": "Migliore et al. 2014",
                     "url": "/projects/miglioreetal14_olfactorybulb3d",
-                    "extra_link_url": "/projects/miglioreetal14_olfactorybulb3d?explorer=https%253A%252F%252Fraw.githubusercontent.com%252FOpenSourceBrain%252FMiglioreEtAl14_OlfactoryBulb3D%252Fmaster%252FosbSessions%252Fmain.osb.json",
+                    "extra_link_url": "http://opensourcebrain.org/projects/miglioreetal14_olfactorybulb3d?explorer_id=380",
                     "extra_link_text": "View Figure 6B from OSB paper in 3D",
                     "description": "Migliore et al. (2014) 3D Model of the Olfactory Bulb",
                     "image_url": "/images/projectThumbnails/Migliore2014.png"
