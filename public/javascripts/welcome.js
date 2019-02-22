@@ -9,6 +9,9 @@ $(document).ready(function() {
         case "#workspace":
 	    hideFooter();
     	    break;
+        case "#netpyne":
+            hideFooter();
+            break;
         default:
     	    showFooter();
     	    break;
