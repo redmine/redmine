@@ -18,7 +18,7 @@
         </ul>
         <div class="tab-content col-md-9">
             <div class="tab-pane" id="projecthighlights">
-                <div class="project-notice">These are just a selection of some stable, well-tested projects on OSB. To see all projects click <a href="#cells" id="cellsLink" data-toggle="tab">here</a>.</div>
+                <div class="project-notice">These are just a selection of some stable, well-tested projects on OSB. To see all projects click <a href="#cells" id="cellsLink2" onclick="javascript:$('#cellsLink').trigger('click');" data-toggle="tab">here</a>.</div>
                 <% projects = JSON.parse(File.read("public/explore.json")) %>
                 <% projects.keys.each do |k| %>
                     <div class="project-category">
