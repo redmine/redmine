@@ -1239,3 +1239,4 @@ bg:
   label_tomorrow: tomorrow
   label_next_week: next week
   label_next_month: next month
+  text_role_no_workflow: No workflow defined for this role
