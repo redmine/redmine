@@ -1248,3 +1248,6 @@ uk:
   label_delete_link_to_subtask: Видалити зв'язок
   error_not_allowed_to_log_time_for_other_users: Не дозволено вносити час за інших користувачів.
   permission_log_time_for_other_users: Дозволяти вносити час за інших користувачів.
+  label_tomorrow: tomorrow
+  label_next_week: next week
+  label_next_month: next month

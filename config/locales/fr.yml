@@ -1252,3 +1252,6 @@ fr:
   label_delete_link_to_subtask: "Supprimer la relation avec la sous-tâche"
   error_not_allowed_to_log_time_for_other_users: "Vous n'êtes pas autorisé à saisir le temps passé pour d'autres utilisateurs"
   permission_log_time_for_other_users: "Saisir le temps passé pour d'autres utilisateurs"
+  label_tomorrow: tomorrow
+  label_next_week: next week
+  label_next_month: next month

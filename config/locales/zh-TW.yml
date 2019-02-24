@@ -1318,3 +1318,6 @@
   label_delete_link_to_subtask: 刪除連結至子任務的關聯
   error_not_allowed_to_log_time_for_other_users: 您未被允許可替他人輸入工時紀錄
   permission_log_time_for_other_users: 輸入他人的工時紀錄
+  label_tomorrow: tomorrow
+  label_next_week: next week
+  label_next_month: next month

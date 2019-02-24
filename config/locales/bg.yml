@@ -1236,3 +1236,6 @@ bg:
   label_delete_link_to_subtask: Изтриване на релация
   error_not_allowed_to_log_time_for_other_users: Вие нямате разрешение да записвате изразходвано време за други потребители
   permission_log_time_for_other_users: Записване на изразходвано време за други потребители
+  label_tomorrow: tomorrow
+  label_next_week: next week
+  label_next_month: next month
