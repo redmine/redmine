@@ -35,6 +35,24 @@ class RolesControllerTest < Redmine::ControllerTest
     end
   end
 
+  def test_index_should_show_warning_when_no_workflow_is_defined
+    Role.find_by_name('Developer').workflow_rules.destroy_all
+    Role.find_by_name('Anonymous').workflow_rules.destroy_all
+
+    get :index
+    assert_response :success
+    assert_select 'table.roles' do
+      # Manager
+      assert_select 'tr.givable:nth-of-type(1) span.icon-warning', :count => 0
+      # Developer
+      assert_select 'tr.givable:nth-of-type(2) span.icon-warning', :text => /#{I18n.t(:text_role_no_workflow)}/
+      # Reporter
+      assert_select 'tr.givable:nth-of-type(3) span.icon-warning', :count => 0
+      # No warnings for built-in roles such as Anonymous and Non-member
+      assert_select 'tr.builtin span.icon-warning', :count => 0
+    end
+  end
+
   def test_new
     get :new
     assert_response :success
