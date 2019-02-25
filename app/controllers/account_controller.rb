@@ -169,7 +169,6 @@ class AccountController < ApplicationController
         skip = false
 
         if params[:activation_token]
-          byebug
           if params[:activation_token]=="student"
             skip = true
             register_automatically(@user)
@@ -363,7 +362,7 @@ class AccountController < ApplicationController
     if user.save
       self.logged_user = user
       flash[:notice] = l(:notice_account_activated)
-      redirect_to my_account_path
+      redirect_to home_path
     else
       yield if block_given?
     end
