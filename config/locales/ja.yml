@@ -1261,4 +1261,4 @@ ja:
   label_delete_link_to_subtask: 関連の削除
   error_not_allowed_to_log_time_for_other_users: 他のユーザーの作業時間を入力する権限がありません
   permission_log_time_for_other_users: 他のユーザーの作業時間の入力
-  text_role_no_workflow: No workflow defined for this role
+  text_role_no_workflow: このロールにワークフローが定義されていません
