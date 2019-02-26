@@ -13,6 +13,7 @@
   <% end %>
   <th><%=l(:field_is_closed)%></th>
   <th></th>
+  <th></th>
   </tr></thead>
   <tbody>
 <% for status in @issue_statuses %>
@@ -22,6 +23,13 @@
   <td><%= status.default_done_ratio %></td>
   <% end %>
   <td><%= checked_image status.is_closed? %></td>
+  <td>
+    <% unless WorkflowTransition.where('old_status_id = ? OR new_status_id = ?', status.id, status.id).exists? %>
+      <span class="icon icon-warning">
+        <%= l(:text_status_no_workflow) %> (<%= link_to l(:button_edit), workflows_edit_path(:used_statuses_only => 0) %>)
+      </span>
+    <% end %>
+  </td>
   <td class="buttons">
     <%= reorder_handle(status) %>
     <%= delete_link issue_status_path(status) %>

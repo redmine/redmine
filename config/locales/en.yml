@@ -1131,6 +1131,7 @@ en:
   text_length_between: "Length between %{min} and %{max} characters."
   text_tracker_no_workflow: No workflow defined for this tracker
   text_role_no_workflow: No workflow defined for this role
+  text_status_no_workflow: No tracker uses this status in the workflows
   text_unallowed_characters: Unallowed characters
   text_comma_separated: Multiple values allowed (comma separated).
   text_line_separated: Multiple values allowed (one line for each value).
