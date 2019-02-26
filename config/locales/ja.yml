@@ -1262,3 +1262,4 @@ ja:
   error_not_allowed_to_log_time_for_other_users: 他のユーザーの作業時間を入力する権限がありません
   permission_log_time_for_other_users: 他のユーザーの作業時間の入力
   text_role_no_workflow: このロールにワークフローが定義されていません
+  text_status_no_workflow: No tracker uses this status in the workflows
