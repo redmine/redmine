@@ -1318,7 +1318,7 @@
   label_delete_link_to_subtask: 刪除連結至子任務的關聯
   error_not_allowed_to_log_time_for_other_users: 您未被允許可替他人輸入工時紀錄
   permission_log_time_for_other_users: 輸入他人的工時紀錄
-  label_tomorrow: tomorrow
-  label_next_week: next week
-  label_next_month: next month
-  text_role_no_workflow: No workflow defined for this role
+  label_tomorrow: 明天
+  label_next_week: 下一週
+  label_next_month: 下個月
+  text_role_no_workflow: 此角色尚未定義工作流程
