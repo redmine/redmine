@@ -842,6 +842,47 @@ RAW
     end
   end
 
+  def test_wiki_links_with_square_brackets_in_project_name
+    User.current = User.find_by_login('jsmith')
+
+    another_project = Project.find(1) # eCookbook
+    another_project.name = "[foo]#{another_project.name}"
+    another_project.save
+
+    page = another_project.wiki.find_page('Another page')
+    page.title = "[bar]#{page.title}"
+    page.save
+
+    to_test = {
+      '[[[foo]eCookbook:]]' =>
+          link_to("[foo]eCookbook",
+                  "/projects/ecookbook/wiki",
+                  :class => "wiki-page"),
+      '[[[foo]eCookbook:CookBook documentation]]' =>
+          link_to("CookBook documentation",
+                  "/projects/ecookbook/wiki/CookBook_documentation",
+                  :class => "wiki-page"),
+      '[[[foo]eCookbook:[bar]Another page]]' =>
+          link_to("[bar]Another page",
+                  "/projects/ecookbook/wiki/%5Bbar%5DAnother_page",
+                  :class => "wiki-page"),
+      '[[[foo]eCookbook:Unknown page]]' =>
+          link_to("Unknown page",
+                  "/projects/ecookbook/wiki/Unknown_page",
+                  :class => "wiki-page new"),
+      '[[[foo]eCookbook:[baz]Unknown page]]' =>
+          link_to("[baz]Unknown page",
+                  "/projects/ecookbook/wiki/%5Bbaz%5DUnknown_page",
+                  :class => "wiki-page new"),
+    }
+    @project = Project.find(2)  # OnlineStore
+    with_settings :text_formatting => 'textile' do
+      to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text) }
+    end
+    with_settings :text_formatting => 'markdown' do
+      to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text).strip }
+    end
+  end
 
   def test_wiki_links_within_local_file_generation_context
     to_test = {
@@ -1787,6 +1828,10 @@ RAW
       '[[broken > more]]' =>
           link_to("broken > more",
                   "/projects/ecookbook/wiki/Broken_%3E_more",
+                  :class => "wiki-page new"),
+      '[[[foo]Including [square brackets] in wiki title]]' =>
+          link_to("[foo]Including [square brackets] in wiki title",
+                  "/projects/ecookbook/wiki/%5Bfoo%5DIncluding_%5Bsquare_brackets%5D_in_wiki_title",
                   :class => "wiki-page new"),
     }
   end

@@ -787,7 +787,7 @@ module ApplicationHelper
   #   [[project:mypage]]
   #   [[project:mypage|mytext]]
   def parse_wiki_links(text, project, obj, attr, only_path, options)
-    text.gsub!(/(!)?(\[\[([^\]\n\|]+)(\|([^\]\n\|]+))?\]\])/) do |m|
+    text.gsub!(/(!)?(\[\[([^\n\|]+?)(\|([^\n\|]+?))?\]\])/) do |m|
       link_project = project
       esc, all, page, title = $1, $2, $3, $5
       if esc.nil?
