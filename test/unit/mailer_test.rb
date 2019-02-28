@@ -422,6 +422,50 @@ class MailerTest < ActiveSupport::TestCase
     end
   end
 
+  def test_issue_add_subject_should_include_status_if_setting_is_enabled
+    with_settings :show_status_changes_in_mail_subject => 1 do
+      issue = Issue.find(2)
+      Mailer.deliver_issue_add(issue)
+
+      mail = last_email
+      assert_equal "[eCookbook - Feature request #2] (Assigned) Add ingredients categories", mail.subject
+    end
+  end
+
+  def test_issue_add_subject_should_not_include_status_if_setting_is_disabled
+    with_settings :show_status_changes_in_mail_subject => 0 do
+      issue = Issue.find(2)
+      Mailer.deliver_issue_add(issue)
+
+      mail = last_email
+      assert_equal "[eCookbook - Feature request #2] Add ingredients categories", mail.subject
+    end
+  end
+
+  def test_issue_edit_subject_should_include_status_changes_if_setting_is_enabled
+    with_settings :show_status_changes_in_mail_subject => 1 do
+      issue = Issue.find(2)
+      issue.status_id = 4
+      issue.save!
+      Mailer.deliver_issue_add(issue)
+
+      mail = last_email
+      assert_equal "[eCookbook - Feature request #2] (Feedback) Add ingredients categories", mail.subject
+    end
+  end
+
+  def test_issue_edit_subject_should_not_include_status_changes_if_setting_is_disabled
+    with_settings :show_status_changes_in_mail_subject => 0 do
+      issue = Issue.find(2)
+      issue.status_id = 4
+      issue.save!
+      Mailer.deliver_issue_add(issue)
+
+      mail = last_email
+      assert_equal "[eCookbook - Feature request #2] Add ingredients categories", mail.subject
+    end
+  end
+
   def test_issue_edit_should_send_private_notes_to_users_with_permission_only
     journal = Journal.find(1)
     journal.private_notes = true

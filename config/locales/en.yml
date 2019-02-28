@@ -472,6 +472,7 @@ en:
   setting_timelog_accept_0_hours: Accept time logs with 0 hours
   setting_timelog_max_hours_per_day: Maximum hours that can be logged per day and user
   setting_timelog_accept_future_dates: Accept time logs on future dates
+  setting_show_status_changes_in_mail_subject: Show status changes in issue mail notifications subject
 
   permission_add_project: Create project
   permission_add_subprojects: Create subprojects
