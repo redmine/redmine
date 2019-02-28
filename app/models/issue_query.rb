@@ -510,9 +510,11 @@ class IssueQuery < Query
   def sql_for_child_id_field(field, operator, value)
     case operator
     when "="
-      parent_id = Issue.where(:id => value.first.to_i).pluck(:parent_id).first
-      if parent_id
-        "#{Issue.table_name}.id = #{parent_id}"
+      # accepts a comma separated list of child ids
+      child_ids = value.first.to_s.scan(/\d+/).map(&:to_i).uniq
+      ids = Issue.where(:id => child_ids).pluck(:parent_id).compact.uniq
+      if ids.present?
+        "#{Issue.table_name}.id IN (#{ids.join(",")})"
       else
         "1=0"
       end
