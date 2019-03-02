@@ -29,7 +29,7 @@ $(document).ready(function(){
       dataType: "jsonp",
       url: "https://www.redmine.org/plugins/check_updates",
       data: <%= raw_json plugin_data_for_updates(@plugins) %>,
-      timeout: 3000,
+      timeout: 10000,
       beforeSend: function(){
         $('#ajax-indicator').show();
       },
