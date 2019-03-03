@@ -525,6 +525,11 @@ class MailerTest < ActiveSupport::TestCase
     mail = last_email
     assert mail.bcc.include?('dlopper@somenet.foo')
     assert_mail_body_match 'Bug #3: Error 281 when updating a recipe', mail
+    assert_select_email do
+      assert_select 'a[href=?]',
+                    'http://localhost:3000/issues?assigned_to_id=me&set_filter=1&sort=due_date%3Aasc',
+                    :text => 'View all issues'
+    end
     assert_equal '1 issue(s) due in the next 42 days', mail.subject
   end
 

@@ -539,7 +539,7 @@ class Mailer < ActionMailer::Base
     @issues = issues
     @days = days
     @issues_url = url_for(:controller => 'issues', :action => 'index',
-                                :set_filter => 1, :assigned_to_id => user.id,
+                                :set_filter => 1, :assigned_to_id => 'me',
                                 :sort => 'due_date:asc')
     mail :to => user,
       :subject => l(:mail_subject_reminder, :count => issues.size, :days => days)
