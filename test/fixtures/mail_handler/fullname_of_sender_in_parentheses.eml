@@ -1,0 +1,8 @@
+Return-Path: <jdoe@example.net>
+From: jdoe@example.net (John Doe)
+To: <redmine@example.net>
+Subject: Name in parentheses
+Date: Sun, 03 Mar 2019 21:23:00 +0900
+Content-Type: text/plain; charset="utf-8"
+
+The author's full name is enclosed in parentheses.
