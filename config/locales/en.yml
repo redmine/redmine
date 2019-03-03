@@ -422,6 +422,7 @@ en:
   setting_mail_handler_enable_regex: "Enable regular expressions"
   setting_mail_handler_api_enabled: Enable WS for incoming emails
   setting_mail_handler_api_key: Incoming email WS API key
+  setting_mail_handler_preferred_body_part: Preferred part of multipart (HTML) emails
   setting_sys_api_key: Repository management WS API key
   setting_sequential_project_identifiers: Generate sequential project identifiers
   setting_gravatar_enabled: Use Gravatar user icons

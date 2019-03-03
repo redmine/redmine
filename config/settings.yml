@@ -195,6 +195,8 @@ mail_handler_api_enabled:
 mail_handler_api_key:
   default:
   security_notifications: 1
+mail_handler_preferred_body_part:
+  default: plain
 issue_list_default_columns:
   serialized: true
   default:

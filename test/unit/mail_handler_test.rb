@@ -662,6 +662,17 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal '', issue.description
   end
 
+  def test_preferred_body_part_setting
+    with_settings :mail_handler_preferred_body_part => 'plain' do
+      issue = submit_email('different_contents_in_text_and_html.eml', :issue => {:project => 'ecookbook'})
+      assert_equal 'The text part.', issue.description
+    end
+    with_settings :mail_handler_preferred_body_part => 'html' do
+      issue = submit_email('different_contents_in_text_and_html.eml', :issue => {:project => 'ecookbook'})
+      assert_equal 'The html part.', issue.description
+    end
+  end
+
   def test_attachment_text_part_should_be_added_as_issue_attachment
     issue = submit_email('multiple_text_parts.eml', :issue => {:project => 'ecookbook'})
     assert_not_include 'Plain text attachment', issue.description
