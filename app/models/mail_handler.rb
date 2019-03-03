@@ -544,12 +544,9 @@ class MailHandler < ActionMailer::Base
   # Creates a User for the +email+ sender
   # Returns the user or nil if it could not be created
   def create_user_from_email
-    from = email.header['from'].to_s
-    addr, name = from, nil
-    if m = from.match(/^"?(.+?)"?\s+<(.+@.+)>$/)
-      addr, name = m[2], m[1]
-    end
-    if addr.present?
+    if from_addr = email.header['from'].try(:addrs).to_a.first
+      addr = from_addr.address
+      name = from_addr.display_name || from_addr.comments.to_a.first
       user = self.class.new_user_from_attributes(addr, name)
       if handler_options[:no_notification]
         user.mail_notification = 'none'
