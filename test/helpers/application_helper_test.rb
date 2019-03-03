@@ -94,6 +94,8 @@ class ApplicationHelperTest < Redmine::HelperTest
       'http://' => 'http://',
       'www.' => 'www.',
       'test-www.bar.com' => 'test-www.bar.com',
+      # ends with a hyphen
+      'http://www.redmine.org/example-' => '<a class="external" href="http://www.redmine.org/example-">http://www.redmine.org/example-</a>',
     }
     to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text) }
   end
@@ -270,7 +272,10 @@ RAW
       '"a link":http://example.net/path!602815048C7B5C20!302.html' => '<a href="http://example.net/path!602815048C7B5C20!302.html" class="external">a link</a>',
       # escaping
       '"test":http://foo"bar' => '<a href="http://foo&quot;bar" class="external">test</a>',
-    }
+      # ends with a hyphen
+      '(see "inline link":http://www.foo.bar/Test-)' => '(see <a href="http://www.foo.bar/Test-" class="external">inline link</a>)',
+      'http://foo.bar/page?p=1&t=z&s=-' => '<a class="external" href="http://foo.bar/page?p=1&#38;t=z&#38;s=-">http://foo.bar/page?p=1&#38;t=z&#38;s=-</a>',
+      'This is an intern "link":/foo/bar-' => 'This is an intern <a href="/foo/bar-">link</a>',    }
     to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text) }
   end
 
