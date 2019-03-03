@@ -1193,6 +1193,20 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal str2, user.lastname
   end
 
+  def test_new_user_with_fullname_in_parentheses
+    assert_difference 'User.count' do
+      issue = submit_email(
+                'fullname_of_sender_in_parentheses.eml',
+                :issue => {:project => 'ecookbook'},
+                :unknown_user => 'create'
+              )
+    end
+    user = User.order('id DESC').first
+    assert_equal "jdoe@example.net", user.mail
+    assert_equal 'John', user.firstname
+    assert_equal 'Doe', user.lastname
+  end
+
   def test_extract_options_from_env_should_return_options
     options = MailHandler.extract_options_from_env({
       'tracker' => 'defect',
