@@ -375,6 +375,7 @@
     resizableSubjectColumn();
     $("#draw_relations").change(drawGanttHandler);
     $("#draw_progress_line").change(drawGanttHandler);
+    $('div.gantt_subjects .expander').on('click', ganttEntryClick);
   });
   $(window).resize(function() {
     drawGanttHandler();

@@ -17,6 +17,7 @@ function setDrawArea() {
 function getRelationsArray() {
   var arr = new Array();
   $.each($('div.task_todo[data-rels]'), function(index_div, element) {
+    if(!$(element).is(':visible')) return true;
     var element_id = $(element).attr("id");
     if (element_id != null) {
       var issue_id = element_id.replace("task-todo-issue-", "");
@@ -106,6 +107,7 @@ function getProgressLinesArray() {
   var today_left = $('#today_line').position().left;
   arr.push({left: today_left, top: 0});
   $.each($('div.issue-subject, div.version-name'), function(index, element) {
+    if(!$(element).is(':visible')) return true;
     var t = $(element).position().top - draw_top ;
     var h = ($(element).height() / 9);
     var element_top_upper  = t - h;
@@ -169,7 +171,7 @@ function drawGanttHandler() {
     draw_gantt = Raphael(folder);
   setDrawArea();
   if ($("#draw_progress_line").prop('checked'))
-    drawGanttProgressLines();
+    try{drawGanttProgressLines();}catch(e){}
   if ($("#draw_relations").prop('checked'))
     drawRelations();
 }
@@ -195,3 +197,59 @@ function resizableSubjectColumn(){
     $('td.gantt_subjects_column').resizable('enable');
   };
 }
+
+ganttEntryClick = function(e){
+  var subject = $(e.target.parentElement);
+  var subject_left = parseInt(subject.css('left'));
+  var target_shown = null;
+  var target_top = 0;
+  var total_height = 0;
+  var out_of_hierarchy = false;
+  var iconChange = null;
+  if(subject.hasClass('open'))
+    iconChange = function(element){
+      $(element).removeClass('open');
+    };
+  else
+    iconChange = function(element){
+      $(element).addClass('open');
+    };
+  iconChange(subject);
+  subject.nextAll('div').each(function(_, element){
+    var el = $(element);
+    var json = el.data('collapse-expand');
+    if(out_of_hierarchy || parseInt(el.css('left')) <= subject_left){
+      out_of_hierarchy = true;
+      if(target_shown == null) return false;
+
+      var new_top_val = parseInt(el.css('top')) + total_height * (target_shown ? -1 : 1);
+      el.css('top', new_top_val);
+      $('#gantt_area form > div[data-collapse-expand="' + json.obj_id + '"]').each(function(_, task){
+        $(task).css('top', new_top_val);
+      });
+      return true;
+    }
+
+    var is_shown = el.is(':visible');
+    if(target_shown == null){
+      target_shown = is_shown;
+      target_top = parseInt(el.css('top'));
+      total_height = 0;
+    }
+    if(is_shown == target_shown){
+      $('#gantt_area form > div[data-collapse-expand="' + json.obj_id + '"]').each(function(_, task){
+        var el_task = $(task);
+        if(!is_shown)
+          el_task.css('top', target_top + total_height);
+        if(!el_task.hasClass('tooltip'))
+          el_task.toggle(!is_shown);
+      });
+      if(!is_shown)
+        el.css('top', target_top + total_height);
+      iconChange(el);
+      el.toggle(!is_shown);
+      total_height += parseInt(json.top_increment);
+    }
+  });
+  drawGanttHandler();
+};
