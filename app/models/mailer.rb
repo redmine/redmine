@@ -137,6 +137,7 @@ class Mailer < ActionMailer::Base
     redmine_headers 'Project' => document.project.identifier
     @author = author
     @document = document
+    @user = user
     @document_url = url_for(:controller => 'documents', :action => 'show', :id => document)
     mail :to => user,
       :subject => "[#{document.project.name}] #{l(:label_document_new)}: #{document.title}"
@@ -172,6 +173,7 @@ class Mailer < ActionMailer::Base
     end
     redmine_headers 'Project' => container.project.identifier
     @attachments = attachments
+    @user = user
     @added_to = added_to
     @added_to_url = added_to_url
     mail :to => user,
@@ -203,6 +205,7 @@ class Mailer < ActionMailer::Base
     message_id news
     references news
     @news = news
+    @user = user
     @news_url = url_for(:controller => 'news', :action => 'show', :id => news)
     mail :to => user,
       :subject => "[#{news.project.name}] #{l(:label_news)}: #{news.title}"
@@ -228,6 +231,7 @@ class Mailer < ActionMailer::Base
     references news
     @news = news
     @comment = comment
+    @user = user
     @news_url = url_for(:controller => 'news', :action => 'show', :id => news)
     mail :to => user,
      :subject => "Re: [#{news.project.name}] #{l(:label_news)}: #{news.title}"
@@ -253,6 +257,7 @@ class Mailer < ActionMailer::Base
     message_id message
     references message.root
     @message = message
+    @user = user
     @message_url = url_for(message.event_url)
     mail :to => user,
       :subject => "[#{message.board.project.name} - #{message.board.name} - msg#{message.root.id}] #{message.subject}"
@@ -279,6 +284,7 @@ class Mailer < ActionMailer::Base
     @author = wiki_content.author
     message_id wiki_content
     @wiki_content = wiki_content
+    @user = user
     @wiki_content_url = url_for(:controller => 'wiki', :action => 'show',
                                       :project_id => wiki_content.project,
                                       :id => wiki_content.page.title)
@@ -304,6 +310,7 @@ class Mailer < ActionMailer::Base
     @author = wiki_content.author
     message_id wiki_content
     @wiki_content = wiki_content
+    @user = user
     @wiki_content_url = url_for(:controller => 'wiki', :action => 'show',
                                       :project_id => wiki_content.project,
                                       :id => wiki_content.page.title)
@@ -662,10 +669,10 @@ class Mailer < ActionMailer::Base
     end
 
     if @message_id_object
-      headers[:message_id] = "<#{self.class.message_id_for(@message_id_object)}>"
+      headers[:message_id] = "<#{self.class.message_id_for(@message_id_object, @user)}>"
     end
     if @references_objects
-      headers[:references] = @references_objects.collect {|o| "<#{self.class.references_for(o)}>"}.join(' ')
+      headers[:references] = @references_objects.collect {|o| "<#{self.class.references_for(o, @user)}>"}.join(' ')
     end
 
     if block_given?
@@ -719,30 +726,28 @@ class Mailer < ActionMailer::Base
     h.each { |k,v| headers["X-Redmine-#{k}"] = v.to_s }
   end
 
-  def self.token_for(object, rand=true)
+  def self.token_for(object, user)
     timestamp = object.send(object.respond_to?(:created_on) ? :created_on : :updated_on)
     hash = [
       "redmine",
       "#{object.class.name.demodulize.underscore}-#{object.id}",
       timestamp.utc.strftime("%Y%m%d%H%M%S")
     ]
-    if rand
-      hash << Redmine::Utils.random_hex(8)
-    end
+    hash << user.id if user
     host = Setting.mail_from.to_s.strip.gsub(%r{^.*@|>}, '')
     host = "#{::Socket.gethostname}.redmine" if host.empty?
     "#{hash.join('.')}@#{host}"
   end
 
   # Returns a Message-Id for the given object
-  def self.message_id_for(object)
-    token_for(object, true)
+  def self.message_id_for(object, user)
+    token_for(object, user)
   end
 
   # Returns a uniq token for a given object referenced by all notifications
   # related to this object
-  def self.references_for(object)
-    token_for(object, false)
+  def self.references_for(object, user)
+    token_for(object, user)
   end
 
   def message_id(object)
@@ -754,3 +759,4 @@ class Mailer < ActionMailer::Base
     @references_objects << object
   end
 end
+

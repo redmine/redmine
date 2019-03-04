@@ -296,8 +296,9 @@ class MailerTest < ActiveSupport::TestCase
     issue = Issue.find(2)
     Mailer.deliver_issue_add(issue)
     mail = last_email
-    assert_match /^redmine\.issue-2\.20060719190421\.[a-f0-9]+@example\.net/, mail.message_id
-    assert_include "redmine.issue-2.20060719190421@example.net", mail.references
+    uid = destination_user(mail).id
+    assert_include "redmine.issue-2.20060719190421.#{uid}@example.net", mail.message_id
+    assert_include "redmine.issue-2.20060719190421.#{uid}@example.net", mail.references
   end
 
   def test_issue_edit_message_id
@@ -306,8 +307,9 @@ class MailerTest < ActiveSupport::TestCase
 
     Mailer.deliver_issue_edit(journal)
     mail = last_email
-    assert_match /^redmine\.journal-3\.\d+\.[a-f0-9]+@example\.net/, mail.message_id
-    assert_include "redmine.issue-2.20060719190421@example.net", mail.references
+    uid = destination_user(mail).id
+    assert_match /^redmine\.journal-3\.\d+\.#{uid}@example\.net/, mail.message_id
+    assert_include "redmine.issue-2.20060719190421.#{uid}@example.net", mail.references
     assert_select_email do
       # link to the update
       assert_select "a[href=?]",
@@ -319,8 +321,9 @@ class MailerTest < ActiveSupport::TestCase
     message = Message.find(1)
     Mailer.deliver_message_posted(message)
     mail = last_email
-    assert_match /^redmine\.message-1\.\d+\.[a-f0-9]+@example\.net/, mail.message_id
-    assert_include "redmine.message-1.20070512151532@example.net", mail.references
+    uid = destination_user(mail).id
+    assert_include "redmine.message-1.20070512151532.#{uid}@example.net", mail.message_id
+    assert_include "redmine.message-1.20070512151532.#{uid}@example.net", mail.references
     assert_select_email do
       # link to the message
       assert_select "a[href=?]",
@@ -333,8 +336,9 @@ class MailerTest < ActiveSupport::TestCase
     message = Message.find(3)
     Mailer.deliver_message_posted(message)
     mail = last_email
-    assert_match /^redmine\.message-3\.\d+\.[a-f0-9]+@example\.net/, mail.message_id
-    assert_include "redmine.message-1.20070512151532@example.net", mail.references
+    uid = destination_user(mail).id
+    assert_include "redmine.message-3.20070512151802.#{uid}@example.net", mail.message_id
+    assert_include "redmine.message-1.20070512151532.#{uid}@example.net", mail.references
     assert_select_email do
       # link to the reply
       assert_select "a[href=?]",
@@ -346,9 +350,10 @@ class MailerTest < ActiveSupport::TestCase
   def test_timestamp_in_message_id_should_be_utc
     zone_was = Time.zone
     issue = Issue.find(3)
+    user = User.find(1)
     %w(UTC Paris Tokyo).each do |zone|
       Time.zone = zone
-      assert_match /^redmine\.issue-3\.20060719190727\.[a-f0-9]+@example\.net/, Mailer.token_for(issue)
+      assert_match /^redmine\.issue-3\.20060719190727\.1@example\.net/, Mailer.token_for(issue, user)
     end
   ensure
     Time.zone = zone_was
@@ -808,7 +813,8 @@ class MailerTest < ActiveSupport::TestCase
 
   def test_token_for_should_strip_trailing_gt_from_address_with_full_name
     with_settings :mail_from => "Redmine Mailer<no-reply@redmine.org>" do
-      assert_match /\Aredmine.issue-\d+\.\d+\.[0-9a-f]+@redmine.org\z/, Mailer.token_for(Issue.generate!)
+      assert_match /\Aredmine.issue-\d+\.\d+\.3@redmine.org\z/,
+        Mailer.token_for(Issue.generate!, User.find(3))
     end
   end
 
@@ -959,5 +965,9 @@ class MailerTest < ActiveSupport::TestCase
 
   def html_part
     last_email.parts.detect {|part| part.content_type.include?('text/html')}
+  end
+
+  def destination_user(mail)
+    EmailAddress.where(:address => [mail.to, mail.cc, mail.bcc].flatten).map(&:user).first
   end
 end
