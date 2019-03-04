@@ -1323,3 +1323,6 @@
   label_next_month: 下個月
   text_role_no_workflow: 此角色尚未定義工作流程
   text_status_no_workflow: 工作流程中尚未有使用此狀態的追蹤標籤
+  setting_mail_handler_preferred_body_part: Preferred part of multipart (HTML) emails
+  setting_show_status_changes_in_mail_subject: Show status changes in issue mail notifications
+    subject
