@@ -107,11 +107,12 @@ module Redmine
         ActionMailer::Base.prepend_view_path(view_path)
       end
 
-      # Adds the app/{controllers,helpers,models} directories of the plugin to the autoload path
-      Dir.glob File.expand_path(File.join(p.directory, 'app', '{controllers,helpers,models}')) do |dir|
-        ActiveSupport::Dependencies.autoload_paths += [dir]
-        Rails.application.config.eager_load_paths += [dir] if Rails.application.config.eager_load
-      end
+      # Add the plugin directories to rails autoload paths
+      engine_cfg = Rails::Engine::Configuration.new(p.directory)
+      Rails.application.config.eager_load_paths += engine_cfg.eager_load_paths
+      Rails.application.config.autoload_once_paths += engine_cfg.autoload_once_paths
+      Rails.application.config.autoload_paths += engine_cfg.autoload_paths
+      ActiveSupport::Dependencies.autoload_paths += engine_cfg.eager_load_paths + engine_cfg.autoload_once_paths + engine_cfg.autoload_paths
 
       # Defines plugin setting if present
       if p.settings
