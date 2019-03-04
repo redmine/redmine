@@ -61,7 +61,9 @@
                     "url": "http://www.opensourcebrain.org/projects/thalamocortical",
                     "explorer_url": "/projects/thalamocortical?explorer=https%253A%252F%252Fraw.githubusercontent.com%252FOpenSourceBrain%252FThalamocortical%252Fmaster%252FosbSessions%252Fmain%252Fmain.json",
                     "extra_link_url": "/projects/thalamocortical/models?explorer=https%253A%252F%252Fraw.githubusercontent.com%252FOpenSourceBrain%252FThalamocortical%252Fmaster%252FNeuroML2%252FpythonScripts%252Fnetbuild%252FTestMedium.net.nml",
-                    "extra_link_text": "View Figure 4A from OSB paper in 3D (slow to load)",
+                    "extra_link_text": "View Figure 4A from OSB paper",
+                    "extra_link_url2": "/projects/thalamocortical?explorer_id=724",
+                    "extra_link_text2": "View Figure 6C from OSB paper",
                     "description": "Single-column thalamocortical network model with 14 multicompartmental cell populations",
                     "image_url": "/images/projectThumbnails/TraubEtAl2015.png"
                 },
