@@ -1322,4 +1322,4 @@
   label_next_week: 下一週
   label_next_month: 下個月
   text_role_no_workflow: 此角色尚未定義工作流程
-  text_status_no_workflow: No tracker uses this status in the workflows
+  text_status_no_workflow: 工作流程中尚未有使用此狀態的追蹤標籤
