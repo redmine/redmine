@@ -152,7 +152,8 @@ class Redmine::Helpers::GanttHelperTest < Redmine::HelperTest
     setup_subjects
     @output_buffer = @gantt.subjects
     assert_select "div.issue-subject", /#{@issue.subject}/
-    assert_select 'div.issue-subject[style*="left:44px"]'
+    # subject 56px: 44px + 12px(collapse/expand icon's width)
+    assert_select 'div.issue-subject[style*="left:56px"]'
   end
 
   test "#subjects issue assigned to a shared version of another project should be rendered" do
@@ -200,9 +201,10 @@ class Redmine::Helpers::GanttHelperTest < Redmine::HelperTest
     assert_select 'div.issue-subject[style*="left:44px"]', /#{@issue.subject}/
     # children 64px
     assert_select 'div.issue-subject[style*="left:64px"]', /child1/
-    assert_select 'div.issue-subject[style*="left:64px"]', /child2/
-    # grandchild 84px
-    assert_select 'div.issue-subject[style*="left:84px"]', /grandchild/, @output_buffer
+    # children 76px: 64px + 12px(collapse/expand icon's width)
+    assert_select 'div.issue-subject[style*="left:76px"]', /child2/
+    # grandchild 96px: 84px + 12px(collapse/expand icon's width)
+    assert_select 'div.issue-subject[style*="left:96px"]', /grandchild/, @output_buffer
   end
 
   test "#lines" do
@@ -298,7 +300,8 @@ class Redmine::Helpers::GanttHelperTest < Redmine::HelperTest
   test "#subject should use the indent option to move the div to the right" do
     create_gantt
     @output_buffer = @gantt.subject('subject', :format => :html, :indent => 40)
-    assert_select 'div[style*="left:40"]'
+    # subject 52px: 40px(indent) + 12px(collapse/expand icon's width)
+    assert_select 'div[style*="left:52px"]'
   end
 
   test "#line_for_project" do

@@ -698,21 +698,43 @@ module Redmine
       end
 
       def html_subject(params, subject, object)
-        style = "position: absolute;top:#{params[:top]}px;left:#{params[:indent]}px;"
-        style << "width:#{params[:subject_width] - params[:indent]}px;" if params[:subject_width]
         content = html_subject_content(object) || subject
-        tag_options = {:style => style}
+        tag_options = {}
         case object
         when Issue
           tag_options[:id] = "issue-#{object.id}"
           tag_options[:class] = "issue-subject hascontextmenu"
           tag_options[:title] = object.subject
+          children = object.children & project_issues(object.project)
+          has_children = children.present? && (children.collect(&:fixed_version).uniq & [object.fixed_version]).present?
         when Version
           tag_options[:id] = "version-#{object.id}"
           tag_options[:class] = "version-name"
+          has_children = object.fixed_issues.exists?
         when Project
           tag_options[:class] = "project-name"
+          has_children = object.issues.exists? || object.versions.exists?
         end
+        if object
+          tag_options[:data] = {
+            :collapse_expand => {
+              :top_increment => params[:top_increment],
+              :obj_id => "#{object.class}-#{object.id}".downcase,
+            },
+          }
+        end
+        if has_children
+          content = view.content_tag(:span, nil, :class => :expander) + content
+          tag_options[:class] << ' open'
+        else
+          if params[:indent]
+            params = params.dup
+            params[:indent] += 12
+          end
+        end
+        style = "position: absolute;top:#{params[:top]}px;left:#{params[:indent]}px;"
+        style << "width:#{params[:subject_width] - params[:indent]}px;" if params[:subject_width]
+        tag_options[:style] = style
         output = view.content_tag(:div, content, tag_options)
         @subjects << output
         output
@@ -751,6 +773,8 @@ module Redmine
 
       def html_task(params, coords, markers, label, object)
         output = ''
+        data_options = {}
+        data_options[:collapse_expand] = "#{object.class}-#{object.id}".downcase if object
 
         css = "task " + case object
           when Project
@@ -774,13 +798,15 @@ module Redmine
           html_id = "task-todo-version-#{object.id}" if object.is_a?(Version)
           content_opt = {:style => style,
                          :class => "#{css} task_todo",
-                         :id => html_id}
+                         :id => html_id,
+                         :data => {}}
           if object.is_a?(Issue)
             rels = issue_relations(object)
             if rels.present?
               content_opt[:data] = {"rels" => rels.to_json}
             end
           end
+          content_opt[:data].merge!(data_options)
           output << view.content_tag(:div, '&nbsp;'.html_safe, content_opt)
           if coords[:bar_late_end]
             width = coords[:bar_late_end] - coords[:bar_start] - 2
@@ -790,7 +816,8 @@ module Redmine
             style << "width:#{width}px;"
             output << view.content_tag(:div, '&nbsp;'.html_safe,
                                        :style => style,
-                                       :class => "#{css} task_late")
+                                       :class => "#{css} task_late",
+                                       :data => data_options)
           end
           if coords[:bar_progress_end]
             width = coords[:bar_progress_end] - coords[:bar_start] - 2
@@ -803,7 +830,8 @@ module Redmine
             output << view.content_tag(:div, '&nbsp;'.html_safe,
                                        :style => style,
                                        :class => "#{css} task_done",
-                                       :id => html_id)
+                                       :id => html_id,
+                                       :data => data_options)
           end
         end
         # Renders the markers
@@ -815,7 +843,8 @@ module Redmine
             style << "width:15px;"
             output << view.content_tag(:div, '&nbsp;'.html_safe,
                                        :style => style,
-                                       :class => "#{css} marker starting")
+                                       :class => "#{css} marker starting",
+                                       :data => data_options)
           end
           if coords[:end]
             style = ""
@@ -824,7 +853,8 @@ module Redmine
             style << "width:15px;"
             output << view.content_tag(:div, '&nbsp;'.html_safe,
                                        :style => style,
-                                       :class => "#{css} marker ending")
+                                       :class => "#{css} marker ending",
+                                       :data => data_options)
           end
         end
         # Renders the label on the right
@@ -835,7 +865,8 @@ module Redmine
           style << "width:15px;"
           output << view.content_tag(:div, label,
                                      :style => style,
-                                     :class => "#{css} label")
+                                     :class => "#{css} label",
+                                     :data => data_options)
         end
         # Renders the tooltip
         if object.is_a?(Issue) && coords[:bar_start] && coords[:bar_end]
@@ -851,7 +882,8 @@ module Redmine
           style << "height:12px;"
           output << view.content_tag(:div, s.html_safe,
                                      :style => style,
-                                     :class => "tooltip hascontextmenu")
+                                     :class => "tooltip hascontextmenu",
+                                     :data => data_options)
         end
         @lines << output
         output
