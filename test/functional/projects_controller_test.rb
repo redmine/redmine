@@ -477,7 +477,7 @@ class ProjectsControllerTest < Redmine::ControllerTest
       }
     assert_response :success
 
-    assert_select 'li', :text => /Development status/
+    assert_select 'li[class=?]', 'cf_3', :text => /Development status/
   end
 
   def test_show_should_not_display_hidden_custom_fields
