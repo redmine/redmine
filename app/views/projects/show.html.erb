@@ -30,7 +30,7 @@
     <li><span class="label"><%=l(:field_homepage)%>:</span> <%= link_to_if uri_with_safe_scheme?(@project.homepage), @project.homepage, @project.homepage %></li>
   <% end %>
   <% render_custom_field_values(@project) do |custom_field, formatted| %>
-    <li><span class="label"><%= custom_field.name %>:</span> <%= formatted %></li>
+    <li class="cf_<%= custom_field.id %>"><span class="label"><%= custom_field.name %>:</span> <%= formatted %></li>
   <% end %>
   </ul>
   <% end %>
