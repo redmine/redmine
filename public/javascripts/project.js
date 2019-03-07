@@ -24,7 +24,7 @@ $(document).ready(function(){
     }
 
     function hasModels(){
-        return (repourl && project_repository != "" && ((neuroml2files != "") || (swcfiles != "")));
+        return (repourl && project_repository != "" && (jsonfiles != "" || cellfiles != "" || synapsefiles != "" || h5files != "" || networkfiles != "" || swcfiles != ""));
     }
     var bytesToHumanSize = function(nbytes) {
         var human = "";
