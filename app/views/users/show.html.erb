@@ -13,7 +13,7 @@
   <% end %>
   <% @user.visible_custom_field_values.each do |custom_value| %>
   <% if !custom_value.value.blank? %>
-    <li><%= custom_value.custom_field.name %>: <%= show_value(custom_value) %></li>
+    <li class="cf_<%= custom_value.custom_field.id %>"><%= custom_value.custom_field.name %>: <%= show_value(custom_value) %></li>
   <% end %>
   <% end %>
     <li><%=l(:label_registered_on)%>: <%= format_date(@user.created_on) %></li>
