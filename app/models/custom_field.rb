@@ -301,6 +301,10 @@ class CustomField < ActiveRecord::Base
     super(attr_name, *args)
   end
 
+  def css_classes
+    "cf_#{id}"
+  end
+
   protected
 
   # Removes multiple values for the custom field after setting the multiple attribute to false

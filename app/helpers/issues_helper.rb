@@ -243,9 +243,8 @@ module IssuesHelper
     half = (values.size / 2.0).ceil
     issue_fields_rows do |rows|
       values.each_with_index do |value, i|
-        css = "cf_#{value.custom_field.id}"
         m = (i < half ? :left : :right)
-        rows.send m, custom_field_name_tag(value.custom_field), custom_field_value_tag(value), :class => css
+        rows.send m, custom_field_name_tag(value.custom_field), custom_field_value_tag(value), :class => value.custom_field.css_classes
       end
     end
   end
@@ -263,7 +262,7 @@ module IssuesHelper
           content_tag('hr') +
           content_tag('p', content_tag('strong', custom_field_name_tag(value.custom_field) )) +
           content_tag('div', attr_value_tag, class: 'value')
-      s << content_tag('div', content, class: "cf_#{value.custom_field.id} attribute")
+      s << content_tag('div', content, class: "#{value.custom_field.css_classes} attribute")
     end
     s
   end

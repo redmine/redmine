@@ -104,7 +104,7 @@
   <% end %>
 
   <% @options_by_custom_field.each do |field, options| %>
-    <li class="folder cf_<%= field.id %>">
+    <li class="folder <%= field.css_classes %>">
       <a href="#" class="submenu"><%= field.name %></a>
       <ul>
       <% options.each do |text, value| %>
