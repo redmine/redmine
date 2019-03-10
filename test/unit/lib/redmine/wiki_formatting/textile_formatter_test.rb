@@ -621,18 +621,6 @@ EXPECTED
     assert_equal expected.gsub(%r{[\r\n\t]}, ''), to_html(text).gsub(%r{[\r\n\t]}, '')
   end
 
-  def test_should_preserve_multiple_blank_lines_in_pre_tags
-    text = <<-STR
-<pre>
-  This is some text in pre
-
-
-  Two blank lines avobe
-</pre>
-STR
-    assert_equal text.chomp, to_html(text)
-  end
-
   private
 
   def assert_html_output(to_test, expect_paragraph = true)
