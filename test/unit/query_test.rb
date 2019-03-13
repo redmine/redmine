@@ -659,11 +659,15 @@ class QueryTest < ActiveSupport::TestCase
   end
 
   def test_operator_tomorrow
+    issue = Issue.generate!(:due_date => User.current.today.tomorrow)
+    other_issues = []
+    other_issues << Issue.generate!(:due_date => User.current.today.yesterday)
+    other_issues << Issue.generate!(:due_date => User.current.today + 2)
     query = IssueQuery.new(:project => Project.find(1), :name => '_')
     query.add_filter('due_date', 'nd', [''])
     issues = find_issues_with_query(query)
-    assert !issues.empty?
-    issues.each {|issue| assert_equal Date.today.tomorrow, issue.due_date}
+    assert_include issue, issues
+    other_issues.each {|i| assert_not_include i, issues }
   end
 
   def test_operator_date_periods
