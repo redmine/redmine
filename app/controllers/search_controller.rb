@@ -39,7 +39,7 @@ class SearchController < ApplicationController
     end
 
     # quick jump to an issue
-    if (m = @question.match(/^#?(\d+)$/)) && (issue = Issue.visible.find_by_id(m[1].to_i))
+    if !api_request? && (m = @question.match(/^#?(\d+)$/)) && (issue = Issue.visible.find_by_id(m[1].to_i))
       redirect_to issue_path(issue)
       return
     end
