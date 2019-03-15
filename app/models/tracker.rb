@@ -38,6 +38,7 @@ class Tracker < ActiveRecord::Base
   validates_presence_of :name
   validates_uniqueness_of :name
   validates_length_of :name, :maximum => 30
+  validates_length_of :description, :maximum => 255
 
   scope :sorted, lambda { order(:position) }
   scope :named, lambda {|arg| where("LOWER(#{table_name}.name) = LOWER(?)", arg.to_s.strip)}
@@ -71,7 +72,8 @@ class Tracker < ActiveRecord::Base
     'core_fields',
     'position',
     'custom_field_ids',
-    'project_ids'
+    'project_ids',
+    'description'
 
   def to_s; name end
 

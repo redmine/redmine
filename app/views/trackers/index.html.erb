@@ -9,6 +9,7 @@
   <thead><tr>
   <th><%=l(:label_tracker)%></th>
   <th><%=l(:field_default_status)%></th>
+  <th><%=l(:field_description)%></th>
   <th></th>
   <th></th>
   </tr></thead>
@@ -17,6 +18,7 @@
   <tr>
   <td class="name"><%= link_to tracker.name, edit_tracker_path(tracker) %></td>
   <td><%= tracker.default_status.name %></td>
+  <td class="description"><%= tracker.description %></td>
   <td>
     <% unless tracker.workflow_rules.exists? %>
       <span class="icon icon-warning">

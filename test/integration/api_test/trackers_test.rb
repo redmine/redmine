@@ -30,6 +30,7 @@ class Redmine::ApiTest::TrackersTest < Redmine::ApiTest::Base
 
     assert_select 'trackers[type=array] tracker id', :text => '2' do
       assert_select '~ name', :text => 'Feature request'
+      assert_select '~ description', :text => 'Description for Feature request tracker'
     end
   end
 end

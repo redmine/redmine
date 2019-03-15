@@ -35,6 +35,7 @@ class ProjectsController < ApplicationController
   helper :queries
   helper :repositories
   helper :members
+  helper :trackers
 
   # Lists visible projects
   def index

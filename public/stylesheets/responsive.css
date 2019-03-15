@@ -755,6 +755,10 @@
     float: none !important;
   }
 
+  #all_attributes #issue_tracker_id {
+    width: 90%;
+  }
+
   #issue_is_private_label {
     display: inline;
   }

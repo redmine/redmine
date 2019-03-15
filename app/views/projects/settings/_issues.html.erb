@@ -6,7 +6,7 @@
   <% @trackers.each do |tracker| %>
     <label class="floating">
       <%= check_box_tag 'project[tracker_ids][]', tracker.id, @project.trackers.to_a.include?(tracker), :id => nil %>
-      <%= tracker %>
+      <%= tracker_name_tag tracker %>
     </label>
   <% end %>
   <%= hidden_field_tag 'project[tracker_ids][]', '' %>

@@ -11,6 +11,7 @@
         :required => true %>
 </p>
 <p><%= f.check_box :is_in_roadmap %></p>
+<p><%= f.text_area :description, :rows => 4 %></p>
 <p>
   <label><%= l(:field_core_fields) %></label>
   <% Tracker::CORE_FIELDS.each do |field| %>

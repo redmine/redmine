@@ -188,13 +188,18 @@ module IssuesHelper
   end
 
   def trackers_options_for_select(issue)
+    trackers = trackers_for_select(issue)
+    trackers.collect {|t| [t.name, t.id]}
+  end
+
+  def trackers_for_select(issue)
     trackers = issue.allowed_target_trackers
     if issue.new_record? && issue.parent_issue_id.present?
       trackers = trackers.reject do |tracker|
         issue.tracker_id != tracker.id && tracker.disabled_core_fields.include?('parent_issue_id')
       end
     end
-    trackers.collect {|t| [t.name, t.id]}
+    trackers
   end
 
   class IssueFieldsRows

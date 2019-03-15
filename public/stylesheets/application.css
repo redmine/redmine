@@ -489,6 +489,10 @@ div.issue.overdue .due-date .value { color: #c22; }
 #issue_tree td.checkbox, #relations td.checkbox {display:none;}
 #relations td.buttons, #issue_tree td.buttons {padding:0;}
 
+#trackers_description {display:none;}
+#trackers_description dt {font-weight: bold; text-decoration: underline;}
+#trackers_description dd {margin: 0; padding: 0 0 1em 0;}
+
 fieldset.collapsible {border-width: 1px 0 0 0;}
 fieldset.collapsible>legend { padding-left: 18px; background: url(../images/arrow_down.png) no-repeat 4px 40%; cursor:pointer; }
 fieldset.collapsible.collapsed>legend { background-image: url(../images/arrow_right.png); }
@@ -1544,6 +1548,7 @@ img.filecontent.image {background-image: url(../images/transparent.png);}
   height:1px;
   overflow:hidden;
 }
+
 
 img {
   image-orientation: from-image;

@@ -20,4 +20,10 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 module TrackersHelper
+
+  def tracker_name_tag(tracker)
+    title = tracker.description.presence
+    css = title ? "field-description" : nil
+    content_tag 'span', tracker.name, :class => css, :title => title
+  end
 end

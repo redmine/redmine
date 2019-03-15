@@ -1,0 +1,13 @@
+<% if trackers.any? {|t| t.description.present? } %>
+  <div class="modal" id="trackers_description">
+    <h3 class="title"><%= l(:label_trackers_description) %></h3>
+      <dl>
+      <% trackers.each do |tracker| %>
+        <% if tracker.description.present? %>
+          <dt><%= tracker.name %></dt>
+          <dd><%= tracker.description %></dd>
+        <% end %>
+      <% end %>
+      </dl>
+  </div>
+<% end %>

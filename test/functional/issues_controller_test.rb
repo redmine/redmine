@@ -2969,6 +2969,49 @@ class IssuesControllerTest < Redmine::ControllerTest
     assert_select 'option', text: /#{t.name}/, count: 0
   end
 
+  def test_get_new_should_show_trackers_description
+    @request.session[:user_id] = 2
+    get :new, :params => {
+      :project_id => 1,
+      :issue => {
+        :tracker_id => 1
+      }
+    }
+    assert_response :success
+
+    assert_select 'form#issue-form' do
+      assert_select 'a[title=?]', 'View all trackers description', :text => 'View all trackers description'
+      assert_select 'select[name=?][title=?]', 'issue[tracker_id]', 'Description for Bug tracker'
+    end
+
+    assert_select 'div#trackers_description' do
+      assert_select 'h3', 1, :text => 'Trackers description'
+      # only Bug and Feature have descriptions
+      assert_select 'dt', 2, :text => 'Bug'
+      assert_select 'dd', 2, :text => 'Description for Bug tracker'
+    end
+  end
+
+  def test_get_new_should_not_show_trackers_description_for_trackers_without_description
+    Tracker.update_all(:description => '')
+
+    @request.session[:user_id] = 2
+    get :new, :params => {
+      :project_id => 1,
+      :issue => {
+        :tracker_id => 1
+      }
+    }
+    assert_response :success
+
+    assert_select 'form#issue-form' do
+      assert_select 'a[title=?]', 'View all trackers description', 0
+      assert_select 'select[name=?][title=?]', 'issue[tracker_id]', ''
+    end
+
+    assert_select 'div#trackers_description', 0
+  end
+
   def test_update_form_for_new_issue
     @request.session[:user_id] = 2
     post :new, :params => {

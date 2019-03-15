@@ -4,6 +4,7 @@ api.array :trackers do
       api.id tracker.id
       api.name tracker.name
       api.default_status(:id => tracker.default_status.id, :name => tracker.default_status.name) unless tracker.default_status.nil?
+      api.description tracker.description
     end
   end
 end

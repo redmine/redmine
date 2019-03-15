@@ -134,4 +134,10 @@ class TrackerTest < ActiveSupport::TestCase
       end
     end
   end
+
+  def test_tracker_should_have_description
+    tracker = Tracker.find(1)
+    assert tracker.respond_to?(:description)
+    assert_equal tracker.description, "Description for Bug tracker"
+  end
 end
