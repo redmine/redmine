@@ -2552,6 +2552,17 @@ class IssuesControllerTest < Redmine::ControllerTest
     end
   end
 
+  def test_new_with_me_assigned_to_id
+    @request.session[:user_id] = 2
+    get :new, :params => {
+      :issue => { :assigned_to_id => 'me' }
+    }
+    assert_response :success
+    assert_select 'select[name=?]', 'issue[assigned_to_id]' do
+      assert_select 'option[value="2"][selected=selected]'
+    end
+  end
+
   def test_new_should_select_default_status
     @request.session[:user_id] = 2
 
@@ -4579,6 +4590,18 @@ class IssuesControllerTest < Redmine::ControllerTest
     end
   end
 
+  def test_get_edit_with_me_assigned_to_id
+    @request.session[:user_id] = 2
+    get :edit, :params => {
+      :id => 1,
+      :issue => { :assigned_to_id => 'me' }
+    }
+    assert_response :success
+    assert_select 'select[name=?]', 'issue[assigned_to_id]' do
+      assert_select 'option[value="2"][selected=selected]'
+    end
+  end
+
   def test_update_form_for_existing_issue
     @request.session[:user_id] = 2
     patch :edit, :params => {
@@ -5393,6 +5416,20 @@ class IssuesControllerTest < Redmine::ControllerTest
       }
     assert_response 302
     assert_equal 'Original subject', issue.reload.subject
+  end
+
+  def test_update_with_me_assigned_to_id
+    @request.session[:user_id] = 2
+    issue = Issue.find(1)
+    assert_not_equal 2, issue.assigned_to_id
+    put :update, :params => {
+        :id => issue.id,
+        :issue => {
+          :assigned_to_id => 'me'
+        }
+      }
+    assert_response 302
+    assert_equal 2, issue.reload.assigned_to_id
   end
 
   def test_get_bulk_edit

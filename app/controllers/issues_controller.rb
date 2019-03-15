@@ -466,6 +466,7 @@ class IssuesController < ApplicationController
     @issue.init_journal(User.current)
 
     issue_attributes = params[:issue]
+    issue_attributes[:assigned_to_id] = User.current.id if issue_attributes && issue_attributes[:assigned_to_id] == 'me'
     if issue_attributes && params[:conflict_resolution]
       case params[:conflict_resolution]
       when 'overwrite'
@@ -522,6 +523,7 @@ class IssuesController < ApplicationController
       # so we can use the default version for the new project
       attrs.delete(:fixed_version_id)
     end
+    attrs[:assigned_to_id] = User.current.id if attrs[:assigned_to_id] == 'me'
     @issue.safe_attributes = attrs
 
     if @issue.project
