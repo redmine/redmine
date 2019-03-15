@@ -1271,3 +1271,5 @@ sr:
     subject
   label_inherited_from_parent_project: Inherited from parent project
   label_inherited_from_group: Inherited from group %{name}
+  label_trackers_description: Trackers description
+  label_open_trackers_description: View all trackers description

@@ -1027,6 +1027,8 @@ fr:
   label_font_monospace: Police non proportionnelle
   label_font_proportional: Police proportionnelle
   label_last_notes: Dernières notes
+  label_trackers_description: Description des trackers
+  label_open_trackers_description: Afficher la description des trackers
 
   button_login: Connexion
   button_submit: Soumettre
