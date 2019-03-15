@@ -1536,6 +1536,19 @@ RAW
     end
   end
 
+  def test_link_to_group_should_return_only_group_name_for_non_admin_users
+    User.current = nil
+    group = Group.find(10)
+    assert_equal "A Team", link_to_group(group)
+  end
+
+  def test_link_to_group_should_link_to_group_edit_page_for_admin_users
+    User.current = User.find(1)
+    group = Group.find(10)
+    result = link_to("A Team", "/groups/10/edit")
+    assert_equal result, link_to_group(group)
+  end
+
   def test_link_to_user_should_not_link_to_anonymous
     user = User.anonymous
     assert user.anonymous?

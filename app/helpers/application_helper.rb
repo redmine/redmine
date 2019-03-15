@@ -65,6 +65,20 @@ module ApplicationHelper
     end
   end
 
+  # Displays a link to edit group page if current user is admin
+  # Otherwise display only the group name
+  def link_to_group(group, options={})
+    if group.is_a?(Group)
+      name = h(group.name)
+      if (User.current.admin?)
+        only_path = options[:only_path].nil? ? true : options[:only_path]
+        link_to name, edit_group_path(group, :only_path => only_path)
+      else
+        name
+      end
+    end
+  end
+
   # Displays a link to +issue+ with its subject.
   # Examples:
   #

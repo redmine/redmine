@@ -112,6 +112,9 @@ class UsersControllerTest < Redmine::ControllerTest
     get :show, :params => {:id => 2}
     assert_response :success
     assert_select 'h2', :text => /John Smith/
+
+    # groups block should not be rendeder for users which are not part of any group
+    assert_select 'div#groups', 0
   end
 
   def test_show_should_display_visible_custom_fields
@@ -203,6 +206,18 @@ class UsersControllerTest < Redmine::ControllerTest
         assert_select 'td:nth-of-type(3)>a', :text => '2'   # closed
         assert_select 'td:nth-of-type(4)>a', :text => '13'  # total
       end
+    end
+  end
+
+  def test_show_user_should_list_user_groups
+    @request.session[:user_id] = 1
+    get :show, :params => {:id => 8}
+
+    assert_select 'div#groups', 1 do
+      assert_select 'h3', :text => 'Groups'
+      assert_select 'li', 2
+      assert_select 'a[href=?]', '/groups/10/edit', :text => 'A Team'
+      assert_select 'a[href=?]', '/groups/11/edit', :text => 'B Team'
     end
   end
 
