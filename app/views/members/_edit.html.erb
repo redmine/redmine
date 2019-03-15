@@ -9,12 +9,13 @@
                         role.id, @member.roles.to_a.include?(role),
                         :id => nil,
                         :disabled => !@member.role_editable?(role)) %> <%= role %>
+      <%= render_role_inheritance(@member, role) %>
     </label><br />
     <% end %>
   </p>
   <%= hidden_field_tag 'membership[role_ids][]', '', :id => nil %>
   <p>
-    <%= submit_tag l(:button_save), :class => "small" %>
+    <%= submit_tag l(:button_save) %>
     <%= link_to_function l(:button_cancel),
                          "$('#member-#{@member.id}-roles').show(); $('#member-#{@member.id}-form').empty(); return false;" if request.xhr? %>
   </p>

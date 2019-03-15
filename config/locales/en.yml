@@ -1041,6 +1041,8 @@ en:
   label_font_proportional: Proportional font
   label_last_notes: Last notes
   label_nothing_to_preview: Nothing to preview
+  label_inherited_from_parent_project: "Inherited from parent project"
+  label_inherited_from_group: "Inherited from group %{name}"
 
   button_login: Login
   button_submit: Submit

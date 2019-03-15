@@ -1252,7 +1252,8 @@ fr:
   label_delete_link_to_subtask: "Supprimer la relation avec la sous-tâche"
   error_not_allowed_to_log_time_for_other_users: "Vous n'êtes pas autorisé à saisir le temps passé pour d'autres utilisateurs"
   permission_log_time_for_other_users: "Saisir le temps passé pour d'autres utilisateurs"
-  label_tomorrow: tomorrow
+  label_inherited_from_parent_project: "Hérité du projet parent"
+  label_inherited_from_group: "Hérité du groupe %{name}"  label_tomorrow: tomorrow
   label_next_week: next week
   label_next_month: next month
   text_role_no_workflow: No workflow defined for this role

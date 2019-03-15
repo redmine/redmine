@@ -21,6 +21,8 @@ class PrincipalMembershipsController < ApplicationController
   layout 'admin'
   self.main_menu = false
 
+  helper :members
+
   before_action :require_admin
   before_action :find_principal, :only => [:new, :create]
   before_action :find_membership, :only => [:edit, :update, :destroy]
