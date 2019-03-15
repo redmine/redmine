@@ -271,7 +271,11 @@ module Redmine
       arg = { :version_or_higher => arg } unless arg.is_a?(Hash)
       arg.assert_valid_keys(:version, :version_or_higher)
 
-      plugin = Plugin.find(plugin_name)
+      begin
+        plugin = Plugin.find(plugin_name)
+      rescue PluginNotFound
+        raise PluginRequirementError.new("#{id} plugin requires the #{plugin_name} plugin")
+      end
       current = plugin.version.split('.').collect(&:to_i)
 
       arg.each do |k, v|
