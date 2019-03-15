@@ -43,6 +43,8 @@ class ContextMenusController < ApplicationController
     @priorities = IssuePriority.active.reverse
     @back = back_url
 
+    @columns = params[:c]
+
     @options_by_custom_field = {}
     if @can[:edit]
       custom_fields = @issues.map(&:editable_custom_fields).reduce(:&).reject(&:multiple?).select {|field| field.format.bulk_edit_supported}

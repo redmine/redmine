@@ -134,7 +134,7 @@
 <% end %>
 
 <% unless @issue %>
-  <li><%= context_menu_link l(:button_filter), _project_issues_path(@project, :set_filter => 1, :status_id => "*", :issue_id => @issue_ids.join(",")),
+  <li><%= context_menu_link l(:button_filter), _project_issues_path(@project, :set_filter => 1, :status_id => "*", :issue_id => @issue_ids.join(","), :c => @columns),
           :class => 'icon icon-list' %></li>
 <% end %>
 
