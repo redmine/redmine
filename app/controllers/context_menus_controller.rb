@@ -45,8 +45,7 @@ class ContextMenusController < ApplicationController
     @priorities = IssuePriority.active.reverse
     @back = back_url
 
-    params = CGI.parse(@back)
-    @columns = params["c[]"]
+    @columns = params[:c]
 
     @options_by_custom_field = {}
     if @can[:edit]
