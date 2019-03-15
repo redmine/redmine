@@ -53,24 +53,24 @@ class RoutingRepositoriesTest < Redmine::RoutingTest
     should_route 'GET /projects/foo/repository/foo/revisions.atom' => 'repositories#revisions', :id => 'foo', :repository_id => 'foo', :format => 'atom'
 
     should_route 'GET /projects/foo/repository/foo/revisions/2457' => 'repositories#revision', :id => 'foo', :repository_id => 'foo', :rev => '2457'
-    should_route 'GET /projects/foo/repository/foo/revisions/2457/show' => 'repositories#show', :id => 'foo', :repository_id => 'foo', :rev => '2457', :format => 'html'
-    should_route 'GET /projects/foo/repository/foo/revisions/2457/diff' => 'repositories#diff', :id => 'foo', :repository_id => 'foo', :rev => '2457', :format => 'html'
+    should_route 'GET /projects/foo/repository/foo/revisions/2457/show' => 'repositories#show', :id => 'foo', :repository_id => 'foo', :rev => '2457'
+    should_route 'GET /projects/foo/repository/foo/revisions/2457/diff' => 'repositories#diff', :id => 'foo', :repository_id => 'foo', :rev => '2457'
 
     %w(show diff entry raw annotate).each do |action|
       @paths.each do |path|
         should_route "GET /projects/foo/repository/foo/revisions/2457/#{action}/#{path}" => "repositories##{action}",
-          :id => 'foo', :repository_id => 'foo', :rev => '2457', :path => path, :format => 'html'
+          :id => 'foo', :repository_id => 'foo', :rev => '2457', :path => path
       end
     end
   end
 
   def test_repositories_non_revisions_path_with_repository_id
-    should_route 'GET /projects/foo/repository/svn/changes' => 'repositories#changes', :id => 'foo', :repository_id => 'svn', :format => 'html'
+    should_route 'GET /projects/foo/repository/svn/changes' => 'repositories#changes', :id => 'foo', :repository_id => 'svn'
 
     %w(changes diff browse entry raw annotate).each do |action|
       @paths.each do |path|
         should_route "GET /projects/foo/repository/svn/#{action}/#{path}" => "repositories##{action}",
-          :id => 'foo', :repository_id => 'svn', :path => path, :format => 'html'
+          :id => 'foo', :repository_id => 'svn', :path => path
       end
     end
   end

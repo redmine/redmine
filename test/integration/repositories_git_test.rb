@@ -26,6 +26,7 @@ class RepositoriesGitTest < Redmine::IntegrationTest
   REPOSITORY_PATH = Rails.root.join('tmp/test/git_repository').to_s
   REPOSITORY_PATH.gsub!(/\//, "\\") if Redmine::Platform.mswin?
   PRJ_ID     = 3
+  NUM_REV = 28
 
   def setup
     User.current = nil
@@ -48,5 +49,37 @@ class RepositoriesGitTest < Redmine::IntegrationTest
       get "/projects/subproject1/repository/#{@repository.id}/diff?rev=61b685fbe&rev_to=2f9c0091"
       assert_response :success
     end
+
+    def test_get_raw_diff_of_a_whole_revision
+      @repository.fetch_changesets
+      assert_equal NUM_REV, @repository.changesets.count
+
+      get "/projects/subproject1/repository/#{@repository.id}/revisions/deff712f05a90d96edbd70facc47d944be5897e3/diff"
+      assert_response :success
+
+      assert a = css_select("a.diff").first
+      assert_equal 'Unified diff', a.text
+      get a['href']
+      assert_response :success
+      assert_match /\Acommit deff712f05a90d96edbd70facc47d944be5897e3/, response.body
+    end
+
+    def test_get_raw_diff_of_a_single_file_change
+      @repository.fetch_changesets
+      assert_equal NUM_REV, @repository.changesets.count
+
+      get "/projects/subproject1/repository/#{@repository.id}/revisions/deff712f05a90d96edbd70facc47d944be5897e3/diff/sources/watchers_controller.rb"
+      assert_response :success
+
+      assert a = css_select("a.diff").first
+      assert_equal 'Unified diff', a.text
+      get a['href']
+      assert_response :success
+      assert_match /\Acommit deff712f05a90d96edbd70facc47d944be5897e3/, response.body
+    end
+
+  else
+    puts "Git test repository NOT FOUND. Skipping integration tests !!!"
+    def test_fake; assert true end
   end
 end

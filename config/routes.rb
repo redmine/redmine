@@ -252,7 +252,7 @@ Rails.application.routes.draw do
     get "projects/:id/repository/:repository_id/revisions/:rev/#{action}(/*path)",
         :controller => 'repositories',
         :action => action,
-        :format => 'html',
+        :format => false,
         :constraints => {:rev => /[a-z0-9\.\-_]+/, :path => /.*/}
   end
 
@@ -260,7 +260,7 @@ Rails.application.routes.draw do
     get "projects/:id/repository/:repository_id/#{action}(/*path)",
         :controller => 'repositories',
         :action => action,
-        :format => 'html',
+        :format => false,
         :constraints => {:path => /.*/}
   end
 
