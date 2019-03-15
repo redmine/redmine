@@ -371,7 +371,7 @@ class ProjectCopyTest < ActiveSupport::TestCase
     source_project = Project.find(1)
     assert @project.copy(source_project)
 
-    assert_equal 2, @project.documents.size
+    assert_equal 3, @project.documents.size
     @project.documents.each do |document|
       assert !source_project.documents.include?(document)
     end

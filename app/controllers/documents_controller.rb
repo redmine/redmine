@@ -33,7 +33,8 @@ class DocumentsController < ApplicationController
     documents = @project.documents.includes(:attachments, :category).to_a
     case @sort_by
     when 'date'
-      @grouped = documents.group_by {|d| d.updated_on.to_date }
+      documents.sort!{|a,b| b.updated_on <=> a.updated_on}
+      @grouped = documents.group_by {|d| d.updated_on.to_date}
     when 'title'
       @grouped = documents.group_by {|d| d.title.first.upcase}
     when 'author'

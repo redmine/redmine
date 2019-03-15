@@ -268,3 +268,16 @@ attachments_020:
   filename: root_attachment.txt
   filesize: 54
   author_id: 2
+attachments_021:
+  created_on: 2007-03-05 15:08:27 +01:00
+  container_type: Document
+  container_id: 3
+  downloads: 0
+  disk_filename: 060719210727_archive.zip
+  disk_directory: "2006/07"
+  digest: b91e08d0cf966d5c6ff411bd8c4cc3a2
+  id: 21
+  filesize: 157
+  filename: archive.zip
+  author_id: 1
+  content_type: application/zip
