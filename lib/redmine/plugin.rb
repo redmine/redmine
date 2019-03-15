@@ -109,6 +109,7 @@ module Redmine
 
       # Add the plugin directories to rails autoload paths
       engine_cfg = Rails::Engine::Configuration.new(p.directory)
+      engine_cfg.paths.add 'lib', eager_load: true
       Rails.application.config.eager_load_paths += engine_cfg.eager_load_paths
       Rails.application.config.autoload_once_paths += engine_cfg.autoload_once_paths
       Rails.application.config.autoload_paths += engine_cfg.autoload_paths
