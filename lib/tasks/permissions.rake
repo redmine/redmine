@@ -1,3 +1,5 @@
+# frozen_string_literal: false
+
 namespace :redmine do
   desc "List all permissions and the actions registered with them"
   task :permissions => :environment do

@@ -1,3 +1,5 @@
+# frozen_string_literal: false
+
 class ChangeRepositoriesPasswordLimit < ActiveRecord::Migration[4.2]
   def self.up
     change_column :repositories, :password, :string, :limit => nil, :default => ''

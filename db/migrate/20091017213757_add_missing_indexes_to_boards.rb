@@ -1,3 +1,5 @@
+# frozen_string_literal: false
+
 class AddMissingIndexesToBoards < ActiveRecord::Migration[4.2]
   def self.up
     add_index :boards, :last_message_id

@@ -1,3 +1,5 @@
+# frozen_string_literal: false
+
 class AddMissingIndexesToMembers < ActiveRecord::Migration[4.2]
   def self.up
     add_index :members, :user_id

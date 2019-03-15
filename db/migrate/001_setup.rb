@@ -1,3 +1,5 @@
+# frozen_string_literal: false
+
 # Redmine - project management software
 # Copyright (C) 2006  Jean-Philippe Lang
 #

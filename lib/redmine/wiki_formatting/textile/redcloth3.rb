@@ -1,3 +1,5 @@
+# frozen_string_literal: false
+
 #                                vim:ts=4:sw=4:
 # = RedCloth - Textile and Markdown Hybrid for Ruby
 #

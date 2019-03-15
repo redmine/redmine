@@ -1,3 +1,5 @@
+# frozen_string_literal: false
+
 class AddTypeToEnumerations < ActiveRecord::Migration[4.2]
   def self.up
     add_column :enumerations, :type, :string

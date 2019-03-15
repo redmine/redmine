@@ -1,3 +1,5 @@
+# frozen_string_literal: false
+
 class RedminePluginControllerGenerator < Rails::Generators::NamedBase
   source_root File.expand_path("../templates", __FILE__)
   argument :controller, :type => :string

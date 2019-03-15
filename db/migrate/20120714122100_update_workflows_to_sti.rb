@@ -1,3 +1,5 @@
+# frozen_string_literal: false
+
 class UpdateWorkflowsToSti < ActiveRecord::Migration[4.2]
   def up
     WorkflowRule.update_all "type = 'WorkflowTransition'"

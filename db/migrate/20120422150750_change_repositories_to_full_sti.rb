@@ -1,3 +1,5 @@
+# frozen_string_literal: false
+
 class ChangeRepositoriesToFullSti < ActiveRecord::Migration[4.2]
   def up
     Repository.connection.

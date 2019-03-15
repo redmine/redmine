@@ -1,3 +1,5 @@
+# frozen_string_literal: false
+
 class AddProjectDefaultAssignedToId < ActiveRecord::Migration[4.2]
   def up
     add_column :projects, :default_assigned_to_id, :integer, :default => nil

@@ -1,3 +1,5 @@
+# frozen_string_literal: false
+
 class AddMissingIndexesToIssueRelations < ActiveRecord::Migration[4.2]
   def self.up
     add_index :issue_relations, :issue_from_id

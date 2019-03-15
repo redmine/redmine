@@ -1,3 +1,5 @@
+# frozen_string_literal: false
+
 class AddEnumerationsPositionName < ActiveRecord::Migration[4.2]
   def up
     add_column :enumerations, :position_name, :string, :limit => 30

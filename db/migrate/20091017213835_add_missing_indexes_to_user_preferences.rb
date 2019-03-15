@@ -1,3 +1,5 @@
+# frozen_string_literal: false
+
 class AddMissingIndexesToUserPreferences < ActiveRecord::Migration[4.2]
   def self.up
     add_index :user_preferences, :user_id

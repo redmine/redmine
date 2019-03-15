@@ -1,3 +1,5 @@
+# frozen_string_literal: false
+
 module ObjectHelpers
   def User.generate!(attributes={})
     @generated_user_login ||= 'user0'

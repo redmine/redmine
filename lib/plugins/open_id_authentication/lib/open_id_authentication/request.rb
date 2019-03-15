@@ -1,3 +1,5 @@
+# frozen_string_literal: false
+
 module OpenIdAuthentication
   module Request
     def self.included(base)

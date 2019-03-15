@@ -1,3 +1,5 @@
+# frozen_string_literal: false
+
 class AddProjectsFeedsPermissions < ActiveRecord::Migration[4.2]
   # model removed
   class Permission < ActiveRecord::Base; end

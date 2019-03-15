@@ -1,3 +1,5 @@
+# frozen_string_literal: false
+
 class AllowNullPosition < ActiveRecord::Migration[4.2]
   def self.up
     Enumeration.reset_column_information

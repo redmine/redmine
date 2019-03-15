@@ -1,3 +1,5 @@
+# frozen_string_literal: false
+
 class CreateQueriesRoles < ActiveRecord::Migration[4.2]
   def self.up
     create_table :queries_roles, :id => false do |t|

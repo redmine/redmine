@@ -1,3 +1,5 @@
+# frozen_string_literal: false
+
 require 'digest/md5'
 require 'cgi'
 

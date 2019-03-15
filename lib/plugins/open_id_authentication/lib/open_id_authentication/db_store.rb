@@ -1,3 +1,5 @@
+# frozen_string_literal: false
+
 require 'openid/store/interface'
 
 module OpenIdAuthentication

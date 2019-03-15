@@ -1,3 +1,5 @@
+# frozen_string_literal: false
+
 class AddProjectsTrackersUniqueIndex < ActiveRecord::Migration[4.2]
   def self.up
     remove_duplicates

@@ -1,3 +1,5 @@
+# frozen_string_literal: false
+
 class InsertBuiltinRoles < ActiveRecord::Migration[4.2]
   def self.up
     Role.reset_column_information

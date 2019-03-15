@@ -1,3 +1,5 @@
+# frozen_string_literal: false
+
 class AddQueriesSortCriteria < ActiveRecord::Migration[4.2]
   def self.up
     add_column :queries, :sort_criteria, :text

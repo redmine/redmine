@@ -1,3 +1,5 @@
+# frozen_string_literal: false
+
 # ActsAsWatchable
 module Redmine
   module Acts

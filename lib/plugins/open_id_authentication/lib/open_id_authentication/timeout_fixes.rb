@@ -1,3 +1,5 @@
+# frozen_string_literal: false
+
 # http://trac.openidenabled.com/trac/ticket/156
 module OpenID
   @@timeout_threshold = 20

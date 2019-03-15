@@ -1,3 +1,5 @@
+# frozen_string_literal: false
+
 class CreateJournals < ActiveRecord::Migration[4.2]
 
   # model removed, but needed for data migration

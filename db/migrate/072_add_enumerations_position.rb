@@ -1,3 +1,5 @@
+# frozen_string_literal: false
+
 class AddEnumerationsPosition < ActiveRecord::Migration[4.2]
   def self.up
     add_column(:enumerations, :position, :integer, :default => 1) unless Enumeration.column_names.include?('position')

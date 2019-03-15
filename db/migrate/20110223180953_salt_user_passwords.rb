@@ -1,3 +1,5 @@
+# frozen_string_literal: false
+
 class SaltUserPasswords < ActiveRecord::Migration[4.2]
   
   def self.up

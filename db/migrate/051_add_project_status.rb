@@ -1,3 +1,5 @@
+# frozen_string_literal: false
+
 class AddProjectStatus < ActiveRecord::Migration[4.2]
   def self.up
     add_column :projects, :status, :integer, :default => 1, :null => false

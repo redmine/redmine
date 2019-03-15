@@ -1,3 +1,5 @@
+# frozen_string_literal: false
+
 class AddParentIdToEnumerations < ActiveRecord::Migration[4.2]
   def self.up
     add_column :enumerations, :parent_id, :integer, :null => true, :default => nil

@@ -1,3 +1,5 @@
+# frozen_string_literal: false
+
 class ChangeChangesFromRevisionToString < ActiveRecord::Migration[4.2]
   def self.up
     change_column :changes, :from_revision, :string

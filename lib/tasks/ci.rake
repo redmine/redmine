@@ -1,3 +1,5 @@
+# frozen_string_literal: false
+
 desc "Run the Continuous Integration tests for Redmine"
 task :ci do
   # RAILS_ENV and ENV[] can diverge so force them both to test

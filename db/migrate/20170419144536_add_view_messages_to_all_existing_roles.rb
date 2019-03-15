@@ -1,3 +1,5 @@
+# frozen_string_literal: false
+
 class AddViewMessagesToAllExistingRoles < ActiveRecord::Migration[4.2]
   def up
     Role.all.each { |role| role.add_permission! :view_messages }

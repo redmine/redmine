@@ -1,3 +1,5 @@
+# frozen_string_literal: false
+
 class AddDefaultDoneRatioToIssueStatus < ActiveRecord::Migration[4.2]
   def self.up
     add_column :issue_statuses, :default_done_ratio, :integer

@@ -1,3 +1,5 @@
+# frozen_string_literal: false
+
 class AddQueriesVisibility < ActiveRecord::Migration[4.2]
   def up
     add_column :queries, :visibility, :integer, :default => 0

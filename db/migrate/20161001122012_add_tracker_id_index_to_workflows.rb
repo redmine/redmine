@@ -1,3 +1,5 @@
+# frozen_string_literal: false
+
 class AddTrackerIdIndexToWorkflows < ActiveRecord::Migration[4.2]
   def self.up
     add_index :workflows, :tracker_id

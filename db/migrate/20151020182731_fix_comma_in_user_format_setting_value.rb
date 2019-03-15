@@ -1,3 +1,5 @@
+# frozen_string_literal: false
+
 class FixCommaInUserFormatSettingValue < ActiveRecord::Migration[4.2]
   def self.up 
     Setting.

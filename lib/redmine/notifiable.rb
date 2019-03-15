@@ -1,3 +1,5 @@
+# frozen_string_literal: false
+
 module Redmine
   class Notifiable < Struct.new(:name, :parent)
 

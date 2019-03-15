@@ -1,3 +1,5 @@
+# frozen_string_literal: false
+
 class AddUniqueIndexOnCustomFieldsProjects < ActiveRecord::Migration[4.2]
   def up
     table_name = "#{CustomField.table_name_prefix}custom_fields_projects#{CustomField.table_name_suffix}"

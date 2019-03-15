@@ -1,3 +1,5 @@
+# frozen_string_literal: false
+
 # redMine - project management software
 # Copyright (C) 2006-2007  Jean-Philippe Lang
 #

@@ -1,3 +1,5 @@
+# frozen_string_literal: false
+
 # Sample plugin controller
 class ExampleController < ApplicationController
   layout 'base'

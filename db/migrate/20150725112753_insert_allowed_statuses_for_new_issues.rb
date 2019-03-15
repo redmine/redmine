@@ -1,3 +1,5 @@
+# frozen_string_literal: false
+
 class InsertAllowedStatusesForNewIssues < ActiveRecord::Migration[4.2]
   def self.up
     # Adds the default status for all trackers and roles

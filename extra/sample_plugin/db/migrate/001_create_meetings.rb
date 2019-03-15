@@ -1,3 +1,5 @@
+# frozen_string_literal: false
+
 # Sample plugin migration
 # Use rake db:migrate_plugins to migrate installed plugins
 class CreateMeetings < ActiveRecord::Migration[4.2]

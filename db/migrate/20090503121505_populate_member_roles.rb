@@ -1,3 +1,5 @@
+# frozen_string_literal: false
+
 class PopulateMemberRoles < ActiveRecord::Migration[4.2]
   def self.up
     MemberRole.delete_all

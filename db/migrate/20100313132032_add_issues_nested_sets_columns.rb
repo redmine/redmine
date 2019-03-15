@@ -1,3 +1,5 @@
+# frozen_string_literal: false
+
 class AddIssuesNestedSetsColumns < ActiveRecord::Migration[4.2]
   def self.up
     add_column :issues, :parent_id, :integer, :default => nil

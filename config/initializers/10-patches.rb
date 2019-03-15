@@ -1,3 +1,5 @@
+# frozen_string_literal: false
+
 require 'active_record'
 
 module ActiveRecord

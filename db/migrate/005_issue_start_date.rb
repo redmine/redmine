@@ -1,3 +1,5 @@
+# frozen_string_literal: false
+
 class IssueStartDate < ActiveRecord::Migration[4.2]
   def self.up
     add_column :issues, :start_date, :date

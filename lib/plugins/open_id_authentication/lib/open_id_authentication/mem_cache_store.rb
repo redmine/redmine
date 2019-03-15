@@ -1,3 +1,5 @@
+# frozen_string_literal: false
+
 require 'digest/sha1'
 require 'openid/store/interface'
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: false
+
 require 'active_support/core_ext/object/to_query'
 require 'rack/utils'
 

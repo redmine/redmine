@@ -1,3 +1,5 @@
+# frozen_string_literal: false
+
 class PopulateIssuesClosedOn < ActiveRecord::Migration[4.2]
   def up
     closed_status_ids = IssueStatus.where(:is_closed => true).pluck(:id)

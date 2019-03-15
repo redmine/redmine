@@ -1,3 +1,5 @@
+# frozen_string_literal: false
+
 # Mocks out OpenID
 #
 # http://www.northpub.com/articles/2007/04/02/testing-openid-support
