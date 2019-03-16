@@ -1,10 +1,11 @@
-# frozen_string_literal: false
+# frozen_string_literal: true
 
 module Redmine
   module CodesetUtil
 
     def self.replace_invalid_utf8(str)
-      return str if str.nil?
+      return nil if str.nil?
+      str = str.dup
       str.force_encoding('UTF-8')
       if ! str.valid_encoding?
         str = str.encode("UTF-16LE", :invalid => :replace,
@@ -14,7 +15,8 @@ module Redmine
     end
 
     def self.to_utf8(str, encoding)
-      return str if str.nil?
+      return if str.nil?
+      str = str.dup
       str.force_encoding("ASCII-8BIT")
       if str.empty?
         str.force_encoding("UTF-8")
@@ -32,12 +34,14 @@ module Redmine
     end
 
     def self.to_utf8_by_setting(str)
-      return str if str.nil?
+      return if str.nil?
+      str = str.dup
       self.to_utf8_by_setting_internal(str).force_encoding('UTF-8')
     end
 
     def self.to_utf8_by_setting_internal(str)
-      return str if str.nil?
+      return if str.nil?
+      str = str.dup
       str.force_encoding('ASCII-8BIT')
       return str if str.empty?
       return str if /\A[\r\n\t\x20-\x7e]*\Z/n.match(str) # for us-ascii
@@ -56,6 +60,8 @@ module Redmine
     end
 
     def self.from_utf8(str, encoding)
+      return if str.nil?
+      str = str.dup
       str ||= ''
       str.force_encoding('UTF-8')
       if encoding.upcase != 'UTF-8'
