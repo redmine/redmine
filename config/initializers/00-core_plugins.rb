@@ -1,4 +1,4 @@
-# frozen_string_literal: false
+# frozen_string_literal: true
 
 # Loads the core plugins located in lib/plugins
 Dir.glob(File.join(Rails.root, "lib/plugins/*")).sort.each do |directory|
