@@ -1,4 +1,4 @@
-# frozen_string_literal: false
+# frozen_string_literal: true
 
 # Redmine - project management software
 # Copyright (C) 2006-2017  Jean-Philippe Lang
@@ -207,8 +207,8 @@ class Repository::Cvs < Repository
   # Returns the next revision number to assign to a CVS changeset
   def next_revision_number
     # Need to retrieve existing revision numbers to sort them as integers
-    sql = "SELECT revision FROM #{Changeset.table_name} "
-    sql << "WHERE repository_id = #{id} AND revision NOT LIKE 'tmp%'"
+    sql = "SELECT revision FROM #{Changeset.table_name} " \
+          "WHERE repository_id = #{id} AND revision NOT LIKE 'tmp%'"
     @current_revision_number ||= (self.class.connection.select_values(sql).collect(&:to_i).max || 0)
     @current_revision_number += 1
   end

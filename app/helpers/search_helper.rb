@@ -1,4 +1,4 @@
-# frozen_string_literal: false
+# frozen_string_literal: true
 
 # Redmine - project management software
 # Copyright (C) 2006-2017  Jean-Philippe Lang
@@ -22,7 +22,7 @@ module SearchHelper
     return text unless text && tokens && !tokens.empty?
     re_tokens = tokens.collect {|t| Regexp.escape(t)}
     regexp = Regexp.new "(#{re_tokens.join('|')})", Regexp::IGNORECASE
-    result = ''
+    result = +''
     text.split(regexp).each_with_index do |words, i|
       if result.length > 1200
         # maximum length of the preview reached

@@ -1,4 +1,4 @@
-# frozen_string_literal: false
+# frozen_string_literal: true
 
 # Redmine - project management software
 # Copyright (C) 2006-2017  Jean-Philippe Lang
@@ -59,7 +59,7 @@ module CalendarsHelper
   end
 
   def calendar_day_css_classes(calendar, day)
-    css = day.month==calendar.month ? 'even' : 'odd'
+    css = day.month==calendar.month ? +'even' : +'odd'
     css << " today" if User.current.today == day
     css << " nwday" if non_working_week_days.include?(day.cwday)
     css

@@ -1,4 +1,4 @@
-# frozen_string_literal: false
+# frozen_string_literal: true
 
 # Redmine - project management software
 # Copyright (C) 2006-2017  Jean-Philippe Lang
@@ -234,8 +234,8 @@ class Repository < ActiveRecord::Base
 
   def diff_format_revisions(cs, cs_to, sep=':')
     text = ""
-    text << cs_to.format_identifier + sep if cs_to
-    text << cs.format_identifier if cs
+    text += cs_to.format_identifier + sep if cs_to
+    text += cs.format_identifier if cs
     text
   end
 

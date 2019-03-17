@@ -1,4 +1,4 @@
-# frozen_string_literal: false
+# frozen_string_literal: true
 
 # Redmine - project management software
 # Copyright (C) 2006-2017  Jean-Philippe Lang
@@ -21,14 +21,14 @@ module ContextMenusHelper
   def context_menu_link(name, url, options={})
     options[:class] ||= ''
     if options.delete(:selected)
-      options[:class] << ' icon-checked disabled'
+      options[:class] += ' icon-checked disabled'
       options[:disabled] = true
     end
     if options.delete(:disabled)
       options.delete(:method)
       options.delete(:data)
       options[:onclick] = 'return false;'
-      options[:class] << ' disabled'
+      options[:class] += ' disabled'
       url = '#'
     end
     link_to h(name), url, options

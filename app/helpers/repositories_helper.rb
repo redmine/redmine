@@ -1,4 +1,4 @@
-# frozen_string_literal: false
+# frozen_string_literal: true
 
 # Redmine - project management software
 # Copyright (C) 2006-2017  Jean-Philippe Lang
@@ -43,7 +43,7 @@ module RepositoriesHelper
 
   def render_properties(properties)
     unless properties.nil? || properties.empty?
-      content = ''
+      content = +''
       properties.keys.sort.each do |property|
         content << content_tag('li', "<b>#{h property}</b>: <span>#{h properties[property]}</span>".html_safe)
       end
@@ -87,10 +87,10 @@ module RepositoriesHelper
 
   def render_changes_tree(tree)
     return '' if tree.nil?
-    output = ''
+    output = +''
     output << '<ul>'
     tree.keys.sort.each do |file|
-      style = 'change'
+      style = +'change'
       text = File.basename(h(file))
       if s = tree[file][:s]
         style << ' folder'

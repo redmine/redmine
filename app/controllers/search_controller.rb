@@ -1,4 +1,4 @@
-# frozen_string_literal: false
+# frozen_string_literal: true
 
 # Redmine - project management software
 # Copyright (C) 2006-2017  Jean-Philippe Lang
@@ -22,8 +22,7 @@ class SearchController < ApplicationController
   accept_api_auth :index
 
   def index
-    @question = params[:q] || ""
-    @question.strip!
+    @question = params[:q]&.strip || ""
     @all_words = params[:all_words] ? params[:all_words].present? : true
     @titles_only = params[:titles_only] ? params[:titles_only].present? : false
     @search_attachments = params[:attachments].presence || '0'
