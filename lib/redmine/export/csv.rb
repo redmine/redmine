@@ -1,4 +1,4 @@
-# frozen_string_literal: false
+# frozen_string_literal: true
 
 # Redmine - project management software
 # Copyright (C) 2006-2017  Jean-Philippe Lang
@@ -35,11 +35,12 @@ module Redmine
             col_sep = l(:general_csv_separator)
             encoding = Encoding.find(options[:encoding]) rescue Encoding.find(l(:general_csv_encoding))
 
-            str = ''.force_encoding(encoding)
-            if encoding == Encoding::UTF_8
-              # BOM
-              str = "\xEF\xBB\xBF".force_encoding(encoding)
-            end
+            str =
+              if encoding == Encoding::UTF_8
+                +"\xEF\xBB\xBF" # BOM
+              else
+                (+'').force_encoding(encoding)
+              end
 
             super(str, :col_sep => col_sep, :encoding => encoding, &block)
           end

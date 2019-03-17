@@ -1,4 +1,4 @@
-# frozen_string_literal: false
+# frozen_string_literal: true
 
 # Redmine - project management software
 # Copyright (C) 2006-2017  Jean-Philippe Lang
@@ -305,7 +305,7 @@ module Redmine
             if query.grouped? &&
                  (group = query.group_by_column.group_value(issue)) != previous_group
               pdf.SetFontStyle('B',10)
-              group_label = group.blank? ? 'None' : group.to_s.dup
+              group_label = group.blank? ? +'None' : group.to_s.dup
               group_label << " (#{result_count_by_group[group]})"
               pdf.bookmark group_label, 0, -1
               pdf.RDMCell(table_width, row_height * 2, group_label, 'LR', 1, 'L')
