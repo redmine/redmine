@@ -1,4 +1,4 @@
-# frozen_string_literal: false
+# frozen_string_literal: true
 
 # Redmine - project management software
 # Copyright (C) 2006-2017  Jean-Philippe Lang
@@ -1144,10 +1144,10 @@ class Query < ActiveRecord::Base
       end
     when "!*"
       sql = "#{db_table}.#{db_field} IS NULL"
-      sql << " OR #{db_table}.#{db_field} = ''" if (is_custom_filter || [:text, :string].include?(type_for(field)))
+      sql += " OR #{db_table}.#{db_field} = ''" if (is_custom_filter || [:text, :string].include?(type_for(field)))
     when "*"
       sql = "#{db_table}.#{db_field} IS NOT NULL"
-      sql << " AND #{db_table}.#{db_field} <> ''" if is_custom_filter
+      sql += " AND #{db_table}.#{db_field} <> ''" if is_custom_filter
     when ">="
       if [:date, :date_past].include?(type_for(field))
         sql = date_clause(db_table, db_field, parse_date(value.first), nil, is_custom_filter)

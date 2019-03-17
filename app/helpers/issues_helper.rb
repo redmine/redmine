@@ -1,4 +1,4 @@
-# frozen_string_literal: false
+# frozen_string_literal: true
 
 # Redmine - project management software
 # Copyright (C) 2006-2017  Jean-Philippe Lang
@@ -74,7 +74,7 @@ module IssuesHelper
   end
 
   def render_issue_subject_with_tree(issue)
-    s = ''
+    s = +''
     ancestors = issue.root? ? [] : issue.ancestors.visible.to_a
     ancestors.each do |ancestor|
       s << '<div>' + content_tag('p', link_to_issue(ancestor, :project => (issue.project_id != ancestor.project_id)))
@@ -91,9 +91,9 @@ module IssuesHelper
 
   def render_descendants_tree(issue)
     manage_relations = User.current.allowed_to?(:manage_subtasks, issue.project)
-    s = '<table class="list issues odd-even">'
+    s = +'<table class="list issues odd-even">'
     issue_list(issue.descendants.visible.preload(:status, :priority, :tracker, :assigned_to).sort_by(&:lft)) do |child, level|
-      css = "issue issue-#{child.id} hascontextmenu #{child.css_classes}"
+      css = +"issue issue-#{child.id} hascontextmenu #{child.css_classes}"
       css << " idnt idnt-#{level}" if level > 0
       buttons = manage_relations ? link_to(l(:label_delete_link_to_subtask),
                                   issue_path({:id => child.id, :issue => {:parent_issue_id => ''}, :back_url => issue_path(issue.id), :no_flash => '1'}),
@@ -156,7 +156,7 @@ module IssuesHelper
         l_hours_short(issue.estimated_hours)
       else
         s = issue.estimated_hours.present? ? l_hours_short(issue.estimated_hours) : ""
-        s << " (#{l(:label_total)}: #{l_hours_short(issue.total_estimated_hours)})"
+        s += " (#{l(:label_total)}: #{l_hours_short(issue.total_estimated_hours)})"
         s.html_safe
       end
     end
@@ -170,7 +170,7 @@ module IssuesHelper
         link_to(l_hours_short(issue.spent_hours), path)
       else
         s = issue.spent_hours > 0 ? l_hours_short(issue.spent_hours) : ""
-        s << " (#{l(:label_total)}: #{link_to l_hours_short(issue.total_spent_hours), path})"
+        s += " (#{l(:label_total)}: #{link_to l_hours_short(issue.total_spent_hours), path})"
         s.html_safe
       end
     end

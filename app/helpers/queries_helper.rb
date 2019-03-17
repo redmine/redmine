@@ -1,4 +1,4 @@
-# frozen_string_literal: false
+# frozen_string_literal: true
 
 # Redmine - project management software
 # Copyright (C) 2006-2017  Jean-Philippe Lang
@@ -290,9 +290,9 @@ module QueriesHelper
     session_key = klass.name.underscore.to_sym
 
     if params[:query_id].present?
-      cond = "project_id IS NULL"
-      cond << " OR project_id = #{@project.id}" if @project
-      @query = klass.where(cond).find(params[:query_id])
+      scope = klass.where(:project_id => nil)
+      scope = scope.or(klass.where(:project_id => @project)) if @project
+      @query = scope.find(params[:query_id])
       raise ::Unauthorized unless @query.visible?
       @query.project = @project
       session[session_key] = {:id => @query.id, :project_id => @query.project_id} if use_session
@@ -389,7 +389,7 @@ module QueriesHelper
     content_tag('h3', title) + "\n" +
       content_tag('ul',
         queries.collect {|query|
-            css = 'query'
+            css = +'query'
             css << ' selected' if query == @query
             content_tag('li', link_to(query.name, url_params.merge(:query_id => query), :class => css))
           }.join("\n").html_safe,
