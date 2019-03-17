@@ -1,4 +1,4 @@
-# frozen_string_literal: false
+# frozen_string_literal: true
 
 # Redmine - project management software
 # Copyright (C) 2006-2017  Jean-Philippe Lang
@@ -46,7 +46,7 @@ module Redmine
           add_at = nil
           add_to = nil
           del_at = nil
-          deleted = ""
+          deleted = +""
           diff.each do |change|
             pos = change[1]
             if change[0] == "+"

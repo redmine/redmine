@@ -185,7 +185,7 @@ module Redmine
 
       def parse_keyword(custom_field, keyword, &block)
         separator = Regexp.escape ","
-        keyword = keyword.to_s
+        keyword = keyword.dup.to_s
 
         if custom_field.multiple?
           values = []

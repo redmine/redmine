@@ -1,4 +1,4 @@
-# frozen_string_literal: false
+# frozen_string_literal: true
 
 # Redmine - project management software
 # Copyright (C) 2006-2017  Jean-Philippe Lang
@@ -154,7 +154,7 @@ module Redmine
                   parsing = $1
                 elsif line =~ /^  (.*)$/
                   if parsing == 'message'
-                    revision.message << "#{$1}\n"
+                    revision.message += "#{$1}\n"
                   else
                     if $1 =~ /^(.*)\s+(\S+)$/
                       path_locale = $1.strip

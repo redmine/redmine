@@ -1,4 +1,4 @@
-# frozen_string_literal: false
+# frozen_string_literal: true
 
 # Redmine - project management software
 # Copyright (C) 2006-2017  Jean-Philippe Lang
@@ -65,9 +65,9 @@ module Redmine
           @pre_list = []
           text = self.dup
           rip_offtags text, false, false
-          before = ''
-          s = ''
-          after = ''
+          before = +''
+          s = +''
+          after = +''
           i = 0
           l = 1
           started = false

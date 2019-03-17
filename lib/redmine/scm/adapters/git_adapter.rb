@@ -1,4 +1,4 @@
-# frozen_string_literal: false
+# frozen_string_literal: true
 
 # Redmine - project management software
 # Copyright (C) 2006-2017  Jean-Philippe Lang
@@ -203,7 +203,7 @@ module Redmine
           cmd_args << "--" << scm_iconv(@path_encoding, 'UTF-8', path) if path && !path.empty?
           revisions = []
           if identifier_from || identifier_to
-            revisions << ""
+            revisions << +""
             revisions[0] << "#{identifier_from}.." if identifier_from
             revisions[0] << "#{identifier_to}" if identifier_to
           else
@@ -261,7 +261,7 @@ module Redmine
                 end
               elsif (parsing_descr == 0) && line.chomp.to_s == ""
                 parsing_descr = 1
-                changeset[:description] = ""
+                changeset[:description] = +""
               elsif (parsing_descr == 1 || parsing_descr == 2) \
                   && line =~ /^:\d+\s+\d+\s+[0-9a-f.]+\s+[0-9a-f.]+\s+(\w)\t(.+)$/
                 parsing_descr = 2
