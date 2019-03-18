@@ -1567,11 +1567,6 @@ module ApplicationHelper
     end
   end
 
-  def generate_csv(&block)
-    decimal_separator = l(:general_csv_decimal_separator)
-    encoding = l(:general_csv_encoding)
-  end
-
   def export_csv_encoding_select_tag
     return if l(:general_csv_encoding).casecmp('UTF-8') == 0
     options = [l(:general_csv_encoding), 'UTF-8']
