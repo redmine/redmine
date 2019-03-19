@@ -143,8 +143,6 @@ class AttachmentsControllerTest < Redmine::ControllerTest
     assert a.save
     assert_equal 'japanese-utf-8.txt', a.filename
 
-    str_japanese = "\xe6\x97\xa5\xe6\x9c\xac\xe8\xaa\x9e".force_encoding('UTF-8')
-
     get :show, :params => {
         :id => a.id
       }
@@ -152,7 +150,7 @@ class AttachmentsControllerTest < Redmine::ControllerTest
     assert_equal 'text/html', @response.content_type
     assert_select 'tr#L1' do
       assert_select 'th.line-num', :text => '1'
-      assert_select 'td', :text => /#{str_japanese}/
+      assert_select 'td', :text => /日本語/
     end
   end
 

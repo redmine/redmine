@@ -515,8 +515,7 @@ class MailHandlerTest < ActiveSupport::TestCase
   end
 
   def test_add_issue_with_japanese_keywords
-    ja_dev = "\xe9\x96\x8b\xe7\x99\xba".force_encoding('UTF-8')
-    tracker = Tracker.generate!(:name => ja_dev)
+    tracker = Tracker.generate!(:name => '開発')
     Project.find(1).trackers << tracker
     issue = submit_email(
               'japanese_keywords_iso_2022_jp.eml',
@@ -550,9 +549,8 @@ class MailHandlerTest < ActiveSupport::TestCase
             )
     assert_kind_of Issue, issue
     assert_equal 1, issue.attachments.size
-    ja = "\xe3\x83\x86\xe3\x82\xb9\xe3\x83\x88.txt".force_encoding('UTF-8')
     attachment = issue.attachments.first
-    assert_equal ja, attachment.filename
+    assert_equal 'テスト.txt', attachment.filename
     assert_equal 5, attachment.filesize
     assert File.exist?(attachment.diskfile)
     assert_equal 5, File.size(attachment.diskfile)
@@ -565,8 +563,7 @@ class MailHandlerTest < ActiveSupport::TestCase
               :issue => {:project => 'ecookbook'}
             )
     assert_kind_of Issue, issue
-    description = "\xD0\x97\xD0\xB4\xD1\x80\xD0\xB0\xD0\xB2\xD1\x81\xD1\x82\xD0\xB2\xD1\x83\xD0\xB9\xD1\x82\xD0\xB5?".force_encoding('UTF-8')
-    assert_equal description, issue.description
+    assert_equal 'Здравствуйте?', issue.description
   end
 
   def test_gmail_with_attachment_ja
@@ -576,9 +573,8 @@ class MailHandlerTest < ActiveSupport::TestCase
             )
     assert_kind_of Issue, issue
     assert_equal 1, issue.attachments.size
-    ja = "\xe3\x83\x86\xe3\x82\xb9\xe3\x83\x88.txt".force_encoding('UTF-8')
     attachment = issue.attachments.first
-    assert_equal ja, attachment.filename
+    assert_equal 'テスト.txt', attachment.filename
     assert_equal 5, attachment.filesize
     assert File.exist?(attachment.diskfile)
     assert_equal 5, File.size(attachment.diskfile)
@@ -592,8 +588,8 @@ class MailHandlerTest < ActiveSupport::TestCase
             )
     assert_kind_of Issue, issue
     assert_equal 1, issue.attachments.size
-    u = "".force_encoding('UTF-8')
-    u1 = "\xc3\x84\xc3\xa4\xc3\x96\xc3\xb6\xc3\x9c\xc3\xbc".force_encoding('UTF-8')
+    u = +''
+    u1 = 'ÄäÖöÜü'
     11.times { u << u1 }
     attachment = issue.attachments.first
     assert_equal "#{u}.png", attachment.filename
@@ -610,8 +606,8 @@ class MailHandlerTest < ActiveSupport::TestCase
             )
     assert_kind_of Issue, issue
     assert_equal 1, issue.attachments.size
-    u = "".force_encoding('UTF-8')
-    u1 = "\xc3\x84\xc3\xa4\xc3\x96\xc3\xb6\xc3\x9c\xc3\xbc".force_encoding('UTF-8')
+    u = +''
+    u1 = 'ÄäÖöÜü'
     11.times { u << u1 }
     attachment = issue.attachments.first
     assert_equal "#{u}.txt", attachment.filename
@@ -633,7 +629,7 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal 19, attachment.filesize
     assert File.exist?(attachment.diskfile)
     assert_equal 19, File.size(attachment.diskfile)
-    content = "p\xF8\xEDli\xB9 \xBEluou\xE8k\xFD k\xF9n".force_encoding('CP852')
+    content = (+"p\xF8\xEDli\xB9 \xBEluou\xE8k\xFD k\xF9n").force_encoding('CP852')
     assert_equal content, File.read(attachment.diskfile).force_encoding('CP852')
   end
 
@@ -686,9 +682,8 @@ class MailHandlerTest < ActiveSupport::TestCase
               'subject_as_iso-8859-1.eml',
               :issue => {:project => 'ecookbook'}
             )
-    str = "Testmail from Webmail: \xc3\xa4 \xc3\xb6 \xc3\xbc...".force_encoding('UTF-8')
     assert_kind_of Issue, issue
-    assert_equal str, issue.subject
+    assert_equal 'Testmail from Webmail: ä ö ü...', issue.subject
   end
 
   def test_quoted_printable_utf8
@@ -697,8 +692,7 @@ class MailHandlerTest < ActiveSupport::TestCase
               :issue => {:project => 'ecookbook'}
             )
     assert_kind_of Issue, issue
-    str = "Freundliche Gr\xc3\xbcsse".force_encoding('UTF-8')
-    assert_equal str, issue.description
+    assert_equal 'Freundliche Grüsse', issue.description
   end
 
   def test_gmail_iso8859_2
@@ -707,8 +701,7 @@ class MailHandlerTest < ActiveSupport::TestCase
               :issue => {:project => 'ecookbook'}
             )
     assert_kind_of Issue, issue
-    str = "Na \xc5\xa1triku se su\xc5\xa1i \xc5\xa1osi\xc4\x87.".force_encoding('UTF-8')
-    assert issue.description.include?(str)
+    assert issue.description.include?('Na štriku se suši šosić.')
   end
 
   def test_add_issue_with_japanese_subject
@@ -717,20 +710,16 @@ class MailHandlerTest < ActiveSupport::TestCase
               :issue => {:project => 'ecookbook'}
             )
     assert_kind_of Issue, issue
-    ja = "\xe3\x83\x86\xe3\x82\xb9\xe3\x83\x88".force_encoding('UTF-8')
-    assert_equal ja, issue.subject
+    assert_equal 'テスト', issue.subject
   end
 
   def test_add_issue_with_korean_body
-    # Make sure mail bodies with a charset unknown to Ruby
-    # but known to the Mail gem 2.5.4 are handled correctly
-    kr = "\xEA\xB3\xA0\xEB\xA7\x99\xEC\x8A\xB5\xEB\x8B\x88\xEB\x8B\xA4.".force_encoding('UTF-8')
     issue = submit_email(
             'body_ks_c_5601-1987.eml',
             :issue => {:project => 'ecookbook'}
           )
     assert_kind_of Issue, issue
-    assert_equal kr, issue.description
+    assert_equal '고맙습니다.', issue.description
   end
 
   def test_add_issue_with_no_subject_header
@@ -748,8 +737,7 @@ class MailHandlerTest < ActiveSupport::TestCase
               :issue => {:project => 'ecookbook'}
             )
     assert_kind_of Issue, issue
-    ja = "Re: \xe3\x83\x86\xe3\x82\xb9\xe3\x83\x88".force_encoding('UTF-8')
-    assert_equal ja, issue.subject
+    assert_equal 'Re: テスト', issue.subject
   end
 
   def test_add_issue_with_iso_2022_jp_ms_subject
@@ -1187,10 +1175,8 @@ class MailHandlerTest < ActiveSupport::TestCase
     end
     user = User.order('id DESC').first
     assert_equal "foo@example.org", user.mail
-    str1 = "\xc3\x84\xc3\xa4".force_encoding('UTF-8')
-    str2 = "\xc3\x96\xc3\xb6".force_encoding('UTF-8')
-    assert_equal str1, user.firstname
-    assert_equal str2, user.lastname
+    assert_equal 'Ää', user.firstname
+    assert_equal 'Öö', user.lastname
   end
 
   def test_new_user_with_fullname_in_parentheses

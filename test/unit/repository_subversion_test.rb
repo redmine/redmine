@@ -236,7 +236,7 @@ class RepositorySubversionTest < ActiveSupport::TestCase
 
     def test_log_encoding_ignore_setting
       with_settings :commit_logs_encoding => 'windows-1252' do
-        s2 = "\xc3\x82\xc2\x80".force_encoding('UTF-8')
+        s2 = "Â\u0080"
         c = Changeset.new(:repository => @repository,
                           :comments   => s2,
                           :revision   => '123',

@@ -27,7 +27,6 @@ class MercurialAdapterTest < ActiveSupport::TestCase
   HgCommandArgumentError = Redmine::Scm::Adapters::MercurialAdapter::HgCommandArgumentError
 
   REPOSITORY_PATH = repository_path('mercurial')
-  CHAR_1_HEX = "\xc3\x9c"
 
   if File.directory?(REPOSITORY_PATH)
     def setup
@@ -44,10 +43,10 @@ class MercurialAdapterTest < ActiveSupport::TestCase
                             nil,
                            'ISO-8859-1')
       @diff_c_support = true
-      @char_1        = CHAR_1_HEX.dup.force_encoding('UTF-8')
-      @tag_char_1    = "tag-#{CHAR_1_HEX}-00".force_encoding('UTF-8')
-      @branch_char_0 = "branch-#{CHAR_1_HEX}-00".force_encoding('UTF-8')
-      @branch_char_1 = "branch-#{CHAR_1_HEX}-01".force_encoding('UTF-8')
+      @char_1        = 'Ü'
+      @tag_char_1    = 'tag-Ü-00'
+      @branch_char_0 = 'branch-Ü-00'
+      @branch_char_1 = 'branch-Ü-01'
     end
 
     def test_hgversion

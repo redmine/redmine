@@ -22,9 +22,6 @@ require File.expand_path('../../../../../../test_helper', __FILE__)
 class GitAdapterTest < ActiveSupport::TestCase
   REPOSITORY_PATH = Rails.root.join('tmp/test/git_repository').to_s
 
-  FELIX_HEX  = "Felix Sch\xC3\xA4fer"
-  CHAR_1_HEX = "\xc3\x9c"
-
   ## Git, Mercurial and CVS path encodings are binary.
   ## Subversion supports URL encoding for path.
   ## Redmine Mercurial adapter and extension use URL encoding.
@@ -60,8 +57,8 @@ class GitAdapterTest < ActiveSupport::TestCase
                     'ISO-8859-1'
                  )
       assert @adapter
-      @char_1 = CHAR_1_HEX.dup.force_encoding('UTF-8')
-      @str_felix_hex  = FELIX_HEX.dup.force_encoding('ASCII-8BIT')
+      @char_1 = 'Ü'
+      @str_felix_hex  = (+"Felix Sch\xC3\xA4fer").force_encoding('ASCII-8BIT')
     end
 
     def test_scm_version

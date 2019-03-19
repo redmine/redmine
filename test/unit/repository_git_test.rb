@@ -30,9 +30,6 @@ class RepositoryGitTest < ActiveSupport::TestCase
   NUM_REV = 28
   NUM_HEAD = 6
 
-  FELIX_HEX  = "Felix Sch\xC3\xA4fer".force_encoding('UTF-8')
-  CHAR_1_HEX = "\xc3\x9c".force_encoding('UTF-8')
-
   ## Git, Mercurial and CVS path encodings are binary.
   ## Subversion supports URL encoding for path.
   ## Redmine Mercurial adapter and extension use URL encoding.
@@ -96,7 +93,6 @@ class RepositoryGitTest < ActiveSupport::TestCase
 
   def test_blank_path_to_repository_error_message_fr
     set_language_if_valid 'fr'
-    str = "Chemin du d\xc3\xa9p\xc3\xb4t doit \xc3\xaatre renseign\xc3\xa9(e)".force_encoding('UTF-8')
     repo = Repository::Git.new(
                           :project      => @project,
                           :url          => "",
@@ -104,7 +100,7 @@ class RepositoryGitTest < ActiveSupport::TestCase
                           :path_encoding => ''
                         )
     assert !repo.save
-    assert_include str, repo.errors.full_messages
+    assert_include 'Chemin du dépôt doit être renseigné(e)', repo.errors.full_messages
   end
 
   if File.directory?(REPOSITORY_PATH)
@@ -470,14 +466,14 @@ class RepositoryGitTest < ActiveSupport::TestCase
       else
         # latin-1 encoding path
         changesets = @repository.latest_changesets(
-                      "latin-1-dir/test-#{CHAR_1_HEX}-2.txt", '64f1f3e89')
+                      'latin-1-dir/test-Ü-2.txt', '64f1f3e89')
         assert_equal [
               '64f1f3e89ad1cb57976ff0ad99a107012ba3481d',
               '4fc55c43bf3d3dc2efb66145365ddc17639ce81e',
           ], changesets.collect(&:revision)
 
         changesets = @repository.latest_changesets(
-                    "latin-1-dir/test-#{CHAR_1_HEX}-2.txt", '64f1f3e89', 1)
+                    'latin-1-dir/test-Ü-2.txt', '64f1f3e89', 1)
         assert_equal [
               '64f1f3e89ad1cb57976ff0ad99a107012ba3481d',
           ], changesets.collect(&:revision)
@@ -495,7 +491,7 @@ class RepositoryGitTest < ActiveSupport::TestCase
         @project.reload
         assert_equal NUM_REV, @repository.changesets.count
         changesets = @repository.latest_changesets(
-                    "latin-1-dir/test-#{CHAR_1_HEX}-subdir", '1ca7f5ed')
+                    'latin-1-dir/test-Ü-subdir', '1ca7f5ed')
         assert_equal [
               '1ca7f5ed374f3cb31a93ae5215c2e25cc6ec5127',
           ], changesets.collect(&:revision)
@@ -560,7 +556,7 @@ class RepositoryGitTest < ActiveSupport::TestCase
       assert_equal NUM_REV, @repository.changesets.count
       c = @repository.changesets.find_by_revision(
                         'ed5bb786bbda2dee66a2d50faf51429dbc043a7b')
-      assert_equal "#{FELIX_HEX} <felix@fachschaften.org>", c.committer
+      assert_equal 'Felix Schäfer <felix@fachschaften.org>', c.committer
     end
 
     def test_previous

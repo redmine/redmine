@@ -29,16 +29,16 @@ class PdfTest < ActiveSupport::TestCase
   end
 
   def test_rdm_pdf_iconv_cannot_convert_ja_cp932
-    utf8_txt_1  = "\xe7\x8b\x80\xe6\x85\x8b"
-    utf8_txt_2  = "\xe7\x8b\x80\xe6\x85\x8b\xe7\x8b\x80"
-    utf8_txt_3  = "\xe7\x8b\x80\xe7\x8b\x80\xe6\x85\x8b\xe7\x8b\x80"
+    utf8_txt_1  = '狀態'
+    utf8_txt_2  = '狀態狀'
+    utf8_txt_3  = '狀狀態狀'
     ["CP932", "SJIS"].each do |encoding|
       txt_1 = Redmine::Export::PDF::RDMPdfEncoding::rdm_from_utf8(utf8_txt_1, encoding)
       txt_2 = Redmine::Export::PDF::RDMPdfEncoding::rdm_from_utf8(utf8_txt_2, encoding)
       txt_3 = Redmine::Export::PDF::RDMPdfEncoding::rdm_from_utf8(utf8_txt_3, encoding)
-      assert_equal "?\x91\xd4".force_encoding("ASCII-8BIT"), txt_1
-      assert_equal "?\x91\xd4?".force_encoding("ASCII-8BIT"), txt_2
-      assert_equal "??\x91\xd4?".force_encoding("ASCII-8BIT"), txt_3
+      assert_equal (+"?\x91\xd4").force_encoding("ASCII-8BIT"), txt_1
+      assert_equal (+"?\x91\xd4?").force_encoding("ASCII-8BIT"), txt_2
+      assert_equal (+"??\x91\xd4?").force_encoding("ASCII-8BIT"), txt_3
       assert_equal "ASCII-8BIT", txt_1.encoding.to_s
       assert_equal "ASCII-8BIT", txt_2.encoding.to_s
       assert_equal "ASCII-8BIT", txt_3.encoding.to_s
@@ -46,8 +46,8 @@ class PdfTest < ActiveSupport::TestCase
   end
 
   def test_rdm_pdf_iconv_invalid_utf8_should_be_replaced_en
-    str1 = "Texte encod\xe9 en ISO-8859-1".force_encoding("UTF-8")
-    str2 = "\xe9a\xe9b\xe9c\xe9d\xe9e test".force_encoding("ASCII-8BIT")
+    str1 = "Texte encod\xE9 en ISO-8859-1"
+    str2 = (+"\xe9a\xe9b\xe9c\xe9d\xe9e test").force_encoding("ASCII-8BIT")
     txt_1 = Redmine::Export::PDF::RDMPdfEncoding::rdm_from_utf8(str1, 'UTF-8')
     txt_2 = Redmine::Export::PDF::RDMPdfEncoding::rdm_from_utf8(str2, 'UTF-8')
     assert_equal "ASCII-8BIT", txt_1.encoding.to_s
@@ -57,8 +57,8 @@ class PdfTest < ActiveSupport::TestCase
   end
 
   def test_rdm_pdf_iconv_invalid_utf8_should_be_replaced_ja
-    str1 = "Texte encod\xe9 en ISO-8859-1".force_encoding("UTF-8")
-    str2 = "\xe9a\xe9b\xe9c\xe9d\xe9e test".force_encoding("ASCII-8BIT")
+    str1 = "Texte encod\xE9 en ISO-8859-1"
+    str2 = (+"\xe9a\xe9b\xe9c\xe9d\xe9e test").force_encoding("ASCII-8BIT")
     encoding = ( RUBY_PLATFORM == 'java' ? "SJIS" : "CP932" )
     txt_1 = Redmine::Export::PDF::RDMPdfEncoding::rdm_from_utf8(str1, encoding)
     txt_2 = Redmine::Export::PDF::RDMPdfEncoding::rdm_from_utf8(str2, encoding)
@@ -72,7 +72,7 @@ class PdfTest < ActiveSupport::TestCase
     ["CP932", "SJIS"].each do |encoding|
       set_fixtures_attachments_directory
 
-      str2 = "\x83e\x83X\x83g".force_encoding("ASCII-8BIT")
+      str2 = (+"\x83e\x83X\x83g").force_encoding("ASCII-8BIT")
 
       a1 = Attachment.find(17)
       a2 = Attachment.find(19)

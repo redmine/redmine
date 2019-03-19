@@ -55,7 +55,6 @@ class RepositoryCvsTest < ActiveSupport::TestCase
 
   def test_blank_module_error_message_fr
     set_language_if_valid 'fr'
-    str = "Module doit \xc3\xaatre renseign\xc3\xa9(e)".force_encoding('UTF-8')
     repo = Repository::Cvs.new(
                           :project       => @project,
                           :identifier    => 'test',
@@ -65,7 +64,7 @@ class RepositoryCvsTest < ActiveSupport::TestCase
                           :root_url      => REPOSITORY_PATH
                         )
     assert !repo.save
-    assert_include str, repo.errors.full_messages
+    assert_include 'Module doit être renseigné(e)', repo.errors.full_messages
   end
 
   def test_blank_cvsroot_error_message
@@ -83,7 +82,6 @@ class RepositoryCvsTest < ActiveSupport::TestCase
 
   def test_blank_cvsroot_error_message_fr
     set_language_if_valid 'fr'
-    str = "CVSROOT doit \xc3\xaatre renseign\xc3\xa9(e)".force_encoding('UTF-8')
     repo = Repository::Cvs.new(
                           :project       => @project,
                           :identifier    => 'test',
@@ -93,7 +91,7 @@ class RepositoryCvsTest < ActiveSupport::TestCase
                           :root_url      => ''
                         )
     assert !repo.save
-    assert_include str, repo.errors.full_messages
+    assert_include 'CVSROOT doit être renseigné(e)', repo.errors.full_messages
   end
 
   def test_root_url_should_be_validated_against_regexp_set_in_configuration

@@ -28,8 +28,6 @@ class RepositoriesGitControllerTest < Redmine::RepositoryControllerTest
   REPOSITORY_PATH = Rails.root.join('tmp/test/git_repository').to_s
   REPOSITORY_PATH.gsub!(/\//, "\\") if Redmine::Platform.mswin?
   PRJ_ID     = 3
-  CHAR_1_HEX = "\xc3\x9c".force_encoding('UTF-8')
-  FELIX_HEX  = "Felix Sch\xC3\xA4fer".force_encoding('UTF-8')
   NUM_REV = 28
 
   ## Git, Mercurial and CVS path encodings are binary.
@@ -269,11 +267,11 @@ class RepositoriesGitControllerTest < Redmine::RepositoryControllerTest
             get :entry, :params => {
                 :id => PRJ_ID,
                 :repository_id => @repository.id,
-              :path => repository_path_hash(['latin-1-dir', "test-#{CHAR_1_HEX}.txt"])[:param],
+              :path => repository_path_hash(['latin-1-dir', "test-Ü.txt"])[:param],
               :rev => r1
               }
             assert_response :success
-            assert_select 'tr#L1 td.line-code', :text => /test-#{CHAR_1_HEX}.txt/
+            assert_select 'tr#L1 td.line-code', :text => /test-Ü.txt/
           end
         end
       end
@@ -440,8 +438,8 @@ class RepositoriesGitControllerTest < Redmine::RepositoryControllerTest
                 }
               assert_response :success
               assert_select 'table' do
-                assert_select 'thead th.filename', :text => /latin-1-dir\/test-#{CHAR_1_HEX}.txt/
-                assert_select 'tbody td.diff_in', :text => /test-#{CHAR_1_HEX}.txt/
+                assert_select 'thead th.filename', :text => /latin-1-dir\/test-Ü.txt/
+                assert_select 'tbody td.diff_in', :text => /test-Ü.txt/
               end
             end
           end
@@ -568,7 +566,7 @@ class RepositoriesGitControllerTest < Redmine::RepositoryControllerTest
             get :annotate, :params => {
                 :id => PRJ_ID,
               :repository_id => @repository.id,
-              :path => repository_path_hash(['latin-1-dir', "test-#{CHAR_1_HEX}.txt"])[:param],
+              :path => repository_path_hash(['latin-1-dir', "test-Ü.txt"])[:param],
               :rev => r1
               }
             assert_select "th.line-num", :text => '1' do
@@ -576,7 +574,7 @@ class RepositoriesGitControllerTest < Redmine::RepositoryControllerTest
                 assert_select "a", :text => '57ca437c'
                 assert_select "+ td.author", :text => "jsmith" do
                   assert_select "+ td",
-                                :text => "test-#{CHAR_1_HEX}.txt"
+                                :text => "test-Ü.txt"
                 end
               end
             end
@@ -596,7 +594,7 @@ class RepositoriesGitControllerTest < Redmine::RepositoryControllerTest
         assert_select "th.line-num", :text => '1' do
           assert_select "+ td.revision" do
             assert_select "a", :text => '83ca5fd5'
-            assert_select "+ td.author", :text => FELIX_HEX do
+            assert_select "+ td.author", :text => "Felix Schäfer" do
               assert_select "+ td",
                             :text => "And this is a file with a leading and trailing space..."
             end

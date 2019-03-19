@@ -21,13 +21,12 @@ require File.expand_path('../../../../../test_helper', __FILE__)
 
 class CsvTest < ActiveSupport::TestCase
   include Redmine::I18n
-  BOM = "\xEF\xBB\xBF".force_encoding('UTF-8')
 
   def test_should_include_bom_when_utf8_encoded
     with_locale 'sk' do
       string = Redmine::Export::CSV.generate {|csv| csv << %w(Foo Bar)}
       assert_equal 'UTF-8', string.encoding.name
-      assert string.starts_with?(BOM)
+      assert string.starts_with?("\xEF\xBB\xBF")
     end
   end
 

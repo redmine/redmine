@@ -112,8 +112,7 @@ class RepositoriesFilesystemControllerTest < Redmine::RepositoryControllerTest
                "when Encoding.default_external is not UTF-8. " +
                "Current value is '#{Encoding.default_external.to_s}'"
         else
-          str_japanese = "\xe6\x97\xa5\xe6\x9c\xac\xe8\xaa\x9e".force_encoding('UTF-8')
-          assert_select 'tr#L3 td.line-code', :text => /#{str_japanese}/
+          assert_select 'tr#L3 td.line-code', :text => /日本語/
         end
       end
     end
