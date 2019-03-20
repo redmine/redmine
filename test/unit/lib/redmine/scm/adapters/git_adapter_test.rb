@@ -58,7 +58,7 @@ class GitAdapterTest < ActiveSupport::TestCase
                  )
       assert @adapter
       @char_1 = 'Ü'
-      @str_felix_hex  = (+"Felix Sch\xC3\xA4fer").force_encoding('ASCII-8BIT')
+      @str_felix_hex  = "Felix Sch\xC3\xA4fer".b
     end
 
     def test_scm_version

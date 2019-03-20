@@ -43,10 +43,8 @@ class MailHandler < ActionMailer::Base
     options[:no_notification] = (options[:no_notification].to_s == '1')
     options[:no_permission_check] = (options[:no_permission_check].to_s == '1')
 
-    raw_mail.force_encoding('ASCII-8BIT')
-
     ActiveSupport::Notifications.instrument("receive.action_mailer") do |payload|
-      mail = Mail.new(raw_mail)
+      mail = Mail.new(raw_mail.b)
       set_payload_for_mail(payload, mail)
       new.receive(mail, options)
     end

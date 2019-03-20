@@ -47,7 +47,7 @@ class RepositoryBazaarTest < ActiveSupport::TestCase
                              Encoding.locale_charmap == "ISO-8859-1")
 
   CHAR_1_UTF8_HEX   = 'Ü'
-  CHAR_1_LATIN1_HEX = (+"\xdc").force_encoding('ASCII-8BIT')
+  CHAR_1_LATIN1_HEX = "\xdc".b
 
   def setup
     User.current = nil

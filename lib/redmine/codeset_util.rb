@@ -16,8 +16,7 @@ module Redmine
 
     def self.to_utf8(str, encoding)
       return if str.nil?
-      str = str.dup
-      str.force_encoding("ASCII-8BIT")
+      str = str.b
       if str.empty?
         str.force_encoding("UTF-8")
         return str
@@ -41,8 +40,7 @@ module Redmine
 
     def self.to_utf8_by_setting_internal(str)
       return if str.nil?
-      str = str.dup
-      str.force_encoding('ASCII-8BIT')
+      str = str.b
       return str if str.empty?
       return str if /\A[\r\n\t\x20-\x7e]*\Z/n.match(str) # for us-ascii
       str.force_encoding('UTF-8')

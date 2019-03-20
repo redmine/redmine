@@ -36,9 +36,9 @@ class PdfTest < ActiveSupport::TestCase
       txt_1 = Redmine::Export::PDF::RDMPdfEncoding::rdm_from_utf8(utf8_txt_1, encoding)
       txt_2 = Redmine::Export::PDF::RDMPdfEncoding::rdm_from_utf8(utf8_txt_2, encoding)
       txt_3 = Redmine::Export::PDF::RDMPdfEncoding::rdm_from_utf8(utf8_txt_3, encoding)
-      assert_equal (+"?\x91\xd4").force_encoding("ASCII-8BIT"), txt_1
-      assert_equal (+"?\x91\xd4?").force_encoding("ASCII-8BIT"), txt_2
-      assert_equal (+"??\x91\xd4?").force_encoding("ASCII-8BIT"), txt_3
+      assert_equal "?\x91\xd4".b, txt_1
+      assert_equal "?\x91\xd4?".b, txt_2
+      assert_equal "??\x91\xd4?".b, txt_3
       assert_equal "ASCII-8BIT", txt_1.encoding.to_s
       assert_equal "ASCII-8BIT", txt_2.encoding.to_s
       assert_equal "ASCII-8BIT", txt_3.encoding.to_s
@@ -47,7 +47,7 @@ class PdfTest < ActiveSupport::TestCase
 
   def test_rdm_pdf_iconv_invalid_utf8_should_be_replaced_en
     str1 = "Texte encod\xE9 en ISO-8859-1"
-    str2 = (+"\xe9a\xe9b\xe9c\xe9d\xe9e test").force_encoding("ASCII-8BIT")
+    str2 = "\xe9a\xe9b\xe9c\xe9d\xe9e test".b
     txt_1 = Redmine::Export::PDF::RDMPdfEncoding::rdm_from_utf8(str1, 'UTF-8')
     txt_2 = Redmine::Export::PDF::RDMPdfEncoding::rdm_from_utf8(str2, 'UTF-8')
     assert_equal "ASCII-8BIT", txt_1.encoding.to_s
@@ -58,7 +58,7 @@ class PdfTest < ActiveSupport::TestCase
 
   def test_rdm_pdf_iconv_invalid_utf8_should_be_replaced_ja
     str1 = "Texte encod\xE9 en ISO-8859-1"
-    str2 = (+"\xe9a\xe9b\xe9c\xe9d\xe9e test").force_encoding("ASCII-8BIT")
+    str2 = "\xe9a\xe9b\xe9c\xe9d\xe9e test".b
     encoding = ( RUBY_PLATFORM == 'java' ? "SJIS" : "CP932" )
     txt_1 = Redmine::Export::PDF::RDMPdfEncoding::rdm_from_utf8(str1, encoding)
     txt_2 = Redmine::Export::PDF::RDMPdfEncoding::rdm_from_utf8(str2, encoding)
@@ -72,7 +72,7 @@ class PdfTest < ActiveSupport::TestCase
     ["CP932", "SJIS"].each do |encoding|
       set_fixtures_attachments_directory
 
-      str2 = (+"\x83e\x83X\x83g").force_encoding("ASCII-8BIT")
+      str2 = "\x83e\x83X\x83g".b
 
       a1 = Attachment.find(17)
       a2 = Attachment.find(19)

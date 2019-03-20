@@ -58,7 +58,7 @@ module Redmine
             # The hg version is expressed either as a
             # release number (eg 0.9.5 or 1.0) or as a revision
             # id composed of 12 hexa characters.
-            theversion = hgversion_from_command_line.dup.force_encoding('ASCII-8BIT')
+            theversion = hgversion_from_command_line.b
             if m = theversion.match(%r{\A(.*?)((\d+\.)+\d+)})
               m[2].scan(%r{\d+}).collect(&:to_i)
             end
@@ -270,8 +270,7 @@ module Redmine
           blame = Annotate.new
           hg 'rhannotate', '-ncu', "-r#{CGI.escape(hgrev(identifier))}", '--', hgtarget(p) do |io|
             io.each_line do |line|
-              line.force_encoding('ASCII-8BIT')
-              next unless line =~ %r{^([^:]+)\s(\d+)\s([0-9a-f]+):\s(.*)$}
+              next unless line.b =~ %r{^([^:]+)\s(\d+)\s([0-9a-f]+):\s(.*)$}
               r = Revision.new(:author => $1.strip, :revision => $2, :scmid => $3,
                                :identifier => $3)
               blame.add_line($4.rstrip, r)

@@ -45,7 +45,7 @@ module Redmine
           end
 
           def scm_command_version
-            scm_version = scm_version_from_command_line.dup.force_encoding('ASCII-8BIT')
+            scm_version = scm_version_from_command_line.b
             if m = scm_version.match(%r{\A(.*?)((\d+\.)+\d+)})
               m[2].scan(%r{\d+}).collect(&:to_i)
             end
@@ -98,8 +98,7 @@ module Redmine
           scm_cmd(*cmd_args) do |io|
             prefix_utf8 = "#{url}/#{path}".tr('\\', '/')
             logger.debug "PREFIX: #{prefix_utf8}"
-            prefix = scm_iconv(@path_encoding, 'UTF-8', prefix_utf8)
-            prefix.force_encoding('ASCII-8BIT')
+            prefix = scm_iconv(@path_encoding, 'UTF-8', prefix_utf8).b
             re = %r{^V\s+(#{Regexp.escape(prefix)})?(\/?)([^\/]+)(\/?)\s+(\S+)\r?$}
             io.each_line do |line|
               next unless line =~ re

@@ -134,9 +134,7 @@ module Redmine
       class RDMPdfEncoding
         def self.rdm_from_utf8(txt, encoding)
           txt ||= ''
-          txt = Redmine::CodesetUtil.from_utf8(txt, encoding)
-          txt.force_encoding('ASCII-8BIT')
-          txt
+          Redmine::CodesetUtil.from_utf8(txt, encoding).b
         end
 
         def self.attach(attachments, filename, encoding)

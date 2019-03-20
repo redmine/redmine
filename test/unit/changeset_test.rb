@@ -448,7 +448,7 @@ class ChangesetTest < ActiveSupport::TestCase
 
   def test_comments_should_be_converted_to_utf8
     proj = Project.find(3)
-    str = (+"Texte encod\xe9 en ISO-8859-1.").force_encoding("ASCII-8BIT")
+    str = "Texte encod\xe9 en ISO-8859-1.".b
     r = Repository::Bazaar.create!(
             :project      => proj,
             :url          => '/tmp/test/bazaar',
@@ -465,7 +465,7 @@ class ChangesetTest < ActiveSupport::TestCase
 
   def test_invalid_utf8_sequences_in_comments_should_be_replaced_latin1
     proj = Project.find(3)
-    str2 = (+"\xe9a\xe9b\xe9c\xe9d\xe9e test").force_encoding("ASCII-8BIT")
+    str2 = "\xe9a\xe9b\xe9c\xe9d\xe9e test".b
     r = Repository::Bazaar.create!(
             :project      => proj,
             :url          => '/tmp/test/bazaar',
@@ -484,7 +484,7 @@ class ChangesetTest < ActiveSupport::TestCase
 
   def test_invalid_utf8_sequences_in_comments_should_be_replaced_ja_jis
     proj = Project.find(3)
-    str = (+"test\xb5\xfetest\xb5\xfe").force_encoding('ASCII-8BIT')
+    str = "test\xb5\xfetest\xb5\xfe".b
     r = Repository::Bazaar.create!(
             :project      => proj,
             :url          => '/tmp/test/bazaar',
@@ -504,8 +504,8 @@ class ChangesetTest < ActiveSupport::TestCase
     s2 = +"\xc3\x82\xc2\x80"
     s4 = s2.dup
     s3 = s1.dup
-    s1.force_encoding('ASCII-8BIT')
-    s2.force_encoding('ASCII-8BIT')
+    s1 = s1.b
+    s2 = s2.b
     s3.force_encoding('ISO-8859-1')
     s4.force_encoding('UTF-8')
     assert_equal s3.encode('UTF-8'), s4
@@ -526,7 +526,7 @@ class ChangesetTest < ActiveSupport::TestCase
 
   def test_invalid_utf8_sequences_in_paths_should_be_replaced
     proj = Project.find(3)
-    str2 = (+"\xe9a\xe9b\xe9c\xe9d\xe9e test").force_encoding("ASCII-8BIT")
+    str2 = "\xe9a\xe9b\xe9c\xe9d\xe9e test".b
     r = Repository::Bazaar.create!(
             :project => proj,
             :url => '/tmp/test/bazaar',
