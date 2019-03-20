@@ -963,6 +963,8 @@ module ApplicationHelper
                           :class => issue.css_classes,
                           :title => "#{issue.tracker.name}: #{issue.subject.truncate(100)} (#{issue.status.name})")
                 end
+              elsif identifier == 'note'
+                link = link_to("#note-#{comment_id}", "#note-#{comment_id}")
               end
             when 'document'
               if document = Document.visible.find_by_id(oid)
@@ -1080,7 +1082,7 @@ module ApplicationHelper
                 )
               )
               (
-                (?<identifier1>\d+)
+                (?<identifier1>((\d)+|(note)))
                 (?<comment_suffix>
                   (\#note)?
                   -(?<comment_id>\d+)

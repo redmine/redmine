@@ -28,7 +28,7 @@ class ApplicationHelperTest < Redmine::HelperTest
            :members, :member_roles, :roles,
            :repositories, :changesets,
            :projects_trackers,
-           :trackers, :issue_statuses, :issues, :versions, :documents,
+           :trackers, :issue_statuses, :issues, :versions, :documents, :journals,
            :wikis, :wiki_pages, :wiki_contents,
            :boards, :messages, :news,
            :attachments, :enumerations,
@@ -421,6 +421,14 @@ RAW
     }
     @project = Project.find(1)
     to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text), "#{text} failed" }
+  end
+
+  def test_link_to_note_within_the_same_page
+    issue = Issue.find(1)
+    assert_equal '<p><a href="#note-14">#note-14</a></p>', textilizable('#note-14', :object => issue)
+
+    journal = Journal.find(2)
+    assert_equal '<p><a href="#note-2">#note-2</a></p>', textilizable('#note-2', :object => journal)
   end
 
   def test_user_links_with_email_as_login_name_should_not_be_parsed_textile
