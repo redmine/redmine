@@ -248,18 +248,11 @@ module Redmine
         end
 
         def self.branch_conf_path(path)
-          bcp = nil
+          return unless path
           m = path.match(%r{^(.*[/\\])\.bzr.*$})
-          if m
-            bcp = m[1]
-          else
-            bcp = path
-          end
+          bcp = m ? m[1] : path.dup
           bcp.gsub!(%r{[\/\\]$}, "")
-          if bcp
-            bcp = File.join(bcp, ".bzr", "branch", "branch.conf")
-          end
-          bcp
+          File.join(bcp, ".bzr", "branch", "branch.conf")
         end
 
         def append_revisions_only
