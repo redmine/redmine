@@ -1325,7 +1325,7 @@
   text_status_no_workflow: 工作流程中尚未有使用此狀態的追蹤標籤
   setting_mail_handler_preferred_body_part: Multipart (HTML) 郵件中偏好使用的部分
   setting_show_status_changes_in_mail_subject: 於議題通知電子郵件的主旨中顯示狀態變更
-  label_inherited_from_parent_project: Inherited from parent project
-  label_inherited_from_group: Inherited from group %{name}
-  label_trackers_description: Trackers description
-  label_open_trackers_description: View all trackers description
+  label_inherited_from_parent_project: 繼承自父專案
+  label_inherited_from_group: 繼承自 %{name} 群組
+  label_trackers_description: 追蹤標籤說明
+  label_open_trackers_description: 檢視所有追蹤標籤的說明
