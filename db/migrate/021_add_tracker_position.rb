@@ -1,5 +1,3 @@
-# frozen_string_literal: false
-
 class AddTrackerPosition < ActiveRecord::Migration[4.2]
   def self.up
     add_column :trackers, :position, :integer, :default => 1

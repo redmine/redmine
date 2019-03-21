@@ -1,5 +1,3 @@
-# frozen_string_literal: false
-
 class OpenIdAuthenticationTablesGenerator < Rails::Generator::NamedBase
   def initialize(runtime_args, runtime_options = {})
     super

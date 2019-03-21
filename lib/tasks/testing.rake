@@ -1,5 +1,3 @@
-# frozen_string_literal: false
-
 namespace :test do
   desc 'Measures test coverage'
   task :coverage do

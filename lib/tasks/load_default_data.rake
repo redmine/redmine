@@ -1,5 +1,3 @@
-# frozen_string_literal: false
-
 desc 'Load Redmine default configuration data. Language is chosen interactively or by setting REDMINE_LANG environment variable.'
 
 namespace :redmine do

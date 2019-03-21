@@ -1,5 +1,3 @@
-# frozen_string_literal: false
-
 class AddBoardsParentId < ActiveRecord::Migration[4.2]
   def up
     add_column :boards, :parent_id, :integer

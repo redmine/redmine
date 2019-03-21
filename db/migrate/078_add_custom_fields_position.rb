@@ -1,5 +1,3 @@
-# frozen_string_literal: false
-
 class AddCustomFieldsPosition < ActiveRecord::Migration[4.2]
   def self.up
     add_column(:custom_fields, :position, :integer, :default => 1)

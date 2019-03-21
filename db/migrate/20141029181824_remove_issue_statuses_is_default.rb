@@ -1,5 +1,3 @@
-# frozen_string_literal: false
-
 class RemoveIssueStatusesIsDefault < ActiveRecord::Migration[4.2]
   def up
     remove_column :issue_statuses, :is_default

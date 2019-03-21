@@ -1,5 +1,3 @@
-# frozen_string_literal: false
-
 class AddProjectsDefaultVersionId < ActiveRecord::Migration[4.2]
   def self.up
     # Don't try to add the column if redmine_default_version plugin was used

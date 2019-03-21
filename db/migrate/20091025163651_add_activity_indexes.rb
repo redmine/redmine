@@ -1,5 +1,3 @@
-# frozen_string_literal: false
-
 class AddActivityIndexes < ActiveRecord::Migration[4.2]
   def self.up
     add_index :journals, :created_on

@@ -1,5 +1,3 @@
-# frozen_string_literal: false
-
 class EnableCalendarAndGanttModulesWhereAppropriate < ActiveRecord::Migration[4.2]
   def self.up
     EnabledModule.where(:name => 'issue_tracking').each do |e|

@@ -1,5 +1,3 @@
-# frozen_string_literal: false
-
 class AddHideMailPref < ActiveRecord::Migration[4.2]
   def self.up
     add_column :user_preferences, :hide_mail, :boolean, :default => false

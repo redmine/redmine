@@ -1,5 +1,3 @@
-# frozen_string_literal: false
-
 class AddViewIssuesPermission < ActiveRecord::Migration[4.2]
   def self.up
     Role.reset_column_information

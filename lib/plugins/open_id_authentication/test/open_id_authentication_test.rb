@@ -1,5 +1,3 @@
-# frozen_string_literal: false
-
 require File.dirname(__FILE__) + '/test_helper'
 
 class OpenIdAuthenticationTest < Test::Unit::TestCase

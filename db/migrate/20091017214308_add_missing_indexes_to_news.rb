@@ -1,5 +1,3 @@
-# frozen_string_literal: false
-
 class AddMissingIndexesToNews < ActiveRecord::Migration[4.2]
   def self.up
     add_index :news, :author_id

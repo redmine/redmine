@@ -1,5 +1,3 @@
-# frozen_string_literal: false
-
 class ChangeAuthSourcesFilterToText < ActiveRecord::Migration[4.2]
   def self.up 
     change_column :auth_sources, :filter, :text

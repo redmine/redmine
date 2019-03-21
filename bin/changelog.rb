@@ -1,6 +1,4 @@
 #!/usr/bin/env ruby
-# frozen_string_literal: false
-
 require 'optparse'
 require 'ostruct'
 require 'date'

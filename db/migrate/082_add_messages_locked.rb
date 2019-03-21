@@ -1,5 +1,3 @@
-# frozen_string_literal: false
-
 class AddMessagesLocked < ActiveRecord::Migration[4.2]
   def self.up
     add_column :messages, :locked, :boolean, :default => false

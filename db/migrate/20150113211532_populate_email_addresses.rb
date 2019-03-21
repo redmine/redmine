@@ -1,5 +1,3 @@
-# frozen_string_literal: false
-
 class PopulateEmailAddresses < ActiveRecord::Migration[4.2]
   def self.up
     t = EmailAddress.connection.quoted_true

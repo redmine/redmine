@@ -1,5 +1,3 @@
-# frozen_string_literal: false
-
 class ChangeUsersLastnameLengthTo255 < ActiveRecord::Migration[4.2]
   def self.up
     change_column :users, :lastname, :string, :limit => 255, :default => '', :null => false

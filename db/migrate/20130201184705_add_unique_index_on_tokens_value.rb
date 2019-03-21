@@ -1,5 +1,3 @@
-# frozen_string_literal: false
-
 class AddUniqueIndexOnTokensValue < ActiveRecord::Migration[4.2]
   def up
     say_with_time "Adding unique index on tokens, this may take some time..." do

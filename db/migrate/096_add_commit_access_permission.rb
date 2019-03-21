@@ -1,5 +1,3 @@
-# frozen_string_literal: false
-
 class AddCommitAccessPermission < ActiveRecord::Migration[4.2]
   def self.up
     Role.all.select { |r| not r.builtin? }.each do |r|

@@ -1,5 +1,3 @@
-# frozen_string_literal: false
-
 class ChangeSqliteBooleansDefault < ActiveRecord::Migration[5.2]
   DEFAULTS = {
     "auth_sources" => {

@@ -1,5 +1,3 @@
-# frozen_string_literal: false
-
 class AddUniqueIndexOnCustomFieldsTrackers < ActiveRecord::Migration[4.2]
   def up
     table_name = "#{CustomField.table_name_prefix}custom_fields_trackers#{CustomField.table_name_suffix}"

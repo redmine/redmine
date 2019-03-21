@@ -1,5 +1,3 @@
-# frozen_string_literal: false
-
 class RemoveEnumerationsOpt < ActiveRecord::Migration[4.2]
   def self.up
     remove_column :enumerations, :opt

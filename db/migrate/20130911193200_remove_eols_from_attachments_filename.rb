@@ -1,5 +1,3 @@
-# frozen_string_literal: false
-
 class RemoveEolsFromAttachmentsFilename < ActiveRecord::Migration[4.2]
   def up
     Attachment.where("filename like ? or filename like ?", "%\r%", "%\n%").each do |attachment|

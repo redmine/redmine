@@ -1,5 +1,3 @@
-# frozen_string_literal: false
-
 class ClearEstimatedHoursOnParentIssues < ActiveRecord::Migration[4.2]
   def self.up
     # Clears estimated hours on parent issues

@@ -1,5 +1,3 @@
-# frozen_string_literal: false
-
 class RemovePositionDefaults < ActiveRecord::Migration[4.2]
   def up
     [Board, CustomField, Enumeration, IssueStatus, Role, Tracker].each do |klass|

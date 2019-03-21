@@ -1,5 +1,3 @@
-# frozen_string_literal: false
-
 class AddMissingIndexesToComments < ActiveRecord::Migration[4.2]
   def self.up
     add_index :comments, [:commented_id, :commented_type]

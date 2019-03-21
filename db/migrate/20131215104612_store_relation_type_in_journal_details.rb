@@ -1,5 +1,3 @@
-# frozen_string_literal: false
-
 class StoreRelationTypeInJournalDetails < ActiveRecord::Migration[4.2]
 
   MAPPING = {

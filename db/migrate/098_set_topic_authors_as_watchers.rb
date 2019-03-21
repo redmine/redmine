@@ -1,5 +1,3 @@
-# frozen_string_literal: false
-
 class SetTopicAuthorsAsWatchers < ActiveRecord::Migration[4.2]
   def self.up
     # Sets active users who created/replied a topic as watchers of the topic

@@ -1,5 +1,3 @@
-# frozen_string_literal: false
-
 def deprecated_task(name, new_name)
   task name=>new_name do
     $stderr.puts "\nNote: The rake task #{name} has been deprecated, please use the replacement version #{new_name}"

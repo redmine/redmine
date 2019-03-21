@@ -1,5 +1,3 @@
-# frozen_string_literal: false
-
 class SetCustomFieldsEditable < ActiveRecord::Migration[4.2]
   def self.up
     UserCustomField.update_all("editable = #{CustomField.connection.quoted_false}")

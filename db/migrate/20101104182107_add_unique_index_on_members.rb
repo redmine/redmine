@@ -1,5 +1,3 @@
-# frozen_string_literal: false
-
 class AddUniqueIndexOnMembers < ActiveRecord::Migration[4.2]
   def self.up
     # Clean and reassign MemberRole rows if needed

@@ -1,5 +1,3 @@
-# frozen_string_literal: false
-
 class AddRolePosition < ActiveRecord::Migration[4.2]
   def self.up
     add_column :roles, :position, :integer, :default => 1

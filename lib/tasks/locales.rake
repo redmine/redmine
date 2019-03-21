@@ -1,5 +1,3 @@
-# frozen_string_literal: false
-
 desc 'Updates and checks locales against en.yml'
 task :locales do
   %w(locales:update locales:check_interpolation).collect do |task|

@@ -1,5 +1,3 @@
-# frozen_string_literal: false
-
 class UpdateEnumerationsToSti < ActiveRecord::Migration[4.2]
   def self.up
     Enumeration.where("opt = 'IPRI'").update_all("type = 'IssuePriority'")

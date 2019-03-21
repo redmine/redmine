@@ -1,5 +1,3 @@
-# frozen_string_literal: false
-
 class AddRepositoriesIsDefault < ActiveRecord::Migration[4.2]
   def self.up
     add_column :repositories, :is_default, :boolean, :default => false

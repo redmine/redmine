@@ -1,5 +1,3 @@
-# frozen_string_literal: false
-
 class CreateQueries < ActiveRecord::Migration[4.2]
   def self.up
     create_table :queries, :force => true do |t|

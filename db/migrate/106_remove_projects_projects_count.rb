@@ -1,5 +1,3 @@
-# frozen_string_literal: false
-
 class RemoveProjectsProjectsCount < ActiveRecord::Migration[4.2]
   def self.up
     remove_column :projects, :projects_count

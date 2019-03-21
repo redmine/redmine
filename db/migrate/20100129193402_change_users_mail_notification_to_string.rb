@@ -1,5 +1,3 @@
-# frozen_string_literal: false
-
 class ChangeUsersMailNotificationToString < ActiveRecord::Migration[4.2]
   def self.up
     rename_column :users, :mail_notification, :mail_notification_bool

@@ -1,5 +1,3 @@
-# frozen_string_literal: false
-
 class CreateProjectsTrackers < ActiveRecord::Migration[4.2]
   def self.up
     create_table :projects_trackers, :id => false do |t|

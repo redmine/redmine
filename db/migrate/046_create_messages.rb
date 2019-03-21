@@ -1,5 +1,3 @@
-# frozen_string_literal: false
-
 class CreateMessages < ActiveRecord::Migration[4.2]
   def self.up
     create_table :messages do |t|

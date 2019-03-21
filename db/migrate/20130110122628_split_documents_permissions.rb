@@ -1,5 +1,3 @@
-# frozen_string_literal: false
-
 class SplitDocumentsPermissions < ActiveRecord::Migration[4.2]
   def up
     # :manage_documents permission split into 3 permissions:

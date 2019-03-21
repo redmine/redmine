@@ -1,5 +1,3 @@
-# frozen_string_literal: false
-
 class CreateWikiContents < ActiveRecord::Migration[4.2]
   def self.up
     create_table :wiki_contents do |t|

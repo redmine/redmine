@@ -1,5 +1,3 @@
-# frozen_string_literal: false
-
 class AddEnumerationsIsDefault < ActiveRecord::Migration[4.2]
   def self.up
     add_column :enumerations, :is_default, :boolean, :default => false, :null => false

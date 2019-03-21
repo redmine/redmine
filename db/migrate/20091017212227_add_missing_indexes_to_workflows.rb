@@ -1,5 +1,3 @@
-# frozen_string_literal: false
-
 class AddMissingIndexesToWorkflows < ActiveRecord::Migration[4.2]
   def self.up
     add_index :workflows, :old_status_id

@@ -1,5 +1,3 @@
-# frozen_string_literal: false
-
 class ChangeChangesPathLengthLimit < ActiveRecord::Migration[4.2]
   def self.up
     # these are two steps to please MySQL 5 on Win32

@@ -1,5 +1,3 @@
-# frozen_string_literal: false
-
 class CopyRepositoriesLogEncoding < ActiveRecord::Migration[4.2]
   def self.up
     encoding = Setting.commit_logs_encoding.to_s.strip

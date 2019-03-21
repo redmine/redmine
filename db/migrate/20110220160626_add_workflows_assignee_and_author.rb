@@ -1,5 +1,3 @@
-# frozen_string_literal: false
-
 class AddWorkflowsAssigneeAndAuthor < ActiveRecord::Migration[4.2]
   def self.up
     add_column :workflows, :assignee, :boolean, :null => false, :default => false

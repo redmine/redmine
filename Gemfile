@@ -1,5 +1,3 @@
-# frozen_string_literal: false
-
 source 'https://rubygems.org'
 
 gem "bundler", ">= 1.5.0"

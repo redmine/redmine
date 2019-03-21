@@ -1,5 +1,3 @@
-# frozen_string_literal: false
-
 require 'uri'
 require 'openid'
 require 'rack/openid'

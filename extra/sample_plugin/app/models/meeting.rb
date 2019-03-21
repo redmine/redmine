@@ -1,5 +1,3 @@
-# frozen_string_literal: false
-
 class Meeting < ActiveRecord::Base
   belongs_to :project
 

@@ -1,5 +1,3 @@
-# frozen_string_literal: false
-
 class SupportForMultipleCommitKeywords < ActiveRecord::Migration[4.2]
   def up
     # Replaces commit_fix_keywords, commit_fix_status_id, commit_fix_done_ratio settings

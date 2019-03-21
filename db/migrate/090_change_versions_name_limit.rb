@@ -1,5 +1,3 @@
-# frozen_string_literal: false
-
 class ChangeVersionsNameLimit < ActiveRecord::Migration[4.2]
   def self.up
     change_column :versions, :name, :string, :limit => nil

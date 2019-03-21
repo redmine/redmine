@@ -1,5 +1,3 @@
-# frozen_string_literal: false
-
 class CreateChangesetsIssues < ActiveRecord::Migration[4.2]
   def self.up
     create_table :changesets_issues, :id => false do |t|

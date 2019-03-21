@@ -1,5 +1,3 @@
-# frozen_string_literal: false
-
 desc 'Generates a secret token for the application.'
 
 file 'config/initializers/secret_token.rb' do

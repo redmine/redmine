@@ -1,5 +1,3 @@
-# frozen_string_literal: false
-
 class CreateEmailAddresses < ActiveRecord::Migration[4.2]
   def change
     create_table :email_addresses do |t|

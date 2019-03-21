@@ -1,5 +1,3 @@
-# frozen_string_literal: false
-
 class AddIdentityUrlToUsers < ActiveRecord::Migration[4.2]
   def self.up
     add_column :users, :identity_url, :string

@@ -1,5 +1,3 @@
-# frozen_string_literal: false
-
 namespace :open_id_authentication do
   namespace :db do
     desc "Creates authentication tables for use with OpenIdAuthentication"

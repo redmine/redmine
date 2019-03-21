@@ -1,5 +1,3 @@
-# frozen_string_literal: false
-
 class AddIndexesToIssueStatus < ActiveRecord::Migration[4.2]
   def self.up
     add_index :issue_statuses, :position

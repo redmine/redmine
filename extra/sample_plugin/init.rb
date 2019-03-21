@@ -1,5 +1,3 @@
-# frozen_string_literal: false
-
 Rails.logger.info 'Starting Example plugin for Redmine'
 
 Redmine::Plugin.register :sample_plugin do

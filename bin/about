@@ -1,5 +1,4 @@
 #!/usr/bin/env ruby
-# frozen_string_literal: false
 
 ENV["RAILS_ENV"] ||= "production"
 require File.expand_path(File.dirname(__FILE__) + "/../config/environment")

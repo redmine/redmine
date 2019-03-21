@@ -1,5 +1,3 @@
-# frozen_string_literal: false
-
 class AllowNullVersionEffectiveDate < ActiveRecord::Migration[4.2]
   def self.up
     change_column :versions, :effective_date, :date, :default => nil, :null => true

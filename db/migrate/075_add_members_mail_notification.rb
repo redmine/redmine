@@ -1,5 +1,3 @@
-# frozen_string_literal: false
-
 class AddMembersMailNotification < ActiveRecord::Migration[4.2]
   def self.up
     add_column :members, :mail_notification, :boolean, :default => false, :null => false

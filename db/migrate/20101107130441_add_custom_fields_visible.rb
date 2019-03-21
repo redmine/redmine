@@ -1,5 +1,3 @@
-# frozen_string_literal: false
-
 class AddCustomFieldsVisible < ActiveRecord::Migration[4.2]
   def self.up
     add_column :custom_fields, :visible, :boolean, :null => false, :default => true

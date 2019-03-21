@@ -1,5 +1,3 @@
-# frozen_string_literal: false
-
 class ChangeJournalDetailsValueLimit < ActiveRecord::Migration[4.2]
   def up
     if ActiveRecord::Base.connection.adapter_name =~ /mysql/i

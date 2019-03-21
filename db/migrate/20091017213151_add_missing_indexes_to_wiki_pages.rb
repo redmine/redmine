@@ -1,5 +1,3 @@
-# frozen_string_literal: false
-
 class AddMissingIndexesToWikiPages < ActiveRecord::Migration[4.2]
   def self.up
     add_index :wiki_pages, :wiki_id
