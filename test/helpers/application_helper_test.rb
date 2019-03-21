@@ -1,4 +1,4 @@
-# frozen_string_literal: false
+# frozen_string_literal: true
 
 # Redmine - project management software
 # Copyright (C) 2006-2017  Jean-Philippe Lang
@@ -1432,7 +1432,7 @@ RAW
   end
 
   def test_parse_redmine_links_should_handle_a_tag_without_attributes
-    text = '<a>http://example.com</a>'
+    text = +'<a>http://example.com</a>'
     expected = text.dup
     parse_redmine_links(text, nil, nil, nil, true, {})
     assert_equal expected, text
