@@ -1371,4 +1371,18 @@ class TimelogControllerTest < Redmine::ControllerTest
     assert_not_nil line
     assert_include "#{issue.tracker} #1: #{issue.subject}", line
   end
+
+  def test_index_grouped_by_created_on
+    skip unless TimeEntryQuery.new.groupable_columns.detect {|c| c.name == :created_on}
+
+    get :index, :params => {
+        :set_filter => 1,
+        :group_by => 'created_on'
+      }
+    assert_response :success
+
+    assert_select 'tr.group span.name', :text => '03/23/2007' do
+      assert_select '+ span.count', :text => '2'
+    end
+  end
 end
