@@ -173,8 +173,8 @@ class ProjectsControllerTest < Redmine::ControllerTest
           :identifier => "blog",
           :is_public => 1,
           :custom_field_values => {
-            '3' => 'Beta' 
-          },    
+            '3' => 'Beta'
+          },
           :tracker_ids => ['1', '3'],
           # an issue custom field that is not for all project
           :issue_custom_field_ids => ['9'],
@@ -207,10 +207,10 @@ class ProjectsControllerTest < Redmine::ControllerTest
             :identifier => "blog",
             :is_public => 1,
             :custom_field_values => {
-              '3' => 'Beta' 
-            },    
+              '3' => 'Beta'
+            },
             :parent_id => 1
-            
+
           }
         }
       assert_redirected_to '/projects/blog/settings'
@@ -229,7 +229,7 @@ class ProjectsControllerTest < Redmine::ControllerTest
           :project => {
             :name => "blog",
             :identifier => "blog"
-          },  
+          },
           :continue => 'Create and continue'
         }
     end
@@ -247,11 +247,11 @@ class ProjectsControllerTest < Redmine::ControllerTest
           :identifier => "blog",
           :is_public => 1,
           :custom_field_values => {
-            '3' => 'Beta' 
-          },    
+            '3' => 'Beta'
+          },
           :tracker_ids => ['1', '3'],
           :enabled_module_names => ['issue_tracking', 'news', 'repository']
-          
+
         }
       }
 
@@ -282,10 +282,10 @@ class ProjectsControllerTest < Redmine::ControllerTest
             :identifier => "blog",
             :is_public => 1,
             :custom_field_values => {
-              '3' => 'Beta' 
-            },    
+              '3' => 'Beta'
+            },
             :parent_id => 1
-            
+
           }
         }
     end
@@ -305,10 +305,10 @@ class ProjectsControllerTest < Redmine::ControllerTest
           :identifier => "blog",
           :is_public => 1,
           :custom_field_values => {
-            '3' => 'Beta' 
-          },    
+            '3' => 'Beta'
+          },
           :parent_id => 1
-          
+
         }
       }
     assert_redirected_to '/projects/blog/settings'
@@ -329,9 +329,9 @@ class ProjectsControllerTest < Redmine::ControllerTest
             :identifier => "blog",
             :is_public => 1,
             :custom_field_values => {
-              '3' => 'Beta' 
-            }    
-            
+              '3' => 'Beta'
+            }
+
           }
         }
     end
@@ -353,10 +353,10 @@ class ProjectsControllerTest < Redmine::ControllerTest
             :identifier => "blog",
             :is_public => 1,
             :custom_field_values => {
-              '3' => 'Beta' 
-            },    
+              '3' => 'Beta'
+            },
             :parent_id => 6
-            
+
           }
         }
     end
@@ -377,7 +377,7 @@ class ProjectsControllerTest < Redmine::ControllerTest
               :name => "blog1",
               :identifier => "blog1",
               :enabled_module_names => ["issue_tracking", "repository"]
-              
+
             }
           }
       end
@@ -390,7 +390,7 @@ class ProjectsControllerTest < Redmine::ControllerTest
               :name => "blog2",
               :identifier => "blog2",
               :enabled_module_names => ["issue_tracking", "repository"]
-              
+
             }
           }
       end
@@ -410,7 +410,7 @@ class ProjectsControllerTest < Redmine::ControllerTest
             :identifier => 'inherited',
             :parent_id => parent.id,
             :inherit_members => '1'
-            
+
           }
         }
       assert_response 302
@@ -432,7 +432,7 @@ class ProjectsControllerTest < Redmine::ControllerTest
               :name => "blog",
               :identifier => "",
               :enabled_module_names => %w(issue_tracking news)
-              
+
             }
           }
       end
@@ -542,7 +542,7 @@ class ProjectsControllerTest < Redmine::ControllerTest
     @request.session[:user_id] = 1
     project = Project.find_by_identifier('ecookbook')
     project.archive
-  
+
     get :show, :params => {
         :id => 'ecookbook'
       }
@@ -960,8 +960,8 @@ class ProjectsControllerTest < Redmine::ControllerTest
             :identifier => 'unique-copy',
             :tracker_ids => ['1', '2', '3', ''],
             :enabled_module_names => %w(issue_tracking time_tracking)
-            
-          },  
+
+          },
           :only => %w(issues versions)
         }
     end
