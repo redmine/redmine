@@ -78,7 +78,7 @@
         <%= hidden_field_tag 'scope', default_search_project_scope, :id => nil %>
         <%= hidden_field_tag(controller.default_search_scope, 1, :id => nil) if controller.default_search_scope %>
         <label for='q'>
-          <%= link_to l(:label_search), {:controller => 'search', :action => 'index', :id => @project}, :accesskey => accesskey(:search) %>:
+          <%= link_to l(:label_search), {:controller => 'search', :action => 'index', :id => @project, :scope => default_search_project_scope}, :accesskey => accesskey(:search) %>:
         </label>
         <%= text_field_tag 'q', @question, :size => 20, :class => 'small', :accesskey => accesskey(:quick_search) %>
         <% end %>
