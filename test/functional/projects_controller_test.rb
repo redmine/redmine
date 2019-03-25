@@ -1030,4 +1030,35 @@ class ProjectsControllerTest < Redmine::ControllerTest
       }
     assert_select 'body.project-ecookbook'
   end
+
+  def test_default_search_scope_in_global_page
+    get :index
+
+    assert_select 'div#quick-search form' do
+      assert_select 'input[name=scope][type=hidden]'
+      assert_select 'a[href=?]', '/search'
+    end
+  end
+
+  def test_default_search_scope_for_project_without_subprojects
+    get :show, :params => {
+      :id => 4,
+    }
+
+    assert_select 'div#quick-search form' do
+      assert_select 'input[name=scope][type=hidden]'
+      assert_select 'a[href=?]', '/projects/subproject2/search'
+    end
+  end
+
+  def test_default_search_scope_for_project_with_subprojects
+    get :show, :params => {
+      :id => 1,
+    }
+
+    assert_select 'div#quick-search form' do
+      assert_select 'input[name=scope][type=hidden][value=subprojects]'
+      assert_select 'a[href=?]', '/projects/ecookbook/search?scope=subprojects'
+    end
+  end
 end
