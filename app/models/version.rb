@@ -268,7 +268,7 @@ class Version < ActiveRecord::Base
   end
 
   def deletable?
-    fixed_issues.empty? && !referenced_by_a_custom_field?
+    fixed_issues.empty? && !referenced_by_a_custom_field? && attachments.empty?
   end
 
   def default_project_version
