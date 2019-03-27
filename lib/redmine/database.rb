@@ -23,7 +23,7 @@ module Redmine
     class << self
       # Returns true if the database is PostgreSQL
       def postgresql?
-        (ActiveRecord::Base.connection.adapter_name =~ /postgresql/i).present?
+        /postgresql/i.match?(ActiveRecord::Base.connection.adapter_name)
       end
 
       # Returns the PostgreSQL version or nil if another DBMS is used
@@ -48,7 +48,7 @@ module Redmine
 
       # Returns true if the database is MySQL
       def mysql?
-        (ActiveRecord::Base.connection.adapter_name =~ /mysql/i).present?
+        /mysql/i.match?(ActiveRecord::Base.connection.adapter_name)
       end
 
       # Returns a SQL statement for case/accent (if possible) insensitive match

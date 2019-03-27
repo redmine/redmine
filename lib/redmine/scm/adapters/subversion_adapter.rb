@@ -267,7 +267,7 @@ module Redmine
         end
 
         def target(path = '')
-          base = path.match(/^\//) ? root_url : url
+          base = /^\//.match?(path) ? root_url : url
           uri = "#{base}/#{path}"
           uri = URI.escape(URI.escape(uri), '[]')
           shell_quote(uri.gsub(/[?<>\*]/, ''))

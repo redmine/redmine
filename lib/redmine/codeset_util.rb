@@ -42,7 +42,7 @@ module Redmine
       return if str.nil?
       str = str.b
       return str if str.empty?
-      return str if /\A[\r\n\t\x20-\x7e]*\Z/n.match(str) # for us-ascii
+      return str if /\A[\r\n\t\x20-\x7e]*\Z/n.match?(str) # for us-ascii
       str.force_encoding('UTF-8')
       encodings = Setting.repositories_encodings.split(',').collect(&:strip)
       encodings.each do |encoding|

@@ -143,7 +143,7 @@ module Redmine
         # If a block of text is given, the closing tag }} must be at the start of a new line.
         def macro(name, options={}, &block)
           options.assert_valid_keys(:desc, :parse_args)
-          unless name.to_s.match(/\A\w+\z/)
+          unless /\A\w+\z/.match?(name.to_s)
             raise "Invalid macro name: #{name} (only 0-9, A-Z, a-z and _ characters are accepted)"
           end
           unless block_given?
@@ -240,7 +240,7 @@ module Redmine
         filename = args.first
         raise 'Filename required' unless filename.present?
         size = options[:size]
-        raise 'Invalid size parameter' unless size.nil? || size.match(/^\d+$/)
+        raise 'Invalid size parameter' unless size.nil? || /^\d+$/.match?(size)
         size = size.to_i
         size = 200 unless size > 0
         if obj && obj.respond_to?(:attachments) && attachment = Attachment.latest_attach(obj.attachments, filename)

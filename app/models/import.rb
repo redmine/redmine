@@ -79,7 +79,7 @@ class Import < ActiveRecord::Base
   # Returns the full path of the file to import
   # It is stored in tmp/imports with a random hex as filename
   def filepath
-    if filename.present? && filename =~ /\A[0-9a-f]+\z/
+    if filename.present? && /\A[0-9a-f]+\z/.match?(filename)
       File.join(Rails.root, "tmp", "imports", filename)
     else
       nil

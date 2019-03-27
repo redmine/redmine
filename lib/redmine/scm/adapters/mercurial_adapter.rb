@@ -297,10 +297,10 @@ module Redmine
         # Runs 'hg' command with the given args
         def hg(*args, &block)
           # as of hg 4.4.1, early parsing of bool options is not terminated at '--'
-          if args.any? { |s| s =~ HG_EARLY_BOOL_ARG }
+          if args.any? { |s| HG_EARLY_BOOL_ARG.match?(s) }
             raise HgCommandArgumentError, "malicious command argument detected"
           end
-          if args.take_while { |s| s != '--' }.any? { |s| s =~ HG_EARLY_LIST_ARG }
+          if args.take_while { |s| s != '--' }.any? { |s| HG_EARLY_LIST_ARG.match?(s) }
             raise HgCommandArgumentError, "malicious command argument detected"
           end
 

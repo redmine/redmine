@@ -170,7 +170,7 @@ module Redmine
             file_state = nil
             branch_map = nil
             io.each_line() do |line|
-              if state != "revision" && /^#{ENDLOG}/ =~ line
+              if state != "revision" && /^#{ENDLOG}/.match?(line)
                 commit_log = ""
                 revision   = nil
                 state      = "entry_start"
@@ -183,9 +183,9 @@ module Redmine
                   logger.debug("Path #{entry_path} <=> Name #{entry_name}")
                 elsif /^head: (.+)$/ =~ line
                   entry_headRev = $1 #unless entry.nil?
-                elsif /^symbolic names:/ =~ line
+                elsif /^symbolic names:/.match?(line)
                   state = "symbolic" #unless entry.nil?
-                elsif /^#{STARTLOG}/ =~ line
+                elsif /^#{STARTLOG}/.match?(line)
                   commit_log = ""
                   state      = "revision"
                 end

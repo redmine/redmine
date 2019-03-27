@@ -114,7 +114,7 @@ class ApplicationController < ActionController::Base
       if (key = api_key_from_request)
         # Use API key
         user = User.find_by_api_key(key)
-      elsif request.authorization.to_s =~ /\ABasic /i
+      elsif /\ABasic /i.match?(request.authorization.to_s)
         # HTTP Basic, either username/password or API key/random
         authenticate_with_http_basic do |username, password|
           user = User.try_to_login(username, password) || User.find_by_api_key(username)
@@ -441,11 +441,11 @@ class ApplicationController < ActionController::Base
     path = uri.to_s
     # Ensure that the remaining URL starts with a slash, followed by a
     # non-slash character or the end
-    if path !~ %r{\A/([^/]|\z)}
+    if !%r{\A/([^/]|\z)}.match?(path)
       return false
     end
 
-    if path.match(%r{/(login|account/register|account/lost_password)})
+    if %r{/(login|account/register|account/lost_password)}.match?(path)
       return false
     end
 
@@ -626,7 +626,7 @@ class ApplicationController < ActionController::Base
 
   # Returns a string that can be used as filename value in Content-Disposition header
   def filename_for_content_disposition(name)
-    request.env['HTTP_USER_AGENT'] =~ %r{(MSIE|Trident|Edge)} ? ERB::Util.url_encode(name) : name
+    %r{(MSIE|Trident|Edge)}.match?(request.env['HTTP_USER_AGENT']) ? ERB::Util.url_encode(name) : name
   end
 
   def api_request?

@@ -121,7 +121,7 @@ module Redmine
 
       def lock_nested_set
         lock = true
-        if self.class.connection.adapter_name =~ /sqlserver/i
+        if /sqlserver/i.match?(self.class.connection.adapter_name)
           lock = "WITH (ROWLOCK HOLDLOCK UPDLOCK)"
         end
         self.class.order(:id).lock(lock).ids

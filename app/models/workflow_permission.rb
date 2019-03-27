@@ -64,7 +64,7 @@ class WorkflowPermission < WorkflowRule
   protected
 
   def validate_field_name
-    unless Tracker::CORE_FIELDS_ALL.include?(field_name) || field_name.to_s.match(/^\d+$/)
+    unless Tracker::CORE_FIELDS_ALL.include?(field_name) || /^\d+$/.match?(field_name.to_s)
       errors.add :field_name, :invalid
     end
   end

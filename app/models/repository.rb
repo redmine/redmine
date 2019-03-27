@@ -149,7 +149,7 @@ class Repository < ActiveRecord::Base
   end
 
   def self.find_by_identifier_param(param)
-    if param.to_s =~ /^\d+$/
+    if /^\d+$/.match?(param.to_s)
       find_by_id(param)
     else
       find_by_identifier(param)
@@ -248,7 +248,7 @@ class Repository < ActiveRecord::Base
   def find_changeset_by_name(name)
     return nil if name.blank?
     s = name.to_s
-    if s.match(/^\d*$/)
+    if /^\d*$/.match?(s)
       changesets.find_by(:revision => s)
     else
       changesets.where("revision LIKE ?", s + '%').first
@@ -469,7 +469,7 @@ class Repository < ActiveRecord::Base
     regexp = Redmine::Configuration["scm_#{scm_name.to_s.downcase}_path_regexp"]
     if changes[attribute] && regexp.present?
       regexp = regexp.to_s.strip.gsub('%project%') {Regexp.escape(project.try(:identifier).to_s)}
-      unless send(attribute).to_s.match(Regexp.new("\\A#{regexp}\\z"))
+      unless Regexp.new("\\A#{regexp}\\z").match?(send(attribute).to_s)
         errors.add(attribute, :invalid)
       end
     end

@@ -103,7 +103,7 @@ class MailHandler < ActionMailer::Base
       value = email.header[key]
       if value
         value = value.to_s.downcase
-        if (ignored_value.is_a?(Regexp) && value.match(ignored_value)) || value == ignored_value
+        if (ignored_value.is_a?(Regexp) && ignored_value.match?(value)) || value == ignored_value
           if logger
             logger.info "MailHandler: ignoring email with #{key}:#{value} header"
           end
@@ -316,7 +316,7 @@ class MailHandler < ActionMailer::Base
       else
         regexp = %r{\A#{Regexp.escape(pattern).gsub("\\*", ".*")}\z}i
       end
-      if attachment.filename.to_s =~ regexp
+      if regexp.match?(attachment.filename.to_s)
         logger.info "MailHandler: ignoring attachment #{attachment.filename} matching #{pattern}"
         return false
       end

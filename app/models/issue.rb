@@ -528,7 +528,7 @@ class Issue < ActiveRecord::Base
 
     # Project and Tracker must be set before since new_statuses_allowed_to depends on it.
     if (p = attrs.delete('project_id')) && safe_attribute?('project_id')
-      if p.is_a?(String) && !p.match(/^\d*$/)
+      if p.is_a?(String) && !/^\d*$/.match?(p)
         p_id = Project.find_by_identifier(p).try(:id)
       else
         p_id = p.to_i
@@ -769,7 +769,7 @@ class Issue < ActiveRecord::Base
     user = new_record? ? author : current_journal.try(:user)
 
     required_attribute_names(user).each do |attribute|
-      if attribute =~ /^\d+$/
+      if /^\d+$/.match?(attribute)
         attribute = attribute.to_i
         v = custom_field_values.detect {|v| v.custom_field_id == attribute }
         if v && Array(v.value).detect(&:present?).nil?

@@ -135,7 +135,7 @@ module Redmine
       def auto_link!(text)
         text.gsub!(AUTO_LINK_RE) do
           all, leading, proto, url, post = $&, $1, $2, $3, $6
-          if leading =~ /<a\s/i || leading =~ /![<>=]?/
+          if /<a\s/i.match?(leading) || /![<>=]?/.match?(leading)
             # don't replace URLs that are already linked
             # and URLs prefixed with ! !> !< != (textile images)
             all
@@ -157,7 +157,7 @@ module Redmine
       def auto_mailto!(text)
         text.gsub!(/([\w\.!#\$%\-+.\/]+@[A-Za-z0-9\-]+(\.[A-Za-z0-9\-]+)+)/) do
           mail = $1
-          if text.match(/<a\b[^>]*>(.*)(#{Regexp.escape(mail)})(.*)<\/a>/)
+          if /<a\b[^>]*>(.*)(#{Regexp.escape(mail)})(.*)<\/a>/.match?(text)
             mail
           else
             %(<a class="email" href="mailto:#{ERB::Util.html_escape mail}">#{ERB::Util.html_escape mail}</a>).html_safe

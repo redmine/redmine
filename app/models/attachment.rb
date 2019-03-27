@@ -245,7 +245,7 @@ class Attachment < ActiveRecord::Base
   end
 
   def is_diff?
-    self.filename =~ /\.(patch|diff)$/i
+    /\.(patch|diff)$/i.match?(filename)
   end
 
   def is_pdf?
@@ -494,7 +494,7 @@ class Attachment < ActiveRecord::Base
   def self.disk_filename(filename, directory=nil)
     timestamp = DateTime.now.strftime("%y%m%d%H%M%S")
     ascii = ''
-    if filename =~ %r{^[a-zA-Z0-9_\.\-]*$} && filename.length <= 50
+    if %r{^[a-zA-Z0-9_\.\-]*$}.match?(filename) && filename.length <= 50
       ascii = filename
     else
       ascii = Digest::MD5.hexdigest(filename)

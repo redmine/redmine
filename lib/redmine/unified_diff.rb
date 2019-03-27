@@ -78,7 +78,7 @@ module Redmine
           @parsing = true
         end
       else
-        if line =~ %r{^[^\+\-\s@\\]}
+        if %r{^[^\+\-\s@\\]}.match?(line)
           @parsing = false
           return false
         elsif line =~ /^@@ (\+|\-)(\d+)(,\d+)? (\+|\-)(\d+)(,\d+)? @@/
@@ -114,9 +114,9 @@ module Redmine
     def file_name=(arg)
       both_git_diff = false
       if file_name.nil?
-        @git_diff = true if arg =~ %r{^(a/|/dev/null)}
+        @git_diff = true if %r{^(a/|/dev/null)}.match?(arg)
       else
-        both_git_diff = (@git_diff && arg =~ %r{^(b/|/dev/null)})
+        both_git_diff = (@git_diff && %r{^(b/|/dev/null)}.match?(arg))
       end
       if both_git_diff
         if file_name && arg == "/dev/null"
@@ -168,7 +168,7 @@ module Redmine
         true
       else
         write_offsets
-        if line[0, 1] =~ /\s/
+        if /\s/.match?(line[0, 1])
           diff = Diff.new
           diff.line_right = line[1..-1]
           diff.nb_line_right = @line_num_r

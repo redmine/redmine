@@ -313,7 +313,7 @@ class Project < ActiveRecord::Base
   end
 
   def self.find(*args)
-    if args.first && args.first.is_a?(String) && !args.first.match(/^\d*$/)
+    if args.first && args.first.is_a?(String) && !/^\d*$/.match?(args.first)
       project = find_by_identifier(*args)
       raise ActiveRecord::RecordNotFound, "Couldn't find Project with identifier=#{args.first}" if project.nil?
       project
@@ -353,7 +353,7 @@ class Project < ActiveRecord::Base
       nil
     else
       # id is used for projects with a numeric identifier (compatibility)
-      @to_param ||= (identifier.to_s =~ %r{^\d*$} ? id.to_s : identifier)
+      @to_param ||= (%r{^\d*$}.match?(identifier.to_s) ? id.to_s : identifier)
     end
   end
 

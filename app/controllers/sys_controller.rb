@@ -52,7 +52,7 @@ class SysController < ActionController::Base
     scope = Project.active.has_module(:repository)
     if params[:id]
       project = nil
-      if params[:id].to_s =~ /^\d*$/
+      if /^\d*$/.match?(params[:id].to_s)
         project = scope.find(params[:id])
       else
         project = scope.find_by_identifier(params[:id])

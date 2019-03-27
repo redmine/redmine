@@ -109,7 +109,7 @@ module Redmine
         # Here we do not shell-out, so we do not want quotes.
         def target(path=nil)
           # Prevent the use of ..
-          if path and !path.match(/(^|\/)\.\.(\/|$)/)
+          if path and !/(^|\/)\.\.(\/|$)/.match?(path)
             return "#{self.url}#{without_leading_slash(path)}"
           end
           return self.url

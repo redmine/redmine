@@ -122,7 +122,7 @@ module Redmine
       # Checks the validness of regular expressions set for repository paths at startup
       def check_regular_expressions
         @config.each do |name, value|
-          if value.present? && name =~ /^scm_.+_path_regexp$/
+          if value.present? && /^scm_.+_path_regexp$/.match?(name)
             begin
               Regexp.new value.to_s.strip
             rescue => e
