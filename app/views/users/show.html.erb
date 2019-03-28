@@ -77,12 +77,26 @@
 
 <% unless @memberships.empty? %>
 <h3><%=l(:label_project_plural)%></h3>
-<ul>
-<% for membership in @memberships %>
-  <li><%= link_to_project(membership.project) %>
-    (<%= membership.roles.sort.collect(&:to_s).join(', ') %>, <%= format_date(membership.created_on) %>)</li>
+<table class="list projects">
+<thead>
+  <tr>
+    <th><%=l(:label_project)%></th>
+    <th><%=l(:label_role_plural)%></th>
+    <th><%=l(:label_registered_on)%></th>
+  </tr>
+</thead>
+<tbody>
+<% memberships_by_project = @memberships.group_by(&:project) %>
+<% project_tree(memberships_by_project.keys, :init_level => true) do |project, level| %>
+  <% membership = memberships_by_project[project].first %>
+  <tr class="<%= project.css_classes %> <%= level > 0 ? "idnt idnt-#{level}" : nil %>">
+    <td class="name"><span><%= link_to_project(project) %></span></td>
+    <td class="roles"><%= membership.roles.sort.collect(&:to_s).join(', ') %></td>
+    <td><%= format_date(membership.created_on) %></td>
+  </tr>
 <% end %>
-</ul>
+</tbody>
+</table>
 <% end %>
 
 <% if (User.current == @user || User.current.admin?) && @user.groups.any? %>

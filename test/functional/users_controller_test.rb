@@ -173,8 +173,20 @@ class UsersControllerTest < Redmine::ControllerTest
     get :show, :params => {:id => 2}
     assert_response :success
 
-    # membership of private project admin can see
-    assert_select 'li a', :text => "OnlineStore"
+    assert_select 'table.list.projects>tbody' do
+      assert_select 'tr:nth-of-type(1)' do
+        assert_select 'td:nth-of-type(1)>span>a', :text => 'eCookbook'
+        assert_select 'td:nth-of-type(2)', :text => 'Manager'
+      end
+      assert_select 'tr:nth-of-type(2)' do
+        assert_select 'td:nth-of-type(1)>span>a', :text => 'Private child of eCookbook'
+        assert_select 'td:nth-of-type(2)', :text => 'Manager'
+      end
+      assert_select 'tr:nth-of-type(3)' do
+        assert_select 'td:nth-of-type(1)>span>a', :text => 'OnlineStore'
+        assert_select 'td:nth-of-type(2)', :text => 'Developer'
+      end
+    end
   end
 
   def test_show_current_should_require_authentication
