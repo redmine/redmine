@@ -182,6 +182,25 @@ class RepositoriesControllerTest < Redmine::RepositoryControllerTest
     end
   end
 
+  def test_show_should_show_diff_button_depending_on_browse_repository_permission
+    @request.session[:user_id] = 2
+    role = Role.find(1)
+
+    role.add_permission! :browse_repository
+    get :show, :params => {
+      :id => 1
+    }
+    assert_response :success
+    assert_select 'input[value="View differences"]'
+
+    role.remove_permission! :browse_repository
+    get :show, :params => {
+      :id => 1
+    }
+    assert_response :success
+    assert_select 'input[value="View differences"]', :count => 0
+  end
+
   def test_revisions
     get :revisions, :params => {
         :id => 1,
