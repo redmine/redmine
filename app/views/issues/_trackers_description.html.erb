@@ -4,10 +4,19 @@
       <dl>
       <% trackers.each do |tracker| %>
         <% if tracker.description.present? %>
-          <dt><%= tracker.name %></dt>
+          <dt><%= content_tag 'a', tracker.name, :onclick => "selectTracker('#{tracker.id}'); return false;", :href => '#', :title => l(:text_select_apply_tracker) %></dt>
           <dd><%= tracker.description %></dd>
         <% end %>
       <% end %>
       </dl>
   </div>
+<% end %>
+<%= javascript_tag do %>
+  function selectTracker(id) {
+    var target = $('#issue_tracker_id');
+    target.attr("selected", false);
+    target.find('option[value="' + id + '"]').prop('selected', true);
+    target.trigger('change');
+    hideModal('#trackers_description h3');
+  }
 <% end %>
