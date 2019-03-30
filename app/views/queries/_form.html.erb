@@ -40,6 +40,8 @@
 <% else %>
 <fieldset id="options"><legend><%= l(:label_options) %></legend>
   <p><label><%= l(:button_show) %></label>
+  <%= hidden_field_tag 'query[draw_relations]', '0' %>
+  <%= hidden_field_tag 'query[draw_progress_line]', '0' %>
   <label class="inline"><%= check_box_tag "query[draw_relations]", "1", @query.draw_relations %> <%= l(:label_related_issues) %></label>
   <label class="inline"><%= check_box_tag "query[draw_progress_line]", "1", @query.draw_progress_line %> <%= l(:label_gantt_progress_line) %></label>
   </p>
