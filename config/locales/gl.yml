@@ -1264,10 +1264,8 @@ gl:
   error_token_expired: Esta ligazón para recuperar a contrasinal ten caducado, por favor, tente de novo.
   error_spent_on_future_date: Non pode imputar tempo nunha data futura
   setting_timelog_accept_future_dates: Permitir imputar tempo en datas futuras
-  error_not_allowed_to_log_time_for_other_users: You are not allowed to log time for
-    other users
   label_delete_link_to_subtask: Eliminar relación
-  error_not_allowed_to_log_time_for_nother_users: Vostede non ten permitido imputar tempo para outros usuarios
+  error_not_allowed_to_log_time_for_other_users: Vostede non ten permitido imputar tempo para outros usuarios
   permission_log_time_for_other_users: Imputar tempo dedicado a outros usuarios
   label_tomorrow: mañá
   label_next_week: próxima semana
