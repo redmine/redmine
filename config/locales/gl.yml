@@ -1197,11 +1197,11 @@ gl:
   button_filter: Filtro
   mail_body_password_updated: A súa contrasinal foi cambiada.
   label_no_preview: Non hai vista previa dispoñible
-  error_no_tracker_allowed_for_new_issue_in_project: O proxecto non ten ningún tipo 
+  error_no_tracker_allowed_for_new_issue_in_project: O proxecto non ten ningún tipo
     para que poida crear unha petición
   label_tracker_all: Tódolos tipos
   label_new_project_issue_tab_enabled: Amosar a lapela "Nova petición"
-  setting_new_item_menu_tab: Lapela no menú de cada proxecto para creación de novos obxectos 
+  setting_new_item_menu_tab: Lapela no menú de cada proxecto para creación de novos obxectos
   label_new_object_tab_enabled: Amosar a lista despregable "+"
   error_no_projects_with_tracker_allowed_for_new_issue: Non hai proxectos con tipos
     para as que poida crear unha petición
