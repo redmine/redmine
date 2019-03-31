@@ -4,6 +4,36 @@ Redmine - project management software
 Copyright (C) 2006-2017  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2019-03-31 v3.4.10
+
+=== [Administration]
+
+* Defect #30939: Timeout for "Check for updates" on Plugins page is too short
+
+=== [Files]
+
+* Defect #31087: Deleting a version silently deletes its attachments
+
+=== [Issues filter]
+
+* Defect #30367: "Last updated by" filter causes an SQL error with MariaDB
+
+=== [REST API]
+
+* Defect #29055: Searching for issue number with REST API redirects to issue HTML page
+
+=== [Rails support]
+
+* Feature #31027: Upgrade to Rails 4.2.11.1
+
+=== [Search engine]
+
+* Defect #30923: Project search should select subprojects scope when the project has subprojects
+
+=== [UI]
+
+* Defect #30872: Copyright is outdated
+
 == 2019-02-21 v3.4.9
 
 === [Gems support]
