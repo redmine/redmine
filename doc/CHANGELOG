@@ -4,6 +4,69 @@ Redmine - project management software
 Copyright (C) 2006-2017  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2019-03-31 v4.0.3
+
+=== [Administration]
+
+* Defect #30939: Timeout for "Check for updates" on Plugins page is too short
+
+=== [Email notifications]
+
+* Defect #30955: "View all issues" link in email reminders points to issues list which does not include issues assigned to a group
+
+=== [Files]
+
+* Defect #31087: Deleting a version silently deletes its attachments
+
+=== [Gantt]
+
+* Defect #31063: Can't uncheck Gantt chart options of custom queries
+
+=== [Issues filter]
+
+* Defect #30367: "Last updated by" filter causes an SQL error with MariaDB
+
+=== [Issues list]
+
+* Defect #26836: Filtering issues via context menu should not reset selected columns
+
+=== [Plugin API]
+
+* Defect #30753: Plugins auto_load and eager_load paths
+* Patch #31030: Include plugin name in the exception when the plugin required by requires_redmine_plugin is not found
+
+=== [REST API]
+
+* Defect #29055: Searching for issue number with REST API redirects to issue HTML page
+
+=== [Rails support]
+
+* Feature #31026: Upgrade to Rails 5.2.2.1
+
+=== [SCM]
+
+* Defect #30731: "View differences" buttons are shown in the repository page even without "Browse repository" permission
+* Defect #30850: Unified diff link broken on specific file/revision diff view
+
+=== [Search engine]
+
+* Defect #30923: Project search should select subprojects scope when the project has subprojects
+
+=== [Text formatting]
+
+* Defect #30256: Cannot make cross-project wiki link if the project name includes square brackets
+
+=== [Translations]
+
+* Patch #31124: Galician translation update for 4.0-stable
+
+=== [UI]
+
+* Defect #30872: Copyright is outdated
+* Defect #30988: Preformatted text overflows the preview area
+* Feature #30977: Add CSS class to project custom fields
+* Feature #30985: Add CSS class to user custom fields
+
 == 2019-02-21 v4.0.2
 
 === [Attachments]
