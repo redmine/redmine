@@ -1350,7 +1350,7 @@ class TimelogControllerTest < Redmine::ControllerTest
     with_settings :date_format => '%m/%d/%Y' do
       get :index, :params => {:format => 'csv'}
       assert_response :success
-      assert_equal 'text/csv; header=present', response.content_type
+      assert_equal 'text/csv', response.content_type
     end
   end
 
@@ -1358,7 +1358,7 @@ class TimelogControllerTest < Redmine::ControllerTest
     with_settings :date_format => '%m/%d/%Y' do
       get :index, :params => {:project_id => 1, :format => 'csv'}
       assert_response :success
-      assert_equal 'text/csv; header=present', response.content_type
+      assert_equal 'text/csv', response.content_type
     end
   end
 
