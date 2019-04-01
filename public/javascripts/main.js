@@ -232,16 +232,27 @@ function showFooter() {
     $('footer').show();
 }
 
+function hasModels(){
+    return (repourl && project_repository != "" && ((neuroml2files != "") || (swcfiles != "")));
+}
+
 function toggleProjectButton() {
-    if ($("#showGeppettoBtn").is(":visible")) {
-	$("#showGeppettoBtn").hide();
-	$("#showProjectBtn").show();
-	$("#moreBtn").hide();
+    if ($("#showGeppettoBtn").is(":visible") || !hasModels()) {
+        if (hasModels()) {
+	    $("#showGeppettoBtn").hide();
+            $("#moreBtn").hide();
+        }
+        if ($("#showProjectBtn").is(":visible"))
+	    $("#showProjectBtn").hide();
+        else
+            $("#showProjectBtn").show();
     }
     else {
-	$("#showGeppettoBtn").show();
+        if (hasModels()) {
+	    $("#showGeppettoBtn").show();
+            $("#moreBtn").show();
+        }
 	$("#showProjectBtn").hide();
-	$("#moreBtn").show();
     }
 }
 
