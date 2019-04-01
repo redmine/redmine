@@ -83,7 +83,7 @@ $(document).ready(function(){
         var projectUrl = '//' + location.host + location.pathname;
 	if(history.pushState) {history.pushState(null, null, projectUrl);}
 	toggleProjectButton();
-        $("#geppettoContainer").remove();
+        $("#geppettoContainer").hide();
 	$(".project-main").show();
         $(".project-header").show();
 	showFooter();

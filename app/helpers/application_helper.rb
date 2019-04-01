@@ -478,6 +478,11 @@ module ApplicationHelper
     return @SWCfiles 
   end
 
+  def getNWBFiles(repository)
+    @NWBfiles = getFilesWithExt(repository, ".nwb")
+    return @NWBfiles
+  end
+
   def getJSONFiles(repository)
     @JSONfiles = getFilesWithExt(repository, ".json")
     return @JSONfiles 

@@ -12,6 +12,9 @@ $(document).ready(function() {
         case "#netpyne":
             hideFooter();
             break;
+        case "#nwbexplorer":
+            hideFooter();
+            break;
         default:
     	    showFooter();
     	    break;

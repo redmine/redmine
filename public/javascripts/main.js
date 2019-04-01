@@ -371,6 +371,37 @@ function open3DExplorer(uri, projectIdentifier) {
     }
 }
 
+function addNWBIframe(src) {
+    var iframe = $("<iframe id='geppettoFrame' src='http://35.238.29.238'></iframe>")
+    $(".project-header").before("<div id='geppettoContainer'></div>");
+    $("#geppettoContainer").append(iframe);
+    iframe.load(function() { sendNWBToIframe(src); });
+    //iframe.attr({onLoad: function(){sendNWBToIframe(src);}});
+    }
+
+function sendNWBToIframe(uri) {
+    let frame = document.getElementById("geppettoFrame");
+    frame.contentWindow.postMessage(decodeURIComponent(uri), '*');
+}
+
+function openNWBExplorer(uri, projectIdentifier) {
+    showGeppetto();
+    if (checkBrowserCapabilities()) {
+	//Change url without reloading page
+	if (typeof uri === 'string') {
+	    if (currentModel != uri) {
+                var explorerUrl = '//' + location.host + location.pathname + '?explorer=' + encodeURIComponent(uri);
+	        if (history.pushState) { history.pushState(null, null, explorerUrl); }
+		if ($("#geppettoContainer").length == 0)
+                    addNWBIframe(uri);
+                else
+                    sendNWBToIframe(uri);
+	    }
+	}
+        currentModel = uri;
+    }
+}
+
 function checkCookie() {
     var cookieEnabled = (navigator.cookieEnabled) ? true : false;
     if (typeof navigator.cookieEnabled == "undefined" && !cookieEnabled) {
