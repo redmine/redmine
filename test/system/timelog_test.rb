@@ -75,11 +75,13 @@ class TimelogTest < ApplicationSystemTestCase
   end
 
   def test_default_query_setting
-    # Display the list with the default settings
-    visit '/time_entries'
-    within 'table.time-entries thead' do
-      assert page.has_no_link?('Tracker')
-      assert page.has_text?('Comment')
+    with_settings :default_language => 'en', :force_default_language_for_anonymous => '1' do
+      # Display the list with the default settings
+      visit '/time_entries'
+      within 'table.time-entries thead' do
+        assert page.has_no_link?('Tracker')
+        assert page.has_text?('Comment')
+      end
     end
 
     # Change the default columns
