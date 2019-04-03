@@ -195,8 +195,6 @@ class TimeEntryQuery < Query
   end
 
   def sql_for_activity_id_field(field, operator, value)
-    condition_on_id = sql_for_field(field, operator, value, Enumeration.table_name, 'id')
-    condition_on_parent_id = sql_for_field(field, operator, value, Enumeration.table_name, 'parent_id')
     ids = value.map(&:to_i).join(',')
     table_name = Enumeration.table_name
     if operator == '='
