@@ -366,9 +366,7 @@ module Redmine
         end
 
         def cat(path, identifier=nil)
-          if identifier.nil?
-            identifier = 'HEAD'
-          end
+          identifier = 'HEAD' if identifier.nil?
           cmd_args = %w|show --no-color|
           cmd_args << "#{identifier}:#{scm_iconv(@path_encoding, 'UTF-8', path)}"
           cat = nil
