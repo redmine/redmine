@@ -162,7 +162,7 @@ class RepositoryGitTest < ActiveSupport::TestCase
       extra_info_heads = @repository.extra_info["heads"].dup
       assert_equal NUM_HEAD, extra_info_heads.size
       extra_info_heads.delete_if { |x| x == "83ca5fd546063a3c7dc2e568ba3355661a9e2b2c" }
-      assert_equal 4, extra_info_heads.size
+      assert_equal NUM_HEAD - 2, extra_info_heads.size
 
       del_revs = [
           "83ca5fd546063a3c7dc2e568ba3355661a9e2b2c",
@@ -200,7 +200,7 @@ class RepositoryGitTest < ActiveSupport::TestCase
       extra_info_heads = @repository.extra_info["heads"].dup
       assert_equal NUM_HEAD, extra_info_heads.size
       extra_info_heads.delete_if { |x| x == "83ca5fd546063a3c7dc2e568ba3355661a9e2b2c" }
-      assert_equal 4, extra_info_heads.size
+      assert_equal NUM_HEAD - 2, extra_info_heads.size
 
       del_revs = [
           "83ca5fd546063a3c7dc2e568ba3355661a9e2b2c",
@@ -233,7 +233,7 @@ class RepositoryGitTest < ActiveSupport::TestCase
       @project.reload
       h1 = @repository.extra_info["heads"].dup
       assert h1.index("1234abcd5678")
-      assert_equal 5, h1.size
+      assert_equal NUM_HEAD - 1, h1.size
 
       @repository.fetch_changesets
       @project.reload
