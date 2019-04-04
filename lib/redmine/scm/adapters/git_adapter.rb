@@ -137,8 +137,8 @@ module Redmine
           p = scm_iconv(@path_encoding, 'UTF-8', path)
           entries = Entries.new
           cmd_args = %w|ls-tree -l|
-          cmd_args << "HEAD:#{p}"          if identifier.nil?
-          cmd_args << "#{identifier}:#{p}" if identifier
+          identifier = 'HEAD' if identifier.nil?
+          cmd_args << "#{identifier}:#{p}"
           git_cmd(cmd_args) do |io|
             io.each_line do |line|
               e = line.chomp.to_s
