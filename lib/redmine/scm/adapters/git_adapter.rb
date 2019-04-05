@@ -210,7 +210,7 @@ module Redmine
               revisions[0] << "#{git_identifier_from}.." if identifier_from
             end
             if identifier_to
-              git_identifier_to= scm_iconv(@path_encoding, 'UTF-8', identifier_to)
+              git_identifier_to = scm_iconv(@path_encoding, 'UTF-8', identifier_to)
               revisions[0] << "#{git_identifier_to}" if identifier_to
             end
           else
