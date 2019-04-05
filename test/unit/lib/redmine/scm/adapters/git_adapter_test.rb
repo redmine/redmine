@@ -126,6 +126,7 @@ class GitAdapterTest < ActiveSupport::TestCase
       assert_equal  [
             "tag00.lightweight",
             "tag01.annotated",
+            "tag02.lightweight.#{@char_1}.01"
           ], @adapter.tags
     end
 

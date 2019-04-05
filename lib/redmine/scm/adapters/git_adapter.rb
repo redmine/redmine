@@ -101,7 +101,7 @@ module Redmine
           @tags = []
           cmd_args = %w|tag|
           git_cmd(cmd_args) do |io|
-            @tags = io.readlines.sort!.map{|t| t.strip}
+            @tags = io.readlines.sort!.map{|t| scm_iconv('UTF-8', @path_encoding, t.strip)}
           end
           @tags
         rescue ScmCommandAborted
