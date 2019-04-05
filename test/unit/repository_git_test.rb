@@ -28,7 +28,7 @@ class RepositoryGitTest < ActiveSupport::TestCase
   REPOSITORY_PATH.gsub!(/\//, "\\") if Redmine::Platform.mswin?
 
   NUM_REV = 28
-  NUM_HEAD = 6
+  NUM_HEAD = 8
 
   ## Git, Mercurial and CVS path encodings are binary.
   ## Subversion supports URL encoding for path.
