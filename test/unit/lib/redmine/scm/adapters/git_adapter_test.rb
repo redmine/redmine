@@ -225,6 +225,25 @@ class GitAdapterTest < ActiveSupport::TestCase
       assert_equal '1ca7f5ed374f3cb31a93ae5215c2e25cc6ec5127', revs2[-1].identifier
     end
 
+    def test_revisions_latin_1_identifier
+      if WINDOWS_PASS
+        puts WINDOWS_SKIP_STR
+      elsif JRUBY_SKIP
+        puts JRUBY_SKIP_STR
+      else
+        revs1 = []
+        @adapter.revisions('',
+                         "latin-1-branch-#{@char_1}-01",
+                         "latin-1-branch-#{@char_1}-02",
+                         {:reverse => true}) do |rev|
+          revs1 << rev
+        end
+      end
+      assert_equal 2, revs1.length
+      assert_equal '64f1f3e89ad1cb57976ff0ad99a107012ba3481d', revs1[ 0].identifier
+      assert_equal '1ca7f5ed374f3cb31a93ae5215c2e25cc6ec5127', revs1[ 1].identifier
+    end
+
     def test_revisions_invalid_rev
       assert_equal [], @adapter.revisions('', '1234abcd', "master")
       assert_raise Redmine::Scm::Adapters::CommandFailed do
@@ -384,6 +403,23 @@ class GitAdapterTest < ActiveSupport::TestCase
       assert_equal "jsmith", annotate.revisions[4].author
     end
 
+    def test_annotate_latin_1_identifier
+      if WINDOWS_PASS
+        puts WINDOWS_SKIP_STR
+      elsif JRUBY_SKIP
+        puts JRUBY_SKIP_STR
+      else
+        annotate = @adapter.annotate('sources/watchers_controller.rb',
+                                     "latin-1-branch-#{@char_1}-02")
+        assert_equal 40, annotate.lines.size
+        assert_equal "# This program is free software; you can redistribute it and/or",
+                      annotate.lines[3].strip
+        assert_equal "7234cb2750b63f47bff735edc50a1c0a433c2518",
+                    annotate.revisions[3].identifier
+        assert_equal "jsmith", annotate.revisions[3].author
+      end
+    end
+
     def test_annotate_moved_file
       annotate = @adapter.annotate('renamed_test.txt')
       assert_kind_of Redmine::Scm::Adapters::Annotate, annotate
@@ -519,6 +555,23 @@ class GitAdapterTest < ActiveSupport::TestCase
       end
     end
 
+    def test_entries_latin_1_identifier
+      if WINDOWS_PASS
+        puts WINDOWS_SKIP_STR
+      elsif JRUBY_SKIP
+        puts JRUBY_SKIP_STR
+      else
+        entries1 = @adapter.entries(nil,
+                                    "latin-1-branch-#{@char_1}-02")
+        assert entries1
+        assert_equal 4, entries1.size
+        f1 = entries1[0]
+        assert_equal "images", f1.name
+        assert_equal "images", f1.path
+        assert_equal 'dir', f1.kind
+      end
+    end
+
     def test_entry
       entry = @adapter.entry()
       assert_equal "", entry.path
@@ -563,6 +616,17 @@ class GitAdapterTest < ActiveSupport::TestCase
                                 ""
                               )
       assert_equal "UTF-8", adpt2.path_encoding
+    end
+
+    def test_cat_latin_1_identifier
+      if WINDOWS_PASS
+        puts WINDOWS_SKIP_STR
+      elsif JRUBY_SKIP
+        puts JRUBY_SKIP_STR
+      else
+        assert @adapter.cat('sources/watchers_controller.rb',
+                            "latin-1-branch-#{@char_1}-02")
+      end
     end
 
     def test_cat_path_invalid

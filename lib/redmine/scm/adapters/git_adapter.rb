@@ -138,7 +138,8 @@ module Redmine
           entries = Entries.new
           cmd_args = %w|ls-tree -l|
           identifier = 'HEAD' if identifier.nil?
-          cmd_args << "#{identifier}:#{p}"
+          git_identifier = scm_iconv(@path_encoding, 'UTF-8', identifier)
+          cmd_args << "#{git_identifier}:#{p}"
           git_cmd(cmd_args) do |io|
             io.each_line do |line|
               e = line.chomp.to_s
@@ -204,8 +205,14 @@ module Redmine
           revisions = []
           if identifier_from || identifier_to
             revisions << +""
-            revisions[0] << "#{identifier_from}.." if identifier_from
-            revisions[0] << "#{identifier_to}" if identifier_to
+            if identifier_from
+              git_identifier_from = scm_iconv(@path_encoding, 'UTF-8', identifier_from)
+              revisions[0] << "#{git_identifier_from}.." if identifier_from
+            end
+            if identifier_to
+              git_identifier_to= scm_iconv(@path_encoding, 'UTF-8', identifier_to)
+              revisions[0] << "#{git_identifier_to}" if identifier_to
+            end
           else
             unless options[:includes].blank?
               revisions += options[:includes]
@@ -334,8 +341,9 @@ module Redmine
 
         def annotate(path, identifier=nil)
           identifier = 'HEAD' if identifier.blank?
+          git_identifier = scm_iconv(@path_encoding, 'UTF-8', identifier)
           cmd_args = %w|blame --encoding=UTF-8|
-          cmd_args << "-p" << identifier << "--" <<  scm_iconv(@path_encoding, 'UTF-8', path)
+          cmd_args << "-p" << git_identifier << "--" <<  scm_iconv(@path_encoding, 'UTF-8', path)
           blame = Annotate.new
           content = nil
           git_cmd(cmd_args) { |io| io.binmode; content = io.read }
@@ -367,8 +375,9 @@ module Redmine
 
         def cat(path, identifier=nil)
           identifier = 'HEAD' if identifier.nil?
+          git_identifier = scm_iconv(@path_encoding, 'UTF-8', identifier)
           cmd_args = %w|show --no-color|
-          cmd_args << "#{identifier}:#{scm_iconv(@path_encoding, 'UTF-8', path)}"
+          cmd_args << "#{git_identifier}:#{scm_iconv(@path_encoding, 'UTF-8', path)}"
           cat = nil
           git_cmd(cmd_args) do |io|
             io.binmode
