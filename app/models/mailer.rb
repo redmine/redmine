@@ -632,7 +632,7 @@ class Mailer < ActionMailer::Base
     mail_from = Mail::Address.new(Setting.mail_from)
     if mail_from.display_name.blank? && mail_from.comments.blank?
       mail_from.display_name =
-        (@author && @author.logged?) ? @author.name : Setting.app_title
+        @author&.logged? ? @author.name : Setting.app_title
     end
 
     headers.reverse_merge! 'X-Mailer' => 'Redmine',
@@ -653,13 +653,13 @@ class Mailer < ActionMailer::Base
     # Removes the author from the recipients and cc
     # if the author does not want to receive notifications
     # about what the author do
-    if @author && @author.logged? && @author.pref.no_self_notified
+    if @author&.logged? && @author.pref.no_self_notified
       addresses = @author.mails
       headers[:to] -= addresses if headers[:to].is_a?(Array)
       headers[:cc] -= addresses if headers[:cc].is_a?(Array)
     end
 
-    if @author && @author.logged?
+    if @author&.logged?
       redmine_headers 'Sender' => @author.login
     end
 
