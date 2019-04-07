@@ -83,6 +83,7 @@ module Redmine
             io.each_line do |line|
               branch_rev = line.match('\s*(\*?)\s*(.*?)\s*([0-9a-f]{40}).*$')
               bran = GitBranch.new(branch_rev[2])
+              next unless branch_rev
               bran.revision =  branch_rev[3]
               bran.scmid    =  branch_rev[3]
               bran.is_default = ( branch_rev[1] == '*' )
