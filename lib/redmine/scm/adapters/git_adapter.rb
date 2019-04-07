@@ -84,6 +84,7 @@ module Redmine
           git_cmd(cmd_args) do |io|
             io.each_line do |line|
               branch_rev = line.match('\s*(\*?)\s*(.*?)\s*([0-9a-f]{40}).*$')
+              next unless branch_rev
               bran = GitBranch.new(scm_iconv('UTF-8', @path_encoding, branch_rev[2]))
               bran.revision =  branch_rev[3]
               bran.scmid    =  branch_rev[3]
