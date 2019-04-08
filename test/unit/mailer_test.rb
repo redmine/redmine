@@ -252,6 +252,18 @@ class MailerTest < ActiveSupport::TestCase
     assert_equal 'Redmine app <redmine@example.net>', mail.header['From'].to_s
   end
 
+  def test_from_header_with_rfc_non_compliant_phrase
+    # Send out the email instead of raising an exception
+    # no matter if the emission email address is not RFC compliant
+    assert_nothing_raised do
+      with_settings :mail_from => '[Redmine app] <redmine@example.net>' do
+        Mailer.deliver_test_email(User.find(1))
+      end
+    end
+    mail = last_email
+    assert_match /<redmine@example\.net>/, mail.from_addrs.first
+    assert_equal '[Redmine app] <redmine@example.net>', mail.header['From'].to_s
+  end
   def test_from_header_with_author_name
     # Use the author's name or Setting.app_title as a display name
     # when Setting.mail_from does not include a display name
