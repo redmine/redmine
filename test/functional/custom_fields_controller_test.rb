@@ -256,6 +256,20 @@ class CustomFieldsControllerTest < Redmine::ControllerTest
     assert_equal [1, 3], field.projects.map(&:id).sort
   end
 
+  def test_create_with_continue_params
+    assert_difference 'CustomField.count' do
+      post :create, :params => {
+          :type => 'IssueCustomField',
+          :continue => 'Create and Continue',
+          :custom_field => {
+            :name => 'foo',
+            :field_format => 'string'
+          }
+        }
+    end
+    assert_redirected_to '/custom_fields/new?type=IssueCustomField'
+  end
+
   def test_create_with_failure
     assert_no_difference 'CustomField.count' do
       post :create, :params => {

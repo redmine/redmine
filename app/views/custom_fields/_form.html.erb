@@ -20,7 +20,14 @@
 
 <%= call_hook(:view_custom_fields_form_upper_box, :custom_field => @custom_field, :form => f) %>
 </div>
-<p><%= submit_tag l(:button_save) %></p>
+<p>
+  <% if @custom_field.new_record? %>
+    <%= submit_tag l(:button_create) %>
+    <%= submit_tag l(:button_create_and_continue), :name => 'continue' %>
+  <% else %>
+    <%= submit_tag l(:button_save) %>
+  <% end %>
+</p>
 </div>
 
 <div class="splitcontentright">
