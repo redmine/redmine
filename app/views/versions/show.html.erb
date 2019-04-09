@@ -5,9 +5,10 @@
 <%= call_hook(:view_versions_show_contextual, { :version => @version, :project => @project }) %>
 </div>
 
-<h2><%= @version.name %></h2>
-
 <div id="roadmap" class="<%= @version.css_classes %>">
+  <h2><%= @version.name %></h2>
+  <span class="badge badge-status-<%= @version.status %>"><%= l("version_status_#{@version.status}") %></span>
+
 <%= render :partial => 'versions/overview', :locals => {:version => @version} %>
 <%= render(:partial => "wiki/content", :locals => {:content => @version.wiki_page.content}) if @version.wiki_page %>
 

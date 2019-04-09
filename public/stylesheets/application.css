@@ -559,6 +559,7 @@ div#roadmap .related-issues td.checkbox { display: none; }
 div#roadmap .wiki h1:first-child { display: none; }
 div#roadmap .wiki h1 { font-size: 120%; }
 div#roadmap .wiki h2 { font-size: 110%; }
+div#roadmap h2, div#roadmap h3 { display: inline; padding-right: 0;}
 body.controller-versions.action-show div#roadmap .related-issues {width:70%;}
 
 div#version-summary { float:right; width:28%; margin-left: 16px; margin-bottom: 16px; background-color: #fff; }
@@ -1288,6 +1289,7 @@ div.wiki img {vertical-align:middle; max-width:100%;}
   bottom: 2px;
   padding: 0px 2px 0px 2px;
   margin-right: 2px;
+  margin-left: 2px;
   border-radius: 2px;
   text-transform: uppercase;
   text-decoration: none;
@@ -1299,6 +1301,18 @@ div.wiki img {vertical-align:middle; max-width:100%;}
 .badge-count {
   color: #fff;
   background:#9DB9D5;
+}
+.badge-status-open {
+  color: #205D86;
+  border: 1px solid #205D86;
+}
+.badge-status-locked {
+  color: #696969;
+  border: 1px solid #696969;
+}
+.badge-status-closed {
+  color: #1D781D;
+  border: 1px solid #1D781D;
 }
 /***** Icons *****/
 .icon {

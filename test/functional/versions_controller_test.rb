@@ -36,7 +36,9 @@ class VersionsControllerTest < Redmine::ControllerTest
     assert_response :success
 
     # Version with no date set appears
-    assert_select 'h3', :text => Version.find(3).name
+    assert_select 'h3', :text => "#{Version.find(3).name}"
+    assert_select 'span[class=?]', 'badge badge-status-open', :text => 'open'
+
     # Completed version doesn't appear
     assert_select 'h3', :text => Version.find(1).name, :count => 0
 
@@ -101,6 +103,7 @@ class VersionsControllerTest < Redmine::ControllerTest
     assert_response :success
 
     assert_select 'h2', :text => /1.0/
+    assert_select 'span[class=?]', 'badge badge-status-locked', :text => 'locked'
   end
 
   def test_show_issue_calculations_should_take_into_account_only_visible_issues
