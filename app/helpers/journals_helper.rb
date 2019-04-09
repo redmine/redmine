@@ -64,7 +64,7 @@ module JournalsHelper
 
   def render_private_notes_indicator(journal)
     content = journal.private_notes? ? l(:field_is_private) : ''
-    css_classes = journal.private_notes? ? 'private' : ''
+    css_classes = journal.private_notes? ? 'badge badge-private private' : ''
     content_tag('span', content.html_safe, :id => "journal-#{journal.id}-private_notes", :class => css_classes)
   end
 end

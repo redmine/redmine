@@ -23,7 +23,7 @@
         <span class="expander" onclick="toggleRowGroup(this);">&nbsp;</span>
         <span class="name"><%= group_name %></span>
         <% if group_count %>
-        <span class="count"><%= group_count %></span>
+        <span class="badge badge-count count"><%= group_count %></span>
         <% end %>
         <span class="totals"><%= group_totals %></span>
         <%= link_to_function("#{l(:button_collapse_all)}/#{l(:button_expand_all)}",

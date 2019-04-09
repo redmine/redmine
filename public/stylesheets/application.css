@@ -345,8 +345,8 @@ table.plugins span.url { display: block; font-size: 0.9em; }
 table.list.enumerations {table-layout: fixed; margin-bottom: 2em;}
 
 tr.group td { padding: 0.8em 0 0.5em 0.3em; border-bottom: 1px solid #ccc; text-align:left; background-color: #fff;}
-tr.group span.name {font-weight:bold;}
-tr.group span.count {font-weight:bold; position:relative; top:-1px; color:#fff; font-size:10px; background:#9DB9D5; padding:0px 6px 1px 6px; border-radius:3px; margin-left:4px;}
+tr.group span.count {top:-1px;}
+tr.group span.name {font-weight:bold;}}
 tr.group span.totals {color: #aaa; font-size: 80%;}
 tr.group span.totals .value {font-weight:bold; color:#777;}
 tr.group a.toggle-all { color: #aaa; font-size: 80%; display:none; float:right; margin-right:4px;}
@@ -474,7 +474,7 @@ div.issue div.subject p {margin: 0; margin-bottom: 0.1em; font-size: 90%; color:
 div.issue div.subject>div>p { margin-top: 0.5em; }
 div.issue div.subject h3 {margin: 0; margin-bottom: 0.1em;}
 div.issue p.author {margin-top:0.5em;}
-div.issue span.private, div.journal span.private { position:relative; bottom: 2px; text-transform: uppercase; background: #d22; color: #fff; font-weight:bold; padding: 0px 2px 0px 2px; font-size: 60%; margin-right: 2px; border-radius: 2px;}
+div.issue span.private, div.journal span.private {font-size: 60%;}
 div.issue .next-prev-links {color:#999;}
 div.issue .attributes {margin-top: 2em;}
 div.issue .attributes .attribute {padding-left:180px; clear:left; min-height: 1.8em;}
@@ -1280,6 +1280,26 @@ div.wiki img {vertical-align:middle; max-width:100%;}
 .version-behind-schedule a, .issue-behind-schedule a {color: #f66914;}
 .version-overdue a, .issue-overdue a, .project-overdue a {color: #f00;}
 
+/***** Badges *****/
+.badge {
+  position:relative;
+  font-weight:bold;
+  font-size: 10px;
+  bottom: 2px;
+  padding: 0px 2px 0px 2px;
+  margin-right: 2px;
+  border-radius: 2px;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+.badge-private {
+  background: #d22;
+  color: #fff;
+}
+.badge-count {
+  color: #fff;
+  background:#9DB9D5;
+}
 /***** Icons *****/
 .icon {
   background-position: 0% 50%;
