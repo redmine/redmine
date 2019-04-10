@@ -231,9 +231,14 @@ class ApplicationController < ActionController::Base
         format.any(:atom, :pdf, :csv) {
           redirect_to signin_path(:back_url => url)
         }
-        format.xml  { head :unauthorized, 'WWW-Authenticate' => 'Basic realm="Redmine API"' }
+        format.api  {
+          if Setting.rest_api_enabled? && accept_api_auth?
+            head(:unauthorized, 'WWW-Authenticate' => 'Basic realm="Redmine API"')
+          else
+            head(:forbidden)
+          end
+        }
         format.js   { head :unauthorized, 'WWW-Authenticate' => 'Basic realm="Redmine API"' }
-        format.json { head :unauthorized, 'WWW-Authenticate' => 'Basic realm="Redmine API"' }
         format.any  { head :unauthorized }
       end
       return false
