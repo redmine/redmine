@@ -101,13 +101,12 @@ html>body #content { min-height: 600px; }
 #footer {clear: both; border-top: 1px solid #bbb; font-size: 0.9em; color: #aaa; padding: 5px; text-align:center; background:#fff;}
 
 #login-form {margin:5em auto 2em auto; padding:20px; width:340px; border:1px solid #FDBF3B; background-color:#FFEBC1; border-radius:4px; box-sizing: border-box;}
-#login-form label {display:block; margin-bottom:5px;}
-#login-form input[type=text], #login-form input[type=password] {border:1px solid #ccc; border-radius:3px; margin-bottom:15px; padding:7px; display:block; width:100%; box-sizing: border-box;}
-#login-form label {font-weight:bold;}
+#login-form label {display:block; margin-bottom:5px; font-weight:bold;}
 #login-form label[for=autologin] {font-weight:normal;}
+#login-form input {display:block; width:100%; height: 29px;}
+#login-form input[type=text], #login-form input[type=password] {margin-bottom: 15px;}
 #login-form a.lost_password {float:right; font-weight:normal;}
 #login-form input#openid_url {background:#fff url(../images/openid-bg.gif) no-repeat 4px 50%; padding-left:24px !important;}
-#login-form input#login-submit {margin-top:15px; padding:7px; display:block; width:100%; box-sizing: border-box;}
 
 div.modal { border-radius:5px; background:#fff; z-index:50; padding:4px;}
 div.modal h3.title {display:none;}
@@ -227,7 +226,7 @@ table.list td.name, table.list td.description, table.list td.subject, table.list
 table.list td.attachments a {display:block;}
 table.list td.tick {width:15%}
 table.list td.checkbox { width: 15px; padding: 2px 0 0 0; }
-table.list td.checkbox input {padding:0px;}
+table.list .checkbox input {padding:0px; height: initial;}
 table.list td.buttons, div.buttons { white-space:nowrap; text-align: right; }
 table.list td.buttons a, div.buttons a { margin-right: 0.6em; }
 table.list td.buttons a:last-child, div.buttons a:last-child { margin-right: 0; }
@@ -396,6 +395,7 @@ div.table-list.boards .table-list-cell.name {width: 30%;}
 }
 .query-columns select {
   min-width:150px;
+  height: auto;
 }
 
 .query-totals {text-align:right;}
@@ -450,8 +450,20 @@ div.square {
 .splitcontenttop {flex: 2; flex-basis: 100%;}
 
 form {display: inline;}
-input, select {vertical-align: middle; margin-top: 1px; margin-bottom: 1px;}
-input[type="submit"] { -webkit-appearance: button; }
+input, select {vertical-align: middle; margin-top: 1px; margin-bottom: 1px; height: 24px; padding: 0 7px;}
+input, select, textarea {border:1px solid #ccc; border-radius:3px; box-sizing: border-box;}
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  -o-appearance: none;
+  appearance: none;
+  background: #fff url(../images/arrow_down.png) no-repeat calc( 100% - 7px) 50%;
+  padding-right: 20px;
+}
+input[type="file"] {border: 0;}
+input[type="submit"] {-webkit-appearance: button; cursor: pointer; background-color: #fff;}
+select[multiple=multiple] {background: #fff; padding-right: initial;}
 fieldset {border: 1px solid #e4e4e4; margin:0; min-width: inherit;}
 legend {color: #333;}
 hr { width: 100%; height: 1px; background: #ccc; border: 0;}
@@ -503,7 +515,6 @@ fieldset#filters td.operator { width:130px; }
 fieldset#filters td.operator select {max-width:120px;}
 fieldset#filters td.values { white-space:nowrap; }
 fieldset#filters td.values select {min-width:130px;}
-fieldset#filters td.values input {height:1em;}
 
 #filters-table {width:60%; float:left;}
 .add-filter {width:35%; float:right; text-align: right; vertical-align: top;}
@@ -728,6 +739,7 @@ html>body .tabular p {overflow:hidden;}
   margin-left: -180px;
   /* width of labels. Should be smaller than left column to create some right margin */
   width: 175px;
+  line-height: 24px;
 }
 
 .tabular label.floating{
@@ -869,7 +881,6 @@ input#principal_search, input#user_search {width:90%}
 
 input.autocomplete {
   background: #fff url(../images/magnifier.png) no-repeat 2px 50%; padding-left:20px !important;
-  border:1px solid #9EB1C2; border-radius:2px; height:1.5em;
 }
 input.autocomplete.ajax-loading {
   background-image: url(../images/loading.gif);
