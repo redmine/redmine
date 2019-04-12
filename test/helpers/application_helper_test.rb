@@ -156,20 +156,30 @@ RAW
   end
 
   def test_attached_images_with_textile_and_non_ascii_filename
-    attachment = Attachment.generate!(:filename => 'café.jpg')
+    to_test = {
+      'CAFÉ.JPG' => 'CAF%C3%89.JPG',
+      'crème.jpg' => 'cr%C3%A8me.jpg',
+    }
     with_settings :text_formatting => 'textile' do
-      assert_include %(<img src="/attachments/download/#{attachment.id}/caf%C3%A9.jpg" alt="" />),
-        textilizable("!café.jpg!)", :attachments => [attachment])
+      to_test.each do |filename, result|
+        attachment = Attachment.generate!(:filename => filename)
+        assert_include %(<img src="/attachments/download/#{attachment.id}/#{result}" alt="" />), textilizable("!#{filename}!", :attachments => [attachment])
+      end
     end
   end
 
   def test_attached_images_with_markdown_and_non_ascii_filename
     skip unless Object.const_defined?(:Redcarpet)
 
-    attachment = Attachment.generate!(:filename => 'café.jpg')
+    to_test = {
+      'CAFÉ.JPG' => 'CAF%C3%89.JPG',
+      'crème.jpg' => 'cr%C3%A8me.jpg',
+    }
     with_settings :text_formatting => 'markdown' do
-      assert_include %(<img src="/attachments/download/#{attachment.id}/caf%C3%A9.jpg" alt="" />),
-        textilizable("![](café.jpg)", :attachments => [attachment])
+      to_test.each do |filename, result|
+        attachment = Attachment.generate!(:filename => filename)
+        assert_include %(<img src="/attachments/download/#{attachment.id}/#{result}" alt="" />), textilizable("![](#{filename})", :attachments => [attachment])
+      end
     end
   end
 
