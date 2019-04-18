@@ -1,5 +1,5 @@
 <div class="contextual">
-  <%= form_tag({:action => "add_block"}, :remote => true, :id => "block-form") do %>
+  <%= form_tag({:action => "add_block"}, :remote => true, :id => "block-form", authenticity_token: true) do %>
     <%= label_tag('block-select', l(:button_add)) %>:
     <%= block_select_tag(@user) %>
   <% end %>

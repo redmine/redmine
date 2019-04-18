@@ -37,7 +37,7 @@ module MyHelper
       handle = content_tag('span', '', :class => 'sort-handle', :title => l(:button_move))
       close = link_to(l(:button_delete),
                       {:action => "remove_block", :block => block},
-                      :remote => true, :method => 'post',
+                      :remote => true, :method => 'post', 
                       :class => "icon-only icon-close", :title => l(:button_delete))
       content = content_tag('div', handle + close, :class => 'contextual') + content
 
