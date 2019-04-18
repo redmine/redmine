@@ -395,7 +395,6 @@ div.table-list.boards .table-list-cell.name {width: 30%;}
 }
 .query-columns select {
   min-width:150px;
-  height: auto;
 }
 
 .query-totals {text-align:right;}
@@ -463,7 +462,7 @@ select {
 }
 input[type="file"] {border: 0;}
 input[type="submit"] {-webkit-appearance: button; cursor: pointer; background-color: #fff;}
-select[multiple=multiple] {background: #fff; padding-right: initial;}
+select[multiple=multiple] {background: #fff; padding-right: initial; height: auto;}
 fieldset {border: 1px solid #e4e4e4; margin:0; min-width: inherit;}
 legend {color: #333;}
 hr { width: 100%; height: 1px; background: #ccc; border: 0;}
