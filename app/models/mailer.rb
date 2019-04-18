@@ -553,6 +553,9 @@ class Mailer < ActionMailer::Base
     @issues_url = url_for(:controller => 'issues', :action => 'index',
                                 :set_filter => 1, :assigned_to_id => 'me',
                                 :sort => 'due_date:asc')
+    query = IssueQuery.new(:name => '_')
+    query.add_filter('assigned_to_id', '=', ['me'])
+    @open_issues_count = query.issue_count
     mail :to => user,
       :subject => l(:mail_subject_reminder, :count => issues.size, :days => days)
   end
@@ -770,4 +773,3 @@ class Mailer < ActionMailer::Base
     @references_objects << object
   end
 end
-

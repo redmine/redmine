@@ -6,4 +6,4 @@
 <% end -%>
 </ul>
 
-<p><%= link_to l(:label_issue_view_all), @issues_url %></p>
+<p><%= link_to l(:label_issue_view_all), @issues_url %> (<%= l(:label_x_open_issues_abbr, :count => @open_issues_count) %>)</p>
