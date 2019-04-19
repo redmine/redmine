@@ -121,8 +121,10 @@ class AdminControllerTest < Redmine::ControllerTest
       description 'This is a test plugin'
       version '0.0.1'
       settings :default => {'sample_setting' => 'value', 'foo'=>'bar'}, :partial => 'foo/settings'
+      directory 'test/fixtures/plugins/foo_plugin'
     end
-    Redmine::Plugin.register :bar do
+    Redmine::Plugin.register :other do
+      directory 'test/fixtures/plugins/other_plugin'
     end
 
     get :plugins
@@ -132,8 +134,8 @@ class AdminControllerTest < Redmine::ControllerTest
       assert_select 'td span.name', :text => 'Foo plugin'
       assert_select 'td.configure a[href="/settings/plugin/foo"]'
     end
-    assert_select 'tr#plugin-bar' do
-      assert_select 'td span.name', :text => 'Bar'
+    assert_select 'tr#plugin-other' do
+      assert_select 'td span.name', :text => 'Other'
       assert_select 'td.configure a', 0
     end
   end

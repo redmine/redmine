@@ -201,6 +201,7 @@ class SettingsControllerTest < Redmine::ControllerTest
     ActionController::Base.append_view_path(File.join(Rails.root, "test/fixtures/plugins"))
     Redmine::Plugin.register :foo do
       settings :partial => "foo_plugin/foo_plugin_settings"
+      directory 'test/fixtures/plugins/foo_plugin'
     end
     Setting.plugin_foo = {'sample_setting' => 'Plugin setting value'}
 
@@ -220,7 +221,9 @@ class SettingsControllerTest < Redmine::ControllerTest
   end
 
   def test_get_non_configurable_plugin_settings
-    Redmine::Plugin.register(:foo) {}
+    Redmine::Plugin.register(:foo) do
+      directory 'test/fixtures/plugins/foo_plugin'
+    end
 
     get :plugin, :params => {:id => 'foo'}
     assert_response 404
@@ -233,6 +236,7 @@ class SettingsControllerTest < Redmine::ControllerTest
     Redmine::Plugin.register(:foo) do
       settings :partial => 'not blank', # so that configurable? is true
         :default => {'sample_setting' => 'Plugin setting value'}
+      directory 'test/fixtures/plugins/foo_plugin'
     end
 
     post :plugin, :params => {
@@ -248,6 +252,7 @@ class SettingsControllerTest < Redmine::ControllerTest
     Redmine::Plugin.register(:foo) do
       settings :partial => 'not blank', # so that configurable? is true
         :default => {'sample_setting' => 'Plugin setting value'}
+      directory 'test/fixtures/plugins/foo_plugin'
     end
 
     post :plugin, :params => {
@@ -259,7 +264,9 @@ class SettingsControllerTest < Redmine::ControllerTest
   end
 
   def test_post_non_configurable_plugin_settings
-    Redmine::Plugin.register(:foo) {}
+    Redmine::Plugin.register(:foo) do
+      directory 'test/fixtures/plugins/foo_plugin'
+    end
 
     post :plugin, :params => {
       :id => 'foo',
