@@ -57,6 +57,14 @@ class Redmine::PluginTest < ActiveSupport::TestCase
     assert_equal '0.0.1', plugin.version
   end
 
+  def test_register_should_raise_error_if_plugin_directory_does_not_exist
+    e = assert_raises Redmine::PluginNotFound do
+      @klass.register(:bar_plugin) {}
+    end
+
+    assert_equal "Plugin not found. The directory for plugin bar_plugin should be #{Rails.root.join('test/fixtures/plugins/bar_plugin')}.", e.message
+  end
+
   def test_installed
     @klass.register(:foo_plugin) {}
     assert_equal true, @klass.installed?(:foo_plugin)

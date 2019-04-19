@@ -98,6 +98,10 @@ module Redmine
       # Set a default directory if it was not provided during registration
       p.directory(File.join(self.directory, id.to_s)) if p.directory.nil?
 
+      unless File.directory?(p.directory)
+        raise PluginNotFound, "Plugin not found. The directory for plugin #{p.id} should be #{p.directory}."
+      end
+
       # Adds plugin locales if any
       # YAML translation files should be found under <plugin>/config/locales/
       Rails.application.config.i18n.load_path += Dir.glob(File.join(p.directory, 'config', 'locales', '*.yml'))
