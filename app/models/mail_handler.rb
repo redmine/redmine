@@ -54,7 +54,7 @@ class MailHandler < ActionMailer::Base
   def self.safe_receive(*args)
     receive(*args)
   rescue Exception => e
-    logger.error "MailHandler: an unexpected error occurred when receiving email: #{e.message}" if logger
+    Rails.logger.error "MailHandler: an unexpected error occurred when receiving email: #{e.message}"
     return false
   end
 
