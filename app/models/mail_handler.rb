@@ -93,9 +93,7 @@ class MailHandler < ActionMailer::Base
     # Ignore emails received from the application emission address to avoid hell cycles
     emission_address = Setting.mail_from.to_s.gsub(/(?:.*<|>.*|\(.*\))/, '').strip
     if sender_email.casecmp(emission_address) == 0
-      if logger
-        logger.info  "MailHandler: ignoring email from Redmine emission address [#{sender_email}]"
-      end
+      logger&.info "MailHandler: ignoring email from Redmine emission address [#{sender_email}]"
       return false
     end
     # Ignore auto generated emails
@@ -104,18 +102,14 @@ class MailHandler < ActionMailer::Base
       if value
         value = value.to_s.downcase
         if (ignored_value.is_a?(Regexp) && ignored_value.match?(value)) || value == ignored_value
-          if logger
-            logger.info "MailHandler: ignoring email with #{key}:#{value} header"
-          end
+          logger&.info "MailHandler: ignoring email with #{key}:#{value} header"
           return false
         end
       end
     end
     @user = User.find_by_mail(sender_email) if sender_email.present?
     if @user && !@user.active?
-      if logger
-        logger.info  "MailHandler: ignoring email from non-active user [#{@user.login}]"
-      end
+      logger&.info "MailHandler: ignoring email from non-active user [#{@user.login}]"
       return false
     end
     if @user.nil?
@@ -126,24 +120,18 @@ class MailHandler < ActionMailer::Base
       when 'create'
         @user = create_user_from_email
         if @user
-          if logger
-            logger.info "MailHandler: [#{@user.login}] account created"
-          end
+          logger&.info "MailHandler: [#{@user.login}] account created"
           add_user_to_group(handler_options[:default_group])
           unless handler_options[:no_account_notice]
             ::Mailer.deliver_account_information(@user, @user.password)
           end
         else
-          if logger
-            logger.error "MailHandler: could not create account for [#{sender_email}]"
-          end
+          logger&.error "MailHandler: could not create account for [#{sender_email}]"
           return false
         end
       else
         # Default behaviour, emails from unknown users are ignored
-        if logger
-          logger.info  "MailHandler: ignoring email from unknown user [#{sender_email}]"
-        end
+        logger&.info "MailHandler: ignoring email from unknown user [#{sender_email}]"
         return false
       end
     end
@@ -177,13 +165,13 @@ class MailHandler < ActionMailer::Base
     end
   rescue ActiveRecord::RecordInvalid => e
     # TODO: send a email to the user
-    logger.error "MailHandler: #{e.message}" if logger
+    logger&.error "MailHandler: #{e.message}"
     false
   rescue MissingInformation => e
-    logger.error "MailHandler: missing information from #{user}: #{e.message}" if logger
+    logger&.error "MailHandler: missing information from #{user}: #{e.message}"
     false
   rescue UnauthorizedAction => e
-    logger.error "MailHandler: unauthorized attempt from #{user}" if logger
+    logger&.error "MailHandler: unauthorized attempt from #{user}"
     false
   end
 
@@ -221,7 +209,7 @@ class MailHandler < ActionMailer::Base
     add_watchers(issue)
     issue.save!
     add_attachments(issue)
-    logger.info "MailHandler: issue ##{issue.id} created by #{user}" if logger
+    logger&.info "MailHandler: issue ##{issue.id} created by #{user}"
     issue
   end
 
@@ -253,9 +241,7 @@ class MailHandler < ActionMailer::Base
     add_watchers(issue)
     issue.save!
     add_attachments(issue)
-    if logger
-      logger.info "MailHandler: issue ##{issue.id} updated by #{user}"
-    end
+    logger&.info "MailHandler: issue ##{issue.id} updated by #{user}"
     journal
   end
 
@@ -286,9 +272,7 @@ class MailHandler < ActionMailer::Base
         add_attachments(reply)
         reply
       else
-        if logger
-          logger.info "MailHandler: ignoring reply from [#{sender_email}] to a locked topic"
-        end
+        logger&.info "MailHandler: ignoring reply from [#{sender_email}] to a locked topic"
       end
     end
   end
@@ -554,11 +538,11 @@ class MailHandler < ActionMailer::Base
       if user.save
         user
       else
-        logger.error "MailHandler: failed to create User: #{user.errors.full_messages}" if logger
+        logger&.error "MailHandler: failed to create User: #{user.errors.full_messages}"
         nil
       end
     else
-      logger.error "MailHandler: failed to create User: no FROM address found" if logger
+      logger&.error "MailHandler: failed to create User: no FROM address found"
       nil
     end
   end
@@ -584,7 +568,7 @@ class MailHandler < ActionMailer::Base
       begin
         delimiters = delimiters.map {|s| Regexp.new(s)}
       rescue RegexpError => e
-        logger.error "MailHandler: invalid regexp delimiter found in mail_handler_body_delimiters setting (#{e.message})" if logger
+        logger&.error "MailHandler: invalid regexp delimiter found in mail_handler_body_delimiters setting (#{e.message})"
       end
     end
 
