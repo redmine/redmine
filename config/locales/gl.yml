@@ -1279,3 +1279,5 @@ gl:
   label_inherited_from_group: Herdado do grupo %{name}
   label_trackers_description: Descricións dos tipos de tarefas
   label_open_trackers_description: Ver as descricións de todos os tipos de tarefas
+  label_preferred_body_part_text: Text
+  label_preferred_body_part_html: HTML (experimental)

@@ -1264,3 +1264,5 @@ fr:
   setting_mail_handler_preferred_body_part: Preferred part of multipart (HTML) emails
   setting_show_status_changes_in_mail_subject: Show status changes in issue mail notifications
     subject
+  label_preferred_body_part_text: Text
+  label_preferred_body_part_html: HTML (experimental)
