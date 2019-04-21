@@ -18,7 +18,7 @@
     <em class="info"><%= l(:text_comma_separated) %>
     <%= l(:label_example) %>: smime.p7s, *.vcf</em>
   </p>
-  <p><%= setting_select :mail_handler_preferred_body_part, [['Text', 'plain'], ['HTML', 'html']] %></p>
+  <p><%= setting_select :mail_handler_preferred_body_part, [[l(:label_preferred_body_part_text), 'plain'], [l(:label_preferred_body_part_html), 'html']] %></p>
 </div>
 
 <div class="box tabular settings">

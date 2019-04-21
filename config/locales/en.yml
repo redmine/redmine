@@ -1045,6 +1045,8 @@ en:
   label_inherited_from_group: "Inherited from group %{name}"
   label_trackers_description: Trackers description
   label_open_trackers_description: View all trackers description
+  label_preferred_body_part_text: Text
+  label_preferred_body_part_html: HTML (experimental)
 
   button_login: Login
   button_submit: Submit
