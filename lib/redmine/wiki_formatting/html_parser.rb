@@ -36,7 +36,7 @@ module Redmine
         doc.scrub!(WikiTags.new(tags))
         doc.scrub!(:newline_block_elements)
     
-        Loofah::Helpers.remove_extraneous_whitespace(doc.text).strip
+        Loofah.remove_extraneous_whitespace(doc.text).strip
       end
 
       class WikiTags < ::Loofah::Scrubber
