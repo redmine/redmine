@@ -1263,12 +1263,11 @@ ja:
   permission_log_time_for_other_users: 他のユーザーの作業時間の入力
   text_role_no_workflow: このロールにワークフローが定義されていません
   text_status_no_workflow: このステータスはどのトラッカーのワークフローでも使われていません
-  setting_mail_handler_preferred_body_part: Preferred part of multipart (HTML) emails
-  setting_show_status_changes_in_mail_subject: Show status changes in issue mail notifications
-    subject
-  label_inherited_from_parent_project: Inherited from parent project
-  label_inherited_from_group: Inherited from group %{name}
-  label_trackers_description: Trackers description
-  label_open_trackers_description: View all trackers description
-  label_preferred_body_part_text: Text
+  setting_mail_handler_preferred_body_part: マルチパート (HTML) メールの優先パート
+  setting_show_status_changes_in_mail_subject: 通知メールの題名にステータス変更の情報を挿入
+  label_inherited_from_parent_project: 親プロジェクトから継承
+  label_inherited_from_group: グループ %{name} から継承
+  label_trackers_description: トラッカーの説明
+  label_open_trackers_description: すべてのトラッカーの説明を表示
+  label_preferred_body_part_text: テキスト
   label_preferred_body_part_html: HTML (experimental)
