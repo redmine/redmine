@@ -118,7 +118,11 @@
   <% if @subprojects.any? %>
   <div class="projects box">
     <h3 class="icon icon-projects"><%=l(:label_subproject_plural)%></h3>
-    <%= @subprojects.collect{|p| link_to p, project_path(p), :class => p.css_classes}.join(", ").html_safe %>
+	<ul class="subprojects">
+	  <% @subprojects.each do |project| %>
+	  <li><%= link_to(project.name, project_path(project), :class => project.css_classes).html_safe %></li>
+	  <% end %> 
+    </ul>
   </div>
   <% end %>
 
