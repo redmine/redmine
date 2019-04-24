@@ -1430,6 +1430,23 @@ class IssuesControllerTest < Redmine::ControllerTest
     assert_select 'td.parent a[title=?]', parent.subject
   end
 
+  def test_index_with_parent_subject_column
+    Issue.delete_all
+    parent = Issue.generate!
+    child = Issue.generate!(:parent_issue_id => parent.id)
+
+    get :index, :params => {
+        :c => %w(parent.subject)
+      }
+
+    assert_select 'table.issues' do
+      assert_select 'th.parent-subject', :text => l(:field_parent_issue_subject)
+      assert_select "tr#issue-#{child.id}" do
+        assert_select 'td.parent-subject', :text => parent.subject
+      end
+    end
+  end
+
   def test_index_with_last_updated_by_column
     get :index, :params => {
         :c => %w(subject last_updated_by),
