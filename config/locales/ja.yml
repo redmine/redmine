@@ -1271,3 +1271,4 @@ ja:
   label_open_trackers_description: すべてのトラッカーの説明を表示
   label_preferred_body_part_text: テキスト
   label_preferred_body_part_html: HTML (experimental)
+  field_parent_issue_subject: Parent task subject

@@ -1281,3 +1281,4 @@ gl:
   label_open_trackers_description: Ver as descricións de todos os tipos de tarefas
   label_preferred_body_part_text: Text
   label_preferred_body_part_html: HTML (experimental)
+  field_parent_issue_subject: Parent task subject

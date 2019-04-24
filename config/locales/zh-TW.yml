@@ -1331,3 +1331,4 @@
   label_open_trackers_description: 檢視所有追蹤標籤的說明
   label_preferred_body_part_text: Text
   label_preferred_body_part_html: HTML (experimental)
+  field_parent_issue_subject: Parent task subject
