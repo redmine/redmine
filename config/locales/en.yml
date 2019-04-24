@@ -346,6 +346,7 @@ en:
   field_group_by: Group results by
   field_sharing: Sharing
   field_parent_issue: Parent task
+  field_parent_issue_subject: Parent task subject
   field_member_of_group: "Assignee's group"
   field_assigned_to_role: "Assignee's role"
   field_text: Text field
