@@ -180,7 +180,9 @@ class Issue < ActiveRecord::Base
 
   # Returns true if user or current user is allowed to edit the issue
   def attributes_editable?(user=User.current)
-    user_tracker_permission?(user, :edit_issues)
+    user_tracker_permission?(user, :edit_issues) || (
+      user_tracker_permission?(user, :edit_own_issues) && author == user
+    )
   end
 
   # Overrides Redmine::Acts::Attachable::InstanceMethods#attachments_editable?

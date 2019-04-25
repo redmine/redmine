@@ -488,6 +488,7 @@ en:
   permission_view_issues: View Issues
   permission_add_issues: Add issues
   permission_edit_issues: Edit issues
+  permission_edit_own_issues: Edit own issues
   permission_copy_issues: Copy issues
   permission_manage_issue_relations: Manage issue relations
   permission_set_issues_private: Set issues public or private

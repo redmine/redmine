@@ -543,6 +543,23 @@ class IssueTest < ActiveSupport::TestCase
     assert_equal false, issue.deletable?(user)
   end
 
+  def test_issue_should_editable_by_author
+    Role.all.each do |r|
+      r.remove_permission! :edit_issues
+      r.add_permission! :edit_own_issues
+    end
+
+    issue = Issue.find(1)
+    user = User.find_by_login('jsmith')
+
+    # author
+    assert_equal user, issue.author
+    assert_equal true, issue.attributes_editable?(user)
+
+    # not author
+    assert_equal false, issue.attributes_editable?(User.find_by_login('dlopper'))
+  end
+
   def test_errors_full_messages_should_include_custom_fields_errors
     field = IssueCustomField.find_by_name('Database')
 
