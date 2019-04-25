@@ -1250,3 +1250,4 @@ bg:
   text_project_is_public_anonymous: Публичните проекти са достъпнии тяхното съдържание са видими без ограничения в мрежата.
   label_preferred_body_part_text: Text
   field_parent_issue_subject: Parent task subject
+  permission_edit_own_issues: Edit own issues

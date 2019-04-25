@@ -1288,3 +1288,4 @@ pl:
   label_preferred_body_part_text: Text
   label_preferred_body_part_html: HTML (experimental)
   field_parent_issue_subject: Parent task subject
+  permission_edit_own_issues: Edit own issues
