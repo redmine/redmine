@@ -82,12 +82,15 @@
 </div>
 </fieldset>
 
-<% if User.current.allowed_to?(:view_wiki_edits, @project) %>
 <p class="wiki-update-info">
-  <%= wiki_content_update_info(@content) %>
- · <%= link_to l(:label_x_revisions, :count => @content.version), {:action => 'history', :id => @page.title} %>
+  <% if User.current.allowed_to?(:view_wiki_edits, @project) %>
+    <%= wiki_content_update_info(@content) %>
+    · <%= link_to l(:label_x_revisions, :count => @content.version), {:action => 'history', :id => @page.title} %>
+  <% end %>
+  <% if @page.protected? %>
+    <span class="badge badge-status-locked"><%= l('status_locked') %></span>
+  <% end %>
 </p>
-<% end %>
 
 <% other_formats_links do |f| %>
   <%= f.link_to 'PDF', :url => {:id => @page.title, :version => params[:version]} %>

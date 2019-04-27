@@ -176,6 +176,16 @@ class WikiControllerTest < Redmine::ControllerTest
     assert_select 'textarea[name=?]', 'content[text]'
   end
 
+  def test_show_protected_page_shoud_show_locked_badge
+    @request.session[:user_id] = 2
+
+    get :show, :params => {:project_id => 1, :id => 'CookBook_documentation'}
+
+    assert_select 'p.wiki-update-info' do
+      assert_select 'span.badge.badge-status-locked'
+    end
+  end
+
   def test_get_new
     @request.session[:user_id] = 2
 
