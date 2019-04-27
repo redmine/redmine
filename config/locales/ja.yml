@@ -412,7 +412,7 @@ ja:
   permission_manage_issue_relations: 関連するチケットの管理
   permission_add_issue_notes: コメントの追加
   permission_edit_issue_notes: コメントの編集
-  permission_edit_own_issue_notes: 自身が記入したコメントの編集
+  permission_edit_own_issue_notes: 自分が追加したコメントの編集
   permission_delete_issues: チケットの削除
   permission_manage_public_queries: 公開クエリの管理
   permission_save_queries: クエリの保存
@@ -421,10 +421,10 @@ ja:
   permission_view_issue_watchers: ウォッチャー一覧の閲覧
   permission_add_issue_watchers: ウォッチャーの追加
   permission_delete_issue_watchers: ウォッチャーの削除
-  permission_log_time: 作業時間の記入
+  permission_log_time: 作業時間の記録
   permission_view_time_entries: 作業時間の閲覧
   permission_edit_time_entries: 作業時間の編集
-  permission_edit_own_time_entries: 自身が記入した作業時間の編集
+  permission_edit_own_time_entries: 自分の作業時間の編集
   permission_manage_project_activities: 作業分類 (時間管理) の管理
   permission_view_news: ニュースの閲覧
   permission_manage_news: ニュースの管理
@@ -436,11 +436,11 @@ ja:
   permission_rename_wiki_pages: Wikiページ名の変更
   permission_delete_wiki_pages: Wikiページの削除
   permission_view_wiki_pages: Wikiの閲覧
-  permission_export_wiki_pages: Wikiページを他の形式にエクスポート
+  permission_export_wiki_pages: Wikiページのエクスポート
   permission_view_wiki_edits: Wiki履歴の閲覧
   permission_edit_wiki_pages: Wikiページの編集
   permission_delete_wiki_pages_attachments: 添付ファイルの削除
-  permission_protect_wiki_pages: Wikiページの凍結
+  permission_protect_wiki_pages: Wikiページの保護
   permission_manage_repository: リポジトリの管理
   permission_browse_repository: リポジトリの閲覧
   permission_view_changesets: 更新履歴の閲覧
@@ -449,9 +449,9 @@ ja:
   permission_view_messages: メッセージの閲覧
   permission_add_messages: メッセージの追加
   permission_edit_messages: メッセージの編集
-  permission_edit_own_messages: 自身が記入したメッセージの編集
+  permission_edit_own_messages: 自分が追加したメッセージの編集
   permission_delete_messages: メッセージの削除
-  permission_delete_own_messages: 自身が記入したメッセージの削除
+  permission_delete_own_messages: 自分が追加したメッセージの削除
   permission_manage_subtasks: 子チケットの管理
 
   project_module_issue_tracking: チケットトラッキング
@@ -985,9 +985,9 @@ ja:
   label_issues_visibility_own: 作成者か担当者であるチケット
   field_issues_visibility: 表示できるチケット
   label_issues_visibility_all: すべてのチケット
-  permission_set_own_issues_private: 自分のチケットをプライベートに設定
+  permission_set_own_issues_private: 自分が追加したチケットのプライベート設定
   field_is_private: プライベート
-  permission_set_issues_private: チケットをプライベートに設定
+  permission_set_issues_private: チケットのプライベート設定
   label_issues_visibility_public: プライベートチケット以外
   text_issues_destroy_descendants_confirmation: "%{count}個の子チケットも削除されます。"
   notice_issue_successful_create: チケット %{id} が作成されました。
@@ -1074,7 +1074,7 @@ ja:
   label_any_issues_not_in_project: 次のプロジェクト外のチケット
   field_private_notes: プライベートコメント
   permission_view_private_notes: プライベートコメントの閲覧
-  permission_set_notes_private: コメントをプライベートに設定
+  permission_set_notes_private: コメントのプライベート設定
   label_no_issues_in_project: 次のプロジェクト内のチケットを除く
   label_any: すべて
   label_last_n_weeks: 直近%{count}週間
@@ -1153,7 +1153,7 @@ ja:
   label_parent_task_attributes_derived: 子チケットの値から算出
   label_parent_task_attributes_independent: 子チケットから独立
   label_time_entries_visibility_all: すべての作業時間
-  label_time_entries_visibility_own: 自身が登録した作業時間
+  label_time_entries_visibility_own: 自分の作業時間
   label_member_management: メンバーの管理
   label_member_management_all_roles: すべてのロール
   label_member_management_selected_roles_only: 次のロールのみ
