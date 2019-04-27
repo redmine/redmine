@@ -36,6 +36,10 @@ class CalendarsControllerTest < Redmine::ControllerTest
            :users, :email_addresses
 
   def test_show
+    # Ensure that an issue to which a user is assigned is in the current
+    # month's calendar in order to test Gravatar
+    travel_to issues(:issues_002).start_date
+
     with_settings :gravatar_enabled => '1' do
       get :show, :params => {
           :project_id => 1
