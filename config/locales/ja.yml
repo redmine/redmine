@@ -870,7 +870,7 @@ ja:
 
   status_active: 有効
   status_registered: 登録
-  status_locked: ロック
+  status_locked: ロック中
 
   version_status_open: 進行中
   version_status_locked: ロック中
