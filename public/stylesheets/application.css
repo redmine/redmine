@@ -1223,6 +1223,10 @@ div.wiki img {vertical-align:middle; max-width:100%;}
   overflow: hidden;
 }
 
+.gantt_subjects_column + td {
+  padding: 0;
+}
+
 .gantt_hdr.nwday {background-color:#f1f1f1; color:#999;}
 
 .gantt_subjects { font-size: 0.8em; }
