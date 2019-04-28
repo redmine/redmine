@@ -71,6 +71,22 @@ class Redmine::ApiTest::VersionsTest < Redmine::ApiTest::Base
     assert_select 'version id', :text => version.id.to_s
   end
 
+  test "POST /projects/:project_id/versions.xml should create the version with wiki page title" do
+    assert_difference 'Version.count' do
+      post '/projects/1/versions.xml',
+        :params => {:version => {:name => 'API test', :wiki_page_title => WikiPage.first.title}},
+        :headers => credentials('jsmith')
+    end
+
+    version = Version.order('id DESC').first
+    assert_equal 'API test', version.name
+    assert_equal WikiPage.first, version.wiki_page
+
+    assert_response :created
+    assert_equal 'application/xml', @response.content_type
+    assert_select 'version id', :text => version.id.to_s
+  end
+
   test "POST /projects/:project_id/versions.xml should create the version with custom fields" do
     field = VersionCustomField.generate!
 
@@ -116,17 +132,19 @@ class Redmine::ApiTest::VersionsTest < Redmine::ApiTest::Base
       assert_select 'id', :text => '2'
       assert_select 'name', :text => '1.0'
       assert_select 'sharing', :text => 'none'
+      assert_select 'wiki_page_title', :text => 'ECookBookV1'
     end
   end
 
   test "PUT /versions/:id.xml should update the version" do
     put '/versions/2.xml',
-      :params => {:version => {:name => 'API update'}},
+      :params => {:version => {:name => 'API update', :wiki_page_title => WikiPage.first.title}},
       :headers => credentials('jsmith')
 
     assert_response :no_content
     assert_equal '', @response.body
     assert_equal 'API update', Version.find(2).name
+    assert_equal WikiPage.first, Version.find(2).wiki_page
   end
 
   test "DELETE /versions/:id.xml should destroy the version" do
