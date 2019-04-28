@@ -4,11 +4,12 @@ api.array :versions, api_meta(:total_count => @versions.size) do
       api.id version.id
       api.project(:id => version.project_id, :name => version.project.name) unless version.project.nil?
 
-      api.name        version.name
-      api.description version.description
-      api.status      version.status
-      api.due_date    version.effective_date
-      api.sharing     version.sharing
+      api.name            version.name
+      api.description     version.description
+      api.status          version.status
+      api.due_date        version.effective_date
+      api.sharing         version.sharing
+      api.wiki_page_title version.wiki_page_title
 
       render_api_custom_values version.custom_field_values, api
 
