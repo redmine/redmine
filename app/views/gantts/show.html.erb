@@ -137,13 +137,14 @@
   <%= content_tag(:div, :style => style, :class => "gantt_subjects_container") do %>
     <%
       style  = ""
-      style += "width: #{subject_width}px;"
+      style += "width: #{subject_width + 1}px;"
       style += "height: #{headers_height}px;"
       style += 'background: #eee;'
     %>
     <%= content_tag(:div, "", :style => style, :class => "gantt_hdr") %>
     <%
       style  = ""
+      style += "z-index: 1;"
       style += "width: #{subject_width}px;"
       style += "height: #{t_height}px;"
       style += 'border-left: 1px solid #c0c0c0;'
