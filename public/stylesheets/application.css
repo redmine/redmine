@@ -1229,7 +1229,7 @@ div.wiki img {vertical-align:middle; max-width:100%;}
 
 .gantt_hdr.nwday {background-color:#f1f1f1; color:#999;}
 
-.gantt_subjects { font-size: 0.8em; }
+.gantt_subjects { font-size: 0.8em; position: relative; z-index: 1; }
 .gantt_subjects div { line-height:16px;height:16px;overflow:hidden;white-space:nowrap;text-overflow: ellipsis; }
 .gantt_subjects div.issue-subject:hover { background-color:#ffffdd; }
 
