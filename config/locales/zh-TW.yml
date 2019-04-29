@@ -1329,8 +1329,8 @@
   label_inherited_from_group: 繼承自 %{name} 群組
   label_trackers_description: 追蹤標籤說明
   label_open_trackers_description: 檢視所有追蹤標籤的說明
-  label_preferred_body_part_text: Text
-  label_preferred_body_part_html: HTML (experimental)
-  field_parent_issue_subject: Parent task subject
-  permission_edit_own_issues: Edit own issues
-  text_select_apply_tracker: Select tracker
+  label_preferred_body_part_text: 純文字
+  label_preferred_body_part_html: HTML (實驗性)
+  field_parent_issue_subject: 父議題主旨
+  permission_edit_own_issues: 編輯自己的議題
+  text_select_apply_tracker: 選擇追蹤標籤
