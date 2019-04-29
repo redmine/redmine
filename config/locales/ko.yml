@@ -1314,3 +1314,4 @@ ko:
   label_preferred_body_part_html: HTML (experimental)
   field_parent_issue_subject: Parent task subject
   permission_edit_own_issues: Edit own issues
+  text_select_apply_tracker: Select tracker
