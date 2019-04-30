@@ -2162,4 +2162,19 @@ class QueryTest < ActiveSupport::TestCase
 
     assert_equal ['1','2','3','4','5','6'], query.available_filters['status_id'][:values].map(&:second)
   end
+
+  def test_as_params_should_serialize_query
+    query = IssueQuery.new(name: "_")
+    query.add_filter('subject', '!~', ['asdf'])
+    query.group_by = 'tracker'
+    query.totalable_names = %w(estimated_hours)
+    query.column_names = %w(id subject estimated_hours)
+    assert hsh = query.as_params
+
+    new_query = IssueQuery.build_from_params(hsh)
+    assert_equal query.filters, new_query.filters
+    assert_equal query.group_by, new_query.group_by
+    assert_equal query.column_names, new_query.column_names
+    assert_equal query.totalable_names, new_query.totalable_names
+  end
 end
