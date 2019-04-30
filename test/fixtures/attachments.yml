@@ -268,3 +268,17 @@ attachments_020:
   filename: root_attachment.txt
   filesize: 54
   author_id: 2
+attachments_022:
+  created_on: 2019-04-30 09:23:44 +09:00
+  container_type: Project
+  container_id: 1
+  downloads: 0
+  disk_filename: 190430092344_redmine_logo.ai.unknown
+  disk_directory: "2019/04"
+  digest: 68d90c016f0806d88234a6f16530fdf0b7f1d2481354798f1a5fd165dca6b04f
+  id: 22
+  filesize: 4994
+  filename: redmine_logo.ai.unknown
+  author_id: 1
+  description: unknown type
+  content_type:

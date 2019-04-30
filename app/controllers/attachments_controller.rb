@@ -237,7 +237,7 @@ class AttachmentsController < ApplicationController
     if content_type.blank? || content_type == "application/octet-stream"
       content_type = Redmine::MimeType.of(attachment.filename)
     end
-    content_type.to_s
+    content_type.presence || "application/octet-stream"
   end
 
   def disposition(attachment)
