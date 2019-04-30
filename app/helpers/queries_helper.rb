@@ -39,6 +39,8 @@ module QueriesHelper
         group = :field_assigned_to
       elsif field_options[:type] == :date_past || field_options[:type] == :date
         group = :label_date
+      elsif %w(estimated_hours spent_time).include?(field)
+        group = :label_time_tracking
       end
       if group
         (grouped[group] ||= []) << [field_options[:name], field]
