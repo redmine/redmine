@@ -1274,3 +1274,4 @@ ja:
   field_parent_issue_subject: 親チケットの題名
   permission_edit_own_issues: 自分が追加したチケットの編集
   text_select_apply_tracker: Select tracker
+  label_updated_issues: Updated issues
