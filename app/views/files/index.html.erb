@@ -6,41 +6,43 @@
 
 <% delete_allowed = User.current.allowed_to?(:manage_files, @project) %>
 
-<table class="list files">
-  <thead><tr>
-    <%= sort_header_tag('filename', :caption => l(:field_filename)) %>
-    <%= sort_header_tag('created_on', :caption => l(:label_date), :default_order => 'desc') %>
-    <%= sort_header_tag('size', :caption => l(:field_filesize), :default_order => 'desc') %>
-    <%= sort_header_tag('downloads', :caption => l(:label_downloads_abbr), :default_order => 'desc') %>
-    <th><%= l(:field_digest) %></th>
-    <th></th>
-  </tr></thead>
-  <tbody>
-<% @containers.each do |container| %>
-  <% next if container.attachments.empty? -%>
-  <% if container.is_a?(Version) -%>
-  <tr>
-    <th colspan="6">
-      <%= link_to(container, {:controller => 'versions', :action => 'show', :id => container}, :class => "icon icon-package") %>
-    </th>
-  </tr>
-  <% end -%>
-  <% container.attachments.each do |file| %>
-  <tr class="file">
-    <td class="filename"><%= link_to_attachment file, :title => file.description -%></td>
-    <td class="created_on"><%= format_time(file.created_on) %></td>
-    <td class="filesize"><%= number_to_human_size(file.filesize) %></td>
-    <td class="downloads"><%= file.downloads %></td>
-    <td class="digest"><%= file.digest_type %>: <%= file.digest %></td>
-    <td class="buttons">
-    <%= link_to_attachment file, class: 'icon-only icon-download', title: l(:button_download), download: true %>
-    <%= link_to(l(:button_delete), attachment_path(file), :class => 'icon-only icon-del',
-                                         :data => {:confirm => l(:text_are_you_sure)}, :method => :delete) if delete_allowed %>
-    </td>
-  </tr>
+<div class="autoscroll">
+  <table class="list files">
+    <thead><tr>
+      <%= sort_header_tag('filename', :caption => l(:field_filename)) %>
+      <%= sort_header_tag('created_on', :caption => l(:label_date), :default_order => 'desc') %>
+      <%= sort_header_tag('size', :caption => l(:field_filesize), :default_order => 'desc') %>
+      <%= sort_header_tag('downloads', :caption => l(:label_downloads_abbr), :default_order => 'desc') %>
+      <th><%= l(:field_digest) %></th>
+      <th></th>
+    </tr></thead>
+    <tbody>
+  <% @containers.each do |container| %>
+    <% next if container.attachments.empty? -%>
+    <% if container.is_a?(Version) -%>
+    <tr>
+      <th colspan="6">
+        <%= link_to(container, {:controller => 'versions', :action => 'show', :id => container}, :class => "icon icon-package") %>
+      </th>
+    </tr>
+    <% end -%>
+    <% container.attachments.each do |file| %>
+    <tr class="file">
+      <td class="filename"><%= link_to_attachment file, :title => file.description -%></td>
+      <td class="created_on"><%= format_time(file.created_on) %></td>
+      <td class="filesize"><%= number_to_human_size(file.filesize) %></td>
+      <td class="downloads"><%= file.downloads %></td>
+      <td class="digest"><%= file.digest_type %>: <%= file.digest %></td>
+      <td class="buttons">
+      <%= link_to_attachment file, class: 'icon-only icon-download', title: l(:button_download), download: true %>
+      <%= link_to(l(:button_delete), attachment_path(file), :class => 'icon-only icon-del',
+                                          :data => {:confirm => l(:text_are_you_sure)}, :method => :delete) if delete_allowed %>
+      </td>
+    </tr>
+    <% end %>
   <% end %>
-<% end %>
-  </tbody>
-</table>
+    </tbody>
+  </table>
+</div>
 
 <% html_title(l(:label_attachment_plural)) -%>
