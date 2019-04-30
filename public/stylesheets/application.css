@@ -461,7 +461,19 @@ select {
   padding-right: 20px;
 }
 input[type="file"] {border: 0; padding-left: 0; padding-right: 0;}
-input[type="submit"] {-webkit-appearance: button; cursor: pointer; background-color: #fff;}
+input[type="submit"] {
+  -webkit-appearance: button;
+  cursor: pointer;
+  background-color: #fff;
+  height: 28px;
+  -webkit-transition: background-color 100ms linear;
+  -moz-transition: background-color 100ms linear;
+  -o-transition: background-color 100ms linear;
+  transition: background-color 100ms linear;
+}
+input[type="submit"]:hover {
+  background-color: #ddd;
+}
 select[multiple=multiple] {background: #fff; padding-right: initial; height: auto;}
 fieldset {border: 1px solid #e4e4e4; margin:0; min-width: inherit;}
 legend {color: #333;}
