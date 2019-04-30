@@ -26,6 +26,7 @@ module Redmine
     CORE_BLOCKS = {
         'issuesassignedtome' => {:label => :label_assigned_to_me_issues},
         'issuesreportedbyme' => {:label => :label_reported_issues},
+        'issuesupdatedbyme' => {:label => :label_updated_issues},
         'issueswatched' => {:label => :label_watched_issues},
         'issuequery' => {:label => :label_issue_plural, :max_occurs => 3},
         'news' => {:label => :label_news_latest},

@@ -21,7 +21,8 @@ require File.expand_path('../../test_helper', __FILE__)
 
 class MyControllerTest < Redmine::ControllerTest
   fixtures :users, :email_addresses, :user_preferences, :roles, :projects, :members, :member_roles,
-  :issues, :issue_statuses, :trackers, :enumerations, :custom_fields, :auth_sources, :queries, :enabled_modules
+  :issues, :issue_statuses, :trackers, :enumerations, :custom_fields, :auth_sources, :queries, :enabled_modules,
+  :journals
 
   def setup
     @request.session[:user_id] = 2
@@ -215,6 +216,31 @@ class MyControllerTest < Redmine::ControllerTest
       assert_select 'div#activity' do
         assert_select 'dt', 10
       end
+    end
+  end
+
+  def test_page_with_updated_issues_block
+    preferences = User.find(2).pref
+    preferences.my_page_layout = {'top' => ['issuesupdatedbyme']}
+    preferences.my_page_settings = {'issuesupdatedbyme' => {}}
+    preferences.save!
+
+    project = Project.find(3)
+    project.close
+
+    get :page
+
+    assert_response :success
+    assert_select '#block-issuesupdatedbyme' do
+      report_url = CGI.unescape(css_select('h3 a').first.attr('href'))
+      assert_match 'f[]=project.status', report_url
+      assert_match 'v[project.status][]=1', report_url
+      assert_match 'f[]=updated_by', report_url
+      assert_match 'v[updated_by][]=me', report_url
+
+      assert_select 'table.issues tbody tr', 2
+      assert_select 'table.issues tbody tr[id=?]', 'issue-1', 1, :title => 'Cannot print recipes'
+      assert_select 'table.issues tbody tr[id=?]', 'issue-14', 0
     end
   end
 

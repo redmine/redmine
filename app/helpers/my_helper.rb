@@ -115,6 +115,17 @@ module MyHelper
     render :partial => 'my/blocks/issues', :locals => {:query => query, :issues => issues, :block => block}
   end
 
+  def render_issuesupdatedbyme_block(block, settings)
+    query = IssueQuery.new(:name => l(:label_updated_issues), :user => User.current)
+    query.add_filter 'updated_by', '=', ['me']
+    query.add_filter 'project.status', '=', ["#{Project::STATUS_ACTIVE}"]
+    query.column_names = settings[:columns].presence || ['project', 'tracker', 'status', 'subject']
+    query.sort_criteria = settings[:sort].presence || [['updated_on', 'desc']]
+    issues = query.issues(:limit => 10)
+
+    render :partial => 'my/blocks/issues', :locals => {:query => query, :issues => issues, :block => block}
+  end
+
   def render_issueswatched_block(block, settings)
     query = IssueQuery.new(:name => l(:label_watched_issues), :user => User.current)
     query.add_filter 'watcher_id', '=', ['me']
