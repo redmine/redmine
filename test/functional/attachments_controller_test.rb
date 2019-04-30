@@ -360,10 +360,10 @@ class AttachmentsControllerTest < Redmine::ControllerTest
 
   def test_download_should_assign_application_octet_stream_if_content_type_is_not_determined
     get :download, :params => {
-        :id => 23
+        :id => 22
       }
     assert_response :success
-    assert_nil Redmine::MimeType.of(attachments(:attachments_023).filename)
+    assert_nil Redmine::MimeType.of(attachments(:attachments_022).filename)
     assert_equal 'application/octet-stream', @response.content_type
     set_tmp_attachments_directory
   end
