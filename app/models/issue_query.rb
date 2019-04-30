@@ -137,6 +137,11 @@ class IssueQuery < Query
     add_available_filter "start_date", :type => :date
     add_available_filter "due_date", :type => :date
     add_available_filter "estimated_hours", :type => :float
+
+    if User.current.allowed_to?(:view_time_entries, project, :global => true)
+      add_available_filter "spent_time", :type => :float, :label => :label_spent_time
+    end
+
     add_available_filter "done_ratio", :type => :integer
 
     if User.current.allowed_to?(:set_issues_private, nil, :global => true) ||
@@ -387,6 +392,24 @@ class IssueQuery < Query
       "   AND (#{Journal.visible_notes_condition(User.current, :skip_pre_condition => true)}))"
 
     "#{neg} EXISTS (#{subquery})"
+  end
+
+  def sql_for_spent_time_field(field, operator, value)
+    first, second = value.first.to_f, value.second.to_f
+
+    sql_op =
+      case operator
+      when "=", ">=", "<=" ;  "#{operator} #{first}"
+      when "><"            ;  "BETWEEN #{first} AND #{second}"
+      when "*"             ;  "> 0"
+      when "!*"            ;  "= 0"
+      else                 ; return nil
+      end
+
+    "COALESCE((" +
+      "SELECT ROUND(CAST(SUM(hours) AS DECIMAL(30,3)), 2) " +
+      "FROM #{TimeEntry.table_name} " +
+      "WHERE issue_id = #{Issue.table_name}.id), 0) #{sql_op}"
   end
 
   def sql_for_watcher_id_field(field, operator, value)

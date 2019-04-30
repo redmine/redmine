@@ -30,7 +30,7 @@ class QueryTest < ActiveSupport::TestCase
            :projects_trackers,
            :custom_fields_trackers,
            :workflows, :journals,
-           :attachments
+           :attachments, :time_entries
 
   INTEGER_KLASS = RUBY_VERSION >= "2.4" ? Integer : Fixnum
 
@@ -2309,5 +2309,24 @@ class QueryTest < ActiveSupport::TestCase
     assert_equal query.group_by, new_query.group_by
     assert_equal query.column_names, new_query.column_names
     assert_equal query.totalable_names, new_query.totalable_names
+  end
+
+  def test_issue_query_filter_by_spent_time
+    query = IssueQuery.new(:name => '_')
+
+    query.filters = {'spent_time' => {:operator => '*', :values => ['']}}
+    assert_equal [3, 1], query.issues.pluck(:id)
+
+    query.filters = {'spent_time' => {:operator => '!*', :values => ['']}}
+    assert_equal [13, 12, 11, 8, 7, 5, 2], query.issues.pluck(:id)
+
+    query.filters = {'spent_time' => {:operator => '>=', :values => ['10']}}
+    assert_equal [1], query.issues.pluck(:id)
+
+    query.filters = {'spent_time' => {:operator => '<=', :values => ['10']}}
+    assert_equal [13, 12, 11, 8, 7, 5, 3, 2], query.issues.pluck(:id)
+
+    query.filters = {'spent_time' => {:operator => '><', :values => ['1', '2']}}
+    assert_equal [3], query.issues.pluck(:id)
   end
 end
