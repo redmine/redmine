@@ -401,6 +401,8 @@ class Query < ActiveRecord::Base
         params[:v][field] = options[:values]
       end
       params[:c] = column_names
+      params[:group_by] = group_by.to_s if group_by.present?
+      params[:t] = totalable_names.map(&:to_s) if totalable_names.any?
       params[:sort] = sort_criteria.to_param
       params[:set_filter] = 1
       params
