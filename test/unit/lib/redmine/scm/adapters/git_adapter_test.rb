@@ -399,7 +399,7 @@ class GitAdapterTest < ActiveSupport::TestCase
       assert_equal "# This program is free software; you can redistribute it and/or",
                    annotate.lines[4].strip
       assert_equal "7234cb2750b63f47bff735edc50a1c0a433c2518",
-                    annotate.revisions[4].identifier
+                   annotate.revisions[4].identifier
       assert_equal "jsmith", annotate.revisions[4].author
     end
 
@@ -413,9 +413,9 @@ class GitAdapterTest < ActiveSupport::TestCase
                                      "latin-1-branch-#{@char_1}-02")
         assert_equal 40, annotate.lines.size
         assert_equal "# This program is free software; you can redistribute it and/or",
-                      annotate.lines[3].strip
+                     annotate.lines[3].strip
         assert_equal "7234cb2750b63f47bff735edc50a1c0a433c2518",
-                    annotate.revisions[3].identifier
+                     annotate.revisions[3].identifier
         assert_equal "jsmith", annotate.revisions[3].author
       end
     end
@@ -442,7 +442,7 @@ class GitAdapterTest < ActiveSupport::TestCase
       assert_equal "ed5bb786bbda2dee66a2d50faf51429dbc043a7b", last_rev.scmid
       assert_equal "ed5bb786bbda2dee66a2d50faf51429dbc043a7b", last_rev.identifier
       assert_equal "#{@str_felix_hex} <felix@fachschaften.org>",
-                     last_rev.author
+                   last_rev.author
       assert_equal Time.gm(2010, 9, 18, 19, 59, 46), last_rev.time
     end
 
