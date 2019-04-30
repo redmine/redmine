@@ -304,7 +304,7 @@ zh:
   field_comments_sorting: 显示注释
   field_parent_title: 上级页面
   field_editable: 可编辑
-  field_watcher: 跟踪者
+  field_watcher: 关注者
   field_identity_url: OpenID URL
   field_content: 内容
   field_group_by: 根据此条件分组
@@ -393,9 +393,9 @@ zh:
   permission_save_queries: 保存查询
   permission_view_gantt: 查看甘特图
   permission_view_calendar: 查看日历
-  permission_view_issue_watchers: 查看跟踪者列表
-  permission_add_issue_watchers: 添加跟踪者
-  permission_delete_issue_watchers: 删除跟踪者
+  permission_view_issue_watchers: 查看关注者列表
+  permission_add_issue_watchers: 添加关注者
+  permission_delete_issue_watchers: 删除关注者
   permission_log_time: 登记工时
   permission_view_time_entries: 查看耗时
   permission_edit_time_entries: 编辑耗时
@@ -675,7 +675,7 @@ zh:
   label_options: 选项
   label_copy_workflow_from: 从以下选项复制工作流程
   label_permissions_report: 权限报表
-  label_watched_issues: 跟踪的问题
+  label_watched_issues: 关注的问题
   label_related_issues: 相关的问题
   label_applied_status: 应用后的状态
   label_loading: 载入中...
@@ -731,7 +731,7 @@ zh:
   label_user_mail_option_all: "收取我的项目的所有通知"
   label_user_mail_option_selected: "收取选中项目的所有通知..."
   label_user_mail_option_none: "不收取任何通知"
-  label_user_mail_option_only_my_events: "只收取我跟踪或参与的项目的通知"
+  label_user_mail_option_only_my_events: "只收取我关注或参与的项目的通知"
   label_user_mail_no_self_notified: "不要发送对我自己提交的修改的通知"
   label_registration_activation_by_email: 通过邮件认证激活帐号
   label_registration_manual_activation: 手动激活帐号
@@ -751,7 +751,7 @@ zh:
   label_reverse_chronological_order: 按时间顺序（倒序）
   label_incoming_emails: 接收邮件
   label_generate_key: 生成一个key
-  label_issue_watchers: 跟踪者
+  label_issue_watchers: 关注者
   label_example: 示例
   label_display: 显示
   label_sort: 排序
@@ -811,8 +811,8 @@ zh:
   button_sort: 排序
   button_log_time: 登记工时
   button_rollback: 恢复到这个版本
-  button_watch: 跟踪
-  button_unwatch: 取消跟踪
+  button_watch: 关注
+  button_unwatch: 取消关注
   button_reply: 回复
   button_archive: 存档
   button_unarchive: 取消存档
@@ -866,7 +866,7 @@ zh:
   text_issue_category_destroy_question: "有一些问题（%{count} 个）属于此类别。您想进行哪种操作？"
   text_issue_category_destroy_assignments: 删除问题的所属类别（问题变为无类别）
   text_issue_category_reassign_to: 为问题选择其它类别
-  text_user_mail_option: "对于没有选中的项目，您将只会收到您跟踪或参与的项目的通知（比如说，您是问题的报告者, 或被指派解决此问题）。"
+  text_user_mail_option: "对于没有选中的项目，您将只会收到您关注或参与的项目的通知（比如说，您是问题的报告者, 或被指派解决此问题）。"
   text_no_configuration_data: "角色、跟踪标签、问题状态和工作流程还没有设置。\n强烈建议您先载入默认设置，然后在此基础上进行修改。"
   text_load_default_configuration: 载入默认设置
   text_status_changed_by_changeset: "已应用到变更列表 %{value}."
@@ -1008,7 +1008,7 @@ zh:
   text_issue_conflict_resolution_cancel: 取消我所有的变更并重新刷新显示 %{link} 。
   permission_manage_related_issues: 相关问题管理
   field_auth_source_ldap_filter: LDAP 过滤器
-  label_search_for_watchers: 通过查找方式添加跟踪者
+  label_search_for_watchers: 通过查找方式添加关注者
   notice_account_deleted: 您的账号已被永久删除（账号已无法恢复）。
   setting_unsubscribe: 允许用户退订
   button_delete_my_account: 删除我的账号
