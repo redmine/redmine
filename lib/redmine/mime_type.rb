@@ -64,21 +64,20 @@ module Redmine
       ext = File.extname(name.to_s)[1..-1]
       if ext
         ext.downcase!
-        EXTENSIONS[ext] ||
-          ((mi = MiniMime.lookup_by_extension(ext)) && mi.content_type)
+        EXTENSIONS[ext] || MiniMime.lookup_by_extension(ext)&.content_type
       end
     end
 
     # Returns the css class associated to
     # the mime type of name
     def self.css_class_of(name)
-      mime = of(name)
-      mime && mime.tr('/', '-')
+      mimetype = of(name)
+      mimetype&.tr('/', '-')
     end
 
     def self.main_mimetype_of(name)
       mimetype = of(name)
-      mimetype.split('/').first if mimetype
+      mimetype&.split('/')&.first
     end
 
     # return true if mime-type for name is type/*
