@@ -91,8 +91,15 @@
                     "name": "M1 Network model",
                     "url": "http://opensourcebrain.org/projects/m1networkmodel",
                     "explorer_url": "/projects/m1networkmodel?explorer=https%253A%252F%252Fraw.githubusercontent.com%252FOpenSourceBrain%252FM1NetworkModel%252Fmaster%252FM1_5percent.net.nml",
-                    "description": "A multiscale model of mouse primary motor cortex (M1).",
+                    "description": "A multiscale model of mouse primary motor cortex (M1)",
                     "image_url": "/images/projectThumbnails/M1.png"
+                },
+                {
+                    "name": "Wilson and Cowan 1972",
+                    "url": "http://opensourcebrain.org/projects/wilsoncowan",
+                    "explorer_url": "http://opensourcebrain.org/projects/wilsoncowan?explorer_id=763",
+                    "description": "The Wilson and Cowan model describes the dynamics and interaction between excitatory and inhibitory populations",
+                    "image_url": "/images/projectThumbnails/WC.png"
                 }
             ],
         "Cerebellum":
