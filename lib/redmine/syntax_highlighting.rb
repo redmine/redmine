@@ -85,7 +85,7 @@ module Redmine
           # See also: https://github.com/jneen/rouge/pull/1078
           text = text.gsub(/\r\n?/, "\n")
 
-          lexer =::Rouge::Lexer.guess_by_filename(filename)
+          lexer =::Rouge::Lexer.guess(:source => text, :filename => filename)
           formatter = ::Rouge::Formatters::HTML.new
           ::Rouge.highlight(text, lexer, CustomHTMLLinewise.new(formatter))
         end
