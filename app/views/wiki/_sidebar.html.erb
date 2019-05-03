@@ -12,3 +12,5 @@
                   {:controller => 'wiki', :project_id => @project,
                    :action => 'date_index'}) %></li>
 </ul>
+
+<%= call_hook(:view_wiki_show_sidebar_bottom, :wiki => @wiki, :page => @page) %>
