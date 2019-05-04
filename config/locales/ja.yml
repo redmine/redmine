@@ -1275,3 +1275,5 @@ ja:
   permission_edit_own_issues: 自分が追加したチケットの編集
   text_select_apply_tracker: Select tracker
   label_updated_issues: Updated issues
+  text_avatar_server_config_html: The current avatar server is <a href="%{url}">%{url}</a>.
+    You can configure it in config/configuration.yml.
