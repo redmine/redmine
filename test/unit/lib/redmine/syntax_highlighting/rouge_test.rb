@@ -20,6 +20,18 @@
 require File.expand_path('../../../../../test_helper', __FILE__)
 
 class Redmine::SyntaxHighlighting::RougeTest < ActiveSupport::TestCase
+  def test_filename_supported
+    to_test = {
+      'application.js' => true,
+      'Gemfile' => true,
+      'AUTOEXEC.BAT' => false,  # Rouge does not support BAT files
+      'HELLO.C' => true
+    }
+    to_test.each do |filename, expected|
+      assert_equal expected, Redmine::SyntaxHighlighting::Rouge.filename_supported?(filename)
+    end
+  end
+
   def test_highlight_by_filename_should_distinguish_perl_and_prolog
     raw_perl = <<'RAW_PERL'
 #!/usr/bin/perl

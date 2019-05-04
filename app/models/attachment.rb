@@ -235,7 +235,7 @@ class Attachment < ActiveRecord::Base
   end
 
   def is_text?
-    Redmine::MimeType.is_type?('text', filename)
+    Redmine::MimeType.is_type?('text', filename) || Redmine::SyntaxHighlighting.filename_supported?(filename)
   end
 
   def is_image?
