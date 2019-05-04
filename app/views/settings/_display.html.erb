@@ -19,7 +19,8 @@
 
 <p><%= setting_select :user_format, @options[:user_format] %></p>
 
-<p><%= setting_check_box :gravatar_enabled, :data => {:enables => '#settings_gravatar_default'} %></p>
+<p><%= setting_check_box :gravatar_enabled, :data => {:enables => '#settings_gravatar_default'} %>
+<em class="info"><%= t(:text_avatar_server_config_html, :url => Redmine::Configuration['avatar_server_url']) %></em></p>
 
 <p><%= setting_select :gravatar_default, gravatar_default_setting_options, :blank => :label_none %></p>
 

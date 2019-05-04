@@ -22,6 +22,7 @@ module Redmine
 
     # Configuration default values
     @defaults = {
+      'avatar_server_url' => 'https://www.gravatar.com',
       'email_delivery' => nil,
       'max_concurrent_ajax_uploads' => 2
     }

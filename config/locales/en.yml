@@ -1202,6 +1202,8 @@ en:
   text_project_closed: This project is closed and read-only.
   text_turning_multiple_off: "If you disable multiple values, multiple values will be removed in order to preserve only one value per item."
   text_select_apply_tracker: "Select tracker"
+  text_avatar_server_config_html: The current avatar server is <a href="%{url}">%{url}</a>. You can configure it in config/configuration.yml.
+
 
   default_role_manager: Manager
   default_role_developer: Developer

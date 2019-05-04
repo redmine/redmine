@@ -1529,6 +1529,21 @@ RAW
     end
   end
 
+  def test_avatar_server_url
+    to_test = {
+      'https://www.gravatar.com' => %r|https://www.gravatar.com/avatar/\h{32}|,
+      'https://seccdn.libravatar.org' => %r|https://seccdn.libravatar.org/avatar/\h{32}|,
+      'http://localhost:8080' => %r|http://localhost:8080/avatar/\h{32}|,
+    }
+    with_settings :gravatar_enabled => '1' do
+      to_test.each do |url, expected|
+        Redmine::Configuration.with 'avatar_server_url' => url do
+          assert_match expected, avatar('<jsmith@somenet.foo>')
+        end
+      end
+    end
+  end
+
   def test_link_to_user
     user = User.find(2)
     result = link_to("John Smith", "/users/2", :class => "user active")

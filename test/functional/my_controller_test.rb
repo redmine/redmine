@@ -365,9 +365,11 @@ class MyControllerTest < Redmine::ControllerTest
 
   def test_my_account_with_avatar_enabled_should_link_to_edit_avatar
     with_settings :gravatar_enabled => '1' do
-      get :account
-      assert_response :success
-      assert_select 'a[href=?] img.gravatar', 'https://gravatar.com'
+      Redmine::Configuration.with 'avatar_server_url' => 'https://gravatar.com' do
+        get :account
+        assert_response :success
+        assert_select 'a[href=?] img.gravatar', 'https://gravatar.com'
+      end
     end
   end
 
