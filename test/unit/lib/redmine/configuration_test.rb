@@ -23,26 +23,26 @@ class Redmine::ConfigurationTest < ActiveSupport::TestCase
   end
 
   def test_empty
-    assert_kind_of Hash, load_conf('empty.yml', 'test')
+    assert_kind_of Hash, load_conf('empty.yml.example', 'test')
   end
 
   def test_default
-    assert_kind_of Hash, load_conf('default.yml', 'test')
+    assert_kind_of Hash, load_conf('default.yml.example', 'test')
     assert_equal 'foo', @conf['somesetting']
   end
 
   def test_no_default
-    assert_kind_of Hash, load_conf('no_default.yml', 'test')
+    assert_kind_of Hash, load_conf('no_default.yml.example', 'test')
     assert_equal 'foo', @conf['somesetting']
   end
 
   def test_overrides
-    assert_kind_of Hash, load_conf('overrides.yml', 'test')
+    assert_kind_of Hash, load_conf('overrides.yml.example', 'test')
     assert_equal 'bar', @conf['somesetting']
   end
 
   def test_with
-    load_conf('default.yml', 'test')
+    load_conf('default.yml.example', 'test')
     assert_equal 'foo', @conf['somesetting']
     @conf.with 'somesetting' => 'bar' do
       assert_equal 'bar', @conf['somesetting']
