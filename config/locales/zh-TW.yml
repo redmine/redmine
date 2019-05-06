@@ -1334,6 +1334,5 @@
   field_parent_issue_subject: 父議題主旨
   permission_edit_own_issues: 編輯自己的議題
   text_select_apply_tracker: 選擇追蹤標籤
-  label_updated_issues: Updated issues
-  text_avatar_server_config_html: The current avatar server is <a href="%{url}">%{url}</a>.
-    You can configure it in config/configuration.yml.
+  label_updated_issues: 已更新之議題
+  text_avatar_server_config_html: 目前使用的大頭像(虛擬人偶)伺服器是 <a href="%{url}">%{url}</a>。 您可在 config/configuration.yml 進行設定。
