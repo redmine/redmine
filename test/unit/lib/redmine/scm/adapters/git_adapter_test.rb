@@ -438,7 +438,6 @@ class GitAdapterTest < ActiveSupport::TestCase
     def test_last_rev_with_spaces_in_filename
       last_rev = @adapter.lastrev("filemane with spaces.txt",
                                   "ed5bb786bbda2dee66a2d50faf51429dbc043a7b")
-      last_rev_author = last_rev.author
       assert_equal "ed5bb786bbda2dee66a2d50faf51429dbc043a7b", last_rev.scmid
       assert_equal "ed5bb786bbda2dee66a2d50faf51429dbc043a7b", last_rev.identifier
       assert_equal "#{@str_felix_hex} <felix@fachschaften.org>",
