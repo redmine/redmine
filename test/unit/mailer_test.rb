@@ -462,10 +462,12 @@ class MailerTest < ActiveSupport::TestCase
   def test_issue_edit_subject_should_include_status_changes_if_setting_is_enabled
     with_settings :show_status_changes_in_mail_subject => 1 do
       issue = Issue.find(2)
-      issue.status_id = 4
-      issue.save!
-      Mailer.deliver_issue_add(issue)
+      issue.init_journal(User.current)
+      issue.update(:status_id => 4)
+      journal = issue.journals.last
+      Mailer.deliver_issue_edit(journal)
 
+      assert journal.new_value_for('status_id')
       mail = last_email
       assert_equal "[eCookbook - Feature request #2] (Feedback) Add ingredients categories", mail.subject
     end
@@ -474,10 +476,12 @@ class MailerTest < ActiveSupport::TestCase
   def test_issue_edit_subject_should_not_include_status_changes_if_setting_is_disabled
     with_settings :show_status_changes_in_mail_subject => 0 do
       issue = Issue.find(2)
-      issue.status_id = 4
-      issue.save!
-      Mailer.deliver_issue_add(issue)
+      issue.init_journal(User.current)
+      issue.update(:status_id => 4)
+      journal = issue.journals.last
+      Mailer.deliver_issue_edit(journal)
 
+      assert journal.new_value_for('status_id')
       mail = last_email
       assert_equal "[eCookbook - Feature request #2] Add ingredients categories", mail.subject
     end
