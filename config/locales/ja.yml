@@ -1276,3 +1276,4 @@ ja:
   text_select_apply_tracker: このトラッカーを適用
   label_updated_issues: 更新したチケット
   text_avatar_server_config_html: 現在のアバターサーバーは <a href="%{url}">%{url}</a> です。サーバーは config/configuration.yml で変更できます。
+  setting_gantt_months_limit: Maximum number of months displayed on the gantt chart
