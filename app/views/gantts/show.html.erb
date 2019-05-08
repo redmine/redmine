@@ -61,7 +61,7 @@
 </p>
 
 <p class="buttons">
-  <%= number_field_tag 'months', @gantt.months, :min => 1, :max => 24, :autocomplete => false %>
+  <%= number_field_tag 'months', @gantt.months, :min => 1, :max => Setting.gantt_months_limit.to_i, :autocomplete => false %>
   <%= l(:label_months_from) %>
   <%= select_month(@gantt.month_from, :prefix => "month", :discard_type => true) %>
   <%= select_year(@gantt.year_from, :prefix => "year", :discard_type => true) %>

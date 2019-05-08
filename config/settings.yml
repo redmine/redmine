@@ -105,6 +105,9 @@ feeds_limit:
 gantt_items_limit:
   format: int
   default: 500
+gantt_months_limit:
+  format: int
+  default: 24
 # Maximum size of files that can be displayed
 # inline through the file viewer (in KB)
 file_max_size_displayed:
