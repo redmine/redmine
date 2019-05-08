@@ -161,4 +161,28 @@ class GanttsControllerTest < Redmine::ControllerTest
       assert_equal 'image/png', @response.content_type
     end
   end
+
+  def test_gantt_should_respect_gantt_months_limit_setting
+    with_settings :gantt_months_limit => '40' do
+      # `months` parameter can be less than or equal to
+      # `Setting.gantt_months_limit`
+      get :show, :params => {
+        :project_id => 1,
+        :zoom => 4,
+        :months => 40
+      }
+      assert_response :success
+      assert_select 'div.gantt_hdr>a', :text => /^[\d-]+$/, :count => 40
+
+      # Displays 6 months (the default value for `months`) if `months` exceeds
+      # gant_months_limit
+      get :show, :params => {
+        :project_id => 1,
+        :zoom => 4,
+        :months => 41
+      }
+      assert_response :success
+      assert_select 'div.gantt_hdr>a', :text => /^[\d-]+$/, :count => 6
+    end
+  end
 end
