@@ -1,5 +1,5 @@
 <div class="contextual">
-<%= link_to l(:button_log_time), 
+<%= link_to l(:button_log_time),
             _new_time_entry_path(@project, @query.filtered_issue_id),
             :class => 'icon icon-time-add' if User.current.allowed_to?(:log_time, @project, :global => true) %>
 </div>
@@ -42,7 +42,7 @@
 <% end %>
 
 <% content_for :sidebar do %>
-  <%= render_sidebar_queries(TimeEntryQuery, @project) %>
+  <%= render :partial => 'timelog/sidebar' %>
 <% end %>
 
 <% html_title(@query.new_record? ? l(:label_spent_time) : @query.name, l(:label_details)) %>

@@ -1,0 +1,18 @@
+<fieldset class="box tabular">
+  <legend><%= l(:label_fields_mapping) %></legend>
+  <div id="fields-mapping">
+    <%= render :partial => 'time_entries_fields_mapping' %>
+  </div>
+</fieldset>
+
+<%= javascript_tag do %>
+$(document).ready(function() {
+  $('#fields-mapping').on('change', '#import_mapping_project_id', function(){
+    $.ajax({
+      url: '<%= import_mapping_path(@import, :format => 'js') %>',
+      type: 'post',
+      data: $('#import-form').serialize()
+    });
+  });
+});
+<% end %>

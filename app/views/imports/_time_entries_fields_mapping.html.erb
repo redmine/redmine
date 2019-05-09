@@ -1,0 +1,41 @@
+<p>
+  <label for="import_mapping_project_id"><%= l(:label_project) %></label>
+  <%= select_tag 'import_settings[mapping][project_id]',
+        options_for_select(project_tree_options_for_select(@import.allowed_target_projects, :selected => @import.project)),
+        :id => 'import_mapping_project_id' %>
+</p>
+<p>
+  <label for="import_mapping_activity"><%= l(:field_activity) %></label>
+  <%= mapping_select_tag @import, 'activity', :required => true,
+        :values => @import.allowed_target_activities.sorted.map {|t| [t.name, t.id]} %>
+</p>
+
+
+<div class="splitcontent">
+<div class="splitcontentleft">
+<p>
+  <label for="import_mapping_issue_id"><%= l(:field_issue) %></label>
+  <%= mapping_select_tag @import, 'issue_id' %>
+</p>
+<p>
+  <label for="import_mapping_spent_on"><%= l(:field_spent_on) %></label>
+  <%= mapping_select_tag @import, 'spent_on', :required => true %>
+</p>
+<p>
+  <label for="import_mapping_hours"><%= l(:field_hours) %></label>
+  <%= mapping_select_tag @import, 'hours', :required => true %>
+</p>
+<p>
+  <label for="import_mapping_comments"><%= l(:field_comments) %></label>
+  <%= mapping_select_tag @import, 'comments' %>
+</p>
+</div>
+
+<div class="splitcontentright">
+<% @custom_fields.each do |field| %>
+  <p>
+    <label for="import_mapping_cf_<%= field.id %>"><%= field.name %></label>
+    <%= mapping_select_tag @import, "cf_#{field.id}", :required => field.is_required? %>
+  </p>
+<% end %>
+</div>
