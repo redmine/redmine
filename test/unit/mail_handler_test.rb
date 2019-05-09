@@ -496,6 +496,21 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal 'ecookbook', issue.project.identifier
   end
 
+  def test_add_issue_with_private_keyword
+    User.find_by_mail('jsmith@somenet.foo').update_attribute 'language', 'fr'
+    # give the user permission to set issues private:
+    MemberRole.create! member_id: 3, role_id: 1
+    issue = submit_email(
+              'ticket_with_localized_private_flag.eml',
+              :allow_override => 'is_private,tracker,category,priority'
+            )
+    assert issue.is_a?(Issue)
+    refute issue.new_record?
+    issue.reload
+    assert_equal 'New ticket on a given project', issue.subject
+    assert issue.is_private
+  end
+
   def test_add_issue_with_localized_attributes
     User.find_by_mail('jsmith@somenet.foo').update_attribute 'language', 'fr'
     issue = submit_email(
