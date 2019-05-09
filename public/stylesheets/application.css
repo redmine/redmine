@@ -345,7 +345,7 @@ table.list.enumerations {table-layout: fixed; margin-bottom: 2em;}
 
 tr.group td { padding: 0.8em 0 0.5em 0.3em; border-bottom: 1px solid #ccc; text-align:left; background-color: #fff;}
 tr.group span.count {top:-1px;}
-tr.group span.name {font-weight:bold;}}
+tr.group span.name {font-weight:bold;}
 tr.group span.totals {color: #aaa; font-size: 80%;}
 tr.group span.totals .value {font-weight:bold; color:#777;}
 tr.group a.toggle-all { color: #aaa; font-size: 80%; display:none; float:right; margin-right:4px;}
