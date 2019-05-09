@@ -18,11 +18,7 @@ h1:hover a.wiki-anchor, h2:hover a.wiki-anchor, h3:hover a.wiki-anchor { display
 <body>
 
 <strong><%= l(:label_index_by_title) %></strong>
-<ul>
-<% @pages.each do |page| %>
-    <li><a href="#<%= page.title %>"><%= page.pretty_title %></a></li>
-<% end %>
-</ul>
+<%= render_page_hierarchy(@pages.group_by(&:parent_id), nil, :timestamp => true) %>
 
 <% @pages.each do |page| %>
 <hr />

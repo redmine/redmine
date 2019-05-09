@@ -371,7 +371,12 @@ module ApplicationHelper
       content << "<ul class=\"pages-hierarchy\">\n"
       pages[node].each do |page|
         content << "<li>"
-        content << link_to(h(page.pretty_title), {:controller => 'wiki', :action => 'show', :project_id => page.project, :id => page.title, :version => nil},
+        if controller.controller_name == 'wiki' && controller.action_name == 'export'
+          href = "##{page.title}"
+        else
+          href = {:controller => 'wiki', :action => 'show', :project_id => page.project, :id => page.title, :version => nil}
+        end
+        content << link_to(h(page.pretty_title), href,
                            :title => (options[:timestamp] && page.updated_on ? l(:label_updated_time, distance_of_time_in_words(Time.now, page.updated_on)) : nil))
         content << "\n" + render_page_hierarchy(pages, page.id, options) if pages[page.id]
         content << "</li>\n"

@@ -1463,6 +1463,38 @@ RAW
     end
   end
 
+  def test_render_page_hierarchy
+    parent_page = WikiPage.find(1)
+    child_page = WikiPage.find_by(parent_id: parent_page.id)
+    pages_by_parent_id = { nil => [parent_page], parent_page.id => [child_page] }
+    result = render_page_hierarchy(pages_by_parent_id, nil)
+    assert_select_in result, 'ul.pages-hierarchy li a[href=?]', project_wiki_page_path(project_id: parent_page.project, id: parent_page.title, version: nil )
+    assert_select_in result, 'ul.pages-hierarchy li ul.pages-hierarchy a[href=?]', project_wiki_page_path(project_id: child_page.project, id: child_page.title, version: nil )
+  end
+
+  def test_render_page_hierarchy_with_timestamp
+    parent_page = WikiPage.find(1)
+    child_page = WikiPage.find_by(parent_id: parent_page.id)
+    pages_by_parent_id = { nil => [parent_page], parent_page.id => [child_page] }
+    result = render_page_hierarchy(pages_by_parent_id, nil, :timestamp => true)
+    assert_select_in result, 'ul.pages-hierarchy li a[title=?]', l(:label_updated_time, distance_of_time_in_words(Time.now, parent_page.updated_on))
+    assert_select_in result, 'ul.pages-hierarchy li ul.pages-hierarchy a[title=?]', l(:label_updated_time, distance_of_time_in_words(Time.now, child_page.updated_on))
+  end
+
+  def test_render_page_hierarchy_when_action_is_export
+    parent_page = WikiPage.find(1)
+    child_page = WikiPage.find_by(parent_id: parent_page.id)
+    pages_by_parent_id = { nil => [parent_page], parent_page.id => [child_page] }
+
+    # Change controller and action using stub
+    controller.stubs(:controller_name).returns('wiki')
+    controller.stubs(:action_name).returns("export")
+
+    result = render_page_hierarchy(pages_by_parent_id, nil)
+    assert_select_in result, 'ul.pages-hierarchy li a[href=?]', "##{parent_page.title}"
+    assert_select_in result, 'ul.pages-hierarchy li ul.pages-hierarchy a[href=?]', "##{child_page.title}"
+  end
+
   def test_avatar_with_user
     with_settings :gravatar_enabled => '1' do
       assert_include Digest::MD5.hexdigest('jsmith@somenet.foo'), avatar(User.find_by_mail('jsmith@somenet.foo'))
