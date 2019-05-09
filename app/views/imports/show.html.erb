@@ -1,15 +1,9 @@
-<h2><%= l(:label_import_issues) %></h2>
+<h2><%= import_title %></h2>
 
 <% if @import.saved_items.count > 0 %>
   <p><%= l(:notice_import_finished, :count => @import.saved_items.count) %>:</p>
 
-  <ul id="saved-items">
-  <% @import.saved_objects.each do |issue| %>
-    <li><%= link_to_issue issue %></li>
-  <% end %>
-  </ul>
-
-  <p><%= link_to l(:label_issue_view_all), issues_path(:set_filter => 1, :status_id => '*', :issue_id => @import.saved_objects.map(&:id).join(',')) %></p>
+  <%= render :partial => "#{import_partial_prefix}_saved_objects", :locals => { saved_objects: @import.saved_objects } %>
 <% end %>
 
 <% if @import.unsaved_items.count > 0 %>
@@ -33,6 +27,4 @@
   </table>
 <% end %>
 
-<% content_for :sidebar do %>
-    <%= render :partial => 'issues/sidebar' %>
-<% end %>
+<%= render :partial => "#{import_partial_prefix}_sidebar" %>

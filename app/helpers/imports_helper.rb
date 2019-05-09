@@ -18,6 +18,14 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 module ImportsHelper
+  def import_title
+    l(:"label_import_#{import_partial_prefix}")
+  end
+
+  def import_partial_prefix
+    @import.class.name.sub('Import', '').underscore.pluralize
+  end
+
   def options_for_mapping_select(import, field, options={})
     tags = "".html_safe
     blank_text = options[:required] ? "-- #{l(:actionview_instancetag_blank_option)} --" : "&nbsp;".html_safe

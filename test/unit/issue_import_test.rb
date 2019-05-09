@@ -41,6 +41,12 @@ class IssueImportTest < ActiveSupport::TestCase
     set_language_if_valid 'en'
   end
 
+  def test_authorized
+    assert  IssueImport.authorized?(User.find(1)) # admins
+    assert  IssueImport.authorized?(User.find(2)) # has import_issues permission
+    assert !IssueImport.authorized?(User.find(3)) # does not have permission
+  end
+
   def test_create_versions_should_create_missing_versions
     import = generate_import_with_mapping
     import.mapping.merge!('fixed_version' => '9', 'create_versions' => '1')

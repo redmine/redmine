@@ -44,7 +44,7 @@ class ImportsControllerTest < Redmine::ControllerTest
   end
 
   def test_new_should_display_the_upload_form
-    get :new
+    get :new, :params => { :type => 'IssueImport' }
     assert_response :success
     assert_select 'input[name=?]', 'file'
   end
@@ -52,6 +52,7 @@ class ImportsControllerTest < Redmine::ControllerTest
   def test_create_should_save_the_file
     import = new_record(Import) do
       post :create, :params => {
+          :type => 'IssueImport',
           :file => uploaded_test_file('import_issues.csv', 'text/csv')
         }
       assert_response 302

@@ -18,6 +18,13 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class IssueImport < Import
+  def self.menu_item
+    :issues
+  end
+
+  def self.authorized?(user)
+    user.allowed_to?(:import_issues, nil, :global => true)
+  end
 
   # Returns the objects that were imported
   def saved_objects

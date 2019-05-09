@@ -1,0 +1,16 @@
+<fieldset class="box tabular">
+  <legend><%= l(:label_fields_mapping) %></legend>
+  <div id="fields-mapping">
+    <%= render :partial => 'issues_fields_mapping' %>
+  </div>
+</fieldset>
+
+<%= javascript_tag do %>
+  $('#fields-mapping').on('change', '#import_mapping_project_id, #import_mapping_tracker', function(){
+    $.ajax({
+      url: '<%= import_mapping_path(@import, :format => 'js') %>',
+      type: 'post',
+      data: $('#import-form').serialize()
+    });
+  });
+<% end %>

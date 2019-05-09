@@ -1,12 +1,10 @@
-<h2><%= l(:label_import_issues) %></h2>
+<h2><%= import_title %></h2>
 
 <div id="import-details">
   <div id="import-progress"><div id="progress-label">0 / <%= @import.total_items.to_i %></div></div>
 </div>
 
-<% content_for :sidebar do %>
-  <%= render :partial => 'issues/sidebar' %>
-<% end %>
+<%= render :partial => "#{import_partial_prefix}_sidebar" %>
 
 <%= javascript_tag do %>
 $(document).ready(function() {

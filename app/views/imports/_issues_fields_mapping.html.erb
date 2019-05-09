@@ -54,7 +54,7 @@
 </p>
 <% @custom_fields.each do |field| %>
   <p>
-    <label for="import_mapping_cf_<% field.id %>"><%= field.name %></label>
+    <label for="import_mapping_cf_<%= field.id %>"><%= field.name %></label>
     <%= mapping_select_tag @import, "cf_#{field.id}" %>
   </p>
 <% end %>

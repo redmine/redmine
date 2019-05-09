@@ -1,0 +1,7 @@
+<ul id="saved-items">
+  <% saved_objects.each do |issue| %>
+    <li><%= link_to_issue issue %></li>
+  <% end %>
+</ul>
+
+<p><%= link_to l(:label_issue_view_all), issues_path(:set_filter => 1, :status_id => '*', :issue_id => saved_objects.map(&:id).join(',')) %></p>

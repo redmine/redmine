@@ -1,4 +1,4 @@
-<h2><%= l(:label_import_issues) %></h2>
+<h2><%= import_title %></h2>
 
 <%= form_tag(import_settings_path(@import), :id => "import-form") do %>
   <fieldset class="box tabular">
@@ -25,6 +25,4 @@
   <p><%= submit_tag l(:label_next).html_safe + " &#187;".html_safe, :name => nil %></p>
 <% end %>
 
-<% content_for :sidebar do %>
-    <%= render :partial => 'issues/sidebar' %>
-<% end %>
+<%= render :partial => "#{import_partial_prefix}_sidebar" %>

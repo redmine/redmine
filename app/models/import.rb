@@ -37,6 +37,18 @@ class Import < ActiveRecord::Base
     '%d-%m-%Y'
   ]
 
+  def self.menu_item
+    nil
+  end
+
+  def self.layout
+    'base'
+  end
+
+  def self.authorized?(user)
+    user.admin?
+  end
+
   def initialize(*args)
     super
     self.settings ||= {}
