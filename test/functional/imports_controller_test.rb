@@ -175,7 +175,7 @@ class ImportsControllerTest < Redmine::ControllerTest
           :mapping => {
             :project_id => '1',
             :tracker_id => '2',
-          :subject => '0'}    
+          :subject => '0'}
         }
       }
     assert_redirected_to "/imports/#{import.to_param}/run"
@@ -186,7 +186,7 @@ class ImportsControllerTest < Redmine::ControllerTest
     assert_equal '2', mapping['tracker_id']
     assert_equal '0', mapping['subject']
   end
- 
+
   def test_get_run
     import = generate_import_with_mapping
 
@@ -196,7 +196,7 @@ class ImportsControllerTest < Redmine::ControllerTest
     assert_response :success
     assert_select '#import-progress'
   end
- 
+
   def test_post_run_should_import_the_file
     import = generate_import_with_mapping
 
