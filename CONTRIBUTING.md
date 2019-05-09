@@ -1,8 +1,10 @@
+Your contributions to Redmine are welcome!
 
-**Do not send a pull request to this GitHub repository**.
+Please **open an issue on the [official website]** instead of sending pull requests.
 
-For more detail, please see [official website] wiki [Contribute].
+Since the development of Redmine is not conducted on GitHub but on the [official web site] and core developers are not monitoring the GitHub repo, pull requests might not get reviewed.
 
-[official website]: http://www.redmine.org
-[Contribute]: http://www.redmine.org/projects/redmine/wiki/Contribute
+For more detail about how to contribute, please see the wiki page [Contribute] on the [official website].
 
+[official website]: https://www.redmine.org/
+[Contribute]: https://www.redmine.org/projects/redmine/wiki/Contribute
