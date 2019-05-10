@@ -237,6 +237,44 @@ class ImportsControllerTest < Redmine::ControllerTest
     assert_equal ["Child of existing issue", "Child 1", "First"], issues.map(&:subject)
   end
 
+  def test_post_run_with_notifications
+    import = generate_import
+
+    post :settings, :params => {
+        :id => import,
+        :import_settings => {
+          :separator => ';',
+          :wrapper => '"',
+          :encoding => 'ISO-8859-1',
+          :notifications => '1',
+          :mapping => {
+            :project_id => '1',
+            :tracker => '13',
+            :subject => '1',
+            :assigned_to => '11',
+          },
+        },
+      }
+
+    ActionMailer::Base.deliveries.clear
+    assert_difference 'Issue.count', 3 do
+      post :run, :params => {
+          :id => import,
+        }
+      assert_response :found
+    end
+    actual_email_count = ActionMailer::Base.deliveries.size
+    assert_not_equal 0, actual_email_count
+
+    import.reload
+    issue_ids = import.items.collect(&:obj_id)
+    expected_email_count =
+      Issue.where(:id => issue_ids).inject(0) do |sum, issue|
+        sum + (issue.notified_users | issue.notified_watchers).size
+      end
+    assert_equal expected_email_count, actual_email_count
+  end
+
   def test_show_without_errors
     import = generate_import_with_mapping
     import.run

@@ -21,6 +21,12 @@
       <label for="import_settings_date_format"><%= l(:setting_date_format) %></label>
       <%= select_tag 'import_settings[date_format]', options_for_select(date_format_options, @import.settings['date_format']) %>
     </p>
+    <br>
+    <p>
+      <label for="import_settings_notifications"><%= l(:label_import_notifications) %></label>
+      <%= hidden_field_tag 'import_settings[notifications]', '0', :id => nil %>
+      <%= check_box_tag 'import_settings[notifications]', '1', "#{@import.settings['notifications']}" == '1' %>
+    </p>
   </fieldset>
   <p><%= submit_tag l(:label_next).html_safe + " &#187;".html_safe, :name => nil %></p>
 <% end %>

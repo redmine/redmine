@@ -80,7 +80,8 @@ class Import < ActiveRecord::Base
       'separator' => separator,
       'wrapper' => wrapper,
       'encoding' => encoding,
-      'date_format' => date_format
+      'date_format' => date_format,
+      'notifications' => '0'
     )
   end
 

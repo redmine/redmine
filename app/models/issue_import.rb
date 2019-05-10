@@ -86,7 +86,7 @@ class IssueImport < Import
   def build_object(row, item)
     issue = Issue.new
     issue.author = user
-    issue.notify = false
+    issue.notify = !!ActiveRecord::Type::Boolean.new.cast(settings['notifications'])
 
     tracker_id = nil
     if tracker
