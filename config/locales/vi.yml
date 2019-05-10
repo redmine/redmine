@@ -1334,3 +1334,4 @@ vi:
     You can configure it in config/configuration.yml.
   setting_gantt_months_limit: Maximum number of months displayed on the gantt chart
   label_import_time_entries: Import time entries
+  label_import_notifications: Send email notifications during the import
