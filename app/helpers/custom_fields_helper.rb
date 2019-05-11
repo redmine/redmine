@@ -194,4 +194,15 @@ module CustomFieldsHelper
     end
     form.select :edit_tag_style, select_options, :label => :label_display
   end
+
+  def select_type_radio_buttons(default_type)
+    if CUSTOM_FIELDS_TABS.none? {|tab| tab[:name] == default_type}
+      default_type = 'IssueCustomField'
+    end
+    custom_field_type_options.map do |name, type|
+      content_tag(:label, :style => 'display:block;') do
+        radio_button_tag('type', type, type == default_type) + name
+      end
+    end.join("\n").html_safe
+  end
 end
