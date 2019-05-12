@@ -514,7 +514,6 @@ ja:
   label_enumeration_new: 新しい値
   label_information: 情報
   label_information_plural: 情報
-  label_please_login: ログインしてください
   label_register: 登録する
   label_login_with_open_id_option: またはOpenIDでログインする
   label_password_lost: パスワードの再発行

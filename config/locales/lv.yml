@@ -451,7 +451,6 @@ lv:
   label_enumeration_new: Jauna vērtība
   label_information: Informācija
   label_information_plural: Informācija
-  label_please_login: Lūdzu pieslēdzieties
   label_register: Reģistrēties
   label_login_with_open_id_option: vai pieslēgties ar OpenID
   label_password_lost: Nozaudēta parole

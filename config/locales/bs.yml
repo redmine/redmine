@@ -436,7 +436,6 @@ bs:
   label_enumeration_new: Nova vrijednost
   label_information: Informacija
   label_information_plural: Informacije
-  label_please_login: Molimo prijavite se
   label_register: Registracija
   label_login_with_open_id_option: ili prijava sa OpenID-om
   label_password_lost: Izgubljena lozinka

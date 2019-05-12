@@ -457,7 +457,6 @@ mn:
   label_enumeration_new: Шинэ утга
   label_information: Мэдээлэл
   label_information_plural: Мэдээллүүд
-  label_please_login: Нэвтэрч орно уу
   label_register: Бүртгүүлэх
   label_login_with_open_id_option: or login with OpenID
   label_password_lost: Нууц үгээ алдсан

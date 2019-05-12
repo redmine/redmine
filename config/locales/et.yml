@@ -528,7 +528,6 @@ et:
   label_enumeration_new: "Lisa"
   label_information: "Teave"
   label_information_plural: "Teave"
-  label_please_login: "Palun logi sisse"
   label_register: "Registreeru"
   label_login_with_open_id_option: "või logi sisse OpenID-ga"
   label_password_lost: "Kui parool on ununud..."

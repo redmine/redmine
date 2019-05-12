@@ -576,7 +576,6 @@ sv:
   label_enumeration_new: Nytt värde
   label_information: Information
   label_information_plural: Information
-  label_please_login: Var god logga in
   label_register: Registrera
   label_login_with_open_id_option: eller logga in med OpenID
   label_password_lost: Glömt lösenord

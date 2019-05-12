@@ -435,7 +435,6 @@ el:
   label_enumeration_new: Νέα τιμή
   label_information: Πληροφορία
   label_information_plural: Πληροφορίες
-  label_please_login: Παρακαλώ συνδεθείτε
   label_register: Εγγραφή
   label_login_with_open_id_option: ή συνδεθείτε με OpenID
   label_password_lost: Ανάκτηση κωδικού πρόσβασης

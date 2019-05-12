@@ -441,7 +441,6 @@ id:
   label_enumeration_new: Buat baru
   label_information: Informasi
   label_information_plural: Informasi
-  label_please_login: Silakan login
   label_register: mendaftar
   label_login_with_open_id_option: atau login menggunakan OpenID
   label_password_lost: Lupa password

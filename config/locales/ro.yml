@@ -419,7 +419,6 @@ ro:
   label_enumeration_new: Valoare nouă
   label_information: Informație
   label_information_plural: Informații
-  label_please_login: Vă rugăm să vă autentificați
   label_register: Înregistrare
   label_login_with_open_id_option: sau autentificare cu OpenID
   label_password_lost: Parolă uitată

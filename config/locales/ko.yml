@@ -478,7 +478,6 @@ ko:
   label_enumeration_new: 새 코드값
   label_information: 정보
   label_information_plural: 정보
-  label_please_login: 로그인하세요.
   label_register: 등록
   label_login_with_open_id_option: 또는 OpenID로 로그인
   label_password_lost: 비밀번호 찾기

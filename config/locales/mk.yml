@@ -469,7 +469,6 @@ mk:
   label_enumeration_new: Нова вредност
   label_information: Информација
   label_information_plural: Информации
-  label_please_login: Најави се
   label_register: Регистрирај се
   label_login_with_open_id_option: или најави се со OpenID
   label_password_lost: Изгубена лозинка

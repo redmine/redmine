@@ -521,7 +521,6 @@ gl:
   label_password_lost: "Esqueceu o contrasinal?"
   label_permissions: Permisos
   label_permissions_report: Informe de permisos
-  label_please_login: "Acceder"
   label_plugins: Complementos
   label_precedes: anterior a
   label_preferences: Preferencias

@@ -467,7 +467,6 @@ sr:
   label_enumeration_new: Нова вредност
   label_information: Информација
   label_information_plural: Информације
-  label_please_login: Молимо, пријавите се
   label_register: Регистрација
   label_login_with_open_id_option: или пријава са OpenID
   label_password_lost: Изгубљена лозинка

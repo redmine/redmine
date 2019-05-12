@@ -473,7 +473,6 @@ ca:
   label_enumeration_new: "Nou valor"
   label_information: "Informació"
   label_information_plural: "Informació"
-  label_please_login: "Si us plau, inicieu sessió"
   label_register: "Registrar"
   label_login_with_open_id_option: "o entrar amb OpenID"
   label_password_lost: "Has oblidat la contrasenya?"

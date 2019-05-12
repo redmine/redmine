@@ -608,7 +608,6 @@ bg:
   label_enumeration_new: Нова стойност
   label_information: Информация
   label_information_plural: Информация
-  label_please_login: Вход
   label_register: Регистрация
   label_login_with_open_id_option: или вход чрез OpenID
   label_password_lost: Забравена парола

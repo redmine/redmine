@@ -578,7 +578,6 @@ lt:
   label_enumeration_new: Nauja vertė
   label_information: Informacija
   label_information_plural: Informacija
-  label_please_login: Prašom prisijungti
   label_register: Užsiregistruoti
   label_login_with_open_id_option: arba prisijunkite su OpenID
   label_password_lost: Prarastas slaptažodis

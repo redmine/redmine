@@ -484,7 +484,6 @@ zh:
   label_enumeration_new: 新建枚举值
   label_information: 信息
   label_information_plural: 信息
-  label_please_login: 请登录
   label_register: 注册
   label_login_with_open_id_option: 或使用OpenID登录
   label_password_lost: 忘记密码

@@ -611,7 +611,6 @@ fr:
   label_enumeration_new: Nouvelle valeur
   label_information: Information
   label_information_plural: Informations
-  label_please_login: Identification
   label_register: S'enregistrer
   label_login_with_open_id_option: S'authentifier avec OpenID
   label_password_lost: Mot de passe perdu
