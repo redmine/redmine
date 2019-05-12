@@ -425,13 +425,24 @@ class AttachmentTest < ActiveSupport::TestCase
   if convert_installed?
     def test_thumbnail_should_generate_the_thumbnail
       set_fixtures_attachments_directory
-      attachment = Attachment.find(16)
       Attachment.clear_thumbnails
+      to_test = []
+      # image/png
+      to_test << Attachment.find(16)
+      # application/pdf
+      if Redmine::Thumbnail.gs_available?
+        to_test << Attachment.find(23)
+      else
+        puts '(Ghostscript not available)'
+      end
 
-      assert_difference "Dir.glob(File.join(Attachment.thumbnails_storage_path, '*.thumb')).size" do
-        thumbnail = attachment.thumbnail
-        assert_equal "8e0294de2441577c529f170b6fb8f638_2654_100.thumb", File.basename(thumbnail)
-        assert File.exists?(thumbnail)
+      assert_difference "Dir.glob(File.join(Attachment.thumbnails_storage_path, '*.thumb')).size", to_test.size do
+        to_test.each do |attachment|
+          thumbnail = attachment.thumbnail
+          thumbnail_name = "#{attachment.digest}_#{attachment.filesize}_#{Setting.thumbnails_size}.thumb"
+          assert_equal thumbnail_name, File.basename(thumbnail)
+          assert File.exist?(thumbnail)
+        end
       end
     end
 
