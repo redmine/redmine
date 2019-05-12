@@ -77,7 +77,8 @@ class AdminController < ApplicationController
       [:text_file_repository_writable, File.writable?(Attachment.storage_path)],
       ["#{l :text_plugin_assets_writable} (./public/plugin_assets)",   File.writable?(Redmine::Plugin.public_directory)],
       [:text_rmagick_available,        Object.const_defined?(:Magick)],
-      [:text_convert_available,        Redmine::Thumbnail.convert_available?]
+      [:text_convert_available,        Redmine::Thumbnail.convert_available?],
+      [:text_gs_available,             Redmine::Thumbnail.gs_available?]
     ]
   end
 end

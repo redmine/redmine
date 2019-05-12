@@ -25,12 +25,18 @@ module Redmine
     extend Redmine::Utils::Shell
 
     CONVERT_BIN = (Redmine::Configuration['imagemagick_convert_command'] || 'convert').freeze
-    ALLOWED_TYPES = %w(image/bmp image/gif image/jpeg image/png)
+    ALLOWED_TYPES = %w(image/bmp image/gif image/jpeg image/png application/pdf)
 
     # Generates a thumbnail for the source image to target
-    def self.generate(source, target, size)
+    def self.generate(source, target, size, is_pdf = false)
       return nil unless convert_available?
+      return nil if is_pdf && !gs_available?
       unless File.exists?(target)
+        mime_type = File.open(source) {|f| MimeMagic.by_magic(f).try(:type) }
+        return nil if mime_type.nil?
+        return nil if !ALLOWED_TYPES.include? mime_type
+        return nil if is_pdf && mime_type != "application/pdf"
+
         # Make sure we only invoke Imagemagick if the file type is allowed
         unless File.open(source) {|f| ALLOWED_TYPES.include? MimeMagic.by_magic(f).try(:type) }
           return nil
@@ -40,7 +46,12 @@ module Redmine
           FileUtils.mkdir_p directory
         end
         size_option = "#{size}x#{size}>"
-        cmd = "#{shell_quote CONVERT_BIN} #{shell_quote source} -auto-orient -thumbnail #{shell_quote size_option} #{shell_quote target}"
+
+        if is_pdf
+          cmd = "#{shell_quote CONVERT_BIN} #{shell_quote "#{source}[0]"} -thumbnail #{shell_quote size_option} #{shell_quote "png:#{target}"}"
+        else
+          cmd = "#{shell_quote CONVERT_BIN} #{shell_quote source} -auto-orient -thumbnail #{shell_quote size_option} #{shell_quote target}"
+        end
         unless system(cmd)
           logger.error("Creating thumbnail failed (#{$?}):\nCommand: #{cmd}")
           return nil
@@ -59,6 +70,22 @@ module Redmine
       end
       logger.warn("Imagemagick's convert binary (#{CONVERT_BIN}) not available") unless @convert_available
       @convert_available
+    end
+
+    def self.gs_available?
+      return @gs_available if defined?(@gs_available)
+
+      if Redmine::Platform.mswin?
+        @gs_available = false
+      else
+        begin
+          `gs -version`
+          @gs_available = $?.success?
+        rescue
+          @gs_available = false
+        end
+      end
+      @gs_available
     end
 
     def self.logger

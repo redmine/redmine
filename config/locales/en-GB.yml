@@ -1087,6 +1087,7 @@ en-GB:
     current password
   setting_mail_handler_excluded_filenames: Exclude attachments by name
   text_convert_available: ImageMagick convert available (optional)
+  text_gs_available: ImageMagick PDF support available (optional)
   label_link: Link
   label_only: only
   label_drop_down_list: drop-down list

@@ -201,7 +201,7 @@ class Attachment < ActiveRecord::Base
   end
 
   def thumbnailable?
-    image?
+    image? || (is_pdf? && Redmine::Thumbnail.gs_available?)
   end
 
   # Returns the full path the attachment thumbnail, or nil
@@ -221,7 +221,7 @@ class Attachment < ActiveRecord::Base
       target = thumbnail_path(size)
 
       begin
-        Redmine::Thumbnail.generate(self.diskfile, target, size)
+        Redmine::Thumbnail.generate(self.diskfile, target, size, is_pdf?)
       rescue => e
         logger.error "An error occured while generating thumbnail for #{disk_filename} to #{target}\nException was: #{e.message}" if logger
         return nil

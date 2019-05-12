@@ -83,7 +83,7 @@ class AttachmentsController < ApplicationController
       if stale?(:etag => tbnail)
         send_file tbnail,
           :filename => filename_for_content_disposition(@attachment.filename),
-          :type => detect_content_type(@attachment),
+          :type => detect_content_type(@attachment, true),
           :disposition => 'inline'
       end
     else
@@ -236,12 +236,20 @@ class AttachmentsController < ApplicationController
     @attachment.deletable? ? true : deny_access
   end
 
-  def detect_content_type(attachment)
+  def detect_content_type(attachment, is_thumb = false)
     content_type = attachment.content_type
     if content_type.blank? || content_type == "application/octet-stream"
-      content_type = Redmine::MimeType.of(attachment.filename)
+      content_type = 
+        Redmine::MimeType.of(attachment.filename).presence ||
+        "application/octet-stream"
     end
-    content_type.presence || "application/octet-stream"
+
+    if is_thumb && content_type == "application/pdf"
+      # PDF previews are stored in PNG format
+      content_type = "image/png"
+    end
+
+    content_type
   end
 
   def disposition(attachment)
