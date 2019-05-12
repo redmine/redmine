@@ -1282,3 +1282,4 @@ mn:
   setting_gantt_months_limit: Maximum number of months displayed on the gantt chart
   label_import_time_entries: Import time entries
   label_import_notifications: Send email notifications during the import
+  text_gs_available: ImageMagick PDF support available (optional)
