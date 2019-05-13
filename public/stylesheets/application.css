@@ -457,7 +457,10 @@ select {
   -ms-appearance: none;
   -o-appearance: none;
   appearance: none;
-  background: #fff url(../images/arrow_down.png) no-repeat calc( 100% - 7px) 50%;
+  background-color: #fff;
+  background-image: url(../images/arrow_down.png);
+  background-repeat: no-repeat;
+  background-position: calc(100% - 7px) 50%;
   padding-right: 20px;
 }
 input[type="file"] {border: 0; padding-left: 0; padding-right: 0;}
@@ -1610,7 +1613,6 @@ img.filecontent.image {background-image: url(../images/transparent.png);}
   overflow:hidden;
 }
 
-
 img {
   image-orientation: from-image;
 }
@@ -1624,4 +1626,12 @@ img {
   position: absolute;
   max-height: 100%;
   max-width: 100%;
+}
+
+/* Fixes for IE 11 */
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+  select::-ms-expand {
+    display: none;
+  }
+  select[multiple=multiple] {padding-right: 0;}
 }
