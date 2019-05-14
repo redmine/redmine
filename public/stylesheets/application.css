@@ -650,7 +650,7 @@ ul.projects div.description li {list-style-type:initial;}
 #projects-index ul.projects div.description {
   padding-top: 0.5em;
 }
-#projects-index a.icon-fav {padding-left:0; padding-right:20px; background-position:98% 50%;}
+#projects-index a.icon-user {padding-left:0; padding-right:20px; background-position:98% 50%;}
 
 #notified-projects>ul, #tracker_project_ids>ul, #custom_field_project_ids>ul {max-height:250px; overflow-y:auto;}
 
