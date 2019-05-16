@@ -34,6 +34,8 @@ module Redmine
         IssueRelation::TYPE_PRECEDES => { :landscape_margin => 20, :color => '#628FEA' }
       }.freeze
 
+      UNAVAILABLE_COLUMNS = [:tracker, :id, :subject]
+
       # Some utility methods for the PDF export
       # @private
       class PDF
@@ -78,6 +80,7 @@ module Redmine
         @date_to = (@date_from >> @months) - 1
         @subjects = +''
         @lines = +''
+        @columns ||= {}
         @number_of_rows = nil
         @truncated = false
         if options.has_key?(:max_rows)
@@ -135,6 +138,12 @@ module Redmine
       def lines(options={})
         render(options.merge(:only => :lines)) unless @lines_rendered
         @lines
+      end
+
+      # Renders the selected column of the Gantt chart, the right side of subjects.
+      def selected_column_content(options={})
+        render(options.merge(:only => :selected_columns)) unless @columns.has_key?(options[:column].name)
+        @columns[options[:column].name]
       end
 
       # Returns issues that will be rendered
@@ -198,8 +207,9 @@ module Redmine
                    :indent_increment => 20, :render => :subject,
                    :format => :html}.merge(options)
         indent = options[:indent] || 4
-        @subjects = +'' unless options[:only] == :lines
-        @lines = +'' unless options[:only] == :subjects
+        @subjects = +'' unless options[:only] == :lines || options[:only] == :selected_columns
+        @lines = +'' unless options[:only] == :subjects || options[:only] == :selected_columns
+        @columns[options[:column].name] = +'' if options[:only] == :selected_columns && @columns.has_key?(options[:column]) == false
         @number_of_rows = 0
         begin
           Project.project_tree(projects) do |project, level|
@@ -209,8 +219,8 @@ module Redmine
         rescue MaxLinesLimitReached
           @truncated = true
         end
-        @subjects_rendered = true unless options[:only] == :lines
-        @lines_rendered = true unless options[:only] == :subjects
+        @subjects_rendered = true unless options[:only] == :lines || options[:only] == :selected_columns
+        @lines_rendered = true unless options[:only] == :subjects || options[:only] == :selected_columns
         render_end(options)
       end
 
@@ -256,8 +266,9 @@ module Redmine
 
       def render_object_row(object, options)
         class_name = object.class.name.downcase
-        send("subject_for_#{class_name}", object, options) unless options[:only] == :lines
-        send("line_for_#{class_name}", object, options) unless options[:only] == :subjects
+        send("subject_for_#{class_name}", object, options) unless options[:only] == :lines || options[:only] == :selected_columns
+        send("line_for_#{class_name}", object, options) unless options[:only] == :subjects || options[:only] == :selected_columns
+        column_content_for_issue(object, options) if options[:only] == :selected_columns && options[:column].present? && object.is_a?(Issue)
         options[:top] += options[:top_increment]
         @number_of_rows += 1
         if @max_rows && @number_of_rows >= @max_rows
@@ -322,6 +333,17 @@ module Redmine
           end
           markers = !issue.leaf?
           line(issue.start_date, issue.due_before, issue.done_ratio, markers, label, options, issue)
+        end
+      end
+
+      def column_content_for_issue(issue, options)
+        if options[:format] == :html
+          data_options = {}
+          data_options[:collapse_expand] = "issue-#{issue.id}"
+          style = "position: absolute;top: #{options[:top]}px; font-size: 0.8em;"
+          content = view.content_tag(:div, view.column_content(options[:column], issue), :style => style, :class => "issue_#{options[:column].name}", :id => "#{options[:column].name}_issue_#{issue.id}", :data => data_options)
+          @columns[options[:column].name] << content if @columns.has_key?(options[:column].name)
+          content
         end
       end
 

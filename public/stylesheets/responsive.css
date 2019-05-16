@@ -711,7 +711,6 @@
 
   .gantt_subjects_column .gantt_hdr {
     width: 100% !important;
-    border-right: 1px solid #c0c0c0; /* [2] */
     right: 0 !important; /* [2] */
   }
 

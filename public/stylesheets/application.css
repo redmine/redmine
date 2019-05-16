@@ -1260,15 +1260,37 @@ div.wiki img {vertical-align:middle; max-width:100%;}
 
 #my-page .list th.checkbox, #my-page .list td.checkbox {display:none;}
 /***** Gantt chart *****/
+div.gantt_content {
+  overflow: scroll;
+}
+table.gantt-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+table.gantt-table td {
+  padding: 0px;
+}
 .gantt_hdr {
   position:absolute;
   top:0;
   height:16px;
   border-top: 1px solid #c0c0c0;
   border-bottom: 1px solid #c0c0c0;
-  border-right: 1px solid #c0c0c0;
+  border-left: 1px solid #c0c0c0;
   text-align: center;
   overflow: hidden;
+}
+#gantt_area .gantt_hdr {
+  border-left: 0px;
+  border-right: 1px solid #c0c0c0;
+}
+.gantt_subjects_container:not(.draw_selected_columns) .gantt_hdr,
+.last_gantt_selected_column .gantt_hdr {
+  z-index: 10;
+  border-right: 1px solid #c0c0c0;
+}
+.gantt_subjects_container .gantt_subjects * {
+  z-index: 10;
 }
 
 .gantt_subjects_column + td {
@@ -1277,12 +1299,40 @@ div.wiki img {vertical-align:middle; max-width:100%;}
 
 .gantt_hdr.nwday {background-color:#f1f1f1; color:#999;}
 
-.gantt_subjects { font-size: 0.8em; position: relative; z-index: 1; }
-.gantt_subjects div { line-height:16px;height:16px;overflow:hidden;white-space:nowrap;text-overflow: ellipsis; }
+.gantt_subjects,
+.gantt_selected_column_content.gantt_hdr {
+  font-size: 0.8em;
+  position: relative;
+  z-index: 1;
+}
+.gantt_subjects div,
+.gantt_selected_column_content div {
+  line-height: 16px;
+  height: 16px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  width: 100%;
+}
 .gantt_subjects div.issue-subject:hover { background-color:#ffffdd; }
-
+.gantt_selected_column_content { padding-left: 3px; padding-right: 3px;}
 .gantt_subjects .issue-subject img.icon-gravatar {
   margin: 2px 5px 0px 2px;
+}
+.gantt_hdr_selected_column_name {
+  position: absolute;
+  top: 50%;
+  width:100%;
+  transform: translateY(-50%);
+  -webkit- transform: translateY(-50%);
+  font-size: 0.8em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+}
+td.gantt_selected_column, td.gantt_selected_column .gantt_hdr,.gantt_selected_column_container {
+  width: 50px;
 }
 
 .task {

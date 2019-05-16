@@ -25,6 +25,7 @@ class Redmine::Helpers::GanttHelperTest < Redmine::HelperTest
 
   include ProjectsHelper
   include IssuesHelper
+  include QueriesHelper
   include ERB::Util
   include Rails.application.routes.url_helpers
 
@@ -241,6 +242,17 @@ class Redmine::Helpers::GanttHelperTest < Redmine::HelperTest
     assert_select "div.tooltip", /#{@issue.subject}/
   end
 
+  test "#selected_column_content" do
+    create_gantt
+    issue = Issue.generate!
+    @gantt.query.column_names = [:assigned_to]
+    issue.update(:assigned_to_id => issue.assignable_users.first.id)
+    @project.issues << issue
+    # :column => assigned_to
+    @output_buffer = @gantt.selected_column_content({ :column => @gantt.query.columns.last })
+    assert_select "div.issue_assigned_to#assigned_to_issue_#{issue.id}"
+  end
+
   test "#subject_for_project" do
     create_gantt
     @output_buffer = @gantt.subject_for_project(@project, :format => :html)
@@ -435,6 +447,20 @@ class Redmine::Helpers::GanttHelperTest < Redmine::HelperTest
     create_gantt
     @output_buffer = @gantt.line(gantt_start - 30, gantt_start - 21, 30, true, 'line', :format => :html)
     assert_select "div.label", :text => 'line'
+  end
+
+  test "#column_content_for_issue" do
+    create_gantt
+    @gantt.query.column_names = [:assigned_to]
+    issue = Issue.generate!
+    issue.update(:assigned_to_id => issue.assignable_users.first.id)
+    @project.issues << issue
+    # :column => assigned_to
+    options = { :column => @gantt.query.columns.last, :top => 64, :format => :html }
+    @output_buffer = @gantt.column_content_for_issue(issue, options)
+
+    assert_select "div.issue_assigned_to#assigned_to_issue_#{issue.id}"
+    assert_includes @output_buffer, column_content(options[:column], issue)
   end
 
   def test_sort_issues_no_date

@@ -163,6 +163,37 @@ function drawGanttProgressLines() {
   }
 }
 
+function drawSelectedColumns(){
+  if ($("#draw_selected_columns").prop('checked')) {
+    if(isMobile()) {
+      $('td.gantt_selected_column').each(function(i) {
+        $(this).hide();
+      });
+    }else{
+      $('.gantt_subjects_container').addClass('draw_selected_columns');
+      $('td.gantt_selected_column').each(function() {
+        $(this).show();
+        var column_name = $(this).attr('id');
+        $(this).resizable({
+          alsoResize: '.gantt_' + column_name + '_container, .gantt_' + column_name + '_container > .gantt_hdr',
+          minWidth: 20,
+          handles: "e",
+          create: function() {
+            $(".ui-resizable-e").css("cursor","ew-resize");
+          }
+        }).on('resize', function (e) {
+            e.stopPropagation();
+        });
+      });
+    }
+  }else{
+    $('td.gantt_selected_column').each(function (i) {
+      $(this).hide();
+      $('.gantt_subjects_container').removeClass('draw_selected_columns');
+    });
+  }
+}
+
 function drawGanttHandler() {
   var folder = document.getElementById('gantt_draw_area');
   if(draw_gantt != null)
@@ -170,10 +201,12 @@ function drawGanttHandler() {
   else
     draw_gantt = Raphael(folder);
   setDrawArea();
+  drawSelectedColumns();
   if ($("#draw_progress_line").prop('checked'))
     try{drawGanttProgressLines();}catch(e){}
   if ($("#draw_relations").prop('checked'))
     drawRelations();
+  $('#content').addClass('gantt_content');
 }
 
 function resizableSubjectColumn(){
@@ -184,7 +217,6 @@ function resizableSubjectColumn(){
     alsoResize: '.gantt_subjects_container, .gantt_subjects_container>.gantt_hdr, .project-name, .issue-subject, .version-name',
     minWidth: 100,
     handles: 'e',
-    containment: '#content',
     create: function( event, ui ) {
       $('.ui-resizable-e').css('cursor','ew-resize');
     }
@@ -224,8 +256,8 @@ ganttEntryClick = function(e){
 
       var new_top_val = parseInt(el.css('top')) + total_height * (target_shown ? -1 : 1);
       el.css('top', new_top_val);
-      $('#gantt_area form > div[data-collapse-expand="' + json.obj_id + '"]').each(function(_, task){
-        $(task).css('top', new_top_val);
+      $('#gantt_area form > div[data-collapse-expand="' + json.obj_id + '"], td.gantt_selected_column div[data-collapse-expand="' + json.obj_id + '"]').each(function(_, el){
+        $(el).css('top', new_top_val);
       });
       return true;
     }
@@ -237,12 +269,19 @@ ganttEntryClick = function(e){
       total_height = 0;
     }
     if(is_shown == target_shown){
-      $('#gantt_area form > div[data-collapse-expand="' + json.obj_id + '"]').each(function(_, task){
+      $('#gantt_area form > div[data-collapse-expand="' + json.obj_id + '"]').each(function(_, task) {
         var el_task = $(task);
         if(!is_shown)
           el_task.css('top', target_top + total_height);
         if(!el_task.hasClass('tooltip'))
           el_task.toggle(!is_shown);
+      });
+      $('td.gantt_selected_column div[data-collapse-expand="' + json.obj_id + '"]'
+          ).each(function (_, attr) {
+        var el_attr = $(attr);
+        if (!is_shown)
+          el_attr.css('top', target_top + total_height);
+          el_attr.toggle(!is_shown);
       });
       if(!is_shown)
         el.css('top', target_top + total_height);
@@ -253,3 +292,9 @@ ganttEntryClick = function(e){
   });
   drawGanttHandler();
 };
+
+function disable_unavailable_columns(unavailable_columns) {
+  $.each(unavailable_columns, function (index, value) {
+    $('#available_c, #selected_c').children("[value='" + value + "']").prop('disabled', true);
+  });
+}

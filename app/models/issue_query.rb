@@ -76,10 +76,20 @@ class IssueQuery < Query
     options[:draw_progress_line] = (arg == '1' ? '1' : nil)
   end
 
+  def draw_selected_columns
+    r = options[:draw_selected_columns]
+    r == '1'
+  end
+
+  def draw_selected_columns=(arg)
+    options[:draw_selected_columns] = (arg == '1' ? '1' : nil)
+  end
+
   def build_from_params(params, defaults={})
     super
     self.draw_relations = params[:draw_relations] || (params[:query] && params[:query][:draw_relations]) || options[:draw_relations]
     self.draw_progress_line = params[:draw_progress_line] || (params[:query] && params[:query][:draw_progress_line]) || options[:draw_progress_line]
+    self.draw_selected_columns = params[:draw_selected_columns] || (params[:query] && params[:query][:draw_selected_columns]) || options[:draw_progress_line]
     self
   end
 
