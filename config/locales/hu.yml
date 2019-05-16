@@ -905,7 +905,7 @@
   error_unable_to_connect: Nem lehet csatlakozni (%{value})
   error_can_not_remove_role: Ez a szerepkör használatban van és ezért nem törölhető-
   field_parent_issue: Szülő feladat
-  error_unable_delete_issue_status: Nem lehet törölni a feladat állapotát
+  error_unable_delete_issue_status: Nem lehet törölni a feladat állapotát (%{value})
   label_subtask_plural: Alfeladatok
   error_can_not_delete_tracker: Ebbe a kategóriába feladatok tartoznak és ezért nem törölhető.
   label_project_copy_notifications: Küldjön e-mail értesítéseket projektmásolás közben.

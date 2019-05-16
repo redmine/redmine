@@ -862,7 +862,7 @@ nl:
   permission_export_wiki_pages: Wikipagina's exporteren
   setting_cache_formatted_text: Opgemaakte tekst cachen
   permission_manage_project_activities: Projectactiviteiten beheren
-  error_unable_delete_issue_status: Verwijderen van issuestatus is niet gelukt
+  error_unable_delete_issue_status: Verwijderen van issuestatus is niet gelukt (%{value})
   label_profile: Profiel
   permission_manage_subtasks: Subtaken beheren
   field_parent_issue: Hoofdissue

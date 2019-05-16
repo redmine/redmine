@@ -224,7 +224,7 @@ fr:
   error_issue_done_ratios_not_updated: L'avancement des demandes n'a pas pu être mis à jour.
   error_workflow_copy_source: 'Veuillez sélectionner un tracker et/ou un rôle source'
   error_workflow_copy_target: 'Veuillez sélectionner les trackers et rôles cibles'
-  error_unable_delete_issue_status: Impossible de supprimer le statut de demande
+  error_unable_delete_issue_status: Impossible de supprimer le statut de demande (%{value})
   error_unable_to_connect: Connexion impossible (%{value})
   error_attachment_too_big: Ce fichier ne peut pas être attaché car il excède la taille maximale autorisée (%{max_size})
   error_session_expired: "Votre session a expiré. Veuillez vous reconnecter."

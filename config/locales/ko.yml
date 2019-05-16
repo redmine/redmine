@@ -927,7 +927,7 @@ ko:
   permission_export_wiki_pages: 위키 페이지 내보내기
   setting_cache_formatted_text: 형식을 가진 텍스트 빠른 임시 기억
   permission_manage_project_activities: 프로젝트 작업내역 관리
-  error_unable_delete_issue_status: 일감 상태를 지울 수 없습니다.
+  error_unable_delete_issue_status: 일감 상태를 지울 수 없습니다. (%{value})
   label_profile: 사용자정보
   permission_manage_subtasks: 하위 일감 관리
   field_parent_issue: 상위 일감

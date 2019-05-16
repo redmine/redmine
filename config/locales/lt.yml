@@ -208,7 +208,7 @@ lt:
   error_issue_done_ratios_not_updated: "Įrašo baigtumo rodikliai nebuvo atnaujinti. "
   error_workflow_copy_source: 'Prašome pasirinkti pirminį seklį arba rolę, kurį norite kopijuoti'
   error_workflow_copy_target: 'Prašome pasirinkti seklį(-ius) arba rolę(-s) į kuriuos norite kopijuoti'
-  error_unable_delete_issue_status: 'Negalima ištrinti darbo statuso'
+  error_unable_delete_issue_status: 'Negalima ištrinti darbo statuso (%{value})'
   error_unable_to_connect: "Negalima prisijungti (%{value})"
   error_attachment_too_big: "Šis failas negali būti įkeltas, nes viršija maksimalų (%{max_size}) leistiną failo dydį"
   error_session_expired: "Jūsų sesija pasibaigė. Prašome prisijunti iš naujo."

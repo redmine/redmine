@@ -877,7 +877,7 @@ sl:
   permission_export_wiki_pages: Izvozi wiki strani
   setting_cache_formatted_text: Predpomni oblikovano besedilo
   permission_manage_project_activities: Uredi aktivnosti projekta
-  error_unable_delete_issue_status: Stanja zahtevka ni bilo možno spremeniti
+  error_unable_delete_issue_status: Stanja zahtevka ni bilo možno spremeniti (%{value})
   label_profile: Profil
   permission_manage_subtasks: Uredi podnaloge
   field_parent_issue: Nadrejena naloga

@@ -881,7 +881,7 @@ eu:
   permission_export_wiki_pages: Wiki orriak esportatu
   setting_cache_formatted_text: Formatudun testua katxeatu
   permission_manage_project_activities: Proiektuaren jarduerak kudeatu
-  error_unable_delete_issue_status: Ezine da zereginaren egoera ezabatu
+  error_unable_delete_issue_status: Ezine da zereginaren egoera ezabatu (%{value})
   label_profile: Profila
   permission_manage_subtasks: Azpiatazak kudeatu
   field_parent_issue: Zeregin gurasoa

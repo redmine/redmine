@@ -299,7 +299,7 @@ ru:
   error_scm_command_failed: "Ошибка доступа к хранилищу: %{value}"
   error_scm_not_found: Хранилище не содержит записи и/или исправления.
   error_unable_to_connect: Невозможно подключиться (%{value})
-  error_unable_delete_issue_status: Невозможно удалить статус задачи
+  error_unable_delete_issue_status: Невозможно удалить статус задачи (%{value})
 
   field_account: Учётная запись
   field_activity: Деятельность

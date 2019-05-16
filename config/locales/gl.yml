@@ -894,7 +894,7 @@ gl:
   permission_export_wiki_pages: "Exportar as páxinas do wiki"
   setting_cache_formatted_text: "Gardar o texto formatado na caché."
   permission_manage_project_activities: "Xestionar as actividades do proxecto"
-  error_unable_delete_issue_status: "Non foi posíbel eliminar o estado da petición."
+  error_unable_delete_issue_status: "Non foi posíbel eliminar o estado da petición. (%{value})"
   label_profile: "Perfil"
   permission_manage_subtasks: "Xestionar as subtarefas"
   field_parent_issue: "Tarefa superior"

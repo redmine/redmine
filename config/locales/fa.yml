@@ -208,7 +208,7 @@ fa:
   error_issue_done_ratios_not_updated: "اندازه انجام شده مسأله به‌روز نشد."
   error_workflow_copy_source: 'یک نوع مسأله یا نقش مبدأ را انتخاب کنید.'
   error_workflow_copy_target: 'نوع مسأله(ها) یا نقش‌(های) مقصد را انتخاب کنید.'
-  error_unable_delete_issue_status: 'وضعیت مسأله را نمی‌توان حذف کرد.'
+  error_unable_delete_issue_status: 'وضعیت مسأله را نمی‌توان حذف کرد. (%{value})'
   error_unable_to_connect: "نمی‌توان متصل شد (%{value})"
   error_attachment_too_big: "این پرونده نمی‌تواند بالاگذاری شود زیرا از بیشینه اندازه مجاز پرونده‌ها (%{max_size}) تجاوز می‌کند"
   error_session_expired: "نشست شما منقضی شده است. لطفاً دوباره وارد شوید."

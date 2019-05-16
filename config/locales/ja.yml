@@ -204,7 +204,7 @@ ja:
   error_scm_command_failed: "リポジトリへアクセスしようとしてエラーになりました: %{value}"
   error_scm_annotate: "エントリが存在しない、もしくはアノテートできません。"
   error_issue_not_found_in_project: 'チケットが見つかりません、もしくはこのプロジェクトに属していません'
-  error_unable_delete_issue_status: "チケットのステータスを削除できませんでした。"
+  error_unable_delete_issue_status: "チケットのステータスを削除できませんでした。 (%{value})"
   error_no_tracker_in_project: 'このプロジェクトにはトラッカーが登録されていません。プロジェクト設定を確認してください。'
   error_no_default_issue_status: 'デフォルトのチケットステータスが定義されていません。設定を確認してください（管理→チケットのステータス）。'
   error_can_not_delete_custom_field: 'カスタムフィールドを削除できません。'

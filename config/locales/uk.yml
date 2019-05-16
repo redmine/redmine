@@ -891,7 +891,7 @@ uk:
   permission_export_wiki_pages: Експорт wiki-сторінок
   setting_cache_formatted_text: Кешувати форматований текст
   permission_manage_project_activities: Управління типами дій для проекту
-  error_unable_delete_issue_status: Неможливо видалити статус задачі
+  error_unable_delete_issue_status: Неможливо видалити статус задачі (%{value})
   label_profile: Профіль
   permission_manage_subtasks: Управління підзадачами
   field_parent_issue: Батьківська задача

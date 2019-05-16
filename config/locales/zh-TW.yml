@@ -288,7 +288,7 @@
   error_issue_done_ratios_not_updated: "議題完成百分比未更新。"
   error_workflow_copy_source: '請選擇一個來源議題追蹤標籤或角色'
   error_workflow_copy_target: '請選擇一個（或多個）目的議題追蹤標籤或角色'
-  error_unable_delete_issue_status: '無法刪除議題狀態'
+  error_unable_delete_issue_status: '無法刪除議題狀態 (%{value})'
   error_unable_to_connect: "無法連線至（%{value}）"
   error_attachment_too_big: "這個檔案無法被上傳，因為它已經超過最大的檔案大小 (%{max_size})"
   error_session_expired: "您的工作階段已經過期。請重新登入。"

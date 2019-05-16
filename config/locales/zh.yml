@@ -197,7 +197,7 @@ zh:
   error_issue_done_ratios_not_updated: 问题完成度未能被更新。
   error_workflow_copy_source: 请选择一个源跟踪标签或者角色
   error_workflow_copy_target: 请选择目标跟踪标签和角色
-  error_unable_delete_issue_status: '无法删除问题状态'
+  error_unable_delete_issue_status: '无法删除问题状态 (%{value})'
   error_unable_to_connect: "无法连接 (%{value})"
   warning_attachments_not_saved: "%{count} 个文件保存失败"
 

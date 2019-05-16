@@ -289,7 +289,7 @@ az:
   error_scm_command_failed: "Saxlayıcıya giriş imkanı səhvi: %{value}"
   error_scm_not_found: Saxlayıcıda yazı və/ və ya düzəliş yoxdur.
   error_unable_to_connect: Qoşulmaq mümkün deyildir (%{value})
-  error_unable_delete_issue_status: Tapşırığın statusunu silmək mümkün deyildir
+  error_unable_delete_issue_status: Tapşırığın statusunu silmək mümkün deyildir (%{value})
 
   field_account: İstifadəçi hesabı
   field_activity: Fəaliyyət

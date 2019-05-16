@@ -215,7 +215,7 @@ et:
   error_issue_done_ratios_not_updated: "Teema edenemise astmed jäid uuendamata."
   error_workflow_copy_source: "Palun vali algne valdkond või roll"
   error_workflow_copy_target: "Palun vali sihtvaldkon(na)d või -roll(id)"
-  error_unable_delete_issue_status: "Oleku kustutamine ei õnnestunud"
+  error_unable_delete_issue_status: "Oleku kustutamine ei õnnestunud (%{value})"
   error_unable_to_connect: "Ühenduse loomine ei õnnestunud (%{value})"
   error_attachment_too_big: "Faili ei saa üles laadida, sest see on lubatust (%{max_size}) mahukam"
   warning_attachments_not_saved: "%{count} faili salvestamine ei õnnestunud."

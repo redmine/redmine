@@ -206,7 +206,7 @@ bg:
   error_issue_done_ratios_not_updated: Процентът на завършените задачи не е обновен.
   error_workflow_copy_source: Моля изберете source тракер или роля
   error_workflow_copy_target: Моля изберете тракер(и) и роля (роли).
-  error_unable_delete_issue_status: Невъзможност за изтриване на състояние на задача
+  error_unable_delete_issue_status: Невъзможност за изтриване на състояние на задача (%{value})
   error_unable_to_connect: Невъзможност за свързване с (%{value})
   error_attachment_too_big: Този файл не може да бъде качен, понеже надхвърля максималната възможна големина (%{max_size})
   error_session_expired: Вашата сесия е изтекла. Моля влезете в Redmine отново.

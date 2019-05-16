@@ -192,7 +192,7 @@ sr:
   error_issue_done_ratios_not_updated: "Однос решених проблема није ажуриран."
   error_workflow_copy_source: 'Молимо одаберите изворно праћење или улогу'
   error_workflow_copy_target: 'Молимо одаберите одредишно праћење и улогу'
-  error_unable_delete_issue_status: 'Статус проблема је немогуће обрисати'
+  error_unable_delete_issue_status: 'Статус проблема је немогуће обрисати (%{value})'
   error_unable_to_connect: "Повезивање са (%{value}) је немогуће"
   warning_attachments_not_saved: "%{count} датотека не може бити снимљена."
 

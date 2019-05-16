@@ -195,7 +195,7 @@ ar:
   error_issue_done_ratios_not_updated: "لم يتم تحديث النسب"
   error_workflow_copy_source: 'الرجاء اختيار نوع بند العمل او الادوار'
   error_workflow_copy_target: 'الرجاء اختيار نوع بند العمل المستهدف او الادوار المستهدفة'
-  error_unable_delete_issue_status: 'غير قادر على حذف حالة بند العمل'
+  error_unable_delete_issue_status: 'غير قادر على حذف حالة بند العمل (%{value})'
   error_unable_to_connect: "تعذر الاتصال(%{value})"
   error_attachment_too_big: " (%{max_size})لا يمكن تحميل هذا الملف، لقد تجاوز الحد الاقصى المسموح به "
   warning_attachments_not_saved: "%{count}تعذر حفظ الملف"

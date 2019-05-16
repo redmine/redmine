@@ -867,7 +867,7 @@
   permission_export_wiki_pages: Eksporter wiki-sider
   setting_cache_formatted_text: Mellomlagre formattert tekst
   permission_manage_project_activities: Administrere prosjektaktiviteter
-  error_unable_delete_issue_status: Kan ikke slette saksstatus
+  error_unable_delete_issue_status: Kan ikke slette saksstatus (%{value})
   label_profile: Profil
   permission_manage_subtasks: Administrere undersaker
   field_parent_issue: Overordnet sak

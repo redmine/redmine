@@ -195,7 +195,7 @@ ca:
   error_issue_done_ratios_not_updated: "No s'ha actualitzat el percentatge dels assumptes."
   error_workflow_copy_source: "Seleccioneu un tipus d'assumpte o rol font"
   error_workflow_copy_target: "Seleccioneu tipus d'assumptes i rols objectiu"
-  error_unable_delete_issue_status: "No s'ha pogut suprimir l'estat de l'assumpte"
+  error_unable_delete_issue_status: "No s'ha pogut suprimir l'estat de l'assumpte (%{value})"
   error_unable_to_connect: "No s'ha pogut connectar (%{value})"
   warning_attachments_not_saved: "No s'han pogut desar %{count} fitxers."
   error_ldap_bind_credentials: "Compte/Contrasenya LDAP incorrecte"

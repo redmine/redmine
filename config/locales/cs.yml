@@ -198,7 +198,7 @@ cs:
   error_issue_done_ratios_not_updated: Koeficient dokončení úkolu nebyl aktualizován.
   error_workflow_copy_source: Prosím vyberte zdrojovou frontu nebo roli
   error_workflow_copy_target: Prosím vyberte cílovou frontu(y) a roli(e)
-  error_unable_delete_issue_status: Nelze smazat stavy úkolů
+  error_unable_delete_issue_status: Nelze smazat stavy úkolů (%{value})
   error_unable_to_connect: Nelze se připojit (%{value})
   warning_attachments_not_saved: "%{count} soubor(ů) nebylo možné uložit."
 

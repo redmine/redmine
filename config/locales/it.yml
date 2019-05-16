@@ -880,7 +880,7 @@ it:
   permission_export_wiki_pages: Esporta pagine wiki
   setting_cache_formatted_text: Cache testo formattato
   permission_manage_project_activities: Gestisci attività progetti
-  error_unable_delete_issue_status: Impossibile eliminare lo stato segnalazioni
+  error_unable_delete_issue_status: Impossibile eliminare lo stato segnalazioni (%{value})
   label_profile: Profilo
   permission_manage_subtasks: Gestisci sottoattività
   field_parent_issue: Attività principale

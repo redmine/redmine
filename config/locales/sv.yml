@@ -241,7 +241,7 @@ sv:
   error_issue_done_ratios_not_updated: "% klart inte uppdaterade."
   error_workflow_copy_source: 'Vänligen välj källans ärendetyp eller roll'
   error_workflow_copy_target: 'Vänligen välj ärendetyp(er) och roll(er) för mål'
-  error_unable_delete_issue_status: 'Ärendestatus kunde inte tas bort'
+  error_unable_delete_issue_status: 'Ärendestatus kunde inte tas bort (%{value})'
   error_unable_to_connect: "Kan inte ansluta (%{value})"
   error_attachment_too_big: "Denna fil kan inte laddas upp eftersom den överstiger maximalt tillåten filstorlek (%{max_size})"
   error_session_expired: "Din session har gått ut. Vänligen logga in på nytt."

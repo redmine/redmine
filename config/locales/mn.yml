@@ -883,7 +883,7 @@ mn:
   permission_manage_subtasks: Manage subtasks
   label_profile: Profile
   field_parent_issue: Parent task
-  error_unable_delete_issue_status: Unable to delete issue status
+  error_unable_delete_issue_status: Unable to delete issue status (%{value})
   label_subtask_plural: Subtasks
   label_project_copy_notifications: Send email notifications during the project copy
   error_can_not_delete_custom_field: Unable to delete custom field

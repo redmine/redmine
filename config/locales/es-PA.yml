@@ -921,7 +921,7 @@ es-PA:
   permission_export_wiki_pages: Exportar páginas wiki
   setting_cache_formatted_text: Cachear texto formateado
   permission_manage_project_activities: Gestionar actividades del proyecto
-  error_unable_delete_issue_status: Fue imposible eliminar el estado de la incidencia
+  error_unable_delete_issue_status: Fue imposible eliminar el estado de la incidencia (%{value})
   label_profile: Perfil
   permission_manage_subtasks: Gestionar subtareas
   field_parent_issue: Tarea padre

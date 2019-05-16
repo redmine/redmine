@@ -931,7 +931,7 @@ vi:
   permission_export_wiki_pages: Xuất trang wiki
   setting_cache_formatted_text: Cache định dạng các ký tự
   permission_manage_project_activities: Quản lý hoạt động của dự án
-  error_unable_delete_issue_status: Không thể xóa trạng thái vấn đề
+  error_unable_delete_issue_status: Không thể xóa trạng thái vấn đề (%{value})
   label_profile: Hồ sơ
   permission_manage_subtasks: Quản lý tác vụ con
   field_parent_issue: Tác vụ cha

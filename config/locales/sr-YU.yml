@@ -194,7 +194,7 @@ sr-YU:
   error_issue_done_ratios_not_updated: "Odnos rešenih problema nije ažuriran."
   error_workflow_copy_source: 'Molimo odaberite izvorno praćenje ili ulogu'
   error_workflow_copy_target: 'Molimo odaberite odredišno praćenje i ulogu'
-  error_unable_delete_issue_status: 'Status problema je nemoguće obrisati'
+  error_unable_delete_issue_status: 'Status problema je nemoguće obrisati (%{value})'
   error_unable_to_connect: "Povezivanje sa (%{value}) je nemoguće"
   warning_attachments_not_saved: "%{count} datoteka ne može biti snimljena."
 

@@ -874,7 +874,7 @@ sk:
   permission_export_wiki_pages: Export wikistránok
   setting_cache_formatted_text: Uložiť formátovaný text do vyrovnávacej pamäte
   permission_manage_project_activities: Správa aktivít projektu
-  error_unable_delete_issue_status: 'Nie je možné vymazať stav úlohy'
+  error_unable_delete_issue_status: 'Nie je možné vymazať stav úlohy (%{value})'
   label_profile: Profil
   permission_manage_subtasks: Správa podúloh
   field_parent_issue: Nadradená úloha
