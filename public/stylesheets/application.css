@@ -1198,6 +1198,12 @@ div.wiki pre {
   overflow-y: hidden;
 }
 
+div.wiki *:not(pre)>code, div.wiki>code {
+  background: rgba(62, 91, 118, 0.08);
+  padding: 0.1em 0.1em;
+  border-radius: 0.1em;
+}
+
 div.wiki ul.toc {
   background-color: #ffffdd;
   border: 1px solid #e4e4e4;
