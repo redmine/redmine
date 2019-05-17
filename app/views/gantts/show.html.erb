@@ -141,12 +141,12 @@
 
 <table class='gantt-table'>
 <tr>
-<td style="width:<%= subject_width %>px;" class="gantt_subjects_column">
+<td style="width:<%= @query.draw_selected_columns ? subject_width + 1 : subject_width + 2 %>px;" class="gantt_subjects_column">
   <%
     style  = ""
     style += "position:relative;"
     style += "height: #{t_height + 24}px;"
-    style += "width: #{subject_width}px;"
+    style += "width: #{subject_width + 1}px;"
   %>
   <%= content_tag(:div, :style => style, :class => "gantt_subjects_container #{'draw_selected_columns' if @query.draw_selected_columns}") do %>
     <%
@@ -159,7 +159,7 @@
     <%
       style  = ""
       style += "z-index: 1;"
-      style += "width: #{subject_width}px;"
+      style += "width: #{subject_width + 1}px;"
       style += "height: #{t_height}px;"
       style += 'overflow: hidden;'
     %>

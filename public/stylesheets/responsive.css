@@ -712,6 +712,7 @@
   .gantt_subjects_column .gantt_hdr {
     width: 100% !important;
     right: 0 !important; /* [2] */
+    border-right: solid 1px #c0c0c0;
   }
 
   #gantt_area {

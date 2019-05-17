@@ -1331,8 +1331,11 @@ table.gantt-table td {
   white-space: nowrap;
 
 }
-td.gantt_selected_column, td.gantt_selected_column .gantt_hdr,.gantt_selected_column_container {
+td.gantt_selected_column {
   width: 50px;
+}
+td.gantt_selected_column .gantt_hdr,.gantt_selected_column_container {
+  width: 49px;
 }
 
 .task {
