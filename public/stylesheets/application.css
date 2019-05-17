@@ -1324,7 +1324,7 @@ table.gantt-table td {
   top: 50%;
   width:100%;
   transform: translateY(-50%);
-  -webkit- transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
   font-size: 0.8em;
   overflow: hidden;
   text-overflow: ellipsis;
