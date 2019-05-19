@@ -26,6 +26,8 @@ class Redmine::Helpers::GanttHelperTest < Redmine::HelperTest
   include ProjectsHelper
   include IssuesHelper
   include QueriesHelper
+  include AvatarsHelper
+
   include ERB::Util
   include Rails.application.routes.url_helpers
 

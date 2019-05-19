@@ -27,7 +27,10 @@ class ApplicationController < ActionController::Base
   include Redmine::Pagination
   include Redmine::Hook::Helper
   include RoutesHelper
+  include AvatarsHelper
+
   helper :routes
+  helper :avatars
 
   class_attribute :accept_api_auth_actions
   class_attribute :accept_rss_auth_actions

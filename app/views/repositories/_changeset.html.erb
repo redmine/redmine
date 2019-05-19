@@ -2,7 +2,7 @@
 
 <div class="details">
   <h4>
-    <%= avatar(@changeset.user, :size => "24") %>
+    <%= avatar(@changeset.user) %>
     <%= authoring(@changeset.committed_on, @changeset.author) %>
   </h4>
   <% if @changeset.scmid.present? || @changeset.parents.present? || @changeset.children.present? %>

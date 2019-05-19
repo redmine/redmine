@@ -22,7 +22,7 @@
          ) if @message.destroyable_by?(User.current) %>
 </div>
 
-<h2><%= avatar(@topic.author, :size => "24") %><%= @topic.subject %></h2>
+<h2><%= avatar(@topic.author) %><%= @topic.subject %></h2>
 
 <div class="message">
 <p><span class="author"><%= authoring @topic.created_on, @topic.author %></span></p>
@@ -66,7 +66,7 @@
           ) if message.destroyable_by?(User.current) %>
     </div>
   <h4>
-    <%= avatar(message.author, :size => "24") %>
+    <%= avatar(message.author) %>
     <%= link_to message.subject, { :controller => 'messages', :action => 'show', :board_id => @board, :id => @topic, :r => message, :anchor => "message-#{message.id}" } %>
     -
     <%= authoring message.created_on, message.author %>

@@ -23,7 +23,6 @@ require 'cgi'
 module ApplicationHelper
   include Redmine::WikiFormatting::Macros::Definitions
   include Redmine::I18n
-  include GravatarHelper::PublicMethods
   include Redmine::Pagination::Helper
   include Redmine::SudoMode::Helper
   include Redmine::Themes::Helper
@@ -1482,39 +1481,6 @@ module ApplicationHelper
 
   def email_delivery_enabled?
     !!ActionMailer::Base.perform_deliveries
-  end
-
-  # Returns the avatar image tag for the given +user+ if avatars are enabled
-  # +user+ can be a User or a string that will be scanned for an email address (eg. 'joe <joe@foo.bar>')
-  def avatar(user, options = { })
-    if Setting.gravatar_enabled?
-      options.merge!(:default => Setting.gravatar_default)
-      email = nil
-      if user.respond_to?(:mail)
-        email = user.mail
-      elsif user.to_s =~ %r{<(.+?)>}
-        email = $1
-      end
-      if email.present?
-        gravatar(email.to_s.downcase, options) rescue nil
-      elsif user.is_a?(AnonymousUser)
-        image_tag 'anonymous.png',
-                  GravatarHelper::DEFAULT_OPTIONS
-                    .except(:default, :rating, :ssl).merge(options)
-      else
-        nil
-      end
-    else
-      ''
-    end
-  end
-
-  # Returns a link to edit user's avatar if avatars are enabled
-  def avatar_edit_link(user, options={})
-    if Setting.gravatar_enabled?
-      url = Redmine::Configuration['avatar_server_url']
-      link_to avatar(user, {:title => l(:button_edit)}.merge(options)), url, :target => '_blank'
-    end
   end
 
   def sanitize_anchor_name(anchor)

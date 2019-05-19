@@ -686,13 +686,7 @@ module Redmine
             css_classes << ' over-end-date' if progress_date > self.date_to
           end
           s = (+"").html_safe
-          if issue.assigned_to.present?
-            assigned_string = l(:field_assigned_to) + ": " + issue.assigned_to.name
-            s << view.avatar(issue.assigned_to,
-                             :class => 'gravatar icon-gravatar',
-                             :size => 13,
-                             :title => assigned_string).to_s.html_safe
-          end
+          s << view.assignee_avatar(issue.assigned_to, :size => 13, :class => 'icon-gravatar')
           s << view.link_to_issue(issue).html_safe
           s << view.content_tag(:input, nil, :type => 'checkbox', :name => 'ids[]', :value => issue.id, :style => 'display:none;', :class => 'toggle-selection')
           view.content_tag(:span, s, :class => css_classes).html_safe

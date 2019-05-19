@@ -18,7 +18,7 @@ module GravatarHelper
     :default => nil,
 
     # The default size in pixels for the gravatar image (they're square).
-    :size => 50,
+    :size => 24,
 
     # The maximum allowed MPAA rating for gravatars. This allows you to
     # exclude gravatars that may be out of character for your site.
