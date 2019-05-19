@@ -2,7 +2,7 @@
 
 <ul>
 <% @issues.each do |issue| -%>
-  <li><%= link_to_issue(issue, :project => true, :only_path => false) %></li>
+  <li><%= link_to_issue(issue, :project => true, :only_path => false) %> (<%= due_date_distance_in_words(issue.due_date) %>)</li>
 <% end -%>
 </ul>
 

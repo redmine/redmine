@@ -624,7 +624,7 @@ class MailerTest < ActiveSupport::TestCase
     assert_equal 1, ActionMailer::Base.deliveries.size
     mail = last_email
     assert mail.bcc.include?('dlopper@somenet.foo')
-    assert_mail_body_match 'Bug #3: Error 281 when updating a recipe', mail
+    assert_mail_body_match 'Bug #3: Error 281 when updating a recipe (5 days late)', mail
     assert_mail_body_match 'View all issues (2 open)', mail
     assert_select_email do
       assert_select 'a[href=?]',
@@ -643,7 +643,7 @@ class MailerTest < ActiveSupport::TestCase
       assert_equal 1, ActionMailer::Base.deliveries.size
       mail = last_email
       assert mail.bcc.include?('dlopper@somenet.foo')
-      assert_mail_body_match 'Bug #3: Error 281 when updating a recipe', mail
+      assert_mail_body_match 'Bug #3: Error 281 when updating a recipe (En retard de 5 jours)', mail
       assert_equal "1 demande(s) arrivent à échéance (42)", mail.subject
     end
   end
@@ -671,7 +671,7 @@ class MailerTest < ActiveSupport::TestCase
     assert_equal 1, ActionMailer::Base.deliveries.size # No mail for dlopper
     mail = last_email
     assert mail.bcc.include?('dlopper@somenet.foo')
-    assert_mail_body_match 'Bug #3: Error 281 when updating a recipe', mail
+    assert_mail_body_match 'Bug #3: Error 281 when updating a recipe (5 days late)', mail
   end
 
   def test_reminder_should_include_issues_assigned_to_groups
@@ -697,7 +697,7 @@ class MailerTest < ActiveSupport::TestCase
       assert_equal %w(dlopper@somenet.foo jsmith@somenet.foo), recipients
       ActionMailer::Base.deliveries.each do |mail|
         assert_mail_body_match '1 issue(s) that are assigned to you are due in the next 7 days::', mail
-        assert_mail_body_match 'Assigned to group', mail
+        assert_mail_body_match 'Assigned to group (Due in 5 days)', mail
         assert_mail_body_match "View all issues (#{mail.bcc.include?('dlopper@somenet.foo') ? 3 : 2} open)", mail
       end
     end
@@ -748,11 +748,11 @@ class MailerTest < ActiveSupport::TestCase
     assert_equal 1, ActionMailer::Base.deliveries.size
     assert_select_email do
       assert_select 'li', 5
-      assert_select 'li:nth-child(1)', /foo/
-      assert_select 'li:nth-child(2)', /bar/
-      assert_select 'li:nth-child(3)', /baz/
-      assert_select 'li:nth-child(4)', /qux/
-      assert_select 'li:nth-child(5)', /quux/
+      assert_select 'li:nth-child(1)', /foo \(1 day late\)/
+      assert_select 'li:nth-child(2)', /bar \(1 day late\)/
+      assert_select 'li:nth-child(3)', /baz \(Due in 0 days\)/
+      assert_select 'li:nth-child(4)', /qux \(Due in 1 day\)/
+      assert_select 'li:nth-child(5)', /quux \(Due in 2 days\)/
     end
   end
 

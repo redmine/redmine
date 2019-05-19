@@ -1,7 +1,7 @@
 <%= l(:mail_body_reminder, :count => @issues.size, :days => @days) %>:
 
 <% @issues.each do |issue| -%>
-* <%= "#{issue.project} - #{issue.tracker} ##{issue.id}: #{issue.subject}" %>
+* <%= "#{issue.project} - #{issue.tracker} ##{issue.id}: #{issue.subject} (#{due_date_distance_in_words(issue.due_date)})" %>
 <% end -%>
 
 <%= l(:label_issue_view_all)%> (<%= l(:label_x_open_issues_abbr, :count => @open_issues_count) %>)
