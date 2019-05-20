@@ -1336,6 +1336,6 @@
   label_updated_issues: 已更新之議題
   text_avatar_server_config_html: 目前使用的大頭像(虛擬人偶)伺服器是 <a href="%{url}">%{url}</a>。 您可於 config/configuration.yml 中進行設定。
   setting_gantt_months_limit: 甘特圖中月份顯示數量的最大值
-  label_import_time_entries: Import time entries
-  label_import_notifications: Send email notifications during the import
-  text_gs_available: ImageMagick PDF support available (optional)
+  label_import_time_entries: 匯入工時項目紀錄
+  label_import_notifications: 匯入過程中傳送通知郵件
+  text_gs_available: 可使用 ImageMagick 轉換 PDF 格式 (選配)
