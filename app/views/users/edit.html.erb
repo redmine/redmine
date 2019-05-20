@@ -5,6 +5,9 @@
 <%= delete_link user_path(@user) if User.current != @user %>
 </div>
 
-<%= title [l(:label_user_plural), users_path], @user.login %>
+<%=
+  page_title = title [l(:label_user_plural), users_path], @user.login
+  page_title.insert(page_title.rindex(' ') + 1, avatar(@user))
+%>
 
 <%= render_tabs user_settings_tabs %>

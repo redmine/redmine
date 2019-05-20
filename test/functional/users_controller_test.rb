@@ -420,8 +420,11 @@ class UsersControllerTest < Redmine::ControllerTest
 
 
   def test_edit
-    get :edit, :params => {:id => 2}
+    with_settings :gravatar_enabled => '1' do
+      get :edit, :params => {:id => 2}
+    end
     assert_response :success
+    assert_select 'h2>a+img.gravatar'
     assert_select 'input[name=?][value=?]', 'user[login]', 'jsmith'
   end
 
