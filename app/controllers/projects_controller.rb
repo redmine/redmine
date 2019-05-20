@@ -221,6 +221,19 @@ class ProjectsController < ApplicationController
     redirect_to_referer_or admin_projects_path(:status => params[:status])
   end
 
+  def bookmark
+    jump_box = Redmine::ProjectJumpBox.new User.current
+    if request.delete?
+      jump_box.delete_project_bookmark @project
+    elsif request.post?
+      jump_box.bookmark_project @project
+    end
+    respond_to do |format|
+      format.js
+      format.html { redirect_to project_path(@project) }
+    end
+  end
+
   def close
     @project.close
     redirect_to project_path(@project)

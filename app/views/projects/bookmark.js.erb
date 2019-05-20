@@ -1,0 +1,2 @@
+$('#project-jump div.drdn-items.projects').html('<%= j render_projects_for_jump_box(projects_for_jump_box(User.current), @project) %>');
+$('.contextual a.icon.bookmark').replaceWith('<%= j bookmark_link @project %>');

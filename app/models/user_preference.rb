@@ -32,7 +32,8 @@ class UserPreference < ActiveRecord::Base
     'comments_sorting',
     'warn_on_leaving_unsaved',
     'no_self_notified',
-    'textarea_font'
+    'textarea_font',
+    'recently_used_projects'
 
   TEXTAREA_FONT_OPTIONS = ['monospace', 'proportional']
 
@@ -89,6 +90,9 @@ class UserPreference < ActiveRecord::Base
 
   def textarea_font; self[:textarea_font] end
   def textarea_font=(value); self[:textarea_font]=value; end
+
+  def recently_used_projects; (self[:recently_used_projects] || 3).to_i; end
+  def recently_used_projects=(value); self[:recently_used_projects] = value.to_i; end
 
   # Returns the names of groups that are displayed on user's page
   # Example:

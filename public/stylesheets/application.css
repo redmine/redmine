@@ -1497,6 +1497,8 @@ td.gantt_selected_column .gantt_hdr,.gantt_selected_column_container {
 .icon-add-bullet { background-image: url(../images/bullet_add.png); }
 .icon-shared { background-image: url(../images/link.png); }
 .icon-actions { background-image: url(../images/3_bullets.png); }
+.icon-bookmark { background-image: url(../images/tag_blue_delete.png); }
+.icon-bookmark-off { background-image: url(../images/tag_blue_add.png); }
 
 .icon-file { background-image: url(../images/files/default.png); }
 .icon-file.text-plain { background-image: url(../images/files/text.png); }

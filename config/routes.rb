@@ -113,6 +113,7 @@ Rails.application.routes.draw do
       post 'close'
       post 'reopen'
       match 'copy', :via => [:get, :post]
+      match 'bookmark', :via => [:delete, :post]
     end
 
     shallow do

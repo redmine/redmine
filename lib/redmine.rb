@@ -76,7 +76,7 @@ Redmine::Scm::Base.add "Filesystem"
 
 # Permissions
 Redmine::AccessControl.map do |map|
-  map.permission :view_project, {:projects => [:show], :activities => [:index]}, :public => true, :read => true
+  map.permission :view_project, {:projects => [:show, :bookmark], :activities => [:index]}, :public => true, :read => true
   map.permission :search_project, {:search => :index}, :public => true, :read => true
   map.permission :add_project, {:projects => [:new, :create]}, :require => :loggedin
   map.permission :edit_project, {:projects => [:settings, :edit, :update]}, :require => :member

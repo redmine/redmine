@@ -382,6 +382,7 @@ en:
   field_full_width_layout: Full width layout
   field_digest: Checksum
   field_default_assigned_to: Default assignee
+  field_recently_used_projects: Number of recently used projects in jump box
 
   setting_app_title: Application title
   setting_welcome_text: Welcome text
@@ -1044,6 +1045,9 @@ en:
   label_font_default: Default font
   label_font_monospace: Monospaced font
   label_font_proportional: Proportional font
+  label_optgroup_bookmarks: Bookmarks
+  label_optgroup_others: Other projects
+  label_optgroup_recents: Recently used
   label_last_notes: Last notes
   label_nothing_to_preview: Nothing to preview
   label_inherited_from_parent_project: "Inherited from parent project"
@@ -1106,6 +1110,8 @@ en:
   button_close: Close
   button_reopen: Reopen
   button_import: Import
+  button_project_bookmark: Add bookmark
+  button_project_bookmark_delete: Remove bookmark
   button_filter: Filter
   button_actions: Actions
 

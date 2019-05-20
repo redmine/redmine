@@ -138,4 +138,24 @@ module ProjectsHelper
       end
     end if include_in_api_response?('enabled_modules')
   end
+
+  def bookmark_link(project, user = User.current)
+    return '' unless user && user.logged?
+    @jump_box ||= Redmine::ProjectJumpBox.new user
+    bookmarked = @jump_box.bookmark?(project)
+    css = +"icon bookmark "
+
+    if bookmarked
+      css << "icon-bookmark"
+      method = "delete"
+      text = l(:button_project_bookmark_delete)
+    else
+      css << "icon-bookmark-off"
+      method = "post"
+      text = l(:button_project_bookmark)
+    end
+
+    url = bookmark_project_url(project)
+    link_to text, url, remote: true, method: method, class: css
+  end
 end

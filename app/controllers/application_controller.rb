@@ -57,6 +57,7 @@ class ApplicationController < ActionController::Base
   end
 
   before_action :session_expiration, :user_setup, :check_if_login_required, :set_localization, :check_password_change
+  after_action :record_project_usage
 
   rescue_from ::Unauthorized, :with => :deny_access
   rescue_from ::ActionView::MissingTemplate, :with => :missing_template
@@ -401,6 +402,13 @@ class ApplicationController < ActionController::Base
       render_404
       false
     end
+  end
+
+  def record_project_usage
+    if @project && @project.id && User.current.logged? && User.current.allowed_to?(:view_project, @project)
+      Redmine::ProjectJumpBox.new(User.current).project_used(@project)
+    end
+    true
   end
 
   def back_url

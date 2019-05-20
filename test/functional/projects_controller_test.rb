@@ -1000,6 +1000,27 @@ class ProjectsControllerTest < Redmine::ControllerTest
     assert_select_error /Identifier cannot be blank/
   end
 
+  def test_bookmark_should_create_bookmark
+    @request.session[:user_id] = 3
+    post :bookmark, params: { id: 'ecookbook' }
+    assert_redirected_to controller: 'projects', action: 'show', id: 'ecookbook'
+    jb = Redmine::ProjectJumpBox.new(User.find(3))
+    assert jb.bookmark?(Project.find('ecookbook'))
+    refute jb.bookmark?(Project.find('onlinestore'))
+  end
+
+  def test_bookmark_should_delete_bookmark
+    @request.session[:user_id] = 3
+    jb = Redmine::ProjectJumpBox.new(User.find(3))
+    project = Project.find('ecookbook')
+    jb.bookmark_project project
+    delete :bookmark, params: { id: 'ecookbook' }
+    assert_redirected_to controller: 'projects', action: 'show', id: 'ecookbook'
+
+    jb = Redmine::ProjectJumpBox.new(User.find(3))
+    refute jb.bookmark?(Project.find('ecookbook'))
+  end
+
   def test_jump_without_project_id_should_redirect_to_active_tab
     get :index, :params => {
         :jump => 'issues'
