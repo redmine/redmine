@@ -1279,9 +1279,9 @@ ja:
   label_import_time_entries: 作業時間のインポート
   label_import_notifications: インポート中のメール通知
   text_gs_available: ImageMagickのPDFサポートが利用可能 (オプション)
-  field_recently_used_projects: Number of recently used projects in jump box
-  label_optgroup_bookmarks: Bookmarks
-  label_optgroup_others: Other projects
-  label_optgroup_recents: Recently used
-  button_project_bookmark: Add bookmark
-  button_project_bookmark_delete: Remove bookmark
+  field_recently_used_projects: 最近使用したプロジェクトの表示件数
+  label_optgroup_bookmarks: ブックマーク
+  label_optgroup_others: 他のプロジェクト
+  label_optgroup_recents: 最近使用したもの
+  button_project_bookmark: ブックマークに追加
+  button_project_bookmark_delete: ブックマークから削除
