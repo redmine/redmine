@@ -1339,9 +1339,9 @@
   label_import_time_entries: 匯入工時項目紀錄
   label_import_notifications: 匯入過程中傳送通知郵件
   text_gs_available: 可使用 ImageMagick 轉換 PDF 格式 (選配)
-  field_recently_used_projects: Number of recently used projects in jump box
-  label_optgroup_bookmarks: Bookmarks
-  label_optgroup_others: Other projects
-  label_optgroup_recents: Recently used
-  button_project_bookmark: Add bookmark
-  button_project_bookmark_delete: Remove bookmark
+  field_recently_used_projects: 跳轉下拉方塊中最近用過的專案數目
+  label_optgroup_bookmarks: 書籤
+  label_optgroup_others: 其他專案
+  label_optgroup_recents: 最近用過的
+  button_project_bookmark: 新增書籤
+  button_project_bookmark_delete: 移除書籤
