@@ -464,7 +464,7 @@ select {
   background-position: calc(100% - 7px) 50%;
   padding-right: 20px;
 }
-input[type="file"] {border: 0; padding-left: 0; padding-right: 0;}
+input[type="file"] {border: 0; padding-left: 0; padding-right: 0; background-color: initial; }
 input[type="submit"] {
   -webkit-appearance: button;
   cursor: pointer;
