@@ -20,8 +20,8 @@
 require 'digest/sha1'
 require 'redmine/scm/adapters'
 
-class ChangesetNotFound < Exception; end
-class InvalidRevisionParam < Exception; end
+class ChangesetNotFound < StandardError; end
+class InvalidRevisionParam < StandardError; end
 
 class RepositoriesController < ApplicationController
   menu_item :repository

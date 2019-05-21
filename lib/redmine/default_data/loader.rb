@@ -19,7 +19,7 @@
 
 module Redmine
   module DefaultData
-    class DataAlreadyLoaded < Exception; end
+    class DataAlreadyLoaded < StandardError; end
 
     module Loader
       include Redmine::I18n

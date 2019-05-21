@@ -21,7 +21,7 @@ require 'digest/md5'
 
 module Redmine
   module WikiFormatting
-    class StaleSectionError < Exception; end
+    class StaleSectionError < StandardError; end
 
     @@formatters = {}
 

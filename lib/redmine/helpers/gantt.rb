@@ -21,7 +21,7 @@ module Redmine
   module Helpers
     # Simple class to handle gantt chart data
     class Gantt
-      class MaxLinesLimitReached < Exception
+      class MaxLinesLimitReached < StandardError
       end
 
       include ERB::Util

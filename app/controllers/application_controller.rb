@@ -20,7 +20,7 @@
 require 'uri'
 require 'cgi'
 
-class Unauthorized < Exception; end
+class Unauthorized < StandardError; end
 
 class ApplicationController < ActionController::Base
   include Redmine::I18n

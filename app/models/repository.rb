@@ -17,7 +17,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-class ScmFetchError < Exception; end
+class ScmFetchError < StandardError; end
 
 class Repository < ActiveRecord::Base
   include Redmine::Ciphering
