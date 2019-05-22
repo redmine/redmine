@@ -582,6 +582,8 @@ div#search-results-counts  li { list-style-type:none; float: left; margin-left: 
 
 div#roadmap .related-issues { margin-bottom: 1em; }
 div#roadmap .related-issues td.checkbox { display: none; }
+div#roadmap .related-issues td.assigned_to { width:1px; white-space:nowrap; padding: 0; }
+div#roadmap .related-issues td.assigned_to img { padding-left: 4px; padding-right: 4px;}
 div#roadmap .wiki h1:first-child { display: none; }
 div#roadmap .wiki h1 { font-size: 120%; }
 div#roadmap .wiki h2 { font-size: 110%; }

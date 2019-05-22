@@ -98,12 +98,44 @@ class VersionsControllerTest < Redmine::ControllerTest
     end
   end
 
+  def test_index_should_show_issue_assignee
+    with_settings :gravatar_enabled => '1' do
+      Issue.generate!(:project_id => 3, :fixed_version_id => 4, :assigned_to => User.find_by_login('jsmith'))
+      Issue.generate!(:project_id => 3, :fixed_version_id => 4)
+
+      get :index, :params => {:project_id => 3}
+      assert_response :success
+
+      assert_select 'table.related-issues' do
+        assert_select 'tr.issue', :count => 2 do
+          assert_select 'img.gravatar[title=?]', 'Assignee: John Smith', :count => 1
+        end
+      end
+    end
+  end
+
   def test_show
     get :show, :params => {:id => 2}
     assert_response :success
 
     assert_select 'h2', :text => /1.0/
     assert_select 'span[class=?]', 'badge badge-status-locked', :text => 'locked'
+
+    # no issue avatar when gravatar is disabled
+    assert_select 'img.gravatar', :count => 0
+  end
+
+  def test_show_should_show_issue_assignee
+    with_settings :gravatar_enabled => '1' do
+      get :show, :params => {:id => 2}
+      assert_response :success
+
+      assert_select 'table.related-issues' do
+        assert_select 'tr.issue td.assigned_to', :count => 2 do
+          assert_select 'img.gravatar[title=?]', 'Assignee: Dave Lopper', :count => 1
+        end
+      end
+    end
   end
 
   def test_show_issue_calculations_should_take_into_account_only_visible_issues
