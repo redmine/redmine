@@ -24,14 +24,14 @@ module AvatarsHelper
     return '' unless user
 
     options.merge!(:title => l(:field_assigned_to) + ": " + user.name)
-    avatar(user, options).html_safe
+    avatar(user, options).to_s.html_safe
   end
 
   def author_avatar(user, options={})
     return '' unless user
 
     options.merge!(:title => l(:field_author) + ": " + user.name)
-    avatar(user, options).html_safe
+    avatar(user, options).to_s.html_safe
   end
 
   # Returns the avatar image tag for the given +user+ if avatars are enabled
