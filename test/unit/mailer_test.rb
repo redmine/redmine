@@ -620,6 +620,7 @@ class MailerTest < ActiveSupport::TestCase
   end
 
   def test_reminders
+    users(:users_003).pref.update_attribute :time_zone, 'UTC' # dlopper
     Mailer.reminders(:days => 42)
     assert_equal 1, ActionMailer::Base.deliveries.size
     mail = last_email
@@ -639,6 +640,7 @@ class MailerTest < ActiveSupport::TestCase
     with_settings :default_language => 'fr' do
       user = User.find(3)
       user.update_attribute :language, ''
+      user.pref.update_attribute :time_zone, 'UTC'
       Mailer.reminders(:days => 42)
       assert_equal 1, ActionMailer::Base.deliveries.size
       mail = last_email
@@ -665,6 +667,7 @@ class MailerTest < ActiveSupport::TestCase
   end
 
   def test_reminders_for_users
+    users(:users_003).pref.update_attribute :time_zone, 'UTC' # dlopper
     Mailer.reminders(:days => 42, :users => ['5'])
     assert_equal 0, ActionMailer::Base.deliveries.size # No mail for dlopper
     Mailer.reminders(:days => 42, :users => ['3'])
@@ -677,14 +680,15 @@ class MailerTest < ActiveSupport::TestCase
   def test_reminder_should_include_issues_assigned_to_groups
     with_settings :default_language => 'en', :issue_group_assignment => '1' do
       group = Group.generate!
-      user_dlopper = User.find(3)
       Member.create!(:project_id => 1, :principal => group, :role_ids => [1])
-      group.users << User.find(2)
-      group.users << user_dlopper
+      [users(:users_002), users(:users_003)].each do |user| # jsmith, dlopper
+        group.users << user
+        user.pref.update_attribute :time_zone, 'UTC'
+      end
 
       Issue.update_all(:assigned_to_id => nil)
       due_date = 10.days.from_now
-      Issue.update(1, :due_date => due_date, :assigned_to_id => user_dlopper.id)
+      Issue.update(1, :due_date => due_date, :assigned_to_id => 3)
       Issue.update(2, :due_date => due_date, :assigned_to_id => group.id)
       Issue.create!(:project_id => 1, :tracker_id => 1, :status_id => 1,
                       :subject => 'Assigned to group', :assigned_to => group,
@@ -737,6 +741,7 @@ class MailerTest < ActiveSupport::TestCase
 
   def test_reminders_should_sort_issues_by_due_date
     user = User.find(2)
+    user.pref.update_attribute :time_zone, 'UTC'
     Issue.generate!(:assigned_to => user, :due_date => 2.days.from_now, :subject => 'quux')
     Issue.generate!(:assigned_to => user, :due_date => 0.days.from_now, :subject => 'baz')
     Issue.generate!(:assigned_to => user, :due_date => 1.days.from_now, :subject => 'qux')
