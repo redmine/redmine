@@ -218,11 +218,8 @@ default:
   #
   # URL of each avatar is: #{avatar_server_url}/avatar/#{hash}
   #
-  # Examples:
-  # avatar_server_url: https://www.gravatar.com        # default
-  # avatar_server_url: https://seccdn.libravatar.org
-  #
-  avatar_server_url:
+  #avatar_server_url: https://www.gravatar.com        # default
+  #avatar_server_url: https://seccdn.libravatar.org
 
 # specific configuration options for production environment
 # that overrides the default ones
