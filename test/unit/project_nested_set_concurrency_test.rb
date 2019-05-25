@@ -52,7 +52,7 @@ class ProjectNestedSetConcurrencyTest < ActiveSupport::TestCase
                 c2.reload.destroy
                 c1.reload.destroy
               end
-            rescue Exception => e
+            rescue => e
               Thread.current[:exception] = e.message
             end
           end

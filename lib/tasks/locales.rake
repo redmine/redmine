@@ -168,12 +168,12 @@ END_DESC
         puts "parsing #{filename}..."
         begin
           parser.parse File.open(filename)
-        rescue Exception => e1
+        rescue => e1
           puts(e1.message)
           puts("")
         end
       end
-    rescue Exception => e
+    rescue => e
       puts(e.message)
     end
   end

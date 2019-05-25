@@ -920,10 +920,10 @@ class MailerTest < ActiveSupport::TestCase
 
   def test_should_raise_delivery_errors_when_raise_delivery_errors_is_true
     mail = Mailer.test_email(User.find(1))
-    mail.delivery_method.stubs(:deliver!).raises(Exception.new("delivery error"))
+    mail.delivery_method.stubs(:deliver!).raises(StandardError.new("delivery error"))
 
     ActionMailer::Base.raise_delivery_errors = true
-    assert_raise Exception, "delivery error" do
+    assert_raise StandardError, "delivery error" do
       mail.deliver
     end
   ensure
@@ -932,7 +932,7 @@ class MailerTest < ActiveSupport::TestCase
 
   def test_should_log_delivery_errors_when_raise_delivery_errors_is_false
     mail = Mailer.test_email(User.find(1))
-    mail.delivery_method.stubs(:deliver!).raises(Exception.new("delivery error"))
+    mail.delivery_method.stubs(:deliver!).raises(StandardError.new("delivery error"))
 
     Rails.logger.expects(:error).with("Email delivery error: delivery error")
     ActionMailer::Base.raise_delivery_errors = false

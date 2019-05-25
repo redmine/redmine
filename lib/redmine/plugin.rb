@@ -422,7 +422,7 @@ module Redmine
         base_target_dir = File.join(destination, File.dirname(source_files.first).gsub(source, ''))
         begin
           FileUtils.mkdir_p(base_target_dir)
-        rescue Exception => e
+        rescue => e
           raise "Could not create directory #{base_target_dir}: " + e.message
         end
       end
@@ -433,7 +433,7 @@ module Redmine
         target_dir = File.join(destination, dir.gsub(source, ''))
         begin
           FileUtils.mkdir_p(target_dir)
-        rescue Exception => e
+        rescue => e
           raise "Could not create directory #{target_dir}: " + e.message
         end
       end
@@ -444,7 +444,7 @@ module Redmine
           unless File.exist?(target) && FileUtils.identical?(file, target)
             FileUtils.cp(file, target)
           end
-        rescue Exception => e
+        rescue => e
           raise "Could not copy #{file} to #{target}: " + e.message
         end
       end

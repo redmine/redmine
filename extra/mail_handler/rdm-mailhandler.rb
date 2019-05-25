@@ -204,7 +204,7 @@ END_DESC
   def read_key_from_file(filename)
     begin
       self.key = File.read(filename).strip
-    rescue Exception => e
+    rescue => e
       $stderr.puts "Unable to read the key from #{filename}:\n#{e.message}"
       exit 1
     end

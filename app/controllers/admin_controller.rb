@@ -54,7 +54,7 @@ class AdminController < ApplicationController
       begin
         Redmine::DefaultData::Loader::load(params[:lang])
         flash[:notice] = l(:notice_default_data_loaded)
-      rescue Exception => e
+      rescue => e
         flash[:error] = l(:error_can_t_load_default_data, ERB::Util.h(e.message))
       end
     end
@@ -65,7 +65,7 @@ class AdminController < ApplicationController
     begin
       Mailer.deliver_test_email(User.current)
       flash[:notice] = l(:notice_email_sent, ERB::Util.h(User.current.mail))
-    rescue Exception => e
+    rescue => e
       flash[:error] = l(:notice_email_error, ERB::Util.h(Redmine::CodesetUtil.replace_invalid_utf8(e.message.dup)))
     end
     redirect_to settings_path(:tab => 'notifications')

@@ -129,7 +129,7 @@ class TrackerTest < ActiveSupport::TestCase
     tracker = Tracker.find(1)
 
     assert_no_difference 'Tracker.count' do
-      assert_raise Exception do
+      assert_raise StandardError do
         tracker.destroy
       end
     end

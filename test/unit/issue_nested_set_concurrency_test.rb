@@ -84,7 +84,7 @@ class IssueNestedSetConcurrencyTest < ActiveSupport::TestCase
           ActiveRecord::Base.connection_pool.with_connection do
             begin
               yield
-            rescue Exception => e
+            rescue => e
               Thread.current[:exception] = e.message
             end
           end

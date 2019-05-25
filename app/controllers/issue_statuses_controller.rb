@@ -74,7 +74,7 @@ class IssueStatusesController < ApplicationController
   def destroy
     IssueStatus.find(params[:id]).destroy
     redirect_to issue_statuses_path
-  rescue Exception => e
+  rescue => e
     flash[:error] = l(:error_unable_delete_issue_status, ERB::Util.h(e.message))
     redirect_to issue_statuses_path
   end

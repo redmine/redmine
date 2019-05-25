@@ -164,7 +164,7 @@ END_DESC
       begin
         Mailer.deliver_test_email(user)
         puts l(:notice_email_sent, user.mail)
-      rescue Exception => e
+      rescue => e
         abort l(:notice_email_error, e.message)
       end
     end

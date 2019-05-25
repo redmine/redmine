@@ -92,7 +92,7 @@ module Redmine
                    :lastrev => Revision.new(:revision => tip['revision'],
                                             :scmid => tip['node']))
         # rescue HgCommandAborted
-        rescue Exception => e
+        rescue => e
           logger.error "hg: error during getting info: #{e.message}"
           nil
         end

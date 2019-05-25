@@ -121,7 +121,7 @@ class ActiveSupport::TestCase
   def self.ldap_configured?
     @test_ldap = Net::LDAP.new(:host => $redmine_test_ldap_server, :port => 389)
     return @test_ldap.bind
-  rescue Exception => e
+  rescue => e
     # LDAP is not listening
     return nil
   end

@@ -247,11 +247,7 @@ module Redmine
               io.close_write unless options[:write_stdin]
               block.call(io) if block_given?
             end
-          ## If scm command does not exist,
-          ## Linux JRuby 1.6.2 (ruby-1.8.7-p330) raises java.io.IOException
-          ## in production environment.
-          # rescue Errno::ENOENT => e
-          rescue Exception => e
+          rescue => e
             msg = strip_credential(e.message)
             # The command failed, log it and re-raise
             logmsg = "SCM command failed, "
@@ -282,7 +278,7 @@ module Redmine
           str.force_encoding(from)
           begin
             str.encode(to)
-          rescue Exception => err
+          rescue => err
             logger.error("failed to convert from #{from} to #{to}. #{err}")
             nil
           end

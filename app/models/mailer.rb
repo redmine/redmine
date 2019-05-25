@@ -705,7 +705,7 @@ class Mailer < ActionMailer::Base
       # Log errors when raise_delivery_errors is set to false, Rails does not
       mail.raise_delivery_errors = true
       super
-    rescue Exception => e
+    rescue => e
       if ActionMailer::Base.raise_delivery_errors
         raise e
       else

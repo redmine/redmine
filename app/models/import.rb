@@ -67,7 +67,7 @@ class Import < ActiveRecord::Base
       begin
         content = File.read(filepath, 256)
         separator = [',', ';'].sort_by {|sep| content.count(sep) }.last
-      rescue Exception => e
+      rescue => e
       end
     end
     wrapper = '"'
@@ -272,7 +272,7 @@ class Import < ActiveRecord::Base
     if file_exists?
       begin
         File.delete filepath
-      rescue Exception => e
+      rescue => e
         logger.error "Unable to delete file #{filepath}: #{e.message}" if logger
       end
     end

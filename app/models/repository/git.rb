@@ -84,7 +84,7 @@ class Repository::Git < Repository
 
   def default_branch
     scm.default_branch
-  rescue Exception => e
+  rescue => e
     logger.error "git: error during get default branch: #{e.message}"
     nil
   end

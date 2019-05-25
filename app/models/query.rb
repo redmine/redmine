@@ -327,7 +327,7 @@ class Query < ActiveRecord::Base
     if self == ::Query
       # Visibility depends on permissions for each subclass,
       # raise an error if the scope is called from Query (eg. Query.visible)
-      raise Exception.new("Cannot call .visible scope from the base Query class, but from subclasses only.")
+      raise "Cannot call .visible scope from the base Query class, but from subclasses only."
     end
 
     user = args.shift || User.current

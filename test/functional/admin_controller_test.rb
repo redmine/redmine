@@ -75,7 +75,7 @@ class AdminControllerTest < Redmine::ControllerTest
 
   def test_load_default_configuration_data_should_rescue_error
     delete_configuration_data
-    Redmine::DefaultData::Loader.stubs(:load).raises(Exception.new("Something went wrong"))
+    Redmine::DefaultData::Loader.stubs(:load).raises(StandardError.new("Something went wrong"))
     post :default_configuration, :params => {
         :lang => 'fr'
       }
@@ -99,7 +99,7 @@ class AdminControllerTest < Redmine::ControllerTest
   end
 
   def test_test_email_failure_should_display_the_error
-    Mailer.stubs(:test_email).raises(Exception, 'Some error message')
+    Mailer.stubs(:test_email).raises(StandardError, 'Some error message')
     post :test_email
     assert_redirected_to '/settings?tab=notifications'
     assert_match /Some error message/, flash[:error]

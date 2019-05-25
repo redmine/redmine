@@ -357,7 +357,7 @@ Rails.application.routes.draw do
     if File.exists?(file)
       begin
         instance_eval File.read(file)
-      rescue Exception => e
+      rescue SyntaxError, StandardError => e
         puts "An error occurred while loading the routes definition of #{File.basename(plugin_dir)} plugin (#{file}): #{e.message}."
         exit 1
       end

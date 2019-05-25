@@ -115,7 +115,7 @@ module Redmine
                               })
                             })
               end
-            rescue Exception => e
+            rescue => e
               logger.error("Error parsing svn output: #{e.message}")
               logger.error("Output was:\n #{output}")
             end

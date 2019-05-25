@@ -133,7 +133,7 @@ module Redmine
 
         begin
           raise if items_per_page == 0 || @no_of_issues == 0
-        rescue Exception => e
+        rescue => e
           puts "No changelog items to process.\n" +
                "Make sure to provide a valid version id as the -i parameter."
           exit
