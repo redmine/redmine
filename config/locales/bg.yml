@@ -224,11 +224,13 @@ bg:
   error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: Употребеното време не може да бъде прехвърлено на задача, която ще бъде изтрита
   warning_fields_cleared_on_bulk_edit: Промените ще предизвикат автоматично изтриване на стойности от едно или повече полета на избраните обекти
   error_exceeds_maximum_hours_per_day: Не можете да запишете повече от %{max_hours} часа на един ден (%{logged_hours} часове вече са записани)
+  error_can_not_delete_auth_source: Този режим за идентификация се използва и не може да бъде премахнат.
   error_spent_on_future_date: Не е възможно да се отчете изразходвано време на дата в бъдещето
   error_not_allowed_to_log_time_for_other_users: Вие нямате разрешение да записвате изразходвано време за други потребители
 
   mail_subject_lost_password: "Вашата парола (%{value})"
   mail_body_lost_password: 'За да смените паролата си, използвайте следния линк:'
+  mail_body_lost_password_validity: Моля имайте предвид, че можете да използвате тази връзка само един път, за да промените паролата.
   mail_subject_register: "Активация на профил (%{value})"
   mail_body_register: 'За да активирате профила си използвайте следния линк:'
   mail_body_account_information_external: "Можете да използвате вашия %{value} профил за вход."
@@ -346,6 +348,7 @@ bg:
   field_group_by: Групиране на резултатите по
   field_sharing: Sharing
   field_parent_issue: Родителска задача
+  field_parent_issue_subject: Заглавие на родителската задача
   field_member_of_group: Член на група
   field_assigned_to_role: Assignee's role
   field_text: Текстово поле
@@ -381,6 +384,7 @@ bg:
   field_full_width_layout: Пълна широчина
   field_digest: Контролна сума
   field_default_assigned_to: Назначение по подразбиране
+  field_recently_used_projects: Брой на последно използваните проекти в списъка за бърз избор на проекти
 
   setting_app_title: Заглавие
   setting_welcome_text: Допълнителен текст
@@ -446,6 +450,7 @@ bg:
   setting_commit_logtime_enabled: Разрешаване на отчитането на работното време
   setting_commit_logtime_activity_id: Дейност при отчитане на работното време
   setting_gantt_items_limit: Максимален брой обекти, които да се показват в мрежов график
+  setting_gantt_months_limit: Максимален брой месеци, които да се показват в мрежов график
   setting_issue_group_assignment: Разрешено назначаването на задачи на групи
   setting_default_issue_start_date_to_creation_date: Начална дата на новите задачи по подразбиране да бъде днешната дата
   setting_commit_cross_project_ref: Отбелязване и приключване на задачи от други проекти, несвързани с конкретното хранилище
@@ -487,6 +492,7 @@ bg:
   permission_view_issues: Разглеждане на задачите
   permission_add_issues: Добавяне на задачи
   permission_edit_issues: Редактиране на задачи
+  permission_edit_own_issues: Редактиране на собствените задачи
   permission_copy_issues: Копиране на задачи
   permission_manage_issue_relations: Управление на връзките между задачите
   permission_set_own_issues_private: Установяване на собствените задачи публични или лични
@@ -623,6 +629,7 @@ bg:
   label_reported_issues: Публикувани задачи
   label_assigned_issues: Назначени задачи
   label_assigned_to_me_issues: Възложени на мен
+  label_updated_issues: Задачи с промени
   label_last_login: Последно свързване
   label_registered_on: Регистрация
   label_activity: Дейност
@@ -944,7 +951,8 @@ bg:
   label_api_access_key_created_on: API ключ за достъп е създаден преди %{value}
   label_profile: Профил
   label_subtask_plural: Подзадачи
-  label_project_copy_notifications: Изпращане на Send e-mail известия по време на копирането на проекта
+  label_project_copy_notifications: Изпращане на e-mail известия по време на копирането на проекта
+  label_import_notifications: Изпращане e-mail известия по време на импортирането
   label_principal_search: "Търсене на потребител или група:"
   label_user_search: "Търсене на потребител:"
   label_additional_workflow_transitions_for_author: Позволени са допълнителни преходи, когато потребителят е авторът
@@ -1017,6 +1025,7 @@ bg:
   label_member_management_all_roles: Всички роли
   label_member_management_selected_roles_only: Само тези роли
   label_import_issues: Импорт на задачи
+  label_import_time_entries: Импортиране на записи за използвано време
   label_select_file_to_import: Файл за импортиране
   label_fields_separator: Разделител между полетата
   label_fields_wrapper: Разделител в полетата (wrapper)
@@ -1038,12 +1047,16 @@ bg:
   label_font_default: Шрифт по подразбиране
   label_font_monospace: Monospaced шрифт
   label_font_proportional: Пропорционален шрифт
+  label_optgroup_bookmarks: Отметки
+  label_optgroup_others: Други проекти
+  label_optgroup_recents: Последно използвани
   label_last_notes: Последни коментари
   label_nothing_to_preview: Няма нищо за предварителен преглед
   label_inherited_from_parent_project: Наследени от родителския проект
   label_inherited_from_group: Наследени от група %{name}
   label_trackers_description: Описание на тракерите
   label_open_trackers_description: Показване на описанията на всички тракери
+  label_preferred_body_part_text: Текст
   label_preferred_body_part_html: HTML (експериментално)
 
   button_login: Вход
@@ -1099,7 +1112,10 @@ bg:
   button_close: Затваряне
   button_reopen: Отваряне
   button_import: Импорт
+  button_project_bookmark: Добавяне на отметка
+  button_project_bookmark_delete: Премахване на отметка
   button_filter: Филтър
+  button_actions: Действия
 
   status_active: активен
   status_registered: регистриран
@@ -1161,6 +1177,7 @@ bg:
   text_plugin_assets_writable: Папката на приставките е разрешена за запис
   text_rmagick_available: Наличен RMagick (по избор)
   text_convert_available: Наличен ImageMagick convert (по избор)
+  text_gs_available: Налична поддръжка за ImageMagick PDF (по избор)
   text_destroy_time_entries_question: "%{hours} часа са отделени на задачите, които искате да изтриете. Какво избирате?"
   text_destroy_time_entries: Изтриване на отделеното време
   text_assign_time_entries_to_project: Прехвърляне на отделеното време към проект
@@ -1196,6 +1213,9 @@ bg:
   text_project_closed: Този проект е затворен и е само за четене.
   text_turning_multiple_off: Ако забраните възможността за повече от една стойност, повечето стойности ще бъдат
     премахнати с цел да остане само по една стойност за поле.
+  text_select_apply_tracker: Изберете тракер
+  text_avatar_server_config_html: Текущият сървър на аватари е <a href="%{url}">%{url}</a>.
+    Бие можете да го конфигурирате в config/configuration.yml.
 
   default_role_manager: Мениджър
   default_role_developer: Разработчик
@@ -1234,33 +1254,12 @@ bg:
   description_user_mail_notification: Конфигурация известията по пощата
   description_available_columns: Налични колони
   description_selected_columns: Избрани колони
+  description_all_columns: Всички колони
   description_issue_category_reassign: Изберете категория
   description_wiki_subpages_reassign: Изберете нова родителска страница
-  description_all_columns: Всички колони
   text_repository_identifier_info: 'Позволени са малки букви (a-z), цифри, тирета и _.<br />Промяна след създаването му не е възможна.'
-  error_can_not_delete_auth_source: Този режим за идентификация се използва и не може да бъде премахнат.
-  button_actions: Действия
-  mail_body_lost_password_validity: Моля имайте предвид, че можете да използвате тази връзка само един път, за да промените паролата.
-  text_login_required_html: Когато не се изисква удостоверяване, публичните проекти и тяхното съдържание са видими без ограничения в мрежата.
-    Вие можете да <a href="%{anonymous_role_path}">редактирате приложимите права</a>.
+  text_login_required_html: Когато не се изисква удостоверяване, публичните проекти и тяхното съдържание са видими без ограничения в мрежата. Вие можете да <a href="%{anonymous_role_path}">редактирате приложимите права</a>.
   label_login_required_yes: 'Да'
   label_login_required_no: Не, разрешаване на анонимен достъп до публичните проекти.
   text_project_is_public_non_member: Публичните проекти са достъпни за всички влезли в Redmine потребители.
   text_project_is_public_anonymous: Публичните проекти са достъпнии тяхното съдържание са видими без ограничения в мрежата.
-  label_preferred_body_part_text: Text
-  field_parent_issue_subject: Parent task subject
-  permission_edit_own_issues: Edit own issues
-  text_select_apply_tracker: Select tracker
-  label_updated_issues: Updated issues
-  text_avatar_server_config_html: The current avatar server is <a href="%{url}">%{url}</a>.
-    You can configure it in config/configuration.yml.
-  setting_gantt_months_limit: Maximum number of months displayed on the gantt chart
-  label_import_time_entries: Import time entries
-  label_import_notifications: Send email notifications during the import
-  text_gs_available: ImageMagick PDF support available (optional)
-  field_recently_used_projects: Number of recently used projects in jump box
-  label_optgroup_bookmarks: Bookmarks
-  label_optgroup_others: Other projects
-  label_optgroup_recents: Recently used
-  button_project_bookmark: Add bookmark
-  button_project_bookmark_delete: Remove bookmark
