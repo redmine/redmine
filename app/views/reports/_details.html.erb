@@ -63,7 +63,7 @@
   $(document).ready(function(){
     var chartData1 = {
       labels: <%= raw rows.collect{|row| row.name}.to_json %>,
-      datasets: <%= raw @statuses.collect{|status| {"label" => status.name, "data" => rows.collect{|row| aggregate(data, {field_name => row.id, "status_id" => status.id})}}}.to_json %>
+      datasets: <%= raw @statuses.collect{|status| {"label" => status.name, "hidden" => status.is_closed?, "data" => rows.collect{|row| aggregate(data, {field_name => row.id, "status_id" => status.id})}}}.to_json %>
     };
     var chartData2 = {
       labels: <%= raw @statuses.collect{|status| status.name}.to_json %>,
