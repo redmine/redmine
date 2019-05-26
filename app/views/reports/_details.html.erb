@@ -25,4 +25,55 @@
 <% end %>
 </tbody>
 </table>
+<div class="issue-report-graph">
+  <canvas id="issues_by_<%= params[:detail] %>"></canvas>
+</div>
+<div class="issue-report-graph">
+  <canvas id="issues_by_status"></canvas>
+</div>
+<%= javascript_tag do %>
+  function renderChart(canvas_id, title, chartData){
+    var backgroundColors = ['rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(255, 206, 86, 0.2)', 'rgba(75, 192, 192, 0.2)', 'rgba(153, 102, 255, 0.2)', 'rgba(255, 159, 64, 0.2)'];
+    var borderColors = ['rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)', 'rgba(75, 192, 192, 1)', 'rgba(153, 102, 255, 1)', 'rgba(255, 159, 64, 1)'];
+    for (var i = 0; i < chartData.datasets.length; i++) {
+      chartData.datasets[i].backgroundColor = backgroundColors[i % backgroundColors.length];
+      chartData.datasets[i].borderColor = borderColors[i % borderColors.length];
+      chartData.datasets[i].borderWidth = 1;
+    }
+    new Chart($(canvas_id), {
+      type: 'horizontalBar',
+      data: chartData,
+      options: {
+        elements: {
+          rectangle: {borderWidth: 2}
+        },
+        responsive: true,
+        legend: {position: 'right'},
+        title: {
+          display: true,
+          text: title
+        },
+        scales: {
+          yAxes: [{ stacked: true }],
+          xAxes: [{ stacked: true }]
+        }
+      }
+    });
+  }
+  $(document).ready(function(){
+    var chartData1 = {
+      labels: <%= raw rows.collect{|row| row.name}.to_json %>,
+      datasets: <%= raw @statuses.collect{|status| {"label" => status.name, "data" => rows.collect{|row| aggregate(data, {field_name => row.id, "status_id" => status.id})}}}.to_json %>
+    };
+    var chartData2 = {
+      labels: <%= raw @statuses.collect{|status| status.name}.to_json %>,
+      datasets: <%= raw rows.collect{|row| {"label" => row.name, "data" => @statuses.collect{|status| aggregate(data, {field_name => row.id, "status_id" => status.id})}}}.to_json %>
+    };
+    renderChart("#issues_by_<%= params[:detail] %>", "<%= l(:label_issues_by, @report_title) %>", chartData1);
+    renderChart("#issues_by_status", "<%= l(:label_issues_by, l(:field_status)) %>", chartData2);
+  });
+<% end %>
+<% content_for :header_tags do %>
+  <%= javascript_include_tag "Chart.bundle.min" %>
+<% end %>
 <% end %>

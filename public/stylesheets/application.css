@@ -277,6 +277,7 @@ tr.issue.idnt-8 td.subject {padding-left: 136px; background-position: 120px 50%;
 tr.issue.idnt-9 td.subject {padding-left: 152px; background-position: 136px 50%;}
 
 table.issue-report {table-layout:fixed;}
+.issue-report-graph {width: 75%; margin: 2em 0;}
 
 tr.entry { border: 1px solid #f8f8f8; }
 tr.entry td { white-space: nowrap; }
