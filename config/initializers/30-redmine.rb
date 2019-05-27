@@ -20,12 +20,23 @@ if Object.const_defined?(:OpenIdAuthentication)
 end
 
 Redmine::Plugin.load
-unless Redmine::Configuration['mirror_plugins_assets_on_startup'] == false
+
+plugin_assets_dirs = {}
+Redmine::Plugin.all.each do |plugin|
+  plugin_assets_dirs[plugin.assets_directory] = ["*"]
+end
+plugin_assets_reloader = ActiveSupport::FileUpdateChecker.new([], plugin_assets_dirs) do
   Redmine::Plugin.mirror_assets
+end
+Rails.application.reloaders << plugin_assets_reloader
+unless Redmine::Configuration['mirror_plugins_assets_on_startup'] == false
+  plugin_assets_reloader.execute
 end
 
 Rails.application.config.to_prepare do
   Redmine::FieldFormat::RecordList.subclasses.each do |klass|
     klass.instance.reset_target_class
   end
+
+  plugin_assets_reloader.execute_if_updated
 end
