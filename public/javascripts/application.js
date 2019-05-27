@@ -72,6 +72,7 @@ function toggleAllRowGroups(el) {
 function toggleFieldset(el) {
   var fieldset = $(el).parents('fieldset').first();
   fieldset.toggleClass('collapsed');
+  fieldset.children('legend').toggleClass('icon-expended icon-collapsed');
   fieldset.children('div').toggle();
 }
 

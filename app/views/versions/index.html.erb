@@ -89,8 +89,8 @@
 <% if @completed_versions.present? %>
 <p>
   <%= link_to_function l(:label_completed_versions),
-                       '$("#toggle-completed-versions").toggleClass("collapsed"); $("#completed-versions").toggle()',
-                       :id => 'toggle-completed-versions', :class => 'collapsible collapsed' %>
+                       '$("#toggle-completed-versions").toggleClass("icon-collapsed icon-expended"); $("#completed-versions").toggle()',
+                       :id => 'toggle-completed-versions', :class => 'icon icon-collapsed collapsible' %>
   <ul id = "completed-versions" style = "display:none;">
     <% @completed_versions.each do |version| %>
       <li><%= link_to_version version %></li>

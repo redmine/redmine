@@ -132,8 +132,7 @@ a.user.locked, a.user.locked:link, a.user.locked:visited {color: #999;}
 #admin-menu a {line-height:1.7em;}
 #admin-menu a.selected {padding-left: 20px !important; background-position: 2px 40%;}
 
-a.collapsible {padding-left: 12px; background: url(../images/arrow_down.png) no-repeat 0px 50%;}
-a.collapsible.collapsed {background-image: url(../images/arrow_right.png);}
+a.collapsible {padding-left: 12px; }
 
 a#toggle-completed-versions {color:#999;}
 
@@ -519,8 +518,7 @@ div.issue.overdue .due-date .value { color: #c22; }
 #trackers_description dd {margin: 0; padding: 0 0 1em 0;}
 
 fieldset.collapsible {border-width: 1px 0 0 0;}
-fieldset.collapsible>legend { padding-left: 18px; background: url(../images/arrow_down.png) no-repeat 4px 40%; cursor:pointer; }
-fieldset.collapsible.collapsed>legend { background-image: url(../images/arrow_right.png); }
+fieldset.collapsible>legend { cursor:pointer; padding-left: 18px; background-position: 4px;}
 
 fieldset#date-range p { margin: 2px 0 2px 0; }
 fieldset#filters table { border-collapse: collapse; }
@@ -1501,6 +1499,8 @@ td.gantt_selected_column .gantt_hdr,.gantt_selected_column_container {
 .icon-shared { background-image: url(../images/link.png); }
 .icon-actions { background-image: url(../images/3_bullets.png); }
 .icon-sort-handle { background-image: url(../images/reorder.png); }
+.icon-expended { background-image: url(../images/arrow_down.png); }
+.icon-collapsed { background-image: url(../images/arrow_right.png); }
 .icon-bookmark { background-image: url(../images/tag_blue_delete.png); }
 .icon-bookmark-off { background-image: url(../images/tag_blue_add.png); }
 
