@@ -7,7 +7,7 @@
 <td style="padding-left: <%=18 * depth%>px;" class="<%=
            @repository.report_last_commit ? "filename" : "filename_no_report" %>">
 <% if entry.is_dir? %>
-<span class="expander" onclick="scmEntryClick('<%= tr_id %>', '<%= escape_javascript(url_for(
+<span class="expander icon icon-collapsed" onclick="scmEntryClick('<%= tr_id %>', '<%= escape_javascript(url_for(
                        :action => 'show',
                        :id     => @project,
                        :repository_id => @repository.identifier_param,

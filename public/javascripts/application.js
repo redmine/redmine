@@ -32,6 +32,7 @@ function toggleRowGroup(el) {
   var tr = $(el).parents('tr').first();
   var n = tr.next();
   tr.toggleClass('open');
+  $(el).toggleClass('icon-expended icon-collapsed');
   while (n.length && !n.hasClass('group')) {
     n.toggle();
     n = n.next('tr');
@@ -43,6 +44,7 @@ function collapseAllRowGroups(el) {
   tbody.children('tr').each(function(index) {
     if ($(this).hasClass('group')) {
       $(this).removeClass('open');
+      $(this).find('.expander').switchClass('icon-expended', 'icon-collapsed');
     } else {
       $(this).hide();
     }
@@ -54,6 +56,7 @@ function expandAllRowGroups(el) {
   tbody.children('tr').each(function(index) {
     if ($(this).hasClass('group')) {
       $(this).addClass('open');
+      $(this).find('.expander').switchClass('icon-collapsed', 'icon-expended');
     } else {
       $(this).show();
     }
@@ -477,10 +480,12 @@ function scmEntryClick(id, url) {
     var el = $('#'+id);
     if (el.hasClass('open')) {
         collapseScmEntry(id);
+        el.find('.expander').switchClass('icon-expended', 'icon-collapsed');
         el.addClass('collapsed');
         return false;
     } else if (el.hasClass('loaded')) {
         expandScmEntry(id);
+        el.find('.expander').switchClass('icon-collapsed', 'icon-expended');
         el.removeClass('collapsed');
         return false;
     }
@@ -493,6 +498,7 @@ function scmEntryClick(id, url) {
       success: function(data) {
         el.after(data);
         el.addClass('open').addClass('loaded').removeClass('loading');
+        el.find('.expander').switchClass('icon-collapsed', 'icon-expended');
       }
     });
     return true;

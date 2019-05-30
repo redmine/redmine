@@ -288,8 +288,7 @@ tr.entry td.age { text-align: right; }
 tr.entry.file td.filename a { margin-left: 16px; }
 tr.entry.file td.filename_no_report a { margin-left: 16px; }
 
-tr span.expander, .gantt_subjects div > span.expander {background: url(../images/arrow_right.png) no-repeat 2px 50%; padding-left: 8px; margin-left: 0; cursor: pointer;}
-tr.open span.expander, .gantt_subjects div.open > span.expander {background-image: url(../images/arrow_down.png);}
+tr span.expander, .gantt_subjects div > span.expander {background-position: 2px 50%; padding-left: 8px; margin-left: 0; cursor: pointer;}
 .gantt_subjects div > span.expander {padding-left: 12px;}
 .gantt_subjects div > span .icon-gravatar {float: none;}
 
