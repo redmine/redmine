@@ -171,10 +171,10 @@ module QueriesHelper
       css, order = nil, column.default_order
       if column.name.to_s == query.sort_criteria.first_key
         if query.sort_criteria.first_asc?
-          css = 'sort asc'
+          css = 'sort asc icon icon-sorted-desc'
           order = 'desc'
         else
-          css = 'sort desc'
+          css = 'sort desc icon icon-sorted-asc'
           order = 'asc'
         end
       end

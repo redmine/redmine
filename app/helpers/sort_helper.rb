@@ -160,4 +160,3 @@ module SortHelper
     end
   end
 end
-

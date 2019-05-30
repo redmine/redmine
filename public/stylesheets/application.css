@@ -365,8 +365,6 @@ table.list:not(.odd-even) tbody tr:nth-child(even):hover, .even:hover, #issue-ch
 tr.builtin td.name {font-style:italic;}
 
 a.sort { padding-right: 16px; background-position: 100% 50%; background-repeat: no-repeat; }
-a.sort.asc  { background-image: url(../images/arrow_up.png); }
-a.sort.desc { background-image: url(../images/arrow_down.png); }
 
 table.boards a.board { background: url(../images/comment.png) no-repeat 0% 50%; padding-left: 20px; }
 table.boards td.last-message {text-align:left;font-size:80%;}
@@ -1502,6 +1500,8 @@ td.gantt_selected_column .gantt_hdr,.gantt_selected_column_container {
 .icon-collapsed { background-image: url(../images/arrow_right.png); }
 .icon-bookmark { background-image: url(../images/tag_blue_delete.png); }
 .icon-bookmark-off { background-image: url(../images/tag_blue_add.png); }
+.icon-sorted-asc { background-image: url(../images/arrow_down.png); }
+.icon-sorted-desc { background-image: url(../images/arrow_up.png); }
 
 .icon-file { background-image: url(../images/files/default.png); }
 .icon-file.text-plain { background-image: url(../images/files/text.png); }
