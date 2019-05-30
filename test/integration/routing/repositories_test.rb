@@ -22,7 +22,9 @@ require File.expand_path('../../../test_helper', __FILE__)
 class RoutingRepositoriesTest < Redmine::RoutingTest
 
   def setup
-    @paths = ['path/to/file.c', 'path/to/index.html', 'raw/file.c']
+    @paths = ['path/to/index.html',
+              'path/to/file.c', 'path/to/file.yaml', 'path/to/file.txt',
+              'raw/file.c']
   end
 
   def test_repositories_resources
