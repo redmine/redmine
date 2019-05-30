@@ -215,6 +215,15 @@ class IssueImportTest < ActiveSupport::TestCase
     assert_equal Date.parse('2015-07-10'), issue.start_date
     assert_equal Date.parse('2015-08-12'), issue.due_date
     assert_equal '2015-07-14', issue.custom_field_value(field)
+
+    # Tests using other date formats
+    import = generate_import_with_mapping('import_dates_ja.csv')
+    import.settings.merge!('date_format' => Import::DATE_FORMATS[3])
+    import.mapping.merge!('tracker' => 'value:1', 'subject' => '0', 'start_date' => '1')
+    import.save!
+
+    issue = new_record(Issue) { import.run }
+    assert_equal Date.parse('2019-05-28'), issue.start_date
   end
 
   def test_date_format_should_default_to_user_language

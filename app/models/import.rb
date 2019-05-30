@@ -33,6 +33,7 @@ class Import < ActiveRecord::Base
     '%Y-%m-%d',
     '%d/%m/%Y',
     '%m/%d/%Y',
+    '%Y/%m/%d',
     '%d.%m.%Y',
     '%d-%m-%Y'
   ]
