@@ -134,6 +134,14 @@ class ActiveSupport::TestCase
     self.class.convert_installed?
   end
 
+  def self.gs_installed?
+    Redmine::Thumbnail.gs_available?
+  end
+
+  def gs_installed?
+    self.class.gs_installed?
+  end
+
   # Returns the path to the test +vendor+ repository
   def self.repository_path(vendor)
     path = Rails.root.join("tmp/test/#{vendor.downcase}_repository").to_s

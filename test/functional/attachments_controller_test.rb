@@ -404,16 +404,6 @@ class AttachmentsControllerTest < Redmine::ControllerTest
       assert_response 304
     end
 
-    def test_thumbnail_for_pdf_should_be_png
-      Attachment.clear_thumbnails
-      @request.session[:user_id] = 2
-      get :thumbnail, :params => {
-          :id => 23   # ecookbook-gantt.pdf
-        }
-      assert_response :success
-      assert_equal 'image/png', response.content_type
-    end
-
     def test_thumbnail_should_not_exceed_maximum_size
       Redmine::Thumbnail.expects(:generate).with {|source, target, size| size == 800}
 
@@ -461,6 +451,20 @@ class AttachmentsControllerTest < Redmine::ControllerTest
     end
   else
     puts '(ImageMagick convert not available)'
+  end
+
+  if gs_installed?
+    def test_thumbnail_for_pdf_should_be_png
+      Attachment.clear_thumbnails
+      @request.session[:user_id] = 2
+      get :thumbnail, :params => {
+          :id => 23   # ecookbook-gantt.pdf
+        }
+      assert_response :success
+      assert_equal 'image/png', response.content_type
+    end
+  else
+    puts '(GhostScript convert not available)'
   end
 
   def test_edit_all
