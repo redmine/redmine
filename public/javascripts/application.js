@@ -121,7 +121,8 @@ function initFilters() {
     toggleFilter($(this).val());
   });
   $('#filters-table').on('click', '.toggle-multiselect', function() {
-    toggleMultiSelect($(this).siblings('select'));
+    toggleMultiSelect($(this).siblings('select'))
+    $(this).toggleClass('icon-toggle-plus icon-toggle-minus')
   });
   $('#filters-table').on('keypress', 'input[type=text]', function(e) {
     if (e.keyCode == 13) $(this).closest('form').submit();
@@ -188,7 +189,7 @@ function buildFilterRow(field, operator, values) {
   case "list_subprojects":
     tr.find('td.values').append(
       '<span style="display:none;"><select class="value" id="values_'+fieldId+'_1" name="v['+field+'][]"></select>' +
-      ' <span class="toggle-multiselect">&nbsp;</span></span>'
+      ' <span class="toggle-multiselect icon-only icon-toggle-plus">&nbsp;</span></span>'
     );
     select = tr.find('td.values select');
     if (values.length > 1) { select.attr('multiple', true); }

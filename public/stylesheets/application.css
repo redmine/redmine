@@ -531,7 +531,7 @@ fieldset#filters td.values select {min-width:130px;}
 .add-filter {width:35%; float:right; text-align: right; vertical-align: top;}
 
 #issue_is_private_wrap {float:right; margin-right:1em;}
-.toggle-multiselect {background: url(../images/bullet_toggle_plus.png) no-repeat 0% 40%; padding-left:16px; margin-left:0; margin-right:5px; cursor:pointer;}
+.toggle-multiselect { no-repeat 0% 40%; padding-left:16px; margin-left:0; margin-right:5px; cursor:pointer;}
 .buttons { font-size: 0.9em; margin-bottom: 1.4em; margin-top: 1em; }
 
 div#issue-changesets {float:right; width:45%; margin-left: 1em; margin-bottom: 1em; background: #fff; padding-left: 1em; font-size: 90%;}
@@ -1502,6 +1502,8 @@ td.gantt_selected_column .gantt_hdr,.gantt_selected_column_container {
 .icon-bookmark-off { background-image: url(../images/tag_blue_add.png); }
 .icon-sorted-asc { background-image: url(../images/arrow_down.png); }
 .icon-sorted-desc { background-image: url(../images/arrow_up.png); }
+.icon-toggle-plus { background: url(../images/bullet_toggle_plus.png) }
+.icon-toggle-minus { background: url(../images/bullet_toggle_minus.png) }
 
 .icon-file { background-image: url(../images/files/default.png); }
 .icon-file.text-plain { background-image: url(../images/files/text.png); }
