@@ -519,12 +519,12 @@ class AttachmentsControllerTest < Redmine::ControllerTest
           '1' => {
             :filename => 'newname.text',
             :description => ''
-          },    
+          },
                   '4' => {
             :filename => 'newname.rb',
             :description => 'Renamed'
-          },    
-                
+          },
+
         }
       }
 
@@ -543,12 +543,12 @@ class AttachmentsControllerTest < Redmine::ControllerTest
           '1' => {
             :filename => '',
             :description => ''
-          },    
+          },
                   '4' => {
             :filename => 'newname.rb',
             :description => 'Renamed'
-          },    
-                
+          },
+
         }
       }
 
