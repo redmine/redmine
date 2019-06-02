@@ -38,7 +38,13 @@
 
   <% if User.current.allowed_to?(:view_issues, @project) %>
   <div class="issues box">
-    <h3 class="icon icon-issue"><%=l(:label_issue_tracking)%></h3>
+    <h3 class="icon icon-issue">
+      <%=l(:label_issue_tracking)%>&nbsp;
+      <%= link_to l(:label_details),
+            project_issues_report_details_path(@project, :detail => 'tracker'),
+            :class => 'icon-only icon-zoom-in',
+            :title => l(:label_details) %>
+    </h3>
     <% if @trackers.present? %>
     <table class="list issue-report">
       <thead>
