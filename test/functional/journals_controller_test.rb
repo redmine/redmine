@@ -180,7 +180,8 @@ class JournalsControllerTest < Redmine::ControllerTest
     @request.session[:user_id] = 2
     get :new, :params => {
         :id => 6,
-        :journal_id => 4
+        :journal_id => 4,
+        :journal_indice => 1
       },
       :xhr => true
     assert_response :success

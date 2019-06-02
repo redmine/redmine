@@ -66,8 +66,7 @@ class JournalsController < ApplicationController
     if @journal
       user = @journal.user
       text = @journal.notes
-      indice = @journal.issue.visible_journals_with_index.find{|j| j.id == @journal.id}.indice
-      @content = +"#{ll(Setting.default_language, :text_user_wrote_in, {:value => user, :link => "#note-#{indice}"})}\n> "
+      @content = +"#{ll(Setting.default_language, :text_user_wrote_in, {:value => user, :link => "#note-#{params[:journal_indice]}"})}\n> "
     else
       user = @issue.author
       text = @issue.description

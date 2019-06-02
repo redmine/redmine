@@ -31,7 +31,7 @@ module JournalsHelper
     if journal.notes.present?
       if options[:reply_links]
         links << link_to(l(:button_quote),
-                         quoted_issue_path(issue, :journal_id => journal),
+                         quoted_issue_path(issue, :journal_id => journal, :journal_indice => journal.indice),
                          :remote => true,
                          :method => 'post',
                          :title => l(:button_quote),
