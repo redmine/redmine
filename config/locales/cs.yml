@@ -1032,7 +1032,7 @@ cs:
   label_fields_permissions: Práva k polím
   label_readonly: Pouze pro čtení
   label_required: Vyžadováno
-  text_repository_identifier_info: Jou povoleny pouze malá písmena (a-z), číslice, pomlčky a podtržítka.<br />Po uložení již nelze identifikátor změnit.
+  text_repository_identifier_info: Jsou povoleny pouze malá písmena (a-z), číslice, pomlčky a podtržítka.<br />Po uložení již nelze identifikátor změnit.
   field_board_parent: Rodičovské fórum
   label_attribute_of_project: "%{name} projektu"
   label_attribute_of_author: "%{name} autora"
@@ -1088,10 +1088,10 @@ cs:
   label_drop_down_list: rozbalovací seznam
   label_checkboxes: zaškrtávátka
   label_link_values_to: Propojit hodnoty s URL
-  setting_force_default_language_for_anonymous: Vynutit výchozí jazyk pro anonymní uživatele
-    users
-  setting_force_default_language_for_loggedin: Vynutit výchozí jazyk pro přihlášené uživatele
-    users
+  setting_force_default_language_for_anonymous: Vynutit výchozí jazyk pro anonymní
+    uživatele
+  setting_force_default_language_for_loggedin: Vynutit výchozí jazyk pro přihlášené
+    uživatele
   label_custom_field_select_type: Vybrat typ objektu, ke kterému bude přiřazeno uživatelské pole
   label_issue_assigned_to_updated: Přiřazený uživatel aktualizován
   label_check_for_updates: Zkontroluj aktualizace
@@ -1243,39 +1243,39 @@ cs:
     jakékoliv manipulace během autentifikačního procesu.
   label_nothing_to_preview: Žádný náhled
   error_token_expired: Tento odkaz na obnovu hesla vypršel, prosím zkuste to znovu.
-  error_spent_on_future_date: Cannot log time on a future date
-  setting_timelog_accept_future_dates: Accept time logs on future dates
+  error_spent_on_future_date: Nelze zapsat čas do budoucna
+  setting_timelog_accept_future_dates: Akceptovat zápis času do budoucna
   label_delete_link_to_subtask: Odstranit souvislost
-  error_not_allowed_to_log_time_for_other_users: You are not allowed to log time
-    for other users
-  permission_log_time_for_other_users: Log spent time for other users
-  label_tomorrow: tomorrow
-  label_next_week: next week
-  label_next_month: next month
-  text_role_no_workflow: No workflow defined for this role
-  text_status_no_workflow: No tracker uses this status in the workflows
-  setting_mail_handler_preferred_body_part: Preferred part of multipart (HTML) emails
-  setting_show_status_changes_in_mail_subject: Show status changes in issue mail notifications
-    subject
-  label_inherited_from_parent_project: Inherited from parent project
-  label_inherited_from_group: Inherited from group %{name}
-  label_trackers_description: Trackers description
-  label_open_trackers_description: View all trackers description
+  error_not_allowed_to_log_time_for_other_users: Nejste oprávněni k zápisu času
+    ostatních uživatelů
+  permission_log_time_for_other_users: Záznam stráveného času ostatních uživatelů
+  label_tomorrow: zítra
+  label_next_week: příští týden
+  label_next_month: příští měsíc
+  text_role_no_workflow: Tato role nemá definován průběh práce
+  text_status_no_workflow: Žádná fronta nepoužívá tento stav v průběhu práce
+  setting_mail_handler_preferred_body_part: Preferovaná část (HTML) emailu
+  setting_show_status_changes_in_mail_subject: Zobrazit změny stavů v předmetu mailové
+    notifikace úkolů
+  label_inherited_from_parent_project: Poděděné z rodičovského projektu
+  label_inherited_from_group: Poděděné ze skupiny %{name}
+  label_trackers_description: Popis front
+  label_open_trackers_description: Zobrazit popis všech trackerů
   label_preferred_body_part_text: Text
-  label_preferred_body_part_html: HTML (experimental)
-  field_parent_issue_subject: Parent task subject
-  permission_edit_own_issues: Edit own issues
-  text_select_apply_tracker: Select tracker
-  label_updated_issues: Updated issues
-  text_avatar_server_config_html: The current avatar server is <a href="%{url}">%{url}</a>.
-    You can configure it in config/configuration.yml.
-  setting_gantt_months_limit: Maximum number of months displayed on the gantt chart
-  label_import_time_entries: Import time entries
-  label_import_notifications: Send email notifications during the import
-  text_gs_available: ImageMagick PDF support available (optional)
-  field_recently_used_projects: Number of recently used projects in jump box
-  label_optgroup_bookmarks: Bookmarks
-  label_optgroup_others: Other projects
-  label_optgroup_recents: Recently used
-  button_project_bookmark: Add bookmark
-  button_project_bookmark_delete: Remove bookmark
+  label_preferred_body_part_html: HTML (experimentální)
+  field_parent_issue_subject: Předmět rodičovského úkolu
+  permission_edit_own_issues: Upravování vlastních úkolů
+  text_select_apply_tracker: Použít frontu
+  label_updated_issues: Aktualizované úkoly
+  text_avatar_server_config_html: Aktuální avatar server je <a href="%{url}">%{url}</a>.
+    Nastavení lze změnit v config/configuration.yml.
+  setting_gantt_months_limit: Maximální počet měsíců zobrazených v ganttově diagramu
+  label_import_time_entries: Import stráveného času
+  label_import_notifications: Odeslat emailové notifikace během importu
+  text_gs_available: ImageMagick PDF podpora k dispozici (volitelné)
+  field_recently_used_projects: Počet nedávno použitých projektů v rychlém výběru
+  label_optgroup_bookmarks: Záložky
+  label_optgroup_others: Jiné projekty
+  label_optgroup_recents: Nedávno použité
+  button_project_bookmark: Přidat záložku
+  button_project_bookmark_delete: Odstranit záložku
