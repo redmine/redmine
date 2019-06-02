@@ -708,6 +708,7 @@ it:
   mail_body_reminder: "%{count} segnalazioni che ti sono state assegnate scadranno nei prossimi %{days} giorni:"
   mail_subject_reminder: "%{count} segnalazioni in scadenza nei prossimi %{days} giorni"
   text_user_wrote: "%{value} ha scritto:"
+  text_user_wrote_in: "%{value} ha scritto (%{link}):"
   label_duplicated_by: duplicata da
   setting_enabled_scm: SCM abilitato
   text_enumeration_category_reassign_to: 'Riassegnale a questo valore:'

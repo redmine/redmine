@@ -829,6 +829,7 @@ hr:
   text_assign_time_entries_to_project: Pridruži prijavljene sate projektu
   text_reassign_time_entries: 'Premjesti prijavljene sate ovom predmetu:'
   text_user_wrote: "%{value} je napisao/la:"
+  text_user_wrote_in: "%{value} je napisao/la (%{link}):"
   text_enumeration_destroy_question: "%{count} objekata je pridruženo toj vrijednosti."
   text_enumeration_category_reassign_to: 'Premjesti ih ovoj vrijednosti:'
   text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server in config/configuration.yml and restart the application to enable them."

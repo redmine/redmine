@@ -728,6 +728,7 @@ tr:
   label_duplicated_by: yineleyen
   text_enumeration_destroy_question: "Bu nesneye %{count} değer bağlanmış."
   text_user_wrote: "%{value} demiş ki:"
+  text_user_wrote_in: "%{value} demiş ki (%{link}):"
   setting_mail_handler_api_enabled: Gelen e-postalar için WS'yi aç
   label_and_its_subprojects: "%{value} ve alt projeleri"
   mail_subject_reminder: "%{count} iş bir kaç güne bitecek"

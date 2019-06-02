@@ -861,6 +861,7 @@ ca:
   text_assign_time_entries_to_project: "Assignar les hores informades al projecte"
   text_reassign_time_entries: "Tornar a assignar les hores informades a aquest assumpte:"
   text_user_wrote: "%{value} va escriure:"
+  text_user_wrote_in: "%{value} va escriure (%{link}):"
   text_enumeration_destroy_question: "%{count} objectes estan assignats a aquest valor."
   text_enumeration_category_reassign_to: "Torna a assignar-los a aquest valor:"
   text_email_delivery_not_configured: "El lliurament per correu electrònic no està configurat i les notificacions estan inhabilitades.\nConfigureu el servidor SMTP a config/configuration.yml i reinicieu l'aplicació per habilitar-lo."

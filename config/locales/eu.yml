@@ -838,6 +838,7 @@ eu:
   text_assign_time_entries_to_project: Berri emandako orduak proiektura esleitu
   text_reassign_time_entries: 'Berri emandako orduak zeregin honetara esleitu:'
   text_user_wrote: "%{value}-(e)k idatzi zuen:"
+  text_user_wrote_in: "%{value}-(e)k idatzi zuen (%{link}):"
   text_enumeration_destroy_question: "%{count} objetu balio honetara esleituta daude."
   text_enumeration_category_reassign_to: 'Beste balio honetara esleitu:'
   text_email_delivery_not_configured: "Eposta bidalketa ez dago konfiguratuta eta jakinarazpenak ezgaituta daude.\nKonfiguratu zure SMTP zerbitzaria config/configuration.yml-n eta aplikazioa berrabiarazi hauek gaitzeko."

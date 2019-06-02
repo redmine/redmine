@@ -954,6 +954,7 @@ et:
   text_assign_time_entries_to_project: "Vii tunnid üle teise projekti"
   text_reassign_time_entries: "Määra tunnid sellele teemale:"
   text_user_wrote: "%{value} kirjutas:"
+  text_user_wrote_in: "%{value} kirjutas (%{link}):"
   text_enumeration_destroy_question: "Selle väärtusega on seotud %{count} objekt(i)."
   text_enumeration_category_reassign_to: "Seo nad teise väärtuse külge:"
   text_email_delivery_not_configured: "E-kirjade saatmine ei ole seadistatud ja teavitusi ei saadeta.\nKonfigureeri oma SMTP server failis config/configuration.yml ja taaskäivita Redmine."

@@ -789,6 +789,7 @@ gl:
   text_unallowed_characters: Caracteres non permitidos
   text_user_mail_option: "Dos proxectos non seleccionados, só recibirá notificacións sobre elementos monitorizados ou elementos nos que estea involucrado (por exemplo, peticións das que vostede sexa autor ou asignadas a vostede)."
   text_user_wrote: "%{value} escribiu:"
+  text_user_wrote_in: "%{value} escribiu (%{link}):"
   text_wiki_destroy_confirmation: Seguro que quere borrar o wiki e todo o seu contido?
   text_workflow_edit: Seleccionar un fluxo de traballo para actualizar
   warning_attachments_not_saved: "Non foi posíbel gardar %{count} ficheiros."

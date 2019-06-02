@@ -1131,6 +1131,7 @@ de:
   text_unallowed_characters: Nicht erlaubte Zeichen
   text_user_mail_option: "Für nicht ausgewählte Projekte werden Sie nur Benachrichtigungen für Dinge erhalten, die Sie beobachten oder an denen Sie beteiligt sind (z. B. Tickets, deren Autor Sie sind oder die Ihnen zugewiesen sind)."
   text_user_wrote: "%{value} schrieb:"
+  text_user_wrote_in: "%{value} schrieb (%{link}):"
   text_warn_on_leaving_unsaved: Die aktuellen Änderungen gehen verloren, wenn Sie diese Seite verlassen.
   text_wiki_destroy_confirmation: Sind Sie sicher, dass Sie dieses Wiki mit sämtlichem Inhalt löschen möchten?
   text_wiki_page_destroy_children: Lösche alle Unterseiten

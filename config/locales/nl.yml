@@ -759,6 +759,7 @@ nl:
   text_unallowed_characters: Ongeldige tekens
   text_user_mail_option: "Bij niet-geselecteerde projecten zal u enkel mededelingen ontvangen voor issues die u volgt of waar u bij betrokken bent (als auteur of toegewezen persoon)."
   text_user_wrote: "%{value} schreef:"
+  text_user_wrote_in: "%{value} schreef (%{link}):"
   text_wiki_destroy_confirmation: Weet u zeker dat u deze wiki en de inhoud wenst te verwijderen?
   text_workflow_edit: Selecteer een rol en een tracker om de workflow te wijzigen
   warning_attachments_not_saved: "%{count} bestand(en) konden niet opgeslagen worden."

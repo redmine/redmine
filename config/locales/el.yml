@@ -780,6 +780,7 @@ el:
   text_assign_time_entries_to_project: Ανάθεση αναφερόμενων ωρών στο έργο
   text_reassign_time_entries: 'Ανάθεση εκ νέου των αναφερόμενων ωρών στο θέμα:'
   text_user_wrote: "%{value} έγραψε:"
+  text_user_wrote_in: "%{value} έγραψε (%{link}):"
   text_enumeration_destroy_question: "%{count} αντικείμενα έχουν τεθεί σε αυτή την τιμή."
   text_enumeration_category_reassign_to: 'Επανεκχώρηση τους στην παρούσα αξία:'
   text_email_delivery_not_configured: "Δεν έχουν γίνει ρυθμίσεις παράδοσης email, και οι ειδοποιήσεις είναι απενεργοποιημένες.\nΔηλώστε τον εξυπηρετητή SMTP στο config/configuration.yml και κάντε επανακκίνηση την εφαρμογή για να τις ρυθμίσεις."

@@ -719,6 +719,7 @@ uk:
   mail_body_reminder: "%{count} призначених на Вас задач на наступні %{days} днів:"
   mail_subject_reminder: "%{count} призначених на Вас задач в найближчі %{days} дні"
   text_user_wrote: "%{value} писав(ла):"
+  text_user_wrote_in: "%{value} писав(ла) (%{link}):"
   label_duplicated_by: дублюється
   setting_enabled_scm: Увімкнені SCM
   text_enumeration_category_reassign_to: 'Надати їм наступне значення:'

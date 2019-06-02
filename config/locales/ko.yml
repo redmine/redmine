@@ -820,6 +820,7 @@ ko:
   text_assign_time_entries_to_project: 보고된 시간을 프로젝트에 할당하기
   text_reassign_time_entries: '이 알림에 보고된 시간을 재할당하기:'
   text_user_wrote: "%{value}의 덧글:"
+  text_user_wrote_in: "%{value}의 덧글 (%{link}):"
   text_enumeration_category_reassign_to: '새로운 값을 설정:'
   text_enumeration_destroy_question: "%{count} 개의 일감이 이 값을 사용하고 있습니다."
   text_email_delivery_not_configured: "이메일 전달이 설정되지 않았습니다. 그래서 알림이 비활성화되었습니다.\n SMTP서버를 config/configuration.yml에서 설정하고 어플리케이션을 다시 시작하십시오. 그러면 동작합니다."

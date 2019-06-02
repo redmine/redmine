@@ -809,6 +809,7 @@ id:
   text_assign_time_entries_to_project: Tugaskan jam terlapor pada proyek
   text_reassign_time_entries: 'Tugaskan kembali jam terlapor pada masalah ini:'
   text_user_wrote: "%{value} menulis:"
+  text_user_wrote_in: "%{value} menulis (%{link}):"
   text_enumeration_destroy_question: "%{count} obyek ditugaskan untuk nilai ini."
   text_enumeration_category_reassign_to: 'Tugaskan kembali untuk nilai ini:'
   text_email_delivery_not_configured: "Pengiriman email belum dikonfigurasi, notifikasi tidak diaktifkan.\nAnda harus mengkonfigur SMTP server anda pada config/configuration.yml dan restart kembali aplikasi untuk mengaktifkan."

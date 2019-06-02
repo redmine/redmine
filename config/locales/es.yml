@@ -814,6 +814,7 @@ es:
   text_unallowed_characters: Caracteres no permitidos
   text_user_mail_option: "De los proyectos no seleccionados, sólo recibirá notificaciones sobre elementos monitorizados o elementos en los que esté involucrado (por ejemplo, peticiones de las que usted sea autor o asignadas a usted)."
   text_user_wrote: "%{value} escribió:"
+  text_user_wrote_in: "%{value} escribió (%{link}):"
   text_wiki_destroy_confirmation: ¿Seguro que quiere borrar el wiki y todo su contenido?
   text_workflow_edit: Seleccionar un flujo de trabajo para actualizar
   text_plugin_assets_writable: Se puede escribir en el directorio público de las extensiones

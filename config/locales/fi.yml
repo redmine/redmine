@@ -729,6 +729,7 @@ fi:
   mail_body_reminder: "%{count} sinulle nimettyä tapahtuma(a) erääntyy %{days} päivä sisään:"
   mail_subject_reminder: "%{count} tapahtuma(a) erääntyy %{days} lähipäivinä"
   text_user_wrote: "%{value} kirjoitti:"
+  text_user_wrote_in: "%{value} kirjoitti (%{link}):"
   label_duplicated_by: kopioinut
   setting_enabled_scm: Versionhallinta käytettävissä
   text_enumeration_category_reassign_to: 'Siirrä täksi arvoksi:'

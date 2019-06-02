@@ -671,6 +671,7 @@
   text_assign_time_entries_to_project: Overfør førte timer til prosjektet
   text_reassign_time_entries: 'Overfør førte timer til denne saken:'
   text_user_wrote: "%{value} skrev:"
+  text_user_wrote_in: "%{value} skrev (%{link}):"
 
   default_role_manager: Leder
   default_role_developer: Utvikler

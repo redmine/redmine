@@ -878,6 +878,7 @@ cs:
   text_assign_time_entries_to_project: Přiřadit zaznamenané hodiny projektu
   text_reassign_time_entries: 'Přeřadit zaznamenané hodiny k tomuto úkolu:'
   text_user_wrote: "%{value} napsal:"
+  text_user_wrote_in: "%{value} napsal (%{link}):"
   text_enumeration_destroy_question: "Několik (%{count}) objektů je přiřazeno k této hodnotě."
   text_enumeration_category_reassign_to: 'Přeřadit je do této:'
   text_email_delivery_not_configured: "Doručování e-mailů není nastaveno a odesílání notifikací je zakázáno.\nNastavte Váš SMTP server v souboru config/configuration.yml a restartujte aplikaci."

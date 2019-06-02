@@ -909,6 +909,7 @@ az:
   text_unallowed_characters: Qadağan edilmiş simvollar
   text_user_mail_option: "Seçilməyən layihələr üçün Siz yalnız baxdığınız və ya iştirak etdiyiniz layihələr barədə bildiriş alacaqsınız məsələn, müəllifi olduğunuz layihələr və ya o layihələr ki, Sizə təyin edilib)."
   text_user_wrote: "%{value} yazıb:"
+  text_user_wrote_in: "%{value} yazıb (%{link}):"
   text_wiki_destroy_confirmation: Siz bu Wiki və onun tərkibindəkiləri silmək istədiyinizə əminsinizmi?
   text_workflow_edit: Vəziyyətlərin ardıcıllığını redaktə etmək üçün rol və trekeri seçin
 

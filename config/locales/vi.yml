@@ -744,6 +744,7 @@ vi:
   text_assign_time_entries_to_project: Gán thời gian báo cáo cho dự án
   text_reassign_time_entries: 'Gán lại thời gian báo cáo cho Vấn đề này:'
   text_user_wrote: "%{value} đã viết:"
+  text_user_wrote_in: "%{value} đã viết (%{link}):"
   text_enumeration_destroy_question: "%{count} đối tượng được gán giá trị này."
   text_enumeration_category_reassign_to: 'Gán lại giá trị này:'
   text_email_delivery_not_configured: "Cấu hình gửi Email chưa được đặt, và chức năng thông báo bị loại bỏ.\nCấu hình máy chủ SMTP của bạn ở file config/configuration.yml và khởi động lại để kích hoạt chúng."

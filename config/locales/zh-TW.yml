@@ -1224,6 +1224,7 @@
   text_assign_time_entries_to_project: 指定已報工的時數至專案中
   text_reassign_time_entries: '重新指定已報工的時數至此議題：'
   text_user_wrote: "%{value} 先前提到:"
+  text_user_wrote_in: "%{value} 先前在 %{link} 中提到:"
   text_enumeration_destroy_question: "目前有 %{count} 個物件使用此列舉值。"
   text_enumeration_category_reassign_to: '重新設定其列舉值為：'
   text_email_delivery_not_configured: "您尚未設定電子郵件傳送方式，因此提醒選項已被停用。\n請在 config/configuration.yml 中設定 SMTP 之後，重新啟動 Redmine，以啟用電子郵件提醒選項。"

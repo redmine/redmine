@@ -841,6 +841,7 @@ mn:
   text_assign_time_entries_to_project: Мэдэгдсэн асуудлуудыг төсөлд оноох
   text_reassign_time_entries: 'Мэдэгдсэн асуудлуудыг энэ асуудалд дахин оноо:'
   text_user_wrote: "%{value} бичихдээ:"
+  text_user_wrote_in: "%{value} бичихдээ (%{link}):"
   text_enumeration_destroy_question: "Энэ утгад %{count} обьект оноогдсон байна."
   text_enumeration_category_reassign_to: 'Тэдгээрийг энэ утгад дахин оноо:'
   text_email_delivery_not_configured: "Имэйлийн тохиргоог хараахан тохируулаагүй байна, тиймээс имэйл мэдэгдэл явуулах боломжгүй байна.\nSMTP сервэрээ config/configuration.yml файл дотор тохируулаад төслийн менежерээ дахиад эхлүүлээрэй."

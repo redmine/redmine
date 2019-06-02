@@ -1183,6 +1183,7 @@ bg:
   text_assign_time_entries_to_project: Прехвърляне на отделеното време към проект
   text_reassign_time_entries: 'Прехвърляне на отделеното време към задача:'
   text_user_wrote: "%{value} написа:"
+  text_user_wrote_in: "%{value} написа (%{link}):"
   text_enumeration_destroy_question: "%{count} обекта са свързани с тази стойност."
   text_enumeration_category_reassign_to: 'Пресвържете ги към тази стойност:'
   text_email_delivery_not_configured: "Изпращането на e-mail-и не е конфигурирано и известията не са разрешени.\nКонфигурирайте вашия SMTP сървър в config/configuration.yml и рестартирайте Redmine, за да ги разрешите."

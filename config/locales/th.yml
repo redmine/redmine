@@ -704,6 +704,7 @@ th:
   mail_body_reminder: "%{count} issue(s) that are assigned to you are due in the next %{days} days:"
   mail_subject_reminder: "%{count} issue(s) due in the next %{days} days"
   text_user_wrote: "%{value} wrote:"
+  text_user_wrote_in: "%{value} wrote (%{link}):"
   label_duplicated_by: duplicated by
   setting_enabled_scm: Enabled SCM
   text_enumeration_category_reassign_to: 'Reassign them to this value:'

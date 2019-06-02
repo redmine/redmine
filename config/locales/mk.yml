@@ -857,6 +857,7 @@ mk:
   text_assign_time_entries_to_project: Додели ги пријавените часови на проектот
   text_reassign_time_entries: 'Reassign reported hours to this issue:'
   text_user_wrote: "%{value} напиша:"
+  text_user_wrote_in: "%{value} напиша (%{link}):"
   text_enumeration_destroy_question: "%{count} objects are assigned to this value."
   text_enumeration_category_reassign_to: 'Reassign them to this value:'
   text_email_delivery_not_configured: "Доставата по е-пошта не е конфигурирана, и известувањата се оневозможени.\nКонфигурирајте го Вашиот  SMTP сервер во config/configuration.yml и рестартирајте ја апликацијата."

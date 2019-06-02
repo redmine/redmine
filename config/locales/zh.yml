@@ -878,6 +878,7 @@ zh:
   text_assign_time_entries_to_project: 将已上报的工作量提交到项目中
   text_reassign_time_entries: '将已上报的工作量指定到此问题：'
   text_user_wrote: "%{value} 写到："
+  text_user_wrote_in: "%{value} 在 %{link} 中写到："
   text_enumeration_destroy_question: "%{count} 个对象被关联到了这个枚举值。"
   text_enumeration_category_reassign_to: '将它们关联到新的枚举值：'
   text_email_delivery_not_configured: "邮件参数尚未配置，因此邮件通知功能已被禁用。\n请在config/configuration.yml中配置您的SMTP服务器信息并重新启动以使其生效。"

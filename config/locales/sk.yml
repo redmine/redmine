@@ -704,6 +704,7 @@ sk:
   mail_body_reminder: "Nasledovné úlohy (%{count}), ktoré sú vám priradené, majú byť hotové za %{days} dní:"
   mail_subject_reminder: "%{count} úlohy majú byť hotové za %{days} dní"
   text_user_wrote: "Používateľ %{value} napísal:"
+  text_user_wrote_in: "Používateľ %{value} napísal (%{link}):"
   label_duplicated_by: Duplikoval
   setting_enabled_scm: Povolené SCM
   text_enumeration_category_reassign_to: 'Prenastaviť na túto hodnotu:'

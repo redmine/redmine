@@ -744,6 +744,7 @@ sl:
   text_assign_time_entries_to_project: Predaj opravljene ure projektu
   text_reassign_time_entries: 'Prenesi opravljene ure na ta zahtevek:'
   text_user_wrote: "%{value} je napisal(a):"
+  text_user_wrote_in: "%{value} je napisal(a) (%{link}):"
   text_enumeration_destroy_question: "%{count} objektov je določenih tej vrednosti."
   text_enumeration_category_reassign_to: 'Ponastavi jih na to vrednost:'
   text_email_delivery_not_configured: "E-poštna dostava ni nastavljena in oznanila so onemogočena.\nNastavite vaš SMTP strežnik v config/configuration.yml in ponovno zaženite aplikacijo da ga omogočite.\n"

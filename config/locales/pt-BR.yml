@@ -715,6 +715,7 @@ pt-BR:
   text_assign_time_entries_to_project: Atribuir estas horas de trabalho para outro projeto
   text_reassign_time_entries: 'Atribuir horas reportadas para esta tarefa:'
   text_user_wrote: "%{value} escreveu:"
+  text_user_wrote_in: "%{value} escreveu (%{link}):"
   text_enumeration_destroy_question: "%{count} objetos estão atribuídos a este valor."
   text_enumeration_category_reassign_to: 'Reatribuí-los ao valor:'
   text_email_delivery_not_configured: "O envio de e-mail não está configurado, e as notificações estão inativas.\nConfigure seu servidor SMTP no arquivo config/configuration.yml e reinicie a aplicação para ativá-las."

@@ -857,6 +857,7 @@ sr-YU:
   text_assign_time_entries_to_project: Dodeli prijavljene sate projektu
   text_reassign_time_entries: 'Dodeli ponovo prijavljene sate ovom problemu:'
   text_user_wrote: "%{value} je napisao:"
+  text_user_wrote_in: "%{value} je napisao (%{link}):"
   text_enumeration_destroy_question: "%{count} objekat(a) je dodeljeno ovoj vrednosti."
   text_enumeration_category_reassign_to: 'Dodeli ih ponovo ovoj vrednosti:'
   text_email_delivery_not_configured: "Isporuka e-poruka nije konfigurisana i obaveštenja su onemogućena.\nPodesite vaš SMTP server u config/configuration.yml i pokrenite ponovo aplikaciju za njihovo omogućavanje."

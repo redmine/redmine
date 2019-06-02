@@ -835,6 +835,7 @@ lv:
   text_assign_time_entries_to_project: Piešķirt ziņotās stundas projektam
   text_reassign_time_entries: 'Piešķirt ziņotās stundas uzdevumam:'
   text_user_wrote: "%{value} rakstīja:"
+  text_user_wrote_in: "%{value} rakstīja (%{link}):"
   text_enumeration_destroy_question: "%{count} objekti ir piešķirti šai vērtībai."
   text_enumeration_category_reassign_to: 'Piešķirt tos šai vērtībai:'
   text_email_delivery_not_configured: "E-pastu nosūtīšana nav konfigurēta, un ziņojumi ir izslēgti.\nKonfigurējiet savu SMTP serveri datnē config/configuration.yml un pārstartējiet lietotni."

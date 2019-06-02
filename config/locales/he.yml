@@ -867,6 +867,7 @@ he:
   text_assign_time_entries_to_project: הצב שעות שדווחו לפרויקט הזה
   text_reassign_time_entries: 'הצב מחדש שעות שדווחו לפרויקט הזה:'
   text_user_wrote: "%{value} כתב:"
+  text_user_wrote_in: "%{value} כתב (%{link}):"
   text_enumeration_destroy_question: "%{count} אוביקטים מוצבים לערך זה."
   text_enumeration_category_reassign_to: 'הצב מחדש לערך הזה:'
   text_email_delivery_not_configured: 'לא נקבעה תצורה לשליחת דואר, וההתראות כבויות.\nקבע את תצורת שרת ה־SMTP בקובץ /etc/redmine/&lt;instance&gt;/configuration.yml והתחל את האפליקציה מחדש ע"מ לאפשר אותם.'

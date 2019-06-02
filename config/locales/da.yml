@@ -775,6 +775,7 @@ da:
   label_updated_time_by: "Opdateret af %{author} for %{age} siden"
   text_diff_truncated: '... Listen over forskelle er blevet afkortet da den overstiger den maksimale størrelse der kan vises.'
   text_user_wrote: "%{value} skrev:"
+  text_user_wrote_in: "%{value} skrev (%{link}):"
   setting_mail_handler_api_enabled: Aktiver webservice for indkomne emails
   permission_delete_issues: Slet sager
   permission_view_documents: Se dokumenter

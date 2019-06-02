@@ -1102,6 +1102,7 @@ lt:
   text_assign_time_entries_to_project: Priskirti įrašytas valandas prie projekto
   text_reassign_time_entries: 'Priskirti įrašytas valandas šiam darbui:'
   text_user_wrote: "%{value} parašė:"
+  text_user_wrote_in: "%{value} parašė (%{link}):"
   text_enumeration_destroy_question: "%{count} objektai(ų) priskirti šiai reikšmei “%{name}”."
   text_enumeration_category_reassign_to: 'Priskirti juos šiai reikšmei:'
   text_email_delivery_not_configured: "El.pašto siuntimas nesukonfigūruotas ir perspėjimai neaktyvus.\nSukonfigūruokite savo SMTP serverį byloje config/configuration.yml ir perleiskite programą norėdami pritaikyti pakeitimus."

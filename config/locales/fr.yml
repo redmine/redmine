@@ -1147,6 +1147,7 @@ fr:
   text_assign_time_entries_to_project: Reporter les heures sur le projet
   text_reassign_time_entries: 'Reporter les heures sur cette demande:'
   text_user_wrote: "%{value} a écrit :"
+  text_user_wrote_in: "%{value} a écrit  (%{link}):"
   text_enumeration_destroy_question: "La valeur « %{name} » est affectée à %{count} objet(s)."
   text_enumeration_category_reassign_to: 'Réaffecter les objets à cette valeur:'
   text_email_delivery_not_configured: "L'envoi de mail n'est pas configuré, les notifications sont désactivées.\nConfigurez votre serveur SMTP dans config/configuration.yml et redémarrez l'application pour les activer."

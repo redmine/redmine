@@ -758,6 +758,7 @@ ro:
   text_assign_time_entries_to_project: Atribuie orele la proiect
   text_reassign_time_entries: 'Atribuie orele înregistrate la tichetul:'
   text_user_wrote: "%{value} a scris:"
+  text_user_wrote_in: "%{value} a scris (%{link}):"
   text_enumeration_destroy_question: "Această valoare are %{count} obiecte."
   text_enumeration_category_reassign_to: 'Atribuie la această valoare:'
   text_email_delivery_not_configured: "Trimiterea de emailuri nu este configurată și ca urmare, notificările sunt dezactivate.\nConfigurați serverul SMTP în config/configuration.yml și reporniți aplicația pentru a le activa."

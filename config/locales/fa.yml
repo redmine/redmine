@@ -1138,6 +1138,7 @@ fa:
   text_assign_time_entries_to_project: ساعت‌های گزارش شده به پروژه واگذار شوند
   text_reassign_time_entries: 'ساعت‌های گزارش شده به این مسأله واگذار شوند:'
   text_user_wrote: "%{value} نوشت:"
+  text_user_wrote_in: "%{value} نوشت (%{link}):"
   text_enumeration_destroy_question: "%{count} مورد از مقدار «%{name}» استفاده کرده‌اند."
   text_enumeration_category_reassign_to: 'به این مقدار تغییر کنند:'
   text_email_delivery_not_configured: "دریافت رایانامه تنظیمات نشده است و آگاه‌سازی‌ها غیر فعال هستند.\nکارگزار SMTP خود را در config/email.yml تنظیمات کنید و برنامه را بازنشانی کنید تا فعال شوند."

@@ -727,6 +727,7 @@
   mail_body_reminder: "%{count} neked kiosztott feladat határidős az elkövetkező %{days} napban:"
   mail_subject_reminder: "%{count} feladat határidős az elkövetkező %{days} napban"
   text_user_wrote: "%{value} írta:"
+  text_user_wrote_in: "%{value} írta (%{link}):"
   label_duplicated_by: duplikálta
   setting_enabled_scm: Forráskódkezelő (SCM) engedélyezése
   text_enumeration_category_reassign_to: 'Újra hozzárendelés ehhez:'

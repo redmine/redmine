@@ -787,6 +787,7 @@ pl:
   text_unallowed_characters: Niedozwolone znaki
   text_user_mail_option: "W przypadku niezaznaczonych projektów, będziesz otrzymywał powiadomienia tylko na temat zagadnień które obserwujesz, lub w których bierzesz udział (np. jesteś autorem lub adresatem)."
   text_user_wrote: "%{value} napisał(a):"
+  text_user_wrote_in: "%{value} napisał(a) (%{link}):"
   text_wiki_destroy_confirmation: Jesteś pewien, że chcesz usunąć to wiki i całą jego zawartość?
   text_workflow_edit: Zaznacz rolę i typ zagadnienia do edycji przepływu pracy
 

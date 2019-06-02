@@ -1037,6 +1037,7 @@ sv:
   text_assign_time_entries_to_project: Tilldela rapporterade timmar till projektet
   text_reassign_time_entries: 'Återtilldela rapporterade timmar till detta ärende:'
   text_user_wrote: "%{value} skrev:"
+  text_user_wrote_in: "%{value} skrev (%{link}):"
   text_enumeration_destroy_question: "%{count} objekt är tilldelade till detta värde."
   text_enumeration_category_reassign_to: 'Återtilldela till detta värde:'
   text_email_delivery_not_configured: "Mailfunktionen har inte konfigurerats, och notifieringar via mail kan därför inte skickas.\nKonfigurera din SMTP-server i config/configuration.yml och starta om applikationen för att aktivera dem."
