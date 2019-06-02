@@ -257,7 +257,22 @@ class MessagesControllerTest < Redmine::ControllerTest
     assert_nil Message.find_by_id(2)
   end
 
-  def test_quote
+  def test_quote_if_message_is_root
+    @request.session[:user_id] = 2
+    get :quote, :params => {
+        :board_id => 1,
+        :id => 1
+      },
+      :xhr => true
+    assert_response :success
+    assert_equal 'text/javascript', response.content_type
+
+    assert_include 'RE: First post', response.body
+    assert_include "Redmine Admin wrote:", response.body
+    assert_include '> This is the very first post\n> in the forum', response.body
+  end
+
+  def test_quote_if_message_is_not_root
     @request.session[:user_id] = 2
     get :quote, :params => {
         :board_id => 1,
@@ -268,6 +283,7 @@ class MessagesControllerTest < Redmine::ControllerTest
     assert_equal 'text/javascript', response.content_type
 
     assert_include 'RE: First post', response.body
+    assert_include 'John Smith wrote in message#3:', response.body
     assert_include '> An other reply', response.body
   end
 

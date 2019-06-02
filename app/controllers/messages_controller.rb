@@ -117,7 +117,11 @@ class MessagesController < ApplicationController
     @subject = @message.subject
     @subject = "RE: #{@subject}" unless @subject.starts_with?('RE:')
 
-    @content = +"#{ll(Setting.default_language, :text_user_wrote, @message.author)}\n> "
+    if @message.root == @message
+      @content = +"#{ll(Setting.default_language, :text_user_wrote, @message.author)}\n> "
+    else
+      @content = +"#{ll(Setting.default_language, :text_user_wrote_in, {:value => @message.author, :link => "message##{@message.id}"})}\n> "
+    end
     @content << @message.content.to_s.strip.gsub(%r{<pre>(.*?)</pre>}m, '[...]').gsub(/(\r?\n|\r\n?)/, "\n> ") + "\n\n"
   end
 

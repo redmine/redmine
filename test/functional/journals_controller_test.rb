@@ -185,6 +185,7 @@ class JournalsControllerTest < Redmine::ControllerTest
       :xhr => true
     assert_response :success
     assert_equal 'text/javascript', response.content_type
+    assert_include 'Redmine Admin wrote in #note-1:', response.body
     assert_include '> A comment with a private version', response.body
   end
 
