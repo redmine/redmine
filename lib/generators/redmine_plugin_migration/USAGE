@@ -1,0 +1,5 @@
+Description:
+    Generates a plugin migration.
+
+Examples:
+    bin/rails generate redmine_plugin_migration my_plugin add_new_column_to_table
