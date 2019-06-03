@@ -30,7 +30,7 @@ class AboutController < ApplicationController
     end
 
     userscope = User.logged.status(@status)
-    @allusers = userscope.find(:all)
+    @allusers = userscope.active
   end
   
 end
