@@ -64,11 +64,11 @@ $("a[data-expands]").click(function(e){
   e.preventDefault();
   var target = $($(this).attr("data-expands"));
   if (target.attr("multiple")) {
-    $(event.target).switchClass('icon-toggle-minus', 'icon-toggle-plus');
+    $(this).find('span').switchClass('icon-toggle-minus', 'icon-toggle-plus');
     target.attr("multiple", false);
     target.find("option[value=all]").show();
   } else {
-    $(event.target).switchClass('icon-toggle-plus', 'icon-toggle-minus');
+    $(this).find('span').switchClass('icon-toggle-plus', 'icon-toggle-minus');
     target.attr("multiple", true);
     target.find("option[value=all]").attr("selected", false).hide();
   }
