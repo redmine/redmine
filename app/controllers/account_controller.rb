@@ -185,17 +185,20 @@ class AccountController < ApplicationController
             register_manually_by_administrator(@user)
           end
         end
-        
-        #Geppetto register
-        geppettoRegisterURL = Rails.application.config.serversIP["geppettoIP"] + Rails.application.config.serversIP["geppettoContextPath"] + "user?username=" + @user.login + "&password=" + @user.hashed_password
-        begin
-          geppettoRegisterContent = open(geppettoRegisterURL)
-        rescue => e
-          print "Error requesting url: #{geppettoRegisterURL}"
-        else
-          geppettoRegisterContent = JSON.parse(geppettoRegisterContent.read)
-        end
       end
+    end
+  end
+
+  def geppetto_register(user)
+    byebug
+    #Geppetto register
+    geppettoRegisterURL = Rails.application.config.serversIP["geppettoIP"] + Rails.application.config.serversIP["geppettoContextPath"] + "user?username=" + user.login + "&password=" + user.hashed_password
+    begin
+      geppettoRegisterContent = open(geppettoRegisterURL)
+    rescue => e
+      print "Error requesting url: #{geppettoRegisterURL}"
+    else
+      geppettoRegisterContent = JSON.parse(geppettoRegisterContent.read)
     end
   end
 
@@ -346,6 +349,7 @@ class AccountController < ApplicationController
     if user.save and token.save
       Mailer.register(token).deliver
       flash[:notice] = l(:notice_account_register_done, :email => ERB::Util.h(user.mail))
+      geppetto_register(user)
       redirect_to signin_path
     else
       yield if block_given?
@@ -362,6 +366,7 @@ class AccountController < ApplicationController
     if user.save
       self.logged_user = user
       flash[:notice] = l(:notice_account_activated)
+      geppetto_register(user)
       redirect_to home_path
     else
       yield if block_given?
@@ -374,6 +379,7 @@ class AccountController < ApplicationController
   def register_manually_by_administrator(user, &block)
     if user.save
       # Sends an email to the administrators
+      geppetto_register(user)
       Mailer.account_activation_request(user).deliver
       account_pending(user)
     else
