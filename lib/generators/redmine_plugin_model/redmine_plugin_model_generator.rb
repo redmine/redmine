@@ -1,5 +1,24 @@
+# frozen_string_literal: true
+
+# Redmine - project management software
+# Copyright (C) 2006-2019  Jean-Philippe Lang
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
 class RedminePluginModelGenerator < Rails::Generators::NamedBase
-  
+
   source_root File.expand_path("../templates", __FILE__)
   argument :model, :type => :string
   argument :attributes, :type => :array, :default => [], :banner => "field[:type][:index] field[:type][:index]"
@@ -24,7 +43,7 @@ class RedminePluginModelGenerator < Rails::Generators::NamedBase
   def copy_templates
     template 'model.rb.erb', "#{plugin_path}/app/models/#{model.underscore}.rb"
     template 'unit_test.rb.erb', "#{plugin_path}/test/unit/#{model.underscore}_test.rb"
-    
+
     migration_filename = "%03i_#{@migration_filename}.rb" % (migration_number + 1)
     template "migration.rb", "#{plugin_path}/db/migrate/#{migration_filename}"
   end
