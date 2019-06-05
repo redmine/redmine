@@ -88,8 +88,8 @@
 $(document).ready(function(){
   $('input#csv-export-button').click(function(){
     $('form input#encoding').val($('select#encoding option:selected').val());
-    $('form#query_form').attr('action', '<%= report_time_entries_path(:format => 'csv') %>').submit();
-    $('form#query_form').attr('action', '<%= report_time_entries_path %>');
+    $('form#query_form').attr('action', '<%= _report_time_entries_path(@project, nil, :format => 'csv') %>').submit();
+    $('form#query_form').attr('action', '<%= _report_time_entries_path(@project, nil) %>');
     hideModal(this);
   });
 });
