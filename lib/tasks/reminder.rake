@@ -32,11 +32,11 @@ END_DESC
 namespace :redmine do
   task :send_reminders => :environment do
     options = {}
-    options[:days] = ENV['days'].to_i if ENV['days']
-    options[:project] = ENV['project'] if ENV['project']
-    options[:tracker] = ENV['tracker'].to_i if ENV['tracker']
-    options[:users] = (ENV['users'] || '').split(',').each(&:strip!)
-    options[:version] = ENV['version'] if ENV['version'] 
+    options[:days] = ENV['days'].presence&.to_i
+    options[:project] = ENV['project'].presence
+    options[:tracker] = ENV['tracker'].presence&.to_i
+    options[:users] = ENV['users'].presence.to_s.split(',').each(&:strip!)
+    options[:version] = ENV['version'].presence
 
     Mailer.with_synched_deliveries do
       Mailer.reminders(options)
