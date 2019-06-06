@@ -34,7 +34,7 @@ module Redmine
         @safe_attributes ||= []
         if args.empty?
           if superclass.include?(Redmine::SafeAttributes)
-            @safe_attributes + superclass.safe_attributes 
+            @safe_attributes + superclass.safe_attributes
           else
             @safe_attributes
           end

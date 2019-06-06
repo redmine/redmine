@@ -398,7 +398,7 @@ module Redmine
     #   * :label - label for the formatter displayed in application settings
     #
     # Examples:
-    #   wiki_format_provider(:custom_formatter, CustomFormatter, :label => "My custom formatter") 
+    #   wiki_format_provider(:custom_formatter, CustomFormatter, :label => "My custom formatter")
     #
     def wiki_format_provider(name, *args)
       Redmine::WikiFormatting.register(name, *args)

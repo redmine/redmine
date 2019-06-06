@@ -67,11 +67,11 @@ module Redmine
           end
         end
       end
-      
+
       def controller
         nil
       end
-      
+
       def config
         ActionController::Base.config
       end

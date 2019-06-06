@@ -26,7 +26,7 @@ module Redmine
         # URLs relative to the current document or document root (without a protocol
         # separator, should be harmless
         return true unless uri.to_s.include? ":"
-    
+
         # Other URLs need to be parsed
         schemes.include? URI.parse(uri).scheme
       rescue URI::Error

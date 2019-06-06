@@ -294,7 +294,7 @@ module Redmine
             full_args_locale << scm_iconv(@path_encoding, 'UTF-8', e)
           end
           ret = shellout(
-                   self.class.sq_bin + ' ' + 
+                   self.class.sq_bin + ' ' +
                      full_args_locale.map { |e| shell_quote e.to_s }.join(' '),
                    &block
                    )
@@ -313,7 +313,7 @@ module Redmine
             full_args_locale << scm_iconv(@path_encoding, 'UTF-8', e)
           end
           ret = shellout(
-                   self.class.sq_bin + ' ' + 
+                   self.class.sq_bin + ' ' +
                      full_args_locale.map { |e| shell_quote e.to_s }.join(' '),
                    &block
                    )

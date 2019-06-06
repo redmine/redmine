@@ -86,19 +86,19 @@ module Redmine
         if parent
           previous_root_id = root_id
           self.root_id = parent.root_id
-          
+
           lft_after_move = target_lft
           self.class.where(:root_id => parent.root_id).update_all([
             "lft = CASE WHEN lft >= :lft THEN lft + :shift ELSE lft END, " +
             "rgt = CASE WHEN rgt >= :lft THEN rgt + :shift ELSE rgt END",
             {:lft => lft_after_move, :shift => (rgt - lft + 1)}
           ])
-    
+
           self.class.where(:root_id => previous_root_id).update_all([
             "root_id = :root_id, lft = lft + :shift, rgt = rgt + :shift",
             {:root_id => parent.root_id, :shift => lft_after_move - lft}
           ])
-    
+
           self.lft, self.rgt = lft_after_move, (rgt - lft + lft_after_move)
           parent.send :reload_nested_set_values
         end
@@ -107,7 +107,7 @@ module Redmine
       def remove_from_nested_set
         self.class.where(:root_id => root_id).where("lft >= ? AND rgt <= ?", lft, rgt).
           update_all(["root_id = :id, lft = lft - :shift, rgt = rgt - :shift", {:id => id, :shift => lft - 1}])
-    
+
         self.class.where(:root_id => root_id).update_all([
           "lft = CASE WHEN lft >= :lft THEN lft - :shift ELSE lft END, " +
           "rgt = CASE WHEN rgt >= :lft THEN rgt - :shift ELSE rgt END",

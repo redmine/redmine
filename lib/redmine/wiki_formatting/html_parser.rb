@@ -31,11 +31,11 @@ module Redmine
 
       def self.to_text(html)
         html = html.gsub(/[\n\r]/, '').squeeze(' ')
-    
+
         doc = Loofah.document(html)
         doc.scrub!(WikiTags.new(tags))
         doc.scrub!(:newline_block_elements)
-    
+
         Loofah.remove_extraneous_whitespace(doc.text).strip
       end
 
@@ -44,7 +44,7 @@ module Redmine
           @direction = :bottom_up
           @tags_to_text = tags_to_text || {}
         end
-    
+
         def scrub(node)
           formatting = @tags_to_text[node.name]
           case formatting
