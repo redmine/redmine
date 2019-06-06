@@ -118,7 +118,7 @@ class NewsControllerTest < Redmine::ControllerTest
           :news => {
             :title => 'NewsControllerTest',
             :description => 'This is the description',
-            :summary => '' 
+            :summary => ''
           }
         }
     end
@@ -141,11 +141,11 @@ class NewsControllerTest < Redmine::ControllerTest
             :project_id => 1,
             :news => {
               :title => 'Test',
-              :description => 'This is the description' 
-            },  
+              :description => 'This is the description'
+            },
             :attachments => {
               '1' => {
-              'file' => uploaded_test_file('testfile.txt', 'text/plain')}    
+              'file' => uploaded_test_file('testfile.txt', 'text/plain')}
             }
           }
       end
@@ -162,7 +162,7 @@ class NewsControllerTest < Redmine::ControllerTest
         :news => {
           :title => '',
           :description => 'This is the description',
-          :summary => '' 
+          :summary => ''
         }
       }
     assert_response :success
@@ -183,7 +183,7 @@ class NewsControllerTest < Redmine::ControllerTest
     put :update, :params => {
         :id => 1,
         :news => {
-          :description => 'Description changed by test_post_edit' 
+          :description => 'Description changed by test_post_edit'
         }
       }
     assert_redirected_to '/news/1'
@@ -199,11 +199,11 @@ class NewsControllerTest < Redmine::ControllerTest
         put :update, :params => {
             :id => 1,
             :news => {
-              :description => 'This is the description' 
-            },  
+              :description => 'This is the description'
+            },
             :attachments => {
               '1' => {
-              'file' => uploaded_test_file('testfile.txt', 'text/plain')}    
+              'file' => uploaded_test_file('testfile.txt', 'text/plain')}
             }
           }
       end
@@ -217,7 +217,7 @@ class NewsControllerTest < Redmine::ControllerTest
     put :update, :params => {
         :id => 1,
         :news => {
-          :description => '' 
+          :description => ''
         }
       }
     assert_response :success

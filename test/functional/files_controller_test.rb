@@ -84,7 +84,7 @@ class FilesControllerTest < Redmine::ControllerTest
             :version_id => '',
             :attachments => {
               '1' => {
-              'file' => uploaded_test_file('testfile.txt', 'text/plain')}    
+              'file' => uploaded_test_file('testfile.txt', 'text/plain')}
             }
           }
         assert_response :redirect
@@ -111,7 +111,7 @@ class FilesControllerTest < Redmine::ControllerTest
           :version_id => '2',
           :attachments => {
             '1' => {
-            'file' => uploaded_test_file('testfile.txt', 'text/plain')}    
+            'file' => uploaded_test_file('testfile.txt', 'text/plain')}
           }
         }
       assert_response :redirect

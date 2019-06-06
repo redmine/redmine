@@ -70,7 +70,7 @@ class Redmine::I18nTest < ActiveSupport::TestCase
         end
         assert l('date.day_names').is_a?(Array)
         assert_equal 7, l('date.day_names').size
-  
+
         assert l('date.month_names').is_a?(Array)
         assert_equal 13, l('date.month_names').size
       end

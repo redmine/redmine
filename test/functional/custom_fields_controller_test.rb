@@ -193,7 +193,7 @@ class CustomFieldsControllerTest < Redmine::ControllerTest
         :type => 'IssueCustomField',
         :custom_field => {
           :field_format => 'list'
-        },  
+        },
         :format => 'js'
       },
       :xhr => true
@@ -247,7 +247,7 @@ class CustomFieldsControllerTest < Redmine::ControllerTest
             :field_format => "string",
             :is_for_all => "0",
             :project_ids => ["1", "3", ""]
-            
+
           }
         }
       assert_response 302

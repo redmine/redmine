@@ -319,7 +319,7 @@ class ContextMenusControllerTest < Redmine::ControllerTest
   def test_time_entries_context_menu_without_edit_permission
     @request.session[:user_id] = 2
     Role.find_by_name('Manager').remove_permission! :edit_time_entries
-    
+
     get :time_entries, :params => {
         :ids => [1, 2]
       }

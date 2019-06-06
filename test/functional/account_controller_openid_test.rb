@@ -170,7 +170,7 @@ class AccountControllerOpenidTest < Redmine::ControllerTest
               :lastname => 'User',
               :mail => 'user@somedomain.com',
               :identity_url => 'http://openid.example.com/good_blank_user'
-              
+
             }
           }
         assert_response 302

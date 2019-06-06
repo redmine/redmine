@@ -35,7 +35,7 @@ class SudoModeTest < ApplicationSystemTestCase
   def test_add_user
     log_user('admin', 'admin')
     expire_sudo_mode!
-    
+
     visit '/users/new'
 
     assert_difference 'User.count' do

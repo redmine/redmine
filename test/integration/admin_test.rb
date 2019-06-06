@@ -53,7 +53,7 @@ class AdminTest < Redmine::IntegrationTest
     put "/users/#{user.id}", :params => {
         :id => user.id,
         :user => {
-          :status => User::STATUS_LOCKED 
+          :status => User::STATUS_LOCKED
         }
       }
     assert_redirected_to "/users/#{ user.id }/edit"

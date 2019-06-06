@@ -50,7 +50,7 @@ class IssuesTest < ApplicationSystemTestCase
     # check issue attributes
     assert_equal 'jsmith', issue.author.login
     assert_equal 1, issue.project.id
-    assert_equal IssueStatus.find_by_name('New'), issue.status 
+    assert_equal IssueStatus.find_by_name('New'), issue.status
     assert_equal Tracker.find_by_name('Bug'), issue.tracker
     assert_equal IssuePriority.find_by_name('Low'), issue.priority
     assert_equal 'Value for field 2', issue.custom_field_value(CustomField.find_by_name('Searchable field'))
@@ -291,9 +291,9 @@ class IssuesTest < ApplicationSystemTestCase
       # Check that the page shows the Estimated hours total
       assert page.has_css?('p.query-totals')
       assert page.has_css?('span.total-for-estimated-hours')
-      # Open the Options of the form (necessary for having the totalable columns options clickable) 
+      # Open the Options of the form (necessary for having the totalable columns options clickable)
       page.all('legend')[1].click
-      # Deselect the default totalable column (none should be left) 
+      # Deselect the default totalable column (none should be left)
       page.first('input[name="t[]"][value="estimated_hours"]').click
       within('#query_form') do
         click_link 'Apply'

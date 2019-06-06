@@ -56,7 +56,7 @@ class RepositoriesControllerTest < Redmine::RepositoryControllerTest
       assert_select 'option[value=Git]:not([selected])'
     end
   end
- 
+
   def test_get_new_with_type
     @request.session[:user_id] = 1
     get :new, :params => {

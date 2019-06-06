@@ -211,7 +211,7 @@ class Redmine::MenuManager::MenuHelperTest < Redmine::HelperTest
       end
     end
   end
- 
+
   def test_render_empty_virtual_menu_node_with_children
 
     # only empty item with no click target

@@ -125,7 +125,7 @@ class IssueCategoriesControllerTest < Redmine::ControllerTest
       put :update, :params => {
           :id => 2,
           :issue_category => {
-            :name => 'Testing' 
+            :name => 'Testing'
           }
         }
     end
@@ -137,7 +137,7 @@ class IssueCategoriesControllerTest < Redmine::ControllerTest
     put :update, :params => {
         :id => 2,
         :issue_category => {
-          :name => '' 
+          :name => ''
         }
       }
     assert_response :success
@@ -148,7 +148,7 @@ class IssueCategoriesControllerTest < Redmine::ControllerTest
     put :update, :params => {
         :id => 97,
         :issue_category => {
-          :name => 'Testing' 
+          :name => 'Testing'
         }
       }
     assert_response 404

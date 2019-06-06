@@ -33,7 +33,7 @@ class JournalsHelperTest < Redmine::HelperTest
 
   def test_journal_thumbnail_attachments_should_return_thumbnailable_attachments
     issue = Issue.generate!
-    
+
     journal = new_record(Journal) do
       issue.init_journal(User.find(1))
       issue.attachments << Attachment.new(:file => mock_file_with_options(:original_filename => 'image.png'), :author => User.find(1))

@@ -102,7 +102,7 @@ class GroupsControllerTest < Redmine::ControllerTest
       post :create, :params => {
           :group => {
             :name => 'New group'
-          },  
+          },
           :continue => 'Create and continue'
         }
     end

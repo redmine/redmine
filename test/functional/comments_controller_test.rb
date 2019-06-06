@@ -31,7 +31,7 @@ class CommentsControllerTest < Redmine::ControllerTest
     post :create, :params => {
         :id => 1,
         :comment => {
-          :comments => 'This is a test comment' 
+          :comments => 'This is a test comment'
         }
       }
     assert_redirected_to '/news/1'
@@ -48,7 +48,7 @@ class CommentsControllerTest < Redmine::ControllerTest
       post :create, :params => {
           :id => 1,
           :comment => {
-            :comments => '' 
+            :comments => ''
           }
         }
       assert_response :redirect
@@ -63,7 +63,7 @@ class CommentsControllerTest < Redmine::ControllerTest
       post :create, :params => {
           :id => 1,
           :comment => {
-            :comments => 'This is a test comment' 
+            :comments => 'This is a test comment'
           }
         }
       assert_response 403

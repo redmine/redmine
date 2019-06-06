@@ -186,7 +186,7 @@ class SudoModeTest < Redmine::IntegrationTest
             }
           },
           :headers => credentials('admin')
-  
+
         assert_response :created
       end
     end

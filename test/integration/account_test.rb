@@ -60,14 +60,14 @@ class AccountTest < Redmine::IntegrationTest
       assert_equal 'autologin', token.action
       assert_equal user.id, session[:user_id]
       assert_equal token.value, cookies['autologin']
-  
+
       # Session is cleared
       reset!
       User.current = nil
       # Clears user's last login timestamp
       user.update_attribute :last_login_on, nil
       assert_nil user.reload.last_login_on
-  
+
       # User comes back with user's autologin cookie
       cookies[:autologin] = token.value
       get '/my/page'

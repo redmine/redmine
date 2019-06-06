@@ -312,7 +312,7 @@ class AccountControllerTest < Redmine::ControllerTest
               :firstname => 'John',
               :lastname => 'Doe',
               :mail => 'register@example.com'
-              
+
             }
           }
         assert_redirected_to '/my/account'
@@ -326,7 +326,7 @@ class AccountControllerTest < Redmine::ControllerTest
       assert user.active?
     end
   end
-  
+
   def test_post_register_with_registration_off_should_redirect
     with_settings :self_registration => '0' do
       assert_no_difference 'User.count' do
@@ -338,7 +338,7 @@ class AccountControllerTest < Redmine::ControllerTest
               :firstname => 'John',
               :lastname => 'Doe',
               :mail => 'register@example.com'
-              
+
             }
           }
         assert_redirected_to '/'
@@ -357,11 +357,11 @@ class AccountControllerTest < Redmine::ControllerTest
               :firstname => 'John',
               :lastname => 'Doe',
               :mail => 'register@example.com'
-              
-            },  
+
+            },
             :pref => {
               :hide_mail => '1'
-              
+
             }
           }
       end

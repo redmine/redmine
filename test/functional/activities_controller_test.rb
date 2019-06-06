@@ -143,7 +143,7 @@ class ActivitiesControllerTest < Redmine::ControllerTest
           :show_issues => '1'
         }
       assert_response :success
-  
+
       assert_select 'title', :text => /Issues/
     end
   end

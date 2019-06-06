@@ -47,7 +47,7 @@ class CustomFieldEnumerationsControllerTest < Redmine::ControllerTest
       post :create, :params => {
           :custom_field_id => @field.id,
           :custom_field_enumeration => {
-            :name => 'Baz' 
+            :name => 'Baz'
           }
         }
       assert_redirected_to "/custom_fields/#{@field.id}/enumerations"
@@ -65,7 +65,7 @@ class CustomFieldEnumerationsControllerTest < Redmine::ControllerTest
       post :create, :params => {
           :custom_field_id => @field.id,
           :custom_field_enumeration => {
-            :name => 'Baz' 
+            :name => 'Baz'
           }
         },
         :xhr => true
@@ -81,13 +81,13 @@ class CustomFieldEnumerationsControllerTest < Redmine::ControllerTest
             :position => "1",
             :name => "Baz",
             :active => "1"
-          },    
+          },
           @foo.id.to_s => {
             :position => "2",
             :name => "Foo",
             :active => "0"
-          }    
-          
+          }
+
         }
       }
     assert_response 302

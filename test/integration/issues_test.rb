@@ -130,7 +130,7 @@ class IssuesTest < Redmine::IntegrationTest
       get '/projects/ecookbook/issues?set_filter=1&group_by=fixed_version&sort=priority:desc,fixed_version,id'
       assert_response :success
       assert_select 'td.id', :text => '5'
-  
+
       get '/issues/5'
       assert_response :success
       assert_select '.next-prev-links .position', :text => '5 of 6'
@@ -142,7 +142,7 @@ class IssuesTest < Redmine::IntegrationTest
       get '/projects/ecookbook/issues?set_filter=1&tracker_id=1'
       assert_response :success
       assert_select 'td.id', :text => '5'
-  
+
       get '/issues/5'
       assert_response :success
       assert_select '.next-prev-links .position', :text => '3 of 5'
@@ -160,7 +160,7 @@ class IssuesTest < Redmine::IntegrationTest
       get "/projects/ecookbook/issues?set_filter=1&query_id=#{query.id}"
       assert_response :success
       assert_select 'td.id', :text => '5'
-  
+
       get '/issues/5'
       assert_response :success
       assert_select '.next-prev-links .position', :text => '6 of 8'

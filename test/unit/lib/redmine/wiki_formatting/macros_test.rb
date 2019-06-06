@@ -89,7 +89,7 @@ class Redmine::WikiFormatting::MacrosTest < Redmine::HelperTest
 
   def test_multiple_macros_on_the_same_line
     Redmine::WikiFormatting::Macros.macro :foo do |obj, args|
-      args.any? ? "args: #{args.join(',')}" : "no args" 
+      args.any? ? "args: #{args.join(',')}" : "no args"
     end
 
     assert_equal '<p>no args no args</p>', textilizable("{{foo}} {{foo}}")
@@ -212,7 +212,7 @@ class Redmine::WikiFormatting::MacrosTest < Redmine::HelperTest
     text = "{{collapse\n*Collapsed* block of text\n}}"
     with_locale 'en' do
       result = textilizable(text)
-  
+
       assert_select_in result, 'div.collapsed-text'
       assert_select_in result, 'strong', :text => 'Collapsed'
       assert_select_in result, 'a.collapsible.collapsed', :text => 'Show'
@@ -249,7 +249,7 @@ class Redmine::WikiFormatting::MacrosTest < Redmine::HelperTest
 h1. Title
 
 {{collapse(Show example, Hide example)
-h2. Heading 
+h2. Heading
 }}"
 RAW
 

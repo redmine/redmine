@@ -116,7 +116,7 @@ class PrincipalMembershipsControllerTest < Redmine::ControllerTest
           :membership => {
             :project_ids => [3],
             :role_ids => [2]
-          },  
+          },
           :format => 'js'
         },
         :xhr => true
@@ -136,7 +136,7 @@ class PrincipalMembershipsControllerTest < Redmine::ControllerTest
           :user_id => 7,
           :membership => {
             :project_ids => [3]
-          },  
+          },
           :format => 'js'
         },
         :xhr => true
@@ -186,7 +186,7 @@ class PrincipalMembershipsControllerTest < Redmine::ControllerTest
           :id => 1,
           :membership => {
             :role_ids => [2]
-          },  
+          },
           :format => 'js'
         },
         :xhr => true

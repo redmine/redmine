@@ -63,7 +63,7 @@ class RepositoriesGitControllerTest < Redmine::RepositoryControllerTest
             :is_default => '0',
             :identifier => 'test-create',
             :report_last_commit => '1',
-                                 
+
           }
         }
     end
@@ -77,7 +77,7 @@ class RepositoriesGitControllerTest < Redmine::RepositoryControllerTest
         :id => repository.id,
         :repository => {
           :report_last_commit => '0'
-          
+
         }
       }
     assert_response 302

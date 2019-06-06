@@ -64,7 +64,7 @@ class Redmine::CipheringTest < ActiveSupport::TestCase
       assert_equal 'clear', r.password
     end
   end
-  
+
   def test_ciphered_password_with_no_cipher_key_configured_should_be_returned_ciphered
     Redmine::Configuration.with 'database_cipher_key' => 'secret' do
       r = Repository::Subversion.create!(:password => 'clear', :url => 'file:///tmp', :identifier => 'svn')
