@@ -21,7 +21,7 @@ module WorkflowsHelper
   def options_for_workflow_select(name, objects, selected, options={})
     option_tags = ''.html_safe
     multiple = false
-    if selected 
+    if selected
       if selected.size == objects.size
         selected = 'all'
       else
@@ -51,7 +51,7 @@ module WorkflowsHelper
     options = [["", ""], [l(:label_readonly), "readonly"]]
     options << [l(:label_required), "required"] unless field_required?(field)
     html_options = {}
-    
+
     if perm = permissions[status.id][name]
       if perm.uniq.size > 1 || perm.size < @roles.size * @trackers.size
         options << [l(:label_no_change_option), "no_change"]
@@ -76,7 +76,7 @@ module WorkflowsHelper
 
   def transition_tag(workflows, old_status, new_status, name)
     w = workflows.select {|w| w.old_status == old_status && w.new_status == new_status}.size
-    
+
     tag_name = "transitions[#{ old_status.try(:id) || 0 }][#{new_status.id}][#{name}]"
     if old_status == new_status
       check_box_tag(tag_name, "1", true,

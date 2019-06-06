@@ -459,7 +459,7 @@ class MailHandler < ActionMailer::Base
     end
   end
 
-  # Returns the text content of the email. 
+  # Returns the text content of the email.
   # If the value of Setting.mail_handler_preferred_body_part is 'html',
   # it returns text converted from the text/html part of the email.
   # Otherwise, it returns text/plain part.

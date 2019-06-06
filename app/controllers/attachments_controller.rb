@@ -239,7 +239,7 @@ class AttachmentsController < ApplicationController
   def detect_content_type(attachment, is_thumb = false)
     content_type = attachment.content_type
     if content_type.blank? || content_type == "application/octet-stream"
-      content_type = 
+      content_type =
         Redmine::MimeType.of(attachment.filename).presence ||
         "application/octet-stream"
     end

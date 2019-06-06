@@ -63,7 +63,7 @@ module SearchHelper
                        :all_words => params[:all_words], :scope => params[:scope], t => 1)
     end
     ('<ul>'.html_safe +
-        links.map {|link| content_tag('li', link)}.join(' ').html_safe + 
+        links.map {|link| content_tag('li', link)}.join(' ').html_safe +
         '</ul>'.html_safe) unless links.empty?
   end
 end

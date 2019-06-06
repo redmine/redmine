@@ -18,7 +18,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class PreviewsController < ApplicationController
-  before_action :find_project, :except => :text 
+  before_action :find_project, :except => :text
   before_action :find_attachments
 
   def issue
