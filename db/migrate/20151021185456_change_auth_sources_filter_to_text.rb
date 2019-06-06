@@ -1,5 +1,5 @@
 class ChangeAuthSourcesFilterToText < ActiveRecord::Migration[4.2]
-  def self.up 
+  def self.up
     change_column :auth_sources, :filter, :text
   end
 
