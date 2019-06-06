@@ -120,14 +120,14 @@ end %>
 
 </div>
 
+<%= render partial: 'action_menu_edit' if User.current.wants_comments_in_reverse_order? %>
+
 <% if @changesets.present? %>
 <div id="issue-changesets">
 <h3><%=l(:label_associated_revisions)%></h3>
 <%= render :partial => 'changesets', :locals => { :changesets => @changesets} %>
 </div>
 <% end %>
-
-<%= render partial: 'action_menu_edit' if User.current.wants_comments_in_reverse_order? %>
 
 <% if @journals.present? %>
 <div id="history">
