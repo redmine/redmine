@@ -257,9 +257,8 @@ class ProjectsController < ApplicationController
       #check is already cloned?
       if repoDir!=""
         if not File.directory? "/home/svnsvn/myGitRepositories/"+repoDir
-          if File.extname(repoDir)==".git" and (repositoryUrl.starts_with?"http")
-            #exit_code = system("git ls-remote "+repositoryUrl + " &> /dev/null")
-            if url_exists(repositoryUrl[0..-5])
+          if repositoryUrl.starts_with?"http"
+            if url_exists(repositoryUrl)
               return true
             else
               @project.errors.add " ", "Can not connect to repository. Check url format (we are expecting something like https://github.com/user/myProject.git) and connectivity."
@@ -274,7 +273,7 @@ class ProjectsController < ApplicationController
         @project.errors.add " ", "You need to specify a Git repository."
       end
     else
-      return true
+      @project.errors.add " ", "You need to specify a Git repository."
     end
     return false
   end
