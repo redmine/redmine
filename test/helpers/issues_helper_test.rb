@@ -331,4 +331,23 @@ class IssuesHelperTest < Redmine::HelperTest
   def test_find_name_by_reflection_should_return_nil_for_missing_record
     assert_nil find_name_by_reflection('status', 99)
   end
+
+  def test_issue_due_date_details
+    travel_to DateTime.parse('2019-06-01') do
+      issue = Issue.generate!
+
+      # due date is not set
+      assert_nil issue_due_date_details(issue)
+
+      # due date is set
+      issue.due_date = 5.days.from_now
+      issue.save!
+      assert_equal '06/06/2019 (Due in 5 days)', issue_due_date_details(issue)
+
+      # Don't show "Due in X days" if the issue is closed
+      issue.status = IssueStatus.find_by_is_closed(true)
+      issue.save!
+      assert_equal '06/06/2019', issue_due_date_details(issue)
+    end
+  end
 end

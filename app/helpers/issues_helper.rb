@@ -176,6 +176,13 @@ module IssuesHelper
     end
   end
 
+  def issue_due_date_details(issue)
+    return if issue&.due_date.nil?
+    s = format_date(issue.due_date)
+    s += " (#{due_date_distance_in_words(issue.due_date)})" unless issue.closed?
+    s
+  end
+
   # Returns a link for adding a new subtask to the given issue
   def link_to_new_subtask(issue)
     attrs = {

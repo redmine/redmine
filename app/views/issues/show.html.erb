@@ -59,7 +59,7 @@
     rows.right l(:field_start_date), format_date(@issue.start_date), :class => 'start-date'
   end
   unless @issue.disabled_core_fields.include?('due_date')
-    rows.right l(:field_due_date), format_date(@issue.due_date), :class => 'due-date'
+    rows.right l(:field_due_date), issue_due_date_details(@issue), :class => 'due-date'
   end
   unless @issue.disabled_core_fields.include?('done_ratio')
     rows.right l(:field_done_ratio), progress_bar(@issue.done_ratio, :legend => "#{@issue.done_ratio}%"), :class => 'progress'
