@@ -40,12 +40,12 @@ class Redmine::ApiTest::ApiTest < Redmine::ApiTest::Base
 
   def test_json_datetime_format
     get '/users/1.json', :headers => credentials('admin')
-    assert_include '"created_on":"2006-07-19T17:12:21Z"', response.body
+    assert_include %Q|"created_on":"#{Time.zone.parse('2006-07-19T17:12:21Z').iso8601}"|, response.body
   end
 
   def test_xml_datetime_format
     get '/users/1.xml', :headers => credentials('admin')
-    assert_include '<created_on>2006-07-19T17:12:21Z</created_on>', response.body
+    assert_include "<created_on>#{Time.zone.parse('2006-07-19T17:12:21Z').iso8601}</created_on>", response.body
   end
 
   def test_head_response_should_have_empty_body

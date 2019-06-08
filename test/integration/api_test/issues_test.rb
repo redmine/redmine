@@ -211,10 +211,10 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
   test "GET /issues/:id.xml with journals should format timestamps in ISO 8601" do
     get '/issues/1.xml?include=journals'
 
-    iso_date = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/
-    assert_select 'issue>created_on', :text => iso_date
-    assert_select 'issue>updated_on', :text => iso_date
-    assert_select 'issue journal>created_on', :text => iso_date
+    issue = Issue.find(1)
+    assert_select 'issue>created_on', :text => issue.created_on.iso8601
+    assert_select 'issue>updated_on', :text => issue.updated_on.iso8601
+    assert_select 'issue journal>created_on', :text => issue.journals[0].created_on.iso8601
   end
 
   test "GET /issues/:id.xml with custom fields" do
