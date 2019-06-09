@@ -333,14 +333,16 @@ class IssuesHelperTest < Redmine::HelperTest
   end
 
   def test_issue_due_date_details
-    travel_to DateTime.parse('2019-06-01') do
+    travel_to Time.parse('2019-06-01 23:00:00 UTC') do
+      User.current = User.first
+      User.current.pref.update_attribute :time_zone, 'UTC'
       issue = Issue.generate!
 
       # due date is not set
       assert_nil issue_due_date_details(issue)
 
       # due date is set
-      issue.due_date = 5.days.from_now
+      issue.due_date = User.current.today + 5
       issue.save!
       assert_equal '06/06/2019 (Due in 5 days)', issue_due_date_details(issue)
 
