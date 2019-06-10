@@ -1133,6 +1133,17 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal issue.subject, 'New ticket on a given project with a very long subject line which exceeds 255 chars and should not be ignored but chopped off. And if the subject line is still not long enough, we just add more text. And more text. Wow, this is really annoying. Especially, if you have nothing to say...'[0,255]
   end
 
+  def test_email_with_split_bytes_subject
+    issue = submit_email(
+              'ticket_with_split_bytes_subject.eml',
+              :issue => {:project => 'ecookbook'},
+              :no_permission_check => '1',
+              :unknown_user => 'accept'
+            )
+    assert issue.is_a?(Issue)
+    assert_equal 'αβγδεζηθικλμνξοπρςστυφχψω', issue.subject
+  end
+
   def test_first_keyword_should_be_matched
     issue = submit_email('ticket_with_duplicate_keyword.eml', :allow_override => 'priority')
     assert issue.is_a?(Issue)
