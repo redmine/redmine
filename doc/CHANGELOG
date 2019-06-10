@@ -4,6 +4,76 @@ Redmine - project management software
 Copyright (C) 2006-2019  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2019-06-10 v4.0.4
+
+=== [Administration]
+
+* Defect #31125: Don't output ImageMagick version information to stdout
+
+=== [Attachments]
+
+* Defect #29259: Attachment preview does not work for some source files such as JavaScript and Go
+* Defect #30441: Attachments with Unicode uppercase names are not shown in wiki pages
+* Defect #31275: Safari adds .html extension when downloading files of unknown type
+
+=== [Code cleanup/refactoring]
+
+* Defect #30811: "rake db:fixtures:load" does not work
+
+=== [Email receiving]
+
+* Defect #30457: MailHandler.safe_receive does not output any error log
+* Defect #31365: Issue subject may be broken if the subject field in the receiving email is split into multiple lines
+* Defect #31503: Undefined local variable sender_email in MailHandler#receive_message_reply
+
+=== [Gantt]
+
+* Defect #31268: Fix gaps in resizable gantt chart
+
+=== [Issues filter]
+
+* Patch #31276: Serialize group_by and totalable_names in Query#as_params
+
+=== [Rails support]
+
+* Defect #31337: Explicitly load redmine/info in order to avoid "uninitialized constant" error
+* Patch #31113: Update Rails to 5.2.3
+
+=== [SCM]
+
+* Defect #30850: Unified diff link broken on specific file/revision diff view
+* Defect #31120: Garbage lines in the output of 'git branch' break git adapter
+
+=== [Security]
+
+* Defect #31520: Persistent XSS in textile formatting
+
+=== [Text formatting]
+
+* Defect #31285: Syntax highlighting does not work for attachments with .pl extension
+
+=== [Time tracking]
+
+* Defect #31511: CSV export of time entries report does not honor project filter
+
+=== [Translations]
+
+* Defect #31264: Conflicting translation between "track" and "watch" in Simplified Chinese
+
+=== [UI]
+
+* Defect #31330: Import issues: File content preview block is scrolling
+* Defect #31438: Incorrect position of the "Associated revisions" block when comments are displayed in reverse chronological order
+
+=== [UI - Responsive]
+
+* Defect #31153: Display horizontal scroll bar of files table when overflow occurs on small screen
+* Defect #31311: admin/info page: text cut off in pre tag on mobile
+
+=== [Wiki]
+
+* Patch #31334: Do not lose content when updating a wiki page that has been renamed in the meantime
+
 == 2019-03-31 v4.0.3
 
 === [Administration]
