@@ -8,10 +8,10 @@
     </div>
   </fieldset>
 
-  <div class="autoscroll">
   <fieldset class="box">
     <legend><%= l(:label_file_content_preview) %></legend>
 
+    <div class="autoscroll">
       <table class="sample-data">
       <% @import.first_rows.each do |row| %>
         <tr>
@@ -19,8 +19,8 @@
         </tr>
       <% end %>
       </table>
+    </div>
   </fieldset>
-  </div>
 
   <p>
     <%= button_tag("\xc2\xab " + l(:label_previous), :name => 'previous') %>
