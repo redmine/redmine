@@ -274,7 +274,7 @@ class MailHandler < ActionMailer::Base
         add_attachments(reply)
         reply
       else
-        logger&.info "MailHandler: ignoring reply from [#{sender_email}] to a locked topic"
+        logger&.info "MailHandler: ignoring reply from [#{email.from.first}] to a locked topic"
       end
     end
   end
