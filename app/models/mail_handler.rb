@@ -286,7 +286,7 @@ class MailHandler < ActionMailer::Base
         reply
       else
         if logger
-          logger.info "MailHandler: ignoring reply from [#{sender_email}] to a locked topic"
+          logger.info "MailHandler: ignoring reply from [#{email.from.first}] to a locked topic"
         end
       end
     end
