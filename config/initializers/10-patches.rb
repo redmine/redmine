@@ -107,6 +107,20 @@ end
 
 require 'mail'
 
+module Mail
+  class SubjectField
+    # Fixed that the issue subject may be broken if the subject field in the
+    # receiving email is split into multiple lines
+    def initialize(value = nil, charset = 'utf-8')
+      if mime_encode = /^(=\?\S+\?\S\?)/.match(value).to_a[1]
+        value.gsub!(/\?=\s+#{Regexp.escape(mime_encode)}/, '')
+      end
+      self.charset = charset
+      super(CAPITALIZED_FIELD, value, charset)
+    end
+  end
+end
+
 module DeliveryMethods
   class TmpFile
     def initialize(*args); end
