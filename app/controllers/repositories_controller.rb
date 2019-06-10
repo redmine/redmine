@@ -255,12 +255,13 @@ class RepositoriesController < ApplicationController
                       Digest::MD5.hexdigest("#{@path}-#{@rev}-#{@rev_to}-#{@diff_type}-#{current_language}")
       unless read_fragment(@cache_key)
         @diff = @repository.diff(@path, @rev, @rev_to)
-        show_error_not_found unless @diff
+        (show_error_not_found; return) unless @diff
       end
 
       @changeset = @repository.find_changeset_by_name(@rev)
       @changeset_to = @rev_to ? @repository.find_changeset_by_name(@rev_to) : nil
       @diff_format_revisions = @repository.diff_format_revisions(@changeset, @changeset_to)
+      render :diff, :formats => :html
     end
   end
 

@@ -246,7 +246,7 @@ Rails.application.routes.draw do
   post   'projects/:id/repository/:repository_id/revisions/:rev/issues', :to => 'repositories#add_related_issue'
   delete 'projects/:id/repository/:repository_id/revisions/:rev/issues/:issue_id', :to => 'repositories#remove_related_issue'
   get 'projects/:id/repository/:repository_id/revisions', :to => 'repositories#revisions'
-  %w(browse show entry raw annotate diff).each do |action|
+  %w(browse show entry raw annotate).each do |action|
     get "projects/:id/repository/:repository_id/revisions/:rev/#{action}(/*path)",
         :controller => 'repositories',
         :action => action,
@@ -254,13 +254,22 @@ Rails.application.routes.draw do
         :constraints => {:rev => /[a-z0-9\.\-_]+/, :path => /.*/}
   end
 
-  %w(browse entry raw changes annotate diff).each do |action|
+  %w(browse entry raw changes annotate).each do |action|
     get "projects/:id/repository/:repository_id/#{action}(/*path)",
         :controller => 'repositories',
         :action => action,
         :format => 'html',
         :constraints => {:path => /.*/}
   end
+
+  get "projects/:id/repository/:repository_id/revisions/:rev/diff(/*path)",
+      :to => 'repositories#diff',
+      :format => false,
+      :constraints => {:rev => /[a-z0-9\.\-_]+/, :path => /.*/}
+  get "projects/:id/repository/:repository_id/diff(/*path)",
+      :to => 'repositories#diff',
+      :format => false,
+      :constraints => {:path => /.*/}
 
   get 'projects/:id/repository/:repository_id/show/*path', :to => 'repositories#show', :format => 'html', :constraints => {:path => /.*/}
 
