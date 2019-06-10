@@ -988,6 +988,17 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal Message.find(1), m.parent
   end
 
+  def test_reply_to_a_locked_topic
+    # Lock the topic
+    topic = Message.find(2).parent
+    topic.update_attribute :locked, true
+
+    assert_no_difference('topic.replies_count') do
+      m = submit_email('message_reply_by_subject.eml')
+      assert_not_kind_of Message, m
+    end
+  end
+
   def test_should_convert_tags_of_html_only_emails
     with_settings :text_formatting => 'textile' do
       issue = submit_email('ticket_html_only.eml', :issue => {:project => 'ecookbook'})
