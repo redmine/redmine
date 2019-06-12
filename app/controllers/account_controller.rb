@@ -190,7 +190,6 @@ class AccountController < ApplicationController
   end
 
   def geppetto_register(user)
-    byebug
     #Geppetto register
     geppettoRegisterURL = Rails.application.config.serversIP["geppettoIP"] + Rails.application.config.serversIP["geppettoContextPath"] + "user?username=" + user.login + "&password=" + user.hashed_password
     begin
