@@ -1,6 +1,6 @@
 class ChangeIssuesDescriptionLimit < ActiveRecord::Migration[4.2]
   def up
-    if ActiveRecord::Base.connection.adapter_name =~ /mysql/i
+    if Redmine::Database.mysql?
       max_size = 16.megabytes
       change_column :issues, :description, :text, :limit => max_size
     end
