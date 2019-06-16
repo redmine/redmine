@@ -72,7 +72,7 @@ Rails.application.routes.draw do
   match '/imports/:id/mapping', :to => 'imports#mapping', :via => [:get, :post], :as => 'import_mapping'
   match '/imports/:id/run', :to => 'imports#run', :via => [:get, :post], :as => 'import_run'
 
-  match 'my/account', :controller => 'my', :action => 'account', :via => [:get, :post]
+  match 'my/account', :controller => 'my', :action => 'account', :via => [:get, :put]
   match 'my/account/destroy', :controller => 'my', :action => 'destroy', :via => [:get, :post]
   match 'my/page', :controller => 'my', :action => 'page', :via => :get
   post 'my/page', :to => 'my#update_page'

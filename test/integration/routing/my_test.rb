@@ -22,7 +22,7 @@ require File.expand_path('../../../test_helper', __FILE__)
 class RoutingMyTest < Redmine::RoutingTest
   def test_my
     should_route 'GET /my/account' => 'my#account'
-    should_route 'POST /my/account' => 'my#account'
+    should_route 'PUT /my/account' => 'my#account'
 
     should_route 'GET /my/account/destroy' => 'my#destroy'
     should_route 'POST /my/account/destroy' => 'my#destroy'

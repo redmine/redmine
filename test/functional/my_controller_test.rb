@@ -382,7 +382,7 @@ class MyControllerTest < Redmine::ControllerTest
   end
 
   def test_update_account
-    post :account, :params => {
+    put :account, :params => {
         :user => {
           :firstname => "Joe",
           :login => "root",
@@ -407,7 +407,7 @@ class MyControllerTest < Redmine::ControllerTest
 
   def test_update_account_should_send_security_notification
     ActionMailer::Base.deliveries.clear
-    post :account, :params => {
+    put :account, :params => {
         :user => {
           :mail => 'foobar@example.com'
 

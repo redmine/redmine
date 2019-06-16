@@ -23,7 +23,9 @@ class MyController < ApplicationController
   # let user change user's password when user has to
   skip_before_action :check_password_change, :only => :password
 
-  require_sudo_mode :account, only: :post
+  accept_api_auth :account
+
+  require_sudo_mode :account, only: :put
   require_sudo_mode :reset_rss_key, :reset_api_key, :show_api_key, :destroy
 
   helper :issues
@@ -49,15 +51,25 @@ class MyController < ApplicationController
   def account
     @user = User.current
     @pref = @user.pref
-    if request.post?
+    if request.put?
       @user.safe_attributes = params[:user]
       @user.pref.safe_attributes = params[:pref]
       if @user.save
         @user.pref.save
         set_language_if_valid @user.language
-        flash[:notice] = l(:notice_account_updated)
-        redirect_to my_account_path
+        respond_to do |format|
+          format.html {
+            flash[:notice] = l(:notice_account_updated)
+            redirect_to my_account_path
+          }
+          format.api  { render_api_ok }
+        end
         return
+      else
+        respond_to do |format|
+          format.html { render :action => :account }
+          format.api  { render_validation_errors(@user) }
+        end
       end
     end
   end

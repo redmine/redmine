@@ -149,7 +149,7 @@ class SudoModeTest < Redmine::IntegrationTest
     expire_sudo_mode!
     get '/my/account'
     assert_response :success
-    post '/my/account', :params => {user: { mail: 'newmail@test.com' }}
+    put '/my/account', :params => {user: { mail: 'newmail@test.com' }}
     assert_response :success
     assert_select 'h2', 'Confirm your password to continue'
     assert_select 'form[action="/my/account"]'
@@ -157,7 +157,7 @@ class SudoModeTest < Redmine::IntegrationTest
     assert_select '#flash_error', 0
 
     # wrong password
-    post '/my/account', :params => {user: { mail: 'newmail@test.com' }, sudo_password: 'wrong'}
+    put '/my/account', :params => {user: { mail: 'newmail@test.com' }, sudo_password: 'wrong'}
     assert_response :success
     assert_select 'h2', 'Confirm your password to continue'
     assert_select 'form[action="/my/account"]'
@@ -165,12 +165,12 @@ class SudoModeTest < Redmine::IntegrationTest
     assert_select '#flash_error'
 
     # correct password
-    post '/my/account', :params => {user: { mail: 'newmail@test.com' }, sudo_password: 'jsmith'}
+    put '/my/account', :params => {user: { mail: 'newmail@test.com' }, sudo_password: 'jsmith'}
     assert_redirected_to '/my/account'
     assert_equal 'newmail@test.com', User.find_by_login('jsmith').mail
 
     # sudo mode should now be active and not require password again
-    post '/my/account', :params => {user: { mail: 'even.newer.mail@test.com' }}
+    put '/my/account', :params => {user: { mail: 'even.newer.mail@test.com' }}
     assert_redirected_to '/my/account'
     assert_equal 'even.newer.mail@test.com', User.find_by_login('jsmith').mail
   end
