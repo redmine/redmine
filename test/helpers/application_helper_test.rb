@@ -1165,7 +1165,7 @@ document.write("Hello World!");
 RAW
 
     expected = <<-EXPECTED
-<pre><code class=\"ECMA_script syntaxhl\"><span class=\"cm\">/* Hello */</span><span class=\"nb\">document</span><span class=\"p\">.</span><span class=\"nx\">write</span><span class=\"p\">(</span><span class=\"s2\">\"Hello World!\"</span><span class=\"p\">);</span></code></pre>
+<pre><code class="ECMA_script syntaxhl"><span class="cm">/* Hello */</span><span class="nb">document</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="dl">"</span><span class="s2">Hello World!</span><span class="dl">"</span><span class="p">);</span></code></pre>
 EXPECTED
 
     assert_equal expected.gsub(%r{[\r\n\t]}, ''), textilizable(raw).gsub(%r{[\r\n\t]}, '')

@@ -39,7 +39,7 @@ print "Hello, world!\n";
 RAW_PERL
     expected_perl = <<'EXPECTED_PERL'
 <span class="c1">#!/usr/bin/perl</span>
-<span class="k">print</span> <span class="s">"Hello, world!\n"</span><span class="p">;</span>
+<span class="k">print</span> <span class="p">"</span><span class="s2">Hello, world!</span><span class="se">\n</span><span class="p">";</span>
 EXPECTED_PERL
     raw_prolog = <<'RAW_PROLOG'
 #!/usr/bin/swipl
