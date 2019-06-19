@@ -1405,6 +1405,16 @@ td.gantt_selected_column .gantt_hdr,.gantt_selected_column_container {
   color: #1D781D;
   border: 1px solid #1D781D;
 }
+/***** Tooltips *****/
+.ui-tooltip {
+  background: #000;
+  color: #fff;
+  font-size: 0.9em;
+  border-radius: 3px;
+  border: 0;
+  box-shadow: none
+}
+
 /***** Icons *****/
 .icon {
   background-position: 0% 50%;

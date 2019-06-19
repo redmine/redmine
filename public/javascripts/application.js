@@ -934,6 +934,17 @@ function setupAttachmentDetail() {
   $(window).resize(setFilecontentContainerHeight);
 }
 
+$(function () {
+    $('[title]').tooltip({
+        show: {
+          delay: 400
+        },
+        position: {
+          my: "center bottom-5",
+          at: "center top"
+        }
+    });
+});
 $(document).ready(setupAjaxIndicator);
 $(document).ready(hideOnLoad);
 $(document).ready(addFormObserversForDoubleSubmit);
