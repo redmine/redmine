@@ -1,0 +1,44 @@
+inherit_from: .rubocop_todo.yml
+
+AllCops:
+  TargetRubyVersion: 2.3
+  TargetRailsVersion: 5.2
+
+  Exclude:
+    - '**/vendor/**/*'
+    - '**/tmp/**/*'
+    - '**/bin/**/*'
+    - '**/plugins/**/*'
+    - '**/extra/**/*'
+    - '**/lib/generators/**/templates/*'
+    - '**/lib/tasks/**/*'
+    - '**/files/**/*'
+
+# Enable extensions
+
+Rails:
+  Enabled: true
+
+# Rules for Redmine
+
+Layout/SpaceBeforeBlockBraces:
+  Enabled: false
+
+Rails/BulkChangeTable:
+  Exclude:
+    - 'db/migrate/20120714122200_add_workflows_rule_fields.rb'
+    - 'db/migrate/20131214094309_remove_custom_fields_min_max_length_default_values.rb'
+
+Style/FrozenStringLiteralComment:
+  Enabled: true
+  EnforcedStyle: always
+  Exclude:
+    - 'db/**/*.rb'
+    - 'Gemfile'
+    - 'Rakefile'
+    - 'config.ru'
+    - 'config/additional_environment.rb'
+
+Style/HashSyntax:
+  Enabled: true
+  EnforcedStyle: no_mixed_keys

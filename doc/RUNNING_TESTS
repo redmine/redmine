@@ -71,3 +71,12 @@ https://sites.google.com/a/chromium.org/chromedriver/
 
 Capybara tests can be run with:
 `rails test:system`
+
+Running RuboCop, a static code analyzer
+=======================================
+
+RuboCop allows you to find out if the code violates the Ruby Style Guide.
+Checking with RuboCop is recommended when you write patches.
+
+You can run RuboCop with:
+`bundle exec rubocop [file ...]`
