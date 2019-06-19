@@ -47,6 +47,7 @@ module Redmine
       'application/javascript' => 'js',
       'application/pdf' => 'pdf',
       'video/mp4' => 'mp4',
+      'video/webm' => 'webm',
     }.freeze
 
     EXTENSIONS = MIME_TYPES.inject({}) do |map, (type, exts)|
