@@ -50,7 +50,7 @@ class TrackersControllerTest < Redmine::ControllerTest
     assert_response :success
     assert_select 'input[name=?]', 'tracker[name]'
     assert_select 'select[name=?]', 'tracker[default_status_id]' do
-      assert_select 'option[value=?][selected=selected]', "#{IssueStatus.sorted.first.id}"
+      assert_select 'option[value=?][selected=selected]', IssueStatus.sorted.first.id.to_s
     end
   end
 
