@@ -1376,7 +1376,7 @@ module ApplicationHelper
 
   def progress_bar(pcts, options={})
     pcts = [pcts, pcts] unless pcts.is_a?(Array)
-    pcts = pcts.collect(&:round)
+    pcts = pcts.collect(&:floor)
     pcts[1] = pcts[1] - pcts[0]
     pcts << (100 - pcts[1] - pcts[0])
     titles = options[:titles].to_a
