@@ -550,6 +550,27 @@ class MailerTest < ActiveSupport::TestCase
     end
   end
 
+  def test_issue_should_send_email_notification_with_suppress_empty_fields
+    ActionMailer::Base.deliveries.clear
+    with_settings :notified_events => %w(issue_added) do
+      cf = IssueCustomField.generate!
+      issue = Issue.generate!
+      Mailer.deliver_issue_add(issue)
+
+      assert_not_equal 0, ActionMailer::Base.deliveries.size
+
+      mail = last_email
+      assert_mail_body_match /^\* Author: /, mail
+      assert_mail_body_match /^\* Status: /, mail
+      assert_mail_body_match /^\* Priority: /, mail
+
+      assert_mail_body_no_match /^\* Assignee: /, mail
+      assert_mail_body_no_match /^\* Category: /, mail
+      assert_mail_body_no_match /^\* Target version: /, mail
+      assert_mail_body_no_match /^\* #{cf.name}: /, mail
+    end
+  end
+
   def test_version_file_added
     attachements = [ Attachment.find_by_container_type('Version') ]
     assert Mailer.deliver_attachments_added(attachements)

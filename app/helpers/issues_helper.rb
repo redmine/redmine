@@ -326,18 +326,22 @@ module IssuesHelper
     items = []
     %w(author status priority assigned_to category fixed_version start_date due_date).each do |attribute|
       if issue.disabled_core_fields.grep(/^#{attribute}(_id)?$/).empty?
+        attr_value = "#{issue.send attribute}"
+        next if attr_value.blank?
         if html
-          items << content_tag('strong', "#{l("field_#{attribute}")}: ") + (issue.send attribute)
+          items << content_tag('strong', "#{l("field_#{attribute}")}: ") + attr_value
         else
-          items << "#{l("field_#{attribute}")}: #{issue.send attribute}"
+          items << "#{l("field_#{attribute}")}: #{attr_value}"
         end
       end
     end
     issue.visible_custom_field_values(user).each do |value|
+      cf_value = show_value(value, false)
+      next if cf_value.blank?
       if html
-        items << content_tag('strong', "#{value.custom_field.name}: ") + show_value(value, false)
+        items << content_tag('strong', "#{value.custom_field.name}: ") + cf_value
       else
-        items << "#{value.custom_field.name}: #{show_value(value, false)}"
+        items << "#{value.custom_field.name}: #{cf_value}"
       end
     end
     items
