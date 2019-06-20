@@ -326,7 +326,7 @@ module IssuesHelper
     items = []
     %w(author status priority assigned_to category fixed_version start_date due_date).each do |attribute|
       if issue.disabled_core_fields.grep(/^#{attribute}(_id)?$/).empty?
-        attr_value = "#{issue.send attribute}"
+        attr_value = (issue.send attribute).to_s
         next if attr_value.blank?
         if html
           items << content_tag('strong', "#{l("field_#{attribute}")}: ") + attr_value
