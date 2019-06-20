@@ -1444,14 +1444,6 @@ Style/CommentedKeyword:
 Style/ConditionalAssignment:
   Enabled: false
 
-# Offense count: 3
-# Cop supports --auto-correct.
-Style/DefWithParentheses:
-  Exclude:
-    - 'app/helpers/sort_helper.rb'
-    - 'lib/redmine/scm/adapters/cvs_adapter.rb'
-    - 'lib/redmine/unified_diff.rb'
-
 # Offense count: 626
 Style/Documentation:
   Enabled: false

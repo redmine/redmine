@@ -551,7 +551,7 @@ module IssuesHelper
   end
 
   # Issue history tabs
-  def issue_history_tabs()
+  def issue_history_tabs
     tabs = []
     if @journals.present?
       journals_without_notes = @journals.select{|value| value.notes.blank?}

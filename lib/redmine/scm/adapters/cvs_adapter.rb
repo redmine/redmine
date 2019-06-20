@@ -445,7 +445,7 @@ module Redmine
         end
 
         # Interpretiert die cvs revisionsnummern wie z.b. 1.14 oder 1.3.0.15
-        def parseRevision()
+        def parseRevision
           pieces = @complete_rev.split(".")
           @revision = pieces.last.to_i
           baseSize = 1

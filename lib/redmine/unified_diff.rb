@@ -227,7 +227,7 @@ module Redmine
     attr_accessor :type_diff_left
     attr_accessor :offsets
 
-    def initialize()
+    def initialize
       self.nb_line_left = ''
       self.nb_line_right = ''
       self.line_left = ''

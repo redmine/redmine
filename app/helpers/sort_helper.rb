@@ -96,7 +96,7 @@ module SortHelper
   # Returns an SQL sort clause corresponding to the current sort state.
   # Use this to sort the controller's table items collection.
   #
-  def sort_clause()
+  def sort_clause
     @sort_criteria.sort_clause(@sortable_columns)
   end
 
