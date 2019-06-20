@@ -34,7 +34,7 @@ class TrackersController < ApplicationController
   end
 
   def new
-    @tracker ||= Tracker.new
+    @tracker ||= Tracker.new(:default_status => IssueStatus.sorted.first)
     @tracker.safe_attributes = params[:tracker]
     @trackers = Tracker.sorted.to_a
     @projects = Project.all
