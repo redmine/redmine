@@ -188,6 +188,7 @@ Rails.application.routes.draw do
     member do
       # Used when updating the form of an existing issue
       patch 'edit', :to => 'issues#edit'
+      get 'tab/:name', :action => 'issue_tab', :as => 'tab'
     end
     collection do
       match 'bulk_edit', :via => [:get, :post]

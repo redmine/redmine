@@ -1,4 +1,4 @@
-<% tab[:locals][:changesets].each do |changeset| %>
+<% @changesets.each do |changeset| %>
   <div id="changeset-<%= changeset.id %>" class="changeset journal">
     <h4>
       <%= avatar(changeset.user, :size => "24") %>

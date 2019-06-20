@@ -385,6 +385,24 @@ function showIssueHistory(journal, url) {
   return false;
 }
 
+function getRemoteTab(name, remote_url, url) {
+  $('#tab-content-' + name).parent().find('.tab-content').hide();
+  $('#tab-content-' + name).parent().find('div.tabs a').removeClass('selected');
+  $('#tab-' + name).addClass('selected')
+
+  replaceInHistory(url)
+
+  $.ajax({
+    url: remote_url,
+    type: 'get',
+    success: function(data){
+      $('#tab-content-' + name).html(data).show();
+    }
+  });
+
+  return false;
+}
+
 //replaces current URL with the "href" attribute of the current link
 //(only triggered if supported by browser)
 function replaceInHistory(url) {

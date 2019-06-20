@@ -20,7 +20,7 @@
 class IssuesController < ApplicationController
   default_search_scope :issues
 
-  before_action :find_issue, :only => [:show, :edit, :update]
+  before_action :find_issue, :only => [:show, :edit, :update, :issue_tab]
   before_action :find_issues, :only => [:bulk_edit, :bulk_update, :destroy]
   before_action :authorize, :except => [:index, :new, :create]
   before_action :find_optional_project, :only => [:index, :new, :create]
@@ -86,13 +86,10 @@ class IssuesController < ApplicationController
 
   def show
     @journals = @issue.visible_journals_with_index
-    @changesets = @issue.changesets.visible.preload(:repository, :user).to_a
+    @has_changesets = @issue.changesets.visible.preload(:repository, :user).exists?
     @relations = @issue.relations.select {|r| r.other_issue(@issue) && r.other_issue(@issue).visible? }
 
-    if User.current.wants_comments_in_reverse_order?
-      @journals.reverse!
-      @changesets.reverse!
-    end
+    @journals.reverse! if User.current.wants_comments_in_reverse_order?
 
     if User.current.allowed_to?(:view_time_entries, @project)
       Issue.load_visible_spent_hours([@issue])
@@ -109,7 +106,10 @@ class IssuesController < ApplicationController
         retrieve_previous_and_next_issue_ids
         render :template => 'issues/show'
       }
-      format.api
+      format.api {
+        @changesets = @issue.changesets.visible.preload(:repository, :user).to_a
+        @changesets.reverse! if User.current.wants_comments_in_reverse_order?
+      }
       format.atom { render :template => 'journals/index', :layout => false, :content_type => 'application/atom+xml' }
       format.pdf  {
         send_file_headers! :type => 'application/pdf', :filename => "#{@project.identifier}-#{@issue.id}.pdf"
@@ -191,6 +191,21 @@ class IssuesController < ApplicationController
         format.html { render :action => 'edit' }
         format.api  { render_validation_errors(@issue) }
       end
+    end
+  end
+
+  def issue_tab
+    return render_error :status => 422 unless request.xhr?
+    tab = params[:name]
+
+    case tab
+    when 'time_entries'
+      @time_entries = @issue.time_entries.visible.preload(:activity, :user).to_a
+      render :partial => 'issues/tabs/time_entries', :locals => {:time_entries => @time_entries}
+    when 'changesets'
+      @changesets = @issue.changesets.visible.preload(:repository, :user).to_a
+      changesets.reverse! if User.current.wants_comments_in_reverse_order?
+      render :partial => 'issues/tabs/changesets', :locals => {:changesets => @changesets}
     end
   end
 

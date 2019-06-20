@@ -2168,9 +2168,11 @@ class IssuesControllerTest < Redmine::ControllerTest
     project.disable_module! :repository
 
     @request.session[:user_id] = 2
-    get :show, :params => {
-        :id => issue.id
-      }
+    get :issue_tab, :params => {
+        :id => issue.id,
+        :name => 'changesets'
+      },
+      :xhr => true
 
     assert_select 'a[href=?]', '/projects/ecookbook/repository/10/revisions/3'
   end
@@ -2559,6 +2561,13 @@ class IssuesControllerTest < Redmine::ControllerTest
       assert_select 'div.tabs ul a', 1
       assert_select 'div.tabs a[id=?]', 'tab-time_entries', :text => 'Spent time'
     end
+
+    get :issue_tab, :params => {
+        :id => 3,
+        :name => 'time_entries'
+      },
+      :xhr => true
+    assert_response :success
 
     assert_select 'div[id=?]', 'time-entry-3' do
       assert_select 'a[title=?][href=?]', 'Edit', '/time_entries/3/edit'

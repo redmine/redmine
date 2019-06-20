@@ -557,8 +557,9 @@ module IssuesHelper
       tabs << {:name => 'notes', :label => :label_issue_history_notes, :onclick => 'showIssueHistory("notes", this.href)'} if journals_with_notes.any?
       tabs << {:name => 'properties', :label => :label_issue_history_properties, :onclick => 'showIssueHistory("properties", this.href)'} if journals_without_notes.any?
     end
-    tabs << {:name => 'time_entries', :label => :label_time_entry_plural, :partial => 'issues/tabs/time_entries', :locals => {:time_entries => @time_entries}} if User.current.allowed_to?(:view_time_entries, @project) && @issue.spent_hours > 0
-    tabs << {:name => 'changesets', :label => :label_associated_revisions, :partial => 'issues/tabs/changesets', :locals => {:changesets => @changesets}} if @changesets.present?
+    tabs << {:name => 'time_entries', :label => :label_time_entry_plural, :remote => true, :onclick => "getRemoteTab('time_entries', '#{tab_issue_path(@issue, :name => 'time_entries')}', '#{issue_path(@issue, :tab => 'time_entries')}')"} if User.current.allowed_to?(:view_time_entries, @project) && @issue.spent_hours > 0
+    tabs << {:name => 'changesets', :label => :label_associated_revisions, :remote => true, :onclick => "getRemoteTab('changesets', '#{tab_issue_path(@issue, :name => 'changesets')}', '#{issue_path(@issue, :tab => 'changesets')}')"} if @has_changesets
     tabs
   end
+
 end

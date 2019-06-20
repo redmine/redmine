@@ -1,4 +1,4 @@
-<% for time_entry in tab[:locals][:time_entries] %>
+<% for time_entry in time_entries%>
   <div id="time-entry-<%= time_entry.id %>" class="time_entry journal">
     <% if time_entry.editable_by?(User.current) -%>
       <div class="contextual">
