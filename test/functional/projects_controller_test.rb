@@ -1021,21 +1021,21 @@ class ProjectsControllerTest < Redmine::ControllerTest
     refute jb.bookmark?(Project.find('ecookbook'))
   end
 
-  def test_jump_without_project_id_should_redirect_to_active_tab
+  def test_index_jump_without_project_id_should_redirect_to_active_tab
     get :index, :params => {
         :jump => 'issues'
       }
     assert_redirected_to '/issues'
   end
 
-  def test_jump_should_not_redirect_to_unknown_tab
+  def test_index_jump_should_not_redirect_to_unknown_tab
     get :index, :params => {
         :jump => 'foobar'
       }
     assert_response :success
   end
 
-  def test_jump_should_redirect_to_active_tab
+  def test_show_jump_should_redirect_to_active_tab
     get :show, :params => {
         :id => 1,
         :jump => 'issues'
@@ -1043,7 +1043,7 @@ class ProjectsControllerTest < Redmine::ControllerTest
     assert_redirected_to '/projects/ecookbook/issues'
   end
 
-  def test_jump_should_not_redirect_to_inactive_tab
+  def test_show_jump_should_not_redirect_to_inactive_tab
     get :show, :params => {
         :id => 3,
         :jump => 'documents'
@@ -1051,7 +1051,7 @@ class ProjectsControllerTest < Redmine::ControllerTest
     assert_response :success
   end
 
-  def test_jump_should_not_redirect_to_unknown_tab
+  def test_show_jump_should_not_redirect_to_unknown_tab
     get :show, :params => {
         :id => 3,
         :jump => 'foobar'
