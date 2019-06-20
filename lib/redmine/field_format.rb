@@ -818,7 +818,10 @@ module Redmine
       field_attributes :user_role
 
       def possible_values_options(custom_field, object=nil)
-        possible_values_records(custom_field, object).map {|u| [u.name, u.id.to_s]}
+        users = possible_values_records(custom_field, object)
+        options = users.map {|u| [u.name, u.id.to_s]}
+        options = [["<< #{l(:label_me)} >>", User.current.id]] + options if users.include?(User.current)
+        options
       end
 
       def possible_values_records(custom_field, object=nil)

@@ -190,7 +190,7 @@ class ContextMenusControllerTest < Redmine::ControllerTest
     assert_select "li.cf_#{field.id}" do
       assert_select 'a[href="#"]', :text => 'User'
       assert_select 'ul' do
-        assert_select 'a', Project.find(1).members.count + 1
+        assert_select 'a', Project.find(1).members.count + 2 # users + 'none' + 'me'
         assert_select 'a[href=?]', "/issues/bulk_update?ids%5B%5D=1&issue%5Bcustom_field_values%5D%5B#{field.id}%5D=2", :text => 'John Smith'
         assert_select 'a[href=?]', "/issues/bulk_update?ids%5B%5D=1&issue%5Bcustom_field_values%5D%5B#{field.id}%5D=__none__", :text => 'none'
       end
