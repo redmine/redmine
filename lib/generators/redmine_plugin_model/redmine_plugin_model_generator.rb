@@ -22,7 +22,7 @@ class RedminePluginModelGenerator < Rails::Generators::NamedBase
   source_root File.expand_path("../templates", __FILE__)
   argument :model, :type => :string
   argument :attributes, :type => :array, :default => [], :banner => "field[:type][:index] field[:type][:index]"
-  class_option :migration,  :type => :boolean
+  class_option :migration,  :type => :boolean, :default => true
   class_option :timestamps, :type => :boolean
   class_option :parent,     :type => :string, :desc => "The parent class for the generated model"
   class_option :indexes,    :type => :boolean, :default => true, :desc => "Add indexes for references and belongs_to columns"
@@ -44,9 +44,12 @@ class RedminePluginModelGenerator < Rails::Generators::NamedBase
     template 'model.rb.erb', "#{plugin_path}/app/models/#{model.underscore}.rb"
     template 'unit_test.rb.erb', "#{plugin_path}/test/unit/#{model.underscore}_test.rb"
 
-    migration_filename = "%03i_#{@migration_filename}.rb" % (migration_number + 1)
+    return unless options[:migration]
+    migration_filename = "%.14d_#{@migration_filename}.rb" % migration_number
     template "migration.rb", "#{plugin_path}/db/migrate/#{migration_filename}"
   end
+
+  private
 
   def attributes_with_index
     attributes.select { |a| a.has_index? || (a.reference? && options[:indexes]) }
@@ -56,5 +59,11 @@ class RedminePluginModelGenerator < Rails::Generators::NamedBase
     current = Dir.glob("#{plugin_path}/db/migrate/*.rb").map do |file|
       File.basename(file).split("_").first.to_i
     end.max.to_i
+
+    [current + 1, Time.now.utc.strftime("%Y%m%d%H%M%S").to_i].max
+  end
+
+  def parent_class_name
+    options[:parent] || "ActiveRecord::Base"
   end
 end
