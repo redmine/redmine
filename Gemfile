@@ -80,6 +80,7 @@ group :test do
   gem "rails-dom-testing"
   gem "mocha"
   gem "simplecov", "~> 0.16.1", :require => false
+  gem "ffi", platforms: [:mingw, :x64_mingw, :mswin]
   # For running system tests
   gem 'puma', '~> 3.7'
   gem "capybara", '~> 2.13'
