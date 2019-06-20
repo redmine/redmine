@@ -148,6 +148,7 @@ class TimeEntryQuery < Query
   def results_scope(options={})
     order_option = [group_by_sort_order, (options[:order] || sort_clause)].flatten.reject(&:blank?)
 
+    order_option << "#{TimeEntry.table_name}.id ASC"
     base_scope.
       order(order_option).
       joins(joins_for_order_statement(order_option.join(',')))

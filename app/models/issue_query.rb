@@ -297,6 +297,10 @@ class IssueQuery < Query
   # Valid options are :order, :offset, :limit, :include, :conditions
   def issues(options={})
     order_option = [group_by_sort_order, (options[:order] || sort_clause)].flatten.reject(&:blank?)
+    # The default order of IssueQuery is issues.id DESC(by IssueQuery#default_sort_criteria)
+    unless ["#{Issue.table_name}.id ASC", "#{Issue.table_name}.id DESC"].any?{|i| order_option.include?(i)}
+      order_option << "#{Issue.table_name}.id DESC"
+    end
 
     scope = Issue.visible.
       joins(:status, :project).
@@ -339,6 +343,10 @@ class IssueQuery < Query
   # Returns the issues ids
   def issue_ids(options={})
     order_option = [group_by_sort_order, (options[:order] || sort_clause)].flatten.reject(&:blank?)
+    # The default order of IssueQuery is issues.id DESC(by IssueQuery#default_sort_criteria)
+    unless ["#{Issue.table_name}.id ASC", "#{Issue.table_name}.id DESC"].any?{|i| order_option.include?(i)}
+      order_option << "#{Issue.table_name}.id DESC"
+    end
 
     Issue.visible.
       joins(:status, :project).

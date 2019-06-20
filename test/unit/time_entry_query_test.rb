@@ -129,4 +129,19 @@ class TimeEntryQueryTest < ActiveSupport::TestCase
     query = TimeEntryQuery.new(:project => Project.find(2), :name => '_')
     assert !query.available_filters.has_key?('project.status')
   end
+
+  def test_results_scope_should_be_in_the_same_order_when_paginating
+    4.times { TimeEntry.generate! }
+    q = TimeEntryQuery.new
+    q.sort_criteria = {'0' => ['user', 'asc']}
+    time_entry_ids = q.results_scope.pluck(:id)
+    paginated_time_entry_ids = []
+    # Test with a maximum of 2 records per page.
+    ((q.results_scope.count / 2) + 1).times do |i|
+      paginated_time_entry_ids += q.results_scope.offset((i * 2)).limit(2).pluck(:id)
+    end
+
+    # Non-paginated time entry ids and paginated time entry ids should be in the same order.
+    assert_equal time_entry_ids, paginated_time_entry_ids
+  end
 end
