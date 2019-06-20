@@ -187,6 +187,25 @@ class VersionsControllerTest < Redmine::ControllerTest
     end
   end
 
+  def test_show_should_round_down_progress_percentages
+    issue = Issue.find(12)
+    issue.estimated_hours = 40
+    issue.save!
+
+    with_settings :default_language => 'en' do
+      get :show, :params => {:id => 2}
+      assert_response :success
+
+      assert_select 'div.version-overview' do
+        assert_select 'table.progress-98' do
+          assert_select 'td[class=closed][title=?]', 'closed: 98%'
+          assert_select 'td[class=done][title=?]', '% Done: 99%'
+        end
+        assert_select 'p[class=percent]', :text => '99%'
+      end
+    end
+  end
+
   def test_new
     @request.session[:user_id] = 2
     get :new, :params => {:project_id => '1'}
