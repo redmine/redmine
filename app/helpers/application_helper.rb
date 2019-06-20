@@ -407,6 +407,17 @@ module ApplicationHelper
     end
   end
 
+  # Returns the tab action depending on the tab properties
+  def get_tab_action(tab)
+    if tab[:onclick]
+      return tab[:onclick]
+    elsif tab[:partial]
+      return "showTab('#{tab[:name]}', this.href)"
+    else
+      return nil
+    end
+  end
+
   # Returns the default scope for the quick search form
   # Could be 'all', 'my_projects', 'subprojects' or nil (current project)
   def default_search_project_scope
