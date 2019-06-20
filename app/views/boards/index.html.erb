@@ -1,3 +1,9 @@
+<div class="contextual">
+  <%= link_to_if_authorized l(:label_settings),
+              {:controller => 'projects', :action => 'settings', :id => @project, :tab => 'boards'},
+              :class => 'icon icon-settings' if User.current.allowed_to?(:manage_boards, @project) %>
+</div>
+
 <h2><%= l(:label_board_plural) %></h2>
 
 <table class="list boards">

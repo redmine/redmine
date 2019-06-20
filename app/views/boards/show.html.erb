@@ -6,6 +6,10 @@
             :class => 'icon icon-add',
             :onclick => 'showAndScrollTo("add-message", "message_subject"); return false;' if User.current.allowed_to?(:add_messages, @board.project) %>
 <%= watcher_link(@board, User.current) %>
+<%= link_to_if_authorized l(:label_settings),
+            {:controller => 'projects', :action => 'settings', :id => @project, :tab => 'boards'},
+            :class => 'icon icon-settings' if User.current.allowed_to?(:manage_boards, @project) %>
+
 </div>
 
 <div id="add-message" style="display:none;">

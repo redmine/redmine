@@ -15,6 +15,10 @@
             {:action => 'stats', :id => @project, :repository_id => @repository.identifier_param},
             :class => 'icon icon-stats' if @repository.supports_all_revisions? %>
 
+<%= link_to_if_authorized l(:label_settings),
+            {:controller => 'projects', :action => 'settings', :id => @project, :tab => 'repositories'},
+            :class => 'icon icon-settings' if User.current.allowed_to?(:manage_repository, @project) %>
+
 <%= form_tag({:action => controller.action_name,
              :id => @project,
              :repository_id => @repository.identifier_param,
