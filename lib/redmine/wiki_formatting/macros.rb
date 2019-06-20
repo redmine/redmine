@@ -254,6 +254,33 @@ module Redmine
           raise "Attachment #{filename} not found"
         end
       end
+
+      desc "Displays an issue link including additional information. Examples:\n\n" +
+             "{{issue(123)}}                              -- Issue #123: Enhance macro capabilities\n" +
+             "{{issue(123, project=true)}}                -- Andromeda - Issue #123: Enhance macro capabilities\n" +
+             "{{issue(123, tracker=false)}}               -- #123: Enhance macro capabilities\n" +
+             "{{issue(123, subject=false, project=true)}} -- Andromeda - Issue #123\n"
+      macro :issue do |obj, args|
+        args, options = extract_macro_options(args, :project, :subject, :tracker)
+        id = args.first
+        issue = Issue.visible.find_by(id: id)
+
+        if issue
+          # remove invalid options
+          options.delete_if { |k,v| v != 'true' && v != 'false' }
+
+          # turn string values into boolean
+          options.each do |k, v|
+            options[k] = v == 'true'
+          end
+
+          link_to_issue(issue, options)
+        else
+          # Fall back to regular issue link format to indicate, that there
+          # should have been something.
+          "##{id}"
+        end
+      end
     end
   end
 end

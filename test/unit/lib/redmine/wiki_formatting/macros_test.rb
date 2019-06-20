@@ -408,4 +408,14 @@ EXPECTED
     text = "*{{hello_world}}*"
     assert_match %r|\A<p><strong>Hello world!.*</strong></p>\z|, textilizable(text)
   end
+
+  def test_issue_macro_should_not_render_link_if_not_visible
+    assert_equal "<p>#123</p>", textilizable('{{issue(123)}}')
+  end
+
+  def test_issue_macro_should_render_link_to_issue
+    issue = Issue.find 1
+    assert_equal %{<p><a class="issue tracker-1 status-1 priority-4 priority-lowest" href="/issues/1">Bug #1</a>: #{issue.subject}</p>}, textilizable("{{issue(1)}}")
+    assert_equal %{<p>eCookbook - <a class="issue tracker-1 status-1 priority-4 priority-lowest" href="/issues/1">Bug #1</a>: #{issue.subject}</p>}, textilizable("{{issue(1, project=true)}}")
+  end
 end
