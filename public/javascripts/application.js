@@ -353,12 +353,44 @@ function showTab(name, url) {
   $('#tab-content-' + name).show();
   $('#tab-' + name).closest('.tabs').find('a').removeClass('selected');
   $('#tab-' + name).addClass('selected');
-  //replaces current URL with the "href" attribute of the current link
-  //(only triggered if supported by browser)
+
+  replaceInHistory(url)
+
+  return false;
+}
+
+function showIssueHistory(journal, url) {
+  tab_content = $('#tab-content-history');
+  tab_content.parent().find('.tab-content').hide();
+  tab_content.show();
+  tab_content.parent().find('div.tabs a').removeClass('selected');
+
+  $('#tab-' + journal).addClass('selected');
+
+  replaceInHistory(url)
+
+  switch(journal) {
+    case 'notes':
+      tab_content.find('.journal:not(.has-notes)').hide();
+      tab_content.find('.journal.has-notes').show();
+      break;
+    case 'properties':
+      tab_content.find('.journal.has-notes').hide();
+      tab_content.find('.journal:not(.has-notes)').show();
+      break;
+    default:
+      tab_content.find('.journal').show();
+  }
+
+  return false;
+}
+
+//replaces current URL with the "href" attribute of the current link
+//(only triggered if supported by browser)
+function replaceInHistory(url) {
   if ("replaceState" in window.history) {
     window.history.replaceState(null, document.title, url);
   }
-  return false;
 }
 
 function moveTabRight(el) {

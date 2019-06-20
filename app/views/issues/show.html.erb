@@ -129,12 +129,12 @@ end %>
 </div>
 <% end %>
 
-<% if @journals.present? %>
+<%= render partial: 'action_menu_edit' if User.current.wants_comments_in_reverse_order? %>
+
 <div id="history">
 <h3><%=l(:label_history)%></h3>
-<%= render :partial => 'history', :locals => { :issue => @issue, :journals => @journals } %>
+<%= render_tabs issue_history_tabs, params[:tab] ? params[:tab] : 'notes' %>
 </div>
-<% end %>
 
 <%= render partial: 'action_menu_edit' unless User.current.wants_comments_in_reverse_order? %>
 

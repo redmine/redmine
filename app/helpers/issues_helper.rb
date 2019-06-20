@@ -545,4 +545,18 @@ module IssuesHelper
       end
     end
   end
+
+  # Issue history tabs
+  def issue_history_tabs()
+    tabs = []
+    if @journals.present?
+      journals_without_notes = @journals.select{|value| value.notes.blank?}
+      journals_with_notes = @journals.reject{|value| value.notes.blank?}
+
+      tabs << {:name => 'history', :label => :label_history, :onclick => 'showIssueHistory("history", this.href)', :partial => 'history', :locals => {:issue => @issue, :journals => @journals}}
+      tabs << {:name => 'notes', :label => :label_issue_history_notes, :onclick => 'showIssueHistory("notes", this.href)'} if journals_with_notes.any?
+      tabs << {:name => 'properties', :label => :label_issue_history_properties, :onclick => 'showIssueHistory("properties", this.href)'} if journals_without_notes.any?
+    end
+    tabs
+  end
 end

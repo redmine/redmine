@@ -2481,6 +2481,60 @@ class IssuesControllerTest < Redmine::ControllerTest
     assert_select 'a', :text => 'Delete', :count => 0
   end
 
+  def test_show_should_not_display_history_tabs_for_issue_without_journals
+    @request.session[:user_id] = 1
+
+    get :show, :params => {:id => 5}
+    assert_response :success
+    assert_select '#history div.tabs', 0
+    assert_select '#history p.nodata', :text => 'No data to display'
+  end
+
+  def test_show_display_only_all_and_notes_tabs_for_issue_with_notes_only
+    @request.session[:user_id] = 1
+
+    get :show, :params => {:id => 6}
+    assert_response :success
+    assert_select '#history' do
+      assert_select 'div.tabs ul a', 2
+      assert_select 'div.tabs a[id=?]', 'tab-history', :text => 'History'
+      assert_select 'div.tabs a[id=?]', 'tab-notes', :text => 'Notes'
+    end
+  end
+
+  def test_show_display_only_all_and_history_tabs_for_issue_with_history_changes_only
+    journal = Journal.create!(:journalized => Issue.find(5), :user_id => 1)
+    detail = JournalDetail.create!(:journal => journal, :property => 'attr', :prop_key => 'description',
+      :old_value => 'Foo', :value => 'Bar')
+
+    @request.session[:user_id] = 1
+
+    get :show, :params => {:id => 5}
+    assert_response :success
+    assert_select '#history' do
+      assert_select 'div.tabs ul a', 2
+      assert_select 'div.tabs a[id=?]', 'tab-history', :text => 'History'
+      assert_select 'div.tabs a[id=?]', 'tab-properties', :text => 'Property changes'
+    end
+  end
+
+  def test_show_display_all_notes_and_history_tabs_for_issue_with_notes_and_history_changes
+    journal = Journal.create!(:journalized => Issue.find(6), :user_id => 1)
+    detail = JournalDetail.create!(:journal => journal, :property => 'attr', :prop_key => 'description',
+      :old_value => 'Foo', :value => 'Bar')
+
+    @request.session[:user_id] = 1
+
+    get :show, :params => {:id => 6}
+    assert_response :success
+    assert_select '#history' do
+      assert_select 'div.tabs ul a', 3
+      assert_select 'div.tabs a[id=?]', 'tab-history', :text => 'History'
+      assert_select 'div.tabs a[id=?]', 'tab-notes', :text => 'Notes'
+      assert_select 'div.tabs a[id=?]', 'tab-properties', :text => 'Property changes'
+    end
+  end
+
   def test_get_new
     @request.session[:user_id] = 2
     get :new, :params => {
