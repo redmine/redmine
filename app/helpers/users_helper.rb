@@ -33,6 +33,15 @@ module UsersHelper
     [[l(:label_font_default), '']] + UserPreference::TEXTAREA_FONT_OPTIONS.map {|o| [l("label_font_#{o}"), o]}
   end
 
+  def history_default_tab_options
+    [[l('label_issue_history_notes'), 'notes'],
+     [l('label_history'), 'history'],
+     [l('label_issue_history_properties'), 'properties'],
+     [l('label_time_entry_plural'), 'time_entries'],
+     [l('label_associated_revisions'), 'changesets'],
+     [l('label_last_tab_visited'), 'last_tab_visited']]
+  end
+
   def change_status_link(user)
     url = {:controller => 'users', :action => 'update', :id => user, :page => params[:page], :status => params[:status], :tab => nil}
 

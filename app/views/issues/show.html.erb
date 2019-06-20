@@ -124,7 +124,7 @@ end %>
 
 <div id="history">
 <h3><%=l(:label_history)%></h3>
-<%= render_tabs issue_history_tabs, params[:tab] ? params[:tab] : 'notes' %>
+<%= render_tabs issue_history_tabs, issue_history_default_tab %>
 </div>
 
 <%= render partial: 'action_menu_edit' unless User.current.wants_comments_in_reverse_order? %>

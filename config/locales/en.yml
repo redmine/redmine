@@ -383,6 +383,7 @@ en:
   field_digest: Checksum
   field_default_assigned_to: Default assignee
   field_recently_used_projects: Number of recently used projects in jump box
+  field_history_default_tab: Issue's history default tab
 
   setting_app_title: Application title
   setting_welcome_text: Welcome text
@@ -1058,6 +1059,7 @@ en:
   label_preferred_body_part_html: HTML (experimental)
   label_issue_history_properties: Property changes
   label_issue_history_notes: Notes
+  label_last_tab_visited: Last visited tab
 
   button_login: Login
   button_submit: Submit

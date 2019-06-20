@@ -929,6 +929,11 @@ function toggleNewObjectDropdown() {
 $(document).ready(function(){
   $('#content').on('change', 'input[data-disables], input[data-enables], input[data-shows]', toggleDisabledOnChange);
   toggleDisabledInit();
+
+  $('#history .tabs').on('click', 'a', function(e){
+    var tab = $(e.target).attr('id').replace('tab-','');
+    document.cookie = 'history_last_tab=' + tab
+  });
 });
 
 $(document).ready(function(){

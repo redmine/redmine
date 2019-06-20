@@ -562,4 +562,19 @@ module IssuesHelper
     tabs
   end
 
+  def issue_history_default_tab
+    # tab params overrides user default tab preference
+    return params[:tab] if params[:tab].present?
+    user_default_tab = User.current.pref.history_default_tab
+
+    case user_default_tab
+    when 'last_tab_visited'
+      cookies['history_last_tab'].present? ? cookies['history_last_tab'] : 'notes'
+    when ''
+      'notes'
+    else
+      user_default_tab
+    end
+  end
+
 end

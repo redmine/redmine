@@ -292,7 +292,8 @@ class UsersControllerTest < Redmine::ControllerTest
           'time_zone' => 'Paris',
           'comments_sorting' => 'desc',
           'warn_on_leaving_unsaved' => '0',
-          'textarea_font' => 'proportional'
+          'textarea_font' => 'proportional',
+          'history_default_tab' => 'history'
         }
       }
     end
@@ -303,6 +304,7 @@ class UsersControllerTest < Redmine::ControllerTest
     assert_equal 'desc', user.pref[:comments_sorting]
     assert_equal '0', user.pref[:warn_on_leaving_unsaved]
     assert_equal 'proportional', user.pref[:textarea_font]
+    assert_equal 'history', user.pref[:history_default_tab]
   end
 
   def test_create_with_generate_password_should_email_the_password
