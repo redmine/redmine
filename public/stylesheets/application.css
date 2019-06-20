@@ -558,6 +558,7 @@ div.journal h4 img.gravatar {margin-left:-32px;}
 }
 
 #history div:target h4 {background-color:#DDEEFF;}
+#history p.nodata {display: none;}
 
 div#activity dl, #search-results { margin-left: 2em; }
 div#activity dd, #search-results dd { margin-bottom: 1em; padding-left: 18px; font-size: 0.9em; }
