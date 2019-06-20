@@ -2535,6 +2535,21 @@ class IssuesControllerTest < Redmine::ControllerTest
     end
   end
 
+  def test_show_display_changesets_tab_for_issue_with_changesets
+    project = Project.find(2)
+    issue = Issue.find(3)
+    issue.changeset_ids = [102]
+    issue.save!
+
+    @request.session[:user_id] = 2
+    get :show, :params => {:id => 3}
+
+    assert_select '#history' do
+      assert_select 'div.tabs ul a', 1
+      assert_select 'div.tabs a[id=?]', 'tab-changesets', :text => 'Associated revisions'
+    end
+  end
+
   def test_get_new
     @request.session[:user_id] = 2
     get :new, :params => {
