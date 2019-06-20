@@ -1,0 +1,28 @@
+<% for time_entry in tab[:locals][:time_entries] %>
+  <div id="time-entry-<%= time_entry.id %>" class="time_entry journal">
+    <% if time_entry.editable_by?(User.current) -%>
+      <div class="contextual">
+        <%= link_to l(:button_edit), edit_time_entry_path(time_entry),
+                    :title => l(:button_edit),
+                    :class => 'icon-only icon-edit' %>
+        <%= link_to l(:button_delete), time_entry_path(time_entry),
+                    :data => {:confirm => l(:text_are_you_sure)},
+                    :method => :delete,
+                    :title => l(:button_delete),
+                    :class => 'icon-only icon-del' %>
+      </div>
+    <% end -%>
+    <h4>
+      <%= avatar(time_entry.user, :size => "24") %>
+      <%= authoring time_entry.created_on, time_entry.user, :label => :label_added_time_by %>
+    </h4>
+    <ul class="details">
+      <li>
+        <strong><%= l(:label_time_entry_plural) %></strong>:
+        <%= l_hours_short time_entry.hours %>
+      </li>
+    </ul>
+    <p><%= time_entry.comments %></p>
+  </div>
+  <%= call_hook(:view_issues_history_time_entry_bottom, { :time_entry => time_entry }) %>
+<% end %>

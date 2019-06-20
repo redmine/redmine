@@ -2537,16 +2537,34 @@ class IssuesControllerTest < Redmine::ControllerTest
 
   def test_show_display_changesets_tab_for_issue_with_changesets
     project = Project.find(2)
-    issue = Issue.find(3)
+    issue = Issue.find(9)
     issue.changeset_ids = [102]
     issue.save!
 
     @request.session[:user_id] = 2
-    get :show, :params => {:id => 3}
+    get :show, :params => {:id => issue.id}
 
     assert_select '#history' do
       assert_select 'div.tabs ul a', 1
       assert_select 'div.tabs a[id=?]', 'tab-changesets', :text => 'Associated revisions'
+    end
+  end
+
+  def test_show_should_display_spent_time_tab_for_issue_with_time_entries
+    @request.session[:user_id] = 1
+    get :show, :params => {:id => 3}
+    assert_response :success
+
+    assert_select '#history' do
+      assert_select 'div.tabs ul a', 1
+      assert_select 'div.tabs a[id=?]', 'tab-time_entries', :text => 'Spent time'
+    end
+
+    assert_select 'div[id=?]', 'time-entry-3' do
+      assert_select 'a[title=?][href=?]', 'Edit', '/time_entries/3/edit'
+      assert_select 'a[title=?][href=?]', 'Delete', '/time_entries/3'
+
+      assert_select 'ul[class=?]', 'details', :text => /1.00 h/
     end
   end
 

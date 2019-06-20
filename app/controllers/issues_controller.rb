@@ -104,6 +104,7 @@ class IssuesController < ApplicationController
         @allowed_statuses = @issue.new_statuses_allowed_to(User.current)
         @priorities = IssuePriority.active
         @time_entry = TimeEntry.new(:issue => @issue, :project => @issue.project)
+        @time_entries = @issue.time_entries.visible.preload(:activity, :user)
         @relation = IssueRelation.new
         retrieve_previous_and_next_issue_ids
         render :template => 'issues/show'
