@@ -385,21 +385,26 @@ function showIssueHistory(journal, url) {
   return false;
 }
 
-function getRemoteTab(name, remote_url, url) {
-  $('#tab-content-' + name).parent().find('.tab-content').hide();
-  $('#tab-content-' + name).parent().find('div.tabs a').removeClass('selected');
-  $('#tab-' + name).addClass('selected')
+function getRemoteTab(name, remote_url, url, load_always = false) {
+  var tab_content = $('#tab-content-' + name);
 
-  replaceInHistory(url)
+  tab_content.parent().find('.tab-content').hide();
+  tab_content.parent().find('div.tabs a').removeClass('selected');
+  $('#tab-' + name).addClass('selected');
 
-  $.ajax({
-    url: remote_url,
-    type: 'get',
-    success: function(data){
-      $('#tab-content-' + name).html(data).show();
-    }
-  });
+  replaceInHistory(url);
 
+  if (tab_content.children().length == 0 && load_always == false) {
+    $.ajax({
+      url: remote_url,
+      type: 'get',
+      success: function(data){
+        tab_content.html(data)
+      }
+    });
+  }
+
+  tab_content.show();
   return false;
 }
 
