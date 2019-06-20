@@ -26,9 +26,15 @@ module Redmine
           Redmine::WikiFormatting::Macros.available_macros.key?(name.to_sym)
         end
 
-        def exec_macro(name, obj, args, text)
+        def exec_macro(name, obj, args, text, options={})
           macro_options = Redmine::WikiFormatting::Macros.available_macros[name.to_sym]
           return unless macro_options
+
+          if options[:inline_attachments] == false
+            Redmine::WikiFormatting::Macros.inline_attachments = false
+          else
+            Redmine::WikiFormatting::Macros.inline_attachments = true
+          end
 
           method_name = "macro_#{name}"
           unless macro_options[:parse_args] == false
@@ -59,7 +65,9 @@ module Redmine
       end
 
       @@available_macros = {}
+      @@inline_attachments = true
       mattr_accessor :available_macros
+      mattr_accessor :inline_attachments
 
       class << self
         # Plugins can use this method to define new macros:
@@ -211,7 +219,7 @@ module Redmine
         @included_wiki_pages ||= []
         raise 'Circular inclusion detected' if @included_wiki_pages.include?(page.id)
         @included_wiki_pages << page.id
-        out = textilizable(page.content, :text, :attachments => page.attachments, :headings => false)
+        out = textilizable(page.content, :text, :attachments => page.attachments, :headings => false,  :inline_attachments => @@inline_attachments)
         @included_wiki_pages.pop
         out
       end
@@ -227,7 +235,7 @@ module Redmine
         out = ''.html_safe
         out << link_to_function(show_label, js, :id => "#{html_id}-show", :class => 'collapsible collapsed')
         out << link_to_function(hide_label, js, :id => "#{html_id}-hide", :class => 'collapsible', :style => 'display:none;')
-        out << content_tag('div', textilizable(text, :object => obj, :headings => false), :id => html_id, :class => 'collapsed-text', :style => 'display:none;')
+        out << content_tag('div', textilizable(text, :object => obj, :headings => false, :inline_attachments => @@inline_attachments), :id => html_id, :class => 'collapsed-text', :style => 'display:none;')
         out
       end
 

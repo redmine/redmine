@@ -752,7 +752,7 @@ module ApplicationHelper
     @current_section = 0 if options[:edit_section_links]
 
     parse_sections(text, project, obj, attr, only_path, options)
-    text = parse_non_pre_blocks(text, obj, macros) do |text|
+    text = parse_non_pre_blocks(text, obj, macros, options) do |text|
       [:parse_inline_attachments, :parse_hires_images, :parse_wiki_links, :parse_redmine_links].each do |method_name|
         send method_name, text, project, obj, attr, only_path, options
       end
@@ -766,7 +766,7 @@ module ApplicationHelper
     text.html_safe
   end
 
-  def parse_non_pre_blocks(text, obj, macros)
+  def parse_non_pre_blocks(text, obj, macros, options={})
     s = StringScanner.new(text)
     tags = []
     parsed = +''
@@ -775,9 +775,9 @@ module ApplicationHelper
       text, full_tag, closing, tag = s[1], s[2], s[3], s[4]
       if tags.empty?
         yield text
-        inject_macros(text, obj, macros) if macros.any?
+        inject_macros(text, obj, macros, true, options) if macros.any?
       else
-        inject_macros(text, obj, macros, false) if macros.any?
+        inject_macros(text, obj, macros, false, options) if macros.any?
       end
       parsed << text
       if tag
@@ -1221,14 +1221,14 @@ module ApplicationHelper
   end
 
   # Executes and replaces macros in text
-  def inject_macros(text, obj, macros, execute=true)
+  def inject_macros(text, obj, macros, execute=true, options={})
     text.gsub!(MACRO_SUB_RE) do
       all, index = $1, $2.to_i
       orig = macros.delete(index)
       if execute && orig && orig =~ MACROS_RE
         esc, all, macro, args, block = $2, $3, $4.downcase, $6.to_s, $7.try(:strip)
         if esc.nil?
-          h(exec_macro(macro, obj, args, block) || all)
+          h(exec_macro(macro, obj, args, block, options) || all)
         else
           h(all)
         end
