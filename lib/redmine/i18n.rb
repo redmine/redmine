@@ -147,71 +147,17 @@ module Redmine
     end
 
     # Custom backend based on I18n::Backend::Simple with the following changes:
-    # * lazy loading of translation files
     # * available_locales are determined by looking at translation file names
-    class Backend
-      (class << self; self; end).class_eval { public :include }
-
+    class Backend < ::I18n::Backend::Simple
       module Implementation
-        include ::I18n::Backend::Base
         include ::I18n::Backend::Pluralization
-
-        # Stores translations for the given locale in memory.
-        # This uses a deep merge for the translations hash, so existing
-        # translations will be overwritten by new ones only at the deepest
-        # level of the hash.
-        def store_translations(locale, data, options = {})
-          locale = locale.to_sym
-          translations[locale] ||= {}
-          data = data.deep_symbolize_keys
-          translations[locale].deep_merge!(data)
-        end
 
         # Get available locales from the translations filenames
         def available_locales
           @available_locales ||= ::I18n.load_path.map {|path| File.basename(path, '.*')}.uniq.sort.map(&:to_sym)
         end
-
-        # Clean up translations
-        def reload!
-          @translations = nil
-          @available_locales = nil
-          super
-        end
-
-        protected
-
-        def init_translations(locale)
-          locale = locale.to_s
-          paths = ::I18n.load_path.select {|path| File.basename(path, '.*') == locale}
-          load_translations(paths)
-          translations[locale] ||= {}
-        end
-
-        def translations
-          @translations ||= {}
-        end
-
-        # Looks up a translation from the translations hash. Returns nil if
-        # eiher key is nil, or locale, scope or key do not exist as a key in the
-        # nested translations hash. Splits keys or scopes containing dots
-        # into multiple keys, i.e. <tt>currency.format</tt> is regarded the same as
-        # <tt>%w(currency format)</tt>.
-        def lookup(locale, key, scope = [], options = {})
-          init_translations(locale) unless translations.key?(locale)
-          keys = ::I18n.normalize_keys(locale, key, scope, options[:separator])
-
-          keys.inject(translations) do |result, _key|
-            _key = _key.to_sym
-            return nil unless result.is_a?(Hash) && result.has_key?(_key)
-            result = result[_key]
-            result = resolve(locale, _key, result, options.merge(:scope => nil)) if result.is_a?(Symbol)
-            result
-          end
-        end
       end
 
-      include Implementation
       # Adds fallback to default locale for untranslated strings
       include ::I18n::Backend::Fallbacks
     end
