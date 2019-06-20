@@ -24,6 +24,9 @@ Rails:
 Layout/SpaceBeforeBlockBraces:
   Enabled: false
 
+Metrics:
+  Enabled: false
+
 Rails/BulkChangeTable:
   Exclude:
     - 'db/migrate/20120714122200_add_workflows_rule_fields.rb'
