@@ -1807,6 +1807,15 @@ RAW
     assert_equal '<span class="hours hours-int">0</span><span class="hours hours-dec">.75</span>', html_hours('0.75')
   end
 
+  def test_form_for_includes_name_attribute
+    assert_match(/name="new_issue-[a-z0-9]{8}"/, form_for(Issue.new){})
+  end
+
+  def test_labelled_form_for_includes_name_attribute
+    assert_match(/name="new_issue-[a-z0-9]{8}"/, labelled_form_for(Issue.new){})
+  end
+
+
   private
 
   def wiki_links_with_special_characters

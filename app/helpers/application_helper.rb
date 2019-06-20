@@ -1306,6 +1306,13 @@ module ApplicationHelper
     fields_for(*args, &proc)
   end
 
+  def form_tag_html(html_options)
+    # Set a randomized name attribute on all form fields by default
+    # as a workaround to https://bugzilla.mozilla.org/show_bug.cgi?id=1279253
+    html_options['name'] ||= "#{html_options['id'] || 'form'}-#{SecureRandom.hex(4)}"
+    super
+  end
+
   # Render the error messages for the given objects
   def error_messages_for(*objects)
     objects = objects.map {|o| o.is_a?(String) ? instance_variable_get("@#{o}") : o}.compact
