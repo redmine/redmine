@@ -30,13 +30,13 @@ module Redmine
       }
 
       def self.to_text(html)
-        html = html.gsub(/[\n\r]/, '').squeeze(' ')
+        html = html.gsub(/[\n\r]/, ' ')
 
         doc = Loofah.document(html)
         doc.scrub!(WikiTags.new(tags))
         doc.scrub!(:newline_block_elements)
 
-        Loofah.remove_extraneous_whitespace(doc.text).strip
+        Loofah.remove_extraneous_whitespace(doc.text).strip.squeeze(' ').gsub(/^ +/, '')
       end
 
       class WikiTags < ::Loofah::Scrubber

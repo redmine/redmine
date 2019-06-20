@@ -34,4 +34,16 @@ class Redmine::WikiFormatting::HtmlParserTest < ActiveSupport::TestCase
     assert_equal "Text",
       @parser.to_text('<html><body><style>body {font-size: 0.8em;}</style>Text</body></html>')
   end
+
+  def test_should_remove_preceding_whitespaces
+    to_test = {
+      "<div>  blocks with</div>\n<p>\n  preceding whitespaces\n</p>" => "blocks with\n\npreceding whitespaces",
+      "<div>blocks without</div>\n<p>\npreceding whitespaces\n</p>" => "blocks without\n\npreceding whitespaces",
+      "<span>  span with</span>\n<span>  preceding whitespaces</span>" => "span with preceding whitespaces",
+      "<span>span without</span>\n<span>preceding whitespaces</span>" => "span without preceding whitespaces"
+    }
+    to_test.each do |html, expected|
+      assert_equal expected, @parser.to_text(html)
+    end
+  end
 end
