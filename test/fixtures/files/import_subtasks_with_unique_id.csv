@@ -1,0 +1,5 @@
+id;tracker;subject;parent
+RED-I;bug;Root;
+RED-II;bug;Child 1;RED-I
+RED-III;bug;Grand-child;RED-IV
+RED-IV;bug;Child 2;RED-I

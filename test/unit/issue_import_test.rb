@@ -146,6 +146,16 @@ class IssueImportTest < ActiveSupport::TestCase
     assert_equal child2, grandchild.parent
   end
 
+  def test_backward_and_forward_reference_with_unique_id
+    import = generate_import_with_mapping('import_subtasks_with_unique_id.csv')
+    import.settings['mapping'] = {'project_id' => '1', 'unique_id' => '0', 'tracker' => '1', 'subject' => '2', 'parent_issue_id' => '3'}
+    import.save!
+
+    root, child1, grandchild, child2 = new_records(Issue, 4) { import.run }
+    assert_equal root, child1.parent
+    assert_equal child2, grandchild.parent
+  end
+
   def test_assignee_should_be_set
     import = generate_import_with_mapping
     import.mapping.merge!('assigned_to' => '11')

@@ -1,3 +1,5 @@
+<div class="splitcontent">
+<div class="splitcontentleft">
 <p>
   <label for="import_mapping_project_id"><%= l(:label_project) %></label>
   <%= select_tag 'import_settings[mapping][project_id]',
@@ -13,6 +15,16 @@
   <label for="import_mapping_status"><%= l(:field_status) %></label>
   <%= mapping_select_tag @import, 'status' %>
 </p>
+</div>
+
+<div class="splitcontentright">
+<p></p>
+<p>
+  <label for="import_mapping_unique_id"><%= l(:field_unique_id) %></label>
+  <%= mapping_select_tag @import, 'unique_id' %>
+</p>
+</div>
+</div>
 
 <div class="splitcontent">
 <div class="splitcontentleft">

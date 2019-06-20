@@ -150,18 +150,30 @@ class IssueImport < Import
       end
     end
     if parent_issue_id = row_value(row, 'parent_issue_id')
-      if parent_issue_id =~ /\A(#)?(\d+)\z/
-        parent_issue_id = $2.to_i
-        if $1
-          attributes['parent_issue_id'] = parent_issue_id
+      if parent_issue_id.start_with? '#'
+        # refers to existing issue
+        attributes['parent_issue_id'] = parent_issue_id[1..-1]
+      elsif use_unique_id?
+        # refers to other row with unique id
+        issue_id = items.where(:unique_id => parent_issue_id).first.try(:obj_id)
+
+        if issue_id
+          attributes['parent_issue_id'] = issue_id
         else
-          if parent_issue_id > item.position
-            add_callback(parent_issue_id, 'set_as_parent', item.position)
-          elsif issue_id = items.where(:position => parent_issue_id).first.try(:obj_id)
-            attributes['parent_issue_id'] = issue_id
-          end
+          add_callback(parent_issue_id, 'set_as_parent', item.position)
         end
+      elsif parent_issue_id =~ /\A\d+\z/
+        # refers to other row by position
+        parent_issue_id = parent_issue_id.to_i
+
+        if parent_issue_id > item.position
+          add_callback(parent_issue_id, 'set_as_parent', item.position)
+        elsif issue_id = items.where(:position => parent_issue_id).first.try(:obj_id)
+          attributes['parent_issue_id'] = issue_id
+        end
+
       else
+        # Something is odd. Assign parent_issue_id to trigger validation error
         attributes['parent_issue_id'] = parent_issue_id
       end
     end

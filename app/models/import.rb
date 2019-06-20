@@ -157,8 +157,8 @@ class Import < ActiveRecord::Base
   # Adds a callback that will be called after the item at given position is imported
   def add_callback(position, name, *args)
     settings['callbacks'] ||= {}
-    settings['callbacks'][position.to_i] ||= []
-    settings['callbacks'][position.to_i] << [name, args]
+    settings['callbacks'][position] ||= []
+    settings['callbacks'][position] << [name, args]
     save!
   end
 
@@ -190,6 +190,7 @@ class Import < ActiveRecord::Base
       if position > resume_after
         item = items.build
         item.position = position
+        item.unique_id = row_value(row, 'unique_id') if use_unique_id?
 
         if object = build_object(row, item)
           if object.save
@@ -202,7 +203,7 @@ class Import < ActiveRecord::Base
         item.save!
         imported += 1
 
-        do_callbacks(item.position, object)
+        do_callbacks(use_unique_id? ? item.unique_id : item.position, object)
       end
       current = position
     end
@@ -282,5 +283,9 @@ class Import < ActiveRecord::Base
   # Returns true if value is a string that represents a true value
   def yes?(value)
     value == lu(user, :general_text_yes) || value == '1'
+  end
+
+  def use_unique_id?
+    mapping['unique_id'].present?
   end
 end

@@ -384,6 +384,7 @@ en:
   field_default_assigned_to: Default assignee
   field_recently_used_projects: Number of recently used projects in jump box
   field_history_default_tab: Issue's history default tab
+  field_unique_id: Unique ID
 
   setting_app_title: Application title
   setting_welcome_text: Welcome text
