@@ -77,7 +77,7 @@ class Role < ActiveRecord::Base
 
   validates_presence_of :name
   validates_uniqueness_of :name
-  validates_length_of :name, :maximum => 30
+  validates_length_of :name, :maximum => 255
   validates_inclusion_of :issues_visibility,
     :in => ISSUES_VISIBILITY_OPTIONS.collect(&:first),
     :if => lambda {|role| role.respond_to?(:issues_visibility) && role.issues_visibility_changed?}
