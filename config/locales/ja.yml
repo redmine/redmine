@@ -231,9 +231,9 @@ ja:
   mail_subject_reminder: "%{count}件のチケットの期日が%{days}日以内に到来します"
   mail_body_reminder: "%{count}件の担当チケットの期日が%{days}日以内に到来します:"
   mail_subject_wiki_content_added: "Wikiページ %{id} が追加されました"
-  mail_body_wiki_content_added: "Wikiページ %{id} を %{author} が追加しました。"
+  mail_body_wiki_content_added: "Wikiページ %{id} を %{author} さんが追加しました。"
   mail_subject_wiki_content_updated: "Wikiページ %{id} が更新されました"
-  mail_body_wiki_content_updated: "Wikiページ %{id} を %{author} が更新しました。"
+  mail_body_wiki_content_updated: "Wikiページ %{id} を %{author} さんが更新しました。"
 
 
   field_name: 名称
@@ -748,8 +748,8 @@ ja:
   label_missing_feeds_access_key: Atomアクセスキーが見つかりません
   label_feeds_access_key_created_on: "Atomアクセスキーは%{value}前に作成されました"
   label_module_plural: モジュール
-  label_added_time_by: "%{author} が%{age}前に追加"
-  label_updated_time_by: "%{author} が%{age}前に更新"
+  label_added_time_by: "%{author} さんが%{age}前に追加"
+  label_updated_time_by: "%{author} さんが%{age}前に更新"
   label_updated_time: "%{value}前に更新"
   label_jump_to_a_project: プロジェクトへ移動...
   label_file_plural: ファイル
@@ -900,8 +900,8 @@ ja:
   text_comma_separated: (カンマで区切ることで)複数の値を設定できます。
   text_line_separated: (1行ごとに書くことで)複数の値を設定できます。
   text_issues_ref_in_commit_messages: コミットメッセージ内でチケットの参照/修正
-  text_issue_added: "チケット %{id} を %{author} が作成しました。"
-  text_issue_updated: "チケット %{id} を %{author} が更新しました。"
+  text_issue_added: "チケット %{id} を %{author} さんが作成しました。"
+  text_issue_updated: "チケット %{id} を %{author} さんが更新しました。"
   text_wiki_destroy_confirmation: 本当にこのwikiとその内容のすべてを削除しますか？
   text_issue_category_destroy_question: "%{count}件のチケットがこのカテゴリに割り当てられています。"
   text_issue_category_destroy_assignments: カテゴリの割り当てを削除する
