@@ -34,12 +34,6 @@ class RepositoryBazaarTest < ActiveSupport::TestCase
   # "bzr" command output and command line parameter depend on locale.
   # So, non ASCII path tests cannot run independent locale.
   #
-  # If you want to run Bazaar non ASCII path tests on Linux *Ruby 1.9*,
-  # you need to set locale character set "ISO-8859-1".
-  # E.g. "LANG=en_US.ISO-8859-1".
-  # On Linux other platforms (e.g. Ruby 1.8, JRuby),
-  # you need to set "RUN_LATIN1_OUTPUT_TEST = true" manually.
-  #
   # On Windows, because it is too hard to change system locale,
   # you cannot run Bazaar non ASCII path tests.
   #
