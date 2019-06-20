@@ -586,7 +586,23 @@ class UserTest < ActiveSupport::TestCase
     assert_equal '2012-05-15', User.find(1).time_to_date(time).to_s
 
     preference.update_attribute :time_zone, ''
-    assert_equal '2012-05-15', User.find(1).time_to_date(time).to_s
+    assert_equal time.localtime.to_date.to_s, User.find(1).time_to_date(time).to_s
+  end
+
+  def test_convert_time_to_user_timezone_should_return_the_time_according_to_user_time_zone
+    preference = User.find(1).pref
+    time = Time.gm(2012, 05, 15, 23, 30).utc # 2012-05-15 23:30 UTC
+    time_not_utc = Time.new(2012, 05, 15, 23, 30)
+
+    preference.update_attribute :time_zone, 'Baku' # UTC+5
+    assert_equal '2012-05-16 04:30:00 +0500', User.find(1).convert_time_to_user_timezone(time).to_s
+
+    preference.update_attribute :time_zone, 'La Paz' # UTC-4
+    assert_equal '2012-05-15 19:30:00 -0400', User.find(1).convert_time_to_user_timezone(time).to_s
+
+    preference.update_attribute :time_zone, ''
+    assert_equal time.localtime.to_s, User.find(1).convert_time_to_user_timezone(time).to_s
+    assert_equal time_not_utc, User.find(1).convert_time_to_user_timezone(time_not_utc)
   end
 
   def test_fields_for_order_statement_should_return_fields_according_user_format_setting

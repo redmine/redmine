@@ -544,10 +544,14 @@ class User < Principal
 
   # Returns the day of +time+ according to user's time zone
   def time_to_date(time)
-    if time_zone.nil?
-      time.to_date
+    self.convert_time_to_user_timezone(time).to_date
+  end
+
+  def convert_time_to_user_timezone(time)
+    if self.time_zone
+      time.in_time_zone(self.time_zone)
     else
-      time.in_time_zone(time_zone).to_date
+      time.utc? ? time.localtime : time
     end
   end
 

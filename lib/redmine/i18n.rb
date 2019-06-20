@@ -79,8 +79,7 @@ module Redmine
       options = {}
       options[:format] = (Setting.time_format.blank? ? :time : Setting.time_format)
       time = time.to_time if time.is_a?(String)
-      zone = user.time_zone
-      local = zone ? time.in_time_zone(zone) : (time.utc? ? time.localtime : time)
+      local = user.convert_time_to_user_timezone(time)
       (include_date ? "#{format_date(local)} " : "") + ::I18n.l(local, options)
     end
 

@@ -355,8 +355,11 @@ class IssuesControllerTest < Redmine::ControllerTest
     end
   end
 
-  def test_index_grouped_by_created_on
+  def test_index_grouped_by_created_on_if_time_zone_is_utc
     skip unless IssueQuery.new.groupable_columns.detect {|c| c.name == :created_on}
+
+    @request.session[:user_id] = 2
+    User.find(2).pref.update(time_zone: 'UTC')
 
     get :index, :params => {
         :set_filter => 1,
@@ -365,6 +368,25 @@ class IssuesControllerTest < Redmine::ControllerTest
     assert_response :success
 
     assert_select 'tr.group span.name', :text => '07/19/2006' do
+      assert_select '+ span.count', :text => '2'
+    end
+  end
+
+  def test_index_grouped_by_created_on_if_time_zone_is_nil
+    skip unless IssueQuery.new.groupable_columns.detect {|c| c.name == :created_on}
+    current_user = User.find(2)
+    @request.session[:user_id] = current_user.id
+    current_user.pref.update(time_zone: nil)
+
+    get :index, :params => {
+        :set_filter => 1,
+        :group_by => 'created_on'
+      }
+    assert_response :success
+
+    # group_name depends on localtime
+    group_name = format_date(Issue.second.created_on.localtime)
+    assert_select 'tr.group span.name', :text => group_name do
       assert_select '+ span.count', :text => '2'
     end
   end
