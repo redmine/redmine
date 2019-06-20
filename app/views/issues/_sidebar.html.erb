@@ -1,16 +1,3 @@
-<h3><%= l(:label_issue_plural) %></h3>
-
-<ul>
-<li><%= link_to l(:label_issue_view_all), _project_issues_path(@project, :set_filter => 1) %></li>
-<% if @project %>
-<li><%= link_to l(:field_summary), project_issues_report_path(@project) %></li>
-<% end %>
-
-<% if User.current.allowed_to?(:import_issues, @project, :global => true) %>
-<li><%= link_to l(:button_import), new_issues_import_path %></li>
-<% end %>
-</ul>
-
 <%= call_hook(:view_issues_sidebar_issues_bottom) %>
 <%= call_hook(:view_issues_sidebar_planning_bottom) %>
 
