@@ -54,8 +54,6 @@
   <% end %>
 
   <%= actions_dropdown do %>
-    <%= link_to l(:label_issue_view_all), _project_issues_path(@project, :set_filter => 1) %>
-
     <% if @project %>
       <%= link_to l(:field_summary), project_issues_report_path(@project) %>
     <% end %>
