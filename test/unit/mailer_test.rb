@@ -26,6 +26,7 @@ class MailerTest < ActiveSupport::TestCase
            :member_roles, :roles, :documents, :attachments, :news,
            :tokens, :journals, :journal_details, :changesets,
            :trackers, :projects_trackers,
+           :custom_fields, :custom_fields_trackers,
            :issue_statuses, :enumerations, :messages, :boards, :repositories,
            :wikis, :wiki_pages, :wiki_contents, :wiki_content_versions,
            :versions,
