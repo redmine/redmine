@@ -29,16 +29,14 @@ group :openid do
   gem "rack-openid"
 end
 
-platforms :mri, :mingw, :x64_mingw do
-  # Optional gem for exporting the gantt to a PNG file, not supported with jruby
-  group :rmagick do
-    gem "rmagick", "~> 2.16.0"
-  end
+# Optional gem for exporting the gantt to a PNG file, not supported with jruby
+group :rmagick do
+  gem "rmagick", "~> 2.16.0"
+end
 
-  # Optional Markdown support, not for JRuby
-  group :markdown do
-    gem "redcarpet", "~> 3.4.0"
-  end
+# Optional Markdown support, not for JRuby
+group :markdown do
+  gem "redcarpet", "~> 3.4.0"
 end
 
 # Include database gems for the adapters found in the database
