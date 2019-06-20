@@ -82,6 +82,7 @@ class Redmine::UserFieldFormatTest < ActionView::TestCase
   end
 
   def test_possible_values_options_should_return_project_members_and_me_if_logged_in
+    ::I18n.locale = 'en'
     User.current = User.find(2)
     field = IssueCustomField.new(:field_format => 'user')
     project = Project.find(1)
