@@ -1286,3 +1286,7 @@ ja:
   label_optgroup_recents: 最近使用したもの
   button_project_bookmark: ブックマークに追加
   button_project_bookmark_delete: ブックマークから削除
+  field_history_default_tab: Issue's history default tab
+  label_issue_history_properties: Property changes
+  label_issue_history_notes: Notes
+  label_last_tab_visited: Last visited tab

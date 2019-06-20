@@ -1280,3 +1280,7 @@ cs:
   label_optgroup_recents: Nedávno použité
   button_project_bookmark: Přidat záložku
   button_project_bookmark_delete: Odstranit záložku
+  field_history_default_tab: Issue's history default tab
+  label_issue_history_properties: Property changes
+  label_issue_history_notes: Notes
+  label_last_tab_visited: Last visited tab
