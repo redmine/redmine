@@ -548,7 +548,7 @@ div.journal ul.details a:hover, ul.revision-info a:hover {color:#D14848;}
 body.avatars-on div.journal {padding-left:32px;}
 div.journal h4 img.gravatar {margin-left:-32px;}
 
-#history {
+#history .tab-content {
   padding: 0 6px;
   margin-bottom: 10px;
   border-right: 1px solid #d7d7d7;
