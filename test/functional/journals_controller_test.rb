@@ -257,6 +257,8 @@ class JournalsControllerTest < Redmine::ControllerTest
     assert_equal 'text/javascript', response.content_type
     assert_equal 'Updated notes', Journal.find(2).notes
     assert_include 'journal-2-notes', response.body
+    # response should include journal_indice param for quote link
+    assert_include 'journal_indice=2', response.body
   end
 
   def test_update_xhr_with_private_notes_checked

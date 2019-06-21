@@ -30,8 +30,9 @@ module JournalsHelper
     links = []
     if journal.notes.present?
       if options[:reply_links]
+        indice = journal.indice || @journal.issue.visible_journals_with_index.find{|j| j.id == @journal.id}.indice
         links << link_to(l(:button_quote),
-                         quoted_issue_path(issue, :journal_id => journal, :journal_indice => journal.indice),
+                         quoted_issue_path(issue, :journal_id => journal, :journal_indice => indice),
                          :remote => true,
                          :method => 'post',
                          :title => l(:button_quote),
