@@ -467,6 +467,7 @@ class ProjectTest < ActiveSupport::TestCase
     parent = Project.find(1)
     parent.trackers = Tracker.find([1,2])
     child = parent.children.find(3)
+    child.trackers = Tracker.find([2,3])
 
     assert_equal [1, 2], parent.tracker_ids
     assert_equal [2, 3], child.trackers.collect(&:id)
