@@ -1287,7 +1287,7 @@ ja:
   button_project_bookmark: ブックマークに追加
   button_project_bookmark_delete: ブックマークから削除
   field_history_default_tab: チケットの履歴のデフォルトタブ
-  label_issue_history_properties: プロパティ更新
+  label_issue_history_properties: プロパティ更新履歴
   label_issue_history_notes: コメント
   label_last_tab_visited: 最後に開いたタブ
   field_unique_id: Unique ID
