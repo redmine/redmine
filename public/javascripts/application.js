@@ -363,7 +363,7 @@ function showIssueHistory(journal, url) {
   tab_content = $('#tab-content-history');
   tab_content.parent().find('.tab-content').hide();
   tab_content.show();
-  tab_content.parent().find('div.tabs a').removeClass('selected');
+  tab_content.parent().children('div.tabs').find('a').removeClass('selected');
 
   $('#tab-' + journal).addClass('selected');
 
@@ -389,7 +389,7 @@ function getRemoteTab(name, remote_url, url, load_always = false) {
   var tab_content = $('#tab-content-' + name);
 
   tab_content.parent().find('.tab-content').hide();
-  tab_content.parent().find('div.tabs a').removeClass('selected');
+  tab_content.parent().children('div.tabs').find('a').removeClass('selected');
   $('#tab-' + name).addClass('selected');
 
   replaceInHistory(url);
