@@ -281,6 +281,13 @@ It can be expanded by clicking a link.
       <dd><p>顯示可被點擊的附加圖像之縮圖。範例：</p>
       <pre>{{thumbnail(image.png)}}
 {{thumbnail(image.png, size=300, title=Thumbnail)}}</pre></dd>
+
+      <dt><code>issue</code></dt>
+      <dd><p>Inserts a link to an issue with flexible text. Examples:</p>
+      <pre>{{issue(123)}}                              -- Issue #123: Enhance macro capabilities
+{{issue(123, project=true)}}                -- Andromeda - Issue #123:Enhance macro capabilities
+{{issue(123, tracker=false)}}               -- #123: Enhance macro capabilities
+{{issue(123, subject=false, project=true)}} -- Andromeda - Issue #123</pre></dd>
     </dl>
     </p>
 
