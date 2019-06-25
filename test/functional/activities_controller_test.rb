@@ -50,13 +50,14 @@ class ActivitiesControllerTest < Redmine::ControllerTest
   end
 
   def test_previous_project_index
+    @request.session[:user_id] = 1
     get :index, :params => {
         :id => 1,
         :from => 2.days.ago.to_date
       }
     assert_response :success
 
-    assert_select 'h3', :text => /#{3.days.ago.to_date.day}/
+    assert_select 'h3', :text => /#{User.current.time_to_date(3.days.ago).day}/
     assert_select 'dl dt.issue a', :text => /Cannot print recipes/
   end
 
