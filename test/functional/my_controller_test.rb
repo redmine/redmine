@@ -204,6 +204,7 @@ class MyControllerTest < Redmine::ControllerTest
   def test_page_with_activity
     user = User.find(2)
     user.pref.my_page_layout = {'top' => ['activity']}
+    user.pref.time_zone = 'UTC'
     user.pref.save!
 
     get :page
@@ -211,7 +212,7 @@ class MyControllerTest < Redmine::ControllerTest
 
     assert_select 'div#block-activity' do
       assert_select 'h3' do
-        assert_select 'a[href=?]', activity_path(from: Date.current, user_id: user.id),  :text => 'Activity'
+        assert_select 'a[href=?]', activity_path(from: User.current.today, user_id: user.id),  :text => 'Activity'
       end
       assert_select 'div#activity' do
         assert_select 'dt', 10
