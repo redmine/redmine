@@ -153,7 +153,7 @@ END_DESC
 
     headers = { 'User-Agent' => "Redmine mail handler/#{VERSION}" }
 
-    data = { 'key' => key, 'email' => email,
+    data = { 'key' => key, 'email' => email.gsub(/(?<!\r)\n|\r(?!\n)/, "\r\n"),
                            'allow_override' => allow_override,
                            'unknown_user' => unknown_user,
                            'default_group' => default_group,
