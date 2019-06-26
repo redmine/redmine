@@ -84,7 +84,8 @@ group :test do
   gem "capybara", '~> 2.13'
   gem "selenium-webdriver"
   # RuboCop
-  gem 'rubocop', '~> 0.71.0'
+  gem 'rubocop', '~> 0.72.0'
+  gem 'rubocop-rails', '~> 2.1.0'
 end
 
 local_gemfile = File.join(File.dirname(__FILE__), "Gemfile.local")

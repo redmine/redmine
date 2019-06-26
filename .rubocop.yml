@@ -16,8 +16,8 @@ AllCops:
 
 # Enable extensions
 
-Rails:
-  Enabled: true
+require:
+  - rubocop-rails
 
 # Rules for Redmine
 
