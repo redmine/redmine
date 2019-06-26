@@ -1346,8 +1346,8 @@
   label_optgroup_recents: 最近用過的
   button_project_bookmark: 新增書籤
   button_project_bookmark_delete: 移除書籤
-  field_history_default_tab: Issue's history default tab
-  label_issue_history_properties: Property changes
-  label_issue_history_notes: Notes
-  label_last_tab_visited: Last visited tab
-  field_unique_id: Unique ID
+  field_history_default_tab: 議題歷史預設分頁
+  label_issue_history_properties: 屬性變更
+  label_issue_history_notes: 筆記
+  label_last_tab_visited: 上次瀏覽的分頁
+  field_unique_id: 唯一識別碼
