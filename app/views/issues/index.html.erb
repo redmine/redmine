@@ -5,6 +5,15 @@
   <%= link_to_if_authorized l(:label_settings),
               {:controller => 'projects', :action => 'settings', :id => @project, :tab => 'issues'},
               :class => 'icon icon-settings' if User.current.allowed_to?(:manage_categories, @project) %>
+  <%= actions_dropdown do %>
+    <% if @project %>
+      <%= link_to l(:field_summary), project_issues_report_path(@project) %>
+    <% end %>
+
+    <% if User.current.allowed_to?(:import_issues, @project, :global => true) %>
+      <%= link_to l(:button_import), new_issues_import_path %>
+    <% end %>
+  <% end %>
 </div>
 
 <h2><%= @query.new_record? ? l(:label_issue_plural) : @query.name %></h2>
@@ -51,16 +60,6 @@
     <%= submit_tag l(:button_export), :name => nil, :onclick => "hideModal(this);", :data => { :disable_with => false } %>
     <%= link_to_function l(:button_cancel), "hideModal(this);" %>
   </p>
-  <% end %>
-
-  <%= actions_dropdown do %>
-    <% if @project %>
-      <%= link_to l(:field_summary), project_issues_report_path(@project) %>
-    <% end %>
-
-    <% if User.current.allowed_to?(:import_issues, @project, :global => true) %>
-      <%= link_to l(:button_import), new_issues_import_path %>
-    <% end %>
   <% end %>
 </div>
 
