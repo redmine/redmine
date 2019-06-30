@@ -153,6 +153,7 @@
     <%= content_tag(:div, "", :style => style, :class => "gantt_hdr") %>
     <%= content_tag(:div, :class => "gantt_subjects") do %>
       <%= form_tag({}, :data => {:cm_url => issues_context_menu_path}) do -%>
+        <%= hidden_field_tag 'back_url', url_for(:params => request.query_parameters), :id => nil %>
         <%= @gantt.subjects.html_safe %>
       <% end %>
     <% end %>
@@ -307,6 +308,7 @@
 <% end %>
 
 <%= form_tag({}, :data => {:cm_url => issues_context_menu_path}) do -%>
+  <%= hidden_field_tag 'back_url', url_for(:params => request.query_parameters), :id => nil %>
   <%= @gantt.lines.html_safe %>
 <% end %>
 
