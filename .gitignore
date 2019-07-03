@@ -43,8 +43,8 @@
 /Gemfile.local
 
 plugins/embedded/
-plugins/redmine_bitbucket_hook/
-plugins/redmine_github_hook/
+plugins/redmine_bitbucket_hook
+plugins/redmine_github_hook
 
 *~
 

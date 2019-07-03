@@ -703,7 +703,7 @@ div.project-title {
 
 .indexNoUser {
     text-align: center;
-    padding-top: 3.5em;
+    padding-top: 3em;
 }
 
 .indexNoUser .btn {
@@ -716,15 +716,15 @@ div.project-title {
 }
 
 #learnMoreContainer {
-    margin: 3em auto;
-    padding-top: 2em;
+    margin: 2em auto;
+    /*padding-top: 2em;*/
     padding-bottom: 2em;
     text-align: center;
 }
 
 .explore-option {
     vertical-align: middle;
-    font-size: 1.5em;
+    font-size: 1.3em;
     width: 20%;
     margin-left: 0.75em;
     margin-right: 0.75em;
@@ -733,11 +733,11 @@ div.project-title {
 }
 
 .explore-option a {
-    color: #555555;
+    color: #111111;
 }
 
 .explore-option:hover {
-    transform: scale(1.1);
+    opacity: 0.5;
 }
 
 .explore-option a:hover {
@@ -745,13 +745,16 @@ div.project-title {
 }
 
 .explore-desc {
+    display: flex;
+    display: -webkit-flex;
+    align-items: center;
+    justify-content: center;
     margin: 0.5em auto;
-    width: 90%;
-    height: 3em;
-}
-
-.explore-desc::after {
-    content: "\1f80a";
+    height: 4em;
+    color: rgb(51, 51, 51);
+    width: 70%;
+    font-size: 1.15em;
+    font-weight: bold;
 }
 
 .mainContentMargins {
@@ -1435,6 +1438,20 @@ tr.open span.expander:before {
 
 @media (max-width: 480px) {
     /* Remove padding above jumbotron */
+
+    .explore-option {
+        width: 100%;
+        margin: 0 auto;
+        margin-top: 1em;
+    }
+
+    .explore-desc {
+        height: 4em;
+    }
+
+    #learnMoreContainer {
+        margin-top: 0;
+    }
     
     body {
         padding-top: 0;
@@ -2112,7 +2129,7 @@ a.gh-badge:hover {
 }
 
 .lead-logo {
-    width: 8%;
+    width: 6%;
     margin-right: 25px;
 }
 
@@ -3491,8 +3508,23 @@ color: #555; text-shadow: 1px 1px 0 #fff;
 	background-image: url('/images/hhtutorial.png');
 }
 
-#synaptictutorial{
-	background-image: url('/images/synaptictutorial.png');
+#l23tutorial {
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+}
+
+#l23tutorial::before{
+    position: absolute;
+    z-index: -1;
+    left: 0;
+    top: 0;
+    content: "";
+    background-image: url('/images/projectThumbnails/L23Tutorial.png');
+    background-size: contain;
+    width: 350px;
+    height: 179px;
+    opacity: 0.7;
 }
 
 #createtutorial{
@@ -3715,8 +3747,8 @@ ul[role=tabpanel] li a{
 .card {
     position: relative;
     vertical-align: middle;
-    border: 1px solid black;
-    background-color: white;
+    /*border: 1px solid black;
+    background-color: white;*/
     width: 270px;
     height: 290px;
     padding-top: 1.5em;
@@ -3742,7 +3774,7 @@ ul[role=tabpanel] li a{
   color: black;
   font-weight: bold;
   font-size: 0.8em;
-  background-color: white;
+  background-color: #f8fbfd; /*rgba(51, 122, 183, 0.5);*/
 }
 
 .overlay button {
@@ -3754,8 +3786,17 @@ ul[role=tabpanel] li a{
 }
 
 .card-img {
-    max-height: 175px;
-    max-width: 175px;
+    height: 175px;
+    width: 175px;
+    -webkit-box-shadow: 0px 13px 29px 6px rgba(0,0,0,0.15);
+    -moz-box-shadow: 0px 13px 29px 6px rgba(0,0,0,0.15);
+    box-shadow: 0px 13px 29px 6px rgba(0,0,0,0.15);
+    margin-top: 1em;
+    border-radius: 10%;
+}
+
+#projecthighlights .card-img {
+    margin-top: 0;
 }
 
 .card-title {
@@ -3804,7 +3845,7 @@ ul[role=tabpanel] li a{
     padding-top: 1em;
     padding-bottom: 1em;
     margin-bottom: 2em;
-    background: rgba(51, 122, 183, 0.03);
+    background: #f8fbfd;
 }
 
 .project-category h2 {
@@ -3812,4 +3853,14 @@ ul[role=tabpanel] li a{
     color: white;
     text-shadow: 1px 1px 5px black;
     font-weight: bold;
+}
+
+#cells_graph foreignObject {
+    overflow: visible;
+}
+
+.project-notice {
+    font-weight: bold;
+    font-size: 1.3em;
+    margin-bottom: 1em;
 }
