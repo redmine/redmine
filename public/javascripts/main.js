@@ -232,16 +232,27 @@ function showFooter() {
     $('footer').show();
 }
 
+function hasModels(){
+    return (repourl && project_repository != "" && ((neuroml2files != "") || (swcfiles != "")));
+}
+
 function toggleProjectButton() {
-    if ($("#showGeppettoBtn").is(":visible")) {
-	$("#showGeppettoBtn").hide();
-	$("#showProjectBtn").show();
-	$("#moreBtn").hide();
+    if ($("#showGeppettoBtn").is(":visible") || !hasModels()) {
+        if (hasModels()) {
+	    $("#showGeppettoBtn").hide();
+            $("#moreBtn").hide();
+        }
+        if ($("#showProjectBtn").is(":visible"))
+	    $("#showProjectBtn").hide();
+        else
+            $("#showProjectBtn").show();
     }
     else {
-	$("#showGeppettoBtn").show();
+        if (hasModels()) {
+	    $("#showGeppettoBtn").show();
+            $("#moreBtn").show();
+        }
 	$("#showProjectBtn").hide();
-	$("#moreBtn").show();
     }
 }
 
@@ -366,6 +377,37 @@ function open3DExplorer(uri, projectIdentifier) {
 	}
 	else {
 	    openExistingProjectIn3DExplorer(uri);
+	}
+        currentModel = uri;
+    }
+}
+
+function addNWBIframe(src) {
+    var iframe = $("<iframe id='geppettoFrame' src='http://35.238.29.238'></iframe>")
+    $(".project-header").before("<div id='geppettoContainer'></div>");
+    $("#geppettoContainer").append(iframe);
+    iframe.load(function() { sendNWBToIframe(src); });
+    //iframe.attr({onLoad: function(){sendNWBToIframe(src);}});
+    }
+
+function sendNWBToIframe(uri) {
+    let frame = document.getElementById("geppettoFrame");
+    frame.contentWindow.postMessage(decodeURIComponent(uri), '*');
+}
+
+function openNWBExplorer(uri, projectIdentifier) {
+    showGeppetto();
+    if (checkBrowserCapabilities()) {
+	//Change url without reloading page
+	if (typeof uri === 'string') {
+	    if (currentModel != uri) {
+                var explorerUrl = '//' + location.host + location.pathname + '?explorer=' + encodeURIComponent(uri);
+	        if (history.pushState) { history.pushState(null, null, explorerUrl); }
+		if ($("#geppettoContainer").length == 0)
+                    addNWBIframe(uri);
+                else
+                    sendNWBToIframe(uri);
+	    }
 	}
         currentModel = uri;
     }
