@@ -383,11 +383,10 @@ function open3DExplorer(uri, projectIdentifier) {
 }
 
 function addNWBIframe(src) {
-    var iframe = $("<iframe id='geppettoFrame' src='http://35.238.29.238'></iframe>")
+    var iframe = $("<iframe id='geppettoFrame' src='http://nwbexplorer.opensourcebrain.org'></iframe>")
     $(".project-header").before("<div id='geppettoContainer'></div>");
     $("#geppettoContainer").append(iframe);
     iframe.load(function() { sendNWBToIframe(src); });
-    //iframe.attr({onLoad: function(){sendNWBToIframe(src);}});
     }
 
 function sendNWBToIframe(uri) {
