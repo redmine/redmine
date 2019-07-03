@@ -44,48 +44,63 @@
     <h3 class="results-title"><%= l(:label_result_plural) %> (<%= @result_count %>)</h3>
     <a href="#" class="btn exp-col-btn expand-btn">Expand</a>
     <div id="results" role="tab-list" aria-multiselectable="true">
-        <% @results.each_with_index do |e, i| %>
-            <% p = e.project %>
-            <div class="result">
-                <div class="result-header" role="tab" id="heading<%= i %>">
-                    <h4 class="mb-0">
-                        <%= link_to(highlight_tokens(e.event_title, @tokens), e.event_url) %>
-                        <a class="<%= e.event_type %>" data-toggle="collapse"
-                           data-parent="#accordion" href="#collapse<%= i %>" aria-expanded="true" aria-controls="collapse<%= i %>"
-                           alt="Show description…" title="Show description…">
-                            <i class="icon-caret-down"></i>
-                            <!--<%= e.event_title.truncate(255) %>-->
-                        </a>
-                    </h4>
-                </div>
-                <div id="collapse<%= i %>" class="result-info collapse" role="tabpanel" aria-labelled-by="collapse<%= i %>">
-                    <div class="card-block">
-        	        <% if e.event_type == "project" %>
-  	        	    <%= textilizable(p.short_description_without_image, :project => p) %>
-        	        <% else %>
-	        	    <span class="description"><%= textilizable(highlight_tokens(e.event_description, @tokens), :project => p) %></span>
-			    <div>
-                                <i>Project description:<%= textilizable(p.short_description_without_image, :project => p) %></i>
-                            </div>
-        	        <% end %>
-        	        
-        	        <div class="badges">
-                            <%= getEndorsementBadge(p) %>
-                            <%= getCurationBadge(p) %>
-        	            <%= getSimulatorBadges(p) %>
-        	        </div>
-        	        
-        	        <% tags=getCustomField(p,'Tag') %>
-        	        <% if tags!=nil and tags!='' %>
-			    <div><%= getBadge(p, 'Tag', '', '', '', 'label label-success') %></div>
-		        <% end %>
+        <% if !@results.nil? or @results.size < 10 %>
+            <% @results.each_with_index do |e, i| %>
+                <% p = e.project %>
+                <div class="result">
+                    <div class="result-header" role="tab" id="heading<%= i %>">
+                        <h4 class="mb-0">
+                            <%= link_to(highlight_tokens(e.event_title, @tokens), e.event_url) %>
+                            <a class="<%= e.event_type %>" data-toggle="collapse"
+                               data-parent="#accordion" href="#collapse<%= i %>" aria-expanded="true" aria-controls="collapse<%= i %>"
+                               alt="Show description…" title="Show description…">
+                                <i class="icon-caret-down"></i>
+                                <!--<%= e.event_title.truncate(255) %>-->
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapse<%= i %>" class="result-info collapse" role="tabpanel" aria-labelled-by="collapse<%= i %>">
+                        <div class="card-block">
+        	            <% if e.event_type == "project" %>
+  	        	        <%= textilizable(p.short_description_without_image, :project => p) %>
+        	            <% else %>
+	        	        <span class="description"><%= textilizable(highlight_tokens(e.event_description, @tokens), :project => p) %></span>
+			        <div>
+                                    <i>Project description:<%= textilizable(p.short_description_without_image, :project => p) %></i>
+                                </div>
+        	            <% end %>
 
-		        <div class="last-updated">
-			    <b>Last updated:</b> <%= format_time(e.event_datetime) %>
-        	        </div>
+        	            <div class="badges">
+                                <%= getEndorsementBadge(p) %>
+                                <%= getCurationBadge(p) %>
+        	                <%= getSimulatorBadges(p) %>
+        	            </div>
+
+        	            <% tags=getCustomField(p,'Tag') %>
+        	            <% if tags!=nil and tags!='' %>
+			        <div><%= getBadge(p, 'Tag', '', '', '', 'label label-success') %></div>
+		            <% end %>
+
+		            <div class="last-updated">
+			        <b>Last updated:</b> <%= format_time(e.event_datetime) %>
+        	            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
+            <% end %>
+        <% end %>
+        <% if (@results.size < 10) && (not @nmlDBresults.blank?) && (@scope.include? "neuroml_DB") %>
+            <div class="nmlDBresults">The following results are from the <a href="https://neuroml-db.org">NeuroML Database</a></div>
+            <hr>
+            <% @nmlDBresults.each do |e| %>
+                <div class="result">
+                    <div class="result-header" role="tab">
+                        <h4 class="mb-0">
+                            <%= link_to(highlight_tokens("NeuroML-DB: " + e['Name'] + " (" + e['Model_ID'] + ")", @tokens), "https://neuroml-db.org/model_info?model_id="+e['Model_ID']) %>
+                        </h4>
+                    </div>
+                </div>
+            <% end %>
         <% end %>
     </dl>
 <% end %>

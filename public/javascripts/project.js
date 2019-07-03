@@ -24,7 +24,15 @@ $(document).ready(function(){
     }
 
     function hasModels(){
-        return (repourl && project_repository != "" && ((neuroml2files != "") || (swcfiles != "")));
+        return (repourl && project_repository != "" && (jsonfiles != "" || cellfiles != "" || synapsefiles != "" || h5files != "" || networkfiles != "" || swcfiles != ""));
+    }
+    var bytesToHumanSize = function(nbytes) {
+        var human = "";
+        if (nbytes < 1048576)
+            human = Math.round(10*(nbytes/Math.pow(2,10)))/10 + " kB";
+        else
+            human = Math.round(10*(nbytes/Math.pow(2,20)))/10 + " MB";
+        return human;
     }
     var doFilter = function (){
         var filter, lis, a;
@@ -93,9 +101,10 @@ $(document).ready(function(){
                 if (submenus[submenu] != "") {
                     $("#explorermenu").append("<li class=\"explorerSubmenu\"><a data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapse" + submenu + "\">"+ menu_title +"</span> <i class=\"icon-caret-right\"></i><ul role=\"tabpanel\" class=\"collapse \" id=\"collapse" + submenu + "\"></ul></li>");
                     for (var i=0; i<files.length; i++) {
-                        var file = files[i];
+                        var size = files[i][0];
+                        var file = files[i][1];
                         var basename = file.split('/').slice(-1)[0];
-                        $("#"+"collapse"+submenu).append("<li class=\"submenu-item\" id=" + basename + "><a href=# tabindex=-1 id=\""+ file + "\"><span class=\"path\">" + file.split('/').slice(0,-1).join('/') + "/</span>" + basename+ "</a></li>");
+                        $("#"+"collapse"+submenu).append("<li class=\"submenu-item\" id=" + basename + "><a href=# tabindex=-1 id=\""+ file + "\"><span class=\"path\">" + file.split('/').slice(0,-1).join('/') + "/</span>" + basename + " (" + bytesToHumanSize(size) + ")</a></li>");
                     }
                 }
             }

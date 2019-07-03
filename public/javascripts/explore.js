@@ -13,7 +13,7 @@ $(document).ready(
 
         // Cells
         var subTabCellsList = ['#cells_graph', '#cells_list', '#cells_gallery', '#cells_tags'];
-        $("#cellsLink").click(function() {
+        $("#cellsLink, #cellsLink2").click(function() {
             for (var i=0; i<subTabCellsList.length; ++i) {
                 var tab = subTabCellsList[i];
                 (function(tab){

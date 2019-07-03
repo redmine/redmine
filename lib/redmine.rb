@@ -298,6 +298,7 @@ Redmine::Search.map do |search|
   search.register :wiki_pages
   search.register :messages
   search.register :projects
+  search.register :neuroml_DB
 end
 
 Redmine::WikiFormatting.map do |format|

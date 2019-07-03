@@ -469,6 +469,9 @@ module ApplicationHelper
     return filename.end_with?('.nml') || filename.end_with?('.nml.h5') || filename.end_with?('.nml.hdf5') 
   end
 
+  def getDefaultMainModel()
+    return @defaultMainModel
+  end
   
   def getSWCFiles(repository)
     @SWCfiles = getFilesWithExt(repository, ".swc")
@@ -480,73 +483,21 @@ module ApplicationHelper
     return @JSONfiles 
   end
   
-  def getDefaultMainModel()
-    return @defaultMainModel
+  def getModelFiles(ext)
+    @modelFiles=[]
+    @NML2files.each {|size,nml2file|
+      if !nml2file.nil? and nml2file.ends_with?(ext)
+        @modelFiles.push([size,nml2file])
+        @defaultMainModel=nml2file
+      end
+    }
+    @h5files.each {|size,h5file|
+      if h5file.ends_with?(ext+".h5")
+        @modelFiles.push([size, h5file])
+      end
+    }
+    return @modelFiles.sort_by{|f| f[1]}
   end
-  
-  def getNetworkFiles()
-    @networkfiles=[]
-    for nml2file in @NML2files
-      if nml2file.ends_with?(".net.nml")
-        @networkfiles.push(nml2file)
-        @defaultMainModel=nml2file
-      end
-    end
-    for h5file in @h5files
-      if h5file.ends_with?(".net.nml.h5")
-        @networkfiles.push(h5file)
-      end
-    end
-    return @networkfiles.sort()
-  end  
-  
-  def getChannelFiles()
-    @channelfiles=[]
-    for nml2file in @NML2files
-      if nml2file.ends_with?(".channel.nml")
-        @channelfiles.push(nml2file)
-        @defaultMainModel=nml2file
-      end
-    end
-    for h5file in @h5files
-      if h5file.ends_with?(".channel.nml.h5")
-        @channelfiles.push(h5file)
-      end
-    end
-    return @channelfiles.sort()
-  end
-  
-  def getSynapsesFiles()
-    @synapsefiles=[]
-    for nml2file in @NML2files
-      if nml2file.ends_with?(".synapse.nml")
-        @synapsefiles.push(nml2file)
-        @defaultMainModel=nml2file
-      end
-    end
-    for h5file in @h5files
-      if h5file.ends_with?(".synapse.nml.h5")
-        @synapsefiles.push(h5file)
-      end
-    end
-    return @synapsefiles.sort()
-  end
-  
-  def getCellFiles()
-    @cellfiles=[]
-    for nml2file in @NML2files
-      if nml2file.ends_with?(".cell.nml")
-        @cellfiles.push(nml2file)
-        @defaultMainModel=nml2file
-      end
-    end
-    for h5file in @h5files
-      if h5file.ends_with?(".cell.nml.h5")
-        @cellfiles.push(h5file)
-      end
-    end
-    return @cellfiles.sort()
-  end  
   
   def getFilesWithExt(repository, ext)
     @files = []
@@ -554,13 +505,13 @@ module ApplicationHelper
       if (repository.scm_name == 'Mercurial')
         command = repository_command("manifest -r default", repository)
       else  
-        command = repository_command("ls-tree -r master | cut -f2", repository)
+        command = repository_command("ls-tree -l -r master | cut -d' ' -f4-", repository)
       end  
 
       @output=exec(command)
       for line in @output
         if line.strip.ends_with?(ext)
-        @files.push(line.strip)
+        @files.push(line.strip.split("\t"))
         end
       end
     end
@@ -1286,9 +1237,8 @@ module ApplicationHelper
                     <embed src='" + videoUrl + ".swf' width='#{width}' height='#{height}'>
                   </object> 
                 </video>"
-              
           when 'pubmed'
-            summaryUrlBase = "http://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&retmode=xml&id=#{name}"
+            summaryUrlBase = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&retmode=xml&id=#{name}"
             uri = URI.parse(summaryUrlBase)
             response = Net::HTTP.get_response(uri)  
             if response.code_type.to_s == "Net::HTTPOK"
@@ -1301,7 +1251,7 @@ module ApplicationHelper
                 doc[:id] = pd.at_css("Item[Name=ArticleIds] Item[Name=pubmed]").text
                 doc[:date] = pd.css("Item[Name=PubDate]")[0].text.split(" ").first
                 doc[:source] = pd.css("Item[Name=FullJournalName]")[0].text
-                doc[:url] = "http://www.ncbi.nlm.nih.gov/pubmed/#{doc[:id]}"
+                doc[:url] = "https://www.ncbi.nlm.nih.gov/pubmed/#{doc[:id]}"
                 doc[:db] = "pubmed"
                 
                 doc[:volume] = pd.css("Item[Name=Volume]")[0].text

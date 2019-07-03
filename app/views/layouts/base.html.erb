@@ -100,6 +100,7 @@
                         <div class="form-group">
 	                    <%= hidden_field_tag(controller.default_search_scope, 1, :id => nil) if controller.default_search_scope %>
 	                    <%= hidden_field_tag("projects", 1) %>
+                            <%= hidden_field_tag("neuroml_DB", 1) %>
 	                    <%= text_field_tag 'q', @question, :size => 20, :class => 'form-control', :accesskey => accesskey(:quick_search), :placeholder => 'search projects' %>
                         </div>
 	                <button href="#" class="btn search-btn">
@@ -162,7 +163,7 @@
 			<a href="/about.html">About</a>
 		    </li>
 		</ul>
-		<p class="license">The Open Source Brain Initiative 2018. Website powered by <%= link_to Redmine::Info.app_name, Redmine::Info.url %></p>
+		<p class="license">The Open Source Brain Initiative 2019. Website powered by <%= link_to Redmine::Info.app_name, Redmine::Info.url %></p>
 	</footer>
     </body>
 </html>

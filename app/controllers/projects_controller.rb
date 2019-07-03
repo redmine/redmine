@@ -251,17 +251,14 @@ class ProjectsController < ApplicationController
     @project.safe_attributes = params[:project]
   end
 
-  def validateGitHubRepo(repository)
-
-    if repository!=""
+  def validateGitHubRepo(repositoryUrl, repoDir)
+    if repositoryUrl!=""
       #checks is valid
       #check is already cloned?
-      gitFolder=File.basename(repository)
-      if gitFolder!=""
-        if not File.directory? "/home/svnsvn/myGitRepositories/"+gitFolder
-          if File.extname(gitFolder)==".git" and (repository.starts_with?"http")
-            #exit_code = system("git ls-remote "+repository + " &> /dev/null")
-            if url_exists(repository[0..-5])
+      if repoDir!=""
+        if not File.directory? "/home/svnsvn/myGitRepositories/"+repoDir
+          if repositoryUrl.starts_with?"http"
+            if url_exists(repositoryUrl)
               return true
             else
               @project.errors.add " ", "Can not connect to repository. Check url format (we are expecting something like https://github.com/user/myProject.git) and connectivity."
@@ -276,14 +273,14 @@ class ProjectsController < ApplicationController
         @project.errors.add " ", "You need to specify a Git repository."
       end
     else
-      return true
+      @project.errors.add " ", "You need to specify a Git repository."
     end
     return false
   end
 
-  def mirrorGitHubRepo(repository)
-    mirroredRepo="/home/svnsvn/myGitRepositories/"+File.basename(repository)
-    exec("git clone --mirror "+repository+" "+mirroredRepo)
+  def mirrorGitHubRepo(repositoryURL, repoDir)
+    mirroredRepo="/home/svnsvn/myGitRepositories/"+repoDir
+    exec("git clone --mirror "+repositoryURL+" "+mirroredRepo)
     return mirroredRepo
   end
 
@@ -316,8 +313,11 @@ class ProjectsController < ApplicationController
     @project = Project.new
     @project.safe_attributes = params[:project]
     @githubRepo=getCustomField(@project,'GitHub repository')
+    if not @githubRepo.empty?
+       repoDir = @githubRepo.split('/')[-2] + '_' + @githubRepo.split('/')[-1]
+    end
 
-    if validate_parent_id && validateGitHubRepo(@githubRepo) && @project.save
+    if validate_parent_id && validateGitHubRepo(@githubRepo, repoDir) && @project.save
       @project.set_allowed_parent!(params[:project]['parent_id']) if params[:project].has_key?('parent_id')
       # Add current user as a project member if current user is not admin
       unless User.current.admin?
@@ -338,7 +338,7 @@ class ProjectsController < ApplicationController
       end
 
       if @githubRepo!=""
-        @mirroredRepo=mirrorGitHubRepo(@githubRepo)
+        @mirroredRepo=mirrorGitHubRepo(@githubRepo, repoDir)
         addMirroredRepo(@mirroredRepo)
       end
 

@@ -1,5 +1,5 @@
 <% content_for :header_tags do %>
-  <script src="/javascripts/welcome.js"></script>
+    <script src="/javascripts/welcome.js"></script>
 <% end %>
 <div id="geppettoHomeContainer"></div>
 <% if not User.current.logged? %>
@@ -7,42 +7,43 @@
     <div class="row-fluid indexNoUser">
 	<p class="big-lead"><img src="images/osbcircle.png" class="lead-logo">Modelling the brain, together</p>
 	<p class="lead"><strong>Open Source Brain</strong> is a resource for sharing and collaboratively developing computational models of neural systems.</p>
-	<p class="lead"><strong>Try exploring one of these models:</strong></p>
 	<div id="learnMoreContainer" class="row">
-            <a href="/projects/acnet2/models?explorer=https%3A%2F%2Fraw.githubusercontent.com%2FOpenSourceBrain%2FACnet2%2Fmaster%2FosbSessions%2Fsample%2FSample_Session.json" class="sample">
-                <div class="sampleModel">
-                    <div class="acnet2SampleThumbnail sampleThumbnail"></div>
-                    Primary Auditory Cortex Network
+            <div class="explore-option">
+                <a href="/projects/acnet2/models?explorer=https%3A%2F%2Fraw.githubusercontent.com%2FOpenSourceBrain%2FACnet2%2Fmaster%2FosbSessions%2Fsample%2FSample_Session.json">
+                    <div class="explore-desc">
+                        Learn more about the OSB interface
+                    </div>
+                    <img class="card-img" src="images/projectThumbnails/Guided.png" alt="header">
+                </a>
+            </div>
+            <div class="explore-option">
+                <a href="/projects/hodgkin-huxley-tutorial?explorer=https%3A%2F%2Fraw.githubusercontent.com%2Fopensourcebrain%2Ftutorials%2Fdevelopment%2Fmodels%2FhodgkinHuxley%2FGEPPETTO.json">
+                    <div class="explore-desc">
+                        Learn about the Hodgkin Huxley model
+                    </div>
+                    <img class="card-img" src="images/projectThumbnails/HHTutorial.png" alt="header">
+                </a>
+            </div>
+            <div class="explore-option">
+                <a href="/projects/l23pyramidalcelltutorial?explorer=https%253A%252F%252Fraw.githubusercontent.com%252FOpenSourceBrain%252FL23PyramidalCellTutorial%252Fmaster%252FNeuroML2%252FosbSessions%252FGEPPETTO.json">
+                    <div class="explore-desc">
+                        Simulate electrophysiologically detailed cell models
+                    </div>
+                    <img class="card-img" src="images/projectThumbnails/L23Tutorial.png" alt="header">
+                </a>
+            </div>
+                <div class="explore-option">
+                    <a href="/projects">
+                        <div class="explore-desc">
+                            Explore more OSB projects
+                        </div>
+                        <img class="card-img" src="images/projectThumbnails/Explore.png" alt="header">
+                    </a>
                 </div>
-            </a>
-            <a href="projects/blue-brain-project-showcase/models?explorer=https%3A%2F%2Fraw.githubusercontent.com%2FOpenSourceBrain%2FBlueBrainProjectShowcase%2Fsample%2FosbSessions%2Fsample%2FSample_Session.json" class="sample">
-                <div class="sampleModel">
-                    <div class="l23SampleThumbnail sampleThumbnail"></div>
-                    L23 Cell
-                </div>
-            </a>
-            <a href="/projects/izhikevichmodel?explorer=https%3A%2F%2Fraw.githubusercontent.com%2FOpenSourceBrain%2FIzhikevichModel%2Fsample%2FosbSessions%2Fsample%2FSample_Session.json" class="sample">
-                <div class="sampleModel">
-                    <div class="izhiSampleThumbnail sampleThumbnail"></div>
-                    Izhikevich Spiking Neuron Model
-                </div>
-            </a>
-            <a href="/projects/hodgkin-huxley-tutorial?explorer=https%3A%2F%2Fraw.githubusercontent.com%2Fopensourcebrain%2Ftutorials%2Fdevelopment%2Fmodels%2FhodgkinHuxley%2FGEPPETTO.json" class="sample">
-                <div class="sampleModel">
-                    <div class="hhcellSampleThumbnail sampleThumbnail"></div>
-                    Hodgkin-Huxley Neuron
-                </div>
-            </a>
-            <a href="/projects/ca1pyramidalcell/models?explorer=https%3A%2F%2Fraw.githubusercontent.com%2FOpenSourceBrain%2FCA1PyramidalCell%2Fsample%2FosbSessions%2Fsample%2FSample_Session.json" class="sample">
-                <div class="sampleModel">
-                    <div class="ca1SampleThumbnail sampleThumbnail"></div>
-                    CA1 Pyramidal Cell
-                </div>
-            </a>
         </div>
-	<p class="lead">Explore OSB to see all the rest, create an account to add your own models and <strong>run simulations</strong>!</p>
+	<p class="lead">Or create an account to add your own models and <strong>run simulations!</strong></p>
 	<div>
-	    <a class="btn btn-large btn-info" href="/projects">Explore OSB</a>
+	    <!-- <a class="btn btn-large btn-info" href="/projects">Explore OSB</a> -->
 	    <a class="btn btn-large btn-success" href="/account/register">Sign up</a>
 	    <a class="btn btn-large btn-success" href="/login">Sign in</a>
 	    <a href="/docs#Getting_Started"><icon id="helpIcon" class="icon-question-sign blue-icon"/></a>
