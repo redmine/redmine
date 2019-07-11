@@ -567,7 +567,7 @@ class Query < ActiveRecord::Base
   def assigned_to_values
     assigned_to_values = []
     assigned_to_values << ["<< #{l(:label_me)} >>", "me"] if User.current.logged?
-    assigned_to_values += (Setting.issue_group_assignment? ? principals : users).sort_by(&:status).collect{|s| [s.name, s.id.to_s, l("status_#{User::LABEL_BY_STATUS[s.status]}")] }
+    assigned_to_values += (Setting.issue_group_assignment? ? principals : users).sort_by{|h| [ h.status, h.name ]}.collect{|s| [s.name, s.id.to_s, l("status_#{User::LABEL_BY_STATUS[s.status]}")] }
     assigned_to_values
   end
 
