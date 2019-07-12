@@ -385,7 +385,8 @@ function showIssueHistory(journal, url) {
   return false;
 }
 
-function getRemoteTab(name, remote_url, url, load_always = false) {
+function getRemoteTab(name, remote_url, url, load_always) {
+  load_always = load_always || false;
   var tab_content = $('#tab-content-' + name);
 
   tab_content.parent().find('.tab-content').hide();
