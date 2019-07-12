@@ -25,6 +25,7 @@ class AttachmentFormatVisibilityTest < ActionView::TestCase
            :roles, :members, :member_roles,
            :users, :email_addresses,
            :trackers, :issue_statuses, :enumerations, :issue_categories,
+           :custom_fields, :custom_fields_trackers,
            :versions, :issues
 
   def setup
