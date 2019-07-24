@@ -345,6 +345,7 @@ class IssuesTest < ApplicationSystemTestCase
     log_user('admin', 'admin')
 
     visit '/issues/1'
+    page.driver.execute_script('$.fx.off = true;')
     page.first(:link, 'Edit').click
     page.click_link('View all trackers description')
     assert page.has_css?('#trackers_description')

@@ -81,7 +81,7 @@ group :test do
   gem "ffi", platforms: [:mingw, :x64_mingw, :mswin]
   # For running system tests
   gem 'puma', '~> 3.7'
-  gem "capybara", '~> 2.13'
+  gem "capybara", (RUBY_VERSION < "2.4" ? "~> 3.15.1" : "~> 3.25.0")
   gem "selenium-webdriver"
   # RuboCop
   gem 'rubocop', '~> 0.72.0'
