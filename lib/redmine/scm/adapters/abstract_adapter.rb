@@ -178,7 +178,8 @@ module Redmine
           (path[-1,1] == "/") ? path[0..-2] : path
         end
 
-      private
+        private
+
         def retrieve_root_url
           info = self.info
           info ? info.root_url : nil
