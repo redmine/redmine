@@ -40,7 +40,6 @@ Layout/AlignArray:
     - 'app/models/setting.rb'
     - 'lib/redmine/default_data/loader.rb'
     - 'test/functional/issues_controller_test.rb'
-    - 'test/unit/repository_bazaar_test.rb'
 
 # Cop supports --auto-correct.
 # Configuration parameters: AllowMultipleStyles, EnforcedHashRocketStyle, EnforcedColonStyle, EnforcedLastArgumentHashStyle.

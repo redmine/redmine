@@ -218,15 +218,15 @@ class RepositoryBazaarTest < ActiveSupport::TestCase
       def test_entry_latin1_path
         latin1_repo = create_latin1_repo
         ["test-#{CHAR_1_UTF8_HEX}-dir",
-          "/test-#{CHAR_1_UTF8_HEX}-dir",
-          "/test-#{CHAR_1_UTF8_HEX}-dir/"
+         "/test-#{CHAR_1_UTF8_HEX}-dir",
+         "/test-#{CHAR_1_UTF8_HEX}-dir/"
         ].each do |path|
           entry = latin1_repo.entry(path, 2)
           assert_equal "test-#{CHAR_1_UTF8_HEX}-dir", entry.path
           assert_equal "dir", entry.kind
         end
         ["test-#{CHAR_1_UTF8_HEX}-dir/test-#{CHAR_1_UTF8_HEX}-1.txt",
-          "/test-#{CHAR_1_UTF8_HEX}-dir/test-#{CHAR_1_UTF8_HEX}-1.txt"
+         "/test-#{CHAR_1_UTF8_HEX}-dir/test-#{CHAR_1_UTF8_HEX}-1.txt"
         ].each do |path|
           entry = latin1_repo.entry(path, 2)
           assert_equal "test-#{CHAR_1_UTF8_HEX}-dir/test-#{CHAR_1_UTF8_HEX}-1.txt",
