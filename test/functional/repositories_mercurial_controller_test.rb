@@ -518,7 +518,7 @@ class RepositoriesMercurialControllerTest < Redmine::RepositoryControllerTest
           assert_response :success
           assert_select 'title',
                         :text => 'Revision 1:9d5b5b004199 - Added 2 files and modified one. - eCookbook Subproject 1 - Redmine'
-          end
+        end
       end
     end
 
