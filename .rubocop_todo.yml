@@ -59,7 +59,6 @@ Layout/BlockAlignment:
     - 'app/models/project.rb'
     - 'app/models/time_entry.rb'
     - 'test/functional/issues_controller_test.rb'
-    - 'test/functional/repositories_git_controller_test.rb'
     - 'test/functional/repositories_mercurial_controller_test.rb'
     - 'test/unit/lib/redmine/menu_manager/mapper_test.rb'
     - 'test/unit/lib/redmine/menu_manager/menu_helper_test.rb'

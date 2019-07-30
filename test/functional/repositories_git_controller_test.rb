@@ -163,7 +163,7 @@ class RepositoriesGitControllerTest < Redmine::RepositoryControllerTest
        [
         "tag00.lightweight",
         "tag01.annotated",
-       ].each do |t1|
+      ].each do |t1|
         get :show, :params => {
             :id => PRJ_ID,
             :repository_id => @repository.id,
