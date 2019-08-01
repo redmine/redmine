@@ -62,7 +62,7 @@ module IssuesHelper
 
     link_to_issue(issue) + "<br /><br />".html_safe +
       "<strong>#{@cached_label_project}</strong>: #{link_to_project(issue.project)}<br />".html_safe +
-      "<strong>#{@cached_label_status}</strong>: #{h(issue.status.name)}<br />".html_safe +
+      "<strong>#{@cached_label_status}</strong>: #{h(issue.status.name) + (" (#{format_date(issue.closed_on)})" if issue.closed?)}<br />".html_safe +
       "<strong>#{@cached_label_start_date}</strong>: #{format_date(issue.start_date)}<br />".html_safe +
       "<strong>#{@cached_label_due_date}</strong>: #{format_date(issue.due_date)}<br />".html_safe +
       "<strong>#{@cached_label_assigned_to}</strong>: #{avatar(issue.assigned_to, :size => "13", :title => l(:field_assigned_to)) if issue.assigned_to} #{h(issue.assigned_to)}<br />".html_safe +
