@@ -184,7 +184,6 @@ Layout/EmptyLinesAroundAccessModifier:
     - 'config/initializers/10-patches.rb'
     - 'lib/redmine/syntax_highlighting.rb'
     - 'lib/redmine/wiki_formatting/textile/redcloth3.rb'
-    - 'test/functional/repositories_git_controller_test.rb'
 
 # Cop supports --auto-correct.
 Layout/EmptyLinesAroundArguments:
