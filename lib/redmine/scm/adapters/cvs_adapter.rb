@@ -430,6 +430,7 @@ module Redmine
         end
 
         private
+
         def buildRevision(rev)
           if rev == 0
             if @branchid.nil?

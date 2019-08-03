@@ -182,7 +182,6 @@ Layout/EmptyLinesAroundAccessModifier:
     - 'app/controllers/timelog_controller.rb'
     - 'app/models/tracker.rb'
     - 'config/initializers/10-patches.rb'
-    - 'lib/redmine/scm/adapters/cvs_adapter.rb'
     - 'lib/redmine/syntax_highlighting.rb'
     - 'lib/redmine/wiki_formatting/textile/redcloth3.rb'
     - 'test/functional/repositories_git_controller_test.rb'
