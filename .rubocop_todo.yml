@@ -542,12 +542,6 @@ Layout/TrailingBlankLines:
     - 'test/integration/api_test/my_test.rb'
     - 'test/unit/lib/redmine/hook_test.rb'
 
-# Cop supports --auto-correct.
-# Configuration parameters: AllowInHeredoc.
-Layout/TrailingWhitespace:
-  Exclude:
-    - 'test/unit/lib/redmine/unified_diff_test.rb'
-
 Lint/AmbiguousBlockAssociation:
   Enabled: false
 

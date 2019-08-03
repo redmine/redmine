@@ -24,6 +24,9 @@ require:
 Layout/SpaceBeforeBlockBraces:
   Enabled: false
 
+Layout/TrailingWhitespace:
+  AllowInHeredoc: true
+
 Metrics:
   Enabled: false
 
