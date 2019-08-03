@@ -85,7 +85,6 @@ Layout/CaseIndentation:
     - 'lib/redmine/menu_manager.rb'
     - 'lib/redmine/views/builders.rb'
     - 'test/test_helper.rb'
-    - 'test/unit/lib/redmine/scm/adapters/mercurial_adapter_test.rb'
 
 # Cop supports --auto-correct.
 Layout/ClosingHeredocIndentation:
