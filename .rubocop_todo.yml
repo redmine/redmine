@@ -1867,13 +1867,6 @@ Style/WordArray:
   Enabled: false
 
 # Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: forbid_for_all_comparison_operators, forbid_for_equality_operators_only, require_for_all_comparison_operators, require_for_equality_operators_only
-Style/YodaCondition:
-  Exclude:
-    - 'lib/redmine/scm/adapters/abstract_adapter.rb'
-
-# Cop supports --auto-correct.
 Style/ZeroLengthPredicate:
   Exclude:
     - 'app/models/import.rb'
