@@ -141,7 +141,7 @@ class RepositoryCvsTest < ActiveSupport::TestCase
 
       rev3_commit = @repository.changesets.reorder('committed_on DESC').first
       assert_equal '3', rev3_commit.revision
-       # 2007-12-14 01:27:22 +0900
+      # 2007-12-14 01:27:22 +0900
       rev3_committed_on = Time.gm(2007, 12, 13, 16, 27, 22)
       assert_equal 'HEAD-20071213-162722', rev3_commit.scmid
       assert_equal rev3_committed_on, rev3_commit.committed_on
@@ -155,7 +155,7 @@ class RepositoryCvsTest < ActiveSupport::TestCase
       assert_equal %w|7 6 5 4 3 2 1|, @repository.changesets.collect(&:revision)
       rev5_commit = @repository.changesets.find_by_revision('5')
       assert_equal 'HEAD-20071213-163001', rev5_commit.scmid
-       # 2007-12-14 01:30:01 +0900
+      # 2007-12-14 01:30:01 +0900
       rev5_committed_on = Time.gm(2007, 12, 13, 16, 30, 1)
       assert_equal rev5_committed_on, rev5_commit.committed_on
     end

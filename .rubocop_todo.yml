@@ -112,7 +112,6 @@ Layout/CommentIndentation:
     - 'test/unit/issue_test.rb'
     - 'test/unit/lib/redmine/wiki_formatting/markdown_formatter_test.rb'
     - 'test/unit/lib/redmine/wiki_formatting/textile_formatter_test.rb'
-    - 'test/unit/repository_cvs_test.rb'
 
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyleAlignWith, AutoCorrect, Severity.
