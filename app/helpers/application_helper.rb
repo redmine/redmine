@@ -298,6 +298,42 @@ module ApplicationHelper
     link_to(name, "#", :onclick => onclick)
   end
 
+  def link_to_previous_month(year, month, options={})
+    target_year, target_month = if month == 1
+                                  [year - 1, 12]
+                                else
+                                  [year, month - 1]
+                                end
+
+    name = if target_month == 12
+             "#{month_name(target_month)} #{target_year}"
+           else
+             month_name(target_month)
+           end
+
+    link_to_month(("« " + name), target_year, target_month, options)
+  end
+
+  def link_to_next_month(year, month, options={})
+    target_year, target_month = if month == 12
+                                  [year + 1, 1]
+                                else
+                                  [year, month + 1]
+                                end
+
+    name = if target_month == 1
+             "#{month_name(target_month)} #{target_year}"
+           else
+             month_name(target_month)
+           end
+
+    link_to_month((name + " »"), target_year, target_month, options)
+  end
+
+  def link_to_month(link_name, year, month, options={})
+    link_to(link_name, {:params => request.query_parameters.merge(:year => year, :month => month)}, options)
+  end
+
   # Used to format item titles on the activity view
   def format_activity_title(text)
     text
