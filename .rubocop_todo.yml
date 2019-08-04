@@ -61,7 +61,6 @@ Layout/BlockAlignment:
     - 'test/functional/issues_controller_test.rb'
     - 'test/unit/lib/redmine/menu_manager/mapper_test.rb'
     - 'test/unit/lib/redmine/menu_manager/menu_helper_test.rb'
-    - 'test/unit/lib/redmine/scm/adapters/mercurial_adapter_test.rb'
 
 # Cop supports --auto-correct.
 Layout/BlockEndNewline:

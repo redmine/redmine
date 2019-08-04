@@ -405,7 +405,8 @@ class MercurialAdapterTest < ActiveSupport::TestCase
           @branch_char_0,
           'test_branch.latin-1',
           'test-branch-00',
-             ].each do |bra|
+       ]
+      .each do |bra|
         nib0 = @adapter.nodes_in_branch(bra)
         assert nib0
         nib1 = @adapter.nodes_in_branch(bra, :limit => 1)
