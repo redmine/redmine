@@ -406,17 +406,17 @@ class MercurialAdapterTest < ActiveSupport::TestCase
           'test_branch.latin-1',
           'test-branch-00',
        ]
-      .each do |bra|
-        nib0 = @adapter.nodes_in_branch(bra)
+      .each do |branch|
+        nib0 = @adapter.nodes_in_branch(branch)
         assert nib0
-        nib1 = @adapter.nodes_in_branch(bra, :limit => 1)
+        nib1 = @adapter.nodes_in_branch(branch, :limit => 1)
         assert_equal 1, nib1.size
-        case bra
+        case branch
         when 'branch (1)[2]&,%.-3_4'
             if @adapter.class.client_version_above?([1, 6])
               assert_equal 3, nib0.size
               assert_equal 'afc61e85bde74de930e5846c8451bd55b5bafc9c', nib0[0]
-              nib2 = @adapter.nodes_in_branch(bra, :limit => 2)
+              nib2 = @adapter.nodes_in_branch(branch, :limit => 2)
               assert_equal 2, nib2.size
               assert_equal '933ca60293d78f7c7979dd123cc0c02431683575', nib2[1]
             end
@@ -424,7 +424,7 @@ class MercurialAdapterTest < ActiveSupport::TestCase
             if @adapter.class.client_version_above?([1, 6])
               assert_equal 2, nib0.size
               assert_equal '08ff3227303ec0dfcc818efa8e9cc652fe81859f', nib0[1]
-              nib2 = @adapter.nodes_in_branch(bra, :limit => 1)
+              nib2 = @adapter.nodes_in_branch(branch, :limit => 1)
               assert_equal 1, nib2.size
               assert_equal '7bbf4c738e7145149d2e5eb1eed1d3a8ddd3b914', nib2[0]
             end
