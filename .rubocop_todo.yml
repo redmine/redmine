@@ -1821,7 +1821,6 @@ Style/UnneededCondition:
 # Cop supports --auto-correct.
 Style/UnneededInterpolation:
   Exclude:
-    - 'app/helpers/calendars_helper.rb'
     - 'app/helpers/my_helper.rb'
     - 'app/helpers/queries_helper.rb'
     - 'app/models/query.rb'
