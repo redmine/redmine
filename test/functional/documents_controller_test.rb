@@ -101,7 +101,7 @@ class DocumentsControllerTest < Redmine::ControllerTest
         assert_select "h3:nth-of-type(#{idx + 1})", :text => text
       end
     end
-   end
+  end
 
   def test_index_with_long_description
     # adds a long description to the first document

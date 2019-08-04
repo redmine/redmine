@@ -114,13 +114,6 @@ Layout/CommentIndentation:
     - 'test/unit/lib/redmine/wiki_formatting/textile_formatter_test.rb'
 
 # Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyleAlignWith, AutoCorrect, Severity.
-# SupportedStylesAlignWith: start_of_line, def
-Layout/DefEndAlignment:
-  Exclude:
-    - 'test/functional/documents_controller_test.rb'
-
-# Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle.
 # SupportedStyles: leading, trailing
 Layout/DotPosition:
