@@ -261,8 +261,8 @@ class RepositoryCvsTest < ActiveSupport::TestCase
       assert_equal 'LANG', ann.revisions[0].author
       assert_equal 'CVS test repository', ann.lines[0]
 
-     # invalid revision
-     assert_nil @repository.annotate('README', '123')
+      # invalid revision
+      assert_nil @repository.annotate('README', '123')
     end
 
   else

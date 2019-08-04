@@ -313,7 +313,6 @@ Layout/IndentationConsistency:
     - 'test/integration/api_test/custom_fields_attribute_test.rb'
     - 'test/integration/api_test/issues_test.rb'
     - 'test/mocks/open_id_authentication_mock.rb'
-    - 'test/unit/repository_cvs_test.rb'
 
 # Cop supports --auto-correct.
 # Configuration parameters: Width, IgnoredPatterns.
