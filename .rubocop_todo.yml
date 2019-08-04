@@ -119,7 +119,6 @@ Layout/CommentIndentation:
 Layout/DefEndAlignment:
   Exclude:
     - 'test/functional/documents_controller_test.rb'
-    - 'test/unit/repository_cvs_test.rb'
 
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle.

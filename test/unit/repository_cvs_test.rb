@@ -263,7 +263,7 @@ class RepositoryCvsTest < ActiveSupport::TestCase
 
      # invalid revision
      assert_nil @repository.annotate('README', '123')
-   end
+    end
 
   else
     puts "CVS test repository NOT FOUND. Skipping unit tests !!!"
