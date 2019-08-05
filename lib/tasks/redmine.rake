@@ -161,6 +161,7 @@ DESC
       Rake::Task["redmine:plugins:test:units"].invoke
       Rake::Task["redmine:plugins:test:functionals"].invoke
       Rake::Task["redmine:plugins:test:integration"].invoke
+      Rake::Task["redmine:plugins:test:system"].invoke
     end
 
     namespace :test do
@@ -180,6 +181,12 @@ DESC
       task :integration => "db:test:prepare" do |t|
         $: << "test"
         Rails::TestUnit::Runner.rake_run ["plugins/#{ENV['NAME'] || '*'}/test/integration/**/*_test.rb"]
+      end
+
+      desc 'Runs the plugins system tests.'
+      task :system => "db:test:prepare" do |t|
+        $: << "test"
+        Rails::TestUnit::Runner.rake_run ["plugins/#{ENV['NAME'] || '*'}/test/system/**/*_test.rb"]
       end
 
       desc 'Runs the plugins ui tests.'
