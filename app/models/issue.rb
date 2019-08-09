@@ -1087,7 +1087,7 @@ class Issue < ActiveRecord::Base
     if leaf?
       estimated_hours
     else
-      @total_estimated_hours ||= self_and_descendants.sum(:estimated_hours)
+      @total_estimated_hours ||= self_and_descendants.visible.sum(:estimated_hours)
     end
   end
 
