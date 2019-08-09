@@ -189,6 +189,13 @@ class TimeEntry < ActiveRecord::Base
     editable_custom_field_values(user).map(&:custom_field).uniq
   end
 
+  def visible_custom_field_values(user = nil)
+    user ||= User.current
+    custom_field_values.select do |value|
+      value.custom_field.visible_by?(project, user)
+    end
+  end
+
   def assignable_users
     users = []
     if project

@@ -138,7 +138,7 @@ class TimelogReportTest < Redmine::ControllerTest
 
   def test_hidden_custom_fields_should_not_be_proposed
     TimeEntryCustomField.create!(name: 'shown', field_format: 'list', possible_values: ['value1', 'value2'], visible: true)
-    TimeEntryCustomField.create!(name: 'Hidden', field_format: 'list', possible_values: ['value1', 'value2'], visible: false)
+    TimeEntryCustomField.create!(name: 'Hidden', field_format: 'list', possible_values: ['value1', 'value2'], visible: false, role_ids: [3])
 
     get :report, :params => {:project_id => 1}
     assert_response :success

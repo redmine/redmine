@@ -31,82 +31,74 @@
 </div>
 
 <div class="splitcontentright">
-<div class="box tabular">
 <% case @custom_field.class.name
 when "IssueCustomField" %>
-    <p><%= f.check_box :is_required %></p>
-    <% if @custom_field.format.is_filter_supported %>
-    <p><%= f.check_box :is_filter %></p>
-    <% end %>
-    <% if @custom_field.format.searchable_supported %>
-    <p><%= f.check_box :searchable %></p>
-    <% end %>
+    <div class="box tabular">
+      <p><%= f.check_box :is_required %></p>
+      <% if @custom_field.format.is_filter_supported %>
+      <p><%= f.check_box :is_filter %></p>
+      <% end %>
+      <% if @custom_field.format.searchable_supported %>
+      <p><%= f.check_box :searchable %></p>
+      <% end %>
+    </div>
+    <%= render :partial => 'visibility_by_role_selector' %>
 
 <% when "UserCustomField" %>
-    <p><%= f.check_box :is_required %></p>
-    <p><%= f.check_box :visible %></p>
-    <p><%= f.check_box :editable %></p>
-    <% if @custom_field.format.is_filter_supported %>
-    <p><%= f.check_box :is_filter %></p>
-    <% end %>
+    <div class="box tabular">
+      <p><%= f.check_box :is_required %></p>
+      <p><%= f.check_box :visible %></p>
+      <p><%= f.check_box :editable %></p>
+      <% if @custom_field.format.is_filter_supported %>
+      <p><%= f.check_box :is_filter %></p>
+      <% end %>
+    </div>
 
 <% when "ProjectCustomField" %>
-    <p><%= f.check_box :is_required %></p>
-    <p><%= f.check_box :visible %></p>
-    <% if @custom_field.format.searchable_supported %>
-    <p><%= f.check_box :searchable %></p>
-    <% end %>
-    <% if @custom_field.format.is_filter_supported %>
-    <p><%= f.check_box :is_filter %></p>
-    <% end %>
+    <div class="box tabular">
+      <p><%= f.check_box :is_required %></p>
+      <p><%= f.check_box :visible %></p>
+      <% if @custom_field.format.searchable_supported %>
+      <p><%= f.check_box :searchable %></p>
+      <% end %>
+      <% if @custom_field.format.is_filter_supported %>
+      <p><%= f.check_box :is_filter %></p>
+      <% end %>
+    </div>
 
 <% when "VersionCustomField" %>
-    <p><%= f.check_box :is_required %></p>
-    <% if @custom_field.format.is_filter_supported %>
-    <p><%= f.check_box :is_filter %></p>
-    <% end %>
+    <div class="box tabular">
+      <p><%= f.check_box :is_required %></p>
+      <% if @custom_field.format.is_filter_supported %>
+      <p><%= f.check_box :is_filter %></p>
+      <% end %>
+    </div>
 
 <% when "GroupCustomField" %>
-    <p><%= f.check_box :is_required %></p>
-    <% if @custom_field.format.is_filter_supported %>
-    <p><%= f.check_box :is_filter %></p>
-    <% end %>
+    <div class="box tabular">
+      <p><%= f.check_box :is_required %></p>
+      <% if @custom_field.format.is_filter_supported %>
+      <p><%= f.check_box :is_filter %></p>
+      <% end %>
+    </div>
 
 <% when "TimeEntryCustomField" %>
-    <p><%= f.check_box :is_required %></p>
-    <% if @custom_field.format.is_filter_supported %>
-    <p><%= f.check_box :is_filter %></p>
-    <% end %>
+    <div class="box tabular">
+      <p><%= f.check_box :is_required %></p>
+      <% if @custom_field.format.is_filter_supported %>
+      <p><%= f.check_box :is_filter %></p>
+      <% end %>
+    </div>
+    <%= render :partial => 'visibility_by_role_selector' %>
 
 <% else %>
+  <div class="box tabular">
     <p><%= f.check_box :is_required %></p>
-
+  </div>
 <% end %>
 <%= call_hook(:"view_custom_fields_form_#{@custom_field.type.to_s.underscore}", :custom_field => @custom_field, :form => f) %>
-</div>
 
 <% if @custom_field.is_a?(IssueCustomField) %>
-
-  <fieldset class="box tabular"><legend><%= l(:field_visible) %></legend>
-    <label class="block">
-      <%= radio_button_tag 'custom_field[visible]', 1, @custom_field.visible?, :id => 'custom_field_visible_on',
-            :data => {:disables => '.custom_field_role input'} %>
-      <%= l(:label_visibility_public) %>
-    </label>
-    <label class="block">
-      <%= radio_button_tag 'custom_field[visible]', 0, !@custom_field.visible?, :id => 'custom_field_visible_off',
-            :data => {:enables => '.custom_field_role input'} %>
-      <%= l(:label_visibility_roles) %>:
-    </label>
-    <% role_ids = @custom_field.role_ids %>
-    <% Role.givable.sorted.each do |role| %>
-      <label class="block custom_field_role" style="padding-left:2em;">
-        <%= check_box_tag 'custom_field[role_ids][]', role.id, role_ids.include?(role.id), :id => nil %>
-        <%= role.name %>
-      </label>
-    <% end %>
-    <%= hidden_field_tag 'custom_field[role_ids][]', '' %>
-  </fieldset>
 
   <fieldset class="box" id="custom_field_tracker_ids"><legend><%= toggle_checkboxes_link("#custom_field_tracker_ids input[type=checkbox]") %><%=l(:label_tracker_plural)%></legend>
   <% tracker_ids = @custom_field.tracker_ids %>
