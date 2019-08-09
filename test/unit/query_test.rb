@@ -1558,6 +1558,39 @@ class QueryTest < ActiveSupport::TestCase
     assert_equal values.sort, values
   end
 
+  def test_sort_by_total_for_estimated_hours
+    # Prepare issues
+    parent = issues(:issues_001)
+    child = issues(:issues_002)
+    private_child = issues(:issues_003)
+    other = issues(:issues_007)
+
+    User.current = users(:users_001)
+
+    parent.safe_attributes         = {:estimated_hours => 1}
+    child.safe_attributes          = {:estimated_hours => 2, :parent_issue_id => 1}
+    private_child.safe_attributes  = {:estimated_hours => 4, :parent_issue_id => 1, :is_private => true}
+    other.safe_attributes          = {:estimated_hours => 5}
+
+    [parent, child, private_child, other].each(&:save!)
+
+
+    q = IssueQuery.new(
+      :name => '_',
+      :filters => { 'issue_id' => {:operator => '=', :values => ['1,7']} },
+      :sort_criteria => [['total_estimated_hours', 'asc']]
+    )
+
+    # With private_child, `parent' is "bigger" than `other'
+    ids = q.issue_ids
+    assert_equal [7, 1], ids, "Private issue was not used to calculate sort order"
+
+    # Without the invisible private_child, `other' is "bigger" than `parent'
+    User.current = User.anonymous
+    ids = q.issue_ids
+    assert_equal [1, 7], ids, "Private issue was used to calculate sort order"
+  end
+
   def test_set_totalable_names
     q = IssueQuery.new
     q.totalable_names = ['estimated_hours', :spent_hours, '']
