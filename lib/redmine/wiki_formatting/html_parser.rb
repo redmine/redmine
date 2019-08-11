@@ -36,7 +36,7 @@ module Redmine
         doc.scrub!(WikiTags.new(tags))
         doc.scrub!(:newline_block_elements)
 
-        Loofah.remove_extraneous_whitespace(doc.text).strip.squeeze(' ').gsub(/^ +/, '')
+        Loofah.remove_extraneous_whitespace(doc.text(:encode_special_chars => false)).strip.squeeze(' ').gsub(/^ +/, '')
       end
 
       class WikiTags < ::Loofah::Scrubber
@@ -53,6 +53,9 @@ module Redmine
             node.remove
           when String
             node.add_next_sibling Nokogiri::XML::Text.new(formatting, node.document)
+            node.remove
+          when Proc
+            node.add_next_sibling formatting.call(node)
             node.remove
           else
             CONTINUE

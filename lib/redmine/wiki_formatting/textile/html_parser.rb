@@ -34,7 +34,8 @@ module Redmine
           'h3' => {:pre => "\n\nh3. ", :post => "\n\n"},
           'h4' => {:pre => "\n\nh4. ", :post => "\n\n"},
           'h5' => {:pre => "\n\nh5. ", :post => "\n\n"},
-          'h6' => {:pre => "\n\nh6. ", :post => "\n\n"}
+          'h6' => {:pre => "\n\nh6. ", :post => "\n\n"},
+          'a' => lambda {|node| node.content.present? ? %| "#{node.content}":#{node.attributes['href'].value} | : %| #{node.attributes['href'].value} |}
         )
       end
     end

@@ -28,5 +28,10 @@ class Redmine::WikiFormatting::TextileHtmlParserTest < ActiveSupport::TestCase
   def test_should_convert_tags
     assert_equal 'A *simple* html snippet.',
       @parser.to_text('<p>A <b>simple</b> html snippet.</p>')
+
+    assert_equal 'foo "bar":http://example.com/ baz',
+      @parser.to_text('foo<a href="http://example.com/">bar</a>baz')
+    assert_equal 'foo http://example.com/ baz',
+      @parser.to_text('foo<a href="http://example.com/"></a>baz')
   end
 end
