@@ -208,7 +208,7 @@
 
 <% if @values_by_custom_field.present? %>
 <div class="flash warning">
-  <%= l(:warning_fields_cleared_on_bulk_edit) %>:<br /> 
+  <%= l(:warning_fields_cleared_on_bulk_edit) %>:<br />
   <%= safe_join(@values_by_custom_field.map {|field, ids| content_tag "span", "#{field.name} (#{ids.size})"}, ', ') %>
 </div>
 <% end %>
@@ -229,7 +229,7 @@
 <% end %>
 
 <%= javascript_tag do %>
-$(window).load(function(){
+$(window).on('load', function(){
   $(document).on('change', 'input[data-disables]', function(){
     if ($(this).prop('checked')){
       $($(this).data('disables')).attr('disabled', true).val('');
