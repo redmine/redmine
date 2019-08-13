@@ -177,7 +177,7 @@ function buildFilterRow(field, operator, values) {
   select = tr.find('td.operator select');
   for (i = 0; i < operators.length; i++) {
     var option = $('<option>').val(operators[i]).text(operatorLabels[operators[i]]);
-    if (operators[i] == operator) { option.attr('selected', true); }
+    if (operators[i] == operator) { option.prop('selected', true); }
     select.append(option);
   }
   select.change(function(){ toggleOperator(field); });
@@ -198,7 +198,7 @@ function buildFilterRow(field, operator, values) {
       var option = $('<option>');
       if ($.isArray(filterValue)) {
         option.val(filterValue[1]).text(filterValue[0]);
-        if ($.inArray(filterValue[1], values) > -1) {option.attr('selected', true);}
+        if ($.inArray(filterValue[1], values) > -1) {option.prop('selected', true);}
         if (filterValue.length == 3) {
           var optgroup = select.find('optgroup').filter(function(){return $(this).attr('label') == filterValue[2]});
           if (!optgroup.length) {optgroup = $('<optgroup>').attr('label', filterValue[2]);}
@@ -206,7 +206,7 @@ function buildFilterRow(field, operator, values) {
         }
       } else {
         option.val(filterValue).text(filterValue);
-        if ($.inArray(filterValue, values) > -1) {option.attr('selected', true);}
+        if ($.inArray(filterValue, values) > -1) {option.prop('selected', true);}
       }
       select.append(option);
     }
@@ -240,7 +240,7 @@ function buildFilterRow(field, operator, values) {
       var filterValue = filterValues[i];
       var option = $('<option>');
       option.val(filterValue[1]).text(filterValue[0]);
-      if (values[0] == filterValue[1]) { option.attr('selected', true); }
+      if (values[0] == filterValue[1]) { option.prop('selected', true); }
       select.append(option);
     }
     break;

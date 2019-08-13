@@ -20,7 +20,7 @@
         $('input#user_mail').val(ui.item.mail);
         $('select#user_auth_source_id option').each(function(){
           if ($(this).attr('value') == ui.item.auth_source_id) {
-            $(this).attr('selected', true);
+            $(this).prop('selected', true);
             $('select#user_auth_source_id').trigger('change');
           }
         });
