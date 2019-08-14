@@ -24,7 +24,7 @@ class Redmine::SyntaxHighlighting::RougeTest < ActiveSupport::TestCase
     to_test = {
       'application.js' => true,
       'Gemfile' => true,
-      'AUTOEXEC.BAT' => false,  # Rouge does not support BAT files
+      'HELLO.CBL' => false,  # Rouge does not support COBOL
       'HELLO.C' => true
     }
     to_test.each do |filename, expected|
