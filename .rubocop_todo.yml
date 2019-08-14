@@ -1300,6 +1300,7 @@ Style/FormatString:
     - 'lib/generators/redmine_plugin_model/redmine_plugin_model_generator.rb'
     - 'lib/redmine/export/csv.rb'
     - 'lib/redmine/export/pdf/issues_pdf_helper.rb'
+    - 'lib/redmine/helpers/gantt.rb'
     - 'lib/redmine/i18n.rb'
     - 'lib/redmine/info.rb'
 
@@ -1308,6 +1309,7 @@ Style/FormatString:
 Style/FormatStringToken:
   Exclude:
     - 'app/models/query.rb'
+    - 'lib/redmine/helpers/gantt.rb'
     - 'lib/redmine/i18n.rb'
     - 'lib/redmine/info.rb'
     - 'test/helpers/application_helper_test.rb'
