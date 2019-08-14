@@ -1224,4 +1224,3 @@ class RedCloth3 < String
         end
     end
 end
-

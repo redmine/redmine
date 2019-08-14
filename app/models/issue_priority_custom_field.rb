@@ -22,4 +22,3 @@ class IssuePriorityCustomField < CustomField
     :enumeration_issue_priorities
   end
 end
-

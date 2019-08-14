@@ -519,18 +519,6 @@ Layout/SpaceInsideStringInterpolation:
     - 'test/functional/issues_controller_test.rb'
     - 'test/integration/admin_test.rb'
 
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: final_newline, final_blank_line
-Layout/TrailingBlankLines:
-  Exclude:
-    - 'app/models/issue_priority_custom_field.rb'
-    - 'app/models/time_entry_custom_field.rb'
-    - 'app/models/user_custom_field.rb'
-    - 'lib/redmine/wiki_formatting/textile/redcloth3.rb'
-    - 'test/integration/api_test/my_test.rb'
-    - 'test/unit/lib/redmine/hook_test.rb'
-
 Lint/AmbiguousBlockAssociation:
   Enabled: false
 

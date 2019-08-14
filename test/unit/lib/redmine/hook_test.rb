@@ -188,4 +188,3 @@ class Redmine::Hook::ManagerTest < ActionView::TestCase
     @view_hook_helper ||= TestHookHelperView.new(Rails.root.to_s + '/app/views')
   end
 end
-

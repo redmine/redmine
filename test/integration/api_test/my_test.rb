@@ -103,4 +103,3 @@ class Redmine::ApiTest::MyTest < Redmine::ApiTest::Base
     assert_kind_of Array, json['errors']
   end
 end
-
