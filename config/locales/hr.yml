@@ -823,7 +823,7 @@ hr:
   text_default_administrator_account_changed: Default administrator account changed
   text_file_repository_writable: Dozvoljeno pisanje u direktorij za privitke
   text_plugin_assets_writable: Plugin assets directory writable
-  text_rmagick_available: RMagick dostupan (nije obavezno)
+  text_minimagick_available: MiniMagick dostupan (nije obavezno)
   text_destroy_time_entries_question: "%{hours} sati je prijavljeno za predmete koje želite obrisati. Što ćete učiniti?"
   text_destroy_time_entries: Obriši prijavljene sate
   text_assign_time_entries_to_project: Pridruži prijavljene sate projektu

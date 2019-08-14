@@ -669,7 +669,7 @@ th:
   text_select_project_modules: 'เลือกส่วนประกอบที่ต้องการใช้งานสำหรับโครงการนี้:'
   text_default_administrator_account_changed: ค่าเริ่มต้นของบัญชีผู้บริหารจัดการถูกเปลี่ยนแปลง
   text_file_repository_writable: ที่เก็บต้นฉบับสามารถเขียนได้
-  text_rmagick_available: RMagick มีให้ใช้ (เป็นตัวเลือก)
+  text_minimagick_available: MiniMagick มีให้ใช้ (เป็นตัวเลือก)
   text_destroy_time_entries_question: "%{hours} ชั่วโมงที่ถูกแจ้งในปัญหานี้จะโดนลบ. คุณต้องการทำอย่างไร?"
   text_destroy_time_entries: ลบเวลาที่รายงานไว้
   text_assign_time_entries_to_project: ระบุเวลาที่ใช้ในโครงการนี้

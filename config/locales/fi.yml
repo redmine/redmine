@@ -693,7 +693,7 @@ fi:
   project_module_time_tracking: Ajan seuranta
   text_file_repository_writable: Kirjoitettava tiedostovarasto
   text_default_administrator_account_changed: Vakio hallinoijan tunnus muutettu
-  text_rmagick_available: RMagick saatavilla (valinnainen)
+  text_minimagick_available: MiniMagick saatavilla (valinnainen)
   button_configure: Asetukset
   label_plugins: Lisäosat
   label_ldap_authentication: LDAP tunnistautuminen

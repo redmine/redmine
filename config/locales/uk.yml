@@ -686,7 +686,7 @@ uk:
   project_module_time_tracking: Відстеження часу
   text_file_repository_writable: Сховище файлів доступне для записів
   text_default_administrator_account_changed: Обліковий запис адміністратора по замовчуванню змінений
-  text_rmagick_available: Доступно використання RMagick (опційно)
+  text_minimagick_available: Доступно використання MiniMagick (опційно)
   button_configure: Налаштування
   label_plugins: Модулі
   label_ldap_authentication: Авторизація за допомогою LDAP

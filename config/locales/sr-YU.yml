@@ -851,7 +851,7 @@ sr-YU:
   text_default_administrator_account_changed: Podrazumevani administratorski nalog je promenjen
   text_file_repository_writable: Fascikla priloženih datoteka je upisiva
   text_plugin_assets_writable: Fascikla elemenata dodatnih komponenti je upisiva
-  text_rmagick_available: RMagick je dostupan (opciono)
+  text_minimagick_available: MiniMagick je dostupan (opciono)
   text_destroy_time_entries_question: "%{hours} sati je prijavljeno za ovaj problem koji želite izbrisati. Šta želite da uradite?"
   text_destroy_time_entries: Izbriši prijavljene sate
   text_assign_time_entries_to_project: Dodeli prijavljene sate projektu

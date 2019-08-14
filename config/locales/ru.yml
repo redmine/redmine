@@ -907,7 +907,7 @@ ru:
   text_reassign_time_entries: 'Перенести зарегистрированное время на следующую задачу:'
   text_regexp_info: "например: ^[A-Z0-9]+$"
   text_repository_usernames_mapping: "Выберите или обновите пользователя Redmine, связанного с найденными именами в журнале хранилища.\nПользователи с одинаковыми именами или email в Redmine и хранилище связываются автоматически."
-  text_rmagick_available: Доступно использование RMagick (опционально)
+  text_minimagick_available: Доступно использование MiniMagick (опционально)
   text_select_mail_notifications: Выберите действия, при которых будет отсылаться уведомление на электронную почту.
   text_select_project_modules: 'Выберите модули, которые будут использованы в проекте:'
   text_status_changed_by_changeset: "Реализовано в %{value} редакции."

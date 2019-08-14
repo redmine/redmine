@@ -849,7 +849,7 @@ sr:
   text_default_administrator_account_changed: Подразумевани администраторски налог је промењен
   text_file_repository_writable: Фасцикла приложених датотека је уписива
   text_plugin_assets_writable: Фасцикла елемената додатних компоненти је уписива
-  text_rmagick_available: RMagick је доступан (опционо)
+  text_minimagick_available: MiniMagick је доступан (опционо)
   text_destroy_time_entries_question: "%{hours} сати је пријављено за овај проблем који желите избрисати. Шта желите да урадите?"
   text_destroy_time_entries: Избриши пријављене сате
   text_assign_time_entries_to_project: Додели пријављене сате пројекту

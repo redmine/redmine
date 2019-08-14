@@ -20,9 +20,9 @@
 require 'redmine/core_ext'
 
 begin
-  require 'rmagick' unless Object.const_defined?(:Magick)
+  require 'mini_magick' unless Object.const_defined?(:MiniMagick)
 rescue LoadError
-  # RMagick is not available
+  # MiniMagick is not available
 end
 begin
   require 'redcarpet' unless Object.const_defined?(:Redcarpet)

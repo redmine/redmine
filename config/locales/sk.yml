@@ -667,7 +667,7 @@ sk:
   text_select_project_modules: 'Vybrať moduly povolené v tomto projekte:'
   text_default_administrator_account_changed: Predvolené nastavenie administrátorského účtu bolo zmenené
   text_file_repository_writable: Povolený zápis do priečinka s prílohami
-  text_rmagick_available: RMagick k dispozícii (voliteľné)
+  text_minimagick_available: MiniMagick k dispozícii (voliteľné)
   text_destroy_time_entries_question: Pri úlohách, ktoré chcete odstrániť, je zaznamenaných %{hours} hodín práce. Čo si želáte urobiť?
   text_destroy_time_entries: Odstrániť zaznamenané hodiny
   text_assign_time_entries_to_project: Priradiť zaznamenané hodiny k projektu

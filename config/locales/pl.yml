@@ -775,7 +775,7 @@ pl:
   text_reassign_time_entries: 'Przepnij przepracowany czas do tego zagadnienia:'
   text_regexp_info: np. ^[A-Z0-9]+$
   text_repository_usernames_mapping: "Wybierz lub uaktualnij przyporządkowanie użytkowników Redmine do użytkowników repozytorium.\nUżytkownicy z taką samą nazwą lub adresem e-mail są przyporządkowani automatycznie."
-  text_rmagick_available: RMagick dostępne (opcjonalnie)
+  text_minimagick_available: MiniMagick dostępne (opcjonalnie)
   text_select_mail_notifications: Zaznacz czynności przy których użytkownik powinien być powiadomiony e-mailem.
   text_select_project_modules: 'Wybierz moduły do aktywacji w tym projekcie:'
   text_status_changed_by_changeset: "Zastosowane w zmianach %{value}."

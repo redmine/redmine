@@ -897,7 +897,7 @@ az:
   text_reassign_time_entries: 'Qeydiyyata alınmış vaxtı aşağıdakı tapşırığa keçir:'
   text_regexp_info: "məsələn: ^[A-Z0-9]+$"
   text_repository_usernames_mapping: "Saxlayıcının jurnalında tapılan adlarla bağlı olan Redmine istifadəçisini seçin və ya yeniləyin.\nEyni ad və e-poçta sahib olan istifadəçilər Redmine və saxlayıcıda avtomatik əlaqələndirilir."
-  text_rmagick_available: RMagick istifadəsi mümkündür (opsional olaraq)
+  text_minimagick_available: MiniMagick istifadəsi mümkündür (opsional olaraq)
   text_select_mail_notifications: Elektron poçta bildirişlərin göndərilməsi seçim edəcəyiniz hərəkətlərdən asılıdır.
   text_select_project_modules: 'Layihədə istifadə olunacaq modulları seçin:'
   text_status_changed_by_changeset: "%{value} redaksiyada reallaşdırılıb."

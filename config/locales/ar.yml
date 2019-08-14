@@ -977,7 +977,7 @@ ar:
   description_all_columns: كل الاعمدة
   description_issue_category_reassign: اختر التصنيف
   description_wiki_subpages_reassign: اختر صفحة جديدة
-  text_rmagick_available: RMagick available (optional)
+  text_minimagick_available: MiniMagick available (optional)
   text_wiki_page_destroy_question: This page has %{descendants} child page(s) and descendant(s). What do you want to do?
   text_repository_usernames_mapping: |-
     Select or update the Redmine user mapped to each username found in the repository log.

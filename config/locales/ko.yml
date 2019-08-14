@@ -814,7 +814,7 @@ ko:
   text_default_administrator_account_changed: 기본 관리자 계정이 변경
   text_file_repository_writable: 파일 저장소 쓰기 가능
   text_plugin_assets_writable: 플러그인 전용 디렉토리가 쓰기 가능
-  text_rmagick_available: RMagick 사용 가능 (선택적)
+  text_minimagick_available: MiniMagick 사용 가능 (선택적)
   text_destroy_time_entries_question: 삭제하려는 일감에 %{hours} 시간이 보고되어 있습니다. 어떻게 하시겠습니까?
   text_destroy_time_entries: 보고된 시간을 삭제하기
   text_assign_time_entries_to_project: 보고된 시간을 프로젝트에 할당하기

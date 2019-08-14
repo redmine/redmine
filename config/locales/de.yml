@@ -1109,7 +1109,7 @@ de:
   text_regexp_info: z. B. ^[A-Z0-9]+$
   text_repository_identifier_info: 'Kleinbuchstaben (a-z), Ziffern, Binde- und Unterstriche erlaubt.<br />Einmal gespeichert, kann die Kennung nicht mehr geändert werden.'
   text_repository_usernames_mapping: "Bitte legen Sie die Zuordnung der Redmine-Benutzer zu den Benutzernamen der Commit-Nachrichten des Repositories fest.\nBenutzer mit identischen Redmine- und Repository-Benutzernamen oder -E-Mail-Adressen werden automatisch zugeordnet."
-  text_rmagick_available: RMagick verfügbar (optional)
+  text_minimagick_available: MiniMagick verfügbar (optional)
   text_scm_command: Kommando
   text_scm_command_not_available: SCM-Kommando ist nicht verfügbar. Bitte prüfen Sie die Einstellungen im Administrationspanel.
   text_scm_command_version: Version

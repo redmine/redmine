@@ -832,7 +832,7 @@ eu:
   text_default_administrator_account_changed: Lehenetsitako kudeatzaile kontua aldatuta
   text_file_repository_writable: Eranskinen direktorioan idatz daiteke
   text_plugin_assets_writable: Pluginen baliabideen direktorioan idatz daiteke
-  text_rmagick_available: RMagick eskuragarri (aukerazkoa)
+  text_minimagick_available: MiniMagick eskuragarri (aukerazkoa)
   text_destroy_time_entries_question: "%{hours} orduei buruz berri eman zen zuk ezabatzera zoazen zereginean. Zer egin nahi duzu?"
   text_destroy_time_entries: Ezabatu berri emandako orduak
   text_assign_time_entries_to_project: Berri emandako orduak proiektura esleitu

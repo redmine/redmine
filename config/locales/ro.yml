@@ -752,7 +752,7 @@ ro:
   text_default_administrator_account_changed: S-a schimbat contul administratorului implicit
   text_file_repository_writable: Se poate scrie în directorul de atașamente
   text_plugin_assets_writable: Se poate scrie în directorul de plugin-uri
-  text_rmagick_available: Este disponibil RMagick (opțional)
+  text_minimagick_available: Este disponibil MiniMagick (opțional)
   text_destroy_time_entries_question: "%{hours} ore sunt înregistrate la tichetele pe care doriți să le ștergeți. Ce doriți sa faceți?"
   text_destroy_time_entries: Șterge orele înregistrate
   text_assign_time_entries_to_project: Atribuie orele la proiect

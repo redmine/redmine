@@ -803,7 +803,7 @@ id:
   text_default_administrator_account_changed: Akun administrator default sudah berubah
   text_file_repository_writable: Direktori yang bisa ditulisi untuk lampiran
   text_plugin_assets_writable: Direktori yang bisa ditulisi untuk plugin asset
-  text_rmagick_available: RMagick tersedia (optional)
+  text_minimagick_available: MiniMagick tersedia (optional)
   text_destroy_time_entries_question: "%{hours} jam sudah dilaporkan pada masalah yang akan anda hapus. Apa yang akan anda lakukan ?"
   text_destroy_time_entries: Hapus jam yang terlapor
   text_assign_time_entries_to_project: Tugaskan jam terlapor pada proyek

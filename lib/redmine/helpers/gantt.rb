@@ -359,7 +359,7 @@ module Redmine
       end
 
       # Generates a gantt image
-      # Only defined if RMagick is avalaible
+      # Only defined if MiniMagick is avalaible
       def to_image(format='PNG')
         date_to = (@date_from >> @months) - 1
         show_weeks = @zoom > 1
@@ -372,98 +372,123 @@ module Redmine
         g_height = 20 * number_of_rows + 30
         headers_height = (show_weeks ? 2 * header_height : header_height)
         height = g_height + headers_height
-        imgl = Magick::ImageList.new
-        imgl.new_image(subject_width + g_width + 1, height)
-        gc = Magick::Draw.new
-        gc.font = Redmine::Configuration['rmagick_font_path'] || ""
-        # Subjects
-        gc.stroke('transparent')
-        subjects(:image => gc, :top => (headers_height + 20), :indent => 4, :format => :image)
-        # Months headers
-        month_f = @date_from
-        left = subject_width
-        @months.times do
-          width = ((month_f >> 1) - month_f) * zoom
-          gc.fill('white')
-          gc.stroke('grey')
-          gc.stroke_width(1)
-          gc.rectangle(left, 0, left + width, height)
-          gc.fill('black')
+        # TODO: Remove rmagick_font_path in a later version
+        Rails.logger.warn('rmagick_font_path option is deprecated. Use minimagick_font_path instead.') \
+          unless Redmine::Configuration['rmagick_font_path'].nil?
+        font_path = Redmine::Configuration['minimagick_font_path'].presence || Redmine::Configuration['rmagick_font_path'].presence
+        img = MiniMagick::Image.create(".#{format}", false)
+        MiniMagick::Tool::Convert.new do |gc|
+          gc.size('%dx%d' % [subject_width + g_width + 1, height])
+          gc.xc('white')
+          gc.font(font_path) if font_path.present?
+          # Subjects
           gc.stroke('transparent')
-          gc.stroke_width(1)
-          gc.text(left.round + 8, 14, "#{month_f.year}-#{month_f.month}")
-          left = left + width
-          month_f = month_f >> 1
-        end
-        # Weeks headers
-        if show_weeks
+          subjects(:image => gc, :top => (headers_height + 20), :indent => 4, :format => :image)
+          # Months headers
+          month_f = @date_from
           left = subject_width
-          height = header_height
-          if @date_from.cwday == 1
-            # date_from is monday
-            week_f = date_from
-          else
-            # find next monday after date_from
-            week_f = @date_from + (7 - @date_from.cwday + 1)
-            width = (7 - @date_from.cwday + 1) * zoom
+          @months.times do
+            width = ((month_f >> 1) - month_f) * zoom
             gc.fill('white')
             gc.stroke('grey')
-            gc.stroke_width(1)
-            gc.rectangle(left, header_height, left + width, 2 * header_height + g_height - 1)
-            left = left + width
-          end
-          while week_f <= date_to
-            width = (week_f + 6 <= date_to) ? 7 * zoom : (date_to - week_f + 1) * zoom
-            gc.fill('white')
-            gc.stroke('grey')
-            gc.stroke_width(1)
-            gc.rectangle(left.round, header_height, left.round + width, 2 * header_height + g_height - 1)
+            gc.strokewidth(1)
+            gc.draw('rectangle %d,%d %d,%d' % [
+              left, 0, left + width, height
+            ])
             gc.fill('black')
             gc.stroke('transparent')
-            gc.stroke_width(1)
-            gc.text(left.round + 2, header_height + 14, week_f.cweek.to_s)
+            gc.strokewidth(1)
+            gc.draw('text %d,%d %s' % [
+              left.round + 8, 14, Redmine::Utils::Shell.shell_quote("#{month_f.year}-#{month_f.month}")
+            ])
             left = left + width
-            week_f = week_f + 7
+            month_f = month_f >> 1
           end
-        end
-        # Days details (week-end in grey)
-        if show_days
-          left = subject_width
-          height = g_height + header_height - 1
-          wday = @date_from.cwday
-          (date_to - @date_from + 1).to_i.times do
-            width =  zoom
-            gc.fill(non_working_week_days.include?(wday) ? '#eee' : 'white')
-            gc.stroke('#ddd')
-            gc.stroke_width(1)
-            gc.rectangle(left, 2 * header_height, left + width, 2 * header_height + g_height - 1)
-            left = left + width
-            wday = wday + 1
-            wday = 1 if wday > 7
+          # Weeks headers
+          if show_weeks
+            left = subject_width
+            height = header_height
+            if @date_from.cwday == 1
+              # date_from is monday
+              week_f = date_from
+            else
+              # find next monday after date_from
+              week_f = @date_from + (7 - @date_from.cwday + 1)
+              width = (7 - @date_from.cwday + 1) * zoom
+              gc.fill('white')
+              gc.stroke('grey')
+              gc.strokewidth(1)
+              gc.draw('rectangle %d,%d %d,%d' % [
+                left, header_height, left + width, 2 * header_height + g_height - 1
+              ])
+              left = left + width
+            end
+            while week_f <= date_to
+              width = (week_f + 6 <= date_to) ? 7 * zoom : (date_to - week_f + 1) * zoom
+              gc.fill('white')
+              gc.stroke('grey')
+              gc.strokewidth(1)
+              gc.draw('rectangle %d,%d %d,%d' % [
+                left.round, header_height, left.round + width, 2 * header_height + g_height - 1
+              ])
+              gc.fill('black')
+              gc.stroke('transparent')
+              gc.strokewidth(1)
+              gc.draw('text %d,%d %s' % [
+                left.round + 2, header_height + 14, Redmine::Utils::Shell.shell_quote(week_f.cweek.to_s)
+              ])
+              left = left + width
+              week_f = week_f + 7
+            end
           end
+          # Days details (week-end in grey)
+          if show_days
+            left = subject_width
+            height = g_height + header_height - 1
+            wday = @date_from.cwday
+            (date_to - @date_from + 1).to_i.times do
+              width =  zoom
+              gc.fill(non_working_week_days.include?(wday) ? '#eee' : 'white')
+              gc.stroke('#ddd')
+              gc.strokewidth(1)
+              gc.draw('rectangle %d,%d %d,%d' % [
+                left, 2 * header_height, left + width, 2 * header_height + g_height - 1
+              ])
+              left = left + width
+              wday = wday + 1
+              wday = 1 if wday > 7
+            end
+          end
+          # border
+          gc.fill('transparent')
+          gc.stroke('grey')
+          gc.strokewidth(1)
+          gc.draw('rectangle %d,%d %d,%d' % [
+            0, 0, subject_width + g_width, headers_height
+          ])
+          gc.stroke('black')
+          gc.draw('rectangle %d,%d %d,%d' % [
+            0, 0, subject_width + g_width, g_height + headers_height - 1
+          ])
+          # content
+          top = headers_height + 20
+          gc.stroke('transparent')
+          lines(:image => gc, :top => top, :zoom => zoom,
+                :subject_width => subject_width, :format => :image)
+          # today red line
+          if User.current.today >= @date_from and User.current.today <= date_to
+            gc.stroke('red')
+            x = (User.current.today - @date_from + 1) * zoom + subject_width
+            gc.draw('line %g,%g %g,%g' % [
+              x, headers_height, x, headers_height + g_height - 1
+            ])
+          end
+          gc << img.path
         end
-        # border
-        gc.fill('transparent')
-        gc.stroke('grey')
-        gc.stroke_width(1)
-        gc.rectangle(0, 0, subject_width + g_width, headers_height)
-        gc.stroke('black')
-        gc.rectangle(0, 0, subject_width + g_width, g_height + headers_height - 1)
-        # content
-        top = headers_height + 20
-        gc.stroke('transparent')
-        lines(:image => gc, :top => top, :zoom => zoom,
-              :subject_width => subject_width, :format => :image)
-        # today red line
-        if User.current.today >= @date_from and User.current.today <= date_to
-          gc.stroke('red')
-          x = (User.current.today - @date_from + 1) * zoom + subject_width
-          gc.line(x, headers_height, x, headers_height + g_height - 1)
-        end
-        gc.draw(imgl)
-        imgl.format = format
-        imgl.to_blob
-      end if Object.const_defined?(:Magick)
+        img.to_blob
+      ensure
+        img.destroy! if img
+      end if Object.const_defined?(:MiniMagick)
 
       def to_pdf
         pdf = ::Redmine::Export::PDF::ITCPDF.new(current_language)
@@ -775,8 +800,10 @@ module Redmine
       def image_subject(params, subject, options={})
         params[:image].fill('black')
         params[:image].stroke('transparent')
-        params[:image].stroke_width(1)
-        params[:image].text(params[:indent], params[:top] + 2, subject)
+        params[:image].strokewidth(1)
+        params[:image].draw('text %d,%d %s' % [
+          params[:indent], params[:top] + 2, Redmine::Utils::Shell.shell_quote(subject)
+        ])
       end
 
       def issue_relations(issue)
@@ -962,23 +989,29 @@ module Redmine
         # Renders the task bar, with progress and late
         if coords[:bar_start] && coords[:bar_end]
           params[:image].fill('#aaa')
-          params[:image].rectangle(params[:subject_width] + coords[:bar_start],
-                                   params[:top],
-                                   params[:subject_width] + coords[:bar_end],
-                                   params[:top] - height)
+          params[:image].draw('rectangle %d,%d %d,%d' % [
+            params[:subject_width] + coords[:bar_start],
+            params[:top],
+            params[:subject_width] + coords[:bar_end],
+            params[:top] - height
+          ])
           if coords[:bar_late_end]
             params[:image].fill('#f66')
-            params[:image].rectangle(params[:subject_width] + coords[:bar_start],
-                                     params[:top],
-                                     params[:subject_width] + coords[:bar_late_end],
-                                     params[:top] - height)
+            params[:image].draw('rectangle %d,%d %d,%d' % [
+              params[:subject_width] + coords[:bar_start],
+              params[:top],
+              params[:subject_width] + coords[:bar_late_end],
+              params[:top] - height
+            ])
           end
           if coords[:bar_progress_end]
             params[:image].fill('#00c600')
-            params[:image].rectangle(params[:subject_width] + coords[:bar_start],
-                                     params[:top],
-                                     params[:subject_width] + coords[:bar_progress_end],
-                                     params[:top] - height)
+            params[:image].draw('rectangle %d,%d %d,%d' % [
+              params[:subject_width] + coords[:bar_start],
+              params[:top],
+              params[:subject_width] + coords[:bar_progress_end],
+              params[:top] - height
+            ])
           end
         end
         # Renders the markers
@@ -987,21 +1020,31 @@ module Redmine
             x = params[:subject_width] + coords[:start]
             y = params[:top] - height / 2
             params[:image].fill('blue')
-            params[:image].polygon(x - 4, y, x, y - 4, x + 4, y, x, y + 4)
+            params[:image].draw('polygon %d,%d %d,%d %d,%d %d,%d' % [
+              x - 4, y,
+              x, y - 4,
+              x + 4, y,
+              x, y + 4
+            ])
           end
           if coords[:end]
             x = params[:subject_width] + coords[:end] + params[:zoom]
             y = params[:top] - height / 2
             params[:image].fill('blue')
-            params[:image].polygon(x - 4, y, x, y - 4, x + 4, y, x, y + 4)
+            params[:image].draw('polygon %d,%d %d,%d %d,%d %d,%d' % [
+              x - 4, y,
+              x, y - 4,
+              x + 4, y,
+              x, y + 4
+            ])
           end
         end
         # Renders the label on the right
         if label
           params[:image].fill('black')
-          params[:image].text(params[:subject_width] + (coords[:bar_end] || 0) + 5,
-                              params[:top] + 1,
-                              label)
+          params[:image].draw('text %d,%d %s' % [
+            params[:subject_width] + (coords[:bar_end] || 0) + 5, params[:top] + 1, Redmine::Utils::Shell.shell_quote(label)
+          ])
         end
       end
     end

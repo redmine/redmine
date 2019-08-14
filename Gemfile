@@ -29,9 +29,9 @@ group :openid do
   gem "rack-openid"
 end
 
-# Optional gem for exporting the gantt to a PNG file, not supported with jruby
-group :rmagick do
-  gem "rmagick", "~> 2.16.0"
+# Optional gem for exporting the gantt to a PNG file
+group :minimagick do
+  gem "mini_magick", "~> 4.9.5"
 end
 
 # Optional Markdown support, not for JRuby

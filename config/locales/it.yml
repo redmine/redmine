@@ -675,7 +675,7 @@ it:
   project_module_time_tracking: Time tracking
   text_file_repository_writable: Repository dei file scrivibile
   text_default_administrator_account_changed: L'account amministrativo predefinito è stato modificato
-  text_rmagick_available: RMagick disponibile (opzionale)
+  text_minimagick_available: MiniMagick disponibile (opzionale)
   button_configure: Configura
   label_plugins: Plugin
   label_ldap_authentication: Autenticazione LDAP

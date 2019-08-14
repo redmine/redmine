@@ -835,7 +835,7 @@ mn:
   text_default_administrator_account_changed: Стандарт администраторын бүртгэл өөрчлөгдлөө
   text_file_repository_writable: Хавсралт файл хадгалах хавтас руу бичих эрхтэй
   text_plugin_assets_writable: Плагин модулийн ассет хавтас руу бичих эрхтэй
-  text_rmagick_available: RMagick суулгагдсан (заавал биш)
+  text_minimagick_available: MiniMagick суулгагдсан (заавал биш)
   text_destroy_time_entries_question: "Таны устгах гэж байгаа асуудлууд дээр нийт %{hours} цаг зарцуулсан юм байна, та яах вэ ?"
   text_destroy_time_entries: Мэдэгдсэн цагуудыг устгах
   text_assign_time_entries_to_project: Мэдэгдсэн асуудлуудыг төсөлд оноох

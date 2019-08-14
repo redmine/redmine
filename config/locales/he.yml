@@ -861,7 +861,7 @@ he:
   text_default_administrator_account_changed: מנהל המערכת ברירת המחדל שונה
   text_file_repository_writable: מאגר הקבצים ניתן לכתיבה
   text_plugin_assets_writable: ספרית נכסי תוספים ניתנת לכתיבה
-  text_rmagick_available: RMagick זמין (רשות)
+  text_minimagick_available: MiniMagick זמין (רשות)
   text_destroy_time_entries_question: "%{hours} שעות דווחו על הנושאים שאתה עומד למחוק. מה ברצונך לעשות?"
   text_destroy_time_entries: מחק שעות שדווחו
   text_assign_time_entries_to_project: הצב שעות שדווחו לפרויקט הזה

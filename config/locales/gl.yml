@@ -777,7 +777,7 @@ gl:
   text_reassign_time_entries: 'Reasignar as horas a esta petición:'
   text_regexp_info: ex. ^[A-Z0-9]+$
   text_repository_usernames_mapping: "Estableza a correspondencia entre os usuarios de Redmine e os presentes no historial do repositorio.\nOs usuarios co mesmo nome ou correo en Redmine e no repositorio serán asociados automaticamente."
-  text_rmagick_available: RMagick dispoñíbel (opcional)
+  text_minimagick_available: MiniMagick dispoñíbel (opcional)
   text_select_mail_notifications: Seleccionar os eventos a notificar
   text_select_project_modules: 'Seleccione os módulos a activar para este proxecto:'
   text_status_changed_by_changeset: "Aplicado nos cambios %{value}"

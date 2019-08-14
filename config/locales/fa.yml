@@ -1131,7 +1131,7 @@ fa:
   text_default_administrator_account_changed: حساب راه‌بری پیش‌فرض تغییر کرده است
   text_file_repository_writable: پوشه پیوست‌ها نوشتنی است
   text_plugin_assets_writable: پوشه دارایی‌های افزونه‌ها نوشتنی است
-  text_rmagick_available: RMagick در دست‌رس است (اختیاری)
+  text_minimagick_available: MiniMagick در دست‌رس است (اختیاری)
   text_convert_available: ImageMagick convert در دست‌رس است (اختیاری)
   text_destroy_time_entries_question: "%{hours} ساعت روی مسأله‌هایی که می‌خواهید حذف کنید کار گزارش شده است. می‌خواهید چه کنید؟"
   text_destroy_time_entries: ساعت‌های گزارش شده حذف شوند

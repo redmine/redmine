@@ -179,27 +179,25 @@ default:
   # the ImageMagick's `convert` binary. Used to generate attachment thumbnails.
   #imagemagick_convert_command:
 
-  # Configuration of RMagick font.
+  # Configuration of MiniMagick font.
   #
-  # Redmine uses RMagick in order to export gantt png.
-  # You don't need this setting if you don't install RMagick.
+  # Redmine uses MiniMagick in order to export a gantt chart to a PNG image.
+  # This setting is necessary to properly display CJK (Chinese, Japanese,
+  # and Korean) characters in the PNG image. Please make sure that the
+  # specified font is installed in the Redmine server.
   #
-  # In CJK (Chinese, Japanese and Korean),
-  # in order to show CJK characters correctly,
-  # you need to set this configuration.
+  # This setting is necessary only when CJK characters are used in gantt.
   #
-  # Because there is no standard font across platforms in CJK,
-  # you need to set a font installed in your server.
-  #
-  # This setting is not necessary in non CJK.
+  # Note that rmagick_font_path in prior to Redmine 4.1.0 has been renamed
+  # to minimagick_font_path.
   #
   # Examples for Japanese:
   #   Windows:
-  #     rmagick_font_path: C:\windows\fonts\msgothic.ttc
+  #     minimagick_font_path: C:\windows\fonts\msgothic.ttc
   #   Linux:
-  #     rmagick_font_path: /usr/share/fonts/ipa-mincho/ipam.ttf
+  #     minimagick_font_path: /usr/share/fonts/ipa-mincho/ipam.ttf
   #
-  rmagick_font_path:
+  minimagick_font_path:
 
   # Maximum number of simultaneous AJAX uploads
   #max_concurrent_ajax_uploads: 2

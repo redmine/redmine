@@ -684,7 +684,7 @@ tr:
   text_select_project_modules: 'Bu proje için etkinleştirmek istediğiniz modülleri seçin:'
   text_default_administrator_account_changed: Varsayılan yönetici hesabı değişti
   text_file_repository_writable: Dosya deposu yazılabilir
-  text_rmagick_available: RMagick Kullanılabilir (isteğe bağlı)
+  text_minimagick_available: MiniMagick Kullanılabilir (isteğe bağlı)
   text_destroy_time_entries_question: Silmek üzere olduğunuz işler üzerine %{hours} saat raporlandı.Ne yapmak istersiniz ?
   text_destroy_time_entries: Raporlanmış süreleri sil
   text_assign_time_entries_to_project: Raporlanmış süreleri projeye ata

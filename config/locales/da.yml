@@ -673,7 +673,7 @@ da:
   text_select_project_modules: 'Vælg moduler er skal være aktiveret for dette projekt:'
   text_default_administrator_account_changed: Standardadministratorkonto ændret
   text_file_repository_writable: Filarkiv er skrivbar
-  text_rmagick_available: RMagick tilgængelig (valgfri)
+  text_minimagick_available: MiniMagick tilgængelig (valgfri)
 
   default_role_manager: Leder
   default_role_developer: Udvikler

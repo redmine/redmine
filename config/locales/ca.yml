@@ -855,7 +855,7 @@ ca:
   text_default_administrator_account_changed: "S'ha canviat el compte d'administrador predeterminat"
   text_file_repository_writable: "Es pot escriure en el repositori de fitxers"
   text_plugin_assets_writable: "Es pot escriure als complements actius"
-  text_rmagick_available: "RMagick disponible (opcional)"
+  text_minimagick_available: "MiniMagick disponible (opcional)"
   text_destroy_time_entries_question: "S'han informat %{hours} hores en els assumptes que aneu a suprimir. Què voleu fer?"
   text_destroy_time_entries: "Suprimir les hores informades"
   text_assign_time_entries_to_project: "Assignar les hores informades al projecte"
