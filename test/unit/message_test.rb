@@ -99,7 +99,7 @@ class MessageTest < ActiveSupport::TestCase
           # New board
           assert_difference 'Board.find(2).topics_count' do
             assert_difference 'Board.find(2).messages_count', (1 + message.replies_count) do
-              message.update_attributes(:board_id => 2)
+              message.update(:board_id => 2)
             end
           end
         end

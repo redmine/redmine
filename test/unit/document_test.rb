@@ -53,7 +53,7 @@ class DocumentTest < ActiveSupport::TestCase
   def test_create_with_default_category
     # Sets a default category
     e = Enumeration.find_by_name('Technical documentation')
-    e.update_attributes(:is_default => true)
+    e.update(:is_default => true)
 
     doc = Document.new(:project => Project.find(1), :title => 'New document')
     assert_equal e, doc.category

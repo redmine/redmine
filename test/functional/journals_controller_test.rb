@@ -278,7 +278,7 @@ class JournalsControllerTest < Redmine::ControllerTest
   end
 
   def test_update_xhr_with_private_notes_unchecked
-    Journal.find(2).update_attributes(:private_notes => true)
+    Journal.find(2).update(:private_notes => true)
     @request.session[:user_id] = 1
     post :update, :params => {
         :id => 2,

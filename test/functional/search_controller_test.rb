@@ -410,7 +410,7 @@ class SearchControllerTest < Redmine::ControllerTest
   end
 
   def test_results_should_be_escaped_once
-    assert Issue.find(1).update_attributes(:subject => '<subject> escaped_once', :description => '<description> escaped_once')
+    assert Issue.find(1).update(:subject => '<subject> escaped_once', :description => '<description> escaped_once')
     get :index, :params => {:q => 'escaped_once'}
     assert_response :success
     assert_select '#search-results' do
@@ -420,7 +420,7 @@ class SearchControllerTest < Redmine::ControllerTest
   end
 
   def test_keywords_should_be_highlighted
-    assert Issue.find(1).update_attributes(:subject => 'subject highlighted', :description => 'description highlighted')
+    assert Issue.find(1).update(:subject => 'subject highlighted', :description => 'description highlighted')
     get :index, :params => {:q => 'highlighted'}
     assert_response :success
     assert_select '#search-results' do

@@ -59,7 +59,7 @@ class EnumerationsController < ApplicationController
   end
 
   def update
-    if @enumeration.update_attributes(enumeration_params)
+    if @enumeration.update(enumeration_params)
       respond_to do |format|
         format.html {
           flash[:notice] = l(:notice_successful_update)

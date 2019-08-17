@@ -275,7 +275,7 @@ class Project < ActiveRecord::Base
       self.create_time_entry_activity_if_needed(activity_hash)
     else
       activity = project.time_entry_activities.find_by_id(id.to_i)
-      activity.update_attributes(activity_hash) if activity
+      activity.update(activity_hash) if activity
     end
   end
 

@@ -31,7 +31,7 @@ class DocumentsControllerTest < Redmine::ControllerTest
   def test_index
     # Sets a default category
     e = Enumeration.find_by_name('Technical documentation')
-    e.update_attributes(:is_default => true)
+    e.update(:is_default => true)
 
     get :index, :params => {
         :project_id => 'ecookbook'
@@ -106,7 +106,7 @@ class DocumentsControllerTest < Redmine::ControllerTest
   def test_index_with_long_description
     # adds a long description to the first document
     doc = documents(:documents_001)
-    doc.update_attributes(:description => <<LOREM)
+    doc.update(:description => <<LOREM)
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut egestas, mi vehicula varius varius, ipsum massa fermentum orci, eget tristique ante sem vel mi. Nulla facilisi. Donec enim libero, luctus ac sagittis sit amet, vehicula sagittis magna. Duis ultrices molestie ante, eget scelerisque sem iaculis vitae. Etiam fermentum mauris vitae metus pharetra condimentum fermentum est pretium. Proin sollicitudin elementum quam quis pharetra.  Aenean facilisis nunc quis elit volutpat mollis. Aenean eleifend varius euismod. Ut dolor est, congue eget dapibus eget, elementum eu odio. Integer et lectus neque, nec scelerisque nisi. EndOfLineHere
 
 Vestibulum non velit mi. Aliquam scelerisque libero ut nulla fringilla a sollicitudin magna rhoncus.  Praesent a nunc lorem, ac porttitor eros. Sed ac diam nec neque interdum adipiscing quis quis justo. Donec arcu nunc, fringilla eu dictum at, venenatis ac sem. Vestibulum quis elit urna, ac mattis sapien. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
@@ -183,7 +183,7 @@ LOREM
   def test_create_non_default_category
     @request.session[:user_id] = 2
     category2 = Enumeration.find_by_name('User documentation')
-    category2.update_attributes(:is_default => true)
+    category2.update(:is_default => true)
     category1 = Enumeration.find_by_name('Uncategorized')
     post :create, :params => {
         :project_id => 'ecookbook',

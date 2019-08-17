@@ -53,7 +53,7 @@ class EnumerationTest < ActiveSupport::TestCase
     assert e.is_a?(Enumeration)
     assert e.is_default?
     assert e.active?
-    e.update_attributes(:active => false)
+    e.update(:active => false)
     assert e.is_default?
     assert !e.active?
   end
@@ -74,19 +74,19 @@ class EnumerationTest < ActiveSupport::TestCase
 
   def test_update_default
     e = Enumeration.default
-    e.update_attributes(:name => 'Changed', :is_default => true)
+    e.update(:name => 'Changed', :is_default => true)
     assert_equal e, Enumeration.default
   end
 
   def test_update_default_to_non_default
     e = Enumeration.default
-    e.update_attributes(:name => 'Changed', :is_default => false)
+    e.update(:name => 'Changed', :is_default => false)
     assert_nil Enumeration.default
   end
 
   def test_change_default
     e = Enumeration.find_by_name('Default Enumeration')
-    e.update_attributes(:name => 'Changed Enumeration', :is_default => true)
+    e.update(:name => 'Changed Enumeration', :is_default => true)
     assert_equal e, Enumeration.default
   end
 

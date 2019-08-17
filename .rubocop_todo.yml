@@ -818,20 +818,6 @@ Naming/VariableNumber:
     - 'test/unit/lib/redmine/scm/adapters/mercurial_adapter_test.rb'
     - 'test/unit/project_test.rb'
 
-# Cop supports --auto-correct.
-Rails/ActiveRecordAliases:
-  Exclude:
-    - 'app/controllers/enumerations_controller.rb'
-    - 'app/models/project.rb'
-    - 'test/functional/documents_controller_test.rb'
-    - 'test/functional/journals_controller_test.rb'
-    - 'test/functional/search_controller_test.rb'
-    - 'test/unit/document_category_test.rb'
-    - 'test/unit/document_test.rb'
-    - 'test/unit/enumeration_test.rb'
-    - 'test/unit/issue_subtasking_test.rb'
-    - 'test/unit/message_test.rb'
-
 # Configuration parameters: Include.
 # Include: app/models/**/*.rb
 Rails/ActiveRecordOverride:

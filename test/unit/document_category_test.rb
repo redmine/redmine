@@ -42,7 +42,7 @@ class DocumentCategoryTest < ActiveSupport::TestCase
   def test_default
     assert_nil DocumentCategory.where(:is_default => true).first
     e = Enumeration.find_by_name('Technical documentation')
-    e.update_attributes(:is_default => true)
+    e.update(:is_default => true)
     assert_equal 3, DocumentCategory.default.id
   end
 
