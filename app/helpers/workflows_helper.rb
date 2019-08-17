@@ -74,8 +74,8 @@ module WorkflowsHelper
     select_tag("permissions[#{status.id}][#{name}]", options_for_select(options, selected), html_options)
   end
 
-  def transition_tag(workflows, old_status, new_status, name)
-    w = workflows.select {|w| w.old_status == old_status && w.new_status == new_status}.size
+  def transition_tag(transition_count, old_status, new_status, name)
+    w = transition_count
 
     tag_name = "transitions[#{ old_status.try(:id) || 0 }][#{new_status.id}][#{name}]"
     if old_status == new_status

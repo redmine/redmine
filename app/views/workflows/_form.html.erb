@@ -21,6 +21,7 @@
     <% end %>
   </tr>
 </thead>
+<% transition_counts = workflows.each_with_object(Hash.new(0)) {|w,memo| memo[[w.old_status, w.new_status]] += 1} %>
 <tbody>
   <% for old_status in [nil] + @statuses %>
   <% next if old_status.nil? && name != 'always' %>
@@ -38,9 +39,9 @@
       <% end %>
     </td>
     <% for new_status in @statuses -%>
-    <% checked = (old_status == new_status) || workflows.detect {|w| w.old_status == old_status && w.new_status == new_status} %>
+    <% checked = (old_status == new_status) || (transition_counts[[old_status, new_status]] > 0) %>
     <td class="<%= checked ? 'enabled' : '' %>" title="<%= old_status_name %> &#187; <%= new_status.name %>">
-      <%= transition_tag workflows, old_status, new_status, name %>
+      <%= transition_tag transition_counts[[old_status, new_status]], old_status, new_status, name %>
     </td>
     <% end -%>
   </tr>
