@@ -17,6 +17,7 @@ AllCops:
 # Enable extensions
 
 require:
+  - rubocop-performance
   - rubocop-rails
 
 # Rules for Redmine

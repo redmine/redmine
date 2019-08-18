@@ -818,6 +818,70 @@ Naming/VariableNumber:
     - 'test/unit/lib/redmine/scm/adapters/mercurial_adapter_test.rb'
     - 'test/unit/project_test.rb'
 
+# Cop supports --auto-correct.
+Performance/Casecmp:
+  Exclude:
+    - 'lib/redmine/codeset_util.rb'
+    - 'lib/redmine/scm/adapters/bazaar_adapter.rb'
+
+Performance/FixedSize:
+  Exclude:
+    - 'test/integration/api_test/issues_test.rb'
+    - 'test/integration/attachments_test.rb'
+
+# Cop supports --auto-correct.
+Performance/InefficientHashSearch:
+  Exclude:
+    - 'test/functional/issues_custom_fields_visibility_test.rb'
+    - 'test/functional/search_custom_fields_visibility_test.rb'
+    - 'test/functional/timelog_custom_fields_visibility_test.rb'
+    - 'test/unit/lib/redmine/mime_type_test.rb'
+    - 'test/unit/query_test.rb'
+
+# Cop supports --auto-correct.
+Performance/RedundantBlockCall:
+  Exclude:
+    - 'app/controllers/application_controller.rb'
+    - 'lib/redmine/views/builders/structure.rb'
+    - 'test/functional/repositories_git_controller_test.rb'
+    - 'test/unit/lib/redmine/views/builders/json_test.rb'
+    - 'test/unit/lib/redmine/views/builders/xml_test.rb'
+
+# Cop supports --auto-correct.
+Performance/RedundantMatch:
+  Exclude:
+    - 'app/controllers/auto_completes_controller.rb'
+    - 'app/models/issue_relation.rb'
+    - 'lib/redmine/wiki_formatting/textile/formatter.rb'
+    - 'lib/redmine/wiki_formatting/textile/redcloth3.rb'
+
+# Cop supports --auto-correct.
+# Configuration parameters: MaxKeyValuePairs.
+Performance/RedundantMerge:
+  Exclude:
+    - 'app/controllers/issues_controller.rb'
+    - 'app/helpers/application_helper.rb'
+    - 'app/helpers/avatars_helper.rb'
+    - 'app/helpers/custom_fields_helper.rb'
+    - 'app/helpers/workflows_helper.rb'
+    - 'app/models/auth_source_ldap.rb'
+    - 'app/models/principal.rb'
+    - 'lib/redmine/access_control.rb'
+    - 'test/functional/imports_controller_test.rb'
+    - 'test/unit/issue_import_test.rb'
+    - 'test/unit/time_entry_import_test.rb'
+
+# Cop supports --auto-correct.
+Performance/StringReplacement:
+  Exclude:
+    - 'app/helpers/application_helper.rb'
+    - 'app/helpers/imports_helper.rb'
+    - 'app/helpers/settings_helper.rb'
+    - 'lib/redmine/core_ext/string/conversions.rb'
+    - 'lib/redmine/wiki_formatting/textile/redcloth3.rb'
+    - 'test/helpers/application_helper_test.rb'
+    - 'test/unit/lib/redmine/scm/adapters/mercurial_adapter_test.rb'
+
 # Configuration parameters: Include.
 # Include: app/models/**/*.rb
 Rails/ActiveRecordOverride:
