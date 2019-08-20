@@ -383,15 +383,16 @@ function open3DExplorer(uri, projectIdentifier) {
 }
 
 function addNWBIframe(src) {
-    var iframe = $("<iframe id='geppettoFrame' src='http://nwbexplorer.opensourcebrain.org'></iframe>")
-    $(".project-header").before("<div id='geppettoContainer'></div>");
-    $("#geppettoContainer").append(iframe);
-    iframe.load(function() { sendNWBToIframe(src); });
-    }
+  var iframe = $("<iframe id='geppettoFrame' src='http://nwbexplorer.opensourcebrain.org/nwbfile="+decodeURIComponent(src)+"'></iframe>")
+  $(".project-header").before("<div id='geppettoContainer'></div>");
+  $("#geppettoContainer").append(iframe);
+  //iframe.load(function() { sendNWBToIframe(src); });
+}
 
 function sendNWBToIframe(uri) {
-    let frame = document.getElementById("geppettoFrame");
-    frame.contentWindow.postMessage(decodeURIComponent(uri), '*');
+  let frame = document.getElementById("geppettoFrame");
+  frame.src = "http://nwbexplorer.opensourcebrain.org/nwbfile="+uri;
+  //  frame.contentWindow.postMessage(decodeURIComponent(uri), '*');
 }
 
 function openNWBExplorer(uri, projectIdentifier) {
@@ -410,6 +411,45 @@ function openNWBExplorer(uri, projectIdentifier) {
 	}
         currentModel = uri;
     }
+}
+
+function addNetPyNEIframe(src) {
+  var iframe = $("<iframe id='geppettoFrame' src='http://localhost:8888'></iframe>")
+  $(".project-header").before("<div id='geppettoContainer'></div>");
+  $("#geppettoContainer").append(iframe);
+  iframe.load(function() {
+    // FIXME: this is bad...    
+    var uri = decodeURIComponent(src);
+    var components = uri.split('.com/')[1].split('/');
+    var params = {repo: components[0]+'/'+components[1]};
+    var components = components.splice(3);
+    params.moduleName = components.splice(-1)[0].split('.')[0];
+    params.path = components.join('/');
+    sendNWBToIframe(params);
+  });
+}
+
+function sendNetPyNEToIframe(params) {
+  let frame = document.getElementById("geppettoFrame");
+  frame.contentWindow.postMessage(params, '*');
+}
+
+function openNetPyNEUI(uri, projectIdentifier) {
+  showGeppetto();
+  if (checkBrowserCapabilities()) {
+    //Change url without reloading page
+    if (typeof uri === 'string') {
+      if (currentModel != uri) {
+        var explorerUrl = '//' + location.host + location.pathname + '?explorer=' + encodeURIComponent(uri);
+	if (history.pushState) { history.pushState(null, null, explorerUrl); }
+	if ($("#geppettoContainer").length == 0)
+          addNetPyNEIframe(uri);
+        else
+          sendNetPyNEToIframe(uri);
+      }
+    }
+    currentModel = uri;
+  }
 }
 
 function checkCookie() {
