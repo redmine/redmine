@@ -93,14 +93,8 @@ class Project < ActiveRecord::Base
   scope :all_public, lambda { where(:is_public => true) }
   scope :visible, lambda {|*args| where(Project.visible_condition(args.shift || User.current, *args)) }
   scope :allowed_to, lambda {|*args|
-    user = User.current
-    permission = nil
-    if args.first.is_a?(Symbol)
-      permission = args.shift
-    else
-      user = args.shift
-      permission = args.shift
-    end
+    user = args.first.is_a?(Symbol) ? User.current : args.shift
+    permission = args.shift
     where(Project.allowed_to_condition(user, permission, *args))
   }
   scope :like, lambda {|arg|

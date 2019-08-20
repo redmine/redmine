@@ -1390,7 +1390,6 @@ Style/HashSyntax:
 
 Style/IdenticalConditionalBranches:
   Exclude:
-    - 'app/models/project.rb'
     - 'config/initializers/10-patches.rb'
     - 'lib/redmine/wiki_formatting/textile/redcloth3.rb'
 
