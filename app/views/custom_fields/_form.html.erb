@@ -34,7 +34,7 @@
   <div class="box tabular">
     <p><%= f.check_box :is_required %></p>
 
-    <% if %w(UserCustomField ProjectCustomField).include?(@custom_field.class.name) %>
+    <% if %w(UserCustomField).include?(@custom_field.class.name) %>
       <p><%= f.check_box :visible %></p>
     <% end %>
 
@@ -53,7 +53,7 @@
     <%= call_hook(:"view_custom_fields_form_#{@custom_field.type.to_s.underscore}", :custom_field => @custom_field, :form => f) %>
   </div>
 
-  <% if %w(IssueCustomField TimeEntryCustomField).include?(@custom_field.class.name) %>
+  <% if %w(IssueCustomField TimeEntryCustomField ProjectCustomField).include?(@custom_field.class.name) %>
     <%= render :partial => 'visibility_by_role_selector', :locals => { :f => f } %>
   <% end %>
 

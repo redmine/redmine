@@ -870,6 +870,13 @@ class Project < ActiveRecord::Base
     end
   end
 
+  def visible_custom_field_values(user = nil)
+    user ||= User.current
+    custom_field_values.select do |value|
+      value.custom_field.visible_by?(project, user)
+    end
+  end
+
   private
 
   def update_inherited_members

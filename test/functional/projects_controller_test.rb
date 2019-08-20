@@ -726,6 +726,18 @@ class ProjectsControllerTest < Redmine::ControllerTest
     assert_select 'a#tab-activities'
   end
 
+  def test_settings_should_not_display_custom_fields_not_visible_for_user
+    @request.session[:user_id] = 2
+
+    ProjectCustomField.find_by_name('Development status').update_attribute :visible, false
+    get :settings, :params => {
+        :id => 'ecookbook'
+      }
+    assert_response :success
+
+    assert_select 'select#project_custom_field_values_3', :count => 0
+  end
+
   def test_update
     @request.session[:user_id] = 2 # manager
     post :update, :params => {

@@ -25,7 +25,7 @@
 
 <%= wikitoolbar_for 'project_description' %>
 
-<% @project.custom_field_values.each do |value| %>
+<% @project.visible_custom_field_values.each do |value| %>
   <p><%= custom_field_tag_with_label :project, value %></p>
 <% end %>
 <%= call_hook(:view_projects_form, :project => @project, :form => f) %>
