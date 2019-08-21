@@ -168,6 +168,11 @@ Nulla nunc nisi, egestas in ornare vel, posuere ac libero."]
       @formatter.new(text).update_section(3, replacement)
   end
 
+  def test_should_support_underlined_text
+    text = 'This _text_ should be underlined'
+    assert_equal '<p>This <u>text</u> should be underlined</p>', @formatter.new(text).to_html.strip
+  end
+
   private
 
   def assert_section_with_hash(expected, text, index)
@@ -177,11 +182,6 @@ Nulla nunc nisi, egestas in ornare vel, posuere ac libero."]
     assert_equal 2, result.size
     assert_equal expected, result.first, "section content did not match"
     assert_equal Digest::MD5.hexdigest(expected), result.last, "section hash did not match"
-  end
-
-  def test_should_support_underlined_text
-    text = 'This _text_ should be underlined'
-    assert_equal '<p>This <u>text</u> should be underlined</p>', @formatter.new(text).to_html.strip
   end
   end
 end
