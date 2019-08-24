@@ -11,7 +11,7 @@ api.array :versions, api_meta(:total_count => @versions.size) do
       api.sharing         version.sharing
       api.wiki_page_title version.wiki_page_title
 
-      render_api_custom_values version.custom_field_values, api
+      render_api_custom_values version.visible_custom_field_values, api
 
       api.created_on version.created_on
       api.updated_on version.updated_on

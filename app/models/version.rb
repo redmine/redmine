@@ -168,6 +168,13 @@ class Version < ActiveRecord::Base
     user.allowed_to?(:view_issues, self.project)
   end
 
+  def visible_custom_field_values(user = nil)
+    user ||= User.current
+    custom_field_values.select do |value|
+      value.custom_field.visible_by?(project, user)
+    end
+  end
+
   # Version files have same visibility as project files
   def attachments_visible?(*args)
     project.present? && project.attachments_visible?(*args)

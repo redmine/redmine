@@ -21,4 +21,8 @@ class VersionCustomField < CustomField
   def type_name
     :label_version_plural
   end
+
+  def visible_by?(project, user=User.current)
+    super || (roles & user.roles_for_project(project)).present?
+  end
 end

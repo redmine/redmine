@@ -14,7 +14,7 @@
 <p><%= f.check_box :default_project_version, :label => :field_default_version %></p>
 <% end %>
 
-<% @version.custom_field_values.each do |value| %>
+<% @version.visible_custom_field_values.each do |value| %>
   <p><%= custom_field_tag_with_label :version, value %></p>
 <% end %>
 
