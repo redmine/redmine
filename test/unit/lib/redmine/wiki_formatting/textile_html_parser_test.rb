@@ -34,4 +34,9 @@ class Redmine::WikiFormatting::TextileHtmlParserTest < ActiveSupport::TestCase
     assert_equal 'foo http://example.com/ baz',
       @parser.to_text('foo<a href="http://example.com/"></a>baz')
   end
+
+  def test_html_tables_conversion
+    assert_equal "*th1*\n*th2*\n\ntd1\ntd2",
+      @parser.to_text('<table><tr><th>th1</th><th>th2</th></tr><tr><td>td1</td><td>td2</td></tr></table>')
+  end
 end

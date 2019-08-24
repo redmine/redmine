@@ -46,4 +46,22 @@ class Redmine::WikiFormatting::HtmlParserTest < ActiveSupport::TestCase
       assert_equal expected, @parser.to_text(html)
     end
   end
+
+  def test_should_remove_space_of_beginning_of_line
+    str = <<~HTML
+      <table>
+        <tr>
+          <th>th1</th>
+          <th>th2</th>
+        </tr>
+        <tr>
+          <td>td1</td>
+          <td>td2</td>
+        </tr>
+      </table>
+    HTML
+
+    assert_equal "th1\n\nth2\n\ntd1\n\ntd2",
+      @parser.to_text(str)
+  end
 end
