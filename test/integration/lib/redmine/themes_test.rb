@@ -59,6 +59,7 @@ class ThemesTest < Redmine::IntegrationTest
   end
 
   def test_use_default_favicon_if_theme_provides_none
+    @theme.favicons.clear
     get '/'
 
     assert_response :success
@@ -67,7 +68,7 @@ class ThemesTest < Redmine::IntegrationTest
 
   def test_use_theme_favicon_if_theme_provides_one
     # Simulate a theme favicon
-    @theme.favicons << 'a.ico'
+    @theme.favicons.unshift('a.ico')
     get '/'
 
     assert_response :success
@@ -77,7 +78,7 @@ class ThemesTest < Redmine::IntegrationTest
   end
 
   def test_use_only_one_theme_favicon_if_theme_provides_many
-    @theme.favicons.concat %w{b.ico a.png}
+    @theme.favicons.unshift('b.ico', 'a.png')
     get '/'
 
     assert_response :success
@@ -90,8 +91,8 @@ class ThemesTest < Redmine::IntegrationTest
 
   def test_with_sub_uri
     Redmine::Utils.relative_url_root = '/foo'
-    @theme.javascripts << 'theme'
-    @theme.favicons << 'a.ico'
+    @theme.javascripts.unshift('theme')
+    @theme.favicons.unshift('a.ico')
     get '/'
 
     assert_response :success
