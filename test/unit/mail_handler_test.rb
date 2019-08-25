@@ -738,12 +738,14 @@ class MailHandlerTest < ActiveSupport::TestCase
   end
 
   def test_add_issue_with_no_subject_header
-    issue = submit_email(
-              'no_subject_header.eml',
-              :issue => {:project => 'ecookbook'}
-            )
-    assert_kind_of Issue, issue
-    assert_equal '(no subject)', issue.subject
+    with_settings :default_language => 'en' do
+      issue = submit_email(
+                'no_subject_header.eml',
+                :issue => {:project => 'ecookbook'}
+              )
+      assert_kind_of Issue, issue
+      assert_equal "(no subject)", issue.subject
+    end
   end
 
   def test_add_issue_with_mixed_japanese_subject

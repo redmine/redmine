@@ -199,7 +199,7 @@ class MailHandler < ActionMailer::Base
     issue.safe_attributes = {'custom_field_values' => custom_field_values_from_keywords(issue)}
     issue.subject = cleaned_up_subject
     if issue.subject.blank?
-      issue.subject = '(no subject)'
+      issue.subject = "(#{ll(Setting.default_language, :text_no_subject)})"
     end
     issue.description = cleaned_up_text_body
     issue.start_date ||= User.current.today if Setting.default_issue_start_date_to_creation_date?
