@@ -650,11 +650,6 @@ Lint/UnifiedInteger:
     - 'test/unit/query_test.rb'
 
 # Cop supports --auto-correct.
-Lint/UnneededRequireStatement:
-  Exclude:
-    - 'app/models/wiki_page.rb'
-
-# Cop supports --auto-correct.
 # Configuration parameters: IgnoreEmptyBlocks, AllowUnusedKeywordArguments.
 Lint/UnusedBlockArgument:
   Enabled: false
