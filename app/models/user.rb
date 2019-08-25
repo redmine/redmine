@@ -342,8 +342,7 @@ class User < Principal
 
   # Does the backend storage allow this user to change their password?
   def change_password_allowed?
-    return true if auth_source.nil?
-    return auth_source.allow_password_changes?
+    auth_source.nil? ? true : auth_source.allow_password_changes?
   end
 
   # Returns true if the user password has expired
