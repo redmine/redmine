@@ -1234,58 +1234,55 @@ de:
   field_full_width_layout: Layout mit voller Breite
   label_last_notes: Letzte Kommentare
   field_digest: Checksumme
-  setting_close_duplicate_issues: Close duplicate issues automatically
-  error_exceeds_maximum_hours_per_day: Cannot log more than %{max_hours} hours on the
-    same day (%{logged_hours} hours have already been logged)
-  setting_time_entry_list_defaults: Timelog list defaults
-  setting_timelog_accept_0_hours: Accept time logs with 0 hours
-  setting_timelog_max_hours_per_day: Maximum hours that can be logged per day and user
-  label_x_revisions: "%{count} revisions"
-  error_can_not_delete_auth_source: This authentication mode is in use and cannot be
-    deleted.
+  setting_close_duplicate_issues: Duplikate automatisch schließen
+  error_exceeds_maximum_hours_per_day: Es können nicht mehr als %{max_hours} Stunden am selben Tag gebucht werden (%{logged_hours} Stunden wurden bereits gebucht)
+  setting_time_entry_list_defaults: Standard-Spalten in der Zeiten-Auflistung
+  setting_timelog_accept_0_hours: Akzeptiere Buchungen mit 0 Stunden
+  setting_timelog_max_hours_per_day: Maximale Anzahl der täglich buchbaren Stunden pro Benutzer
+  label_x_revisions: "%{count} Revisionen"
+  error_can_not_delete_auth_source: Diese Authentifizierungsmethode ist in Verwendung und kann nicht gelöscht werden.
   text_login_required_html: Ohne erforderliche Authentifizierung sind öffentlichen Projekte und deren Inhalte ohne Anmeldung frei zugänglich. Sie können die <a href="%{anonymous_role_path}">verwendeten Berechtigungen anpassen</a>.
   label_login_required_yes: "Ja"
   label_login_required_no: "Nein, anonymen Zugriff auf öffentliche Projekte erlauben"
   text_project_is_public_non_member: Öffentliche Projekte und deren Inhalte sind für alle angemeldeten Benutzer zugänglich.
   text_project_is_public_anonymous: Öffentliche Projekte und deren Inhalte sind ohne Anmeldung frei zugänglich.
-  label_nothing_to_preview: Nothing to preview
-  error_spent_on_future_date: Cannot log time on a future date
-  setting_timelog_accept_future_dates: Accept time logs on future dates
+  label_nothing_to_preview: Keine Vorschau vorhanden
+  error_spent_on_future_date: Zeitbuchung nicht möglich. Das Datum liegt in der Zukunft
+  setting_timelog_accept_future_dates: Akzeptiere Zeitbuchungen in der Zukunft
   label_delete_link_to_subtask: Beziehung löschen
-  error_not_allowed_to_log_time_for_other_users: You are not allowed to log time
-    for other users
-  permission_log_time_for_other_users: Log spent time for other users
-  label_tomorrow: tomorrow
-  label_next_week: next week
-  label_next_month: next month
-  text_role_no_workflow: No workflow defined for this role
-  text_status_no_workflow: No tracker uses this status in the workflows
-  setting_mail_handler_preferred_body_part: Preferred part of multipart (HTML) emails
-  setting_show_status_changes_in_mail_subject: Show status changes in issue mail notifications
-    subject
-  label_inherited_from_parent_project: Inherited from parent project
-  label_inherited_from_group: Inherited from group %{name}
-  label_trackers_description: Trackers description
-  label_open_trackers_description: View all trackers description
+  error_not_allowed_to_log_time_for_other_users: Sie sind nicht berechtigt, Aufwände für andere Benutzer zu buchen.
+  permission_log_time_for_other_users: Aufwände für andere Benutzer buchen
+  label_tomorrow: morgen
+  label_next_week: nächste Woche
+  label_next_month: nächster Monat
+  text_role_no_workflow: Für diese Rolle ist kein Workflow definiert
+  text_status_no_workflow: Kein Tracker verwendet diesen Status in den Workflows
+  setting_mail_handler_preferred_body_part: Bevorzugter Teil von E-Mails im Multipart-Format
+  setting_show_status_changes_in_mail_subject: Zeige Statusänderungen im Betreff der Mailbenachrichtigung für Tickets
+  label_inherited_from_parent_project: Vom Hauptprojekt geerbt
+  label_inherited_from_group: Von der Gruppe %{name} geerbt
+  label_trackers_description: Beschreibung des Trackers
+  label_open_trackers_description: Beschreibung aller Tracker anzeigen
   label_preferred_body_part_text: Text
-  label_preferred_body_part_html: HTML (experimental)
-  field_parent_issue_subject: Parent task subject
-  permission_edit_own_issues: Edit own issues
-  text_select_apply_tracker: Select tracker
-  label_updated_issues: Updated issues
-  text_avatar_server_config_html: The current avatar server is <a href="%{url}">%{url}</a>.
-    You can configure it in config/configuration.yml.
-  setting_gantt_months_limit: Maximum number of months displayed on the gantt chart
-  label_import_time_entries: Import time entries
-  label_import_notifications: Send email notifications during the import
-  field_recently_used_projects: Number of recently used projects in jump box
-  label_optgroup_bookmarks: Bookmarks
-  label_optgroup_others: Other projects
-  label_optgroup_recents: Recently used
-  button_project_bookmark: Add bookmark
-  button_project_bookmark_delete: Remove bookmark
-  field_history_default_tab: Issue's history default tab
-  label_issue_history_properties: Property changes
-  label_issue_history_notes: Notes
-  label_last_tab_visited: Last visited tab
-  text_no_subject: no subject
+  label_preferred_body_part_html: HTML (experimentell)
+  field_parent_issue_subject: Thema der übergeordneten Aufgabe
+
+  permission_edit_own_issues: Eigene Tickets bearbeiten
+  text_select_apply_tracker: Tracker wählen
+  label_updated_issues: Aktualisierte Tickets
+  text_avatar_server_config_html: Der aktuelle Avatar-Server ist <a href="%{url}">%{url}</a>.
+    Die URL kann in config/configuration.yml angepasst werden.
+  setting_gantt_months_limit: Maximal anzeigbare Monate im Gantt-Diagramm
+  label_import_time_entries: Zeitbuchungen importieren
+  label_import_notifications: Versende E-Mail-Benachrichtigungen während des Imports
+  field_recently_used_projects: Anzahl kürzlich verwendeter Projekte in der Projekt-Jump-Box
+  label_optgroup_bookmarks: Lesezeichen
+  label_optgroup_others: Andere Projekte
+  label_optgroup_recents: Kürzlich verwendet
+  button_project_bookmark: Lesezeichen hinzufügen
+  button_project_bookmark_delete: Lesezeichen entfernen
+  field_history_default_tab: Standard-Tab für Tickethistorie
+  label_issue_history_properties: Eigenschaftsänderungen
+  label_issue_history_notes: Notizen
+  label_last_tab_visited: Zuletzt geöffneter Tab
+  text_no_subject: kein Thema
