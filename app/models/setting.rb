@@ -166,6 +166,14 @@ class Setting < ActiveRecord::Base
       end
     end
 
+    if settings.key?(:mail_from)
+      begin
+        mail_from = Mail::Address.new(settings[:mail_from])
+        raise unless mail_from.address =~ EmailAddress::EMAIL_REGEXP
+      rescue
+        messages << [:mail_from, l('activerecord.errors.messages.invalid')]
+      end
+    end
     messages
   end
 
