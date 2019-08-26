@@ -107,13 +107,12 @@ class Setting < ActiveRecord::Base
 
   # Returns the value of the setting named name
   def self.[](name)
-    v = @cached_settings[name]
-    v ? v : (@cached_settings[name] = find_or_default(name).value)
+    @cached_settings[name] ||= find_or_default(name).value
   end
 
   def self.[]=(name, v)
     setting = find_or_default(name)
-    setting.value = (v ? v : "")
+    setting.value = v || ''
     @cached_settings[name] = nil
     setting.save
     setting.value

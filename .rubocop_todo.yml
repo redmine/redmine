@@ -1830,7 +1830,6 @@ Style/UnneededCondition:
     - 'app/controllers/messages_controller.rb'
     - 'app/controllers/previews_controller.rb'
     - 'app/models/issue.rb'
-    - 'app/models/setting.rb'
 
 # Cop supports --auto-correct.
 Style/UnneededInterpolation:
