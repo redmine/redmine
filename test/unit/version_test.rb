@@ -299,6 +299,29 @@ class VersionTest < ActiveSupport::TestCase
     assert_includes Version.like('like scope'), version
   end
 
+  def test_safe_attributes_should_include_only_custom_fields_visible_to_user
+    cf1 = VersionCustomField.create!(:name => 'Visible field',
+                                  :field_format => 'string',
+                                  :visible => false, :role_ids => [1])
+    cf2 = VersionCustomField.create!(:name => 'Non visible field',
+                                  :field_format => 'string',
+                                  :visible => false, :role_ids => [3])
+    user = User.find(2)
+    version = Version.new(:project_id => 1, :name => 'v4')
+
+    version.send :safe_attributes=, {'custom_field_values' => {
+                                      cf1.id.to_s => 'value1', cf2.id.to_s => 'value2'
+                                    }}, user
+    assert_equal 'value1', version.custom_field_value(cf1)
+    assert_nil version.custom_field_value(cf2)
+    version.send :safe_attributes=, {'custom_fields' => [
+                                     {'id' => cf1.id.to_s, 'value' => 'valuea'},
+                                     {'id' => cf2.id.to_s, 'value' => 'valueb'}
+                                   ]}, user
+    assert_equal 'valuea', version.custom_field_value(cf1)
+    assert_nil version.custom_field_value(cf2)
+  end
+
   private
 
   def add_issue(version, attributes={})
