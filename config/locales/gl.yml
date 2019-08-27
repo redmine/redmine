@@ -1279,27 +1279,27 @@ gl:
   label_inherited_from_group: Herdado do grupo %{name}
   label_trackers_description: Descricións dos tipos de tarefas
   label_open_trackers_description: Ver as descricións de todos os tipos de tarefas
-  label_preferred_body_part_text: Text
+  label_preferred_body_part_text: Texto
   label_preferred_body_part_html: HTML (experimental)
-  field_parent_issue_subject: Parent task subject
-  permission_edit_own_issues: Edit own issues
-  text_select_apply_tracker: Select tracker
-  label_updated_issues: Updated issues
-  text_avatar_server_config_html: The current avatar server is <a href="%{url}">%{url}</a>.
-    You can configure it in config/configuration.yml.
-  setting_gantt_months_limit: Maximum number of months displayed on the gantt chart
-  label_import_time_entries: Import time entries
-  label_import_notifications: Send email notifications during the import
-  text_gs_available: ImageMagick PDF support available (optional)
-  field_recently_used_projects: Number of recently used projects in jump box
-  label_optgroup_bookmarks: Bookmarks
-  label_optgroup_others: Other projects
-  label_optgroup_recents: Recently used
-  button_project_bookmark: Add bookmark
-  button_project_bookmark_delete: Remove bookmark
-  field_history_default_tab: Issue's history default tab
-  label_issue_history_properties: Property changes
-  label_issue_history_notes: Notes
-  label_last_tab_visited: Last visited tab
-  field_unique_id: Unique ID
-  text_no_subject: no subject
+  field_parent_issue_subject: Asunto da tarefa pai
+  permission_edit_own_issues: Editar as propias tarefas
+  text_select_apply_tracker: Seleccionar o tipo de tarefa
+  label_updated_issues: Tarefas actualizadas
+  text_avatar_server_config_html: O servidor de avatares é actualmente <a href="%{url}">%{url}</a>.
+    Vostede o pode configurar en config/configuration.yml.
+  setting_gantt_months_limit: Máximo número de meses amosados no diagrama de gantt
+  label_import_time_entries: Importar tempos dedicados
+  label_import_notifications: Enviar notificacións de correo durante a importación
+  text_gs_available: Soporte de PDF ImageMagick dispoñible (opcional)
+  field_recently_used_projects: Número de proxectos recentemente usados no despregable de proxectos
+  label_optgroup_bookmarks: Favoritos
+  label_optgroup_others: Outros proxectos
+  label_optgroup_recents: Usado recentemente
+  button_project_bookmark: Engadir favoritos
+  button_project_bookmark_delete: Borrar favoritos
+  field_history_default_tab: Lapela por defecto no histórico de tarefas
+  label_issue_history_properties: Cambios nas propiedades
+  label_issue_history_notes: Notas
+  label_last_tab_visited: Última lapela visitada
+  field_unique_id: ID único
+  text_no_subject: sen asunto
