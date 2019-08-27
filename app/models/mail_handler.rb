@@ -171,7 +171,7 @@ class MailHandler < ActionMailer::Base
     logger&.error "MailHandler: missing information from #{user}: #{e.message}"
     false
   rescue UnauthorizedAction => e
-    logger&.error "MailHandler: unauthorized attempt from #{user}"
+    logger&.error "MailHandler: unauthorized attempt from #{user}: #{e.message}"
     false
   end
 
@@ -184,7 +184,7 @@ class MailHandler < ActionMailer::Base
     project = target_project
     # check permission
     unless handler_options[:no_permission_check]
-      raise UnauthorizedAction unless user.allowed_to?(:add_issues, project)
+      raise UnauthorizedAction, "not allowed to add issues to project [#{project.name}]" unless user.allowed_to?(:add_issues, project)
     end
 
     issue = Issue.new(:author => user, :project => project)
@@ -223,7 +223,7 @@ class MailHandler < ActionMailer::Base
     unless handler_options[:no_permission_check]
       unless user.allowed_to?(:add_issue_notes, issue.project) ||
                user.allowed_to?(:edit_issues, issue.project)
-        raise UnauthorizedAction
+        raise UnauthorizedAction, "not allowed to add notes on issues to project [#{project.name}]"
       end
     end
 
@@ -262,7 +262,7 @@ class MailHandler < ActionMailer::Base
       message = message.root
 
       unless handler_options[:no_permission_check]
-        raise UnauthorizedAction unless user.allowed_to?(:add_messages, message.project)
+        raise UnauthorizedAction, "not allowed to add messages to project [#{project.name}]" unless user.allowed_to?(:add_messages, message.project)
       end
 
       if !message.locked?
