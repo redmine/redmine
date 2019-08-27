@@ -11,7 +11,7 @@
       <span class="journal-actions"><%= render_journal_actions(issue, journal, :reply_links => reply_links) %></span>
       <a href="#note-<%= journal.indice %>" class="journal-link">#<%= journal.indice %></a>
     </div>
-    <h4>
+    <h4 class='note-header'>
       <%= avatar(journal.user) %>
       <%= authoring journal.created_on, journal.user, :label => :label_updated_time_by %>
       <%= render_private_notes_indicator(journal) %>

@@ -65,7 +65,7 @@
             :class => 'icon icon-del'
           ) if message.destroyable_by?(User.current) %>
     </div>
-  <h4>
+  <h4 class='reply-header'>
     <%= avatar(message.author) %>
     <%= link_to message.subject, { :controller => 'messages', :action => 'show', :board_id => @board, :id => @topic, :r => message, :anchor => "message-#{message.id}" } %>
     -
