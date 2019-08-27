@@ -1233,18 +1233,16 @@ de:
   field_full_width_layout: Layout mit voller Breite
   label_last_notes: Letzte Kommentare
   field_digest: Checksumme
-  setting_close_duplicate_issues: Close duplicate issues automatically
-  error_exceeds_maximum_hours_per_day: Cannot log more than %{max_hours} hours on the
-    same day (%{logged_hours} hours have already been logged)
-  setting_time_entry_list_defaults: Timelog list defaults
-  setting_timelog_accept_0_hours: Accept time logs with 0 hours
-  setting_timelog_max_hours_per_day: Maximum hours that can be logged per day and user
-  label_x_revisions: "%{count} revisions"
-  error_can_not_delete_auth_source: This authentication mode is in use and cannot be
-    deleted.
+  setting_close_duplicate_issues: Duplikate automatisch schließen
+  error_exceeds_maximum_hours_per_day: Es können nicht mehr als %{max_hours} Stunden am selben Tag gebucht werden (%{logged_hours} Stunden wurden bereits gebucht)
+  setting_time_entry_list_defaults: Standard-Spalten in der Zeiten-Auflistung
+  setting_timelog_accept_0_hours: Akzeptiere Buchungen mit 0 Stunden
+  setting_timelog_max_hours_per_day: Maximale Anzahl der täglich buchbaren Stunden pro Benutzer
+  label_x_revisions: "%{count} Revisionen"
+  error_can_not_delete_auth_source: Diese Authentifizierungsmethode ist in Verwendung und kann nicht gelöscht werden.
   text_login_required_html: Ohne erforderliche Authentifizierung sind öffentlichen Projekte und deren Inhalte ohne Anmeldung frei zugänglich. Sie können die <a href="%{anonymous_role_path}">verwendeten Berechtigungen anpassen</a>.
   label_login_required_yes: "Ja"
   label_login_required_no: "Nein, anonymen Zugriff auf öffentliche Projekte erlauben"
   text_project_is_public_non_member: Öffentliche Projekte und deren Inhalte sind für alle angemeldeten Benutzer zugänglich.
   text_project_is_public_anonymous: Öffentliche Projekte und deren Inhalte sind ohne Anmeldung frei zugänglich.
-  label_nothing_to_preview: Nothing to preview
+  label_nothing_to_preview: Keine Vorschau vorhanden
