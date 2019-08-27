@@ -1616,7 +1616,6 @@ Style/RaiseArgs:
   Exclude:
     - 'app/models/auth_source_ldap.rb'
     - 'app/models/issue_query.rb'
-    - 'app/models/mail_handler.rb'
     - 'app/models/mailer.rb'
     - 'app/models/query.rb'
     - 'app/models/tracker.rb'

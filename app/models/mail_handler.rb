@@ -400,7 +400,7 @@ class MailHandler < ActionMailer::Base
         target = Project.find_by_identifier(default_project)
       end
     end
-    raise MissingInformation.new('Unable to determine target project') if target.nil?
+    raise MissingInformation, 'Unable to determine target project' if target.nil?
     target
   end
 
