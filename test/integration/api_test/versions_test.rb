@@ -27,7 +27,8 @@ class Redmine::ApiTest::VersionsTest < Redmine::ApiTest::Base
            :member_roles,
            :members,
            :enabled_modules,
-           :versions
+           :versions,
+           :wikis, :wiki_pages
 
   test "GET /projects/:project_id/versions.xml should return project versions" do
     get '/projects/1/versions.xml'
