@@ -175,7 +175,7 @@ ja:
   notice_account_register_done: アカウントを作成しました。アカウントを有効にするための手順を記載したメールを %{email} 宛に送信しました。
   notice_account_unknown_email: ユーザーが存在しません。
   notice_can_t_change_password: このアカウントでは外部認証を使っています。パスワードは変更できません。
-  notice_account_lost_email_sent: 新しいパスワードのメールを送信しました。
+  notice_account_lost_email_sent: パスワードを再設定する手順を記載したメールを送信しました。
   notice_account_activated: アカウントが有効になりました。ログインできます。
   notice_successful_create: 作成しました。
   notice_successful_update: 更新しました。
@@ -219,7 +219,7 @@ ja:
 
   warning_attachments_not_saved: "%{count}個の添付ファイルが保存できませんでした。"
 
-  mail_subject_lost_password: "%{value} パスワード再発行"
+  mail_subject_lost_password: "%{value} パスワード再設定"
   mail_body_lost_password: 'パスワードを変更するには、以下のリンクをクリックしてください:'
   mail_body_lost_password_validity: 'このリンクでパスワードを再設定できるのは1回だけです。ご注意ください。'
   mail_subject_register: "%{value} アカウント登録の確認"
@@ -516,7 +516,7 @@ ja:
   label_information_plural: 情報
   label_register: 登録する
   label_login_with_open_id_option: またはOpenIDでログインする
-  label_password_lost: パスワードの再発行
+  label_password_lost: パスワードの再設定
   label_home: ホーム
   label_my_page: マイページ
   label_my_account: 個人設定
@@ -1193,7 +1193,7 @@ ja:
   label_default_values_for_new_users: 新しいユーザーのデフォルト設定
   error_ldap_bind_credentials: LDAPアカウント/パスワードが無効です
   setting_sys_api_key: APIキー
-  setting_lost_password: パスワードの再発行
+  setting_lost_password: パスワード再設定機能の使用を許可
   mail_subject_security_notification: セキュリティ通知
   mail_body_security_notification_change: ! '%{field} が変更されました。'
   mail_body_security_notification_change_to: ! '%{field} が %{value} に変更されました。'
