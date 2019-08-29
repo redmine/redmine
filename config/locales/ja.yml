@@ -153,10 +153,10 @@ ja:
         earlier_than_minimum_start_date: "を%{date}より前にすることはできません。先行するチケットがあります"
         not_a_regexp: "は正しい正規表現ではありません"
         open_issue_with_closed_parent: "完了したチケットに未完了の子チケットを追加することはできません"
-        must_contain_uppercase: "must contain uppercase letters (A-Z)"
-        must_contain_lowercase: "must contain lowercase letters (a-z)"
-        must_contain_digits: "must contain digits (0-9)"
-        must_contain_special_chars: "must contain special characters (!, $, %, ...)"
+        must_contain_uppercase: "は大文字 (A-Z) を含む必要があります"
+        must_contain_lowercase: "は小文字 (a-z) を含む必要があります"
+        must_contain_digits: "は数字 (0-9) を含む必要があります"
+        must_contain_special_chars: "は記号 (!, $, %, ...) を含む必要があります"
 
   actionview_instancetag_blank_option: 選んでください
 
@@ -897,7 +897,7 @@ ja:
   text_tip_issue_end_day: この日に終了するチケット
   text_tip_issue_begin_end_day: この日に開始・終了するチケット
   text_caracters_maximum: "最大%{count}文字です。"
-  text_caracters_minimum: "最低%{count}文字の長さが必要です"
+  text_caracters_minimum: "最低%{count}文字の長さが必要です。"
   text_length_between: "長さは%{min}から%{max}文字までです。"
   text_tracker_no_workflow: このトラッカーにワークフローが定義されていません
   text_unallowed_characters: 次の文字は使用できません
@@ -1296,9 +1296,9 @@ ja:
   label_last_tab_visited: 最後に開いたタブ
   field_unique_id: Unique ID
   text_no_subject: 題名なし
-  setting_password_required_char_classes: Required character classes for passwords
-  label_password_char_class_uppercase: uppercase letters
-  label_password_char_class_lowercase: lowercase letters
-  label_password_char_class_digits: digits
-  label_password_char_class_special_chars: special characters
-  text_characters_must_contain: Must contain %{character_classes}.
+  setting_password_required_char_classes: パスワードの必須文字種別
+  label_password_char_class_uppercase: 大文字
+  label_password_char_class_lowercase: 小文字
+  label_password_char_class_digits: 数字
+  label_password_char_class_special_chars: 記号
+  text_characters_must_contain: "%{character_classes}を含む必要があります。"
