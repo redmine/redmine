@@ -1352,3 +1352,9 @@
   label_last_tab_visited: 上次瀏覽的分頁
   field_unique_id: 唯一識別碼
   text_no_subject: no subject
+  setting_password_required_char_classes: Required character classes for passwords
+  label_password_char_class_uppercase: uppercase letters
+  label_password_char_class_lowercase: lowercase letters
+  label_password_char_class_digits: digits
+  label_password_char_class_special_chars: special characters
+  text_characters_must_contain: Must contain %{character_classes}.

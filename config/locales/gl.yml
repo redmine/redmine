@@ -1303,3 +1303,9 @@ gl:
   label_last_tab_visited: Última lapela visitada
   field_unique_id: ID único
   text_no_subject: sen asunto
+  setting_password_required_char_classes: Required character classes for passwords
+  label_password_char_class_uppercase: uppercase letters
+  label_password_char_class_lowercase: lowercase letters
+  label_password_char_class_digits: digits
+  label_password_char_class_special_chars: special characters
+  text_characters_must_contain: Must contain %{character_classes}.
