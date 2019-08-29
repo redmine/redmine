@@ -39,6 +39,7 @@ unsubscribe:
 password_required_char_classes:
   serialized: true
   default: []
+  security_notifications: 1
 password_min_length:
   format: int
   default: 8
