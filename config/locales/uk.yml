@@ -146,6 +146,10 @@ uk:
         earlier_than_minimum_start_date: "не може бути раніше ніж %{date} через попередні задачі"
         not_a_regexp: "недопустимий регулярний вираз"
         open_issue_with_closed_parent: "Відкрите завдання не може бути приєднано до закритого батьківського завдання"
+        must_contain_uppercase: "must contain uppercase letters (A-Z)"
+        must_contain_lowercase: "must contain lowercase letters (a-z)"
+        must_contain_digits: "must contain digits (0-9)"
+        must_contain_special_chars: "must contain special characters (!, $, %, ...)"
 
   actionview_instancetag_blank_option: Оберіть
 

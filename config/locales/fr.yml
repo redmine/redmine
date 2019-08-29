@@ -152,6 +152,10 @@ fr:
         earlier_than_minimum_start_date: "ne peut pas être antérieure au %{date} à cause des demandes qui précèdent"
         not_a_regexp: "n'est pas une expression regulière valide"
         open_issue_with_closed_parent: "Une demande ouverte ne peut pas être rattachée à une demande fermée"
+        must_contain_uppercase: "must contain uppercase letters (A-Z)"
+        must_contain_lowercase: "must contain lowercase letters (a-z)"
+        must_contain_digits: "must contain digits (0-9)"
+        must_contain_special_chars: "must contain special characters (!, $, %, ...)"
 
   actionview_instancetag_blank_option: Choisir
 

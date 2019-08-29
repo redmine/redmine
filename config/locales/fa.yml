@@ -136,6 +136,10 @@ fa:
         earlier_than_minimum_start_date: "به خاطر مسائل مقدم، نمی‌تواند قبل از %{date} باشد"
         not_a_regexp: "یک عبارت منظم معتبر نیست"
         open_issue_with_closed_parent: "یم مسأله باز نمی‌تواند به یک مسأله پدر بسته ضمیمه شود"
+        must_contain_uppercase: "must contain uppercase letters (A-Z)"
+        must_contain_lowercase: "must contain lowercase letters (a-z)"
+        must_contain_digits: "must contain digits (0-9)"
+        must_contain_special_chars: "must contain special characters (!, $, %, ...)"
 
   actionview_instancetag_blank_option: انتخاب کنید
 

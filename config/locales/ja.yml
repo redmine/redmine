@@ -153,6 +153,10 @@ ja:
         earlier_than_minimum_start_date: "を%{date}より前にすることはできません。先行するチケットがあります"
         not_a_regexp: "は正しい正規表現ではありません"
         open_issue_with_closed_parent: "完了したチケットに未完了の子チケットを追加することはできません"
+        must_contain_uppercase: "must contain uppercase letters (A-Z)"
+        must_contain_lowercase: "must contain lowercase letters (a-z)"
+        must_contain_digits: "must contain digits (0-9)"
+        must_contain_special_chars: "must contain special characters (!, $, %, ...)"
 
   actionview_instancetag_blank_option: 選んでください
 
