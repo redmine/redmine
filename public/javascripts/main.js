@@ -414,7 +414,7 @@ function openNWBExplorer(uri, projectIdentifier) {
 }
 
 function addNetPyNEIframe(src) {
-  var iframe = $("<iframe id='geppettoFrame' src='http://localhost:8888'></iframe>")
+  var iframe = $("<iframe id='geppettoFrame' src='http://netpyne.opensourcebrain.org'></iframe>")
   $(".project-header").before("<div id='geppettoContainer'></div>");
   $("#geppettoContainer").append(iframe);
   iframe.load(function() {
@@ -425,7 +425,7 @@ function addNetPyNEIframe(src) {
     var components = components.splice(3);
     params.moduleName = components.splice(-1)[0].split('.')[0];
     params.path = components.join('/');
-    sendNWBToIframe(params);
+    sendNetPyNEToIframe(params);
   });
 }
 
