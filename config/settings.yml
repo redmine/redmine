@@ -36,6 +36,9 @@ lost_password:
   security_notifications: 1
 unsubscribe:
   default: 1
+password_required_char_classes:
+  serialized: true
+  default: []
 password_min_length:
   format: int
   default: 8

@@ -539,6 +539,18 @@ class UserTest < ActiveSupport::TestCase
     end
   end
 
+  def test_validate_password_format
+    Setting::PASSWORD_CHAR_CLASSES.each do |key, regexp|
+      with_settings :password_required_char_classes => key do
+        user = User.new(:firstname => "new", :lastname => "user", :login => "random", :mail => "random@somnet.foo")
+        p = 'PASSWDpasswd01234!@#$%'.gsub(regexp, '')
+        user.password, user.password_confirmation = p, p
+        assert !user.save
+        assert_equal 1, user.errors.count
+      end
+    end
+  end
+
   def test_name_format
     assert_equal 'John S.', @jsmith.name(:firstname_lastinitial)
     assert_equal 'Smith, John', @jsmith.name(:lastname_comma_firstname)
@@ -1056,6 +1068,14 @@ class UserTest < ActiveSupport::TestCase
     u.random_password
     assert !u.password.blank?
     assert !u.password_confirmation.blank?
+  end
+
+  def test_random_password_include_required_characters
+    with_settings :password_required_char_classes => Setting::PASSWORD_CHAR_CLASSES do
+      u = User.new(:firstname => "new", :lastname => "user", :login => "random", :mail => "random@somnet.foo")
+      u.random_password
+      assert u.valid?
+    end
   end
 
   test "#change_password_allowed? should be allowed if no auth source is set" do

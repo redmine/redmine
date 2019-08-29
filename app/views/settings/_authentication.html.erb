@@ -20,6 +20,8 @@
 
 <p><%= setting_text_field :password_min_length, :size => 6 %></p>
 
+<p><%= setting_multiselect :password_required_char_classes, Setting::PASSWORD_CHAR_CLASSES.keys.collect {|c| [l("label_password_char_class_#{c}"), c]} , :inline => true %></p>
+
 <p>
   <%= setting_select :password_max_age, [[l(:label_disabled), 0]] + [7, 30, 60, 90, 180, 365].collect{|days| [l('datetime.distance_in_words.x_days', :count => days), days.to_s]} %>
 </p>

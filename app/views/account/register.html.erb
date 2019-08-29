@@ -8,8 +8,11 @@
   <p><%= f.text_field :login, :size => 25, :required => true %></p>
 
   <p><%= f.password_field :password, :size => 25, :required => true %>
-  <em class="info"><%= l(:text_caracters_minimum, :count => Setting.password_min_length) %></em></p>
-
+  <em class="info"><%= l(:text_caracters_minimum, :count => Setting.password_min_length) %></em>
+  <% if Setting.password_required_char_classes.any? %>
+    <em class="info"><%= l(:text_characters_must_contain, :character_classes => Setting.password_required_char_classes.collect{|c| l("label_password_char_class_#{c}")}.join(", ")) %></em>
+  <% end %>
+  </p>
   <p><%= f.password_field :password_confirmation, :size => 25, :required => true %></p>
 <% end %>
 

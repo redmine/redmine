@@ -112,6 +112,9 @@ class User < Principal
   validates_length_of :firstname, :lastname, :maximum => 30
   validates_length_of :identity_url, maximum: 255
   validates_inclusion_of :mail_notification, :in => MAIL_NOTIFICATION_OPTIONS.collect(&:first), :allow_blank => true
+  Setting::PASSWORD_CHAR_CLASSES.each do |k, v|
+    validates_format_of :password, :with => v, :message => :"must_contain_#{k}", :allow_blank => true, :if => Proc.new {Setting.password_required_char_classes.include?(k)}
+  end
   validate :validate_password_length
   validate do
     if password_confirmation && password != password_confirmation
@@ -366,10 +369,22 @@ class User < Principal
 
   # Generate and set a random password on given length
   def random_password(length=40)
-    chars = ("a".."z").to_a + ("A".."Z").to_a + ("0".."9").to_a
-    chars -= %w(0 O 1 l)
+    chars_list = [('A'..'Z').to_a, ('a'..'z').to_a, ('0'..'9').to_a]
+    # auto-generated passwords contain special characters only when admins
+    # require users to use passwords which contains special characters
+    if Setting.password_required_char_classes.include?('special_chars')
+      chars_list << ("\x20".."\x7e").to_a.select {|c| c =~ Setting::PASSWORD_CHAR_CLASSES['special_chars']}
+    end
+    chars_list.each {|v| v.reject! {|c| %(0O1l|'"`*).include?(c)}}
+
     password = +''
-    length.times {|i| password << chars[SecureRandom.random_number(chars.size)] }
+    chars_list.each do |chars|
+      password << chars[SecureRandom.random_number(chars.size)]
+      length -= 1
+    end
+    chars = chars_list.flatten
+    length.times { password << chars[SecureRandom.random_number(chars.size)] }
+    password = password.split('').shuffle(random: SecureRandom).join
     self.password = password
     self.password_confirmation = password
     self
