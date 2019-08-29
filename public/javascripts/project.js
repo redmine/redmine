@@ -10,22 +10,30 @@ $(document).ready(function(){
     else if(projectId != '')
         openExistingProjectIn3DExplorer(projectId);
 
-    function toggleProjectButton(){
-	if($("#showGeppettoBtn").is(":visible")){
-	    $("#showGeppettoBtn").hide();
-	    $("#showProjectBtn").show();
-	    $("#moreBtn").hide();
-	}
-	else{
-	    $("#showGeppettoBtn").show();
-	    $("#showProjectBtn").hide();
-	    $("#moreBtn").show();
-	}
-    }
-
     function hasModels(){
         return (repourl && project_repository != "" && (jsonfiles != "" || cellfiles != "" || synapsefiles != "" || h5files != "" || networkfiles != "" || swcfiles != ""));
     }
+
+    function toggleProjectButton() {
+        if ($("#showGeppettoBtn").is(":visible") || !hasModels()) {
+            if (hasModels()) {
+	        $("#showGeppettoBtn").hide();
+                $("#moreBtn").hide();
+            }
+            if ($("#showProjectBtn").is(":visible"))
+	        $("#showProjectBtn").hide();
+            else
+                $("#showProjectBtn").show();
+        }
+        else {
+            if (hasModels()) {
+	        $("#showGeppettoBtn").show();
+                $("#moreBtn").show();
+            }
+	    $("#showProjectBtn").hide();
+        }
+    }
+
     var bytesToHumanSize = function(nbytes) {
         var human = "";
         if (nbytes < 1048576)
@@ -83,7 +91,7 @@ $(document).ready(function(){
         var projectUrl = '//' + location.host + location.pathname;
 	if(history.pushState) {history.pushState(null, null, projectUrl);}
 	toggleProjectButton();
-        $("#geppettoContainer").remove();
+        $("#geppettoContainer").hide();
 	$(".project-main").show();
         $(".project-header").show();
 	showFooter();

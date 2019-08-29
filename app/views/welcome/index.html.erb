@@ -1,5 +1,12 @@
 <% content_for :header_tags do %>
     <script src="/javascripts/welcome.js"></script>
+    <script type="text/javascript">
+     var updateFile = function(){
+         let frame = document.getElementById("nwbExplorerFrame");
+         let fileName = "https://github.com/OpenSourceBrain/NWBShowcase/raw/master/NWB/time_series_data.nwb";
+         frame.contentWindow.postMessage(fileName, '*');
+    }
+    </script>
 <% end %>
 <div id="geppettoHomeContainer"></div>
 <% if not User.current.logged? %>
@@ -68,6 +75,7 @@
   
   <li class="active"><a href="#myprojects" data-toggle="tab"><%= User.current.firstname %>'s Home</a></li>
   <li><a href="#workspace" data-toggle="tab">Your models</a></li>
+  <li><a href="#nwbexplorer" data-toggle="tab">NWB Explorer</a></li>
   <li><a href="/tutorials">Tutorials</a></li>
   <li><a href="#news" data-toggle="tab">News</a></li>
   

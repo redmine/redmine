@@ -1,3 +1,4 @@
+<% users = @users.select {|x| x.status == 1} %>
 <div class="tab-pane row" id="listpeople">
     <div class="col-sm-3 navbar">
 	<div class="nav">
@@ -8,7 +9,7 @@
 		</div>
 	    </form>
 	    <ul id="peoplelist" class="nav overflow-list">
-		<% for user in @users %>
+		<% for user in users %>
 		    <li class="capitalize">
 			<a data-toggle="tab" href="#user<%= user.id %>"><%= user.name %></a>
 		    </li>
@@ -17,10 +18,10 @@
 	</div>
     </div>
     <div class="col-sm-9 tab-content">
-	<div class="summary">
-	    There are currently <%= @users.length %> users in OSB.
+      <div class="summary">
+        There are currently <%= users.length %> users in OSB.
 	</div>
-	<% for user in @users %>
+	<% for user in users %>
 	    <div class="tab-pane" id="user<%= user.id %>">
 		<h3><a class="capitalize" href="<%= user_path(user) %>"><%= user.name %></a></h3>
 		<% unless user.pref.hide_mail %>

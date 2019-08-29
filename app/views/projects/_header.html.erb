@@ -6,6 +6,7 @@
      var neuroml2files = <%= raw getNML2Files(@project.repository) %>;
      var h5files = <%= raw getH5Files(@project.repository) %>;
      var swcfiles = <%= raw getSWCFiles(@project.repository) %>;
+     var nwbfiles = <%= raw getNWBFiles(@project.repository) %>;
      var jsonfiles = <%= raw getJSONFiles(@project.repository) %>;
      var synapsefiles = <%= raw getModelFiles(".synapse.nml") %>;
      var channelfiles = <%= raw getModelFiles(".channel.nml") %>;
@@ -20,6 +21,7 @@
         <% @neuroml2files = getNML2Files(@project.repository) %>
         <% @h5files = getH5Files(@project.repository) %>
         <% @swcfiles = getSWCFiles(@project.repository) %>
+        <% @nwbfiles = getNWBFiles(@project.repository) %>
         <% @sjsonfiles = getJSONFiles(@project.repository) %>
         <% @repourl=getHttpRepositoryURL(@project) %>
         <% @repopath=getHttpRepositoryPath(@project.repository) %>
