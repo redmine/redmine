@@ -133,10 +133,10 @@ bg:
         earlier_than_minimum_start_date: "не може да бъде по-рано от %{date} поради предхождащи задачи"
         not_a_regexp: "не е валиден регулярен израз"
         open_issue_with_closed_parent: "Отворена задача не може да бъде асоциирана към затворена родителска задача"
-        must_contain_uppercase: "must contain uppercase letters (A-Z)"
-        must_contain_lowercase: "must contain lowercase letters (a-z)"
-        must_contain_digits: "must contain digits (0-9)"
-        must_contain_special_chars: "must contain special characters (!, $, %, ...)"
+        must_contain_uppercase: "трябва да съдържа големи букви (A-Z)"
+        must_contain_lowercase: "трябва да съдържа малки букви (a-z)"
+        must_contain_digits: "трябва да съдържа цифри (0-9)"
+        must_contain_special_chars: "трябва да съдържа специални символи (!, $, %, ...)"
 
   actionview_instancetag_blank_option: Изберете
 
@@ -443,6 +443,7 @@ bg:
   setting_openid: Рарешаване на OpenID вход и регистрация
   setting_password_max_age: Изискване за смяна на паролата след
   setting_password_min_length: Минимална дължина на парола
+  setting_password_required_char_classes: Задължителни символни класове за пароли
   setting_lost_password: Забравена парола
   setting_new_project_user_role_id: Роля, давана на потребител, създаващ проекти, който не е администратор
   setting_default_projects_modules: Активирани модули по подразбиране за нов проект
@@ -1067,6 +1068,10 @@ bg:
   label_issue_history_properties: Промени в състоянието (състояние, версии, категории, процент на изпълнение...)
   label_issue_history_notes: Коментари
   label_last_tab_visited: Последно посетен таб
+  label_password_char_class_uppercase: големи букви
+  label_password_char_class_lowercase: малки букви
+  label_password_char_class_digits: цифри
+  label_password_char_class_special_chars: специални символи
 
   button_login: Вход
   button_submit: Изпращане
@@ -1158,6 +1163,7 @@ bg:
   text_project_identifier_info: 'Позволени са малки букви (a-z), цифри, тирета и _.<br />Промяна след създаването му не е възможна.'
   text_caracters_maximum: "До %{count} символа."
   text_caracters_minimum: "Минимум %{count} символа."
+  text_characters_must_contain: Трябва да съдържа %{character_classes}.
   text_length_between: "От %{min} до %{max} символа."
   text_tracker_no_workflow: Няма дефиниран работен процес за този тракер
   text_role_no_workflow: Няма дефиниран работен процес за тази роля
@@ -1248,6 +1254,7 @@ bg:
   default_priority_immediate: Веднага
   default_activity_design: Дизайн
   default_activity_development: Разработка
+  text_no_subject: няма заглавие
 
   enumeration_issue_priorities: Приоритети на задачи
   enumeration_doc_categories: Категории документи
@@ -1273,10 +1280,3 @@ bg:
   label_login_required_no: Не, разрешаване на анонимен достъп до публичните проекти.
   text_project_is_public_non_member: Публичните проекти са достъпни за всички влезли в Redmine потребители.
   text_project_is_public_anonymous: Публичните проекти са достъпнии тяхното съдържание са видими без ограничения в мрежата.
-  text_no_subject: no subject
-  setting_password_required_char_classes: Required character classes for passwords
-  label_password_char_class_uppercase: uppercase letters
-  label_password_char_class_lowercase: lowercase letters
-  label_password_char_class_digits: digits
-  label_password_char_class_special_chars: special characters
-  text_characters_must_contain: Must contain %{character_classes}.
