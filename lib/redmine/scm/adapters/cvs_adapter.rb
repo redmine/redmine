@@ -182,9 +182,9 @@ module Redmine
                   entry_name = normalize_path(File.basename($1))
                   logger.debug("Path #{entry_path} <=> Name #{entry_name}")
                 elsif /^head: (.+)$/ =~ line
-                  entry_headRev = $1 #unless entry.nil?
+                  entry_headRev = $1
                 elsif /^symbolic names:/.match?(line)
-                  state = "symbolic" #unless entry.nil?
+                  state = "symbolic"
                 elsif /^#{STARTLOG}/.match?(line)
                   commit_log = ""
                   state      = "revision"

@@ -319,7 +319,6 @@ Layout/LeadingCommentSpace:
     - 'app/controllers/repositories_controller.rb'
     - 'app/models/repository.rb'
     - 'lib/diff.rb'
-    - 'lib/redmine/scm/adapters/cvs_adapter.rb'
     - 'lib/redmine/scm/adapters/git_adapter.rb'
     - 'lib/redmine/wiki_formatting/textile/redcloth3.rb'
     - 'test/integration/api_test/issues_test.rb'
