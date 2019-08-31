@@ -243,7 +243,7 @@ module Redmine
                 elsif /^revision (\d+(?:\.\d+)+).*$/ =~ line
                   revision = $1
                 elsif /^date:\s+(\d+.\d+.\d+\s+\d+:\d+:\d+)/ =~ line
-                  date       = Time.parse($1)
+                  date         = Time.parse($1)
                   line_utf8    = scm_iconv('UTF-8', options[:log_encoding], line)
                   author_utf8  = /author: ([^;]+)/.match(line_utf8)[1]
                   author       = scm_iconv(options[:log_encoding], 'UTF-8', author_utf8)
