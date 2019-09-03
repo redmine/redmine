@@ -26,11 +26,11 @@ class TimelogCustomFieldsVisibilityTest < Redmine::ControllerTest
            :roles,
            :members,
            :member_roles,
-           :issue_statuses,
+           :issues, :issue_statuses,
            :trackers,
            :projects_trackers,
            :enabled_modules,
-           :enumerations,
+           :time_entries, :enumerations,
            :workflows,
            :custom_fields, :custom_values, :custom_fields_trackers
 
