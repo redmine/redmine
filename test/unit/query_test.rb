@@ -2019,7 +2019,7 @@ class QueryTest < ActiveSupport::TestCase
 
   test "#available_filters should include 'member_of_group' filter" do
     query = IssueQuery.new
-    assert query.available_filters.keys.include?("member_of_group")
+    assert query.available_filters.key?("member_of_group")
     assert_equal :list_optional, query.available_filters["member_of_group"][:type]
     assert query.available_filters["member_of_group"][:values].present?
     assert_equal Group.givable.sort.map {|g| [g.name, g.id.to_s]},
@@ -2028,7 +2028,7 @@ class QueryTest < ActiveSupport::TestCase
 
   test "#available_filters should include 'assigned_to_role' filter" do
     query = IssueQuery.new
-    assert query.available_filters.keys.include?("assigned_to_role")
+    assert query.available_filters.key?("assigned_to_role")
     assert_equal :list_optional, query.available_filters["assigned_to_role"][:type]
 
     assert query.available_filters["assigned_to_role"][:values].include?(['Manager','1'])

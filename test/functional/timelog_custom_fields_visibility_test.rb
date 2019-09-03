@@ -153,7 +153,7 @@ class TimelogCustomFieldsVisibilityTest < Redmine::ControllerTest
     }
 
     Member.where(:project_id => 1).each do |member|
-      member.destroy unless @users_to_test.keys.include?(member.principal)
+      member.destroy unless @users_to_test.key?(member.principal)
     end
   end
 end
