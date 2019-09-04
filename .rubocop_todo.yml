@@ -432,7 +432,6 @@ Layout/SpaceBeforeFirstArg:
     - 'test/helpers/issues_helper_test.rb'
     - 'test/helpers/search_helper_test.rb'
     - 'test/unit/lib/redmine/menu_manager_test.rb'
-    - 'test/unit/lib/redmine/scm/adapters/git_adapter_test.rb'
 
 # Cop supports --auto-correct.
 Layout/SpaceBeforeSemicolon:
