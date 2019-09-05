@@ -30,13 +30,20 @@ class Redmine::ApiTest::ProjectsTest < Redmine::ApiTest::Base
   end
 
   test "GET /projects.xml should return projects" do
+    project = Project.find(1)
+    project.inherit_members = '1'
+    project.save!
+
     get '/projects.xml'
     assert_response :success
     assert_equal 'application/xml', @response.content_type
 
-    assert_select 'projects>project>id', :text => '1'
-    assert_select 'projects>project>status', :text => '1'
-    assert_select 'projects>project>is_public', :text => 'true'
+    assert_select 'projects>project:first-child' do
+      assert_select '>id', :text => '1'
+      assert_select '>status', :text => '1'
+      assert_select '>is_public', :text => 'true'
+      assert_select '>inherit_members', :text => 'true'
+    end
   end
 
   test "GET /projects.json should return projects" do
@@ -49,6 +56,7 @@ class Redmine::ApiTest::ProjectsTest < Redmine::ApiTest::Base
     assert_kind_of Array, json['projects']
     assert_kind_of Hash, json['projects'].first
     assert json['projects'].first.has_key?('id')
+    assert json['projects'].first.has_key?('inherit_members')
   end
 
   test "GET /projects.xml with include=issue_categories should return categories" do
@@ -76,6 +84,8 @@ class Redmine::ApiTest::ProjectsTest < Redmine::ApiTest::Base
   end
 
   test "GET /projects/:id.xml should return the project" do
+    Project.find(1).update!(:inherit_members => '1')
+
     get '/projects/1.xml'
     assert_response :success
     assert_equal 'application/xml', @response.content_type
@@ -83,6 +93,7 @@ class Redmine::ApiTest::ProjectsTest < Redmine::ApiTest::Base
     assert_select 'project>id', :text => '1'
     assert_select 'project>status', :text => '1'
     assert_select 'project>is_public', :text => 'true'
+    assert_select 'project>inherit_members', :text => 'true'
     assert_select 'custom_field[name="Development status"]', :text => 'Stable'
 
     assert_select 'trackers', 0
@@ -96,6 +107,7 @@ class Redmine::ApiTest::ProjectsTest < Redmine::ApiTest::Base
     assert_kind_of Hash, json
     assert_kind_of Hash, json['project']
     assert_equal 1, json['project']['id']
+    assert_equal false, json['project']['inherit_members']
   end
 
   test "GET /projects/:id.xml with hidden custom fields should not display hidden custom fields" do
