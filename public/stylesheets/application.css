@@ -1262,9 +1262,6 @@ div.wiki img {vertical-align:middle; max-width:100%;}
 
 #my-page .list th.checkbox, #my-page .list td.checkbox {display:none;}
 /***** Gantt chart *****/
-div.gantt_content {
-  overflow: scroll;
-}
 table.gantt-table {
   width: 100%;
   border-collapse: collapse;
