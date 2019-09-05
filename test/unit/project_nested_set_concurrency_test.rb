@@ -21,6 +21,7 @@ class ProjectNestedSetConcurrencyTest < ActiveSupport::TestCase
   self.use_transactional_tests = false
 
   def setup
+    User.current = nil
     CustomField.delete_all
   end
 

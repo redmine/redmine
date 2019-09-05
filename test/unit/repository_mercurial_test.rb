@@ -29,6 +29,7 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
   BRANCH_CHAR_1 = "branch-#{CHAR_1_HEX}-01".force_encoding('UTF-8')
 
   def setup
+    User.current = nil
     @project    = Project.find(3)
     @repository = Repository::Mercurial.create(
                       :project => @project,

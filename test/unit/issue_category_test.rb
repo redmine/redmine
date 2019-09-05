@@ -21,6 +21,7 @@ class IssueCategoryTest < ActiveSupport::TestCase
   fixtures :issue_categories, :issues, :users, :groups_users
 
   def setup
+    User.current = nil
     @category = IssueCategory.find(1)
   end
 

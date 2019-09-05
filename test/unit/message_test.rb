@@ -22,6 +22,7 @@ class MessageTest < ActiveSupport::TestCase
            :users, :watchers, :enabled_modules
 
   def setup
+    User.current = nil
     @board = Board.find(1)
     @user = User.find(1)
   end

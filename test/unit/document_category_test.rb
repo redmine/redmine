@@ -20,6 +20,10 @@ require File.expand_path('../../test_helper', __FILE__)
 class DocumentCategoryTest < ActiveSupport::TestCase
   fixtures :enumerations, :documents, :issues
 
+  def setup
+    User.current = nil
+  end
+
   def test_should_be_an_enumeration
     assert DocumentCategory.ancestors.include?(Enumeration)
   end

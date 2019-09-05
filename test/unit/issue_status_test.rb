@@ -28,6 +28,10 @@ class IssueStatusTest < ActiveSupport::TestCase
            :issues, :journals, :journal_details,
            :custom_fields, :custom_fields_projects, :custom_fields_trackers, :custom_values
 
+  def setup
+    User.current = nil
+  end
+
   def test_create
     status = IssueStatus.new :name => "Assigned"
     assert !status.save

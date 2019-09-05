@@ -29,6 +29,10 @@ class TimeEntryActivityTest < ActiveSupport::TestCase
 
   include Redmine::I18n
 
+  def setup
+    User.current = nil
+  end
+
   def test_should_be_an_enumeration
     assert TimeEntryActivity.ancestors.include?(Enumeration)
   end

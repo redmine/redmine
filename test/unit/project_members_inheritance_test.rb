@@ -22,6 +22,7 @@ class ProjectMembersInheritanceTest < ActiveSupport::TestCase
            :projects, :trackers, :issue_statuses
 
   def setup
+    User.current = nil
     @parent = Project.generate!
     @member = Member.create!(:principal => User.find(2), :project => @parent, :role_ids => [1, 2])
     assert_equal 2, @member.reload.roles.size

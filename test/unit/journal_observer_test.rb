@@ -23,6 +23,7 @@ class JournalObserverTest < ActiveSupport::TestCase
            :users, :email_addresses, :roles
 
   def setup
+    User.current = nil
     ActionMailer::Base.deliveries.clear
     @journal = Journal.find 1
   end

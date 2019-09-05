@@ -25,6 +25,7 @@ class RepositorySubversionTest < ActiveSupport::TestCase
   NUM_REV = 11
 
   def setup
+    User.current = nil
     @project = Project.find(3)
     @repository = Repository::Subversion.create(:project => @project,
                     :url => self.class.subversion_repository_url)

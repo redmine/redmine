@@ -40,6 +40,7 @@ class RepositoryGitTest < ActiveSupport::TestCase
   JRUBY_SKIP_STR = "TODO: This test fails in JRuby"
 
   def setup
+    User.current = nil
     @project = Project.find(3)
     @repository = Repository::Git.create(
                         :project       => @project,
