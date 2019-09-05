@@ -20,6 +20,10 @@ require File.expand_path('../../test_helper', __FILE__)
 class WorkflowTest < ActiveSupport::TestCase
   fixtures :roles, :trackers, :issue_statuses
 
+  def setup
+    User.current = nil
+  end
+
   def test_copy
     WorkflowTransition.delete_all
     WorkflowTransition.create!(:role_id => 1, :tracker_id => 2, :old_status_id => 1, :new_status_id => 2)

@@ -28,6 +28,7 @@ class IssueNestedSetConcurrencyTest < ActiveSupport::TestCase
 
   def setup
     skip if sqlite? || mysql?
+    User.current = nil
     CustomField.delete_all
   end
 

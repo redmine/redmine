@@ -21,6 +21,10 @@ class DefaultDataTest < ActiveSupport::TestCase
   include Redmine::I18n
   fixtures :roles
 
+  def setup
+    User.current = nil
+  end
+
   def test_no_data
     assert !Redmine::DefaultData::Loader::no_data?
     clear_data

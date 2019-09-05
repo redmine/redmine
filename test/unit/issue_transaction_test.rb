@@ -29,6 +29,10 @@ class IssueTransactionTest < ActiveSupport::TestCase
 
   self.use_transactional_fixtures = false
 
+  def setup
+    User.current = nil
+  end
+
   def test_invalid_move_to_another_project
     lft1 = new_issue_lft
     parent1 = Issue.generate!

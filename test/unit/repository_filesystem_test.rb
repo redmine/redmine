@@ -25,6 +25,7 @@ class RepositoryFilesystemTest < ActiveSupport::TestCase
   REPOSITORY_PATH = Rails.root.join('tmp/test/filesystem_repository').to_s
 
   def setup
+    User.current = nil
     @project = Project.find(3)
     Setting.enabled_scm << 'Filesystem' unless Setting.enabled_scm.include?('Filesystem')
     @repository = Repository::Filesystem.create(

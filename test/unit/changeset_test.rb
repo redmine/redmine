@@ -32,6 +32,10 @@ class ChangesetTest < ActiveSupport::TestCase
            :trackers, :projects_trackers,
            :enabled_modules, :roles
 
+  def setup
+    User.current = nil
+  end
+
   def test_ref_keywords_any
     ActionMailer::Base.deliveries.clear
     Setting.commit_ref_keywords = '*'

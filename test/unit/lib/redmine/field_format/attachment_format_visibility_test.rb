@@ -26,6 +26,7 @@ class AttachmentFormatVisibilityTest < ActionView::TestCase
            :versions, :issues
 
   def setup
+    User.current = nil
     set_tmp_attachments_directory
   end
 

@@ -25,6 +25,7 @@ class BoardTest < ActiveSupport::TestCase
   include Redmine::I18n
 
   def setup
+    User.current = nil
     @project = Project.find(1)
   end
 

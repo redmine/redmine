@@ -20,6 +20,10 @@ require File.expand_path('../../test_helper', __FILE__)
 class EnumerationTest < ActiveSupport::TestCase
   fixtures :enumerations, :issues, :custom_fields, :custom_values
 
+  def setup
+    User.current = nil
+  end
+
   def test_objects_count
     # low priority
     assert_equal 6, Enumeration.find(4).objects_count

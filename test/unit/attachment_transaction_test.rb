@@ -26,6 +26,7 @@ class AttachmentTest < ActiveSupport::TestCase
   self.use_transactional_fixtures = false
 
   def setup
+    User.current = nil
     set_tmp_attachments_directory
   end
 

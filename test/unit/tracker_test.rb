@@ -20,6 +20,10 @@ require File.expand_path('../../test_helper', __FILE__)
 class TrackerTest < ActiveSupport::TestCase
   fixtures :trackers, :workflows, :issue_statuses, :roles, :issues, :projects, :projects_trackers
 
+  def setup
+    User.current = nil
+  end
+
   def test_sorted_scope
     assert_equal Tracker.all.sort, Tracker.sorted.to_a
   end

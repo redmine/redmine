@@ -21,6 +21,10 @@ class VersionTest < ActiveSupport::TestCase
   fixtures :projects, :users, :issues, :issue_statuses, :trackers,
            :enumerations, :versions, :projects_trackers
 
+  def setup
+    User.current = nil
+  end
+
   def test_create
     v = Version.new(:project => Project.find(1), :name => '1.1',
                     :effective_date => '2011-03-25')

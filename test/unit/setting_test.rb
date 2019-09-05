@@ -21,6 +21,10 @@ require File.expand_path('../../test_helper', __FILE__)
 
 class SettingTest < ActiveSupport::TestCase
 
+  def setup
+    User.current = nil
+  end
+
   def teardown
     Setting.delete_all
     Setting.clear_cache

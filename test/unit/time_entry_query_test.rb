@@ -27,6 +27,10 @@ class TimeEntryQueryTest < ActiveSupport::TestCase
            :groups_users,
            :enabled_modules
 
+  def setup
+    User.current = nil
+  end
+
   def test_filter_values_without_project_should_be_arrays
     q = TimeEntryQuery.new
     assert_nil q.project
