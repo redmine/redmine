@@ -264,6 +264,118 @@ class Redmine::ApiTest::NewsTest < Redmine::ApiTest::Base
     assert_equal 2, news.attachments.count
   end
 
+  test "PUT /news/:id.xml" do
+    payload = <<~XML
+      <?xml version="1.0" encoding="UTF-8" ?>
+      <news>
+        <title>NewsUpdateXmlApiTest</title>
+        <summary>News Update XML-API Test</summary>
+        <description>update description via xml api</description>
+      </news>
+    XML
+    put '/news/1.xml',
+      :params => payload,
+      :headers => {"CONTENT_TYPE" => 'application/xml'}.merge(credentials('jsmith'))
+
+    news = News.find(1)
+    assert_equal 'NewsUpdateXmlApiTest', news.title
+    assert_equal 'News Update XML-API Test', news.summary
+    assert_equal 'update description via xml api', news.description
+  end
+
+  test "PUT /news/:id.json" do
+    payload = <<~JSON
+      {
+        "news": {
+          "title": "NewsUpdateJsonApiTest",
+          "summary": "News Update JSON-API Test",
+          "description": "update description via json api"
+        }
+      }
+    JSON
+
+    put '/news/1.json',
+      :params => payload,
+      :headers => {"CONTENT_TYPE" => 'application/json'}.merge(credentials('jsmith'))
+
+    news = News.find(1)
+    assert_equal 'NewsUpdateJsonApiTest', news.title
+    assert_equal 'News Update JSON-API Test', news.summary
+    assert_equal 'update description via json api', news.description
+  end
+
+  test "PUT /news/:id.xml with failed update" do
+    put '/news/1.xml',
+      :params => {:news => {:title => ''}},
+      :headers => credentials('jsmith')
+
+    assert_response :unprocessable_entity
+    assert_select 'errors error', :text => "Title cannot be blank"
+  end
+
+  test "PUT /news/:id.json with failed update" do
+    put '/news/1.json',
+      :params => {:news => {:title => ''}},
+      :headers => credentials('jsmith')
+
+    assert_response :unprocessable_entity
+    json = ActiveSupport::JSON.decode(response.body)
+    assert json['errors'].include?("Title cannot be blank")
+  end
+
+  test "PUT /news/:id.xml with multiple attachment should update a news with attachments" do
+    token1 = xml_upload('File content 1', credentials('jsmith'))
+    token2 = xml_upload('File content 2', credentials('jsmith'))
+    payload = <<~XML
+      <?xml version="1.0" encoding="UTF-8" ?>
+      <news>
+        <title>News Update XML-API with attachments</title>
+        <uploads type="array">
+          <upload>
+            <token>#{token1}</token>
+            <filename>test1.txt</filename>
+          </upload>
+          <upload>
+            <token>#{token2}</token>
+            <filename>test2.txt</filename>
+          </upload>
+        </uploads>
+      </news>
+    XML
+
+    put '/news/1.xml',
+      :params => payload,
+      :headers => {"CONTENT_TYPE" => 'application/xml'}.merge(credentials('jsmith'))
+    assert_response :no_content
+
+    news = News.find_by(:title => 'News Update XML-API with attachments')
+    assert_equal 2, news.attachments.count
+  end
+
+  test "PUT /news/:id.json with multiple attachment should update a news with attachments" do
+    token1 = json_upload('File content 1', credentials('jsmith'))
+    token2 = json_upload('File content 2', credentials('jsmith'))
+    payload = <<~JSON
+      {
+        "news": {
+          "title": "News Update JSON-API with attachments",
+          "uploads": [
+            {"token": "#{token1}", "filename": "test1.txt"},
+            {"token": "#{token2}", "filename": "test2.txt"}
+          ]
+        }
+      }
+    JSON
+
+    put '/news/1.json',
+      :params => payload,
+      :headers => {"CONTENT_TYPE" => 'application/json'}.merge(credentials('jsmith'))
+    assert_response :no_content
+
+    news = News.find_by(:title => 'News Update JSON-API with attachments')
+    assert_equal 2, news.attachments.count
+  end
+
   test "DELETE /news/:id.xml" do
     assert_difference('News.count', -1) do
       delete '/news/1.xml', :headers => credentials('jsmith')

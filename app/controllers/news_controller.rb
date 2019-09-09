@@ -26,7 +26,7 @@ class NewsController < ApplicationController
   before_action :authorize, :except => [:index]
   before_action :find_optional_project, :only => :index
   accept_rss_auth :index
-  accept_api_auth :index, :show, :create, :destroy
+  accept_api_auth :index, :show, :create, :update, :destroy
 
   helper :watchers
   helper :attachments
@@ -94,13 +94,21 @@ class NewsController < ApplicationController
 
   def update
     @news.safe_attributes = params[:news]
-    @news.save_attachments(params[:attachments])
+    @news.save_attachments(params[:attachments] || (params[:news] && params[:news][:uploads]))
     if @news.save
-      render_attachment_warning_if_needed(@news)
-      flash[:notice] = l(:notice_successful_update)
-      redirect_to news_path(@news)
+      respond_to do |format|
+        format.html {
+          render_attachment_warning_if_needed(@news)
+          flash[:notice] = l(:notice_successful_update)
+          redirect_to news_path(@news)
+        }
+        format.api  { render_api_ok }
+      end
     else
-      render :action => 'edit'
+      respond_to do |format|
+        format.html { render :action => 'edit' }
+        format.api  { render_validation_errors(@news) }
+      end
     end
   end
 
