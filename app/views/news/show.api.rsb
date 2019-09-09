@@ -1,0 +1,24 @@
+api.news do
+  api.id @news.id
+  api.project(:id => @news.project_id, :name => @news.project.name) unless @news.project.nil?
+  api.author(:id => @news.author_id, :name => @news.author.name) unless @news.author.nil?
+  api.title @news.title
+  api.summary @news.summary unless @news.summary.blank?
+  api.description @news.description
+  api.created_on @news.created_on
+
+  api.array :attachments do
+    @news.attachments.each do |attachment|
+      render_api_attachment(attachment, api)
+    end
+  end if include_in_api_response?('attachments')
+
+  api.array :comments do
+    @comments.each do |comment|
+      api.comment :id => comment.id do
+        api.author(:id => comment.author_id, :name => comment.author.name) unless comment.author.nil?
+        api.content comment.content
+      end
+    end
+  end if include_in_api_response?('comments')
+end

@@ -26,7 +26,7 @@ class NewsController < ApplicationController
   before_action :authorize, :except => [:index]
   before_action :find_optional_project, :only => :index
   accept_rss_auth :index
-  accept_api_auth :index, :create
+  accept_api_auth :index, :show, :create
 
   helper :watchers
   helper :attachments

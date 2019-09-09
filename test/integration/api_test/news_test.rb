@@ -27,7 +27,8 @@ class Redmine::ApiTest::NewsTest < Redmine::ApiTest::Base
            :member_roles,
            :members,
            :enabled_modules,
-           :news
+           :news,
+           :comments
 
   test "GET /news.xml should return news" do
     get '/news.xml'
@@ -59,6 +60,60 @@ class Redmine::ApiTest::NewsTest < Redmine::ApiTest::Base
     assert_kind_of Array, json['news']
     assert_kind_of Hash, json['news'].first
     assert_equal 2, json['news'].first['id']
+  end
+
+  test "GET /news/:id.xml" do
+    get "/news/1.xml"
+    assert_response :success
+    assert_equal 'application/xml', response.content_type
+    assert_select 'news' do
+      assert_select 'id', 1
+      assert_select "project[id=1][name=\"eCookbook\"]"
+      assert_select "author[id=2][name=\"John Smith\"]"
+      assert_select 'title', 'eCookbook first release !'
+      assert_select 'summary', 'First version was released...'
+      assert_select 'description', "eCookbook 1.0 has been released.\n\nVisit http://ecookbook.somenet.foo/"
+      iso_date = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/
+      assert_select 'news>created_on', :text => iso_date
+    end
+  end
+
+  test "GET /news/:id.json" do
+    get "/news/1.json"
+    assert_response :success
+    assert_equal 'application/json', response.content_type
+    json = ActiveSupport::JSON.decode(response.body)
+    assert_equal 1, json['news']['id']
+  end
+
+  test "GET /news/:id.xml with attachments" do
+    news = News.find(1)
+    attachment = Attachment.first
+    attachment.container = news
+    attachment.save!
+
+    get "/news/1.xml?include=attachments"
+    assert_select 'news attachments[type=array]' do
+      assert_select 'attachment id', :text => '1' do
+        assert_select '~ filename', :text => 'error281.txt'
+        assert_select '~ content_url', :text => 'http://www.example.com/attachments/download/1/error281.txt'
+      end
+    end
+  end
+
+  test "GET /news/:id.xml with comments" do
+    get "/news/1.xml?include=comments"
+    assert_select 'news comments[type=array]' do
+      assert_select 'comment', 2
+      assert_select 'comment[id=1]' do
+        assert_select 'author[id=1][name="Redmine Admin"]'
+        assert_select 'content', :text => 'my first comment'
+      end
+      assert_select 'comment[id=2]' do
+        assert_select 'author[id=2][name="John Smith"]'
+        assert_select 'content', :text => 'This is an other comment'
+      end
+    end
   end
 
   test "POST /project/:project_id/news.xml should create a news with the attributes" do
