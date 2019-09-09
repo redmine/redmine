@@ -263,4 +263,24 @@ class Redmine::ApiTest::NewsTest < Redmine::ApiTest::Base
     news = News.find_by(:title => 'News JSON-API with attachments')
     assert_equal 2, news.attachments.count
   end
+
+  test "DELETE /news/:id.xml" do
+    assert_difference('News.count', -1) do
+      delete '/news/1.xml', :headers => credentials('jsmith')
+
+      assert_response :no_content
+      assert_equal '', response.body
+    end
+    assert_nil News.find_by_id(1)
+  end
+
+  test "DELETE /news/:id.json" do
+    assert_difference('News.count', -1) do
+      delete '/news/1.json', :headers => credentials('jsmith')
+
+      assert_response :no_content
+      assert_equal '', response.body
+    end
+    assert_nil News.find_by_id(6)
+  end
 end

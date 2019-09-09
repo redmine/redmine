@@ -26,7 +26,7 @@ class NewsController < ApplicationController
   before_action :authorize, :except => [:index]
   before_action :find_optional_project, :only => :index
   accept_rss_auth :index
-  accept_api_auth :index, :show, :create
+  accept_api_auth :index, :show, :create, :destroy
 
   helper :watchers
   helper :attachments
@@ -106,6 +106,9 @@ class NewsController < ApplicationController
 
   def destroy
     @news.destroy
-    redirect_to project_news_index_path(@project)
+    respond_to do |format|
+      format.html { redirect_to project_news_index_path(@project) }
+      format.api  { render_api_ok }
+    end
   end
 end
