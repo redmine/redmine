@@ -995,6 +995,7 @@ function setupAttachmentDetail() {
   $(window).resize(setFilecontentContainerHeight);
 }
 
+
 $(function () {
     $('[title]').tooltip({
         show: {
@@ -1006,6 +1007,51 @@ $(function () {
         }
     });
 });
+
+function inlineAutoComplete(element) {
+    'use strict';
+    // do not attach if Tribute is already initialized
+    if (element.dataset.tribute === 'true') {return;}
+
+    const issuesUrl = element.dataset.issuesUrl;
+    const usersUrl = element.dataset.usersUrl;
+
+    const remoteSearch = function(url, cb) {
+      const xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = function ()
+      {
+        if (xhr.readyState === 4) {
+          if (xhr.status === 200) {
+            var data = JSON.parse(xhr.responseText);
+            cb(data);
+          } else if (xhr.status === 403) {
+            cb([]);
+          }
+        }
+      };
+      xhr.open("GET", url, true);
+      xhr.send();
+    };
+
+    const tribute = new Tribute({
+      trigger: '#',
+      values: function (text, cb) {
+        remoteSearch(issuesUrl + text, function (issues) {
+          return cb(issues);
+        });
+      },
+      lookup: 'label',
+      fillAttr: 'label',
+      requireLeadingSpace: true,
+      selectTemplate: function (issue) {
+        return '#' + issue.original.id;
+      }
+    });
+
+    tribute.attach(element);
+}
+
+
 $(document).ready(setupAjaxIndicator);
 $(document).ready(hideOnLoad);
 $(document).ready(addFormObserversForDoubleSubmit);
@@ -1013,3 +1059,6 @@ $(document).ready(defaultFocus);
 $(document).ready(setupAttachmentDetail);
 $(document).ready(setupTabs);
 $(document).ready(setupFilePreviewNavigation);
+$(document).on('focus', '[data-auto-complete=true]', function(event) {
+  inlineAutoComplete(event.target);
+});

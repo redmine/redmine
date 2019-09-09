@@ -13,8 +13,13 @@
 <%= error_messages_for 'content' %>
 
 <div class="box tabular">
-<%= text_area_tag 'content[text]', @text, :cols => 100, :rows => 25,
-                  :class => 'wiki-edit', :accesskey => accesskey(:edit) %>
+<%= text_area_tag 'content[text]', @text, :cols => 100, :rows => 25, :accesskey => accesskey(:edit),
+                  :class => 'wiki-edit',
+                  :data => {
+                      :auto_complete => true,
+                      :issues_url => auto_complete_issues_path(:project_id => @project, :q => '')
+                  }
+%>
 
 <% if @page.safe_attribute_names.include?('parent_id') && @wiki.pages.any? %>
   <%= fields_for @page do |fp| %>
