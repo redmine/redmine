@@ -136,7 +136,7 @@ class GitAdapterTest < ActiveSupport::TestCase
         revs1 << rev
       end
       assert_equal 15, revs1.length
-      assert_equal '83ca5fd546063a3c7dc2e568ba3355661a9e2b2c', revs1[ 0].identifier
+      assert_equal '83ca5fd546063a3c7dc2e568ba3355661a9e2b2c', revs1[0].identifier
       assert_equal '7234cb2750b63f47bff735edc50a1c0a433c2518', revs1[-1].identifier
 
       revs2 = []
@@ -146,7 +146,7 @@ class GitAdapterTest < ActiveSupport::TestCase
       end
       assert_equal 15, revs2.length
       assert_equal '83ca5fd546063a3c7dc2e568ba3355661a9e2b2c', revs2[-1].identifier
-      assert_equal '7234cb2750b63f47bff735edc50a1c0a433c2518', revs2[ 0].identifier
+      assert_equal '7234cb2750b63f47bff735edc50a1c0a433c2518', revs2[0].identifier
     end
 
     def test_revisions_master_merged_rev
@@ -158,12 +158,12 @@ class GitAdapterTest < ActiveSupport::TestCase
         revs1 << rev
       end
       assert_equal 8, revs1.length
-      assert_equal 'fba357b886984ee71185ad2065e65fc0417d9b92', revs1[ 0].identifier
-      assert_equal '7e61ac704deecde634b51e59daa8110435dcb3da', revs1[ 1].identifier
+      assert_equal 'fba357b886984ee71185ad2065e65fc0417d9b92', revs1[0].identifier
+      assert_equal '7e61ac704deecde634b51e59daa8110435dcb3da', revs1[1].identifier
       # 4a07fe31b is not a child of 713f49446
-      assert_equal '4a07fe31bffcf2888791f3e6cbc9c4545cefe3e8', revs1[ 2].identifier
+      assert_equal '4a07fe31bffcf2888791f3e6cbc9c4545cefe3e8', revs1[2].identifier
       # Merged revision
-      assert_equal '32ae898b720c2f7eec2723d5bdd558b4cb2d3ddf', revs1[ 3].identifier
+      assert_equal '32ae898b720c2f7eec2723d5bdd558b4cb2d3ddf', revs1[3].identifier
       assert_equal '83ca5fd546063a3c7dc2e568ba3355661a9e2b2c', revs1[-1].identifier
 
       revs2 = []
@@ -174,11 +174,11 @@ class GitAdapterTest < ActiveSupport::TestCase
         revs2 << rev
       end
       assert_equal 7, revs2.length
-      assert_equal '7e61ac704deecde634b51e59daa8110435dcb3da', revs2[ 0].identifier
+      assert_equal '7e61ac704deecde634b51e59daa8110435dcb3da', revs2[0].identifier
       # 4a07fe31b is not a child of fba357b8869
-      assert_equal '4a07fe31bffcf2888791f3e6cbc9c4545cefe3e8', revs2[ 1].identifier
+      assert_equal '4a07fe31bffcf2888791f3e6cbc9c4545cefe3e8', revs2[1].identifier
       # Merged revision
-      assert_equal '32ae898b720c2f7eec2723d5bdd558b4cb2d3ddf', revs2[ 2].identifier
+      assert_equal '32ae898b720c2f7eec2723d5bdd558b4cb2d3ddf', revs2[2].identifier
       assert_equal '83ca5fd546063a3c7dc2e568ba3355661a9e2b2c', revs2[-1].identifier
     end
 
@@ -188,7 +188,7 @@ class GitAdapterTest < ActiveSupport::TestCase
         revs1 << rev
       end
       assert_equal 8, revs1.length
-      assert_equal '1ca7f5ed374f3cb31a93ae5215c2e25cc6ec5127', revs1[ 0].identifier
+      assert_equal '1ca7f5ed374f3cb31a93ae5215c2e25cc6ec5127', revs1[0].identifier
       assert_equal '7234cb2750b63f47bff735edc50a1c0a433c2518', revs1[-1].identifier
 
       revs2 = []
@@ -198,7 +198,7 @@ class GitAdapterTest < ActiveSupport::TestCase
       end
       assert_equal 8, revs2.length
       assert_equal '1ca7f5ed374f3cb31a93ae5215c2e25cc6ec5127', revs2[-1].identifier
-      assert_equal '7234cb2750b63f47bff735edc50a1c0a433c2518', revs2[ 0].identifier
+      assert_equal '7234cb2750b63f47bff735edc50a1c0a433c2518', revs2[0].identifier
     end
 
     def test_revisions_branch_latin_1_path_encoding_with_rev
@@ -210,7 +210,7 @@ class GitAdapterTest < ActiveSupport::TestCase
         revs1 << rev
       end
       assert_equal 7, revs1.length
-      assert_equal '899a15dba03a3b350b89c3f537e4bbe02a03cdc9', revs1[ 0].identifier
+      assert_equal '899a15dba03a3b350b89c3f537e4bbe02a03cdc9', revs1[0].identifier
       assert_equal '1ca7f5ed374f3cb31a93ae5215c2e25cc6ec5127', revs1[-1].identifier
 
       revs2 = []
@@ -221,7 +221,7 @@ class GitAdapterTest < ActiveSupport::TestCase
         revs2 << rev
       end
       assert_equal 3, revs2.length
-      assert_equal '4fc55c43bf3d3dc2efb66145365ddc17639ce81e', revs2[ 0].identifier
+      assert_equal '4fc55c43bf3d3dc2efb66145365ddc17639ce81e', revs2[0].identifier
       assert_equal '1ca7f5ed374f3cb31a93ae5215c2e25cc6ec5127', revs2[-1].identifier
     end
 
@@ -240,8 +240,8 @@ class GitAdapterTest < ActiveSupport::TestCase
         end
       end
       assert_equal 2, revs1.length
-      assert_equal '64f1f3e89ad1cb57976ff0ad99a107012ba3481d', revs1[ 0].identifier
-      assert_equal '1ca7f5ed374f3cb31a93ae5215c2e25cc6ec5127', revs1[ 1].identifier
+      assert_equal '64f1f3e89ad1cb57976ff0ad99a107012ba3481d', revs1[0].identifier
+      assert_equal '1ca7f5ed374f3cb31a93ae5215c2e25cc6ec5127', revs1[1].identifier
     end
 
     def test_revisions_invalid_rev
@@ -266,7 +266,7 @@ class GitAdapterTest < ActiveSupport::TestCase
         revs1 << rev
       end
       assert_equal 2, revs1.length
-      assert_equal 'ed5bb786bbda2dee66a2d50faf51429dbc043a7b', revs1[ 0].identifier
+      assert_equal 'ed5bb786bbda2dee66a2d50faf51429dbc043a7b', revs1[0].identifier
       assert_equal '83ca5fd546063a3c7dc2e568ba3355661a9e2b2c', revs1[-1].identifier
     end
 
@@ -279,8 +279,8 @@ class GitAdapterTest < ActiveSupport::TestCase
         revs1 << rev
       end
       assert_equal 2, revs1.length
-      assert_equal '7234cb2750b63f47bff735edc50a1c0a433c2518', revs1[ 0].identifier
-      assert_equal '899a15dba03a3b350b89c3f537e4bbe02a03cdc9', revs1[ 1].identifier
+      assert_equal '7234cb2750b63f47bff735edc50a1c0a433c2518', revs1[0].identifier
+      assert_equal '899a15dba03a3b350b89c3f537e4bbe02a03cdc9', revs1[1].identifier
     end
 
     def test_revisions_includes_merged_revs
@@ -292,9 +292,9 @@ class GitAdapterTest < ActiveSupport::TestCase
         revs1 << rev
       end
       assert_equal 7, revs1.length
-      assert_equal '7e61ac704deecde634b51e59daa8110435dcb3da', revs1[ 0].identifier
-      assert_equal '4a07fe31bffcf2888791f3e6cbc9c4545cefe3e8', revs1[ 1].identifier
-      assert_equal '32ae898b720c2f7eec2723d5bdd558b4cb2d3ddf', revs1[ 2].identifier
+      assert_equal '7e61ac704deecde634b51e59daa8110435dcb3da', revs1[0].identifier
+      assert_equal '4a07fe31bffcf2888791f3e6cbc9c4545cefe3e8', revs1[1].identifier
+      assert_equal '32ae898b720c2f7eec2723d5bdd558b4cb2d3ddf', revs1[2].identifier
       assert_equal '83ca5fd546063a3c7dc2e568ba3355661a9e2b2c', revs1[-1].identifier
     end
 
@@ -309,8 +309,8 @@ class GitAdapterTest < ActiveSupport::TestCase
         revs1 << rev
       end
       assert_equal 4, revs1.length
-      assert_equal 'ed5bb786bbda2dee66a2d50faf51429dbc043a7b', revs1[ 0].identifier
-      assert_equal '83ca5fd546063a3c7dc2e568ba3355661a9e2b2c', revs1[ 1].identifier
+      assert_equal 'ed5bb786bbda2dee66a2d50faf51429dbc043a7b', revs1[0].identifier
+      assert_equal '83ca5fd546063a3c7dc2e568ba3355661a9e2b2c', revs1[1].identifier
       assert_equal '64f1f3e89ad1cb57976ff0ad99a107012ba3481d', revs1[-2].identifier
       assert_equal '1ca7f5ed374f3cb31a93ae5215c2e25cc6ec5127', revs1[-1].identifier
     end
@@ -326,8 +326,8 @@ class GitAdapterTest < ActiveSupport::TestCase
         revs1 << rev
       end
       assert_equal 4, revs1.length
-      assert_equal 'ed5bb786bbda2dee66a2d50faf51429dbc043a7b', revs1[ 0].identifier
-      assert_equal '83ca5fd546063a3c7dc2e568ba3355661a9e2b2c', revs1[ 1].identifier
+      assert_equal 'ed5bb786bbda2dee66a2d50faf51429dbc043a7b', revs1[0].identifier
+      assert_equal '83ca5fd546063a3c7dc2e568ba3355661a9e2b2c', revs1[1].identifier
       assert_equal 'bc201c95999c4f10d018b0aa03b541cd6a2ff0ee', revs1[-2].identifier
       assert_equal '92397af84d22f27389c822848ecd5b463c181583', revs1[-1].identifier
     end

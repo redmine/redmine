@@ -487,14 +487,6 @@ Layout/SpaceInsideRangeLiteral:
     - 'app/models/repository/cvs.rb'
 
 # Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, EnforcedStyleForEmptyBrackets.
-# SupportedStyles: space, no_space
-# SupportedStylesForEmptyBrackets: space, no_space
-Layout/SpaceInsideReferenceBrackets:
-  Exclude:
-    - 'test/unit/lib/redmine/scm/adapters/git_adapter_test.rb'
-
-# Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle.
 # SupportedStyles: space, no_space
 Layout/SpaceInsideStringInterpolation:
