@@ -11,7 +11,7 @@ h4 {border-bottom: 1px solid #ccc; font-weight:normal;}
 pre, code {font-family: Consolas, Menlo, "Liberation Mono", Courier, monospace;}
 
 /***** Layout *****/
-div[id^="wrapper"] { min-height: inherit; }
+div#wrapper, div#wrapper2, div#wrapper3 { min-height: inherit; }
 #wrapper {background: white;overflow: hidden;}
 #wrapper3 { display: flex; flex-direction: column; }
 
