@@ -30,8 +30,8 @@ class AutoCompletesController < ApplicationController
     scope = scope.open(status == 'o') if status.present?
     scope = scope.where.not(:id => issue_id.to_i) if issue_id.present?
     if q.present?
-      if q.match(/\A#?(\d+)\z/)
-        issues << scope.find_by_id($1.to_i)
+      if q =~ /\A#?(\d+)\z/
+        issues << scope.find_by(:id => $1.to_i)
       end
       issues += scope.like(q).order(:id => :desc).limit(10).to_a
       issues.compact!

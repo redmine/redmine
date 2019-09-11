@@ -817,7 +817,6 @@ Performance/RedundantBlockCall:
 # Cop supports --auto-correct.
 Performance/RedundantMatch:
   Exclude:
-    - 'app/controllers/auto_completes_controller.rb'
     - 'app/models/issue_relation.rb'
     - 'lib/redmine/wiki_formatting/textile/formatter.rb'
     - 'lib/redmine/wiki_formatting/textile/redcloth3.rb'
