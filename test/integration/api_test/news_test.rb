@@ -73,8 +73,7 @@ class Redmine::ApiTest::NewsTest < Redmine::ApiTest::Base
       assert_select 'title', 'eCookbook first release !'
       assert_select 'summary', 'First version was released...'
       assert_select 'description', "eCookbook 1.0 has been released.\n\nVisit http://ecookbook.somenet.foo/"
-      iso_date = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/
-      assert_select 'news>created_on', :text => iso_date
+      assert_select 'created_on', News.find(1).created_on.iso8601
     end
   end
 
