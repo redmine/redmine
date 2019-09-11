@@ -492,7 +492,6 @@ Layout/SpaceInsideRangeLiteral:
 # SupportedStylesForEmptyBrackets: space, no_space
 Layout/SpaceInsideReferenceBrackets:
   Exclude:
-    - 'lib/redmine/scm/adapters/subversion_adapter.rb'
     - 'test/unit/lib/redmine/scm/adapters/git_adapter_test.rb'
 
 # Cop supports --auto-correct.

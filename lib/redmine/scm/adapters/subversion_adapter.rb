@@ -138,7 +138,7 @@ module Redmine
             begin
               doc = parse_xml(output)
               each_xml_element(doc['properties']['target'], 'property') do |property|
-                properties[ property['name'] ] = property['__content__'].to_s
+                properties[property['name']] = property['__content__'].to_s
               end
             rescue
             end
