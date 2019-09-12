@@ -401,10 +401,6 @@ module Redmine
           parseRevision()
         end
 
-        def branchPoint
-          return @base
-        end
-
         def branchVersion
           if isBranchRevision
             return @base+"."+@branchid
