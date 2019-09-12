@@ -28,7 +28,8 @@ class Redmine::ApiTest::NewsTest < Redmine::ApiTest::Base
            :members,
            :enabled_modules,
            :news,
-           :comments
+           :comments,
+           :attachments
 
   test "GET /news.xml should return news" do
     get '/news.xml'
