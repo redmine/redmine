@@ -553,7 +553,6 @@ Lint/HandleExceptions:
     - 'app/models/import.rb'
     - 'db/migrate/085_add_role_tracker_old_status_index_to_workflows.rb'
     - 'lib/redmine/scm/adapters/cvs_adapter.rb'
-    - 'lib/redmine/scm/adapters/mercurial_adapter.rb'
     - 'lib/redmine/scm/adapters/subversion_adapter.rb'
 
 Lint/IneffectiveAccessModifier:

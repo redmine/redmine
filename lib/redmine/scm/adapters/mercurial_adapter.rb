@@ -135,6 +135,7 @@ module Redmine
             begin
               @summary = parse_xml(output)['rhsummary']
             rescue
+              # do nothing
             end
           end
         end
@@ -148,6 +149,7 @@ module Redmine
             begin
               parse_xml(output)['rhmanifest']['repository']['manifest']
             rescue
+              # do nothing
             end
           end
           path_prefix = path.blank? ? '' : with_trailling_slash(path)
@@ -193,6 +195,7 @@ module Redmine
               # Mercurial < 1.5 does not support footer template for '</log>'
               parse_xml("#{output}</log>")['log']
             rescue
+              # do nothing
             end
           end
           as_ary(log['logentry']).each do |le|
