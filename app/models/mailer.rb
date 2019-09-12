@@ -70,6 +70,7 @@ class Mailer < ActionMailer::Base
   # Builds a mail for notifying user about a new issue
   def issue_add(user, issue)
     redmine_headers 'Project' => issue.project.identifier,
+                    'Issue-Tracker' => issue.tracker.name,
                     'Issue-Id' => issue.id,
                     'Issue-Author' => issue.author.login
     redmine_headers 'Issue-Assignee' => issue.assigned_to.login if issue.assigned_to
@@ -101,6 +102,7 @@ class Mailer < ActionMailer::Base
   def issue_edit(user, journal)
     issue = journal.journalized
     redmine_headers 'Project' => issue.project.identifier,
+                    'Issue-Tracker' => issue.tracker.name,
                     'Issue-Id' => issue.id,
                     'Issue-Author' => issue.author.login
     redmine_headers 'Issue-Assignee' => issue.assigned_to.login if issue.assigned_to
