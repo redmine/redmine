@@ -31,6 +31,9 @@ Layout/SpaceInsideBlockBraces:
 Layout/TrailingWhitespace:
   AllowInHeredoc: true
 
+Lint/HandleExceptions:
+  AllowComments: true
+
 Metrics:
   Enabled: false
 

@@ -550,19 +550,11 @@ Lint/EmptyWhen:
 Lint/HandleExceptions:
   Exclude:
     - 'app/controllers/activities_controller.rb'
-    - 'app/controllers/issues_controller.rb'
-    - 'app/helpers/versions_helper.rb'
-    - 'app/models/attachment.rb'
     - 'app/models/import.rb'
-    - 'app/models/user.rb'
     - 'db/migrate/085_add_role_tracker_old_status_index_to_workflows.rb'
-    - 'lib/redmine.rb'
-    - 'lib/redmine/codeset_util.rb'
     - 'lib/redmine/scm/adapters/cvs_adapter.rb'
     - 'lib/redmine/scm/adapters/mercurial_adapter.rb'
     - 'lib/redmine/scm/adapters/subversion_adapter.rb'
-    - 'lib/redmine/subclass_factory.rb'
-    - 'lib/redmine/version.rb'
 
 Lint/IneffectiveAccessModifier:
   Exclude:
