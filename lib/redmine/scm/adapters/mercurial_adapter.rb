@@ -245,7 +245,7 @@ module Redmine
             hg_args << '--' << CGI.escape(hgtarget(p))
           end
           diff = []
-          hg *hg_args do |io|
+          hg(*hg_args) do |io|
             io.each_line do |line|
               diff << line
             end

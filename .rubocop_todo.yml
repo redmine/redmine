@@ -508,7 +508,6 @@ Lint/AmbiguousOperator:
   Exclude:
     - 'app/controllers/application_controller.rb'
     - 'app/helpers/application_helper.rb'
-    - 'lib/redmine/scm/adapters/mercurial_adapter.rb'
     - 'test/unit/custom_field_test.rb'
     - 'test/unit/member_test.rb'
 
