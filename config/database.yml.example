@@ -1,4 +1,4 @@
-# Default setup is given for MySQL with ruby1.9.
+# Default setup is given for MySQL 5.7.7 or later.
 # Examples for PostgreSQL, SQLite3 and SQL Server can be found at the end.
 # Line indentation must be 2 spaces (no tabs).
 
@@ -8,7 +8,8 @@ production:
   host: localhost
   username: root
   password: ""
-  encoding: utf8
+  # Use "utf8" instead of "utfmb4" for MySQL prior to 5.7.7
+  encoding: utf8mb4
 
 development:
   adapter: mysql2
@@ -16,7 +17,8 @@ development:
   host: localhost
   username: root
   password: ""
-  encoding: utf8
+  # Use "utf8" instead of "utfmb4" for MySQL prior to 5.7.7
+  encoding: utf8mb4
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
@@ -27,7 +29,8 @@ test:
   host: localhost
   username: root
   password: ""
-  encoding: utf8
+  # Use "utf8" instead of "utfmb4" for MySQL prior to 5.7.7
+  encoding: utf8mb4
 
 # PostgreSQL configuration example
 #production:
