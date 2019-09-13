@@ -426,7 +426,7 @@ function showModal(id, width, title) {
   if (el.length === 0 || el.is(':visible')) {return;}
   if (!title) title = el.find('h3.title').text();
   // moves existing modals behind the transparent background
-  $(".modal").zIndex(99);
+  $(".modal").css('zIndex',99);
   el.dialog({
     width: width,
     modal: true,
@@ -434,7 +434,7 @@ function showModal(id, width, title) {
     dialogClass: 'modal',
     title: title
   }).on('dialogclose', function(){
-    $(".modal").zIndex(101);
+    $(".modal").css('zIndex',101);
   });
   el.find("input[type=text], input[type=submit]").first().focus();
 }
