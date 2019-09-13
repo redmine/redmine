@@ -248,7 +248,7 @@ class RepositoriesGitControllerTest < Redmine::RepositoryControllerTest
 
     def test_entry_show_latin_1
       if @ruby19_non_utf8_pass
-        puts_ruby19_non_utf8_pass()
+        puts_ruby19_non_utf8_pass
       elsif WINDOWS_PASS
         puts WINDOWS_SKIP_STR
       else
@@ -415,7 +415,7 @@ class RepositoriesGitControllerTest < Redmine::RepositoryControllerTest
 
     def test_diff_latin_1
       if @ruby19_non_utf8_pass
-        puts_ruby19_non_utf8_pass()
+        puts_ruby19_non_utf8_pass
       else
         with_settings :repositories_encodings => 'UTF-8,ISO-8859-1' do
           ['57ca437c', '57ca437c0acbbcb749821fdf3726a1367056d364'].each do |r1|
@@ -545,7 +545,7 @@ class RepositoriesGitControllerTest < Redmine::RepositoryControllerTest
 
     def test_annotate_latin_1
       if @ruby19_non_utf8_pass
-        puts_ruby19_non_utf8_pass()
+        puts_ruby19_non_utf8_pass
       elsif WINDOWS_PASS
         puts WINDOWS_SKIP_STR
       else
