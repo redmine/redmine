@@ -730,29 +730,6 @@ Naming/MethodName:
     - 'lib/redmine/wiki_formatting/textile/redcloth3.rb'
     - 'test/helpers/application_helper_test.rb'
 
-# Configuration parameters: NamePrefix, NamePrefixBlacklist, NameWhitelist, MethodDefinitionMacros.
-# NamePrefix: is_, has_, have_
-# NamePrefixBlacklist: is_, has_, have_
-# NameWhitelist: is_a?
-# MethodDefinitionMacros: define_method, define_singleton_method
-Naming/PredicateName:
-  Exclude:
-    - 'spec/**/*'
-    - 'app/controllers/repositories_controller.rb'
-    - 'app/models/attachment.rb'
-    - 'app/models/enumeration.rb'
-    - 'app/models/member.rb'
-    - 'app/models/query.rb'
-    - 'app/models/repository/mercurial.rb'
-    - 'app/models/role.rb'
-    - 'app/models/user.rb'
-    - 'app/models/wiki_page.rb'
-    - 'lib/redmine/export/pdf/issues_pdf_helper.rb'
-    - 'lib/redmine/mime_type.rb'
-    - 'lib/redmine/nested_set/traversing.rb'
-    - 'lib/redmine/scm/adapters/abstract_adapter.rb'
-    - 'lib/redmine/scm/adapters/cvs_adapter.rb'
-
 # Cop supports --auto-correct.
 # Configuration parameters: PreferredName.
 Naming/RescuedExceptionsVariableName:
