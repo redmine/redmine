@@ -32,7 +32,7 @@ class RepositoriesGitControllerTest < Redmine::RepositoryControllerTest
 
   def setup
     super
-    @ruby19_non_utf8_pass = Encoding.default_external.to_s != 'UTF-8'
+    @not_utf8_external = Encoding.default_external.to_s != 'UTF-8'
 
     User.current = nil
     @project    = Project.find(PRJ_ID)
@@ -247,8 +247,8 @@ class RepositoriesGitControllerTest < Redmine::RepositoryControllerTest
     end
 
     def test_entry_show_latin_1
-      if @ruby19_non_utf8_pass
-        puts_ruby19_non_utf8_pass
+      if @not_utf8_external
+        puts_pass_on_not_utf8
       elsif WINDOWS_PASS
         puts WINDOWS_SKIP_STR
       else
@@ -414,8 +414,8 @@ class RepositoriesGitControllerTest < Redmine::RepositoryControllerTest
     end
 
     def test_diff_latin_1
-      if @ruby19_non_utf8_pass
-        puts_ruby19_non_utf8_pass
+      if @not_utf8_external
+        puts_pass_on_not_utf8
       else
         with_settings :repositories_encodings => 'UTF-8,ISO-8859-1' do
           ['57ca437c', '57ca437c0acbbcb749821fdf3726a1367056d364'].each do |r1|
@@ -544,8 +544,8 @@ class RepositoriesGitControllerTest < Redmine::RepositoryControllerTest
     end
 
     def test_annotate_latin_1
-      if @ruby19_non_utf8_pass
-        puts_ruby19_non_utf8_pass
+      if @not_utf8_external
+        puts_pass_on_not_utf8
       elsif WINDOWS_PASS
         puts WINDOWS_SKIP_STR
       else
@@ -675,7 +675,7 @@ class RepositoriesGitControllerTest < Redmine::RepositoryControllerTest
 
     private
 
-    def puts_ruby19_non_utf8_pass
+    def puts_pass_on_not_utf8
       puts "TODO: This test fails " +
            "when Encoding.default_external is not UTF-8. " +
            "Current value is '#{Encoding.default_external.to_s}'"
