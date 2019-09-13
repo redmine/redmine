@@ -29,8 +29,6 @@ class RepositoriesMercurialControllerTest < Redmine::RepositoryControllerTest
   PRJ_ID     = 3
   NUM_REV    = 34
 
-  ruby19_non_utf8_pass = Encoding.default_external.to_s != 'UTF-8'
-
   def setup
     super
     User.current = nil
@@ -44,7 +42,7 @@ class RepositoriesMercurialControllerTest < Redmine::RepositoryControllerTest
     @diff_c_support = true
   end
 
-  if ruby19_non_utf8_pass
+  if Encoding.default_external.to_s != 'UTF-8'
     puts "TODO: Mercurial functional test fails " +
          "when Encoding.default_external is not UTF-8. " +
          "Current value is '#{Encoding.default_external.to_s}'"
