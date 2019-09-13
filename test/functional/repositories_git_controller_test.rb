@@ -160,7 +160,7 @@ class RepositoriesGitControllerTest < Redmine::RepositoryControllerTest
       @repository.fetch_changesets
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
-       [
+      [
         "tag00.lightweight",
         "tag01.annotated",
       ].each do |t1|

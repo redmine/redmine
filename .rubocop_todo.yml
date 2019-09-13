@@ -300,7 +300,6 @@ Layout/IndentationConsistency:
     - 'app/models/attachment.rb'
     - 'test/functional/issues_controller_test.rb'
     - 'test/functional/project_enumerations_controller_test.rb'
-    - 'test/functional/repositories_git_controller_test.rb'
     - 'test/functional/repositories_mercurial_controller_test.rb'
     - 'test/helpers/application_helper_test.rb'
     - 'test/integration/api_test/custom_fields_attribute_test.rb'
