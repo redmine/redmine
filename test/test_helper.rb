@@ -250,7 +250,7 @@ class ActiveSupport::TestCase
   end
 
   def mail_body(mail)
-    mail.parts.first.body.encoded
+    (mail.multipart? ? mail.parts.first : mail).body.encoded
   end
 
   # Returns the lft value for a new root issue
