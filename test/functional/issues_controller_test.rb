@@ -292,6 +292,17 @@ class IssuesControllerTest < Redmine::ControllerTest
         :query_id => 5
       }
     assert_response :success
+
+    assert_select '#sidebar .queries' do
+      # assert only query is selected in sidebar
+      assert_select 'a.query.selected', 1
+      # assert link properties
+      assert_select 'a.query.selected[href=?]', '/projects/ecookbook/issues?query_id=5', :text => "Open issues by priority and tracker"
+      # assert only one clear link exists
+      assert_select 'a.icon-clear-query', 1
+      # assert clear link properties
+      assert_select 'a.icon-clear-query[title=?][href=?]', 'Clear', '/projects/ecookbook/issues?set_filter=1&sort=', 1
+    end
   end
 
   def test_index_with_query_grouped_by_tracker

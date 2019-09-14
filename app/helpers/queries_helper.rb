@@ -392,11 +392,19 @@ module QueriesHelper
       content_tag('ul',
         queries.collect {|query|
             css = +'query'
-            css << ' selected' if query == @query
-            content_tag('li', link_to(query.name, url_params.merge(:query_id => query), :class => css))
+            clear_link = +''
+            if query == @query
+              css << ' selected'
+              clear_link += link_to_clear_query
+            end
+            content_tag('li', link_to(query.name, url_params.merge(:query_id => query), :class => css) + clear_link.html_safe)
           }.join("\n").html_safe,
         :class => 'queries'
       ) + "\n"
+  end
+
+  def link_to_clear_query
+    link_to l(:button_clear), { :set_filter => 1, :sort => '', :project_id => @project }, :class => 'icon-only icon-clear-query', :title => l(:button_clear)
   end
 
   # Renders the list of queries for the sidebar
