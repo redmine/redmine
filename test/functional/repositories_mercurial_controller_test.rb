@@ -212,7 +212,7 @@ class RepositoriesMercurialControllerTest < Redmine::RepositoryControllerTest
       @repository.fetch_changesets
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
-       [
+      [
           'default',
           'branch-Ü-01',
           'branch (1)[2]&,%.-3_4',
@@ -237,7 +237,7 @@ class RepositoriesMercurialControllerTest < Redmine::RepositoryControllerTest
       @repository.fetch_changesets
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
-       [
+      [
         'tag-Ü-00',
         'tag_test.00',
         'tag-init-revision'
