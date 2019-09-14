@@ -289,7 +289,6 @@ class RepositoriesGitControllerTest < Redmine::RepositoryControllerTest
       assert_select 'h2 a', :text => 'sources'
       assert_select 'table.entries tbody'
       assert_select 'div.contextual > a.icon-download', false
-
     end
 
     def test_diff
