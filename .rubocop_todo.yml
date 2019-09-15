@@ -312,7 +312,6 @@ Layout/IndentationWidth:
 # Configuration parameters: AllowDoxygenCommentStyle.
 Layout/LeadingCommentSpace:
   Exclude:
-    - 'app/controllers/repositories_controller.rb'
     - 'app/models/repository.rb'
     - 'lib/diff.rb'
     - 'lib/redmine/wiki_formatting/textile/redcloth3.rb'

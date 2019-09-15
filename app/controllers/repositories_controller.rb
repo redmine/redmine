@@ -379,7 +379,7 @@ class RepositoriesController < ApplicationController
   end
 
   def graph_commits_per_author(repository)
-    #data
+    # data
     stats = repository.stats_by_author
     fields, commits_data, changes_data = [], [], []
     stats.each do |name, hsh|
@@ -388,7 +388,7 @@ class RepositoriesController < ApplicationController
       changes_data << hsh[:changes_count]
     end
 
-    #expand to 10 values if needed
+    # expand to 10 values if needed
     fields = fields + [""]*(10 - fields.length) if fields.length<10
     commits_data = commits_data + [0]*(10 - commits_data.length) if commits_data.length<10
     changes_data = changes_data + [0]*(10 - changes_data.length) if changes_data.length<10
