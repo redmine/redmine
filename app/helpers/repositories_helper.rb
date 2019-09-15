@@ -58,7 +58,7 @@ module RepositoriesHelper
         # Detects moved/copied files
         if !change.from_path.blank?
           change.action =
-             @changeset.filechanges.detect {|c| c.action == 'D' && c.path == change.from_path} ? 'R' : 'C'
+            @changeset.filechanges.detect {|c| c.action == 'D' && c.path == change.from_path} ? 'R' : 'C'
         end
         change
       when 'D'

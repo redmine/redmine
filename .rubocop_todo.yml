@@ -250,7 +250,6 @@ Layout/IndentAssignment:
   Exclude:
     - 'app/helpers/application_helper.rb'
     - 'app/helpers/issues_helper.rb'
-    - 'app/helpers/repositories_helper.rb'
     - 'lib/redmine/wiki_formatting/textile/redcloth3.rb'
     - 'test/unit/lib/redmine/helpers/gantt_test.rb'
 
