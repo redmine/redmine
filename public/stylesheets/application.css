@@ -85,7 +85,13 @@ div#wrapper, div#wrapper2, div#wrapper3 { min-height: inherit; }
 
 #main {flex-grow: 2; display: flex; flex-direction: row-reverse;}
 
-#sidebar{ flex-shrink: 0; width: 22%; padding-left: 20px; background: #EEEEEE; border-left: 1px solid #ddd}
+#sidebar{ flex-shrink: 0; padding-left: 20px; background: #EEEEEE; border-left: 1px solid #ddd}
+@media screen and (min-width: 0px) and (max-width: 1089px) {#sidebar{width: 22%;}}
+@media screen and (min-width: 1090px) and (max-width: 1279px) {#sidebar{width: 240px;}}
+@media screen and (min-width: 1280px) and (max-width: 1599px) {#sidebar{width: 280px;}}
+@media screen and (min-width: 1600px) and (max-width: 1919px) {#sidebar{width: 320px;}}
+@media screen and (min-width: 1920px) and (max-width: 2559px) {#sidebar{width: 360px;}}
+@media screen and (min-width: 2560px) {#sidebar{width: 380px;}}
 #sidebar h3{ font-size: 14px; margin-top:14px; color: #666;  }
 #sidebar hr{ width: 100%; margin: 0 auto; height: 1px; background: #ccc; border: 0; }
 * html #sidebar hr{ width: 95%; position: relative; left: -6px; color: #ccc; }
