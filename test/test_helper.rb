@@ -204,7 +204,7 @@ class ActiveSupport::TestCase
     saved = object.save
     message = "#{object.class} could not be saved"
     errors = object.errors.full_messages.map {|m| "- #{m}"}
-    message << ":\n#{errors.join("\n")}" if errors.any?
+    message += ":\n#{errors.join("\n")}" if errors.any?
     assert_equal true, saved, message
   end
 
