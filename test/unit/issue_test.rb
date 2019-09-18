@@ -686,7 +686,12 @@ class IssueTest < ActiveSupport::TestCase
     issue.expects(:project_id=).in_sequence(seq)
     issue.expects(:tracker_id=).in_sequence(seq)
     issue.expects(:subject=).in_sequence(seq)
-    issue.attributes = {:tracker_id => 2, :project_id => 1, :subject => 'Test'}
+    assert_raise Exception do
+      issue.attributes = {:subject => 'Test'}
+    end
+    assert_nothing_raised do
+      issue.attributes = {:tracker_id => 2, :project_id => 1, :subject => 'Test'}
+    end
   end
 
   def test_assigning_tracker_and_custom_fields_should_assign_custom_fields
