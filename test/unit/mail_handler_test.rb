@@ -1116,7 +1116,7 @@ class MailHandlerTest < ActiveSupport::TestCase
   end
 
   def test_attachments_that_match_mail_handler_excluded_filenames_should_be_ignored
-    with_settings :mail_handler_excluded_filenames => '*.vcf, *.jpg' do
+    with_settings :mail_handler_excluded_filenames => "*.vcf,\n *.jpg" do
       issue = submit_email('ticket_with_attachment.eml', :issue => {:project => 'onlinestore'})
       assert issue.is_a?(Issue)
       assert !issue.new_record?
