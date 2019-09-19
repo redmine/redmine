@@ -109,7 +109,6 @@ Layout/CommentIndentation:
     - 'app/helpers/versions_helper.rb'
     - 'app/models/mailer.rb'
     - 'lib/redmine/wiki_formatting/textile/redcloth3.rb'
-    - 'test/unit/issue_test.rb'
     - 'test/unit/lib/redmine/wiki_formatting/markdown_formatter_test.rb'
     - 'test/unit/lib/redmine/wiki_formatting/textile_formatter_test.rb'
 

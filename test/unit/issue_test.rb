@@ -1502,8 +1502,8 @@ class IssueTest < ActiveSupport::TestCase
     IssueRelation.create!(:issue_from => issue2, :issue_to => issue1,
                           :relation_type => IssueRelation::TYPE_DUPLICATES)
     # And 3 is a dupe of 2
-#    IssueRelation.create!(:issue_from => issue3, :issue_to => issue2,
-#                          :relation_type => IssueRelation::TYPE_DUPLICATES)
+    IssueRelation.create!(:issue_from => issue3, :issue_to => issue2,
+                          :relation_type => IssueRelation::TYPE_DUPLICATES)
     # And 3 is a dupe of 1 (circular duplicates)
     IssueRelation.create!(:issue_from => issue3, :issue_to => issue1,
                           :relation_type => IssueRelation::TYPE_DUPLICATES)
