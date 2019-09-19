@@ -1672,7 +1672,6 @@ Style/StringLiterals:
 # SupportedStyles: single_quotes, double_quotes
 Style/StringLiteralsInInterpolation:
   Exclude:
-    - 'app/helpers/issues_helper.rb'
     - 'app/models/issue_query.rb'
     - 'config/environment.rb'
     - 'lib/redmine/scm/adapters/cvs_adapter.rb'
