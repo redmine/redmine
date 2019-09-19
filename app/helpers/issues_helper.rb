@@ -264,16 +264,14 @@ module IssuesHelper
   def render_full_width_custom_fields_rows(issue)
     values = issue.visible_custom_field_values.select {|value| value.custom_field.full_width_layout?}
     return if values.empty?
-
     s = ''.html_safe
     values.each_with_index do |value, i|
       attr_value_tag = custom_field_value_tag(value)
       next if attr_value_tag.blank?
-
       content =
-          content_tag('hr') +
-          content_tag('p', content_tag('strong', custom_field_name_tag(value.custom_field) )) +
-          content_tag('div', attr_value_tag, class: 'value')
+        content_tag('hr') +
+        content_tag('p', content_tag('strong', custom_field_name_tag(value.custom_field) )) +
+        content_tag('div', attr_value_tag, class: 'value')
       s << content_tag('div', content, class: "#{value.custom_field.css_classes} attribute")
     end
     s
