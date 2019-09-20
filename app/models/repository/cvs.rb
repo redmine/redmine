@@ -190,7 +190,7 @@ class Repository::Cvs < Repository
         each do |changeset|
           changeset.update_attribute :revision, next_revision_number
         end
-    end # transaction
+    end
     @current_revision_number = nil
   end
 
