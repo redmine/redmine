@@ -1180,13 +1180,6 @@ Style/ColonMethodCall:
     - 'test/unit/default_data_test.rb'
     - 'test/unit/lib/redmine/export/pdf_test.rb'
 
-# Cop supports --auto-correct.
-# Configuration parameters: Keywords.
-# Keywords: TODO, FIXME, OPTIMIZE, HACK, REVIEW
-Style/CommentAnnotation:
-  Exclude:
-    - 'lib/redmine/scm/adapters/cvs_adapter.rb'
-
 Style/CommentedKeyword:
   Exclude:
     - 'app/models/repository/cvs.rb'

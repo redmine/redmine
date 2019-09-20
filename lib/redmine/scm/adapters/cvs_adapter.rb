@@ -248,10 +248,9 @@ module Redmine
                   author_utf8  = /author: ([^;]+)/.match(line_utf8)[1]
                   author       = scm_iconv(options[:log_encoding], 'UTF-8', author_utf8)
                   file_state   = /state: ([^;]+)/.match(line)[1]
-                  # TODO:
-                  #    linechanges only available in CVS....
-                  #    maybe a feature our SVN implementation.
-                  #    I'm sure, they are useful for stats or something else
+                  # TODO: linechanges only available in CVS....
+                  #       maybe a feature our SVN implementation.
+                  #       I'm sure, they are useful for stats or something else
                   #                linechanges =/lines: \+(\d+) -(\d+)/.match(line)
                   #                unless linechanges.nil?
                   #                  version.line_plus  = linechanges[1]
