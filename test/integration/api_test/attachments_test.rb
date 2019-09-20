@@ -61,20 +61,17 @@ class Redmine::ApiTest::AttachmentsTest < Redmine::ApiTest::Base
   test "GET /attachments/:id.xml should deny access without credentials" do
     get '/attachments/7.xml'
     assert_response 401
-    set_tmp_attachments_directory
   end
 
   test "GET /attachments/download/:id/:filename should return the attachment content" do
     get '/attachments/download/7/archive.zip', :headers => credentials('jsmith')
     assert_response :success
     assert_equal 'application/zip', @response.content_type
-    set_tmp_attachments_directory
   end
 
   test "GET /attachments/download/:id/:filename should deny access without credentials" do
     get '/attachments/download/7/archive.zip'
     assert_response 401
-    set_tmp_attachments_directory
   end
 
   test "GET /attachments/thumbnail/:id should return the thumbnail" do
