@@ -1158,13 +1158,6 @@ Style/ClassAndModuleChildren:
   Enabled: false
 
 # Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: is_a?, kind_of?
-Style/ClassCheck:
-  Exclude:
-    - 'lib/redmine/scm/adapters/cvs_adapter.rb'
-
-# Cop supports --auto-correct.
 Style/ClassMethods:
   Exclude:
     - 'lib/diff.rb'
