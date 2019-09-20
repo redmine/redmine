@@ -423,8 +423,8 @@ class Repository < ActiveRecord::Base
   def stats_by_author
     commits = Changeset.where("repository_id = ?", id).select("committer, user_id, count(*) as count").group("committer, user_id")
 
-    #TODO: restore ordering ; this line probably never worked
-    #commits.to_a.sort! {|x, y| x.last <=> y.last}
+    # TODO: restore ordering ; this line probably never worked
+    # commits.to_a.sort! {|x, y| x.last <=> y.last}
 
     changes = Change.joins(:changeset).where("#{Changeset.table_name}.repository_id = ?", id).select("committer, user_id, count(*) as count").group("committer, user_id")
 
