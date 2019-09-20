@@ -421,19 +421,17 @@ class Repository < ActiveRecord::Base
   # Notes:
   # - this hash honnors the users mapping defined for the repository
   def stats_by_author
-    commits = Changeset.where("repository_id = ?", id).select("committer, user_id, count(*) as count").group("committer, user_id")
-
+    commits = Changeset.where("repository_id = ?", id).
+                select("committer, user_id, count(*) as count").group("committer, user_id")
     # TODO: restore ordering ; this line probably never worked
     # commits.to_a.sort! {|x, y| x.last <=> y.last}
-
-    changes = Change.joins(:changeset).where("#{Changeset.table_name}.repository_id = ?", id).select("committer, user_id, count(*) as count").group("committer, user_id")
-
+    changes = Change.joins(:changeset).where("#{Changeset.table_name}.repository_id = ?", id).
+                select("committer, user_id, count(*) as count").group("committer, user_id")
     user_ids = changesets.map(&:user_id).compact.uniq
     authors_names = User.where(:id => user_ids).inject({}) do |memo, user|
       memo[user.id] = user.to_s
       memo
     end
-
     (commits + changes).inject({}) do |hash, element|
       mapped_name = element.committer
       if username = authors_names[element.user_id.to_i]
