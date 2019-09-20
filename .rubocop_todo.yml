@@ -590,11 +590,6 @@ Lint/ParenthesesAsGroupedExpression:
     - 'test/unit/attachment_test.rb'
     - 'test/unit/lib/redmine/export/pdf_test.rb'
 
-# Cop supports --auto-correct.
-Lint/ScriptPermission:
-  Exclude:
-    - 'Rakefile'
-
 Lint/ShadowingOuterLocalVariable:
   Enabled: false
 
