@@ -941,26 +941,6 @@ Rails/HasManyOrHasOneDependent:
     - 'app/models/tracker.rb'
     - 'app/models/wiki.rb'
 
-# Configuration parameters: Include.
-# Include: app/helpers/**/*.rb
-Rails/HelperInstanceVariable:
-  Exclude:
-    - 'app/helpers/application_helper.rb'
-    - 'app/helpers/attachments_helper.rb'
-    - 'app/helpers/context_menus_helper.rb'
-    - 'app/helpers/imports_helper.rb'
-    - 'app/helpers/issues_helper.rb'
-    - 'app/helpers/journals_helper.rb'
-    - 'app/helpers/projects_helper.rb'
-    - 'app/helpers/queries_helper.rb'
-    - 'app/helpers/repositories_helper.rb'
-    - 'app/helpers/search_helper.rb'
-    - 'app/helpers/sort_helper.rb'
-    - 'app/helpers/timelog_helper.rb'
-    - 'app/helpers/users_helper.rb'
-    - 'app/helpers/versions_helper.rb'
-    - 'app/helpers/workflows_helper.rb'
-
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle.
 # SupportedStyles: numeric, symbolic
