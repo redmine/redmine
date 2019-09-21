@@ -370,7 +370,7 @@ module IssuesHelper
   # Returns the textual representation of a journal details
   # as an array of strings
   def details_to_strings(details, no_html=false, options={})
-    options[:only_path] = (options[:only_path] == false ? false : true)
+    options[:only_path] = !(options[:only_path] == false)
     strings = []
     values_by_field = {}
     details.each do |detail|

@@ -1504,7 +1504,6 @@ Style/RedundantConditional:
   Exclude:
     - 'app/controllers/workflows_controller.rb'
     - 'app/helpers/application_helper.rb'
-    - 'app/helpers/issues_helper.rb'
     - 'app/models/enumeration.rb'
     - 'lib/redmine/field_format.rb'
 
