@@ -1421,7 +1421,6 @@ Style/NestedParenthesizedCalls:
 
 Style/NestedTernaryOperator:
   Exclude:
-    - 'app/helpers/issues_helper.rb'
     - 'app/helpers/queries_helper.rb'
     - 'app/helpers/versions_helper.rb'
     - 'app/models/issue_relation.rb'
