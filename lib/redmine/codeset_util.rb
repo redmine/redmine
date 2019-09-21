@@ -22,7 +22,7 @@ module Redmine
         return str
       end
       enc = encoding.blank? ? "UTF-8" : encoding
-      if enc.upcase != "UTF-8"
+      if enc.casecmp("UTF-8") != 0
         str.force_encoding(enc)
         str = str.encode("UTF-8", :invalid => :replace,
               :undef => :replace, :replace => '?')
@@ -62,7 +62,7 @@ module Redmine
       str = str.dup
       str ||= ''
       str.force_encoding('UTF-8')
-      if encoding.upcase != 'UTF-8'
+      if encoding.casecmp('UTF-8') != 0
         str = str.encode(encoding, :invalid => :replace,
                          :undef => :replace, :replace => '?')
       else

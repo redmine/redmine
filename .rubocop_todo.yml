@@ -727,7 +727,6 @@ Naming/VariableNumber:
 # Cop supports --auto-correct.
 Performance/Casecmp:
   Exclude:
-    - 'lib/redmine/codeset_util.rb'
     - 'lib/redmine/scm/adapters/bazaar_adapter.rb'
 
 Performance/FixedSize:
