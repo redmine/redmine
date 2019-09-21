@@ -1036,6 +1036,9 @@ function inlineAutoComplete(element) {
     const tribute = new Tribute({
       trigger: '#',
       values: function (text, cb) {
+        if (event.target.type === 'text' && $(element).attr('autocomplete') != 'off') {
+          $(element).attr('autocomplete', 'off');
+        }
         remoteSearch(issuesUrl + text, function (issues) {
           return cb(issues);
         });
