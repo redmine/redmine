@@ -95,13 +95,19 @@ module IssuesHelper
     issue_list(issue.descendants.visible.preload(:status, :priority, :tracker, :assigned_to).sort_by(&:lft)) do |child, level|
       css = +"issue issue-#{child.id} hascontextmenu #{child.css_classes}"
       css << " idnt idnt-#{level}" if level > 0
-      buttons = manage_relations ? link_to(l(:label_delete_link_to_subtask),
-                                  issue_path({:id => child.id, :issue => {:parent_issue_id => ''}, :back_url => issue_path(issue.id), :no_flash => '1'}),
+      buttons =
+        if manage_relations
+          link_to(l(:label_delete_link_to_subtask),
+                  issue_path({:id => child.id, :issue => {:parent_issue_id => ''},
+                              :back_url => issue_path(issue.id), :no_flash => '1'}),
                                   :method => :put,
                                   :data => {:confirm => l(:text_are_you_sure)},
                                   :title => l(:label_delete_link_to_subtask),
                                   :class => 'icon-only icon-link-break'
-                                  ) : "".html_safe
+                                  )
+        else
+          "".html_safe
+        end
       buttons << link_to_context_menu
 
       s << content_tag('tr',
@@ -125,14 +131,19 @@ module IssuesHelper
     relations.each do |relation|
       other_issue = relation.other_issue(issue)
       css = "issue hascontextmenu #{other_issue.css_classes}"
-      buttons = manage_relations ? link_to(l(:label_relation_delete),
+      buttons =
+        if manage_relations
+          link_to(l(:label_relation_delete),
                                   relation_path(relation),
                                   :remote => true,
                                   :method => :delete,
                                   :data => {:confirm => l(:text_are_you_sure)},
                                   :title => l(:label_relation_delete),
                                   :class => 'icon-only icon-link-break'
-                                 ) :"".html_safe
+                                 )
+        else
+          "".html_safe
+        end
       buttons << link_to_context_menu
 
       s << content_tag('tr',
@@ -450,12 +461,20 @@ module IssuesHelper
     when 'relation'
       if detail.value && !detail.old_value
         rel_issue = Issue.visible.find_by_id(detail.value)
-        value = rel_issue.nil? ? "#{l(:label_issue)} ##{detail.value}" :
-                  (no_html ? rel_issue : link_to_issue(rel_issue, :only_path => options[:only_path]))
+        value =
+          if rel_issue.nil?
+            "#{l(:label_issue)} ##{detail.value}"
+          else
+            (no_html ? rel_issue : link_to_issue(rel_issue, :only_path => options[:only_path]))
+          end
       elsif detail.old_value && !detail.value
         rel_issue = Issue.visible.find_by_id(detail.old_value)
-        old_value = rel_issue.nil? ? "#{l(:label_issue)} ##{detail.old_value}" :
-                          (no_html ? rel_issue : link_to_issue(rel_issue, :only_path => options[:only_path]))
+        old_value =
+          if rel_issue.nil?
+            "#{l(:label_issue)} ##{detail.old_value}"
+          else
+            (no_html ? rel_issue : link_to_issue(rel_issue, :only_path => options[:only_path]))
+          end
       end
       relation_type = IssueRelation::TYPES[detail.prop_key]
       label = l(relation_type[:name]) if relation_type
