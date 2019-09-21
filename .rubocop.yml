@@ -37,6 +37,9 @@ Lint/HandleExceptions:
 Metrics:
   Enabled: false
 
+Naming/BinaryOperatorParameterName:
+  Enabled: false
+
 Naming/PredicateName:
   Enabled: false
 

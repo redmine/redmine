@@ -653,24 +653,6 @@ Naming/AccessorMethodName:
     - 'app/models/setting.rb'
     - 'lib/redmine/i18n.rb'
 
-Naming/BinaryOperatorParameterName:
-  Exclude:
-    - 'app/models/custom_field.rb'
-    - 'app/models/enumeration.rb'
-    - 'app/models/issue.rb'
-    - 'app/models/issue_category.rb'
-    - 'app/models/issue_relation.rb'
-    - 'app/models/issue_status.rb'
-    - 'app/models/member.rb'
-    - 'app/models/principal.rb'
-    - 'app/models/project.rb'
-    - 'app/models/repository.rb'
-    - 'app/models/role.rb'
-    - 'app/models/tracker.rb'
-    - 'app/models/version.rb'
-    - 'lib/redmine/plugin.rb'
-    - 'lib/redmine/themes.rb'
-
 Naming/ConstantName:
   Exclude:
     - 'app/models/document_category.rb'
