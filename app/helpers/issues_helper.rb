@@ -536,9 +536,7 @@ module IssuesHelper
 
   # Find the name of an associated record stored in the field attribute
   def find_name_by_reflection(field, id)
-    unless id.present?
-      return nil
-    end
+    return nil if id.blank?
     @detail_value_name_by_reflection ||= Hash.new do |hash, key|
       association = Issue.reflect_on_association(key.first.to_sym)
       name = nil

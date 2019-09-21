@@ -823,7 +823,6 @@ Rails/Blank:
     - 'app/controllers/context_menus_controller.rb'
     - 'app/controllers/repositories_controller.rb'
     - 'app/controllers/watchers_controller.rb'
-    - 'app/helpers/issues_helper.rb'
     - 'app/helpers/queries_helper.rb'
     - 'app/helpers/repositories_helper.rb'
     - 'app/models/mailer.rb'
