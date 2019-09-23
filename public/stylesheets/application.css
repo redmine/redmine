@@ -1259,6 +1259,7 @@ div.wiki img {vertical-align:middle; max-width:100%;}
   margin:0 0 20px 0;
   color:#505050;
   line-height:1.5em;
+  border-radius: 3px;
 }
 
 .mypage-box>.contextual {opacity:0.001; transition: opacity 0.2s;}
