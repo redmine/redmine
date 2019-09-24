@@ -2231,7 +2231,6 @@ class IssueTest < ActiveSupport::TestCase
     end
   end
 
-
   def test_rescheduling_reschedule_following_issue_earlier_should_consider_other_preceding_issues
     issue1 = Issue.generate!(:start_date => '2012-10-15', :due_date => '2012-10-17')
     issue2 = Issue.generate!(:start_date => '2012-10-15', :due_date => '2012-10-17')
