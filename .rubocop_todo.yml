@@ -1170,11 +1170,6 @@ Style/EmptyElse:
     - 'app/models/query.rb'
 
 # Cop supports --auto-correct.
-Style/EmptyLiteral:
-  Exclude:
-    - 'lib/redmine/scm/adapters/cvs_adapter.rb'
-
-# Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle.
 # SupportedStyles: compact, expanded
 Style/EmptyMethod:
