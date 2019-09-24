@@ -961,7 +961,6 @@ Rails/Presence:
     - 'app/models/repository.rb'
     - 'config/initializers/10-patches.rb'
     - 'config/initializers/30-redmine.rb'
-    - 'db/migrate/20110228000100_copy_repositories_log_encoding.rb'
     - 'lib/redmine/codeset_util.rb'
     - 'lib/redmine/i18n.rb'
     - 'lib/redmine/scm/adapters/abstract_adapter.rb'
