@@ -47,7 +47,8 @@
 
 <h3><%= l(:label_permissions) %></h3>
 <div class="box tabular" id="permissions">
-<% perms_by_module = @role.setable_permissions.group_by {|p| p.project_module.to_s} %>
+<% setable_permissions = @role.setable_permissions %>
+<% perms_by_module = setable_permissions.group_by {|p| p.project_module.to_s} %>
 <% perms_by_module.keys.sort.each do |mod| %>
     <% module_name = mod.blank? ? 'module_project' : "module_#{mod}" %>
     <fieldset id="<%= module_name %>"><legend><%= toggle_checkboxes_link("##{module_name}\ input") %><%= mod.blank? ? l(:label_project) : l_or_humanize(mod, :prefix => 'project_module_') %></legend>
@@ -67,7 +68,7 @@
 
 <div id="role-permissions-trackers" class="view_issues_shown">
 <h3><%= l(:label_issue_tracking) %></h3>
-<% permissions = %w(view_issues add_issues edit_issues add_issue_notes delete_issues) %>
+<% permissions = [:view_issues, :add_issues, :edit_issues, :add_issue_notes, :delete_issues] & setable_permissions.collect(&:name) %>
 
 <div class="autoscroll">
 <table class="list">

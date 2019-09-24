@@ -158,6 +158,7 @@ class RolesControllerTest < Redmine::ControllerTest
 
     assert_select 'input[name=?][value=?]', 'role[name]', 'Manager'
     assert_select 'select[name=?]', 'role[issues_visibility]'
+    assert_select '#role-permissions-trackers table .delete_issues_shown'
   end
 
   def test_edit_anonymous
@@ -166,6 +167,7 @@ class RolesControllerTest < Redmine::ControllerTest
 
     assert_select 'input[name=?]', 'role[name]', 0
     assert_select 'select[name=?]', 'role[issues_visibility]', 0
+    assert_select '#role-permissions-trackers table .delete_issues_shown', 0
   end
 
   def test_edit_invalid_should_respond_with_404
