@@ -24,7 +24,8 @@ module IssuesHelper
   def issue_list(issues, &block)
     ancestors = []
     issues.each do |issue|
-      while ancestors.any? && !issue.is_descendant_of?(ancestors.last)
+      while ancestors.any? &&
+            !issue.is_descendant_of?(ancestors.last)
         ancestors.pop
       end
       yield issue, ancestors.size
@@ -35,7 +36,8 @@ module IssuesHelper
   def grouped_issue_list(issues, query, &block)
     ancestors = []
     grouped_query_results(issues, query) do |issue, group_name, group_count, group_totals|
-      while ancestors.any? && !issue.is_descendant_of?(ancestors.last)
+      while ancestors.any? &&
+            !issue.is_descendant_of?(ancestors.last)
         ancestors.pop
       end
       yield issue, ancestors.size, group_name, group_count, group_totals
