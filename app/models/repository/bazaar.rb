@@ -96,7 +96,7 @@ class Repository::Bazaar < Repository
       if db_revision < scm_revision
         logger.debug "Fetching changesets for repository #{url}" if logger && logger.debug?
         identifier_from = db_revision + 1
-        while (identifier_from <= scm_revision)
+        while identifier_from <= scm_revision
           # loads changesets by batches of 200
           identifier_to = [identifier_from + 199, scm_revision].min
           revisions = scm.revisions('', identifier_to, identifier_from)

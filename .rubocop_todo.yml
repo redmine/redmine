@@ -1427,7 +1427,6 @@ Style/ParenthesesAroundCondition:
     - 'app/helpers/issues_helper.rb'
     - 'app/models/project.rb'
     - 'app/models/query.rb'
-    - 'app/models/repository/bazaar.rb'
     - 'app/models/repository/subversion.rb'
     - 'app/models/time_entry.rb'
     - 'app/models/wiki_page.rb'
