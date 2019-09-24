@@ -146,7 +146,7 @@ class Repository::Cvs < Repository
           cmt = Changeset.normalize_comments(revision.message, repo_log_encoding)
           author_utf8 = Changeset.to_utf8(revision.author, repo_log_encoding)
           cs  = changesets.where(
-                  :committed_on => tmp_time - time_delta .. tmp_time + time_delta,
+                  :committed_on => (tmp_time - time_delta)..(tmp_time + time_delta),
                   :committer    => author_utf8,
                   :comments     => cmt
                 ).first
