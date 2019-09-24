@@ -1424,7 +1424,6 @@ Style/ParenthesesAroundCondition:
   Exclude:
     - 'app/controllers/context_menus_controller.rb'
     - 'app/helpers/application_helper.rb'
-    - 'app/helpers/issues_helper.rb'
     - 'app/models/project.rb'
     - 'app/models/query.rb'
     - 'app/models/repository/subversion.rb'
