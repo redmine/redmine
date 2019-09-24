@@ -959,7 +959,6 @@ Rails/Presence:
     - 'app/controllers/activities_controller.rb'
     - 'app/helpers/application_helper.rb'
     - 'app/models/repository.rb'
-    - 'config/initializers/10-patches.rb'
     - 'config/initializers/30-redmine.rb'
     - 'lib/redmine/codeset_util.rb'
     - 'lib/redmine/i18n.rb'

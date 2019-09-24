@@ -97,7 +97,7 @@ module ActionView
       alias :options_for_select_without_non_empty_blank_option :options_for_select
       def options_for_select(container, selected = nil)
         if container.is_a?(Array)
-          container = container.map {|element| element.blank? ? ["&nbsp;".html_safe, ""] : element}
+          container = container.map {|element| element.presence || ["&nbsp;".html_safe, ""]}
         end
         options_for_select_without_non_empty_blank_option(container, selected)
       end
