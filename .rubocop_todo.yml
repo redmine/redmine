@@ -477,7 +477,6 @@ Layout/SpaceInsidePercentLiteralDelimiters:
 Layout/SpaceInsideStringInterpolation:
   Exclude:
     - 'app/helpers/application_helper.rb'
-    - 'app/helpers/issues_helper.rb'
     - 'app/helpers/workflows_helper.rb'
     - 'app/models/issue_query.rb'
     - 'app/models/mail_handler.rb'

@@ -515,7 +515,7 @@ module IssuesHelper
         diff_link = link_to 'diff',
           diff_journal_url(detail.journal_id, :detail_id => detail.id, :only_path => options[:only_path]),
           :title => l(:label_view_diff)
-        s << " (#{ diff_link })"
+        s << " (#{diff_link})"
       end
       s.html_safe
     elsif detail.value.present?
