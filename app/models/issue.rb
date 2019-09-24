@@ -77,7 +77,7 @@ class Issue < ActiveRecord::Base
   }
 
   scope :open, lambda {|*args|
-    is_closed = args.size > 0 ? !args.first : false
+    is_closed = !args.empty? ? !args.first : false
     joins(:status).
     where(:issue_statuses => {:is_closed => is_closed})
   }

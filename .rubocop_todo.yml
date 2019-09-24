@@ -1726,7 +1726,6 @@ Style/WordArray:
 Style/ZeroLengthPredicate:
   Exclude:
     - 'app/models/import.rb'
-    - 'app/models/issue.rb'
     - 'app/models/mail_handler.rb'
     - 'app/models/user.rb'
     - 'lib/redmine/field_format.rb'
