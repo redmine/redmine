@@ -145,7 +145,6 @@ Layout/EmptyLineBetweenDefs:
     - 'app/models/user.rb'
     - 'app/models/user_preference.rb'
     - 'app/models/version.rb'
-    - 'db/migrate/20170302015225_change_attachments_digest_limit_to_64.rb'
     - 'lib/redmine/info.rb'
     - 'lib/redmine/version.rb'
     - 'test/functional/email_addresses_controller_test.rb'
