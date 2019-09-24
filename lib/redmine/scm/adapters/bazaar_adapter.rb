@@ -255,7 +255,7 @@ module Redmine
         end
 
         def append_revisions_only
-          return @aro if ! @aro.nil?
+          return @aro unless @aro.nil?
           @aro = false
           bcp = self.class.branch_conf_path(url)
           if bcp && File.exist?(bcp)
