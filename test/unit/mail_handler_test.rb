@@ -24,6 +24,7 @@ class MailHandlerTest < ActiveSupport::TestCase
            :members, :member_roles, :users,
            :email_addresses, :user_preferences,
            :issues, :issue_statuses,
+           :journals, :journal_details,
            :workflows, :trackers, :projects_trackers,
            :versions, :enumerations, :issue_categories,
            :custom_fields, :custom_fields_trackers, :custom_fields_projects, :custom_values,
