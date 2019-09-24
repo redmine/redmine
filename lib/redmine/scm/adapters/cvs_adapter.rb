@@ -63,7 +63,7 @@ module Redmine
         #  password -> unnecessary too
         def initialize(url, root_url=nil, login=nil, password=nil,
                        path_encoding=nil)
-          @path_encoding = path_encoding.blank? ? 'UTF-8' : path_encoding
+          @path_encoding = path_encoding.presence || 'UTF-8'
           @url      = url
           # TODO: better Exception here (IllegalArgumentException)
           raise CommandFailed if root_url.blank?

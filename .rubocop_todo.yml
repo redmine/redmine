@@ -965,7 +965,6 @@ Rails/Presence:
     - 'lib/redmine/codeset_util.rb'
     - 'lib/redmine/i18n.rb'
     - 'lib/redmine/scm/adapters/abstract_adapter.rb'
-    - 'lib/redmine/scm/adapters/cvs_adapter.rb'
     - 'lib/redmine/scm/adapters/filesystem_adapter.rb'
     - 'lib/redmine/scm/adapters/git_adapter.rb'
     - 'lib/redmine/scm/adapters/mercurial_adapter.rb'
