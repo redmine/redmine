@@ -67,7 +67,6 @@ Layout/BlockEndNewline:
   Exclude:
     - 'app/controllers/auth_sources_controller.rb'
     - 'app/controllers/files_controller.rb'
-    - 'app/models/issue.rb'
     - 'app/models/message.rb'
 
 # Cop supports --auto-correct.
