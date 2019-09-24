@@ -1117,7 +1117,6 @@ Style/ColonMethodCall:
     - 'app/models/setting.rb'
     - 'lib/redmine/configuration.rb'
     - 'lib/redmine/export/pdf.rb'
-    - 'lib/redmine/scm/adapters/bazaar_adapter.rb'
     - 'lib/redmine/wiki_formatting.rb'
     - 'lib/redmine/wiki_formatting/textile/redcloth3.rb'
     - 'test/test_helper.rb'

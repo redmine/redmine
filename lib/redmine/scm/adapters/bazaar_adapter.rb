@@ -260,7 +260,7 @@ module Redmine
           bcp = self.class.branch_conf_path(url)
           if bcp && File.exist?(bcp)
             begin
-              f = File::open(bcp, "r")
+              f = File.open(bcp, "r")
               cnt = 0
               f.each_line do |line|
                 l = line.chomp.to_s
