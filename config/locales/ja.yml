@@ -1302,3 +1302,5 @@ ja:
   label_password_char_class_digits: 数字
   label_password_char_class_special_chars: 記号
   text_characters_must_contain: "%{character_classes}を含む必要があります。"
+  label_starts_with: starts with
+  label_ends_with: ends with

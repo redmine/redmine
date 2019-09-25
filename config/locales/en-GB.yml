@@ -1307,3 +1307,5 @@ en-GB:
   label_password_char_class_digits: digits
   label_password_char_class_special_chars: special characters
   text_characters_must_contain: Must contain %{character_classes}.
+  label_starts_with: starts with
+  label_ends_with: ends with
