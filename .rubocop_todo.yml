@@ -536,21 +536,6 @@ Lint/HandleExceptions:
     - 'lib/redmine/scm/adapters/cvs_adapter.rb'
     - 'lib/redmine/scm/adapters/subversion_adapter.rb'
 
-Lint/IneffectiveAccessModifier:
-  Exclude:
-    - 'app/models/attachment.rb'
-    - 'app/models/auth_source_ldap.rb'
-    - 'app/models/issue.rb'
-    - 'app/models/mail_handler.rb'
-    - 'app/models/mailer.rb'
-    - 'app/models/role.rb'
-    - 'app/models/setting.rb'
-    - 'app/models/user.rb'
-    - 'app/models/watcher.rb'
-    - 'lib/redmine/helpers/gantt.rb'
-    - 'lib/redmine/scm/adapters/abstract_adapter.rb'
-    - 'lib/redmine/themes.rb'
-
 Lint/InterpolationCheck:
   Exclude:
     - 'app/models/user.rb'
