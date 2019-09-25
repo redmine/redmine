@@ -488,6 +488,7 @@ input[type="submit"]:hover {
 input[type="text"]:focus, input[type="text"]:active,
 input[type="password"]:focus, input[type="password"]:active,
 input[type="date"]:focus, input[type="date"]:active,
+input[type="number"]:focus, input[type="number"]:active,
 select:focus, select:active,
 textarea:focus, textarea:active {
   border: 1px solid #5ad;
