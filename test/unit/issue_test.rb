@@ -3224,6 +3224,5 @@ class IssueTest < ActiveSupport::TestCase
     # March 21st and the issue should be marked overdue
     User.current = user_in_asia
     assert issue.overdue?
-
   end
 end
