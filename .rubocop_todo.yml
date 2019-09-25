@@ -1679,7 +1679,6 @@ Style/WhileUntilModifier:
     - 'lib/redmine/unified_diff.rb'
     - 'lib/redmine/utils.rb'
     - 'lib/redmine/wiki_formatting/textile/redcloth3.rb'
-    - 'test/application_system_test_case.rb'
 
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle, MinSize, WordRegex.

@@ -72,9 +72,7 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   # Returns the path of the download file
   def downloaded_file(filename='*')
     Timeout.timeout(5) do
-      while downloaded_files(filename).empty?
-        sleep 0.2
-      end
+      sleep 0.2 while downloaded_files(filename).empty?
     end
     downloaded_files(filename).first
   end
