@@ -1581,13 +1581,6 @@ Style/TernaryParentheses:
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyleForMultiline.
 # SupportedStylesForMultiline: comma, consistent_comma, no_comma
-Style/TrailingCommaInArguments:
-  Exclude:
-    - 'test/unit/issue_test.rb'
-
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyleForMultiline.
-# SupportedStylesForMultiline: comma, consistent_comma, no_comma
 Style/TrailingCommaInArrayLiteral:
   Exclude:
     - 'app/models/time_entry_query.rb'

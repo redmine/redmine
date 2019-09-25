@@ -1419,7 +1419,7 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   def test_copy_should_clear_subtasks_target_version_if_locked_or_closed
-    version = Version.new(:project => Project.find(1), :name => '2.1',)
+    version = Version.new(:project => Project.find(1), :name => '2.1')
     version.save!
 
     parent = Issue.generate!
