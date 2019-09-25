@@ -89,7 +89,6 @@ Layout/ClosingHeredocIndentation:
   Exclude:
     - 'app/models/setting.rb'
     - 'test/helpers/application_helper_test.rb'
-    - 'test/integration/api_test/issues_test.rb'
     - 'test/integration/lib/redmine/hook_test.rb'
     - 'test/unit/lib/redmine/unified_diff_test.rb'
     - 'test/unit/lib/redmine/wiki_formatting/macros_test.rb'

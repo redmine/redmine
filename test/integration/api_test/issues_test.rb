@@ -905,26 +905,24 @@ JSON
   def test_create_issue_with_multiple_uploaded_files_as_xml
     token1 = xml_upload('File content 1', credentials('jsmith'))
     token2 = xml_upload('File content 2', credentials('jsmith'))
-
-    payload = <<-XML
-<?xml version="1.0" encoding="UTF-8" ?>
-<issue>
-  <project_id>1</project_id>
-  <tracker_id>1</tracker_id>
-  <subject>Issue with multiple attachments</subject>
-  <uploads type="array">
-    <upload>
-      <token>#{token1}</token>
-      <filename>test1.txt</filename>
-    </upload>
-    <upload>
-      <token>#{token2}</token>
-      <filename>test1.txt</filename>
-    </upload>
-  </uploads>
-</issue>
-XML
-
+    payload = <<~XML
+      <?xml version="1.0" encoding="UTF-8" ?>
+      <issue>
+        <project_id>1</project_id>
+        <tracker_id>1</tracker_id>
+        <subject>Issue with multiple attachments</subject>
+        <uploads type="array">
+          <upload>
+            <token>#{token1}</token>
+            <filename>test1.txt</filename>
+          </upload>
+          <upload>
+            <token>#{token2}</token>
+            <filename>test1.txt</filename>
+          </upload>
+        </uploads>
+      </issue>
+    XML
     assert_difference 'Issue.count' do
       post '/issues.xml',
         :params => payload,
@@ -938,21 +936,19 @@ XML
   def test_create_issue_with_multiple_uploaded_files_as_json
     token1 = json_upload('File content 1', credentials('jsmith'))
     token2 = json_upload('File content 2', credentials('jsmith'))
-
-    payload = <<-JSON
-{
-  "issue": {
-    "project_id": "1",
-    "tracker_id": "1",
-    "subject": "Issue with multiple attachments",
-    "uploads": [
-      {"token": "#{token1}", "filename": "test1.txt"},
-      {"token": "#{token2}", "filename": "test2.txt"}
-    ]
-  }
-}
-JSON
-
+    payload = <<~JSON
+      {
+        "issue": {
+          "project_id": "1",
+          "tracker_id": "1",
+          "subject": "Issue with multiple attachments",
+          "uploads": [
+            {"token": "#{token1}", "filename": "test1.txt"},
+            {"token": "#{token2}", "filename": "test2.txt"}
+          ]
+        }
+      }
+    JSON
     assert_difference 'Issue.count' do
       post '/issues.json',
         :params => payload,
