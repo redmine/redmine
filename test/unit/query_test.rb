@@ -1353,6 +1353,20 @@ class QueryTest < ActiveSupport::TestCase
     assert_nil issues.detect {|issue| issue.attachments.any? {|attachment| attachment.filename.include?('error281')}}
   end
 
+  def test_filter_on_subject_when_starts_with
+    query = IssueQuery.new(:name => '_')
+    query.filters = {'subject' => {:operator => '^', :values => ['issue']}}
+    issues = find_issues_with_query(query)
+    assert_equal [4, 6, 7, 10], issues.collect(&:id).sort
+  end
+
+  def test_filter_on_subject_when_ends_with
+    query = IssueQuery.new(:name => '_')
+    query.filters = {'subject' => {:operator => '$', :values => ['issue']}}
+    issues = find_issues_with_query(query)
+    assert_equal [5, 8, 9], issues.collect(&:id).sort
+  end
+
   def test_statement_should_be_nil_with_no_filters
     q = IssueQuery.new(:name => '_')
     q.filters = {}

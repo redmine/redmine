@@ -771,6 +771,8 @@ en:
   label_ago: days ago
   label_contains: contains
   label_not_contains: doesn't contain
+  label_starts_with: starts with
+  label_ends_with: ends with
   label_any_issues_in_project: any issues in project
   label_any_issues_not_in_project: any issues not in project
   label_no_issues_in_project: no issues in project

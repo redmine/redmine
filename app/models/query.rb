@@ -282,6 +282,8 @@ class Query < ActiveRecord::Base
     "t-"  => :label_ago,
     "~"   => :label_contains,
     "!~"  => :label_not_contains,
+    "^"   => :label_starts_with,
+    "$"   => :label_ends_with,
     "=p"  => :label_any_issues_in_project,
     "=!p" => :label_any_issues_not_in_project,
     "!p"  => :label_no_issues_in_project,
@@ -297,8 +299,8 @@ class Query < ActiveRecord::Base
     :list_subprojects => [ "*", "!*", "=", "!" ],
     :date => [ "=", ">=", "<=", "><", "<t+", ">t+", "><t+", "t+", "nd", "t", "ld", "nw", "w", "lw", "l2w", "nm", "m", "lm", "y", ">t-", "<t-", "><t-", "t-", "!*", "*" ],
     :date_past => [ "=", ">=", "<=", "><", ">t-", "<t-", "><t-", "t-", "t", "ld", "w", "lw", "l2w", "m", "lm", "y", "!*", "*" ],
-    :string => [ "~", "=", "!~", "!", "!*", "*" ],
-    :text => [  "~", "!~", "!*", "*" ],
+    :string => [ "~", "=", "!~", "!", "^", "$", "!*", "*" ],
+    :text => [  "~", "!~", "^", "$", "!*", "*" ],
     :integer => [ "=", ">=", "<=", "><", "!*", "*" ],
     :float => [ "=", ">=", "<=", "><", "!*", "*" ],
     :relation => ["=", "=p", "=!p", "!p", "*o", "!o", "!*", "*"],
@@ -1260,7 +1262,11 @@ class Query < ActiveRecord::Base
     when "~"
       sql = sql_contains("#{db_table}.#{db_field}", value.first)
     when "!~"
-      sql = sql_contains("#{db_table}.#{db_field}", value.first, false)
+      sql = sql_contains("#{db_table}.#{db_field}", value.first, :match => false)
+    when "^"
+      sql = sql_contains("#{db_table}.#{db_field}", value.first, :starts_with => true)
+    when "$"
+      sql = sql_contains("#{db_table}.#{db_field}", value.first, :ends_with => true)
     else
       raise "Unknown query operator #{operator}"
     end
@@ -1269,9 +1275,15 @@ class Query < ActiveRecord::Base
   end
 
   # Returns a SQL LIKE statement with wildcards
-  def sql_contains(db_field, value, match=true)
+  def sql_contains(db_field, value, options={})
+    options = {} unless options.is_a?(Hash)
+    options.symbolize_keys!
+    prefix = suffix = nil
+    prefix = '%' if options[:ends_with]
+    suffix = '%' if options[:starts_with]
+    prefix = suffix = '%' if prefix.nil? && suffix.nil?
     queried_class.send :sanitize_sql_for_conditions,
-      [Redmine::Database.like(db_field, '?', :match => match), "%#{value}%"]
+      [Redmine::Database.like(db_field, '?', :match => options[:match]), "#{prefix}#{value}#{suffix}"]
   end
 
   # Adds a filter for the given custom field
