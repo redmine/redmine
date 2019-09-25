@@ -66,15 +66,21 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   def downloaded_files(filename='*')
     # https://github.com/SeleniumHQ/selenium/issues/5292
     downloaded_path = Redmine::Platform.mswin? ? DOWNLOADS_PATH : "#{ENV['HOME']}/Downloads"
-    Dir.glob("#{downloaded_path}/#{filename}").reject {|f| f=~/\.(tmp|crdownload)$/}
+    Dir.glob("#{downloaded_path}/#{filename}").
+      reject{|f| f=~/\.(tmp|crdownload)$/}.sort_by{|f| File.mtime(f)}
   end
 
   # Returns the path of the download file
   def downloaded_file(filename='*')
+    files = []
     Timeout.timeout(5) do
-      sleep 0.2 while downloaded_files(filename).empty?
+      loop do
+        files = downloaded_files(filename)
+        break if files.present?
+        sleep 0.2
+      end
     end
-    downloaded_files(filename).first
+    files.last
   end
 end
 
