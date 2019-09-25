@@ -484,6 +484,16 @@ input[type="submit"] {
 input[type="submit"]:hover {
   background-color: #ddd;
 }
+
+input[type="text"]:focus, input[type="text"]:active,
+input[type="password"]:focus, input[type="password"]:active,
+input[type="date"]:focus, input[type="date"]:active,
+select:focus, select:active,
+textarea:focus, textarea:active {
+  border: 1px solid #5ad;
+  outline: none;
+}
+
 select[multiple=multiple] {background: #fff; padding-right: initial; height: auto;}
 fieldset {border: 1px solid #e4e4e4; margin:0; min-width: inherit;}
 legend {color: #333;}
