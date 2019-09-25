@@ -76,7 +76,7 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
         sleep 0.2
       end
     end
-    downloaded_files.first
+    downloaded_files(filename).first
   end
 end
 
