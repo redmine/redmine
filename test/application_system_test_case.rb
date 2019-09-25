@@ -62,14 +62,16 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
     FileUtils.rm downloaded_files
   end
 
-  def downloaded_files
-    Dir.glob("#{DOWNLOADS_PATH}/*").reject {|f| f=~/\.(tmp|crdownload)$/}
+  def downloaded_files(filename='*')
+    # https://github.com/SeleniumHQ/selenium/issues/5292
+    downloaded_path = Redmine::Platform.mswin? ? DOWNLOADS_PATH : "#{ENV['HOME']}/Downloads"
+    Dir.glob("#{downloaded_path}/#{filename}").reject {|f| f=~/\.(tmp|crdownload)$/}
   end
 
   # Returns the path of the download file
-  def downloaded_file
+  def downloaded_file(filename='*')
     Timeout.timeout(5) do
-      while downloaded_files.empty?
+      while downloaded_files(filename).empty?
         sleep 0.2
       end
     end

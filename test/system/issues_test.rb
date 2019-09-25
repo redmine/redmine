@@ -335,7 +335,7 @@ class IssuesTest < ApplicationSystemTestCase
     click_on 'CSV'
     click_on 'Export'
 
-    csv = CSV.read(downloaded_file)
+    csv = CSV.read(downloaded_file("issues.csv"))
     subject_index = csv.shift.index('Subject')
     subjects = csv.map {|row| row[subject_index]}
     assert_equal subjects.sort, subjects
