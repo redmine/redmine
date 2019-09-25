@@ -617,18 +617,6 @@ Lint/Void:
     - 'lib/redmine/unified_diff.rb'
     - 'test/functional/project_enumerations_controller_test.rb'
 
-Naming/AccessorMethodName:
-  Exclude:
-    - 'app/controllers/account_controller.rb'
-    - 'app/controllers/application_controller.rb'
-    - 'app/models/enumeration.rb'
-    - 'app/models/issue.rb'
-    - 'app/models/issue_relation.rb'
-    - 'app/models/mail_handler.rb'
-    - 'app/models/project.rb'
-    - 'app/models/setting.rb'
-    - 'lib/redmine/i18n.rb'
-
 Naming/ConstantName:
   Exclude:
     - 'app/models/document_category.rb'

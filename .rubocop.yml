@@ -40,6 +40,9 @@ Lint/IneffectiveAccessModifier:
 Metrics:
   Enabled: false
 
+Naming/AccessorMethodName:
+  Enabled: false
+
 Naming/BinaryOperatorParameterName:
   Enabled: false
 
