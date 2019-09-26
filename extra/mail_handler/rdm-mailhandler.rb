@@ -212,4 +212,4 @@ END_DESC
 end
 
 handler = RedmineMailHandler.new
-exit(handler.submit(STDIN.read))
+exit(handler.submit(STDIN.read.force_encoding('ASCII-8BIT')))
