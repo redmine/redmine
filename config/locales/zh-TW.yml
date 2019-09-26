@@ -1362,5 +1362,5 @@
   label_password_char_class_digits: 數字
   label_password_char_class_special_chars: 特殊字元
   text_characters_must_contain: 必須包含 %{character_classes}.
-  label_starts_with: starts with
-  label_ends_with: ends with
+  label_starts_with: 開頭是
+  label_ends_with: 結尾是
