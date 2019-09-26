@@ -54,11 +54,13 @@ div#wrapper, div#wrapper2, div#wrapper3 { min-height: inherit; }
   font-weight: bold;
   margin: 0;
   padding: 4px 10px 4px 10px;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
 }
-#main-menu li a:hover {background: #759FCF; color: #fff; border-top-left-radius: 3px; border-top-right-radius: 3px;}
+#main-menu li a:hover {background: #759FCF; color: #fff; }
 #main-menu li:hover ul.menu-children, #main-menu li ul.menu-children.visible {display: block;}
-#main-menu li a.selected, #main-menu li a.selected:hover {background: #fff; color: #555; border-top-left-radius: 3px; border-top-right-radius: 3px;}
-#main-menu li a.new-object {background-color: #759FCF; border-top-left-radius: 3px; border-top-right-radius: 3px;}
+#main-menu li a.selected, #main-menu li a.selected:hover {background: #fff; color: #555; }
+#main-menu li a.new-object {background-color: #759FCF; }
 
 #main-menu .menu-children {
   display: none;
@@ -71,7 +73,7 @@ div#wrapper, div#wrapper2, div#wrapper3 { min-height: inherit; }
   border-left: 1px solid #759FCF;
 }
 #main-menu .menu-children li {float:left; clear:both; width:100%;}
-#main-menu .menu-children li a {color: #555; background-color:#fff; font-weight:normal;}
+#main-menu .menu-children li a {color: #555; background-color:#fff; font-weight:normal; border-radius: 0;}
 #main-menu .menu-children li a:hover {color: #fff; background-color: #759FCF;}
 
 #main-menu .tabs-buttons {
