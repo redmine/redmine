@@ -5,6 +5,11 @@
 <%= link_to_if_authorized l(:label_settings),
             {:controller => 'projects', :action => 'settings', :id => @project, :tab => 'activities'},
             :class => 'icon icon-settings' if User.current.allowed_to?(:manage_project_activities, @project) %>
+<%= actions_dropdown do %>
+  <% if User.current.allowed_to?(:log_time, @project, :global => true) %>
+    <%= link_to l(:button_import), new_time_entries_import_path %>
+  <% end %>
+<% end %>
 </div>
 
 <h2><%= @query.new_record? ? l(:label_spent_time) : @query.name %></h2>

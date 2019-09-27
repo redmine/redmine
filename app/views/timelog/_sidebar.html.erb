@@ -1,10 +1,1 @@
-<h3><%= l(:label_spent_time) %></h3>
-
-<ul>
-  <li><%= link_to l(:label_time_entries_visibility_all), _time_entries_path(@project, nil, :set_filter => 1) %></li>
-  <% if User.current.allowed_to?(:log_time, @project, :global => true) %>
-    <li><%= link_to l(:button_import), new_time_entries_import_path %></li>
-  <% end %>
-</ul>
-
 <%= render_sidebar_queries(TimeEntryQuery, @project) %>
