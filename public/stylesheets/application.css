@@ -423,6 +423,11 @@ span.search_for_watchers {display:block;}
 span.search_for_watchers, span.add_attachment {font-size:80%; line-height:2.5em;}
 span.add_attachment a {padding-left:16px; background: url(../images/bullet_add.png) no-repeat 0 50%; }
 
+input:disabled, select:disabled, textarea:disabled {
+  cursor: not-allowed;
+  color: graytext;
+}
+
 
 .highlight { background-color: #FCFD8D;}
 .highlight.token-1 { background-color: #faa;}
