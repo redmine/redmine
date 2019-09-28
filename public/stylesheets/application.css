@@ -231,7 +231,7 @@ div + .drdn-items {border-top:1px solid #ccc;}
 #project-jump .drdn-items>a:hover {background-color:#759FCF; color:#fff !important;}
 
 /***** Tables *****/
-table.list, .table-list { border: 1px solid #e4e4e4;  border-collapse: collapse; width: 100%; margin-bottom: 4px; }
+table.list, .table-list { border: 1px solid #e4e4e4; width: 100%; margin-bottom: 4px; border-radius: 3px; border-spacing: 0; overflow: hidden;}
 table.list th, .table-list-header { background-color:#EEEEEE; padding: 4px; white-space:nowrap; font-weight:bold; }
 table.list td {text-align:center; vertical-align:middle; padding-right:10px;}
 table.list td.id { width: 2%; text-align: center;}
