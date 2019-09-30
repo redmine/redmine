@@ -223,7 +223,6 @@ module ApplicationHelper
     end
   end
 
-
   # Helper that formats object for html or text rendering
   def format_object(object, html=true, &block)
     if block_given?
