@@ -307,7 +307,6 @@ Layout/LeadingCommentSpace:
   Exclude:
     - 'lib/diff.rb'
     - 'lib/redmine/wiki_formatting/textile/redcloth3.rb'
-    - 'test/integration/api_test/issues_test.rb'
     - 'test/integration/issues_test.rb'
     - 'test/unit/issue_test.rb'
     - 'test/unit/project_test.rb'

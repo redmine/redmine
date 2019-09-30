@@ -405,9 +405,7 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
     parent = Issue.find(3)
     parent.update_columns :estimated_hours => 2.0
     child = Issue.generate!(:parent_issue_id => parent.id, :estimated_hours => 3.0)
-    # remove permission!
     Role.anonymous.remove_permission! :view_time_entries
-    #Role.all.each { |role| role.remove_permission! :view_time_entries }
     get '/issues/3.xml'
 
     assert_equal 'application/xml', response.content_type
@@ -456,9 +454,7 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
     parent = Issue.find(3)
     parent.update_columns :estimated_hours => 2.0
     child = Issue.generate!(:parent_issue_id => parent.id, :estimated_hours => 3.0)
-    # remove permission!
     Role.anonymous.remove_permission! :view_time_entries
-    #Role.all.each { |role| role.remove_permission! :view_time_entries }
     get '/issues/3.json'
 
     assert_equal 'application/json', response.content_type
