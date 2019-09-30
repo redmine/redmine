@@ -526,6 +526,9 @@ class IssueQuery < Query
       c = sql_contains("a.filename", value.first)
       e = (operator == "~" ? "EXISTS" : "NOT EXISTS")
       "#{e} (SELECT 1 FROM #{Attachment.table_name} a WHERE a.container_type = 'Issue' AND a.container_id = #{Issue.table_name}.id AND #{c})"
+    when "^", "$"
+      c = sql_contains("a.filename", value.first, (operator == "^" ? :starts_with : :ends_with) => true)
+      "EXISTS (SELECT 1 FROM #{Attachment.table_name} a WHERE a.container_type = 'Issue' AND a.container_id = #{Issue.table_name}.id AND #{c})"
     end
   end
 
