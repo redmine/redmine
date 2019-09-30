@@ -180,7 +180,6 @@ Layout/EmptyLinesAroundArguments:
 # SupportedStyles: empty_lines, no_empty_lines
 Layout/EmptyLinesAroundBlockBody:
   Exclude:
-    - 'app/models/attachment.rb'
     - 'app/models/setting.rb'
     - 'db/schema.rb'
     - 'lib/redmine/wiki_formatting/textile/redcloth3.rb'
