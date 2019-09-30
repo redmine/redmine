@@ -11,6 +11,8 @@ pre {
     overflow-x: auto;
     overflow-y: hidden;
 }
+a, a:link, a:visited{ color: #169; text-decoration: none; }
+a:hover, a:active{ color: #c61a1a; text-decoration: underline;}
 a.new { color: #b73535; }
 
 .syntaxhl .c1 { color: #888888 }
