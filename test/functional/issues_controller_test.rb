@@ -6186,7 +6186,7 @@ class IssuesControllerTest < Redmine::ControllerTest
     end
   end
 
-  def test_bulk_copy_should_allow_copying_the_subtasks
+  test "bulk copy should allow copying the subtasks" do
     issue = Issue.generate_with_descendants!
     count = issue.descendants.count
     @request.session[:user_id] = 2
@@ -6206,10 +6206,9 @@ class IssuesControllerTest < Redmine::ControllerTest
     assert_equal count, copy.descendants.count
   end
 
-  def test_bulk_copy_should_allow_copying_the_subtasks
+  test "issue bulk copy copy watcher" do
     Watcher.create!(:watchable => Issue.find(1), :user => User.find(3))
     @request.session[:user_id] = 2
-
     assert_difference 'Issue.count' do
       post :bulk_update, :params => {
           :ids => [1],
@@ -6217,7 +6216,6 @@ class IssuesControllerTest < Redmine::ControllerTest
           :copy_watchers => '1',
           :issue => {
             :project_id => ''
-            
           }
         }
     end
