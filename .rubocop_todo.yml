@@ -139,7 +139,6 @@ Layout/EmptyLineAfterGuardClause:
 Layout/EmptyLineBetweenDefs:
   Exclude:
     - 'app/helpers/application_helper.rb'
-    - 'app/models/attachment.rb'
     - 'app/models/user.rb'
     - 'app/models/user_preference.rb'
     - 'app/models/version.rb'
