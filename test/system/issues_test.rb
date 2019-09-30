@@ -220,6 +220,14 @@ class IssuesTest < ApplicationSystemTestCase
     assert_equal 'CF value', issue.custom_field_value(field)
   end
 
+  test "removing issue shows confirm dialog" do
+    log_user('jsmith', 'jsmith')
+    visit '/issues/1'
+    page.accept_confirm /Are you sure/ do
+      page.first('#content a.icon-del').click
+    end
+  end
+
   def test_remove_issue_watcher_from_sidebar
     user = User.find(3)
     Watcher.create!(:watchable => Issue.find(1), :user => user)
