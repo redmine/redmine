@@ -120,22 +120,23 @@ class Issue < ActiveRecord::Base
   # Returns a SQL conditions string used to find all issues visible by the specified user
   def self.visible_condition(user, options={})
     Project.allowed_to_condition(user, :view_issues, options) do |role, user|
-      sql = if user.id && user.logged?
-        case role.issues_visibility
-        when 'all'
-          '1=1'
-        when 'default'
-          user_ids = [user.id] + user.groups.pluck(:id).compact
-          "(#{table_name}.is_private = #{connection.quoted_false} OR #{table_name}.author_id = #{user.id} OR #{table_name}.assigned_to_id IN (#{user_ids.join(',')}))"
-        when 'own'
-          user_ids = [user.id] + user.groups.pluck(:id).compact
-          "(#{table_name}.author_id = #{user.id} OR #{table_name}.assigned_to_id IN (#{user_ids.join(',')}))"
+      sql =
+        if user.id && user.logged?
+          case role.issues_visibility
+          when 'all'
+              '1=1'
+          when 'default'
+            user_ids = [user.id] + user.groups.pluck(:id).compact
+            "(#{table_name}.is_private = #{connection.quoted_false} OR #{table_name}.author_id = #{user.id} OR #{table_name}.assigned_to_id IN (#{user_ids.join(',')}))"
+          when 'own'
+            user_ids = [user.id] + user.groups.pluck(:id).compact
+            "(#{table_name}.author_id = #{user.id} OR #{table_name}.assigned_to_id IN (#{user_ids.join(',')}))"
+          else
+              '1=0'
+          end
         else
-          '1=0'
+          "(#{table_name}.is_private = #{connection.quoted_false})"
         end
-      else
-        "(#{table_name}.is_private = #{connection.quoted_false})"
-      end
       unless role.permissions_all_trackers?(:view_issues)
         tracker_ids = role.permissions_tracker_ids(:view_issues)
         if tracker_ids.any?
