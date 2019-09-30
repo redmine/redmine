@@ -487,8 +487,9 @@ class Issue < ActiveRecord::Base
     }
 
   safe_attributes 'parent_issue_id',
-    :if => lambda {|issue, user| (issue.new_record? || issue.attributes_editable?(user)) &&
-      user.allowed_to?(:manage_subtasks, issue.project)
+    :if => lambda {|issue, user|
+      (issue.new_record? || issue.attributes_editable?(user)) &&
+        user.allowed_to?(:manage_subtasks, issue.project)
     }
 
   safe_attributes 'deleted_attachment_ids',
