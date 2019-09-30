@@ -482,18 +482,16 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
   end
 
   test "POST /issues.xml should create an issue with the attributes" do
-
-payload = <<-XML
-<?xml version="1.0" encoding="UTF-8" ?>
-<issue>
-  <project_id>1</project_id>
-  <tracker_id>2</tracker_id>
-  <status_id>3</status_id>
-  <category_id>2</category_id>
-  <subject>API test</subject>
-</issue>
-XML
-
+    payload = <<~XML
+      <?xml version="1.0" encoding="UTF-8" ?>
+        <issue>
+          <project_id>1</project_id>
+          <tracker_id>2</tracker_id>
+          <status_id>3</status_id>
+          <category_id>2</category_id>
+         <subject>API test</subject>
+      </issue>
+    XML
     assert_difference('Issue.count') do
       post '/issues.xml',
         :params => payload,
@@ -539,19 +537,17 @@ XML
   end
 
   test "POST /issues.json should create an issue with the attributes" do
-
-payload = <<-JSON
-{
-  "issue": {
-    "project_id": "1",
-    "tracker_id": "2",
-    "status_id": "3",
-    "category_id": "2",
-    "subject": "API test"
-  }
-}
-JSON
-
+    payload = <<~JSON
+      {
+        "issue": {
+        "project_id": "1",
+        "tracker_id": "2",
+        "status_id": "3",
+        "category_id": "2",
+        "subject": "API test"
+        }
+      }
+    JSON
     assert_difference('Issue.count') do
       post '/issues.json',
         :params => payload,

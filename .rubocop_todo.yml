@@ -183,7 +183,6 @@ Layout/EmptyLinesAroundBlockBody:
     - 'lib/redmine/wiki_formatting/textile/redcloth3.rb'
     - 'test/functional/issues_controller_test.rb'
     - 'test/integration/api_test/attachments_test.rb'
-    - 'test/integration/api_test/issues_test.rb'
     - 'test/integration/api_test/my_test.rb'
 
 # Cop supports --auto-correct.
