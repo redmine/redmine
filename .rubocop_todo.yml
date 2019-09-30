@@ -189,7 +189,6 @@ Layout/EmptyLinesAroundBlockBody:
     - 'test/integration/api_test/attachments_test.rb'
     - 'test/integration/api_test/issues_test.rb'
     - 'test/integration/api_test/my_test.rb'
-    - 'test/unit/changeset_test.rb'
 
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle.

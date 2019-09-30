@@ -210,7 +210,6 @@ class ChangesetTest < ActiveSupport::TestCase
       {'keywords' => 'fixes, closes', 'status_id' => '5'},
       {'keywords' => 'resolves', 'status_id' => '3'}
     ] do
-
       issue1 = Issue.generate!
       issue2 = Issue.generate!
       Changeset.generate!(:comments => "Closes ##{issue1.id}\nResolves ##{issue2.id}")
@@ -224,7 +223,6 @@ class ChangesetTest < ActiveSupport::TestCase
       {'keywords' => 'fixes', 'status_id' => '5', 'if_tracker_id' => '2'},
       {'keywords' => 'fixes', 'status_id' => '3', 'if_tracker_id' => ''}
     ] do
-
       issue1 = Issue.generate!(:tracker_id => 2)
       issue2 = Issue.generate!
       Changeset.generate!(:comments => "Fixes ##{issue1.id}, ##{issue2.id}")
@@ -238,7 +236,6 @@ class ChangesetTest < ActiveSupport::TestCase
       {'keywords' => 'Fixes, Closes', 'status_id' => '5', 'done_ratio' => '100', 'if_tracker_id' => '2'},
       {'keywords' => 'Testing',       'status_id' => '3', 'done_ratio' => '90',  'if_tracker_id' => '2'}
     ] do
-
       issue1 = Issue.generate!(:tracker_id => 2)
       issue2 = Issue.generate!(:tracker_id => 2)
       Changeset.generate!(:comments => "Testing ##{issue1.id}, Fixes ##{issue2.id}")
@@ -256,7 +253,6 @@ class ChangesetTest < ActiveSupport::TestCase
       {'keywords' => 'fixes', 'status_id' => '5', 'if_tracker_id' => '2'},
       {'keywords' => 'fixes', 'status_id' => '3', 'if_tracker_id' => '3'}
     ] do
-
       issue1 = Issue.generate!(:tracker_id => 2)
       issue2 = Issue.generate!
       Changeset.generate!(:comments => "Fixes ##{issue1.id}, ##{issue2.id}")
