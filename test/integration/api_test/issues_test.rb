@@ -581,23 +581,20 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
       :is_for_all => true,
       :trackers => Tracker.all.to_a
     )
-
-payload = <<-JSON
-{
-  "issue": {
-    "project_id": "1",
-    "subject": "Multivalued custom field",
-    "custom_field_values":{"#{field.id}":["V1","V3"]}
-  }
-}
-JSON
-
+    payload = <<~JSON
+      {
+        "issue": {
+          "project_id": "1",
+          "subject": "Multivalued custom field",
+          "custom_field_values":{"#{field.id}":["V1","V3"]}
+        }
+      }
+    JSON
     assert_difference('Issue.count') do
       post '/issues.json',
         :params => payload,
         :headers => {"CONTENT_TYPE" => 'application/json'}.merge(credentials('jsmith'))
     end
-
     assert_response :created
     issue = Issue.order('id DESC').first
     assert_equal ["V1", "V3"], issue.custom_field_value(field).sort

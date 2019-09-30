@@ -267,7 +267,6 @@ Layout/IndentHeredoc:
     - 'test/helpers/application_helper_test.rb'
     - 'test/integration/api_test/custom_fields_attribute_test.rb'
     - 'test/integration/api_test/files_test.rb'
-    - 'test/integration/api_test/issues_test.rb'
     - 'test/integration/lib/redmine/hook_test.rb'
     - 'test/unit/lib/redmine/syntax_highlighting/rouge_test.rb'
     - 'test/unit/lib/redmine/unified_diff_test.rb'
