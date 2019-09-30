@@ -505,7 +505,6 @@ Lint/DuplicateMethods:
     - 'app/models/custom_field_value.rb'
     - 'app/models/query.rb'
     - 'app/models/wiki_page.rb'
-    - 'test/functional/issues_controller_test.rb'
 
 Lint/EmptyWhen:
   Exclude:
