@@ -150,11 +150,9 @@ class Setting < ActiveRecord::Base
 
   def self.validate_all_from_params(settings)
     messages = []
-
     [[:mail_handler_enable_regex_delimiters,         :mail_handler_body_delimiters,    /[\r\n]+/],
      [:mail_handler_enable_regex_excluded_filenames, :mail_handler_excluded_filenames, /\s*,\s*/]
     ].each do |enable_regex, regex_field, delimiter|
-
       if settings.key?(regex_field) || settings.key?(enable_regex)
         regexp = Setting.send("#{enable_regex}?")
         if settings.key?(enable_regex)
@@ -171,7 +169,6 @@ class Setting < ActiveRecord::Base
         end
       end
     end
-
     if settings.key?(:mail_from)
       begin
         mail_from = Mail::Address.new(settings[:mail_from])
