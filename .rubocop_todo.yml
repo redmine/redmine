@@ -308,7 +308,6 @@ Layout/LeadingCommentSpace:
     - 'lib/diff.rb'
     - 'lib/redmine/wiki_formatting/textile/redcloth3.rb'
     - 'test/integration/issues_test.rb'
-    - 'test/unit/issue_test.rb'
     - 'test/unit/project_test.rb'
     - 'test/unit/query_test.rb'
     - 'test/unit/user_test.rb'
