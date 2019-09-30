@@ -476,26 +476,21 @@ module ApplicationHelper
     bookmarked = jump_box.bookmarked_projects(params[:q])
     recents = jump_box.recently_used_projects(params[:q])
     projects = projects - (recents + bookmarked)
-
     projects_label = (bookmarked.any? || recents.any?) ? :label_optgroup_others : :label_project_plural
-
     jump = params[:jump].presence || current_menu_item
     s = (+'').html_safe
-
     build_project_link = ->(project, level = 0){
       padding = level * 16
       text = content_tag('span', project.name, :style => "padding-left:#{padding}px;")
-      s << link_to(text, project_path(project, :jump => jump), :title => project.name, :class => (project == selected ? 'selected' : nil))
+      s << link_to(text, project_path(project, :jump => jump),
+              :title => project.name, :class => (project == selected ? 'selected' : nil))
     }
-
     [
       [bookmarked, :label_optgroup_bookmarks, true],
       [recents,   :label_optgroup_recents,    false],
       [projects,  projects_label,             true]
     ].each do |projects, label, is_tree|
-
       next if projects.blank?
-
       s << content_tag(:strong, l(label))
       if is_tree
         project_tree(projects, &build_project_link)
