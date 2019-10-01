@@ -57,8 +57,6 @@ class Watcher < ActiveRecord::Base
     errors.add :user_id, :invalid unless user.nil? || user.active?
   end
 
-  private
-
   def self.prune_single_user(user, options={})
     return unless user.is_a?(User)
     pruned = 0
@@ -79,4 +77,5 @@ class Watcher < ActiveRecord::Base
     end
     pruned
   end
+  private_class_method :prune_single_user
 end

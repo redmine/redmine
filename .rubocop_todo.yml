@@ -606,7 +606,6 @@ Lint/UriEscapeUnescape:
 Lint/UselessAccessModifier:
   Exclude:
     - 'app/models/changeset.rb'
-    - 'app/models/watcher.rb'
     - 'lib/redmine/themes.rb'
 
 Lint/UselessAssignment:
