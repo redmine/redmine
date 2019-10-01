@@ -57,6 +57,9 @@ Rails/BulkChangeTable:
 Rails/HelperInstanceVariable:
   Enabled: false
 
+Style/FormatStringToken:
+  Enabled: false
+
 Style/FrozenStringLiteralComment:
   Enabled: true
   EnforcedStyle: always

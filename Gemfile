@@ -84,7 +84,7 @@ group :test do
   gem "capybara", (RUBY_VERSION < "2.4" ? "~> 3.15.1" : "~> 3.25.0")
   gem "selenium-webdriver"
   # RuboCop
-  gem 'rubocop', '~> 0.74.0'
+  gem 'rubocop', '~> 0.75.0'
   gem 'rubocop-performance', '~> 1.4.1'
   gem 'rubocop-rails', '~> 2.3.0'
 end
