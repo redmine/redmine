@@ -132,8 +132,6 @@ module Redmine
       end
     end
 
-    private
-
     def self.scan_themes
       dirs = Dir.glob("#{Rails.public_path}/themes/*").select do |f|
         # A theme should at least override application.css
@@ -141,5 +139,6 @@ module Redmine
       end
       dirs.collect {|dir| Theme.new(dir)}.sort
     end
+    private_class_method :scan_themes
   end
 end
