@@ -95,7 +95,7 @@ class WorkflowsControllerTest < Redmine::ControllerTest
     assert_response :success
 
     assert_select 'select[name=?][multiple=multiple]', 'role_id[]' do
-      assert_select 'option[selected=selected]', Role.all.select(&:consider_workflow?).count
+      assert_select 'option[selected=selected]', Role.all.count(&:consider_workflow?)
     end
     assert_select 'select[name=?]', 'tracker_id[]' do
       assert_select 'option[selected=selected][value=all]'

@@ -200,7 +200,7 @@ class ProjectCopyTest < ActiveSupport::TestCase
 
     # Second issue with a cross project relation
     assert_equal 2, copied_second_issue.relations.size, "Relation not copied"
-    copied_relation = copied_second_issue.relations.select {|r| r.relation_type == 'duplicates'}.first
+    copied_relation = copied_second_issue.relations.find {|r| r.relation_type == 'duplicates'}
     assert_equal "duplicates", copied_relation.relation_type
     assert_equal 1, copied_relation.issue_from_id, "Cross project relation not kept"
     assert_not_equal source_relation_cross_project.id, copied_relation.id

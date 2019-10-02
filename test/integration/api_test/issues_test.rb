@@ -338,7 +338,7 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
 
     json = ActiveSupport::JSON.decode(response.body)
     assert_equal 2, json['issue']['children'].size
-    assert_equal 1, json['issue']['children'].select {|child| child.key?('children')}.size
+    assert_equal 1, json['issue']['children'].count {|child| child.key?('children')}
   end
 
   test "GET /issues/:id.json with no spent time should return floats" do
