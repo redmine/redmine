@@ -1,6 +1,6 @@
 body { font:80% Verdana,Tahoma,Arial,sans-serif; }
 h1, h2, h3, h4 {  font-family: Trebuchet MS,Georgia,"Times New Roman",serif; }
-pre, code { font-size:120%; }
+pre, code { font-size:120%; font-family: Consolas, Menlo, "Liberation Mono", Courier, monospace; }
 pre code { font-size:100%; }
 pre {
     margin: 1em 1em 1em 1.6em;
