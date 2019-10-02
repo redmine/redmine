@@ -690,6 +690,18 @@ Naming/VariableNumber:
     - 'test/unit/lib/redmine/scm/adapters/mercurial_adapter_test.rb'
     - 'test/unit/project_test.rb'
 
+# Cop supports --auto-correct.
+Performance/Count:
+  Exclude:
+    - 'test/functional/workflows_controller_test.rb'
+    - 'test/integration/api_test/issues_test.rb'
+    - 'test/unit/issue_test.rb'
+
+# Cop supports --auto-correct.
+Performance/Detect:
+  Exclude:
+    - 'test/unit/project_copy_test.rb'
+
 Performance/FixedSize:
   Exclude:
     - 'test/integration/api_test/issues_test.rb'
