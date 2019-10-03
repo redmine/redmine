@@ -240,6 +240,14 @@ class Attachment < ActiveRecord::Base
     Redmine::MimeType.is_type?('text', filename) || Redmine::SyntaxHighlighting.filename_supported?(filename)
   end
 
+  def is_markdown?
+    Redmine::MimeType.of(filename) == 'text/markdown'
+  end
+
+  def is_textile?
+    self.filename =~ /\.textile$/i
+  end
+
   def is_image?
     Redmine::MimeType.is_type?('image', filename)
   end

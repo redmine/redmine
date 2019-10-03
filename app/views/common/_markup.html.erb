@@ -1,0 +1,3 @@
+<div class="wiki">
+  <%= Redmine::WikiFormatting.to_html(markup_text_formatting, Redmine::CodesetUtil.to_utf8_by_setting(markup_text)).html_safe %>
+</div>

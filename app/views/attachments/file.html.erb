@@ -1,4 +1,4 @@
 <%= render :layout => 'layouts/file' do %>
   &nbsp;
-  <%= render :partial => 'common/file', :locals => {:content => @content, :filename => @attachment.filename} %>
+  <%= render_file_content(@attachment, @content) %>
 <% end %>
