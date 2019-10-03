@@ -245,7 +245,7 @@ class Attachment < ActiveRecord::Base
   end
 
   def is_textile?
-    self.filename =~ /\.textile$/i
+    Redmine::MimeType.of(filename) == 'text/x-textile'
   end
 
   def is_image?
