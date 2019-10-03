@@ -452,13 +452,6 @@ Layout/SpaceInsideArrayLiteralBrackets:
     - 'test/unit/search_test.rb'
 
 # Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, EnforcedStyleForEmptyBraces.
-# SupportedStyles: space, no_space, compact
-# SupportedStylesForEmptyBraces: space, no_space
-Layout/SpaceInsideHashLiteralBraces:
-  Enabled: false
-
-# Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle.
 # SupportedStyles: space, no_space
 Layout/SpaceInsideParens:

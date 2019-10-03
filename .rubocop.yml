@@ -28,6 +28,9 @@ Layout/SpaceBeforeBlockBraces:
 Layout/SpaceInsideBlockBraces:
   Enabled: false
 
+Layout/SpaceInsideHashLiteralBraces:
+  Enabled: false
+
 Layout/TrailingWhitespace:
   AllowInHeredoc: true
 
