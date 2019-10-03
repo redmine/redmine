@@ -1740,6 +1740,13 @@ img {
   max-width: 100%;
 }
 
+.filecontent-container > .filecontent.wiki {
+  position: relative;
+  padding: 1em;
+  border: 1px solid #e4e4e4;
+  border-radius: 3px;
+}
+
 /* Fixes for IE 11 */
 @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
   select::-ms-expand {
