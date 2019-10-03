@@ -1,5 +1,3 @@
-require 'rexml/document'
-
 module Redmine
   # @private
   module VERSION
