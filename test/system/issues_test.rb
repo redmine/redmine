@@ -149,8 +149,6 @@ class IssuesTest < ApplicationSystemTestCase
     end
     assert_equal 1, issue.attachments.count
     assert_equal 'Some description', issue.attachments.first.description
-  ensure
-    set_fixtures_attachments_directory
   end
 
   def test_create_issue_with_new_target_version

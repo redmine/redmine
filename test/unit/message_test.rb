@@ -108,6 +108,7 @@ class MessageTest < ActiveSupport::TestCase
   end
 
   def test_destroy_topic
+    set_tmp_attachments_directory
     message = Message.find(1)
     board = message.board
     topics_count, messages_count = board.topics_count, board.messages_count

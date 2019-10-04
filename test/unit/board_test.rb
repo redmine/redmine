@@ -93,6 +93,7 @@ class BoardTest < ActiveSupport::TestCase
   end
 
   def test_destroy
+    set_tmp_attachments_directory
     board = Board.find(1)
     assert_difference 'Message.count', -6 do
       assert_difference 'Attachment.count', -1 do

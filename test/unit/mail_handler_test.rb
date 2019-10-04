@@ -543,6 +543,7 @@ class MailHandlerTest < ActiveSupport::TestCase
   end
 
   def test_add_issue_from_apple_mail
+    set_tmp_attachments_directory
     issue = submit_email(
               'apple_mail_with_attachment.eml',
               :issue => {:project => 'ecookbook'}
@@ -559,6 +560,7 @@ class MailHandlerTest < ActiveSupport::TestCase
   end
 
   def test_thunderbird_with_attachment_ja
+    set_tmp_attachments_directory
     issue = submit_email(
               'thunderbird_with_attachment_ja.eml',
               :issue => {:project => 'ecookbook'}
@@ -583,6 +585,7 @@ class MailHandlerTest < ActiveSupport::TestCase
   end
 
   def test_gmail_with_attachment_ja
+    set_tmp_attachments_directory
     issue = submit_email(
               'gmail_with_attachment_ja.eml',
               :issue => {:project => 'ecookbook'}
@@ -598,6 +601,7 @@ class MailHandlerTest < ActiveSupport::TestCase
   end
 
   def test_thunderbird_with_attachment_latin1
+    set_tmp_attachments_directory
     issue = submit_email(
               'thunderbird_with_attachment_iso-8859-1.eml',
               :issue => {:project => 'ecookbook'}
@@ -616,6 +620,7 @@ class MailHandlerTest < ActiveSupport::TestCase
   end
 
   def test_gmail_with_attachment_latin1
+    set_tmp_attachments_directory
     issue = submit_email(
               'gmail_with_attachment_iso-8859-1.eml',
               :issue => {:project => 'ecookbook'}
@@ -634,6 +639,7 @@ class MailHandlerTest < ActiveSupport::TestCase
   end
 
   def test_mail_with_attachment_latin2
+    set_tmp_attachments_directory
     issue = submit_email(
               'ticket_with_text_attachment_iso-8859-2.eml',
               :issue => {:project => 'ecookbook'}
@@ -987,6 +993,7 @@ class MailHandlerTest < ActiveSupport::TestCase
   end
 
   def test_reply_to_a_nonexistent_issue
+    set_tmp_attachments_directory
     Issue.find(2).destroy
     assert_no_difference 'Issue.count' do
       assert_no_difference 'Journal.count' do

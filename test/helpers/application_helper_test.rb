@@ -190,7 +190,6 @@ RAW
   end
 
   def test_attached_images_filename_extension
-    set_tmp_attachments_directory
     a1 = Attachment.new(
             :container => Issue.find(1),
             :file => mock_file_with_options({:original_filename => "testtest.JPG"}),
@@ -264,6 +263,7 @@ RAW
     }
     attachments = [a1, a2]
     to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text, :attachments => attachments) }
+  ensure
     set_tmp_attachments_directory
   end
 
@@ -722,7 +722,6 @@ RAW
   end
 
   def test_attachment_link_should_link_to_latest_attachment
-    set_tmp_attachments_directory
     a1 = Attachment.generate!(:filename => "test.txt", :created_on => 1.hour.ago)
     a2 = Attachment.generate!(:filename => "test.txt")
     result = link_to("test.txt", "/attachments/#{a2.id}",

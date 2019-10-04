@@ -234,6 +234,7 @@ LOREM
   end
 
   def test_destroy
+    set_tmp_attachments_directory
     @request.session[:user_id] = 2
     assert_difference 'Document.count', -1 do
       delete :destroy, :params => {
@@ -245,6 +246,7 @@ LOREM
   end
 
   def test_add_attachment
+    set_tmp_attachments_directory
     @request.session[:user_id] = 2
     assert_difference 'Attachment.count' do
       post :add_attachment, :params => {

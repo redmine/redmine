@@ -344,6 +344,8 @@ class AttachmentTest < ActiveSupport::TestCase
     assert attachment.readable?
     attachment.update_digest_to_sha256!
     assert_equal 'ac5c6e99a21ae74b2e3f5b8e5b568be1b9107cd7153d139e822b9fe5caf50938', attachment.digest
+  ensure
+    set_tmp_attachments_directory
   end
 
   def test_update_attachments
@@ -403,7 +405,7 @@ class AttachmentTest < ActiveSupport::TestCase
     assert_equal 17, la1.id
     la2 = Attachment.latest_attach([a1, a2], "Testfile.PNG")
     assert_equal 17, la2.id
-
+  ensure
     set_tmp_attachments_directory
   end
 
@@ -444,6 +446,8 @@ class AttachmentTest < ActiveSupport::TestCase
           assert File.exist?(thumbnail)
         end
       end
+    ensure
+      set_tmp_attachments_directory
     end
 
     def test_should_reuse_thumbnail
@@ -490,6 +494,8 @@ class AttachmentTest < ActiveSupport::TestCase
       set_fixtures_attachments_directory
       attachment = Attachment.find(16)
       assert_nil attachment.thumbnail
+    ensure
+      set_tmp_attachments_directory
     end
 
     def test_thumbnail_should_be_at_least_of_requested_size
@@ -508,6 +514,8 @@ class AttachmentTest < ActiveSupport::TestCase
         assert_equal "8e0294de2441577c529f170b6fb8f638_2654_#{generated_size}.thumb",
           File.basename(thumbnail)
       end
+    ensure
+      set_tmp_attachments_directory
     end
   else
     puts '(ImageMagick convert not available)'

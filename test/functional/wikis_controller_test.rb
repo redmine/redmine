@@ -27,6 +27,7 @@ class WikisControllerTest < Redmine::ControllerTest
   end
 
   def test_get_destroy_should_ask_confirmation
+    set_tmp_attachments_directory
     @request.session[:user_id] = 1
     assert_no_difference 'Wiki.count' do
       get :destroy, :params => {:id => 1}
@@ -35,6 +36,7 @@ class WikisControllerTest < Redmine::ControllerTest
   end
 
   def test_post_destroy_should_delete_wiki
+    set_tmp_attachments_directory
     @request.session[:user_id] = 1
     post :destroy, :params => {:id => 1, :confirm => 1}
     assert_redirected_to :controller => 'projects',

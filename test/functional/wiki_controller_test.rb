@@ -273,6 +273,7 @@ class WikiControllerTest < Redmine::ControllerTest
   end
 
   def test_create_page_with_attachments
+    set_tmp_attachments_directory
     @request.session[:user_id] = 2
     assert_difference 'WikiPage.count' do
       assert_difference 'Attachment.count' do
@@ -443,6 +444,7 @@ class WikiControllerTest < Redmine::ControllerTest
   end
 
   def test_update_page_with_attachments_only_should_not_create_content_version
+    set_tmp_attachments_directory
     @request.session[:user_id] = 2
     assert_no_difference 'WikiPage.count' do
       assert_no_difference 'WikiContent.count' do
@@ -1179,6 +1181,7 @@ class WikiControllerTest < Redmine::ControllerTest
   end
 
   def test_add_attachment
+    set_tmp_attachments_directory
     @request.session[:user_id] = 2
     assert_difference 'Attachment.count' do
       post :add_attachment, :params => {

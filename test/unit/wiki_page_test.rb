@@ -143,6 +143,7 @@ class WikiPageTest < ActiveSupport::TestCase
   end
 
   def test_destroy_should_delete_content_and_its_versions
+    set_tmp_attachments_directory
     page = WikiPage.find(1)
     assert_difference 'WikiPage.count', -1 do
       assert_difference 'WikiContent.count', -1 do

@@ -62,6 +62,7 @@ class JournalsControllerTest < Redmine::ControllerTest
   end
 
   def test_index_should_show_visible_custom_fields_only
+    set_tmp_attachments_directory
     Issue.destroy_all
     Journal.delete_all
     field_attributes = {:field_format => 'string', :is_for_all => true, :is_filter => true, :trackers => Tracker.all}

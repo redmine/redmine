@@ -69,9 +69,8 @@ class PdfTest < ActiveSupport::TestCase
   end
 
   def test_attach
+    set_fixtures_attachments_directory
     ["CP932", "SJIS"].each do |encoding|
-      set_fixtures_attachments_directory
-
       str2 = "\x83e\x83X\x83g".b
 
       a1 = Attachment.find(17)
@@ -99,8 +98,8 @@ class PdfTest < ActiveSupport::TestCase
       assert_nil aa1
       aa2 = Redmine::Export::PDF::RDMPdfEncoding::attach(Attachment.all, "test#{str2}.png", encoding)
       assert_nil aa2
-
-      set_tmp_attachments_directory
     end
+  ensure
+    set_tmp_attachments_directory
   end
 end

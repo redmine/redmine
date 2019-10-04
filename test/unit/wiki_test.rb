@@ -103,6 +103,7 @@ class WikiTest < ActiveSupport::TestCase
   end
 
   def test_destroy_should_remove_redirects_from_the_wiki
+    set_tmp_attachments_directory
     WikiRedirect.create!(:wiki_id => 1, :title => 'Foo', :redirects_to_wiki_id => 2, :redirects_to => 'Bar')
 
     Wiki.find(1).destroy
@@ -110,6 +111,7 @@ class WikiTest < ActiveSupport::TestCase
   end
 
   def test_destroy_should_remove_redirects_to_the_wiki
+    set_tmp_attachments_directory
     WikiRedirect.create!(:wiki_id => 2, :title => 'Foo', :redirects_to_wiki_id => 1, :redirects_to => 'Bar')
 
     Wiki.find(1).destroy

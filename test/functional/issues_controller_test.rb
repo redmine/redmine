@@ -348,6 +348,7 @@ class IssuesControllerTest < Redmine::ControllerTest
   end
 
   def test_index_grouped_by_due_date
+    set_tmp_attachments_directory
     Issue.destroy_all
     Issue.generate!(:due_date => '2018-08-10')
     Issue.generate!(:due_date => '2018-08-10')
@@ -4413,6 +4414,7 @@ class IssuesControllerTest < Redmine::ControllerTest
   end
 
   def test_create_as_copy_with_attachments_should_also_add_new_files
+    set_tmp_attachments_directory
     @request.session[:user_id] = 2
     issue = Issue.find(3)
     count = issue.attachments.count
@@ -6670,6 +6672,7 @@ class IssuesControllerTest < Redmine::ControllerTest
   end
 
   def test_destroy_issue_with_no_time_entries_should_delete_the_issues
+    set_tmp_attachments_directory
     assert_nil TimeEntry.find_by_issue_id(2)
     @request.session[:user_id] = 2
 
@@ -6683,6 +6686,7 @@ class IssuesControllerTest < Redmine::ControllerTest
   end
 
   def test_destroy_issues_with_time_entries_should_show_the_reassign_form
+    set_tmp_attachments_directory
     @request.session[:user_id] = 2
 
     with_settings :timelog_required_fields => [] do
@@ -6703,18 +6707,19 @@ class IssuesControllerTest < Redmine::ControllerTest
   end
 
   def test_destroy_issues_with_time_entries_should_not_show_the_nullify_option_when_issue_is_required_for_time_entries
+    set_tmp_attachments_directory
     with_settings :timelog_required_fields => ['issue_id'] do
       @request.session[:user_id] = 2
 
-    assert_no_difference 'Issue.count' do
-      delete :destroy, :params => {
-          :ids => [1, 3]
-        }
-    end
-    assert_response :success
+      assert_no_difference 'Issue.count' do
+        delete :destroy, :params => {
+            :ids => [1, 3]
+          }
+      end
+      assert_response :success
 
-    assert_select 'form' do
-      assert_select 'input[name=_method][value=delete]'
+      assert_select 'form' do
+        assert_select 'input[name=_method][value=delete]'
         assert_select 'input[name=todo][value=destroy]'
         assert_select 'input[name=todo][value=nullify]', 0
         assert_select 'input[name=todo][value=reassign]'
@@ -6739,6 +6744,7 @@ class IssuesControllerTest < Redmine::ControllerTest
   end
 
   def test_destroy_issues_and_destroy_time_entries
+    set_tmp_attachments_directory
     @request.session[:user_id] = 2
 
     assert_difference 'Issue.count', -2 do
@@ -6755,6 +6761,7 @@ class IssuesControllerTest < Redmine::ControllerTest
   end
 
   def test_destroy_issues_and_assign_time_entries_to_project
+    set_tmp_attachments_directory
     @request.session[:user_id] = 2
 
     with_settings :timelog_required_fields => [] do
@@ -6774,6 +6781,7 @@ class IssuesControllerTest < Redmine::ControllerTest
   end
 
   def test_destroy_issues_and_reassign_time_entries_to_another_issue
+    set_tmp_attachments_directory
     @request.session[:user_id] = 2
 
     assert_difference 'Issue.count', -2 do
@@ -6814,6 +6822,7 @@ class IssuesControllerTest < Redmine::ControllerTest
   end
 
   def test_destroy_issues_and_reassign_time_entries_to_an_invalid_issue_should_fail
+    set_tmp_attachments_directory
     @request.session[:user_id] = 2
 
     assert_no_difference 'Issue.count' do
@@ -6830,6 +6839,7 @@ class IssuesControllerTest < Redmine::ControllerTest
   end
 
   def test_destroy_issues_and_reassign_time_entries_to_an_issue_to_delete_should_fail
+    set_tmp_attachments_directory
     @request.session[:user_id] = 2
 
     assert_no_difference 'Issue.count' do
@@ -6846,6 +6856,7 @@ class IssuesControllerTest < Redmine::ControllerTest
   end
 
   def test_destroy_issues_and_nullify_time_entries_should_fail_when_issue_is_required_for_time_entries
+    set_tmp_attachments_directory
     @request.session[:user_id] = 2
 
     with_settings :timelog_required_fields => ['issue_id'] do
@@ -6863,6 +6874,7 @@ class IssuesControllerTest < Redmine::ControllerTest
   end
 
   def test_destroy_issues_from_different_projects
+    set_tmp_attachments_directory
     @request.session[:user_id] = 2
 
     assert_difference 'Issue.count', -3 do

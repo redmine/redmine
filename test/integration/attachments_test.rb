@@ -152,7 +152,6 @@ class AttachmentsTest < Redmine::IntegrationTest
     get "/attachments/download/4"
     assert_response :success
     assert_not_nil response.headers["X-Sendfile"]
-
   ensure
     set_tmp_attachments_directory
   end

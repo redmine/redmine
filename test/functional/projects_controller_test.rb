@@ -834,6 +834,7 @@ class ProjectsControllerTest < Redmine::ControllerTest
   end
 
   def test_destroy_without_confirmation_should_show_confirmation_with_subprojects
+    set_tmp_attachments_directory
     @request.session[:user_id] = 1 # admin
 
     assert_no_difference 'Project.count' do
@@ -849,6 +850,7 @@ class ProjectsControllerTest < Redmine::ControllerTest
   end
 
   def test_destroy_with_confirmation_should_destroy_the_project_and_subprojects
+    set_tmp_attachments_directory
     @request.session[:user_id] = 1 # admin
 
     assert_difference 'Project.count', -5 do

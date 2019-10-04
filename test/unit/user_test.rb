@@ -262,6 +262,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_destroy_should_update_attachments
+    set_tmp_attachments_directory
     attachment = Attachment.create!(:container => Project.find(1),
       :file => uploaded_test_file("testfile.txt", "text/plain"),
       :author_id => 2)

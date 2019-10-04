@@ -232,6 +232,7 @@ class MessagesControllerTest < Redmine::ControllerTest
   end
 
   def test_destroy_topic
+    set_tmp_attachments_directory
     @request.session[:user_id] = 2
     assert_difference 'Message.count', -3 do
       post :destroy, :params => {
