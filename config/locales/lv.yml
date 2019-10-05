@@ -1302,3 +1302,4 @@ lv:
   text_characters_must_contain: Must contain %{character_classes}.
   label_starts_with: starts with
   label_ends_with: ends with
+  label_issue_fixed_version_updated: Target version updated

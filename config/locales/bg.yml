@@ -1282,3 +1282,4 @@ bg:
   label_login_required_no: Не, разрешаване на анонимен достъп до публичните проекти.
   text_project_is_public_non_member: Публичните проекти са достъпни за всички влезли в Redmine потребители.
   text_project_is_public_anonymous: Публичните проекти са достъпнии тяхното съдържание са видими без ограничения в мрежата.
+  label_issue_fixed_version_updated: Target version updated

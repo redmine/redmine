@@ -1304,3 +1304,4 @@ ja:
   text_characters_must_contain: "%{character_classes}を含む必要があります。"
   label_starts_with: 前方一致
   label_ends_with: 後方一致
+  label_issue_fixed_version_updated: Target version updated
