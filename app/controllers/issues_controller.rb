@@ -204,7 +204,7 @@ class IssuesController < ApplicationController
       render :partial => 'issues/tabs/time_entries', :locals => {:time_entries => @time_entries}
     when 'changesets'
       @changesets = @issue.changesets.visible.preload(:repository, :user).to_a
-      changesets.reverse! if User.current.wants_comments_in_reverse_order?
+      @changesets.reverse! if User.current.wants_comments_in_reverse_order?
       render :partial => 'issues/tabs/changesets', :locals => {:changesets => @changesets}
     end
   end
