@@ -20,7 +20,7 @@ module Redmine
       if File.directory?(File.join(Rails.root, '.svn'))
         begin
           path = Redmine::Scm::Adapters::AbstractAdapter.shell_quote(Rails.root.to_s)
-          if `#{Redmine::Scm::Adapters::SubversionAdapter.client_command} info --xml #{path}` =~ /revision="(\d+)"/
+          if `#{Redmine::Scm::Adapters::SubversionAdapter.client_command} info --xml #{path}` =~ /commit\s+revision="(\d+)"/
             return $1.to_i
           end
         rescue
