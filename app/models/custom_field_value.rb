@@ -18,7 +18,8 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class CustomFieldValue
-  attr_accessor :custom_field, :customized, :value, :value_was
+  attr_accessor :custom_field, :customized, :value_was
+  attr_reader   :value
 
   def initialize(attributes={})
     attributes.each do |name, v|

@@ -495,7 +495,6 @@ Lint/DeprecatedClassMethods:
 
 Lint/DuplicateMethods:
   Exclude:
-    - 'app/models/custom_field_value.rb'
     - 'app/models/query.rb'
     - 'app/models/wiki_page.rb'
 
