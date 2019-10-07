@@ -3088,10 +3088,8 @@ class IssuesControllerTest < Redmine::ControllerTest
     @request.session[:user_id] = 2
     t = Tracker.find(3)
     assert !t.disabled_core_fields.include?('parent_issue_id')
-
     get :new, :params => {
-        :project_id => 1, issue: { parent_issue_id: 1
-      }
+        :project_id => 1, :issue => { parent_issue_id: 1 }
       }
     assert_response :success
     assert_select 'option', text: /#{t.name}/, count: 1
@@ -3100,8 +3098,7 @@ class IssuesControllerTest < Redmine::ControllerTest
     t.save!
     assert t.disabled_core_fields.include?('parent_issue_id')
     get :new, :params => {
-        :project_id => 1, issue: { parent_issue_id: 1
-      }
+        :project_id => 1, :issue => { parent_issue_id: 1 }
       }
     assert_response :success
     assert_select 'option', text: /#{t.name}/, count: 0
