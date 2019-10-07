@@ -5091,7 +5091,7 @@ class IssuesControllerTest < Redmine::ControllerTest
     mail = ActionMailer::Base.deliveries.last
     assert_mail_body_match "Status changed from New to Assigned", mail
     # subject should contain the new status
-    assert mail.subject.include?("(#{ IssueStatus.find(2).name })")
+    assert mail.subject.include?("(#{IssueStatus.find(2).name})")
   end
 
   def test_put_update_with_note_only
