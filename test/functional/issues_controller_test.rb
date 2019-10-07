@@ -215,17 +215,13 @@ class IssuesControllerTest < Redmine::ControllerTest
         '!*' => { :op => '!*', :values => [''] },
         '*' => { :op => '*', :values => [''] }}
     }
-
     default_filter = { 'status_id' => {:operator => 'o', :values => [''] }}
-
     to_test.each do |field, expression_and_expected|
       expression_and_expected.each do |filter_expression, expected|
-
         get :index, :params => {
             :set_filter => 1, field => filter_expression
           }
         assert_response :success
-
         expected_with_default = default_filter.merge({field => {:operator => expected[:op], :values => expected[:values]}})
         assert_query_filters expected_with_default.map {|f, v| [f, v[:operator], v[:values]]}
       end
@@ -909,7 +905,6 @@ class IssuesControllerTest < Redmine::ControllerTest
   def test_index_pdf
     ["en", "zh", "zh-TW", "ja", "ko"].each do |lang|
       with_settings :default_language => lang do
-
         get :index
         assert_response :success
 
