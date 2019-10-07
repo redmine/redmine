@@ -703,16 +703,13 @@ class IssuesControllerTest < Redmine::ControllerTest
 
   def test_index_csv_with_description
     Issue.generate!(:description => 'test_index_csv_with_description')
-
     with_settings :default_language => 'en' do
       get :index, :params => {
           :format => 'csv',
-          :c => [:tracker,
-          :description]
+          :c => [:tracker, :description]
         }
       assert_response :success
     end
-
     assert_equal 'text/csv', response.content_type
     headers = response.body.chomp.split("\n").first.split(',')
     assert_include 'Description', headers
