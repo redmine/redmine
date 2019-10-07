@@ -284,7 +284,7 @@ class Changeset < ActiveRecord::Base
     return @short_comments, @long_comments
   end
 
-  # singleton class are public
+  # Singleton class method is public
   class << self
     # Strips and reencodes a commit log before insertion into the database
     def normalize_comments(str, encoding)
