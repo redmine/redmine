@@ -103,15 +103,16 @@ class IssuesTest < Redmine::IntegrationTest
   def test_issue_attachments
     log_user('jsmith', 'jsmith')
     set_tmp_attachments_directory
-
     attachment = new_record(Attachment) do
       put '/issues/1', :params => {
           :issue => {:notes => 'Some notes'},
-          :attachments => {'1' => {'file' => uploaded_test_file('testfile.txt', 'text/plain'), 'description' => 'This is an attachment'}}
+          :attachments => {
+            '1' => {'file' => uploaded_test_file('testfile.txt', 'text/plain'),
+                    'description' => 'This is an attachment'}
+          }
         }
       assert_redirected_to "/issues/1"
     end
-
     assert_equal Issue.find(1), attachment.container
     assert_equal 'testfile.txt', attachment.filename
     assert_equal 'This is an attachment', attachment.description
@@ -119,7 +120,6 @@ class IssuesTest < Redmine::IntegrationTest
     assert_equal 59, attachment.filesize
     # verify that the attachment was written to disk
     assert File.exist?(attachment.diskfile)
-
     # remove the attachments
     Issue.find(1).attachments.each(&:destroy)
     assert_equal 0, Issue.find(1).attachments.length
