@@ -20,7 +20,8 @@
 require 'redmine/sort_criteria'
 
 class QueryColumn
-  attr_accessor :name, :sortable, :groupable, :totalable, :default_order
+  attr_accessor :name, :groupable, :totalable, :default_order
+  attr_writer   :sortable
   include Redmine::I18n
 
   def initialize(name, options={})
