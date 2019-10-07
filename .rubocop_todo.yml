@@ -93,7 +93,6 @@ Layout/ClosingHeredocIndentation:
     - 'test/unit/lib/redmine/wiki_formatting/markdown_formatter_test.rb'
     - 'test/unit/lib/redmine/wiki_formatting/textile_formatter_test.rb'
     - 'test/unit/lib/redmine/wiki_formatting_test.rb'
-    - 'test/unit/setting_test.rb'
 
 # Cop supports --auto-correct.
 Layout/ClosingParenthesisIndentation:
@@ -282,7 +281,6 @@ Layout/IndentHeredoc:
     - 'test/unit/lib/redmine/wiki_formatting/markdown_formatter_test.rb'
     - 'test/unit/lib/redmine/wiki_formatting/textile_formatter_test.rb'
     - 'test/unit/lib/redmine/wiki_formatting_test.rb'
-    - 'test/unit/setting_test.rb'
 
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle.
