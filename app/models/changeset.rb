@@ -284,14 +284,15 @@ class Changeset < ActiveRecord::Base
     return @short_comments, @long_comments
   end
 
-  public
+  # singleton class are public
+  class << self
+    # Strips and reencodes a commit log before insertion into the database
+    def normalize_comments(str, encoding)
+      Changeset.to_utf8(str.to_s.strip, encoding)
+    end
 
-  # Strips and reencodes a commit log before insertion into the database
-  def self.normalize_comments(str, encoding)
-    Changeset.to_utf8(str.to_s.strip, encoding)
-  end
-
-  def self.to_utf8(str, encoding)
-    Redmine::CodesetUtil.to_utf8(str, encoding)
+    def to_utf8(str, encoding)
+      Redmine::CodesetUtil.to_utf8(str, encoding)
+    end
   end
 end

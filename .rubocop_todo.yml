@@ -591,11 +591,6 @@ Lint/UriEscapeUnescape:
     - 'lib/redmine/scm/adapters/subversion_adapter.rb'
     - 'test/functional/wiki_controller_test.rb'
 
-# Configuration parameters: ContextCreatingMethods, MethodCreatingMethods.
-Lint/UselessAccessModifier:
-  Exclude:
-    - 'app/models/changeset.rb'
-
 Lint/UselessAssignment:
   Enabled: false
 
