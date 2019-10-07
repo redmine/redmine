@@ -361,11 +361,6 @@ Layout/RescueEnsureAlignment:
     - 'db/migrate/085_add_role_tracker_old_status_index_to_workflows.rb'
 
 # Cop supports --auto-correct.
-Layout/SpaceAfterColon:
-  Exclude:
-    - 'test/integration/wiki_test.rb'
-
-# Cop supports --auto-correct.
 Layout/SpaceAfterComma:
   Enabled: false
 

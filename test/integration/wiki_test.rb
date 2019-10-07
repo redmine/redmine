@@ -44,7 +44,7 @@ class WikiIntegrationTest < Redmine::IntegrationTest
     # this update should not end up with a loss of content
     put '/projects/ecookbook/wiki/Wiki', params: {
       content: {
-        text: "# Wiki\r\n\r\ncontent", comments:""
+        text: "# Wiki\r\n\r\ncontent", comments: ""
       },
       wiki_page: { parent_id: "" }
     }
@@ -61,7 +61,7 @@ class WikiIntegrationTest < Redmine::IntegrationTest
     # this update should not end up with a loss of content
     put '/projects/ecookbook/wiki/Wiki', params: {
       content: {
-        version: content.version, text: "# Wiki\r\n\r\nnew content", comments:""
+        version: content.version, text: "# Wiki\r\n\r\nnew content", comments: ""
       },
       wiki_page: { parent_id: "" }
     }
@@ -70,5 +70,4 @@ class WikiIntegrationTest < Redmine::IntegrationTest
     follow_redirect!
     assert_select 'div', /new content/
   end
-
 end
