@@ -58,7 +58,6 @@ Layout/BlockAlignment:
     - 'app/models/principal.rb'
     - 'app/models/project.rb'
     - 'app/models/time_entry.rb'
-    - 'test/functional/issues_controller_test.rb'
     - 'test/unit/lib/redmine/menu_manager/mapper_test.rb'
     - 'test/unit/lib/redmine/menu_manager/menu_helper_test.rb'
 
@@ -295,7 +294,6 @@ Layout/IndentHeredoc:
 Layout/IndentationConsistency:
   Exclude:
     - 'app/models/attachment.rb'
-    - 'test/functional/issues_controller_test.rb'
     - 'test/functional/project_enumerations_controller_test.rb'
     - 'test/helpers/application_helper_test.rb'
     - 'test/integration/api_test/custom_fields_attribute_test.rb'
