@@ -1364,4 +1364,4 @@
   text_characters_must_contain: 必須包含 %{character_classes}.
   label_starts_with: 開頭是
   label_ends_with: 結尾是
-  label_issue_fixed_version_updated: Target version updated
+  label_issue_fixed_version_updated: 目標版本已更新
