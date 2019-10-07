@@ -41,7 +41,8 @@ class WikiPage < ActiveRecord::Base
                      :permission => :view_wiki_pages,
                      :project_key => "#{Wiki.table_name}.project_id"
 
-  attr_accessor :redirect_existing_links, :deleted_attachment_ids
+  attr_accessor :redirect_existing_links
+  attr_writer   :deleted_attachment_ids
 
   validates_presence_of :title
   validates_format_of :title, :with => /\A[^,\.\/\?\;\|\s]*\z/

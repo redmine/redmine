@@ -493,10 +493,6 @@ Lint/DeprecatedClassMethods:
     - 'test/unit/attachment_test.rb'
     - 'test/unit/issue_import_test.rb'
 
-Lint/DuplicateMethods:
-  Exclude:
-    - 'app/models/wiki_page.rb'
-
 Lint/EmptyWhen:
   Exclude:
     - 'app/controllers/issues_controller.rb'
