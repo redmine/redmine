@@ -116,7 +116,7 @@ class IssuesTest < Redmine::IntegrationTest
     assert_equal 'testfile.txt', attachment.filename
     assert_equal 'This is an attachment', attachment.description
     # verify the size of the attachment stored in db
-    #assert_equal file_data_1.length, attachment.filesize
+    assert_equal 59, attachment.filesize
     # verify that the attachment was written to disk
     assert File.exist?(attachment.diskfile)
 
