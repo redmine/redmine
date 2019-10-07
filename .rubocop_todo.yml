@@ -363,7 +363,6 @@ Layout/RescueEnsureAlignment:
 # Cop supports --auto-correct.
 Layout/SpaceAfterColon:
   Exclude:
-    - 'test/functional/issues_controller_test.rb'
     - 'test/integration/wiki_test.rb'
 
 # Cop supports --auto-correct.

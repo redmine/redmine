@@ -356,10 +356,10 @@ class IssuesControllerTest < Redmine::ControllerTest
       }
     assert_response :success
     assert_select 'tr.group span.name', :value => '2018-08-10' do
-      assert_select '~ span.count', value:'2'
+      assert_select '~ span.count', :value => '2'
     end
     assert_select 'tr.group span.name', :value => '(blank)' do
-      assert_select '~ span.count', value:'1'
+      assert_select '~ span.count', :value => '1'
     end
   end
 
