@@ -213,7 +213,7 @@ class IssuesTest < ApplicationSystemTestCase
     assert_no_difference 'Issue.count' do
       page.first(:button, 'Submit').click
     end
-
+    assert page.has_css?('#flash_notice')
     issue = Issue.find(1)
     assert_equal 'CF value', issue.custom_field_value(field)
   end
