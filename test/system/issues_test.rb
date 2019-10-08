@@ -328,7 +328,7 @@ class IssuesTest < ApplicationSystemTestCase
     # Save
     click_on 'Save'
 
-    sleep 1
+    sleep 0.2
     assert_equal 'Updated notes', Journal.find(2).notes
   end
 
