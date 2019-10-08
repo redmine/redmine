@@ -70,11 +70,9 @@ module Redmine
         end
 
         def info
-          begin
-            Info.new(:root_url => url, :lastrev => lastrev('',nil))
-          rescue
-            nil
-          end
+          Info.new(:root_url => url, :lastrev => lastrev('',nil))
+        rescue
+          nil
         end
 
         def branches
