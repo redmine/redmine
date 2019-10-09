@@ -988,11 +988,6 @@ Style/Alias:
 Style/AndOr:
   Enabled: false
 
-# Configuration parameters: AllowedChars.
-Style/AsciiComments:
-  Exclude:
-    - 'app/models/repository/git.rb'
-
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle.
 # SupportedStyles: percent_q, bare_percent
