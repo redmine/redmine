@@ -15,6 +15,9 @@ gem "nokogiri", "~> 1.10.0"
 gem "i18n", "~> 1.6.0"
 gem "rbpdf", "~> 1.20.0"
 
+# TODO: Remove the following line when #32223 is fixed
+gem "sprockets", "~> 3.7.2"
+
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :x64_mingw, :mswin]
 
