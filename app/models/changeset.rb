@@ -161,11 +161,7 @@ class Changeset < ActiveRecord::Base
     if repository && repository.identifier.present?
       repo = "#{repository.identifier}|"
     end
-    tag = if scmid?
-      "commit:#{repo}#{scmid}"
-    else
-      "#{repo}r#{revision}"
-    end
+    tag = scmid? ? "commit:#{repo}#{scmid}" : "#{repo}r#{revision}"
     if ref_project && project && ref_project != project
       tag = "#{project.identifier}:#{tag}"
     end

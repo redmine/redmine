@@ -119,7 +119,6 @@ Layout/ElseAlignment:
     - 'app/helpers/application_helper.rb'
     - 'app/helpers/attachments_helper.rb'
     - 'app/helpers/queries_helper.rb'
-    - 'app/models/changeset.rb'
     - 'app/models/issue_query.rb'
     - 'lib/redmine/export/pdf/issues_pdf_helper.rb'
     - 'lib/redmine/i18n.rb'
