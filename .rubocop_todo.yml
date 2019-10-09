@@ -992,7 +992,6 @@ Style/AndOr:
 Style/AsciiComments:
   Exclude:
     - 'app/models/repository/git.rb'
-    - 'lib/redmine/search.rb'
 
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle.
