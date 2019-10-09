@@ -155,7 +155,7 @@ class ProjectEnumerationsControllerTest < Redmine::ControllerTest
     # All TimeEntries using project activity
     project_specific_activity = TimeEntryActivity.find_by_parent_id_and_project_id(9, 1)
     assert_equal 3, TimeEntry.where(:activity_id => project_specific_activity.id,
-                                    :project_id => 1).count
+                                    :project_id => 1).count,
                  "No Time Entries assigned to the project activity"
   end
 
@@ -185,11 +185,11 @@ class ProjectEnumerationsControllerTest < Redmine::ControllerTest
 
     # TimeEntries shouldn't have been reassigned on the failed record
     assert_equal 3, TimeEntry.where(:activity_id => 9,
-                                    :project_id => 1).count
+                                    :project_id => 1).count,
                  "Time Entries are not assigned to system activities"
     # TimeEntries shouldn't have been reassigned on the saved record either
     assert_equal 1, TimeEntry.where(:activity_id => 10,
-                                    :project_id => 1).count
+                                    :project_id => 1).count,
                  "Time Entries are not assigned to system activities"
   end
 
