@@ -765,7 +765,6 @@ class MailHandlerTest < ActiveSupport::TestCase
   end
 
   def test_add_issue_with_iso_2022_jp_ms_subject
-    # The original subject is "① 丸数字テスト".
     # CIRCLED DIGIT ONE character is undefined in ISO-2022-JP but
     # defined in some vendor-extended variants such as ISO-2022-JP-MS.
     # This test makes sure that mail gem replaces an undefined characters

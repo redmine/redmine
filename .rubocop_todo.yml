@@ -993,7 +993,6 @@ Style/AsciiComments:
   Exclude:
     - 'app/models/repository/git.rb'
     - 'lib/redmine/search.rb'
-    - 'test/unit/mail_handler_test.rb'
 
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle.
