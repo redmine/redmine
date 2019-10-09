@@ -26,6 +26,9 @@ gem "xpath", "< 3.2.0" if RUBY_VERSION < "2.3"
 # Request at least rails-html-sanitizer 1.0.3 because of security advisories
 gem "rails-html-sanitizer", ">= 1.0.3"
 
+# TODO: Remove the following line when #32223 is fixed
+gem "sprockets", "~> 3.7.2"
+
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :x64_mingw, :mswin]
 gem "rbpdf", "~> 1.19.6"
