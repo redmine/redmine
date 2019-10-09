@@ -287,7 +287,6 @@ Layout/IndentHeredoc:
 Layout/IndentationConsistency:
   Exclude:
     - 'app/models/attachment.rb'
-    - 'test/functional/project_enumerations_controller_test.rb'
     - 'test/helpers/application_helper_test.rb'
     - 'test/integration/api_test/custom_fields_attribute_test.rb'
     - 'test/mocks/open_id_authentication_mock.rb'
