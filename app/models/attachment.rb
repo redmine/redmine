@@ -87,14 +87,14 @@ class Attachment < ActiveRecord::Base
   def file=(incoming_file)
     unless incoming_file.nil?
       @temp_file = incoming_file
-        if @temp_file.respond_to?(:original_filename)
-          self.filename = @temp_file.original_filename
-          self.filename.force_encoding("UTF-8")
-        end
-        if @temp_file.respond_to?(:content_type)
-          self.content_type = @temp_file.content_type.to_s.chomp
-        end
-        self.filesize = @temp_file.size
+      if @temp_file.respond_to?(:original_filename)
+        self.filename = @temp_file.original_filename
+        self.filename.force_encoding("UTF-8")
+      end
+      if @temp_file.respond_to?(:content_type)
+        self.content_type = @temp_file.content_type.to_s.chomp
+      end
+      self.filesize = @temp_file.size
     end
   end
 
