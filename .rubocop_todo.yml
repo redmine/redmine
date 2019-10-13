@@ -580,7 +580,6 @@ Lint/Void:
     - 'app/models/time_entry.rb'
     - 'app/models/wiki_content_version.rb'
     - 'lib/redmine/unified_diff.rb'
-    - 'test/functional/project_enumerations_controller_test.rb'
 
 Naming/ConstantName:
   Exclude:
