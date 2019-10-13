@@ -2024,7 +2024,7 @@ class QueryTest < ActiveSupport::TestCase
   test "#available_filters should include users of visible projects in cross-project view" do
     users = IssueQuery.new.available_filters["assigned_to_id"]
     assert_not_nil users
-    assert users[:values].map{|u|u[1]}.include?("3")
+    assert users[:values].map{|u| u[1]}.include?("3")
   end
 
   test "#available_filters should include users of subprojects" do
@@ -2032,17 +2032,16 @@ class QueryTest < ActiveSupport::TestCase
     user2 = User.generate!
     project = Project.find(1)
     Member.create!(:principal => user1, :project => project.children.visible.first, :role_ids => [1])
-
     users = IssueQuery.new(:project => project).available_filters["assigned_to_id"]
     assert_not_nil users
-    assert users[:values].map{|u|u[1]}.include?(user1.id.to_s)
-    assert !users[:values].map{|u|u[1]}.include?(user2.id.to_s)
+    assert users[:values].map{|u| u[1]}.include?(user1.id.to_s)
+    assert !users[:values].map{|u| u[1]}.include?(user2.id.to_s)
   end
 
   test "#available_filters should include visible projects in cross-project view" do
     projects = IssueQuery.new.available_filters["project_id"]
     assert_not_nil projects
-    assert projects[:values].map{|u|u[1]}.include?("1")
+    assert projects[:values].map{|u| u[1]}.include?("1")
   end
 
   test "#available_filters should include 'member_of_group' filter" do

@@ -372,7 +372,6 @@ Layout/SpaceAroundBlockParameters:
   Exclude:
     - 'app/controllers/issues_controller.rb'
     - 'lib/redmine/plugin.rb'
-    - 'test/unit/query_test.rb'
 
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle.
