@@ -286,7 +286,6 @@ Layout/IndentHeredoc:
 # SupportedStyles: normal, indented_internal_methods
 Layout/IndentationConsistency:
   Exclude:
-    - 'test/helpers/application_helper_test.rb'
     - 'test/integration/api_test/custom_fields_attribute_test.rb'
     - 'test/mocks/open_id_authentication_mock.rb'
 
