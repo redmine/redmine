@@ -271,19 +271,19 @@ class Setting < ActiveRecord::Base
   def self.define_setting(name, options={})
     available_settings[name.to_s] = options
 
-    src = <<-END_SRC
-    def self.#{name}
-      self[:#{name}]
-    end
+    src = <<~END_SRC
+      def self.#{name}
+        self[:#{name}]
+      end
 
-    def self.#{name}?
-      self[:#{name}].to_i > 0
-    end
+      def self.#{name}?
+        self[:#{name}].to_i > 0
+      end
 
-    def self.#{name}=(value)
-      self[:#{name}] = value
-    end
-END_SRC
+      def self.#{name}=(value)
+        self[:#{name}] = value
+      end
+    END_SRC
     class_eval src, __FILE__, __LINE__
   end
 
