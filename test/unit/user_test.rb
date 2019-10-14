@@ -1164,8 +1164,10 @@ class UserTest < ActiveSupport::TestCase
 
   test "#allowed_to? for normal users" do
     project = Project.find(1)
-    assert_equal true, @jsmith.allowed_to?(:delete_messages, project)    #Manager
-    assert_equal false, @dlopper.allowed_to?(:delete_messages, project) #Developer
+    # Manager
+    assert_equal true, @jsmith.allowed_to?(:delete_messages, project)
+    # Developer
+    assert_equal false, @dlopper.allowed_to?(:delete_messages, project)
   end
 
   test "#allowed_to? with empty array should return false" do
@@ -1174,13 +1176,17 @@ class UserTest < ActiveSupport::TestCase
 
   test "#allowed_to? with multiple projects" do
     assert_equal true, @admin.allowed_to?(:view_project, Project.all.to_a)
-    assert_equal false, @dlopper.allowed_to?(:view_project, Project.all.to_a) #cannot see Project(2)
-    assert_equal true, @jsmith.allowed_to?(:edit_issues, @jsmith.projects.to_a) #Manager or Developer everywhere
-    assert_equal false, @jsmith.allowed_to?(:delete_issue_watchers, @jsmith.projects.to_a) #Dev cannot delete_issue_watchers
+    # cannot see Project(2)
+    assert_equal false, @dlopper.allowed_to?(:view_project, Project.all.to_a)
+    # Manager or Developer everywhere
+    assert_equal true, @jsmith.allowed_to?(:edit_issues, @jsmith.projects.to_a)
+    # Dev cannot delete_issue_watchers
+    assert_equal false, @jsmith.allowed_to?(:delete_issue_watchers, @jsmith.projects.to_a)
   end
 
   test "#allowed_to? with with options[:global] should return true if user has one role with the permission" do
-    @dlopper2 = User.find(5) #only Developer on a project, not Manager anywhere
+    # only Developer on a project, not Manager anywhere
+    @dlopper2 = User.find(5)
     @anonymous = User.find(6)
     assert_equal true, @jsmith.allowed_to?(:delete_issue_watchers, nil, :global => true)
     assert_equal false, @dlopper2.allowed_to?(:delete_issue_watchers, nil, :global => true)
@@ -1191,7 +1197,8 @@ class UserTest < ActiveSupport::TestCase
 
   # this is just a proxy method, the test only calls it to ensure it doesn't break trivially
   test "#allowed_to_globally?" do
-    @dlopper2 = User.find(5) #only Developer on a project, not Manager anywhere
+    # only Developer on a project, not Manager anywhere
+    @dlopper2 = User.find(5)
     @anonymous = User.find(6)
     assert_equal true, @jsmith.allowed_to_globally?(:delete_issue_watchers)
     assert_equal false, @dlopper2.allowed_to_globally?(:delete_issue_watchers)
