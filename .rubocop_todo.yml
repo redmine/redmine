@@ -299,7 +299,6 @@ Layout/LeadingCommentSpace:
   Exclude:
     - 'lib/diff.rb'
     - 'lib/redmine/wiki_formatting/textile/redcloth3.rb'
-    - 'test/unit/project_test.rb'
     - 'test/unit/query_test.rb'
     - 'test/unit/user_test.rb'
 
