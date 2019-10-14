@@ -54,7 +54,8 @@ class IssuePriority < Enumeration
     if priorities.any?
       default = priorities.detect(&:is_default?) || priorities[(priorities.size - 1) / 2]
       priorities.each_with_index do |priority, index|
-        name = case
+        name =
+          case
           when priority.position == default.position
             "default"
           when priority.position < default.position

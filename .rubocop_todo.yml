@@ -72,7 +72,6 @@ Layout/BlockEndNewline:
 # SupportedStyles: case, end
 Layout/CaseIndentation:
   Exclude:
-    - 'app/models/issue_priority.rb'
     - 'app/models/issue_query.rb'
     - 'config/initializers/10-patches.rb'
     - 'lib/redmine/helpers/gantt.rb'
