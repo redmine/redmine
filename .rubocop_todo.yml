@@ -1574,7 +1574,6 @@ Style/VariableInterpolation:
 # Cop supports --auto-correct.
 Style/WhenThen:
   Exclude:
-    - 'app/helpers/application_helper.rb'
     - 'app/models/issue_query.rb'
     - 'app/models/role.rb'
     - 'lib/redmine/views/builders.rb'
