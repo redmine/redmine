@@ -219,6 +219,20 @@ class IssuesTest < ApplicationSystemTestCase
     assert_equal 'CF value', issue.custom_field_value(field)
   end
 
+  test "update issue status" do
+    issue = Issue.generate!
+    log_user('jsmith', 'jsmith')
+    visit "/issues/#{issue.id}"
+    page.first(:link, 'Edit').click
+    assert page.has_select?("issue_status_id", {:selected => "New"})
+    page.find("#issue_status_id").select("Closed")
+    assert_no_difference 'Issue.count' do
+      page.first(:button, 'Submit').click
+    end
+    assert page.has_css?('#flash_notice')
+    assert_equal 5, issue.reload.status.id
+  end
+
   test "removing issue shows confirm dialog" do
     log_user('jsmith', 'jsmith')
     visit '/issues/1'
