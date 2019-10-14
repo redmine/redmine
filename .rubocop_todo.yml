@@ -113,7 +113,6 @@ Layout/DotPosition:
 # Cop supports --auto-correct.
 Layout/ElseAlignment:
   Exclude:
-    - 'app/helpers/application_helper.rb'
     - 'app/helpers/attachments_helper.rb'
     - 'app/helpers/queries_helper.rb'
     - 'app/models/issue_query.rb'
