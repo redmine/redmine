@@ -63,13 +63,11 @@ class Redmine::ApiTest::MyTest < Redmine::ApiTest::Base
       :headers => credentials('dlopper', 'foo')
     assert_response :no_content
     assert_equal '', @response.body
-
     assert user = User.find_by_lastname('Renamed')
     assert_equal 'Dave', user.firstname
     assert_equal 'Renamed', user.lastname
     assert_equal 'dave@somenet.foo', user.mail
     refute user.admin?
-
   end
 
   test "PUT /my/account.xml with invalid parameters" do

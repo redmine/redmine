@@ -189,7 +189,6 @@ Layout/EmptyLinesAroundBlockBody:
   Exclude:
     - 'db/schema.rb'
     - 'lib/redmine/wiki_formatting/textile/redcloth3.rb'
-    - 'test/integration/api_test/my_test.rb'
 
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle.
