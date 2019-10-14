@@ -106,8 +106,8 @@ class QueryTest < ActiveSupport::TestCase
     project_filter = query.available_filters["project_id"]
     assert_not_nil project_filter
     project_ids = project_filter[:values].map{|p| p[1]}
-    assert project_ids.include?("1")  #public project
-    assert !project_ids.include?("2") #private project user cannot see
+    assert project_ids.include?("1")  # public project
+    assert !project_ids.include?("2") # private project user cannot see
   end
 
   def test_available_filters_should_not_include_fields_disabled_on_all_trackers
@@ -1159,7 +1159,7 @@ class QueryTest < ActiveSupport::TestCase
     IssueRelation.delete_all
     with_settings :cross_project_issue_relations => '1' do
       IssueRelation.create!(:relation_type => "relates", :issue_from => Issue.find(1), :issue_to => Project.find(2).issues.first)
-      #IssueRelation.create!(:relation_type => "relates", :issue_from => Issue.find(2), :issue_to => Project.find(1).issues.first)
+      # IssueRelation.create!(:relation_type => "relates", :issue_from => Issue.find(2), :issue_to => Project.find(1).issues.first)
       IssueRelation.create!(:relation_type => "relates", :issue_from => Issue.find(1), :issue_to => Project.find(3).issues.first)
     end
 
