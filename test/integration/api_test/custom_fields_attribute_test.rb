@@ -81,14 +81,12 @@ class Redmine::ApiTest::CustomFieldsAttributeTest < Redmine::ApiTest::Base
       :possible_values => ["V1", "V2", "V3"],
       :default_value => "V2"
     )
-
-payload = <<-JSON
-{"group": {"name":"Foooo",
-"custom_field_values":{"#{field.id}":["V1","V3"]}
-}
-}
-JSON
-
+    payload = <<~JSON
+      {"group": {"name":"Foooo",
+      "custom_field_values":{"#{field.id}":["V1","V3"]}
+      }
+      }
+    JSON
     post '/groups.json',
       :params => payload,
       :headers => {
