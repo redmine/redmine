@@ -210,7 +210,7 @@ class IssuesTest < ApplicationSystemTestCase
     select 'Feature request', :from => 'Tracker'
     assert page.has_content?('Form update CF')
 
-    fill_in 'Form update', :with => 'CF value'
+    fill_in 'Form update CF', :with => 'CF value'
     assert_no_difference 'Issue.count' do
       page.first(:button, 'Submit').click
     end
