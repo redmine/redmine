@@ -1030,17 +1030,18 @@ module ApplicationHelper
                 issue = Issue.visible.find_by_id(oid)
                 anchor = comment_id ? "note-#{comment_id}" : nil
                 url = issue_url(issue, :only_path => only_path, :anchor => anchor)
-                link = if sep == '##'
-                  link_to("#{issue.tracker.name} ##{oid}#{comment_suffix}",
-                          url,
-                          :class => issue.css_classes,
-                          :title => "#{issue.tracker.name}: #{issue.subject.truncate(100)} (#{issue.status.name})") + ": #{issue.subject}"
-                else
-                  link_to("##{oid}#{comment_suffix}",
-                          url,
-                          :class => issue.css_classes,
-                          :title => "#{issue.tracker.name}: #{issue.subject.truncate(100)} (#{issue.status.name})")
-                end
+                link =
+                  if sep == '##'
+                    link_to("#{issue.tracker.name} ##{oid}#{comment_suffix}",
+                            url,
+                            :class => issue.css_classes,
+                            :title => "#{issue.tracker.name}: #{issue.subject.truncate(100)} (#{issue.status.name})") + ": #{issue.subject}"
+                  else
+                    link_to("##{oid}#{comment_suffix}",
+                            url,
+                            :class => issue.css_classes,
+                            :title => "#{issue.tracker.name}: #{issue.subject.truncate(100)} (#{issue.status.name})")
+                  end
               elsif identifier == 'note'
                 link = link_to("#note-#{comment_id}", "#note-#{comment_id}")
               end
