@@ -187,7 +187,6 @@ class EmailAddressesControllerTest < Redmine::ControllerTest
     assert [mail.bcc, mail.cc].flatten.include?('another@somenet.foo')
   end
 
-
   def test_destroy
     @request.session[:user_id] = 2
     email = EmailAddress.create!(:user_id => 2, :address => 'another@somenet.foo')

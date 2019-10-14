@@ -137,7 +137,6 @@ Layout/EmptyLineBetweenDefs:
     - 'app/models/version.rb'
     - 'lib/redmine/info.rb'
     - 'lib/redmine/version.rb'
-    - 'test/functional/email_addresses_controller_test.rb'
     - 'test/functional/settings_controller_test.rb'
     - 'test/functional/users_controller_test.rb'
     - 'test/helpers/sort_helper_test.rb'
