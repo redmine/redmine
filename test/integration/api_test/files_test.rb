@@ -41,11 +41,11 @@ class Redmine::ApiTest::FilesTest < Redmine::ApiTest::Base
       :params => 'File content',
       :headers => {"CONTENT_TYPE" => 'application/octet-stream'}.merge(credentials('jsmith'))
     token = Attachment.last.token
-    payload = <<-JSON
-{ "file": {
-    "token": "#{token}"
-  }
-}
+    payload = <<~JSON
+      { "file": {
+        "token": "#{token}"
+        }
+      }
     JSON
     post '/projects/1/files.json',
       :params => payload,
@@ -61,10 +61,10 @@ class Redmine::ApiTest::FilesTest < Redmine::ApiTest::Base
       :params => 'File content',
       :headers => {"CONTENT_TYPE" => 'application/octet-stream'}.merge(credentials('jsmith'))
     token = Attachment.last.token
-    payload = <<-XML
-<file>
-  <token>#{token}</token>
-</file>
+    payload = <<~XML
+      <file>
+        <token>#{token}</token>
+      </file>
     XML
     post '/projects/1/files.xml',
       :params => payload,
@@ -75,11 +75,11 @@ class Redmine::ApiTest::FilesTest < Redmine::ApiTest::Base
   end
 
   test "POST /projects/:project_id/files.json should refuse requests without the :token parameter" do
-    payload = <<-JSON
-{ "file": {
-    "filename": "project_file.zip",
-  }
-}
+    payload = <<~JSON
+      { "file": {
+          "filename": "project_file.zip",
+        }
+      }
     JSON
     post '/projects/1/files.json',
       :params => payload,
@@ -93,14 +93,14 @@ class Redmine::ApiTest::FilesTest < Redmine::ApiTest::Base
       :params => 'File content',
       :headers => {"CONTENT_TYPE" => 'application/octet-stream'}.merge(credentials('jsmith'))
     token = Attachment.last.token
-    payload = <<-JSON
-{ "file": {
-    "filename": "New filename",
-    "description": "New description",
-    "content_type": "application/txt",
-    "token": "#{token}"
-  }
-}
+    payload = <<~JSON
+      { "file": {
+          "filename": "New filename",
+          "description": "New description",
+          "content_type": "application/txt",
+          "token": "#{token}"
+        }
+      }
     JSON
     post '/projects/1/files.json',
       :params => payload,
@@ -117,14 +117,14 @@ class Redmine::ApiTest::FilesTest < Redmine::ApiTest::Base
       :params => 'File content',
       :headers => {"CONTENT_TYPE" => 'application/octet-stream'}.merge(credentials('jsmith'))
     token = Attachment.last.token
-    payload = <<-JSON
-{ "file": {
-    "version_id": 3,
-    "filename": "New filename",
-    "description": "New description",
-    "token": "#{token}"
-  }
-}
+    payload = <<~JSON
+      { "file": {
+          "version_id": 3,
+          "filename": "New filename",
+          "description": "New description",
+          "token": "#{token}"
+        }
+      }
     JSON
     post '/projects/1/files.json',
       :params => payload,
