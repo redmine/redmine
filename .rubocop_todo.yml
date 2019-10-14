@@ -352,11 +352,6 @@ Layout/SpaceAfterNot:
   Enabled: false
 
 # Cop supports --auto-correct.
-Layout/SpaceAfterSemicolon:
-  Exclude:
-    - 'app/models/mail_handler.rb'
-
-# Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyleInsidePipes.
 # SupportedStylesInsidePipes: space, no_space
 Layout/SpaceAroundBlockParameters:
