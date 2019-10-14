@@ -87,7 +87,8 @@ class ActiveSupport::TestCase
 
   def with_settings(options, &block)
     saved_settings = options.keys.inject({}) do |h, k|
-      h[k] = case Setting[k]
+      h[k] =
+        case Setting[k]
         when Symbol, false, true, nil
           Setting[k]
         else

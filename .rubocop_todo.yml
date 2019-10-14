@@ -80,7 +80,6 @@ Layout/CaseIndentation:
     - 'lib/redmine/helpers/gantt.rb'
     - 'lib/redmine/menu_manager.rb'
     - 'lib/redmine/views/builders.rb'
-    - 'test/test_helper.rb'
 
 # Cop supports --auto-correct.
 Layout/ClosingHeredocIndentation:
