@@ -899,8 +899,9 @@ module ApplicationHelper
           # check if page exists
           wiki_page = link_project.wiki.find_page(page)
           url =
-            if anchor.present? && wiki_page.present? && (obj.is_a?(WikiContent) ||
-                 obj.is_a?(WikiContent::Version)) && obj.page == wiki_page
+            if anchor.present? && wiki_page.present? &&
+                 (obj.is_a?(WikiContent) || obj.is_a?(WikiContent::Version)) &&
+                 obj.page == wiki_page
               "##{anchor}"
             else
               case options[:wiki_links]
