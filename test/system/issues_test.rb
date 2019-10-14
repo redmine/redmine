@@ -205,6 +205,7 @@ class IssuesTest < ApplicationSystemTestCase
     assert page.has_no_content?('Form update CF')
 
     page.first(:link, 'Edit').click
+    assert page.has_no_select?("issue_status_id")
     # the custom field should show up when changing tracker
     select 'Feature request', :from => 'Tracker'
     assert page.has_content?('Form update CF')
