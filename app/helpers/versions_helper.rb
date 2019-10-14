@@ -29,7 +29,8 @@ module VersionsHelper
 
   def version_filtered_issues_path(version, options = {})
     options = {:fixed_version_id => version, :set_filter => 1}.merge(options)
-    project = case version.sharing
+    project =
+      case version.sharing
       when 'hierarchy', 'tree'
         if version.project && version.project.root.visible?
           version.project.root
