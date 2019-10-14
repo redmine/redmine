@@ -420,7 +420,6 @@ class UsersControllerTest < Redmine::ControllerTest
     assert_nil ActionMailer::Base.deliveries.last
   end
 
-
   def test_edit
     with_settings :gravatar_enabled => '1' do
       get :edit, :params => {:id => 2}
