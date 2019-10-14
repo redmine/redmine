@@ -189,7 +189,7 @@ class IssuesTest < ApplicationSystemTestCase
     assert_equal 'new issue description', issue.description
   end
 
-  def test_update_issue_with_form_update
+  test "update issue with form update" do
     field = IssueCustomField.create!(
       :field_format => 'string',
       :name => 'Form update CF',
