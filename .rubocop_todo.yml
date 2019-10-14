@@ -127,12 +127,7 @@ Layout/EmptyLineAfterGuardClause:
 # Configuration parameters: AllowAdjacentOneLineDefs, NumberOfEmptyLines.
 Layout/EmptyLineBetweenDefs:
   Exclude:
-    - 'app/models/user.rb'
-    - 'app/models/user_preference.rb'
     - 'app/models/version.rb'
-    - 'lib/redmine/info.rb'
-    - 'lib/redmine/version.rb'
-    - 'test/helpers/sort_helper_test.rb'
     - 'test/unit/mailer_test.rb'
     - 'test/unit/project_test.rb'
 

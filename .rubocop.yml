@@ -22,6 +22,9 @@ require:
 
 # Rules for Redmine
 
+Layout/EmptyLineBetweenDefs:
+  AllowAdjacentOneLineDefs: true
+
 Layout/SpaceBeforeBlockBraces:
   Enabled: false
 
