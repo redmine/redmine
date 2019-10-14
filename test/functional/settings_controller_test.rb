@@ -196,7 +196,6 @@ class SettingsControllerTest < Redmine::ControllerTest
     assert_nil (mail = ActionMailer::Base.deliveries.last)
   end
 
-
   def test_get_plugin_settings
     ActionController::Base.append_view_path(File.join(Rails.root, "test/fixtures/plugins"))
     Redmine::Plugin.register :foo do
