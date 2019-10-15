@@ -128,7 +128,6 @@ Layout/EmptyLineAfterGuardClause:
 Layout/EmptyLineBetweenDefs:
   Exclude:
     - 'app/models/version.rb'
-    - 'test/unit/project_test.rb'
 
 # Cop supports --auto-correct.
 Layout/EmptyLines:
@@ -143,7 +142,6 @@ Layout/EmptyLines:
     - 'test/functional/project_enumerations_controller_test.rb'
     - 'test/helpers/application_helper_test.rb'
     - 'test/unit/lib/redmine/wiki_formatting/textile_formatter_test.rb'
-    - 'test/unit/project_test.rb'
     - 'test/unit/query_test.rb'
 
 # Cop supports --auto-correct.

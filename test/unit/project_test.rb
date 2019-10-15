@@ -789,7 +789,6 @@ class ProjectTest < ActiveSupport::TestCase
     assert_kind_of ActiveRecord::Relation, project.activities
   end
 
-
   def test_activities_should_use_the_project_specific_activities
     project = Project.find(1)
     overridden_activity = TimeEntryActivity.new({:name => "Project", :project => project})
