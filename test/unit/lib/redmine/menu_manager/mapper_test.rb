@@ -181,13 +181,12 @@ class Redmine::MenuManager::MapperTest < ActiveSupport::TestCase
       menu.push :administration, { :controller => 'projects', :action => 'show'}, {:last => true}
       menu.push :help, Redmine::Info.help_url, :last => true
     end
-
     assert_nothing_raised do
       Redmine::MenuManager.map :test_menu do |menu|
         menu.delete(:administration)
         menu.delete(:help)
         menu.push :test_overview, { :controller => 'projects', :action => 'show'}, {}
-     end
+      end
     end
   end
 end
