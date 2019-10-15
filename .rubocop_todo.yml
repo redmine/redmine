@@ -128,7 +128,6 @@ Layout/EmptyLineAfterGuardClause:
 Layout/EmptyLineBetweenDefs:
   Exclude:
     - 'app/models/version.rb'
-    - 'test/unit/mailer_test.rb'
     - 'test/unit/project_test.rb'
 
 # Cop supports --auto-correct.
