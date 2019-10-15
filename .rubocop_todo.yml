@@ -404,7 +404,6 @@ Layout/SpaceInsideStringInterpolation:
     - 'app/models/issue_query.rb'
     - 'app/models/mail_handler.rb'
     - 'lib/redmine/core_ext/string/inflections.rb'
-    - 'lib/redmine/wiki_formatting/textile/redcloth3.rb'
     - 'test/integration/admin_test.rb'
 
 Lint/AmbiguousBlockAssociation:
