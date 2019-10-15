@@ -86,3 +86,8 @@ Style/FrozenStringLiteralComment:
 Style/HashSyntax:
   Enabled: true
   EnforcedStyle: no_mixed_keys
+
+Style/IdenticalConditionalBranches:
+  Exclude:
+    - 'config/initializers/10-patches.rb'
+    - 'lib/redmine/wiki_formatting/textile/redcloth3.rb'

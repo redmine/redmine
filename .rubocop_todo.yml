@@ -1078,11 +1078,6 @@ Style/GlobalVars:
 Style/GuardClause:
   Enabled: false
 
-Style/IdenticalConditionalBranches:
-  Exclude:
-    - 'config/initializers/10-patches.rb'
-    - 'lib/redmine/wiki_formatting/textile/redcloth3.rb'
-
 # Configuration parameters: AllowIfModifier.
 Style/IfInsideElse:
   Enabled: false
