@@ -25,7 +25,6 @@ Layout/AccessModifierIndentation:
     - 'app/models/role.rb'
     - 'app/models/setting.rb'
     - 'app/models/tracker.rb'
-    - 'lib/redmine/wiki_formatting/textile/formatter.rb'
 
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle, IndentationWidth.
