@@ -213,7 +213,6 @@ class Redmine::MenuManager::MenuHelperTest < Redmine::HelperTest
   end
 
   def test_render_empty_virtual_menu_node_with_children
-
     # only empty item with no click target
     Redmine::MenuManager.map :menu1 do |menu|
       menu.push(:parent_node, nil, { })
@@ -221,9 +220,12 @@ class Redmine::MenuManager::MenuHelperTest < Redmine::HelperTest
 
     # parent with unallowed unattached child
     Redmine::MenuManager.map :menu2 do |menu|
-      menu.push(:parent_node, nil, {:children => Proc.new {|p|
-         [Redmine::MenuManager::MenuItem.new("test_child_unallowed", {:controller => 'issues', :action => 'new'}, {})]
-       } })
+      menu.push(:parent_node, nil,
+                {:children => Proc.new {|p|
+                                [Redmine::MenuManager::MenuItem.new("test_child_unallowed",
+                                                                    {:controller => 'issues',
+                                                                     :action => 'new'}, {})]
+                              }})
     end
 
     # parent with unallowed standard child

@@ -57,7 +57,6 @@ Layout/BlockAlignment:
     - 'app/models/principal.rb'
     - 'app/models/project.rb'
     - 'app/models/time_entry.rb'
-    - 'test/unit/lib/redmine/menu_manager/menu_helper_test.rb'
 
 # Cop supports --auto-correct.
 Layout/BlockEndNewline:
