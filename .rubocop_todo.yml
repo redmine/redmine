@@ -1105,10 +1105,6 @@ Style/IfUnlessModifierOfIfUnless:
   Exclude:
     - 'app/models/attachment.rb'
 
-Style/IfWithSemicolon:
-  Exclude:
-    - 'lib/redmine/wiki_formatting/textile/redcloth3.rb'
-
 # Cop supports --auto-correct.
 # Configuration parameters: InverseMethods, InverseBlocks.
 Style/InverseMethods:

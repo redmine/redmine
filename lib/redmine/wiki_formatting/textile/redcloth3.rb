@@ -739,7 +739,7 @@ class RedCloth3 < String
     SETEXT_RE = /\A(.+?)\n([=-])[=-]* *$/m
     def block_markdown_setext( text )
         if text =~ SETEXT_RE
-            tag = if $2 == "="; "h1"; else; "h2"; end
+            tag = ($2 == "=" ? "h1" : "h2")
             blk, cont = "<#{ tag }>#{ $1 }</#{ tag }>", $'
             blocks cont
             text.replace( blk + cont )
