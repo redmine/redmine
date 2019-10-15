@@ -214,7 +214,6 @@ Layout/ExtraSpacing:
 Layout/IndentAssignment:
   Exclude:
     - 'app/helpers/application_helper.rb'
-    - 'lib/redmine/wiki_formatting/textile/redcloth3.rb'
     - 'test/unit/lib/redmine/helpers/gantt_test.rb'
 
 # Cop supports --auto-correct.
