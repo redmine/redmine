@@ -1257,11 +1257,6 @@ Style/NumericPredicate:
   Enabled: false
 
 # Cop supports --auto-correct.
-Style/OneLineConditional:
-  Exclude:
-    - 'lib/redmine/wiki_formatting/textile/redcloth3.rb'
-
-# Cop supports --auto-correct.
 Style/OrAssignment:
   Exclude:
     - 'app/helpers/sort_helper.rb'
