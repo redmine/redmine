@@ -531,7 +531,6 @@ class RedCloth3 < String
     # Parses a Textile table block, building HTML from the result.
     def block_textile_table( text )
         text.gsub!( TABLE_RE ) do |matches|
-
             tatts, fullrow = $~[1..2]
             tatts = pba( tatts, 'table' )
             tatts = shelve( tatts ) if tatts
@@ -693,7 +692,6 @@ class RedCloth3 < String
                     blk + "\n#{ code_blk }"
                 end
             end
-
         end.join( "\n\n" ) )
     end
 
@@ -795,7 +793,6 @@ class RedCloth3 < String
     def inline_textile_span( text )
         QTAGS.each do |qtag_rc, ht, qtag_re, rtype|
             text.gsub!( qtag_re ) do |m|
-
                 case rtype
                 when :limit
                     sta,oqs,qtag,content,oqa = $~[1..6]
@@ -811,7 +808,6 @@ class RedCloth3 < String
                 atts = shelve( atts ) if atts
 
                 "#{ sta }#{ oqs }<#{ ht }#{ atts }>#{ content }</#{ ht }>#{ oqa }"
-
             end
         end
     end
