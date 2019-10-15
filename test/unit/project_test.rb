@@ -800,9 +800,11 @@ class ProjectTest < ActiveSupport::TestCase
 
   def test_activities_should_not_include_the_inactive_project_specific_activities
     project = Project.find(1)
-    overridden_activity = TimeEntryActivity.new({:name => "Project", :project => project, :parent => TimeEntryActivity.first, :active => false})
+    overridden_activity = TimeEntryActivity.new({:name => "Project",
+                                                 :project => project,
+                                                 :parent => TimeEntryActivity.first,
+                                                 :active => false})
     assert overridden_activity.save!
-
     assert !project.activities.include?(overridden_activity), "Inactive Project specific Activity found"
   end
 
