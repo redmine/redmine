@@ -23,7 +23,7 @@ module FixedIssuesExtension
   def estimated_hours
     @estimated_hours ||= sum(:estimated_hours).to_f
   end
-  #
+
   # Returns the total amount of open issues for this version.
   def open_count
     load_counts
