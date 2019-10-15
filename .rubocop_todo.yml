@@ -26,7 +26,6 @@ Layout/AccessModifierIndentation:
     - 'app/models/setting.rb'
     - 'app/models/tracker.rb'
     - 'lib/redmine/wiki_formatting/textile/formatter.rb'
-    - 'lib/redmine/wiki_formatting/textile/redcloth3.rb'
 
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle, IndentationWidth.
@@ -148,7 +147,6 @@ Layout/EmptyLinesAroundAccessModifier:
     - 'app/models/tracker.rb'
     - 'config/initializers/10-patches.rb'
     - 'lib/redmine/syntax_highlighting.rb'
-    - 'lib/redmine/wiki_formatting/textile/redcloth3.rb'
 
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle.
