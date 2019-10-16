@@ -335,4 +335,5 @@ private
     end
     setting
   end
+  private_class_method :find_or_default
 end
