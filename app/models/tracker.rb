@@ -140,7 +140,8 @@ class Tracker < ActiveRecord::Base
     end
   end
 
-private
+  private
+
   def check_integrity
     raise "Cannot delete tracker" if Issue.where(:tracker_id => self.id).any?
   end

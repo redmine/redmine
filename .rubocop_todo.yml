@@ -24,7 +24,6 @@ Layout/AccessModifierIndentation:
     - 'app/controllers/wiki_controller.rb'
     - 'app/models/role.rb'
     - 'app/models/setting.rb'
-    - 'app/models/tracker.rb'
 
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle, IndentationWidth.
@@ -143,7 +142,6 @@ Layout/EmptyLinesAroundAccessModifier:
     - 'app/controllers/messages_controller.rb'
     - 'app/controllers/previews_controller.rb'
     - 'app/controllers/timelog_controller.rb'
-    - 'app/models/tracker.rb'
     - 'config/initializers/10-patches.rb'
     - 'lib/redmine/syntax_highlighting.rb'
 
