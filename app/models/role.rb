@@ -304,4 +304,5 @@ private
     end
     role
   end
+  private_class_method :find_or_create_system_role
 end
