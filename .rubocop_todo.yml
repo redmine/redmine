@@ -245,12 +245,6 @@ Layout/IndentationWidth:
   Enabled: false
 
 # Cop supports --auto-correct.
-# Configuration parameters: AllowDoxygenCommentStyle.
-Layout/LeadingCommentSpace:
-  Exclude:
-    - 'lib/diff.rb'
-
-# Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle.
 # SupportedStyles: symmetrical, new_line, same_line
 Layout/MultilineArrayBraceLayout:

@@ -190,10 +190,10 @@ module Diffable
     end
 
     self[low] = value
-    # $stderr << "replace #{value} : 0/#{low}/#{init_high} (#{steps} steps) (#{init_high-low} off )\n"
-    # $stderr.puts self.inspect
-    #gets
-    #p length - low
+    #  $stderr << "replace #{value} : 0/#{low}/#{init_high} (#{steps} steps) (#{init_high-low} off )\n"
+    #  $stderr.puts self.inspect
+    # gets
+    # p length - low
     return low
   end
 
