@@ -451,10 +451,10 @@ class RedCloth3 < String
 
     # Search and replace for Textile glyphs (quotes, dashes, other symbols)
     def pgl( text )
-        #GLYPHS.each do |re, resub, tog|
+        # GLYPHS.each do |re, resub, tog|
         #    next if tog and method( tog ).call
         #    text.gsub! re, resub
-        #end
+        # end
         text.gsub!(/\b([A-Z][A-Z0-9]{1,})\b(?:[(]([^)]*)[)])/) do |m|
           "<abbr title=\"#{htmlesc $2}\">#{$1}</abbr>"
         end
@@ -826,7 +826,7 @@ class RedCloth3 < String
             )
             (?=<|\s|$)
         /x
-#"
+
     def inline_textile_link( text )
         text.gsub!( LINK_RE ) do |m|
           all,pre,atts,text,title,url,proto,slash,post = $~[1..9]
