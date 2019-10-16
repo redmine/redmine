@@ -92,3 +92,6 @@ Style/IdenticalConditionalBranches:
   Exclude:
     - 'config/initializers/10-patches.rb'
     - 'lib/redmine/wiki_formatting/textile/redcloth3.rb'
+
+Style/TrailingCommaInArrayLiteral:
+  Enabled: false

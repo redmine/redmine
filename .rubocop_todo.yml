@@ -1440,22 +1440,6 @@ Style/TernaryParentheses:
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyleForMultiline.
 # SupportedStylesForMultiline: comma, consistent_comma, no_comma
-Style/TrailingCommaInArrayLiteral:
-  Exclude:
-    - 'app/models/time_entry_query.rb'
-    - 'test/functional/repositories_git_controller_test.rb'
-    - 'test/functional/repositories_mercurial_controller_test.rb'
-    - 'test/helpers/application_helper_test.rb'
-    - 'test/unit/attachment_test.rb'
-    - 'test/unit/custom_field_test.rb'
-    - 'test/unit/lib/redmine/menu_manager/menu_helper_test.rb'
-    - 'test/unit/lib/redmine/scm/adapters/git_adapter_test.rb'
-    - 'test/unit/lib/redmine/scm/adapters/mercurial_adapter_test.rb'
-    - 'test/unit/repository_git_test.rb'
-
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyleForMultiline.
-# SupportedStylesForMultiline: comma, consistent_comma, no_comma
 Style/TrailingCommaInHashLiteral:
   Enabled: false
 
