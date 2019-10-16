@@ -165,7 +165,6 @@ Layout/EmptyLinesAroundMethodBody:
     - 'app/models/query.rb'
     - 'db/migrate/001_setup.rb'
     - 'db/migrate/20111201201315_add_unique_index_to_issue_relations.rb'
-    - 'lib/redmine/wiki_formatting/textile/redcloth3.rb'
     - 'test/functional/journals_controller_test.rb'
     - 'test/functional/users_controller_test.rb'
     - 'test/integration/account_test.rb'

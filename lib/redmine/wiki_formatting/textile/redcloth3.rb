@@ -316,7 +316,6 @@ class RedCloth3 < String
         clean_html text if filter_html
         text.strip!
         text
-
     end
 
   private
@@ -462,7 +461,6 @@ class RedCloth3 < String
 
     # Parses Textile attribute lists and builds an HTML attribute string
     def pba( text_in, element = "" )
-
         return +'' unless text_in
 
         style = []
