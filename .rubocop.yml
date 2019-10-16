@@ -13,6 +13,7 @@ AllCops:
     - '**/lib/generators/**/templates/*'
     - '**/lib/tasks/**/*'
     - '**/files/**/*'
+    - 'db/schema.rb'
 
 # Enable extensions
 
