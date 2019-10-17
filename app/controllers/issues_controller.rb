@@ -284,7 +284,9 @@ class IssuesController < ApplicationController
     if @copy
       @attachments_present = @issues.detect {|i| i.attachments.any?}.present?
       @subtasks_present = @issues.detect {|i| !i.leaf?}.present?
-      @watchers_present = User.current.allowed_to?(:add_issue_watchers, @projects) && Watcher.where(:watchable_type => 'Issue', :watchable_id => @issues.map(&:id)).exists?
+      @watchers_present = User.current.allowed_to?(:add_issue_watchers, @projects) &&
+                            Watcher.where(:watchable_type => 'Issue',
+                                          :watchable_id => @issues.map(&:id)).exists?
     end
 
     @safe_attributes = edited_issues.map(&:safe_attribute_names).reduce(:&)
