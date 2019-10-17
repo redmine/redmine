@@ -61,12 +61,8 @@ module Redmine
           right << [l(:label_spent_time), l_hours(issue.total_spent_hours)] if User.current.allowed_to?(:view_time_entries, issue.project)
 
           rows = left.size > right.size ? left.size : right.size
-          while left.size < rows
-            left << nil
-          end
-          while right.size < rows
-            right << nil
-          end
+          left  << nil while left.size  < rows
+          right << nil while right.size < rows
 
           custom_field_values = issue.visible_custom_field_values.reject {|value| value.custom_field.full_width_layout?}
           half = (custom_field_values.size / 2.0).ceil

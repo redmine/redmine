@@ -1482,7 +1482,6 @@ Style/WhileUntilModifier:
     - 'app/helpers/queries_helper.rb'
     - 'app/models/attachment.rb'
     - 'app/models/project.rb'
-    - 'lib/redmine/export/pdf/issues_pdf_helper.rb'
     - 'lib/redmine/unified_diff.rb'
     - 'lib/redmine/utils.rb'
     - 'lib/redmine/wiki_formatting/textile/redcloth3.rb'
