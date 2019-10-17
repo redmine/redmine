@@ -71,7 +71,6 @@ Layout/CaseIndentation:
     - 'config/initializers/10-patches.rb'
     - 'lib/redmine/helpers/gantt.rb'
     - 'lib/redmine/menu_manager.rb'
-    - 'lib/redmine/views/builders.rb'
 
 # Cop supports --auto-correct.
 Layout/ClosingHeredocIndentation:
