@@ -25,9 +25,10 @@ module Redmine
     module Builders
       def self.for(format, request, response, &block)
         builder = case format
-          when 'xml',  :xml;  Builders::Xml.new(request, response)
-          when 'json', :json; Builders::Json.new(request, response)
-          else; raise "No builder for format #{format}"
+          when 'xml',  :xml  then Builders::Xml.new(request, response)
+          when 'json', :json then Builders::Json.new(request, response)
+          else
+            raise "No builder for format #{format}"
         end
         if block
           block.call(builder)

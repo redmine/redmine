@@ -1466,7 +1466,6 @@ Style/WhenThen:
   Exclude:
     - 'app/models/issue_query.rb'
     - 'app/models/role.rb'
-    - 'lib/redmine/views/builders.rb'
 
 # Cop supports --auto-correct.
 Style/WhileUntilModifier:
