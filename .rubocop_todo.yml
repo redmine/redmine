@@ -166,7 +166,6 @@ Layout/EmptyLinesAroundModuleBody:
 # SupportedStylesAlignWith: keyword, variable, start_of_line
 Layout/EndAlignment:
   Exclude:
-    - 'app/helpers/versions_helper.rb'
     - 'lib/redmine/export/pdf/issues_pdf_helper.rb'
 
 # Cop supports --auto-correct.

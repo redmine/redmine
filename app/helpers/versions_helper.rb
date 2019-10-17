@@ -41,8 +41,7 @@ module VersionsHelper
         nil
       else
         version.project
-    end
-
+      end
     if project
       project_issues_path(project, options)
     else
