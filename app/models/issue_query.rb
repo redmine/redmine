@@ -416,16 +416,15 @@ class IssueQuery < Query
 
   def sql_for_spent_time_field(field, operator, value)
     first, second = value.first.to_f, value.second.to_f
-
     sql_op =
       case operator
-      when "=", ">=", "<=" ;  "#{operator} #{first}"
-      when "><"            ;  "BETWEEN #{first} AND #{second}"
-      when "*"             ;  "> 0"
-      when "!*"            ;  "= 0"
-      else                 ; return nil
+      when "=", ">=", "<=" then  "#{operator} #{first}"
+      when "><"            then  "BETWEEN #{first} AND #{second}"
+      when "*"             then  "> 0"
+      when "!*"            then  "= 0"
+      else
+        return nil
       end
-
     "COALESCE((" +
       "SELECT ROUND(CAST(SUM(hours) AS DECIMAL(30,3)), 2) " +
       "FROM #{TimeEntry.table_name} " +

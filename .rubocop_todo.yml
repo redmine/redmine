@@ -312,7 +312,6 @@ Layout/SpaceBeforeFirstArg:
 # Cop supports --auto-correct.
 Layout/SpaceBeforeSemicolon:
   Exclude:
-    - 'app/models/issue_query.rb'
     - 'app/models/user_preference.rb'
     - 'config/initializers/10-patches.rb'
 
@@ -1459,11 +1458,6 @@ Style/UnneededSort:
 Style/VariableInterpolation:
   Exclude:
     - 'lib/redmine/configuration.rb'
-
-# Cop supports --auto-correct.
-Style/WhenThen:
-  Exclude:
-    - 'app/models/issue_query.rb'
 
 # Cop supports --auto-correct.
 Style/WhileUntilModifier:
