@@ -288,7 +288,6 @@ Layout/SpaceAfterNot:
 Layout/SpaceAroundBlockParameters:
   Exclude:
     - 'app/controllers/issues_controller.rb'
-    - 'lib/redmine/plugin.rb'
 
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle.
