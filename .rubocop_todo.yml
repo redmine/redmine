@@ -111,7 +111,6 @@ Layout/ElseAlignment:
     - 'lib/redmine/export/pdf/issues_pdf_helper.rb'
     - 'lib/redmine/i18n.rb'
     - 'lib/redmine/plugin.rb'
-    - 'lib/redmine/wiki_formatting.rb'
 
 # Cop supports --auto-correct.
 Layout/EmptyLineAfterGuardClause:
