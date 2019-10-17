@@ -820,8 +820,8 @@ module Redmine
         output = +''
         data_options = {}
         data_options[:collapse_expand] = "#{object.class}-#{object.id}".downcase if object
-
-        css = "task " + case object
+        css = "task " +
+          case object
           when Project
             "project"
           when Version
@@ -831,7 +831,6 @@ module Redmine
           else
             ""
           end
-
         # Renders the task bar, with progress and late
         if coords[:bar_start] && coords[:bar_end]
           width = coords[:bar_end] - coords[:bar_start] - 2

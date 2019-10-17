@@ -69,7 +69,6 @@ Layout/CaseIndentation:
   Exclude:
     - 'app/models/issue_query.rb'
     - 'config/initializers/10-patches.rb'
-    - 'lib/redmine/helpers/gantt.rb'
 
 # Cop supports --auto-correct.
 Layout/ClosingHeredocIndentation:
