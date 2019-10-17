@@ -831,22 +831,19 @@ class RedCloth3 < String
           if text.include?('<br />')
             all
           else
-            url, url_title = check_refs( url )
+            url, url_title = check_refs(url)
             title ||= url_title
-
             # Idea below : an URL with unbalanced parethesis and
             # ending by ')' is put into external parenthesis
             if url[-1] == ")" and ((url.count("(") - url.count(")")) < 0)
-              url=url[0..-2] # discard closing parenth from url
-              post = ")"+post # add closing parenth to post
+              url = url[0..-2] # discard closing parenth from url
+              post = ")" + post # add closing parenth to post
             end
-            atts = pba( atts )
+            atts = pba(atts)
             atts = +" href=\"#{htmlesc url}#{slash}\"#{atts}"
             atts << " title=\"#{htmlesc title}\"" if title
-            atts = shelve( atts ) if atts
-
+            atts = shelve(atts) if atts
             external = (url =~ /^https?:\/\//) ? ' class="external"' : ''
-
             "#{pre}<a#{atts}#{external}>#{text}</a>#{post}"
           end
         end
