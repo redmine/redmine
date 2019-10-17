@@ -1164,7 +1164,7 @@ ru:
   label_cross_project_system: Со всеми проектами
   button_hide: Скрыть
   setting_non_working_week_days: Нерабочие дни
-  label_in_the_next_days: в средующие дни
+  label_in_the_next_days: в следующие дни
   label_in_the_past_days: в прошлые дни
   label_attribute_of_user: Пользователь %{name}
   text_turning_multiple_off: Если отключить множественные значения, лишние значения из списка будут удалены, чтобы осталось только по одному значению.
