@@ -283,13 +283,6 @@ Layout/SpaceAfterNot:
   Enabled: false
 
 # Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyleInsidePipes.
-# SupportedStylesInsidePipes: space, no_space
-Layout/SpaceAroundBlockParameters:
-  Exclude:
-    - 'app/controllers/issues_controller.rb'
-
-# Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle.
 # SupportedStyles: space, no_space
 Layout/SpaceAroundEqualsInParameterDefault:
