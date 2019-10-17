@@ -343,7 +343,7 @@ module Redmine
               pdf.set_auto_page_break(true, bottom_margin)
               pdf.RDMwriteHTMLCell(0, 5, 10, '', issue.last_notes.to_s, [], "LRBT")
               pdf.set_auto_page_break(false)
-          end
+            end
           end
 
           if issues.size == Setting.issues_export_limit.to_i

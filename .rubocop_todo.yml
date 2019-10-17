@@ -162,13 +162,6 @@ Layout/EmptyLinesAroundModuleBody:
   Enabled: false
 
 # Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyleAlignWith, AutoCorrect, Severity.
-# SupportedStylesAlignWith: keyword, variable, start_of_line
-Layout/EndAlignment:
-  Exclude:
-    - 'lib/redmine/export/pdf/issues_pdf_helper.rb'
-
-# Cop supports --auto-correct.
 # Configuration parameters: AllowForAlignment, AllowBeforeTrailingComments, ForceEqualSignAlignment.
 Layout/ExtraSpacing:
   Enabled: false
