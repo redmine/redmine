@@ -434,25 +434,24 @@ class IssueQuery < Query
 
   def sql_for_watcher_id_field(field, operator, value)
     db_table = Watcher.table_name
-
     me, others = value.partition { |id| ['0', User.current.id.to_s].include?(id) }
-    sql = if others.any?
-      "SELECT #{Issue.table_name}.id FROM #{Issue.table_name} " +
-      "INNER JOIN #{db_table} ON #{Issue.table_name}.id = #{db_table}.watchable_id AND #{db_table}.watchable_type = 'Issue' " +
-      "LEFT OUTER JOIN #{Project.table_name} ON #{Project.table_name}.id = #{Issue.table_name}.project_id " +
-      "WHERE (" +
-        sql_for_field(field, '=', me, db_table, 'user_id') +
-      ') OR (' +
-        Project.allowed_to_condition(User.current, :view_issue_watchers) +
-        ' AND ' +
-        sql_for_field(field, '=', others, db_table, 'user_id') +
-      ')'
-    else
-      "SELECT #{db_table}.watchable_id FROM #{db_table} " +
-      "WHERE #{db_table}.watchable_type='Issue' AND " +
-      sql_for_field(field, '=', me, db_table, 'user_id')
-    end
-
+    sql =
+      if others.any?
+        "SELECT #{Issue.table_name}.id FROM #{Issue.table_name} " +
+        "INNER JOIN #{db_table} ON #{Issue.table_name}.id = #{db_table}.watchable_id AND #{db_table}.watchable_type = 'Issue' " +
+        "LEFT OUTER JOIN #{Project.table_name} ON #{Project.table_name}.id = #{Issue.table_name}.project_id " +
+        "WHERE (" +
+          sql_for_field(field, '=', me, db_table, 'user_id') +
+        ') OR (' +
+          Project.allowed_to_condition(User.current, :view_issue_watchers) +
+          ' AND ' +
+          sql_for_field(field, '=', others, db_table, 'user_id') +
+        ')'
+      else
+        "SELECT #{db_table}.watchable_id FROM #{db_table} " +
+        "WHERE #{db_table}.watchable_type='Issue' AND " +
+        sql_for_field(field, '=', me, db_table, 'user_id')
+      end
     "#{Issue.table_name}.id #{ operator == '=' ? 'IN' : 'NOT IN' } (#{sql})"
   end
 
