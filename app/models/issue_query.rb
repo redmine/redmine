@@ -614,8 +614,8 @@ class IssueQuery < Query
       relation_type = relation_options[:reverse] || relation_type
       join_column, target_join_column = target_join_column, join_column
     end
-
-    sql = case operator
+    sql =
+      case operator
       when "*", "!*"
         op = (operator == "*" ? 'IN' : 'NOT IN')
         "#{Issue.table_name}.id #{op} (SELECT DISTINCT #{IssueRelation.table_name}.#{join_column} FROM #{IssueRelation.table_name} WHERE #{IssueRelation.table_name}.relation_type = '#{self.class.connection.quote_string(relation_type)}')"
@@ -630,7 +630,6 @@ class IssueQuery < Query
         op = (operator == "!o" ? 'NOT IN' : 'IN')
         "#{Issue.table_name}.id #{op} (SELECT DISTINCT #{IssueRelation.table_name}.#{join_column} FROM #{IssueRelation.table_name}, #{Issue.table_name} relissues WHERE #{IssueRelation.table_name}.relation_type = '#{self.class.connection.quote_string(relation_type)}' AND #{IssueRelation.table_name}.#{target_join_column} = relissues.id AND relissues.status_id IN (SELECT id FROM #{IssueStatus.table_name} WHERE is_closed=#{self.class.connection.quoted_false}))"
       end
-
     if relation_options[:sym] == field && !options[:reverse]
       sqls = [sql, sql_for_relations(field, operator, value, :reverse => true)]
       sql = sqls.join(["!", "!*", "!p", '!o'].include?(operator) ? " AND " : " OR ")
