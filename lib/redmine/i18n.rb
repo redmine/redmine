@@ -117,17 +117,18 @@ module Redmine
     # The result is cached to prevent from loading all translations files
     # unless :cache => false option is given
     def languages_options(options={})
-      options = if options[:cache] == false
-        available_locales = ::I18n.backend.available_locales
-        valid_languages.
-          select {|locale| available_locales.include?(locale)}.
-          map {|lang| [ll(lang.to_s, :general_lang_name), lang.to_s]}.
-          sort_by(&:first)
-      else
-        ActionController::Base.cache_store.fetch "i18n/languages_options/#{Redmine::VERSION}" do
-          languages_options :cache => false
+      options =
+        if options[:cache] == false
+          available_locales = ::I18n.backend.available_locales
+          valid_languages.
+            select {|locale| available_locales.include?(locale)}.
+            map {|lang| [ll(lang.to_s, :general_lang_name), lang.to_s]}.
+            sort_by(&:first)
+        else
+          ActionController::Base.cache_store.fetch "i18n/languages_options/#{Redmine::VERSION}" do
+            languages_options :cache => false
+          end
         end
-      end
       options.map {|name, lang| [name.force_encoding("UTF-8"), lang.force_encoding("UTF-8")]}
     end
 
