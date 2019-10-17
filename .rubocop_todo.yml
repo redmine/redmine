@@ -91,7 +91,6 @@ Layout/ClosingParenthesisIndentation:
 # Cop supports --auto-correct.
 Layout/CommentIndentation:
   Exclude:
-    - 'app/helpers/versions_helper.rb'
     - 'app/models/mailer.rb'
     - 'lib/redmine/wiki_formatting/textile/redcloth3.rb'
     - 'test/unit/lib/redmine/wiki_formatting/markdown_formatter_test.rb'
@@ -1174,7 +1173,6 @@ Style/NestedParenthesizedCalls:
 Style/NestedTernaryOperator:
   Exclude:
     - 'app/helpers/queries_helper.rb'
-    - 'app/helpers/versions_helper.rb'
     - 'app/models/issue_relation.rb'
     - 'app/models/journal.rb'
 
