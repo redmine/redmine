@@ -129,7 +129,6 @@ Layout/EmptyLines:
     - 'test/functional/activities_controller_test.rb'
     - 'test/functional/project_enumerations_controller_test.rb'
     - 'test/helpers/application_helper_test.rb'
-    - 'test/unit/lib/redmine/wiki_formatting/textile_formatter_test.rb'
     - 'test/unit/query_test.rb'
 
 # Cop supports --auto-correct.
