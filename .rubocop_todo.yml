@@ -918,11 +918,6 @@ Style/BracesAroundHashParameters:
   Enabled: false
 
 # Cop supports --auto-correct.
-Style/CharacterLiteral:
-  Exclude:
-    - 'lib/redmine/wiki_formatting/textile/redcloth3.rb'
-
-# Cop supports --auto-correct.
 # Configuration parameters: AutoCorrect, EnforcedStyle.
 # SupportedStyles: nested, compact
 Style/ClassAndModuleChildren:
@@ -1225,7 +1220,6 @@ Style/ParenthesesAroundCondition:
     - 'lib/redmine/helpers/gantt.rb'
     - 'lib/redmine/scm/adapters/cvs_adapter.rb'
     - 'lib/redmine/scm/adapters/git_adapter.rb'
-    - 'lib/redmine/wiki_formatting/textile/redcloth3.rb'
 
 # Cop supports --auto-correct.
 # Configuration parameters: PreferredDelimiters.

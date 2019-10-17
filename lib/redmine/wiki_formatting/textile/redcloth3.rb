@@ -673,7 +673,7 @@ class RedCloth3 < String
 
                     block_applied = 0
                     @rules.each do |rule_name|
-                        block_applied += 1 if ( rule_name.to_s.match /^block_/ and method( rule_name ).call( blk ) )
+                        block_applied += 1 if rule_name.to_s.match /^block_/ and method(rule_name).call(blk)
                     end
                     if block_applied.zero?
                         if deep_code
@@ -836,7 +836,7 @@ class RedCloth3 < String
 
             # Idea below : an URL with unbalanced parethesis and
             # ending by ')' is put into external parenthesis
-            if ( url[-1]==?) and ((url.count("(") - url.count(")")) < 0 ) )
+            if url[-1] == ")" and ((url.count("(") - url.count(")")) < 0)
               url=url[0..-2] # discard closing parenth from url
               post = ")"+post # add closing parenth to post
             end
