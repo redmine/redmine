@@ -95,7 +95,6 @@ Layout/CommentIndentation:
     - 'app/models/mailer.rb'
     - 'lib/redmine/wiki_formatting/textile/redcloth3.rb'
     - 'test/unit/lib/redmine/wiki_formatting/markdown_formatter_test.rb'
-    - 'test/unit/lib/redmine/wiki_formatting/textile_formatter_test.rb'
 
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle.
@@ -251,7 +250,6 @@ Layout/MultilineArrayBraceLayout:
     - 'app/helpers/users_helper.rb'
     - 'app/models/setting.rb'
     - 'test/unit/lib/redmine/wiki_formatting/markdown_formatter_test.rb'
-    - 'test/unit/lib/redmine/wiki_formatting/textile_formatter_test.rb'
 
 # Cop supports --auto-correct.
 Layout/MultilineBlockLayout:
