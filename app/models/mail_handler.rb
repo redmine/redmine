@@ -540,6 +540,7 @@ class MailHandler < ActionMailer::Base
     value = value.to_s.slice(0, limit)
     object.send("#{attribute}=", value)
   end
+  private_class_method :assign_string_attribute_with_limit
 
   # Returns a User from an email address and a full name
   def self.new_user_from_attributes(email_address, fullname=nil)
