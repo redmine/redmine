@@ -33,13 +33,12 @@ module AttachmentsHelper
   #   :thumbails -- display thumbnails if enabled in settings
   def link_to_attachments(container, options = {})
     options.assert_valid_keys(:author, :thumbnails)
-
-    attachments = if container.attachments.loaded?
-      container.attachments
-    else
-      container.attachments.preload(:author).to_a
-    end
-
+    attachments =
+      if container.attachments.loaded?
+        container.attachments
+      else
+        container.attachments.preload(:author).to_a
+      end
     if attachments.any?
       options = {
         :editable => container.attachments_editable?,

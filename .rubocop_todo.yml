@@ -103,11 +103,6 @@ Layout/DotPosition:
   Enabled: false
 
 # Cop supports --auto-correct.
-Layout/ElseAlignment:
-  Exclude:
-    - 'app/helpers/attachments_helper.rb'
-
-# Cop supports --auto-correct.
 Layout/EmptyLineAfterGuardClause:
   Enabled: false
 
