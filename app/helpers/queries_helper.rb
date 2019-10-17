@@ -157,11 +157,12 @@ module QueriesHelper
 
   def total_tag(column, value)
     label = content_tag('span', "#{column.caption}:")
-    value = if [:hours, :spent_hours, :total_spent_hours, :estimated_hours].include? column.name
-      format_hours(value)
-    else
-      format_object(value)
-    end
+    value =
+      if [:hours, :spent_hours, :total_spent_hours, :estimated_hours].include? column.name
+        format_hours(value)
+      else
+        format_object(value)
+      end
     value = content_tag('span', value, :class => 'value')
     content_tag('span', label + " " + value, :class => "total-for-#{column.name.to_s.dasherize}")
   end

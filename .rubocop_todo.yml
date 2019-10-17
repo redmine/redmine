@@ -106,7 +106,6 @@ Layout/DotPosition:
 Layout/ElseAlignment:
   Exclude:
     - 'app/helpers/attachments_helper.rb'
-    - 'app/helpers/queries_helper.rb'
 
 # Cop supports --auto-correct.
 Layout/EmptyLineAfterGuardClause:
