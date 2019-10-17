@@ -384,35 +384,44 @@ EXPECTED
     assert_equal expected.gsub(%r{\s+}, ''), to_html(raw).gsub(%r{\s+}, '')
   end
 
-
   STR_WITHOUT_PRE = [
-  # 0
-"h1. Title
+    # 0
+    <<~STR.chomp,
+      h1. Title
 
-Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas sed libero.",
-  # 1
-"h2. Heading 2
+      Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas sed libero.
+    STR
+    # 1
+    <<~STR.chomp,
+      h2. Heading 2
 
-Maecenas sed elit sit amet mi accumsan vestibulum non nec velit. Proin porta tincidunt lorem, consequat rhoncus dolor fermentum in.
+      Maecenas sed elit sit amet mi accumsan vestibulum non nec velit. Proin porta tincidunt lorem, consequat rhoncus dolor fermentum in.
 
-Cras ipsum felis, ultrices at porttitor vel, faucibus eu nunc.",
-  # 2
-"h2. Heading 2
+      Cras ipsum felis, ultrices at porttitor vel, faucibus eu nunc.
+    STR
+    # 2
+    <<~STR.chomp,
+      h2. Heading 2
 
-Morbi facilisis accumsan orci non pharetra.
+      Morbi facilisis accumsan orci non pharetra.
 
-h3. Heading 3
+      h3. Heading 3
 
-Nulla nunc nisi, egestas in ornare vel, posuere ac libero.",
-  # 3
-"h3. Heading 3
+      Nulla nunc nisi, egestas in ornare vel, posuere ac libero.
+    STR
+    # 3
+    <<~STR.chomp,
+      h3. Heading 3
 
-Praesent eget turpis nibh, a lacinia nulla.",
-  # 4
-"h2. Heading 2
+      Praesent eget turpis nibh, a lacinia nulla.
+    STR
+    # 4
+    <<~STR.chomp,
+      h2. Heading 2
 
-Ut rhoncus elementum adipiscing."]
-
+      Ut rhoncus elementum adipiscing.
+    STR
+  ]
   TEXT_WITHOUT_PRE = STR_WITHOUT_PRE.join("\n\n").freeze
 
   def test_get_section_should_return_the_requested_section_and_its_hash
