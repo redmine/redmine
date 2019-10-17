@@ -160,9 +160,10 @@ class Role < ActiveRecord::Base
 
   def name
     case builtin
-    when 1; l(:label_role_non_member, :default => read_attribute(:name))
-    when 2; l(:label_role_anonymous,  :default => read_attribute(:name))
-    else; read_attribute(:name)
+    when 1 then l(:label_role_non_member, :default => read_attribute(:name))
+    when 2 then l(:label_role_anonymous,  :default => read_attribute(:name))
+    else
+      read_attribute(:name)
     end
   end
 

@@ -1464,7 +1464,6 @@ Style/VariableInterpolation:
 Style/WhenThen:
   Exclude:
     - 'app/models/issue_query.rb'
-    - 'app/models/role.rb'
 
 # Cop supports --auto-correct.
 Style/WhileUntilModifier:
