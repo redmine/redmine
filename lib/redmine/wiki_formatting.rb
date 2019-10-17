@@ -34,13 +34,13 @@ module Redmine
         options = args.last.is_a?(Hash) ? args.pop : {}
         name = name.to_s
         raise ArgumentError, "format name '#{name}' is already taken" if @@formatters[name]
-
-        formatter, helper, parser = args.any? ?
-          args :
-          %w(Formatter Helper HtmlParser).map {|m| "Redmine::WikiFormatting::#{name.classify}::#{m}".constantize rescue nil}
-
+        formatter, helper, parser =
+          if args.any?
+            args
+          else
+            %w(Formatter Helper HtmlParser).map {|m| "Redmine::WikiFormatting::#{name.classify}::#{m}".constantize rescue nil}
+          end
         raise "A formatter class is required" if formatter.nil?
-
         @@formatters[name] = {
           :formatter => formatter,
           :helper => helper,

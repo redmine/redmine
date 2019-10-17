@@ -1131,7 +1131,6 @@ Style/MultilineTernaryOperator:
     - 'lib/redmine/scm/adapters/filesystem_adapter.rb'
     - 'lib/redmine/scm/adapters/git_adapter.rb'
     - 'lib/redmine/utils.rb'
-    - 'lib/redmine/wiki_formatting.rb'
 
 Style/MultipleComparison:
   Exclude:
