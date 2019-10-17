@@ -165,7 +165,10 @@ Layout/EmptyLinesAroundModuleBody:
 # Configuration parameters: EnforcedStyleAlignWith, AutoCorrect, Severity.
 # SupportedStylesAlignWith: keyword, variable, start_of_line
 Layout/EndAlignment:
-  Enabled: false
+  Exclude:
+    - 'app/helpers/repositories_helper.rb'
+    - 'app/helpers/versions_helper.rb'
+    - 'lib/redmine/export/pdf/issues_pdf_helper.rb'
 
 # Cop supports --auto-correct.
 # Configuration parameters: AllowForAlignment, AllowBeforeTrailingComments, ForceEqualSignAlignment.
