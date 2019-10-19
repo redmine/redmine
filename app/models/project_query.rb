@@ -22,7 +22,16 @@ class ProjectQuery < Query
   self.queried_class = Project
   self.view_permission = :search_project
 
-  self.available_columns = []
+  self.available_columns = [
+    QueryColumn.new(:name, :sortable => "#{Project.table_name}.name"),
+    QueryColumn.new(:status, :sortable => "#{Project.table_name}.status"),
+    QueryColumn.new(:short_description, :sortable => "#{Project.table_name}.description", :caption => :field_description),
+    QueryColumn.new(:homepage, :sortable => "#{Project.table_name}.homepage"),
+    QueryColumn.new(:identifier, :sortable => "#{Project.table_name}.identifier"),
+    QueryColumn.new(:parent_id, :sortable => "#{Project.table_name}.lft ASC", :default_order => 'desc', :caption => :field_parent),
+    QueryColumn.new(:is_public, :sortable => "#{Project.table_name}.is_public", :groupable => true),
+    QueryColumn.new(:created_on, :sortable => "#{Project.table_name}.created_on", :default_order => 'desc')
+  ]
 
   def initialize(attributes=nil, *args)
     super attributes
@@ -48,7 +57,23 @@ class ProjectQuery < Query
   end
 
   def available_columns
-    []
+    return @available_columns if @available_columns
+    @available_columns = self.class.available_columns.dup
+    @available_columns += ProjectCustomField.visible.
+                            map {|cf| QueryAssociationCustomFieldColumn.new(:project, cf) }
+    @available_columns
+  end
+
+  def available_display_types
+    ['board', 'list']
+  end
+
+  def default_columns_names
+    @default_columns_names ||= [:name, :identifier, :short_description]
+  end
+
+  def default_sort_criteria
+    [[]]
   end
 
   def base_scope

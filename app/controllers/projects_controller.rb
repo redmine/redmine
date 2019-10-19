@@ -34,6 +34,8 @@ class ProjectsController < ApplicationController
   helper :issues
   helper :queries
   include QueriesHelper
+  helper :projects_queries
+  include ProjectsQueriesHelper
   helper :repositories
   helper :members
   helper :trackers
@@ -50,7 +52,9 @@ class ProjectsController < ApplicationController
 
     respond_to do |format|
       format.html {
-        @projects = scope.to_a
+        @entry_count = scope.count
+        @entry_pages = Paginator.new @entry_count, per_page_option, params['page']
+        @entries = scope.offset(@entry_pages.offset).limit(@entry_pages.per_page).to_a
       }
       format.api  {
         @offset, @limit = api_offset_and_limit
@@ -60,6 +64,11 @@ class ProjectsController < ApplicationController
       format.atom {
         projects = scope.reorder(:created_on => :desc).limit(Setting.feeds_limit.to_i).to_a
         render_feed(projects, :title => "#{Setting.app_title}: #{l(:label_project_latest)}")
+      }
+      format.csv {
+        # Export all entries
+        @entries = scope.to_a
+        send_data(query_to_csv(@entries, @query, params), :type => 'text/csv; header=present', :filename => 'projects.csv')
       }
     end
   end

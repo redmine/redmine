@@ -1072,6 +1072,9 @@ en:
   label_password_char_class_lowercase: lowercase letters
   label_password_char_class_digits: digits
   label_password_char_class_special_chars: special characters
+  label_display_type: Display results as
+  label_display_type_list: List
+  label_display_type_board: Board  
 
   button_login: Login
   button_submit: Submit

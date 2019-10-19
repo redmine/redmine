@@ -29,12 +29,18 @@
 <% end %>
 
 <fieldset id="options"><legend><%= l(:label_options) %></legend>
-<p><label for="query_default_columns"><%=l(:label_default_columns)%></label>
+  <% if @query.available_display_types.size > 1 %>
+  <p><label for='display_type'><%= l(:label_display_type) %></label>
+    <%= available_display_types_tags(@query) %>
+  </p>
+<% end %>
+
+<p id ="default_columns"><label for="query_default_columns"><%=l(:label_default_columns)%></label>
 <%= check_box_tag 'default_columns', 1, @query.has_default_columns?, :id => 'query_default_columns',
       :data => {:disables => "#columns, .block_columns input"} %></p>
 
 <% unless params[:gantt] %>
-  <p><label for="query_group_by"><%= l(:field_group_by) %></label>
+  <p id="group_by"><label id="group_by" for="query_group_by"><%= l(:field_group_by) %></label>
   <%= select 'query', 'group_by', @query.groupable_columns.collect {|c| [c.caption, c.name.to_s]}, :include_blank => true %></p>
 
   <% unless @query.available_block_columns.empty? %>
@@ -98,5 +104,16 @@ $(document).ready(function(){
     if (!private_checked) $("input.disable-unless-private").attr('checked', false);
     $("input.disable-unless-private").attr('disabled', !private_checked);
   }).trigger('change');
+});
+
+$(function ($) {
+  $('#display_type').change(function (e) {
+    var option = $(e.target).val()
+    if (option == 'board') {
+      $('fieldset#columns, fieldset#sort, p#default_columns, p#group_by').hide();
+    } else {
+      $('fieldset#columns, fieldset#sort, p#default_columns, p#group_by').show();
+    }
+  }).change()
 });
 <% end %>

@@ -44,6 +44,17 @@ class ProjectQueryTest < ActiveSupport::TestCase
     values = query.available_filters['status'][:values]
     assert_equal ['active', 'closed'], values.map(&:first)
     assert_equal ['1', '5'], values.map(&:second)
+  end
 
+  def test_default_columns
+    q = ProjectQuery.new
+    assert q.columns.any?
+    assert q.inline_columns.any?
+    assert q.block_columns.empty?
+  end
+
+  def test_available_columns_should_include_project_custom_fields
+    query = ProjectQuery.new
+    assert_include :"project.cf_3", query.available_columns.map(&:name)
   end
 end

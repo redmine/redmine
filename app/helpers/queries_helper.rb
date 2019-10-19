@@ -120,6 +120,14 @@ module QueriesHelper
     render :partial => 'queries/columns', :locals => {:query => query, :tag_name => tag_name}
   end
 
+  def available_display_types_tags(query)
+    available_display_types = []
+    query.available_display_types.each do |t|
+      available_display_types << [l(:"label_display_type_#{t}"), t]
+    end
+    select_tag('display_type', options_for_select(available_display_types, @query.display_type), :id => 'display_type')
+  end
+
   def grouped_query_results(items, query, &block)
     result_count_by_group = query.result_count_by_group
     previous_group, first = false, true

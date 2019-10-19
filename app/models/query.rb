@@ -409,6 +409,7 @@ class Query < ActiveRecord::Base
     self.column_names = params[:c] || query_params[:column_names] || self.column_names
     self.totalable_names = params[:t] || query_params[:totalable_names] || self.totalable_names
     self.sort_criteria = params[:sort] || query_params[:sort_criteria] || self.sort_criteria
+    self.display_type = params[:display_type] || query_params[:display_type] || self.display_type
     self
   end
 
@@ -981,6 +982,21 @@ class Query < ActiveRecord::Base
       key, asc = s
       "sort-by-#{key.to_s.dasherize} sort-#{asc}"
     end
+  end
+
+  def display_type
+    options[:display_type] || self.available_display_types.first
+  end
+
+  def display_type=(type)
+    unless type || self.available_display_types.include?(type)
+      type = self.available_display_types.first
+    end
+    options[:display_type] = type
+  end
+
+  def available_display_types
+    ['list']
   end
 
   private

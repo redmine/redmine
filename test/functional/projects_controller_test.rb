@@ -94,6 +94,59 @@ class ProjectsControllerTest < Redmine::ControllerTest
     end
   end
 
+  def test_index_as_list_should_format_column_value
+    get :index, :params => {
+      :c => ['name', 'status', 'short_description', 'homepage', 'parent_id', 'identifier', 'is_public', 'created_on', 'project.cf_3'],
+      :display_type => 'list'
+    }
+    assert_response :success
+
+    assert_select 'table.projects' do
+      assert_select 'tr[id=?]', 'project-1' do
+        assert_select 'td.name a[href=?]', '/projects/ecookbook', :text => 'eCookbook'
+        assert_select 'td.status', :text => 'active'
+        assert_select 'td.short_description', :text => 'Recipes management application'
+        assert_select 'td.homepage a.external', :text => 'http://ecookbook.somenet.foo/'
+        assert_select 'td.identifier', :text => 'ecookbook'
+        assert_select 'td.is_public', :text => 'Yes'
+        assert_select 'td.created_on', :text => '07/19/2006 05:13 PM'
+        assert_select 'td.project_cf_3.list', :text => 'Stable'
+      end
+      assert_select 'tr[id=?]', 'project-4' do
+        assert_select 'td.parent_id a[href=?]', '/projects/ecookbook', :text => 'eCookbook'
+      end
+    end
+  end
+
+  def test_index_as_list_should_show_my_favourite_projects
+    @request.session[:user_id] = 1
+    get :index, :params => {
+      :display_type => 'list'
+    }
+
+    assert_response :success
+    assert_select 'tr[id=?] td.name span[class=?]', 'project-5', 'icon icon-user my-project'
+  end
+
+  def test_index_as_list_should_indent_projects
+    @request.session[:user_id] = 1
+    get :index, :params => {
+      :c => ['name', 'short_description'],
+      :sort => 'parent_id:desc,lft:desc',
+      :display_type => 'list'
+    }
+    assert_response :success
+
+    child_level1 = css_select('tr#project-5').map {|e| e.attr('class')}.first.split(' ')
+    child_level2 = css_select('tr#project-6').map {|e| e.attr('class')}.first.split(' ')
+
+    assert_include 'idnt', child_level1
+    assert_include 'idnt-1', child_level1
+
+    assert_include 'idnt', child_level2
+    assert_include 'idnt-2', child_level2
+  end
+
   def test_autocomplete_js
     get :autocomplete, :params => {
         :format => 'js',
