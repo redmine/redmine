@@ -30,7 +30,6 @@ class ActivitiesControllerTest < Redmine::ControllerTest
            :enabled_modules,
            :journals, :journal_details
 
-
   def test_project_index
     get :index, :params => {
         :id => 1,
