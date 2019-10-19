@@ -24,7 +24,7 @@ class ContextMenusController < ApplicationController
   before_action :find_issues, :only => :issues
 
   def issues
-    if (@issues.size == 1)
+    if @issues.size == 1
       @issue = @issues.first
     end
     @issue_ids = @issues.map(&:id).sort
@@ -68,7 +68,7 @@ class ContextMenusController < ApplicationController
       preload(:user).to_a
 
     (render_404; return) unless @time_entries.present?
-    if (@time_entries.size == 1)
+    if @time_entries.size == 1
       @time_entry = @time_entries.first
     end
 
