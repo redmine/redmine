@@ -609,6 +609,11 @@ class Query < ActiveRecord::Base
     end
   end
 
+  # Returns a scope of project custom fields that are available as columns or filters
+  def project_custom_fields
+    ProjectCustomField.all
+  end
+
   # Returns a scope of project statuses that are available as columns or filters
   def project_statuses_values
     [
