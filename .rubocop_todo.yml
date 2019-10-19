@@ -284,7 +284,6 @@ Layout/SpaceBeforeComma:
     - 'test/helpers/application_helper_test.rb'
     - 'test/mocks/open_id_authentication_mock.rb'
     - 'test/unit/lib/redmine/helpers/calendar_test.rb'
-    - 'test/unit/time_entry_test.rb'
 
 # Cop supports --auto-correct.
 # Configuration parameters: AllowForAlignment.

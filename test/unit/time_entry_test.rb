@@ -229,7 +229,7 @@ class TimeEntryTest < ActiveSupport::TestCase
 
   def test_create_with_required_issue_id_and_comment_should_be_validated
     set_language_if_valid 'en'
-    with_settings :timelog_required_fields => ['issue_id' , 'comments'] do
+    with_settings :timelog_required_fields => ['issue_id', 'comments'] do
       entry = TimeEntry.new(:project => Project.find(1), :spent_on => Date.today, :author => User.find(1), :user => User.find(1), :activity => TimeEntryActivity.first, :hours => 1)
 
       assert !entry.save
