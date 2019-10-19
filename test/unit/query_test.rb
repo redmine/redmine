@@ -1952,6 +1952,25 @@ class QueryTest < ActiveSupport::TestCase
     end
   end
 
+  def test_available_columns_should_not_include_total_estimated_hours_when_trackers_disabled_estimated_hours
+    Tracker.visible.each do |tracker|
+      tracker.core_fields = tracker.core_fields.reject{|field| field == 'estimated_hours'}
+      tracker.save!
+    end
+    query = IssueQuery.new
+    available_columns = query.available_columns.map(&:name)
+    assert_not_include :estimated_hours, available_columns
+    assert_not_include :total_estimated_hours, available_columns
+
+    tracker = Tracker.visible.first
+    tracker.core_fields = ['estimated_hours']
+    tracker.save!
+    query = IssueQuery.new
+    available_columns = query.available_columns.map(&:name)
+    assert_include :estimated_hours, available_columns
+    assert_include :total_estimated_hours, available_columns
+  end
+
   def setup_member_of_group
     Group.destroy_all # No fixtures
     @user_in_group = User.generate!
