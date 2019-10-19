@@ -104,7 +104,6 @@ Layout/EmptyLineAfterGuardClause:
 # Cop supports --auto-correct.
 Layout/EmptyLines:
   Exclude:
-    - 'app/models/issue.rb'
     - 'app/models/time_entry_import.rb'
     - 'config/routes.rb'
     - 'db/migrate/001_setup.rb'

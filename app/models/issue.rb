@@ -578,8 +578,6 @@ class Issue < ActiveRecord::Base
     if (u = attrs.delete('assigned_to_id')) && safe_attribute?('assigned_to_id')
       self.assigned_to_id = u
     end
-
-
     attrs = delete_unsafe_attributes(attrs, user)
     return if attrs.empty?
 
