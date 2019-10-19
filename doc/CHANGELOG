@@ -4,6 +4,48 @@ Redmine - project management software
 Copyright (C) 2006-2017  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2019-10-19 v4.0.5
+
+=== [Code cleanup/refactoring]
+
+* Defect #31870: Remove deprecated .zIndex() method
+* Defect #32022: IssueSubtaskingTest fails with high probability
+* Defect #32110: "already initialized constant Redmine::Scm::Adapters::SubversionAdapter::SVN_BIN" warning when executing rake tasks
+* Patch #32189: Remove unnecessary requiring of "rexml/document"
+
+=== [Documentation]
+
+* Defect #32170: Text enclosed in pre tag in Wiki formatting reference is not displayed in monospaced font in Chrome
+* Defect #32184: Incorrect headings example in Textile help
+
+=== [Gantt]
+
+* Defect #31552: View switches from gantt to list after editing an issue
+
+=== [Gems support]
+
+* Defect #32300: Don't use sprockets 4.0.0 in order to avoid Sprockets::Railtie::ManifestNeededError
+* Patch #32294: Update ruby-openid to 2.9.2
+
+=== [Issues]
+
+* Defect #31778: Total estimated time issue query column and issue field might leak information
+
+=== [Issues list]
+
+* Defect #31779: Total estimated time column shown even when estimated time field is deactivated
+
+=== [Translations]
+
+* Defect #32290: Typo in Russian translation for label_in_the_next_days
+* Patch #31951: German translation update for 4.0-stable
+
+=== [UI]
+
+* Defect #31742: The color of h4 in the comment also changes when #note-1 is specified
+* Defect #32012: Broken JavaScript icon in the repository view
+* Defect #32024: Broken gzip icon in the repository view
+
 == 2019-06-10 v4.0.4
 
 === [Administration]
