@@ -1267,7 +1267,6 @@ class QueryTest < ActiveSupport::TestCase
     Issue.delete_all
     parent = Issue.generate_with_descendants!
 
-
     query = IssueQuery.new(:name => '_')
     query.filters = {"parent_id" => {:operator => '=', :values => [parent.id.to_s]}}
     assert_equal parent.children.map(&:id).sort, find_issues_with_query(query).map(&:id).sort
@@ -1296,7 +1295,6 @@ class QueryTest < ActiveSupport::TestCase
     parent = Issue.generate_with_descendants!
     child, leaf = parent.children.sort_by(&:id)
     grandchild = child.children.first
-
 
     query = IssueQuery.new(:name => '_')
     query.filters = {"child_id" => {:operator => '=', :values => [grandchild.id.to_s]}}
@@ -1667,7 +1665,6 @@ class QueryTest < ActiveSupport::TestCase
     other.safe_attributes          = {:estimated_hours => 5}
 
     [parent, child, private_child, other].each(&:save!)
-
 
     q = IssueQuery.new(
       :name => '_',
