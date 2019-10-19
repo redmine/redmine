@@ -1,27 +1,33 @@
-<% content_for :header_tags do %>
-    <%= auto_discovery_link_tag(:atom, {:action => 'index', :format => 'atom', :key => User.current.rss_key}) %>
-<% end %>
-
 <div class="contextual">
   <%= form_tag({}, :method => :get) do %>
-    <label for="closed">
-      <%= check_box_tag 'closed', 1, params[:closed], :onchange => "this.form.submit();" %>
-      <%= l(:label_show_closed_projects) %>
-    </label>
   <% end %>
   <%= render_project_action_links %>
 </div>
 
-<h2><%= l(:label_project_plural) %></h2>
+<h2><%= @query.new_record? ? l(:label_project_plural) : @query.name %></h2>
 
-<div id="projects-index">
-<%= render_project_hierarchy(@projects) %>
-</div>
+<%= form_tag(projects_path(@project, nil), :method => :get, :id => 'query_form') do %>
+<%= render :partial => 'queries/query_form' %>
+<% end %>
+
+<% if @query.valid? %>
+  <% if @projects.empty? %>
+    <p class="nodata"><%= l(:label_no_data) %></p>
+  <% else %>
+    <div id="projects-index">
+      <%= render_project_hierarchy(@projects) %>
+    </div>
+  <% end %>
+<% end %>
 
 <% if User.current.logged? %>
 <p style="text-align:right;">
 <span class="icon icon-user my-project"><%= l(:label_my_projects) %></span>
 </p>
+<% end %>
+
+<% content_for :sidebar do %>
+  <%= render :partial => 'projects/sidebar' %>
 <% end %>
 
 <% other_formats_links do |f| %>

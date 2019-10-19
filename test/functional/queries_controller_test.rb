@@ -69,6 +69,26 @@ class QueriesControllerTest < Redmine::ControllerTest
     assert_response 404
   end
 
+  def test_new_should_not_render_show_inline_columns_option_for_query_without_available_inline_columns
+    @request.session[:user_id] = 1
+    get :new, :params => {
+        :type => 'ProjectQuery'
+      }
+
+    assert_response :success
+    assert_select 'p[class=?]', 'block_columns', 0
+  end
+
+  def test_new_should_not_render_show_totals_option_for_query_without_totable_columns
+    @request.session[:user_id] = 1
+    get :new, :params => {
+        :type => 'ProjectQuery'
+      }
+
+    assert_response :success
+    assert_select 'p[class=?]', 'totables_columns', 0
+  end
+
   def test_new_time_entry_query
     @request.session[:user_id] = 2
     get :new, :params => {
@@ -77,6 +97,39 @@ class QueriesControllerTest < Redmine::ControllerTest
       }
     assert_response :success
     assert_select 'input[name=type][value=?]', 'TimeEntryQuery'
+    assert_select 'p[class=?]', 'totable_columns', 1
+    assert_select 'p[class=?]', 'block_columns', 0
+  end
+
+  def test_new_project_query_for_projects
+    @request.session[:user_id] = 1
+    get :new, :params => {
+        :type => 'ProjectQuery'
+      }
+    assert_response :success
+    assert_select 'input[name=type][value=?]', 'ProjectQuery'
+  end
+
+  def test_new_project_query_should_not_render_roles_visibility_options
+    @request.session[:user_id] = 1
+    get :new, :params => {
+        :type => 'ProjectQuery'
+      }
+
+    assert_response :success
+    assert_select 'input[id=?]', 'query_visibility_0', 1
+    assert_select 'input[id=?]', 'query_visibility_2', 1
+    assert_select 'input[id=?]', 'query_visibility_1', 0
+  end
+
+  def test_new_project_query_should_not_render_for_all_projects_option
+    @request.session[:user_id] = 1
+    get :new, :params => {
+        :type => 'ProjectQuery'
+      }
+
+    assert_response :success
+    assert_select 'input[name=?]', 'for_all_projects', 0
   end
 
   def test_new_time_entry_query_should_select_spent_time_from_main_menu
@@ -438,6 +491,32 @@ class QueriesControllerTest < Redmine::ControllerTest
     assert_redirected_to :controller => 'timelog', :action => 'index', :project_id => 'ecookbook', :query_id => q.id
     assert q.is_public?
     assert q.has_default_columns?
+    assert q.valid?
+  end
+
+  def test_create_public_project_query
+    @request.session[:user_id] = 2
+
+    q = new_record(ProjectQuery) do
+      post :create, :params => {
+          :type => 'ProjectQuery',
+          :default_columns => '1',
+          :f => ["status"],
+          :op => {
+            "status" => "="
+          },
+          :v => {
+            "status" => ['1']
+          },
+          :query => {
+            "name" => "test_new_project_public_query", "visibility" => "2"
+          }
+        }
+    end
+
+    assert_redirected_to :controller => 'projects', :action => 'index', :query_id => q.id
+
+    assert q.is_public?
     assert q.valid?
   end
 

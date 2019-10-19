@@ -654,6 +654,7 @@ ul.projects div.description li {list-style-type:initial;}
   -moz-column-count: auto;
   -moz-column-width: 400px;
   -moz-column-gap : 0.5rem;
+  margin-bottom: 1.2em;
 }
 #projects-index li.root ul.projects { border-left: 3px solid #e0e0e0; padding-left:1em;}
 #projects-index ul.projects li.root {

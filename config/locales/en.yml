@@ -978,7 +978,6 @@ en:
   label_completed_versions: Completed versions
   label_search_for_watchers: Search for watchers to add
   label_session_expiration: Session expiration
-  label_show_closed_projects: View closed projects
   label_status_transitions: Status transitions
   label_fields_permissions: Fields permissions
   label_readonly: Read-only

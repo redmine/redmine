@@ -7,20 +7,26 @@
 <p><label for="query_name"><%=l(:field_name)%></label>
 <%= text_field 'query', 'name', :size => 80 %></p>
 
-<% if User.current.admin? || User.current.allowed_to?(:manage_public_queries, @query.project) %>
+<% if User.current.admin? ||
+      User.current.allowed_to?(:manage_public_queries, @query.project) ||
+      @query.type == 'ProjectQuery' &&  User.current.allowed_to?(:manage_public_queries, @query.project, :global => true) %>
 <p><label><%=l(:field_visible)%></label>
   <label class="block"><%= radio_button 'query', 'visibility', Query::VISIBILITY_PRIVATE %> <%= l(:label_visibility_private) %></label>
   <label class="block"><%= radio_button 'query', 'visibility', Query::VISIBILITY_PUBLIC %> <%= l(:label_visibility_public) %></label>
-  <label class="block"><%= radio_button 'query', 'visibility', Query::VISIBILITY_ROLES %> <%= l(:label_visibility_roles) %>:</label>
-  <% Role.givable.sorted.each do |role| %>
-    <label class="block role-visibility"><%= check_box_tag 'query[role_ids][]', role.id, @query.roles.include?(role), :id => nil %> <%= role.name %></label>
+  <% unless @query.type == 'ProjectQuery' %>
+    <label class="block"><%= radio_button 'query', 'visibility', Query::VISIBILITY_ROLES %> <%= l(:label_visibility_roles) %>:</label>
+      <% Role.givable.sorted.each do |role| %>
+        <label class="block role-visibility"><%= check_box_tag 'query[role_ids][]', role.id, @query.roles.include?(role), :id => nil %> <%= role.name %></label>
+      <% end %>
+      <%= hidden_field_tag 'query[role_ids][]', '' %>
   <% end %>
-  <%= hidden_field_tag 'query[role_ids][]', '' %>
 </p>
 <% end %>
 
-<p><label for="query_is_for_all"><%=l(:field_is_for_all)%></label>
-<%= check_box_tag 'query_is_for_all', 1, @query.project.nil?, :class => (User.current.admin? ? '' : 'disable-unless-private') %></p>
+<% unless @query.type == 'ProjectQuery' %>
+  <p><label for="query_is_for_all"><%=l(:field_is_for_all)%></label>
+  <%= check_box_tag 'query_is_for_all', 1, @query.project.nil?, :class => (User.current.admin? ? '' : 'disable-unless-private') %></p>
+<% end %>
 
 <fieldset id="options"><legend><%= l(:label_options) %></legend>
 <p><label for="query_default_columns"><%=l(:label_default_columns)%></label>
@@ -28,14 +34,18 @@
       :data => {:disables => "#columns, .block_columns input"} %></p>
 
 <% unless params[:gantt] %>
-<p><label for="query_group_by"><%= l(:field_group_by) %></label>
-<%= select 'query', 'group_by', @query.groupable_columns.collect {|c| [c.caption, c.name.to_s]}, :include_blank => true %></p>
+  <p><label for="query_group_by"><%= l(:field_group_by) %></label>
+  <%= select 'query', 'group_by', @query.groupable_columns.collect {|c| [c.caption, c.name.to_s]}, :include_blank => true %></p>
 
-<p class="block_columns"><label><%= l(:button_show) %></label>
-<%= available_block_columns_tags(@query) %></p>
+  <% unless @query.available_block_columns.empty? %>
+    <p class="block_columns"><label><%= l(:button_show) %></label>
+    <%= available_block_columns_tags(@query) %></p>
+  <% end %>
 
-<p><label><%= l(:label_total_plural) %></label>
-<%= available_totalable_columns_tags(@query) %></p>
+  <% unless @query.available_totalable_columns.empty? %>
+    <p class="totable_columns"><label><%= l(:label_total_plural) %></label>
+    <%= available_totalable_columns_tags(@query) %></p>
+  <% end %>
 <% else %>
   <p><label><%= l(:button_show) %></label>
   <%= hidden_field_tag 'query[draw_relations]', '0' %>
@@ -54,7 +64,7 @@
 </fieldset>
 
 <% unless params[:gantt] %>
-<fieldset><legend><%= l(:label_sort) %></legend>
+<fieldset id="sort"><legend><%= l(:label_sort) %></legend>
 <% 3.times do |i| %>
 <%= content_tag(:span, "#{i+1}:", :class => 'query_sort_criteria_count')%>
 <%= label_tag "query_sort_criteria_attribute_" + i.to_s,

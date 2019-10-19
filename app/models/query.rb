@@ -717,6 +717,7 @@ class Query < ActiveRecord::Base
   end
 
   def columns
+    return [] if available_columns.empty?
     # preserve the column_names order
     cols = (has_default_columns? ? default_columns_names : column_names).collect do |name|
        available_columns.find { |col| col.name == name }

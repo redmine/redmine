@@ -33,6 +33,7 @@ class ProjectsController < ApplicationController
   helper :custom_fields
   helper :issues
   helper :queries
+  include QueriesHelper
   helper :repositories
   helper :members
   helper :trackers
@@ -44,13 +45,11 @@ class ProjectsController < ApplicationController
       return
     end
 
-    scope = Project.visible.sorted
+    retrieve_project_query
+    scope = project_scope
 
     respond_to do |format|
       format.html {
-        unless params[:closed]
-          scope = scope.active
-        end
         @projects = scope.to_a
       }
       format.api  {
@@ -256,5 +255,16 @@ class ProjectsController < ApplicationController
     end
     # hide project in layout
     @project = nil
+  end
+
+  private
+
+  # Returns the ProjectEntry scope for index
+  def project_scope(options={})
+    @query.results_scope(options)
+  end
+
+  def retrieve_project_query
+    retrieve_query(ProjectQuery, false)
   end
 end
