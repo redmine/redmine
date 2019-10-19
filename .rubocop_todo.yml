@@ -390,7 +390,6 @@ Lint/HandleExceptions:
 
 Lint/IneffectiveAccessModifier:
   Exclude:
-    - 'app/models/attachment.rb'
     - 'app/models/mail_handler.rb'
 
 Lint/InterpolationCheck:

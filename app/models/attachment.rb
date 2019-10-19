@@ -492,21 +492,24 @@ class Attachment < ActiveRecord::Base
     time.strftime("%Y/%m")
   end
 
-  # Returns an ASCII or hashed filename that do not
-  # exists yet in the given subdirectory
-  def self.disk_filename(filename, directory=nil)
-    timestamp = DateTime.now.strftime("%y%m%d%H%M%S")
-    ascii = ''
-    if %r{^[a-zA-Z0-9_\.\-]*$}.match?(filename) && filename.length <= 50
-      ascii = filename
-    else
-      ascii = Digest::MD5.hexdigest(filename)
-      # keep the extension if any
-      ascii << $1 if filename =~ %r{(\.[a-zA-Z0-9]+)$}
+  # Singleton class method is public
+  class << self
+    # Returns an ASCII or hashed filename that do not
+    # exists yet in the given subdirectory
+    def disk_filename(filename, directory=nil)
+      timestamp = DateTime.now.strftime("%y%m%d%H%M%S")
+      ascii = ''
+      if %r{^[a-zA-Z0-9_\.\-]*$}.match?(filename) && filename.length <= 50
+        ascii = filename
+      else
+        ascii = Digest::MD5.hexdigest(filename)
+        # keep the extension if any
+        ascii << $1 if filename =~ %r{(\.[a-zA-Z0-9]+)$}
+      end
+      while File.exist?(File.join(storage_path, directory.to_s, "#{timestamp}_#{ascii}"))
+        timestamp.succ!
+      end
+      "#{timestamp}_#{ascii}"
     end
-    while File.exist?(File.join(storage_path, directory.to_s, "#{timestamp}_#{ascii}"))
-      timestamp.succ!
-    end
-    "#{timestamp}_#{ascii}"
   end
 end
