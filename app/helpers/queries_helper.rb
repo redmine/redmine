@@ -180,10 +180,8 @@ module QueriesHelper
         end
       end
       param_key = options[:sort_param] || :sort
-      sort_param = { param_key => query.sort_criteria.add(column.name, order).to_param }
-      while sort_param.keys.first.to_s =~ /^(.+)\[(.+)\]$/
-        sort_param = {$1 => {$2 => sort_param.values.first}}
-      end
+      sort_param = {param_key => query.sort_criteria.add(column.name, order).to_param}
+      sort_param = {$1 => {$2 => sort_param.values.first}} while sort_param.keys.first.to_s =~ /^(.+)\[(.+)\]$/
       link_options = {
           :title => l(:label_sort_by, "\"#{column.caption}\""),
           :class => css

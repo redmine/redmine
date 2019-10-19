@@ -1453,7 +1453,6 @@ Style/VariableInterpolation:
 # Cop supports --auto-correct.
 Style/WhileUntilModifier:
   Exclude:
-    - 'app/helpers/queries_helper.rb'
     - 'app/models/attachment.rb'
     - 'app/models/project.rb'
     - 'lib/redmine/unified_diff.rb'
