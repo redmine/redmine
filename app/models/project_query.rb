@@ -69,7 +69,7 @@ class ProjectQuery < Query
   end
 
   def default_columns_names
-    @default_columns_names ||= [:name, :identifier, :short_description]
+    @default_columns_names = Setting.project_list_defaults.symbolize_keys[:column_names].map(&:to_sym)
   end
 
   def default_sort_criteria

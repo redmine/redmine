@@ -230,6 +230,13 @@ time_entry_list_defaults:
     - hours
     totalable_names:
     - hours
+project_list_defaults:
+  serialized: true
+  default:
+    column_names:
+    - name
+    - identifier
+    - short_description
 issue_done_ratio:
   default: 'issue_field'
 default_projects_public:

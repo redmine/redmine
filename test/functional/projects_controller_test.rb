@@ -147,6 +147,16 @@ class ProjectsControllerTest < Redmine::ControllerTest
     assert_include 'idnt-2', child_level2
   end
 
+  def test_index_with_default_query_setting
+    with_settings :project_list_defaults => {'column_names' => %w(name short_description status)} do
+      get :index, :params => {
+        :display_type => 'list'
+      }
+      assert_response :success
+    end
+    assert_equal ['Name', 'Description', 'Status'], columns_in_list
+  end
+
   def test_autocomplete_js
     get :autocomplete, :params => {
         :format => 'js',

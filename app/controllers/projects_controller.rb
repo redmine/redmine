@@ -274,6 +274,6 @@ class ProjectsController < ApplicationController
   end
 
   def retrieve_project_query
-    retrieve_query(ProjectQuery, false)
+    retrieve_query(ProjectQuery, false, :defaults => @default_columns_names)
   end
 end
