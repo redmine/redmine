@@ -57,7 +57,6 @@ class TimeEntryImport < Import
 
   private
 
-
   def build_object(row, item)
     object = TimeEntry.new
     object.user = user
