@@ -1283,3 +1283,7 @@ bg:
   text_project_is_public_non_member: Публичните проекти са достъпни за всички влезли в Redmine потребители.
   text_project_is_public_anonymous: Публичните проекти са достъпнии тяхното съдържание са видими без ограничения в мрежата.
   label_issue_fixed_version_updated: Target version updated
+  setting_project_list_defaults: Projects list defaults
+  label_display_type: Display results as
+  label_display_type_list: List
+  label_display_type_board: Board

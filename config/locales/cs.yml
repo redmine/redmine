@@ -1299,3 +1299,7 @@ cs:
   label_starts_with: starts with
   label_ends_with: ends with
   label_issue_fixed_version_updated: Target version updated
+  setting_project_list_defaults: Projects list defaults
+  label_display_type: Display results as
+  label_display_type_list: List
+  label_display_type_board: Board
