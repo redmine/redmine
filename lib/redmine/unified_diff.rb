@@ -203,11 +203,13 @@ module Redmine
       if line_left.present? && line_right.present? && line_left != line_right
         max = [line_left.size, line_right.size].min
         starting = 0
-        while starting < max && line_left[starting] == line_right[starting]
+        while starting < max &&
+                line_left[starting] == line_right[starting]
           starting += 1
         end
         ending = -1
-        while ending >= -(max - starting) && (line_left[ending] == line_right[ending])
+        while ending >= -(max - starting) &&
+               (line_left[ending] == line_right[ending])
           ending -= 1
         end
         unless starting == 0 && ending == -1
