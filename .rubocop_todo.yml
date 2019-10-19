@@ -87,7 +87,6 @@ Layout/ClosingParenthesisIndentation:
 # Cop supports --auto-correct.
 Layout/CommentIndentation:
   Exclude:
-    - 'app/models/mailer.rb'
     - 'lib/redmine/wiki_formatting/textile/redcloth3.rb'
     - 'test/unit/lib/redmine/wiki_formatting/markdown_formatter_test.rb'
 

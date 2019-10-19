@@ -643,8 +643,8 @@ class Mailer < ActionMailer::Base
       from = mail_from.format
       list_id = "<#{mail_from.address.to_s.tr('@', '.')}>"
     rescue Mail::Field::IncompleteParseError
-       # Use Setting.mail_from as it is if Mail::Address cannot parse it
-       # (probably the emission address is not RFC compliant)
+      # Use Setting.mail_from as it is if Mail::Address cannot parse it
+      # (probably the emission address is not RFC compliant)
       from = Setting.mail_from.to_s
       list_id = "<#{from.tr('@', '.')}>"
     end
