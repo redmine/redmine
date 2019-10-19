@@ -56,6 +56,25 @@ class ProjectsControllerTest < Redmine::ControllerTest
     assert_select 'feed>entry', :count => Project.visible(User.current).count
   end
 
+  def test_index_with_project_filter_is_my_projects
+    @request.session[:user_id] = 2
+
+    get :index, :params => {
+      :f => ['id'],
+      :op => {'id' => '='},
+      :v => {'id' => ['mine']}
+    }
+
+    assert_response :success
+
+    assert_select 'div#projects-index ul' do
+      assert_select 'a.project',  3
+      assert_select 'a', :text => 'eCookbook'
+      assert_select 'a', :text => 'OnlineStore'
+      assert_select 'a', :text => 'Private child of eCookbook'
+    end
+  end
+
   def test_autocomplete_js
     get :autocomplete, :params => {
         :format => 'js',
