@@ -75,6 +75,25 @@ class ProjectsControllerTest < Redmine::ControllerTest
     end
   end
 
+  def test_index_with_subproject_filter
+    @request.session[:user_id] = 1
+
+    get :index, :params => {
+      :f => ['parent_id'],
+      :op => {'parent_id' => '='},
+      :v => {'parent_id' => ['1']}
+    }
+
+    assert_response :success
+
+    assert_select 'div#projects-index ul' do
+      assert_select 'a.project',  3
+      assert_select 'a', :text => 'eCookbook Subproject 1'
+      assert_select 'a', :text => 'eCookbook Subproject 2'
+      assert_select 'a', :text => 'Private child of eCookbook'
+    end
+  end
+
   def test_autocomplete_js
     get :autocomplete, :params => {
         :format => 'js',

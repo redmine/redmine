@@ -37,6 +37,9 @@ class ProjectQuery < Query
     )
     add_available_filter "name", :type => :text
     add_available_filter "description", :type => :text
+    add_available_filter("parent_id",
+      :type => :list_subprojects, :values => lambda { project_values }, :label => :field_parent
+    )
     add_available_filter "is_public",
       :type => :list,
       :values => [[l(:general_text_yes), "1"], [l(:general_text_no), "0"]]
