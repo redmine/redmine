@@ -132,9 +132,7 @@ module Redmine
       def next_working_date(date)
         cwday = date.cwday
         days = 0
-        while non_working_week_days.include?(((cwday + days - 1) % 7) + 1)
-          days += 1
-        end
+        days += 1 while non_working_week_days.include?(((cwday + days - 1) % 7) + 1)
         date + days
       end
 

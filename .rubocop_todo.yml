@@ -1446,7 +1446,6 @@ Style/VariableInterpolation:
 Style/WhileUntilModifier:
   Exclude:
     - 'app/models/attachment.rb'
-    - 'lib/redmine/utils.rb'
 
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle, MinSize, WordRegex.
