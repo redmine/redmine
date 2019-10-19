@@ -1097,7 +1097,6 @@ Style/MultilineTernaryOperator:
     - 'lib/redmine/ciphering.rb'
     - 'lib/redmine/scm/adapters/filesystem_adapter.rb'
     - 'lib/redmine/scm/adapters/git_adapter.rb'
-    - 'lib/redmine/utils.rb'
 
 Style/MultipleComparison:
   Exclude:

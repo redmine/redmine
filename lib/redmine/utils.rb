@@ -24,9 +24,11 @@ module Redmine
     class << self
       # Returns the relative root url of the application
       def relative_url_root
-        ActionController::Base.respond_to?('relative_url_root') ?
-          ActionController::Base.relative_url_root.to_s :
+        if ActionController::Base.respond_to?('relative_url_root')
+          ActionController::Base.relative_url_root.to_s
+        else
           ActionController::Base.config.relative_url_root.to_s
+        end
       end
 
       # Sets the relative root url of the application
