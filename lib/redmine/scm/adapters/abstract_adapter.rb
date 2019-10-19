@@ -232,6 +232,7 @@ module Redmine
           end
           @stderr_log_file || nil
         end
+        private_class_method :stderr_log_file
 
         def self.shellout(cmd, options = {}, &block)
           if logger && logger.debug?
@@ -267,6 +268,7 @@ module Redmine
           q = (Redmine::Platform.mswin? ? '"' : "'")
           cmd.to_s.gsub(/(\-\-(password|username))\s+(#{q}[^#{q}]+#{q}|[^#{q}]\S+)/, '\\1 xxxx')
         end
+        private_class_method :strip_credential
 
         def strip_credential(cmd)
           self.class.strip_credential(cmd)
