@@ -27,6 +27,8 @@ class ProjectsControllerTest < Redmine::ControllerTest
            :attachments, :custom_fields, :custom_values, :time_entries,
            :wikis, :wiki_pages, :wiki_contents, :wiki_content_versions
 
+  include Redmine::I18n
+
   def setup
     @request.session[:user_id] = nil
     Setting.default_language = 'en'
@@ -101,6 +103,7 @@ class ProjectsControllerTest < Redmine::ControllerTest
     }
     assert_response :success
 
+    project = Project.find(1)
     assert_select 'table.projects' do
       assert_select 'tr[id=?]', 'project-1' do
         assert_select 'td.name a[href=?]', '/projects/ecookbook', :text => 'eCookbook'
@@ -109,7 +112,7 @@ class ProjectsControllerTest < Redmine::ControllerTest
         assert_select 'td.homepage a.external', :text => 'http://ecookbook.somenet.foo/'
         assert_select 'td.identifier', :text => 'ecookbook'
         assert_select 'td.is_public', :text => 'Yes'
-        assert_select 'td.created_on', :text => '07/19/2006 05:13 PM'
+        assert_select 'td.created_on', :text => format_time(project.created_on)
         assert_select 'td.project_cf_3.list', :text => 'Stable'
       end
       assert_select 'tr[id=?]', 'project-4' do
