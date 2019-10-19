@@ -203,10 +203,6 @@ module Redmine
           self.class.shellout(cmd, options, &block)
         end
 
-        def self.logger
-          Rails.logger
-        end
-
         # Path to the file where scm stderr output is logged
         # Returns nil if the log file is not writable
         def self.stderr_log_file
@@ -234,32 +230,39 @@ module Redmine
         end
         private_class_method :stderr_log_file
 
-        def self.shellout(cmd, options = {}, &block)
-          if logger && logger.debug?
-            logger.debug "Shelling out: #{strip_credential(cmd)}"
-            # Capture stderr in a log file
-            if stderr_log_file
-              cmd = "#{cmd} 2>>#{shell_quote(stderr_log_file)}"
-            end
+        # Singleton class method is public
+        class << self
+          def logger
+            Rails.logger
           end
-          begin
-            mode = "r+"
-            IO.popen(cmd, mode) do |io|
-              io.set_encoding("ASCII-8BIT") if io.respond_to?(:set_encoding)
-              io.close_write unless options[:write_stdin]
-              block.call(io) if block_given?
+
+          def shellout(cmd, options = {}, &block)
+            if logger && logger.debug?
+              logger.debug "Shelling out: #{strip_credential(cmd)}"
+              # Capture stderr in a log file
+              if stderr_log_file
+                cmd = "#{cmd} 2>>#{shell_quote(stderr_log_file)}"
+              end
             end
-          rescue => e
-            msg = strip_credential(e.message)
-            # The command failed, log it and re-raise
-            logmsg = "SCM command failed, "
-            logmsg += "make sure that your SCM command (e.g. svn) is "
-            logmsg += "in PATH (#{ENV['PATH']})\n"
-            logmsg += "You can configure your scm commands in config/configuration.yml.\n"
-            logmsg += "#{strip_credential(cmd)}\n"
-            logmsg += "with: #{msg}"
-            logger.error(logmsg)
-            raise CommandFailed.new(msg)
+            begin
+              mode = "r+"
+              IO.popen(cmd, mode) do |io|
+                io.set_encoding("ASCII-8BIT") if io.respond_to?(:set_encoding)
+                io.close_write unless options[:write_stdin]
+                block.call(io) if block_given?
+              end
+            rescue => e
+              msg = strip_credential(e.message)
+              # The command failed, log it and re-raise
+              logmsg = "SCM command failed, "
+              logmsg += "make sure that your SCM command (e.g. svn) is "
+              logmsg += "in PATH (#{ENV['PATH']})\n"
+              logmsg += "You can configure your scm commands in config/configuration.yml.\n"
+              logmsg += "#{strip_credential(cmd)}\n"
+              logmsg += "with: #{msg}"
+              logger.error(logmsg)
+              raise CommandFailed.new(msg)
+            end
           end
         end
 
