@@ -82,4 +82,26 @@ module VersionsHelper
   def status_by_options_for_select(value)
     options_for_select(STATUS_BY_CRITERIAS.collect {|criteria| [l("field_#{criteria}".to_sym), criteria]}, value)
   end
+
+  def link_to_new_issue(version, project)
+    if version.open? && User.current.allowed_to?(:add_issues, project)
+      trackers = Issue.allowed_target_trackers(project)
+
+      unless trackers.empty?
+        issue = Issue.new(:project => project)
+        new_issue_tracker = trackers.detect do |tracker|
+          issue.tracker = tracker
+          issue.safe_attribute?('fixed_version_id')
+        end
+      end
+
+      if new_issue_tracker
+        attrs = {
+          :tracker_id => new_issue_tracker,
+          :fixed_version_id => version.id
+        }
+        link_to l(:label_issue_new), new_project_issue_path(project, :issue => attrs), :class => 'icon icon-add'
+      end
+    end
+  end
 end

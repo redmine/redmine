@@ -208,6 +208,14 @@ class VersionsControllerTest < Redmine::ControllerTest
     end
   end
 
+  def test_show_should_display_link_to_new_issue
+    @request.session[:user_id] = 1
+    get :show, :params => {:id => 3}
+
+    assert_response :success
+    assert_select 'a.icon.icon-add', :text => 'New issue'
+  end
+
   def test_new
     @request.session[:user_id] = 2
     get :new, :params => {:project_id => '1'}
