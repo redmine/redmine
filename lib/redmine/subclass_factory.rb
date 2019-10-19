@@ -31,7 +31,7 @@ module Redmine
         rescue
           # invalid class name
         end
-        unless subclasses.include? klass
+        unless descendants.include? klass
           klass = nil
         end
         klass
