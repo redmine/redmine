@@ -100,7 +100,7 @@ module VersionsHelper
           :tracker_id => new_issue_tracker,
           :fixed_version_id => version.id
         }
-        link_to l(:label_issue_new), new_project_issue_path(project, :issue => attrs), :class => 'icon icon-add'
+        link_to l(:label_issue_new), new_project_issue_path(project, :issue => attrs, :back_url => version_path(version)), :class => 'icon icon-add'
       end
     end
   end
