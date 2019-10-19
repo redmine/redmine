@@ -388,10 +388,6 @@ Lint/HandleExceptions:
     - 'lib/redmine/scm/adapters/cvs_adapter.rb'
     - 'lib/redmine/scm/adapters/subversion_adapter.rb'
 
-Lint/IneffectiveAccessModifier:
-  Exclude:
-    - 'app/models/mail_handler.rb'
-
 Lint/InterpolationCheck:
   Exclude:
     - 'app/models/user.rb'

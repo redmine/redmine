@@ -523,18 +523,6 @@ class MailHandler < ActionMailer::Base
     subject.strip[0,255]
   end
 
-  # Converts a HTML email body to text
-  def self.html_body_to_text(html)
-    Redmine::WikiFormatting.html_parser.to_text(html)
-  end
-
-  # Converts a plain/text email body to text
-  def self.plain_text_body_to_text(text)
-    # Removes leading spaces that would cause the line to be rendered as
-    # preformatted text with textile
-    text.gsub(/^ +(?![*#])/, '')
-  end
-
   def self.assign_string_attribute_with_limit(object, attribute, value, limit=nil)
     limit ||= object.class.columns_hash[attribute.to_s].limit || 255
     value = value.to_s.slice(0, limit)
@@ -542,29 +530,43 @@ class MailHandler < ActionMailer::Base
   end
   private_class_method :assign_string_attribute_with_limit
 
-  # Returns a User from an email address and a full name
-  def self.new_user_from_attributes(email_address, fullname=nil)
-    user = User.new
-
-    # Truncating the email address would result in an invalid format
-    user.mail = email_address
-    assign_string_attribute_with_limit(user, 'login', email_address, User::LOGIN_LENGTH_LIMIT)
-
-    names = fullname.blank? ? email_address.gsub(/@.*$/, '').split('.') : fullname.split
-    assign_string_attribute_with_limit(user, 'firstname', names.shift, 30)
-    assign_string_attribute_with_limit(user, 'lastname', names.join(' '), 30)
-    user.lastname = '-' if user.lastname.blank?
-    user.language = Setting.default_language
-    user.generate_password = true
-    user.mail_notification = 'only_my_events'
-
-    unless user.valid?
-      user.login = "user#{Redmine::Utils.random_hex(6)}" unless user.errors[:login].blank?
-      user.firstname = "-" unless user.errors[:firstname].blank?
-      (puts user.errors[:lastname]; user.lastname  = "-") unless user.errors[:lastname].blank?
+  # Singleton class method is public
+  class << self
+    # Converts a HTML email body to text
+    def html_body_to_text(html)
+      Redmine::WikiFormatting.html_parser.to_text(html)
     end
 
-    user
+    # Converts a plain/text email body to text
+    def plain_text_body_to_text(text)
+      # Removes leading spaces that would cause the line to be rendered as
+      # preformatted text with textile
+      text.gsub(/^ +(?![*#])/, '')
+    end
+
+    # Returns a User from an email address and a full name
+    def new_user_from_attributes(email_address, fullname=nil)
+      user = User.new
+
+      # Truncating the email address would result in an invalid format
+      user.mail = email_address
+      assign_string_attribute_with_limit(user, 'login', email_address, User::LOGIN_LENGTH_LIMIT)
+
+      names = fullname.blank? ? email_address.gsub(/@.*$/, '').split('.') : fullname.split
+      assign_string_attribute_with_limit(user, 'firstname', names.shift, 30)
+      assign_string_attribute_with_limit(user, 'lastname', names.join(' '), 30)
+      user.lastname = '-' if user.lastname.blank?
+      user.language = Setting.default_language
+      user.generate_password = true
+      user.mail_notification = 'only_my_events'
+
+      unless user.valid?
+        user.login = "user#{Redmine::Utils.random_hex(6)}" unless user.errors[:login].blank?
+        user.firstname = "-" unless user.errors[:firstname].blank?
+        (puts user.errors[:lastname]; user.lastname  = "-") unless user.errors[:lastname].blank?
+      end
+      user
+    end
   end
 
   # Creates a User for the +email+ sender
