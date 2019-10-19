@@ -393,7 +393,6 @@ Lint/IneffectiveAccessModifier:
     - 'app/models/attachment.rb'
     - 'app/models/issue.rb'
     - 'app/models/mail_handler.rb'
-    - 'app/models/mailer.rb'
     - 'app/models/user.rb'
 
 Lint/InterpolationCheck:

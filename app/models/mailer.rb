@@ -742,28 +742,31 @@ class Mailer < ActionMailer::Base
     h.each { |k,v| headers["X-Redmine-#{k}"] = v.to_s }
   end
 
-  def self.token_for(object, user)
-    timestamp = object.send(object.respond_to?(:created_on) ? :created_on : :updated_on)
-    hash = [
-      "redmine",
-      "#{object.class.name.demodulize.underscore}-#{object.id}",
-      timestamp.utc.strftime("%Y%m%d%H%M%S")
-    ]
-    hash << user.id if user
-    host = Setting.mail_from.to_s.strip.gsub(%r{^.*@|>}, '')
-    host = "#{::Socket.gethostname}.redmine" if host.empty?
-    "#{hash.join('.')}@#{host}"
-  end
+  # Singleton class method is public
+  class << self
+    def token_for(object, user)
+      timestamp = object.send(object.respond_to?(:created_on) ? :created_on : :updated_on)
+      hash = [
+        "redmine",
+        "#{object.class.name.demodulize.underscore}-#{object.id}",
+        timestamp.utc.strftime("%Y%m%d%H%M%S")
+      ]
+      hash << user.id if user
+      host = Setting.mail_from.to_s.strip.gsub(%r{^.*@|>}, '')
+      host = "#{::Socket.gethostname}.redmine" if host.empty?
+      "#{hash.join('.')}@#{host}"
+    end
 
-  # Returns a Message-Id for the given object
-  def self.message_id_for(object, user)
-    token_for(object, user)
-  end
+    # Returns a Message-Id for the given object
+    def message_id_for(object, user)
+      token_for(object, user)
+    end
 
-  # Returns a uniq token for a given object referenced by all notifications
-  # related to this object
-  def self.references_for(object, user)
-    token_for(object, user)
+    # Returns a uniq token for a given object referenced by all notifications
+    # related to this object
+    def references_for(object, user)
+      token_for(object, user)
+    end
   end
 
   def message_id(object)
