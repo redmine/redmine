@@ -506,7 +506,8 @@ class Attachment < ActiveRecord::Base
         # keep the extension if any
         ascii << $1 if filename =~ %r{(\.[a-zA-Z0-9]+)$}
       end
-      while File.exist?(File.join(storage_path, directory.to_s, "#{timestamp}_#{ascii}"))
+      while File.exist?(File.join(storage_path, directory.to_s,
+                                  "#{timestamp}_#{ascii}"))
         timestamp.succ!
       end
       "#{timestamp}_#{ascii}"

@@ -1438,11 +1438,6 @@ Style/VariableInterpolation:
     - 'lib/redmine/configuration.rb'
 
 # Cop supports --auto-correct.
-Style/WhileUntilModifier:
-  Exclude:
-    - 'app/models/attachment.rb'
-
-# Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle, MinSize, WordRegex.
 # SupportedStyles: percent, brackets
 Style/WordArray:
