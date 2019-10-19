@@ -903,14 +903,17 @@ class User < Principal
     WikiContent::Version.where(['author_id = ?', id]).update_all(['author_id = ?', substitute.id])
   end
 
-  # Return password digest
-  def self.hash_password(clear_password)
-    Digest::SHA1.hexdigest(clear_password || "")
-  end
+  # Singleton class method is public
+  class << self
+    # Return password digest
+    def hash_password(clear_password)
+      Digest::SHA1.hexdigest(clear_password || "")
+    end
 
-  # Returns a 128bits random salt as a hex string (32 chars long)
-  def self.generate_salt
-    Redmine::Utils.random_hex(16)
+    # Returns a 128bits random salt as a hex string (32 chars long)
+    def generate_salt
+      Redmine::Utils.random_hex(16)
+    end
   end
 
   # Send a security notification to all admins if the user has gained/lost admin privileges
