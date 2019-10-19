@@ -247,6 +247,7 @@ class IssueQuery < Query
     end
 
     disabled_fields = Tracker.disabled_core_fields(trackers).map {|field| field.sub(/_id$/, '')}
+    disabled_fields << "total_estimated_hours" if disabled_fields.include?("estimated_hours")
     @available_columns.reject! {|column|
       disabled_fields.include?(column.name.to_s)
     }
