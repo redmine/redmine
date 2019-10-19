@@ -1198,7 +1198,6 @@ class RedCloth3 < String
         end
     end
 
-
     ALLOWED_TAGS = %w(redpre pre code kbd notextile)
     def escape_html_tags(text)
         text.gsub!(%r{<(\/?([!\w]+)[^<>\n]*)(>?)}) do |m|
