@@ -575,7 +575,7 @@ class RedCloth3 < String
                             lines[line_id - 1] << '</li>'
                         end
                     end
-                    unless depth.last == tl
+                    if depth.last != tl
                         depth << tl
                         atts = pba( atts )
                         atts = shelve( atts ) if atts
@@ -584,7 +584,6 @@ class RedCloth3 < String
                         lines[line_id] = +"\t\t<li>#{content}"
                     end
                     last_line = line_id
-
                 else
                     last_line = line_id
                 end

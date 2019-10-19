@@ -1408,7 +1408,6 @@ Style/UnlessElse:
     - 'app/controllers/trackers_controller.rb'
     - 'lib/redmine/scm/adapters/abstract_adapter.rb'
     - 'lib/redmine/unified_diff.rb'
-    - 'lib/redmine/wiki_formatting/textile/redcloth3.rb'
 
 # Cop supports --auto-correct.
 Style/UnneededCondition:
