@@ -121,11 +121,12 @@ module QueriesHelper
   end
 
   def available_display_types_tags(query)
-    available_display_types = []
+    tags = ''.html_safe
     query.available_display_types.each do |t|
-      available_display_types << [l(:"label_display_type_#{t}"), t]
+      tags << radio_button_tag('display_type', t, @query.display_type == t, :id => "display_type_#{t}") +
+        content_tag('label', l(:"label_display_type_#{t}"), :for => "display_type_#{t}")
     end
-    select_tag('display_type', options_for_select(available_display_types, @query.display_type), :id => 'display_type')
+    tags
   end
 
   def grouped_query_results(items, query, &block)
