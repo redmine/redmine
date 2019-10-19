@@ -41,9 +41,6 @@ Layout/TrailingWhitespace:
 Lint/HandleExceptions:
   AllowComments: true
 
-Lint/IneffectiveAccessModifier:
-  Enabled: false
-
 Metrics:
   Enabled: false
 
