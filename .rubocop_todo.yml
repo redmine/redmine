@@ -1446,7 +1446,6 @@ Style/VariableInterpolation:
 Style/WhileUntilModifier:
   Exclude:
     - 'app/models/attachment.rb'
-    - 'app/models/project.rb'
     - 'lib/redmine/unified_diff.rb'
     - 'lib/redmine/utils.rb'
 
