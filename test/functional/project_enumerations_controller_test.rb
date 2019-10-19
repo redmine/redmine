@@ -109,7 +109,6 @@ class ProjectEnumerationsControllerTest < Redmine::ControllerTest
                                                  })
     assert project_activity_two.save
 
-
     put :update, :params => {
         :project_id => 1,
         :enumerations => {

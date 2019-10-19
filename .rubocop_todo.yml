@@ -108,7 +108,6 @@ Layout/EmptyLines:
     - 'db/migrate/001_setup.rb'
     - 'lib/redmine/sudo_mode.rb'
     - 'lib/redmine/wiki_formatting/textile/redcloth3.rb'
-    - 'test/functional/project_enumerations_controller_test.rb'
     - 'test/helpers/application_helper_test.rb'
     - 'test/unit/query_test.rb'
 
