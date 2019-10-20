@@ -1304,7 +1304,7 @@ ja:
   label_starts_with: 前方一致
   label_ends_with: 後方一致
   label_issue_fixed_version_updated: 対象バージョンの更新
-  setting_project_list_defaults: Projects list defaults
-  label_display_type: Display results as
-  label_display_type_list: List
-  label_display_type_board: Board
+  setting_project_list_defaults: プロジェクトの一覧で表示する項目
+  label_display_type: 表示形式
+  label_display_type_list: リスト
+  label_display_type_board: ボード
